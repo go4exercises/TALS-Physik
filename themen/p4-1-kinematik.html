@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.1 Kinematik des Schwerpunkts — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* ── Widget-Styles: zentral in style.css ── */
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 4 Mechanik</div>
+  <h1 class="pt-h1">4.1 Kinematik des Schwerpunkts</h1>
+  <p class="pt-untertitel">Bewegungen ohne Berücksichtigung der Ursachen — Wege, Geschwindigkeiten, Beschleunigungen.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 4.1 · 100 Lektionen (gesamt 4)</div>
+  <ul>
+    <li>die Begriffe «Schwerpunkt», «Bahnkurve», «Geschwindigkeit» und «Beschleunigung» definieren</li>
+    <li>die Geschwindigkeit in Vektor-Form darstellen und damit Relativbewegungen und absolute Bewegungen berechnen</li>
+    <li>Aufgabenstellungen zu folgenden Bewegungsarten lösen: geradlinig gleichförmige Bewegung, gleichmässig beschleunigte Bewegung, freier Fall, parabolische Bewegung</li>
+    <li>die gleichförmige Kreisbewegung mit den dazugehörigen Grössen (Rotationsfrequenz, Winkelgeschwindigkeit, Zentripetalbeschleunigung) bestimmen und damit einfache Berechnungen durchführen</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann Schwerpunkt, Bahnkurve, Geschwindigkeit und Beschleunigung in eigenen Worten erklären und unterscheiden.</li>
+      <li>Ich kann die Geschwindigkeit als Vektor darstellen und damit Relativbewegungen berechnen.</li>
+      <li>Ich kann Aufgaben zur gleichförmigen und zur gleichmässig beschleunigten Bewegung lösen.</li>
+      <li>Ich kann den freien Fall und den Wurf mit den Bewegungsgleichungen beschreiben.</li>
+      <li>Ich kann bei der Kreisbewegung Rotationsfrequenz, Winkelgeschwindigkeit und Zentripetalbeschleunigung bestimmen.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — Wie schnell fährt der Zug?</h2>
+
+<p>Ein InterRegio fährt von Bern nach Zürich. Auf einer Strecke von 120 km benötigt er 60 min. Die Anzeige im Wagen zeigt aber unterwegs schwankende Werte — auf freier Strecke zwischen 140 km/h und 160 km/h, beim Zwischenhalt sogar 0 km/h. Was ist nun seine Geschwindigkeit?</p>
+
+<p>Die Antwort hängt davon ab, was wir meinen. Die <strong>Durchschnittsgeschwindigkeit</strong> über die ganze Fahrt ist</p>
+
+\[ \bar{v} = \frac{\Delta s}{\Delta t} = \frac{120\;\text{km}}{1\;\text{h}} = 120\;\text{km/h}. \]
+
+<p>Die <strong>Momentangeschwindigkeit</strong> dagegen ist das, was die Anzeige im Wagen liefert — sie kann von Augenblick zu Augenblick variieren. Die Kinematik beschreibt beides systematisch.</p>
+
+<!-- ANIM 0: Einstieg — Momentan- vs. Durchschnittsgeschwindigkeit -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Einstiegs-Animation · Zugfahrt Bern–Zürich im v-t-Diagramm</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Ziehe den orangen Punkt direkt im Diagramm: die Momentangeschwindigkeit springt zwischen den farbig markierten Phasen.</li><li>Setze \(t_1 = 0\) und \(t_2 = 60\;\text{min}\): die Durchschnittsgeschwindigkeit der ganzen Fahrt ist 120 km/h — obwohl der Zug auf freier Strecke 140–160 km/h fährt.</li><li>Ziehe die gestrichelten Marker \(t_1\) und \(t_2\): liegt das Intervall ganz in einer konstanten Phase, ist \(\bar{v}\) gleich der Momentangeschwindigkeit.</li><li>Lege das Intervall über den Zwischenhalt: \(\bar{v}\) sinkt deutlich, obwohl der Zug vorher und nachher schnell fährt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Ziehe den orangen Punkt direkt im Diagramm: die Momentangeschwindigkeit springt zwischen den farbig markierten Phasen. Setze die Marker t eins gleich null und t zwei gleich 60 Minuten: die Durchschnittsgeschwindigkeit der ganzen Fahrt ist 120 Kilometer pro Stunde, obwohl der Zug auf freier Strecke 140 bis 160 fährt. Liegt das Intervall ganz in einer konstanten Phase, ist die Durchschnittsgeschwindigkeit gleich der Momentangeschwindigkeit. Legst du es über den Zwischenhalt, sinkt sie deutlich." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Die <strong>Momentangeschwindigkeit</strong> ist der Wert zu einem Zeitpunkt — sie ändert sich von Phase zu Phase.</li><li>Die <strong>Durchschnittsgeschwindigkeit</strong> hängt vom gewählten Intervall ab: \(\bar{v} = \dfrac{\Delta s}{\Delta t}\).</li><li>Im \(v\)-\(t\)-Diagramm ist die Fläche unter der Kurve der zurückgelegte Weg \(\Delta s\).</li><li>Über die ganze Fahrt: \(\bar{v} = \dfrac{120\;\text{km}}{1\;\text{h}} = 120\;\text{km/h}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Momentangeschwindigkeit ist der Wert zu einem Zeitpunkt, sie ändert sich von Phase zu Phase. Die Durchschnittsgeschwindigkeit hängt vom gewählten Intervall ab: v quer gleich delta s durch delta t. Im v-t-Diagramm ist die Fläche unter der Kurve der zurückgelegte Weg. Über die ganze Fahrt: 120 Kilometer durch eine Stunde gleich 120 Kilometer pro Stunde." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Momentan \(v(t)\)</span><span class="lb-val" id="a0-v">160 km/h</span></div>
+      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">Phase</span><span class="lb-val" id="a0-phase">konstant</span></div>
+      <div class="lb-item"><span class="lb-lab">\(\Delta s\) (Fläche)</span><span class="lb-val" id="a0-ds">120.0 km</span></div>
+      <div class="lb-item"><span class="lb-lab">\(\Delta t = t_2 - t_1\)</span><span class="lb-val" id="a0-dt">1.000 h</span></div>
+      <div class="lb-item"><span class="lb-lab">\(\bar{v} = \Delta s / \Delta t\)</span><span class="lb-val" id="a0-vbar">120.0 km/h</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📊 \(v(t)\) — Momentangeschwindigkeit der ganzen Fahrt</div>
+      <canvas id="a0-cv" height="300" style="touch-action:pan-y" role="img" aria-label="Geschwindigkeits-Zeit-Diagramm der Zugfahrt Bern–Zürich: 60 Minuten Fahrzeit, 120 Kilometer Strecke. Die Kurve zeigt Beschleunigungs-, Brems- und Konstantphasen zwischen 140 und 160 Kilometern pro Stunde sowie einen Zwischenhalt. Der Momentanpunkt und die beiden Intervall-Marker für die Durchschnittsgeschwindigkeit lassen sich direkt im Diagramm horizontal ziehen."></canvas>
+      <div class="canvas-legend">
+        <span class="cl-item"><span class="cl-line" style="background:#1f6b3a"></span>Beschleunigen (\(a > 0\))</span>
+        <span class="cl-item"><span class="cl-line" style="background:#9b1c1c"></span>Bremsen (\(a < 0\))</span>
+        <span class="cl-item"><span class="cl-line" style="background:#1f4e8c"></span>konstante Geschwindigkeit</span>
+        <span class="cl-item"><span class="cl-dot" style="background:#8a4a0e"></span>Zeitpunkt \(t\) — ziehbar</span>
+        <span class="cl-item"><span class="cl-line" style="background:rgba(138,74,14,0.3);height:10px"></span>Intervall \(t_1\)…\(t_2\) — Marker ziehbar, Fläche = \(\Delta s\)</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Phänomen</div>
+  <p>Drei Erfahrungen, die wir aus dem Alltag kennen — und die Physik gleich beschreibt:</p>
+  <ul>
+    <li><strong>Konstante Geschwindigkeit</strong> — ein Auto auf der Autobahn mit Tempomat. In gleichen Zeiten gleiche Strecken.</li>
+    <li><strong>Beschleunigung</strong> — das Anfahren an der Ampel. Pro Sekunde wird die Geschwindigkeit grösser.</li>
+    <li><strong>Freier Fall</strong> — eine Münze, die vom Tisch rutscht. Sie fällt nicht gleich schnell die ganze Zeit, sondern wird immer schneller.</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 3. DEFINITION ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein Auto legt in \(2\;\text{h}\) eine Strecke von \(150\;\text{km}\) zurück. Wie gross ist seine Durchschnittsgeschwindigkeit?</p><ul class="mc-optionen"><li data-opt="A">\(50\;\text{km/h}\)</li><li data-opt="B">\(75\;\text{km/h}\)</li><li data-opt="C">\(300\;\text{km/h}\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Mit der Formel aus dem Einstiegsbeispiel: \(\bar{v} = \dfrac{\Delta s}{\Delta t} = \dfrac{150\;\text{km}}{2\;\text{h}} = 75\;\text{km/h}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Durchschnittsgeschwindigkeit ist der zurückgelegte Weg <span class="mc-luecke"></span> die benötigte Zeit.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">geteilt durch — wie im Einstiegsbeispiel: \(\bar{v} = \dfrac{\Delta s}{\Delta t}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Rechne \(72\;\text{km/h}\) in \(\text{m/s}\) um.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Kilometer in Meter, Stunden in Sekunden umrechnen: \(72\;\text{km/h} = \dfrac{72000\;\text{m}}{3600\;\text{s}} = 20\;\text{m/s}\). Schnellweg: Division durch \(3.6\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Der Zug aus dem Einstieg legt die ersten \(20\;\text{km}\) in \(10\;\text{min}\) zurück und erreicht dabei zeitweise \(150\;\text{km/h}\). Wie gross ist seine Durchschnittsgeschwindigkeit auf diesem Abschnitt — und warum ist sie kleiner als \(150\;\text{km/h}\)? (Prüfe mit den Markern \(t_1 = 0\) und \(t_2 = 10\;\text{min}\) in der Einstiegs-Animation.)</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(\bar{v} = \dfrac{\Delta s}{\Delta t} = \dfrac{20\;\text{km}}{10\;\text{min}} = \dfrac{20\;\text{km}}{1/6\;\text{h}} = 120\;\text{km/h}\). Der Zug beschleunigt zuerst aus dem Stand — in dieser Anfangsphase ist die Momentangeschwindigkeit klein und drückt den Durchschnitt unter die Spitzenwerte.</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe der Kinematik</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Schwerpunkt</div>
+  <p>Der <strong>Schwerpunkt</strong> eines Körpers ist der Punkt, der sich so verhält, als wäre die gesamte Masse des Körpers in ihm konzentriert. Bei einer Translation (Verschiebung ohne Drehung) reicht es, die Bewegung des Schwerpunkts zu beschreiben.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Bahnkurve</div>
+  <p>Die <strong>Bahnkurve</strong> ist die Linie, die der Schwerpunkt im Laufe der Zeit im Raum durchläuft. Sie kann geradlinig (Auto auf gerader Strasse), kreisförmig (Riesenrad) oder beliebig gekrümmt sein (Wurfparabel).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Geschwindigkeit</div>
+  <p>Die <strong>Durchschnittsgeschwindigkeit</strong> ist die zurückgelegte Strecke pro Zeit:</p>
+  \[ \bar{v} = \frac{\Delta s}{\Delta t} \]
+  <p>Die <strong>Momentangeschwindigkeit</strong> ist die Geschwindigkeit zu einem bestimmten Zeitpunkt — formal der Grenzwert für \( \Delta t \to 0 \). In Vektor-Form:</p>
+  \[ \vec{v} = \frac{\Delta \vec{s}}{\Delta t} \]
+  <p>Der Geschwindigkeits-Vektor zeigt in Richtung der Bewegung. Sein <strong>Betrag</strong> — umgangssprachlich auch <em>Tempo</em> — gibt an, wie schnell die Bewegung ist, ohne Richtung. SI-Einheit: m/s (auch km/h gebräuchlich, mit \( 1\;\text{m/s} = 3.6\;\text{km/h} \)).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Beschleunigung</div>
+  <p>Die <strong>Beschleunigung</strong> ist die Änderung der Geschwindigkeit pro Zeit:</p>
+  \[ \vec{a} = \frac{\Delta \vec{v}}{\Delta t} \]
+  <p>SI-Einheit: m/s². Positive Beschleunigung in Bewegungsrichtung bedeutet schneller werden; negative (oft als <em>Bremsbeschleunigung</em> oder <em>Verzögerung</em> bezeichnet) bedeutet langsamer werden.</p>
+</div>
+
+
+<!-- ══════════════ 4. INTERAKTIVE DARSTELLUNG: GERADLINIG GLEICHFÖRMIG ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Welche Aussage über die Beschleunigung stimmt?</p><ul class="mc-optionen"><li data-opt="A">Sie ist die Änderungsrate des Weges.</li><li data-opt="B">Sie ist die Änderungsrate der Geschwindigkeit.</li><li data-opt="C">Sie ist immer gleich \(9.81\;\text{m/s}^2\).</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(a = \dfrac{\Delta v}{\Delta t}\) — die Beschleunigung beschreibt, wie schnell sich die Geschwindigkeit ändert.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Geschwindigkeit ist eine <span class="mc-luecke"></span> Grösse: sie besitzt Betrag und Richtung.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">vektorielle (im Gegensatz zu einer skalaren Grösse).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Wagen wird in \(4\;\text{s}\) von \(10\;\text{m/s}\) auf \(30\;\text{m/s}\) schneller. Wie gross ist die mittlere Beschleunigung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(a = \dfrac{\Delta v}{\Delta t} = \dfrac{30\;\text{m/s} - 10\;\text{m/s}}{4\;\text{s}} = 5\;\text{m/s}^2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Körper bewegt sich mit konstantem Tempo auf einer Kreisbahn. Wird er beschleunigt, obwohl der Betrag der Geschwindigkeit gleich bleibt?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Ja. Die Geschwindigkeit ist ein Vektor; ihre <em>Richtung</em> ändert sich ständig. Eine Richtungsänderung ist bereits eine Beschleunigung — auch bei konstantem Betrag \(|\vec v|\).</div></details></div>
+</details>
+
+<h2 id="darstellungen">Geradlinig gleichförmige Bewegung — die drei Darstellungen</h2>
+
+<p>Bei der <strong>geradlinig gleichförmigen Bewegung</strong> ist die Geschwindigkeit konstant. Die zurückgelegte Strecke wächst dann linear mit der Zeit. Verändere die Geschwindigkeit \(v\) und den Startort \(s_0\) — beobachte, wie sich \(s(t)\)-Graph und Tabelle ändern.</p>
+
+\[ s(t) = s_0 + v \cdot t \qquad v(t) = v = \text{const.} \]
+
+<!-- ANIM 1: geradlinig gleichförmig — s-t und v-t -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 1 · Geradlinig gleichförmige Bewegung</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verschiebe \(v\) und beobachte, wie sich die Steigung der \(s\)-\(t\)-Geraden ändert.</li><li>Setze \(v\) negativ: die \(s\)-\(t\)-Gerade fällt, das Objekt bewegt sich rückwärts.</li><li>Verändere den Startort \(s_0\): die Gerade verschiebt sich nur senkrecht, die Steigung bleibt.</li><li>Das \(v\)-\(t\)-Diagramm bleibt immer eine waagrechte Linie.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verschiebe die Geschwindigkeit v und beobachte, wie sich die Steigung der s-t-Geraden ändert. Setze v negativ: die s-t-Gerade fällt, das Objekt bewegt sich rückwärts. Verändere den Startort s null: die Gerade verschiebt sich nur senkrecht, die Steigung bleibt. Das v-t-Diagramm bleibt immer eine waagrechte Linie." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Bei konstanter Geschwindigkeit ist \(s(t)\) eine Gerade; ihre Steigung ist \(v\).</li><li>\(s_0\) legt nur den Achsenabschnitt fest, nicht die Steigung.</li><li>Das Vorzeichen von \(v\) gibt die Bewegungsrichtung an.</li><li>Im \(v\)-\(t\)-Diagramm entspricht die Fläche unter der Linie dem Weg.</li><li>\(s(t) = s_0 + v \cdot t\)</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Bei konstanter Geschwindigkeit ist s von t eine Gerade; ihre Steigung ist v. s null legt nur den Achsenabschnitt fest, nicht die Steigung. Das Vorzeichen von v gibt die Bewegungsrichtung an. Im v-t-Diagramm entspricht die Fläche unter der Linie dem Weg. Es gilt: s von t gleich s null plus v mal t." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Geschwindigkeit \(v\):</label>
+      <input type="range" id="a1-v" min="-20" max="30" value="15" step="1">
+      <span class="sl-val" id="a1-v-val">15 m/s</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Startort \(s_0\):</label>
+      <input type="range" id="a1-s0" min="-50" max="50" value="0" step="5">
+      <span class="sl-val" id="a1-s0-val">0 m</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Aktueller Funktionsterm</div>
+      <div class="fl-eq" id="a1-eq">s(t) = 0 + 15·t</div>
+    </div>
+
+    <div class="zwei-spalten">
+      <div class="cv-wrap">
+        <div class="cv-titel">📈 \(s(t)\) — Weg-Zeit-Diagramm</div>
+        <canvas id="a1-cv-st" height="280"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📊 \(v(t)\) — Geschwindigkeits-Zeit-Diagramm</div>
+        <canvas id="a1-cv-vt" height="280"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ══════════════ 5. GLEICHMÄSSIG BESCHLEUNIGTE BEWEGUNG ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der s-t-Geraden, wenn du die Geschwindigkeit verdoppelst?</summary>
+  <div class="frage-antwort">
+    <p>Die Steigung der \(s\)-\(t\)-Geraden <strong>verdoppelt</strong> sich — in der gleichen Zeit wird die doppelte Strecke zurückgelegt. Im \(v\)-\(t\)-Diagramm liegt die waagrechte Linie doppelt so hoch, und die Fläche darunter (der Weg) verdoppelt sich ebenfalls. Probiere es in Animation 1 aus.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wie sieht das \(v\)-\(t\)-Diagramm einer gleichförmigen (konstanten) Bewegung aus?</p><ul class="mc-optionen"><li data-opt="A">eine steigende Gerade</li><li data-opt="B">eine waagrechte Linie</li><li data-opt="C">eine Parabel</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Bei konstanter Geschwindigkeit ist \(v\) zeitlich unverändert — eine waagrechte Linie. (Das \(s\)-\(t\)-Diagramm ist dann eine steigende Gerade.)</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Im \(s\)-\(t\)-Diagramm der gleichförmigen Bewegung entspricht die <span class="mc-luecke"></span> der Geraden der Geschwindigkeit.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Steigung — die Steigung der \(s\)-\(t\)-Geraden ist \(v\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Objekt startet bei \(s_0 = 20\;\text{m}\) und fährt mit \(v = 15\;\text{m/s}\). Wo ist es nach \(t = 4\;\text{s}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(s = s_0 + v\cdot t = 20\;\text{m} + 15\;\text{m/s} \cdot 4\;\text{s} = 80\;\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Läuferin A startet am Punkt \(0\) mit \(6\;\text{m/s}\), Läufer B startet gleichzeitig \(30\;\text{m}\) voraus mit \(4\;\text{m/s}\). Wann und wo holt A den B ein?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Ansatz: beim Einholen sind beide am gleichen Ort.
+\[ s_A(t_{\text{einholen}}) = s_B(t_{\text{einholen}}) \]
+\[ 6 \cdot t = 30 + 4 \cdot t \]
+\[ 2 \cdot t = 30 \quad\Rightarrow\quad t = 15\;\text{s} \]
+Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></div>
+</details>
+
+<h2 id="theorie">Gleichmässig beschleunigte Bewegung</h2>
+
+<p>Wirkt eine konstante Beschleunigung \(a\) auf einen Körper, nimmt seine Geschwindigkeit gleichmässig zu (oder ab). Aus den Grunddefinitionen folgen drei zentrale Bewegungsgleichungen:</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Herleitung</div>
+  <p>Bei konstanter Beschleunigung \(a\) gilt für die Geschwindigkeit:</p>
+  \[ v(t) = v_0 + a \cdot t \]
+  <p>Der zurückgelegte Weg ergibt sich als Fläche unter dem \(v\)-\(t\)-Graph. Bei einem Trapez mit den Seiten \(v_0\) und \(v(t)\) und der Breite \(t\):</p>
+  <div class="cv-wrap" style="max-width:430px;margin:12px auto">
+    <canvas id="herl-cv" height="220" role="img" aria-label="v-t-Diagramm: eine Gerade steigt von v null bei t gleich null auf v von t. Die Fläche darunter ist ein schraffiertes Trapez mit den parallelen Seiten v null und v von t und der Breite t — sie entspricht dem zurückgelegten Weg."></canvas>
+  </div>
+  \[ s(t) = s_0 + v_0 \cdot t + \tfrac{1}{2} \cdot a \cdot t^{\,2} \]
+  <p>Eliminiert man die Zeit, folgt die <em>zeitlose Bewegungsgleichung</em>. Dazu die erste Gleichung nach \(t\) auflösen und in die zweite einsetzen:</p>
+  \[ t = \frac{v - v_0}{a} \qquad\Rightarrow\qquad s - s_0 = v_0 \cdot \frac{v - v_0}{a} + \frac{1}{2}\,a \cdot \left( \frac{v - v_0}{a} \right)^{\!2} = \frac{v^{\,2} - v_0^{\,2}}{2\,a} \]
+  <p>Umgestellt:</p>
+  \[ v^{\,2} = v_0^{\,2} + 2 \cdot a \cdot (s - s_0) \]
+</div>
+
+<!-- ANIM 2: gleichmässig beschleunigt — drei gekoppelte Diagramme -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 2 · Gleichmässig beschleunigte Bewegung</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle einen Zeitpunkt \(t\) ein und vergleiche \(a\), \(v(t)\) und \(s(t)\) in der Live-Anzeige.</li><li>Vergrössere \(a\): die \(v\)-\(t\)-Gerade wird steiler, die \(s\)-\(t\)-Parabel stärker gekrümmt.</li><li>Setze \(a\) negativ (Bremsen): \(v\) nimmt ab und kann das Vorzeichen wechseln.</li><li>Variiere \(v_0\) und beobachte die Verschiebung der \(v\)-\(t\)-Geraden.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle einen Zeitpunkt t ein und vergleiche die Beschleunigung a, die Geschwindigkeit v von t und den Weg s von t in der Live-Anzeige. Vergrössere a: die v-t-Gerade wird steiler, die s-t-Parabel stärker gekrümmt. Setze a negativ, also Bremsen: v nimmt ab und kann das Vorzeichen wechseln. Variiere v null und beobachte die Verschiebung der v-t-Geraden." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Konstante Beschleunigung: \(a\)-\(t\) waagrecht, \(v\)-\(t\) Gerade, \(s\)-\(t\) Parabel.</li><li>Steigung der \(v\)-\(t\)-Geraden ist \(a\); Steigung der \(s\)-\(t\)-Kurve ist \(v(t)\).</li><li>Fläche unter \(a\)-\(t\) ergibt \(\Delta v\), Fläche unter \(v\)-\(t\) ergibt \(s\).</li><li>\(v(t) = v_0 + a \cdot t\)</li><li>\(s(t) = s_0 + v_0 \cdot t + \tfrac{1}{2}\,a \cdot t^{2}\)</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Konstante Beschleunigung bedeutet: a-t-Diagramm waagrecht, v-t-Diagramm eine Gerade, s-t-Diagramm eine Parabel. Die Steigung der v-t-Geraden ist a, die Steigung der s-t-Kurve ist die momentane Geschwindigkeit v von t. Die Fläche unter dem a-t-Diagramm ergibt die Geschwindigkeitsänderung delta v, die Fläche unter dem v-t-Diagramm den Weg s. Es gilt: v von t gleich v null plus a mal t, und s von t gleich s null plus v null mal t plus ein halb mal a mal t hoch zwei." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Beschleunigung \(a\):</label>
+      <input type="range" id="a2-a" min="-4" max="4" value="2" step="0.2">
+      <span class="sl-val" id="a2-a-val">2 m/s²</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Anfangsgeschw. \(v_0\):</label>
+      <input type="range" id="a2-v0" min="-10" max="20" value="0" step="1">
+      <span class="sl-val" id="a2-v0-val">0 m/s</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Zeitpunkt \(t\):</label>
+      <input type="range" id="a2-t" min="0" max="10" value="5" step="0.1">
+      <span class="sl-val" id="a2-t-val">5.0 s</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(a\)</span><span class="lb-val" id="a2-live-a">2.00 m/s²</span></div>
+      <div class="lb-item"><span class="lb-lab">\(v(t)\)</span><span class="lb-val" id="a2-live-v">10.0 m/s</span></div>
+      <div class="lb-item"><span class="lb-lab">\(s(t)\)</span><span class="lb-val" id="a2-live-s">25.0 m</span></div>
+    </div>
+
+    <div class="drei-spalten">
+      <div class="cv-wrap">
+        <div class="cv-titel">\(a(t)\)</div>
+        <canvas id="a2-cv-at" height="200"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">\(v(t)\)</div>
+        <canvas id="a2-cv-vt" height="200"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">\(s(t)\)</div>
+        <canvas id="a2-cv-st" height="200"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ══════════════ 6. FREIER FALL ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wie sieht das \(a\)-\(t\)-Diagramm einer gleichmässig beschleunigten Bewegung aus?</p><ul class="mc-optionen"><li data-opt="A">eine waagrechte Linie</li><li data-opt="B">eine steigende Gerade</li><li data-opt="C">eine Parabel</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Die Beschleunigung ist konstant, also waagrecht. (Das \(v\)-\(t\)-Diagramm ist eine Gerade, das \(s\)-\(t\)-Diagramm eine Parabel.)</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Bei gleichmässig beschleunigter Bewegung wächst der zurückgelegte Weg <span class="mc-luecke"></span> mit der Zeit.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">quadratisch — \(s \sim t^2\) (wegen \(s = \tfrac{1}{2}a\,t^2\)).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Körper startet aus der Ruhe mit \(a = 2\;\text{m/s}^2\). Geschwindigkeit und Weg nach \(5\;\text{s}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(v = a\cdot t = 2 \cdot 5 = 10\;\text{m/s}\); \(\;\; s = \tfrac{1}{2}a\,t^2 = \tfrac{1}{2}\cdot 2 \cdot 5^2 = 25\;\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Auto bremst aus \(20\;\text{m/s}\) mit \(a = -5\;\text{m/s}^2\) bis zum Stillstand. Wie lang ist der Bremsweg?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Aus \(v^2 = v_0^2 + 2\,a\,s\) mit \(v = 0\): \(0 = 20^2 + 2\cdot(-5)\cdot s \Rightarrow 400 = 10\,s \Rightarrow s = 40\;\text{m}\).</div></details></div>
+</details>
+
+<h2 id="freier-fall">Freier Fall</h2>
+
+<p>Der freie Fall ist ein Spezialfall der gleichmässig beschleunigten Bewegung — die Beschleunigung ist die Erdbeschleunigung \(g \approx 9.81\;\text{m/s}^2\), gerichtet nach unten. Aus dem Stand losgelassen (\(v_0 = 0\)):</p>
+
+\[ v(t) = g \cdot t \qquad h(t) = \tfrac{1}{2} \cdot g \cdot t^{\,2} \]
+
+<!-- ANIM 3: Freier Fall — animierte Fallszene mit Stoppuhr -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 3 · Freier Fall — Apfel vom Baum</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Starte den Fall und lies \(t\), \(v\) und \(s\) gleichzeitig ab.</li><li>Achte darauf, um wie viel \(v\) in jeder Sekunde zunimmt.</li><li>Vergleiche den Fallweg nach \(1\;\text{s}\) und nach \(2\;\text{s}\).</li><li>Der Apfel wird sichtbar schneller — die Abstände pro Zeitschritt wachsen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Starte den Fall und lies Zeit t, Geschwindigkeit v und Fallweg s gleichzeitig ab. Achte darauf, um wie viel v in jeder Sekunde zunimmt. Vergleiche den Fallweg nach einer Sekunde und nach zwei Sekunden. Der Apfel wird sichtbar schneller, die Abstände pro Zeitschritt werden grösser." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>\(v\) wächst linear: rund \(9.81\;\text{m/s}\) pro Sekunde, unabhängig von der Masse.</li><li>Der Fallweg wächst quadratisch: nach doppelter Zeit vierfacher Weg.</li><li>\(v = g \cdot t\), \(\;\; h = \tfrac{1}{2}\,g \cdot t^{2}\)</li><li>Aus \(20\;\text{m}\): Fallzeit \(\approx 2.0\;\text{s}\), Aufprall mit \(\approx 19.8\;\text{m/s}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Geschwindigkeit v wächst linear, um rund 9.81 Meter pro Sekunde in jeder Sekunde, unabhängig von der Masse. Der Fallweg wächst quadratisch: nach doppelter Zeit vierfacher Weg. Es gilt: v gleich g mal t, und h gleich ein halb mal g mal t hoch zwei. Aus 20 Metern Höhe beträgt die Fallzeit rund 2.0 Sekunden, der Aufprall erfolgt mit rund 19.8 Metern pro Sekunde." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+      <button class="play-btn" id="a3-btn">▶ Start</button>
+      <button class="play-btn paused" id="a3-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Fallhöhe \(h_0\): 20 m  ·  \(g = 9.81\;\text{m/s}^2\)</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Zeit \(t\)</span><span class="lb-val" id="a3-t">0.00 s</span></div>
+      <div class="lb-item"><span class="lb-lab">Geschwindigkeit \(v\)</span><span class="lb-val" id="a3-v">0.0 m/s</span></div>
+      <div class="lb-item"><span class="lb-lab">Fallweg \(s\)</span><span class="lb-val" id="a3-s">0.00 m</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🍎 Fallszene</div>
+      <canvas id="a3-cv" height="320"></canvas>
+    </div>
+  </div>
+</div>
+<!-- ══════════════ 7. WURFPARABEL ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ohne Luftwiderstand fallen eine schwere und eine leichte Kugel aus gleicher Höhe …</p><ul class="mc-optionen"><li data-opt="A">die schwere kommt zuerst an</li><li data-opt="B">beide kommen gleichzeitig an</li><li data-opt="C">die leichte kommt zuerst an</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Im freien Fall ist die Beschleunigung für alle Körper gleich \(g\) — die Masse spielt keine Rolle.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Beim freien Fall nimmt die Geschwindigkeit in jeder Sekunde um rund <span class="mc-luecke"></span> zu.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(9.81\;\text{m/s}\) — das ist die Fallbeschleunigung \(g\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Wie lange fällt ein Körper frei aus \(20\;\text{m}\) Höhe?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(t = \sqrt{\dfrac{2h}{g}} = \sqrt{\dfrac{2 \cdot 20}{9.81}} \approx 2.02\;\text{s}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Stein fällt \(3\;\text{s}\) lang frei. Aus welcher Höhe wurde er losgelassen, und mit welcher Geschwindigkeit trifft er auf?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Höhe: \(h = \tfrac{1}{2}g\,t^2 = \tfrac{1}{2}\cdot 9.81 \cdot 3^2 \approx 44.1\;\text{m}\). Aufprall: \(v = g\,t = 9.81 \cdot 3 \approx 29.4\;\text{m/s}\).</div></details></div>
+</details>
+
+<h2 id="wurfparabel">Parabolische Bewegung (Schiefer Wurf)</h2>
+
+<p>Der schiefe Wurf entsteht aus der <strong>Überlagerung zweier Bewegungen</strong>: einer geradlinig gleichförmigen Horizontalbewegung und einer gleichmässig beschleunigten Vertikalbewegung (freier Fall). Mit Abwurfgeschwindigkeit \(v_0\) und Abwurfwinkel \(\alpha\):</p>
+
+\[ x(t) = v_0 \cos\alpha \cdot t \qquad y(t) = v_0 \sin\alpha \cdot t - \tfrac{1}{2} g \cdot t^{\,2} \]
+
+<p>Eliminiert man die Zeit, ergibt sich für die Bahnkurve eine <strong>Parabel</strong>.</p>
+
+<!-- ANIM 4: Wurfparabel — Slider v0 und Winkel -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 4 · Schiefer Wurf</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere bei festem \(v_0\) den Winkel \(\alpha\): wann ist die Wurfweite maximal?</li><li>Vergleiche komplementäre Winkel, z.B. \(30°\) und \(60°\).</li><li>Erhöhe \(v_0\) und beobachte, wie stark Weite und Höhe wachsen.</li><li>Verfolge Wurfweite \(s_x\), Steighöhe und Flugzeit in der Live-Anzeige.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere bei festem v null den Abwurfwinkel alpha und finde heraus, wann die Wurfweite maximal ist. Vergleiche komplementäre Winkel, zum Beispiel 30 Grad und 60 Grad. Erhöhe v null und beobachte, wie stark Weite und Höhe wachsen. Verfolge Wurfweite s x, Steighöhe und Flugzeit in der Live-Anzeige." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Maximale Wurfweite bei \(\alpha = 45°\).</li><li>Komplementäre Winkel (\(\alpha\) und \(90° - \alpha\)) liefern dieselbe Weite.</li><li>Bahn = Parabel: horizontal gleichförmig, vertikal beschleunigt.</li><li>\(s_x = \dfrac{v_0^{\,2}\,\sin(2\alpha)}{g}\); Weite und Höhe \(\propto v_0^{\,2}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die maximale Wurfweite ergibt sich bei einem Abwurfwinkel von 45 Grad. Zwei komplementäre Winkel, also alpha und 90 Grad minus alpha, liefern dieselbe Weite. Die Bahn ist eine Parabel aus gleichförmiger Horizontal- und beschleunigter Vertikalbewegung. Die Wurfweite ist s x gleich v null hoch zwei mal Sinus von zwei alpha, geteilt durch g; Weite und Höhe wachsen quadratisch mit v null." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>\(v_0\):</label>
+      <input type="range" id="a4-v0" min="5" max="30" value="20" step="1">
+      <span class="sl-val" id="a4-v0-val">20 m/s</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Winkel \(\alpha\):</label>
+      <input type="range" id="a4-alpha" min="10" max="80" value="45" step="1">
+      <span class="sl-val" id="a4-alpha-val">45°</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Wurfweite</span><span class="lb-val" id="a4-w">40.8 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Steighöhe</span><span class="lb-val" id="a4-h">10.2 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Flugzeit</span><span class="lb-val" id="a4-tF">2.88 s</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">Bahnkurve im \(x\)-\(y\)-Raum</div>
+      <canvas id="a4-cv" height="320"></canvas>
+    </div>
+  </div>
+</div>
+<!-- ══════════════ 8. GLEICHFÖRMIGE KREISBEWEGUNG ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Aus welchem Abwurfwinkel ergibt sich (ohne Luftwiderstand) die grösste Wurfweite?</p><ul class="mc-optionen"><li data-opt="A">\(30°\)</li><li data-opt="B">\(45°\)</li><li data-opt="C">\(60°\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Bei \(45°\) ist \(\sin(2\alpha) = \sin 90° = 1\) maximal, also auch die Weite \(s_x = \dfrac{v_0^{\,2}\sin(2\alpha)}{g}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Beim schiefen Wurf ist die waagrechte Teilbewegung <span class="mc-luecke"></span>, die senkrechte ist gleichmässig beschleunigt.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">gleichförmig — horizontal wirkt keine Kraft, daher konstante Geschwindigkeit.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Ball wird waagrecht mit \(10\;\text{m/s}\) aus \(5\;\text{m}\) Höhe geworfen. Wie weit fliegt er bis zum Aufprall?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Fallzeit \(t = \sqrt{\dfrac{2h}{g}} = \sqrt{\dfrac{2\cdot 5}{9.81}} \approx 1.01\;\text{s}\); Weite \(s_x = v_0\cdot t \approx 10 \cdot 1.01 = 10.1\;\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Im selben Moment wird ein Ball fallen gelassen und ein zweiter waagrecht weggeworfen — beide aus gleicher Höhe. Welcher landet zuerst?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Beide gleichzeitig. Die senkrechte Bewegung ist von der waagrechten unabhängig: gleiche Höhe und gleiche vertikale Beschleunigung \(g\) ergeben dieselbe Fallzeit.</div></details></div>
+</details>
+
+<h2 id="kreisbewegung">Gleichförmige Kreisbewegung</h2>
+
+<p>Bewegt sich ein Körper auf einer Kreisbahn mit konstanter Bahngeschwindigkeit, spricht man von einer <strong>gleichförmigen Kreisbewegung</strong>. Wichtige Grössen:</p>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Grösse</th><th>Symbol</th><th>Definition</th><th>Einheit</th></tr></thead>
+  <tbody>
+    <tr><td>Bahngeschwindigkeit</td><td>\(v\)</td><td>\(v = \omega \cdot r\)</td><td>m/s</td></tr>
+    <tr><td>Winkelgeschwindigkeit</td><td>\(\omega\)</td><td>\(\omega = \dfrac{2\pi}{T} = 2\pi \cdot f\)</td><td>rad/s</td></tr>
+    <tr><td>Rotationsfrequenz</td><td>\(f\)</td><td>\(f = \dfrac{1}{T}\)</td><td>Hz (1/s)</td></tr>
+    <tr><td>Umlaufzeit (Periode)</td><td>\(T\)</td><td>Zeit für einen Umlauf</td><td>s</td></tr>
+    <tr><td>Zentripetalbeschl.</td><td>\(a_z\)</td><td>\(a_z = \dfrac{v^{\,2}}{r} = \omega^{\,2} \cdot r\)</td><td>m/s²</td></tr>
+  </tbody>
+</table>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Häufiger Fehler</div>
+  <p>Bei der gleichförmigen Kreisbewegung ist die <strong>Bahngeschwindigkeit konstant</strong>, aber die Geschwindigkeit ist <strong>nicht konstant</strong> — denn die Richtung von \(\vec{v}\) ändert sich ständig. Genau deshalb existiert eine Beschleunigung \(\vec{a}_z\), die stets zur Mitte zeigt (Zentripetalbeschleunigung).</p>
+</div>
+
+<!-- ANIM 5: Kreisbewegung mit Schiebern für omega und r -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 5 · Gleichförmige Kreisbewegung</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verfolge den Geschwindigkeits-Vektor \(\vec{v}\): in welche Richtung zeigt er?</li><li>Der Beschleunigungs-Vektor \(\vec{a}_z\) zeigt immer zur Mitte.</li><li>Erhöhe \(\omega\) und achte besonders auf \(a_z\).</li><li>Verändere \(r\) und vergleiche \(v\), \(a_z\), \(T\) und \(f\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verfolge den Geschwindigkeits-Vektor v und achte auf seine Richtung. Der Beschleunigungs-Vektor a z zeigt immer zur Mitte. Erhöhe die Winkelgeschwindigkeit omega und achte besonders auf die Zentripetalbeschleunigung a z. Verändere den Radius r und vergleiche v, a z, Umlaufzeit T und Frequenz f." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>\(\vec{v}\) ist tangential, \(\vec{a}_z\) zeigt zur Mitte.</li><li>\(|\vec{v}|\) ist konstant, die Richtung ändert sich ständig — daher gibt es eine Beschleunigung.</li><li>\(v = \omega \cdot r\), \(\;\; a_z = \omega^{2} \cdot r = \dfrac{v^{2}}{r}\).</li><li>\(T = \dfrac{2\pi}{\omega}\), \(\;\; f = \dfrac{1}{T}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der Geschwindigkeits-Vektor v ist immer tangential zur Bahn, die Zentripetalbeschleunigung a z zeigt immer zur Mitte. Der Betrag von v ist konstant, nur die Richtung ändert sich ständig; genau deshalb gibt es eine Beschleunigung. Es gilt: v gleich omega mal r, und a z gleich omega hoch zwei mal r, also auch v hoch zwei geteilt durch r. Ausserdem T gleich zwei pi geteilt durch omega und f gleich eins geteilt durch T." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Radius \(r\):</label>
+      <input type="range" id="a5-r" min="0.5" max="3" value="2" step="0.1">
+      <span class="sl-val" id="a5-r-val">2.0 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Winkelgeschw. \(\omega\):</label>
+      <input type="range" id="a5-omega" min="0.3" max="3" value="1.5" step="0.1">
+      <span class="sl-val" id="a5-omega-val">1.5 rad/s</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(v = \omega \cdot r\)</span><span class="lb-val" id="a5-v">3.0 m/s</span></div>
+      <div class="lb-item"><span class="lb-lab">\(a_z = \omega^2 \cdot r\)</span><span class="lb-val" id="a5-az">4.5 m/s²</span></div>
+      <div class="lb-item"><span class="lb-lab">Umlaufzeit T</span><span class="lb-val" id="a5-T">4.19 s</span></div>
+      <div class="lb-item"><span class="lb-lab">Frequenz \(f\)</span><span class="lb-val" id="a5-f">0.24 Hz</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">Kreisbahn mit Vektoren</div>
+      <canvas id="a5-cv" height="340"></canvas>
+    </div>
+  </div>
+</div>
+<!-- ══════════════ 9. VEKTORADDITION / RELATIVBEWEGUNG ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wohin zeigt bei der gleichförmigen Kreisbewegung die Beschleunigung?</p><ul class="mc-optionen"><li data-opt="A">tangential (in Bewegungsrichtung)</li><li data-opt="B">zum Kreismittelpunkt</li><li data-opt="C">nach aussen</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die Zentripetalbeschleunigung \(\vec a_z\) zeigt stets zum Mittelpunkt und hält den Körper auf der Bahn.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Bahngeschwindigkeit \(\vec v\) ist <span class="mc-luecke"></span> zur Kreisbahn gerichtet.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">tangential — in jedem Punkt in Richtung der Tangente.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Punkt rotiert mit \(r = 0.5\;\text{m}\) und Umlaufzeit \(T = 2\;\text{s}\). Berechne \(\omega\), \(v\) und \(a_z\).</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\omega = \dfrac{2\pi}{T} \approx 3.14\;\text{s}^{-1}\); \(\;\; v = \omega\,r \approx 1.57\;\text{m/s}\); \(\;\; a_z = \dfrac{v^2}{r} \approx 4.93\;\text{m/s}^2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Punkt am Rand eines Rades (Radius \(0.30\;\text{m}\)) dreht sich mit \(120\) Umdrehungen pro Minute. Bahngeschwindigkeit und Zentripetalbeschleunigung?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(f = \dfrac{120}{60\;\text{s}} = 2\;\text{Hz}\), \(\;\omega = 2\pi f \approx 12.57\;\text{s}^{-1}\). Dann \(v = \omega\,r \approx 3.77\;\text{m/s}\) und \(a_z = \omega^2 r \approx 47.4\;\text{m/s}^2\).</div></details></div>
+</details>
+
+<h2 id="relativbewegung">Vektoraddition — Relativbewegung</h2>
+
+<p>Geschwindigkeiten sind Vektoren — sie addieren sich nach den Vektor-Regeln. Klassisches Beispiel: ein Schwimmer in einem Fluss. Seine Geschwindigkeit gegenüber dem Ufer ist die Summe aus Schwimmgeschwindigkeit (gegenüber dem Wasser) und Strömungsgeschwindigkeit:</p>
+
+\[ \vec{v}_{\text{Ufer}} = \vec{v}_{\text{Schwimmer/Wasser}} + \vec{v}_{\text{Strömung}} \]
+
+<!-- ANIM 6: Vektoraddition Schwimmer im Fluss -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 6 · Schwimmer im Fluss</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle \(\beta = 90°\): der Fluss versetzt den Schwimmer trotzdem stromabwärts.</li><li>Verändere \(v_F\) und beobachte den Driftwinkel \(\gamma\).</li><li>Erhöhe \(v_S\): der Drift wird kleiner, \(|\vec{v}_{\text{Ufer}}|\) grösser.</li><li>Verstelle \(\beta\), um die Drift zu kompensieren.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle die Stossrichtung beta auf 90 Grad: der Fluss versetzt den Schwimmer trotzdem stromabwärts. Verändere die Flussgeschwindigkeit v F und beobachte den Driftwinkel gamma. Erhöhe die Schwimmgeschwindigkeit v S: der Drift wird kleiner, die Ufergeschwindigkeit grösser. Verstelle beta, um die Drift zu kompensieren." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>\(\vec{v}_{\text{Ufer}} = \vec{v}_S + \vec{v}_F\) (vektorielle Summe).</li><li>Auch bei \(\beta = 90°\) entsteht eine seitliche Drift stromabwärts.</li><li>Bei \(\beta = 90°\): \(|\vec{v}_{\text{Ufer}}| = \sqrt{v_S^{2} + v_F^{2}}\), \(\tan\gamma = \dfrac{v_F}{v_S}\).</li><li>Geradeaus ankommen: \(\beta > 90°\) (gegen die Strömung anhalten).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Geschwindigkeit gegenüber dem Ufer ist die vektorielle Summe aus Schwimm- und Strömungsgeschwindigkeit. Auch bei einer Stossrichtung von 90 Grad, also quer zum Fluss, entsteht eine seitliche Drift stromabwärts. Bei beta gleich 90 Grad gilt: der Betrag der Ufergeschwindigkeit ist die Wurzel aus v S hoch zwei plus v F hoch zwei, und der Tangens des Driftwinkels gamma ist v F geteilt durch v S. Um geradeaus anzukommen, muss man schräg gegen die Strömung anhalten, also beta grösser als 90 Grad wählen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>\(v_S\) (Schwimmer):</label>
+      <input type="range" id="a6-vs" min="0.5" max="3" value="2" step="0.1">
+      <span class="sl-val" id="a6-vs-val">2.0 m/s</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>\(\beta\) (Stossrichtung):</label>
+      <input type="range" id="a6-beta" min="0" max="180" value="90" step="5">
+      <span class="sl-val" id="a6-beta-val">90°</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>\(v_F\) (Fluss):</label>
+      <input type="range" id="a6-vf" min="0" max="3" value="1" step="0.1">
+      <span class="sl-val" id="a6-vf-val">1.0 m/s</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(|\vec{v}_{\text{Ufer}}|\)</span><span class="lb-val" id="a6-vu">2.24 m/s</span></div>
+      <div class="lb-item"><span class="lb-lab">Driftwinkel \(\gamma\)</span><span class="lb-val" id="a6-gamma">26.6°</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">Vektoraddition</div>
+      <canvas id="a6-cv" height="280"></canvas>
+    </div>
+  </div>
+</div>
+<!-- ══════════════ 10. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert beim freien Fall, wenn du die Masse des Körpers verdoppelst?</summary>
+  <div class="frage-antwort">
+    <p>Nichts an der Bewegung: im freien Fall (ohne Luftwiderstand) fallen alle Körper gleich schnell, weil \(g\) massenunabhängig ist. Eine Feder und eine Bleikugel landen im Vakuum gleichzeitig.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Eine Fähre hält genau quer zum Fluss, wird aber flussabwärts versetzt. Warum?</p><ul class="mc-optionen"><li data-opt="A">Der Motor ist zu schwach.</li><li data-opt="B">Die Strömungsgeschwindigkeit addiert sich vektoriell zur Fahrtgeschwindigkeit.</li><li data-opt="C">Wegen der Erddrehung.</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die resultierende Geschwindigkeit ist die Vektorsumme aus Eigen- und Strömungsgeschwindigkeit; der Flussanteil versetzt die Fähre seitwärts.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Geschwindigkeiten werden <span class="mc-luecke"></span> addiert — mit Betrag und Richtung.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">vektoriell — als Vektoren, z.B. über das Parallelogramm.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Schwimmerin schwimmt mit \(3\;\text{m/s}\) senkrecht zum Ufer, die Strömung beträgt \(4\;\text{m/s}\). Wie gross ist die Geschwindigkeit über Grund?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(v = \sqrt{(3\;\text{m/s})^2 + (4\;\text{m/s})^2} = \sqrt{9 + 16} = 5\;\text{m/s}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Mit welchem Winkel gegen die Senkrechte muss die Schwimmerin (Eigentempo \(5\;\text{m/s}\)) bei \(3\;\text{m/s}\) Strömung anhalten, um <em>gerade</em> überzusetzen, und wie schnell quert sie dann?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die stromaufwärtige Komponente hebt die Strömung auf: \(\sin\gamma = \dfrac{3}{5} \Rightarrow \gamma \approx 37°\). Quergeschwindigkeit: \(\sqrt{5^2 - 3^2} = 4\;\text{m/s}\).</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<!-- A1: Ablesen -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Werte ablesen — \(v\)-\(t\)-Diagramm</span></div>
+  <p>Stelle in Animation 2 die Schieber auf \(a = 2.0\;\text{m/s}^2\), \(v_0 = 4\;\text{m/s}\), \(t = 6\;\text{s}\). Lies aus den drei Diagrammen die Werte für \(v(t)\) und \(s(t)\) ab und vergleiche sie mit den Bewegungsgleichungen.</p>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <p>Mit \(v(t) = v_0 + a \cdot t = 4 + 2 \cdot 6 = 16\;\text{m/s}\) (Live-Anzeige bestätigt).</p>
+      <p>Mit \(s(t) = v_0 \cdot t + \tfrac{1}{2} a \cdot t^{\,2} = 4 \cdot 6 + \tfrac{1}{2} \cdot 2 \cdot 36 = 24 + 36 = 60\;\text{m}\).</p>
+    </div>
+  </div>
+</div>
+
+<!-- A2: Rechnen freier Fall -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Freier Fall — Aufprallgeschwindigkeit</span></div>
+  <p>Eine Münze fällt aus 1.5 m Höhe vom Tisch. Mit welcher Geschwindigkeit trifft sie auf den Boden? Wie lange dauert der Fall? (Verwende \(g = 9.81\;\text{m/s}^2\).)</p>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <p>Aus \(h = \tfrac{1}{2} g \cdot t^{\,2}\) folgt</p>
+      \[ t = \sqrt{\frac{2h}{g}} = \sqrt{\frac{2 \cdot 1.5}{9.81}} \approx 0.553\;\text{s} \]
+      <p>und mit \(v = g \cdot t\):</p>
+      \[ v \approx 9.81 \cdot 0.553 \approx 5.43\;\text{m/s} \;\approx\; 19.5\;\text{km/h} \]
+    </div>
+  </div>
+</div>
+
+<!-- A3: Mehrere Teilaufgaben -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Bremsweg eines Autos</span></div>
+  <p>Ein Auto fährt mit \(v_0 = 50\;\text{km/h}\) und bremst mit \(a = -5.0\;\text{m/s}^2\) bis zum Stillstand.</p>
+  <ol class="aufg-liste">
+    <li>Wandle \(v_0\) in m/s um.</li>
+    <li>Wie lange dauert der Bremsvorgang?</li>
+    <li>Welchen Bremsweg legt das Auto dabei zurück?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(v_0 = 50\;\text{km/h} = \dfrac{50}{3.6}\;\text{m/s} \approx 13.9\;\text{m/s}\)</li>
+        <li>Aus \(v = v_0 + a \cdot t = 0\) folgt \[ t = -\frac{v_0}{a} = -\frac{13.9}{-5.0} \approx 2.78\;\text{s} \]</li>
+        <li>Bremsweg über die zeitlose Bewegungsgleichung: \[ s = -\frac{v_0^{\,2}}{2a} = -\frac{(13.9)^2}{2 \cdot (-5.0)} \approx 19.3\;\text{m} \]</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A4: Wurfparabel -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Schiefer Wurf — Kugelstossen</span></div>
+  <p>Eine Kugel wird mit \(v_0 = 13\;\text{m/s}\) und einem Winkel von 40° abgestossen. Wie weit fliegt sie horizontal, bis sie wieder auf Abwurfhöhe zurückkehrt? (\(g = 9.81\;\text{m/s}^2\), Luftwiderstand vernachlässigen.)</p>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <p><strong>Ansatz:</strong> Bewegungsgleichungen des schiefen Wurfs. Die Kugel ist wieder auf Abwurfhöhe, wenn \(y(t_F) = 0\):</p>
+      \[ y(t_F) = v_0 \sin\alpha \cdot t_F - \tfrac{1}{2} g \cdot t_F^{\,2} = 0 \]
+      \[ t_F = \frac{2 \cdot v_0 \cdot \sin\alpha}{g} = \frac{2 \cdot 13 \cdot \sin 40°}{9.81} \approx 1.70\;\text{s} \]
+      <p>In dieser Flugzeit legt sie horizontal (gleichförmig, \(v_x = v_0 \cos\alpha\)) zurück:</p>
+      \[ s_x = v_0 \cos\alpha \cdot t_F = 13 \cdot \cos 40° \cdot 1.70 \approx 9.96 \cdot 1.70 \approx 17.0\;\text{m} \]
+      <p>Probe mit Animation 4 (Winkel 40°, \(v_0 = 13\;\text{m/s}\)): Wurfweite ≈ 17 m — passt.</p>
+    </div>
+  </div>
+</div>
+
+<!-- A5: Kreisbewegung -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Karussell — Zentripetalbeschleunigung</span></div>
+  <p>Ein Kettenkarussell mit Radius 4.0 m dreht sich einmal in 6.0 s. Berechne Winkelgeschwindigkeit, Bahngeschwindigkeit und Zentripetalbeschleunigung. Wie verhält sich \(a_z\) zur Erdbeschleunigung \(g\)?</p>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      \[ \omega = \frac{2\pi}{T} = \frac{2\pi}{6.0} \approx 1.047\;\text{rad/s} \]
+      \[ v = \omega \cdot r = 1.047 \cdot 4.0 \approx 4.19\;\text{m/s} \]
+      \[ a_z = \omega^2 \cdot r = (1.047)^2 \cdot 4.0 \approx 4.39\;\text{m/s}^2 \]
+      <p>Das ist etwa \(0.45\;g\) — die Fahrgäste werden mit knapp der halben Erdbeschleunigung nach aussen gedrückt.</p>
+    </div>
+  </div>
+</div>
+
+<!-- A6: Relativbewegung -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Boot quer über den Fluss</span></div>
+  <p>Ein Boot fährt mit Eigengeschwindigkeit 3.0 m/s genau quer (rechtwinklig) zur Strömung. Der Fluss strömt mit 2.0 m/s. Der Fluss ist 60 m breit.</p>
+  <ol class="aufg-liste">
+    <li>Wie gross ist die resultierende Geschwindigkeit gegenüber dem Ufer?</li>
+    <li>Wie lange dauert die Überquerung?</li>
+    <li>Wie weit wird das Boot stromabwärts verdriftet?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Pythagoras für senkrecht stehende Vektoren: \[ |\vec{v}_{\text{Ufer}}| = \sqrt{3.0^{\,2} + 2.0^{\,2}} = \sqrt{13} \approx 3.61\;\text{m/s} \]</li>
+        <li>Die Überquerung wird allein durch die Querkomponente bestimmt: \[ t = \frac{60\;\text{m}}{3.0\;\text{m/s}} = 20\;\text{s} \]</li>
+        <li>Drift entlang der Strömung in dieser Zeit: \[ d = v_F \cdot t = 2.0 \cdot 20 = 40\;\text{m} \]</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 11. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Bewegungsart</th><th>Geschwindigkeit</th><th>Weg</th><th>Beschleunigung</th></tr></thead>
+  <tbody>
+    <tr><td>Geradlinig gleichförmig</td><td>\(v = \text{const.}\)</td><td>\(s = s_0 + v \cdot t\)</td><td>\(a = 0\)</td></tr>
+    <tr><td>Gleichmässig beschleunigt</td><td>\(v = v_0 + a \cdot t\)</td><td>\(s = s_0 + v_0 t + \tfrac{1}{2} a t^{\,2}\)</td><td>\(a = \text{const.}\)</td></tr>
+    <tr><td>Freier Fall</td><td>\(v = g \cdot t\)</td><td>\(h = \tfrac{1}{2} g t^{\,2}\)</td><td>\(g \approx 9.81\;\text{m/s}^2\)</td></tr>
+    <tr><td>Gleichförmige Kreisbewegung</td><td>\(v = \omega \cdot r\)</td><td>\(s = v \cdot t\) entlang Bahn</td><td>\(a_z = \tfrac{v^2}{r}\) zur Mitte</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Geschwindigkeit ist Weg pro Zeit, Beschleunigung ist Geschwindigkeitsänderung pro Zeit — beide sind Vektoren.</li>
+  <li>Gleichförmig: \(v=\text{const.}\), \(s=s_0+v\cdot t\). Gleichmässig beschleunigt: \(v=v_0+a\cdot t\), \(s=s_0+v_0 t+\tfrac12 a t^2\).</li>
+  <li>Der freie Fall ist eine gleichmässig beschleunigte Bewegung mit \(g\approx 9.81\;\text{m/s}^2\) — unabhängig von der Masse.</li>
+  <li>Der waagrechte Wurf setzt sich aus gleichförmiger Horizontal- und beschleunigter Vertikalbewegung zusammen.</li>
+  <li>Bei der gleichförmigen Kreisbewegung bleibt der Betrag von \(v\) konstant, die Richtung ändert sich ständig.</li>
+  <li>Die Zentripetalbeschleunigung \(a_z=v^2/r\) zeigt immer zur Kreismitte.</li>
+  <li>Relativbewegungen werden durch vektorielle Addition der Geschwindigkeiten beschrieben.</li>
+</ul>
+
+<div class="merksatz">
+  Geschwindigkeit ist eine vektorielle Grösse — sie hat Betrag UND Richtung. Bei der gleichförmigen Kreisbewegung ist der Betrag konstant, die Richtung ändert sich. Deshalb existiert dort eine Beschleunigung, obwohl die Bahngeschwindigkeit konstant ist.
+</div>
+
+
+<!-- ══════════════ 12. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p4-1-kinematik/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-1-kinematik/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-1-kinematik/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p4-1-kinematik/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-1-kinematik/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 13. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.youtube.com/@musstewissenPhysik/search?query=bewegung" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">musstewissen Physik — Bewegung</div><div class="lk-s">Kanalsuche · funk/ARD/ZDF · BM-passender Schul-Erklärstil</div></div>
+  </a>
+  <a href="https://www.lehrer-schmidt.de/physik/mechanik/" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Lehrerschmidt — Mechanik-Übersicht</div><div class="lk-s">Strukturierte Video-Sammlung: Geschwindigkeit, Beschleunigung, freier Fall, Wurf</div></div>
+  </a>
+  <a href="https://de.fufaev.org/mechanik" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Alexander Fufaev — Mechanik</div><div class="lk-s">Wissenskompendium mit Videos und Theorie-Texten</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/gleichfoermige-bewegung" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">LEIFIphysik — Gleichförmige Bewegung</div><div class="lk-s">Grundwissen, Versuche, Animationen, Aufgaben mit Lösungen</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/projectile-motion" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Projektilbewegung</div><div class="lk-s">Schiefer Wurf mit Luftwiderstand, Reichweite, Höhe (deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/projectile_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Schiefer Wurf</div><div class="lk-s">Klassische Bahnkurve, Vektorzerlegung sichtbar</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/circularmotion_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Kreisbewegung</div><div class="lk-s">v⃗, ω, a_z auf der Kreisbahn visualisiert</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/lineare-bewegung-gleichungen/grundwissen/gleichfoermige-bewegungen" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">LEIFIphysik — t-x, t-v, t-a Diagramme</div><div class="lk-s">Eingebettete Simulation mit verschiedenen Anfangs­bedingungen</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/mechanik/gleichfoermige-bewegung/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Gleichförmige Bewegung</div><div class="lk-s">Über 20 Aufgaben mit Musterlösungen (Sprintweltrekorde, Überholvorgang, Polizeikontrolle …)</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/beschleunigte-bewegung/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Beschleunigte Bewegung</div><div class="lk-s">Aufgaben zu Beschleunigung, Bremsweg, Anhalteweg</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/kreisbewegung" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Kreisbewegung</div><div class="lk-s">Grundwissen und Aufgaben mit Lösungen</div></div>
+  </a>
+  <a href="https://de.serlo.org/physik/117325/aufgaben-zur-kinematik" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">serlo.org — Aufgaben zur Kinematik</div><div class="lk-s">Schwimmer, Flugzeug, Bewegungsgleichungen — mit Lösungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 4.1 Kinematik des Schwerpunkts</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p4-1',
+  kapitelNr:'4.1',
+  kapitelTitel:'Kinematik des Schwerpunkts',
+  prev: null,
+  next:{nr:'4.2', titel:'Dynamik', url:'p4-2-dynamik.html'}
+});
+
+const g = 9.81;  // Erdbeschleunigung
+
+// ══════════════ ANIMATION 0 (EINSTIEG) ══════════════
+// Zugfahrt Bern–Zürich: stückweise lineares v(t)-Profil, t in min, v in km/h.
+// Fläche unter der Kurve = exakt 120 km (Python-verifiziert), Gesamtzeit 60 min.
+// Interaktion: Momentanpunkt und Intervall-Marker werden direkt im Canvas gezogen.
+const a0P = [[0,0],[4,150],[10,150],[12,140],[17,140],[19,160],[28.5,160],[32.5,0],[35.5,0],[39.5,140],[56,140],[60,0]];
+const a0S = [0];
+for (let i = 1; i < a0P.length; i++) {
+  a0S.push(a0S[i-1] + (a0P[i][0] - a0P[i-1][0]) / 60 * (a0P[i-1][1] + a0P[i][1]) / 2);
+}
+function a0At(t) {  // Momentanwert: v [km/h], s [km], a [km/h pro min]
+  for (let i = 1; i < a0P.length; i++) {
+    const t1 = a0P[i-1][0], v1 = a0P[i-1][1], t2 = a0P[i][0], v2 = a0P[i][1];
+    if (t <= t2 + 1e-9) {
+      const f = (t - t1) / (t2 - t1);
+      const v = v1 + f * (v2 - v1);
+      return { v: v, s: a0S[i-1] + (t - t1) / 60 * (v1 + v) / 2, a: (v2 - v1) / (t2 - t1) };
+    }
+  }
+  return { v: 0, s: 120, a: 0 };
+}
+function a0Color(slope) {
+  if (slope > 0.01) return '#1f6b3a';
+  if (slope < -0.01) return '#9b1c1c';
+  return '#1f4e8c';
+}
+// Zustand + zuletzt gezeichnete Geometrie (für Hit-Test beim Ziehen)
+const a0St = { t: 24, t1: 0, t2: 60, drag: null, gr: null, W: 0, H: 0 };
+
+function drawA0() {
+  const t = a0St.t, t1 = a0St.t1, t2 = a0St.t2;
+  const P  = a0At(t), P1 = a0At(t1), P2 = a0At(t2);
+  const ds = P2.s - P1.s, dtMin = t2 - t1;
+  const vbar = ds / (dtMin / 60);
+  document.getElementById('a0-v').textContent  = Math.round(P.v) + ' km/h';
+  document.getElementById('a0-phase').textContent =
+    P.a > 0.01 ? 'beschleunigt' : (P.a < -0.01 ? 'bremst' : (P.v < 0.5 ? 'Halt' : 'konstant'));
+  document.getElementById('a0-ds').textContent   = ds.toFixed(1) + ' km';
+  document.getElementById('a0-dt').textContent   = (dtMin / 60).toFixed(3) + ' h';
+  document.getElementById('a0-vbar').textContent = vbar.toFixed(1) + ' km/h';
+
+  // x-Achse in Stunden: Auto-Tick liefert 0.1 h = 6 min (auf sehr schmalen
+  // Canvases adaptiv 0.2 h = 12 min). Minuten als zweite Beschriftungszeile.
+  const cv = initCanvas('a0-cv', 300, false);
+  const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.05, 1.05, -25, 175);
+  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [h]', 'v [km/h]');
+  const ctx = cv.ctx;
+  a0St.gr = gr; a0St.W = cv.W; a0St.H = cv.H;
+  const X = function (tm) { return gr.cx(tm / 60); };  // Minuten -> Pixel
+
+  // Minuten-Zweitzeile unter den Stunden-Ticks
+  const axisY = gr.cy(0);
+  ctx.font = '10px JetBrains Mono,monospace';
+  ctx.fillStyle = '#9aa1ab';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let h = gr.stepX; h <= 1.0 + 1e-9; h += gr.stepX) {
+    const px = gr.cx(h);
+    if (px < 14 || px > cv.W - 40) continue;
+    ctx.fillText(String(Math.round(h * 60)), px, axisY + 18);
+  }
+  ctx.textAlign = 'right';
+  ctx.fillText('min', cv.W - 4, axisY + 18);
+  ctx.textBaseline = 'alphabetic';
+
+  // Intervall-Fläche unter v(t) zwischen t1 und t2 (= Δs)
+  ctx.fillStyle = 'rgba(138,74,14,0.15)';
+  ctx.beginPath();
+  ctx.moveTo(X(t1), gr.cy(0));
+  ctx.lineTo(X(t1), gr.cy(P1.v));
+  for (let i = 0; i < a0P.length; i++) {
+    if (a0P[i][0] > t1 && a0P[i][0] < t2) ctx.lineTo(X(a0P[i][0]), gr.cy(a0P[i][1]));
+  }
+  ctx.lineTo(X(t2), gr.cy(P2.v));
+  ctx.lineTo(X(t2), gr.cy(0));
+  ctx.closePath();
+  ctx.fill();
+
+  // v(t)-Kurve, segmentweise nach Phase eingefärbt
+  ctx.setLineDash([]);
+  ctx.lineWidth = 3;
+  for (let i = 1; i < a0P.length; i++) {
+    const slope = (a0P[i][1] - a0P[i-1][1]) / (a0P[i][0] - a0P[i-1][0]);
+    ctx.strokeStyle = a0Color(slope);
+    ctx.beginPath();
+    ctx.moveTo(X(a0P[i-1][0]), gr.cy(a0P[i-1][1]));
+    ctx.lineTo(X(a0P[i][0]),   gr.cy(a0P[i][1]));
+    ctx.stroke();
+  }
+
+  // Marker t1, t2 (gestrichelt, ziehbar) mit Beschriftung + Griff-Punkt
+  ctx.strokeStyle = '#8a4a0e';
+  ctx.lineWidth = 1.6;
+  ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(X(t1), gr.cy(0)); ctx.lineTo(X(t1), gr.cy(170)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(X(t2), gr.cy(0)); ctx.lineTo(X(t2), gr.cy(170)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#8a4a0e';
+  ctx.font = 'bold 12px JetBrains Mono,monospace';
+  // Marker-Labels mit weissem Halo (gegen Kollision mit Tick-Beschriftungen);
+  // nahe am Rand auf die Innenseite der Linie kippen
+  function a0Lbl(txt, x, alignRight) {
+    const w = ctx.measureText(txt).width;
+    const x0 = alignRight ? x - w : x;
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(x0 - 2, 9, w + 4, 14);
+    ctx.fillStyle = '#8a4a0e';
+    ctx.textAlign = alignRight ? 'right' : 'left';
+    ctx.fillText(txt, x, 20);
+  }
+  if (X(t1) - 4 < 18) a0Lbl('t₁', X(t1) + 4, false);
+  else                a0Lbl('t₁', X(t1) - 4, true);
+  if (X(t2) + 4 > cv.W - 18) a0Lbl('t₂', X(t2) - 4, true);
+  else                       a0Lbl('t₂', X(t2) + 4, false);
+  // kleine Griff-Punkte oben auf den Markerlinien
+  ctx.beginPath(); ctx.arc(X(t1), gr.cy(170), 4, 0, 2 * Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(X(t2), gr.cy(170), 4, 0, 2 * Math.PI); ctx.fill();
+
+  // Momentanpunkt auf der Kurve
+  drawDot(ctx, gr.cx, gr.cy, t / 60, P.v, '#8a4a0e', 6);
+}
+
+// ── Zieh-Interaktion direkt im Canvas ──
+const a0Cv = document.getElementById('a0-cv');
+function a0EvtT(evt) {  // Pointer-Position -> Zeit in Minuten (Raster 0.5)
+  const r = a0Cv.getBoundingClientRect();
+  const tm = ((evt.clientX - r.left) / a0St.W * 1.1 - 0.05) * 60;
+  return Math.round(tm * 2) / 2;
+}
+function a0Hit(evt) {  // welcher Griff liegt unter dem Pointer?
+  const r = a0Cv.getBoundingClientRect();
+  const xPx = evt.clientX - r.left, yPx = evt.clientY - r.top;
+  const gr = a0St.gr;
+  if (!gr) return null;
+  const dDot = Math.hypot(xPx - gr.cx(a0St.t / 60), yPx - gr.cy(a0At(a0St.t).v));
+  const d1 = Math.abs(xPx - gr.cx(a0St.t1 / 60));
+  const d2 = Math.abs(xPx - gr.cx(a0St.t2 / 60));
+  if (dDot < 18 && dDot <= Math.min(d1, d2)) return 't';
+  if (d1 < 12 && d1 <= d2) return 't1';
+  if (d2 < 12) return 't2';
+  return null;
+}
+function a0Apply(which, tm) {
+  if (which === 't')  a0St.t  = Math.min(60, Math.max(0, tm));
+  if (which === 't1') a0St.t1 = Math.min(a0St.t2 - 0.5, Math.max(0, tm));
+  if (which === 't2') a0St.t2 = Math.max(a0St.t1 + 0.5, Math.min(60, tm));
+}
+a0Cv.addEventListener('pointerdown', function (evt) {
+  const hit = a0Hit(evt) || 't';        // Klick neben den Griffen springt mit dem Punkt hin
+  a0St.drag = hit;
+  a0Cv.setPointerCapture(evt.pointerId);
+  a0Apply(hit, a0EvtT(evt));
+  drawA0();
+  evt.preventDefault();
+});
+a0Cv.addEventListener('pointermove', function (evt) {
+  if (a0St.drag) {
+    a0Apply(a0St.drag, a0EvtT(evt));
+    drawA0();
+  } else {
+    const hit = a0Hit(evt);
+    a0Cv.style.cursor = hit === 't' ? 'grab' : (hit ? 'ew-resize' : 'pointer');
+  }
+});
+function a0Release(evt) { a0St.drag = null; }
+a0Cv.addEventListener('pointerup', a0Release);
+a0Cv.addEventListener('pointercancel', a0Release);
+
+// ══════════════ HERLEITUNGS-GRAFIK (Trapez unter v-t) ══════════════
+function drawHerleitung() {
+  const cv = initCanvas('herl-cv', 220, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  const left = 46, bot = 34;
+  const X = function (tt) { return left + tt / 7 * (W - left - 30); };
+  const Y = function (vv) { return (H - bot) - vv / 13 * (H - bot - 26); };
+  const v0 = 4, T = 6, vT = 11;
+  // Trapez-Fläche
+  ctx.fillStyle = 'rgba(138,74,14,0.15)';
+  ctx.beginPath();
+  ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(0), Y(v0));
+  ctx.lineTo(X(T), Y(vT)); ctx.lineTo(X(T), Y(0));
+  ctx.closePath(); ctx.fill();
+  // Hilfslinie (gestrichelt): v(t)-Niveau
+  ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1.2; ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(X(0), Y(vT)); ctx.lineTo(X(T), Y(vT)); ctx.stroke();
+  ctx.setLineDash([]);
+  // Achsen
+  drawArrow(ctx, left, H - bot, W - 8, H - bot, '#374151', 1.5, 8);
+  drawArrow(ctx, left, H - bot, left, 8, '#374151', 1.5, 8);
+  // v(t)-Gerade
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 2.8;
+  ctx.beginPath(); ctx.moveTo(X(0), Y(v0)); ctx.lineTo(X(6.6), Y(v0 + 6.6 * (vT - v0) / T)); ctx.stroke();
+  // Beschriftungen
+  ctx.font = 'bold 12px JetBrains Mono,monospace';
+  ctx.fillStyle = '#374151';
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  ctx.fillText('v₀',   left - 6, Y(v0));
+  ctx.fillText('v(t)', left - 6, Y(vT));
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  ctx.fillText('t', X(T), H - bot + 6);
+  ctx.textBaseline = 'alphabetic';
+  ctx.textAlign = 'left';
+  ctx.fillText('v', left + 8, 14);
+  ctx.textAlign = 'right';
+  ctx.fillText('t', W - 4, H - bot - 8);
+  // Geraden-Label und Flächen-Label
+  ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'right';
+  ctx.fillText('v(t) = v₀ + a·t', X(5.7), Y(v0 + 5.7 * (vT - v0) / T) - 8);
+  ctx.fillStyle = '#8a4a0e'; ctx.textAlign = 'center';
+  ctx.fillText('Fläche = s − s₀', X(3.4), Y(1.8));
+}
+
+// ══════════════ ANIMATION 1 ══════════════
+function drawA1() {
+  const v  = +document.getElementById('a1-v').value;
+  const s0 = +document.getElementById('a1-s0').value;
+  document.getElementById('a1-v-val').textContent  = v + ' m/s';
+  document.getElementById('a1-s0-val').textContent = s0 + ' m';
+  document.getElementById('a1-eq').textContent =
+    's(t) = ' + fmt(s0) + ' ' + (v >= 0 ? '+ ' + fmt(v) : '− ' + fmt(Math.abs(v))) + '·t';
+
+  // s-t Diagramm — t in [0, 10], s passend skaliert
+  const tMax = 10;
+  const sEnd = s0 + v * tMax;
+  const sLo = Math.min(s0, sEnd, 0) - 10;
+  const sHi = Math.max(s0, sEnd, 0) + 10;
+  let cv1 = initCanvas('a1-cv-st', 280, false);
+  let g1 = drawGrid(cv1.ctx, cv1.W, cv1.H, -1, tMax + 1, sLo, sHi);
+  drawAxesUnits(cv1.ctx, cv1.W, cv1.H, g1.cx, g1.cy, 't [s]', 's [m]');
+  // Linie s(t) = s0 + v*t
+  cv1.ctx.strokeStyle = '#8a4a0e';
+  cv1.ctx.lineWidth = 2.8;
+  cv1.ctx.setLineDash([]);
+  cv1.ctx.beginPath();
+  cv1.ctx.moveTo(g1.cx(0),    g1.cy(s0));
+  cv1.ctx.lineTo(g1.cx(tMax), g1.cy(sEnd));
+  cv1.ctx.stroke();
+  // Markierter Punkt bei t=5
+  drawDot(cv1.ctx, g1.cx, g1.cy, 5, s0 + v * 5, '#8a4a0e', 5);
+
+  // v-t Diagramm — Linie horizontal bei v
+  const vLo = Math.min(v, 0) - 5;
+  const vHi = Math.max(v, 0) + 5;
+  let cv2 = initCanvas('a1-cv-vt', 280, false);
+  let g2 = drawGrid(cv2.ctx, cv2.W, cv2.H, -1, tMax + 1, vLo, vHi);
+  drawAxesUnits(cv2.ctx, cv2.W, cv2.H, g2.cx, g2.cy, 't [s]', 'v [m/s]');
+  cv2.ctx.strokeStyle = '#1f6b3a';
+  cv2.ctx.lineWidth = 2.8;
+  cv2.ctx.beginPath();
+  cv2.ctx.moveTo(g2.cx(0),    g2.cy(v));
+  cv2.ctx.lineTo(g2.cx(tMax), g2.cy(v));
+  cv2.ctx.stroke();
+  // Fläche unter v(t) — entspricht s, schraffiert leicht
+  if (v !== 0) {
+    cv2.ctx.fillStyle = 'rgba(31, 107, 58, 0.12)';
+    cv2.ctx.fillRect(g2.cx(0), g2.cy(v), g2.cx(tMax) - g2.cx(0), g2.cy(0) - g2.cy(v));
+  }
+}
+['a1-v','a1-s0'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
+
+// ══════════════ ANIMATION 2 ══════════════
+function drawA2() {
+  const a  = +document.getElementById('a2-a').value;
+  const v0 = +document.getElementById('a2-v0').value;
+  const t  = +document.getElementById('a2-t').value;
+  document.getElementById('a2-a-val').textContent  = a.toFixed(1) + ' m/s²';
+  document.getElementById('a2-v0-val').textContent = v0 + ' m/s';
+  document.getElementById('a2-t-val').textContent  = t.toFixed(1) + ' s';
+
+  const vAt = v0 + a * t;
+  const sAt = v0 * t + 0.5 * a * t * t;
+  document.getElementById('a2-live-a').textContent = a.toFixed(2) + ' m/s²';
+  document.getElementById('a2-live-v').textContent = vAt.toFixed(1) + ' m/s';
+  document.getElementById('a2-live-s').textContent = sAt.toFixed(1) + ' m';
+
+  const tMax = 10;
+  // a-t Diagramm
+  const aLo = Math.min(a, 0) - 1.5;
+  const aHi = Math.max(a, 0) + 1.5;
+  let cv1 = initCanvas('a2-cv-at', 200, false);
+  let g1 = drawGrid(cv1.ctx, cv1.W, cv1.H, -1, tMax + 1, aLo, aHi);
+  drawAxesUnits(cv1.ctx, cv1.W, cv1.H, g1.cx, g1.cy, 't [s]', 'a [m/s²]');
+  cv1.ctx.strokeStyle = '#5b2d8e'; cv1.ctx.lineWidth = 2.5;
+  cv1.ctx.beginPath();
+  cv1.ctx.moveTo(g1.cx(0), g1.cy(a)); cv1.ctx.lineTo(g1.cx(tMax), g1.cy(a)); cv1.ctx.stroke();
+  drawDot(cv1.ctx, g1.cx, g1.cy, t, a, '#5b2d8e', 5);
+
+  // v-t Diagramm
+  const vEnd = v0 + a * tMax;
+  const vLo = Math.min(v0, vEnd, 0) - 3;
+  const vHi = Math.max(v0, vEnd, 0) + 3;
+  let cv2 = initCanvas('a2-cv-vt', 200, false);
+  let g2 = drawGrid(cv2.ctx, cv2.W, cv2.H, -1, tMax + 1, vLo, vHi);
+  drawAxesUnits(cv2.ctx, cv2.W, cv2.H, g2.cx, g2.cy, 't [s]', 'v [m/s]');
+  cv2.ctx.strokeStyle = '#1f6b3a'; cv2.ctx.lineWidth = 2.5;
+  cv2.ctx.beginPath();
+  cv2.ctx.moveTo(g2.cx(0), g2.cy(v0)); cv2.ctx.lineTo(g2.cx(tMax), g2.cy(vEnd)); cv2.ctx.stroke();
+  drawDot(cv2.ctx, g2.cx, g2.cy, t, vAt, '#1f6b3a', 5);
+
+  // s-t Diagramm — Parabel
+  const sEnd = v0 * tMax + 0.5 * a * tMax * tMax;
+  // Falls a negativ und Scheitel innerhalb [0,tMax]: minimum/maximum berücksichtigen
+  let sLo = Math.min(0, sEnd), sHi = Math.max(0, sEnd);
+  if (a !== 0) {
+    const tStat = -v0 / a;  // Scheitel-Zeitpunkt der s-Parabel
+    if (tStat > 0 && tStat < tMax) {
+      const sStat = v0 * tStat + 0.5 * a * tStat * tStat;
+      sLo = Math.min(sLo, sStat); sHi = Math.max(sHi, sStat);
+    }
+  }
+  sLo -= 5; sHi += 5;
+  let cv3 = initCanvas('a2-cv-st', 200, false);
+  let g3 = drawGrid(cv3.ctx, cv3.W, cv3.H, -1, tMax + 1, sLo, sHi);
+  drawAxesUnits(cv3.ctx, cv3.W, cv3.H, g3.cx, g3.cy, 't [s]', 's [m]');
+  cv3.ctx.strokeStyle = '#8a4a0e'; cv3.ctx.lineWidth = 2.5;
+  cv3.ctx.beginPath();
+  for (let i = 0; i <= 60; i++) {
+    const tt = i * tMax / 60;
+    const ss = v0 * tt + 0.5 * a * tt * tt;
+    if (i === 0) cv3.ctx.moveTo(g3.cx(tt), g3.cy(ss));
+    else         cv3.ctx.lineTo(g3.cx(tt), g3.cy(ss));
+  }
+  cv3.ctx.stroke();
+  drawDot(cv3.ctx, g3.cx, g3.cy, t, sAt, '#8a4a0e', 5);
+}
+['a2-a','a2-v0','a2-t'].forEach(id => document.getElementById(id).addEventListener('input', drawA2));
+
+// ══════════════ ANIMATION 3 — Freier Fall ══════════════
+const a3State = { t: 0, running: false, lastTs: 0, rafId: null };
+const a3H0 = 20;  // Fallhöhe in m
+
+function a3Render() {
+  const t = a3State.t;
+  const v = g * t;
+  const s = 0.5 * g * t * t;
+  const yPos = Math.min(s, a3H0);
+  document.getElementById('a3-t').textContent = t.toFixed(2) + ' s';
+  document.getElementById('a3-v').textContent = v.toFixed(1) + ' m/s';
+  document.getElementById('a3-s').textContent = yPos.toFixed(2) + ' m';
+
+  const cv = initCanvas('a3-cv', 320, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+
+  // Hintergrund: Baum links, Boden unten
+  // Boden
+  ctx.fillStyle = '#86a85e';
+  ctx.fillRect(0, H - 24, W, 24);
+  ctx.strokeStyle = '#476024'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(0, H - 24); ctx.lineTo(W, H - 24); ctx.stroke();
+
+  // Massstab links
+  const topMargin = 30, botMargin = 24;
+  const skala_y = y_m => topMargin + (a3H0 - y_m) / a3H0 * (H - topMargin - botMargin);
+  ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(40, topMargin); ctx.lineTo(40, H - botMargin); ctx.stroke();
+  ctx.font = '11px JetBrains Mono,monospace'; ctx.fillStyle = '#5a5040';
+  ctx.textAlign = 'right';
+  for (let h = 0; h <= a3H0; h += 5) {
+    const py = skala_y(h);
+    ctx.beginPath(); ctx.moveTo(35, py); ctx.lineTo(45, py); ctx.stroke();
+    ctx.fillText(h + ' m', 32, py + 4);
+  }
+
+  // Apfel-Position
+  const apfelX = W / 2 + 30;
+  const apfelY = skala_y(a3H0 - yPos);  // start oben (a3H0), Boden bei 0
+
+  // Baum: Stamm
+  ctx.fillStyle = '#6a4a2a';
+  ctx.fillRect(W / 2 - 6, skala_y(a3H0) - 5, 12, H - botMargin - (skala_y(a3H0) - 5));
+  // Krone
+  ctx.fillStyle = '#3a7a3a';
+  ctx.beginPath();
+  ctx.arc(W / 2, skala_y(a3H0) - 5, 38, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1f5520'; ctx.lineWidth = 1.5; ctx.stroke();
+
+  // Apfel
+  ctx.fillStyle = '#c8331e';
+  ctx.beginPath(); ctx.arc(apfelX, apfelY, 8, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#7a1a10'; ctx.lineWidth = 1.5; ctx.stroke();
+  // Stiel
+  ctx.strokeStyle = '#3a2818'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(apfelX, apfelY - 8); ctx.lineTo(apfelX + 2, apfelY - 13); ctx.stroke();
+
+  // Geschwindigkeitspfeil falls in Bewegung
+  if (a3State.running || t > 0) {
+    drawArrow(ctx, apfelX, apfelY + 10, apfelX, apfelY + 10 + Math.min(60, v * 1.4), '#1f6b3a', 2.5, 9);
+    ctx.fillStyle = '#1f6b3a';
+    ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+    ctx.fillText('v', apfelX + 6, apfelY + 30);
+  }
+}
+
+function a3Tick(ts) {
+  if (!a3State.running) return;
+  if (!a3State.lastTs) a3State.lastTs = ts;
+  const dt = (ts - a3State.lastTs) / 1000;
+  a3State.lastTs = ts;
+  a3State.t += dt;
+  const sNow = 0.5 * g * a3State.t * a3State.t;
+  if (sNow >= a3H0) {
+    a3State.t = Math.sqrt(2 * a3H0 / g);  // exakt am Boden
+    a3State.running = false;
+    document.getElementById('a3-btn').textContent = '▶ Start';
+    document.getElementById('a3-btn').classList.remove('paused');
+  }
+  a3Render();
+  if (a3State.running) a3State.rafId = requestAnimationFrame(a3Tick);
+}
+
+document.getElementById('a3-btn').addEventListener('click', () => {
+  const btn = document.getElementById('a3-btn');
+  if (a3State.running) {
+    a3State.running = false;
+    btn.textContent = '▶ Weiter';
+    btn.classList.remove('paused');
+  } else {
+    // Falls am Boden, zurücksetzen
+    if (0.5 * g * a3State.t * a3State.t >= a3H0) { a3State.t = 0; }
+    a3State.running = true;
+    a3State.lastTs = 0;
+    btn.textContent = '⏸ Pause';
+    btn.classList.add('paused');
+    a3State.rafId = requestAnimationFrame(a3Tick);
+  }
+});
+document.getElementById('a3-reset').addEventListener('click', () => {
+  a3State.running = false;
+  a3State.t = 0;
+  document.getElementById('a3-btn').textContent = '▶ Start';
+  document.getElementById('a3-btn').classList.remove('paused');
+  a3Render();
+});
+
+// ══════════════ ANIMATION 4 — Schiefer Wurf ══════════════
+function drawA4() {
+  const v0    = +document.getElementById('a4-v0').value;
+  const alpha = +document.getElementById('a4-alpha').value;
+  const alphaRad = alpha * Math.PI / 180;
+  document.getElementById('a4-v0-val').textContent    = v0 + ' m/s';
+  document.getElementById('a4-alpha-val').textContent = alpha + '°';
+
+  const vx = v0 * Math.cos(alphaRad);
+  const vy = v0 * Math.sin(alphaRad);
+  const tF = 2 * vy / g;
+  const sx = vx * tF;
+  const hMax = vy * vy / (2 * g);
+
+  document.getElementById('a4-w').textContent  = sx.toFixed(1) + ' m';
+  document.getElementById('a4-h').textContent  = hMax.toFixed(1) + ' m';
+  document.getElementById('a4-tF').textContent = tF.toFixed(2) + ' s';
+
+  // Canvas-Skala: Worst Case v0=30, alpha=45 → sₓ ≈ 91.7 m, h ≈ 22.9 m
+  const xMax = 100, yMax = 30;
+  const cv = initCanvas('a4-cv', 320, false);
+  const grid = drawGrid(cv.ctx, cv.W, cv.H, -5, xMax, -3, yMax);
+  drawAxesUnits(cv.ctx, cv.W, cv.H, grid.cx, grid.cy, 'x [m]', 'y [m]');
+
+  // Bahnkurve zeichnen
+  cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8;
+  cv.ctx.beginPath();
+  const steps = 100;
+  for (let i = 0; i <= steps; i++) {
+    const t = tF * i / steps;
+    const x = vx * t;
+    const y = vy * t - 0.5 * g * t * t;
+    if (i === 0) cv.ctx.moveTo(grid.cx(x), grid.cy(y));
+    else         cv.ctx.lineTo(grid.cx(x), grid.cy(y));
+  }
+  cv.ctx.stroke();
+
+  // Startpunkt
+  drawDot(cv.ctx, grid.cx, grid.cy, 0, 0, '#1c1a17', 5);
+  // Höchster Punkt
+  drawDot(cv.ctx, grid.cx, grid.cy, sx / 2, hMax, '#9b1c1c', 5);
+  // Landepunkt
+  drawDot(cv.ctx, grid.cx, grid.cy, sx, 0, '#1f6b3a', 5);
+
+  // Geschwindigkeits-Vektor am Start: Komponenten zeigen
+  drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, vx * 0.3, 0, '#5b2d8e', 'vₓ', 2);
+  drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, 0, vy * 0.3, '#5b2d8e', 'vᵧ', 2);
+  drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, vx * 0.3, vy * 0.3, '#1a4f8a', 'v₀', 2.4);
+
+  // Labels für Wurfweite & Höhe
+  cv.ctx.fillStyle = '#1f6b3a';
+  cv.ctx.font = 'bold 12px JetBrains Mono,monospace';
+  const sxLabel = 'sₓ = ' + sx.toFixed(1) + ' m';
+  cv.ctx.textAlign = 'left';
+  let sxLx = grid.cx(sx) + 10;
+  if (sxLx + cv.ctx.measureText(sxLabel).width > cv.W - 6) { cv.ctx.textAlign = 'right'; sxLx = grid.cx(sx) - 10; }
+  cv.ctx.fillText(sxLabel, sxLx, grid.cy(0) - 8);
+  cv.ctx.fillStyle = '#9b1c1c';
+  cv.ctx.textAlign = 'left';
+  cv.ctx.fillText('h = ' + hMax.toFixed(1) + ' m', grid.cx(sx / 2) + 6, grid.cy(hMax) - 6);
+}
+['a4-v0','a4-alpha'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+
+// ══════════════ ANIMATION 5 — Gleichförmige Kreisbewegung ══════════════
+const a5State = { phi: 0, lastTs: 0, rafId: null };
+function a5Tick(ts) {
+  if (!a5State.lastTs) a5State.lastTs = ts;
+  const dt = (ts - a5State.lastTs) / 1000;
+  a5State.lastTs = ts;
+  const omega = +document.getElementById('a5-omega').value;
+  a5State.phi += omega * dt;
+  if (a5State.phi > 2 * Math.PI) a5State.phi -= 2 * Math.PI;
+  drawA5();
+  a5State.rafId = requestAnimationFrame(a5Tick);
+}
+function drawA5() {
+  const r     = +document.getElementById('a5-r').value;
+  const omega = +document.getElementById('a5-omega').value;
+  document.getElementById('a5-r-val').textContent     = r.toFixed(1) + ' m';
+  document.getElementById('a5-omega-val').textContent = omega.toFixed(1) + ' rad/s';
+
+  const v  = omega * r;
+  const az = omega * omega * r;
+  const T  = 2 * Math.PI / omega;
+  const f  = 1 / T;
+  document.getElementById('a5-v').textContent  = v.toFixed(2) + ' m/s';
+  document.getElementById('a5-az').textContent = az.toFixed(2) + ' m/s²';
+  document.getElementById('a5-T').textContent  = T.toFixed(2) + ' s';
+  document.getElementById('a5-f').textContent  = f.toFixed(2) + ' Hz';
+
+  // Quadratisches Canvas — Koordinaten von -4 bis 4 in beiden Richtungen
+  const cv = initCanvas('a5-cv', 340, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const cxC = W / 2, cyC = H / 2;
+  const scale = Math.min(W, H) / 8;  // 1 m = scale px
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+
+  // Gitter
+  ctx.strokeStyle = '#eff1f5'; ctx.lineWidth = 1;
+  for (let i = -4; i <= 4; i++) {
+    ctx.beginPath(); ctx.moveTo(cxC + i * scale, 0); ctx.lineTo(cxC + i * scale, H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, cyC + i * scale); ctx.lineTo(W, cyC + i * scale); ctx.stroke();
+  }
+  // Achsen
+  ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(0, cyC); ctx.lineTo(W, cyC); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cxC, 0); ctx.lineTo(cxC, H); ctx.stroke();
+
+  // Kreisbahn
+  ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1.4; ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.arc(cxC, cyC, r * scale, 0, 2 * Math.PI); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Punkt auf der Bahn
+  const phi = a5State.phi;
+  const px = cxC + r * scale * Math.cos(phi);
+  const py = cyC - r * scale * Math.sin(phi);
+
+  // Radius
+  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(cxC, cyC); ctx.lineTo(px, py); ctx.stroke();
+  ctx.fillStyle = '#5b2d8e';
+  ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('r', (cxC + px) / 2 + 10, (cyC + py) / 2 - 5);
+
+  // Geschwindigkeits-Vektor (tangential)
+  const tx = -Math.sin(phi), ty = -Math.cos(phi);
+  const vLen = 50 + v * 8;
+  drawArrow(ctx, px, py, px + tx * vLen, py + ty * vLen, '#1f6b3a', 2.8, 11);
+  ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'center';
+  ctx.fillText('v', px + tx * vLen * 1.1, py + ty * vLen * 1.1 - 4);
+
+  // Zentripetal-Beschleunigung (zur Mitte)
+  const aLen = 30 + az * 4;
+  drawArrow(ctx, px, py, px - (px - cxC) / (r * scale) * aLen, py - (py - cyC) / (r * scale) * aLen, '#9b1c1c', 2.5, 10);
+  ctx.fillStyle = '#9b1c1c';
+  ctx.fillText('a_z', px - (px - cxC) / (r * scale) * aLen - 14, py - (py - cyC) / (r * scale) * aLen);
+
+  // Mittelpunkt
+  ctx.fillStyle = '#1c1a17';
+  ctx.beginPath(); ctx.arc(cxC, cyC, 4, 0, 2 * Math.PI); ctx.fill();
+
+  // Punkt
+  ctx.fillStyle = '#8a4a0e';
+  ctx.beginPath(); ctx.arc(px, py, 7, 0, 2 * Math.PI); ctx.fill();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+}
+['a5-r','a5-omega'].forEach(id => document.getElementById(id).addEventListener('input', drawA5));
+
+// ══════════════ ANIMATION 6 — Schwimmer im Fluss ══════════════
+function drawA6() {
+  const vs    = +document.getElementById('a6-vs').value;
+  const beta  = +document.getElementById('a6-beta').value;
+  const vf    = +document.getElementById('a6-vf').value;
+  const betaRad = beta * Math.PI / 180;
+  document.getElementById('a6-vs-val').textContent   = vs.toFixed(1) + ' m/s';
+  document.getElementById('a6-beta-val').textContent = beta + '°';
+  document.getElementById('a6-vf-val').textContent   = vf.toFixed(1) + ' m/s';
+
+  // Schwimmer-Vektor: Winkel beta vom positiven x (Fluss-Richtung)
+  const vSx = vs * Math.cos(betaRad);
+  const vSy = vs * Math.sin(betaRad);
+  // Fluss-Vektor: nach rechts
+  const vFx = vf, vFy = 0;
+  // Resultierende
+  const vRx = vSx + vFx, vRy = vSy + vFy;
+  const vR = Math.hypot(vRx, vRy);
+  const gamma = Math.atan2(vRx, vRy) * 180 / Math.PI;  // Drift gegenüber Senkrechte (Fluss-Querung-Idealkurs)
+
+  document.getElementById('a6-vu').textContent    = vR.toFixed(2) + ' m/s';
+  document.getElementById('a6-gamma').textContent = (vSy > 0 ? gamma : 0).toFixed(1) + '°';
+
+  const cv = initCanvas('a6-cv', 280, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+
+  // Hintergrund: Flussbett
+  ctx.fillStyle = '#c0d8e8';
+  ctx.fillRect(0, 0, W, H);
+  // Ufer-Linien oben und unten
+  ctx.strokeStyle = '#86a85e'; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(0, 8); ctx.lineTo(W, 8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, H - 8); ctx.lineTo(W, H - 8); ctx.stroke();
+  // Strömungspfeile (kleine, im Hintergrund)
+  ctx.strokeStyle = 'rgba(60,100,140,0.5)'; ctx.lineWidth = 1.5;
+  for (let x = 20; x < W - 30; x += 60) {
+    for (let y = 30; y < H - 30; y += 50) {
+      drawArrow(ctx, x, y, x + 18, y, 'rgba(60,100,140,0.45)', 1.2, 5);
+    }
+  }
+
+  // Vektoren im Bild — Ursprung mittig unten
+  const ox = 70, oy = H - 40;
+  const scale = 50;
+
+  // Vektor vS (Schwimmer)
+  drawArrow(ctx, ox, oy, ox + vSx * scale, oy - vSy * scale, '#1f6b3a', 2.8, 10);
+  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('vₛ', ox + vSx * scale / 2 + 8, oy - vSy * scale / 2);
+
+  // Vektor vF (Fluss) — vom Endpunkt von vS aus
+  drawArrow(ctx, ox + vSx * scale, oy - vSy * scale, ox + vSx * scale + vFx * scale, oy - vSy * scale - vFy * scale, '#5b2d8e', 2.8, 10);
+  ctx.fillStyle = '#5b2d8e';
+  ctx.fillText('v_F', ox + vSx * scale + vFx * scale / 2, oy - vSy * scale - 6);
+
+  // Resultierende vR (vom Ursprung zum Endpunkt von vF)
+  drawArrow(ctx, ox, oy, ox + vRx * scale, oy - vRy * scale, '#9b1c1c', 3, 11);
+  ctx.fillStyle = '#9b1c1c'; ctx.textAlign = 'left';
+  ctx.fillText('v_Ufer', ox + vRx * scale * 0.5 + 6, oy - vRy * scale * 0.5 - 6);
+
+  // Ursprung
+  ctx.fillStyle = '#1c1a17';
+  ctx.beginPath(); ctx.arc(ox, oy, 4, 0, 2 * Math.PI); ctx.fill();
+}
+['a6-vs','a6-beta','a6-vf'].forEach(id => document.getElementById(id).addEventListener('input', drawA6));
+
+// ══════════════ INIT + RESIZE ══════════════
+function renderAll() {
+  drawA0(); drawHerleitung(); drawA1(); drawA2(); a3Render(); drawA4(); drawA5(); drawA6();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  renderAll();
+  // Kreisbewegung-RAF starten
+  a5State.rafId = requestAnimationFrame(a5Tick);
+});
+window.addEventListener('resize', renderAll);
+</script>
+</body>
+</html>

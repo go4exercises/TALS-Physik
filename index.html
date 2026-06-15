@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TALS Physik — RLP-BM 2030</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ── Index-spezifisch ── */
+  .hero { background: var(--weiss); border-bottom: 1px solid var(--linie); padding: 50px 40px 42px; text-align: center; }
+  .hero-ew { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--bernstein); margin-bottom: 14px; }
+  .hero-ew::before, .hero-ew::after { content:''; display:block; width:22px; height:1.5px; background:var(--bernstein-rand); }
+  .hero h1 { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.15; margin-bottom: 12px; }
+  .hero h1 span { color: var(--bernstein); }
+  .hero-sub { font-size: 0.92rem; color: var(--tinte-2); font-weight: 300; max-width: 540px; margin: 0 auto 24px; line-height: 1.65; }
+  .chips { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+  .chip { font-size: 0.7rem; font-family: var(--mono); padding: 3px 11px; border-radius: 20px; border: 1px solid; white-space: nowrap; }
+  .c-be { background: var(--bernstein-hell); color: var(--bernstein); border-color: var(--bernstein-rand); }
+  .c-gr { background: var(--papier-2); color: var(--tinte-2); border-color: var(--linie); }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 32px 22px 80px; }
+
+  .stats { display: flex; gap: 16px; flex-wrap: wrap; padding: 12px 18px; background: var(--weiss); border: 1px solid var(--linie); border-radius: 10px; box-shadow: var(--s); margin-bottom: 0; align-items: center; }
+  .st { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; color: var(--tinte-2); }
+  .st-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .st-n { font-family: var(--mono); font-weight: 700; font-size: 0.86rem; color: var(--tinte); }
+  .st-hint { margin-left: auto; font-size: 0.72rem; font-style: italic; color: var(--tinte-2); }
+
+  .bereich { margin-top: 40px; padding: 17px 20px 15px; border-radius: 10px 10px 0 0; border-bottom: none;
+             background: var(--bernstein-hell); border: 1.5px solid var(--bernstein-rand); border-bottom: none; }
+  .bh { display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+  .b-badge { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+             padding: 2px 8px; border-radius: 4px; background: var(--bernstein); color: #fff; }
+  .b-titel { font-family: var(--serif); font-size: 1.18rem; font-weight: 700; color: var(--bernstein); }
+  .b-desc { margin-top: 6px; font-size: 0.78rem; color: var(--tinte-2); font-weight: 300; }
+
+  .kap { border: 1.5px solid var(--bernstein-rand); border-top: none; overflow: hidden; }
+  .kap:last-of-type { border-radius: 0 0 10px 10px; }
+
+  .kap-hdr { display: flex; align-items: center; gap: 11px; padding: 12px 18px; background: var(--weiss); border-bottom: 1px solid var(--linie); cursor: pointer; user-select: none; transition: background 0.15s; }
+  .kap-hdr:hover, .kap-hdr.offen { background: var(--papier); }
+  .k-nr { font-family: var(--mono); font-size: 0.66rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; white-space: nowrap;
+          background: var(--bernstein-hell); color: var(--bernstein); }
+  .k-name { font-family: var(--serif); font-size: 0.96rem; font-weight: 600; color: var(--tinte); }
+  .k-lek { margin-left: auto; font-family: var(--mono); font-size: 0.62rem; color: var(--tinte-2); white-space: nowrap; }
+  .k-tog { color: var(--tinte-2); font-size: 0.72rem; transition: transform 0.2s; flex-shrink: 0; }
+  .kap-hdr.offen .k-tog { transform: rotate(180deg); }
+
+  .tc { background: var(--papier); display: none; padding: 14px; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .tc.vis { display: grid; }
+
+  .karte { background: var(--weiss); border: 1px solid var(--linie); border-radius: 8px; padding: 12px 14px 12px 17px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 6px; box-shadow: var(--s); position: relative; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+  .karte::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; }
+  .karte.fertig::before { background: var(--gruen); }
+  .karte.geplant::before { background: transparent; }
+  .karte:hover { transform: translateY(-2px); box-shadow: var(--sl); border-color: var(--bernstein-rand); }
+  .k-id  { font-family: var(--mono); font-size: 0.62rem; color: var(--bernstein); font-weight: 700; }
+  .karte .k-tit { font-family: var(--serif); font-size: 0.93rem; font-weight: 600; color: var(--tinte); line-height: 1.25; }
+
+  /* Design-System-Legende */
+  .ds { margin-top: 50px; padding: 14px 18px; background: var(--weiss); border: 1px solid var(--linie); border-radius: 10px; box-shadow: var(--s); }
+  .ds-t { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--tinte-2); margin-bottom: 11px; padding-bottom: 8px; border-bottom: 1px solid var(--linie); display: flex; gap: 9px; align-items: baseline; }
+  .ds-t span { font-family: var(--mono); font-size: 0.6rem; background: var(--papier-2); color: var(--tinte-2); padding: 2px 7px; border-radius: 4px; }
+  .ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; }
+  .ds-i { display: flex; align-items: center; gap: 9px; font-size: 0.78rem; padding: 8px 10px; border-radius: 7px; border-left: 4px solid; }
+  .ds-i.def    { background: var(--blau-hell);   border-color: var(--blau); }
+  .ds-i.bsp    { background: var(--gruen-hell);  border-color: var(--gruen); }
+  .ds-i.aufg   { background: var(--orange-hell); border-color: var(--orange); }
+  .ds-i.fehler { background: var(--rot-hell);    border-color: var(--rot); }
+  .ds-i.beweis { background: var(--lila-hell);   border-color: var(--lila); }
+  .ds-i.exp    { background: var(--bernstein-hell); border-color: var(--bernstein); }
+  .ds-ik { font-size: 1rem; }
+  .ds-lb { font-weight: 700; font-size: 0.72rem; color: var(--tinte); }
+  .ds-wn { font-size: 0.67rem; color: var(--tinte-2); font-style: italic; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 28px 16px 24px; } .page { padding: 18px 12px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="hero">
+  <div class="hero-ew">Berufsmaturität Technik, Architektur, Life Sciences</div>
+  <h1>Physik<br><span>1:1 nach BM RLP 2030</span></h1>
+  <div class="chips">
+    <span class="chip c-be">10 Teilgebiete · 160 Lektionen</span>
+    <a href="https://www.sbfi.admin.ch/dam/de/sd-web/xCh9wCCwVgrh/formulaire_final_d.pdf"
+       target="_blank" rel="noopener" class="chip c-gr" style="text-decoration:none">📄 Formelsammlung SBFI</a>
+    <a href="https://go4exercises.github.io/TALS-Mathe/"
+       target="_blank" rel="noopener" class="chip c-gr" style="text-decoration:none">↗ TALS Mathematik</a>
+  </div>
+</div>
+
+<main class="page">
+
+  <div class="stats">
+    <div class="st"><div class="st-dot" style="background:var(--gruen)"></div><span class="st-n">10</span><span>fertig</span></div>
+    <div class="st"><div class="st-dot" style="background:var(--orange)"></div><span class="st-n">0</span><span>in Arbeit</span></div>
+    <div class="st"><div class="st-dot" style="background:var(--linie)"></div><span class="st-n">0</span><span>geplant</span></div>
+    <span class="st-hint">10 RLP-Teilgebiete · ▼ Lerngebiet anklicken zum Aufklappen</span>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       BEREICH: Physik · RLP 7.5.4.1 Gruppe 1 · 160 Lektionen
+  ══════════════════════════════════════════ -->
+  <div class="bereich" id="ph">
+    <div class="bh">
+      <span class="b-badge">Physik</span>
+      <span class="b-titel">Physik nach RLP-BM 2030</span>
+    </div>
+    <div class="b-desc">FH-Fachbereich: Technik, Architektur, Life Sciences. 3 Lerngebiete, 10 Teilgebiete, 160 Lektionen.</div>
+  </div>
+
+  <!-- P4: Mechanik · 100L -->
+  <div class="kap">
+    <div class="kap-hdr offen" onclick="tog('p4')">
+      <span class="k-nr">4</span>
+      <span class="k-name">Mechanik</span>
+      <span class="k-lek">100 Lektionen · 5 Teilgebiete</span>
+      <span class="k-tog" id="tg-p4">▼</span>
+    </div>
+    <div class="tc vis" id="tc-p4">
+
+      <a href="themen/p4-1-kinematik.html" class="karte fertig">
+        <span class="k-id">4.1</span>
+        <span class="k-tit">Kinematik des Schwerpunkts</span>
+      </a>
+
+      <a href="themen/p4-2-dynamik.html" class="karte fertig">
+        <span class="k-id">4.2</span>
+        <span class="k-tit">Dynamik</span>
+      </a>
+
+      <a href="themen/p4-3-energie.html" class="karte fertig">
+        <span class="k-id">4.3</span>
+        <span class="k-tit">Energie</span>
+      </a>
+
+      <a href="themen/p4-4-statik.html" class="karte fertig">
+        <span class="k-id">4.4</span>
+        <span class="k-tit">Statik von Festkörpern</span>
+      </a>
+
+      <a href="themen/p4-5-hydrostatik.html" class="karte fertig">
+        <span class="k-id">4.5</span>
+        <span class="k-tit">Hydrostatik</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- P5: Thermodynamik · 30L -->
+  <div class="kap">
+    <div class="kap-hdr" onclick="tog('p5')">
+      <span class="k-nr">5</span>
+      <span class="k-name">Thermodynamik</span>
+      <span class="k-lek">30 Lektionen · 3 Teilgebiete</span>
+      <span class="k-tog" id="tg-p5">▼</span>
+    </div>
+    <div class="tc" id="tc-p5">
+
+      <a href="themen/p5-1-temperatur.html" class="karte fertig">
+        <span class="k-id">5.1</span>
+        <span class="k-tit">Temperatur</span>
+      </a>
+
+      <a href="themen/p5-2-waerme.html" class="karte fertig">
+        <span class="k-id">5.2</span>
+        <span class="k-tit">Wärme</span>
+      </a>
+
+      <a href="themen/p5-3-waermeausdehnung.html" class="karte fertig">
+        <span class="k-id">5.3</span>
+        <span class="k-tit">Wärmeausdehnung</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- P6: Einführung in andere Bereiche · 30L -->
+  <div class="kap">
+    <div class="kap-hdr" onclick="tog('p6')">
+      <span class="k-nr">6</span>
+      <span class="k-name">Einführung in andere Bereiche der Physik</span>
+      <span class="k-lek">30 Lektionen · 2 Teilgebiete</span>
+      <span class="k-tog" id="tg-p6">▼</span>
+    </div>
+    <div class="tc" id="tc-p6">
+
+      <a href="themen/p6-1-wellen.html" class="karte fertig">
+        <span class="k-id">6.1</span>
+        <span class="k-tit">Wellen</span>
+      </a>
+
+      <a href="themen/p6-2-elektrizitaet.html" class="karte fertig">
+        <span class="k-id">6.2</span>
+        <span class="k-tit">Elektrizität</span>
+      </a>
+
+    </div>
+  </div>
+
+
+  <!-- ── DESIGN-SYSTEM LEGENDE ── -->
+  <div class="ds">
+    <div class="ds-t">Farbcode — auf jeder Seite gleich <span>konsistent für alle Themen</span></div>
+    <div class="ds-grid">
+      <div class="ds-i def">   <span class="ds-ik">📘</span><div><div class="ds-lb">Definition</div><div class="ds-wn">Begriff, Merkkasten</div></div></div>
+      <div class="ds-i bsp">   <span class="ds-ik">🟢</span><div><div class="ds-lb">Beispiel</div><div class="ds-wn">Rechenweg, Lösung</div></div></div>
+      <div class="ds-i aufg">  <span class="ds-ik">🟠</span><div><div class="ds-lb">Aufgabe</div><div class="ds-wn">Übung, Prüfungsaufgabe</div></div></div>
+      <div class="ds-i fehler"><span class="ds-ik">⚠</span> <div><div class="ds-lb">Häufiger Fehler</div><div class="ds-wn">Achtung, Warnung</div></div></div>
+      <div class="ds-i beweis"><span class="ds-ik">🔷</span><div><div class="ds-lb">Beweis / Herleitung</div><div class="ds-wn">Rechnerische Begründung</div></div></div>
+      <div class="ds-i exp">   <span class="ds-ik">🧪</span><div><div class="ds-lb">Experiment</div><div class="ds-wn">Versuch, Phänomen</div></div></div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p><a href="https://github.com/go4exercises/TALS-Physik" target="_blank" rel="noopener">GitHub Pages</a></p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="nav.js"></script>
+<script>
+  buildNav({ homepage:true });
+
+  function tog(id) {
+    const tc  = document.getElementById('tc-' + id);
+    const tg  = document.getElementById('tg-' + id);
+    const hdr = tg.closest('.kap-hdr');
+    const open = tc.classList.toggle('vis');
+    hdr.classList.toggle('offen', open);
+  }
+</script>
+</body>
+</html>

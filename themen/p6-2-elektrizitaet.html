@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6.2 Elektrizität — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* Seitenspezifisch */
+.stoff-wahl { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+.stoff-wahl button { font-family:var(--sans); font-size:0.78rem; font-weight:600; background:var(--papier-2);
+  color:var(--tinte); border:1px solid var(--linie); padding:5px 11px; border-radius:6px; cursor:pointer; }
+.stoff-wahl button.aktiv { background:var(--bernstein); color:#fff; border-color:var(--bernstein); }
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 6 Einführung in andere Bereiche der Physik</div>
+  <h1 class="pt-h1">6.2 Elektrizität</h1>
+  <p class="pt-untertitel">Von der elektrischen Ladung über Strom, Spannung und Widerstand bis zu Reihen- und Parallelschaltungen, Leistung und den Gefahren des elektrischen Stroms.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 6.2 · 30 Lektionen (Lerngebiet 6)</div>
+  <ul>
+    <li>die Beschaffenheit elektrischer Ladungen beschreiben (Ursprung, Einheit, Elementarladung)</li>
+    <li>die wichtigsten physikalischen Grössen definieren und charakterisieren (Ladung, Spannung, Stromstärke, Energie, Leistung)</li>
+    <li>den Widerstand eines Leiters berechnen</li>
+    <li>Berechnungen in einfachen seriellen oder parallelen Schaltkreisen von Widerständen durchführen</li>
+    <li>die wesentlichen Gefahren der Elektrizität samt entsprechender Schutzmassnahmen aufzeigen</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann die Beschaffenheit elektrischer Ladung beschreiben (Ursprung, Einheit, Elementarladung).</li>
+      <li>Ich kann Ladung, Spannung, Stromstärke, Energie und Leistung definieren.</li>
+      <li>Ich kann den Widerstand eines Leiters mit \(R=\rho l/A\) berechnen.</li>
+      <li>Ich kann Berechnungen in einfachen Reihen- und Parallelschaltungen durchführen.</li>
+      <li>Ich kann die Gefahren des elektrischen Stroms und passende Schutzmassnahmen nennen.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — was fliesst im Stromkreis?</h2>
+
+<p>Drückt man den Schalter einer Taschenlampe, leuchtet sie sofort. Im Draht bewegen sich dabei <strong>Elektronen</strong>: Solange die Batterie eine Spannung aufrechterhält und der Stromkreis geschlossen ist, fliesst ein elektrischer Strom. Je grösser die Spannung, desto mehr Elektronen pro Sekunde — und desto heller die Lampe.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Beobachte</div>
+  <p>Die Animation zeigt einen einfachen Stromkreis. Erhöhe die Spannung und beobachte, wie sich die Elektronen schneller bewegen und die Lampe heller leuchtet. Bei \(U=0\) fliesst kein Strom.</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>🔋 Einstieg-Animation · Einfacher Stromkreis</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Schliesse den Schalter und beobachte die Lampe.</li><li>Verfolge die Bewegung der Elektronen im Leiter.</li><li>Achte auf die Richtung: vom Minus- zum Pluspol.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Schliesse den Schalter und beobachte, wie die Lampe leuchtet. Verfolge die Bewegung der Elektronen im Leiter. Achte auf die Richtung: die Elektronen fliessen vom Minuspol zum Pluspol." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Strom ist bewegte Ladung; er fliesst nur im geschlossenen Kreis.</li><li>Die Elektronen wandern vom Minus- zum Pluspol.</li><li>Die technische Stromrichtung ist umgekehrt definiert (Plus nach Minus).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Strom ist bewegte Ladung und fliesst nur in einem geschlossenen Stromkreis. Die Elektronen wandern vom Minuspol zum Pluspol. Die technische Stromrichtung ist historisch umgekehrt definiert, von Plus nach Minus." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Spannung \(U\):</label>
+      <input type="range" id="ein-U" min="0" max="12" value="6" step="0.5">
+      <span class="sl-val" id="ein-U-val">6.0 V</span>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="ein-btn">▶ Start</button>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⚡ Geschlossener Stromkreis mit fliessenden Elektronen</div>
+      <canvas id="ein-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<p>Wir definieren zuerst die Grundgrössen Ladung, Strom und Spannung, lernen dann den Widerstand kennen (auch den eines Leiters aus Material und Geometrie), berechnen Reihen- und Parallelschaltungen sowie Leistung und Energie — und schliessen mit den Gefahren des elektrischen Stroms.</p>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Was bewegt sich in einem metallischen Leiter beim Stromfluss?</p><ul class="mc-optionen"><li data-opt="A">Protonen</li><li data-opt="B">freie Elektronen</li><li data-opt="C">ganze Atome</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Im Metall tragen die frei beweglichen Elektronen den Strom.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die elektrische Stromstärke gibt die <span class="mc-luecke"></span> pro Zeit an.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Ladung — \(I = Q/t\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Durch einen Querschnitt fliesst die Ladung \(Q = 6\;\text{C}\) in \(t = 2\;\text{s}\). Stromstärke?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(I = \dfrac{Q}{t} = \dfrac{6}{2} = 3\;\text{A}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum leuchtet eine Lampe praktisch sofort, obwohl sich die einzelnen Elektronen nur langsam bewegen?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Das elektrische Feld breitet sich fast mit Lichtgeschwindigkeit aus und setzt alle Elektronen im Draht nahezu gleichzeitig in Bewegung. Es muss nicht erst ein Elektron zur Lampe wandern.</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Elektrische Ladung</div>
+  <p>Materie enthält positive (Protonen) und negative (Elektronen) Ladungsträger. Die kleinste frei vorkommende Ladung ist die <strong>Elementarladung</strong></p>
+  \[ e = 1.602 \cdot 10^{-19}\,\text{C} \]
+  <p>Die Einheit der Ladung ist das <strong>Coulomb</strong> (C). Eine Ladung von \(1\,\text{C}\) entspricht rund \(6.24\cdot10^{18}\) Elementarladungen. Gleichnamige Ladungen stossen sich ab, ungleichnamige ziehen sich an.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Kraft zwischen Ladungen (Coulomb-Gesetz)</div>
+  <p>Zwei punktförmige Ladungen \(Q_1\) und \(Q_2\) im Abstand \(r\) üben aufeinander eine Kraft aus — gleichnamige stossen sich ab, ungleichnamige ziehen sich an:</p>
+  \[ F = k\,\frac{Q_1\cdot Q_2}{r^2}, \qquad k = 8.99\cdot10^{9}\,\frac{\text{N}\,\text{m}^2}{\text{C}^2} \]
+  <p>Die Kraft wächst mit den Ladungsmengen und nimmt mit dem Quadrat des Abstands ab. Zwei Ladungen von je \(1\,\text{C}\) im Abstand \(1\,\text{m}\) würden mit rund \(9\cdot10^{9}\,\text{N}\) aufeinander wirken — \(1\,\text{C}\) ist also eine ausgesprochen grosse Ladung.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Stromstärke und Spannung</div>
+  <p>Der elektrische <strong>Strom</strong> ist bewegte Ladung pro Zeit. Die <strong>Stromstärke</strong> \(I\) wird in Ampere (A) gemessen:</p>
+  \[ I = \frac{Q}{t}, \qquad Q = I\cdot t, \qquad 1\,\text{A} = 1\,\frac{\text{C}}{\text{s}} \]
+  <p>Die <strong>Spannung</strong> \(U\) (Volt, V) ist die pro Ladung verrichtete Arbeit — sie «treibt» die Elektronen an. Die Elektronen fliessen vom Minus- zum Pluspol (natürliche Stromrichtung); die technische Stromrichtung zeigt umgekehrt. Bei <strong>Gleichstrom</strong> (DC) bleibt die Richtung gleich, bei <strong>Wechselstrom</strong> (AC, Haushaltsnetz 230 V) wechselt sie periodisch.</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Quelle</th><th>\(U\)</th><th>Quelle</th><th>\(U\)</th></tr></thead>
+    <tbody>
+      <tr><td>Batterie (AA)</td><td>1.5 V</td><td>Tram (DC)</td><td>600 V</td></tr>
+      <tr><td>Autobatterie</td><td>12 V</td><td>Eisenbahn (AC)</td><td>15 kV</td></tr>
+      <tr><td>Haushalt (AC)</td><td>230 V</td><td>Hochspannung</td><td>50–380 kV</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Ohmsches Gesetz und Widerstand eines Leiters</div>
+  <p>Bei einem Ohm'schen Leiter ist die Stromstärke proportional zur Spannung. Der Proportionalitätsfaktor ist der <strong>Widerstand</strong> \(R\) (Ohm, \(\Omega\)):</p>
+  \[ U = R \cdot I \]
+  <p>Der Widerstand eines <strong>Leiters</strong> hängt von Material, Länge und Querschnitt ab. Mit dem <strong>spezifischen Widerstand</strong> \(\rho\) (für \(1\,\text{m}\) Länge, \(1\,\text{mm}^2\) Querschnitt, \(20\,^\circ\text{C}\)) gilt:</p>
+  \[ R = \rho \cdot \frac{l}{A} \]
+  <table class="ftb-tabelle">
+    <thead><tr><th>Material</th><th>\(\rho\) [\(\Omega\,\text{mm}^2/\text{m}\)]</th><th>Material</th><th>\(\rho\) [\(\Omega\,\text{mm}^2/\text{m}\)]</th></tr></thead>
+    <tbody>
+      <tr><td>Silber</td><td>0.016</td><td>Aluminium</td><td>0.03</td></tr>
+      <tr><td>Kupfer</td><td>0.017</td><td>Eisen</td><td>0.10</td></tr>
+      <tr><td>Gold</td><td>0.02</td><td>Konstantan</td><td>0.49</td></tr>
+    </tbody>
+  </table>
+  <p>Mehr Länge vergrössert, ein grösserer Querschnitt verkleinert den Widerstand. Bei einem Kabel zählt die doppelte Länge (Hin- und Rückleiter).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Leistung und Energie</div>
+  <p>Die elektrische <strong>Leistung</strong> ist das Produkt aus Spannung und Stromstärke, die <strong>Energie</strong> die Leistung über die Zeit:</p>
+  \[ P = U \cdot I, \qquad E = P \cdot t = U \cdot I \cdot t \]
+  <p>Leistung wird in Watt (W) gemessen, Energie oft in Kilowattstunden: \(1\,\text{kWh} = 1000\,\text{W}\cdot 1\,\text{h}\). Die Stromrechnung wird nach kWh abgerechnet. Bei Wechselstrom gilt \(P=U\cdot I\) mit den Effektivwerten und nur für rein ohmsche Verbraucher (z.&nbsp;B. Heizungen, Glühlampen).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Reihen- und Parallelschaltung</div>
+  <table class="ftb-tabelle">
+    <thead><tr><th></th><th>Reihenschaltung</th><th>Parallelschaltung</th></tr></thead>
+    <tbody>
+      <tr><td>Stromstärke</td><td>überall gleich: \(I=I_1=I_2\)</td><td>teilt sich auf: \(I=I_1+I_2\)</td></tr>
+      <tr><td>Spannung</td><td>teilt sich auf: \(U=U_1+U_2\)</td><td>überall gleich: \(U=U_1=U_2\)</td></tr>
+      <tr><td>Gesamtwiderstand</td><td>\(R = R_1 + R_2\)</td><td>\(\dfrac{1}{R} = \dfrac{1}{R_1} + \dfrac{1}{R_2}\)</td></tr>
+    </tbody>
+  </table>
+  <p>In der Reihenschaltung ist der Gesamtwiderstand grösser als jeder Einzelwiderstand, in der Parallelschaltung kleiner als der kleinste. Im Haushalt sind alle Geräte parallel geschaltet.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Gefahren und Schutzmassnahmen</div>
+  <p>Nerven und Muskeln — auch das Herz — arbeiten mit elektrischen Impulsen. Fliesst von aussen Strom durch den Körper, verkrampfen die Muskeln; man kann die Berührungsstelle oft nicht mehr loslassen. Ströme über das Herz (Hand zu Hand oder Hand zu Fuss) sind besonders gefährlich: Netzstrom (50 Hz) kann <strong>Herzkammerflimmern</strong> und Kreislaufstillstand auslösen. Ströme über \(500\,\text{mA}\) können schon nach wenigen Millisekunden tödlich sein. Wichtige Schutzmassnahmen sind Isolierung, der <strong>Schutzleiter</strong> (Erdung), der <strong>Fehlerstromschutzschalter</strong> (FI/RCD, löst typisch bei \(30\,\text{mA}\) Fehlerstrom aus) und das Beachten von Sicherheitsregeln.</p>
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 — OHMSCHES GESETZ ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die Einheit der elektrischen Spannung ist …</p><ul class="mc-optionen"><li data-opt="A">Ampere</li><li data-opt="B">Volt</li><li data-opt="C">Ohm</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die Spannung wird in Volt (V) gemessen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Stromstärke wird in <span class="mc-luecke"></span> gemessen.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Ampere (A).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Welche elektrische Grösse misst man in Ohm?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Den elektrischen Widerstand \(R\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Im Vergleich mit einem Wasserkreislauf: Was entspricht der elektrischen Spannung, was der Stromstärke?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die Spannung entspricht dem Druckunterschied der Pumpe, die Stromstärke der pro Zeit durchfliessenden Wassermenge.</div></details></div>
+</details>
+
+<h2 id="ohm">Das Ohmsche Gesetz \(U=R\cdot I\)</h2>
+
+<p>Bei einem Ohm'schen Widerstand sind Spannung und Stromstärke proportional. Stelle Spannung und Widerstand ein und beobachte, wie sich die Stromstärke ergibt.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 1 · Spannung, Strom und Widerstand</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere die Spannung und beobachte den Strom.</li><li>Lies die Steigung der Geraden im \(U\)-\(I\)-Diagramm ab.</li><li>Vergleiche einen kleinen und einen grossen Widerstand.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere die Spannung und beobachte, wie sich der Strom ändert. Lies die Steigung der Geraden im U-I-Diagramm ab. Vergleiche einen kleinen mit einem grossen Widerstand." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Ohmsches Gesetz: \(U = R \cdot I\), also \(R = U/I\).</li><li>Im \(U\)-\(I\)-Diagramm ist die Steigung der Geraden der Widerstand \(R\).</li><li>Grösserer Widerstand bedeutet bei gleicher Spannung weniger Strom.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Das Ohmsche Gesetz lautet: U gleich R mal I, also R gleich U durch I. Im U-I-Diagramm ist die Steigung der Geraden der Widerstand R. Ein grösserer Widerstand bedeutet bei gleicher Spannung einen kleineren Strom." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Spannung \(U\):</label>
+      <input type="range" id="a1-U" min="0" max="12" value="6" step="0.5">
+      <span class="sl-val" id="a1-U-val">6.0 V</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Widerstand \(R\):</label>
+      <input type="range" id="a1-R" min="10" max="500" value="100" step="5">
+      <span class="sl-val" id="a1-R-val">100 Ω</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Ohmsches Gesetz</div>
+      <div class="fl-eq" id="a1-eq">I = U / R = 6.0 / 100 = 60 mA</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Spannung \(U\)</span><span class="lb-val" id="a1-Uv">6.0 V</span></div>
+      <div class="lb-item"><span class="lb-lab">Widerstand \(R\)</span><span class="lb-val" id="a1-Rv">100 Ω</span></div>
+      <div class="lb-item"><span class="lb-lab">Stromstärke \(I\)</span><span class="lb-val" id="a1-I">60 mA</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📈 U-I-Kennlinie</div>
+      <canvas id="a1-cv"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 5. ANIMATION 2 — LEITERWIDERSTAND ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Verdoppelt man bei festem Widerstand die Spannung, so …</p><ul class="mc-optionen"><li data-opt="A">bleibt der Strom gleich</li><li data-opt="B">verdoppelt sich der Strom</li><li data-opt="C">halbiert sich der Strom</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(I = U/R\) — bei festem \(R\) ist der Strom proportional zur Spannung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Das Ohmsche Gesetz lautet \(U = R \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(I\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">An \(R = 200\;\Omega\) liegt \(U = 12\;\text{V}\). Stromstärke?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(I = \dfrac{U}{R} = \dfrac{12}{200} = 0.06\;\text{A} = 60\;\text{mA}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Lampe (\(R = 240\;\Omega\)) hängt am \(230\;\text{V}\)-Netz. Welcher Strom fliesst (ohmsch gerechnet)?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(I = \dfrac{U}{R} = \dfrac{230}{240} \approx 0.96\;\text{A}\).</div></details></div>
+</details>
+
+<h2 id="leiter">Der Widerstand eines Leiters</h2>
+
+<p>Der Widerstand eines Drahts wächst mit der Länge und sinkt mit dem Querschnitt — und hängt vom Material ab. Probiere es mit \(R=\rho\,l/A\) aus.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 2 · \(R = \rho\,l/A\)</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wähle ein Material und stelle Länge und Querschnitt ein.</li><li>Beobachte, wie ein längerer Draht den Widerstand erhöht.</li><li>Beobachte, wie ein dickerer Draht ihn senkt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle ein Material und stelle Länge und Querschnitt des Drahtes ein. Beobachte, wie ein längerer Draht den Widerstand erhöht. Beobachte, wie ein dickerer Draht den Widerstand senkt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>\(R = \rho \cdot \dfrac{l}{A}\).</li><li>Doppelte Länge verdoppelt \(R\); doppelter Querschnitt halbiert ihn.</li><li>Der spezifische Widerstand \(\rho\) ist materialabhängig.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Es gilt R gleich rho mal l durch A. Doppelte Länge verdoppelt den Widerstand, doppelter Querschnitt halbiert ihn. Der spezifische Widerstand rho hängt vom Material ab." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="stoff-wahl" id="a2-mat"></div>
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Länge \(l\):</label>
+      <input type="range" id="a2-l" min="1" max="1000" value="100" step="1">
+      <span class="sl-val" id="a2-l-val">100 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Querschnitt \(A\):</label>
+      <input type="range" id="a2-A" min="0.5" max="10" value="2.5" step="0.1">
+      <span class="sl-val" id="a2-A-val">2.5 mm²</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Leiterwiderstand</div>
+      <div class="fl-eq" id="a2-eq">R = 0.017 · 100 / 2.5 = 0.68 Ω</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🧵 Draht: Länge und Querschnitt</div>
+      <canvas id="a2-cv" height="180"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 6. ANIMATION 3 — REIHENSCHALTUNG ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit den restlichen Lampen einer Reihenschaltung, wenn eine Lampe durchbrennt?</summary>
+  <div class="frage-antwort">
+    <p>Alle gehen aus. In der Reihenschaltung fliesst <strong>derselbe Strom</strong> durch alle Bauteile; eine Unterbrechung trennt den ganzen Stromkreis — wie bei alten Lichterketten.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein längerer Draht (gleiches Material, gleicher Querschnitt) hat …</p><ul class="mc-optionen"><li data-opt="A">einen kleineren Widerstand</li><li data-opt="B">einen grösseren Widerstand</li><li data-opt="C">den gleichen Widerstand</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(R = \rho\,l/A\) — mit der Länge wächst der Widerstand.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Widerstand eines Leiters ist \(R = \rho \cdot l / \) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(A\) (Querschnittsfläche).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Verdoppelt man den Querschnitt eines Drahtes, wie ändert sich \(R\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(R\) halbiert sich: \(R \sim 1/A\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum verwendet man für lange Überlandleitungen dicke Kabel und sehr hohe Spannung?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Dicker Querschnitt senkt \(R = \rho\,l/A\). Hohe Spannung senkt bei gleicher Leistung (\(P = U I\)) den Strom; da die Verlustleistung \(P_V = R\,I^2\) mit kleinerem \(I\) stark sinkt, gibt es weniger Übertragungsverluste.</div></details></div>
+</details>
+
+<h2 id="reihe">Reihenschaltung</h2>
+
+<p>In der Reihenschaltung fliesst durch beide Widerstände derselbe Strom, die Spannung teilt sich auf, und die Widerstände addieren sich: \(R = R_1 + R_2\).</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 3 · Zwei Widerstände in Reihe</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verfolge die Strompunkte durch beide Widerstände.</li><li>Vergleiche den Strom an verschiedenen Stellen.</li><li>Beobachte, wie sich die Spannung aufteilt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verfolge die orangen Strompunkte durch beide Widerstände. Vergleiche den Strom an verschiedenen Stellen des Kreises. Beobachte, wie sich die Spannung auf die beiden Widerstände aufteilt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>In Reihe ist der Strom überall gleich gross.</li><li>Die Widerstände addieren sich: \(R_{\text{ges}} = R_1 + R_2\).</li><li>Die Teilspannungen addieren sich zur Gesamtspannung.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="In einer Reihenschaltung ist der Strom überall gleich gross. Die Widerstände addieren sich: der Gesamtwiderstand ist R eins plus R zwei. Die einzelnen Teilspannungen addieren sich zur Gesamtspannung." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Quellenspannung \(U\):</label>
+      <input type="range" id="a3-U" min="1" max="12" value="12" step="0.5">
+      <span class="sl-val" id="a3-U-val">12.0 V</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Widerstand \(R_1\):</label>
+      <input type="range" id="a3-R1" min="10" max="300" value="100" step="5">
+      <span class="sl-val" id="a3-R1-val">100 Ω</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Widerstand \(R_2\):</label>
+      <input type="range" id="a3-R2" min="10" max="300" value="220" step="5">
+      <span class="sl-val" id="a3-R2-val">220 Ω</span>
+
+      </div>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a3-btn">▶ Start</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Gesamtwiderstand &amp; Strom</div>
+      <div class="fl-eq" id="a3-eq">R = 100 + 220 = 320 Ω · I = 37.5 mA</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(R_\text{ges}\)</span><span class="lb-val" id="a3-Rg">320 Ω</span></div>
+      <div class="lb-item"><span class="lb-lab">Strom \(I\)</span><span class="lb-val" id="a3-I">37.5 mA</span></div>
+      <div class="lb-item"><span class="lb-lab">\(U_1\) / \(U_2\)</span><span class="lb-val" id="a3-Us">3.75 / 8.25 V</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🔗 Reihenschaltung</div>
+      <canvas id="a3-cv" height="220"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 7. ANIMATION 4 — PARALLELSCHALTUNG ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">In einer Reihenschaltung ist … überall gleich.</p><ul class="mc-optionen"><li data-opt="A">die Spannung</li><li data-opt="B">die Stromstärke</li><li data-opt="C">der Widerstand</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> In Reihe fliesst überall derselbe Strom; die Spannungen teilen sich auf.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">In Reihe addieren sich die <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Widerstände — \(R_{\text{ges}} = R_1 + R_2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Zwei Widerstände \(R_1 = 100\;\Omega\) und \(R_2 = 200\;\Omega\) in Reihe. Gesamtwiderstand?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(R_{\text{ges}} = R_1 + R_2 = 300\;\Omega\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Bei einer alten Lichterkette in Reihe brennt eine Lampe durch — die ganze Kette bleibt dunkel. Warum?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">In Reihe fliesst überall derselbe Strom. Eine durchgebrannte Lampe unterbricht den Stromkreis vollständig, sodass nirgends mehr Strom fliesst.</div></details></div>
+</details>
+
+<h2 id="parallel">Parallelschaltung</h2>
+
+<p>In der Parallelschaltung liegt über beiden Widerständen dieselbe Spannung, der Strom teilt sich auf, und der Gesamtwiderstand ist kleiner als der kleinste Einzelwiderstand: \(1/R = 1/R_1 + 1/R_2\).</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 4 · Zwei Widerstände parallel</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Beobachte, wie sich der Strom an der Verzweigung aufteilt.</li><li>Vergleiche die Ströme durch beide Zweige.</li><li>Achte darauf, dass durch den kleineren Widerstand mehr fliesst.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Beobachte, wie sich der Strom an der Verzweigung aufteilt. Vergleiche die Ströme durch die beiden Zweige. Achte darauf, dass durch den kleineren Widerstand mehr Strom fliesst." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Parallel liegt an beiden Widerständen dieselbe Spannung an.</li><li>Die Ströme addieren sich; durch den kleineren \(R\) fliesst mehr.</li><li>Gesamtwiderstand: \(\dfrac{1}{R_{\text{ges}}} = \dfrac{1}{R_1} + \dfrac{1}{R_2}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="In einer Parallelschaltung liegt an beiden Widerständen dieselbe Spannung an. Die Ströme der Zweige addieren sich, und durch den kleineren Widerstand fliesst mehr. Für den Gesamtwiderstand gilt: eins durch R gesamt gleich eins durch R eins plus eins durch R zwei." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Quellenspannung \(U\):</label>
+      <input type="range" id="a4-U" min="1" max="12" value="12" step="0.5">
+      <span class="sl-val" id="a4-U-val">12.0 V</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Widerstand \(R_1\):</label>
+      <input type="range" id="a4-R1" min="10" max="300" value="100" step="5">
+      <span class="sl-val" id="a4-R1-val">100 Ω</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Widerstand \(R_2\):</label>
+      <input type="range" id="a4-R2" min="10" max="300" value="220" step="5">
+      <span class="sl-val" id="a4-R2-val">220 Ω</span>
+
+      </div>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a4-btn">▶ Start</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Gesamtwiderstand &amp; Ströme</div>
+      <div class="fl-eq" id="a4-eq">1/R = 1/100 + 1/220 → R = 68.8 Ω</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(R_\text{ges}\)</span><span class="lb-val" id="a4-Rg">68.8 Ω</span></div>
+      <div class="lb-item"><span class="lb-lab">\(I_1\) / \(I_2\)</span><span class="lb-val" id="a4-Is">120 / 54.5 mA</span></div>
+      <div class="lb-item"><span class="lb-lab">Gesamtstrom \(I\)</span><span class="lb-val" id="a4-I">174.5 mA</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🔀 Parallelschaltung</div>
+      <canvas id="a4-cv" height="220"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 8. ANIMATION 5 — LEISTUNG & ENERGIE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">In einer Parallelschaltung ist … an allen Zweigen gleich.</p><ul class="mc-optionen"><li data-opt="A">die Stromstärke</li><li data-opt="B">die Spannung</li><li data-opt="C">der Widerstand</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Parallel liegt an jedem Zweig dieselbe Spannung an; die Ströme teilen sich auf.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Bei Parallelschaltung gilt \(\dfrac{1}{R_{\text{ges}}} = \dfrac{1}{R_1} + \) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\dfrac{1}{R_2}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Zwei gleiche Widerstände \(R = 100\;\Omega\) parallel. Gesamtwiderstand?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\dfrac{1}{R_{\text{ges}}} = \dfrac{1}{100} + \dfrac{1}{100} \Rightarrow R_{\text{ges}} = 50\;\Omega\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum sind die Steckdosen einer Wohnung parallel geschaltet und nicht in Reihe?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">So liegt an jedem Gerät dieselbe Netzspannung (\(230\;\text{V}\)), und die Geräte arbeiten unabhängig. Ein ausgeschaltetes oder defektes Gerät unterbricht die anderen nicht.</div></details></div>
+</details>
+
+<h2 id="leistung">Leistung und Energie</h2>
+
+<p>Die Leistung \(P=U\cdot I\) gibt an, wie viel Energie pro Sekunde umgesetzt wird; über die Zeit ergibt sich die Energie \(E=P\cdot t\), abgerechnet in Kilowattstunden.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 5 · \(P=U\cdot I\) und \(E=P\cdot t\)</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Spannung, Stromstärke und Betriebsdauer ein.</li><li>Beobachte die Leistung \(P\) und die Energie \(E\).</li><li>Vergleiche kurze hohe gegen lange kleine Leistung.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Spannung, Stromstärke und Betriebsdauer ein. Beobachte die Leistung P und die verbrauchte Energie E. Vergleiche eine kurze hohe Leistung mit einer lang anliegenden kleinen Leistung." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Elektrische Leistung: \(P = U \cdot I\).</li><li>Verbrauchte Energie: \(E = P \cdot t\).</li><li>Die Stromrechnung zählt Energie in Kilowattstunden (\(\text{kWh}\)).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die elektrische Leistung ist P gleich U mal I. Die verbrauchte Energie ist E gleich P mal t. Die Stromrechnung zählt diese Energie in Kilowattstunden." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Spannung \(U\):</label>
+      <input type="range" id="a5-U" min="0" max="250" value="230" step="5">
+      <span class="sl-val" id="a5-U-val">230 V</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Stromstärke \(I\):</label>
+      <input type="range" id="a5-I" min="0" max="16" value="8" step="0.1">
+      <span class="sl-val" id="a5-I-val">8.0 A</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Dauer \(t\):</label>
+      <input type="range" id="a5-t" min="0.25" max="12" value="1.5" step="0.25">
+      <span class="sl-val" id="a5-t-val">1.5 h</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Leistung &amp; Energie</div>
+      <div class="fl-eq" id="a5-eq">P = 230 · 8.0 = 1840 W · E = 2.76 kWh</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Leistung \(P\)</span><span class="lb-val" id="a5-P">1840 W</span></div>
+      <div class="lb-item"><span class="lb-lab">Energie \(E\)</span><span class="lb-val" id="a5-E">2.76 kWh</span></div>
+      <div class="lb-item"><span class="lb-lab">Kosten (0.21 CHF/\(\text{kWh}\))</span><span class="lb-val" id="a5-K">0.58 CHF</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📊 Leistung als Energiefluss pro Zeit</div>
+      <canvas id="a5-cv" height="160"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 9. ANIMATION 6 — GEFAHREN ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die elektrische Leistung berechnet man als …</p><ul class="mc-optionen"><li data-opt="A">\(P = U/I\)</li><li data-opt="B">\(P = U \cdot I\)</li><li data-opt="C">\(P = U + I\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(P = U \cdot I\) — Spannung mal Stromstärke.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die elektrische Energie ist \(E = P \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(t\) (Zeit).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Gerät zieht bei \(U = 230\;\text{V}\) einen Strom \(I = 2\;\text{A}\). Leistung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(P = U \cdot I = 230 \cdot 2 = 460\;\text{W}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein \(2000\;\text{W}\)-Wasserkocher läuft \(5\;\text{min}\). Wie viel Energie in Kilowattstunden? (\(5\;\text{min} = \tfrac{1}{12}\;\text{h}\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(E = P \cdot t = 2\;\text{kW} \cdot \tfrac{1}{12}\;\text{h} \approx 0.17\;\text{kWh}\).</div></details></div>
+</details>
+
+<h2 id="gefahren">Gefahren des elektrischen Stroms</h2>
+
+<p>Wie gefährlich ein Stromfluss durch den Körper ist, hängt von der Stromstärke <em>und</em> der Einwirkzeit ab. Die Bereiche nach IEC zeigen, ab wann Herzkammerflimmern droht.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 6 · Wirkung von 50-Hz-Wechselstrom</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Stromstärke und Einwirkzeit ein.</li><li>Lies den Gefahrenbereich im Diagramm ab.</li><li>Beachte die logarithmischen Achsen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Stromstärke und Einwirkzeit ein. Lies den Gefahrenbereich im Diagramm ab. Beachte, dass beide Achsen logarithmisch geteilt sind." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Gefährlich ist die Kombination aus Stromstärke und Einwirkzeit.</li><li>Schon kleine Ströme können bei langer Einwirkung gefährlich werden.</li><li>Die logarithmischen Achsen umspannen viele Grössenordnungen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Gefährlich ist nicht die Stromstärke allein, sondern die Kombination aus Stromstärke und Einwirkzeit. Schon kleine Ströme können bei langer Einwirkung gefährlich werden. Die logarithmischen Achsen umspannen viele Grössenordnungen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Stromstärke \(I\):</label>
+      <input type="range" id="a6-I" min="0" max="3.3" value="2" step="0.02">
+      <span class="sl-val" id="a6-I-val">100 mA</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Einwirkzeit \(t\):</label>
+      <input type="range" id="a6-t" min="1" max="4" value="2.4" step="0.02">
+      <span class="sl-val" id="a6-t-val">250 ms</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Bereich</span><span class="lb-val" id="a6-zone">3 — Gefahr</span></div>
+      <div class="lb-item"><span class="lb-lab">Körperreaktion</span><span class="lb-val" id="a6-reak">Herzkammerflimmern möglich</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⚠ Stromstärke-Zeit-Diagramm (IEC)</div>
+      <canvas id="a6-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 10. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit dem Gesamtwiderstand, wenn du einen zweiten gleichen Widerstand parallel schaltest?</summary>
+  <div class="frage-antwort">
+    <p>Er halbiert sich. Bei zwei gleichen Parallelwiderständen gilt \(R_{\text{ges}}=R/2\); der Gesamtwiderstand ist immer kleiner als der kleinste Einzelwiderstand, weil dem Strom mehr Wege offenstehen.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Für die Gefährlichkeit eines Stromschlags ist vor allem entscheidend …</p><ul class="mc-optionen"><li data-opt="A">die Spannung allein</li><li data-opt="B">die Stromstärke durch den Körper und die Einwirkdauer</li><li data-opt="C">die Farbe des Kabels</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Massgeblich sind die Stromstärke durch den Körper und wie lange sie einwirkt.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Gefährlich ist nicht die Spannung allein, sondern die <span class="mc-luecke"></span> durch den Körper.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Stromstärke.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Bei \(230\;\text{V}\) und einem Körperwiderstand von \(1000\;\Omega\): welcher Strom fliesst etwa?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(I = \dfrac{U}{R} = \dfrac{230}{1000} = 0.23\;\text{A} = 230\;\text{mA}\) — bereits lebensgefährlich.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum ist nasse Haut beim Stromschlag besonders gefährlich?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Feuchtigkeit senkt den Körperwiderstand stark. Nach \(I = U/R\) fliesst bei kleinerem \(R\) ein viel grösserer und damit gefährlicherer Strom durch den Körper.</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Ladung und Stromstärke</span></div>
+  <p>Eine Batterie (AA, 1.5 V) ist mit \(2500\,\text{mAh}\) beschriftet.</p>
+  <ol class="aufg-liste">
+    <li>Welche Ladung \(Q\) in Coulomb ist gespeichert? (\(1\,\text{Ah}=3600\,\text{C}\))</li>
+    <li>Wie lange liefert sie Strom bei durchschnittlich \(500\,\text{mA}\)?</li>
+    <li>Wie vielen Elementarladungen entspricht \(1\,\text{C}\) (mit \(e=1.602\cdot10^{-19}\,\text{C}\))?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(Q = I\cdot t = 2.5\,\text{A}\cdot 3600\,\text{s} = 9000\,\text{C}\).</li>
+        <li>\(t = Q/I = 9000/0.5 = 18\,000\,\text{s} = 5\,\text{h}\).</li>
+        <li>\(1/e = 1/(1.602\cdot10^{-19}) \approx 6.24\cdot10^{18}\) Elementarladungen.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Widerstand eines Kabels</span></div>
+  <p>Ein zweiadriges Kupferkabel (\(\rho = 0.017\,\Omega\,\text{mm}^2/\text{m}\)) ist \(1.5\,\text{km}\) lang, der Drahtdurchmesser beträgt \(0.5\,\text{mm}\).</p>
+  <ol class="aufg-liste">
+    <li>Berechne die Querschnittsfläche \(A\) eines Drahts.</li>
+    <li>Welchen Widerstand hat die Leitung? (Hin- und Rückleiter: \(l = 3\,\text{km}\))</li>
+    <li>Wie verändert sich der Widerstand, wenn man den Querschnitt verdoppelt?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(A = \pi (d/2)^2 = \pi (0.25)^2 \approx 0.196\,\text{mm}^2\).</li>
+        <li>\(R = \rho\,l/A = 0.017\cdot 3000 / 0.196 \approx 260\,\Omega\).</li>
+        <li>Der Widerstand halbiert sich auf \(\approx 130\,\Omega\) — \(R\) ist umgekehrt proportional zu \(A\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Reihenschaltung</span></div>
+  <p>Zwei Widerstände \(R_1 = 100\,\Omega\) und \(R_2 = 220\,\Omega\) sind in Reihe an eine \(12\text{-V}\)-Quelle angeschlossen.</p>
+  <ol class="aufg-liste">
+    <li>Berechne den Gesamtwiderstand.</li>
+    <li>Welcher Strom fliesst?</li>
+    <li>Wie teilt sich die Spannung auf die beiden Widerstände auf?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(R = R_1 + R_2 = 100 + 220 = 320\,\Omega\).</li>
+        <li>\(I = U/R = 12/320 = 0.0375\,\text{A} = 37.5\,\text{mA}\) (überall gleich).</li>
+        <li>\(U_1 = I\,R_1 = 3.75\,\text{V}\), \(U_2 = I\,R_2 = 8.25\,\text{V}\) (Summe \(= 12\,\text{V}\)).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Parallelschaltung</span></div>
+  <p>Dieselben Widerstände \(R_1 = 100\,\Omega\) und \(R_2 = 220\,\Omega\) werden nun parallel an \(12\,\text{V}\) geschaltet.</p>
+  <ol class="aufg-liste">
+    <li>Berechne den Gesamtwiderstand.</li>
+    <li>Welche Teilströme fliessen durch \(R_1\) und \(R_2\)?</li>
+    <li>Wie gross ist der Gesamtstrom — und durch welchen Widerstand fliesst mehr?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(\dfrac{1}{R} = \dfrac{1}{100} + \dfrac{1}{220}\Rightarrow R = \dfrac{100\cdot 220}{320} \approx 68.8\,\Omega\).</li>
+        <li>\(I_1 = U/R_1 = 12/100 = 120\,\text{mA}\); \(I_2 = 12/220 \approx 54.5\,\text{mA}\).</li>
+        <li>\(I = I_1 + I_2 \approx 174.5\,\text{mA}\). Durch den kleineren Widerstand (\(R_1\)) fliesst mehr Strom.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Leistung, Energie und Kosten</span></div>
+  <p>Ein Heizlüfter mit \(2000\,\text{W}\) läuft \(1.5\,\text{h}\). Der Strompreis beträgt \(0.21\,\text{CHF/kWh}\).</p>
+  <ol class="aufg-liste">
+    <li>Welche Energie verbraucht er in kWh?</li>
+    <li>Was kostet der Betrieb?</li>
+    <li>Welcher Strom fliesst bei \(230\,\text{V}\) Netzspannung?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(E = P\cdot t = 2\,\text{kW}\cdot 1.5\,\text{h} = 3\,\text{kWh}\).</li>
+        <li>Kosten \(= 3\cdot 0.21 = 0.63\,\text{CHF}\).</li>
+        <li>\(I = P/U = 2000/230 \approx 8.7\,\text{A}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Gefahren und Schutz</span></div>
+  <ol class="aufg-liste">
+    <li>Warum sind Stromflüsse über das Herz besonders gefährlich?</li>
+    <li>Was passiert mit den Muskeln, wenn ein Strom durch den Körper fliesst?</li>
+    <li>Nenne drei Schutzmassnahmen gegen elektrische Unfälle.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Das Herz arbeitet mit elektrischen Impulsen. Ein Netzstrom (50 Hz) über das Herz kann Herzrhythmusstörungen und Herzkammerflimmern auslösen, was zum Kreislaufstillstand führt.</li>
+        <li>Die Muskeln verkrampfen; man kann die Berührungsstelle oft nicht mehr loslassen, wodurch die Einwirkzeit unkontrolliert lang wird.</li>
+        <li>Z.&nbsp;B. Isolierung der Leiter, Schutzleiter (Erdung), Fehlerstromschutzschalter (FI/RCD); ausserdem Sicherheitsregeln und das Freischalten vor Arbeiten.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 11. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Grösse / Konzept</th><th>Formel / Aussage</th><th>Einheit / Bezug</th></tr></thead>
+  <tbody>
+    <tr><td>Ladung</td><td>\(Q = I\cdot t\), \(e=1.602\cdot10^{-19}\,\text{C}\)</td><td>Coulomb (C)</td></tr>
+    <tr><td>Coulomb-Kraft</td><td>\(F = k\,Q_1 Q_2/r^2\)</td><td>\(k=8.99\cdot10^{9}\,\text{Nm}^2/\text{C}^2\)</td></tr>
+    <tr><td>Stromstärke</td><td>\(I = Q/t\)</td><td>Ampere (A)</td></tr>
+    <tr><td>Spannung</td><td>Arbeit pro Ladung</td><td>Volt (V)</td></tr>
+    <tr><td>Ohmsches Gesetz</td><td>\(U = R\cdot I\)</td><td>Ohm (Ω)</td></tr>
+    <tr><td>Leiterwiderstand</td><td>\(R = \rho\,l/A\)</td><td>Material, Geometrie</td></tr>
+    <tr><td>Reihenschaltung</td><td>\(R = R_1+R_2\), \(I\) gleich</td><td>\(U\) teilt sich</td></tr>
+    <tr><td>Parallelschaltung</td><td>\(1/R = 1/R_1+1/R_2\), \(U\) gleich</td><td>\(I\) teilt sich</td></tr>
+    <tr><td>Leistung / Energie</td><td>\(P=U\,I\), \(E=U\,I\,t\)</td><td>Watt, kWh</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Ladung tritt nur als Vielfaches der Elementarladung \(e=1.602\cdot10^{-19}\;\text{C}\) auf; \(Q=I\cdot t\).</li>
+  <li>Stromstärke ist Ladung pro Zeit (\(I=Q/t\)), Spannung ist Energie pro Ladung.</li>
+  <li>Ohmsches Gesetz: \(U=R\cdot I\).</li>
+  <li>Leiterwiderstand: \(R=\rho l/A\) — abhängig von Material und Geometrie.</li>
+  <li>Reihenschaltung: gleicher Strom, Widerstände addieren sich, Spannung teilt sich.</li>
+  <li>Parallelschaltung: gleiche Spannung, Ströme teilen sich, Gesamtwiderstand sinkt.</li>
+  <li>Leistung \(P=U\cdot I\); elektrische Energie wird in kWh abgerechnet.</li>
+  <li>Gefährlich ist der <em>Strom durch den Körper</em> — Schutz durch Isolation, Erdung und FI-Schalter.</li>
+</ul>
+
+<div class="merksatz">
+  Elektrische Ladung tritt in Vielfachen der Elementarladung \(e=1.602\cdot10^{-19}\,\text{C}\) auf; bewegte Ladung pro Zeit ist der Strom \(I=Q/t\), angetrieben von der Spannung \(U\). Am Ohm'schen Widerstand gilt \(U=R\,I\), und der Widerstand eines Leiters ist \(R=\rho\,l/A\). In Reihe addieren sich die Widerstände bei gleichem Strom, parallel addieren sich die Kehrwerte bei gleicher Spannung. Die Leistung ist \(P=U\,I\), die Energie \(E=U\,I\,t\). Weil schon kleine Ströme über das Herz lebensgefährlich sind, schützen Isolierung, Schutzleiter und Fehlerstromschutzschalter vor elektrischen Unfällen.
+</div>
+
+
+<!-- ══════════════ 12. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p6-2-elektrizitaet/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p6-2-elektrizitaet/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p6-2-elektrizitaet/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p6-2-elektrizitaet/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p6-2-elektrizitaet/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 13. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+<p>Ausgewählte und geprüfte Anlaufstellen zum Vertiefen, Veranschaulichen und Üben. Alle Links öffnen in einem neuen Tab.</p>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.lehrer-schmidt.de/physik/elektrizität/" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Lehrerschmidt — Elektrizität</div><div class="lk-s">Vom Kanal selbst geordnete Video-Sammlung: einfacher Stromkreis, Spannung, Stromstärke, Widerstand, Ohmsches Gesetz mit Beispielaufgaben sowie Reihen-, Parallel- und gemischte Schaltungen berechnen</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=F5C80ZLJi3c" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Ohmsches Gesetz mit Beispielen</div><div class="lk-s">Lehrerschmidt · Was das Ohmsche Gesetz aussagt und wie man \(U=R\cdot I\) Schritt für Schritt auf Aufgaben anwendet</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/circuit-construction-kit-dc" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Stromkreis-Baukasten (Gleichstrom)</div><div class="lk-s">Schaltungen mit Widerständen, Glühlampen, Batterien und Schaltern bauen und mit Ampere- und Voltmeter vermessen — ideal für Reihen-, Parallelschaltung und das Ohmsche Gesetz (HTML5, deutsch)</div></div>
+  </a>
+  <a href="https://phet.colorado.edu/de/simulations/ohms-law" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Ohmsches Gesetz</div><div class="lk-s">Spannung und Widerstand einstellen und beobachten, wie sich der Strom gemäss \(U=R\cdot I\) ergibt; die Formelsymbole ändern ihre Grösse mit den Werten (HTML5, deutsch)</div></div>
+  </a>
+  <a href="https://phet.colorado.edu/de/simulations/resistance-in-a-wire" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Widerstand in einem Kabel</div><div class="lk-s">Spezifischen Widerstand, Länge und Querschnitt verstellen und den Einfluss auf \(R=\rho\,l/A\) sehen (HTML5, deutsch)</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/elektrizitaetslehre/ohmsches-gesetz-kennlinien/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Ohmsches Gesetz &amp; Kennlinien</div><div class="lk-s">Aufgaben zu \(U=R\cdot I\), Formelumstellung, Kennlinien und spezifischem Widerstand · mit einblendbaren Musterlösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/elektrizitaetslehre/komplexere-schaltkreise/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Komplexere Schaltkreise</div><div class="lk-s">Reihen-, Parallel- und gemischte Schaltungen, Spannungsteiler und Widerstandskombinationen · mit ausführlichen Musterlösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/elektrizitaetslehre/elektrische-energie/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Elektrische Arbeit &amp; Energie</div><div class="lk-s">Übungsaufgaben zu \(P=U\cdot I\) und \(E=U\cdot I\cdot t\), Stromkosten und Energieumwandlung · mit Musterlösungen</div></div>
+  </a>
+  <a href="https://de.serlo.org/physik/43283/elektrischer-widerstand-und-das-ohmsche-gesetz" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">serlo — Widerstand &amp; Ohmsches Gesetz</div><div class="lk-s">Frei lizenzierter Lernbereich mit erklärten Beispielen und Übungsaufgaben zu Strom, Spannung, Widerstand und Schaltungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 6.2 Elektrizität</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p6-2',
+  kapitelNr:'6.2', kapitelTitel:'Elektrizität',
+  prev:{nr:'6.1',titel:'Wellen',url:'p6-1-wellen.html'},
+  next:null
+});
+
+// ── Loop-Manager (rAF + IntersectionObserver-Autostart) ───
+const LOOPS = [];
+function makeLoop(canvasId, btnId, tickFn){
+  const st={running:false,userPaused:false,rafId:null,last:0,canvasId:canvasId};
+  const btn=document.getElementById(btnId); st.btn=btn;
+  function frame(ts){ if(!st.running)return; if(!st.last)st.last=ts;
+    let dt=(ts-st.last)/1000; st.last=ts; if(dt>0.05)dt=0.05; tickFn(dt);
+    st.rafId=requestAnimationFrame(frame); }
+  st.start=function(){ if(st.running)return; st.running=true; st.last=0; st.rafId=requestAnimationFrame(frame); };
+  st.stop=function(){ st.running=false; if(st.rafId)cancelAnimationFrame(st.rafId); };
+  if(btn) btn.addEventListener('click',function(){
+    if(st.running){ st.userPaused=true; st.stop(); btn.textContent='▶ Weiter'; btn.classList.add('paused'); }
+    else { st.userPaused=false; st.start(); btn.textContent='⏸ Pause'; btn.classList.remove('paused'); } });
+  LOOPS.push(st); return st;
+}
+
+// ══════════════════════════════════════════════════════════
+//  EINSTIEG: einfacher Stromkreis mit Elektronen
+// ══════════════════════════════════════════════════════════
+let einPhase=0;
+function einGeom(W,H){ return {L:W*0.15,R:W*0.85,T:H*0.26,B:H*0.74}; }
+function rectPoint(g,s){ // s in [0,1) im Uhrzeigersinn ab oben-links
+  const w=g.R-g.L, h=g.B-g.T, per=2*(w+h); let d=s*per;
+  if(d<w) return {x:g.L+d,y:g.T};            d-=w;
+  if(d<h) return {x:g.R,y:g.T+d};            d-=h;
+  if(d<w) return {x:g.R-d,y:g.B};            d-=w;
+  return {x:g.L,y:g.B-d};
+}
+function einTick(dt){ const U=+document.getElementById('ein-U').value; einPhase=(einPhase+dt*U*0.02)%1; einRender(); }
+function einRender(){
+  const U=+document.getElementById('ein-U').value;
+  document.getElementById('ein-U-val').textContent=U.toFixed(1)+' V';
+  const cv=initCanvas('ein-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const g=einGeom(W,H);
+  // Leiterbahn
+  ctx.strokeStyle='#5a5040'; ctx.lineWidth=3;
+  ctx.strokeRect(g.L,g.T,g.R-g.L,g.B-g.T);
+  // Batterie (links Mitte)
+  const by=(g.T+g.B)/2;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(g.L-9,by-22,18,44);
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(g.L-12,by-14); ctx.lineTo(g.L+12,by-14); ctx.stroke(); // lang +
+  ctx.beginPath(); ctx.moveTo(g.L-6,by+14); ctx.lineTo(g.L+6,by+14); ctx.lineWidth=4; ctx.stroke(); // kurz -
+  ctx.fillStyle='#1c1a17'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('+', g.L-14, by-10); ctx.fillText('–', g.L-14, by+18);
+  // Schalter (oben Mitte) - geschlossen
+  ctx.fillStyle='#5a5040'; ctx.beginPath(); ctx.arc((g.L+g.R)/2-14,g.T,3,0,6.283); ctx.fill();
+  ctx.beginPath(); ctx.arc((g.L+g.R)/2+14,g.T,3,0,6.283); ctx.fill();
+  // Lampe (rechts Mitte)
+  const lx=g.R, ly=(g.T+g.B)/2, glow=Math.min(1,U/12);
+  if(glow>0){ const grd=ctx.createRadialGradient(lx,ly,2,lx,ly,40);
+    grd.addColorStop(0,'rgba(255,210,60,'+(0.20+0.6*glow)+')'); grd.addColorStop(1,'rgba(255,210,60,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(lx,ly,40,0,6.283); ctx.fill(); }
+  ctx.fillStyle= glow>0 ? 'rgba(255,200,40,'+(0.4+0.6*glow)+')' : '#e7ddcd';
+  ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(lx,ly,12,0,6.283); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(lx-8,ly-8); ctx.lineTo(lx+8,ly+8); ctx.moveTo(lx+8,ly-8); ctx.lineTo(lx-8,ly+8); ctx.stroke();
+  // Elektronen
+  const N=18;
+  for(let i=0;i<N;i++){ const s=((i/N)+einPhase)%1; const p=rectPoint(g,s);
+    ctx.fillStyle='#1a4f8a'; ctx.beginPath(); ctx.arc(p.x,p.y,4,0,6.283); ctx.fill();
+    ctx.fillStyle='#cfe0f2'; ctx.font='7px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('–',p.x,p.y+2.5); }
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText(U>0 ? 'Strom fliesst — Lampe leuchtet' : 'U = 0: kein Strom', (g.L+g.R)/2, g.B+22);
+}
+const einLoop=makeLoop('ein-cv','ein-btn',einTick);
+document.getElementById('ein-U').addEventListener('input', ()=>{ if(!einLoop.running) einRender(); else einRender(); });
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: Ohmsches Gesetz U = R·I  (U-I-Kennlinie)
+// ══════════════════════════════════════════════════════════
+function a1Vals(){ const U=+document.getElementById('a1-U').value, R=+document.getElementById('a1-R').value;
+  return {U,R,I:U/R}; }
+function drawA1(){
+  const v=a1Vals(), I_mA=v.I*1000;
+  document.getElementById('a1-U-val').textContent=v.U.toFixed(1)+' V';
+  document.getElementById('a1-R-val').textContent=v.R+' Ω';
+  document.getElementById('a1-eq').textContent='I = U / R = '+v.U.toFixed(1)+' / '+v.R+' = '+I_mA.toFixed(0)+' mA';
+  document.getElementById('a1-Uv').textContent=v.U.toFixed(1)+' V';
+  document.getElementById('a1-Rv').textContent=v.R+' Ω';
+  document.getElementById('a1-I').textContent=I_mA.toFixed(0)+' mA';
+
+  const cv=initCanvas('a1-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  // adaptive x-Achse: Strom bei U=12 V bestimmt den Maximalwert
+  const Imax12=12/v.R*1000; // mA
+  const steps=[30,60,150,300,600,1200]; let xMax=1200;
+  for(const s of steps){ if(s>=Imax12){ xMax=s; break; } }
+  const g=drawGrid(ctx,W,H,0,xMax,0,12); drawAxesUnits(ctx,W,H,g.cx,g.cy,'I [mA]','U [V]');
+  // Gerade U = R·I : von (0,0) bis (I bei U=12, 12 V)
+  ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.6;
+  ctx.beginPath(); ctx.moveTo(g.cx(0),g.cy(0)); ctx.lineTo(g.cx(Math.min(xMax,Imax12)),g.cy(12)); ctx.stroke();
+  // Arbeitspunkt
+  const px=g.cx(I_mA), py=g.cy(v.U);
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(px,g.cy(0)); ctx.lineTo(px,py); ctx.moveTo(g.cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
+  drawDot(ctx,g.cx,g.cy,I_mA,v.U,'#9b1c1c',6);
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillText('('+I_mA.toFixed(0)+' mA | '+v.U.toFixed(1)+' V)', Math.min(px+8,W-130), Math.max(py-6,g.cy(12)+12));
+  // Steigungslabel mit weisser Box, oben zentriert
+  const lab='Steigung = R = '+v.R+' Ω'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  const lw=ctx.measureText(lab).width, lcx=W*0.5, lcy=g.cy(12)+8;
+  ctx.fillStyle='rgba(251,250,247,0.85)'; ctx.fillRect(lcx-lw/2-4,lcy-2,lw+8,16);
+  ctx.fillStyle='#5a5040'; ctx.fillText(lab, lcx, lcy+10);
+}
+['a1-U','a1-R'].forEach(id=>document.getElementById(id).addEventListener('input', drawA1));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 2: Widerstand eines Leiters  R = ρ·l/A
+// ══════════════════════════════════════════════════════════
+const A2MAT=[{n:'Silber',r:0.016},{n:'Kupfer',r:0.017},{n:'Gold',r:0.02},
+             {n:'Aluminium',r:0.03},{n:'Eisen',r:0.10},{n:'Konstantan',r:0.49}];
+let a2Sel=1;
+function a2Buttons(){
+  const box=document.getElementById('a2-mat'); box.innerHTML='';
+  A2MAT.forEach((m,i)=>{ const b=document.createElement('button'); b.textContent=m.n;
+    if(i===a2Sel)b.classList.add('aktiv');
+    b.addEventListener('click',()=>{a2Sel=i;a2Buttons();drawA2();}); box.appendChild(b); });
+}
+function drawA2(){
+  const m=A2MAT[a2Sel];
+  const l=+document.getElementById('a2-l').value, A=+document.getElementById('a2-A').value;
+  document.getElementById('a2-l-val').textContent=l+' m';
+  document.getElementById('a2-A-val').textContent=A.toFixed(1)+' mm²';
+  const R=m.r*l/A;
+  document.getElementById('a2-eq').textContent='R = '+m.r+' · '+l+' / '+A.toFixed(1)+' = '+R.toFixed(2)+' Ω';
+
+  const cv=initCanvas('a2-cv',180,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  // Draht: Laenge -> Breite, Querschnitt -> Dicke
+  const wMin=W*0.18, wMax=W*0.82, dw=wMin+(wMax-wMin)*(l/1000);
+  const tMin=4, tMax=H*0.42, th=tMin+(tMax-tMin)*((A-0.5)/9.5);
+  const x0=W*0.09, yc=H*0.45;
+  // Anschluesse
+  ctx.strokeStyle='#5a5040'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(x0-W*0.06,yc); ctx.lineTo(x0,yc); ctx.moveTo(x0+dw,yc); ctx.lineTo(x0+dw+W*0.06,yc); ctx.stroke();
+  // Draht
+  ctx.fillStyle='#c08a3e'; ctx.fillRect(x0,yc-th/2,dw,th);
+  ctx.strokeStyle='#8a5a1e'; ctx.lineWidth=1.5; ctx.strokeRect(x0,yc-th/2,dw,th);
+  // Masslinien
+  ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=1; ctx.setLineDash([3,2]);
+  ctx.beginPath(); ctx.moveTo(x0,yc+th/2+10); ctx.lineTo(x0+dw,yc+th/2+10); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#1a4f8a'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('l = '+l+' m', x0+dw/2, yc+th/2+24);
+  ctx.save(); ctx.translate(x0-W*0.075, yc); ctx.rotate(-Math.PI/2);
+  ctx.fillText('A = '+A.toFixed(1)+' mm²',0,0); ctx.restore();
+  // R-Wert
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 15px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText('R = '+R.toFixed(2)+' Ω', W*0.5, H*0.14);
+  ctx.fillStyle='#3a332a'; ctx.font='11px Source Sans 3,sans-serif';
+  ctx.fillText(m.n+' (ρ = '+m.r+' Ω·mm²/m)', W*0.5, H*0.95);
+}
+['a2-l','a2-A'].forEach(id=>document.getElementById(id).addEventListener('input', drawA2));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 3: Reihenschaltung
+// ══════════════════════════════════════════════════════════
+let a3Phase=0;
+function a3Vals(){ const U=+document.getElementById('a3-U').value, R1=+document.getElementById('a3-R1').value, R2=+document.getElementById('a3-R2').value;
+  const Rg=R1+R2, I=U/Rg; return {U,R1,R2,Rg,I,U1:I*R1,U2:I*R2}; }
+function a3Read(){
+  const v=a3Vals();
+  document.getElementById('a3-U-val').textContent=v.U.toFixed(1)+' V';
+  document.getElementById('a3-R1-val').textContent=v.R1+' Ω';
+  document.getElementById('a3-R2-val').textContent=v.R2+' Ω';
+  document.getElementById('a3-eq').textContent='R = '+v.R1+' + '+v.R2+' = '+v.Rg+' Ω · I = '+(v.I*1000).toFixed(1)+' mA';
+  document.getElementById('a3-Rg').textContent=v.Rg+' Ω';
+  document.getElementById('a3-I').textContent=(v.I*1000).toFixed(1)+' mA';
+  document.getElementById('a3-Us').textContent=v.U1.toFixed(2)+' / '+v.U2.toFixed(2)+' V';
+}
+function a3Tick(dt){ const v=a3Vals(); a3Phase=(a3Phase+dt*v.I*1.2)%1; a3Render(); }
+function a3Render(){
+  const v=a3Vals();
+  const cv=initCanvas('a3-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const g={L:W*0.12,R:W*0.88,T:H*0.28,B:H*0.78};
+  ctx.strokeStyle='#5a5040'; ctx.lineWidth=3; ctx.strokeRect(g.L,g.T,g.R-g.L,g.B-g.T);
+  // Batterie links
+  const by=(g.T+g.B)/2;
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(g.L-12,by-12); ctx.lineTo(g.L+12,by-12); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(g.L-6,by+12); ctx.lineTo(g.L+6,by+12); ctx.lineWidth=4; ctx.stroke();
+  ctx.fillStyle='#1c1a17'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText(v.U.toFixed(1)+' V', g.L-2, by+30);
+  // zwei Widerstaende auf oberer Kante
+  function resBox(cx,label,sub,col){ const bw=W*0.16,bh=H*0.13;
+    ctx.fillStyle='#fff'; ctx.fillRect(cx-bw/2,g.T-bh/2,bw,bh);
+    ctx.strokeStyle=col; ctx.lineWidth=2; ctx.strokeRect(cx-bw/2,g.T-bh/2,bw,bh);
+    ctx.fillStyle='#1c1a17'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillText(label, cx, g.T-2); ctx.font='10px Source Sans 3,sans-serif'; ctx.fillStyle=col;
+    ctx.fillText(sub, cx, g.T+bh/2+12); }
+  resBox(g.L+(g.R-g.L)*0.34,'R₁ = '+v.R1+' Ω','U₁ = '+v.U1.toFixed(2)+' V','#b85c00');
+  resBox(g.L+(g.R-g.L)*0.68,'R₂ = '+v.R2+' Ω','U₂ = '+v.U2.toFixed(2)+' V','#5b2d8e');
+  // Strompunkte (gleichmaessig - Serie)
+  const N=22;
+  for(let i=0;i<N;i++){ const s=((i/N)+a3Phase)%1; const p=rectPoint(g,s);
+    ctx.fillStyle='#e08020'; ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,6.283); ctx.fill(); }
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('gleicher Strom I = '+(v.I*1000).toFixed(1)+' mA überall', (g.L+g.R)/2, g.B+24);
+}
+const a3Loop=makeLoop('a3-cv','a3-btn',a3Tick);
+['a3-U','a3-R1','a3-R2'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{ a3Read(); if(!a3Loop.running) a3Render(); }));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 4: Parallelschaltung
+// ══════════════════════════════════════════════════════════
+let a4Phase=0;
+function a4Vals(){ const U=+document.getElementById('a4-U').value, R1=+document.getElementById('a4-R1').value, R2=+document.getElementById('a4-R2').value;
+  const Rg=R1*R2/(R1+R2), I1=U/R1, I2=U/R2; return {U,R1,R2,Rg,I1,I2,I:I1+I2}; }
+function a4Read(){
+  const v=a4Vals();
+  document.getElementById('a4-U-val').textContent=v.U.toFixed(1)+' V';
+  document.getElementById('a4-R1-val').textContent=v.R1+' Ω';
+  document.getElementById('a4-R2-val').textContent=v.R2+' Ω';
+  document.getElementById('a4-eq').textContent='1/R = 1/'+v.R1+' + 1/'+v.R2+' → R = '+v.Rg.toFixed(1)+' Ω';
+  document.getElementById('a4-Rg').textContent=v.Rg.toFixed(1)+' Ω';
+  document.getElementById('a4-Is').textContent=(v.I1*1000).toFixed(0)+' / '+(v.I2*1000).toFixed(1)+' mA';
+  document.getElementById('a4-I').textContent=(v.I*1000).toFixed(1)+' mA';
+}
+function drawStream(ctx,x1,y1,x2,y2,phase,nDots,col){
+  if(nDots<1)nDots=1;
+  for(let i=0;i<nDots;i++){ const s=((i/nDots)+phase)%1;
+    const x=x1+(x2-x1)*s, y=y1+(y2-y1)*s;
+    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,3.2,0,6.283); ctx.fill(); }
+}
+function a4Tick(dt){ a4Phase=(a4Phase+dt*0.5)%1; a4Render(); }
+function a4Render(){
+  const v=a4Vals();
+  const cv=initCanvas('a4-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const L=W*0.12, Rr=W*0.90, T=H*0.22, B=H*0.80, xr1=W*0.46, xr2=W*0.72;
+  // Rahmen
+  ctx.strokeStyle='#5a5040'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(L,T); ctx.lineTo(Rr,T); ctx.lineTo(Rr,B); ctx.lineTo(L,B); ctx.lineTo(L,T); ctx.stroke();
+  // Batterie links
+  const by=(T+B)/2; ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(L-12,by-12); ctx.lineTo(L+12,by-12); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(L-6,by+12); ctx.lineTo(L+6,by+12); ctx.lineWidth=4; ctx.stroke();
+  ctx.fillStyle='#1c1a17'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.fillText(v.U.toFixed(1)+' V', L-2, by+30);
+  // zwei parallele Widerstaende (vertikal)
+  function resV(x,label,col){ const bw=W*0.10,bh=H*0.20;
+    ctx.fillStyle='#fff'; ctx.fillRect(x-bw/2,by-bh/2,bw,bh);
+    ctx.strokeStyle=col; ctx.lineWidth=2; ctx.strokeRect(x-bw/2,by-bh/2,bw,bh);
+    ctx.strokeStyle='#5a5040'; ctx.beginPath(); ctx.moveTo(x,T); ctx.lineTo(x,by-bh/2); ctx.moveTo(x,by+bh/2); ctx.lineTo(x,B); ctx.stroke();
+    ctx.fillStyle=col; ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center'; ctx.fillText(label,x,by+3); }
+  resV(xr1,'R₁',  '#b85c00');
+  resV(xr2,'R₂',  '#5b2d8e');
+  // Stroeme: Verzweigungen, Punktdichte ~ Strom
+  const kI=Math.max(v.I1,v.I2,0.001);
+  drawStream(ctx, xr1, T+6, xr1, by-H*0.10-6, a4Phase, Math.round(2+8*v.I1/kI), '#b85c00');   // R1
+  drawStream(ctx, xr2, T+6, xr2, by-H*0.10-6, a4Phase, Math.round(2+8*v.I2/kI), '#5b2d8e');   // R2
+  drawStream(ctx, L+6, T, Rr-6, T, a4Phase, 14, '#e08020');   // oberer Trunk (gesamt)
+  drawStream(ctx, Rr-6, B, L+6, B, a4Phase, 14, '#e08020');   // unterer Trunk
+  // Labels
+  ctx.fillStyle='#b85c00'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('I₁='+(v.I1*1000).toFixed(0)+' mA', xr1, B-6);
+  ctx.fillStyle='#5b2d8e'; ctx.fillText('I₂='+(v.I2*1000).toFixed(1)+' mA', xr2, B-6);
+  ctx.fillStyle='#5a5040'; ctx.fillText('Gesamtstrom I = '+(v.I*1000).toFixed(1)+' mA · gleiche Spannung über R₁, R₂', (L+Rr)/2, H*0.99);
+}
+const a4Loop=makeLoop('a4-cv','a4-btn',a4Tick);
+['a4-U','a4-R1','a4-R2'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{ a4Read(); if(!a4Loop.running) a4Render(); }));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 5: Leistung und Energie
+// ══════════════════════════════════════════════════════════
+function drawA5(){
+  const U=+document.getElementById('a5-U').value, I=+document.getElementById('a5-I').value, t=+document.getElementById('a5-t').value;
+  document.getElementById('a5-U-val').textContent=U+' V';
+  document.getElementById('a5-I-val').textContent=I.toFixed(1)+' A';
+  document.getElementById('a5-t-val').textContent=t.toFixed(2)+' h';
+  const P=U*I, E=P*t/1000, K=E*0.21;
+  document.getElementById('a5-eq').textContent='P = '+U+' · '+I.toFixed(1)+' = '+P.toFixed(0)+' W · E = '+E.toFixed(2)+' kWh';
+  document.getElementById('a5-P').textContent=P.toFixed(0)+' W';
+  document.getElementById('a5-E').textContent=E.toFixed(2)+' kWh';
+  document.getElementById('a5-K').textContent=K.toFixed(2)+' CHF';
+
+  const cv=initCanvas('a5-cv',160,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  // Leistungsbalken
+  const Pmax=250*16, x0=W*0.06, x1=W*0.94, y=H*0.34, bh=H*0.22;
+  ctx.fillStyle='#efeade'; ctx.fillRect(x0,y,x1-x0,bh);
+  const frac=Math.min(1,P/Pmax);
+  ctx.fillStyle=lerpColP(frac); ctx.fillRect(x0,y,(x1-x0)*frac,bh);
+  ctx.strokeStyle='#5a5040'; ctx.lineWidth=1.5; ctx.strokeRect(x0,y,x1-x0,bh);
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillText('P = '+P.toFixed(0)+' W', x0, y-8);
+  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Energie in '+t.toFixed(2)+' h:  E = P · t = '+E.toFixed(2)+' kWh   →   '+(E*0.21).toFixed(2)+' CHF', W*0.5, y+bh+26);
+}
+function lerpColP(f){ const r=Math.round(60+f*180), g=Math.round(150-f*100), b=Math.round(60-f*30); return 'rgb('+r+','+g+','+b+')'; }
+['a5-U','a5-I','a5-t'].forEach(id=>document.getElementById(id).addEventListener('input', drawA5));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 6: Gefahren — Stromstärke-Zeit-Diagramm (IEC)
+// ══════════════════════════════════════════════════════════
+function a6_b3(t){ return 10 + 5000/t; }   // Schwelle Zone2/3 (mA), t in ms
+function a6_b4(t){ return 40 + 30000/t; }  // Schwelle Zone3/4 (mA)
+const A6ZONES=[
+  ['1 — keine Reaktion','keine Wirkung','rgba(120,170,120,0.30)'],
+  ['2 — wahrnehmbar','keine gefährliche Wirkung','rgba(210,200,90,0.30)'],
+  ['3 — Gefahr','Muskelverkrampfung, Herzkammerflimmern möglich','rgba(220,140,50,0.35)'],
+  ['4 — kritisch','Herzkammerflimmern wahrscheinlich (tödlich)','rgba(190,50,40,0.40)']
+];
+function a6Zone(I,t){ if(I<0.5)return 0; if(I<a6_b3(t))return 1; if(I<a6_b4(t))return 2; return 3; }
+function drawA6(){
+  const I=Math.pow(10,+document.getElementById('a6-I').value);   // mA
+  const t=Math.pow(10,+document.getElementById('a6-t').value);   // ms
+  document.getElementById('a6-I-val').textContent=(I<1000?I.toFixed(0)+' mA':(I/1000).toFixed(2)+' A');
+  document.getElementById('a6-t-val').textContent=(t<1000?t.toFixed(0)+' ms':(t/1000).toFixed(2)+' s');
+  const z=a6Zone(I,t);
+  document.getElementById('a6-zone').textContent=A6ZONES[z][0];
+  document.getElementById('a6-reak').textContent=A6ZONES[z][1];
+
+  const cv=initCanvas('a6-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  const px0=W*0.12, px1=W*0.93, py0=H*0.10, py1=H*0.80;
+  const lx=v=>px0+(Math.log10(v)-0)/(Math.log10(2000))*(px1-px0);      // I 1..2000 mA
+  const ly=v=>py1-(Math.log10(v)-1)/(4-1)*(py1-py0);                   // t 10..10000 ms
+  // Zonen zeilenweise fuellen
+  for(let yy=py0;yy<py1;yy+=2){
+    const tt=Math.pow(10, 1 + (py1-yy)/(py1-py0)*3);
+    const xb2=lx(0.5), xb3=lx(Math.min(2000,a6_b3(tt))), xb4=lx(Math.min(2000,a6_b4(tt)));
+    ctx.fillStyle=A6ZONES[0][2]; ctx.fillRect(px0,yy,Math.max(0,xb2-px0),2);
+    ctx.fillStyle=A6ZONES[1][2]; ctx.fillRect(xb2,yy,Math.max(0,xb3-xb2),2);
+    ctx.fillStyle=A6ZONES[2][2]; ctx.fillRect(xb3,yy,Math.max(0,xb4-xb3),2);
+    ctx.fillStyle=A6ZONES[3][2]; ctx.fillRect(xb4,yy,Math.max(0,px1-xb4),2);
+  }
+  // Achsen
+  ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
+  ctx.strokeRect(px0,py0,px1-px0,py1-py0);
+  ctx.fillStyle='#6b7280'; ctx.font='9px JetBrains Mono,monospace'; ctx.textAlign='center';
+  [1,10,100,1000].forEach(v=>{ if(v<=2000) ctx.fillText(v<1000?v+'':'1000', lx(v), py1+12); });
+  ctx.textAlign='right'; [10,100,1000,10000].forEach(v=>ctx.fillText(v+'', px0-4, ly(v)+3));
+  ctx.fillStyle='#374151'; ctx.font='bold 10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Stromstärke [mA]', (px0+px1)/2, py1+26);
+  ctx.save(); ctx.translate(px0-30,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Einwirkzeit [ms]',0,0); ctx.restore();
+  // Zonen-Nummern
+  ctx.fillStyle='#3a332a'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('1', lx(0.25), py0+H*0.10); ctx.fillText('2', lx(3), py0+H*0.10);
+  ctx.fillText('3', lx(70), py0+H*0.10); ctx.fillText('4', lx(800), py0+H*0.10);
+  // Arbeitspunkt
+  const mx=lx(I), my=ly(t);
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(mx,py1); ctx.lineTo(mx,my); ctx.moveTo(px0,my); ctx.lineTo(mx,my); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#1c1a17'; ctx.beginPath(); ctx.arc(mx,my,6,0,6.283); ctx.fill();
+  ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  const lab=(I<1000?I.toFixed(0)+' mA':(I/1000).toFixed(1)+' A')+' · '+(t<1000?t.toFixed(0)+' ms':(t/1000).toFixed(1)+' s');
+  ctx.fillText(lab, Math.min(mx+8,W-150), my-8);
+}
+['a6-I','a6-t'].forEach(id=>document.getElementById(id).addEventListener('input', drawA6));
+
+
+// ══════════════════════════════════════════════════════════
+//  INITIALISIERUNG + Autostart der Loops bei Sichtbarkeit
+// ══════════════════════════════════════════════════════════
+function initAll(){
+  einRender();
+  drawA1();
+  a2Buttons(); drawA2();
+  a3Read(); a3Render();
+  a4Read(); a4Render();
+  drawA5();
+  drawA6();
+
+  if('IntersectionObserver' in window){
+    const map=new Map();
+    LOOPS.forEach(st=>{ const el=document.getElementById(st.canvasId); if(el) map.set(el,st); });
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ const st=map.get(e.target); if(!st) return;
+        if(e.isIntersecting){ if(!st.userPaused){ st.start(); if(st.btn){ st.btn.textContent='⏸ Pause'; st.btn.classList.remove('paused'); } } }
+        else { st.stop(); } });
+    }, { threshold:0.25 });
+    map.forEach((st,el)=>io.observe(el));
+  }
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', initAll);
+else initAll();
+
+let rzT;
+window.addEventListener('resize', ()=>{
+  clearTimeout(rzT);
+  rzT=setTimeout(()=>{
+    drawA1(); drawA2(); drawA5(); drawA6(); a3Read(); a4Read();
+    if(!einLoop.running) einRender();
+    if(!a3Loop.running) a3Render();
+    if(!a4Loop.running) a4Render();
+  }, 150);
+});
+</script>
+</body>
+</html>

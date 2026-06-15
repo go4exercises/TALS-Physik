@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anwendungsaufgaben · Hydrostatik — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../print.css">
+<style>
+  .aufg-rahmen {
+    border: 1pt solid var(--linie);
+    border-radius: 4px;
+    padding: 4mm;
+    margin: 3mm 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .aufg-rahmen .aufg-kopf { margin-bottom: 2mm; align-items: baseline; }
+  .schwierig {
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: var(--tinte-2);
+    margin-left: auto;
+    letter-spacing: 0.5px;
+  }
+  .schwierig .punkt { color: var(--orange); font-size: 9pt; }
+  .schwierig .punkt-leer { color: var(--linie); font-size: 9pt; }
+  .bereich-tag {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--blau);
+    background: var(--blau-hell);
+    padding: 0.5mm 2mm;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: 3mm;
+  }
+  .lin-mehr { margin-bottom: 2mm; }
+  .lin-mehr .lin { height: 7mm; }
+  .skizze-wrap {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 4mm;
+    align-items: start;
+    margin: 2mm 0;
+  }
+  .skizze-wrap .skizze {
+    border: 1pt dashed var(--linie);
+    background: var(--papier);
+    border-radius: 3px;
+    padding: 2mm;
+    text-align: center;
+  }
+  .skizze-wrap .skizze-titel {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--tinte-2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5mm;
+  }
+  .uebersicht {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.2pt;
+    margin: 3mm 0 5mm;
+  }
+  .uebersicht th, .uebersicht td {
+    border: 1px solid var(--linie);
+    padding: 1.4mm 2.5mm;
+    text-align: left;
+  }
+  .uebersicht th {
+    background: var(--papier-2);
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 9pt;
+  }
+  .uebersicht td.nr { text-align: center; font-family: var(--mono); width: 10mm; }
+  .uebersicht td.s  { text-align: center; font-family: var(--mono); font-size: 9pt; }
+</style>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.0 },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div class="druck-bar no-print">
+  <a class="db-back" href="../../../themen/p4-5-hydrostatik.html#downloads">← zurück zur Themenseite</a>
+  <span class="db-info">Anwendungsaufgaben · A4</span>
+  <button class="db-print" onclick="window.print()">Seite drucken</button>
+</div>
+
+<div class="druck-wrapper">
+
+  <header class="doc-kopf">
+    <div class="dk-bereich">TALS Physik · Lerngebiet 4 Mechanik · Hydrostatik</div>
+    <h1>Anwendungsaufgaben</h1>
+  </header>
+
+  <div class="block block-def" style="margin-bottom:4mm">
+    <div class="block-titel">📘 Hinweise</div>
+    <p>Die Aufgaben stammen aus Technik, Natur und Alltag und sind nach ansteigendem Schwierigkeitsgrad
+    geordnet. Pro Aufgabe ist eine Skizze und ausreichend Platz für die Lösung vorgesehen.
+    Musterlösungen folgen am Ende des Dokuments. Verwende \( g = 9.81\,\text{m/s}^2 \) und
+    \( \rho_\text{W} = 1000\,\text{kg/m}^3 \), den Luftdruck \( p_0 = 1013\,\text{hPa} \) wenn er
+    relevant ist.</p>
+  </div>
+
+  <h3 style="margin-top:4mm">Übersicht</h3>
+  <table class="uebersicht">
+    <thead>
+      <tr><th>Nr.</th><th>Bereich</th><th>Titel</th><th style="text-align:center">Schwierigkeit</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="nr">1</td><td>Technik</td><td>U-Boot-Luke in 100 m Tiefe</td><td class="s">●●○</td></tr>
+      <tr><td class="nr">2</td><td>Wasserwerk</td><td>Wasserturm und Hausanschluss</td><td class="s">●○○</td></tr>
+      <tr><td class="nr">3</td><td>Werkstatt</td><td>Hydraulische Hebebühne</td><td class="s">●●●</td></tr>
+      <tr><td class="nr">4</td><td>Luftfahrt</td><td>Heissluftballon</td><td class="s">●●●</td></tr>
+      <tr><td class="nr">5</td><td>Hafen</td><td>Beladung eines Frachters</td><td class="s">●●○</td></tr>
+      <tr><td class="nr">6</td><td>Antike</td><td>Goldkrone des Hieron</td><td class="s">●●●</td></tr>
+      <tr><td class="nr">7</td><td>Labor</td><td>Aräometer in unbekannter Flüssigkeit</td><td class="s">●●○</td></tr>
+      <tr><td class="nr">8</td><td>Bauwesen</td><td>Wassertank und Bodenkraft</td><td class="s">●●○</td></tr>
+      <tr><td class="nr">9</td><td>Tauchtechnik</td><td>U-Boot in Schwebe-Bedingung</td><td class="s">●●●</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ════════════════════════════ AUFGABEN ════════════════════════════ -->
+
+  <!-- AUFGABE 1 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">1</span>
+      <span class="aufg-titel">U-Boot-Luke in 100 m Tiefe</span>
+      <span class="bereich-tag">Technik</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein U-Boot operiert auf \( h = 100\,\text{m} \) Tiefe. Eine rechteckige Wartungsluke hat
+        die Masse \( 0.50\,\text{m} \times 0.40\,\text{m} \). Im Innenraum herrscht normaler Luftdruck.</p>
+        <p>(a) Welcher Schweredruck herrscht auf der Aussenseite der Luke?</p>
+        <p>(b) Welche resultierende Druckkraft drückt die Luke zu (ohne Luftdruck im Innenraum
+        berücksichtigt)?</p>
+        <p>(c) Welche Masse müsste eine Person stemmen, um sie von innen aufzudrücken?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">U-Boot in der Tiefe</div>
+        <svg viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <rect x="0" y="0" width="140" height="100" fill="#e3eef5"/>
+          <line x1="0" y1="8" x2="140" y2="8" stroke="#3a7a96" stroke-width="0.6"/>
+          <text x="3" y="6" font-size="6" fill="#3a7a96">Oberfläche</text>
+          <ellipse cx="70" cy="78" rx="42" ry="11" fill="#1a4f8a" stroke="#0a2a4d" stroke-width="0.6"/>
+          <rect x="64" y="68" width="12" height="3" fill="#8a4a0e" stroke="#5b2d8e" stroke-width="0.5"/>
+          <text x="70" y="65" text-anchor="middle" font-size="6" fill="#8a4a0e">Luke</text>
+          <line x1="125" y1="8" x2="125" y2="78" stroke="#a02828" stroke-width="0.6" stroke-dasharray="2 1"/>
+          <text x="129" y="44" font-size="7" fill="#a02828">h=100 m</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 2 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">2</span>
+      <span class="aufg-titel">Wasserturm und Hausanschluss</span>
+      <span class="bereich-tag">Wasserwerk</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt-leer">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein Wasserturm liefert sein Wasser über ein Rohrnetz an Häuser. Der Wasserspiegel im Turm
+        liegt \( h = 35\,\text{m} \) über dem Hahn im Erdgeschoss eines Hauses.</p>
+        <p>(a) Welcher statische Druck herrscht am Hahn (relativ zur Atmosphäre)?</p>
+        <p>(b) Im obersten Stockwerk eines 6-stöckigen Hauses (Hahn liegt \( 18\,\text{m} \)
+        höher als im Erdgeschoss) — welcher Druck herrscht dort noch?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Wasserturm</div>
+        <svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <rect x="10" y="15" width="28" height="22" fill="#a8d0e2" stroke="#1a4f8a" stroke-width="0.6"/>
+          <line x1="10" y1="20" x2="38" y2="20" stroke="#1a4f8a" stroke-width="0.6" stroke-dasharray="1 1"/>
+          <rect x="20" y="37" width="8" height="50" fill="#7a7a7a" stroke="#1a1a1a" stroke-width="0.4"/>
+          <line x1="10" y1="20" x2="100" y2="20" stroke="#a02828" stroke-width="0.4" stroke-dasharray="2 1"/>
+          <rect x="80" y="55" width="30" height="32" fill="#fff" stroke="#1a1a1a" stroke-width="0.5"/>
+          <rect x="92" y="80" width="5" height="7" fill="#5b2d8e"/>
+          <line x1="80" y1="87" x2="100" y2="87" stroke="#a02828" stroke-width="0.4" stroke-dasharray="2 1"/>
+          <line x1="110" y1="20" x2="110" y2="87" stroke="#a02828" stroke-width="0.5"/>
+          <text x="113" y="55" font-size="7" fill="#a02828">35 m</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 3 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">3</span>
+      <span class="aufg-titel">Hydraulische Hebebühne</span>
+      <span class="bereich-tag">Werkstatt</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>In einer Werkstatt soll ein PKW mit der Masse \( m = 1400\,\text{kg} \) auf eine hydraulische
+        Hebebühne gehoben werden. Der Lastkolben hat den Radius \( r_2 = 10\,\text{cm} \), der
+        Pumpkolben den Radius \( r_1 = 2\,\text{cm} \).</p>
+        <p>(a) Welche Kraft muss am Pumpkolben aufgewendet werden?</p>
+        <p>(b) Welcher Druck herrscht in der Hydraulikflüssigkeit?</p>
+        <p>(c) Wie weit muss der Pumpkolben bewegt werden, damit das Fahrzeug um \( 30\,\text{cm} \)
+        steigt? Diskutiere das Ergebnis bezüglich der Praxis.</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Hebebühne</div>
+        <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <path d="M20 80 L20 50 L40 50 L40 30 L100 30 L100 20 L120 20 L120 80 Z" fill="#a8d0e2" stroke="#1a4f8a" stroke-width="0.6"/>
+          <rect x="20" y="45" width="20" height="5" fill="#5b2d8e"/>
+          <rect x="100" y="15" width="20" height="5" fill="#5b2d8e"/>
+          <text x="30" y="42" text-anchor="middle" font-size="6" fill="#5b2d8e">F1</text>
+          <text x="110" y="12" text-anchor="middle" font-size="6" fill="#5b2d8e">F2</text>
+          <text x="30" y="60" text-anchor="middle" font-size="6" fill="#1a4f8a">r1=2cm</text>
+          <text x="110" y="28" text-anchor="middle" font-size="6" fill="#1a4f8a">r2=10cm</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 4 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">4</span>
+      <span class="aufg-titel">Heissluftballon</span>
+      <span class="bereich-tag">Luftfahrt</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein Heissluftballon hat ein Hüllen-Volumen von \( V = 2500\,\text{m}^3 \). Hülle, Korb und
+        Brenner zusammen wiegen \( m_h = 400\,\text{kg} \). Die Aussenluft hat eine Dichte von
+        \( \rho_\text{kalt} = 1.20\,\text{kg/m}^3 \), die Luft im Ballon ist auf
+        \( \rho_\text{warm} = 0.95\,\text{kg/m}^3 \) erhitzt.</p>
+        <p>(a) Welche Auftriebskraft erfährt der Ballon?</p>
+        <p>(b) Welche Gewichtskraft hat das ganze System (warme Luft im Ballon + Hülle + Korb)?</p>
+        <p>(c) Welche maximale Nutzlast (Passagiere und Gepäck) kann der Ballon noch tragen?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Heissluftballon</div>
+        <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <ellipse cx="50" cy="45" rx="32" ry="38" fill="#fbecd2" stroke="#8a4a0e" stroke-width="0.7"/>
+          <path d="M30 80 L40 95 M70 80 L60 95" stroke="#1a1a1a" stroke-width="0.4"/>
+          <rect x="38" y="95" width="24" height="10" fill="#8a4a0e" stroke="#1a1a1a" stroke-width="0.4"/>
+          <line x1="50" y1="10" x2="50" y2="2" stroke="#1f6b3a" stroke-width="0.8" marker-end="url(#m1)"/>
+          <defs><marker id="m1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#1f6b3a"/></marker></defs>
+          <text x="56" y="8" font-size="7" fill="#1f6b3a">F_A</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 5 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">5</span>
+      <span class="aufg-titel">Beladung eines Frachters</span>
+      <span class="bereich-tag">Hafen</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein Binnenfrachter hat im Wasserspiegelbereich eine konstante Querschnittsfläche von
+        \( A = 200\,\text{m}^2 \). Beim Beladen sinkt die Wasserlinie des Schiffes (relativ zum Schiff)
+        um \( \Delta h = 8\,\text{cm} \) tiefer.</p>
+        <p>(a) Welche Masse wurde verladen? Begründe über das Archimedische Prinzip.</p>
+        <p>(b) Würde der Frachter mehr oder weniger Wasser verdrängen, wenn er stattdessen in
+        Meerwasser \( (\rho = 1025\,\text{kg/m}^3) \) ankert? Begründe qualitativ.</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Vor und nach Beladung</div>
+        <svg viewBox="0 0 130 80" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <rect x="0" y="40" width="130" height="40" fill="#a8d0e2"/>
+          <line x1="0" y1="40" x2="130" y2="40" stroke="#3a7a96" stroke-width="0.6"/>
+          <path d="M20 30 L55 30 L52 50 L23 50 Z" fill="#8a4a0e" stroke="#1a1a1a" stroke-width="0.5"/>
+          <text x="38" y="25" text-anchor="middle" font-size="6" fill="#1a1a1a">leer</text>
+          <path d="M75 30 L110 30 L108 58 L77 58 Z" fill="#8a4a0e" stroke="#1a1a1a" stroke-width="0.5"/>
+          <text x="93" y="25" text-anchor="middle" font-size="6" fill="#1a1a1a">beladen</text>
+          <line x1="105" y1="40" x2="120" y2="40" stroke="#a02828" stroke-width="0.4"/>
+          <line x1="105" y1="58" x2="120" y2="58" stroke="#a02828" stroke-width="0.4"/>
+          <line x1="118" y1="40" x2="118" y2="58" stroke="#a02828" stroke-width="0.5"/>
+          <text x="121" y="51" font-size="7" fill="#a02828">8 cm</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 6 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">6</span>
+      <span class="aufg-titel">Goldkrone des Hieron</span>
+      <span class="bereich-tag">Antike</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Das klassische Problem, das Archimedes laut Legende im Bad gelöst hat. Eine Krone wird an
+        einer Federwaage gewogen:</p>
+        <p>— In Luft: \( m_\text{Luft} = 485\,\text{g} \) (Anzeige).<br>
+        — Vollständig in Wasser eingetaucht: \( m_\text{Wasser} = 458\,\text{g} \) (Anzeige).</p>
+        <p>(a) Welches Volumen hat die Krone?</p>
+        <p>(b) Welche mittlere Dichte hat das Material?</p>
+        <p>(c) Vergleiche mit \( \rho_\text{Gold} = 19\,300\,\text{kg/m}^3 \) und
+        \( \rho_\text{Silber} = 10\,500\,\text{kg/m}^3 \) — was kann man sagen?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Federwaage</div>
+        <svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <line x1="60" y1="5" x2="60" y2="30" stroke="#1a1a1a" stroke-width="0.7"/>
+          <rect x="50" y="30" width="20" height="20" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+          <text x="60" y="45" text-anchor="middle" font-size="7" fill="#1a1a1a">m?</text>
+          <line x1="60" y1="50" x2="60" y2="65" stroke="#1a1a1a" stroke-width="0.4"/>
+          <polygon points="50,65 70,65 65,80 55,80" fill="#daa520" stroke="#8a4a0e" stroke-width="0.5"/>
+          <text x="78" y="74" font-size="7" fill="#8a4a0e">Krone</text>
+          <rect x="20" y="85" width="80" height="22" fill="#a8d0e2" stroke="#1a4f8a" stroke-width="0.6"/>
+          <text x="60" y="100" text-anchor="middle" font-size="7" fill="#1a4f8a">Wasser</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 7 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">7</span>
+      <span class="aufg-titel">Aräometer in unbekannter Flüssigkeit</span>
+      <span class="bereich-tag">Labor</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein Aräometer (Dichtemessgerät, schwimmt aufrecht) taucht in reinem Wasser bis zu einer
+        Tiefe von \( h_\text{W} = 12.0\,\text{cm} \). In einer unbekannten Flüssigkeit X taucht es nur
+        \( h_X = 10.0\,\text{cm} \) tief ein. Die Eintauchquerschnitts­fläche sei in beiden Fällen
+        gleich.</p>
+        <p>(a) Stelle die Bedingung für das Schwimm-Gleichgewicht in beiden Flüssigkeiten auf.</p>
+        <p>(b) Bestimme die Dichte \( \rho_X \) der unbekannten Flüssigkeit.</p>
+        <p>(c) Schätze ab: könnte es sich um Glycerin, Speiseöl oder Wasser-Glycerin-Gemisch
+        handeln?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Aräometer</div>
+        <svg viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <rect x="5" y="55" width="55" height="40" fill="#a8d0e2" stroke="#1a4f8a" stroke-width="0.5"/>
+          <ellipse cx="32" cy="80" rx="6" ry="10" fill="#fbecd2" stroke="#8a4a0e" stroke-width="0.4"/>
+          <rect x="30" y="40" width="4" height="35" fill="#fbecd2" stroke="#8a4a0e" stroke-width="0.4"/>
+          <line x1="60" y1="55" x2="60" y2="75" stroke="#a02828" stroke-width="0.4"/>
+          <text x="62" y="68" font-size="6" fill="#a02828">12cm</text>
+          <text x="32" y="100" text-anchor="middle" font-size="6">Wasser</text>
+          <rect x="70" y="55" width="55" height="40" fill="#e8d8b0" stroke="#8a4a0e" stroke-width="0.5"/>
+          <ellipse cx="97" cy="75" rx="6" ry="9" fill="#fbecd2" stroke="#8a4a0e" stroke-width="0.4"/>
+          <rect x="95" y="38" width="4" height="33" fill="#fbecd2" stroke="#8a4a0e" stroke-width="0.4"/>
+          <line x1="125" y1="55" x2="125" y2="71" stroke="#a02828" stroke-width="0.4"/>
+          <text x="120" y="65" font-size="6" fill="#a02828">10cm</text>
+          <text x="97" y="100" text-anchor="middle" font-size="6">X</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 8 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">8</span>
+      <span class="aufg-titel">Wassertank und Bodenkraft</span>
+      <span class="bereich-tag">Bauwesen</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein zylindrischer Trinkwassertank hat einen Innendurchmesser \( d = 3.0\,\text{m} \) und ist
+        \( h = 4.0\,\text{m} \) hoch. Er ist vollständig mit Wasser gefüllt.</p>
+        <p>(a) Berechne den Schweredruck am Boden des Tanks.</p>
+        <p>(b) Welche Kraft drückt auf den Boden? Gib die Antwort auch in „Tonnen" an
+        ( \( 1\,\text{t} = 9.81\,\text{kN} \) ).</p>
+        <p>(c) Wie ändert sich die Kraft, wenn statt Wasser Quecksilber
+        \( (\rho_\text{Hg} = 13\,600\,\text{kg/m}^3) \) eingefüllt würde? Begründe qualitativ.</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Tank</div>
+        <svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <rect x="20" y="15" width="50" height="80" fill="#a8d0e2" stroke="#1a4f8a" stroke-width="0.6"/>
+          <line x1="20" y1="20" x2="70" y2="20" stroke="#1a4f8a" stroke-width="0.5" stroke-dasharray="1 1"/>
+          <line x1="75" y1="15" x2="75" y2="95" stroke="#a02828" stroke-width="0.4"/>
+          <text x="78" y="58" font-size="7" fill="#a02828">4.0 m</text>
+          <line x1="20" y1="100" x2="70" y2="100" stroke="#a02828" stroke-width="0.4"/>
+          <text x="45" y="108" text-anchor="middle" font-size="7" fill="#a02828">d = 3.0 m</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 9 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">9</span>
+      <span class="aufg-titel">U-Boot in Schwebe-Bedingung</span>
+      <span class="bereich-tag">Tauchtechnik</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein Forschungs-U-Boot hat ein konstantes Aussenvolumen von \( V = 50\,\text{m}^3 \) und eine
+        Leermasse von \( m_\text{leer} = 45\,\text{t} \) (ohne Wasser in den Ballasttanks). Um zu tauchen,
+        wird Wasser von aussen in die Ballasttanks gelassen; zum Auftauchen wird das Wasser mit Druckluft
+        wieder hinausgedrückt.</p>
+        <p>(a) Welche Wassermasse muss in die Ballasttanks geflutet werden, damit das U-Boot in
+        <em>Süsswasser</em> in jeder Tiefe schwebt (\( F_\text{A} = F_\text{G} \))?</p>
+        <p>(b) Wieviel Ballastwasser ist in <em>Meerwasser</em> (\( \rho_\text{M} = 1025\,\text{kg/m}^3 \))
+        nötig? Erkläre die Differenz zum Süsswasser-Wert.</p>
+        <p>(c) Das U-Boot taucht im Meer auf \( h = 100\,\text{m} \) Tiefe ab. Welcher Schweredruck wirkt
+        auf die Aussenhülle? Welcher Gesamtdruck inklusive Atmosphäre?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">U-Boot mit Ballasttank</div>
+        <svg viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <!-- Wasser-Hintergrund -->
+          <rect x="0" y="15" width="140" height="85" fill="#bcd9ec"/>
+          <line x1="0" y1="15" x2="140" y2="15" stroke="#3a7a96" stroke-width="0.6"/>
+          <text x="3" y="13" font-size="5.5" fill="#3a7a96">Meeresoberfläche</text>
+          <!-- U-Boot-Körper (Ellipse) -->
+          <ellipse cx="70" cy="55" rx="48" ry="14" fill="#5c5f6b" stroke="#1a1a1a" stroke-width="0.6"/>
+          <!-- Turm -->
+          <rect x="62" y="35" width="16" height="8" fill="#5c5f6b" stroke="#1a1a1a" stroke-width="0.5"/>
+          <!-- Ballasttank-Andeutung (zwei Kammern unten) -->
+          <rect x="35" y="58" width="22" height="6" fill="#1a4f8a" stroke="#fff" stroke-width="0.4"/>
+          <rect x="83" y="58" width="22" height="6" fill="#1a4f8a" stroke="#fff" stroke-width="0.4"/>
+          <text x="46" y="63" text-anchor="middle" font-size="4.5" fill="#fff">Ballast</text>
+          <text x="94" y="63" text-anchor="middle" font-size="4.5" fill="#fff">Ballast</text>
+          <!-- Kraftpfeile -->
+          <line x1="70" y1="35" x2="70" y2="22" stroke="#1f6b3a" stroke-width="0.9" marker-end="url(#mU)"/>
+          <line x1="70" y1="70" x2="70" y2="85" stroke="#a02828" stroke-width="0.9" marker-end="url(#mD)"/>
+          <defs>
+            <marker id="mU" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 6 L3 0 L6 6 Z" fill="#1f6b3a"/></marker>
+            <marker id="mD" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L3 6 L6 0 Z" fill="#a02828"/></marker>
+          </defs>
+          <text x="74" y="27" font-size="6" fill="#1f6b3a">F_A</text>
+          <text x="74" y="84" font-size="6" fill="#a02828">F_G</text>
+          <!-- Tiefenangabe -->
+          <line x1="125" y1="15" x2="125" y2="55" stroke="#a02828" stroke-width="0.4" stroke-dasharray="2 1"/>
+          <text x="128" y="38" font-size="6" fill="#a02828">h = 100 m</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- ════════════════════════════ MUSTERLÖSUNGEN ════════════════════════════ -->
+  <div class="neue-seite"></div>
+
+  <h2 style="border-bottom:2px solid var(--gruen);color:var(--gruen)">Musterlösungen</h2>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 1 — U-Boot-Luke</div>
+    <p>(a) \( p_\text{S} = \rho_\text{W} \cdot g \cdot h = 1000 \cdot 9.81 \cdot 100 = 981\,000\,\text{Pa}
+    \approx 9.81\,\text{bar} \).</p>
+    <p>(b) Fläche \( A = 0.50 \cdot 0.40 = 0.20\,\text{m}^2 \). Resultierende Kraft (Aussendruck −
+    Innendruck): \( F = p_\text{S} \cdot A = 981\,000 \cdot 0.20 \approx 196\,200\,\text{N} \approx
+    196\,\text{kN} \).</p>
+    <p>(c) Diese Kraft entspricht dem Gewicht von \( m = F/g \approx 20\,000\,\text{kg} = 20\,\text{t} \).
+    Praktisch unmöglich zu öffnen — daher muss der Innenraum vorher mit Wasser geflutet werden, um
+    Druckausgleich herzustellen.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 2 — Wasserturm</div>
+    <p>(a) \( p = \rho \cdot g \cdot h = 1000 \cdot 9.81 \cdot 35 \approx 343\,000\,\text{Pa}
+    = 3.43\,\text{bar} \). Solide Anschlussdruck im EG.</p>
+    <p>(b) Höhendifferenz reduziert sich auf \( 35-18 = 17\,\text{m} \). \( p = 1000 \cdot 9.81 \cdot 17
+    \approx 167\,000\,\text{Pa} = 1.67\,\text{bar} \) — immer noch ausreichend für Dusche und Hahn,
+    aber merklich weniger als unten.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 3 — Hebebühne</div>
+    <p>Flächen: \( A_1 = \pi r_1^2 = \pi \cdot (0.02)^2 \approx 12.57\,\text{cm}^2 \);
+    \( A_2 = \pi \cdot (0.10)^2 \approx 314.2\,\text{cm}^2 \). Verhältnis \( A_2/A_1 = 25 \).</p>
+    <p>(a) Lastgewicht \( F_2 = m \cdot g = 1400 \cdot 9.81 \approx 13\,734\,\text{N} \).
+    Pascal: \( F_1 = F_2 \cdot \dfrac{A_1}{A_2} = 13\,734 / 25 \approx 549\,\text{N} \) — eine Person
+    schafft das (entspricht ca. \( 56\,\text{kg} \) Gewichtsdruck).</p>
+    <p>(b) Druck im System: \( p = F_2/A_2 = 13\,734 / 0.0314 \approx 4.37 \cdot 10^5\,\text{Pa}
+    = 4.4\,\text{bar} \). Identisch über \( F_1/A_1 = 549/0.001257 \approx 4.4\,\text{bar} \). ✓</p>
+    <p>(c) Volumen­erhaltung: \( s_1 \cdot A_1 = s_2 \cdot A_2 \). Mit \( s_2 = 30\,\text{cm} \):
+    \( s_1 = s_2 \cdot \dfrac{A_2}{A_1} = 30 \cdot 25 = 750\,\text{cm} = 7.5\,\text{m} \).
+    Diskussion: pro Pumphub von etwa \( 20\,\text{cm} \) braucht man rund 38 Pumphübe — daher die
+    sichtbare Pumpbewegung bei realen Bühnen.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 4 — Heissluftballon</div>
+    <p>(a) Auftrieb (durch die kalte Umgebungsluft):
+    \( F_\text{A} = \rho_\text{kalt} \cdot V \cdot g = 1.20 \cdot 2500 \cdot 9.81 \approx 29\,430\,\text{N} \).</p>
+    <p>(b) Masse der warmen Luft im Ballon: \( m_\text{warm} = \rho_\text{warm} \cdot V = 0.95 \cdot 2500
+    = 2375\,\text{kg} \). Gesamtgewicht ohne Nutzlast:
+    \( F_\text{G} = (m_\text{warm} + m_h) \cdot g = (2375 + 400) \cdot 9.81 \approx 27\,223\,\text{N} \).</p>
+    <p>(c) Verfügbarer Auftrieb: \( F_\text{netto} = F_\text{A} - F_\text{G} \approx 2207\,\text{N} \)
+    \( \Rightarrow \) Nutzlast \( m_\text{n} = F_\text{netto}/g \approx 225\,\text{kg} \) — etwa drei
+    Personen.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 5 — Beladung Frachter</div>
+    <p>(a) Beim Beladen muss zusätzlicher Auftrieb das Lastgewicht aufnehmen. Das Schiff verdrängt
+    zusätzlich das Volumen \( V_\text{zus} = A \cdot \Delta h = 200 \cdot 0.08 = 16\,\text{m}^3 \).
+    \( m_\text{Last} = \rho_\text{W} \cdot V_\text{zus} = 1000 \cdot 16 = 16\,000\,\text{kg} = 16\,\text{t} \).</p>
+    <p>(b) In Meerwasser ist dieselbe Last bereits durch weniger verdrängtes Volumen ausgeglichen
+    (höhere Dichte). Der Frachter liegt also höher im Wasser. Daher die Plimsoll-Marken auf
+    Schiffen — sie geben unterschiedliche maximale Eintauchtiefen für Frisch- und Salzwasser an.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 6 — Goldkrone</div>
+    <p>(a) Der scheinbare Gewichtsverlust ist gleich der Auftriebskraft:
+    \( F_\text{A} = (m_\text{Luft} - m_\text{Wasser}) \cdot g = 0.027 \cdot 9.81 \approx 0.265\,\text{N} \).
+    Daraus \( V = F_\text{A}/(\rho_\text{W} \cdot g) = 0.265/9810 = 2.7 \cdot 10^{-5}\,\text{m}^3
+    = 27\,\text{cm}^3 \).</p>
+    <p>(b) Mittlere Dichte: \( \rho_K = m_\text{Luft}/V = 0.485 / 2.7 \cdot 10^{-5}
+    \approx 17\,960\,\text{kg/m}^3 \).</p>
+    <p>(c) Reines Gold hätte \( 19\,300\,\text{kg/m}^3 \). Die ermittelten \( \approx 18\,000\,\text{kg/m}^3 \)
+    liegen deutlich darunter — die Krone enthält wahrscheinlich Silber als Beimischung. Hieron wurde betrogen.</p>
+    <p><strong>Abschätzung mit Mischungsregel</strong> (für anspruchsvolle Lernende): Setzt man die mittlere
+    Dichte als gewichtete Summe der Volumenanteile an, \( \rho_K = \alpha \cdot \rho_\text{Gold} + (1-\alpha)
+    \cdot \rho_\text{Silber} \), folgt für den Volumenanteil Gold:</p>
+    <p style="text-align:center">\( \alpha = \dfrac{\rho_K - \rho_\text{Silber}}{\rho_\text{Gold} -
+    \rho_\text{Silber}} = \dfrac{17\,960 - 10\,500}{19\,300 - 10\,500} \approx 0.85 \).</p>
+    <p>Die Krone besteht also zu rund \( 85\,\% \) (Volumen) bzw. \( 91\,\% \) (Masse) aus Gold —
+    immer noch wertvoll, aber kein reines Gold. Genau diese Diskrepanz hat Archimedes nachgewiesen.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 7 — Aräometer</div>
+    <p>(a) Gleichgewicht: \( m \cdot g = \rho \cdot V_\text{e} \cdot g \). Bei gleicher Querschnitts­fläche
+    \( A \) gilt \( V_\text{e} = A \cdot h \), also \( m = \rho \cdot A \cdot h \). Da \( m \) und
+    \( A \) konstant sind:</p>
+    <p style="text-align:center">\( \rho_\text{W} \cdot h_\text{W} = \rho_X \cdot h_X \).</p>
+    <p>(b) \( \rho_X = \rho_\text{W} \cdot \dfrac{h_\text{W}}{h_X} = 1000 \cdot \dfrac{12.0}{10.0}
+    = 1200\,\text{kg/m}^3 \).</p>
+    <p>(c) Speiseöl wäre \( \approx 850\,\text{kg/m}^3 \) (zu klein), reines Glycerin \( \approx 1260 \)
+    (etwas zu hoch). Wahrscheinlich Wasser-Glycerin-Gemisch oder konzentrierte Zuckerlösung.
+    Aräometer messen genau auf diese Weise.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 8 — Wassertank</div>
+    <p>(a) Schweredruck am Boden: \( p = \rho_\text{W} \cdot g \cdot h = 1000 \cdot 9.81 \cdot 4.0
+    = 39\,240\,\text{Pa} \approx 39.2\,\text{kPa} \approx 0.39\,\text{bar} \).</p>
+    <p>(b) Bodenfläche: \( A = \pi (d/2)^2 = \pi \cdot 1.5^2 \approx 7.07\,\text{m}^2 \).
+    Kraft: \( F = p \cdot A = 39\,240 \cdot 7.07 \approx 277\,000\,\text{N} = 277\,\text{kN} \).
+    Das entspricht dem Gewicht von \( \approx 28\,\text{t} \) (genau dem Gewicht des Wassers im Tank,
+    da der zylindrische Tank gerade Wände hat — kein Paradoxon-Effekt).</p>
+    <p>(c) Quecksilber ist 13.6-mal dichter als Wasser. \( p \) wäre also 13.6-mal grösser, ebenso die
+    Bodenkraft. Tankwände müssten massiv verstärkt werden.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 9 — U-Boot in Schwebe-Bedingung</div>
+    <p>(a) Schwebebedingung: Auftrieb = Gewicht, also \( \rho_\text{W} \cdot V \cdot g =
+    (m_\text{leer} + m_\text{ballast}) \cdot g \). Daraus:</p>
+    <p style="text-align:center">\( m_\text{ballast} = \rho_\text{W} \cdot V - m_\text{leer}
+    = 1000 \cdot 50 - 45\,000 = 5000\,\text{kg} = 5.0\,\text{t} \).</p>
+    <p>(b) Analog in Meerwasser:
+    \( m_\text{ballast,M} = 1025 \cdot 50 - 45\,000 = 6250\,\text{kg} = 6.25\,\text{t} \).</p>
+    <p>Differenz zum Süsswasser: \( 1.25\,\text{t} \) <em>mehr</em> Ballast nötig.
+    Das mag überraschen — Meerwasser ist doch dichter, der Auftrieb also <em>grösser</em>?
+    Genau deshalb: in Meerwasser bekommt das U-Boot bei gleichem Volumen mehr Auftrieb, also muss
+    es <em>schwerer</em> gemacht werden, um den Auftrieb auszugleichen. Ein U-Boot, das im
+    Süsswassersee austariert wurde, würde im Meer aufsteigen.</p>
+    <p>(c) Schweredruck in 100 m Meerwasser:</p>
+    <p style="text-align:center">\( p_\text{S} = \rho_\text{M} \cdot g \cdot h = 1025 \cdot 9.81 \cdot 100
+    \approx 1.006 \cdot 10^6\,\text{Pa} \approx 10.06\,\text{bar} \).</p>
+    <p>Gesamtdruck mit Atmosphäre: \( p = p_0 + p_\text{S} \approx 1.013 + 10.06 \approx 11.07\,\text{bar} \).
+    Die Aussenhülle muss diesen Differenzdruck zum Innenraum (1 atm) aushalten — daher die
+    massiven Druckkörper-Konstruktionen.</p>
+    <p><strong>Diskussion:</strong> Diese Aufgabe verbindet drei Konzepte: Schweredruck (Teil c),
+    Auftrieb (Teil a, b) und Dichtevergleich (die Differenz in b). Reale U-Boote haben zusätzlich
+    einen <em>Trimm-Mechanismus</em> für Feinjustierung, weil sich Wasserdichte mit Temperatur und
+    Salzgehalt geringfügig ändert.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

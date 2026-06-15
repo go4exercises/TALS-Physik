@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.3 Wärmeausdehnung — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* Seitenspezifisch */
+.stoff-wahl { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+.stoff-wahl button { font-family:var(--sans); font-size:0.78rem; font-weight:600; background:var(--papier-2);
+  color:var(--tinte); border:1px solid var(--linie); padding:5px 11px; border-radius:6px; cursor:pointer; }
+.stoff-wahl button.aktiv { background:var(--bernstein); color:#fff; border-color:var(--bernstein); }
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 5 Thermodynamik</div>
+  <h1 class="pt-h1">5.3 Wärmeausdehnung</h1>
+  <p class="pt-untertitel">Wie sich feste Körper, Flüssigkeiten und Gase mit der Temperatur ausdehnen — von der Eisenbahnschiene über den Meeresspiegel bis zum idealen Gasgesetz.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 5.3 · 30 Lektionen (Lerngebiet 5)</div>
+  <ul>
+    <li>den Effekt der Wärmeausdehnung (linear und volumenbezogen) in Abhängigkeit von der Temperatur quantifizieren (z.&nbsp;B. den Meeresspiegelanstieg aufgrund der Wassererwärmung berechnen)</li>
+    <li>das Modell der idealen Gase anwenden, um Druck-, Temperatur- und Volumenänderungen von Gasen bei gleichbleibender Teilchenmenge zu berechnen</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann die lineare Wärmeausdehnung \(\Delta l=\alpha l_0\Delta T\) berechnen.</li>
+      <li>Ich kann die Volumenausdehnung von Festkörpern, Flüssigkeiten und Gasen quantifizieren.</li>
+      <li>Ich kann die Anomalie des Wassers erklären und ihre Folgen nennen.</li>
+      <li>Ich kann mit dem Modell des idealen Gases Druck-, Volumen- und Temperaturänderungen berechnen.</li>
+      <li>Ich kann Anwendungen wie Dehnungsfugen und den Meeresspiegelanstieg einordnen.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — warum haben Schienen und Brücken Lücken?</h2>
+
+<p>Eisenbahnschienen, Brücken und Betonplatten besitzen an ihren Enden bewusst eingebaute <strong>Dehnungslücken</strong> (Dilatationsfugen). Der Grund: Bei Erwärmung dehnen sich die Stoffe aus. Im Teilchenbild schwingen die Atome bei höherer Temperatur stärker und stossen ihre Nachbarn weiter weg — der Körper wird länger. Ohne Lücke entstünden enorme Druckspannungen, die das Material verformen oder zerstören könnten.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Beobachte</div>
+  <p>Die Animation zeigt zwei Schienenstücke mit einer Dehnungslücke. Erhöhe die Temperatur und beobachte, wie sich die Schiene ausdehnt und die Lücke schrumpft. Schliesst sich die Lücke ganz, stossen die Schienen aneinander — es droht eine Verwerfung.</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>🚆 Einstieg-Animation · Schiene mit Dehnungslücke</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere die Temperatur und lies die reale Längenänderung ab.</li><li>Beachte: \(l_0 = 25\;\text{m}\), \(\alpha = 12\cdot 10^{-6}\;\text{K}^{-1}\).</li><li>Beachte, dass die Lücke im Bild stark vergrössert ist.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere die Temperatur und lies die reale Längenänderung der Schiene ab. Beachte die Anfangslänge von 25 Metern und den Ausdehnungskoeffizienten 12 mal zehn hoch minus sechs pro Kelvin. Beachte, dass die Dehnungslücke im Bild stark vergrössert dargestellt ist." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Längenausdehnung: \(\Delta l = \alpha \cdot l_0 \cdot \Delta T\).</li><li>Klein, aber über 25 m mehrere Millimeter — darum die Lücke.</li><li>Ohne Dehnungslücke entstünden grosse Druckspannungen in der Schiene.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Längenausdehnung ist delta l gleich alpha mal l null mal delta T. Die Änderung ist klein, aber über 25 Meter immerhin mehrere Millimeter; darum braucht es die Dehnungslücke. Ohne diese Lücke entstünden grosse Druckspannungen in der Schiene." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Temperatur:</label>
+      <input type="range" id="ein-T" min="-20" max="60" value="10" step="1">
+      <span class="sl-val" id="ein-T-val">10 °C</span>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="ein-Tc">10 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">Längenänderung \(\Delta l\)</span><span class="lb-val" id="ein-dl">0.0 mm</span></div>
+      <div class="lb-item"><span class="lb-lab">Restlücke</span><span class="lb-val" id="ein-gap">10.0 mm</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🛤 Zwei Schienenstücke und die Dehnungslücke</div>
+      <canvas id="ein-cv" height="200"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<p>Die Wärmeausdehnung ist meist klein, aber bei grossen Bauteilen und im technischen Alltag entscheidend. Wir berechnen sie zuerst für die Länge, dann für das Volumen von Flüssigkeiten — bis hin zum Meeresspiegel — und schliesslich für Gase, deren Verhalten das ideale Gasgesetz beschreibt.</p>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Warum haben Schienen und Brücken Dehnungsfugen?</p><ul class="mc-optionen"><li data-opt="A">um Material zu sparen</li><li data-opt="B">damit sich das Material bei Erwärmung ausdehnen kann</li><li data-opt="C">aus optischen Gründen</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Ohne Fugen würde sich das erwärmte Material verbiegen oder Spannungen aufbauen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die meisten Stoffe dehnen sich beim Erwärmen <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">aus.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine \(10\;\text{m}\)-Stahlschiene (\(\alpha = 12\cdot 10^{-6}\;\text{1/K}\)) erwärmt sich um \(\Delta T = 30\;\text{K}\). Längenänderung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\Delta l = \alpha\,l_0\,\Delta T = 12\cdot 10^{-6} \cdot 10 \cdot 30 = 3.6\cdot 10^{-3}\;\text{m} = 3.6\;\text{mm}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum verlegt man Hochspannungsleitungen im Sommer absichtlich leicht durchhängend?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Bei Kälte zieht sich das Kabel zusammen. Wäre es straff verlegt, könnte es im Winter reissen. Der Durchhang gibt Spielraum für die thermische Längenänderung.</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Längenausdehnung fester Körper</div>
+  <p>Ein Stab der Anfangslänge \(l_0\) wird bei Erwärmung um \(\Delta T\) länger. Die Längenänderung ist proportional zur Anfangslänge, zur Temperaturänderung und zum stoffabhängigen <strong>Längenausdehnungskoeffizienten</strong> \(\alpha\):</p>
+  \[ \Delta l = \alpha \cdot l_0 \cdot \Delta T, \qquad l = l_0 + \Delta l \]
+  <p>Die Formel gilt für Erwärmung (\(\Delta T>0\)) wie für Abkühlung (\(\Delta T<0\)). Die <strong>relative</strong> Längenänderung \(\Delta l / l_0 = \alpha\,\Delta T\) ist einheitenlos. Typische Werte:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Material</th><th>\(\alpha\) [\(10^{-6}\,\text{K}^{-1}\)]</th><th>Material</th><th>\(\alpha\) [\(10^{-6}\,\text{K}^{-1}\)]</th></tr></thead>
+    <tbody>
+      <tr><td>Aluminium</td><td>23.8</td><td>Eisen / Stahl</td><td>≈ 12</td></tr>
+      <tr><td>Messing</td><td>18.4</td><td>Beton</td><td>6–14</td></tr>
+      <tr><td>Chromstahl</td><td>16</td><td>Wolfram</td><td>4.3</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Volumenausdehnung</div>
+  <p>Ein Körper dehnt sich in <strong>alle</strong> Richtungen aus. Für das Volumen gilt analog:</p>
+  \[ \Delta V = \gamma \cdot V_0 \cdot \Delta T \]
+  <p>mit dem <strong>Volumenausdehnungskoeffizienten</strong> \(\gamma\). Für feste Körper folgt aus der Längenausdehnung in drei Richtungen näherungsweise</p>
+  \[ \gamma \approx 3\,\alpha \]
+  <p>(die höheren Glieder sind vernachlässigbar klein). Flüssigkeiten haben keine feste Form; für sie wird \(\gamma\) direkt angegeben. Flüssigkeiten dehnen sich deutlich stärker aus als Festkörper:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Flüssigkeit</th><th>\(\gamma\) [\(10^{-3}\,\text{K}^{-1}\)]</th></tr></thead>
+    <tbody>
+      <tr><td>Ethanol (Alkohol)</td><td>1.10</td></tr>
+      <tr><td>Quecksilber</td><td>0.18</td></tr>
+      <tr><td>Wasser (bei 20 °C)</td><td>0.21</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Dichte und die Anomalie des Wassers</div>
+  <p>Da das Volumen mit der Temperatur zunimmt, die Masse aber gleich bleibt, sinkt die <strong>Dichte</strong> bei Erwärmung:</p>
+  \[ \rho = \frac{\rho_0}{1 + \gamma\,\Delta T} \]
+  <p>Wasser verhält sich jedoch anomal: Sein Volumen ist bei \(4\,^\circ\text{C}\) am kleinsten, seine <strong>Dichte dort am grössten</strong>. Beim weiteren Abkühlen unter \(4\,^\circ\text{C}\) dehnt es sich wieder aus. Deshalb sammelt sich das dichteste, \(4\,^\circ\text{C}\) «warme» Wasser am Seegrund, während sich oben eine Eisschicht bildet — Gewässer frieren von oben zu, und die Wassertiere überleben den Winter.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Das ideale Gasgesetz</div>
+  <p>Bei Gasen ändern sich oft alle drei Zustandsgrössen gleichzeitig: Druck \(p\), Volumen \(V\) und Temperatur \(T\). Für eine gleichbleibende Gasmenge verknüpft sie das <strong>ideale Gasgesetz</strong>:</p>
+  \[ \frac{p \cdot V}{T} = \text{konstant} \qquad\Rightarrow\qquad \frac{p_1 V_1}{T_1} = \frac{p_2 V_2}{T_2} \]
+  <p>Zwei Spezialfälle: bei konstanter Temperatur \(p\cdot V=\text{const}\) (<strong>Boyle-Mariotte</strong>), bei konstantem Volumen \(p/T=\text{const}\) (<strong>Amontons</strong>). Wichtig:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Regel</th><th>Bedeutung</th></tr></thead>
+    <tbody>
+      <tr><td>Temperatur in Kelvin</td><td>für das Gasgesetz immer die absolute Temperatur \(T\) verwenden</td></tr>
+      <tr><td>absoluter Druck</td><td>zum Manometerdruck (relativ) den Luftdruck (\(\approx 1\,\text{bar}\)) addieren</td></tr>
+      <tr><td>gleiche Einheiten</td><td>Zustand 1 und 2 in denselben Einheiten angeben</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 — LÄNGENAUSDEHNUNG ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Der lineare Ausdehnungskoeffizient \(\alpha\) gibt an …</p><ul class="mc-optionen"><li data-opt="A">die relative Längenänderung pro Grad Temperaturänderung</li><li data-opt="B">die Masse pro Volumen</li><li data-opt="C">die zugeführte Wärmemenge</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> \(\alpha\) ist die relative Längenänderung je Kelvin (Einheit \(\text{1/K}\)).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Längenausdehnung ist \(\Delta l = \alpha \cdot l_0 \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\Delta T\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Alustange (\(\alpha = 23\cdot 10^{-6}\)), \(l_0 = 2\;\text{m}\), \(\Delta T = 50\;\text{K}\). Längenänderung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\Delta l = 23\cdot 10^{-6} \cdot 2 \cdot 50 = 2.3\cdot 10^{-3}\;\text{m} = 2.3\;\text{mm}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Bimetallstreifen (zwei verbundene Metalle mit verschiedenem \(\alpha\)) krümmt sich beim Erwärmen. Warum?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Das Metall mit grösserem \(\alpha\) dehnt sich stärker. Die feste Verbindung zwingt den Streifen, sich zur Seite des kleineren \(\alpha\) zu krümmen — die Grundlage von Thermostaten.</div></details></div>
+</details>
+
+<h2 id="laenge">Längenausdehnung berechnen</h2>
+
+<p>Die Längenänderung \(\Delta l = \alpha\,l_0\,\Delta T\) hängt vom Material, der Anfangslänge und der Temperaturänderung ab. Bei langen Bauteilen wie Brücken summiert sie sich zu erstaunlichen Werten.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 1 · Längenausdehnung eines Stabes</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wähle ein Material und stelle Anfangslänge und \(\Delta T\) ein.</li><li>Vergleiche verschiedene Materialien bei gleichem \(\Delta T\).</li><li>Beachte, dass die Ausdehnung im Bild vergrössert ist.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle ein Material und stelle Anfangslänge und Temperaturänderung ein. Vergleiche verschiedene Materialien bei gleicher Temperaturänderung. Beachte, dass die Ausdehnung im Bild stark vergrössert dargestellt ist." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>\(\Delta l = \alpha \cdot l_0 \cdot \Delta T\).</li><li>Der Ausdehnungskoeffizient \(\alpha\) ist materialabhängig.</li><li>Längere Stäbe und grössere \(\Delta T\) dehnen sich proportional mehr.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Es gilt delta l gleich alpha mal l null mal delta T. Der Ausdehnungskoeffizient alpha ist vom Material abhängig. Längere Stäbe und grössere Temperaturänderungen dehnen sich proportional stärker aus." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="stoff-wahl" id="a1-mat"></div>
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Anfangslänge \(l_0\):</label>
+      <input type="range" id="a1-l0" min="1" max="300" value="100" step="1">
+      <span class="sl-val" id="a1-l0-val">100 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Temp.-Änderung \(\Delta T\):</label>
+      <input type="range" id="a1-dT" min="-40" max="80" value="40" step="1">
+      <span class="sl-val" id="a1-dT-val">40 K</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Längenänderung</div>
+      <div class="fl-eq" id="a1-eq">Δl = 12·10⁻⁶ · 100 · 40 = 48.0 mm</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📏 Stab vor (grau) und nach (bernstein) der Erwärmung</div>
+      <canvas id="a1-cv" height="170"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 5. ANIMATION 2 — VOLUMENAUSDEHNUNG ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Verdoppelt man die Temperaturdifferenz, so wird die Längenänderung …</p><ul class="mc-optionen"><li data-opt="A">doppelt so gross</li><li data-opt="B">viermal so gross</li><li data-opt="C">gleich gross</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> \(\Delta l \sim \Delta T\) — doppelte Temperaturdifferenz, doppelte Längenänderung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Längenänderung ist proportional zur <span class="mc-luecke"></span> und zur Temperaturdifferenz.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Ausgangslänge \(l_0\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine \(50\;\text{m}\)-Brücke (\(\alpha = 12\cdot 10^{-6}\)) erwärmt sich um \(40\;\text{K}\). Längenänderung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\Delta l = 12\cdot 10^{-6} \cdot 50 \cdot 40 = 0.024\;\text{m} = 2.4\;\text{cm}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine \(100\;\text{m}\)-Schiene (\(\alpha = 12\cdot 10^{-6}\)) soll sich bei \(\Delta T = 35\;\text{K}\) frei dehnen. Wie breit muss die Fuge mindestens sein?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(\Delta l = 12\cdot 10^{-6} \cdot 100 \cdot 35 = 0.042\;\text{m} = 4.2\;\text{cm}\).</div></details></div>
+</details>
+
+<h2 id="volumen">Volumenausdehnung von Festkörpern und Flüssigkeiten</h2>
+
+<p>Im Raum dehnt sich ein Körper in alle drei Richtungen aus. Für Festkörper gilt \(\gamma\approx 3\alpha\); Flüssigkeiten dehnen sich meist deutlich stärker aus. Vergleiche, wie stark verschiedene Stoffe ihr Volumen ändern.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 2 · Volumenausdehnung</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wähle einen Stoff und stelle Anfangsvolumen und \(\Delta T\) ein.</li><li>Beobachte den steigenden Füllstand im Gefäss.</li><li>Vergleiche Flüssigkeiten mit Festkörpern.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle einen Stoff und stelle Anfangsvolumen und Temperaturänderung ein. Beobachte den steigenden Füllstand im Gefäss. Vergleiche, wie viel stärker sich Flüssigkeiten gegenüber Festkörpern ausdehnen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Volumenausdehnung: \(\Delta V = \gamma \cdot V_0 \cdot \Delta T\).</li><li>Für Festkörper gilt näherungsweise \(\gamma \approx 3\alpha\).</li><li>Flüssigkeiten dehnen sich meist deutlich stärker aus als Festkörper.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Volumenausdehnung ist delta V gleich gamma mal V null mal delta T. Für Festkörper gilt näherungsweise: gamma ist ungefähr drei mal alpha. Flüssigkeiten dehnen sich meist deutlich stärker aus als Festkörper." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="stoff-wahl" id="a2-stoff"></div>
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Anfangsvolumen \(V_0\):</label>
+      <input type="range" id="a2-V0" min="0.1" max="2" value="1" step="0.1">
+      <span class="sl-val" id="a2-V0-val">1.0 L</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Temp.-Änderung \(\Delta T\):</label>
+      <input type="range" id="a2-dT" min="-20" max="80" value="60" step="1">
+      <span class="sl-val" id="a2-dT-val">60 K</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Volumenänderung</div>
+      <div class="fl-eq" id="a2-eq">ΔV = 1.10·10⁻³ · 1.0 · 60 = 66.0 mL</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🧪 Füllstand: Anfang (grau) und nach Erwärmung (Farbe)</div>
+      <canvas id="a2-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 6. ANIMATION 3 — DICHTEANOMALIE ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert in einem See im Winter, weil Wasser bei 4 °C am dichtesten ist?</summary>
+  <div class="frage-antwort">
+    <p>Das dichteste Wasser (\(4\,^\circ\text{C}\)) sammelt sich am Grund, kälteres und schliesslich Eis bleiben oben. So friert ein See von oben zu und Fische überleben am Grund — eine direkte Folge der Wasseranomalie.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Für die Volumenausdehnung von Festkörpern gilt näherungsweise …</p><ul class="mc-optionen"><li data-opt="A">\(\gamma = \alpha\)</li><li data-opt="B">\(\gamma \approx 3\alpha\)</li><li data-opt="C">\(\gamma \approx \alpha/3\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Da sich der Körper in drei Raumrichtungen ausdehnt, gilt \(\gamma \approx 3\alpha\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Volumenausdehnung ist \(\Delta V = \gamma \cdot V_0 \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\Delta T\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Festkörper hat \(\alpha = 10\cdot 10^{-6}\). Wie gross ist \(\gamma\) näherungsweise?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\gamma \approx 3\alpha = 30\cdot 10^{-6}\;\text{1/K}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum läuft ein randvoll gefüllter Wassertopf beim Erhitzen über, obwohl auch der Topf sich ausdehnt?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Wasser hat ein viel grösseres \(\gamma\) als das Metall des Topfs. Das Wasservolumen wächst stärker als der Topfinnenraum, daher fliesst Wasser über.</div></details></div>
+</details>
+
+<h2 id="anomalie">Die Anomalie des Wassers</h2>
+
+<p>Anders als die meisten Stoffe hat Wasser sein kleinstes Volumen — und damit die grösste Dichte — nicht am Gefrierpunkt, sondern bei \(4\,^\circ\text{C}\). Diese Anomalie sorgt dafür, dass Seen von oben zufrieren und am Grund flüssiges Wasser bleibt.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 3 · Dichte von Wasser über der Temperatur</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verschiebe die Temperatur und verfolge die Dichte.</li><li>Suche das Maximum der Dichte.</li><li>Betrachte rechts die Schichtung im winterlichen See.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verschiebe die Temperatur und verfolge die Dichte des Wassers. Suche die Temperatur, bei der die Dichte am grössten ist. Betrachte rechts die Schichtung in einem winterlichen See." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Wasser hat seine grösste Dichte bei \(4\,^\circ\text{C}\) (Anomalie).</li><li>Darunter wird Wasser wieder leichter — Eis schwimmt oben.</li><li>Darum gefriert ein See von oben, am Grund bleiben \(4\,^\circ\text{C}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wasser hat seine grösste Dichte bei vier Grad Celsius; das ist die sogenannte Anomalie des Wassers. Unterhalb von vier Grad wird Wasser wieder leichter, deshalb schwimmt Eis oben. Darum gefriert ein See von oben, während am Grund vier Grad Celsius bleiben." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Temperatur:</label>
+      <input type="range" id="a3-T" min="0" max="20" value="4" step="0.1">
+      <span class="sl-val" id="a3-T-val">4.0 °C</span>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a3-Tc">4.0 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">Dichte (relativ)</span><span class="lb-val" id="a3-rho">1.0000</span></div>
+      <div class="lb-item"><span class="lb-lab">Hinweis</span><span class="lb-val" id="a3-note">Maximum</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📈 Dichte \(\rho\) über Temperatur · 🏞 Seeschichtung</div>
+      <canvas id="a3-cv" height="280"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 7. ANIMATION 4 — MEERESSPIEGEL ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wasser hat seine grösste Dichte bei …</p><ul class="mc-optionen"><li data-opt="A">\(0°C\)</li><li data-opt="B">\(4°C\)</li><li data-opt="C">\(100°C\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die Anomalie des Wassers: maximale Dichte bei \(4°C\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Beim Abkühlen unter \(4°C\) <span class="mc-luecke"></span> sich Wasser wieder aus.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">dehnt.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Bei welcher Temperatur sammelt sich im Winter das dichteste Wasser am Seeboden?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Bei \(4°C\) — dort ist Wasser am dichtesten und sinkt nach unten.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum gefriert ein See von oben nach unten und nicht umgekehrt?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Das dichteste Wasser (\(4°C\)) sinkt nach unten; kälteres, leichteres Wasser bleibt oben und gefriert dort zuerst. Die Eisschicht isoliert das Wasser darunter, sodass Fische überleben.</div></details></div>
+</details>
+
+<h2 id="meeresspiegel">Anwendung: Meeresspiegelanstieg</h2>
+
+<p>Ein grosser Teil des beobachteten Meeresspiegelanstiegs entsteht nicht durch schmelzendes Eis, sondern allein dadurch, dass sich das erwärmte Meerwasser ausdehnt (thermische Expansion). Schon eine kleine Erwärmung einer kilometertiefen Wassersäule summiert sich zu einer merklichen Höhenänderung.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 4 · Thermische Ausdehnung des Meerwassers</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle die Erwärmung \(\Delta T\) und die Wassertiefe \(h_0\) ein.</li><li>Beobachte den Anstieg \(\Delta h\) der Wassersäule.</li><li>Bedenke, dass nur die thermische Ausdehnung modelliert wird.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle die Erwärmung delta T und die Wassertiefe h null ein. Beobachte den Anstieg delta h der Wassersäule. Bedenke, dass hier nur die thermische Ausdehnung modelliert wird, nicht das Abschmelzen von Eis." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Modell: \(\Delta h = \gamma \cdot h_0 \cdot \Delta T\), \(\gamma_{\text{Wasser}} = 0.21\cdot 10^{-3}\;\text{K}^{-1}\).</li><li>Schon kleine Erwärmung hebt tiefe Wassersäulen messbar an.</li><li>Thermische Ausdehnung ist ein realer Beitrag zum Meeresspiegelanstieg.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Das Modell lautet delta h gleich gamma mal h null mal delta T, mit gamma für Wasser gleich 0.21 mal zehn hoch minus drei pro Kelvin. Schon eine kleine Erwärmung hebt tiefe Wassersäulen messbar an. Die thermische Ausdehnung ist ein realer Beitrag zum Meeresspiegelanstieg." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>erwärmte Tiefe \(h_0\):</label>
+      <input type="range" id="a4-h0" min="100" max="2000" value="1000" step="50">
+      <span class="sl-val" id="a4-h0-val">1000 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Erwärmung \(\Delta T\):</label>
+      <input type="range" id="a4-dT" min="0.1" max="4" value="1" step="0.1">
+      <span class="sl-val" id="a4-dT-val">1.0 K</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Anstieg</div>
+      <div class="fl-eq" id="a4-eq">Δh = 0.21·10⁻³ · 1000 · 1.0 = 0.21 m = 21 cm</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🌊 Wassersäule: Pegel vor und nach der Erwärmung</div>
+      <canvas id="a4-cv" height="260"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 8. ANIMATION 5 — GASGESETZ ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein wesentlicher Beitrag zum Meeresspiegelanstieg ist …</p><ul class="mc-optionen"><li data-opt="A">mehr gelöstes Salz</li><li data-opt="B">die thermische Ausdehnung des erwärmten Wassers</li><li data-opt="C">die Anziehung des Mondes</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Wärmeres Meerwasser dehnt sich aus und braucht mehr Volumen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Erwärmtes Meerwasser nimmt mehr <span class="mc-luecke"></span> ein.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Volumen (Raum).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine \(4000\;\text{m}\) tiefe Wassersäule (\(\gamma = 0.21\cdot 10^{-3}\;\text{1/K}\)) erwärmt sich um \(1\;\text{K}\). Höhenzunahme?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\Delta h = \gamma\,h_0\,\Delta T = 0.21\cdot 10^{-3} \cdot 4000 \cdot 1 = 0.84\;\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum trägt die thermische Ausdehnung global stark zum Meeresspiegel bei, obwohl \(\gamma\) für Wasser klein ist?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Der Ozean ist im Mittel mehrere Kilometer tief. Selbst eine kleine relative Ausdehnung über diese riesige Säulenhöhe \(h_0\) ergibt einen merklichen Anstieg \(\Delta h = \gamma\,h_0\,\Delta T\).</div></details></div>
+</details>
+
+<h2 id="gasgesetz">Das ideale Gasgesetz im Kolben</h2>
+
+<p>In einem Zylinder mit beweglichem Kolben lassen sich Temperatur und Volumen einstellen; der Druck folgt aus \(p\,V/T=\text{const}\). Die Teilchen bewegen sich bei höherer Temperatur schneller und stossen häufiger gegen die Wände — der Druck steigt.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 5 · Druck, Volumen und Temperatur</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Temperatur und Volumen ein.</li><li>Beobachte den Druck relativ zum Ausgangszustand.</li><li>Ausgang: \(20\,^\circ\text{C}\), \(3\;\text{L}\), \(1.0\;\text{bar}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Temperatur und Volumen ein. Beobachte, wie sich der Druck relativ zum Ausgangszustand verändert. Der Ausgangszustand ist 20 Grad Celsius, drei Liter und 1.0 Bar." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Allgemeines Gasgesetz: \(\dfrac{p V}{T} = \text{const.}\) (\(T\) in Kelvin).</li><li>Mehr Temperatur erhöht den Druck, mehr Volumen senkt ihn.</li><li>\(\dfrac{p_1 V_1}{T_1} = \dfrac{p_2 V_2}{T_2}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Es gilt das allgemeine Gasgesetz: p mal V geteilt durch T ist konstant, wobei T in Kelvin einzusetzen ist. Eine höhere Temperatur erhöht den Druck, ein grösseres Volumen senkt ihn. Es gilt: p eins mal V eins durch T eins gleich p zwei mal V zwei durch T zwei." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Temperatur \(T\):</label>
+      <input type="range" id="a5-T" min="-50" max="250" value="20" step="1">
+      <span class="sl-val" id="a5-T-val">20 °C</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Volumen \(V\):</label>
+      <input type="range" id="a5-V" min="1" max="5" value="3" step="0.1">
+      <span class="sl-val" id="a5-V-val">3.0 L</span>
+
+      </div>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a5-btn">▶ Start</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Gasgesetz</div>
+      <div class="fl-eq" id="a5-eq">p = p₀ · (V₀/V) · (T/T₀) = 1.00 bar</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Druck \(p\)</span><span class="lb-val" id="a5-p">1.00 bar</span></div>
+      <div class="lb-item"><span class="lb-lab">Volumen \(V\)</span><span class="lb-val" id="a5-Vv">3.0 L</span></div>
+      <div class="lb-item"><span class="lb-lab">Temperatur \(T\)</span><span class="lb-val" id="a5-Tk">293 K</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⚗ Zylinder mit Kolben und Gasteilchen</div>
+      <canvas id="a5-cv" height="260"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 9. ANIMATION 6 — GAS-DIAGRAMME ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Das allgemeine Gasgesetz lautet …</p><ul class="mc-optionen"><li data-opt="A">\(pV = \text{const}\)</li><li data-opt="B">\(\dfrac{pV}{T} = \text{const}\)</li><li data-opt="C">\(\dfrac{p}{V} = \text{const}\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(\dfrac{pV}{T} = \text{const}\) — \(T\) stets in Kelvin.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Im allgemeinen Gasgesetz muss die Temperatur in <span class="mc-luecke"></span> eingesetzt werden.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Kelvin.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Gas (\(2\;\text{L}\), \(300\;\text{K}\), konstanter Druck) wird auf \(600\;\text{K}\) erwärmt. Neues Volumen?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(V_2 = V_1 \cdot \dfrac{T_2}{T_1} = 2 \cdot \dfrac{600}{300} = 4\;\text{L}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein geschlossener Behälter (festes Volumen) mit Gas wird von \(300\;\text{K}\) auf \(450\;\text{K}\) erwärmt, Anfangsdruck \(1\;\text{bar}\). Neuer Druck?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Bei konstantem Volumen: \(p_2 = p_1 \cdot \dfrac{T_2}{T_1} = 1 \cdot \dfrac{450}{300} = 1.5\;\text{bar}\).</div></details></div>
+</details>
+
+<h2 id="diagramme">Die beiden Spezialfälle grafisch</h2>
+
+<p>Hält man eine Grösse konstant, ergeben sich einfache Zusammenhänge: bei konstanter Temperatur eine Hyperbel (Boyle-Mariotte), bei konstantem Volumen eine Ursprungsgerade (Amontons). Wähle den Fall und verschiebe den Arbeitspunkt.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 6 · Boyle-Mariotte und Amontons</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Im \(p\)-\(V\)-Diagramm: \(T\) fest halten, Volumen ändern (Boyle).</li><li>Im \(p\)-\(T\)-Diagramm: \(V\) fest halten, Temperatur ändern (Amontons).</li><li>Vergleiche die Kurvenform (Hyperbel gegen Gerade).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Im p-V-Diagramm hältst du die Temperatur fest und veränderst das Volumen; das ist das Gesetz von Boyle und Mariotte. Im p-T-Diagramm hältst du das Volumen fest und veränderst die Temperatur; das ist das Gesetz von Amontons. Vergleiche die Form der Kurven: eine Hyperbel gegenüber einer Geraden." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Boyle-Mariotte (\(T\) konstant): \(p \cdot V = \text{const.}\) — Hyperbel.</li><li>Amontons (\(V\) konstant): \(p / T = \text{const.}\) — Gerade durch den Nullpunkt.</li><li>Beide sind Spezialfälle des allgemeinen Gasgesetzes.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Das Gesetz von Boyle und Mariotte gilt bei konstanter Temperatur: p mal V ist konstant, im Diagramm eine Hyperbel. Das Gesetz von Amontons gilt bei konstantem Volumen: p geteilt durch T ist konstant, im Diagramm eine Gerade durch den Nullpunkt. Beide sind Spezialfälle des allgemeinen Gasgesetzes." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="stoff-wahl" id="a6-modi"></div>
+
+    <div class="sl-row">
+      <label id="a6-lab">Volumen \(V\):</label>
+      <input type="range" id="a6-x" min="1" max="5" value="2" step="0.1">
+      <span class="sl-val" id="a6-x-val">2.0 L</span>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Arbeitspunkt</div>
+      <div class="fl-eq" id="a6-eq">p · V = 6.0 bar·L (konstant)</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📈 Zustandsdiagramm</div>
+      <canvas id="a6-cv"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 10. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit dem Druck in einem geschlossenen Gasbehälter, wenn du die absolute Temperatur verdoppelst?</summary>
+  <div class="frage-antwort">
+    <p>Der Druck verdoppelt sich (bei konstantem Volumen), denn \(p/T=\text{const}\). Wichtig: \(T\) muss in <strong>Kelvin</strong> stehen — eine Verdopplung von \(20\,^\circ\text{C}\) ist nicht \(40\,^\circ\text{C}\), sondern von \(293\;\text{K}\) auf \(586\;\text{K}\).</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Bei konstanter Temperatur (Gesetz von Boyle): verdoppelt man den Druck, so …</p><ul class="mc-optionen"><li data-opt="A">verdoppelt sich das Volumen</li><li data-opt="B">halbiert sich das Volumen</li><li data-opt="C">bleibt das Volumen gleich</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(p\,V = \text{const}\) → doppelter Druck, halbes Volumen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Bei konstanter Temperatur ist das Produkt \(p\cdot V\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">konstant.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Gas: \(p_1 = 2\;\text{bar}\), \(V_1 = 3\;\text{L}\) bei konstanter Temperatur. Volumen bei \(p_2 = 6\;\text{bar}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(V_2 = \dfrac{p_1 V_1}{p_2} = \dfrac{2 \cdot 3}{6} = 1\;\text{L}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Bei konstanter Temperatur ergibt das \(p\)-\(V\)-Diagramm eine Hyperbel, bei konstantem Volumen das \(p\)-\(T\)-Diagramm eine Ursprungsgerade. Warum diese verschiedenen Formen?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Boyle: \(pV = \text{const} \Rightarrow p \sim 1/V\) (Hyperbel). Amontons: \(p/T = \text{const} \Rightarrow p \sim T\) (Gerade durch den Nullpunkt, in Kelvin). Verschiedene Proportionalitäten, verschiedene Kurven.</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Längenausdehnung einer Brücke</span></div>
+  <p>Eine Stahlbrücke ist \(l_0 = 300\,\text{m}\) lang (\(\alpha = 12\cdot10^{-6}\,\text{K}^{-1}\)). Im Winter misst man \(-10\,^\circ\text{C}\), im Sommer \(40\,^\circ\text{C}\).</p>
+  <ol class="aufg-liste">
+    <li>Um wie viel ändert sich die Länge zwischen Winter und Sommer?</li>
+    <li>Wie gross ist die relative Längenänderung \(\Delta l/l_0\) in Prozent?</li>
+    <li>Begründe, warum Brücken Dehnungsfugen oder Rollenlager brauchen.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(\Delta T = 40-(-10)=50\,\text{K}\); mit \(\Delta l = \alpha \cdot l_0 \cdot \Delta T\): \(\Delta l = 12\cdot10^{-6}\cdot 300\cdot 50 = 0.18\,\text{m} = 18\,\text{cm}\).</li>
+        <li>\(\Delta l/l_0 = \alpha\,\Delta T = 12\cdot10^{-6}\cdot 50 = 6\cdot10^{-4} = 0.06\,\%\).</li>
+        <li>Ohne Bewegungsmöglichkeit würden die \(18\,\text{cm}\) Ausdehnung enorme Druckspannungen erzeugen, die die Brücke verformen oder beschädigen. Dehnungsfugen und Lager lassen die Längenänderung spannungsfrei zu.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Volumenausdehnung im Vergleich</span></div>
+  <p>Ein Aluminiumblock und gleich viel Ethanol, je \(V_0 = 2\,\text{L}\), werden um \(\Delta T = 80\,\text{K}\) erwärmt. Verwende \(\alpha_\text{Al}=23.8\cdot10^{-6}\,\text{K}^{-1}\) und \(\gamma_\text{Ethanol}=1.10\cdot10^{-3}\,\text{K}^{-1}\).</p>
+  <ol class="aufg-liste">
+    <li>Berechne die Volumenänderung des Aluminiumblocks (beachte \(\gamma=3\alpha\)).</li>
+    <li>Berechne die Volumenänderung des Ethanols.</li>
+    <li>Um welchen Faktor dehnt sich das Ethanol stärker aus?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(\gamma_\text{Al}=3\,\alpha=3\cdot23.8\cdot10^{-6}=71.4\cdot10^{-6}\,\text{K}^{-1}\); mit \(\Delta V = \gamma \cdot V_0 \cdot \Delta T\): \(\Delta V = 71.4\cdot10^{-6}\cdot 2\cdot 80 = 0.0114\,\text{L} \approx 11.4\,\text{mL}\).</li>
+        <li>\(\Delta V = 1.10\cdot10^{-3}\cdot 2\cdot 80 = 0.176\,\text{L} = 176\,\text{mL}\).</li>
+        <li>\(176 / 11.4 \approx 15\)-mal stärker — Flüssigkeiten dehnen sich viel stärker aus als Festkörper.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Anomalie des Wassers</span></div>
+  <p>Im Spätherbst kühlt ein See ab.</p>
+  <ol class="aufg-liste">
+    <li>Bei welcher Temperatur hat Wasser seine grösste Dichte?</li>
+    <li>Erkläre, warum sich am Seegrund Wasser von etwa \(4\,^\circ\text{C}\) sammelt und der See von oben her zufriert.</li>
+    <li>Welche Bedeutung hat das für Lebewesen im Wasser?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Bei \(4\,^\circ\text{C}\).</li>
+        <li>Das dichteste Wasser (\(4\,^\circ\text{C}\)) sinkt nach unten. Kälteres Wasser (\(0\!-\!4\,^\circ\text{C}\)) ist leichter und bleibt oben, wo es zu Eis gefriert. So friert der See von der Oberfläche her zu, während der Grund flüssig bleibt.</li>
+        <li>Am Grund herrschen \(4\,^\circ\text{C}\) und flüssiges Wasser — Fische und andere Wassertiere können den Winter überleben.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Meeresspiegelanstieg</span></div>
+  <p>Eine \(h_0 = 700\,\text{m}\) tiefe Meerwasserschicht erwärmt sich um \(\Delta T = 2\,\text{K}\). Für die thermische Ausdehnung gilt \(\Delta h = \gamma\,h_0\,\Delta T\) mit \(\gamma_\text{Wasser}=0.21\cdot10^{-3}\,\text{K}^{-1}\).</p>
+  <ol class="aufg-liste">
+    <li>Um wie viele Zentimeter steigt der Pegel allein durch die Ausdehnung?</li>
+    <li>Warum ist das nur eine grobe Abschätzung?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Mit \(\Delta h = \gamma \cdot h_0 \cdot \Delta T\): \(\Delta h = 0.21\cdot10^{-3}\cdot 700\cdot 2 = 0.294\,\text{m} \approx 29\,\text{cm}\).</li>
+        <li>Der Ausdehnungskoeffizient \(\gamma\) hängt selbst von der Temperatur ab, und in Wirklichkeit erwärmen sich nicht alle Tiefen gleich. Zudem ist hier das schmelzende Eis nicht berücksichtigt. Das Ergebnis zeigt nur die Grössenordnung des thermischen Anteils.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Aufsteigende Luftblase</span></div>
+  <p>Eine Luftblase mit \(V_1 = 50\,\text{cm}^3\) steigt aus \(30\,\text{m}\) Tiefe auf. Unten: \(\vartheta_1 = 10\,^\circ\text{C}\) und absoluter Druck \(p_1 = 4.0\,\text{bar}\). An der Oberfläche: \(\vartheta_2 = 25\,^\circ\text{C}\) und \(p_2 = 1.0\,\text{bar}\).</p>
+  <ol class="aufg-liste">
+    <li>Rechne beide Temperaturen in Kelvin um.</li>
+    <li>Berechne das Volumen kurz vor der Oberfläche mit \(\dfrac{p_1V_1}{T_1}=\dfrac{p_2V_2}{T_2}\).</li>
+    <li>Was beeinflusst das Ergebnis stärker — die Druck- oder die Temperaturänderung?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(T_1 = 10 + 273 = 283\,\text{K}\), \(T_2 = 25 + 273 = 298\,\text{K}\).</li>
+        <li>\(V_2 = \dfrac{p_1 V_1 T_2}{T_1 p_2} = \dfrac{4.0\cdot 50\cdot 298}{283\cdot 1.0} \approx 211\,\text{cm}^3\) — rund viermal so gross.</li>
+        <li>Der Druck: Er sinkt auf ein Viertel (Faktor 4), während die Temperatur nur um den Faktor \(298/283\approx 1.05\) zunimmt.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Gas komprimieren und erwärmen</span></div>
+  <ol class="aufg-liste">
+    <li><strong>Boyle-Mariotte:</strong> \(6\,\text{L}\) Luft bei \(1.0\,\text{bar}\) werden bei konstanter Temperatur auf \(2\,\text{L}\) zusammengedrückt. Welcher Druck stellt sich ein?</li>
+    <li><strong>Amontons:</strong> Ein Reifen ist auf \(2.2\,\text{bar}\) Manometerdruck (also \(3.2\,\text{bar}\) absolut) bei \(20\,^\circ\text{C}\) aufgepumpt. Auf welchen absoluten Druck steigt er bei \(50\,^\circ\text{C}\) (Volumen konstant)?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(p_1V_1 = p_2V_2 \Rightarrow p_2 = \dfrac{1.0\cdot 6}{2} = 3.0\,\text{bar}\).</li>
+        <li>\(\dfrac{p_1}{T_1}=\dfrac{p_2}{T_2}\) mit \(T_1=293\,\text{K}\), \(T_2=323\,\text{K}\): \(p_2 = 3.2\cdot\dfrac{323}{293} \approx 3.53\,\text{bar}\) absolut (also \(\approx 2.53\,\text{bar}\) am Manometer).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 11. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Grösse / Konzept</th><th>Formel / Aussage</th><th>Bezug</th></tr></thead>
+  <tbody>
+    <tr><td>Längenausdehnung</td><td>\(\Delta l = \alpha\,l_0\,\Delta T\)</td><td>\(\alpha\) in \(10^{-6}\,\text{K}^{-1}\)</td></tr>
+    <tr><td>relative Änderung</td><td>\(\Delta l/l_0 = \alpha\,\Delta T\)</td><td>einheitenlos</td></tr>
+    <tr><td>Volumenausdehnung</td><td>\(\Delta V = \gamma\,V_0\,\Delta T\), Festkörper \(\gamma\approx 3\alpha\)</td><td>Flüssigkeiten stärker</td></tr>
+    <tr><td>Dichte</td><td>\(\rho = \rho_0/(1+\gamma\,\Delta T)\)</td><td>sinkt bei Erwärmung</td></tr>
+    <tr><td>Wasseranomalie</td><td>grösste Dichte bei \(4\,^\circ\text{C}\)</td><td>Seen frieren von oben</td></tr>
+    <tr><td>Gasgesetz</td><td>\(p\,V/T = \text{const}\)</td><td>\(T\) in K, \(p\) absolut</td></tr>
+    <tr><td>Boyle / Amontons</td><td>\(pV=\text{const}\) / \(p/T=\text{const}\)</td><td>\(T\) bzw. \(V\) konstant</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Festkörper dehnen sich beim Erwärmen aus: \(\Delta l=\alpha l_0\Delta T\).</li>
+  <li>Die Volumenausdehnung folgt \(\Delta V=\gamma V_0\Delta T\); bei Festkörpern gilt \(\gamma\approx 3\alpha\).</li>
+  <li>Flüssigkeiten und Gase dehnen sich stärker aus als Festkörper.</li>
+  <li>Bei Erwärmung sinkt die Dichte: \(\rho=\rho_0/(1+\gamma\Delta T)\).</li>
+  <li>Wasseranomalie: grösste Dichte bei \(4\,^\circ\text{C}\) — Seen frieren von oben zu.</li>
+  <li>Ideales Gasgesetz: \(pV/T=\text{const}\) (mit \(T\) in Kelvin und absolutem Druck).</li>
+  <li>Dehnungsfugen in Schienen und Brücken fangen die Längenausdehnung auf.</li>
+</ul>
+
+<div class="merksatz">
+  Feste Körper dehnen sich linear aus (\(\Delta l = \alpha\,l_0\,\Delta T\)), räumlich gilt \(\Delta V = \gamma\,V_0\,\Delta T\) mit \(\gamma\approx 3\alpha\) für Festkörper. Flüssigkeiten dehnen sich deutlich stärker aus; Wasser zeigt die Anomalie mit grösster Dichte bei \(4\,^\circ\text{C}\). Gase folgen dem idealen Gasgesetz \(p\,V/T=\text{const}\) — wobei die Temperatur stets in Kelvin und der Druck als absoluter Druck einzusetzen ist. Schon kleine Effekte summieren sich bei grossen Bauteilen oder tiefen Wassersäulen zu erheblichen Werten.
+</div>
+
+
+<!-- ══════════════ 12. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p5-3-waermeausdehnung/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p5-3-waermeausdehnung/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p5-3-waermeausdehnung/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p5-3-waermeausdehnung/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p5-3-waermeausdehnung/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 13. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+<p>Ausgewählte und geprüfte Anlaufstellen zum Vertiefen, Veranschaulichen und Üben. Alle Links öffnen in einem neuen Tab.</p>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.youtube.com/watch?v=NktVeQ5WkaQ" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Wärmeausdehnung — thermische Ausdehnung berechnen</div><div class="lk-s">Lehrerschmidt · Warum sich Stoffe ausdehnen und wie man die Längen- und Volumenänderung berechnet</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=aPGpNZwj2-Y" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Wärmeausdehnung — Feststoffe, Flüssigkeiten und Gase</div><div class="lk-s">Physik-Tutorial zur thermischen Ausdehnung in allen Aggregatzuständen, inklusive Rechenaufgaben</div></div>
+  </a>
+  <a href="https://www.youtube.com/@musstewissenPhysik/search?query=wärmeausdehnung" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">musstewissen Physik — Wärmeausdehnung</div><div class="lk-s">Kanalsuche · funk/ARD/ZDF · BM-passender Schul-Erklärstil</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/gas-properties" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Eigenschaften von Gasen</div><div class="lk-s">Temperatur, Druck und Volumen im Gas verändern und den Zusammenhang \(p\,V/T\) erkunden (deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/gasprocesses_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Zustandsänderungen eines idealen Gases</div><div class="lk-s">Isobar, isochor und isotherm im Zylinder mit Kolben — Boyle-Mariotte, Amontons, Gay-Lussac mit Diagrammen (HTML5, deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/gas3d_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Teilchenbewegung in einem idealen Gas</div><div class="lk-s">Chaotische Teilchenbewegung im Gasmodell — Grundlage für Druck und Temperatur (HTML5, deutsch)</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/waermelehre/ausdehnung-bei-erwaermung/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Ausdehnung bei Erwärmung</div><div class="lk-s">Aufgaben zu Längen- und Volumenausdehnung sowie zur Wasseranomalie · mit ausführlichen Musterlösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/waermelehre/allgemeines-gasgesetz/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Allgemeines Gasgesetz</div><div class="lk-s">Anwendungsaufgaben (Luftballon, Taucherglocke, Heissluftballon, Reifendruck) · mit Musterlösungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 5.3 Wärmeausdehnung</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p5-3',
+  kapitelNr:'5.3', kapitelTitel:'Wärmeausdehnung',
+  prev:{nr:'5.2',titel:'Wärme',url:'p5-2-waerme.html'},
+  next:{nr:'6.1',titel:'Wellen',url:'p6-1-wellen.html'}
+});
+
+// ── Konstanten & Helfer ───────────────────────────────────
+const T0K = 273.15;
+function lerpCol(t){ t=Math.max(0,Math.min(1,t));
+  const r=Math.round(45+t*185), g=Math.round(70+(1-Math.abs(t-0.5)*2)*45), b=Math.round(210-t*180);
+  return 'rgb('+r+','+g+','+b+')'; }
+
+// ── Loop-Manager (rAF + IntersectionObserver-Autostart) ───
+const LOOPS = [];
+function makeLoop(canvasId, btnId, tickFn){
+  const st={running:false,userPaused:false,rafId:null,last:0,canvasId:canvasId};
+  const btn=document.getElementById(btnId); st.btn=btn;
+  function frame(ts){ if(!st.running)return; if(!st.last)st.last=ts;
+    let dt=(ts-st.last)/1000; st.last=ts; if(dt>0.05)dt=0.05; tickFn(dt);
+    st.rafId=requestAnimationFrame(frame); }
+  st.start=function(){ if(st.running)return; st.running=true; st.last=0; st.rafId=requestAnimationFrame(frame); };
+  st.stop=function(){ st.running=false; if(st.rafId)cancelAnimationFrame(st.rafId); };
+  if(btn) btn.addEventListener('click',function(){
+    if(st.running){ st.userPaused=true; st.stop(); btn.textContent='▶ Weiter'; btn.classList.add('paused'); }
+    else { st.userPaused=false; st.start(); btn.textContent='⏸ Pause'; btn.classList.remove('paused'); } });
+  LOOPS.push(st); return st;
+}
+
+// ══════════════════════════════════════════════════════════
+//  EINSTIEG: Schiene mit Dehnungslücke
+// ══════════════════════════════════════════════════════════
+const EIN_L0=25, EIN_A=12e-6, EIN_TREF=10, EIN_GAP0=10; // l0[m], alpha, Ref-Temp, Luecke[mm] bei Ref
+function einRender(){
+  const T=+document.getElementById('ein-T').value;
+  const dl_mm = EIN_A*EIN_L0*(T-EIN_TREF)*1000;   // reale Laengenaenderung in mm
+  const gap = EIN_GAP0 - dl_mm;                    // Restluecke in mm (kann <0 -> Kontakt)
+  document.getElementById('ein-T-val').textContent=T+' °C';
+  document.getElementById('ein-Tc').textContent=T+' °C';
+  document.getElementById('ein-dl').textContent=(dl_mm>=0?'+':'')+dl_mm.toFixed(1)+' mm';
+  document.getElementById('ein-gap').textContent= gap>0 ? gap.toFixed(1)+' mm' : 'geschlossen!';
+
+  const cv=initCanvas('ein-cv',200,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const yb=H*0.45, hRail=H*0.22, mid=W*0.5;
+  // Schotterbett
+  ctx.fillStyle='#e7ddcd'; ctx.fillRect(0,yb+hRail,W,H*0.18);
+  // Luecke visuell (6 px / mm, geklammert)
+  const gapPx = Math.max(0, Math.min(EIN_GAP0,gap))*6;
+  const closed = gap<=0;
+  const col = closed ? '#9b1c1c' : '#6b6256';
+  // linke Schiene
+  ctx.fillStyle=col; ctx.fillRect(W*0.04, yb, mid-gapPx/2 - W*0.04, hRail);
+  // rechte Schiene
+  ctx.fillStyle=col; ctx.fillRect(mid+gapPx/2, yb, W*0.96-(mid+gapPx/2), hRail);
+  // Schwellen
+  ctx.fillStyle='#8a6f4a';
+  for(let i=0;i<9;i++){ const x=W*0.06+i*(W*0.88/8); ctx.fillRect(x, yb+hRail+2, 10, H*0.14); }
+  // Luecken-Markierung
+  if(!closed){
+    ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(mid-gapPx/2,yb-6); ctx.lineTo(mid+gapPx/2,yb-6); ctx.stroke();
+    ctx.fillStyle='#1a4f8a'; ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillText('Lücke '+gap.toFixed(1)+' mm', mid, yb-12);
+  } else {
+    ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('⚠ Lücke geschlossen — Verwerfung droht!', mid, yb-12);
+  }
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('reale Längenänderung Δl = '+(dl_mm>=0?'+':'')+dl_mm.toFixed(1)+' mm (Bild stark vergrössert)', mid, H*0.93);
+}
+document.getElementById('ein-T').addEventListener('input', einRender);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: Längenausdehnung
+// ══════════════════════════════════════════════════════════
+const A1MAT=[{n:'Aluminium',a:23.8},{n:'Messing',a:18.4},{n:'Chromstahl',a:16},
+             {n:'Eisen',a:12},{n:'Beton',a:10},{n:'Wolfram',a:4.3}]; // alpha in 1e-6/K
+let a1Sel=3;
+function a1Buttons(){
+  const box=document.getElementById('a1-mat'); box.innerHTML='';
+  A1MAT.forEach((m,i)=>{ const b=document.createElement('button'); b.textContent=m.n;
+    if(i===a1Sel)b.classList.add('aktiv');
+    b.addEventListener('click',()=>{a1Sel=i;a1Buttons();a1Render();}); box.appendChild(b); });
+}
+function a1Render(){
+  const m=A1MAT[a1Sel], a=m.a*1e-6;
+  const l0=+document.getElementById('a1-l0').value, dT=+document.getElementById('a1-dT').value;
+  document.getElementById('a1-l0-val').textContent=l0+' m';
+  document.getElementById('a1-dT-val').textContent=dT+' K';
+  const dl=a*l0*dT, dl_mm=dl*1000;
+  document.getElementById('a1-eq').textContent='Δl = '+m.a+'·10⁻⁶ · '+l0+' · '+dT+' = '+dl_mm.toFixed(1)+' mm';
+
+  const cv=initCanvas('a1-cv',170,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const x0=W*0.06, baseLen=W*0.62, y=H*0.40, hbar=H*0.20;
+  // Originalstab (grau)
+  ctx.fillStyle='#c9bfae'; ctx.fillRect(x0,y,baseLen,hbar);
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('l₀ = '+l0+' m', x0, y-8);
+  // Ausdehnung (stark vergroessert): rel = a*dT, skaliert
+  const rel=a*dT; const exag=Math.max(-0.5,Math.min(0.5, rel*4000)); // visuelle Skala
+  const ext=baseLen*exag;
+  ctx.fillStyle = dl>=0 ? '#b85c00' : '#1a4f8a';
+  if(ext>=0) ctx.fillRect(x0+baseLen, y, ext, hbar);
+  else ctx.fillRect(x0+baseLen+ext, y, -ext, hbar);
+  // Klammer + Wert
+  const tipX=x0+baseLen+ext;
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,2]);
+  ctx.beginPath(); ctx.moveTo(x0+baseLen,y+hbar+6); ctx.lineTo(tipX,y+hbar+6); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=dl>=0?'#b85c00':'#1a4f8a'; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText('Δl = '+dl_mm.toFixed(1)+' mm', (x0+baseLen+tipX)/2, y+hbar+22);
+  ctx.fillStyle='#5a5040'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('(Ausdehnung im Bild vergrössert)', W*0.95, H*0.93);
+}
+['a1-l0','a1-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a1Render));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 2: Volumenausdehnung
+// ══════════════════════════════════════════════════════════
+const STOFFE2=[{n:'Aluminium',g:3*23.8e-6,fest:true},{n:'Eisen',g:3*12e-6,fest:true},
+               {n:'Ethanol',g:1.10e-3,fest:false},{n:'Wasser',g:0.21e-3,fest:false},
+               {n:'Quecksilber',g:0.18e-3,fest:false}];
+let a2Sel=2;
+function a2Buttons(){
+  const box=document.getElementById('a2-stoff'); box.innerHTML='';
+  STOFFE2.forEach((s,i)=>{ const b=document.createElement('button'); b.textContent=s.n;
+    if(i===a2Sel)b.classList.add('aktiv');
+    b.addEventListener('click',()=>{a2Sel=i;a2Buttons();a2Render();}); box.appendChild(b); });
+}
+function a2Render(){
+  const s=STOFFE2[a2Sel];
+  const V0=+document.getElementById('a2-V0').value, dT=+document.getElementById('a2-dT').value;
+  document.getElementById('a2-V0-val').textContent=V0.toFixed(1)+' L';
+  document.getElementById('a2-dT-val').textContent=dT+' K';
+  const dV=s.g*V0*dT, dV_mL=dV*1000;
+  const gShown = s.fest ? '3·'+(s.g/3*1e6).toFixed(1)+'·10⁻⁶' : (s.g*1e3).toFixed(2)+'·10⁻³';
+  document.getElementById('a2-eq').textContent='ΔV = '+gShown+' · '+V0.toFixed(1)+' · '+dT+' = '+dV_mL.toFixed(1)+' mL';
+
+  const cv=initCanvas('a2-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const bx=W*0.40, bw=W*0.20, btop=H*0.10, bbot=H*0.86;
+  ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2.5; ctx.strokeRect(bx,btop,bw,bbot-btop);
+  // Basis-Fuellstand (V0 -> 55%)
+  const baseFrac=0.55, yBase=bbot-(bbot-btop)*baseFrac;
+  // exaggerierte Aenderung
+  const rel=s.g*dT, exag=Math.max(-0.4,Math.min(0.4, rel*120));
+  const yNew=yBase-(bbot-btop)*baseFrac*exag;
+  // Fluessigkeit/Koerper bis yNew
+  ctx.fillStyle=lerpCol(0.5+(dT/80)*0.45);
+  ctx.fillRect(bx+2, Math.min(yNew,yBase), bw-4, bbot-Math.min(yNew,yBase));
+  // Original-Pegel (grau gestrichelt)
+  ctx.strokeStyle='#6b6256'; ctx.lineWidth=1.5; ctx.setLineDash([5,3]);
+  ctx.beginPath(); ctx.moveTo(bx-8,yBase); ctx.lineTo(bx+bw+8,yBase); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#6b6256'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('V₀', bx-10, yBase+3);
+  // neuer Pegel
+  ctx.strokeStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(bx-8,yNew); ctx.lineTo(bx+bw+8,yNew); ctx.stroke();
+  ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.textAlign='left';
+  ctx.fillText('V', bx+bw+10, yNew+3);
+  // Beschriftung
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText(s.n+(s.fest?' (fest, γ=3α)':' (flüssig)'), W*0.66, H*0.22);
+  ctx.font='12px JetBrains Mono,monospace';
+  ctx.fillText('V₀ = '+V0.toFixed(1)+' L', W*0.66, H*0.34);
+  ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a';
+  ctx.fillText('ΔV = '+(dV_mL>=0?'+':'')+dV_mL.toFixed(1)+' mL', W*0.66, H*0.44);
+  ctx.fillStyle='#5a5040'; ctx.font='10px Source Sans 3,sans-serif';
+  ctx.fillText('(Pegeländerung vergrössert)', W*0.66, H*0.55);
+}
+['a2-V0','a2-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a2Render));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 3: Dichteanomalie des Wassers
+// ══════════════════════════════════════════════════════════
+function rhoW(T){ return 1000 - 0.007*(T-4)*(T-4); }  // schematisch, Maximum bei 4°C
+function drawA3(){
+  const T=+document.getElementById('a3-T').value;
+  const rho=rhoW(T);
+  document.getElementById('a3-T-val').textContent=T.toFixed(1)+' °C';
+  document.getElementById('a3-Tc').textContent=T.toFixed(1)+' °C';
+  document.getElementById('a3-rho').textContent=(rho/1000).toFixed(4);
+  document.getElementById('a3-note').textContent = Math.abs(T-4)<0.3 ? 'maximale Dichte' : (T<4?'leichter (unter 4 °C)':'leichter (über 4 °C)');
+
+  const cv=initCanvas('a3-cv',280,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  // ── links: rho-T-Kurve ──
+  const px0=W*0.10, px1=W*0.52, py0=H*0.12, py1=H*0.82;
+  const xT=t=>px0+(t/20)*(px1-px0);
+  const yR=r=>py1-((r-998)/(1000.4-998))*(py1-py0);
+  // Achsen
+  ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(px0,py0); ctx.lineTo(px0,py1); ctx.lineTo(px1,py1); ctx.stroke();
+  ctx.fillStyle='#6b7280'; ctx.font='10px JetBrains Mono,monospace'; ctx.textAlign='center';
+  for(let t=0;t<=20;t+=5){ ctx.fillText(t+'', xT(t), py1+14); }
+  ctx.textAlign='right'; for(let r=998;r<=1000;r+=1){ ctx.fillText(r+'', px0-4, yR(r)+3); }
+  ctx.fillStyle='#374151'; ctx.font='bold 10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('ϑ [°C]', (px0+px1)/2, py1+28);
+  ctx.save(); ctx.translate(px0-30,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('ρ [kg/m³]',0,0); ctx.restore();
+  // Kurve
+  ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=2.6; ctx.beginPath();
+  for(let t=0;t<=20;t+=0.4){ const X=xT(t),Y=yR(rhoW(t)); if(t===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
+  ctx.stroke();
+  // Maximum bei 4°C
+  ctx.strokeStyle='#9b6bd4'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(xT(4),py1); ctx.lineTo(xT(4),yR(rhoW(4))); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#5b2d8e'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Max bei 4 °C', xT(4), yR(rhoW(4))-6);
+  // aktueller Punkt
+  drawDot(ctx,x=>x,y=>y,xT(T),yR(rho),'#b85c00',6);
+  // ── rechts: See im Winter ──
+  const lx0=W*0.60, lx1=W*0.94, ly0=H*0.10, ly1=H*0.86;
+  const layers=[['Eis (0 °C)','#dff0fb',0.10],['1 °C','#bcd9f0',0.18],['2 °C','#9ec6e8',0.18],['3 °C','#7fb2df',0.20],['4 °C (am Grund)','#5b97cf',0.34]];
+  let yy=ly0;
+  for(const [lab,c,frac] of layers){ const hh=(ly1-ly0)*frac;
+    ctx.fillStyle=c; ctx.fillRect(lx0,yy,lx1-lx0,hh);
+    ctx.fillStyle='#1c1a17'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='left';
+    ctx.fillText(lab, lx0+5, yy+hh/2+3); yy+=hh; }
+  ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(lx0,ly0,lx1-lx0,ly1-ly0);
+  ctx.fillStyle='#5a5040'; ctx.font='bold 10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('See im Winter', (lx0+lx1)/2, ly0-2);
+}
+document.getElementById('a3-T').addEventListener('input', drawA3);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 4: Meeresspiegelanstieg (thermische Expansion)
+// ══════════════════════════════════════════════════════════
+const GAMMA_W=0.21e-3;
+function drawA4(){
+  const h0=+document.getElementById('a4-h0').value, dT=+document.getElementById('a4-dT').value;
+  document.getElementById('a4-h0-val').textContent=h0+' m';
+  document.getElementById('a4-dT-val').textContent=dT.toFixed(1)+' K';
+  const dh=GAMMA_W*h0*dT;  // m
+  document.getElementById('a4-eq').textContent='Δh = 0.21·10⁻³ · '+h0+' · '+dT.toFixed(1)+' = '+dh.toFixed(2)+' m = '+(dh*100).toFixed(0)+' cm';
+
+  const cv=initCanvas('a4-cv',260,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#dcebf7'; ctx.fillRect(0,0,W,H);  // Himmel
+  // Land/Kueste rechts
+  ctx.fillStyle='#cdb892'; ctx.beginPath();
+  ctx.moveTo(W*0.78,H); ctx.lineTo(W*0.78,H*0.30); ctx.lineTo(W,H*0.22); ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+  // Meer
+  const seaTop=H*0.45, seaBot=H*0.95;
+  ctx.fillStyle='#3b7fb0'; ctx.fillRect(0,seaTop,W*0.78,seaBot-seaTop);
+  // urspruenglicher Pegel
+  ctx.strokeStyle='#1c3a52'; ctx.lineWidth=1.5; ctx.setLineDash([6,4]);
+  ctx.beginPath(); ctx.moveTo(0,seaTop); ctx.lineTo(W*0.82,seaTop); ctx.stroke(); ctx.setLineDash([]);
+  // neuer Pegel (Anstieg stark vergroessert)
+  const risePx=Math.min(H*0.30, dh*120);  // visuelle Skala
+  const newTop=seaTop-risePx;
+  ctx.fillStyle='rgba(90,160,205,0.6)'; ctx.fillRect(0,newTop,W*0.78,risePx);
+  ctx.strokeStyle='#b85c00'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(0,newTop); ctx.lineTo(W*0.82,newTop); ctx.stroke();
+  // Klammer Δh
+  ctx.strokeStyle='#b85c00'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(W*0.84,seaTop); ctx.lineTo(W*0.84,newTop); ctx.stroke();
+  ctx.fillStyle='#b85c00'; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillText('Δh = '+(dh*100).toFixed(0)+' cm', W*0.85, (seaTop+newTop)/2+4);
+  // Labels
+  ctx.fillStyle='#1c3a52'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('erwärmte Wassersäule: '+h0+' m, ΔT = '+dT.toFixed(1)+' K', 8, seaBot-8);
+  ctx.fillStyle='#5a5040'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('(Anstieg im Bild stark vergrössert)', W*0.77, seaTop+14);
+}
+['a4-h0','a4-dT'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 5: Ideales Gasgesetz im Kolben
+// ══════════════════════════════════════════════════════════
+const A5_T0=293.15, A5_V0=3, A5_P0=1.0;
+const a5State={p:[],inited:false};
+function a5Init(){ a5State.p=[]; for(let i=0;i<22;i++){ const ang=Math.random()*6.283;
+  a5State.p.push({x:Math.random(),y:Math.random(),vx:Math.cos(ang),vy:Math.sin(ang)}); } a5State.inited=true; }
+function a5Vals(){
+  const Tc=+document.getElementById('a5-T').value, V=+document.getElementById('a5-V').value;
+  const T=Tc+T0K; const p=A5_P0*(A5_V0/V)*(T/A5_T0);
+  return {Tc,V,T,p};
+}
+function a5Read(){
+  const v=a5Vals();
+  document.getElementById('a5-T-val').textContent=v.Tc+' °C';
+  document.getElementById('a5-V-val').textContent=v.V.toFixed(1)+' L';
+  document.getElementById('a5-p').textContent=v.p.toFixed(2)+' bar';
+  document.getElementById('a5-Vv').textContent=v.V.toFixed(1)+' L';
+  document.getElementById('a5-Tk').textContent=Math.round(v.T)+' K';
+  document.getElementById('a5-eq').textContent='p = 1.00 · (3.0/'+v.V.toFixed(1)+') · ('+Math.round(v.T)+'/293) = '+v.p.toFixed(2)+' bar';
+}
+function a5Render(){
+  if(!a5State.inited) a5Init();
+  const v=a5Vals();
+  const cv=initCanvas('a5-cv',260,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const zx0=W*0.08, zy0=H*0.18, zy1=H*0.82, zMaxW=W*0.74;
+  // Gasbereich-Breite ~ V
+  const gasW=zMaxW*(v.V/5);
+  const pistonX=zx0+gasW;
+  // Zylinderwand
+  ctx.strokeStyle='#5a5040'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(zx0,zy0); ctx.lineTo(zx0,zy1); ctx.lineTo(zx0+zMaxW+W*0.06,zy1); ctx.moveTo(zx0,zy0); ctx.lineTo(zx0+zMaxW+W*0.06,zy0); ctx.stroke();
+  // Gas (eingefaerbt nach Temperatur)
+  ctx.fillStyle=lerpCol((v.Tc+50)/300);
+  ctx.globalAlpha=0.18; ctx.fillRect(zx0,zy0,gasW,zy1-zy0); ctx.globalAlpha=1;
+  // Teilchen
+  const col=lerpCol((v.Tc+50)/300);
+  for(const q of a5State.p){
+    const px=zx0+q.x*gasW, py=zy0+q.y*(zy1-zy0);
+    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(px,py,4.5,0,6.283); ctx.fill();
+  }
+  // Kolben
+  ctx.fillStyle='#8a4a0e'; ctx.fillRect(pistonX,zy0-6,W*0.025,zy1-zy0+12);
+  ctx.fillStyle='#6b6256'; ctx.fillRect(pistonX+W*0.025,(zy0+zy1)/2-4,W*0.05,8);  // Kolbenstange
+  // Druck-Pfeile am Kolben
+  ctx.strokeStyle='#9b1c1c';
+  const np=Math.round(2+v.p*2);
+  for(let i=0;i<np && i<10;i++){ const yy=zy0+10+i*((zy1-zy0-20)/Math.max(1,Math.min(np,10)-1));
+    drawArrow(ctx, pistonX-14, yy, pistonX-2, yy, '#9b1c1c',1.5,5); }
+  // Labels
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText('p = '+v.p.toFixed(2)+' bar', zx0+gasW/2, zy0-8);
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('V = '+v.V.toFixed(1)+' L · T = '+Math.round(v.T)+' K', zx0, zy1+18);
+}
+function a5Tick(dt){
+  if(!a5State.inited) a5Init();
+  const v=a5Vals(); const sp=Math.sqrt(v.T/A5_T0)*0.5;
+  for(const q of a5State.p){
+    const m=Math.hypot(q.vx,q.vy)||1; q.vx=q.vx/m; q.vy=q.vy/m;
+    q.x+=q.vx*sp*dt; q.y+=q.vy*sp*dt;
+    if(q.x<0.02){q.x=0.02;q.vx=Math.abs(q.vx);} if(q.x>0.98){q.x=0.98;q.vx=-Math.abs(q.vx);}
+    if(q.y<0.03){q.y=0.03;q.vy=Math.abs(q.vy);} if(q.y>0.97){q.y=0.97;q.vy=-Math.abs(q.vy);}
+  }
+  a5Render();
+}
+const a5Loop=makeLoop('a5-cv','a5-btn',a5Tick);
+['a5-T','a5-V'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{ a5Read(); if(!a5Loop.running) a5Render(); }));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 6: Gasgesetz-Diagramme (Boyle / Amontons)
+// ══════════════════════════════════════════════════════════
+let a6Mode=0; // 0 Boyle (T const), 1 Amontons (V const)
+const A6_BOYLE_C=6.0;      // p·V = 6 bar·L
+const A6_AMON_K=1/300;     // p/T = 1/300 bar/K
+function a6Buttons(){
+  const box=document.getElementById('a6-modi'); box.innerHTML='';
+  ['Boyle-Mariotte (T const)','Amontons (V const)'].forEach((lab,i)=>{
+    const b=document.createElement('button'); b.textContent=lab;
+    if(i===a6Mode)b.classList.add('aktiv');
+    b.addEventListener('click',()=>{ a6Mode=i; a6Buttons(); a6SetSlider(); drawA6(); });
+    box.appendChild(b);
+  });
+}
+function a6SetSlider(){
+  const s=document.getElementById('a6-x'), lab=document.getElementById('a6-lab');
+  if(a6Mode===0){ s.min=1; s.max=5; s.step=0.1; s.value=2; lab.innerHTML='Volumen \\(V\\):'; }
+  else { s.min=200; s.max=500; s.step=5; s.value=300; lab.innerHTML='Temperatur \\(T\\):'; }
+  if(window.MathJax&&MathJax.typeset) try{MathJax.typeset([lab]);}catch(e){}
+}
+function drawA6(){
+  const x=+document.getElementById('a6-x').value;
+  const cv=initCanvas('a6-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  if(a6Mode===0){   // Boyle: p-V-Hyperbel
+    document.getElementById('a6-x-val').textContent=x.toFixed(1)+' L';
+    const p=A6_BOYLE_C/x;
+    document.getElementById('a6-eq').textContent='p · V = '+A6_BOYLE_C.toFixed(1)+' bar·L (konstant)   →   p = '+p.toFixed(2)+' bar';
+    const g=drawGrid(ctx,W,H,0,6,0,7); drawAxesUnits(ctx,W,H,g.cx,g.cy,'V [L]','p [bar]');
+    ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.6; ctx.beginPath();
+    let first=true;
+    for(let V=0.9;V<=6;V+=0.05){ const X=g.cx(V),Y=g.cy(A6_BOYLE_C/V); if(Y<0)continue;
+      if(first){ctx.moveTo(X,Y);first=false;} else ctx.lineTo(X,Y); }
+    ctx.stroke();
+    const px=g.cx(x), py=g.cy(p);
+    ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(px,g.cy(0)); ctx.lineTo(px,py); ctx.moveTo(g.cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
+    drawDot(ctx,a=>a,b=>b,px,py,'#9b1c1c',6);
+    ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+    ctx.fillText('('+x.toFixed(1)+' L | '+p.toFixed(2)+' bar)', px+8, py-6);
+  } else {          // Amontons: p-T-Gerade
+    document.getElementById('a6-x-val').textContent=Math.round(x)+' K';
+    const p=A6_AMON_K*x;
+    document.getElementById('a6-eq').textContent='p / T = 1/300 bar/K (konstant)   →   p = '+p.toFixed(2)+' bar bei '+Math.round(x)+' K';
+    const g=drawGrid(ctx,W,H,0,520,0,2); drawAxesUnits(ctx,W,H,g.cx,g.cy,'T [K]','p [bar]');
+    ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(g.cx(0),g.cy(0)); ctx.lineTo(g.cx(520),g.cy(A6_AMON_K*520)); ctx.stroke();
+    const px=g.cx(x), py=g.cy(p);
+    ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(px,g.cy(0)); ctx.lineTo(px,py); ctx.moveTo(g.cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
+    drawDot(ctx,a=>a,b=>b,px,py,'#9b1c1c',6);
+    ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+    ctx.fillText('('+Math.round(x)+' K | '+p.toFixed(2)+' bar)', px+8, py-6);
+  }
+}
+document.getElementById('a6-x').addEventListener('input', drawA6);
+
+
+// ══════════════════════════════════════════════════════════
+//  INITIALISIERUNG + Autostart der Loops bei Sichtbarkeit
+// ══════════════════════════════════════════════════════════
+function initAll(){
+  einRender();
+  a1Buttons(); a1Render();
+  a2Buttons(); a2Render();
+  drawA3();
+  drawA4();
+  a5Init(); a5Read(); a5Render();
+  a6Buttons(); a6SetSlider(); drawA6();
+
+  if('IntersectionObserver' in window){
+    const map=new Map();
+    LOOPS.forEach(st=>{ const el=document.getElementById(st.canvasId); if(el) map.set(el,st); });
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ const st=map.get(e.target); if(!st) return;
+        if(e.isIntersecting){ if(!st.userPaused){ st.start(); if(st.btn){ st.btn.textContent='⏸ Pause'; st.btn.classList.remove('paused'); } } }
+        else { st.stop(); } });
+    }, { threshold:0.25 });
+    map.forEach((st,el)=>io.observe(el));
+  }
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', initAll);
+else initAll();
+
+let rzT;
+window.addEventListener('resize', ()=>{
+  clearTimeout(rzT);
+  rzT=setTimeout(()=>{
+    einRender(); a1Render(); a2Render(); drawA3(); drawA4(); drawA6();
+    if(!a5Loop.running) a5Render();
+  }, 150);
+});
+</script>
+</body>
+</html>

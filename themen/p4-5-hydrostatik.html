@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.5 Hydrostatik — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* ── Widget-Basis-Styles: zentral in style.css ──
+   Hier nur die seitenspezifischen Layouts für die Animationen dieser Seite. */
+.einstieg-layout { display:grid; grid-template-columns:auto auto 1fr; gap:14px; align-items:start; }
+.einstieg-layout .live-box { flex-direction:column; align-items:stretch; }
+.einstieg-layout .live-box .lb-item { min-width:0; }
+@media(max-width:700px){ .einstieg-layout { grid-template-columns:1fr; } .sl-vert input[type=range]{ height:180px; } }
+
+.a1-layout { display:grid; grid-template-columns:auto 1fr 1fr; gap:14px; align-items:start; }
+@media(max-width:760px){ .a1-layout { grid-template-columns:1fr; } }
+
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 4 Mechanik</div>
+  <h1 class="pt-h1">4.5 Hydrostatik</h1>
+  <p class="pt-untertitel">Druck und Auftrieb in ruhenden Flüssigkeiten — von der Tauchbrille bis zum Frachtschiff.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 4.5 · 100 Lektionen (gesamt 4)</div>
+  <ul>
+    <li>den Begriff «Druck» definieren und die SI-Einheit Pascal einsetzen</li>
+    <li>den Schweredruck in einer Flüssigkeit berechnen und das hydrostatische Paradoxon erklären</li>
+    <li>das Prinzip von Pascal auf hydraulische Anlagen (Presse, Wagenheber) anwenden</li>
+    <li>das archimedische Prinzip formulieren und damit Auftriebskräfte berechnen</li>
+    <li>die Bedingungen für Schwimmen, Schweben und Sinken aus dem Dichtevergleich ableiten</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann den Begriff Druck definieren und die Einheit Pascal einsetzen.</li>
+      <li>Ich kann den Schweredruck \(p_S=\rho g h\) berechnen und das hydrostatische Paradoxon erklären.</li>
+      <li>Ich kann das Prinzip von Pascal auf hydraulische Anlagen anwenden.</li>
+      <li>Ich kann das archimedische Prinzip formulieren und Auftriebskräfte berechnen.</li>
+      <li>Ich kann aus dem Dichtevergleich entscheiden, ob ein Körper schwimmt, schwebt oder sinkt.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — Tauchen im Schwimmbad</h2>
+
+<p>Ein Schwimmer taucht im Schwimmbecken nach unten. Schon nach einem Meter spürt er einen leichten Druck auf den Ohren, ab zwei Metern muss er bewusst Druckausgleich machen — und im 6-m-tiefen Sprungbecken ist das Trommelfell deutlich belastet. Aber wie stark genau?</p>
+
+<p>Die Luft drückt von oben — wir merken davon nichts, weil unser Körper an diesen Luftdruck gewohnt ist (etwa \(1{.}013\) bar auf Meereshöhe). Im Wasser kommt der Schweredruck der darüberliegenden <strong>Wassersäule</strong> dazu — also das Gewicht des ganzen Wassers, das senkrecht über dem Schwimmer steht. Und der wächst <strong>linear</strong> mit der Tiefe.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Beobachte</div>
+  <p>Starte die Animation unten — eine Schwimmerin lässt sich langsam bis zum Beckenboden in 6 m Tiefe sinken. Verfolge mit, wie sich Tiefe, Schweredruck (Druck nur vom Wasser) und Gesamtdruck (Wasser + Luft) verändern. Beobachte vor allem: <strong>wie schnell</strong> wächst der Druck im Vergleich zur Tiefe?</p>
+</div>
+
+<!-- ANIM EINSTIEG: Schwimmerin taucht ab, Druck wächst -->
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>🤿 Einstieg-Animation · Druck mit zunehmender Tiefe</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verschiebe den Tiefenregler und beobachte den Druck.</li><li>Achte darauf, wie der Druck gleichmässig mit der Tiefe zunimmt.</li><li>Vergleiche Oberfläche und Beckenboden (6 m).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verschiebe den Tiefenregler und beobachte den Druck. Achte darauf, wie der Druck gleichmässig mit der Tiefe zunimmt. Vergleiche die Wasseroberfläche mit dem Beckenboden in sechs Metern Tiefe." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Schweredruck: \(p = \rho g h\) — linear mit der Tiefe.</li><li>Pro 10 m Wasser steigt der Druck um rund \(1\;\text{bar}\).</li><li>Der Druck wirkt allseitig, nicht nur nach unten.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der Schweredruck ist p gleich rho mal g mal h und nimmt linear mit der Tiefe zu. Pro zehn Meter Wasser steigt der Druck um rund ein Bar. Der Druck wirkt allseitig, nicht nur nach unten." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2); margin-bottom:10px;">Becken-Tiefe 6 m  ·  \(\rho_W = 1000\;\text{kg/m}^3\)  ·  \(g = 9.81\;\text{m/s}^2\)  ·  \(p_0 = 1013\) hPa</div>
+
+    <div class="einstieg-layout">
+      <div class="sl-vert">
+        <label>Tiefe \(h\)</label>
+        <input type="range" id="ae-h" min="0" max="6" value="0" step="0.05">
+        <span class="sl-val" id="ae-h-val">0.00 m</span>
+      </div>
+      <div class="cv-wrap" style="width:200px;">
+        <div class="cv-titel">🏊 Becken-Querschnitt</div>
+        <canvas id="ae-cv" height="320"></canvas>
+      </div>
+      <div class="live-box">
+        <div class="lb-item"><span class="lb-lab">Tiefe \(h\)</span><span class="lb-val" id="ae-h2">0.00 m</span></div>
+        <div class="lb-item"><span class="lb-lab">Schweredruck \(p_S\)</span><span class="lb-val" id="ae-ps">0 hPa</span></div>
+        <div class="lb-item"><span class="lb-lab">Gesamtdruck \(p\)</span><span class="lb-val" id="ae-pt">1013 hPa</span></div>
+        <div class="lb-item"><span class="lb-lab">in \(\text{bar}\)</span><span class="lb-val" id="ae-pb">1.013 bar</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p>Eine erste Annäherung: in 6 m Tiefe ergibt sich ein Schweredruck von etwa</p>
+
+\[ p_S \approx 1000\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2 \cdot 6\;\text{m} \approx 58\,860\;\text{Pa} \approx 0.59\;\text{bar.} \]
+
+<p>Zum Luftdruck addiert ergibt das etwa \(1.60\) bar — der Druck auf das Trommelfell hat sich also fast verdoppelt. Eine einfache Faustregel folgt sofort: <strong>pro 10 m Wasser kommt etwa 1 bar Druck dazu.</strong></p>
+
+<p>Auf dieser Themenseite lernst du, wie Schweredruck systematisch berechnet wird, warum eine hydraulische Presse aus 50 N Hand­druck 1000 N Hub­kraft machen kann, und warum ein 80 000 t-Frachter problemlos schwimmt, obwohl ein Eisenklotz im Wasser sofort sinkt. Die zentralen Stichworte: <strong>Schweredruck</strong>, <strong>Prinzip von Pascal</strong>, <strong>Auftrieb nach Archimedes</strong>.</p>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Je tiefer man taucht, desto …</p><ul class="mc-optionen"><li data-opt="A">kleiner der Druck</li><li data-opt="B">grösser der Druck</li><li data-opt="C">bleibt der Druck gleich</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Der Schweredruck wächst linear mit der Tiefe: \(p = \rho g h\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Schweredruck nimmt mit der <span class="mc-luecke"></span> zu.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Tiefe.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Druck in \(h = 10\;\text{m}\) Wassertiefe? (\(\rho = 1000\), \(g = 9.81\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(p = \rho g h = 1000 \cdot 9.81 \cdot 10 = 98\,100\;\text{Pa} \approx 0.98\;\text{bar}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum schmerzen die Ohren beim Tauchen schon nach wenigen Metern?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Der Schweredruck steigt rasch (pro \(10\;\text{m}\) rund \(1\;\text{bar}\)). Der Druckunterschied zum luftgefüllten Mittelohr drückt aufs Trommelfell — daher der nötige Druckausgleich.</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Druck</div>
+  <p>Der <strong>Druck</strong> \(p\) ist die Kraft \(F\), die senkrecht auf eine Fläche \(A\) wirkt, geteilt durch die Grösse dieser Fläche:</p>
+  \[ p = \frac{F}{A} \]
+  <p>SI-Einheit: <strong>Pascal</strong>, \(1\;\text{Pa} = 1\;\text{N/m}^2\). Übliche Praxiseinheiten: \(1\;\text{hPa} = 100\;\text{Pa}\), \(1\;\text{kPa} = 1000\;\text{Pa}\), \(1\;\text{bar} = 100\,000\;\text{Pa}\), \(1\;\text{mbar} = 1\;\text{hPa}\).</p>
+  <p>Druck ist ein <strong>Skalar</strong> — er hat keinen Richtungspfeil. In einer ruhenden Flüssigkeit wirkt er an einem Punkt nach allen Seiten gleich gross (Pascal-Prinzip).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Dichte</div>
+  <p>Die <strong>Dichte</strong> \(\rho\) (griechisch „rho") ist die Masse pro Volumen:</p>
+  \[ \rho = \frac{m}{V} \]
+  <p>SI-Einheit: \(\text{kg/m}^3\). Wichtige Werte (alle bei 20 °C, ausser Wasser bei 4 °C):</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Stoff</th><th>\(\rho\) in \(\text{kg/m}^3\)</th><th>Stoff</th><th>\(\rho\) in \(\text{kg/m}^3\)</th></tr></thead>
+    <tbody>
+      <tr><td>Luft (20 °C)</td><td>\(1.20\)</td><td>Wasser (4 °C)</td><td>\(1000\)</td></tr>
+      <tr><td>Eis</td><td>\(917\)</td><td>Meerwasser</td><td>\(1025\)</td></tr>
+      <tr><td>Speiseöl</td><td>\(\approx 850\)</td><td>Quecksilber</td><td>\(13\,600\)</td></tr>
+      <tr><td>Kork</td><td>\(\approx 240\)</td><td>Eichenholz</td><td>\(\approx 700\)</td></tr>
+      <tr><td>Aluminium</td><td>\(2700\)</td><td>Eisen</td><td>\(7870\)</td></tr>
+      <tr><td>Beton</td><td>\(\approx 2400\)</td><td>Gold</td><td>\(19\,300\)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Schweredruck</div>
+  <p>Der <strong>Schweredruck</strong> in einer Flüssigkeit entsteht durch das Gewicht der darüberliegenden Flüssigkeitssäule. Er wächst linear mit der Tiefe \(h\):</p>
+  \[ p_S = \rho \cdot g \cdot h \]
+  <p>\(p_S\) ist der zusätzliche Druck zur Atmosphäre. Der <strong>Gesamtdruck</strong> ist \(p = p_0 + p_S\), mit Luftdruck \(p_0 \approx 1013\) hPa auf Meereshöhe.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Auftrieb</div>
+  <p>Wird ein Körper in eine Flüssigkeit eingetaucht, wirkt auf ihn die <strong>Auftriebskraft</strong> \(F_A\). Sie zeigt vertikal nach oben und ist betragsmässig gleich dem Gewicht der vom Körper verdrängten Flüssigkeit (<strong>Archimedisches Prinzip</strong>):</p>
+  \[ F_A = \rho_{\text{Fl}} \cdot V_e \cdot g \]
+  <p>Dabei ist \(\rho_{\text{Fl}}\) die Dichte der Flüssigkeit, \(V_e\) das <strong>eingetauchte Volumen</strong> des Körpers (bei vollständiger Tauchung das ganze Körpervolumen, beim Schwimmen nur der Teil unter Wasser).</p>
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 — SCHWEREDRUCK ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die Einheit des Drucks ist …</p><ul class="mc-optionen"><li data-opt="A">Newton</li><li data-opt="B">Pascal</li><li data-opt="C">Joule</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Druck wird in Pascal gemessen: \(1\;\text{Pa} = 1\;\text{N/m}^2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Druck ist Kraft pro <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Fläche — \(p = F/A\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Kraft \(50\;\text{N}\) wirkt auf \(A = 0.01\;\text{m}^2\). Welcher Druck?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(p = \dfrac{F}{A} = \dfrac{50}{0.01} = 5000\;\text{Pa}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum sinkt man mit Schneeschuhen weniger in den Schnee ein als mit normalen Schuhen?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die grössere Fläche verteilt dieselbe Gewichtskraft: \(p = F/A\) wird kleiner, der Schnee gibt weniger nach.</div></details></div>
+</details>
+
+<h2 id="schweredruck">Schweredruck — wie Druck mit der Tiefe wächst</h2>
+
+<p>Der Schweredruck einer Flüssigkeitssäule ergibt sich aus dem Gewicht dieser Säule, geteilt durch die Fläche, auf die sie drückt. Für eine Säule der Höhe \(h\) und Querschnittsfläche \(A\) gilt:</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Herleitung</div>
+  <p>Volumen der Flüssigkeitssäule: \(V = A \cdot h\). Masse: \(m = \rho \cdot V = \rho \cdot A \cdot h\). Gewichts­kraft: \(F_G = m \cdot g = \rho \cdot A \cdot h \cdot g\). Mit der Druckdefinition \(p = F/A\):</p>
+  \[ p_S = \frac{F_G}{A} = \frac{\rho \cdot A \cdot h \cdot g}{A} = \rho \cdot g \cdot h \]
+  <p>Die Fläche kürzt sich heraus — der Schweredruck hängt nur von Dichte, Erdbeschleunigung und Tiefe ab, nicht von der Form oder Grösse des Gefässes. Das nennt man das <strong>hydrostatische Paradoxon</strong>.</p>
+</div>
+
+<!-- ANIM 1: Schweredruck mit Tiefen- und Dichte-Slider -->
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 1 · Schweredruck in einer Flüssigkeitssäule</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere Tiefe \(h\) und Dichte \(\rho\).</li><li>Beobachte, dass der Druck mit beiden linear wächst.</li><li>Vergleiche Wasser mit einer dichteren Flüssigkeit.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere die Tiefe h und die Flüssigkeitsdichte rho. Beobachte, dass der Druck mit beiden Grössen linear wächst. Vergleiche Wasser mit einer dichteren Flüssigkeit." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Schweredruck: \(p = \rho g h\).</li><li>Doppelte Tiefe oder doppelte Dichte bedeutet doppelter Druck.</li><li>Der Druck hängt nicht von Form oder Menge der Flüssigkeit ab.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der Schweredruck ist p gleich rho mal g mal h. Doppelte Tiefe oder doppelte Dichte bedeutet doppelten Druck. Der Druck hängt nicht von der Form oder der Menge der Flüssigkeit ab." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Dichte \(\rho\):</label>
+      <input type="range" id="a1-rho" min="500" max="14000" value="1000" step="50">
+      <span class="sl-val" id="a1-rho-val">1000 kg/m³</span>
+    </div>
+
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-rho="1000" data-name="Wasser">💧 Wasser (1000)</button>
+      <button class="typ-btn" data-rho="850" data-name="Öl">🛢 Öl (850)</button>
+      <button class="typ-btn" data-rho="1025" data-name="Meerwasser">🌊 Meerwasser (1025)</button>
+      <button class="typ-btn" data-rho="13600" data-name="Quecksilber">⚙ Quecksilber (13600)</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Aktueller Schweredruck</div>
+      <div class="fl-eq" id="a1-eq">p_S = 1000 · 9.81 · 3.0 = 29.4 kPa</div>
+    </div>
+
+    <div class="a1-layout">
+      <div class="sl-vert">
+        <label>Tiefe \(h\)</label>
+        <input type="range" id="a1-h" min="0" max="10" value="3" step="0.1">
+        <span class="sl-val" id="a1-h-val">3.0 m</span>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">🏛 Flüssigkeitssäule mit Manometer</div>
+        <canvas id="a1-cv-saeule" height="320"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📈 \(p_S(h)\) — linearer Anstieg</div>
+        <canvas id="a1-cv-ph" height="320"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 5. ANIMATION 2 — HYDROSTATISCHES PARADOXON ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wovon hängt der Schweredruck NICHT ab?</p><ul class="mc-optionen"><li data-opt="A">von der Tiefe</li><li data-opt="B">von der Dichte der Flüssigkeit</li><li data-opt="C">von der Gefässform</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>C.</strong> \(p = \rho g h\) — die Form des Gefässes kommt nicht vor.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Schweredruck ist \(p = \rho \cdot g \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(h\) (Tiefe).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Druck am Boden eines \(2\;\text{m}\) tiefen Ölbeckens (\(\rho = 900\), \(g = 9.81\))?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(p = \rho g h = 900 \cdot 9.81 \cdot 2 = 17\,658\;\text{Pa} \approx 17.7\;\text{kPa}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">In welcher Wassertiefe herrscht ein Schweredruck von \(2\;\text{bar}\) (\(= 2\cdot 10^5\;\text{Pa}\))? (\(\rho = 1000\), \(g = 9.81\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(h = \dfrac{p}{\rho g} = \dfrac{2\cdot 10^5}{1000 \cdot 9.81} \approx 20.4\;\text{m}\).</div></details></div>
+</details>
+
+<h2 id="paradoxon">Hydrostatisches Paradoxon</h2>
+
+<p>Wenn der Schweredruck nur von der Tiefe abhängt — was passiert dann mit Gefässen unterschiedlicher Form? Schmale Röhre, weiter Becher, trichterförmiges Glas: alle bei gleicher Füllhöhe gleichviel Druck am Boden?</p>
+
+<p>Genau. Solange die Füllhöhe gleich ist, ist auch der Druck am Boden gleich. Das überrascht, denn die Wassermengen sind ja sehr unterschiedlich. Der Trick: bei einer schmalen Form werden die Seitenwände nach aussen gedrückt — das „fehlende" Wasser wird durch die Wandkräfte ersetzt. Bei einer trichterförmigen Form drücken die Wände das Wasser von oben — das „überschüssige" Wasser bleibt ohne Wirkung auf den Boden.</p>
+
+<!-- ANIM 2: Drei Gefässe nebeneinander, gleiche Füllhöhe -->
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 2 · Drei Gefässe bei gleicher Füllhöhe</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle die Füllhöhe ein und vergleiche die drei Manometer.</li><li>Achte darauf, dass alle denselben Bodendruck zeigen.</li><li>Vergleiche das trotz sehr verschiedener Wassermengen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle die Füllhöhe ein und vergleiche die drei Manometer. Achte darauf, dass alle denselben Bodendruck zeigen. Vergleiche das, obwohl die Wassermengen sehr verschieden sind." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Hydrostatisches Paradoxon: der Bodendruck hängt nur von der Füllhöhe ab.</li><li>\(p = \rho g h\) — die Gefässform spielt keine Rolle.</li><li>Gleiche Höhe bedeutet gleicher Druck, unabhängig von der Wassermenge.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Das hydrostatische Paradoxon besagt: der Bodendruck hängt nur von der Füllhöhe ab. In der Formel p gleich rho mal g mal h kommt die Gefässform nicht vor. Gleiche Höhe bedeutet gleicher Druck, unabhängig von der Wassermenge." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Füllhöhe \(h\):</label>
+      <input type="range" id="a2-h" min="2" max="20" value="12" step="0.5">
+      <span class="sl-val" id="a2-h-val">12.0 cm</span>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(p\) am Boden</span><span class="lb-val" id="a2-p">1.18 kPa</span></div>
+      <div class="lb-item"><span class="lb-lab">in \(\text{mbar}\)</span><span class="lb-val" id="a2-pmbar">11.8 mbar</span></div>
+      <div class="lb-item"><span class="lb-lab">Volumen Zyl.</span><span class="lb-val" id="a2-v1">377 cm³</span></div>
+      <div class="lb-item"><span class="lb-lab">Volumen Trichter</span><span class="lb-val" id="a2-v2">503 cm³</span></div>
+      <div class="lb-item"><span class="lb-lab">Volumen umgek.</span><span class="lb-val" id="a2-v3">252 cm³</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">Drei verbundene Gefässe — gleiche Druckanzeige</div>
+      <canvas id="a2-cv" height="340"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Häufiger Fehler</div>
+  <p>Das Paradoxon gilt für den <strong>Druck am Boden</strong>, nicht für die <strong>Bodenkraft</strong>. Die Bodenkraft \(F = p \cdot A\) hängt zusätzlich von der Bodenfläche ab — ein breites Gefäss erfährt am Boden mehr Gesamtkraft als ein schmales, auch bei gleichem Druck. Und das passt auch zur Gewichts­kraft: bei vertikalen Wänden ist die Bodenkraft genau das Gewicht des darüberstehenden Wassers.</p>
+</div>
+
+
+
+<!-- ══════════════ 6. ANIMATION 3 — PASCAL / HYDRAULISCHE PRESSE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Drei verschieden geformte Gefässe haben gleiche Füllhöhe. Der Bodendruck ist …</p><ul class="mc-optionen"><li data-opt="A">im breitesten am grössten</li><li data-opt="B">überall gleich</li><li data-opt="C">im schmalsten am grössten</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Hydrostatisches Paradoxon: bei gleicher Höhe ist der Bodendruck gleich (\(p = \rho g h\)).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Bodendruck hängt nur von der <span class="mc-luecke"></span> ab, nicht von der Wassermenge.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Füllhöhe.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Zwei Gefässe sind beide \(0.5\;\text{m}\) hoch gefüllt. Verhältnis der Bodendrücke?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(1 : 1\) — gleiche Höhe, gleicher Druck, unabhängig von der Menge.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein dünnes hohes Rohr und ein breites Fass haben gleiche Wasserhöhe. Warum ist der Bodendruck gleich, obwohl im Fass viel mehr Wasser ist?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Der Druck hängt nur von der Höhe ab (\(p = \rho g h\)). Das zusätzliche Wasser im Fass ruht auf dessen breiterem Boden und erhöht den Druck pro Fläche nicht.</div></details></div>
+</details>
+
+<h2 id="pascal">Prinzip von Pascal — die hydraulische Presse</h2>
+
+<p>In einer geschlossenen Flüssigkeit pflanzt sich ein zusätzlicher Druck unverändert nach allen Seiten fort. Drückt man auf einen kleinen Kolben mit Kraft \(F_1\) auf eine kleine Fläche \(A_1\), entsteht der Druck \(p = F_1/A_1\) überall. Dieser Druck wirkt auch auf einen grossen Kolben der Fläche \(A_2\) — dort als Kraft \(F_2 = p \cdot A_2\). Es folgt:</p>
+
+\[ \frac{F_1}{A_1} = \frac{F_2}{A_2} \qquad \Longrightarrow \qquad F_2 = F_1 \cdot \frac{A_2}{A_1} \]
+
+<p>Eine kleine Kraft erzeugt also eine grosse Kraft. Was ist der Preis? Der Weg: \(A_1 \cdot s_1 = A_2 \cdot s_2\) — der kleine Kolben muss um genauso viel weiter bewegt werden, wie er weniger Kraft braucht. So ist die Arbeit \(W = F \cdot s\) auf beiden Seiten gleich (Energieerhaltung).</p>
+
+<!-- ANIM 3: Hydraulische Presse mit Kolben-Slider -->
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 3 · Hydraulische Presse</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere Eingangskraft \(F_1\) und Flächenverhältnis \(A_2/A_1\).</li><li>Beobachte, wie \(F_2\) wächst, der Hub \(s_2\) aber sinkt.</li><li>Achte auf den Tausch von Kraft gegen Weg.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere die Eingangskraft F eins und das Flächenverhältnis A zwei zu A eins. Beobachte, wie die Ausgangskraft F zwei wächst, der Hub s zwei aber sinkt. Achte auf den Tausch von Kraft gegen Weg." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Pascal-Prinzip: Druck überall gleich, \(F_2 = F_1 \cdot A_2/A_1\).</li><li>Grosse Kraftverstärkung über das Flächenverhältnis.</li><li>Was an Kraft gewonnen wird, geht am Weg verloren (Energieerhaltung).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Nach dem Prinzip von Pascal ist der Druck überall gleich, also F zwei gleich F eins mal A zwei durch A eins. So entsteht eine grosse Kraftverstärkung über das Flächenverhältnis. Was man an Kraft gewinnt, verliert man am Weg; das folgt aus der Energieerhaltung." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Eingangskraft \(F_1\):</label>
+      <input type="range" id="a3-f1" min="10" max="200" value="50" step="5">
+      <span class="sl-val" id="a3-f1-val">50 N</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Fläche \(A_1\):</label>
+      <input type="range" id="a3-a1" min="2" max="20" value="5" step="0.5">
+      <span class="sl-val" id="a3-a1-val">5.0 cm²</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Fläche \(A_2\):</label>
+      <input type="range" id="a3-a2" min="20" max="500" value="100" step="10">
+      <span class="sl-val" id="a3-a2-val">100 cm²</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Eingangshub \(s_1\):</label>
+      <input type="range" id="a3-s1" min="1" max="50" value="20" step="1">
+      <span class="sl-val" id="a3-s1-val">20 cm</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Druck \(p\)</span><span class="lb-val" id="a3-p">1.00 bar</span></div>
+      <div class="lb-item"><span class="lb-lab">Ausgangskraft \(F_2\)</span><span class="lb-val" id="a3-f2">1000 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Hubverhältnis \(A_2/A_1\)</span><span class="lb-val" id="a3-rat">20.0</span></div>
+      <div class="lb-item"><span class="lb-lab">Ausgangshub \(s_2\)</span><span class="lb-val" id="a3-s2">1.0 cm</span></div>
+      <div class="lb-item"><span class="lb-lab">Arbeit \(W_1 = F_1 \cdot s_1\)</span><span class="lb-val" id="a3-w1">10.0 J</span></div>
+      <div class="lb-item"><span class="lb-lab">Arbeit \(W_2 = F_2 \cdot s_2\)</span><span class="lb-val" id="a3-w2">10.0 J</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">U-Rohr-Presse mit zwei Kolben</div>
+      <canvas id="a3-cv" height="300"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 7. ANIMATION 4 — AUFTRIEB ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit dem Wasserstand im Glas, wenn ein schwimmender Eiswürfel schmilzt?</summary>
+  <div class="frage-antwort">
+    <p>Der Pegel bleibt praktisch gleich. Der Eiswürfel verdrängt schwimmend genau das Wasservolumen, das seinem Gewicht entspricht — und liefert beim Schmelzen genau diese Wassermenge nach.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Bei der hydraulischen Presse gewinnt man Kraft auf Kosten von …</p><ul class="mc-optionen"><li data-opt="A">Druck</li><li data-opt="B">Weg</li><li data-opt="C">Energie</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die Kraft wird verstärkt, der Weg am grossen Kolben wird entsprechend kleiner (Energieerhaltung).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Nach dem Prinzip von Pascal ist der <span class="mc-luecke"></span> in der Flüssigkeit überall gleich.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Druck.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(F_1 = 100\;\text{N}\) auf \(A_1\); der grosse Kolben hat \(A_2 = 5\,A_1\). Ausgangskraft \(F_2\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F_2 = F_1 \cdot \dfrac{A_2}{A_1} = 100 \cdot 5 = 500\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Der kleine Kolben wird um \(20\;\text{cm}\) gedrückt, \(A_2 = 5\,A_1\). Um wie viel hebt sich der grosse Kolben?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Gleiches Volumen: \(s_2 = s_1 \cdot \dfrac{A_1}{A_2} = \dfrac{20\;\text{cm}}{5} = 4\;\text{cm}\) — mehr Kraft, dafür weniger Weg.</div></details></div>
+</details>
+
+<h2 id="auftrieb">Auftrieb — das Archimedische Prinzip</h2>
+
+<p>Schon in der Antike entdeckte Archimedes: Wer einen Körper in eine Flüssigkeit eintaucht, verdrängt eine entsprechende Flüssigkeitsmenge. Der Körper wird dann mit einer Kraft nach oben gedrückt, die genau dem Gewicht dieser verdrängten Flüssigkeit entspricht. Die Auftriebskraft \(F_A\) hängt nur von der Flüssigkeitsdichte und dem eingetauchten Volumen ab:</p>
+
+\[ F_A = \rho_{\text{Fl}} \cdot V_e \cdot g \]
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Herleitung</div>
+  <p>Betrachte einen Quader (Höhe \(\Delta h\), Querschnittsfläche \(A\)) vollständig in der Flüssigkeit, Oberseite auf Tiefe \(h_o\), Unterseite auf Tiefe \(h_u = h_o + \Delta h\). Auf die Oberseite drückt die Flüssigkeit mit \(F_o = p_o \cdot A = \rho \cdot g \cdot h_o \cdot A\) nach unten, auf die Unterseite mit \(F_u = \rho \cdot g \cdot h_u \cdot A\) nach oben. Der Auftrieb ist die Differenz:</p>
+  \[ F_A = F_u - F_o = \rho \cdot g \cdot A \cdot (h_u - h_o) = \rho \cdot g \cdot A \cdot \Delta h = \rho \cdot g \cdot V \]
+  <p>Das Volumen \(V = A \cdot \Delta h\) ist das Volumen des Quaders — also das eingetauchte Volumen.</p>
+</div>
+
+<!-- ANIM 4: Quader sinkt in Wasser, Auftrieb wächst -->
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 4 · Auftriebskraft beim Eintauchen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Schiebe den Quader Stück für Stück ins Wasser.</li><li>Beobachte, wie die Auftriebskraft mit dem eingetauchten Volumen wächst.</li><li>Achte darauf, dass sie konstant bleibt, sobald er ganz untergetaucht ist.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Schiebe den Quader Stück für Stück ins Wasser. Beobachte, wie die Auftriebskraft linear mit dem eingetauchten Volumen wächst. Achte darauf, dass sie konstant bleibt, sobald der Quader ganz untergetaucht ist." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Archimedisches Prinzip: \(F_A = \rho_{\text{Fl}} \cdot V_e \cdot g\).</li><li>Der Auftrieb entspricht dem Gewicht der verdrängten Flüssigkeit.</li><li>Voll eingetaucht bleibt \(V_e\) konstant, also auch der Auftrieb.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Nach dem archimedischen Prinzip ist die Auftriebskraft gleich rho der Flüssigkeit mal das eingetauchte Volumen mal g. Der Auftrieb entspricht dem Gewicht der verdrängten Flüssigkeit. Voll eingetaucht bleibt das eingetauchte Volumen konstant, also auch der Auftrieb." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Eintauchtiefe \(h_e\):</label>
+      <input type="range" id="a4-he" min="0" max="20" value="6" step="0.5">
+      <span class="sl-val" id="a4-he-val">6.0 cm</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Quaderkante (kubisch):</label>
+      <input type="range" id="a4-kante" min="5" max="15" value="10" step="0.5">
+      <span class="sl-val" id="a4-kante-val">10.0 cm</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Eingetauchtes V</span><span class="lb-val" id="a4-v">600 cm³</span></div>
+      <div class="lb-item"><span class="lb-lab">Verdrängte Masse</span><span class="lb-val" id="a4-m">0.60 kg</span></div>
+      <div class="lb-item"><span class="lb-lab">Auftriebskraft \(F_A\)</span><span class="lb-val" id="a4-fa">5.89 N</span></div>
+    </div>
+
+    <div class="zwei-spalten">
+      <div class="cv-wrap">
+        <div class="cv-titel">🟫 Quader im Wasser</div>
+        <canvas id="a4-cv-quader" height="320"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📈 \(F_A\) in Abhängigkeit von \(h_e\)</div>
+        <canvas id="a4-cv-graph" height="320"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 8. ANIMATION 5 — SCHWIMMEN, SCHWEBEN, SINKEN ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die Auftriebskraft entspricht …</p><ul class="mc-optionen"><li data-opt="A">dem Gewicht des Körpers</li><li data-opt="B">dem Gewicht der verdrängten Flüssigkeit</li><li data-opt="C">dem Volumen des Körpers</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Archimedisches Prinzip: \(F_A = \rho_{\text{Fl}}\,V_e\,g\) = Gewicht der verdrängten Flüssigkeit.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Auftriebskraft ist \(F_A = \rho_{\text{Fl}} \cdot V_e \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(g\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Körper verdrängt \(V = 2\;\text{L} = 0.002\;\text{m}^3\) Wasser. Auftriebskraft? (\(\rho = 1000\), \(g = 9.81\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F_A = \rho V g = 1000 \cdot 0.002 \cdot 9.81 = 19.62\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein \(10\;\text{kg}\)-Stein (\(V = 4\;\text{L}\)) liegt unter Wasser. Welche Kraft braucht man, um ihn zu halten? (\(g = 9.81\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Gewicht \(98.1\;\text{N}\), Auftrieb \(1000 \cdot 0.004 \cdot 9.81 = 39.24\;\text{N}\). Haltekraft \(= 98.1 - 39.24 \approx 58.9\;\text{N}\).</div></details></div>
+</details>
+
+<h2 id="schwimmen">Schwimmen, Schweben, Sinken</h2>
+
+<p>Ob ein Körper in einer Flüssigkeit schwimmt, schwebt oder sinkt, hängt vom Verhältnis seiner Dichte zur Flüssigkeitsdichte ab. Es gibt drei Fälle:</p>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Fall</th><th>Dichtevergleich</th><th>Kräftebilanz</th><th>Beispiele</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Schwimmen</strong></td><td>\(\rho_K < \rho_{\text{Fl}}\)</td><td>\(F_A > F_G\) bei voller Tauchung → taucht nur teilweise ein bis \(F_A = F_G\)</td><td>Holz, Eis, Schiff</td></tr>
+    <tr><td><strong>Schweben</strong></td><td>\(\rho_K = \rho_{\text{Fl}}\)</td><td>\(F_A = F_G\) bei jeder Tiefe</td><td>Fisch mit Schwimmblase, U-Boot in Tarierung</td></tr>
+    <tr><td><strong>Sinken</strong></td><td>\(\rho_K > \rho_{\text{Fl}}\)</td><td>\(F_A < F_G\) auch bei voller Tauchung → fällt zum Boden</td><td>Stein, Eisenkugel</td></tr>
+  </tbody>
+</table>
+
+<p>Bei einem schwimmenden Körper passt sich die Eintauchtiefe selbsttätig so an, dass die verdrängte Flüssigkeit genau das Körpergewicht ausgleicht. Aus \(F_A = F_G\) folgt:</p>
+
+\[ \rho_{\text{Fl}} \cdot V_{\text{e}} \cdot g = \rho_K \cdot V_K \cdot g \qquad \Longrightarrow \qquad \frac{V_{\text{e}}}{V_K} = \frac{\rho_K}{\rho_{\text{Fl}}} \]
+
+<p>Das ist der Grund, warum bei einem Eisberg gerade einmal \(8\,\%\) aus dem Meerwasser herausragen — der Rest schwimmt unter der Oberfläche. (Eis hat etwa \(917\;\text{kg/m}^3\), Meerwasser \(1025\;\text{kg/m}^3\) → \(917/1025 \approx 89.5\,\%\) sind unter Wasser.)</p>
+
+<!-- ANIM 5: Würfel mit verstellbarer Dichte ins Wasser -->
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 5 · Schwimmen, Schweben, Sinken</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle die Körperdichte ein und beobachte die Gleichgewichtslage.</li><li>Vergleiche mit der Wasserdichte \(1000\;\text{kg/m}^3\).</li><li>Tippe die Materialien an und ordne sie ein.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle die Körperdichte ein und beobachte die Gleichgewichtslage des Würfels. Vergleiche mit der Wasserdichte von 1000 Kilogramm pro Kubikmeter. Tippe die Materialien an und ordne sie ein." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Entscheidend ist der Dichtevergleich Körper zu Flüssigkeit.</li><li>\(\rho_K \lt \rho_{\text{Fl}}\): schwimmt; gleich: schwebt; grösser: sinkt.</li><li>Ein schwimmender Körper taucht zum Anteil \(\rho_K/\rho_{\text{Fl}}\) ein.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Entscheidend ist allein der Dichtevergleich zwischen Körper und Flüssigkeit. Ist die Körperdichte kleiner als die der Flüssigkeit, schwimmt er; sind sie gleich, schwebt er; ist sie grösser, sinkt er. Ein schwimmender Körper taucht zum Anteil Körperdichte durch Flüssigkeitsdichte ein." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Körperdichte \(\rho_K\):</label>
+      <input type="range" id="a5-rho" min="100" max="3000" value="700" step="10">
+      <span class="sl-val" id="a5-rho-val">700 kg/m³</span>
+    </div>
+
+    <div class="typ-btns">
+      <button class="typ-btn" data-rho="240" data-name="Kork">🟫 Kork (240)</button>
+      <button class="typ-btn aktiv" data-rho="700" data-name="Holz">🪵 Eiche (700)</button>
+      <button class="typ-btn" data-rho="917" data-name="Eis">🧊 Eis (917)</button>
+      <button class="typ-btn" data-rho="1000" data-name="Wasser">🟦 = Wasser (1000)</button>
+      <button class="typ-btn" data-rho="2700" data-name="Aluminium">🔘 Aluminium (2700)</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Verhalten</span><span class="lb-val" id="a5-mode">schwimmt</span></div>
+      <div class="lb-item"><span class="lb-lab">Anteil eingetaucht</span><span class="lb-val" id="a5-frac">70.0 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Gewicht \(F_G\)</span><span class="lb-val" id="a5-fg">6.87 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Auftrieb \(F_A\)</span><span class="lb-val" id="a5-fa">6.87 N</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">Würfel im Wasserbehälter</div>
+      <canvas id="a5-cv" height="320"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 9. ANIMATION 6 — U-ROHR / KOMMUNIZIERENDE GEFÄSSE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein Körper schwimmt, wenn seine Dichte …</p><ul class="mc-optionen"><li data-opt="A">grösser als die der Flüssigkeit ist</li><li data-opt="B">kleiner als die der Flüssigkeit ist</li><li data-opt="C">egal ist</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Kleinere Dichte als die Flüssigkeit → der Körper schwimmt.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Ein Körper schwebt, wenn seine Dichte <span class="mc-luecke"></span> der Flüssigkeitsdichte ist.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">gleich.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Eiswürfel (\(\rho = 917\;\text{kg/m}^3\)) schwimmt auf Wasser (\(1000\)). Welcher Volumenanteil taucht ein?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Anteil \(= \dfrac{\rho_K}{\rho_{\text{Fl}}} = \dfrac{917}{1000} = 0.917 = 91.7\,\%\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum schwimmt ein Schiff aus Stahl, obwohl Stahl viel dichter als Wasser ist?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Entscheidend ist die mittlere Dichte des Schiffs (Stahl plus eingeschlossene Luft). Diese ist kleiner als Wasser, daher verdrängt der Rumpf genug Wasser für ausreichend Auftrieb.</div></details></div>
+</details>
+
+<h2 id="u-rohr">U-Rohr mit zwei Flüssigkeiten</h2>
+
+<p>In einem U-förmigen Rohr stellen sich Flüssigkeiten so ein, dass an der untersten gemeinsamen Tiefe der Druck links und rechts gleich gross ist. Bei einer einzigen Flüssigkeit folgt daraus, dass die Flüssigkeitsspiegel auf beiden Seiten gleich hoch stehen (Prinzip der kommunizierenden Röhren). Bei zwei Flüssigkeiten unterschiedlicher Dichte sind die Spiegel <strong>nicht</strong> mehr gleich hoch — die schwerere Flüssigkeit „drückt" weiter nach unten als die leichtere.</p>
+
+<p>Für zwei Flüssigkeiten in einem U-Rohr (die schwerere unten, die leichtere oben in einem Schenkel) gilt am Grenzpunkt:</p>
+
+\[ \rho_1 \cdot g \cdot h_1 = \rho_2 \cdot g \cdot h_2 \qquad \Longrightarrow \qquad \rho_1 \cdot h_1 = \rho_2 \cdot h_2 \]
+
+<!-- ANIM 6: U-Rohr mit Wasser+Öl, Öl-Säulen-Slider -->
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 6 · U-Rohr mit Wasser und Öl</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Schiebe verschiedene Öl-Mengen ins linke Rohr.</li><li>Beobachte, wie das Wasser im rechten Rohr ansteigt.</li><li>Achte auf den Höhenunterschied im Verhältnis zur Öl-Höhe.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Schiebe verschiedene Öl-Mengen ins linke Rohr. Beobachte, wie das Wasser im rechten Rohr ansteigt. Achte auf den Höhenunterschied im Verhältnis zur Öl-Höhe." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Im Gleichgewicht sind die Schweredrücke gleich: \(\rho_{\text{Öl}} h_{\text{Öl}} = \rho_W h_W\).</li><li>Das leichtere Öl steht höher als das Wasser.</li><li>Das Höhenverhältnis entspricht dem umgekehrten Dichteverhältnis.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Im Gleichgewicht sind die Schweredrücke auf beiden Seiten gleich: rho Öl mal Höhe Öl gleich rho Wasser mal Höhe Wasser. Das leichtere Öl steht höher als das Wasser. Das Höhenverhältnis entspricht dem umgekehrten Dichteverhältnis." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Öl-Säule links:</label>
+      <input type="range" id="a6-hoel" min="0" max="20" value="10" step="0.5">
+      <span class="sl-val" id="a6-hoel-val">10.0 cm</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Dichte Öl \(\rho_2\):</label>
+      <input type="range" id="a6-rho2" min="500" max="950" value="850" step="10">
+      <span class="sl-val" id="a6-rho2-val">850 kg/m³</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Wasserstand-Diff</span><span class="lb-val" id="a6-diff">8.5 cm</span></div>
+      <div class="lb-item"><span class="lb-lab">Verhältnis \(\rho_2/\rho_1\)</span><span class="lb-val" id="a6-rat">0.850</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">U-Rohr: Öl links (gelb), Wasser blau</div>
+      <canvas id="a6-cv" height="320"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Anwendung: Höhenmessung</div>
+  <p>Das Prinzip kommunizierender Röhren wird von Schlauchwaagen genutzt — auch heute noch das genaueste Werkzeug, um auf einer Baustelle zwei Punkte gleich hoch zu bekommen. Ein durchsichtiger, mit Wasser gefüllter Schlauch zeigt an beiden Enden den gleichen Wasserspiegel an, egal wie der Schlauch dazwischen verläuft.</p>
+</div>
+
+
+<!-- ══════════════ 10. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit dem Schweredruck am Beckenboden, wenn das Becken doppelt so breit ist, aber gleich tief?</summary>
+  <div class="frage-antwort">
+    <p>Er bleibt unverändert. \(p_S=\rho g h\) hängt nur von der <strong>Tiefe</strong> ab, nicht von der Fläche oder Wassermenge — das ist der Kern des hydrostatischen Paradoxons.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Im U-Rohr mit zwei Flüssigkeiten steht die leichtere Flüssigkeit …</p><ul class="mc-optionen"><li data-opt="A">tiefer</li><li data-opt="B">höher</li><li data-opt="C">gleich hoch</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Bei gleichem Bodendruck steht die leichtere (kleinere Dichte) Flüssigkeit höher.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Im Gleichgewicht sind die <span class="mc-luecke"></span> auf beiden Seiten gleich.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Schweredrücke — \(\rho_1 h_1 = \rho_2 h_2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Öl (\(\rho = 800\)) steht \(10\;\text{cm}\) hoch. Wie hoch steht Wasser (\(1000\)) auf der anderen Seite?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\rho_{\text{Öl}} h_{\text{Öl}} = \rho_W h_W \Rightarrow h_W = \dfrac{800 \cdot 10}{1000} = 8\;\text{cm}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Im U-Rohr steht Öl \(12\;\text{cm}\) und Wasser \(9.6\;\text{cm}\) hoch. Wie gross ist die Öldichte? (Wasser \(1000\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(\rho_{\text{Öl}} = \rho_W \cdot \dfrac{h_W}{h_{\text{Öl}}} = 1000 \cdot \dfrac{9.6}{12} = 800\;\text{kg/m}^3\).</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<!-- A1: Werte ablesen -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Werte ablesen — Schweredruck in 4 m Tiefe</span></div>
+  <p>Stelle in Animation 1 die Slider auf \(h = 4\;\text{m}\) und \(\rho = 1000\;\text{kg/m}^3\). Lies den Schweredruck ab und prüfe ihn mit der Formel. Wandle das Ergebnis zusätzlich in hPa und in bar um.</p>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <p>Mit \(p_S = \rho \cdot g \cdot h\):</p>
+      \[ p_S = 1000 \cdot 9.81 \cdot 4 = 39\,240\;\text{Pa} \approx 39.2\;\text{kPa} \]
+      <p>Umgerechnet: \(p_S \approx 392\;\text{hPa} \approx 0.392\;\text{bar}\). Die Live-Anzeige in der Animation bestätigt dies.</p>
+    </div>
+  </div>
+</div>
+
+<!-- A2: Aquarium-Bodendruck -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Druck am Boden eines Aquariums</span></div>
+  <p>Ein Aquarium mit der Grundfläche \(50\;\text{cm} \times 30\;\text{cm}\) ist bis zu einer Höhe von \(60\;\text{cm}\) mit Wasser gefüllt.</p>
+  <ol class="aufg-liste">
+    <li>Welcher Schweredruck wirkt am Boden?</li>
+    <li>Welche Bodenkraft ergibt sich daraus?</li>
+    <li>Vergleiche diese Bodenkraft mit der Gewichts­kraft der Wassermenge. Was beobachtest du?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Mit \(h = 0.60\;\text{m}\): \[ p_S = 1000 \cdot 9.81 \cdot 0.60 = 5886\;\text{Pa} \approx 5.89\;\text{kPa} \]</li>
+        <li>Bodenfläche \(A = 0.50 \cdot 0.30 = 0.15\;\text{m}^2\): \[ F = p_S \cdot A = 5886 \cdot 0.15 \approx 883\;\text{N} \]</li>
+        <li>Wassermasse \(m = \rho \cdot V = 1000 \cdot (0.5 \cdot 0.3 \cdot 0.6) = 90\;\text{kg}\). Gewicht: \(F_G = m \cdot g = 90 \cdot 9.81 \approx 883\;\text{N}\).</li>
+      </ol>
+      <p>Beide Werte stimmen überein — bei einem Aquarium mit senkrechten Wänden ist die Bodenkraft genau gleich dem Gewicht des darüberstehenden Wassers. Bei einem Trichter wäre das anders (siehe hydrostatisches Paradoxon, Animation 2).</p>
+    </div>
+  </div>
+</div>
+
+<!-- A3: Hydraulische Hebebühne (mehrteilig) -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Hydraulische Hebebühne in einer Werkstatt</span></div>
+  <p>In einer Autowerkstatt steht eine hydraulische Hebebühne mit zwei Kolben: am kleinen Kolben (Fläche \(A_1 = 8\;\text{cm}^2\)) drückt eine Pumpe mit \(F_1 = 200\;\text{N}\); der grosse Kolben hat die Fläche \(A_2 = 400\;\text{cm}^2\).</p>
+  <ol class="aufg-liste">
+    <li>Berechne den Druck in der Hydraulikflüssigkeit.</li>
+    <li>Welche Kraft \(F_2\) wirkt auf den grossen Kolben? Welcher Last (in kg) entspricht das?</li>
+    <li>Wie weit muss der kleine Kolben gepumpt werden, damit das Auto um \(50\;\text{cm}\) angehoben wird? (In der Praxis wird die Pumpe vielmals betätigt — hier nur die Gesamt-Pumpstrecke.)</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Mit \(A_1 = 8\;\text{cm}^2 = 8 \cdot 10^{-4}\;\text{m}^2\): \[ p = \frac{F_1}{A_1} = \frac{200}{8 \cdot 10^{-4}} = 250\,000\;\text{Pa} = 2.5\;\text{bar} \]</li>
+        <li>Mit \(A_2 = 400\;\text{cm}^2 = 0.04\;\text{m}^2\): \[ F_2 = p \cdot A_2 = 250\,000 \cdot 0.04 = 10\,000\;\text{N} \] Das entspricht einer Lastmasse \(m = F_2/g = 10\,000/9.81 \approx 1019\;\text{kg}\) — ein typisches Personenauto.</li>
+        <li>Volumenerhaltung \(A_1 \cdot s_1 = A_2 \cdot s_2\): \[ s_1 = s_2 \cdot \frac{A_2}{A_1} = 0.50 \cdot \frac{400}{8} = 0.50 \cdot 50 = 25\;\text{m} \] Die Pumpe muss also \(25\;\text{m}\) Gesamtweg zurücklegen, um das Auto \(50\;\text{cm}\) anzuheben. In der Praxis sind dafür viele kurze Pumpstösse à \(20\)–\(30\;\text{cm}\) nötig — die Energie­erhaltung ist gewahrt, denn \(F_1 \cdot s_1 = F_2 \cdot s_2 = 5000\;\text{J}\) auf beiden Seiten.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A4: Auftrieb / schwimmender Körper -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Schwimmender Korkblock</span></div>
+  <p>Ein Korkblock (Dichte \(\rho_K = 240\;\text{kg/m}^3\)) mit den Massen \(20\;\text{cm} \times 10\;\text{cm} \times 5\;\text{cm}\) wird waagrecht in einen Behälter mit Wasser gelegt. Liegende Seite: \(20 \times 10\;\text{cm}\), Höhe also \(5\;\text{cm}\).</p>
+  <ol class="aufg-liste">
+    <li>Wie viel Gewicht hat der Korkblock?</li>
+    <li>Schwimmt, schwebt oder sinkt der Block? Begründe.</li>
+    <li>Welche Eintauchtiefe stellt sich im Gleichgewicht ein?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Volumen \(V = 0.20 \cdot 0.10 \cdot 0.05 = 0.001\;\text{m}^3 = 1\;\text{L}\). Masse \(m = \rho_K \cdot V = 240 \cdot 0.001 = 0.24\;\text{kg}\). Gewicht: \[ F_G = m \cdot g = 0.24 \cdot 9.81 \approx 2.35\;\text{N} \]</li>
+        <li>Da \(\rho_K = 240 < 1000 = \rho_W\): der Block <strong>schwimmt</strong>.</li>
+        <li>Im Gleichgewicht ist \(F_A = F_G\). Mit \(F_A = \rho_W \cdot V_e \cdot g\) folgt: \[ V_e = \frac{m}{\rho_W} = \frac{0.24}{1000} = 2.4 \cdot 10^{-4}\;\text{m}^3 = 240\;\text{cm}^3 \] Da der Block waagrecht liegt mit Grundfläche \(A = 20 \cdot 10 = 200\;\text{cm}^2\), folgt: \[ h_e = \frac{V_e}{A} = \frac{240}{200} = 1.2\;\text{cm} \] Von den \(5\;\text{cm}\) Höhe ragen also \(3.8\;\text{cm}\) aus dem Wasser. Der Block schwimmt sehr hoch — Kork ist ein klassisches Schwimmkörpermaterial.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A5: Eisberg -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Eisberg im Meerwasser</span></div>
+  <p>Ein Eisberg hat eine Dichte von \(\rho_E = 917\;\text{kg/m}^3\) und schwimmt in Meerwasser mit \(\rho_M = 1025\;\text{kg/m}^3\).</p>
+  <ol class="aufg-liste">
+    <li>Welcher Anteil des Eisbergs liegt unter Wasser?</li>
+    <li>Welche Masse hat ein Eisberg, dessen sichtbares Volumen (über Wasser) \(100\,\text{m}^3\) beträgt?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Aus \(F_A = F_G\) folgt \(\rho_M \cdot V_e = \rho_E \cdot V\), also: \[ \frac{V_e}{V} = \frac{\rho_E}{\rho_M} = \frac{917}{1025} \approx 0.895 \] Etwa \(89.5\,\%\) des Eisbergs sind unter Wasser, nur \(10.5\,\%\) ragen heraus.</li>
+        <li>Wenn \(V_{\text{über}} = 100\;\text{m}^3\) entspricht \(10.5\,\%\), folgt das Gesamtvolumen: \[ V = \frac{100}{0.105} \approx 953\;\text{m}^3 \] Masse: \(m = \rho_E \cdot V = 917 \cdot 953 \approx 874\,000\;\text{kg} \approx 874\;\text{t}\). Ein „kleiner" sichtbarer Eisbergspitz von \(100\;\text{m}^3\) verbirgt also gut \(850\;\text{t}\) Eis unter der Oberfläche.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A6: U-Rohr mit zwei Flüssigkeiten -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">U-Rohr mit Öl und Wasser</span></div>
+  <p>In ein U-Rohr (gleicher Querschnitt in beiden Schenkeln) ist Wasser gefüllt. In den linken Schenkel werden \(15\;\text{cm}\) Öl (\(\rho_{\ddot{\text{O}}\text{l}} = 850\;\text{kg/m}^3\)) gegossen. Die Flüssigkeiten mischen sich nicht. Der tiefste Punkt des U-Rohrs (Verbindungsbogen) liegt \(20\;\text{cm}\) unter der Öl-Wasser-Grenzfläche.</p>
+  <ol class="aufg-liste">
+    <li>Berechne den Höhenunterschied der beiden oberen Flüssigkeitsspiegel.</li>
+    <li>Welcher Druck wirkt am tiefsten Punkt des U-Rohrs?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Auf der Höhe der Öl-Wasser-Grenze (links unten) muss der Druck links und rechts gleich sein. Links: \(\rho_{\ddot{\text{O}}\text{l}} \cdot g \cdot h_{\ddot{\text{O}}\text{l}}\). Rechts: \(\rho_W \cdot g \cdot h_W\), wobei \(h_W\) der Höhenüberschuss des Wasserspiegels rechts gegenüber der Grenzfläche ist. \[ \rho_{\ddot{\text{O}}\text{l}} \cdot h_{\ddot{\text{O}}\text{l}} = \rho_W \cdot h_W \quad \Longrightarrow \quad h_W = \frac{850}{1000} \cdot 15 = 12.75\;\text{cm} \] Der Öl-Spiegel (links) liegt also \(15\;\text{cm}\) über der Grenzfläche, der Wasserspiegel (rechts) nur \(12.75\;\text{cm}\). Der Höhenunterschied der beiden <em>oberen</em> Flüssigkeitsspiegel beträgt damit \(15 - 12.75 = 2.25\;\text{cm}\) — der Öl-Spiegel links ist um \(2.25\;\text{cm}\) <em>höher</em> als der Wasserspiegel rechts.</li>
+        <li>Am tiefsten Punkt (Verbindungsbogen) zählt die gesamte Wassersäule darüber. Am bequemsten rechnet man von der rechten Seite: über der Grenzfläche stehen \(h_W = 12.75\;\text{cm}\) Wasser, darunter weitere \(20\;\text{cm}\) bis zum tiefsten Punkt — insgesamt also \(12.75 + 20 = 32.75\;\text{cm}\) Wassersäule: \[ p = 1000 \cdot 9.81 \cdot 0.3275 \approx 3213\;\text{Pa} \approx 3.2\;\text{kPa} \] <strong>Kontrolle von links:</strong> über dem tiefsten Punkt stehen \(15\;\text{cm}\) Öl plus \(20\;\text{cm}\) Wasser (unter der Grenzfläche). Druckbeiträge: \(850 \cdot 9.81 \cdot 0.15 \approx 1251\;\text{Pa}\) (Öl) und \(1000 \cdot 9.81 \cdot 0.20 = 1962\;\text{Pa}\) (Wasser). Summe: \(1251 + 1962 = 3213\;\text{Pa}\) — identisch mit der Berechnung von rechts. ✓</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 11. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Konzept</th><th>Formel</th><th>Einheit</th><th>Anwendung</th></tr></thead>
+  <tbody>
+    <tr><td>Druck (allgemein)</td><td>\(p = F/A\)</td><td>Pa = N/m²</td><td>Definition</td></tr>
+    <tr><td>Dichte</td><td>\(\rho = m/V\)</td><td>kg/m³</td><td>Stoffeigenschaft</td></tr>
+    <tr><td>Schweredruck</td><td>\(p_S = \rho \cdot g \cdot h\)</td><td>Pa</td><td>Tieftauchen, Damm</td></tr>
+    <tr><td>Pascal-Prinzip</td><td>\(F_2 = F_1 \cdot A_2/A_1\)</td><td>N</td><td>Hydraulische Presse</td></tr>
+    <tr><td>Auftriebskraft (Archimedes)</td><td>\(F_A = \rho_{\text{Fl}} \cdot V_e \cdot g\)</td><td>N</td><td>Schiff, Eisberg, Ballon</td></tr>
+    <tr><td>Anteil eingetaucht</td><td>\(V_e/V_K = \rho_K/\rho_{\text{Fl}}\)</td><td>—</td><td>Schwimmender Körper</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Druck ist Kraft pro Fläche: \(p=F/A\), Einheit Pascal (Pa = N/m\(^2\)).</li>
+  <li>Der Schweredruck \(p_S=\rho g h\) wächst linear mit der Tiefe.</li>
+  <li>Hydrostatisches Paradoxon: der Bodendruck hängt nur von der Füllhöhe ab, nicht von der Gefässform.</li>
+  <li>Pascal-Prinzip: ein Druck breitet sich allseitig aus — Grundlage der hydraulischen Presse \(F_2=F_1 A_2/A_1\).</li>
+  <li>Auftrieb \(F_A=\rho_{\text{Fl}}V_e g\) entspricht dem Gewicht der verdrängten Flüssigkeit.</li>
+  <li>Schwimmen, Schweben oder Sinken entscheidet allein der Dichtevergleich Körper/Flüssigkeit.</li>
+  <li>Ein schwimmender Körper taucht zum Anteil \(\rho_K/\rho_{\text{Fl}}\) ein.</li>
+</ul>
+
+<div class="merksatz">
+  In einer Flüssigkeit wächst der Druck linear mit der Tiefe (\(p_S = \rho g h\)) — und zwar unabhängig von der Form des Gefässes. Ein eingetauchter Körper erfährt eine Auftriebskraft, die genau dem Gewicht der verdrängten Flüssigkeit entspricht. Schwimmen, Schweben oder Sinken bestimmt allein der Dichtevergleich zwischen Körper und Flüssigkeit.
+</div>
+
+
+<!-- ══════════════ 12. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p4-5-hydrostatik/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-5-hydrostatik/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-5-hydrostatik/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p4-5-hydrostatik/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-5-hydrostatik/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 13. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+
+<p style="font-size:0.85rem; color:var(--tinte-2); font-style:italic; margin-bottom:14px;">⚠ Externe Links sind Platzhalter mit plausiblen URLs zu den verbindlichen Anbietern aus COLLABORATION.md §9 — Verifikation per <code>web_fetch</code> noch ausstehend.</p>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.youtube.com/@musstewissenPhysik/search?query=hydrostatik" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">musstewissen Physik — Hydrostatik</div><div class="lk-s">Kanalsuche · funk/ARD/ZDF · Schweredruck, Auftrieb, Archimedes</div></div>
+  </a>
+  <a href="https://www.lehrer-schmidt.de/physik/mechanik/" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Lehrerschmidt — Mechanik (inkl. Druck und Auftrieb)</div><div class="lk-s">Strukturierte Sammlung: Schweredruck, hydraulische Presse, Archimedes</div></div>
+  </a>
+  <a href="https://de.fufaev.org/druck" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Alexander Fufaev — Druck und Auftrieb</div><div class="lk-s">Wissenskompendium mit Videos und Theorie-Texten</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/druck-und-auftrieb" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">LEIFIphysik — Druck und Auftrieb</div><div class="lk-s">Grundwissen, Versuche, Animationen — auch zum Schauen</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/under-pressure" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Unter Druck</div><div class="lk-s">Wasserdruck in unterschiedlichen Tiefen und Gefässformen messen (deutsch)</div></div>
+  </a>
+  <a href="https://phet.colorado.edu/de/simulations/buoyancy" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Auftrieb</div><div class="lk-s">Verschiedene Materialien und Flüssigkeiten — Schwimmen, Sinken, Schweben (deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/buoyantforce_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Auftriebskraft</div><div class="lk-s">Klassische Auftriebs-Visualisierung mit Federwaage</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/druck-und-auftrieb/versuche/hydrostatisches-paradoxon" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">LEIFIphysik — Hydrostatisches Paradoxon</div><div class="lk-s">Versuchsbeschreibung mit interaktiver Animation</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/mechanik/druck-und-auftrieb/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Druck und Auftrieb (Aufgaben)</div><div class="lk-s">Über 20 Aufgaben mit Musterlösungen (Taucher, Schiff, U-Boot, hydraulische Geräte …)</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/druck-in-fluessigkeiten/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Druck in Flüssigkeiten</div><div class="lk-s">Schwereduck-Aufgaben mit Manometer, Aquarium, Staudamm</div></div>
+  </a>
+  <a href="https://de.serlo.org/physik/mechanik/hydrostatik" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">serlo.org — Hydrostatik</div><div class="lk-s">Aufgaben zu Schweredruck, Auftrieb, Schwimmbedingung — mit Lösungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 4.5 Hydrostatik</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p4-5',
+  kapitelNr:'4.5',
+  kapitelTitel:'Hydrostatik',
+  prev: {nr:'4.4', titel:'Statik von Festkörpern', url:'p4-4-statik.html'},
+  next: {nr:'5.1', titel:'Temperatur', url:'p5-1-temperatur.html'}
+});
+
+const g = 9.81;
+const RHO_W = 1000;      // Wasser
+const P0 = 101325;       // Luftdruck in Pa
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION EINSTIEG: Schwimmerin taucht ab (Slider-gesteuert)
+// ══════════════════════════════════════════════════════════
+const AE_HMAX = 6.0;
+
+function aeRender() {
+  const h = +document.getElementById('ae-h').value;
+  const pS = RHO_W * g * h;
+  const pTot = P0 + pS;
+  document.getElementById('ae-h-val').textContent  = h.toFixed(2) + ' m';
+  document.getElementById('ae-h2').textContent     = h.toFixed(2) + ' m';
+  document.getElementById('ae-ps').textContent     = (pS/100).toFixed(0) + ' hPa';
+  document.getElementById('ae-pt').textContent     = (pTot/100).toFixed(0) + ' hPa';
+  document.getElementById('ae-pb').textContent     = (pTot/1e5).toFixed(3) + ' bar';
+
+  const cv = initCanvas('ae-cv', 320, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#e8f4f8'; ctx.fillRect(0, 0, W, H);
+
+  // Schmales Becken: Beckenwände nur knapp am Rand, Wasserlinie y=60, Boden y=H-30
+  const wasserY = 60, bodenY = H - 30;
+  const beckenL = 14, beckenR = W - 14;
+  // Beckenrand grau (oben rechts und links, sowie Boden)
+  ctx.fillStyle = '#9aa4ad';
+  ctx.fillRect(0, 0, beckenL, H);
+  ctx.fillRect(beckenR, 0, W - beckenR, H);
+  ctx.fillRect(0, bodenY, W, H - bodenY);
+  ctx.strokeStyle = '#475560'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(beckenL-0.5, wasserY-0.5, beckenR-beckenL+1, bodenY-wasserY+1);
+
+  // Wasser-Verlauf
+  const grd = ctx.createLinearGradient(0, wasserY, 0, bodenY);
+  grd.addColorStop(0, '#a3d5e6');
+  grd.addColorStop(1, '#3a7a96');
+  ctx.fillStyle = grd;
+  ctx.fillRect(beckenL, wasserY, beckenR-beckenL, bodenY-wasserY);
+
+  // Skala innen am linken Beckenrand — 0, 1, 2, 3 m
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.2;
+  ctx.font = 'bold 10px JetBrains Mono,monospace'; ctx.fillStyle = '#fff';
+  ctx.textAlign = 'left';
+  for (let m = 0; m <= 6; m += 2) {
+    const py = wasserY + m/AE_HMAX * (bodenY - wasserY);
+    ctx.beginPath(); ctx.moveTo(beckenL+2, py); ctx.lineTo(beckenL+10, py); ctx.stroke();
+    ctx.fillText(m + ' m', beckenL+13, py+3);
+  }
+
+  // Schwimmerin — schwY ist Kopfmittelpunkt.
+  // Die Slider-Tiefe h misst die KOPFMITTE-Tiefe (vereinfachter Druckmesspunkt).
+  // Bei h=0: Kopf an Wasseroberfläche, oberer Halbkreis schaut raus.
+  // Bei h=6: Kopf am Boden (vollständig untergetaucht).
+  // Person-Körper unterhalb der Kopfmitte: bis schwY+34 (Füsse).
+  // Damit die Füsse nicht durch den Beckenboden ragen, wird die Kopfposition geclampt.
+  const schwX = (beckenL + beckenR) / 2;
+  const schwY_uncl = wasserY + (h / AE_HMAX) * (bodenY - wasserY);
+  const schwY = Math.min(schwY_uncl, bodenY - 34);
+
+  ctx.fillStyle = '#fcd7b6';
+  ctx.strokeStyle = '#7a4525'; ctx.lineWidth = 1.2;
+  // Kopf
+  ctx.beginPath(); ctx.arc(schwX, schwY, 6, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  // Tauchermaske
+  ctx.fillStyle = '#1c1a17'; ctx.fillRect(schwX-4, schwY-2, 8, 3);
+  // Badeanzug
+  ctx.fillStyle = '#c43030'; ctx.fillRect(schwX-5, schwY+6, 10, 14);
+  ctx.strokeStyle = '#7a1a10'; ctx.strokeRect(schwX-5, schwY+6, 10, 14);
+  // Arme
+  ctx.strokeStyle = '#fcd7b6'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(schwX-5, schwY+8); ctx.lineTo(schwX-9, schwY+18); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(schwX+5, schwY+8); ctx.lineTo(schwX+9, schwY+18); ctx.stroke();
+  // Beine
+  ctx.beginPath(); ctx.moveTo(schwX-2, schwY+20); ctx.lineTo(schwX-2, schwY+34); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(schwX+2, schwY+20); ctx.lineTo(schwX+2, schwY+34); ctx.stroke();
+  ctx.lineCap = 'butt';
+
+  // Druckpfeile auf drei Höhen am Körper: Kopf (kurz), Brust (mittel), Beine (lang).
+  // Länge proportional zur lokalen Tiefe am Pfeil-Ansatzpunkt, didaktisch übertrieben
+  // damit der "Druck wächst mit der Tiefe"-Effekt klar sichtbar wird.
+  // Kontrastreiches Rot, halbtransparent — gut sichtbar auf dem blauen Wasser.
+  if (h > 0.1) {
+    const tiefe_pro_px = AE_HMAX / (bodenY - wasserY);   // m pro Pixel
+    const farbe = '#e02020', farbe_alpha = '#e02020cc';
+    ctx.strokeStyle = farbe; ctx.lineWidth = 1.8;
+
+    // Drei Ansatz-Höhen am Körper (relativ zu schwY)
+    // schwY ist Kopfmitte, der Körper geht ca. bis schwY+34 (Füsse)
+    const hoehen = [
+      { y_off: -2,  radius: 9,  label: 'kopf'  },   // knapp über Kopfmitte
+      { y_off: 12, radius: 11, label: 'brust' },   // Brust-Höhe
+      { y_off: 28, radius: 9,  label: 'fuss'  }    // Knie/Bein-Höhe
+    ];
+
+    hoehen.forEach(({ y_off, radius }) => {
+      const cy = schwY + y_off;
+      // Lokale Tiefe an dieser Körperhöhe
+      const lokaleTiefe = Math.max(0, (cy - wasserY) * tiefe_pro_px);
+      // Länge: Basis 8 + 9 px pro Meter Tiefe (Faktor 3 grösser als zuvor)
+      const arrLen = 6 + lokaleTiefe * 7;
+
+      // Pfeile nach links und rechts (waagrecht — anschaulichste Richtung)
+      drawArrow(ctx, schwX - (radius + arrLen), cy, schwX - radius, cy, farbe_alpha, 1.8, 8);
+      drawArrow(ctx, schwX + (radius + arrLen), cy, schwX + radius, cy, farbe_alpha, 1.8, 8);
+    });
+
+    // Zusätzlich oben: Pfeil nach UNTEN am Kopf (Druck von oben drückt nach unten)
+    {
+      const cy = schwY - 8;
+      const lokaleTiefe = Math.max(0, (cy - wasserY) * tiefe_pro_px);
+      const arrLen = 6 + lokaleTiefe * 7;
+      drawArrow(ctx, schwX, cy - arrLen, schwX, cy, farbe_alpha, 1.8, 8);
+    }
+    // Unten: Pfeil nach OBEN am Fuss (Druck von unten drückt nach oben)
+    {
+      const cy = schwY + 36;
+      const lokaleTiefe = Math.max(0, (cy - wasserY) * tiefe_pro_px);
+      const arrLen = 6 + lokaleTiefe * 7;
+      drawArrow(ctx, schwX, cy + arrLen, schwX, cy, farbe_alpha, 1.8, 8);
+    }
+  }
+}
+
+document.getElementById('ae-h').addEventListener('input', aeRender);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: Schweredruck-Säule mit Manometer + p(h)-Diagramm
+// ══════════════════════════════════════════════════════════
+function drawA1() {
+  const h = +document.getElementById('a1-h').value;
+  const rho = +document.getElementById('a1-rho').value;
+  const pS = rho * g * h;
+  document.getElementById('a1-h-val').textContent = h.toFixed(1) + ' m';
+  document.getElementById('a1-rho-val').textContent = rho + ' kg/m³';
+
+  // Aktive Typ-Buttons-Sync
+  document.getElementById('a1-eq').textContent =
+    'p_S = ' + rho + ' · 9.81 · ' + h.toFixed(1) + ' = ' + (pS/1000).toFixed(1) + ' kPa';
+
+  // Linke Säule: Flüssigkeit von 0 bis h (Tiefe von oben gemessen)
+  const cv1 = initCanvas('a1-cv-saeule', 320, false);
+  const ctx = cv1.ctx, W = cv1.W, H = cv1.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+
+  // Gefäss-Wände
+  const gefL = W*0.30, gefR = W*0.55, gefT = 30, gefB = H - 20;
+  const gefH = gefB - gefT;
+  // Wand
+  ctx.fillStyle = '#cfd5dc';
+  ctx.fillRect(gefL-6, gefT, 6, gefH);
+  ctx.fillRect(gefR, gefT, 6, gefH);
+  ctx.fillRect(gefL-6, gefB, gefR-gefL+12, 6);
+
+  // Flüssigkeit-Füllhöhe entspricht h: maximal h=10 → ganz voll
+  const fuellY = gefT + (10-h)/10 * gefH;
+
+  // Farbe proportional zur Dichte:
+  //  - Hue je nach Bereich (Öl gelb, Wasser/Meerwasser blau, Quecksilber silber)
+  //  - Lightness und Saturation skalieren mit rho, so dass dichter = dunkler/intensiver
+  //  Normierter Dichte-Index 0..1 für die Helligkeitsmodulation
+  function fluessFarbe(rho) {
+    let hue, sat, lightOben, lightUnten;
+    if (rho < 950) {
+      // Öl: warm-gelb. Bei rho=500 sehr blass, bei rho=950 satt.
+      const t = Math.max(0, (rho - 500) / 450);     // 0..1
+      hue = 44;
+      sat = 55 + t * 25;                             // 55..80 %
+      lightOben  = 78 - t * 18;                      // 78..60 %
+      lightUnten = 52 - t * 18;                      // 52..34 %
+    } else if (rho < 5000) {
+      // Wasser-/Meerwasser-Bereich: blau. Bei rho=1000 Standardblau, bei rho=5000 sehr dunkel.
+      const t = (rho - 950) / 4050;                  // 0..1
+      hue = 198 - t * 8;                             // 198..190 (leicht ins Türkis-Dunkle)
+      sat = 50 + t * 25;                             // 50..75 %
+      lightOben  = 70 - t * 22;                      // 70..48 %
+      lightUnten = 42 - t * 22;                      // 42..20 %
+    } else {
+      // Quecksilber / schwere Flüssigkeiten: metallisch-silbern, weiter dunkler werdend
+      const t = Math.min(1, (rho - 5000) / 9000);    // 0..1 bei 14000
+      hue = 215;
+      sat = 8 + t * 4;                               // fast achromatisch
+      lightOben  = 65 - t * 15;                      // 65..50 %
+      lightUnten = 40 - t * 15;                      // 40..25 %
+    }
+    return [
+      `hsl(${hue}, ${sat}%, ${lightOben}%)`,
+      `hsl(${hue}, ${sat}%, ${lightUnten}%)`
+    ];
+  }
+  const [col1, col2] = fluessFarbe(rho);
+  const flGrd = ctx.createLinearGradient(0, fuellY, 0, gefB);
+  flGrd.addColorStop(0, col1); flGrd.addColorStop(1, col2);
+  ctx.fillStyle = flGrd;
+  ctx.fillRect(gefL, fuellY, gefR-gefL, gefB-fuellY);
+
+  // Tiefen-Skala rechts vom Gefäss
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1;
+  ctx.font = '10px JetBrains Mono,monospace'; ctx.fillStyle = '#5a6068';
+  ctx.textAlign = 'left';
+  for (let m = 0; m <= 10; m += 2) {
+    const py = gefT + (10-m)/10 * gefH;
+    ctx.beginPath(); ctx.moveTo(gefR+8, py); ctx.lineTo(gefR+15, py); ctx.stroke();
+    ctx.fillText(m + ' m', gefR+18, py+3);
+  }
+  // Aktuelle Tiefe markieren (von oben h hinab)
+  const hY = fuellY + 0;   // Oberfläche
+  const tiefeY = gefT + (10-0)/10 * gefH - 1;  // unten?
+  // Wir zeichnen einen Tiefen-Pfeil vom Wasserspiegel bis zum Boden (= h tief)
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 2;
+  drawArrow(ctx, gefL-22, fuellY, gefL-22, gefB-2, '#8a4a0e', 2, 10);
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText('h = ' + h.toFixed(1) + ' m', gefL-25, (fuellY+gefB)/2);
+
+  // Manometer am Boden (kleines U-Rohr-Symbol)
+  const manX = gefR + 60, manY = gefB - 10;
+  ctx.fillStyle = '#fff8eb';
+  ctx.fillRect(manX-30, manY-30, 65, 50);
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(manX-30, manY-30, 65, 50);
+  // Zeiger
+  ctx.fillStyle = '#8a4a0e';
+  ctx.font = 'bold 9px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('p_S', manX+2, manY-18);
+  ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.fillStyle = '#1c1a17';
+  // Format adaptive
+  let pStr;
+  if (pS < 1000) pStr = pS.toFixed(0) + ' Pa';
+  else if (pS < 1e6) pStr = (pS/1000).toFixed(1) + ' kPa';
+  else pStr = (pS/1e6).toFixed(2) + ' MPa';
+  ctx.fillText(pStr, manX+2, manY-3);
+  ctx.fillStyle = '#7a5a10'; ctx.font = '9px JetBrains Mono,monospace';
+  ctx.fillText('(' + (pS/1e5).toFixed(2) + ' bar)', manX+2, manY+10);
+
+  // Verbindungslinie Boden → Manometer
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(gefR+6, gefB-3); ctx.lineTo(manX-30, manY); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Rechts: p(h)-Diagramm (linear)
+  const cv2 = initCanvas('a1-cv-ph', 320, false);
+  const ctx2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
+  // Max-p für Skalierung: aktuelle Dichte * g * 10
+  const pMax = rho * g * 10 / 1000;  // in kPa
+  const grid = drawGrid(ctx2, W2, H2, -0.5, 10.5, -pMax*0.05, pMax*1.05);
+  drawAxesUnits(ctx2, W2, H2, grid.cx, grid.cy, 'h [m]', 'p_S [kPa]');
+  // Linie p = rho*g*h
+  ctx2.strokeStyle = '#8a4a0e'; ctx2.lineWidth = 2.8;
+  ctx2.beginPath();
+  ctx2.moveTo(grid.cx(0), grid.cy(0));
+  ctx2.lineTo(grid.cx(10), grid.cy(rho*g*10/1000));
+  ctx2.stroke();
+  // Aktueller Punkt
+  drawDot(ctx2, grid.cx, grid.cy, h, pS/1000, '#9b1c1c', 6);
+  // Hilfslinien zum Punkt
+  ctx2.strokeStyle = '#9b1c1c66'; ctx2.lineWidth = 1; ctx2.setLineDash([3, 3]);
+  ctx2.beginPath(); ctx2.moveTo(grid.cx(h), grid.cy(0)); ctx2.lineTo(grid.cx(h), grid.cy(pS/1000)); ctx2.stroke();
+  ctx2.beginPath(); ctx2.moveTo(grid.cx(0), grid.cy(pS/1000)); ctx2.lineTo(grid.cx(h), grid.cy(pS/1000)); ctx2.stroke();
+  ctx2.setLineDash([]);
+}
+['a1-h', 'a1-rho'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
+// Material-Buttons
+document.querySelectorAll('.widget')[1].querySelectorAll('.typ-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.widget')[1].querySelectorAll('.typ-btn').forEach(b => b.classList.remove('aktiv'));
+    btn.classList.add('aktiv');
+    document.getElementById('a1-rho').value = btn.dataset.rho;
+    drawA1();
+  });
+});
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 2: Hydrostatisches Paradoxon — 3 Gefässe
+// ══════════════════════════════════════════════════════════
+function drawA2() {
+  const h = +document.getElementById('a2-h').value;   // in cm
+  const hM = h / 100;
+  const pS = RHO_W * g * hM;
+  document.getElementById('a2-h-val').textContent = h.toFixed(1) + ' cm';
+  document.getElementById('a2-p').textContent = (pS/1000).toFixed(2) + ' kPa';
+  document.getElementById('a2-pmbar').textContent = (pS/100).toFixed(1) + ' mbar';
+
+  const cv = initCanvas('a2-cv', 340, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+
+  // Drei Gefässe nebeneinander: alle mit Boden auf gleicher Höhe
+  const bodenY = H - 40;
+  const skalaY0 = bodenY - 20;        // y bei h=0
+  const skalaY = h_cm => bodenY - (h_cm/22) * (bodenY - 30);  // 22cm-Max-Skala
+  const fuellY = skalaY(h);
+
+  // Gefäss 1: Zylinder (Radius 4cm = 8cm Durchmesser)
+  const xG1 = W*0.13;
+  const r1 = 25;  // px
+  // Wände
+  ctx.fillStyle = '#cfd5dc';
+  ctx.fillRect(xG1-r1-4, 30, 4, bodenY-30);
+  ctx.fillRect(xG1+r1, 30, 4, bodenY-30);
+  // Boden
+  ctx.fillRect(xG1-r1-4, bodenY, 2*r1+8, 4);
+  // Wasser
+  ctx.fillStyle = '#5fa9c6';
+  ctx.fillRect(xG1-r1, fuellY, 2*r1, bodenY-fuellY);
+  // Beschriftung
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 11px Source Sans 3,sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('Zylinder', xG1, bodenY+22);
+
+  // Gefäss 2: Trichter (oben breit, unten schmal)
+  const xG2 = W*0.40;
+  const r2top = 50, r2bot = 15;
+  // Wände als schräge Linien
+  ctx.fillStyle = '#cfd5dc';
+  // Linke Wand (4px dick): Trapez
+  ctx.beginPath();
+  ctx.moveTo(xG2-r2top-4, 30); ctx.lineTo(xG2-r2top, 30);
+  ctx.lineTo(xG2-r2bot, bodenY); ctx.lineTo(xG2-r2bot-4, bodenY);
+  ctx.closePath(); ctx.fill();
+  // Rechte Wand
+  ctx.beginPath();
+  ctx.moveTo(xG2+r2top, 30); ctx.lineTo(xG2+r2top+4, 30);
+  ctx.lineTo(xG2+r2bot+4, bodenY); ctx.lineTo(xG2+r2bot, bodenY);
+  ctx.closePath(); ctx.fill();
+  // Boden
+  ctx.fillRect(xG2-r2bot-4, bodenY, 2*r2bot+8, 4);
+  // Wasser: trapezförmig von Wand zu Wand, bei aktueller Höhe
+  // Wandfunktion: linke Wand bei y=py: x = xG2-r2top + (py-30)/(bodenY-30) * (r2top-r2bot)
+  function leftAt(py) { return xG2-r2top + (py-30)/(bodenY-30) * (r2top-r2bot); }
+  function rightAt(py) { return xG2+r2top - (py-30)/(bodenY-30) * (r2top-r2bot); }
+  ctx.fillStyle = '#5fa9c6';
+  ctx.beginPath();
+  ctx.moveTo(leftAt(fuellY), fuellY);
+  ctx.lineTo(rightAt(fuellY), fuellY);
+  ctx.lineTo(rightAt(bodenY), bodenY);
+  ctx.lineTo(leftAt(bodenY), bodenY);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#1c1a17';
+  ctx.fillText('Trichter (oben breit)', xG2, bodenY+22);
+
+  // Gefäss 3: Umgekehrter Trichter (oben schmal, unten breit)
+  const xG3 = W*0.75;
+  const r3top = 15, r3bot = 45;
+  ctx.fillStyle = '#cfd5dc';
+  ctx.beginPath();
+  ctx.moveTo(xG3-r3top-4, 30); ctx.lineTo(xG3-r3top, 30);
+  ctx.lineTo(xG3-r3bot, bodenY); ctx.lineTo(xG3-r3bot-4, bodenY);
+  ctx.closePath(); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(xG3+r3top, 30); ctx.lineTo(xG3+r3top+4, 30);
+  ctx.lineTo(xG3+r3bot+4, bodenY); ctx.lineTo(xG3+r3bot, bodenY);
+  ctx.closePath(); ctx.fill();
+  ctx.fillRect(xG3-r3bot-4, bodenY, 2*r3bot+8, 4);
+  function leftAt3(py) { return xG3-r3top - (py-30)/(bodenY-30) * (r3bot-r3top); }
+  function rightAt3(py) { return xG3+r3top + (py-30)/(bodenY-30) * (r3bot-r3top); }
+  ctx.fillStyle = '#5fa9c6';
+  ctx.beginPath();
+  ctx.moveTo(leftAt3(fuellY), fuellY);
+  ctx.lineTo(rightAt3(fuellY), fuellY);
+  ctx.lineTo(rightAt3(bodenY), bodenY);
+  ctx.lineTo(leftAt3(bodenY), bodenY);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#1c1a17';
+  ctx.fillText('Trichter umgek.', xG3, bodenY+22);
+
+  // Gemeinsame Füllhöhe einzeichnen (gestrichelt durchgehend)
+  ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.4; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(0, fuellY); ctx.lineTo(W, fuellY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 10px JetBrains Mono,monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('Füllhöhe h = ' + h.toFixed(1) + ' cm', 8, fuellY-4);
+
+  // Manometer unter jedem Gefäss
+  function manometer(cx, label, pVal) {
+    const mw = 60, mh = 22, my = bodenY+40;
+    ctx.fillStyle = '#fff8eb';
+    ctx.fillRect(cx-mw/2, my, mw, mh);
+    ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.4;
+    ctx.strokeRect(cx-mw/2, my, mw, mh);
+    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 10px JetBrains Mono,monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText((pVal/100).toFixed(1) + ' mbar', cx, my+15);
+  }
+  manometer(xG1, '', pS);
+  manometer(xG2, '', pS);
+  manometer(xG3, '', pS);
+
+  // Volumen-Berechnung
+  // V1 = pi*r1^2 * h ... Aber wir wollen in cm³ und r1 ist Pixel.
+  // Wir definieren die echten Radien: Zylinder r=4 cm, Trichter r_top=8cm, r_bot=2cm, Höhe ges ~22cm
+  // Wasserstand h cm von Boden gemessen
+  const V_cyl = Math.PI * 4*4 * h;   // cm³
+  // Trichter (oben breit, unten schmal): Wasser füllt einen Trapez-Kegelstumpf
+  // r(y) zwischen r_bot=2 unten und r_top=8 oben, linear über Höhe 22
+  // wenn Wasserstand h ist (vom Boden), dann r_top_aktuell = r_bot + (r_top-r_bot)*h/22
+  const rtop_a2 = 2 + (8-2)*h/22;
+  const rbot_a2 = 2;
+  // Kegelstumpf-Volumen V = pi*h/3 * (R^2 + R*r + r^2)
+  const V_tri = Math.PI * h / 3 * (rtop_a2*rtop_a2 + rtop_a2*rbot_a2 + rbot_a2*rbot_a2);
+  // Umgekehrter Trichter: oben schmal r=2, unten breit r=8 — eine Funktion der Wasserhöhe
+  // Wenn der Wasserstand h vom Boden ist und der Trichter sich nach oben verengt, ist das Wasservolumen bis Höhe h:
+  // r(y_oben_offset) = 8 - (8-2)*y/22, wobei y vom Boden bis 22cm geht
+  // V = integral_0^h pi*r(y)^2 dy = pi * integral_0^h (8 - 6y/22)^2 dy
+  // Mit Substitution: r(y) = 8 - 3y/11
+  // = pi * [-11/(9) * (8-3y/11)^3]_0^h
+  const rfun = y => 8 - 3*y/11;
+  const V_tri2 = Math.PI * (-11/9) * (Math.pow(rfun(h), 3) - Math.pow(rfun(0), 3));
+
+  document.getElementById('a2-v1').textContent = V_cyl.toFixed(0) + ' cm³';
+  document.getElementById('a2-v2').textContent = V_tri.toFixed(0) + ' cm³';
+  document.getElementById('a2-v3').textContent = V_tri2.toFixed(0) + ' cm³';
+}
+document.getElementById('a2-h').addEventListener('input', drawA2);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 3: Hydraulische Presse
+// ══════════════════════════════════════════════════════════
+function drawA3() {
+  const F1 = +document.getElementById('a3-f1').value;
+  const A1 = +document.getElementById('a3-a1').value;  // cm²
+  const A2 = +document.getElementById('a3-a2').value;
+  const s1 = +document.getElementById('a3-s1').value;  // cm
+  const p = F1 / (A1*1e-4);  // Pa
+  const F2 = p * (A2*1e-4);
+  const ratio = A2 / A1;
+  const s2 = s1 / ratio;
+  const W1 = F1 * (s1/100);  // kleiner Kolben: F1 · s1 (in J)
+  const W2 = F2 * (s2/100);  // grosser Kolben: F2 · s2 (in J) — mathematisch gleich W1
+
+  document.getElementById('a3-f1-val').textContent = F1 + ' N';
+  document.getElementById('a3-a1-val').textContent = A1.toFixed(1) + ' cm²';
+  document.getElementById('a3-a2-val').textContent = A2 + ' cm²';
+  document.getElementById('a3-s1-val').textContent = s1 + ' cm';
+  document.getElementById('a3-p').textContent = (p/1e5).toFixed(2) + ' bar';
+  document.getElementById('a3-f2').textContent = F2.toFixed(0) + ' N';
+  document.getElementById('a3-rat').textContent = ratio.toFixed(1);
+  document.getElementById('a3-s2').textContent = s2.toFixed(2) + ' cm';
+  document.getElementById('a3-w1').textContent = W1.toFixed(2) + ' J';
+  document.getElementById('a3-w2').textContent = W2.toFixed(2) + ' J';
+
+  const cv = initCanvas('a3-cv', 300, false);
+  const ctx = cv.ctx, W_c = cv.W, H_c = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W_c, H_c);
+
+  // U-Rohr Layout: zwei vertikale Zylinder verbunden durch horizontale Röhre
+  // Linker Kolben (klein), rechter Kolben (gross)
+  const yU = H_c - 60;       // Höhe des horizontalen Rohrs
+  const yTop = 50;
+  // Visualisierte Querschnitte: linear-Wurzel proportional zu A
+  const sqrtMax = Math.sqrt(500);
+  const wL = 10 + Math.sqrt(A1)/sqrtMax * 50;   // Pixel-Breite
+  const wR = 10 + Math.sqrt(A2)/sqrtMax * 90;
+  const xL = 90, xR = W_c - 90;
+
+  // Linker Zylinder
+  ctx.fillStyle = '#cfd5dc';
+  ctx.fillRect(xL-wL/2-4, yTop, 4, yU-yTop);     // linke Wand
+  ctx.fillRect(xL+wL/2, yTop, 4, yU-yTop);       // rechte Wand
+  // Rechter Zylinder
+  ctx.fillRect(xR-wR/2-4, yTop, 4, yU-yTop);
+  ctx.fillRect(xR+wR/2, yTop, 4, yU-yTop);
+  // Horizontales Verbindungsrohr
+  ctx.fillStyle = '#cfd5dc';
+  ctx.fillRect(xL-wL/2-4, yU, xR+wR/2 - xL+wL/2 + 8, 4);
+  ctx.fillRect(xL-wL/2-4, H_c-30, xR+wR/2 - xL+wL/2 + 8, 4);
+
+  // Hydraulik-Flüssigkeit (Bernstein-Ton, halbtransparent)
+  // Linke Seite Wasser-Stand bei einer Höhe; rechte Seite entsprechend
+  // Wir machen das visuell: aktueller Kolbenposition durch s1/s2 nach unten/oben gedrückt
+  // Linker Kolben sitzt bei yPistL, rechter bei yPistR
+  const s1max = 50;
+  const pushL = (s1/s1max) * (yU-yTop-30);
+  const pushR = (s2/(s1max/(A1/A2 || 1))) * (yU-yTop-30);  // proportional
+  // Statt komplex: einfach Kolben darstellen, kein Animations-Frame
+  const yPistL = yTop + 20 + pushL;
+  const yPistR = yTop + (yU-yTop-30 - pushR*A1/A2*ratio); // einfacher: rechts steigt um s2 weniger Hub
+  // Hilfs-Visualisierung der Hub-Verhältnisse: Wir zeigen einfach beide Kolben in Mittellage und zeichnen Pfeile s1, s2 daneben
+
+  const pistY_L = yTop + 30;
+  const pistY_R = yTop + 30;
+  // Flüssigkeit
+  ctx.fillStyle = '#e3c75a99';
+  ctx.fillRect(xL-wL/2, pistY_L, wL, yU-pistY_L);
+  ctx.fillRect(xR-wR/2, pistY_R, wR, yU-pistY_R);
+  ctx.fillRect(xL-wL/2, yU, xR+wR/2 - xL+wL/2, H_c-30-yU);
+
+  // Kolben (Holzbraun)
+  ctx.fillStyle = '#7a4525';
+  ctx.fillRect(xL-wL/2, pistY_L-12, wL, 12);
+  ctx.fillRect(xR-wR/2, pistY_R-12, wR, 12);
+
+  // Kraftpfeil F1 (oben am kleinen Kolben, nach unten)
+  drawArrow(ctx, xL, pistY_L-50, xL, pistY_L-15, '#9b1c1c', 2.5, 11);
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 12px JetBrains Mono,monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('F₁ = '+F1+' N', xL+wL/2+8, pistY_L-32);
+
+  // Kraftpfeil F2 (oben am grossen Kolben, nach oben — vom Kolben aus angezeigt)
+  drawArrow(ctx, xR, pistY_R-15, xR, pistY_R-50, '#1a4f8a', 2.5, 11);
+  ctx.fillStyle = '#1a4f8a';
+  ctx.textAlign = 'right';
+  ctx.fillText('F₂ = '+F2.toFixed(0)+' N', xR-wR/2-8, pistY_R-32);
+
+  // Hubweg-Pfeile (rechts vom kleinen, links vom grossen)
+  // s1 nach unten an Kolben 1
+  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  ctx.moveTo(xL-wL/2-22, pistY_L-12); ctx.lineTo(xL-wL/2-22, pistY_L-12 + s1*1.2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  drawArrow(ctx, xL-wL/2-22, pistY_L-12 + s1*1.2 - 6, xL-wL/2-22, pistY_L-12 + s1*1.2, '#5b2d8e', 1.5, 7);
+  ctx.fillStyle = '#5b2d8e'; ctx.font = '11px JetBrains Mono,monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText('s₁='+s1+' cm', xL-wL/2-26, pistY_L-12 + s1*1.2/2);
+
+  // s2 (sehr klein) am grossen Kolben
+  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  ctx.moveTo(xR-wR/2-22, pistY_R-12); ctx.lineTo(xR-wR/2-22, pistY_R-12 - s2*1.2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  drawArrow(ctx, xR-wR/2-22, pistY_R-12 - s2*1.2 + 6, xR-wR/2-22, pistY_R-12 - s2*1.2, '#5b2d8e', 1.5, 7);
+  ctx.fillStyle = '#5b2d8e';
+  ctx.textAlign = 'right';
+  ctx.fillText('s₂='+s2.toFixed(1)+' cm', xR-wR/2-26, pistY_R-12 - s2*1.2/2);
+
+  // Labels A1, A2 in der Mitte der Kolben
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px JetBrains Mono,monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('A₁', xL, pistY_L-3);
+  ctx.fillText('A₂', xR, pistY_R-3);
+
+  // Druck-Beschriftung in der Flüssigkeit
+  ctx.fillStyle = '#7a5a10'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('p = '+(p/1e5).toFixed(2)+' bar überall', (xL+xR)/2, yU+15);
+}
+['a3-f1','a3-a1','a3-a2','a3-s1'].forEach(id => document.getElementById(id).addEventListener('input', drawA3));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 4: Auftrieb beim Eintauchen
+// ══════════════════════════════════════════════════════════
+function drawA4() {
+  const he = +document.getElementById('a4-he').value;     // cm, max 20 (taucht ganz + drueber)
+  const kante = +document.getElementById('a4-kante').value;  // cm
+  document.getElementById('a4-he-val').textContent = he.toFixed(1) + ' cm';
+  document.getElementById('a4-kante-val').textContent = kante.toFixed(1) + ' cm';
+
+  // Eingetauchtes Volumen: wenn he < kante, ist V_e = kante² * he. Sonst V_e = kante³.
+  const heEff = Math.min(he, kante);
+  const Ve_cm3 = kante * kante * heEff;
+  const Ve_m3 = Ve_cm3 * 1e-6;
+  const m_v = RHO_W * Ve_m3;
+  const FA = RHO_W * Ve_m3 * g;
+
+  document.getElementById('a4-v').textContent = Ve_cm3.toFixed(0) + ' cm³';
+  document.getElementById('a4-m').textContent = m_v.toFixed(2) + ' kg';
+  document.getElementById('a4-fa').textContent = FA.toFixed(2) + ' N';
+
+  // Links: Behälter mit Quader, der bis he eintaucht
+  const cv = initCanvas('a4-cv-quader', 320, false);
+  const ctx = cv.ctx, Wc = cv.W, Hc = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, Wc, Hc);
+
+  // Becken
+  const becL = 30, becR = Wc-30, becB = Hc-20, becT = 50;
+  const wasserY = becT + 30;
+  ctx.fillStyle = '#cfd5dc';
+  ctx.fillRect(becL-6, becT, 6, becB-becT+6);
+  ctx.fillRect(becR, becT, 6, becB-becT+6);
+  ctx.fillRect(becL-6, becB, becR-becL+12, 6);
+  // Wasser
+  ctx.fillStyle = '#5fa9c6';
+  ctx.fillRect(becL, wasserY, becR-becL, becB-wasserY);
+
+  // Quader: Zentrum bei xQ, Boden bei wasserY+he in CSS-Pixel-Skala (1 cm ≈ 8 px)
+  const scale = 8;  // 1 cm = 8 px
+  const xQ = (becL+becR)/2;
+  const wq = kante * scale;
+  // Wenn he=0: Quader sitzt ganz oben, Unterkante auf Wasserlinie
+  // Wenn he=kante: Quader ganz drin
+  // Wenn he>kante: Quader ganz drin und auf wasserY + (he-kante)*scale + ist nicht mehr eintaucht, sondern bewegt sich tiefer
+  const yQbot = wasserY + he * scale;
+  const yQtop = yQbot - wq;
+  // Quader-Farbe: Bernstein
+  ctx.fillStyle = '#b07435';
+  ctx.fillRect(xQ - wq/2, yQtop, wq, wq);
+  ctx.strokeStyle = '#7a4a10'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(xQ - wq/2, yQtop, wq, wq);
+  // Maserung (drei kurze Linien)
+  ctx.strokeStyle = '#7a4a1066'; ctx.lineWidth = 0.8;
+  for (let i = 1; i <= 3; i++) {
+    const yy = yQtop + i*wq/4;
+    ctx.beginPath(); ctx.moveTo(xQ-wq/2+3, yy); ctx.lineTo(xQ+wq/2-3, yy); ctx.stroke();
+  }
+
+  // Auftriebspfeil (grün, von Quaderunterseite nach oben)
+  if (he > 0) {
+    const pfeil = Math.max(20, Math.min(70, FA*5));
+    drawArrow(ctx, xQ, yQbot+6, xQ, yQbot+6-pfeil, '#1f6b3a', 2.5, 11);
+    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('F_A = '+FA.toFixed(2)+' N', xQ+wq/2+15, yQbot+6-pfeil/2);
+  }
+
+  // Eintauchtiefe markieren
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5;
+  if (he > 0) {
+    drawArrow(ctx, becL-22, wasserY, becL-22, Math.min(yQbot, becB-3), '#8a4a0e', 1.6, 9);
+    ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('h_e = '+he.toFixed(1)+' cm', becL+6, wasserY + (Math.min(yQbot, becB-3)-wasserY)/2);
+  }
+  // Wasseroberfläche-Label
+  ctx.fillStyle = '#3a7a96'; ctx.font = '10px JetBrains Mono,monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('Wasseroberfläche', becL+5, wasserY-4);
+
+  // Rechts: F_A(h_e)-Diagramm
+  const cv2 = initCanvas('a4-cv-graph', 320, false);
+  const ctx2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
+  const FAmax = RHO_W * Math.pow(kante*0.01, 3) * g;
+  const grid = drawGrid(ctx2, W2, H2, -1, 21, -FAmax*0.05, FAmax*1.1);
+  drawAxesUnits(ctx2, W2, H2, grid.cx, grid.cy, 'h_e [cm]', 'F_A [N]');
+  // Linie: linear ansteigend bis kante, dann konstant
+  ctx2.strokeStyle = '#1f6b3a'; ctx2.lineWidth = 2.8;
+  ctx2.beginPath();
+  ctx2.moveTo(grid.cx(0), grid.cy(0));
+  ctx2.lineTo(grid.cx(kante), grid.cy(FAmax));
+  ctx2.lineTo(grid.cx(21), grid.cy(FAmax));
+  ctx2.stroke();
+  // Aktueller Punkt
+  drawDot(ctx2, grid.cx, grid.cy, he, FA, '#9b1c1c', 6);
+  // Hilfslinien
+  ctx2.strokeStyle = '#9b1c1c66'; ctx2.lineWidth = 1; ctx2.setLineDash([3, 3]);
+  ctx2.beginPath(); ctx2.moveTo(grid.cx(he), grid.cy(0)); ctx2.lineTo(grid.cx(he), grid.cy(FA)); ctx2.stroke();
+  ctx2.beginPath(); ctx2.moveTo(grid.cx(0), grid.cy(FA)); ctx2.lineTo(grid.cx(he), grid.cy(FA)); ctx2.stroke();
+  ctx2.setLineDash([]);
+  // Knickpunkt markieren
+  ctx2.fillStyle = '#5b2d8e'; ctx2.font = '10px JetBrains Mono,monospace';
+  ctx2.textAlign = 'center';
+  ctx2.fillText('voll eingetaucht', grid.cx(kante), grid.cy(FAmax)-8);
+}
+['a4-he','a4-kante'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 5: Schwimmen / Schweben / Sinken
+// ══════════════════════════════════════════════════════════
+function drawA5() {
+  const rhoK = +document.getElementById('a5-rho').value;
+  document.getElementById('a5-rho-val').textContent = rhoK + ' kg/m³';
+
+  // Annahme: Würfel Kantenlänge 10 cm = 0.1 m, V = 1e-3 m³
+  const kante = 0.10;
+  const V = kante*kante*kante;
+  const m = rhoK*V;
+  const FG = m*g;
+  let frac, mode;
+  if (rhoK < RHO_W) {
+    frac = rhoK/RHO_W;
+    mode = 'schwimmt';
+  } else if (rhoK === RHO_W) {
+    frac = 1.0;
+    mode = 'schwebt';
+  } else {
+    frac = 1.0;
+    mode = 'sinkt';
+  }
+  // FA = rho_w * V_e * g
+  let FA;
+  if (mode === 'schwimmt') FA = FG;
+  else FA = RHO_W * V * g;  // bei schweben oder sinken voll eingetaucht
+
+  document.getElementById('a5-mode').textContent = mode;
+  document.getElementById('a5-frac').textContent = (frac*100).toFixed(1) + ' %';
+  document.getElementById('a5-fg').textContent = FG.toFixed(2) + ' N';
+  document.getElementById('a5-fa').textContent = FA.toFixed(2) + ' N';
+
+  // Sync Buttons
+  document.querySelectorAll('.widget')[5].querySelectorAll('.typ-btn').forEach(b => b.classList.remove('aktiv'));
+  document.querySelectorAll('.widget')[5].querySelectorAll('.typ-btn').forEach(b => {
+    if (+b.dataset.rho === rhoK) b.classList.add('aktiv');
+  });
+
+  const cv = initCanvas('a5-cv', 320, false);
+  const ctx = cv.ctx, Wc = cv.W, Hc = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, Wc, Hc);
+
+  // Behälter
+  const becL = 60, becR = Wc-60, becT = 30, becB = Hc-30;
+  const wasserY = becT + 35;
+  ctx.fillStyle = '#cfd5dc';
+  ctx.fillRect(becL-6, becT, 6, becB-becT+6);
+  ctx.fillRect(becR, becT, 6, becB-becT+6);
+  ctx.fillRect(becL-6, becB, becR-becL+12, 6);
+  ctx.fillStyle = '#5fa9c6';
+  ctx.fillRect(becL, wasserY, becR-becL, becB-wasserY);
+
+  // Würfel zeichnen
+  const scale = 6;  // 1 cm = 6 px → 10 cm = 60 px
+  const wq = 10 * scale;
+  const xQ = (becL+becR)/2;
+  let yQtop;
+  if (mode === 'schwimmt') {
+    const heCm = 10 * frac;  // eingetaucht
+    const yQbot = wasserY + heCm * scale;
+    yQtop = yQbot - wq;
+  } else if (mode === 'schwebt') {
+    yQtop = wasserY + 30;  // mittig in Wasser
+  } else {  // sinkt
+    yQtop = becB - wq - 5;
+  }
+
+  // Farbe je nach Material
+  let qColor;
+  if (rhoK < 300) qColor = '#d4b48e';        // Kork
+  else if (rhoK < 800) qColor = '#b07435';   // Holz braun
+  else if (rhoK < 950) qColor = '#aac8d8';   // Eis hellblau
+  else if (rhoK < 1100) qColor = '#a3a3a3';  // Wasser-Dichte: neutral
+  else qColor = '#7a838c';                    // Metall
+
+  ctx.fillStyle = qColor;
+  ctx.fillRect(xQ - wq/2, yQtop, wq, wq);
+  ctx.strokeStyle = '#3a3a3a'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(xQ - wq/2, yQtop, wq, wq);
+
+  // Kräftepfeile
+  const arr_len = 35;
+  // FG nach unten in der Mitte des Würfels
+  drawArrow(ctx, xQ, yQtop+wq/2, xQ, yQtop+wq/2+arr_len, '#9b1c1c', 2.5, 10);
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('F_G = '+FG.toFixed(2)+' N', xQ+wq/2+8, yQtop+wq/2+arr_len);
+  // FA nach oben
+  drawArrow(ctx, xQ-25, yQtop+wq/2+arr_len, xQ-25, yQtop+wq/2, '#1f6b3a', 2.5, 10);
+  // Bei sinken: FA klein dargestellt, nicht kompensierend
+  const faShown = FA;
+  ctx.fillStyle = '#1f6b3a';
+  ctx.textAlign = 'right';
+  ctx.fillText('F_A = '+faShown.toFixed(2)+' N', xQ-wq/2-8, yQtop+wq/2-5);
+
+  // Mode-Label oben
+  ctx.fillStyle = mode==='schwimmt' ? '#1f6b3a' : mode==='schwebt' ? '#5b2d8e' : '#9b1c1c';
+  ctx.font = 'bold 14px Source Sans 3,sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(mode.toUpperCase(), Wc/2, becT-10);
+  // Dichten-Vergleich
+  ctx.fillStyle = '#5a6068'; ctx.font = '11px JetBrains Mono,monospace';
+  ctx.fillText('ρ_K = '+rhoK+' kg/m³ '+(rhoK<RHO_W?'<':rhoK>RHO_W?'>':'=')+' '+RHO_W+' = ρ_W', Wc/2, becB+22);
+}
+document.getElementById('a5-rho').addEventListener('input', drawA5);
+document.querySelectorAll('.widget')[5].querySelectorAll('.typ-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.widget')[5].querySelectorAll('.typ-btn').forEach(b => b.classList.remove('aktiv'));
+    btn.classList.add('aktiv');
+    document.getElementById('a5-rho').value = btn.dataset.rho;
+    drawA5();
+  });
+});
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 6: U-Rohr mit Wasser und Öl
+// ══════════════════════════════════════════════════════════
+function drawA6() {
+  const hOel = +document.getElementById('a6-hoel').value;  // cm
+  const rho2 = +document.getElementById('a6-rho2').value;
+  document.getElementById('a6-hoel-val').textContent = hOel.toFixed(1) + ' cm';
+  document.getElementById('a6-rho2-val').textContent = rho2 + ' kg/m³';
+
+  // Wasserspiegel-Differenz: h_w = h_oel * rho2/rho1; Wasserspiegel rechts ist h_w cm über der Grenzfläche
+  // Höhenunterschied der oberen Spiegel: h_oel - h_w
+  const hW = hOel * rho2 / RHO_W;
+  const hDiff = hOel - hW;
+  document.getElementById('a6-diff').textContent = hDiff.toFixed(2) + ' cm';
+  document.getElementById('a6-rat').textContent = (rho2/RHO_W).toFixed(3);
+
+  const cv = initCanvas('a6-cv', 320, false);
+  const ctx = cv.ctx, Wc = cv.W, Hc = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, Wc, Hc);
+
+  // U-Rohr: zwei vertikale Schenkel, unten verbunden
+  // Skala: 1 cm = 8 px
+  const sc = 8;
+  const yBot = Hc - 40;       // unteres Ende des Rohrs
+  const yTop = 30;
+  const totalH = (yBot - yTop)/sc;  // in cm — etwa 30 cm
+  const xL = Wc*0.30, xR = Wc*0.70;
+  const wTube = 30;
+
+  // Zentrale Grenzfläche der Ölhochsäule (linker Schenkel) — wir setzen
+  // Wasserspiegel rechts auf eine bestimmte mittlere Höhe als Referenz, sodass die Animation
+  // sichtbar bleibt: y_grenzflaeche = yBot - 18cm * sc
+  const yGrenze = yBot - 12*sc;        // 12 cm vom Boden
+  const yOelTop = yGrenze - hOel*sc;   // Ölsäule oben links
+  const yWasserR = yGrenze - hW*sc;    // Wasserspiegel rechts
+
+  // Rohrwände (grau)
+  ctx.fillStyle = '#cfd5dc';
+  // Linker Schenkel
+  ctx.fillRect(xL-wTube/2-4, yTop, 4, yBot-yTop);  // linke Wand
+  ctx.fillRect(xL+wTube/2, yTop, 4, yBot-yTop);    // rechte Wand
+  // Rechter Schenkel
+  ctx.fillRect(xR-wTube/2-4, yTop, 4, yBot-yTop);
+  ctx.fillRect(xR+wTube/2, yTop, 4, yBot-yTop);
+  // Unten Verbindungsbogen (vereinfacht: horizontales Rohr)
+  ctx.fillRect(xL-wTube/2-4, yBot, xR+wTube/2 - xL+wTube/2 + 8, 4);
+  ctx.fillRect(xL-wTube/2-4, yBot+wTube, xR+wTube/2 - xL+wTube/2 + 8, 4);
+  // Innenraum (für die Flüssigkeiten)
+
+  // Linker Schenkel: oben Öl, unten Wasser
+  // Öl
+  ctx.fillStyle = '#e3c75a';
+  ctx.fillRect(xL-wTube/2, yOelTop, wTube, hOel*sc);
+  // Wasser links unten
+  ctx.fillStyle = '#5fa9c6';
+  ctx.fillRect(xL-wTube/2, yGrenze, wTube, yBot-yGrenze);
+  // Wasser im Verbindungsrohr
+  ctx.fillRect(xL-wTube/2, yBot, xR+wTube/2 - xL+wTube/2, wTube);
+  // Wasser rechter Schenkel bis Spiegel
+  ctx.fillRect(xR-wTube/2, yWasserR, wTube, yBot-yWasserR);
+
+  // Beschriftungen
+  ctx.font = 'bold 11px Source Sans 3,sans-serif'; ctx.fillStyle = '#a07e1a';
+  ctx.textAlign = 'left';
+  ctx.fillText('Öl', xL+wTube/2+6, (yOelTop+yGrenze)/2);
+  ctx.fillStyle = '#3a7a96';
+  ctx.fillText('Wasser', xR-wTube/2-50, yWasserR-4);
+
+  // Grenzfläche (gestrichelt)
+  ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.4; ctx.setLineDash([5, 3]);
+  ctx.beginPath();
+  ctx.moveTo(xL-wTube/2-15, yGrenze); ctx.lineTo(xL+wTube/2+8, yGrenze);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#9b1c1c'; ctx.font = '10px JetBrains Mono,monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText('Grenze Öl/Wasser', xL-wTube/2-20, yGrenze+4);
+
+  // Höhenpfeile
+  // h_oel links
+  ctx.strokeStyle = '#a07e1a'; ctx.lineWidth = 1.5;
+  drawArrow(ctx, xL-wTube/2-30, yOelTop, xL-wTube/2-30, yGrenze, '#a07e1a', 1.5, 8);
+  drawArrow(ctx, xL-wTube/2-30, yGrenze, xL-wTube/2-30, yOelTop, '#a07e1a', 1.5, 8);
+  ctx.fillStyle = '#a07e1a'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText('h_Öl = '+hOel.toFixed(1)+' cm', xL-wTube/2-34, (yOelTop+yGrenze)/2+4);
+  // h_w rechts (= Spiegel rechts über Grenze)
+  ctx.strokeStyle = '#3a7a96'; ctx.lineWidth = 1.5;
+  drawArrow(ctx, xR+wTube/2+30, yWasserR, xR+wTube/2+30, yGrenze, '#3a7a96', 1.5, 8);
+  drawArrow(ctx, xR+wTube/2+30, yGrenze, xR+wTube/2+30, yWasserR, '#3a7a96', 1.5, 8);
+  ctx.fillStyle = '#3a7a96';
+  ctx.textAlign = 'left';
+  ctx.fillText('h_W = '+hW.toFixed(2)+' cm', xR+wTube/2+34, (yWasserR+yGrenze)/2+4);
+
+  // Höhenunterschied der oberen Spiegel (Bernstein-Highlight)
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 2; ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  ctx.moveTo(xL, yOelTop); ctx.lineTo(Wc/2, yOelTop);
+  ctx.moveTo(xR, yWasserR); ctx.lineTo(Wc/2, yWasserR);
+  ctx.moveTo(Wc/2, yOelTop); ctx.lineTo(Wc/2, yWasserR);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  drawArrow(ctx, Wc/2-12, yOelTop, Wc/2-12, yWasserR, '#8a4a0e', 1.6, 8);
+  drawArrow(ctx, Wc/2-12, yWasserR, Wc/2-12, yOelTop, '#8a4a0e', 1.6, 8);
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('Δh = '+hDiff.toFixed(2)+' cm', Wc/2-6, (yOelTop+yWasserR)/2+4);
+}
+['a6-hoel','a6-rho2'].forEach(id => document.getElementById(id).addEventListener('input', drawA6));
+
+
+// ══════════════════════════════════════════════════════════
+//  RENDER ALL + RESIZE
+// ══════════════════════════════════════════════════════════
+function renderAll() {
+  aeRender();
+  drawA1();
+  drawA2();
+  drawA3();
+  drawA4();
+  drawA5();
+  drawA6();
+}
+document.addEventListener('DOMContentLoaded', renderAll);
+window.addEventListener('resize', renderAll);
+</script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anwendungsaufgaben · Kinematik des Schwerpunkts — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../print.css">
+<style>
+  .aufg-rahmen {
+    border: 1pt solid var(--linie);
+    border-radius: 4px;
+    padding: 4mm;
+    margin: 3mm 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .aufg-rahmen .aufg-kopf { margin-bottom: 2mm; align-items: baseline; }
+  .schwierig {
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: var(--tinte-2);
+    margin-left: auto;
+    letter-spacing: 0.5px;
+  }
+  .schwierig .punkt { color: var(--orange); font-size: 9pt; }
+  .schwierig .punkt-leer { color: var(--linie); font-size: 9pt; }
+  .bereich-tag {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--blau);
+    background: var(--blau-hell);
+    padding: 0.5mm 2mm;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: 3mm;
+  }
+  .lin-mehr { margin-bottom: 2mm; }
+  .lin-mehr .lin { height: 7mm; }
+  .skizze-wrap {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 4mm;
+    align-items: start;
+    margin: 2mm 0;
+  }
+  .skizze-wrap .skizze {
+    border: 1pt dashed var(--linie);
+    background: var(--papier);
+    border-radius: 3px;
+    padding: 2mm;
+    text-align: center;
+  }
+  .skizze-wrap .skizze-titel {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--tinte-2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5mm;
+  }
+  .uebersicht {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.2pt;
+    margin: 3mm 0 5mm;
+  }
+  .uebersicht th, .uebersicht td {
+    border: 1px solid var(--linie);
+    padding: 1.4mm 2.5mm;
+    text-align: left;
+  }
+  .uebersicht th {
+    background: var(--papier-2);
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 9pt;
+  }
+  .uebersicht td.nr { text-align: center; font-family: var(--mono); width: 10mm; }
+  .uebersicht td.s  { text-align: center; font-family: var(--mono); font-size: 9pt; }
+</style>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.0 },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div class="druck-bar no-print">
+  <a class="db-back" href="../../../themen/p4-1-kinematik.html#downloads">← zurück zur Themenseite</a>
+  <span class="db-info">Anwendungsaufgaben · A4</span>
+  <button class="db-print" onclick="window.print()">Seite drucken</button>
+</div>
+
+<div class="druck-wrapper">
+
+  <header class="doc-kopf">
+    <div class="dk-bereich">TALS Physik · Lerngebiet 4 Mechanik · Kinematik des Schwerpunkts</div>
+    <h1>Anwendungsaufgaben</h1>
+  </header>
+
+  <div class="block block-def" style="margin-bottom:4mm">
+    <div class="block-titel">📘 Hinweise</div>
+    <p>Die Aufgaben stammen aus verschiedenen technischen und alltäglichen Bereichen und sind nach
+    ansteigendem Schwierigkeitsgrad geordnet. Pro Aufgabe ist eine Skizze und ausreichend Platz für
+    die Lösung vorgesehen. Musterlösungen folgen am Ende des Dokuments. Mit \( g = 9.81\,\text{m/s}^2 \).</p>
+  </div>
+
+  <h3 style="margin-top:4mm">Übersicht</h3>
+  <table class="uebersicht">
+    <thead>
+      <tr><th>Nr.</th><th>Bereich</th><th>Titel</th><th style="text-align:center">Schwierigkeit</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="nr">1</td><td>Verkehr</td><td>Überholmanöver auf der Autobahn</td><td class="s">●●○</td></tr>
+      <tr><td class="nr">2</td><td>Sicherheit</td><td>Anhalteweg eines Autos</td><td class="s">●●●</td></tr>
+      <tr><td class="nr">3</td><td>Sport</td><td>Sprintphasen 100-Meter-Lauf</td><td class="s">●●●</td></tr>
+      <tr><td class="nr">4</td><td>Bauwesen</td><td>Stein vom Gerüst</td><td class="s">●●○</td></tr>
+      <tr><td class="nr">5</td><td>Sport</td><td>Basketballwurf</td><td class="s">●●●</td></tr>
+      <tr><td class="nr">6</td><td>Technik</td><td>Schleifscheibe</td><td class="s">●●○</td></tr>
+      <tr><td class="nr">7</td><td>Luftfahrt</td><td>Flugzeug mit Seitenwind</td><td class="s">●●●</td></tr>
+      <tr><td class="nr">8</td><td>Verkehr</td><td>Aufprall-Energie aus Fallhöhe</td><td class="s">●●●</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ════════════════════════════ AUFGABEN ════════════════════════════ -->
+
+  <!-- AUFGABE 1 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">1</span>
+      <span class="aufg-titel">Überholmanöver auf der Autobahn</span>
+      <span class="bereich-tag">Verkehr</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein PKW fährt mit \( v_1 = 110\,\text{km/h} \) hinter einem LKW her, der mit
+        \( v_2 = 85\,\text{km/h} \) unterwegs ist. Beim Beginn des Überholens beträgt der Abstand zum LKW
+        \( s_0 = 60\,\text{m} \). Beide Fahrzeuge fahren mit konstanter Geschwindigkeit.</p>
+        <p>(a) Wie lange dauert es, bis der PKW den LKW eingeholt hat?</p>
+        <p>(b) Welche Strecke hat der PKW in dieser Zeit zurückgelegt?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Situation</div>
+        <svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <line x1="10" y1="55" x2="130" y2="55" stroke="#1a1a1a" stroke-width="1"/>
+          <!-- PKW -->
+          <rect x="14" y="42" width="20" height="10" fill="#8a4a0e" stroke="#1a1a1a" stroke-width="0.6" rx="1.5"/>
+          <circle cx="19" cy="53" r="1.8" fill="#1a1a1a"/>
+          <circle cx="29" cy="53" r="1.8" fill="#1a1a1a"/>
+          <text x="24" y="38" text-anchor="middle" font-size="7" fill="#8a4a0e">PKW</text>
+          <text x="24" y="68" text-anchor="middle" font-size="7" fill="#8a4a0e">110 km/h</text>
+          <!-- LKW -->
+          <rect x="92" y="38" width="32" height="14" fill="#1a4f8a" stroke="#1a1a1a" stroke-width="0.6" rx="1.5"/>
+          <circle cx="98" cy="53" r="1.8" fill="#1a1a1a"/>
+          <circle cx="118" cy="53" r="1.8" fill="#1a1a1a"/>
+          <text x="108" y="33" text-anchor="middle" font-size="7" fill="#1a4f8a">LKW</text>
+          <text x="108" y="68" text-anchor="middle" font-size="7" fill="#1a4f8a">85 km/h</text>
+          <!-- Abstand -->
+          <line x1="34" y1="22" x2="92" y2="22" stroke="#a02828" stroke-width="0.6" stroke-dasharray="2 1"/>
+          <text x="63" y="18" text-anchor="middle" font-size="7" fill="#a02828">60 m</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 2 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">2</span>
+      <span class="aufg-titel">Anhalteweg eines Autos</span>
+      <span class="bereich-tag">Sicherheit</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <p>Ein Auto fährt mit \( v_0 = 50\,\text{km/h} \). Die Reaktionszeit des Fahrers beträgt
+    \( t_R = 1.0\,\text{s} \), die Bremsverzögerung \( |a| = 7.0\,\text{m/s}^2 \).</p>
+    <p>(a) Wie lang ist der <strong>Reaktionsweg</strong> (mit \( v_0 \) während der Reaktionszeit)?<br>
+       (b) Wie lang ist der <strong>Bremsweg</strong>?<br>
+       (c) Wie lang ist der gesamte <strong>Anhalteweg</strong>?<br>
+       (d) Wie ändert sich der Anhalteweg, wenn \( v_0 \) verdoppelt wird? Begründe.</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 3 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">3</span>
+      <span class="aufg-titel">Sprintphasen 100-Meter-Lauf</span>
+      <span class="bereich-tag">Sport</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <p>Eine Sprinterin beschleunigt aus dem Stand in \( t_1 = 3.0\,\text{s} \) gleichmässig auf ihre
+    Höchstgeschwindigkeit \( v_{\max} \) und läuft dann mit konstanter Geschwindigkeit bis zur Ziellinie.
+    Sie braucht für die 100 m insgesamt \( 12.0\,\text{s} \).</p>
+    <p>(a) Berechne \( v_{\max} \) und die durchschnittliche Beschleunigung der Anlaufphase.<br>
+       (b) Welche Strecke legt sie in der Beschleunigungs­phase zurück?<br>
+       (c) Skizziere das \(v\)-\(t\)-Diagramm der Bewegung.</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 4 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">4</span>
+      <span class="aufg-titel">Stein vom Gerüst</span>
+      <span class="bereich-tag">Bauwesen</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Von einem Baugerüst in \( h = 18\,\text{m} \) Höhe fällt ein Stein frei nach unten
+        (Luftwiderstand vernachlässigbar).</p>
+        <p>(a) Wie lange fällt der Stein?<br>
+           (b) Mit welcher Geschwindigkeit (in m/s und km/h) trifft er am Boden auf?<br>
+           (c) Welche Geschwindigkeit hat er auf halber Fallstrecke (\(h_2 = 9\,\text{m}\))?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Skizze</div>
+        <svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <!-- Boden -->
+          <line x1="10" y1="95" x2="80" y2="95" stroke="#1a1a1a" stroke-width="1"/>
+          <pattern id="boden" patternUnits="userSpaceOnUse" width="6" height="6"><line x1="0" y1="6" x2="6" y2="0" stroke="#999" stroke-width="0.5"/></pattern>
+          <rect x="10" y="95" width="70" height="8" fill="url(#boden)"/>
+          <!-- Gerüst -->
+          <rect x="65" y="20" width="10" height="75" fill="none" stroke="#1a1a1a" stroke-width="0.7"/>
+          <line x1="65" y1="35" x2="75" y2="35" stroke="#1a1a1a" stroke-width="0.5"/>
+          <line x1="65" y1="55" x2="75" y2="55" stroke="#1a1a1a" stroke-width="0.5"/>
+          <line x1="65" y1="75" x2="75" y2="75" stroke="#1a1a1a" stroke-width="0.5"/>
+          <!-- Stein -->
+          <circle cx="55" cy="25" r="3" fill="#8a4a0e"/>
+          <!-- Höhe -->
+          <line x1="20" y1="22" x2="20" y2="95" stroke="#a02828" stroke-width="0.6" stroke-dasharray="2 1"/>
+          <text x="15" y="60" text-anchor="end" font-size="7" fill="#a02828">h = 18 m</text>
+          <!-- Pfeil g -->
+          <line x1="40" y1="40" x2="40" y2="80" stroke="#5b2d8e" stroke-width="0.8"/>
+          <polygon points="40,80 37,74 43,74" fill="#5b2d8e"/>
+          <text x="46" y="62" font-size="7" fill="#5b2d8e">g</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 5 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">5</span>
+      <span class="aufg-titel">Basketballwurf</span>
+      <span class="bereich-tag">Sport</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <p>Ein Basketballspieler wirft den Ball aus \( h_0 = 2.0\,\text{m} \) Höhe in einem Winkel von
+    \( \alpha = 52° \) mit \( v_0 = 8.5\,\text{m/s} \). Der Korb hängt in \( h_K = 3.05\,\text{m} \) Höhe.</p>
+    <p>(a) Stelle die Bewegungs­gleichungen \(x(t)\) und \(y(t)\) auf (Ursprung am Abwurfort).<br>
+       (b) Wann ist der Ball auf gleicher Höhe wie der Korb (also \(y = 1.05\,\text{m}\) über dem Abwurfort)?<br>
+       (c) Welcher horizontale Abstand muss zum Korb bestehen, damit der Ball trifft?</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 6 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">6</span>
+      <span class="aufg-titel">Schleifscheibe</span>
+      <span class="bereich-tag">Technik</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <p>Eine Schleifscheibe mit \( d = 25\,\text{cm} \) Durchmesser dreht mit \( n = 2800\,\text{U/min} \).</p>
+    <p>(a) Berechne Frequenz \(f\), Periode \(T\) und Winkelgeschwindigkeit \(\omega\).<br>
+       (b) Mit welcher Bahngeschwindigkeit \(v\) bewegt sich ein Punkt am Rand der Scheibe?<br>
+       (c) Wie gross ist dort die Zentripetal­beschleunigung \(a_z\)? Vergleiche mit \(g\).</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 7 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">7</span>
+      <span class="aufg-titel">Flugzeug mit Seitenwind</span>
+      <span class="bereich-tag">Luftfahrt</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein Sportflugzeug fliegt gegenüber der umgebenden Luft mit \( v_L = 180\,\text{km/h} \)
+        in Richtung Norden. Der Wind weht mit \( v_W = 50\,\text{km/h} \) genau aus Westen.</p>
+        <p>(a) Berechne den Betrag der Geschwindigkeit gegenüber dem Boden.<br>
+           (b) Um welchen Winkel weicht die tatsächliche Flugbahn von der gewünschten Nordrichtung ab?<br>
+           (c) In welche Richtung müsste der Pilot die Flugzeug­nase relativ zur Luft halten, um
+           tatsächlich nach Norden zu fliegen? (Skizze und kurze Begründung)</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Vektorbild</div>
+        <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <!-- v_L nach Norden -->
+          <line x1="35" y1="90" x2="35" y2="25" stroke="#1a4f8a" stroke-width="1.2"/>
+          <polygon points="35,25 32,32 38,32" fill="#1a4f8a"/>
+          <text x="22" y="60" font-size="7" fill="#1a4f8a">v_L</text>
+          <!-- v_W nach Osten -->
+          <line x1="35" y1="25" x2="75" y2="25" stroke="#1f6b3a" stroke-width="1.2"/>
+          <polygon points="75,25 68,22 68,28" fill="#1f6b3a"/>
+          <text x="55" y="20" font-size="7" fill="#1f6b3a">v_W</text>
+          <!-- resultierend -->
+          <line x1="35" y1="90" x2="75" y2="25" stroke="#a02828" stroke-width="1.2"/>
+          <polygon points="75,25 67,28 72,33" fill="#a02828"/>
+          <text x="60" y="55" font-size="7" fill="#a02828">v_Boden</text>
+          <!-- Kompass -->
+          <text x="35" y="22" font-size="6" fill="#555">N</text>
+          <text x="80" y="27" font-size="6" fill="#555">O</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 8 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">8</span>
+      <span class="aufg-titel">Aufprall-Energie aus Fallhöhe</span>
+      <span class="bereich-tag">Verkehr</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <p>Eine alte Faustregel besagt: „Ein Aufprall mit \(50\,\text{km/h}\) entspricht einem freien Fall
+    aus etwa \(10\,\text{m}\) Höhe — einer Wohnung im dritten Stock."</p>
+    <p>(a) Aus welcher Höhe \(h\) muss ein Körper fallen, damit die Aufprall­geschwindigkeit
+    \(50\,\text{km/h}\) beträgt?<br>
+    (b) Welcher Höhe entsprechen \(80\,\text{km/h}\) und welche \(120\,\text{km/h}\)?<br>
+    (c) Erkläre quantitativ, weshalb sich die Aufprall­wucht beim Verdoppeln der Geschwindigkeit nicht
+    verdoppelt, sondern vervierfacht.</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- ════════════════════════════ MUSTERLÖSUNGEN ════════════════════════════ -->
+  <div class="neue-seite"></div>
+
+  <h2 style="border-bottom:2px solid var(--gruen);color:var(--gruen)">Musterlösungen</h2>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 1 — Überholmanöver</div>
+    <p>Relativgeschwindigkeit: \( \Delta v = 110 - 85 = 25\,\text{km/h} = 6.94\,\text{m/s} \).</p>
+    <p>(a) \( t = \dfrac{s_0}{\Delta v} = \dfrac{60}{6.94} \approx 8.64\,\text{s} \).</p>
+    <p>(b) \( s_\text{PKW} = v_1 \cdot t = 30.56 \cdot 8.64 \approx 264\,\text{m} \).</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 2 — Anhalteweg</div>
+    <p>\( v_0 = 50\,\text{km/h} = 13.89\,\text{m/s} \).</p>
+    <p>(a) Reaktionsweg: \( s_R = v_0 \cdot t_R = 13.89 \cdot 1.0 \approx 13.9\,\text{m} \).</p>
+    <p>(b) Bremsweg (zeitfrei, \( v=0 \)): \( s_B = \dfrac{v_0^2}{2 \cdot |a|} = \dfrac{(13.89)^2}{14}
+    \approx 13.8\,\text{m} \).</p>
+    <p>(c) Anhalteweg: \( s_A = s_R + s_B \approx 27.7\,\text{m} \).</p>
+    <p>(d) Bei \( 2 \cdot v_0 \): Reaktionsweg verdoppelt sich (linear), Bremsweg vervierfacht sich
+    (\(s_B \propto v_0^2\)). Der Anhalteweg wächst überproportional.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 3 — Sprint</div>
+    <p>Beschleunigungs­phase: \(t_1 = 3.0\,\text{s}\), Strecke \(s_1\), Endgeschwindigkeit \(v_{\max}\).
+    Restphase: \(t_2 = 9.0\,\text{s}\), Strecke \(s_2 = v_{\max} \cdot t_2\).
+    Bedingung: \(s_1 + s_2 = 100\,\text{m}\).</p>
+    <p>Mit \( s_1 = \tfrac{1}{2} v_{\max} t_1 \) (Dreieck im \(v\)-\(t\)-Diagramm):
+    \(\tfrac{1}{2} v_{\max} \cdot 3 + v_{\max} \cdot 9 = 100 \Rightarrow 10.5 \cdot v_{\max} = 100
+    \Rightarrow v_{\max} \approx 9.52\,\text{m/s} \;\hat=\; 34.3\,\text{km/h}\).</p>
+    <p>(a) \( a = \dfrac{v_{\max}}{t_1} = \dfrac{9.52}{3.0} \approx 3.17\,\text{m/s}^2 \).</p>
+    <p>(b) \( s_1 = \tfrac{1}{2} \cdot 9.52 \cdot 3.0 \approx 14.3\,\text{m} \).</p>
+    <p>(c) \(v\)-\(t\)-Diagramm: Gerade von \((0,0)\) nach \((3,\,9.52)\), dann waagrecht bis \((12,\,9.52)\).</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 4 — Stein vom Gerüst</div>
+    <p>(a) Aus \( h = \tfrac{1}{2} g t^2 \): \( t = \sqrt{2h/g} = \sqrt{36/9.81} \approx 1.92\,\text{s} \).</p>
+    <p>(b) \( v = g \cdot t \approx 9.81 \cdot 1.92 \approx 18.8\,\text{m/s} \;\hat=\; 67.8\,\text{km/h} \).</p>
+    <p>(c) Auf halber Strecke: \( v = \sqrt{2gh_2} = \sqrt{2 \cdot 9.81 \cdot 9} \approx 13.3\,\text{m/s} \).
+    Achtung: weniger als die Hälfte der Endgeschwindigkeit, weil \(v \propto \sqrt{h}\).</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 5 — Basketball</div>
+    <p>\( v_{0x} = 8.5 \cdot \cos 52° \approx 5.23\,\text{m/s} \), \( v_{0y} = 8.5 \cdot \sin 52°
+    \approx 6.70\,\text{m/s} \).</p>
+    <p>(a) \( x(t) = 5.23 \cdot t \), \( y(t) = 6.70 \cdot t - \tfrac{1}{2} \cdot 9.81 \cdot t^2 \).</p>
+    <p>(b) \( 1.05 = 6.70 \cdot t - 4.905 \cdot t^2 \Rightarrow 4.905 t^2 - 6.70 t + 1.05 = 0 \).
+    Lösungen \(t_1 \approx 0.183\,\text{s}\) (steigend), \(t_2 \approx 1.183\,\text{s}\) (fallend).</p>
+    <p>(c) Beim fallenden Durchgang: \( x = 5.23 \cdot 1.183 \approx 6.19\,\text{m} \) Abstand zum Korb.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 6 — Schleifscheibe</div>
+    <p>(a) \( f = 2800/60 \approx 46.7\,\text{Hz} \); \( T = 1/f \approx 0.0214\,\text{s} \);
+    \( \omega = 2\pi f \approx 293\,\text{rad/s} \).</p>
+    <p>(b) \( v = \omega \cdot r = 293 \cdot 0.125 \approx 36.7\,\text{m/s} \;\hat=\; 132\,\text{km/h} \).</p>
+    <p>(c) \( a_z = \omega^2 \cdot r = 293^2 \cdot 0.125 \approx 10\,730\,\text{m/s}^2 \approx 1094\,g \).
+    Eindrücklich gross — daher die Anforderungen an die Festigkeit der Scheibe.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 7 — Seitenwind</div>
+    <p>Senkrechte Komponenten \(\Rightarrow\) Pythagoras.</p>
+    <p>(a) \( v_\text{Boden} = \sqrt{180^2 + 50^2} = \sqrt{32400 + 2500} = \sqrt{34900}
+    \approx 187\,\text{km/h} \).</p>
+    <p>(b) Abweichungswinkel von Nord: \( \tan\beta = \dfrac{50}{180} \approx 0.278
+    \Rightarrow \beta \approx 15.5° \) (nach Osten).</p>
+    <p>(c) Der Pilot muss die Nase nach <strong>Westen</strong> gegen den Wind richten, damit die
+    Ostkomponente kompensiert wird (Vorhaltewinkel). Konkret: \(\sin\gamma = 50/180 \Rightarrow
+    \gamma \approx 16.1°\) westwärts.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 8 — Fallhöhe vs. Geschwindigkeit</div>
+    <p>Aus \( v^2 = 2 g h \Rightarrow h = v^2/(2g) \).</p>
+    <p>(a) \( v = 50\,\text{km/h} = 13.89\,\text{m/s} \): \( h = 13.89^2 / 19.62 \approx 9.8\,\text{m} \)
+    — passt zur Faustregel.</p>
+    <p>(b) \( 80\,\text{km/h} = 22.22\,\text{m/s} \): \( h \approx 25.2\,\text{m} \) (≈ 8. Stock).
+    \( 120\,\text{km/h} = 33.33\,\text{m/s} \): \( h \approx 56.6\,\text{m} \) (≈ 18. Stock).</p>
+    <p>(c) Die kinetische Energie ist proportional zu \(v^2\). Verdoppelt sich \(v\), vervierfacht sich
+    \(v^2\) und damit auch die nötige Fallhöhe bzw. die freiwerdende Aufprall­energie.</p>
+  </div>
+
+  <footer class="doc-fuss">
+    <span>TALS Physik · Lerngebiet 4 · p4.1 Kinematik</span>
+    <span>Anwendungsaufgaben</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

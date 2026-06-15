@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.2 Dynamik — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* ── Seitenspezifische Layouts für die Animationen dieser Seite ── */
+.a-twocol { display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start; }
+@media(max-width:760px){ .a-twocol { grid-template-columns:1fr; } }
+.a-onecol { display:grid; grid-template-columns:1fr; gap:14px; }
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 4 Mechanik</div>
+  <h1 class="pt-h1">4.2 Dynamik</h1>
+  <p class="pt-untertitel">Kräfte als Ursache von Bewegungsänderungen — die Newtonschen Gesetze.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 4.2 · 100 Lektionen (Lerngebiet 4)</div>
+  <ul>
+    <li>die drei Newtonschen Gesetze (Trägheit, Grundgesetz, Wechselwirkung) formulieren und anwenden</li>
+    <li>das Grundgesetz \(F = m \cdot a\) auf konkrete Bewegungen anwenden</li>
+    <li>die Federkraft mit dem Hookeschen Gesetz \(F = D \cdot s\) berechnen</li>
+    <li>Haft- und Gleitreibung unterscheiden und Reibungskräfte berechnen</li>
+    <li>Kräfte an der schiefen Ebene zerlegen und Bewegungsgleichungen aufstellen</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann die drei Newtonschen Gesetze formulieren und an Beispielen erklären.</li>
+      <li>Ich kann das Grundgesetz \(F=m\cdot a\) auf konkrete Bewegungen anwenden.</li>
+      <li>Ich kann die Federkraft mit dem Hookeschen Gesetz \(F=D\cdot s\) berechnen.</li>
+      <li>Ich kann Haft- und Gleitreibung unterscheiden und Reibungskräfte berechnen.</li>
+      <li>Ich kann die Kräfte an der schiefen Ebene zerlegen und die Beschleunigung bestimmen.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — warum ein Glas auf der Theke überschwappt</h2>
+
+<p>Ein Barkeeper schiebt ein volles Glas über die glatte Theke. Kurz vor dem Gast stösst es an die Leiste und bleibt abrupt stehen — die Flüssigkeit aber schwappt nach vorne über den Rand. Niemand hat das Wasser angeschoben. Warum bewegt es sich trotzdem weiter?</p>
+
+<p>Die Kinematik (Kapitel 4.1) hat Bewegungen nur <em>beschrieben</em>: Wo ist der Körper, wie schnell, wie stark beschleunigt? Sie hat aber nie nach der <strong>Ursache</strong> gefragt. Genau das ist die Aufgabe der <strong>Dynamik</strong>: Sie erklärt, warum sich Bewegungszustände ändern. Die Antwort ist immer dieselbe — es wirkt eine <strong>Kraft</strong>.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Beobachte</div>
+  <p>In Animation 3 weiter unten steht eine ungesicherte Kiste auf der Ladefläche eines Lieferwagens. Lass den Wagen anfahren und beobachte, was mit der Kiste geschieht — und vor allem <strong>relativ zu wem</strong> sie sich bewegt. Dieselbe Idee erklärt das überschwappende Glas, den Ruck beim Bremsen im Bus und warum man sich im Auto anschnallt.</p>
+</div>
+
+<p>Auf dieser Seite lernst du die drei Gesetze kennen, mit denen Isaac Newton 1687 die gesamte Mechanik auf ein einziges Fundament gestellt hat: das <strong>Trägheitsgesetz</strong>, das <strong>Grundgesetz</strong> \(F = m \cdot a\) und das <strong>Wechselwirkungsgesetz</strong>. Dazu kommen die wichtigsten konkreten Kräfte: die Federkraft, die Reibung und die Kräfte an der schiefen Ebene.</p>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Warum schwappt das Glas, wenn die Theke (der Wagen) ruckartig anfährt?</p><ul class="mc-optionen"><li data-opt="A">Das Wasser wird nach vorne gedrückt.</li><li data-opt="B">Das Wasser bleibt wegen seiner Trägheit zurück.</li><li data-opt="C">Die Schwerkraft nimmt zu.</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Das Wasser behält seinen Bewegungszustand bei (Trägheit); der Wagen beschleunigt darunter weg.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Ein Körper behält ohne resultierende äussere Kraft seinen <span class="mc-luecke"></span> bei.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Bewegungszustand (Trägheitsgesetz).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Welche Kraft beschleunigt eine Masse von \(2\;\text{kg}\) mit \(3\;\text{m/s}^2\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F = m\cdot a = 2 \cdot 3 = 6\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Im anfahrenden Bus wirst du nach hinten gedrückt, obwohl keine Kraft nach hinten wirkt. Wie erklärt sich das?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Dein Körper behält seine Ruhe bei (Trägheit), der Bus beschleunigt unter dir nach vorne. Relativ zum Bus bewegst du dich nach hinten — eine Scheinkraft, keine echte rückwärts gerichtete Kraft.</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Kraft</div>
+  <p>Eine <strong>Kraft</strong> \(\vec{F}\) ist die Ursache dafür, dass ein Körper verformt oder beschleunigt wird. Kräfte sind <strong>Vektoren</strong>: sie haben Betrag <em>und</em> Richtung. Man kann sie nicht sehen, nur an ihren Wirkungen erkennen.</p>
+  <p>SI-Einheit: das <strong>Newton</strong>, \(1\;\text{N} = 1\;\text{kg} \cdot \text{m/s}^2\). Ein Newton ist ungefähr die Gewichtskraft einer Tafel Schokolade (\(\approx 100\;\text{g}\)).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Gewichtskraft und Masse</div>
+  <p>Die <strong>Masse</strong> \(m\) (in kg) ist ein Mass für die Stoffmenge eines Körpers und überall im Universum gleich. Die <strong>Gewichtskraft</strong> \(F_G\) ist dagegen die Kraft, mit der ein Himmelskörper an dieser Masse zieht:</p>
+  \[ F_G = m \cdot g \]
+  <p>Mit dem Ortsfaktor \(g = 9.81\;\text{m/s}^2\) auf der Erde. Auf dem Mond ist \(g\) rund sechsmal kleiner — die Masse bleibt, die Gewichtskraft sinkt.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Normalkraft</div>
+  <p>Liegt ein Körper auf einer Unterlage, drückt diese mit der <strong>Normalkraft</strong> \(F_N\) zurück. Sie steht immer <strong>senkrecht</strong> zur Auflagefläche und verhindert, dass der Körper durch die Unterlage fällt. Auf waagrechtem Boden ist sie betragsgleich der Gewichtskraft: \(F_N = F_G\).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Gesamtkraft (resultierende Kraft)</div>
+  <p>Auf einen Körper wirken oft mehrere Kräfte gleichzeitig. Für die Bewegung zählt nur ihre vektorielle Summe, die <strong>Gesamtkraft</strong> \(\vec{F}_{\text{ges}} = \sum \vec{F}_i\). Nur sie bestimmt, ob und wie stark der Körper beschleunigt.</p>
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 — FEDERKRAFT / HOOKE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die SI-Einheit der Kraft ist …</p><ul class="mc-optionen"><li data-opt="A">Joule</li><li data-opt="B">Newton</li><li data-opt="C">Watt</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die Kraft wird in Newton gemessen: \(1\;\text{N} = 1\;\text{kg}\cdot\text{m/s}^2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Eine Kraft ist eine <span class="mc-luecke"></span> Grösse — sie besitzt Betrag und Richtung.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">vektorielle (im Gegensatz zur skalaren Masse).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Wie gross ist die Gewichtskraft einer Masse von \(5\;\text{kg}\)? (\(g = 9.81\;\text{m/s}^2\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F_G = m\cdot g = 5 \cdot 9.81 = 49.05\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Astronaut hat auf dem Mond (\(g_M \approx 1.62\;\text{m/s}^2\)) dieselbe Masse wie auf der Erde. Was ändert sich, was bleibt gleich?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die Masse bleibt gleich (Stoffeigenschaft). Die Gewichtskraft sinkt: \(F = m\,g_M\), also rund ein Sechstel der Erd-Gewichtskraft.</div></details></div>
+</details>
+
+<h2 id="federkraft">Federkraft — das Hookesche Gesetz</h2>
+
+<p>Eine der einfachsten messbaren Kräfte ist die <strong>Federkraft</strong>. Hängt man Gewichte an eine Schraubenfeder, dehnt sie sich — und zwar doppelte Last, doppelte Dehnung. Kraft und Verlängerung sind direkt proportional. Robert Hooke hielt diesen Zusammenhang im 17. Jahrhundert fest:</p>
+
+\[ F = D \cdot s \]
+
+<p>Dabei ist \(s\) die Verlängerung der Feder und \(D\) die <strong>Federkonstante</strong> (in N/m) — die Steigung der Geraden im Kraft-Weg-Diagramm. Eine grosse Federkonstante bedeutet eine harte Feder.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 1 · Federkraft und Kraft-Weg-Diagramm</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle die Federkonstante \(D\) und die Dehnung \(s\) ein.</li><li>Achte darauf, wie eine härtere Feder (grösseres \(D\)) die Gerade steiler macht.</li><li>Beobachte den linearen Zusammenhang im \(F\)-\(s\)-Diagramm.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle die Federkonstante D und die Dehnung s ein. Achte darauf, wie eine härtere Feder mit grösserem D die Gerade steiler macht. Beobachte den linearen Zusammenhang im F-s-Diagramm." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Hookesches Gesetz: \(F = D \cdot s\) — die Kraft ist proportional zur Dehnung.</li><li>\(D\) ist die Steigung der Geraden; eine härtere Feder hat ein grösseres \(D\).</li><li>Doppelte Dehnung bedeutet doppelte Federkraft.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Es gilt das Hookesche Gesetz: F gleich D mal s, die Kraft ist proportional zur Dehnung. D ist die Steigung der Geraden; eine härtere Feder hat ein grösseres D. Doppelte Dehnung bedeutet doppelte Federkraft." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Federkonstante \(D\):</label>
+      <input type="range" id="a1-D" min="20" max="200" value="80" step="5">
+      <span class="sl-val" id="a1-D-val">80 N/m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Dehnung \(s\):</label>
+      <input type="range" id="a1-s" min="0" max="0.20" value="0.10" step="0.005">
+      <span class="sl-val" id="a1-s-val">0.10 m</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Aktuelle Federkraft</div>
+      <div class="fl-eq" id="a1-eq">F = 80 · 0.10 = 8.0 N</div>
+    </div>
+
+    <div class="a-twocol">
+      <div class="cv-wrap">
+        <div class="cv-titel">🪝 Feder mit angehängter Last</div>
+        <canvas id="a1-cv-feder" height="300"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📈 \(F(s)\) — Gerade durch den Ursprung</div>
+        <canvas id="a1-cv-diag" height="300"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 5. ANIMATION 2 — GRUNDGESETZ F=m·a ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Verdoppelt man die Dehnung einer Feder, so …</p><ul class="mc-optionen"><li data-opt="A">bleibt die Kraft gleich</li><li data-opt="B">verdoppelt sich die Kraft</li><li data-opt="C">vervierfacht sich die Kraft</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Nach \(F = D\cdot s\) ist die Kraft proportional zur Dehnung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Im Hookeschen Gesetz ist die Federkraft <span class="mc-luecke"></span> zur Dehnung.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">proportional — \(F = D\cdot s\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Feder mit \(D = 200\;\text{N/m}\) wird um \(s = 0.15\;\text{m}\) gedehnt. Federkraft?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F = D\cdot s = 200 \cdot 0.15 = 30\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Zwei gleiche Federn (je \(D = 200\;\text{N/m}\)) werden parallel an dieselbe Last gehängt. Welche Federkonstante hat die Kombination?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Parallel addieren sich die Federkonstanten: \(D_{\text{ges}} = D_1 + D_2 = 400\;\text{N/m}\) — die Anordnung ist steifer.</div></details></div>
+</details>
+
+<h2 id="grundgesetz">Das Grundgesetz — \(F = m \cdot a\)</h2>
+
+<p>Das <strong>zweite Newtonsche Gesetz</strong> verknüpft Kraft, Masse und Beschleunigung. Es ist das Herzstück der gesamten Mechanik:</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Bewegungsgesetz</div>
+  <p>Die Gesamtkraft auf einen Körper ist gleich dem Produkt aus seiner Masse und seiner Beschleunigung:</p>
+  \[ \vec{F}_{\text{ges}} = m \cdot \vec{a} \]
+  <p>Kraft und Beschleunigung zeigen <strong>immer in dieselbe Richtung</strong>. Doppelte Kraft bei gleicher Masse bedeutet doppelte Beschleunigung; doppelte Masse bei gleicher Kraft bedeutet halbe Beschleunigung. Aufgelöst nach der Beschleunigung: \(a = F_{\text{ges}}/m\).</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 2 · Wagen auf reibungsfreier Bahn</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wähle Antriebskraft \(F\) und Masse \(m\), dann starte.</li><li>Beobachte: grössere Kraft beschleunigt stärker, grössere Masse träger.</li><li>Verfolge \(v\) und \(s\) in der Live-Anzeige.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle die Antriebskraft F und die Masse m und starte. Beobachte: eine grössere Kraft beschleunigt stärker, eine grössere Masse macht den Wagen träger. Verfolge Geschwindigkeit v und Weg s in der Live-Anzeige." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Grundgesetz der Mechanik: \(F = m \cdot a\), also \(a = F/m\).</li><li>Bei konstanter Kraft ist die Bewegung gleichmässig beschleunigt.</li><li>Doppelte Masse bei gleicher Kraft halbiert die Beschleunigung.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Es gilt das Grundgesetz der Mechanik: F gleich m mal a, also a gleich F durch m. Bei konstanter Kraft ist die Bewegung gleichmässig beschleunigt. Doppelte Masse bei gleicher Kraft halbiert die Beschleunigung." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Antriebskraft \(F\):</label>
+      <input type="range" id="a2-F" min="2" max="40" value="12" step="1">
+      <span class="sl-val" id="a2-F-val">12 N</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a2-m" min="0.5" max="6" value="2" step="0.5">
+      <span class="sl-val" id="a2-m-val">2.0 kg</span>
+
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="play-btn" id="a2-btn">▶ Start</button>
+      <button class="play-btn" id="a2-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Beschleunigung \(a\)</span><span class="lb-val" id="a2-a">6.0 m/s²</span></div>
+      <div class="lb-item"><span class="lb-lab">Geschwindigkeit \(v\)</span><span class="lb-val" id="a2-v">0.0 m/s</span></div>
+      <div class="lb-item"><span class="lb-lab">Weg \(s\)</span><span class="lb-val" id="a2-s">0.00 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Zeit \(t\)</span><span class="lb-val" id="a2-t">0.00 s</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🛒 Beschleunigter Wagen</div>
+      <canvas id="a2-cv" height="220"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 6. ANIMATION 3 — TRÄGHEITSGESETZ ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Bei gleicher Kraft erfährt die doppelte Masse …</p><ul class="mc-optionen"><li data-opt="A">die doppelte Beschleunigung</li><li data-opt="B">die halbe Beschleunigung</li><li data-opt="C">dieselbe Beschleunigung</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Aus \(a = F/m\) folgt: doppelte Masse → halbe Beschleunigung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Das Grundgesetz der Mechanik lautet \(F = m \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(a\) — Kraft gleich Masse mal Beschleunigung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Welche Beschleunigung erfährt \(m = 4\;\text{kg}\) unter \(F = 12\;\text{N}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(a = \dfrac{F}{m} = \dfrac{12}{4} = 3\;\text{m/s}^2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Kraft von \(20\;\text{N}\) wirkt \(3\;\text{s}\) lang auf einen ruhenden Körper (\(m = 5\;\text{kg}\)). Welche Geschwindigkeit erreicht er?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(a = \dfrac{F}{m} = \dfrac{20}{5} = 4\;\text{m/s}^2\); \(\;\; v = a\cdot t = 4 \cdot 3 = 12\;\text{m/s}\).</div></details></div>
+</details>
+
+<h2 id="traegheit">Das Trägheitsgesetz — Körper bleiben, wie sie sind</h2>
+
+<p>Das <strong>erste Newtonsche Gesetz</strong> folgt direkt aus dem Grundgesetz: Wirkt keine Gesamtkraft (\(F_{\text{ges}} = 0\)), so ist auch die Beschleunigung null. Der Körper behält seinen Bewegungszustand bei — er bleibt in Ruhe oder bewegt sich geradlinig mit konstanter Geschwindigkeit weiter. Diese Eigenschaft heisst <strong>Trägheit</strong>.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 3 · Ungesicherte Kiste auf dem Lieferwagen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Lass den Lieferwagen anfahren und beobachte die Kiste.</li><li>Achte darauf, dass auf die Kiste keine waagrechte Kraft wirkt.</li><li>Vergleiche die Sicht von aussen mit der Sicht des Wagens.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Lass den Lieferwagen anfahren und beobachte die Kiste. Achte darauf, dass auf die reibungsarme Kiste keine waagrechte Kraft wirkt. Vergleiche die Sicht von aussen mit der Sicht des Wagens." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Trägheitsgesetz (1. Newton): ohne resultierende Kraft bleibt der Bewegungszustand erhalten.</li><li>Die Kiste behält ihre Ruhe; der Wagen fährt unter ihr weg.</li><li>Im beschleunigten Wagen scheint die Kiste nach hinten zu rutschen (Scheinkraft).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Das Trägheitsgesetz, der erste Newton, sagt: ohne resultierende Kraft bleibt der Bewegungszustand erhalten. Die Kiste behält ihre Ruhe, der Wagen fährt unter ihr weg. Im beschleunigten Wagen scheint die Kiste nach hinten zu rutschen; das ist eine Scheinkraft." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="btn-row">
+      <button class="play-btn" id="a3-btn">▶ Losfahren</button>
+      <button class="play-btn" id="a3-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Position Wagen</span><span class="lb-val" id="a3-xw">0.0 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Position Kiste</span><span class="lb-val" id="a3-xk">0.0 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Kraft auf Kiste</span><span class="lb-val" id="a3-fk">0 N</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🚚 Lieferwagen mit ungesicherter Ladung</div>
+      <canvas id="a3-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Häufiger Fehler</div>
+  <p>Die mitfahrende Person meint, eine Kraft schiebe die Kiste nach hinten. Aus einem ruhenden Bezugssystem (z.B. am Strassenrand) sieht man aber: Auf die Kiste wirkt <strong>keine</strong> waagrechte Kraft — sie bleibt einfach stehen, während der Wagen anfährt. Newtons Gesetze gelten nur in solchen unbeschleunigten Bezugssystemen (<strong>Inertialsystemen</strong>). „Trägheitskräfte" sind Scheinkräfte, die wir hier vermeiden.</p>
+</div>
+
+
+<!-- ══════════════ 7. ANIMATION 4 — REIBUNG ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert, wenn ein Auto auf der Strasse von Haft- in Gleitreibung wechselt?</summary>
+  <div class="frage-antwort">
+    <p>Sobald die Reifen durchdrehen oder blockieren, wirkt nur noch die <strong>kleinere</strong> Gleitreibung. Der Wagen wird schlechter gebremst und schwerer lenkbar — deshalb verhindert das ABS das Blockieren der Räder.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Auf einen Körper wirkt keine resultierende Kraft. Dann …</p><ul class="mc-optionen"><li data-opt="A">bleibt er in Ruhe oder bewegt sich gleichförmig weiter</li><li data-opt="B">bleibt er immer stehen</li><li data-opt="C">beschleunigt er gleichmässig</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Ohne resultierende Kraft bleibt der Bewegungszustand erhalten (Trägheitsgesetz).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Das Trägheitsgesetz ist das <span class="mc-luecke"></span> Newtonsche Gesetz.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">erste (1.).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Puck gleitet reibungsfrei mit \(8\;\text{m/s}\). Welche Kraft hält ihn in konstanter Bewegung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Keine — \(F = 0\;\text{N}\). Ohne Reibung bleibt die Geschwindigkeit von selbst erhalten.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum wird man bei einer Vollbremsung nach vorne geschleudert, wenn man nicht angeschnallt ist?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Wegen der Trägheit behält der Körper seine Geschwindigkeit, während das Auto bremst. Ohne Gurt wirkt keine bremsende Kraft auf den Körper.</div></details></div>
+</details>
+
+<h2 id="reibung">Reibung — Haften und Gleiten</h2>
+
+<p>Reibung wirkt zwischen sich berührenden Oberflächen und immer <strong>gegen</strong> die Bewegung bzw. die Bewegungstendenz. Sie wird über die Normalkraft berechnet:</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Reibungsgesetz</div>
+  <p>Die maximale Reibungskraft ist proportional zur Normalkraft:</p>
+  \[ F_R = \mu \cdot F_N \]
+  <p>Die <strong>Reibungszahl</strong> \(\mu\) ist dimensionslos und hängt von den beteiligten Materialien ab. Solange der Körper haftet, ist \(\mu = \mu_{\text{H}}\) (Haftreibungszahl) und die Reibung passt sich der Zugkraft an — bis zum Maximalwert \(\mu_{\text{H}} \cdot F_N\). Wird dieser überschritten, beginnt der Körper zu gleiten; dann wirkt die meist kleinere Gleitreibung \(\mu_{\text{G}} \cdot F_N\).</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 4 · Haftreibung kippt in Gleitreibung</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Erhöhe die Zugkraft langsam und beobachte, wann der Block losruckt.</li><li>Verfolge, wie die Reibungskraft zunächst mitwächst.</li><li>Achte auf den Sprung von Haft- auf Gleitreibung.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Erhöhe die Zugkraft langsam und beobachte, wann der Block losruckt. Verfolge, wie die Reibungskraft zunächst mitwächst. Achte auf den Sprung von der Haftreibung auf die Gleitreibung." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Solange die Zugkraft kleiner als die maximale Haftreibung ist, bleibt der Körper in Ruhe.</li><li>Maximale Haftreibung: \(F_{H,\max} = \mu_H \cdot F_N\).</li><li>Beim Losrutschen fällt die Reibung auf den kleineren Gleitwert \(F_G = \mu_G \cdot F_N\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Solange die Zugkraft kleiner ist als die maximale Haftreibung, bleibt der Körper in Ruhe. Die maximale Haftreibung ist mu H mal die Normalkraft F N. Beim Losrutschen fällt die Reibung auf den kleineren Gleitwert mu G mal F N." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a4-m" min="2" max="20" value="8" step="1">
+      <span class="sl-val" id="a4-m-val">8 kg</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Zugkraft \(F_{\text{zug}}\):</label>
+      <input type="range" id="a4-F" min="0" max="120" value="20" step="1">
+      <span class="sl-val" id="a4-F-val">20 N</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">max. Haftreibung</span><span class="lb-val" id="a4-fhmax">47 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Reibungskraft \(F_R\)</span><span class="lb-val" id="a4-fr">20 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Zustand</span><span class="lb-val" id="a4-state">haftet</span></div>
+    </div>
+
+    <div class="a-twocol">
+      <div class="cv-wrap">
+        <div class="cv-titel">📦 Kiste mit Zugkraft (\(\mu_{\text{H}} = 0.60\), \(\mu_{\text{G}} = 0.45\))</div>
+        <canvas id="a4-cv-box" height="240"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📈 Reibungskraft über Zugkraft</div>
+        <canvas id="a4-cv-diag" height="240"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 8. ANIMATION 5 — SCHIEFE EBENE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die maximale Haftreibung ist bei den meisten Materialpaarungen …</p><ul class="mc-optionen"><li data-opt="A">kleiner als die Gleitreibung</li><li data-opt="B">grösser als die Gleitreibung</li><li data-opt="C">genau gleich gross</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Erst muss die Haftreibung überwunden werden; danach fällt die Reibung auf den kleineren Gleitwert.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Reibungskraft hängt von der Normalkraft ab: \(F_R = \mu \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F_N\) — Reibungszahl mal Normalkraft.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Klotz drückt mit \(F_N = 50\;\text{N}\), \(\mu_G = 0.30\). Gleitreibung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F_G = \mu_G \cdot F_N = 0.30 \cdot 50 = 15\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum bremst ein Auto mit blockierenden Rädern schlechter als eines mit ABS (Räder kurz vor dem Blockieren)?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Blockierte Räder gleiten — es wirkt die kleinere Gleitreibung. Rollende Räder nutzen die grössere maximale Haftreibung, daher kürzerer Bremsweg.</div></details></div>
+</details>
+
+<h2 id="schiefe-ebene">Schiefe Ebene — Kräfte zerlegen</h2>
+
+<p>Auf einer schiefen Ebene wird die Gewichtskraft in zwei Komponenten zerlegt: die <strong>Hangabtriebskraft</strong> \(F_H\) parallel zur Ebene (sie treibt den Körper hangabwärts) und die senkrecht zur Ebene wirkende Komponente, die von der Normalkraft ausgeglichen wird.</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Herleitung</div>
+  <p>Bei einem Neigungswinkel \(\alpha\) zerfällt die Gewichtskraft \(F_G = m g\) in:</p>
+  \[ F_H = m \cdot g \cdot \sin\alpha \qquad F_N = m \cdot g \cdot \cos\alpha \]
+  <p>Die Reibung wirkt der Bewegung entgegen mit \(F_R = \mu \cdot F_N = \mu \cdot m g \cos\alpha\). Beim Hinabrutschen lautet das Grundgesetz entlang der Ebene:</p>
+  \[ m \cdot a = F_H - F_R = m g \sin\alpha - \mu\, m g \cos\alpha \]
+  <p>Die Masse kürzt sich heraus — die Beschleunigung hängt nur von Winkel und Reibung ab:</p>
+  \[ a = g \cdot (\sin\alpha - \mu \cdot \cos\alpha) \]
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 5 · Kräfte am Hang</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere Neigungswinkel \(\alpha\) und Reibungszahl \(\mu\).</li><li>Beobachte die Zerlegung der Gewichtskraft in Hangabtrieb und Normalkraft.</li><li>Finde heraus, ab welchem Winkel der Körper rutscht.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere den Neigungswinkel alpha und die Reibungszahl mu. Beobachte die Zerlegung der Gewichtskraft in Hangabtrieb und Normalkraft. Finde heraus, ab welchem Winkel der Körper zu rutschen beginnt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Hangabtrieb \(F_H = mg\sin\alpha\), Normalkraft \(F_N = mg\cos\alpha\).</li><li>Der Körper rutscht, sobald \(\tan\alpha > \mu\) (bzw. \(\sin\alpha > \mu\cos\alpha\)).</li><li>Beschleunigung am Hang: \(a = g(\sin\alpha - \mu\cos\alpha)\), massenunabhängig.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der Hangabtrieb ist m g mal Sinus alpha, die Normalkraft m g mal Kosinus alpha. Der Körper rutscht, sobald der Tangens von alpha grösser als mu ist. Die Beschleunigung am Hang ist g mal Klammer auf Sinus alpha minus mu mal Kosinus alpha Klammer zu, und sie ist massenunabhängig." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Neigungswinkel \(\alpha\):</label>
+      <input type="range" id="a5-alpha" min="10" max="40" value="30" step="1">
+      <span class="sl-val" id="a5-alpha-val">30°</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Reibungszahl \(\mu\):</label>
+      <input type="range" id="a5-mu" min="0" max="0.8" value="0.10" step="0.01">
+      <span class="sl-val" id="a5-mu-val">0.10</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Beschleunigung entlang der Ebene</div>
+      <div class="fl-eq" id="a5-eq">a = 9.81 · (sin 30° − 0.10 · cos 30°) = 4.06 m/s²</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⛰ Kräftezerlegung an der schiefen Ebene</div>
+      <canvas id="a5-cv" height="300"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 9. ANIMATION 6 — WECHSELWIRKUNG ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Beim Erhöhen des Neigungswinkels nimmt die Hangabtriebskraft …</p><ul class="mc-optionen"><li data-opt="A">ab</li><li data-opt="B">zu</li><li data-opt="C">bleibt gleich</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(F_H = m g \sin\alpha\) — mit grösserem \(\alpha\) wächst \(\sin\alpha\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Hangabtriebskraft ist \(F_H = m g \cdot\) <span class="mc-luecke"></span> des Neigungswinkels.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">dem Sinus — \(F_H = m g \sin\alpha\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Körper (\(m = 2\;\text{kg}\)) auf einer Ebene mit \(\alpha = 30°\). Hangabtriebskraft? (\(g = 9.81\), \(\sin 30° = 0.5\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F_H = m g \sin\alpha = 2 \cdot 9.81 \cdot 0.5 = 9.81\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ab welchem Neigungswinkel beginnt ein Körper zu rutschen, wenn \(\mu_H = 0.5\)?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Rutschbeginn bei \(\tan\alpha = \mu_H\): \(\alpha = \arctan(0.5) \approx 26.6°\) — unabhängig von der Masse.</div></details></div>
+</details>
+
+<h2 id="wechselwirkung">Das Wechselwirkungsgesetz — actio = reactio</h2>
+
+<p>Das <strong>dritte Newtonsche Gesetz</strong> besagt: Kräfte treten immer paarweise auf. Übt Körper 1 eine Kraft auf Körper 2 aus, so übt Körper 2 gleichzeitig eine betragsgleiche, entgegengesetzt gerichtete Kraft auf Körper 1 aus. Die beiden Kräfte greifen an <strong>verschiedenen</strong> Körpern an und heben sich darum <em>nicht</em> auf.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 6 · Zwei Wagen stossen sich ab</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere das Massenverhältnis der beiden Wagen und lass los.</li><li>Vergleiche die Kräfte und die resultierenden Geschwindigkeiten.</li><li>Achte darauf, welcher Wagen schneller wegfährt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere das Massenverhältnis der beiden Wagen und lass die Feder los. Vergleiche die Kräfte und die resultierenden Geschwindigkeiten. Achte darauf, welcher Wagen schneller wegfährt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Wechselwirkungsgesetz (3. Newton): Kraft = Gegenkraft, gleich gross und entgegengesetzt.</li><li>Beide Wagen erfahren denselben Kraftbetrag, aber an verschiedenen Körpern.</li><li>Der leichtere Wagen wird stärker beschleunigt: \(m_1 v_1 = m_2 v_2\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Das Wechselwirkungsgesetz, der dritte Newton, sagt: Kraft gleich Gegenkraft, gleich gross und entgegengesetzt. Beide Wagen erfahren denselben Kraftbetrag, aber an verschiedenen Körpern. Der leichtere Wagen wird stärker beschleunigt; es gilt m eins mal v eins gleich m zwei mal v zwei." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Masse links \(m_1\):</label>
+      <input type="range" id="a6-m1" min="1" max="6" value="2" step="0.5">
+      <span class="sl-val" id="a6-m1-val">2.0 kg</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Masse rechts \(m_2\):</label>
+      <input type="range" id="a6-m2" min="1" max="6" value="4" step="0.5">
+      <span class="sl-val" id="a6-m2-val">4.0 kg</span>
+
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="play-btn" id="a6-btn">▶ Loslassen</button>
+      <button class="play-btn" id="a6-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Kraft (beide)</span><span class="lb-val" id="a6-F">gleich gross</span></div>
+      <div class="lb-item"><span class="lb-lab">Tempo links \(v_1\)</span><span class="lb-val" id="a6-v1">0.0 m/s</span></div>
+      <div class="lb-item"><span class="lb-lab">Tempo rechts \(v_2\)</span><span class="lb-val" id="a6-v2">0.0 m/s</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🛷 Abstossen über eine gespannte Feder</div>
+      <canvas id="a6-cv" height="220"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-merksatz">
+  <div class="block-titel">🟣 Die drei Newtonschen Gesetze</div>
+  <ol class="aufg-liste">
+    <li><strong>Trägheitsgesetz:</strong> Ohne Gesamtkraft bleibt die Geschwindigkeit konstant.</li>
+    <li><strong>Grundgesetz:</strong> \(\vec{F}_{\text{ges}} = m \cdot \vec{a}\) — Gesamtkraft gleich Masse mal Beschleunigung.</li>
+    <li><strong>Wechselwirkungsgesetz:</strong> actio = reactio — Kräfte treten paarweise und entgegengesetzt auf.</li>
+  </ol>
+</div>
+
+
+<!-- ══════════════ 10. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der Beschleunigung am Hang, wenn du die Masse verdoppelst?</summary>
+  <div class="frage-antwort">
+    <p>Sie bleibt gleich. In \(a=g(\sin\alpha-\mu\cos\alpha)\) kürzt sich die Masse heraus — eine schwere und eine leichte Kiste rutschen bei gleichem Winkel und Reibwert gleich schnell.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Du drückst mit \(50\;\text{N}\) gegen eine feste Wand. Wie gross ist die Gegenkraft der Wand auf dich?</p><ul class="mc-optionen"><li data-opt="A">\(0\;\text{N}\)</li><li data-opt="B">\(50\;\text{N}\)</li><li data-opt="C">hängt von der Wand ab</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Nach actio = reactio drückt die Wand mit genau \(50\;\text{N}\) zurück.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Kraft und Gegenkraft sind gleich gross und <span class="mc-luecke"></span> gerichtet.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">entgegengesetzt — sie greifen an verschiedenen Körpern an.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Rakete stösst Gas mit \(F = 8000\;\text{N}\) nach unten. Schubkraft nach oben?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(8000\;\text{N}\) — die Gegenkraft ist gleich gross und entgegengesetzt.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Zwei Schlittschuhläufer (\(60\;\text{kg}\) und \(40\;\text{kg}\)) stossen sich ab. Der schwerere gleitet mit \(2\;\text{m/s}\) weg. Wie schnell der leichtere?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Impulserhaltung: \(m_1 v_1 = m_2 v_2 \Rightarrow 60 \cdot 2 = 40 \cdot v_2 \Rightarrow v_2 = 3\;\text{m/s}\).</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<!-- A1: Werte ablesen -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Werte ablesen — Federkraft</span></div>
+  <p>Stelle in Animation 1 die Federkonstante auf \(D = 120\;\text{N/m}\) und die Dehnung auf \(s = 0.15\;\text{m}\). Lies die Federkraft ab und prüfe sie mit dem Hookeschen Gesetz. Welche Masse müsste man anhängen, um genau diese Kraft zu erzeugen?</p>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <p>Mit \(F = D \cdot s\):</p>
+      \[ F = 120\;\text{N/m} \cdot 0.15\;\text{m} = 18\;\text{N} \]
+      <p>Aus \(F = m \cdot g\) folgt die Masse: \(m = F/g = 18 / 9.81 \approx 1.83\;\text{kg}\). Die Live-Anzeige bestätigt die Federkraft von \(18\;\text{N}\).</p>
+    </div>
+  </div>
+</div>
+
+<!-- A2: F=m·a einfach -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Einkaufswagen anschieben</span></div>
+  <p>Ein voll beladener Einkaufswagen hat eine Masse von \(24\;\text{kg}\). Eine Person schiebt ihn mit einer konstanten Kraft von \(36\;\text{N}\) an. Die Reibung sei vernachlässigbar.</p>
+  <ol class="aufg-liste">
+    <li>Welche Beschleunigung erfährt der Wagen?</li>
+    <li>Welche Geschwindigkeit hat er nach \(3.0\;\text{s}\) aus dem Stand?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Aus dem Grundgesetz \(F = m \cdot a\): \[ a = \frac{F}{m} = \frac{36\;\text{N}}{24\;\text{kg}} = 1.5\;\text{m/s}^2 \]</li>
+        <li>Bei konstanter Beschleunigung aus dem Stand: \[ v = a \cdot t = 1.5\;\text{m/s}^2 \cdot 3.0\;\text{s} = 4.5\;\text{m/s} \] Umgerechnet: \(4.5\;\text{m/s} = 4.5 \cdot 3600\;\text{m/h} = 16\,200\;\text{m/h} = 16.2\;\text{km/h}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A3: Reibung mehrteilig -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Kiste über den Boden ziehen</span></div>
+  <p>Eine Kiste der Masse \(30\;\text{kg}\) steht auf einem waagrechten Boden. Die Haftreibungszahl beträgt \(\mu_{\text{H}} = 0.50\), die Gleitreibungszahl \(\mu_{\text{G}} = 0.35\).</p>
+  <ol class="aufg-liste">
+    <li>Wie gross ist die maximale Haftreibungskraft? Reicht eine waagrechte Zugkraft von \(120\;\text{N}\), um die Kiste in Bewegung zu setzen?</li>
+    <li>Sobald sie gleitet, wird weiter mit \(150\;\text{N}\) gezogen. Welche Beschleunigung stellt sich ein?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Auf waagrechtem Boden ist \(F_N = m g = 30 \cdot 9.81 = 294\;\text{N}\). Maximale Haftreibung: \[ F_{\text{H,max}} = \mu_{\text{H}} \cdot F_N = 0.50 \cdot 294 = 147\;\text{N} \] Da \(120\;\text{N} < 147\;\text{N}\), bleibt die Kiste in Ruhe — die Zugkraft reicht nicht.</li>
+        <li>Beim Gleiten wirkt \(F_G^{\text{Reib}} = \mu_{\text{G}} \cdot F_N = 0.35 \cdot 294 = 103\;\text{N}\). Gesamtkraft: \(F_{\text{ges}} = 150 - 103 = 47\;\text{N}\). Beschleunigung: \[ a = \frac{F_{\text{ges}}}{m} = \frac{47}{30} \approx 1.57\;\text{m/s}^2 \]</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A4: Schiefe Ebene -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Snowboarderin am Hang</span></div>
+  <p>Eine Snowboarderin (Masse mit Ausrüstung \(65\;\text{kg}\)) fährt einen \(22°\) steilen Hang hinunter. Die Gleitreibungszahl zwischen Board und Schnee beträgt \(\mu = 0.08\).</p>
+  <ol class="aufg-liste">
+    <li>Berechne Hangabtriebskraft und Reibungskraft.</li>
+    <li>Wie gross ist ihre Beschleunigung den Hang hinunter?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Hangabtriebskraft: \(F_H = m g \sin\alpha = 65 \cdot 9.81 \cdot \sin 22° \approx 239\;\text{N}\). Normalkraft: \(F_N = m g \cos\alpha = 65 \cdot 9.81 \cdot \cos 22° \approx 591\;\text{N}\). Reibung: \[ F_R = \mu \cdot F_N = 0.08 \cdot 591 \approx 47\;\text{N} \]</li>
+        <li>Mit \(a = g(\sin\alpha - \mu\cos\alpha)\): \[ a = 9.81 \cdot (\sin 22° - 0.08 \cdot \cos 22°) \approx 2.96\;\text{m/s}^2 \] Zur Kontrolle: \((239 - 47)/65 \approx 2.95\;\text{m/s}^2\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A5: Atwood-Maschine -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Fallmaschine nach Atwood</span></div>
+  <p>Über eine reibungsfrei gelagerte Rolle läuft ein Faden, an dessen Enden zwei Massen hängen: \(m_1 = 0.55\;\text{kg}\) und \(m_2 = 0.45\;\text{kg}\). Faden und Rolle seien masselos.</p>
+  <ol class="aufg-liste">
+    <li>Welche Beschleunigung erfahren die beiden Massen?</li>
+    <li>Wie gross ist die Fadenkraft während der Bewegung?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Der Antrieb ist die Differenz der Gewichtskräfte, beschleunigt werden aber beide Massen zusammen: \[ a = \frac{(m_1 - m_2)\,g}{m_1 + m_2} = \frac{(0.55 - 0.45) \cdot 9.81}{1.00} \approx 0.981\;\text{m/s}^2 \]</li>
+        <li>Wir betrachten nur die aufsteigende Masse \(m_2\). Für sie gilt \(F_{\text{Faden}} - m_2 g = m_2 a\), also: \[ F_{\text{Faden}} = m_2 (g + a) = 0.45 \cdot (9.81 + 0.981) \approx 4.86\;\text{N} \] Kontrolle mit \(m_1\): \(m_1(g-a) = 0.55 \cdot (9.81 - 0.981) \approx 4.86\;\text{N}\) — stimmt überein.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A6: Aufzug (Transfer) -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Scheinbares Gewicht im Aufzug</span></div>
+  <p>Eine Person (Masse \(70\;\text{kg}\)) steht in einem Aufzug auf einer Personenwaage. Die Waage zeigt die Normalkraft an, mit der sie gegen die Füsse drückt.</p>
+  <ol class="aufg-liste">
+    <li>Was zeigt die Waage (in N) bei konstanter Fahrt oder im Stillstand?</li>
+    <li>Der Aufzug fährt mit \(a = 1.8\;\text{m/s}^2\) nach oben an. Was zeigt die Waage jetzt?</li>
+    <li>Beim Bremsen der Aufwärtsfahrt wirkt \(a = 1.8\;\text{m/s}^2\) nach unten. Was zeigt die Waage?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <p>Auf die Person wirken die Gewichtskraft \(F_G = mg\) (nach unten) und die Normalkraft \(F_N\) der Waage (nach oben). Das Grundgesetz in vertikaler Richtung (positiv nach oben) lautet \(F_N - mg = m a\), also \(F_N = m(g + a)\).</p>
+      <ol class="aufg-liste">
+        <li>Ruhe oder konstante Fahrt: \(a = 0\), also \(F_N = mg = 70 \cdot 9.81 = 687\;\text{N}\) — das „normale" Gewicht.</li>
+        <li>Beschleunigung nach oben (\(a = +1.8\;\text{m/s}^2\)): \[ F_N = 70 \cdot (9.81 + 1.8) = 813\;\text{N} \] Man fühlt sich schwerer.</li>
+        <li>Beschleunigung nach unten (\(a = -1.8\;\text{m/s}^2\)): \[ F_N = 70 \cdot (9.81 - 1.8) = 561\;\text{N} \] Man fühlt sich leichter. Im freien Fall (\(a = -g\)) wäre \(F_N = 0\) — Schwerelosigkeit.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 11. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Grösse / Gesetz</th><th>Formel</th><th>Bemerkung</th></tr></thead>
+  <tbody>
+    <tr><td>Grundgesetz (2. Newton)</td><td>\(\vec{F}_{\text{ges}} = m \cdot \vec{a}\)</td><td>Kraft und Beschleunigung gleichgerichtet</td></tr>
+    <tr><td>Gewichtskraft</td><td>\(F_G = m \cdot g\)</td><td>\(g = 9.81\;\text{m/s}^2\)</td></tr>
+    <tr><td>Federkraft (Hooke)</td><td>\(F = D \cdot s\)</td><td>\(D\) = Federkonstante in N/m</td></tr>
+    <tr><td>Reibungskraft</td><td>\(F_R = \mu \cdot F_N\)</td><td>\(\mu_{\text{H}} \ge \mu_{\text{G}}\)</td></tr>
+    <tr><td>Hangabtriebskraft</td><td>\(F_H = m g \sin\alpha\)</td><td>parallel zur Ebene</td></tr>
+    <tr><td>Normalkraft (Hang)</td><td>\(F_N = m g \cos\alpha\)</td><td>senkrecht zur Ebene</td></tr>
+    <tr><td>Beschleunigung am Hang</td><td>\(a = g(\sin\alpha - \mu\cos\alpha)\)</td><td>massenunabhängig</td></tr>
+    <tr><td>Atwood-Maschine</td><td>\(a = \dfrac{(m_1-m_2)g}{m_1+m_2}\)</td><td>beide Massen beschleunigt</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>1. Newton (Trägheit): ohne resultierende Kraft bleibt der Bewegungszustand erhalten.</li>
+  <li>2. Newton (Grundgesetz): \(\vec{F}_{\text{ges}}=m\cdot\vec{a}\) — Kraft und Beschleunigung sind gleichgerichtet.</li>
+  <li>3. Newton (Wechselwirkung): Kraft und Gegenkraft sind gleich gross, entgegengesetzt und greifen an <em>verschiedenen</em> Körpern an.</li>
+  <li>Federkraft: \(F=D\cdot s\), proportional zur Auslenkung.</li>
+  <li>Reibung: \(F_R=\mu\cdot F_N\); die Haftreibung ist meist grösser als die Gleitreibung.</li>
+  <li>Schiefe Ebene: Hangabtrieb \(F_H=mg\sin\alpha\), Normalkraft \(F_N=mg\cos\alpha\).</li>
+  <li>Die Beschleunigung am reibungsbehafteten Hang \(a=g(\sin\alpha-\mu\cos\alpha)\) ist massenunabhängig.</li>
+</ul>
+
+<div class="merksatz">
+  Eine Kraft ist die Ursache jeder Bewegungsänderung. Nur die Gesamtkraft zählt: ist sie null, bleibt die Geschwindigkeit konstant (Trägheit); ist sie ungleich null, beschleunigt der Körper gemäss \(\vec{F}_{\text{ges}} = m\,\vec{a}\). Und jede Kraft hat eine gleich grosse Gegenkraft am anderen Körper.
+</div>
+
+
+<!-- ══════════════ 12. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p4-2-dynamik/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-2-dynamik/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-2-dynamik/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p4-2-dynamik/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-2-dynamik/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 13. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.youtube.com/playlist?list=PLb6vB6EZNTmEpUiuOmj1FzOIvkDZQp5RU" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">musstewissen Physik — Kräfte (Playlist)</div><div class="lk-s">funk/ARD/ZDF · Was ist Kraft, Newtonsche Gesetze, Reibung</div></div>
+  </a>
+  <a href="https://www.lehrer-schmidt.de/physik/" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Lehrerschmidt — Mechanik</div><div class="lk-s">Kraft, F=m·a, Newtonsche Gesetze, Reibung, Hooke, schiefe Ebene, Bremsweg</div></div>
+  </a>
+  <a href="https://de.fufaev.org/mechanik" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Alexander Fufaev — Klassische Mechanik</div><div class="lk-s">Newton-Axiome und Reibung mit Videos, Animationen und Theorie</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/forces-and-motion-basics" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Kräfte und Bewegung: Grundlagen</div><div class="lk-s">Resultierende Kraft und Reibung beim Schieben und Tauziehen (deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/newtonlaw2_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Fahrbahnversuch zum 2. Newton-Gesetz</div><div class="lk-s">F=m·a quantitativ mit Masse und Reibungszahl variabel</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/inclinedplane_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Kräfte an der schiefen Ebene</div><div class="lk-s">Zerlegung in Hangabtriebs- und Normalkraft mit Pfeilen</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/mechanik/kraft-und-bewegungsaenderung" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Kraft und Bewegungsänderung</div><div class="lk-s">Aufgaben zu den Newtonschen Gesetzen und zur Reibung · mit Lösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/kraefteaddition-und-zerlegung" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Kräfteaddition und -zerlegung</div><div class="lk-s">Schiefe Ebene und Kräftezerlegung · mit Lösungen</div></div>
+  </a>
+  <a href="https://de.serlo.org/physik/mechanik/klassische-mechanik/kraft" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">serlo — Kraft (Grundlagen und Aufgaben)</div><div class="lk-s">Frei lizenziert, Aufgaben zur Kraft mit Musterlösungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 4.2 Dynamik</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p4-2',
+  kapitelNr:'4.2', kapitelTitel:'Dynamik',
+  prev:{nr:'4.1',titel:'Kinematik des Schwerpunkts',url:'p4-1-kinematik.html'},
+  next:{nr:'4.3',titel:'Energie',url:'p4-3-energie.html'}
+});
+</script>
+
+<script>
+const g = 9.81;
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: Federkraft (Hooke) + F-s-Diagramm
+// ══════════════════════════════════════════════════════════
+function drawA1() {
+  const D = +document.getElementById('a1-D').value;
+  const s = +document.getElementById('a1-s').value;
+  const F = D * s;
+  document.getElementById('a1-D-val').textContent = D + ' N/m';
+  document.getElementById('a1-s-val').textContent = s.toFixed(2) + ' m';
+  document.getElementById('a1-eq').textContent =
+    'F = ' + D + ' · ' + s.toFixed(2) + ' = ' + F.toFixed(1) + ' N';
+
+  // Linke Canvas: Feder
+  const cv = initCanvas('a1-cv-feder', 300, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+
+  const cxMid = W / 2;
+  const yTop = 28;                 // Aufhängung
+  const sMax = 0.20;
+  const ruheLen = 70;              // Ruhelänge in px
+  const dehnPx = (s / sMax) * 110; // Dehnung in px
+  const yEnd = yTop + ruheLen + dehnPx;
+
+  // Decke
+  ctx.fillStyle = '#9aa4ad'; ctx.fillRect(cxMid - 40, yTop - 10, 80, 10);
+  ctx.strokeStyle = '#475560'; ctx.lineWidth = 1.2;
+  for (let i = 0; i < 8; i++) {
+    ctx.beginPath(); ctx.moveTo(cxMid - 40 + i*10, yTop); ctx.lineTo(cxMid - 46 + i*10, yTop - 8); ctx.stroke();
+  }
+
+  // Feder als Zickzack
+  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 2;
+  const windungen = 8, amp = 14;
+  ctx.beginPath(); ctx.moveTo(cxMid, yTop);
+  const federTop = yTop, federBot = yEnd - 22;
+  const seg = (federBot - federTop) / (windungen * 2);
+  for (let i = 1; i <= windungen * 2; i++) {
+    const yy = federTop + i * seg;
+    const xx = cxMid + (i % 2 === 1 ? amp : -amp);
+    ctx.lineTo(xx, yy);
+  }
+  ctx.lineTo(cxMid, federBot); ctx.stroke();
+
+  // Last (Gewicht)
+  ctx.fillStyle = '#8a4a0e';
+  ctx.fillRect(cxMid - 22, federBot, 44, 26);
+  ctx.strokeStyle = '#5e3208'; ctx.strokeRect(cxMid - 22, federBot, 44, 26);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText(F.toFixed(1) + ' N', cxMid, federBot + 17);
+
+  // Dehnungs-Massbalken rechts
+  if (s > 0.001) {
+    const xb = cxMid + 70;
+    ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.6;
+    const y0 = yTop + ruheLen;
+    drawArrow(ctx, xb, y0, xb, yEnd - 22, '#1f6b3a', 1.6, 8);
+    drawArrow(ctx, xb, yEnd - 22, xb, y0, '#1f6b3a', 1.6, 8);
+    ctx.setLineDash([3,3]); ctx.strokeStyle = '#1f6b3a';
+    ctx.beginPath(); ctx.moveTo(cxMid, y0); ctx.lineTo(xb, y0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cxMid, yEnd - 22); ctx.lineTo(xb, yEnd - 22); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+    ctx.fillText('s = ' + s.toFixed(2) + ' m', xb + 5, (y0 + yEnd - 22) / 2 + 4);
+  }
+
+  // Rechte Canvas: F-s-Diagramm
+  const cv2 = initCanvas('a1-cv-diag', 300, false);
+  const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
+  const Fmax = 200 * 0.20;  // 40 N maximal
+  const grid = drawGrid(c2, W2, H2, -0.01, 0.215, -2, Fmax * 1.05);
+  drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 's [m]', 'F [N]');
+  // Gerade F = D·s
+  c2.strokeStyle = '#5b2d8e'; c2.lineWidth = 2.5;
+  c2.beginPath();
+  c2.moveTo(grid.cx(0), grid.cy(0));
+  c2.lineTo(grid.cx(0.20), grid.cy(D * 0.20));
+  c2.stroke();
+  // Aktueller Punkt
+  drawDot(c2, grid.cx, grid.cy, s, F, '#9b1c1c', 5);
+  c2.setLineDash([3,3]); c2.strokeStyle = '#9b1c1c'; c2.lineWidth = 1;
+  c2.beginPath(); c2.moveTo(grid.cx(s), grid.cy(0)); c2.lineTo(grid.cx(s), grid.cy(F)); c2.stroke();
+  c2.beginPath(); c2.moveTo(grid.cx(0), grid.cy(F)); c2.lineTo(grid.cx(s), grid.cy(F)); c2.stroke();
+  c2.setLineDash([]);
+}
+['a1-D','a1-s'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 2: F = m·a — Wagen beschleunigt (RAF)
+// ══════════════════════════════════════════════════════════
+const a2State = { t: 0, x: 0, v: 0, running: false, lastTs: 0, rafId: null };
+const A2_SMAX = 8.0;   // sichtbarer Weg in m
+
+function a2Vals() {
+  const F = +document.getElementById('a2-F').value;
+  const m = +document.getElementById('a2-m').value;
+  return { F, m, a: F / m };
+}
+function a2Render() {
+  const { F, m, a } = a2Vals();
+  document.getElementById('a2-F-val').textContent = F + ' N';
+  document.getElementById('a2-m-val').textContent = m.toFixed(1) + ' kg';
+  document.getElementById('a2-a').textContent = a.toFixed(1) + ' m/s²';
+  document.getElementById('a2-v').textContent = a2State.v.toFixed(1) + ' m/s';
+  document.getElementById('a2-s').textContent = a2State.x.toFixed(2) + ' m';
+  document.getElementById('a2-t').textContent = a2State.t.toFixed(2) + ' s';
+
+  const cv = initCanvas('a2-cv', 220, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+
+  // Boden
+  const bodenY = H - 40;
+  ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, bodenY, W, H - bodenY);
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(0, bodenY); ctx.lineTo(W, bodenY); ctx.stroke();
+
+  // Wagen-Position (x in m → px), Reserve am rechten Rand
+  const margin = 70;
+  const px = margin + (a2State.x / A2_SMAX) * (W - 2*margin - 60);
+  const wB = 56, wH = 30;
+  const wy = bodenY - wH - 10;
+
+  // Räder
+  ctx.fillStyle = '#3a3530';
+  ctx.beginPath(); ctx.arc(px + 14, bodenY - 8, 8, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(px + wB - 14, bodenY - 8, 8, 0, Math.PI*2); ctx.fill();
+  // Wagenkorpus
+  ctx.fillStyle = '#8a4a0e'; ctx.fillRect(px, wy, wB, wH);
+  ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.5; ctx.strokeRect(px, wy, wB, wH);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText(m.toFixed(1) + ' kg', px + wB/2, wy + wH/2 + 4);
+
+  // Kraftpfeil (bernstein → eigentlich Kraft: blau für Hauptvektor) nach rechts
+  const fLen = 12 + F * 2.2;
+  drawArrow(ctx, px + wB, wy + wH/2, px + wB + fLen, wy + wH/2, '#1a4f8a', 2.6, 10);
+  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('F = ' + F + ' N', px + wB + 6, wy - 4);
+
+  // Beschleunigungspfeil (violett) unter dem Wagen
+  const aLen = 10 + a * 8;
+  drawArrow(ctx, px + wB/2, wy + wH + 14, px + wB/2 + aLen, wy + wH + 14, '#5b2d8e', 2.2, 9);
+  ctx.fillStyle = '#5b2d8e'; ctx.textAlign = 'left';
+  ctx.fillText('a', px + wB/2 + aLen + 4, wy + wH + 18);
+
+  // Geschwindigkeitspfeil (grün) über dem Wagen
+  if (a2State.v > 0.05) {
+    const vLen = Math.min(120, a2State.v * 10);
+    drawArrow(ctx, px + wB/2, wy - 16, px + wB/2 + vLen, wy - 16, '#1f6b3a', 2.2, 9);
+    ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'left';
+    ctx.fillText('v', px + wB/2 + vLen + 4, wy - 12);
+  }
+}
+function a2Tick(ts) {
+  if (!a2State.running) return;
+  if (!a2State.lastTs) a2State.lastTs = ts;
+  const dt = (ts - a2State.lastTs) / 1000;
+  a2State.lastTs = ts;
+  const { a } = a2Vals();
+  a2State.t += dt;
+  a2State.v += a * dt;
+  a2State.x += a2State.v * dt;
+  if (a2State.x >= A2_SMAX) {
+    a2State.x = A2_SMAX; a2State.running = false;
+    document.getElementById('a2-btn').textContent = '▶ Start';
+    document.getElementById('a2-btn').classList.remove('paused');
+  }
+  a2Render();
+  if (a2State.running) a2State.rafId = requestAnimationFrame(a2Tick);
+}
+document.getElementById('a2-btn').addEventListener('click', () => {
+  const btn = document.getElementById('a2-btn');
+  if (a2State.running) {
+    a2State.running = false; btn.textContent = '▶ Weiter'; btn.classList.remove('paused');
+  } else {
+    if (a2State.x >= A2_SMAX) { a2State.x = 0; a2State.v = 0; a2State.t = 0; }
+    a2State.running = true; a2State.lastTs = 0;
+    btn.textContent = '⏸ Pause'; btn.classList.add('paused');
+    a2State.rafId = requestAnimationFrame(a2Tick);
+  }
+});
+document.getElementById('a2-reset').addEventListener('click', () => {
+  a2State.running = false; a2State.t = 0; a2State.x = 0; a2State.v = 0;
+  document.getElementById('a2-btn').textContent = '▶ Start';
+  document.getElementById('a2-btn').classList.remove('paused');
+  a2Render();
+});
+['a2-F','a2-m'].forEach(id => document.getElementById(id).addEventListener('input', a2Render));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 3: Trägheit — Kiste bleibt, Wagen fährt weg (RAF)
+// ══════════════════════════════════════════════════════════
+const a3State = { t: 0, xw: 0, vw: 0, xk: 0, running: false, lastTs: 0, rafId: null, anschlag: false };
+const A3_AW = 1.6;     // Wagenbeschleunigung m/s²
+const A3_LADE = 3.2;   // Ladeflächenlänge in m (Kiste darf relativ so weit zurück)
+
+function a3Render() {
+  document.getElementById('a3-xw').textContent = a3State.xw.toFixed(1) + ' m';
+  document.getElementById('a3-xk').textContent = a3State.xk.toFixed(1) + ' m';
+  document.getElementById('a3-fk').textContent = a3State.anschlag ? 'an Bordwand' : '0 N';
+
+  const cv = initCanvas('a3-cv', 240, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#eaf2f8'; ctx.fillRect(0, 0, W, H);
+
+  // Strasse
+  const bodenY = H - 34;
+  ctx.fillStyle = '#5a5550'; ctx.fillRect(0, bodenY, W, H - bodenY);
+  ctx.strokeStyle = '#cfcabf'; ctx.lineWidth = 2; ctx.setLineDash([16, 12]);
+  ctx.beginPath(); ctx.moveTo(0, bodenY + 16); ctx.lineTo(W, bodenY + 16); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Skala in m (welt → px), Wagen fährt nach rechts; Kamera folgt teils
+  const scale = 26;             // px pro m
+  const camX = Math.max(0, a3State.xw - 4);  // Kamera so, dass Wagen sichtbar bleibt
+  const worldToPx = xm => 50 + (xm - camX) * scale;
+
+  // Lieferwagen: Führerhaus + Ladefläche
+  const wx = worldToPx(a3State.xw);
+  const ladeY = bodenY - 70, ladeH = 50, ladeL = A3_LADE * scale;
+  // Räder
+  ctx.fillStyle = '#23201d';
+  ctx.beginPath(); ctx.arc(wx + 28, bodenY - 6, 11, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(wx + ladeL - 8, bodenY - 6, 11, 0, Math.PI*2); ctx.fill();
+  // Ladefläche (offen, mit Bordwand vorne und hinten)
+  ctx.fillStyle = '#c9d2da'; ctx.fillRect(wx, ladeY, ladeL, ladeH);
+  ctx.strokeStyle = '#6b7680'; ctx.lineWidth = 2; ctx.strokeRect(wx, ladeY, ladeL, ladeH);
+  // Bordwände (vorne = rechts, hinten = links)
+  ctx.fillStyle = '#8b97a1';
+  ctx.fillRect(wx, ladeY - 16, 8, 16);              // hintere Bordwand (links)
+  ctx.fillRect(wx + ladeL - 8, ladeY - 28, 8, 28);  // Führerhaus-Rückwand (rechts)
+  // Führerhaus
+  ctx.fillStyle = '#8a4a0e';
+  ctx.fillRect(wx + ladeL, ladeY - 28, 34, ladeH + 28);
+  ctx.strokeStyle = '#5e3208'; ctx.strokeRect(wx + ladeL, ladeY - 28, 34, ladeH + 28);
+  ctx.fillStyle = '#bfe0f0'; ctx.fillRect(wx + ladeL + 6, ladeY - 22, 22, 16);
+
+  // Kiste (Weltposition xk, sitzt auf der Ladefläche-Höhe)
+  const kx = worldToPx(a3State.xk);
+  const kSize = 32, kY = ladeY + ladeH - kSize;
+  ctx.fillStyle = '#b5651d'; ctx.fillRect(kx, kY, kSize, kSize);
+  ctx.strokeStyle = '#7a3f10'; ctx.lineWidth = 1.5; ctx.strokeRect(kx, kY, kSize, kSize);
+  ctx.beginPath(); ctx.moveTo(kx, kY); ctx.lineTo(kx + kSize, kY + kSize);
+  ctx.moveTo(kx + kSize, kY); ctx.lineTo(kx, kY + kSize); ctx.stroke();
+
+  // Hinweis-Label
+  ctx.fillStyle = '#1c1a17'; ctx.font = '12px Source Sans 3,sans-serif'; ctx.textAlign = 'left';
+  if (a3State.anschlag)
+    ctx.fillText('Kiste an der Bordwand — fährt jetzt mit.', 12, 22);
+  else if (a3State.running || a3State.xw > 0)
+    ctx.fillText('Kiste bleibt zurück (Trägheit) — keine waagrechte Kraft.', 12, 22);
+  else
+    ctx.fillText('Wagen und Kiste in Ruhe.', 12, 22);
+}
+function a3Tick(ts) {
+  if (!a3State.running) return;
+  if (!a3State.lastTs) a3State.lastTs = ts;
+  const dt = (ts - a3State.lastTs) / 1000;
+  a3State.lastTs = ts;
+  a3State.t += dt;
+  // Wagen beschleunigt
+  a3State.vw += A3_AW * dt;
+  a3State.xw += a3State.vw * dt;
+  // Kiste bleibt in Ruhe (xk = const), bis der relative Rückstand die Ladefläche überschreitet
+  const relRueckstand = a3State.xw - a3State.xk;   // wie weit der Wagen voraus ist
+  if (relRueckstand >= A3_LADE - 1.1) {
+    // Kiste an hinterer Bordwand → fährt mit dem Wagen mit
+    a3State.anschlag = true;
+    a3State.xk = a3State.xw - (A3_LADE - 1.1);
+  }
+  if (a3State.xw > 14) { a3State.running = false;
+    document.getElementById('a3-btn').textContent = '▶ Losfahren';
+    document.getElementById('a3-btn').classList.remove('paused');
+  }
+  a3Render();
+  if (a3State.running) a3State.rafId = requestAnimationFrame(a3Tick);
+}
+document.getElementById('a3-btn').addEventListener('click', () => {
+  const btn = document.getElementById('a3-btn');
+  if (a3State.running) {
+    a3State.running = false; btn.textContent = '▶ Weiter'; btn.classList.remove('paused');
+  } else {
+    if (a3State.xw > 14) { a3State.xw = 0; a3State.vw = 0; a3State.xk = 0; a3State.anschlag = false; a3State.t = 0; }
+    a3State.running = true; a3State.lastTs = 0;
+    btn.textContent = '⏸ Pause'; btn.classList.add('paused');
+    a3State.rafId = requestAnimationFrame(a3Tick);
+  }
+});
+document.getElementById('a3-reset').addEventListener('click', () => {
+  a3State.running = false; a3State.t = 0; a3State.xw = 0; a3State.vw = 0; a3State.xk = 0; a3State.anschlag = false;
+  document.getElementById('a3-btn').textContent = '▶ Losfahren';
+  document.getElementById('a3-btn').classList.remove('paused');
+  a3Render();
+});
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 4: Reibung — Haft → Gleit
+// ══════════════════════════════════════════════════════════
+const A4_MUH = 0.60, A4_MUG = 0.45;
+function drawA4() {
+  const m = +document.getElementById('a4-m').value;
+  const Fz = +document.getElementById('a4-F').value;
+  const FN = m * g;
+  const FhMax = A4_MUH * FN;
+  const FgGleit = A4_MUG * FN;
+  const gleitet = Fz > FhMax;
+  const FR = gleitet ? FgGleit : Math.min(Fz, FhMax);
+
+  document.getElementById('a4-m-val').textContent = m + ' kg';
+  document.getElementById('a4-F-val').textContent = Fz + ' N';
+  document.getElementById('a4-fhmax').textContent = FhMax.toFixed(0) + ' N';
+  document.getElementById('a4-fr').textContent = FR.toFixed(0) + ' N';
+  document.getElementById('a4-state').textContent = gleitet ? 'gleitet' : 'haftet';
+
+  // Linke Canvas: Kiste mit Pfeilen
+  const cv = initCanvas('a4-cv-box', 240, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+  const bodenY = H - 36;
+  ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, bodenY, W, H - bodenY);
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2; ctx.beginPath();
+  ctx.moveTo(0, bodenY); ctx.lineTo(W, bodenY); ctx.stroke();
+  // Schraffur Boden
+  ctx.strokeStyle = '#aab2ba'; ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 12) { ctx.beginPath(); ctx.moveTo(x, bodenY); ctx.lineTo(x - 8, bodenY + 10); ctx.stroke(); }
+
+  const bx = W*0.36, bw = 64, bh = 50, by = bodenY - bh;
+  ctx.fillStyle = gleitet ? '#c98a3a' : '#b5651d';
+  ctx.fillRect(bx, by, bw, bh);
+  ctx.strokeStyle = '#7a3f10'; ctx.lineWidth = 1.5; ctx.strokeRect(bx, by, bw, bh);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText(m + ' kg', bx + bw/2, by + bh/2 + 4);
+
+  // Zugkraft (blau) nach rechts
+  const fLen = 8 + Fz * 1.0;
+  drawArrow(ctx, bx + bw, by + bh/2, bx + bw + fLen, by + bh/2, '#1a4f8a', 2.6, 10);
+  ctx.fillStyle = '#1a4f8a'; ctx.textAlign = 'left'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.fillText('F_zug = ' + Fz + ' N', bx + bw + 6, by + bh/2 - 8);
+  // Reibung (rot) nach links
+  const rLen = 8 + FR * 1.0;
+  drawArrow(ctx, bx, by + bh/2 + 4, bx - rLen, by + bh/2 + 4, '#9b1c1c', 2.6, 10);
+  ctx.fillStyle = '#9b1c1c'; ctx.textAlign = 'right';
+  ctx.fillText('F_R = ' + FR.toFixed(0) + ' N', bx - 6, by + bh/2 + 22);
+
+  // Rechte Canvas: FR über Fzug Diagramm
+  const cv2 = initCanvas('a4-cv-diag', 240, false);
+  const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
+  const FzMax = 120, FRax = A4_MUH * 20 * g; // max Skala
+  const grid = drawGrid(c2, W2, H2, -4, FzMax*1.05, -6, FRax*1.05);
+  drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 'F_zug [N]', 'F_R [N]');
+  // Haft-Ast: Diagonale FR=Fzug bis FhMax
+  c2.strokeStyle = '#1f6b3a'; c2.lineWidth = 2.5; c2.beginPath();
+  c2.moveTo(grid.cx(0), grid.cy(0)); c2.lineTo(grid.cx(FhMax), grid.cy(FhMax)); c2.stroke();
+  // Gleit-Ast: waagrecht bei FgGleit ab FhMax
+  c2.strokeStyle = '#9b1c1c'; c2.lineWidth = 2.5; c2.beginPath();
+  c2.moveTo(grid.cx(FhMax), grid.cy(FgGleit)); c2.lineTo(grid.cx(FzMax), grid.cy(FgGleit)); c2.stroke();
+  // Spitzenmarkierung
+  drawDot(c2, grid.cx, grid.cy, FhMax, FhMax, '#5b2d8e', 4);
+  // aktueller Punkt
+  drawDot(c2, grid.cx, grid.cy, Fz, FR, gleitet ? '#9b1c1c' : '#1f6b3a', 5);
+}
+['a4-m','a4-F'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 5: Schiefe Ebene — Kräftezerlegung
+// ══════════════════════════════════════════════════════════
+function drawA5() {
+  const alphaDeg = +document.getElementById('a5-alpha').value;
+  const mu = +document.getElementById('a5-mu').value;
+  const alpha = alphaDeg * Math.PI / 180;
+  const a = g * (Math.sin(alpha) - mu * Math.cos(alpha));
+  document.getElementById('a5-alpha-val').textContent = alphaDeg + '°';
+  document.getElementById('a5-mu-val').textContent = mu.toFixed(2);
+  document.getElementById('a5-eq').textContent =
+    'a = 9.81 · (sin ' + alphaDeg + '° − ' + mu.toFixed(2) + ' · cos ' + alphaDeg + '°) = '
+    + a.toFixed(2) + ' m/s²';
+
+  const cv = initCanvas('a5-cv', 300, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+
+  // Keil: Drehpunkt rechts unten, Basis adaptiv damit Spitze im Bild bleibt
+  const ox = W - 28, oy = H - 36;
+  const baseMax = W - 70;
+  const baseH = oy - 28;                       // vertikaler Spielraum
+  const base = Math.min(baseMax, baseH / Math.tan(alpha));
+  const topx = ox - base, topy = oy - base * Math.tan(alpha);
+
+  // Keil zeichnen
+  ctx.fillStyle = '#e3d3b8';
+  ctx.beginPath(); ctx.moveTo(topx, topy); ctx.lineTo(ox, oy); ctx.lineTo(topx, oy); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#a9885a'; ctx.lineWidth = 1.6; ctx.stroke();
+  // Boden
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(0, oy); ctx.lineTo(W, oy); ctx.stroke();
+  // Winkelbogen + Label
+  ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.arc(ox, oy, 34, Math.PI, Math.PI - alpha, true); ctx.stroke();
+  ctx.fillStyle = '#5e3208'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'right';
+  ctx.fillText(alphaDeg + '°', ox - 40, oy - 8);
+
+  // Block auf der Rampe (Mittelpunkt bei Parameter t)
+  const t = 0.5;
+  const bx = topx + (ox - topx) * t;
+  const by = topy + (oy - topy) * t;
+  // Rampen-Einheitsvektoren (Pixel, y nach unten)
+  const ux = Math.cos(alpha), uy = Math.sin(alpha);   // bergab
+  const nx = Math.sin(alpha), ny = -Math.cos(alpha);  // aus Rampe heraus
+  // Block als gedrehtes Rechteck
+  const bs = 26;
+  const cxB = bx + nx * (bs/2), cyB = by + ny * (bs/2);  // Block-Mittelpunkt etwas über der Fläche
+  ctx.save();
+  ctx.translate(cxB, cyB);
+  ctx.rotate(alpha);
+  ctx.fillStyle = '#b5651d'; ctx.fillRect(-bs/2, -bs/2, bs, bs);
+  ctx.strokeStyle = '#7a3f10'; ctx.lineWidth = 1.5; ctx.strokeRect(-bs/2, -bs/2, bs, bs);
+  ctx.restore();
+
+  // Kräfte (Pixel-Längen, didaktisch skaliert)
+  const m = 1; // Einheitsmasse für Pfeil-Skalierung
+  const FG = g;                       // Gewichtskraft-Skalar
+  const FH = g * Math.sin(alpha);
+  const FNk = g * Math.cos(alpha);
+  const FR = mu * FNk;
+  const sc = 6.5;                     // px pro N (Einheitsmasse)
+  // Gewichtskraft (bernstein) senkrecht nach unten vom Block-Mittelpunkt
+  drawArrow(ctx, cxB, cyB, cxB, cyB + FG * sc, '#8a4a0e', 2.4, 10);
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('F_G', cxB + 4, cyB + FG * sc + 4);
+  // Hangabtriebskraft (violett) entlang der Rampe bergab
+  drawArrow(ctx, cxB, cyB, cxB + ux * FH * sc, cyB + uy * FH * sc, '#5b2d8e', 2.4, 9);
+  ctx.fillStyle = '#5b2d8e';
+  ctx.fillText('F_H', cxB + ux * FH * sc + 4, cyB + uy * FH * sc + 4);
+  // Normalkraft (blau) aus der Rampe heraus
+  drawArrow(ctx, cxB, cyB, cxB + nx * FNk * sc, cyB + ny * FNk * sc, '#1a4f8a', 2.4, 9);
+  ctx.fillStyle = '#1a4f8a';
+  ctx.fillText('F_N', cxB + nx * FNk * sc + 4, cyB + ny * FNk * sc);
+  // Reibung (rot) hangaufwärts (entgegen bergab)
+  if (FR > 0.05) {
+    drawArrow(ctx, cxB, cyB, cxB - ux * FR * sc, cyB - uy * FR * sc, '#9b1c1c', 2.4, 9);
+    ctx.fillStyle = '#9b1c1c'; ctx.textAlign = 'right';
+    ctx.fillText('F_R', cxB - ux * FR * sc - 4, cyB - uy * FR * sc);
+  }
+
+  // Status-Label
+  ctx.fillStyle = '#1c1a17'; ctx.font = '12px Source Sans 3,sans-serif'; ctx.textAlign = 'left';
+  if (a > 0.01) ctx.fillText('rutscht mit a = ' + a.toFixed(2) + ' m/s²', 12, 22);
+  else ctx.fillText('bleibt liegen (Haftreibung genügt)', 12, 22);
+}
+['a5-alpha','a5-mu'].forEach(id => document.getElementById(id).addEventListener('input', drawA5));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 6: Wechselwirkung — zwei Wagen stossen sich ab (RAF)
+// ══════════════════════════════════════════════════════════
+const a6State = { phase: 'ready', x1: 0, x2: 0, v1: 0, v2: 0, lastTs: 0, rafId: null };
+
+function a6Render() {
+  const m1 = +document.getElementById('a6-m1').value;
+  const m2 = +document.getElementById('a6-m2').value;
+  document.getElementById('a6-m1-val').textContent = m1.toFixed(1) + ' kg';
+  document.getElementById('a6-m2-val').textContent = m2.toFixed(1) + ' kg';
+  document.getElementById('a6-v1').textContent = Math.abs(a6State.v1).toFixed(1) + ' m/s';
+  document.getElementById('a6-v2').textContent = Math.abs(a6State.v2).toFixed(1) + ' m/s';
+
+  const cv = initCanvas('a6-cv', 220, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+  const bodenY = H - 36;
+  ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, bodenY, W, H - bodenY);
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(0, bodenY); ctx.lineTo(W, bodenY); ctx.stroke();
+
+  const mid = W/2, scale = 36;
+  // Wagengrössen proportional zur Masse (Breite)
+  const w1 = 30 + m1 * 7, w2 = 30 + m2 * 7, wh = 34;
+  const gap0 = 28;  // halber Abstand in Ruhe
+  // Positionen: x1/x2 sind Verschiebungen in m vom Startpunkt
+  const cx1 = mid - gap0 + a6State.x1 * scale;
+  const cx2 = mid + gap0 + a6State.x2 * scale;
+
+  // Feder dazwischen (nur in Ruhe sichtbar gespannt)
+  if (a6State.phase === 'ready') {
+    ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 2;
+    const fx0 = cx1, fx1 = cx2, fy = bodenY - wh/2 - 8;
+    ctx.beginPath(); ctx.moveTo(fx0, fy);
+    const n = 6; const seg = (fx1 - fx0)/n;
+    for (let i=1;i<n;i++){ ctx.lineTo(fx0+seg*i, fy + (i%2? -7:7)); }
+    ctx.lineTo(fx1, fy); ctx.stroke();
+  }
+
+  // Wagen 1 (links)
+  const wy = bodenY - wh - 8;
+  ctx.fillStyle = '#23201d';
+  ctx.beginPath(); ctx.arc(cx1 - w1 + 10, bodenY - 5, 7, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx1 - 10, bodenY - 5, 7, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#1a4f8a'; ctx.fillRect(cx1 - w1, wy, w1, wh);
+  ctx.strokeStyle = '#123a66'; ctx.lineWidth=1.5; ctx.strokeRect(cx1 - w1, wy, w1, wh);
+  ctx.fillStyle='#fff'; ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText(m1.toFixed(1)+' kg', cx1 - w1/2, wy+wh/2+4);
+
+  // Wagen 2 (rechts)
+  ctx.fillStyle = '#23201d';
+  ctx.beginPath(); ctx.arc(cx2 + 10, bodenY - 5, 7, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx2 + w2 - 10, bodenY - 5, 7, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#8a4a0e'; ctx.fillRect(cx2, wy, w2, wh);
+  ctx.strokeStyle = '#5e3208'; ctx.lineWidth=1.5; ctx.strokeRect(cx2, wy, w2, wh);
+  ctx.fillStyle='#fff'; ctx.textAlign='center';
+  ctx.fillText(m2.toFixed(1)+' kg', cx2 + w2/2, wy+wh/2+4);
+
+  // Kraftpfeile (gleich lang!) beim Abstossen
+  if (a6State.phase === 'ready') {
+    const fl = 30;
+    drawArrow(ctx, cx1, wy - 12, cx1 - fl, wy - 12, '#9b1c1c', 2.4, 9);
+    drawArrow(ctx, cx2, wy - 12, cx2 + fl, wy - 12, '#9b1c1c', 2.4, 9);
+    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillText('F', cx1 - fl/2, wy - 16);
+    ctx.fillText('F', cx2 + fl/2, wy - 16);
+  } else {
+    // Geschwindigkeitspfeile (grün), Länge ∝ |v|
+    if (Math.abs(a6State.v1) > 0.05) {
+      const l = Math.min(70, Math.abs(a6State.v1)*16);
+      drawArrow(ctx, cx1 - w1/2, wy - 12, cx1 - w1/2 - l, wy - 12, '#1f6b3a', 2.4, 9);
+    }
+    if (Math.abs(a6State.v2) > 0.05) {
+      const l = Math.min(70, Math.abs(a6State.v2)*16);
+      drawArrow(ctx, cx2 + w2/2, wy - 12, cx2 + w2/2 + l, wy - 12, '#1f6b3a', 2.4, 9);
+    }
+  }
+}
+function a6Tick(ts) {
+  if (a6State.phase !== 'run') return;
+  if (!a6State.lastTs) a6State.lastTs = ts;
+  const dt = (ts - a6State.lastTs)/1000;
+  a6State.lastTs = ts;
+  a6State.x1 += a6State.v1 * dt;
+  a6State.x2 += a6State.v2 * dt;
+  a6Render();
+  // stoppen, wenn ein Wagen den Rand erreicht
+  if (a6State.x1 < -5 || a6State.x2 > 5) { a6State.phase = 'done';
+    document.getElementById('a6-btn').textContent = '▶ Loslassen';
+    document.getElementById('a6-btn').classList.remove('paused');
+    return;
+  }
+  a6State.rafId = requestAnimationFrame(a6Tick);
+}
+document.getElementById('a6-btn').addEventListener('click', () => {
+  const btn = document.getElementById('a6-btn');
+  const m1 = +document.getElementById('a6-m1').value;
+  const m2 = +document.getElementById('a6-m2').value;
+  if (a6State.phase === 'run') {
+    a6State.phase = 'paused'; btn.textContent = '▶ Weiter'; btn.classList.remove('paused');
+  } else {
+    if (a6State.phase === 'done') { a6State.x1=0; a6State.x2=0; }
+    // Impulserhaltung: m1·v1 = m2·v2 (Beträge), wähle festen Gesamtimpuls
+    const p = 6.0;                 // willkürlicher gemeinsamer Impulsbetrag
+    a6State.v1 = -p / m1;          // nach links
+    a6State.v2 = +p / m2;          // nach rechts
+    a6State.phase = 'run'; a6State.lastTs = 0;
+    btn.textContent = '⏸ Pause'; btn.classList.add('paused');
+    a6State.rafId = requestAnimationFrame(a6Tick);
+  }
+});
+document.getElementById('a6-reset').addEventListener('click', () => {
+  a6State.phase = 'ready'; a6State.x1=0; a6State.x2=0; a6State.v1=0; a6State.v2=0;
+  document.getElementById('a6-btn').textContent = '▶ Loslassen';
+  document.getElementById('a6-btn').classList.remove('paused');
+  a6Render();
+});
+['a6-m1','a6-m2'].forEach(id => document.getElementById(id).addEventListener('input', () => {
+  if (a6State.phase === 'run') return;
+  a6State.phase = 'ready'; a6State.x1=0; a6State.x2=0; a6State.v1=0; a6State.v2=0;
+  a6Render();
+}));
+
+
+// ══════════════════════════════════════════════════════════
+//  RENDER ALL + RESIZE
+// ══════════════════════════════════════════════════════════
+function renderAll() {
+  drawA1();
+  a2Render();
+  a3Render();
+  drawA4();
+  drawA5();
+  a6Render();
+}
+document.addEventListener('DOMContentLoaded', renderAll);
+window.addEventListener('resize', renderAll);
+</script>
+</body>
+</html>

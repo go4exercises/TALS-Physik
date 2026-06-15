@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6.1 Wellen — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* Seitenspezifisch */
+.stoff-wahl { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+.stoff-wahl button { font-family:var(--sans); font-size:0.78rem; font-weight:600; background:var(--papier-2);
+  color:var(--tinte); border:1px solid var(--linie); padding:5px 11px; border-radius:6px; cursor:pointer; }
+.stoff-wahl button.aktiv { background:var(--bernstein); color:#fff; border-color:var(--bernstein); }
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 6 Einführung in andere Bereiche der Physik</div>
+  <h1 class="pt-h1">6.1 Wellen</h1>
+  <p class="pt-untertitel">Von der Schwingung zur Welle — Wellengrössen und \(c=\lambda f\), mechanische und Schallwellen, das elektromagnetische Spektrum und die wellenlängenabhängige Absorption.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 6.1 · 30 Lektionen (Lerngebiet 6)</div>
+  <ul>
+    <li>die Arten der Wellenerzeugung allgemein beschreiben und Wellen grafisch sowie algebraisch charakterisieren (Frequenz, Periode, Wellenlänge, Phasengeschwindigkeit)</li>
+    <li>die wichtigsten Wellentypen (mechanische Wellen, Schallwellen, elektromagnetische Wellen) aufzeigen und unterscheiden</li>
+    <li>die Wellenerzeugung am Beispiel der mechanischen Wellen aufzeigen</li>
+    <li>die Besonderheiten elektromagnetischer Wellen beschreiben (Beschaffenheit, Spektrum, Geschwindigkeit, Erzeugung durch atomare Emission und Laser, Absorption)</li>
+    <li>den Treibhaus-Effekt mit der wellenlängenabhängigen Absorption von Sonnen- und Wärmestrahlung in der Atmosphäre und die Bedeutung der Treibhausgase beschreiben</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann Wellen mit Frequenz, Periode, Wellenlänge und Phasengeschwindigkeit charakterisieren.</li>
+      <li>Ich kann mechanische, Schall- und elektromagnetische Wellen unterscheiden.</li>
+      <li>Ich kann die Wellenerzeugung am Beispiel mechanischer Wellen beschreiben.</li>
+      <li>Ich kann die Besonderheiten elektromagnetischer Wellen (Spektrum, Geschwindigkeit, Emission, Absorption) erklären.</li>
+      <li>Ich kann den Treibhaus-Effekt über die wellenlängenabhängige Absorption beschreiben.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — was bewegt sich eigentlich bei einer Welle?</h2>
+
+<p>Wirft man einen Stein ins Wasser, laufen kreisförmige Wellen nach aussen. Ein Korken auf der Oberfläche wird dabei aber nicht mitgerissen — er läuft nur auf einer kleinen, näherungsweise kreisförmigen Bahn und kehrt immer wieder in seine Ausgangslage zurück. Die Welle transportiert also <strong>Energie, aber keine Materie</strong>. Jeder Punkt schwingt nur um seine Ruhelage, während sich das Wellenmuster fortbewegt.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Beobachte</div>
+  <p>Die Animation zeigt eine idealisierte <strong>Transversalwelle</strong> (wie auf einem Seil). Verfolge den hervorgehobenen Punkt: Er bewegt sich nur senkrecht (auf und ab), während die Welle nach rechts wandert. Der Abstand zwischen zwei Bergen ist die Wellenlänge \(\lambda\). (Bei echten Wasserwellen laufen die Oberflächenteilchen dagegen auf kleinen Kreisbahnen.)</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>🌊 Einstieg-Animation · Eine laufende Welle</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verfolge, wie die Welle als Ganzes nach rechts wandert.</li><li>Beobachte einen einzelnen Punkt: er schwingt nur auf und ab.</li><li>Unterscheide die Bewegung der Welle von der der Teilchen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verfolge, wie die Welle als Ganzes nach rechts wandert. Beobachte dann einen einzelnen Punkt: er schwingt nur auf und ab. Unterscheide die Bewegung der Welle von der Bewegung der einzelnen Teilchen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Eine Welle transportiert Energie, aber keinen Stoff.</li><li>Die einzelnen Teilchen schwingen nur um ihre Ruhelage.</li><li>Die Wellenform wandert, das Material bleibt am Ort.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Eine Welle transportiert Energie, aber keinen Stoff. Die einzelnen Teilchen schwingen nur um ihre Ruhelage. Die Wellenform wandert weiter, während das Material am Ort bleibt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="ein-btn">▶ Start</button>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">〰 Wellenausbreitung — der markierte Punkt schwingt nur auf und ab</div>
+      <canvas id="ein-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<p>Wir lernen zuerst, Wellen mit Wellenlänge, Frequenz und Geschwindigkeit zu beschreiben, unterscheiden dann mechanische, Schall- und elektromagnetische Wellen und enden beim Lichtspektrum, der Lichterzeugung und der wellenlängenabhängigen Absorption.</p>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Bei einer Wasserwelle transportiert die Welle hauptsächlich …</p><ul class="mc-optionen"><li data-opt="A">Wasser</li><li data-opt="B">Energie</li><li data-opt="C">Masse</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Eine Welle transportiert Energie; das Medium schwingt nur um seine Ruhelage.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Eine Welle überträgt Energie, ohne <span class="mc-luecke"></span> zu transportieren.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Materie (Masse).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Welle hat \(f = 2\;\text{Hz}\). Welche Periodendauer?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(T = \dfrac{1}{f} = \dfrac{1}{2} = 0.5\;\text{s}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Möwe sitzt auf einer Wasserwelle. Wie bewegt sie sich, während Wellen unter ihr durchlaufen?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Sie schwingt im Wesentlichen auf der Stelle auf und ab und wird nicht mit der Welle mittransportiert — die Welle trägt Energie, nicht Wasser.</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Von der Schwingung zur Welle</div>
+  <p>Eine <strong>Schwingung</strong> ist eine periodische Bewegung um eine Ruhelage. Ihre <strong>Periode</strong> \(T\) ist die Dauer einer vollen Schwingung, die <strong>Frequenz</strong> \(f\) die Anzahl Schwingungen pro Sekunde:</p>
+  \[ f = \frac{1}{T}, \qquad [f] = \text{Hz} = \frac{1}{\text{s}} \]
+  <p>Koppelt man viele schwingfähige Teilchen, überträgt sich die Schwingung von einem zum nächsten — es entsteht eine <strong>Welle</strong>. Die <strong>Amplitude</strong> ist die maximale Auslenkung aus der Ruhelage.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Wellenlänge, Geschwindigkeit und die Wellengleichung</div>
+  <p>Die <strong>Wellenlänge</strong> \(\lambda\) ist der Abstand zwischen zwei benachbarten Wellenbergen. In einer Periode \(T\) rückt die Welle genau um \(\lambda\) weiter. Daraus folgt die <strong>Phasengeschwindigkeit</strong> (Ausbreitungsgeschwindigkeit):</p>
+  \[ c = \frac{\lambda}{T} = \lambda \cdot f \]
+  <p>Die Geschwindigkeit \(c\) hängt bei mechanischen Wellen vom <strong>Wellentyp</strong> und den <strong>Eigenschaften des Mediums</strong> ab — etwa von Dichte und Steifigkeit (Elastizität). Im selben Medium können sich verschiedene Wellentypen daher unterschiedlich schnell ausbreiten. Bei gleichem Wellentyp und Medium ist \(c\) dagegen näherungsweise <strong>von der Frequenz unabhängig</strong>; eine höhere Frequenz bedeutet dann eine kürzere Wellenlänge.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Transversal- und Longitudinalwellen</div>
+  <p>Man unterscheidet nach der Schwingungsrichtung:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Typ</th><th>Schwingungsrichtung</th><th>Beispiele</th></tr></thead>
+    <tbody>
+      <tr><td>Transversalwelle</td><td>quer (senkrecht) zur Ausbreitung</td><td>Seilwelle, Licht</td></tr>
+      <tr><td>Longitudinalwelle</td><td>längs (in Ausbreitungsrichtung)</td><td>Schall, Druckwellen</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Wasserwellen</strong> sind ein Sonderfall und nicht rein transversal: An der Oberfläche bewegen sich die Teilchen näherungsweise auf <strong>Kreis- bzw. Ellipsenbahnen</strong> — also eine Überlagerung aus Quer- und Längsbewegung.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Mechanische Wellen und Schall</div>
+  <p><strong>Mechanische Wellen</strong> brauchen ein <strong>Medium</strong> (fest, flüssig oder gasförmig), dessen gekoppelte Teilchen die Schwingung weitergeben — z.&nbsp;B. Wasserwellen, Erdbebenwellen und Schall. <strong>Schall</strong> ist eine Longitudinalwelle aus Druckschwankungen, erzeugt durch einen schwingenden Körper (Saite, Lautsprechermembran). Die Schallgeschwindigkeit hängt stark vom Medium ab:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Medium</th><th>\(c\) [m/s]</th><th>Medium</th><th>\(c\) [m/s]</th></tr></thead>
+    <tbody>
+      <tr><td>Luft (15 °C)</td><td>340</td><td>Wasser</td><td>≈ 1500</td></tr>
+      <tr><td>Luft (25 °C)</td><td>346</td><td>Eisen</td><td>5170</td></tr>
+      <tr><td>Helium</td><td>980</td><td>Aluminium</td><td>6300</td></tr>
+    </tbody>
+  </table>
+  <p>Das menschliche Ohr hört etwa von \(20\,\text{Hz}\) bis \(20\,\text{kHz}\); unter \(50\,\text{Hz}\) wird es schwierig.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Elektromagnetische Wellen</div>
+  <p><strong>Elektromagnetische Wellen</strong> brauchen <strong>kein</strong> Medium und breiten sich auch im Vakuum aus. Sie bestehen aus einem elektrischen und einem magnetischen Feld, die senkrecht zueinander und quer zur Ausbreitung schwingen — also <strong>Transversalwellen</strong>. Im Vakuum bewegen sie sich alle mit <strong>Lichtgeschwindigkeit</strong>:</p>
+  \[ c = 2.998 \cdot 10^{8}\,\text{m/s} \approx 3\cdot 10^{8}\,\text{m/s} \]
+  <p>Auch hier gilt \(c=\lambda f\). Vom langwelligen Radiobereich bis zur energiereichen Gammastrahlung bildet alles ein durchgehendes <strong>Spektrum</strong>; das sichtbare Licht (\(380\!-\!780\,\text{nm}\)) ist nur ein winziger Ausschnitt davon.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Wie Licht entsteht</div>
+  <p>Licht kann auf verschiedene Arten erzeugt werden:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Art</th><th>Mechanismus</th><th>Beispiel</th></tr></thead>
+    <tbody>
+      <tr><td>Wärmestrahlung</td><td>heisse Körper strahlen (thermische Emission)</td><td>Glühlampe, Sonne (5800 K)</td></tr>
+      <tr><td>atomare Emission</td><td>angeregte Atome geben beim Zurückspringen ein Photon ab</td><td>Leuchtstoffröhre, Leuchtreklame</td></tr>
+      <tr><td>Laser</td><td>stimulierte Emission erzeugt gebündeltes, gleichfarbiges Licht</td><td>Laserpointer, CO₂-Laser</td></tr>
+    </tbody>
+  </table>
+  <p>Ein <strong>Photon</strong> ist ein Energiequant des Lichts. Beim <strong>Laser</strong> (Light Amplification by Stimulated Emission of Radiation) löst ein Photon in einem angeregten Medium identische, gleichgerichtete Photonen aus — das Licht ist <strong>kohärent</strong>, einfarbig und stark gebündelt.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Absorption und der Treibhauseffekt</div>
+  <p>Wie stark ein Stoff Strahlung <strong>absorbiert</strong>, hängt von der Wellenlänge ab. Die Atmosphäre ist für das kurzwellige, sichtbare Sonnenlicht weitgehend durchlässig — es erreicht den Boden und erwärmt ihn. Die vom warmen Boden abgegebene langwellige <strong>Wärmestrahlung</strong> (Infrarot) wird dagegen von <strong>Treibhausgasen</strong> wie CO₂ und Wasserdampf stark absorbiert und teilweise zurückgestrahlt. Diese <strong>wellenlängenabhängige Absorption</strong> hält Energie in Bodennähe — der Treibhauseffekt. Mehr Treibhausgas verstärkt ihn.</p>
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 — c = λ·f ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die Wellenlänge \(\lambda\) ist …</p><ul class="mc-optionen"><li data-opt="A">die Höhe der Welle</li><li data-opt="B">der Abstand zweier gleicher Phasen (z.B. Berg zu Berg)</li><li data-opt="C">die Geschwindigkeit</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(\lambda\) ist der räumliche Abstand zweier benachbarter gleicher Phasen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Anzahl Schwingungen pro Sekunde ist die <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Frequenz \(f\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Welle hat \(T = 0.25\;\text{s}\). Frequenz?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(f = \dfrac{1}{T} = \dfrac{1}{0.25} = 4\;\text{Hz}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Was hört man bei einer Schallwelle als Folge ihrer Amplitude, was als Folge ihrer Frequenz?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die Amplitude bestimmt die Lautstärke, die Frequenz die Tonhöhe.</div></details></div>
+</details>
+
+<h2 id="wellengleichung">Die Wellengleichung \(c=\lambda f\)</h2>
+
+<p>Wellenlänge, Frequenz und Geschwindigkeit hängen über \(c=\lambda f\) zusammen. Stelle beide Grössen ein und beobachte, wie sich die Welle verändert und welche Geschwindigkeit sich ergibt.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 1 · Wellenlänge, Frequenz, Geschwindigkeit</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Vergrössere die Wellenlänge und beobachte die gestreckte Welle.</li><li>Erhöhe die Frequenz und beobachte das schnellere Schwingen.</li><li>Verfolge das Produkt \(\lambda f\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Vergrössere die Wellenlänge und beobachte, wie die Welle gestreckt wird. Erhöhe die Frequenz und beobachte das schnellere Schwingen. Verfolge das Produkt aus Wellenlänge und Frequenz." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Grundgleichung der Wellen: \(c = \lambda \cdot f\).</li><li>Bei festem \(c\): grosse Wellenlänge bedeutet kleine Frequenz.</li><li>Die Periodendauer ist \(T = 1/f\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Grundgleichung der Wellen lautet: c gleich Wellenlänge mal Frequenz. Bei fester Ausbreitungsgeschwindigkeit gilt: eine grosse Wellenlänge bedeutet eine kleine Frequenz. Die Periodendauer ist eins durch die Frequenz." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Wellenlänge \(\lambda\):</label>
+      <input type="range" id="a1-lam" min="0.5" max="5" value="2" step="0.1">
+      <span class="sl-val" id="a1-lam-val">2.0 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Frequenz \(f\):</label>
+      <input type="range" id="a1-f" min="0.5" max="5" value="1" step="0.1">
+      <span class="sl-val" id="a1-f-val">1.0 Hz</span>
+
+      </div>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a1-btn">▶ Start</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Wellengleichung</div>
+      <div class="fl-eq" id="a1-eq">c = λ · f = 2.0 · 1.0 = 2.0 m/s</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Periode \(T\)</span><span class="lb-val" id="a1-T">1.00 s</span></div>
+      <div class="lb-item"><span class="lb-lab">Frequenz \(f\)</span><span class="lb-val" id="a1-fv">1.0 Hz</span></div>
+      <div class="lb-item"><span class="lb-lab">Geschw. \(c\)</span><span class="lb-val" id="a1-c">2.0 m/s</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">〰 Laufende Welle mit Wellenlänge \(\lambda\)</div>
+      <canvas id="a1-cv" height="220"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 5. ANIMATION 2 — TRANSVERSAL/LONGITUDINAL ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit dem Schall, wenn man die Luft aus einem Glas mit klingelndem Wecker abpumpt?</summary>
+  <div class="frage-antwort">
+    <p>Der Ton wird immer leiser und verstummt schliesslich. Schall ist eine <strong>mechanische</strong> Welle und braucht ein Medium — im Vakuum kann er sich nicht ausbreiten. Licht aus dem Glas sieht man dagegen weiter.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Bei gleicher Wellengeschwindigkeit bedeutet eine höhere Frequenz …</p><ul class="mc-optionen"><li data-opt="A">eine grössere Wellenlänge</li><li data-opt="B">eine kleinere Wellenlänge</li><li data-opt="C">die gleiche Wellenlänge</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(\lambda = c/f\) — höhere Frequenz, kleinere Wellenlänge.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Wellengleichung lautet \(c = \lambda \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(f\) (Frequenz).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Schall (\(c = 340\;\text{m/s}\)) mit \(f = 170\;\text{Hz}\). Wellenlänge?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\lambda = \dfrac{c}{f} = \dfrac{340}{170} = 2\;\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein UKW-Sender sendet bei \(f = 100\;\text{MHz}\) (\(c = 3\cdot 10^8\;\text{m/s}\)). Welche Wellenlänge?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(\lambda = \dfrac{c}{f} = \dfrac{3\cdot 10^8}{1\cdot 10^8} = 3\;\text{m}\).</div></details></div>
+</details>
+
+<h2 id="typen">Transversal- und Longitudinalwellen</h2>
+
+<p>Bei einer Transversalwelle schwingen die Teilchen quer zur Ausbreitung, bei einer Longitudinalwelle in Ausbreitungsrichtung — dort entstehen Verdichtungen und Verdünnungen. Wähle die Wellenform.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 2 · Querwelle und Längswelle</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Vergleiche die beiden Schwingungsrichtungen.</li><li>Beobachte bei der Längswelle Verdichtungen und Verdünnungen.</li><li>Ordne zu: Schall longitudinal, Seilwelle transversal.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Vergleiche die beiden Schwingungsrichtungen an denselben Teilchen. Beobachte bei der Längswelle die Verdichtungen und Verdünnungen. Ordne zu: Schall ist longitudinal, eine Seilwelle transversal." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Querwelle (transversal): Teilchen schwingen senkrecht zur Ausbreitung.</li><li>Längswelle (longitudinal): Teilchen schwingen längs der Ausbreitung.</li><li>Schall in Luft ist longitudinal, eine Seilwelle transversal.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Bei einer Querwelle, transversal, schwingen die Teilchen senkrecht zur Ausbreitungsrichtung. Bei einer Längswelle, longitudinal, schwingen sie längs der Ausbreitungsrichtung. Schall in Luft ist longitudinal, eine Seilwelle ist transversal." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="stoff-wahl" id="a2-modi"></div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Typ</span><span class="lb-val" id="a2-typ">Transversalwelle</span></div>
+      <div class="lb-item"><span class="lb-lab">Teilchen schwingen</span><span class="lb-val" id="a2-dir">quer zur Ausbreitung</span></div>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a2-btn">▶ Start</button>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⟷ Ausbreitung nach rechts</div>
+      <canvas id="a2-cv" height="220"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 6. ANIMATION 3 — SCHALL IN MEDIEN ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Bei einer Longitudinalwelle schwingen die Teilchen …</p><ul class="mc-optionen"><li data-opt="A">senkrecht zur Ausbreitungsrichtung</li><li data-opt="B">parallel zur Ausbreitungsrichtung</li><li data-opt="C">gar nicht</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Bei Longitudinalwellen (z.B. Schall) schwingen die Teilchen längs der Ausbreitung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Schall in Luft ist eine <span class="mc-luecke"></span> Welle.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">longitudinale.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Nenne ein Beispiel für eine Transversalwelle.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Eine Welle auf einem gespannten Seil oder eine Lichtwelle (Teilchen schwingen quer zur Ausbreitung).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Wasserwellen werden oft als transversal bezeichnet. Warum stimmt das nur ungefähr?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">An der Oberfläche bewegen sich die Wasserteilchen auf kreis- bis ellipsenförmigen Bahnen — also teils längs, teils quer. Eine reine Transversalbewegung ist es nicht.</div></details></div>
+</details>
+
+<h2 id="schall">Schall in verschiedenen Medien</h2>
+
+<p>Die Schallgeschwindigkeit hängt vom Medium ab. Bei gleicher Frequenz ist die Wellenlänge dort am grössten, wo der Schall am schnellsten ist (\(\lambda = c/f\)).</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 3 · Wellenlänge desselben Tons je Medium</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wähle ein Medium und eine Frequenz.</li><li>Beobachte, wie sich die Wellenlänge mit dem Medium ändert.</li><li>Halte die Frequenz fest und vergleiche die Medien.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle ein Medium und eine Frequenz. Beobachte, wie sich die Wellenlänge mit dem Medium ändert. Halte die Frequenz fest und vergleiche die verschiedenen Medien." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>\(\lambda = c / f\): die Wellenlänge hängt von der Schallgeschwindigkeit ab.</li><li>Die Frequenz (Tonhöhe) bleibt beim Mediumwechsel gleich.</li><li>In schnelleren Medien (z.B. Wasser) ist die Wellenlänge grösser.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Es gilt Wellenlänge gleich Schallgeschwindigkeit durch Frequenz. Die Frequenz, also die Tonhöhe, bleibt beim Wechsel des Mediums gleich. In schnelleren Medien wie Wasser ist die Wellenlänge grösser." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="stoff-wahl" id="a3-med"></div>
+
+    <div class="sl-row">
+      <label>Frequenz \(f\):</label>
+      <input type="range" id="a3-f" min="50" max="2000" value="440" step="10">
+      <span class="sl-val" id="a3-f-val">440 Hz</span>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Wellenlänge</div>
+      <div class="fl-eq" id="a3-eq">λ = c / f = 340 / 440 = 0.77 m</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📊 Wellenlänge bei gleicher Frequenz (je Medium)</div>
+      <canvas id="a3-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 7. ANIMATION 4 — EM-SPEKTRUM ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Schall breitet sich am schnellsten aus in …</p><ul class="mc-optionen"><li data-opt="A">Luft</li><li data-opt="B">Wasser</li><li data-opt="C">Stahl</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>C.</strong> In festen, eng gebundenen Stoffen wie Stahl ist die Schallgeschwindigkeit am grössten.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Im Vakuum kann sich Schall <span class="mc-luecke"></span> ausbreiten.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">nicht — Schall braucht ein Medium.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Du hörst den Donner \(3\;\text{s}\) nach dem Blitz (\(c \approx 340\;\text{m/s}\)). Entfernung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(s = c\cdot t = 340 \cdot 3 = 1020\;\text{m} \approx 1\;\text{km}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum hört man bei einem fernen Gewitter Blitz und Donner deutlich versetzt, bei einem nahen kaum?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Licht ist praktisch sofort da, Schall braucht rund \(3\;\text{s}\) pro Kilometer. Bei grosser Entfernung ist der Laufzeitunterschied gross, bei kleiner kaum merklich.</div></details></div>
+</details>
+
+<h2 id="spektrum">Das elektromagnetische Spektrum</h2>
+
+<p>Alle elektromagnetischen Wellen bewegen sich im Vakuum gleich schnell, unterscheiden sich aber in Wellenlänge und Frequenz. Verschiebe den Marker durch das Spektrum — vom kilometerlangen Radiowellen bis zur winzigen Gammastrahlung.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 4 · Vom Radio bis zur Gammastrahlung</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wandere vom Radiobereich bis zur Gammastrahlung.</li><li>Suche den schmalen Bereich des sichtbaren Lichts.</li><li>Verfolge, wie Wellenlänge und Frequenz gegenläufig sind.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wandere mit dem Regler vom Radiobereich bis zur Gammastrahlung. Suche den schmalen, bunten Bereich des sichtbaren Lichts. Verfolge, wie Wellenlänge und Frequenz gegenläufig sind." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Alle sind elektromagnetische Wellen mit gleichem \(c\) im Vakuum.</li><li>Hohe Frequenz bedeutet kurze Wellenlänge und hohe Energie.</li><li>Das sichtbare Licht ist nur ein winziger Ausschnitt des Spektrums.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Alle diese Strahlungsarten sind elektromagnetische Wellen mit derselben Lichtgeschwindigkeit im Vakuum. Eine hohe Frequenz bedeutet eine kurze Wellenlänge und eine hohe Energie. Das sichtbare Licht ist nur ein winziger Ausschnitt des gesamten Spektrums." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>log₁₀(λ / m):</label>
+      <input type="range" id="a4-x" min="-12" max="3" value="-6.5" step="0.05">
+      <span class="sl-val" id="a4-x-val">λ ≈ 0.3 µm</span>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Bereich</span><span class="lb-val" id="a4-band">sichtbares Licht</span></div>
+      <div class="lb-item"><span class="lb-lab">Wellenlänge</span><span class="lb-val" id="a4-lam">0.3 µm</span></div>
+      <div class="lb-item"><span class="lb-lab">Frequenz</span><span class="lb-val" id="a4-f">1·10¹⁵ Hz</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🌈 Das elektromagnetische Spektrum</div>
+      <canvas id="a4-cv" height="200"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 8. ANIMATION 5 — LICHTERZEUGUNG ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Welche dieser Wellen hat die kürzeste Wellenlänge?</p><ul class="mc-optionen"><li data-opt="A">Radiowellen</li><li data-opt="B">sichtbares Licht</li><li data-opt="C">Röntgenstrahlung</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>C.</strong> Röntgenstrahlung hat die höchste Frequenz und damit die kürzeste Wellenlänge.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Alle elektromagnetischen Wellen breiten sich im Vakuum mit der <span class="mc-luecke"></span> aus.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Lichtgeschwindigkeit \(c\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ordne nach steigender Frequenz: Infrarot, sichtbares Licht, UV.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Infrarot \(<\) sichtbares Licht \(<\) UV.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum bräunt UV-Strahlung die Haut, sichtbares Licht aber nicht?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">UV hat eine höhere Frequenz und damit nach \(E = h f\) energiereichere Photonen. Diese Energie reicht aus, um in der Haut Prozesse auszulösen; sichtbares Licht ist dafür zu energiearm.</div></details></div>
+</details>
+
+<h2 id="emission">Wie Licht entsteht: atomare Emission und Laser</h2>
+
+<p>Bei der atomaren Emission springt ein angeregtes Elektron zurück und sendet ein Photon aus — in zufälliger Richtung. Beim Laser löst ein Photon im angeregten Medium identische, gleichgerichtete Photonen aus: kohärentes, gebündeltes Licht.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 5 · Photon-Emission und Laserprinzip</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wähle den Mechanismus und beobachte die Lichtabgabe.</li><li>Verfolge den Elektronensprung im Atom.</li><li>Vergleiche spontane und stimulierte Emission.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle den Mechanismus und beobachte, wie Licht abgegeben wird. Verfolge den Sprung des Elektrons im Atom. Vergleiche die spontane mit der stimulierten Emission beim Laser." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Ein Photon wird frei, wenn ein Elektron auf ein tieferes Niveau fällt.</li><li>Photonenergie = Niveaudifferenz: \(E = h f\).</li><li>Beim Laser löst ein Photon weitere gleiche Photonen aus (stimulierte Emission).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Ein Photon wird frei, wenn ein Elektron von einem höheren auf ein tieferes Energieniveau fällt. Die Energie des Photons entspricht der Niveaudifferenz und ist gleich h mal f. Beim Laser löst ein Photon weitere, gleichartige Photonen aus; das ist die stimulierte Emission." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="stoff-wahl" id="a5-modi"></div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Mechanismus</span><span class="lb-val" id="a5-mech">atomare Emission</span></div>
+      <div class="lb-item"><span class="lb-lab">Licht</span><span class="lb-val" id="a5-licht">zufällige Richtung</span></div>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a5-btn">▶ Start</button>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⚛ Energieniveaus, Photonen und Resonator</div>
+      <canvas id="a5-cv" height="280"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 9. ANIMATION 6 — ABSORPTION / TREIBHAUS ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die Energie eines Photons ist …</p><ul class="mc-optionen"><li data-opt="A">proportional zur Wellenlänge</li><li data-opt="B">proportional zur Frequenz</li><li data-opt="C">für alle Photonen gleich</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(E = h f\) — die Photonenenergie wächst mit der Frequenz.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Photonenenergie ist \(E = h \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(f\) (Frequenz).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Was zeichnet Laserlicht gegenüber Glühlampenlicht aus?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Es ist einfarbig (eine Frequenz), kohärent (gleiche Phase) und stark gebündelt.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum leuchten verschiedene Gase in Leuchtröhren in verschiedenen Farben?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Jedes Atom emittiert nur bestimmte Frequenzen (Übergänge zwischen festen Energieniveaus). Diese diskreten Linien ergeben die charakteristische Farbe — das Linienspektrum des Elements.</div></details></div>
+</details>
+
+<h2 id="absorption">Wellenlängenabhängige Absorption und Treibhauseffekt</h2>
+
+<p>Die Atmosphäre lässt das kurzwellige Sonnenlicht durch, hält aber die langwellige Wärmestrahlung des Bodens teilweise zurück. Wie stark, hängt von der Menge der Treibhausgase ab.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 6 · Durchlässigkeit der Atmosphäre</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Erhöhe die Treibhausgas-Konzentration.</li><li>Beobachte, wie der Infrarotbereich zunehmend absorbiert wird.</li><li>Vergleiche mit der Durchlässigkeit für sichtbares Licht.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Erhöhe die Treibhausgas-Konzentration. Beobachte, wie der Infrarotbereich zunehmend absorbiert wird. Vergleiche das mit der Durchlässigkeit der Atmosphäre für sichtbares Licht." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Die Atmosphäre ist für sichtbares Licht weitgehend durchlässig.</li><li>Treibhausgase absorbieren gerade im Infrarotbereich stark.</li><li>Die zurückgehaltene Infrarotstrahlung erwärmt die untere Atmosphäre.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Atmosphäre ist für sichtbares Licht weitgehend durchlässig. Treibhausgase absorbieren aber gerade im Infrarotbereich besonders stark. Die zurückgehaltene Infrarotstrahlung erwärmt die untere Atmosphäre." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Treibhausgase:</label>
+      <input type="range" id="a6-g" min="0" max="100" value="40" step="1">
+      <span class="sl-val" id="a6-g-val">40 %</span>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">sichtbares Licht</span><span class="lb-val" id="a6-vis">durchgelassen</span></div>
+      <div class="lb-item"><span class="lb-lab">Infrarot (Wärme)</span><span class="lb-val" id="a6-ir">40 % absorbiert</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🌍 Durchlässigkeit über der Wellenlänge</div>
+      <canvas id="a6-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 10. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der Wellenlänge, wenn bei gleicher Geschwindigkeit die Frequenz steigt?</summary>
+  <div class="frage-antwort">
+    <p>Die Wellenlänge wird kleiner. Aus \(c=\lambda f\) folgt bei konstantem \(c\): \(\lambda=c/f\) — höhere Frequenz, kürzere Wellenlänge. Hohe Töne haben kürzere Wellenlängen als tiefe.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Treibhausgase absorbieren vor allem …</p><ul class="mc-optionen"><li data-opt="A">sichtbares Licht</li><li data-opt="B">infrarote Strahlung</li><li data-opt="C">Radiowellen</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Treibhausgase absorbieren die infrarote (Wärme-)Strahlung der Erde.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Ob eine Welle absorbiert wird, hängt von ihrer <span class="mc-luecke"></span> ab.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Wellenlänge (Frequenz).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">In welchem Bereich strahlt die Erde, dessen Strahlung von \(\text{CO}_2\) teils absorbiert wird?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Im Infrarot — die langwellige Wärmestrahlung der Erdoberfläche.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum erscheint ein rotes T-Shirt rot?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Es absorbiert die übrigen Wellenlängen des sichtbaren Lichts und reflektiert vorwiegend das rote. Diese reflektierte Wellenlänge gelangt ins Auge.</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Wellengleichung anwenden</span></div>
+  <p>In Luft von \(15\,^\circ\text{C}\) breitet sich Schall mit \(c = 340\,\text{m/s}\) aus. Verwende \(c=\lambda f\) und \(f=1/T\).</p>
+  <ol class="aufg-liste">
+    <li>Welche Wellenlänge hat der Kammerton a mit \(f = 440\,\text{Hz}\)?</li>
+    <li>Welche Periode \(T\) hat dieser Ton?</li>
+    <li>Welche Wellenlänge hat ein hoher Ton mit \(2000\,\text{Hz}\)? Was fällt im Vergleich auf?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(\lambda = c/f = 340/440 \approx 0.77\,\text{m}\).</li>
+        <li>\(T = 1/f = 1/440 \approx 2.3\,\text{ms}\).</li>
+        <li>\(\lambda = 340/2000 = 0.17\,\text{m}\). Je höher die Frequenz, desto kürzer die Wellenlänge (bei gleicher Geschwindigkeit).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Wellentypen unterscheiden</span></div>
+  <ol class="aufg-liste">
+    <li>Ordne zu, ob es sich um eine Transversal- oder eine Longitudinalwelle handelt: (a) Welle auf einem gespannten Seil, (b) Schall in Luft, (c) sichtbares Licht.</li>
+    <li>Welche dieser drei Wellen kann sich im Vakuum ausbreiten — und warum?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>(a) Transversal — das Seil schwingt quer zur Ausbreitung. (b) Longitudinal — die Luft schwingt längs (Druckschwankungen). (c) Transversal — elektrisches und magnetisches Feld schwingen quer zur Ausbreitung.</li>
+        <li>Nur das Licht: Elektromagnetische Wellen brauchen kein Medium. Seil- und Schallwellen sind mechanische Wellen und benötigen einen Schwingungsträger.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Schall in verschiedenen Medien</span></div>
+  <p>Ein Ton mit \(f = 256\,\text{Hz}\) breitet sich in Luft (\(340\,\text{m/s}\)), Wasser (\(1500\,\text{m/s}\)) und Stahl (\(5170\,\text{m/s}\)) aus.</p>
+  <ol class="aufg-liste">
+    <li>Berechne die Wellenlänge in jedem Medium.</li>
+    <li>Wovon hängt die Schallgeschwindigkeit ab — von der Frequenz oder vom Medium?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Luft: \(\lambda = 340/256 \approx 1.33\,\text{m}\). Wasser: \(1500/256 \approx 5.86\,\text{m}\). Stahl: \(5170/256 \approx 20.2\,\text{m}\).</li>
+        <li>Vom Medium: Die Frequenz bleibt gleich (sie ist durch die Quelle vorgegeben), aber je grösser \(c\), desto grösser die Wellenlänge.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Elektromagnetisches Spektrum</span></div>
+  <ol class="aufg-liste">
+    <li>Ordne nach zunehmender Wellenlänge: Gammastrahlung, Radiowellen, sichtbares Licht, Mikrowellen.</li>
+    <li>In welchem Wellenlängenbereich liegt das sichtbare Licht?</li>
+    <li>Berechne die Frequenz eines roten Lasers mit \(\lambda = 632.8\,\text{nm}\) (\(c = 3\cdot10^{8}\,\text{m/s}\)).</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Gammastrahlung &lt; sichtbares Licht &lt; Mikrowellen &lt; Radiowellen (Gamma am kürzesten, Radio am längsten).</li>
+        <li>Etwa \(380\,\text{nm}\) (violett) bis \(780\,\text{nm}\) (rot).</li>
+        <li>\(f = c/\lambda = \dfrac{3\cdot10^{8}}{632.8\cdot10^{-9}} \approx 4.7\cdot10^{14}\,\text{Hz}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Lichtgeschwindigkeit und \(c=\lambda f\)</span></div>
+  <p>Elektromagnetische Wellen breiten sich im Vakuum mit \(c = 3\cdot10^{8}\,\text{m/s}\) aus.</p>
+  <ol class="aufg-liste">
+    <li>Welche Wellenlänge hat ein UKW-Radiosender mit \(f = 100\,\text{MHz}\)?</li>
+    <li>Eine Mikrowelle arbeitet mit \(f = 2.45\,\text{GHz}\). Wie gross ist die Wellenlänge?</li>
+    <li>Warum kann sich Licht im Vakuum ausbreiten, Schall aber nicht?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(\lambda = c/f = \dfrac{3\cdot10^{8}}{100\cdot10^{6}} = 3\,\text{m}\).</li>
+        <li>\(\lambda = \dfrac{3\cdot10^{8}}{2.45\cdot10^{9}} \approx 0.12\,\text{m} = 12\,\text{cm}\).</li>
+        <li>Licht ist eine elektromagnetische Welle und braucht kein Trägermedium. Schall ist eine mechanische Welle und benötigt schwingfähige Teilchen — im Vakuum gibt es keine.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Lichterzeugung und Treibhauseffekt</span></div>
+  <ol class="aufg-liste">
+    <li>Nenne drei Arten, wie Licht erzeugt werden kann, mit je einem Beispiel.</li>
+    <li>Was zeichnet Laserlicht gegenüber dem Licht einer Glühlampe aus?</li>
+    <li>Erkläre mit der wellenlängenabhängigen Absorption, warum die Atmosphäre die Oberfläche erwärmt (Treibhauseffekt).</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Wärmestrahlung (Glühlampe, Sonne), atomare Emission (Leuchtstoffröhre) und stimulierte Emission (Laser).</li>
+        <li>Laserlicht ist kohärent, einfarbig (eine Wellenlänge) und stark gebündelt; Glühlampenlicht ist ein breites Farbspektrum, das in alle Richtungen abgestrahlt wird.</li>
+        <li>Die Atmosphäre lässt das kurzwellige Sonnenlicht durch, das den Boden erwärmt. Die langwellige Wärmestrahlung (Infrarot) des Bodens wird von Treibhausgasen stark absorbiert und teilweise zurückgestrahlt. Diese unterschiedliche Absorption nach Wellenlänge hält Energie in Bodennähe — es wird wärmer.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 11. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Grösse / Konzept</th><th>Formel / Aussage</th><th>Bezug</th></tr></thead>
+  <tbody>
+    <tr><td>Frequenz / Periode</td><td>\(f = 1/T\)</td><td>Hz, s</td></tr>
+    <tr><td>Wellengleichung</td><td>\(c = \lambda f\)</td><td>Phasengeschwindigkeit</td></tr>
+    <tr><td>Wellentypen</td><td>transversal (quer) / longitudinal (längs)</td><td>Licht / Schall</td></tr>
+    <tr><td>mechanische Welle</td><td>braucht ein Medium</td><td>Schall, Wasser, Erdbeben</td></tr>
+    <tr><td>EM-Welle</td><td>kein Medium, \(c=3\cdot10^{8}\,\text{m/s}\)</td><td>Spektrum Radio → Gamma</td></tr>
+    <tr><td>sichtbares Licht</td><td>\(380\!-\!780\,\text{nm}\)</td><td>kleiner Ausschnitt</td></tr>
+    <tr><td>Lichterzeugung</td><td>thermisch · atomar · Laser</td><td>kohärent beim Laser</td></tr>
+    <tr><td>Absorption</td><td>wellenlängenabhängig</td><td>Treibhauseffekt</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Eine Welle transportiert Energie, aber keine Materie.</li>
+  <li>Grundgrössen: Frequenz \(f=1/T\), Wellenlänge \(\lambda\), Geschwindigkeit \(c=\lambda f\).</li>
+  <li>Transversalwellen schwingen quer, Longitudinalwellen längs zur Ausbreitungsrichtung.</li>
+  <li>Mechanische Wellen (Schall, Wasser, Erdbeben) brauchen ein Medium.</li>
+  <li>Elektromagnetische Wellen brauchen kein Medium und sind im Vakuum gleich schnell: \(c\approx 3\cdot10^{8}\;\text{m/s}\).</li>
+  <li>Sichtbares Licht ist nur ein kleiner Ausschnitt (\(380\!-\!780\;\text{nm}\)) des Spektrums.</li>
+  <li>Die Ausbreitungsgeschwindigkeit hängt vom Wellentyp und den Eigenschaften des Mediums ab.</li>
+</ul>
+
+<div class="merksatz">
+  Eine Welle entsteht aus gekoppelten Schwingungen und transportiert Energie, aber keine Materie. Es gilt \(c=\lambda f\), wobei die Geschwindigkeit bei mechanischen Wellen vom Wellentyp und den Eigenschaften des Mediums abhängt. Transversalwellen schwingen quer, Longitudinalwellen längs zur Ausbreitung; Schall ist longitudinal und braucht ein Medium, Licht ist transversal und breitet sich auch im Vakuum mit \(3\cdot10^{8}\,\text{m/s}\) aus. Das elektromagnetische Spektrum reicht von Radiowellen bis zur Gammastrahlung, mit dem sichtbaren Licht als winzigem Ausschnitt. Licht entsteht thermisch, durch atomare Emission oder als kohärentes Laserlicht. Weil die Atmosphäre Strahlung wellenlängenabhängig absorbiert — kurzwelliges Sonnenlicht durchlässt, langwellige Wärmestrahlung zurückhält — entsteht der Treibhauseffekt.
+</div>
+
+
+<!-- ══════════════ 12. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p6-1-wellen/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p6-1-wellen/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p6-1-wellen/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p6-1-wellen/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p6-1-wellen/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 13. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+<p>Ausgewählte und geprüfte Anlaufstellen zum Vertiefen, Veranschaulichen und Üben. Alle Links öffnen in einem neuen Tab.</p>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.youtube.com/watch?v=NhD149Zatqs" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Grundbegriffe zu Wellen</div><div class="lk-s">Wellenlänge, Wellenberg, Wellental, Frequenz und Periodendauer anschaulich erklärt — die zentralen Grössen jeder Welle</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=89mA2IUeGK4" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Wellen — Periodendauer, Frequenz, Wellenlänge</div><div class="lk-s">Physik-Tutorial zum Zusammenhang \(c=\lambda\,f\) mit Rechenbeispielen (Oberstufen-Niveau)</div></div>
+  </a>
+  <a href="https://www.youtube.com/@musstewissenPhysik/search?query=wellen" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">musstewissen Physik — Wellen</div><div class="lk-s">Kanalsuche · funk/ARD/ZDF · BM-passender Schul-Erklärstil</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/wave-on-a-string" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Seilwelle</div><div class="lk-s">Wellen am Seil erzeugen, Frequenz und Amplitude verstellen, Wellenlänge und Ausbreitungsgeschwindigkeit beobachten (HTML5, deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/electromagneticwave_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Elektromagnetische Welle</div><div class="lk-s">Linear polarisierte EM-Welle: das elektrische (rot) und magnetische Feld (blau) schwingen senkrecht zueinander und quer zur Ausbreitung (HTML5, deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/standinglongitudinalwaves_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Stehende Längswellen</div><div class="lk-s">Longitudinalwellen am Beispiel der Luftsäule im Rohr — wie sich die Teilchen längs zur Ausbreitung bewegen (HTML5, deutsch)</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/mechanik/mechanische-wellen/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Mechanische Wellen</div><div class="lk-s">Aufgaben zu Wellengrössen, \(\lambda=c/f\), Transversal- und Longitudinalwellen sowie zur Lokalisation eines Erdbeben-Epizentrums · mit einblendbaren Musterlösungen</div></div>
+  </a>
+  <a href="https://de.serlo.org/physik/50810/mechanische-schwingungen-und-wellen" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">serlo — Mechanische Schwingungen und Wellen</div><div class="lk-s">Frei lizenziert · Aufgaben zu Wellengrössen und Schwingungen mit Musterlösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/akustik/akustische-wellen" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Akustische Wellen</div><div class="lk-s">Schallwellen, Schallgeschwindigkeit und Doppler-Effekt · Grundwissen und Aufgaben mit Musterlösungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 6.1 Wellen</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p6-1',
+  kapitelNr:'6.1', kapitelTitel:'Wellen',
+  prev:{nr:'5.3',titel:'Wärmeausdehnung',url:'p5-3-waermeausdehnung.html'},
+  next:{nr:'6.2',titel:'Elektrizität',url:'p6-2-elektrizitaet.html'}
+});
+
+// ── Helfer ────────────────────────────────────────────────
+function emFmt(x){ // 10er-Potenz hübsch
+  const e=Math.floor(Math.log10(x)); const m=x/Math.pow(10,e);
+  return m.toFixed(1)+'·10'+supDigits(e);
+}
+function supDigits(n){ const s={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+  return (''+n).split('').map(c=>s[c]||c).join(''); }
+
+// ── Loop-Manager (rAF + IntersectionObserver-Autostart) ───
+const LOOPS = [];
+function makeLoop(canvasId, btnId, tickFn){
+  const st={running:false,userPaused:false,rafId:null,last:0,canvasId:canvasId};
+  const btn=document.getElementById(btnId); st.btn=btn;
+  function frame(ts){ if(!st.running)return; if(!st.last)st.last=ts;
+    let dt=(ts-st.last)/1000; st.last=ts; if(dt>0.05)dt=0.05; tickFn(dt);
+    st.rafId=requestAnimationFrame(frame); }
+  st.start=function(){ if(st.running)return; st.running=true; st.last=0; st.rafId=requestAnimationFrame(frame); };
+  st.stop=function(){ st.running=false; if(st.rafId)cancelAnimationFrame(st.rafId); };
+  if(btn) btn.addEventListener('click',function(){
+    if(st.running){ st.userPaused=true; st.stop(); btn.textContent='▶ Weiter'; btn.classList.add('paused'); }
+    else { st.userPaused=false; st.start(); btn.textContent='⏸ Pause'; btn.classList.remove('paused'); } });
+  LOOPS.push(st); return st;
+}
+
+// ══════════════════════════════════════════════════════════
+//  EINSTIEG: laufende Welle (Transversal)
+// ══════════════════════════════════════════════════════════
+let einPhase=0;
+function einTick(dt){ einPhase += dt*1.6; einRender(); }
+function einRender(){
+  const cv=initCanvas('ein-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const yMid=H*0.46, A=H*0.30, lamPx=W*0.28, k=2*Math.PI/lamPx;
+  // Ruhelinie
+  ctx.strokeStyle='#d8d0c4'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(0,yMid); ctx.lineTo(W,yMid); ctx.stroke();
+  // Welle
+  ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=2.6; ctx.beginPath();
+  for(let x=0;x<=W;x+=3){ const y=yMid - A*Math.sin(k*x - einPhase*2.2);
+    if(x===0)ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+  ctx.stroke();
+  // markierter Punkt (nur vertikale Bewegung)
+  const xh=W*0.30, yh=yMid - A*Math.sin(k*xh - einPhase*2.2);
+  ctx.strokeStyle='#d8d0c4'; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(xh,yMid-A-6); ctx.lineTo(xh,yMid+A+6); ctx.stroke(); ctx.setLineDash([]);
+  drawArrow(ctx, xh, yMid, xh, yh, '#9b1c1c', 2, 7);
+  ctx.fillStyle='#b85c00'; ctx.beginPath(); ctx.arc(xh,yh,7,0,6.283); ctx.fill();
+  ctx.fillStyle='#9b1c1c'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('schwingt nur auf/ab', xh, yMid+A+22);
+  // Wellenlaenge-Klammer zwischen zwei Bergen
+  // Berge bei k*x - phase = pi/2 + 2pi n
+  const off=((Math.PI/2 + einPhase*2.2)/k) % lamPx;
+  const c1=off + lamPx*1, c2=c1+lamPx;
+  if(c2<W){
+    ctx.strokeStyle='#1f6b3a'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(c1,yMid-A-10); ctx.lineTo(c2,yMid-A-10); ctx.stroke();
+    ctx.fillStyle='#1f6b3a'; ctx.fillText('λ', (c1+c2)/2, yMid-A-14);
+  }
+  // Ausbreitungspfeil
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('Ausbreitung →', W-8, H*0.95);
+}
+const einLoop = makeLoop('ein-cv','ein-btn', einTick);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: c = λ·f  (laufende Welle, einstellbar)
+// ══════════════════════════════════════════════════════════
+let a1Phase=0;
+function a1Vals(){ const lam=+document.getElementById('a1-lam').value, f=+document.getElementById('a1-f').value;
+  return {lam,f,c:lam*f,T:1/f}; }
+function a1Read(){
+  const v=a1Vals();
+  document.getElementById('a1-lam-val').textContent=v.lam.toFixed(1)+' m';
+  document.getElementById('a1-f-val').textContent=v.f.toFixed(1)+' Hz';
+  document.getElementById('a1-eq').textContent='c = λ · f = '+v.lam.toFixed(1)+' · '+v.f.toFixed(1)+' = '+v.c.toFixed(1)+' m/s';
+  document.getElementById('a1-T').textContent=v.T.toFixed(2)+' s';
+  document.getElementById('a1-fv').textContent=v.f.toFixed(1)+' Hz';
+  document.getElementById('a1-c').textContent=v.c.toFixed(1)+' m/s';
+}
+function a1Render(){
+  const v=a1Vals();
+  const cv=initCanvas('a1-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const yMid=H*0.50, A=H*0.30, scale=W*0.125, lamPx=Math.max(12,v.lam*scale), k=2*Math.PI/lamPx;
+  ctx.strokeStyle='#d8d0c4'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(0,yMid); ctx.lineTo(W,yMid); ctx.stroke();
+  ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=2.6; ctx.beginPath();
+  for(let x=0;x<=W;x+=3){ const y=yMid - A*Math.sin(k*x - a1Phase); if(x===0)ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+  ctx.stroke();
+  // Wellenlaenge-Klammer
+  const off=((Math.PI/2 + a1Phase)/k) % lamPx;
+  const c1=off, c2=c1+lamPx;
+  if(c2<W){ ctx.strokeStyle='#1f6b3a'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(c1,yMid-A-8); ctx.lineTo(c2,yMid-A-8); ctx.stroke();
+    ctx.fillStyle='#1f6b3a'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('λ = '+v.lam.toFixed(1)+' m', (c1+c2)/2, yMid-A-12); }
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('c = '+v.c.toFixed(1)+' m/s →', W-8, H*0.94);
+}
+function a1Tick(dt){ const v=a1Vals(); a1Phase += dt*2*Math.PI*v.f; a1Render(); }
+const a1Loop=makeLoop('a1-cv','a1-btn',a1Tick);
+['a1-lam','a1-f'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{ a1Read(); if(!a1Loop.running) a1Render(); }));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 2: Transversal- vs. Longitudinalwelle
+// ══════════════════════════════════════════════════════════
+const A2MODI=[{t:'Transversalwelle',d:'quer zur Ausbreitung'},{t:'Longitudinalwelle',d:'längs zur Ausbreitung'}];
+const a2State={mode:0,phase:0};
+function a2Buttons(){
+  const box=document.getElementById('a2-modi'); box.innerHTML='';
+  A2MODI.forEach((m,i)=>{ const b=document.createElement('button'); b.textContent=m.t;
+    if(i===a2State.mode)b.classList.add('aktiv');
+    b.addEventListener('click',()=>{ a2State.mode=i; a2Buttons();
+      document.getElementById('a2-typ').textContent=m.t;
+      document.getElementById('a2-dir').textContent=m.d; a2Render(); });
+    box.appendChild(b); });
+}
+function a2Tick(dt){ a2State.phase += dt*2.4; a2Render(); }
+function a2Render(){
+  const cv=initCanvas('a2-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const N=42, x0=W*0.05, x1=W*0.95, yMid=H*0.50;
+  const lamPx=W*0.22, k=2*Math.PI/lamPx, ph=a2State.phase;
+  if(a2State.mode===0){   // Transversal
+    // verbindende Linie
+    ctx.strokeStyle='#bcd0e6'; ctx.lineWidth=1.5; ctx.beginPath();
+    for(let i=0;i<=N;i++){ const xr=x0+(x1-x0)*i/N, y=yMid - H*0.26*Math.sin(k*(xr-x0)-ph);
+      if(i===0)ctx.moveTo(xr,y); else ctx.lineTo(xr,y); }
+    ctx.stroke();
+    for(let i=0;i<=N;i++){ const xr=x0+(x1-x0)*i/N, y=yMid - H*0.26*Math.sin(k*(xr-x0)-ph);
+      ctx.fillStyle='#1a4f8a'; ctx.beginPath(); ctx.arc(xr,y,4,0,6.283); ctx.fill(); }
+    ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Teilchen schwingen senkrecht (auf/ab) — Welle läuft →', W*0.5, H*0.93);
+  } else {                // Longitudinal
+    const Adisp=lamPx*0.30;
+    for(let i=0;i<=N;i++){ const xr=x0+(x1-x0)*i/N;
+      const dx=Adisp*Math.sin(k*(xr-x0)-ph);
+      // Dichte ~ -d/dx Auslenkung; einfärben nach Kompression
+      const dens=Math.cos(k*(xr-x0)-ph); // >0 ~ Verdichtung
+      ctx.fillStyle = dens>0 ? '#9b1c1c' : '#1a4f8a';
+      ctx.globalAlpha=0.55+0.45*Math.abs(dens);
+      ctx.beginPath(); ctx.arc(xr+dx,yMid,4.5,0,6.283); ctx.fill(); ctx.globalAlpha=1;
+    }
+    ctx.fillStyle='#9b1c1c'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Verdichtung', x0+lamPx*0.5, yMid-H*0.22);
+    ctx.fillStyle='#1a4f8a'; ctx.fillText('Verdünnung', x0+lamPx*1.0, yMid+H*0.24);
+    ctx.fillStyle='#5a5040'; ctx.fillText('Teilchen schwingen längs (hin/her) — Verdichtungen laufen →', W*0.5, H*0.93);
+  }
+}
+const a2Loop=makeLoop('a2-cv','a2-btn',a2Tick);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 3: Schall in verschiedenen Medien
+// ══════════════════════════════════════════════════════════
+const A3MED=[{n:'Luft (15 °C)',c:340},{n:'Helium',c:980},{n:'Wasser',c:1500},{n:'Stahl',c:5170}];
+let a3Sel=0;
+function a3Buttons(){
+  const box=document.getElementById('a3-med'); box.innerHTML='';
+  A3MED.forEach((m,i)=>{ const b=document.createElement('button'); b.textContent=m.n;
+    if(i===a3Sel)b.classList.add('aktiv');
+    b.addEventListener('click',()=>{a3Sel=i;a3Buttons();drawA3();}); box.appendChild(b); });
+}
+function drawA3(){
+  const f=+document.getElementById('a3-f').value;
+  document.getElementById('a3-f-val').textContent=f+' Hz';
+  const sel=A3MED[a3Sel], lamSel=sel.c/f;
+  document.getElementById('a3-eq').textContent='λ = c / f = '+sel.c+' / '+f+' = '+lamSel.toFixed(2)+' m';
+
+  const cv=initCanvas('a3-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const lams=A3MED.map(m=>m.c/f), lmax=Math.max(...lams);
+  const x0=W*0.22, x1=W*0.93, n=A3MED.length, gap=(H*0.86)/n, bh=gap*0.6;
+  for(let i=0;i<n;i++){
+    const y=H*0.07+i*gap, len=(x1-x0)*(lams[i]/lmax);
+    ctx.fillStyle=(i===a3Sel)?'#b85c00':'#d9c4a3'; ctx.fillRect(x0,y,len,bh);
+    ctx.fillStyle='#1c1a17'; ctx.font=(i===a3Sel?'bold ':'')+'12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.fillText(A3MED[i].n, x0-8, y+bh*0.72);
+    ctx.textAlign='left'; ctx.font='11px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
+    ctx.fillText(lams[i].toFixed(2)+' m', x0+len+6, y+bh*0.72);
+  }
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('gleiche Frequenz '+f+' Hz — Wellenlänge λ = c/f', W*0.5, H*0.99);
+}
+['a3-f'].forEach(id=>document.getElementById(id).addEventListener('input', drawA3));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 4: Elektromagnetisches Spektrum
+// ══════════════════════════════════════════════════════════
+const C_LIGHT=2.998e8;
+const A4BANDS=[ // [minLog, maxLog, name, farbe]
+  [-12,-11,'Gammastrahlung','#7b4fa0'],
+  [-11,-8,'Röntgenstrahlung','#5566c0'],
+  [-8,-6.42,'Ultraviolett','#3b7fd0'],
+  [-6.42,-6.11,'sichtbares Licht','#22aa55'],
+  [-6.11,-3,'Infrarot','#d06a2c'],
+  [-3,-1,'Mikrowellen','#c0913a'],
+  [-1,3,'Radiowellen','#9a8050']
+];
+function a4Band(L){ for(const b of A4BANDS){ if(L>=b[0] && L<b[1]) return b; } return A4BANDS[A4BANDS.length-1]; }
+function a4FmtLam(lam){
+  if(lam>=1) return lam.toFixed(lam<10?2:0)+' m';
+  if(lam>=1e-3) return (lam*1e3).toFixed(1)+' mm';
+  if(lam>=1e-6) return (lam*1e6).toFixed(2)+' µm';
+  if(lam>=1e-9) return (lam*1e9).toFixed(0)+' nm';
+  return (lam*1e12).toFixed(1)+' pm';
+}
+function visColor(lamNm){ // 380..780 nm -> Farbe
+  let r,g,b;
+  if(lamNm<440){r=(440-lamNm)/60;g=0;b=1;}
+  else if(lamNm<490){r=0;g=(lamNm-440)/50;b=1;}
+  else if(lamNm<510){r=0;g=1;b=(510-lamNm)/20;}
+  else if(lamNm<580){r=(lamNm-510)/70;g=1;b=0;}
+  else if(lamNm<645){r=1;g=(645-lamNm)/65;b=0;}
+  else {r=1;g=0;b=0;}
+  return 'rgb('+Math.round(r*220)+','+Math.round(g*200)+','+Math.round(b*220)+')';
+}
+function drawA4(){
+  const L=+document.getElementById('a4-x').value;   // log10(lambda/m)
+  const lam=Math.pow(10,L), f=C_LIGHT/lam, band=a4Band(L);
+  document.getElementById('a4-x-val').textContent='λ ≈ '+a4FmtLam(lam);
+  document.getElementById('a4-band').textContent=band[2];
+  document.getElementById('a4-lam').textContent=a4FmtLam(lam);
+  document.getElementById('a4-f').textContent=emFmt(f)+' Hz';
+
+  const cv=initCanvas('a4-cv',200,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const bx0=W*0.05, bx1=W*0.95, by0=H*0.30, by1=H*0.56;
+  const Lmin=-12, Lmax=3, xOf=l=>bx0+(l-Lmin)/(Lmax-Lmin)*(bx1-bx0);
+  // Baender
+  for(const b of A4BANDS){
+    const xa=xOf(b[0]), xb=xOf(b[1]);
+    if(b[2]==='sichtbares Licht'){
+      for(let xx=xa;xx<xb;xx+=2){ const fr=(xx-xa)/(xb-xa);
+        const lamNm=780-(780-380)*fr; ctx.fillStyle=visColor(lamNm); ctx.fillRect(xx,by0,2.5,by1-by0); }
+    } else { ctx.fillStyle=b[3]; ctx.fillRect(xa,by0,xb-xa,by1-by0); }
+    ctx.fillStyle='#3a332a'; ctx.font='9px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.save(); ctx.translate((xa+xb)/2,by1+8); ctx.rotate(-0.5);
+    ctx.fillText(b[2], 0,0); ctx.restore();
+  }
+  ctx.strokeStyle='#5a5040'; ctx.lineWidth=1; ctx.strokeRect(bx0,by0,bx1-bx0,by1-by0);
+  // Achsenticks (log)
+  ctx.fillStyle='#6b7280'; ctx.font='9px JetBrains Mono,monospace'; ctx.textAlign='center';
+  for(let l=Lmin;l<=Lmax;l+=3){ ctx.fillText('10'+supDigits(l), xOf(l), by0-6); }
+  ctx.fillStyle='#374151'; ctx.fillText('Wellenlänge λ [m]', W*0.5, by0-20);
+  // Marker
+  const mx=xOf(L);
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(mx,by0-2); ctx.lineTo(mx,by1+2); ctx.stroke();
+  drawArrow(ctx, mx, by1+30, mx, by1+4, '#1c1a17',2,7);
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText(band[2]+'  ·  '+a4FmtLam(lam)+'  ·  '+emFmt(f)+' Hz', W*0.5, H*0.95);
+}
+['a4-x'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 5: Lichterzeugung (atomare Emission / Laser)
+// ══════════════════════════════════════════════════════════
+const a5State={mode:0,t:0};
+function a5Buttons(){
+  const box=document.getElementById('a5-modi'); box.innerHTML='';
+  ['atomare Emission','Laser'].forEach((lab,i)=>{ const b=document.createElement('button'); b.textContent=lab;
+    if(i===a5State.mode)b.classList.add('aktiv');
+    b.addEventListener('click',()=>{ a5State.mode=i; a5State.t=0; a5Buttons();
+      document.getElementById('a5-mech').textContent= i===0?'atomare Emission':'stimulierte Emission (Laser)';
+      document.getElementById('a5-licht').textContent= i===0?'zufällige Richtung':'kohärent, gebündelt';
+      a5Render(); });
+    box.appendChild(b); });
+}
+function a5Tick(dt){ a5State.t += dt; a5Render(); }
+function wavyArrow(ctx,x1,y1,x2,y2,col){
+  const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,nx=-uy,ny=ux;
+  ctx.strokeStyle=col; ctx.lineWidth=2; ctx.beginPath();
+  for(let s=0;s<=len;s+=2){ const w=Math.sin(s*0.5)*3; const px=x1+ux*s+nx*w, py=y1+uy*s+ny*w;
+    if(s===0)ctx.moveTo(px,py); else ctx.lineTo(px,py); }
+  ctx.stroke();
+  drawArrow(ctx, x2-ux*8, y2-uy*8, x2, y2, col, 2, 6);
+}
+function a5Render(){
+  const cv=initCanvas('a5-cv',280,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const t=a5State.t;
+  if(a5State.mode===0){     // atomare Emission
+    const cx=W*0.32, cy=H*0.50, r1=H*0.13, r2=H*0.30;
+    const p=(t*0.35)%1;
+    // Orbits
+    ctx.strokeStyle='#d8d0c4'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(cx,cy,r1,0,6.283); ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx,cy,r2,0,6.283); ctx.stroke();
+    // Kern
+    ctx.fillStyle='#9b1c1c'; ctx.beginPath(); ctx.arc(cx,cy,10,0,6.283); ctx.fill();
+    // Phase: 0-0.30 anregen (inner + Energie rein), 0.30-0.65 outer, 0.65-1 Photon raus (inner)
+    const onOuter = (p>=0.30 && p<0.65);
+    const ang=t*2.0;
+    const er = onOuter ? r2 : r1;
+    const ex=cx+er*Math.cos(ang), ey=cy+er*Math.sin(ang);
+    // Anregungsenergie
+    if(p<0.30){ wavyArrow(ctx, cx-W*0.26, cy+H*0.30, cx-r1*0.8, cy+r1*0.5, '#1f6b3a');
+      ctx.fillStyle='#1f6b3a'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+      ctx.fillText('Energie zuführen', cx-W*0.26, cy+H*0.36); }
+    // Sprung-Pfeil
+    if(onOuter){ ctx.strokeStyle='#5a5040'; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(cx+r1,cy); ctx.lineTo(cx+r2,cy); ctx.stroke(); ctx.setLineDash([]); }
+    // Elektron
+    ctx.fillStyle='#1a4f8a'; ctx.beginPath(); ctx.arc(ex,ey,6,0,6.283); ctx.fill();
+    // Photon-Emission
+    if(p>=0.65){ const d=(p-0.65)/0.35; const sx=cx+r1, sy=cy;
+      wavyArrow(ctx, sx, sy, sx+W*0.32*d, sy-H*0.30*d, '#b85c00');
+      ctx.fillStyle='#b85c00'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+      ctx.fillText('Photon', sx+W*0.32*d-30, sy-H*0.30*d-6); }
+    ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Elektron springt zurück und sendet ein Photon in zufälliger Richtung aus', W*0.5, H*0.95);
+  } else {                  // Laser
+    const xL=W*0.12, xR=W*0.74, yT=H*0.20, yB=H*0.70, ymid=(yT+yB)/2;
+    // Spiegel
+    ctx.fillStyle='#5a5040'; ctx.fillRect(xL-6,yT,6,yB-yT);
+    ctx.fillStyle='#8a8478'; ctx.fillRect(xR,yT,6,yB-yT);  // teildurchlaessig
+    ctx.fillStyle='#5a5040'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Spiegel', xL, yT-6); ctx.fillText('teildurchlässig', xR+6, yT-6);
+    // aktives Medium: Atome
+    ctx.fillStyle='#c9bfae';
+    for(let i=0;i<6;i++){ const ax=xL+ (i+0.5)*(xR-xL)/6;
+      ctx.beginPath(); ctx.arc(ax, yT+ (i%2?14:-14)+ (yB-yT)/2, 7,0,6.283); ctx.fill(); }
+    // Photonen pendeln + verstaerken
+    const nph=5;
+    for(let i=0;i<nph;i++){
+      const yy=yT+ (yB-yT)*(i+0.5)/nph;
+      const span=xR-xL-4; const pos=((t*120 + i*40)%(2*span));
+      const px = pos<span ? xL+pos : xR-(pos-span);
+      wavyArrow(ctx, px-16, yy, px+16, yy, '#b85c00');
+    }
+    // austretender Strahl
+    ctx.strokeStyle='#c0392b'; ctx.lineWidth=4; ctx.globalAlpha=0.85;
+    ctx.beginPath(); ctx.moveTo(xR+6,ymid); ctx.lineTo(W*0.97,ymid); ctx.stroke(); ctx.globalAlpha=1;
+    ctx.fillStyle='#c0392b'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Laserstrahl', W*0.88, ymid-8);
+    ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('ein Photon löst gleichgerichtete Photonen aus — kohärentes, gebündeltes Licht', W*0.5, H*0.95);
+  }
+}
+const a5Loop=makeLoop('a5-cv','a5-btn',a5Tick);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 6: Wellenlängenabhängige Absorption / Treibhaus
+// ══════════════════════════════════════════════════════════
+function drawA6(){
+  const g=+document.getElementById('a6-g').value/100;
+  document.getElementById('a6-g-val').textContent=Math.round(g*100)+' %';
+  document.getElementById('a6-vis').textContent='durchgelassen';
+  document.getElementById('a6-ir').textContent=Math.round(g*100)+' % absorbiert';
+
+  const cv=initCanvas('a6-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const px0=W*0.10, px1=W*0.93, py0=H*0.14, py1=H*0.74;
+  // Achsen
+  ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(px0,py0); ctx.lineTo(px0,py1); ctx.lineTo(px1,py1); ctx.stroke();
+  ctx.fillStyle='#374151'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('100 %', px0-16, py0+4); ctx.fillText('0 %', px0-14, py1+2);
+  ctx.save(); ctx.translate(px0-32,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Durchlässigkeit',0,0); ctx.restore();
+  // x: links kurzwellig (sichtbar/Sonne) -> rechts langwellig (Infrarot/Wärme)
+  const xMid=px0+(px1-px0)*0.42;
+  // Region-Hintergruende
+  ctx.fillStyle='rgba(230,200,40,0.12)'; ctx.fillRect(px0,py0,xMid-px0,py1-py0);
+  ctx.fillStyle='rgba(192,57,43,0.10)'; ctx.fillRect(xMid,py0,px1-xMid,py1-py0);
+  // Durchlaessigkeitskurve: links hoch (~95%), rechts faellt um g
+  function trans(x){ // x in [0,1] ueber die Achse
+    if(x<0.36) return 0.95;
+    if(x<0.46){ const u=(x-0.36)/0.10; return 0.95 - u*0.95*g; } // Uebergang
+    return 0.95*(1-g);
+  }
+  const yOf=T=>py1-(T)*(py1-py0);
+  ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=2.6; ctx.beginPath();
+  for(let i=0;i<=100;i++){ const x=i/100, X=px0+x*(px1-px0), Y=yOf(trans(x));
+    if(i===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
+  ctx.stroke();
+  // absorbierte Flaeche (zwischen Kurve und 100%) im IR
+  ctx.fillStyle='rgba(192,57,43,0.30)'; ctx.beginPath(); ctx.moveTo(px0+0.46*(px1-px0),yOf(0.95));
+  for(let i=46;i<=100;i++){ const x=i/100; ctx.lineTo(px0+x*(px1-px0), yOf(trans(x))); }
+  for(let i=100;i>=46;i--){ const x=i/100; ctx.lineTo(px0+x*(px1-px0), yOf(0.95)); }
+  ctx.closePath(); ctx.fill();
+  // Trennlinie + Labels
+  ctx.strokeStyle='#9aa0a6'; ctx.setLineDash([4,3]); ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(xMid,py0); ctx.lineTo(xMid,py1); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#8a6d12'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('sichtbares Licht (Sonne)', (px0+xMid)/2, py1+16);
+  ctx.fillStyle='#a8392b';
+  ctx.fillText('Infrarot (Wärmestrahlung)', (xMid+px1)/2, py1+16);
+  ctx.fillText('← kurzwellig          Wellenlänge          langwellig →', W*0.5, py1+32);
+  // Hinweis
+  ctx.fillStyle='#a8392b'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText(Math.round(g*100)+' % der Wärmestrahlung absorbiert', (xMid+px1)/2, (py0+py1)/2);
+}
+['a6-g'].forEach(id=>document.getElementById(id).addEventListener('input', drawA6));
+
+
+// ══════════════════════════════════════════════════════════
+//  INITIALISIERUNG + Autostart der Loops bei Sichtbarkeit
+// ══════════════════════════════════════════════════════════
+function initAll(){
+  einRender();
+  a1Read(); a1Render();
+  a2Buttons(); a2Render();
+  a3Buttons(); drawA3();
+  drawA4();
+  a5Buttons(); a5Render();
+  drawA6();
+
+  if('IntersectionObserver' in window){
+    const map=new Map();
+    LOOPS.forEach(st=>{ const el=document.getElementById(st.canvasId); if(el) map.set(el,st); });
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ const st=map.get(e.target); if(!st) return;
+        if(e.isIntersecting){ if(!st.userPaused){ st.start(); if(st.btn){ st.btn.textContent='⏸ Pause'; st.btn.classList.remove('paused'); } } }
+        else { st.stop(); } });
+    }, { threshold:0.25 });
+    map.forEach((st,el)=>io.observe(el));
+  }
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', initAll);
+else initAll();
+
+let rzT;
+window.addEventListener('resize', ()=>{
+  clearTimeout(rzT);
+  rzT=setTimeout(()=>{
+    drawA3(); drawA4(); drawA6(); a1Read();
+    if(!einLoop.running) einRender();
+    if(!a1Loop.running) a1Render();
+    if(!a2Loop.running) a2Render();
+    if(!a5Loop.running) a5Render();
+  }, 150);
+});
+</script>
+</body>
+</html>

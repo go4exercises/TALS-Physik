@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handout · Statik von Festkörpern — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../print.css">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.0 },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div class="druck-bar no-print">
+  <a class="db-back" href="../../../themen/p4-4-statik.html#downloads">← zurück zur Themenseite</a>
+  <span class="db-info">Handout · A4 · Bereit zum Drucken</span>
+  <button class="db-print" onclick="window.print()">Seite drucken</button>
+</div>
+
+<div class="druck-wrapper">
+
+  <header class="doc-kopf">
+    <div class="dk-bereich">TALS Physik · Lerngebiet 4 Mechanik · Statik von Festkörpern</div>
+    <h1>Handout — Theorie</h1>
+  </header>
+
+  <!-- 1. KRAFT ALS VEKTOR -->
+  <h2>1. Kraft als Vektor</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Kraft, Betrag und Richtung</div>
+    <p>Eine <strong>Kraft</strong> \(\vec{F}\) ist eine vektorielle Grösse — sie ist durch <strong>Betrag</strong> und <strong>Richtung</strong> vollständig beschrieben. SI-Einheit ist das <strong>Newton</strong>, \(1\;\text{N} = 1\;\text{kg}\cdot\text{m/s}^2\).</p>
+    <p>In der Statik kommt zusätzlich der <strong>Angriffspunkt</strong> ins Spiel. Die Gerade durch den Kraftvektor heisst <strong>Wirkungslinie</strong>. Für einen starren Körper gilt: Eine Kraft darf entlang ihrer Wirkungslinie verschoben werden, ohne dass sich ihre Wirkung ändert — quer dazu jedoch nicht.</p>
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Komponentenzerlegung</div>
+    <p>Mit dem Winkel \(\varphi\) zur positiven \(x\)-Achse zerlegt man jede Kraft in zwei senkrechte Komponenten:</p>
+    \[ F_x = F \cdot \cos\varphi, \qquad F_y = F \cdot \sin\varphi \]
+    <p>Umgekehrt lässt sich der Betrag aus den Komponenten zurückgewinnen: \( F = \sqrt{F_x^2 + F_y^2} \). Die Zerlegung ist das Werkzeug, mit dem die Kräftebilanz komponentenweise aufgestellt wird.</p>
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Die wesentlichen Kräfte im Gleichgewicht</div>
+    <table class="ftb-tabelle">
+      <thead><tr><th>Kraft</th><th>Symbol</th><th>Richtung / Angriff</th></tr></thead>
+      <tbody>
+        <tr><td>Schwer-/Gewichtskraft</td><td>\(\vec{F}_G\)</td><td>senkrecht nach unten, am Schwerpunkt; \(F_G = m\cdot g\)</td></tr>
+        <tr><td>Auflager-/Normalkraft</td><td>\(\vec{F}_N\)</td><td>senkrecht zur Auflagefläche, von der Unterlage weg</td></tr>
+        <tr><td>Haftreibungskraft</td><td>\(\vec{F}_R\)</td><td>entlang der Fläche, der drohenden Bewegung entgegen; \(F_R \le \mu_H \cdot F_N\)</td></tr>
+        <tr><td>Seil-/Zugkraft</td><td>\(\vec{F}_S\)</td><td>stets entlang des Seils, vom Körper weg</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2. RESULTIERENDE -->
+  <h2>2. Resultierende mehrerer Kräfte</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Vektorsumme</div>
+    <p>Greifen mehrere Kräfte an einem Körper an, fasst man sie zur <strong>resultierenden Kraft</strong> zusammen — der Vektorsumme:</p>
+    \[ \vec{F}_R = \vec{F}_1 + \vec{F}_2 + \dots = \sum_i \vec{F}_i \]
+    <p>Grafisch hängt man die Pfeile aneinander (oder bildet das Kräfteparallelogramm), rechnerisch addiert man komponentenweise:</p>
+    \[ F_{R,x} = \sum_i F_{i,x}, \qquad F_{R,y} = \sum_i F_{i,y} \]
+  </div>
+
+  <!-- 3. DREHMOMENT -->
+  <h2>3. Drehmoment einer Kraft</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Drehmoment und Hebelarm</div>
+    <p>Das <strong>Drehmoment</strong> \(M\) beschreibt die Drehwirkung einer Kraft um eine Drehachse \(D\). Es ist das Produkt aus Kraft und <strong>wirksamem Hebelarm</strong> \(r\) — dem senkrechten Abstand zwischen Drehachse und Wirkungslinie:</p>
+    \[ M = F \cdot r = F \cdot l \cdot \sin\alpha \]
+    <p>Dabei ist \(l\) die Distanz von der Drehachse zum Angriffspunkt und \(\alpha\) der Winkel zwischen Hebel und Kraft. SI-Einheit: <strong>Newtonmeter</strong> (Nm). Die Drehwirkung ist <strong>maximal bei \(\alpha = 90^\circ\)</strong> und null, wenn die Kraft auf die Drehachse zeigt. Vorzeichen: Gegenuhrzeigersinn positiv, Uhrzeigersinn negativ.</p>
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Hebelgesetz</div>
+    <p>Im Gleichgewicht halten sich linkes und rechtes Drehmoment die Waage (Wippe, Balkenwaage):</p>
+    \[ F_1 \cdot r_1 = F_2 \cdot r_2 \]
+    <p>Das leichtere Gewicht muss weiter aussen sitzen, das schwerere näher zur Achse — das Produkt aus Kraft und Hebelarm zählt.</p>
+  </div>
+
+  <!-- 4. GLEICHGEWICHT -->
+  <h2>4. Statisches Gleichgewicht</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Die zwei Gleichgewichtsbedingungen</div>
+    <p>Ein Körper ist im <strong>statischen Gleichgewicht</strong>, wenn er weder beschleunigt noch zu rotieren beginnt. Dazu müssen <strong>beide</strong> Bedingungen gleichzeitig gelten:</p>
+    \[ \sum_i \vec{F}_i = \vec{0} \qquad \text{und} \qquad \sum_i M_i = 0 \]
+    <p>Die Kräftebedingung zerfällt in \(\sum F_x = 0\) und \(\sum F_y = 0\). Die Drehachse für die Momentenbedingung ist <strong>frei wählbar</strong> — geschickt legt man sie dorthin, wo eine unbekannte Kraft angreift, damit diese aus der Momentengleichung herausfällt.</p>
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Last an zwei Seilen (Knotengleichgewicht)</div>
+    <p>Bildet das linke Seil mit der Horizontalen den Winkel \(\alpha\), das rechte \(\beta\), so folgt aus \(\sum F_x = 0\) und \(\sum F_y = 0\) am Knoten:</p>
+    \[ S_1 = F_G \cdot \frac{\cos\beta}{\sin(\alpha+\beta)}, \qquad S_2 = F_G \cdot \frac{\cos\alpha}{\sin(\alpha+\beta)} \]
+    <p>Je flacher die Seile (kleine Winkel), desto grösser werden die Seilkräfte — sie können das Gewicht um ein Vielfaches übersteigen. Das steilere Seil trägt den grösseren Anteil des Gewichts.</p>
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Auflagerkräfte am Balken</div>
+    <p>Ein Balken der Stützweite \(L\) trägt eine Last \(F_G\) im Abstand \(x\) von der linken Stütze \(A\). Mit der Drehachse bei \(A\) fällt \(F_A\) aus der Momentengleichung:</p>
+    \[ \sum M_A = 0: \quad F_B = F_G \cdot \frac{x}{L}, \qquad \sum F_y = 0: \quad F_A = F_G \cdot \Big(1 - \frac{x}{L}\Big) \]
+    <p>Die Stütze näher an der Last trägt mehr. Bei mehreren Lasten summiert man die einzelnen Momente.</p>
+  </div>
+
+  <!-- 5. SCHIEFE EBENE -->
+  <h2>5. Gleichgewicht auf der schiefen Ebene</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Zerlegung der Gewichtskraft</div>
+    <p>Bei Neigungswinkel \(\alpha\) zerlegt man die Gewichtskraft \(F_G = m\cdot g\) in eine Komponente entlang des Hangs und eine senkrecht zur Ebene:</p>
+    \[ F_H = F_G \cdot \sin\alpha \quad(\text{hangabwärts}), \qquad F_N = F_G \cdot \cos\alpha \quad(\text{senkrecht zur Ebene}) \]
+    <p>Der Körper bleibt in Ruhe, solange die Haftreibung den Hangabtrieb hält: \(F_H \le \mu_H \cdot F_N\). Setzt man ein, kürzt sich \(F_G\) heraus, und es bleibt die einfache Haftbedingung:</p>
+    \[ \tan\alpha \le \mu_H \qquad\Rightarrow\qquad \alpha_{\max} = \arctan(\mu_H) \]
+    <p>Der Grenzwinkel hängt also nur vom Reibungskoeffizienten ab — nicht von der Masse.</p>
+  </div>
+
+  <!-- 6. ZUSAMMENFASSUNG -->
+  <h2>6. Zusammenfassung</h2>
+
+  <table class="ftb-tabelle">
+    <thead><tr><th>Konzept</th><th>Formel</th><th>Anwendung</th></tr></thead>
+    <tbody>
+      <tr><td>Kraftkomponenten</td><td>\(F_x = F\cos\varphi,\; F_y = F\sin\varphi\)</td><td>Zerlegung, Kräftebilanz</td></tr>
+      <tr><td>Resultierende</td><td>\(\vec{F}_R = \sum \vec{F}_i\)</td><td>mehrere Kräfte zusammenfassen</td></tr>
+      <tr><td>Drehmoment</td><td>\(M = F\cdot l\cdot\sin\alpha\)</td><td>Hebel, Schraubenschlüssel</td></tr>
+      <tr><td>Hebelgesetz</td><td>\(F_1 r_1 = F_2 r_2\)</td><td>Wippe, Balkenwaage</td></tr>
+      <tr><td>Kräftegleichgewicht</td><td>\(\sum F_x = 0,\; \sum F_y = 0\)</td><td>Knoten, Seile</td></tr>
+      <tr><td>Momentengleichgewicht</td><td>\(\sum M = 0\)</td><td>Auflagerkräfte, starrer Körper</td></tr>
+      <tr><td>Schiefe Ebene</td><td>\(F_H = F_G\sin\alpha,\; F_N = F_G\cos\alpha\)</td><td>Rampe, Haftbedingung \(\tan\alpha \le \mu_H\)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="merksatz">
+    Im statischen Gleichgewicht ist die Summe aller Kräfte null <em>und</em> die Summe aller Drehmomente null. In der Statik kommt es zusätzlich darauf an, wo eine Kraft angreift — eine Kraft darf nur entlang ihrer Wirkungslinie verschoben werden. Bei Aufgaben mit Kräften an verschiedenen Angriffspunkten beginnt man mit Vorteil bei der Momentengleichung und wählt die Drehachse dort, wo eine unbekannte Kraft angreift.
+  </div>
+
+</div>
+
+</body>
+</html>

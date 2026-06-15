@@ -1,0 +1,265 @@
+<!--
+═══════════════════════════════════════════════════════════════════
+  TALS Physik — Themenseiten-Template
+  Version 1.0 · Mai 2026
+
+  ANLEITUNG:
+  1. Kopiere diese Datei nach themen/ und benenne sie nach Schema:
+     themen/p<lerngebiet>-<nr>-<kurzname>.html
+     z.B. themen/p4-2-dynamik.html
+  2. Suche & ersetze alle PLATZHALTER ⟪…⟫
+  3. Folge dem 13-Punkte-Master-Schema (STYLEGUIDE.md §4)
+  4. Mindestens 5, höchstens 10 Canvas-Animationen
+  5. Genau 6 Aufgaben A1-A6
+  6. Pre-Flight-Checks ausführen (HOWTO-neue-themenseite.md §6)
+═══════════════════════════════════════════════════════════════════
+-->
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[VORLAGE] ⟪RLP-Nr⟫ ⟪Themenname⟫ — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* ── Widget-Basis-Styles, Aufgaben-Klassen und alle gemeinsamen Komponenten
+   sind zentral in ../style.css definiert. Hier NUR seitenspezifische
+   Layout-Klassen ergänzen (z.B. ein besonderes Grid für eine Animation). ── */
+</style>
+</head>
+<body>
+
+<!-- TEMPLATE-HINWEIS (sichtbar nur wenn ../style.css nicht geladen wurde) -->
+<div id="template-hinweis" style="
+     position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+     background: #fbecd2; border-bottom: 2px solid #8a4a0e;
+     padding: 14px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+     font-size: 14px; color: #1a1a1a; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
+  <strong>📋 TEMPLATE.html — Vorlage zum Kopieren</strong><br>
+  Diese Datei ist die Vorlage für neue Themenseiten und nicht als eigenständige Seite gedacht.
+  Sie funktioniert erst, wenn nach <code>themen/</code> kopiert und der Themen-Inhalt eingefügt wurde.
+</div>
+<script>
+  window.addEventListener('load', () => {
+    const probe = getComputedStyle(document.documentElement).getPropertyValue('--bernstein').trim();
+    if (probe) document.getElementById('template-hinweis').style.display = 'none';
+  });
+</script>
+
+<div id="nav-root"></div>
+<div class="page-wrap">
+<main class="content">
+
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet ⟪N⟫ ⟪Lerngebietname⟫</div>
+  <h1 class="pt-h1">⟪RLP-Nr⟫ ⟪Themenname⟫</h1>
+  <p class="pt-untertitel">⟪Untertitel mit Kernaussage des Themas⟫</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet ⟪RLP-Nr⟫</div>
+  <ul>
+    <li>⟪Kompetenz 1 — 1:1 aus RLP zitiert⟫</li>
+    <li>⟪Kompetenz 2⟫</li>
+    <li>⟪Kompetenz 3⟫</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<h2 id="einstieg">Einstieg — ⟪Anwendungstitel⟫</h2>
+<p>⟪Erzählender Text, der das Thema in einen Alltagskontext einbettet.⟫</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Phänomen</div>
+  <p>⟪Beobachtbares Phänomen als Aufhänger.⟫</p>
+</div>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 ⟪Begriff⟫</div>
+  <p>⟪Definition mit Formel und Einheit⟫</p>
+  \[ ⟪Formel⟫ \]
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 ══════════════ -->
+<h2 id="darstellungen">⟪Hauptphänomen interaktiv⟫</h2>
+
+<div class="widget">
+  <div class="widget-header">
+    <h3>Animation 1 · ⟪Titel⟫</h3>
+    <p>⟪Kurzbeschreibung — was tun Slider?⟫</p>
+  </div>
+  <div class="widget-body">
+    <div class="sl-row">
+      <label>⟪Parameter⟫:</label>
+      <input type="range" id="a1-x" min="0" max="10" value="5" step="0.1">
+      <span class="sl-val" id="a1-x-val">5.0</span>
+    </div>
+    <div class="cv-wrap">
+      <div class="cv-titel">⟪Diagramm-Titel⟫</div>
+      <canvas id="a1-cv" height="280"></canvas>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 5-9. WEITERE ANIMATIONEN ══════════════ -->
+<!-- … pro Spezialfall eine weitere Animation, Total 5-10 … -->
+
+
+<!-- ══════════════ 10. AUFGABEN ══════════════ -->
+<h2 id="aufgaben">Aufgaben</h2>
+
+<!-- Alle Aufgaben A1-A6 identisch nach diesem Muster (siehe STYLEGUIDE §5.5). -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">⟪Werte ablesen⟫</span></div>
+  <p>⟪Aufgabentext⟫</p>
+  <ol class="aufg-liste">
+    <li>⟪Teilaufgabe a⟫</li>
+    <li>⟪Teilaufgabe b⟫</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>⟪Lösung a, Inline-Mathe \(…\) oder Display \[…\]⟫</li>
+        <li>⟪Lösung b⟫</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A2 … A6 analog. Aufgaben ohne Teile: aufg-liste weglassen, Lösung als <p> mit \[…\]. -->
+
+
+<!-- ══════════════ 11. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Grösse</th><th>Formel</th><th>Einheit</th></tr></thead>
+  <tbody>
+    <tr><td>⟪Symbol⟫</td><td>\(⟪Formel⟫\)</td><td>⟪Einheit⟫</td></tr>
+  </tbody>
+</table>
+
+<div class="merksatz">
+  ⟪Kern-Merksatz des Themas⟫
+</div>
+
+
+<!-- ══════════════ 12. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/⟪datei-id⟫/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/⟪datei-id⟫/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/⟪datei-id⟫/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/⟪datei-id⟫/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/⟪datei-id⟫/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 13. EXTERNE RESSOURCEN (DREISPALTIG) ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <!-- max. 4 Karten -->
+</div>
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <!-- max. 4 Karten -->
+</div>
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <!-- max. 4 Karten -->
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · ⟪RLP-Nr⟫ ⟪Themenname⟫</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script>
+buildNav({
+  id:'⟪p4-2⟫',
+  kapitelNr:'⟪4.2⟫',
+  kapitelTitel:'⟪Themenname⟫',
+  prev:{nr:'⟪4.1⟫', titel:'⟪Vorgänger⟫', url:'⟪vorgaenger.html⟫'},
+  next:{nr:'⟪4.3⟫', titel:'⟪Nachfolger⟫', url:'⟪nachfolger.html⟫'}
+});
+
+/* CANVAS-HELPER aus ../physiklib.js verfügbar:
+   - initCanvas(id, H, square)
+   - drawGrid(ctx, W, H, xMin, xMax, yMin, yMax)  → {cx, cy}
+   - drawAxesUnits(ctx, W, H, cx, cy, xLabel, yLabel)
+   - drawArrow(ctx, x1, y1, x2, y2, color, lw, head)   ← Pixel
+   - drawVector(ctx, cx, cy, x0, y0, dx, dy, color, label, lw)  ← logisch
+   - drawDot(ctx, cx, cy, x, y, color, r)
+   - drawCurve(ctx, cx, cy, xFn, yFn, tMin, tMax, steps, color, lw)
+   - fmt(n), fmtS(n), fmtSig(n, k)
+   - toggleL(id)
+*/
+
+function drawA1() {
+  const x = +document.getElementById('a1-x').value;
+  document.getElementById('a1-x-val').textContent = x.toFixed(1);
+  const cv = initCanvas('a1-cv', 280, false);
+  const grid = drawGrid(cv.ctx, cv.W, cv.H, -1, 11, -5, 30);
+  drawAxesUnits(cv.ctx, cv.W, cv.H, grid.cx, grid.cy, 't [s]', 'y [m]');
+  // ... eigene Zeichenlogik ...
+}
+document.getElementById('a1-x').addEventListener('input', drawA1);
+
+function renderAll() {
+  drawA1();
+  // drawA2(); ... etc.
+}
+document.addEventListener('DOMContentLoaded', renderAll);
+window.addEventListener('resize', renderAll);
+</script>
+</body>
+</html>

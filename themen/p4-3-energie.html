@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.3 Energie — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* ── Seitenspezifische Layouts für die Animationen dieser Seite ── */
+.a-twocol { display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start; }
+@media(max-width:760px){ .a-twocol { grid-template-columns:1fr; } }
+.a-onecol { display:grid; grid-template-columns:1fr; gap:14px; }
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 4 Mechanik</div>
+  <h1 class="pt-h1">4.3 Energie</h1>
+  <p class="pt-untertitel">Arbeit, Leistung und der Erhaltungssatz der Energie.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 4.3 · 100 Lektionen (Lerngebiet 4)</div>
+  <ul>
+    <li>die mechanische Arbeit \(W = F \cdot s \cdot \cos\alpha\) berechnen</li>
+    <li>die Leistung \(P = W / t\) bestimmen und in Watt angeben</li>
+    <li>kinetische Energie \(E_{\text{kin}} = \tfrac{1}{2} m v^2\) und potentielle Energie \(E_{\text{pot}} = m g h\) berechnen</li>
+    <li>den Energieerhaltungssatz auf mechanische Vorgänge anwenden</li>
+    <li>den Wirkungsgrad als Verhältnis von Nutz- zu Gesamtenergie bestimmen</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann die mechanische Arbeit \(W=F\cdot s\cdot\cos\alpha\) berechnen.</li>
+      <li>Ich kann die Leistung \(P=W/t\) bestimmen und in Watt angeben.</li>
+      <li>Ich kann kinetische und potentielle Energie berechnen.</li>
+      <li>Ich kann den Energieerhaltungssatz auf mechanische Vorgänge anwenden.</li>
+      <li>Ich kann den Wirkungsgrad als Verhältnis von Nutz- zu zugeführter Energie bestimmen.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — die Achterbahn ohne Motor</h2>
+
+<p>Eine Achterbahn wird zu Beginn mit einer Kette auf den höchsten Punkt der Strecke gezogen. Danach schaltet sich kein Motor mehr ein — und trotzdem rast der Wagen die gesamte Strecke mit ihren Hügeln und Tälern ab. Wieso reicht der eine Aufstieg am Anfang für die ganze Fahrt?</p>
+
+<p>Der Schlüssel ist die <strong>Energie</strong>. Auf dem höchsten Punkt steckt sie als Lageenergie im Wagen; beim Hinunterfahren wird sie in Bewegungsenergie umgewandelt, beim nächsten Hügel wieder zurück. Energie geht dabei nicht verloren, sie wechselt nur die Form. Genau das macht den Energiebegriff so mächtig: Statt in jedem Punkt mühsam Kräfte zu zerlegen, verfolgen wir eine einzige Grösse durch den ganzen Vorgang.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Beobachte</div>
+  <p>In Animation 3 weiter unten schwingt ein Pendel hin und her. Beobachte die beiden Energiebalken: Wann ist die Lageenergie am grössten, wann die Bewegungsenergie? Achte darauf, dass ihre Summe — die Gesamtenergie — die ganze Zeit gleich bleibt. Dasselbe Prinzip steckt hinter der Achterbahn.</p>
+</div>
+
+<p>Auf dieser Seite lernst du, was <strong>Arbeit</strong> physikalisch bedeutet, welche <strong>Energieformen</strong> es in der Mechanik gibt, wie der <strong>Energieerhaltungssatz</strong> Bewegungen erklärt, und wie man mit <strong>Leistung</strong> und <strong>Wirkungsgrad</strong> beschreibt, wie schnell und wie effizient Energie umgesetzt wird.</p>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Woher nimmt die Achterbahn nach dem ersten Hügel ihre Bewegung?</p><ul class="mc-optionen"><li data-opt="A">aus einem versteckten Motor</li><li data-opt="B">aus der Umwandlung von Lage- in Bewegungsenergie</li><li data-opt="C">aus der Reibung</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die im ersten Hügel gespeicherte Lageenergie wird beim Hinunterfahren in Bewegungsenergie umgewandelt.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Energie kann nicht erzeugt oder vernichtet, nur <span class="mc-luecke"></span> werden.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">umgewandelt (Energieerhaltung).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Lageenergie eines Wagens (\(m = 500\;\text{kg}\)) in \(h = 20\;\text{m}\) Höhe? (\(g = 9.81\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(E_{\text{pot}} = m g h = 500 \cdot 9.81 \cdot 20 = 98\,100\;\text{J} \approx 98.1\;\text{kJ}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">An welcher Stelle der Achterbahn ist die Geschwindigkeit am grössten — und warum?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Am tiefsten Punkt: dort ist die Lageenergie minimal und nach der Energieerhaltung die Bewegungsenergie maximal.</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Arbeit</div>
+  <p>Verschiebt eine Kraft \(\vec{F}\) einen Körper um die Strecke \(s\), so verrichtet sie <strong>mechanische Arbeit</strong>. Es zählt nur der Anteil der Kraft, der <em>in Richtung der Bewegung</em> zeigt:</p>
+  \[ W = F \cdot s \cdot \cos\alpha \]
+  <p>Dabei ist \(\alpha\) der Winkel zwischen Kraft und Weg. SI-Einheit ist das <strong>Joule</strong>, \(1\;\text{J} = 1\;\text{N} \cdot \text{m}\). Steht die Kraft senkrecht zum Weg (\(\alpha = 90°\)), wird keine Arbeit verrichtet.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Energie</div>
+  <p><strong>Energie</strong> ist die Fähigkeit eines Körpers oder Systems, Arbeit zu verrichten. Wer an einem Körper Arbeit verrichtet, lädt ihn mit Energie auf; gibt der Körper Energie ab, kann er selbst Arbeit verrichten. Energie wird in derselben Einheit gemessen wie Arbeit, in <strong>Joule</strong>.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Potentielle Energie (Lageenergie)</div>
+  <p>Hebt man einen Körper der Masse \(m\) um die Höhe \(h\) an, speichert er <strong>potentielle Energie</strong>:</p>
+  \[ E_{\text{pot}} = m \cdot g \cdot h \]
+  <p>Sie entspricht genau der Hubarbeit, die zum Anheben nötig war. Die Höhe wird ab einem frei wählbaren Nullniveau gezählt.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Kinetische Energie (Bewegungsenergie)</div>
+  <p>Ein Körper der Masse \(m\), der sich mit der Geschwindigkeit \(v\) bewegt, trägt <strong>kinetische Energie</strong>:</p>
+  \[ E_{\text{kin}} = \tfrac{1}{2}\, m \, v^2 \]
+  <p>Sie wächst <strong>quadratisch</strong> mit der Geschwindigkeit: Doppeltes Tempo bedeutet vierfache Bewegungsenergie — und damit etwa den vierfachen Bremsweg.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Leistung</div>
+  <p>Die <strong>Leistung</strong> gibt an, wie schnell Arbeit verrichtet bzw. Energie umgesetzt wird:</p>
+  \[ P = \frac{W}{t} \]
+  <p>SI-Einheit ist das <strong>Watt</strong>, \(1\;\text{W} = 1\;\text{J/s}\). Bei konstanter Geschwindigkeit gilt auch \(P = F \cdot v\).</p>
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 — HUBARBEIT / W=F·s·cosα ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die Einheit von Arbeit und Energie ist …</p><ul class="mc-optionen"><li data-opt="A">Newton</li><li data-opt="B">Joule</li><li data-opt="C">Watt</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Arbeit und Energie misst man in Joule: \(1\;\text{J} = 1\;\text{N}\cdot\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Arbeit wird verrichtet, wenn eine Kraft längs eines <span class="mc-luecke"></span> wirkt.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Weges — \(W = F\cdot s\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Wie viele Joule sind \(1\;\text{kWh}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(1\;\text{kWh} = 1000\;\text{W} \cdot 3600\;\text{s} = 3.6\cdot 10^{6}\;\text{J} = 3.6\;\text{MJ}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Du trägst eine schwere Kiste waagrecht mit konstanter Geschwindigkeit durch einen Raum. Verrichtest du physikalisch Hubarbeit?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Nein. Hubkraft (senkrecht) und Weg (waagrecht) stehen senkrecht zueinander: \(W = F s \cos 90° = 0\). (Die Muskeln ermüden trotzdem — das ist etwas anderes.)</div></details></div>
+</details>
+
+<h2 id="arbeit">Arbeit — Kraft mal Weg in Bewegungsrichtung</h2>
+
+<p>Arbeit ist mehr als „Kraft aufwenden“. Wer einen schweren Koffer nur hält, wird müde — verrichtet aber keine physikalische Arbeit, weil sich nichts bewegt. Erst die Verschiebung in Kraftrichtung zählt. Im Kraft-Weg-Diagramm entspricht die Arbeit der <strong>Fläche</strong> unter der Kraftkurve.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 1 · Arbeit als Fläche im Kraft-Weg-Diagramm</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Zugkraft \(F\), Weg \(s\) und Winkel \(\alpha\) ein.</li><li>Beobachte, wie nur die waagrechte Komponente \(F\cos\alpha\) zählt.</li><li>Vergleiche die Rechteckfläche bei \(\alpha = 0\) und bei grossem \(\alpha\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Zugkraft F, Weg s und den Winkel alpha zwischen Kraft und Weg ein. Beobachte, wie nur die waagrechte Komponente F mal Kosinus alpha Arbeit verrichtet. Vergleiche die Rechteckfläche bei alpha gleich null und bei grossem alpha." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Arbeit: \(W = F \cdot s \cdot \cos\alpha\).</li><li>Bei \(\alpha = 90°\) wird keine Arbeit verrichtet (\(\cos 90° = 0\)).</li><li>Die Arbeit entspricht der Fläche im Kraft-Weg-Diagramm.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Arbeit ist W gleich F mal s mal Kosinus alpha. Bei einem Winkel von 90 Grad wird keine Arbeit verrichtet, weil der Kosinus von 90 Grad null ist. Die Arbeit entspricht der Fläche im Kraft-Weg-Diagramm." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Zugkraft \(F\):</label>
+      <input type="range" id="a1-F" min="10" max="100" value="50" step="5">
+      <span class="sl-val" id="a1-F-val">50 N</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Weg \(s\):</label>
+      <input type="range" id="a1-s" min="0.5" max="4" value="2" step="0.1">
+      <span class="sl-val" id="a1-s-val">2.0 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Winkel \(\alpha\):</label>
+      <input type="range" id="a1-alpha" min="0" max="80" value="0" step="5">
+      <span class="sl-val" id="a1-alpha-val">0°</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Verrichtete Arbeit</div>
+      <div class="fl-eq" id="a1-eq">W = 50 · 2.0 · cos 0° = 100 J</div>
+    </div>
+
+    <div class="a-twocol">
+      <div class="cv-wrap">
+        <div class="cv-titel">🛷 Schlitten mit Zugkraft</div>
+        <canvas id="a1-cv-szene" height="260"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📊 \(F(s)\) — Fläche = Arbeit</div>
+        <canvas id="a1-cv-diag" height="260"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 5. ANIMATION 2 — KINETISCHE ENERGIE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Bei welchem Winkel zwischen Kraft und Weg wird die meiste Arbeit verrichtet?</p><ul class="mc-optionen"><li data-opt="A">\(0°\)</li><li data-opt="B">\(45°\)</li><li data-opt="C">\(90°\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Bei \(0°\) ist \(\cos\alpha = 1\) maximal; bei \(90°\) wird keine Arbeit verrichtet.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Nur die Kraftkomponente <span class="mc-luecke"></span> zum Weg verrichtet Arbeit.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">parallel (längs) — \(W = F s \cos\alpha\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Kraft \(F = 40\;\text{N}\) zieht eine Kiste \(s = 5\;\text{m}\) waagrecht (\(\alpha = 0\)). Arbeit?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(W = F\cdot s = 40 \cdot 5 = 200\;\text{J}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Zugkraft von \(50\;\text{N}\) wirkt unter \(60°\) zum Weg über \(10\;\text{m}\). Welche Arbeit? (\(\cos 60° = 0.5\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(W = F s \cos\alpha = 50 \cdot 10 \cdot 0.5 = 250\;\text{J}\).</div></details></div>
+</details>
+
+<h2 id="kinetisch">Kinetische Energie — quadratisch mit dem Tempo</h2>
+
+<p>Die Bewegungsenergie wächst mit dem <strong>Quadrat</strong> der Geschwindigkeit. Das hat dramatische Folgen im Strassenverkehr: Wer statt mit 30 km/h mit 50 km/h fährt, hat nicht knapp doppelt, sondern fast die dreifache Bewegungsenergie — und damit einen entsprechend längeren Anhalteweg.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 2 · \(E_{\text{kin}}(v)\) — die Energie-Parabel</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Geschwindigkeit \(v\) und Masse \(m\) ein.</li><li>Verschiebe \(v\) und beobachte, wie steil die Energie wächst.</li><li>Vergleiche den Effekt von doppeltem \(v\) mit doppeltem \(m\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Geschwindigkeit v und Masse m ein. Verschiebe v und beobachte, wie viel steiler die Energie wächst als die Geschwindigkeit. Vergleiche den Effekt von doppeltem v mit dem von doppelter Masse." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Kinetische Energie: \(E_{\text{kin}} = \tfrac{1}{2} m v^2\).</li><li>\(E_{\text{kin}} \propto v^2\): doppelte Geschwindigkeit vervierfacht die Energie.</li><li>Die Masse geht nur linear ein: doppelte Masse, doppelte Energie.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die kinetische Energie ist ein halb mal m mal v hoch zwei. Sie wächst quadratisch mit der Geschwindigkeit: doppeltes v vervierfacht die Energie. Die Masse geht nur linear ein: doppelte Masse bedeutet doppelte Energie." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Geschwindigkeit \(v\):</label>
+      <input type="range" id="a2-v" min="0" max="30" value="14" step="1">
+      <span class="sl-val" id="a2-v-val">14 m/s</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a2-m" min="200" max="2000" value="1200" step="100">
+      <span class="sl-val" id="a2-m-val">1200 kg</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Kinetische Energie</div>
+      <div class="fl-eq" id="a2-eq">E = ½ · 1200 · 14² = 117.6 kJ</div>
+    </div>
+
+    <div class="a-twocol">
+      <div class="cv-wrap">
+        <div class="cv-titel">🚗 Fahrzeug in Bewegung</div>
+        <canvas id="a2-cv-szene" height="240"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📈 \(E(v)\) — quadratische Kurve</div>
+        <canvas id="a2-cv-diag" height="240"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 6. ANIMATION 3 — PENDEL / ENERGIEERHALTUNG ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der Energie, wenn ein Pendel durch Reibung langsamer wird?</summary>
+  <div class="frage-antwort">
+    <p>Sie verschwindet nicht — die mechanische Energie wird nach und nach in <strong>Wärme</strong> (und etwas Schall) umgewandelt. Die Gesamtenergie bleibt erhalten, nur ist sie am Ende nicht mehr als Bewegung nutzbar.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Verdoppelt man die Geschwindigkeit, so wird die kinetische Energie …</p><ul class="mc-optionen"><li data-opt="A">doppelt so gross</li><li data-opt="B">viermal so gross</li><li data-opt="C">gleich gross</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(E_{\text{kin}} = \tfrac12 m v^2 \sim v^2\) — doppeltes \(v\), vierfache Energie.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die kinetische Energie wächst <span class="mc-luecke"></span> mit der Geschwindigkeit.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">quadratisch — \(E_{\text{kin}} = \tfrac12 m v^2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Kinetische Energie eines Autos (\(m = 1000\;\text{kg}\), \(v = 20\;\text{m/s}\))?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(E_{\text{kin}} = \tfrac12 m v^2 = \tfrac12 \cdot 1000 \cdot 20^2 = 200\,000\;\text{J} = 200\;\text{kJ}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum ist der Bremsweg bei doppeltem Tempo viermal so lang (bei gleicher Bremskraft)?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die Bremsarbeit zehrt die kinetische Energie auf: \(F\cdot s = \tfrac12 m v^2\). Da \(E_{\text{kin}} \sim v^2\), gilt bei festem \(F\) auch \(s \sim v^2\).</div></details></div>
+</details>
+
+<h2 id="erhaltung">Energieerhaltung — die Summe bleibt</h2>
+
+<p>In einem reibungsfreien System ist die <strong>Gesamtenergie konstant</strong>. Lage- und Bewegungsenergie wandeln sich ständig ineinander um, ihre Summe bleibt jedoch unverändert. Das Pendel zeigt das in Reinform: oben am Umkehrpunkt steht es still (nur Lageenergie), unten am tiefsten Punkt ist es am schnellsten (nur Bewegungsenergie).</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 3 · Pendel und Energieumwandlung</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Lass das reibungsfreie Pendel los und verfolge die Energiebalken.</li><li>Beobachte, wie Lage- und Bewegungsenergie sich abwechseln.</li><li>Achte darauf, dass die Gesamtenergie konstant bleibt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Lass das reibungsfreie Pendel los und verfolge die Energiebalken. Beobachte, wie Lageenergie und Bewegungsenergie sich abwechseln. Achte darauf, dass die Gesamtenergie konstant bleibt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Energieerhaltung: \(E_{\text{pot}} + E_{\text{kin}} = \text{const.}\)</li><li>Im tiefsten Punkt ist \(E_{\text{kin}}\) maximal, in den Umkehrpunkten \(E_{\text{pot}}\).</li><li>Ohne Reibung geht keine Energie verloren, sie wird nur umgewandelt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Es gilt die Energieerhaltung: die Summe aus Lageenergie und Bewegungsenergie bleibt konstant. Im tiefsten Punkt ist die Bewegungsenergie maximal, in den Umkehrpunkten die Lageenergie. Ohne Reibung geht keine Energie verloren, sie wird nur umgewandelt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Auslenkwinkel \(\theta_0\):</label>
+      <input type="range" id="a3-theta" min="15" max="60" value="40" step="5">
+      <span class="sl-val" id="a3-theta-val">40°</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a3-m" min="0.2" max="1.5" value="0.5" step="0.1">
+      <span class="sl-val" id="a3-m-val">0.5 kg</span>
+
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="play-btn" id="a3-btn">▶ Loslassen</button>
+      <button class="play-btn" id="a3-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Lageenergie \(E_{\text{pot}}\)</span><span class="lb-val" id="a3-epot">1.38 J</span></div>
+      <div class="lb-item"><span class="lb-lab">Bewegungsenergie \(E_{\text{kin}}\)</span><span class="lb-val" id="a3-ekin">0.00 J</span></div>
+      <div class="lb-item"><span class="lb-lab">Gesamtenergie \(E_{\text{ges}}\)</span><span class="lb-val" id="a3-eges">1.38 J</span></div>
+      <div class="lb-item"><span class="lb-lab">Geschwindigkeit \(v\)</span><span class="lb-val" id="a3-v">0.00 m/s</span></div>
+    </div>
+
+    <div class="a-twocol">
+      <div class="cv-wrap">
+        <div class="cv-titel">🔵 Schwingendes Pendel</div>
+        <canvas id="a3-cv-pendel" height="260"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📊 Energiebalken</div>
+        <canvas id="a3-cv-bars" height="260"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 7. ANIMATION 4 — ELASTISCHE ENERGIE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein reibungsfreies Pendel schwingt. Wo ist die kinetische Energie am grössten?</p><ul class="mc-optionen"><li data-opt="A">in den Umkehrpunkten</li><li data-opt="B">im tiefsten Punkt</li><li data-opt="C">überall gleich</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Im tiefsten Punkt ist die Lageenergie minimal, die kinetische Energie also maximal.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Bei der Energieerhaltung bleibt die <span class="mc-luecke"></span> aller Energieformen konstant.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Summe.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Aus welcher Höhe fällt ein Körper, um \(v = 10\;\text{m/s}\) zu erreichen? (\(m g h = \tfrac12 m v^2\), \(g = 9.81\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(h = \dfrac{v^2}{2g} = \dfrac{10^2}{2 \cdot 9.81} \approx 5.1\;\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Skifahrer startet reibungsfrei aus der Ruhe auf \(h = 45\;\text{m}\). Geschwindigkeit am Hangfuss?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(\tfrac12 m v^2 = m g h \Rightarrow v = \sqrt{2 g h} = \sqrt{2 \cdot 9.81 \cdot 45} \approx 29.7\;\text{m/s}\).</div></details></div>
+</details>
+
+<h2 id="elastisch">Elastische Energie — gespannt gespeichert</h2>
+
+<p>Auch eine gespannte Feder speichert Energie. Weil die Federkraft \(F = D\cdot s\) linear mit der Dehnung wächst, ist die Kraft-Weg-Kurve eine Gerade — und die gespeicherte Energie die <strong>Dreiecksfläche</strong> darunter. Das ergibt \(E = \tfrac{1}{2} D s^2\).</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 4 · Spannenergie einer Feder</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Federkonstante \(D\) und Dehnung \(s\) ein.</li><li>Beobachte die Dreiecksfläche unter der Geraden \(F = D\cdot s\).</li><li>Verdopple \(s\) und achte auf die gespeicherte Energie.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Federkonstante D und Dehnung s ein. Beobachte die Dreiecksfläche unter der Geraden F gleich D mal s. Verdopple s und achte darauf, wie sich die gespeicherte Energie ändert." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Spannenergie: \(E = \tfrac{1}{2} D s^2\) (Fläche unter \(F = D\cdot s\)).</li><li>\(E \propto s^2\): doppelte Dehnung speichert die vierfache Energie.</li><li>Die Energie steckt in der gespannten Feder und kann zurückgegeben werden.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Spannenergie ist ein halb mal D mal s hoch zwei, also die Dreiecksfläche unter der Geraden F gleich D mal s. Sie wächst quadratisch mit der Dehnung: doppelte Dehnung speichert die vierfache Energie. Diese Energie steckt in der gespannten Feder und kann wieder abgegeben werden." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Federkonstante \(D\):</label>
+      <input type="range" id="a4-D" min="200" max="1200" value="800" step="50">
+      <span class="sl-val" id="a4-D-val">800 N/m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Dehnung \(s\):</label>
+      <input type="range" id="a4-s" min="0" max="0.15" value="0.08" step="0.005">
+      <span class="sl-val" id="a4-s-val">0.080 m</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Gespeicherte Spannenergie</div>
+      <div class="fl-eq" id="a4-eq">E = ½ · 800 · 0.080² = 2.56 J</div>
+    </div>
+
+    <div class="a-twocol">
+      <div class="cv-wrap">
+        <div class="cv-titel">🪤 Gespannte Feder</div>
+        <canvas id="a4-cv-feder" height="240"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📐 \(F(s)\) — Fläche = Energie</div>
+        <canvas id="a4-cv-diag" height="240"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 8. ANIMATION 5 — LEISTUNG ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Verdoppelt man die Dehnung einer Feder, so wird die gespeicherte Energie …</p><ul class="mc-optionen"><li data-opt="A">doppelt so gross</li><li data-opt="B">viermal so gross</li><li data-opt="C">gleich gross</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(E = \tfrac12 D s^2 \sim s^2\) — doppelte Dehnung, vierfache Energie.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Spannenergie einer Feder ist \(E = \tfrac12 D \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(s^2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Spannenergie einer Feder (\(D = 300\;\text{N/m}\), \(s = 0.2\;\text{m}\))?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(E = \tfrac12 D s^2 = \tfrac12 \cdot 300 \cdot 0.2^2 = 6\;\text{J}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein gespanntes Gummiband schleudert einen Ball weg. Wie hängen Spannenergie und Abschussgeschwindigkeit zusammen?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Spannenergie wird zu kinetischer Energie: \(\tfrac12 D s^2 = \tfrac12 m v^2 \Rightarrow v = s\sqrt{D/m}\). Doppelte Dehnung → doppelte Geschwindigkeit.</div></details></div>
+</details>
+
+<h2 id="leistung">Leistung — Energie pro Zeit</h2>
+
+<p>Zwei Personen tragen dieselbe Last die gleiche Treppe hinauf — eine rennt, die andere geht langsam. Beide verrichten dieselbe <em>Arbeit</em>, aber die rennende Person hat die grössere <strong>Leistung</strong>, weil sie die Energie in kürzerer Zeit umsetzt.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 5 · Hubleistung beim Heben</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Masse \(m\), Hubhöhe \(h\) und Zeit \(t\) ein.</li><li>Vergleiche die Leistung bei kurzer und langer Hubzeit.</li><li>Beobachte, dass die Arbeit \(W = mgh\) von \(t\) unabhängig ist.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Masse m, Hubhöhe h und Hubzeit t ein. Vergleiche die Leistung bei kurzer und langer Zeit. Beobachte, dass die Hubarbeit m g h von der Zeit unabhängig ist." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Hubarbeit: \(W = m g h\); Leistung: \(P = W/t\).</li><li>Gleiche Arbeit in kürzerer Zeit bedeutet mehr Leistung.</li><li>Einheit der Leistung: Watt (\(1\;\text{W} = 1\;\text{J/s}\)).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Hubarbeit ist m mal g mal h, die Leistung ist Arbeit durch Zeit, also P gleich W durch t. Gleiche Arbeit in kürzerer Zeit bedeutet mehr Leistung. Die Einheit der Leistung ist Watt, also ein Joule pro Sekunde." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a5-m" min="5" max="50" value="20" step="1">
+      <span class="sl-val" id="a5-m-val">20 kg</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Hubhöhe \(h\):</label>
+      <input type="range" id="a5-h" min="0.5" max="3" value="1.5" step="0.1">
+      <span class="sl-val" id="a5-h-val">1.5 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Hubzeit \(t\):</label>
+      <input type="range" id="a5-t" min="0.5" max="6" value="3" step="0.5">
+      <span class="sl-val" id="a5-t-val">3.0 s</span>
+
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="play-btn" id="a5-btn">▶ Heben</button>
+      <button class="play-btn" id="a5-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Hubarbeit \(W\)</span><span class="lb-val" id="a5-W">294 J</span></div>
+      <div class="lb-item"><span class="lb-lab">Leistung \(P\)</span><span class="lb-val" id="a5-P">98 W</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📦 Kiste wird gehoben</div>
+      <canvas id="a5-cv" height="260"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 9. ANIMATION 6 — WIRKUNGSGRAD ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Zwei Kräne heben dieselbe Last gleich hoch, Kran A schneller. Welcher hat die grössere Leistung?</p><ul class="mc-optionen"><li data-opt="A">Kran A</li><li data-opt="B">Kran B</li><li data-opt="C">beide gleich</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Gleiche Arbeit in kürzerer Zeit bedeutet grössere Leistung (\(P = W/t\)).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Leistung ist Arbeit pro <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Zeit — \(P = W/t\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Motor verrichtet \(W = 6000\;\text{J}\) in \(t = 4\;\text{s}\). Leistung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(P = \dfrac{W}{t} = \dfrac{6000}{4} = 1500\;\text{W}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Lift hebt \(800\;\text{kg}\) in \(5\;\text{s}\) um \(15\;\text{m}\). Welche Leistung (ohne Verluste, \(g = 9.81\))?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(W = m g h = 800 \cdot 9.81 \cdot 15 = 117\,720\;\text{J}\); \(\;\; P = \dfrac{W}{t} \approx 23\,544\;\text{W} \approx 23.5\;\text{kW}\).</div></details></div>
+</details>
+
+<h2 id="wirkungsgrad">Wirkungsgrad — wie viel wirklich ankommt</h2>
+
+<p>Keine reale Maschine wandelt Energie verlustfrei um — ein Teil wird stets als Wärme an die Umgebung abgegeben. Der <strong>Wirkungsgrad</strong> \(\eta\) gibt an, welcher Anteil der zugeführten Energie tatsächlich als Nutzenergie herauskommt: \(\eta = E_{\text{nutz}} / E_{\text{zu}}\). Er ist immer kleiner als 1.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 6 · Energiefluss und Verluste</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle den Wirkungsgrad \(\eta\) ein.</li><li>Beobachte die Aufteilung in Nutzenergie und Verlust.</li><li>Verfolge, wie bei kleinem \(\eta\) der Verlust überwiegt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle den Wirkungsgrad eta ein. Beobachte die Aufteilung der zugeführten Energie in Nutzenergie und Verlust. Verfolge, wie bei kleinem Wirkungsgrad der Verlust überwiegt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Wirkungsgrad: \(\eta = E_{\text{nutz}} / E_{\text{zu}}\), immer kleiner als 1.</li><li>Die Verlustenergie wird meist als Wärme abgegeben.</li><li>Bei mehreren Stufen multiplizieren sich die Wirkungsgrade.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der Wirkungsgrad ist Nutzenergie geteilt durch zugeführte Energie und immer kleiner als eins. Die Verlustenergie wird meistens als Wärme abgegeben. Bei mehreren hintereinander geschalteten Stufen multiplizieren sich die Wirkungsgrade." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Zugeführte Energie \(E_{\text{zu}}\):</label>
+      <input type="range" id="a6-ein" min="100" max="1000" value="500" step="50">
+      <span class="sl-val" id="a6-ein-val">500 J</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Wirkungsgrad \(\eta\):</label>
+      <input type="range" id="a6-eta" min="10" max="95" value="60" step="5">
+      <span class="sl-val" id="a6-eta-val">60 %</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Nutzenergie \(E_{\text{nutz}}\)</span><span class="lb-val" id="a6-nutz">300 J</span></div>
+      <div class="lb-item"><span class="lb-lab">Verlust \(E_{\text{verl}}\)</span><span class="lb-val" id="a6-verl">200 J</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🔀 Energieflussdiagramm</div>
+      <canvas id="a6-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 10. THEORIE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Der Wirkungsgrad eines realen Geräts ist …</p><ul class="mc-optionen"><li data-opt="A">immer genau \(1\)</li><li data-opt="B">immer kleiner als \(1\)</li><li data-opt="C">manchmal grösser als \(1\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Ein Teil der Energie geht stets als Verlust (meist Wärme) verloren — \(\eta < 1\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Wirkungsgrad ist Nutzenergie geteilt durch <span class="mc-luecke"></span> Energie.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">zugeführte — \(\eta = E_{\text{nutz}}/E_{\text{zu}}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Maschine erhält \(E_{\text{zu}} = 2000\;\text{J}\), liefert \(E_{\text{nutz}} = 1500\;\text{J}\). Wirkungsgrad?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\eta = \dfrac{1500}{2000} = 0.75 = 75\,\%\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Zwei Stufen mit \(\eta_1 = 0.8\) und \(\eta_2 = 0.5\) sind hintereinander. Gesamtwirkungsgrad?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die Wirkungsgrade multiplizieren sich: \(\eta = 0.8 \cdot 0.5 = 0.4 = 40\,\%\).</div></details></div>
+</details>
+
+<h2 id="theorie">Theorie und Herleitung</h2>
+
+<p>Warum hat die kinetische Energie ausgerechnet die Form \(\tfrac{1}{2}mv^2\)? Sie folgt direkt aus der Definition der Arbeit und dem Grundgesetz \(F = m\,a\).</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Herleitung der kinetischen Energie</div>
+  <p>Eine konstante Kraft \(F\) beschleunigt einen ruhenden Körper der Masse \(m\) über die Strecke \(s\). Die dabei verrichtete Arbeit ist \(W = F \cdot s\). Mit dem Grundgesetz \(F = m\,a\) und der Bewegung aus dem Stand (\(v^2 = 2\,a\,s\), also \(s = v^2/(2a)\)):</p>
+  \[ W = F \cdot s = m\,a \cdot \frac{v^2}{2a} = \tfrac{1}{2}\,m\,v^2 \]
+  <p>Die ganze hineingesteckte Arbeit steckt nun als Bewegungsenergie im Körper. Das ist das <strong>Arbeit-Energie-Theorem</strong>: Die an einem Körper verrichtete Gesamtarbeit ist gleich der Änderung seiner kinetischen Energie.</p>
+</div>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Energieerhaltungssatz der Mechanik</div>
+  <p>Wirken nur Schwerkraft und Federkräfte (keine Reibung), so bleibt die Summe aus kinetischer und potentieller Energie konstant:</p>
+  \[ E_{\text{kin}} + E_{\text{pot}} = \text{konstant} \]
+  <p>Für einen frei fallenden oder rollenden Körper, der aus der Höhe \(h\) startet, ergibt sich die Geschwindigkeit am tiefsten Punkt aus \(\tfrac{1}{2}mv^2 = mgh\), also \(v = \sqrt{2gh}\) — unabhängig von der Masse.</p>
+</div>
+
+<div class="block block-merksatz">
+  <div class="block-titel">🟣 Energie auf einen Blick</div>
+  <ol class="aufg-liste">
+    <li><strong>Arbeit:</strong> \(W = F \cdot s \cdot \cos\alpha\) — nur die Kraftkomponente längs des Weges zählt.</li>
+    <li><strong>Energieformen:</strong> \(E_{\text{pot}} = mgh\), \(E_{\text{kin}} = \tfrac{1}{2}mv^2\), Spannenergie \(E = \tfrac{1}{2}Ds^2\).</li>
+    <li><strong>Erhaltung:</strong> Ohne Reibung bleibt die Summe aller mechanischen Energien konstant.</li>
+    <li><strong>Leistung &amp; Wirkungsgrad:</strong> \(P = W/t\) (in Watt), \(\eta = E_{\text{nutz}}/E_{\text{zu}} < 1\).</li>
+  </ol>
+</div>
+
+
+<!-- ══════════════ 11. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der kinetischen Energie, wenn du die Geschwindigkeit verdreifachst?</summary>
+  <div class="frage-antwort">
+    <p>Sie wird <strong>neunmal</strong> so gross, denn \(E_{\text{kin}}\propto v^2\). Das erklärt, warum Aufprallenergien bei hohem Tempo so dramatisch steigen.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Die Arbeit der resultierenden Kraft an einem Körper ist gleich der Änderung seiner …</p><ul class="mc-optionen"><li data-opt="A">Lageenergie</li><li data-opt="B">kinetischen Energie</li><li data-opt="C">Spannenergie</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Das ist der Arbeits-Energie-Satz: \(W = \Delta E_{\text{kin}}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Arbeits-Energie-Satz lautet \(W = \Delta E_{\text{<span class="mc-luecke"></span>}}\) (Index).</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">kin — \(W = \Delta E_{\text{kin}}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Welche Arbeit beschleunigt \(m = 2\;\text{kg}\) von \(0\) auf \(v = 6\;\text{m/s}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(W = \tfrac12 m v^2 = \tfrac12 \cdot 2 \cdot 6^2 = 36\;\text{J}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Leite aus \(W = F\cdot s\), \(F = m a\) und \(v^2 = 2 a s\) die kinetische Energie her.</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(W = F s = m a s\); mit \(a s = \tfrac12 v^2\) folgt \(W = \tfrac12 m v^2 = E_{\text{kin}}\).</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<!-- A1: Hubarbeit ablesen -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Werte ablesen — Arbeit als Fläche</span></div>
+  <p>Stelle in Animation 1 die Zugkraft auf \(F = 60\;\text{N}\), den Weg auf \(s = 3.0\;\text{m}\) und den Winkel auf \(\alpha = 0°\). Lies die Arbeit ab und prüfe sie mit der Formel. Wie ändert sich die Arbeit, wenn du den Winkel auf \(60°\) erhöhst?</p>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <p><strong>Ansatz:</strong> \(W = F \cdot s \cdot \cos\alpha\). Bei \(\alpha = 0°\) ist \(\cos 0° = 1\):</p>
+      \[ W = 60\;\text{N} \cdot 3.0\;\text{m} \cdot 1 = 180\;\text{J} \]
+      <p>Bei \(\alpha = 60°\) ist \(\cos 60° = 0.5\), also nur die Hälfte: \(W = 60 \cdot 3.0 \cdot 0.5 = 90\;\text{J}\). Im Diagramm sinkt die Rechteckfläche auf die Hälfte.</p>
+    </div>
+  </div>
+</div>
+
+<!-- A2: Ekin / quadratisch -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Tempo und Bewegungsenergie</span></div>
+  <p>Ein Auto der Masse \(1100\;\text{kg}\) fährt einmal mit \(30\;\text{km/h}\), einmal mit \(60\;\text{km/h}\).</p>
+  <ol class="aufg-liste">
+    <li>Berechne die kinetische Energie bei beiden Geschwindigkeiten.</li>
+    <li>Um welchen Faktor steigt die Energie, wenn sich die Geschwindigkeit verdoppelt?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Umrechnen: \(30\;\text{km/h} = \dfrac{30\,000\;\text{m}}{3600\;\text{s}} \approx 8.33\;\text{m/s}\), analog \(60\;\text{km/h} \approx 16.67\;\text{m/s}\). Mit \(E_{\text{kin}} = \tfrac{1}{2} m v^2\): \[ E_{30} = \tfrac{1}{2} \cdot 1100 \cdot 8.33^2 \approx 38.2\;\text{kJ} \] \[ E_{60} = \tfrac{1}{2} \cdot 1100 \cdot 16.67^2 \approx 152.8\;\text{kJ} \]</li>
+        <li>Das Verhältnis ist \(152.8 / 38.2 = 4\). Doppelte Geschwindigkeit bedeutet <strong>vierfache</strong> Bewegungsenergie — der Faktor folgt direkt aus dem \(v^2\) in der Formel.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A3: Energieerhaltung -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Schlittschuhfahrer in der Halfpipe</span></div>
+  <p>Ein Skater (Masse mit Ausrüstung \(75\;\text{kg}\)) startet aus der Ruhe am oberen Rand einer reibungsfreien Halfpipe, \(2.4\;\text{m}\) über dem tiefsten Punkt.</p>
+  <ol class="aufg-liste">
+    <li>Welche Geschwindigkeit hat er am tiefsten Punkt?</li>
+    <li>Wie hoch steigt er auf der Gegenseite (ohne Abstossen)?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Die gesamte Lageenergie wandelt sich in Bewegungsenergie um: \(mgh = \tfrac{1}{2}mv^2\). Die Masse kürzt sich: \[ v = \sqrt{2gh} = \sqrt{2 \cdot 9.81 \cdot 2.4} \approx 6.86\;\text{m/s} \] das sind rund \(25\;\text{km/h}\).</li>
+        <li>Ohne Reibung gilt Energieerhaltung in beide Richtungen — er erreicht wieder genau die Starthöhe von \(2.4\;\text{m}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A4: elastische Energie -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Spielzeug mit Federmotor</span></div>
+  <p>Eine Spielzeugkanone besitzt eine Feder mit \(D = 600\;\text{N/m}\), die um \(s = 0.05\;\text{m}\) zusammengedrückt wird. Die Kugel hat eine Masse von \(20\;\text{g}\).</p>
+  <ol class="aufg-liste">
+    <li>Wie viel Spannenergie ist in der Feder gespeichert?</li>
+    <li>Mit welcher Geschwindigkeit verlässt die Kugel die Kanone (reibungsfrei, waagrecht)?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Spannenergie: \[ E = \tfrac{1}{2} D s^2 = \tfrac{1}{2} \cdot 600 \cdot 0.05^2 = 0.75\;\text{J} \]</li>
+        <li>Diese Energie wird vollständig zu Bewegungsenergie: \(\tfrac{1}{2}mv^2 = 0.75\;\text{J}\). Mit \(m = 0.02\;\text{kg}\): \[ v = \sqrt{\frac{2 \cdot 0.75}{0.02}} \approx 8.66\;\text{m/s} \]</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A5: Leistung -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Treppenlauf und Leistung</span></div>
+  <p>Eine Person (\(68\;\text{kg}\)) läuft eine Treppe mit \(4.0\;\text{m}\) Höhenunterschied in \(5.0\;\text{s}\) hinauf.</p>
+  <ol class="aufg-liste">
+    <li>Welche Hubarbeit verrichtet sie?</li>
+    <li>Welche mittlere Leistung erbringt sie dabei?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Hubarbeit gegen die Gewichtskraft: \[ W = m g h = 68 \cdot 9.81 \cdot 4.0 \approx 2668\;\text{J} \]</li>
+        <li>Leistung: \[ P = \frac{W}{t} = \frac{2668\;\text{J}}{5.0\;\text{s}} \approx 534\;\text{W} \] das entspricht etwa der Dauerleistung eines gut trainierten Menschen über kurze Zeit.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A6: Wirkungsgrad (Transfer) -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Pumpspeicherkraftwerk</span></div>
+  <p>Ein Pumpspeicherkraftwerk pumpt nachts Wasser in ein höher gelegenes Becken und gewinnt tagsüber daraus wieder Strom. Beim Hochpumpen werden \(5.0\;\text{MJ}\) elektrische Energie aufgewendet; davon kommen \(3.6\;\text{MJ}\) als Lageenergie im oberen Becken an. Bei der Rückgewinnung beträgt der Wirkungsgrad nochmals \(82\,\%\).</p>
+  <ol class="aufg-liste">
+    <li>Wie gross ist der Wirkungsgrad des Pumpvorgangs?</li>
+    <li>Wie viel elektrische Energie liefert das Kraftwerk am Ende zurück, und wie gross ist der Gesamtwirkungsgrad?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Wirkungsgrad des Pumpens: \[ \eta_1 = \frac{E_{\text{nutz}}}{E_{\text{zu}}} = \frac{3.6\;\text{MJ}}{5.0\;\text{MJ}} = 0.72 = 72\,\% \]</li>
+        <li>Aus den \(3.6\;\text{MJ}\) Lageenergie werden bei der Rückgewinnung \(82\,\%\): \[ E_{\text{ab}} = 0.82 \cdot 3.6\;\text{MJ} \approx 2.95\;\text{MJ} \] Der Gesamtwirkungsgrad ist das Produkt der Einzelschritte: \[ \eta_{\text{ges}} = \eta_1 \cdot \eta_2 = 0.72 \cdot 0.82 \approx 0.59 = 59\,\% \] Von den ursprünglich \(5.0\;\text{MJ}\) kommen also rund \(2.95\;\text{MJ}\) zurück.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 12. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Grösse / Gesetz</th><th>Formel</th><th>Bemerkung</th></tr></thead>
+  <tbody>
+    <tr><td>Mechanische Arbeit</td><td>\(W = F \cdot s \cdot \cos\alpha\)</td><td>nur Kraftanteil längs des Weges</td></tr>
+    <tr><td>Potentielle Energie</td><td>\(E_{\text{pot}} = m g h\)</td><td>Höhe ab frei wählbarem Nullniveau</td></tr>
+    <tr><td>Kinetische Energie</td><td>\(E_{\text{kin}} = \tfrac{1}{2} m v^2\)</td><td>quadratisch in \(v\)</td></tr>
+    <tr><td>Spannenergie (Feder)</td><td>\(E = \tfrac{1}{2} D s^2\)</td><td>Dreiecksfläche unter \(F(s)\)</td></tr>
+    <tr><td>Energieerhaltung</td><td>\(E_{\text{kin}} + E_{\text{pot}} = \text{konst.}\)</td><td>nur ohne Reibung</td></tr>
+    <tr><td>Endgeschwindigkeit aus Höhe</td><td>\(v = \sqrt{2 g h}\)</td><td>massenunabhängig</td></tr>
+    <tr><td>Leistung</td><td>\(P = W / t = F \cdot v\)</td><td>Einheit Watt, \(1\;\text{W} = 1\;\text{J/s}\)</td></tr>
+    <tr><td>Wirkungsgrad</td><td>\(\eta = E_{\text{nutz}} / E_{\text{zu}}\)</td><td>immer \(< 1\); mehrstufig: Produkt</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Arbeit ist übertragene Energie: \(W=F\cdot s\cdot\cos\alpha\) — nur der Kraftanteil längs des Weges zählt.</li>
+  <li>Potentielle Energie: \(E_{\text{pot}}=mgh\); kinetische Energie: \(E_{\text{kin}}=\tfrac12 m v^2\).</li>
+  <li>Energieerhaltung: ohne Reibung bleibt \(E_{\text{kin}}+E_{\text{pot}}\) konstant.</li>
+  <li>Aus der Höhe folgt die Endgeschwindigkeit \(v=\sqrt{2gh}\) — massenunabhängig.</li>
+  <li>Leistung ist Energie pro Zeit: \(P=W/t=F\cdot v\), Einheit Watt.</li>
+  <li>Reibung wandelt mechanische Energie in Wärme um — sie geht nicht verloren, ist aber nicht mehr nutzbar.</li>
+  <li>Der Wirkungsgrad \(\eta=E_{\text{nutz}}/E_{\text{zu}}\) ist immer kleiner als 1; bei mehreren Stufen multiplizieren sich die Wirkungsgrade.</li>
+</ul>
+
+<div class="merksatz">
+  Energie ist die Fähigkeit, Arbeit zu verrichten, und wird durch Arbeit übertragen. In der Mechanik tritt sie als Lage-, Bewegungs- und Spannenergie auf. Ohne Reibung bleibt ihre Summe erhalten — sie wechselt nur die Form. Wie schnell Energie umgesetzt wird, beschreibt die Leistung; wie viel davon nutzbar bleibt, der Wirkungsgrad.
+</div>
+
+
+<!-- ══════════════ 13. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p4-3-energie/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-3-energie/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-3-energie/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p4-3-energie/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-3-energie/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 14. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.youtube.com/playlist?list=PLWSZFC2Ndk5Q5Qt9Ba2JWjq5HQtY4B196" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">musstewissen Physik — Physik (Playlist)</div><div class="lk-s">funk/ARD/ZDF · Playlist mit 5 Videos: u.a. Arbeit, Energie und Leistung</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=RNZRxwBDk0k" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Lehrerschmidt — Arbeit (W=F·s): Was ist das?</div><div class="lk-s">Physik · Mechanik · physikalische Arbeit und Hubarbeit Schritt für Schritt</div></div>
+  </a>
+  <a href="https://de.fufaev.org/mechanik" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Alexander Fufaev — Klassische Mechanik</div><div class="lk-s">Videos und Theorie zu Arbeit, kinetischer und potentieller Energie, Energieerhaltung</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/energy-skate-park" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Energieskatepark</div><div class="lk-s">Skater in Halfpipe und Looping: Lage-, Bewegungsenergie und Reibung (deutsch)</div></div>
+  </a>
+  <a href="https://phet.colorado.edu/de/simulations/energy-forms-and-changes" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Energieformen und Energieumwandlungen</div><div class="lk-s">Umwandlung in thermische Energie und Verluste sichtbar machen (deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/pendulum_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Fadenpendel</div><div class="lk-s">Energieumwandlung zwischen Lage- und Bewegungsenergie im Pendel</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/springpendulum_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Federpendel</div><div class="lk-s">Wechselspiel von Spann- und Bewegungsenergie an der Feder</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/mechanik/arbeit-energie-und-leistung/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Arbeit, Energie und Leistung</div><div class="lk-s">Aufgaben mit ausführlichen Musterlösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/energieerhaltung-und-umwandlung/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Energieerhaltung und -umwandlung</div><div class="lk-s">Übungsaufgaben zu Umwandlung und Erhaltung · mit ausführlichen Musterlösungen</div></div>
+  </a>
+  <a href="https://de.serlo.org/physik/50784/energie" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">serlo — Energie (Grundlagen und Aufgaben)</div><div class="lk-s">Frei lizenziert · Aufgaben zu Energieformen und Energieerhaltung mit Musterlösungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 4.3 Energie</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p4-3',
+  kapitelNr:'4.3', kapitelTitel:'Energie',
+  prev:{nr:'4.2',titel:'Dynamik',url:'p4-2-dynamik.html'},
+  next:{nr:'4.4',titel:'Statik von Festkörpern',url:'p4-4-statik.html'}
+});
+</script>
+
+<script>
+const g = 9.81;
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: Arbeit W = F·s·cosα — Fläche im F-s-Diagramm
+// ══════════════════════════════════════════════════════════
+function drawA1() {
+  const F = +document.getElementById('a1-F').value;
+  const s = +document.getElementById('a1-s').value;
+  const alpha = +document.getElementById('a1-alpha').value;
+  const rad = alpha * Math.PI / 180;
+  const Feff = F * Math.cos(rad);
+  const W = Feff * s;
+  document.getElementById('a1-F-val').textContent = F + ' N';
+  document.getElementById('a1-s-val').textContent = s.toFixed(1) + ' m';
+  document.getElementById('a1-alpha-val').textContent = alpha + '°';
+  document.getElementById('a1-eq').textContent =
+    'W = ' + F + ' · ' + s.toFixed(1) + ' · cos ' + alpha + '° = ' + W.toFixed(0) + ' J';
+
+  // Linke Canvas: Szene
+  const cv = initCanvas('a1-cv-szene', 260, false);
+  const ctx = cv.ctx, W0 = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W0, H);
+
+  const bodenY = H - 56;
+  ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, bodenY, W0, H - bodenY);
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(0, bodenY); ctx.lineTo(W0, bodenY); ctx.stroke();
+
+  // Schlitten (Position abhängig von s zur Veranschaulichung)
+  const x0 = 60;
+  const px = x0 + (s / 4) * (W0 - 150);
+  const bW = 56, bH = 30;
+  const by = bodenY - bH;
+  ctx.fillStyle = '#8a4a0e'; ctx.fillRect(px, by, bW, bH);
+  ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.5; ctx.strokeRect(px, by, bW, bH);
+  ctx.fillStyle = '#3a3530';
+  ctx.beginPath(); ctx.arc(px + 14, bodenY, 6, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(px + bW - 14, bodenY, 6, 0, Math.PI*2); ctx.fill();
+
+  // Wegmarke
+  ctx.setLineDash([4,3]); ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.2;
+  drawArrow(ctx, x0 + bW/2, bodenY + 22, px + bW/2, bodenY + 22, '#8a4a0e', 1.4, 8);
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('s = ' + s.toFixed(1) + ' m', (x0 + px + bW/2)/2, bodenY + 40);
+
+  // Zugkraft unter Winkel
+  const ax = px + bW/2, ay = by + bH/2;
+  const len = 30 + F * 0.9;
+  const ex = ax + len * Math.cos(rad);
+  const ey = ay - len * Math.sin(rad);
+  drawArrow(ctx, ax, ay, ex, ey, '#1a4f8a', 2.6, 10);
+  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('F = ' + F + ' N', ex + 4, ey - 4);
+
+  // Komponente längs Weg (violett gestrichelt)
+  if (alpha > 0) {
+    const exh = ax + len * Math.cos(rad);
+    ctx.setLineDash([4,3]);
+    drawArrow(ctx, ax, ay, exh, ay, '#5b2d8e', 2, 9);
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#5b2d8e'; ctx.font = '11px JetBrains Mono,monospace';
+    ctx.fillText('F cos α', exh + 4, ay + 14);
+  }
+
+  // Rechte Canvas: F-s-Diagramm (Fläche = Arbeit)
+  const cv2 = initCanvas('a1-cv-diag', 260, false);
+  const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
+  const Fmax = 100;
+  const grid = drawGrid(c2, W2, H2, -0.1, 4.2, -5, Fmax * 1.05);
+  drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 's [m]', 'F∥ [N]');
+  // Rechteck: effektive Kraft über Weg
+  c2.fillStyle = 'rgba(31,107,58,0.22)';
+  const xr0 = grid.cx(0), xr1 = grid.cx(s), yr1 = grid.cy(Feff), yr0 = grid.cy(0);
+  c2.fillRect(xr0, yr1, xr1 - xr0, yr0 - yr1);
+  // Konstante Kraftlinie
+  c2.strokeStyle = '#1a4f8a'; c2.lineWidth = 2.4;
+  c2.beginPath(); c2.moveTo(grid.cx(0), grid.cy(Feff)); c2.lineTo(grid.cx(s), grid.cy(Feff)); c2.stroke();
+  c2.beginPath(); c2.moveTo(grid.cx(s), grid.cy(Feff)); c2.lineTo(grid.cx(s), grid.cy(0)); c2.stroke();
+  // Flächenbeschriftung
+  c2.fillStyle = '#1f6b3a'; c2.font = 'bold 12px JetBrains Mono,monospace'; c2.textAlign = 'center';
+  if (s > 0.6 && Feff > 8) c2.fillText('W = ' + W.toFixed(0) + ' J', (xr0 + xr1)/2, (yr1 + yr0)/2);
+}
+['a1-F','a1-s','a1-alpha'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 2: Kinetische Energie Ekin = ½mv²
+// ══════════════════════════════════════════════════════════
+function drawA2() {
+  const v = +document.getElementById('a2-v').value;
+  const m = +document.getElementById('a2-m').value;
+  const Ek = 0.5 * m * v * v;
+  document.getElementById('a2-v-val').textContent = v + ' m/s';
+  document.getElementById('a2-m-val').textContent = m + ' kg';
+  document.getElementById('a2-eq').textContent =
+    'E = ½ · ' + m + ' · ' + v + '² = ' + (Ek/1000).toFixed(1) + ' kJ';
+
+  // Szene: Fahrzeug
+  const cv = initCanvas('a2-cv-szene', 240, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+  const bodenY = H - 46;
+  ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, bodenY, W, H - bodenY);
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(0, bodenY); ctx.lineTo(W, bodenY); ctx.stroke();
+
+  // Auto
+  const cx = W/2 - 40, cyB = bodenY;
+  ctx.fillStyle = '#1a4f8a';
+  ctx.fillRect(cx, cyB - 26, 80, 18);
+  ctx.beginPath();
+  ctx.moveTo(cx + 14, cyB - 26); ctx.lineTo(cx + 26, cyB - 40);
+  ctx.lineTo(cx + 56, cyB - 40); ctx.lineTo(cx + 66, cyB - 26); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#3a3530';
+  ctx.beginPath(); ctx.arc(cx + 20, cyB - 6, 9, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx + 60, cyB - 6, 9, 0, Math.PI*2); ctx.fill();
+
+  // Geschwindigkeitspfeil (grün), proportional zu v
+  if (v > 0.1) {
+    const vLen = Math.min(150, v * 5);
+    drawArrow(ctx, cx + 80, cyB - 20, cx + 80 + vLen, cyB - 20, '#1f6b3a', 2.6, 10);
+    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+    ctx.fillText('v = ' + v + ' m/s', cx + 84, cyB - 28);
+  }
+  // Energie-Hinweis
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('E_kin = ' + (Ek/1000).toFixed(1) + ' kJ', W/2, 28);
+
+  // Diagramm: Parabel E(v)
+  const cv2 = initCanvas('a2-cv-diag', 240, false);
+  const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
+  const vMax = 30;
+  const EmaxJ = 0.5 * m * vMax * vMax;       // J
+  const EmaxK = EmaxJ / 1000;                // kJ
+  const grid = drawGrid(c2, W2, H2, -1, vMax + 1, -EmaxK*0.05, EmaxK * 1.05);
+  drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 'v [m/s]', 'E [kJ]');
+  // Kurve
+  c2.strokeStyle = '#1f6b3a'; c2.lineWidth = 2.4; c2.beginPath();
+  for (let vv = 0; vv <= vMax; vv += 0.5) {
+    const EE = 0.5 * m * vv * vv / 1000;
+    const X = grid.cx(vv), Y = grid.cy(EE);
+    if (vv === 0) c2.moveTo(X, Y); else c2.lineTo(X, Y);
+  }
+  c2.stroke();
+  // aktueller Punkt
+  drawDot(c2, grid.cx, grid.cy, v, Ek/1000, '#9b1c1c', 5);
+  c2.setLineDash([3,3]); c2.strokeStyle = '#9b1c1c'; c2.lineWidth = 1;
+  c2.beginPath(); c2.moveTo(grid.cx(v), grid.cy(0)); c2.lineTo(grid.cx(v), grid.cy(Ek/1000)); c2.stroke();
+  c2.setLineDash([]);
+}
+['a2-v','a2-m'].forEach(id => document.getElementById(id).addEventListener('input', drawA2));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 3: Pendel — Energieerhaltung (RAF)
+// ══════════════════════════════════════════════════════════
+const A3_L = 1.2;   // Pendellänge in m
+const a3State = { theta: 0, omega: 0, theta0: 0, running: false, lastTs: 0, rafId: null };
+
+function a3Init() {
+  const t0 = +document.getElementById('a3-theta').value * Math.PI / 180;
+  a3State.theta = t0; a3State.theta0 = t0; a3State.omega = 0;
+}
+function a3Vals() {
+  const m = +document.getElementById('a3-m').value;
+  const h0 = A3_L * (1 - Math.cos(a3State.theta0));
+  const h  = A3_L * (1 - Math.cos(a3State.theta));
+  const Eges = m * g * h0;
+  const Epot = m * g * h;
+  const Ekin = Math.max(0, Eges - Epot);
+  const vv = Math.sqrt(2 * Ekin / m);
+  return { m, Eges, Epot, Ekin, vv };
+}
+function a3Render() {
+  const m = +document.getElementById('a3-m').value;
+  document.getElementById('a3-theta-val').textContent =
+    Math.round(a3State.theta0 * 180 / Math.PI) + '°';
+  document.getElementById('a3-m-val').textContent = m.toFixed(1) + ' kg';
+  const { Eges, Epot, Ekin, vv } = a3Vals();
+  document.getElementById('a3-epot').textContent = Epot.toFixed(2) + ' J';
+  document.getElementById('a3-ekin').textContent = Ekin.toFixed(2) + ' J';
+  document.getElementById('a3-eges').textContent = Eges.toFixed(2) + ' J';
+  document.getElementById('a3-v').textContent = vv.toFixed(2) + ' m/s';
+
+  // Pendel-Canvas
+  const cv = initCanvas('a3-cv-pendel', 260, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+  const pivX = W/2, pivY = 36;
+  const Lpx = H - 110;
+  const bx = pivX + Lpx * Math.sin(a3State.theta);
+  const by = pivY + Lpx * Math.cos(a3State.theta);
+  // Aufhängung
+  ctx.fillStyle = '#9aa4ad'; ctx.fillRect(pivX - 30, pivY - 12, 60, 8);
+  // Faden
+  ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.moveTo(pivX, pivY); ctx.lineTo(bx, by); ctx.stroke();
+  // tiefster Punkt (Referenz)
+  ctx.setLineDash([3,4]); ctx.strokeStyle = '#c2bdb4'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pivX, pivY); ctx.lineTo(pivX, pivY + Lpx); ctx.stroke();
+  ctx.setLineDash([]);
+  // Kugel
+  ctx.fillStyle = '#1a4f8a';
+  ctx.beginPath(); ctx.arc(bx, by, 14, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#123a66'; ctx.lineWidth = 1.5; ctx.stroke();
+  // Geschwindigkeitspfeil (grün, tangential)
+  if (vv > 0.05) {
+    const dir = a3State.omega >= 0 ? 1 : -1;
+    const tx = Math.cos(a3State.theta) * dir, ty = -Math.sin(a3State.theta) * dir;
+    const vLen = Math.min(70, vv * 26);
+    drawArrow(ctx, bx, by, bx + tx*vLen, by + ty*vLen, '#1f6b3a', 2.2, 8);
+  }
+
+  // Energiebalken-Canvas
+  const cv2 = initCanvas('a3-cv-bars', 260, false);
+  const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
+  c2.fillStyle = '#f8fafc'; c2.fillRect(0, 0, W2, H2);
+  const baseY = H2 - 34, topY = 30, fullH = baseY - topY;
+  const cols = [
+    { lab: 'E_pot', val: Epot, col: '#8a4a0e' },
+    { lab: 'E_kin', val: Ekin, col: '#1f6b3a' },
+    { lab: 'E_ges', val: Eges, col: '#1a4f8a' }
+  ];
+  const bw = 52, gap = (W2 - 3*bw) / 4;
+  const scale = Eges > 0 ? fullH / Eges : 0;
+  cols.forEach((c, i) => {
+    const x = gap + i * (bw + gap);
+    const h = c.val * scale;
+    // Rahmen
+    c2.strokeStyle = '#c2bdb4'; c2.lineWidth = 1;
+    c2.strokeRect(x, topY, bw, fullH);
+    // Füllung
+    c2.fillStyle = c.col;
+    c2.fillRect(x, baseY - h, bw, h);
+    // Beschriftung
+    c2.fillStyle = '#1c1a17'; c2.font = 'bold 11px JetBrains Mono,monospace'; c2.textAlign = 'center';
+    c2.fillText(c.lab, x + bw/2, baseY + 16);
+    c2.fillStyle = c.col; c2.font = 'bold 11px JetBrains Mono,monospace';
+    c2.fillText(c.val.toFixed(2), x + bw/2, baseY - h - 6);
+  });
+  c2.fillStyle = '#1c1a17'; c2.font = '11px Source Sans 3,sans-serif'; c2.textAlign = 'center';
+  c2.fillText('Energie in Joule', W2/2, 18);
+}
+function a3Tick(ts) {
+  if (!a3State.running) return;
+  if (!a3State.lastTs) a3State.lastTs = ts;
+  let dt = (ts - a3State.lastTs) / 1000;
+  a3State.lastTs = ts;
+  if (dt > 0.05) dt = 0.05;
+  // Pendel-DGL: theta'' = -(g/L) sinθ ; mehrere Substeps für Stabilität
+  const sub = 4, h = dt / sub;
+  for (let k = 0; k < sub; k++) {
+    const alpha = -(g / A3_L) * Math.sin(a3State.theta);
+    a3State.omega += alpha * h;
+    a3State.theta += a3State.omega * h;
+  }
+  a3Render();
+  if (a3State.running) a3State.rafId = requestAnimationFrame(a3Tick);
+}
+document.getElementById('a3-btn').addEventListener('click', () => {
+  const btn = document.getElementById('a3-btn');
+  if (a3State.running) {
+    a3State.running = false; btn.textContent = '▶ Weiter'; btn.classList.remove('paused');
+  } else {
+    a3State.running = true; a3State.lastTs = 0;
+    btn.textContent = '⏸ Pause'; btn.classList.add('paused');
+    a3State.rafId = requestAnimationFrame(a3Tick);
+  }
+});
+document.getElementById('a3-reset').addEventListener('click', () => {
+  a3State.running = false;
+  document.getElementById('a3-btn').textContent = '▶ Loslassen';
+  document.getElementById('a3-btn').classList.remove('paused');
+  a3Init(); a3Render();
+});
+document.getElementById('a3-theta').addEventListener('input', () => {
+  a3State.running = false;
+  document.getElementById('a3-btn').textContent = '▶ Loslassen';
+  document.getElementById('a3-btn').classList.remove('paused');
+  a3Init(); a3Render();
+});
+document.getElementById('a3-m').addEventListener('input', a3Render);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 4: Elastische Energie E = ½Ds²
+// ══════════════════════════════════════════════════════════
+function drawA4() {
+  const D = +document.getElementById('a4-D').value;
+  const s = +document.getElementById('a4-s').value;
+  const E = 0.5 * D * s * s;
+  document.getElementById('a4-D-val').textContent = D + ' N/m';
+  document.getElementById('a4-s-val').textContent = s.toFixed(3) + ' m';
+  document.getElementById('a4-eq').textContent =
+    'E = ½ · ' + D + ' · ' + s.toFixed(3) + '² = ' + E.toFixed(2) + ' J';
+
+  // Feder
+  const cv = initCanvas('a4-cv-feder', 240, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+  const yMid = H/2;
+  const wallX = 40;
+  // Wand
+  ctx.fillStyle = '#9aa4ad'; ctx.fillRect(wallX - 14, yMid - 50, 14, 100);
+  // Feder gestaucht: Länge sinkt mit s
+  const sMax = 0.15;
+  const ruheLen = W - 160;
+  const len = ruheLen * (1 - 0.6 * (s / sMax));
+  const windungen = 10, amp = 16;
+  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(wallX, yMid);
+  const seg = len / (windungen * 2);
+  for (let i = 1; i <= windungen * 2; i++) {
+    const xx = wallX + i * seg;
+    const yy = yMid + (i % 2 === 1 ? -amp : amp);
+    ctx.lineTo(xx, yy);
+  }
+  const blockX = wallX + len;
+  ctx.lineTo(blockX, yMid); ctx.stroke();
+  // Block
+  ctx.fillStyle = '#8a4a0e'; ctx.fillRect(blockX, yMid - 26, 34, 52);
+  ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.5; ctx.strokeRect(blockX, yMid - 26, 34, 52);
+  // Stauchungs-Massband
+  ctx.setLineDash([3,3]); ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.2;
+  const ruheEnd = wallX + ruheLen;
+  drawArrow(ctx, blockX, yMid + 40, ruheEnd, yMid + 40, '#9b1c1c', 1.4, 7);
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('s = ' + s.toFixed(3) + ' m', (blockX + ruheEnd)/2, yMid + 56);
+
+  // Diagramm: Dreiecksfläche
+  const cv2 = initCanvas('a4-cv-diag', 240, false);
+  const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
+  const Fmax = 1200 * 0.15;
+  const grid = drawGrid(c2, W2, H2, -0.005, 0.16, -8, Fmax * 1.05);
+  drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 's [m]', 'F [N]');
+  // Dreiecksfläche
+  c2.fillStyle = 'rgba(91,45,142,0.20)';
+  c2.beginPath();
+  c2.moveTo(grid.cx(0), grid.cy(0));
+  c2.lineTo(grid.cx(s), grid.cy(0));
+  c2.lineTo(grid.cx(s), grid.cy(D * s));
+  c2.closePath(); c2.fill();
+  // Gerade F = D·s
+  c2.strokeStyle = '#5b2d8e'; c2.lineWidth = 2.4;
+  c2.beginPath(); c2.moveTo(grid.cx(0), grid.cy(0)); c2.lineTo(grid.cx(0.15), grid.cy(D * 0.15)); c2.stroke();
+  // aktueller Punkt
+  drawDot(c2, grid.cx, grid.cy, s, D * s, '#9b1c1c', 5);
+  // Flächenlabel
+  if (s > 0.02) {
+    c2.fillStyle = '#5b2d8e'; c2.font = 'bold 11px JetBrains Mono,monospace'; c2.textAlign = 'center';
+    c2.fillText('E = ' + E.toFixed(2) + ' J', grid.cx(s*0.55), grid.cy(D*s*0.30));
+  }
+}
+['a4-D','a4-s'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 5: Leistung P = W/t (RAF Hebevorgang)
+// ══════════════════════════════════════════════════════════
+const a5State = { prog: 0, running: false, lastTs: 0, rafId: null };
+function a5Vals() {
+  const m = +document.getElementById('a5-m').value;
+  const h = +document.getElementById('a5-h').value;
+  const t = +document.getElementById('a5-t').value;
+  const W = m * g * h;
+  const P = W / t;
+  return { m, h, t, W, P };
+}
+function a5Render() {
+  const { m, h, t, W, P } = a5Vals();
+  document.getElementById('a5-m-val').textContent = m + ' kg';
+  document.getElementById('a5-h-val').textContent = h.toFixed(1) + ' m';
+  document.getElementById('a5-t-val').textContent = t.toFixed(1) + ' s';
+  document.getElementById('a5-W').textContent = W.toFixed(0) + ' J';
+  document.getElementById('a5-P').textContent = P.toFixed(0) + ' W';
+
+  const cv = initCanvas('a5-cv', 260, false);
+  const ctx = cv.ctx, Wd = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, Wd, H);
+  const bodenY = H - 30, topY = 30;
+  ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, bodenY, Wd, H - bodenY);
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(0, bodenY); ctx.lineTo(Wd, bodenY); ctx.stroke();
+
+  const cx = Wd/2;
+  const travel = bodenY - topY - 36;
+  const boxY = bodenY - 36 - a5State.prog * travel;
+  // Seil
+  ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.moveTo(cx, topY - 6); ctx.lineTo(cx, boxY); ctx.stroke();
+  // Kiste
+  ctx.fillStyle = '#8a4a0e'; ctx.fillRect(cx - 24, boxY, 48, 36);
+  ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.5; ctx.strokeRect(cx - 24, boxY, 48, 36);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText(m + ' kg', cx, boxY + 22);
+  // Höhen-Massband
+  ctx.setLineDash([3,3]); ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.2;
+  const xb = cx + 70;
+  drawArrow(ctx, xb, bodenY - 36, xb, bodenY - 36 - travel, '#1f6b3a', 1.4, 7);
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('h = ' + h.toFixed(1) + ' m', xb + 5, bodenY - 36 - travel/2);
+  // Leistung gross
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('P = ' + P.toFixed(0) + ' W', cx - 30, 20);
+}
+function a5Tick(ts) {
+  if (!a5State.running) return;
+  if (!a5State.lastTs) a5State.lastTs = ts;
+  const dt = (ts - a5State.lastTs) / 1000;
+  a5State.lastTs = ts;
+  const { t } = a5Vals();
+  a5State.prog += dt / t;
+  if (a5State.prog >= 1) {
+    a5State.prog = 1; a5State.running = false;
+    document.getElementById('a5-btn').textContent = '▶ Heben';
+    document.getElementById('a5-btn').classList.remove('paused');
+  }
+  a5Render();
+  if (a5State.running) a5State.rafId = requestAnimationFrame(a5Tick);
+}
+document.getElementById('a5-btn').addEventListener('click', () => {
+  const btn = document.getElementById('a5-btn');
+  if (a5State.running) {
+    a5State.running = false; btn.textContent = '▶ Weiter'; btn.classList.remove('paused');
+  } else {
+    if (a5State.prog >= 1) a5State.prog = 0;
+    a5State.running = true; a5State.lastTs = 0;
+    btn.textContent = '⏸ Pause'; btn.classList.add('paused');
+    a5State.rafId = requestAnimationFrame(a5Tick);
+  }
+});
+document.getElementById('a5-reset').addEventListener('click', () => {
+  a5State.running = false; a5State.prog = 0;
+  document.getElementById('a5-btn').textContent = '▶ Heben';
+  document.getElementById('a5-btn').classList.remove('paused');
+  a5Render();
+});
+['a5-m','a5-h','a5-t'].forEach(id => document.getElementById(id).addEventListener('input', a5Render));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 6: Wirkungsgrad — Energiefluss
+// ══════════════════════════════════════════════════════════
+function drawA6() {
+  const Ein = +document.getElementById('a6-ein').value;
+  const eta = +document.getElementById('a6-eta').value / 100;
+  const nutz = Ein * eta;
+  const verl = Ein * (1 - eta);
+  document.getElementById('a6-ein-val').textContent = Ein + ' J';
+  document.getElementById('a6-eta-val').textContent = Math.round(eta*100) + ' %';
+  document.getElementById('a6-nutz').textContent = nutz.toFixed(0) + ' J';
+  document.getElementById('a6-verl').textContent = verl.toFixed(0) + ' J';
+
+  const cv = initCanvas('a6-cv', 240, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
+
+  // Eingangsbalken (links, blau) — Höhe proportional Ein
+  const maxE = 1000;
+  const xIn = 60, wIn = 46;
+  const fullH = H - 70;
+  const hIn = (Ein / maxE) * fullH;
+  const yInTop = (H - 30) - hIn;
+  ctx.fillStyle = '#1a4f8a'; ctx.fillRect(xIn, yInTop, wIn, hIn);
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('E_zu', xIn + wIn/2, H - 12);
+  ctx.fillStyle = '#1a4f8a'; ctx.fillText(Ein + ' J', xIn + wIn/2, yInTop - 6);
+
+  // Maschine (Box in der Mitte)
+  const mx = xIn + wIn + 40, mw = 70, my = 50, mh = H - 110;
+  ctx.fillStyle = '#eceae4'; ctx.strokeStyle = '#5c5346'; ctx.lineWidth = 1.5;
+  ctx.fillRect(mx, my, mw, mh); ctx.strokeRect(mx, my, mw, mh);
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 12px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Maschine', mx + mw/2, my + mh/2 - 4);
+  ctx.font = '11px JetBrains Mono,monospace';
+  ctx.fillText('η = ' + Math.round(eta*100) + '%', mx + mw/2, my + mh/2 + 14);
+
+  // Pfeil hinein
+  drawArrow(ctx, xIn + wIn + 4, my + mh/2, mx - 4, my + mh/2, '#1a4f8a', 3, 10);
+
+  // Nutz-Pfeil (grün, rechts, Dicke prop. nutz)
+  const xOut = mx + mw + 8;
+  const nutzW = Math.max(4, (nutz / maxE) * 24);
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = nutzW;
+  drawArrow(ctx, xOut, my + mh*0.35, W - 70, my + mh*0.35, '#1f6b3a', nutzW, 12);
+  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('Nutz: ' + nutz.toFixed(0) + ' J', xOut + 6, my + mh*0.35 - 12);
+
+  // Verlust-Pfeil (rot, nach unten/rechts, Dicke prop. verl)
+  const verlW = Math.max(4, (verl / maxE) * 24);
+  ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = verlW;
+  drawArrow(ctx, mx + mw/2, my + mh + 4, mx + mw/2 + 60, H - 24, '#9b1c1c', verlW, 12);
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('Verlust (Wärme): ' + verl.toFixed(0) + ' J', mx + mw/2 + 20, H - 14);
+}
+['a6-ein','a6-eta'].forEach(id => document.getElementById(id).addEventListener('input', drawA6));
+
+
+// ══════════════════════════════════════════════════════════
+//  Initial-Render + Resize
+// ══════════════════════════════════════════════════════════
+function renderAll() {
+  drawA1();
+  drawA2();
+  a3Init(); a3Render();
+  drawA4();
+  a5Render();
+  drawA6();
+}
+document.addEventListener('DOMContentLoaded', renderAll);
+window.addEventListener('resize', renderAll);
+</script>
+
+</body>
+</html>

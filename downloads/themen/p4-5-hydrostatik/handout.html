@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handout · Hydrostatik — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../print.css">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.0 },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div class="druck-bar no-print">
+  <a class="db-back" href="../../../themen/p4-5-hydrostatik.html#downloads">← zurück zur Themenseite</a>
+  <span class="db-info">Handout · A4 · Bereit zum Drucken</span>
+  <button class="db-print" onclick="window.print()">Seite drucken</button>
+</div>
+
+<div class="druck-wrapper">
+
+  <header class="doc-kopf">
+    <div class="dk-bereich">TALS Physik · Lerngebiet 4 Mechanik · Hydrostatik</div>
+    <h1>Handout — Theorie</h1>
+  </header>
+
+  <!-- 1. GRUNDBEGRIFFE -->
+  <h2>1. Druck und Dichte</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Druck</div>
+    \[ p = \frac{F}{A} \]
+    <p>Kraft pro Fläche, mit der eine Wirkung senkrecht auf eine Fläche ausgeübt wird. SI-Einheit: Pascal, \(1\;\text{Pa} = 1\;\text{N/m}^2\). Druck ist ein <strong>Skalar</strong> — er hat keine Richtung; in einer ruhenden Flüssigkeit wirkt er an einem Punkt nach allen Seiten gleich.</p>
+    <p>Praxiseinheiten: \(1\;\text{hPa} = 100\;\text{Pa}\), \(1\;\text{kPa} = 1000\;\text{Pa}\), \(1\;\text{bar} = 10^5\;\text{Pa} = 1000\;\text{hPa}\), \(1\;\text{mbar} = 1\;\text{hPa}\). Luftdruck auf Meereshöhe: \(p_0 \approx 1013\;\text{hPa} \approx 1.013\;\text{bar}\).</p>
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Dichte</div>
+    \[ \rho = \frac{m}{V} \]
+    <p>Stoffeigenschaft: Masse pro Volumen, SI-Einheit \(\text{kg/m}^3\).</p>
+  </div>
+
+  <h3>Wichtige Dichtewerte</h3>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Stoff</th><th>\(\rho\) [kg/m³]</th><th>Stoff</th><th>\(\rho\) [kg/m³]</th></tr></thead>
+    <tbody>
+      <tr><td>Luft (20 °C)</td><td>\(1.20\)</td><td>Wasser (4 °C)</td><td>\(1000\)</td></tr>
+      <tr><td>Eis</td><td>\(917\)</td><td>Meerwasser</td><td>\(1025\)</td></tr>
+      <tr><td>Speiseöl</td><td>\(\approx 850\)</td><td>Quecksilber</td><td>\(13\,600\)</td></tr>
+      <tr><td>Kork</td><td>\(\approx 240\)</td><td>Eichenholz</td><td>\(\approx 700\)</td></tr>
+      <tr><td>Aluminium</td><td>\(2700\)</td><td>Eisen</td><td>\(7870\)</td></tr>
+      <tr><td>Beton</td><td>\(\approx 2400\)</td><td>Gold</td><td>\(19\,300\)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 2. SCHWEREDRUCK -->
+  <h2>2. Schweredruck in Flüssigkeiten</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Schweredruck</div>
+    \[ p_S = \rho \cdot g \cdot h \]
+    <p>Der zusätzliche Druck in einer Tiefe \(h\) unter dem Flüssigkeitsspiegel. Er wächst linear mit der Tiefe und hängt nicht von der Form des Gefässes ab.</p>
+    <p>Gesamtdruck an einem Punkt: \(p = p_0 + p_S\) (Luftdruck + Schweredruck).</p>
+  </div>
+
+  <p><strong>Herleitung:</strong> Eine Flüssigkeitssäule der Höhe \(h\) und Fläche \(A\) hat Volumen \(V = A\,h\), Masse \(m = \rho\,A\,h\) und Gewichtskraft \(F_G = m\,g\). Der Druck auf den Boden:</p>
+  \[ p_S = \frac{F_G}{A} = \frac{\rho \cdot A \cdot h \cdot g}{A} = \rho \cdot g \cdot h \]
+
+  <p><strong>Faustregel:</strong> in Wasser kommt pro 10 m Tiefe etwa 1 bar Druck dazu (genau: \(0.981\;\text{bar}\)).</p>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Hydrostatisches Paradoxon</div>
+    <p>Der Schweredruck am Boden hängt nur von der Füllhöhe ab — nicht von der Gefässform und nicht von der Wassermenge. Schmale Röhre und weiter Becher bei gleicher Füllhöhe → gleicher Bodendruck.</p>
+    <p><em>Vorsicht:</em> Die <strong>Bodenkraft</strong> \(F = p \cdot A\) unterscheidet sich aber, weil die Bodenflächen verschieden sind.</p>
+  </div>
+
+  <!-- 3. PASCAL-PRINZIP -->
+  <h2>3. Prinzip von Pascal — Hydraulik</h2>
+
+  <p>In einer geschlossenen Flüssigkeit pflanzt sich ein zusätzlicher Druck nach allen Seiten gleichmässig fort. Eine kleine Kraft auf einer kleinen Fläche erzeugt denselben Druck wie eine grosse Kraft auf einer grossen Fläche:</p>
+
+  \[ \frac{F_1}{A_1} = \frac{F_2}{A_2} \qquad \Longrightarrow \qquad F_2 = F_1 \cdot \frac{A_2}{A_1} \]
+
+  <p><strong>Hubverhältnis:</strong> Die Flüssigkeit ist (näherungsweise) inkompressibel, also gilt Volumen­erhaltung \(A_1 \cdot s_1 = A_2 \cdot s_2\), d.h. \(s_2 = s_1 \cdot A_1/A_2\). Die Arbeit \(W = F \cdot s\) ist auf beiden Seiten gleich (Energieerhaltung): grosse Kraft, kurzer Weg ↔ kleine Kraft, langer Weg.</p>
+
+  <p><strong>Anwendungen:</strong> hydraulische Werkstattbühne, Wagenheber, Bremsanlage am Auto, Bagger, <strong>Laborpresse</strong> (z. B. in der chemischen Analytik zur Tablettenherstellung für die Infrarot-Spektroskopie — eine Handhebel-Kraft von wenigen 10 N erzeugt durch das Hebel- und Pascal-Prinzip Press-Drücke von einigen 100 bar).</p>
+
+  <!-- 4. AUFTRIEB -->
+  <h2>4. Auftrieb — Archimedisches Prinzip</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Auftriebskraft</div>
+    \[ F_A = \rho_{\text{Fl}} \cdot V_e \cdot g \]
+    <p>Auf einen in eine Flüssigkeit eingetauchten Körper wirkt eine vertikal nach oben gerichtete Kraft. Sie ist betragsmässig gleich dem Gewicht der vom Körper verdrängten Flüssigkeitsmenge.</p>
+  </div>
+
+  <p><strong>Herleitung:</strong> An der Oberseite eines Quaders (in Tiefe \(h_o\)) drückt \(F_o = \rho g h_o A\) nach unten, an der Unterseite (Tiefe \(h_u\)) drückt \(F_u = \rho g h_u A\) nach oben. Differenz:</p>
+  \[ F_A = F_u - F_o = \rho g A (h_u - h_o) = \rho g V \]
+
+  <!-- 5. SCHWIMMEN-SCHWEBEN-SINKEN -->
+  <h2>5. Schwimmen, Schweben, Sinken</h2>
+
+  <table class="ftb-tabelle">
+    <thead><tr><th>Fall</th><th>Dichten</th><th>Verhalten</th></tr></thead>
+    <tbody>
+      <tr><td>Schwimmen</td><td>\(\rho_K < \rho_{\text{Fl}}\)</td><td>taucht teilweise ein bis \(F_A = F_G\)</td></tr>
+      <tr><td>Schweben</td><td>\(\rho_K = \rho_{\text{Fl}}\)</td><td>bleibt in jeder Tiefe stehen (indifferent)</td></tr>
+      <tr><td>Sinken</td><td>\(\rho_K > \rho_{\text{Fl}}\)</td><td>fällt zum Boden</td></tr>
+    </tbody>
+  </table>
+
+  <p>Bei einem schwimmenden Körper passt sich die Eintauchtiefe selbst so an, dass \(F_A = F_G\). Aus dieser Gleichgewichtsbedingung folgt:</p>
+
+  \[ \frac{V_e}{V_K} = \frac{\rho_K}{\rho_{\text{Fl}}} \]
+
+  <p>Beispiel: ein Eisberg (\(\rho = 917\;\text{kg/m}^3\)) in Meerwasser (\(\rho = 1025\;\text{kg/m}^3\)) ist zu \(917/1025 \approx 89.5\,\%\) unter Wasser; nur \(10.5\,\%\) ragen heraus.</p>
+
+  <!-- 6. KOMMUNIZIERENDE RÖHREN -->
+  <h2>6. Kommunizierende Röhren</h2>
+
+  <p>In verbundenen Gefässen stellt sich der Flüssigkeitsspiegel überall gleich hoch ein, sofern es nur <em>eine</em> Flüssigkeit ist (Anwendung: Schlauchwaage auf Baustellen, Wasserwaage in Form eines U-Rohrs).</p>
+
+  <p>Bei <strong>zwei nicht mischbaren Flüssigkeiten</strong> in einem U-Rohr stehen die Spiegel verschieden hoch. Am tiefsten gemeinsamen Punkt (bzw. an der Grenzfläche) herrscht links und rechts derselbe Druck — daraus folgt:</p>
+
+  \[ \rho_1 \cdot h_1 = \rho_2 \cdot h_2 \]
+
+  <p>Dabei sind \(h_1\) und \(h_2\) jeweils die <strong>Säulenhöhen über der Grenzfläche</strong> (nicht die Gesamt-Füllhöhe). Die schwerere Flüssigkeit „drückt" weiter nach unten, die leichtere bleibt höher.</p>
+
+  <div style="display:flex; justify-content:center; margin:3mm 0;">
+    <svg viewBox="0 0 140 100" width="180" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:7pt">
+      <!-- U-Rohr Aussenkontur -->
+      <path d="M22 18 L22 75 Q22 88 35 88 L105 88 Q118 88 118 75 L118 18 L108 18 L108 70 Q108 78 100 78 L40 78 Q32 78 32 70 L32 18 Z"
+            fill="#f3ede3" stroke="#5a4634" stroke-width="0.8"/>
+      <!-- Wasser (blau): rechts ab y=22 (Wasserspiegel), links ab y=28 (unter Öl) -->
+      <path d="M108 22 L108 70 Q108 78 100 78 L40 78 Q32 78 32 70 L32 28 L22 28 L22 75 Q22 88 35 88 L105 88 Q118 88 118 75 L118 22 Z"
+            fill="#bcd9ec" stroke="none"/>
+      <!-- Öl links (gelb), 10 hoch über Grenzfläche -->
+      <rect x="22" y="18" width="10" height="10" fill="#f7d77c" stroke="none"/>
+      <!-- Grenzfläche horizontal (gestrichelt) -->
+      <line x1="22" y1="28" x2="118" y2="28" stroke="#a02828" stroke-width="0.5" stroke-dasharray="2 1.5"/>
+      <text x="70" y="34" font-size="6" fill="#a02828" text-anchor="middle">Grenzfläche (gleicher Druck links und rechts)</text>
+      <!-- h1 (Öl links): y=18 bis y=28 -->
+      <line x1="14" y1="18" x2="14" y2="28" stroke="#a02828" stroke-width="0.6"/>
+      <line x1="12" y1="18" x2="16" y2="18" stroke="#a02828" stroke-width="0.6"/>
+      <line x1="12" y1="28" x2="16" y2="28" stroke="#a02828" stroke-width="0.6"/>
+      <text x="4" y="25" font-size="7" fill="#a02828">h₁</text>
+      <!-- h2 (Wasser rechts): y=22 bis y=28 -->
+      <line x1="126" y1="22" x2="126" y2="28" stroke="#1a4f8a" stroke-width="0.6"/>
+      <line x1="124" y1="22" x2="128" y2="22" stroke="#1a4f8a" stroke-width="0.6"/>
+      <line x1="124" y1="28" x2="128" y2="28" stroke="#1a4f8a" stroke-width="0.6"/>
+      <text x="129" y="27" font-size="7" fill="#1a4f8a">h₂</text>
+      <!-- Beschriftungen Flüssigkeiten -->
+      <text x="27" y="24" font-size="5.5" fill="#8a6a1a" text-anchor="middle">Öl ρ₁</text>
+      <text x="113" y="48" font-size="5.5" fill="#1a4f8a" text-anchor="middle">Wasser ρ₂</text>
+    </svg>
+  </div>
+
+  <!-- 7. ZUSAMMENFASSUNG -->
+  <h2>7. Zusammenfassung</h2>
+
+  <table class="ftb-tabelle">
+    <thead><tr><th>Konzept</th><th>Formel</th></tr></thead>
+    <tbody>
+      <tr><td>Druck</td><td>\(p = F/A\)</td></tr>
+      <tr><td>Dichte</td><td>\(\rho = m/V\)</td></tr>
+      <tr><td>Schweredruck</td><td>\(p_S = \rho \cdot g \cdot h\)</td></tr>
+      <tr><td>Hydraulik</td><td>\(F_2 = F_1 \cdot A_2/A_1\),\(\;s_1 \cdot A_1 = s_2 \cdot A_2\)</td></tr>
+      <tr><td>Auftrieb</td><td>\(F_A = \rho_{\text{Fl}} \cdot V_e \cdot g\)</td></tr>
+      <tr><td>Schwimmen</td><td>\(V_e/V_K = \rho_K/\rho_{\text{Fl}}\)</td></tr>
+      <tr><td>U-Rohr mit 2 Flüssigkeiten</td><td>\(\rho_1 \cdot h_1 = \rho_2 \cdot h_2\)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="merksatz">
+    Schweredruck wächst linear mit der Tiefe und hängt nur von Dichte, \(g\) und Höhe ab — nicht von Form oder Volumen des Gefässes. Auftrieb gleich Gewicht der verdrängten Flüssigkeit. Schwimmen, Schweben oder Sinken entscheidet allein der Dichtevergleich Körper ↔ Flüssigkeit.
+  </div>
+
+</div>
+
+</body>
+</html>

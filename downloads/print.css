@@ -1,0 +1,366 @@
+/* ═══════════════════════════════════════════════════════════
+   TALS-Physik · Druck-Stylesheet
+   Gemeinsames Layout für Handout / Formelsammlung / Aufgaben
+   A4 hochkant · 14 mm Rand · Source-Schriftfamilien
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --tinte: #1a1a1a;
+  --tinte-2: #555;
+  --linie: #c8c8c8;
+  --linie-2: #e5e5e5;
+  --papier: #fafaf7;
+  --papier-2: #f3f3ee;
+  --weiss: #ffffff;
+
+  /* Bereichsfarbe Physik: Bernstein */
+  --blau: #8a4a0e;
+  --blau-hell: #fbecd2;
+  --gruen: #2d6a3e;
+  --gruen-hell: #e8f3eb;
+  --orange: #b85a00;
+  --orange-hell: #fbeede;
+  --rot: #a02828;
+  --rot-hell: #f7e3e3;
+  --lila: #5e2d8a;
+  --lila-hell: #efe6f7;
+
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans:  'Source Sans 3', system-ui, sans-serif;
+  --mono:  'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ── Seiteneinrichtung ── */
+@page {
+  size: A4 portrait;
+  margin: 14mm 14mm 14mm 14mm;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--papier);
+  color: var(--tinte);
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  line-height: 1.42;
+}
+
+/* ── Bildschirm-Container (A4-Vorschau) ── */
+.druck-wrapper {
+  max-width: 182mm;          /* A4-Breite minus 14 mm × 2 Rand */
+  margin: 14mm auto;
+  background: var(--weiss);
+  padding: 14mm 14mm;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+  border: 1px solid var(--linie-2);
+  border-radius: 4px;
+}
+
+/* ── Druck-Aktionsleiste (nur Bildschirm) ── */
+.druck-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--weiss);
+  border-bottom: 1px solid var(--linie);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.druck-bar .db-info {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--tinte-2);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.druck-bar .db-back {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--blau);
+  text-decoration: none;
+  border: 1px solid var(--linie);
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--weiss);
+}
+.druck-bar .db-back:hover { background: var(--papier-2); }
+.druck-bar .db-print {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--weiss);
+  background: var(--blau);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.druck-bar .db-print:hover { background: #143d6e; }
+.druck-bar .db-print::before { content: "🖨"; font-size: 1rem; }
+
+/* ── Kopfzeile des Dokuments ── */
+.doc-kopf {
+  border-bottom: 2px solid var(--tinte);
+  padding-bottom: 6mm;
+  margin-bottom: 8mm;
+}
+.doc-kopf .dk-bereich {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--tinte-2);
+  margin-bottom: 3mm;
+}
+.doc-kopf h1 {
+  font-family: var(--serif);
+  font-size: 18pt;
+  font-weight: 700;
+  margin: 0;
+  color: var(--tinte);
+  line-height: 1.15;
+}
+.doc-kopf .dk-unter {
+  font-family: var(--sans);
+  font-size: 10pt;
+  color: var(--tinte-2);
+  margin-top: 2mm;
+  font-style: italic;
+}
+
+/* ── Überschriften ── */
+h2 {
+  font-family: var(--serif);
+  font-size: 13pt;
+  font-weight: 700;
+  color: var(--tinte);
+  margin: 7mm 0 3mm;
+  padding-bottom: 1.5mm;
+  border-bottom: 1px solid var(--linie);
+  page-break-after: avoid;
+  break-after: avoid;
+}
+h3 {
+  font-family: var(--serif);
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--tinte);
+  margin: 4mm 0 2mm;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+/* ── Absätze und Listen ── */
+p { margin: 0 0 2.5mm; }
+ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
+li { margin-bottom: 1.2mm; }
+
+/* ── Inline-Code / Variablen ── */
+code, .mono {
+  font-family: var(--mono);
+  font-size: 0.92em;
+}
+
+/* ── Themen-Blöcke (Definition, Beispiel, Aufgabe …) ── */
+.block {
+  border: 1px solid var(--linie);
+  border-left: 3px solid var(--blau);
+  border-radius: 4px;
+  padding: 3mm 4mm;
+  margin: 3mm 0;
+  background: var(--papier-2);
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.block-titel {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--blau);
+  margin-bottom: 2mm;
+}
+.block-def     { border-left-color: var(--blau);  background: var(--blau-hell);  }
+.block-def    .block-titel { color: var(--blau);   }
+.block-bsp     { border-left-color: var(--gruen); background: var(--gruen-hell); }
+.block-bsp    .block-titel { color: var(--gruen);  }
+.block-aufg    { border-left-color: var(--orange); background: var(--orange-hell); }
+.block-aufg   .block-titel { color: var(--orange); }
+.block-fehler  { border-left-color: var(--rot);   background: var(--rot-hell);   }
+.block-fehler .block-titel { color: var(--rot);    }
+.block-beweis  { border-left-color: var(--lila);  background: var(--lila-hell);  }
+.block-beweis .block-titel { color: var(--lila);   }
+
+.merksatz {
+  border: 1.5px solid var(--tinte);
+  border-radius: 4px;
+  padding: 3mm 5mm;
+  margin: 4mm 0;
+  background: var(--weiss);
+  font-family: var(--serif);
+  font-size: 11pt;
+  position: relative;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.merksatz::before {
+  content: "★";
+  position: absolute;
+  top: -8pt;
+  left: 6pt;
+  background: var(--weiss);
+  padding: 0 4pt;
+  color: var(--tinte);
+}
+
+/* ── Tabellen ── */
+table.ftb-tabelle {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0;
+  font-size: 9.8pt;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+table.ftb-tabelle th,
+table.ftb-tabelle td {
+  border: 1px solid var(--linie);
+  padding: 1.6mm 2.5mm;
+  text-align: center;
+  vertical-align: middle;
+  font-family: var(--mono);
+}
+table.ftb-tabelle th {
+  background: var(--papier-2);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 9.5pt;
+  letter-spacing: 0.3px;
+}
+table.ftb-tabelle td.li,
+table.ftb-tabelle td .li { text-align: left; font-family: var(--sans); }
+
+/* ── Aufgaben-Layout ── */
+.aufg {
+  margin: 4mm 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.aufg-kopf {
+  display: flex;
+  align-items: baseline;
+  gap: 3mm;
+  margin-bottom: 2mm;
+}
+.aufg-nr {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 11pt;
+  color: var(--orange);
+  min-width: 10mm;
+}
+.aufg-titel {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 11pt;
+  color: var(--tinte);
+}
+.aufg-body { margin-left: 0; }
+.aufg-body p { margin-bottom: 2mm; }
+
+/* Lösungs-Block */
+.loes {
+  border-left: 3px solid var(--gruen);
+  background: var(--gruen-hell);
+  padding: 2.5mm 4mm;
+  margin: 2mm 0 0;
+  border-radius: 0 4px 4px 0;
+  font-size: 9.8pt;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.loes-titel {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gruen);
+  margin-bottom: 1.5mm;
+}
+
+/* Antwort-Linien für handschriftliche Lösungen */
+.lin {
+  border-bottom: 0.6pt solid var(--linie);
+  height: 6mm;
+  margin: 1.2mm 0;
+}
+
+/* MathJax / KaTeX Container */
+mjx-container[display="true"] {
+  margin: 2mm 0 !important;
+}
+
+/* ── Fusszeile des Dokuments ── */
+.doc-fuss {
+  margin-top: 8mm;
+  padding-top: 3mm;
+  border-top: 1px solid var(--linie);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--tinte-2);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ── Zwei-Spalten-Layout für Formelsammlung ── */
+.zwei-spalten-fix {
+  column-count: 2;
+  column-gap: 8mm;
+  column-rule: 1px solid var(--linie-2);
+}
+.zwei-spalten-fix > * {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Hilfsklassen */
+.kein-umbruch { page-break-inside: avoid; break-inside: avoid; }
+.neue-seite   { page-break-before: always; break-before: page; }
+.no-print     { /* sichtbar im Browser, ausgeblendet im Druck */ }
+
+/* ═══════════════════════════════════════════════════════════
+   DRUCK-MEDIUM
+   ═══════════════════════════════════════════════════════════ */
+@media print {
+  html, body { background: var(--weiss); font-size: 10pt; }
+  .druck-bar, .no-print { display: none !important; }
+  .druck-wrapper {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    background: var(--weiss);
+  }
+  /* Block-Hintergründe drucken */
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  a { color: var(--tinte); text-decoration: none; }
+  h2 { margin-top: 5mm; }
+}

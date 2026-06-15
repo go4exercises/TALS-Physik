@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.1 Temperatur — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* Seitenspezifisch: Skalen-Plot etwas schmaler zentriert. */
+.skala-plot { max-width:520px; margin:0 auto; }
+.skala-plot canvas { width:100%; }
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 5 Thermodynamik</div>
+  <h1 class="pt-h1">5.1 Temperatur</h1>
+  <p class="pt-untertitel">Was die Temperatur auf der Ebene der Teilchen wirklich misst — und warum es neben der Celsius- eine absolute Temperaturskala braucht.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 5.1 · 30 Lektionen (Lerngebiet 5)</div>
+  <ul>
+    <li>die Temperatur mit Bezug auf die Teilchenbewegung definieren und einen Zusammenhang mit den Aggregatzuständen herstellen</li>
+    <li>den Ursprung und die Anwendungen der Celsius- und der Kelvin-Temperaturskala erklären</li>
+    <li>Grad Celsius in Kelvin umrechnen und umgekehrt</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann Temperatur über die Teilchenbewegung definieren.</li>
+      <li>Ich kann den Zusammenhang zwischen Temperatur und Aggregatzustand beschreiben.</li>
+      <li>Ich kann Ursprung und Anwendung der Celsius- und der Kelvin-Skala erklären.</li>
+      <li>Ich kann Grad Celsius in Kelvin umrechnen und umgekehrt.</li>
+      <li>Ich kann erklären, warum es einen absoluten Nullpunkt gibt.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — was zittert da im Wassertropfen?</h2>
+
+<p>1827 beobachtete der Botaniker Robert Brown unter dem Mikroskop winzige Teilchen in einer Flüssigkeit, die unaufhörlich und völlig regellos hin und her zuckten — ohne dass jemand sie anstiess. Was treibt sie an? Heute wissen wir: Die sichtbaren Teilchen werden von unzähligen, selbst unsichtbaren Wassermolekülen umgeben, die in ständiger Bewegung sind und von allen Seiten dagegenstossen. Mal überwiegt ein Stoss von links, mal von rechts — das sichtbare Teilchen tanzt einen Zufallsweg.</p>
+
+<p>Entscheidend ist die Beobachtung: <strong>Erwärmt</strong> man die Flüssigkeit, wird das Zittern <strong>heftiger</strong>. Die Temperatur ist also offenbar ein Mass dafür, <strong>wie stark sich die Teilchen bewegen</strong>. Genau diese Idee — Temperatur als Mass der Teilchenbewegung — zieht sich durch das ganze Kapitel.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Beobachte</div>
+  <p>Die Animation zeigt ein grösseres Teilchen (z.&nbsp;B. ein Milchfett-Tröpfchen, rot) in Wasser. Die kleinen Wasserteilchen stossen es von allen Seiten an, sodass es einen unregelmässigen Zickzack-Weg beschreibt — die <strong>Brown'sche Bewegung</strong>. Erhöhe die Temperatur und beobachte, wie sich Tempo und Heftigkeit des Tanzes ändern.</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>🔬 Einstieg-Animation · Brown'sche Bewegung</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verfolge die unregelmässige Bahn des roten Teilchens.</li><li>Beobachte, dass es ohne sichtbaren Antrieb zittert.</li><li>Achte darauf, dass die Stösse aus allen Richtungen kommen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verfolge die unregelmässige Bahn des roten Teilchens. Beobachte, dass es ohne sichtbaren Antrieb hin und her zittert. Achte darauf, dass die Stösse aus allen Richtungen kommen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Die Bewegung entsteht durch Stösse der unsichtbaren Wasserteilchen.</li><li>Sie ist ein direkter Hinweis auf die ständige Teilchenbewegung der Materie.</li><li>Je wärmer die Flüssigkeit, desto heftiger das Zittern.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Bewegung entsteht durch die Stösse der unsichtbaren, schnellen Wasserteilchen. Sie ist ein direkter Hinweis auf die ständige Teilchenbewegung der Materie. Je wärmer die Flüssigkeit ist, desto heftiger wird das Zittern." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Temperatur:</label>
+      <input type="range" id="ein-T" min="1" max="100" value="40" step="1">
+      <span class="sl-val" id="ein-T-val">warm</span>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="ein-btn">▶ Start</button>
+      <button class="play-btn paused" id="ein-reset" style="background:var(--tinte-2);">↻ Spur löschen</button>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">💧 Milchteilchen in Wasser (Zufallsweg)</div>
+      <canvas id="ein-cv" height="320"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<p>Die Brown'sche Bewegung ist ein direkter, sichtbarer Beleg dafür, dass Materie aus beweglichen Teilchen besteht und dass diese Bewegung mit der Temperatur zunimmt. Damit haben wir den roten Faden: Wir schauen zuerst genauer auf die Teilchenbewegung, ordnen ihr die drei Aggregatzustände zu und klären dann, wie man Temperatur sinnvoll misst — mit der Celsius- und der absoluten Kelvin-Skala.</p>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Das Zittern kleiner Teilchen im Wasser (Brown'sche Bewegung) zeigt:</p><ul class="mc-optionen"><li data-opt="A">das Wasser ist verschmutzt</li><li data-opt="B">die Wassermoleküle sind in ständiger Bewegung</li><li data-opt="C">das Licht schiebt die Teilchen</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die unsichtbaren Wassermoleküle stossen die Teilchen unregelmässig an — sichtbarer Beleg für die ständige Teilchenbewegung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Je höher die Temperatur, desto <span class="mc-luecke"></span> bewegen sich die Teilchen.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">schneller (heftiger).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Welche Temperatur hat schmelzendes Eis (\(0°C\)) in Kelvin?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(T = 0 + 273.15 = 273.15\;\text{K} \approx 273\;\text{K}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum verteilt sich ein Tropfen Tinte in warmem Wasser schneller als in kaltem?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">In warmem Wasser bewegen sich die Moleküle schneller; sie durchmischen die Tinte rascher (stärkere Diffusion).</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Temperatur als Mass der Teilchenbewegung</div>
+  <p>Jeder Körper besteht aus Teilchen (Atomen oder Molekülen), die sich ständig bewegen — sie schwingen, gleiten oder fliegen umher. Diese ungeordnete Bewegung nennt man <strong>thermische Bewegung</strong>. Die <strong>Temperatur</strong> ist ein Mass für die <strong>mittlere Bewegungsenergie</strong> der Teilchen:</p>
+  <p>Je höher die Temperatur, desto schneller bewegen sich die Teilchen im Mittel. Sinkt die Temperatur, wird die Bewegung schwächer. Es gibt eine tiefste mögliche Temperatur, bei der die thermische Bewegung ein Minimum erreicht — den <strong>absoluten Nullpunkt</strong>. Die Temperatur ist eine <strong>Zustandsgrösse</strong>: Sie beschreibt den momentanen Zustand des Körpers, unabhängig davon, wie er dorthin gelangt ist.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Aggregatzustände im Teilchenmodell</div>
+  <p>Wie stark die Teilchen sich bewegen, entscheidet über den <strong>Aggregatzustand</strong> eines Stoffes. Mit zunehmender Temperatur durchläuft ein Stoff die drei Zustände fest, flüssig und gasförmig:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Zustand</th><th>Teilchenmodell</th><th>Eigenschaften</th></tr></thead>
+    <tbody>
+      <tr><td>fest</td><td>Teilchen sitzen an festen Plätzen und schwingen nur um ihre Ruhelage; oft regelmässig angeordnet (kristallin)</td><td>formstabil, starr, kaum verformbar</td></tr>
+      <tr><td>flüssig</td><td>Teilchen berühren sich noch, können sich aber gegeneinander verschieben</td><td>nimmt Gefässform an, kaum pressbar, freie Oberfläche</td></tr>
+      <tr><td>gasförmig</td><td>grosse Abstände, Teilchen fliegen frei und stossen nur gelegentlich zusammen</td><td>füllt jeden Raum aus, leicht komprimierbar</td></tr>
+    </tbody>
+  </table>
+  <p>Die Übergänge tragen eigene Namen: fest&nbsp;→&nbsp;flüssig heisst <strong>schmelzen</strong> (umgekehrt erstarren), flüssig&nbsp;→&nbsp;gasförmig heisst <strong>verdampfen</strong> (umgekehrt kondensieren). Sie finden bei stoffspezifischen Temperaturen statt — dem Schmelz- und dem Siedepunkt.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Die Celsius-Skala</div>
+  <p>Im Alltag messen wir die Temperatur in <strong>Grad Celsius</strong> (\(^\circ\text{C}\)). Anders Celsius wählte zwei gut reproduzierbare Fixpunkte des Wassers: den <strong>Schmelzpunkt</strong> (\(0\,^\circ\text{C}\)) und den <strong>Siedepunkt</strong> (\(100\,^\circ\text{C}\)) bei Normaldruck. Der Abstand wird in 100 gleiche Schritte geteilt. Die Wahl ist praktisch, weil Wasser überall verfügbar ist — sie ist aber <strong>nicht</strong> physikalisch begründet, sondern willkürlich an einen bestimmten Stoff gebunden. Für die Temperatur in \(^\circ\text{C}\) verwendet man oft das Symbol \(\vartheta\) (Theta).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Absoluter Nullpunkt und Kelvin-Skala</div>
+  <p>William Thomson (später <strong>Lord Kelvin</strong>) erkannte, dass es eine tiefstmögliche Temperatur gibt, bei der die thermische Bewegung minimal wird: den <strong>absoluten Nullpunkt</strong>. Er liegt bei \(-273.15\,^\circ\text{C}\) und kann aus prinzipiellen Gründen nie ganz erreicht werden. Kelvin legte den Nullpunkt seiner <strong>absoluten Temperaturskala</strong> genau dorthin. Sie wird in <strong>Kelvin</strong> (\(\text{K}\)) angegeben, kennt keine negativen Werte und hat dieselbe Schrittweite wie die Celsius-Skala. Für die Temperatur in Kelvin verwendet man das Symbol \(T\).</p>
+  \[ 0\;\text{K} = -273.15\,^\circ\text{C} \]
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Umrechnung und Temperaturdifferenz</div>
+  <p>Weil beide Skalen dieselbe Schrittweite haben und nur ihr Nullpunkt um \(273.15\) verschoben ist, gilt:</p>
+  \[ T = \vartheta + 273.15, \qquad \vartheta = T - 273.15 \]
+  <p>(\(T\) in Kelvin, \(\vartheta\) in \(^\circ\text{C}\); die Zahlenwerte werden hier zusammengezählt.) Für eine <strong>Temperaturdifferenz</strong> spielt der verschobene Nullpunkt keine Rolle — eine Erwärmung um \(1\,^\circ\text{C}\) ist genau eine Erwärmung um \(1\,\text{K}\):</p>
+  \[ \Delta T = \Delta\vartheta \]
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 — TEILCHENGESCHWINDIGKEIT ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Temperatur ist ein Mass für …</p><ul class="mc-optionen"><li data-opt="A">die Wärmemenge</li><li data-opt="B">die mittlere Bewegungsenergie der Teilchen</li><li data-opt="C">die Masse</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die Temperatur misst die mittlere kinetische Energie der Teilchen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die SI-Einheit der Temperatur ist das <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Kelvin (K).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Körpertemperatur \(37°C\) in Kelvin?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(T = 37 + 273.15 = 310.15\;\text{K} \approx 310\;\text{K}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Zwei Körper unterschiedlicher Temperatur berühren sich. In welche Richtung fliesst die Wärme, und wann hört der Fluss auf?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Von warm nach kalt — so lange, bis beide dieselbe Temperatur haben (thermisches Gleichgewicht).</div></details></div>
+</details>
+
+<h2 id="teilchen">Temperatur und Teilchengeschwindigkeit</h2>
+
+<p>Schauen wir die thermische Bewegung in einem Gas direkt an. Die Temperatur bestimmt, wie schnell sich die Teilchen im Mittel bewegen. Senkt man die Temperatur bis zum absoluten Nullpunkt, kommt die Bewegung praktisch zum Erliegen — deshalb gibt es keine tiefere Temperatur.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 1 · Gasteilchen in einer Box</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle die Temperatur (in Kelvin) ein und beobachte die Teilchen.</li><li>Achte auf die Farbe: blau ist kalt, rot ist heiss.</li><li>Senke \(T\) bis \(0\,\text{K}\) — die Teilchen kommen zur Ruhe.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle die Temperatur in Kelvin ein und beobachte die Teilchen. Achte auf die Farbe: blau ist kalt, rot ist heiss. Senke die Temperatur bis null Kelvin, dann kommen die Teilchen zur Ruhe." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Die Temperatur ist ein Mass für die mittlere Bewegungsenergie der Teilchen.</li><li>Höhere Temperatur bedeutet schnellere Teilchen.</li><li>Am absoluten Nullpunkt (\(0\,\text{K}\)) ist die Teilchenbewegung minimal.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Temperatur ist ein Mass für die mittlere Bewegungsenergie der Teilchen. Eine höhere Temperatur bedeutet schnellere Teilchen. Am absoluten Nullpunkt, also bei null Kelvin, ist die Teilchenbewegung minimal." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Temperatur \(T\):</label>
+      <input type="range" id="a1-T" min="0" max="600" value="300" step="5">
+      <span class="sl-val" id="a1-T-val">300 K</span>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a1-btn">▶ Start</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a1-Tk">300 K</span></div>
+      <div class="lb-item"><span class="lb-lab">entspricht</span><span class="lb-val" id="a1-Tc">26.9 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">mittl. Tempo (rel.)</span><span class="lb-val" id="a1-v">100 %</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🟦 Teilchen im geschlossenen Behälter</div>
+      <canvas id="a1-cv" height="300"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Häufiges Missverständnis</div>
+  <p>Die Temperatur misst die <em>mittlere</em> Bewegungsenergie, nicht die Geschwindigkeit eines einzelnen Teilchens. Einzelne Teilchen sind schneller oder langsamer; erst der Durchschnitt über sehr viele Teilchen entspricht der Temperatur. Das mittlere Tempo wächst zudem nur mit der <strong>Wurzel</strong> der absoluten Temperatur — doppelte Temperatur bedeutet nicht doppeltes Tempo.</p>
+</div>
+
+
+<!-- ══════════════ 5. ANIMATION 2 — AGGREGATZUSTÄNDE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Verdoppelt sich die absolute Temperatur (in K), so …</p><ul class="mc-optionen"><li data-opt="A">verdoppelt sich die mittlere kinetische Energie der Teilchen</li><li data-opt="B">halbiert sie sich</li><li data-opt="C">bleibt sie gleich</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Die mittlere Bewegungsenergie ist proportional zur absoluten Temperatur.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die mittlere kinetische Energie der Teilchen ist proportional zur <span class="mc-luecke"></span> Temperatur.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">absoluten (Kelvin-).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Gas wird von \(300\;\text{K}\) auf \(600\;\text{K}\) erwärmt. Um welchen Faktor steigt die mittlere Bewegungsenergie?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Faktor \(\dfrac{600}{300} = 2\) — sie verdoppelt sich.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum lässt sich die Temperatur nicht beliebig weit absenken?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Bei \(0\;\text{K}\) ist die Teilchenbewegung minimal; eine noch geringere Bewegung gibt es nicht. Dieser absolute Nullpunkt ist die untere Grenze.</div></details></div>
+</details>
+
+<h2 id="aggregat">Aggregatzustände und ihre Übergänge</h2>
+
+<p>Erhöht man die Temperatur eines Stoffes schrittweise, durchläuft er die drei Aggregatzustände. Im Teilchenmodell sieht man, wie aus dem starren Gitter eine bewegliche Flüssigkeit und schliesslich ein frei fliegendes Gas wird.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 2 · Vom Festkörper zum Gas</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Bewege den Temperaturregler über Schmelz- und Siedepunkt hinaus.</li><li>Beobachte die Anordnung der Teilchen in jeder Phase.</li><li>Achte auf die Übergänge bei \(0\,^\circ\text{C}\) und \(100\,^\circ\text{C}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Bewege den Temperaturregler über den Schmelzpunkt und den Siedepunkt hinaus. Beobachte, wie sich die Anordnung der Teilchen in jeder Phase ändert. Achte auf die Übergänge bei null Grad Celsius und bei 100 Grad Celsius." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Fest: feste Plätze; flüssig: beweglich, aber dicht; gasförmig: frei verteilt.</li><li>Mit steigender Temperatur lösen sich die Teilchenbindungen schrittweise.</li><li>Schmelzen bei \(0\,^\circ\text{C}\), Sieden bei \(100\,^\circ\text{C}\) (Wasser, Normaldruck).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Im festen Zustand haben die Teilchen feste Plätze, im flüssigen sind sie beweglich, aber noch dicht, im gasförmigen frei und weit verteilt. Mit steigender Temperatur lösen sich die Bindungen zwischen den Teilchen schrittweise. Wasser schmilzt bei null Grad Celsius und siedet bei 100 Grad Celsius unter Normaldruck." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Temperatur \(\vartheta\):</label>
+      <input type="range" id="a2-T" min="-80" max="200" value="20" step="1">
+      <span class="sl-val" id="a2-T-val">20 °C</span>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a2-btn">▶ Start</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a2-Tc">20 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">Aggregatzustand</span><span class="lb-val" id="a2-zust">flüssig</span></div>
+      <div class="lb-item"><span class="lb-lab">Übergang bei</span><span class="lb-val" id="a2-uebg">0 / 100 °C</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🧊💧💨 Teilchen je nach Temperatur</div>
+      <canvas id="a2-cv" height="300"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 6. ANIMATION 3 — THERMOMETER & SKALEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit einem Temperaturunterschied von 10 °C, wenn du ihn in Kelvin angibst?</summary>
+  <div class="frage-antwort">
+    <p>Er bleibt 10 K. Celsius und Kelvin haben dieselbe Schrittweite, daher gilt \(\Delta T=\Delta\vartheta\). Nur bei <em>absoluten</em> Temperaturen muss man \(+273.15\) addieren, bei Differenzen nicht.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Beim Schmelzen von Eis bei \(0°C\) …</p><ul class="mc-optionen"><li data-opt="A">steigt die Temperatur</li><li data-opt="B">bleibt die Temperatur konstant</li><li data-opt="C">sinkt die Temperatur</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Während des Schmelzens bleibt die Temperatur bei \(0°C\) — die Energie bricht Bindungen auf.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Übergang fest → flüssig heisst <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Schmelzen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Bei welcher Temperatur (in °C) siedet Wasser auf Meereshöhe?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Bei \(100°C\) (Normaldruck).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum bleibt ein Eiswasser-Gemisch bei \(0°C\), obwohl man Wärme zuführt?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die zugeführte Energie schmilzt zunächst das Eis (Schmelzwärme), statt die Temperatur zu erhöhen. Erst wenn alles Eis geschmolzen ist, steigt die Temperatur.</div></details></div>
+</details>
+
+<h2 id="skalen">Celsius und Kelvin im Vergleich</h2>
+
+<p>Beide Skalen messen dieselbe physikalische Grösse, nur ab einem anderen Nullpunkt. Das Thermometer zeigt links die Celsius-, rechts die Kelvin-Skala. Beachte: Der Abstand zweier Striche ist auf beiden Seiten gleich — die Skalen sind nur gegeneinander verschoben.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 3 · Thermometer mit beiden Skalen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle die Temperatur ein und vergleiche beide Skalen.</li><li>Suche die Fixpunkte (Nullpunkt, Schmelz-, Siedepunkt, Körper).</li><li>Achte darauf, dass sich nur der Nullpunkt verschiebt, nicht die Schrittweite.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle die Temperatur ein und vergleiche die Celsius- mit der Kelvin-Skala. Suche die markierten Fixpunkte: absoluter Nullpunkt, Schmelzpunkt, Siedepunkt und Körpertemperatur. Achte darauf, dass sich nur der Nullpunkt verschiebt, die Schrittweite aber gleich bleibt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Umrechnung: \(T/\text{K} = \vartheta/^\circ\text{C} + 273.15\).</li><li>Beide Skalen haben dieselbe Schrittweite; nur der Nullpunkt ist verschoben.</li><li>Eine Temperaturdifferenz ist in K und \(^\circ\text{C}\) gleich gross.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Umrechnung lautet: Temperatur in Kelvin gleich Temperatur in Grad Celsius plus 273.15. Beide Skalen haben dieselbe Schrittweite, nur der Nullpunkt ist verschoben. Eine Temperaturdifferenz ist in Kelvin und in Grad Celsius gleich gross." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Temperatur:</label>
+      <input type="range" id="a3-T" min="-273.15" max="150" value="20" step="0.05">
+      <span class="sl-val" id="a3-T-val">20.00 °C</span>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Umrechnung</div>
+      <div class="fl-eq" id="a3-eq">T = 20.00 + 273.15 = 293.15 K</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Celsius \(\vartheta\)</span><span class="lb-val" id="a3-c">20.00 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">Kelvin \(T\)</span><span class="lb-val" id="a3-k">293.15 K</span></div>
+    </div>
+
+    <div class="cv-wrap skala-plot">
+      <div class="cv-titel">🌡 Thermometer (Celsius links · Kelvin rechts)</div>
+      <canvas id="a3-cv" height="340"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 7. ANIMATION 4 — UMRECHNEN & DIFFERENZ ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein Temperaturunterschied von \(1°C\) entspricht …</p><ul class="mc-optionen"><li data-opt="A">\(1\;\text{K}\)</li><li data-opt="B">\(274\;\text{K}\)</li><li data-opt="C">\(273\;\text{K}\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Die Skalenschritte sind gleich gross: eine Differenz von \(1°C\) ist \(1\;\text{K}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Kelvin-Skala beginnt beim <span class="mc-luecke"></span> Nullpunkt.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">absoluten.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Wie viele Kelvin sind \(100°C\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(T = 100 + 273.15 = 373.15\;\text{K} \approx 373\;\text{K}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum gibt man Temperaturdifferenzen in Kelvin an, auch wenn man in °C gemessen hat?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die Schrittweiten sind identisch (\(1°C = 1\;\text{K}\)), eine Differenz ist also zahlengleich. Kelvin ist aber die SI-Einheit und vermeidet das negative Vorzeichen.</div></details></div>
+</details>
+
+<h2 id="umrechnen">Umrechnen und Temperaturdifferenz</h2>
+
+<p>Hier siehst du beide Skalen als Zahlenstrahl übereinander — um \(273.15\) gegeneinander verschoben. Setze zwei Temperaturen und vergleiche: Die einzelnen Werte unterscheiden sich um \(273.15\), die <strong>Differenz</strong> dazwischen ist in beiden Skalen aber identisch.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 4 · Doppelter Zahlenstrahl</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verschiebe die Marker \(\vartheta_1\) und \(\vartheta_2\).</li><li>Vergleiche oben Celsius und unten Kelvin.</li><li>Beobachte die hervorgehobene Spanne dazwischen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verschiebe die beiden Marker theta eins und theta zwei. Vergleiche oben die Celsius-Werte mit den Kelvin-Werten unten. Beobachte die hervorgehobene Spanne zwischen den beiden Markern." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Eine Temperaturdifferenz \(\Delta T\) ist in beiden Skalen identisch.</li><li>\(\Delta T = \vartheta_2 - \vartheta_1\) (in \(^\circ\text{C}\)) \(= T_2 - T_1\) (in K).</li><li>Verschoben ist nur der Nullpunkt, nicht der Abstand der Striche.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Eine Temperaturdifferenz delta T ist in beiden Skalen identisch. Sie ist theta zwei minus theta eins in Grad Celsius und gleich T zwei minus T eins in Kelvin. Verschoben ist nur der Nullpunkt, nicht der Abstand der Skalenstriche." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Temperatur \(\vartheta_1\):</label>
+      <input type="range" id="a4-t1" min="-50" max="150" value="12" step="1">
+      <span class="sl-val" id="a4-t1-val">12 °C</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Temperatur \(\vartheta_2\):</label>
+      <input type="range" id="a4-t2" min="-50" max="150" value="95" step="1">
+      <span class="sl-val" id="a4-t2-val">95 °C</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Differenz</div>
+      <div class="fl-eq" id="a4-eq">Δϑ = 95 − 12 = 83 °C   ·   ΔT = 368.15 − 285.15 = 83 K</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(\vartheta_1\) → \(T_1\)</span><span class="lb-val" id="a4-p1">12 °C = 285.15 K</span></div>
+      <div class="lb-item"><span class="lb-lab">\(\vartheta_2\) → \(T_2\)</span><span class="lb-val" id="a4-p2">95 °C = 368.15 K</span></div>
+      <div class="lb-item"><span class="lb-lab">\(\Delta T = \Delta\vartheta\)</span><span class="lb-val" id="a4-d">83 K</span></div>
+    </div>
+
+    <div class="cv-wrap skala-plot">
+      <div class="cv-titel">📏 Celsius (oben) und Kelvin (unten)</div>
+      <canvas id="a4-cv" height="210"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 8. ANIMATION 5 — ABSOLUTER NULLPUNKT ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">\(0\;\text{K}\) entsprechen …</p><ul class="mc-optionen"><li data-opt="A">\(0°C\)</li><li data-opt="B">\(-273.15°C\)</li><li data-opt="C">\(273.15°C\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Der absolute Nullpunkt liegt bei \(-273.15°C\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Umrechnung: \(T/\text{K} = \vartheta/°C + \) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(273.15\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(-40°C\) in Kelvin?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(T = -40 + 273.15 = 233.15\;\text{K} \approx 233\;\text{K}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Bei welcher Temperatur zeigen Celsius- und Fahrenheit-Skala denselben Zahlenwert? (\(\vartheta_F = 1.8\,\vartheta_C + 32\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Gleichsetzen: \(\vartheta = 1.8\,\vartheta + 32 \Rightarrow -0.8\,\vartheta = 32 \Rightarrow \vartheta = -40\). Also \(-40°C = -40°F\).</div></details></div>
+</details>
+
+<h2 id="nullpunkt">Woher kennt man den absoluten Nullpunkt?</h2>
+
+<p>Der absolute Nullpunkt lässt sich nicht direkt messen — er wird durch Extrapolation gefunden. Hält man eine feste Gasmenge bei konstantem Volumen und misst ihren Druck bei verschiedenen Temperaturen, ergibt sich eine <strong>Gerade</strong>: Je kälter das Gas, desto kleiner der Druck. Verlängert man diese Gerade gedanklich bis zum Druck null, schneidet sie die Temperaturachse stets bei \(-273.15\,^\circ\text{C}\) — unabhängig vom Gas. Tiefer geht es nicht, denn negativer Druck ist sinnlos.</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Die Idee hinter der Extrapolation</div>
+  <p>Bei konstantem Volumen ist der Gasdruck proportional zur <strong>absoluten</strong> Temperatur, also \(p \propto T\). Eine Gerade durch zwei Messpunkte im \(p\)-\(\vartheta\)-Diagramm trifft die \(\vartheta\)-Achse (wo \(p = 0\)) genau dort, wo auch \(T = 0\) gilt. Dieser gemeinsame Schnittpunkt ist der absolute Nullpunkt und begründet, warum Kelvin dort den Nullpunkt seiner Skala setzte.</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 5 · Druck-Temperatur-Gerade eines Gases</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verschiebe den Messpunkt entlang der Geraden.</li><li>Verlängere sie gedanklich bis zur Temperaturachse.</li><li>Achte darauf, wo die Verlängerung die Achse trifft.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verschiebe den Messpunkt entlang der Geraden. Verlängere sie gedanklich bis zur Temperaturachse. Achte darauf, an welcher Stelle die Verlängerung die Achse trifft." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Bei konstantem Volumen ist der Druck proportional zur absoluten Temperatur.</li><li>Die Gerade trifft die Temperaturachse beim absoluten Nullpunkt (\(-273.15\,^\circ\text{C}\)).</li><li>Das begründet die Kelvin-Skala mit ihrem natürlichen Nullpunkt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Bei konstantem Volumen ist der Druck eines Gases proportional zur absoluten Temperatur. Die Verlängerung der Geraden trifft die Temperaturachse beim absoluten Nullpunkt, also bei minus 273.15 Grad Celsius. Das begründet die Kelvin-Skala mit ihrem natürlichen Nullpunkt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Messtemperatur \(\vartheta\):</label>
+      <input type="range" id="a5-T" min="-260" max="200" value="20" step="1">
+      <span class="sl-val" id="a5-T-val">20 °C</span>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a5-Tc">20 °C = 293 K</span></div>
+      <div class="lb-item"><span class="lb-lab">rel. Druck</span><span class="lb-val" id="a5-p">107 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Achsenschnitt (\(p = 0\))</span><span class="lb-val" id="a5-zero">−273.15 °C</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📈 Druck \(p\) über Temperatur \(\vartheta\)</div>
+      <canvas id="a5-cv"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 9. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der Teilchenbewegung, wenn man sich dem absoluten Nullpunkt nähert?</summary>
+  <div class="frage-antwort">
+    <p>Sie wird immer geringer und erreicht am absoluten Nullpunkt ein Minimum. Tiefer geht es nicht, weil es keine negative Bewegungsenergie gibt — deshalb ist \(0\;\text{K}\) die untere Grenze.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Den absoluten Nullpunkt findet man, indem man …</p><ul class="mc-optionen"><li data-opt="A">Druck (oder Volumen) eines Gases gegen die Temperatur aufträgt und die Gerade bis null verlängert</li><li data-opt="B">das kälteste Eis misst</li><li data-opt="C">den Mittelwert vieler Messungen nimmt</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Die \(p\)-\(T\)-Gerade eines Gases extrapoliert man bis \(p = 0\) — das ergibt \(-273.15°C\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der absolute Nullpunkt liegt bei \(-273.15°C\), also bei \(0\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Kelvin (K).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Bei \(0°C\) hat ein Gas den Druck \(p_0\). Bei welcher Temperatur (°C) wäre der Druck extrapoliert null?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Bei \(-273.15°C\) — dem absoluten Nullpunkt.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Zwei Gase mit verschiedenem Anfangsdruck ergeben im \(p\)-\(T\)-Diagramm zwei Geraden. Warum schneiden beide die Temperaturachse im selben Punkt?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Beide extrapolieren auf \(p = 0\) beim absoluten Nullpunkt (\(-273.15°C\)). Dieser ist eine universelle Konstante — unabhängig von Gas und Anfangsdruck.</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Celsius und Kelvin umrechnen</span></div>
+  <p>Rechne um (\(T = \vartheta + 273.15\)):</p>
+  <ol class="aufg-liste">
+    <li>Körpertemperatur \(37\,^\circ\text{C}\) in Kelvin.</li>
+    <li>Flüssiger Stickstoff siedet bei \(-196\,^\circ\text{C}\). Wie viel Kelvin sind das?</li>
+    <li>Eine Sternoberfläche hat \(5800\,\text{K}\). Wie viel Grad Celsius sind das?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(T = 37 + 273.15 = 310.15\,\text{K}\)</li>
+        <li>\(T = -196 + 273.15 = 77.15\,\text{K}\)</li>
+        <li>\(\vartheta = 5800 - 273.15 = 5526.85\,^\circ\text{C} \approx 5527\,^\circ\text{C}\)</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Temperaturdifferenz</span></div>
+  <p>Untersuche, ob es bei einer Differenz auf die Skala ankommt.</p>
+  <ol class="aufg-liste">
+    <li>Wasser wird von \(12\,^\circ\text{C}\) auf \(95\,^\circ\text{C}\) erwärmt. Gib die Temperaturänderung in \(^\circ\text{C}\) und in Kelvin an.</li>
+    <li>Fleisch wird von Zimmertemperatur \(20\,^\circ\text{C}\) auf \(-18\,^\circ\text{C}\) tiefgekühlt. Wie gross ist der Betrag der Temperaturänderung in Kelvin?</li>
+    <li>Begründe in einem Satz, warum sich \(\Delta T\) und \(\Delta\vartheta\) nie unterscheiden.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(\Delta\vartheta = 95 - 12 = 83\,^\circ\text{C}\), also \(\Delta T = 83\,\text{K}\).</li>
+        <li>\(\Delta\vartheta = -18 - 20 = -38\,^\circ\text{C}\); der Betrag ist \(38\,\text{K}\) (Abkühlung).</li>
+        <li>Beide Skalen haben dieselbe Schrittweite; der um \(273.15\) verschobene Nullpunkt fällt bei einer Differenz heraus, weil er in beiden Werten gleich auftritt.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Teilchenmodell und Aggregatzustand</span></div>
+  <p>Ordne den Beschreibungen den passenden Aggregatzustand (fest, flüssig, gasförmig) zu und nenne jeweils das beobachtbare Verhalten.</p>
+  <ol class="aufg-liste">
+    <li>Die Teilchen sitzen an festen Plätzen und schwingen nur leicht um ihre Ruhelage.</li>
+    <li>Die Teilchen berühren sich, lassen sich aber leicht gegeneinander verschieben.</li>
+    <li>Die Teilchen haben grosse Abstände und fliegen frei umher.</li>
+    <li>Wie heisst der Übergang zwischen Zustand 2 und Zustand 3, und bei welcher Temperatur findet er bei Wasser statt?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li><strong>fest</strong> — formstabil und starr (z.&nbsp;B. Eis).</li>
+        <li><strong>flüssig</strong> — nimmt die Gefässform an, ist aber kaum zusammendrückbar (z.&nbsp;B. Wasser).</li>
+        <li><strong>gasförmig</strong> — füllt jeden Raum aus und ist leicht komprimierbar (z.&nbsp;B. Wasserdampf).</li>
+        <li>Der Übergang flüssig&nbsp;→&nbsp;gasförmig heisst <strong>verdampfen</strong>; bei Wasser geschieht er unter Normaldruck bei \(100\,^\circ\text{C}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Der absolute Nullpunkt</span></div>
+  <p>In Animation 5 wird der Druck eines Gases bei konstantem Volumen über der Temperatur aufgetragen.</p>
+  <ol class="aufg-liste">
+    <li>Warum schneidet die verlängerte Gerade die Temperaturachse immer bei \(-273.15\,^\circ\text{C}\)?</li>
+    <li>Warum kann man auf der Kelvin-Skala keine negativen Temperaturen angeben?</li>
+    <li>Eine Schülerin behauptet: «Bei \(-300\,^\circ\text{C}\) ist es noch kälter als am absoluten Nullpunkt.» Nimm Stellung.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Der Druck ist proportional zur absoluten Temperatur. Wird der Druck null, ist auch die absolute Temperatur null — und das entspricht \(-273.15\,^\circ\text{C}\). Da das für jedes Gas gilt, treffen sich alle Geraden in diesem Punkt.</li>
+        <li>Der absolute Nullpunkt ist die tiefstmögliche Temperatur (minimale Teilchenbewegung). Die Kelvin-Skala beginnt genau dort, deshalb gibt es nichts darunter — keine negativen Werte.</li>
+        <li>Das ist nicht möglich: \(-300\,^\circ\text{C}\) läge unterhalb des absoluten Nullpunkts (\(-273.15\,^\circ\text{C}\)) und damit unterhalb der tiefstmöglichen Temperatur. Eine solche Temperatur existiert nicht.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Temperaturtabelle ergänzen</span></div>
+  <p>Vervollständige die fehlenden Werte (auf zwei Nachkommastellen bzw. ganze Grad gerundet).</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Situation</th><th>\(\vartheta\) [°C]</th><th>\(T\) [K]</th></tr></thead>
+    <tbody>
+      <tr><td>Zimmertemperatur</td><td>20</td><td>?</td></tr>
+      <tr><td>Wasser siedet</td><td>?</td><td>373.15</td></tr>
+      <tr><td>tiefe Antarktis-Nacht</td><td>−89</td><td>?</td></tr>
+      <tr><td>Backofen (Pizza)</td><td>?</td><td>573.15</td></tr>
+    </tbody>
+  </table>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Zimmertemperatur: \(20 + 273.15 = 293.15\,\text{K}\)</li>
+        <li>Wasser siedet: \(373.15 - 273.15 = 100\,^\circ\text{C}\)</li>
+        <li>Antarktis: \(-89 + 273.15 = 184.15\,\text{K}\)</li>
+        <li>Backofen: \(573.15 - 273.15 = 300\,^\circ\text{C}\)</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Brown'sche Bewegung deuten</span></div>
+  <p>Ein Forscher beobachtet ein Pollenkorn in Wasser und sieht es regellos zittern. Er erwärmt das Wasser von \(10\,^\circ\text{C}\) auf \(60\,^\circ\text{C}\).</p>
+  <ol class="aufg-liste">
+    <li>Erkläre mit dem Teilchenmodell, was das Zittern des Pollenkorns verursacht.</li>
+    <li>Was beobachtet er nach dem Erwärmen — und warum?</li>
+    <li>Um wie viel Kelvin hat er die Temperatur erhöht?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Das Pollenkorn wird von unzähligen bewegten Wasserteilchen von allen Seiten angestossen. Da die Stösse zufällig mal von der einen, mal von der anderen Seite überwiegen, beschreibt es einen unregelmässigen Zufallsweg.</li>
+        <li>Das Zittern wird heftiger und schneller, weil die höhere Temperatur eine intensivere Teilchenbewegung bedeutet — die Stösse werden kräftiger und häufiger.</li>
+        <li>\(\Delta T = \Delta\vartheta = 60 - 10 = 50\,\text{K}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 10. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Konzept</th><th>Kernaussage</th><th>Bezug</th></tr></thead>
+  <tbody>
+    <tr><td>Temperatur</td><td>Mass für die mittlere Bewegungsenergie der Teilchen</td><td>Zustandsgrösse</td></tr>
+    <tr><td>Aggregatzustände</td><td>fest (Gitter) → flüssig (verschiebbar) → gasförmig (frei)</td><td>schmelzen, verdampfen</td></tr>
+    <tr><td>Celsius-Skala</td><td>Fixpunkte des Wassers: \(0\,^\circ\text{C}\) / \(100\,^\circ\text{C}\)</td><td>praktisch, willkürlich</td></tr>
+    <tr><td>Absoluter Nullpunkt</td><td>tiefstmögliche Temperatur, \(-273.15\,^\circ\text{C}\)</td><td>nie ganz erreichbar</td></tr>
+    <tr><td>Kelvin-Skala</td><td>Nullpunkt am absoluten Nullpunkt, gleiche Schrittweite</td><td>physikalisch begründet</td></tr>
+    <tr><td>Umrechnung</td><td>\(T = \vartheta + 273.15\)</td><td>\(\Delta T = \Delta\vartheta\)</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Temperatur ist ein Mass für die mittlere Bewegungsenergie der Teilchen.</li>
+  <li>Mit steigender Temperatur bewegen sich die Teilchen heftiger — das führt zu den Aggregatzuständen fest, flüssig, gasförmig.</li>
+  <li>Die Celsius-Skala nutzt die Fixpunkte des Wassers (\(0\,^\circ\text{C}\) / \(100\,^\circ\text{C}\)).</li>
+  <li>Der absolute Nullpunkt liegt bei \(-273.15\,^\circ\text{C}\) und ist nie ganz erreichbar.</li>
+  <li>Die Kelvin-Skala beginnt am absoluten Nullpunkt; die Schrittweite ist gleich wie bei Celsius.</li>
+  <li>Umrechnung: \(T=\vartheta+273.15\); Temperaturdifferenzen sind in K und \(^\circ\)C identisch.</li>
+</ul>
+
+<div class="merksatz">
+  Die Temperatur misst, wie heftig sich die Teilchen eines Körpers bewegen. Die Celsius-Skala ist an die Fixpunkte des Wassers gebunden und damit praktisch, aber willkürlich; die Kelvin-Skala beginnt am absoluten Nullpunkt (\(-273.15\,^\circ\text{C}\)) und ist physikalisch begründet. Da beide dieselbe Schrittweite haben, gilt \(T = \vartheta + 273.15\), während eine Temperaturdifferenz in beiden Skalen denselben Zahlenwert hat: \(\Delta T = \Delta\vartheta\).
+</div>
+
+
+<!-- ══════════════ 11. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p5-1-temperatur/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p5-1-temperatur/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p5-1-temperatur/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p5-1-temperatur/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p5-1-temperatur/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 12. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+<p>Ausgewählte und geprüfte Anlaufstellen zum Vertiefen, Veranschaulichen und Üben. Alle Links öffnen in einem neuen Tab.</p>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.youtube.com/watch?v=5a12sNngGgc" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Grad Celsius, Grad Fahrenheit und Kelvin</div><div class="lk-s">Lehrerschmidt · Temperaturskalen und Umrechnung anschaulich erklärt</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=8W-ZHz80g1U" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Aggregatzustände — fest, flüssig, gasförmig</div><div class="lk-s">Lehrerschmidt · Teilchenmodell der drei Aggregatzustände</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=EIjf3xYjXRs" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Thermometer</div><div class="lk-s">Lehrerschmidt · Wie ein Thermometer Temperatur misst</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/gas-properties" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Eigenschaften von Gasen</div><div class="lk-s">Temperatur, Druck und Teilchengeschwindigkeit im Gas erkunden (deutsch)</div></div>
+  </a>
+  <a href="https://phet.colorado.edu/de/simulations/states-of-matter-basics" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Aggregatzustände (Grundlagen)</div><div class="lk-s">Heizen, kühlen und Phasenwechsel fest/flüssig/gasförmig beobachten (deutsch)</div></div>
+  </a>
+  <a href="https://phet.colorado.edu/de/simulations/states-of-matter" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Aggregatzustände</div><div class="lk-s">Phasenwechsel mit Druck-Temperatur-Diagramm und Teilchenbindung (deutsch)</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/waermelehre/temperatur-und-teilchenmodell/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Temperatur und Teilchenmodell</div><div class="lk-s">Aufgabenübersicht zu Teilchenmodell, Celsius- und Kelvin-Skala · mit Musterlösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/waermelehre/temperatur-und-teilchenmodell/grundwissen/temperaturumrechnung#aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Temperaturumrechnung</div><div class="lk-s">Aufgaben zum Umrechnen Celsius ↔ Kelvin · mit Musterlösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/waermelehre/ausdehnung-bei-erwaermung/aufgabe/bestimmung-des-absoluten-nullpunktes" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Bestimmung des absoluten Nullpunktes</div><div class="lk-s">Gay-Lussac-Versuch, Extrapolation zum absoluten Nullpunkt · mit Musterlösung</div></div>
+  </a>
+  <a href="https://de.serlo.org/physik/50762/temperatur-und-teilchenbewegung" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">serlo — Temperatur und Teilchenbewegung</div><div class="lk-s">Grundlagen und Übungen · frei lizenziert · mit Lösungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 5.1 Temperatur</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p5-1',
+  kapitelNr:'5.1', kapitelTitel:'Temperatur',
+  prev:{nr:'4.5',titel:'Hydrostatik',url:'p4-5-hydrostatik.html'},
+  next:{nr:'5.2',titel:'Wärme',url:'p5-2-waerme.html'}
+});
+
+// ── Konstanten & Helfer ───────────────────────────────────
+const T0 = 273.15;
+function toK(c){ return c + T0; }
+function lerpCol(t){ // t in [0,1]: blau (kalt) -> rot (heiss), ohne Grünstich
+  t = Math.max(0, Math.min(1, t));
+  const r = Math.round(45 + t*185);
+  const g = Math.round(70 + (1-Math.abs(t-0.5)*2)*45);
+  const b = Math.round(210 - t*180);
+  return 'rgb('+r+','+g+','+b+')';
+}
+
+// ── Loop-Manager (rAF + IntersectionObserver-Autostart) ───
+const LOOPS = [];
+function makeLoop(canvasId, btnId, tickFn){
+  const st = { running:false, userPaused:false, rafId:null, last:0, tick:tickFn, canvasId:canvasId };
+  const btn = document.getElementById(btnId);
+  st.btn = btn;
+  function frame(ts){
+    if(!st.running) return;
+    if(!st.last) st.last = ts;
+    let dt = (ts - st.last)/1000; st.last = ts;
+    if(dt > 0.05) dt = 0.05;
+    tickFn(dt);
+    st.rafId = requestAnimationFrame(frame);
+  }
+  st.start = function(){ if(st.running) return; st.running = true; st.last = 0; st.rafId = requestAnimationFrame(frame); };
+  st.stop  = function(){ st.running = false; if(st.rafId) cancelAnimationFrame(st.rafId); };
+  if(btn){
+    btn.addEventListener('click', function(){
+      if(st.running){ st.userPaused = true; st.stop(); btn.textContent='▶ Weiter'; btn.classList.add('paused'); }
+      else { st.userPaused = false; st.start(); btn.textContent='⏸ Pause'; btn.classList.remove('paused'); }
+    });
+  }
+  LOOPS.push(st);
+  return st;
+}
+
+// ══════════════════════════════════════════════════════════
+//  EINSTIEG: Brown'sche Bewegung
+// ══════════════════════════════════════════════════════════
+const einState = { big:{x:0.5,y:0.5}, vel:{x:0,y:0}, trail:[], water:[], inited:false };
+function einInit(){
+  einState.big = {x:0.5, y:0.5};
+  einState.vel = {x:0, y:0};
+  einState.trail = [];
+  einState.water = [];
+  for(let i=0;i<70;i++){
+    einState.water.push({ x:Math.random(), y:Math.random(),
+      vx:(Math.random()-0.5), vy:(Math.random()-0.5) });
+  }
+  einState.inited = true;
+}
+function einTick(dt){
+  if(!einState.inited) einInit();
+  const Traw = +document.getElementById('ein-T').value;
+  document.getElementById('ein-T-val').textContent = Traw < 33 ? 'kalt' : (Traw < 66 ? 'mittel' : 'warm');
+  const speed = 0.16 + (Traw/100)*0.48;   // normierte Geschwindigkeit
+  // grosses Teilchen: Zufallsstoesse (haeufiger/staerker bei hoher Temperatur)
+  const kick = speed * dt * 30;
+  einState.vel.x += (Math.random()-0.5)*kick;
+  einState.vel.y += (Math.random()-0.5)*kick;
+  // Daempfung, damit es nicht davonrennt
+  einState.vel.x *= 0.96; einState.vel.y *= 0.96;
+  // Tempo begrenzen
+  const vm = Math.hypot(einState.vel.x, einState.vel.y), vmax = speed;
+  if(vm > vmax){ einState.vel.x = einState.vel.x/vm*vmax; einState.vel.y = einState.vel.y/vm*vmax; }
+  einState.big.x += einState.vel.x*dt;
+  einState.big.y += einState.vel.y*dt;
+  // an Waenden reflektieren
+  for(const k of ['x','y']){
+    if(einState.big[k] < 0.05){ einState.big[k]=0.05; einState.vel[k]*=-0.6; }
+    if(einState.big[k] > 0.95){ einState.big[k]=0.95; einState.vel[k]*=-0.6; }
+  }
+  einState.trail.push({x:einState.big.x, y:einState.big.y});
+  if(einState.trail.length > 240) einState.trail.shift();
+  // Wasserteilchen schnell zufaellig
+  for(const w of einState.water){
+    w.vx += (Math.random()-0.5)*speed*dt*8; w.vy += (Math.random()-0.5)*speed*dt*8;
+    w.vx *= 0.92; w.vy *= 0.92;
+    w.x += w.vx*dt*1.4; w.y += w.vy*dt*1.4;
+    if(w.x<0){w.x=0;w.vx*=-1;} if(w.x>1){w.x=1;w.vx*=-1;}
+    if(w.y<0){w.y=0;w.vy*=-1;} if(w.y>1){w.y=1;w.vy*=-1;}
+  }
+  einRender();
+}
+function einRender(){
+  const cv = initCanvas('ein-cv', 320, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#eaf2f8'; ctx.fillRect(0,0,W,H);
+  // Wasserteilchen
+  ctx.fillStyle = '#9cc0dd';
+  for(const w of einState.water){ ctx.beginPath(); ctx.arc(w.x*W, w.y*H, 2.4, 0, Math.PI*2); ctx.fill(); }
+  // Spur
+  if(einState.trail.length > 1){
+    ctx.lineWidth = 2.4; ctx.lineJoin='round';
+    for(let i=1;i<einState.trail.length;i++){
+      const a = i/einState.trail.length;
+      ctx.strokeStyle = 'rgba(155,28,28,'+(0.22+0.6*a)+')';
+      ctx.beginPath();
+      ctx.moveTo(einState.trail[i-1].x*W, einState.trail[i-1].y*H);
+      ctx.lineTo(einState.trail[i].x*W, einState.trail[i].y*H);
+      ctx.stroke();
+    }
+  }
+  // grosses Teilchen
+  const bx = einState.big.x*W, by = einState.big.y*H;
+  ctx.fillStyle = '#9b1c1c'; ctx.beginPath(); ctx.arc(bx, by, 9, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#5a0e0e'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle = '#7a3030'; ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillText('Milchteilchen', bx+12, by+4);
+}
+const einLoop = makeLoop('ein-cv','ein-btn', einTick);
+document.getElementById('ein-T').addEventListener('input', ()=>{ if(!einLoop.running) einRender(); });
+document.getElementById('ein-reset').addEventListener('click', ()=>{ einState.trail = []; einRender(); });
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: Gasteilchen — Geschwindigkeit ~ sqrt(T)
+// ══════════════════════════════════════════════════════════
+const a1State = { p:[], inited:false };
+function a1Speed(){ const T = +document.getElementById('a1-T').value; return Math.sqrt(T/300); } // rel. zu 300K
+function a1Init(){
+  a1State.p = [];
+  const sp = a1Speed();
+  for(let i=0;i<32;i++){
+    const ang = Math.random()*Math.PI*2;
+    a1State.p.push({ x:0.06+Math.random()*0.88, y:0.06+Math.random()*0.88,
+      vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp });
+  }
+  a1State.inited = true;
+}
+function a1Rescale(){ // Geschwindigkeitsbetraege auf aktuelle Temperatur setzen
+  const sp = a1Speed();
+  for(const q of a1State.p){
+    const m = Math.hypot(q.vx,q.vy);
+    if(m < 1e-6){ const a=Math.random()*Math.PI*2; q.vx=Math.cos(a)*sp; q.vy=Math.sin(a)*sp; }
+    else { q.vx = q.vx/m*sp; q.vy = q.vy/m*sp; }
+  }
+}
+function a1Readout(){
+  const T = +document.getElementById('a1-T').value;
+  document.getElementById('a1-T-val').textContent = T + ' K';
+  document.getElementById('a1-Tk').textContent = T + ' K';
+  document.getElementById('a1-Tc').textContent = (T - T0).toFixed(1) + ' °C';
+  document.getElementById('a1-v').textContent = Math.round(a1Speed()*100) + ' %';
+}
+function a1Tick(dt){
+  if(!a1State.inited) a1Init();
+  const base = 0.34; // px-Skala pro Sekunde (normiert)
+  for(const q of a1State.p){
+    q.x += q.vx*base*dt; q.y += q.vy*base*dt;
+    if(q.x<0.04){q.x=0.04;q.vx=Math.abs(q.vx);} if(q.x>0.96){q.x=0.96;q.vx=-Math.abs(q.vx);}
+    if(q.y<0.04){q.y=0.04;q.vy=Math.abs(q.vy);} if(q.y>0.96){q.y=0.96;q.vy=-Math.abs(q.vy);}
+  }
+  a1Render();
+}
+function a1Render(){
+  const T = +document.getElementById('a1-T').value;
+  const cv = initCanvas('a1-cv', 300, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0,0,W,H);
+  // Behaelterrahmen
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 3;
+  ctx.strokeRect(W*0.03, H*0.03, W*0.94, H*0.94);
+  const col = lerpCol(T/600);
+  for(const q of a1State.p){
+    ctx.fillStyle = col;
+    ctx.beginPath(); ctx.arc(q.x*W, q.y*H, 6, 0, Math.PI*2); ctx.fill();
+  }
+  if(T===0){
+    ctx.fillStyle = '#1a4f8a'; ctx.font='bold 14px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('absoluter Nullpunkt — Bewegung ruht', W/2, H*0.5);
+  }
+}
+const a1Loop = makeLoop('a1-cv','a1-btn', a1Tick);
+document.getElementById('a1-T').addEventListener('input', ()=>{ if(!a1State.inited) a1Init(); a1Rescale(); a1Readout(); if(!a1Loop.running) a1Render(); });
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 2: Aggregatzustände
+// ══════════════════════════════════════════════════════════
+const a2State = { p:[], homes:[], inited:false, zustand:'' };
+function a2Init(){
+  a2State.p = []; a2State.homes = [];
+  const cols=7, rows=4;
+  const x0=0.33,x1=0.67,y0=0.56,y1=0.90;  // kompakter Block unten-mitte
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+    const hx = x0 + (c/(cols-1))*(x1-x0);
+    const hy = y0 + (r/(rows-1))*(y1-y0);
+    a2State.homes.push({x:hx,y:hy});
+    a2State.p.push({x:hx,y:hy,vx:0,vy:0});
+  }
+  a2State.inited = true;
+}
+function a2Zustand(T){ return T<0 ? 'fest' : (T<100 ? 'fluessig' : 'gas'); }
+function a2Tick(dt){
+  if(!a2State.inited) a2Init();
+  const T = +document.getElementById('a2-T').value;
+  const z = a2Zustand(T);
+  document.getElementById('a2-T-val').textContent = T + ' °C';
+  document.getElementById('a2-Tc').textContent = T + ' °C';
+  document.getElementById('a2-zust').textContent = (z==='fest'?'fest':(z==='fluessig'?'flüssig':'gasförmig'));
+  if(z !== a2State.zustand){
+    if(z !== 'fest'){ for(const q of a2State.p){ const a=Math.random()*Math.PI*2; const s=(z==='gas')?0.5:0.22; q.vx=Math.cos(a)*s; q.vy=Math.sin(a)*s; } }
+    a2State.zustand = z;
+  }
+  if(z === 'fest'){
+    const amp = ((T+80)/80)*0.010;
+    for(let i=0;i<a2State.p.length;i++){
+      const h=a2State.homes[i], q=a2State.p[i];
+      q.x = h.x + (Math.random()-0.5)*amp;
+      q.y = h.y + (Math.random()-0.5)*amp;
+    }
+  } else if(z === 'fluessig'){
+    const sp = 0.10 + (T/100)*0.14;
+    for(const q of a2State.p){
+      q.vx += (Math.random()-0.5)*0.5*dt; q.vy += (Math.random()-0.5)*0.5*dt;
+      q.vy += 0.30*dt;  // leichte Schwerkraft -> sammelt sich unten
+      const m=Math.hypot(q.vx,q.vy); if(m>sp){q.vx=q.vx/m*sp;q.vy=q.vy/m*sp;}
+      q.x += q.vx*dt; q.y += q.vy*dt;
+      if(q.x<0.07){q.x=0.07;q.vx=Math.abs(q.vx);} if(q.x>0.93){q.x=0.93;q.vx=-Math.abs(q.vx);}
+      if(q.y>0.92){q.y=0.92;q.vy=-Math.abs(q.vy)*0.5;}
+      if(q.y<0.50){q.y=0.50;q.vy=Math.abs(q.vy);}   // Oberflaeche
+    }
+  } else {
+    const sp = 0.34 + ((T-100)/100)*0.25;
+    for(const q of a2State.p){
+      const m=Math.hypot(q.vx,q.vy);
+      if(m<1e-6){const a=Math.random()*6.283;q.vx=Math.cos(a)*sp;q.vy=Math.sin(a)*sp;}
+      else {q.vx=q.vx/m*sp;q.vy=q.vy/m*sp;}
+      q.x += q.vx*dt; q.y += q.vy*dt;
+      if(q.x<0.05){q.x=0.05;q.vx=Math.abs(q.vx);} if(q.x>0.95){q.x=0.95;q.vx=-Math.abs(q.vx);}
+      if(q.y<0.05){q.y=0.05;q.vy=Math.abs(q.vy);} if(q.y>0.95){q.y=0.95;q.vy=-Math.abs(q.vy);}
+    }
+  }
+  a2Render(z, T);
+}
+function a2Render(z, T){
+  const cv = initCanvas('a2-cv', 300, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0,0,W,H);
+  // Behaelter
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 3;
+  ctx.strokeRect(W*0.03, H*0.03, W*0.94, H*0.94);
+  // Fluessigkeitsfuellung andeuten
+  if(z === 'fluessig'){
+    ctx.fillStyle = 'rgba(120,170,210,0.18)';
+    ctx.fillRect(W*0.05, H*0.49, W*0.90, H*0.46);
+  }
+  const col = lerpCol((T+80)/280);
+  for(const q of a2State.p){
+    ctx.fillStyle = col;
+    ctx.beginPath(); ctx.arc(q.x*W, q.y*H, 6.5, 0, Math.PI*2); ctx.fill();
+    if(z === 'fest'){ ctx.strokeStyle='rgba(0,0,0,0.18)'; ctx.lineWidth=1; ctx.stroke(); }
+  }
+  // Zustandslabel
+  ctx.fillStyle = '#5a5040'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  const lab = z==='fest'?'fest (Gitter)':(z==='fluessig'?'flüssig (verschiebbar)':'gasförmig (frei)');
+  ctx.fillText(lab, W*0.06, H*0.12);
+}
+const a2Loop = makeLoop('a2-cv','a2-btn', a2Tick);
+document.getElementById('a2-T').addEventListener('input', ()=>{ if(!a2Loop.running){ if(!a2State.inited)a2Init(); a2Tick(0.016);} });
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 3: Thermometer mit Celsius- und Kelvin-Skala
+// ══════════════════════════════════════════════════════════
+function drawA3(){
+  const c = +document.getElementById('a3-T').value;
+  const K = c + T0;
+  document.getElementById('a3-T-val').textContent = c.toFixed(2) + ' °C';
+  document.getElementById('a3-c').textContent = c.toFixed(2) + ' °C';
+  document.getElementById('a3-k').textContent = K.toFixed(2) + ' K';
+  document.getElementById('a3-eq').textContent = 'T = ' + c.toFixed(2) + ' + 273.15 = ' + K.toFixed(2) + ' K';
+
+  const cv = initCanvas('a3-cv', 340, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0,0,W,H);
+
+  const cMin=-273.15, cMax=150;
+  const yTop=H*0.09, yBot=H*0.82, xMid=W*0.5, tubeW=18;
+  const yOf = v => yBot - (v-cMin)/(cMax-cMin)*(yBot-yTop);
+  const yBulb = H*0.90, rBulb=15;
+
+  // Roehre (Hintergrund)
+  ctx.fillStyle='#ece7dd'; ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.roundRect(xMid-tubeW/2, yTop, tubeW, yBot-yTop, tubeW/2); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.arc(xMid, yBulb, rBulb, 0, Math.PI*2); ctx.fillStyle='#ece7dd'; ctx.fill(); ctx.stroke();
+
+  // Fuellung
+  const yLvl = yOf(c);
+  const fill = lerpCol((c-cMin)/(cMax-cMin));
+  ctx.fillStyle = fill;
+  ctx.beginPath(); ctx.arc(xMid, yBulb, rBulb-2, 0, Math.PI*2); ctx.fill();
+  ctx.fillRect(xMid-(tubeW-4)/2, yLvl, tubeW-4, yBulb-yLvl);
+
+  // Skalenstriche alle 50 Grad
+  ctx.font='10px JetBrains Mono,monospace';
+  for(let v=-250; v<=150; v+=50){
+    const y=yOf(v);
+    ctx.strokeStyle='#b8aE99'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(xMid-tubeW/2-5, y); ctx.lineTo(xMid-tubeW/2, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(xMid+tubeW/2, y); ctx.lineTo(xMid+tubeW/2+5, y); ctx.stroke();
+    ctx.fillStyle='#5a5040'; ctx.textAlign='right'; ctx.fillText(v+'', xMid-tubeW/2-8, y+3);
+    ctx.textAlign='left'; ctx.fillText(Math.round(v+T0)+'', xMid+tubeW/2+8, y+3);
+  }
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px Source Sans 3,sans-serif';
+  ctx.textAlign='right'; ctx.fillText('°C', xMid-tubeW/2-8, yTop-4);
+  ctx.textAlign='left';  ctx.fillText('K',  xMid+tubeW/2+8, yTop-4);
+
+  // Fixpunkte
+  const fix=[{v:0,t:'Wasser 0 °C',col:'#1a4f8a'},{v:100,t:'siedet 100 °C',col:'#9b1c1c'},
+             {v:37,t:'Körper 37 °C',col:'#1f6b3a'},{v:-273.15,t:'abs. Nullpunkt',col:'#5b2d8e'}];
+  ctx.textAlign='left'; ctx.font='9px JetBrains Mono,monospace';
+  for(const f of fix){
+    const y=yOf(f.v);
+    ctx.fillStyle=f.col; ctx.beginPath(); ctx.moveTo(W*0.72,y); ctx.lineTo(W*0.72-6,y-4); ctx.lineTo(W*0.72-6,y+4); ctx.closePath(); ctx.fill();
+    ctx.fillText(f.t, W*0.73, y+3);
+  }
+
+  // aktueller Pegel
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1.4; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(xMid-tubeW/2-5, yLvl); ctx.lineTo(W*0.70, yLvl); ctx.stroke(); ctx.setLineDash([]);
+}
+document.getElementById('a3-T').addEventListener('input', drawA3);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 4: Doppelter Zahlenstrahl + Temperaturdifferenz
+// ══════════════════════════════════════════════════════════
+function drawA4(){
+  const t1 = +document.getElementById('a4-t1').value;
+  const t2 = +document.getElementById('a4-t2').value;
+  document.getElementById('a4-t1-val').textContent = t1 + ' °C';
+  document.getElementById('a4-t2-val').textContent = t2 + ' °C';
+  const K1=t1+T0, K2=t2+T0, d=t2-t1;
+  document.getElementById('a4-p1').textContent = t1 + ' °C = ' + K1.toFixed(2) + ' K';
+  document.getElementById('a4-p2').textContent = t2 + ' °C = ' + K2.toFixed(2) + ' K';
+  document.getElementById('a4-d').textContent = Math.abs(d) + ' K';
+  document.getElementById('a4-eq').textContent =
+    'Δϑ = ' + t2 + ' − ' + t1 + ' = ' + d + ' °C   ·   ΔT = ' + K2.toFixed(2) + ' − ' + K1.toFixed(2) + ' = ' + d + ' K';
+
+  const cv = initCanvas('a4-cv', 210, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0,0,W,H);
+
+  const cMin=-50, cMax=150, xL=W*0.10, xR=W*0.92;
+  const xOf = c => xL + (c-cMin)/(cMax-cMin)*(xR-xL);
+  const yC=H*0.34, yK=H*0.70;
+
+  // Achsen
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(xL,yC); ctx.lineTo(xR,yC); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(xL,yK); ctx.lineTo(xR,yK); ctx.stroke();
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('Celsius [°C]', xL, yC-16);
+  ctx.fillText('Kelvin [K]', xL, yK+24);
+  // Striche alle 50
+  ctx.font='9px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
+  for(let v=-50;v<=150;v+=50){
+    const x=xOf(v);
+    ctx.strokeStyle='#b8ae99'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x,yC-4); ctx.lineTo(x,yC+4); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x,yK-4); ctx.lineTo(x,yK+4); ctx.stroke();
+    ctx.textAlign='center';
+    ctx.fillText(v+'', x, yC+15);
+    ctx.fillText(Math.round(v+T0)+'', x, yK-8);
+  }
+
+  // Differenzband
+  const xa=xOf(Math.min(t1,t2)), xb=xOf(Math.max(t1,t2));
+  ctx.fillStyle='rgba(138,74,14,0.12)';
+  ctx.fillRect(xa, yC, xb-xa, yK-yC);
+
+  // Marker
+  function mark(c, col, lab){
+    const x=xOf(c);
+    ctx.strokeStyle=col; ctx.lineWidth=2; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(x,yC-10); ctx.lineTo(x,yK+10); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,yC,4,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x,yK,4,0,Math.PI*2); ctx.fill();
+    ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillText(lab, x, yC-22);
+  }
+  mark(t1, '#1a4f8a', 'ϑ₁');
+  mark(t2, '#9b1c1c', 'ϑ₂');
+
+  // Differenz-Beschriftung
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText('Δ = '+Math.abs(d)+' (in °C und K gleich)', (xa+xb)/2, (yC+yK)/2+4);
+}
+['a4-t1','a4-t2'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 5: p-T-Diagramm — Extrapolation zum Nullpunkt
+// ══════════════════════════════════════════════════════════
+function pRel(theta){ return 100*(1 + theta/T0); }   // % bei 0 °C = 100
+function drawA5(){
+  const th = +document.getElementById('a5-T').value;
+  document.getElementById('a5-T-val').textContent = th + ' °C';
+  document.getElementById('a5-Tc').textContent = th + ' °C = ' + Math.round(th+T0) + ' K';
+  document.getElementById('a5-p').textContent = Math.round(pRel(th)) + ' %';
+  document.getElementById('a5-zero').textContent = '−273.15 °C';
+
+  const cv = initCanvas('a5-cv', 320, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const g = drawGrid(ctx, W, H, -300, 210, 0, 180);
+  drawAxesUnits(ctx, W, H, g.cx, g.cy, 'ϑ [°C]', 'p [%]');
+  const cx=g.cx, cy=g.cy;
+
+  // gemessener Bereich (solide) + Extrapolation (gestrichelt)
+  ctx.lineWidth=2.6; ctx.strokeStyle='#b85c00';
+  ctx.beginPath(); ctx.moveTo(cx(-20), cy(pRel(-20))); ctx.lineTo(cx(200), cy(pRel(200))); ctx.stroke();
+  ctx.setLineDash([6,4]); ctx.strokeStyle='#9b6bd4'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(cx(-273.15), cy(0)); ctx.lineTo(cx(-20), cy(pRel(-20))); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // absoluter Nullpunkt
+  drawDot(ctx, x=>x, y=>y, cx(-273.15), cy(0), '#5b2d8e', 5);
+  ctx.fillStyle='#5b2d8e'; ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillText('abs. Nullpunkt', cx(-273.15)+8, cy(0)-26);
+  ctx.fillText('−273.15 °C', cx(-273.15)+8, cy(0)-14);
+
+  // aktueller Messpunkt
+  const px=cx(th), py=cy(pRel(th));
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(px, cy(0)); ctx.lineTo(px, py); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx(-300), py); ctx.lineTo(px, py); ctx.stroke();
+  ctx.setLineDash([]);
+  drawDot(ctx, x=>x, y=>y, px, py, '#9b1c1c', 6);
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillText(th+' °C', px+8, py-6);
+}
+document.getElementById('a5-T').addEventListener('input', drawA5);
+
+
+// ══════════════════════════════════════════════════════════
+//  INITIALISIERUNG + Autostart der Loops bei Sichtbarkeit
+// ══════════════════════════════════════════════════════════
+function initAll(){
+  einInit(); einRender();
+  a1Init(); a1Readout(); a1Render();
+  a2Init(); a2Tick(0.001);
+  drawA3(); drawA4(); drawA5();
+
+  // Loop-Autostart per IntersectionObserver
+  if('IntersectionObserver' in window){
+    const map = new Map();
+    LOOPS.forEach(st => { const el = document.getElementById(st.canvasId); if(el) map.set(el, st); });
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const st = map.get(e.target); if(!st) return;
+        if(e.isIntersecting){
+          if(!st.userPaused){ st.start(); if(st.btn){ st.btn.textContent='⏸ Pause'; st.btn.classList.remove('paused'); } }
+        } else { st.stop(); }
+      });
+    }, { threshold:0.25 });
+    map.forEach((st, el) => io.observe(el));
+  }
+}
+
+if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAll);
+else initAll();
+
+// Resize: statische Plots + ruhende Loop-Frames neu zeichnen
+let rzT;
+window.addEventListener('resize', () => {
+  clearTimeout(rzT);
+  rzT = setTimeout(() => {
+    drawA3(); drawA4(); drawA5();
+    if(!einLoop.running) einRender();
+    if(!a1Loop.running) a1Render();
+    if(!a2Loop.running) a2Tick(0.001);
+  }, 150);
+});
+</script>
+</body>
+</html>

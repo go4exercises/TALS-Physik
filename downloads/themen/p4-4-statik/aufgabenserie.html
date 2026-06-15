@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aufgabenserie · Statik von Festkörpern — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../print.css">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.0 },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  .aufg-rahmen {
+    border: 1pt solid var(--linie);
+    border-radius: 4px;
+    padding: 4mm;
+    margin: 3mm 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .aufg-rahmen .aufg-kopf { margin-bottom: 2mm; align-items: baseline; }
+  .schwierig {
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: var(--tinte-2);
+    margin-left: auto;
+    letter-spacing: 0.5px;
+  }
+  .schwierig .punkt { color: var(--orange); font-size: 9pt; }
+  .schwierig .punkt-leer { color: var(--linie); font-size: 9pt; }
+  .bereich-tag {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--blau);
+    background: var(--blau-hell);
+    padding: 0.5mm 2mm;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: 3mm;
+  }
+  .lin-mehr { margin-bottom: 2mm; }
+  .lin-mehr .lin { height: 7mm; }
+  .skizze-wrap {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 4mm;
+    align-items: start;
+    margin: 2mm 0;
+  }
+  .skizze-wrap .skizze {
+    border: 1pt dashed var(--linie);
+    background: var(--papier);
+    border-radius: 3px;
+    padding: 2mm;
+    text-align: center;
+  }
+  .skizze-wrap .skizze-titel {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--tinte-2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1mm;
+  }
+</style>
+</head>
+<body>
+
+<div class="druck-bar no-print">
+  <a class="db-back" href="../../../themen/p4-4-statik.html#downloads">← zurück zur Themenseite</a>
+  <span class="db-info">Aufgabenserie · A4</span>
+  <button class="db-print" onclick="window.print()">Seite drucken</button>
+</div>
+
+<div class="druck-wrapper">
+
+  <header class="doc-kopf">
+    <div class="dk-bereich">TALS Physik · Lerngebiet 4 Mechanik · Statik von Festkörpern</div>
+    <h1>Anwendungsaufgaben</h1>
+  </header>
+
+  <div class="block block-def" style="margin-bottom:5mm">
+    <div class="block-titel">📘 Hinweis</div>
+    <p>8 Anwendungsaufgaben aus Bau, Technik und Alltag. Zeichne bei jeder Aufgabe zuerst eine <strong>Kräfteskizze</strong> (Freikörperbild), bevor du rechnest. Bei Gleichgewichtsaufgaben lohnt es sich, mit der <strong>Momentengleichung</strong> zu beginnen und die Drehachse dort zu legen, wo eine unbekannte Kraft angreift. Konstante: \( g = 9.81\;\text{m/s}^2 \). Lösungen am Ende.</p>
+  </div>
+
+  <!-- AUFGABE 1 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">1</span>
+      <span class="aufg-titel">Maschine auf dem Stahlträger</span>
+      <span class="bereich-tag">Bauingenieurwesen</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein \( 5.0\;\text{m} \) langer Stahlträger liegt auf zwei Stützen \(A\) (links) und \(B\) (rechts) an seinen Enden. Der Träger wiegt \( 60\;\text{kg} \), sein Schwerpunkt liegt in der Mitte. Eine Maschine mit \( 320\;\text{kg} \) steht \( 1.5\;\text{m} \) von \(A\) entfernt.</p>
+        <p>(a) Berechne die beiden Auflagerkräfte \( F_A \) und \( F_B \).</p>
+        <p>(b) Kontrolliere über \( \sum F_y = 0 \).</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Träger A–B</div>
+        <svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <rect x="14" y="40" width="112" height="7" fill="#efe6d6" stroke="#1c1a17" stroke-width="0.8"/>
+          <polygon points="14,47 8,58 20,58" fill="#7a6a52"/><text x="9" y="66" font-size="6">A</text>
+          <polygon points="126,47 120,58 132,58" fill="#7a6a52"/><text x="121" y="66" font-size="6">B</text>
+          <rect x="44" y="26" width="16" height="14" fill="#fbecd2" stroke="#8a4a0e" stroke-width="0.8"/>
+          <line x1="52" y1="40" x2="52" y2="56" stroke="#8a4a0e" stroke-width="1.2"/><text x="44" y="24" font-size="6" fill="#8a4a0e">320 kg</text>
+          <line x1="70" y1="47" x2="70" y2="60" stroke="#1c1a17" stroke-width="1" stroke-dasharray="2 1"/><text x="62" y="74" font-size="5.5">Träger</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 2 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">2</span>
+      <span class="aufg-titel">Radmutter lösen</span>
+      <span class="bereich-tag">Werkstatt</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <p>An einem Radkreuz der Hebellänge \( l = 35\;\text{cm} \) zieht eine Mechanikerin mit \( F = 240\;\text{N} \).</p>
+    <p>(a) Welches Drehmoment wirkt, wenn sie senkrecht zum Hebel zieht?</p>
+    <p>(b) Welches Drehmoment bleibt, wenn die Kraft nur unter \( \alpha = 55^\circ \) zum Hebel angreift?</p>
+    <p>(c) Die Mutter löst sich erst bei \( 180\;\text{Nm} \). Welche senkrechte Kraft ist dafür nötig?</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 3 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">3</span>
+      <span class="aufg-titel">Wandlampe an zwei Drähten</span>
+      <span class="bereich-tag">Gebäudetechnik</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Eine Lampe mit \( m = 12\;\text{kg} \) hängt an einem Knoten, von dem zwei Drähte schräg nach oben führen. Der linke Draht bildet mit der Horizontalen \( \alpha = 40^\circ \), der rechte \( \beta = 65^\circ \).</p>
+        <p>(a) Wie gross ist die Gewichtskraft der Lampe?</p>
+        <p>(b) Berechne beide Drahtkräfte \( S_1 \) und \( S_2 \).</p>
+        <p>(c) Welcher Draht ist stärker belastet?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Knoten · 2 Drähte</div>
+        <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <line x1="10" y1="14" x2="130" y2="14" stroke="#1c1a17" stroke-width="1.4"/>
+          <line x1="70" y1="55" x2="22" y2="14" stroke="#1a4f8a" stroke-width="1.2"/><text x="30" y="38" font-size="6" fill="#1a4f8a">S₁</text>
+          <line x1="70" y1="55" x2="98" y2="14" stroke="#1a4f8a" stroke-width="1.2"/><text x="92" y="38" font-size="6" fill="#1a4f8a">S₂</text>
+          <line x1="70" y1="55" x2="70" y2="78" stroke="#1c1a17" stroke-width="1.4"/>
+          <rect x="62" y="78" width="16" height="9" fill="#fbecd2" stroke="#8a4a0e" stroke-width="0.8"/>
+          <text x="42" y="52" font-size="5.5">40°</text><text x="86" y="52" font-size="5.5">65°</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 4 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">4</span>
+      <span class="aufg-titel">Mobile im Gleichgewicht</span>
+      <span class="bereich-tag">Alltag</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <p>An einem waagrechten Mobile-Stab hängt links im Abstand \( 24\;\text{cm} \) von der Aufhängung ein Holzvogel mit \( 0.50\;\text{kg} \). Rechts soll im Abstand \( 15\;\text{cm} \) ein zweiter Vogel das Mobile ins Gleichgewicht bringen.</p>
+    <p>(a) Welche Masse muss der rechte Vogel haben?</p>
+    <p>(b) Begründe, warum es nur auf das Produkt aus Masse und Abstand ankommt — nicht auf die Masse allein.</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 5 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">5</span>
+      <span class="aufg-titel">Palette auf der Laderampe</span>
+      <span class="bereich-tag">Logistik</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Eine Palette mit \( m = 30\;\text{kg} \) steht auf einer Laderampe. Der Haftreibungskoeffizient zwischen Palette und Rampe beträgt \( \mu_H = 0.45 \).</p>
+        <p>(a) Bis zu welchem Neigungswinkel bleibt die Palette von allein liegen?</p>
+        <p>(b) Die Rampe ist auf \( \alpha = 22^\circ \) eingestellt. Berechne Hangabtriebskraft \( F_H \), Normalkraft \( F_N \) und die maximale Haftreibung.</p>
+        <p>(c) Rutscht die Palette?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Rampe 22°</div>
+        <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <polygon points="12,80 128,80 128,42" fill="#efe6d6" stroke="#1c1a17" stroke-width="0.8"/>
+          <rect x="90" y="46" width="16" height="11" fill="#fbecd2" stroke="#8a4a0e" stroke-width="0.8" transform="rotate(-18 98 51)"/>
+          <line x1="98" y1="51" x2="114" y2="67" stroke="#8a4a0e" stroke-width="1.2"/><text x="116" y="70" font-size="6" fill="#8a4a0e">F_H</text>
+          <line x1="98" y1="51" x2="84" y2="34" stroke="#1f6b3a" stroke-width="1.2"/><text x="70" y="34" font-size="6" fill="#1f6b3a">F_N</text>
+          <text x="22" y="76" font-size="7">22°</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 6 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">6</span>
+      <span class="aufg-titel">Wegweiser am Ausleger</span>
+      <span class="bereich-tag">Architektur</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <div class="skizze-wrap">
+      <div>
+        <p>Ein waagrechter Ausleger ist an einer Wand mit einem Gelenk \(A\) befestigt und am Stabende durch ein Stützseil gehalten, das unter \( \theta = 35^\circ \) zum Stab schräg nach oben zur Wand läuft. Am Stabende hängt ein Schild mit der Gewichtskraft \( F_G = 180\;\text{N} \) (Stabgewicht vernachlässigbar).</p>
+        <p>(a) Berechne die Seilkraft \( S \) (Momentengleichung um \(A\)).</p>
+        <p>(b) Wie gross ist die horizontale Kraft im Gelenk?</p>
+      </div>
+      <div class="skizze">
+        <div class="skizze-titel">Ausleger + Seil</div>
+        <svg viewBox="0 0 140 90" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--mono);font-size:8pt">
+          <line x1="20" y1="6" x2="20" y2="84" stroke="#1c1a17" stroke-width="2"/>
+          <line x1="20" y1="60" x2="116" y2="60" stroke="#1c1a17" stroke-width="2"/>
+          <line x1="20" y1="22" x2="116" y2="60" stroke="#1a4f8a" stroke-width="1.2"/><text x="60" y="38" font-size="6" fill="#1a4f8a">S</text>
+          <text x="24" y="58" font-size="6">A</text><text x="40" y="56" font-size="5.5">35°</text>
+          <line x1="116" y1="60" x2="116" y2="78" stroke="#8a4a0e" stroke-width="1.2"/>
+          <rect x="108" y="78" width="16" height="8" fill="#fbecd2" stroke="#8a4a0e" stroke-width="0.8"/><text x="100" y="74" font-size="5.5" fill="#8a4a0e">180 N</text>
+        </svg>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 7 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">7</span>
+      <span class="aufg-titel">Schräger Zug an der Öse</span>
+      <span class="bereich-tag">Technik</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt-leer">●</span></span>
+    </div>
+    <p>Eine Seilwinde zieht mit \( F = 500\;\text{N} \) an einer Bodenöse. Das Seil verläuft unter \( 28^\circ \) zur Horizontalen.</p>
+    <p>(a) Berechne die horizontale Komponente \( F_x \) (die nutzbare Zugkraft am Boden).</p>
+    <p>(b) Berechne die vertikale Komponente \( F_y \) (die an der Öse nach oben zieht).</p>
+    <p>(c) Warum sollte das Seil für maximalen waagrechten Zug möglichst flach verlaufen?</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- AUFGABE 8 -->
+  <div class="aufg-rahmen">
+    <div class="aufg-kopf">
+      <span class="aufg-nr">8</span>
+      <span class="aufg-titel">Zwei Personen auf dem Steg</span>
+      <span class="bereich-tag">Architektur</span>
+      <span class="schwierig"><span class="punkt">●</span><span class="punkt">●</span><span class="punkt">●</span></span>
+    </div>
+    <p>Ein \( 8.0\;\text{m} \) langer Holzsteg liegt an seinen Enden auf zwei Pfeilern \(A\) (links) und \(B\) (rechts). Das Stegeigengewicht ist vernachlässigbar. Person 1 (\( 70\;\text{kg} \)) steht \( 2.0\;\text{m} \) von \(A\), Person 2 (\( 90\;\text{kg} \)) steht \( 6.0\;\text{m} \) von \(A\) entfernt.</p>
+    <p>(a) Berechne die beiden Auflagerkräfte \( F_A \) und \( F_B \).</p>
+    <p>(b) Welcher Pfeiler trägt mehr — und passt das zur Anordnung der Personen?</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--tinte-2);margin-top:2mm">Lösungsweg:</p>
+    <div class="lin-mehr"><div class="lin"></div><div class="lin"></div><div class="lin"></div></div>
+  </div>
+
+  <!-- ══════════════ LÖSUNGEN ══════════════ -->
+  <div class="neue-seite"></div>
+  <h2 style="border-bottom:2px solid var(--gruen);color:var(--gruen)">Lösungen</h2>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 1 — Maschine auf dem Stahlträger</div>
+    <p>(a) Gewichtskräfte: Maschine \( F_{G,M} = 320 \cdot 9.81 \approx 3139\;\text{N} \) bei \( 1.5\;\text{m} \), Träger \( F_{G,T} = 60 \cdot 9.81 \approx 589\;\text{N} \) bei \( 2.5\;\text{m} \). Drehachse bei \(A\), \( \sum M_A = 0 \): \[ F_B \cdot 5.0 = 3139 \cdot 1.5 + 589 \cdot 2.5 \;\Rightarrow\; F_B = \frac{4708 + 1472}{5.0} \approx 1236\;\text{N} \] Gesamtlast \( F_{ges} = 3139 + 589 = 3728\;\text{N} \), also \( F_A = 3728 - 1236 \approx 2492\;\text{N} \).</p>
+    <p>(b) Kontrolle: \( F_A + F_B = 2492 + 1236 = 3728\;\text{N} = F_{ges} \). ✓ Die linke Stütze trägt mehr, weil die Maschine näher bei \(A\) steht.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 2 — Radmutter lösen</div>
+    <p>(a) Senkrecht (\( \alpha = 90^\circ \)): \( M = F \cdot l = 240 \cdot 0.35 = 84.0\;\text{Nm} \).</p>
+    <p>(b) Unter \( 55^\circ \): \( M = 240 \cdot 0.35 \cdot \sin 55^\circ \approx 68.8\;\text{Nm} \).</p>
+    <p>(c) Aus \( M = F \cdot l \) folgt \( F = \dfrac{180}{0.35} \approx 514\;\text{N} \). Mit einem längeren Hebel sänke die nötige Kraft entsprechend.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 3 — Wandlampe an zwei Drähten</div>
+    <p>(a) \( F_G = 12 \cdot 9.81 \approx 117.7\;\text{N} \).</p>
+    <p>(b) Mit \( \alpha + \beta = 105^\circ \), also \( \sin 105^\circ \approx 0.966 \): \[ S_1 = 117.7 \cdot \frac{\cos 65^\circ}{\sin 105^\circ} \approx 51.5\;\text{N}, \qquad S_2 = 117.7 \cdot \frac{\cos 40^\circ}{\sin 105^\circ} \approx 93.4\;\text{N} \]</p>
+    <p>(c) Der rechte Draht (\( \beta = 65^\circ \), steiler) ist mit \( 93.4\;\text{N} \) stärker belastet — je steiler ein Draht steht, desto grösser sein vertikaler Anteil am Tragen des Gewichts.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 4 — Mobile im Gleichgewicht</div>
+    <p>(a) Hebelgesetz \( m_1 r_1 = m_2 r_2 \): \[ m_2 = \frac{m_1 \cdot r_1}{r_2} = \frac{0.50 \cdot 0.24}{0.15} = 0.80\;\text{kg} \]</p>
+    <p>(b) Im Gleichgewicht müssen sich die <em>Drehmomente</em> aufheben, und das Drehmoment ist \( M = m g r \) — also Produkt aus Gewicht und Hebelarm. Eine kleine Masse weit aussen erzeugt dasselbe Moment wie eine grosse Masse nahe der Achse. Das \(g\) kürzt sich auf beiden Seiten heraus.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 5 — Palette auf der Laderampe</div>
+    <p>(a) Grenzwinkel: \( \tan\alpha_{\max} = \mu_H = 0.45 \;\Rightarrow\; \alpha_{\max} = \arctan(0.45) \approx 24.2^\circ \).</p>
+    <p>(b) Mit \( F_G = 30 \cdot 9.81 \approx 294\;\text{N} \): \( F_H = 294 \cdot \sin 22^\circ \approx 110\;\text{N} \), \( F_N = 294 \cdot \cos 22^\circ \approx 273\;\text{N} \). Maximale Haftreibung: \( \mu_H F_N = 0.45 \cdot 273 \approx 123\;\text{N} \).</p>
+    <p>(c) Die maximale Haftreibung \( 123\;\text{N} \) ist <strong>grösser</strong> als der Hangabtrieb \( 110\;\text{N} \) — die Palette <strong>bleibt liegen</strong>. Das passt: \( 22^\circ < \alpha_{\max} = 24.2^\circ \).</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 6 — Wegweiser am Ausleger</div>
+    <p>(a) Nur die zum Stab senkrechte Seilkomponente \( S\sin\theta \) erzeugt am Stabende (Länge \(L\)) ein Moment um \(A\). Es muss das Moment der Last \( F_G \cdot L \) ausgleichen: \[ S \cdot \sin\theta \cdot L = F_G \cdot L \;\Rightarrow\; S = \frac{F_G}{\sin\theta} = \frac{180}{\sin 35^\circ} \approx 314\;\text{N} \] Die Stablänge \(L\) kürzt sich heraus.</p>
+    <p>(b) Die horizontale Seilkomponente \( S\cos\theta = 314 \cdot \cos 35^\circ \approx 257\;\text{N} \) zieht den Stab zur Wand; das Gelenk muss diese Kraft als Gegendruck aufnehmen — die horizontale Gelenkkraft beträgt rund \( 257\;\text{N} \).</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 7 — Schräger Zug an der Öse</div>
+    <p>(a) \( F_x = 500 \cdot \cos 28^\circ \approx 442\;\text{N} \).</p>
+    <p>(b) \( F_y = 500 \cdot \sin 28^\circ \approx 235\;\text{N} \).</p>
+    <p>(c) Je kleiner der Winkel zur Horizontalen, desto grösser \( \cos\alpha \) und damit die nutzbare waagrechte Komponente — und desto kleiner der vertikale Anteil, der die Öse nur nach oben zieht, ohne zu ziehen.</p>
+  </div>
+
+  <div class="loes">
+    <div class="loes-titel">✓ Lösung 8 — Zwei Personen auf dem Steg</div>
+    <p>(a) Gewichtskräfte: \( F_1 = 70 \cdot 9.81 \approx 687\;\text{N} \) bei \( 2.0\;\text{m} \), \( F_2 = 90 \cdot 9.81 \approx 883\;\text{N} \) bei \( 6.0\;\text{m} \). Drehachse bei \(A\), \( \sum M_A = 0 \): \[ F_B \cdot 8.0 = 687 \cdot 2.0 + 883 \cdot 6.0 \;\Rightarrow\; F_B = \frac{1374 + 5298}{8.0} \approx 834\;\text{N} \] Gesamtlast \( 687 + 883 = 1570\;\text{N} \), also \( F_A = 1570 - 834 \approx 736\;\text{N} \).</p>
+    <p>(b) \(B\) trägt mehr (\( 834\;\text{N} \) gegen \( 736\;\text{N} \)) — passend, weil die schwerere Person 2 näher bei \(B\) steht.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

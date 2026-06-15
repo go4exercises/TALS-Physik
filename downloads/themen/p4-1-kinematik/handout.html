@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handout · Kinematik des Schwerpunkts — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../print.css">
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global', scale: 1.0 },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div class="druck-bar no-print">
+  <a class="db-back" href="../../../themen/p4-1-kinematik.html#downloads">← zurück zur Themenseite</a>
+  <span class="db-info">Handout · A4 · Bereit zum Drucken</span>
+  <button class="db-print" onclick="window.print()">Seite drucken</button>
+</div>
+
+<div class="druck-wrapper">
+
+  <header class="doc-kopf">
+    <div class="dk-bereich">TALS Physik · Lerngebiet 4 Mechanik · Kinematik des Schwerpunkts</div>
+    <h1>Handout — Theorie</h1>
+  </header>
+
+  <!-- ─────────────────── 1. GRUNDBEGRIFFE ─────────────────── -->
+  <h2>1. Grundbegriffe der Kinematik</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Kinematik</div>
+    <p>Die <strong>Kinematik</strong> beschreibt die Bewegung von Körpern,
+    ohne nach deren Ursachen zu fragen. Untersucht werden Lage, Geschwindigkeit
+    und Beschleunigung in Abhängigkeit der Zeit.</p>
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Schwerpunkt</div>
+    <p>Bei einem ausgedehnten Körper wird stellvertretend die Bewegung seines
+    <strong>Massenmittelpunkts</strong> (Schwerpunkts) betrachtet. Der Körper
+    wird dadurch zum <strong>Massenpunkt</strong> idealisiert.</p>
+  </div>
+
+  <h3>Skalare und vektorielle Grössen</h3>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Grösse</th><th>Symbol</th><th>Typ</th><th>SI-Einheit</th></tr></thead>
+    <tbody>
+      <tr><td>Zeit</td><td>\(t\)</td><td>Skalar</td><td>s</td></tr>
+      <tr><td>Weg</td><td>\(s\)</td><td>Skalar</td><td>m</td></tr>
+      <tr><td>Ort / Lage</td><td>\(\vec{r}\)</td><td>Vektor</td><td>m</td></tr>
+      <tr><td>Geschwindigkeit</td><td>\(\vec{v}\)</td><td>Vektor</td><td>m/s</td></tr>
+      <tr><td>Beschleunigung</td><td>\(\vec{a}\)</td><td>Vektor</td><td>m/s²</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ─────────────────── 2. GESCHWINDIGKEIT ─────────────────── -->
+  <h2>2. Geschwindigkeit</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Durchschnittsgeschwindigkeit</div>
+    \[ \bar{v} = \frac{\Delta s}{\Delta t} = \frac{s_2 - s_1}{t_2 - t_1} \]
+    <p>Verhältnis von zurückgelegtem Weg zur dafür benötigten Zeit.</p>
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Momentangeschwindigkeit</div>
+    \[ v(t) = \lim_{\Delta t \to 0} \frac{\Delta s}{\Delta t} = \frac{ds}{dt} = \dot s \]
+    <p>Geschwindigkeit zu einem bestimmten Zeitpunkt — Tangentensteigung im \(s\)-\(t\)-Diagramm.</p>
+  </div>
+
+  <p><strong>Einheiten-Umrechnung:</strong>
+  \[ 1\,\text{m/s} = 3.6\,\text{km/h} \qquad 1\,\text{km/h} = \tfrac{1}{3.6}\,\text{m/s} \approx 0.278\,\text{m/s} \]
+
+  <!-- ─────────────────── 3. BESCHLEUNIGUNG ─────────────────── -->
+  <h2>3. Beschleunigung</h2>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Beschleunigung</div>
+    \[ a(t) = \frac{dv}{dt} = \dot v = \ddot s \]
+    <p>Zeitliche Änderung der Geschwindigkeit. Positives \(a\) bedeutet Geschwindigkeitszunahme
+    in Bewegungsrichtung, negatives \(a\) (Verzögerung) Abnahme.</p>
+  </div>
+
+  <p><strong>Erdbeschleunigung:</strong>
+  \[ g = 9.81\,\text{m/s}^2 \quad (\text{auf der Erdoberfläche, Mitteleuropa}) \]
+
+  <!-- ─────────────────── 4. GERADLINIG GLEICHFÖRMIG ─────────────────── -->
+  <h2>4. Geradlinig gleichförmige Bewegung</h2>
+
+  <p>Konstante Geschwindigkeit \(v = \text{const}\), keine Beschleunigung (\(a = 0\)).</p>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Weg-Zeit-Gesetz</div>
+    \[ s(t) = s_0 + v \cdot t \]
+    <p>\(s_0\): Anfangsweg zum Zeitpunkt \(t = 0\)</p>
+  </div>
+
+  <table class="ftb-tabelle">
+    <thead><tr><th>Diagramm</th><th>Form</th><th>Bedeutung</th></tr></thead>
+    <tbody>
+      <tr><td>\(s\)-\(t\)</td><td>Gerade</td><td class="li">Steigung = \(v\), \(y\)-Achsenabschnitt = \(s_0\)</td></tr>
+      <tr><td>\(v\)-\(t\)</td><td>Horizontale</td><td class="li">Wert auf der \(v\)-Achse = \(v\); Fläche unter dem Graphen = \(\Delta s\)</td></tr>
+      <tr><td>\(a\)-\(t\)</td><td>Null-Linie</td><td class="li">\(a = 0\) für alle \(t\)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ─────────────────── 5. GLEICHMÄSSIG BESCHLEUNIGT ─────────────────── -->
+  <h2>5. Gleichmässig beschleunigte Bewegung</h2>
+
+  <p>Konstante Beschleunigung \(a = \text{const}\). Die Geschwindigkeit ändert sich linear mit der Zeit.</p>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Kinematische Gleichungen (Start bei \(t=0\) aus \(s_0\) mit \(v_0\))</div>
+    \[ a(t) = a \]
+    \[ v(t) = v_0 + a \cdot t \]
+    \[ s(t) = s_0 + v_0 \cdot t + \tfrac{1}{2}\, a \cdot t^2 \]
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Zeitfreie Gleichung</div>
+    <p>Wird die Zeit eliminiert, ergibt sich:</p>
+    \[ v^2 = v_0^2 + 2 \cdot a \cdot (s - s_0) \]
+    <p>Nützlich, wenn die Zeit weder gegeben noch gesucht ist.</p>
+  </div>
+
+  <table class="ftb-tabelle">
+    <thead><tr><th>Diagramm</th><th>Form</th><th>Bedeutung</th></tr></thead>
+    <tbody>
+      <tr><td>\(s\)-\(t\)</td><td>Parabel</td><td class="li">Krümmung proportional zu \(a\)</td></tr>
+      <tr><td>\(v\)-\(t\)</td><td>Gerade</td><td class="li">Steigung = \(a\); Fläche unter dem Graphen = \(\Delta s\)</td></tr>
+      <tr><td>\(a\)-\(t\)</td><td>Horizontale</td><td class="li">Konstanter Wert \(a\)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ─────────────────── 6. FREIER FALL ─────────────────── -->
+  <h2>6. Freier Fall</h2>
+
+  <p>Spezialfall der gleichmässig beschleunigten Bewegung: Ein Körper fällt aus der Ruhe
+  mit der Erdbeschleunigung \(g\) (Luftwiderstand vernachlässigt).</p>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Freier Fall aus der Ruhe</div>
+    \[ v(t) = g \cdot t \qquad s(t) = \tfrac{1}{2}\, g \cdot t^2 \]
+    <p>Mit \(g = 9.81\,\text{m/s}^2\).</p>
+  </div>
+
+  <p><strong>Zeitfreie Form (Aufprallgeschwindigkeit aus Fallhöhe \(h\)):</strong>
+  \[ v = \sqrt{2 \cdot g \cdot h} \]
+
+  <!-- ─────────────────── 7. WURFBEWEGUNG ─────────────────── -->
+  <h2>7. Schiefer Wurf</h2>
+
+  <p>Überlagerung zweier unabhängiger Bewegungen:
+  horizontal gleichförmig mit \(v_{0x} = v_0 \cdot \cos\alpha\),
+  vertikal gleichmässig beschleunigt mit \(v_{0y} = v_0 \cdot \sin\alpha\) und \(a = -g\).</p>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Bewegungsgleichungen</div>
+    \[ x(t) = v_0 \cdot \cos\alpha \cdot t \]
+    \[ y(t) = v_0 \cdot \sin\alpha \cdot t - \tfrac{1}{2}\, g \cdot t^2 \]
+  </div>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Wurfweite, Wurfhöhe, Flugzeit</div>
+    <p>Bei Abwurf und Auftreffen auf gleicher Höhe gilt:</p>
+    \[ T_F = \frac{2 \cdot v_0 \cdot \sin\alpha}{g} \qquad
+       h_{\max} = \frac{v_0^2 \cdot \sin^2\alpha}{2 \cdot g} \]
+    \[ s_x = \frac{v_0^2 \cdot \sin(2\alpha)}{g} \]
+    <p>Maximale Wurfweite bei \(\alpha = 45°\).</p>
+  </div>
+
+  <!-- ─────────────────── 8. KREISBEWEGUNG ─────────────────── -->
+  <h2>8. Gleichförmige Kreisbewegung</h2>
+
+  <p>Bewegung auf einer Kreisbahn mit konstantem Bahn-Geschwindigkeitsbetrag.
+  Die Bewegungsrichtung ändert sich laufend — dafür ist eine Beschleunigung
+  zum Kreismittelpunkt nötig.</p>
+
+  <table class="ftb-tabelle">
+    <thead><tr><th>Grösse</th><th>Symbol</th><th>Einheit</th><th>Bedeutung</th></tr></thead>
+    <tbody>
+      <tr><td>Periode</td><td>\(T\)</td><td>s</td><td class="li">Dauer eines vollen Umlaufs</td></tr>
+      <tr><td>Frequenz</td><td>\(f\)</td><td>Hz</td><td class="li">\(f = 1/T\), Umläufe pro Sekunde</td></tr>
+      <tr><td>Winkelgeschwindigkeit</td><td>\(\omega\)</td><td>rad/s</td><td class="li">\(\omega = 2\pi/T = 2\pi \cdot f\)</td></tr>
+      <tr><td>Radius</td><td>\(r\)</td><td>m</td><td class="li">Bahnradius</td></tr>
+    </tbody>
+  </table>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Bahngeschwindigkeit und Zentripetalbeschleunigung</div>
+    \[ v = \omega \cdot r \]
+    \[ a_z = \frac{v^2}{r} = \omega^2 \cdot r \]
+    <p>\(\vec{a}_z\) zeigt stets zum Kreismittelpunkt (senkrecht zu \(\vec{v}\)).</p>
+  </div>
+
+  <!-- ─────────────────── 9. RELATIVBEWEGUNG ─────────────────── -->
+  <h2>9. Relativbewegung (Vektoraddition von Geschwindigkeiten)</h2>
+
+  <p>Bewegt sich ein Körper \(K\) mit \(\vec{v}_{K/B}\) relativ zu einem Bezugssystem \(B\),
+  und bewegt sich \(B\) selbst mit \(\vec{v}_{B/E}\) gegenüber einem
+  äusseren Bezugssystem \(E\), so gilt für die Geschwindigkeit von \(K\) in \(E\):</p>
+
+  <div class="block block-def">
+    <div class="block-titel">📘 Galilei-Addition</div>
+    \[ \vec{v}_{K/E} = \vec{v}_{K/B} + \vec{v}_{B/E} \]
+  </div>
+
+  <p>Klassisches Beispiel: Schwimmer im strömenden Fluss, Boot mit Wind, Flugzeug
+  mit Höhenwind. Vektorpfeile werden geometrisch addiert (Parallelogramm- oder
+  Spitze-an-Schaft-Methode).</p>
+
+  <!-- ─────────────────── KOMPAKT-TAFEL ─────────────────── -->
+  <h2>10. Kompakt-Tafel</h2>
+
+  <table class="ftb-tabelle">
+    <thead><tr><th>Bewegungstyp</th><th>\(a(t)\)</th><th>\(v(t)\)</th><th>\(s(t)\)</th></tr></thead>
+    <tbody>
+      <tr><td>Gleichförmig</td><td>\(0\)</td><td>\(v\)</td><td>\(s_0 + v \cdot t\)</td></tr>
+      <tr><td>Gleichmässig beschleunigt</td><td>\(a\)</td><td>\(v_0 + a \cdot t\)</td><td>\(s_0 + v_0 t + \tfrac{1}{2} a t^2\)</td></tr>
+      <tr><td>Freier Fall</td><td>\(g\)</td><td>\(g \cdot t\)</td><td>\(\tfrac{1}{2}\, g \cdot t^2\)</td></tr>
+    </tbody>
+  </table>
+
+  <footer class="doc-fuss">
+    <span>TALS Physik · Lerngebiet 4 · p4.1 Kinematik</span>
+    <span>Handout</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

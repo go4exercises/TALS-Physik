@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.4 Statik von Festkörpern — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* Seitenspezifische Layouts (Widget-Basis liegt zentral in style.css). */
+.vekt-plot { max-width:400px; margin:0 auto; }
+.vekt-plot canvas { width:100%; }
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 4 Mechanik</div>
+  <h1 class="pt-h1">4.4 Statik von Festkörpern</h1>
+  <p class="pt-untertitel">Gleichgewicht von Kräften und Drehmomenten an ausgedehnten, ruhenden Körpern — von der Wippe bis zum Kragträger.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 4.4 · 100 Lektionen (Lerngebiet 4)</div>
+  <ul>
+    <li>den Begriff «Kraft» definieren und als Vektor darstellen</li>
+    <li>das Drehmoment einer Kraft definieren (\(M = F \cdot r\)) und Anwendungsgebiete nennen</li>
+    <li>die wesentlichen Kräfte am Festkörper im Gleichgewicht aufzählen und charakterisieren (Schwerkraft, Auflagerkraft, Reibung)</li>
+    <li>mehrere Kräfte grafisch und rechnerisch zur resultierenden Kraft zusammensetzen</li>
+    <li>das statische Gleichgewicht definieren (Gleichgewicht der Kräfte und der Momente) und an Beispielen auf horizontaler und schiefer Ebene anwenden</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann den Begriff Kraft definieren und Kräfte als Vektoren darstellen.</li>
+      <li>Ich kann das Drehmoment \(M=F\cdot r\) berechnen und Anwendungen nennen.</li>
+      <li>Ich kann die wesentlichen Kräfte am Festkörper aufzählen und charakterisieren.</li>
+      <li>Ich kann mehrere Kräfte grafisch und rechnerisch zur Resultierenden zusammensetzen.</li>
+      <li>Ich kann das Kräfte- und das Momentengleichgewicht auf waagrechter und schiefer Ebene anwenden.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — die Wippe auf dem Spielplatz</h2>
+
+<p>Zwei Kinder sitzen auf einer Wippe. Damit sie schön auf und ab schaukeln können, muss die Wippe ungefähr im Gleichgewicht sein. Sitzt ein schweres Kind innen, näher zur Mitte, kann es ein leichtes Kind weiter aussen ausgleichen — jeder kennt das Spiel intuitiv. Aber nach welcher Regel genau?</p>
+
+<p>In den bisherigen Kapiteln (Kinematik, Dynamik, Energie) haben wir Körper meist auf einen einzigen Massepunkt reduziert. In der <strong>Statik</strong> ist das nicht mehr möglich: Es kommt darauf an, <strong>wo</strong> eine Kraft an einem ausgedehnten Körper angreift. Eine Kraft nahe der Drehachse wirkt anders als dieselbe Kraft weit aussen. Diese Drehwirkung ist der zentrale neue Begriff dieses Kapitels.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Beobachte</div>
+  <p>In der Animation sitzt links ein Kind fest auf der Wippe. Verschiebe das rechte Kind und verändere seine Masse. Beobachte: Wann steht die Wippe waagrecht? Achte darauf, dass nicht das Gewicht allein zählt — auch der <strong>Abstand zur Mitte</strong> geht ein. Ein leichtes Kind weit aussen kann ein schweres Kind nahe der Mitte ausgleichen.</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>🛝 Einstieg-Animation · Gleichgewicht auf der Wippe</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Masse und Abstand des rechten Kindes ein.</li><li>Suche die Einstellung, bei der die Wippe waagrecht bleibt.</li><li>Vergleiche: ein leichteres Kind muss weiter aussen sitzen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Masse und Abstand des rechten Kindes ein. Suche die Einstellung, bei der die Wippe waagrecht im Gleichgewicht bleibt. Vergleiche: ein leichteres Kind muss weiter aussen sitzen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Gleichgewicht der Drehmomente: \(F_1 r_1 = F_2 r_2\).</li><li>Nicht die Kraft allein zählt, sondern Kraft mal Hebelarm.</li><li>Ein kleines Gewicht mit grossem Abstand hält ein grosses mit kleinem Abstand.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Im Gleichgewicht sind die Drehmomente gleich: F eins mal r eins gleich F zwei mal r zwei. Nicht die Kraft allein zählt, sondern das Produkt aus Kraft und Hebelarm. Ein kleines Gewicht mit grossem Abstand hält ein grosses Gewicht mit kleinem Abstand im Gleichgewicht." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Abstand rechts \(r_2\):</label>
+      <input type="range" id="ae-r2" min="0.5" max="2.5" value="1.5" step="0.05">
+      <span class="sl-val" id="ae-r2-val">1.50 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Masse rechts \(m_2\):</label>
+      <input type="range" id="ae-m2" min="10" max="40" value="25" step="1">
+      <span class="sl-val" id="ae-m2-val">25 kg</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Drehmoment links</span><span class="lb-val" id="ae-ml">368 Nm</span></div>
+      <div class="lb-item"><span class="lb-lab">Drehmoment rechts</span><span class="lb-val" id="ae-mr">368 Nm</span></div>
+      <div class="lb-item"><span class="lb-lab">Zustand</span><span class="lb-val" id="ae-stat">im Gleichgewicht</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⚖ Wippe (Seitenansicht)</div>
+      <canvas id="ae-cv" height="200"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<p>Eine erste Annäherung: Die Wippe steht still, wenn die Drehwirkung links gleich der Drehwirkung rechts ist. Die Drehwirkung ist offenbar das Produkt aus Gewichtskraft und Abstand zur Drehachse. Für das linke Kind \(25\;\text{kg}\) in \(1.5\;\text{m}\) ergibt das</p>
+
+\[ M_{\text{links}} = m_1 \cdot g \cdot r_1 = 25 \cdot 9.81 \cdot 1.5 \approx 368\;\text{Nm.} \]
+
+<p>Genau diese Grösse — Kraft mal Abstand — heisst <strong>Drehmoment</strong>. Auf dieser Themenseite lernst du, Kräfte als Vektoren zu behandeln, sie zur resultierenden Kraft zusammenzusetzen, das Drehmoment zu berechnen und schliesslich die beiden Bedingungen für das statische Gleichgewicht anzuwenden — auf der waagrechten Wippe ebenso wie auf der schiefen Ebene.</p>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Damit eine Wippe im Gleichgewicht ist, muss gelten:</p><ul class="mc-optionen"><li data-opt="A">beide Massen sind gleich</li><li data-opt="B">beide Produkte aus Kraft und Hebelarm sind gleich</li><li data-opt="C">beide Abstände sind gleich</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Gleichgewicht heisst gleiche Drehmomente: \(F_1 r_1 = F_2 r_2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Im Gleichgewicht ist die Summe der <span class="mc-luecke"></span> null.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Drehmomente.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Kind drückt links mit \(F_1 = 300\;\text{N}\) im Abstand \(r_1 = 1.5\;\text{m}\). Welches Drehmoment?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(M = F_1 \cdot r_1 = 300 \cdot 1.5 = 450\;\text{N}\,\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Kind (\(25\;\text{kg}\)) sitzt \(1.5\;\text{m}\) von der Achse. Wo muss ein \(30\;\text{kg}\)-Kind sitzen, damit Gleichgewicht herrscht?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(m_1 r_1 = m_2 r_2 \Rightarrow r_2 = \dfrac{25 \cdot 1.5}{30} = 1.25\;\text{m}\) — das schwerere Kind sitzt näher an der Achse.</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Kraft als Vektor</div>
+  <p>Eine <strong>Kraft</strong> \(\vec{F}\) ist eine vektorielle Grösse: Sie ist durch <strong>Betrag</strong> und <strong>Richtung</strong> vollständig beschrieben. SI-Einheit ist das <strong>Newton</strong> (\(1\;\text{N} = 1\;\text{kg}\cdot\text{m/s}^2\)).</p>
+  <p>Neu in der Statik: Zusätzlich kommt es auf den <strong>Angriffspunkt</strong> an. Die Gerade durch den Kraftvektor heisst <strong>Wirkungslinie</strong>. Für einen starren Körper gilt: Eine Kraft darf entlang ihrer Wirkungslinie verschoben werden, ohne dass sich ihre Wirkung ändert — quer dazu jedoch nicht.</p>
+  <p>In Komponenten bezüglich eines \(x\)-\(y\)-Systems, mit dem Winkel \(\varphi\) zur positiven \(x\)-Achse:</p>
+  \[ F_x = F \cdot \cos\varphi, \qquad F_y = F \cdot \sin\varphi \]
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Die wesentlichen Kräfte im Gleichgewicht</div>
+  <p>An einem ruhenden Festkörper treten typischerweise diese Kräfte auf:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Kraft</th><th>Symbol</th><th>Richtung / Angriff</th></tr></thead>
+    <tbody>
+      <tr><td>Schwer- bzw. Gewichtskraft</td><td>\(\vec{F}_G\)</td><td>senkrecht nach unten, greift am Schwerpunkt an; \(F_G = m \cdot g\)</td></tr>
+      <tr><td>Auflager- bzw. Normalkraft</td><td>\(\vec{F}_N\)</td><td>senkrecht zur Auflagefläche, von der Unterlage weg</td></tr>
+      <tr><td>Reibungskraft (Haftreibung)</td><td>\(\vec{F}_R\)</td><td>entlang der Fläche, der drohenden Bewegung entgegen; \(F_R \le \mu_H \cdot F_N\)</td></tr>
+      <tr><td>Seil- bzw. Zugkraft</td><td>\(\vec{F}_S\)</td><td>stets entlang des Seils, vom Körper weg</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Resultierende Kraft</div>
+  <p>Greifen mehrere Kräfte an einem Körper an, lassen sie sich zu einer einzigen <strong>resultierenden Kraft</strong> \(\vec{F}_R\) zusammenfassen — der Vektorsumme:</p>
+  \[ \vec{F}_R = \vec{F}_1 + \vec{F}_2 + \dots = \sum_i \vec{F}_i \]
+  <p>Grafisch durch Aneinanderhängen der Pfeile (oder das Kräfteparallelogramm), rechnerisch komponentenweise: \(F_{R,x} = \sum F_{i,x}\) und \(F_{R,y} = \sum F_{i,y}\).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Drehmoment</div>
+  <p>Das <strong>Drehmoment</strong> \(M\) beschreibt die Drehwirkung einer Kraft um eine Drehachse \(D\). Es ist das Produkt aus Kraft und <strong>wirksamem Hebelarm</strong> \(r\) (dem senkrechten Abstand zwischen Drehachse und Wirkungslinie):</p>
+  \[ M = F \cdot r = F \cdot l \cdot \sin\alpha \]
+  <p>Dabei ist \(l\) die Distanz von der Drehachse zum Angriffspunkt und \(\alpha\) der Winkel zwischen Hebelarm und Kraft. SI-Einheit: <strong>Newtonmeter</strong> (Nm). Vorzeichen: Drehung im Gegenuhrzeigersinn positiv, im Uhrzeigersinn negativ. Die Drehwirkung ist maximal bei \(\alpha = 90^\circ\) und null, wenn die Kraft auf die Drehachse zeigt.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Statisches Gleichgewicht</div>
+  <p>Ein Körper befindet sich im <strong>statischen Gleichgewicht</strong>, wenn er weder beschleunigt noch zu rotieren beginnt. Dafür müssen <strong>zwei</strong> Bedingungen gleichzeitig erfüllt sein:</p>
+  \[ \sum_i \vec{F}_i = \vec{0} \qquad \text{und} \qquad \sum_i M_i = 0 \]
+  <p>Die Kräftebedingung zerfällt komponentenweise in \(\sum F_x = 0\) und \(\sum F_y = 0\). Die Drehachse für die Momentenbedingung darf <strong>frei gewählt</strong> werden — geschickt wählt man sie dort, wo eine unbekannte Kraft angreift, damit diese im Momentenansatz wegfällt.</p>
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 — KRAFT ALS VEKTOR / KOMPONENTEN ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein starrer Körper ist im Gleichgewicht, wenn …</p><ul class="mc-optionen"><li data-opt="A">nur die Summe der Kräfte null ist</li><li data-opt="B">Summe der Kräfte und Summe der Momente null sind</li><li data-opt="C">er sich gleichförmig dreht</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Beim starren Körper müssen \(\sum \vec F = 0\) und \(\sum M = 0\) gelten.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Das Drehmoment ist das Produkt aus Kraft und <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Hebelarm — \(M = F \cdot r\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Kraft \(20\;\text{N}\), Hebelarm \(0.4\;\text{m}\). Welches Drehmoment?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(M = F \cdot r = 20 \cdot 0.4 = 8\;\text{N}\,\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum lässt sich eine Tür am Griff (weit von den Angeln) leichter öffnen als nahe den Angeln?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Am Griff ist der Hebelarm \(r\) gross; bei gleicher Kraft ist das Moment \(M = F\,r\) grösser. Nahe den Angeln bräuchte man für dasselbe Moment viel mehr Kraft.</div></details></div>
+</details>
+
+<h2 id="komponenten">Kraft als Vektor — Zerlegung in Komponenten</h2>
+
+<p>Bevor wir Kräfte addieren oder Drehmomente berechnen, müssen wir eine Kraft sicher in ihre \(x\)- und \(y\)-Komponente zerlegen können. Der Winkel \(\varphi\) wird stets relativ zur positiven \(x\)-Achse gemessen; mit \(F_x = F\cos\varphi\) und \(F_y = F\sin\varphi\) ergeben sich die Komponenten von selbst — inklusive Vorzeichen.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 1 · Kraftvektor und seine Komponenten</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere Betrag \(F\) und Richtungswinkel \(\varphi\).</li><li>Beobachte die Zerlegung in die Komponenten \(F_x\) und \(F_y\).</li><li>Achte darauf, wie die Komponenten bei \(0°\) und \(90°\) verschwinden.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere den Betrag F und den Richtungswinkel phi. Beobachte die Zerlegung des Kraftpfeils in die Komponenten F x und F y. Achte darauf, wie die Komponenten bei null Grad und bei 90 Grad verschwinden." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Komponenten: \(F_x = F\cos\varphi\), \(F_y = F\sin\varphi\).</li><li>Eine Kraft ist ein Vektor mit Betrag und Richtung.</li><li>Betrag aus den Komponenten: \(F = \sqrt{F_x^2 + F_y^2}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Komponenten sind F x gleich F mal Kosinus phi und F y gleich F mal Sinus phi. Eine Kraft ist ein Vektor mit Betrag und Richtung. Aus den Komponenten folgt der Betrag F gleich Wurzel aus F x hoch zwei plus F y hoch zwei." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Betrag \(F\):</label>
+      <input type="range" id="a1-F" min="10" max="100" value="80" step="1">
+      <span class="sl-val" id="a1-F-val">80 N</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Winkel \(\varphi\):</label>
+      <input type="range" id="a1-phi" min="0" max="360" value="35" step="1">
+      <span class="sl-val" id="a1-phi-val">35°</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Komponentenzerlegung</div>
+      <div class="fl-eq" id="a1-eq">F_x = 80 · cos(35°) = 65.5 N · F_y = 80 · sin(35°) = 45.9 N</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Betrag \(F\)</span><span class="lb-val" id="a1-Fb">80 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Winkel \(\varphi\)</span><span class="lb-val" id="a1-phib">35°</span></div>
+      <div class="lb-item"><span class="lb-lab">\(F_x\)</span><span class="lb-val" id="a1-fx">65.5 N</span></div>
+      <div class="lb-item"><span class="lb-lab">\(F_y\)</span><span class="lb-val" id="a1-fy">45.9 N</span></div>
+    </div>
+
+    <div class="cv-wrap vekt-plot">
+      <div class="cv-titel">Kraft im \(x\)-\(y\)-System (Achsen in N)</div>
+      <canvas id="a1-cv"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 5. ANIMATION 2 — RESULTIERENDE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Eine Kraft wirkt waagrecht (\(0°\) zur Horizontalen). Ihre senkrechte Komponente ist …</p><ul class="mc-optionen"><li data-opt="A">maximal</li><li data-opt="B">null</li><li data-opt="C">gleich \(F\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(F_y = F \sin 0° = 0\) — eine waagrechte Kraft hat keine senkrechte Komponente.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die waagrechte Komponente ist \(F_x = F \cdot\) <span class="mc-luecke"></span> des Winkels.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">dem Kosinus — \(F_x = F\cos\varphi\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(F = 100\;\text{N}\) unter \(\varphi = 30°\). Komponenten? (\(\cos 30° \approx 0.87\), \(\sin 30° = 0.5\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F_x = F\cos\varphi \approx 87\;\text{N}\), \(\;\; F_y = F\sin\varphi = 50\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Kraft hat die Komponenten \(F_x = 3\;\text{N}\) und \(F_y = 4\;\text{N}\). Wie gross ist ihr Betrag?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(F = \sqrt{F_x^2 + F_y^2} = \sqrt{9 + 16} = 5\;\text{N}\).</div></details></div>
+</details>
+
+<h2 id="resultierende">Resultierende mehrerer Kräfte</h2>
+
+<p>Wirken zwei Kräfte an demselben Punkt, ist ihre resultierende Kraft die Vektorsumme. Grafisch hängt man den zweiten Pfeil an die Spitze des ersten (Spitze-an-Fuss); der Pfeil vom Anfang zum Ende ist die Resultierende. Bei genau zwei Kräften erhält man dieselbe Resultierende über das <strong>Kräfteparallelogramm</strong>.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 2 · Vektoraddition zweier Kräfte</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Betrag und Richtung beider Kräfte ein.</li><li>Beobachte das Parallelogramm und die rote Resultierende \(\vec{F}_R\).</li><li>Vergleiche gleichgerichtete und entgegengesetzte Kräfte.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Betrag und Richtung beider Kräfte ein. Beobachte das Parallelogramm und die rote Resultierende F R. Vergleiche, was bei gleichgerichteten und bei entgegengesetzten Kräften passiert." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Kräfte addieren sich vektoriell: \(\vec{F}_R = \vec{F}_1 + \vec{F}_2\).</li><li>Grafisch über das Parallelogramm, rechnerisch über die Komponenten.</li><li>Gleichgerichtet addieren sich die Beträge, entgegengesetzt subtrahieren sie sich.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Kräfte addieren sich vektoriell: F R gleich F eins plus F zwei. Grafisch geschieht das über das Parallelogramm, rechnerisch über die Komponenten. Gleichgerichtete Kräfte addieren ihre Beträge, entgegengesetzte subtrahieren sich." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>\(F_1\):</label>
+      <input type="range" id="a2-f1" min="10" max="100" value="70" step="1">
+      <span class="sl-val" id="a2-f1-val">70 N</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Winkel \(\varphi_1\):</label>
+      <input type="range" id="a2-p1" min="0" max="360" value="20" step="1">
+      <span class="sl-val" id="a2-p1-val">20°</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>\(F_2\):</label>
+      <input type="range" id="a2-f2" min="10" max="100" value="60" step="1">
+      <span class="sl-val" id="a2-f2-val">60 N</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Winkel \(\varphi_2\):</label>
+      <input type="range" id="a2-p2" min="0" max="360" value="95" step="1">
+      <span class="sl-val" id="a2-p2-val">95°</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Resultierende \(F_R\)</span><span class="lb-val" id="a2-r">— N</span></div>
+      <div class="lb-item"><span class="lb-lab">Richtung \(\varphi_R\)</span><span class="lb-val" id="a2-rang">—°</span></div>
+      <div class="lb-item"><span class="lb-lab">\(F_{R,x}\)</span><span class="lb-val" id="a2-rx">— N</span></div>
+      <div class="lb-item"><span class="lb-lab">\(F_{R,y}\)</span><span class="lb-val" id="a2-ry">— N</span></div>
+    </div>
+
+    <div class="cv-wrap vekt-plot">
+      <div class="cv-titel">Kräfteparallelogramm (Achsen in N)</div>
+      <canvas id="a2-cv"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 6. ANIMATION 3 — KRÄFTEGLEICHGEWICHT AM PUNKT ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Zwei gleich grosse Kräfte wirken in genau entgegengesetzte Richtung. Die Resultierende ist …</p><ul class="mc-optionen"><li data-opt="A">doppelt so gross</li><li data-opt="B">null</li><li data-opt="C">gleich gross wie eine Kraft</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Entgegengesetzt gleich grosse Kräfte heben sich auf: \(\vec F_R = 0\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Kräfte werden <span class="mc-luecke"></span> addiert (Parallelogramm).</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">vektoriell.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Zwei Kräfte \(6\;\text{N}\) und \(8\;\text{N}\) wirken senkrecht zueinander. Resultierende?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F_R = \sqrt{6^2 + 8^2} = \sqrt{36 + 64} = 10\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Zwei Kräfte (je \(5\;\text{N}\)) schliessen einen Winkel von \(60°\) ein. Wie gross ist die Resultierende? (\(\cos 60° = 0.5\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(F_R = \sqrt{F_1^2 + F_2^2 + 2 F_1 F_2 \cos 60°} = \sqrt{25 + 25 + 25} = \sqrt{75} \approx 8.7\;\text{N}\).</div></details></div>
+</details>
+
+<h2 id="punkt">Kräftegleichgewicht am Punkt — eine Last an zwei Seilen</h2>
+
+<p>Greifen alle Kräfte an einem einzigen Punkt an, genügt für das Gleichgewicht die Kräftebedingung \(\sum\vec{F} = \vec{0}\). Ein klassisches Beispiel: eine Last hängt an zwei schräg nach oben führenden Seilen. Auf den Knotenpunkt wirken drei Kräfte — die Gewichtskraft nach unten und die beiden Seilkräfte. Im Gleichgewicht bilden sie ein <strong>geschlossenes Kräftedreieck</strong>.</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Herleitung der Seilkräfte</div>
+  <p>Das linke Seil bilde mit der Horizontalen den Winkel \(\alpha\), das rechte den Winkel \(\beta\). Mit \(\sum F_x = 0\) und \(\sum F_y = 0\) am Knoten folgt nach kurzer Rechnung:</p>
+  \[ S_1 = F_G \cdot \frac{\cos\beta}{\sin(\alpha+\beta)}, \qquad S_2 = F_G \cdot \frac{\cos\alpha}{\sin(\alpha+\beta)} \]
+  <p>Je flacher die Seile (kleine Winkel), desto grösser werden die Seilkräfte — sie können das Gewicht der Last um ein Vielfaches übersteigen. Genau das spürt man, wenn eine Wäscheleine durchhängt: ein straff gespanntes Seil steht unter enormer Zugkraft.</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 3 · Last an zwei Seilen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere die Last und die beiden Seilwinkel.</li><li>Beobachte, wie die Seilkräfte mit flacheren Winkeln stark zunehmen.</li><li>Verfolge das geschlossene Kräftedreieck.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere die Last und die beiden Seilwinkel. Beobachte, wie die Seilkräfte mit flacheren Winkeln stark zunehmen. Verfolge das geschlossene Kräftedreieck rechts." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Im Gleichgewicht ist die Summe aller Kräfte null: \(\sum \vec{F} = 0\).</li><li>Die drei Kräfte bilden ein geschlossenes Kräftedreieck.</li><li>Je flacher die Seile, desto grösser die Seilkräfte — sie können die Last weit übersteigen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Im Gleichgewicht ist die Summe aller Kräfte null. Die drei Kräfte am Knoten bilden ein geschlossenes Kräftedreieck. Je flacher die Seile gespannt sind, desto grösser werden die Seilkräfte; sie können die Last deutlich übersteigen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a3-m" min="1" max="20" value="8" step="0.5">
+      <span class="sl-val" id="a3-m-val">8.0 kg</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Winkel links \(\alpha\):</label>
+      <input type="range" id="a3-al" min="15" max="80" value="45" step="1">
+      <span class="sl-val" id="a3-al-val">45°</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Winkel rechts \(\beta\):</label>
+      <input type="range" id="a3-be" min="15" max="80" value="45" step="1">
+      <span class="sl-val" id="a3-be-val">45°</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Gewichtskraft \(F_G\)</span><span class="lb-val" id="a3-fg">78.5 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Seilkraft links \(S_1\)</span><span class="lb-val" id="a3-s1">55.5 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Seilkraft rechts \(S_2\)</span><span class="lb-val" id="a3-s2">55.5 N</span></div>
+    </div>
+
+    <div class="zwei-spalten">
+      <div class="cv-wrap">
+        <div class="cv-titel">🪝 Szene: Last und Seile</div>
+        <canvas id="a3-cv" height="300"></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">△ Geschlossenes Kräftedreieck</div>
+        <canvas id="a3-cv-tri" height="300"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 7. ANIMATION 4 — DREHMOMENT EINER KRAFT ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der nötigen Kraft, wenn du beim Schraubenschlüssel den Hebelarm verdoppelst?</summary>
+  <div class="frage-antwort">
+    <p>Sie halbiert sich. Da \(M=F\cdot r\) und das benötigte Drehmoment gleich bleibt, kommst du mit einem längeren Schlüssel mit der halben Kraft aus — das Prinzip jeder Hebelverlängerung.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">An einem Knoten herrscht Kräftegleichgewicht, wenn …</p><ul class="mc-optionen"><li data-opt="A">die grösste Kraft wegfällt</li><li data-opt="B">die Summe aller Kräfte null ist</li><li data-opt="C">alle Kräfte gleich gross sind</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Gleichgewicht am Punkt bedeutet \(\sum \vec F = 0\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die drei Kräfte am Knoten bilden ein geschlossenes <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Kräftedreieck.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Last \(100\;\text{N}\) hängt symmetrisch an zwei Seilen, jedes unter \(60°\) zur Waagrechten. Welche vertikale Komponente trägt jedes Seil?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Je \(50\;\text{N}\) vertikal (zusammen \(100\;\text{N}\)). Die Seilkraft selbst ist \(\dfrac{50}{\sin 60°} \approx 57.7\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Was passiert mit den Seilkräften, wenn man die beiden Seile fast waagrecht spannt?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Sie werden sehr gross. Die vertikale Komponente \(F\sin\alpha\) muss die Last tragen; bei kleinem \(\alpha\) braucht es dafür eine sehr grosse Seilkraft \(F\).</div></details></div>
+</details>
+
+<h2 id="drehmoment">Drehmoment einer Kraft</h2>
+
+<p>Um eine festsitzende Schraube zu lösen, setzt man einen Schraubenschlüssel an und zieht möglichst weit aussen — und möglichst senkrecht zum Hebel. Beides erhöht die Drehwirkung. Quantitativ ist das Drehmoment \(M = F \cdot l \cdot \sin\alpha\): Es wächst mit der Kraft, mit der Hebellänge und ist am grössten, wenn die Kraft rechtwinklig zum Hebel steht.</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Wirksamer Hebelarm und senkrechte Komponente</div>
+  <p>Es gibt zwei gleichwertige Sichtweisen auf den Faktor \(\sin\alpha\). Erstens: Der <strong>wirksame Hebelarm</strong> \(r = l\cdot\sin\alpha\) ist der senkrechte Abstand der Wirkungslinie zur Drehachse — dann ist \(M = F\cdot r\). Zweitens: Nur die zum Hebel <strong>senkrechte Kraftkomponente</strong> \(F_\perp = F\cdot\sin\alpha\) dreht; die Komponente entlang des Hebels zeigt auf die Achse und erzeugt kein Moment — dann ist \(M = F_\perp \cdot l\). Beide Wege liefern \(M = F\cdot l\cdot\sin\alpha\).</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 4 · Drehmoment, Hebelarm und Winkel</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere Kraft \(F\), Hebellänge \(l\) und Angriffswinkel \(\alpha\).</li><li>Beobachte den wirksamen Hebelarm \(r = l\sin\alpha\).</li><li>Finde den Winkel mit dem grössten Moment.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere Kraft F, Hebellänge l und Angriffswinkel alpha. Beobachte den wirksamen Hebelarm r gleich l mal Sinus alpha. Finde den Winkel mit dem grössten Drehmoment." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Drehmoment: \(M = F \cdot r = F \cdot l\sin\alpha\).</li><li>Maximal bei \(\alpha = 90°\) (Kraft senkrecht zum Hebel).</li><li>Bei \(\alpha = 0°\) ist das Moment null (Kraft längs des Hebels).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Das Drehmoment ist M gleich F mal r, also F mal l mal Sinus alpha. Es ist maximal bei 90 Grad, wenn die Kraft senkrecht auf dem Hebel steht. Bei null Grad ist das Moment null, weil die Kraft längs des Hebels wirkt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Kraft \(F\):</label>
+      <input type="range" id="a4-F" min="50" max="300" value="200" step="5">
+      <span class="sl-val" id="a4-F-val">200 N</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Hebellänge \(l\):</label>
+      <input type="range" id="a4-l" min="0.1" max="0.5" value="0.3" step="0.01">
+      <span class="sl-val" id="a4-l-val">0.30 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Winkel \(\alpha\):</label>
+      <input type="range" id="a4-al" min="10" max="170" value="60" step="1">
+      <span class="sl-val" id="a4-al-val">60°</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Drehmoment</div>
+      <div class="fl-eq" id="a4-eq">M = 200 · 0.30 · sin(60°) = 52.0 Nm</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Drehmoment \(M\)</span><span class="lb-val" id="a4-m">52.0 Nm</span></div>
+      <div class="lb-item"><span class="lb-lab">wirks. Hebelarm \(r\)</span><span class="lb-val" id="a4-rperp">0.26 m</span></div>
+      <div class="lb-item"><span class="lb-lab">senkr. Komp. \(F_\perp\)</span><span class="lb-val" id="a4-fperp">173 N</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🔧 Hebel mit Drehachse D</div>
+      <canvas id="a4-cv" height="300"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 8. ANIMATION 5 — HEBELGESETZ ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Das Drehmoment ist maximal, wenn die Kraft zum Hebel im Winkel … steht.</p><ul class="mc-optionen"><li data-opt="A">\(0°\)</li><li data-opt="B">\(45°\)</li><li data-opt="C">\(90°\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>C.</strong> Bei \(90°\) ist \(\sin\alpha = 1\) — die Kraft steht senkrecht zum Hebel, das Moment ist maximal.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Das Drehmoment ist \(M = F \cdot l \cdot\) <span class="mc-luecke"></span> des Angriffswinkels.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">dem Sinus — \(M = F\,l \sin\alpha\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(F = 20\;\text{N}\), \(l = 0.5\;\text{m}\), \(\alpha = 90°\). Drehmoment?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(M = F \cdot l = 20 \cdot 0.5 = 10\;\text{N}\,\text{m}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Dieselbe Kraft greift am selben Hebel einmal unter \(90°\), einmal unter \(30°\) an. Wie verhalten sich die Momente? (\(\sin 30° = 0.5\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Bei \(30°\) ist das Moment nur halb so gross: \(\dfrac{\sin 30°}{\sin 90°} = \dfrac{0.5}{1} = 0.5\).</div></details></div>
+</details>
+
+<h2 id="hebel">Hebelgesetz — Gleichgewicht der Momente</h2>
+
+<p>Am zwei­armigen Hebel (oder an der Balkenwaage) sind zwei Drehmomente im Spiel. Im Gleichgewicht heben sie sich auf: das Moment links ist gleich gross wie das Moment rechts, aber entgegengesetzt gerichtet. Das ist der einfachste Fall der Momentenbedingung \(\sum M = 0\) und heisst <strong>Hebelgesetz</strong>:</p>
+
+\[ F_1 \cdot r_1 = F_2 \cdot r_2 \]
+
+<p>Eine kleine Kraft an einem langen Hebelarm gleicht eine grosse Kraft an einem kurzen Hebelarm aus — das Prinzip hinter Brechstange, Nussknacker und Balkenwaage.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 5 · Zweiarmiger Hebel</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle \(F_2\) und \(r_2\) so ein, dass der Hebel waagrecht steht.</li><li>Vergleiche mit der festen Kraft \(F_1 = 40\;\text{N}\) bei \(r_1 = 0.30\;\text{m}\).</li><li>Probiere: halber Abstand braucht doppelte Kraft.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Kraft F zwei und Abstand r zwei so ein, dass der Hebel waagrecht steht. Vergleiche mit der festen Kraft von 40 Newton im Abstand 0.30 Meter. Probiere aus: der halbe Abstand braucht die doppelte Kraft." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Hebelgesetz: \(F_1 r_1 = F_2 r_2\).</li><li>Last mal Lastarm gleich Kraft mal Kraftarm.</li><li>Ein langer Kraftarm spart Kraft (Prinzip jeder Hebelmaschine).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Das Hebelgesetz lautet: F eins mal r eins gleich F zwei mal r zwei. Last mal Lastarm gleich Kraft mal Kraftarm. Ein langer Kraftarm spart Kraft; das ist das Prinzip jeder Hebelmaschine." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Kraft rechts \(F_2\):</label>
+      <input type="range" id="a5-f2" min="5" max="60" value="24" step="1">
+      <span class="sl-val" id="a5-f2-val">24 N</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Abstand rechts \(r_2\):</label>
+      <input type="range" id="a5-r2" min="0.05" max="0.5" value="0.5" step="0.01">
+      <span class="sl-val" id="a5-r2-val">0.50 m</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Momentenvergleich</div>
+      <div class="fl-eq" id="a5-eq">M_1 = 40 · 0.30 = 12.0 Nm · M_2 = 24 · 0.50 = 12.0 Nm</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Moment links \(M_1\)</span><span class="lb-val" id="a5-m1">12.0 Nm</span></div>
+      <div class="lb-item"><span class="lb-lab">Moment rechts \(M_2\)</span><span class="lb-val" id="a5-m2">12.0 Nm</span></div>
+      <div class="lb-item"><span class="lb-lab">Zustand</span><span class="lb-val" id="a5-stat">im Gleichgewicht</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⚖ Zweiarmiger Hebel um Drehachse D</div>
+      <canvas id="a5-cv" height="260"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 9. ANIMATION 6 — STARRER KÖRPER / AUFLAGERKRÄFTE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein langer Kraftarm bedeutet …</p><ul class="mc-optionen"><li data-opt="A">man braucht mehr Kraft</li><li data-opt="B">man braucht weniger Kraft</li><li data-opt="C">keinen Unterschied</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Bei längerem Kraftarm genügt weniger Kraft für dasselbe Moment — das Prinzip jeder Hebelmaschine.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Das Hebelgesetz lautet \(F_1 r_1 = F_2 \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(r_2\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(F_1 = 40\;\text{N}\) bei \(r_1 = 0.30\;\text{m}\). Welche Kraft \(F_2\) hält bei \(r_2 = 0.60\;\text{m}\) das Gleichgewicht?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(F_2 = \dfrac{F_1 r_1}{r_2} = \dfrac{40 \cdot 0.30}{0.60} = 20\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Schubkarre: Last \(600\;\text{N}\) im Abstand \(0.4\;\text{m}\) vom Rad, die Griffe sind \(1.2\;\text{m}\) vom Rad entfernt. Welche Hubkraft an den Griffen?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(F = \dfrac{600 \cdot 0.4}{1.2} = 200\;\text{N}\) — der lange Griff-Hebelarm spart Kraft.</div></details></div>
+</details>
+
+<h2 id="auflager">Gleichgewicht am starren Körper — Auflagerkräfte</h2>
+
+<p>Liegt ein Balken oder Brett auf zwei Stützen, teilen sich diese die Last auf. Wo genau die Last steht, entscheidet über die Verteilung: Steht sie direkt über einer Stütze, trägt diese fast alles. In der Mitte tragen beide gleich viel. Für ausgedehnte Körper mit Kräften an verschiedenen Punkten braucht man beide Gleichgewichtsbedingungen — und beginnt mit Vorteil bei der Momentengleichung.</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Auflagerkräfte aus den Gleichgewichtsbedingungen</div>
+  <p>Ein (als masselos angenommener) Balken der Stützweite \(L\) trägt eine Last \(F_G\) im Abstand \(x\) von der linken Stütze \(A\). Wir wählen die Drehachse bei \(A\) — dann fällt \(F_A\) aus der Momentengleichung heraus:</p>
+  \[ \sum M_A = 0:\quad F_B \cdot L - F_G \cdot x = 0 \;\Rightarrow\; F_B = F_G \cdot \frac{x}{L} \]
+  \[ \sum F_y = 0:\quad F_A + F_B - F_G = 0 \;\Rightarrow\; F_A = F_G \cdot \Big(1 - \frac{x}{L}\Big) \]
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 6 · Balken auf zwei Stützen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verschiebe die Last und verändere ihr Gewicht.</li><li>Beobachte, wie sich die Auflagerkräfte \(F_A\) und \(F_B\) anpassen.</li><li>Achte darauf, dass ihre Summe gleich der Last bleibt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verschiebe die Last entlang des Balkens und verändere ihr Gewicht. Beobachte, wie sich die Auflagerkräfte F A und F B anpassen. Achte darauf, dass ihre Summe stets gleich der Last bleibt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Gleichgewicht: \(\sum F = 0\) und \(\sum M = 0\).</li><li>Die nähere Stütze trägt den grösseren Anteil der Last.</li><li>\(F_A + F_B\) ist immer gleich der Gesamtlast.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Im Gleichgewicht ist sowohl die Summe der Kräfte als auch die Summe der Momente null. Die nähere Stütze trägt den grösseren Anteil der Last. Die Summe F A plus F B ist immer gleich der gesamten Last." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Lastposition \(x\) (von A):</label>
+      <input type="range" id="a6-x" min="0" max="4" value="1.5" step="0.05">
+      <span class="sl-val" id="a6-x-val">1.50 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Last \(F_G\):</label>
+      <input type="range" id="a6-fg" min="100" max="1000" value="600" step="10">
+      <span class="sl-val" id="a6-fg-val">600 N</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Auflager \(F_A\)</span><span class="lb-val" id="a6-fa">375 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Auflager \(F_B\)</span><span class="lb-val" id="a6-fb">225 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Summe \(F_A + F_B\)</span><span class="lb-val" id="a6-sum">600 N</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🏗 Balken (Stützweite \(L = 4\;\text{m}\))</div>
+      <canvas id="a6-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 10. ANIMATION 7 — SCHIEFE EBENE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Eine Last sitzt näher bei Stütze A. Welche Stütze trägt mehr?</p><ul class="mc-optionen"><li data-opt="A">Stütze A</li><li data-opt="B">Stütze B</li><li data-opt="C">beide gleich</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Die nähere Stütze trägt den grösseren Anteil der Last.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Summe der beiden Auflagerkräfte ist gleich der <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Gesamtlast — \(F_A + F_B = F\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Balken \(4\;\text{m}\), Last \(200\;\text{N}\) genau in der Mitte. Auflagerkräfte?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Symmetrisch: \(F_A = F_B = 100\;\text{N}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Last \(300\;\text{N}\) sitzt \(1\;\text{m}\) von A entfernt auf einem \(4\;\text{m}\)-Balken. Wie gross sind die Auflagerkräfte?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Momente um A: \(F_B \cdot 4 = 300 \cdot 1 \Rightarrow F_B = 75\;\text{N}\); \(\;\; F_A = 300 - 75 = 225\;\text{N}\).</div></details></div>
+</details>
+
+<h2 id="schiefe-ebene">Gleichgewicht auf der schiefen Ebene</h2>
+
+<p>Auf einer schiefen Ebene zerlegt man die Gewichtskraft sinnvollerweise in eine Komponente <strong>senkrecht</strong> zur Ebene und eine <strong>parallel</strong> zur Ebene. Die senkrechte Komponente wird von der Normalkraft der Unterlage aufgenommen, die parallele Komponente (die <strong>Hangabtriebskraft</strong>) zieht den Körper hangabwärts. Bleibt der Körper liegen, muss die Haftreibung diese Hangabtriebskraft gerade ausgleichen.</p>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Zerlegung der Gewichtskraft</div>
+  <p>Bei einem Neigungswinkel \(\alpha\) gilt für die Gewichtskraft \(F_G = m\cdot g\):</p>
+  \[ F_H = F_G \cdot \sin\alpha \quad(\text{hangabwärts}), \qquad F_N = F_G \cdot \cos\alpha \quad(\text{senkrecht zur Ebene}) \]
+  <p>Der Körper bleibt in Ruhe, solange die Haftreibung ausreicht: \(F_H \le \mu_H \cdot F_N\). Setzt man die Ausdrücke ein, kürzt sich \(F_G\) heraus, und es folgt die einfache Haftbedingung \(\tan\alpha \le \mu_H\). Der Grenzwinkel hängt also nur vom Reibungskoeffizienten ab, nicht von der Masse.</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 7 · Klotz auf der schiefen Ebene</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verändere Neigungswinkel, Reibungskoeffizient und Masse.</li><li>Beobachte die Kräftezerlegung am Hang.</li><li>Finde den Grenzwinkel, ab dem der Klotz rutscht.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verändere Neigungswinkel, Reibungskoeffizient und Masse. Beobachte die Kräftezerlegung am Hang. Finde den Grenzwinkel, ab dem der Klotz zu rutschen beginnt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Der Klotz haftet, solange \(\tan\alpha \le \mu_H\).</li><li>Hangabtrieb \(F_H = mg\sin\alpha\), Normalkraft \(F_N = mg\cos\alpha\).</li><li>Der Grenzwinkel hängt nur von \(\mu_H\) ab, nicht von der Masse.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der Klotz haftet, solange der Tangens des Neigungswinkels kleiner oder gleich der Haftreibungszahl mu H ist. Der Hangabtrieb ist m g mal Sinus alpha, die Normalkraft m g mal Kosinus alpha. Der Grenzwinkel hängt nur von mu H ab, nicht von der Masse." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Neigungswinkel \(\alpha\):</label>
+      <input type="range" id="a7-al" min="5" max="45" value="25" step="1">
+      <span class="sl-val" id="a7-al-val">25°</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Reibungskoeffizient \(\mu_H\):</label>
+      <input type="range" id="a7-mu" min="0" max="1" value="0.5" step="0.01">
+      <span class="sl-val" id="a7-mu-val">0.50</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a7-m" min="5" max="40" value="20" step="1">
+      <span class="sl-val" id="a7-m-val">20 kg</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Hangabtrieb \(F_H\)</span><span class="lb-val" id="a7-fh">82.9 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Normalkraft \(F_N\)</span><span class="lb-val" id="a7-fn">177.8 N</span></div>
+      <div class="lb-item"><span class="lb-lab">max. Haftreibung \(\mu_H F_N\)</span><span class="lb-val" id="a7-frmax">88.9 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Zustand</span><span class="lb-val" id="a7-stat">haftet</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⛰ Schiefe Ebene mit Kräftezerlegung</div>
+      <canvas id="a7-cv" height="300"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Häufiger Fehler</div>
+  <p>Die Normalkraft auf der schiefen Ebene ist <strong>nicht</strong> gleich der Gewichtskraft, sondern nur deren senkrechte Komponente \(F_N = F_G\cos\alpha\). Nur in der waagrechten Ebene (\(\alpha = 0\)) gilt \(F_N = F_G\). Mit zunehmender Neigung wird die Unterlage entlastet, während die Hangabtriebskraft wächst.</p>
+</div>
+
+
+<!-- ══════════════ 11. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit einem Körper, wenn die Summe aller Kräfte null ist, die Summe der Momente aber nicht?</summary>
+  <div class="frage-antwort">
+    <p>Er beschleunigt nicht in seinem Schwerpunkt, beginnt aber zu <strong>drehen</strong>. Für vollständiges Gleichgewicht müssen sowohl die Kraftsumme als auch die Momentensumme verschwinden.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein Klotz auf der schiefen Ebene rutscht, sobald …</p><ul class="mc-optionen"><li data-opt="A">\(\tan\alpha > \mu_H\)</li><li data-opt="B">\(\alpha > 90°\)</li><li data-opt="C">die Masse gross genug ist</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Rutschbeginn bei \(\tan\alpha > \mu_H\) — unabhängig von der Masse.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Grenzwinkel hängt nur von der <span class="mc-luecke"></span> ab, nicht von der Masse.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Haftreibungszahl \(\mu_H\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(\mu_H = 0.6\). Ab welchem Neigungswinkel rutscht der Klotz?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\alpha = \arctan(\mu_H) = \arctan(0.6) \approx 31°\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Klotz (\(m = 3\;\text{kg}\)) liegt auf einer Ebene mit \(\alpha = 20°\), \(\mu_H = 0.5\). Haftet oder rutscht er? (\(\tan 20° \approx 0.36\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(\tan 20° \approx 0.36 < 0.5 = \mu_H\) → der Klotz haftet (die Haftreibung reicht aus).</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Werte ablesen — Komponentenzerlegung</span></div>
+  <p>Stelle in Animation 1 eine Kraft mit Betrag \(F = 120\;\text{N}\) und Winkel \(\varphi = 35^\circ\) ein. Bestimme die Komponenten \(F_x\) und \(F_y\) und prüfe sie mit der Formel.</p>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <p>Mit \(F_x = F\cos\varphi\) und \(F_y = F\sin\varphi\):</p>
+      \[ F_x = 120 \cdot \cos 35^\circ \approx 98.3\;\text{N}, \qquad F_y = 120 \cdot \sin 35^\circ \approx 68.8\;\text{N} \]
+      <p>Zur Kontrolle: \(\sqrt{F_x^2 + F_y^2} = \sqrt{98.3^2 + 68.8^2} \approx 120\;\text{N}\) — der ursprüngliche Betrag. Die Animation bestätigt die Werte.</p>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Drehmoment am Schraubenschlüssel</span></div>
+  <p>An einem Schraubenschlüssel der Länge \(l = 18\;\text{cm}\) wird mit \(F = 250\;\text{N}\) gezogen.</p>
+  <ol class="aufg-liste">
+    <li>Welches Drehmoment wirkt, wenn die Kraft senkrecht zum Schlüssel angreift?</li>
+    <li>Welches Drehmoment bleibt, wenn die Kraft nur unter \(\alpha = 60^\circ\) zum Schlüssel angreift?</li>
+    <li>Bei welchem Winkel ist die Drehwirkung am grössten?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Senkrecht ist \(\alpha = 90^\circ\), also \(\sin\alpha = 1\): \[ M = F\cdot l = 250 \cdot 0.18 = 45.0\;\text{Nm} \]</li>
+        <li>Mit \(\alpha = 60^\circ\): \[ M = 250 \cdot 0.18 \cdot \sin 60^\circ \approx 39.0\;\text{Nm} \]</li>
+        <li>Am grössten bei \(\alpha = 90^\circ\), weil \(\sin\alpha\) dort maximal (\(=1\)) ist. Darum setzt man den Schlüssel möglichst rechtwinklig an.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Wippe im Gleichgewicht</span></div>
+  <p>Auf einer Wippe sitzt links ein Kind mit \(m_1 = 30\;\text{kg}\) im Abstand \(r_1 = 1.4\;\text{m}\) zur Drehachse. Rechts setzt sich ein Kind mit \(m_2 = 24\;\text{kg}\).</p>
+  <ol class="aufg-liste">
+    <li>Berechne das Drehmoment des linken Kindes.</li>
+    <li>In welchem Abstand \(r_2\) muss sich das rechte Kind setzen, damit die Wippe im Gleichgewicht ist?</li>
+    <li>Ein Erwachsener mit \(70\;\text{kg}\) möchte das linke Kind ausgleichen, sich aber höchstens \(0.8\;\text{m}\) von der Achse entfernt setzen. Geht das aus? Begründe.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\[ M_1 = m_1 \cdot g \cdot r_1 = 30 \cdot 9.81 \cdot 1.4 \approx 412\;\text{Nm} \]</li>
+        <li>Hebelgesetz \(M_1 = M_2\), also \(m_1 r_1 = m_2 r_2\): \[ r_2 = \frac{m_1 \cdot r_1}{m_2} = \frac{30 \cdot 1.4}{24} = 1.75\;\text{m} \] Das leichtere Kind muss weiter aussen sitzen.</li>
+        <li>Bei \(r = 0.8\;\text{m}\) erzeugt der Erwachsene das Moment \(m\,g\,r = 70 \cdot 9.81 \cdot 0.8 \approx 549\;\text{Nm}\). Das ist mehr als die nötigen \(412\;\text{Nm}\) — er gleicht das Kind also mühelos aus und müsste sich für exaktes Gleichgewicht sogar näher zur Achse setzen, nämlich auf \(r = \frac{30\cdot 1.4}{70} = 0.6\;\text{m}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Hängelampe an zwei Drähten</span></div>
+  <p>Eine Lampe mit Masse \(m = 8\;\text{kg}\) hängt an einem Knotenpunkt, von dem zwei Drähte schräg nach oben zu zwei Befestigungspunkten an der Decke führen. Der linke Draht bildet mit der Horizontalen \(\alpha = 30^\circ\), der rechte \(\beta = 60^\circ\).</p>
+  <ol class="aufg-liste">
+    <li>Wie gross ist die Gewichtskraft der Lampe?</li>
+    <li>Berechne die beiden Drahtkräfte \(S_1\) und \(S_2\).</li>
+    <li>Welcher Draht ist stärker belastet — und warum der mit dem grösseren Winkel zur Horizontalen?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\[ F_G = m \cdot g = 8 \cdot 9.81 \approx 78.5\;\text{N} \]</li>
+        <li>Mit \(\alpha + \beta = 90^\circ\), also \(\sin(\alpha+\beta) = 1\): \[ S_1 = F_G \cdot \frac{\cos\beta}{\sin(\alpha+\beta)} = 78.5 \cdot \cos 60^\circ \approx 39.2\;\text{N} \] \[ S_2 = F_G \cdot \frac{\cos\alpha}{\sin(\alpha+\beta)} = 78.5 \cdot \cos 30^\circ \approx 68.0\;\text{N} \]</li>
+        <li>Der rechte Draht (\(\beta = 60^\circ\)) ist mit \(68.0\;\text{N}\) stärker belastet. Je steiler ein Draht steht, desto grösser ist sein vertikaler Kraftanteil — er trägt also mehr vom Gewicht. Animation 3 bestätigt das mit \(\alpha = 30^\circ\) und \(\beta = 60^\circ\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Gerüstbrett mit Arbeiter</span></div>
+  <p>Ein \(4.0\;\text{m}\) langes Gerüstbrett liegt auf zwei Böcken \(A\) (links) und \(B\) (rechts) an seinen Enden. Das Brett selbst wiegt \(15\;\text{kg}\); sein Schwerpunkt liegt in der Mitte. Ein Arbeiter mit \(80\;\text{kg}\) steht \(1.0\;\text{m}\) vom linken Bock \(A\) entfernt.</p>
+  <ol class="aufg-liste">
+    <li>Bestimme alle wirkenden Kräfte und berechne die beiden Auflagerkräfte \(F_A\) und \(F_B\).</li>
+    <li>Kontrolliere dein Ergebnis über die Kräftebedingung \(\sum F_y = 0\).</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Zwei Lasten wirken nach unten: das Brettgewicht \(F_{G,\text{Brett}} = 15 \cdot 9.81 \approx 147\;\text{N}\) bei \(2.0\;\text{m}\) und das Arbeitergewicht \(F_{G,\text{A}} = 80 \cdot 9.81 \approx 785\;\text{N}\) bei \(1.0\;\text{m}\). Drehachse bei \(A\), \(\sum M_A = 0\): \[ F_B \cdot 4.0 - 785 \cdot 1.0 - 147 \cdot 2.0 = 0 \] \[ F_B = \frac{785 + 294}{4.0} = \frac{1079}{4.0} \approx 270\;\text{N} \] Die Gesamtlast ist \(F_{ges} = 147 + 785 = 932\;\text{N}\), also: \[ F_A = F_{ges} - F_B = 932 - 270 \approx 662\;\text{N} \]</li>
+        <li>Kontrolle: \(F_A + F_B = 662 + 270 = 932\;\text{N} = F_{ges}\). ✓ Der linke Bock trägt mehr, weil der Arbeiter näher bei ihm steht.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Kiste auf der Rampe</span></div>
+  <p>Eine Kiste mit \(m = 25\;\text{kg}\) steht auf einer Rampe, die unter \(\alpha = 20^\circ\) geneigt ist. Der Haftreibungskoeffizient zwischen Kiste und Rampe beträgt \(\mu_H = 0.30\).</p>
+  <ol class="aufg-liste">
+    <li>Berechne Hangabtriebskraft \(F_H\) und Normalkraft \(F_N\).</li>
+    <li>Bleibt die Kiste von allein liegen, oder rutscht sie?</li>
+    <li>Bis zu welchem Neigungswinkel bleibt die Kiste höchstens liegen?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Mit \(F_G = 25 \cdot 9.81 \approx 245\;\text{N}\): \[ F_H = F_G \sin 20^\circ \approx 83.9\;\text{N}, \qquad F_N = F_G \cos 20^\circ \approx 230\;\text{N} \]</li>
+        <li>Maximale Haftreibung: \(\mu_H \cdot F_N = 0.30 \cdot 230 \approx 69.1\;\text{N}\). Das ist <strong>kleiner</strong> als die Hangabtriebskraft \(83.9\;\text{N}\) — die Reibung reicht nicht aus, die Kiste <strong>rutscht</strong>.</li>
+        <li>Grenzfall \(F_H = \mu_H F_N\) führt auf \(\tan\alpha = \mu_H\): \[ \alpha_{\max} = \arctan(0.30) \approx 16.7^\circ \] Oberhalb von rund \(16.7^\circ\) rutscht die Kiste — bei \(20^\circ\) ist das bereits der Fall, in Übereinstimmung mit Teil 2.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 12. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Konzept</th><th>Formel</th><th>Einheit</th><th>Anwendung</th></tr></thead>
+  <tbody>
+    <tr><td>Kraftkomponenten</td><td>\(F_x = F\cos\varphi,\; F_y = F\sin\varphi\)</td><td>N</td><td>Zerlegung, Kräftebilanz</td></tr>
+    <tr><td>Resultierende</td><td>\(\vec{F}_R = \sum \vec{F}_i\)</td><td>N</td><td>mehrere Kräfte zusammenfassen</td></tr>
+    <tr><td>Drehmoment</td><td>\(M = F\cdot r = F\cdot l\cdot\sin\alpha\)</td><td>Nm</td><td>Hebel, Schraubenschlüssel</td></tr>
+    <tr><td>Hebelgesetz</td><td>\(F_1\cdot r_1 = F_2\cdot r_2\)</td><td>—</td><td>Wippe, Balkenwaage</td></tr>
+    <tr><td>Kräftegleichgewicht</td><td>\(\sum F_x = 0,\; \sum F_y = 0\)</td><td>—</td><td>Knoten, Seile</td></tr>
+    <tr><td>Momentengleichgewicht</td><td>\(\sum M = 0\)</td><td>—</td><td>Auflagerkräfte, starrer Körper</td></tr>
+    <tr><td>Schiefe Ebene</td><td>\(F_H = F_G\sin\alpha,\; F_N = F_G\cos\alpha\)</td><td>N</td><td>Rampe, Haftbedingung \(\tan\alpha \le \mu_H\)</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Eine Kraft hat Betrag, Richtung und Angriffspunkt — sie ist ein Vektor.</li>
+  <li>Kräfte werden in Komponenten zerlegt: \(F_x=F\cos\varphi\), \(F_y=F\sin\varphi\).</li>
+  <li>Mehrere Kräfte fasst man zur Resultierenden \(\vec{F}_R=\sum\vec{F}_i\) zusammen.</li>
+  <li>Drehmoment: \(M=F\cdot r\) — Drehwirkung aus Kraft und senkrechtem Hebelarm.</li>
+  <li>Hebelgesetz: \(F_1 r_1=F_2 r_2\).</li>
+  <li>Statisches Gleichgewicht: \(\sum F_x=0\), \(\sum F_y=0\) <em>und</em> \(\sum M=0\).</li>
+  <li>Auf der schiefen Ebene hält ein Körper, solange \(\tan\alpha\le\mu_H\).</li>
+</ul>
+
+<div class="merksatz">
+  Im statischen Gleichgewicht ist die Summe aller Kräfte null <em>und</em> die Summe aller Drehmomente null. In der Statik kommt es zusätzlich darauf an, wo eine Kraft angreift: Eine Kraft darf nur entlang ihrer Wirkungslinie verschoben werden. Bei Aufgaben mit Kräften an verschiedenen Angriffspunkten beginnt man mit Vorteil bei der Momentengleichung und wählt die Drehachse dort, wo eine unbekannte Kraft angreift.
+</div>
+
+
+<!-- ══════════════ 13. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p4-4-statik/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-4-statik/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-4-statik/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p4-4-statik/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p4-4-statik/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 14. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+<p>Ausgewählte und geprüfte Anlaufstellen zum Vertiefen, Veranschaulichen und Üben. Alle Links öffnen in einem neuen Tab.</p>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.youtube.com/watch?v=yzkVtesys5E" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Was ist Kraft?</div><div class="lk-s">musstewissen Physik (funk) · Kraft als gerichtete Grösse — Grundlage der Statik</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=OZf_hghmAE4" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Kräfteparallelogramm und Kräftegleichgewicht</div><div class="lk-s">musstewissen Physik (funk) · Kräfte zusammensetzen und Gleichgewicht</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=v-x7ouHueOs" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Kraftdiagramm — Kräfte richtig darstellen</div><div class="lk-s">Lehrerschmidt · Freikörperbild und Kraftpfeile</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=PVi6zUYy7R8" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Hebelgesetz — einseitiger und zweiseitiger Hebel</div><div class="lk-s">Lehrerschmidt · Hebelgesetz und Drehmoment mit Rechenbeispiel</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/balancing-act" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Balanceakt</div><div class="lk-s">Hebelgesetz und Drehmoment an der Wippe ausprobieren (deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/forceresolution_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Zerlegung einer Kraft in zwei Komponenten</div><div class="lk-s">Kräfteparallelogramm interaktiv konstruieren (deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/resultant_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Gesamtkraft mehrerer Kräfte</div><div class="lk-s">Vektoraddition mehrerer Kräfte zur Resultierenden (deutsch)</div></div>
+  </a>
+  <a href="https://www.walter-fendt.de/html5/phde/inclinedplane_de.htm" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">Walter Fendt — Kräfte an der schiefen Ebene</div><div class="lk-s">Hangabtriebskraft, Normalkraft und Reibung an der schiefen Ebene (deutsch)</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/mechanik/kraefteaddition-und-zerlegung/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Kräfteaddition und -zerlegung</div><div class="lk-s">Aufgaben zu Resultierender, Komponenten und schiefer Ebene · mit Musterlösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/mechanik/einfache-maschinen/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Hebel und Drehmoment</div><div class="lk-s">Aufgaben zu Wippe, Winkelhebel, Mobile und Drehmoment · mit Musterlösungen</div></div>
+  </a>
+  <a href="https://de.serlo.org/physik/mechanik/klassische-mechanik/kraft/aufgaben-kraft" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">serlo — Aufgaben zur Kraft</div><div class="lk-s">Kräfte berechnen und zerlegen · freie Lizenz · mit ausführlichen Lösungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 4.4 Statik von Festkörpern</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p4-4',
+  kapitelNr:'4.4', kapitelTitel:'Statik von Festkörpern',
+  prev:{nr:'4.3',titel:'Energie',url:'p4-3-energie.html'},
+  next:{nr:'4.5',titel:'Hydrostatik',url:'p4-5-hydrostatik.html'}
+});
+
+const g = 9.81;
+// Farbcodes gemäss STYLEGUIDE §5.2 + statik-spezifische Zuordnung
+const C_GEW   = '#8a4a0e';  // Gewichts-/Hauptkraft (Bernstein)
+const C_KOMP  = '#5b2d8e';  // Komponenten / Hebelarm (Violett)
+const C_RES   = '#9b1c1c';  // Resultierende / aktive Markierung (Rot)
+const C_HAUPT = '#1a4f8a';  // Seil-/Zugkraft, Vektor (Blau)
+const C_NORM  = '#1f6b3a';  // Normal-/Auflagerkraft (Grün)
+const C_REIB  = '#0f766e';  // Reibungskraft (Teal)
+const C_TINTE = '#1c1a17';  // Körper / Achse
+function f1(n){ return (Math.round(n*10)/10).toFixed(1); }
+function dotPx(ctx,x,y,col,r){ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r||4,0,Math.PI*2); ctx.fill(); }
+
+// ══════════════════════════════════════════════════════════
+//  EINSTIEG: Wippe
+// ══════════════════════════════════════════════════════════
+const AE_M1 = 25, AE_R1 = 1.5;   // linkes Kind fix
+function aeRender() {
+  const r2 = +document.getElementById('ae-r2').value;
+  const m2 = +document.getElementById('ae-m2').value;
+  document.getElementById('ae-r2-val').textContent = r2.toFixed(2) + ' m';
+  document.getElementById('ae-m2-val').textContent = m2 + ' kg';
+
+  const Ml = AE_M1 * g * AE_R1;
+  const Mr = m2 * g * r2;
+  document.getElementById('ae-ml').textContent = Ml.toFixed(0) + ' Nm';
+  document.getElementById('ae-mr').textContent = Mr.toFixed(0) + ' Nm';
+  const diff = Mr - Ml;
+  const stat = document.getElementById('ae-stat');
+  if (Math.abs(diff) < 8) stat.textContent = 'im Gleichgewicht';
+  else stat.textContent = diff > 0 ? 'kippt nach rechts' : 'kippt nach links';
+
+  const cv = initCanvas('ae-cv', 200, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f3f6f4'; ctx.fillRect(0, 0, W, H);
+
+  const px = W/2, pivotY = H - 60;
+  const pxPerM = Math.min(70, (W/2 - 60) / 2.5);
+  const theta = Math.max(-0.32, Math.min(0.32, -diff / 1400));   // >0 = rechts senkt sich   // >0 rechts unten
+
+  ctx.fillStyle = '#cbb89a'; ctx.fillRect(0, H-18, W, 18);
+  ctx.fillStyle = '#7a6a52';
+  ctx.beginPath(); ctx.moveTo(px, pivotY); ctx.lineTo(px-26, H-18); ctx.lineTo(px+26, H-18); ctx.closePath(); ctx.fill();
+
+  const Lh = 2.7 * pxPerM;
+  const lx = px - Lh*Math.cos(theta), ly = pivotY + Lh*Math.sin(theta);
+  const rx = px + Lh*Math.cos(theta), ry = pivotY - Lh*Math.sin(theta);
+  ctx.strokeStyle = C_TINTE; ctx.lineWidth = 8; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(rx, ry); ctx.stroke();
+  ctx.lineCap = 'butt';
+
+  function sitz(side, d, m, farbe) {
+    const cx = px + side*d*pxPerM*Math.cos(theta);
+    const cy = pivotY - side*d*pxPerM*Math.sin(theta);
+    const rad = 7 + m*0.12;
+    ctx.fillStyle = farbe;
+    ctx.beginPath(); ctx.arc(cx, cy - 8 - rad, rad*0.7, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 8 - rad*0.4);
+    ctx.lineTo(cx - rad*0.95, cy - 6);
+    ctx.lineTo(cx + rad*0.95, cy - 6);
+    ctx.closePath(); ctx.fill();
+  }
+  sitz(-1, AE_R1, AE_M1, '#7a3b9e');
+  sitz(+1, r2, m2, '#b8722a');
+
+  ctx.fillStyle = '#5a6068'; ctx.font = '11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('r1 = '+AE_R1.toFixed(1)+' m', px - AE_R1*pxPerM*Math.cos(theta), pivotY + 28);
+  ctx.fillText('r2 = '+r2.toFixed(2)+' m', px + r2*pxPerM*Math.cos(theta), pivotY + 28);
+}
+['ae-r2','ae-m2'].forEach(id => document.getElementById(id).addEventListener('input', aeRender));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: Kraftvektor mit Komponenten (1:1-Plot)
+// ══════════════════════════════════════════════════════════
+function drawA1() {
+  const F = +document.getElementById('a1-F').value;
+  const phi = +document.getElementById('a1-phi').value;
+  const rad = phi * Math.PI/180;
+  const Fx = F*Math.cos(rad), Fy = F*Math.sin(rad);
+  document.getElementById('a1-F-val').textContent = F + ' N';
+  document.getElementById('a1-phi-val').textContent = phi + '°';
+  document.getElementById('a1-Fb').textContent = F + ' N';
+  document.getElementById('a1-phib').textContent = phi + '°';
+  document.getElementById('a1-fx').textContent = f1(Fx) + ' N';
+  document.getElementById('a1-fy').textContent = f1(Fy) + ' N';
+  document.getElementById('a1-eq').textContent =
+    'F_x = '+F+' · cos('+phi+'°) = '+f1(Fx)+' N   ·   F_y = '+F+' · sin('+phi+'°) = '+f1(Fy)+' N';
+
+  const cv = initCanvas('a1-cv', 0, true);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const grid = drawGrid(ctx, W, H, -110, 110, -110, 110);
+  drawAxesUnits(ctx, W, H, grid.cx, grid.cy, 'F_x [N]', 'F_y [N]');
+
+  ctx.strokeStyle = C_KOMP+'66'; ctx.lineWidth = 1; ctx.setLineDash([4,3]);
+  ctx.beginPath();
+  ctx.moveTo(grid.cx(Fx), grid.cy(0)); ctx.lineTo(grid.cx(Fx), grid.cy(Fy));
+  ctx.lineTo(grid.cx(0), grid.cy(Fy));
+  ctx.stroke(); ctx.setLineDash([]);
+  drawVector(ctx, grid.cx, grid.cy, 0, 0, Fx, 0, C_KOMP, 'Fx', 2);
+  drawVector(ctx, grid.cx, grid.cy, Fx, 0, 0, Fy, C_KOMP, 'Fy', 2);
+  drawVector(ctx, grid.cx, grid.cy, 0, 0, Fx, Fy, C_HAUPT, 'F', 3);
+}
+['a1-F','a1-phi'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 2: Resultierende zweier Kräfte (1:1-Plot)
+// ══════════════════════════════════════════════════════════
+function drawA2() {
+  const F1 = +document.getElementById('a2-f1').value, p1 = +document.getElementById('a2-p1').value;
+  const F2 = +document.getElementById('a2-f2').value, p2 = +document.getElementById('a2-p2').value;
+  document.getElementById('a2-f1-val').textContent = F1 + ' N';
+  document.getElementById('a2-p1-val').textContent = p1 + '°';
+  document.getElementById('a2-f2-val').textContent = F2 + ' N';
+  document.getElementById('a2-p2-val').textContent = p2 + '°';
+  const r1 = p1*Math.PI/180, r2 = p2*Math.PI/180;
+  const v1x = F1*Math.cos(r1), v1y = F1*Math.sin(r1);
+  const v2x = F2*Math.cos(r2), v2y = F2*Math.sin(r2);
+  const Rx = v1x+v2x, Ry = v1y+v2y;
+  const R = Math.hypot(Rx, Ry);
+  let ang = Math.atan2(Ry, Rx)*180/Math.PI; if (ang < 0) ang += 360;
+  document.getElementById('a2-r').textContent = f1(R) + ' N';
+  document.getElementById('a2-rang').textContent = f1(ang) + '°';
+  document.getElementById('a2-rx').textContent = f1(Rx) + ' N';
+  document.getElementById('a2-ry').textContent = f1(Ry) + ' N';
+
+  const cv = initCanvas('a2-cv', 0, true);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const grid = drawGrid(ctx, W, H, -140, 140, -140, 140);
+  drawAxesUnits(ctx, W, H, grid.cx, grid.cy, 'F_x [N]', 'F_y [N]');
+
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1; ctx.setLineDash([4,3]);
+  ctx.beginPath();
+  ctx.moveTo(grid.cx(v1x), grid.cy(v1y)); ctx.lineTo(grid.cx(Rx), grid.cy(Ry));
+  ctx.moveTo(grid.cx(v2x), grid.cy(v2y)); ctx.lineTo(grid.cx(Rx), grid.cy(Ry));
+  ctx.stroke(); ctx.setLineDash([]);
+
+  drawVector(ctx, grid.cx, grid.cy, 0, 0, v1x, v1y, C_GEW, 'F1', 2.4);
+  drawVector(ctx, grid.cx, grid.cy, 0, 0, v2x, v2y, C_GEW, 'F2', 2.4);
+  drawVector(ctx, grid.cx, grid.cy, 0, 0, Rx, Ry, C_RES, 'FR', 3.2);
+}
+['a2-f1','a2-p1','a2-f2','a2-p2'].forEach(id => document.getElementById(id).addEventListener('input', drawA2));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 3: Last an zwei Seilen + Kräftedreieck
+// ══════════════════════════════════════════════════════════
+function drawA3() {
+  const m = +document.getElementById('a3-m').value;
+  const al = +document.getElementById('a3-al').value, be = +document.getElementById('a3-be').value;
+  document.getElementById('a3-m-val').textContent = m.toFixed(1) + ' kg';
+  document.getElementById('a3-al-val').textContent = al + '°';
+  document.getElementById('a3-be-val').textContent = be + '°';
+  const a = al*Math.PI/180, b = be*Math.PI/180;
+  const FG = m*g;
+  const S1 = FG*Math.cos(b)/Math.sin(a+b);
+  const S2 = FG*Math.cos(a)/Math.sin(a+b);
+  document.getElementById('a3-fg').textContent = FG.toFixed(1) + ' N';
+  document.getElementById('a3-s1').textContent = S1.toFixed(1) + ' N';
+  document.getElementById('a3-s2').textContent = S2.toFixed(1) + ' N';
+
+  // — Szene —
+  const cv = initCanvas('a3-cv', 300, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f6f7f9'; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#b8b0a2'; ctx.fillRect(0, 0, W, 16);
+  for (let x = 6; x < W; x += 14) { ctx.strokeStyle='#8c8576'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x,2); ctx.lineTo(x-6,16); ctx.stroke(); }
+
+  const P = { x: W*0.5, y: H*0.60 };
+  const reach = Math.min(W*0.42, (H*0.60-20));
+  const aLx = P.x - reach*Math.cos(a), aLy = P.y - reach*Math.sin(a);
+  const aRx = P.x + reach*Math.cos(b), aRy = P.y - reach*Math.sin(b);
+  ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(aLx, Math.max(16,aLy)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(aRx, Math.max(16,aRy)); ctx.stroke();
+
+  ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(P.x, P.y+18); ctx.stroke();
+  ctx.fillStyle = C_TINTE; ctx.fillRect(P.x-16, P.y+18, 32, 26);
+  ctx.strokeStyle='#000'; ctx.lineWidth=1; ctx.strokeRect(P.x-16, P.y+18, 32, 26);
+
+  const sc = 70 / Math.max(FG, S1, S2);
+  drawArrow(ctx, P.x, P.y, P.x + (-Math.cos(a))*S1*sc, P.y + (-Math.sin(a))*S1*sc, C_HAUPT, 2.6, 9);
+  drawArrow(ctx, P.x, P.y, P.x + ( Math.cos(b))*S2*sc, P.y + (-Math.sin(b))*S2*sc, C_HAUPT, 2.6, 9);
+  drawArrow(ctx, P.x, P.y, P.x, P.y + FG*sc, C_GEW, 2.6, 9);
+  ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle = C_HAUPT;
+  ctx.fillText('S1', P.x + (-Math.cos(a))*S1*sc - 10, P.y + (-Math.sin(a))*S1*sc - 4);
+  ctx.fillText('S2', P.x + ( Math.cos(b))*S2*sc + 10, P.y + (-Math.sin(b))*S2*sc - 4);
+  ctx.fillStyle = C_GEW; ctx.fillText('F_G', P.x + 18, P.y + FG*sc + 4);
+  dotPx(ctx, P.x, P.y, '#000', 3);
+
+  // — Kräftedreieck —
+  const cv2 = initCanvas('a3-cv-tri', 300, false);
+  const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
+  c2.fillStyle = '#f6f7f9'; c2.fillRect(0, 0, W2, H2);
+  const vFGx = 0, vFGy = FG;
+  const vS1x = -Math.cos(a)*S1, vS1y = -Math.sin(a)*S1;
+  const vS2x =  Math.cos(b)*S2, vS2y = -Math.sin(b)*S2;
+  const sc2 = Math.min((W2-80)/(Math.abs(vS1x)+Math.abs(vS2x)+1), (H2-80)/(FG+1)) * 0.8;
+  const sx = W2*0.5 - (vFGx+vS1x)*sc2*0.5, sy = 36;
+  function seg(x0,y0,vx,vy,col,lab){
+    const x1 = x0 + vx*sc2, y1 = y0 + vy*sc2;
+    drawArrow(c2, x0, y0, x1, y1, col, 2.6, 9);
+    c2.fillStyle = col; c2.font='bold 11px JetBrains Mono,monospace'; c2.textAlign='center';
+    c2.fillText(lab, (x0+x1)/2 + 14, (y0+y1)/2);
+    return {x:x1,y:y1};
+  }
+  let p = seg(sx, sy, vFGx, vFGy, C_GEW, 'F_G');
+  p = seg(p.x, p.y, vS1x, vS1y, C_HAUPT, 'S1');
+  p = seg(p.x, p.y, vS2x, vS2y, C_HAUPT, 'S2');
+  c2.fillStyle = '#5a6068'; c2.font='10px JetBrains Mono,monospace'; c2.textAlign='center';
+  c2.fillText('Summe = 0  ->  geschlossen', W2/2, H2-12);
+}
+['a3-m','a3-al','a3-be'].forEach(id => document.getElementById(id).addEventListener('input', drawA3));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 4: Drehmoment einer Kraft am Hebel
+// ══════════════════════════════════════════════════════════
+function drawA4() {
+  const F = +document.getElementById('a4-F').value;
+  const l = +document.getElementById('a4-l').value;
+  const al = +document.getElementById('a4-al').value;
+  const a = al*Math.PI/180;
+  const M = F*l*Math.sin(a);
+  const rperp = l*Math.sin(a);
+  const Fperp = F*Math.sin(a);
+  document.getElementById('a4-F-val').textContent = F + ' N';
+  document.getElementById('a4-l-val').textContent = l.toFixed(2) + ' m';
+  document.getElementById('a4-al-val').textContent = al + '°';
+  document.getElementById('a4-eq').textContent =
+    'M = '+F+' · '+l.toFixed(2)+' · sin('+al+'°) = '+M.toFixed(1)+' Nm';
+  document.getElementById('a4-m').textContent = M.toFixed(1) + ' Nm';
+  document.getElementById('a4-rperp').textContent = rperp.toFixed(2) + ' m';
+  document.getElementById('a4-fperp').textContent = Fperp.toFixed(0) + ' N';
+
+  const cv = initCanvas('a4-cv', 300, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f6f7f9'; ctx.fillRect(0, 0, W, H);
+
+  const D = { x: W*0.24, y: H*0.60 };
+  const pxPerM = Math.min(280, (W*0.58)/0.5);
+  const B = { x: D.x + l*pxPerM, y: D.y };
+  // Hebel
+  ctx.strokeStyle = C_TINTE; ctx.lineWidth = 6; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(D.x, D.y); ctx.lineTo(B.x, B.y); ctx.stroke(); ctx.lineCap='butt';
+  // Drehachse
+  ctx.fillStyle = '#7a6a52'; ctx.beginPath(); ctx.arc(D.x, D.y, 7, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(D.x, D.y, 2.5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = C_TINTE; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='right';
+  ctx.fillText('D', D.x-10, D.y+4);
+
+  // Kraftrichtung: Winkel a vom Hebel (+x), gegen Uhrzeigersinn -> nach oben
+  const fdx = Math.cos(a), fdy = -Math.sin(a);
+  const Fpx = 95;
+  // Wirkungslinie (gestrichelt)
+  ctx.strokeStyle = '#b0b6bd'; ctx.lineWidth = 1; ctx.setLineDash([5,4]);
+  ctx.beginPath();
+  ctx.moveTo(B.x - fdx*220, B.y - fdy*220);
+  ctx.lineTo(B.x + fdx*220, B.y + fdy*220);
+  ctx.stroke(); ctx.setLineDash([]);
+  // wirksamer Hebelarm r = Lot von D auf Wirkungslinie
+  // Fusspunkt: Projektion von D auf Linie durch B mit Richtung (fdx,fdy)
+  const wx = D.x - B.x, wy = D.y - B.y;
+  const tproj = wx*fdx + wy*fdy;
+  const footx = B.x + fdx*tproj, footy = B.y + fdy*tproj;
+  ctx.strokeStyle = C_KOMP; ctx.lineWidth = 2; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(D.x, D.y); ctx.lineTo(footx, footy); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = C_KOMP; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText('r', (D.x+footx)/2 - 6, (D.y+footy)/2 - 6);
+
+  // Kraftpfeil
+  drawArrow(ctx, B.x, B.y, B.x + fdx*Fpx, B.y + fdy*Fpx, C_GEW, 3, 10);
+  ctx.fillStyle = C_GEW; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillText('F', B.x + fdx*Fpx + 4, B.y + fdy*Fpx - 4);
+
+  // Winkelbogen alpha bei B
+  ctx.strokeStyle = '#5a6068'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.arc(B.x, B.y, 22, Math.PI, Math.PI + a); ctx.stroke();
+  ctx.fillStyle='#5a6068'; ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText('α', B.x - 30*Math.cos(a/2), B.y - 30*Math.sin(a/2) + 4);
+
+  // Beschriftung Hebellänge
+  ctx.fillStyle = '#5a6068'; ctx.textAlign='center';
+  ctx.fillText('l = '+l.toFixed(2)+' m', (D.x+B.x)/2, D.y + 20);
+}
+['a4-F','a4-l','a4-al'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 5: Hebelgesetz — zweiarmiger Hebel
+// ══════════════════════════════════════════════════════════
+const A5_F1 = 40, A5_R1 = 0.30;   // links fix
+function drawA5() {
+  const F2 = +document.getElementById('a5-f2').value;
+  const r2 = +document.getElementById('a5-r2').value;
+  document.getElementById('a5-f2-val').textContent = F2 + ' N';
+  document.getElementById('a5-r2-val').textContent = r2.toFixed(2) + ' m';
+  const M1 = A5_F1*A5_R1, M2 = F2*r2;
+  document.getElementById('a5-eq').textContent =
+    'M_1 = '+A5_F1+' · '+A5_R1.toFixed(2)+' = '+M1.toFixed(1)+' Nm   ·   M_2 = '+F2+' · '+r2.toFixed(2)+' = '+M2.toFixed(1)+' Nm';
+  document.getElementById('a5-m1').textContent = M1.toFixed(1) + ' Nm';
+  document.getElementById('a5-m2').textContent = M2.toFixed(1) + ' Nm';
+  const diff = M2 - M1;
+  const stat = document.getElementById('a5-stat');
+  if (Math.abs(diff) < 0.4) stat.textContent = 'im Gleichgewicht';
+  else stat.textContent = diff > 0 ? 'senkt sich rechts' : 'senkt sich links';
+
+  const cv = initCanvas('a5-cv', 260, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f6f7f9'; ctx.fillRect(0, 0, W, H);
+
+  const px = W/2, pivotY = H*0.42;
+  const pxPerM = Math.min(170, (W/2 - 50)/0.5);
+  const theta = Math.max(-0.30, Math.min(0.30, -diff/26));   // >0 = rechts senkt sich   // >0 rechts unten
+
+  // Ständer
+  ctx.fillStyle = '#7a6a52';
+  ctx.beginPath(); ctx.moveTo(px, pivotY); ctx.lineTo(px-22, H-14); ctx.lineTo(px+22, H-14); ctx.closePath(); ctx.fill();
+  // Balken
+  const Lh = 0.5*pxPerM + 14;
+  const lx = px - Lh*Math.cos(theta), ly = pivotY + Lh*Math.sin(theta);
+  const rx = px + Lh*Math.cos(theta), ry = pivotY - Lh*Math.sin(theta);
+  ctx.strokeStyle = C_TINTE; ctx.lineWidth = 7; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(rx, ry); ctx.stroke(); ctx.lineCap='butt';
+  // Drehachse
+  dotPx(ctx, px, pivotY, '#3a3026', 4);
+
+  // Gewichte als hängende Kästchen + Kraftpfeil
+  function last(side, d, Fval, col, lab) {
+    const cx = px + side*d*pxPerM*Math.cos(theta);
+    const cy = pivotY - side*d*pxPerM*Math.sin(theta);
+    const len = 26 + Fval*0.55;
+    ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy+12); ctx.stroke();
+    drawArrow(ctx, cx, cy+12, cx, cy+12+len, col, 2.6, 9);
+    ctx.fillStyle = col; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillText(lab, cx, cy+12+len+14);
+  }
+  last(-1, A5_R1, A5_F1, C_GEW, 'F1='+A5_F1+'N');
+  last(+1, r2, F2, C_RES, 'F2='+F2+'N');
+
+  ctx.fillStyle = '#5a6068'; ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText('r1='+A5_R1.toFixed(2)+'m', px - A5_R1*pxPerM*Math.cos(theta), pivotY - 12);
+  ctx.fillText('r2='+r2.toFixed(2)+'m', px + r2*pxPerM*Math.cos(theta), pivotY - 12);
+}
+['a5-f2','a5-r2'].forEach(id => document.getElementById(id).addEventListener('input', drawA5));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 6: Balken auf zwei Stützen — Auflagerkräfte
+// ══════════════════════════════════════════════════════════
+const A6_L = 4.0;
+function drawA6() {
+  const x = +document.getElementById('a6-x').value;
+  const FG = +document.getElementById('a6-fg').value;
+  document.getElementById('a6-x-val').textContent = x.toFixed(2) + ' m';
+  document.getElementById('a6-fg-val').textContent = FG + ' N';
+  const FB = FG*x/A6_L, FA = FG*(1 - x/A6_L);
+  document.getElementById('a6-fa').textContent = FA.toFixed(0) + ' N';
+  document.getElementById('a6-fb').textContent = FB.toFixed(0) + ' N';
+  document.getElementById('a6-sum').textContent = (FA+FB).toFixed(0) + ' N';
+
+  const cv = initCanvas('a6-cv', 240, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f6f7f9'; ctx.fillRect(0, 0, W, H);
+
+  const mL = 50, mR = W-50, beamY = H*0.46;
+  const cx = m => mL + (m/A6_L)*(mR-mL);
+  // Balken
+  ctx.fillStyle = '#b8722a'; ctx.fillRect(mL-10, beamY-7, (mR-mL)+20, 14);
+  ctx.strokeStyle = '#7a4a18'; ctx.lineWidth=1; ctx.strokeRect(mL-10, beamY-7, (mR-mL)+20, 14);
+  // Stützen A, B (Dreiecke)
+  function stuetze(sx, lab) {
+    ctx.fillStyle = '#7a6a52';
+    ctx.beginPath(); ctx.moveTo(sx, beamY+7); ctx.lineTo(sx-16, beamY+7+24); ctx.lineTo(sx+16, beamY+7+24); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = C_TINTE; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillText(lab, sx, beamY+7+38);
+  }
+  stuetze(cx(0), 'A'); stuetze(cx(A6_L), 'B');
+
+  // Last-Pfeil nach unten bei x
+  const lx = cx(x);
+  const sc = 80/1000;
+  drawArrow(ctx, lx, beamY-8-FG*sc, lx, beamY-8, C_GEW, 3, 10);
+  ctx.fillStyle = C_GEW; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillText('F_G='+FG+'N', lx, beamY-12-FG*sc);
+  // kleine Last-Markierung (Kasten) auf dem Balken
+  ctx.fillStyle = C_TINTE; ctx.fillRect(lx-9, beamY-7, 18, 14);
+
+  // Auflagerkräfte nach oben (grün) unter den Stützen
+  drawArrow(ctx, cx(0), beamY+7+24+FA*sc, cx(0), beamY+7+24, C_NORM, 3, 10);
+  drawArrow(ctx, cx(A6_L), beamY+7+24+FB*sc, cx(A6_L), beamY+7+24, C_NORM, 3, 10);
+  ctx.fillStyle = C_NORM; ctx.textAlign='center';
+  ctx.fillText('F_A='+FA.toFixed(0)+'N', cx(0), beamY+7+24+FA*sc+14);
+  ctx.fillText('F_B='+FB.toFixed(0)+'N', cx(A6_L), beamY+7+24+FB*sc+14);
+}
+['a6-x','a6-fg'].forEach(id => document.getElementById(id).addEventListener('input', drawA6));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 7: Schiefe Ebene — Kräftezerlegung
+// ══════════════════════════════════════════════════════════
+function drawA7() {
+  const al = +document.getElementById('a7-al').value;
+  const mu = +document.getElementById('a7-mu').value;
+  const m  = +document.getElementById('a7-m').value;
+  document.getElementById('a7-al-val').textContent = al + '°';
+  document.getElementById('a7-mu-val').textContent = mu.toFixed(2);
+  document.getElementById('a7-m-val').textContent = m + ' kg';
+  const a = al*Math.PI/180;
+  const FG = m*g;
+  const FH = FG*Math.sin(a), FN = FG*Math.cos(a), FRmax = mu*FN;
+  document.getElementById('a7-fh').textContent = FH.toFixed(1) + ' N';
+  document.getElementById('a7-fn').textContent = FN.toFixed(1) + ' N';
+  document.getElementById('a7-frmax').textContent = FRmax.toFixed(1) + ' N';
+  const haftet = FH <= FRmax + 1e-9;
+  document.getElementById('a7-stat').textContent = haftet ? 'haftet' : 'rutscht';
+
+  const cv = initCanvas('a7-cv', 300, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#f6f7f9'; ctx.fillRect(0, 0, W, H);
+
+  // Keil: linke untere Ecke = Plow, Lauf nach rechts
+  const Plowx = 40, baseY = H - 34;
+  const run = Math.min(W-90, (baseY-40)/Math.tan(a) || (W-90));
+  const runX = Math.min(run, W-90);
+  const Ptopx = Plowx + runX, Ptopy = baseY - runX*Math.tan(a);
+  // Keilfläche
+  ctx.fillStyle = '#d9cdb8'; ctx.strokeStyle = '#9a8a6e'; ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(Plowx, baseY); ctx.lineTo(Ptopx, baseY); ctx.lineTo(Ptopx, Ptopy); ctx.closePath();
+  ctx.fill(); ctx.stroke();
+  // Boden
+  ctx.strokeStyle = '#7a6a52'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(0, baseY); ctx.lineTo(W, baseY); ctx.stroke();
+  // Winkelbogen
+  ctx.strokeStyle = '#5a6068'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.arc(Plowx, baseY, 30, -a, 0); ctx.stroke();
+  ctx.fillStyle='#5a6068'; ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillText('α='+al+'°', Plowx+34, baseY - 8);
+
+  // Slope-Einheitsvektoren (Screen, y nach unten)
+  const ux = Math.cos(a), uy = -Math.sin(a);   // hangaufwärts
+  const nx = -Math.sin(a), ny = -Math.cos(a);  // aus der Fläche heraus
+  // Block-Mittelpunkt auf der Hypotenuse (Fraktion 0.52), um halbe Blockhöhe nach aussen
+  const fr = 0.52;
+  const surfx = Plowx + (Ptopx-Plowx)*fr, surfy = baseY + (Ptopy-baseY)*fr;
+  const half = 17;
+  const bcx = surfx + nx*half, bcy = surfy + ny*half;
+  // Block (rotiertes Quadrat, an Hang ausgerichtet)
+  ctx.save();
+  ctx.translate(bcx, bcy); ctx.rotate(-a);
+  ctx.fillStyle = haftet ? '#3a5a8a' : '#9b1c1c';
+  ctx.fillRect(-half, -half, 2*half, 2*half);
+  ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = 1.4; ctx.strokeRect(-half, -half, 2*half, 2*half);
+  ctx.restore();
+
+  // Kraftpfeile vom Blockmittelpunkt
+  const sc = 60/Math.max(FG,1);
+  // Gewichtskraft (runter)
+  drawArrow(ctx, bcx, bcy, bcx, bcy + FG*sc, C_GEW, 2.6, 9);
+  // Hangabtrieb (hangabwärts = -u)
+  drawArrow(ctx, bcx, bcy, bcx - ux*FH*sc, bcy - uy*FH*sc, C_KOMP, 2.4, 8);
+  // Normalkraft (aus Fläche = n)
+  drawArrow(ctx, bcx, bcy, bcx + nx*FN*sc, bcy + ny*FN*sc, C_NORM, 2.4, 8);
+  // Reibung (hangaufwärts = u), Länge = min(FH,FRmax)
+  const FR = Math.min(FH, FRmax);
+  if (FR > 0.5) drawArrow(ctx, bcx, bcy, bcx + ux*FR*sc, bcy + uy*FR*sc, C_REIB, 2.4, 8);
+
+  // Labels
+  ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle = C_GEW;  ctx.fillText('F_G', bcx+14, bcy + FG*sc + 2);
+  ctx.fillStyle = C_KOMP; ctx.fillText('F_H', bcx - ux*FH*sc - 6, bcy - uy*FH*sc - 4);
+  ctx.fillStyle = C_NORM; ctx.fillText('F_N', bcx + nx*FN*sc - 8, bcy + ny*FN*sc - 4);
+  if (FR > 0.5) { ctx.fillStyle = C_REIB; ctx.fillText('F_R', bcx + ux*FR*sc + 8, bcy + uy*FR*sc + 10); }
+
+  // Status-Badge
+  ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='right';
+  ctx.fillStyle = haftet ? C_NORM : C_RES;
+  ctx.fillText(haftet ? '✓ haftet' : '✗ rutscht', W-12, 22);
+}
+['a7-al','a7-mu','a7-m'].forEach(id => document.getElementById(id).addEventListener('input', drawA7));
+
+
+// ══════════════════════════════════════════════════════════
+//  RENDER ALL + RESIZE
+// ══════════════════════════════════════════════════════════
+function renderAll() {
+  aeRender();
+  drawA1(); drawA2(); drawA3(); drawA4(); drawA5(); drawA6(); drawA7();
+}
+document.addEventListener('DOMContentLoaded', renderAll);
+window.addEventListener('resize', renderAll);
+</script>
+</body>
+</html>

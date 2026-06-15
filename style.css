@@ -1,0 +1,1002 @@
+/* ═══════════════════════════════════════════════════════════════
+   TALS Physik — Gemeinsames Stylesheet (style.css)
+   Gilt für alle Themenseiten + Homepage
+   Geforkt aus TALS Mathematik, mit Bernstein als Bereichsfarbe.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── CUSTOM PROPERTIES ─────────────────────────────────────── */
+:root {
+  --papier:     #f8f6f1;
+  --papier-2:   #efeade;
+  --weiss:      #ffffff;
+  --tinte:      #1c1a17;
+  --tinte-2:    #5a5040;
+  --linie:      #d8d0c4;
+
+  /* Didaktische Farben — IMMER gleiche Bedeutung */
+  --blau:       #1a4f8a;   /* Definition / Begriff */
+  --blau-hell:  #ddeaf8;
+  --blau-rand:  #5b8fc9;
+  --gruen:      #1f6b3a;   /* Beispiel / Lösung */
+  --gruen-hell: #d8f0e2;
+  --gruen-rand: #52a872;
+  --orange:     #b85c00;   /* Aufgabe / Übung */
+  --orange-hell:#fdefd8;
+  --orange-rand:#e08030;
+  --rot:        #9b1c1c;   /* Fehler / Achtung */
+  --rot-hell:   #fde8e8;
+  --rot-rand:   #d05050;
+  --lila:       #5b2d8e;   /* Beweis / Herleitung */
+  --lila-hell:  #ede6f8;
+  --lila-rand:  #9b6bd4;
+
+  /* Bereichsfarbe Physik: Bernstein (warm, klar abgegrenzt von Mathe-Blau/Violett) */
+  --bernstein:      #8a4a0e;
+  --bernstein-hell: #fbecd2;
+  --bernstein-rand: #c98028;
+
+  --serif:  'Source Serif 4', Georgia, serif;
+  --sans:   'Source Sans 3', system-ui, sans-serif;
+  --mono:   'JetBrains Mono', monospace;
+
+  --s:   0 2px 10px rgba(28,26,23,0.08);
+  --sl:  0 4px 22px rgba(28,26,23,0.13);
+}
+
+/* ── RESET ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--papier); color: var(--tinte); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+a { color: var(--bernstein); }
+a:hover { text-decoration: underline; }
+
+/* ── HEADER ─────────────────────────────────────────────────── */
+.site-hdr {
+  background: var(--weiss);
+  border-bottom: 2.5px solid var(--bernstein);
+  padding: 0 32px;
+  height: 54px;
+  display: flex; align-items: center; gap: 24px;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: var(--s);
+}
+.logo {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--serif); font-size: 1rem; font-weight: 700;
+  color: var(--tinte); text-decoration: none; white-space: nowrap;
+}
+.logo-pill {
+  background: var(--bernstein); color: #fff;
+  font-family: var(--mono); font-size: 0.62rem;
+  padding: 2px 8px; border-radius: 4px; letter-spacing: 1px;
+}
+
+/* Site nav */
+.site-nav { display: flex; align-items: center; gap: 4px; flex: 1; }
+.site-nav > a {
+  font-size: 0.82rem; font-weight: 600; color: var(--tinte-2);
+  padding: 5px 10px; border-radius: 6px; text-decoration: none;
+  transition: background 0.15s, color 0.15s; white-space: nowrap;
+}
+.site-nav > a:hover { background: var(--bernstein-hell); color: var(--bernstein); text-decoration: none; }
+
+/* Dropdown */
+.dropdown { position: relative; }
+.nav-btn {
+  font-family: var(--sans); font-size: 0.82rem; font-weight: 600;
+  color: var(--tinte-2); background: none; border: none; cursor: pointer;
+  padding: 5px 10px; border-radius: 6px;
+  transition: background 0.15s, color 0.15s; white-space: nowrap;
+}
+.nav-btn:hover, .nav-btn.aktiv { background: var(--bernstein-hell); color: var(--bernstein); }
+.dd-menu {
+  display: none; position: absolute; top: calc(100% + 6px); left: 0;
+  background: var(--weiss); border: 1px solid var(--linie);
+  border-radius: 10px; box-shadow: var(--sl);
+  min-width: 300px; padding: 6px; z-index: 300;
+}
+.dd-menu.open { display: block; }
+.dd-menu-gross {
+  min-width: 380px; max-width: 460px;
+  max-height: 70vh; overflow-y: auto;
+}
+.dd-gruppe { padding: 6px 0; border-top: 1px solid var(--linie); }
+.dd-gruppe:first-child { border-top: none; }
+.dd-gruppe-titel {
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--tinte-2); padding: 4px 12px 6px;
+}
+.dd-menu a {
+  display: flex; flex-direction: row; align-items: baseline; gap: 8px;
+  padding: 6px 12px; border-radius: 6px; text-decoration: none;
+  transition: background 0.12s;
+}
+.dd-menu a:hover { background: var(--papier); }
+.dd-menu a.dd-aktiv { background: var(--bernstein-hell); }
+.dd-nr  { font-family: var(--mono); font-size: 0.62rem; color: var(--bernstein); min-width: 26px; }
+.dd-tit { font-size: 0.82rem; color: var(--tinte); font-weight: 600; flex: 1; }
+
+/* Trenner zwischen Themen-Navigation und Meta-Punkten */
+.nav-sep {
+  width: 1px; height: 22px; background: var(--linie);
+  margin: 0 6px; flex-shrink: 0;
+}
+
+/* Meta-Buttons (Autor, Ausblick, Feedback, Lizenz) — etwas dezenter */
+.nav-btn.nav-meta {
+  font-weight: 500; color: var(--tinte-2); font-size: 0.78rem;
+}
+.nav-btn.nav-meta:hover { background: var(--papier); color: var(--tinte); }
+
+/* Dropdown-Panel für Meta-Inhalte */
+.dd-menu-meta {
+  min-width: 320px; max-width: 380px;
+  padding: 16px 18px 14px;
+  font-size: 0.82rem; color: var(--tinte); line-height: 1.55;
+  right: 0; left: auto;
+}
+.dd-menu-meta .meta-titel {
+  font-family: var(--serif); font-size: 0.95rem; font-weight: 700;
+  color: var(--tinte); margin-bottom: 8px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--linie);
+}
+.dd-menu-meta .meta-sub {
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--tinte-2); margin: 9px 0 3px;
+}
+.dd-menu-meta p { margin: 0 0 8px; }
+.dd-menu-meta p:last-child { margin-bottom: 0; }
+.dd-menu-meta ul { margin: 0 0 4px; padding-left: 18px; }
+.dd-menu-meta li { margin-bottom: 2px; }
+.dd-menu-meta strong { color: var(--tinte); font-weight: 700; }
+.dd-menu-meta em { font-style: italic; color: var(--tinte-2); }
+.dd-menu-meta .meta-link {
+  color: var(--bernstein); font-weight: 600; text-decoration: none;
+}
+.dd-menu-meta .meta-link:hover { text-decoration: underline; }
+
+/* ── ÜBER-DROPDOWN MIT TABS ────────────────────────────────── */
+.nav-btn .ueber-icon {
+  display: inline-block; width: 14px; height: 14px;
+  line-height: 14px; text-align: center;
+  border-radius: 50%; background: var(--bernstein-hell); color: var(--bernstein);
+  font-size: 0.7rem; font-weight: 700; font-family: var(--sans);
+  margin-right: 4px; vertical-align: -1px;
+}
+.dd-menu-ueber {
+  display: none;
+  min-width: 560px; max-width: 640px;
+  padding: 0;
+  right: 0; left: auto;
+  overflow: hidden;
+}
+.dd-menu-ueber.open { display: flex; }
+.ueber-tabs {
+  flex: 0 0 160px;
+  display: flex; flex-direction: column;
+  background: var(--papier); border-right: 1px solid var(--linie);
+  padding: 8px 6px;
+}
+.ueber-tab {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--sans); font-size: 0.78rem; font-weight: 600;
+  color: var(--tinte-2); text-align: left;
+  padding: 8px 11px; border-radius: 6px;
+  transition: background 0.12s, color 0.12s;
+  margin-bottom: 2px;
+}
+.ueber-tab:hover { background: var(--weiss); color: var(--tinte); }
+.ueber-tab.aktiv {
+  background: var(--weiss); color: var(--bernstein);
+  box-shadow: inset 3px 0 0 var(--bernstein);
+}
+.ueber-panels {
+  flex: 1; padding: 16px 18px 14px;
+  font-size: 0.82rem; color: var(--tinte); line-height: 1.55;
+  max-height: 70vh; overflow-y: auto;
+}
+.ueber-panel { display: none; }
+.ueber-panel.aktiv { display: block; }
+.ueber-panel .meta-titel {
+  font-family: var(--serif); font-size: 0.95rem; font-weight: 700;
+  color: var(--tinte); margin-bottom: 8px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--linie);
+}
+.ueber-panel .meta-sub {
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--tinte-2); margin: 9px 0 3px;
+}
+.ueber-panel p { margin: 0 0 8px; }
+.ueber-panel p:last-child { margin-bottom: 0; }
+.ueber-panel ul { margin: 0 0 4px; padding-left: 18px; }
+.ueber-panel li { margin-bottom: 2px; }
+.ueber-panel strong { color: var(--tinte); font-weight: 700; }
+.ueber-panel em { font-style: italic; color: var(--tinte-2); }
+.ueber-panel .meta-link { color: var(--bernstein); font-weight: 600; text-decoration: none; }
+.ueber-panel .meta-link:hover { text-decoration: underline; }
+
+@media (max-width: 720px) {
+  .dd-menu-ueber { min-width: 320px; max-width: 90vw; flex-direction: column; }
+  .ueber-tabs {
+    flex: none; flex-direction: row; flex-wrap: wrap;
+    border-right: none; border-bottom: 1px solid var(--linie);
+    padding: 6px;
+  }
+  .ueber-tab { flex: 1 1 auto; text-align: center; font-size: 0.72rem; padding: 6px 8px; }
+  .ueber-tab.aktiv { box-shadow: inset 0 -2px 0 var(--bernstein); }
+}
+
+/* Burger (mobile) */
+.burger {
+  display: none; background: none; border: none; cursor: pointer;
+  font-size: 1.3rem; color: var(--tinte); margin-left: auto; padding: 4px 8px;
+}
+
+/* Mobile nav */
+.mobile-nav {
+  display: none; flex-direction: column;
+  background: var(--weiss); border-bottom: 1px solid var(--linie);
+  padding: 12px 16px; gap: 2px;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  font-size: 0.85rem; color: var(--tinte-2); text-decoration: none;
+  padding: 7px 10px; border-radius: 6px;
+}
+.mobile-nav a:hover, .mobile-nav a.mn-aktiv { background: var(--bernstein-hell); color: var(--bernstein); }
+.mn-gruppe {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--tinte-2);
+  padding: 10px 10px 4px; margin-top: 4px;
+}
+.mobile-nav .mn-meta { margin: 0 4px; border-top: 1px solid var(--linie); }
+.mobile-nav .mn-meta:first-of-type { border-top: none; }
+.mobile-nav .mn-meta > summary {
+  list-style: none; cursor: pointer;
+  font-size: 0.85rem; font-weight: 600; color: var(--tinte-2);
+  padding: 9px 10px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mobile-nav .mn-meta > summary::-webkit-details-marker { display: none; }
+.mobile-nav .mn-meta > summary::after {
+  content: '▾'; font-size: 0.7rem; color: var(--tinte-2);
+  transition: transform 0.2s;
+}
+.mobile-nav .mn-meta[open] > summary::after { transform: rotate(180deg); }
+.mobile-nav .mn-meta > summary:hover { background: var(--papier); }
+.mobile-nav .mn-meta-body {
+  padding: 4px 12px 10px; font-size: 0.8rem; line-height: 1.55; color: var(--tinte);
+}
+.mobile-nav .mn-meta-body .meta-titel { display: none; }
+.mobile-nav .mn-meta-body .meta-sub {
+  font-family: var(--mono); font-size: 0.58rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--tinte-2); margin: 8px 0 2px;
+}
+.mobile-nav .mn-meta-body p { margin: 0 0 6px; }
+.mobile-nav .mn-meta-body ul { margin: 0 0 4px; padding-left: 18px; }
+.mobile-nav .mn-meta-body .meta-link { color: var(--bernstein); font-weight: 600; text-decoration: none; }
+.mn-untergruppe {
+  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--bernstein);
+  padding: 8px 10px 2px; margin-top: 2px;
+}
+
+/* ── SEITEN-LAYOUT ──────────────────────────────────────────── */
+.page-wrap {
+  max-width: 1400px; margin: 0 auto;
+  padding: 36px 28px 80px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 160px;
+  grid-template-areas: "content toc";
+  gap: 72px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .page-wrap { grid-template-columns: minmax(0, 1fr); grid-template-areas: "content"; overflow-x: hidden; }
+  .toc-wrap { display: none; }
+  /* Mobile: breite Inhalte (Datentabellen, Live-Boxen) horizontal scrollbar statt Seiten-Overflow */
+  .content table, .ftb-tabelle { display: block; max-width: 100%; overflow-x: auto; }
+  .live-box { max-width: 100%; overflow-x: auto; }
+}
+
+/* ── SEITENTITEL ─────────────────────────────────────────────── */
+.page-titel {
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--linie);
+}
+.pt-bereich {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--bernstein); margin-bottom: 6px;
+}
+.pt-h1 {
+  font-family: var(--serif); font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+  font-weight: 700; line-height: 1.15; color: var(--tinte);
+  margin-bottom: 8px;
+}
+.pt-untertitel {
+  font-family: var(--sans); font-size: 0.95rem;
+  color: var(--tinte-2); margin-top: 4px;
+}
+.pt-rlp {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px;
+}
+.pt-chip {
+  font-family: var(--mono); font-size: 0.65rem;
+  padding: 2px 10px; border-radius: 12px; border: 1px solid;
+}
+.pt-chip.c-be { background: var(--bernstein-hell); color: var(--bernstein); border-color: var(--bernstein-rand); }
+.pt-chip.c-gr { background: var(--papier-2); color: var(--tinte-2); border-color: var(--linie); }
+
+/* Stub-Banner */
+.stub-banner {
+  background: var(--orange-hell);
+  border: 1px solid var(--orange-rand);
+  border-left: 4px solid var(--orange);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-family: var(--sans); font-size: 0.85rem;
+  color: var(--tinte); line-height: 1.45;
+}
+.stub-banner strong {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 4px;
+}
+
+/* ── CONTENT TYPOGRAFIE ─────────────────────────────────────── */
+.content h2 {
+  font-family: var(--serif); font-size: 1.35rem; font-weight: 700;
+  color: var(--tinte); margin: 36px 0 14px;
+  padding-bottom: 6px; border-bottom: 1.5px solid var(--linie);
+}
+.content h3 {
+  font-family: var(--serif); font-size: 1.05rem; font-weight: 600;
+  color: var(--tinte); margin: 24px 0 10px;
+}
+.content p  { margin-bottom: 14px; }
+.content ul { margin: 0 0 14px 1.4em; }
+.content li { margin-bottom: 5px; }
+var, .var   { font-family: var(--mono); font-style: italic; font-size: 0.96em; }
+code, .code { font-family: var(--mono); background: var(--papier-2); border: 1px solid var(--linie); border-radius: 4px; padding: 1px 6px; font-size: 0.88em; }
+
+/* ── DIDAKTISCHE BLÖCKE ──────────────────────────────────────── */
+.block {
+  border-radius: 8px;
+  padding: 14px 18px 14px 17px;
+  border-left: 5px solid;
+  margin: 16px 0;
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+.block-titel {
+  font-family: var(--sans); font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 1.8px; text-transform: uppercase;
+  margin-bottom: 7px; display: flex; align-items: center; gap: 7px;
+}
+.block-def    { background: var(--blau-hell);   border-color: var(--blau);   }
+.block-bsp    { background: var(--gruen-hell);  border-color: var(--gruen);  }
+.block-aufg   { background: var(--orange-hell); border-color: var(--orange); }
+.block-fehler { background: var(--rot-hell);    border-color: var(--rot);    }
+.block-beweis { background: var(--lila-hell);   border-color: var(--lila);   }
+.block-tipp   { background: var(--gruen-hell);  border-color: var(--gruen);  }
+.block-merksatz { background: var(--blau-hell); border-color: var(--blau);   border-width: 1.5px; }
+/* Physik-spezifisch: Experiment/Versuch (warmes Bernstein, signalisiert Phänomen) */
+.block-experiment { background: var(--bernstein-hell); border-color: var(--bernstein); }
+.block-def    .block-titel { color: var(--blau);   }
+.block-bsp    .block-titel { color: var(--gruen);  }
+.block-aufg   .block-titel { color: var(--orange); }
+.block-fehler .block-titel { color: var(--rot);    }
+.block-beweis .block-titel { color: var(--lila);   }
+.block-tipp   .block-titel { color: var(--gruen);  }
+.block-merksatz .block-titel { color: var(--blau); }
+.block-experiment .block-titel { color: var(--bernstein); }
+.block-def strong { color: var(--blau); }
+.block-merksatz strong { color: var(--blau); }
+.block-experiment strong { color: var(--bernstein); }
+
+/* ── Aufgaben-Komponenten (verbindlich, identisch zur Mathe-Plattform) ────────
+   Jede Aufgabe ist eine block-aufg-Karte mit Titel-Pille (aufg-nr-tag) und
+   Titeltext (aufg-titel-text). Teilaufgaben stehen als <ol class="aufg-liste">.
+   Diese Klassen NICHT lokal in Themenseiten redefinieren. */
+.aufg-nr-tag {
+  font-family: var(--mono); font-weight: 700;
+  background: var(--orange); color: #fff;
+  padding: 2px 9px; border-radius: 5px;
+  letter-spacing: 1px; font-size: 0.72rem;
+}
+.aufg-titel-text { margin-left: 6px; }
+.aufg-vertiefung {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px 2px;
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: var(--orange-hell);
+  border: 1px solid var(--orange-rand);
+  border-radius: 999px;
+  white-space: nowrap;
+  vertical-align: 0.12em;
+}
+/* Aufgaben-Teil-Listen: <ol class="aufg-liste"><li>…</li>…</ol> in einer block-aufg-Karte.
+   Die Nummer steht als kleine orange Pille im linken padding-left:48px-Bereich des <li>. */
+.aufg-liste {
+  list-style: none;
+  counter-reset: aufgliste;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.aufg-liste > li {
+  counter-increment: aufgliste;
+  position: relative;
+  padding-left: 48px;
+  margin-bottom: 8px;
+  min-height: 24px;
+}
+.aufg-liste > li::before {
+  content: counter(aufgliste) ".";
+  position: absolute;
+  left: 0; top: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 28px; padding: 1px 6px;
+  font-family: var(--mono); font-weight: 700; font-size: 0.82rem;
+  color: var(--orange);
+  background: var(--orange-hell);
+  border: 1px solid var(--orange-rand);
+  border-radius: 5px;
+}
+
+/* Formel-Kasten */
+.formel-box {
+  background: var(--papier-2); border: 1.5px solid var(--linie);
+  border-radius: 8px; padding: 14px 20px; text-align: center;
+  font-family: var(--mono); font-size: 1.05rem; font-style: italic;
+  box-shadow: var(--s); margin: 16px 0;
+}
+.formel-box .formel-label {
+  font-family: var(--sans); font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--tinte-2); margin-bottom: 6px; font-style: normal;
+}
+.formel-gross { font-size: 1.4rem; }
+
+/* Merksatz */
+.merksatz {
+  background: var(--papier-2); border: 2px solid var(--tinte);
+  border-radius: 8px; padding: 14px 18px;
+  font-family: var(--serif); font-size: 0.97rem; font-weight: 600;
+  color: var(--tinte); margin: 16px 0; position: relative;
+}
+.merksatz::before {
+  content: '★';
+  position: absolute; top: -1px; left: 14px;
+  font-size: 0.7rem; background: var(--papier-2);
+  padding: 0 4px; transform: translateY(-50%);
+}
+
+/* Tabelle (FTB-Stil) */
+.ftb-tabelle {
+  width: 100%; border-collapse: collapse; font-size: 0.88rem;
+  background: var(--weiss); border: 1px solid var(--linie);
+  border-radius: 8px; overflow: hidden; box-shadow: var(--s); margin: 16px 0;
+}
+.ftb-tabelle thead { background: var(--tinte); color: var(--weiss); }
+.ftb-tabelle thead th { padding: 9px 14px; font-size: 0.75rem; font-weight: 600; text-align: center; }
+.ftb-tabelle tbody td { padding: 8px 14px; border-bottom: 1px solid var(--linie); font-family: var(--mono); font-size: 0.85rem; text-align: center; }
+.ftb-tabelle tbody tr:last-child td { border-bottom: none; }
+.ftb-tabelle tbody tr:nth-child(even) td { background: var(--papier); }
+.ftb-tabelle .td-x   { color: var(--blau);   font-style: italic; }
+.ftb-tabelle .td-y   { color: var(--gruen);  font-style: italic; }
+.ftb-tabelle .td-calc{ color: var(--tinte-2); font-size: 0.78rem; }
+.ftb-tabelle .td-pt  { color: var(--orange); }
+
+/* Aufgaben-Nummern */
+.aufg-nr {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--orange); color: #fff;
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+  flex-shrink: 0; margin-right: 8px;
+}
+
+/* Lösung toggle */
+.loesung-toggle {
+  background: var(--papier-2); border: 1px solid var(--linie);
+  border-radius: 7px; padding: 8px 14px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600; color: var(--tinte-2);
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 10px; user-select: none;
+  transition: background 0.15s, color 0.15s;
+}
+.loesung-toggle:hover { background: var(--gruen-hell); color: var(--gruen); }
+.loesung-body { display: none; margin-top: 10px; }
+.loesung-body.sichtbar { display: block; }
+
+/* ── AUFKLAPP-KOMPONENTEN (native <details>, kein JS) ────────── */
+
+/* Gemeinsame Basis für aufklappbare Boxen */
+.lernziele,
+.frage {
+  border-radius: 8px;
+  margin: 14px 0;
+  border: 1.5px solid;
+  overflow: hidden;
+}
+.lernziele > summary,
+.frage > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 11px 16px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  user-select: none;
+}
+.lernziele > summary::-webkit-details-marker,
+.frage > summary::-webkit-details-marker { display: none; }
+.lernziele > summary::after,
+.frage > summary::after {
+  content: '▸';
+  margin-left: auto;
+  font-size: 0.85rem;
+  transition: transform 0.18s;
+}
+.lernziele[open] > summary::after,
+.frage[open] > summary::after { transform: rotate(90deg); }
+.lernziele > summary:hover,
+.frage > summary:hover { filter: brightness(0.97); }
+
+/* Lernziele: Bernstein (Bereichsfarbe) — Verfeinerung der RLP-Kompetenzen */
+.lernziele { background: var(--bernstein-hell); border-color: var(--bernstein-rand); }
+.lernziele > summary { color: var(--bernstein); }
+.lernziele .lz-body { padding: 4px 18px 14px; }
+.lernziele ul { margin: 0; padding-left: 1.25em; }
+.lernziele li { margin: 5px 0; font-size: 0.92rem; }
+.lernziele li::marker { color: var(--bernstein-rand); }
+
+/* Verständnisfrage: Blau (wie Definition/Begriff) — „Was passiert, wenn …?" */
+.frage { background: var(--blau-hell); border-color: var(--blau-rand); }
+.frage > summary { color: var(--blau); }
+.frage .frage-antwort {
+  padding: 4px 18px 14px;
+  font-size: 0.93rem;
+  border-top: 1px solid var(--blau-rand);
+  margin-top: 2px;
+}
+.frage .frage-antwort > :first-child { margin-top: 8px; }
+
+/* Kernpunkte-Liste in der Zusammenfassung (5–8 Stichpunkte) */
+.kernpunkte {
+  list-style: none;
+  margin: 14px 0;
+  padding: 0;
+}
+.kernpunkte li {
+  position: relative;
+  padding: 6px 6px 6px 30px;
+  margin: 4px 0;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+.kernpunkte li::before {
+  content: '▹';
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  color: var(--bernstein-rand);
+  font-weight: 700;
+}
+
+/* ── MINI-CHECKS (einklappbar, natives <details>; Akkordeon via Mini-Skript) ── */
+.minicheck { background: var(--weiss); border: 1px solid var(--bernstein-rand); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+.minicheck > summary.mc-kopf {
+  cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px;
+  font-family: var(--serif); font-weight: 700; font-size: 0.9rem; color: var(--bernstein);
+  background: var(--bernstein-hell); padding: 9px 16px;
+}
+.minicheck > summary.mc-kopf::-webkit-details-marker { display: none; }
+.minicheck > summary.mc-kopf::after { content: '▸'; margin-left: auto; color: var(--bernstein-rand); transition: transform 0.15s ease; }
+.minicheck[open] > summary.mc-kopf::after { transform: rotate(90deg); }
+.minicheck[open] > summary.mc-kopf { border-bottom: 1px solid var(--bernstein-rand); }
+.minicheck > summary.mc-kopf:hover { filter: brightness(0.97); }
+.mc-item { padding: 12px 16px; }
+.mc-item + .mc-item { border-top: 1px solid var(--linie); }
+.mc-typ { display: inline-block; font-family: var(--sans); font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.03em; text-transform: uppercase; color: var(--bernstein); background: var(--bernstein-hell);
+  border: 1px solid var(--bernstein-rand); border-radius: 5px; padding: 1px 7px; margin-bottom: 7px; }
+.mc-frage { font-size: 0.92rem; line-height: 1.55; margin: 0 0 8px; }
+.mc-optionen { list-style: none; margin: 0 0 8px; padding: 0; }
+.mc-optionen li { position: relative; padding: 3px 0 3px 1.8em; font-size: 0.9rem; line-height: 1.45; }
+.mc-optionen li::before { content: attr(data-opt) ')'; position: absolute; left: 0; font-weight: 700; color: var(--bernstein); }
+.mc-luecke { display: inline-block; min-width: 3.4em; border-bottom: 1.5px solid var(--bernstein); margin: 0 2px; }
+.mc-loesung { margin-top: 4px; }
+.mc-loesung > summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--sans); font-size: 0.8rem; font-weight: 600; color: var(--bernstein); }
+.mc-loesung > summary::-webkit-details-marker { display: none; }
+.mc-loesung > summary::before { content: '▸'; transition: transform 0.15s ease; }
+.mc-loesung[open] > summary::before { transform: rotate(90deg); }
+.mc-loesung > summary:hover { filter: brightness(0.97); }
+.mc-antwort { margin-top: 8px; padding: 9px 12px; font-size: 0.88rem; line-height: 1.55; background: var(--bernstein-hell); border-radius: 7px; }
+
+/* ── NACHSCHLAGEN: Formelsammlung & Glossar ─────────────────── */
+
+/* „→ zur Seite"-Verweis neben h3-Überschriften */
+.fs-link {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--bernstein);
+  text-decoration: none;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+.fs-link:hover { text-decoration: underline; }
+
+/* Glossar-Sprungleiste (A B C …) */
+.glossar-az {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin: 6px 0 22px;
+}
+.glossar-az a {
+  font-family: var(--mono); font-size: 0.78rem; font-weight: 700;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; text-decoration: none;
+  background: var(--bernstein-hell); color: var(--bernstein);
+  border: 1px solid var(--bernstein-rand);
+}
+.glossar-az a:hover { background: var(--bernstein); color: #fff; }
+
+/* Glossar-Eintrag: Begriff + Definition */
+.glossar-eintrag {
+  border-left: 3px solid var(--bernstein-rand);
+  padding: 4px 0 4px 14px;
+  margin: 14px 0;
+}
+.glossar-eintrag .ge-begriff {
+  font-family: var(--serif); font-weight: 700; font-size: 1.02rem;
+  color: var(--tinte);
+}
+.glossar-eintrag .ge-formel {
+  font-family: var(--mono); font-size: 0.78rem; color: var(--bernstein);
+  margin-left: 8px;
+}
+.glossar-eintrag p { margin: 4px 0 0; font-size: 0.93rem; }
+.glossar-eintrag .ge-quer { font-size: 0.82rem; color: var(--tinte-2); font-style: italic; }
+
+/* ── STICKY TOC ─────────────────────────────────────────────── */
+.toc-wrap {
+  grid-area: toc;
+  position: sticky; top: 70px;
+}
+#toc {
+  background: var(--weiss); border: 1px solid var(--linie);
+  border-radius: 10px; padding: 14px 16px; box-shadow: var(--s);
+  font-size: 0.8rem;
+}
+.toc-title {
+  display: flex; align-items: baseline; gap: 6px;
+  width: 100%; text-align: left;
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--tinte-2); margin-bottom: 10px;
+  padding: 2px 6px 8px; border: none; border-bottom: 1px solid var(--linie);
+  background: none; cursor: pointer; border-radius: 5px 5px 0 0;
+  transition: color 0.12s, background 0.12s;
+}
+.toc-title:hover, .toc-title:focus-visible {
+  color: var(--bernstein); background: var(--bernstein-hell); outline: none;
+}
+.toc-title .toc-title-pfeil {
+  margin-left: auto; font-weight: 700;
+  opacity: 0; transition: opacity 0.12s;
+}
+.toc-title:hover .toc-title-pfeil,
+.toc-title:focus-visible .toc-title-pfeil { opacity: 1; }
+.toc-kapnr { text-transform: none; }
+.toc-link {
+  display: block; padding: 4px 8px; border-radius: 5px;
+  color: var(--tinte-2); text-decoration: none;
+  transition: background 0.12s, color 0.12s; line-height: 1.4;
+  border-left: 2px solid transparent;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.toc-link:hover   { background: var(--papier); color: var(--tinte); }
+.toc-link.toc-aktiv {
+  background: var(--bernstein-hell); color: var(--bernstein);
+  border-left-color: var(--bernstein); font-weight: 600;
+}
+.toc-nav {
+  display: flex; justify-content: center;
+  margin: 0 -4px;
+}
+.toc-nav-oben  { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--linie); }
+.toc-nav-unten { margin-top: 12px;    padding-top: 10px;    border-top:    1px solid var(--linie); }
+.toc-prev, .toc-next {
+  display: inline-block;
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--tinte-2); text-decoration: none;
+  padding: 4px 10px; border-radius: 5px;
+  transition: background 0.12s, color 0.12s;
+}
+.toc-prev:hover, .toc-next:hover {
+  background: var(--bernstein-hell); color: var(--bernstein);
+}
+
+/* ── CANVAS WRAPPER ─────────────────────────────────────────── */
+.canvas-wrap {
+  background: var(--weiss); border: 1px solid var(--linie);
+  border-radius: 10px; overflow: hidden; box-shadow: var(--s); margin: 16px 0;
+}
+canvas { display: block; width: 100%; }
+.canvas-ctrl {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px; border-top: 1px solid var(--linie);
+  background: var(--papier-2); flex-wrap: wrap;
+}
+.canvas-ctrl label { font-size: 0.82rem; color: var(--tinte-2); white-space: nowrap; }
+.canvas-ctrl input[type=range] {
+  flex: 1; min-width: 100px; accent-color: var(--bernstein);
+  height: 4px; -webkit-appearance: none; background: var(--linie);
+  border-radius: 2px; outline: none;
+}
+.canvas-ctrl input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 17px; height: 17px;
+  background: var(--tinte); border-radius: 50%; cursor: pointer;
+  border: 3px solid var(--bernstein-hell);
+}
+.canvas-ctrl .val {
+  font-family: var(--mono); font-weight: 700; font-size: 0.95rem;
+  color: var(--bernstein); min-width: 24px; text-align: right;
+}
+.canvas-legend {
+  display: flex; gap: 16px; padding: 10px 16px;
+  border-top: 1px solid var(--linie); flex-wrap: wrap;
+}
+.cl-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--tinte-2); font-family: var(--mono); }
+.cl-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.cl-line { width: 22px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+
+/* Kompakte Button-Reihe für Demo-Schalter (z.B. Vergleich von Bewegungstypen) */
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 16px; border-top: 1px solid var(--linie); background: var(--papier-2); }
+.demo-btn {
+  font-family: var(--sans); font-size: 0.78rem; font-weight: 600;
+  background: var(--weiss); border: 1px solid var(--linie); color: var(--tinte-2);
+  padding: 5px 12px; border-radius: 6px; cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.demo-btn:hover { background: var(--bernstein-hell); color: var(--bernstein); border-color: var(--bernstein-rand); }
+.demo-btn.aktiv { background: var(--bernstein); color: var(--weiss); border-color: var(--bernstein); }
+
+/* ── KOMPETENZ-LISTE (RLP) ───────────────────────────────────── */
+.rlp-kompetenzen {
+  background: var(--papier-2); border: 1px solid var(--linie);
+  border-radius: 10px; padding: 16px 20px; margin: 0 0 28px; font-size: 0.85rem;
+}
+.rlp-kompetenzen .rlp-titel {
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--tinte-2);
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.rlp-kompetenzen ul { margin-left: 1.2em; }
+.rlp-kompetenzen li { margin-bottom: 5px; line-height: 1.5; }
+.rlp-kompetenzen .ohm {
+  font-family: var(--mono); font-size: 0.65rem;
+  background: var(--bernstein-hell); color: var(--bernstein);
+  border: 1px solid var(--bernstein-rand); border-radius: 10px;
+  padding: 1px 7px; margin-left: 5px; white-space: nowrap;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--tinte); color: rgba(255,255,255,0.45);
+  padding: 24px 40px; text-align: center;
+  font-size: 0.74rem; line-height: 1.8;
+}
+.site-footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+.site-footer a:hover { color: #fff; }
+.site-footer strong { color: rgba(255,255,255,0.82); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .site-nav { display: none; }
+  .burger   { display: block; }
+}
+@media (max-width: 640px) {
+  .site-hdr { padding: 0 14px; }
+  .page-wrap { padding: 20px 14px 60px; }
+}
+
+/* ── ZUSATZMATERIAL & EXTERNE RESSOURCEN ─────────────────────
+   Drei-Spalten-Schema für Physik:
+     🎬 Erklärvideos · 🧪 Interaktive Simulationen · 📝 Aufgabensammlungen
+   Themenseiten dürfen die Klassen NICHT neu definieren — Konsistenz Pflicht.
+   ───────────────────────────────────────────────────────────── */
+
+/* Download-Kacheln (Druckseiten, Anki-Deck) */
+.dl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.dl {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: var(--weiss);
+  border: 1px solid var(--linie);
+  border-left: 4px solid var(--bernstein);
+  border-radius: 9px;
+  padding: 11px 13px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--s);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.dl:hover {
+  border-color: var(--bernstein-rand);
+  border-left-color: var(--bernstein);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+.dl .dl-ic { font-size: 1.5rem; flex-shrink: 0; }
+.dl .dl-t  { font-weight: 700; font-size: 0.83rem; color: var(--tinte); }
+.dl .dl-s  { font-size: 0.7rem; color: var(--tinte-2); margin-top: 1px; }
+.dl .dl-fmt {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--bernstein);
+  margin-top: 2px;
+}
+
+/* Externe Links (drei-spaltige Sektion 10) */
+.links-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+@media (max-width: 520px) {
+  .links-grid { grid-template-columns: 1fr; }
+}
+.lk {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: var(--weiss);
+  border: 1px solid var(--linie);
+  border-radius: 9px;
+  padding: 11px 13px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--s);
+  transition: border-color 0.15s;
+}
+.lk:hover         { border-color: var(--rot-rand);    text-decoration: none; }
+.lk.sim:hover     { border-color: var(--bernstein-rand); }
+.lk.aufg:hover    { border-color: var(--orange-rand); }
+.lk .lk-ic { font-size: 1.4rem; flex-shrink: 0; }
+.lk .lk-t  { font-weight: 700; font-size: 0.83rem; color: var(--tinte); }
+.lk .lk-s  { font-size: 0.7rem; color: var(--tinte-2); margin-top: 1px; }
+
+/* Subtitel innerhalb der Ressourcen-Sektion */
+.ressourcen-subtitel {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--tinte-2);
+  margin-bottom: 8px;
+}
+.ressourcen-subtitel + .links-grid { margin-top: 8px; }
+.links-grid + .ressourcen-subtitel { margin-top: 14px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Interaktive Animations-Widgets (zentral; identisch auf allen Themenseiten)
+   Bernstein-Akzent als Physik-Bereichsfarbe. Seiten-spezifische Layout-Klassen
+   (z.B. einstieg-layout) dürfen lokal in der Themenseite ergänzt werden.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.widget { background:var(--weiss); border:1px solid var(--linie); border-radius:14px; overflow:hidden; box-shadow:var(--s); margin:16px 0; }
+.widget-header { padding:16px 22px 14px; border-bottom:1px solid var(--linie); background:var(--papier); }
+.widget-header h3 { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); margin-bottom:3px; }
+.widget-header p { font-size:0.8rem; color:var(--tinte-2); }
+.widget-body { padding:20px 22px; }
+
+/* ── Animations-Hinweise: Rollover "Worauf achten?" / "Erkenntnis" mit Vorlese-Option ──
+   Logik in anim-hinweise.js; Markup pro Animation in der .widget-titelzeile. */
+.widget-titelzeile { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin:0; }
+.widget-titelzeile h3 { margin:0; }
+.anim-hinweis { position:relative; display:inline-block; }
+.anim-hinweis.rechts { margin-left:auto; }
+.ah-trigger { font-size:0.8rem; color:var(--tinte-2); border-bottom:1px dotted var(--bernstein-rand);
+  cursor:help; user-select:none; padding:1px 0; display:inline-block; white-space:nowrap; }
+.ah-trigger:focus-visible { outline:2px solid var(--bernstein-rand); outline-offset:2px; border-radius:2px; }
+.ah-pop { position:absolute; left:0; top:calc(100% + 8px); z-index:50; width:min(440px,86vw);
+  background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); border-radius:8px;
+  padding:11px 13px; box-shadow:0 6px 18px rgba(40,25,5,0.20);
+  opacity:0; visibility:hidden; transform:translateY(-3px);
+  transition:opacity .15s ease, transform .15s ease; pointer-events:none; }
+.anim-hinweis.rechts .ah-pop { left:auto; right:0; }
+/* unsichtbare Brücke, damit der Zeiger ohne Lücke vom Auslöser ins Rollover gelangt */
+.ah-pop::before { content:""; position:absolute; left:0; right:0; top:-8px; height:8px; }
+.anim-hinweis:hover .ah-pop,
+.anim-hinweis:focus-within .ah-pop,
+.anim-hinweis.fixiert .ah-pop { opacity:1; visibility:visible; transform:none; pointer-events:auto; }
+.ah-titel { display:block; font-weight:600; font-size:0.8rem; color:var(--bernstein); margin-bottom:5px; }
+.ah-text { font-size:0.8rem; line-height:1.5; color:var(--tinte); }
+.ah-text ul { margin:0; padding-left:1.15em; }
+.ah-text li { margin:3px 0; }
+.ah-speak { margin-top:10px; font-size:0.74rem; color:var(--bernstein); background:var(--papier);
+  border:1px solid var(--bernstein-rand); border-radius:6px; padding:3px 9px; cursor:pointer; }
+.ah-speak:hover { background:#fff; }
+.ah-speak[aria-pressed="true"] { background:var(--bernstein); color:var(--papier); border-color:var(--bernstein); }
+
+/* Slider-Reihe */
+.sl-row { display:flex; align-items:center; gap:12px; margin-bottom:12px; background:var(--papier-2); border-radius:9px; padding:10px 14px; border:1px solid var(--linie); flex-wrap:wrap; }
+/* Mehrere Regler in EINER sl-row: jede .sl-grp ist eine unzertrennliche Einheit Label+Slider+Wert;
+   auf schmalen Screens brechen ganze Gruppen um (kein Overflow, Label bleibt beim Regler) */
+.sl-row .sl-grp { display:flex; align-items:center; gap:10px; flex:1 1 210px; min-width:0; }
+.sl-row .sl-grp label { min-width:0; }
+.sl-row .sl-grp input[type=range] { min-width:60px; }
+.sl-row label { font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2); white-space:nowrap; min-width:110px; }
+.sl-row input[type=range] { flex:1; accent-color:var(--bernstein); height:4px; -webkit-appearance:none; background:var(--linie); border-radius:2px; }
+.sl-row input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; background:var(--bernstein); border-radius:50%; cursor:pointer; border:3px solid var(--bernstein-hell); }
+.sl-val { font-family:var(--mono); font-weight:700; font-size:1rem; color:var(--bernstein); min-width:64px; text-align:right; }
+
+/* Vertikaler Slider (für Tiefen-Steuerung neben einem Becken/Glas) */
+.sl-vert { display:flex; flex-direction:column; align-items:center; gap:8px; padding:14px 8px; background:var(--papier-2); border:1px solid var(--linie); border-radius:9px; }
+.sl-vert label { font-family:var(--mono); font-size:0.72rem; font-weight:700; color:var(--tinte-2); writing-mode:horizontal-tb; }
+.sl-vert input[type=range] { writing-mode:vertical-lr; -webkit-appearance:slider-vertical; appearance:slider-vertical; width:8px; height:260px; accent-color:var(--bernstein); }
+.sl-vert .sl-val { min-width:0; text-align:center; font-size:0.85rem; }
+
+/* Live-Formel */
+.formel-live { background:var(--papier-2); border:1.5px solid var(--linie); border-radius:9px; padding:12px 18px; text-align:center; margin:12px 0; }
+.formel-live .fl-label { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--tinte-2); margin-bottom:5px; }
+.formel-live .fl-eq { font-family:var(--mono); font-size:1.05rem; color:var(--tinte); font-weight:700; }
+
+/* Spalten-Layouts für Canvas + Tabelle/Diagramm */
+.zwei-spalten { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media(max-width:600px){ .zwei-spalten { grid-template-columns:1fr; } }
+.drei-spalten { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+@media(max-width:760px){ .drei-spalten { grid-template-columns:1fr; } }
+
+.cv-wrap { background:var(--weiss); border:1px solid var(--linie); border-radius:9px; overflow:hidden; }
+.cv-titel { font-family:var(--mono); font-size:0.7rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--tinte-2); padding:7px 12px; border-bottom:1px solid var(--linie); background:var(--papier-2); }
+
+/* Live-Anzeige-Box (für aktuelle Messwerte) */
+.live-box { display:flex; gap:14px; flex-wrap:wrap; padding:10px 14px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); border-radius:9px; margin:10px 0; }
+.live-box .lb-item { display:flex; flex-direction:column; gap:1px; min-width:80px; }
+.live-box .lb-lab { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--bernstein); }
+.live-box .lb-val { font-family:var(--mono); font-size:1rem; font-weight:700; color:var(--tinte); }
+
+/* Demo-Button-Reihe für Typen-Umschaltung */
+.typ-btns { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.typ-btn { font-family:var(--mono); font-size:0.72rem; font-weight:700; padding:5px 13px; border-radius:20px; border:1.5px solid var(--linie); background:var(--papier-2); cursor:pointer; color:var(--tinte-2); transition:all 0.15s; }
+.typ-btn:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); color:var(--bernstein); }
+.typ-btn.aktiv { border-color:var(--bernstein); background:var(--bernstein); color:#fff; }
+
+/* Play/Pause-Knopf */
+.play-btn { font-family:var(--sans); font-size:0.8rem; font-weight:700; background:var(--bernstein); color:#fff; border:none; padding:6px 14px; border-radius:6px; cursor:pointer; }
+.play-btn:hover { background:#6e3a0a; }
+.play-btn.paused { background:var(--gruen); }

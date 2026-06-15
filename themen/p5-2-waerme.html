@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.2 Wärme — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* Seitenspezifisch */
+.stoff-wahl { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+.stoff-wahl button { font-family:var(--sans); font-size:0.78rem; font-weight:600; background:var(--papier-2);
+  color:var(--tinte); border:1px solid var(--linie); padding:5px 11px; border-radius:6px; cursor:pointer; }
+.stoff-wahl button.aktiv { background:var(--bernstein); color:#fff; border-color:var(--bernstein); }
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + RLP-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Lerngebiet 5 Thermodynamik</div>
+  <h1 class="pt-h1">5.2 Wärme</h1>
+  <p class="pt-untertitel">Wärme als übertragene Energie — von der Wärmemenge \(Q=m\,c\,\Delta T\) über Mischungen und Phasenübergänge bis zu Wärmetransport, Wirkungsgrad und Treibhauseffekt.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 5.2 · 30 Lektionen (Lerngebiet 5)</div>
+  <ul>
+    <li>den Begriff «Wärme» bezüglich übertragener Teilchenbewegungen definieren und die Beziehung zwischen Wärme und Temperatur erklären</li>
+    <li>die Wärmebilanz und das thermische Gleichgewicht berechnen (mit und ohne Zustandsänderung) unter Gebrauch der Begriffe «spezifische Wärmekapazität», «Wirkungsgrad», «latente Wärme»</li>
+    <li>den entsprechenden Temperaturverlauf grafisch darstellen</li>
+    <li>die Energieerzeugung mit Hilfe des Heizwertes, unter Berücksichtigung des Wirkungsgrades, berechnen</li>
+    <li>das Potential der erneuerbaren Energien beschreiben und mit anderen energieerzeugenden Systemen vergleichen (Wasserkraft, Wind, Solar, Wärmepumpe, Biogas, Wärme-Kraft-Kopplung, Kernenergie)</li>
+    <li>die verschiedenen Formen des Wärmetransportes unterscheiden</li>
+    <li>die unterschiedliche Durchlässigkeit der Atmosphäre für Licht und Wärmestrahlung und ihre Auswirkung auf den Treibhaus-Effekt beschreiben</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann Wärme als Energieübertragung wegen eines Temperaturunterschieds definieren.</li>
+      <li>Ich kann die Wärmemenge \(Q=m c\Delta T\) und Wärmebilanzen berechnen.</li>
+      <li>Ich kann mit spezifischer Wärmekapazität, latenter Wärme und Wirkungsgrad rechnen.</li>
+      <li>Ich kann den Temperaturverlauf einer Heizkurve grafisch darstellen.</li>
+      <li>Ich kann die drei Formen des Wärmetransports unterscheiden und den Treibhaus-Effekt beschreiben.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — warum wird der Löffel in der Suppe heiss?</h2>
+
+<p>Steckt man einen kalten Metalllöffel in eine heisse Suppe, wird er nach kurzer Zeit selbst heiss — und die Suppe etwas kühler. Es fliesst etwas vom heissen zum kalten Körper, bis beide gleich warm sind. Dieses «Etwas» ist <strong>Wärme</strong>: übertragene Energie. Im Teilchenbild stossen die schnellen Teilchen des heissen Körpers gegen die langsameren des kalten und geben dabei Bewegungsenergie ab.</p>
+
+<p>Entscheidend: Wärme fliesst <strong>immer von selbst vom wärmeren zum kälteren</strong> Körper — nie umgekehrt. Sind beide gleich warm, hört der Fluss auf. Diesen Zustand nennt man <strong>thermisches Gleichgewicht</strong>. «Kälte» fliesst dabei nie zu; in der Physik gibt es nur die Wärme.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Beobachte</div>
+  <p>Zwei Behälter mit Teilchen: links heiss (schnelle, rote Teilchen), rechts kalt (langsame, blaue). Sie stehen in Kontakt. Starte die Animation und beobachte, wie sich die Temperaturen angleichen, bis beide dieselbe Mischtemperatur erreichen.</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>🔥❄ Einstieg-Animation · Thermisches Gleichgewicht</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Beobachte die Teilchengeschwindigkeit in beiden Behältern.</li><li>Verfolge den Wärmefluss vom warmen zum kalten Behälter.</li><li>Warte, bis beide gleich warm sind.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Beobachte die Teilchengeschwindigkeit in beiden Behältern; sie zeigt die Temperatur an. Verfolge den Wärmefluss vom warmen zum kalten Behälter. Warte, bis beide Behälter gleich warm sind." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Wärme fliesst von selbst nur vom warmen zum kalten Körper.</li><li>Im thermischen Gleichgewicht haben beide dieselbe Temperatur.</li><li>Dann fliesst kein Netto-Wärmestrom mehr.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wärme fliesst von selbst nur vom warmen zum kalten Körper. Im thermischen Gleichgewicht haben beide Körper dieselbe Temperatur. Dann fliesst kein Netto-Wärmestrom mehr." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="ein-btn">▶ Start</button>
+      <button class="play-btn paused" id="ein-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">links \(T_1\)</span><span class="lb-val" id="ein-TL">90 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">rechts \(T_2\)</span><span class="lb-val" id="ein-TR">10 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">Gleichgewicht bei</span><span class="lb-val" id="ein-Tm">50 °C</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🌡 Zwei Körper im Wärmekontakt</div>
+      <canvas id="ein-cv" height="300"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<p>Wärme ist also kein Stoff, sondern übertragene Energie. Im Folgenden lernen wir, diese Energie zu berechnen — zuerst für das blosse Erwärmen, dann für Mischungen, Phasenübergänge und schliesslich für Wärmetransport, Wirkungsgrad und den Treibhauseffekt.</p>
+
+
+<!-- ══════════════ 3. GRUNDBEGRIFFE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Warum wird der Metalllöffel in der heissen Suppe heiss?</p><ul class="mc-optionen"><li data-opt="A">durch Strahlung</li><li data-opt="B">durch Wärmeleitung</li><li data-opt="C">durch Verdunstung</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Im Metall wird die Wärme von Teilchen zu Teilchen weitergegeben — Wärmeleitung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Wärme fliesst von selbst stets von <span class="mc-luecke"></span> nach kalt.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">warm (heiss).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Wie viel Wärme braucht es, um \(1\;\text{kg}\) Wasser um \(1\;\text{K}\) zu erwärmen? (\(c = 4180\;\text{J/(kg·K)}\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(Q = c\,m\,\Delta T = 4180 \cdot 1 \cdot 1 = 4180\;\text{J}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum fühlt sich ein Metallgeländer kälter an als ein Holzgeländer gleicher Temperatur?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Metall leitet die Wärme viel besser und führt sie schneller von der Hand weg. Die Temperatur ist gleich — nur das Wärmegefühl unterscheidet sich.</div></details></div>
+</details>
+
+<h2 id="definition">Grundbegriffe</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Wärme und innere Energie</div>
+  <p>Die <strong>innere Energie</strong> eines Körpers ist die gesamte Bewegungsenergie seiner Teilchen. Man kann sie auf zwei Arten ändern: durch <strong>Arbeit</strong> (z.&nbsp;B. Hämmern, Reiben) oder durch Zufuhr von <strong>Wärme</strong>. Beide sind Energieübertragungen und werden in <strong>Joule</strong> (\(\text{J}\)) gemessen.</p>
+  <p>Die <strong>Wärme</strong> \(Q\) ist die Energie, die <strong>aufgrund eines Temperaturunterschieds übertragen</strong> wird. Sie ist damit eine <strong>Prozessgrösse</strong> (eine übertragene Energiemenge) und kein im Körper gespeicherter «Wärmevorrat»: Ein Körper «enthält» keine Wärme, sondern innere Energie — von Wärme spricht man nur während der Übertragung. Das Vorzeichen sagt die Richtung: \(Q>0\) bedeutet Aufnahme (Körper wird wärmer), \(Q<0\) Abgabe. Wärme fliesst stets vom wärmeren zum kälteren Körper; im <strong>thermischen Gleichgewicht</strong> (gleiche Temperatur) fliesst keine Wärme mehr (\(Q=0\)).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Spezifische Wärmekapazität</div>
+  <p>Um die Temperatur eines Stoffes zu erhöhen, muss jedes Teilchen heftiger bewegt werden — mehr Masse braucht mehr Wärme. Zudem ist der Bedarf stoffabhängig. Die <strong>spezifische Wärmekapazität</strong> \(c\) gibt an, wie viel Wärme \(1\,\text{kg}\) eines Stoffes pro \(1\,\text{K}\) Temperaturänderung aufnimmt oder abgibt:</p>
+  \[ Q = m \cdot c \cdot \Delta T \]
+  <p>mit \(Q\) in \(\text{J}\), \(m\) in \(\text{kg}\), \(c\) in \(\text{J/(kg·K)}\) und \(\Delta T\) in \(\text{K}\). Wasser hat eine aussergewöhnlich hohe Wärmekapazität:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Stoff</th><th>\(c\) [J/(kg·K)]</th><th>Stoff</th><th>\(c\) [J/(kg·K)]</th></tr></thead>
+    <tbody>
+      <tr><td>Wasser</td><td>4182</td><td>Aluminium</td><td>896</td></tr>
+      <tr><td>Ethanol</td><td>2430</td><td>Sand</td><td>835</td></tr>
+      <tr><td>Öl (Gemisch)</td><td>≈ 2000</td><td>Eisen</td><td>450</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Wärmebilanz und Mischungen</div>
+  <p>In einem <strong>abgeschlossenen System</strong> (keine Energie nach aussen) bleibt die Energie erhalten. Bringt man Körper unterschiedlicher Temperatur zusammen, gibt der wärmere genau so viel Wärme ab, wie der kältere aufnimmt — die Summe aller Wärmemengen ist null:</p>
+  \[ \sum_i Q_i = 0 \qquad\Rightarrow\qquad Q_1 + Q_2 + \dots = 0 \]
+  <p>Alle Körper erreichen am Ende dieselbe <strong>Mischtemperatur</strong> \(\vartheta_\text{m}\). Für zwei Stoffe ohne Phasenübergang folgt daraus:</p>
+  \[ \vartheta_\text{m} = \frac{m_1 c_1\,\vartheta_1 + m_2 c_2\,\vartheta_2}{m_1 c_1 + m_2 c_2} \]
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Latente Wärme bei Phasenübergängen</div>
+  <p>Beim Schmelzen und Verdampfen <strong>bleibt die Temperatur konstant</strong>, obwohl Wärme zugeführt wird — die Energie löst die Teilchen aus ihrem Verband, statt sie schneller zu machen. Diese «verborgene» Energie heisst <strong>latente Wärme</strong>:</p>
+  \[ Q = m \cdot L_\text{f} \quad(\text{Schmelzen}), \qquad Q = m \cdot L_\text{v} \quad(\text{Verdampfen}) \]
+  <p>\(L_\text{f}\) ist die spezifische Schmelzwärme, \(L_\text{v}\) die spezifische Verdampfungswärme (Einheit \(\text{J/kg}\)). Für Wasser: \(L_\text{f}=334\,\text{kJ/kg}\) und \(L_\text{v}=2256\,\text{kJ/kg}\). Beim Erstarren bzw. Kondensieren wird dieselbe Energie wieder frei (\(Q<0\)).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Leistung, Wirkungsgrad und Heizwert</div>
+  <p>Die <strong>Leistung</strong> \(P\) ist die pro Zeit übertragene Energie, gemessen in Watt (\(1\,\text{W}=1\,\text{J/s}\)):</p>
+  \[ P = \frac{E}{t} \]
+  <p>Bei jeder Energieumwandlung entstehen Verluste. Der <strong>Wirkungsgrad</strong> \(\eta\) ist das Verhältnis von Nutzenergie zu zugeführter Energie (stets \(\le 1\)):</p>
+  \[ \eta = \frac{E_\text{nutz}}{E_\text{zu}} \]
+  <p>Der <strong>Heizwert</strong> eines Brennstoffs gibt an, wie viel Energie beim Verbrennen pro Kilogramm frei wird (z.&nbsp;B. Propan \(\approx 13\,\text{kWh/kg}\)). Damit lässt sich die nutzbare Energie unter Berücksichtigung des Wirkungsgrades abschätzen. (\(1\,\text{kWh}=3.6\,\text{MJ}\).)</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Die drei Arten des Wärmetransports</div>
+  <p>Wärme kann auf drei Arten übertragen werden:</p>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Art</th><th>Mechanismus</th><th>Beispiel</th></tr></thead>
+    <tbody>
+      <tr><td>Wärmeleitung</td><td>Teilchen geben Bewegungsenergie an Nachbarteilchen weiter, ohne selbst zu wandern (v.&nbsp;a. in Festkörpern, Metalle gut)</td><td>heisser Pfannengriff</td></tr>
+      <tr><td>Konvektion (Strömung)</td><td>erwärmtes Material (Flüssigkeit/Gas) bewegt sich und transportiert die Energie mit</td><td>Heizkörper, Wind</td></tr>
+      <tr><td>Wärmestrahlung</td><td>Übertragung durch elektromagnetische (Infrarot-)Strahlung, ganz ohne Materie</td><td>Sonne, Lagerfeuer</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Wärmepumpe und erneuerbare Energien</div>
+  <p>Eine <strong>Wärmepumpe</strong> befördert Wärme vom kalten zum warmen Ort — entgegen der natürlichen Richtung — und benötigt dafür Antriebsenergie (meist Strom). Ihre Güte beschreibt die <strong>Leistungszahl</strong> (COP):</p>
+  \[ \text{COP} = \frac{Q_\text{warm}}{E_\text{elektrisch}}, \qquad \text{COP}_\text{max} = \frac{T_\text{warm}}{T_\text{warm}-T_\text{kalt}} \]
+  <p>(Temperaturen in Kelvin.) Weil ein grosser Teil der abgegebenen Wärme kostenlos aus der Umgebung stammt, ist die Leistungszahl deutlich grösser als 1. Erneuerbare Energiequellen wie Wasserkraft, Wind, Solar und Biogas werden im Hinblick auf Verfügbarkeit, Wirkungsgrad und CO₂-Ausstoss mit fossilen und nuklearen Systemen verglichen. Die <strong>Wärmepumpe</strong> und die <strong>Wärme-Kraft-Kopplung</strong> (Kraft-Wärme-Kopplung) sind dabei selbst keine Energiequellen. Sie sind Technologien zur effizienteren Nutzung zugeführter Energie. Die Wärmepumpe hebt Umgebungswärme mit etwas Antriebsenergie auf ein nutzbares Niveau. Die Wärme-Kraft-Kopplung nutzt die bei der Stromerzeugung anfallende Abwärme gleich mit, statt sie zu verschwenden.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Der Treibhauseffekt</div>
+  <p>Die Atmosphäre ist für das sichtbare Sonnenlicht weitgehend <strong>durchlässig</strong>: Es erreicht den Boden und erwärmt ihn. Der warme Boden strahlt die Energie aber als langwellige <strong>Wärmestrahlung</strong> (Infrarot) wieder ab — und dafür ist die Atmosphäre wegen Gasen wie CO₂ und Wasserdampf nur teilweise durchlässig. Ein Teil der Wärmestrahlung wird zurückgehalten, sodass es an der Oberfläche wärmer bleibt als ohne Atmosphäre. Steigt die Konzentration der Treibhausgase, verstärkt sich dieser Effekt.</p>
+</div>
+
+
+<!-- ══════════════ 4. ANIMATION 1 — Q = m·c·ΔT ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wärme ist …</p><ul class="mc-optionen"><li data-opt="A">eine im Körper gespeicherte Grösse</li><li data-opt="B">übertragene Energie (eine Prozessgrösse)</li><li data-opt="C">dasselbe wie Temperatur</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Wärme ist die zwischen Körpern übertragene Energie; gespeichert wird die innere Energie.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Wärme wird in der Einheit <span class="mc-luecke"></span> gemessen.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Joule (J).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Welche Wärme nimmt \(2\;\text{kg}\) Wasser bei \(\Delta T = 5\;\text{K}\) auf? (\(c = 4180\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(Q = c\,m\,\Delta T = 4180 \cdot 2 \cdot 5 = 41\,800\;\text{J} = 41.8\;\text{kJ}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum sagt man, ein Körper „enthält“ keine Wärme, wohl aber innere Energie?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Wärme bezeichnet die übertragene Energie (Prozessgrösse) zwischen Körpern. Gespeichert ist die innere Energie. „Wärme im Körper“ ist daher physikalisch ungenau.</div></details></div>
+</details>
+
+<h2 id="waermemenge">Wie viel Wärme braucht das Erwärmen?</h2>
+
+<p>Die Wärmemenge \(Q=m\,c\,\Delta T\) wächst mit Masse, Temperaturänderung und der spezifischen Wärmekapazität. Vergleicht man verschiedene Stoffe bei gleicher Masse und gleichem \(\Delta T\), zeigt sich, wie viel mehr Wärme Wasser im Vergleich zu Metallen aufnimmt.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 1 · Wärmebedarf verschiedener Stoffe</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wähle einen Stoff und stelle Masse und Temperaturänderung ein.</li><li>Vergleiche die Balken der verschiedenen Stoffe.</li><li>Achte darauf, dass Wasser besonders viel Wärme braucht.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle einen Stoff und stelle Masse und Temperaturänderung ein. Vergleiche die Balken für den Wärmebedarf der verschiedenen Stoffe. Achte darauf, dass Wasser besonders viel Wärme braucht." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Wärmebedarf: \(Q = c \cdot m \cdot \Delta T\).</li><li>Die spezifische Wärmekapazität \(c\) ist stoffabhängig.</li><li>Wasser hat ein hohes \(c\) und speichert daher viel Wärme.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der Wärmebedarf ist Q gleich c mal m mal delta T. Die spezifische Wärmekapazität c ist von Stoff zu Stoff verschieden. Wasser hat ein besonders hohes c und speichert daher viel Wärme." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="stoff-wahl" id="a1-stoffe"></div>
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a1-m" min="0.1" max="5" value="1" step="0.1">
+      <span class="sl-val" id="a1-m-val">1.0 kg</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Temp.-Änderung \(\Delta T\):</label>
+      <input type="range" id="a1-dT" min="1" max="100" value="50" step="1">
+      <span class="sl-val" id="a1-dT-val">50 K</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Wärmemenge</div>
+      <div class="fl-eq" id="a1-eq">Q = 1.0 · 4182 · 50 = 209 100 J = 209.1 kJ</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📊 Wärmebedarf je Stoff (gleiche Masse, gleiches ΔT)</div>
+      <canvas id="a1-cv" height="280"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 5. ANIMATION 2 — MISCHUNG ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der Mischtemperatur, wenn du wenig heisses Wasser mit viel kaltem mischst?</summary>
+  <div class="frage-antwort">
+    <p>Die Mischtemperatur liegt näher beim kalten Wasser. In der Bilanz \(\sum Q_i=0\) zieht die grössere Masse die gemeinsame Temperatur stärker zu sich — Masse und \(\Delta T\) gleichen sich aus.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Bei gleicher Wärmezufuhr erwärmt sich am stärksten der Stoff mit …</p><ul class="mc-optionen"><li data-opt="A">grosser spezifischer Wärmekapazität</li><li data-opt="B">kleiner spezifischer Wärmekapazität</li><li data-opt="C">grosser Masse</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Aus \(\Delta T = Q/(c\,m)\): kleines \(c\) → grosse Temperaturänderung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die zugeführte Wärme ist \(Q = c \cdot m \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\Delta T\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Wärme, um \(0.5\;\text{kg}\) Wasser von \(20°C\) auf \(80°C\) zu erwärmen? (\(c = 4180\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(Q = c\,m\,\Delta T = 4180 \cdot 0.5 \cdot 60 = 125\,400\;\text{J} \approx 125.4\;\text{kJ}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Wasser (\(c = 4180\)) und Sand (\(c \approx 800\)) bekommen gleich viel Sonne. Was wird schneller heiss — und warum kühlt das Meer langsamer ab als der Strand?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Sand erwärmt sich schneller (kleineres \(c\)). Wasser speichert pro Grad viel mehr Energie, deshalb erwärmt und kühlt es sich träger.</div></details></div>
+</details>
+
+<h2 id="mischung">Mischtemperatur berechnen</h2>
+
+<p>Bringt man zwei Wassermengen unterschiedlicher Temperatur zusammen, stellt sich eine Mischtemperatur ein, die zwischen beiden liegt — näher bei der Temperatur der grösseren Masse. Die Wärmebilanz \(\sum Q_i = 0\) liefert den Wert.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 2 · Zwei Wassermengen mischen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle Masse und Temperatur beider Portionen ein.</li><li>Verfolge die laufend berechnete Mischtemperatur.</li><li>Probiere ungleiche Massen und beobachte, wohin sich die Temperatur verschiebt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Masse und Temperatur beider Wasserportionen ein. Verfolge die laufend berechnete Mischtemperatur. Probiere ungleiche Massen und beobachte, zu welcher Seite sich die Mischtemperatur verschiebt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Energieerhaltung: abgegebene Wärme der einen = aufgenommene der anderen.</li><li>Mischtemperatur: \(T_M = \dfrac{m_1 T_1 + m_2 T_2}{m_1 + m_2}\).</li><li>Die grössere Masse zieht die Mischtemperatur zu sich.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Es gilt die Energieerhaltung: die von der einen Portion abgegebene Wärme ist gleich der von der anderen aufgenommenen. Die Mischtemperatur ist m eins mal T eins plus m zwei mal T zwei, geteilt durch die Summe der Massen. Die grössere Masse zieht die Mischtemperatur zu ihrem Wert." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Masse \(m_1\):</label>
+      <input type="range" id="a2-m1" min="0.1" max="3" value="0.3" step="0.1">
+      <span class="sl-val" id="a2-m1-val">0.3 kg</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Temperatur \(\vartheta_1\):</label>
+      <input type="range" id="a2-t1" min="0" max="100" value="80" step="1">
+      <span class="sl-val" id="a2-t1-val">80 °C</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Masse \(m_2\):</label>
+      <input type="range" id="a2-m2" min="0.1" max="3" value="0.5" step="0.1">
+      <span class="sl-val" id="a2-m2-val">0.5 kg</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Temperatur \(\vartheta_2\):</label>
+      <input type="range" id="a2-t2" min="0" max="100" value="20" step="1">
+      <span class="sl-val" id="a2-t2-val">20 °C</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Mischtemperatur</div>
+      <div class="fl-eq" id="a2-eq">ϑm = (0.3·80 + 0.5·20) / (0.3 + 0.5) = 42.5 °C</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🥤 Portion 1 + Portion 2 → Mischung</div>
+      <canvas id="a2-cv" height="240"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 6. ANIMATION 3 — HEIZKURVE ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Mischt man gleiche Massen heisses und kaltes Wasser, liegt die Mischtemperatur …</p><ul class="mc-optionen"><li data-opt="A">näher beim heissen</li><li data-opt="B">genau in der Mitte</li><li data-opt="C">näher beim kalten</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Bei gleichen Massen und gleichem \(c\) liegt die Mischtemperatur genau dazwischen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Beim Mischen gibt der wärmere Körper genau so viel Wärme ab, wie der kältere <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">aufnimmt.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(1\;\text{kg}\) Wasser bei \(80°C\) + \(1\;\text{kg}\) Wasser bei \(20°C\). Mischtemperatur?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(T = \dfrac{80 + 20}{2} = 50°C\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">\(2\;\text{kg}\) Wasser bei \(20°C\) werden mit \(1\;\text{kg}\) Wasser bei \(80°C\) gemischt (gleiches \(c\)). Mischtemperatur?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Gewichtetes Mittel: \(T = \dfrac{2 \cdot 20 + 1 \cdot 80}{3} = \dfrac{120}{3} = 40°C\).</div></details></div>
+</details>
+
+<h2 id="heizkurve">Der Temperaturverlauf: Eis → Wasser → Dampf</h2>
+
+<p>Führt man einem Eisblock gleichmässig Wärme zu, steigt die Temperatur nicht durchgehend: Beim Schmelzen (0&nbsp;°C) und beim Verdampfen (100&nbsp;°C) bleibt sie konstant, weil die Energie in den Phasenübergang geht. Das ergibt die charakteristische Heizkurve mit zwei Plateaus.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 3 · Heizkurve von 0.1 kg Wasser</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Schiebe die zugeführte Wärme von \(0\) bis \(\approx 315\;\text{kJ}\).</li><li>Verfolge Temperatur und Phase entlang der Kurve.</li><li>Achte auf die langen waagrechten Stücke beim Schmelzen und Sieden.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Schiebe die zugeführte Wärme von null bis etwa 315 Kilojoule. Verfolge Temperatur und Phase entlang der Heizkurve. Achte auf die langen waagrechten Stücke beim Schmelzen und beim Sieden." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Erwärmen: \(Q = c m \Delta T\); Phasenwechsel: \(Q = m \cdot L\) bei konstanter Temperatur.</li><li>Während Schmelzen und Sieden steigt die Temperatur nicht.</li><li>Das Verdampfen verschlingt mit Abstand am meisten Energie.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Beim Erwärmen gilt Q gleich c mal m mal delta T; bei einem Phasenwechsel gilt Q gleich m mal L, und zwar bei konstanter Temperatur. Während des Schmelzens und des Siedens steigt die Temperatur nicht. Das Verdampfen verschlingt mit Abstand am meisten Energie." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>zugeführte Wärme \(Q\):</label>
+      <input type="range" id="a3-Q" min="0" max="315070" value="60000" step="500">
+      <span class="sl-val" id="a3-Q-val">60.0 kJ</span>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a3-T">14 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">Phase</span><span class="lb-val" id="a3-ph">flüssig</span></div>
+      <div class="lb-item"><span class="lb-lab">zugeführt</span><span class="lb-val" id="a3-Qv">60.0 kJ</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📈 Temperatur \(\vartheta\) über zugeführter Wärme \(Q\)</div>
+      <canvas id="a3-cv"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 7. ANIMATION 4 — WÄRMETRANSPORT ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Während Wasser bei \(100°C\) siedet, …</p><ul class="mc-optionen"><li data-opt="A">steigt die Temperatur weiter</li><li data-opt="B">bleibt die Temperatur konstant</li><li data-opt="C">sinkt sie</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die Verdampfungswärme wird zum Phasenwechsel verbraucht — die Temperatur bleibt konstant.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die Wärme für einen Phasenwechsel ist \(Q = m \cdot\) <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(L\) (spezifische Umwandlungswärme).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Wärme, um \(0.2\;\text{kg}\) Eis bei \(0°C\) zu schmelzen? (\(L_S = 334\;\text{kJ/kg}\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(Q = m\,L_S = 0.2 \cdot 334 = 66.8\;\text{kJ}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum kühlt Schwitzen den Körper, obwohl der Schweiss zunächst körperwarm ist?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Das Verdunsten entzieht Verdampfungswärme (\(Q = m\,L_V\)). Diese Energie kommt aus der Haut, die dadurch abkühlt.</div></details></div>
+</details>
+
+<h2 id="transport">Die drei Arten des Wärmetransports</h2>
+
+<p>Wärme kann durch Leitung (Energie wandert von Teilchen zu Teilchen), durch Konvektion (das warme Material strömt selbst) oder durch Strahlung (über Infrarot, ganz ohne Materie) übertragen werden. Wähle eine Art und beobachte den Mechanismus.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 4 · Leitung, Konvektion, Strahlung</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Vergleiche die drei Arten des Wärmetransports.</li><li>Achte darauf, wie jede Energie vom Warmen zum Kalten bringt.</li><li>Überlege, welche Art ein Vakuum überwinden kann.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Vergleiche die drei Arten des Wärmetransports. Achte darauf, wie jede von ihnen Energie vom Warmen zum Kalten bringt. Überlege, welche Art auch ein Vakuum überwinden kann." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Wärmeleitung: Energie wandert durch Stösse, der Stoff bleibt am Ort.</li><li>Konvektion: warmes Material strömt selbst (Flüssigkeiten, Gase).</li><li>Strahlung: Energie als elektromagnetische Welle, auch durch das Vakuum.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Bei der Wärmeleitung wandert die Energie durch Stösse weiter, der Stoff selbst bleibt am Ort. Bei der Konvektion strömt warmes Material selbst, das geht nur in Flüssigkeiten und Gasen. Bei der Strahlung wird Energie als elektromagnetische Welle übertragen, das funktioniert sogar durch das Vakuum." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="stoff-wahl" id="a4-modi"></div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Art</span><span class="lb-val" id="a4-art">Wärmeleitung</span></div>
+      <div class="lb-item"><span class="lb-lab">Träger</span><span class="lb-val" id="a4-traeger">Teilchen am Ort</span></div>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a4-btn">▶ Start</button>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🔥 Energiefluss vom Warmen zum Kalten</div>
+      <canvas id="a4-cv" height="280"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 8. ANIMATION 5 — WIRKUNGSGRAD ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wie gelangt die Sonnenwärme durch das Vakuum des Weltraums zur Erde?</p><ul class="mc-optionen"><li data-opt="A">durch Wärmeleitung</li><li data-opt="B">durch Konvektion</li><li data-opt="C">durch Strahlung</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>C.</strong> Strahlung braucht kein Medium und überquert das Vakuum.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Die drei Arten des Wärmetransports sind Leitung, <span class="mc-luecke"></span> und Strahlung.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Konvektion (Strömung).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Welche der drei Transportarten funktioniert ohne Materie?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Die Wärmestrahlung — sie benötigt kein Medium.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum sind gute Thermoskannen doppelwandig mit Vakuum dazwischen und innen verspiegelt?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Das Vakuum unterbindet Leitung und Konvektion, die Verspiegelung reflektiert die Wärmestrahlung — alle drei Transportwege werden gebremst.</div></details></div>
+</details>
+
+<h2 id="wirkungsgrad">Wirkungsgrad — wohin geht die Energie?</h2>
+
+<p>Kein Gerät nutzt die zugeführte Energie vollständig. Der Wirkungsgrad \(\eta\) gibt an, welcher Anteil als gewünschte Nutzenergie ankommt; der Rest geht als Verlust (meist Wärme) an die Umgebung.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 5 · Energiefluss eines Geräts</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle den Wirkungsgrad ein.</li><li>Beobachte die Aufteilung in Nutzen und Verlust.</li><li>Verfolge, wie der Verlust meist als Wärme erscheint.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle den Wirkungsgrad ein. Beobachte die Aufteilung der zugeführten Energie in Nutzen und Verlust. Verfolge, wie der Verlust meistens als Wärme erscheint." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Wirkungsgrad: \(\eta = E_{\text{nutz}} / E_{\text{zu}}\), stets kleiner als 1.</li><li>Die Verlustenergie geht meist als Wärme an die Umgebung.</li><li>Energie geht nie verloren, sie wird nur teilweise unbrauchbar.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der Wirkungsgrad ist Nutzenergie geteilt durch zugeführte Energie und immer kleiner als eins. Die Verlustenergie geht meistens als Wärme an die Umgebung. Energie geht nie verloren, sie wird nur teilweise unbrauchbar." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Wirkungsgrad \(\eta\):</label>
+      <input type="range" id="a5-eta" min="5" max="98" value="78" step="1">
+      <span class="sl-val" id="a5-eta-val">78 %</span>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Nutzenergie</span><span class="lb-val" id="a5-nutz">78 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Verlust</span><span class="lb-val" id="a5-verl">22 %</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⚡ Aufteilung der zugeführten Energie</div>
+      <canvas id="a5-cv" height="220"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 9. ANIMATION 6 — TREIBHAUSEFFEKT ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Der Wirkungsgrad einer Wärmekraftmaschine ist …</p><ul class="mc-optionen"><li data-opt="A">immer \(100\,\%\)</li><li data-opt="B">stets kleiner als \(100\,\%\)</li><li data-opt="C">beliebig grösser als \(100\,\%\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Ein Teil der Wärme geht stets als Abwärme verloren — \(\eta < 1\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Ein Teil der zugeführten Wärme geht stets als <span class="mc-luecke"></span> verloren.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Abwärme.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Maschine nimmt \(1000\;\text{J}\) Wärme auf und leistet \(300\;\text{J}\) Arbeit. Wirkungsgrad?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\eta = \dfrac{300}{1000} = 0.3 = 30\,\%\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Wärmepumpe liefert mehr Heizwärme, als sie elektrische Energie verbraucht. Widerspricht das dem Energieerhaltungssatz?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Nein. Sie verschiebt zusätzlich Wärme aus der Umgebung ins Haus. Geliefert wird Strom plus Umgebungswärme — es wird keine Energie erzeugt, nur transportiert.</div></details></div>
+</details>
+
+<h2 id="treibhaus">Der Treibhauseffekt</h2>
+
+<p>Sichtbares Sonnenlicht durchdringt die Atmosphäre und erwärmt den Boden. Die vom Boden abgestrahlte Wärmestrahlung (Infrarot) wird von Treibhausgasen jedoch teilweise zurückgehalten. Mehr Treibhausgas bedeutet, dass mehr Wärme zurückgeworfen wird — die Oberfläche wird wärmer.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 6 · Licht hinein, Wärmestrahlung hinaus</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Erhöhe die Treibhausgas-Konzentration.</li><li>Beobachte, wie mehr Infrarotstrahlung zurückgehalten wird.</li><li>Verfolge die steigende Oberflächentemperatur.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Erhöhe die Treibhausgas-Konzentration. Beobachte, wie mehr Infrarotstrahlung zurückgehalten wird. Verfolge, wie die Oberflächentemperatur dabei steigt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Sichtbares Licht kommt herein; die Erde strahlt im Infrarot zurück.</li><li>Treibhausgase absorbieren die Infrarotstrahlung und strahlen sie teils zurück.</li><li>Mehr Treibhausgas verschiebt das Gleichgewicht zu höherer Oberflächentemperatur.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Sichtbares Licht kommt herein, die Erde strahlt im Infrarotbereich zurück. Treibhausgase absorbieren diese Infrarotstrahlung und strahlen einen Teil wieder zur Oberfläche zurück. Mehr Treibhausgas verschiebt das Gleichgewicht zu einer höheren Oberflächentemperatur." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Treibhausgase:</label>
+      <input type="range" id="a6-g" min="0" max="100" value="40" step="1">
+      <span class="sl-val" id="a6-g-val">40 %</span>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="a6-btn">▶ Start</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">zurückgehalten</span><span class="lb-val" id="a6-back">40 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Oberfläche (relativ)</span><span class="lb-val" id="a6-temp">mild</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🌍 Sonnenlicht (gelb) und Wärmestrahlung (rot)</div>
+      <canvas id="a6-cv" height="300"></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 10. AUFGABEN ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der Temperatur, während Eis bei 0 °C schmilzt?</summary>
+  <div class="frage-antwort">
+    <p>Sie bleibt bei \(0\,^\circ\text{C}\) konstant. Die zugeführte Energie wird als <strong>latente Wärme</strong> zum Aufbrechen der Bindungen gebraucht; erst wenn alles geschmolzen ist, steigt die Temperatur weiter.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Der natürliche Treibhauseffekt bewirkt, dass die Erde …</p><ul class="mc-optionen"><li data-opt="A">kälter ist als ohne Atmosphäre</li><li data-opt="B">wärmer ist als ohne Atmosphäre</li><li data-opt="C">gleich warm ist</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Ohne Treibhausgase wäre die Erdoberfläche im Mittel deutlich kälter.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Treibhausgase lassen Sonnenlicht durch, halten aber die <span class="mc-luecke"></span> Strahlung der Erde zurück.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">infrarote (Wärme-).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">In welchem Wellenlängenbereich strahlt die warme Erdoberfläche hauptsächlich ab?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Im Infrarot (langwellig) — anders als die kurzwellige Sonneneinstrahlung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum wird es in einem geschlossenen Auto in der Sonne so heiss?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Das Glas lässt sichtbares Licht herein; die aufgeheizten Innenflächen strahlen Infrarot ab, das das Glas kaum durchlässt. Die Wärme staut sich — analog zum Treibhauseffekt.</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Wärmemenge berechnen</span></div>
+  <p>Verwende \(Q=m\,c\,\Delta T\) mit \(c_\text{Wasser}=4182\,\text{J/(kg·K)}\) und \(c_\text{Eisen}=450\,\text{J/(kg·K)}\).</p>
+  <ol class="aufg-liste">
+    <li>Wie viel Wärme braucht es, um \(2\,\text{kg}\) Wasser von \(20\,^\circ\text{C}\) auf \(100\,^\circ\text{C}\) zu erwärmen?</li>
+    <li>Rechne dieses Ergebnis in Kilowattstunden um (\(1\,\text{kWh}=3.6\,\text{MJ}\)).</li>
+    <li>Wie viel Wärme braucht dieselbe Masse Eisen für dieselbe Temperaturänderung? Vergleiche.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Mit \(Q = m \cdot c \cdot \Delta T\): \(Q = 2 \cdot 4182 \cdot 80 = 669\,120\,\text{J} \approx 669\,\text{kJ}\)</li>
+        <li>\(669\,120\,\text{J} / 3.6\cdot10^6 = 0.186\,\text{kWh}\)</li>
+        <li>\(Q = 2 \cdot 450 \cdot 80 = 72\,000\,\text{J} = 72\,\text{kJ}\). Eisen braucht nur etwa ein Neuntel — seine Wärmekapazität ist viel kleiner als die von Wasser.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Mischtemperatur</span></div>
+  <p>Es werden \(0.3\,\text{kg}\) Wasser von \(80\,^\circ\text{C}\) mit \(0.5\,\text{kg}\) Wasser von \(20\,^\circ\text{C}\) gemischt (gleicher Stoff, abgeschlossenes System).</p>
+  <ol class="aufg-liste">
+    <li>Berechne die Mischtemperatur.</li>
+    <li>Liegt sie näher bei \(80\,^\circ\text{C}\) oder bei \(20\,^\circ\text{C}\)? Begründe.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Mischungsformel \(\vartheta_\text{m} = \dfrac{m_1 c_1\,\vartheta_1 + m_2 c_2\,\vartheta_2}{m_1 c_1 + m_2 c_2}\); da beide Wasser sind, kürzt sich \(c\) heraus: \(\vartheta_\text{m} = \dfrac{0.3\cdot 80 + 0.5\cdot 20}{0.3+0.5} = \dfrac{34}{0.8} = 42.5\,^\circ\text{C}\)</li>
+        <li>Näher bei \(20\,^\circ\text{C}\), weil die kältere Portion die grössere Masse hat und so die Bilanz stärker prägt.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Eis schmelzen und erwärmen</span></div>
+  <p>\(0.5\,\text{kg}\) Eis von \(-10\,^\circ\text{C}\) sollen zu Wasser von \(20\,^\circ\text{C}\) werden. Verwende \(c_\text{Eis}=2100\), \(c_\text{Wasser}=4182\,\text{J/(kg·K)}\) und \(L_\text{f}=334\,\text{kJ/kg}\).</p>
+  <ol class="aufg-liste">
+    <li>Berechne die Wärme für die drei Schritte (Eis erwärmen, schmelzen, Wasser erwärmen) und die Gesamtwärme.</li>
+    <li>Warum bleibt die Temperatur beim Schmelzen konstant?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Eis \(-10\to 0\) mit \(Q = m\,c_\text{Eis}\,\Delta T\): \(Q_1=0.5\cdot 2100\cdot 10 = 10\,500\,\text{J}\). Schmelzen mit \(Q = m \cdot L_\text{f}\): \(Q_2=0.5\cdot 334\,000 = 167\,000\,\text{J}\). Wasser \(0\to 20\) mit \(Q = m\,c_\text{W}\,\Delta T\): \(Q_3=0.5\cdot 4182\cdot 20 = 41\,820\,\text{J}\). Gesamt: \(Q\approx 219\,320\,\text{J}\approx 219\,\text{kJ}\).</li>
+        <li>Die zugeführte Energie löst beim Schmelzen die Teilchen aus dem festen Verband (latente Wärme), statt sie schneller zu machen — deshalb steigt die Temperatur nicht, solange noch Eis vorhanden ist.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Wirkungsgrad und Leistung</span></div>
+  <p>Ein Wasserkocher erwärmt \(1.5\,\text{kg}\) Wasser von \(15\,^\circ\text{C}\) auf \(100\,^\circ\text{C}\) und nimmt dabei \(680\,\text{kJ}\) elektrische Energie auf.</p>
+  <ol class="aufg-liste">
+    <li>Berechne die tatsächlich genutzte Wärme \(Q_\text{nutz}\).</li>
+    <li>Bestimme den Wirkungsgrad \(\eta\).</li>
+    <li>Wie lange dauert das Erwärmen bei einer Leistung von \(2000\,\text{W}\)?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Mit \(Q = m \cdot c \cdot \Delta T\): \(Q_\text{nutz}=1.5\cdot 4182\cdot 85 = 533\,205\,\text{J}\approx 533\,\text{kJ}\)</li>
+        <li>\(\eta = \dfrac{533\,\text{kJ}}{680\,\text{kJ}} = 0.78 = 78\,\%\)</li>
+        <li>\(t = \dfrac{E}{P} = \dfrac{680\,000\,\text{J}}{2000\,\text{W}} = 340\,\text{s} \approx 5.7\,\text{min}\)</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Wärmetransport und Treibhauseffekt</span></div>
+  <ol class="aufg-liste">
+    <li>Ordne jeder Situation die Art des Wärmetransports zu: (a) der Griff einer Pfanne wird heiss, (b) die Luft über einem Heizkörper steigt auf, (c) die Sonne wärmt das Gesicht.</li>
+    <li>Erkläre in zwei, drei Sätzen, warum die Atmosphäre die Oberfläche erwärmt («Treibhauseffekt»), und welche Rolle die unterschiedliche Durchlässigkeit für Licht und Wärmestrahlung spielt.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>(a) Wärmeleitung — die Energie wandert von Teilchen zu Teilchen durch das Metall. (b) Konvektion — die erwärmte Luft strömt selbst nach oben. (c) Wärmestrahlung — Infrarot überträgt Energie ohne Materie.</li>
+        <li>Die Atmosphäre lässt das sichtbare Sonnenlicht weitgehend durch, sodass der Boden erwärmt wird. Die vom Boden abgegebene Infrarot-Wärmestrahlung wird von Treibhausgasen aber teilweise zurückgehalten. Dadurch bleibt mehr Energie in Bodennähe, und es ist wärmer als ohne Atmosphäre.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Wärmepumpe</span></div>
+  <p>Eine Wärmepumpe entnimmt dem Erdreich bei \(5\,^\circ\text{C}\) (\(278\,\text{K}\)) Wärme und gibt sie an ein Heizsystem von \(50\,^\circ\text{C}\) (\(323\,\text{K}\)) ab.</p>
+  <ol class="aufg-liste">
+    <li>Berechne die maximal mögliche Leistungszahl \(\text{COP}_\text{max} = \dfrac{T_\text{warm}}{T_\text{warm}-T_\text{kalt}}\).</li>
+    <li>Was bedeutet dieser Wert anschaulich?</li>
+    <li>Würde die Leistungszahl bei einer Heizung von \(35\,^\circ\text{C}\) statt \(50\,^\circ\text{C}\) grösser oder kleiner? Begründe ohne Rechnung.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(\text{COP}_\text{max} = \dfrac{T_\text{warm}}{T_\text{warm}-T_\text{kalt}} = \dfrac{323}{323-278} = \dfrac{323}{45} \approx 7.2\)</li>
+        <li>Im Idealfall liefert die Wärmepumpe je eingesetzter Einheit elektrischer Energie rund \(7\) Einheiten Heizwärme — der Rest stammt kostenlos aus dem Erdreich.</li>
+        <li>Grösser: Bei kleinerer Temperaturdifferenz zwischen warm und kalt steigt \(\text{COP}_\text{max}\) (der Nenner wird kleiner). Eine niedrigere Vorlauftemperatur macht die Wärmepumpe also effizienter.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 11. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Grösse / Konzept</th><th>Formel / Aussage</th><th>Einheit / Bezug</th></tr></thead>
+  <tbody>
+    <tr><td>Wärme</td><td>Energieübertragung vom Warmen zum Kalten; \(Q\lessgtr 0\)</td><td>Joule (J)</td></tr>
+    <tr><td>Wärmemenge</td><td>\(Q = m\,c\,\Delta T\)</td><td>\(c\) in J/(kg·K)</td></tr>
+    <tr><td>Wärmebilanz</td><td>\(\sum Q_i = 0\) (abgeschlossenes System)</td><td>Mischtemperatur</td></tr>
+    <tr><td>Latente Wärme</td><td>\(Q = m\,L_\text{f}\) / \(Q = m\,L_\text{v}\)</td><td>Temperatur konstant</td></tr>
+    <tr><td>Leistung</td><td>\(P = E/t\)</td><td>Watt (W)</td></tr>
+    <tr><td>Wirkungsgrad</td><td>\(\eta = E_\text{nutz}/E_\text{zu}\le 1\)</td><td>Verluste als Wärme</td></tr>
+    <tr><td>Wärmetransport</td><td>Leitung · Konvektion · Strahlung</td><td>3 Mechanismen</td></tr>
+    <tr><td>Wärmepumpe</td><td>\(\text{COP}=Q_\text{warm}/E_\text{el}\)</td><td>kalt → warm</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Wärme \(Q\) ist eine Prozessgrösse: Energie, die wegen eines Temperaturunterschieds übertragen wird.</li>
+  <li>Ein Körper speichert innere Energie, nicht Wärme.</li>
+  <li>Wärmemenge: \(Q=m c\Delta T\), mit der spezifischen Wärmekapazität \(c\).</li>
+  <li>In einem abgeschlossenen System gilt die Wärmebilanz \(\sum Q_i=0\) (Mischtemperatur).</li>
+  <li>Beim Schmelzen und Verdampfen bleibt die Temperatur konstant — die latente Wärme \(Q=mL\) wird verbraucht.</li>
+  <li>Wärme wird durch Leitung, Konvektion und Strahlung übertragen.</li>
+  <li>Der Treibhaus-Effekt beruht auf der wellenlängenabhängigen Absorption der Atmosphäre.</li>
+</ul>
+
+<div class="merksatz">
+  Wärme ist Energie, die wegen eines Temperaturunterschieds vom wärmeren zum kälteren Körper fliesst. Zum Erwärmen gilt \(Q=m\,c\,\Delta T\); bei Phasenübergängen kommt die latente Wärme \(Q=m\,L\) bei konstanter Temperatur hinzu. In einem abgeschlossenen System ist die Wärmebilanz null (\(\sum Q_i = 0\)), woraus die Mischtemperatur folgt. Reale Geräte haben einen Wirkungsgrad \(\eta<1\); Wärmepumpen verschieben Wärme mit Antriebsenergie von kalt nach warm. Übertragen wird Wärme durch Leitung, Konvektion und Strahlung — letztere trägt über die selektive Durchlässigkeit der Atmosphäre auch den Treibhauseffekt.
+</div>
+
+
+<!-- ══════════════ 12. ZUSATZMATERIAL ══════════════ -->
+<h2 id="downloads">Zusatzmaterial</h2>
+<p>Materialien zum Mitnehmen, Üben und Wiederholen. Druckseiten öffnen in neuem Tab.</p>
+<div class="dl-grid">
+  <a href="../downloads/themen/p5-2-waerme/handout.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📄</span>
+    <div><div class="dl-t">Handout</div><div class="dl-s">Theorie-Zusammenfassung</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p5-2-waerme/formelauszug.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">📐</span>
+    <div><div class="dl-t">Formelauszug</div><div class="dl-s">Alle Formeln auf einer Seite</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p5-2-waerme/ankideck.apkg" class="dl">
+    <span class="dl-ic">🃏</span>
+    <div><div class="dl-t">Anki-Deck</div><div class="dl-s">Karteikarten zum Auswendiglernen</div><div class="dl-fmt">APKG</div></div>
+  </a>
+  <a href="../downloads/themen/p5-2-waerme/teste-dich-selbst.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">✅</span>
+    <div><div class="dl-t">Teste dich selbst</div><div class="dl-s">Grundlagenaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+  <a href="../downloads/themen/p5-2-waerme/aufgabenserie.html" target="_blank" rel="noopener" class="dl">
+    <span class="dl-ic">🧩</span>
+    <div><div class="dl-t">Aufgabenserie</div><div class="dl-s">Anwendungsaufgaben mit Lösungen</div><div class="dl-fmt">Druckseite</div></div>
+  </a>
+</div>
+
+
+<!-- ══════════════ 13. EXTERNE RESSOURCEN ══════════════ -->
+<h2 id="ressourcen">Externe Videos, Simulationen &amp; Aufgabensammlungen</h2>
+<p>Ausgewählte und geprüfte Anlaufstellen zum Vertiefen, Veranschaulichen und Üben. Alle Links öffnen in einem neuen Tab.</p>
+
+<div class="ressourcen-subtitel">🎬 Erklärvideos</div>
+<div class="links-grid">
+  <a href="https://www.lehrer-schmidt.de/physik/wärmelehre/" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Lehrerschmidt — Wärmelehre</div><div class="lk-s">Vom Kanal selbst geordnete Video-Sammlung: Wärmeleitung, Wärmeströmung und Wärmestrahlung, Energieerhaltung sowie Aggregatzustände — Schritt für Schritt erklärt</div></div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=lDCxXwA2Ehw" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">Was genau ist Wärme?</div><div class="lk-s">Einfache Erklärung der Grösse Wärme und ihres Zusammenhangs mit Temperatur und innerer Energie (mit weiterführender Thermodynamik-Playlist)</div></div>
+  </a>
+  <a href="https://www.youtube.com/@musstewissenPhysik/search?query=wärme" target="_blank" rel="noopener" class="lk">
+    <span class="lk-ic">▶️</span>
+    <div><div class="lk-t">musstewissen Physik — Wärme</div><div class="lk-s">Kanalsuche · funk/ARD/ZDF · BM-passender Schul-Erklärstil</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">🧪 Interaktive Simulationen</div>
+<div class="links-grid">
+  <a href="https://phet.colorado.edu/de/simulations/energy-forms-and-changes" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Energieformen und Energieumwandlungen</div><div class="lk-s">Eisen, Ziegel und Wasser heizen und kühlen, Wärmeübertragung zwischen Körpern beobachten (deutsch)</div></div>
+  </a>
+  <a href="https://phet.colorado.edu/de/simulations/states-of-matter-basics" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Aggregatzustände (Grundbegriffe)</div><div class="lk-s">Heizen und Kühlen mit Phasenübergängen fest/flüssig/gasförmig — Energie bei Schmelzen und Verdampfen (deutsch)</div></div>
+  </a>
+  <a href="https://phet.colorado.edu/de/simulations/greenhouse-effect" target="_blank" rel="noopener" class="lk sim">
+    <span class="lk-ic">🧪</span>
+    <div><div class="lk-t">PhET — Der Treibhauseffekt</div><div class="lk-s">Treibhausgas-Konzentration verändern und die Wirkung auf Wärmestrahlung und Oberflächentemperatur erkunden (deutsch)</div></div>
+  </a>
+</div>
+
+<div class="ressourcen-subtitel">📝 Aufgabensammlungen</div>
+<div class="links-grid">
+  <a href="https://www.leifiphysik.de/waermelehre/innere-energie-waermekapazitaet/aufgaben" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Innere Energie und Wärmekapazität</div><div class="lk-s">Aufgabenübersicht zu \(Q=m\,c\,\Delta T\), Mischungen und Wärmetauschern · mit ausführlichen Musterlösungen</div></div>
+  </a>
+  <a href="https://www.leifiphysik.de/waermelehre/innere-energie-waermekapazitaet/aufgabe/spezifische-waermekapazitaeten" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">LEIFIphysik — Spezifische Wärmekapazitäten</div><div class="lk-s">Technik-Anwendungen (Kühlflüssigkeit, Isoliergefäss, Nachtspeicher) · mit Musterlösung</div></div>
+  </a>
+  <a href="https://de.serlo.org/physik/50791/thermische-energie" target="_blank" rel="noopener" class="lk aufg">
+    <span class="lk-ic">📝</span>
+    <div><div class="lk-t">serlo — Thermische Energie (Grundlagen und Aufgaben)</div><div class="lk-s">Frei lizenziert · Aufgaben zu Wärmemenge und Wärmekapazität mit Musterlösungen</div></div>
+  </a>
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 5.2 Wärme</p>
+  <p>Version 0.9 · Stand Juni 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p5-2',
+  kapitelNr:'5.2', kapitelTitel:'Wärme',
+  prev:{nr:'5.1',titel:'Temperatur',url:'p5-1-temperatur.html'},
+  next:{nr:'5.3',titel:'Wärmeausdehnung',url:'p5-3-waermeausdehnung.html'}
+});
+
+// ── Konstanten & Helfer ───────────────────────────────────
+function lerpCol(t){ // t in [0,1]: blau (kalt) -> rot (heiss)
+  t = Math.max(0, Math.min(1, t));
+  const r = Math.round(45 + t*185);
+  const g = Math.round(70 + (1-Math.abs(t-0.5)*2)*45);
+  const b = Math.round(210 - t*180);
+  return 'rgb('+r+','+g+','+b+')';
+}
+function fmtkJ(j){ return (j/1000).toFixed(1) + ' kJ'; }
+function grp(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+
+// ── Loop-Manager (rAF + IntersectionObserver-Autostart) ───
+const LOOPS = [];
+function makeLoop(canvasId, btnId, tickFn){
+  const st = { running:false, userPaused:false, rafId:null, last:0, canvasId:canvasId };
+  const btn = document.getElementById(btnId); st.btn = btn;
+  function frame(ts){
+    if(!st.running) return;
+    if(!st.last) st.last = ts;
+    let dt = (ts - st.last)/1000; st.last = ts;
+    if(dt > 0.05) dt = 0.05;
+    tickFn(dt);
+    st.rafId = requestAnimationFrame(frame);
+  }
+  st.start = function(){ if(st.running) return; st.running = true; st.last = 0; st.rafId = requestAnimationFrame(frame); };
+  st.stop  = function(){ st.running = false; if(st.rafId) cancelAnimationFrame(st.rafId); };
+  if(btn){
+    btn.addEventListener('click', function(){
+      if(st.running){ st.userPaused = true; st.stop(); btn.textContent='▶ Weiter'; btn.classList.add('paused'); }
+      else { st.userPaused = false; st.start(); btn.textContent='⏸ Pause'; btn.classList.remove('paused'); }
+    });
+  }
+  LOOPS.push(st);
+  return st;
+}
+
+// ══════════════════════════════════════════════════════════
+//  EINSTIEG: Thermisches Gleichgewicht (zwei Koerper)
+// ══════════════════════════════════════════════════════════
+const einState = { TL:90, TR:10, pL:[], pR:[], inited:false };
+function einMkParts(n){
+  const a=[]; for(let i=0;i<n;i++){ const ang=Math.random()*6.283;
+    a.push({x:Math.random(),y:Math.random(),vx:Math.cos(ang),vy:Math.sin(ang)}); } return a;
+}
+function einInit(){ einState.TL=90; einState.TR=10; einState.pL=einMkParts(16); einState.pR=einMkParts(16); einState.inited=true; }
+function einSpeed(T){ return 0.12 + (T/100)*0.45; }
+function einMove(parts, T, dt){
+  const sp = einSpeed(T);
+  for(const q of parts){
+    const m=Math.hypot(q.vx,q.vy)||1; q.vx=q.vx/m; q.vy=q.vy/m;
+    q.x += q.vx*sp*dt; q.y += q.vy*sp*dt;
+    if(q.x<0.05){q.x=0.05;q.vx=Math.abs(q.vx);} if(q.x>0.95){q.x=0.95;q.vx=-Math.abs(q.vx);}
+    if(q.y<0.05){q.y=0.05;q.vy=Math.abs(q.vy);} if(q.y>0.95){q.y=0.95;q.vy=-Math.abs(q.vy);}
+  }
+}
+function einTick(dt){
+  if(!einState.inited) einInit();
+  const mean=(einState.TL+einState.TR)/2, rate=0.55;
+  einState.TL += (mean-einState.TL)*rate*dt;
+  einState.TR += (mean-einState.TR)*rate*dt;
+  einMove(einState.pL, einState.TL, dt);
+  einMove(einState.pR, einState.TR, dt);
+  document.getElementById('ein-TL').textContent = einState.TL.toFixed(0)+' °C';
+  document.getElementById('ein-TR').textContent = einState.TR.toFixed(0)+' °C';
+  document.getElementById('ein-Tm').textContent = mean.toFixed(0)+' °C';
+  einRender();
+}
+function einBox(ctx,W,H,x0,x1,parts,T,label){
+  const px0=x0*W, px1=x1*W, py0=H*0.06, py1=H*0.74;
+  ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=3; ctx.strokeRect(px0,py0,px1-px0,py1-py0);
+  const col=lerpCol(T/100);
+  for(const q of parts){ ctx.fillStyle=col; ctx.beginPath();
+    ctx.arc(px0+q.x*(px1-px0), py0+q.y*(py1-py0), 5.5, 0, 6.283); ctx.fill(); }
+  // Temperaturbalken
+  const by0=H*0.80, by1=H*0.95, bx0=px0, bx1=px1;
+  ctx.strokeStyle='#b8ae99'; ctx.lineWidth=1; ctx.strokeRect(bx0,by0,bx1-bx0,by1-by0);
+  ctx.fillStyle=col; ctx.fillRect(bx0,by0,(bx1-bx0)*(T/100),by1-by0);
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText(label+': '+T.toFixed(0)+' °C', (px0+px1)/2, py0-6);
+}
+function einRender(){
+  const cv=initCanvas('ein-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  einBox(ctx,W,H,0.04,0.47,einState.pL,einState.TL,'links');
+  einBox(ctx,W,H,0.53,0.96,einState.pR,einState.TR,'rechts');
+  // Kontaktzone + Pfeil (Waermefluss vom Waermeren zum Kaelteren)
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  if(Math.abs(einState.TL-einState.TR)>1){
+    const dir = einState.TL>einState.TR ? 1 : -1;
+    const cy=H*0.40, x1=W*0.475, x2=W*0.525;
+    ctx.strokeStyle='#9b1c1c'; ctx.lineWidth=2.5;
+    drawArrow(ctx, dir>0?x1:x2, cy, dir>0?x2:x1, cy, '#9b1c1c', 2.5, 8);
+    ctx.fillStyle='#9b1c1c'; ctx.fillText('Q', W*0.5, cy-8);
+  } else {
+    ctx.fillStyle='#1f6b3a'; ctx.fillText('Gleichgewicht', W*0.5, H*0.40);
+  }
+}
+const einLoop = makeLoop('ein-cv','ein-btn', einTick);
+document.getElementById('ein-reset').addEventListener('click', ()=>{ einInit(); einRender(); });
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: Q = m·c·ΔT  (Balkenvergleich)
+// ══════════════════════════════════════════════════════════
+const STOFFE = [
+  {name:'Wasser', c:4182}, {name:'Ethanol', c:2430}, {name:'Öl', c:2000},
+  {name:'Aluminium', c:896}, {name:'Sand', c:835}, {name:'Eisen', c:450}
+];
+let a1Sel = 0;
+function a1BuildButtons(){
+  const box=document.getElementById('a1-stoffe'); box.innerHTML='';
+  STOFFE.forEach((s,i)=>{
+    const b=document.createElement('button'); b.textContent=s.name;
+    if(i===a1Sel) b.classList.add('aktiv');
+    b.addEventListener('click',()=>{ a1Sel=i; a1BuildButtons(); a1Render(); });
+    box.appendChild(b);
+  });
+}
+function a1Render(){
+  const m=+document.getElementById('a1-m').value, dT=+document.getElementById('a1-dT').value;
+  document.getElementById('a1-m-val').textContent=m.toFixed(1)+' kg';
+  document.getElementById('a1-dT-val').textContent=dT+' K';
+  const s=STOFFE[a1Sel], Q=m*s.c*dT;
+  document.getElementById('a1-eq').textContent='Q = '+m.toFixed(1)+' · '+s.c+' · '+dT+' = '+grp(Q)+' J = '+(Q/1000).toFixed(1)+' kJ';
+
+  const cv=initCanvas('a1-cv',280,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const qs=STOFFE.map(st=>m*st.c*dT), qmax=Math.max(...qs);
+  const x0=W*0.20, x1=W*0.92, n=STOFFE.length;
+  const bh=(H*0.88)/n*0.66, gap=(H*0.88)/n;
+  for(let i=0;i<n;i++){
+    const y=H*0.06+i*gap, len=(x1-x0)*(qs[i]/qmax);
+    ctx.fillStyle = (i===a1Sel)?'#b85c00':'#d9c4a3';
+    ctx.fillRect(x0,y,len,bh);
+    ctx.fillStyle='#1c1a17'; ctx.font=(i===a1Sel?'bold ':'')+'12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.fillText(STOFFE[i].name, x0-8, y+bh*0.72);
+    ctx.textAlign='left'; ctx.font='11px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
+    ctx.fillText((qs[i]/1000).toFixed(1)+' kJ', x0+len+6, y+bh*0.72);
+  }
+}
+['a1-m','a1-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a1Render));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 2: Mischtemperatur (Wasser + Wasser)
+// ══════════════════════════════════════════════════════════
+function a2Render(){
+  const m1=+document.getElementById('a2-m1').value, t1=+document.getElementById('a2-t1').value;
+  const m2=+document.getElementById('a2-m2').value, t2=+document.getElementById('a2-t2').value;
+  document.getElementById('a2-m1-val').textContent=m1.toFixed(1)+' kg';
+  document.getElementById('a2-t1-val').textContent=t1+' °C';
+  document.getElementById('a2-m2-val').textContent=m2.toFixed(1)+' kg';
+  document.getElementById('a2-t2-val').textContent=t2+' °C';
+  const tm=(m1*t1+m2*t2)/(m1+m2);
+  document.getElementById('a2-eq').textContent='ϑm = ('+m1.toFixed(1)+'·'+t1+' + '+m2.toFixed(1)+'·'+t2+') / ('+m1.toFixed(1)+' + '+m2.toFixed(1)+') = '+tm.toFixed(1)+' °C';
+
+  const cv=initCanvas('a2-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const base=H-40, top=H*0.12, maxM=3;
+  function beaker(cx,wpx,m,T,lab){
+    const h=(base-top)*(m/maxM), y=base-h;
+    ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2;
+    ctx.strokeRect(cx-wpx/2, top, wpx, base-top);
+    ctx.fillStyle=lerpCol(T/100); ctx.fillRect(cx-wpx/2+2, y, wpx-4, h);
+    ctx.fillStyle='#1c1a17'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(lab, cx, base+16);
+    ctx.font='bold 11px JetBrains Mono,monospace';
+    ctx.fillText(m.toFixed(1)+'kg · '+T+'°C', cx, base+30);
+  }
+  beaker(W*0.16, W*0.16, m1, t1, 'Portion 1');
+  beaker(W*0.40, W*0.16, m2, t2, 'Portion 2');
+  beaker(W*0.82, W*0.20, m1+m2, tm, 'Mischung');
+  ctx.fillStyle='#5a5040'; ctx.font='bold 20px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('+', W*0.28, H*0.5); ctx.fillText('=', W*0.61, H*0.5);
+  ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace';
+  ctx.fillText('ϑm = '+tm.toFixed(1)+' °C', W*0.82, top-2);
+}
+['a2-m1','a2-t1','a2-m2','a2-t2'].forEach(id=>document.getElementById(id).addEventListener('input', a2Render));
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 3: Heizkurve (0.1 kg Wasser, Eis -20 -> Dampf 150)
+// ══════════════════════════════════════════════════════════
+// Stuetzpunkte (Q in J, T in °C)
+const HK = [[0,-20],[4200,0],[37600,0],[79420,100],[305020,100],[315070,150]];
+function hkTemp(Q){
+  for(let i=1;i<HK.length;i++){
+    if(Q<=HK[i][0]){
+      const [q0,t0]=HK[i-1], [q1,t1]=HK[i];
+      return t0 + (t1-t0)*(Q-q0)/(q1-q0);
+    }
+  }
+  return 150;
+}
+function hkPhase(Q){
+  if(Q<=4200) return 'fest (Eis)';
+  if(Q<37600) return 'schmelzen';
+  if(Q<=79420) return 'flüssig';
+  if(Q<305020) return 'verdampfen';
+  return 'gasförmig (Dampf)';
+}
+function drawA3(){
+  const Q=+document.getElementById('a3-Q').value;
+  const T=hkTemp(Q), ph=hkPhase(Q);
+  document.getElementById('a3-Q-val').textContent=(Q/1000).toFixed(1)+' kJ';
+  document.getElementById('a3-T').textContent=T.toFixed(0)+' °C';
+  document.getElementById('a3-ph').textContent=ph;
+  document.getElementById('a3-Qv').textContent=(Q/1000).toFixed(1)+' kJ';
+
+  const cv=initCanvas('a3-cv',320,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const g=drawGrid(ctx,W,H,0,320,-30,160);
+  drawAxesUnits(ctx,W,H,g.cx,g.cy,'Q [kJ]','ϑ [°C]');
+  const cx=g.cx, cy=g.cy;
+  // Kurve
+  ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.6; ctx.beginPath();
+  HK.forEach((p,i)=>{ const X=cx(p[0]/1000), Y=cy(p[1]); if(i===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); });
+  ctx.stroke();
+  // Plateau-Beschriftungen
+  ctx.font='10px Source Sans 3,sans-serif'; ctx.fillStyle='#1a4f8a'; ctx.textAlign='left';
+  ctx.fillText('Schmelzen (0 °C)', cx(42), cy(0)-8);
+  ctx.fillStyle='#9b1c1c'; ctx.textAlign='center';
+  ctx.fillText('Verdampfen (100 °C)', cx((79.42+305.02)/2), cy(100)-10);
+  // aktueller Punkt
+  const px=cx(Q/1000), py=cy(T);
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(px,cy(-30)); ctx.lineTo(px,py); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
+  drawDot(ctx,x=>x,y=>y,px,py,'#1c1a17',6);
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillText(T.toFixed(0)+' °C', px+9, py+16);
+}
+document.getElementById('a3-Q').addEventListener('input', drawA3);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 4: Wärmetransport (Leitung / Konvektion / Strahlung)
+// ══════════════════════════════════════════════════════════
+const A4MODI = [
+  {name:'Wärmeleitung', traeger:'Teilchen am Ort'},
+  {name:'Konvektion',   traeger:'strömendes Material'},
+  {name:'Wärmestrahlung',traeger:'Infrarot, ohne Materie'}
+];
+const a4State = { t:0, mode:0 };
+function a4Buttons(){
+  const box=document.getElementById('a4-modi'); box.innerHTML='';
+  A4MODI.forEach((m,i)=>{
+    const b=document.createElement('button'); b.textContent=m.name;
+    if(i===a4State.mode) b.classList.add('aktiv');
+    b.addEventListener('click',()=>{ a4State.mode=i; a4Buttons();
+      document.getElementById('a4-art').textContent=m.name;
+      document.getElementById('a4-traeger').textContent=m.traeger;
+      a4Render(); });
+    box.appendChild(b);
+  });
+}
+function a4Tick(dt){ a4State.t += dt; a4Render(); }
+function a4Render(){
+  const cv=initCanvas('a4-cv',280,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const t=a4State.t;
+  if(a4State.mode===0){           // ── Wärmeleitung ──
+    const x0=W*0.10,x1=W*0.90,y0=H*0.34,y1=H*0.60;
+    // Stab als Verlauf rot->blau
+    for(let i=0;i<60;i++){ const f=i/59; ctx.fillStyle=lerpCol(1-f);
+      ctx.fillRect(x0+f*(x1-x0), y0, (x1-x0)/60+1, y1-y0); }
+    ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(x0,y0,x1-x0,y1-y0);
+    // Heizquelle links
+    ctx.fillStyle='#9b1c1c'; ctx.fillRect(x0-W*0.05,y0,W*0.05,y1-y0);
+    ctx.fillStyle='#9b1c1c'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('heiss', x0-W*0.025, y0-6); 
+    ctx.fillStyle='#1a4f8a'; ctx.fillText('kalt', x1, y0-6);
+    // vibrierende Teilchen am Ort
+    for(let i=0;i<11;i++) for(let j=0;j<2;j++){
+      const bx=x0+(i+0.5)/11*(x1-x0), by=y0+(j+0.5)/2*(y1-y0);
+      const jit=3; const dx=Math.sin(t*8+i+j)*jit, dy=Math.cos(t*9+i*2+j)*jit;
+      ctx.fillStyle='rgba(255,255,255,0.55)'; ctx.beginPath(); ctx.arc(bx+dx,by+dy,3.5,0,6.283); ctx.fill();
+    }
+    // Energiepuls wandert nach rechts
+    const pf=(t*0.35)%1; const pulseX=x0+pf*(x1-x0);
+    ctx.strokeStyle='rgba(255,230,150,0.9)'; ctx.lineWidth=4;
+    ctx.beginPath(); ctx.moveTo(pulseX,y0); ctx.lineTo(pulseX,y1); ctx.stroke();
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='11px Source Sans 3,sans-serif';
+    ctx.fillText('Teilchen schwingen am Ort, geben Energie an Nachbarn weiter →', W*0.5, y1+24);
+  } else if(a4State.mode===1){    // ── Konvektion ──
+    const cx0=W*0.28,cx1=W*0.72,cy0=H*0.12,cy1=H*0.80;
+    ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(cx0,cy0,cx1-cx0,cy1-cy0);
+    ctx.fillStyle='#9b1c1c'; ctx.fillRect(cx0,cy1,cx1-cx0,H*0.05);   // Heizung unten
+    ctx.fillStyle='#fff'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Wärmequelle', (cx0+cx1)/2, cy1+H*0.035);
+    // Umlauf: hoch in der Mitte, runter aussen (zwei Wirbel)
+    const midX=(cx0+cx1)/2, w=(cx1-cx0)/2-8, h=(cy1-cy0)-16, ty=cy0+8;
+    for(let k=0;k<14;k++){
+      const s=((t*0.18)+k/14)%1;
+      // Pfad: rauf in Mitte (s 0..0.5), runter aussen (0.5..1) - linker Wirbel
+      let bx,by,warm;
+      if(s<0.5){ const u=s/0.5; bx=midX-4; by=cy1-8-u*h; warm=1-u*0.8; }
+      else { const u=(s-0.5)/0.5; bx=midX-4-u*w; by=ty+u*h; warm=0.2; }
+      ctx.fillStyle=lerpCol(warm); ctx.beginPath(); ctx.arc(bx,by,4.5,0,6.283); ctx.fill();
+      // rechter Wirbel gespiegelt
+      const bx2 = 2*midX-bx;
+      ctx.beginPath(); ctx.arc(bx2,by,4.5,0,6.283); ctx.fill();
+    }
+    // Pfeile
+    ctx.strokeStyle='#5a5040';
+    drawArrow(ctx, midX, cy0+30, midX, cy0+12, '#9b1c1c',2,7);
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='11px Source Sans 3,sans-serif';
+    ctx.fillText('warmes Material steigt auf, kühlt oben ab und sinkt', W*0.5, cy1+H*0.05+18);
+  } else {                        // ── Wärmestrahlung ──
+    const sx=W*0.14, ox=W*0.84, midY=H*0.45;
+    // Quelle
+    ctx.fillStyle='#9b1c1c'; ctx.beginPath(); ctx.arc(sx,midY,26,0,6.283); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.fillText('heiss', sx, midY+4);
+    // Objekt rechts (erwaermt sich leicht)
+    const warm=0.35+0.25*(0.5+0.5*Math.sin(t*1.5));
+    ctx.fillStyle=lerpCol(warm); ctx.fillRect(ox-10, midY-34, 30, 68);
+    ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(ox-10,midY-34,30,68);
+    // Wellenstrahlen
+    ctx.strokeStyle='#e0992a'; ctx.lineWidth=2;
+    for(let r=-1;r<=1;r++){
+      const yb=midY+r*22; ctx.beginPath();
+      for(let xx=sx+28; xx<ox-12; xx+=4){
+        const ph=(xx*0.08 - t*6);
+        const yy=yb+Math.sin(ph)*5;
+        if(xx===sx+28) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy);
+      }
+      ctx.stroke();
+    }
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='11px Source Sans 3,sans-serif';
+    ctx.fillText('Infrarotstrahlung überträgt Energie durch den leeren Raum →', W*0.5, H*0.86);
+  }
+}
+const a4Loop = makeLoop('a4-cv','a4-btn', a4Tick);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 5: Wirkungsgrad (Energiefluss)
+// ══════════════════════════════════════════════════════════
+function drawA5(){
+  const eta=+document.getElementById('a5-eta').value/100;
+  document.getElementById('a5-eta-val').textContent=Math.round(eta*100)+' %';
+  document.getElementById('a5-nutz').textContent=Math.round(eta*100)+' %';
+  document.getElementById('a5-verl').textContent=Math.round((1-eta)*100)+' %';
+
+  const cv=initCanvas('a5-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const yT=H*0.14, yB=H*0.86, Htot=yB-yT;
+  const ix0=W*0.06, ix1=W*0.16, ox=W*0.78, ox1=W*0.94;
+  // Eingang
+  ctx.fillStyle='#8a4a0e'; ctx.fillRect(ix0,yT,ix1-ix0,Htot);
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('zugeführt', (ix0+ix1)/2, yT-4); ctx.fillText('100 %', (ix0+ix1)/2, yB+14);
+  // Nutzen (oben) + Verlust (unten)
+  const hN=Htot*eta, hV=Htot*(1-eta);
+  // Nutzen-Band
+  ctx.fillStyle='#1f6b3a'; ctx.beginPath();
+  ctx.moveTo(ix1,yT); ctx.lineTo(ox,yT); ctx.lineTo(ox,yT+hN); ctx.lineTo(ix1,yT+hN); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#1f6b3a'; ctx.fillRect(ox,yT,ox1-ox,hN);
+  // Verlust-Band
+  ctx.fillStyle='#c0563a'; ctx.beginPath();
+  ctx.moveTo(ix1,yB); ctx.lineTo(ox,yB); ctx.lineTo(ox,yB-hV); ctx.lineTo(ix1,yB-hV); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#c0563a'; ctx.fillRect(ox,yB-hV,ox1-ox,hV);
+  // Labels
+  ctx.fillStyle='#fff'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  if(hN>16) ctx.fillText('Nutzen '+Math.round(eta*100)+' %', (ox+ox1)/2+ (W*0.0), yT+hN/2+4);
+  if(hV>16){ ctx.fillStyle='#fff'; ctx.fillText('Verlust '+Math.round((1-eta)*100)+' %', (ox+ox1)/2, yB-hV/2+4); }
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('→ genutzt', ox1, yT-4);
+  ctx.fillText('→ Umgebung', ox1, yB+14);
+}
+document.getElementById('a5-eta').addEventListener('input', drawA5);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 6: Treibhauseffekt
+// ══════════════════════════════════════════════════════════
+const a6State = { t:0 };
+function a6Tick(dt){ a6State.t += dt; a6Render(); }
+function a6Render(){
+  const g=+document.getElementById('a6-g').value/100;
+  document.getElementById('a6-g-val').textContent=Math.round(g*100)+' %';
+  document.getElementById('a6-back').textContent=Math.round(g*100)+' %';
+  const lab = g<0.25?'kühl':(g<0.5?'mild':(g<0.75?'warm':'heiss'));
+  document.getElementById('a6-temp').textContent=lab;
+
+  const cv=initCanvas('a6-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  // Himmel
+  ctx.fillStyle='#dcebf7'; ctx.fillRect(0,0,W,H);
+  const yGround=H*0.82, yAtm=H*0.20;
+  // Boden (waermer bei mehr Treibhausgas)
+  ctx.fillStyle=lerpCol(0.30+g*0.5); ctx.fillRect(0,yGround,W,H-yGround);
+  ctx.fillStyle='#3a2f22'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Erdoberfläche ('+lab+')', W*0.5, yGround+H*0.12);
+  // Atmosphaerenschicht
+  ctx.strokeStyle='rgba(120,120,120,'+(0.25+g*0.6)+')'; ctx.lineWidth=2+g*5; ctx.setLineDash([8,5]);
+  ctx.beginPath(); ctx.moveTo(0,yAtm); ctx.lineTo(W,yAtm); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#5a5040'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('Atmosphäre (Treibhausgase: '+Math.round(g*100)+' %)', 6, yAtm-5);
+  // Sonne
+  ctx.fillStyle='#e8a81c'; ctx.beginPath(); ctx.arc(W*0.12,H*0.10,18,0,6.283); ctx.fill();
+  const t=a6State.t;
+  // Eintreffendes Sonnenlicht (gelb), wandernde Punkte
+  ctx.strokeStyle='#e8a81c';
+  for(let i=0;i<3;i++){
+    const xTop=W*(0.22+i*0.16), xG=W*(0.30+i*0.16);
+    ctx.lineWidth=2; ctx.globalAlpha=0.5;
+    ctx.beginPath(); ctx.moveTo(xTop,0); ctx.lineTo(xG,yGround); ctx.stroke(); ctx.globalAlpha=1;
+    const u=((t*0.5)+i*0.33)%1; const dx=xTop+(xG-xTop)*u, dy=0+yGround*u;
+    ctx.fillStyle='#e8a81c'; ctx.beginPath(); ctx.arc(dx,dy,4,0,6.283); ctx.fill();
+  }
+  // Abgehende Waermestrahlung (rot), Anteil g wird zurueckgeworfen
+  const nOut=4, refl=Math.round(g*nOut);
+  for(let i=0;i<nOut;i++){
+    const x=W*(0.30+i*0.15); const u=((t*0.45)+i*0.25)%1;
+    const isRefl = i<refl;
+    ctx.strokeStyle='#c0392b'; ctx.lineWidth=1.5; ctx.globalAlpha=0.35;
+    if(isRefl){
+      ctx.beginPath(); ctx.moveTo(x,yGround); ctx.lineTo(x,yAtm); ctx.lineTo(x+12,yGround); ctx.stroke();
+    } else {
+      ctx.beginPath(); ctx.moveTo(x,yGround); ctx.lineTo(x,0); ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+    // wandernder roter Punkt
+    let dx,dy;
+    if(isRefl){ if(u<0.5){dx=x; dy=yGround-(yGround-yAtm)*(u/0.5);} else {const w=(u-0.5)/0.5; dx=x+12*w; dy=yAtm+(yGround-yAtm)*w;} }
+    else { dx=x; dy=yGround-yGround*u; }
+    ctx.fillStyle='#c0392b'; ctx.beginPath(); ctx.arc(dx,dy,3.5,0,6.283); ctx.fill();
+  }
+  ctx.fillStyle='#5a5040'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('gelb: Sonnenlicht hinein · rot: Wärmestrahlung', W-6, H*0.97);
+}
+const a6Loop = makeLoop('a6-cv','a6-btn', a6Tick);
+
+
+// ══════════════════════════════════════════════════════════
+//  INITIALISIERUNG + Autostart der Loops bei Sichtbarkeit
+// ══════════════════════════════════════════════════════════
+function initAll(){
+  einInit(); einRender();
+  a1BuildButtons(); a1Render();
+  a2Render();
+  drawA3();
+  a4Buttons();
+  document.getElementById('a4-art').textContent=A4MODI[0].name;
+  document.getElementById('a4-traeger').textContent=A4MODI[0].traeger;
+  a4Render();
+  drawA5();
+  a6Render();
+
+  if('IntersectionObserver' in window){
+    const map=new Map();
+    LOOPS.forEach(st=>{ const el=document.getElementById(st.canvasId); if(el) map.set(el,st); });
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        const st=map.get(e.target); if(!st) return;
+        if(e.isIntersecting){ if(!st.userPaused){ st.start(); if(st.btn){ st.btn.textContent='⏸ Pause'; st.btn.classList.remove('paused'); } } }
+        else { st.stop(); }
+      });
+    }, { threshold:0.25 });
+    map.forEach((st,el)=>io.observe(el));
+  }
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', initAll);
+else initAll();
+
+// Resize: statische Plots + ruhende Loop-Frames neu zeichnen
+let rzT;
+window.addEventListener('resize', ()=>{
+  clearTimeout(rzT);
+  rzT=setTimeout(()=>{
+    a1Render(); a2Render(); drawA3(); drawA5();
+    if(!einLoop.running) einRender();
+    if(!a4Loop.running) a4Render();
+    if(!a6Loop.running) a6Render();
+  }, 150);
+});
+</script>
+</body>
+</html>
