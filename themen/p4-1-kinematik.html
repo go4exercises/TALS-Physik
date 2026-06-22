@@ -1528,28 +1528,52 @@ function drawA6() {
     }
   }
 
-  // Vektoren im Bild — Ursprung mittig unten
-  const ox = 70, oy = H - 40;
+  // Vektoren im Bild — Figur horizontal im Bildausschnitt zentriert
   const scale = 50;
+  const oy = H - 40;
+  // Spitzen relativ zum Ursprung (Canvas-Koordinaten, y nach unten)
+  const Sdx = vSx * scale, Sdy = -vSy * scale;   // vS-Spitze
+  const Rdx = vRx * scale, Rdy = -vRy * scale;   // vR-/vF-Spitze
+  // Ursprung so legen, dass die Bounding-Box der Figur mittig im Canvas sitzt
+  const minX = Math.min(0, Sdx, Rdx), maxX = Math.max(0, Sdx, Rdx);
+  const ox = Math.round(W / 2 - (minX + maxX) / 2);
+
+  // Absolute Eckpunkte des Vektordreiecks
+  const Sx = ox + Sdx, Sy = oy + Sdy;
+  const Rx = ox + Rdx, Ry = oy + Rdy;
+  // Schwerpunkt = Innenpunkt; Labels werden davon weg nach aussen gesetzt
+  const cx = (ox + Sx + Rx) / 3, cy = (oy + Sy + Ry) / 3;
+
+  // Label senkrecht zur Kante, ausserhalb des Dreiecks (kein Konflikt mit Vektoren)
+  function vLabel(x1, y1, x2, y2, text, color) {
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    let nx = -(y2 - y1), ny = (x2 - x1);
+    const len = Math.hypot(nx, ny) || 1; nx /= len; ny /= len;
+    if (nx * (cx - mx) + ny * (cy - my) > 0) { nx = -nx; ny = -ny; }  // weg vom Innenpunkt
+    ctx.fillStyle = color;
+    ctx.textAlign    = nx < -0.25 ? 'right'  : nx > 0.25 ? 'left' : 'center';
+    ctx.textBaseline = ny < -0.25 ? 'bottom' : ny > 0.25 ? 'top'  : 'middle';
+    ctx.fillText(text, mx + nx * 16, my + ny * 16);
+  }
+
+  ctx.font = 'bold 12px JetBrains Mono,monospace';
 
   // Vektor vS (Schwimmer)
-  drawArrow(ctx, ox, oy, ox + vSx * scale, oy - vSy * scale, '#1f6b3a', 2.8, 10);
-  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-  ctx.fillText('vₛ', ox + vSx * scale / 2 + 8, oy - vSy * scale / 2);
+  drawArrow(ctx, ox, oy, Sx, Sy, '#1f6b3a', 2.8, 10);
+  vLabel(ox, oy, Sx, Sy, 'vₛ', '#1f6b3a');
 
-  // Vektor vF (Fluss) — vom Endpunkt von vS aus
-  drawArrow(ctx, ox + vSx * scale, oy - vSy * scale, ox + vSx * scale + vFx * scale, oy - vSy * scale - vFy * scale, '#5b2d8e', 2.8, 10);
-  ctx.fillStyle = '#5b2d8e';
-  ctx.fillText('v_F', ox + vSx * scale + vFx * scale / 2, oy - vSy * scale - 6);
+  // Vektor vF (Fluss) — von der vS-Spitze aus
+  drawArrow(ctx, Sx, Sy, Rx, Ry, '#5b2d8e', 2.8, 10);
+  vLabel(Sx, Sy, Rx, Ry, 'v_F', '#5b2d8e');
 
-  // Resultierende vR (vom Ursprung zum Endpunkt von vF)
-  drawArrow(ctx, ox, oy, ox + vRx * scale, oy - vRy * scale, '#9b1c1c', 3, 11);
-  ctx.fillStyle = '#9b1c1c'; ctx.textAlign = 'left';
-  ctx.fillText('v_Ufer', ox + vRx * scale * 0.5 + 6, oy - vRy * scale * 0.5 - 6);
+  // Resultierende vR (Ursprung → vF-Spitze)
+  drawArrow(ctx, ox, oy, Rx, Ry, '#9b1c1c', 3, 11);
+  vLabel(ox, oy, Rx, Ry, 'v_Ufer', '#9b1c1c');
 
   // Ursprung
   ctx.fillStyle = '#1c1a17';
   ctx.beginPath(); ctx.arc(ox, oy, 4, 0, 2 * Math.PI); ctx.fill();
+  ctx.textBaseline = 'alphabetic';
 }
 ['a6-vs','a6-beta','a6-vf'].forEach(id => document.getElementById(id).addEventListener('input', drawA6));
 
