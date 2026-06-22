@@ -1277,11 +1277,12 @@ else initAll();
 
 let rzT;
 window.addEventListener('resize', ()=>{
-  clearTimeout(rzT);
-  rzT=setTimeout(()=>{
+  if(rzT) return;
+  rzT=requestAnimationFrame(()=>{
+    rzT=null;
     einRender(); a1Render(); a2Render(); drawA3(); drawA4(); drawA6();
     if(!a5Loop.running) a5Render();
-  }, 150);
+  });
 });
 </script>
 </body>

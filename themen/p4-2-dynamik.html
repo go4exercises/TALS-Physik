@@ -1443,7 +1443,12 @@ function renderAll() {
   a6Render();
 }
 document.addEventListener('DOMContentLoaded', renderAll);
-window.addEventListener('resize', renderAll);
+// Resize per rAF gedrosselt, damit das Mitziehen der Fensterbreite flüssig bleibt.
+let rzT = null;
+window.addEventListener('resize', () => {
+  if (rzT) return;
+  rzT = requestAnimationFrame(() => { rzT = null; renderAll(); });
+});
 </script>
 </body>
 </html>

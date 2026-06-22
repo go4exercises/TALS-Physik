@@ -1258,13 +1258,14 @@ else initAll();
 // Resize: statische Plots + ruhende Loop-Frames neu zeichnen
 let rzT;
 window.addEventListener('resize', () => {
-  clearTimeout(rzT);
-  rzT = setTimeout(() => {
+  if (rzT) return;
+  rzT = requestAnimationFrame(() => {
+    rzT = null;
     drawA3(); drawA4(); drawA5();
     if(!einLoop.running) einRender();
     if(!a1Loop.running) a1Render();
     if(!a2Loop.running) a2Tick(0.001);
-  }, 150);
+  });
 });
 </script>
 </body>

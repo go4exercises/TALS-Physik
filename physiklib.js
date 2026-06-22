@@ -53,6 +53,9 @@ function toggleL(id) {
 function initCanvas(id, H, square) {
   const c = document.getElementById(id);
   const dpr = window.devicePixelRatio || 1;
+  // Pixel-Fixierung einer früheren Zeichnung lösen, damit die echte aktuelle
+  // Container-Breite gemessen wird (sonst passt sich die Grafik erst beim Neuladen an).
+  c.style.width = '';
   const W = c.offsetWidth || 600;
   const actualH = square ? W : H;
   c.width = W * dpr; c.height = actualH * dpr;

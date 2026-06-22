@@ -402,7 +402,7 @@ Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></d
 
     <div class="cv-wrap">
       <div class="cv-titel">🍎 Fallszene</div>
-      <canvas id="a3-cv" height="320"></canvas>
+      <canvas id="a3-cv" height="300"></canvas>
     </div>
   </div>
 </div>
@@ -625,7 +625,7 @@ Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></d
 
     <div class="cv-wrap">
       <div class="cv-titel">Vektoraddition</div>
-      <canvas id="a6-cv" height="280"></canvas>
+      <canvas id="a6-cv" height="210"></canvas>
     </div>
   </div>
 </div>
@@ -1241,19 +1241,22 @@ function a3Render() {
   document.getElementById('a3-v').textContent = v.toFixed(1) + ' m/s';
   document.getElementById('a3-s').textContent = yPos.toFixed(2) + ' m';
 
-  const cv = initCanvas('a3-cv', 320, false);
+  const a3el = document.getElementById('a3-cv'); a3el.style.width = '';
+  const a3w = a3el.offsetWidth || 600;
+  const cv = initCanvas('a3-cv', Math.max(230, Math.min(300, Math.round(a3w * 0.92))), false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const k = H / 320;  // Szenen-Elemente proportional zur Bildhöhe skalieren
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
 
-  // Hintergrund: Baum links, Boden unten
+  // Hintergrund: Baum, Boden unten
+  const topMargin = 30 * k, botMargin = 24 * k;
   // Boden
   ctx.fillStyle = '#86a85e';
-  ctx.fillRect(0, H - 24, W, 24);
+  ctx.fillRect(0, H - botMargin, W, botMargin);
   ctx.strokeStyle = '#476024'; ctx.lineWidth = 1.2;
-  ctx.beginPath(); ctx.moveTo(0, H - 24); ctx.lineTo(W, H - 24); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, H - botMargin); ctx.lineTo(W, H - botMargin); ctx.stroke();
 
-  // Massstab links
-  const topMargin = 30, botMargin = 24;
+  // Massstab links (Beschriftung bleibt für die Lesbarkeit fix bei 11px)
   const skala_y = y_m => topMargin + (a3H0 - y_m) / a3H0 * (H - topMargin - botMargin);
   ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1;
   ctx.beginPath();
@@ -1266,33 +1269,34 @@ function a3Render() {
     ctx.fillText(h + ' m', 32, py + 4);
   }
 
-  // Apfel-Position
-  const apfelX = W / 2 + 30;
+  // Baum-Position und Apfel
+  const baumX = W / 2, kroneY = skala_y(a3H0) - 5 * k;
+  const apfelX = baumX + 30 * k;
   const apfelY = skala_y(a3H0 - yPos);  // start oben (a3H0), Boden bei 0
 
   // Baum: Stamm
   ctx.fillStyle = '#6a4a2a';
-  ctx.fillRect(W / 2 - 6, skala_y(a3H0) - 5, 12, H - botMargin - (skala_y(a3H0) - 5));
+  ctx.fillRect(baumX - 6 * k, kroneY, 12 * k, H - botMargin - kroneY);
   // Krone
   ctx.fillStyle = '#3a7a3a';
   ctx.beginPath();
-  ctx.arc(W / 2, skala_y(a3H0) - 5, 38, 0, Math.PI * 2); ctx.fill();
+  ctx.arc(baumX, kroneY, 38 * k, 0, Math.PI * 2); ctx.fill();
   ctx.strokeStyle = '#1f5520'; ctx.lineWidth = 1.5; ctx.stroke();
 
   // Apfel
   ctx.fillStyle = '#c8331e';
-  ctx.beginPath(); ctx.arc(apfelX, apfelY, 8, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(apfelX, apfelY, 8 * k, 0, Math.PI * 2); ctx.fill();
   ctx.strokeStyle = '#7a1a10'; ctx.lineWidth = 1.5; ctx.stroke();
   // Stiel
   ctx.strokeStyle = '#3a2818'; ctx.lineWidth = 1.4;
-  ctx.beginPath(); ctx.moveTo(apfelX, apfelY - 8); ctx.lineTo(apfelX + 2, apfelY - 13); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(apfelX, apfelY - 8 * k); ctx.lineTo(apfelX + 2, apfelY - 13 * k); ctx.stroke();
 
   // Geschwindigkeitspfeil falls in Bewegung
   if (a3State.running || t > 0) {
-    drawArrow(ctx, apfelX, apfelY + 10, apfelX, apfelY + 10 + Math.min(60, v * 1.4), '#1f6b3a', 2.5, 9);
+    drawArrow(ctx, apfelX, apfelY + 10 * k, apfelX, apfelY + 10 * k + Math.min(60, v * 1.4) * k, '#1f6b3a', 2.5, 9);
     ctx.fillStyle = '#1f6b3a';
     ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-    ctx.fillText('v', apfelX + 6, apfelY + 30);
+    ctx.fillText('v', apfelX + 6, apfelY + 30 * k);
   }
 }
 
@@ -1428,7 +1432,9 @@ function drawA5() {
   document.getElementById('a5-f').textContent  = f.toFixed(2) + ' Hz';
 
   // Quadratisches Canvas — Koordinaten von -4 bis 4 in beiden Richtungen
-  const cv = initCanvas('a5-cv', 340, false);
+  const a5el = document.getElementById('a5-cv'); a5el.style.width = '';
+  const a5w = a5el.offsetWidth || 600;
+  const cv = initCanvas('a5-cv', Math.max(240, Math.min(340, Math.round(a5w))), false);  // quadratisch, schmal nicht überhoch
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   const cxC = W / 2, cyC = H / 2;
   const scale = Math.min(W, H) / 8;  // 1 m = scale px
@@ -1464,13 +1470,13 @@ function drawA5() {
 
   // Geschwindigkeits-Vektor (tangential)
   const tx = -Math.sin(phi), ty = -Math.cos(phi);
-  const vLen = 50 + v * 8;
+  const vLen = Math.min(50 + v * 8, scale * 2.2);  // begrenzt, damit der Pfeil bei schmalem Bild nicht klippt
   drawArrow(ctx, px, py, px + tx * vLen, py + ty * vLen, '#1f6b3a', 2.8, 11);
   ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'center';
   ctx.fillText('v', px + tx * vLen * 1.1, py + ty * vLen * 1.1 - 4);
 
   // Zentripetal-Beschleunigung (zur Mitte)
-  const aLen = 30 + az * 4;
+  const aLen = Math.min(30 + az * 4, scale * 1.6);
   drawArrow(ctx, px, py, px - (px - cxC) / (r * scale) * aLen, py - (py - cyC) / (r * scale) * aLen, '#9b1c1c', 2.5, 10);
   ctx.fillStyle = '#9b1c1c';
   ctx.fillText('a_z', px - (px - cxC) / (r * scale) * aLen - 14, py - (py - cyC) / (r * scale) * aLen);
@@ -1509,7 +1515,10 @@ function drawA6() {
   document.getElementById('a6-vu').textContent    = vR.toFixed(2) + ' m/s';
   document.getElementById('a6-gamma').textContent = (vSy > 0 ? gamma : 0).toFixed(1) + '°';
 
-  const cv = initCanvas('a6-cv', 280, false);
+  const a6el = document.getElementById('a6-cv'); a6el.style.width = '';
+  const a6w = a6el.offsetWidth || 600;
+  const scale = Math.min(50, Math.max(28, (a6w - 90) / 6));   // Dreieck passt immer in die Breite (max. Spanne 6 Einheiten)
+  const cv = initCanvas('a6-cv', Math.max(170, Math.min(222, Math.round(3 * scale + 70))), false);  // Höhe an die flache Figur angepasst
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
 
@@ -1529,8 +1538,7 @@ function drawA6() {
   }
 
   // Vektoren im Bild — Figur horizontal im Bildausschnitt zentriert
-  const scale = 50;
-  const oy = H - 40;
+  const oy = H - 34;
   // Spitzen relativ zum Ursprung (Canvas-Koordinaten, y nach unten)
   const Sdx = vSx * scale, Sdy = -vSy * scale;   // vS-Spitze
   const Rdx = vRx * scale, Rdy = -vRy * scale;   // vR-/vF-Spitze
@@ -1586,7 +1594,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Kreisbewegung-RAF starten
   a5State.rafId = requestAnimationFrame(a5Tick);
 });
-window.addEventListener('resize', renderAll);
+// Bei Breitenänderung des Browsers neu zeichnen — per rAF gedrosselt, damit der
+// Resize flüssig bleibt (sonst würden alle Canvases pro Resize-Event neu initialisiert).
+let resizeRaf = null;
+window.addEventListener('resize', () => {
+  if (resizeRaf) return;
+  resizeRaf = requestAnimationFrame(() => { resizeRaf = null; renderAll(); });
+});
 </script>
 </body>
 </html>

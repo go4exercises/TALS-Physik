@@ -1325,13 +1325,14 @@ else initAll();
 
 let rzT;
 window.addEventListener('resize', ()=>{
-  clearTimeout(rzT);
-  rzT=setTimeout(()=>{
+  if(rzT) return;
+  rzT=requestAnimationFrame(()=>{
+    rzT=null;
     drawA1(); drawA2(); drawA5(); drawA6(); a3Read(); a4Read();
     if(!einLoop.running) einRender();
     if(!a3Loop.running) a3Render();
     if(!a4Loop.running) a4Render();
-  }, 150);
+  });
 });
 </script>
 </body>
