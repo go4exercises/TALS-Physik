@@ -883,7 +883,7 @@ function einRender(){
   ctx.beginPath(); ctx.moveTo(xh,yMid-A-6); ctx.lineTo(xh,yMid+A+6); ctx.stroke(); ctx.setLineDash([]);
   drawArrow(ctx, xh, yMid, xh, yh, '#9b1c1c', 2, 7);
   ctx.fillStyle='#b85c00'; ctx.beginPath(); ctx.arc(xh,yh,7,0,6.283); ctx.fill();
-  ctx.fillStyle='#9b1c1c'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#9b1c1c'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('schwingt nur auf/ab', xh, yMid+A+22);
   // Wellenlaenge-Klammer zwischen zwei Bergen
   // Berge bei k*x - phase = pi/2 + 2pi n
@@ -895,7 +895,7 @@ function einRender(){
     ctx.fillStyle='#1f6b3a'; ctx.fillText('λ', (c1+c2)/2, yMid-A-14);
   }
   // Ausbreitungspfeil
-  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='right';
   ctx.fillText('Ausbreitung →', W-8, H*0.95);
 }
 const einLoop = makeLoop('ein-cv','ein-btn', einTick);
@@ -930,9 +930,9 @@ function a1Render(){
   const c1=off, c2=c1+lamPx;
   if(c2<W){ ctx.strokeStyle='#1f6b3a'; ctx.lineWidth=1.5;
     ctx.beginPath(); ctx.moveTo(c1,yMid-A-8); ctx.lineTo(c2,yMid-A-8); ctx.stroke();
-    ctx.fillStyle='#1f6b3a'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#1f6b3a'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('λ = '+v.lam.toFixed(1)+' m', (c1+c2)/2, yMid-A-12); }
-  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='right';
   ctx.fillText('c = '+v.c.toFixed(1)+' m/s →', W-8, H*0.94);
 }
 function a1Tick(dt){ const v=a1Vals(); a1Phase += dt*2*Math.PI*v.f; a1Render(); }
@@ -968,7 +968,7 @@ function a2Render(){
     ctx.stroke();
     for(let i=0;i<=N;i++){ const xr=x0+(x1-x0)*i/N, y=yMid - H*0.26*Math.sin(k*(xr-x0)-ph);
       ctx.fillStyle='#1a4f8a'; ctx.beginPath(); ctx.arc(xr,y,4,0,6.283); ctx.fill(); }
-    ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('Teilchen schwingen senkrecht (auf/ab) — Welle läuft →', W*0.5, H*0.93);
   } else {                // Longitudinal
     const Adisp=lamPx*0.30;
@@ -980,7 +980,7 @@ function a2Render(){
       ctx.globalAlpha=0.55+0.45*Math.abs(dens);
       ctx.beginPath(); ctx.arc(xr+dx,yMid,4.5,0,6.283); ctx.fill(); ctx.globalAlpha=1;
     }
-    ctx.fillStyle='#9b1c1c'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#9b1c1c'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('Verdichtung', x0+lamPx*0.5, yMid-H*0.22);
     ctx.fillStyle='#1a4f8a'; ctx.fillText('Verdünnung', x0+lamPx*1.0, yMid+H*0.24);
     ctx.fillStyle='#5a5040'; ctx.fillText('Teilchen schwingen längs (hin/her) — Verdichtungen laufen →', W*0.5, H*0.93);
@@ -1015,10 +1015,10 @@ function drawA3(){
     ctx.fillStyle=(i===a3Sel)?'#b85c00':'#d9c4a3'; ctx.fillRect(x0,y,len,bh);
     ctx.fillStyle='#1c1a17'; ctx.font=(i===a3Sel?'bold ':'')+'12px Source Sans 3,sans-serif'; ctx.textAlign='right';
     ctx.fillText(A3MED[i].n, x0-8, y+bh*0.72);
-    ctx.textAlign='left'; ctx.font='11px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
+    ctx.textAlign='left'; ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
     ctx.fillText(lams[i].toFixed(2)+' m', x0+len+6, y+bh*0.72);
   }
-  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('gleiche Frequenz '+f+' Hz — Wellenlänge λ = c/f', W*0.5, H*0.99);
 }
 ['a3-f'].forEach(id=>document.getElementById(id).addEventListener('input', drawA3));
@@ -1074,13 +1074,13 @@ function drawA4(){
       for(let xx=xa;xx<xb;xx+=2){ const fr=(xx-xa)/(xb-xa);
         const lamNm=780-(780-380)*fr; ctx.fillStyle=visColor(lamNm); ctx.fillRect(xx,by0,2.5,by1-by0); }
     } else { ctx.fillStyle=b[3]; ctx.fillRect(xa,by0,xb-xa,by1-by0); }
-    ctx.fillStyle='#3a332a'; ctx.font='9px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#3a332a'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.save(); ctx.translate((xa+xb)/2,by1+8); ctx.rotate(-0.5);
     ctx.fillText(b[2], 0,0); ctx.restore();
   }
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=1; ctx.strokeRect(bx0,by0,bx1-bx0,by1-by0);
   // Achsenticks (log)
-  ctx.fillStyle='#6b7280'; ctx.font='9px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle='#6b7280'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
   for(let l=Lmin;l<=Lmax;l+=3){ ctx.fillText('10'+supDigits(l), xOf(l), by0-6); }
   ctx.fillStyle='#374151'; ctx.fillText('Wellenlänge λ [m]', W*0.5, by0-20);
   // Marker
@@ -1088,7 +1088,7 @@ function drawA4(){
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(mx,by0-2); ctx.lineTo(mx,by1+2); ctx.stroke();
   drawArrow(ctx, mx, by1+30, mx, by1+4, '#1c1a17',2,7);
-  ctx.fillStyle='#1c1a17'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText(band[2]+'  ·  '+a4FmtLam(lam)+'  ·  '+emFmt(f)+' Hz', W*0.5, H*0.95);
 }
 ['a4-x'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
@@ -1137,7 +1137,7 @@ function a5Render(){
     const ex=cx+er*Math.cos(ang), ey=cy+er*Math.sin(ang);
     // Anregungsenergie
     if(p<0.30){ wavyArrow(ctx, cx-W*0.26, cy+H*0.30, cx-r1*0.8, cy+r1*0.5, '#1f6b3a');
-      ctx.fillStyle='#1f6b3a'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+      ctx.fillStyle='#1f6b3a'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
       ctx.fillText('Energie zuführen', cx-W*0.26, cy+H*0.36); }
     // Sprung-Pfeil
     if(onOuter){ ctx.strokeStyle='#5a5040'; ctx.setLineDash([3,3]);
@@ -1147,16 +1147,16 @@ function a5Render(){
     // Photon-Emission
     if(p>=0.65){ const d=(p-0.65)/0.35; const sx=cx+r1, sy=cy;
       wavyArrow(ctx, sx, sy, sx+W*0.32*d, sy-H*0.30*d, '#b85c00');
-      ctx.fillStyle='#b85c00'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+      ctx.fillStyle='#b85c00'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
       ctx.fillText('Photon', sx+W*0.32*d-30, sy-H*0.30*d-6); }
-    ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('Elektron springt zurück und sendet ein Photon in zufälliger Richtung aus', W*0.5, H*0.95);
   } else {                  // Laser
     const xL=W*0.12, xR=W*0.74, yT=H*0.20, yB=H*0.70, ymid=(yT+yB)/2;
     // Spiegel
     ctx.fillStyle='#5a5040'; ctx.fillRect(xL-6,yT,6,yB-yT);
     ctx.fillStyle='#8a8478'; ctx.fillRect(xR,yT,6,yB-yT);  // teildurchlaessig
-    ctx.fillStyle='#5a5040'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('Spiegel', xL, yT-6); ctx.fillText('teildurchlässig', xR+6, yT-6);
     // aktives Medium: Atome
     ctx.fillStyle='#c9bfae';
@@ -1173,9 +1173,9 @@ function a5Render(){
     // austretender Strahl
     ctx.strokeStyle='#c0392b'; ctx.lineWidth=4; ctx.globalAlpha=0.85;
     ctx.beginPath(); ctx.moveTo(xR+6,ymid); ctx.lineTo(W*0.97,ymid); ctx.stroke(); ctx.globalAlpha=1;
-    ctx.fillStyle='#c0392b'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#c0392b'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('Laserstrahl', W*0.88, ymid-8);
-    ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('ein Photon löst gleichgerichtete Photonen aus — kohärentes, gebündeltes Licht', W*0.5, H*0.95);
   }
 }
@@ -1197,7 +1197,7 @@ function drawA6(){
   // Achsen
   ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(px0,py0); ctx.lineTo(px0,py1); ctx.lineTo(px1,py1); ctx.stroke();
-  ctx.fillStyle='#374151'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#374151'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('100 %', px0-16, py0+4); ctx.fillText('0 %', px0-14, py1+2);
   ctx.save(); ctx.translate(px0-32,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Durchlässigkeit',0,0); ctx.restore();
   // x: links kurzwellig (sichtbar/Sonne) -> rechts langwellig (Infrarot/Wärme)
@@ -1224,13 +1224,13 @@ function drawA6(){
   // Trennlinie + Labels
   ctx.strokeStyle='#9aa0a6'; ctx.setLineDash([4,3]); ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(xMid,py0); ctx.lineTo(xMid,py1); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#8a6d12'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#8a6d12'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('sichtbares Licht (Sonne)', (px0+xMid)/2, py1+16);
   ctx.fillStyle='#a8392b';
   ctx.fillText('Infrarot (Wärmestrahlung)', (xMid+px1)/2, py1+16);
   ctx.fillText('← kurzwellig          Wellenlänge          langwellig →', W*0.5, py1+32);
   // Hinweis
-  ctx.fillStyle='#a8392b'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#a8392b'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText(Math.round(g*100)+' % der Wärmestrahlung absorbiert', (xMid+px1)/2, (py0+py1)/2);
 }
 ['a6-g'].forEach(id=>document.getElementById(id).addEventListener('input', drawA6));

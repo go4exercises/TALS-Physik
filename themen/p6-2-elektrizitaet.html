@@ -982,7 +982,7 @@ function einRender(){
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(g.L-12,by-14); ctx.lineTo(g.L+12,by-14); ctx.stroke(); // lang +
   ctx.beginPath(); ctx.moveTo(g.L-6,by+14); ctx.lineTo(g.L+6,by+14); ctx.lineWidth=4; ctx.stroke(); // kurz -
-  ctx.fillStyle='#1c1a17'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillStyle='#1c1a17'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='right';
   ctx.fillText('+', g.L-14, by-10); ctx.fillText('–', g.L-14, by+18);
   // Schalter (oben Mitte) - geschlossen
   ctx.fillStyle='#5a5040'; ctx.beginPath(); ctx.arc((g.L+g.R)/2-14,g.T,3,0,6.283); ctx.fill();
@@ -1000,9 +1000,9 @@ function einRender(){
   const N=18;
   for(let i=0;i<N;i++){ const s=((i/N)+einPhase)%1; const p=rectPoint(g,s);
     ctx.fillStyle='#1a4f8a'; ctx.beginPath(); ctx.arc(p.x,p.y,4,0,6.283); ctx.fill();
-    ctx.fillStyle='#cfe0f2'; ctx.font='7px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#cfe0f2'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('–',p.x,p.y+2.5); }
-  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText(U>0 ? 'Strom fliesst — Lampe leuchtet' : 'U = 0: kein Strom', (g.L+g.R)/2, g.B+22);
 }
 const einLoop=makeLoop('ein-cv','ein-btn',einTick);
@@ -1037,10 +1037,10 @@ function drawA1(){
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(px,g.cy(0)); ctx.lineTo(px,py); ctx.moveTo(g.cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
   drawDot(ctx,g.cx,g.cy,I_mA,v.U,'#9b1c1c',6);
-  ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText('('+I_mA.toFixed(0)+' mA | '+v.U.toFixed(1)+' V)', Math.min(px+8,W-130), Math.max(py-6,g.cy(12)+12));
   // Steigungslabel mit weisser Box, oben zentriert
-  const lab='Steigung = R = '+v.R+' Ω'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  const lab='Steigung = R = '+v.R+' Ω'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   const lw=ctx.measureText(lab).width, lcx=W*0.5, lcy=g.cy(12)+8;
   ctx.fillStyle='rgba(251,250,247,0.85)'; ctx.fillRect(lcx-lw/2-4,lcy-2,lw+8,16);
   ctx.fillStyle='#5a5040'; ctx.fillText(lab, lcx, lcy+10);
@@ -1083,14 +1083,14 @@ function drawA2(){
   // Masslinien
   ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=1; ctx.setLineDash([3,2]);
   ctx.beginPath(); ctx.moveTo(x0,yc+th/2+10); ctx.lineTo(x0+dw,yc+th/2+10); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#1a4f8a'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#1a4f8a'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('l = '+l+' m', x0+dw/2, yc+th/2+24);
   ctx.save(); ctx.translate(x0-W*0.075, yc); ctx.rotate(-Math.PI/2);
   ctx.fillText('A = '+A.toFixed(1)+' mm²',0,0); ctx.restore();
   // R-Wert
   ctx.fillStyle='#9b1c1c'; ctx.font='bold 15px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText('R = '+R.toFixed(2)+' Ω', W*0.5, H*0.14);
-  ctx.fillStyle='#3a332a'; ctx.font='11px Source Sans 3,sans-serif';
+  ctx.fillStyle='#3a332a'; ctx.font='13px Source Sans 3,sans-serif';
   ctx.fillText(m.n+' (ρ = '+m.r+' Ω·mm²/m)', W*0.5, H*0.95);
 }
 ['a2-l','a2-A'].forEach(id=>document.getElementById(id).addEventListener('input', drawA2));
@@ -1124,14 +1124,14 @@ function a3Render(){
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(g.L-12,by-12); ctx.lineTo(g.L+12,by-12); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(g.L-6,by+12); ctx.lineTo(g.L+6,by+12); ctx.lineWidth=4; ctx.stroke();
-  ctx.fillStyle='#1c1a17'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#1c1a17'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText(v.U.toFixed(1)+' V', g.L-2, by+30);
   // zwei Widerstaende auf oberer Kante
   function resBox(cx,label,sub,col){ const bw=W*0.16,bh=H*0.13;
     ctx.fillStyle='#fff'; ctx.fillRect(cx-bw/2,g.T-bh/2,bw,bh);
     ctx.strokeStyle=col; ctx.lineWidth=2; ctx.strokeRect(cx-bw/2,g.T-bh/2,bw,bh);
-    ctx.fillStyle='#1c1a17'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
-    ctx.fillText(label, cx, g.T-2); ctx.font='10px Source Sans 3,sans-serif'; ctx.fillStyle=col;
+    ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillText(label, cx, g.T-2); ctx.font='13px Source Sans 3,sans-serif'; ctx.fillStyle=col;
     ctx.fillText(sub, cx, g.T+bh/2+12); }
   resBox(g.L+(g.R-g.L)*0.34,'R₁ = '+v.R1+' Ω','U₁ = '+v.U1.toFixed(2)+' V','#b85c00');
   resBox(g.L+(g.R-g.L)*0.68,'R₂ = '+v.R2+' Ω','U₂ = '+v.U2.toFixed(2)+' V','#5b2d8e');
@@ -1139,7 +1139,7 @@ function a3Render(){
   const N=22;
   for(let i=0;i<N;i++){ const s=((i/N)+a3Phase)%1; const p=rectPoint(g,s);
     ctx.fillStyle='#e08020'; ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,6.283); ctx.fill(); }
-  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('gleicher Strom I = '+(v.I*1000).toFixed(1)+' mA überall', (g.L+g.R)/2, g.B+24);
 }
 const a3Loop=makeLoop('a3-cv','a3-btn',a3Tick);
@@ -1181,13 +1181,13 @@ function a4Render(){
   const by=(T+B)/2; ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(L-12,by-12); ctx.lineTo(L+12,by-12); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(L-6,by+12); ctx.lineTo(L+6,by+12); ctx.lineWidth=4; ctx.stroke();
-  ctx.fillStyle='#1c1a17'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.fillText(v.U.toFixed(1)+' V', L-2, by+30);
+  ctx.fillStyle='#1c1a17'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.fillText(v.U.toFixed(1)+' V', L-2, by+30);
   // zwei parallele Widerstaende (vertikal)
   function resV(x,label,col){ const bw=W*0.10,bh=H*0.20;
     ctx.fillStyle='#fff'; ctx.fillRect(x-bw/2,by-bh/2,bw,bh);
     ctx.strokeStyle=col; ctx.lineWidth=2; ctx.strokeRect(x-bw/2,by-bh/2,bw,bh);
     ctx.strokeStyle='#5a5040'; ctx.beginPath(); ctx.moveTo(x,T); ctx.lineTo(x,by-bh/2); ctx.moveTo(x,by+bh/2); ctx.lineTo(x,B); ctx.stroke();
-    ctx.fillStyle=col; ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center'; ctx.fillText(label,x,by+3); }
+    ctx.fillStyle=col; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center'; ctx.fillText(label,x,by+3); }
   resV(xr1,'R₁',  '#b85c00');
   resV(xr2,'R₂',  '#5b2d8e');
   // Stroeme: Verzweigungen, Punktdichte ~ Strom
@@ -1197,7 +1197,7 @@ function a4Render(){
   drawStream(ctx, L+6, T, Rr-6, T, a4Phase, 14, '#e08020');   // oberer Trunk (gesamt)
   drawStream(ctx, Rr-6, B, L+6, B, a4Phase, 14, '#e08020');   // unterer Trunk
   // Labels
-  ctx.fillStyle='#b85c00'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#b85c00'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('I₁='+(v.I1*1000).toFixed(0)+' mA', xr1, B-6);
   ctx.fillStyle='#5b2d8e'; ctx.fillText('I₂='+(v.I2*1000).toFixed(1)+' mA', xr2, B-6);
   ctx.fillStyle='#5a5040'; ctx.fillText('Gesamtstrom I = '+(v.I*1000).toFixed(1)+' mA · gleiche Spannung über R₁, R₂', (L+Rr)/2, H*0.99);
@@ -1230,7 +1230,7 @@ function drawA5(){
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=1.5; ctx.strokeRect(x0,y,x1-x0,bh);
   ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText('P = '+P.toFixed(0)+' W', x0, y-8);
-  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('Energie in '+t.toFixed(2)+' h:  E = P · t = '+E.toFixed(2)+' kWh   →   '+(E*0.21).toFixed(2)+' CHF', W*0.5, y+bh+26);
 }
 function lerpColP(f){ const r=Math.round(60+f*180), g=Math.round(150-f*100), b=Math.round(60-f*30); return 'rgb('+r+','+g+','+b+')'; }
@@ -1275,14 +1275,14 @@ function drawA6(){
   // Achsen
   ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
   ctx.strokeRect(px0,py0,px1-px0,py1-py0);
-  ctx.fillStyle='#6b7280'; ctx.font='9px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle='#6b7280'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
   [1,10,100,1000].forEach(v=>{ if(v<=2000) ctx.fillText(v<1000?v+'':'1000', lx(v), py1+12); });
   ctx.textAlign='right'; [10,100,1000,10000].forEach(v=>ctx.fillText(v+'', px0-4, ly(v)+3));
-  ctx.fillStyle='#374151'; ctx.font='bold 10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#374151'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('Stromstärke [mA]', (px0+px1)/2, py1+26);
   ctx.save(); ctx.translate(px0-30,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Einwirkzeit [ms]',0,0); ctx.restore();
   // Zonen-Nummern
-  ctx.fillStyle='#3a332a'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#3a332a'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('1', lx(0.25), py0+H*0.10); ctx.fillText('2', lx(3), py0+H*0.10);
   ctx.fillText('3', lx(70), py0+H*0.10); ctx.fillText('4', lx(800), py0+H*0.10);
   // Arbeitspunkt
@@ -1290,7 +1290,7 @@ function drawA6(){
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(mx,py1); ctx.lineTo(mx,my); ctx.moveTo(px0,my); ctx.lineTo(mx,my); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle='#1c1a17'; ctx.beginPath(); ctx.arc(mx,my,6,0,6.283); ctx.fill();
-  ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   const lab=(I<1000?I.toFixed(0)+' mA':(I/1000).toFixed(1)+' A')+' · '+(t<1000?t.toFixed(0)+' ms':(t/1000).toFixed(1)+' s');
   ctx.fillText(lab, Math.min(mx+8,W-150), my-8);
 }

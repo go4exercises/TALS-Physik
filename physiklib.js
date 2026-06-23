@@ -130,7 +130,7 @@ function drawGrid(ctx, W, H, xMin, xMax, yMin, yMax) {
   ctx.beginPath(); ctx.moveTo(W - 8, xAxisY - 4); ctx.lineTo(W, xAxisY); ctx.lineTo(W - 8, xAxisY + 4); ctx.fill();
   ctx.beginPath(); ctx.moveTo(yAxisX - 4, 8);     ctx.lineTo(yAxisX, 0); ctx.lineTo(yAxisX + 4, 8);     ctx.fill();
   // Tick-Beschriftungen (Zahlen)
-  ctx.font = '11px JetBrains Mono,monospace'; ctx.fillStyle = '#6b7280';
+  ctx.font = '13px JetBrains Mono,monospace'; ctx.fillStyle = '#6b7280';
   // x-Tick-Labels: oben oder unten relativ zur x-Achse, je nach verfügbarem Platz
   const xLblBelow = (H - xAxisY) >= 18;
   ctx.textAlign = 'center'; ctx.textBaseline = xLblBelow ? 'top' : 'bottom';
@@ -158,7 +158,7 @@ function drawGrid(ctx, W, H, xMin, xMax, yMin, yMax) {
   }
   ctx.textBaseline = 'alphabetic';
   // Default-Achsenlabels "x" und "y" (werden ggf. von drawAxesUnits überschrieben)
-  ctx.fillStyle = '#374151'; ctx.font = 'bold 11px monospace';
+  ctx.fillStyle = '#374151'; ctx.font = 'bold 13px monospace';
   ctx.textAlign = 'left';   ctx.fillText('x', W - 14, xAxisY - 7);
   ctx.textAlign = 'center'; ctx.fillText('y', yAxisX + 13, 14);
   return { cx, cy, stepX, stepY };
@@ -176,7 +176,7 @@ function drawAxesUnits(ctx, W, H, cx, cy, xLabel, yLabel) {
   const yAxisPx = (typeof cx === 'function')
     ? (cx(0) >= 0 && cx(0) <= W ? cx(0) : (cx(0) < 0 ? 0 : W))
     : cx;
-  ctx.font = 'bold 12px JetBrains Mono,monospace';
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
   const xLblW = Math.ceil(ctx.measureText(xLabel).width) + 8;
   const yLblW = Math.ceil(ctx.measureText(yLabel).width) + 8;
   // Generisches Default-Label überdecken (bedarfsorientiert tight)
@@ -221,7 +221,7 @@ function drawVector(ctx, cx, cy, x0, y0, dx, dy, color, label, lw = 2.2) {
   drawArrow(ctx, px1, py1, px2, py2, color, lw, 10);
   if (label) {
     ctx.fillStyle = color;
-    ctx.font = 'bold 12px JetBrains Mono,monospace';
+    ctx.font = 'bold 13px JetBrains Mono,monospace';
     ctx.textAlign = 'center';
     // Label leicht über dem Pfeilkopf
     const lx = (px1 + px2) / 2 + (py2 < py1 ? 0 : 0);

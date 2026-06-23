@@ -901,7 +901,7 @@ function einRender(){
   const bx = einState.big.x*W, by = einState.big.y*H;
   ctx.fillStyle = '#9b1c1c'; ctx.beginPath(); ctx.arc(bx, by, 9, 0, Math.PI*2); ctx.fill();
   ctx.strokeStyle = '#5a0e0e'; ctx.lineWidth=1.5; ctx.stroke();
-  ctx.fillStyle = '#7a3030'; ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillStyle = '#7a3030'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText('Milchteilchen', bx+12, by+4);
 }
 const einLoop = makeLoop('ein-cv','ein-btn', einTick);
@@ -1107,7 +1107,7 @@ function drawA3(){
   ctx.fillRect(xMid-(tubeW-4)/2, yLvl, tubeW-4, yBulb-yLvl);
 
   // Skalenstriche alle 50 Grad
-  ctx.font='10px JetBrains Mono,monospace';
+  ctx.font='13px JetBrains Mono,monospace';
   for(let v=-250; v<=150; v+=50){
     const y=yOf(v);
     ctx.strokeStyle='#b8aE99'; ctx.lineWidth=1;
@@ -1116,14 +1116,14 @@ function drawA3(){
     ctx.fillStyle='#5a5040'; ctx.textAlign='right'; ctx.fillText(v+'', xMid-tubeW/2-8, y+3);
     ctx.textAlign='left'; ctx.fillText(Math.round(v+T0)+'', xMid+tubeW/2+8, y+3);
   }
-  ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px Source Sans 3,sans-serif';
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px Source Sans 3,sans-serif';
   ctx.textAlign='right'; ctx.fillText('°C', xMid-tubeW/2-8, yTop-4);
   ctx.textAlign='left';  ctx.fillText('K',  xMid+tubeW/2+8, yTop-4);
 
   // Fixpunkte
   const fix=[{v:0,t:'Wasser 0 °C',col:'#1a4f8a'},{v:100,t:'siedet 100 °C',col:'#9b1c1c'},
              {v:37,t:'Körper 37 °C',col:'#1f6b3a'},{v:-273.15,t:'abs. Nullpunkt',col:'#5b2d8e'}];
-  ctx.textAlign='left'; ctx.font='9px JetBrains Mono,monospace';
+  ctx.textAlign='left'; ctx.font='13px JetBrains Mono,monospace';
   for(const f of fix){
     const y=yOf(f.v);
     ctx.fillStyle=f.col; ctx.beginPath(); ctx.moveTo(W*0.72,y); ctx.lineTo(W*0.72-6,y-4); ctx.lineTo(W*0.72-6,y+4); ctx.closePath(); ctx.fill();
@@ -1164,11 +1164,11 @@ function drawA4(){
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(xL,yC); ctx.lineTo(xR,yC); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(xL,yK); ctx.lineTo(xR,yK); ctx.stroke();
-  ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
   ctx.fillText('Celsius [°C]', xL, yC-16);
   ctx.fillText('Kelvin [K]', xL, yK+24);
   // Striche alle 50
-  ctx.font='9px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
+  ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
   for(let v=-50;v<=150;v+=50){
     const x=xOf(v);
     ctx.strokeStyle='#b8ae99'; ctx.lineWidth=1;
@@ -1191,14 +1191,14 @@ function drawA4(){
     ctx.beginPath(); ctx.moveTo(x,yC-10); ctx.lineTo(x,yK+10); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,yC,4,0,Math.PI*2); ctx.fill();
     ctx.beginPath(); ctx.arc(x,yK,4,0,Math.PI*2); ctx.fill();
-    ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
     ctx.fillText(lab, x, yC-22);
   }
   mark(t1, '#1a4f8a', 'ϑ₁');
   mark(t2, '#9b1c1c', 'ϑ₂');
 
   // Differenz-Beschriftung
-  ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText('Δ = '+Math.abs(d)+' (in °C und K gleich)', (xa+xb)/2, (yC+yK)/2+4);
 }
 ['a4-t1','a4-t2'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
@@ -1230,7 +1230,7 @@ function drawA5(){
 
   // absoluter Nullpunkt
   drawDot(ctx, x=>x, y=>y, cx(-273.15), cy(0), '#5b2d8e', 5);
-  ctx.fillStyle='#5b2d8e'; ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillStyle='#5b2d8e'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText('abs. Nullpunkt', cx(-273.15)+8, cy(0)-26);
   ctx.fillText('−273.15 °C', cx(-273.15)+8, cy(0)-14);
 
@@ -1241,7 +1241,7 @@ function drawA5(){
   ctx.beginPath(); ctx.moveTo(cx(-300), py); ctx.lineTo(px, py); ctx.stroke();
   ctx.setLineDash([]);
   drawDot(ctx, x=>x, y=>y, px, py, '#9b1c1c', 6);
-  ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText(th+' °C', px+8, py-6);
 }
 document.getElementById('a5-T').addEventListener('input', drawA5);

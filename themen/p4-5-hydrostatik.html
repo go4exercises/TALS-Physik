@@ -1006,7 +1006,7 @@ function aeRender() {
 
   // Skala innen am linken Beckenrand — 0, 1, 2, 3 m
   ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.2;
-  ctx.font = 'bold 10px JetBrains Mono,monospace'; ctx.fillStyle = '#fff';
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.fillStyle = '#fff';
   ctx.textAlign = 'left';
   for (let m = 0; m <= 6; m += 2) {
     const py = wasserY + m/AE_HMAX * (bodenY - wasserY);
@@ -1163,7 +1163,7 @@ function drawA1() {
 
   // Tiefen-Skala rechts vom Gefäss
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1;
-  ctx.font = '10px JetBrains Mono,monospace'; ctx.fillStyle = '#5a6068';
+  ctx.font = '13px JetBrains Mono,monospace'; ctx.fillStyle = '#5a6068';
   ctx.textAlign = 'left';
   for (let m = 0; m <= 10; m += 2) {
     const py = gefT + (10-m)/10 * gefH;
@@ -1176,7 +1176,7 @@ function drawA1() {
   // Wir zeichnen einen Tiefen-Pfeil vom Wasserspiegel bis zum Boden (= h tief)
   ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 2;
   drawArrow(ctx, gefL-22, fuellY, gefL-22, gefB-2, '#8a4a0e', 2, 10);
-  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'right';
   ctx.fillText('h = ' + h.toFixed(1) + ' m', gefL-25, (fuellY+gefB)/2);
 
@@ -1188,16 +1188,16 @@ function drawA1() {
   ctx.strokeRect(manX-30, manY-30, 65, 50);
   // Zeiger
   ctx.fillStyle = '#8a4a0e';
-  ctx.font = 'bold 9px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('p_S', manX+2, manY-18);
-  ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.fillStyle = '#1c1a17';
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.fillStyle = '#1c1a17';
   // Format adaptive
   let pStr;
   if (pS < 1000) pStr = pS.toFixed(0) + ' Pa';
   else if (pS < 1e6) pStr = (pS/1000).toFixed(1) + ' kPa';
   else pStr = (pS/1e6).toFixed(2) + ' MPa';
   ctx.fillText(pStr, manX+2, manY-3);
-  ctx.fillStyle = '#7a5a10'; ctx.font = '9px JetBrains Mono,monospace';
+  ctx.fillStyle = '#7a5a10'; ctx.font = '13px JetBrains Mono,monospace';
   ctx.fillText('(' + (pS/1e5).toFixed(2) + ' bar)', manX+2, manY+10);
 
   // Verbindungslinie Boden → Manometer
@@ -1272,7 +1272,7 @@ function drawA2() {
   ctx.fillStyle = '#5fa9c6';
   ctx.fillRect(xG1-r1, fuellY, 2*r1, bodenY-fuellY);
   // Beschriftung
-  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 11px Source Sans 3,sans-serif';
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px Source Sans 3,sans-serif';
   ctx.textAlign = 'center'; ctx.fillText('Zylinder', xG1, bodenY+22);
 
   // Gefäss 2: Trichter (oben breit, unten schmal)
@@ -1335,7 +1335,7 @@ function drawA2() {
   ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.4; ctx.setLineDash([5, 4]);
   ctx.beginPath(); ctx.moveTo(0, fuellY); ctx.lineTo(W, fuellY); ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 10px JetBrains Mono,monospace';
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'left';
   ctx.fillText('Füllhöhe h = ' + h.toFixed(1) + ' cm', 8, fuellY-4);
 
@@ -1346,7 +1346,7 @@ function drawA2() {
     ctx.fillRect(cx-mw/2, my, mw, mh);
     ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.4;
     ctx.strokeRect(cx-mw/2, my, mw, mh);
-    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 10px JetBrains Mono,monospace';
+    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px JetBrains Mono,monospace';
     ctx.textAlign = 'center';
     ctx.fillText((pVal/100).toFixed(1) + ' mbar', cx, my+15);
   }
@@ -1461,7 +1461,7 @@ function drawA3() {
 
   // Kraftpfeil F1 (oben am kleinen Kolben, nach unten)
   drawArrow(ctx, xL, pistY_L-50, xL, pistY_L-15, '#9b1c1c', 2.5, 11);
-  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 12px JetBrains Mono,monospace';
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'left';
   ctx.fillText('F₁ = '+F1+' N', xL+wL/2+8, pistY_L-32);
 
@@ -1479,7 +1479,7 @@ function drawA3() {
   ctx.stroke();
   ctx.setLineDash([]);
   drawArrow(ctx, xL-wL/2-22, pistY_L-12 + s1*1.2 - 6, xL-wL/2-22, pistY_L-12 + s1*1.2, '#5b2d8e', 1.5, 7);
-  ctx.fillStyle = '#5b2d8e'; ctx.font = '11px JetBrains Mono,monospace';
+  ctx.fillStyle = '#5b2d8e'; ctx.font = '13px JetBrains Mono,monospace';
   ctx.textAlign = 'right';
   ctx.fillText('s₁='+s1+' cm', xL-wL/2-26, pistY_L-12 + s1*1.2/2);
 
@@ -1495,13 +1495,13 @@ function drawA3() {
   ctx.fillText('s₂='+s2.toFixed(1)+' cm', xR-wR/2-26, pistY_R-12 - s2*1.2/2);
 
   // Labels A1, A2 in der Mitte der Kolben
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px JetBrains Mono,monospace';
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'center';
   ctx.fillText('A₁', xL, pistY_L-3);
   ctx.fillText('A₂', xR, pistY_R-3);
 
   // Druck-Beschriftung in der Flüssigkeit
-  ctx.fillStyle = '#7a5a10'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.fillStyle = '#7a5a10'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'center';
   ctx.fillText('p = '+(p/1e5).toFixed(2)+' bar überall', (xL+xR)/2, yU+15);
 }
@@ -1569,7 +1569,7 @@ function drawA4() {
   if (he > 0) {
     const pfeil = Math.max(20, Math.min(70, FA*5));
     drawArrow(ctx, xQ, yQbot+6, xQ, yQbot+6-pfeil, '#1f6b3a', 2.5, 11);
-    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
     ctx.textAlign = 'left';
     ctx.fillText('F_A = '+FA.toFixed(2)+' N', xQ+wq/2+15, yQbot+6-pfeil/2);
   }
@@ -1578,12 +1578,12 @@ function drawA4() {
   ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5;
   if (he > 0) {
     drawArrow(ctx, becL-22, wasserY, becL-22, Math.min(yQbot, becB-3), '#8a4a0e', 1.6, 9);
-    ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+    ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
     ctx.textAlign = 'left';
     ctx.fillText('h_e = '+he.toFixed(1)+' cm', becL+6, wasserY + (Math.min(yQbot, becB-3)-wasserY)/2);
   }
   // Wasseroberfläche-Label
-  ctx.fillStyle = '#3a7a96'; ctx.font = '10px JetBrains Mono,monospace';
+  ctx.fillStyle = '#3a7a96'; ctx.font = '13px JetBrains Mono,monospace';
   ctx.textAlign = 'left';
   ctx.fillText('Wasseroberfläche', becL+5, wasserY-4);
 
@@ -1608,7 +1608,7 @@ function drawA4() {
   ctx2.beginPath(); ctx2.moveTo(grid.cx(0), grid.cy(FA)); ctx2.lineTo(grid.cx(he), grid.cy(FA)); ctx2.stroke();
   ctx2.setLineDash([]);
   // Knickpunkt markieren
-  ctx2.fillStyle = '#5b2d8e'; ctx2.font = '10px JetBrains Mono,monospace';
+  ctx2.fillStyle = '#5b2d8e'; ctx2.font = '13px JetBrains Mono,monospace';
   ctx2.textAlign = 'center';
   ctx2.fillText('voll eingetaucht', grid.cx(kante), grid.cy(FAmax)-8);
 }
@@ -1700,7 +1700,7 @@ function drawA5() {
   const arr_len = 35;
   // FG nach unten in der Mitte des Würfels
   drawArrow(ctx, xQ, yQtop+wq/2, xQ, yQtop+wq/2+arr_len, '#9b1c1c', 2.5, 10);
-  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'left';
   ctx.fillText('F_G = '+FG.toFixed(2)+' N', xQ+wq/2+8, yQtop+wq/2+arr_len);
   // FA nach oben
@@ -1717,7 +1717,7 @@ function drawA5() {
   ctx.textAlign = 'center';
   ctx.fillText(mode.toUpperCase(), Wc/2, becT-10);
   // Dichten-Vergleich
-  ctx.fillStyle = '#5a6068'; ctx.font = '11px JetBrains Mono,monospace';
+  ctx.fillStyle = '#5a6068'; ctx.font = '13px JetBrains Mono,monospace';
   ctx.fillText('ρ_K = '+rhoK+' kg/m³ '+(rhoK<RHO_W?'<':rhoK>RHO_W?'>':'=')+' '+RHO_W+' = ρ_W', Wc/2, becB+22);
 }
 document.getElementById('a5-rho').addEventListener('input', drawA5);
@@ -1793,7 +1793,7 @@ function drawA6() {
   ctx.fillRect(xR-wTube/2, yWasserR, wTube, yBot-yWasserR);
 
   // Beschriftungen
-  ctx.font = 'bold 11px Source Sans 3,sans-serif'; ctx.fillStyle = '#a07e1a';
+  ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.fillStyle = '#a07e1a';
   ctx.textAlign = 'left';
   ctx.fillText('Öl', xL+wTube/2+6, (yOelTop+yGrenze)/2);
   ctx.fillStyle = '#3a7a96';
@@ -1805,7 +1805,7 @@ function drawA6() {
   ctx.moveTo(xL-wTube/2-15, yGrenze); ctx.lineTo(xL+wTube/2+8, yGrenze);
   ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle = '#9b1c1c'; ctx.font = '10px JetBrains Mono,monospace';
+  ctx.fillStyle = '#9b1c1c'; ctx.font = '13px JetBrains Mono,monospace';
   ctx.textAlign = 'right';
   ctx.fillText('Grenze Öl/Wasser', xL-wTube/2-20, yGrenze+4);
 
@@ -1814,7 +1814,7 @@ function drawA6() {
   ctx.strokeStyle = '#a07e1a'; ctx.lineWidth = 1.5;
   drawArrow(ctx, xL-wTube/2-30, yOelTop, xL-wTube/2-30, yGrenze, '#a07e1a', 1.5, 8);
   drawArrow(ctx, xL-wTube/2-30, yGrenze, xL-wTube/2-30, yOelTop, '#a07e1a', 1.5, 8);
-  ctx.fillStyle = '#a07e1a'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.fillStyle = '#a07e1a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'right';
   ctx.fillText('h_Öl = '+hOel.toFixed(1)+' cm', xL-wTube/2-34, (yOelTop+yGrenze)/2+4);
   // h_w rechts (= Spiegel rechts über Grenze)
@@ -1835,7 +1835,7 @@ function drawA6() {
   ctx.setLineDash([]);
   drawArrow(ctx, Wc/2-12, yOelTop, Wc/2-12, yWasserR, '#8a4a0e', 1.6, 8);
   drawArrow(ctx, Wc/2-12, yWasserR, Wc/2-12, yOelTop, '#8a4a0e', 1.6, 8);
-  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'left';
   ctx.fillText('Δh = '+hDiff.toFixed(2)+' cm', Wc/2-6, (yOelTop+yWasserR)/2+4);
 }

@@ -930,7 +930,7 @@ function drawA1() {
   ctx.setLineDash([4,3]); ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.2;
   drawArrow(ctx, x0 + bW/2, bodenY + 22, px + bW/2, bodenY + 22, '#8a4a0e', 1.4, 8);
   ctx.setLineDash([]);
-  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('s = ' + s.toFixed(1) + ' m', (x0 + px + bW/2)/2, bodenY + 40);
 
   // Zugkraft unter Winkel
@@ -939,7 +939,7 @@ function drawA1() {
   const ex = ax + len * Math.cos(rad);
   const ey = ay - len * Math.sin(rad);
   drawArrow(ctx, ax, ay, ex, ey, '#1a4f8a', 2.6, 10);
-  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('F = ' + F + ' N', ex + 4, ey - 4);
 
   // Komponente längs Weg (violett gestrichelt)
@@ -948,7 +948,7 @@ function drawA1() {
     ctx.setLineDash([4,3]);
     drawArrow(ctx, ax, ay, exh, ay, '#5b2d8e', 2, 9);
     ctx.setLineDash([]);
-    ctx.fillStyle = '#5b2d8e'; ctx.font = '11px JetBrains Mono,monospace';
+    ctx.fillStyle = '#5b2d8e'; ctx.font = '13px JetBrains Mono,monospace';
     ctx.fillText('F cos α', exh + 4, ay + 14);
   }
 
@@ -967,7 +967,7 @@ function drawA1() {
   c2.beginPath(); c2.moveTo(grid.cx(0), grid.cy(Feff)); c2.lineTo(grid.cx(s), grid.cy(Feff)); c2.stroke();
   c2.beginPath(); c2.moveTo(grid.cx(s), grid.cy(Feff)); c2.lineTo(grid.cx(s), grid.cy(0)); c2.stroke();
   // Flächenbeschriftung
-  c2.fillStyle = '#1f6b3a'; c2.font = 'bold 12px JetBrains Mono,monospace'; c2.textAlign = 'center';
+  c2.fillStyle = '#1f6b3a'; c2.font = 'bold 13px JetBrains Mono,monospace'; c2.textAlign = 'center';
   if (s > 0.6 && Feff > 8) c2.fillText('W = ' + W.toFixed(0) + ' J', (xr0 + xr1)/2, (yr1 + yr0)/2);
 }
 ['a1-F','a1-s','a1-alpha'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
@@ -1009,7 +1009,7 @@ function drawA2() {
   if (v > 0.1) {
     const vLen = Math.min(150, v * 5);
     drawArrow(ctx, cx + 80, cyB - 20, cx + 80 + vLen, cyB - 20, '#1f6b3a', 2.6, 10);
-    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
     ctx.fillText('v = ' + v + ' m/s', cx + 84, cyB - 28);
   }
   // Energie-Hinweis
@@ -1123,12 +1123,12 @@ function a3Render() {
     c2.fillStyle = c.col;
     c2.fillRect(x, baseY - h, bw, h);
     // Beschriftung
-    c2.fillStyle = '#1c1a17'; c2.font = 'bold 11px JetBrains Mono,monospace'; c2.textAlign = 'center';
+    c2.fillStyle = '#1c1a17'; c2.font = 'bold 13px JetBrains Mono,monospace'; c2.textAlign = 'center';
     c2.fillText(c.lab, x + bw/2, baseY + 16);
-    c2.fillStyle = c.col; c2.font = 'bold 11px JetBrains Mono,monospace';
+    c2.fillStyle = c.col; c2.font = 'bold 13px JetBrains Mono,monospace';
     c2.fillText(c.val.toFixed(2), x + bw/2, baseY - h - 6);
   });
-  c2.fillStyle = '#1c1a17'; c2.font = '11px Source Sans 3,sans-serif'; c2.textAlign = 'center';
+  c2.fillStyle = '#1c1a17'; c2.font = '13px Source Sans 3,sans-serif'; c2.textAlign = 'center';
   c2.fillText('Energie in Joule', W2/2, 18);
 }
 function a3Tick(ts) {
@@ -1215,7 +1215,7 @@ function drawA4() {
   const ruheEnd = wallX + ruheLen;
   drawArrow(ctx, blockX, yMid + 40, ruheEnd, yMid + 40, '#9b1c1c', 1.4, 7);
   ctx.setLineDash([]);
-  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('s = ' + s.toFixed(3) + ' m', (blockX + ruheEnd)/2, yMid + 56);
 
   // Diagramm: Dreiecksfläche
@@ -1238,7 +1238,7 @@ function drawA4() {
   drawDot(c2, grid.cx, grid.cy, s, D * s, '#9b1c1c', 5);
   // Flächenlabel
   if (s > 0.02) {
-    c2.fillStyle = '#5b2d8e'; c2.font = 'bold 11px JetBrains Mono,monospace'; c2.textAlign = 'center';
+    c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace'; c2.textAlign = 'center';
     c2.fillText('E = ' + E.toFixed(2) + ' J', grid.cx(s*0.55), grid.cy(D*s*0.30));
   }
 }
@@ -1282,14 +1282,14 @@ function a5Render() {
   // Kiste
   ctx.fillStyle = '#8a4a0e'; ctx.fillRect(cx - 24, boxY, 48, 36);
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.5; ctx.strokeRect(cx - 24, boxY, 48, 36);
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText(m + ' kg', cx, boxY + 22);
   // Höhen-Massband
   ctx.setLineDash([3,3]); ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.2;
   const xb = cx + 70;
   drawArrow(ctx, xb, bodenY - 36, xb, bodenY - 36 - travel, '#1f6b3a', 1.4, 7);
   ctx.setLineDash([]);
-  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('h = ' + h.toFixed(1) + ' m', xb + 5, bodenY - 36 - travel/2);
   // Leistung gross
   ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
@@ -1354,7 +1354,7 @@ function drawA6() {
   const hIn = (Ein / maxE) * fullH;
   const yInTop = (H - 30) - hIn;
   ctx.fillStyle = '#1a4f8a'; ctx.fillRect(xIn, yInTop, wIn, hIn);
-  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('E_zu', xIn + wIn/2, H - 12);
   ctx.fillStyle = '#1a4f8a'; ctx.fillText(Ein + ' J', xIn + wIn/2, yInTop - 6);
 
@@ -1362,9 +1362,9 @@ function drawA6() {
   const mx = xIn + wIn + 40, mw = 70, my = 50, mh = H - 110;
   ctx.fillStyle = '#eceae4'; ctx.strokeStyle = '#5c5346'; ctx.lineWidth = 1.5;
   ctx.fillRect(mx, my, mw, mh); ctx.strokeRect(mx, my, mw, mh);
-  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 12px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Maschine', mx + mw/2, my + mh/2 - 4);
-  ctx.font = '11px JetBrains Mono,monospace';
+  ctx.font = '13px JetBrains Mono,monospace';
   ctx.fillText('η = ' + Math.round(eta*100) + '%', mx + mw/2, my + mh/2 + 14);
 
   // Pfeil hinein
@@ -1375,14 +1375,14 @@ function drawA6() {
   const nutzW = Math.max(4, (nutz / maxE) * 24);
   ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = nutzW;
   drawArrow(ctx, xOut, my + mh*0.35, W - 70, my + mh*0.35, '#1f6b3a', nutzW, 12);
-  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('Nutz: ' + nutz.toFixed(0) + ' J', xOut + 6, my + mh*0.35 - 12);
 
   // Verlust-Pfeil (rot, nach unten/rechts, Dicke prop. verl)
   const verlW = Math.max(4, (verl / maxE) * 24);
   ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = verlW;
   drawArrow(ctx, mx + mw/2, my + mh + 4, mx + mw/2 + 60, H - 24, '#9b1c1c', verlW, 12);
-  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('Verlust (Wärme): ' + verl.toFixed(0) + ' J', mx + mw/2 + 20, H - 14);
 }
 ['a6-ein','a6-eta'].forEach(id => document.getElementById(id).addEventListener('input', drawA6));

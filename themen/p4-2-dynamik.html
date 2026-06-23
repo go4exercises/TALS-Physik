@@ -899,7 +899,7 @@ function drawA1() {
   ctx.fillStyle = '#8a4a0e';
   ctx.fillRect(cxMid - 22, federBot, 44, 26);
   ctx.strokeStyle = '#5e3208'; ctx.strokeRect(cxMid - 22, federBot, 44, 26);
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText(F.toFixed(1) + ' N', cxMid, federBot + 17);
 
   // Dehnungs-Massbalken rechts
@@ -913,7 +913,7 @@ function drawA1() {
     ctx.beginPath(); ctx.moveTo(cxMid, y0); ctx.lineTo(xb, y0); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(cxMid, yEnd - 22); ctx.lineTo(xb, yEnd - 22); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
     ctx.fillText('s = ' + s.toFixed(2) + ' m', xb + 5, (y0 + yEnd - 22) / 2 + 4);
   }
 
@@ -982,13 +982,13 @@ function a2Render() {
   // Wagenkorpus
   ctx.fillStyle = '#8a4a0e'; ctx.fillRect(px, wy, wB, wH);
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.5; ctx.strokeRect(px, wy, wB, wH);
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText(m.toFixed(1) + ' kg', px + wB/2, wy + wH/2 + 4);
 
   // Kraftpfeil (bernstein → eigentlich Kraft: blau für Hauptvektor) nach rechts
   const fLen = 12 + F * 2.2;
   drawArrow(ctx, px + wB, wy + wH/2, px + wB + fLen, wy + wH/2, '#1a4f8a', 2.6, 10);
-  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('F = ' + F + ' N', px + wB + 6, wy - 4);
 
   // Beschleunigungspfeil (violett) unter dem Wagen
@@ -1099,7 +1099,7 @@ function a3Render() {
   ctx.moveTo(kx + kSize, kY); ctx.lineTo(kx, kY + kSize); ctx.stroke();
 
   // Hinweis-Label
-  ctx.fillStyle = '#1c1a17'; ctx.font = '12px Source Sans 3,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#1c1a17'; ctx.font = '13px Source Sans 3,sans-serif'; ctx.textAlign = 'left';
   if (a3State.anschlag)
     ctx.fillText('Kiste an der Bordwand — fährt jetzt mit.', 12, 22);
   else if (a3State.running || a3State.xw > 0)
@@ -1184,13 +1184,13 @@ function drawA4() {
   ctx.fillStyle = gleitet ? '#c98a3a' : '#b5651d';
   ctx.fillRect(bx, by, bw, bh);
   ctx.strokeStyle = '#7a3f10'; ctx.lineWidth = 1.5; ctx.strokeRect(bx, by, bw, bh);
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText(m + ' kg', bx + bw/2, by + bh/2 + 4);
 
   // Zugkraft (blau) nach rechts
   const fLen = 8 + Fz * 1.0;
   drawArrow(ctx, bx + bw, by + bh/2, bx + bw + fLen, by + bh/2, '#1a4f8a', 2.6, 10);
-  ctx.fillStyle = '#1a4f8a'; ctx.textAlign = 'left'; ctx.font = 'bold 11px JetBrains Mono,monospace';
+  ctx.fillStyle = '#1a4f8a'; ctx.textAlign = 'left'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.fillText('F_zug = ' + Fz + ' N', bx + bw + 6, by + bh/2 - 8);
   // Reibung (rot) nach links
   const rLen = 8 + FR * 1.0;
@@ -1253,7 +1253,7 @@ function drawA5() {
   // Winkelbogen + Label
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.arc(ox, oy, 34, Math.PI, Math.PI - alpha, true); ctx.stroke();
-  ctx.fillStyle = '#5e3208'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'right';
+  ctx.fillStyle = '#5e3208'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'right';
   ctx.fillText(alphaDeg + '°', ox - 40, oy - 8);
 
   // Block auf der Rampe (Mittelpunkt bei Parameter t)
@@ -1282,7 +1282,7 @@ function drawA5() {
   const sc = 6.5;                     // px pro N (Einheitsmasse)
   // Gewichtskraft (bernstein) senkrecht nach unten vom Block-Mittelpunkt
   drawArrow(ctx, cxB, cyB, cxB, cyB + FG * sc, '#8a4a0e', 2.4, 10);
-  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('F_G', cxB + 4, cyB + FG * sc + 4);
   // Hangabtriebskraft (violett) entlang der Rampe bergab
   drawArrow(ctx, cxB, cyB, cxB + ux * FH * sc, cyB + uy * FH * sc, '#5b2d8e', 2.4, 9);
@@ -1300,7 +1300,7 @@ function drawA5() {
   }
 
   // Status-Label
-  ctx.fillStyle = '#1c1a17'; ctx.font = '12px Source Sans 3,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#1c1a17'; ctx.font = '13px Source Sans 3,sans-serif'; ctx.textAlign = 'left';
   if (a > 0.01) ctx.fillText('rutscht mit a = ' + a.toFixed(2) + ' m/s²', 12, 22);
   else ctx.fillText('bleibt liegen (Haftreibung genügt)', 12, 22);
 }
@@ -1353,7 +1353,7 @@ function a6Render() {
   ctx.beginPath(); ctx.arc(cx1 - 10, bodenY - 5, 7, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#1a4f8a'; ctx.fillRect(cx1 - w1, wy, w1, wh);
   ctx.strokeStyle = '#123a66'; ctx.lineWidth=1.5; ctx.strokeRect(cx1 - w1, wy, w1, wh);
-  ctx.fillStyle='#fff'; ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle='#fff'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText(m1.toFixed(1)+' kg', cx1 - w1/2, wy+wh/2+4);
 
   // Wagen 2 (rechts)
@@ -1370,7 +1370,7 @@ function a6Render() {
     const fl = 30;
     drawArrow(ctx, cx1, wy - 12, cx1 - fl, wy - 12, '#9b1c1c', 2.4, 9);
     drawArrow(ctx, cx2, wy - 12, cx2 + fl, wy - 12, '#9b1c1c', 2.4, 9);
-    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
     ctx.fillText('F', cx1 - fl/2, wy - 16);
     ctx.fillText('F', cx2 + fl/2, wy - 16);
   } else {

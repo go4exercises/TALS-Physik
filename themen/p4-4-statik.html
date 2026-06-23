@@ -1097,7 +1097,7 @@ function aeRender() {
   sitz(-1, AE_R1, AE_M1, '#7a3b9e');
   sitz(+1, r2, m2, '#b8722a');
 
-  ctx.fillStyle = '#5a6068'; ctx.font = '11px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#5a6068'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('r1 = '+AE_R1.toFixed(1)+' m', px - AE_R1*pxPerM*Math.cos(theta), pivotY + 28);
   ctx.fillText('r2 = '+r2.toFixed(2)+' m', px + r2*pxPerM*Math.cos(theta), pivotY + 28);
 }
@@ -1217,7 +1217,7 @@ function drawA3() {
   drawArrow(ctx, P.x, P.y, P.x + (-Math.cos(a))*S1*sc, P.y + (-Math.sin(a))*S1*sc, C_HAUPT, 2.6, 9);
   drawArrow(ctx, P.x, P.y, P.x + ( Math.cos(b))*S2*sc, P.y + (-Math.sin(b))*S2*sc, C_HAUPT, 2.6, 9);
   drawArrow(ctx, P.x, P.y, P.x, P.y + FG*sc, C_GEW, 2.6, 9);
-  ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillStyle = C_HAUPT;
   ctx.fillText('S1', P.x + (-Math.cos(a))*S1*sc - 10, P.y + (-Math.sin(a))*S1*sc - 4);
   ctx.fillText('S2', P.x + ( Math.cos(b))*S2*sc + 10, P.y + (-Math.sin(b))*S2*sc - 4);
@@ -1236,14 +1236,14 @@ function drawA3() {
   function seg(x0,y0,vx,vy,col,lab){
     const x1 = x0 + vx*sc2, y1 = y0 + vy*sc2;
     drawArrow(c2, x0, y0, x1, y1, col, 2.6, 9);
-    c2.fillStyle = col; c2.font='bold 11px JetBrains Mono,monospace'; c2.textAlign='center';
+    c2.fillStyle = col; c2.font='bold 13px JetBrains Mono,monospace'; c2.textAlign='center';
     c2.fillText(lab, (x0+x1)/2 + 14, (y0+y1)/2);
     return {x:x1,y:y1};
   }
   let p = seg(sx, sy, vFGx, vFGy, C_GEW, 'F_G');
   p = seg(p.x, p.y, vS1x, vS1y, C_HAUPT, 'S1');
   p = seg(p.x, p.y, vS2x, vS2y, C_HAUPT, 'S2');
-  c2.fillStyle = '#5a6068'; c2.font='10px JetBrains Mono,monospace'; c2.textAlign='center';
+  c2.fillStyle = '#5a6068'; c2.font='13px JetBrains Mono,monospace'; c2.textAlign='center';
   c2.fillText('Summe = 0  ->  geschlossen', W2/2, H2-12);
 }
 ['a3-m','a3-al','a3-be'].forEach(id => document.getElementById(id).addEventListener('input', drawA3));
@@ -1282,7 +1282,7 @@ function drawA4() {
   // Drehachse
   ctx.fillStyle = '#7a6a52'; ctx.beginPath(); ctx.arc(D.x, D.y, 7, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(D.x, D.y, 2.5, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = C_TINTE; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='right';
+  ctx.fillStyle = C_TINTE; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
   ctx.fillText('D', D.x-10, D.y+4);
 
   // Kraftrichtung: Winkel a vom Hebel (+x), gegen Uhrzeigersinn -> nach oben
@@ -1301,18 +1301,18 @@ function drawA4() {
   const footx = B.x + fdx*tproj, footy = B.y + fdy*tproj;
   ctx.strokeStyle = C_KOMP; ctx.lineWidth = 2; ctx.setLineDash([4,3]);
   ctx.beginPath(); ctx.moveTo(D.x, D.y); ctx.lineTo(footx, footy); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = C_KOMP; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle = C_KOMP; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText('r', (D.x+footx)/2 - 6, (D.y+footy)/2 - 6);
 
   // Kraftpfeil
   drawArrow(ctx, B.x, B.y, B.x + fdx*Fpx, B.y + fdy*Fpx, C_GEW, 3, 10);
-  ctx.fillStyle = C_GEW; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillStyle = C_GEW; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText('F', B.x + fdx*Fpx + 4, B.y + fdy*Fpx - 4);
 
   // Winkelbogen alpha bei B
   ctx.strokeStyle = '#5a6068'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.arc(B.x, B.y, 22, Math.PI, Math.PI + a); ctx.stroke();
-  ctx.fillStyle='#5a6068'; ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle='#5a6068'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText('α', B.x - 30*Math.cos(a/2), B.y - 30*Math.sin(a/2) + 4);
 
   // Beschriftung Hebellänge
@@ -1369,13 +1369,13 @@ function drawA5() {
     ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy+12); ctx.stroke();
     drawArrow(ctx, cx, cy+12, cx, cy+12+len, col, 2.6, 9);
-    ctx.fillStyle = col; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillStyle = col; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
     ctx.fillText(lab, cx, cy+12+len+14);
   }
   last(-1, A5_R1, A5_F1, C_GEW, 'F1='+A5_F1+'N');
   last(+1, r2, F2, C_RES, 'F2='+F2+'N');
 
-  ctx.fillStyle = '#5a6068'; ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle = '#5a6068'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText('r1='+A5_R1.toFixed(2)+'m', px - A5_R1*pxPerM*Math.cos(theta), pivotY - 12);
   ctx.fillText('r2='+r2.toFixed(2)+'m', px + r2*pxPerM*Math.cos(theta), pivotY - 12);
 }
@@ -1409,7 +1409,7 @@ function drawA6() {
   function stuetze(sx, lab) {
     ctx.fillStyle = '#7a6a52';
     ctx.beginPath(); ctx.moveTo(sx, beamY+7); ctx.lineTo(sx-16, beamY+7+24); ctx.lineTo(sx+16, beamY+7+24); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = C_TINTE; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillStyle = C_TINTE; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
     ctx.fillText(lab, sx, beamY+7+38);
   }
   stuetze(cx(0), 'A'); stuetze(cx(A6_L), 'B');
@@ -1418,7 +1418,7 @@ function drawA6() {
   const lx = cx(x);
   const sc = 80/1000;
   drawArrow(ctx, lx, beamY-8-FG*sc, lx, beamY-8, C_GEW, 3, 10);
-  ctx.fillStyle = C_GEW; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle = C_GEW; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText('F_G='+FG+'N', lx, beamY-12-FG*sc);
   // kleine Last-Markierung (Kasten) auf dem Balken
   ctx.fillStyle = C_TINTE; ctx.fillRect(lx-9, beamY-7, 18, 14);
@@ -1472,7 +1472,7 @@ function drawA7() {
   // Winkelbogen
   ctx.strokeStyle = '#5a6068'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.arc(Plowx, baseY, 30, -a, 0); ctx.stroke();
-  ctx.fillStyle='#5a6068'; ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillStyle='#5a6068'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText('α='+al+'°', Plowx+34, baseY - 8);
 
   // Slope-Einheitsvektoren (Screen, y nach unten)
@@ -1504,14 +1504,14 @@ function drawA7() {
   if (FR > 0.5) drawArrow(ctx, bcx, bcy, bcx + ux*FR*sc, bcy + uy*FR*sc, C_REIB, 2.4, 8);
 
   // Labels
-  ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillStyle = C_GEW;  ctx.fillText('F_G', bcx+14, bcy + FG*sc + 2);
   ctx.fillStyle = C_KOMP; ctx.fillText('F_H', bcx - ux*FH*sc - 6, bcy - uy*FH*sc - 4);
   ctx.fillStyle = C_NORM; ctx.fillText('F_N', bcx + nx*FN*sc - 8, bcy + ny*FN*sc - 4);
   if (FR > 0.5) { ctx.fillStyle = C_REIB; ctx.fillText('F_R', bcx + ux*FR*sc + 8, bcy + uy*FR*sc + 10); }
 
   // Status-Badge
-  ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='right';
+  ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
   ctx.fillStyle = haftet ? C_NORM : C_RES;
   ctx.fillText(haftet ? '✓ haftet' : '✗ rutscht', W-12, 22);
 }

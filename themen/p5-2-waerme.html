@@ -23,6 +23,18 @@ MathJax = {
 .stoff-wahl button { font-family:var(--sans); font-size:0.78rem; font-weight:600; background:var(--papier-2);
   color:var(--tinte); border:1px solid var(--linie); padding:5px 11px; border-radius:6px; cursor:pointer; }
 .stoff-wahl button.aktiv { background:var(--bernstein); color:#fff; border-color:var(--bernstein); }
+/* Treibhausgas-Grafik unter Animation 6 */
+.thg-body { padding:12px 14px 10px; }
+.thg-cap { color:var(--tinte-2); font-size:0.85rem; margin:0 0 12px; }
+.thg-panels { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.thg-panel { border:1px solid var(--linie); border-radius:9px; padding:10px 8px 4px; background:var(--papier); }
+.thg-panel h4 { margin:0; font-size:0.92rem; font-weight:700; text-align:center; color:var(--tinte); }
+.thg-badge { display:block; text-align:center; font-size:0.78rem; font-weight:700; color:var(--bernstein); margin:1px 0 2px; }
+.thg-legend { display:flex; flex-wrap:wrap; gap:14px; margin:10px 2px 0; font-size:0.8rem; color:var(--tinte-2); }
+.thg-legend span { display:inline-flex; align-items:center; gap:6px; }
+.thg-sw { width:13px; height:13px; border-radius:3px; display:inline-block; }
+.thg-src { font-size:0.78rem; color:var(--tinte-2); line-height:1.5; margin:8px 2px 16px; }
+@media (max-width:620px){ .thg-panels { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -73,11 +85,6 @@ MathJax = {
 
 <p>Entscheidend: Wärme fliesst <strong>immer von selbst vom wärmeren zum kälteren</strong> Körper — nie umgekehrt. Sind beide gleich warm, hört der Fluss auf. Diesen Zustand nennt man <strong>thermisches Gleichgewicht</strong>. «Kälte» fliesst dabei nie zu; in der Physik gibt es nur die Wärme.</p>
 
-<div class="block block-experiment">
-  <div class="block-titel">🧪 Beobachte</div>
-  <p>Zwei Behälter mit Teilchen: links heiss (schnelle, rote Teilchen), rechts kalt (langsame, blaue). Sie stehen in Kontakt. Starte die Animation und beobachte, wie sich die Temperaturen angleichen, bis beide dieselbe Mischtemperatur erreichen.</p>
-</div>
-
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
@@ -102,8 +109,17 @@ MathJax = {
   </div>
   <div class="widget-body">
 
-    <div style="margin:10px 0;">
-      <button class="play-btn" id="ein-btn">▶ Start</button>
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Start links \(T_1\):</label>
+      <input type="range" id="ein-T1" min="10" max="90" value="90" step="1">
+      <span class="sl-val" id="ein-T1-val">90 °C</span>
+      </div>
+      <div class="sl-grp">
+      <label>Start rechts \(T_2\):</label>
+      <input type="range" id="ein-T2" min="10" max="90" value="10" step="1">
+      <span class="sl-val" id="ein-T2-val">10 °C</span>
+      </div>
       <button class="play-btn paused" id="ein-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
     </div>
 
@@ -129,7 +145,7 @@ MathJax = {
 <summary class="mc-kopf">✏️ Mini-Check</summary>
 <div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Warum wird der Metalllöffel in der heissen Suppe heiss?</p><ul class="mc-optionen"><li data-opt="A">durch Strahlung</li><li data-opt="B">durch Wärmeleitung</li><li data-opt="C">durch Verdunstung</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Im Metall wird die Wärme von Teilchen zu Teilchen weitergegeben — Wärmeleitung.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Wärme fliesst von selbst stets von <span class="mc-luecke"></span> nach kalt.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">warm (heiss).</div></details></div>
-<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Wie viel Wärme braucht es, um \(1\;\text{kg}\) Wasser um \(1\;\text{K}\) zu erwärmen? (\(c = 4180\;\text{J/(kg·K)}\))</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(Q = c\,m\,\Delta T = 4180 \cdot 1 \cdot 1 = 4180\;\text{J}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Zwei gleich grosse Wassermengen von \(80\,^\circ\text{C}\) und \(20\,^\circ\text{C}\) kommen in Kontakt. Welche Gleichgewichtstemperatur stellt sich (ohne Verluste) ein?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Bei gleichen Mengen liegt sie genau in der Mitte: \(\dfrac{80 + 20}{2} = 50\,^\circ\text{C}\). Dann sind beide gleich warm — thermisches Gleichgewicht.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum fühlt sich ein Metallgeländer kälter an als ein Holzgeländer gleicher Temperatur?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Metall leitet die Wärme viel besser und führt sie schneller von der Hand weg. Die Temperatur ist gleich — nur das Wärmegefühl unterscheidet sich.</div></details></div>
 </details>
 
@@ -461,10 +477,6 @@ MathJax = {
       <div class="lb-item"><span class="lb-lab">Träger</span><span class="lb-val" id="a4-traeger">Teilchen am Ort</span></div>
     </div>
 
-    <div style="margin:10px 0;">
-      <button class="play-btn" id="a4-btn">▶ Start</button>
-    </div>
-
     <div class="cv-wrap">
       <div class="cv-titel">🔥 Energiefluss vom Warmen zum Kalten</div>
       <canvas id="a4-cv" height="280"></canvas>
@@ -495,16 +507,16 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Stelle den Wirkungsgrad ein.</li><li>Beobachte die Aufteilung in Nutzen und Verlust.</li><li>Verfolge, wie der Verlust meist als Wärme erscheint.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Stelle den Wirkungsgrad ein. Beobachte die Aufteilung der zugeführten Energie in Nutzen und Verlust. Verfolge, wie der Verlust meistens als Wärme erscheint." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Wähle ein Gerät und stelle den Wirkungsgrad im realistischen Bereich ein.</li><li>Der Pfeil der zugeführten Energie bleibt immer gleich gross.</li><li>Beobachte, wie sich Nutz- und Verlustenergie aufteilen — zusammen ergeben sie wieder die zugeführte Energie.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle ein Gerät und stelle den Wirkungsgrad im realistischen Bereich ein. Der Pfeil der zugeführten Energie bleibt immer gleich gross. Beobachte, wie sich Nutzenergie und Verlustenergie aufteilen; zusammen ergeben sie wieder die zugeführte Energie." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Wirkungsgrad: \(\eta = E_{\text{nutz}} / E_{\text{zu}}\), stets kleiner als 1.</li><li>Die Verlustenergie geht meist als Wärme an die Umgebung.</li><li>Energie geht nie verloren, sie wird nur teilweise unbrauchbar.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Der Wirkungsgrad ist Nutzenergie geteilt durch zugeführte Energie und immer kleiner als eins. Die Verlustenergie geht meistens als Wärme an die Umgebung. Energie geht nie verloren, sie wird nur teilweise unbrauchbar." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Wirkungsgrad \(\eta = E_{\text{nutz}} / E_{\text{zu}}\), stets kleiner als 1.</li><li>Energieerhaltung: zugeführte Energie = Nutzenergie + Verlustenergie.</li><li>Glühbirne wenige %, Verbrennungsmotor rund 30 %, Elektromotor über 90 % — die Verlustenergie geht meist als Wärme an die Umgebung.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der Wirkungsgrad ist Nutzenergie geteilt durch zugeführte Energie und immer kleiner als eins. Es gilt die Energieerhaltung: die zugeführte Energie ist gleich Nutzenergie plus Verlustenergie. Eine Glühbirne erreicht nur wenige Prozent, ein Verbrennungsmotor rund dreissig Prozent, ein Elektromotor über neunzig Prozent. Die Verlustenergie geht meistens als Wärme an die Umgebung." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
 </div>
@@ -512,19 +524,26 @@ MathJax = {
   <div class="widget-body">
 
     <div class="sl-row">
-      <label>Wirkungsgrad \(\eta\):</label>
-      <input type="range" id="a5-eta" min="5" max="98" value="78" step="1">
-      <span class="sl-val" id="a5-eta-val">78 %</span>
+      <button class="play-btn" data-geraet="gluehbirne">Glühbirne</button>
+      <button class="play-btn" data-geraet="led">LED</button>
+      <button class="play-btn paused" data-geraet="verbrennung">Verbrennungsmotor</button>
+      <button class="play-btn" data-geraet="elektro">Elektromotor</button>
+      <div class="sl-grp">
+        <label>Wirkungsgrad \(\eta\):</label>
+        <input type="range" id="a5-eta" min="20" max="45" value="30" step="1">
+        <span class="sl-val" id="a5-eta-val">30 %</span>
+      </div>
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Nutzenergie</span><span class="lb-val" id="a5-nutz">78 %</span></div>
-      <div class="lb-item"><span class="lb-lab">Verlust</span><span class="lb-val" id="a5-verl">22 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Zugeführte Energie</span><span class="lb-val">100 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Nutzenergie</span><span class="lb-val" id="a5-nutz">30 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Verlustenergie</span><span class="lb-val" id="a5-verl">70 %</span></div>
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">⚡ Aufteilung der zugeführten Energie</div>
-      <canvas id="a5-cv" height="220"></canvas>
+      <div class="cv-titel">⚡ Energiefluss eines Geräts</div>
+      <canvas id="a5-cv" height="280"></canvas>
     </div>
 
   </div>
@@ -569,9 +588,9 @@ MathJax = {
   <div class="widget-body">
 
     <div class="sl-row">
-      <label>Treibhausgase:</label>
-      <input type="range" id="a6-g" min="0" max="100" value="40" step="1">
-      <span class="sl-val" id="a6-g-val">40 %</span>
+      <label>CO₂-Konzentration:</label>
+      <input type="range" id="a6-g" min="280" max="560" value="430" step="5">
+      <span class="sl-val" id="a6-g-val">430 ppm</span>
     </div>
 
     <div style="margin:10px 0;">
@@ -579,8 +598,8 @@ MathJax = {
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">zurückgehalten</span><span class="lb-val" id="a6-back">40 %</span></div>
-      <div class="lb-item"><span class="lb-lab">Oberfläche (relativ)</span><span class="lb-val" id="a6-temp">mild</span></div>
+      <div class="lb-item"><span class="lb-lab">CO₂-Konzentration</span><span class="lb-val" id="a6-ppm">430 ppm</span></div>
+      <div class="lb-item"><span class="lb-lab">Oberfläche (relativ)</span><span class="lb-val" id="a6-temp">warm</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -590,6 +609,39 @@ MathJax = {
 
   </div>
 </div>
+
+<p>Wie stark sich die wichtigsten Treibhausgase seit Beginn der Industrialisierung angereichert haben, zeigen die folgenden Messreihen (Stoffmengenanteil: ppm = Teile pro Million, ppb = Teile pro Milliarde):</p>
+
+<div class="cv-wrap">
+  <div class="cv-titel">CO₂ der letzten 800 000 Jahre</div>
+  <div class="thg-body">
+    <p class="thg-cap">Natürlich pendelte CO₂ im Takt der Eiszeiten zwischen rund 180 und 280 ppm. Heute liegt der Wert weit ausserhalb dieses Bereichs.</p>
+    <canvas id="thg-c1" height="340"></canvas>
+    <div class="thg-legend">
+      <span><span class="thg-sw" style="background:#f6e9cf;border:1px solid #d8d0c4;"></span>natürlicher Schwankungsbereich (180–280 ppm)</span>
+      <span><span class="thg-sw" style="background:#8a4a0e;"></span>Eisbohrkern-Verlauf</span>
+      <span><span class="thg-sw" style="background:#9b1c1c;"></span>heute ≈ 430 ppm</span>
+    </div>
+  </div>
+</div>
+
+<div class="cv-wrap">
+  <div class="cv-titel">Vorindustriell vs. heute (2026)</div>
+  <div class="thg-body">
+    <p class="thg-cap">Methan ist relativ am stärksten gestiegen, CO₂ trägt absolut am meisten zur Erwärmung bei.</p>
+    <div class="thg-panels">
+      <div class="thg-panel"><h4>CO₂</h4><span class="thg-badge">+54 %</span><canvas id="thg-co2" height="190"></canvas></div>
+      <div class="thg-panel"><h4>Methan CH₄</h4><span class="thg-badge">+176 %</span><canvas id="thg-ch4" height="190"></canvas></div>
+      <div class="thg-panel"><h4>Lachgas N₂O</h4><span class="thg-badge">+24 %</span><canvas id="thg-n2o" height="190"></canvas></div>
+    </div>
+    <div class="thg-legend">
+      <span><span class="thg-sw" style="background:#d9b87a;"></span>vorindustriell (≈ 1750)</span>
+      <span><span class="thg-sw" style="background:#b85c00;"></span>heute (2026)</span>
+    </div>
+  </div>
+</div>
+
+<p class="thg-src">Datenquellen: NOAA Global Monitoring Laboratory / Scripps (Mauna Loa), Met-Office-CO₂-Prognose 2026 (Jahresmittel ≈ 429 ppm), Umweltbundesamt; Eiskern-Rekonstruktion für die 800 000-Jahre-Reihe. Der Eiskern-Verlauf ist schematisch gezeichnet; die Eckwerte (180 / 280 / 430 ppm) sind belegt.</p>
 
 
 <!-- ══════════════ 10. AUFGABEN ══════════════ -->
@@ -909,7 +961,11 @@ function einMkParts(n){
   const a=[]; for(let i=0;i<n;i++){ const ang=Math.random()*6.283;
     a.push({x:Math.random(),y:Math.random(),vx:Math.cos(ang),vy:Math.sin(ang)}); } return a;
 }
-function einInit(){ einState.TL=90; einState.TR=10; einState.pL=einMkParts(16); einState.pR=einMkParts(16); einState.inited=true; }
+function einApplyTemps(){
+  einState.TL = +document.getElementById('ein-T1').value;
+  einState.TR = +document.getElementById('ein-T2').value;
+}
+function einInit(){ einApplyTemps(); einState.pL=einMkParts(16); einState.pR=einMkParts(16); einState.inited=true; }
 function einSpeed(T){ return 0.12 + (T/100)*0.45; }
 function einMove(parts, T, dt){
   const sp = einSpeed(T);
@@ -942,27 +998,35 @@ function einBox(ctx,W,H,x0,x1,parts,T,label){
   const by0=H*0.80, by1=H*0.95, bx0=px0, bx1=px1;
   ctx.strokeStyle='#b8ae99'; ctx.lineWidth=1; ctx.strokeRect(bx0,by0,bx1-bx0,by1-by0);
   ctx.fillStyle=col; ctx.fillRect(bx0,by0,(bx1-bx0)*(T/100),by1-by0);
-  ctx.fillStyle='#1c1a17'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText(label+': '+T.toFixed(0)+' °C', (px0+px1)/2, py0-6);
 }
 function einRender(){
   const cv=initCanvas('ein-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  einBox(ctx,W,H,0.04,0.47,einState.pL,einState.TL,'links');
-  einBox(ctx,W,H,0.53,0.96,einState.pR,einState.TR,'rechts');
-  // Kontaktzone + Pfeil (Waermefluss vom Waermeren zum Kaelteren)
-  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  // Die beiden Körper berühren sich an der Kontaktfläche bei x = 0.50
+  einBox(ctx,W,H,0.04,0.50,einState.pL,einState.TL,'links');
+  einBox(ctx,W,H,0.50,0.96,einState.pR,einState.TR,'rechts');
+  // Kontaktzone + Pfeil (Waermefluss vom Waermeren zum Kaelteren, quer durch die Kontaktflaeche)
+  ctx.textAlign='center';
   if(Math.abs(einState.TL-einState.TR)>1){
     const dir = einState.TL>einState.TR ? 1 : -1;
-    const cy=H*0.40, x1=W*0.475, x2=W*0.525;
-    ctx.strokeStyle='#9b1c1c'; ctx.lineWidth=2.5;
-    drawArrow(ctx, dir>0?x1:x2, cy, dir>0?x2:x1, cy, '#9b1c1c', 2.5, 8);
-    ctx.fillStyle='#9b1c1c'; ctx.fillText('Q', W*0.5, cy-8);
+    const cy=H*0.40, x1=W*0.42, x2=W*0.58;
+    drawArrow(ctx, dir>0?x1:x2, cy, dir>0?x2:x1, cy, '#9b1c1c', 6, 16);
+    ctx.fillStyle='#9b1c1c'; ctx.font='bold 17px Source Sans 3,sans-serif'; ctx.fillText('Q', W*0.5, cy-12);
   } else {
-    ctx.fillStyle='#1f6b3a'; ctx.fillText('Gleichgewicht', W*0.5, H*0.40);
+    ctx.fillStyle='#1f6b3a'; ctx.font='bold 16px Source Sans 3,sans-serif'; ctx.fillText('Gleichgewicht', W*0.5, H*0.40);
   }
 }
-const einLoop = makeLoop('ein-cv','ein-btn', einTick);
+const einLoop = makeLoop('ein-cv', null, einTick);  // kein Play-/Pause-Knopf: Autostart per IntersectionObserver
+['ein-T1','ein-T2'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', ()=>{
+    document.getElementById(id+'-val').textContent = document.getElementById(id).value+' °C';
+    if(!einState.inited) einInit();
+    einApplyTemps();                       // Starttemperaturen neu setzen, Angleichung läuft neu
+    if(!einLoop.running) einTick(0);        // im Ruhezustand Anzeige sofort aktualisieren
+  });
+});
 document.getElementById('ein-reset').addEventListener('click', ()=>{ einInit(); einRender(); });
 
 
@@ -1001,7 +1065,7 @@ function a1Render(){
     ctx.fillRect(x0,y,len,bh);
     ctx.fillStyle='#1c1a17'; ctx.font=(i===a1Sel?'bold ':'')+'12px Source Sans 3,sans-serif'; ctx.textAlign='right';
     ctx.fillText(STOFFE[i].name, x0-8, y+bh*0.72);
-    ctx.textAlign='left'; ctx.font='11px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
+    ctx.textAlign='left'; ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
     ctx.fillText((qs[i]/1000).toFixed(1)+' kJ', x0+len+6, y+bh*0.72);
   }
 }
@@ -1023,24 +1087,26 @@ function a2Render(){
 
   const cv=initCanvas('a2-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const base=H-40, top=H*0.12, maxM=3;
+  const base=H-40, top=H*0.12, maxFill=6;   // volle Höhe = 6 kg: Portion 1/2 (max 3 kg) füllen nur bis zur Hälfte, die Mischung (max 6 kg) genau voll
   function beaker(cx,wpx,m,T,lab){
-    const h=(base-top)*(m/maxM), y=base-h;
+    const h=(base-top)*(m/maxFill), y=base-h;
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2;
     ctx.strokeRect(cx-wpx/2, top, wpx, base-top);
     ctx.fillStyle=lerpCol(T/100); ctx.fillRect(cx-wpx/2+2, y, wpx-4, h);
-    ctx.fillStyle='#1c1a17'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#1c1a17'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText(lab, cx, base+16);
-    ctx.font='bold 11px JetBrains Mono,monospace';
+    ctx.font='bold 13px JetBrains Mono,monospace';
     ctx.fillText(m.toFixed(1)+'kg · '+T+'°C', cx, base+30);
   }
-  beaker(W*0.16, W*0.16, m1, t1, 'Portion 1');
-  beaker(W*0.40, W*0.16, m2, t2, 'Portion 2');
-  beaker(W*0.82, W*0.20, m1+m2, tm, 'Mischung');
-  ctx.fillStyle='#5a5040'; ctx.font='bold 20px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('+', W*0.28, H*0.5); ctx.fillText('=', W*0.61, H*0.5);
+  const bw=W*0.20;   // alle drei Gefässe gleich breit und gleich hoch
+  beaker(W*0.14, bw, m1, t1, 'Portion 1');
+  beaker(W*0.42, bw, m2, t2, 'Portion 2');
+  beaker(W*0.84, bw, m1+m2, tm, 'Mischung');
+  ctx.fillStyle='#5a5040'; ctx.font='bold 34px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('+', W*0.28, H*0.46); ctx.fillText('=', W*0.64, H*0.46);
+  ctx.textBaseline='alphabetic';
   ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace';
-  ctx.fillText('ϑm = '+tm.toFixed(1)+' °C', W*0.82, top-2);
+  ctx.fillText('ϑm = '+tm.toFixed(1)+' °C', W*0.84, top-2);
 }
 ['a2-m1','a2-t1','a2-m2','a2-t2'].forEach(id=>document.getElementById(id).addEventListener('input', a2Render));
 
@@ -1083,7 +1149,7 @@ function drawA3(){
   HK.forEach((p,i)=>{ const X=cx(p[0]/1000), Y=cy(p[1]); if(i===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); });
   ctx.stroke();
   // Plateau-Beschriftungen
-  ctx.font='10px Source Sans 3,sans-serif'; ctx.fillStyle='#1a4f8a'; ctx.textAlign='left';
+  ctx.font='13px Source Sans 3,sans-serif'; ctx.fillStyle='#1a4f8a'; ctx.textAlign='left';
   ctx.fillText('Schmelzen (0 °C)', cx(42), cy(0)-8);
   ctx.fillStyle='#9b1c1c'; ctx.textAlign='center';
   ctx.fillText('Verdampfen (100 °C)', cx((79.42+305.02)/2), cy(100)-10);
@@ -1093,7 +1159,7 @@ function drawA3(){
   ctx.beginPath(); ctx.moveTo(px,cy(-30)); ctx.lineTo(px,py); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
   drawDot(ctx,x=>x,y=>y,px,py,'#1c1a17',6);
-  ctx.fillStyle='#1c1a17'; ctx.font='bold 11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText(T.toFixed(0)+' °C', px+9, py+16);
 }
 document.getElementById('a3-Q').addEventListener('input', drawA3);
@@ -1133,7 +1199,7 @@ function a4Render(){
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(x0,y0,x1-x0,y1-y0);
     // Heizquelle links
     ctx.fillStyle='#9b1c1c'; ctx.fillRect(x0-W*0.05,y0,W*0.05,y1-y0);
-    ctx.fillStyle='#9b1c1c'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#9b1c1c'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('heiss', x0-W*0.025, y0-6); 
     ctx.fillStyle='#1a4f8a'; ctx.fillText('kalt', x1, y0-6);
     // vibrierende Teilchen am Ort
@@ -1146,13 +1212,13 @@ function a4Render(){
     const pf=(t*0.35)%1; const pulseX=x0+pf*(x1-x0);
     ctx.strokeStyle='rgba(255,230,150,0.9)'; ctx.lineWidth=4;
     ctx.beginPath(); ctx.moveTo(pulseX,y0); ctx.lineTo(pulseX,y1); ctx.stroke();
-    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='11px Source Sans 3,sans-serif';
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px Source Sans 3,sans-serif';
     ctx.fillText('Teilchen schwingen am Ort, geben Energie an Nachbarn weiter →', W*0.5, y1+24);
   } else if(a4State.mode===1){    // ── Konvektion ──
     const cx0=W*0.28,cx1=W*0.72,cy0=H*0.12,cy1=H*0.80;
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(cx0,cy0,cx1-cx0,cy1-cy0);
     ctx.fillStyle='#9b1c1c'; ctx.fillRect(cx0,cy1,cx1-cx0,H*0.05);   // Heizung unten
-    ctx.fillStyle='#fff'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#fff'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('Wärmequelle', (cx0+cx1)/2, cy1+H*0.035);
     // Umlauf: hoch in der Mitte, runter aussen (zwei Wirbel)
     const midX=(cx0+cx1)/2, w=(cx1-cx0)/2-8, h=(cy1-cy0)-16, ty=cy0+8;
@@ -1170,13 +1236,13 @@ function a4Render(){
     // Pfeile
     ctx.strokeStyle='#5a5040';
     drawArrow(ctx, midX, cy0+30, midX, cy0+12, '#9b1c1c',2,7);
-    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='11px Source Sans 3,sans-serif';
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px Source Sans 3,sans-serif';
     ctx.fillText('warmes Material steigt auf, kühlt oben ab und sinkt', W*0.5, cy1+H*0.05+18);
   } else {                        // ── Wärmestrahlung ──
     const sx=W*0.14, ox=W*0.84, midY=H*0.45;
     // Quelle
     ctx.fillStyle='#9b1c1c'; ctx.beginPath(); ctx.arc(sx,midY,26,0,6.283); ctx.fill();
-    ctx.fillStyle='#fff'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.fillText('heiss', sx, midY+4);
+    ctx.fillStyle='#fff'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.fillText('heiss', sx, midY+4);
     // Objekt rechts (erwaermt sich leicht)
     const warm=0.35+0.25*(0.5+0.5*Math.sin(t*1.5));
     ctx.fillStyle=lerpCol(warm); ctx.fillRect(ox-10, midY-34, 30, 68);
@@ -1192,48 +1258,85 @@ function a4Render(){
       }
       ctx.stroke();
     }
-    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='11px Source Sans 3,sans-serif';
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px Source Sans 3,sans-serif';
     ctx.fillText('Infrarotstrahlung überträgt Energie durch den leeren Raum →', W*0.5, H*0.86);
   }
 }
-const a4Loop = makeLoop('a4-cv','a4-btn', a4Tick);
+const a4Loop = makeLoop('a4-cv', null, a4Tick);  // kein Play-/Pause-Knopf: Autostart per IntersectionObserver
 
 
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 5: Wirkungsgrad (Energiefluss)
 // ══════════════════════════════════════════════════════════
+const A5_GERAETE = {
+  gluehbirne:  { name:'Glühbirne',         min:2,  max:10, def:5  },
+  verbrennung: { name:'Verbrennungsmotor', min:20, max:45, def:30 },
+  elektro:     { name:'Elektromotor',      min:85, max:97, def:92 },
+  led:         { name:'LED',               min:25, max:50, def:35 }
+};
+let a5Geraet = 'verbrennung';
 function drawA5(){
   const eta=+document.getElementById('a5-eta').value/100;
+  const g=A5_GERAETE[a5Geraet];
   document.getElementById('a5-eta-val').textContent=Math.round(eta*100)+' %';
   document.getElementById('a5-nutz').textContent=Math.round(eta*100)+' %';
   document.getElementById('a5-verl').textContent=Math.round((1-eta)*100)+' %';
 
-  const cv=initCanvas('a5-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const cv=initCanvas('a5-cv',280,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const yT=H*0.14, yB=H*0.86, Htot=yB-yT;
-  const ix0=W*0.06, ix1=W*0.16, ox=W*0.78, ox1=W*0.94;
+  const yMid=96, W0=60, Ls=58, Lh=34, Ltot=Ls+Lh, c=1.5, boxW=116, boxH=104;
+  const LsIn=Ls+14, LtotIn=LsIn+Lh;   // Eingangspfeil etwas länger (optischer Ausgleich gegen die beiden Ausgangspfeile)
+  const SS='Source Sans 3,sans-serif';
+  const assembly=LtotIn+boxW+Ltot;
+  let startX=(W-assembly)/2; if(startX<8) startX=8;
+  const boxL=startX+LtotIn, boxR=boxL+boxW, boxCx=(boxL+boxR)/2;
+  const boxT=yMid-boxH/2, boxB=yMid+boxH/2;
+  // Block-Pfeil: Kopfbasis = c·Dicke. Die Dicken erhalten sich exakt (Nutzen + Verlust = Eingang);
+  // ls (Schaftlänge) ist für den Eingang etwas grösser, damit er optisch zur Summe der Ausgänge passt.
+  function blockArrow(x,y,dir,t,col,ls){
+    ls=ls||Ls; const lt=ls+Lh, hb=c*t; ctx.fillStyle=col; ctx.beginPath();
+    if(dir==='right'){
+      ctx.moveTo(x,y-t/2); ctx.lineTo(x+ls,y-t/2); ctx.lineTo(x+ls,y-hb/2);
+      ctx.lineTo(x+lt,y); ctx.lineTo(x+ls,y+hb/2); ctx.lineTo(x+ls,y+t/2); ctx.lineTo(x,y+t/2);
+    } else {
+      ctx.moveTo(x-t/2,y); ctx.lineTo(x-t/2,y+ls); ctx.lineTo(x-hb/2,y+ls);
+      ctx.lineTo(x,y+lt); ctx.lineTo(x+hb/2,y+ls); ctx.lineTo(x+t/2,y+ls); ctx.lineTo(x+t/2,y);
+    }
+    ctx.closePath(); ctx.fill();
+  }
+  const hN=W0*eta, hV=W0*(1-eta);
+  blockArrow(startX, yMid, 'right', W0, '#8a4a0e', LsIn);     // zugeführte Energie (immer gleich gross)
+  ctx.fillStyle='#efe9df'; ctx.fillRect(boxL,boxT,boxW,boxH); // Gerät
+  ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2.5; ctx.strokeRect(boxL,boxT,boxW,boxH);
+  if(hN>0.6) blockArrow(boxR, yMid, 'right', hN, '#1f6b3a');  // Nutzenergie (rechts)
+  if(hV>0.6) blockArrow(boxCx, boxB, 'down', hV, '#c0563a');  // Verlustenergie (runter)
+
+  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   // Eingang
-  ctx.fillStyle='#8a4a0e'; ctx.fillRect(ix0,yT,ix1-ix0,Htot);
-  ctx.fillStyle='#1c1a17'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('zugeführt', (ix0+ix1)/2, yT-4); ctx.fillText('100 %', (ix0+ix1)/2, yB+14);
-  // Nutzen (oben) + Verlust (unten)
-  const hN=Htot*eta, hV=Htot*(1-eta);
-  // Nutzen-Band
-  ctx.fillStyle='#1f6b3a'; ctx.beginPath();
-  ctx.moveTo(ix1,yT); ctx.lineTo(ox,yT); ctx.lineTo(ox,yT+hN); ctx.lineTo(ix1,yT+hN); ctx.closePath(); ctx.fill();
-  ctx.fillStyle='#1f6b3a'; ctx.fillRect(ox,yT,ox1-ox,hN);
-  // Verlust-Band
-  ctx.fillStyle='#c0563a'; ctx.beginPath();
-  ctx.moveTo(ix1,yB); ctx.lineTo(ox,yB); ctx.lineTo(ox,yB-hV); ctx.lineTo(ix1,yB-hV); ctx.closePath(); ctx.fill();
-  ctx.fillStyle='#c0563a'; ctx.fillRect(ox,yB-hV,ox1-ox,hV);
-  // Labels
-  ctx.fillStyle='#fff'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  if(hN>16) ctx.fillText('Nutzen '+Math.round(eta*100)+' %', (ox+ox1)/2+ (W*0.0), yT+hN/2+4);
-  if(hV>16){ ctx.fillStyle='#fff'; ctx.fillText('Verlust '+Math.round((1-eta)*100)+' %', (ox+ox1)/2, yB-hV/2+4); }
-  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='right';
-  ctx.fillText('→ genutzt', ox1, yT-4);
-  ctx.fillText('→ Umgebung', ox1, yB+14);
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px '+SS;
+  ctx.fillText('zugeführte', startX+LtotIn/2, boxT-22);
+  ctx.fillText('Energie',    startX+LtotIn/2, boxT-8);
+  ctx.fillStyle='#fff'; ctx.fillText('100 %', startX+LsIn/2, yMid+5);
+  // Gerätename in der Box, bei Bedarf verkleinern, damit er hineinpasst
+  let bf=13; ctx.font='bold '+bf+'px '+SS;
+  while(ctx.measureText(g.name).width > boxW-12 && bf>10){ bf--; ctx.font='bold '+bf+'px '+SS; }
+  ctx.fillStyle='#1c1a17'; ctx.fillText(g.name, boxCx, yMid+5);
+  // Nutzenergie
+  ctx.font='bold 13px '+SS; ctx.fillStyle='#1f6b3a';
+  ctx.fillText('Nutzenergie', boxR+Ltot/2, boxT-8);
+  ctx.fillText(Math.round(eta*100)+' %', boxR+Ltot/2, yMid+42);
+  // Verlustenergie (unter dem nach unten zeigenden Pfeil)
+  ctx.fillStyle='#c0563a';
+  ctx.fillText('Verlustenergie '+Math.round((1-eta)*100)+' %', boxCx, boxB+Ltot+18);
 }
+function a5SetGeraet(key){
+  a5Geraet=key; const g=A5_GERAETE[key];
+  const s=document.getElementById('a5-eta');
+  s.min=g.min; s.max=g.max; s.value=g.def;
+  document.querySelectorAll('[data-geraet]').forEach(b=>b.classList.toggle('paused', b.dataset.geraet===key));
+  drawA5();
+}
+document.querySelectorAll('[data-geraet]').forEach(b=>b.addEventListener('click', ()=>a5SetGeraet(b.dataset.geraet)));
 document.getElementById('a5-eta').addEventListener('input', drawA5);
 
 
@@ -1243,59 +1346,134 @@ document.getElementById('a5-eta').addEventListener('input', drawA5);
 const a6State = { t:0 };
 function a6Tick(dt){ a6State.t += dt; a6Render(); }
 function a6Render(){
-  const g=+document.getElementById('a6-g').value/100;
-  document.getElementById('a6-g-val').textContent=Math.round(g*100)+' %';
-  document.getElementById('a6-back').textContent=Math.round(g*100)+' %';
-  const lab = g<0.25?'kühl':(g<0.5?'mild':(g<0.75?'warm':'heiss'));
+  const ppm=+document.getElementById('a6-g').value;
+  const frac=(ppm-280)/(560-280);                 // 0 (280 ppm) .. 1 (560 ppm)
+  const lab = frac<0.25?'kühl':(frac<0.5?'mild':(frac<0.75?'warm':'heiss'));
+  document.getElementById('a6-g-val').textContent=ppm+' ppm';
+  document.getElementById('a6-ppm').textContent=ppm+' ppm';
   document.getElementById('a6-temp').textContent=lab;
 
   const cv=initCanvas('a6-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const t=a6State.t, yGround=H*0.80, yAtm=H*0.22, slope=0.38;   // slope = tan(Einfallwinkel) ≈ 21°
   // Himmel
   ctx.fillStyle='#dcebf7'; ctx.fillRect(0,0,W,H);
-  const yGround=H*0.82, yAtm=H*0.20;
-  // Boden (waermer bei mehr Treibhausgas)
-  ctx.fillStyle=lerpCol(0.30+g*0.5); ctx.fillRect(0,yGround,W,H-yGround);
-  ctx.fillStyle='#3a2f22'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('Erdoberfläche ('+lab+')', W*0.5, yGround+H*0.12);
-  // Atmosphaerenschicht
-  ctx.strokeStyle='rgba(120,120,120,'+(0.25+g*0.6)+')'; ctx.lineWidth=2+g*5; ctx.setLineDash([8,5]);
-  ctx.beginPath(); ctx.moveTo(0,yAtm); ctx.lineTo(W,yAtm); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#5a5040'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='left';
-  ctx.fillText('Atmosphäre (Treibhausgase: '+Math.round(g*100)+' %)', 6, yAtm-5);
-  // Sonne
-  ctx.fillStyle='#e8a81c'; ctx.beginPath(); ctx.arc(W*0.12,H*0.10,18,0,6.283); ctx.fill();
-  const t=a6State.t;
-  // Eintreffendes Sonnenlicht (gelb), wandernde Punkte
-  ctx.strokeStyle='#e8a81c';
-  for(let i=0;i<3;i++){
-    const xTop=W*(0.22+i*0.16), xG=W*(0.30+i*0.16);
-    ctx.lineWidth=2; ctx.globalAlpha=0.5;
-    ctx.beginPath(); ctx.moveTo(xTop,0); ctx.lineTo(xG,yGround); ctx.stroke(); ctx.globalAlpha=1;
-    const u=((t*0.5)+i*0.33)%1; const dx=xTop+(xG-xTop)*u, dy=0+yGround*u;
-    ctx.fillStyle='#e8a81c'; ctx.beginPath(); ctx.arc(dx,dy,4,0,6.283); ctx.fill();
+  // Boden (wärmer bei mehr CO2)
+  ctx.fillStyle=lerpCol(0.30+frac*0.5); ctx.fillRect(0,yGround,W,H-yGround);
+  ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.lineWidth=3.5; ctx.lineJoin='round'; ctx.strokeStyle='rgba(0,0,0,0.6)';
+  ctx.strokeText('Erdoberfläche ('+lab+')', W*0.5, yGround+H*0.13);
+  ctx.fillStyle='#fff'; ctx.fillText('Erdoberfläche ('+lab+')', W*0.5, yGround+H*0.13);
+  ctx.lineWidth=1;
+  // Atmosphärenschicht (gestrichelt) – variiert stark mit der CO2-Konzentration
+  ctx.strokeStyle='rgba(110,110,110,'+(0.12+frac*0.85)+')'; ctx.lineWidth=1.5+frac*9; ctx.setLineDash([9,6]);
+  ctx.beginPath(); ctx.moveTo(0,yAtm); ctx.lineTo(W,yAtm); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth=1;
+  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('Atmosphäre · CO₂ '+ppm+' ppm', 6, yAtm-7);
+
+  // ── Eintreffendes Sonnenlicht (gelb): parallele Strahlen über die ganze Breite, schräger Einfall ──
+  const dxIn=slope*yGround;                       // Versatz oben → Boden
+  const nIn=9;
+  for(let i=0;i<nIn;i++){
+    const xG=(i+0.5)/nIn*W, xT=xG-dxIn;            // Auftreffpunkt am Boden, Eintritt links oben
+    ctx.strokeStyle='#e8a81c'; ctx.lineWidth=2; ctx.globalAlpha=0.45;
+    ctx.beginPath(); ctx.moveTo(xT,0); ctx.lineTo(xG,yGround); ctx.stroke(); ctx.globalAlpha=1;
+    const u=((t*0.5)+i/nIn)%1;
+    ctx.fillStyle='#e8a81c'; ctx.beginPath(); ctx.arc(xT+(xG-xT)*u, yGround*u, 3.5, 0, 6.283); ctx.fill();
   }
-  // Abgehende Waermestrahlung (rot), Anteil g wird zurueckgeworfen
-  const nOut=4, refl=Math.round(g*nOut);
+  // ── Abgehende Wärmestrahlung (rot): Ausfallwinkel = Einfallwinkel; Anteil frac wird zurückgeworfen ──
+  const dxUp=slope*(yGround-yAtm);                 // Boden → Atmosphäre
+  const nOut=8, refl=Math.round(frac*nOut);
   for(let i=0;i<nOut;i++){
-    const x=W*(0.30+i*0.15); const u=((t*0.45)+i*0.25)%1;
-    const isRefl = i<refl;
-    ctx.strokeStyle='#c0392b'; ctx.lineWidth=1.5; ctx.globalAlpha=0.35;
-    if(isRefl){
-      ctx.beginPath(); ctx.moveTo(x,yGround); ctx.lineTo(x,yAtm); ctx.lineTo(x+12,yGround); ctx.stroke();
-    } else {
-      ctx.beginPath(); ctx.moveTo(x,yGround); ctx.lineTo(x,0); ctx.stroke();
+    const x0=(i+0.5)/nOut*W, isRefl=i<refl, u=((t*0.42)+i/nOut)%1;
+    ctx.strokeStyle='#c0392b'; ctx.lineWidth=1.6; ctx.globalAlpha=0.35;
+    let dx,dy;
+    if(isRefl){                                     // hoch zur Atmosphäre, dort im gleichen Winkel zurück
+      const xa=x0+dxUp;
+      ctx.beginPath(); ctx.moveTo(x0,yGround); ctx.lineTo(xa,yAtm); ctx.lineTo(xa+dxUp,yGround); ctx.stroke();
+      if(u<0.5){ const w=u/0.5; dx=x0+dxUp*w; dy=yGround-(yGround-yAtm)*w; }
+      else { const w=(u-0.5)/0.5; dx=xa+dxUp*w; dy=yAtm+(yGround-yAtm)*w; }
+    } else {                                        // entweicht im gleichen Winkel nach oben
+      const xt=x0+dxIn;
+      ctx.beginPath(); ctx.moveTo(x0,yGround); ctx.lineTo(xt,0); ctx.stroke();
+      dx=x0+(xt-x0)*u; dy=yGround*(1-u);
     }
     ctx.globalAlpha=1;
-    // wandernder roter Punkt
-    let dx,dy;
-    if(isRefl){ if(u<0.5){dx=x; dy=yGround-(yGround-yAtm)*(u/0.5);} else {const w=(u-0.5)/0.5; dx=x+12*w; dy=yAtm+(yGround-yAtm)*w;} }
-    else { dx=x; dy=yGround-yGround*u; }
-    ctx.fillStyle='#c0392b'; ctx.beginPath(); ctx.arc(dx,dy,3.5,0,6.283); ctx.fill();
+    ctx.fillStyle='#c0392b'; ctx.beginPath(); ctx.arc(dx,dy,3.2,0,6.283); ctx.fill();
   }
-  ctx.fillStyle='#5a5040'; ctx.font='10px Source Sans 3,sans-serif'; ctx.textAlign='right';
-  ctx.fillText('gelb: Sonnenlicht hinein · rot: Wärmestrahlung', W-6, H*0.97);
+  ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.lineWidth=3.5; ctx.lineJoin='round'; ctx.strokeStyle='rgba(0,0,0,0.6)';
+  ctx.strokeText('gelb: Sonnenlicht · rot: Wärmestrahlung', W-6, H*0.97);
+  ctx.fillStyle='#fff'; ctx.fillText('gelb: Sonnenlicht · rot: Wärmestrahlung', W-6, H*0.97);
+  ctx.lineWidth=1;
 }
 const a6Loop = makeLoop('a6-cv','a6-btn', a6Tick);
+
+
+// ══════════════════════════════════════════════════════════
+//  TREIBHAUSGAS-KONZENTRATIONEN (statische Grafik unter Animation 6)
+// ══════════════════════════════════════════════════════════
+const THG = { ink:'#1c1a17', soft:'#5a5040', line:'#d8d0c4', bern:'#8a4a0e',
+  bernD:'#b85c00', sand:'#d9b87a', band:'#f6e9cf', alarm:'#9b1c1c' };
+function thgStep(span,target){ const raw=span/target, mag=Math.pow(10,Math.floor(Math.log10(raw))), n=raw/mag;
+  return (n<1.5?1:n<3?2:n<7?5:10)*mag; }
+function thgCurve(){
+  const cv=initCanvas('thg-c1',340,false); const ctx=cv.ctx,w=cv.W,h=cv.H;
+  ctx.clearRect(0,0,w,h);
+  const M={l:52,r:18,t:16,b:34}, x0=M.l,x1=w-M.r,y0=h-M.b,y1=M.t, yMin=150,yMax=450;
+  const X=tt=>x0+(1-tt)*(x1-x0), Y=v=>y0+(v-yMin)/(yMax-yMin)*(y1-y0);
+  ctx.fillStyle=THG.band; ctx.fillRect(x0,Y(280),x1-x0,Y(180)-Y(280));   // Band 180–280
+  ctx.strokeStyle=THG.line; ctx.fillStyle=THG.soft; ctx.font='13px Source Sans 3,sans-serif';
+  ctx.textAlign='right'; ctx.textBaseline='middle'; ctx.lineWidth=1;
+  const step=thgStep(yMax-yMin,5);
+  for(let v=Math.ceil(yMin/step)*step; v<=yMax; v+=step){ const y=Y(v);
+    ctx.globalAlpha=.6; ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x1,y); ctx.stroke();
+    ctx.globalAlpha=1; ctx.fillText(v,x0-8,y); }
+  ctx.save(); ctx.translate(14,(y0+y1)/2); ctx.rotate(-Math.PI/2);
+  ctx.textAlign='center'; ctx.fillStyle=THG.ink; ctx.fillText('CO₂ in ppm',0,0); ctx.restore();
+  ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle=THG.soft;
+  for(const [tt,labx] of [[1,'800 000'],[0.75,'600 000'],[0.5,'400 000'],[0.25,'200 000'],[0,'heute']]) ctx.fillText(labx,X(tt),y0+8);
+  ctx.fillStyle=THG.ink; ctx.fillText('Jahre vor heute',(x0+x1)/2,y0+22);
+  const cycles=8, peaks=[284,278,286,281,277,283,279,285], troughs=[186,182,190,184,188,181,187,183], pts=[];
+  for(let i=0;i<=720;i++){ const tt=i/720, cc=Math.min(cycles-1,Math.floor(tt*cycles)), phase=(tt*cycles)%1;
+    const tri=phase<0.82?(1-phase/0.82):(phase-0.82)/0.18; pts.push([tt,troughs[cc]+tri*(peaks[cc]-troughs[cc])]); }
+  ctx.beginPath(); pts.forEach(([tt,v],i)=>{ const x=X(tt),y=Y(v); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+  ctx.strokeStyle=THG.bern; ctx.lineWidth=1.6; ctx.lineJoin='round'; ctx.stroke();
+  const tInd=0.004;                                                      // moderner Anstieg
+  ctx.beginPath(); ctx.moveTo(X(tInd*4),Y(282)); ctx.lineTo(X(tInd),Y(300)); ctx.lineTo(X(0),Y(430));
+  ctx.strokeStyle=THG.alarm; ctx.lineWidth=2.4; ctx.stroke();
+  ctx.fillStyle=THG.alarm; ctx.beginPath(); ctx.arc(X(0),Y(430),3.6,0,7); ctx.fill();
+  ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.font='bold 13px Source Sans 3,sans-serif';
+  ctx.fillText('heute ≈ 430',X(0)-6,Y(430)-2);
+  ctx.fillStyle=THG.bernD; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText('Warmzeiten ≈ 280 ppm',x0+8,Y(280)-9);
+  ctx.fillText('Eiszeiten ≈ 180 ppm',x0+8,Y(180)+10);
+}
+const THG_GAS={ co2:{unit:'ppm',pre:280,now:430,max:480}, ch4:{unit:'ppb',pre:700,now:1930,max:2100}, n2o:{unit:'ppb',pre:270,now:335,max:380} };
+function thgGas(id){
+  const g=THG_GAS[id.replace('thg-','')];
+  const cv=initCanvas(id,190,false); const ctx=cv.ctx,w=cv.W,h=cv.H;
+  ctx.clearRect(0,0,w,h);
+  const M={l:42,r:10,t:20,b:22}, x0=M.l,x1=w-M.r,y0=h-M.b,y1=M.t, Y=v=>y0+(v/g.max)*(y1-y0);
+  ctx.strokeStyle=THG.line; ctx.lineWidth=1; ctx.fillStyle=THG.soft; ctx.font='13px Source Sans 3,sans-serif';
+  ctx.textAlign='right'; ctx.textBaseline='middle';
+  const step=thgStep(g.max,4);
+  for(let v=0; v<=g.max; v+=step){ const y=Y(v);
+    ctx.globalAlpha=.6; ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x1,y); ctx.stroke();
+    ctx.globalAlpha=1; ctx.fillText(v,x0-6,y); }
+  ctx.save(); ctx.translate(12,(y0+y1)/2); ctx.rotate(-Math.PI/2);
+  ctx.textAlign='center'; ctx.fillStyle=THG.soft; ctx.fillText(g.unit,0,0); ctx.restore();
+  const bw=(x1-x0)/4.4, gap=(x1-x0-2*bw)/3;
+  [['vor',g.pre,THG.sand],['heute',g.now,THG.bernD]].forEach((b,i)=>{
+    const bx=x0+gap+i*(bw+gap), by=Y(b[1]), rr=3;
+    ctx.fillStyle=b[2]; ctx.beginPath();
+    ctx.moveTo(bx,y0); ctx.lineTo(bx,by+rr); ctx.arcTo(bx,by,bx+rr,by,rr);
+    ctx.lineTo(bx+bw-rr,by); ctx.arcTo(bx+bw,by,bx+bw,by+rr,rr); ctx.lineTo(bx+bw,y0);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle=THG.ink; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillText(b[1],bx+bw/2,by-3);
+  });
+}
+function thgAll(){ thgCurve(); ['thg-co2','thg-ch4','thg-n2o'].forEach(thgGas); }
 
 
 // ══════════════════════════════════════════════════════════
@@ -1312,6 +1490,7 @@ function initAll(){
   a4Render();
   drawA5();
   a6Render();
+  thgAll();
 
   if('IntersectionObserver' in window){
     const map=new Map();
@@ -1335,7 +1514,7 @@ window.addEventListener('resize', ()=>{
   if(rzT) return;
   rzT=requestAnimationFrame(()=>{
     rzT=null;
-    a1Render(); a2Render(); drawA3(); drawA5();
+    a1Render(); a2Render(); drawA3(); drawA5(); thgAll();
     if(!einLoop.running) einRender();
     if(!a4Loop.running) a4Render();
     if(!a6Loop.running) a6Render();
