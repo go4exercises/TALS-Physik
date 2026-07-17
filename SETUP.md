@@ -44,7 +44,10 @@ git add -A
 git commit -m "Ausgangsstand + Claude-Code-Kit"
 ```
 
-`node` sollte verfügbar sein (für den JS-Syntax-Check im Pre-Flight): `node --version`.
+`node` sollte verfügbar sein (für die Tiefen-Checks im Pre-Flight): `node --version`.
+Für die Tiefen-Checks (MathJax-Render + JS-Laufzeit) einmalig im Repo-Root:
+`npm install mathjax-full jsdom`. Ohne diese Module laufen nur die schnellen Eigen-Checks;
+die Tiefen-Checks werden mit `[WARN]` übersprungen (kein Blocker).
 Für optionale Render-Checks: `pip install playwright && playwright install chromium`.
 
 ## 3. Laufender Workflow
@@ -56,28 +59,25 @@ claude
 
 Claude Code liest `CLAUDE.md` automatisch und kennt damit alle Konventionen.
 
-Pro Arbeitseinheit:
+Dieses Repo ist auf `acceptEdits` konfiguriert (`.claude/settings.json`): Edits werden
+ohne einzelne Diff-Bestätigung übernommen, und nach jedem Durchgang committet Claude Code
+automatisch. Pro Arbeitseinheit:
 
 1. **Auftrag bündeln.** Alle Änderungen einer Seite in einer Anweisung, z.B.
    „In p4-2-dynamik.html: Mini-Check 3 umformulieren, Beispiel 2 mit Ansatz-Prinzip
    neu, Reibungs-Abschnitt um eine ❓-Frage ergänzen."
-2. **Claude Code editiert** direkt die lokale Datei. Jede Änderung kommt als Diff —
-   du bestätigst mit Yes / Yes-and-don't-ask-again / No.
-3. **Pre-Flight läuft** (Claude Code kennt die Pflicht aus CLAUDE.md; sonst anstossen):
-   ```bash
-   python3 .claude/skills/preflight/preflight.py themen/p4-2-dynamik.html
-   ```
-   Muss `ALLE CHECKS BESTANDEN` zeigen.
+2. **Claude Code editiert** direkt die lokale Datei — ohne Diff-Bestätigung.
+3. **Pre-Flight + Commit laufen automatisch:** Claude Code führt den Pre-Flight aus und
+   committet bei `ALLE CHECKS BESTANDEN` mit aussagekräftiger Message. Schlägt der Check
+   fehl, wird nicht committet, sondern gemeldet und behoben.
 4. **Browser-Sichtprüfung:** Datei lokal öffnen (Doppelklick oder
    `python3 -m http.server` im Wurzelverzeichnis, dann `localhost:8000/themen/…`).
-5. **Committen** mit aussagekräftiger Message:
-   ```bash
-   git add themen/p4-2-dynamik.html
-   git commit -m "p4-2: Beispiel 2 auf Ansatz-Prinzip, ❓ Reibung, MC3 umformuliert"
-   ```
+   Nicht zufrieden? Per Anweisung nachjustieren — oder `git restore <datei>` /
+   auf einen früheren Commit zurück.
 
-Git ist das Sicherheitsnetz: `git diff` zeigt jede Änderung, `git restore <datei>`
-rollt sauber zurück. Keine ZIP-Snapshots mehr nötig.
+Git ist das Sicherheitsnetz: `git diff`/`git log` zeigen jede Änderung im Nachhinein,
+`git restore <datei>` rollt sauber zurück. Der **`git push` bleibt manuell bei dir** und
+löst erst dann die Aktualisierung der Live-Website aus.
 
 ## 4. Was im Chat (Sandbox-Werkstatt) bleibt
 

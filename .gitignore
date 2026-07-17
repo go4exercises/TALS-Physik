@@ -1,29 +1,35 @@
-# Zusammenarbeits-Meta — gehört ins Project-Knowledge, nicht ins Repo
-COLLABORATION.md
+# .gitignore — TALS (Projektspezifisch geprueft, Juni 2026)
+# Es werden NUR transiente/erzeugte Dateien ignoriert.
+#
+# BEWUSST VERSIONIERT (NICHT ignorieren):
+#   downloads/**/*.apkg              -> auf den Seiten verlinkte Schueler-Downloads
+#   package.json, package-lock.json  -> dokumentieren mathjax-full/jsdom fuer den Pre-Flight
 
-# Interne Arbeitslisten — nicht öffentlich
-master-todoliste.md
-# Build-/Tool-Artefakte
-node_modules/
-package.json
-package-lock.json
-# OS-Artefakte
+# Betriebssystem
 .DS_Store
 Thumbs.db
-# Betriebssystem / Editor
+desktop.ini
 *~
-.*.swp
+
+# Editor
 .idea/
 .vscode/
-# Python-Tooling (preflight u.a.)
+*.code-workspace
+.*.swp
+
+# Python-Tooling (preflight.py + scripts/*.py erzeugen __pycache__)
 __pycache__/
 *.pyc
 .venv/
 venv/
-# Node
-# Temporäre Render-Checks / Snapshots
+
+# Node — Module der Verifikationsskripte (gross, via `npm install` reproduzierbar)
+node_modules/
+
+# Temporaere Render-Checks / Snapshots
 /tmp/
 check_*.png
 *.tmp
-# Lokale Claude-Code-Logs (Skills/Settings bleiben versioniert)
+
+# Lokale Claude-Code-Logs (settings.json + skills bleiben versioniert)
 .claude/logs/

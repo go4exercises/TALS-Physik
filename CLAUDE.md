@@ -57,10 +57,13 @@ python3 .claude/skills/preflight/preflight.py themen/<geänderte_datei>.html
 # oder über alle: python3 .claude/skills/preflight/preflight.py themen/*.html
 ```
 
-Erwartete Ausgabe: `ALLE CHECKS BESTANDEN`. Jede Meldung wird vor dem Commit behoben.
-Geprüft wird: div/details-Bilanz, MathJax-Delimiter-Parität, doppelte IDs, kein ß,
-keine Dezimalkommas in Math, `node --check` auf Inline-JS, Skelett-Marker,
-Phantom-Klassen, physiklib-Abhängigkeit, Duplicate-Marker, Slot-Limits.
+Erwartete Ausgabe: `ALLE CHECKS BESTANDEN`. Jede `[FEHLER]`-Meldung wird vor dem Commit
+behoben (`[WARN]` ist kein Blocker). Zweistufig: (1) schnelle Eigen-Checks — div/details-
+Bilanz, doppelte IDs, kein ß, Dezimalkomma in Body-Math, Skelett, Phantom-Klassen,
+physiklib-Einbindung, Ressourcen-Marker und Slot-Limits; (2) Aufruf der vorhandenen
+Repo-Skripte `verify_mathjax.js` (echte Render-Prüfung) und `verify_js_runtime.js`
+(JS-Laufzeit). Stufe 2 braucht einmalig `npm install mathjax-full jsdom` im Repo-Root;
+fehlen die Module, werden diese Checks als `[WARN]` übersprungen. **Vom Repo-Root aufrufen.**
 
 ## Verifikations-Standard
 
@@ -93,6 +96,25 @@ Anzahl) — Präfix-Heuristik ist unzuverlässig. Negativ-Liste und Details: STY
 - Vor gezielten Edits `grep -n` + enger `view`, um Whitespace/Sonderzeichen exakt zu treffen.
 - Git ist das Sicherheitsnetz: vor grösseren Sessions committen, Diffs prüfen, sauber
   zurückrollen statt ZIP-Snapshots.
+
+## Automatik: Diffs nicht bestätigen + Commit nach jedem Durchgang
+
+Dieses Repo läuft im Modus `acceptEdits` (siehe `.claude/settings.json`): Datei-Edits
+werden ohne einzelne Diff-Bestätigung übernommen. Das Sicherheitsnetz ist nicht mehr die
+Vorab-Kontrolle, sondern Git — darum gilt verbindlich:
+
+**Nach jedem abgeschlossenen Auftrag (= ein „Durchgang") automatisch, ohne Rückfrage:**
+
+1. Pre-Flight über die geänderten Themenseiten laufen lassen
+   (`python3 .claude/skills/preflight/preflight.py themen/<datei>.html`).
+2. **Nur wenn `ALLE CHECKS BESTANDEN`:** `git add -A` und `git commit` mit einer
+   aussagekräftigen Message (Seite + was geändert wurde, z.B.
+   `p4-2: Beispiel 2 auf Ansatz-Prinzip, ❓ Reibung, MC3 umformuliert`).
+3. Schlägt der Pre-Flight fehl: **nicht committen**, Fehler melden und beheben, dann 1.
+4. **Niemals `git push`.** Der Push bleibt manuell beim Auftraggeber.
+
+`git add`, `git commit` und der Pre-Flight sind in der `settings.json` vorab erlaubt und
+laufen darum prompt-frei. `git push` steht bewusst unter `ask` — es hält an.
 
 ## Was die Sandbox-Werkstatt (Chat) übernimmt
 

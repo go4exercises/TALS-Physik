@@ -1,46 +1,39 @@
 ---
 name: preflight
-description: Pflicht-Qualitätscheck für TALS-Physik-Themenseiten. IMMER ausführen, bevor Änderungen an einer Datei in themen/*.html committet werden. Prüft div/details-Tag-Bilanz, MathJax-Delimiter-Parität, doppelte HTML-IDs, verbotenes ß, Dezimalkommas innerhalb von Math-Delimitern, Node-Syntax aller Inline-Scripts, Skelett-Marker, erfundene Phantom-Klassen, physiklib.js-Abhängigkeit bei Lösungs-Toggles sowie Duplicate-Marker und Slot-Limits in der Ressourcen-Sektion.
+description: Pflicht-Qualitätscheck für TALS-Physik-Themenseiten. IMMER ausführen, bevor Änderungen an einer Datei in themen/*.html committet werden. Zweistufig: schnelle Eigen-Checks (Tag-Bilanz, ß, Dezimalkomma in Math, doppelte IDs, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Marker inkl. Slot-Limits) plus Aufruf der autoritativen Repo-Skripte verify_mathjax.js (echte Render-Prüfung) und verify_js_runtime.js (JS-Laufzeit in jsdom). Fehlen die npm-Module mathjax-full/jsdom, werden die Tiefen-Checks sauber übersprungen.
 ---
 
 # Pre-Flight für TALS-Physik-Themenseiten
 
-Vor jedem Commit, der eine oder mehrere Dateien in `themen/*.html` betrifft, läuft dieser
-Check. Er ersetzt die früheren grep-Blöcke aus der COLLABORATION.md durch ein einziges
-deterministisches Skript.
+Vor jedem Commit, der `themen/*.html` betrifft.
+**Vom Repo-Wurzelverzeichnis aufrufen** (wegen `scripts/` und `node_modules/`).
 
 ## Ausführen
 
 ```bash
-python3 .claude/skills/preflight/preflight.py themen/p4-1-kinematik.html
-# mehrere Dateien / alle:
 python3 .claude/skills/preflight/preflight.py themen/*.html
 ```
 
-Voraussetzung: `node` muss auf dem PATH sein (für den Syntax-Check der Inline-Scripts).
-Fehlt `node`, meldet das Skript das pro Datei als Warnung und überspringt nur diesen
-Teilcheck — alle anderen laufen normal.
-
 ## Erwartetes Ergebnis
 
-Letzte Zeile lautet `ALLE CHECKS BESTANDEN`. Exit-Code 0.
-Jede `[FEHLER]`- oder `[WARN]`-Zeile zeigt einen Schaden, der dem Nutzer sonst erst im
-Browser auffiele. **Vor dem Commit beheben, dann erneut laufen lassen.** Exit-Code ≠ 0
-heisst: nicht committen.
+Letzte Zeile `ALLE CHECKS BESTANDEN`, Exit 0. Jede `[FEHLER]`-Zeile vor dem Commit
+beheben. `[WARN]` ist kein Blocker (typisch: npm-Modul fehlt -> Tiefen-Check übersprungen).
 
-## Was geprüft wird (Kurzreferenz)
+## Stufe 1 — schnelle Eigen-Checks (ohne Abhängigkeiten)
 
-1. `<div>`/`</div>` und `<details>`/`</details>` paarweise ausgeglichen.
-2. MathJax: gleich viele `\(` wie `\)` und gleich viele `\[` wie `\]`.
-3. Keine doppelt vergebene `id="…"` innerhalb derselben Datei.
-4. Kein `ß` irgendwo in der Datei.
-5. Keine Dezimalkommas (`Ziffer,Ziffer`) **innerhalb** von `\(…\)`/`\[…\]` —
-   ausserhalb (URLs, SVG-Pfade, JS-Arrays) wird bewusst nicht geprüft.
-6. `node --check` auf jedem `<script>…</script>`-Block ohne `src`.
-7. Skelett-Marker: genau 1× `page-wrap`, 1× `main class="content"`, `nav.js` ohne
-   `defer`; keine Phantom-Klassen (`inhalt`, `ressourcen-grid`, `dl-box`, …).
-8. Lösungs-Toggle (`loesung-toggle`) vorhanden ⇒ `physiklib.js` eingebunden.
-9. Ressourcen-Sektion: kritische Marker (🎬/🧪/📝, `toc-wrap`, Footer) genau 1×;
-   `<a class="lk">`-Tag-Bilanz; je Sektion höchstens 4 `<a href=…>`.
+div/details-Bilanz · doppelte HTML-`id` · kein `ß` · Dezimalkomma in Body-Math
+(Index-Listen `x_{1,2}` ausgenommen, Scripts ausgeklammert) · Skelett (`page-wrap`,
+`main class="content"`, `nav.js` ohne `defer`) · Phantom-Klassen (`rlp` ist legitim) ·
+`physiklib.js` eingebunden bei Lösungs-Toggles · Ressourcen-Strukturmarker (🎬/🧪/📝)
+und Slot-Limit (≤4 Links je Sektion).
 
-Details und Hintergrund zu jedem Check stehen als Kommentar im Skript.
+## Stufe 2 — autoritative Repo-Skripte (in scripts/)
+
+- **verify_mathjax.js** — rendert jeden Ausdruck mit `mathjax-full`, findet echte
+  TeX-Fehler. Braucht `node_modules/mathjax-full`.
+- **verify_js_runtime.js** — führt den Seiten-JS in jsdom aus, findet Laufzeitfehler.
+  Braucht `node_modules/jsdom`.
+- **check_identifier_collisions.py** — falls im Repo vorhanden; ohne npm.
+
+Fehlt ein npm-Modul, meldet der Pre-Flight das als `[WARN]` und überspringt nur diesen
+Teil. Einmalig installieren mit: `npm install mathjax-full jsdom` (im Repo-Root).
