@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0.1 Mathematisches Vorwissen — TALS Physik</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']], packages:{'[+]':['boldsymbol']} },
+  svg: { fontCache:'global', scale:1.05 },
+  loader: { load:['[tex]/boldsymbol'] },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* ── Widget-Styles: zentral in style.css ── */
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ 1. TITEL + VORWISSEN-HEADER ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">Physik · Vorwissen — Auffrischung aus der Sek I</div>
+  <h1 class="pt-h1">0.1 Mathematisches Vorwissen</h1>
+  <p class="pt-untertitel">Die Werkzeuge, an denen Physik-Aufgaben am häufigsten scheitern — auffrischen statt stolpern.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">🧭 Vorwissen aus der Sekundarstufe I — kein RLP-Lerngebiet</div>
+  <ul>
+    <li>direkte und indirekte Proportionalität erkennen und mit dem Dreisatz rechnen</li>
+    <li>Flächen- und Volumenformeln anwenden (Rechteck, Kreis, Quader, Zylinder) und zwischen Kubikmetern und Litern umrechnen</li>
+    <li>mit der Kreiszahl π, dem Umfang und dem Bogenmass umgehen</li>
+    <li>Brüche, Potenzen und Zehnerpotenzen sicher verwenden — inklusive wissenschaftlicher und Engineering-Schreibweise</li>
+    <li>Formeln nach einer Grösse auflösen und Resultate sinnvoll runden</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 2. EINSTIEG ══════════════ -->
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+    <ul>
+      <li>Ich kann direkte und indirekte Proportionalität an Alltagsbeispielen erkennen und damit rechnen.</li>
+      <li>Ich kann Flächen und Volumen von Rechteck, Kreis, Quader und Zylinder berechnen und zwischen m³ und Litern umrechnen.</li>
+      <li>Ich kann Winkel in Grad und im Bogenmass angeben und Bogenlängen mit \(s = r \cdot \varphi\) berechnen.</li>
+      <li>Ich kann Zahlen in wissenschaftlicher und in Engineering-Schreibweise schreiben und mit Zehnerpotenzen rechnen.</li>
+      <li>Ich kann eine Formel Schritt für Schritt nach jeder ihrer Grössen auflösen.</li>
+      <li>Ich kann Resultate nach Kommastellen oder nach signifikanten Stellen runden und weiss, was in der Physik üblich ist.</li>
+    </ul>
+  </div>
+</details>
+
+<h2 id="einstieg">Einstieg — Doppelt so tief, doppelt so viel Druck</h2>
+
+<p>Beim Schnorcheln spürst du es sofort in den Ohren: Je tiefer du tauchst, desto stärker drückt das Wasser. Und zwar sehr regelmässig — pro Meter Tiefe kommt immer gleich viel Druck dazu, nämlich rund \(9.81\;\text{kPa}\) (1 Kilopascal = 1000 Pascal):</p>
+
+\[ p_S = 9.81\;\frac{\text{kPa}}{\text{m}} \cdot h \]
+
+<p>In \(2\;\text{m}\) Tiefe ist der Schweredruck also <strong>doppelt so gross</strong> wie in \(1\;\text{m}\), in \(4\;\text{m}\) viermal so gross. Dieses Muster — «doppelter Einsatz, doppelte Wirkung» — heisst <strong>Proportionalität</strong>, und es steckt in fast jeder Physik-Formel. Wer es sicher erkennt, hat den halben Physik-Werkzeugkasten schon in der Hand.</p>
+
+<div class="block block-experiment">
+  <div class="block-titel">🧪 Phänomen</div>
+  <p>Drei Alltags-Erfahrungen mit demselben mathematischen Kern:</p>
+  <ul>
+    <li><strong>Tauchen</strong> — doppelte Tiefe, doppelter Druck. Der Druck wächst <em>mit</em> der Tiefe.</li>
+    <li><strong>Flaschenzug und Fahrrad-Gang</strong> — mehr Kraft sparen heisst mehr Seil ziehen bzw. mehr kurbeln: weniger Kraft, dafür <em>mehr</em> Weg.</li>
+    <li><strong>Einkaufen</strong> — doppelte Menge Äpfel, doppelter Preis. Der Preis pro Kilogramm bleibt gleich.</li>
+  </ul>
+  <p>Das erste und das dritte Beispiel sind <em>direkt</em> proportional, das zweite ist <em>indirekt</em> proportional — beides schauen wir uns jetzt genauer an.</p>
+</div>
+
+
+<!-- ══════════════ 3. PROPORTIONALITÄT ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">In \(3\;\text{m}\) Wassertiefe beträgt der Schweredruck rund \(29.4\;\text{kPa}\). Wie gross ist er in \(6\;\text{m}\) Tiefe?</p><ul class="mc-optionen"><li data-opt="A">\(29.4\;\text{kPa}\)</li><li data-opt="B">\(58.9\;\text{kPa}\)</li><li data-opt="C">\(88.3\;\text{kPa}\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Doppelte Tiefe → doppelter Druck: \(2 \cdot 29.4\;\text{kPa} \approx 58.9\;\text{kPa}\) (genau: \(9.81 \cdot 6 = 58.86\)).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Beim Tauchen gilt: doppelte Tiefe → <span class="mc-luecke"></span> Schweredruck.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">doppelter — Druck und Tiefe sind direkt proportional.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Berechne den Schweredruck in \(5\;\text{m}\) Tiefe mit \(p_S = 9.81\;\frac{\text{kPa}}{\text{m}} \cdot h\).</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(p_S = 9.81 \cdot 5 = 49.05 \approx 49.1\;\text{kPa}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Der Luftdruck an der Erdoberfläche beträgt rund \(100\;\text{kPa}\). In welcher Wassertiefe ist der Schweredruck des Wassers gleich gross?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Ansatz: \(p_S = 9.81 \cdot h = 100\). Auflösen: \(h = \dfrac{100}{9.81} \approx 10.2\;\text{m}\) — in rund 10 m Tiefe lastet zusätzlich «eine ganze Atmosphäre».</div></details></div>
+</details>
+
+<h2 id="proportional">Direkte und indirekte Proportionalität</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Direkte Proportionalität</div>
+  <p>Zwei Grössen \(x\) und \(y\) sind <strong>direkt proportional</strong>, wenn zum Doppelten von \(x\) das Doppelte von \(y\) gehört, zum Dreifachen das Dreifache usw. Dann gilt</p>
+  \[ y = k \cdot x \qquad \text{mit konstantem Quotienten} \quad k = \frac{y}{x} \]
+  <p>Der Graph ist eine <strong>Gerade durch den Ursprung</strong>. Kurzschreibweise: \(y \sim x\). Beispiel Tauchen: \(p_S = 9.81\;\frac{\text{kPa}}{\text{m}} \cdot h\) — der Quotient \(p_S / h\) ist immer \(9.81\;\text{kPa/m}\).</p>
+</div>
+
+<!-- ANIM 1: direkte Proportionalität — Tauchszene + p-h-Diagramm -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 1 · Direkte Proportionalität — Wassertiefe und Druck</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Ziehe die Tiefe \(h\) von \(2\;\text{m}\) auf \(4\;\text{m}\): der Druck verdoppelt sich exakt.</li><li>Beobachte den Quotienten \(p_S / h\) in der Live-Anzeige — er bleibt immer \(9.81\;\text{kPa/m}\).</li><li>Der violette Vergleichspunkt zeigt «doppelte Tiefe» — er liegt immer doppelt so hoch im Diagramm.</li><li>Der Graph ist eine Gerade durch den Ursprung: keine Tiefe, kein Schweredruck.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Ziehe die Tiefe h von 2 Metern auf 4 Meter: der Druck verdoppelt sich exakt. Beobachte den Quotienten p durch h in der Live-Anzeige, er bleibt immer 9.81 Kilopascal pro Meter. Der violette Vergleichspunkt zeigt die doppelte Tiefe, er liegt immer doppelt so hoch im Diagramm. Der Graph ist eine Gerade durch den Ursprung: keine Tiefe, kein Schweredruck." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Direkte Proportionalität: \(y = k \cdot x\) — hier \(p_S = 9.81\;\frac{\text{kPa}}{\text{m}} \cdot h\).</li><li>Der Quotient zusammengehörender Werte ist konstant: \(\dfrac{p_S}{h} = k\).</li><li>Doppelte Tiefe → doppelter Druck, halbe Tiefe → halber Druck.</li><li>Graph: Gerade durch den Ursprung, Steigung \(k\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Direkte Proportionalität heisst: y gleich k mal x, hier p gleich 9.81 Kilopascal pro Meter mal h. Der Quotient zusammengehörender Werte ist konstant: p durch h gleich k. Doppelte Tiefe ergibt doppelten Druck, halbe Tiefe halben Druck. Der Graph ist eine Gerade durch den Ursprung mit Steigung k." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Tauchtiefe \(h\):</label>
+      <input type="range" id="a1-h" min="0.5" max="10" value="4" step="0.5">
+      <span class="sl-val" id="a1-h-val">4.0 m</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Tiefe \(h\)</span><span class="lb-val" id="a1-live-h">4.0 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Druck \(p_S = 9.81 \cdot h\)</span><span class="lb-val" id="a1-live-p">39.2 kPa</span></div>
+      <div class="lb-item"><span class="lb-lab">Quotient \(p_S / h\)</span><span class="lb-val" id="a1-live-q">9.81 kPa/m</span></div>
+    </div>
+
+    <div class="zwei-spalten">
+      <div class="cv-wrap">
+        <div class="cv-titel">🤿 Tauchszene</div>
+        <canvas id="a1-cv-sz" height="280" role="img" aria-label="Querschnitt durch ein Gewässer mit Tiefenskala von 0 bis 10 Metern. Ein Taucher-Punkt sitzt in der eingestellten Tiefe, daneben steht der zugehörige Schweredruck."></canvas>
+      </div>
+      <div class="cv-wrap">
+        <div class="cv-titel">📈 \(p_S(h)\) — Druck-Tiefe-Diagramm</div>
+        <canvas id="a1-cv-ph" height="280" role="img" aria-label="Diagramm Schweredruck gegen Tiefe: eine Gerade durch den Ursprung bis 98.1 Kilopascal bei 10 Metern. Ein Punkt markiert die eingestellte Tiefe, ein zweiter Punkt die doppelte Tiefe mit doppeltem Druck."></canvas>
+      </div>
+    </div>
+    <div class="canvas-legend">
+      <span class="cl-item"><span class="cl-dot" style="background:#8a4a0e"></span>eingestellte Tiefe \(h\)</span>
+      <span class="cl-item"><span class="cl-dot" style="background:#5b2d8e"></span>Vergleich: doppelte Tiefe \(2 \cdot h\)</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Indirekte Proportionalität</div>
+  <p>Zwei Grössen \(x\) und \(y\) sind <strong>indirekt proportional</strong> (auch: umgekehrt proportional), wenn zum Doppelten von \(x\) die <em>Hälfte</em> von \(y\) gehört. Dann gilt</p>
+  \[ y = \frac{k}{x} \qquad \text{mit konstantem Produkt} \quad x \cdot y = k \]
+  <p>Der Graph ist eine <strong>Hyperbel</strong>. Beispiel: Für eine feste Strecke \(s\) gilt für die Fahrzeit \(t = s / v\) — wer doppelt so schnell fährt, ist in der halben Zeit am Ziel.</p>
+</div>
+
+<!-- ANIM 2: indirekte Proportionalität — Fahrzeit über Tempo -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 2 · Indirekte Proportionalität — Tempo und Fahrzeit</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Die Strecke ist fest: \(120\;\text{km}\) (etwa Bern–Zürich auf der Strasse).</li><li>Verdopple das Tempo von \(60\) auf \(120\;\text{km/h}\): die Fahrzeit halbiert sich von \(2\;\text{h}\) auf \(1\;\text{h}\).</li><li>Beobachte das Produkt \(v \cdot t\) in der Live-Anzeige — es bleibt immer \(120\;\text{km}\).</li><li>Die Kurve ist keine Gerade, sondern eine Hyperbel: links wird sie steil, rechts flach.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Strecke ist fest: 120 Kilometer, etwa Bern-Zürich auf der Strasse. Verdopple das Tempo von 60 auf 120 Kilometer pro Stunde: die Fahrzeit halbiert sich von 2 Stunden auf 1 Stunde. Beobachte das Produkt v mal t in der Live-Anzeige, es bleibt immer 120 Kilometer. Die Kurve ist keine Gerade, sondern eine Hyperbel: links wird sie steil, rechts flach." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Indirekte Proportionalität: \(t = \dfrac{s}{v}\) mit fester Strecke \(s = 120\;\text{km}\).</li><li>Das Produkt zusammengehörender Werte ist konstant: \(v \cdot t = s\).</li><li>Doppeltes Tempo → halbe Zeit, dreifaches Tempo → ein Drittel der Zeit.</li><li>«Doppelt so schnell» spart bei \(60 \to 120\;\text{km/h}\) eine Stunde — bei \(120 \to 160\;\text{km/h}\) nur noch 15 Minuten.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Indirekte Proportionalität: t gleich s durch v mit fester Strecke 120 Kilometer. Das Produkt zusammengehörender Werte ist konstant: v mal t gleich s. Doppeltes Tempo bedeutet halbe Zeit, dreifaches Tempo ein Drittel der Zeit. Von 60 auf 120 Kilometer pro Stunde spart eine ganze Stunde, von 120 auf 160 nur noch 15 Minuten." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Tempo \(v\):</label>
+      <input type="range" id="a2-v" min="40" max="160" value="80" step="5">
+      <span class="sl-val" id="a2-v-val">80 km/h</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Fahrzeit \(t = 120 / v\)</span><span class="lb-val" id="a2-live-t">1.50 h</span></div>
+      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">in Minuten (1 h = 60 min)</span><span class="lb-val" id="a2-live-min">90 min</span></div>
+      <div class="lb-item"><span class="lb-lab">Produkt \(v \cdot t\)</span><span class="lb-val" id="a2-live-prod">120 km</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📉 \(t(v)\) — Fahrzeit über Tempo (Strecke 120 km)</div>
+      <canvas id="a2-cv" height="280" role="img" aria-label="Diagramm Fahrzeit gegen Tempo für eine feste Strecke von 120 Kilometern: eine fallende Hyperbel von 3 Stunden bei 40 Kilometern pro Stunde bis 0.75 Stunden bei 160. Ein Punkt markiert das eingestellte Tempo, ein zweiter das doppelte Tempo mit halber Zeit."></canvas>
+      <div class="canvas-legend">
+        <span class="cl-item"><span class="cl-dot" style="background:#8a4a0e"></span>eingestelltes Tempo \(v\)</span>
+        <span class="cl-item"><span class="cl-dot" style="background:#5b2d8e"></span>Vergleich: doppeltes Tempo \(2 \cdot v\)</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Häufiger Fehler</div>
+  <p>«Mehr ergibt mehr» stimmt nur bei <em>direkter</em> Proportionalität. Bei indirekter Proportionalität heisst «doppelt» nicht «minus die Hälfte irgendwo», sondern exakt <strong>halbieren</strong>: doppeltes Tempo → halbe Zeit. Und nicht jeder Zusammenhang ist überhaupt proportional — prüfe immer: Ist der <strong>Quotient</strong> konstant (direkt) oder das <strong>Produkt</strong> (indirekt)?</p>
+</div>
+
+<details class="frage">
+  <summary>❓ Doppeltes Tempo — halbe Fahrzeit. Gilt bei dreifachem Tempo dann ein Drittel der Zeit?</summary>
+  <div class="frage-antwort">
+    <p>Ja. Bei indirekter Proportionalität ist das Produkt \(v \cdot t\) konstant. Wird \(v\) verdreifacht, muss \(t\) auf einen Drittel schrumpfen, damit das Produkt gleich bleibt. Kontrolle mit Animation 2: bei \(40\;\text{km/h}\) dauert die Fahrt \(3\;\text{h}\), bei \(120\;\text{km/h}\) noch \(1\;\text{h}\).</p>
+  </div>
+</details>
+
+
+<!-- ══════════════ 4. FLÄCHEN UND VOLUMEN ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Welches Grössen-Paar ist <em>indirekt</em> proportional?</p><ul class="mc-optionen"><li data-opt="A">Fahrzeit und Tempo bei fester Strecke</li><li data-opt="B">Preis und Menge beim Einkaufen</li><li data-opt="C">Schweredruck und Tauchtiefe</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Doppeltes Tempo → halbe Zeit (Produkt konstant). Bei B und C ist der Quotient konstant — direkte Proportionalität.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Bei direkter Proportionalität ist der <span class="mc-luecke"></span> zweier zusammengehörender Werte konstant, bei indirekter das Produkt.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Quotient — z.B. \(p_S / h = 9.81\;\text{kPa/m}\) beim Tauchen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(3\;\text{kg}\) Äpfel kosten \(8.70\;\text{Fr.}\) Wie viel kosten \(5\;\text{kg}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Dreisatz über den konstanten Quotienten: \(8.70 / 3 = 2.90\;\text{Fr./kg}\), also \(5 \cdot 2.90 = 14.50\;\text{Fr.}\)</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Pumpe füllt ein Schwimmbecken in \(12\;\text{h}\). Wie lange brauchen 3 gleiche Pumpen zusammen — und welche Proportionalität steckt dahinter?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Indirekte Proportionalität: Anzahl Pumpen \(\cdot\) Zeit ist konstant (\(1 \cdot 12 = 12\)). Also \(t = \dfrac{12}{3} = 4\;\text{h}\).</div></details></div>
+</details>
+
+<h2 id="geometrie">Flächen und Volumen</h2>
+
+<p>Physik-Aufgaben brauchen ständig Flächen (Druck = Kraft pro Fläche) und Volumen (Dichte = Masse pro Volumen). Die vier wichtigsten Formeln:</p>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Flächen</div>
+  \[ \text{Rechteck:}\quad A = a \cdot b \qquad\qquad \text{Kreis:}\quad A = \pi \cdot r^{\,2} \]
+  <p>Dabei ist \(r\) der Radius des Kreises — der halbe Durchmesser: \(r = d/2\). Einheit der Fläche: \(\text{m}^2\), \(\text{cm}^2\), …</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Volumen</div>
+  \[ \text{Quader:}\quad V = a \cdot b \cdot c \qquad\qquad \text{Zylinder:}\quad V = \pi \cdot r^{\,2} \cdot h \]
+  <p>Beide folgen demselben Bauplan: <strong>Grundfläche mal Höhe</strong>. Beim Zylinder ist die Grundfläche der Kreis \(A = \pi r^2\).</p>
+</div>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel — Regentonne mit Einheiten-Umrechnung</div>
+  <p><strong>Ansatz:</strong> Zylinder-Volumen mit \(r = 0.4\;\text{m}\) und \(h = 0.9\;\text{m}\):</p>
+  \[ V = \pi \cdot r^{\,2} \cdot h = \pi \cdot (0.4\;\text{m})^2 \cdot 0.9\;\text{m} \approx 0.452\;\text{m}^3 \]
+  <p>Umrechnung in Liter — beim ersten Mal ganz ausgeschrieben:</p>
+  \[ 1\;\text{m}^3 = 1000\;\text{L} \qquad (1\;\text{dm}^3 = 1\;\text{L},\quad 1\;\text{cm}^3 = 1\;\text{mL}) \]
+  \[ V \approx 0.452 \cdot 1000\;\text{L} = 452\;\text{L} \]
+</div>
+
+<!-- ANIM 3: Zylindertank -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 3 · Zylindertank — Volumen live</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verdopple die Höhe \(h\) bei festem Radius: das Volumen verdoppelt sich — \(V\) ist direkt proportional zu \(h\).</li><li>Verdopple den Radius \(r\) bei fester Höhe: das Volumen <strong>vervierfacht</strong> sich, denn \(r\) steht im Quadrat.</li><li>Verfolge die Grundfläche \(A = \pi r^2\) in der Live-Anzeige.</li><li>Vergleiche das Volumen in \(\text{m}^3\) und in Litern: der Faktor ist immer 1000.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verdopple die Höhe h bei festem Radius: das Volumen verdoppelt sich, V ist direkt proportional zu h. Verdopple den Radius r bei fester Höhe: das Volumen vervierfacht sich, denn r steht im Quadrat. Verfolge die Grundfläche A gleich pi mal r im Quadrat in der Live-Anzeige. Vergleiche das Volumen in Kubikmetern und in Litern: der Faktor ist immer 1000." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Zylinder: \(V = \pi \cdot r^{2} \cdot h\) — Grundfläche mal Höhe.</li><li>\(V \sim h\) (linear), aber \(V \sim r^{2}\) (quadratisch): doppelter Radius → vierfaches Volumen.</li><li>\(1\;\text{m}^3 = 1000\;\text{L}\).</li><li>Schon ein Tank mit \(r = 0.5\;\text{m}\) und \(h = 1\;\text{m}\) fasst rund \(785\;\text{L}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Zylinder: V gleich pi mal r im Quadrat mal h, also Grundfläche mal Höhe. V ist proportional zu h, aber quadratisch in r: doppelter Radius ergibt vierfaches Volumen. Ein Kubikmeter sind 1000 Liter. Schon ein Tank mit einem halben Meter Radius und einem Meter Höhe fasst rund 785 Liter." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Radius \(r\):</label>
+      <input type="range" id="a3-r" min="0.2" max="1" value="0.5" step="0.05">
+      <span class="sl-val" id="a3-r-val">0.50 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Höhe \(h\):</label>
+      <input type="range" id="a3-h" min="0.2" max="2" value="1" step="0.1">
+      <span class="sl-val" id="a3-h-val">1.00 m</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Aktuelle Rechnung</div>
+      <div class="fl-eq" id="a3-eq">V = π·0.50²·1.00 = 0.785 m³ = 785 L</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Grundfläche \(A = \pi r^2\)</span><span class="lb-val" id="a3-live-A">0.785 m²</span></div>
+      <div class="lb-item"><span class="lb-lab">Volumen \(V\)</span><span class="lb-val" id="a3-live-V">0.785 m³</span></div>
+      <div class="lb-item"><span class="lb-lab">in Litern</span><span class="lb-val" id="a3-live-L">785 L</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🛢 Zylindertank (massstäblich)</div>
+      <canvas id="a3-cv" height="300" role="img" aria-label="Massstäbliche Zeichnung eines stehenden Zylindertanks. Bemassungspfeile zeigen den Radius oben und die Höhe rechts. Radius und Höhe folgen den Schiebereglern."></canvas>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ 5. KREISZAHL UND BOGENMASS ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Der Radius eines Kreises wird verdoppelt. Was passiert mit der Kreisfläche?</p><ul class="mc-optionen"><li data-opt="A">Sie wird doppelt so gross.</li><li data-opt="B">Sie wird achtmal so gross.</li><li data-opt="C">Sie wird viermal so gross.</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>C.</strong> \(A = \pi r^2\): der Radius steht im Quadrat, also \((2r)^2 = 4 r^2\) — vierfache Fläche.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Es gilt: \(1\;\text{m}^3 = \) <span class="mc-luecke"></span> Liter.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">1000 — denn \(1\;\text{m}^3 = 1000\;\text{dm}^3\) und \(1\;\text{dm}^3 = 1\;\text{L}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Aquarium ist innen \(40\;\text{cm}\) lang, \(25\;\text{cm}\) breit und \(30\;\text{cm}\) hoch. Wie viele Liter fasst es?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(V = a \cdot b \cdot c = 40 \cdot 25 \cdot 30 = 30000\;\text{cm}^3\). Mit \(1000\;\text{cm}^3 = 1\;\text{L}\): \(V = 30\;\text{L}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein zylindrisches Trinkglas hat innen \(8\;\text{cm}\) Durchmesser und \(12\;\text{cm}\) Höhe. Wie viel passt hinein?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Achtung: Radius = halber Durchmesser, \(r = 4\;\text{cm}\). \(V = \pi r^2 h = \pi \cdot 16 \cdot 12 \approx 603\;\text{cm}^3 \approx 0.60\;\text{L}\) — gut ein halber Liter.</div></details></div>
+</details>
+
+<h2 id="kreiszahl">Kreiszahl π und Bogenmass</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Kreiszahl π</div>
+  <p>Die <strong>Kreiszahl</strong> \(\pi \approx 3.14159\) ist das Verhältnis von Umfang zu Durchmesser — bei <em>jedem</em> Kreis gleich:</p>
+  \[ \pi = \frac{U}{d} \qquad\Rightarrow\qquad U = \pi \cdot d = 2 \pi \cdot r \]
+  <p>Ein Rad mit \(70\;\text{cm}\) Durchmesser legt pro Umdrehung also \(U = \pi \cdot 0.7\;\text{m} \approx 2.20\;\text{m}\) zurück.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Bogenmass</div>
+  <p>Winkel kann man statt in Grad auch im <strong>Bogenmass</strong> (Einheit: Radiant, rad) angeben: Der Winkel ist dann die Länge des Kreisbogens geteilt durch den Radius,</p>
+  \[ \varphi_{\text{rad}} = \frac{s}{r} \qquad\Rightarrow\qquad s = r \cdot \varphi_{\text{rad}} \]
+  <p>Der volle Kreis hat den Bogen \(U = 2\pi r\), also ist der Vollwinkel \(360° = 2\pi\;\text{rad}\). Umrechnung:</p>
+  \[ \varphi_{\text{rad}} = \varphi_{\text{Grad}} \cdot \frac{\pi}{180°} \]
+</div>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Grad</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th><th>180°</th><th>360°</th></tr></thead>
+  <tbody>
+    <tr><td>Bogenmass</td><td>\(\pi/6\)</td><td>\(\pi/4\)</td><td>\(\pi/3\)</td><td>\(\pi/2\)</td><td>\(\pi\)</td><td>\(2\pi\)</td></tr>
+  </tbody>
+</table>
+
+<!-- ANIM 4: Kreis, Winkel, Bogenmass -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 4 · Kreis, Winkel und Bogenmass</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle \(\varphi = 57°\) ein (fast \(1\;\text{rad}\)): der orange Bogen ist dann ungefähr so lang wie der Radius.</li><li>Drehe auf \(\varphi = 360°\): der Bogen wird zum vollen Umfang \(U = 2\pi r\).</li><li>Vergleiche in der Live-Anzeige Grad und Bogenmass — bei \(180°\) steht dort \(3.142 \approx \pi\).</li><li>Vergrössere \(r\): der Winkel bleibt, aber die Bogenlänge \(s = r \cdot \varphi\) wächst mit.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle 57 Grad ein, das ist fast 1 Radiant: der orange Bogen ist dann ungefähr so lang wie der Radius. Drehe auf 360 Grad: der Bogen wird zum vollen Umfang, 2 pi mal r. Vergleiche in der Live-Anzeige Grad und Bogenmass, bei 180 Grad steht dort 3.142, also ungefähr pi. Vergrössere r: der Winkel bleibt, aber die Bogenlänge s gleich r mal phi wächst mit." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Bogenmass = Bogenlänge pro Radius: \(\varphi_{\text{rad}} = \dfrac{s}{r}\), also \(s = r \cdot \varphi_{\text{rad}}\).</li><li>Vollwinkel: \(360° = 2\pi\;\text{rad}\), halber Kreis \(180° = \pi\;\text{rad}\).</li><li>\(1\;\text{rad} \approx 57.3°\) — der Winkel, bei dem Bogen und Radius gleich lang sind.</li><li>Umfang: \(U = 2\pi r\) — das ist \(s\) beim Vollwinkel.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Bogenmass heisst Bogenlänge pro Radius: phi gleich s durch r, also s gleich r mal phi. Der Vollwinkel 360 Grad entspricht 2 pi Radiant, der halbe Kreis 180 Grad entspricht pi. Ein Radiant sind etwa 57.3 Grad, das ist der Winkel, bei dem Bogen und Radius gleich lang sind. Der Umfang 2 pi r ist die Bogenlänge beim Vollwinkel." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Winkel \(\varphi\):</label>
+      <input type="range" id="a4-phi" min="0" max="360" value="60" step="1">
+      <span class="sl-val" id="a4-phi-val">60°</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Radius \(r\):</label>
+      <input type="range" id="a4-r" min="0.8" max="2" value="1" step="0.1">
+      <span class="sl-val" id="a4-r-val">1.0 m</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(\varphi\) im Bogenmass</span><span class="lb-val" id="a4-live-rad">1.047 rad</span></div>
+      <div class="lb-item"><span class="lb-lab">Bogenlänge \(s = r \cdot \varphi\)</span><span class="lb-val" id="a4-live-s">1.05 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Umfang \(U = 2\pi r\)</span><span class="lb-val" id="a4-live-U">6.28 m</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⭕ Kreis mit Winkel und Bogen (1:1)</div>
+      <canvas id="a4-cv" height="340" role="img" aria-label="Kreis mit einstellbarem Radius. Vom rechten Rand aus ist ein Winkel phi eingestellt; der zugehörige Kreisbogen ist orange hervorgehoben, der Radiusarm violett. Ein kleiner Winkelbogen nahe dem Zentrum zeigt phi."></canvas>
+      <div class="canvas-legend">
+        <span class="cl-item"><span class="cl-line" style="background:#8a4a0e"></span>Bogen \(s\)</span>
+        <span class="cl-item"><span class="cl-line" style="background:#5b2d8e"></span>Radiusarm \(r\)</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<details class="frage">
+  <summary>❓ Was bedeutet ein Winkel von genau 1 rad anschaulich?</summary>
+  <div class="frage-antwort">
+    <p>Bei \(1\;\text{rad}\) ist der Kreisbogen <strong>genau so lang wie der Radius</strong> (\(s = r \cdot 1\)). In Grad: \(1\;\text{rad} = \dfrac{180°}{\pi} \approx 57.3°\). Stelle in Animation 4 den Winkel \(57°\) ein und vergleiche Bogenlänge und Radius in der Live-Anzeige.</p>
+  </div>
+</details>
+
+
+<!-- ══════════════ 6. BRÜCHE, POTENZEN, ZEHNERPOTENZEN ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Was gibt die Kreiszahl \(\pi\) an?</p><ul class="mc-optionen"><li data-opt="A">das Verhältnis von Umfang zu Durchmesser</li><li data-opt="B">das Verhältnis von Fläche zu Radius</li><li data-opt="C">das Verhältnis von Durchmesser zu Umfang</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> \(\pi = U / d \approx 3.14159\) — bei jedem Kreis gleich.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Vollwinkel beträgt \(360°\), im Bogenmass also <span class="mc-luecke"></span> rad.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(2\pi\) (\(\approx 6.28\)) — denn der volle Bogen ist der Umfang \(2\pi r\), geteilt durch \(r\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Rechne \(90°\) ins Bogenmass um.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\varphi_{\text{rad}} = 90 \cdot \dfrac{\pi}{180} = \dfrac{\pi}{2} \approx 1.571\;\text{rad}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Riesenrad-Gondel fährt auf einem Kreis mit \(r = 20\;\text{m}\) um \(135°\) weiter. Welche Strecke legt sie dabei zurück?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Ansatz: \(s = r \cdot \varphi_{\text{rad}}\) mit \(\varphi_{\text{rad}} = 135 \cdot \dfrac{\pi}{180} \approx 2.356\;\text{rad}\). Also \(s = 20 \cdot 2.356 \approx 47.1\;\text{m}\).</div></details></div>
+</details>
+
+<h2 id="potenzen">Brüche, Potenzen und Zehnerpotenzen</h2>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Brüche</div>
+  <p>Ein Bruch ist eine Division: \(\dfrac{s}{t}\) heisst \(s\) geteilt durch \(t\). Die wichtigsten Regeln:</p>
+  \[ \frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d} \qquad\qquad \frac{a}{b} : \frac{c}{d} = \frac{a}{b} \cdot \frac{d}{c} \]
+  <p>Division durch einen Bruch = Multiplikation mit dem <strong>Kehrwert</strong>. Das braucht man z.B., wenn in einer Formel ein Bruch im Nenner steht (Doppelbruch).</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Potenzen und Zehnerpotenzen</div>
+  <p>\(a^n\) bedeutet: \(a\) wird \(n\)-mal mit sich selbst multipliziert. Beim Rechnen gilt:</p>
+  \[ a^m \cdot a^n = a^{m+n} \qquad \frac{a^m}{a^n} = a^{m-n} \qquad a^{-n} = \frac{1}{a^n} \]
+  <p>Speziell wichtig sind die <strong>Zehnerpotenzen</strong>: \(10^3 = 1000\), \(10^{-3} = 0.001\). Sie machen sehr grosse und sehr kleine Zahlen handlich.</p>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Wissenschaftliche und Engineering-Schreibweise</div>
+  <p><strong>Wissenschaftliche Schreibweise:</strong> Zahl als \(m \cdot 10^{n}\) mit Mantisse \(1 \le m \lt 10\). Beispiel Haardurchmesser:</p>
+  \[ 0.00007\;\text{m} = 7 \cdot 10^{-5}\;\text{m} \]
+  <p><strong>Engineering-Schreibweise:</strong> Der Exponent ist ein Vielfaches von 3 (die Mantisse darf dann 1 bis 999 betragen) — passend zu den SI-Vorsätzen:</p>
+  \[ 7 \cdot 10^{-5}\;\text{m} = 70 \cdot 10^{-6}\;\text{m} = 70\;\text{µm} \]
+</div>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Vorsatz</th><th>µ (Mikro)</th><th>m (Milli)</th><th>—</th><th>k (Kilo)</th><th>M (Mega)</th><th>G (Giga)</th></tr></thead>
+  <tbody>
+    <tr><td>Faktor</td><td>\(10^{-6}\)</td><td>\(10^{-3}\)</td><td>\(10^{0} = 1\)</td><td>\(10^{3}\)</td><td>\(10^{6}\)</td><td>\(10^{9}\)</td></tr>
+  </tbody>
+</table>
+
+<!-- ANIM 5: Zehnerpotenz-Schieber -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 5 · Zehnerpotenz-Schieber — Grössenordnungen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Start-Einstellung ist der Haardurchmesser: \(m = 7.0\), \(n = -5\), also \(7 \cdot 10^{-5}\;\text{m}\).</li><li>Erhöhe nur den Exponenten \(n\) um 1: der Punkt springt auf der Leiter eine ganze Stufe — jede Stufe bedeutet «mal 10».</li><li>Verschiebe die Mantisse \(m\) von 1 bis 9.9: der Punkt bewegt sich nur <em>innerhalb</em> einer Stufe.</li><li>Vergleiche wissenschaftliche und Engineering-Schreibweise in der Live-Anzeige — bei der Engineering-Variante ist der Exponent immer 3, 6, 9, … oder \(-3\), \(-6\).</li><li>Stelle \(m = 1.2\), \(n = 5\) ein: die Distanz Bern–Zürich, \(1.2 \cdot 10^{5}\;\text{m} = 120\;\text{km}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Start-Einstellung ist der Haardurchmesser: Mantisse 7.0, Exponent minus 5, also 7 mal 10 hoch minus 5 Meter. Erhöhe nur den Exponenten um 1: der Punkt springt auf der Leiter eine ganze Stufe, jede Stufe bedeutet mal 10. Verschiebe die Mantisse von 1 bis 9.9: der Punkt bewegt sich nur innerhalb einer Stufe. Vergleiche wissenschaftliche und Engineering-Schreibweise in der Live-Anzeige, bei der Engineering-Variante ist der Exponent immer ein Vielfaches von 3. Stelle Mantisse 1.2 und Exponent 5 ein: die Distanz Bern-Zürich, 120 Kilometer." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Jede Zahl lässt sich als \(m \cdot 10^{n}\) schreiben — der Exponent \(n\) gibt die <strong>Grössenordnung</strong> an.</li><li>Wissenschaftlich: \(1 \le m \lt 10\). Engineering: Exponent als Vielfaches von 3, passend zu µ, m, k, M, G.</li><li>Eine Stufe auf der Leiter = Faktor 10; drei Stufen = Faktor 1000 = ein SI-Vorsatz.</li><li>Vom Haar (\(7 \cdot 10^{-5}\;\text{m}\)) bis Bern–Zürich (\(1.2 \cdot 10^{5}\;\text{m}\)) sind es rund 10 Grössenordnungen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Jede Zahl lässt sich als m mal 10 hoch n schreiben, der Exponent n gibt die Grössenordnung an. Wissenschaftlich liegt die Mantisse zwischen 1 und 10. Engineering heisst: Exponent als Vielfaches von 3, passend zu Mikro, Milli, Kilo, Mega und Giga. Eine Stufe auf der Leiter ist Faktor 10, drei Stufen sind Faktor 1000, also ein SI-Vorsatz. Vom Haar bis zur Distanz Bern-Zürich sind es rund 10 Grössenordnungen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Mantisse \(m\):</label>
+      <input type="range" id="a5-m" min="1" max="9.9" value="7" step="0.1">
+      <span class="sl-val" id="a5-m-val">7.0</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Exponent \(n\):</label>
+      <input type="range" id="a5-n" min="-6" max="9" value="-5" step="1">
+      <span class="sl-val" id="a5-n-val">−5</span>
+
+      </div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">ausgeschrieben</span><span class="lb-val" id="a5-live-dec">0.00007 m</span></div>
+      <div class="lb-item"><span class="lb-lab">wissenschaftlich</span><span class="lb-val" id="a5-live-sci">7·10⁻⁵ m</span></div>
+      <div class="lb-item"><span class="lb-lab">Engineering</span><span class="lb-val" id="a5-live-eng">70·10⁻⁶ m</span></div>
+      <div class="lb-item"><span class="lb-lab">mit SI-Vorsatz</span><span class="lb-val" id="a5-live-pre">70 µm</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📏 Grössenordnungs-Leiter (logarithmisch)</div>
+      <canvas id="a5-cv" height="250" role="img" aria-label="Logarithmische Leiter der Längen von 10 hoch minus 6 bis 10 hoch 9 Meter mit Vergleichsobjekten: Haardurchmesser, Ameise, Mensch, Fussballfeld, Bern-Zürich, Erddurchmesser, Distanz Erde-Mond. Ein oranger Punkt markiert die eingestellte Zahl."></canvas>
+    </div>
+
+  </div>
+</div>
+
+<details class="frage">
+  <summary>❓ Warum schreibt die Physik lieber \(3 \cdot 10^{8}\;\text{m/s}\) statt \(300000000\;\text{m/s}\)?</summary>
+  <div class="frage-antwort">
+    <p>Drei Gründe: Die <strong>Grössenordnung</strong> (der Exponent 8) ist sofort sichtbar, ohne Nullen zu zählen. Das <strong>Rechnen</strong> wird leichter, weil sich Exponenten einfach addieren und subtrahieren. Und die Schreibweise zeigt klar, welche Stellen <strong>signifikant</strong> sind — \(3.00 \cdot 10^{8}\) verspricht drei verlässliche Stellen (dazu mehr im Abschnitt «Genauigkeit und Runden»).</p>
+  </div>
+</details>
+
+
+<!-- ══════════════ 7. GLEICHUNGEN UMSTELLEN ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wie lang ist \(4.5 \cdot 10^{-3}\;\text{m}\)?</p><ul class="mc-optionen"><li data-opt="A">\(0.45\;\text{mm}\)</li><li data-opt="B">\(4.5\;\text{mm}\)</li><li data-opt="C">\(45\;\text{mm}\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(10^{-3}\;\text{m} = 1\;\text{mm}\), also \(4.5 \cdot 10^{-3}\;\text{m} = 4.5\;\text{mm}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Beim Multiplizieren von Zehnerpotenzen werden die Exponenten <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">addiert — \(10^m \cdot 10^n = 10^{m+n}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Berechne \((2 \cdot 10^{3}) \cdot (3 \cdot 10^{4})\) und gib das Resultat in wissenschaftlicher Schreibweise an.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Mantissen und Zehnerpotenzen getrennt: \(2 \cdot 3 = 6\) und \(10^{3} \cdot 10^{4} = 10^{7}\), also \(6 \cdot 10^{7}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Wie oft passt ein Haardurchmesser (\(7 \cdot 10^{-5}\;\text{m}\)) in \(1\;\text{mm}\)?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(\dfrac{10^{-3}}{7 \cdot 10^{-5}} = \dfrac{1}{7} \cdot 10^{-3-(-5)} = \dfrac{100}{7} \approx 14.3\) — rund 14-mal.</div></details></div>
+</details>
+
+<h2 id="umformen">Gleichungen umstellen</h2>
+
+<p>Die häufigste Stolperstelle in Physik-Aufgaben ist nicht die Physik — es ist das <strong>Auflösen einer Formel nach der gesuchten Grösse</strong>. Die gute Nachricht: Es braucht nur eine einzige Idee.</p>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Das Waage-Prinzip</div>
+  <p>Eine Gleichung ist wie eine Waage im Gleichgewicht. Sie bleibt im Gleichgewicht, wenn auf <strong>beiden Seiten dieselbe Operation</strong> ausgeführt wird: beide Seiten mal derselben Grösse, geteilt durch dieselbe Grösse (sofern sie nicht null ist), plus/minus derselbe Term, auf beiden Seiten die Wurzel ziehen.</p>
+</div>
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Schritt für Schritt — zwei Musterbeispiele</div>
+  <p><strong>Beispiel 1:</strong> \(v = \dfrac{s}{t}\) nach \(t\) auflösen. Das \(t\) steht störend im Nenner — also zuerst beide Seiten mal \(t\):</p>
+  \[ v \cdot t = s \]
+  <p>Jetzt steht \(t\) im Zähler, aber noch mit \(v\) multipliziert — beide Seiten durch \(v\) teilen:</p>
+  \[ t = \frac{s}{v} \]
+  <p>Kontrolle mit Zahlen: \(s = 120\;\text{km}\), \(v = 80\;\text{km/h}\) → \(t = \dfrac{120}{80} = 1.5\;\text{h}\) ✓ (vgl. Animation 2).</p>
+  <p><strong>Beispiel 2:</strong> \(V = \pi \cdot r^{\,2} \cdot h\) nach \(r\) auflösen. Zuerst alles wegdividieren, was nicht \(r\) ist — beide Seiten durch \(\pi \cdot h\):</p>
+  \[ \frac{V}{\pi \cdot h} = r^{\,2} \]
+  <p>Dann auf beiden Seiten die Wurzel ziehen:</p>
+  \[ r = \sqrt{\frac{V}{\pi \cdot h}} \]
+  <p>Kontrolle: Tank aus Animation 3 mit \(V = 0.785\;\text{m}^3\) und \(h = 1\;\text{m}\) → \(r = \sqrt{\dfrac{0.785}{\pi}} \approx 0.5\;\text{m}\) ✓.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Häufige Fehler</div>
+  <ul>
+    <li><strong>Nur auf einer Seite operieren</strong> — wer rechts durch \(t\) teilt, muss es auch links tun, sonst kippt die Waage.</li>
+    <li><strong>Reihenfolge:</strong> erst isolieren, dann Wurzel ziehen. Bei \(V = \pi r^2 h\) zuerst durch \(\pi h\) teilen und <em>erst dann</em> die Wurzel ziehen — nicht umgekehrt.</li>
+    <li><strong>Zu früh Zahlen einsetzen:</strong> erst symbolisch nach der gesuchten Grösse auflösen, dann einsetzen. Das ist das Ansatz-Prinzip dieses Lehrmittels.</li>
+  </ul>
+</div>
+
+<!-- ANIM 6: Formel-Waage -->
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 6 · Formel-Waage — Gleichungen umstellen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wähle eine Formel und eine Ziel-Grösse, dann klicke dich mit «nächster Schritt» durch die Umformung.</li><li>Lies bei jedem Schritt die violette Operation: sie wird immer auf <em>beiden</em> Waagschalen ausgeführt.</li><li>Die Waage bleibt dabei stets im Gleichgewicht — genau das bedeutet «Äquivalenzumformung».</li><li>Vergleiche die drei Formeln: der Ablauf ist immer gleich — stören wegschaffen, Ziel-Grösse isolieren.</li><li>Bei \(V = \pi r^2 h\) nach \(r\) kommt am Schluss die Wurzel — erst nachdem \(r^2\) allein steht.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle eine Formel und eine Ziel-Grösse, dann klicke dich mit nächster Schritt durch die Umformung. Lies bei jedem Schritt die violette Operation: sie wird immer auf beiden Waagschalen ausgeführt. Die Waage bleibt dabei stets im Gleichgewicht, genau das bedeutet Äquivalenzumformung. Vergleiche die drei Formeln: der Ablauf ist immer gleich, Störendes wegschaffen und die Ziel-Grösse isolieren. Bei V gleich pi r Quadrat h nach r kommt am Schluss die Wurzel, erst nachdem r Quadrat allein steht." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Umstellen = auf beiden Seiten dieselbe Operation, bis die Ziel-Grösse allein steht.</li><li>\(v = \dfrac{s}{t}\) liefert \(s = v \cdot t\) und \(t = \dfrac{s}{v}\).</li><li>\(F = m \cdot a\) liefert \(m = \dfrac{F}{a}\) und \(a = \dfrac{F}{m}\).</li><li>\(V = \pi r^2 h\) liefert \(h = \dfrac{V}{\pi r^2}\) und \(r = \sqrt{\dfrac{V}{\pi h}}\).</li><li>Merke: Nenner stören → mal nehmen; Faktoren stören → teilen; Quadrat stört → Wurzel (zuletzt).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Umstellen heisst: auf beiden Seiten dieselbe Operation, bis die Ziel-Grösse allein steht. v gleich s durch t liefert s gleich v mal t und t gleich s durch v. F gleich m mal a liefert m gleich F durch a und a gleich F durch m. V gleich pi r Quadrat h liefert h gleich V durch pi r Quadrat, und r gleich Wurzel aus V durch pi h. Merke: Nenner stören, also mal nehmen. Faktoren stören, also teilen. Ein Quadrat stört, also zuletzt die Wurzel ziehen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" id="a6-f0">v = s/t</button>
+      <button class="typ-btn" id="a6-f1">F = m·a</button>
+      <button class="typ-btn" id="a6-f2">V = π·r²·h</button>
+    </div>
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" id="a6-t0">nach s</button>
+      <button class="typ-btn" id="a6-t1">nach t</button>
+    </div>
+
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+      <button class="play-btn" id="a6-step">▶ nächster Schritt</button>
+      <button class="play-btn paused" id="a6-reset" style="background:var(--tinte-2);">↻ von vorne</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Aktueller Stand der Gleichung</div>
+      <div class="fl-eq" id="a6-eq">v = s/t</div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">⚖️ Die Gleichung als Waage</div>
+      <canvas id="a6-cv" height="230" role="img" aria-label="Eine Balkenwaage im Gleichgewicht. Auf der linken Schale steht die linke Seite der Gleichung, auf der rechten Schale die rechte Seite. Unter der Waage wird die aktuell angewendete Operation angezeigt, zum Beispiel: beide Seiten mal t."></canvas>
+    </div>
+
+  </div>
+</div>
+
+<details class="frage">
+  <summary>❓ Warum darfst du in \(v = \dfrac{s}{t}\) nicht einfach das \(t\) «streichen»?</summary>
+  <div class="frage-antwort">
+    <p>Weil «streichen» keine erlaubte Umformung ist — die Gleichheit geht dabei verloren. Erlaubt ist nur, auf <strong>beiden Seiten dieselbe Operation</strong> auszuführen. Multiplizierst du beide Seiten mit \(t\), kürzt sich das \(t\) rechts von selbst weg: \(v \cdot t = s\). Das sieht am Schluss ähnlich aus, ist aber sauber begründet — und funktioniert auch dann noch, wenn die Formel komplizierter wird.</p>
+  </div>
+</details>
+
+
+<!-- ══════════════ 8. GENAUIGKEIT UND RUNDEN ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Löse \(F = m \cdot a\) nach \(a\) auf.</p><ul class="mc-optionen"><li data-opt="A">\(a = F \cdot m\)</li><li data-opt="B">\(a = \dfrac{m}{F}\)</li><li data-opt="C">\(a = \dfrac{F}{m}\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>C.</strong> Beide Seiten durch \(m\) teilen: \(\dfrac{F}{m} = a\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Eine Gleichung bleibt gültig, wenn auf beiden Seiten <span class="mc-luecke"></span> Operation ausgeführt wird.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">dieselbe — das ist das Waage-Prinzip.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Hula-Hoop-Reifen hat den Umfang \(U = 3.0\;\text{m}\). Stelle \(U = 2\pi r\) nach \(r\) um und berechne den Radius.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Beide Seiten durch \(2\pi\): \(r = \dfrac{U}{2\pi} = \dfrac{3.0}{2\pi} \approx 0.477\;\text{m}\) — knapp 48 cm.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein rundes Trampolin soll eine Sprungfläche von \(A = 2.0\;\text{m}^2\) haben. Welchen Radius braucht es? (Formel \(A = \pi r^2\) zuerst nach \(r\) auflösen.)</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Beide Seiten durch \(\pi\), dann Wurzel: \(r = \sqrt{\dfrac{A}{\pi}} = \sqrt{\dfrac{2.0}{\pi}} \approx 0.80\;\text{m}\).</div></details></div>
+</details>
+
+<h2 id="runden">Genauigkeit und Runden</h2>
+
+<p>Der Taschenrechner liefert \(0.4523893…\;\text{m}^3\) — aber wie viele Stellen davon sind sinnvoll? Es gibt zwei verschiedene Runde-Arten, und sie werden oft verwechselt:</p>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Kommastellen vs. signifikante Stellen</div>
+  <p><strong>Runden auf Kommastellen</strong> zählt die Stellen <em>nach dem Komma</em>: auf 2 Kommastellen wird \(19.618\) zu \(19.62\) — aber \(0.048107\) zu \(0.05\).</p>
+  <p><strong>Runden auf signifikante Stellen</strong> zählt die <em>geltenden Ziffern</em> ab der ersten Ziffer, die nicht null ist: auf 3 signifikante Stellen wird \(19.618\) zu \(19.6\) und \(0.048107\) zu \(0.0481\). Führende Nullen zählen nie zu den signifikanten Stellen.</p>
+</div>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Taschenrechner-Wert</th><th>auf 2 Kommastellen</th><th>auf 3 signifikante Stellen</th></tr></thead>
+  <tbody>
+    <tr><td>\(452.39\)</td><td>\(452.39\)</td><td>\(452\)</td></tr>
+    <tr><td>\(19.618\)</td><td>\(19.62\)</td><td>\(19.6\)</td></tr>
+    <tr><td>\(0.048107\)</td><td>\(0.05\)</td><td>\(0.0481\)</td></tr>
+  </tbody>
+</table>
+
+<p>Die dritte Zeile zeigt das Problem: Auf 2 Kommastellen gerundet bleibt von \(0.048107\) nur noch \(0.05\) — eine einzige geltende Ziffer, über 4 % Rundungsfehler. Das Runden nach signifikanten Stellen behandelt dagegen grosse und kleine Zahlen gleich fair.</p>
+
+<div class="block block-tipp">
+  <div class="block-titel">💡 So halten wir es in der Physik</div>
+  <ul>
+    <li>Endergebnisse üblicherweise auf <strong>3 signifikante Stellen</strong> runden (BM-Standard) — bzw. nicht genauer, als die Eingangswerte es hergeben.</li>
+    <li><strong>Zwischenresultate nicht runden:</strong> im Taschenrechner mit allen Stellen weiterrechnen und erst das Endergebnis runden.</li>
+    <li>Die wissenschaftliche Schreibweise zeigt die Genauigkeit direkt: \(4.58 \cdot 10^{3}\;\text{L}\) bedeutet 3 verlässliche Stellen.</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════ 9. AUFGABEN ══════════════ -->
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wie viele signifikante Stellen hat die Angabe \(0.00450\;\text{m}\)?</p><ul class="mc-optionen"><li data-opt="A">zwei</li><li data-opt="B">drei</li><li data-opt="C">fünf</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Führende Nullen zählen nicht; \(4\), \(5\) und die <em>nachgestellte</em> \(0\) sind signifikant: drei Stellen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">In der BM werden Endergebnisse üblicherweise auf <span class="mc-luecke"></span> signifikante Stellen gerundet.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">drei — z.B. \(0.452\;\text{m}^3\) oder \(4.58 \cdot 10^3\;\text{L}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Runde \(0.037249\) auf 3 signifikante Stellen.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Geltende Ziffern ab der \(3\): \(3\), \(7\), \(2\) — die nächste Ziffer \(4\) rundet ab: \(0.0372\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Dein Taschenrechner zeigt für ein Tank-Volumen \(0.4523893\;\text{m}^3\). Gib das Resultat in Litern mit 3 signifikanten Stellen an.</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(0.4523893\;\text{m}^3 = 452.3893\;\text{L}\) (Faktor 1000). Auf 3 signifikante Stellen: \(452\;\text{L}\).</div></details></div>
+</details>
+
+<h2 id="aufgaben">Aufgaben</h2>
+
+<!-- A1: Ablesen -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Werte ablesen — Zylindertank</span></div>
+  <p>Stelle in Animation 3 die Schieber auf \(r = 0.6\;\text{m}\) und \(h = 1.2\;\text{m}\). Lies Grundfläche und Volumen aus der Live-Anzeige ab und prüfe beide Werte mit der Formel nach.</p>
+  <button class="loesung-toggle" onclick="toggleL('l1')">▶ Lösung</button>
+  <div class="loesung-body" id="l1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <p>Grundfläche: \(A = \pi r^2 = \pi \cdot 0.6^2 = \pi \cdot 0.36 \approx 1.13\;\text{m}^2\) (Live-Anzeige bestätigt).</p>
+      <p>Volumen: \(V = A \cdot h = 1.131 \cdot 1.2 \approx 1.36\;\text{m}^3 = 1357\;\text{L}\).</p>
+    </div>
+  </div>
+</div>
+
+<!-- A2: Dreisatz / Proportionalität -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Dreisatz — direkt und indirekt</span></div>
+  <ol class="aufg-liste">
+    <li>\(4.5\;\text{kg}\) Kartoffeln kosten \(10.80\;\text{Fr.}\) Wie viel kosten \(7\;\text{kg}\)?</li>
+    <li>Ein Heuvorrat reicht für 12 Pferde 30 Tage. Wie lange reicht er für 18 Pferde?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
+  <div class="loesung-body" id="l2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Direkte Proportionalität — der Quotient (Preis pro kg) ist konstant: \[ \frac{10.80}{4.5} = 2.40\;\text{Fr./kg} \qquad\Rightarrow\qquad 7 \cdot 2.40 = 16.80\;\text{Fr.} \]</li>
+        <li>Indirekte Proportionalität — das Produkt (Pferde \(\cdot\) Tage) ist konstant: \[ 12 \cdot 30 = 360 \qquad\Rightarrow\qquad t = \frac{360}{18} = 20\;\text{Tage} \]</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A3: Quader und Zylinder mehrteilig -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A3</span><span class="aufg-titel-text">Aquarium und Regentonne</span></div>
+  <p>Ein Aquarium ist innen \(80\;\text{cm}\) lang, \(35\;\text{cm}\) breit und \(45\;\text{cm}\) hoch. Daneben steht eine zylindrische Regentonne mit Innendurchmesser \(60\;\text{cm}\) und Höhe \(90\;\text{cm}\).</p>
+  <ol class="aufg-liste">
+    <li>Wie viele Liter fasst das Aquarium?</li>
+    <li>Wie viele Liter fasst die Regentonne?</li>
+    <li>Wie viele volle 10-Liter-Giesskannen lassen sich aus der randvollen Tonne füllen?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l3')">▶ Lösung</button>
+  <div class="loesung-body" id="l3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Quader: \[ V = a \cdot b \cdot c = 80 \cdot 35 \cdot 45 = 126000\;\text{cm}^3 = 126\;\text{L} \]</li>
+        <li>Zylinder mit \(r = d/2 = 30\;\text{cm}\): \[ V = \pi \cdot r^{\,2} \cdot h = \pi \cdot 30^2 \cdot 90 \approx 254469\;\text{cm}^3 \approx 254\;\text{L} \]</li>
+        <li>\(254 / 10 = 25.4\) — es lassen sich \(25\) volle Giesskannen füllen.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A4: Formeln umstellen -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A4</span><span class="aufg-titel-text">Formeln umstellen</span></div>
+  <p>Stelle jeweils zuerst symbolisch um, setze erst danach die Zahlen ein.</p>
+  <ol class="aufg-liste">
+    <li>\(v = \dfrac{s}{t}\) nach \(t\); berechne \(t\) für \(s = 210\;\text{km}\) und \(v = 84\;\text{km/h}\).</li>
+    <li>\(\rho = \dfrac{m}{V}\) nach \(m\); berechne die Masse von \(0.35\;\text{m}^3\) Wasser (\(\rho = 1000\;\text{kg/m}^3\)).</li>
+    <li>\(U = 2\pi r\) nach \(r\); ein Gymnastikreifen hat den Umfang \(U = 1.35\;\text{m}\).</li>
+    <li>\(V = \pi r^2 h\) nach \(r\); eine Getränkedose fasst \(V = 330\;\text{cm}^3\) bei einer Höhe von \(h = 11.5\;\text{cm}\).</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l4')">▶ Lösung</button>
+  <div class="loesung-body" id="l4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Beide Seiten mal \(t\), dann durch \(v\): \[ t = \frac{s}{v} = \frac{210}{84} = 2.5\;\text{h} = 2\;\text{h}\;30\;\text{min} \]</li>
+        <li>Beide Seiten mal \(V\): \[ m = \rho \cdot V = 1000 \cdot 0.35 = 350\;\text{kg} \]</li>
+        <li>Beide Seiten durch \(2\pi\): \[ r = \frac{U}{2\pi} = \frac{1.35}{2\pi} \approx 0.215\;\text{m} = 21.5\;\text{cm} \]</li>
+        <li>Beide Seiten durch \(\pi h\), dann Wurzel: \[ r = \sqrt{\frac{V}{\pi \cdot h}} = \sqrt{\frac{330}{\pi \cdot 11.5}} \approx 3.02\;\text{cm} \]</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A5: Zehnerpotenzen -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A5</span><span class="aufg-titel-text">Zehnerpotenzen und Schreibweisen</span></div>
+  <ol class="aufg-liste">
+    <li>Schreibe in wissenschaftlicher Schreibweise: die mittlere Distanz Erde–Mond von \(384000\;\text{km}\) in Metern, und \(0.00052\;\text{m}\).</li>
+    <li>Berechne \((3 \cdot 10^{5}) \cdot (2 \cdot 10^{-2})\).</li>
+    <li>Gib \(2.5 \cdot 10^{-5}\;\text{m}\) in Engineering-Schreibweise und mit SI-Vorsatz an.</li>
+    <li>Wie oft passt der Erddurchmesser (\(1.27 \cdot 10^{7}\;\text{m}\)) zwischen Erde und Mond (\(3.84 \cdot 10^{8}\;\text{m}\))?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l5')">▶ Lösung</button>
+  <div class="loesung-body" id="l5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(384000\;\text{km} = 384000000\;\text{m} = 3.84 \cdot 10^{8}\;\text{m}\); \(\;0.00052\;\text{m} = 5.2 \cdot 10^{-4}\;\text{m}\).</li>
+        <li>Mantissen und Potenzen getrennt: \[ (3 \cdot 2) \cdot 10^{5 + (-2)} = 6 \cdot 10^{3} = 6000 \]</li>
+        <li>Exponent auf das nächste Vielfache von 3 bringen: \(2.5 \cdot 10^{-5} = 25 \cdot 10^{-6}\;\text{m} = 25\;\text{µm}\).</li>
+        <li>\[ \frac{3.84 \cdot 10^{8}}{1.27 \cdot 10^{7}} = \frac{3.84}{1.27} \cdot 10^{1} \approx 30.2 \] — rund 30-mal.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- A6: Kombinierte Anwendung -->
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A6</span><span class="aufg-titel-text">Regenwasser-Speicher — umstellen, rechnen, runden</span></div>
+  <p>Ein zylindrischer Regenwasser-Speicher mit Innendurchmesser \(1.8\;\text{m}\) soll \(4000\;\text{L}\) fassen.</p>
+  <ol class="aufg-liste">
+    <li>Stelle \(V = \pi r^2 h\) nach \(h\) um.</li>
+    <li>Berechne die nötige Höhe \(h\).</li>
+    <li>Gebaut wird der Speicher schliesslich \(1.8\;\text{m}\) hoch. Wie viele Liter fasst er wirklich? Gib das Resultat mit 3 signifikanten Stellen an.</li>
+    <li>Warum wäre die Angabe \(h = 1.5719007\;\text{m}\) in Teilaufgabe 2 unsinnig?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l6')">▶ Lösung</button>
+  <div class="loesung-body" id="l6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Beide Seiten durch \(\pi r^2\): \[ h = \frac{V}{\pi \cdot r^{\,2}} \]</li>
+        <li>Mit \(V = 4000\;\text{L} = 4\;\text{m}^3\) und \(r = 0.9\;\text{m}\): \[ h = \frac{4}{\pi \cdot 0.9^2} = \frac{4}{\pi \cdot 0.81} \approx 1.57\;\text{m} \]</li>
+        <li>\[ V = \pi \cdot 0.81 \cdot 1.8 \approx 4.58\;\text{m}^3 = 4.58 \cdot 10^{3}\;\text{L} \approx 4580\;\text{L} \]</li>
+        <li>Die Eingangswerte (\(1.8\;\text{m}\), \(4000\;\text{L}\)) sind höchstens auf 2–3 Stellen genau — 8 Stellen im Resultat täuschen eine Genauigkeit vor, die es nicht gibt. Beim Bau sind Bruchteile von Millimetern ohnehin bedeutungslos. Sinnvoll: \(h \approx 1.57\;\text{m}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ 10. ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Werkzeug</th><th>Regel / Formel</th><th>Merkhilfe</th></tr></thead>
+  <tbody>
+    <tr><td>Direkte Proportionalität</td><td>\(y = k \cdot x\), Quotient \(y/x\) konstant</td><td>doppelt → doppelt</td></tr>
+    <tr><td>Indirekte Proportionalität</td><td>\(y = k/x\), Produkt \(x \cdot y\) konstant</td><td>doppelt → halb</td></tr>
+    <tr><td>Flächen</td><td>\(A = a \cdot b\) (Rechteck), \(A = \pi r^2\) (Kreis)</td><td>\(r\) im Quadrat: \(2r \to 4A\)</td></tr>
+    <tr><td>Volumen</td><td>\(V = a b c\) (Quader), \(V = \pi r^2 h\) (Zylinder)</td><td>Grundfläche mal Höhe; \(1\;\text{m}^3 = 1000\;\text{L}\)</td></tr>
+    <tr><td>Kreis und Bogenmass</td><td>\(U = 2\pi r\), \(\;\varphi_{\text{rad}} = s/r\), \(\;360° = 2\pi\;\text{rad}\)</td><td>\(1\;\text{rad} \approx 57.3°\): Bogen = Radius</td></tr>
+    <tr><td>Zehnerpotenzen</td><td>\(a^m \cdot a^n = a^{m+n}\); wissenschaftlich \(m \cdot 10^{n}\) mit \(1 \le m \lt 10\)</td><td>Engineering: Exponent 3, 6, 9, … → µ, m, k, M, G</td></tr>
+    <tr><td>Gleichungen umstellen</td><td>auf beiden Seiten dieselbe Operation</td><td>Waage im Gleichgewicht</td></tr>
+    <tr><td>Runden</td><td>Endergebnis auf 3 signifikante Stellen</td><td>Zwischenresultate nie runden</td></tr>
+  </tbody>
+</table>
+
+<h3>Kernpunkte</h3>
+<ul class="kernpunkte">
+  <li>Direkt proportional: Quotient konstant, Gerade durch den Ursprung. Indirekt proportional: Produkt konstant, Hyperbel.</li>
+  <li>Volumen = Grundfläche mal Höhe — beim Zylinder \(V = \pi r^2 h\); der Radius geht im Quadrat ein.</li>
+  <li>\(1\;\text{m}^3 = 1000\;\text{L}\) und \(1\;\text{cm}^3 = 1\;\text{mL}\) — Einheiten immer mit umrechnen.</li>
+  <li>\(\pi = U/d\); im Bogenmass ist der Winkel «Bogen pro Radius», der Vollwinkel ist \(2\pi\;\text{rad}\).</li>
+  <li>Zehnerpotenzen machen Grössenordnungen sichtbar; wissenschaftliche und Engineering-Schreibweise unterscheiden sich nur im erlaubten Exponenten.</li>
+  <li>Formeln werden mit dem Waage-Prinzip umgestellt: erst symbolisch auflösen, dann Zahlen einsetzen.</li>
+  <li>Gerundet wird am Schluss — üblicherweise auf 3 signifikante Stellen.</li>
+</ul>
+
+<div class="merksatz">
+  Eine Formel umstellen heisst: die Waage im Gleichgewicht halten — was links geschieht, geschieht auch rechts. Erst symbolisch nach der gesuchten Grösse auflösen, dann Werte mit Einheiten einsetzen, zum Schluss sinnvoll runden.
+</div>
+
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 0.1 Mathematisches Vorwissen</p>
+  <p>Version 0.9 · Stand Juli 2026</p>
+</footer>
+
+<script src="../nav.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script src="../minicheck.js"></script>
+<script>
+buildNav({
+  id:'p0-1',
+  kapitelNr:'0.1',
+  kapitelTitel:'Mathematisches Vorwissen',
+  prev: null,
+  next:{nr:'0.2', titel:'Physikalisches Alltagsverständnis', url:'p0-2-vorwissen-physik.html'}
+});
+
+const g = 9.81;  // Erdbeschleunigung — liefert 9.81 kPa Schweredruck pro Meter Wassertiefe
+
+// Unicode-Hochzahlen für Zehnerpotenz-Anzeigen (Live-Box + Canvas)
+function sup(n) {
+  const map = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+  return String(n).split('').map(c => map[c]).join('');
+}
+// Label mit weissem Halo (STYLEGUIDE §3.6); align: 'left' | 'right' | 'center'
+function haloLabel(ctx, txt, x, y, color, align) {
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const w = ctx.measureText(txt).width;
+  const x0 = align === 'right' ? x - w : (align === 'center' ? x - w / 2 : x);
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(x0 - 2, y - 11, w + 4, 14);
+  ctx.fillStyle = color;
+  ctx.textAlign = align;
+  ctx.fillText(txt, x, y);
+}
+
+// ══════════════ ANIMATION 1 — direkte Proportionalität (Tiefe→Druck) ══════════════
+function drawA1() {
+  const h = +document.getElementById('a1-h').value;
+  const p = g * h;                       // kPa (rho=1000 kg/m³, g=9.81 → 9.81 kPa/m)
+  document.getElementById('a1-h-val').textContent  = h.toFixed(1) + ' m';
+  document.getElementById('a1-live-h').textContent = h.toFixed(1) + ' m';
+  document.getElementById('a1-live-p').textContent = p.toFixed(1) + ' kPa';
+  document.getElementById('a1-live-q').textContent = '9.81 kPa/m';
+
+  // ── Tauchszene: Tiefenskala 0–10 m, 22.4 px pro m bei H=280 ──
+  const cv1 = initCanvas('a1-cv-sz', 280, false);
+  const ctx1 = cv1.ctx, W1 = cv1.W, H1 = cv1.H;
+  const top = 26, bot = 30;
+  const yOf = d => top + d / 10 * (H1 - top - bot);   // Tiefe [m] → Pixel
+  // Himmel + Wasser + Grund
+  ctx1.fillStyle = '#eaf3fa'; ctx1.fillRect(0, 0, W1, top);
+  ctx1.fillStyle = '#c0d8e8'; ctx1.fillRect(0, top, W1, H1 - top - bot);
+  ctx1.fillStyle = '#c9b98a'; ctx1.fillRect(0, H1 - bot, W1, bot);
+  // Wasseroberfläche mit kleinen Wellen
+  ctx1.strokeStyle = '#5a86ad'; ctx1.lineWidth = 2;
+  ctx1.beginPath();
+  for (let x = 0; x <= W1; x += 4) {
+    const y = top + Math.sin(x / 9) * 1.6;
+    if (x === 0) ctx1.moveTo(x, y); else ctx1.lineTo(x, y);
+  }
+  ctx1.stroke();
+  // Tiefenskala links
+  ctx1.strokeStyle = '#3d566b'; ctx1.lineWidth = 1;
+  ctx1.beginPath(); ctx1.moveTo(44, yOf(0)); ctx1.lineTo(44, yOf(10)); ctx1.stroke();
+  ctx1.font = '13px JetBrains Mono,monospace'; ctx1.fillStyle = '#3d566b';
+  ctx1.textAlign = 'right';
+  for (let d = 0; d <= 10; d += 2) {
+    ctx1.beginPath(); ctx1.moveTo(39, yOf(d)); ctx1.lineTo(49, yOf(d)); ctx1.stroke();
+    ctx1.fillText(d + ' m', 36, yOf(d) + 4);
+  }
+  // Pfeil von der Oberfläche zur Taucher-Tiefe
+  const dx = 60 + (W1 - 80) * 0.5;
+  drawArrow(ctx1, dx, yOf(0) + 4, dx, yOf(h) - 14, '#5b2d8e', 2, 9);
+  // Taucher (Punkt) in Tiefe h
+  ctx1.fillStyle = '#8a4a0e';
+  ctx1.beginPath(); ctx1.arc(dx, yOf(h), 8, 0, 2 * Math.PI); ctx1.fill();
+  ctx1.strokeStyle = '#fff'; ctx1.lineWidth = 2; ctx1.stroke();
+  haloLabel(ctx1, 'h = ' + h.toFixed(1) + ' m', dx + 16, yOf(h) - 10, '#5b2d8e', 'left');
+  haloLabel(ctx1, 'p = ' + p.toFixed(1) + ' kPa', dx + 16, yOf(h) + 16, '#8a4a0e', 'left');
+
+  // ── p-h-Diagramm ──
+  const cv2 = initCanvas('a1-cv-ph', 280, false);
+  const gr = drawGrid(cv2.ctx, cv2.W, cv2.H, -0.5, 10.5, -6, 104);
+  drawAxesUnits(cv2.ctx, cv2.W, cv2.H, gr.cx, gr.cy, 'h [m]', 'p_S [kPa]');
+  const ctx2 = cv2.ctx;
+  // Gerade durch den Ursprung bis (10, 98.1)
+  ctx2.strokeStyle = '#8a4a0e'; ctx2.lineWidth = 2.8; ctx2.setLineDash([]);
+  ctx2.beginPath();
+  ctx2.moveTo(gr.cx(0), gr.cy(0));
+  ctx2.lineTo(gr.cx(10), gr.cy(g * 10));
+  ctx2.stroke();
+  // Hilfslinien zum aktuellen Punkt
+  ctx2.strokeStyle = '#b8c4d4'; ctx2.lineWidth = 1.2; ctx2.setLineDash([4, 4]);
+  ctx2.beginPath(); ctx2.moveTo(gr.cx(h), gr.cy(0)); ctx2.lineTo(gr.cx(h), gr.cy(p)); ctx2.lineTo(gr.cx(0), gr.cy(p)); ctx2.stroke();
+  ctx2.setLineDash([]);
+  // Vergleichspunkt bei doppelter Tiefe (falls im Bereich)
+  if (2 * h <= 10) {
+    const p2 = g * 2 * h;
+    ctx2.strokeStyle = '#d9c9ea'; ctx2.setLineDash([4, 4]); ctx2.lineWidth = 1.2;
+    ctx2.beginPath(); ctx2.moveTo(gr.cx(2 * h), gr.cy(0)); ctx2.lineTo(gr.cx(2 * h), gr.cy(p2)); ctx2.lineTo(gr.cx(0), gr.cy(p2)); ctx2.stroke();
+    ctx2.setLineDash([]);
+    drawDot(ctx2, gr.cx, gr.cy, 2 * h, p2, '#5b2d8e', 5);
+    const alignR = gr.cx(2 * h) > cv2.W - 120;
+    haloLabel(ctx2, '2·h → 2·p', gr.cx(2 * h) + (alignR ? -10 : 10), gr.cy(p2) - 8, '#5b2d8e', alignR ? 'right' : 'left');
+  }
+  drawDot(ctx2, gr.cx, gr.cy, h, p, '#8a4a0e', 6);
+}
+document.getElementById('a1-h').addEventListener('input', drawA1);
+
+// ══════════════ ANIMATION 2 — indirekte Proportionalität (t = 120/v) ══════════════
+const A2S = 120;  // feste Strecke in km
+function drawA2() {
+  const v = +document.getElementById('a2-v').value;
+  const t = A2S / v;
+  document.getElementById('a2-v-val').textContent     = v + ' km/h';
+  document.getElementById('a2-live-t').textContent    = t.toFixed(2) + ' h';
+  document.getElementById('a2-live-min').textContent  = Math.round(t * 60) + ' min';
+  document.getElementById('a2-live-prod').textContent = Math.round(v * t) + ' km';
+
+  const cv = initCanvas('a2-cv', 280, false);
+  const gr = drawGrid(cv.ctx, cv.W, cv.H, -8, 168, -0.16, 3.3);
+  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 'v [km/h]', 't [h]');
+  const ctx = cv.ctx;
+  // Hyperbel t = 120/v von v=40 bis 160
+  drawCurve(ctx, gr.cx, gr.cy, vv => vv, vv => A2S / vv, 40, 160, 120, '#8a4a0e', 2.8);
+  // Hilfslinien zum aktuellen Punkt
+  ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1.2; ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(gr.cx(v), gr.cy(0)); ctx.lineTo(gr.cx(v), gr.cy(t)); ctx.lineTo(gr.cx(0), gr.cy(t)); ctx.stroke();
+  ctx.setLineDash([]);
+  // Vergleichspunkt bei doppeltem Tempo (falls im Bereich)
+  if (2 * v <= 160) {
+    const t2 = A2S / (2 * v);
+    drawDot(ctx, gr.cx, gr.cy, 2 * v, t2, '#5b2d8e', 5);
+    const alignR = gr.cx(2 * v) > cv.W - 130;
+    haloLabel(ctx, '2·v → t/2', gr.cx(2 * v) + (alignR ? -10 : 10), gr.cy(t2) - 10, '#5b2d8e', alignR ? 'right' : 'left');
+  }
+  drawDot(ctx, gr.cx, gr.cy, v, t, '#8a4a0e', 6);
+}
+document.getElementById('a2-v').addEventListener('input', drawA2);
+
+// ══════════════ ANIMATION 3 — Zylindertank ══════════════
+function drawA3() {
+  const r = +document.getElementById('a3-r').value;
+  const h = +document.getElementById('a3-h').value;
+  const A = Math.PI * r * r;
+  const V = A * h;
+  document.getElementById('a3-r-val').textContent  = r.toFixed(2) + ' m';
+  document.getElementById('a3-h-val').textContent  = h.toFixed(2) + ' m';
+  document.getElementById('a3-live-A').textContent = A.toFixed(3) + ' m²';
+  document.getElementById('a3-live-V').textContent = V.toFixed(3) + ' m³';
+  document.getElementById('a3-live-L').textContent = Math.round(V * 1000) + ' L';
+  document.getElementById('a3-eq').textContent =
+    'V = π·' + r.toFixed(2) + '²·' + h.toFixed(2) + ' = ' + V.toFixed(3) + ' m³ = ' + Math.round(V * 1000) + ' L';
+
+  const cv = initCanvas('a3-cv', 300, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  // Massstab: 95 px pro m — Worst Case r=1, h=2 bleibt im Bild (Python-verifiziert)
+  const scale = Math.min(95, (W - 130) / 2);   // auf schmalen Canvases verkleinern
+  const rx = r * scale, ry = 0.25 * r * scale;
+  const cxM = W / 2 - 20;
+  const yBot = H - 34 - ry;          // Zentrum untere Ellipse
+  const yTop = yBot - h * scale;     // Zentrum obere Ellipse
+  // Mantelfläche
+  ctx.fillStyle = 'rgba(138,74,14,0.14)';
+  ctx.beginPath();
+  ctx.moveTo(cxM - rx, yTop);
+  ctx.lineTo(cxM - rx, yBot);
+  ctx.ellipse(cxM, yBot, rx, ry, 0, Math.PI, 0, true);
+  ctx.lineTo(cxM + rx, yTop);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cxM - rx, yTop); ctx.lineTo(cxM - rx, yBot); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cxM + rx, yTop); ctx.lineTo(cxM + rx, yBot); ctx.stroke();
+  // untere Ellipse (nur vordere Hälfte sichtbar)
+  ctx.beginPath(); ctx.ellipse(cxM, yBot, rx, ry, 0, 0, Math.PI); ctx.stroke();
+  // obere Ellipse (Deckfläche) hell gefüllt
+  ctx.fillStyle = 'rgba(138,74,14,0.24)';
+  ctx.beginPath(); ctx.ellipse(cxM, yTop, rx, ry, 0, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+  // Bemassung: Radius auf der Deckfläche
+  drawArrow(ctx, cxM, yTop, cxM + rx - 2, yTop, '#5b2d8e', 2, 8);
+  haloLabel(ctx, 'r = ' + r.toFixed(2) + ' m', cxM + rx * 0.5, yTop - ry - 8, '#5b2d8e', 'center');
+  // Bemassung: Höhe rechts neben dem Tank
+  const hx = cxM + rx + 26;
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(hx - 6, yTop); ctx.lineTo(hx + 6, yTop); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(hx - 6, yBot); ctx.lineTo(hx + 6, yBot); ctx.stroke();
+  drawArrow(ctx, hx, yTop + 3, hx, yBot - 3, '#1f6b3a', 1.6, 7);
+  drawArrow(ctx, hx, yBot - 3, hx, yTop + 3, '#1f6b3a', 1.6, 7);
+  haloLabel(ctx, 'h = ' + h.toFixed(2) + ' m', hx + 10, (yTop + yBot) / 2 + 4, '#1f6b3a', 'left');
+  // Boden-Linie
+  ctx.strokeStyle = '#c9b98a'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(20, yBot + ry + 4); ctx.lineTo(W - 20, yBot + ry + 4); ctx.stroke();
+}
+['a3-r','a3-h'].forEach(id => document.getElementById(id).addEventListener('input', drawA3));
+
+// ══════════════ ANIMATION 4 — Kreis, Winkel, Bogenmass ══════════════
+function drawA4() {
+  const phiDeg = +document.getElementById('a4-phi').value;
+  const r      = +document.getElementById('a4-r').value;
+  const phi = phiDeg * Math.PI / 180;
+  const s = r * phi;
+  const U = 2 * Math.PI * r;
+  document.getElementById('a4-phi-val').textContent  = phiDeg + '°';
+  document.getElementById('a4-r-val').textContent    = r.toFixed(1) + ' m';
+  document.getElementById('a4-live-rad').textContent = phi.toFixed(3) + ' rad';
+  document.getElementById('a4-live-s').textContent   = s.toFixed(2) + ' m';
+  document.getElementById('a4-live-U').textContent   = U.toFixed(2) + ' m';
+
+  // Quadratisches Canvas wie Animation 5 in p4-1
+  const el = document.getElementById('a4-cv'); el.style.width = '';
+  const w = el.offsetWidth || 600;
+  const cv = initCanvas('a4-cv', Math.max(240, Math.min(340, Math.round(w))), false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  const cxC = W / 2, cyC = H / 2;
+  const S = Math.min(W, H);
+  const scale = (S / 2 - 40) / 2;    // 1:1 — r bis 2 m bleibt mit Rand im Bild
+  const R = r * scale;
+
+  // dünne Achsenkreuz-Hilfslinien
+  ctx.strokeStyle = '#eff1f5'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, cyC); ctx.lineTo(W, cyC); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cxC, 0); ctx.lineTo(cxC, H); ctx.stroke();
+  // Kreis (gestrichelt)
+  ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1.4; ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.arc(cxC, cyC, R, 0, 2 * Math.PI); ctx.stroke();
+  ctx.setLineDash([]);
+  // Bogen 0…phi (mathematisch positiv = im Canvas gegen den Uhrzeigersinn)
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.arc(cxC, cyC, R, 0, -phi, true); ctx.stroke();
+  // Startarm (0°) und Radiusarm bei phi
+  ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(cxC, cyC); ctx.lineTo(cxC + R, cyC); ctx.stroke();
+  const px = cxC + R * Math.cos(phi), py = cyC - R * Math.sin(phi);
+  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 2.4;
+  ctx.beginPath(); ctx.moveTo(cxC, cyC); ctx.lineTo(px, py); ctx.stroke();
+  // Winkelbogen nahe dem Zentrum
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.8;
+  ctx.beginPath(); ctx.arc(cxC, cyC, 22, 0, -phi, true); ctx.stroke();
+  // Labels: phi, r, s (mit Halo, Rand-sicher zentriert innen)
+  if (phiDeg > 12) {
+    const mid = phi / 2;
+    haloLabel(ctx, 'φ = ' + phiDeg + '°', cxC + 38 * Math.cos(mid) + 12, cyC - 38 * Math.sin(mid) + 4, '#1f6b3a', 'left');
+  }
+  haloLabel(ctx, 'r', cxC + 0.55 * R * Math.cos(phi) - 12, cyC - 0.55 * R * Math.sin(phi) - 6, '#5b2d8e', 'center');
+  if (phiDeg > 20) {
+    const am = phi * 0.6;
+    const lx = cxC + (R + 16) * Math.cos(am), ly = cyC - (R + 16) * Math.sin(am);
+    haloLabel(ctx, 's = ' + s.toFixed(2) + ' m', Math.min(Math.max(lx, 58), W - 58), ly + 4, '#8a4a0e', 'center');
+  }
+  // Punkt auf dem Kreis + Zentrum
+  ctx.fillStyle = '#8a4a0e';
+  ctx.beginPath(); ctx.arc(px, py, 6, 0, 2 * Math.PI); ctx.fill();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = '#1c1a17';
+  ctx.beginPath(); ctx.arc(cxC, cyC, 3.5, 0, 2 * Math.PI); ctx.fill();
+  // Umfang-Hinweis oben links
+  haloLabel(ctx, 'U = 2π·r = ' + U.toFixed(2) + ' m', 10, 18, '#3d566b', 'left');
+}
+['a4-phi','a4-r'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+
+// ══════════════ ANIMATION 5 — Zehnerpotenz-Schieber ══════════════
+const A5MARKS = [
+  // [Name, Wert in m, Label-Zeile 0=hoch/1=tief]
+  ['Haar',        7e-5,    1],
+  ['Ameise',      5e-3,    0],
+  ['Mensch',      1.8,     1],
+  ['Fussballfeld',105,     0],
+  ['Bern–Zürich', 1.2e5,   1],
+  ['Erd-⌀',       1.27e7,  0],
+  ['Erde–Mond',   3.84e8,  1]
+];
+function drawA5() {
+  const m = +document.getElementById('a5-m').value;
+  const n = +document.getElementById('a5-n').value;
+  const mInt = Math.round(m * 10);
+  const mStr = (mInt % 10 === 0) ? String(mInt / 10) : (mInt / 10).toFixed(1);
+  document.getElementById('a5-m-val').textContent = (mInt / 10).toFixed(1);
+  document.getElementById('a5-n-val').textContent = (n < 0 ? '−' + (-n) : String(n));
+
+  // ausgeschriebene Dezimalzahl exakt aus Ganzzahlen aufbauen (keine Float-Artefakte)
+  let digits, e10;
+  if (mInt % 10 === 0) { digits = String(mInt / 10); e10 = n; }
+  else                 { digits = String(mInt);      e10 = n - 1; }
+  let dec;
+  if (e10 >= 0) dec = digits + '0'.repeat(e10);
+  else {
+    const k = -e10;
+    dec = (k < digits.length)
+      ? digits.slice(0, digits.length - k) + '.' + digits.slice(digits.length - k)
+      : '0.' + '0'.repeat(k - digits.length) + digits;
+  }
+  // Engineering-Schreibweise: Exponent als Vielfaches von 3
+  const engExp = 3 * Math.floor(n / 3);
+  const mantEng = Math.round(m * Math.pow(10, n - engExp) * 10) / 10;
+  const mantEngStr = (mantEng % 1 === 0) ? String(mantEng) : mantEng.toFixed(1);
+  const prefixes = { '-6':'µm', '-3':'mm', '0':'m', '3':'km', '6':'Mm', '9':'Gm' };
+  document.getElementById('a5-live-dec').textContent = dec + ' m';
+  document.getElementById('a5-live-sci').textContent = mStr + '·10' + sup(n) + ' m';
+  document.getElementById('a5-live-eng').textContent = mantEngStr + '·10' + sup(engExp) + ' m';
+  document.getElementById('a5-live-pre').textContent = mantEngStr + ' ' + prefixes[String(engExp)];
+
+  // ── Log-Leiter ──
+  const cv = initCanvas('a5-cv', 250, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  const L = 42, Rm = 18, axisY = 158;
+  const X = e => L + (e + 6) / 15 * (W - L - Rm);
+  // Achse
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(L - 8, axisY); ctx.lineTo(W - 6, axisY); ctx.stroke();
+  ctx.fillStyle = '#374151';
+  ctx.beginPath(); ctx.moveTo(W - 12, axisY - 4); ctx.lineTo(W - 4, axisY); ctx.lineTo(W - 12, axisY + 4); ctx.fill();
+  // Dekaden-Ticks, Beschriftung alle 3 Stufen
+  ctx.font = '13px JetBrains Mono,monospace';
+  for (let e = -6; e <= 9; e++) {
+    const big = (e % 3 === 0);
+    ctx.strokeStyle = big ? '#374151' : '#b8c4d4';
+    ctx.lineWidth = big ? 1.4 : 1;
+    ctx.beginPath(); ctx.moveTo(X(e), axisY - (big ? 7 : 4)); ctx.lineTo(X(e), axisY + (big ? 7 : 4)); ctx.stroke();
+    if (big) {
+      ctx.fillStyle = '#6b7280'; ctx.textAlign = 'center';
+      ctx.fillText('10' + sup(e), X(e), axisY + 22);
+    }
+  }
+  // Achsen-Caption
+  ctx.fillStyle = '#374151'; ctx.textAlign = 'right';
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.fillText('Länge [m] · jede Stufe = ×10', W - 6, H - 8);
+  // Vergleichsobjekte
+  for (const [name, val, row] of A5MARKS) {
+    const x = X(Math.log10(val));
+    const yLbl = row === 0 ? axisY - 78 : axisY - 44;
+    ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, axisY - 6); ctx.lineTo(x, yLbl + 8); ctx.stroke();
+    ctx.fillStyle = '#3d566b';
+    ctx.beginPath(); ctx.arc(x, yLbl + 8, 2.5, 0, 2 * Math.PI); ctx.fill();
+    const lx = Math.min(Math.max(x, 40), W - 46);
+    haloLabel(ctx, name, lx, yLbl, '#3d566b', 'center');
+  }
+  // aktueller Wert
+  const xNow = X(n + Math.log10(m));
+  ctx.fillStyle = '#8a4a0e';
+  ctx.beginPath(); ctx.arc(xNow, axisY, 7, 0, 2 * Math.PI); ctx.fill();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+  const lxNow = Math.min(Math.max(xNow, 70), W - 80);
+  haloLabel(ctx, mStr + '·10' + sup(n) + ' m', lxNow, axisY + 44, '#8a4a0e', 'center');
+}
+['a5-m','a5-n'].forEach(id => document.getElementById(id).addEventListener('input', drawA5));
+
+// ══════════════ ANIMATION 6 — Formel-Waage ══════════════
+const A6F = [
+  { btn:'a6-f0', vars:['s','t'],
+    steps:{
+      s: [ { l:'v',     r:'s/t', op:'Start — Ziel: s allein' },
+           { l:'v·t',   r:'s',   op:'beide Seiten · t' },
+           { l:'s',     r:'v·t', op:'Seiten tauschen — fertig: s = v·t' } ],
+      t: [ { l:'v',     r:'s/t', op:'Start — Ziel: t allein' },
+           { l:'v·t',   r:'s',   op:'beide Seiten · t' },
+           { l:'t',     r:'s/v', op:'beide Seiten : v — fertig: t = s/v' } ] } },
+  { btn:'a6-f1', vars:['m','a'],
+    steps:{
+      m: [ { l:'F',     r:'m·a', op:'Start — Ziel: m allein' },
+           { l:'F/a',   r:'m',   op:'beide Seiten : a' },
+           { l:'m',     r:'F/a', op:'Seiten tauschen — fertig: m = F/a' } ],
+      a: [ { l:'F',     r:'m·a', op:'Start — Ziel: a allein' },
+           { l:'F/m',   r:'a',   op:'beide Seiten : m' },
+           { l:'a',     r:'F/m', op:'Seiten tauschen — fertig: a = F/m' } ] } },
+  { btn:'a6-f2', vars:['h','r'],
+    steps:{
+      h: [ { l:'V',        r:'π·r²·h',      op:'Start — Ziel: h allein' },
+           { l:'V/(π·r²)', r:'h',           op:'beide Seiten : (π·r²)' },
+           { l:'h',        r:'V/(π·r²)',    op:'Seiten tauschen — fertig' } ],
+      r: [ { l:'V',        r:'π·r²·h',      op:'Start — Ziel: r allein' },
+           { l:'V/(π·h)',  r:'r²',          op:'beide Seiten : (π·h)' },
+           { l:'√(V/(π·h))', r:'r',         op:'auf beiden Seiten die Wurzel ziehen' },
+           { l:'r',        r:'√(V/(π·h))',  op:'Seiten tauschen — fertig' } ] } }
+];
+const a6St = { f: 0, v: 0, step: 0 };
+
+function drawA6() {
+  const F = A6F[a6St.f];
+  const steps = F.steps[F.vars[a6St.v]];
+  const st = steps[a6St.step];
+  document.getElementById('a6-eq').textContent = st.l + ' = ' + st.r;
+  const last = a6St.step === steps.length - 1;
+  document.getElementById('a6-step').textContent = last ? '✓ Ziel erreicht' : '▶ nächster Schritt';
+
+  const cv = initCanvas('a6-cv', 230, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  const beamY = 78;
+  const half = Math.min(160, W / 2 - 78);
+  const lx = W / 2 - half, rx = W / 2 + half;
+  // Fundament + Ständer (Dreieck)
+  ctx.fillStyle = '#d8d2c6';
+  ctx.beginPath(); ctx.moveTo(W / 2, beamY + 2); ctx.lineTo(W / 2 - 26, beamY + 72); ctx.lineTo(W / 2 + 26, beamY + 72); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#8a7f6a'; ctx.lineWidth = 1.4; ctx.stroke();
+  ctx.strokeStyle = '#8a7f6a'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(W / 2 - 60, beamY + 74); ctx.lineTo(W / 2 + 60, beamY + 74); ctx.stroke();
+  // Balken (immer im Gleichgewicht)
+  ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(lx, beamY); ctx.lineTo(rx, beamY); ctx.stroke();
+  ctx.fillStyle = '#1c1a17';
+  ctx.beginPath(); ctx.arc(W / 2, beamY, 5, 0, 2 * Math.PI); ctx.fill();
+  // Schnüre + Schalen
+  for (const px of [lx, rx]) {
+    ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.moveTo(px, beamY); ctx.lineTo(px - 46, beamY + 34); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px, beamY); ctx.lineTo(px + 46, beamY + 34); ctx.stroke();
+    ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(px - 52, beamY + 34); ctx.lineTo(px + 52, beamY + 34); ctx.stroke();
+  }
+  // Gleichungsseiten auf den Schalen
+  ctx.font = 'bold 15px JetBrains Mono,monospace';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#1c1a17';
+  ctx.fillText(st.l, lx, beamY + 58);
+  ctx.fillText(st.r, rx, beamY + 58);
+  // Gleichheitszeichen in der Mitte
+  ctx.fillStyle = '#9aa1ab';
+  ctx.font = 'bold 16px JetBrains Mono,monospace';
+  ctx.fillText('=', W / 2, beamY + 58);
+  // Operation (violett) + Schrittzähler
+  ctx.fillStyle = '#5b2d8e';
+  ctx.font = 'bold 14px JetBrains Mono,monospace';
+  ctx.fillText(st.op, W / 2, H - 34);
+  ctx.fillStyle = '#6b7280';
+  ctx.font = '13px JetBrains Mono,monospace';
+  ctx.fillText('Schritt ' + (a6St.step + 1) + ' / ' + steps.length, W / 2, H - 12);
+}
+function a6SetButtons() {
+  ['a6-f0','a6-f1','a6-f2'].forEach((id, i) => {
+    document.getElementById(id).classList.toggle('aktiv', i === a6St.f);
+  });
+  const F = A6F[a6St.f];
+  document.getElementById('a6-t0').textContent = 'nach ' + F.vars[0];
+  document.getElementById('a6-t1').textContent = 'nach ' + F.vars[1];
+  document.getElementById('a6-t0').classList.toggle('aktiv', a6St.v === 0);
+  document.getElementById('a6-t1').classList.toggle('aktiv', a6St.v === 1);
+}
+['a6-f0','a6-f1','a6-f2'].forEach((id, i) => {
+  document.getElementById(id).addEventListener('click', () => {
+    a6St.f = i; a6St.v = 0; a6St.step = 0;
+    a6SetButtons(); drawA6();
+  });
+});
+[['a6-t0', 0], ['a6-t1', 1]].forEach(([id, i]) => {
+  document.getElementById(id).addEventListener('click', () => {
+    a6St.v = i; a6St.step = 0;
+    a6SetButtons(); drawA6();
+  });
+});
+document.getElementById('a6-step').addEventListener('click', () => {
+  const steps = A6F[a6St.f].steps[A6F[a6St.f].vars[a6St.v]];
+  if (a6St.step < steps.length - 1) { a6St.step++; drawA6(); }
+});
+document.getElementById('a6-reset').addEventListener('click', () => {
+  a6St.step = 0; drawA6();
+});
+
+// ══════════════ INIT + RESIZE ══════════════
+function renderAll() {
+  drawA1(); drawA2(); drawA3(); drawA4(); drawA5(); a6SetButtons(); drawA6();
+}
+document.addEventListener('DOMContentLoaded', renderAll);
+// Bei Breitenänderung neu zeichnen — per rAF gedrosselt (Muster p4-1)
+let resizeRaf = null;
+window.addEventListener('resize', () => {
+  if (resizeRaf) return;
+  resizeRaf = requestAnimationFrame(() => { resizeRaf = null; renderAll(); });
+});
+</script>
+</body>
+</html>
