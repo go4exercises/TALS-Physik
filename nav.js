@@ -28,6 +28,7 @@ const SITE = {
     { id:'p5-2', nr:'5.2', titel:'Wärme',                          url:'themen/p5-2-waerme.html' },
     { id:'p5-3', nr:'5.3', titel:'Wärmeausdehnung',                url:'themen/p5-3-waermeausdehnung.html' },
     { id:'p6-1', nr:'6.1', titel:'Wellen',                         url:'themen/p6-1-wellen.html' },
+    { id:'p6-1a', nr:'6.1a', titel:'Wellenexperimente',            url:'themen/p6-1a-wellenexperimente.html' },
     { id:'p6-2', nr:'6.2', titel:'Elektrizität',                   url:'themen/p6-2-elektrizitaet.html' },
   ]
 };
@@ -37,7 +38,7 @@ const GROUPS = [
   { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-0','p0-1','p0-2','p0-3','p0-4'] },
   { nr:'4', titel:'Mechanik',                            lek:100, ids:['p4-1','p4-2','p4-3','p4-4','p4-5'] },
   { nr:'5', titel:'Thermodynamik',                       lek:30,  ids:['p5-1','p5-2','p5-3'] },
-  { nr:'6', titel:'Einführung in andere Bereiche der Physik', lek:30, ids:['p6-1','p6-2'] }
+  { nr:'6', titel:'Einführung in andere Bereiche der Physik', lek:30, ids:['p6-1','p6-1a','p6-2'] }
 ];
 
 function buildNav(cfg) {
@@ -123,6 +124,7 @@ function buildNav(cfg) {
     <ul>
       <li>Alle 10 Teilgebiete vollständig (Lerngebiete 4 Mechanik, 5 Thermodynamik, 6 Wellen und Elektrizität)</li>
       <li>Kapitel 0 Vorwissen (5 Seiten zur Sek-I-Auffrischung: kompakte Alltagstour plus Mathematik, Physik, Technik, Logik — kein RLP-Lerngebiet)</li>
+      <li>6.1a Wellenexperimente — dynamische Vertiefungsseite zu 6.1 (Transversal-/Longitudinalwellen, Superposition, stehende Wellen)</li>
       <li>Je Themenseite: interaktive Animationen, Aufgaben, Zusammenfassung, 5 Druckseiten/Materialien und externe Ressourcen</li>
     </ul>
     <div class="meta-sub">Geplant</div>
