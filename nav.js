@@ -14,6 +14,7 @@
 
 const SITE = {
   themen: [
+    { id:'p0-0', nr:'0.0', titel:'Vorwissen — die Alltagstour',    url:'themen/p0-0-vorwissen-kompakt.html' },
     { id:'p0-1', nr:'0.1', titel:'Mathematisches Vorwissen',       url:'themen/p0-1-vorwissen-mathematik.html' },
     { id:'p0-2', nr:'0.2', titel:'Physikalisches Alltagsverständnis', url:'themen/p0-2-vorwissen-physik.html' },
     { id:'p0-3', nr:'0.3', titel:'Technisches Vorwissen',          url:'themen/p0-3-vorwissen-technik.html' },
@@ -33,7 +34,7 @@ const SITE = {
 
 // Lerngebiet-Gruppen für die Dropdown-Anzeige
 const GROUPS = [
-  { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-1','p0-2','p0-3','p0-4'] },
+  { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-0','p0-1','p0-2','p0-3','p0-4'] },
   { nr:'4', titel:'Mechanik',                            lek:100, ids:['p4-1','p4-2','p4-3','p4-4','p4-5'] },
   { nr:'5', titel:'Thermodynamik',                       lek:30,  ids:['p5-1','p5-2','p5-3'] },
   { nr:'6', titel:'Einführung in andere Bereiche der Physik', lek:30, ids:['p6-1','p6-2'] }
@@ -121,7 +122,7 @@ function buildNav(cfg) {
     <div class="meta-sub">Erstellt</div>
     <ul>
       <li>Alle 10 Teilgebiete vollständig (Lerngebiete 4 Mechanik, 5 Thermodynamik, 6 Wellen und Elektrizität)</li>
-      <li>Kapitel 0 Vorwissen (4 Seiten zur Sek-I-Auffrischung: Mathematik, Physik, Technik, Logik — kein RLP-Lerngebiet)</li>
+      <li>Kapitel 0 Vorwissen (5 Seiten zur Sek-I-Auffrischung: kompakte Alltagstour plus Mathematik, Physik, Technik, Logik — kein RLP-Lerngebiet)</li>
       <li>Je Themenseite: interaktive Animationen, Aufgaben, Zusammenfassung, 5 Druckseiten/Materialien und externe Ressourcen</li>
     </ul>
     <div class="meta-sub">Geplant</div>
