@@ -136,14 +136,6 @@ function buildNav(cfg) {
       <li><a href="https://github.com/go4exercises/TALS-Mathe" target="_blank" rel="noopener" class="meta-link">TALS Mathematik</a> — gleicher Aufbau für das Fach Mathematik</li>
     </ul>`;
 
-  const metaFeedbackHTML = `
-    <div class="meta-titel">Feedback</div>
-    <p>Fehler gefunden? Verbesserungsvorschlag? Fehlendes Thema?
-       Bitte über den GitHub-Issue-Tracker melden — so geht keine Rückmeldung verloren
-       und alle anderen profitieren von der Diskussion.</p>
-    <p><a href="https://github.com/go4exercises/TALS-Physik/issues/new" target="_blank" rel="noopener" class="meta-link">
-       → Issue auf GitHub erstellen</a></p>`;
-
   const metaLizenzHTML = `
     <div class="meta-titel">Lizenz</div>
     <p>Inhalte erstellt mit Unterstützung von <strong>Claude</strong> (Anthropic).</p>
@@ -189,17 +181,16 @@ function buildNav(cfg) {
         <div class="ueber-tabs" role="tablist">
           <button class="ueber-tab aktiv" role="tab" data-target="ueber-autor">Autor &amp; Intention</button>
           <button class="ueber-tab"        role="tab" data-target="ueber-ausblick">Ausblick</button>
-          <button class="ueber-tab"        role="tab" data-target="ueber-feedback">Feedback</button>
           <button class="ueber-tab"        role="tab" data-target="ueber-lizenz">Lizenz</button>
         </div>
         <div class="ueber-panels">
           <div class="ueber-panel aktiv" id="ueber-autor"   role="tabpanel">${metaAutorHTML}</div>
           <div class="ueber-panel"        id="ueber-ausblick" role="tabpanel">${metaAusblickHTML}</div>
-          <div class="ueber-panel"        id="ueber-feedback" role="tabpanel">${metaFeedbackHTML}</div>
           <div class="ueber-panel"        id="ueber-lizenz"   role="tabpanel">${metaLizenzHTML}</div>
         </div>
       </div>
     </div>
+    <a href="${prefix}feedback.html" class="nav-meta">Feedback</a>
   </nav>
   <button class="burger" onclick="toggleMobileNav()" aria-label="Navigation">☰</button>
 </header>
@@ -210,8 +201,8 @@ function buildNav(cfg) {
   <div class="mn-gruppe">Über dieses Lehrmittel</div>
   <details class="mn-meta"><summary>Autor &amp; Intention</summary><div class="mn-meta-body">${metaAutorHTML}</div></details>
   <details class="mn-meta"><summary>Ausblick</summary><div class="mn-meta-body">${metaAusblickHTML}</div></details>
-  <details class="mn-meta"><summary>Feedback</summary><div class="mn-meta-body">${metaFeedbackHTML}</div></details>
   <details class="mn-meta"><summary>Lizenz</summary><div class="mn-meta-body">${metaLizenzHTML}</div></details>
+  <a href="${prefix}feedback.html">Feedback</a>
 </div>`;
 
   document.getElementById('nav-root').innerHTML = headerHTML;
