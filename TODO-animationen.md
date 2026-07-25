@@ -1,0 +1,373 @@
+# TODO — Didaktisches Review aller Canvas-Animationen
+
+Stand: 25.07.2026. Grundlage: systematische Durchsicht aller 16 Themenseiten
+(~130 Canvas-Elemente) samt umgebendem HTML, Bedienelementen, Hinweis-Popups und
+Zeichencode. Bewertungskriterien: Verständlichkeit, Nachvollziehbarkeit der
+Kausalzusammenhänge, Explorations-Anreiz, Parameterwahl, Struktur (Streichung /
+Zusammenlegung / Ergänzung).
+
+Prioritäten: **[HOCH]** = Bild widerspricht dem eigenen Lehrtext, ist fachlich
+falsch oder der Kern-Lerneffekt ist unsichtbar. **[MITTEL]** = deutlicher
+didaktischer Gewinn mit vertretbarem Aufwand. **[NIEDRIG]** = Feinschliff.
+
+Positiv vorweg: Das Muster «Szene + Diagramm + formel-live + Live-Box» trägt
+durchgehend; p6-1a ist auf dem höchsten Niveau (Grid + Achsen, Tempo/Reset,
+Momentbild + Mitschrieb, dynamische Labels) und taugt als hausinterner Standard.
+Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
+
+---
+
+## A. Querschnittsbefunde (mehrere Seiten, gemeinsame Ursache)
+
+- [ ] **[HOCH] Q1 — Mitwachsende/adaptive Achsen neutralisieren den Lerneffekt.**
+  Die Achse skaliert mit dem Parameter mit, dadurch sieht der Graph bei jeder
+  Einstellung gleich aus; genau der versprochene Vergleich (Steigung, wandernder
+  Punkt) wird unsichtbar. Fix: feste Achsen oder feste Referenzkurve.
+  Betroffen: p0-4 a1 (Feder), p0-4 a2 (s = v·t), p0-4 a4 (Einholproblem),
+  p4-5 a1-cv-ph (p(h) je Dichte), p5-2 a1 (Wärmebedarf-Balken), p6-1 a3
+  (Schall-Balken), p6-2 a1 (U-I-Kennlinie), p0-0 a6 / p0-2 a1 (Dichte-Balken).
+- [ ] **[HOCH] Q2 — Überhöhungsfaktoren nicht am Reglermaximum kalibriert (Sättigung).**
+  p5-3 a1 (Faktor 4000 → ≈260), p5-3 a2 (120 → ≈4.5), p5-3 a4 (120 → ≈46):
+  Die Grafik klemmt über weite Bereiche am Anschlag, Materialwechsel und
+  ΔT-Regler ändern das Bild nicht. Ein gemeinsamer, kleiner Fix.
+- [ ] **[MITTEL] Q3 — Pfeillängen mit Sockel/Cap oder fix statt proportional.**
+  Wo der Grössenvergleich der Pfeile die Botschaft ist, muss streng proportional
+  skaliert werden. Betroffen: p4-1 a5 (v/a_z), p4-2 a2 (F/a), p4-2 a6
+  (v-Pfeile gecappt), p4-5 a5 (F_G/F_A fix 35 px). Vorbild: p4-2 a5.
+- [ ] **[MITTEL] Q4 — «Worauf achten»-Aufträge, die das Widget nicht ausführen kann.**
+  Entweder Feature nachrüsten (bevorzugt, siehe Einzelpunkte) oder Hinweistext
+  anpassen: p4-1 a3 (Fallwege vergleichen ohne Zeitlupe/Spur), p4-2 a3
+  (Bezugssystem wechseln ohne Umschalter), p4-2 a4 («losruckt» ohne Bewegung),
+  p6-1a a2 (zwei Teilchen vergleichen, nur eines markierbar), p5-2 a4
+  (Vakuum-Frage ohne Vakuum), p0-2 a1 (Balken reagieren nicht).
+- [ ] **[MITTEL] Q5 — Vergleiche ohne Gedächtnis.** Serielle Vergleiche (erst A
+  einstellen, dann B, Wert merken) durch Geister-/Referenzdarstellungen ersetzen:
+  p4-2 a2 («letzter Lauf»-Zeile), p4-3 a2-diag (Geister-Punkt bei 2v), p0-2 a2
+  (Referenzmarken Erde/Mond/Mars), p4-1 a4 («Bahn festhalten»), p5-3 a1/a2
+  (Referenzstab/-gefäss Eisen).
+- [ ] **[MITTEL] Q6 — Tempo-Regler + Reset (p6-1a-Standard) nachrüsten** bei den
+  animierten Widgets ohne: p4-1 a3 (freier Fall), p6-1 ein-cv, a1, a2, a5.
+
+---
+
+## B. Fachliche Fehler (vor allem anderen beheben)
+
+- [ ] **[HOCH] p6-2 ein-cv:** Elektronen laufen aussen von + nach −; die
+  Erkenntnis-Box lehrt das Gegenteil. Umlaufrichtung umkehren, Pfeile
+  «Elektronen» vs. «technische Stromrichtung» beschriften.
+- [ ] **[HOCH] p6-1 a2:** Labels «Verdichtung»/«Verdünnung» stehen ortsfest,
+  das Dichtemuster wandert — Beschriftung meist an der falschen Stelle.
+  Labelposition aus der Phase berechnen (Lösung existiert in p6-1a, Z. 1094 ff.).
+- [ ] **[HOCH] p6-1 a1 (c = λ·f):** λ und f unabhängig einstellbar, c abgeleitet —
+  erzeugt das Fehlkonzept «Medium passt seine Geschwindigkeit an», im Widerspruch
+  zum eigenen Theorieblock und zu p6-1a A2. Kausalität umdrehen (Regler f und c,
+  λ = c/f abgeleitet); zudem Gitter + s-Achse ergänzen.
+- [ ] **[HOCH] p5-2 a6 (Treibhaus):** Bei 280 ppm wird kein einziger IR-Strahl
+  zurückgeworfen — der natürliche Treibhauseffekt (Mini-Check!) existiert im
+  Modell nicht. Basis-Rückhaltung > 0 bei 280 ppm, Regler-Effekt als «zusätzlich»
+  beschriften; Rückstrahlung als Re-Emission statt Spiegelreflexion zeichnen [MITTEL].
+- [ ] **[HOCH] p5-1 a1 (Gasteilchen):** Alle Teilchen haben exakt dasselbe Tempo —
+  der direkt folgende Missverständnis-Block lehrt «Temperatur ist nur der
+  Mittelwert». Feste Geschwindigkeitsstreuung (Faktor ≈0.5–1.6) einbauen.
+- [ ] **[HOCH] p0-3 a1 (Präfix-Leiter):** Im Zeit-Modus erscheinen die Sprossen
+  «hs», «ks», «Ms» — widerspricht dem eigenen Lehrtext («oberhalb der Sekunde
+  nicht dezimal»). Obere Sprossen ausblenden oder durch min/h ersetzen.
+- [ ] **[HOCH] p6-2 a4 (Parallelschaltung):** Der rechte Rahmen ist topologisch
+  ein Kurzschluss-Zweig ohne Strompunkte. Leitung beim zweiten Zweig enden lassen.
+- [ ] **[MITTEL] p6-2 a6:** Zonengrenzen sind vereinfachte Eigenformeln, aber mit
+  «IEC» beschriftet — «vereinfacht nach IEC 60479» deklarieren oder verifizieren.
+- [ ] **[MITTEL] p4-3 a4:** Text sagt «Dehnung», gezeichnet ist eine Stauchung —
+  Bild oder Wortwahl («Auslenkung») vereinheitlichen.
+- [ ] **[MITTEL] p4-5 a2:** Titel «Drei verbundene Gefässe», gezeichnet sind
+  getrennte Gefässe — Titel korrigieren oder Verbindungsrohr einzeichnen.
+
+---
+
+## C. Todo je Seite
+
+### p0-0 Vorwissen kompakt
+- [ ] [HOCH] a6 Dichte-Würfel: feste, beschriftete Massenskala statt Normierung
+  aufs Maximum (Balken reagieren sonst weder auf Stoff- noch Kantenlängenwechsel).
+  Gemeinsamer Fix mit p0-2 a1 (Code dupliziert).
+- [ ] [HOCH] a8 Teilchenmodell: Autostart beim Sichtbarwerden (Bewegungs-Widget
+  darf nicht standardmässig stillstehen). Gemeinsamer Fix mit p0-2 a6.
+- [ ] [HOCH] a2 Dreisatz: Zwischenschritt-Punkt (1 kg, 2.50 CHF) im Diagramm
+  markieren — sonst mit a1 zusammenlegen (Umschalter «Proportionalität/Dreisatz»).
+- [ ] [MITTEL] a1: zweiter Regler «Kilopreis» (Steigung als Ursache erlebbar).
+- [ ] [MITTEL] a3 Zylinder: Volumen-Balken mit fester Literskala neben der Zeichnung.
+- [ ] [MITTEL] a4 Tempo-Doppelskala: formel-live-Zeile «v = 108 / 3.6 = 30.0 m/s».
+- [ ] [MITTEL] a7 Treppenlauf: Masse-Regler + W-Balken (Kontrast Arbeit/Leistung
+  prüfbar machen); optional Play-Knopf (Figur steigt in Zeit t).
+- [ ] [NIEDRIG] a5 Faustregel-Diagramm: Abweichung als Klammer am Punkt sichtbar machen.
+
+### p0-1 Vorwissen Mathematik
+- [ ] [HOCH] a1-sz Tauchszene: lastende Wassersäule über dem Taucher einfärben —
+  der Mechanismus «mehr Wasser über dir → mehr Druck» ist sonst unsichtbar.
+- [ ] [HOCH] a2 Hyperbel: konstantes Produkt als halbtransparentes Rechteck unter
+  dem Kurvenpunkt («Fläche = v·t = 120 km») — zeigt, warum die Kurve so fällt.
+- [ ] [HOCH] a6 Formel-Waage: Fehler-Demo «nur eine Seite ·t» → Waage kippt
+  sichtbar. Sonst ist die Waage Dekoration. Dazu [MITTEL] Schritthistorie
+  (alle bisherigen Gleichungszeilen) unter der Waage.
+- [ ] [MITTEL] a4 Bogenmass: Rastpunkt/Knopf «1 rad (57.3°)» + Radiuslänge als
+  gerades Vergleichssegment an den Bogen anlegen.
+- [ ] [MITTEL] a5 Zehnerpotenz-Leiter: Achse und Sliderbereich konsistent machen
+  (bei n = 9, m > 1 läuft der Punkt über das Achsenende hinaus).
+- [ ] [MITTEL] a1-ph: Steigungsdreieck (1 m / 9.81 kPa) an der Geraden.
+- [ ] [NIEDRIG] a3 Zylindertank: Volumen-Balken (wie p0-0 a3, Code dupliziert).
+
+### p0-2 Vorwissen Physik
+- [ ] [HOCH] a1 Dichte-Würfel + a6 Teilchenmodell: identische Fixes wie p0-0
+  (feste Massenskala, Autostart) — in beiden Dateien konsistent umsetzen.
+- [ ] [HOCH] a3 Hubarbeit: W als Balken mit fester Joule-Skala; Kistengrösse von
+  der Masse entkoppeln (suggeriert sonst Masse ∝ Volumen — direkt nach dem
+  Dichte-Abschnitt). Dazu [MITTEL] formel-live-Zeile.
+- [ ] [MITTEL] a2 Federwaage: Referenzmarken der anderen Orte dauerhaft an der
+  Skala (Erde/Mars/Mond) — der Sechstel-Vergleich wird zum Ablesen.
+- [ ] [MITTEL] a4 Rutsche: Play-Knopf «rutschen lassen» (beschleunigt) —
+  Geschwindigkeitszunahme sichtbar, ohne ½mv² vorwegzunehmen.
+- [ ] [MITTEL] a5 Treppenlauf: wie p0-0 a7 (Code dupliziert).
+
+### p0-3 Vorwissen Technik
+- [ ] [HOCH] a1 Präfix-Leiter: Zeit-Modus fixen (siehe Block B).
+- [ ] [HOCH] a2 Tempo-Umrechner: formel-live-Zeile mit der Division durch 3.6.
+- [ ] [HOCH] a3 Quadratmeter-Raster: den n³-Wert visuell einlösen (Mini-Würfel
+  oder Textzeile unter dem Canvas) — aktuell 2D-Bild mit unbelegter 3D-Zahl.
+- [ ] [MITTEL] a4 Temperaturverlauf: Umschalter «Tangente | Sekante» mit zweitem
+  ziehbarem Punkt (deckt Aufgabe A4.3 ab, bereitet Kinematik vor).
+- [ ] [MITTEL] a5 Tauchgang: Differenz-Panel (Δp gespreizt) unter dem Hauptplot.
+- [ ] [MITTEL] a1: Hinweis «Skala logarithmisch — gleicher Abstand = Faktor 10».
+
+### p0-4 Vorwissen Logik
+- [ ] [HOCH] a1 Feder: y-Achse fest (0–85 cm), inaktive Feder-Gerade grau stehen
+  lassen — erst dann ändert der Federwechsel sichtbar die Steigung.
+- [ ] [HOCH] a2 s = v·t: feste s-Achse 0–600 m in beiden Modi — die Gerade kippt
+  beim Verstellen der Konstante; genau dieser Unterschied ist die Lektion.
+- [ ] [HOCH] a4 Einholproblem: Zeitachse fixieren (0–120 s) — t* «explodiert»
+  dann sichtbar nach rechts, statt optisch stehen zu bleiben.
+- [ ] [HOCH] a5 Gegenrechnung: «Fehler einbauen»-Knopf (z.B. t = d/vA) — der
+  ✓-Check kann derzeit nie fehlschlagen, der Prüf-Nutzen ist unerlebbar.
+- [ ] [MITTEL] a5 visuell von a4 absetzen (1D-Strassenleiste mit Velos statt
+  zweitem fast identischem s-t-Graphen).
+- [ ] [MITTEL] a3 Dreisatz: Marker bei (1 kg, 2.50 CHF) «auf 1 zurück»; optional
+  Toggle «mit Mengenrabatt» (Grenze des Dreisatzes explorierbar).
+- [ ] [MITTEL] a2: aktiven «Konstante»-Slider visuell markieren.
+
+### p4-1 Kinematik
+- [ ] [HOCH] a1: t-Regler ergänzen, Fläche unter v(t) nur bis t einfärben,
+  Live-Anzeige «Fläche = v·t = … m» — macht Fläche = Weg quantitativ prüfbar.
+- [ ] [HOCH] a2 (Dreier-Diagramm): Flächen unter a(t) und v(t) bis zum
+  eingestellten t einfärben und als «Fläche = Δv» / «Fläche = s» ausweisen —
+  die Erkenntnis-Box behauptet es, kein Diagramm zeigt es.
+- [ ] [HOCH] a3 Freier Fall: Tempo-Regler (0.25x–1x) + Stroboskop-Spur (alle
+  0.25 s eine blasse Silhouette → s ∝ t² direkt sichtbar); [MITTEL] h₀-Regler
+  mit Live-Fallzeit; [MITTEL] zweiter, schwererer Körper (Massenunabhängigkeit).
+- [ ] [HOCH] a4 Schiefer Wurf: Play-Knopf mit fliegendem Punkt und mitlaufenden
+  Projektionen auf beide Achsen (Überlagerungsprinzip); [MITTEL] Geisterkurve
+  «Bahn festhalten» (30°/60°-Vergleich); [MITTEL] Winkelbogen mit α einzeichnen
+  (nicht-isometrische Achsen verzerren den Winkel).
+- [ ] [HOCH] a6 Schwimmer: animierte Querung mit Bahn und Landepunkt-Versatz in m;
+  [MITTEL] Ziel-Fähnchen + Status «trifft das Ziel» bei γ ≈ 0.
+- [ ] [MITTEL] a0 Zugfahrt: v̄ als gestrichelte Rechteckhöhe über dem Intervall.
+- [ ] [MITTEL] a5 Kreisbewegung: Pause-Knopf; Pfeile streng proportional (Q3).
+- [ ] [MITTEL] herl-cv Trapez: Zerlegung in Rechteck (v0·t) + Dreieck (½at²) tönen.
+- [ ] [MITTEL] Neu: Mini-Canvas «Sekante → Tangente» (Δt-Regler) im
+  Definitions-Abschnitt Momentangeschwindigkeit.
+- [ ] [NIEDRIG] a1: unbeschrifteten Fixpunkt bei t = 5 s beschriften oder entfernen.
+
+### p4-2 Dynamik
+- [ ] [HOCH] a3 Trägheit: Umschalter «Bezugssystem: Strasse | Wagen» — der
+  Hinweis verlangt den Vergleich, das Widget kann ihn nicht; ausserdem feste
+  Bodenmarken (die mitfahrende Kamera ist selbst ein beschleunigtes Bezugssystem).
+- [ ] [HOCH] a5 Hang: Zerlegungs-Rechteck gestrichelt einzeichnen — der Abschnitt
+  heisst «Kräfte zerlegen», die Konstruktion fehlt; [MITTEL] Live-Box mit
+  F_H/F_N/F_R in N und Deklaration der Masse.
+- [ ] [MITTEL] a1 Feder: Modus «Masse anhängen» (m-Regler, s = mg/D) — verbindet
+  Hooke mit F_G = m·g und Aufgabe A1; Steigungsdreieck «D = …» im Diagramm;
+  optional g-Umschalter Erde/Mond (deckt Mond-Transfer im Mini-Check ab).
+- [ ] [MITTEL] a2 F = m·a: «Letzter Lauf»-Zeile (Q5); Pfeile proportional (Q3).
+- [ ] [MITTEL] a4 Reibung: Block beim Übergang kurz losruckeln lassen; Knickpunkt
+  beschriften (μ_H·F_N, gestrichelte Vertikale); a = (F_zug − F_R)/m anzeigen.
+- [ ] [MITTEL] a6 Rückstoss: Produkte m·|v| beidseitig anzeigen (actio = reactio
+  quantitativ); Pfeil-Cap entfernen; kurze Feder-Expansionsphase animieren.
+
+### p4-3 Energie
+- [ ] [HOCH] a1: α-Slider auf 0–90° erweitern — der Kernfall W = 0 bei 90°
+  (Erkenntnis + Mini-Check) ist derzeit nicht einstellbar.
+- [ ] [HOCH] a2: Geister-Punkt bei 2v («×4») bzw. Referenzkurve 2m («×2») in der
+  E(v)-Parabel; Bremsweg-Balken in der Szene (v²-Wirkung körperlich sichtbar,
+  trägt den 30/50-km/h-Einstieg) — sonst ist a2-cv-szene Streichkandidat.
+- [ ] [MITTEL] a3 Pendel: Checkbox «mit Reibung» (E_ges sinkt, Kategorie «Wärme»
+  wächst — beantwortet die ❓-Frage); Pendellänge L = 1.2 m deklarieren.
+- [ ] [MITTEL] a5 Heben: zwei Kisten parallel (t fix vs. Slider-t) — Leistung
+  als Unterschied auf einen Blick statt seriell.
+- [ ] [MITTEL] a6 Wirkungsgrad: Checkbox «zweite Stufe» (η_ges = η₁·η₂ —
+  Transferaufgabe des Mini-Checks).
+- [ ] [NIEDRIG] a4-diag: Querverweis Rechteck (konstante Kraft) vs. Dreieck
+  (lineare Kraft, Faktor ½) im Text/Popup.
+
+### p4-4 Statik
+- [ ] [HOCH] a3 Seile: Werte S₁/S₂/F_G direkt an die Pfeile, bei S > F_G rot —
+  der Aha-Effekt «flache Seile → riesige Kräfte» ist sonst nur in der Live-Box.
+- [ ] [HOCH] a4 Hebel: F⊥-Sicht zusätzlich zur r-Konstruktion darstellen (der
+  Beweis-Block verspricht beide Sichtweisen); [MITTEL] M als Bogenpfeil um D.
+- [ ] [MITTEL] a5 vs. ae-cv (Wippe): doppeln sich — a5 aufwerten (Momenten-Balken
+  M₁/M₂ oder Kraft unter Winkel als Brücke zu a4), sonst a5 streichen und das
+  Hebelgesetz an der Wippe formalisieren.
+- [ ] [MITTEL] a1: Winkelbogen φ am Ursprung (warum wird Fx negativ?).
+- [ ] [MITTEL] a3-tri: Beträge (N) an die Dreieckseiten.
+- [ ] [MITTEL] a7 Schiefe Ebene: Live-Vergleich tan α vs. μ_H bzw. Grenzwinkel
+  arctan μ_H anzeigen.
+- [ ] [NIEDRIG] ae-cv: «m₁ = 25 kg (fix)» im Canvas anschreiben; a6: formel-live.
+
+### p4-5 Hydrostatik
+- [ ] [HOCH] a1-ph: Wasser-Referenzgerade fest einzeichnen oder y-Achse fixieren —
+  die adaptive Skala macht den Dichtevergleich unsichtbar (Q1).
+- [ ] [HOCH] a3 Presse: Knopf «▶ Pressen» (Kolben fahren gegenläufig, Volumen-
+  erhaltung animiert) — trägt den ganzen Abschnitt; [MITTEL] Slider reduzieren
+  (F₁ + Verhältnis A₂/A₁ + s₁ statt vier Einzelregler).
+- [ ] [HOCH] a5 Schwimmen/Sinken: F_G/F_A-Pfeile proportional statt fix 35 px —
+  der Pfeilvergleich IST die Lernbotschaft (Q3).
+- [ ] [MITTEL] a2 Paradoxon: Titel/Bild angleichen (Block B); Checkbox
+  «Bodenkraft F = p·A» (koppelt an den Häufiger-Fehler-Block).
+- [ ] [MITTEL] a4-quader: Haltestab/Hand einzeichnen («wird gehalten» — der
+  frei schwebende Holzquader irritiert); eingetauchtes Volumen schraffieren.
+- [ ] [MITTEL] a6 U-Rohr: Vergleichshöhe als durchgehende Linie durch beide
+  Schenkel + Druckgleichheit an der Grenzfläche anschreiben.
+- [ ] [MITTEL] Neu (in a4 integrierbar): Federwaage «scheinbares Gewicht»
+  (Anzeige sinkt beim Eintauchen um F_A) — Transfer «Stein unter Wasser».
+
+### p5-1 Temperatur
+- [ ] [HOCH] ein-cv Brown: Checkbox «Wasserteilchen anzeigen» (Default aus) —
+  erst das rätselhafte Zittern, dann die Ursache; sonst ist die Pointe verschenkt.
+- [ ] [HOCH] a1 Gasteilchen: Geschwindigkeitsstreuung (Block B); [MITTEL] ein
+  markiertes Teilchen mit Momentantempo neben dem Mittelwert.
+- [ ] [HOCH] a5 Extrapolation: zweite Gasgerade (anderer Anfangsdruck) — beide
+  treffen −273.15 °C; [MITTEL] Extrapolation als Entdeckung (Checkbox
+  «Gerade verlängern», vorher nur Messpunkte).
+- [ ] [HOCH] a2 Aggregatzustände: Tm/Tb-Marken des gewählten Stoffs am Regler —
+  macht Vorhersagen möglich statt Absuchen; [MITTEL] Koexistenz-Zone um Tm.
+- [ ] [MITTEL] a3 Thermometer: Sprungknöpfe «0 K · 0 °C · 37 °C · 100 °C».
+- [ ] [MITTEL] a4 Zahlenstrahl: Vorzeichen der Differenz vereinheitlichen.
+
+### p5-2 Wärme
+- [ ] [HOCH] a1 Wärmebedarf: feste kJ-Achse statt qmax-Normierung — m- und
+  ΔT-Regler haben derzeit keinerlei sichtbare Wirkung (Q1); Achse beschriften.
+- [ ] [HOCH] a3 Heizkurve: aktive Teilformel je Phase anzeigen («gerade gilt:
+  Q = m·L_v, T bleibt 100 °C»); [MITTEL] Segment-Energien (4.2/33.4/41.8/225.6 kJ)
+  als Klammern — belegt «Verdampfen verschlingt am meisten».
+- [ ] [HOCH] a4 Transportarten: Checkbox «Vakuum» — beantwortet die eigene
+  Leitfrage und den Thermoskannen-Transfer.
+- [ ] [HOCH] a6 Treibhaus: natürlichen Treibhauseffekt einbauen (Block B).
+- [ ] [MITTEL] a2 Mischen: Temperatur-Zahlenstrahl (ϑ₂ … ϑm … ϑ₁) mit Marker
+  («Hebelgesetz» der Massen); optional zweiter Stoff (Öl) → volle Formel.
+- [ ] [MITTEL] ein-cv: kleines T(t)-Diagramm unter den Boxen (Prozess konservieren).
+- [ ] [MITTEL] Neu: Wärmepumpen-Sankey (Strom 1 Teil + Umgebung 2–4 Teile →
+  Heizwärme, COP-Regler) — kontraintuitivster Punkt der Seite, mit vorhandenem
+  blockArrow-Code günstig umsetzbar.
+
+### p5-3 Wärmeausdehnung
+- [ ] [HOCH] a1 Stab: Überhöhung neu kalibrieren (≈260 statt 4000, Q2) und
+  Ausgangsstab mit l₀ mitskalieren — sonst Material-/ΔT-Vergleich unsichtbar
+  und a1 gegenüber ein-cv fast ohne Mehrwert.
+- [ ] [HOCH] a2 Volumen: Überhöhung ≈4.5 statt 120 (Q2) — Ethanol, Wasser und
+  Quecksilber sehen derzeit identisch aus, obwohl der Text zum Vergleich auffordert.
+- [ ] [MITTEL] a4 Meeresspiegel: Faktor ≈46 statt 120 (Q2, Klemme entfällt).
+- [ ] [MITTEL] a3 Anomalie: Seebild an den Regler koppeln (Schicht mit passender
+  Temperatur hervorheben) — die zwei Bildhälften sind derzeit unverbunden.
+- [ ] [MITTEL] a5 Gasgesetz: Zusatzzeile «p·V/T = … — bleibt konstant» — die
+  Invariante ist die Erkenntnis, wird aber nie angezeigt.
+- [ ] [MITTEL] ein-cv Schiene: im Warnzustand die Grenztemperatur ausweisen
+  («geschlossen ab ≈ 43 °C»).
+- [ ] [MITTEL] a6: im Amontons-Modus Ursprung beschriften «0 K = absoluter
+  Nullpunkt (vgl. 5.1)» — Bogen über die Kapitelgrenze.
+- [ ] [NIEDRIG] Neu: Bimetallstreifen-Mini-Animation (Mini-Check-Transfer Thermostat).
+
+### p6-1 Wellen
+- [ ] [HOCH] a1 c = λ·f: Kausalität umdrehen (Block B).
+- [ ] [HOCH] a2 Quer-/Längswelle: wandernde Labels fixen (Block B).
+- [ ] [HOCH] a3 Schall in Medien: feste, bezifferte λ-Achse — Balken reagieren
+  sichtbar auf den f-Regler (Q1).
+- [ ] [HOCH] a5 Emission/Laser: Photonrichtung randomisieren, am Elektron starten
+  («zufällige Richtung» wird derzeit behauptet, aber nicht gezeigt); [MITTEL]
+  E1/E2-Niveauschema mit ΔE = hf; [MITTEL] Laser: Pumpen + Photonen-Vermehrung.
+- [ ] [HOCH] a6 Absorption: Energiefluss-Panel Sonne/Boden/Atmosphäre ergänzen —
+  die Transmissionskurve allein trägt den Mechanismus (Aufgabe A6.3) nicht;
+  λ-Achse in µm beziffern.
+- [ ] [MITTEL] a4 EM-Spektrum: gegenläufige f-Achse unter dem Balken; E = hf als
+  Live-Grösse (bereitet den UV-Transfer vor).
+- [ ] [MITTEL] Tempo/Reset-Standard auf ein-cv, a1, a2, a5 übertragen (Q6);
+  Verweise «vertieft in 6.1a» statt Duplikation.
+
+### p6-1a Wellenexperimente
+Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
+- [ ] [MITTEL] a1: y(t)-Achse an die tatsächliche Durchlaufzeit anpassen
+  (bei c = 4 bleiben derzeit drei Viertel des Diagramms leer).
+- [ ] [MITTEL] a2: optionales zweites markiertes Teilchen (Checkbox, zweite
+  Spurfarbe) — der Hinweis «vergleiche zwei Teilchen» ist sonst nicht ausführbar.
+- [ ] [MITTEL] a4 Reflexion: Checkbox «Spiegelpuls zeigen» (wird intern bereits
+  gerechnet) — erklärt Berg→Tal konstruktiv statt nur als Resultat.
+- [ ] [MITTEL] a6 stehende Welle: gestrichelte Einhüllende ±2A·cos(2πs/λ) im
+  Steh-Modus (wie in a7) — beim Nulldurchgang wirkt es sonst wie «keine Welle».
+- [ ] [MITTEL] a7 Eigenmoden: Preset «Gitarrensaite e¹» (L = 0.65 m, c = 429 m/s)
+  oder c-Regler — die Erkenntnis rechnet das Beispiel vor, die Simulation kann
+  es nicht darstellen. [NIEDRIG] Ton hörbar machen (WebAudio-Sinus bei f_n).
+
+### p6-2 Elektrizität
+- [ ] [HOCH] ein-cv: Elektronenrichtung fixen (Block B); [MITTEL] Schalter
+  klickbar machen (trägt «Strom nur im geschlossenen Kreis»).
+- [ ] [HOCH] a1 Kennlinie: Achse fixieren oder Referenzgerade (Block B / Q1).
+- [ ] [HOCH] a4 Parallelschaltung: Kurzschluss-Rahmen entfernen (Block B);
+  [MITTEL] Trunk-Punktdichte mit I skalieren — Knotenregel I = I₁ + I₂ sichtbar.
+- [ ] [HOCH] a5 Leistung: durch P-t-Diagramm mit Rechteckfläche = E ersetzen
+  (2000 W · 0.5 h = gleiche Fläche wie 500 W · 2 h) — aktuell reine Dekoration;
+  [MITTEL] Geräte-Presets (Wasserkocher, LED, Ladegerät) für die Kostenanzeige.
+- [ ] [MITTEL] a3 Reihenschaltung: U₁/U₂ als proportionale Farbbalken unter den
+  Widerstandsboxen (Spannungsteilung sichtbar statt nur lesbar).
+- [ ] [MITTEL] a2 Leiterwiderstand: Konsequenz zeigen (I bzw. Verlustleistung
+  bei festem U — Überlandleitungs-Transfer).
+- [ ] [MITTEL] a6 Gefahren: Markerlinie 30 mA «FI/RCD löst aus» + Szenario-Presets
+  («230 V, 1 kΩ → 230 mA»); IEC-Vereinfachung deklarieren.
+- [ ] [MITTEL] Neu: Coulomb-Widget (Q₁, Q₂, r; Kraftpfeile; 1/r²) — einziger
+  Formelblock der Seite ohne Visualisierung.
+- [ ] [NIEDRIG] Neu: statisches U(t)-Panel AC vs. DC (230 V eff / 325 V Scheitel).
+
+---
+
+## D. Neue Animationen (gesammelt, priorisiert)
+
+| Prio | Seite | Vorschlag |
+|---|---|---|
+| MITTEL | p4-1 | Sekante → Tangente (Δt-Regler) zur Momentangeschwindigkeit |
+| MITTEL | p5-2 | Wärmepumpen-Sankey mit COP-Regler |
+| MITTEL | p6-2 | Coulomb-Gesetz (1/r²-Widget) |
+| MITTEL | p4-5 | Federwaage «scheinbares Gewicht» (in Anim. 4 integrierbar) |
+| MITTEL | p0-1 | Runden-Widget (Kommastellen vs. signifikante Stellen) |
+| MITTEL | p0-2 | Wärmestrom-Widget (zwei Körper, Pfeil ∝ ΔT) zu «Temperatur ≠ Wärme» |
+| MITTEL | p0-3 | DEG/RAD-Vergleichswidget (sin x in beiden Modi, ohne Canvas machbar) |
+| MITTEL | p0-4 | Streudiagramm «Korrelation ≠ Kausalität» (dritte Variable als Farbe) |
+| NIEDRIG | p5-3 | Bimetallstreifen |
+| NIEDRIG | p6-1 | Wasserwellen-Kreisbahnen |
+| NIEDRIG | p6-2 | AC/DC-U(t)-Panel |
+
+## E. Streichungen / Ersatz / Zusammenlegungen
+
+- **Ersetzen:** p6-2 a5 (Leistungsbalken) → P-t-Flächendiagramm.
+- **Streichkandidat (nur falls nicht aufgewertet):** p4-3 a2-cv-szene (statisches
+  Auto) — ohne Bremsweg-Erweiterung trägt es nichts, was das Diagramm nicht zeigt.
+- **Zusammenlegen oder differenzieren:** p0-0 a1 + a2 (zweimal dieselbe
+  Preis-Mengen-Gerade) — ein Widget mit Modus-Umschalter, oder a2 mit
+  1-kg-Punkt aufwerten. p4-4 ae-cv + a5 (zweimal Hebelgesetz mit Kipp-Feedback) —
+  a5 aufwerten oder streichen. p0-4 a4 + a5 visuell differenzieren (derzeit fast
+  identisches Bild für zwei verschiedene Konzepte).
+- **Bewusst behalten trotz Überlappung:** p4-1 a1/a2 (gleichförmig → beschleunigt,
+  saubere Stufung), p4-5 ae/a1 (Phänomen → Formel), p5-1 a3/a4 (Wert → Differenz),
+  p6-1 vs. p6-1a (Überblick vs. Vertiefung — aber a1 kausal korrigieren).
+
+## F. Empfohlene Reihenfolge der Umsetzung
+
+1. **Block B** (fachliche Fehler) — kleine Eingriffe, grösster Schaden behoben.
+2. **Q1 + Q2** (feste Achsen, Überhöhungs-Kalibrierung) — eine Fix-Familie,
+   betrifft ~10 Widgets, macht tote Regler wieder lernwirksam.
+3. **[HOCH]-Einzelpunkte** je Seite (Abschnitt C).
+4. **Q3–Q6 und [MITTEL]** nach Gelegenheit, seitenweise beim nächsten Besuch.
+5. **Neue Animationen** (Abschnitt D) zuletzt — der Bestand hat Vorrang.
