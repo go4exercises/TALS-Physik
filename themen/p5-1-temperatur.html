@@ -80,8 +80,8 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Verfolge die unregelmässige Bahn des roten Teilchens.</li><li>Beobachte, dass es ohne sichtbaren Antrieb zittert.</li><li>Achte darauf, dass die Stösse aus allen Richtungen kommen.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Verfolge die unregelmässige Bahn des roten Teilchens. Beobachte, dass es ohne sichtbaren Antrieb hin und her zittert. Achte darauf, dass die Stösse aus allen Richtungen kommen." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Verfolge die unregelmässige Bahn des roten Teilchens.</li><li>Beobachte, dass es ohne sichtbaren Antrieb zittert.</li><li>Überlege dir <em>zuerst</em> eine Erklärung — blende erst danach die Wasserteilchen ein.</li><li>Achte darauf, dass die Stösse aus allen Richtungen kommen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verfolge die unregelmässige Bahn des roten Teilchens. Beobachte, dass es ohne sichtbaren Antrieb hin und her zittert. Überlege dir zuerst selbst eine Erklärung und blende erst danach die Wasserteilchen ein. Achte darauf, dass die Stösse aus allen Richtungen kommen." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -105,6 +105,10 @@ MathJax = {
     <div style="margin:10px 0;">
       <button class="play-btn" id="ein-btn">▶ Start</button>
       <button class="play-btn paused" id="ein-reset" style="background:var(--tinte-2);">↻ Spur löschen</button>
+    </div>
+
+    <div class="typ-btns">
+      <button class="typ-btn" id="ein-wasser" aria-pressed="false">💧 Wasserteilchen anzeigen</button>
     </div>
 
     <div class="cv-wrap">
@@ -190,16 +194,16 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Stelle die Temperatur (in Kelvin) ein und beobachte die Teilchen.</li><li>Achte auf die Farbe: blau ist kalt, rot ist heiss.</li><li>Senke \(T\) bis \(0\,\text{K}\) — die Teilchen kommen zur Ruhe.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Stelle die Temperatur in Kelvin ein und beobachte die Teilchen. Achte auf die Farbe: blau ist kalt, rot ist heiss. Senke die Temperatur bis null Kelvin, dann kommen die Teilchen zur Ruhe." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Stelle die Temperatur (in Kelvin) ein und beobachte die Teilchen.</li><li>Achte auf die Farbe: blau ist kalt, rot ist heiss.</li><li>Vergleiche das markierte Teilchen (◎) mit dem Mittelwert — es ist schneller als der Durchschnitt.</li><li>Senke \(T\) bis \(0\,\text{K}\) — die Teilchen kommen zur Ruhe.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle die Temperatur in Kelvin ein und beobachte die Teilchen. Achte auf die Farbe: blau ist kalt, rot ist heiss. Vergleiche das markierte Teilchen mit dem Mittelwert; es ist schneller als der Durchschnitt. Senke die Temperatur bis null Kelvin, dann kommen die Teilchen zur Ruhe." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Die Temperatur ist ein Mass für die mittlere Bewegungsenergie der Teilchen.</li><li>Höhere Temperatur bedeutet schnellere Teilchen.</li><li>Am absoluten Nullpunkt (\(0\,\text{K}\)) ist die Teilchenbewegung minimal.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Die Temperatur ist ein Mass für die mittlere Bewegungsenergie der Teilchen. Eine höhere Temperatur bedeutet schnellere Teilchen. Am absoluten Nullpunkt, also bei null Kelvin, ist die Teilchenbewegung minimal." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Die Temperatur ist ein Mass für die <em>mittlere</em> Bewegungsenergie der Teilchen.</li><li>Einzelne Teilchen sind schneller oder langsamer — nur der Durchschnitt zählt.</li><li>Höhere Temperatur bedeutet schnellere Teilchen.</li><li>Am absoluten Nullpunkt (\(0\,\text{K}\)) ist die Teilchenbewegung minimal.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Temperatur ist ein Mass für die mittlere Bewegungsenergie der Teilchen. Einzelne Teilchen sind schneller oder langsamer; nur der Durchschnitt zählt. Eine höhere Temperatur bedeutet schnellere Teilchen. Am absoluten Nullpunkt, also bei null Kelvin, ist die Teilchenbewegung minimal." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
 </div>
@@ -220,6 +224,7 @@ MathJax = {
       <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a1-Tk">300 K</span></div>
       <div class="lb-item"><span class="lb-lab">entspricht</span><span class="lb-val" id="a1-Tc">26.9 °C</span></div>
       <div class="lb-item"><span class="lb-lab">mittl. Tempo (rel.)</span><span class="lb-val" id="a1-v">100 %</span></div>
+      <div class="lb-item"><span class="lb-lab">markiertes Teilchen</span><span class="lb-val" id="a1-vm">142 %</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -257,16 +262,16 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Bewege den Temperaturregler über Schmelz- und Siedepunkt hinaus.</li><li>Beobachte die Anordnung der Teilchen in jeder Phase.</li><li>Wechsle den Stoff und vergleiche, bei welchen Temperaturen er schmilzt und siedet.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Bewege den Temperaturregler über den Schmelzpunkt und den Siedepunkt hinaus. Beobachte, wie sich die Anordnung der Teilchen in jeder Phase ändert. Wechsle den Stoff und vergleiche, bei welchen Temperaturen er schmilzt und siedet." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Lies auf der Schiene unten ab, wo der gewählte Stoff schmilzt und siedet — und sage voraus, was passieren wird.</li><li>Bewege den Temperaturregler über Schmelz- und Siedepunkt hinaus.</li><li>Triff die Marken genau: dort bestehen beide Zustände nebeneinander.</li><li>Wechsle den Stoff und vergleiche, bei welchen Temperaturen er schmilzt und siedet.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Lies auf der Schiene unten ab, wo der gewählte Stoff schmilzt und siedet, und sage voraus, was passieren wird. Bewege den Temperaturregler über den Schmelzpunkt und den Siedepunkt hinaus. Triff die Marken genau: dort bestehen beide Zustände nebeneinander. Wechsle den Stoff und vergleiche, bei welchen Temperaturen er schmilzt und siedet." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Fest: feste Plätze; flüssig: beweglich, aber dicht; gasförmig: frei verteilt.</li><li>Mit steigender Temperatur lösen sich die Teilchenbindungen schrittweise.</li><li>Schmelz- und Siedepunkt sind stoffspezifisch — die Anzeige nennt die Werte des gewählten Stoffs.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Im festen Zustand haben die Teilchen feste Plätze, im flüssigen sind sie beweglich, aber noch dicht, im gasförmigen frei und weit verteilt. Mit steigender Temperatur lösen sich die Bindungen zwischen den Teilchen schrittweise. Schmelzpunkt und Siedepunkt sind stoffspezifisch; die Anzeige nennt die Werte des gewählten Stoffs." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Fest: feste Plätze; flüssig: beweglich, aber dicht; gasförmig: frei verteilt.</li><li>Mit steigender Temperatur lösen sich die Teilchenbindungen schrittweise.</li><li>Genau am Schmelz- bzw. Siedepunkt bestehen zwei Zustände gleichzeitig — der Stoff wandelt sich dort um.</li><li>Schmelz- und Siedepunkt sind stoffspezifisch — die Schiene zeigt die Werte des gewählten Stoffs.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Im festen Zustand haben die Teilchen feste Plätze, im flüssigen sind sie beweglich, aber noch dicht, im gasförmigen frei und weit verteilt. Mit steigender Temperatur lösen sich die Bindungen zwischen den Teilchen schrittweise. Genau am Schmelzpunkt und am Siedepunkt bestehen zwei Zustände gleichzeitig; der Stoff wandelt sich dort um. Schmelzpunkt und Siedepunkt sind stoffspezifisch; die Schiene zeigt die Werte des gewählten Stoffs." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
 </div>
@@ -276,7 +281,7 @@ MathJax = {
     <div class="sl-row">
       <label>Temperatur \(\vartheta\):</label>
       <input type="range" id="a2-T" min="-80" max="200" value="-80" step="1">
-      <span class="sl-val" id="a2-T-val">-80 °C</span>
+      <span class="sl-val" id="a2-T-val">−80 °C</span>
     </div>
 
     <div style="margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
@@ -287,14 +292,14 @@ MathJax = {
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a2-Tc">-80 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a2-Tc">−80 °C</span></div>
       <div class="lb-item"><span class="lb-lab">Aggregatzustand</span><span class="lb-val" id="a2-zust">fest</span></div>
       <div class="lb-item"><span class="lb-lab">Übergang bei</span><span class="lb-val" id="a2-uebg">0 / 100 °C</span></div>
     </div>
 
     <div class="cv-wrap">
       <div class="cv-titel">🧊💧💨 Teilchen je nach Temperatur</div>
-      <canvas id="a2-cv" height="300"></canvas>
+      <canvas id="a2-cv" height="380"></canvas>
     </div>
 
   </div>
@@ -329,8 +334,8 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Stelle die Temperatur ein und vergleiche beide Skalen.</li><li>Suche die Fixpunkte (Nullpunkt, Schmelz-, Siedepunkt, Körper).</li><li>Achte darauf, dass sich nur der Nullpunkt verschiebt, nicht die Schrittweite.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Stelle die Temperatur ein und vergleiche die Celsius- mit der Kelvin-Skala. Suche die markierten Fixpunkte: absoluter Nullpunkt, Schmelzpunkt, Siedepunkt und Körpertemperatur. Achte darauf, dass sich nur der Nullpunkt verschiebt, die Schrittweite aber gleich bleibt." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Stelle die Temperatur ein und vergleiche beide Skalen.</li><li>Springe mit den Knöpfen direkt auf die Fixpunkte (\(0\,\text{K}\), \(0\,^\circ\text{C}\), \(37\,^\circ\text{C}\), \(100\,^\circ\text{C}\)) und lies beide Werte ab.</li><li>Achte darauf, dass sich nur der Nullpunkt verschiebt, nicht die Schrittweite.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle die Temperatur ein und vergleiche die Celsius- mit der Kelvin-Skala. Springe mit den Knöpfen direkt auf die Fixpunkte null Kelvin, null Grad Celsius, 37 Grad Celsius und 100 Grad Celsius und lies jeweils beide Werte ab. Achte darauf, dass sich nur der Nullpunkt verschiebt, die Schrittweite aber gleich bleibt." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -349,6 +354,13 @@ MathJax = {
       <label>Temperatur:</label>
       <input type="range" id="a3-T" min="-273.15" max="150" value="20" step="0.05">
       <span class="sl-val" id="a3-T-val">20.00 °C</span>
+    </div>
+
+    <div class="typ-btns">
+      <button class="typ-btn" data-jump="-273.15">0 K</button>
+      <button class="typ-btn" data-jump="0">0 °C</button>
+      <button class="typ-btn" data-jump="37">37 °C</button>
+      <button class="typ-btn" data-jump="100">100 °C</button>
     </div>
 
     <div class="formel-live">
@@ -399,8 +411,8 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Eine Temperaturdifferenz \(\Delta T\) ist in beiden Skalen identisch.</li><li>\(\Delta T = \vartheta_2 - \vartheta_1\) (in \(^\circ\text{C}\)) \(= T_2 - T_1\) (in K).</li><li>Verschoben ist nur der Nullpunkt, nicht der Abstand der Striche.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Eine Temperaturdifferenz delta T ist in beiden Skalen identisch. Sie ist theta zwei minus theta eins in Grad Celsius und gleich T zwei minus T eins in Kelvin. Verschoben ist nur der Nullpunkt, nicht der Abstand der Skalenstriche." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Eine Temperaturdifferenz \(\Delta T\) ist in beiden Skalen identisch.</li><li>\(\Delta T = \vartheta_2 - \vartheta_1\) (in \(^\circ\text{C}\)) \(= T_2 - T_1\) (in K).</li><li>Das Vorzeichen zählt: \(\Delta T < 0\) heisst Abkühlung — wichtig später bei \(Q\) und bei der Längenausdehnung.</li><li>Verschoben ist nur der Nullpunkt, nicht der Abstand der Striche.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Eine Temperaturdifferenz delta T ist in beiden Skalen identisch. Sie ist theta zwei minus theta eins in Grad Celsius und gleich T zwei minus T eins in Kelvin. Das Vorzeichen zählt: ein negatives delta T bedeutet Abkühlung. Das wird später bei der Wärmemenge und bei der Längenausdehnung gebraucht. Verschoben ist nur der Nullpunkt, nicht der Abstand der Skalenstriche." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
 </div>
@@ -435,7 +447,7 @@ MathJax = {
 
     <div class="cv-wrap skala-plot">
       <div class="cv-titel">📏 Celsius (oben) und Kelvin (unten)</div>
-      <canvas id="a4-cv" height="210"></canvas>
+      <canvas id="a4-cv" height="240"></canvas>
     </div>
 
   </div>
@@ -468,16 +480,16 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Verschiebe den Messpunkt entlang der Geraden.</li><li>Verlängere sie gedanklich bis zur Temperaturachse.</li><li>Achte darauf, wo die Verlängerung die Achse trifft.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Verschiebe den Messpunkt entlang der Geraden. Verlängere sie gedanklich bis zur Temperaturachse. Achte darauf, an welcher Stelle die Verlängerung die Achse trifft." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Zu sehen sind zuerst nur Messpunkte — schätze, wo der Druck null würde.</li><li>Schalte dann «Geraden verlängern» ein und prüfe deine Schätzung.</li><li>Vergleiche die beiden Gasmengen: verschiedene Drücke, aber wo treffen sie die Achse?</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Zu sehen sind zuerst nur Messpunkte. Schätze, bei welcher Temperatur der Druck null würde. Schalte dann Geraden verlängern ein und prüfe deine Schätzung. Vergleiche die beiden Gasmengen: sie haben verschiedene Drücke, aber wo treffen sie die Temperaturachse?" aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Bei konstantem Volumen ist der Druck proportional zur absoluten Temperatur.</li><li>Die Gerade trifft die Temperaturachse beim absoluten Nullpunkt (\(-273.15\,^\circ\text{C}\)).</li><li>Das begründet die Kelvin-Skala mit ihrem natürlichen Nullpunkt.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Bei konstantem Volumen ist der Druck eines Gases proportional zur absoluten Temperatur. Die Verlängerung der Geraden trifft die Temperaturachse beim absoluten Nullpunkt, also bei minus 273.15 Grad Celsius. Das begründet die Kelvin-Skala mit ihrem natürlichen Nullpunkt." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Bei konstantem Volumen ist der Druck proportional zur absoluten Temperatur.</li><li>Die Gerade trifft die Temperaturachse beim absoluten Nullpunkt (\(-273.15\,^\circ\text{C}\)).</li><li>Beide Gasmengen treffen dieselbe Stelle — der Nullpunkt hängt nicht von der Gasmenge ab.</li><li>Das begründet die Kelvin-Skala mit ihrem natürlichen Nullpunkt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Bei konstantem Volumen ist der Druck eines Gases proportional zur absoluten Temperatur. Die Verlängerung der Geraden trifft die Temperaturachse beim absoluten Nullpunkt, also bei minus 273.15 Grad Celsius. Beide Gasmengen treffen dieselbe Stelle; der Nullpunkt hängt nicht von der Gasmenge ab. Das begründet die Kelvin-Skala mit ihrem natürlichen Nullpunkt." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
 </div>
@@ -490,10 +502,15 @@ MathJax = {
       <span class="sl-val" id="a5-T-val">20 °C</span>
     </div>
 
+    <div class="typ-btns">
+      <button class="typ-btn" id="a5-ext" aria-pressed="false">📏 Geraden verlängern</button>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a5-Tc">20 °C = 293 K</span></div>
-      <div class="lb-item"><span class="lb-lab">rel. Druck</span><span class="lb-val" id="a5-p">107 %</span></div>
-      <div class="lb-item"><span class="lb-lab">Achsenschnitt (\(p = 0\))</span><span class="lb-val" id="a5-zero">−273.15 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">Druck Gas A</span><span class="lb-val" id="a5-p">107 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Druck Gas B</span><span class="lb-val" id="a5-pB">64 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Achsenschnitt (\(p = 0\))</span><span class="lb-val" id="a5-zero">?</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -796,6 +813,8 @@ buildNav({
 // ── Konstanten & Helfer ───────────────────────────────────
 const T0 = 273.15;
 function toK(c){ return c + T0; }
+// vz: Zahl mit typografischem Minuszeichen (U+2212) statt Bindestrich ausgeben
+function vz(v){ return String(v).replace(/^-(?=0(\.0*)?$)/, '').replace('-', '−'); }  // −0 vermeiden
 function lerpCol(t){ // t in [0,1]: blau (kalt) -> rot (heiss), ohne Grünstich
   t = Math.max(0, Math.min(1, t));
   const r = Math.round(45 + t*185);
@@ -833,7 +852,8 @@ function makeLoop(canvasId, btnId, tickFn){
 // ══════════════════════════════════════════════════════════
 //  EINSTIEG: Brown'sche Bewegung
 // ══════════════════════════════════════════════════════════
-const einState = { big:{x:0.5,y:0.5}, vel:{x:0,y:0}, trail:[], water:[], inited:false };
+// showWater: Default aus — erst das rätselhafte Zittern, dann auf Knopfdruck die Ursache.
+const einState = { big:{x:0.5,y:0.5}, vel:{x:0,y:0}, trail:[], water:[], inited:false, showWater:false };
 function einInit(){
   einState.big = {x:0.5, y:0.5};
   einState.vel = {x:0, y:0};
@@ -882,9 +902,14 @@ function einRender(){
   const cv = initCanvas('ein-cv', 320, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#eaf2f8'; ctx.fillRect(0,0,W,H);
-  // Wasserteilchen
-  ctx.fillStyle = '#9cc0dd';
-  for(const w of einState.water){ ctx.beginPath(); ctx.arc(w.x*W, w.y*H, 2.4, 0, Math.PI*2); ctx.fill(); }
+  // Wasserteilchen — nur wenn eingeblendet (sonst bleibt die Ursache verborgen)
+  if(einState.showWater){
+    ctx.fillStyle = '#9cc0dd';
+    for(const w of einState.water){ ctx.beginPath(); ctx.arc(w.x*W, w.y*H, 2.4, 0, Math.PI*2); ctx.fill(); }
+  } else {
+    ctx.fillStyle = '#6f8fa8'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='right';
+    ctx.fillText('Wasser (Teilchen unsichtbar)', W-10, H-10);
+  }
   // Spur
   if(einState.trail.length > 1){
     ctx.lineWidth = 2.4; ctx.lineJoin='round';
@@ -907,37 +932,55 @@ function einRender(){
 const einLoop = makeLoop('ein-cv','ein-btn', einTick);
 document.getElementById('ein-T').addEventListener('input', ()=>{ if(!einLoop.running) einRender(); });
 document.getElementById('ein-reset').addEventListener('click', ()=>{ einState.trail = []; einRender(); });
+const einWasserBtn = document.getElementById('ein-wasser');
+einWasserBtn.addEventListener('click', ()=>{
+  einState.showWater = !einState.showWater;
+  einWasserBtn.classList.toggle('aktiv', einState.showWater);
+  einWasserBtn.setAttribute('aria-pressed', einState.showWater ? 'true' : 'false');
+  einWasserBtn.textContent = einState.showWater ? '💧 Wasserteilchen verbergen' : '💧 Wasserteilchen anzeigen';
+  if(!einLoop.running) einRender();
+});
 
 
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 1: Gasteilchen — Geschwindigkeit ~ sqrt(T)
 // ══════════════════════════════════════════════════════════
+// Feste Geschwindigkeitsstreuung: Faktor je Teilchen, Mittelwert exakt 1.000
+// (Rayleigh-Quantile, auf 0.52 … 1.60 gestaucht). Damit stimmt die Anzeige
+// «mittl. Tempo» weiterhin und der Missverständnis-Block darunter wird sichtbar:
+// die Temperatur beschreibt nur den Durchschnitt, nicht das einzelne Teilchen.
+const A1_SPREAD = [0.52,0.56,0.58,0.61,0.65,0.68,0.71,0.74,0.76,0.79,0.82,0.85,
+                   0.88,0.91,0.93,0.96,0.99,1.02,1.05,1.08,1.11,1.15,1.18,1.21,
+                   1.25,1.29,1.33,1.37,1.42,1.47,1.53,1.60];
+const A1_MARK = 28;   // markiertes Teilchen (Faktor 1.42 — deutlich über dem Mittel)
 const a1State = { p:[], inited:false };
 function a1Speed(){ const T = +document.getElementById('a1-T').value; return Math.sqrt(T/300); } // rel. zu 300K
 function a1Init(){
   a1State.p = [];
   const sp = a1Speed();
-  for(let i=0;i<32;i++){
-    const ang = Math.random()*Math.PI*2;
+  for(let i=0;i<A1_SPREAD.length;i++){
+    const ang = Math.random()*Math.PI*2, f = A1_SPREAD[i];
     a1State.p.push({ x:0.06+Math.random()*0.88, y:0.06+Math.random()*0.88,
-      vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp });
+      vx:Math.cos(ang)*sp*f, vy:Math.sin(ang)*sp*f, f:f });
   }
   a1State.inited = true;
 }
 function a1Rescale(){ // Geschwindigkeitsbetraege auf aktuelle Temperatur setzen
   const sp = a1Speed();
   for(const q of a1State.p){
+    const soll = sp*q.f;
     const m = Math.hypot(q.vx,q.vy);
-    if(m < 1e-6){ const a=Math.random()*Math.PI*2; q.vx=Math.cos(a)*sp; q.vy=Math.sin(a)*sp; }
-    else { q.vx = q.vx/m*sp; q.vy = q.vy/m*sp; }
+    if(m < 1e-6){ const a=Math.random()*Math.PI*2; q.vx=Math.cos(a)*soll; q.vy=Math.sin(a)*soll; }
+    else { q.vx = q.vx/m*soll; q.vy = q.vy/m*soll; }
   }
 }
 function a1Readout(){
   const T = +document.getElementById('a1-T').value;
   document.getElementById('a1-T-val').textContent = T + ' K';
   document.getElementById('a1-Tk').textContent = T + ' K';
-  document.getElementById('a1-Tc').textContent = (T - T0).toFixed(1) + ' °C';
+  document.getElementById('a1-Tc').textContent = vz((T - T0).toFixed(1)) + ' °C';
   document.getElementById('a1-v').textContent = Math.round(a1Speed()*100) + ' %';
+  document.getElementById('a1-vm').textContent = Math.round(a1Speed()*A1_SPREAD[A1_MARK]*100) + ' %';
 }
 function a1Tick(dt){
   if(!a1State.inited) a1Init();
@@ -958,9 +1001,17 @@ function a1Render(){
   ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 3;
   ctx.strokeRect(W*0.03, H*0.03, W*0.94, H*0.94);
   const col = lerpCol(T/600);
-  for(const q of a1State.p){
+  for(let i=0;i<a1State.p.length;i++){
+    const q = a1State.p[i];
     ctx.fillStyle = col;
     ctx.beginPath(); ctx.arc(q.x*W, q.y*H, 6, 0, Math.PI*2); ctx.fill();
+    if(i === A1_MARK){   // markiertes Teilchen: Ring + Beschriftung
+      ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(q.x*W, q.y*H, 10, 0, Math.PI*2); ctx.stroke();
+      ctx.fillStyle = '#1c1a17'; ctx.font = '12px JetBrains Mono,monospace';
+      ctx.textAlign = q.x > 0.75 ? 'right' : 'left';
+      ctx.fillText('markiert', q.x*W + (q.x > 0.75 ? -14 : 14), q.y*H + 4);
+    }
   }
   if(T===0){
     ctx.fillStyle = '#1a4f8a'; ctx.font='bold 14px Source Sans 3,sans-serif'; ctx.textAlign='center';
@@ -981,6 +1032,9 @@ const A2_STOFFE = {
   brom:   { name:'Brom',       Tm:-7, Tb:59  },
   essig:  { name:'Essigsäure', Tm:17, Tb:118 }
 };
+const A2_LABEL = { fest:'fest', fluessig:'flüssig', gas:'gasförmig',
+                   schmelzen:'fest + flüssig', sieden:'flüssig + gasförmig' };
+const A2_TMIN = -80, A2_TMAX = 200;   // Reglerbereich = Bereich der Temperaturschiene
 const a2State = { p:[], homes:[], inited:false, zustand:'', stoff:'wasser' };
 function a2Init(){
   a2State.p = []; a2State.homes = [];
@@ -994,73 +1048,153 @@ function a2Init(){
   }
   a2State.inited = true;
 }
-function a2Zustand(T){ const s=A2_STOFFE[a2State.stoff]; return T<s.Tm ? 'fest' : (T<s.Tb ? 'fluessig' : 'gas'); }
+// Genau am Schmelz- bzw. Siedepunkt bestehen zwei Zustaende nebeneinander
+// (Koexistenz) — dort steckt die zugefuehrte Energie in der Umwandlung, vgl. p5-2.
+function a2Zustand(T){
+  const s=A2_STOFFE[a2State.stoff];
+  if(T === s.Tm) return 'schmelzen';
+  if(T === s.Tb) return 'sieden';
+  return T<s.Tm ? 'fest' : (T<s.Tb ? 'fluessig' : 'gas');
+}
+// Rolle des einzelnen Teilchens: in den Koexistenz-Zustaenden ist die Haelfte
+// noch in der tieferen, die andere schon in der hoeheren Phase.
+function a2Rolle(z, i, n){
+  if(z === 'schmelzen') return (i >= n/2) ? 'fest' : 'fluessig';   // Festkoerper unten
+  if(z === 'sieden')    return (i <  n/2) ? 'gas'  : 'fluessig';   // Dampf oben
+  return z;
+}
 function a2Tick(dt){
   if(!a2State.inited) a2Init();
   const s = A2_STOFFE[a2State.stoff];
   const T = +document.getElementById('a2-T').value;
   const z = a2Zustand(T);
-  document.getElementById('a2-T-val').textContent = T + ' °C';
-  document.getElementById('a2-Tc').textContent = T + ' °C';
-  document.getElementById('a2-zust').textContent = (z==='fest'?'fest':(z==='fluessig'?'flüssig':'gasförmig'));
-  document.getElementById('a2-uebg').textContent = s.Tm + ' / ' + s.Tb + ' °C';
+  document.getElementById('a2-T-val').textContent = vz(T) + ' °C';
+  document.getElementById('a2-Tc').textContent = vz(T) + ' °C';
+  document.getElementById('a2-zust').textContent = A2_LABEL[z];
+  document.getElementById('a2-uebg').textContent = vz(s.Tm) + ' / ' + vz(s.Tb) + ' °C';
   if(z !== a2State.zustand){
-    if(z !== 'fest'){ for(const q of a2State.p){ const a=Math.random()*Math.PI*2; const sp=(z==='gas')?0.5:0.22; q.vx=Math.cos(a)*sp; q.vy=Math.sin(a)*sp; } }
+    if(z !== 'fest'){ for(const q of a2State.p){ const a=Math.random()*Math.PI*2; const sp=(z==='gas'||z==='sieden')?0.5:0.22; q.vx=Math.cos(a)*sp; q.vy=Math.sin(a)*sp; } }
     a2State.zustand = z;
   }
-  if(z === 'fest'){
-    const amp = ((T+80)/(s.Tm+80))*0.010;
-    for(let i=0;i<a2State.p.length;i++){
-      const h=a2State.homes[i], q=a2State.p[i];
-      q.x = h.x + (Math.random()-0.5)*amp;
-      q.y = h.y + (Math.random()-0.5)*amp;
-    }
-  } else if(z === 'fluessig'){
-    const sp = 0.10 + ((T-s.Tm)/(s.Tb-s.Tm))*0.14;
-    for(const q of a2State.p){
+  // Tempo je Phase; in den Koexistenz-Zustaenden jeweils der Randwert der Phase
+  const ampFest = (z === 'fest') ? ((T+80)/(s.Tm+80))*0.010 : 0.010;
+  const spFl  = (z === 'fluessig') ? 0.10 + ((T-s.Tm)/(s.Tb-s.Tm))*0.14
+              : (z === 'schmelzen' ? 0.10 : 0.24);
+  const spGas = (z === 'gas') ? 0.34 + ((T-s.Tb)/(200-s.Tb))*0.25 : 0.34;
+  // In den Koexistenz-Zustaenden bekommen die Phasen getrennte Bereiche, sonst
+  // sinkt die Fluessigkeit ins Gitter bzw. der Dampf in die Fluessigkeit und
+  // das Nebeneinander ist nicht mehr zu sehen.
+  const flBoden  = (z === 'schmelzen') ? 0.72 : 0.92;   // Fluessigkeit steht auf dem Kristall
+  const gasBoden = (z === 'sieden')    ? 0.45 : 0.95;   // Dampf bleibt über der Fluessigkeit
+  const n = a2State.p.length;
+  for(let i=0;i<n;i++){
+    const q = a2State.p[i], rolle = a2Rolle(z, i, n);
+    if(rolle === 'fest'){
+      const h=a2State.homes[i];
+      q.x = h.x + (Math.random()-0.5)*ampFest;
+      q.y = h.y + (Math.random()-0.5)*ampFest;
+    } else if(rolle === 'fluessig'){
       q.vx += (Math.random()-0.5)*0.5*dt; q.vy += (Math.random()-0.5)*0.5*dt;
       q.vy += 0.30*dt;  // leichte Schwerkraft -> sammelt sich unten
-      const m=Math.hypot(q.vx,q.vy); if(m>sp){q.vx=q.vx/m*sp;q.vy=q.vy/m*sp;}
+      const m=Math.hypot(q.vx,q.vy); if(m>spFl){q.vx=q.vx/m*spFl;q.vy=q.vy/m*spFl;}
       q.x += q.vx*dt; q.y += q.vy*dt;
       if(q.x<0.07){q.x=0.07;q.vx=Math.abs(q.vx);} if(q.x>0.93){q.x=0.93;q.vx=-Math.abs(q.vx);}
-      if(q.y>0.92){q.y=0.92;q.vy=-Math.abs(q.vy)*0.5;}
+      if(q.y>flBoden){q.y=flBoden;q.vy=-Math.abs(q.vy)*0.5;}
       if(q.y<0.50){q.y=0.50;q.vy=Math.abs(q.vy);}   // Oberflaeche
-    }
-  } else {
-    const sp = 0.34 + ((T-s.Tb)/(200-s.Tb))*0.25;
-    for(const q of a2State.p){
+    } else {
       const m=Math.hypot(q.vx,q.vy);
-      if(m<1e-6){const a=Math.random()*6.283;q.vx=Math.cos(a)*sp;q.vy=Math.sin(a)*sp;}
-      else {q.vx=q.vx/m*sp;q.vy=q.vy/m*sp;}
+      if(m<1e-6){const a=Math.random()*6.283;q.vx=Math.cos(a)*spGas;q.vy=Math.sin(a)*spGas;}
+      else {q.vx=q.vx/m*spGas;q.vy=q.vy/m*spGas;}
       q.x += q.vx*dt; q.y += q.vy*dt;
       if(q.x<0.05){q.x=0.05;q.vx=Math.abs(q.vx);} if(q.x>0.95){q.x=0.95;q.vx=-Math.abs(q.vx);}
-      if(q.y<0.05){q.y=0.05;q.vy=Math.abs(q.vy);} if(q.y>0.95){q.y=0.95;q.vy=-Math.abs(q.vy);}
+      if(q.y<0.05){q.y=0.05;q.vy=Math.abs(q.vy);} if(q.y>gasBoden){q.y=gasBoden;q.vy=-Math.abs(q.vy);}
     }
   }
   a2Render(z, T);
 }
+// Temperaturschiene unter dem Behaelter: zeigt die drei Zonen des gewaehlten
+// Stoffs samt Schmelz- und Siedemarke — damit wird Vorhersagen moeglich,
+// statt den Regler blind abzusuchen.
+function a2Schiene(ctx, W, HB, T){
+  const s  = A2_STOFFE[a2State.stoff];
+  const xL = W*0.08, xR = W*0.94;
+  const xOf = v => xL + (v-A2_TMIN)/(A2_TMAX-A2_TMIN)*(xR-xL);
+  const yB = HB + 24, hB = 14;            // Farbband
+  const zonen = [
+    { a:A2_TMIN, b:s.Tm,   col:'rgba(26,79,138,0.20)',   lab:'fest'      },
+    { a:s.Tm,    b:s.Tb,   col:'rgba(120,170,210,0.38)', lab:'flüssig'   },
+    { a:s.Tb,    b:A2_TMAX,col:'rgba(155,28,28,0.18)',   lab:'gasförmig' }
+  ];
+  ctx.textBaseline = 'alphabetic';
+  for(const zo of zonen){
+    const x1=xOf(zo.a), x2=xOf(zo.b);
+    ctx.fillStyle = zo.col; ctx.fillRect(x1, yB, x2-x1, hB);
+    ctx.strokeStyle = '#b8ae99'; ctx.lineWidth = 1; ctx.strokeRect(x1, yB, x2-x1, hB);
+    if(x2-x1 > 56){
+      ctx.fillStyle='#5a5040'; ctx.font='bold 10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+      ctx.fillText(zo.lab, (x1+x2)/2, yB+hB-4);
+    }
+  }
+  // Marken fuer Schmelz- und Siedepunkt
+  const marken = [{v:s.Tm, t:'schmilzt', col:'#1a4f8a'}, {v:s.Tb, t:'siedet', col:'#9b1c1c'}];
+  for(const m of marken){
+    const x = xOf(m.v);
+    ctx.strokeStyle = m.col; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x, yB-6); ctx.lineTo(x, yB+hB+6); ctx.stroke();
+    ctx.fillStyle = m.col; ctx.textAlign='center';
+    ctx.font='bold 11px Source Sans 3,sans-serif';
+    ctx.fillText(m.t, x, HB+12);
+    ctx.font='11px JetBrains Mono,monospace';
+    ctx.fillText(vz(m.v) + ' °C', x, yB+hB+20);
+  }
+  // Bereichsenden
+  ctx.fillStyle='#5a5040'; ctx.font='11px JetBrains Mono,monospace';
+  ctx.textAlign='left';  ctx.fillText('−80 °C', xL, yB+hB+20);
+  ctx.textAlign='right'; ctx.fillText('200 °C', xR, yB+hB+20);
+  // aktuelle Temperatur
+  const xc = xOf(T);
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2.5;
+  ctx.beginPath(); ctx.moveTo(xc, yB-4); ctx.lineTo(xc, yB+hB+4); ctx.stroke();
+  ctx.fillStyle='#1c1a17';
+  ctx.beginPath(); ctx.arc(xc, yB+hB/2, 4.5, 0, Math.PI*2); ctx.fill();
+}
 function a2Render(z, T){
-  const cv = initCanvas('a2-cv', 300, false);
+  const cv = initCanvas('a2-cv', 380, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const HB = H - 80;   // Behaelterbereich; darunter die Temperaturschiene
   ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0,0,W,H);
   // Behaelter
   ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 3;
-  ctx.strokeRect(W*0.03, H*0.03, W*0.94, H*0.94);
-  // Fluessigkeitsfuellung andeuten
-  if(z === 'fluessig'){
+  ctx.strokeRect(W*0.03, HB*0.03, W*0.94, HB*0.94);
+  // Fluessigkeitsfuellung andeuten (auch waehrend Schmelzen und Sieden)
+  if(z === 'fluessig' || z === 'schmelzen' || z === 'sieden'){
     ctx.fillStyle = 'rgba(120,170,210,0.18)';
-    ctx.fillRect(W*0.05, H*0.49, W*0.90, H*0.46);
+    ctx.fillRect(W*0.05, HB*0.49, W*0.90, HB*0.46);
   }
   const col = lerpCol((T+80)/280);
-  for(const q of a2State.p){
+  const n = a2State.p.length;
+  for(let i=0;i<n;i++){
+    const q = a2State.p[i], rolle = a2Rolle(z, i, n);
     ctx.fillStyle = col;
-    ctx.beginPath(); ctx.arc(q.x*W, q.y*H, 6.5, 0, Math.PI*2); ctx.fill();
-    if(z === 'fest'){ ctx.strokeStyle='rgba(0,0,0,0.18)'; ctx.lineWidth=1; ctx.stroke(); }
+    ctx.beginPath(); ctx.arc(q.x*W, q.y*HB, 6.5, 0, Math.PI*2); ctx.fill();
+    if(rolle === 'fest'){ ctx.strokeStyle='rgba(0,0,0,0.18)'; ctx.lineWidth=1; ctx.stroke(); }
   }
   // Zustandslabel
   ctx.fillStyle = '#5a5040'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
-  const lab = z==='fest'?'fest (Gitter)':(z==='fluessig'?'flüssig (verschiebbar)':'gasförmig (frei)');
-  ctx.fillText(lab, W*0.06, H*0.12);
+  const lab = { fest:'fest (Gitter)', fluessig:'flüssig (verschiebbar)', gas:'gasförmig (frei)',
+                schmelzen:'Schmelzpunkt — fest und flüssig zugleich',
+                sieden:'Siedepunkt — flüssig und gasförmig zugleich' }[z];
+  ctx.fillText(lab, W*0.06, HB*0.12);
+  // In den Koexistenz-Zustaenden die beiden Phasen im Bild benennen
+  if(z === 'schmelzen' || z === 'sieden'){
+    const paare = (z === 'schmelzen')
+      ? [{t:'flüssig', y:HB*0.60}, {t:'fest', y:HB*0.86}]
+      : [{t:'gasförmig', y:HB*0.22}, {t:'flüssig', y:HB*0.88}];
+    ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.lineWidth=3; ctx.strokeStyle='#fbfaf7';   // Halo, damit die Schrift über Teilchen lesbar bleibt
+    for(const p of paare){ ctx.strokeText(p.t, W*0.95, p.y); ctx.fillStyle='#5a5040'; ctx.fillText(p.t, W*0.95, p.y); }
+  }
+  a2Schiene(ctx, W, HB, T);
 }
 const a2Loop = makeLoop('a2-cv', null, a2Tick);  // kein Play-/Pause-Knopf: Autostart per IntersectionObserver
 document.getElementById('a2-T').addEventListener('input', ()=>{ if(!a2Loop.running){ if(!a2State.inited)a2Init(); a2Tick(0.016);} });
@@ -1080,10 +1214,12 @@ document.querySelectorAll('[data-stoff]').forEach(btn=>{
 function drawA3(){
   const c = +document.getElementById('a3-T').value;
   const K = c + T0;
-  document.getElementById('a3-T-val').textContent = c.toFixed(2) + ' °C';
-  document.getElementById('a3-c').textContent = c.toFixed(2) + ' °C';
+  document.getElementById('a3-T-val').textContent = vz(c.toFixed(2)) + ' °C';
+  document.getElementById('a3-c').textContent = vz(c.toFixed(2)) + ' °C';
   document.getElementById('a3-k').textContent = K.toFixed(2) + ' K';
-  document.getElementById('a3-eq').textContent = 'T = ' + c.toFixed(2) + ' + 273.15 = ' + K.toFixed(2) + ' K';
+  document.getElementById('a3-eq').textContent = 'T = ' + (c < 0 ? '(' + vz(c.toFixed(2)) + ')' : c.toFixed(2)) + ' + 273.15 = ' + K.toFixed(2) + ' K';
+  // Sprungknopf hervorheben, wenn sein Fixpunkt gerade eingestellt ist
+  document.querySelectorAll('[data-jump]').forEach(b => b.classList.toggle('aktiv', Math.abs(+b.dataset.jump - c) < 0.001));
 
   const cv = initCanvas('a3-cv', 340, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -1113,7 +1249,7 @@ function drawA3(){
     ctx.strokeStyle='#b8aE99'; ctx.lineWidth=1;
     ctx.beginPath(); ctx.moveTo(xMid-tubeW/2-5, y); ctx.lineTo(xMid-tubeW/2, y); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(xMid+tubeW/2, y); ctx.lineTo(xMid+tubeW/2+5, y); ctx.stroke();
-    ctx.fillStyle='#5a5040'; ctx.textAlign='right'; ctx.fillText(v+'', xMid-tubeW/2-8, y+3);
+    ctx.fillStyle='#5a5040'; ctx.textAlign='right'; ctx.fillText(vz(v), xMid-tubeW/2-8, y+3);
     ctx.textAlign='left'; ctx.fillText(Math.round(v+T0)+'', xMid+tubeW/2+8, y+3);
   }
   ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px Source Sans 3,sans-serif';
@@ -1135,6 +1271,12 @@ function drawA3(){
   ctx.beginPath(); ctx.moveTo(xMid-tubeW/2-5, yLvl); ctx.lineTo(W*0.70, yLvl); ctx.stroke(); ctx.setLineDash([]);
 }
 document.getElementById('a3-T').addEventListener('input', drawA3);
+document.querySelectorAll('[data-jump]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById('a3-T').value = btn.dataset.jump;
+    drawA3();
+  });
+});
 
 
 // ══════════════════════════════════════════════════════════
@@ -1143,16 +1285,19 @@ document.getElementById('a3-T').addEventListener('input', drawA3);
 function drawA4(){
   const t1 = +document.getElementById('a4-t1').value;
   const t2 = +document.getElementById('a4-t2').value;
-  document.getElementById('a4-t1-val').textContent = t1 + ' °C';
-  document.getElementById('a4-t2-val').textContent = t2 + ' °C';
+  document.getElementById('a4-t1-val').textContent = vz(t1) + ' °C';
+  document.getElementById('a4-t2-val').textContent = vz(t2) + ' °C';
   const K1=t1+T0, K2=t2+T0, d=t2-t1;
-  document.getElementById('a4-p1').textContent = t1 + ' °C = ' + K1.toFixed(2) + ' K';
-  document.getElementById('a4-p2').textContent = t2 + ' °C = ' + K2.toFixed(2) + ' K';
-  document.getElementById('a4-d').textContent = Math.abs(d) + ' K';
+  document.getElementById('a4-p1').textContent = vz(t1) + ' °C = ' + K1.toFixed(2) + ' K';
+  document.getElementById('a4-p2').textContent = vz(t2) + ' °C = ' + K2.toFixed(2) + ' K';
+  // Vorzeichen durchgaengig mitfuehren: ΔT < 0 heisst Abkuehlung. Das wird in
+  // p5-2 (Q = c·m·ΔT) und p5-3 (Δl = α·l₀·ΔT) gebraucht.
+  const sub = v => v < 0 ? '(' + vz(v) + ')' : String(v);   // negativer Subtrahend in Klammern
+  document.getElementById('a4-d').textContent = vz(d) + ' K';
   document.getElementById('a4-eq').textContent =
-    'Δϑ = ' + t2 + ' − ' + t1 + ' = ' + d + ' °C   ·   ΔT = ' + K2.toFixed(2) + ' − ' + K1.toFixed(2) + ' = ' + d + ' K';
+    'Δϑ = ' + vz(t2) + ' − ' + sub(t1) + ' = ' + vz(d) + ' °C   ·   ΔT = ' + K2.toFixed(2) + ' − ' + K1.toFixed(2) + ' = ' + vz(d) + ' K';
 
-  const cv = initCanvas('a4-cv', 210, false);
+  const cv = initCanvas('a4-cv', 240, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0,0,W,H);
 
@@ -1175,7 +1320,7 @@ function drawA4(){
     ctx.beginPath(); ctx.moveTo(x,yC-4); ctx.lineTo(x,yC+4); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(x,yK-4); ctx.lineTo(x,yK+4); ctx.stroke();
     ctx.textAlign='center';
-    ctx.fillText(v+'', x, yC+15);
+    ctx.fillText(vz(v), x, yC+15);
     ctx.fillText(Math.round(v+T0)+'', x, yK-8);
   }
 
@@ -1197,9 +1342,21 @@ function drawA4(){
   mark(t1, '#1a4f8a', 'ϑ₁');
   mark(t2, '#9b1c1c', 'ϑ₂');
 
-  // Differenz-Beschriftung
-  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText('Δ = '+Math.abs(d)+' (in °C und K gleich)', (xa+xb)/2, (yC+yK)/2+4);
+  // Richtungspfeil ϑ₁ → ϑ₂: macht das Vorzeichen der Differenz sichtbar
+  if(d !== 0) drawArrow(ctx, xOf(t1), yC+28, xOf(t2), yC+28, '#8a4a0e', 2, 9);
+
+  // Differenz-Beschriftung (mit Vorzeichen); Zentrum so begrenzt, dass auch bei
+  // schmalem Band nichts über den Canvas-Rand läuft.
+  const yMid = (yC+yK)/2;
+  ctx.fillStyle='#8a4a0e'; ctx.textAlign='center';
+  const zeile = (s, font, y) => {
+    ctx.font = font;
+    const half = ctx.measureText(s).width/2 + 4;
+    ctx.fillText(s, Math.max(half, Math.min(W-half, (xa+xb)/2)), y);
+  };
+  zeile('Δϑ = ΔT = '+vz(d), 'bold 13px JetBrains Mono,monospace', yMid);
+  zeile(d > 0 ? 'Erwärmung' : (d < 0 ? 'Abkühlung' : 'keine Änderung'),
+        '12px Source Sans 3,sans-serif', yMid+15);
 }
 ['a4-t1','a4-t2'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
 
@@ -1207,13 +1364,21 @@ function drawA4(){
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 5: p-T-Diagramm — Extrapolation zum Nullpunkt
 // ══════════════════════════════════════════════════════════
-function pRel(theta){ return 100*(1 + theta/T0); }   // % bei 0 °C = 100
+// Zwei Gasmengen im selben Behälter: Gas B enthält weniger Gas und steht darum
+// bei jeder Temperatur unter kleinerem Druck. Beide Geraden treffen dieselbe
+// Stelle auf der ϑ-Achse — der absolute Nullpunkt hängt nicht vom Gas ab.
+function pRel(theta){ return 100*(1 + theta/T0); }   // Gas A: % bei 0 °C = 100
+function pRelB(theta){ return 60*(1 + theta/T0); }   // Gas B: % bei 0 °C =  60
+const A5_MESS = [-20, 20, 60, 100, 140, 180];        // tatsächlich gemessene Temperaturen
+const A5_COL_A = '#b85c00', A5_COL_B = '#1f6b3a';
 function drawA5(){
   const th = +document.getElementById('a5-T').value;
-  document.getElementById('a5-T-val').textContent = th + ' °C';
-  document.getElementById('a5-Tc').textContent = th + ' °C = ' + Math.round(th+T0) + ' K';
+  const ext = document.getElementById('a5-ext').classList.contains('aktiv');
+  document.getElementById('a5-T-val').textContent = vz(th) + ' °C';
+  document.getElementById('a5-Tc').textContent = vz(th) + ' °C = ' + Math.round(th+T0) + ' K';
   document.getElementById('a5-p').textContent = Math.round(pRel(th)) + ' %';
-  document.getElementById('a5-zero').textContent = '−273.15 °C';
+  document.getElementById('a5-pB').textContent = Math.round(pRelB(th)) + ' %';
+  document.getElementById('a5-zero').textContent = ext ? '−273.15 °C' : '?';
 
   const cv = initCanvas('a5-cv', 320, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -1221,30 +1386,63 @@ function drawA5(){
   drawAxesUnits(ctx, W, H, g.cx, g.cy, 'ϑ [°C]', 'p [%]');
   const cx=g.cx, cy=g.cy;
 
-  // gemessener Bereich (solide) + Extrapolation (gestrichelt)
-  ctx.lineWidth=2.6; ctx.strokeStyle='#b85c00';
-  ctx.beginPath(); ctx.moveTo(cx(-20), cy(pRel(-20))); ctx.lineTo(cx(200), cy(pRel(200))); ctx.stroke();
-  ctx.setLineDash([6,4]); ctx.strokeStyle='#9b6bd4'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(cx(-273.15), cy(0)); ctx.lineTo(cx(-20), cy(pRel(-20))); ctx.stroke();
-  ctx.setLineDash([]);
+  if(ext){
+    // gemessener Bereich (solide) + Extrapolation (gestrichelt) für beide Gase
+    for(const gas of [{f:pRel, col:A5_COL_A}, {f:pRelB, col:A5_COL_B}]){
+      ctx.setLineDash([]); ctx.lineWidth=2.6; ctx.strokeStyle=gas.col;
+      ctx.beginPath(); ctx.moveTo(cx(-20), cy(gas.f(-20))); ctx.lineTo(cx(200), cy(gas.f(200))); ctx.stroke();
+      ctx.setLineDash([6,4]); ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(cx(-273.15), cy(0)); ctx.lineTo(cx(-20), cy(gas.f(-20))); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    // absoluter Nullpunkt — gemeinsamer Schnittpunkt beider Geraden
+    drawDot(ctx, cx, cy, -273.15, 0, '#5b2d8e', 5);
+    ctx.fillStyle='#5b2d8e'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
+    ctx.fillText('abs. Nullpunkt', cx(-273.15)+8, cy(0)-46);   // über der Tick-Zeile
+    ctx.fillText('−273.15 °C', cx(-273.15)+8, cy(0)-34);
+  }
 
-  // absoluter Nullpunkt
-  drawDot(ctx, x=>x, y=>y, cx(-273.15), cy(0), '#5b2d8e', 5);
-  ctx.fillStyle='#5b2d8e'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
-  ctx.fillText('abs. Nullpunkt', cx(-273.15)+8, cy(0)-26);
-  ctx.fillText('−273.15 °C', cx(-273.15)+8, cy(0)-14);
+  // Messpunkte (immer sichtbar — sie sind das, was man wirklich misst)
+  for(const t of A5_MESS){
+    drawDot(ctx, cx, cy, t, pRel(t),  A5_COL_A, 4);
+    drawDot(ctx, cx, cy, t, pRelB(t), A5_COL_B, 4);
+  }
 
-  // aktueller Messpunkt
-  const px=cx(th), py=cy(pRel(th));
+  // aktueller Messpunkt auf beiden Geraden
+  const px=cx(th), py=cy(pRel(th)), pyB=cy(pRelB(th));
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(px, cy(0)); ctx.lineTo(px, py); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(cx(-300), py); ctx.lineTo(px, py); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx(-300), pyB); ctx.lineTo(px, pyB); ctx.stroke();
   ctx.setLineDash([]);
-  drawDot(ctx, x=>x, y=>y, px, py, '#9b1c1c', 6);
+  drawDot(ctx, cx, cy, th, pRelB(th), A5_COL_B, 6);
+  drawDot(ctx, cx, cy, th, pRel(th), '#9b1c1c', 6);
   ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
-  ctx.fillText(th+' °C', px+8, py-6);
+  ctx.fillText(vz(th)+' °C', px+8, py-6);
+
+  // Legende links oben (dort ist die Fläche in jedem Zustand frei)
+  const lx=10, ly=18;
+  ctx.fillStyle='rgba(255,255,255,0.92)'; ctx.fillRect(lx-5, ly-13, 162, 38);
+  ctx.strokeStyle='#e2ddd2'; ctx.lineWidth=1; ctx.strokeRect(lx-5, ly-13, 162, 38);
+  ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='left';
+  const leg=[{col:A5_COL_A,t:'Gas A'},{col:A5_COL_B,t:'Gas B (weniger Gas)'}];
+  leg.forEach((e,i)=>{
+    const y=ly+i*16;
+    ctx.strokeStyle=e.col; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(lx, y-4); ctx.lineTo(lx+18, y-4); ctx.stroke();
+    ctx.fillStyle=e.col; ctx.beginPath(); ctx.arc(lx+9, y-4, 3.2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle='#5a5040'; ctx.fillText(e.t, lx+24, y);
+  });
 }
 document.getElementById('a5-T').addEventListener('input', drawA5);
+const a5ExtBtn = document.getElementById('a5-ext');
+a5ExtBtn.addEventListener('click', ()=>{
+  const an = !a5ExtBtn.classList.contains('aktiv');
+  a5ExtBtn.classList.toggle('aktiv', an);
+  a5ExtBtn.setAttribute('aria-pressed', an ? 'true' : 'false');
+  a5ExtBtn.textContent = an ? '📏 nur Messpunkte zeigen' : '📏 Geraden verlängern';
+  drawA5();
+});
 
 
 // ══════════════════════════════════════════════════════════

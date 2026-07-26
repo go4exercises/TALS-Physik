@@ -66,9 +66,10 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   zurückgeworfen — der natürliche Treibhauseffekt (Mini-Check!) existiert im
   Modell nicht. Basis-Rückhaltung > 0 bei 280 ppm, Regler-Effekt als «zusätzlich»
   beschriften; Rückstrahlung als Re-Emission statt Spiegelreflexion zeichnen [MITTEL].
-- [ ] **[HOCH] p5-1 a1 (Gasteilchen):** Alle Teilchen haben exakt dasselbe Tempo —
+- [x] **[HOCH] p5-1 a1 (Gasteilchen):** Alle Teilchen haben exakt dasselbe Tempo —
   der direkt folgende Missverständnis-Block lehrt «Temperatur ist nur der
   Mittelwert». Feste Geschwindigkeitsstreuung (Faktor ≈0.5–1.6) einbauen.
+  *Erledigt 26.07.2026: Faktoren 0.52 … 1.60, Mittelwert exakt 1.*
 - [ ] **[HOCH] p0-3 a1 (Präfix-Leiter):** Im Zeit-Modus erscheinen die Sprossen
   «hs», «ks», «Ms» — widerspricht dem eigenen Lehrtext («oberhalb der Sekunde
   nicht dezimal»). Obere Sprossen ausblenden oder durch min/h ersetzen.
@@ -237,17 +238,31 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   (Anzeige sinkt beim Eintauchen um F_A) — Transfer «Stein unter Wasser».
 
 ### p5-1 Temperatur
-- [ ] [HOCH] ein-cv Brown: Checkbox «Wasserteilchen anzeigen» (Default aus) —
+*Alle Punkte umgesetzt am 26.07.2026.*
+- [x] [HOCH] ein-cv Brown: Knopf «Wasserteilchen anzeigen» (Default aus) —
   erst das rätselhafte Zittern, dann die Ursache; sonst ist die Pointe verschenkt.
-- [ ] [HOCH] a1 Gasteilchen: Geschwindigkeitsstreuung (Block B); [MITTEL] ein
+- [x] [HOCH] a1 Gasteilchen: Geschwindigkeitsstreuung (Block B); [MITTEL] ein
   markiertes Teilchen mit Momentantempo neben dem Mittelwert.
-- [ ] [HOCH] a5 Extrapolation: zweite Gasgerade (anderer Anfangsdruck) — beide
-  treffen −273.15 °C; [MITTEL] Extrapolation als Entdeckung (Checkbox
-  «Gerade verlängern», vorher nur Messpunkte).
-- [ ] [HOCH] a2 Aggregatzustände: Tm/Tb-Marken des gewählten Stoffs am Regler —
-  macht Vorhersagen möglich statt Absuchen; [MITTEL] Koexistenz-Zone um Tm.
-- [ ] [MITTEL] a3 Thermometer: Sprungknöpfe «0 K · 0 °C · 37 °C · 100 °C».
-- [ ] [MITTEL] a4 Zahlenstrahl: Vorzeichen der Differenz vereinheitlichen.
+  → feste Faktoren 0.52 … 1.60, Mittelwert exakt 1.000 (die Anzeige
+  «mittl. Tempo» bleibt damit korrekt); markiertes Teilchen mit Faktor 1.42.
+- [x] [HOCH] a5 Extrapolation: zweite Gasgerade (anderer Anfangsdruck) — beide
+  treffen −273.15 °C; [MITTEL] Extrapolation als Entdeckung (Knopf
+  «Geraden verlängern», vorher nur Messpunkte).
+  → Gas B mit 60 % des Drucks von Gas A; Achsenschnitt zeigt «?», bis verlängert wird.
+- [x] [HOCH] a2 Aggregatzustände: Tm/Tb-Marken des gewählten Stoffs — macht
+  Vorhersagen möglich statt Absuchen; [MITTEL] Koexistenz-Zone um Tm.
+  → Temperaturschiene mit drei Zonen unter dem Behälter (statt am Regler, dafür
+  ist kein neues CSS nötig); Koexistenz exakt bei \(T = T_m\) bzw. \(T = T_b\) —
+  physikalisch korrekt statt als Temperaturfenster, die Schiene macht das Treffen möglich.
+- [x] [MITTEL] a3 Thermometer: Sprungknöpfe «0 K · 0 °C · 37 °C · 100 °C».
+- [x] [MITTEL] a4 Zahlenstrahl: Vorzeichen der Differenz vereinheitlichen.
+  → durchgehend **mit** Vorzeichen (nicht per `abs()`), plus Richtungspfeil und
+  «Erwärmung/Abkühlung» — Vorbereitung auf \(Q = c\,m\,\Delta T\) und \(\Delta l = \alpha\,l_0\,\Delta T\).
+  Typografisches Minus (U+2212) dabei auf der ganzen Seite vereinheitlicht.
+- [ ] [MITTEL] a3 Thermometer (neu entdeckt beim Render-Check): Die Fixpunkt-
+  Beschriftungen sind bei 360 px rechts abgeschnitten («siedet 100…», «abs. Nullp…»),
+  weil sie fix bei \(x = 0{.}73\,W\) beginnen. Textbreite messen und Anker
+  umschalten oder Labels bei schmalem Canvas kürzen.
 
 ### p5-2 Wärme
 - [ ] [HOCH] a1 Wärmebedarf: feste kJ-Achse statt qmax-Normierung — m- und
