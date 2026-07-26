@@ -27,7 +27,7 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   p4-5 a1-cv-ph (p(h) je Dichte), ~~p5-2 a1 (Wärmebedarf-Balken)~~ ✓, p6-1 a3
   (Schall-Balken), p6-2 a1 (U-I-Kennlinie), p0-0 a6 / p0-2 a1 (Dichte-Balken).
 - [ ] **[HOCH] Q2 — Überhöhungsfaktoren nicht am Reglermaximum kalibriert (Sättigung).**
-  p5-3 a1 (Faktor 4000 → ≈260), p5-3 a2 (120 → ≈4.5), p5-3 a4 (120 → ≈46):
+  ~~p5-3 a1 (Faktor 4000 → ≈260), p5-3 a2 (120 → ≈4.5), p5-3 a4 (120 → ≈46)~~ ✓:
   Die Grafik klemmt über weite Bereiche am Anschlag, Materialwechsel und
   ΔT-Regler ändern das Bild nicht. Ein gemeinsamer, kleiner Fix.
 - [ ] **[MITTEL] Q3 — Pfeillängen mit Sockel/Cap oder fix statt proportional.**
@@ -43,8 +43,8 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
 - [ ] **[MITTEL] Q5 — Vergleiche ohne Gedächtnis.** Serielle Vergleiche (erst A
   einstellen, dann B, Wert merken) durch Geister-/Referenzdarstellungen ersetzen:
   p4-2 a2 («letzter Lauf»-Zeile), p4-3 a2-diag (Geister-Punkt bei 2v), p0-2 a2
-  (Referenzmarken Erde/Mond/Mars), p4-1 a4 («Bahn festhalten»), p5-3 a1/a2
-  (Referenzstab/-gefäss Eisen).
+  (Referenzmarken Erde/Mond/Mars), p4-1 a4 («Bahn festhalten»), ~~p5-3 a1/a2
+  (Referenzstab/-gefäss Eisen)~~ ✓.
 - [ ] **[MITTEL] Q6 — Tempo-Regler + Reset (p6-1a-Standard) nachrüsten** bei den
   animierten Widgets ohne: p4-1 a3 (freier Fall), p6-1 ein-cv, a1, a2, a5.
 
@@ -303,21 +303,28 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   Wirkungsgrad-Mini-Check an seine Sektion zurückgesetzt.
 
 ### p5-3 Wärmeausdehnung
-- [ ] [HOCH] a1 Stab: Überhöhung neu kalibrieren (≈260 statt 4000, Q2) und
-  Ausgangsstab mit l₀ mitskalieren — sonst Material-/ΔT-Vergleich unsichtbar
-  und a1 gegenüber ein-cv fast ohne Mehrwert.
-- [ ] [HOCH] a2 Volumen: Überhöhung ≈4.5 statt 120 (Q2) — Ethanol, Wasser und
-  Quecksilber sehen derzeit identisch aus, obwohl der Text zum Vergleich auffordert.
-- [ ] [MITTEL] a4 Meeresspiegel: Faktor ≈46 statt 120 (Q2, Klemme entfällt).
-- [ ] [MITTEL] a3 Anomalie: Seebild an den Regler koppeln (Schicht mit passender
-  Temperatur hervorheben) — die zwei Bildhälften sind derzeit unverbunden.
-- [ ] [MITTEL] a5 Gasgesetz: Zusatzzeile «p·V/T = … — bleibt konstant» — die
-  Invariante ist die Erkenntnis, wird aber nie angezeigt.
-- [ ] [MITTEL] ein-cv Schiene: im Warnzustand die Grenztemperatur ausweisen
-  («geschlossen ab ≈ 43 °C»).
-- [ ] [MITTEL] a6: im Amontons-Modus Ursprung beschriften «0 K = absoluter
-  Nullpunkt (vgl. 5.1)» — Bogen über die Kapitelgrenze.
-- [ ] [NIEDRIG] Neu: Bimetallstreifen-Mini-Animation (Mini-Check-Transfer Thermostat).
+*Alle Punkte umgesetzt am 26.07.2026.*
+- [x] [HOCH] a1 Stab: Überhöhung neu kalibriert (260 statt 4000, Q2), Ausgangsstab
+  skaliert mit l₀ mit; damit ist die gezeichnete Verlängerung proportional zum
+  echten Δl. Reglerminimum von 1 m auf 10 m gehoben — bei 1 m wäre der Stab
+  ein Strich. Dazu Referenzstab Eisen (Q5).
+- [x] [HOCH] a2 Volumen: Überhöhung 4.5 statt 120 (Q2); Ethanol, Wasser und
+  Quecksilber sind jetzt unterscheidbar. Referenzpegel Eisen (Q5).
+  Für Festkörper neu ein isometrisches Würfelbild: drei beschriftete Kantenpfeile
+  α·ΔT machen γ = 3α sichtbar.
+- [x] [MITTEL] a4 Meeresspiegel: Faktor 46 statt 120 (Q2), Klemme entfällt.
+- [x] [MITTEL] a3 Anomalie: Seebild an den Regler gekoppelt (passende Schicht
+  hervorgehoben). Zusätzlich auf −20 °C erweitert: eigener Eis-Ast bei 917 kg/m³
+  auf unterbrochener Achse, Sprung beim Gefrieren beziffert, Wasserlinie in der
+  Eisdecke mit 91.7 % Eintauchtiefe. Dazu zwei Erklärblöcke (Herleitung aus dem
+  Auftrieb, Folgen für den See).
+- [x] [MITTEL] a5 Gasgesetz: Zeile «p·V/T = … — bleibt konstant» ergänzt.
+- [x] [MITTEL] ein-cv Schiene: Grenztemperatur im Warnzustand ausgewiesen
+  (geschlossen ab 43.3 °C).
+- [x] [MITTEL] a6: im Amontons-Modus Ursprung beschriftet «0 K = absoluter
+  Nullpunkt (vgl. Kapitel 5.1)», mit Führungslinie.
+- [x] [NIEDRIG] Neu: Bimetallstreifen-Mini-Animation mit Thermostat-Kontakt
+  (schaltet bei 70 °C).
 
 ### p6-1 Wellen
 - [ ] [HOCH] a1 c = λ·f: Kausalität umdrehen (Block B).
@@ -382,7 +389,7 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 | MITTEL | p0-2 | Wärmestrom-Widget (zwei Körper, Pfeil ∝ ΔT) zu «Temperatur ≠ Wärme» |
 | MITTEL | p0-3 | DEG/RAD-Vergleichswidget (sin x in beiden Modi, ohne Canvas machbar) |
 | MITTEL | p0-4 | Streudiagramm «Korrelation ≠ Kausalität» (dritte Variable als Farbe) |
-| NIEDRIG | p5-3 | Bimetallstreifen |
+| ~~NIEDRIG~~ ✓ | p5-3 | ~~Bimetallstreifen~~ — umgesetzt |
 | NIEDRIG | p6-1 | Wasserwellen-Kreisbahnen |
 | NIEDRIG | p6-2 | AC/DC-U(t)-Panel |
 

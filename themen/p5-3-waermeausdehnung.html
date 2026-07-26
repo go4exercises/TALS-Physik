@@ -226,7 +226,7 @@ MathJax = {
     <div class="sl-row">
       <div class="sl-grp">
       <label>Anfangslänge \(l_0\):</label>
-      <input type="range" id="a1-l0" min="1" max="300" value="100" step="1">
+      <input type="range" id="a1-l0" min="10" max="300" value="100" step="5">
       <span class="sl-val" id="a1-l0-val">100 m</span>
 
       </div>
@@ -240,14 +240,38 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Längenänderung</div>
-      <div class="fl-eq" id="a1-eq">Δl = 12·10⁻⁶ · 100 · 40 = 48.0 mm</div>
+      <div class="fl-eq" id="a1-eq-f">Δl = α · l₀ · ΔT</div>
+      <div class="fl-eq" id="a1-eq">Δl = 12·10⁻⁶ 1/K · 100 m · 40 K = 48.0 mm</div>
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">📏 Stab vor (grau) und nach (bernstein) der Erwärmung</div>
-      <canvas id="a1-cv" height="170"></canvas>
+      <div class="cv-titel">📏 Stab vor (grau) und nach (bernstein) der Erwärmung · Referenz Eisen</div>
+      <canvas id="a1-cv" height="210"></canvas>
     </div>
 
+  </div>
+</div>
+
+
+<div class="block block-experiment">
+  <div class="block-titel">🔬 Anwendung: der Bimetallstreifen</div>
+  <p>Verbindet man zwei Metalle mit verschiedenem \(\alpha\) fest miteinander, dehnt sich das eine stärker als das andere. Weil sie nicht aneinander vorbeigleiten können, <strong>krümmt</strong> sich der Streifen — zur Seite des kleineren \(\alpha\). Genau so schaltet ein Thermostat.</p>
+
+  <div class="sl-row">
+    <label>Temperatur \(\vartheta\):</label>
+    <input type="range" id="bm-T" min="0" max="120" value="20" step="1">
+    <span class="sl-val" id="bm-T-val">20 °C</span>
+  </div>
+
+  <div class="live-box">
+    <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="bm-Tc">20 °C</span></div>
+    <div class="lb-item"><span class="lb-lab">Kontakt</span><span class="lb-val" id="bm-kontakt">geschlossen</span></div>
+    <div class="lb-item"><span class="lb-lab">schaltet bei</span><span class="lb-val" id="bm-schwelle">70 °C</span></div>
+  </div>
+
+  <div class="cv-wrap">
+    <div class="cv-titel">🌡 Bimetall: Messing (α = 18.4·10⁻⁶) auf Eisen (α = 12·10⁻⁶)</div>
+    <canvas id="bm-cv" height="220"></canvas>
   </div>
 </div>
 
@@ -308,12 +332,13 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Volumenänderung</div>
-      <div class="fl-eq" id="a2-eq">ΔV = 1.10·10⁻³ · 1.0 · 60 = 66.0 mL</div>
+      <div class="fl-eq" id="a2-eq-f">ΔV = γ · V₀ · ΔT</div>
+      <div class="fl-eq" id="a2-eq">ΔV = 1.10·10⁻³ 1/K · 1.0 L · 60 K = 66.0 mL</div>
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">🧪 Füllstand: Anfang (grau) und nach Erwärmung (Farbe)</div>
-      <canvas id="a2-cv" height="240"></canvas>
+      <div class="cv-titel">🧪 Flüssigkeit: Füllstand · 🧊 Festkörper: Würfel in drei Richtungen</div>
+      <canvas id="a2-cv" height="330"></canvas>
     </div>
 
   </div>
@@ -348,16 +373,16 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Verschiebe die Temperatur und verfolge die Dichte.</li><li>Suche das Maximum der Dichte.</li><li>Betrachte rechts die Schichtung im winterlichen See.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Verschiebe die Temperatur und verfolge die Dichte des Wassers. Suche die Temperatur, bei der die Dichte am grössten ist. Betrachte rechts die Schichtung in einem winterlichen See." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Verschiebe die Temperatur und verfolge die Dichte.</li><li>Suche das Maximum der Dichte.</li><li>Geh unter \(0\,^\circ\text{C}\): dort springt die Kurve auf den Eis-Ast — achte auf den Achsenbruch.</li><li>Rechts wird die Schicht hervorgehoben, die zur eingestellten Temperatur passt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verschiebe die Temperatur und verfolge die Dichte des Wassers. Suche die Temperatur, bei der die Dichte am grössten ist. Geh unter null Grad Celsius: dort springt die Kurve auf den Ast des Eises, achte dabei auf den Achsenbruch. Rechts wird jeweils die Schicht hervorgehoben, die zur eingestellten Temperatur passt." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Wasser hat seine grösste Dichte bei \(4\,^\circ\text{C}\) (Anomalie).</li><li>Darunter wird Wasser wieder leichter — Eis schwimmt oben.</li><li>Darum gefriert ein See von oben, am Grund bleiben \(4\,^\circ\text{C}\).</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Wasser hat seine grösste Dichte bei vier Grad Celsius; das ist die sogenannte Anomalie des Wassers. Unterhalb von vier Grad wird Wasser wieder leichter, deshalb schwimmt Eis oben. Darum gefriert ein See von oben, während am Grund vier Grad Celsius bleiben." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Wasser hat seine grösste Dichte bei \(4\,^\circ\text{C}\) (Anomalie).</li><li>Darunter wird Wasser wieder leichter; beim Gefrieren springt die Dichte um rund \(83\;\text{kg/m}^3\) nach unten.</li><li>Eis ist damit rund \(9\,\%\) voluminöser als dasselbe Wasser — es schwimmt, mit \(91.7\,\%\) unter der Oberfläche.</li><li>Darum gefriert ein See von oben, am Grund bleiben \(4\,^\circ\text{C}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wasser hat seine grösste Dichte bei vier Grad Celsius; das ist die sogenannte Anomalie des Wassers. Unterhalb von vier Grad wird Wasser wieder leichter, und beim Gefrieren springt die Dichte um rund 83 Kilogramm pro Kubikmeter nach unten. Eis ist damit rund 9 Prozent voluminöser als dasselbe Wasser; es schwimmt mit 91.7 Prozent unter der Oberfläche. Darum gefriert ein See von oben, während am Grund vier Grad Celsius bleiben." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
 </div>
@@ -366,22 +391,42 @@ MathJax = {
 
     <div class="sl-row">
       <label>Temperatur:</label>
-      <input type="range" id="a3-T" min="0" max="20" value="4" step="0.1">
+      <input type="range" id="a3-T" min="-20" max="20" value="4" step="0.1">
       <span class="sl-val" id="a3-T-val">4.0 °C</span>
     </div>
 
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a3-Tc">4.0 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">Zustand</span><span class="lb-val" id="a3-zustand">Wasser (flüssig)</span></div>
       <div class="lb-item"><span class="lb-lab">Dichte (relativ)</span><span class="lb-val" id="a3-rho">1.0000</span></div>
-      <div class="lb-item"><span class="lb-lab">Hinweis</span><span class="lb-val" id="a3-note">Maximum</span></div>
+      <div class="lb-item"><span class="lb-lab">Hinweis</span><span class="lb-val" id="a3-note">maximale Dichte</span></div>
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">📈 Dichte \(\rho\) über Temperatur · 🏞 Seeschichtung</div>
-      <canvas id="a3-cv" height="280"></canvas>
+      <div class="cv-titel">📈 Dichte \(\rho\) über Temperatur (Achse unterbrochen) · 🏞 Seeschichtung</div>
+      <canvas id="a3-cv" height="340"></canvas>
     </div>
 
   </div>
+</div>
+
+
+<div class="block block-beweis">
+  <div class="block-titel">🔷 Warum Eis schwimmen <em>muss</em></div>
+  <p>Beim Gefrieren ordnen sich die Wassermoleküle über ihre Wasserstoffbrücken zu einem <strong>offenen, sechseckigen Gitter</strong>. Dieses Gitter hat mehr Hohlraum als die dicht gepackte Flüssigkeit — dieselbe Masse braucht deshalb mehr Platz. Beim Schmelzen bricht das Gitter teilweise zusammen, das Volumen nimmt ab. Das ist die Ursache der Anomalie:</p>
+  \[ \rho_\text{Eis} = 917\;\frac{\text{kg}}{\text{m}^3} \quad<\quad \rho_\text{Wasser} = 999.9\;\frac{\text{kg}}{\text{m}^3} \]
+  <p>Dass Eis damit schwimmen <em>muss</em>, folgt zwingend aus dem Auftrieb (Kapitel 4.5). Im Schwimmgleichgewicht ist die Auftriebskraft gleich der Gewichtskraft:</p>
+  \[ F_\text{A} = F_\text{G} \]
+  \[ \rho_\text{Wasser} \cdot g \cdot V_\text{ein} = \rho_\text{Eis} \cdot g \cdot V \]
+  <p>Kürzen von \(g\) und Auflösen nach dem eingetauchten Anteil:</p>
+  \[ \frac{V_\text{ein}}{V} = \frac{\rho_\text{Eis}}{\rho_\text{Wasser}} = \frac{917}{999.9} = 0.917 \]
+  <p>Ein Eisstück schwimmt also mit \(91.7\,\%\) seines Volumens unter Wasser — nur knapp ein Zehntel schaut heraus. Genau das sieht man am Eisberg. Weil \(\rho_\text{Eis} < \rho_\text{Wasser}\) ist, kann das Ergebnis gar nicht anders ausfallen: Eis kann nicht sinken, solange es Eis bleibt.</p>
+</div>
+
+<div class="block block-merksatz">
+  <div class="block-titel">💡 Was daran lebenswichtig ist</div>
+  <p>Wäre Eis schwerer als Wasser, würde ein See <strong>von unten</strong> zufrieren und im Winter vollständig durchfrieren — Fische und Wasserpflanzen hätten keine Überlebenszone. Weil das Eis oben aufliegt, wirkt es stattdessen als <strong>Wärmedämmung</strong>: Darunter bleibt flüssiges Wasser, am Grund die dichtesten \(4\,^\circ\text{C}\).</p>
+  <p>Dieselbe Volumenzunahme von rund \(9\,\%\) sprengt allerdings auch Wasserleitungen und Motorblöcke — und sie ist der Grund für die Frostverwitterung im Gebirge.</p>
 </div>
 
 
@@ -439,7 +484,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Anstieg</div>
-      <div class="fl-eq" id="a4-eq">Δh = 0.21·10⁻³ · 1000 · 1.0 = 0.21 m = 21 cm</div>
+      <div class="fl-eq" id="a4-eq-f">Δh = γ · h₀ · ΔT</div>
+      <div class="fl-eq" id="a4-eq">Δh = 0.21·10⁻³ 1/K · 1000 m · 1.0 K = 0.21 m = 21 cm</div>
     </div>
 
     <div class="cv-wrap">
@@ -509,7 +555,9 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Gasgesetz</div>
-      <div class="fl-eq" id="a5-eq">p = p₀ · (V₀/V) · (T/T₀) = 1.00 bar</div>
+      <div class="fl-eq" id="a5-eq-f">p = p₀ · (V₀/V) · (T/T₀)</div>
+      <div class="fl-eq" id="a5-eq">p = 1.00 bar · (3.0 L / 3.0 L) · (293 K / 293 K) = 1.00 bar</div>
+      <div class="fl-eq" id="a5-eq-inv">p · V / T = 1.00 bar · 3.0 L / 293 K = 0.0102 bar·L/K — bleibt konstant</div>
     </div>
 
     <div class="live-box">
@@ -574,7 +622,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Arbeitspunkt</div>
-      <div class="fl-eq" id="a6-eq">p · V = 6.0 bar·L (konstant)</div>
+      <div class="fl-eq" id="a6-eq-f">p · V = 6.0 bar·L (konstant)</div>
+      <div class="fl-eq" id="a6-eq">p = 6.0 bar·L / 2.0 L = 3.00 bar</div>
     </div>
 
     <div class="cv-wrap">
@@ -882,6 +931,8 @@ function makeLoop(canvasId, btnId, tickFn){
 //  EINSTIEG: Schiene mit Dehnungslücke
 // ══════════════════════════════════════════════════════════
 const EIN_L0=25, EIN_A=12e-6, EIN_TREF=10, EIN_GAP0=10; // l0[m], alpha, Ref-Temp, Luecke[mm] bei Ref
+// Grenztemperatur: Lücke = 0, also EIN_GAP0 = alpha·l0·(T-Tref)·1000  ->  T = 43.3 °C
+const EIN_TGRENZ = EIN_TREF + EIN_GAP0/(EIN_A*EIN_L0*1000);
 function einRender(){
   const T=+document.getElementById('ein-T').value;
   const dl_mm = EIN_A*EIN_L0*(T-EIN_TREF)*1000;   // reale Laengenaenderung in mm
@@ -916,6 +967,8 @@ function einRender(){
   } else {
     ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('⚠ Lücke geschlossen — Verwerfung droht!', mid, yb-12);
+    ctx.font='13px JetBrains Mono,monospace';
+    ctx.fillText('geschlossen ab ϑ ≈ '+EIN_TGRENZ.toFixed(1)+' °C', mid, yb-28);
   }
   ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('reale Längenänderung Δl = '+(dl_mm>=0?'+':'')+dl_mm.toFixed(1)+' mm (Bild stark vergrössert)', mid, H*0.93);
@@ -935,35 +988,56 @@ function a1Buttons(){
     if(i===a1Sel)b.classList.add('aktiv');
     b.addEventListener('click',()=>{a1Sel=i;a1Buttons();a1Render();}); box.appendChild(b); });
 }
+const A1_EXAG = 260;          // am Reglermaximum kalibriert: Alu bei ΔT = 80 K -> 0.495 (Q2)
+const A1_L0MAX = 300;         // Reglermaximum; der gezeichnete Stab ist proportional zu l₀
+const A1_REF = 3;             // Eisen als stehende Vergleichsgrösse (Q5)
 function a1Render(){
   const m=A1MAT[a1Sel], a=m.a*1e-6;
   const l0=+document.getElementById('a1-l0').value, dT=+document.getElementById('a1-dT').value;
   document.getElementById('a1-l0-val').textContent=l0+' m';
   document.getElementById('a1-dT-val').textContent=dT+' K';
   const dl=a*l0*dT, dl_mm=dl*1000;
-  document.getElementById('a1-eq').textContent='Δl = '+m.a+'·10⁻⁶ · '+l0+' · '+dT+' = '+dl_mm.toFixed(1)+' mm';
+  document.getElementById('a1-eq').textContent =
+    'Δl = '+m.a+'·10⁻⁶ 1/K · '+l0+' m · '+dT+' K = '+dl_mm.toFixed(1)+' mm';
 
-  const cv=initCanvas('a1-cv',170,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const cv=initCanvas('a1-cv',210,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const x0=W*0.06, baseLen=W*0.62, y=H*0.40, hbar=H*0.20;
-  // Originalstab (grau)
-  ctx.fillStyle='#c9bfae'; ctx.fillRect(x0,y,baseLen,hbar);
+  const x0=W*0.06, maxLen=W*0.60;
+  // Der Ausgangsstab wächst mit l₀ mit. Damit ist die gezeichnete Verlängerung
+  // proportional zum echten Δl = α·l₀·ΔT — l₀ wirkt sichtbar, nicht nur als Zahl.
+  const baseLen = maxLen*(l0/A1_L0MAX);
+  const y=H*0.30, hbar=H*0.17, yRef=H*0.60;
+  function stab(yy, mat, aktiv){
+    const aa=mat.a*1e-6, ext=baseLen*aa*dT*A1_EXAG;
+    ctx.fillStyle = aktiv ? '#c9bfae' : '#e0dace';
+    ctx.fillRect(x0,yy,baseLen,hbar);
+    ctx.fillStyle = ext>=0 ? (aktiv?'#b85c00':'#d9b98c') : (aktiv?'#1a4f8a':'#9db6cd');
+    if(ext>=0) ctx.fillRect(x0+baseLen, yy, ext, hbar);
+    else ctx.fillRect(x0+baseLen+ext, yy, -ext, hbar);
+    return ext;
+  }
+  // Referenzstab Eisen (immer sichtbar, damit der Materialvergleich kein Gedächtnis braucht)
+  const refExt = stab(yRef, A1MAT[A1_REF], a1Sel===A1_REF);
+  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('Referenz Eisen (α = 12·10⁻⁶ 1/K)', x0, yRef+hbar+14);
+  ctx.font='12px JetBrains Mono,monospace';
+  const rTxt=(A1MAT[A1_REF].a*1e-6*l0*dT*1000).toFixed(1)+' mm', rX=x0+baseLen+Math.max(refExt,0)+8;
+  if(rX+ctx.measureText(rTxt).width < W-6){ ctx.textAlign='left'; ctx.fillText(rTxt, rX, yRef+hbar*0.75); }
+  else { ctx.textAlign='right'; ctx.fillText(rTxt, W-6, yRef-6); }
+  // gewähltes Material
+  const ext = stab(y, m, true);
   ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
-  ctx.fillText('l₀ = '+l0+' m', x0, y-8);
-  // Ausdehnung (stark vergroessert): rel = a*dT, skaliert
-  const rel=a*dT; const exag=Math.max(-0.5,Math.min(0.5, rel*4000)); // visuelle Skala
-  const ext=baseLen*exag;
-  ctx.fillStyle = dl>=0 ? '#b85c00' : '#1a4f8a';
-  if(ext>=0) ctx.fillRect(x0+baseLen, y, ext, hbar);
-  else ctx.fillRect(x0+baseLen+ext, y, -ext, hbar);
-  // Klammer + Wert
+  ctx.fillText(m.n+' · l₀ = '+l0+' m', x0, y-8);
   const tipX=x0+baseLen+ext;
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,2]);
   ctx.beginPath(); ctx.moveTo(x0+baseLen,y+hbar+6); ctx.lineTo(tipX,y+hbar+6); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle=dl>=0?'#b85c00':'#1a4f8a'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText('Δl = '+dl_mm.toFixed(1)+' mm', (x0+baseLen+tipX)/2, y+hbar+22);
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='right';
-  ctx.fillText('(Ausdehnung im Bild vergrössert)', W*0.95, H*0.93);
+  // Wert rechts neben die Spitze — reicht der Platz nicht, weicht er über den Stab aus
+  ctx.fillStyle=dl>=0?'#b85c00':'#1a4f8a'; ctx.font='bold 13px JetBrains Mono,monospace';
+  const lTxt='Δl = '+dl_mm.toFixed(1)+' mm', lX=Math.max(x0+baseLen, tipX)+8;
+  if(lX+ctx.measureText(lTxt).width < W-6){ ctx.textAlign='left'; ctx.fillText(lTxt, lX, y+hbar*0.75); }
+  else { ctx.textAlign='right'; ctx.fillText(lTxt, W-6, y-8); }
+  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('Länge massstäblich zu l₀ · Ausdehnung '+A1_EXAG+'-fach vergrössert', W*0.97, H*0.95);
 }
 ['a1-l0','a1-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a1Render));
 
@@ -981,99 +1055,288 @@ function a2Buttons(){
     if(i===a2Sel)b.classList.add('aktiv');
     b.addEventListener('click',()=>{a2Sel=i;a2Buttons();a2Render();}); box.appendChild(b); });
 }
+const A2_EXAG = 4.5;      // Pegel-Überhöhung, am Reglermaximum kalibriert (Ethanol, ΔT = 80 K -> 0.396)
+const A2_KANTE = 260;     // Kanten-Überhöhung im Würfelbild — identisch zu Animation 1
+const A2_REF = 1;         // Eisen als stehende Vergleichsgrösse (Q5)
+// Isometrische Projektion für das Würfelbild: (x,y,z) in Kantenlängen -> Pixel.
+function a2Iso(ox,oy,x,y,z,s){ return [ox+(x-z)*0.866*s, oy-y*s+(x+z)*0.5*s]; }
+function a2Wuerfel(ctx,ox,oy,k,s,fuell,rand,gestrichelt){
+  const P=(x,y,z)=>a2Iso(ox,oy,x*k,y*k,z*k,s);
+  const flaechen=[
+    [[0,0,0],[1,0,0],[1,1,0],[0,1,0]],   // vorne  (z = 0)
+    [[1,0,0],[1,0,1],[1,1,1],[1,1,0]],   // rechts (x = 1)
+    [[0,1,0],[1,1,0],[1,1,1],[0,1,1]]    // oben   (y = 1)
+  ];
+  const toene=['#a89a80','#c2b69f','#dcd3c0'];   // drei klar unterscheidbare Flächen
+  flaechen.forEach((f,idx)=>{
+    ctx.beginPath();
+    f.forEach((pt,n)=>{ const [X,Y]=P(...pt); if(n===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); });
+    ctx.closePath();
+    if(fuell){ ctx.fillStyle=toene[idx]; ctx.fill(); }
+    if(rand){ ctx.setLineDash(gestrichelt?[6,4]:[]); ctx.strokeStyle=rand;
+              ctx.lineWidth=gestrichelt?2.2:1.6; ctx.stroke(); ctx.setLineDash([]); }
+  });
+}
 function a2Render(){
   const s=STOFFE2[a2Sel];
   const V0=+document.getElementById('a2-V0').value, dT=+document.getElementById('a2-dT').value;
   document.getElementById('a2-V0-val').textContent=V0.toFixed(1)+' L';
   document.getElementById('a2-dT-val').textContent=dT+' K';
   const dV=s.g*V0*dT, dV_mL=dV*1000;
-  const gShown = s.fest ? '3·'+(s.g/3*1e6).toFixed(1)+'·10⁻⁶' : (s.g*1e3).toFixed(2)+'·10⁻³';
-  document.getElementById('a2-eq').textContent='ΔV = '+gShown+' · '+V0.toFixed(1)+' · '+dT+' = '+dV_mL.toFixed(1)+' mL';
+  const gShown = s.fest ? '3·'+(s.g/3*1e6).toFixed(1)+'·10⁻⁶ 1/K' : (s.g*1e3).toFixed(2)+'·10⁻³ 1/K';
+  document.getElementById('a2-eq').textContent =
+    'ΔV = '+gShown+' · '+V0.toFixed(1)+' L · '+dT+' K = '+dV_mL.toFixed(1)+' mL';
 
-  const cv=initCanvas('a2-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const cv=initCanvas('a2-cv',330,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const bx=W*0.40, bw=W*0.20, btop=H*0.10, bbot=H*0.86;
+
+  if(s.fest){
+    // ── Festkörper: Würfelbild. Hier steckt die Einsicht γ = 3α — das Volumen
+    //    wächst in DREI Richtungen, darum dreifacher Ausdehnungskoeffizient.
+    const alpha = s.g/3, eps = alpha*dT*A2_KANTE;
+    // Bildgrösse für den GRÖSSTMÖGLICHEN Würfel festlegen, damit der Ausgangswürfel
+    // konstant bleibt und das Wachstum sichtbar wird. In der Isometrie gilt:
+    // Breite = 1.732·k·s, Höhe = 2·k·s, zentriert um (ox, oy).
+    const kMax = 1 + 23.8e-6*80*A2_KANTE;
+    const panelW = W*0.52, panelH = H*0.80;   // Rand für die Pfeil-Beschriftungen
+    const sK = Math.min(panelW/(1.732*kMax), panelH/(2*kMax));
+    const ox = panelW/2 + 4, oy = H*0.50;
+    a2Wuerfel(ctx, ox, oy, 1, sK, true, '#6b6256', false);                      // Ausgangswürfel
+    a2Wuerfel(ctx, ox, oy, 1+eps, sK, false, dV>=0?'#b85c00':'#1a4f8a', true);  // erwärmter Würfel
+    // Kantenpfeile in alle drei Richtungen — das ist die Kernaussage γ = 3α
+    const pfeil = (x,y,z,lab) => {
+      const [x1,y1]=a2Iso(ox,oy,x,y,z,sK), [x2,y2]=a2Iso(ox,oy,x*(1+eps),y*(1+eps),z*(1+eps),sK);
+      drawArrow(ctx,x1,y1,x2,y2,'#1c1a17',2.6,10);
+      if(lab){
+        ctx.fillStyle='#1c1a17'; ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='center';
+        ctx.lineWidth=3.5; ctx.lineJoin='round'; ctx.strokeStyle='#fbfaf7';
+        ctx.strokeText('α·ΔT', (x1+x2)/2+lab[0], (y1+y2)/2+lab[1]);
+        ctx.fillText('α·ΔT', (x1+x2)/2+lab[0], (y1+y2)/2+lab[1]); ctx.lineWidth=1;
+      }
+    };
+    pfeil(1,0,0,[30,12]); pfeil(0,1,0,[28,4]); pfeil(0,0,1,[-32,12]);
+    ctx.fillStyle='#1c1a17'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+    ctx.fillText(s.n+' — Festkörper', W*0.62, H*0.20);
+    ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
+    ctx.fillText('α = '+(alpha*1e6).toFixed(1)+'·10⁻⁶ 1/K', W*0.62, H*0.32);
+    ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace';
+    ctx.fillText('γ = 3α = '+(s.g*1e6).toFixed(1)+'·10⁻⁶ 1/K', W*0.62, H*0.44);
+    ctx.fillStyle='#1c1a17'; ctx.font='12px Source Sans 3,sans-serif';
+    ctx.fillText('jede der drei Kanten wächst um α·ΔT —', W*0.62, H*0.58);
+    ctx.fillText('darum wächst das Volumen um 3α·ΔT.', W*0.62, H*0.70);
+    ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.font='bold 13px JetBrains Mono,monospace';
+    ctx.fillText('ΔV = '+(dV_mL>=0?'+':'')+dV_mL.toFixed(1)+' mL', W*0.62, H*0.84);
+    ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.fillText('Kantenlänge '+A2_KANTE+'-fach überhöht (wie Animation 1)', W*0.97, H*0.96);
+    return;
+  }
+
+  // ── Flüssigkeit: Standgefäss mit Pegel ──
+  const bx=W*0.30, bw=W*0.18, btop=H*0.10, bbot=H*0.84;
   ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2.5; ctx.strokeRect(bx,btop,bw,bbot-btop);
-  // Basis-Fuellstand (V0 -> 55%)
   const baseFrac=0.55, yBase=bbot-(bbot-btop)*baseFrac;
-  // exaggerierte Aenderung
-  const rel=s.g*dT, exag=Math.max(-0.4,Math.min(0.4, rel*120));
-  const yNew=yBase-(bbot-btop)*baseFrac*exag;
-  // Fluessigkeit/Koerper bis yNew
+  const hFuell=(bbot-btop)*baseFrac;
+  const yVon = rel => yBase - hFuell*rel*A2_EXAG;
+  const yNew = yVon(s.g*dT);
   ctx.fillStyle=lerpCol(0.5+(dT/80)*0.45);
   ctx.fillRect(bx+2, Math.min(yNew,yBase), bw-4, bbot-Math.min(yNew,yBase));
-  // Original-Pegel (grau gestrichelt)
+  // Ausgangspegel
   ctx.strokeStyle='#6b6256'; ctx.lineWidth=1.5; ctx.setLineDash([5,3]);
   ctx.beginPath(); ctx.moveTo(bx-8,yBase); ctx.lineTo(bx+bw+8,yBase); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle='#6b6256'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='right';
   ctx.fillText('V₀', bx-10, yBase+3);
+  // Referenzpegel Eisen — macht ohne Umschalten sichtbar, wie wenig Festkörper sich dehnen (Q5)
+  const yRef = yVon(STOFFE2[A2_REF].g*dT);
+  ctx.strokeStyle='#1f6b3a'; ctx.lineWidth=1.5; ctx.setLineDash([2,3]);
+  ctx.beginPath(); ctx.moveTo(bx-8,yRef); ctx.lineTo(bx+bw+8,yRef); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#1f6b3a'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('Eisen zum Vergleich', bx+bw+10, yRef-4);
   // neuer Pegel
   ctx.strokeStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(bx-8,yNew); ctx.lineTo(bx+bw+8,yNew); ctx.stroke();
-  ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.textAlign='left';
+  ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.textAlign='left'; ctx.font='13px Source Sans 3,sans-serif';
   ctx.fillText('V', bx+bw+10, yNew+3);
   // Beschriftung
   ctx.fillStyle='#1c1a17'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
-  ctx.fillText(s.n+(s.fest?' (fest, γ=3α)':' (flüssig)'), W*0.66, H*0.22);
-  ctx.font='13px JetBrains Mono,monospace';
-  ctx.fillText('V₀ = '+V0.toFixed(1)+' L', W*0.66, H*0.34);
-  ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a';
-  ctx.fillText('ΔV = '+(dV_mL>=0?'+':'')+dV_mL.toFixed(1)+' mL', W*0.66, H*0.44);
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif';
-  ctx.fillText('(Pegeländerung vergrössert)', W*0.66, H*0.55);
+  ctx.fillText(s.n+' — Flüssigkeit', W*0.62, H*0.22);
+  ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
+  ctx.fillText('γ = '+(s.g*1e3).toFixed(2)+'·10⁻³ 1/K', W*0.62, H*0.34);
+  ctx.fillText('V₀ = '+V0.toFixed(1)+' L', W*0.62, H*0.46);
+  ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.font='bold 13px JetBrains Mono,monospace';
+  ctx.fillText('ΔV = '+(dV_mL>=0?'+':'')+dV_mL.toFixed(1)+' mL', W*0.62, H*0.58);
+  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('Pegeländerung '+A2_EXAG+'-fach überhöht', W*0.97, H*0.96);
 }
 ['a2-V0','a2-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a2Render));
 
 
 // ══════════════════════════════════════════════════════════
+//  BIMETALLSTREIFEN (Mini-Animation zum Thermostat-Transfer)
+// ══════════════════════════════════════════════════════════
+// Krümmung schematisch proportional zur Differenz der Ausdehnungen:
+// die stärker dehnende Schicht (Messing) liegt aussen im Bogen.
+const BM_A1=18.4e-6, BM_A2=12e-6, BM_TREF=20, BM_SCHWELLE=70, BM_EXAG=226;
+function bmRender(){
+  const T=+document.getElementById('bm-T').value;
+  const auf = T >= BM_SCHWELLE;
+  document.getElementById('bm-T-val').textContent=T+' °C';
+  document.getElementById('bm-Tc').textContent=T+' °C';
+  document.getElementById('bm-kontakt').textContent = auf ? 'offen — Heizung aus' : 'geschlossen';
+  document.getElementById('bm-schwelle').textContent = BM_SCHWELLE+' °C';
+
+  const cv=initCanvas('bm-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const x0=W*0.10, L=W*0.56, yM=H*0.46, d=7;          // Einspannung links, Streifenlänge, Dicke je Schicht
+  // Krümmung: Auslenkung der Spitze, überhöht dargestellt
+  // Faktor so kalibriert, dass die Spitze bei 120 °C rund 0.35·H ausweicht
+  const b = (BM_A1-BM_A2)*(T-BM_TREF)*BM_EXAG;       // dimensionslose Bogenstärke
+  const yOf = u => yM + b*L*u*u;                       // Parabel als Näherung des Kreisbogens
+  function schicht(off, col, lab){
+    ctx.beginPath();
+    for(let u=0;u<=1.001;u+=0.02){ const X=x0+u*L, Y=yOf(u)+off; if(u===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
+    for(let u=1;u>=-0.001;u-=0.02){ const X=x0+u*L, Y=yOf(u)+off+d; ctx.lineTo(X,Y); }
+    ctx.closePath(); ctx.fillStyle=col; ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,0.25)'; ctx.lineWidth=1; ctx.stroke();
+    ctx.fillStyle='#1c1a17'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.fillText(lab, x0-8, yOf(0)+off+(off<0 ? -3 : 2*d+3));   // Schichten auseinanderziehen
+  }
+  schicht(-d, '#c9a227', 'Messing');                   // grösseres α: aussen im Bogen
+  schicht(0,  '#8f9aa6', 'Eisen');
+  // Einspannung
+  ctx.fillStyle='#5a5040'; ctx.fillRect(x0-14, yM-3*d, 12, 6*d);
+  // Fester Kontakt von oben: der kalte Streifen drückt dagegen, beim Erwärmen
+  // biegt er sich nach unten weg und öffnet den Stromkreis (Thermostat).
+  const tipY = yOf(1)+d/2, kx = x0+L;
+  const kyFix = yM + (BM_A1-BM_A2)*(BM_SCHWELLE-BM_TREF)*BM_EXAG*L + d/2;
+  const farbe = auf ? '#9b1c1c' : '#1f6b3a';
+  ctx.strokeStyle='#5a5040'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(kx, kyFix); ctx.lineTo(kx, H*0.08); ctx.stroke();
+  ctx.fillStyle=farbe;
+  ctx.beginPath(); ctx.arc(kx, kyFix, 6, 0, 6.283); ctx.fill();     // fester Kontakt
+  ctx.beginPath(); ctx.arc(kx, tipY, 6, 0, 6.283); ctx.fill();      // Streifenspitze
+  if(auf){                                                          // Spalt sichtbar machen
+    ctx.strokeStyle=farbe; ctx.lineWidth=1.5; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(kx, kyFix+6); ctx.lineTo(kx, tipY-6); ctx.stroke(); ctx.setLineDash([]);
+  }
+  ctx.fillStyle=farbe; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText(auf ? 'Kontakt offen — Heizung aus' : 'Kontakt geschlossen — Heizung an', kx+14, kyFix-8);
+  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillText('Krümmung stark überhöht', W*0.97, H*0.96);
+}
+document.getElementById('bm-T').addEventListener('input', bmRender);
+
+
+// ══════════════════════════════════════════════════════════
 //  ANIMATION 3: Dichteanomalie des Wassers
 // ══════════════════════════════════════════════════════════
-function rhoW(T){ return 1000 - 0.007*(T-4)*(T-4); }  // schematisch, Maximum bei 4°C
+// Wasser: schematische Parabel mit Maximum bei 4 °C. Eis: eigener Stoff mit
+// ρ ≈ 917 kg/m³ und dem Volumenausdehnungskoeffizienten des Eises.
+function rhoW(T){ return 1000 - 0.007*(T-4)*(T-4); }
+const A3_RHO_EIS0 = 917, A3_GAMMA_EIS = 1.53e-4;
+function rhoEis(T){ return A3_RHO_EIS0/(1 + A3_GAMMA_EIS*T); }
 function drawA3(){
   const T=+document.getElementById('a3-T').value;
-  const rho=rhoW(T);
+  const eis = T < 0;
+  const rho = eis ? rhoEis(T) : rhoW(T);
   document.getElementById('a3-T-val').textContent=T.toFixed(1)+' °C';
   document.getElementById('a3-Tc').textContent=T.toFixed(1)+' °C';
   document.getElementById('a3-rho').textContent=(rho/1000).toFixed(4);
-  document.getElementById('a3-note').textContent = Math.abs(T-4)<0.3 ? 'maximale Dichte' : (T<4?'leichter (unter 4 °C)':'leichter (über 4 °C)');
+  document.getElementById('a3-zustand').textContent = eis ? 'Eis (fest)' : 'Wasser (flüssig)';
+  document.getElementById('a3-note').textContent = eis
+    ? 'schwimmt — rund 9 % leichter'
+    : (Math.abs(T-4)<0.3 ? 'maximale Dichte' : (T<4 ? 'leichter (unter 4 °C)' : 'leichter (über 4 °C)'));
 
-  const cv=initCanvas('a3-cv',280,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const cv=initCanvas('a3-cv',340,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  // ── links: rho-T-Kurve ──
-  const px0=W*0.10, px1=W*0.52, py0=H*0.12, py1=H*0.82;
-  const xT=t=>px0+(t/20)*(px1-px0);
-  const yR=r=>py1-((r-998)/(1000.4-998))*(py1-py0);
-  // Achsen
+  // ── links: ρ-ϑ-Kurve mit unterbrochener Achse ──
+  // Der Sprung Wasser -> Eis ist rund 83 kg/m³ gross, die Anomalie nur 1.8 kg/m³.
+  // Auf einer durchgehenden Achse wäre eines von beidem unsichtbar; darum zwei
+  // Bänder mit Achsenbruch.
+  const px0=W*0.13, px1=W*0.52, py0=H*0.10, py1=H*0.80;
+  const yBruch=(py0+py1)*0.62, spalt=10;
+  const oben=[py0, yBruch-spalt/2], unten=[yBruch+spalt/2, py1];   // oben 998…1000.4, unten 915…921
+  const xT=t=>px0+((t+20)/40)*(px1-px0);
+  const yFl=r=>oben[1]-((r-998)/(1000.4-998))*(oben[1]-oben[0]);
+  const yEis=r=>unten[1]-((r-915)/(921-915))*(unten[1]-unten[0]);
   ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(px0,py0); ctx.lineTo(px0,py1); ctx.lineTo(px1,py1); ctx.stroke();
-  ctx.fillStyle='#6b7280'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  for(let t=0;t<=20;t+=5){ ctx.fillText(t+'', xT(t), py1+14); }
-  ctx.textAlign='right'; for(let r=998;r<=1000;r+=1){ ctx.fillText(r+'', px0-4, yR(r)+3); }
-  ctx.fillStyle='#374151'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  // Achsenbruch andeuten
+  ctx.strokeStyle='#fbfaf7'; ctx.lineWidth=6;
+  ctx.beginPath(); ctx.moveTo(px0,yBruch); ctx.lineTo(px0,yBruch); ctx.stroke();
+  ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
+  for(const dy of [-3,3]){
+    ctx.beginPath(); ctx.moveTo(px0-6,yBruch+dy+3); ctx.lineTo(px0+6,yBruch+dy-3); ctx.stroke();
+  }
+  ctx.fillStyle='#6b7280'; ctx.font='12px JetBrains Mono,monospace'; ctx.textAlign='center';
+  for(let t=-20;t<=20;t+=10) ctx.fillText(t+'', xT(t), py1+14);
+  ctx.textAlign='right';
+  for(const r of [998,999,1000]) ctx.fillText(r+'', px0-5, yFl(r)+3);
+  for(const r of [917,920])      ctx.fillText(r+'', px0-5, yEis(r)+3);
+  ctx.fillStyle='#374151'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
   ctx.fillText('ϑ [°C]', (px0+px1)/2, py1+28);
-  ctx.save(); ctx.translate(px0-30,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('ρ [kg/m³]',0,0); ctx.restore();
-  // Kurve
+  ctx.save(); ctx.translate(px0-38,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('ρ [kg/m³]',0,0); ctx.restore();
+  // Kurve Wasser (0 … 20 °C)
   ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=2.6; ctx.beginPath();
-  for(let t=0;t<=20;t+=0.4){ const X=xT(t),Y=yR(rhoW(t)); if(t===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
+  for(let t=0;t<=20;t+=0.4){ const X=xT(t),Y=yFl(rhoW(t)); if(t===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
   ctx.stroke();
-  // Maximum bei 4°C
+  // Kurve Eis (−20 … 0 °C)
+  ctx.strokeStyle='#5b97cf'; ctx.lineWidth=2.6; ctx.beginPath();
+  for(let t=-20;t<=0;t+=0.4){ const X=xT(t),Y=yEis(rhoEis(t)); if(t===-20)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
+  ctx.stroke();
+  // Sprung bei 0 °C
+  ctx.strokeStyle='#9b1c1c'; ctx.lineWidth=1.6; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(xT(0),yFl(rhoW(0))); ctx.lineTo(xT(0),yEis(rhoEis(0))); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('Gefrieren: −83 kg/m³', xT(0)+6, (yFl(rhoW(0))+yEis(rhoEis(0)))/2);
+  ctx.font='11px Source Sans 3,sans-serif';
+  ctx.fillText('(Volumen +9 %)', xT(0)+6, (yFl(rhoW(0))+yEis(rhoEis(0)))/2+13);
+  // Maximum bei 4 °C
   ctx.strokeStyle='#9b6bd4'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
-  ctx.beginPath(); ctx.moveTo(xT(4),py1); ctx.lineTo(xT(4),yR(rhoW(4))); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#5b2d8e'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('Max bei 4 °C', xT(4), yR(rhoW(4))-6);
+  ctx.beginPath(); ctx.moveTo(xT(4),oben[1]); ctx.lineTo(xT(4),yFl(rhoW(4))); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#5b2d8e'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Max bei 4 °C', xT(4), yFl(rhoW(4))-6);
   // aktueller Punkt
-  drawDot(ctx,x=>x,y=>y,xT(T),yR(rho),'#b85c00',6);
-  // ── rechts: See im Winter ──
-  const lx0=W*0.60, lx1=W*0.94, ly0=H*0.10, ly1=H*0.86;
-  const layers=[['Eis (0 °C)','#dff0fb',0.10],['1 °C','#bcd9f0',0.18],['2 °C','#9ec6e8',0.18],['3 °C','#7fb2df',0.20],['4 °C (am Grund)','#5b97cf',0.34]];
+  drawDot(ctx,x=>x,y=>y, xT(T), eis?yEis(rho):yFl(rho), '#b85c00', 6);
+
+  // ── rechts: See im Winter, an den Regler gekoppelt ──
+  const lx0=W*0.62, lx1=W*0.96, ly0=H*0.10, ly1=H*0.82;
+  const schichten=[
+    {lab:'Eis',        col:'#dff0fb', frac:0.14, tv:t=>t<0},
+    {lab:'0 … 1 °C',   col:'#bcd9f0', frac:0.17, tv:t=>t>=0&&t<1},
+    {lab:'1 … 2 °C',   col:'#9ec6e8', frac:0.17, tv:t=>t>=1&&t<2},
+    {lab:'2 … 3 °C',   col:'#7fb2df', frac:0.18, tv:t=>t>=2&&t<3},
+    {lab:'4 °C am Grund', col:'#5b97cf', frac:0.34, tv:t=>t>=3}
+  ];
   let yy=ly0;
-  for(const [lab,c,frac] of layers){ const hh=(ly1-ly0)*frac;
-    ctx.fillStyle=c; ctx.fillRect(lx0,yy,lx1-lx0,hh);
-    ctx.fillStyle='#1c1a17'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
-    ctx.fillText(lab, lx0+5, yy+hh/2+3); yy+=hh; }
+  for(const sch of schichten){
+    const hh=(ly1-ly0)*sch.frac, aktiv=sch.tv(T);
+    ctx.fillStyle=sch.col; ctx.fillRect(lx0,yy,lx1-lx0,hh);
+    if(aktiv){                              // Schicht zur eingestellten Temperatur hervorheben
+      ctx.fillStyle='rgba(184,92,0,0.18)'; ctx.fillRect(lx0,yy,lx1-lx0,hh);
+      ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.5; ctx.strokeRect(lx0+1,yy+1,lx1-lx0-2,hh-2);
+    }
+    ctx.fillStyle='#1c1a17'; ctx.font=(aktiv?'bold ':'')+'12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+    ctx.fillText(sch.lab, lx0+6, yy+hh/2+3);
+    yy+=hh;
+  }
   ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(lx0,ly0,lx1-lx0,ly1-ly0);
-  ctx.fillStyle='#5a5040'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('See im Winter', (lx0+lx1)/2, ly0-2);
+  ctx.fillStyle='#5a5040'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('See im Winter', (lx0+lx1)/2, ly0-4);
+  // Auch die Eisdecke schwimmt: der Anteil ρ_Eis/ρ_Wasser liegt unter der
+  // Wasserlinie, nur der Rest ragt heraus. Die Linie wird darum IN die Eisschicht
+  // gezeichnet, nicht darunter.
+  if(eis){
+    const eisUnter=rhoEis(T)/rhoW(0);
+    const hEis=(ly1-ly0)*0.14, wl=ly0+hEis*(1-eisUnter);
+    ctx.fillStyle='rgba(26,79,138,0.14)'; ctx.fillRect(lx0, wl, lx1-lx0, ly0+hEis-wl);
+    ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=1.6; ctx.setLineDash([5,3]);
+    ctx.beginPath(); ctx.moveTo(lx0,wl); ctx.lineTo(lx1,wl); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#1a4f8a'; ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillText((eisUnter*100).toFixed(1)+' % unter der Wasserlinie', (lx0+lx1)/2, wl+(ly0+hEis-wl)/2+4);
+  }
+  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText(eis ? 'Eis ist leichter als Wasser — es schwimmt oben auf.'
+                   : 'Das dichteste Wasser (4 °C) sinkt an den Grund.', (lx0+lx1)/2, ly1+16);
 }
 document.getElementById('a3-T').addEventListener('input', drawA3);
 
@@ -1087,7 +1350,8 @@ function drawA4(){
   document.getElementById('a4-h0-val').textContent=h0+' m';
   document.getElementById('a4-dT-val').textContent=dT.toFixed(1)+' K';
   const dh=GAMMA_W*h0*dT;  // m
-  document.getElementById('a4-eq').textContent='Δh = 0.21·10⁻³ · '+h0+' · '+dT.toFixed(1)+' = '+dh.toFixed(2)+' m = '+(dh*100).toFixed(0)+' cm';
+  document.getElementById('a4-eq').textContent =
+    'Δh = 0.21·10⁻³ 1/K · '+h0+' m · '+dT.toFixed(1)+' K = '+dh.toFixed(2)+' m = '+(dh*100).toFixed(0)+' cm';
 
   const cv=initCanvas('a4-cv',260,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#dcebf7'; ctx.fillRect(0,0,W,H);  // Himmel
@@ -1101,7 +1365,9 @@ function drawA4(){
   ctx.strokeStyle='#1c3a52'; ctx.lineWidth=1.5; ctx.setLineDash([6,4]);
   ctx.beginPath(); ctx.moveTo(0,seaTop); ctx.lineTo(W*0.82,seaTop); ctx.stroke(); ctx.setLineDash([]);
   // neuer Pegel (Anstieg stark vergroessert)
-  const risePx=Math.min(H*0.30, dh*120);  // visuelle Skala
+  // Faktor am Reglermaximum kalibriert (Δh_max = 1.68 m -> 77 px), damit die
+  // Darstellung über den ganzen Reglerbereich reagiert statt zu klemmen (Q2).
+  const risePx=dh*46;
   const newTop=seaTop-risePx;
   ctx.fillStyle='rgba(90,160,205,0.6)'; ctx.fillRect(0,newTop,W*0.78,risePx);
   ctx.strokeStyle='#b85c00'; ctx.lineWidth=2;
@@ -1139,7 +1405,12 @@ function a5Read(){
   document.getElementById('a5-p').textContent=v.p.toFixed(2)+' bar';
   document.getElementById('a5-Vv').textContent=v.V.toFixed(1)+' L';
   document.getElementById('a5-Tk').textContent=Math.round(v.T)+' K';
-  document.getElementById('a5-eq').textContent='p = 1.00 · (3.0/'+v.V.toFixed(1)+') · ('+Math.round(v.T)+'/293) = '+v.p.toFixed(2)+' bar';
+  document.getElementById('a5-eq').textContent =
+    'p = 1.00 bar · (3.0 L / '+v.V.toFixed(1)+' L) · ('+Math.round(v.T)+' K / 293 K) = '+v.p.toFixed(2)+' bar';
+  // Die Invariante ist die eigentliche Erkenntnis — sie war bisher nirgends zu sehen.
+  document.getElementById('a5-eq-inv').textContent =
+    'p · V / T = '+v.p.toFixed(2)+' bar · '+v.V.toFixed(1)+' L / '+Math.round(v.T)+' K = '
+    + (v.p*v.V/v.T).toFixed(4)+' bar·L/K — bleibt konstant';
 }
 function a5Render(){
   if(!a5State.inited) a5Init();
@@ -1218,7 +1489,9 @@ function drawA6(){
   if(a6Mode===0){   // Boyle: p-V-Hyperbel
     document.getElementById('a6-x-val').textContent=x.toFixed(1)+' L';
     const p=A6_BOYLE_C/x;
-    document.getElementById('a6-eq').textContent='p · V = '+A6_BOYLE_C.toFixed(1)+' bar·L (konstant)   →   p = '+p.toFixed(2)+' bar';
+    document.getElementById('a6-eq-f').textContent='p · V = '+A6_BOYLE_C.toFixed(1)+' bar·L (konstant)';
+    document.getElementById('a6-eq').textContent =
+      'p = '+A6_BOYLE_C.toFixed(1)+' bar·L / '+x.toFixed(1)+' L = '+p.toFixed(2)+' bar';
     const g=drawGrid(ctx,W,H,0,6,0,7); drawAxesUnits(ctx,W,H,g.cx,g.cy,'V [L]','p [bar]');
     ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.6; ctx.beginPath();
     let first=true;
@@ -1234,7 +1507,9 @@ function drawA6(){
   } else {          // Amontons: p-T-Gerade
     document.getElementById('a6-x-val').textContent=Math.round(x)+' K';
     const p=A6_AMON_K*x;
-    document.getElementById('a6-eq').textContent='p / T = 1/300 bar/K (konstant)   →   p = '+p.toFixed(2)+' bar bei '+Math.round(x)+' K';
+    document.getElementById('a6-eq-f').textContent='p / T = 1/300 bar/K (konstant)';
+    document.getElementById('a6-eq').textContent =
+      'p = 1/300 bar/K · '+Math.round(x)+' K = '+p.toFixed(2)+' bar';
     const g=drawGrid(ctx,W,H,0,520,0,2); drawAxesUnits(ctx,W,H,g.cx,g.cy,'T [K]','p [bar]');
     ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.6;
     ctx.beginPath(); ctx.moveTo(g.cx(0),g.cy(0)); ctx.lineTo(g.cx(520),g.cy(A6_AMON_K*520)); ctx.stroke();
@@ -1244,6 +1519,18 @@ function drawA6(){
     drawDot(ctx,a=>a,b=>b,px,py,'#9b1c1c',6);
     ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
     ctx.fillText('('+Math.round(x)+' K | '+p.toFixed(2)+' bar)', px+8, py-6);
+    // Bogen zu Kapitel 5.1: die Gerade trifft den Ursprung, weil dort die
+    // Teilchenbewegung minimal ist — das ist der absolute Nullpunkt.
+    drawDot(ctx,a=>a,b=>b,g.cx(0),g.cy(0),'#5b2d8e',5);
+    // Beschriftung in die freie Fläche über der Geraden, mit Führungslinie zum
+    // Ursprung — direkt am Nullpunkt läge sie auf der Tick-Zeile.
+    const nx=g.cx(60), ny=g.cy(0.62);
+    ctx.strokeStyle='#5b2d8e'; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+    ctx.beginPath(); ctx.moveTo(nx-4, ny+4); ctx.lineTo(g.cx(0)+4, g.cy(0)-4); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#5b2d8e'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+    ctx.fillText('0 K = absoluter Nullpunkt', nx, ny);
+    ctx.font='12px Source Sans 3,sans-serif';
+    ctx.fillText('(vgl. Kapitel 5.1)', nx, ny+14);
   }
 }
 document.getElementById('a6-x').addEventListener('input', drawA6);
@@ -1256,6 +1543,7 @@ function initAll(){
   einRender();
   a1Buttons(); a1Render();
   a2Buttons(); a2Render();
+  bmRender();
   drawA3();
   drawA4();
   a5Init(); a5Read(); a5Render();
@@ -1280,7 +1568,7 @@ window.addEventListener('resize', ()=>{
   if(rzT) return;
   rzT=requestAnimationFrame(()=>{
     rzT=null;
-    einRender(); a1Render(); a2Render(); drawA3(); drawA4(); drawA6();
+    einRender(); a1Render(); a2Render(); bmRender(); drawA3(); drawA4(); drawA6();
     if(!a5Loop.running) a5Render();
   });
 });
