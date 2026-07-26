@@ -309,9 +309,12 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   echten Δl. Reglerminimum von 1 m auf 10 m gehoben — bei 1 m wäre der Stab
   ein Strich. Dazu Referenzstab Eisen (Q5).
 - [x] [HOCH] a2 Volumen: Überhöhung 4.5 statt 120 (Q2); Ethanol, Wasser und
-  Quecksilber sind jetzt unterscheidbar. Referenzpegel Eisen (Q5).
-  Für Festkörper neu ein isometrisches Würfelbild: drei beschriftete Kantenpfeile
-  α·ΔT machen γ = 3α sichtbar.
+  Quecksilber sind jetzt unterscheidbar.
+  Komplett auf isometrische 3D-Darstellung umgestellt: Festkörper als Würfel mit
+  drei beschrifteten Kantenpfeilen α·ΔT (macht γ = 3α sichtbar), Flüssigkeiten als
+  Gefäss, dessen Säule mit V₀ mitwächst — damit ist der gezeichnete Anstieg
+  proportional zum echten ΔV, gleiches Prinzip wie a1. Daneben in beiden Fällen
+  Eisen als stehende Referenz (Q5). Kompaktmodus unter 560 px (Text unter das Bild).
 - [x] [MITTEL] a4 Meeresspiegel: Faktor 46 statt 120 (Q2), Klemme entfällt.
 - [x] [MITTEL] a3 Anomalie: Seebild an den Regler gekoppelt (passende Schicht
   hervorgehoben). Zusätzlich auf −20 °C erweitert: eigener Eis-Ast bei 917 kg/m³

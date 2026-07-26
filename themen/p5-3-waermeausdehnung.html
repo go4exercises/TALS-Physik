@@ -1037,7 +1037,8 @@ function a1Render(){
   if(lX+ctx.measureText(lTxt).width < W-6){ ctx.textAlign='left'; ctx.fillText(lTxt, lX, y+hbar*0.75); }
   else { ctx.textAlign='right'; ctx.fillText(lTxt, W-6, y-8); }
   ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
-  ctx.fillText('Länge massstäblich zu l₀ · Ausdehnung '+A1_EXAG+'-fach vergrössert', W*0.97, H*0.95);
+  ctx.fillText(W<560 ? 'Ausdehnung '+A1_EXAG+'-fach vergrössert'
+                     : 'Länge massstäblich zu l₀, Ausdehnung '+A1_EXAG+'-fach vergrössert', W*0.97, H*0.95);
 }
 ['a1-l0','a1-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a1Render));
 
@@ -1060,6 +1061,31 @@ const A2_KANTE = 260;     // Kanten-Überhöhung im Würfelbild — identisch zu
 const A2_REF = 1;         // Eisen als stehende Vergleichsgrösse (Q5)
 // Isometrische Projektion für das Würfelbild: (x,y,z) in Kantenlängen -> Pixel.
 function a2Iso(ox,oy,x,y,z,s){ return [ox+(x-z)*0.866*s, oy-y*s+(x+z)*0.5*s]; }
+// Isometrischer Quader dx × dy × dz; (ox,oy) ist die Projektion der Ecke (0,0,0).
+// Sichtbar sind die Flächen x = dx, z = dz und y = dy.
+function a2Box(ctx,ox,oy,dx,dy,dz,s,fuell,rand,gestrichelt){
+  const P=(x,y,z)=>a2Iso(ox,oy,x,y,z,s);
+  const flaechen=[
+    [[dx,0,0],[dx,0,dz],[dx,dy,dz],[dx,dy,0]],   // rechts
+    [[0,0,dz],[dx,0,dz],[dx,dy,dz],[0,dy,dz]],   // vorne
+    [[0,dy,0],[dx,dy,0],[dx,dy,dz],[0,dy,dz]]    // oben
+  ];
+  flaechen.forEach((f,idx)=>{
+    ctx.beginPath();
+    f.forEach((pt,n)=>{ const [X,Y]=P(...pt); if(n===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); });
+    ctx.closePath();
+    if(fuell){ ctx.globalAlpha=[0.95,0.80,1][idx]; ctx.fillStyle=fuell; ctx.fill(); ctx.globalAlpha=1; }
+    if(rand){ ctx.setLineDash(gestrichelt?[5,4]:[]); ctx.strokeStyle=rand;
+              ctx.lineWidth=gestrichelt?1.6:1.4; ctx.stroke(); ctx.setLineDash([]); }
+  });
+}
+// Waagrechte Ebene (Pegelmarke) als Raute in der Isometrie
+function a2Ebene(ctx,ox,oy,dx,y,dz,s,col){
+  const P=(x,yy,z)=>a2Iso(ox,oy,x,yy,z,s);
+  ctx.strokeStyle=col; ctx.lineWidth=1.6; ctx.setLineDash([5,3]); ctx.beginPath();
+  [[0,y,0],[dx,y,0],[dx,y,dz],[0,y,dz]].forEach((pt,n)=>{ const [X,Y]=P(...pt); if(n===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); });
+  ctx.closePath(); ctx.stroke(); ctx.setLineDash([]);
+}
 function a2Wuerfel(ctx,ox,oy,k,s,fuell,rand,gestrichelt){
   const P=(x,y,z)=>a2Iso(ox,oy,x*k,y*k,z*k,s);
   const flaechen=[
@@ -1087,23 +1113,30 @@ function a2Render(){
   document.getElementById('a2-eq').textContent =
     'ΔV = '+gShown+' · '+V0.toFixed(1)+' L · '+dT+' K = '+dV_mL.toFixed(1)+' mL';
 
-  const cv=initCanvas('a2-cv',330,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  // Schmale Ansicht: Textspalte wandert unter das Bild, dafür mehr Höhe.
+  const cvEl=document.getElementById('a2-cv'); cvEl.style.width='';
+  const eng=(cvEl.offsetWidth||600) < 560;
+  const cv=initCanvas('a2-cv', eng?430:330, false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  // Textspalte: rechts (breit) bzw. unter dem Bild (schmal)
+  const tx = eng ? W*0.06 : W*0.62;
+  const ty = n => eng ? H*0.66 + n*H*0.05 : H*0.22 + n*H*0.12;   // Platz für die Fusszeile lassen
+  const zeile = (txt, n, col, fett) => {
+    ctx.fillStyle=col; ctx.font=(fett?'bold ':'')+(eng?'12px ':'13px ')+
+      (fett===2?'Source Sans 3,sans-serif':'JetBrains Mono,monospace');
+    ctx.textAlign='left'; ctx.fillText(txt, tx, ty(n));
+  };
 
   if(s.fest){
     // ── Festkörper: Würfelbild. Hier steckt die Einsicht γ = 3α — das Volumen
     //    wächst in DREI Richtungen, darum dreifacher Ausdehnungskoeffizient.
     const alpha = s.g/3, eps = alpha*dT*A2_KANTE;
-    // Bildgrösse für den GRÖSSTMÖGLICHEN Würfel festlegen, damit der Ausgangswürfel
-    // konstant bleibt und das Wachstum sichtbar wird. In der Isometrie gilt:
-    // Breite = 1.732·k·s, Höhe = 2·k·s, zentriert um (ox, oy).
     const kMax = 1 + 23.8e-6*80*A2_KANTE;
-    const panelW = W*0.52, panelH = H*0.80;   // Rand für die Pfeil-Beschriftungen
+    const panelW = eng ? W*0.92 : W*0.52, panelH = eng ? H*0.55 : H*0.80;
     const sK = Math.min(panelW/(1.732*kMax), panelH/(2*kMax));
-    const ox = panelW/2 + 4, oy = H*0.50;
-    a2Wuerfel(ctx, ox, oy, 1, sK, true, '#6b6256', false);                      // Ausgangswürfel
-    a2Wuerfel(ctx, ox, oy, 1+eps, sK, false, dV>=0?'#b85c00':'#1a4f8a', true);  // erwärmter Würfel
-    // Kantenpfeile in alle drei Richtungen — das ist die Kernaussage γ = 3α
+    const ox = eng ? W*0.50 : panelW/2 + 4, oy = eng ? H*0.30 : H*0.50;
+    a2Wuerfel(ctx, ox, oy, 1, sK, true, '#6b6256', false);
+    a2Wuerfel(ctx, ox, oy, 1+eps, sK, false, dV>=0?'#b85c00':'#1a4f8a', true);
     const pfeil = (x,y,z,lab) => {
       const [x1,y1]=a2Iso(ox,oy,x,y,z,sK), [x2,y2]=a2Iso(ox,oy,x*(1+eps),y*(1+eps),z*(1+eps),sK);
       drawArrow(ctx,x1,y1,x2,y2,'#1c1a17',2.6,10);
@@ -1115,57 +1148,48 @@ function a2Render(){
       }
     };
     pfeil(1,0,0,[30,12]); pfeil(0,1,0,[28,4]); pfeil(0,0,1,[-32,12]);
-    ctx.fillStyle='#1c1a17'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
-    ctx.fillText(s.n+' — Festkörper', W*0.62, H*0.20);
-    ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
-    ctx.fillText('α = '+(alpha*1e6).toFixed(1)+'·10⁻⁶ 1/K', W*0.62, H*0.32);
-    ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace';
-    ctx.fillText('γ = 3α = '+(s.g*1e6).toFixed(1)+'·10⁻⁶ 1/K', W*0.62, H*0.44);
-    ctx.fillStyle='#1c1a17'; ctx.font='12px Source Sans 3,sans-serif';
-    ctx.fillText('jede der drei Kanten wächst um α·ΔT —', W*0.62, H*0.58);
-    ctx.fillText('darum wächst das Volumen um 3α·ΔT.', W*0.62, H*0.70);
-    ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.font='bold 13px JetBrains Mono,monospace';
-    ctx.fillText('ΔV = '+(dV_mL>=0?'+':'')+dV_mL.toFixed(1)+' mL', W*0.62, H*0.84);
+    zeile(s.n+' — Festkörper', 0, '#1c1a17', 2);
+    zeile('α = '+(alpha*1e6).toFixed(1)+'·10⁻⁶ 1/K', 1, '#5a5040');
+    zeile('γ = 3α = '+(s.g*1e6).toFixed(1)+'·10⁻⁶ 1/K', 2, '#b85c00', true);
+    zeile('jede der drei Kanten wächst um α·ΔT —', 3, '#1c1a17', 2);
+    zeile('darum wächst das Volumen um 3α·ΔT.', 4, '#1c1a17', 2);
+    zeile('ΔV = '+(dV_mL>=0?'+':'')+dV_mL.toFixed(1)+' mL', 5, dV>=0?'#b85c00':'#1a4f8a', true);
     ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
-    ctx.fillText('Kantenlänge '+A2_KANTE+'-fach überhöht (wie Animation 1)', W*0.97, H*0.96);
+    ctx.fillText(eng ? 'Kanten '+A2_KANTE+'-fach überhöht'
+                     : 'Kantenlänge '+A2_KANTE+'-fach überhöht (wie Animation 1)', W*0.97, H*0.97);
     return;
   }
 
-  // ── Flüssigkeit: Standgefäss mit Pegel ──
-  const bx=W*0.30, bw=W*0.18, btop=H*0.10, bbot=H*0.84;
-  ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2.5; ctx.strokeRect(bx,btop,bw,bbot-btop);
-  const baseFrac=0.55, yBase=bbot-(bbot-btop)*baseFrac;
-  const hFuell=(bbot-btop)*baseFrac;
-  const yVon = rel => yBase - hFuell*rel*A2_EXAG;
-  const yNew = yVon(s.g*dT);
-  ctx.fillStyle=lerpCol(0.5+(dT/80)*0.45);
-  ctx.fillRect(bx+2, Math.min(yNew,yBase), bw-4, bbot-Math.min(yNew,yBase));
-  // Ausgangspegel
-  ctx.strokeStyle='#6b6256'; ctx.lineWidth=1.5; ctx.setLineDash([5,3]);
-  ctx.beginPath(); ctx.moveTo(bx-8,yBase); ctx.lineTo(bx+bw+8,yBase); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#6b6256'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='right';
-  ctx.fillText('V₀', bx-10, yBase+3);
-  // Referenzpegel Eisen — macht ohne Umschalten sichtbar, wie wenig Festkörper sich dehnen (Q5)
-  const yRef = yVon(STOFFE2[A2_REF].g*dT);
-  ctx.strokeStyle='#1f6b3a'; ctx.lineWidth=1.5; ctx.setLineDash([2,3]);
-  ctx.beginPath(); ctx.moveTo(bx-8,yRef); ctx.lineTo(bx+bw+8,yRef); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#1f6b3a'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='left';
-  ctx.fillText('Eisen zum Vergleich', bx+bw+10, yRef-4);
-  // neuer Pegel
-  ctx.strokeStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.moveTo(bx-8,yNew); ctx.lineTo(bx+bw+8,yNew); ctx.stroke();
-  ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.textAlign='left'; ctx.font='13px Source Sans 3,sans-serif';
-  ctx.fillText('V', bx+bw+10, yNew+3);
-  // Beschriftung
-  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
-  ctx.fillText(s.n+' — Flüssigkeit', W*0.62, H*0.22);
-  ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
-  ctx.fillText('γ = '+(s.g*1e3).toFixed(2)+'·10⁻³ 1/K', W*0.62, H*0.34);
-  ctx.fillText('V₀ = '+V0.toFixed(1)+' L', W*0.62, H*0.46);
-  ctx.fillStyle=dV>=0?'#b85c00':'#1a4f8a'; ctx.font='bold 13px JetBrains Mono,monospace';
-  ctx.fillText('ΔV = '+(dV_mL>=0?'+':'')+dV_mL.toFixed(1)+' mL', W*0.62, H*0.58);
+  // ── Flüssigkeit: isometrisches Gefäss, gleiches Prinzip wie Animation 1 ──
+  // Die Flüssigkeitssäule wächst mit V₀ mit; damit ist der gezeichnete Anstieg
+  // proportional zum echten ΔV = γ·V₀·ΔT. Daneben dasselbe Volumen Eisen als
+  // stehende Referenz (Q5).
+  const DX=1, DZ=1, DY=2.2, HMAX=1.5, V0MAX=2;
+  const panelW = eng ? W*0.40 : W*0.20, panelH = eng ? H*0.56 : H*0.80;
+  const sB=Math.min(panelW/((DX+DZ)*0.866), panelH/(DY+(DX+DZ)*0.5));
+  const oyB=(eng ? H*0.32 : H*0.50)+(DY-(DX+DZ)*0.5)*sB/2;
+  const hVon = g => HMAX*(V0/V0MAX)*(1+g*dT*A2_EXAG);
+  function gefaess(cx, gamma, farbe, titel, unten){
+    a2Box(ctx, cx, oyB, DX, DY, DZ, sB, null, '#8a4a0e', true);              // Gefäss
+    a2Box(ctx, cx, oyB, DX, Math.max(0.02,hVon(gamma)), DZ, sB, farbe, 'rgba(0,0,0,0.25)', false);
+    a2Ebene(ctx, cx, oyB, DX, HMAX*(V0/V0MAX), DZ, sB, '#6b6256');           // Ausgangspegel V₀
+    ctx.fillStyle='#1c1a17'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(titel, cx, oyB-DY*sB-8);
+    ctx.font='12px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
+    ctx.fillText(unten, cx, oyB+(DX+DZ)*0.5*sB+18);
+  }
+  const mL = g => ((g*V0*dT*1000>=0?'+':'')+(g*V0*dT*1000).toFixed(1)+' mL');
+  gefaess(eng?W*0.28:W*0.20, s.g, lerpCol(0.5+(dT/80)*0.45), s.n, mL(s.g));
+  gefaess(eng?W*0.72:W*0.42, STOFFE2[A2_REF].g, '#9aa7b4', 'Eisen (Referenz)', mL(STOFFE2[A2_REF].g));
+  zeile(s.n+' — Flüssigkeit', 0, '#1c1a17', 2);
+  zeile('γ = '+(s.g*1e3).toFixed(2)+'·10⁻³ 1/K', 1, '#5a5040');
+  zeile('V₀ = '+V0.toFixed(1)+' L', 2, '#5a5040');
+  zeile('ΔV = '+(dV_mL>=0?'+':'')+dV_mL.toFixed(1)+' mL', 3, dV>=0?'#b85c00':'#1a4f8a', true);
+  zeile('Die Säule wächst mit V₀ mit — darum', 4, '#1c1a17', 2);
+  zeile('ist der Anstieg proportional zu ΔV.', 5, '#1c1a17', 2);
   ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
-  ctx.fillText('Pegeländerung '+A2_EXAG+'-fach überhöht', W*0.97, H*0.96);
+  ctx.fillText(eng ? 'Anstieg '+A2_EXAG+'-fach überhöht'
+                   : 'Höhe massstäblich zu V₀, Anstieg '+A2_EXAG+'-fach überhöht', W*0.97, H*0.97);
 }
 ['a2-V0','a2-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a2Render));
 
