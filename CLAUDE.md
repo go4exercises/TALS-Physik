@@ -65,6 +65,24 @@ Repo-Skripte `verify_mathjax.js` (echte Render-Prüfung) und `verify_js_runtime.
 (JS-Laufzeit). Stufe 2 braucht einmalig `npm install mathjax-full jsdom` im Repo-Root;
 fehlen die Module, werden diese Checks als `[WARN]` übersprungen. **Vom Repo-Root aufrufen.**
 
+## Stichwort «Stilcheck»
+
+Nennt der Auftraggeber im Prompt **„Stilcheck"**, dann gilt zusätzlich zum
+eigentlichen Auftrag: **alle gesammelten Darstellungsregeln an den berührten
+Stellen prüfen und korrigieren** — nicht nur die neu geschriebenen Zeilen,
+sondern die ganze Animation / den ganzen Abschnitt, an dem gearbeitet wird.
+
+Die Liste steht in `STYLEGUIDE.md` und wächst; aktuell:
+
+| # | Regel | STYLEGUIDE |
+|---|---|---|
+| 1 | Live-Box: Spaltenabstand gestuft (70/40/24 px), nie auf Zeilenabstand zusammenfallen. Wer einen Wert hinzufügt, prüft die ganze Box. | §5.3 |
+| 2 | `·` heisst nur Multiplikation — nie Trennzeichen. Zwei Gleichungen = zwei `.fl-eq`-Zeilen. | §2.1 |
+| 3 | `.fl-eq` nennt zuerst die Formel symbolisch, dann die Werte (Ansatz-Prinzip in Live-Anzeigen). | §2.1 |
+
+Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
+**und** hier in der Tabelle nachgeführt.
+
 ## Verifikations-Standard
 
 - **Alle Zahlenwerte vor dem Einbau mit `python3` nachrechnen** — nie aus dem Gedächtnis.

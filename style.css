@@ -979,6 +979,9 @@ canvas { display: block; width: 100%; }
 .formel-live { background:var(--papier-2); border:1.5px solid var(--linie); border-radius:9px; padding:12px 18px; text-align:center; margin:12px 0; }
 .formel-live .fl-label { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--tinte-2); margin-bottom:5px; }
 .formel-live .fl-eq { font-family:var(--mono); font-size:1.05rem; color:var(--tinte); font-weight:700; }
+/* Mehrere Gleichungen: je eine eigene Zeile. Niemals mit «·» in einer Zeile
+   aneinanderhängen — der Punkt wird in einer Rechnung als Malpunkt gelesen. */
+.formel-live .fl-eq + .fl-eq { margin-top:6px; }
 
 /* Spalten-Layouts für Canvas + Tabelle/Diagramm */
 .zwei-spalten { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
@@ -993,8 +996,12 @@ canvas { display: block; width: 100%; }
 /* gap: 14px Zeilen-, 70px Spaltenabstand — grosszügige horizontale Trennung der Werte,
    beim Umbruch (Mobile) bleiben die Zeilen eng. Dichte Boxen (4+ Werte) s. unten. */
 .live-box { display:flex; gap:14px 70px; flex-wrap:wrap; padding:10px 14px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); border-radius:9px; margin:10px 0; }
-/* Bei vielen Werten reicht der Platz nicht für den weiten Spaltenabstand → wieder eng. */
-.live-box:has(> .lb-item:nth-child(4)) { column-gap:14px; }
+/* Bei vielen Werten reicht der Platz nicht für den weiten Spaltenabstand → gestuft
+   verkleinern. NICHT bis auf den Zeilenabstand zusammenfallen lassen: die Werte
+   müssen als getrennte Grössen lesbar bleiben. Reicht die Breite nicht, bricht
+   flex-wrap um — das ist besser als eine gedrängte Zeile. */
+.live-box:has(> .lb-item:nth-child(4)) { column-gap:40px; }
+.live-box:has(> .lb-item:nth-child(6)) { column-gap:24px; }
 .live-box .lb-item { display:flex; flex-direction:column; gap:1px; min-width:80px; }
 .live-box .lb-lab { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--bernstein); }
 .live-box .lb-val { font-family:var(--mono); font-size:1rem; font-weight:700; color:var(--tinte); }

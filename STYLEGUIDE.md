@@ -33,6 +33,19 @@ Geforkt aus dem Styleguide von TALS-Mathematik (v1.8); nur die für Physik abwei
 - **In LaTeX:** `\cdot` für den Punkt; `*` ist verboten.
 - **In LaTeX-Display-Formeln** darf `\cdot` weggelassen werden, wenn Multiplikation typografisch eindeutig ist (z.B. `v_0 t`), aber bei Zahl·Variable (`2 \cdot t`) und bei mehreren Skalaren (`v_0 \cdot \cos\alpha`) IMMER setzen.
 - **Vektor·Skalar** und **Skalarprodukt**: immer mit `\cdot` (`\vec{F} \cdot \vec{s}`).
+- **Der Punkt ist reserviert (verbindlich, Stichwort «Stilcheck»):** `·` bedeutet
+  ausschliesslich Multiplikation und wird **nie** als Trennzeichen zwischen zwei
+  Aussagen, Werten oder Gleichungen verwendet. In einer Rechnung ist das nicht
+  bloss unschön, sondern schlicht falsch lesbar — `… = 83 °C · ΔT = …` liest sich
+  als Produkt. Stehen zwei Gleichungen nebeneinander, bekommt **jede eine eigene
+  Zeile** (mehrere `.fl-eq` in derselben `.formel-live`; `style.css` setzt den
+  Abstand über `.fl-eq + .fl-eq`).
+- **Ansatz vor Werten, auch in Live-Anzeigen (verbindlich, Stichwort «Stilcheck»):**
+  Eine `.fl-eq` nennt zuerst die Formel symbolisch, dann erst die Zahlen:
+  `Δϑ = ϑ₂ − ϑ₁ = 95 − 12 = 83 °C` ✓, nicht `Δϑ = 95 − 12 = 83 °C` ✗.
+  Das ist das Ansatz-Prinzip aus CLAUDE.md, angewandt auf die Widgets — die
+  Live-Zeile soll zeigen, *welche* Beziehung gerade ausgerechnet wird.
+  Referenz: `themen/p5-1-temperatur.html`, Animation 4.
 
 ### 2.2 Vektoren und Skalare
 
@@ -231,6 +244,16 @@ Für die laufende Wertanzeige neben jeder grossen Animation gilt die Klasse `.li
 ```
 
 **Gruppierung:** Logisch zusammengehörende Wertegruppen (z.B. Momentan- vs. Intervallwerte) werden optisch getrennt, indem das letzte `.lb-item` der ersten Gruppe `style="margin-right:30px"` erhält. Referenz: Phase-Item der a0-live-box in `themen/p4-1-kinematik.html`.
+
+**Spaltenabstand (verbindlich, Stichwort «Stilcheck»):** Die Werte müssen als
+*getrennte Grössen* lesbar bleiben. `style.css` staffelt darum den `column-gap`
+nach Anzahl Werte: 70 px (bis 3), 40 px (ab 4), 24 px (ab 6). Der Abstand darf
+**nie** auf den Zeilenabstand zusammenfallen — zwei Werte, die gleich weit
+auseinanderstehen wie zwei Zeilen, lesen sich als eine Tabelle ohne Struktur.
+Reicht die Breite nicht, bricht `flex-wrap` um; ein Umbruch ist besser als eine
+gedrängte Zeile. **Wer einer bestehenden Live-Box einen Wert hinzufügt, prüft
+danach die Darstellung** — der Sprung über eine Stufengrenze (3→4, 5→6) ändert
+das Bild der ganzen Box, nicht nur des neuen Werts.
 
 ### 5.4 HiDPI-Rendering
 
