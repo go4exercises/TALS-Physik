@@ -278,7 +278,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Wärmemenge</div>
-      <div class="fl-eq" id="a1-eq">Q = m · c · ΔT = 1.0 · 4182 · 50 = 209 100 J = 209.1 kJ</div>
+      <div class="fl-eq" id="a1-eq-f">Q = m · c · ΔT</div>
+      <div class="fl-eq" id="a1-eq">Q = 1.0 kg · 4182 J/(kg·K) · 50 K = 209 100 J = 209.1 kJ</div>
     </div>
 
     <div class="cv-wrap">
@@ -369,8 +370,11 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Mischtemperatur</div>
-      <div class="fl-eq" id="a2-eq-f">ϑm = (m₁c₁ϑ₁ + m₂c₂ϑ₂) / (m₁c₁ + m₂c₂)</div>
-      <div class="fl-eq" id="a2-eq">ϑm = (0.3·4182·80 + 0.5·4182·20) / (0.3·4182 + 0.5·4182) = 42.5 °C</div>
+      <div class="fl-eq" id="a2-f-voll">\[ \vartheta_\text{m} = \frac{m_1 c_1\,\vartheta_1 + m_2 c_2\,\vartheta_2}{m_1 c_1 + m_2 c_2} \]</div>
+      <div class="fl-eq" id="a2-f-kurz">\[ \vartheta_\text{m} \overset{c_1 = c_2}{=} \frac{m_1\,\vartheta_1 + m_2\,\vartheta_2}{m_1 + m_2} \]</div>
+      <div class="fl-eq" id="a2-eq-c1">m₁c₁ = 0.3 kg · 4182 J/(kg·K) = 1254.6 J/K</div>
+      <div class="fl-eq" id="a2-eq-c2">m₂c₂ = 0.5 kg · 2000 J/(kg·K) = 1000.0 J/K</div>
+      <div class="fl-eq" id="a2-eq">ϑm = (0.3 kg · 80 °C + 0.5 kg · 20 °C) / (0.3 kg + 0.5 kg) = 42.5 °C</div>
     </div>
 
     <div class="cv-wrap">
@@ -427,7 +431,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">gerade aktiv</div>
-      <div class="fl-eq" id="a3-eq-f">Q = m · c · Δϑ = 0.1 · 4182 · 100 = 41.8 kJ</div>
+      <div class="fl-eq" id="a3-eq-f">Q = m · c · Δϑ = 0.1 kg · 4182 J/(kg·K) · 100 K = 41.8 kJ</div>
       <div class="fl-eq" id="a3-eq-t">ϑ steigt von 0 °C auf 100 °C</div>
     </div>
 
@@ -578,7 +582,7 @@ MathJax = {
 
 <h2 id="waermepumpe">Wärmepumpe — mehr Wärme als Strom</h2>
 
-<p>Eine Wärmepumpe erzeugt Wärme nicht, sie <strong>befördert</strong> sie: Der Strom treibt nur den Prozess an, der grösste Teil der Heizwärme stammt kostenlos aus der Umgebung (Luft, Erdreich, Grundwasser). Darum ist die Leistungszahl \(\text{COP}=Q_\text{warm}/E_\text{el}\) grösser als 1 — ein Wirkungsgrad über 100&nbsp;% wäre unmöglich, eine Leistungszahl über 1 dagegen nicht, weil die Umgebungswärme nicht mitgezählt wird.</p>
+<p>Die Animation rechnet mit \(1\;\text{kWh}\) Strom als Bezugsgrösse. Eine Wärmepumpe erzeugt Wärme nicht, sie <strong>befördert</strong> sie: Der Strom treibt nur den Prozess an, der grösste Teil der Heizwärme stammt kostenlos aus der Umgebung (Luft, Erdreich, Grundwasser). Darum ist die Leistungszahl \(\text{COP}=Q_\text{warm}/E_\text{el}\) grösser als 1 — ein Wirkungsgrad über 100&nbsp;% wäre unmöglich, eine Leistungszahl über 1 dagegen nicht, weil die Umgebungswärme nicht mitgezählt wird.</p>
 
 <div class="widget">
   <div class="widget-header">
@@ -596,8 +600,8 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>\(\text{COP}=Q_\text{warm}/E_\text{el}\): bei \(\text{COP}=4\) liefert 1 Teil Strom 4 Teile Heizwärme.</li><li>Die Differenz stammt aus der Umgebung und ist gratis — sie wird nur angehoben, nicht erzeugt.</li><li>Das ist kein Widerspruch zur Energieerhaltung: die Bilanz geht genau auf.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Die Leistungszahl ist die Heizwärme geteilt durch die elektrische Energie. Bei einer Leistungszahl von 4 liefert ein Teil Strom vier Teile Heizwärme. Die Differenz stammt aus der Umgebung und ist gratis; sie wird nur auf ein höheres Temperaturniveau angehoben, nicht erzeugt. Das ist kein Widerspruch zur Energieerhaltung, denn die Bilanz geht genau auf." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>\(\text{COP}=Q_\text{warm}/E_\text{el}\): bei \(\text{COP}=4\) liefern \(1\;\text{kWh}\) Strom \(4\;\text{kWh}\) Heizwärme.</li><li>Die Differenz stammt aus der Umgebung und ist gratis — sie wird nur angehoben, nicht erzeugt.</li><li>Das ist kein Widerspruch zur Energieerhaltung: die Bilanz geht genau auf.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Leistungszahl ist die Heizwärme geteilt durch die elektrische Energie. Bei einer Leistungszahl von 4 liefert eine Kilowattstunde Strom vier Kilowattstunden Heizwärme. Die Differenz stammt aus der Umgebung und ist gratis; sie wird nur auf ein höheres Temperaturniveau angehoben, nicht erzeugt. Das ist kein Widerspruch zur Energieerhaltung, denn die Bilanz geht genau auf." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
 </div>
@@ -612,8 +616,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Energiebilanz</div>
-      <div class="fl-eq" id="a6-eq-f">Q_warm = COP · E_el = 3.5 · 1.0 = 3.5 Teile</div>
-      <div class="fl-eq" id="a6-eq-u">E_el + Q_umgebung = 1.0 + 2.5 = 3.5 Teile</div>
+      <div class="fl-eq" id="a6-eq-f">Q_warm = COP · E_el = 3.5 · 1.0 kWh = 3.5 kWh</div>
+      <div class="fl-eq" id="a6-eq-u">E_el + Q_umgebung = 1.0 kWh + 2.5 kWh = 3.5 kWh</div>
     </div>
 
     <div class="live-box">
@@ -1147,7 +1151,12 @@ function einDiagramm(ctx, W, y0, H){
   // Kurven
   const pts=einState.spur.filter(p=>p.t>=tMin);
   if(pts.length>1){
-    [['L','#9b1c1c'],['R','#1a4f8a']].forEach(([k,col])=>{
+    // Farbe folgt der Temperatur, nicht der Seite: die von oben kommende (heissere)
+    // Kurve ist immer rot, die von unten kommende immer blau. Sonst wäre bei
+    // vertauschten Startwerten die kalte Kurve rot.
+    const linksWarm = pts[0].L >= pts[0].R;
+    const farbe = { L: linksWarm ? '#9b1c1c' : '#1a4f8a', R: linksWarm ? '#1a4f8a' : '#9b1c1c' };
+    [['L',farbe.L],['R',farbe.R]].forEach(([k,col])=>{
       ctx.strokeStyle=col; ctx.lineWidth=2.2; ctx.beginPath();
       pts.forEach((p,i)=>{ const x=xOf(p.t), y=yOf(p[k]);
         if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
@@ -1155,8 +1164,8 @@ function einDiagramm(ctx, W, y0, H){
     });
     const last=pts[pts.length-1];
     ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='left';
-    ctx.fillStyle='#9b1c1c'; ctx.fillText('links',  Math.min(xOf(last.t)+5, xR-38), yOf(last.L)+4);
-    ctx.fillStyle='#1a4f8a'; ctx.fillText('rechts', Math.min(xOf(last.t)+5, xR-42), yOf(last.R)+4);
+    ctx.fillStyle=farbe.L; ctx.fillText('links',  Math.min(xOf(last.t)+5, xR-38), yOf(last.L)+4);
+    ctx.fillStyle=farbe.R; ctx.fillText('rechts', Math.min(xOf(last.t)+5, xR-42), yOf(last.R)+4);
   } else {
     ctx.fillStyle='#8f8f8f'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('Der Verlauf wird aufgezeichnet, sobald die Animation läuft.', (xL+xR)/2, (yT+yB)/2);
@@ -1197,7 +1206,9 @@ function a1Render(){
   document.getElementById('a1-m-val').textContent=m.toFixed(1)+' kg';
   document.getElementById('a1-dT-val').textContent=dT+' K';
   const s=STOFFE[a1Sel], Q=m*s.c*dT;
-  document.getElementById('a1-eq').textContent='Q = m · c · ΔT = '+m.toFixed(1)+' · '+s.c+' · '+dT+' = '+grp(Q)+' J = '+(Q/1000).toFixed(1)+' kJ';
+  // Werte immer MIT Einheit einsetzen (STYLEGUIDE §2.7)
+  document.getElementById('a1-eq').textContent =
+    'Q = '+m.toFixed(1)+' kg · '+s.c+' J/(kg·K) · '+dT+' K = '+grp(Q)+' J = '+(Q/1000).toFixed(1)+' kJ';
 
   const cv=initCanvas('a1-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
@@ -1247,10 +1258,26 @@ function a2Render(){
   document.getElementById('a2-m2-val').textContent=m2.toFixed(1)+' kg';
   document.getElementById('a2-t2-val').textContent=t2+' °C';
   const W1=m1*c1, W2=m2*c2, tm=(W1*t1+W2*t2)/(W1+W2);
-  // Ansatz-Prinzip: erst die Formel, dann die Werte (STYLEGUIDE §2.1)
-  document.getElementById('a2-eq').textContent =
-    'ϑm = ('+m1.toFixed(1)+'·'+c1+'·'+t1+' + '+m2.toFixed(1)+'·'+c2+'·'+t2+') / ('
-    + m1.toFixed(1)+'·'+c1+' + '+m2.toFixed(1)+'·'+c2+') = '+tm.toFixed(1)+' °C';
+  // Ansatz-Prinzip: erst die Formel, dann die Werte MIT Einheiten (STYLEGUIDE §2.1, §2.7).
+  // Zwei Fälle: bei gleichem Stoff kürzt sich c heraus, dann genügt die Massenwägung.
+  const gleich = (c1 === c2);
+  const zeig = (id,an) => document.getElementById(id).style.display = an ? '' : 'none';
+  zeig('a2-f-kurz', gleich);
+  zeig('a2-eq-c1', !gleich);
+  zeig('a2-eq-c2', !gleich);
+  if(gleich){
+    document.getElementById('a2-eq').textContent =
+      'ϑm = ('+m1.toFixed(1)+' kg · '+t1+' °C + '+m2.toFixed(1)+' kg · '+t2+' °C) / ('
+      + m1.toFixed(1)+' kg + '+m2.toFixed(1)+' kg) = '+tm.toFixed(1)+' °C';
+  } else {
+    document.getElementById('a2-eq-c1').textContent =
+      'm₁c₁ = '+m1.toFixed(1)+' kg · '+c1+' J/(kg·K) = '+W1.toFixed(1)+' J/K';
+    document.getElementById('a2-eq-c2').textContent =
+      'm₂c₂ = '+m2.toFixed(1)+' kg · '+c2+' J/(kg·K) = '+W2.toFixed(1)+' J/K';
+    document.getElementById('a2-eq').textContent =
+      'ϑm = ('+W1.toFixed(1)+' J/K · '+t1+' °C + '+W2.toFixed(1)+' J/K · '+t2+' °C) / ('
+      + W1.toFixed(1)+' J/K + '+W2.toFixed(1)+' J/K) = '+tm.toFixed(1)+' °C';
+  }
 
   // Schmale Ansicht braucht mehr Höhe: die Gefäss-Beschriftung bricht dort um.
   const cvEl=document.getElementById('a2-cv'); cvEl.style.width='';   // Breite wie in initCanvas messen
@@ -1355,15 +1382,15 @@ function hkTemp(Q){
 // unten): c_Eis = 2100, L_f = 334 kJ/kg, c = 4182, L_v = 2256 kJ/kg, c_Dampf = 2010.
 const HK_SEG = [
   { q0:0,      q1:4200,   name:'Eis erwärmen',    formel:'Q = m · c_Eis · Δϑ',
-    werte:'0.1 · 2100 · 20',    kJ:4.2,   temp:'ϑ steigt von −20 °C auf 0 °C' },
+    werte:'0.1 kg · 2100 J/(kg·K) · 20 K',   kJ:4.2,   temp:'ϑ steigt von −20 °C auf 0 °C' },
   { q0:4200,   q1:37600,  name:'Schmelzen',       formel:'Q = m · L_f',
-    werte:'0.1 · 334 000',      kJ:33.4,  temp:'ϑ bleibt bei 0 °C — die Energie löst das Gitter' },
+    werte:'0.1 kg · 334 kJ/kg',              kJ:33.4,  temp:'ϑ bleibt bei 0 °C — die Energie löst das Gitter' },
   { q0:37600,  q1:79420,  name:'Wasser erwärmen', formel:'Q = m · c · Δϑ',
-    werte:'0.1 · 4182 · 100',   kJ:41.8,  temp:'ϑ steigt von 0 °C auf 100 °C' },
+    werte:'0.1 kg · 4182 J/(kg·K) · 100 K',  kJ:41.8,  temp:'ϑ steigt von 0 °C auf 100 °C' },
   { q0:79420,  q1:305020, name:'Verdampfen',      formel:'Q = m · L_v',
-    werte:'0.1 · 2 256 000',    kJ:225.6, temp:'ϑ bleibt bei 100 °C — die Teilchen lösen sich ganz' },
+    werte:'0.1 kg · 2256 kJ/kg',             kJ:225.6, temp:'ϑ bleibt bei 100 °C — die Teilchen lösen sich ganz' },
   { q0:305020, q1:315070, name:'Dampf erwärmen',  formel:'Q = m · c_Dampf · Δϑ',
-    werte:'0.1 · 2010 · 50',    kJ:10.05, temp:'ϑ steigt von 100 °C auf 150 °C' }
+    werte:'0.1 kg · 2010 J/(kg·K) · 50 K',   kJ:10.05, temp:'ϑ steigt von 100 °C auf 150 °C' }
 ];
 function hkSeg(Q){
   for(let i=0;i<HK_SEG.length;i++) if(Q<=HK_SEG[i].q1) return i;
@@ -1667,8 +1694,9 @@ function drawA6(){
   const cop=+document.getElementById('a6-cop').value;
   const umg=cop-1;
   document.getElementById('a6-cop-val').textContent=cop.toFixed(1);
-  document.getElementById('a6-eq-f').textContent='Q_warm = COP · E_el = '+cop.toFixed(1)+' · 1.0 = '+cop.toFixed(1)+' Teile';
-  document.getElementById('a6-eq-u').textContent='E_el + Q_umgebung = 1.0 + '+umg.toFixed(1)+' = '+cop.toFixed(1)+' Teile';
+  // Bezugsgrösse 1 kWh Strom, damit die Bilanz echte Einheiten trägt (STYLEGUIDE §2.7)
+  document.getElementById('a6-eq-f').textContent='Q_warm = COP · E_el = '+cop.toFixed(1)+' · 1.0 kWh = '+cop.toFixed(1)+' kWh';
+  document.getElementById('a6-eq-u').textContent='E_el + Q_umgebung = 1.0 kWh + '+umg.toFixed(1)+' kWh = '+cop.toFixed(1)+' kWh';
   document.getElementById('a6-el').textContent=Math.round(100/cop)+' %';
   document.getElementById('a6-umg').textContent=Math.round(100*umg/cop)+' %';
   document.getElementById('a6-warm').textContent='100 %';
@@ -1704,13 +1732,13 @@ function drawA6(){
   ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   ctx.fillStyle='#1a4f8a'; ctx.font='bold 13px '+SS;
   ctx.fillText('Strom',    boxL-(Ls+Lh)/2, yEl-dEl/2-22);
-  ctx.fillText('1.0 Teil', boxL-(Ls+Lh)/2, yEl-dEl/2-9);
+  ctx.fillText('1.0 kWh',  boxL-(Ls+Lh)/2, yEl-dEl/2-9);
   ctx.fillStyle='#1f6b3a';
   ctx.fillText('Umgebungswärme (gratis)', boxCx, boxB+Lsv+Lh+18);
-  ctx.fillText(umg.toFixed(1)+' Teile',    boxCx, boxB+Lsv+Lh+32);
+  ctx.fillText(umg.toFixed(1)+' kWh',      boxCx, boxB+Lsv+Lh+32);
   ctx.fillStyle='#c0563a';
   ctx.fillText('Heizwärme',            boxR+(Ls+Lh)/2, yMid-dWarm/2-22);
-  ctx.fillText(cop.toFixed(1)+' Teile', boxR+(Ls+Lh)/2, yMid-dWarm/2-9);
+  ctx.fillText(cop.toFixed(1)+' kWh',   boxR+(Ls+Lh)/2, yMid-dWarm/2-9);
   ctx.fillStyle='#1c1a17'; ctx.font='bold 13px '+SS;
   ctx.fillText('Wärmepumpe', boxCx, yMid-4);
   ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#8a4a0e';

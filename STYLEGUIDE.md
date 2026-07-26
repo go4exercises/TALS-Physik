@@ -102,6 +102,46 @@ Im JS-Code von Themenseiten als globale `const` gleich am Anfang der `<script>`-
 
 ---
 
+### 2.7 Einsetzen mit Einheiten (verbindlich, Stichwort «Stilcheck»)
+
+In **jeder** Rechnung — Lösungswege, Mini-Check-Antworten und **Live-Anzeigen
+(`.fl-eq`)** — werden die Werte **mit ihrer Einheit** eingesetzt, nie als nackte
+Zahlen:
+
+- `Q = m · c · ΔT = 1.0 kg · 4182 J/(kg·K) · 50 K = 209 100 J` ✓
+- `Q = m · c · ΔT = 1.0 · 4182 · 50 = 209 100 J` ✗
+
+Der Grund ist nicht Kosmetik: Das Mitführen der Einheiten ist die einzige
+Selbstkontrolle, die Lernende beim Einsetzen haben. Wer nur Zahlen einsetzt,
+merkt einen Einheitenfehler (Gramm statt Kilogramm, °C statt K) erst nie.
+
+**Bezugsgrössen konkret machen:** Wo eine Animation mit dimensionslosen «Teilen»
+oder Prozenten arbeiten würde, wird stattdessen eine konkrete Bezugsgrösse mit
+Einheit gewählt (z.B. Wärmepumpe: \(1\;\text{kWh}\) Strom statt «1 Teil»).
+Referenz: `themen/p5-2-waerme.html`, Animationen 1, 2, 3 und 6.
+
+**Ausnahme:** Zwischenschritte, deren Einheit selbst unanschaulich wäre, dürfen
+übersprungen werden — dann trägt das Ergebnis die Einheit. Nie weggelassen wird
+sie beim **Einsetzen** und beim **Resultat**.
+
+### 2.8 Brüche als Brüche (verbindlich, Stichwort «Stilcheck»)
+
+Ein Bruch in einer Formelzeile wird als **echte LaTeX-Bruchdarstellung**
+gesetzt, nicht als Schrägstrich-Zeile:
+
+- \[ \vartheta_\text{m} = \frac{m_1 c_1\,\vartheta_1 + m_2 c_2\,\vartheta_2}{m_1 c_1 + m_2 c_2} \] ✓
+- `ϑm = (m₁c₁ϑ₁ + m₂c₂ϑ₂) / (m₁c₁ + m₂c₂)` ✗
+
+**Umsetzung in Widgets:** Die *symbolische* Formel steht als statisches LaTeX in
+einer eigenen `.fl-eq` und wird beim Laden einmal von MathJax gesetzt; die
+*laufenden Werte* bleiben als Text in einer zweiten `.fl-eq` darunter. So muss
+MathJax nicht bei jeder Reglerbewegung neu rendern.
+
+**Fallunterscheidung sichtbar machen:** Vereinfacht sich die Formel in einem
+Sonderfall (z.B. \(c_1 = c_2\) → \(c\) kürzt sich), bekommt der Sonderfall
+eine eigene Formelzeile, die nur in diesem Fall eingeblendet wird.
+Referenz: `themen/p5-2-waerme.html`, Animation 2.
+
 ## 3. Achsenskalierung
 
 Physik unterscheidet sich grundlegend von Mathematik: **Achsen tragen IMMER Einheiten**. Es gibt keine reinen 1:1-Achsen wie im Mathe-Repo.
