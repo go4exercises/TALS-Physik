@@ -102,12 +102,10 @@ MathJax = {
       <span class="sl-val" id="ein-T-val">warm</span>
     </div>
 
-    <div style="margin:10px 0;">
+    <!-- Reihenfolge: laufen lassen → zurücksetzen → zuletzt die Auflösung einblenden -->
+    <div style="margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
       <button class="play-btn" id="ein-btn">▶ Start</button>
       <button class="play-btn paused" id="ein-reset" style="background:var(--tinte-2);">↻ Spur löschen</button>
-    </div>
-
-    <div class="typ-btns">
       <button class="typ-btn" id="ein-wasser" aria-pressed="false">💧 Wasserteilchen anzeigen</button>
     </div>
 
@@ -284,16 +282,14 @@ MathJax = {
       <span class="sl-val" id="a2-T-val">−80 °C</span>
     </div>
 
+    <!-- Reihenfolge: erst den Stoff wählen, dann auf dessen Übergangspunkte springen -->
     <div style="margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
       <span style="font-weight:700;color:var(--tinte-2);">Stoff:</span>
       <button class="play-btn paused" data-stoff="wasser">Wasser</button>
       <button class="play-btn" data-stoff="brom">Brom</button>
       <button class="play-btn" data-stoff="essig">Essigsäure</button>
-    </div>
-
-    <div class="typ-btns">
-      <button class="typ-btn" id="a2-zu-tm">→ Schmelzpunkt 0 °C</button>
-      <button class="typ-btn" id="a2-zu-tb">→ Siedepunkt 100 °C</button>
+      <button class="typ-btn" id="a2-zu-tm">→ schmilzt 0 °C</button>
+      <button class="typ-btn" id="a2-zu-tb">→ siedet 100 °C</button>
     </div>
 
     <div class="live-box">
@@ -1211,8 +1207,9 @@ document.getElementById('a2-T').addEventListener('input', ()=>{ if(!a2Loop.runni
 // muss diese eine Reglerstellung ohne Zielen erreichbar sein.
 function a2SyncSprung(){
   const s = A2_STOFFE[a2State.stoff];
-  document.getElementById('a2-zu-tm').textContent = '→ Schmelzpunkt ' + vz(s.Tm) + ' °C';
-  document.getElementById('a2-zu-tb').textContent = '→ Siedepunkt ' + vz(s.Tb) + ' °C';
+  // Wortwahl wie auf der Temperaturschiene, damit Knopf und Marke zusammengehören
+  document.getElementById('a2-zu-tm').textContent = '→ schmilzt ' + vz(s.Tm) + ' °C';
+  document.getElementById('a2-zu-tb').textContent = '→ siedet ' + vz(s.Tb) + ' °C';
 }
 function a2Sprung(v){
   const sl = document.getElementById('a2-T');
