@@ -366,7 +366,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Umrechnung</div>
-      <div class="fl-eq" id="a3-eq">T = 20.00 + 273.15 = 293.15 K</div>
+      <div class="fl-eq" id="a3-eq">T = ϑ + 273.15 = 20.00 + 273.15 = 293.15 K</div>
     </div>
 
     <div class="live-box">
@@ -1239,7 +1239,9 @@ function drawA3(){
   document.getElementById('a3-T-val').textContent = vz(c.toFixed(2)) + ' °C';
   document.getElementById('a3-c').textContent = vz(c.toFixed(2)) + ' °C';
   document.getElementById('a3-k').textContent = K.toFixed(2) + ' K';
-  document.getElementById('a3-eq').textContent = 'T = ' + (c < 0 ? '(' + vz(c.toFixed(2)) + ')' : c.toFixed(2)) + ' + 273.15 = ' + K.toFixed(2) + ' K';
+  // Ansatz-Prinzip: erst die Beziehung, dann die Werte (STYLEGUIDE §2.1)
+  document.getElementById('a3-eq').textContent = 'T = ϑ + 273.15 = '
+    + (c < 0 ? '(' + vz(c.toFixed(2)) + ')' : c.toFixed(2)) + ' + 273.15 = ' + K.toFixed(2) + ' K';
   // Sprungknopf hervorheben, wenn sein Fixpunkt gerade eingestellt ist
   document.querySelectorAll('[data-jump]').forEach(b => b.classList.toggle('aktiv', Math.abs(+b.dataset.jump - c) < 0.001));
 

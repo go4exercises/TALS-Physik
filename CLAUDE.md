@@ -77,8 +77,8 @@ Die Liste steht in `STYLEGUIDE.md` und wächst; aktuell:
 | # | Regel | STYLEGUIDE |
 |---|---|---|
 | 1 | Live-Box: Spaltenabstand gestuft (70/40/24 px), nie auf Zeilenabstand zusammenfallen. Wer einen Wert hinzufügt, prüft die ganze Box. | §5.3 |
-| 2 | `·` heisst nur Multiplikation — nie Trennzeichen. Zwei Gleichungen = zwei `.fl-eq`-Zeilen. | §2.1 |
-| 3 | `.fl-eq` nennt zuerst die Formel symbolisch, dann die Werte (Ansatz-Prinzip in Live-Anzeigen). | §2.1 |
+| 2 | In Rechen-/Wertanzeigen (`.fl-eq`, `.lb-val`, Canvas-Zahlen) heisst `·` nur Multiplikation — nie Trennzeichen. Zwei Gleichungen = zwei `.fl-eq`-Zeilen. Titel/Breadcrumbs sind ausgenommen. | §2.1 |
+| 3 | **Jede** `.fl-eq` nennt zuerst die Formel symbolisch, dann die Werte (Ansatz-Prinzip in Live-Anzeigen) — auf der ganzen Seite prüfen, nicht nur an der geänderten Animation. | §2.1 |
 
 Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
 **und** hier in der Tabelle nachgeführt.

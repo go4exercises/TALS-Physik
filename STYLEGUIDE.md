@@ -33,13 +33,17 @@ Geforkt aus dem Styleguide von TALS-Mathematik (v1.8); nur die für Physik abwei
 - **In LaTeX:** `\cdot` für den Punkt; `*` ist verboten.
 - **In LaTeX-Display-Formeln** darf `\cdot` weggelassen werden, wenn Multiplikation typografisch eindeutig ist (z.B. `v_0 t`), aber bei Zahl·Variable (`2 \cdot t`) und bei mehreren Skalaren (`v_0 \cdot \cos\alpha`) IMMER setzen.
 - **Vektor·Skalar** und **Skalarprodukt**: immer mit `\cdot` (`\vec{F} \cdot \vec{s}`).
-- **Der Punkt ist reserviert (verbindlich, Stichwort «Stilcheck»):** `·` bedeutet
-  ausschliesslich Multiplikation und wird **nie** als Trennzeichen zwischen zwei
-  Aussagen, Werten oder Gleichungen verwendet. In einer Rechnung ist das nicht
-  bloss unschön, sondern schlicht falsch lesbar — `… = 83 °C · ΔT = …` liest sich
-  als Produkt. Stehen zwei Gleichungen nebeneinander, bekommt **jede eine eigene
-  Zeile** (mehrere `.fl-eq` in derselben `.formel-live`; `style.css` setzt den
-  Abstand über `.fl-eq + .fl-eq`).
+- **Der Punkt ist reserviert (verbindlich, Stichwort «Stilcheck»):** In allen
+  **Rechen- und Wertanzeigen** — `.fl-eq`, `.lb-val`, Canvas-Beschriftungen mit
+  Zahlen, Lösungswege — bedeutet `·` ausschliesslich Multiplikation und wird
+  **nie** als Trennzeichen verwendet. Das ist dort nicht bloss unschön, sondern
+  falsch lesbar: `… = 83 °C · ΔT = …` liest sich als Produkt. Stehen zwei
+  Gleichungen nebeneinander, bekommt **jede eine eigene Zeile** (mehrere
+  `.fl-eq` in derselben `.formel-live`; `style.css` setzt den Abstand über
+  `.fl-eq + .fl-eq`).
+  *Nicht betroffen:* Titel, Breadcrumbs, Quellen- und Fusszeilen
+  (`Physik · Lerngebiet 5`, `Animation 4 · Doppelter Zahlenstrahl`) — dort ist
+  der Punkt etablierte Typografie ohne Rechenkontext und bleibt.
 - **Ansatz vor Werten, auch in Live-Anzeigen (verbindlich, Stichwort «Stilcheck»):**
   Eine `.fl-eq` nennt zuerst die Formel symbolisch, dann erst die Zahlen:
   `Δϑ = ϑ₂ − ϑ₁ = 95 − 12 = 83 °C` ✓, nicht `Δϑ = 95 − 12 = 83 °C` ✗.
