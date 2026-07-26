@@ -262,8 +262,8 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Lies auf der Schiene unten ab, wo der gewählte Stoff schmilzt und siedet — und sage voraus, was passieren wird.</li><li>Bewege den Temperaturregler über Schmelz- und Siedepunkt hinaus.</li><li>Triff die Marken genau: dort bestehen beide Zustände nebeneinander.</li><li>Wechsle den Stoff und vergleiche, bei welchen Temperaturen er schmilzt und siedet.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Lies auf der Schiene unten ab, wo der gewählte Stoff schmilzt und siedet, und sage voraus, was passieren wird. Bewege den Temperaturregler über den Schmelzpunkt und den Siedepunkt hinaus. Triff die Marken genau: dort bestehen beide Zustände nebeneinander. Wechsle den Stoff und vergleiche, bei welchen Temperaturen er schmilzt und siedet." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Lies auf der Schiene unten ab, wo der gewählte Stoff schmilzt und siedet — und sage voraus, was passieren wird.</li><li>Bewege den Temperaturregler über Schmelz- und Siedepunkt hinaus.</li><li>Springe mit den Knöpfen genau auf Schmelz- und Siedepunkt — dort bestehen beide Zustände nebeneinander.</li><li>Wechsle den Stoff und vergleiche, bei welchen Temperaturen er schmilzt und siedet.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Lies auf der Schiene unten ab, wo der gewählte Stoff schmilzt und siedet, und sage voraus, was passieren wird. Bewege den Temperaturregler über den Schmelzpunkt und den Siedepunkt hinaus. Springe mit den Knöpfen genau auf Schmelzpunkt und Siedepunkt; dort bestehen beide Zustände nebeneinander. Wechsle den Stoff und vergleiche, bei welchen Temperaturen er schmilzt und siedet." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -289,6 +289,11 @@ MathJax = {
       <button class="play-btn paused" data-stoff="wasser">Wasser</button>
       <button class="play-btn" data-stoff="brom">Brom</button>
       <button class="play-btn" data-stoff="essig">Essigsäure</button>
+    </div>
+
+    <div class="typ-btns">
+      <button class="typ-btn" id="a2-zu-tm">→ Schmelzpunkt 0 °C</button>
+      <button class="typ-btn" id="a2-zu-tb">→ Siedepunkt 100 °C</button>
     </div>
 
     <div class="live-box">
@@ -1074,6 +1079,9 @@ function a2Tick(dt){
   document.getElementById('a2-uebg').textContent = vz(s.Tm) + ' / ' + vz(s.Tb) + ' °C';
   if(z !== a2State.zustand){
     if(z !== 'fest'){ for(const q of a2State.p){ const a=Math.random()*Math.PI*2; const sp=(z==='gas'||z==='sieden')?0.5:0.22; q.vx=Math.cos(a)*sp; q.vy=Math.sin(a)*sp; } }
+    // Sprungknopf hervorheben, solange der Koexistenz-Punkt eingestellt ist
+    document.getElementById('a2-zu-tm').classList.toggle('aktiv', z === 'schmelzen');
+    document.getElementById('a2-zu-tb').classList.toggle('aktiv', z === 'sieden');
     a2State.zustand = z;
   }
   // Tempo je Phase; in den Koexistenz-Zustaenden jeweils der Randwert der Phase
@@ -1198,10 +1206,26 @@ function a2Render(z, T){
 }
 const a2Loop = makeLoop('a2-cv', null, a2Tick);  // kein Play-/Pause-Knopf: Autostart per IntersectionObserver
 document.getElementById('a2-T').addEventListener('input', ()=>{ if(!a2Loop.running){ if(!a2State.inited)a2Init(); a2Tick(0.016);} });
+// Sprungknöpfe auf Schmelz- und Siedepunkt: die Koexistenz besteht exakt bei
+// T = Tm bzw. T = Tb (ein Reinstoff hat dort keinen Temperaturbereich), darum
+// muss diese eine Reglerstellung ohne Zielen erreichbar sein.
+function a2SyncSprung(){
+  const s = A2_STOFFE[a2State.stoff];
+  document.getElementById('a2-zu-tm').textContent = '→ Schmelzpunkt ' + vz(s.Tm) + ' °C';
+  document.getElementById('a2-zu-tb').textContent = '→ Siedepunkt ' + vz(s.Tb) + ' °C';
+}
+function a2Sprung(v){
+  const sl = document.getElementById('a2-T');
+  sl.value = String(v);
+  sl.dispatchEvent(new Event('input', {bubbles:true}));
+}
+document.getElementById('a2-zu-tm').addEventListener('click', ()=>a2Sprung(A2_STOFFE[a2State.stoff].Tm));
+document.getElementById('a2-zu-tb').addEventListener('click', ()=>a2Sprung(A2_STOFFE[a2State.stoff].Tb));
 document.querySelectorAll('[data-stoff]').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     a2State.stoff = btn.dataset.stoff;
     document.querySelectorAll('[data-stoff]').forEach(b=>b.classList.toggle('paused', b===btn));
+    a2SyncSprung();
     if(!a2State.inited) a2Init();
     if(!a2Loop.running) a2Tick(0.016);
   });
@@ -1451,7 +1475,7 @@ a5ExtBtn.addEventListener('click', ()=>{
 function initAll(){
   einInit(); einRender();
   a1Init(); a1Readout(); a1Render();
-  a2Init(); a2Tick(0.001);
+  a2Init(); a2SyncSprung(); a2Tick(0.001);
   drawA3(); drawA4(); drawA5();
 
   // Loop-Autostart per IntersectionObserver

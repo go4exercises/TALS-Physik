@@ -253,7 +253,11 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   Vorhersagen möglich statt Absuchen; [MITTEL] Koexistenz-Zone um Tm.
   → Temperaturschiene mit drei Zonen unter dem Behälter (statt am Regler, dafür
   ist kein neues CSS nötig); Koexistenz exakt bei \(T = T_m\) bzw. \(T = T_b\) —
-  physikalisch korrekt statt als Temperaturfenster, die Schiene macht das Treffen möglich.
+  physikalisch korrekt statt als Temperaturfenster (ein Reinstoff hat dort keinen
+  Temperaturbereich; der «Bereich» liegt in der Energie → Heizkurve p5-2 a3).
+  Damit die eine Reglerstellung ohne Zielen erreichbar ist: Sprungknöpfe
+  «→ Schmelzpunkt» / «→ Siedepunkt», beschriftet mit den Werten des gewählten
+  Stoffs und hervorgehoben, solange der Punkt eingestellt ist.
 - [x] [MITTEL] a3 Thermometer: Sprungknöpfe «0 K · 0 °C · 37 °C · 100 °C».
 - [x] [MITTEL] a4 Zahlenstrahl: Vorzeichen der Differenz vereinheitlichen.
   → durchgehend **mit** Vorzeichen (nicht per `abs()`), plus Richtungspfeil und
