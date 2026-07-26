@@ -130,8 +130,8 @@ MathJax = {
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">🌡 Zwei Körper im Wärmekontakt</div>
-      <canvas id="ein-cv" height="300"></canvas>
+      <div class="cv-titel">🌡 Zwei Körper im Wärmekontakt · Verlauf \(\vartheta(t)\)</div>
+      <canvas id="ein-cv" height="430"></canvas>
     </div>
 
   </div>
@@ -243,8 +243,8 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Wähle einen Stoff und stelle Masse und Temperaturänderung ein.</li><li>Vergleiche die Balken der verschiedenen Stoffe.</li><li>Achte darauf, dass Wasser besonders viel Wärme braucht.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Wähle einen Stoff und stelle Masse und Temperaturänderung ein. Vergleiche die Balken für den Wärmebedarf der verschiedenen Stoffe. Achte darauf, dass Wasser besonders viel Wärme braucht." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Wähle einen Stoff und stelle Masse und Temperaturänderung ein.</li><li>Die Achse ist fest — beobachte, wie alle Balken mit \(m\) und \(\Delta T\) mitwachsen.</li><li>Vergleiche die Balken der verschiedenen Stoffe.</li><li>Achte darauf, dass Wasser besonders viel Wärme braucht.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle einen Stoff und stelle Masse und Temperaturänderung ein. Die Achse ist fest; beobachte, wie alle Balken mit der Masse und der Temperaturänderung mitwachsen. Vergleiche die Balken für den Wärmebedarf der verschiedenen Stoffe. Achte darauf, dass Wasser besonders viel Wärme braucht." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -278,12 +278,12 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Wärmemenge</div>
-      <div class="fl-eq" id="a1-eq">Q = 1.0 · 4182 · 50 = 209 100 J = 209.1 kJ</div>
+      <div class="fl-eq" id="a1-eq">Q = m · c · ΔT = 1.0 · 4182 · 50 = 209 100 J = 209.1 kJ</div>
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">📊 Wärmebedarf je Stoff (gleiche Masse, gleiches ΔT)</div>
-      <canvas id="a1-cv" height="280"></canvas>
+      <div class="cv-titel">📊 Wärmebedarf je Stoff (feste kJ-Achse)</div>
+      <canvas id="a1-cv" height="300"></canvas>
     </div>
 
   </div>
@@ -361,14 +361,21 @@ MathJax = {
       </div>
     </div>
 
+    <div class="typ-btns">
+      <span style="font-family:var(--mono);font-size:0.72rem;font-weight:700;color:var(--tinte-2);align-self:center;">Portion 2:</span>
+      <button class="typ-btn aktiv" data-a2stoff="wasser">Wasser · c = 4182</button>
+      <button class="typ-btn" data-a2stoff="oel">Öl · c = 2000</button>
+    </div>
+
     <div class="formel-live">
       <div class="fl-label">Mischtemperatur</div>
-      <div class="fl-eq" id="a2-eq">ϑm = (0.3·80 + 0.5·20) / (0.3 + 0.5) = 42.5 °C</div>
+      <div class="fl-eq" id="a2-eq-f">ϑm = (m₁c₁ϑ₁ + m₂c₂ϑ₂) / (m₁c₁ + m₂c₂)</div>
+      <div class="fl-eq" id="a2-eq">ϑm = (0.3·4182·80 + 0.5·4182·20) / (0.3·4182 + 0.5·4182) = 42.5 °C</div>
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">🥤 Portion 1 + Portion 2 → Mischung</div>
-      <canvas id="a2-cv" height="240"></canvas>
+      <div class="cv-titel">🥤 Portion 1 + Portion 2 → gemeinsame Temperatur</div>
+      <canvas id="a2-cv" height="390"></canvas>
     </div>
 
   </div>
@@ -418,6 +425,12 @@ MathJax = {
       <span class="sl-val" id="a3-Q-val">60.0 kJ</span>
     </div>
 
+    <div class="formel-live">
+      <div class="fl-label">gerade aktiv</div>
+      <div class="fl-eq" id="a3-eq-f">Q = m · c · Δϑ = 0.1 · 4182 · 100 = 41.8 kJ</div>
+      <div class="fl-eq" id="a3-eq-t">ϑ steigt von 0 °C auf 100 °C</div>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a3-T">14 °C</span></div>
       <div class="lb-item"><span class="lb-lab">Phase</span><span class="lb-val" id="a3-ph">flüssig</span></div>
@@ -454,27 +467,31 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Vergleiche die drei Arten des Wärmetransports.</li><li>Achte darauf, wie jede Energie vom Warmen zum Kalten bringt.</li><li>Überlege, welche Art ein Vakuum überwinden kann.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Vergleiche die drei Arten des Wärmetransports. Achte darauf, wie jede von ihnen Energie vom Warmen zum Kalten bringt. Überlege, welche Art auch ein Vakuum überwinden kann." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Vergleiche die drei Arten des Wärmetransports.</li><li>Achte darauf, wie jede Energie vom Warmen zum Kalten bringt.</li><li>Schalte «Vakuum dazwischen» ein und prüfe, welche Art als einzige übrig bleibt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Vergleiche die drei Arten des Wärmetransports. Achte darauf, wie jede von ihnen Energie vom Warmen zum Kalten bringt. Schalte Vakuum dazwischen ein und prüfe, welche Art als einzige übrig bleibt." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Wärmeleitung: Energie wandert durch Stösse, der Stoff bleibt am Ort.</li><li>Konvektion: warmes Material strömt selbst (Flüssigkeiten, Gase).</li><li>Strahlung: Energie als elektromagnetische Welle, auch durch das Vakuum.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Bei der Wärmeleitung wandert die Energie durch Stösse weiter, der Stoff selbst bleibt am Ort. Bei der Konvektion strömt warmes Material selbst, das geht nur in Flüssigkeiten und Gasen. Bei der Strahlung wird Energie als elektromagnetische Welle übertragen, das funktioniert sogar durch das Vakuum." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Wärmeleitung: Energie wandert durch Stösse, der Stoff bleibt am Ort.</li><li>Konvektion: warmes Material strömt selbst (Flüssigkeiten, Gase).</li><li>Strahlung: Energie als elektromagnetische Welle — als einzige Art auch durch das Vakuum.</li><li>Darum hat die Thermoskanne ein evakuiertes Zwischenglas und verspiegelte Wände.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Bei der Wärmeleitung wandert die Energie durch Stösse weiter, der Stoff selbst bleibt am Ort. Bei der Konvektion strömt warmes Material selbst, das geht nur in Flüssigkeiten und Gasen. Bei der Strahlung wird Energie als elektromagnetische Welle übertragen, das funktioniert als einzige Art sogar durch das Vakuum. Darum hat die Thermoskanne ein evakuiertes Zwischenglas und zusätzlich verspiegelte Wände gegen die Strahlung." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
 </div>
   </div>
   <div class="widget-body">
 
-    <div class="stoff-wahl" id="a4-modi"></div>
+    <div style="margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <div class="stoff-wahl" id="a4-modi" style="margin:0;"></div>
+      <button class="typ-btn" id="a4-vak" aria-pressed="false">🌑 Vakuum dazwischen</button>
+    </div>
 
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Art</span><span class="lb-val" id="a4-art">Wärmeleitung</span></div>
       <div class="lb-item"><span class="lb-lab">Träger</span><span class="lb-val" id="a4-traeger">Teilchen am Ort</span></div>
+      <div class="lb-item"><span class="lb-lab">im Vakuum</span><span class="lb-val" id="a4-vak-val">—</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -550,12 +567,91 @@ MathJax = {
 </div>
 
 
-<!-- ══════════════ 9. ANIMATION 6 — TREIBHAUSEFFEKT ══════════════ -->
+<!-- ══════════════ 9. ANIMATION 6 — WÄRMEPUMPE ══════════════ -->
 <details class="minicheck">
 <summary class="mc-kopf">✏️ Mini-Check</summary>
 <div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Der Wirkungsgrad einer Wärmekraftmaschine ist …</p><ul class="mc-optionen"><li data-opt="A">immer \(100\,\%\)</li><li data-opt="B">stets kleiner als \(100\,\%\)</li><li data-opt="C">beliebig grösser als \(100\,\%\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Ein Teil der Wärme geht stets als Abwärme verloren — \(\eta < 1\).</div></details></div>
 <div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Ein Teil der zugeführten Wärme geht stets als <span class="mc-luecke"></span> verloren.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Abwärme.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Maschine nimmt \(1000\;\text{J}\) Wärme auf und leistet \(300\;\text{J}\) Arbeit. Wirkungsgrad?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(\eta = \dfrac{300}{1000} = 0.3 = 30\,\%\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum wird ein Verbrennungsmotor im Betrieb heiss, obwohl er doch Arbeit leisten soll?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Nur rund ein Drittel der zugeführten Energie wird zu Arbeit. Der Rest verlässt den Motor als Abwärme über Kühler und Abgas — genau der Anteil, den die Animation als Verlustpfeil zeigt.</div></details></div>
+</details>
+
+<h2 id="waermepumpe">Wärmepumpe — mehr Wärme als Strom</h2>
+
+<p>Eine Wärmepumpe erzeugt Wärme nicht, sie <strong>befördert</strong> sie: Der Strom treibt nur den Prozess an, der grösste Teil der Heizwärme stammt kostenlos aus der Umgebung (Luft, Erdreich, Grundwasser). Darum ist die Leistungszahl \(\text{COP}=Q_\text{warm}/E_\text{el}\) grösser als 1 — ein Wirkungsgrad über 100&nbsp;% wäre unmöglich, eine Leistungszahl über 1 dagegen nicht, weil die Umgebungswärme nicht mitgezählt wird.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3>Animation 6 · Woher die Heizwärme kommt</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Vergleiche die Dicke des Strompfeils mit der des Heizwärme-Pfeils.</li><li>Verändere die Leistungszahl und beobachte, welcher Anteil aus der Umgebung stammt.</li><li>Achte darauf, dass Strom und Umgebungswärme zusammen genau die Heizwärme ergeben.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Vergleiche die Dicke des Strompfeils mit der des Heizwärme-Pfeils. Verändere die Leistungszahl und beobachte, welcher Anteil aus der Umgebung stammt. Achte darauf, dass Strom und Umgebungswärme zusammen genau die Heizwärme ergeben." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>\(\text{COP}=Q_\text{warm}/E_\text{el}\): bei \(\text{COP}=4\) liefert 1 Teil Strom 4 Teile Heizwärme.</li><li>Die Differenz stammt aus der Umgebung und ist gratis — sie wird nur angehoben, nicht erzeugt.</li><li>Das ist kein Widerspruch zur Energieerhaltung: die Bilanz geht genau auf.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Leistungszahl ist die Heizwärme geteilt durch die elektrische Energie. Bei einer Leistungszahl von 4 liefert ein Teil Strom vier Teile Heizwärme. Die Differenz stammt aus der Umgebung und ist gratis; sie wird nur auf ein höheres Temperaturniveau angehoben, nicht erzeugt. Das ist kein Widerspruch zur Energieerhaltung, denn die Bilanz geht genau auf." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Leistungszahl COP:</label>
+      <input type="range" id="a6-cop" min="2" max="5" value="3.5" step="0.1">
+      <span class="sl-val" id="a6-cop-val">3.5</span>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Energiebilanz</div>
+      <div class="fl-eq" id="a6-eq-f">Q_warm = COP · E_el = 3.5 · 1.0 = 3.5 Teile</div>
+      <div class="fl-eq" id="a6-eq-u">E_el + Q_umgebung = 1.0 + 2.5 = 3.5 Teile</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Strom \(E_\text{el}\)</span><span class="lb-val" id="a6-el">29 %</span></div>
+      <div class="lb-item"><span class="lb-lab">aus der Umgebung</span><span class="lb-val" id="a6-umg">71 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Heizwärme</span><span class="lb-val" id="a6-warm">100 %</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🔁 Strom + Umgebungswärme → Heizwärme</div>
+      <canvas id="a6-cv" height="340"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Häufiges Missverständnis</div>
+  <p>Eine Leistungszahl von \(4\) ist <em>kein</em> Wirkungsgrad von \(400\,\%\). Der Wirkungsgrad setzt die Nutzenergie ins Verhältnis zur <strong>gesamten</strong> zugeführten Energie — hier also zu Strom <em>plus</em> Umgebungswärme, und dann ist er kleiner als 1. Die Leistungszahl zählt nur den Strom, weil nur er bezahlt werden muss.</p>
+</div>
+
+
+<!-- ══════════════ 10. ANIMATION 7 — TREIBHAUSEFFEKT ══════════════ -->
+<details class="frage">
+  <summary>❓ Was passiert mit der Leistungszahl, wenn es draussen kälter wird?</summary>
+  <div class="frage-antwort">
+    <p>Sie sinkt. Die obere Grenze ist \(\text{COP}_\text{max} = \dfrac{T_\text{warm}}{T_\text{warm}-T_\text{kalt}}\) — je grösser der Temperaturunterschied, desto kleiner der Bruch. Für eine Vorlauftemperatur von \(35\,^\circ\text{C}\) (\(308.15\;\text{K}\)) gilt:</p>
+    \[ \text{bei } 0\,^\circ\text{C}: \quad \text{COP}_\text{max} = \frac{308.15}{308.15 - 273.15} = 8.8 \]
+    \[ \text{bei } -10\,^\circ\text{C}: \quad \text{COP}_\text{max} = \frac{308.15}{308.15 - 263.15} = 6.8 \]
+    <p>Darum arbeitet eine Wärmepumpe genau dann am schlechtesten, wenn am meisten geheizt werden muss. Reale Anlagen erreichen nur einen Bruchteil dieser Grenzwerte.</p>
+  </div>
+</details>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Eine Wärmepumpe mit \(\text{COP}=4\) liefert aus \(1\;\text{kWh}\) Strom …</p><ul class="mc-optionen"><li data-opt="A">\(4\;\text{kWh}\) Heizwärme</li><li data-opt="B">\(0.25\;\text{kWh}\) Heizwärme</li><li data-opt="C">\(1\;\text{kWh}\) Heizwärme</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> \(Q_\text{warm} = \text{COP} \cdot E_\text{el} = 4 \cdot 1 = 4\;\text{kWh}\). Die zusätzlichen \(3\;\text{kWh}\) stammen aus der Umgebung.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der grösste Teil der Heizwärme einer Wärmepumpe stammt aus der <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Umgebung (Luft, Erdreich oder Grundwasser).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Wärmepumpe mit \(\text{COP}=3.5\) verbraucht \(2\;\text{kWh}\) Strom. Wie viel Heizwärme gibt sie ab, und wie viel davon stammt aus der Umgebung?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Ansatz: \(Q_\text{warm} = \text{COP} \cdot E_\text{el}\).</div><div class="mc-antwort">\[ Q_\text{warm} = 3.5 \cdot 2\;\text{kWh} = 7\;\text{kWh} \]</div><div class="mc-antwort">\[ Q_\text{Umgebung} = 7\;\text{kWh} - 2\;\text{kWh} = 5\;\text{kWh} \]</div></details></div>
 <div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Wärmepumpe liefert mehr Heizwärme, als sie elektrische Energie verbraucht. Widerspricht das dem Energieerhaltungssatz?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Nein. Sie verschiebt zusätzlich Wärme aus der Umgebung ins Haus. Geliefert wird Strom plus Umgebungswärme — es wird keine Energie erzeugt, nur transportiert.</div></details></div>
 </details>
 
@@ -566,21 +662,21 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3>Animation 6 · Licht hinein, Wärmestrahlung hinaus</h3>
+  <h3>Animation 7 · Licht hinein, Wärmestrahlung hinaus</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Erhöhe die Treibhausgas-Konzentration.</li><li>Beobachte, wie mehr Infrarotstrahlung zurückgehalten wird.</li><li>Verfolge die steigende Oberflächentemperatur.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Erhöhe die Treibhausgas-Konzentration. Beobachte, wie mehr Infrarotstrahlung zurückgehalten wird. Verfolge, wie die Oberflächentemperatur dabei steigt." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Stelle zuerst 280 ppm ein — den vorindustriellen Wert.</li><li>Auch dort wird schon viel Strahlung zurückgehalten: das ist der <em>natürliche</em> Treibhauseffekt.</li><li>Erhöhe die Konzentration und achte auf die violetten Strahlen — sie kommen zusätzlich dazu.</li><li>Verfolge die steigende Oberflächentemperatur.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle zuerst 280 ppm ein, den vorindustriellen Wert. Auch dort wird schon viel Strahlung zurückgehalten; das ist der natürliche Treibhauseffekt. Erhöhe dann die Konzentration und achte auf die violetten Strahlen, sie kommen zusätzlich dazu. Verfolge, wie die Oberflächentemperatur dabei steigt." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Sichtbares Licht kommt herein; die Erde strahlt im Infrarot zurück.</li><li>Treibhausgase absorbieren die Infrarotstrahlung und strahlen sie teils zurück.</li><li>Mehr Treibhausgas verschiebt das Gleichgewicht zu höherer Oberflächentemperatur.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Sichtbares Licht kommt herein, die Erde strahlt im Infrarotbereich zurück. Treibhausgase absorbieren diese Infrarotstrahlung und strahlen einen Teil wieder zur Oberfläche zurück. Mehr Treibhausgas verschiebt das Gleichgewicht zu einer höheren Oberflächentemperatur." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Sichtbares Licht kommt herein; die Erde strahlt im Infrarot zurück.</li><li>Treibhausgase <em>absorbieren</em> die Infrarotstrahlung und strahlen sie in alle Richtungen neu ab — sie spiegeln sie nicht.</li><li>Schon ohne menschlichen Einfluss hält die Atmosphäre viel zurück; ohne diesen natürlichen Treibhauseffekt wäre die Erde unbewohnbar kalt.</li><li>Mehr Treibhausgas verschiebt das Gleichgewicht zu höherer Oberflächentemperatur.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Sichtbares Licht kommt herein, die Erde strahlt im Infrarotbereich zurück. Treibhausgase absorbieren diese Infrarotstrahlung und strahlen sie in alle Richtungen neu ab; sie spiegeln sie nicht. Schon ohne menschlichen Einfluss hält die Atmosphäre viel Strahlung zurück, ohne diesen natürlichen Treibhauseffekt wäre die Erde unbewohnbar kalt. Mehr Treibhausgas verschiebt das Gleichgewicht zu einer höheren Oberflächentemperatur." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
 </div>
@@ -589,22 +685,23 @@ MathJax = {
 
     <div class="sl-row">
       <label>CO₂-Konzentration:</label>
-      <input type="range" id="a6-g" min="280" max="560" value="430" step="5">
-      <span class="sl-val" id="a6-g-val">430 ppm</span>
+      <input type="range" id="a7-g" min="280" max="560" value="430" step="5">
+      <span class="sl-val" id="a7-g-val">430 ppm</span>
     </div>
 
     <div style="margin:10px 0;">
-      <button class="play-btn" id="a6-btn">▶ Start</button>
+      <button class="play-btn" id="a7-btn">▶ Start</button>
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">CO₂-Konzentration</span><span class="lb-val" id="a6-ppm">430 ppm</span></div>
-      <div class="lb-item"><span class="lb-lab">Oberfläche (relativ)</span><span class="lb-val" id="a6-temp">warm</span></div>
+      <div class="lb-item"><span class="lb-lab">CO₂-Konzentration</span><span class="lb-val" id="a7-ppm">430 ppm</span></div>
+      <div class="lb-item"><span class="lb-lab">Oberfläche (relativ)</span><span class="lb-val" id="a7-temp">warm</span></div>
+      <div class="lb-item"><span class="lb-lab">zurückgehalten (natürl. + zusätzl.)</span><span class="lb-val" id="a7-halt">7 + 2 von 12</span></div>
     </div>
 
     <div class="cv-wrap">
       <div class="cv-titel">🌍 Sonnenlicht (gelb) und Wärmestrahlung (rot)</div>
-      <canvas id="a6-cv" height="300"></canvas>
+      <canvas id="a7-cv" height="300"></canvas>
     </div>
 
   </div>
@@ -956,7 +1053,7 @@ function makeLoop(canvasId, btnId, tickFn){
 // ══════════════════════════════════════════════════════════
 //  EINSTIEG: Thermisches Gleichgewicht (zwei Koerper)
 // ══════════════════════════════════════════════════════════
-const einState = { TL:90, TR:10, pL:[], pR:[], inited:false };
+const einState = { spur:[], zeit:0, TL:90, TR:10, pL:[], pR:[], inited:false };
 function einMkParts(n){
   const a=[]; for(let i=0;i<n;i++){ const ang=Math.random()*6.283;
     a.push({x:Math.random(),y:Math.random(),vx:Math.cos(ang),vy:Math.sin(ang)}); } return a;
@@ -965,7 +1062,8 @@ function einApplyTemps(){
   einState.TL = +document.getElementById('ein-T1').value;
   einState.TR = +document.getElementById('ein-T2').value;
 }
-function einInit(){ einApplyTemps(); einState.pL=einMkParts(16); einState.pR=einMkParts(16); einState.inited=true; }
+function einInit(){ einApplyTemps(); einState.pL=einMkParts(16); einState.pR=einMkParts(16);
+  einState.spur=[]; einState.zeit=0; einState.inited=true; }
 function einSpeed(T){ return 0.12 + (T/100)*0.45; }
 function einMove(parts, T, dt){
   const sp = einSpeed(T);
@@ -983,6 +1081,10 @@ function einTick(dt){
   einState.TR += (mean-einState.TR)*rate*dt;
   einMove(einState.pL, einState.TL, dt);
   einMove(einState.pR, einState.TR, dt);
+  // Verlauf mitschreiben: der Prozess ist sonst weg, sobald das Gleichgewicht steht
+  einState.zeit += dt;
+  einState.spur.push({t:einState.zeit, L:einState.TL, R:einState.TR});
+  if(einState.spur.length > 900) einState.spur.shift();
   document.getElementById('ein-TL').textContent = einState.TL.toFixed(0)+' °C';
   document.getElementById('ein-TR').textContent = einState.TR.toFixed(0)+' °C';
   document.getElementById('ein-Tm').textContent = mean.toFixed(0)+' °C';
@@ -1002,20 +1104,62 @@ function einBox(ctx,W,H,x0,x1,parts,T,label){
   ctx.fillText(label+': '+T.toFixed(0)+' °C', (px0+px1)/2, py0-6);
 }
 function einRender(){
-  const cv=initCanvas('ein-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const cv=initCanvas('ein-cv',430,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const HS=H-140;                       // oberer Teil: Szene; darunter das ϑ(t)-Diagramm
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
   // Die beiden Körper berühren sich an der Kontaktfläche bei x = 0.50
-  einBox(ctx,W,H,0.04,0.50,einState.pL,einState.TL,'links');
-  einBox(ctx,W,H,0.50,0.96,einState.pR,einState.TR,'rechts');
+  einBox(ctx,W,HS,0.04,0.50,einState.pL,einState.TL,'links');
+  einBox(ctx,W,HS,0.50,0.96,einState.pR,einState.TR,'rechts');
   // Kontaktzone + Pfeil (Waermefluss vom Waermeren zum Kaelteren, quer durch die Kontaktflaeche)
   ctx.textAlign='center';
   if(Math.abs(einState.TL-einState.TR)>1){
     const dir = einState.TL>einState.TR ? 1 : -1;
-    const cy=H*0.40, x1=W*0.42, x2=W*0.58;
-    drawArrow(ctx, dir>0?x1:x2, cy, dir>0?x2:x1, cy, '#9b1c1c', 6, 16);
-    ctx.fillStyle='#9b1c1c'; ctx.font='bold 17px Source Sans 3,sans-serif'; ctx.fillText('Q', W*0.5, cy-12);
+    const cyA=HS*0.40, x1=W*0.42, x2=W*0.58;
+    drawArrow(ctx, dir>0?x1:x2, cyA, dir>0?x2:x1, cyA, '#9b1c1c', 6, 16);
+    ctx.fillStyle='#9b1c1c'; ctx.font='bold 17px Source Sans 3,sans-serif'; ctx.fillText('Q', W*0.5, cyA-12);
   } else {
-    ctx.fillStyle='#1f6b3a'; ctx.font='bold 16px Source Sans 3,sans-serif'; ctx.fillText('Gleichgewicht', W*0.5, H*0.40);
+    ctx.fillStyle='#1f6b3a'; ctx.font='bold 16px Source Sans 3,sans-serif'; ctx.fillText('Gleichgewicht', W*0.5, HS*0.40);
+  }
+  einDiagramm(ctx, W, HS, H);
+}
+// ϑ(t)-Diagramm: hält den Prozess fest, der sonst nach dem Angleichen unsichtbar ist.
+function einDiagramm(ctx, W, y0, H){
+  const xL=W*0.10, xR=W*0.96, yT=y0+22, yB=H-26;
+  const TSPAN=30;                                   // dargestellte Zeitspanne in s
+  const tMax=Math.max(TSPAN, einState.zeit);
+  const tMin=tMax-TSPAN;
+  const xOf=t=>xL+(t-tMin)/TSPAN*(xR-xL);
+  const yOf=T=>yB-(T/100)*(yB-yT);
+  ctx.fillStyle='#fff'; ctx.fillRect(xL,yT,xR-xL,yB-yT);
+  // Gitter und Achsen
+  ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='right'; ctx.fillStyle='#5a5040';
+  for(let T=0;T<=100;T+=25){
+    const y=yOf(T);
+    ctx.strokeStyle=(T===0)?'#b8ae99':'#eff1f5'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(xL,y); ctx.lineTo(xR,y); ctx.stroke();
+    ctx.fillText(T+'', xL-6, y+4);
+  }
+  ctx.strokeStyle='#b8ae99'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(xL,yT); ctx.lineTo(xL,yB); ctx.stroke();
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('ϑ [°C]', xL, yT-6);
+  ctx.textAlign='right'; ctx.fillText('t [s]', xR, yB+16);
+  // Kurven
+  const pts=einState.spur.filter(p=>p.t>=tMin);
+  if(pts.length>1){
+    [['L','#9b1c1c'],['R','#1a4f8a']].forEach(([k,col])=>{
+      ctx.strokeStyle=col; ctx.lineWidth=2.2; ctx.beginPath();
+      pts.forEach((p,i)=>{ const x=xOf(p.t), y=yOf(p[k]);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
+      ctx.stroke();
+    });
+    const last=pts[pts.length-1];
+    ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='left';
+    ctx.fillStyle='#9b1c1c'; ctx.fillText('links',  Math.min(xOf(last.t)+5, xR-38), yOf(last.L)+4);
+    ctx.fillStyle='#1a4f8a'; ctx.fillText('rechts', Math.min(xOf(last.t)+5, xR-42), yOf(last.R)+4);
+  } else {
+    ctx.fillStyle='#8f8f8f'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Der Verlauf wird aufgezeichnet, sobald die Animation läuft.', (xL+xR)/2, (yT+yB)/2);
   }
 }
 const einLoop = makeLoop('ein-cv', null, einTick);  // kein Play-/Pause-Knopf: Autostart per IntersectionObserver
@@ -1024,6 +1168,7 @@ const einLoop = makeLoop('ein-cv', null, einTick);  // kein Play-/Pause-Knopf: A
     document.getElementById(id+'-val').textContent = document.getElementById(id).value+' °C';
     if(!einState.inited) einInit();
     einApplyTemps();                       // Starttemperaturen neu setzen, Angleichung läuft neu
+    einState.spur=[]; einState.zeit=0;     // Verlauf gehört zum alten Startwert
     if(!einLoop.running) einTick(0);        // im Ruhezustand Anzeige sofort aktualisieren
   });
 });
@@ -1052,21 +1197,37 @@ function a1Render(){
   document.getElementById('a1-m-val').textContent=m.toFixed(1)+' kg';
   document.getElementById('a1-dT-val').textContent=dT+' K';
   const s=STOFFE[a1Sel], Q=m*s.c*dT;
-  document.getElementById('a1-eq').textContent='Q = '+m.toFixed(1)+' · '+s.c+' · '+dT+' = '+grp(Q)+' J = '+(Q/1000).toFixed(1)+' kJ';
+  document.getElementById('a1-eq').textContent='Q = m · c · ΔT = '+m.toFixed(1)+' · '+s.c+' · '+dT+' = '+grp(Q)+' J = '+(Q/1000).toFixed(1)+' kJ';
 
-  const cv=initCanvas('a1-cv',280,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const cv=initCanvas('a1-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const qs=STOFFE.map(st=>m*st.c*dT), qmax=Math.max(...qs);
-  const x0=W*0.20, x1=W*0.92, n=STOFFE.length;
-  const bh=(H*0.88)/n*0.66, gap=(H*0.88)/n;
+  // FESTE Achse statt Normierung auf das Maximum: nur so wirken sich m und ΔT
+  // sichtbar aus. Obergrenze = grösstmöglicher Wert der Regler
+  // (5 kg · 4182 J/(kg·K) · 100 K = 2091 kJ), aufgerundet auf 2100 kJ.
+  const QMAX=2100;                       // kJ
+  const qs=STOFFE.map(st=>m*st.c*dT/1000);
+  const x0=W*0.20, x1=W*0.94, n=STOFFE.length;
+  const yPlot=H*0.04, hPlot=H*0.78;
+  const xOf=q=>x0+(q/QMAX)*(x1-x0);
+  // Achsengitter alle 500 kJ
+  ctx.font='12px JetBrains Mono,monospace'; ctx.textAlign='center';
+  for(let v=0; v<=QMAX; v+=500){
+    const x=xOf(v);
+    ctx.strokeStyle=(v===0)?'#8a4a0e':'#e6e0d4'; ctx.lineWidth=(v===0)?2:1;
+    ctx.beginPath(); ctx.moveTo(x,yPlot); ctx.lineTo(x,yPlot+hPlot); ctx.stroke();
+    ctx.fillStyle='#5a5040'; ctx.fillText(v+'', x, yPlot+hPlot+16);
+  }
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
+  ctx.fillText('Q [kJ]', x1, yPlot+hPlot+32);
+  const bh=hPlot/n*0.62, gap=hPlot/n;
   for(let i=0;i<n;i++){
-    const y=H*0.06+i*gap, len=(x1-x0)*(qs[i]/qmax);
+    const y=yPlot+i*gap+(gap-bh)/2, len=(x1-x0)*Math.min(1, qs[i]/QMAX);
     ctx.fillStyle = (i===a1Sel)?'#b85c00':'#d9c4a3';
     ctx.fillRect(x0,y,len,bh);
     ctx.fillStyle='#1c1a17'; ctx.font=(i===a1Sel?'bold ':'')+'12px Source Sans 3,sans-serif'; ctx.textAlign='right';
-    ctx.fillText(STOFFE[i].name, x0-8, y+bh*0.72);
+    ctx.fillText(STOFFE[i].name, x0-8, y+bh*0.75);
     ctx.textAlign='left'; ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
-    ctx.fillText((qs[i]/1000).toFixed(1)+' kJ', x0+len+6, y+bh*0.72);
+    ctx.fillText(qs[i].toFixed(1), x0+len+6, y+bh*0.75);
   }
 }
 ['a1-m','a1-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a1Render));
@@ -1075,39 +1236,103 @@ function a1Render(){
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 2: Mischtemperatur (Wasser + Wasser)
 // ══════════════════════════════════════════════════════════
+const A2_STOFF = { wasser:{name:'Wasser', c:4182, col:'#5b9bd5'}, oel:{name:'Öl', c:2000, col:'#c9a227'} };
+let a2Sel = 'wasser';                       // Stoff der Portion 2
 function a2Render(){
   const m1=+document.getElementById('a2-m1').value, t1=+document.getElementById('a2-t1').value;
   const m2=+document.getElementById('a2-m2').value, t2=+document.getElementById('a2-t2').value;
+  const c1=4182, s2=A2_STOFF[a2Sel], c2=s2.c;
   document.getElementById('a2-m1-val').textContent=m1.toFixed(1)+' kg';
   document.getElementById('a2-t1-val').textContent=t1+' °C';
   document.getElementById('a2-m2-val').textContent=m2.toFixed(1)+' kg';
   document.getElementById('a2-t2-val').textContent=t2+' °C';
-  const tm=(m1*t1+m2*t2)/(m1+m2);
-  document.getElementById('a2-eq').textContent='ϑm = ('+m1.toFixed(1)+'·'+t1+' + '+m2.toFixed(1)+'·'+t2+') / ('+m1.toFixed(1)+' + '+m2.toFixed(1)+') = '+tm.toFixed(1)+' °C';
+  const W1=m1*c1, W2=m2*c2, tm=(W1*t1+W2*t2)/(W1+W2);
+  // Ansatz-Prinzip: erst die Formel, dann die Werte (STYLEGUIDE §2.1)
+  document.getElementById('a2-eq').textContent =
+    'ϑm = ('+m1.toFixed(1)+'·'+c1+'·'+t1+' + '+m2.toFixed(1)+'·'+c2+'·'+t2+') / ('
+    + m1.toFixed(1)+'·'+c1+' + '+m2.toFixed(1)+'·'+c2+') = '+tm.toFixed(1)+' °C';
 
-  const cv=initCanvas('a2-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  // Schmale Ansicht braucht mehr Höhe: die Gefäss-Beschriftung bricht dort um.
+  const cvEl=document.getElementById('a2-cv'); cvEl.style.width='';   // Breite wie in initCanvas messen
+  const eng=(cvEl.offsetWidth||600) < 560;
+  const cv=initCanvas('a2-cv', eng?450:390, false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const base=H-40, top=H*0.12, maxFill=6;   // volle Höhe = 6 kg: Portion 1/2 (max 3 kg) füllen nur bis zur Hälfte, die Mischung (max 6 kg) genau voll
-  function beaker(cx,wpx,m,T,lab){
+  const HB=H-132;                           // oberer Teil: Gefässe; darunter der Zahlenstrahl
+  const base=HB-(eng?46:40), top=HB*0.14, maxFill=6;   // volle Höhe = 6 kg
+  function beaker(cx,wpx,m,T,lab,sub){
     const h=(base-top)*(m/maxFill), y=base-h;
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2;
     ctx.strokeRect(cx-wpx/2, top, wpx, base-top);
     ctx.fillStyle=lerpCol(T/100); ctx.fillRect(cx-wpx/2+2, y, wpx-4, h);
-    ctx.fillStyle='#1c1a17'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-    ctx.fillText(lab, cx, base+16);
-    ctx.font='bold 13px JetBrains Mono,monospace';
-    ctx.fillText(m.toFixed(1)+'kg · '+T+'°C', cx, base+30);
+    ctx.fillStyle='#1c1a17'; ctx.font=(eng?'11px ':'13px ')+'Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(lab, cx, base+14);
+    ctx.font='bold '+(eng?'11px ':'13px ')+'JetBrains Mono,monospace';
+    if(eng){                                 // Masse und Temperatur je auf eigener Zeile
+      ctx.fillText(m.toFixed(1)+' kg',  cx, base+28);
+      ctx.fillText(T.toFixed(1)+' °C',  cx, base+41);
+      if(sub){ ctx.font='11px Source Sans 3,sans-serif'; ctx.fillStyle='#5a5040';
+               ctx.fillText(sub, cx, base+54); }
+    } else {
+      ctx.fillText(m.toFixed(1)+' kg   '+T.toFixed(1)+' °C', cx, base+30);
+      if(sub){ ctx.font='12px Source Sans 3,sans-serif'; ctx.fillStyle='#5a5040';
+               ctx.fillText(sub, cx, base+44); }
+    }
   }
-  const bw=W*0.20;   // alle drei Gefässe gleich breit und gleich hoch
-  beaker(W*0.14, bw, m1, t1, 'Portion 1');
-  beaker(W*0.42, bw, m2, t2, 'Portion 2');
-  beaker(W*0.84, bw, m1+m2, tm, 'Mischung');
-  ctx.fillStyle='#5a5040'; ctx.font='bold 34px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText('+', W*0.28, H*0.46); ctx.fillText('=', W*0.64, H*0.46);
+  const bw=W*(eng?0.24:0.20);
+  beaker(W*0.15, bw, m1, t1, 'Portion 1', 'Wasser');
+  beaker(W*0.44, bw, m2, t2, 'Portion 2', s2.name);
+  beaker(W*0.84, bw, m1+m2, tm, 'zusammen', a2Sel==='wasser' ? 'Wasser' : 'Wasser + Öl');
+  ctx.fillStyle='#5a5040'; ctx.font='bold '+(eng?'22px ':'34px ')+'Source Sans 3,sans-serif';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('+', W*0.295, HB*0.50); ctx.fillText('=', W*0.65, HB*0.50);
   ctx.textBaseline='alphabetic';
-  ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace';
-  ctx.fillText('ϑm = '+tm.toFixed(1)+' °C', W*0.84, top-2);
+  ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
+  ctx.fillText('ϑm = '+tm.toFixed(1)+' °C', W-4, top-4);
+
+  // ── Temperatur-Zahlenstrahl mit «Hebelgesetz» der Wärmekapazitäten ──
+  // Die beiden Spannen verhalten sich umgekehrt wie m·c: m₁c₁·(ϑ₁−ϑm) = m₂c₂·(ϑm−ϑ₂).
+  const xL=W*0.08, xR=W*0.94, yA=HB+50;   // Abstand so, dass Achsenlabel und Gefäss-Beschriftung sich nicht treffen
+  const xOf=v=>xL+v/100*(xR-xL);
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(xL,yA); ctx.lineTo(xR,yA); ctx.stroke();
+  ctx.font='11px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040'; ctx.textAlign='center';
+  for(let v=0;v<=100;v+=25){
+    const x=xOf(v);
+    ctx.strokeStyle='#b8ae99'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x,yA-4); ctx.lineTo(x,yA+4); ctx.stroke();
+    ctx.fillText(v+'', x, yA+17);
+  }
+  ctx.textAlign='left'; ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px Source Sans 3,sans-serif';
+  ctx.fillText('ϑ [°C]', xL, yA-27);
+  // Spannen als Balken: kalt→ϑm und ϑm→warm
+  const xk=xOf(Math.min(t1,t2)), xw=xOf(Math.max(t1,t2)), xm=xOf(tm);
+  ctx.fillStyle='rgba(26,79,138,0.16)'; ctx.fillRect(Math.min(xk,xm), yA-9, Math.abs(xm-xk), 18);
+  ctx.fillStyle='rgba(155,28,28,0.14)'; ctx.fillRect(Math.min(xm,xw), yA-9, Math.abs(xw-xm), 18);
+  function marke(x,col,lab,oben){
+    ctx.strokeStyle=col; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(x,yA-11); ctx.lineTo(x,yA+11); ctx.stroke();
+    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,yA,4,0,6.283); ctx.fill();
+    ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillText(lab, x, oben ? yA-13 : yA+29);
+  }
+  marke(xOf(t2), '#1a4f8a', 'ϑ₂', true);
+  marke(xOf(t1), '#9b1c1c', 'ϑ₁', true);
+  marke(xm, '#b85c00', 'ϑm', false);
+  // Nachweis des Hebelgesetzes in Zahlen
+  // Zwei Gleichungen = zwei Zeilen (STYLEGUIDE §2.1); der Punkt bleibt der Malpunkt.
+  ctx.font=(eng?'10px ':'12px ')+'JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle='#9b1c1c';
+  ctx.fillText('abgegeben:   m₁c₁ · (ϑ₁ − ϑm) = '+grp(Math.round(W1*(t1-tm)))+' J', W*0.5, yA+46);
+  ctx.fillStyle='#1a4f8a';
+  ctx.fillText('aufgenommen: m₂c₂ · (ϑm − ϑ₂) = '+grp(Math.round(W2*(tm-t2)))+' J', W*0.5, yA+62);
 }
+document.querySelectorAll('[data-a2stoff]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    a2Sel=b.dataset.a2stoff;
+    document.querySelectorAll('[data-a2stoff]').forEach(x=>x.classList.toggle('aktiv', x===b));
+    a2Render();
+  });
+});
 ['a2-m1','a2-t1','a2-m2','a2-t2'].forEach(id=>document.getElementById(id).addEventListener('input', a2Render));
 
 
@@ -1125,6 +1350,25 @@ function hkTemp(Q){
   }
   return 150;
 }
+// Die fünf Abschnitte der Heizkurve für m = 0.1 kg Wasser. Q-Grenzen wie in HK;
+// die Teilformeln und Segment-Energien sind daraus nachgerechnet (siehe Kommentar
+// unten): c_Eis = 2100, L_f = 334 kJ/kg, c = 4182, L_v = 2256 kJ/kg, c_Dampf = 2010.
+const HK_SEG = [
+  { q0:0,      q1:4200,   name:'Eis erwärmen',    formel:'Q = m · c_Eis · Δϑ',
+    werte:'0.1 · 2100 · 20',    kJ:4.2,   temp:'ϑ steigt von −20 °C auf 0 °C' },
+  { q0:4200,   q1:37600,  name:'Schmelzen',       formel:'Q = m · L_f',
+    werte:'0.1 · 334 000',      kJ:33.4,  temp:'ϑ bleibt bei 0 °C — die Energie löst das Gitter' },
+  { q0:37600,  q1:79420,  name:'Wasser erwärmen', formel:'Q = m · c · Δϑ',
+    werte:'0.1 · 4182 · 100',   kJ:41.8,  temp:'ϑ steigt von 0 °C auf 100 °C' },
+  { q0:79420,  q1:305020, name:'Verdampfen',      formel:'Q = m · L_v',
+    werte:'0.1 · 2 256 000',    kJ:225.6, temp:'ϑ bleibt bei 100 °C — die Teilchen lösen sich ganz' },
+  { q0:305020, q1:315070, name:'Dampf erwärmen',  formel:'Q = m · c_Dampf · Δϑ',
+    werte:'0.1 · 2010 · 50',    kJ:10.05, temp:'ϑ steigt von 100 °C auf 150 °C' }
+];
+function hkSeg(Q){
+  for(let i=0;i<HK_SEG.length;i++) if(Q<=HK_SEG[i].q1) return i;
+  return HK_SEG.length-1;
+}
 function hkPhase(Q){
   if(Q<=4200) return 'fest (Eis)';
   if(Q<37600) return 'schmelzen';
@@ -1134,33 +1378,64 @@ function hkPhase(Q){
 }
 function drawA3(){
   const Q=+document.getElementById('a3-Q').value;
-  const T=hkTemp(Q), ph=hkPhase(Q);
+  const T=hkTemp(Q), ph=hkPhase(Q), si=hkSeg(Q), sg=HK_SEG[si];
   document.getElementById('a3-Q-val').textContent=(Q/1000).toFixed(1)+' kJ';
   document.getElementById('a3-T').textContent=T.toFixed(0)+' °C';
   document.getElementById('a3-ph').textContent=ph;
   document.getElementById('a3-Qv').textContent=(Q/1000).toFixed(1)+' kJ';
+  // aktive Teilformel: Ansatz, dann Werte, dann was mit der Temperatur geschieht
+  document.getElementById('a3-eq-f').textContent =
+    sg.formel+' = '+sg.werte+' = '+sg.kJ.toFixed(1)+' kJ';
+  document.getElementById('a3-eq-t').textContent = sg.temp;
 
-  const cv=initCanvas('a3-cv',320,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const cv=initCanvas('a3-cv',360,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   const g=drawGrid(ctx,W,H,0,320,-30,160);
   drawAxesUnits(ctx,W,H,g.cx,g.cy,'Q [kJ]','ϑ [°C]');
   const cx=g.cx, cy=g.cy;
+  // ── Segment-Klammern unter der Kurve: belegen, wo die Energie hingeht ──
+  const yK=cy(-16);
+  HK_SEG.forEach((sgm,i)=>{
+    const xa=cx(sgm.q0/1000), xb=cx(sgm.q1/1000), aktiv=(i===si);
+    ctx.strokeStyle=aktiv?'#b85c00':'#b8ae99'; ctx.lineWidth=aktiv?2.4:1.2;
+    ctx.beginPath();
+    ctx.moveTo(xa,yK-5); ctx.lineTo(xa,yK); ctx.lineTo(xb,yK); ctx.lineTo(xb,yK-5);
+    ctx.stroke();
+    const lab=sgm.kJ.toFixed(1)+' kJ';
+    ctx.font=(aktiv?'bold ':'')+'11px JetBrains Mono,monospace';
+    if(ctx.measureText(lab).width + 8 < xb-xa){
+      ctx.fillStyle=aktiv?'#b85c00':'#5a5040'; ctx.textAlign='center';
+      ctx.fillText(lab, (xa+xb)/2, yK+13);
+    }
+  });
   // Kurve
   ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.6; ctx.beginPath();
   HK.forEach((p,i)=>{ const X=cx(p[0]/1000), Y=cy(p[1]); if(i===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); });
   ctx.stroke();
-  // Plateau-Beschriftungen
-  ctx.font='13px Source Sans 3,sans-serif'; ctx.fillStyle='#1a4f8a'; ctx.textAlign='left';
-  ctx.fillText('Schmelzen (0 °C)', cx(42), cy(0)-8);
-  ctx.fillStyle='#9b1c1c'; ctx.textAlign='center';
-  ctx.fillText('Verdampfen (100 °C)', cx((79.42+305.02)/2), cy(100)-10);
-  // aktueller Punkt
+  // aktueller Punkt zuerst vermessen, damit die statischen Plateau-Beschriftungen
+  // ausweichen können, statt sich mit der wandernden Beschriftung zu überlagern.
   const px=cx(Q/1000), py=cy(T);
+  ctx.font='bold 13px JetBrains Mono,monospace';
+  const ptxt=T.toFixed(0)+' °C', pw=ctx.measureText(ptxt).width;
+  const rechts=px>W*0.86;
+  const plx=rechts?px-9-pw:px+9, ply=(py>H*0.72)?py-10:py+16;
+  const frei=(x,y,w)=>!(x<plx+pw+6 && x+w>plx-6 && Math.abs(y-ply)<14);
+  // Plateau-Beschriftungen
+  ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  const l1='Schmelzen (0 °C)', l1x=cx(42), l1y=cy(0)-8;
+  if(frei(l1x,l1y,ctx.measureText(l1).width)){ ctx.fillStyle='#1a4f8a'; ctx.fillText(l1,l1x,l1y); }
+  const l2='Verdampfen (100 °C)', l2w=ctx.measureText(l2).width;
+  const l2x=cx((79.42+305.02)/2)-l2w/2, l2y=cy(100)-10;
+  if(frei(l2x,l2y,l2w)){ ctx.fillStyle='#9b1c1c'; ctx.fillText(l2,l2x,l2y); }
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(px,cy(-30)); ctx.lineTo(px,py); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
-  drawDot(ctx,x=>x,y=>y,px,py,'#1c1a17',6);
-  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
-  ctx.fillText(T.toFixed(0)+' °C', px+9, py+16);
+  drawDot(ctx,cx,cy,Q/1000,T,'#1c1a17',6);
+  ctx.font='bold 13px JetBrains Mono,monospace';
+  ctx.textAlign='left';
+  ctx.lineWidth=3.5; ctx.lineJoin='round'; ctx.strokeStyle='#fff';
+  ctx.strokeText(ptxt, plx, ply);
+  ctx.fillStyle='#1c1a17'; ctx.fillText(ptxt, plx, ply);
+  ctx.lineWidth=1;
 }
 document.getElementById('a3-Q').addEventListener('input', drawA3);
 
@@ -1173,24 +1448,58 @@ const A4MODI = [
   {name:'Konvektion',   traeger:'strömendes Material'},
   {name:'Wärmestrahlung',traeger:'Infrarot, ohne Materie'}
 ];
-const a4State = { t:0, mode:0 };
+const a4State = { t:0, mode:0, vakuum:false };
 function a4Buttons(){
   const box=document.getElementById('a4-modi'); box.innerHTML='';
   A4MODI.forEach((m,i)=>{
     const b=document.createElement('button'); b.textContent=m.name;
     if(i===a4State.mode) b.classList.add('aktiv');
-    b.addEventListener('click',()=>{ a4State.mode=i; a4Buttons();
-      document.getElementById('a4-art').textContent=m.name;
-      document.getElementById('a4-traeger').textContent=m.traeger;
-      a4Render(); });
+    b.addEventListener('click',()=>{ a4State.mode=i; a4Buttons(); a4Readout(); a4Render(); });
     box.appendChild(b);
   });
+}
+// Im Vakuum fehlt das Material zwischen Quelle und Körper. Leitung und Konvektion
+// brauchen es zwingend; nur die Strahlung kommt ohne aus — das ist die Pointe der
+// Thermoskanne und beantwortet die Leitfrage des Widgets.
+function a4Wirkt(){ return !a4State.vakuum || a4State.mode===2; }
+function a4Readout(){
+  const m=A4MODI[a4State.mode];
+  document.getElementById('a4-art').textContent=m.name;
+  document.getElementById('a4-traeger').textContent = a4State.vakuum && !a4Wirkt() ? 'nicht vorhanden' : m.traeger;
+  document.getElementById('a4-vak-val').textContent = !a4State.vakuum ? '—' : (a4Wirkt() ? 'funktioniert' : 'unmöglich');
 }
 function a4Tick(dt){ a4State.t += dt; a4Render(); }
 function a4Render(){
   const cv=initCanvas('a4-cv',280,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const t=a4State.t;
+  const t=a4State.t, vak=a4State.vakuum;
+  // Hinweisstreifen, sobald das Vakuum eingeschaltet ist
+  function vakLabel(txt, ok){
+    ctx.fillStyle = ok ? 'rgba(31,107,58,0.10)' : 'rgba(155,28,28,0.10)';
+    ctx.fillRect(0, H*0.90, W, H*0.10);
+    ctx.fillStyle = ok ? '#1f6b3a' : '#9b1c1c';
+    ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(txt, W*0.5, H*0.965);
+  }
+  if(vak && a4State.mode!==2){
+    // ── Vakuum: Quelle links, Körper rechts, nichts dazwischen ──
+    const sx=W*0.14, ox=W*0.84, midY=H*0.42;
+    ctx.fillStyle='#1c1a17'; ctx.fillRect(W*0.24, H*0.10, W*0.52, H*0.66);
+    ctx.fillStyle='#8f8f8f'; ctx.font='bold 15px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Vakuum — kein Material', W*0.5, H*0.44);
+    ctx.font='12px Source Sans 3,sans-serif';
+    ctx.fillText('keine Teilchen, die Energie weiterreichen könnten', W*0.5, H*0.52);
+    ctx.fillStyle='#9b1c1c'; ctx.beginPath(); ctx.arc(sx,midY,26,0,6.283); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.font='13px Source Sans 3,sans-serif'; ctx.fillText('heiss', sx, midY+4);
+    ctx.fillStyle=lerpCol(0.12); ctx.fillRect(ox-10, midY-34, 30, 68);
+    ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(ox-10,midY-34,30,68);
+    ctx.fillStyle='#1a4f8a'; ctx.font='13px Source Sans 3,sans-serif';
+    ctx.fillText('bleibt kalt', ox+5, midY+52);
+    vakLabel(a4State.mode===0
+      ? 'Wärmeleitung braucht Material zwischen den Körpern — im Vakuum unmöglich.'
+      : 'Konvektion braucht ein strömendes Gas oder eine Flüssigkeit — im Vakuum unmöglich.', false);
+    return;
+  }
   if(a4State.mode===0){           // ── Wärmeleitung ──
     const x0=W*0.10,x1=W*0.90,y0=H*0.34,y1=H*0.60;
     // Stab als Verlauf rot->blau
@@ -1223,13 +1532,11 @@ function a4Render(){
     // Umlauf: hoch in der Mitte, runter aussen (zwei Wirbel)
     const midX=(cx0+cx1)/2, w=(cx1-cx0)/2-8, h=(cy1-cy0)-16, ty=cy0+8;
     for(let k=0;k<14;k++){
-      const s=((t*0.18)+k/14)%1;
-      // Pfad: rauf in Mitte (s 0..0.5), runter aussen (0.5..1) - linker Wirbel
+      const sPos=((t*0.18)+k/14)%1;
       let bx,by,warm;
-      if(s<0.5){ const u=s/0.5; bx=midX-4; by=cy1-8-u*h; warm=1-u*0.8; }
-      else { const u=(s-0.5)/0.5; bx=midX-4-u*w; by=ty+u*h; warm=0.2; }
+      if(sPos<0.5){ const u=sPos/0.5; bx=midX-4; by=cy1-8-u*h; warm=1-u*0.8; }
+      else { const u=(sPos-0.5)/0.5; bx=midX-4-u*w; by=ty+u*h; warm=0.2; }
       ctx.fillStyle=lerpCol(warm); ctx.beginPath(); ctx.arc(bx,by,4.5,0,6.283); ctx.fill();
-      // rechter Wirbel gespiegelt
       const bx2 = 2*midX-bx;
       ctx.beginPath(); ctx.arc(bx2,by,4.5,0,6.283); ctx.fill();
     }
@@ -1240,6 +1547,7 @@ function a4Render(){
     ctx.fillText('warmes Material steigt auf, kühlt oben ab und sinkt', W*0.5, cy1+H*0.05+18);
   } else {                        // ── Wärmestrahlung ──
     const sx=W*0.14, ox=W*0.84, midY=H*0.45;
+    if(vak){ ctx.fillStyle='#1c1a17'; ctx.fillRect(W*0.24, H*0.10, W*0.52, H*0.66); }
     // Quelle
     ctx.fillStyle='#9b1c1c'; ctx.beginPath(); ctx.arc(sx,midY,26,0,6.283); ctx.fill();
     ctx.fillStyle='#fff'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.fillText('heiss', sx, midY+4);
@@ -1258,10 +1566,19 @@ function a4Render(){
       }
       ctx.stroke();
     }
-    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px Source Sans 3,sans-serif';
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px Source Sans 3,sans-serif';   // Text liegt unter der Vakuum-Fläche
     ctx.fillText('Infrarotstrahlung überträgt Energie durch den leeren Raum →', W*0.5, H*0.86);
+    if(vak) vakLabel('Strahlung braucht kein Material — sie funktioniert auch im Vakuum.', true);
   }
 }
+const a4VakBtn = document.getElementById('a4-vak');
+a4VakBtn.addEventListener('click', ()=>{
+  a4State.vakuum = !a4State.vakuum;
+  a4VakBtn.classList.toggle('aktiv', a4State.vakuum);
+  a4VakBtn.setAttribute('aria-pressed', a4State.vakuum ? 'true' : 'false');
+  a4VakBtn.textContent = a4State.vakuum ? '🌑 Vakuum ausschalten' : '🌑 Vakuum dazwischen';
+  a4Readout(); a4Render();
+});
 const a4Loop = makeLoop('a4-cv', null, a4Tick);  // kein Play-/Pause-Knopf: Autostart per IntersectionObserver
 
 
@@ -1341,20 +1658,88 @@ document.getElementById('a5-eta').addEventListener('input', drawA5);
 
 
 // ══════════════════════════════════════════════════════════
-//  ANIMATION 6: Treibhauseffekt
+//  ANIMATION 6: Wärmepumpe — Sankey Strom + Umgebung -> Heizwärme
 // ══════════════════════════════════════════════════════════
-const a6State = { t:0 };
-function a6Tick(dt){ a6State.t += dt; a6Render(); }
-function a6Render(){
-  const ppm=+document.getElementById('a6-g').value;
+// Bilanz: Q_warm = COP · E_el, mit E_el = 1 Teil. Die Umgebung liefert COP − 1
+// Teile. Die Pfeildicken sind streng proportional zu diesen Anteilen, damit die
+// Summe optisch aufgeht (Energieerhaltung).
+function drawA6(){
+  const cop=+document.getElementById('a6-cop').value;
+  const umg=cop-1;
+  document.getElementById('a6-cop-val').textContent=cop.toFixed(1);
+  document.getElementById('a6-eq-f').textContent='Q_warm = COP · E_el = '+cop.toFixed(1)+' · 1.0 = '+cop.toFixed(1)+' Teile';
+  document.getElementById('a6-eq-u').textContent='E_el + Q_umgebung = 1.0 + '+umg.toFixed(1)+' = '+cop.toFixed(1)+' Teile';
+  document.getElementById('a6-el').textContent=Math.round(100/cop)+' %';
+  document.getElementById('a6-umg').textContent=Math.round(100*umg/cop)+' %';
+  document.getElementById('a6-warm').textContent='100 %';
+
+  const cv=initCanvas('a6-cv',340,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
+  const SS='Source Sans 3,sans-serif';
+  // Geometrie vorab durchgerechnet: Heizwärme = 96 px entspricht COP Teilen,
+  // Strom und Umgebungswärme sind streng proportional dazu (Summe geht auf).
+  const DICK=96, dWarm=DICK, dEl=DICK/cop, dUmg=DICK*umg/cop;
+  const boxW=Math.min(150, Math.max(72, W*0.20)), boxH=118, yMid=140;
+  const boxL=W/2-boxW/2, boxR=boxL+boxW, boxCx=W/2;
+  const boxT=yMid-boxH/2, boxB=yMid+boxH/2;
+  const Lh=26, Ls=Math.min(74, boxL*0.44), Lsv=44, c=1.5;
+  function blockArrow(x,y,dir,t,col,ls){
+    const lt=ls+Lh, hb=c*t; ctx.fillStyle=col; ctx.beginPath();
+    if(dir==='right'){
+      ctx.moveTo(x,y-t/2); ctx.lineTo(x+ls,y-t/2); ctx.lineTo(x+ls,y-hb/2);
+      ctx.lineTo(x+lt,y); ctx.lineTo(x+ls,y+hb/2); ctx.lineTo(x+ls,y+t/2); ctx.lineTo(x,y+t/2);
+    } else {   // 'up'
+      ctx.moveTo(x-t/2,y); ctx.lineTo(x-t/2,y-ls); ctx.lineTo(x-hb/2,y-ls);
+      ctx.lineTo(x,y-lt); ctx.lineTo(x+hb/2,y-ls); ctx.lineTo(x+t/2,y-ls); ctx.lineTo(x+t/2,y);
+    }
+    ctx.closePath(); ctx.fill();
+  }
+  const yEl=yMid-boxH*0.22;
+  blockArrow(boxL-Ls-Lh, yEl, 'right', dEl, '#1a4f8a', Ls);
+  blockArrow(boxCx, boxB+Lsv+Lh, 'up', dUmg, '#1f6b3a', Lsv);
+  ctx.fillStyle='#efe9df'; ctx.fillRect(boxL,boxT,boxW,boxH);
+  ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2.5; ctx.strokeRect(boxL,boxT,boxW,boxH);
+  blockArrow(boxR, yMid, 'right', dWarm, '#c0563a', Ls);
+
+  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  ctx.fillStyle='#1a4f8a'; ctx.font='bold 13px '+SS;
+  ctx.fillText('Strom',    boxL-(Ls+Lh)/2, yEl-dEl/2-22);
+  ctx.fillText('1.0 Teil', boxL-(Ls+Lh)/2, yEl-dEl/2-9);
+  ctx.fillStyle='#1f6b3a';
+  ctx.fillText('Umgebungswärme (gratis)', boxCx, boxB+Lsv+Lh+18);
+  ctx.fillText(umg.toFixed(1)+' Teile',    boxCx, boxB+Lsv+Lh+32);
+  ctx.fillStyle='#c0563a';
+  ctx.fillText('Heizwärme',            boxR+(Ls+Lh)/2, yMid-dWarm/2-22);
+  ctx.fillText(cop.toFixed(1)+' Teile', boxR+(Ls+Lh)/2, yMid-dWarm/2-9);
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px '+SS;
+  ctx.fillText('Wärmepumpe', boxCx, yMid-4);
+  ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#8a4a0e';
+  ctx.fillText('COP = '+cop.toFixed(1), boxCx, yMid+16);
+}
+document.getElementById('a6-cop').addEventListener('input', drawA6);
+
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 7: Treibhauseffekt
+// ══════════════════════════════════════════════════════════
+// 12 Strahlen; 7 davon hält die Atmosphäre schon bei 280 ppm zurück (natürlicher
+// Treibhauseffekt, ohne den die Erde rund 33 K kälter wäre). Der Regler fügt bis zu
+// 3 weitere hinzu. Der Zusatzanteil ist zur Sichtbarkeit überhöht dargestellt.
+const A7_STRAHLEN = 12, A7_NATUR = 7, A7_EXTRA = 3;
+const a7State = { t:0 };
+function a7Tick(dt){ a7State.t += dt; a7Render(); }
+function a7Render(){
+  const ppm=+document.getElementById('a7-g').value;
   const frac=(ppm-280)/(560-280);                 // 0 (280 ppm) .. 1 (560 ppm)
   const lab = frac<0.25?'kühl':(frac<0.5?'mild':(frac<0.75?'warm':'heiss'));
-  document.getElementById('a6-g-val').textContent=ppm+' ppm';
-  document.getElementById('a6-ppm').textContent=ppm+' ppm';
-  document.getElementById('a6-temp').textContent=lab;
+  document.getElementById('a7-g-val').textContent=ppm+' ppm';
+  document.getElementById('a7-ppm').textContent=ppm+' ppm';
+  document.getElementById('a7-temp').textContent=lab;
+  const extraR=Math.round(frac*A7_EXTRA);
+  document.getElementById('a7-halt').textContent = A7_NATUR+' + '+extraR+' von '+A7_STRAHLEN;
 
-  const cv=initCanvas('a6-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
-  const t=a6State.t, yGround=H*0.80, yAtm=H*0.22, slope=0.38;   // slope = tan(Einfallwinkel) ≈ 21°
+  const cv=initCanvas('a7-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const t=a7State.t, yGround=H*0.80, yAtm=H*0.22, slope=0.38;   // slope = tan(Einfallwinkel) ≈ 21°
   // Himmel
   ctx.fillStyle='#dcebf7'; ctx.fillRect(0,0,W,H);
   // Boden (wärmer bei mehr CO2)
@@ -1380,37 +1765,61 @@ function a6Render(){
     const u=((t*0.5)+i/nIn)%1;
     ctx.fillStyle='#e8a81c'; ctx.beginPath(); ctx.arc(xT+(xG-xT)*u, yGround*u, 3.5, 0, 6.283); ctx.fill();
   }
-  // ── Abgehende Wärmestrahlung (rot): Ausfallwinkel = Einfallwinkel; Anteil frac wird zurückgeworfen ──
-  const dxUp=slope*(yGround-yAtm);                 // Boden → Atmosphäre
-  const nOut=8, refl=Math.round(frac*nOut);
+  // ── Abgehende Wärmestrahlung (rot) ──
+  // Schon bei 280 ppm hält die Atmosphäre einen grossen Teil zurück — das ist der
+  // NATÜRLICHE Treibhauseffekt, ohne den die Erde unbewohnbar kalt wäre. Der Regler
+  // fügt nur den zusätzlichen, menschgemachten Anteil hinzu.
+  // Zurückgehalten wird nicht gespiegelt, sondern absorbiert und neu abgestrahlt:
+  // der Rückweg hat darum eine andere Richtung als der Hinweg.
+  const dxUp=slope*(yGround-yAtm);
+  const nOut=A7_STRAHLEN, natur=A7_NATUR, extra=Math.round(frac*A7_EXTRA);
+  const halt=natur+extra;
   for(let i=0;i<nOut;i++){
-    const x0=(i+0.5)/nOut*W, isRefl=i<refl, u=((t*0.42)+i/nOut)%1;
-    ctx.strokeStyle='#c0392b'; ctx.lineWidth=1.6; ctx.globalAlpha=0.35;
+    const x0=(i+0.5)/nOut*W, u=((t*0.42)+i/nOut)%1;
+    const isHalt=i<halt, isExtra=isHalt && i>=natur;
     let dx,dy;
-    if(isRefl){                                     // hoch zur Atmosphäre, dort im gleichen Winkel zurück
-      const xa=x0+dxUp;
-      ctx.beginPath(); ctx.moveTo(x0,yGround); ctx.lineTo(xa,yAtm); ctx.lineTo(xa+dxUp,yGround); ctx.stroke();
+    if(isHalt){
+      const xa=x0+dxUp;                       // Absorptionsort in der Atmosphäre
+      const rueck=-0.62+0.24*((i*7)%3);       // Re-Emission: Richtung unabhängig vom Hinweg
+      const xe=xa+rueck*(yGround-yAtm);
+      ctx.strokeStyle=isExtra?'#7b2d8e':'#c0392b'; ctx.lineWidth=isExtra?2.1:1.6; ctx.globalAlpha=0.35;
+      ctx.beginPath(); ctx.moveTo(x0,yGround); ctx.lineTo(xa,yAtm); ctx.lineTo(xe,yGround); ctx.stroke();
+      ctx.globalAlpha=1;
+      ctx.fillStyle=isExtra?'#7b2d8e':'#c0392b';
+      ctx.beginPath(); ctx.arc(xa,yAtm,3.6,0,6.283); ctx.fill();     // Absorption sichtbar machen
       if(u<0.5){ const w=u/0.5; dx=x0+dxUp*w; dy=yGround-(yGround-yAtm)*w; }
-      else { const w=(u-0.5)/0.5; dx=xa+dxUp*w; dy=yAtm+(yGround-yAtm)*w; }
-    } else {                                        // entweicht im gleichen Winkel nach oben
+      else { const w=(u-0.5)/0.5; dx=xa+(xe-xa)*w; dy=yAtm+(yGround-yAtm)*w; }
+    } else {                                   // entweicht in den Weltraum
       const xt=x0+dxIn;
-      ctx.beginPath(); ctx.moveTo(x0,yGround); ctx.lineTo(xt,0); ctx.stroke();
+      ctx.strokeStyle='#c0392b'; ctx.lineWidth=1.6; ctx.globalAlpha=0.35;
+      ctx.beginPath(); ctx.moveTo(x0,yGround); ctx.lineTo(xt,0); ctx.stroke(); ctx.globalAlpha=1;
+      ctx.fillStyle='#c0392b';
       dx=x0+(xt-x0)*u; dy=yGround*(1-u);
     }
-    ctx.globalAlpha=1;
-    ctx.fillStyle='#c0392b'; ctx.beginPath(); ctx.arc(dx,dy,3.2,0,6.283); ctx.fill();
+    ctx.beginPath(); ctx.arc(dx,dy,3.2,0,6.283); ctx.fill();
   }
-  ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='right';
-  ctx.lineWidth=3.5; ctx.lineJoin='round'; ctx.strokeStyle='rgba(0,0,0,0.6)';
-  ctx.strokeText('gelb: Sonnenlicht · rot: Wärmestrahlung', W-6, H*0.97);
-  ctx.fillStyle='#fff'; ctx.fillText('gelb: Sonnenlicht · rot: Wärmestrahlung', W-6, H*0.97);
+  // Legende: je Eintrag eine eigene Marke statt Punkt-Trenner zwischen Zahlen
+  const legEintraege=[
+    {col:'#c0392b', txt:'natürlich zurückgehalten: '+natur},
+    {col:'#7b2d8e', txt:'zusätzlich durch mehr CO₂: '+extra},
+    {col:'#e8a81c', txt:'entweichen ins All: '+(nOut-halt)}
+  ];
+  ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  const legH=16, legY=H-6-legEintraege.length*legH;
+  let legW=0; legEintraege.forEach(e=>{ legW=Math.max(legW, ctx.measureText(e.txt).width); });
+  ctx.fillStyle='rgba(255,255,255,0.88)'; ctx.fillRect(4, legY-4, legW+30, legEintraege.length*legH+8);
+  legEintraege.forEach((e,i)=>{
+    const y=legY+i*legH+11;
+    ctx.fillStyle=e.col; ctx.beginPath(); ctx.arc(14, y-4, 4.5, 0, 6.283); ctx.fill();
+    ctx.fillStyle='#1c1a17'; ctx.fillText(e.txt, 24, y);
+  });
   ctx.lineWidth=1;
 }
-const a6Loop = makeLoop('a6-cv','a6-btn', a6Tick);
+const a7Loop = makeLoop('a7-cv','a7-btn', a7Tick);
 
 
 // ══════════════════════════════════════════════════════════
-//  TREIBHAUSGAS-KONZENTRATIONEN (statische Grafik unter Animation 6)
+//  TREIBHAUSGAS-KONZENTRATIONEN (statische Grafik unter Animation 7)
 // ══════════════════════════════════════════════════════════
 const THG = { ink:'#1c1a17', soft:'#5a5040', line:'#d8d0c4', bern:'#8a4a0e',
   bernD:'#b85c00', sand:'#d9b87a', band:'#f6e9cf', alarm:'#9b1c1c' };
@@ -1489,7 +1898,8 @@ function initAll(){
   document.getElementById('a4-traeger').textContent=A4MODI[0].traeger;
   a4Render();
   drawA5();
-  a6Render();
+  drawA6();
+  a7Render();
   thgAll();
 
   if('IntersectionObserver' in window){
@@ -1517,7 +1927,7 @@ window.addEventListener('resize', ()=>{
     a1Render(); a2Render(); drawA3(); drawA5(); thgAll();
     if(!einLoop.running) einRender();
     if(!a4Loop.running) a4Render();
-    if(!a6Loop.running) a6Render();
+    if(!a7Loop.running) a7Render();
   });
 });
 </script>

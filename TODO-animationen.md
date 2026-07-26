@@ -24,7 +24,7 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   Einstellung gleich aus; genau der versprochene Vergleich (Steigung, wandernder
   Punkt) wird unsichtbar. Fix: feste Achsen oder feste Referenzkurve.
   Betroffen: p0-4 a1 (Feder), p0-4 a2 (s = v·t), p0-4 a4 (Einholproblem),
-  p4-5 a1-cv-ph (p(h) je Dichte), p5-2 a1 (Wärmebedarf-Balken), p6-1 a3
+  p4-5 a1-cv-ph (p(h) je Dichte), ~~p5-2 a1 (Wärmebedarf-Balken)~~ ✓, p6-1 a3
   (Schall-Balken), p6-2 a1 (U-I-Kennlinie), p0-0 a6 / p0-2 a1 (Dichte-Balken).
 - [ ] **[HOCH] Q2 — Überhöhungsfaktoren nicht am Reglermaximum kalibriert (Sättigung).**
   p5-3 a1 (Faktor 4000 → ≈260), p5-3 a2 (120 → ≈4.5), p5-3 a4 (120 → ≈46):
@@ -38,8 +38,8 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   Entweder Feature nachrüsten (bevorzugt, siehe Einzelpunkte) oder Hinweistext
   anpassen: p4-1 a3 (Fallwege vergleichen ohne Zeitlupe/Spur), p4-2 a3
   (Bezugssystem wechseln ohne Umschalter), p4-2 a4 («losruckt» ohne Bewegung),
-  p6-1a a2 (zwei Teilchen vergleichen, nur eines markierbar), p5-2 a4
-  (Vakuum-Frage ohne Vakuum), p0-2 a1 (Balken reagieren nicht).
+  p6-1a a2 (zwei Teilchen vergleichen, nur eines markierbar), ~~p5-2 a4
+  (Vakuum-Frage ohne Vakuum)~~ ✓, p0-2 a1 (Balken reagieren nicht).
 - [ ] **[MITTEL] Q5 — Vergleiche ohne Gedächtnis.** Serielle Vergleiche (erst A
   einstellen, dann B, Wert merken) durch Geister-/Referenzdarstellungen ersetzen:
   p4-2 a2 («letzter Lauf»-Zeile), p4-3 a2-diag (Geister-Punkt bei 2v), p0-2 a2
@@ -62,10 +62,12 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   erzeugt das Fehlkonzept «Medium passt seine Geschwindigkeit an», im Widerspruch
   zum eigenen Theorieblock und zu p6-1a A2. Kausalität umdrehen (Regler f und c,
   λ = c/f abgeleitet); zudem Gitter + s-Achse ergänzen.
-- [ ] **[HOCH] p5-2 a6 (Treibhaus):** Bei 280 ppm wird kein einziger IR-Strahl
+- [x] **[HOCH] p5-2 a6 (Treibhaus):** Bei 280 ppm wird kein einziger IR-Strahl
   zurückgeworfen — der natürliche Treibhauseffekt (Mini-Check!) existiert im
   Modell nicht. Basis-Rückhaltung > 0 bei 280 ppm, Regler-Effekt als «zusätzlich»
   beschriften; Rückstrahlung als Re-Emission statt Spiegelreflexion zeichnen [MITTEL].
+  *Erledigt 26.07.2026 (jetzt Animation 7): 7 von 12 Strahlen natürlich, bis zu
+  3 zusätzlich; Absorption + Re-Emission statt Spiegelung.*
 - [x] **[HOCH] p5-1 a1 (Gasteilchen):** Alle Teilchen haben exakt dasselbe Tempo —
   der direkt folgende Missverständnis-Block lehrt «Temperatur ist nur der
   Mittelwert». Feste Geschwindigkeitsstreuung (Faktor ≈0.5–1.6) einbauen.
@@ -269,20 +271,36 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   umschalten oder Labels bei schmalem Canvas kürzen.
 
 ### p5-2 Wärme
-- [ ] [HOCH] a1 Wärmebedarf: feste kJ-Achse statt qmax-Normierung — m- und
+*Alle Punkte umgesetzt am 26.07.2026.*
+- [x] [HOCH] a1 Wärmebedarf: feste kJ-Achse statt qmax-Normierung — m- und
   ΔT-Regler haben derzeit keinerlei sichtbare Wirkung (Q1); Achse beschriften.
-- [ ] [HOCH] a3 Heizkurve: aktive Teilformel je Phase anzeigen («gerade gilt:
-  Q = m·L_v, T bleibt 100 °C»); [MITTEL] Segment-Energien (4.2/33.4/41.8/225.6 kJ)
-  als Klammern — belegt «Verdampfen verschlingt am meisten».
-- [ ] [HOCH] a4 Transportarten: Checkbox «Vakuum» — beantwortet die eigene
+  → Achse fest 0 … 2100 kJ (= grösstmöglicher Reglerwert 5 kg · 4182 · 100 K),
+  Gitter alle 500 kJ, Achsenlabel «Q [kJ]».
+- [x] [HOCH] a3 Heizkurve: aktive Teilformel je Phase anzeigen; [MITTEL]
+  Segment-Energien (4.2/33.4/41.8/225.6 kJ) als Klammern.
+  → formel-live «gerade aktiv» mit Ansatz + Werten + Temperaturverhalten je
+  Abschnitt; Klammern unter der Kurve, aktive hervorgehoben. Die zwei schmalsten
+  Segmente (4.2 und 10.05 kJ) tragen keine Beschriftung — dort ist kein Platz;
+  der Wert steht in der formel-live, sobald man in der Phase ist.
+- [x] [HOCH] a4 Transportarten: Umschalter «Vakuum» — beantwortet die eigene
   Leitfrage und den Thermoskannen-Transfer.
-- [ ] [HOCH] a6 Treibhaus: natürlichen Treibhauseffekt einbauen (Block B).
-- [ ] [MITTEL] a2 Mischen: Temperatur-Zahlenstrahl (ϑ₂ … ϑm … ϑ₁) mit Marker
-  («Hebelgesetz» der Massen); optional zweiter Stoff (Öl) → volle Formel.
-- [ ] [MITTEL] ein-cv: kleines T(t)-Diagramm unter den Boxen (Prozess konservieren).
-- [ ] [MITTEL] Neu: Wärmepumpen-Sankey (Strom 1 Teil + Umgebung 2–4 Teile →
-  Heizwärme, COP-Regler) — kontraintuitivster Punkt der Seite, mit vorhandenem
-  blockArrow-Code günstig umsetzbar.
+  → Leitung und Konvektion zeigen im Vakuum Quelle und Körper ohne Medium und
+  bleiben wirkungslos; nur die Strahlung kommt durch.
+- [x] [HOCH] a6 Treibhaus (jetzt a7): natürlicher Treibhauseffekt eingebaut (Block B).
+  → 12 Strahlen, 7 hält die Atmosphäre schon bei 280 ppm zurück; der Regler fügt
+  bis zu 3 weitere hinzu (violett, als «zusätzlich» beschriftet). Rückhaltung als
+  Absorption + Re-Emission gezeichnet, Rückweg mit anderer Richtung als der Hinweg.
+- [x] [MITTEL] a2 Mischen: Temperatur-Zahlenstrahl (ϑ₂ … ϑm … ϑ₁) mit Marker
+  («Hebelgesetz» der Massen); zweiter Stoff (Öl) → volle Formel.
+  → Zahlenstrahl mit beiden Spannen und dem Nachweis m₁c₁(ϑ₁−ϑm) = m₂c₂(ϑm−ϑ₂)
+  in Zahlen; Stoffwahl Wasser/Öl für Portion 2, formel-live mit voller Formel.
+- [x] [MITTEL] ein-cv: kleines ϑ(t)-Diagramm unter den Boxen (Prozess konservieren).
+  → 30-s-Fenster, beide Kurven laufen sichtbar aufeinander zu.
+- [x] [MITTEL] Neu: Wärmepumpen-Sankey (Strom 1 Teil + Umgebung 2–4 Teile →
+  Heizwärme, COP-Regler).
+  → neue Animation 6 in eigener Sektion «Wärmepumpe»; Treibhaus dadurch zu
+  Animation 7 umbenannt. Mit ❓-Frage zur COP-Grenze und eigenem Mini-Check;
+  Wirkungsgrad-Mini-Check an seine Sektion zurückgesetzt.
 
 ### p5-3 Wärmeausdehnung
 - [ ] [HOCH] a1 Stab: Überhöhung neu kalibrieren (≈260 statt 4000, Q2) und
@@ -357,7 +375,7 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 | Prio | Seite | Vorschlag |
 |---|---|---|
 | MITTEL | p4-1 | Sekante → Tangente (Δt-Regler) zur Momentangeschwindigkeit |
-| MITTEL | p5-2 | Wärmepumpen-Sankey mit COP-Regler |
+| ~~MITTEL~~ ✓ | p5-2 | ~~Wärmepumpen-Sankey mit COP-Regler~~ — umgesetzt als Animation 6 |
 | MITTEL | p6-2 | Coulomb-Gesetz (1/r²-Widget) |
 | MITTEL | p4-5 | Federwaage «scheinbares Gewicht» (in Anim. 4 integrierbar) |
 | MITTEL | p0-1 | Runden-Widget (Kommastellen vs. signifikante Stellen) |
