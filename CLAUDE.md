@@ -80,7 +80,7 @@ Die Liste steht in `STYLEGUIDE.md` und wächst; aktuell:
 | 2 | In Rechen-/Wertanzeigen (`.fl-eq`, `.lb-val`, Canvas-Zahlen) heisst `·` nur Multiplikation — nie Trennzeichen. Zwei Gleichungen = zwei `.fl-eq`-Zeilen. Titel/Breadcrumbs sind ausgenommen. | §2.1 |
 | 3 | **Jede** `.fl-eq` nennt zuerst die Formel symbolisch, dann die Werte (Ansatz-Prinzip in Live-Anzeigen) — auf der ganzen Seite prüfen, nicht nur an der geänderten Animation. | §2.1 |
 | 4 | Werte werden **mit Einheit** eingesetzt, auch in `.fl-eq` (`1.0 kg · 4182 J/(kg·K) · 50 K`). Dimensionslose «Teile» durch eine konkrete Bezugsgrösse ersetzen. | §2.7 |
-| 5 | Brüche in Formelzeilen als echte LaTeX-Bruchdarstellung (`\frac{…}{…}`), nicht als Schrägstrich-Zeile. Statische Formel in LaTeX, laufende Werte daneben als Text. | §2.8 |
+| 5 | Formelzeilen **komplett** in LaTeX — Formel *und* Zahlengleichung, Brüche als `\frac{…}{…}`. Dynamisches Neu-Rendern gedrosselt und serialisiert; auf doppelte Backslashes in JS-Strings achten. | §2.8 |
 
 Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
 **und** hier in der Tabelle nachgeführt.

@@ -370,11 +370,11 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Mischtemperatur</div>
-      <div class="fl-eq" id="a2-f-voll">\[ \vartheta_\text{m} = \frac{m_1 c_1\,\vartheta_1 + m_2 c_2\,\vartheta_2}{m_1 c_1 + m_2 c_2} \]</div>
-      <div class="fl-eq" id="a2-f-kurz">\[ \vartheta_\text{m} \overset{c_1 = c_2}{=} \frac{m_1\,\vartheta_1 + m_2\,\vartheta_2}{m_1 + m_2} \]</div>
-      <div class="fl-eq" id="a2-eq-c1">m₁c₁ = 0.3 kg · 4182 J/(kg·K) = 1254.6 J/K</div>
-      <div class="fl-eq" id="a2-eq-c2">m₂c₂ = 0.5 kg · 2000 J/(kg·K) = 1000.0 J/K</div>
-      <div class="fl-eq" id="a2-eq">ϑm = (0.3 kg · 80 °C + 0.5 kg · 20 °C) / (0.3 kg + 0.5 kg) = 42.5 °C</div>
+      <div id="a2-formeln">
+      <div class="fl-eq">\[ \vartheta_\text{m} = \frac{m_1 c_1\,\vartheta_1 + m_2 c_2\,\vartheta_2}{m_1 c_1 + m_2 c_2} \]</div>
+      <div class="fl-eq">\[ \vartheta_\text{m} \overset{c_1 = c_2}{=} \frac{m_1\,\vartheta_1 + m_2\,\vartheta_2}{m_1 + m_2} \]</div>
+      <div class="fl-eq">\[ \vartheta_\text{m} = \frac{0.3\;\text{kg} \cdot 80\,^\circ\text{C} + 0.5\;\text{kg} \cdot 20\,^\circ\text{C}}{0.3\;\text{kg} + 0.5\;\text{kg}} = 42.5\,^\circ\text{C} \]</div>
+      </div>
     </div>
 
     <div class="cv-wrap">
@@ -1247,6 +1247,51 @@ function a1Render(){
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 2: Mischtemperatur (Wasser + Wasser)
 // ══════════════════════════════════════════════════════════
+// ── Formelblock von Animation 2 ────────────────────────────────────────────
+// Auch die Zahlengleichung wird in LaTeX gesetzt (STYLEGUIDE §2.8). Weil MathJax
+// dafür bei jeder Reglerbewegung neu rendern muss, werden Schreiben und Rendern
+// auf einen Frame gedrosselt und in einer Promise-Kette serialisiert — sonst
+// überholen sich zwei Läufe und hinterlassen halb gesetzte Formeln.
+const A2_MJ_BEREIT = (window.MathJax && MathJax.startup && MathJax.startup.promise)
+  ? MathJax.startup.promise : Promise.resolve();
+let a2Kette = A2_MJ_BEREIT, a2Offen = false, a2Naechstes = null;
+function a2SetzeFormeln(html){
+  a2Naechstes = html;
+  const box = document.getElementById('a2-formeln');
+  if(box.dataset.stand === html) return;      // nichts geändert
+  if(a2Offen) return;
+  a2Offen = true;
+  requestAnimationFrame(()=>{
+    a2Offen = false;
+    const h = a2Naechstes;
+    if(box.dataset.stand === h) return;
+    a2Kette = a2Kette.then(()=>{
+      if(window.MathJax && MathJax.typesetClear) MathJax.typesetClear([box]);
+      box.innerHTML = h;
+      box.dataset.stand = h;
+      return (window.MathJax && MathJax.typesetPromise) ? MathJax.typesetPromise([box]) : null;
+    }).catch(()=>{});
+  });
+}
+// Einheiten nach STYLEGUIDE §2.3: \; vor der Einheit, °C mit \, und \circ
+const a2kg = v => v.toFixed(1)+'\\;\\text{kg}';
+const a2gC = v => v+'\\,^\\circ\\text{C}';
+const a2JK = v => (Number.isInteger(v) ? String(v) : v.toFixed(1))+'\\;\\text{J/K}';   // kein «1000.0»
+const a2c  = v => v+'\\;\\text{J/(kg·K)}';
+function a2Formeln(m1,c1,t1,m2,c2,t2,W1,W2,tm){
+  const L = ['\\[ \\vartheta_\\text{m} = \\frac{m_1 c_1\\,\\vartheta_1 + m_2 c_2\\,\\vartheta_2}{m_1 c_1 + m_2 c_2} \\]'];
+  if(c1 === c2){                               // gleicher Stoff: c kürzt sich heraus
+    L.push('\\[ \\vartheta_\\text{m} \\overset{c_1 = c_2}{=} \\frac{m_1\\,\\vartheta_1 + m_2\\,\\vartheta_2}{m_1 + m_2} \\]');
+    L.push('\\[ \\vartheta_\\text{m} = \\frac{'+a2kg(m1)+' \\cdot '+a2gC(t1)+' + '+a2kg(m2)+' \\cdot '+a2gC(t2)
+         + '}{'+a2kg(m1)+' + '+a2kg(m2)+'} = '+a2gC(tm.toFixed(1))+' \\]');
+  } else {                                     // verschiedene Stoffe: c bleibt stehen
+    L.push('\\[ m_1 c_1 = '+a2kg(m1)+' \\cdot '+a2c(c1)+' = '+a2JK(W1)+' \\]');
+    L.push('\\[ m_2 c_2 = '+a2kg(m2)+' \\cdot '+a2c(c2)+' = '+a2JK(W2)+' \\]');
+    L.push('\\[ \\vartheta_\\text{m} = \\frac{'+a2JK(W1)+' \\cdot '+a2gC(t1)+' + '+a2JK(W2)+' \\cdot '+a2gC(t2)
+         + '}{'+a2JK(W1)+' + '+a2JK(W2)+'} = '+a2gC(tm.toFixed(1))+' \\]');
+  }
+  return L.map(x=>'<div class="fl-eq">'+x+'</div>').join('');
+}
 const A2_STOFF = { wasser:{name:'Wasser', c:4182, col:'#5b9bd5'}, oel:{name:'Öl', c:2000, col:'#c9a227'} };
 let a2Sel = 'wasser';                       // Stoff der Portion 2
 function a2Render(){
@@ -1258,26 +1303,7 @@ function a2Render(){
   document.getElementById('a2-m2-val').textContent=m2.toFixed(1)+' kg';
   document.getElementById('a2-t2-val').textContent=t2+' °C';
   const W1=m1*c1, W2=m2*c2, tm=(W1*t1+W2*t2)/(W1+W2);
-  // Ansatz-Prinzip: erst die Formel, dann die Werte MIT Einheiten (STYLEGUIDE §2.1, §2.7).
-  // Zwei Fälle: bei gleichem Stoff kürzt sich c heraus, dann genügt die Massenwägung.
-  const gleich = (c1 === c2);
-  const zeig = (id,an) => document.getElementById(id).style.display = an ? '' : 'none';
-  zeig('a2-f-kurz', gleich);
-  zeig('a2-eq-c1', !gleich);
-  zeig('a2-eq-c2', !gleich);
-  if(gleich){
-    document.getElementById('a2-eq').textContent =
-      'ϑm = ('+m1.toFixed(1)+' kg · '+t1+' °C + '+m2.toFixed(1)+' kg · '+t2+' °C) / ('
-      + m1.toFixed(1)+' kg + '+m2.toFixed(1)+' kg) = '+tm.toFixed(1)+' °C';
-  } else {
-    document.getElementById('a2-eq-c1').textContent =
-      'm₁c₁ = '+m1.toFixed(1)+' kg · '+c1+' J/(kg·K) = '+W1.toFixed(1)+' J/K';
-    document.getElementById('a2-eq-c2').textContent =
-      'm₂c₂ = '+m2.toFixed(1)+' kg · '+c2+' J/(kg·K) = '+W2.toFixed(1)+' J/K';
-    document.getElementById('a2-eq').textContent =
-      'ϑm = ('+W1.toFixed(1)+' J/K · '+t1+' °C + '+W2.toFixed(1)+' J/K · '+t2+' °C) / ('
-      + W1.toFixed(1)+' J/K + '+W2.toFixed(1)+' J/K) = '+tm.toFixed(1)+' °C';
-  }
+  a2SetzeFormeln(a2Formeln(m1,c1,t1,m2,c2,t2,W1,W2,tm));
 
   // Schmale Ansicht braucht mehr Höhe: die Gefäss-Beschriftung bricht dort um.
   const cvEl=document.getElementById('a2-cv'); cvEl.style.width='';   // Breite wie in initCanvas messen

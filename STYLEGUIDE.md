@@ -132,10 +132,28 @@ gesetzt, nicht als Schrägstrich-Zeile:
 - \[ \vartheta_\text{m} = \frac{m_1 c_1\,\vartheta_1 + m_2 c_2\,\vartheta_2}{m_1 c_1 + m_2 c_2} \] ✓
 - `ϑm = (m₁c₁ϑ₁ + m₂c₂ϑ₂) / (m₁c₁ + m₂c₂)` ✗
 
-**Umsetzung in Widgets:** Die *symbolische* Formel steht als statisches LaTeX in
-einer eigenen `.fl-eq` und wird beim Laden einmal von MathJax gesetzt; die
-*laufenden Werte* bleiben als Text in einer zweiten `.fl-eq` darunter. So muss
-MathJax nicht bei jeder Reglerbewegung neu rendern.
+**Auch die Zahlengleichung wird in LaTeX gesetzt** — nicht nur die symbolische
+Formel. Dafür muss MathJax bei jeder Reglerbewegung neu rendern; damit das nicht
+ruckelt und sich zwei Läufe nicht überholen, gilt das Muster aus
+`themen/p5-2-waerme.html` (Animation 2):
+
+- alle Formelzeilen liegen in **einem** Container-`<div>`;
+- Schreiben und Rendern werden per `requestAnimationFrame` auf einen Frame
+  gedrosselt und in einer **Promise-Kette serialisiert**;
+- vor dem Neuschreiben `MathJax.typesetClear([box])`, danach
+  `MathJax.typesetPromise([box])`;
+- die Kette startet auf `MathJax.startup.promise`, damit der erste Lauf nicht vor
+  dem Laden von MathJax feuert;
+- ein `dataset.stand`-Vergleich verhindert Neu-Rendern, wenn sich nichts ändert.
+
+**Escaping-Falle:** In JS-Strings muss der LaTeX-Backslash **doppelt** stehen.
+`'\;\text{kg}'` ✗ liefert `;\text{kg}` — JavaScript verschluckt den einzelnen
+Backslash. Richtig ist `'\\;\\text{kg}'`. Nach jeder Änderung an solchen
+Strings die erzeugte Zeichenkette einmal in Node ausgeben lassen.
+
+**Zu breite Formeln:** Displayformeln brechen nicht um. `.formel-live` hat darum
+`overflow-x:auto` — auf schmalen Viewports scrollt die Box, statt die Formel
+rechts abzuschneiden. Herunterskalieren wäre die schlechtere Wahl (unlesbar).
 
 **Fallunterscheidung sichtbar machen:** Vereinfacht sich die Formel in einem
 Sonderfall (z.B. \(c_1 = c_2\) → \(c\) kürzt sich), bekommt der Sonderfall
