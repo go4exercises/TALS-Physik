@@ -92,10 +92,15 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
 *Alle Punkte umgesetzt am 27.07.2026. Achtung: Animation 2 (Dreisatz) ist in
 Animation 1 aufgegangen, die folgenden sind um eins nach vorne gerückt —
 alt a3…a8 entsprechen neu a2…a7.*
-- [x] [HOCH] a6 (neu a5) Dichte-Würfel: feste, beschriftete Massenskala statt
-  Normierung aufs Maximum. → Stufenleiter 0.005 … 500 kg, Einheit je Skala
-  einheitlich (kg oder g), vier beschriftete Gitterlinien. Styropor zeigt jetzt
-  20 g neben 1.00 kg Wasser, statt beide Balken gleich hoch.
+- [x] [HOCH] a6 (neu a5) Dichte-Würfel: feste, beschriftete Skala statt
+  Normierung aufs Maximum. → Verglichen wird jetzt die **Masse von 1 Liter**
+  auf einer dauerhaft festen Skala 0 … 12 kg. Eine feste *Massen*skala ist
+  nachweislich unmöglich: Blei ist 567-mal dichter als Styropor, dazu kommt die
+  dritte Potenz der Kantenlänge — selbst ohne Schieber bliebe Styropor bei
+  0.18 % der Skala. Die Masse von 1 Liter hängt dagegen nicht von der
+  Würfelgrösse ab, darum muss die Skala nie angepasst werden. Wasserlinie bei
+  1.00 kg als Grenze schwimmt/sinkt; die echte Würfelmasse steht als Fusszeile
+  und in der Live-Box, dort wirkt der Kantenregler weiterhin.
   **Offen: p0-2 a1 trägt denselben duplizierten Code und ist noch nicht angepasst.**
 - [x] [HOCH] a8 (neu a7) Teilchenmodell: Autostart beim Sichtbarwerden per
   IntersectionObserver; wer selbst pausiert, wird beim Zurückscrollen nicht

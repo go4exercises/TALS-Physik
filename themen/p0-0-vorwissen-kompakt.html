@@ -559,7 +559,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">🧊 Würfel und Massenvergleich mit Wasser</div>
-      <canvas id="a5-cv" height="280" role="img" aria-label="Links ein Würfel aus dem gewählten Stoff mit eingezeichneter Kantenlänge in Zentimetern, rechts ein Balkendiagramm: Masse des Würfels und Masse von Wasser bei gleichem Volumen, beide in Kilogramm beschriftet."></canvas>
+      <canvas id="a5-cv" height="280" role="img" aria-label="Links ein Würfel aus dem gewählten Stoff mit eingezeichneter Kantenlänge in Zentimetern, rechts ein Balkendiagramm mit fester Skala von 0 bis 12 Kilogramm: die Masse von einem Liter des Stoffs neben der Masse von einem Liter Wasser. Eine gestrichelte Linie bei 1 Kilogramm markiert die Grenze zwischen Schwimmen und Sinken."></canvas>
     </div>
 
   </div>
@@ -1514,49 +1514,53 @@ function drawA5() {
   haloText(ctx, st.name, cxCube, 24, '#1c1a17', 'bold 14px "Source Sans 3",sans-serif', 'center');
 
   // ── rechte Hälfte: Massenvergleich Stoff vs. Wasser ──
-  // Massenskala NICHT aufs Maximum normieren (sonst ist der höhere Balken immer
-  // voll und weder Stoff- noch Kantenwechsel ändern das Bild — Q1). Stattdessen
-  // eine beschriftete Skala aus einer festen Stufenleiter; sie springt nur in
-  // klaren Schritten und die Beschriftung sagt jederzeit, welche gilt.
+  // ── rechte Hälfte: Masse von 1 Liter, feste Skala ──
+  // Eine feste MASSEN-Skala ist unmöglich: Blei ist 567-mal dichter als Styropor,
+  // dazu kommt die dritte Potenz der Kantenlänge — die Dynamik überspannt fünf
+  // Zehnerpotenzen. Verglichen wird darum die Masse von 1 Liter (= die Dichte).
+  // Sie hängt nicht von der Würfelgrösse ab, darum steht die Skala fest bei
+  // 0 … 12 kg/L und muss nie angepasst werden.
+  const A5_SKALA = 12;                                   // kg pro Liter
+  const kgProL = st.rho / 1000, wasserProL = 1.0;
   const bx0 = W * 0.56;
   const topY = 40, baseY = H - 46, fullH = baseY - topY;
-  const A5_LEITER = [0.005,0.01,0.02,0.05,0.1,0.2,0.5,1,2,5,10,20,50,100,200,500];
-  const skala = A5_LEITER.find(v => Math.max(m, mW) <= v) || 500;
-  const inKg = skala >= 1;
-  const yOf = v => baseY - v / skala * fullH;
+  const yOf = v => baseY - v / A5_SKALA * fullH;
   const bw = Math.min(64, (W - bx0) / 4);
   const gap = (W - bx0 - 2 * bw - 14) / 3;
-  // Gitter und Achsenbeschriftung
   ctx.font = '11px "JetBrains Mono",monospace'; ctx.textAlign = 'right';
-  for (let i = 0; i <= 4; i++) {
-    const v = skala * i / 4, y = yOf(v);
-    ctx.strokeStyle = i === 0 ? '#c2bdb4' : '#e6e0d4'; ctx.lineWidth = 1;
+  for (let v = 0; v <= A5_SKALA; v += 2) {
+    const y = yOf(v);
+    ctx.strokeStyle = v === 0 ? '#c2bdb4' : '#e6e0d4'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(bx0, y); ctx.lineTo(W - 12, y); ctx.stroke();
-    ctx.fillStyle = '#5a5040';
-    // Einheit einmal pro Skala festlegen, nicht pro Tick — sonst stehen kg und g
-    // in derselben Achse nebeneinander.
-    ctx.fillText(inKg ? v.toFixed(skala < 10 ? 1 : 0) : (v * 1000).toFixed(0), bx0 - 5, y + 4);
+    ctx.fillStyle = '#5a5040'; ctx.fillText(v + '', bx0 - 5, y + 4);
   }
   ctx.fillStyle = '#5a5040'; ctx.font = 'bold 11px "Source Sans 3",sans-serif'; ctx.textAlign = 'left';
-  ctx.fillText(inKg ? 'm [kg]' : 'm [g]', bx0 - 44, topY - 8);
+  ctx.fillText('Masse von 1 L [kg]', bx0 - 44, topY - 10);
   const bars = [
-    { lab: st.name, val: m,  fill: '#8a4a0e' },
-    { lab: 'Wasser', val: mW, fill: '#1a4f8a' }
+    { lab: st.name, val: kgProL,     fill: '#8a4a0e' },
+    { lab: 'Wasser', val: wasserProL, fill: '#1a4f8a' }
   ];
   bars.forEach((b, i) => {
     const x = bx0 + gap + i * (bw + gap);
-    const h = baseY - yOf(b.val);
+    const h = Math.max(3, baseY - yOf(b.val));         // Mindesthöhe, damit Styropor sichtbar bleibt
     ctx.strokeStyle = '#c2bdb4'; ctx.lineWidth = 1;
     ctx.strokeRect(x, topY, bw, fullH);
     ctx.fillStyle = b.fill;
     ctx.fillRect(x, baseY - h, bw, h);
     ctx.fillStyle = '#1c1a17'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(b.lab, x + bw / 2, baseY + 16);
-    haloText(ctx, a5FmtMasse(b.val), x + bw / 2, Math.max(topY + 2, baseY - h - 6) + 2,
+    haloText(ctx, b.val.toFixed(2) + ' kg', x + bw / 2, Math.max(topY + 2, baseY - h - 6) + 2,
              b.fill, 'bold 12px "JetBrains Mono",monospace', 'center');
   });
+  // Wasserlinie als Entscheidungsgrenze: darüber sinkt es, darunter schwimmt es
+  ctx.strokeStyle = '#1a4f8a'; ctx.lineWidth = 1.4; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(bx0, yOf(1)); ctx.lineTo(W - 12, yOf(1)); ctx.stroke(); ctx.setLineDash([]);
+  // Rückbezug auf den Würfel: seine echte Masse hängt sehr wohl von a ab
+  haloText(ctx, 'dein Würfel (a = ' + aCm + ' cm): ' + a5FmtMasse(m),
+           bx0 + (W - 12 - bx0) / 2, baseY + 34, '#5a5040',
+           '12px "Source Sans 3",sans-serif', 'center');
   ctx.fillStyle = '#1c1a17'; ctx.font = '13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText(W < 560 ? 'Masse in kg' : 'Masse in kg — gleiches Volumen', bx0 + (W - bx0) / 2, 24);
+  ctx.fillText(W < 560 ? 'Masse von 1 Liter' : 'Masse von 1 Liter — feste Skala', bx0 + (W - bx0) / 2, 24);
 }
 document.getElementById('a5-a').addEventListener('input', drawA5);
 document.querySelectorAll('[data-stoff]').forEach(btn => {
