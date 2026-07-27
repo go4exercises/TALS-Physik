@@ -178,6 +178,9 @@ alt a3…a8 entsprechen neu a2…a7.*
   Arbeits- und Leistungsbalken mit fester Skala, festes Treppenhaus von 20 m,
   Play und Reset, aufsummierende Arbeit gegen die E_pot-Marke.
 
+- [x] Stilcheck 27.07.2026: keine Befunde — Formelzeilen benennen die Formel vor
+  den Werten, Werte tragen Einheiten, «·» steht überall für Multiplikation, alle
+  Live-Boxen liegen bei 3 oder 4 Werten (gestaffelter Spaltenabstand greift).
 ### p0-3 Vorwissen Technik
 - [x] [HOCH] a1 Präfix-Leiter: Zeit-Modus gefixt — hs, ks, Ms ausgegraut und
   durchgestrichen, dafür min (60 s) und h (3600 s) an ihren echten Positionen;
@@ -198,6 +201,9 @@ alt a3…a8 entsprechen neu a2…a7.*
 - [x] [MITTEL] a1: Hinweis «Skala logarithmisch — gleicher Abstand bedeutet
   Faktor 10» oben links im Canvas.
 
+- [x] Stilcheck 27.07.2026: in a4 stand der Multiplikationspunkt als Trenner
+  zwischen Uhrzeit und Temperatur («08:30 · 12.4 °C») — durch Leerraum ersetzt.
+  Sonst keine Befunde.
 ### p0-4 Vorwissen Logik
 *Alle Punkte umgesetzt am 27.07.2026.*
 - [x] [HOCH] a1 Feder: y-Achse fest auf 0 … 85 cm (Maximum 2 kg an D = 25 N/m
@@ -220,6 +226,12 @@ alt a3…a8 entsprechen neu a2…a7.*
 - [x] [MITTEL] a2: der Regler, der gerade die Konstante hält, ist hervorgehoben
   (Rahmen, Hintergrund und Zusatz «(konstant)» am Label).
 
+- [x] Stilcheck 27.07.2026: a2 setzte die Werte ohne Einheiten ein
+  («s = v·t = 6·45») — jetzt Formelzeile plus «s = 6 m/s · 45 s = 270 m».
+  a3 quetschte drei Aussagen mit «|» in eine Zeile — jetzt vier Zeilen, je
+  Dreisatz-Schritt eine benannte Formel und eine Zahlengleichung. a5 zeigte nur
+  den symbolischen Ansatz — jetzt zusätzlich die Zahlengleichung mit Einheiten,
+  im Fehlermodus entsprechend «t = 300 m / 12 m/s = 25 s».
 ### p4-1 Kinematik
 - [ ] [HOCH] a1: t-Regler ergänzen, Fläche unter v(t) nur bis t einfärben,
   Live-Anzeige «Fläche = v·t = … m» — macht Fläche = Weg quantitativ prüfbar.

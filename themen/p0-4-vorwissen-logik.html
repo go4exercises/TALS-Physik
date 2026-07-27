@@ -241,7 +241,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Aktuelle Rechnung</div>
-      <div class="fl-eq" id="a2-eq">s = v·t = 6·45 = 270 m</div>
+      <div class="fl-eq" id="a2-eq-f">s = v · t</div>
+      <div class="fl-eq" id="a2-eq">s = 6 m/s · 45 s = 270 m</div>
     </div>
 
     <div class="live-box">
@@ -348,7 +349,10 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Dreisatz Schritt für Schritt</div>
-      <div class="fl-eq" id="a3-eq">3 kg → 7.50 CHF  |  1 kg → 2.50 CHF  |  5.0 kg → 12.50 CHF</div>
+      <div class="fl-eq" id="a3-eq-f1">Schritt 1 — auf 1 zurück:  p = K / m</div>
+      <div class="fl-eq" id="a3-eq1">p = 7.50 CHF / 3 kg = 2.50 CHF/kg</div>
+      <div class="fl-eq" id="a3-eq-f2">Schritt 2 — hochrechnen:  K = m · p</div>
+      <div class="fl-eq" id="a3-eq2">K = 5.0 kg · 2.50 CHF/kg = 12.50 CHF</div>
     </div>
 
     <div class="live-box">
@@ -567,7 +571,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Verwendeter Ansatz</div>
-      <div class="fl-eq" id="a5-formel">t = d / (vA + vB)   (richtig)</div>
+      <div class="fl-eq" id="a5-formel-f">t = d / (v_A + v_B)   (richtig)</div>
+      <div class="fl-eq" id="a5-formel">t = 300 m / (12 m/s + 8 m/s) = 15 s</div>
     </div>
 
     <div class="live-box">
@@ -917,7 +922,8 @@ function drawA2() {
     const lab = el.querySelector('label');
     if(lab) lab.textContent = lab.textContent.replace(/ \(konstant\)$/, '') + (konst ? ' (konstant)' : '');
   });
-  document.getElementById('a2-eq').textContent = 's = v·t = ' + v + '·' + t + ' = ' + fmt(s) + ' m';
+  document.getElementById('a2-eq').textContent =
+    's = ' + v + ' m/s · ' + t + ' s = ' + fmt(s) + ' m';
   document.getElementById('a2-cvt').textContent =
     a2Mode === 'v' ? '📈 s(t) bei konstantem v — die Zeit t ist die Variable'
                    : '📈 s(v) bei konstantem t — das Tempo v ist die Variable';
@@ -962,8 +968,10 @@ function drawA3() {
   const preis = A3_EK * m;
   document.getElementById('a3-m-val').textContent = m.toFixed(1) + ' kg';
   document.getElementById('a3-preis').textContent = preis.toFixed(2) + ' CHF';
-  document.getElementById('a3-eq').textContent =
-    '3 kg → 7.50 CHF  |  1 kg → 2.50 CHF  |  ' + m.toFixed(1) + ' kg → ' + preis.toFixed(2) + ' CHF';
+  document.getElementById('a3-eq1').textContent =
+    'p = 7.50 CHF / 3 kg = ' + A3_EK.toFixed(2) + ' CHF/kg';
+  document.getElementById('a3-eq2').textContent =
+    'K = ' + m.toFixed(1) + ' kg · ' + A3_EK.toFixed(2) + ' CHF/kg = ' + preis.toFixed(2) + ' CHF';
 
   const mMax = 6;
   const cv = initCanvas('a3-cv', 280, false);
@@ -1096,8 +1104,11 @@ function drawA5() {
   const stimmt = Math.abs(xLinks - xRechts) < 1e-6;
   document.getElementById('a5-check').textContent =
     stimmt ? '✓ stimmt überein' : '✗ Fehler — Differenz ' + Math.abs(xLinks - xRechts).toFixed(1) + ' m';
-  document.getElementById('a5-formel').textContent =
-    a5Fehler ? 't = d / vA   (falsch)' : 't = d / (vA + vB)   (richtig)';
+  document.getElementById('a5-formel-f').textContent =
+    a5Fehler ? 't = d / v_A   (falsch)' : 't = d / (v_A + v_B)   (richtig)';
+  document.getElementById('a5-formel').textContent = a5Fehler
+    ? 't = ' + d + ' m / ' + vA + ' m/s = ' + fmt(t) + ' s'
+    : 't = ' + d + ' m / (' + vA + ' m/s + ' + vB + ' m/s) = ' + fmt(t) + ' s';
 
   const tEnd = t * 1.3;
   const cv = initCanvas('a5-cv', 360, false);
