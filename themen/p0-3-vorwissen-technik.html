@@ -166,7 +166,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">🪜 Präfix-Leiter — dieselbe Grösse auf der Zehnerpotenz-Skala</div>
-      <canvas id="a1-cv" height="260" role="img" aria-label="Horizontale Leiter der Zehnerpotenzen von 10 hoch minus 6 bis 10 hoch 6. An den Sprossen stehen die Präfix-Einheiten von Mikro bis Mega, ein oranger Marker zeigt die Position der eingestellten Grösse."></canvas>
+      <canvas id="a1-cv" height="290" role="img" aria-label="Horizontale Leiter der Zehnerpotenzen von 10 hoch minus 6 bis 10 hoch 6. An den Sprossen stehen die Präfix-Einheiten von Mikro bis Mega, ein oranger Marker zeigt die Position der eingestellten Grösse."></canvas>
     </div>
 
   </div>
@@ -755,12 +755,18 @@ function fmtVal(v) {
 // Dargestellte Grösse: 5·10^n Basiseinheiten (Beispiel n=0, Länge: 5 m).
 // Live-Werte 5·10^(n-e) für Einheiten-Exponenten e — python3-verifiziert
 // (0.005 km = 5 m = 500 cm = 5000 mm).
+// Zeit ist oberhalb der Sekunde NICHT dezimal: «Hektosekunde», «Kilosekunde» und
+// «Megasekunde» gibt es als Präfixe zwar, benutzt sie aber niemand. Im Zeit-Modus
+// werden diese Sprossen darum durchgestrichen ausgewiesen und stattdessen die
+// tatsächlich gebräuchlichen Stufen min (60 s) und h (3600 s) eingezeichnet.
 const A1G = {
-  laenge: { base:'m', units:[['km',3],['m',0],['cm',-2],['mm',-3]] },
-  masse:  { base:'g', units:[['kg',3],['g',0],['mg',-3],['µg',-6]] },
-  zeit:   { base:'s', units:[['s',0],['ms',-3],['µs',-6],['min',null]] }
+  laenge: { base:'m', units:[{lab:'km',exp:3},{lab:'m',exp:0},{lab:'cm',exp:-2},{lab:'mm',exp:-3}] },
+  masse:  { base:'g', units:[{lab:'kg',exp:3},{lab:'g',exp:0},{lab:'mg',exp:-3},{lab:'µg',exp:-6}] },
+  zeit:   { base:'s', units:[{lab:'s',exp:0},{lab:'ms',exp:-3},{lab:'min',sek:60},{lab:'h',sek:3600}] }
 };
 const A1RUNGS = [['µ',-6],['m',-3],['c',-2],['d',-1],['',0],['h',2],['k',3],['M',6]];
+const A1_UNGEBR = [2,3,6];                       // im Zeit-Modus ungebräuchlich
+const A1_ZEIT_EXTRA = [['min',60],['h',3600]];   // echte Zeitstufen, nicht dezimal
 const a1St = { g:'laenge' };
 const A1LOG5 = Math.log10(5);  // 0.699 — Markerposition von 5·10^n
 
@@ -775,10 +781,11 @@ function drawA1() {
     '5·10' + supStr(n) + ' ' + G.base + ' = ' + fmtVal(val) + ' ' + G.base;
   for (let i = 0; i < 4; i++) {
     const u = G.units[i];
+    // Nicht-dezimale Stufen tragen ihre Umrechnung direkt im Label
     document.getElementById('a1-u' + (i + 1)).textContent =
-      u[1] === null ? 'min (1 min = 60 s)' : u[0];
-    const w = u[1] === null ? val / 60 : 5 * Math.pow(10, n - u[1]);
-    document.getElementById('a1-v' + (i + 1)).textContent = fmtVal(w) + ' ' + u[0];
+      u.sek ? u.lab + ' (1 ' + u.lab + ' = ' + u.sek + ' s)' : u.lab;
+    const w = u.sek ? val / u.sek : 5 * Math.pow(10, n - u.exp);
+    document.getElementById('a1-v' + (i + 1)).textContent = fmtVal(w) + ' ' + u.lab;
   }
 
   // Leiter: x = Zehnerexponent von -7.2 bis 7.2 (Geometrie python3-vorgerechnet)
@@ -796,21 +803,47 @@ function drawA1() {
     ctx.beginPath(); ctx.moveTo(X(e), yLine - 4); ctx.lineTo(X(e), yLine + 4); ctx.stroke();
   }
   // Sprossen mit Einheiten-Labels (oben) und Faktor (unten)
+  const istZeit = a1St.g === 'zeit';
   ctx.font = 'bold 13px JetBrains Mono,monospace';
   for (const r of A1RUNGS) {
     const px = X(r[1]);
-    ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.6;
+    const tot = istZeit && A1_UNGEBR.indexOf(r[1]) >= 0;
+    ctx.strokeStyle = tot ? '#c7ccd3' : '#374151'; ctx.lineWidth = 1.6;
     ctx.beginPath(); ctx.moveTo(px, yLine - 12); ctx.lineTo(px, yLine + 12); ctx.stroke();
-    ctx.fillStyle = '#374151'; ctx.textAlign = 'center';
-    ctx.fillText(r[0] + G.base, px, yLine - 18);
-    ctx.fillStyle = '#6b7280'; ctx.font = '12px JetBrains Mono,monospace';
+    ctx.fillStyle = tot ? '#aeb4bc' : '#374151'; ctx.textAlign = 'center';
+    const lab = r[0] + G.base;
+    ctx.fillText(lab, px, yLine - 18);
+    if (tot) {                                   // durchgestrichen = gibt es, nutzt man nicht
+      const lw2 = ctx.measureText(lab).width;
+      ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(px - lw2/2 - 1, yLine - 22); ctx.lineTo(px + lw2/2 + 1, yLine - 22); ctx.stroke();
+    }
+    ctx.fillStyle = tot ? '#c7ccd3' : '#6b7280'; ctx.font = '12px JetBrains Mono,monospace';
     ctx.fillText('10' + supStr(r[1]), px, yLine + 26);
     ctx.font = 'bold 13px JetBrains Mono,monospace';
+  }
+  if (istZeit) {
+    // Die gebräuchlichen Zeitstufen liegen NICHT auf ganzen Zehnerpotenzen
+    for (const [lab, sek] of A1_ZEIT_EXTRA) {
+      const px = X(Math.log10(sek));
+      ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 2.2;
+      ctx.beginPath(); ctx.moveTo(px, yLine - 12); ctx.lineTo(px, yLine + 12); ctx.stroke();
+      // Beschriftung UNTER die Linie: oben stehen die durchgestrichenen Präfixe,
+      // und min liegt fast auf hs (log 1.78 gegen 2).
+      ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'center'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+      ctx.fillText(lab, px, yLine + 46);
+      ctx.font = '11px JetBrains Mono,monospace';
+      ctx.fillText(sek + ' s', px, yLine + 60);
+    }
+    ctx.fillStyle = '#9b1c1c'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('durchgestrichen: gibt es als Präfix, wird bei der Zeit aber nicht verwendet', 8, H - 10);
+    ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'left';
+    ctx.fillText('grün: die tatsächlich gebräuchlichen Stufen min und h', 8, H - 26);
   }
   // Achsen-Caption
   ctx.fillStyle = '#6b7280'; ctx.font = '12px JetBrains Mono,monospace';
   ctx.textAlign = 'right';
-  ctx.fillText('Faktor gegenüber 1 ' + G.base, W - 6, yLine + 46);
+  ctx.fillText('Faktor gegenüber 1 ' + G.base, W - 6, yLine + (a1St.g === 'zeit' ? 74 : 46));
 
   // Marker: Position log10(5·10^n) = n + log10(5), mit Halo-Label
   const mx = X(n + A1LOG5);
