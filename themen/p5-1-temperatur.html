@@ -366,7 +366,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Umrechnung</div>
-      <div class="fl-eq" id="a3-eq">T = ϑ + 273.15 = 20.00 + 273.15 = 293.15 K</div>
+      <div class="fl-eq" id="a3-eq-f">T [K] = ϑ [°C] + 273.15</div>
+      <div class="fl-eq" id="a3-eq">T [K] = 20.00 + 273.15 = 293.15</div>
     </div>
 
     <div class="live-box">
@@ -375,7 +376,7 @@ MathJax = {
     </div>
 
     <div class="cv-wrap skala-plot">
-      <div class="cv-titel">🌡 Thermometer (Celsius links · Kelvin rechts)</div>
+      <div class="cv-titel">🌡 Thermometer (Celsius links, Kelvin rechts)</div>
       <canvas id="a3-cv" height="340"></canvas>
     </div>
 
@@ -437,8 +438,10 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Differenz</div>
-      <div class="fl-eq" id="a4-eq-c">Δϑ = ϑ₂ − ϑ₁ = 95 − 12 = 83 °C</div>
-      <div class="fl-eq" id="a4-eq-k">ΔT = T₂ − T₁ = 368.15 − 285.15 = 83 K</div>
+      <div class="fl-eq">Δϑ = ϑ₂ − ϑ₁</div>
+      <div class="fl-eq" id="a4-eq-c">= 95 °C − 12 °C = 83 °C</div>
+      <div class="fl-eq">ΔT = T₂ − T₁</div>
+      <div class="fl-eq" id="a4-eq-k">= 368.15 K − 285.15 K = 83 K</div>
     </div>
 
     <div class="live-box">
@@ -1240,8 +1243,8 @@ function drawA3(){
   document.getElementById('a3-c').textContent = vz(c.toFixed(2)) + ' °C';
   document.getElementById('a3-k').textContent = K.toFixed(2) + ' K';
   // Ansatz-Prinzip: erst die Beziehung, dann die Werte (STYLEGUIDE §2.1)
-  document.getElementById('a3-eq').textContent = 'T = ϑ + 273.15 = '
-    + (c < 0 ? '(' + vz(c.toFixed(2)) + ')' : c.toFixed(2)) + ' + 273.15 = ' + K.toFixed(2) + ' K';
+  document.getElementById('a3-eq').textContent = 'T [K] = '
+    + (c < 0 ? '(' + vz(c.toFixed(2)) + ')' : c.toFixed(2)) + ' + 273.15 = ' + K.toFixed(2);
   // Sprungknopf hervorheben, wenn sein Fixpunkt gerade eingestellt ist
   document.querySelectorAll('[data-jump]').forEach(b => b.classList.toggle('aktiv', Math.abs(+b.dataset.jump - c) < 0.001));
 
@@ -1250,7 +1253,10 @@ function drawA3(){
   ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0,0,W,H);
 
   const cMin=-273.15, cMax=150;
-  const yTop=H*0.09, yBot=H*0.82, xMid=W*0.5, tubeW=18;
+  const yTop=H*0.09, yBot=H*0.82, tubeW=18;
+  // Schmale Leinwand: Röhre nach links rücken, damit rechts Platz für die
+  // Fixpunkt-Beschriftungen bleibt (sonst schnitten sie am Rand ab).
+  const xMid = W < 480 ? Math.max(92, W*0.34) : W*0.5;
   const yOf = v => yBot - (v-cMin)/(cMax-cMin)*(yBot-yTop);
   const yBulb = H*0.90, rBulb=15;
 
@@ -1281,18 +1287,20 @@ function drawA3(){
   ctx.textAlign='left';  ctx.fillText('K',  xMid+tubeW/2+8, yTop-4);
 
   // Fixpunkte
-  const fix=[{v:0,t:'Wasser 0 °C',col:'#1a4f8a'},{v:100,t:'siedet 100 °C',col:'#9b1c1c'},
-             {v:37,t:'Körper 37 °C',col:'#1f6b3a'},{v:-273.15,t:'abs. Nullpunkt',col:'#5b2d8e'}];
+  const fix=[{v:0,t:'Wasser 0 °C',k:'0 °C',col:'#1a4f8a'},{v:100,t:'siedet 100 °C',k:'100 °C',col:'#9b1c1c'},
+             {v:37,t:'Körper 37 °C',k:'37 °C',col:'#1f6b3a'},{v:-273.15,t:'abs. Nullpunkt',k:'0 K',col:'#5b2d8e'}];
+  const xPfeil = xMid + tubeW/2 + 52;      // rechts der Kelvin-Beschriftung
+  const xTxt = xPfeil + 4, platz = W - 6 - xTxt;
   ctx.textAlign='left'; ctx.font='13px JetBrains Mono,monospace';
   for(const f of fix){
     const y=yOf(f.v);
-    ctx.fillStyle=f.col; ctx.beginPath(); ctx.moveTo(W*0.72,y); ctx.lineTo(W*0.72-6,y-4); ctx.lineTo(W*0.72-6,y+4); ctx.closePath(); ctx.fill();
-    ctx.fillText(f.t, W*0.73, y+3);
+    ctx.fillStyle=f.col; ctx.beginPath(); ctx.moveTo(xPfeil,y); ctx.lineTo(xPfeil-6,y-4); ctx.lineTo(xPfeil-6,y+4); ctx.closePath(); ctx.fill();
+    ctx.fillText(ctx.measureText(f.t).width <= platz ? f.t : f.k, xTxt, y+3);
   }
 
   // aktueller Pegel
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1.4; ctx.setLineDash([4,3]);
-  ctx.beginPath(); ctx.moveTo(xMid-tubeW/2-5, yLvl); ctx.lineTo(W*0.70, yLvl); ctx.stroke(); ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(xMid-tubeW/2-5, yLvl); ctx.lineTo(xPfeil-10, yLvl); ctx.stroke(); ctx.setLineDash([]);
 }
 document.getElementById('a3-T').addEventListener('input', drawA3);
 document.querySelectorAll('[data-jump]').forEach(btn => {
@@ -1320,9 +1328,9 @@ function drawA4(){
   document.getElementById('a4-d').textContent = vz(d) + ' K';
   // Je Skala eine eigene Zeile, jeweils mit dem symbolischen Ansatz vor den Werten.
   document.getElementById('a4-eq-c').textContent =
-    'Δϑ = ϑ₂ − ϑ₁ = ' + vz(t2) + ' − ' + sub(t1) + ' = ' + vz(d) + ' °C';
+    '= ' + vz(t2) + ' °C − ' + sub(t1) + ' °C = ' + vz(d) + ' °C';
   document.getElementById('a4-eq-k').textContent =
-    'ΔT = T₂ − T₁ = ' + K2.toFixed(2) + ' − ' + K1.toFixed(2) + ' = ' + vz(d) + ' K';
+    '= ' + K2.toFixed(2) + ' K − ' + K1.toFixed(2) + ' K = ' + vz(d) + ' K';
 
   const cv = initCanvas('a4-cv', 240, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -1379,9 +1387,14 @@ function drawA4(){
   const zeile = (s, font, y) => {
     ctx.font = font;
     const half = ctx.measureText(s).width/2 + 4;
-    ctx.fillText(s, Math.max(half, Math.min(W-half, (xa+xb)/2)), y);
+    const x = Math.max(half, Math.min(W-half, (xa+xb)/2));
+    // Halo, damit die Beschriftung über den gestrichelten Marken lesbar bleibt
+    const farbe = ctx.fillStyle;
+    ctx.strokeStyle = '#fdf9f3'; ctx.lineWidth = 3.5; ctx.lineJoin = 'round';
+    ctx.strokeText(s, x, y);
+    ctx.fillStyle = farbe; ctx.fillText(s, x, y);
   };
-  zeile('Δϑ = ΔT = '+vz(d), 'bold 13px JetBrains Mono,monospace', yMid);
+  zeile('Δϑ = ΔT = '+vz(d)+' K', 'bold 13px JetBrains Mono,monospace', yMid);
   zeile(d > 0 ? 'Erwärmung' : (d < 0 ? 'Abkühlung' : 'keine Änderung'),
         '12px Source Sans 3,sans-serif', yMid+15);
 }

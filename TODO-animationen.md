@@ -232,6 +232,8 @@ alt a3…a8 entsprechen neu a2…a7.*
   Dreisatz-Schritt eine benannte Formel und eine Zahlengleichung. a5 zeigte nur
   den symbolischen Ansatz — jetzt zusätzlich die Zahlengleichung mit Einheiten,
   im Fehlermodus entsprechend «t = 300 m / 12 m/s = 25 s».
+  Im Beispielblock «ein falsches Resultat fliegt auf» ersetzt die konkrete
+  Spanne «20 km bis 50 km» das vage «einige Dutzend Kilometer» (auf Ansage).
 ### p4-1 Kinematik
 - [ ] [HOCH] a1: t-Regler ergänzen, Fläche unter v(t) nur bis t einfärben,
   Live-Anzeige «Fläche = v·t = … m» — macht Fläche = Weg quantitativ prüfbar.
@@ -342,10 +344,21 @@ alt a3…a8 entsprechen neu a2…a7.*
   → durchgehend **mit** Vorzeichen (nicht per `abs()`), plus Richtungspfeil und
   «Erwärmung/Abkühlung» — Vorbereitung auf \(Q = c\,m\,\Delta T\) und \(\Delta l = \alpha\,l_0\,\Delta T\).
   Typografisches Minus (U+2212) dabei auf der ganzen Seite vereinheitlicht.
-- [ ] [MITTEL] a3 Thermometer (neu entdeckt beim Render-Check): Die Fixpunkt-
-  Beschriftungen sind bei 360 px rechts abgeschnitten («siedet 100…», «abs. Nullp…»),
-  weil sie fix bei \(x = 0{.}73\,W\) beginnen. Textbreite messen und Anker
-  umschalten oder Labels bei schmalem Canvas kürzen.
+- [x] [MITTEL] a3 Thermometer (neu entdeckt beim Render-Check): Die Fixpunkt-
+  Beschriftungen waren bei 360 px rechts abgeschnitten («siedet 100…», «abs. Nullp…»),
+  weil sie fix bei \(x = 0{.}73\,W\) begannen. Behoben am 27.07.2026: unter 480 px
+  rückt die Röhre nach links (\(x = 0.34\,W\)), die Marken hängen jetzt an der Röhre
+  statt an der Leinwandbreite, und passt ein Text trotzdem nicht, wird die Kurzform
+  gezeichnet («0 °C», «100 °C», «37 °C», «0 K»).
+- [x] Stilcheck 27.07.2026 (a3 und a4): a3 setzte die Zahlen ohne ihre Skala ein
+  («T = ϑ + 273.15 = 20.00 + 273.15») — jetzt Klammer-Notation wie in p0-3 a2,
+  Formelzeile «T [K] = ϑ [°C] + 273.15» vor der Zahlengleichung. Im Bildtitel
+  stand der Multiplikationspunkt als Trenner («Celsius links · Kelvin rechts»)
+  — durch ein Komma ersetzt. In a4 fehlten die Einheiten beim Einsetzen
+  («95 − 12»); die Differenzzeilen liegen jetzt zu je zwei Zeilen vor (Ansatz,
+  dann Werte mit Einheit), sonst brechen sie bei 360 px mitten im Term um.
+  Auch die Canvas-Zahl trägt ihre Einheit («Δϑ = ΔT = 83 K») und hat einen Halo,
+  damit sie über den gestrichelten Marken lesbar bleibt.
 
 ### p5-2 Wärme
 *Alle Punkte umgesetzt am 26.07.2026.*
