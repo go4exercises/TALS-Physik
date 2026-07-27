@@ -72,13 +72,15 @@ MathJax = {
 
 <div class="block block-experiment">
   <div class="block-titel">🧪 Phänomen</div>
-  <p>Drei Alltags-Erfahrungen mit demselben mathematischen Kern:</p>
+  <p>Vier Alltags-Erfahrungen mit demselben mathematischen Kern:</p>
   <ul>
-    <li><strong>Tauchen</strong> — doppelte Tiefe, doppelter Druck. Der Druck wächst <em>mit</em> der Tiefe.</li>
-    <li><strong>Flaschenzug und Fahrrad-Gang</strong> — mehr Kraft sparen heisst mehr Seil ziehen bzw. mehr kurbeln: weniger Kraft, dafür <em>mehr</em> Weg.</li>
     <li><strong>Einkaufen</strong> — doppelte Menge Äpfel, doppelte Kosten. Der Preis (Franken je Kilogramm) bleibt gleich.</li>
+    <li><strong>Tauchen</strong> — doppelte Tiefe, doppelter Druck. Der Druck wächst <em>mit</em> der Tiefe.</li>
+    <li><strong>Butter aufs Brot</strong> — du hast immer gleich viel Butter. Je grösser die Fläche, auf der du sie verteilst, desto <em>dünner</em> die Schicht. Doppelte Fläche → halb so dicke Schicht.</li>
+    <li><strong>Unterwegs</strong> — bei fester Strecke: doppeltes Tempo, halbe Fahrzeit.</li>
   </ul>
-  <p>Das erste und das dritte Beispiel sind <em>direkt</em> proportional, das zweite ist <em>indirekt</em> proportional — beides schauen wir uns jetzt genauer an.</p>
+  <p>Die ersten beiden sind <em>direkt</em> proportional, die letzten beiden <em>indirekt</em> — beides schauen wir uns jetzt genauer an.</p>
+  <p><strong>Warum gerade diese Beispiele?</strong> Weil bei allen vieren beide Grössen <strong>stetig</strong> sind: Fläche, Dicke, Tempo und Zeit können jeden Zwischenwert annehmen. Beim Flaschenzug oder beim Fahrradgang stimmt der Zusammenhang «weniger Kraft, mehr Weg» zwar auch — aber es gibt nur ganze Rollen und ganze Gänge. Man kann dort nicht stufenlos verdoppeln, und genau das braucht man, um Proportionalität als <em>Kurve</em> zu verstehen.</p>
 </div>
 
 
@@ -169,7 +171,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
     <div class="widget-titelzeile">
-  <h3>Animation 2 · Indirekte Proportionalität — Tempo und Fahrzeit</h3>
+  <h3>Animation 2 · Indirekte Proportionalität — konstantes Produkt</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -190,27 +192,38 @@ MathJax = {
   </div>
   <div class="widget-body">
 
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a2="butter">🧈 Butter aufs Brot</button>
+      <button class="typ-btn" data-a2="tempo">🚗 Tempo und Fahrzeit</button>
+    </div>
+
     <div class="sl-row">
       <div class="sl-grp">
-      <label>Tempo \(v\):</label>
-      <input type="range" id="a2-v" min="40" max="160" value="80" step="5">
-      <span class="sl-val" id="a2-v-val">80 km/h</span>
-
+      <label id="a2-lab">Fläche \(A\):</label>
+      <input type="range" id="a2-v" min="50" max="300" value="100" step="5">
+      <span class="sl-val" id="a2-v-val">100 cm²</span>
       </div>
     </div>
 
+    <div class="formel-live">
+      <div class="fl-label">Aktuelle Rechnung</div>
+      <div class="fl-eq" id="a2-eq-f">d = V / A</div>
+      <div class="fl-eq" id="a2-eq">d = 10 cm³ / 100 cm² = 0.100 cm = 1.00 mm</div>
+    </div>
+
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Fahrzeit \(t = 120 / v\)</span><span class="lb-val" id="a2-live-t">1.50 h</span></div>
-      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">in Minuten (1 h = 60 min)</span><span class="lb-val" id="a2-live-min">90 min</span></div>
-      <div class="lb-item"><span class="lb-lab">Produkt \(v \cdot t\)</span><span class="lb-val" id="a2-live-prod">120 km</span></div>
+      <div class="lb-item"><span class="lb-lab" id="a2-lab1">Fläche \(A\)</span><span class="lb-val" id="a2-live-x">100 cm²</span></div>
+      <div class="lb-item" style="margin-right:30px"><span class="lb-lab" id="a2-lab2">Schichtdicke \(d\)</span><span class="lb-val" id="a2-live-t">1.00 mm</span></div>
+      <div class="lb-item"><span class="lb-lab" id="a2-lab3">Produkt \(A \cdot d\)</span><span class="lb-val" id="a2-live-prod">10 cm³ Butter</span></div>
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">📉 \(t(v)\) — Fahrzeit über Tempo (Strecke 120 km)</div>
+      <div class="cv-titel">📉 Hyperbel — das Rechteck unter dem Punkt bleibt gleich gross</div>
       <canvas id="a2-cv" height="280" role="img" aria-label="Diagramm Fahrzeit gegen Tempo für eine feste Strecke von 120 Kilometern: eine fallende Hyperbel von 3 Stunden bei 40 Kilometern pro Stunde bis 0.75 Stunden bei 160. Ein Punkt markiert das eingestellte Tempo, ein zweiter das doppelte Tempo mit halber Zeit."></canvas>
       <div class="canvas-legend">
-        <span class="cl-item"><span class="cl-dot" style="background:#8a4a0e"></span>eingestelltes Tempo \(v\)</span>
-        <span class="cl-item"><span class="cl-dot" style="background:#5b2d8e"></span>Vergleich: doppeltes Tempo \(2 \cdot v\)</span>
+        <span class="cl-item"><span class="cl-dot" style="background:#8a4a0e"></span>eingestellter Wert</span>
+        <span class="cl-item"><span class="cl-dot" style="background:#5b2d8e"></span>Vergleich: doppelter Wert</span>
+        <span class="cl-item"><span class="cl-line" style="background:#d9c4a3"></span>Rechteck = konstantes Produkt</span>
       </div>
     </div>
 
@@ -957,35 +970,75 @@ function drawA1() {
 document.getElementById('a1-h').addEventListener('input', drawA1);
 
 // ══════════════ ANIMATION 2 — indirekte Proportionalität (t = 120/v) ══════════════
-const A2S = 120;  // feste Strecke in km
+// Zwei stetige Beispiele für indirekte Proportionalität. Beide haben ein
+// konstantes Produkt — das Rechteck unter dem Kurvenpunkt zeigt es direkt.
+// Butter: V = 10 cm³, d[mm] = 100 / A[cm²]  (A = 100 cm² -> 1.00 mm, 200 -> 0.50 mm)
+// Tempo:  s = 120 km,  t[h]  = 120 / v[km/h]
+const A2_SZEN = {
+  butter: { lab:'Fläche \\(A\\):', einheitX:'cm²', einheitY:'mm', xMin:50, xMax:300, xStep:5, xDef:100,
+            k:100, xAchse:'A [cm²]', yAchse:'d [mm]', yMax:2.3,
+            lab1:'Fläche \\(A\\)', lab2:'Schichtdicke \\(d\\)', lab3:'Produkt \\(A \\cdot d\\)',
+            prod:'10 cm³ Butter', ansatz:'d = V / A',
+            werte:(x,y)=>'d = 10 cm³ / '+x+' cm² = '+(y/10).toFixed(3)+' cm = '+y.toFixed(2)+' mm' },
+  tempo:  { lab:'Tempo \\(v\\):', einheitX:'km/h', einheitY:'h', xMin:40, xMax:160, xStep:5, xDef:80,
+            k:120, xAchse:'v [km/h]', yAchse:'t [h]', yMax:3.3,
+            lab1:'Tempo \\(v\\)', lab2:'Fahrzeit \\(t\\)', lab3:'Produkt \\(v \\cdot t\\)',
+            prod:'120 km Strecke', ansatz:'t = s / v',
+            werte:(x,y)=>'t = 120 km / '+x+' km/h = '+y.toFixed(2)+' h = '+Math.round(y*60)+' min' }
+};
+let a2Szen = 'butter';
+function a2SetSzenario(key){
+  a2Szen = key;
+  const z = A2_SZEN[key], sl = document.getElementById('a2-v');
+  sl.min=z.xMin; sl.max=z.xMax; sl.step=z.xStep; sl.value=z.xDef;
+  const els = ['a2-lab','a2-lab1','a2-lab2','a2-lab3'];
+  document.getElementById('a2-lab').innerHTML  = z.lab;
+  document.getElementById('a2-lab1').innerHTML = z.lab1;
+  document.getElementById('a2-lab2').innerHTML = z.lab2;
+  document.getElementById('a2-lab3').innerHTML = z.lab3;
+  if(window.MathJax && MathJax.typeset) try{ MathJax.typeset(els.map(id=>document.getElementById(id))); }catch(e){}
+  document.querySelectorAll('[data-a2]').forEach(b=>b.classList.toggle('aktiv', b.dataset.a2===key));
+  drawA2();
+}
 function drawA2() {
-  const v = +document.getElementById('a2-v').value;
-  const t = A2S / v;
-  document.getElementById('a2-v-val').textContent     = v + ' km/h';
-  document.getElementById('a2-live-t').textContent    = t.toFixed(2) + ' h';
-  document.getElementById('a2-live-min').textContent  = Math.round(t * 60) + ' min';
-  document.getElementById('a2-live-prod').textContent = Math.round(v * t) + ' km';
+  const z = A2_SZEN[a2Szen];
+  const x = +document.getElementById('a2-v').value;
+  const y = z.k / x;
+  document.getElementById('a2-v-val').textContent   = x + ' ' + z.einheitX;
+  document.getElementById('a2-live-x').textContent  = x + ' ' + z.einheitX;
+  document.getElementById('a2-live-t').textContent  = y.toFixed(2) + ' ' + z.einheitY;
+  document.getElementById('a2-live-prod').textContent = z.prod;
+  document.getElementById('a2-eq-f').textContent = z.ansatz;
+  document.getElementById('a2-eq').textContent   = z.werte(x, y);
 
   const cv = initCanvas('a2-cv', 280, false);
-  const gr = drawGrid(cv.ctx, cv.W, cv.H, -8, 168, -0.16, 3.3);
-  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 'v [km/h]', 't [h]');
+  const gr = drawGrid(cv.ctx, cv.W, cv.H, -z.xMax*0.05, z.xMax*1.05, -z.yMax*0.05, z.yMax);
+  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, z.xAchse, z.yAchse);
   const ctx = cv.ctx;
-  // Hyperbel t = 120/v von v=40 bis 160
-  drawCurve(ctx, gr.cx, gr.cy, vv => vv, vv => A2S / vv, 40, 160, 120, '#8a4a0e', 2.8);
+  // Rechteck x·y unter dem Kurvenpunkt: seine Fläche ist das konstante Produkt.
+  // Beim Butterbeispiel ist es buchstäblich die Butter (10 cm³).
+  ctx.fillStyle = 'rgba(217,196,163,0.55)';
+  ctx.fillRect(gr.cx(0), gr.cy(y), gr.cx(x)-gr.cx(0), gr.cy(0)-gr.cy(y));
+  ctx.strokeStyle = '#b39b73'; ctx.lineWidth = 1.2;
+  ctx.strokeRect(gr.cx(0), gr.cy(y), gr.cx(x)-gr.cx(0), gr.cy(0)-gr.cy(y));
+  haloLabel(ctx, 'Fläche = ' + z.prod, gr.cx(x*0.5), gr.cy(y*0.5), '#7a6748', 'center');
+  // Hyperbel
+  drawCurve(ctx, gr.cx, gr.cy, xx => xx, xx => z.k / xx, z.xMin, z.xMax, 140, '#8a4a0e', 2.8);
   // Hilfslinien zum aktuellen Punkt
   ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1.2; ctx.setLineDash([4, 4]);
-  ctx.beginPath(); ctx.moveTo(gr.cx(v), gr.cy(0)); ctx.lineTo(gr.cx(v), gr.cy(t)); ctx.lineTo(gr.cx(0), gr.cy(t)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(gr.cx(x), gr.cy(0)); ctx.lineTo(gr.cx(x), gr.cy(y)); ctx.lineTo(gr.cx(0), gr.cy(y)); ctx.stroke();
   ctx.setLineDash([]);
-  // Vergleichspunkt bei doppeltem Tempo (falls im Bereich)
-  if (2 * v <= 160) {
-    const t2 = A2S / (2 * v);
-    drawDot(ctx, gr.cx, gr.cy, 2 * v, t2, '#5b2d8e', 5);
-    const alignR = gr.cx(2 * v) > cv.W - 130;
-    haloLabel(ctx, '2·v → t/2', gr.cx(2 * v) + (alignR ? -10 : 10), gr.cy(t2) - 10, '#5b2d8e', alignR ? 'right' : 'left');
+  // Vergleichspunkt beim doppelten x
+  if (2 * x <= z.xMax) {
+    const y2 = z.k / (2 * x);
+    drawDot(ctx, gr.cx, gr.cy, 2 * x, y2, '#5b2d8e', 5);
+    const alignR = gr.cx(2 * x) > cv.W - 130;
+    haloLabel(ctx, 'doppelt → halb', gr.cx(2 * x) + (alignR ? -10 : 10), gr.cy(y2) - 10, '#5b2d8e', alignR ? 'right' : 'left');
   }
-  drawDot(ctx, gr.cx, gr.cy, v, t, '#8a4a0e', 6);
+  drawDot(ctx, gr.cx, gr.cy, x, y, '#8a4a0e', 6);
 }
-document.getElementById('a2-v').addEventListener('input', drawA2);
+['a2-v'].forEach(id=>document.getElementById(id).addEventListener('input', drawA2));
+document.querySelectorAll('[data-a2]').forEach(b=>b.addEventListener('click', ()=>a2SetSzenario(b.dataset.a2)));
 
 // ══════════════ ANIMATION 3 — Zylindertank ══════════════
 function drawA3() {
