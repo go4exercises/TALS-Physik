@@ -155,10 +155,13 @@ alt a3…a8 entsprechen neu a2…a7.*
   von der Masse entkoppelt; formel-live ergänzt. Zusätzlich Einheit Nm statt J
   und Play/Reset: die Arbeit summiert sich beim Heben auf und wird oben als
   Lageenergie ausgewiesen.
-- [ ] [MITTEL] a2 Federwaage: Referenzmarken der anderen Orte dauerhaft an der
-  Skala (Erde/Mars/Mond) — der Sechstel-Vergleich wird zum Ablesen.
-- [ ] [MITTEL] a4 Rutsche: Play-Knopf «rutschen lassen» (beschleunigt) —
-  Geschwindigkeitszunahme sichtbar, ohne ½mv² vorwegzunehmen.
+- [x] [MITTEL] a2 Federwaage: alle drei Orte dauerhaft an der Skala, der aktive
+  durchgezogen, die anderen gestrichelt. Bei 10 kg stehen 98.1 N (Erde),
+  37.1 N (Mars) und 16.2 N (Mond) nebeneinander — der Sechstel-Vergleich
+  (9.81 / 1.62 = 6.06) ist damit ablesbar.
+- [x] [MITTEL] a4 Rutsche: Play- und Reset-Knopf. Die Position folgt dem
+  Energiesatz (v = √(2g(h₀−h))), das Kind wird unterwegs sichtbar schneller —
+  ohne dass ½mv² vorweggenommen wird.
 - [x] [MITTEL] a5 Treppenlauf: wie p0-0 a6 portiert — Masse- und Höhenregler,
   Arbeits- und Leistungsbalken mit fester Skala, festes Treppenhaus von 20 m,
   Play und Reset, aufsummierende Arbeit gegen die E_pot-Marke.

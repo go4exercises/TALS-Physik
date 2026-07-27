@@ -441,6 +441,12 @@ MathJax = {
 
     <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2); margin-bottom:10px;">Kind mit Masse \(m = 30\;\text{kg}\) · \(g = 9.81\;\text{m/s}^2\) · Reibung vernachlässigt</div>
 
+    <div style="margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button class="play-btn" id="a4-btn">▶ rutschen lassen</button>
+      <button class="play-btn paused" id="a4-reset" style="background:var(--tinte-2);">↻ nach oben</button>
+    </div>
+
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">\(E_{pot}\)</span><span class="lb-val" id="a4-epot">589 J</span></div>
       <div class="lb-item"><span class="lb-lab">\(E_{kin}\)</span><span class="lb-val" id="a4-ekin">0 J</span></div>
@@ -1013,6 +1019,18 @@ function drawA2() {
   }
   ctx.textAlign = 'left'; ctx.font = 'bold 12px "JetBrains Mono",monospace';
   ctx.fillText('F_G [N]', xR - 34, 44);
+  // Referenzmarken der beiden anderen Orte dauerhaft an der Skala: der
+  // Sechstel-Vergleich Erde/Mond wird damit zum Ablesen statt zum Merken.
+  Object.entries(A2_ORTE).forEach(([key, o]) => {
+    const f = m * o.g, y = yF(Math.min(f, 100));
+    const aktiv = key === a2Ort;
+    ctx.strokeStyle = o.col; ctx.lineWidth = aktiv ? 2.2 : 1.4;
+    ctx.setLineDash(aktiv ? [] : [5, 4]);
+    ctx.beginPath(); ctx.moveTo(xR, y); ctx.lineTo(cx + 78, y); ctx.stroke();
+    ctx.setLineDash([]);
+    haloText(ctx, o.name + ' ' + f.toFixed(1) + ' N', cx + 82, y + 4, o.col,
+             (aktiv ? 'bold ' : '') + '12px "JetBrains Mono",monospace', 'left');
+  });
   // Feder als Zickzack von der Aufhängung bis zum Zeigerwert
   const yEnd = yF(F);
   ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 2;
@@ -1186,7 +1204,11 @@ document.getElementById('a3-reset').addEventListener('click', ()=>{ a3Stop(); a3
 
 // ══════════════ ANIMATION 4 — Energieerhaltung Rutsche ══════════════
 // Kind m = 30 kg. Rutschenprofil h(u) = h0 * (1 + cos(pi*u)) / 2, u in [0,1].
+// Beim Abspielen wächst u NICHT gleichmässig: die Bahngeschwindigkeit folgt
+// v = sqrt(2·g·(h0 − h)) aus dem Energiesatz, darum wird das Kind unterwegs
+// sichtbar schneller — ohne dass ½mv² schon eingeführt sein müsste.
 const A4_M = 30;
+const a4State = { lauf:false, last:0, rafId:null };
 function drawA4() {
   const h0 = +document.getElementById('a4-h0').value;
   const pos = +document.getElementById('a4-pos').value;      // 0..100 %
@@ -1280,7 +1302,43 @@ function drawA4() {
   ctx.fillStyle = '#1c1a17'; ctx.font = '13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Energie in J', bx0 + (W - bx0) / 2, 20);
 }
-['a4-h0', 'a4-pos'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+['a4-h0', 'a4-pos'].forEach(id => document.getElementById(id).addEventListener('input', () => { a4Stop(); drawA4(); }));
+// Rutschen lassen: die Position folgt dem Energiesatz, das Kind wird unterwegs
+// schneller. Umgesetzt über die Bogenlänge — u wächst proportional zu v(u).
+const a4Btn = document.getElementById('a4-btn');
+function a4Tick(ts){
+  if(!a4State.lauf) return;
+  if(!a4State.last) a4State.last = ts;
+  const dt = Math.min(0.05, (ts - a4State.last)/1000); a4State.last = ts;
+  const sl = document.getElementById('a4-pos');
+  const h0 = +document.getElementById('a4-h0').value;
+  const u = +sl.value / 100;
+  const h = h0 * (1 + Math.cos(Math.PI * u)) / 2;
+  const v = Math.sqrt(Math.max(0, 2 * g * (h0 - h)));      // m/s aus der Energiebilanz
+  const du = (0.06 + v * 0.05) * dt;                        // Startimpuls, dann ∝ v
+  const neu = Math.min(1, u + du);
+  sl.value = Math.round(neu * 100);
+  drawA4();
+  if(neu >= 1){ a4Stop(); return; }
+  a4State.rafId = requestAnimationFrame(a4Tick);
+}
+function a4Stop(){
+  a4State.lauf = false; a4State.last = 0;
+  if(a4State.rafId) cancelAnimationFrame(a4State.rafId);
+  a4Btn.textContent = '▶ rutschen lassen'; a4Btn.classList.remove('paused');
+}
+a4Btn.addEventListener('click', ()=>{
+  if(a4State.lauf){ a4Stop(); return; }
+  const sl = document.getElementById('a4-pos');
+  if(+sl.value >= 100) sl.value = 0;
+  a4State.lauf = true; a4State.last = 0;
+  a4Btn.textContent = '⏸ Pause'; a4Btn.classList.add('paused');
+  a4State.rafId = requestAnimationFrame(a4Tick);
+  drawA4();
+});
+document.getElementById('a4-reset').addEventListener('click', ()=>{
+  a4Stop(); document.getElementById('a4-pos').value = 0; drawA4();
+});
 
 // ══════════════ ANIMATION 5 — Treppenlauf / Leistung ══════════════
 // Person 60 kg, Höhe 10 m: W = 60 * 9.81 * 10 = 5886 J (python3-verifiziert);
