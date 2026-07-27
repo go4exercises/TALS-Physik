@@ -108,36 +108,36 @@ MathJax = {
   <div class="widget-body">
 
     <div class="typ-btns">
-      <button class="typ-btn aktiv" data-a1="lose">🍎 Äpfel lose</button>
-      <button class="typ-btn" data-a1="harasse">📦 Äpfel in Harassen</button>
-      <button class="typ-btn" data-a1="taxi">🚕 Taxi ohne Grundgebühr</button>
+      <button class="typ-btn aktiv" data-a1="taxi">🚕 Taxi ohne Grundgebühr</button>
       <button class="typ-btn" data-a1="taxigrund">🚕 Taxi mit Grundgebühr</button>
+      <button class="typ-btn" data-a1="lose">🍎 Äpfel lose</button>
+      <button class="typ-btn" data-a1="harasse">📦 Äpfel in Harassen</button>
     </div>
 
     <div class="sl-row">
       <div class="sl-grp">
-      <label id="a1-lab-m">Menge \(m\):</label>
-      <input type="range" id="a1-m" min="0.5" max="30" value="2.5" step="0.5">
-      <span class="sl-val" id="a1-m-val">2.5 kg</span>
+      <label id="a1-lab-m">Strecke \(s\):</label>
+      <input type="range" id="a1-m" min="1" max="30" value="4" step="0.5">
+      <span class="sl-val" id="a1-m-val">4.0 km</span>
       </div>
       <div class="sl-grp">
-      <label id="a1-lab-p">Preis \(p\):</label>
-      <input type="range" id="a1-p" min="1" max="6" value="3.2" step="0.1">
-      <span class="sl-val" id="a1-p-val">3.20 CHF/kg</span>
+      <label id="a1-lab-p">Tarif \(p\):</label>
+      <input type="range" id="a1-p" min="2" max="5" value="3" step="0.1">
+      <span class="sl-val" id="a1-p-val">3.00 CHF/km</span>
       </div>
     </div>
 
     <div class="formel-live">
       <div class="fl-label">Aktuelle Rechnung</div>
-      <div class="fl-eq" id="a1-eq-f">K = m · p</div>
-      <div class="fl-eq" id="a1-eq">K = 2.5 kg · 3.20 CHF/kg = 8.00 CHF</div>
+      <div class="fl-eq" id="a1-eq-f">K = s · p</div>
+      <div class="fl-eq" id="a1-eq">K = 4.0 km · 3.00 CHF/km = 12.00 CHF</div>
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Menge \(m\)</span><span class="lb-val" id="a1-menge">2.5 kg</span></div>
-      <div class="lb-item"><span class="lb-lab">Preis \(p\)</span><span class="lb-val" id="a1-preis">3.20 CHF/kg</span></div>
-      <div class="lb-item"><span class="lb-lab">Kosten \(K\)</span><span class="lb-val" id="a1-kosten">8.00 CHF</span></div>
-      <div class="lb-item"><span class="lb-lab">Dreisatz</span><span class="lb-val" id="a1-drei">gilt</span></div>
+      <div class="lb-item"><span class="lb-lab">Menge \(m\)</span><span class="lb-val" id="a1-menge">4.0 km</span></div>
+      <div class="lb-item"><span class="lb-lab">Preis \(p\)</span><span class="lb-val" id="a1-preis">3.00 CHF/km</span></div>
+      <div class="lb-item"><span class="lb-lab">Kosten \(K\)</span><span class="lb-val" id="a1-kosten">12.00 CHF</span></div>
+      <div class="lb-item"><span class="lb-lab">Dreisatz (Fehler der Probe)</span><span class="lb-val" id="a1-drei">gilt</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -146,7 +146,7 @@ MathJax = {
       <div class="canvas-legend">
         <span class="cl-item"><span class="cl-line" style="background:#8a4a0e"></span>tatsächliche Kosten</span>
         <span class="cl-item"><span class="cl-dot" style="background:#8a4a0e"></span>eingestellte Menge</span>
-        <span class="cl-item"><span class="cl-dot" style="background:#1f6b3a"></span>Dreisatz sagt voraus</span>
+        <span class="cl-item"><span class="cl-dot" style="background:#1f6b3a"></span>Dreisatz sagt voraus (doppelte bzw. halbe Menge)</span>
         <span class="cl-item"><span class="cl-dot" style="background:#9b1c1c"></span>tatsächlich bei doppelter Menge</span>
       </div>
     </div>
@@ -998,7 +998,7 @@ const A1_SZEN = {
                pLab:'Tarif \\(p\\):', pEinheit:'CHF/km', pMin:2, pMax:5, pStep:0.1, pDef:3.0,
                achse:'s [km]', ansatz:'K = s · p + 6.00 CHF Grundgebühr' }
 };
-let a1Szen = 'lose';
+let a1Szen = 'taxi';   // Startszenario = erster Knopf
 // Kostenfunktion je Szenario
 function a1Kosten(x, p, szen){
   if(x <= 0) return 0;
@@ -1028,14 +1028,22 @@ function drawA1() {
   // So liegt der Prüfpunkt immer im Bild, statt die Achse zu sprengen.
   const faktor = (2*x <= z.xMax) ? 2 : 0.5;
   const xD = faktor*x, KVor = faktor*K, KEcht = a1Kosten(xD, p, a1Szen);
-  const gilt = Math.abs(KEcht - KVor) < 0.005;
+  const abw = KEcht - KVor;
+  // Das Urteil folgt aus dem SZENARIO, nicht aus einer einzelnen Stichprobe:
+  // bei Gebinde oder Grundgebühr ist die Beziehung grundsätzlich nicht
+  // proportional — auch wenn die Probe bei einzelnen Mengen zufällig aufgeht
+  // (bei Harassen z.B. genau bei 15 kg). Genau das ist die Lektion: eine
+  // gelungene Stichprobe beweist die Proportionalität nicht.
+  const gilt = (a1Szen === 'lose' || a1Szen === 'taxi');
+  const zufall = !gilt && Math.abs(abw) < 0.005;
 
   document.getElementById('a1-m-val').textContent = x.toFixed(1) + ' ' + z.xEinheit;
   document.getElementById('a1-p-val').textContent = p.toFixed(2) + ' ' + z.pEinheit;
   document.getElementById('a1-menge').textContent = x.toFixed(1) + ' ' + z.xEinheit;
   document.getElementById('a1-preis').textContent = p.toFixed(2) + ' ' + z.pEinheit;
   document.getElementById('a1-kosten').textContent = K.toFixed(2) + ' CHF';
-  document.getElementById('a1-drei').textContent = gilt ? 'gilt' : 'gilt nicht';
+  document.getElementById('a1-drei').textContent = gilt ? 'gilt'
+    : 'gilt nicht' + (Math.abs(abw) < 0.005 ? '' : ' (' + (abw>=0?'+':'−') + Math.abs(abw).toFixed(2) + ' CHF)');
   // Ansatz, dann Werte mit Einheiten (STYLEGUIDE §2.1, §2.7)
   document.getElementById('a1-eq-f').textContent = z.ansatz;
   let werte = 'K = ' + x.toFixed(1) + ' ' + z.xEinheit + ' · ' + p.toFixed(2) + ' ' + z.pEinheit;
@@ -1049,11 +1057,11 @@ function drawA1() {
 
   const cv = initCanvas('a1-cv', 300, false);
   const ctx = cv.ctx;
-  // x-Achse bis zum Reglermaximum; die Kostenachse folgt dem eingestellten Preis,
-  // damit die Kurve bei jedem Preis den Plot ausfüllt. Verglichen wird ohnehin
-  // die Form der Kurve, nicht ihr Absolutwert.
+  // x-Achse bis zum Reglermaximum.
   const xAchse = z.xMax*1.05;
-  const kAchse = a1Kosten(z.xMax, p, a1Szen)*1.12;
+  // FESTE Kostenachse (Obergrenze beim höchsten Tarif): nur so verändert der
+  // Preisregler sichtbar die Steigung, statt das Bild bloss neu zu skalieren.
+  const kAchse = a1Kosten(z.xMax, z.pMax, a1Szen)*1.08;
   const gr = drawGrid(ctx, cv.W, cv.H, -xAchse*0.03, xAchse, -kAchse*0.05, kAchse);
   drawAxesUnits(ctx, cv.W, cv.H, gr.cx, gr.cy, z.achse, 'K [CHF]');
 
@@ -1083,14 +1091,21 @@ function drawA1() {
   ctx.beginPath(); ctx.arc(gr.cx(xD), gr.cy(KVor), 8, 0, 2*Math.PI); ctx.stroke(); ctx.setLineDash([]);
   if(!gilt){
     drawDot(ctx, gr.cx, gr.cy, xD, KEcht, '#9b1c1c', 6);
-    ctx.strokeStyle='#9b1c1c'; ctx.lineWidth=2; ctx.setLineDash([3,3]);
-    ctx.beginPath(); ctx.moveTo(gr.cx(xD), gr.cy(KVor)); ctx.lineTo(gr.cx(xD), gr.cy(KEcht)); ctx.stroke();
-    ctx.setLineDash([]);
-    lbl(ctx, cv.W, 'Fehler ' + (KEcht-KVor>=0?'+':'−') + Math.abs(KEcht-KVor).toFixed(2) + ' CHF',
-        gr.cx(xD)+14, (gr.cy(KVor)+gr.cy(KEcht))/2 + 4, '#9b1c1c', 'left');
+    if(zufall){
+      lbl(ctx, cv.W, 'hier zufällig gleich — andere Menge probieren!',
+          gr.cx(xD), gr.cy(KEcht)+22, '#9b1c1c', 'center');
+    } else {
+      // Nur der Abstand wird gezeichnet; die Zahl steht in der Live-Box, sonst
+      // drängen sich bei kleinen Mengen drei Beschriftungen am Ursprung.
+      ctx.strokeStyle='#9b1c1c'; ctx.lineWidth=2; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(gr.cx(xD), gr.cy(KVor)); ctx.lineTo(gr.cx(xD), gr.cy(KEcht)); ctx.stroke();
+      ctx.setLineDash([]);
+    }
   }
-  lbl(ctx, cv.W, (faktor===2?'doppelte':'halbe')+' Menge — Dreisatz: ' + KVor.toFixed(2) + ' CHF',
-      gr.cx(xD)-12, gr.cy(KVor)-12, '#1f6b3a', 'right');
+  // Beschriftung der Probe über den Ring statt daneben — links davon steht der
+  // aktuelle Punkt, sonst überlagern sich die drei Labels.
+  lbl(ctx, cv.W, 'Dreisatz: ' + KVor.toFixed(2) + ' CHF',
+      gr.cx(xD), gr.cy(KVor)-18, '#1f6b3a', 'center');
   drawDot(ctx, gr.cx, gr.cy, x, K, '#8a4a0e', 6);
   // Beschriftung nach oben ausweichen, wenn der Punkt tief liegt (Tick-Zeile)
   lbl(ctx, cv.W, x.toFixed(1)+' '+z.xEinheit+' → '+K.toFixed(2)+' CHF',
