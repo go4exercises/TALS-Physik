@@ -136,15 +136,27 @@ alt a3…a8 entsprechen neu a2…a7.*
 - [x] [HOCH] a2 Hyperbel: konstantes Produkt als halbtransparentes Rechteck unter
   dem Kurvenpunkt. Beim neuen Standard-Beispiel Butterbrot ist die Rechteckfläche
   buchstäblich die Butter (10 cm³), beim Tempo die Strecke (120 km).
-- [ ] [HOCH] a6 Formel-Waage: Fehler-Demo «nur eine Seite ·t» → Waage kippt
-  sichtbar. Sonst ist die Waage Dekoration. Dazu [MITTEL] Schritthistorie
-  (alle bisherigen Gleichungszeilen) unter der Waage.
-- [ ] [MITTEL] a4 Bogenmass: Rastpunkt/Knopf «1 rad (57.3°)» + Radiuslänge als
-  gerades Vergleichssegment an den Bogen anlegen.
-- [ ] [MITTEL] a5 Zehnerpotenz-Leiter: Achse und Sliderbereich konsistent machen
-  (bei n = 9, m > 1 läuft der Punkt über das Achsenende hinaus).
+- [x] [HOCH] a6 Formel-Waage: komplett neu aufgebaut (27.07.2026). Jede Zeile
+  trägt jetzt die Äquivalenzumformung, die als Nächstes angesetzt wird; dazwischen
+  liegt ein eigener Zwischenschritt, in dem dasselbe violette Kärtchen auf beiden
+  Schalen liegt (Operation angesetzt, noch nicht zusammengefasst). Knopf
+  «⚠ nur eine Seite umformen» legt das Kärtchen nur rechts hin — die Waage kippt
+  um 7°, das Gleichheitszeichen wird zum «≠», Text und Historie werden rot.
+  Schritthistorie doppelt: als `.fl-eq`-Zeilen in der Formel-Box und als Kasten
+  unter der Waage, jede Zeile mit «‖ beide Seiten : (π · h)» rechts.
+- [x] [MITTEL] a4 Bogenmass: Knöpfe «genau 1 rad (57.3°)», «π/2 = 90°»,
+  «π = 180°», «2π = 360°» plus Vergleichsband unten (Bogen s über Radius r);
+  bei φ = 1 rad erscheint «s = r → φ = 1 rad» (27.07.2026).
+- [x] [MITTEL] a5 Zehnerpotenz-Leiter: Leiter auf zwei Zeilen (10⁻⁶…10² und
+  10²…10¹⁰), damit der Sliderbereich bis 9.9·10⁹ vollständig abgedeckt ist;
+  Vergleichsobjekte auf die passende Zeile verteilt (27.07.2026).
 - [x] [MITTEL] a1-ph: Steigungsdreieck an der Geraden, in beiden Szenarien.
-- [ ] [NIEDRIG] a3 Zylindertank: Volumen-Balken (wie p0-0 a3, Code dupliziert).
+- [x] [NIEDRIG] a3 Zylindertank: Volumen-Balken auf fester Skala 0…6300 L
+  ergänzt (27.07.2026).
+- [x] Stilcheck 27.07.2026: a3 und a4 haben jetzt eine symbolische Formelzeile
+  vor der Zahlengleichung, a3 setzt die Werte mit Einheiten ein
+  (`V = π · (0.50 m)² · 1.00 m`); «Fr.» durchgehend auf «CHF» vereinheitlicht;
+  in a5 der Punkt als Achsentrenner durch «—» ersetzt.
 
 ### p0-2 Vorwissen Physik
 - [x] [HOCH] a1 Dichte-Würfel + a6 Teilchenmodell: identische Fixes wie p0-0

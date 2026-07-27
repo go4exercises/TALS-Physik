@@ -258,7 +258,7 @@ MathJax = {
 <summary class="mc-kopf">✏️ Mini-Check</summary>
 <div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Welches Grössen-Paar ist <em>indirekt</em> proportional?</p><ul class="mc-optionen"><li data-opt="A">Fahrzeit und Tempo bei fester Strecke</li><li data-opt="B">Preis und Menge beim Einkaufen</li><li data-opt="C">Schweredruck und Tauchtiefe</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>A.</strong> Doppeltes Tempo → halbe Zeit (Produkt konstant). Bei B und C ist der Quotient konstant — direkte Proportionalität.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Bei direkter Proportionalität ist der <span class="mc-luecke"></span> zweier zusammengehörender Werte konstant, bei indirekter das Produkt.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Quotient — z.B. \(p_S / h = 9.81\;\text{kPa/m}\) beim Tauchen.</div></details></div>
-<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(3\;\text{kg}\) Äpfel kosten \(8.70\;\text{Fr.}\) Wie viel kosten \(5\;\text{kg}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Dreisatz über den konstanten Quotienten: \(8.70 / 3 = 2.90\;\text{Fr./kg}\), also \(5 \cdot 2.90 = 14.50\;\text{Fr.}\)</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(3\;\text{kg}\) Äpfel kosten \(8.70\;\text{CHF}\) Wie viel kosten \(5\;\text{kg}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Dreisatz über den konstanten Quotienten: \(8.70 / 3 = 2.90\;\text{CHF/kg}\), also \(5 \cdot 2.90 = 14.50\;\text{CHF}\)</div></details></div>
 <div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Pumpe füllt ein Schwimmbecken in \(12\;\text{h}\). Wie lange brauchen 3 gleiche Pumpen zusammen — und welche Proportionalität steckt dahinter?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Indirekte Proportionalität: Anzahl Pumpen \(\cdot\) Zeit ist konstant (\(1 \cdot 12 = 12\)). Also \(t = \dfrac{12}{3} = 4\;\text{h}\).</div></details></div>
 </details>
 
@@ -329,7 +329,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Aktuelle Rechnung</div>
-      <div class="fl-eq" id="a3-eq">V = π·0.50²·1.00 = 0.785 m³ = 785 L</div>
+      <div class="fl-eq" id="a3-eq-f">V = π · r² · h</div>
+      <div class="fl-eq" id="a3-eq">V = π · (0.50 m)² · 1.00 m = 0.785 m³ = 785 L</div>
     </div>
 
     <div class="live-box">
@@ -410,14 +411,25 @@ MathJax = {
       <label>Winkel \(\varphi\):</label>
       <input type="range" id="a4-phi" min="0" max="360" value="60" step="1">
       <span class="sl-val" id="a4-phi-val">60°</span>
-
       </div>
       <div class="sl-grp">
       <label>Radius \(r\):</label>
       <input type="range" id="a4-r" min="0.8" max="2" value="1" step="0.1">
       <span class="sl-val" id="a4-r-val">1.0 m</span>
-
       </div>
+    </div>
+
+    <div class="typ-btns">
+      <button class="typ-btn" data-a4phi="57.3">📐 genau 1 rad (57.3°)</button>
+      <button class="typ-btn" data-a4phi="90">π/2 = 90°</button>
+      <button class="typ-btn" data-a4phi="180">π = 180°</button>
+      <button class="typ-btn" data-a4phi="360">2π = 360°</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Aktuelle Rechnung</div>
+      <div class="fl-eq" id="a4-eq-f">s = r · φ</div>
+      <div class="fl-eq" id="a4-eq">s = 1.00 m · 1.047 rad = 1.05 m</div>
     </div>
 
     <div class="live-box">
@@ -535,7 +547,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">📏 Grössenordnungs-Leiter (logarithmisch)</div>
-      <canvas id="a5-cv" height="250" role="img" aria-label="Logarithmische Leiter der Längen von 10 hoch minus 6 bis 10 hoch 9 Meter mit Vergleichsobjekten: Haardurchmesser, Ameise, Mensch, Fussballfeld, Bern-Zürich, Erddurchmesser, Distanz Erde-Mond. Ein oranger Punkt markiert die eingestellte Zahl."></canvas>
+      <canvas id="a5-cv" height="340" role="img" aria-label="Logarithmische Leiter der Längen von 10 hoch minus 6 bis 10 hoch 9 Meter mit Vergleichsobjekten: Haardurchmesser, Ameise, Mensch, Fussballfeld, Bern-Zürich, Erddurchmesser, Distanz Erde-Mond. Ein oranger Punkt markiert die eingestellte Zahl."></canvas>
     </div>
 
   </div>
@@ -627,17 +639,18 @@ MathJax = {
 
     <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
       <button class="play-btn" id="a6-step">▶ nächster Schritt</button>
+      <button class="play-btn paused" id="a6-fehler" style="background:#b3261e;">⚠ nur eine Seite umformen</button>
       <button class="play-btn paused" id="a6-reset" style="background:var(--tinte-2);">↻ von vorne</button>
     </div>
 
     <div class="formel-live">
-      <div class="fl-label">Aktueller Stand der Gleichung</div>
-      <div class="fl-eq" id="a6-eq">v = s/t</div>
+      <div class="fl-label">Schritthistorie — jede Zeile mit ihrer Äquivalenzumformung</div>
+      <div id="a6-hist"><div class="fl-eq">v = s/t</div></div>
     </div>
 
     <div class="cv-wrap">
       <div class="cv-titel">⚖️ Die Gleichung als Waage</div>
-      <canvas id="a6-cv" height="230" role="img" aria-label="Eine Balkenwaage im Gleichgewicht. Auf der linken Schale steht die linke Seite der Gleichung, auf der rechten Schale die rechte Seite. Unter der Waage wird die aktuell angewendete Operation angezeigt, zum Beispiel: beide Seiten mal t."></canvas>
+      <canvas id="a6-cv" height="310" role="img" aria-label="Eine Balkenwaage. Auf der linken Schale steht die linke Seite der Gleichung, auf der rechten Schale die rechte Seite. Wird eine Äquivalenzumformung angesetzt, erscheint auf beiden Schalen dasselbe violette Kärtchen mit der Operation, und die Waage bleibt im Gleichgewicht. Im Fehlermodus erscheint das Kärtchen nur rechts, und die Waage kippt sichtbar. Unter der Waage steht die Schritthistorie aller bisherigen Gleichungszeilen mit der jeweils angesetzten Umformung."></canvas>
     </div>
 
   </div>
@@ -720,7 +733,7 @@ MathJax = {
 <div class="block block-aufg">
   <div class="block-titel">🟠 <span class="aufg-nr-tag">A2</span><span class="aufg-titel-text">Dreisatz — direkt und indirekt</span></div>
   <ol class="aufg-liste">
-    <li>\(4.5\;\text{kg}\) Kartoffeln kosten \(10.80\;\text{Fr.}\) Wie viel kosten \(7\;\text{kg}\)?</li>
+    <li>\(4.5\;\text{kg}\) Kartoffeln kosten \(10.80\;\text{CHF}\) Wie viel kosten \(7\;\text{kg}\)?</li>
     <li>Ein Heuvorrat reicht für 12 Pferde 30 Tage. Wie lange reicht er für 18 Pferde?</li>
   </ol>
   <button class="loesung-toggle" onclick="toggleL('l2')">▶ Lösung</button>
@@ -728,7 +741,7 @@ MathJax = {
     <div class="block block-bsp" style="margin:6px 0 0">
       <div class="block-titel">🟢 Lösung</div>
       <ol class="aufg-liste">
-        <li>Direkte Proportionalität — der Quotient Kosten durch Menge, also der Preis, ist konstant: \[ \frac{10.80}{4.5} = 2.40\;\text{Fr./kg} \qquad\Rightarrow\qquad 7 \cdot 2.40 = 16.80\;\text{Fr.} \]</li>
+        <li>Direkte Proportionalität — der Quotient Kosten durch Menge, also der Preis, ist konstant: \[ \frac{10.80}{4.5} = 2.40\;\text{CHF/kg} \qquad\Rightarrow\qquad 7 \cdot 2.40 = 16.80\;\text{CHF} \]</li>
         <li>Indirekte Proportionalität — das Produkt (Pferde \(\cdot\) Tage) ist konstant: \[ 12 \cdot 30 = 360 \qquad\Rightarrow\qquad t = \frac{360}{18} = 20\;\text{Tage} \]</li>
       </ol>
     </div>
@@ -1118,7 +1131,7 @@ function drawA3() {
   document.getElementById('a3-live-V').textContent = V.toFixed(3) + ' m³';
   document.getElementById('a3-live-L').textContent = Math.round(V * 1000) + ' L';
   document.getElementById('a3-eq').textContent =
-    'V = π·' + r.toFixed(2) + '²·' + h.toFixed(2) + ' = ' + V.toFixed(3) + ' m³ = ' + Math.round(V * 1000) + ' L';
+    'V = π · (' + r.toFixed(2) + ' m)² · ' + h.toFixed(2) + ' m = ' + V.toFixed(3) + ' m³ = ' + Math.round(V * 1000) + ' L';
 
   const cv = initCanvas('a3-cv', 300, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -1159,6 +1172,25 @@ function drawA3() {
   // Boden-Linie
   ctx.strokeStyle = '#c9b98a'; ctx.lineWidth = 3;
   ctx.beginPath(); ctx.moveTo(20, yBot + ry + 4); ctx.lineTo(W - 20, yBot + ry + 4); ctx.stroke();
+
+  // Volumen-Balken mit FESTER Literskala neben der Zeichnung (wie p0-0 a2):
+  // so wirkt sich jede Reglerbewegung sichtbar aus. Obergrenze = Reglermaximum
+  // r = 1 m, h = 2 m -> 6283 L.
+  const A3_VMAX = 6300;
+  const bx = W*0.80, byTop = H*0.10, byBot = H*0.86, bwB = Math.min(52, W*0.09);
+  const yL = v => byBot - Math.min(v, A3_VMAX)/A3_VMAX*(byBot-byTop);
+  ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='right';
+  for(let i2=0;i2<=4;i2++){
+    const v=A3_VMAX*i2/4, y=yL(v);
+    ctx.strokeStyle=i2===0?'#c2bdb4':'#e6e0d4'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(bx-6,y); ctx.lineTo(bx+bwB+6,y); ctx.stroke();
+    ctx.fillStyle='#5a5040'; ctx.fillText(Math.round(v)+'', bx-9, y+4);
+  }
+  ctx.strokeStyle='#c2bdb4'; ctx.lineWidth=1; ctx.strokeRect(bx, byTop, bwB, byBot-byTop);
+  ctx.fillStyle='#1a4f8a'; ctx.fillRect(bx, yL(V*1000), bwB, byBot-yL(V*1000));
+  ctx.fillStyle='#5a5040'; ctx.font='bold 11px "Source Sans 3",sans-serif'; ctx.textAlign='center';
+  ctx.fillText('V [L]', bx+bwB/2, byTop-8);
+  haloLabel(ctx, Math.round(V*1000)+' L', bx+bwB/2, Math.max(byTop+14, yL(V*1000)-6), '#1a4f8a', 'center');
 }
 ['a3-r','a3-h'].forEach(id => document.getElementById(id).addEventListener('input', drawA3));
 
@@ -1174,6 +1206,9 @@ function drawA4() {
   document.getElementById('a4-live-rad').textContent = phi.toFixed(3) + ' rad';
   document.getElementById('a4-live-s').textContent   = s.toFixed(2) + ' m';
   document.getElementById('a4-live-U').textContent   = U.toFixed(2) + ' m';
+  // Regel: Formel symbolisch, dann Werte mit Einheiten
+  document.getElementById('a4-eq').textContent =
+    's = ' + r.toFixed(2) + ' m · ' + phi.toFixed(3) + ' rad = ' + s.toFixed(2) + ' m';
 
   // Quadratisches Canvas wie Animation 5 in p4-1
   const el = document.getElementById('a4-cv'); el.style.width = '';
@@ -1181,9 +1216,10 @@ function drawA4() {
   const cv = initCanvas('a4-cv', Math.max(240, Math.min(340, Math.round(w))), false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
-  const cxC = W / 2, cyC = H / 2;
-  const S = Math.min(W, H);
-  const scale = (S / 2 - 40) / 2;    // 1:1 — r bis 2 m bleibt mit Rand im Bild
+  const BAND = 62;                   // unteres Vergleichsband r gegen s
+  const cxC = W / 2, cyC = (H - BAND) / 2;
+  const S = Math.min(W, H - BAND);
+  const scale = (S / 2 - 12) / 2;    // 1:1 — r bis 2 m bleibt mit Rand im Bild
   const R = r * scale;
 
   // dünne Achsenkreuz-Hilfslinien
@@ -1224,9 +1260,33 @@ function drawA4() {
   ctx.fillStyle = '#1c1a17';
   ctx.beginPath(); ctx.arc(cxC, cyC, 3.5, 0, 2 * Math.PI); ctx.fill();
   // Umfang-Hinweis oben links
-  haloLabel(ctx, 'U = 2π·r = ' + U.toFixed(2) + ' m', 10, 18, '#3d566b', 'left');
+  haloLabel(ctx, 'U = 2π · r = ' + U.toFixed(2) + ' m', 10, 18, '#3d566b', 'left');
+
+  // Radiuslänge als gerades Vergleichssegment an den Bogen anlegen: 1 rad ist
+  // genau der Winkel, bei dem der Bogen so lang ist wie der Radius. Ohne diesen
+  // direkten Längenvergleich bleibt das Bogenmass eine blosse Umrechnung.
+  const yS = H - 40, yR = H - 14;    // oben der Bogen, darunter der Radius
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 4; ctx.lineCap = 'butt';
+  const sPx = Math.min(R * phi, W - 120);
+  ctx.beginPath(); ctx.moveTo(14, yS); ctx.lineTo(14 + sPx, yS); ctx.stroke();
+  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(14, yR); ctx.lineTo(14 + R, yR); ctx.stroke();
+  ctx.lineWidth = 1;
+  haloLabel(ctx, 'Bogen s', 14 + sPx + 8, yS + 4, '#8a4a0e', 'left');
+  haloLabel(ctx, 'Radius r', 14 + R + 8, yR + 4, '#5b2d8e', 'left');
+  if (Math.abs(phi - 1) < 0.02) {
+    haloLabel(ctx, 's = r  →  φ = 1 rad', W - 10, yS - 16, '#1f6b3a', 'right');
+  }
 }
 ['a4-phi','a4-r'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+document.querySelectorAll('[data-a4phi]').forEach(b => b.addEventListener('click', () => {
+  document.getElementById('a4-phi').value = b.dataset.a4phi;
+  document.querySelectorAll('[data-a4phi]').forEach(x => x.classList.toggle('aktiv', x === b));
+  drawA4();
+}));
+document.getElementById('a4-phi').addEventListener('input', () => {
+  document.querySelectorAll('[data-a4phi]').forEach(x => x.classList.remove('aktiv'));
+});
 
 // ══════════════ ANIMATION 5 — Zehnerpotenz-Schieber ══════════════
 const A5MARKS = [
@@ -1269,134 +1329,295 @@ function drawA5() {
   document.getElementById('a5-live-eng').textContent = mantEngStr + '·10' + sup(engExp) + ' m';
   document.getElementById('a5-live-pre').textContent = mantEngStr + ' ' + prefixes[String(engExp)];
 
-  // ── Log-Leiter ──
-  const cv = initCanvas('a5-cv', 250, false);
+  // ── Log-Leiter auf ZWEI Zeilen ──
+  // Der Reglerbereich reicht bis 9.9·10⁹, also bis Exponent 9.996 — die alte
+  // einzeilige Achse endete bei 10⁹ und der Punkt lief rechts hinaus. Zwei
+  // Zeilen zu je acht Dekaden (−6 … 2 und 2 … 10) lösen beides: die Achse
+  // deckt den ganzen Bereich ab und bleibt auch schmal noch lesbar.
+  const cv = initCanvas('a5-cv', 340, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
-  const L = 42, Rm = 18, axisY = 158;
-  const X = e => L + (e + 6) / 15 * (W - L - Rm);
-  // Achse
-  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.moveTo(L - 8, axisY); ctx.lineTo(W - 6, axisY); ctx.stroke();
-  ctx.fillStyle = '#374151';
-  ctx.beginPath(); ctx.moveTo(W - 12, axisY - 4); ctx.lineTo(W - 4, axisY); ctx.lineTo(W - 12, axisY + 4); ctx.fill();
-  // Dekaden-Ticks, Beschriftung alle 3 Stufen
-  ctx.font = '13px JetBrains Mono,monospace';
-  for (let e = -6; e <= 9; e++) {
-    const big = (e % 3 === 0);
-    ctx.strokeStyle = big ? '#374151' : '#b8c4d4';
-    ctx.lineWidth = big ? 1.4 : 1;
-    ctx.beginPath(); ctx.moveTo(X(e), axisY - (big ? 7 : 4)); ctx.lineTo(X(e), axisY + (big ? 7 : 4)); ctx.stroke();
-    if (big) {
-      ctx.fillStyle = '#6b7280'; ctx.textAlign = 'center';
-      ctx.fillText('10' + sup(e), X(e), axisY + 22);
+  const L = 42, Rm = 18;
+  const ZEILEN = [{ von:-6, bis:2, y:132 }, { von:2, bis:10, y:296 }];
+  const XZ = (z, e) => L + (e - z.von) / (z.bis - z.von) * (W - L - Rm);
+  const expo = n + Math.log10(mInt / 10);
+  const zAktiv = expo < 2 ? 0 : 1;
+
+  ZEILEN.forEach((z, zi) => {
+    ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(L - 8, z.y); ctx.lineTo(W - 6, z.y); ctx.stroke();
+    ctx.fillStyle = '#374151';
+    ctx.beginPath(); ctx.moveTo(W - 12, z.y - 4); ctx.lineTo(W - 4, z.y); ctx.lineTo(W - 12, z.y + 4); ctx.fill();
+    ctx.font = '13px JetBrains Mono,monospace';
+    for (let e = z.von; e <= z.bis; e++) {
+      const big = (e % 3 === 0) || e === z.von || e === z.bis;
+      ctx.strokeStyle = big ? '#374151' : '#b8c4d4';
+      ctx.lineWidth = big ? 1.4 : 1;
+      ctx.beginPath(); ctx.moveTo(XZ(z, e), z.y - (big ? 7 : 4)); ctx.lineTo(XZ(z, e), z.y + (big ? 7 : 4)); ctx.stroke();
+      if (big) {
+        ctx.fillStyle = '#6b7280'; ctx.textAlign = 'center';
+        ctx.fillText('10' + sup(e), XZ(z, e), z.y + 22);
+      }
     }
-  }
-  // Achsen-Caption
-  ctx.fillStyle = '#374151'; ctx.textAlign = 'right';
-  ctx.font = 'bold 13px JetBrains Mono,monospace';
-  ctx.fillText('Länge [m] · jede Stufe = ×10', W - 6, H - 8);
-  // Vergleichsobjekte
+    // Übergang zwischen den Zeilen kenntlich machen
+    ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px "Source Sans 3",sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(zi === 0 ? 'klein  10⁻⁶ … 10²' : 'gross  10² … 10¹⁰', L - 8, z.y - 96);
+    if (zi === 0) { ctx.textAlign = 'right';
+      ctx.fillText('weiter unten →', W - 6, z.y + 38); }
+  });
+
+  // Vergleichsobjekte auf die passende Zeile
   for (const [name, val, row] of A5MARKS) {
-    const x = X(Math.log10(val));
-    const yLbl = row === 0 ? axisY - 78 : axisY - 44;
-    ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(x, axisY - 6); ctx.lineTo(x, yLbl + 8); ctx.stroke();
-    ctx.fillStyle = '#3d566b';
-    ctx.beginPath(); ctx.arc(x, yLbl + 8, 2.5, 0, 2 * Math.PI); ctx.fill();
-    const lx = Math.min(Math.max(x, 40), W - 46);
-    haloLabel(ctx, name, lx, yLbl, '#3d566b', 'center');
+    const le = Math.log10(val);
+    const zi = le < 2 ? 0 : 1, z = ZEILEN[zi];
+    const x = XZ(z, le);
+    const yLbl = row === 0 ? z.y - 74 : z.y - 42;
+    ctx.strokeStyle = '#c7ccd3'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, z.y - 7); ctx.lineTo(x, yLbl + 6); ctx.stroke();
+    ctx.fillStyle = '#9aa1ab'; ctx.beginPath(); ctx.arc(x, z.y, 3.5, 0, 6.283); ctx.fill();
+    ctx.fillStyle = '#6b7280'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+    const nw = ctx.measureText(name).width;
+    ctx.fillText(name, Math.max(nw/2 + 4, Math.min(W - nw/2 - 4, x)), yLbl);
   }
+
   // aktueller Wert
-  const xNow = X(n + Math.log10(m));
+  const zA = ZEILEN[zAktiv], mx = XZ(zA, expo);
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(mx, zA.y - 92); ctx.lineTo(mx, zA.y - 8); ctx.stroke();
+  ctx.setLineDash([]);
   ctx.fillStyle = '#8a4a0e';
-  ctx.beginPath(); ctx.arc(xNow, axisY, 7, 0, 2 * Math.PI); ctx.fill();
-  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
-  const lxNow = Math.min(Math.max(xNow, 70), W - 80);
-  haloLabel(ctx, mStr + '·10' + sup(n) + ' m', lxNow, axisY + 44, '#8a4a0e', 'center');
+  ctx.beginPath(); ctx.arc(mx, zA.y, 6.5, 0, 6.283); ctx.fill();
+  const lblTxt = mStr + '·10' + sup(n) + ' m';
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const lw = ctx.measureText(lblTxt).width;
+  const lx = Math.max(lw/2 + 6, Math.min(W - lw/2 - 6, mx));
+  ctx.fillStyle = '#fff'; ctx.fillRect(lx - lw/2 - 3, zA.y - 108, lw + 6, 17);
+  ctx.fillStyle = '#8a4a0e'; ctx.textAlign = 'center';
+  ctx.fillText(lblTxt, lx, zA.y - 95);
+
+  ctx.fillStyle = '#374151'; ctx.textAlign = 'right';
+  ctx.font = 'bold 12px JetBrains Mono,monospace';
+  ctx.fillText('Länge [m] — jede Stufe = ×10', W - 6, H - 6);
 }
 ['a5-m','a5-n'].forEach(id => document.getElementById(id).addEventListener('input', drawA5));
 
 // ══════════════ ANIMATION 6 — Formel-Waage ══════════════
+// Jede Zeile: Gleichungsstand (l = r) + die Äquivalenzumformung, die als Nächstes
+// angesetzt wird. op === 'tauschen' ist keine Rechenoperation, sondern nur ein
+// Seitentausch — dafür entfällt der Zwischenschritt mit den Kärtchen.
 const A6F = [
   { btn:'a6-f0', vars:['s','t'],
     steps:{
-      s: [ { l:'v',     r:'s/t', op:'Start — Ziel: s allein' },
-           { l:'v·t',   r:'s',   op:'beide Seiten · t' },
-           { l:'s',     r:'v·t', op:'Seiten tauschen — fertig: s = v·t' } ],
-      t: [ { l:'v',     r:'s/t', op:'Start — Ziel: t allein' },
-           { l:'v·t',   r:'s',   op:'beide Seiten · t' },
-           { l:'t',     r:'s/v', op:'beide Seiten : v — fertig: t = s/v' } ] } },
+      s: [ { l:'v',     r:'s/t',   op:'· t' },
+           { l:'v · t', r:'s',     op:'tauschen' },
+           { l:'s',     r:'v · t', op:null } ],
+      t: [ { l:'v',     r:'s/t',   op:'· t' },
+           { l:'v · t', r:'s',     op:': v' },
+           { l:'t',     r:'s/v',   op:null } ] } },
   { btn:'a6-f1', vars:['m','a'],
     steps:{
-      m: [ { l:'F',     r:'m·a', op:'Start — Ziel: m allein' },
-           { l:'F/a',   r:'m',   op:'beide Seiten : a' },
-           { l:'m',     r:'F/a', op:'Seiten tauschen — fertig: m = F/a' } ],
-      a: [ { l:'F',     r:'m·a', op:'Start — Ziel: a allein' },
-           { l:'F/m',   r:'a',   op:'beide Seiten : m' },
-           { l:'a',     r:'F/m', op:'Seiten tauschen — fertig: a = F/m' } ] } },
+      m: [ { l:'F',     r:'m · a', op:': a' },
+           { l:'F/a',   r:'m',     op:'tauschen' },
+           { l:'m',     r:'F/a',   op:null } ],
+      a: [ { l:'F',     r:'m · a', op:': m' },
+           { l:'F/m',   r:'a',     op:'tauschen' },
+           { l:'a',     r:'F/m',   op:null } ] } },
   { btn:'a6-f2', vars:['h','r'],
     steps:{
-      h: [ { l:'V',        r:'π·r²·h',      op:'Start — Ziel: h allein' },
-           { l:'V/(π·r²)', r:'h',           op:'beide Seiten : (π·r²)' },
-           { l:'h',        r:'V/(π·r²)',    op:'Seiten tauschen — fertig' } ],
-      r: [ { l:'V',        r:'π·r²·h',      op:'Start — Ziel: r allein' },
-           { l:'V/(π·h)',  r:'r²',          op:'beide Seiten : (π·h)' },
-           { l:'√(V/(π·h))', r:'r',         op:'auf beiden Seiten die Wurzel ziehen' },
-           { l:'r',        r:'√(V/(π·h))',  op:'Seiten tauschen — fertig' } ] } }
+      h: [ { l:'V',            r:'π · r² · h',    op:': (π · r²)' },
+           { l:'V/(π · r²)',   r:'h',             op:'tauschen' },
+           { l:'h',            r:'V/(π · r²)',    op:null } ],
+      r: [ { l:'V',            r:'π · r² · h',    op:': (π · h)' },
+           { l:'V/(π · h)',    r:'r²',            op:'√' },
+           { l:'√(V/(π · h))', r:'r',             op:'tauschen' },
+           { l:'r',            r:'√(V/(π · h))',  op:null } ] } }
 ];
-const a6St = { f: 0, v: 0, step: 0 };
+const a6St = { f: 0, v: 0, step: 0, fehler: false };
+
+// Aus den Zeilen die Zustandsfolge bauen: zu jeder Zeile zuerst der saubere
+// Stand, danach — falls eine Rechenoperation folgt — der Zwischenschritt, in
+// dem die Operation auf beiden Schalen liegt, aber noch nicht zusammengefasst ist.
+function a6Zustaende() {
+  const F = A6F[a6St.f];
+  const zeilen = F.steps[F.vars[a6St.v]];
+  const z = [];
+  zeilen.forEach((ln, i) => {
+    z.push({ art: 'stand', li: i, l: ln.l, r: ln.r, op: ln.op });
+    if (ln.op && ln.op !== 'tauschen') z.push({ art: 'ansatz', li: i, l: ln.l, r: ln.r, op: ln.op });
+  });
+  return { zeilen, z };
+}
+
+// Liefert [Langform, Kurzform, Farbe] — auf schmalen Leinwänden wird die Kurzform gezeichnet.
+function a6Text(zu) {
+  const ziel = A6F[a6St.f].vars[a6St.v];
+  if (zu.art === 'ansatz') {
+    return a6St.fehler
+      ? ['✗ nur rechts ' + zu.op + ' — die Waage kippt', '✗ nur rechts ' + zu.op, '#b3261e']
+      : ['beide Seiten ' + zu.op + ' — die Waage bleibt im Gleichgewicht', 'beide Seiten ' + zu.op, '#5b2d8e'];
+  }
+  if (!zu.op) return ['✓ ' + ziel + ' steht allein — fertig', '✓ fertig: ' + ziel + ' allein', '#1f6b3a'];
+  if (zu.op === 'tauschen') return ['Seiten tauschen — nur Schreibweise, kein Rechenschritt', 'Seiten tauschen', '#5b2d8e'];
+  if (zu.li === 0) return ['Ziel: ' + ziel + ' allein — als Nächstes beide Seiten ' + zu.op,
+                           'Ziel: ' + ziel + ' — nächste: ' + zu.op, '#5b2d8e'];
+  return ['als Nächstes beide Seiten ' + zu.op, 'als Nächstes ' + zu.op, '#5b2d8e'];
+}
+// Grösste Schriftgrösse, bei der alle Texte zusammen in maxW passen (sonst min).
+function a6Schrift(ctx, txts, maxW, gross, klein) {
+  for (let px = gross; px >= klein; px--) {
+    ctx.font = 'bold ' + px + 'px JetBrains Mono,monospace';
+    let b = 0; for (const t of txts) b += ctx.measureText(t).width;
+    if (b <= maxW) return px;
+  }
+  return klein;
+}
 
 function drawA6() {
-  const F = A6F[a6St.f];
-  const steps = F.steps[F.vars[a6St.v]];
-  const st = steps[a6St.step];
-  document.getElementById('a6-eq').textContent = st.l + ' = ' + st.r;
-  const last = a6St.step === steps.length - 1;
-  document.getElementById('a6-step').textContent = last ? '✓ Ziel erreicht' : '▶ nächster Schritt';
+  const { zeilen, z } = a6Zustaende();
+  if (a6St.step > z.length - 1) a6St.step = z.length - 1;
+  const zu = z[a6St.step];
+  const ansatz = zu.art === 'ansatz';
+  if (!ansatz) a6St.fehler = false;                  // Fehlermodus nur im Ansatz-Zustand
+  const letzte = a6St.step === z.length - 1;
 
-  const cv = initCanvas('a6-cv', 230, false);
+  // ── Schritthistorie in der Formel-Box ──────────────────────────────────
+  // Jede bereits abgeschlossene Zeile mit der Umformung, die auf sie angewendet
+  // wurde; die aktuelle Zeile hervorgehoben. «‖» trennt, nie «·» (Multiplikation).
+  const hist = [];
+  for (let i = 0; i <= zu.li; i++) {
+    const ln = zeilen[i];
+    const akt = i === zu.li;
+    const zeig = akt ? ansatz : true;                // Umformung erst zeigen, wenn angesetzt
+    let um = '';
+    if (zeig && ln.op && ln.op !== 'tauschen') {
+      const rot = akt && a6St.fehler;
+      um = '<span style="color:' + (rot ? '#b3261e' : '#5b2d8e') + ';">  ‖ ' +
+           (rot ? 'nur rechts ' : 'beide Seiten ') + ln.op + '</span>';
+    } else if (zeig && ln.op === 'tauschen' && !akt) {
+      um = '<span style="color:#6b7280;">  ‖ Seiten tauschen</span>';
+    }
+    hist.push('<div class="fl-eq"' + (akt ? '' : ' style="color:#6b7280;"') + '>' +
+              ln.l + ' = ' + ln.r + um + '</div>');
+  }
+  document.getElementById('a6-hist').innerHTML = hist.join('');
+
+  // ── Bedienknöpfe ──────────────────────────────────────────────────────
+  const bStep = document.getElementById('a6-step');
+  const bFehl = document.getElementById('a6-fehler');
+  bStep.textContent = a6St.fehler ? '↩ Fehler zurücknehmen'
+                    : letzte ? '✓ Ziel erreicht' : '▶ nächster Schritt';
+  bFehl.textContent = a6St.fehler ? '✓ wieder beide Seiten' : '⚠ nur eine Seite umformen';
+  bFehl.disabled = !ansatz;
+  bFehl.style.opacity = ansatz ? '1' : '0.35';
+  bFehl.title = ansatz ? 'Zeigt, was passiert, wenn die Operation nur auf einer Seite steht.'
+                       : 'Erst möglich, wenn eine Umformung angesetzt ist.';
+
+  // ── Waage ─────────────────────────────────────────────────────────────
+  // Höhe nach der Zeilenzahl der gewählten Umformung — die Historie-Box ist
+  // immer voll ausgelegt, damit die Leinwand beim Klicken nicht springt.
+  const cv = initCanvas('a6-cv', 250 + zeilen.length * 20, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
-  const beamY = 78;
+  const beamY = 74;
   const half = Math.min(160, W / 2 - 78);
-  const lx = W / 2 - half, rx = W / 2 + half;
+  const kipp = (ansatz && a6St.fehler) ? 7 * Math.PI / 180 : 0;   // rechts schwerer → rechts sinkt
+  const lx = W / 2 - half * Math.cos(kipp), ly = beamY - half * Math.sin(kipp);
+  const rx = W / 2 + half * Math.cos(kipp), ry = beamY + half * Math.sin(kipp);
   // Fundament + Ständer (Dreieck)
   ctx.fillStyle = '#d8d2c6';
   ctx.beginPath(); ctx.moveTo(W / 2, beamY + 2); ctx.lineTo(W / 2 - 26, beamY + 72); ctx.lineTo(W / 2 + 26, beamY + 72); ctx.closePath(); ctx.fill();
   ctx.strokeStyle = '#8a7f6a'; ctx.lineWidth = 1.4; ctx.stroke();
   ctx.strokeStyle = '#8a7f6a'; ctx.lineWidth = 3;
   ctx.beginPath(); ctx.moveTo(W / 2 - 60, beamY + 74); ctx.lineTo(W / 2 + 60, beamY + 74); ctx.stroke();
-  // Balken (immer im Gleichgewicht)
+  // Balken
   ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = 4;
-  ctx.beginPath(); ctx.moveTo(lx, beamY); ctx.lineTo(rx, beamY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(rx, ry); ctx.stroke();
   ctx.fillStyle = '#1c1a17';
   ctx.beginPath(); ctx.arc(W / 2, beamY, 5, 0, 2 * Math.PI); ctx.fill();
-  // Schnüre + Schalen
-  for (const px of [lx, rx]) {
+  // Schnüre + Schalen (hängen immer senkrecht)
+  const sw = Math.max(30, Math.min(52, half - 22));      // halbe Schalenbreite
+  for (const [px, py] of [[lx, ly], [rx, ry]]) {
     ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1.4;
-    ctx.beginPath(); ctx.moveTo(px, beamY); ctx.lineTo(px - 46, beamY + 34); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(px, beamY); ctx.lineTo(px + 46, beamY + 34); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px - sw + 6, py + 34); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px + sw - 6, py + 34); ctx.stroke();
     ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.moveTo(px - 52, beamY + 34); ctx.lineTo(px + 52, beamY + 34); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px - sw, py + 34); ctx.lineTo(px + sw, py + 34); ctx.stroke();
   }
-  // Gleichungsseiten auf den Schalen
-  ctx.font = 'bold 15px JetBrains Mono,monospace';
+  // Operations-Kärtchen auf den Schalen — dasselbe Gewicht auf beiden Seiten
+  function karte(px, py, txt, rot) {
+    ctx.font = 'bold 13px JetBrains Mono,monospace';
+    const bw = Math.max(34, ctx.measureText(txt).width + 16), bh = 22;
+    const x0 = px - bw / 2, y0 = py + 34 - bh;
+    ctx.fillStyle = rot ? '#fdecea' : '#f0e8fb';
+    ctx.strokeStyle = rot ? '#b3261e' : '#5b2d8e'; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.rect(x0, y0, bw, bh); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = rot ? '#b3261e' : '#5b2d8e';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(txt, px, y0 + bh / 2 + 1);
+    ctx.textBaseline = 'alphabetic';
+  }
+  if (ansatz) {
+    if (!a6St.fehler) karte(lx, ly, zu.op, false);
+    karte(rx, ry, zu.op, a6St.fehler);
+  }
+  // Gleichungsseiten unter den Schalen
   ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  const fs = a6Schrift(ctx, [zu.l, zu.r], 2 * half - 16, 15, 9);
+  ctx.font = 'bold ' + fs + 'px JetBrains Mono,monospace';
   ctx.fillStyle = '#1c1a17';
-  ctx.fillText(st.l, lx, beamY + 58);
-  ctx.fillText(st.r, rx, beamY + 58);
-  // Gleichheitszeichen in der Mitte
-  ctx.fillStyle = '#9aa1ab';
-  ctx.font = 'bold 16px JetBrains Mono,monospace';
-  ctx.fillText('=', W / 2, beamY + 58);
-  // Operation (violett) + Schrittzähler
-  ctx.fillStyle = '#5b2d8e';
+  const inRand = (x, t) => Math.min(Math.max(x, ctx.measureText(t).width / 2 + 6),
+                                    W - ctx.measureText(t).width / 2 - 6);
+  ctx.fillText(zu.l, inRand(lx, zu.l), ly + 58);
+  ctx.fillText(zu.r, inRand(rx, zu.r), ry + 58);
+  // Gleichheitszeichen über dem Drehpunkt — im Fehlerfall ein «≠»
+  ctx.fillStyle = (ansatz && a6St.fehler) ? '#b3261e' : '#9aa1ab';
+  ctx.font = 'bold 18px JetBrains Mono,monospace';
+  ctx.fillText((ansatz && a6St.fehler) ? '≠' : '=', W / 2, beamY - 14);
+  // Erklärtext (violett bzw. rot) — Langform nur, wenn sie ganz auf die Leinwand passt
+  const [lang, kurz, farbe] = a6Text(zu);
   ctx.font = 'bold 14px JetBrains Mono,monospace';
-  ctx.fillText(st.op, W / 2, H - 34);
+  const txt = ctx.measureText(lang).width <= W - 24 ? lang : kurz;
+  const fsE = a6Schrift(ctx, [txt], W - 24, 14, 10);
+  ctx.font = 'bold ' + fsE + 'px JetBrains Mono,monospace';
+  ctx.fillStyle = farbe;
+  ctx.fillText(txt, W / 2, beamY + 102);
+
+  // ── Schritthistorie unter der Waage ───────────────────────────────────
+  const y0 = beamY + 122;
+  const zeilenH = 20;
+  ctx.fillStyle = '#faf7f2'; ctx.strokeStyle = '#e2dcd0'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.rect(10, y0, W - 20, 26 + zeilen.length * zeilenH); ctx.fill(); ctx.stroke();
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#6b7280'; ctx.font = '12px JetBrains Mono,monospace';
+  ctx.fillText('Schritthistorie', 20, y0 + 17);
+  for (let i = 0; i <= zu.li; i++) {
+    const ln = zeilen[i], akt = i === zu.li;
+    const yy = y0 + 26 + i * zeilenH + 14;
+    ctx.textAlign = 'left';
+    ctx.fillStyle = akt ? '#1c1a17' : '#9aa1ab';
+    ctx.font = (akt ? 'bold ' : '') + '13px JetBrains Mono,monospace';
+    ctx.fillText(ln.l + ' = ' + ln.r, 20, yy);
+    const zeig = akt ? ansatz : true;
+    if (zeig && ln.op) {
+      const rot = akt && a6St.fehler;
+      const platz = W - 40 - ctx.measureText(ln.l + ' = ' + ln.r).width - 14;
+      ctx.font = '13px JetBrains Mono,monospace';
+      const varianten = ln.op === 'tauschen'
+        ? ['‖ Seiten tauschen', '‖ tauschen']
+        : ['‖ ' + (rot ? 'nur rechts ' : 'beide Seiten ') + ln.op, '‖ ' + ln.op];
+      const s = ctx.measureText(varianten[0]).width <= platz ? varianten[0] : varianten[1];
+      if (ctx.measureText(s).width <= platz) {
+        ctx.textAlign = 'right';
+        ctx.fillStyle = rot ? '#b3261e' : (akt ? '#5b2d8e' : '#b9aec0');
+        ctx.fillText(s, W - 20, yy);
+      }
+    }
+  }
+  ctx.textAlign = 'center';
   ctx.fillStyle = '#6b7280';
   ctx.font = '13px JetBrains Mono,monospace';
-  ctx.fillText('Schritt ' + (a6St.step + 1) + ' / ' + steps.length, W / 2, H - 12);
+  ctx.fillText('Schritt ' + (a6St.step + 1) + ' / ' + z.length, W / 2, H - 10);
 }
 function a6SetButtons() {
   ['a6-f0','a6-f1','a6-f2'].forEach((id, i) => {
@@ -1410,22 +1631,26 @@ function a6SetButtons() {
 }
 ['a6-f0','a6-f1','a6-f2'].forEach((id, i) => {
   document.getElementById(id).addEventListener('click', () => {
-    a6St.f = i; a6St.v = 0; a6St.step = 0;
+    a6St.f = i; a6St.v = 0; a6St.step = 0; a6St.fehler = false;
     a6SetButtons(); drawA6();
   });
 });
 [['a6-t0', 0], ['a6-t1', 1]].forEach(([id, i]) => {
   document.getElementById(id).addEventListener('click', () => {
-    a6St.v = i; a6St.step = 0;
+    a6St.v = i; a6St.step = 0; a6St.fehler = false;
     a6SetButtons(); drawA6();
   });
 });
 document.getElementById('a6-step').addEventListener('click', () => {
-  const steps = A6F[a6St.f].steps[A6F[a6St.f].vars[a6St.v]];
-  if (a6St.step < steps.length - 1) { a6St.step++; drawA6(); }
+  if (a6St.fehler) { a6St.fehler = false; drawA6(); return; }   // erst Fehler zurücknehmen
+  const n = a6Zustaende().z.length;
+  if (a6St.step < n - 1) { a6St.step++; drawA6(); }
+});
+document.getElementById('a6-fehler').addEventListener('click', () => {
+  a6St.fehler = !a6St.fehler; drawA6();
 });
 document.getElementById('a6-reset').addEventListener('click', () => {
-  a6St.step = 0; drawA6();
+  a6St.step = 0; a6St.fehler = false; drawA6();
 });
 
 // ══════════════ INIT + RESIZE ══════════════
