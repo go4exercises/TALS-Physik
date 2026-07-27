@@ -102,6 +102,26 @@ Im JS-Code von Themenseiten als globale `const` gleich am Anfang der `<script>`-
 
 ---
 
+### 2.6b Preis und Kosten sauber trennen (verbindlich, Stichwort «Stilcheck»)
+
+Zwei Grössen, die der Alltag beide «Preis» nennt, im Lehrmittel aber nie:
+
+| Grösse | Bedeutung | Einheit |
+|---|---|---|
+| **Preis** \(p\) | Kosten **pro Einheit** | \(\text{CHF/kg}\), \(\text{CHF/km}\), \(\text{CHF/L}\) |
+| **Kosten** \(K\) | der **Gesamtbetrag** | \(\text{CHF}\) |
+
+\[ K = m \cdot p \]
+
+**«Preis» erscheint nie mit der Einheit CHF.** Wo ein Franken-Betrag steht, heisst
+die Grösse *Kosten* — in Fliesstext, Achsenbeschriftungen, Live-Boxen und
+Lösungswegen gleichermassen. Falsch also: «doppelte Menge → doppelter Preis»,
+Achsenlabel `Preis [CHF]`, «Preis der Zielmenge: 12.50 CHF».
+
+*Nicht betroffen:* die übertragene Redewendung («Was ist der Preis? Der längere
+Weg») — dort steht kein Geldbetrag dahinter.
+Referenz: `themen/p0-0-vorwissen-kompakt.html`, Animation 1.
+
 ### 2.7 Einsetzen mit Einheiten (verbindlich, Stichwort «Stilcheck»)
 
 In **jeder** Rechnung — Lösungswege, Mini-Check-Antworten und **Live-Anzeigen
