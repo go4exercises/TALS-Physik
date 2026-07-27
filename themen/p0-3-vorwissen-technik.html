@@ -258,7 +258,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
     <div class="widget-titelzeile">
-  <h3>Animation 3 · Quadratmeter-Raster — warum 1 m² = 10 000 cm²</h3>
+  <h3>Animation 3 · Von der Länge über die Fläche zum Volumen</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -288,16 +288,29 @@ MathJax = {
       </div>
     </div>
 
+    <div class="typ-btns">
+      <button class="typ-btn" data-a3="laenge">📏 Länge</button>
+      <button class="typ-btn" data-a3="flaeche">🟧 Fläche</button>
+      <button class="typ-btn" data-a3="volumen">🧊 Volumen</button>
+      <button class="typ-btn aktiv" data-a3="alle">🔗 alle drei verknüpft</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Die Umrechnungslogik</div>
+      <div class="fl-eq" id="a3-eq-f">Teilung pro Seite n → Länge n¹, Fläche n², Volumen n³</div>
+      <div class="fl-eq" id="a3-eq">n = 10: 10 Strecken, 10² = 100 Quadrate, 10³ = 1000 Würfel</div>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Seitenlänge Teilstück</span><span class="lb-val" id="a3-seite">10 cm</span></div>
-      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">Fläche Teilstück</span><span class="lb-val" id="a3-flaeche">100 cm²</span></div>
+      <div class="lb-item"><span class="lb-lab">Teilstrecken (Länge)</span><span class="lb-val" id="a3-str">10</span></div>
       <div class="lb-item"><span class="lb-lab">Teilquadrate (Fläche)</span><span class="lb-val" id="a3-anz">100</span></div>
       <div class="lb-item"><span class="lb-lab">Teilwürfel (Volumen)</span><span class="lb-val" id="a3-wuerfel">1000</span></div>
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">🟧 1 m² unter der Lupe</div>
-      <canvas id="a3-cv" height="320" role="img" aria-label="Ein Quadrat mit Seitenlänge 1 Meter, das je nach Sliderstellung in immer mehr gleich grosse Teilquadrate unterteilt wird. Ein Teilquadrat ist orange hervorgehoben, Massstabspfeile zeigen die Seitenlänge von 1 Meter gleich 100 Zentimetern."></canvas>
+      <div class="cv-titel" id="a3-titel">🔗 Länge, Fläche und Volumen nebeneinander</div>
+      <canvas id="a3-cv" height="360" role="img" aria-label="Ein Quadrat mit Seitenlänge 1 Meter, das je nach Sliderstellung in immer mehr gleich grosse Teilquadrate unterteilt wird. Ein Teilquadrat ist orange hervorgehoben, Massstabspfeile zeigen die Seitenlänge von 1 Meter gleich 100 Zentimetern."></canvas>
     </div>
 
   </div>
@@ -954,10 +967,90 @@ function drawA2() {
 }
 document.getElementById('a2-v').addEventListener('input', drawA2);
 
-// ══════════════ ANIMATION 3 — Quadratmeter-Raster ══════════════
-// Teilungen pro Seite aus fester Liste; Werte python3-verifiziert:
-// n=10 → 10 cm, 100 Flächen à 100 cm², 1000 Würfel; n=100 → 1 cm, 10000 à 1 cm².
+// ══════════════ ANIMATION 3 — Länge, Fläche, Volumen ══════════════
+// Kern: Teilt man die SEITE in n Stücke, entstehen n Strecken, n² Quadrate und
+// n³ Würfel. Der Exponent ist die Dimension — daraus folgt die ganze
+// Umrechnungslogik: 1 m = 100 cm, 1 m² = 100² cm² = 10 000 cm²,
+// 1 m³ = 100³ cm³ = 1 000 000 cm³. (python3-verifiziert)
 const A3N = [1, 2, 4, 5, 10, 20, 25, 50, 100];
+let a3Modus = 'alle';
+// Isometrische Projektion für den Würfel
+function a3Iso(ox, oy, x, y, z, s){ return [ox + (x - z) * 0.866 * s, oy - y * s + (x + z) * 0.5 * s]; }
+
+// ── Einzelbilder ──────────────────────────────────────────────────────────
+function a3Laenge(ctx, x0, y0, L, n, seite, kompakt){
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 2.4;
+  ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x0 + L, y0); ctx.stroke();
+  ctx.strokeStyle = n >= 50 ? '#dfe3e8' : '#9aa1ab'; ctx.lineWidth = 1;
+  for (let k = 0; k <= n; k++){
+    const x = x0 + k / n * L;
+    ctx.beginPath(); ctx.moveTo(x, y0 - 9); ctx.lineTo(x, y0 + 9); ctx.stroke();
+  }
+  // erstes Teilstück hervorheben
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 5;
+  ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x0 + L / n, y0); ctx.stroke();
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  if(!kompakt) ctx.fillText(fmtVal(seite) + ' cm', x0, y0 - 16);
+  ctx.fillStyle = '#374151'; ctx.font = '12px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('1 m', x0 + L / 2, y0 + 26);
+  return n;
+}
+function a3Flaeche(ctx, x0, y0, S, n, seite, kompakt){
+  const cell = S / n;
+  ctx.fillStyle = 'rgba(138,74,14,0.35)'; ctx.fillRect(x0, y0, cell, cell);
+  ctx.strokeStyle = n >= 50 ? '#dfe3e8' : '#9aa1ab'; ctx.lineWidth = 1;
+  for (let k = 1; k < n; k++){
+    ctx.beginPath(); ctx.moveTo(x0 + k * cell, y0); ctx.lineTo(x0 + k * cell, y0 + S); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x0, y0 + k * cell); ctx.lineTo(x0 + S, y0 + k * cell); ctx.stroke();
+  }
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 2; ctx.strokeRect(x0, y0, S, S);
+  ctx.fillStyle = '#374151'; ctx.font = '12px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('1 m', x0 + S / 2, y0 + S + 20);
+  if(!kompakt){
+    ctx.save(); ctx.translate(x0 - 14, y0 + S / 2); ctx.rotate(-Math.PI/2);
+    ctx.fillText('1 m', 0, 0); ctx.restore();
+  }
+  return n * n;
+}
+function a3Volumen(ctx, ox, oy, sK, n, seite, kompakt){
+  // Sichtbare Flächen des Einheitswürfels, jede in n × n unterteilt
+  const P = (x,y,z) => a3Iso(ox, oy, x, y, z, sK);
+  const flaechen = [
+    { e:[[1,0,0],[1,0,1],[1,1,1],[1,1,0]], u:(a,b)=>[1,b,a], ton:'#c2b69f' },   // rechts
+    { e:[[0,0,1],[1,0,1],[1,1,1],[0,1,1]], u:(a,b)=>[a,b,1], ton:'#a89a80' },   // vorne
+    { e:[[0,1,0],[1,1,0],[1,1,1],[0,1,1]], u:(a,b)=>[a,1,b], ton:'#dcd3c0' }    // oben
+  ];
+  flaechen.forEach(f => {
+    ctx.beginPath();
+    f.e.forEach((pt,k)=>{ const [X,Y]=P(...pt); if(k===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); });
+    ctx.closePath(); ctx.fillStyle = f.ton; ctx.fill();
+    ctx.strokeStyle = '#6b6256'; ctx.lineWidth = 1.4; ctx.stroke();
+    // Raster auf der Fläche
+    ctx.strokeStyle = n >= 50 ? 'rgba(0,0,0,0.10)' : 'rgba(0,0,0,0.22)'; ctx.lineWidth = 1;
+    for (let k = 1; k < n; k++){
+      const t = k / n;
+      let [x1,y1] = P(...f.u(t,0)), [x2,y2] = P(...f.u(t,1));
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+      [x1,y1] = P(...f.u(0,t)); [x2,y2] = P(...f.u(1,t));
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    }
+  });
+  // Ein Teilwürfel an der vorderen Ecke, damit n³ nicht bloss eine Zahl bleibt
+  const e = 1 / n;
+  [[[1-e,0,1],[1,0,1],[1,e,1],[1-e,e,1]], [[1,0,1-e],[1,0,1],[1,e,1],[1,e,1-e]],
+   [[1-e,e,1-e],[1,e,1-e],[1,e,1],[1-e,e,1]]].forEach(f => {
+    ctx.beginPath();
+    f.forEach((pt,k)=>{ const [X,Y]=P(...pt); if(k===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); });
+    ctx.closePath(); ctx.fillStyle = 'rgba(138,74,14,0.75)'; ctx.fill();
+    ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.2; ctx.stroke();
+  });
+  // In der Einzelansicht steht die Kantenangabe schon in der Bilanzzeile darunter
+  if(kompakt){
+    ctx.fillStyle = '#374151'; ctx.font = '12px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+    ctx.fillText('1 m Kante', ox, oy + sK + 26);
+  }
+  return n * n * n;
+}
 
 function drawA3() {
   const idx = +document.getElementById('a3-i').value;
@@ -965,58 +1058,90 @@ function drawA3() {
   const seite = 100 / n;               // cm
   document.getElementById('a3-i-val').textContent = n + ' × ' + n;
   document.getElementById('a3-seite').textContent = fmtVal(seite) + ' cm';
-  document.getElementById('a3-flaeche').textContent = fmtVal(seite * seite) + ' cm²';
+  document.getElementById('a3-str').textContent = fmtVal(n);
   document.getElementById('a3-anz').textContent = fmtVal(n * n);
   document.getElementById('a3-wuerfel').textContent = fmtVal(n * n * n);
+  document.getElementById('a3-eq-f').textContent = 'Teilung pro Seite n → Länge n¹, Fläche n², Volumen n³';
+  document.getElementById('a3-eq').textContent =
+    'n = ' + n + ': ' + fmtVal(n) + ' Strecken, ' + n + '² = ' + fmtVal(n*n) + ' Quadrate, '
+    + n + '³ = ' + fmtVal(n*n*n) + ' Würfel';
+  const titel = { laenge:'📏 1 m in Teilstrecken', flaeche:'🟧 1 m² in Teilquadrate',
+                  volumen:'🧊 1 m³ in Teilwürfel', alle:'🔗 Länge, Fläche und Volumen nebeneinander' };
+  document.getElementById('a3-titel').textContent = titel[a3Modus];
 
-  const cv = initCanvas('a3-cv', 320, false);
+  const cv = initCanvas('a3-cv', 360, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
-  const S = Math.min(W - 140, H - 80);
-  const x0 = (W - S) / 2, y0 = 34;
-
-  // Teilquadrat oben links hervorheben
-  const cell = S / n;
-  ctx.fillStyle = 'rgba(138,74,14,0.35)';
-  ctx.fillRect(x0, y0, cell, cell);
-
-  // Gitter (bei feiner Teilung hellere Linien)
-  ctx.strokeStyle = n >= 50 ? '#dfe3e8' : '#9aa1ab';
-  ctx.lineWidth = 1;
-  for (let i = 1; i < n; i++) {
-    const p = i / n * S;
-    ctx.beginPath(); ctx.moveTo(x0 + p, y0); ctx.lineTo(x0 + p, y0 + S); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(x0, y0 + p); ctx.lineTo(x0 + S, y0 + p); ctx.stroke();
-  }
-  // Aussenrahmen
-  ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = 2;
-  ctx.strokeRect(x0, y0, S, S);
-
-  // Massstab: unten und links «1 m = 100 cm»
-  ctx.font = 'bold 13px JetBrains Mono,monospace';
-  drawArrow(ctx, x0, y0 + S + 18, x0 + S, y0 + S + 18, '#374151', 1.4, 8);
-  drawArrow(ctx, x0 + S, y0 + S + 18, x0, y0 + S + 18, '#374151', 1.4, 8);
-  ctx.fillStyle = '#fff';
-  const mTxt = '1 m = 100 cm';
-  const mW = ctx.measureText(mTxt).width;
-  ctx.fillRect(x0 + S / 2 - mW / 2 - 4, y0 + S + 9, mW + 8, 17);
-  ctx.fillStyle = '#374151'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(mTxt, x0 + S / 2, y0 + S + 18);
-
-  // Label des hervorgehobenen Teilquadrats (mit Leader nach links oben)
   ctx.textBaseline = 'alphabetic';
-  const cTxt = fmtVal(seite) + ' cm × ' + fmtVal(seite) + ' cm';
-  ctx.font = '12px JetBrains Mono,monospace';
-  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(x0 + cell / 2, y0 + cell / 2); ctx.lineTo(x0 - 8, 18); ctx.stroke();
-  ctx.fillStyle = '#8a4a0e'; ctx.textAlign = 'left';
-  ctx.fillText(cTxt, Math.max(4, x0 - 60), 14);
 
-  // Gesamtbilanz rechts unten
-  ctx.fillStyle = '#6b7280'; ctx.textAlign = 'right';
-  ctx.fillText(n + ' × ' + n + ' = ' + fmtVal(n * n) + ' Teilquadrate', W - 8, H - 8);
+  if (a3Modus === 'alle') {
+    // Drei Bilder nebeneinander mit derselben Teilung — der Exponent wird zur
+    // Dimension, und genau daraus folgt die Umrechnung.
+    const eng = W < 620;
+    const pw = W / 3, S = Math.min(pw - 40, 118), sK = Math.min((pw - 40) / 1.732, 62);
+    const yMitte = eng ? 130 : 150;
+    a3Laenge(ctx, pw*0.5 - S/2, yMitte, S, n, seite, true);
+    a3Flaeche(ctx, pw*1.5 - S/2, yMitte - S/2, S, n, seite, true);
+    a3Volumen(ctx, pw*2.5, yMitte + sK*0.6, sK, n, seite, true);
+    const werte = [
+      { t:'Länge',  z:fmtVal(n),       f:'n¹', col:'#8a4a0e', u:'1 m = 100 cm' },
+      { t:'Fläche', z:fmtVal(n*n),     f:'n²', col:'#1a4f8a', u:'1 m² = 10 000 cm²' },
+      { t:'Volumen',z:fmtVal(n*n*n),   f:'n³', col:'#1f6b3a', u:'1 m³ = 1 000 000 cm³' }
+    ];
+    werte.forEach((w,k)=>{
+      const cx = pw*(k+0.5);
+      ctx.textAlign = 'center';
+      ctx.fillStyle = w.col; ctx.font = 'bold 13px "Source Sans 3",sans-serif';
+      ctx.fillText(w.t, cx, 24);
+      ctx.font = 'bold ' + (eng ? '13px' : '15px') + ' JetBrains Mono,monospace';
+      ctx.fillText(w.z + (eng ? '' : ' Stück'), cx, H - 62);
+      ctx.font = 'bold 13px JetBrains Mono,monospace';
+      ctx.fillText('= ' + w.f, cx, H - 44);
+      // Die Umrechnungszeile passt nur bei breiter Ansicht nebeneinander
+      if(!eng){ ctx.fillStyle = '#5a5040'; ctx.font = '11px JetBrains Mono,monospace';
+                ctx.fillText(w.u, cx, H - 22); }
+    });
+    // Trennlinien
+    ctx.strokeStyle = '#e6e0d4'; ctx.lineWidth = 1;
+    for (const k of [1,2]) { ctx.beginPath(); ctx.moveTo(pw*k, 14); ctx.lineTo(pw*k, H - 76); ctx.stroke(); }
+    ctx.fillStyle = '#374151'; ctx.font = 'bold 12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(eng ? 'Exponent = Dimension'
+                     : 'bei jeder Dimension steckt dieselbe Teilung n — nur der Exponent wächst mit',
+                 W/2, eng ? H - 14 : H - 6);
+    return;
+  }
+
+  // ── Einzelansichten ──
+  const S = Math.min(W - 180, H - 110);
+  if (a3Modus === 'laenge') {
+    const L = Math.min(W - 120, 620);
+    a3Laenge(ctx, (W - L)/2, H*0.45, L, n, seite, false);
+    ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 14px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+    ctx.fillText(fmtVal(n) + ' Teilstrecken à ' + fmtVal(seite) + ' cm', W/2, H*0.72);
+    ctx.fillStyle = '#5a5040'; ctx.font = '13px "Source Sans 3",sans-serif';
+    ctx.fillText('Eine Länge hat eine Richtung — der Faktor geht einfach ein: n¹', W/2, H*0.82);
+  } else if (a3Modus === 'flaeche') {
+    a3Flaeche(ctx, (W - S)/2, 30, S, n, seite, false);
+    ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 14px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+    ctx.fillText(n + ' × ' + n + ' = ' + fmtVal(n*n) + ' Teilquadrate à ' + fmtVal(seite*seite) + ' cm²', W/2, H - 34);
+    ctx.fillStyle = '#5a5040'; ctx.font = '13px "Source Sans 3",sans-serif';
+    ctx.fillText('Eine Fläche hat zwei Richtungen — der Faktor geht zweimal ein: n²', W/2, H - 12);
+  } else {
+    const sK = Math.min((W - 160) / 1.9, (H - 130) / 2.2);
+    a3Volumen(ctx, W/2, H*0.46, sK, n, seite, false);
+    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 14px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+    ctx.fillText(n + ' × ' + n + ' × ' + n + ' = ' + fmtVal(n*n*n) + ' Teilwürfel à '
+                 + fmtVal(seite*seite*seite) + ' cm³', W/2, H - 34);
+    ctx.fillStyle = '#5a5040'; ctx.font = '13px "Source Sans 3",sans-serif';
+    ctx.fillText('Ein Volumen hat drei Richtungen — der Faktor geht dreimal ein: n³', W/2, H - 12);
+  }
 }
 document.getElementById('a3-i').addEventListener('input', drawA3);
+document.querySelectorAll('[data-a3]').forEach(b => b.addEventListener('click', () => {
+  a3Modus = b.dataset.a3;
+  document.querySelectorAll('[data-a3]').forEach(x => x.classList.toggle('aktiv', x === b));
+  drawA3();
+}));
 
 // ══════════════ ANIMATION 4 — Temperaturverlauf mit Ablesepunkt ══════════════
 // T(t) = 14 + 8·sin(2π(t−11)/24): Minimum 6 °C um 05:00, Maximum 22 °C um 17:00.

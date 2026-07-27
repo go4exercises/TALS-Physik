@@ -72,9 +72,10 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   der direkt folgende Missverständnis-Block lehrt «Temperatur ist nur der
   Mittelwert». Feste Geschwindigkeitsstreuung (Faktor ≈0.5–1.6) einbauen.
   *Erledigt 26.07.2026: Faktoren 0.52 … 1.60, Mittelwert exakt 1.*
-- [ ] **[HOCH] p0-3 a1 (Präfix-Leiter):** Im Zeit-Modus erscheinen die Sprossen
+- [x] **[HOCH] p0-3 a1 (Präfix-Leiter):** Im Zeit-Modus erscheinen die Sprossen
   «hs», «ks», «Ms» — widerspricht dem eigenen Lehrtext («oberhalb der Sekunde
   nicht dezimal»). Obere Sprossen ausblenden oder durch min/h ersetzen.
+  *Erledigt 27.07.2026: durchgestrichen ausgewiesen, min und h ergänzt.*
 - [ ] **[HOCH] p6-2 a4 (Parallelschaltung):** Der rechte Rahmen ist topologisch
   ein Kurzschluss-Zweig ohne Strompunkte. Leitung beim zweiten Zweig enden lassen.
 - [ ] **[MITTEL] p6-2 a6:** Zonengrenzen sind vereinfachte Eigenformeln, aber mit
@@ -162,10 +163,16 @@ alt a3…a8 entsprechen neu a2…a7.*
   Play und Reset, aufsummierende Arbeit gegen die E_pot-Marke.
 
 ### p0-3 Vorwissen Technik
-- [ ] [HOCH] a1 Präfix-Leiter: Zeit-Modus fixen (siehe Block B).
+- [x] [HOCH] a1 Präfix-Leiter: Zeit-Modus gefixt — hs, ks, Ms ausgegraut und
+  durchgestrichen, dafür min (60 s) und h (3600 s) an ihren echten Positionen;
+  Live-Box zeigt beide mit Umrechnung im Label.
 - [ ] [HOCH] a2 Tempo-Umrechner: formel-live-Zeile mit der Division durch 3.6.
-- [ ] [HOCH] a3 Quadratmeter-Raster: den n³-Wert visuell einlösen (Mini-Würfel
-  oder Textzeile unter dem Canvas) — aktuell 2D-Bild mit unbelegter 3D-Zahl.
+- [x] [HOCH] a3: der n³-Wert ist eingelöst — die Animation zeigt jetzt vier
+  Modi: Länge, Fläche und Volumen einzeln, dann alle drei verknüpft. Der
+  Volumen-Modus zeichnet den Würfel isometrisch mit unterteilten Sichtflächen
+  und einem hervorgehobenen Teilwürfel. Die verknüpfte Ansicht stellt n¹, n²
+  und n³ nebeneinander und macht damit sichtbar, dass der Exponent die Dimension
+  ist — daraus folgt 1 m = 100 cm, 1 m² = 10 000 cm², 1 m³ = 1 000 000 cm³.
 - [ ] [MITTEL] a4 Temperaturverlauf: Umschalter «Tangente | Sekante» mit zweitem
   ziehbarem Punkt (deckt Aufgabe A4.3 ab, bereitet Kinematik vor).
 - [ ] [MITTEL] a5 Tauchgang: Differenz-Panel (Δp gespreizt) unter dem Hauptplot.
