@@ -131,10 +131,11 @@ alt a3…a8 entsprechen neu a2…a7.*
   den beiden Kurven, mit Betrag und Prozentwert (bei 40 m: +0.063 bar, +1.28 %).
 
 ### p0-1 Vorwissen Mathematik
-- [ ] [HOCH] a1-sz Tauchszene: lastende Wassersäule über dem Taucher einfärben —
-  der Mechanismus «mehr Wasser über dir → mehr Druck» ist sonst unsichtbar.
-- [ ] [HOCH] a2 Hyperbel: konstantes Produkt als halbtransparentes Rechteck unter
-  dem Kurvenpunkt («Fläche = v·t = 120 km») — zeigt, warum die Kurve so fällt.
+- [x] [HOCH] a1-sz Tauchszene: lastende Wassersäule über dem Taucher eingefärbt
+  und beschriftet (26.07.2026, beim Umbau von a1 auf zwei Szenarien).
+- [x] [HOCH] a2 Hyperbel: konstantes Produkt als halbtransparentes Rechteck unter
+  dem Kurvenpunkt. Beim neuen Standard-Beispiel Butterbrot ist die Rechteckfläche
+  buchstäblich die Butter (10 cm³), beim Tempo die Strecke (120 km).
 - [ ] [HOCH] a6 Formel-Waage: Fehler-Demo «nur eine Seite ·t» → Waage kippt
   sichtbar. Sonst ist die Waage Dekoration. Dazu [MITTEL] Schritthistorie
   (alle bisherigen Gleichungszeilen) unter der Waage.
@@ -142,7 +143,7 @@ alt a3…a8 entsprechen neu a2…a7.*
   gerades Vergleichssegment an den Bogen anlegen.
 - [ ] [MITTEL] a5 Zehnerpotenz-Leiter: Achse und Sliderbereich konsistent machen
   (bei n = 9, m > 1 läuft der Punkt über das Achsenende hinaus).
-- [ ] [MITTEL] a1-ph: Steigungsdreieck (1 m / 9.81 kPa) an der Geraden.
+- [x] [MITTEL] a1-ph: Steigungsdreieck an der Geraden, in beiden Szenarien.
 - [ ] [NIEDRIG] a3 Zylindertank: Volumen-Balken (wie p0-0 a3, Code dupliziert).
 
 ### p0-2 Vorwissen Physik
@@ -166,17 +167,21 @@ alt a3…a8 entsprechen neu a2…a7.*
 - [x] [HOCH] a1 Präfix-Leiter: Zeit-Modus gefixt — hs, ks, Ms ausgegraut und
   durchgestrichen, dafür min (60 s) und h (3600 s) an ihren echten Positionen;
   Live-Box zeigt beide mit Umrechnung im Label.
-- [ ] [HOCH] a2 Tempo-Umrechner: formel-live-Zeile mit der Division durch 3.6.
+- [x] [HOCH] a2 Tempo-Umrechner: formel-live mit beiden Umrechnungsrichtungen,
+  Ansatz und Werten samt Einheiten; Umrechnungsfaktor zusätzlich in der Live-Box.
 - [x] [HOCH] a3: der n³-Wert ist eingelöst — die Animation zeigt jetzt vier
   Modi: Länge, Fläche und Volumen einzeln, dann alle drei verknüpft. Der
   Volumen-Modus zeichnet den Würfel isometrisch mit unterteilten Sichtflächen
   und einem hervorgehobenen Teilwürfel. Die verknüpfte Ansicht stellt n¹, n²
   und n³ nebeneinander und macht damit sichtbar, dass der Exponent die Dimension
   ist — daraus folgt 1 m = 100 cm, 1 m² = 10 000 cm², 1 m³ = 1 000 000 cm³.
-- [ ] [MITTEL] a4 Temperaturverlauf: Umschalter «Tangente | Sekante» mit zweitem
-  ziehbarem Punkt (deckt Aufgabe A4.3 ab, bereitet Kinematik vor).
-- [ ] [MITTEL] a5 Tauchgang: Differenz-Panel (Δp gespreizt) unter dem Hauptplot.
-- [ ] [MITTEL] a1: Hinweis «Skala logarithmisch — gleicher Abstand = Faktor 10».
+- [x] [MITTEL] a4 Temperaturverlauf: Umschalter «Tangente | Sekante»; im
+  Sekanten-Modus ein zweiter Punkt per Regler, mit Steigungsdreieck (Δt, ΔT) und
+  mittlerer Rate in der Live-Box.
+- [x] [MITTEL] a5 Tauchgang: Differenz-Panel unter dem Hauptplot — Δp gespreizt
+  von −0.013 bar an der Oberfläche auf +0.063 bar (+1.28 %) bei 40 m.
+- [x] [MITTEL] a1: Hinweis «Skala logarithmisch — gleicher Abstand bedeutet
+  Faktor 10» oben links im Canvas.
 
 ### p0-4 Vorwissen Logik
 - [ ] [HOCH] a1 Feder: y-Achse fest (0–85 cm), inaktive Feder-Gerade grau stehen
