@@ -560,8 +560,18 @@ MathJax = {
       </div>
     </div>
 
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a5f="0">✓ richtig rechnen</button>
+      <button class="typ-btn" data-a5f="1">✗ Fehler einbauen</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Verwendeter Ansatz</div>
+      <div class="fl-eq" id="a5-formel">t = d / (vA + vB)   (richtig)</div>
+    </div>
+
     <div class="live-box">
-      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">Treffzeit \(t = d/(v_A+v_B)\)</span><span class="lb-val" id="a5-t">15 s</span></div>
+      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">Treffzeit \(t\)</span><span class="lb-val" id="a5-t">15 s</span></div>
       <div class="lb-item"><span class="lb-lab">von links: \(v_A \cdot t\)</span><span class="lb-val" id="a5-links">180.0 m</span></div>
       <div class="lb-item"><span class="lb-lab">von rechts: \(d - v_B \cdot t\)</span><span class="lb-val" id="a5-rechts">180.0 m</span></div>
       <div class="lb-item"><span class="lb-lab">Gegenrechnung</span><span class="lb-val" id="a5-check">✓ stimmt überein</span></div>
@@ -569,7 +579,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">📈 Orte \(x_A(t)\) und \(x_B(t)\) — der Schnittpunkt ist der Treffpunkt</div>
-      <canvas id="a5-cv" height="280"></canvas>
+      <canvas id="a5-cv" height="360"></canvas>
       <div class="canvas-legend">
         <span class="cl-item"><span class="cl-line" style="background:#8a4a0e"></span>Velo A: \(x_A = v_A \cdot t\)</span>
         <span class="cl-item"><span class="cl-line" style="background:#1a4f8a"></span>Velo B: \(x_B = d - v_B \cdot t\)</span>
@@ -830,10 +840,22 @@ function drawA1() {
   document.getElementById('a1-x').textContent = xcm.toFixed(1) + ' cm';
 
   const mMax = 2;
-  const yTop = mMax * g / D * 100 * 1.05;   // 82.4 (D=25) bzw. 41.2 (D=50)
+  // FESTE y-Achse: sonst passt sie sich der Federkonstante an und beide Federn
+  // sehen gleich steil aus — genau der Unterschied ist aber die Lektion.
+  const yTop = 85;                          // cm; Maximum 2 kg an D = 25 N/m -> 78.5 cm
   const cv = initCanvas('a1-cv', 280, false);
   const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.08, mMax * 1.05, -yTop * 0.05, yTop);
   drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 'm [kg]', 'x [cm]');
+
+  // Die jeweils andere Feder bleibt grau stehen — der Vergleich braucht kein Merken
+  const Dandere = D === 25 ? 50 : 25;
+  cv.ctx.strokeStyle = '#c2bdb4'; cv.ctx.lineWidth = 2; cv.ctx.setLineDash([6, 4]);
+  cv.ctx.beginPath();
+  cv.ctx.moveTo(gr.cx(0), gr.cy(0));
+  cv.ctx.lineTo(gr.cx(mMax), gr.cy(mMax * g / Dandere * 100));
+  cv.ctx.stroke(); cv.ctx.setLineDash([]);
+  lbl(cv.ctx, cv.W, 'D = ' + Dandere + ' N/m', gr.cx(mMax) - 8,
+      gr.cy(mMax * g / Dandere * 100) - 8, '#8f8a80', 'right');
 
   // Gerade x(m) = m·g/D·100
   cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
@@ -860,6 +882,9 @@ function drawA1() {
 document.getElementById('a1-m').addEventListener('input', drawA1);
 
 // ══════════════ ANIMATION 2 — Was ist konstant? ══════════════
+// FESTE s-Achse 0 … 600 m in beiden Modi (Maximum 10 m/s · 60 s = 600 m):
+// nur so kippt die Gerade beim Verstellen der Konstante sichtbar.
+const A2_SMAX = 600;
 let a2Mode = 'v';
 
 function a2SetMode(mode) {
@@ -880,6 +905,18 @@ function drawA2() {
   document.getElementById('a2-ls').textContent = fmt(s) + ' m';
   document.getElementById('a2-const').textContent =
     a2Mode === 'v' ? 'v = ' + v + ' m/s' : 't = ' + t + ' s';
+  // Welcher Regler gerade die Konstante ist, muss man sehen — sonst verstellt
+  // man die Variable und wundert sich, dass die Gerade kippt.
+  const grpV = document.getElementById('a2-v').closest('.sl-grp');
+  const grpT = document.getElementById('a2-t').closest('.sl-grp');
+  [[grpV, a2Mode === 'v'], [grpT, a2Mode !== 'v']].forEach(([el, konst]) => {
+    if(!el) return;
+    el.style.outline = konst ? '2px solid var(--bernstein)' : '';
+    el.style.borderRadius = '7px';
+    el.style.background = konst ? 'var(--bernstein-hell)' : '';
+    const lab = el.querySelector('label');
+    if(lab) lab.textContent = lab.textContent.replace(/ \(konstant\)$/, '') + (konst ? ' (konstant)' : '');
+  });
   document.getElementById('a2-eq').textContent = 's = v·t = ' + v + '·' + t + ' = ' + fmt(s) + ' m';
   document.getElementById('a2-cvt').textContent =
     a2Mode === 'v' ? '📈 s(t) bei konstantem v — die Zeit t ist die Variable'
@@ -889,7 +926,7 @@ function drawA2() {
   if (a2Mode === 'v') {
     // x-Achse: t in [0, 60], Gerade s = v·t
     const tMax = 60;
-    const sTop = v * tMax * 1.05;
+    const sTop = A2_SMAX;                   // fest: sonst sieht jede Konstante gleich aus
     const gr = drawGrid(cv.ctx, cv.W, cv.H, -2, tMax * 1.05, -sTop * 0.05, sTop);
     drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [s]', 's [m]');
     cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
@@ -902,7 +939,7 @@ function drawA2() {
   } else {
     // x-Achse: v in [0, 10], Gerade s = t·v
     const vMax = 10;
-    const sTop = vMax * t * 1.05;
+    const sTop = A2_SMAX;                   // dieselbe feste Achse wie im t-Modus
     const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.4, vMax * 1.05, -sTop * 0.05, sTop);
     drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 'v [m/s]', 's [m]');
     cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
@@ -933,6 +970,15 @@ function drawA3() {
   const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.2, mMax * 1.05, -0.75, A3_EK * mMax * 1.05);
   drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 'm [kg]', 'K [CHF]');
 
+  // Zwischenschritt des Dreisatzes sichtbar machen: «auf 1 zurück» ist der
+  // eigentliche Kniff, blieb aber bisher nur eine Zeile in der Rechnung.
+  cv.ctx.strokeStyle = '#5b2d8e'; cv.ctx.lineWidth = 1.6; cv.ctx.setLineDash([4, 3]);
+  cv.ctx.beginPath();
+  cv.ctx.moveTo(gr.cx(1), gr.cy(0)); cv.ctx.lineTo(gr.cx(1), gr.cy(A3_EK));
+  cv.ctx.lineTo(gr.cx(0), gr.cy(A3_EK)); cv.ctx.stroke(); cv.ctx.setLineDash([]);
+  drawDot(cv.ctx, gr.cx, gr.cy, 1, A3_EK, '#5b2d8e', 6);
+  lbl(cv.ctx, cv.W, 'auf 1 zurück: 1 kg → 2.50 CHF', gr.cx(1) + 10, gr.cy(A3_EK) - 10, '#5b2d8e', 'left');
+
   // Ursprungsgerade
   cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
   cv.ctx.beginPath();
@@ -954,6 +1000,11 @@ function drawA3() {
 document.getElementById('a3-m').addEventListener('input', drawA3);
 
 // ══════════════ ANIMATION 4 — Einholproblem ══════════════
+// FESTE Achsen. Reglerbereiche: vA und vB je 2 … 8 m/s, d 20 … 100 m.
+// s_max = 100 m + 8 m/s · 120 s = 1060 m; t bis 120 s. Damit wandert der
+// Einholpunkt bei kleiner Geschwindigkeitsdifferenz sichtbar nach rechts aus
+// dem Bild, statt optisch stehen zu bleiben.
+const A4_TMAX = 120, A4_SMAX = 1060;
 // t* = d/(vA-vB) nur für vA > vB. Beispiel d=40, vA=5, vB=3: t*=20 s, s*=100 m
 // (Python-verifiziert).
 function drawA4() {
@@ -982,7 +1033,10 @@ function drawA4() {
     document.getElementById('a4-s').textContent = '—';
   }
 
-  const sMax = Math.max(vA * tEnd, d + vB * tEnd) * 1.05;
+  // FESTE Achsen: sonst skaliert das Bild mit t* mit und der Einholzeitpunkt
+  // bleibt optisch stehen, obwohl er bei kleiner Differenz explodiert.
+  tEnd = A4_TMAX;
+  const sMax = A4_SMAX;
   const cv = initCanvas('a4-cv', 280, false);
   const gr = drawGrid(cv.ctx, cv.W, cv.H, -tEnd * 0.03, tEnd * 1.05, -sMax * 0.05, sMax);
   drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [s]', 's [m]');
@@ -1019,6 +1073,7 @@ function drawA4() {
 ['a4-va','a4-vb','a4-d'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
 
 // ══════════════ ANIMATION 5 — Gegenrechnung Treffpunkt ══════════════
+let a5Fehler = false;
 // t = d/(vA+vB); von links vA·t, von rechts d − vB·t — immer identisch.
 // Beispiel d=300, vA=12, vB=8: t=15 s, x=180 m (Python-verifiziert).
 function drawA5() {
@@ -1029,19 +1084,59 @@ function drawA5() {
   document.getElementById('a5-va-val').textContent = vA + ' m/s';
   document.getElementById('a5-vb-val').textContent = vB + ' m/s';
 
-  const t = d / (vA + vB);
+  // Mit eingebautem Fehler rechnet die Animation absichtlich t = d/vA statt
+  // d/(vA+vB) — nur so kann die Gegenrechnung überhaupt fehlschlagen, und erst
+  // dann zeigt sich, wozu man sie macht.
+  const t = a5Fehler ? d / vA : d / (vA + vB);
   const xLinks = vA * t;
   const xRechts = d - vB * t;
   document.getElementById('a5-t').textContent = fmt(t) + ' s';
   document.getElementById('a5-links').textContent = xLinks.toFixed(1) + ' m';
   document.getElementById('a5-rechts').textContent = xRechts.toFixed(1) + ' m';
+  const stimmt = Math.abs(xLinks - xRechts) < 1e-6;
   document.getElementById('a5-check').textContent =
-    Math.abs(xLinks - xRechts) < 1e-6 ? '✓ stimmt überein' : '✗ Fehler!';
+    stimmt ? '✓ stimmt überein' : '✗ Fehler — Differenz ' + Math.abs(xLinks - xRechts).toFixed(1) + ' m';
+  document.getElementById('a5-formel').textContent =
+    a5Fehler ? 't = d / vA   (falsch)' : 't = d / (vA + vB)   (richtig)';
 
   const tEnd = t * 1.3;
-  const cv = initCanvas('a5-cv', 280, false);
-  const gr = drawGrid(cv.ctx, cv.W, cv.H, -tEnd * 0.03, tEnd * 1.05, -d * 0.05, d * 1.05);
-  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [s]', 'x [m]');
+  const cv = initCanvas('a5-cv', 360, false);
+  // ── Strassenleiste: a4 zeigt schon einen s-t-Graphen, a5 sähe sonst fast
+  //    gleich aus. Die 1D-Strasse macht das Aufeinander-Zufahren anschaulich.
+  {
+    const ctxS = cv.ctx, W = cv.W;
+    const yS = 34, xL = 40, xR = W - 40;
+    ctxS.fillStyle = '#e7e3da'; ctxS.fillRect(xL, yS - 12, xR - xL, 24);
+    ctxS.strokeStyle = '#b8ae99'; ctxS.lineWidth = 1; ctxS.strokeRect(xL, yS - 12, xR - xL, 24);
+    ctxS.strokeStyle = '#fff'; ctxS.lineWidth = 2; ctxS.setLineDash([10, 8]);
+    ctxS.beginPath(); ctxS.moveTo(xL, yS); ctxS.lineTo(xR, yS); ctxS.stroke(); ctxS.setLineDash([]);
+    // Bei eingebautem Fehler kann der «Treffpunkt» ausserhalb der Strecke liegen —
+    // deshalb klammern, sonst zeichnet die Marke ins Nichts.
+    const xOf = p => xL + Math.max(0, Math.min(1, p / d)) * (xR - xL);
+    ctxS.strokeStyle = stimmt ? '#1f6b3a' : '#9b1c1c'; ctxS.lineWidth = 2;
+    ctxS.beginPath(); ctxS.moveTo(xOf(xLinks), yS - 16); ctxS.lineTo(xOf(xLinks), yS + 16); ctxS.stroke();
+    // Velos
+    [[xOf(0), '#8a4a0e', 'A →'], [xOf(d), '#1a4f8a', '← B']].forEach(([x, col, lab]) => {
+      ctxS.fillStyle = col; ctxS.beginPath(); ctxS.arc(x, yS, 7, 0, 6.283); ctxS.fill();
+      ctxS.fillStyle = col; ctxS.font = 'bold 12px "JetBrains Mono",monospace';
+      ctxS.textAlign = x < W / 2 ? 'left' : 'right';
+      ctxS.fillText(lab, x + (x < W / 2 ? 12 : -12), yS - 18);
+    });
+    ctxS.fillStyle = '#5a5040'; ctxS.font = '12px "JetBrains Mono",monospace'; ctxS.textAlign = 'center';
+    ctxS.fillText('0 m', xL, yS + 30);
+    ctxS.fillText(d + ' m', xR, yS + 30);
+    // Eigene Zeile, damit die Angabe nicht auf «0 m» oder «d m» fällt
+    ctxS.fillStyle = stimmt ? '#1f6b3a' : '#9b1c1c'; ctxS.font = 'bold 12px "JetBrains Mono",monospace';
+    const tTxt = stimmt ? 'Treffpunkt ' + xLinks.toFixed(0) + ' m'
+                        : 'A wäre bei ' + xLinks.toFixed(0) + ' m, B bei ' + xRechts.toFixed(0) + ' m';
+    const tw = ctxS.measureText(tTxt).width;
+    ctxS.fillText(tTxt, Math.max(tw/2 + 4, Math.min(W - tw/2 - 4, xOf(xLinks))), yS + 46);
+  }
+  // Das Diagramm beginnt unter der Strassenleiste — drawGrid kennt keinen
+  // Versatz, darum die Verschiebung per Transform.
+  cv.ctx.save(); cv.ctx.translate(0, 92);
+  const gr = drawGrid(cv.ctx, cv.W, cv.H - 92, -tEnd * 0.03, tEnd * 1.05, -d * 0.05, d * 1.05);
+  drawAxesUnits(cv.ctx, cv.W, cv.H - 92, gr.cx, gr.cy, 't [s]', 'x [m]');
 
   // Velo A von links (Bernstein)
   cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
@@ -1067,8 +1162,14 @@ function drawA5() {
   drawDot(cv.ctx, gr.cx, gr.cy, t, xLinks, '#9b1c1c', 6);
   lbl(cv.ctx, cv.W, 'Treffpunkt: ' + xLinks.toFixed(1) + ' m nach ' + fmt(t) + ' s',
       gr.cx(t) + 10, gr.cy(xLinks) - 12, '#9b1c1c', 'left');
+  cv.ctx.restore();
 }
 ['a5-d','a5-va','a5-vb'].forEach(id => document.getElementById(id).addEventListener('input', drawA5));
+document.querySelectorAll('[data-a5f]').forEach(b => b.addEventListener('click', () => {
+  a5Fehler = b.dataset.a5f === '1';
+  document.querySelectorAll('[data-a5f]').forEach(x => x.classList.toggle('aktiv', x === b));
+  drawA5();
+}));
 
 // ══════════════ INIT + RESIZE ══════════════
 function renderAll() {

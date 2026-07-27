@@ -187,19 +187,26 @@ alt a3…a8 entsprechen neu a2…a7.*
   Faktor 10» oben links im Canvas.
 
 ### p0-4 Vorwissen Logik
-- [ ] [HOCH] a1 Feder: y-Achse fest (0–85 cm), inaktive Feder-Gerade grau stehen
-  lassen — erst dann ändert der Federwechsel sichtbar die Steigung.
-- [ ] [HOCH] a2 s = v·t: feste s-Achse 0–600 m in beiden Modi — die Gerade kippt
-  beim Verstellen der Konstante; genau dieser Unterschied ist die Lektion.
-- [ ] [HOCH] a4 Einholproblem: Zeitachse fixieren (0–120 s) — t* «explodiert»
-  dann sichtbar nach rechts, statt optisch stehen zu bleiben.
-- [ ] [HOCH] a5 Gegenrechnung: «Fehler einbauen»-Knopf (z.B. t = d/vA) — der
-  ✓-Check kann derzeit nie fehlschlagen, der Prüf-Nutzen ist unerlebbar.
-- [ ] [MITTEL] a5 visuell von a4 absetzen (1D-Strassenleiste mit Velos statt
-  zweitem fast identischem s-t-Graphen).
-- [ ] [MITTEL] a3 Dreisatz: Marker bei (1 kg, 2.50 CHF) «auf 1 zurück»; optional
-  Toggle «mit Mengenrabatt» (Grenze des Dreisatzes explorierbar).
-- [ ] [MITTEL] a2: aktiven «Konstante»-Slider visuell markieren.
+*Alle Punkte umgesetzt am 27.07.2026.*
+- [x] [HOCH] a1 Feder: y-Achse fest auf 0 … 85 cm (Maximum 2 kg an D = 25 N/m
+  ergibt 78.5 cm); die jeweils andere Feder bleibt als graue Gerade stehen.
+  Erst damit ändert der Federwechsel sichtbar die Steigung (39.2 gegen 78.5 cm).
+- [x] [HOCH] a2 s = v·t: feste s-Achse 0 … 600 m in beiden Modi (Maximum
+  10 m/s · 60 s). Die Gerade kippt jetzt beim Verstellen der Konstante sichtbar.
+- [x] [HOCH] a4 Einholproblem: Achsen fest auf 0 … 120 s und 0 … 1060 m
+  (100 m + 8 m/s · 120 s). Bei kleiner Geschwindigkeitsdifferenz wandert t*
+  sichtbar nach rechts aus dem Bild, statt optisch stehen zu bleiben.
+- [x] [HOCH] a5 Gegenrechnung: Umschalter «richtig rechnen | Fehler einbauen».
+  Im Fehlermodus rechnet die Animation t = d/vA statt d/(vA+vB); die
+  Gegenrechnung schlägt dann fehl und beziffert die Differenz (bei 300 m,
+  12 und 8 m/s: A wäre bei 300 m, B bei 100 m). Der verwendete Ansatz steht in
+  einer formel-live.
+- [x] [MITTEL] a5 visuell von a4 abgesetzt: 1D-Strassenleiste mit beiden Velos,
+  Startpunkten und Treffpunktmarke über dem Diagramm.
+- [x] [MITTEL] a3 Dreisatz: Marker bei (1 kg, 2.50 CHF) mit Beschriftung
+  «auf 1 zurück» — der Zwischenschritt war bisher nur eine Zeile in der Rechnung.
+- [x] [MITTEL] a2: der Regler, der gerade die Konstante hält, ist hervorgehoben
+  (Rahmen, Hintergrund und Zusatz «(konstant)» am Label).
 
 ### p4-1 Kinematik
 - [ ] [HOCH] a1: t-Regler ergänzen, Fläche unter v(t) nur bis t einfärben,
