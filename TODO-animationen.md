@@ -319,7 +319,8 @@ alt a3…a8 entsprechen neu a2…a7.*
   (Anzeige sinkt beim Eintauchen um F_A) — Transfer «Stein unter Wasser».
 
 ### p5-1 Temperatur
-*Alle Punkte umgesetzt am 26.07.2026.*
+*Alle Punkte umgesetzt am 26.07.2026; a3 (Render-Check) und der Stilcheck für
+a3/a4 nachgetragen am 27.07.2026.*
 - [x] [HOCH] ein-cv Brown: Knopf «Wasserteilchen anzeigen» (Default aus) —
   erst das rätselhafte Zittern, dann die Ursache; sonst ist die Pointe verschenkt.
 - [x] [HOCH] a1 Gasteilchen: Geschwindigkeitsstreuung (Block B); [MITTEL] ein

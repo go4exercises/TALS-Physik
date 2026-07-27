@@ -144,6 +144,21 @@ Referenz: `themen/p5-2-waerme.html`, Animationen 1, 2, 3 und 6.
 übersprungen werden — dann trägt das Ergebnis die Einheit. Nie weggelassen wird
 sie beim **Einsetzen** und beim **Resultat**.
 
+**Sonderfall Skalen- und Einheitenumrechnung.** Wo die Einheit nicht mitgeführt
+werden *kann*, weil die Gleichung Zahlenwerte zweier Skalen verknüpft, wird die
+Einheit in eckigen Klammern an die Grösse geschrieben statt an die Zahl:
+
+- `T [K] = ϑ [°C] + 273.15` → `T [K] = 20.00 + 273.15 = 293.15` ✓
+- `T = ϑ + 273.15 = 20.00 + 273.15 = 293.15 K` ✗ (Zahlen ohne Skala)
+- `T = 20.00 °C + 273.15 K` ✗ (addiert zwei verschiedene Einheiten)
+
+Damit sieht die Leserin an jeder Zahl, in welcher Skala sie steht, ohne dass die
+Gleichung dimensionell falsch wird. Gleiches Muster bei km/h ↔ m/s.
+Referenzen: `themen/p5-1-temperatur.html` a3, `themen/p0-3-vorwissen-technik.html` a2.
+
+Echte **Differenzen** sind davon nicht betroffen — dort wird ganz normal mit
+Einheit eingesetzt: `Δϑ = ϑ₂ − ϑ₁ = 95 °C − 12 °C = 83 °C` (p5-1 a4).
+
 ### 2.8 Brüche als Brüche (verbindlich, Stichwort «Stilcheck»)
 
 Ein Bruch in einer Formelzeile wird als **echte LaTeX-Bruchdarstellung**
