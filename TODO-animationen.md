@@ -25,7 +25,7 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   Punkt) wird unsichtbar. Fix: feste Achsen oder feste Referenzkurve.
   Betroffen: p0-4 a1 (Feder), p0-4 a2 (s = v·t), p0-4 a4 (Einholproblem),
   p4-5 a1-cv-ph (p(h) je Dichte), ~~p5-2 a1 (Wärmebedarf-Balken)~~ ✓, p6-1 a3
-  (Schall-Balken), p6-2 a1 (U-I-Kennlinie), ~~p0-0 a6~~ ✓ / p0-2 a1 (Dichte-Balken).
+  (Schall-Balken), p6-2 a1 (U-I-Kennlinie), ~~p0-0 a6 / p0-2 a1~~ ✓ (Dichte-Balken).
 - [ ] **[HOCH] Q2 — Überhöhungsfaktoren nicht am Reglermaximum kalibriert (Sättigung).**
   ~~p5-3 a1 (Faktor 4000 → ≈260), p5-3 a2 (120 → ≈4.5), p5-3 a4 (120 → ≈46)~~ ✓:
   Die Grafik klemmt über weite Bereiche am Anschlag, Materialwechsel und
@@ -145,16 +145,21 @@ alt a3…a8 entsprechen neu a2…a7.*
 - [ ] [NIEDRIG] a3 Zylindertank: Volumen-Balken (wie p0-0 a3, Code dupliziert).
 
 ### p0-2 Vorwissen Physik
-- [ ] [HOCH] a1 Dichte-Würfel + a6 Teilchenmodell: identische Fixes wie p0-0
-  (feste Massenskala, Autostart) — in beiden Dateien konsistent umsetzen.
-- [ ] [HOCH] a3 Hubarbeit: W als Balken mit fester Joule-Skala; Kistengrösse von
-  der Masse entkoppeln (suggeriert sonst Masse ∝ Volumen — direkt nach dem
-  Dichte-Abschnitt). Dazu [MITTEL] formel-live-Zeile.
+- [x] [HOCH] a1 Dichte-Würfel + a6 Teilchenmodell: identische Fixes wie p0-0
+  (feste Skala, Autostart) — beide portiert am 27.07.2026. a1 vergleicht jetzt
+  die Masse von 1 Liter auf fester Skala 0 … 12 kg (Begründung siehe p0-0 a5),
+  a6 startet beim Sichtbarwerden und respektiert eine eigene Pause.
+- [x] [HOCH] a3 Hubarbeit: W als Balken mit fester Skala 0 … 1500 Nm; Kistengrösse
+  von der Masse entkoppelt; formel-live ergänzt. Zusätzlich Einheit Nm statt J
+  und Play/Reset: die Arbeit summiert sich beim Heben auf und wird oben als
+  Lageenergie ausgewiesen.
 - [ ] [MITTEL] a2 Federwaage: Referenzmarken der anderen Orte dauerhaft an der
   Skala (Erde/Mars/Mond) — der Sechstel-Vergleich wird zum Ablesen.
 - [ ] [MITTEL] a4 Rutsche: Play-Knopf «rutschen lassen» (beschleunigt) —
   Geschwindigkeitszunahme sichtbar, ohne ½mv² vorwegzunehmen.
-- [ ] [MITTEL] a5 Treppenlauf: wie p0-0 a7 (Code dupliziert).
+- [x] [MITTEL] a5 Treppenlauf: wie p0-0 a6 portiert — Masse- und Höhenregler,
+  Arbeits- und Leistungsbalken mit fester Skala, festes Treppenhaus von 20 m,
+  Play und Reset, aufsummierende Arbeit gegen die E_pot-Marke.
 
 ### p0-3 Vorwissen Technik
 - [ ] [HOCH] a1 Präfix-Leiter: Zeit-Modus fixen (siehe Block B).

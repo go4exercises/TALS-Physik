@@ -186,7 +186,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">🧊 Würfel und Massenvergleich mit Wasser</div>
-      <canvas id="a1-cv" height="280" role="img" aria-label="Links ein Würfel aus dem gewählten Stoff mit eingezeichneter Kantenlänge in Zentimetern, rechts ein Balkendiagramm: Masse des Würfels und Masse von Wasser bei gleichem Volumen, beide in Kilogramm beschriftet."></canvas>
+      <canvas id="a1-cv" height="280" role="img" aria-label="Links ein Würfel aus dem gewählten Stoff mit eingezeichneter Kantenlänge in Zentimetern, rechts ein Balkendiagramm mit fester Skala von 0 bis 12 Kilogramm: die Masse von einem Liter des Stoffs neben der Masse von einem Liter Wasser. Eine gestrichelte Linie bei 1 Kilogramm markiert die Grenze zwischen Schwimmen und Sinken."></canvas>
     </div>
 
   </div>
@@ -497,21 +497,41 @@ MathJax = {
       <label>Laufzeit \(t\):</label>
       <input type="range" id="a5-t" min="10" max="120" value="40" step="1">
       <span class="sl-val" id="a5-t-val">40 s</span>
-
+      </div>
+      <div class="sl-grp">
+      <label>Aufstiegshöhe \(h\):</label>
+      <input type="range" id="a5-h" min="3" max="20" value="10" step="0.5">
+      <span class="sl-val" id="a5-h-val">10.0 m</span>
+      </div>
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a5-m" min="40" max="120" value="60" step="1">
+      <span class="sl-val" id="a5-m-val">60 kg</span>
       </div>
     </div>
 
-    <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2); margin-bottom:10px;">Person \(m = 60\;\text{kg}\) · Treppenhaus \(h = 10\;\text{m}\) (gut 3 Stockwerke) · \(g = 9.81\;\text{m/s}^2\)</div>
+    <div style="margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button class="play-btn" id="a5-btn">▶ Aufstieg starten</button>
+      <button class="play-btn paused" id="a5-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <span style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">\(g = 9.81\;\text{m/s}^2\)</span>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Aktuelle Rechnung</div>
+      <div class="fl-eq" id="a5-eq-w">W = m · g · h = 60 kg · 9.81 m/s² · 10.0 m = 5886 J</div>
+      <div class="fl-eq" id="a5-eq-p">P = W / t = 5886 J / 40 s = 147 W</div>
+    </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Arbeit \(W = m \cdot g \cdot h\)</span><span class="lb-val" id="a5-w">5886 J</span></div>
+      <div class="lb-item"><span class="lb-lab">bisher verrichtet \(W\)</span><span class="lb-val" id="a5-wjetzt">5886 J</span></div>
+      <div class="lb-item"><span class="lb-lab">am Schluss \(E_\text{pot}\)</span><span class="lb-val" id="a5-w">5886 J</span></div>
       <div class="lb-item"><span class="lb-lab">Zeit \(t\)</span><span class="lb-val" id="a5-live-t">40 s</span></div>
       <div class="lb-item"><span class="lb-lab">\(P = W/t\)</span><span class="lb-val" id="a5-p">147 W</span></div>
     </div>
 
     <div class="cv-wrap">
       <div class="cv-titel">🏃 Leistung beim Treppensteigen</div>
-      <canvas id="a5-cv" height="280" role="img" aria-label="Links eine Treppe mit Doppelpfeil für die Höhe von 10 Metern, rechts ein Leistungsbalken mit Skala in Watt. Gestrichelte Linien markieren 100 Watt als Dauerleistung eines Menschen und 735 Watt als eine Pferdestärke."></canvas>
+      <canvas id="a5-cv" height="300" role="img" aria-label="Links eine Treppe mit Doppelpfeil für die Höhe von 10 Metern, rechts ein Leistungsbalken mit Skala in Watt. Gestrichelte Linien markieren 100 Watt als Dauerleistung eines Menschen und 735 Watt als eine Pferdestärke."></canvas>
     </div>
 
   </div>
@@ -899,32 +919,51 @@ function drawA1() {
            'bold 13px "JetBrains Mono",monospace', 'center');
   haloText(ctx, st.name, cxCube, 24, '#1c1a17', 'bold 14px "Source Sans 3",sans-serif', 'center');
 
-  // ── rechte Hälfte: Massenvergleich Stoff vs. Wasser ──
-  const bx0 = W * 0.52;
+  // ── rechte Hälfte: Masse von 1 Liter, feste Skala (identisch zu p0-0 a5) ──
+  // Eine feste MASSEN-Skala ist unmöglich: Blei ist 567-mal dichter als Styropor,
+  // dazu kommt die dritte Potenz der Kantenlänge — die Dynamik überspannt fünf
+  // Zehnerpotenzen. Verglichen wird darum die Masse von 1 Liter (= die Dichte).
+  // Sie hängt nicht von der Würfelgrösse ab, darum steht die Skala fest.
+  const A1_SKALA = 12;                                   // kg pro Liter
+  const kgProL = st.rho / 1000, wasserProL = 1.0;
+  const bx0 = W * 0.56;
   const topY = 40, baseY = H - 46, fullH = baseY - topY;
-  const maxVal = Math.max(m, mW);
-  const bw = Math.min(70, (W - bx0) / 4);
-  const gap = (W - bx0 - 2 * bw) / 3;
+  const yOf = v => baseY - v / A1_SKALA * fullH;
+  const bw = Math.min(64, (W - bx0) / 4);
+  const gap = (W - bx0 - 2 * bw - 14) / 3;
+  ctx.font = '11px "JetBrains Mono",monospace'; ctx.textAlign = 'right';
+  for (let v = 0; v <= A1_SKALA; v += 2) {
+    const y = yOf(v);
+    ctx.strokeStyle = v === 0 ? '#c2bdb4' : '#e6e0d4'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(bx0, y); ctx.lineTo(W - 12, y); ctx.stroke();
+    ctx.fillStyle = '#5a5040'; ctx.fillText(v + '', bx0 - 5, y + 4);
+  }
+  ctx.fillStyle = '#5a5040'; ctx.font = 'bold 11px "Source Sans 3",sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Masse von 1 L [kg]', bx0 - 44, topY - 10);
   const bars = [
-    { lab: st.name, val: m,  fill: '#8a4a0e' },
-    { lab: 'Wasser', val: mW, fill: '#1a4f8a' }
+    { lab: st.name, val: kgProL,     fill: '#8a4a0e' },
+    { lab: 'Wasser', val: wasserProL, fill: '#1a4f8a' }
   ];
-  ctx.strokeStyle = '#c2bdb4'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(bx0, baseY); ctx.lineTo(W - 12, baseY); ctx.stroke();
   bars.forEach((b, i) => {
     const x = bx0 + gap + i * (bw + gap);
-    const h = maxVal > 0 ? b.val / maxVal * fullH : 0;
+    const h = Math.max(3, baseY - yOf(b.val));         // Mindesthöhe für Styropor
     ctx.strokeStyle = '#c2bdb4'; ctx.lineWidth = 1;
     ctx.strokeRect(x, topY, bw, fullH);
     ctx.fillStyle = b.fill;
     ctx.fillRect(x, baseY - h, bw, h);
     ctx.fillStyle = '#1c1a17'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
     ctx.fillText(b.lab, x + bw / 2, baseY + 16);
-    haloText(ctx, a1FmtMasse(b.val), x + bw / 2, Math.max(topY + 2, baseY - h - 6) + 2,
+    haloText(ctx, b.val.toFixed(2) + ' kg', x + bw / 2, Math.max(topY + 2, baseY - h - 6) + 2,
              b.fill, 'bold 12px "JetBrains Mono",monospace', 'center');
   });
+  // Wasserlinie als Grenze schwimmt/sinkt
+  ctx.strokeStyle = '#1a4f8a'; ctx.lineWidth = 1.4; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(bx0, yOf(1)); ctx.lineTo(W - 12, yOf(1)); ctx.stroke(); ctx.setLineDash([]);
+  haloText(ctx, 'dein Würfel (a = ' + aCm + ' cm): ' + a1FmtMasse(m),
+           bx0 + (W - 12 - bx0) / 2, baseY + 34, '#5a5040',
+           '12px "Source Sans 3",sans-serif', 'center');
   ctx.fillStyle = '#1c1a17'; ctx.font = '13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText(W < 560 ? 'Masse in kg' : 'Masse in kg — gleiches Volumen', bx0 + (W - bx0) / 2, 24);
+  ctx.fillText(W < 560 ? 'Masse von 1 Liter' : 'Masse von 1 Liter — feste Skala', bx0 + (W - bx0) / 2, 24);
 }
 document.getElementById('a1-a').addEventListener('input', drawA1);
 document.querySelectorAll('[data-stoff]').forEach(btn => {
@@ -1244,15 +1283,30 @@ function drawA4() {
 ['a4-h0', 'a4-pos'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
 
 // ══════════════ ANIMATION 5 — Treppenlauf / Leistung ══════════════
-// Person 60 kg, Höhe 10 m: W = 60 * 9.81 * 10 = 5886 J (verifiziert).
-const A5_W = 60 * 9.81 * 10;
+// Person 60 kg, Höhe 10 m: W = 60 * 9.81 * 10 = 5886 J (python3-verifiziert);
+// t=40 s → P = 147.15 W.
+const A5_G = 9.81;
+// Aufstieg als Animation: Fortschritt 0…1, in der eingestellten Laufzeit durchlaufen.
+const a5State = { lauf:false, fort:0, last:0, rafId:null };
 function drawA5() {
   const t = +document.getElementById('a5-t').value;
-  const P = A5_W / t;                         // 49.05 .. 588.6 W
+  const h = +document.getElementById('a5-h').value;
+  const A5_M = +document.getElementById('a5-m').value;
+  const A5_W = A5_M * A5_G * h;
+  const P = A5_W / t;
   document.getElementById('a5-t-val').textContent = t + ' s';
+  document.getElementById('a5-h-val').textContent = h.toFixed(1) + ' m';
+  document.getElementById('a5-m-val').textContent = A5_M + ' kg';
   document.getElementById('a5-live-t').textContent = t + ' s';
   document.getElementById('a5-w').textContent = A5_W.toFixed(0) + ' J';
+  document.getElementById('a5-wjetzt').textContent =
+    (A5_M * A5_G * h * ((a5State.lauf || a5State.fort > 0) ? a5State.fort : 1)).toFixed(0) + ' J';
   document.getElementById('a5-p').textContent = P.toFixed(0) + ' W';
+  // Ansatz, dann Werte mit Einheiten (STYLEGUIDE §2.1, §2.7)
+  document.getElementById('a5-eq-w').textContent =
+    'W = m · g · h = '+A5_M+' kg · '+A5_G+' m/s² · '+h.toFixed(1)+' m = '+A5_W.toFixed(0)+' J';
+  document.getElementById('a5-eq-p').textContent =
+    'P = W / t = '+A5_W.toFixed(0)+' J / '+t+' s = '+P.toFixed(0)+' W';
 
   const cv = initCanvas('a5-cv', 280, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -1262,8 +1316,11 @@ function drawA5() {
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.moveTo(0, yBoden); ctx.lineTo(W, yBoden); ctx.stroke();
 
-  // ── Treppe links ──
-  const nSt = 8, stW = Math.min(26, W * 0.04), stH = (yBoden - 60) / nSt;
+  // ── Treppe links: IMMER 20 m hoch, unabhängig von der Aufstiegshöhe ──
+  // Die Person steigt nur bis h — so sieht man, welchen Teil des Treppenhauses
+  // sie tatsächlich schafft, statt dass die Treppe selbst mitschrumpft.
+  const A5_HAUS = 20;                          // Treppenhaus-Höhe in m
+  const nSt = 10, stW = Math.min(24, W * 0.036), stH = (yBoden - 60) / nSt;
   const tx0 = 24;
   ctx.fillStyle = '#c9c2b6'; ctx.strokeStyle = '#9a927f'; ctx.lineWidth = 1;
   ctx.beginPath();
@@ -1274,36 +1331,81 @@ function drawA5() {
   }
   ctx.lineTo(tx0 + nSt * stW, yBoden);
   ctx.closePath(); ctx.fill(); ctx.stroke();
-  // Läufer-Figur auf halber Treppe
-  const fx = tx0 + 4.5 * stW, fy = yBoden - 5 * stH;
-  ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = 2;
+  // Zielmarke bei h
+  const yZiel = yBoden - (h / A5_HAUS) * nSt * stH;
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.6; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(tx0 - 8, yZiel); ctx.lineTo(tx0 + nSt * stW + 8, yZiel); ctx.stroke();
+  ctx.setLineDash([]);
+  // Läufer: steht bei fort·h, im Ruhezustand am Ziel
+  const fortJetzt = (a5State.lauf || a5State.fort > 0) ? a5State.fort : 1;
+  const hJetzt = h * fortJetzt;
+  const anteil = hJetzt / A5_HAUS;                        // 0 … 1 der Treppe
+  const fx = tx0 + Math.min(anteil * nSt + 0.5, nSt) * stW;
+  const fy = yBoden - anteil * nSt * stH;
+  // Strichstärke wächst mit der Masse: 40 kg -> 1.6 px, 120 kg -> 4.0 px
+  const lw = 1.6 + (A5_M - 40) / 80 * 2.4;
+  ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = lw;
   ctx.beginPath(); ctx.arc(fx, fy - 26, 6, 0, Math.PI * 2); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(fx, fy - 20); ctx.lineTo(fx, fy - 6); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(fx, fy - 6); ctx.lineTo(fx - 6, fy + 4); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(fx, fy - 6); ctx.lineTo(fx + 7, fy + 2); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(fx, fy - 17); ctx.lineTo(fx + 9, fy - 12); ctx.stroke();
-  // Höhen-Doppelpfeil
-  const xA = tx0 + nSt * stW + 24;
-  drawArrow(ctx, xA, yBoden, xA, yBoden - nSt * stH, '#8a4a0e', 1.8, 7);
-  drawArrow(ctx, xA, yBoden - nSt * stH, xA, yBoden, '#8a4a0e', 1.8, 7);
-  haloText(ctx, 'h = 10 m', xA + 8, yBoden - nSt * stH / 2 + 4, '#8a4a0e',
+  ctx.lineWidth = 1;
+  haloText(ctx, A5_M + ' kg', Math.max(fx, 30), fy - 36, '#1c1a17',
+           'bold 12px "JetBrains Mono",monospace', 'center');   // am linken Rand halten
+  // Höhen-Doppelpfeile: aussen das Treppenhaus, innen die geschaffte Höhe
+  const xA = tx0 + nSt * stW + 22;
+  ctx.globalAlpha = 0.55;
+  drawArrow(ctx, xA, yBoden, xA, yBoden - nSt * stH, '#5a5040', 1.4, 6);
+  drawArrow(ctx, xA, yBoden - nSt * stH, xA, yBoden, '#5a5040', 1.4, 6);
+  ctx.globalAlpha = 1;
+  haloText(ctx, 'Haus 20 m', xA + 6, yBoden - nSt * stH + 12, '#5a5040',
+           '11px "Source Sans 3",sans-serif', 'left');
+  const xB = xA + 54;
+  drawArrow(ctx, xB, yBoden, xB, yZiel, '#1f6b3a', 1.8, 7);
+  drawArrow(ctx, xB, yZiel, xB, yBoden, '#1f6b3a', 1.8, 7);
+  haloText(ctx, 'h = ' + h.toFixed(1) + ' m', xB + 8, (yBoden + yZiel) / 2 + 4, '#1f6b3a',
            'bold 13px "JetBrains Mono",monospace', 'left');
 
-  // ── Leistungsbalken rechts mit Watt-Skala 0..800 W ──
+  // ── Arbeits- und Leistungsbalken rechts, beide mit FESTER Skala ──
+  // Obergrenzen am Reglermaximum: W = 120 kg · 9.81 · 20 m = 23.5 kJ,
+  // P = 23544 J / 10 s = 2354 W.
   const xR = Math.min(Math.max(xA + 95, W * 0.6), W - 60);
   const topY = 30, baseY = yBoden;
-  const yP = p => baseY - p / 800 * (baseY - topY);
+  const PMAX = 2400, WMAX = 24000;
+  const yP = p => baseY - Math.min(p,PMAX) / PMAX * (baseY - topY);
   ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(xR, yP(0)); ctx.lineTo(xR, yP(800)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(xR, yP(0)); ctx.lineTo(xR, yP(PMAX)); ctx.stroke();
   ctx.font = '12px "JetBrains Mono",monospace'; ctx.fillStyle = '#5a5040'; ctx.textAlign = 'right';
-  for (let p = 0; p <= 800; p += 100) {
-    const y = yP(p), major = p % 200 === 0;
+  for (let p = 0; p <= PMAX; p += 200) {
+    const y = yP(p), major = p % 600 === 0;
     ctx.beginPath(); ctx.moveTo(xR - (major ? 7 : 4), y); ctx.lineTo(xR, y); ctx.stroke();
     if (major) ctx.fillText(String(p), xR - 10, y + 4);
   }
   ctx.textAlign = 'left'; ctx.font = 'bold 12px "JetBrains Mono",monospace';
   ctx.fillText('P [W]', xR - 30, 18);
-  const bw = Math.max(20, Math.min(64, W - xR - 30)), bxP = xR + 10;
+  const bw = Math.max(16, Math.min(40, (W - xR - 34)/2)), bxP = xR + 10;
+  // Arbeitsbalken direkt daneben — er zeigt, dass W allein von m und h abhängt,
+  // die Laufzeit ihn also NICHT verändert. Genau das trennt Arbeit von Leistung.
+  const bxW = bxP + bw + 8, yW = v => baseY - Math.min(v,WMAX)/WMAX*(baseY-topY);
+  // Während des Aufstiegs summiert sich die Arbeit auf: W(t) = m · g · h(t).
+  // Der Balken wächst mit, die gestrichelte Marke zeigt das Ziel — die
+  // Lageenergie E_pot = m · g · h, die am Schluss genau erreicht wird.
+  const WJetzt = A5_M * A5_G * hJetzt;
+  ctx.fillStyle = '#1f6b3a';
+  ctx.fillRect(bxW, yW(WJetzt), bw, baseY - yW(WJetzt));
+  ctx.strokeStyle = '#144726'; ctx.lineWidth = 1.2;
+  ctx.strokeRect(bxW, yW(WJetzt), bw, baseY - yW(WJetzt));
+  // Zielmarke E_pot
+  ctx.strokeStyle = '#144726'; ctx.lineWidth = 1.6; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(bxW-4, yW(A5_W)); ctx.lineTo(bxW+bw+4, yW(A5_W)); ctx.stroke();
+  ctx.setLineDash([]);
+  haloText(ctx, 'W', bxW + bw/2, baseY + 14, '#1f6b3a', 'bold 12px "Source Sans 3",sans-serif', 'center');
+  haloText(ctx, (WJetzt/1000).toFixed(1)+' kJ', bxW + bw/2, Math.max(topY+14, yW(WJetzt)-6),
+           '#1f6b3a', 'bold 11px "JetBrains Mono",monospace', 'center');
+  haloText(ctx, 'E_pot ' + (A5_W/1000).toFixed(1) + ' kJ', bxW + bw + 8, yW(A5_W) - 4, '#144726',
+           'bold 11px "JetBrains Mono",monospace', 'left');
+  haloText(ctx, 'P', bxP + bw/2, baseY + 14, '#8a4a0e', 'bold 12px "Source Sans 3",sans-serif', 'center');
   // Balken zuerst, Referenzlinien danach — so bleiben die Labels lesbar
   ctx.fillStyle = '#8a4a0e';
   ctx.fillRect(bxP, yP(P), bw, baseY - yP(P));
@@ -1322,14 +1424,35 @@ function drawA5() {
   haloText(ctx, P.toFixed(0) + ' W', bxP + bw / 2, yP(P) - 7, '#8a4a0e',
            'bold 13px "JetBrains Mono",monospace', 'center');
 }
-document.getElementById('a5-t').addEventListener('input', drawA5);
+['a5-t','a5-h','a5-m'].forEach(id=>document.getElementById(id).addEventListener('input', drawA5));
+// Aufstieg abspielen: der Fortschritt läuft in der eingestellten Laufzeit von 0 auf 1.
+// Damit wird «gleiche Arbeit, kürzere Zeit = mehr Leistung» als Tempo erlebbar.
+const a5Btn = document.getElementById('a5-btn');
+function a5Tick(ts){
+  if(!a5State.lauf) return;
+  if(!a5State.last) a5State.last = ts;
+  const dt = Math.min(0.05, (ts - a5State.last)/1000); a5State.last = ts;
+  const t = +document.getElementById('a5-t').value;
+  a5State.fort += dt/t;
+  if(a5State.fort >= 1){ a5State.fort = 1; a5Stop(); drawA5(); return; }
+  drawA5();
+  a5State.rafId = requestAnimationFrame(a5Tick);
+}
+function a5Stop(){
+  a5State.lauf = false; a5State.last = 0;
+  if(a5State.rafId) cancelAnimationFrame(a5State.rafId);
+  a5Btn.textContent = '▶ Aufstieg starten'; a5Btn.classList.remove('paused');
+}
+document.getElementById('a5-reset').addEventListener('click', ()=>{
+  a5Stop(); a5State.fort = 0; drawA5();
+});
 
 // ══════════════ ANIMATION 6 — Teilchenmodell ══════════════
 // Deterministisch, ohne Math.random: Startpositionen und Bewegungsrichtungen
 // aus Index-Formeln (goldener Winkel 2.399 rad), Bewegung als Funktion der
 // akkumulierten Phasenzeit tau. Gas-Reflexion über eine Dreieckswellen-Abbildung.
 const A6_N = 24;
-const a6State = { tau: 0, running: false, lastTs: 0, rafId: null };
+const a6State = { tau: 0, running: false, lastTs: 0, rafId: null, userPaused: false };
 
 function a6Tri(p, lo, hi) {   // spiegelnde Abbildung von p auf [lo, hi]
   const span = hi - lo;
@@ -1416,10 +1539,12 @@ document.getElementById('a6-btn').addEventListener('click', () => {
   const btn = document.getElementById('a6-btn');
   if (a6State.running) {
     a6State.running = false;
+    a6State.userPaused = true;            // beim Zurückscrollen nicht überfahren
     btn.textContent = '▶ Weiter';
     btn.classList.remove('paused');
   } else {
     a6State.running = true;
+    a6State.userPaused = false;
     a6State.lastTs = 0;
     btn.textContent = '⏸ Pause';
     btn.classList.add('paused');
@@ -1427,6 +1552,25 @@ document.getElementById('a6-btn').addEventListener('click', () => {
   }
 });
 document.getElementById('a6-T').addEventListener('input', a6Render);
+// Autostart beim Sichtbarwerden — ein Bewegungs-Widget darf nicht standardmässig
+// stillstehen (identisch zu p0-0 a7).
+if ('IntersectionObserver' in window) {
+  const a6El = document.getElementById('a6-cv'), a6Btn = document.getElementById('a6-btn');
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        if (!a6State.running && !a6State.userPaused) {
+          a6State.running = true; a6State.lastTs = 0;
+          a6Btn.textContent = '⏸ Pause'; a6Btn.classList.add('paused');
+          a6State.rafId = requestAnimationFrame(a6Tick);
+        }
+      } else if (a6State.running) {
+        a6State.running = false;
+        if (a6State.rafId) cancelAnimationFrame(a6State.rafId);
+      }
+    });
+  }, { threshold: 0.25 }).observe(a6El);
+}
 
 // ══════════════ INIT + RESIZE ══════════════
 function renderAll() {
