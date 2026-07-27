@@ -106,7 +106,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
     <div class="widget-titelzeile">
-  <h3>Animation 1 · Direkte Proportionalität — Wassertiefe und Druck</h3>
+  <h3>Animation 1 · Direkte Proportionalität — konstanter Quotient</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -127,34 +127,44 @@ MathJax = {
   </div>
   <div class="widget-body">
 
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a1="aepfel">🍎 Äpfel kaufen</button>
+      <button class="typ-btn" data-a1="tauchen">🤿 Tauchtiefe und Druck</button>
+    </div>
+
     <div class="sl-row">
       <div class="sl-grp">
-      <label>Tauchtiefe \(h\):</label>
-      <input type="range" id="a1-h" min="0.5" max="10" value="4" step="0.5">
-      <span class="sl-val" id="a1-h-val">4.0 m</span>
-
+      <label id="a1-lab">Menge \(m\):</label>
+      <input type="range" id="a1-h" min="0.5" max="6" value="2.5" step="0.5">
+      <span class="sl-val" id="a1-h-val">2.5 kg</span>
       </div>
     </div>
 
+    <div class="formel-live">
+      <div class="fl-label">Aktuelle Rechnung</div>
+      <div class="fl-eq" id="a1-eq-f">K = m · p</div>
+      <div class="fl-eq" id="a1-eq">K = 2.5 kg · 3.20 CHF/kg = 8.00 CHF</div>
+    </div>
+
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Tiefe \(h\)</span><span class="lb-val" id="a1-live-h">4.0 m</span></div>
-      <div class="lb-item"><span class="lb-lab">Druck \(p_S = 9.81 \cdot h\)</span><span class="lb-val" id="a1-live-p">39.2 kPa</span></div>
-      <div class="lb-item"><span class="lb-lab">Quotient \(p_S / h\)</span><span class="lb-val" id="a1-live-q">9.81 kPa/m</span></div>
+      <div class="lb-item"><span class="lb-lab" id="a1-lab1">Menge \(m\)</span><span class="lb-val" id="a1-live-h">2.5 kg</span></div>
+      <div class="lb-item"><span class="lb-lab" id="a1-lab2">Kosten \(K\)</span><span class="lb-val" id="a1-live-p">8.00 CHF</span></div>
+      <div class="lb-item"><span class="lb-lab" id="a1-lab3">Quotient \(K / m\)</span><span class="lb-val" id="a1-live-q">3.20 CHF/kg</span></div>
     </div>
 
     <div class="zwei-spalten">
       <div class="cv-wrap">
-        <div class="cv-titel">🤿 Tauchszene</div>
+        <div class="cv-titel" id="a1-t1">🍎 Am Marktstand</div>
         <canvas id="a1-cv-sz" height="280" role="img" aria-label="Querschnitt durch ein Gewässer mit Tiefenskala von 0 bis 10 Metern. Ein Taucher-Punkt sitzt in der eingestellten Tiefe, daneben steht der zugehörige Schweredruck."></canvas>
       </div>
       <div class="cv-wrap">
-        <div class="cv-titel">📈 \(p_S(h)\) — Druck-Tiefe-Diagramm</div>
+        <div class="cv-titel" id="a1-t2">📈 Gerade durch den Ursprung mit Steigungsdreieck</div>
         <canvas id="a1-cv-ph" height="280" role="img" aria-label="Diagramm Schweredruck gegen Tiefe: eine Gerade durch den Ursprung bis 98.1 Kilopascal bei 10 Metern. Ein Punkt markiert die eingestellte Tiefe, ein zweiter Punkt die doppelte Tiefe mit doppeltem Druck."></canvas>
       </div>
     </div>
     <div class="canvas-legend">
-      <span class="cl-item"><span class="cl-dot" style="background:#8a4a0e"></span>eingestellte Tiefe \(h\)</span>
-      <span class="cl-item"><span class="cl-dot" style="background:#5b2d8e"></span>Vergleich: doppelte Tiefe \(2 \cdot h\)</span>
+      <span class="cl-item"><span class="cl-dot" style="background:#8a4a0e"></span>eingestellter Wert</span>
+      <span class="cl-item"><span class="cl-dot" style="background:#5b2d8e"></span>Vergleich: doppelter Wert</span>
     </div>
 
   </div>
@@ -896,78 +906,134 @@ function haloLabel(ctx, txt, x, y, color, align) {
 }
 
 // ══════════════ ANIMATION 1 — direkte Proportionalität (Tiefe→Druck) ══════════════
+// Zwei Beispiele mit konstantem Quotienten. Äpfel als Standard, Bezeichnungen
+// wie in p0-0: Preis p = Kosten pro Einheit, Kosten K = Gesamtbetrag, K = m·p.
+// Tauchen mit der Faustregel 1 bar pro 10 m — das genügt hier und macht die
+// Steigung im Kopf nachvollziehbar (exakt wären 0.981 bar pro 10 m).
+const A1_SZEN = {
+  aepfel:  { lab:'Menge \\(m\\):', eX:'kg', eY:'CHF', xMin:0.5, xMax:6, xStep:0.5, xDef:2.5,
+             k:3.20, eK:'CHF/kg', xAchse:'m [kg]', yAchse:'K [CHF]',
+             lab1:'Menge \\(m\\)', lab2:'Kosten \\(K\\)', lab3:'Quotient \\(K / m\\)',
+             t1:'🍎 Am Marktstand', ansatz:'K = m · p',
+             werte:(x,y)=>'K = '+x.toFixed(1)+' kg · 3.20 CHF/kg = '+y.toFixed(2)+' CHF' },
+  tauchen: { lab:'Tauchtiefe \\(h\\):', eX:'m', eY:'bar', xMin:0, xMax:40, xStep:1, xDef:20,
+             k:0.1, eK:'bar/m', xAchse:'h [m]', yAchse:'p [bar]',
+             lab1:'Tiefe \\(h\\)', lab2:'Druck \\(p\\) über dem Luftdruck', lab3:'Quotient \\(p / h\\)',
+             t1:'🤿 Tauchszene', ansatz:'p = h / 10 m · 1 bar',
+             werte:(x,y)=>'p = '+x+' m / 10 m · 1 bar = '+y.toFixed(1)+' bar' }
+};
+let a1Szen = 'aepfel';
+function a1SetSzenario(key){
+  a1Szen = key;
+  const z = A1_SZEN[key], sl = document.getElementById('a1-h');
+  sl.min=z.xMin; sl.max=z.xMax; sl.step=z.xStep; sl.value=z.xDef;
+  const ids = ['a1-lab','a1-lab1','a1-lab2','a1-lab3'];
+  document.getElementById('a1-lab').innerHTML  = z.lab;
+  document.getElementById('a1-lab1').innerHTML = z.lab1;
+  document.getElementById('a1-lab2').innerHTML = z.lab2;
+  document.getElementById('a1-lab3').innerHTML = z.lab3;
+  document.getElementById('a1-t1').textContent = z.t1;
+  if(window.MathJax && MathJax.typeset) try{ MathJax.typeset(ids.map(id=>document.getElementById(id))); }catch(e){}
+  document.querySelectorAll('[data-a1]').forEach(b=>b.classList.toggle('aktiv', b.dataset.a1===key));
+  drawA1();
+}
 function drawA1() {
-  const h = +document.getElementById('a1-h').value;
-  const p = g * h;                       // kPa (rho=1000 kg/m³, g=9.81 → 9.81 kPa/m)
-  document.getElementById('a1-h-val').textContent  = h.toFixed(1) + ' m';
-  document.getElementById('a1-live-h').textContent = h.toFixed(1) + ' m';
-  document.getElementById('a1-live-p').textContent = p.toFixed(1) + ' kPa';
-  document.getElementById('a1-live-q').textContent = '9.81 kPa/m';
+  const z = A1_SZEN[a1Szen];
+  const x = +document.getElementById('a1-h').value;
+  const y = z.k * x;
+  document.getElementById('a1-h-val').textContent  = (z.eX==='kg'?x.toFixed(1):x) + ' ' + z.eX;
+  document.getElementById('a1-live-h').textContent = (z.eX==='kg'?x.toFixed(1):x) + ' ' + z.eX;
+  document.getElementById('a1-live-p').textContent = y.toFixed(z.eY==='CHF'?2:1) + ' ' + z.eY;
+  document.getElementById('a1-live-q').textContent = z.k.toFixed(2) + ' ' + z.eK;
+  document.getElementById('a1-eq-f').textContent   = z.ansatz;
+  document.getElementById('a1-eq').textContent     = z.werte(x, y);
 
-  // ── Tauchszene: Tiefenskala 0–10 m, 22.4 px pro m bei H=280 ──
+  // ── linke Szene ──
   const cv1 = initCanvas('a1-cv-sz', 280, false);
   const ctx1 = cv1.ctx, W1 = cv1.W, H1 = cv1.H;
-  const top = 26, bot = 30;
-  const yOf = d => top + d / 10 * (H1 - top - bot);   // Tiefe [m] → Pixel
-  // Himmel + Wasser + Grund
-  ctx1.fillStyle = '#eaf3fa'; ctx1.fillRect(0, 0, W1, top);
-  ctx1.fillStyle = '#c0d8e8'; ctx1.fillRect(0, top, W1, H1 - top - bot);
-  ctx1.fillStyle = '#c9b98a'; ctx1.fillRect(0, H1 - bot, W1, bot);
-  // Wasseroberfläche mit kleinen Wellen
-  ctx1.strokeStyle = '#5a86ad'; ctx1.lineWidth = 2;
-  ctx1.beginPath();
-  for (let x = 0; x <= W1; x += 4) {
-    const y = top + Math.sin(x / 9) * 1.6;
-    if (x === 0) ctx1.moveTo(x, y); else ctx1.lineTo(x, y);
+  if(a1Szen === 'tauchen'){
+    const top = 26, bot = 30;
+    const yOf = d => top + d / z.xMax * (H1 - top - bot);
+    ctx1.fillStyle = '#eaf3fa'; ctx1.fillRect(0, 0, W1, top);
+    ctx1.fillStyle = '#c0d8e8'; ctx1.fillRect(0, top, W1, H1 - top - bot);
+    ctx1.fillStyle = '#c9b98a'; ctx1.fillRect(0, H1 - bot, W1, bot);
+    // Lastende Wassersäule über dem Taucher einfärben — sie ist die Ursache
+    // des Drucks und war vorher unsichtbar.
+    const dx = 60 + (W1 - 80) * 0.5, saeule = Math.min(70, W1*0.22);
+    ctx1.fillStyle = 'rgba(58,110,150,0.42)';
+    ctx1.fillRect(dx - saeule/2, yOf(0), saeule, yOf(x) - yOf(0));
+    ctx1.strokeStyle = '#3a6e96'; ctx1.lineWidth = 1.4;
+    ctx1.strokeRect(dx - saeule/2, yOf(0), saeule, yOf(x) - yOf(0));
+    haloLabel(ctx1, 'diese Wassersäule', dx + saeule/2 + 8, yOf(x/2) - 6, '#2c5675', 'left');
+    haloLabel(ctx1, 'drückt auf dich', dx + saeule/2 + 8, yOf(x/2) + 10, '#2c5675', 'left');
+    ctx1.strokeStyle = '#5a86ad'; ctx1.lineWidth = 2; ctx1.beginPath();
+    for (let px = 0; px <= W1; px += 4) { const py = top + Math.sin(px / 9) * 1.6;
+      if (px === 0) ctx1.moveTo(px, py); else ctx1.lineTo(px, py); }
+    ctx1.stroke();
+    ctx1.strokeStyle = '#3d566b'; ctx1.lineWidth = 1;
+    ctx1.beginPath(); ctx1.moveTo(44, yOf(0)); ctx1.lineTo(44, yOf(z.xMax)); ctx1.stroke();
+    ctx1.font = '12px JetBrains Mono,monospace'; ctx1.fillStyle = '#3d566b'; ctx1.textAlign = 'right';
+    for (let d = 0; d <= z.xMax; d += 10) {
+      ctx1.beginPath(); ctx1.moveTo(39, yOf(d)); ctx1.lineTo(49, yOf(d)); ctx1.stroke();
+      ctx1.fillText(d + ' m', 36, yOf(d) + 4);
+    }
+    ctx1.fillStyle = '#8a4a0e';
+    ctx1.beginPath(); ctx1.arc(dx, yOf(x), 8, 0, 2 * Math.PI); ctx1.fill();
+    ctx1.strokeStyle = '#fff'; ctx1.lineWidth = 2; ctx1.stroke();
+    haloLabel(ctx1, 'h = ' + x + ' m', dx + saeule/2 + 8, yOf(x) + 14, '#5b2d8e', 'left');
+    haloLabel(ctx1, 'p = ' + y.toFixed(1) + ' bar', dx + saeule/2 + 8, yOf(x) + 30, '#8a4a0e', 'left');
+  } else {
+    // Marktstand: der Sack füllt sich proportional zur Menge
+    ctx1.fillStyle = '#fbfaf7'; ctx1.fillRect(0, 0, W1, H1);
+    const bx = W1*0.5, bw = Math.min(120, W1*0.34), top = 40, bot = H1 - 54;
+    ctx1.strokeStyle = '#8a6a3a'; ctx1.lineWidth = 2.5;
+    ctx1.strokeRect(bx - bw/2, top, bw, bot - top);
+    const fh = (bot - top) * (x / z.xMax), fy = bot - fh;
+    ctx1.fillStyle = '#c94f3d'; ctx1.globalAlpha = 0.25; ctx1.fillRect(bx - bw/2 + 3, fy, bw - 6, fh); ctx1.globalAlpha = 1;
+    // Äpfel andeuten
+    const nA = Math.round(x * 4);
+    for (let i = 0; i < nA; i++) {
+      const ax = bx - bw/2 + 12 + ((i * 37) % Math.max(1, bw - 24));
+      const ay = bot - 10 - ((i * 23) % Math.max(1, fh - 6));
+      ctx1.fillStyle = '#c94f3d'; ctx1.beginPath(); ctx1.arc(ax, ay, 6, 0, 6.283); ctx1.fill();
+    }
+    ctx1.fillStyle = '#5a5040'; ctx1.font = '13px "Source Sans 3",sans-serif'; ctx1.textAlign = 'center';
+    ctx1.fillText('Preis 3.20 CHF/kg', bx, top - 14);
+    haloLabel(ctx1, 'm = ' + x.toFixed(1) + ' kg', bx, bot + 20, '#5b2d8e', 'center');
+    haloLabel(ctx1, 'K = ' + y.toFixed(2) + ' CHF', bx, bot + 40, '#8a4a0e', 'center');
   }
-  ctx1.stroke();
-  // Tiefenskala links
-  ctx1.strokeStyle = '#3d566b'; ctx1.lineWidth = 1;
-  ctx1.beginPath(); ctx1.moveTo(44, yOf(0)); ctx1.lineTo(44, yOf(10)); ctx1.stroke();
-  ctx1.font = '13px JetBrains Mono,monospace'; ctx1.fillStyle = '#3d566b';
-  ctx1.textAlign = 'right';
-  for (let d = 0; d <= 10; d += 2) {
-    ctx1.beginPath(); ctx1.moveTo(39, yOf(d)); ctx1.lineTo(49, yOf(d)); ctx1.stroke();
-    ctx1.fillText(d + ' m', 36, yOf(d) + 4);
-  }
-  // Pfeil von der Oberfläche zur Taucher-Tiefe
-  const dx = 60 + (W1 - 80) * 0.5;
-  drawArrow(ctx1, dx, yOf(0) + 4, dx, yOf(h) - 14, '#5b2d8e', 2, 9);
-  // Taucher (Punkt) in Tiefe h
-  ctx1.fillStyle = '#8a4a0e';
-  ctx1.beginPath(); ctx1.arc(dx, yOf(h), 8, 0, 2 * Math.PI); ctx1.fill();
-  ctx1.strokeStyle = '#fff'; ctx1.lineWidth = 2; ctx1.stroke();
-  haloLabel(ctx1, 'h = ' + h.toFixed(1) + ' m', dx + 16, yOf(h) - 10, '#5b2d8e', 'left');
-  haloLabel(ctx1, 'p = ' + p.toFixed(1) + ' kPa', dx + 16, yOf(h) + 16, '#8a4a0e', 'left');
 
-  // ── p-h-Diagramm ──
+  // ── rechtes Diagramm mit Steigungsdreieck ──
   const cv2 = initCanvas('a1-cv-ph', 280, false);
-  const gr = drawGrid(cv2.ctx, cv2.W, cv2.H, -0.5, 10.5, -6, 104);
-  drawAxesUnits(cv2.ctx, cv2.W, cv2.H, gr.cx, gr.cy, 'h [m]', 'p_S [kPa]');
+  const yMax = z.k * z.xMax * 1.12;
+  const gr = drawGrid(cv2.ctx, cv2.W, cv2.H, -z.xMax*0.05, z.xMax*1.05, -yMax*0.06, yMax);
+  drawAxesUnits(cv2.ctx, cv2.W, cv2.H, gr.cx, gr.cy, z.xAchse, z.yAchse);
   const ctx2 = cv2.ctx;
-  // Gerade durch den Ursprung bis (10, 98.1)
-  ctx2.strokeStyle = '#8a4a0e'; ctx2.lineWidth = 2.8; ctx2.setLineDash([]);
+  ctx2.strokeStyle = '#8a4a0e'; ctx2.lineWidth = 2.8;
+  ctx2.beginPath(); ctx2.moveTo(gr.cx(0), gr.cy(0)); ctx2.lineTo(gr.cx(z.xMax), gr.cy(z.k*z.xMax)); ctx2.stroke();
+  // Steigungsdreieck: eine Einheit nach rechts, k nach oben — macht den
+  // konstanten Quotienten als Steigung sichtbar.
+  const dxT = z.xMax * 0.22, x0T = z.xMax * 0.30;
+  ctx2.strokeStyle = '#1f6b3a'; ctx2.lineWidth = 1.8; ctx2.setLineDash([4,3]);
   ctx2.beginPath();
-  ctx2.moveTo(gr.cx(0), gr.cy(0));
-  ctx2.lineTo(gr.cx(10), gr.cy(g * 10));
-  ctx2.stroke();
-  // Hilfslinien zum aktuellen Punkt
-  ctx2.strokeStyle = '#b8c4d4'; ctx2.lineWidth = 1.2; ctx2.setLineDash([4, 4]);
-  ctx2.beginPath(); ctx2.moveTo(gr.cx(h), gr.cy(0)); ctx2.lineTo(gr.cx(h), gr.cy(p)); ctx2.lineTo(gr.cx(0), gr.cy(p)); ctx2.stroke();
+  ctx2.moveTo(gr.cx(x0T), gr.cy(z.k*x0T));
+  ctx2.lineTo(gr.cx(x0T+dxT), gr.cy(z.k*x0T));
+  ctx2.lineTo(gr.cx(x0T+dxT), gr.cy(z.k*(x0T+dxT)));
+  ctx2.stroke(); ctx2.setLineDash([]);
+  haloLabel(ctx2, dxT.toFixed(1)+' '+z.eX, gr.cx(x0T+dxT/2), gr.cy(z.k*x0T)+16, '#1f6b3a', 'center');
+  haloLabel(ctx2, (z.k*dxT).toFixed(2)+' '+z.eY, gr.cx(x0T+dxT)+8, gr.cy(z.k*(x0T+dxT/2)), '#1f6b3a', 'left');
+  ctx2.strokeStyle = '#b8c4d4'; ctx2.lineWidth = 1.2; ctx2.setLineDash([4,4]);
+  ctx2.beginPath(); ctx2.moveTo(gr.cx(x), gr.cy(0)); ctx2.lineTo(gr.cx(x), gr.cy(y)); ctx2.lineTo(gr.cx(0), gr.cy(y)); ctx2.stroke();
   ctx2.setLineDash([]);
-  // Vergleichspunkt bei doppelter Tiefe (falls im Bereich)
-  if (2 * h <= 10) {
-    const p2 = g * 2 * h;
-    ctx2.strokeStyle = '#d9c9ea'; ctx2.setLineDash([4, 4]); ctx2.lineWidth = 1.2;
-    ctx2.beginPath(); ctx2.moveTo(gr.cx(2 * h), gr.cy(0)); ctx2.lineTo(gr.cx(2 * h), gr.cy(p2)); ctx2.lineTo(gr.cx(0), gr.cy(p2)); ctx2.stroke();
-    ctx2.setLineDash([]);
-    drawDot(ctx2, gr.cx, gr.cy, 2 * h, p2, '#5b2d8e', 5);
-    const alignR = gr.cx(2 * h) > cv2.W - 120;
-    haloLabel(ctx2, '2·h → 2·p', gr.cx(2 * h) + (alignR ? -10 : 10), gr.cy(p2) - 8, '#5b2d8e', alignR ? 'right' : 'left');
+  if (2*x <= z.xMax) {
+    drawDot(ctx2, gr.cx, gr.cy, 2*x, 2*y, '#5b2d8e', 5);
+    const alignR = gr.cx(2*x) > cv2.W - 130;
+    haloLabel(ctx2, 'doppelt → doppelt', gr.cx(2*x) + (alignR ? -10 : 10), gr.cy(2*y) - 8, '#5b2d8e', alignR ? 'right' : 'left');
   }
-  drawDot(ctx2, gr.cx, gr.cy, h, p, '#8a4a0e', 6);
+  drawDot(ctx2, gr.cx, gr.cy, x, y, '#8a4a0e', 6);
 }
 document.getElementById('a1-h').addEventListener('input', drawA1);
+document.querySelectorAll('[data-a1]').forEach(b=>b.addEventListener('click', ()=>a1SetSzenario(b.dataset.a1)));
 
 // ══════════════ ANIMATION 2 — indirekte Proportionalität (t = 120/v) ══════════════
 // Zwei stetige Beispiele für indirekte Proportionalität. Beide haben ein
