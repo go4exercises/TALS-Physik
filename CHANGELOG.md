@@ -1,6 +1,25 @@
 # CHANGELOG — TALS Physik
 
-Alle bedeutenden Änderungen am Repository, neueste zuerst.
+> **Abgeschlossen — ab 14.06.2026 führt der Git-Verlauf die Änderungen.**
+>
+> Diese Datei stammt aus dem ZIP-Workflow, in dem es keine Versionsgeschichte
+> gab. Seit der Umstellung auf Git ist der Commit-Verlauf die massgebliche
+> Quelle; hier wird nichts mehr nachgetragen. Der letzte Eintrag unten ist
+> Phase 5.41 vom 13.06.2026.
+>
+> **Wo steht seither was?**
+> - Was wann geändert wurde: `git log --oneline` bzw. `git log -p <datei>`
+> - Stand und Begründungen der Animations-Überarbeitung: `TODO-animationen.md`
+> - Verbindliche Konventionen: `STYLEGUIDE.md`, Kurzfassung in `CLAUDE.md`
+>
+> Die Einträge unterhalb dieser Linie bleiben als Projektgeschichte bis
+> Phase 5.41 erhalten und werden nicht mehr verändert.
+
+---
+
+## Archiv bis 13.06.2026
+
+Alle bedeutenden Änderungen am Repository bis Phase 5.41, neueste zuerst.
 
 Format an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/) angelehnt, gestrafft.
 

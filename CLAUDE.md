@@ -134,6 +134,10 @@ Vorab-Kontrolle, sondern Git — darum gilt verbindlich:
 3. Schlägt der Pre-Flight fehl: **nicht committen**, Fehler melden und beheben, dann 1.
 4. **Niemals `git push`.** Der Push bleibt manuell beim Auftraggeber.
 
+`CHANGELOG.md` wird **nicht** mehr gepflegt — die Datei ist mit Phase 5.41
+(13.06.2026) abgeschlossen, seither ist der Git-Verlauf die Quelle. Kein
+Nachtragen, auch nicht rückwirkend.
+
 `git add`, `git commit` und der Pre-Flight sind in der `settings.json` vorab erlaubt und
 laufen darum prompt-frei. `git push` steht bewusst unter `ask` — es hält an.
 

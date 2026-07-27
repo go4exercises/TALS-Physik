@@ -63,7 +63,7 @@ Dann http://localhost:8000 öffnen. Alternativ direkt `index.html` im Browser ö
 
 ## Changelog
 
-Alle bedeutenden Änderungen sind in [`CHANGELOG.md`](CHANGELOG.md) dokumentiert (neueste zuerst, Format an *Keep a Changelog* angelehnt). Zuletzt: Phase 5.19 (Sprache und Stil, Priorität 4) und Phase 5.20 (technische/organisatorische Qualität, Priorität 5 — u.a. Mobile-Layout-Fix).
+**Ab 14.06.2026 führt der Git-Verlauf die Änderungen** (`git log --oneline`). [`CHANGELOG.md`](CHANGELOG.md) ist abgeschlossen und dokumentiert die Projektgeschichte bis Phase 5.41 (13.06.2026) aus der Zeit vor der Git-Umstellung; dort wird nichts mehr nachgetragen. Stand und Begründungen der laufenden Animations-Überarbeitung stehen in [`TODO-animationen.md`](TODO-animationen.md).
 
 ## Lizenz
 
