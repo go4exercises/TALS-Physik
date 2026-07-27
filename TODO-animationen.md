@@ -25,7 +25,7 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   Punkt) wird unsichtbar. Fix: feste Achsen oder feste Referenzkurve.
   Betroffen: p0-4 a1 (Feder), p0-4 a2 (s = v·t), p0-4 a4 (Einholproblem),
   p4-5 a1-cv-ph (p(h) je Dichte), ~~p5-2 a1 (Wärmebedarf-Balken)~~ ✓, p6-1 a3
-  (Schall-Balken), p6-2 a1 (U-I-Kennlinie), p0-0 a6 / p0-2 a1 (Dichte-Balken).
+  (Schall-Balken), p6-2 a1 (U-I-Kennlinie), ~~p0-0 a6~~ ✓ / p0-2 a1 (Dichte-Balken).
 - [ ] **[HOCH] Q2 — Überhöhungsfaktoren nicht am Reglermaximum kalibriert (Sättigung).**
   ~~p5-3 a1 (Faktor 4000 → ≈260), p5-3 a2 (120 → ≈4.5), p5-3 a4 (120 → ≈46)~~ ✓:
   Die Grafik klemmt über weite Bereiche am Anschlag, Materialwechsel und
@@ -89,19 +89,35 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
 ## C. Todo je Seite
 
 ### p0-0 Vorwissen kompakt
-- [ ] [HOCH] a6 Dichte-Würfel: feste, beschriftete Massenskala statt Normierung
-  aufs Maximum (Balken reagieren sonst weder auf Stoff- noch Kantenlängenwechsel).
-  Gemeinsamer Fix mit p0-2 a1 (Code dupliziert).
-- [ ] [HOCH] a8 Teilchenmodell: Autostart beim Sichtbarwerden (Bewegungs-Widget
-  darf nicht standardmässig stillstehen). Gemeinsamer Fix mit p0-2 a6.
-- [ ] [HOCH] a2 Dreisatz: Zwischenschritt-Punkt (1 kg, 2.50 CHF) im Diagramm
-  markieren — sonst mit a1 zusammenlegen (Umschalter «Proportionalität/Dreisatz»).
-- [ ] [MITTEL] a1: zweiter Regler «Kilopreis» (Steigung als Ursache erlebbar).
-- [ ] [MITTEL] a3 Zylinder: Volumen-Balken mit fester Literskala neben der Zeichnung.
-- [ ] [MITTEL] a4 Tempo-Doppelskala: formel-live-Zeile «v = 108 / 3.6 = 30.0 m/s».
-- [ ] [MITTEL] a7 Treppenlauf: Masse-Regler + W-Balken (Kontrast Arbeit/Leistung
-  prüfbar machen); optional Play-Knopf (Figur steigt in Zeit t).
-- [ ] [NIEDRIG] a5 Faustregel-Diagramm: Abweichung als Klammer am Punkt sichtbar machen.
+*Alle Punkte umgesetzt am 27.07.2026. Achtung: Animation 2 (Dreisatz) ist in
+Animation 1 aufgegangen, die folgenden sind um eins nach vorne gerückt —
+alt a3…a8 entsprechen neu a2…a7.*
+- [x] [HOCH] a6 (neu a5) Dichte-Würfel: feste, beschriftete Massenskala statt
+  Normierung aufs Maximum. → Stufenleiter 0.005 … 500 kg, Einheit je Skala
+  einheitlich (kg oder g), vier beschriftete Gitterlinien. Styropor zeigt jetzt
+  20 g neben 1.00 kg Wasser, statt beide Balken gleich hoch.
+  **Offen: p0-2 a1 trägt denselben duplizierten Code und ist noch nicht angepasst.**
+- [x] [HOCH] a8 (neu a7) Teilchenmodell: Autostart beim Sichtbarwerden per
+  IntersectionObserver; wer selbst pausiert, wird beim Zurückscrollen nicht
+  überfahren (`userPaused`).
+  **Offen: p0-2 a6 trägt denselben duplizierten Code.**
+- [x] [HOCH] a2 Dreisatz: mit a1 zusammengelegt — a1 hat jetzt vier Szenarien
+  (Taxi ohne/mit Grundgebühr, Äpfel lose/in Harassen) und macht sichtbar, wann
+  der Dreisatz gilt und wann nicht.
+- [x] [MITTEL] a1: zweiter Regler für den Preis (Steigung als Ursache erlebbar),
+  dazu feste Kostenachse, damit der Preis die Steigung sichtbar verändert.
+- [x] [MITTEL] a3 (neu a2) Zylinder: Volumen-Balken mit fester Literskala
+  (0 … 6300 L) neben der Zeichnung; zusätzlich zwei Diagramme V(h) und V(r),
+  die linear bzw. quadratisch zeigen.
+- [x] [MITTEL] a4 (neu a3) Tempo-Doppelskala: formel-live mit beiden
+  Umrechnungsrichtungen; dazu zwei gekoppelte Regler für km/h und m/s.
+- [x] [MITTEL] a7 (neu a6) Treppenlauf: Masse-Regler (40 … 120 kg) und
+  Arbeitsbalken neben dem Leistungsbalken, beide mit fester Skala (24 kJ bzw.
+  2400 W). Der Kontrast ist damit prüfbar: bei 40 kg und 120 s bleibt W bei
+  7.8 kJ, während P auf 65 W fällt. Dazu Aufstiegshöhe einstellbar und ein
+  Play-Knopf, der den Aufstieg in der eingestellten Laufzeit abspielt.
+- [x] [NIEDRIG] a5 (neu a4) Faustregel-Diagramm: Abweichung als Klammer zwischen
+  den beiden Kurven, mit Betrag und Prozentwert (bei 40 m: +0.063 bar, +1.28 %).
 
 ### p0-1 Vorwissen Mathematik
 - [ ] [HOCH] a1-sz Tauchszene: lastende Wassersäule über dem Taucher einfärben —

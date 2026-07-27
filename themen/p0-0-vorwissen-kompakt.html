@@ -603,11 +603,16 @@ MathJax = {
       <input type="range" id="a6-h" min="3" max="20" value="10" step="0.5">
       <span class="sl-val" id="a6-h-val">10.0 m</span>
       </div>
+      <div class="sl-grp">
+      <label>Masse \(m\):</label>
+      <input type="range" id="a6-m" min="40" max="120" value="60" step="1">
+      <span class="sl-val" id="a6-m-val">60 kg</span>
+      </div>
     </div>
 
     <div style="margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
       <button class="play-btn" id="a6-btn">▶ Aufstieg starten</button>
-      <span style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Person \(m = 60\;\text{kg}\), \(g = 9.81\;\text{m/s}^2\)</span>
+      <span style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">\(g = 9.81\;\text{m/s}^2\)</span>
     </div>
 
     <div class="formel-live">
@@ -1203,7 +1208,26 @@ function drawA2() {
   // Boden-Linie
   ctx.strokeStyle = '#c9b98a'; ctx.lineWidth = 3;
   ctx.beginPath(); ctx.moveTo(20, yBot + ry + 4); ctx.lineTo(W - 20, yBot + ry + 4); ctx.stroke();
+  // Volumen-Balken mit FESTER Literskala neben der Zeichnung: so wirkt sich jede
+  // Reglerbewegung sichtbar aus. Obergrenze = Reglermaximum r = 1 m, h = 2 m.
+  const A2_VMAX = 6300;                                   // Liter
+  const bx = W*0.80, byTop = H*0.10, byBot = H*0.86, bw = Math.min(52, W*0.09);
+  const yL = v => byBot - Math.min(v, A2_VMAX)/A2_VMAX*(byBot-byTop);
+  ctx.font='11px "JetBrains Mono",monospace'; ctx.textAlign='right';
+  for(let i=0;i<=4;i++){
+    const v=A2_VMAX*i/4, y=yL(v);
+    ctx.strokeStyle=i===0?'#c2bdb4':'#e6e0d4'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(bx-6,y); ctx.lineTo(bx+bw+6,y); ctx.stroke();
+    ctx.fillStyle='#5a5040'; ctx.fillText(Math.round(v)+'', bx-9, y+4);
+  }
+  ctx.strokeStyle='#c2bdb4'; ctx.lineWidth=1; ctx.strokeRect(bx, byTop, bw, byBot-byTop);
+  ctx.fillStyle='#1a4f8a'; ctx.fillRect(bx, yL(V*1000), bw, byBot-yL(V*1000));
+  ctx.fillStyle='#5a5040'; ctx.font='bold 11px "Source Sans 3",sans-serif'; ctx.textAlign='center';
+  ctx.fillText('V [L]', bx+bw/2, byTop-8);
+  haloText(ctx, Math.round(V*1000)+' L', bx+bw/2, Math.max(byTop+12, yL(V*1000)-6),
+           '#1a4f8a', 'bold 12px "JetBrains Mono",monospace', 'center');
 }
+
 ['a2-r','a2-h'].forEach(id => document.getElementById(id).addEventListener('input', ()=>{ drawA2(); drawA3Diag(); }));
 
 // Zweites Bild zu Animation 3: V hängt LINEAR von h ab, aber QUADRATISCH von r.
@@ -1392,6 +1416,19 @@ function drawA4() {
   ctx.beginPath(); ctx.moveTo(gr.cx(h), gr.cy(0)); ctx.lineTo(gr.cx(h), gr.cy(pe)); ctx.stroke();
   ctx.setLineDash([]);
   drawDot(ctx, gr.cx, gr.cy, h, pe, '#8a4a0e', 6);
+  // Abweichung als Klammer zwischen den beiden Kurven — sonst muss man zwei
+  // Zahlen aus der Live-Box im Kopf subtrahieren.
+  const dp = pf - pe;
+  if(Math.abs(dp) > 0.002){
+    const xk = gr.cx(h) + 16, y1 = gr.cy(pe), y2 = gr.cy(pf);
+    ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    ctx.moveTo(xk-5, y1); ctx.lineTo(xk, y1); ctx.lineTo(xk, y2); ctx.lineTo(xk-5, y2);
+    ctx.stroke();
+    haloText(ctx, (dp>=0?'+':'−')+Math.abs(dp).toFixed(3)+' bar ('
+             + (dp>=0?'+':'−')+Math.abs(100*dp/pe).toFixed(2)+' %)',
+             xk+6, (y1+y2)/2+4, '#1f6b3a', 'bold 12px "JetBrains Mono",monospace', 'left');
+  }
 
   // Halo-Label am Punkt mit Rand-Klammerung
   const lblTxt = pe.toFixed(2) + ' bar bei ' + h + ' m';
@@ -1477,20 +1514,38 @@ function drawA5() {
   haloText(ctx, st.name, cxCube, 24, '#1c1a17', 'bold 14px "Source Sans 3",sans-serif', 'center');
 
   // ── rechte Hälfte: Massenvergleich Stoff vs. Wasser ──
-  const bx0 = W * 0.52;
+  // Massenskala NICHT aufs Maximum normieren (sonst ist der höhere Balken immer
+  // voll und weder Stoff- noch Kantenwechsel ändern das Bild — Q1). Stattdessen
+  // eine beschriftete Skala aus einer festen Stufenleiter; sie springt nur in
+  // klaren Schritten und die Beschriftung sagt jederzeit, welche gilt.
+  const bx0 = W * 0.56;
   const topY = 40, baseY = H - 46, fullH = baseY - topY;
-  const maxVal = Math.max(m, mW);
-  const bw = Math.min(70, (W - bx0) / 4);
-  const gap = (W - bx0 - 2 * bw) / 3;
+  const A5_LEITER = [0.005,0.01,0.02,0.05,0.1,0.2,0.5,1,2,5,10,20,50,100,200,500];
+  const skala = A5_LEITER.find(v => Math.max(m, mW) <= v) || 500;
+  const inKg = skala >= 1;
+  const yOf = v => baseY - v / skala * fullH;
+  const bw = Math.min(64, (W - bx0) / 4);
+  const gap = (W - bx0 - 2 * bw - 14) / 3;
+  // Gitter und Achsenbeschriftung
+  ctx.font = '11px "JetBrains Mono",monospace'; ctx.textAlign = 'right';
+  for (let i = 0; i <= 4; i++) {
+    const v = skala * i / 4, y = yOf(v);
+    ctx.strokeStyle = i === 0 ? '#c2bdb4' : '#e6e0d4'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(bx0, y); ctx.lineTo(W - 12, y); ctx.stroke();
+    ctx.fillStyle = '#5a5040';
+    // Einheit einmal pro Skala festlegen, nicht pro Tick — sonst stehen kg und g
+    // in derselben Achse nebeneinander.
+    ctx.fillText(inKg ? v.toFixed(skala < 10 ? 1 : 0) : (v * 1000).toFixed(0), bx0 - 5, y + 4);
+  }
+  ctx.fillStyle = '#5a5040'; ctx.font = 'bold 11px "Source Sans 3",sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText(inKg ? 'm [kg]' : 'm [g]', bx0 - 44, topY - 8);
   const bars = [
     { lab: st.name, val: m,  fill: '#8a4a0e' },
     { lab: 'Wasser', val: mW, fill: '#1a4f8a' }
   ];
-  ctx.strokeStyle = '#c2bdb4'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(bx0, baseY); ctx.lineTo(W - 12, baseY); ctx.stroke();
   bars.forEach((b, i) => {
     const x = bx0 + gap + i * (bw + gap);
-    const h = maxVal > 0 ? b.val / maxVal * fullH : 0;
+    const h = baseY - yOf(b.val);
     ctx.strokeStyle = '#c2bdb4'; ctx.lineWidth = 1;
     ctx.strokeRect(x, topY, bw, fullH);
     ctx.fillStyle = b.fill;
@@ -1515,16 +1570,18 @@ document.querySelectorAll('[data-stoff]').forEach(btn => {
 // ══════════════ ANIMATION 6 — Treppenlauf / Leistung ══════════════
 // Person 60 kg, Höhe 10 m: W = 60 * 9.81 * 10 = 5886 J (python3-verifiziert);
 // t=40 s → P = 147.15 W.
-const A6_M = 60, A6_G = 9.81;
+const A6_G = 9.81;
 // Aufstieg als Animation: Fortschritt 0…1, in der eingestellten Laufzeit durchlaufen.
 const a6State = { lauf:false, fort:0, last:0, rafId:null };
 function drawA6() {
   const t = +document.getElementById('a6-t').value;
   const h = +document.getElementById('a6-h').value;
+  const A6_M = +document.getElementById('a6-m').value;
   const A6_W = A6_M * A6_G * h;
   const P = A6_W / t;
   document.getElementById('a6-t-val').textContent = t + ' s';
   document.getElementById('a6-h-val').textContent = h.toFixed(1) + ' m';
+  document.getElementById('a6-m-val').textContent = A6_M + ' kg';
   document.getElementById('a6-live-t').textContent = t + ' s';
   document.getElementById('a6-w').textContent = A6_W.toFixed(0) + ' J';
   document.getElementById('a6-p').textContent = P.toFixed(0) + ' W';
@@ -1570,23 +1627,35 @@ function drawA6() {
   haloText(ctx, 'h = '+h.toFixed(1)+' m', xA + 8, yBoden - nSt * stH / 2 + 4, '#8a4a0e',
            'bold 13px "JetBrains Mono",monospace', 'left');
 
-  // ── Leistungsbalken rechts mit Watt-Skala 0..1200 W ──
-  // Obergrenze am Reglermaximum: h = 20 m, t = 10 s -> P = 1177 W.
+  // ── Arbeits- und Leistungsbalken rechts, beide mit FESTER Skala ──
+  // Obergrenzen am Reglermaximum: W = 120 kg · 9.81 · 20 m = 23.5 kJ,
+  // P = 23544 J / 10 s = 2354 W.
   const xR = Math.min(Math.max(xA + 95, W * 0.6), W - 60);
   const topY = 30, baseY = yBoden;
-  const PMAX = 1200;
+  const PMAX = 2400, WMAX = 24000;
   const yP = p => baseY - Math.min(p,PMAX) / PMAX * (baseY - topY);
   ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(xR, yP(0)); ctx.lineTo(xR, yP(PMAX)); ctx.stroke();
   ctx.font = '12px "JetBrains Mono",monospace'; ctx.fillStyle = '#5a5040'; ctx.textAlign = 'right';
-  for (let p = 0; p <= PMAX; p += 100) {
-    const y = yP(p), major = p % 300 === 0;
+  for (let p = 0; p <= PMAX; p += 200) {
+    const y = yP(p), major = p % 600 === 0;
     ctx.beginPath(); ctx.moveTo(xR - (major ? 7 : 4), y); ctx.lineTo(xR, y); ctx.stroke();
     if (major) ctx.fillText(String(p), xR - 10, y + 4);
   }
   ctx.textAlign = 'left'; ctx.font = 'bold 12px "JetBrains Mono",monospace';
   ctx.fillText('P [W]', xR - 30, 18);
-  const bw = Math.max(20, Math.min(64, W - xR - 30)), bxP = xR + 10;
+  const bw = Math.max(16, Math.min(40, (W - xR - 34)/2)), bxP = xR + 10;
+  // Arbeitsbalken direkt daneben — er zeigt, dass W allein von m und h abhängt,
+  // die Laufzeit ihn also NICHT verändert. Genau das trennt Arbeit von Leistung.
+  const bxW = bxP + bw + 8, yW = v => baseY - Math.min(v,WMAX)/WMAX*(baseY-topY);
+  ctx.fillStyle = '#1f6b3a';
+  ctx.fillRect(bxW, yW(A6_W), bw, baseY - yW(A6_W));
+  ctx.strokeStyle = '#144726'; ctx.lineWidth = 1.2;
+  ctx.strokeRect(bxW, yW(A6_W), bw, baseY - yW(A6_W));
+  haloText(ctx, 'W', bxW + bw/2, baseY + 14, '#1f6b3a', 'bold 12px "Source Sans 3",sans-serif', 'center');
+  haloText(ctx, (A6_W/1000).toFixed(1)+' kJ', bxW + bw/2, Math.max(topY+2, yW(A6_W)-6),
+           '#1f6b3a', 'bold 11px "JetBrains Mono",monospace', 'center');
+  haloText(ctx, 'P', bxP + bw/2, baseY + 14, '#8a4a0e', 'bold 12px "Source Sans 3",sans-serif', 'center');
   // Balken zuerst, Referenzlinien danach — so bleiben die Labels lesbar
   ctx.fillStyle = '#8a4a0e';
   ctx.fillRect(bxP, yP(P), bw, baseY - yP(P));
@@ -1605,7 +1674,7 @@ function drawA6() {
   haloText(ctx, P.toFixed(0) + ' W', bxP + bw / 2, yP(P) - 7, '#8a4a0e',
            'bold 13px "JetBrains Mono",monospace', 'center');
 }
-['a6-t','a6-h'].forEach(id=>document.getElementById(id).addEventListener('input', drawA6));
+['a6-t','a6-h','a6-m'].forEach(id=>document.getElementById(id).addEventListener('input', drawA6));
 // Aufstieg abspielen: der Fortschritt läuft in der eingestellten Laufzeit von 0 auf 1.
 // Damit wird «gleiche Arbeit, kürzere Zeit = mehr Leistung» als Tempo erlebbar.
 const a6Btn = document.getElementById('a6-btn');
@@ -1640,7 +1709,7 @@ a6Btn.addEventListener('click', ()=>{
 // aus Index-Formeln (goldener Winkel 2.399 rad), Bewegung als Funktion der
 // akkumulierten Phasenzeit tau. Gas-Reflexion über eine Dreieckswellen-Abbildung.
 const A7_N = 24;
-const a7State = { tau: 0, running: false, lastTs: 0, rafId: null };
+const a7State = { tau: 0, running: false, lastTs: 0, rafId: null, userPaused: false };
 
 function a7Tri(p, lo, hi) {   // spiegelnde Abbildung von p auf [lo, hi]
   const span = hi - lo;
@@ -1727,10 +1796,12 @@ document.getElementById('a7-btn').addEventListener('click', () => {
   const btn = document.getElementById('a7-btn');
   if (a7State.running) {
     a7State.running = false;
+    a7State.userPaused = true;            // beim Zurückscrollen nicht überfahren
     btn.textContent = '▶ Weiter';
     btn.classList.remove('paused');
   } else {
     a7State.running = true;
+    a7State.userPaused = false;
     a7State.lastTs = 0;
     btn.textContent = '⏸ Pause';
     btn.classList.add('paused');
@@ -1738,6 +1809,25 @@ document.getElementById('a7-btn').addEventListener('click', () => {
   }
 });
 document.getElementById('a7-T').addEventListener('input', drawA7);
+// Autostart beim Sichtbarwerden: ein Bewegungs-Widget darf nicht standardmässig
+// stillstehen. Wer selbst pausiert hat, wird beim Zurückscrollen nicht überfahren.
+if ('IntersectionObserver' in window) {
+  const a7El = document.getElementById('a7-cv'), a7Btn = document.getElementById('a7-btn');
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        if (!a7State.running && !a7State.userPaused) {
+          a7State.running = true; a7State.lastTs = 0;
+          a7Btn.textContent = '⏸ Pause'; a7Btn.classList.add('paused');
+          a7State.rafId = requestAnimationFrame(a7Tick);
+        }
+      } else if (a7State.running) {
+        a7State.running = false;
+        if (a7State.rafId) cancelAnimationFrame(a7State.rafId);
+      }
+    });
+  }, { threshold: 0.25 }).observe(a7El);
+}
 
 // ══════════════ INIT + RESIZE ══════════════
 function renderAll() {
