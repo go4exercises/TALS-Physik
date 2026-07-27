@@ -121,6 +121,11 @@ alt a3…a8 entsprechen neu a2…a7.*
   2400 W). Der Kontrast ist damit prüfbar: bei 40 kg und 120 s bleibt W bei
   7.8 kJ, während P auf 65 W fällt. Dazu Aufstiegshöhe einstellbar und ein
   Play-Knopf, der den Aufstieg in der eingestellten Laufzeit abspielt.
+  Ergänzt 27.07.2026: Reset-Knopf; das Treppenhaus ist fest 20 m hoch und die
+  Person steigt nur bis zur eingestellten Höhe (Zielmarke im Bild); beim
+  Abspielen wächst der Arbeitsbalken mit W(t) = m·g·h(t) auf die gestrichelte
+  E_pot-Marke zu, während der Leistungsbalken konstant bleibt; die Masse steuert
+  Strichstärke und Beschriftung der Figur.
 - [x] [NIEDRIG] a5 (neu a4) Faustregel-Diagramm: Abweichung als Klammer zwischen
   den beiden Kurven, mit Betrag und Prozentwert (bei 40 m: +0.063 bar, +1.28 %).
 

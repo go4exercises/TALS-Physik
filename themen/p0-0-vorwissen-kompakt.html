@@ -612,6 +612,7 @@ MathJax = {
 
     <div style="margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
       <button class="play-btn" id="a6-btn">▶ Aufstieg starten</button>
+      <button class="play-btn paused" id="a6-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
       <span style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">\(g = 9.81\;\text{m/s}^2\)</span>
     </div>
 
@@ -622,7 +623,8 @@ MathJax = {
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Arbeit \(W = m \cdot g \cdot h\)</span><span class="lb-val" id="a6-w">5886 J</span></div>
+      <div class="lb-item"><span class="lb-lab">bisher verrichtet \(W\)</span><span class="lb-val" id="a6-wjetzt">5886 J</span></div>
+      <div class="lb-item"><span class="lb-lab">am Schluss \(E_\text{pot}\)</span><span class="lb-val" id="a6-w">5886 J</span></div>
       <div class="lb-item"><span class="lb-lab">Zeit \(t\)</span><span class="lb-val" id="a6-live-t">40 s</span></div>
       <div class="lb-item"><span class="lb-lab">\(P = W/t\)</span><span class="lb-val" id="a6-p">147 W</span></div>
     </div>
@@ -1588,6 +1590,8 @@ function drawA6() {
   document.getElementById('a6-m-val').textContent = A6_M + ' kg';
   document.getElementById('a6-live-t').textContent = t + ' s';
   document.getElementById('a6-w').textContent = A6_W.toFixed(0) + ' J';
+  document.getElementById('a6-wjetzt').textContent =
+    (A6_M * A6_G * h * ((a6State.lauf || a6State.fort > 0) ? a6State.fort : 1)).toFixed(0) + ' J';
   document.getElementById('a6-p').textContent = P.toFixed(0) + ' W';
   // Ansatz, dann Werte mit Einheiten (STYLEGUIDE §2.1, §2.7)
   document.getElementById('a6-eq-w').textContent =
@@ -1603,8 +1607,11 @@ function drawA6() {
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.moveTo(0, yBoden); ctx.lineTo(W, yBoden); ctx.stroke();
 
-  // ── Treppe links ──
-  const nSt = 8, stW = Math.min(26, W * 0.04), stH = (yBoden - 60) / nSt;
+  // ── Treppe links: IMMER 20 m hoch, unabhängig von der Aufstiegshöhe ──
+  // Die Person steigt nur bis h — so sieht man, welchen Teil des Treppenhauses
+  // sie tatsächlich schafft, statt dass die Treppe selbst mitschrumpft.
+  const A6_HAUS = 20;                          // Treppenhaus-Höhe in m
+  const nSt = 10, stW = Math.min(24, W * 0.036), stH = (yBoden - 60) / nSt;
   const tx0 = 24;
   ctx.fillStyle = '#c9c2b6'; ctx.strokeStyle = '#9a927f'; ctx.lineWidth = 1;
   ctx.beginPath();
@@ -1615,20 +1622,40 @@ function drawA6() {
   }
   ctx.lineTo(tx0 + nSt * stW, yBoden);
   ctx.closePath(); ctx.fill(); ctx.stroke();
-  // Läufer-Figur auf halber Treppe
-  const stufe = a6State.lauf || a6State.fort>0 ? a6State.fort*nSt : 4.5;
-  const fx = tx0 + Math.min(stufe+0.5, nSt) * stW, fy = yBoden - Math.min(stufe+1, nSt) * stH;
-  ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = 2;
+  // Zielmarke bei h
+  const yZiel = yBoden - (h / A6_HAUS) * nSt * stH;
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.6; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(tx0 - 8, yZiel); ctx.lineTo(tx0 + nSt * stW + 8, yZiel); ctx.stroke();
+  ctx.setLineDash([]);
+  // Läufer: steht bei fort·h, im Ruhezustand am Ziel
+  const fortJetzt = (a6State.lauf || a6State.fort > 0) ? a6State.fort : 1;
+  const hJetzt = h * fortJetzt;
+  const anteil = hJetzt / A6_HAUS;                        // 0 … 1 der Treppe
+  const fx = tx0 + Math.min(anteil * nSt + 0.5, nSt) * stW;
+  const fy = yBoden - anteil * nSt * stH;
+  // Strichstärke wächst mit der Masse: 40 kg -> 1.6 px, 120 kg -> 4.0 px
+  const lw = 1.6 + (A6_M - 40) / 80 * 2.4;
+  ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = lw;
   ctx.beginPath(); ctx.arc(fx, fy - 26, 6, 0, Math.PI * 2); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(fx, fy - 20); ctx.lineTo(fx, fy - 6); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(fx, fy - 6); ctx.lineTo(fx - 6, fy + 4); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(fx, fy - 6); ctx.lineTo(fx + 7, fy + 2); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(fx, fy - 17); ctx.lineTo(fx + 9, fy - 12); ctx.stroke();
-  // Höhen-Doppelpfeil
-  const xA = tx0 + nSt * stW + 24;
-  drawArrow(ctx, xA, yBoden, xA, yBoden - nSt * stH, '#8a4a0e', 1.8, 7);
-  drawArrow(ctx, xA, yBoden - nSt * stH, xA, yBoden, '#8a4a0e', 1.8, 7);
-  haloText(ctx, 'h = '+h.toFixed(1)+' m', xA + 8, yBoden - nSt * stH / 2 + 4, '#8a4a0e',
+  ctx.lineWidth = 1;
+  haloText(ctx, A6_M + ' kg', Math.max(fx, 30), fy - 36, '#1c1a17',
+           'bold 12px "JetBrains Mono",monospace', 'center');   // am linken Rand halten
+  // Höhen-Doppelpfeile: aussen das Treppenhaus, innen die geschaffte Höhe
+  const xA = tx0 + nSt * stW + 22;
+  ctx.globalAlpha = 0.55;
+  drawArrow(ctx, xA, yBoden, xA, yBoden - nSt * stH, '#5a5040', 1.4, 6);
+  drawArrow(ctx, xA, yBoden - nSt * stH, xA, yBoden, '#5a5040', 1.4, 6);
+  ctx.globalAlpha = 1;
+  haloText(ctx, 'Haus 20 m', xA + 6, yBoden - nSt * stH + 12, '#5a5040',
+           '11px "Source Sans 3",sans-serif', 'left');
+  const xB = xA + 54;
+  drawArrow(ctx, xB, yBoden, xB, yZiel, '#1f6b3a', 1.8, 7);
+  drawArrow(ctx, xB, yZiel, xB, yBoden, '#1f6b3a', 1.8, 7);
+  haloText(ctx, 'h = ' + h.toFixed(1) + ' m', xB + 8, (yBoden + yZiel) / 2 + 4, '#1f6b3a',
            'bold 13px "JetBrains Mono",monospace', 'left');
 
   // ── Arbeits- und Leistungsbalken rechts, beide mit FESTER Skala ──
@@ -1652,13 +1679,23 @@ function drawA6() {
   // Arbeitsbalken direkt daneben — er zeigt, dass W allein von m und h abhängt,
   // die Laufzeit ihn also NICHT verändert. Genau das trennt Arbeit von Leistung.
   const bxW = bxP + bw + 8, yW = v => baseY - Math.min(v,WMAX)/WMAX*(baseY-topY);
+  // Während des Aufstiegs summiert sich die Arbeit auf: W(t) = m · g · h(t).
+  // Der Balken wächst mit, die gestrichelte Marke zeigt das Ziel — die
+  // Lageenergie E_pot = m · g · h, die am Schluss genau erreicht wird.
+  const WJetzt = A6_M * A6_G * hJetzt;
   ctx.fillStyle = '#1f6b3a';
-  ctx.fillRect(bxW, yW(A6_W), bw, baseY - yW(A6_W));
+  ctx.fillRect(bxW, yW(WJetzt), bw, baseY - yW(WJetzt));
   ctx.strokeStyle = '#144726'; ctx.lineWidth = 1.2;
-  ctx.strokeRect(bxW, yW(A6_W), bw, baseY - yW(A6_W));
+  ctx.strokeRect(bxW, yW(WJetzt), bw, baseY - yW(WJetzt));
+  // Zielmarke E_pot
+  ctx.strokeStyle = '#144726'; ctx.lineWidth = 1.6; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(bxW-4, yW(A6_W)); ctx.lineTo(bxW+bw+4, yW(A6_W)); ctx.stroke();
+  ctx.setLineDash([]);
   haloText(ctx, 'W', bxW + bw/2, baseY + 14, '#1f6b3a', 'bold 12px "Source Sans 3",sans-serif', 'center');
-  haloText(ctx, (A6_W/1000).toFixed(1)+' kJ', bxW + bw/2, Math.max(topY+2, yW(A6_W)-6),
+  haloText(ctx, (WJetzt/1000).toFixed(1)+' kJ', bxW + bw/2, Math.max(topY+14, yW(WJetzt)-6),
            '#1f6b3a', 'bold 11px "JetBrains Mono",monospace', 'center');
+  haloText(ctx, 'E_pot ' + (A6_W/1000).toFixed(1) + ' kJ', bxW + bw + 8, yW(A6_W) - 4, '#144726',
+           'bold 11px "JetBrains Mono",monospace', 'left');
   haloText(ctx, 'P', bxP + bw/2, baseY + 14, '#8a4a0e', 'bold 12px "Source Sans 3",sans-serif', 'center');
   // Balken zuerst, Referenzlinien danach — so bleiben die Labels lesbar
   ctx.fillStyle = '#8a4a0e';
@@ -1697,6 +1734,9 @@ function a6Stop(){
   if(a6State.rafId) cancelAnimationFrame(a6State.rafId);
   a6Btn.textContent = '▶ Aufstieg starten'; a6Btn.classList.remove('paused');
 }
+document.getElementById('a6-reset').addEventListener('click', ()=>{
+  a6Stop(); a6State.fort = 0; drawA6();
+});
 a6Btn.addEventListener('click', ()=>{
   if(a6State.lauf){ a6Stop(); }
   else {
