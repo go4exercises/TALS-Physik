@@ -155,6 +155,57 @@ MathJax = {
   <p><strong>Wasserwellen</strong> sind ein Sonderfall und nicht rein transversal: An der Oberfläche bewegen sich die Teilchen näherungsweise auf <strong>Kreis- bzw. Ellipsenbahnen</strong> — also eine Überlagerung aus Quer- und Längsbewegung.</p>
 </div>
 
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 7 · Wasserwelle — Teilchen auf Kreisbahnen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verfolge das hervorgehobene Teilchen: es läuft im Kreis und kehrt an seinen Platz zurück.</li><li>Die Welle wandert nach rechts — das Wasser wandert <strong>nicht</strong> mit.</li><li>Mit der Tiefe werden die Kreise kleiner und zu Ellipsen; am Grund bleibt nur ein Hin und Her.</li><li>Vergleiche mit dem Seil: dort schwingen die Teilchen nur auf und ab.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verfolge das hervorgehobene Teilchen: es läuft im Kreis und kehrt an seinen Platz zurück. Die Welle wandert nach rechts, das Wasser wandert nicht mit. Mit der Tiefe werden die Kreise kleiner und zu Ellipsen; am Grund bleibt nur ein Hin und Her. Vergleiche mit dem Seil, dort schwingen die Teilchen nur auf und ab." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Eine Wasserwelle ist weder rein transversal noch rein longitudinal.</li><li>Die Oberflächenteilchen laufen auf <strong>Kreisbahnen</strong>, in der Tiefe auf <strong>Ellipsen</strong>.</li><li>Transportiert wird Energie, nicht Wasser — jedes Teilchen kehrt zurück.</li><li>Darum treibt ein Korken auf und ab, statt mit der Welle davonzuschwimmen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Eine Wasserwelle ist weder rein transversal noch rein longitudinal. Die Oberflächenteilchen laufen auf Kreisbahnen, in der Tiefe auf Ellipsen. Transportiert wird Energie, nicht Wasser: jedes Teilchen kehrt an seinen Platz zurück. Darum treibt ein Korken auf und ab, statt mit der Welle davonzuschwimmen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+      <button class="play-btn" id="a7-btn">▶ Start</button>
+      <button class="play-btn paused" id="a7w-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <label style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Tempo</label>
+      <input type="range" id="a7-tempo" min="0.2" max="2" value="1" step="0.1" style="max-width:150px;">
+      <span class="sl-val" id="a7-tempo-val" style="min-width:52px;">1.0×</span>
+    </div>
+
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a7bahn="1">Bahnspuren zeigen</button>
+      <button class="typ-btn" data-a7bahn="0">nur Teilchen</button>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Bahn an der Oberfläche</span><span class="lb-val">Kreis</span></div>
+      <div class="lb-item"><span class="lb-lab">Bahn in der Tiefe</span><span class="lb-val">flache Ellipse</span></div>
+      <div class="lb-item"><span class="lb-lab">Nettotransport von Wasser</span><span class="lb-val">null</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🌊 Wasserwelle im Querschnitt — die Welle läuft, das Wasser bleibt</div>
+      <canvas id="a7w-cv" height="300" role="img" aria-label="Querschnitt durch eine Wasserwelle. Teilchen in mehreren Tiefen laufen auf Kreis- beziehungsweise Ellipsenbahnen; die Bahnen sind als dünne Linien eingezeichnet. Die Oberfläche wandert nach rechts, während ein hervorgehobenes Teilchen an seinen Ausgangsort zurückkehrt."></canvas>
+    </div>
+
+  </div>
+</div>
+
 <div class="block block-def">
   <div class="block-titel">📘 Mechanische Wellen und Schall</div>
   <p><strong>Mechanische Wellen</strong> brauchen ein <strong>Medium</strong> (fest, flüssig oder gasförmig), dessen gekoppelte Teilchen die Schwingung weitergeben — z.&nbsp;B. Wasserwellen, Erdbebenwellen und Schall. <strong>Schall</strong> ist eine Longitudinalwelle aus Druckschwankungen, erzeugt durch einen schwingenden Körper (Saite, Lautsprechermembran). Die Schallgeschwindigkeit hängt stark vom Medium ab:</p>
@@ -1352,6 +1403,82 @@ function a5Render(){
   }
 }
 const a5Loop=makeLoop('a5-cv','a5-btn',a5Tick);
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 7: Wasserwelle — Teilchen auf Kreisbahnen
+//  Modell (Tiefwasserwelle): ein Teilchen in der Ruhelage (x₀, z) läuft auf
+//  einem Kreis mit Radius R(z) = A·e^(−k·z). An der Oberfläche ist der Kreis
+//  am grössten, mit der Tiefe schrumpft er — daher die flachen Ellipsen unten.
+// ══════════════════════════════════════════════════════════
+const A7W = { t: 0, bahn: true };
+const A7W_LAM = 300;                     // Wellenlänge in px (A/λ ≈ 0.07, sonst
+                                         // überschlägt sich die Oberfläche)
+function a7wTempo(){ const e=document.getElementById('a7-tempo');
+  document.getElementById('a7-tempo-val').textContent=(+e.value).toFixed(1)+'×'; return +e.value; }
+function a7wTick(dt){ A7W.t += dt * a7wTempo(); a7wRender(); }
+function a7wRender(){
+  const cv=initCanvas('a7w-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  ctx.fillStyle='#eaf4f8'; ctx.fillRect(0,0,W,H);
+  const yO = 78, grund = H - 34;         // Ruhelage der Oberfläche, Gewässergrund
+  const k = 2*Math.PI/A7W_LAM, om = 2*Math.PI*0.35, A = 22;
+  const R = z => A * Math.exp(-k * z);   // Bahnradius in der Tiefe z
+  const pos = (x0, z) => [ x0 + R(z)*Math.sin(k*x0 - om*A7W.t),
+                           yO + z - R(z)*Math.cos(k*x0 - om*A7W.t) ];
+  // Grund
+  ctx.fillStyle='#c8b98f'; ctx.fillRect(0, grund, W, H-grund);
+  // Wasserkörper bis zur momentanen Oberfläche
+  ctx.fillStyle='rgba(95,169,198,0.45)'; ctx.beginPath();
+  ctx.moveTo(0, grund);
+  for(let x=0;x<=W;x+=3){ ctx.lineTo(x, pos(x,0)[1]); }
+  ctx.lineTo(W, grund); ctx.closePath(); ctx.fill();
+  // Oberflächenlinie
+  ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=2.4; ctx.beginPath();
+  for(let x=0;x<=W;x+=3){ const p=pos(x,0); if(x===0)ctx.moveTo(p[0],p[1]); else ctx.lineTo(p[0],p[1]); }
+  ctx.stroke();
+  // Teilchen in mehreren Tiefen
+  const tiefen=[0,34,68,102,136];
+  const startX=[];
+  for(let x=40;x<W-20;x+=52) startX.push(x);
+  tiefen.forEach(function(z,zi){
+    if(yO+z > grund-14) return;
+    startX.forEach(function(x0,xi){
+      if(A7W.bahn && R(z) > 2){
+        ctx.strokeStyle='rgba(26,79,138,'+(0.30-0.045*zi).toFixed(3)+')'; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.arc(x0, yO+z, R(z), 0, 6.283); ctx.stroke();
+      }
+      const p=pos(x0,z);
+      const markiert = (zi===0 && xi===2);
+      ctx.fillStyle = markiert ? '#b85c00' : 'rgba(26,79,138,'+(0.75-0.11*zi).toFixed(2)+')';
+      ctx.beginPath(); ctx.arc(p[0],p[1], markiert?7:4.5, 0, 6.283); ctx.fill();
+      if(markiert){ ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke(); }
+    });
+  });
+  // Laufrichtung der Welle
+  const engW = W < 520;
+  drawArrow(ctx, W-(engW?110:160), 30, W-20, 30, '#1a4f8a', 2.4, 9);
+  ctx.fillStyle='#1a4f8a'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
+  ctx.fillText('die Welle läuft →', W-20, 22);
+  if(!engW){
+    ctx.fillStyle='#b85c00'; ctx.textAlign='left';
+    ctx.fillText('markiertes Teilchen: kehrt an seinen Platz zurück', 14, 22);
+  }
+  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText(engW ? 'in der Tiefe: kleinere, flachere Bahnen'
+                    : 'mit der Tiefe werden die Kreise kleiner und flacher — am Grund bleibt ein Hin und Her',
+               W/2, H-12);
+}
+const a7wLoop=makeLoop('a7w-cv','a7-btn',a7wTick);
+document.getElementById('a7w-reset').addEventListener('click',function(){
+  a7wLoop.userPaused=true; a7wLoop.stop();
+  const b=document.getElementById('a7-btn'); b.textContent='▶ Start'; b.classList.remove('paused');
+  A7W.t=0; a7wRender();
+});
+document.getElementById('a7-tempo').addEventListener('input',a7wTempo);
+document.querySelectorAll('[data-a7bahn]').forEach(function(b){ b.addEventListener('click',function(){
+  A7W.bahn = b.dataset.a7bahn==='1';
+  document.querySelectorAll('[data-a7bahn]').forEach(function(x){ x.classList.toggle('aktiv', x===b); });
+  a7wRender();
+}); });
 // Q6: Reset für alle vier animierten Widgets — Phase zurück auf null,
 // Schleife anhalten, Knopf zurücksetzen.
 [['ein', ()=>{ einPhase=0; einRender(); }, einLoop],
@@ -1523,6 +1650,7 @@ function initAll(){
   drawA4();
   a5Buttons(); a5Render();
   drawA6();
+  a7wRender();
 
   if('IntersectionObserver' in window){
     const map=new Map();

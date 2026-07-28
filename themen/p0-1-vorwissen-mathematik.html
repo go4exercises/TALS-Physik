@@ -694,6 +694,73 @@ MathJax = {
 
 <p>Die dritte Zeile zeigt das Problem: Auf 2 Kommastellen gerundet bleibt von \(0.048107\) nur noch \(0.05\) — eine einzige geltende Ziffer, über 4 % Rundungsfehler. Das Runden nach signifikanten Stellen behandelt dagegen grosse und kleine Zahlen gleich fair.</p>
 
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 6 · Kommastellen gegen signifikante Stellen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Wähle eine kleine Zahl wie \(0.048107\) und runde auf 2 Kommastellen — der Fehlerbalken schlägt aus.</li><li>Dieselbe Zahl auf 3 signifikante Stellen: der Fehler bleibt winzig.</li><li>Bei einer grossen Zahl wie \(452.39\) ist es genau umgekehrt.</li><li>Der Fehlerbalken zeigt den relativen Fehler in Prozent — er macht «fair» messbar.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Wähle eine kleine Zahl wie null Komma null vier acht und runde auf zwei Kommastellen: der Fehlerbalken schlägt aus. Dieselbe Zahl auf drei signifikante Stellen gerundet bleibt der Fehler winzig. Bei einer grossen Zahl wie vierhundertzweiundfünfzig ist es genau umgekehrt. Der Fehlerbalken zeigt den relativen Fehler in Prozent." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Kommastellen behandeln grosse und kleine Zahlen <strong>ungleich</strong>.</li><li>Signifikante Stellen liefern bei jeder Grössenordnung denselben relativen Fehler.</li><li>Darum runden wir in der Physik auf signifikante Stellen — üblicherweise auf drei.</li><li>Führende Nullen sind nie signifikant.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Das Runden auf Kommastellen behandelt grosse und kleine Zahlen ungleich. Das Runden auf signifikante Stellen liefert bei jeder Grössenordnung denselben relativen Fehler. Darum runden wir in der Physik auf signifikante Stellen, üblicherweise auf drei. Führende Nullen sind nie signifikant." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a6zahl="452.39">452.39</button>
+      <button class="typ-btn" data-a6zahl="19.618">19.618</button>
+      <button class="typ-btn" data-a6zahl="0.048107">0.048107</button>
+      <button class="typ-btn" data-a6zahl="0.0006284">0.0006284</button>
+    </div>
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Kommastellen:</label>
+      <input type="range" id="a6-k" min="0" max="6" value="2" step="1">
+      <span class="sl-val" id="a6-k-val">2</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>signifikante Stellen:</label>
+      <input type="range" id="a6-n" min="1" max="6" value="3" step="1">
+      <span class="sl-val" id="a6-n-val">3</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Ausgangswert und die beiden Rundungen</div>
+      <div class="fl-eq" id="a6-eq0">Ausgangswert: 452.39</div>
+      <div class="fl-eq" id="a6-eq1">auf 2 Kommastellen: 452.39</div>
+      <div class="fl-eq" id="a6-eq2">auf 3 signifikante Stellen: 452</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Fehler nach Kommastellen</span><span class="lb-val" id="a6-fk">0.000 %</span></div>
+      <div class="lb-item"><span class="lb-lab">Fehler nach sign. Stellen</span><span class="lb-val" id="a6-fn">0.086 %</span></div>
+      <div class="lb-item"><span class="lb-lab">geltende Ziffern (Komma)</span><span class="lb-val" id="a6-gz">5</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📏 Relativer Rundungsfehler — feste Skala 0 … 20 %</div>
+      <canvas id="a6-rnd-cv" height="200" role="img" aria-label="Zwei waagrechte Balken auf einer festen Prozentskala von null bis zwanzig Prozent. Der obere zeigt den relativen Fehler beim Runden auf Kommastellen, der untere den beim Runden auf signifikante Stellen. Bei kleinen Zahlen wird der obere Balken lang, der untere bleibt kurz."></canvas>
+    </div>
+
+  </div>
+</div>
+
 <div class="block block-tipp">
   <div class="block-titel">💡 So halten wir es in der Physik</div>
   <ul>
@@ -1653,9 +1720,83 @@ document.getElementById('a6-reset').addEventListener('click', () => {
   a6St.step = 0; a6St.fehler = false; drawA6();
 });
 
+// ══════════════ ANIMATION 6 — Runden: Kommastellen gegen signifikante Stellen ══════════════
+// Der Abschnitt behauptet, das Runden nach signifikanten Stellen sei «fair».
+// Fair heisst: gleicher relativer Fehler bei jeder Grössenordnung. Genau das
+// macht der Fehlerbalken messbar.
+let a6Zahl = 452.39;
+function a6Sig(x, n) {
+  if (x === 0) return 0;
+  const e = Math.floor(Math.log10(Math.abs(x)));
+  const f = Math.pow(10, n - 1 - e);
+  return Math.round(x * f) / f;
+}
+function a6Ziffern(txt) {
+  // geltende Ziffern einer Dezimalzahl: führende Nullen zählen nicht mit
+  const m = txt.replace('-', '').replace('.', '').replace(/^0+/, '');
+  return m.length;
+}
+function drawRunden() {
+  const k = +document.getElementById('a6-k').value;
+  const n = +document.getElementById('a6-n').value;
+  document.getElementById('a6-k-val').textContent = k;
+  document.getElementById('a6-n-val').textContent = n;
+  const x = a6Zahl;
+  const xk = Math.round(x * Math.pow(10, k)) / Math.pow(10, k);
+  const xn = a6Sig(x, n);
+  const tk = xk.toFixed(k);
+  const tn = xn.toPrecision(n).replace(/e\+?(-?)(\d+)/, '·10^$1$2');
+  const fk = Math.abs(xk - x) / Math.abs(x) * 100;
+  const fn = Math.abs(xn - x) / Math.abs(x) * 100;
+  document.getElementById('a6-eq0').textContent = 'Ausgangswert: ' + x;
+  document.getElementById('a6-eq1').textContent = 'auf ' + k + ' Kommastellen: ' + tk;
+  document.getElementById('a6-eq2').textContent = 'auf ' + n + ' signifikante Stellen: ' + tn;
+  document.getElementById('a6-fk').textContent = fk.toFixed(3) + ' %';
+  document.getElementById('a6-fn').textContent = fn.toFixed(3) + ' %';
+  document.getElementById('a6-gz').textContent = a6Ziffern(tk);
+
+  const cv = initCanvas('a6-rnd-cv', 200, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0, 0, W, H);
+  const eng = W < 520;
+  const PMAX = 20, x0 = eng ? 106 : 190, x1 = W - (eng ? 20 : 60);
+  const pToPx = p => x0 + Math.min(p, PMAX) / PMAX * (x1 - x0);
+  // Skala
+  ctx.strokeStyle = '#d8d0c4'; ctx.lineWidth = 1;
+  ctx.fillStyle = '#6b7280'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  for (let p = 0; p <= PMAX; p += (eng ? 10 : 5)) {
+    ctx.beginPath(); ctx.moveTo(pToPx(p), 34); ctx.lineTo(pToPx(p), H - 34); ctx.stroke();
+    ctx.fillText(p + ' %', pToPx(p), H - 16);
+  }
+  function balken(y, wert, farbe, label) {
+    const L = pToPx(wert) - x0, ueber = wert > PMAX;
+    ctx.fillStyle = '#efeade'; ctx.fillRect(x0, y, x1 - x0, 26);
+    ctx.fillStyle = farbe; ctx.fillRect(x0, y, Math.max(2, L), 26);
+    ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1; ctx.strokeRect(x0, y, x1 - x0, 26);
+    ctx.fillStyle = '#3a332a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'right';
+    ctx.fillText(label, x0 - 10, y + 18);
+    const txt = wert.toFixed(3) + ' %' + (ueber ? ' — über der Skala' : '');
+    if (ueber) { ctx.fillStyle = '#fff'; ctx.textAlign = 'right'; ctx.fillText(txt, x1 - 8, y + 18); }
+    else { ctx.fillStyle = farbe; ctx.textAlign = 'left'; ctx.fillText(txt, x0 + L + 8, y + 18); }
+  }
+  balken(48, fk, '#9b1c1c', eng ? (k + ' Komma') : (k + ' Kommastellen'));
+  balken(96, fn, '#1f6b3a', eng ? (n + ' sign.') : (n + ' sign. Stellen'));
+  ctx.fillStyle = fk > fn * 3 ? '#9b1c1c' : '#5a5040';
+  ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(fk > fn * 3
+      ? (eng ? 'Kommastellen verlieren mehr' : 'die Kommastellen-Rundung verliert hier deutlich mehr Genauigkeit')
+      : (eng ? 'beide ähnlich genau' : 'bei dieser Zahl liegen beide Rundungen nahe beieinander'), W / 2, 22);
+}
+['a6-k','a6-n'].forEach(i => document.getElementById(i).addEventListener('input', drawRunden));
+document.querySelectorAll('[data-a6zahl]').forEach(b => b.addEventListener('click', () => {
+  a6Zahl = +b.dataset.a6zahl;
+  document.querySelectorAll('[data-a6zahl]').forEach(x => x.classList.toggle('aktiv', x === b));
+  drawRunden();
+}));
+
 // ══════════════ INIT + RESIZE ══════════════
 function renderAll() {
-  drawA1(); drawA2(); drawA3(); drawA4(); drawA5(); a6SetButtons(); drawA6();
+  drawA1(); drawA2(); drawA3(); drawA4(); drawA5(); a6SetButtons(); drawA6(); drawRunden();
 }
 document.addEventListener('DOMContentLoaded', renderAll);
 // Bei Breitenänderung neu zeichnen — per rAF gedrosselt (Muster p4-1)

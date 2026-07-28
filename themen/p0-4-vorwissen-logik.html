@@ -106,6 +106,55 @@ MathJax = {
   <p>Wachsen zwei Grössen gemeinsam, ohne dass die eine die andere verursacht, spricht man von einer <strong>Korrelation</strong>. Alltagsbeispiel: Im Sommer steigen der Glacé-Verkauf und die Zahl der Sonnenbrände gemeinsam an. Das Glacé verursacht aber keinen Sonnenbrand — beide Grössen haben eine <em>gemeinsame Ursache</em>: das sonnige, heisse Wetter. Eine Je-desto-<em>Beobachtung</em> ist darum noch kein Beweis für eine Ursache-Wirkung-Beziehung; erst wenn nur eine Grösse verändert wird und alle anderen konstant bleiben, wird die Wirkrichtung sichtbar.</p>
 </div>
 
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 6 · Glacé und Sonnenbrand — die dritte Grösse</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Ohne Färbung sieht die Punktwolke nach einem klaren Zusammenhang aus.</li><li>Schalte die dritte Grösse ein: die Farbe zeigt die Sonnenstunden — und die Wolke zerfällt in Gruppen.</li><li>Innerhalb einer Farbe verschwindet der Zusammenhang fast vollständig.</li><li>Genau das meint «gemeinsame Ursache».</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Ohne Färbung sieht die Punktwolke nach einem klaren Zusammenhang aus. Schalte die dritte Grösse ein: die Farbe zeigt die Sonnenstunden, und die Wolke zerfällt in Gruppen. Innerhalb einer Farbe verschwindet der Zusammenhang fast vollständig. Genau das meint gemeinsame Ursache." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Eine Punktwolke, die steigt, beweist keine Ursache.</li><li>Eine <strong>dritte Grösse</strong> kann beide Grössen gleichzeitig treiben — hier die Sonne.</li><li>Hält man die dritte Grösse fest (eine Farbgruppe betrachten), bleibt kaum ein Zusammenhang übrig.</li><li>Beweiskraft hat erst das Experiment: eine Grösse ändern, alles andere konstant halten.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Eine Punktwolke, die steigt, beweist keine Ursache. Eine dritte Grösse kann beide Grössen gleichzeitig treiben, hier die Sonne. Hält man die dritte Grösse fest und betrachtet nur eine Farbgruppe, bleibt kaum ein Zusammenhang übrig. Beweiskraft hat erst das Experiment: eine Grösse ändern, alles andere konstant halten." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a6f="0">nur die zwei Grössen</button>
+      <button class="typ-btn" data-a6f="1">dritte Grösse einfärben (Sonnenstunden)</button>
+      <button class="typ-btn" data-a6f="2">nur eine Sonnengruppe zeigen</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Was die Punktwolke zeigt</div>
+      <div class="fl-eq" id="a6-korr">alle 60 Tage zusammen: deutlicher Zusammenhang</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Datenpunkte</span><span class="lb-val" id="a6-n">60 Tage</span></div>
+      <div class="lb-item"><span class="lb-lab">Zusammenhang</span><span class="lb-val" id="a6-str">stark</span></div>
+      <div class="lb-item"><span class="lb-lab">Ursache</span><span class="lb-val" id="a6-urs">Sonnenstunden</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📊 Glacé-Verkauf gegen Sonnenbrände — 60 Sommertage</div>
+      <canvas id="a6-korr-cv" height="320" role="img" aria-label="Streudiagramm mit 60 Punkten: waagrecht der Glacé-Verkauf, senkrecht die Zahl der Sonnenbrände. Ohne Einfärbung steigen die Punkte deutlich an. Werden die Punkte nach Sonnenstunden eingefärbt, zerfällt die Wolke in Gruppen; innerhalb einer Gruppe ist kaum noch ein Anstieg zu erkennen."></canvas>
+    </div>
+
+  </div>
+</div>
+
 <p>Genau das leistet ein Experiment: <strong>eine</strong> Grösse wird per Regler verändert, der Rest bleibt fest. Das folgende Beispiel ist ein Klassiker aus der Sek I — eine Schraubenfeder, an die ein Massestück gehängt wird. Die Feder dehnt sich um so mehr, je grösser die angehängte Masse ist.</p>
 
 <!-- ANIM 1: Je-desto-Explorer Federdehnung -->
@@ -1183,8 +1232,80 @@ document.querySelectorAll('[data-a5f]').forEach(b => b.addEventListener('click',
 }));
 
 // ══════════════ INIT + RESIZE ══════════════
+// ══════════════ ANIMATION 6 — Korrelation ist keine Kausalität ══════════════
+// Modell: Sonnenstunden treiben BEIDE Grössen. Zwischen Glacé und Sonnenbrand
+// gibt es keinen direkten Pfad — der scheinbare Zusammenhang entsteht allein
+// über die dritte Grösse. Die Daten sind darum deterministisch erzeugt (kein
+// Math.random pro Frame), damit die Wolke beim Umschalten stehen bleibt.
+const A6_DATEN = (function () {
+  const d = [];
+  for (let i = 0; i < 60; i++) {
+    // Pseudo-Zufall aus dem Index: stabil über alle Neuzeichnungen
+    const r1 = (Math.sin(i * 12.9898) * 43758.5453) % 1;
+    const r2 = (Math.sin(i * 78.233 + 3.1) * 27183.1234) % 1;
+    const r3 = (Math.sin(i * 39.346 + 1.7) * 12345.6789) % 1;
+    const sonne = 2 + 10 * ((r1 + 1) % 1);                 // 2 … 12 h Sonne
+    const glace = 40 + 26 * sonne + 90 * (((r2 + 1) % 1) - 0.5);   // Portionen
+    const brand = 1 + 2.4 * sonne + 6 * (((r3 + 1) % 1) - 0.5);    // Fälle
+    d.push({ sonne: sonne, glace: Math.max(0, glace), brand: Math.max(0, brand) });
+  }
+  return d;
+})();
+let a6Modus = 0;
+function a6SonnenFarbe(h) {
+  const f = Math.max(0, Math.min(1, (h - 2) / 10));
+  return 'rgb(' + Math.round(60 + f * 195) + ',' + Math.round(90 + f * 90) + ',' + Math.round(200 - f * 180) + ')';
+}
+function drawKorrelation() {
+  const cv = initCanvas('a6-korr-cv', 320, false);
+  const gr = drawGrid(cv.ctx, cv.W, cv.H, -10, 400, -1, 34);
+  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 'Glacé [Portionen]', 'Sonnenbrände');
+  const c = cv.ctx;
+  const gezeigt = A6_DATEN.filter(p => a6Modus !== 2 || (p.sonne >= 8 && p.sonne <= 10));
+  gezeigt.forEach(p => {
+    c.fillStyle = a6Modus === 0 ? '#5a5040' : a6SonnenFarbe(p.sonne);
+    c.beginPath(); c.arc(gr.cx(p.glace), gr.cy(p.brand), 5.5, 0, 6.283); c.fill();
+    c.strokeStyle = '#fff'; c.lineWidth = 1; c.stroke();
+  });
+  // Farbskala als Legende
+  if (a6Modus !== 0) {
+    const lx = cv.W - 190, ly = 18;
+    for (let i = 0; i < 100; i++) {
+      c.fillStyle = a6SonnenFarbe(2 + i / 100 * 10);
+      c.fillRect(lx + i * 1.3, ly, 1.4, 12);
+    }
+    c.strokeStyle = '#9aa1ab'; c.lineWidth = 1; c.strokeRect(lx, ly, 130, 12);
+    c.fillStyle = '#6b7280'; c.font = '13px JetBrains Mono,monospace';
+    c.textAlign = 'left'; c.fillText('2 h', lx, ly + 26);
+    c.textAlign = 'right'; c.fillText('12 h Sonne', lx + 130, ly + 26);
+  }
+  // Korrelationskoeffizient der gezeigten Punkte
+  const n = gezeigt.length;
+  const mx = gezeigt.reduce((a, p) => a + p.glace, 0) / n;
+  const my = gezeigt.reduce((a, p) => a + p.brand, 0) / n;
+  let sxy = 0, sxx = 0, syy = 0;
+  gezeigt.forEach(p => { const dx = p.glace - mx, dy = p.brand - my; sxy += dx*dy; sxx += dx*dx; syy += dy*dy; });
+  const r = sxy / Math.sqrt(sxx * syy);
+  document.getElementById('a6-n').textContent = n + (a6Modus === 2 ? ' Tage (8–10 h Sonne)' : ' Tage');
+  document.getElementById('a6-str').textContent = Math.abs(r) > 0.7 ? 'stark' : (Math.abs(r) > 0.4 ? 'mittel' : 'kaum vorhanden');
+  document.getElementById('a6-urs').textContent = 'Sonnenstunden';
+  document.getElementById('a6-korr').textContent =
+    a6Modus === 0 ? 'alle 60 Tage zusammen: r = ' + r.toFixed(2) + ' — sieht nach klarem Zusammenhang aus'
+    : a6Modus === 1 ? 'dieselben Punkte, nach Sonnenstunden eingefärbt: die Wolke ordnet sich nach der Farbe'
+    : 'nur Tage mit 8–10 h Sonne: r = ' + r.toFixed(2) + ' — der Zusammenhang ist fast verschwunden';
+  c.fillStyle = a6Modus === 2 ? '#1f6b3a' : '#5a5040';
+  c.font = 'bold 13px Source Sans 3,sans-serif'; c.textAlign = 'center';
+  c.fillText(a6Modus === 2 ? 'dritte Grösse festgehalten → kein Zusammenhang mehr'
+                           : 'r = ' + r.toFixed(2), cv.W / 2, 16);
+}
+document.querySelectorAll('[data-a6f]').forEach(b => b.addEventListener('click', () => {
+  a6Modus = +b.dataset.a6f;
+  document.querySelectorAll('[data-a6f]').forEach(x => x.classList.toggle('aktiv', x === b));
+  drawKorrelation();
+}));
+
 function renderAll() {
-  drawA1(); drawA2(); drawA3(); drawA4(); drawA5();
+  drawA1(); drawA2(); drawA3(); drawA4(); drawA5(); drawKorrelation();
 }
 document.addEventListener('DOMContentLoaded', renderAll);
 // Bei Breitenänderung neu zeichnen — per rAF gedrosselt

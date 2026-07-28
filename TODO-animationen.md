@@ -17,14 +17,15 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
 
 ---
 
-> **Stand 28.07.2026 — alle Punkte je Themenseite sind erledigt.**
-> Abgearbeitet sind: Block B (fachliche Fehler), sämtliche Querschnittspunkte
-> Q1 bis Q6, alle [HOCH]-, [MITTEL]- und [NIEDRIG]-Einträge der 16 Themenseiten
-> sowie ein Stilcheck über alle Seiten.
+> **Stand 28.07.2026 — diese Liste ist vollständig abgearbeitet.**
+> Erledigt sind: Block B (fachliche Fehler), sämtliche Querschnittspunkte
+> Q1 bis Q6, alle [HOCH]-, [MITTEL]- und [NIEDRIG]-Einträge der 16 Themenseiten,
+> ein Stilcheck über alle Seiten und alle Vorschläge aus Abschnitt D
+> (neue Animationen).
 >
-> Offen bleiben nur noch **fünf Vorschläge für ganz neue Animationen** aus
-> Abschnitt D — vier davon auf den Vorwissen-Seiten p0-1 bis p0-4, einer auf
-> p6-1 (Wasserwellen-Kreisbahnen).
+> Die Liste bleibt als Begründungsarchiv stehen — jeder Eintrag trägt eine Notiz,
+> was umgesetzt wurde und warum. Neue Befunde gehören ans Ende der jeweiligen
+> Seitenrubrik.
 
 ## A. Querschnittsbefunde (mehrere Seiten, gemeinsame Ursache)
 
@@ -766,12 +767,12 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 | ~~MITTEL~~ ✓ | p5-2 | ~~Wärmepumpen-Sankey mit COP-Regler~~ — umgesetzt als Animation 6 |
 | ~~MITTEL~~ ✓ | p6-2 | ~~Coulomb-Gesetz (1/r²-Widget)~~ — umgesetzt 28.07.2026 |
 | ~~MITTEL~~ ✓ | p4-5 | ~~Federwaage «scheinbares Gewicht»~~ — in Animation 4 integriert 28.07.2026 |
-| MITTEL | p0-1 | Runden-Widget (Kommastellen vs. signifikante Stellen) |
-| MITTEL | p0-2 | Wärmestrom-Widget (zwei Körper, Pfeil ∝ ΔT) zu «Temperatur ≠ Wärme» |
-| MITTEL | p0-3 | DEG/RAD-Vergleichswidget (sin x in beiden Modi, ohne Canvas machbar) |
-| MITTEL | p0-4 | Streudiagramm «Korrelation ≠ Kausalität» (dritte Variable als Farbe) |
+| ~~MITTEL~~ ✓ | p0-1 | ~~Runden-Widget~~ — umgesetzt 28.07.2026 als Animation 6 |
+| ~~MITTEL~~ ✓ | p0-2 | ~~Wärmestrom-Widget~~ — umgesetzt 28.07.2026 als Animation 7 |
+| ~~MITTEL~~ ✓ | p0-3 | ~~DEG/RAD-Vergleichswidget~~ — umgesetzt 28.07.2026 als Animation 6 |
+| ~~MITTEL~~ ✓ | p0-4 | ~~Streudiagramm «Korrelation ≠ Kausalität»~~ — umgesetzt 28.07.2026 als Animation 6 |
 | ~~NIEDRIG~~ ✓ | p5-3 | ~~Bimetallstreifen~~ — umgesetzt |
-| NIEDRIG | p6-1 | Wasserwellen-Kreisbahnen |
+| ~~NIEDRIG~~ ✓ | p6-1 | ~~Wasserwellen-Kreisbahnen~~ — umgesetzt 28.07.2026 als Animation 7 |
 | ~~NIEDRIG~~ ✓ | p6-2 | ~~AC/DC-U(t)-Panel~~ — umgesetzt 28.07.2026 |
 
 ## E. Streichungen / Ersatz / Zusammenlegungen

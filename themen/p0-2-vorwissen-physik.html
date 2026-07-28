@@ -635,6 +635,71 @@ MathJax = {
   <p><strong>Wärme</strong> dagegen ist <em>Energie unterwegs</em>: die Energie, die von einem warmen zu einem kalten Körper übertragen wird — deshalb wird sie wie jede Energie in Joule gemessen. Die heisse Bratpfanne «enthält» keine Wärme; sie hat eine hohe Temperatur und gibt Wärme an die Hand ab, wenn man sie berührt. Wärme fliesst von selbst immer nur vom wärmeren zum kälteren Körper.</p>
 </div>
 
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 7 · Wärmestrom zwischen zwei Körpern</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle beide Temperaturen gleich ein: der Pfeil verschwindet, obwohl beide Körper heiss sein können.</li><li>Vergrössere den Unterschied: der Pfeil wird dicker — der Wärmestrom wächst mit \(\Delta T\).</li><li>Drehe das Verhältnis um: der Pfeil kehrt die Richtung, nie fliesst Wärme von kalt nach warm.</li><li>Starte den Ausgleich und beobachte, wie sich beide Temperaturen treffen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle beide Temperaturen gleich ein: der Pfeil verschwindet, obwohl beide Körper heiss sein können. Vergrössere den Unterschied: der Pfeil wird dicker, der Wärmestrom wächst mit der Temperaturdifferenz. Drehe das Verhältnis um: der Pfeil kehrt die Richtung, nie fliesst Wärme von kalt nach warm. Starte den Ausgleich und beobachte, wie sich beide Temperaturen treffen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Temperatur ist ein <strong>Zustand</strong>, Wärme ist <strong>Energie unterwegs</strong>.</li><li>Wärme fliesst nur, wenn ein Temperaturunterschied besteht — und immer vom wärmeren zum kälteren Körper.</li><li>Bei gleicher Temperatur fliesst nichts, auch wenn beide Körper sehr heiss sind.</li><li>Am Ende gleichen sich die Temperaturen an; der Strom versiegt von selbst.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Temperatur ist ein Zustand, Wärme ist Energie unterwegs. Wärme fliesst nur, wenn ein Temperaturunterschied besteht, und immer vom wärmeren zum kälteren Körper. Bei gleicher Temperatur fliesst nichts, auch wenn beide Körper sehr heiss sind. Am Ende gleichen sich die Temperaturen an und der Strom versiegt von selbst." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>linker Körper \(\vartheta_1\):</label>
+      <input type="range" id="ws-t1" min="0" max="100" value="80" step="1">
+      <span class="sl-val" id="ws-t1-val">80 °C</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>rechter Körper \(\vartheta_2\):</label>
+      <input type="range" id="ws-t2" min="0" max="100" value="20" step="1">
+      <span class="sl-val" id="ws-t2-val">20 °C</span>
+
+      </div>
+    </div>
+
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+      <button class="play-btn" id="ws-btn">▶ Ausgleich abspielen</button>
+      <button class="play-btn paused" id="ws-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">beide Körper: 1 kg Wasser</div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Was den Wärmestrom antreibt</div>
+      <div class="fl-eq">Antrieb = Temperaturdifferenz Δϑ = ϑ₁ − ϑ₂</div>
+      <div class="fl-eq" id="ws-eq">Δϑ = 80 °C − 20 °C = 60 K   →   Wärme fliesst nach rechts</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Differenz \(\Delta\vartheta\)</span><span class="lb-val" id="ws-d">60 K</span></div>
+      <div class="lb-item"><span class="lb-lab">Richtung</span><span class="lb-val" id="ws-r">nach rechts</span></div>
+      <div class="lb-item"><span class="lb-lab">Mischtemperatur am Ende</span><span class="lb-val" id="ws-m">50.0 °C</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🔥 Zwei Körper — der Pfeil ist der Wärmestrom</div>
+      <canvas id="ws-cv" height="250" role="img" aria-label="Zwei Körper nebeneinander, eingefärbt nach ihrer Temperatur. Zwischen ihnen zeigt ein Pfeil den Wärmestrom; seine Dicke ist proportional zur Temperaturdifferenz und seine Richtung weist stets vom wärmeren zum kälteren Körper. Bei gleicher Temperatur verschwindet der Pfeil."></canvas>
+    </div>
+
+  </div>
+</div>
+
 <details class="frage">
   <summary>❓ Ein Metallgeländer und ein Holzgeländer stehen beide draussen bei 5 °C. Warum fühlt sich das Metall viel kälter an?</summary>
   <div class="frage-antwort">
@@ -1630,9 +1695,106 @@ if ('IntersectionObserver' in window) {
   }, { threshold: 0.25 }).observe(a6El);
 }
 
+// ══════════════ ANIMATION 7 — Wärmestrom zwischen zwei Körpern ══════════════
+// «Temperatur ≠ Wärme» ist im Text erklärt, war aber nirgends zu sehen. Hier
+// treibt allein die Differenz Δϑ den Strom: gleich heiss = kein Fluss.
+const wsSt = { t1: 80, t2: 20, running: false, lastTs: 0, rafId: null };
+function wsFarbe(T) {
+  const f = Math.max(0, Math.min(1, T / 100));
+  return 'rgb(' + Math.round(70 + f * 175) + ',' + Math.round(130 - f * 90) + ',' + Math.round(200 - f * 160) + ')';
+}
+function drawWaermestrom() {
+  const d = wsSt.t1 - wsSt.t2;
+  document.getElementById('ws-t1-val').textContent = wsSt.t1.toFixed(0) + ' °C';
+  document.getElementById('ws-t2-val').textContent = wsSt.t2.toFixed(0) + ' °C';
+  document.getElementById('ws-d').textContent = Math.abs(d).toFixed(1) + ' K';
+  const richtung = Math.abs(d) < 0.5 ? 'kein Fluss' : (d > 0 ? 'nach rechts' : 'nach links');
+  document.getElementById('ws-r').textContent = richtung;
+  document.getElementById('ws-m').textContent = ((wsSt.t1 + wsSt.t2) / 2).toFixed(1) + ' °C';
+  document.getElementById('ws-eq').textContent =
+    'Δϑ = ' + wsSt.t1.toFixed(0) + ' °C − ' + wsSt.t2.toFixed(0) + ' °C = ' + d.toFixed(1) + ' K'
+    + '   →   ' + (Math.abs(d) < 0.5 ? 'kein Wärmestrom' : 'Wärme fliesst ' + richtung);
+
+  const cv = initCanvas('ws-cv', 250, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0, 0, W, H);
+  const bw = Math.min(150, W * 0.22), bh = 110, by = 56;
+  const x1 = W * 0.22 - bw / 2, x2 = W * 0.78 - bw / 2;
+  [[x1, wsSt.t1, 'ϑ₁'], [x2, wsSt.t2, 'ϑ₂']].forEach(([x, T, lab]) => {
+    ctx.fillStyle = wsFarbe(T); ctx.fillRect(x, by, bw, bh);
+    ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1.6; ctx.strokeRect(x, by, bw, bh);
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 15px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+    ctx.fillText(T.toFixed(1) + ' °C', x + bw / 2, by + bh / 2 + 6);
+    ctx.fillStyle = '#3a332a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+    ctx.fillText(lab + ' — 1 kg Wasser', x + bw / 2, by - 10);
+  });
+  // Wärmestrom-Pfeil: Dicke ∝ |Δϑ|, feste Skala (Reglermaximum 100 K)
+  const xa = x1 + bw + 12, xb = x2 - 12;
+  if (Math.abs(d) >= 0.5) {
+    const dick = 3 + Math.abs(d) / 100 * 22;
+    const nachRechts = d > 0;
+    drawArrow(ctx, nachRechts ? xa : xb, by + bh / 2, nachRechts ? xb : xa, by + bh / 2,
+              '#9b1c1c', dick, 10 + dick);
+    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+    ctx.fillText('Wärme', (xa + xb) / 2, by + bh / 2 - dick - 12);
+    ctx.font = '13px Source Sans 3,sans-serif';
+    ctx.fillText('Δϑ = ' + Math.abs(d).toFixed(1) + ' K', (xa + xb) / 2, by + bh / 2 + dick + 24);
+  } else {
+    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('gleiche Temperatur → kein Wärmestrom', (xa + xb) / 2, by + bh / 2 + 5);
+  }
+  ctx.fillStyle = '#5a5040'; ctx.font = '13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Wärme fliesst nie von selbst vom kälteren zum wärmeren Körper', W / 2, H - 14);
+}
+function wsTick(ts) {
+  if (!wsSt.running) return;
+  if (!wsSt.lastTs) wsSt.lastTs = ts;
+  let dt = (ts - wsSt.lastTs) / 1000; wsSt.lastTs = ts;
+  if (dt > 0.05) dt = 0.05;
+  // einfaches Ausgleichsmodell: beide nähern sich der Mischtemperatur,
+  // die Rate ist proportional zur Differenz — genau wie der Wärmestrom
+  const m = (wsSt.t1 + wsSt.t2) / 2, k = 0.6;
+  wsSt.t1 += (m - wsSt.t1) * k * dt * 2;
+  wsSt.t2 += (m - wsSt.t2) * k * dt * 2;
+  document.getElementById('ws-t1').value = wsSt.t1;
+  document.getElementById('ws-t2').value = wsSt.t2;
+  if (Math.abs(wsSt.t1 - wsSt.t2) < 0.2) {
+    wsSt.t1 = wsSt.t2 = m; wsSt.running = false;
+    document.getElementById('ws-btn').textContent = '▶ Ausgleich abspielen';
+    document.getElementById('ws-btn').classList.remove('paused');
+  }
+  drawWaermestrom();
+  if (wsSt.running) wsSt.rafId = requestAnimationFrame(wsTick);
+}
+['ws-t1','ws-t2'].forEach(i => document.getElementById(i).addEventListener('input', () => {
+  wsSt.running = false;
+  wsSt.t1 = +document.getElementById('ws-t1').value;
+  wsSt.t2 = +document.getElementById('ws-t2').value;
+  document.getElementById('ws-btn').textContent = '▶ Ausgleich abspielen';
+  document.getElementById('ws-btn').classList.remove('paused');
+  drawWaermestrom();
+}));
+document.getElementById('ws-btn').addEventListener('click', () => {
+  const b = document.getElementById('ws-btn');
+  if (wsSt.running) { wsSt.running = false; b.textContent = '▶ Weiter'; b.classList.remove('paused'); }
+  else if (Math.abs(wsSt.t1 - wsSt.t2) >= 0.5) {
+    wsSt.running = true; wsSt.lastTs = 0;
+    b.textContent = '⏸ Pause'; b.classList.add('paused');
+    wsSt.rafId = requestAnimationFrame(wsTick);
+  }
+});
+document.getElementById('ws-reset').addEventListener('click', () => {
+  wsSt.running = false; wsSt.t1 = 80; wsSt.t2 = 20;
+  document.getElementById('ws-t1').value = 80;
+  document.getElementById('ws-t2').value = 20;
+  document.getElementById('ws-btn').textContent = '▶ Ausgleich abspielen';
+  document.getElementById('ws-btn').classList.remove('paused');
+  drawWaermestrom();
+});
+
 // ══════════════ INIT + RESIZE ══════════════
 function renderAll() {
-  drawA1(); drawA2(); drawA3(); drawA4(); drawA5(); a6Render();
+  drawA1(); drawA2(); drawA3(); drawA4(); drawA5(); a6Render(); drawWaermestrom();
 }
 document.addEventListener('DOMContentLoaded', renderAll);
 // Bei Breitenänderung neu zeichnen — per rAF gedrosselt (Muster p4-1)

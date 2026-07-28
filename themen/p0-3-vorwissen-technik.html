@@ -554,6 +554,62 @@ Mit \(1\;\text{L} = 1000\;\text{cm}^3\): \(V = 160\;\text{L}\).</div></details><
   <p>Schnelltest, der in jeder Prüfung 10 Sekunden kostet und viel rettet: \(\sin 30° = 0.5\) eintippen. Kommt etwas anderes heraus, steht der Modus falsch.</p>
 </div>
 
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Animation 6 · DEG oder RAD — dieselbe Eingabe, zwei Ergebnisse</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Stelle 30 ein: DEG liefert \(0.5\), RAD liefert \(-0.988\) — dieselbe Taste, ein völlig anderes Ergebnis.</li><li>Nur bei 0 stimmen beide überein.</li><li>Die Kurve zeigt, warum: dieselbe Zahl liegt auf der Grad-Achse ganz woanders als auf der Radiant-Achse.</li><li>Der Schnelltest \(\sin 30° = 0.5\) ist im Bild markiert.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle dreissig ein: im Grad-Modus liefert der Rechner null Komma fünf, im Radiant-Modus minus null Komma neun acht acht. Dieselbe Taste, ein völlig anderes Ergebnis. Nur bei null stimmen beide überein. Die Kurve zeigt, warum: dieselbe Zahl liegt auf der Grad-Achse ganz woanders als auf der Radiant-Achse." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Der eingetippte Zahlenwert allein sagt nichts — erst der Modus legt fest, was er bedeutet.</li><li>\(1\;\text{rad} \approx 57.3°\); ein voller Kreis sind \(360°\) oder \(2\pi \approx 6.28\;\text{rad}\).</li><li>In der BM-Physik wird praktisch immer in Grad gerechnet — DEG einstellen und mit \(\sin 30° = 0.5\) prüfen.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Der eingetippte Zahlenwert allein sagt nichts, erst der Modus legt fest, was er bedeutet. Ein Radiant sind rund 57.3 Grad; ein voller Kreis sind 360 Grad oder 2 pi, also rund 6.28 Radiant. In der BM-Physik wird praktisch immer in Grad gerechnet: DEG einstellen und mit Sinus 30 Grad gleich null Komma fünf prüfen." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="typ-btns">
+      <button class="typ-btn" data-a6x="30">30 eintippen</button>
+      <button class="typ-btn" data-a6x="45">45 eintippen</button>
+      <button class="typ-btn" data-a6x="90">90 eintippen</button>
+    </div>
+
+    <div class="sl-row">
+      <label>eingetippte Zahl \(x\):</label>
+      <input type="range" id="a6-x" min="0" max="360" value="30" step="1">
+      <span class="sl-val" id="a6-x-val">30</span>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Dieselbe Eingabe, zwei Deutungen</div>
+      <div class="fl-eq" id="a6-deg">DEG:  sin(30°) = 0.500</div>
+      <div class="fl-eq" id="a6-rad">RAD:  sin(30 rad) = −0.988</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">im DEG-Modus</span><span class="lb-val" id="a6-vd">0.500</span></div>
+      <div class="lb-item"><span class="lb-lab">im RAD-Modus</span><span class="lb-val" id="a6-vr">−0.988</span></div>
+      <div class="lb-item"><span class="lb-lab">30 als Grad in Radiant</span><span class="lb-val" id="a6-um">0.524 rad</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📈 \(\sin x\) — oben mit \(x\) in Grad, unten mit \(x\) in Radiant</div>
+      <canvas id="a6-degrad-cv" height="300" role="img" aria-label="Zwei Sinuskurven übereinander. Die obere deutet die eingetippte Zahl als Gradmass, die untere als Radiant. Ein senkrechter Marker bei der eingestellten Zahl zeigt, dass die beiden Kurven dort völlig verschiedene Werte liefern."></canvas>
+    </div>
+
+  </div>
+</div>
+
 <details class="frage">
   <summary>❓ Dein Rechner zeigt für sin(45) den Wert 0.851 statt 0.707. Was ist passiert?</summary>
   <div class="frage-antwort">
@@ -1369,8 +1425,73 @@ function drawA5() {
 document.getElementById('a5-h').addEventListener('input', drawA5);
 
 // ══════════════ INIT + RESIZE ══════════════
+// ══════════════ ANIMATION 6 — DEG gegen RAD ══════════════
+// Der Fehlerblock beschreibt den Modusfehler; sichtbar war er nirgends.
+// Beide Kurven zeigen dieselbe Funktion sin, nur die Deutung der Zahl auf der
+// x-Achse unterscheidet sich — und genau das macht der Rechner falsch.
+function drawDegRad() {
+  const x = +document.getElementById('a6-x').value;
+  const vd = Math.sin(x * Math.PI / 180);
+  const vr = Math.sin(x);
+  document.getElementById('a6-x-val').textContent = x;
+  const vz = v => (v < 0 ? '−' : '') + Math.abs(v).toFixed(3);
+  document.getElementById('a6-deg').textContent = 'DEG:  sin(' + x + '°) = ' + vz(vd);
+  document.getElementById('a6-rad').textContent = 'RAD:  sin(' + x + ' rad) = ' + vz(vr);
+  document.getElementById('a6-vd').textContent = vz(vd);
+  document.getElementById('a6-vr').textContent = vz(vr);
+  document.getElementById('a6-um').textContent = (x * Math.PI / 180).toFixed(3) + ' rad';
+
+  const cv = initCanvas('a6-degrad-cv', 300, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0, 0, W, H);
+  const L = 56, R = 20, XMAX = 360;
+  const px = v => L + v / XMAX * (W - L - R);
+  function kurve(yMid, hoch, fn, farbe, titel) {
+    ctx.strokeStyle = '#d8d0c4'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(L, yMid); ctx.lineTo(W - R, yMid); ctx.stroke();
+    // Fein abtasten: die RAD-Kurve hat rund 57 Perioden über die Achse — bei
+    // ganzzahligen Schritten entstünde nur ein Alias-Zickzack.
+    ctx.strokeStyle = farbe; ctx.lineWidth = 2; ctx.beginPath();
+    for (let i = 0; i <= 3600; i++) {
+      const xx = i * XMAX / 3600, yy = yMid - fn(xx) * hoch;
+      if (i === 0) ctx.moveTo(px(xx), yy); else ctx.lineTo(px(xx), yy);
+    }
+    ctx.stroke();
+    ctx.fillStyle = farbe; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+    ctx.fillText(titel, L + 4, yMid - hoch - 14);
+    // Marker
+    const v = fn(x);
+    ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(px(x), yMid); ctx.lineTo(px(x), yMid - v * hoch); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#9b1c1c';
+    ctx.beginPath(); ctx.arc(px(x), yMid - v * hoch, 6, 0, 6.283); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+    ctx.textAlign = px(x) > W * 0.7 ? 'right' : 'left';
+    ctx.fillText(vz(v), px(x) + (px(x) > W * 0.7 ? -10 : 10), yMid - v * hoch + 4);
+  }
+  kurve(H * 0.26, 46, xx => Math.sin(xx * Math.PI / 180), '#1f6b3a', 'DEG — die Zahl gilt als Grad');
+  kurve(H * 0.68, 46, xx => Math.sin(xx), '#9b1c1c', 'RAD — dieselbe Zahl gilt als Radiant');
+  // x-Achse
+  ctx.fillStyle = '#6b7280'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  for (let v = 0; v <= XMAX; v += 60) ctx.fillText(String(v), px(v), H - 12);
+  ctx.textAlign = 'right'; ctx.fillStyle = '#374151'; ctx.font = 'bold 13px Source Sans 3,sans-serif';
+  ctx.fillText('eingetippte Zahl', W - 6, H - 30);
+  if (x === 30) {
+    ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText('Schnelltest: sin 30° = 0.5', W - 10, 18);
+  }
+}
+['a6-x'].forEach(i => document.getElementById(i).addEventListener('input', drawDegRad));
+document.querySelectorAll('[data-a6x]').forEach(b => b.addEventListener('click', () => {
+  document.getElementById('a6-x').value = b.dataset.a6x;
+  document.querySelectorAll('[data-a6x]').forEach(z => z.classList.toggle('aktiv', z === b));
+  drawDegRad();
+}));
+
 function renderAll() {
-  drawA1(); drawA2(); drawA3(); drawA4(); drawA5();
+  drawA1(); drawA2(); drawA3(); drawA4(); drawA5(); drawDegRad();
 }
 document.addEventListener('DOMContentLoaded', renderAll);
 // Bei Breitenänderung neu zeichnen — per rAF gedrosselt (Muster p4-1).
