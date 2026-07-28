@@ -17,11 +17,14 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
 
 ---
 
-> **Stand 28.07.2026 — alle [HOCH]-Punkte sind erledigt.**
-> Abgearbeitet sind: Block B (fachliche Fehler), die Querschnittspunkte Q1 und Q2,
-> sämtliche [HOCH]-Einzelpunkte aller 16 Themenseiten sowie ein Stilcheck über
-> alle Seiten. Offen sind noch 45 Punkte: Q3–Q6, die [MITTEL]- und
-> [NIEDRIG]-Einträge je Seite und Abschnitt D (neue Animationen).
+> **Stand 28.07.2026 — alle Punkte je Themenseite sind erledigt.**
+> Abgearbeitet sind: Block B (fachliche Fehler), sämtliche Querschnittspunkte
+> Q1 bis Q6, alle [HOCH]-, [MITTEL]- und [NIEDRIG]-Einträge der 16 Themenseiten
+> sowie ein Stilcheck über alle Seiten.
+>
+> Offen bleiben nur noch **fünf Vorschläge für ganz neue Animationen** aus
+> Abschnitt D — vier davon auf den Vorwissen-Seiten p0-1 bis p0-4, einer auf
+> p6-1 (Wasserwellen-Kreisbahnen).
 
 ## A. Querschnittsbefunde (mehrere Seiten, gemeinsame Ursache)
 
@@ -55,11 +58,11 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   Die Grafik klemmt über weite Bereiche am Anschlag, Materialwechsel und
   ΔT-Regler ändern das Bild nicht. Ein gemeinsamer, kleiner Fix.
   *Erledigt 26.07.2026 — die Liste betraf nur p5-3, alle drei Faktoren neu kalibriert.*
-- [ ] **[MITTEL] Q3 — Pfeillängen mit Sockel/Cap oder fix statt proportional.**
+- [x] **[MITTEL] Q3 — Pfeillängen mit Sockel/Cap oder fix statt proportional.**
   Wo der Grössenvergleich der Pfeile die Botschaft ist, muss streng proportional
   skaliert werden. ~~Betroffen: p4-1 a5, p4-2 a2, p4-2 a6, p4-5 a5.~~
   ✓ **vollständig erledigt am 28.07.2026.** Vorbild: p4-2 a5.
-- [ ] **[MITTEL] Q4 — «Worauf achten»-Aufträge, die das Widget nicht ausführen kann.**
+- [x] **[MITTEL] Q4 — «Worauf achten»-Aufträge, die das Widget nicht ausführen kann.**
   Entweder Feature nachrüsten (bevorzugt, siehe Einzelpunkte) oder Hinweistext
   anpassen: ~~p4-1 a3 (Fallwege vergleichen ohne Zeitlupe/Spur)~~ ✓,
   ~~p4-2 a3 (Bezugssystem wechseln ohne Umschalter)~~ ✓,
@@ -67,13 +70,13 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   ~~p6-1a a2 (zwei Teilchen vergleichen, nur eines markierbar)~~ ✓,
   ~~p5-2 a4 (Vakuum-Frage ohne Vakuum)~~ ✓, ~~p0-2 a1~~ ✓.
   **Q4 vollständig erledigt am 28.07.2026.**
-- [ ] **[MITTEL] Q5 — Vergleiche ohne Gedächtnis.** Serielle Vergleiche (erst A
+- [x] **[MITTEL] Q5 — Vergleiche ohne Gedächtnis.** Serielle Vergleiche (erst A
   einstellen, dann B, Wert merken) durch Geister-/Referenzdarstellungen ersetzen:
   ~~p4-2 a2 («letzter Lauf»-Zeile)~~ ✓, ~~p4-3 a2-diag (Geister-Punkt bei 2v)~~ ✓,
   ~~p0-2 a2 (Referenzmarken Erde/Mond/Mars)~~ ✓, ~~p4-1 a4 («Bahn festhalten»)~~ ✓,
   ~~p5-3 a1/a2
   (Referenzstab/-gefäss Eisen)~~ ✓.
-- [ ] **[MITTEL] Q6 — Tempo-Regler + Reset (p6-1a-Standard) nachrüsten** bei den
+- [x] **[MITTEL] Q6 — Tempo-Regler + Reset (p6-1a-Standard) nachrüsten** bei den
   ~~animierten Widgets ohne: p4-1 a3, p6-1 ein-cv, a1, a2, a5.~~
   ✓ **vollständig erledigt am 28.07.2026.**
 - [x] **Q7 — Stilcheck über alle 16 Themenseiten** (28.07.2026). Geprüft wurde
@@ -704,18 +707,17 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
   das statt zu schweigen — beim Demo-Seil ist genau das der Fall.*
 
 ### p6-2 Elektrizität
-- [ ] ~~[HOCH] ein-cv: Elektronenrichtung fixen (Block B)~~ ✓ 28.07.2026;
-  **offen bleibt** [MITTEL] Schalter klickbar machen (trägt «Strom nur im
-  geschlossenen Kreis»).
+- [x] [HOCH] ein-cv: Elektronenrichtung fixen (Block B) ✓ 28.07.2026.
+  *Ebenfalls erledigt: Der Schalter ist anklickbar. Bei offenem Kreis stehen die
+  Elektronen still, die Lampe bleibt dunkel und der Text sagt «offener Kreis:
+  kein Strom, obwohl Spannung anliegt».*
 - [x] [HOCH] a1 Kennlinie: Achse fixieren oder Referenzgerade (Block B / Q1).
   *Erledigt 28.07.2026: beides — feste I-Achse 0 … 1200 mA und Referenzkennlinie
   100 Ω.*
 - [x] [HOCH] a4 Parallelschaltung: Kurzschluss-Rahmen entfernen (Block B);
   [MITTEL] Trunk-Punktdichte mit I skalieren — Knotenregel I = I₁ + I₂ sichtbar.
   *Beides erledigt 28.07.2026.*
-- [ ] ~~[HOCH] a5 Leistung: durch P-t-Diagramm mit Rechteckfläche = E ersetzen
-  (2000 W · 0.5 h = gleiche Fläche wie 500 W · 2 h) — aktuell reine Dekoration~~
-  ✓ 28.07.2026: Der Balken zeigte nur die Momentanleistung — die Dauer kam darin
+- [x] [HOCH] a5 Leistung: P-t-Diagramm mit Rechteckfläche = E ✓ 28.07.2026: Der Balken zeigte nur die Momentanleistung — die Dauer kam darin
   gar nicht vor, obwohl das Produkt \(P \cdot t\) der Kern der Animation ist.
   Jetzt ein P-t-Diagramm mit festen Achsen (0 … 4200 W, 0 … 12.5 h, Q1); das
   Rechteck trägt seine Fläche als «Fläche = E = … kWh».
@@ -725,16 +727,34 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
   violette Kontur stehen lässt (Q5, Vergleich ohne Gedächtnis). Damit wird
   2000 W · 0.5 h gegen 500 W · 2 h als *gleich grosse Fläche* sichtbar, und beide
   Ecken liegen auf der 1-kWh-Kurve.
-  **Offen bleibt:** [MITTEL] Geräte-Presets (Wasserkocher, LED, Ladegerät).
-- [ ] [MITTEL] a3 Reihenschaltung: U₁/U₂ als proportionale Farbbalken unter den
-  Widerstandsboxen (Spannungsteilung sichtbar statt nur lesbar).
-- [ ] [MITTEL] a2 Leiterwiderstand: Konsequenz zeigen (I bzw. Verlustleistung
-  bei festem U — Überlandleitungs-Transfer).
-- [ ] [MITTEL] a6 Gefahren: Markerlinie 30 mA «FI/RCD löst aus» + Szenario-Presets
-  («230 V, 1 kΩ → 230 mA»); IEC-Vereinfachung deklarieren.
-- [ ] [MITTEL] Neu: Coulomb-Widget (Q₁, Q₂, r; Kraftpfeile; 1/r²) — einziger
-  Formelblock der Seite ohne Visualisierung.
-- [ ] [NIEDRIG] Neu: statisches U(t)-Panel AC vs. DC (230 V eff / 325 V Scheitel).
+  Ebenfalls erledigt 28.07.2026: drei Geräte-Presets — Wasserkocher (2000 W,
+  15 min → 0.50 kWh, 0.11 CHF), LED-Lampe (9 W, 5 h) und Ladegerät (20 W, 2 h).
+- [x] [MITTEL] a3 Reihenschaltung: U₁/U₂ als proportionale Farbbalken.
+  *Erledigt 28.07.2026: ein geteilter Balken unter der Schaltung, die Anteile
+  entsprechen U₁ : U₂ = R₁ : R₂. Bei 100 Ω und 220 Ω an 12 V sind das
+  3.75 V und 8.25 V.*
+- [x] [MITTEL] a2 Leiterwiderstand: Konsequenz zeigen (Verlustleistung).
+  *Erledigt 28.07.2026: Bei angenommenen 20 A Laststrom werden P_V = R · I² und
+  der Spannungsabfall mitgerechnet und als eigene Formelzeile gezeigt. 100 m
+  Kupfer mit 2.5 mm² verheizen 272 W; bei 1000 m sind es 2720 W — das ist das
+  Überlandleitungs-Argument in Zahlen.*
+- [x] [MITTEL] a6 Gefahren: 30-mA-Marke + Szenario-Presets; IEC-Vereinfachung.
+  *Alles erledigt: die IEC-Deklaration am 28.07.2026 (Block B), dazu am selben
+  Tag eine grüne Marke bei 30 mA («FI/RCD löst aus») und drei Presets, die aus
+  U und R den Strom rechnen: 230 V an 1 kΩ → 230 mA, an 5 kΩ → 46 mA,
+  12 V an 1 kΩ → 12 mA.*
+- [x] [MITTEL] Neu: Coulomb-Widget (Q₁, Q₂, r; Kraftpfeile; 1/r²).
+  *Erledigt 28.07.2026: direkt unter dem Formelblock. Regler für beide Ladungen
+  (−5 … +5 µC, Vorzeichen inbegriffen) und den Abstand; die beiden Kraftpfeile
+  sind immer gleich lang und drehen sich bei ungleichen Vorzeichen um. Feste
+  Ortsskala 0 … 0.6 m. Verdoppeln von r viertelt die Kraft (1.35 N → 0.34 N),
+  was die Live-Box zusätzlich beziffert. Die Pfeilskala ist auf 5 N kalibriert;
+  darüber wird gekappt und das angeschrieben — der Reglerbereich spannt sonst
+  über drei Zehnerpotenzen.*
+- [x] [NIEDRIG] Neu: statisches U(t)-Panel AC vs. DC.
+  *Erledigt 28.07.2026: U-t-Diagramm über 40 ms mit der 12-V-Gleichspannung als
+  Waagrechten, der 50-Hz-Sinuskurve und den gestrichelten ±230 V des
+  Effektivwerts. Der Scheitel 325 V = 230 V · √2 ist angeschrieben.*
 
 ---
 
@@ -742,17 +762,17 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 
 | Prio | Seite | Vorschlag |
 |---|---|---|
-| MITTEL | p4-1 | Sekante → Tangente (Δt-Regler) zur Momentangeschwindigkeit |
+| ~~MITTEL~~ ✓ | p4-1 | ~~Sekante → Tangente (Δt-Regler)~~ — umgesetzt 28.07.2026 |
 | ~~MITTEL~~ ✓ | p5-2 | ~~Wärmepumpen-Sankey mit COP-Regler~~ — umgesetzt als Animation 6 |
-| MITTEL | p6-2 | Coulomb-Gesetz (1/r²-Widget) |
-| MITTEL | p4-5 | Federwaage «scheinbares Gewicht» (in Anim. 4 integrierbar) |
+| ~~MITTEL~~ ✓ | p6-2 | ~~Coulomb-Gesetz (1/r²-Widget)~~ — umgesetzt 28.07.2026 |
+| ~~MITTEL~~ ✓ | p4-5 | ~~Federwaage «scheinbares Gewicht»~~ — in Animation 4 integriert 28.07.2026 |
 | MITTEL | p0-1 | Runden-Widget (Kommastellen vs. signifikante Stellen) |
 | MITTEL | p0-2 | Wärmestrom-Widget (zwei Körper, Pfeil ∝ ΔT) zu «Temperatur ≠ Wärme» |
 | MITTEL | p0-3 | DEG/RAD-Vergleichswidget (sin x in beiden Modi, ohne Canvas machbar) |
 | MITTEL | p0-4 | Streudiagramm «Korrelation ≠ Kausalität» (dritte Variable als Farbe) |
 | ~~NIEDRIG~~ ✓ | p5-3 | ~~Bimetallstreifen~~ — umgesetzt |
 | NIEDRIG | p6-1 | Wasserwellen-Kreisbahnen |
-| NIEDRIG | p6-2 | AC/DC-U(t)-Panel |
+| ~~NIEDRIG~~ ✓ | p6-2 | ~~AC/DC-U(t)-Panel~~ — umgesetzt 28.07.2026 |
 
 ## E. Streichungen / Ersatz / Zusammenlegungen
 
