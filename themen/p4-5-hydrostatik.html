@@ -320,17 +320,24 @@ MathJax = {
       <span class="sl-val" id="a2-h-val">12.0 cm</span>
     </div>
 
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a2kraft="0">nur Druck</button>
+      <button class="typ-btn" data-a2kraft="1">Bodenkraft F = p · A zeigen</button>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">\(p\) am Boden</span><span class="lb-val" id="a2-p">1.18 kPa</span></div>
       <div class="lb-item"><span class="lb-lab">in \(\text{mbar}\)</span><span class="lb-val" id="a2-pmbar">11.8 mbar</span></div>
       <div class="lb-item"><span class="lb-lab">Volumen Zyl.</span><span class="lb-val" id="a2-v1">377 cm³</span></div>
       <div class="lb-item"><span class="lb-lab">Volumen Trichter</span><span class="lb-val" id="a2-v2">503 cm³</span></div>
       <div class="lb-item"><span class="lb-lab">Volumen umgek.</span><span class="lb-val" id="a2-v3">252 cm³</span></div>
+      <div class="lb-item"><span class="lb-lab">Bodenkraft Zyl.</span><span class="lb-val" id="a2-f1">5.9 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Bodenkraft Trichter</span><span class="lb-val" id="a2-f2">2.1 N</span></div>
     </div>
 
     <div class="cv-wrap">
       <div class="cv-titel">Drei getrennte Gefässe verschiedener Form — gleiche Füllhöhe, gleiche Druckanzeige</div>
-      <canvas id="a2-cv" height="340"></canvas>
+      <canvas id="a2-cv" height="400"></canvas>
     </div>
 
   </div>
@@ -508,6 +515,8 @@ MathJax = {
       <div class="lb-item"><span class="lb-lab">Eingetauchtes V</span><span class="lb-val" id="a4-v">600 cm³</span></div>
       <div class="lb-item"><span class="lb-lab">Verdrängte Masse</span><span class="lb-val" id="a4-m">0.60 kg</span></div>
       <div class="lb-item"><span class="lb-lab">Auftriebskraft \(F_A\)</span><span class="lb-val" id="a4-fa">5.89 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Gewichtskraft \(F_G\) (Holz)</span><span class="lb-val" id="a4-fg">6.87 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Federwaage zeigt</span><span class="lb-val" id="a4-fs">0.98 N</span></div>
     </div>
 
     <div class="zwei-spalten">
@@ -1262,6 +1271,7 @@ document.querySelectorAll('.widget')[1].querySelectorAll('.typ-btn').forEach(btn
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 2: Hydrostatisches Paradoxon — 3 Gefässe
 // ══════════════════════════════════════════════════════════
+let a2Kraft = false;   // Bodenkraft F = p · A einblenden
 function drawA2() {
   const h = +document.getElementById('a2-h').value;   // in cm
   const hM = h / 100;
@@ -1269,13 +1279,19 @@ function drawA2() {
   document.getElementById('a2-h-val').textContent = h.toFixed(1) + ' cm';
   document.getElementById('a2-p').textContent = (pS/1000).toFixed(2) + ' kPa';
   document.getElementById('a2-pmbar').textContent = (pS/100).toFixed(1) + ' mbar';
+  // Bodenkraft: gleicher Druck, verschieden grosse Böden → verschiedene Kräfte.
+  // Genau das trennt Druck von Kraft (Häufiger-Fehler-Block).
+  const A1_m2 = Math.PI * 0.04*0.04;      // Zylinder r = 4 cm
+  const A2_m2 = Math.PI * 0.015*0.015;    // Trichter unten r = 1.5 cm
+  document.getElementById('a2-f1').textContent = (pS * A1_m2).toFixed(2) + ' N';
+  document.getElementById('a2-f2').textContent = (pS * A2_m2).toFixed(2) + ' N';
 
-  const cv = initCanvas('a2-cv', 340, false);
+  const cv = initCanvas('a2-cv', 400, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
 
   // Drei Gefässe nebeneinander: alle mit Boden auf gleicher Höhe
-  const bodenY = H - 40;
+  const bodenY = H - (a2Kraft ? 150 : 74);   // mit Bodenkraft mehr Platz unten
   const skalaY0 = bodenY - 20;        // y bei h=0
   const skalaY = h_cm => bodenY - (h_cm/22) * (bodenY - 30);  // 22cm-Max-Skala
   const fuellY = skalaY(h);
@@ -1375,6 +1391,21 @@ function drawA2() {
   manometer(xG2, '', pS);
   manometer(xG3, '', pS);
 
+  // Bodenkraft F = p · A: gleicher Druck, verschieden grosse Böden.
+  if (a2Kraft) {
+    const A1_m2 = Math.PI * 0.04*0.04, A2_m2 = Math.PI * 0.015*0.015, A3_m2 = Math.PI * 0.08*0.08;
+    const Fs = [pS*A1_m2, pS*A2_m2, pS*A3_m2];
+    const Fmax = Math.max(...Fs, 0.01);
+    [[xG1, Fs[0]], [xG2, Fs[1]], [xG3, Fs[2]]].forEach(([xx, FF]) => {
+      const L = FF / Fmax * 46;
+      drawArrow(ctx, xx, bodenY + 68, xx, bodenY + 68 + L, '#9b1c1c', 2.4, 9);
+      ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+      ctx.fillText(FF.toFixed(2) + ' N', xx, bodenY + 68 + L + 15);
+    });
+    ctx.fillStyle = '#9b1c1c'; ctx.font = '13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('gleicher Druck, verschiedene Bodenflächen → verschiedene Kräfte  (F = p · A)', W/2, H - 6);
+  }
+
   // Volumen-Berechnung
   // V1 = pi*r1^2 * h ... Aber wir wollen in cm³ und r1 ist Pixel.
   // Wir definieren die echten Radien: Zylinder r=4 cm, Trichter r_top=8cm, r_bot=2cm, Höhe ges ~22cm
@@ -1400,6 +1431,11 @@ function drawA2() {
   document.getElementById('a2-v2').textContent = V_tri.toFixed(0) + ' cm³';
   document.getElementById('a2-v3').textContent = V_tri2.toFixed(0) + ' cm³';
 }
+document.querySelectorAll('[data-a2kraft]').forEach(b => b.addEventListener('click', () => {
+  a2Kraft = b.dataset.a2kraft === '1';
+  document.querySelectorAll('[data-a2kraft]').forEach(x => x.classList.toggle('aktiv', x === b));
+  drawA2();
+}));
 document.getElementById('a2-h').addEventListener('input', drawA2);
 
 
@@ -1628,6 +1664,13 @@ function drawA4() {
   // Wenn he>kante: Quader ganz drin und auf wasserY + (he-kante)*scale + ist nicht mehr eintaucht, sondern bewegt sich tiefer
   const yQbot = wasserY + he * scale;
   const yQtop = yQbot - wq;
+  // Haltestab bis zur Decke: der frei schwebende Quader irritierte — er wird
+  // gehalten, sonst würde er von selbst schwimmen oder sinken.
+  ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(xQ, 8); ctx.lineTo(xQ, yQtop); ctx.stroke();
+  ctx.fillStyle = '#9aa4ad'; ctx.fillRect(xQ - 26, 4, 52, 8);
+  ctx.fillStyle = '#5a6068'; ctx.font = '13px Source Sans 3,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('wird gehalten', xQ + 30, 14);
   // Quader-Farbe: Bernstein
   ctx.fillStyle = '#b07435';
   ctx.fillRect(xQ - wq/2, yQtop, wq, wq);
@@ -1639,6 +1682,19 @@ function drawA4() {
     const yy = yQtop + i*wq/4;
     ctx.beginPath(); ctx.moveTo(xQ-wq/2+3, yy); ctx.lineTo(xQ+wq/2-3, yy); ctx.stroke();
   }
+  // Eingetauchter Teil schraffieren — genau er bestimmt V_e und damit F_A
+  if (heEff > 0) {
+    const yEin = Math.max(yQtop, wasserY);
+    ctx.save();
+    ctx.beginPath(); ctx.rect(xQ - wq/2, yEin, wq, Math.min(yQbot, becB) - yEin); ctx.clip();
+    ctx.strokeStyle = 'rgba(31,107,58,0.55)'; ctx.lineWidth = 1.4;
+    for (let d = -wq; d < wq * 2; d += 7) {
+      ctx.beginPath(); ctx.moveTo(xQ - wq/2 + d, yQbot); ctx.lineTo(xQ - wq/2 + d + wq, yQbot - wq); ctx.stroke();
+    }
+    ctx.restore();
+    ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.4;
+    ctx.strokeRect(xQ - wq/2, yEin, wq, Math.min(yQbot, becB) - yEin);
+  }
 
   // Auftriebspfeil (grün, von Quaderunterseite nach oben)
   if (he > 0) {
@@ -1648,6 +1704,26 @@ function drawA4() {
     ctx.textAlign = 'left';
     ctx.fillText('F_A = '+FA.toFixed(2)+' N', xQ+wq/2+15, yQbot+6-pfeil/2);
   }
+  // Federwaage: scheinbares Gewicht = F_G − F_A. Der Quader ist aus Holz mit
+  // ρ = 700 kg/m³, seine Gewichtskraft folgt aus dem Gesamtvolumen.
+  const A4_RHO = 700;
+  const V_ges = kante*kante*kante * 1e-6;
+  const FG4 = A4_RHO * V_ges * g;
+  const Fschein = Math.max(0, FG4 - FA);
+  document.getElementById('a4-fg').textContent = FG4.toFixed(2) + ' N';
+  document.getElementById('a4-fs').textContent = Fschein.toFixed(2) + ' N';
+  // Waage links im Bild
+  const wx = becR - 34, wy0 = 26, wH = 84;   // rechts, links liegen die Wasser-Labels
+  ctx.strokeStyle = '#5a6068'; ctx.lineWidth = 1.4;
+  ctx.strokeRect(wx - 16, wy0, 32, wH);
+  const fill = FG4 > 0 ? Math.min(1, Fschein / FG4) : 0;
+  ctx.fillStyle = '#8a4a0e'; ctx.fillRect(wx - 15, wy0 + wH - fill*(wH-2), 30, fill*(wH-2));
+  ctx.fillStyle = '#5a6068'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('Waage', wx, wy0 - 6);
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.fillText(Fschein.toFixed(2) + ' N', wx, wy0 + wH + 16);
+  ctx.fillStyle = '#6b7280'; ctx.font = '13px Source Sans 3,sans-serif';
+  ctx.fillText('von ' + FG4.toFixed(2) + ' N', wx, wy0 + wH + 32);
 
   // Eintauchtiefe markieren
   ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5;
@@ -1883,15 +1959,24 @@ function drawA6() {
   ctx.fillStyle = '#3a7a96';
   ctx.fillText('Wasser', xR-wTube/2-50, yWasserR-4);
 
-  // Grenzfläche (gestrichelt)
-  ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.4; ctx.setLineDash([5, 3]);
+  // Vergleichshöhe: eine durchgehende Linie durch BEIDE Schenkel. Auf ihr
+  // herrscht in der zusammenhängenden Wassersäule überall derselbe Druck —
+  // erst dadurch wird die Rechnung ρ₁·h₁ = ρ₂·h₂ nachvollziehbar.
+  ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.6; ctx.setLineDash([6, 4]);
   ctx.beginPath();
-  ctx.moveTo(xL-wTube/2-15, yGrenze); ctx.lineTo(xL+wTube/2+8, yGrenze);
+  ctx.moveTo(xL-wTube/2-15, yGrenze); ctx.lineTo(xR+wTube/2+15, yGrenze);
   ctx.stroke();
   ctx.setLineDash([]);
   ctx.fillStyle = '#9b1c1c'; ctx.font = '13px JetBrains Mono,monospace';
   ctx.textAlign = 'right';
-  ctx.fillText('Grenze Öl/Wasser', xL-wTube/2-20, yGrenze+4);
+  ctx.fillText('Vergleichshöhe', xL-wTube/2-20, yGrenze-6);
+  ctx.fillText('Grenze Öl/Wasser', xL-wTube/2-20, yGrenze+14);
+  // Druckgleichheit anschreiben
+  const pGl = rho2 * g * hOel/100;
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('auf der Vergleichshöhe gilt: ρ_Öl · g · h_Öl = ρ_W · g · h_W = '
+               + (pGl/100).toFixed(1) + ' mbar', Wc/2, 20);
 
   // Höhenpfeile
   // h_oel links

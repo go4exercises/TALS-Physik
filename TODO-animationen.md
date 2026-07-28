@@ -503,27 +503,37 @@ alt a3…a8 entsprechen neu a2…a7.*
   die adaptive Skala macht den Dichtevergleich unsichtbar (Q1).
   *Erledigt 28.07.2026: beides — feste Achse 0 … 1400 kPa, Wasser-Referenzgerade
   und bezifferte Steigung.*
-- [ ] ~~[HOCH] a3 Presse: Knopf «▶ Pressen» (Kolben fahren gegenläufig, Volumen-
-  erhaltung animiert) — trägt den ganzen Abschnitt~~ ✓ 28.07.2026: «▶ Pressen»
+- [x] [HOCH] a3 Presse: Knopf «▶ Pressen» ✓ 28.07.2026: «▶ Pressen»
   mit Pause und Reset; der linke Kolben sinkt um s₁, der rechte steigt um
   s₂ = s₁ · A₁/A₂. Unten steht das verdrängte Volumen A₁ · s₁ = A₂ · s₂ als Zahl.
   Vorher standen beide Kolben starr in Mittellage — «kleiner Weg, grosse Kraft»
   war nur eine Zeile in der Live-Box.
-  **Offen bleibt:** [MITTEL] Slider reduzieren (F₁ + Verhältnis A₂/A₁ + s₁).
+  *Der [MITTEL]-Zusatz «Slider reduzieren» bleibt bewusst offen: vier Regler
+  sind bei 360 px eng, aber ein Verhältnis-Regler A₂/A₁ würde die Einzelflächen
+  verstecken, die in der Rechnung vorkommen.*
 - [x] [HOCH] a5 Schwimmen/Sinken: F_G/F_A-Pfeile proportional statt fix 35 px —
   der Pfeilvergleich IST die Lernbotschaft (Q3). *Erledigt 28.07.2026: beide
   Pfeile streng proportional, feste Skala am Reglermaximum kalibriert
   (3000 kg/m³ → 74 px, Q2). Bei Aluminium ist F_G jetzt 2.7-mal so lang wie
   F_A; die Differenz F_G − F_A ist zusätzlich beziffert. Das Becken musste dafür
   höher werden — der längste Pfeil lief sonst aus der Leinwand.*
-- [ ] [MITTEL] a2 Paradoxon: Titel/Bild angleichen (Block B); Checkbox
-  «Bodenkraft F = p·A» (koppelt an den Häufiger-Fehler-Block).
-- [ ] [MITTEL] a4-quader: Haltestab/Hand einzeichnen («wird gehalten» — der
-  frei schwebende Holzquader irritiert); eingetauchtes Volumen schraffieren.
-- [ ] [MITTEL] a6 U-Rohr: Vergleichshöhe als durchgehende Linie durch beide
-  Schenkel + Druckgleichheit an der Grenzfläche anschreiben.
-- [ ] [MITTEL] Neu (in a4 integrierbar): Federwaage «scheinbares Gewicht»
-  (Anzeige sinkt beim Eintauchen um F_A) — Transfer «Stein unter Wasser».
+- [x] [MITTEL] a2 Paradoxon: Titel/Bild angleichen (Block B); «Bodenkraft F = p·A».
+  *Beides erledigt: Titel am 28.07.2026 (Block B), Bodenkraft am selben Tag als
+  Umschalter. Bei 12 cm Füllhöhe zeigen alle drei Manometer 11.8 mbar, die
+  Bodenkräfte betragen aber 5.92 N, 0.83 N und 23.67 N — genau die Trennung von
+  Druck und Kraft aus dem Häufiger-Fehler-Block.*
+- [x] [MITTEL] a4-quader: Haltestab einzeichnen; eingetauchtes Volumen schraffieren.
+  *Beides erledigt 28.07.2026: Stab bis zur Decke mit der Notiz «wird gehalten»,
+  und der eingetauchte Teil ist grün schraffiert — er allein bestimmt V_e und
+  damit F_A.*
+- [x] [MITTEL] a6 U-Rohr: Vergleichshöhe durchgehend + Druckgleichheit.
+  *Erledigt 28.07.2026: Die gestrichelte Linie läuft jetzt durch beide Schenkel,
+  darüber steht die Bedingung ρ_Öl · g · h_Öl = ρ_W · g · h_W mit dem aktuellen
+  Wert. Bei 10 cm Öl (800 kg/m³) sind das 7.8 mbar auf beiden Seiten.*
+- [x] [MITTEL] Neu (in a4 integriert): Federwaage «scheinbares Gewicht».
+  *Erledigt 28.07.2026: Rechts im Bild eine Waage, deren Füllstand F_G − F_A
+  anzeigt. Der Holzquader (ρ = 700 kg/m³) wiegt bei 10 cm Kante 6.87 N; bei
+  6 cm Eintauchtiefe zeigt die Waage noch 0.98 N, ab voller Tauchung 0 N.*
 
 ### p5-1 Temperatur
 *Alle Punkte umgesetzt am 26.07.2026; a3 (Render-Check) und der Stilcheck für
