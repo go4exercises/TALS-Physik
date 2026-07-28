@@ -447,14 +447,24 @@ alt a3…a8 entsprechen neu a2…a7.*
     für doppeltes Tempo. Aus ½mv² = μmgs folgt s = v²/(2μg) — die Masse kürzt
     sich heraus. Bei μ = 0.8: 30 km/h → 4.4 m, 50 km/h → 12.3 m, Verhältnis
     2.78 = (50/30)². Damit ist a2-cv-szene kein Streichkandidat mehr.*
-- [ ] [MITTEL] a3 Pendel: Checkbox «mit Reibung» (E_ges sinkt, Kategorie «Wärme»
-  wächst — beantwortet die ❓-Frage); Pendellänge L = 1.2 m deklarieren.
-- [ ] [MITTEL] a5 Heben: zwei Kisten parallel (t fix vs. Slider-t) — Leistung
-  als Unterschied auf einen Blick statt seriell.
-- [ ] [MITTEL] a6 Wirkungsgrad: Checkbox «zweite Stufe» (η_ges = η₁·η₂ —
-  Transferaufgabe des Mini-Checks).
-- [ ] [NIEDRIG] a4-diag: Querverweis Rechteck (konstante Kraft) vs. Dreieck
-  (lineare Kraft, Faktor ½) im Text/Popup.
+- [x] [MITTEL] a3 Pendel: Umschalter «mit Reibung», Pendellänge deklariert.
+  *Erledigt 28.07.2026: Im Reibungsmodus dämpft ein Term −0.35·ω die Bewegung;
+  die entzogene Arbeit wird aufsummiert und als vierter Balken «Wärme»
+  dargestellt. Die Summe aus mechanischer Energie und Wärme bleibt konstant —
+  damit beantwortet das Widget die ❓-Frage des Abschnitts, statt sie offen zu
+  lassen. Pendellänge L = 1.2 m steht neben den Knöpfen.*
+- [x] [MITTEL] a5 Heben: zwei Kisten parallel (t fix vs. Slider-t).
+  *Erledigt 28.07.2026: links die graue Referenzkiste mit fester Zeit 3.0 s,
+  rechts die eingestellte. Beide heben dieselbe Masse auf dieselbe Höhe, oben
+  steht die gemeinsame Arbeit, unten je die Leistung — der Unterschied ist in
+  einem Blick zu sehen statt durch Merken von Werten.*
+- [x] [MITTEL] a6 Wirkungsgrad: Umschalter «zwei Stufen hintereinander».
+  *Erledigt 28.07.2026: Die zweite Maschine wird ins Flussdiagramm gezeichnet,
+  der Gesamtwirkungsgrad ist das Produkt — bei 60 % je Stufe bleiben 36 %,
+  aus 500 J werden 180 J. Die Rechnung steht als eigene Formelzeile.*
+- [x] [NIEDRIG] a4-diag: Querverweis Rechteck vs. Dreieck.
+  *Erledigt 28.07.2026 als Legende unter dem Diagramm: bei konstanter Kraft ist
+  die Fläche ein Rechteck (W = F · s), bei der Feder ein Dreieck — daher ½.*
 
 ### p4-4 Statik
 - [x] [HOCH] a3 Seile: Werte S₁/S₂/F_G direkt an die Pfeile, bei S > F_G rot —

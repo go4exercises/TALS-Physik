@@ -335,15 +335,22 @@ MathJax = {
       </div>
     </div>
 
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a3reib="0">ohne Reibung</button>
+      <button class="typ-btn" data-a3reib="1">mit Reibung</button>
+    </div>
+
     <div class="btn-row">
       <button class="play-btn" id="a3-btn">▶ Loslassen</button>
       <button class="play-btn" id="a3-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Pendellänge \(L = 1.2\;\text{m}\)</div>
     </div>
 
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Lageenergie \(E_{\text{pot}}\)</span><span class="lb-val" id="a3-epot">1.38 J</span></div>
       <div class="lb-item"><span class="lb-lab">Bewegungsenergie \(E_{\text{kin}}\)</span><span class="lb-val" id="a3-ekin">0.00 J</span></div>
-      <div class="lb-item"><span class="lb-lab">Gesamtenergie \(E_{\text{ges}}\)</span><span class="lb-val" id="a3-eges">1.38 J</span></div>
+      <div class="lb-item"><span class="lb-lab">mechanische Energie</span><span class="lb-val" id="a3-eges">1.38 J</span></div>
+      <div class="lb-item"><span class="lb-lab">davon in Wärme</span><span class="lb-val" id="a3-waerme">0.00 J</span></div>
       <div class="lb-item"><span class="lb-lab">Geschwindigkeit \(v\)</span><span class="lb-val" id="a3-v">0.00 m/s</span></div>
     </div>
 
@@ -428,6 +435,10 @@ MathJax = {
       <div class="cv-wrap">
         <div class="cv-titel">📐 \(F(s)\) — Fläche = Energie</div>
         <canvas id="a4-cv-diag" height="240"></canvas>
+        <div class="canvas-legend">
+          <span class="cl-item">Bei <strong>konstanter</strong> Kraft (Animation 1) ist die Fläche ein <strong>Rechteck</strong>: \(W = F \cdot s\).
+          Bei der Feder wächst \(F\) linear mit \(s\) — die Fläche ist ein <strong>Dreieck</strong>, daher der Faktor \(\tfrac12\).</span>
+        </div>
       </div>
     </div>
 
@@ -505,7 +516,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">📦 Kiste wird gehoben</div>
-      <canvas id="a5-cv" height="260"></canvas>
+      <canvas id="a5-cv" height="290"></canvas>
     </div>
 
   </div>
@@ -564,9 +575,20 @@ MathJax = {
       </div>
     </div>
 
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a6stufen="1">eine Stufe</button>
+      <button class="typ-btn" data-a6stufen="2">zwei Stufen hintereinander</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Wirkungsgrad der Kette</div>
+      <div class="fl-eq" id="a6-stufen">η_ges = 60 % (eine Stufe)</div>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Nutzenergie \(E_{\text{nutz}}\)</span><span class="lb-val" id="a6-nutz">300 J</span></div>
       <div class="lb-item"><span class="lb-lab">Verlust \(E_{\text{verl}}\)</span><span class="lb-val" id="a6-verl">200 J</span></div>
+      <div class="lb-item"><span class="lb-lab">Gesamt-\(\eta\)</span><span class="lb-val" id="a6-etages">60.0 %</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -1102,6 +1124,8 @@ function drawA2() {
 // ══════════════════════════════════════════════════════════
 const A3_L = 1.2;   // Pendellänge in m
 const a3State = { theta: 0, omega: 0, theta0: 0, running: false, lastTs: 0, rafId: null };
+let a3Reib = false;         // Dämpfung ein/aus
+let a3Waerme = 0;           // bereits in Wärme umgewandelte Energie in J
 
 function a3Init() {
   const t0 = +document.getElementById('a3-theta').value * Math.PI / 180;
@@ -1113,19 +1137,23 @@ function a3Vals() {
   const h  = A3_L * (1 - Math.cos(a3State.theta));
   const Eges = m * g * h0;
   const Epot = m * g * h;
-  const Ekin = Math.max(0, Eges - Epot);
+  // Mit Reibung sinkt die mechanische Energie; die Differenz steckt als Wärme
+  // in Luft und Aufhängung — genau das beantwortet die ❓-Frage des Abschnitts.
+  const Emech = Math.max(0, Eges - a3Waerme);
+  const Ekin = Math.max(0, Emech - Epot);
   const vv = Math.sqrt(2 * Ekin / m);
-  return { m, Eges, Epot, Ekin, vv };
+  return { m, Eges, Epot, Ekin, vv, Emech, Waerme: a3Waerme };
 }
 function a3Render() {
   const m = +document.getElementById('a3-m').value;
   document.getElementById('a3-theta-val').textContent =
     Math.round(a3State.theta0 * 180 / Math.PI) + '°';
   document.getElementById('a3-m-val').textContent = m.toFixed(1) + ' kg';
-  const { Eges, Epot, Ekin, vv } = a3Vals();
+  const { Eges, Epot, Ekin, vv, Emech, Waerme } = a3Vals();
   document.getElementById('a3-epot').textContent = Epot.toFixed(2) + ' J';
   document.getElementById('a3-ekin').textContent = Ekin.toFixed(2) + ' J';
-  document.getElementById('a3-eges').textContent = Eges.toFixed(2) + ' J';
+  document.getElementById('a3-eges').textContent = Emech.toFixed(2) + ' J';
+  document.getElementById('a3-waerme').textContent = Waerme.toFixed(2) + ' J';
   document.getElementById('a3-v').textContent = vv.toFixed(2) + ' m/s';
 
   // Pendel-Canvas
@@ -1165,9 +1193,10 @@ function a3Render() {
   const cols = [
     { lab: 'E_pot', val: Epot, col: '#8a4a0e' },
     { lab: 'E_kin', val: Ekin, col: '#1f6b3a' },
-    { lab: 'E_ges', val: Eges, col: '#1a4f8a' }
+    { lab: 'Wärme', val: Waerme, col: '#9b1c1c' },
+    { lab: 'Summe', val: Emech + Waerme, col: '#1a4f8a' }
   ];
-  const bw = 52, gap = (W2 - 3*bw) / 4;
+  const bw = 46, gap = (W2 - 4*bw) / 5;
   const scale = Eges > 0 ? fullH / Eges : 0;
   cols.forEach((c, i) => {
     const x = gap + i * (bw + gap);
@@ -1195,10 +1224,13 @@ function a3Tick(ts) {
   if (dt > 0.05) dt = 0.05;
   // Pendel-DGL: theta'' = -(g/L) sinθ ; mehrere Substeps für Stabilität
   const sub = 4, h = dt / sub;
+  const m3 = +document.getElementById('a3-m').value;
   for (let k = 0; k < sub; k++) {
-    const alpha = -(g / A3_L) * Math.sin(a3State.theta);
+    const alpha = -(g / A3_L) * Math.sin(a3State.theta) - (a3Reib ? 0.35 * a3State.omega : 0);
+    const omAlt = a3State.omega;
     a3State.omega += alpha * h;
     a3State.theta += a3State.omega * h;
+    if (a3Reib) a3Waerme += 0.35 * omAlt * omAlt * m3 * A3_L * A3_L * h;
   }
   a3Render();
   if (a3State.running) a3State.rafId = requestAnimationFrame(a3Tick);
@@ -1217,13 +1249,19 @@ document.getElementById('a3-reset').addEventListener('click', () => {
   a3State.running = false;
   document.getElementById('a3-btn').textContent = '▶ Loslassen';
   document.getElementById('a3-btn').classList.remove('paused');
-  a3Init(); a3Render();
+  a3Waerme = 0; a3Init(); a3Render();
 });
+document.querySelectorAll('[data-a3reib]').forEach(b => b.addEventListener('click', () => {
+  a3Reib = b.dataset.a3reib === '1';
+  document.querySelectorAll('[data-a3reib]').forEach(x => x.classList.toggle('aktiv', x === b));
+  a3Waerme = 0; a3Init(); a3Render();
+}));
 document.getElementById('a3-theta').addEventListener('input', () => {
+  a3Waerme = 0;
   a3State.running = false;
   document.getElementById('a3-btn').textContent = '▶ Loslassen';
   document.getElementById('a3-btn').classList.remove('paused');
-  a3Init(); a3Render();
+  a3Waerme = 0; a3Init(); a3Render();
 });
 document.getElementById('a3-m').addEventListener('input', a3Render);
 
@@ -1327,17 +1365,33 @@ function a5Render() {
   document.getElementById('a5-W').textContent = W.toFixed(0) + ' J';
   document.getElementById('a5-P').textContent = P.toFixed(0) + ' W';
 
-  const cv = initCanvas('a5-cv', 260, false);
+  const cv = initCanvas('a5-cv', 290, false);
   const ctx = cv.ctx, Wd = cv.W, H = cv.H;
   ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, Wd, H);
-  const bodenY = H - 30, topY = 30;
+  const bodenY = H - 54, topY = 30;   // Platz unten für die beiden Beschriftungen
   ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, bodenY, Wd, H - bodenY);
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.moveTo(0, bodenY); ctx.lineTo(Wd, bodenY); ctx.stroke();
 
-  const cx = Wd/2;
+  // Zwei Kisten nebeneinander: links die Referenz mit fester Zeit (3.0 s),
+  // rechts die eingestellte. Gleiche Arbeit, verschiedene Leistung — das war
+  // vorher nur seriell durch Merken der Werte zu erkennen.
+  const A5_TREF = 3.0;
+  const cxRef = Wd * 0.32, cx = Wd * 0.68;
   const travel = bodenY - topY - 36;
   const boxY = bodenY - 36 - a5State.prog * travel;
+  const progRef = Math.min(1, a5State.prog * t / A5_TREF);
+  const boxYRef = bodenY - 36 - progRef * travel;
+  // Referenzkiste (grau)
+  ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(cxRef, topY - 6); ctx.lineTo(cxRef, boxYRef); ctx.stroke();
+  ctx.fillStyle = '#b9b3a8'; ctx.fillRect(cxRef - 24, boxYRef, 48, 36);
+  ctx.strokeStyle = '#8a8478'; ctx.strokeRect(cxRef - 24, boxYRef, 48, 36);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText(m + ' kg', cxRef, boxYRef + 22);
+  ctx.fillStyle = '#6b7280'; ctx.font = '13px JetBrains Mono,monospace';
+  ctx.fillText('Referenz: t = ' + A5_TREF.toFixed(1) + ' s', cxRef, bodenY + 18);
+  ctx.fillText('P = ' + (W / A5_TREF).toFixed(0) + ' W', cxRef, bodenY + 34);
   // Seil
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.6;
   ctx.beginPath(); ctx.moveTo(cx, topY - 6); ctx.lineTo(cx, boxY); ctx.stroke();
@@ -1353,9 +1407,13 @@ function a5Render() {
   ctx.setLineDash([]);
   ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('h = ' + h.toFixed(1) + ' m', xb + 5, bodenY - 36 - travel/2);
-  // Leistung gross
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('eingestellt: t = ' + t.toFixed(1) + ' s', cx, bodenY + 18);
+  ctx.fillText('P = ' + P.toFixed(0) + ' W', cx, bodenY + 34);
+  // gemeinsame Arbeit oben
   ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  ctx.fillText('P = ' + P.toFixed(0) + ' W', cx - 30, 20);
+  ctx.fillText('beide leisten dieselbe Arbeit W = ' + W.toFixed(0) + ' J — nur die Zeit unterscheidet sich',
+               Wd / 2, 18);
 }
 function a5Tick(ts) {
   if (!a5State.running) return;
@@ -1395,11 +1453,21 @@ document.getElementById('a5-reset').addEventListener('click', () => {
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 6: Wirkungsgrad — Energiefluss
 // ══════════════════════════════════════════════════════════
+let a6Zwei = false;   // zweite Stufe zugeschaltet
 function drawA6() {
   const Ein = +document.getElementById('a6-ein').value;
   const eta = +document.getElementById('a6-eta').value / 100;
-  const nutz = Ein * eta;
-  const verl = Ein * (1 - eta);
+  // Zweite Stufe: der Wirkungsgrad einer Kette ist das PRODUKT der Einzelwerte,
+  // nicht ihr Mittel — genau die Transferaufgabe des Mini-Checks.
+  const zwei = a6Zwei;
+  const eta2 = zwei ? eta : 1;
+  const etaGes = eta * eta2;
+  const nutz = Ein * etaGes;
+  const verl = Ein * (1 - etaGes);
+  document.getElementById('a6-etages').textContent = (etaGes*100).toFixed(1) + ' %';
+  document.getElementById('a6-stufen').textContent = zwei
+    ? 'η_ges = ' + Math.round(eta*100) + ' % · ' + Math.round(eta2*100) + ' % = ' + (etaGes*100).toFixed(1) + ' %'
+    : 'η_ges = ' + Math.round(eta*100) + ' % (eine Stufe)';
   document.getElementById('a6-ein-val').textContent = Ein + ' J';
   document.getElementById('a6-eta-val').textContent = Math.round(eta*100) + ' %';
   document.getElementById('a6-nutz').textContent = nutz.toFixed(0) + ' J';
@@ -1428,12 +1496,23 @@ function drawA6() {
   ctx.fillText('Maschine', mx + mw/2, my + mh/2 - 4);
   ctx.font = '13px JetBrains Mono,monospace';
   ctx.fillText('η = ' + Math.round(eta*100) + '%', mx + mw/2, my + mh/2 + 14);
+  if (zwei) {
+    // zweite Maschine direkt dahinter
+    const mx2 = mx + mw + 26;
+    ctx.fillStyle = '#eceae4'; ctx.strokeStyle = '#5c5346'; ctx.lineWidth = 1.5;
+    ctx.fillRect(mx2, my, mw, mh); ctx.strokeRect(mx2, my, mw, mh);
+    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('2. Stufe', mx2 + mw/2, my + mh/2 - 4);
+    ctx.font = '13px JetBrains Mono,monospace';
+    ctx.fillText('η = ' + Math.round(eta2*100) + '%', mx2 + mw/2, my + mh/2 + 14);
+    drawArrow(ctx, mx + mw + 3, my + mh/2, mx2 - 3, my + mh/2, '#1a4f8a', 3, 9);
+  }
 
   // Pfeil hinein
   drawArrow(ctx, xIn + wIn + 4, my + mh/2, mx - 4, my + mh/2, '#1a4f8a', 3, 10);
 
   // Nutz-Pfeil (grün, rechts, Dicke prop. nutz)
-  const xOut = mx + mw + 8;
+  const xOut = (zwei ? mx + mw + 26 + mw : mx + mw) + 8;
   const nutzW = Math.max(4, (nutz / maxE) * 24);
   ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = nutzW;
   drawArrow(ctx, xOut, my + mh*0.35, W - 70, my + mh*0.35, '#1f6b3a', nutzW, 12);
@@ -1447,6 +1526,11 @@ function drawA6() {
   ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('Verlust (Wärme): ' + verl.toFixed(0) + ' J', mx + mw/2 + 20, H - 14);
 }
+document.querySelectorAll('[data-a6stufen]').forEach(b => b.addEventListener('click', () => {
+  a6Zwei = b.dataset.a6stufen === '2';
+  document.querySelectorAll('[data-a6stufen]').forEach(x => x.classList.toggle('aktiv', x === b));
+  drawA6();
+}));
 ['a6-ein','a6-eta'].forEach(id => document.getElementById(id).addEventListener('input', drawA6));
 
 
@@ -1456,7 +1540,7 @@ function drawA6() {
 function renderAll() {
   drawA1();
   drawA2();
-  a3Init(); a3Render();
+  a3Waerme = 0; a3Init(); a3Render();
   drawA4();
   a5Render();
   drawA6();
