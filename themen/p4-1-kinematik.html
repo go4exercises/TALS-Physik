@@ -220,12 +220,26 @@ MathJax = {
       <span class="sl-val" id="a1-s0-val">0 m</span>
 
       </div>
+      <div class="sl-grp">
+      <label>Zeitpunkt \(t\):</label>
+      <input type="range" id="a1-t" min="0" max="10" value="5" step="0.1">
+      <span class="sl-val" id="a1-t-val">5.0 s</span>
+
+      </div>
     </div>
 
     <div class="formel-live">
       <div class="fl-label">Aktueller Funktionsterm</div>
       <div class="fl-eq" id="a1-eq-f">s(t) = s₀ + v · t</div>
       <div class="fl-eq" id="a1-eq">s(t) = 0 m + 15 m/s · t</div>
+      <div class="fl-eq" id="a1-eq-fl-f">zurückgelegter Weg = Fläche unter v(t) = v · t</div>
+      <div class="fl-eq" id="a1-eq-fl">Fläche = 15 m/s · 5.0 s = 75 m</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Ort \(s(t)\)</span><span class="lb-val" id="a1-live-s">75 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Fläche unter \(v(t)\)</span><span class="lb-val" id="a1-live-A">75 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Weg seit \(t=0\)</span><span class="lb-val" id="a1-live-w">75 m</span></div>
     </div>
 
     <div class="zwei-spalten">
@@ -395,6 +409,12 @@ Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></d
       <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Fallhöhe \(h_0\): 20 m  ·  \(g = 9.81\;\text{m/s}^2\)</div>
     </div>
 
+    <div class="sl-row">
+      <label>Zeitlupe:</label>
+      <input type="range" id="a3-tempo" min="0.1" max="1" value="0.4" step="0.05">
+      <span class="sl-val" id="a3-tempo-val">0.40×</span>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Zeit \(t\)</span><span class="lb-val" id="a3-t">0.00 s</span></div>
       <div class="lb-item"><span class="lb-lab">Geschwindigkeit \(v\)</span><span class="lb-val" id="a3-v">0.0 m/s</span></div>
@@ -464,10 +484,17 @@ Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></d
       </div>
     </div>
 
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+      <button class="play-btn" id="a4-btn">▶ Wurf abspielen</button>
+      <button class="play-btn paused" id="a4-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Wurfweite</span><span class="lb-val" id="a4-w">40.8 m</span></div>
       <div class="lb-item"><span class="lb-lab">Steighöhe</span><span class="lb-val" id="a4-h">10.2 m</span></div>
       <div class="lb-item"><span class="lb-lab">Flugzeit</span><span class="lb-val" id="a4-tF">2.88 s</span></div>
+      <div class="lb-item"><span class="lb-lab">waagrecht \(x(t)\)</span><span class="lb-val" id="a4-x">—</span></div>
+      <div class="lb-item"><span class="lb-lab">senkrecht \(y(t)\)</span><span class="lb-val" id="a4-y">—</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -619,14 +646,27 @@ Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></d
       </div>
     </div>
 
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+      <button class="play-btn" id="a6-btn">▶ Querung abspielen</button>
+      <button class="play-btn paused" id="a6-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Flussbreite 40 m  ·  Zeitraffer 4×</div>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">\(|\vec{v}_{\text{Ufer}}|\)</span><span class="lb-val" id="a6-vu">2.24 m/s</span></div>
       <div class="lb-item"><span class="lb-lab">Driftwinkel \(\gamma\)</span><span class="lb-val" id="a6-gamma">26.6°</span></div>
+      <div class="lb-item"><span class="lb-lab">Querzeit</span><span class="lb-val" id="a6-tq">20.0 s</span></div>
+      <div class="lb-item"><span class="lb-lab">Versatz am Zielufer</span><span class="lb-val" id="a6-dx">+20.0 m</span></div>
     </div>
 
     <div class="cv-wrap">
       <div class="cv-titel">Vektoraddition</div>
       <canvas id="a6-cv" height="210"></canvas>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🏊 Querung von oben — feste Skala −40 … 140 m</div>
+      <canvas id="a6-cv2" height="230" role="img" aria-label="Aufsicht auf einen 40 Meter breiten Fluss. Die Schwimmerin startet am unteren Ufer, ihre Bahn wird beim Abspielen nachgezeichnet. Am oberen Ufer markieren ein Fähnchen das Ziel senkrecht gegenüber und ein Punkt die tatsächliche Ankunft; der Abstand dazwischen ist der Versatz in Metern."></canvas>
     </div>
   </div>
 </div>
@@ -1118,8 +1158,16 @@ function drawHerleitung() {
 function drawA1() {
   const v  = +document.getElementById('a1-v').value;
   const s0 = +document.getElementById('a1-s0').value;
+  const t  = +document.getElementById('a1-t').value;
+  const A  = v * t;                     // Fläche unter v(t) = zurückgelegter Weg
   document.getElementById('a1-v-val').textContent  = v + ' m/s';
   document.getElementById('a1-s0-val').textContent = s0 + ' m';
+  document.getElementById('a1-t-val').textContent  = t.toFixed(1) + ' s';
+  document.getElementById('a1-eq-fl').textContent =
+    'Fläche = ' + fmt(v) + ' m/s · ' + t.toFixed(1) + ' s = ' + fmt(A) + ' m';
+  document.getElementById('a1-live-s').textContent = fmt(s0 + A) + ' m';
+  document.getElementById('a1-live-A').textContent = fmt(A) + ' m';
+  document.getElementById('a1-live-w').textContent = fmt(A) + ' m';
   document.getElementById('a1-eq').textContent =
     's(t) = ' + fmt(s0) + ' m ' + (v >= 0 ? '+ ' + fmt(v) : '− ' + fmt(Math.abs(v))) + ' m/s · t';
 
@@ -1139,8 +1187,17 @@ function drawA1() {
   cv1.ctx.moveTo(g1.cx(0),    g1.cy(s0));
   cv1.ctx.lineTo(g1.cx(tMax), g1.cy(sEnd));
   cv1.ctx.stroke();
-  // Markierter Punkt bei t=5
-  drawDot(cv1.ctx, g1.cx, g1.cy, 5, s0 + v * 5, '#8a4a0e', 5);
+  // Punkt beim eingestellten t, mit Lot auf beide Achsen (war vorher ein
+  // unbeschrifteter Fixpunkt bei t = 5 s)
+  cv1.ctx.strokeStyle = '#8a4a0e88'; cv1.ctx.lineWidth = 1; cv1.ctx.setLineDash([3, 3]);
+  cv1.ctx.beginPath(); cv1.ctx.moveTo(g1.cx(t), g1.cy(0)); cv1.ctx.lineTo(g1.cx(t), g1.cy(s0 + A));
+  cv1.ctx.moveTo(g1.cx(0), g1.cy(s0 + A)); cv1.ctx.lineTo(g1.cx(t), g1.cy(s0 + A)); cv1.ctx.stroke();
+  cv1.ctx.setLineDash([]);
+  drawDot(cv1.ctx, g1.cx, g1.cy, t, s0 + A, '#8a4a0e', 6);
+  cv1.ctx.fillStyle = '#8a4a0e'; cv1.ctx.font = 'bold 13px JetBrains Mono,monospace';
+  cv1.ctx.textAlign = 'left';
+  cv1.ctx.fillText('s = ' + fmt(s0 + A) + ' m',
+                   Math.min(g1.cx(t) + 8, cv1.W - 110), g1.cy(s0 + A) - 8);
 
   // v-t Diagramm — Linie horizontal bei v
   const vLo = Math.min(v, 0) - 5;
@@ -1154,15 +1211,42 @@ function drawA1() {
   cv2.ctx.moveTo(g2.cx(0),    g2.cy(v));
   cv2.ctx.lineTo(g2.cx(tMax), g2.cy(v));
   cv2.ctx.stroke();
-  // Fläche unter v(t) — entspricht s, schraffiert leicht
-  if (v !== 0) {
-    cv2.ctx.fillStyle = 'rgba(31, 107, 58, 0.12)';
-    cv2.ctx.fillRect(g2.cx(0), g2.cy(v), g2.cx(tMax) - g2.cx(0), g2.cy(0) - g2.cy(v));
+  // Fläche unter v(t) NUR bis zum eingestellten t — so wird «Fläche = Weg»
+  // quantitativ prüfbar, statt als konstant gefüllter Streifen dekorativ zu sein.
+  if (v !== 0 && t > 0) {
+    cv2.ctx.fillStyle = 'rgba(31, 107, 58, 0.22)';
+    cv2.ctx.fillRect(g2.cx(0), g2.cy(v), g2.cx(t) - g2.cx(0), g2.cy(0) - g2.cy(v));
+    cv2.ctx.strokeStyle = '#1f6b3a'; cv2.ctx.lineWidth = 1.4;
+    cv2.ctx.strokeRect(g2.cx(0), g2.cy(v), g2.cx(t) - g2.cx(0), g2.cy(0) - g2.cy(v));
+    // Beschriftung mittig in der Fläche, bei schmalem Rechteck darüber
+    const mx = (g2.cx(0) + g2.cx(t)) / 2, my = (g2.cy(v) + g2.cy(0)) / 2;
+    const txt = 'Fläche = v · t = ' + fmt(A) + ' m';
+    cv2.ctx.font = 'bold 13px JetBrains Mono,monospace'; cv2.ctx.textAlign = 'center';
+    const passt = cv2.ctx.measureText(txt).width < g2.cx(t) - g2.cx(0) - 10;
+    cv2.ctx.fillStyle = '#1f6b3a';
+    cv2.ctx.fillText(txt, passt ? mx : Math.max(cv2.W * 0.5, g2.cx(t) + 4),
+                          passt ? my + 4 : g2.cy(v) - 10);
   }
+  // Zeitmarke auch im v-t-Diagramm
+  cv2.ctx.strokeStyle = '#1f6b3a88'; cv2.ctx.lineWidth = 1; cv2.ctx.setLineDash([3, 3]);
+  cv2.ctx.beginPath(); cv2.ctx.moveTo(g2.cx(t), g2.cy(0)); cv2.ctx.lineTo(g2.cx(t), g2.cy(v));
+  cv2.ctx.stroke(); cv2.ctx.setLineDash([]);
 }
-['a1-v','a1-s0'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
+['a1-v','a1-s0','a1-t'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
 
 // ══════════════ ANIMATION 2 ══════════════
+// Beschriftet eine eingefärbte Fläche: mittig hinein, wenn sie breit genug ist,
+// sonst rechts daneben über der Kurve.
+function flaechenLabel(cv, g, t, txt, yMitte, yOben, farbe) {
+  const c = cv.ctx, breite = g.cx(t) - g.cx(0);
+  c.font = 'bold 13px JetBrains Mono,monospace'; c.fillStyle = farbe;
+  const tw = c.measureText(txt).width;
+  if (tw < breite - 10) { c.textAlign = 'center'; c.fillText(txt, (g.cx(0) + g.cx(t)) / 2, yMitte + 4); }
+  else {
+    c.textAlign = 'left';
+    c.fillText(txt, Math.min(g.cx(t) + 6, cv.W - tw - 4), Math.max(yOben - 8, 14));
+  }
+}
 function drawA2() {
   const a  = +document.getElementById('a2-a').value;
   const v0 = +document.getElementById('a2-v0').value;
@@ -1184,6 +1268,16 @@ function drawA2() {
   let cv1 = initCanvas('a2-cv-at', 200, false);
   let g1 = drawGrid(cv1.ctx, cv1.W, cv1.H, -1, tMax + 1, aLo, aHi);
   drawAxesUnits(cv1.ctx, cv1.W, cv1.H, g1.cx, g1.cy, 't [s]', 'a [m/s²]');
+  // Fläche unter a(t) bis t = Geschwindigkeitszuwachs Δv. Die Erkenntnis-Box
+  // behauptet das; ohne eingefärbte Fläche zeigt es kein Diagramm.
+  if (a !== 0 && t > 0) {
+    cv1.ctx.fillStyle = 'rgba(91, 45, 142, 0.22)';
+    cv1.ctx.fillRect(g1.cx(0), g1.cy(a), g1.cx(t) - g1.cx(0), g1.cy(0) - g1.cy(a));
+    cv1.ctx.strokeStyle = '#5b2d8e'; cv1.ctx.lineWidth = 1.2;
+    cv1.ctx.strokeRect(g1.cx(0), g1.cy(a), g1.cx(t) - g1.cx(0), g1.cy(0) - g1.cy(a));
+    flaechenLabel(cv1, g1, t, 'Fläche = Δv = ' + (a * t).toFixed(1) + ' m/s',
+                  (g1.cy(a) + g1.cy(0)) / 2, g1.cy(a), '#5b2d8e');
+  }
   cv1.ctx.strokeStyle = '#5b2d8e'; cv1.ctx.lineWidth = 2.5;
   cv1.ctx.beginPath();
   cv1.ctx.moveTo(g1.cx(0), g1.cy(a)); cv1.ctx.lineTo(g1.cx(tMax), g1.cy(a)); cv1.ctx.stroke();
@@ -1196,6 +1290,20 @@ function drawA2() {
   let cv2 = initCanvas('a2-cv-vt', 200, false);
   let g2 = drawGrid(cv2.ctx, cv2.W, cv2.H, -1, tMax + 1, vLo, vHi);
   drawAxesUnits(cv2.ctx, cv2.W, cv2.H, g2.cx, g2.cy, 't [s]', 'v [m/s]');
+  // Fläche unter v(t) bis t = zurückgelegter Weg s. Trapez zwischen v0 und v(t).
+  if (t > 0) {
+    cv2.ctx.fillStyle = 'rgba(31, 107, 58, 0.22)';
+    cv2.ctx.beginPath();
+    cv2.ctx.moveTo(g2.cx(0), g2.cy(0));
+    cv2.ctx.lineTo(g2.cx(0), g2.cy(v0));
+    cv2.ctx.lineTo(g2.cx(t), g2.cy(vAt));
+    cv2.ctx.lineTo(g2.cx(t), g2.cy(0));
+    cv2.ctx.closePath(); cv2.ctx.fill();
+    cv2.ctx.strokeStyle = '#1f6b3a'; cv2.ctx.lineWidth = 1.2; cv2.ctx.stroke();
+    flaechenLabel(cv2, g2, t, 'Fläche = s = ' + sAt.toFixed(1) + ' m',
+                  (g2.cy(0) + g2.cy(Math.max(v0, vAt))) / 2,
+                  g2.cy(Math.max(v0, vAt)), '#1f6b3a');
+  }
   cv2.ctx.strokeStyle = '#1f6b3a'; cv2.ctx.lineWidth = 2.5;
   cv2.ctx.beginPath();
   cv2.ctx.moveTo(g2.cx(0), g2.cy(v0)); cv2.ctx.lineTo(g2.cx(tMax), g2.cy(vEnd)); cv2.ctx.stroke();
@@ -1231,13 +1339,16 @@ function drawA2() {
 
 // ══════════════ ANIMATION 3 — Freier Fall ══════════════
 const a3State = { t: 0, running: false, lastTs: 0, rafId: null };
-const a3H0 = 20;  // Fallhöhe in m
+const a3H0 = 20;        // Fallhöhe in m
+const A3_STROBO = 0.25; // s zwischen zwei Stroboskop-Bildern
 
 function a3Render() {
   const t = a3State.t;
   const v = g * t;
   const s = 0.5 * g * t * t;
   const yPos = Math.min(s, a3H0);
+  document.getElementById('a3-tempo-val').textContent =
+    (+document.getElementById('a3-tempo').value).toFixed(2) + '×';
   document.getElementById('a3-t').textContent = t.toFixed(2) + ' s';
   document.getElementById('a3-v').textContent = v.toFixed(1) + ' m/s';
   document.getElementById('a3-s').textContent = yPos.toFixed(2) + ' m';
@@ -1284,6 +1395,27 @@ function a3Render() {
   ctx.arc(baumX, kroneY, 38 * k, 0, Math.PI * 2); ctx.fill();
   ctx.strokeStyle = '#1f5520'; ctx.lineWidth = 1.5; ctx.stroke();
 
+  // Stroboskop-Spur: alle 0.25 s eine blasse Silhouette an der Stelle, an der
+  // der Apfel damals war. Die Abstände wachsen quadratisch — s ∝ t² wird damit
+  // direkt sichtbar, statt nur in der Live-Anzeige behauptet zu werden.
+  let letzteMarke = -99;
+  for (let tt = A3_STROBO; tt < t - 1e-9; tt += A3_STROBO) {
+    const ss = 0.5 * g * tt * tt;
+    if (ss > a3H0) break;
+    const py = skala_y(a3H0 - ss);
+    ctx.fillStyle = 'rgba(200, 51, 30, 0.22)';
+    ctx.beginPath(); ctx.arc(apfelX, py, 8 * k, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(122, 26, 16, 0.30)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(apfelX, py, 8 * k, 0, Math.PI * 2); ctx.stroke();
+    // Zeitmarke rechts daneben — oben stehen die Bilder dicht, dort auslassen
+    if (py - letzteMarke >= 17) {
+      letzteMarke = py;
+      ctx.fillStyle = 'rgba(90, 80, 64, 0.75)';
+      ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+      ctx.fillText(tt.toFixed(2) + ' s', apfelX + 14 * k, py + 4);
+    }
+  }
+
   // Apfel
   ctx.fillStyle = '#c8331e';
   ctx.beginPath(); ctx.arc(apfelX, apfelY, 8 * k, 0, Math.PI * 2); ctx.fill();
@@ -1304,9 +1436,10 @@ function a3Render() {
 function a3Tick(ts) {
   if (!a3State.running) return;
   if (!a3State.lastTs) a3State.lastTs = ts;
+  const tempo = +document.getElementById('a3-tempo').value;
   const dt = (ts - a3State.lastTs) / 1000;
   a3State.lastTs = ts;
-  a3State.t += dt;
+  a3State.t += dt * tempo;   // Zeitlupe: der Fall dauert real ~2 s, das ist zu schnell
   const sNow = 0.5 * g * a3State.t * a3State.t;
   if (sNow >= a3H0) {
     a3State.t = Math.sqrt(2 * a3H0 / g);  // exakt am Boden
@@ -1334,6 +1467,7 @@ document.getElementById('a3-btn').addEventListener('click', () => {
     a3State.rafId = requestAnimationFrame(a3Tick);
   }
 });
+document.getElementById('a3-tempo').addEventListener('input', a3Render);
 document.getElementById('a3-reset').addEventListener('click', () => {
   a3State.running = false;
   a3State.t = 0;
@@ -1343,6 +1477,11 @@ document.getElementById('a3-reset').addEventListener('click', () => {
 });
 
 // ══════════════ ANIMATION 4 — Schiefer Wurf ══════════════
+// Abspielbar, mit mitlaufenden Projektionen auf beide Achsen: die x-Marke
+// wandert gleichförmig, die y-Marke wird langsamer, kehrt um und wird wieder
+// schneller. Genau das ist das Überlagerungsprinzip — die statische Parabel
+// allein zeigt es nicht.
+const a4State = { t: 0, running: false, lastTs: 0, rafId: null };
 function drawA4() {
   const v0    = +document.getElementById('a4-v0').value;
   const alpha = +document.getElementById('a4-alpha').value;
@@ -1386,6 +1525,45 @@ function drawA4() {
   // Landepunkt
   drawDot(cv.ctx, grid.cx, grid.cy, sx, 0, '#1f6b3a', 5);
 
+  // ── Abspiel-Zustand: fliegender Punkt + Projektionen ──────────────────
+  const tNow = Math.min(a4State.t, tF);
+  if (a4State.t > 0) {
+    const xN = vx * tNow, yN = vy * tNow - 0.5 * g * tNow * tNow;
+    document.getElementById('a4-x').textContent = xN.toFixed(1) + ' m';
+    document.getElementById('a4-y').textContent = Math.max(0, yN).toFixed(1) + ' m';
+    // bereits geflogener Teil kräftig nachzeichnen
+    cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 4; cv.ctx.beginPath();
+    for (let i = 0; i <= 60; i++) {
+      const tt = tNow * i / 60, xx = vx * tt, yy = vy * tt - 0.5 * g * tt * tt;
+      if (i === 0) cv.ctx.moveTo(grid.cx(xx), grid.cy(yy));
+      else         cv.ctx.lineTo(grid.cx(xx), grid.cy(yy));
+    }
+    cv.ctx.stroke();
+    // Lote auf beide Achsen
+    cv.ctx.setLineDash([4, 3]); cv.ctx.lineWidth = 1.2;
+    cv.ctx.strokeStyle = '#5b2d8e';
+    cv.ctx.beginPath(); cv.ctx.moveTo(grid.cx(xN), grid.cy(yN)); cv.ctx.lineTo(grid.cx(xN), grid.cy(0)); cv.ctx.stroke();
+    cv.ctx.strokeStyle = '#1f6b3a';
+    cv.ctx.beginPath(); cv.ctx.moveTo(grid.cx(xN), grid.cy(yN)); cv.ctx.lineTo(grid.cx(0), grid.cy(yN)); cv.ctx.stroke();
+    cv.ctx.setLineDash([]);
+    // Projektionsmarken
+    drawDot(cv.ctx, grid.cx, grid.cy, xN, 0, '#5b2d8e', 6);
+    drawDot(cv.ctx, grid.cx, grid.cy, 0, yN, '#1f6b3a', 6);
+    // fliegender Körper
+    drawDot(cv.ctx, grid.cx, grid.cy, xN, yN, '#1a4f8a', 7);
+    cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
+    // Der x-Wert steht in der Live-Box; im Bild wäre er entweder auf den
+    // Achsenticks oder ausserhalb der Leinwand — die violette Marke genügt.
+    cv.ctx.fillStyle = '#1f6b3a'; cv.ctx.textAlign = 'left';
+    cv.ctx.fillText(Math.max(0, yN).toFixed(1) + ' m', grid.cx(0) + 6, grid.cy(yN) - 6);
+    // Zeit fest oben links — am Scheitel kollidiert sie sonst mit «h = …»
+    cv.ctx.fillStyle = '#1a4f8a'; cv.ctx.textAlign = 'right';
+    cv.ctx.fillText('t = ' + tNow.toFixed(2) + ' s', cv.W - 14, 20);
+  } else {
+    document.getElementById('a4-x').textContent = '—';
+    document.getElementById('a4-y').textContent = '—';
+  }
+
   // Geschwindigkeits-Vektor am Start: Komponenten zeigen
   drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, vx * 0.3, 0, '#5b2d8e', 'vₓ', 2);
   drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, 0, vy * 0.3, '#5b2d8e', 'vᵧ', 2);
@@ -1403,7 +1581,49 @@ function drawA4() {
   cv.ctx.textAlign = 'left';
   cv.ctx.fillText('h = ' + hMax.toFixed(1) + ' m', grid.cx(sx / 2) + 6, grid.cy(hMax) - 6);
 }
-['a4-v0','a4-alpha'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+function a4Flugzeit() {
+  const v0 = +document.getElementById('a4-v0').value;
+  const al = +document.getElementById('a4-alpha').value * Math.PI / 180;
+  return 2 * v0 * Math.sin(al) / g;
+}
+function a4Tick(ts) {
+  if (!a4State.running) return;
+  if (!a4State.lastTs) a4State.lastTs = ts;
+  let dt = (ts - a4State.lastTs) / 1000; a4State.lastTs = ts;
+  if (dt > 0.05) dt = 0.05;
+  a4State.t += dt;
+  if (a4State.t >= a4Flugzeit()) {
+    a4State.t = a4Flugzeit();
+    a4State.running = false;
+    document.getElementById('a4-btn').textContent = '▶ Wurf abspielen';
+    document.getElementById('a4-btn').classList.remove('paused');
+  }
+  drawA4();
+  if (a4State.running) a4State.rafId = requestAnimationFrame(a4Tick);
+}
+document.getElementById('a4-btn').addEventListener('click', () => {
+  const btn = document.getElementById('a4-btn');
+  if (a4State.running) {
+    a4State.running = false; btn.textContent = '▶ Weiter'; btn.classList.remove('paused');
+  } else {
+    if (a4State.t >= a4Flugzeit() - 1e-9) a4State.t = 0;   // gelandet → neu starten
+    a4State.running = true; a4State.lastTs = 0;
+    btn.textContent = '⏸ Pause'; btn.classList.add('paused');
+    a4State.rafId = requestAnimationFrame(a4Tick);
+  }
+});
+document.getElementById('a4-reset').addEventListener('click', () => {
+  a4State.running = false; a4State.t = 0;
+  document.getElementById('a4-btn').textContent = '▶ Wurf abspielen';
+  document.getElementById('a4-btn').classList.remove('paused');
+  drawA4();
+});
+['a4-v0','a4-alpha'].forEach(id => document.getElementById(id).addEventListener('input', () => {
+  a4State.t = 0; a4State.running = false;                  // Parameterwechsel setzt zurück
+  document.getElementById('a4-btn').textContent = '▶ Wurf abspielen';
+  document.getElementById('a4-btn').classList.remove('paused');
+  drawA4();
+}));
 
 // ══════════════ ANIMATION 5 — Gleichförmige Kreisbewegung ══════════════
 const a5State = { phi: 0, lastTs: 0, rafId: null };
@@ -1494,6 +1714,21 @@ function drawA5() {
 ['a5-r','a5-omega'].forEach(id => document.getElementById(id).addEventListener('input', drawA5));
 
 // ══════════════ ANIMATION 6 — Schwimmer im Fluss ══════════════
+// Zweites Bild: die Querung von oben. Das Vektordreieck allein zeigt nur die
+// Geschwindigkeiten — erst die abgespielte Bahn macht den Versatz am Zielufer
+// als Länge in Metern greifbar.
+const A6_B = 40;                 // Flussbreite in m
+const A6_RAFFER = 4;             // Zeitraffer, sonst dauert eine Querung 13-80 s
+const a6State = { t: 0, running: false, lastTs: 0, rafId: null };
+function a6Werte() {
+  const vs = +document.getElementById('a6-vs').value;
+  const beta = +document.getElementById('a6-beta').value * Math.PI / 180;
+  const vf = +document.getElementById('a6-vf').value;
+  const vSx = vs * Math.cos(beta), vSy = vs * Math.sin(beta);
+  const vx = vSx + vf;
+  const tQ = vSy > 1e-9 ? A6_B / vSy : Infinity;
+  return { vSx, vSy, vf, vx, tQ, dx: vx * tQ };
+}
 function drawA6() {
   const vs    = +document.getElementById('a6-vs').value;
   const beta  = +document.getElementById('a6-beta').value;
@@ -1584,11 +1819,118 @@ function drawA6() {
   ctx.beginPath(); ctx.arc(ox, oy, 4, 0, 2 * Math.PI); ctx.fill();
   ctx.textBaseline = 'alphabetic';
 }
-['a6-vs','a6-beta','a6-vf'].forEach(id => document.getElementById(id).addEventListener('input', drawA6));
+// ── Aufsicht auf den Fluss ──────────────────────────────────────────────
+function drawA6Fluss() {
+  const w = a6Werte();
+  const erreicht = isFinite(w.tQ);
+  document.getElementById('a6-tq').textContent = erreicht ? w.tQ.toFixed(1) + ' s' : 'kommt nie an';
+  document.getElementById('a6-dx').textContent = erreicht ? (w.dx >= 0 ? '+' : '') + w.dx.toFixed(1) + ' m' : '—';
+
+  const cv = initCanvas('a6-cv2', 230, false);
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const XMIN = -40, XMAX = 140;                 // feste Skala (Q1)
+  const L = 34, Rm = 12, T = 26, B = H - 30;
+  const px = x => L + (x - XMIN) / (XMAX - XMIN) * (W - L - Rm);
+  const py = y => B - y / A6_B * (B - T);
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  // Wasser und Ufer
+  ctx.fillStyle = '#c0d8e8'; ctx.fillRect(L, T, W - L - Rm, B - T);
+  ctx.strokeStyle = '#86a85e'; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(L, T); ctx.lineTo(W - Rm, T); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(L, B); ctx.lineTo(W - Rm, B); ctx.stroke();
+  // Strömungspfeile
+  for (let y = T + 16; y < B - 8; y += 26)
+    for (let x = L + 20; x < W - Rm - 30; x += 70)
+      drawArrow(ctx, x, y, x + 18, y, 'rgba(60,100,140,0.40)', 1.2, 5);
+  // x-Skala
+  ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1;
+  ctx.fillStyle = '#6b7280'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  const schritt = W < 520 ? 40 : 20;   // schmal: nur jede zweite Marke beschriften
+  for (let x = XMIN; x <= XMAX; x += 20) {
+    ctx.beginPath(); ctx.moveTo(px(x), B); ctx.lineTo(px(x), B + 4); ctx.stroke();
+    if (x % schritt === 0) ctx.fillText(String(x), px(x), B + 17);
+  }
+  ctx.textAlign = 'left'; ctx.fillStyle = '#374151'; ctx.font = 'bold 13px Source Sans 3,sans-serif';
+  ctx.fillText('Start', px(0) + 8, B - 8);   // im Wasser, nicht auf der 0-Marke
+  // Ziel senkrecht gegenüber
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.4; ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(px(0), py(0)); ctx.lineTo(px(0), py(A6_B)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = '#1f6b3a';
+  ctx.beginPath(); ctx.moveTo(px(0), py(A6_B) - 4); ctx.lineTo(px(0) + 16, py(A6_B) - 10);
+  ctx.lineTo(px(0), py(A6_B) - 16); ctx.closePath(); ctx.fill();
+  if (!erreicht) {
+    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('β = ' + document.getElementById('a6-beta').value + '°: keine Querkomponente — das Zielufer wird nie erreicht',
+                 W / 2, (T + B) / 2);
+    return;
+  }
+  // Bahn bis zum aktuellen Zeitpunkt
+  const tNow = Math.min(a6State.t, w.tQ);
+  ctx.strokeStyle = '#1a4f8a'; ctx.lineWidth = 1.4; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(px(0), py(0)); ctx.lineTo(px(w.dx), py(A6_B)); ctx.stroke(); ctx.setLineDash([]);
+  if (tNow > 0) {
+    ctx.strokeStyle = '#1a4f8a'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(px(0), py(0)); ctx.lineTo(px(w.vx * tNow), py(w.vSy * tNow)); ctx.stroke();
+    ctx.fillStyle = '#1a4f8a';
+    ctx.beginPath(); ctx.arc(px(w.vx * tNow), py(w.vSy * tNow), 6, 0, 6.283); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.6; ctx.stroke();
+  }
+  // Landepunkt und Versatz
+  const trifft = Math.abs(w.dx) < 0.5;
+  ctx.fillStyle = trifft ? '#1f6b3a' : '#9b1c1c';
+  ctx.beginPath(); ctx.arc(px(Math.max(XMIN, Math.min(XMAX, w.dx))), py(A6_B), 6, 0, 6.283); ctx.fill();
+  if (!trifft) {
+    drawArrow(ctx, px(0), py(A6_B) + 14, px(Math.max(XMIN, Math.min(XMAX, w.dx))), py(A6_B) + 14, '#9b1c1c', 2, 7);
+  }
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = trifft ? '#1f6b3a' : '#9b1c1c';
+  const txt = trifft ? '✓ trifft das Ziel' : 'Versatz ' + (w.dx >= 0 ? '+' : '') + w.dx.toFixed(1) + ' m'
+              + (w.dx > XMAX ? '  (ausserhalb der Skala)' : '');
+  ctx.fillText(txt, Math.max(90, Math.min(W - 90, px(w.dx / 2))), py(A6_B) + 32);
+}
+['a6-vs','a6-beta','a6-vf'].forEach(id => document.getElementById(id).addEventListener('input', () => {
+  a6State.t = 0; a6State.running = false;
+  document.getElementById('a6-btn').textContent = '▶ Querung abspielen';
+  document.getElementById('a6-btn').classList.remove('paused');
+  drawA6(); drawA6Fluss();
+}));
+function a6Tick(ts) {
+  if (!a6State.running) return;
+  if (!a6State.lastTs) a6State.lastTs = ts;
+  let dt = (ts - a6State.lastTs) / 1000; a6State.lastTs = ts;
+  if (dt > 0.05) dt = 0.05;
+  a6State.t += dt * A6_RAFFER;
+  const tQ = a6Werte().tQ;
+  if (!isFinite(tQ) || a6State.t >= tQ) {
+    a6State.t = isFinite(tQ) ? tQ : 0;
+    a6State.running = false;
+    document.getElementById('a6-btn').textContent = '▶ Querung abspielen';
+    document.getElementById('a6-btn').classList.remove('paused');
+  }
+  drawA6Fluss();
+  if (a6State.running) a6State.rafId = requestAnimationFrame(a6Tick);
+}
+document.getElementById('a6-btn').addEventListener('click', () => {
+  const btn = document.getElementById('a6-btn'), tQ = a6Werte().tQ;
+  if (!isFinite(tQ)) return;
+  if (a6State.running) { a6State.running = false; btn.textContent = '▶ Weiter'; btn.classList.remove('paused'); }
+  else {
+    if (a6State.t >= tQ - 1e-9) a6State.t = 0;
+    a6State.running = true; a6State.lastTs = 0;
+    btn.textContent = '⏸ Pause'; btn.classList.add('paused');
+    a6State.rafId = requestAnimationFrame(a6Tick);
+  }
+});
+document.getElementById('a6-reset').addEventListener('click', () => {
+  a6State.running = false; a6State.t = 0;
+  document.getElementById('a6-btn').textContent = '▶ Querung abspielen';
+  document.getElementById('a6-btn').classList.remove('paused');
+  drawA6Fluss();
+});
 
 // ══════════════ INIT + RESIZE ══════════════
 function renderAll() {
-  drawA0(); drawHerleitung(); drawA1(); drawA2(); a3Render(); drawA4(); drawA5(); drawA6();
+  drawA0(); drawHerleitung(); drawA1(); drawA2(); a3Render(); drawA4(); drawA5(); drawA6(); drawA6Fluss();
 }
 document.addEventListener('DOMContentLoaded', () => {
   renderAll();

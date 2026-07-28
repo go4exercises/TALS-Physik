@@ -319,26 +319,53 @@ alt a3…a8 entsprechen neu a2…a7.*
   Im Beispielblock «ein falsches Resultat fliegt auf» ersetzt die konkrete
   Spanne «20 km bis 50 km» das vage «einige Dutzend Kilometer» (auf Ansage).
 ### p4-1 Kinematik
-- [ ] [HOCH] a1: t-Regler ergänzen, Fläche unter v(t) nur bis t einfärben,
+- [x] [HOCH] a1: t-Regler ergänzen, Fläche unter v(t) nur bis t einfärben,
   Live-Anzeige «Fläche = v·t = … m» — macht Fläche = Weg quantitativ prüfbar.
-- [ ] [HOCH] a2 (Dreier-Diagramm): Flächen unter a(t) und v(t) bis zum
+  *Erledigt 28.07.2026: t-Regler 0 … 10 s, Rechteck nur bis t gefüllt und
+  umrandet, Beschriftung «Fläche = v · t = 75 m» in der Fläche (bei schmalem
+  Rechteck daneben). Im s-t-Diagramm wandert der Punkt mit und trägt Lote auf
+  beide Achsen — damit ist auch der [NIEDRIG]-Punkt erledigt: der bisher
+  unbeschriftete Fixpunkt bei t = 5 s ist jetzt der einstellbare Zeitpunkt.*
+- [x] [HOCH] a2 (Dreier-Diagramm): Flächen unter a(t) und v(t) bis zum
   eingestellten t einfärben und als «Fläche = Δv» / «Fläche = s» ausweisen —
   die Erkenntnis-Box behauptet es, kein Diagramm zeigt es.
-- [ ] [HOCH] a3 Freier Fall: Tempo-Regler (0.25x–1x) + Stroboskop-Spur (alle
-  0.25 s eine blasse Silhouette → s ∝ t² direkt sichtbar); [MITTEL] h₀-Regler
-  mit Live-Fallzeit; [MITTEL] zweiter, schwererer Körper (Massenunabhängigkeit).
-- [ ] [HOCH] a4 Schiefer Wurf: Play-Knopf mit fliegendem Punkt und mitlaufenden
-  Projektionen auf beide Achsen (Überlagerungsprinzip); [MITTEL] Geisterkurve
-  «Bahn festhalten» (30°/60°-Vergleich); [MITTEL] Winkelbogen mit α einzeichnen
-  (nicht-isometrische Achsen verzerren den Winkel).
-- [ ] [HOCH] a6 Schwimmer: animierte Querung mit Bahn und Landepunkt-Versatz in m;
+  *Erledigt 28.07.2026: Rechteck unter a(t) («Fläche = Δv = 10.0 m/s») und
+  Trapez unter v(t) («Fläche = s = 25.0 m»), beide bis zum eingestellten t.
+  Gemeinsamer Helfer `flaechenLabel` setzt die Beschriftung mittig hinein oder
+  daneben, je nach Platz.*
+- [ ] ~~[HOCH] a3 Freier Fall: Tempo-Regler (0.25x–1x) + Stroboskop-Spur (alle
+  0.25 s eine blasse Silhouette → s ∝ t² direkt sichtbar)~~ ✓ 28.07.2026:
+  Zeitlupenregler 0.1× … 1× (Default 0.4×) und blasse Apfel-Silhouetten alle
+  0.25 s mit Zeitmarke. Die Abstände wachsen von 0.31 m auf 4.60 m — das
+  Quadratgesetz ist damit direkt ablesbar. Zeitmarken werden ausgelassen, wo
+  die Bilder oben zu dicht stehen.
+  **Offen bleibt:** [MITTEL] h₀-Regler mit Live-Fallzeit; [MITTEL] zweiter,
+  schwererer Körper (Massenunabhängigkeit).
+- [ ] ~~[HOCH] a4 Schiefer Wurf: Play-Knopf mit fliegendem Punkt und mitlaufenden
+  Projektionen auf beide Achsen (Überlagerungsprinzip)~~ ✓ 28.07.2026:
+  «▶ Wurf abspielen» mit Pause und Reset; der fliegende Punkt trägt Lote auf
+  beide Achsen, die x-Marke wandert gleichförmig, die y-Marke wird langsamer,
+  kehrt um und wird wieder schneller. Beide Werte zusätzlich in der Live-Box.
+  Der bereits geflogene Bahnteil wird kräftiger nachgezeichnet.
+  **Offen bleibt:** [MITTEL] Geisterkurve «Bahn festhalten» (30°/60°-Vergleich);
+  [MITTEL] Winkelbogen mit α einzeichnen.
+- [x] [HOCH] a6 Schwimmer: animierte Querung mit Bahn und Landepunkt-Versatz in m;
   [MITTEL] Ziel-Fähnchen + Status «trifft das Ziel» bei γ ≈ 0.
+  *Beides erledigt 28.07.2026: zweite Leinwand mit der Aufsicht auf einen 40 m
+  breiten Fluss, feste x-Skala −40 … 140 m (Q1). Die Bahn wird im Zeitraffer 4×
+  nachgezeichnet, am Zielufer stehen Fähnchen (senkrecht gegenüber) und
+  Ankunftspunkt; dazwischen ein bezifferter Versatzpfeil. Bei |Δx| < 0.5 m
+  erscheint «✓ trifft das Ziel». Querzeit und Versatz zusätzlich in der
+  Live-Box. Bei β = 0° oder 180° gibt es keine Querkomponente — dann steht
+  statt der Bahn der Hinweis, dass das Zielufer nie erreicht wird.*
 - [ ] [MITTEL] a0 Zugfahrt: v̄ als gestrichelte Rechteckhöhe über dem Intervall.
 - [ ] [MITTEL] a5 Kreisbewegung: Pause-Knopf; Pfeile streng proportional (Q3).
 - [ ] [MITTEL] herl-cv Trapez: Zerlegung in Rechteck (v0·t) + Dreieck (½at²) tönen.
 - [ ] [MITTEL] Neu: Mini-Canvas «Sekante → Tangente» (Δt-Regler) im
   Definitions-Abschnitt Momentangeschwindigkeit.
-- [ ] [NIEDRIG] a1: unbeschrifteten Fixpunkt bei t = 5 s beschriften oder entfernen.
+- [x] [NIEDRIG] a1: unbeschrifteten Fixpunkt bei t = 5 s beschriften oder entfernen.
+  *Mit dem t-Regler erledigt — der Punkt ist jetzt der eingestellte Zeitpunkt
+  und trägt seinen s-Wert.*
 
 ### p4-2 Dynamik
 - [ ] [HOCH] a3 Trägheit: Umschalter «Bezugssystem: Strasse | Wagen» — der
@@ -602,5 +629,6 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
    betrifft ~10 Widgets, macht tote Regler wieder lernwirksam.~~
    ✓ erledigt 28.07.2026.
 3. **[HOCH]-Einzelpunkte** je Seite (Abschnitt C).
+   p4-1 vollständig erledigt am 28.07.2026 (a1, a2, a3, a4, a6).
 4. **Q3–Q6 und [MITTEL]** nach Gelegenheit, seitenweise beim nächsten Besuch.
 5. **Neue Animationen** (Abschnitt D) zuletzt — der Bestand hat Vorrang.
