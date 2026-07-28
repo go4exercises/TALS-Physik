@@ -100,6 +100,10 @@ MathJax = {
 
     <div style="margin:10px 0;">
       <button class="play-btn" id="ein-btn">▶ Start</button>
+      <button class="play-btn paused" id="ein-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <label style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Tempo</label>
+      <input type="range" id="ein-tempo" min="0.2" max="2" value="1" step="0.1" style="max-width:150px;">
+      <span class="sl-val" id="ein-tempo-val" style="min-width:52px;">1.0×</span>
     </div>
 
     <div class="cv-wrap">
@@ -246,6 +250,10 @@ MathJax = {
 
     <div style="margin:10px 0;">
       <button class="play-btn" id="a1-btn">▶ Start</button>
+      <button class="play-btn paused" id="a1-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <label style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Tempo</label>
+      <input type="range" id="a1-tempo" min="0.2" max="2" value="1" step="0.1" style="max-width:150px;">
+      <span class="sl-val" id="a1-tempo-val" style="min-width:52px;">1.0×</span>
     </div>
 
     <div class="formel-live">
@@ -322,6 +330,10 @@ MathJax = {
 
     <div style="margin:10px 0;">
       <button class="play-btn" id="a2-btn">▶ Start</button>
+      <button class="play-btn paused" id="a2-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <label style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Tempo</label>
+      <input type="range" id="a2-tempo" min="0.2" max="2" value="1" step="0.1" style="max-width:150px;">
+      <span class="sl-val" id="a2-tempo-val" style="min-width:52px;">1.0×</span>
     </div>
 
     <div class="cv-wrap">
@@ -440,11 +452,12 @@ MathJax = {
       <div class="lb-item"><span class="lb-lab">Bereich</span><span class="lb-val" id="a4-band">sichtbares Licht</span></div>
       <div class="lb-item"><span class="lb-lab">Wellenlänge</span><span class="lb-val" id="a4-lam">0.3 µm</span></div>
       <div class="lb-item"><span class="lb-lab">Frequenz</span><span class="lb-val" id="a4-f">1·10¹⁵ Hz</span></div>
+      <div class="lb-item"><span class="lb-lab">Photonenergie \(E = h f\)</span><span class="lb-val" id="a4-e">2.48 eV</span></div>
     </div>
 
     <div class="cv-wrap">
       <div class="cv-titel">🌈 Das elektromagnetische Spektrum</div>
-      <canvas id="a4-cv" height="200"></canvas>
+      <canvas id="a4-cv" height="250"></canvas>
     </div>
 
   </div>
@@ -497,6 +510,10 @@ MathJax = {
 
     <div style="margin:10px 0;">
       <button class="play-btn" id="a5-btn">▶ Start</button>
+      <button class="play-btn paused" id="a5-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+      <label style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Tempo</label>
+      <input type="range" id="a5-tempo" min="0.2" max="2" value="1" step="0.1" style="max-width:150px;">
+      <span class="sl-val" id="a5-tempo-val" style="min-width:52px;">1.0×</span>
     </div>
 
     <div class="cv-wrap">
@@ -873,7 +890,9 @@ function makeLoop(canvasId, btnId, tickFn){
 //  EINSTIEG: laufende Welle (Transversal)
 // ══════════════════════════════════════════════════════════
 let einPhase=0;
-function einTick(dt){ einPhase += dt*1.6; einRender(); }
+function einTempo(){ const e=document.getElementById('ein-tempo'); if(!e) return 1;
+  document.getElementById('ein-tempo-val').textContent=(+e.value).toFixed(1)+'×'; return +e.value; }
+function einTick(dt){ dt *= einTempo(); einPhase += dt*1.6; einRender(); }
 function einRender(){
   const cv=initCanvas('ein-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
@@ -967,7 +986,9 @@ function a1Render(){
   ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='right';
   ctx.fillText('c = '+v.c.toFixed(2)+' m/s', W-16, 34);
 }
-function a1Tick(dt){ const v=a1Vals(); a1Phase += dt*2*Math.PI*v.f; a1Render(); }
+function a1Tempo(){ const e=document.getElementById('a1-tempo'); if(!e) return 1;
+  document.getElementById('a1-tempo-val').textContent=(+e.value).toFixed(1)+'×'; return +e.value; }
+function a1Tick(dt){ dt *= a1Tempo(); const v=a1Vals(); a1Phase += dt*2*Math.PI*v.f; a1Render(); }
 const a1Loop=makeLoop('a1-cv','a1-btn',a1Tick);
 ['a1-c','a1-f'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{ a1Read(); if(!a1Loop.running) a1Render(); }));
 
@@ -986,7 +1007,9 @@ function a2Buttons(){
       document.getElementById('a2-dir').textContent=m.d; a2Render(); });
     box.appendChild(b); });
 }
-function a2Tick(dt){ a2State.phase += dt*2.4; a2Render(); }
+function a2Tempo(){ const e=document.getElementById('a2-tempo'); if(!e) return 1;
+  document.getElementById('a2-tempo-val').textContent=(+e.value).toFixed(1)+'×'; return +e.value; }
+function a2Tick(dt){ dt *= a2Tempo(); a2State.phase += dt*2.4; a2Render(); }
 function a2Render(){
   const cv=initCanvas('a2-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
@@ -1143,7 +1166,12 @@ function drawA4(){
   document.getElementById('a4-lam').textContent=a4FmtLam(lam);
   document.getElementById('a4-f').textContent=emFmt(f)+' Hz';
 
-  const cv=initCanvas('a4-cv',200,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  // E = h · f — bereitet den UV-Transfer vor (kurze Wellen = energiereich)
+  const H_PLANCK = 6.626e-34;
+  const E_J = H_PLANCK * f, E_eV = E_J / 1.602e-19;
+  document.getElementById('a4-e').textContent =
+    (E_eV >= 1e-3 ? E_eV.toPrecision(3) + ' eV' : E_eV.toExponential(2) + ' eV');
+  const cv=initCanvas('a4-cv',250,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
   const bx0=W*0.05, bx1=W*0.95, by0=H*0.30, by1=H*0.56;
   const Lmin=-12, Lmax=3, xOf=l=>bx0+(l-Lmin)/(Lmax-Lmin)*(bx1-bx0);
@@ -1162,14 +1190,24 @@ function drawA4(){
   // Achsenticks (log)
   ctx.fillStyle='#6b7280'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
   for(let l=Lmin;l<=Lmax;l+=3){ ctx.fillText('10'+supDigits(l), xOf(l), by0-6); }
-  ctx.fillStyle='#374151'; ctx.fillText('Wellenlänge λ [m]', W*0.5, by0-20);
+  ctx.fillStyle='#374151'; ctx.fillText('Wellenlänge λ [m]  →  wächst nach rechts', W*0.5, by0-20);
+  // Gegenläufige Frequenzachse: λ und f laufen wegen c = λ·f gegeneinander.
+  // Links kurze Wellen und hohe Frequenz — genau die energiereiche Seite.
+  ctx.fillStyle='#5b2d8e'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
+  for(let l=Lmin;l<=Lmax;l+=3){
+    const fl = Math.log10(C_LIGHT / Math.pow(10, l));
+    ctx.fillText('10'+supDigits(Math.round(fl)), xOf(l), by1+62);
+  }
+  ctx.fillStyle='#5b2d8e'; ctx.font='bold 13px JetBrains Mono,monospace';
+  ctx.fillText('Frequenz f [Hz]  ←  wächst nach links', W*0.5, by1+80);
   // Marker
   const mx=xOf(L);
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(mx,by0-2); ctx.lineTo(mx,by1+2); ctx.stroke();
   drawArrow(ctx, mx, by1+30, mx, by1+4, '#1c1a17',2,7);
   ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText(band[2]+'  ·  '+a4FmtLam(lam)+'  ·  '+emFmt(f)+' Hz', W*0.5, H*0.95);
+  ctx.fillText(band[2] + '   λ = ' + a4FmtLam(lam) + '   f = ' + emFmt(f) + ' Hz   E = h · f = '
+               + (E_eV >= 1e-3 ? E_eV.toPrecision(3) : E_eV.toExponential(2)) + ' eV', W*0.5, H - 8);
 }
 ['a4-x'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
 
@@ -1188,7 +1226,9 @@ function a5Buttons(){
       a5Render(); });
     box.appendChild(b); });
 }
-function a5Tick(dt){ a5State.t += dt; a5Render(); }
+function a5Tempo(){ const e=document.getElementById('a5-tempo'); if(!e) return 1;
+  document.getElementById('a5-tempo-val').textContent=(+e.value).toFixed(1)+'×'; return +e.value; }
+function a5Tick(dt){ dt *= a5Tempo(); a5State.t += dt; a5Render(); }
 // Richtung je Emissionszyklus, deterministisch aus der Zyklusnummer: gleiche
 // Zahl bei jedem Frame desselben Zyklus (sonst zappelt das Photon), aber von
 // Zyklus zu Zyklus eine andere. Math.random() pro Frame wäre unbrauchbar.
@@ -1253,6 +1293,25 @@ function a5Render(){
       ctx.fillStyle='#b85c00'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
       ctx.fillText('Photon', Math.max(40, Math.min(W-40, ex2)), Math.max(14, Math.min(H-40, ey2-10)));
     }
+    // Niveauschema rechts: E₂ → E₁, die Differenz wird als Photon frei.
+    const nx0 = W*0.72, nw = Math.min(150, W*0.24);
+    const yE2 = H*0.28, yE1 = H*0.62;
+    ctx.strokeStyle='#3a332a'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.moveTo(nx0, yE2); ctx.lineTo(nx0+nw, yE2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(nx0, yE1); ctx.lineTo(nx0+nw, yE1); ctx.stroke();
+    ctx.fillStyle='#3a332a'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
+    ctx.fillText('E₂', nx0-6, yE2+4); ctx.fillText('E₁', nx0-6, yE1+4);
+    // Elektron auf dem passenden Niveau
+    ctx.fillStyle='#1a4f8a';
+    ctx.beginPath(); ctx.arc(nx0+nw*0.28, onOuter ? yE2 : yE1, 6, 0, 6.283); ctx.fill();
+    // Übergangspfeil + ΔE = h·f
+    ctx.strokeStyle='#b85c00'; ctx.lineWidth=2;
+    drawArrow(ctx, nx0+nw*0.68, yE2, nx0+nw*0.68, yE1, '#b85c00', 2, 8);
+    ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
+    ctx.fillText('ΔE = h · f', nx0+nw*0.64, (yE1+yE2)/2 + 4);
+    ctx.fillStyle='#6b7280'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('die Niveaudifferenz legt die Farbe fest', nx0+nw/2, yE1 + 26);
+
     ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText(W < 520 ? 'jedes Mal eine andere Richtung'
                          : 'Rücksprung → Photon; die Richtung ist jedes Mal eine andere (blass: die letzten fünf)',
@@ -1268,8 +1327,15 @@ function a5Render(){
     ctx.fillStyle='#c9bfae';
     for(let i=0;i<6;i++){ const ax=xL+ (i+0.5)*(xR-xL)/6;
       ctx.beginPath(); ctx.arc(ax, yT+ (i%2?14:-14)+ (yB-yT)/2, 7,0,6.283); ctx.fill(); }
-    // Photonen pendeln + verstaerken
-    const nph=5;
+    // Pumpen: Energiezufuhr von unten in das aktive Medium
+    ctx.strokeStyle='#1f6b3a'; ctx.lineWidth=2;
+    for(let i=0;i<4;i++){ const ax=xL+(i+0.5)*(xR-xL)/4;
+      drawArrow(ctx, ax, yB+34, ax, yB+8, '#1f6b3a', 2, 7); }
+    ctx.fillStyle='#1f6b3a'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Pumpen: Energie hält die Atome angeregt', (xL+xR)/2, yB+50);
+    // Photonen pendeln + verstaerken — die Zahl wächst mit der Zeit, bis der
+    // Resonator gefüllt ist. Das ist die «Vermehrung» der stimulierten Emission.
+    const nph=Math.min(9, 2 + Math.floor(t*1.2));
     for(let i=0;i<nph;i++){
       const yy=yT+ (yB-yT)*(i+0.5)/nph;
       const span=xR-xL-4; const pos=((t*120 + i*40)%(2*span));
@@ -1286,6 +1352,26 @@ function a5Render(){
   }
 }
 const a5Loop=makeLoop('a5-cv','a5-btn',a5Tick);
+// Q6: Reset für alle vier animierten Widgets — Phase zurück auf null,
+// Schleife anhalten, Knopf zurücksetzen.
+[['ein', ()=>{ einPhase=0; einRender(); }, einLoop],
+ ['a1',  ()=>{ a1Phase=0;  a1Render();  }, a1Loop],
+ ['a2',  ()=>{ a2State.phase=0; a2Render(); }, a2Loop],
+ ['a5',  ()=>{ a5State.t=0;  a5Render();  }, a5Loop]
+].forEach(([id, zuruck, loop]) => {
+  const b = document.getElementById(id+'-reset');
+  if(!b) return;
+  b.addEventListener('click', () => {
+    loop.userPaused = true; loop.stop();
+    const pb = document.getElementById(id+'-btn');
+    pb.textContent = '▶ Start'; pb.classList.remove('paused');
+    zuruck();
+  });
+  const t = document.getElementById(id+'-tempo');
+  if(t) t.addEventListener('input', () => {
+    document.getElementById(id+'-tempo-val').textContent = (+t.value).toFixed(1)+'×';
+  });
+});
 
 
 // ══════════════════════════════════════════════════════════

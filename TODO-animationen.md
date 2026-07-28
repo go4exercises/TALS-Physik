@@ -73,7 +73,8 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   ~~p5-3 a1/a2
   (Referenzstab/-gefäss Eisen)~~ ✓.
 - [ ] **[MITTEL] Q6 — Tempo-Regler + Reset (p6-1a-Standard) nachrüsten** bei den
-  animierten Widgets ohne: ~~p4-1 a3 (freier Fall)~~ ✓, p6-1 ein-cv, a1, a2, a5.
+  ~~animierten Widgets ohne: p4-1 a3, p6-1 ein-cv, a1, a2, a5.~~
+  ✓ **vollständig erledigt am 28.07.2026.**
 - [x] **Q7 — Stilcheck über alle 16 Themenseiten** (28.07.2026). Geprüft wurde
   nicht der Quelltext, sondern der **gerenderte Zustand**: Playwright lädt jede
   Seite, scrollt alle Widgets ins Sichtfeld und liest 45 `formel-live`-Blöcke,
@@ -644,16 +645,17 @@ a3/a4 nachgetragen am 27.07.2026.*
 - [x] [HOCH] a3 Schall in Medien: feste, bezifferte λ-Achse — Balken reagieren
   sichtbar auf den f-Regler (Q1). *Erledigt 28.07.2026: feste logarithmische
   λ-Achse 0.1 … 200 m mit vier Medienmarken statt normierter Balken.*
-- [ ] ~~[HOCH] a5 Emission/Laser: Photonrichtung randomisieren, am Elektron starten
-  («zufällige Richtung» wird derzeit behauptet, aber nicht gezeigt)~~ ✓ 28.07.2026:
+- [x] [HOCH] a5 Emission/Laser: Photonrichtung randomisieren ✓ 28.07.2026:
   Das Photon startete bisher immer am selben festen Punkt und flog immer nach
   rechts oben. Jetzt startet es dort, wo das Elektron beim Rücksprung steht, und
   fliegt in eine je Zyklus andere Richtung. Die letzten fünf Richtungen bleiben
   blass stehen — erst dadurch ist die Zufälligkeit im Bild und nicht nur im Text.
   Der Winkel wird deterministisch aus der Zyklusnummer berechnet (`a5PhotonWinkel`),
   nicht mit `Math.random()` pro Frame — sonst zappelt das Photon.
-  **Offen bleibt:** [MITTEL] E1/E2-Niveauschema mit ΔE = hf; [MITTEL] Laser:
-  Pumpen + Photonen-Vermehrung.
+  Ebenfalls erledigt 28.07.2026: Niveauschema E₁/E₂ rechts im Bild, das Elektron
+  sitzt auf dem passenden Niveau, der Übergangspfeil trägt ΔE = h · f. Im
+  Lasermodus zeigen vier grüne Pfeile das Pumpen, und die Photonenzahl im
+  Resonator wächst mit der Zeit von 2 auf 9 — die stimulierte Vermehrung.
 - [x] [HOCH] a6 Absorption: Energiefluss-Panel Sonne/Boden/Atmosphäre ergänzen —
   die Transmissionskurve allein trägt den Mechanismus (Aufgabe A6.3) nicht;
   λ-Achse in µm beziffern. *Erledigt 28.07.2026, beides:*
@@ -666,10 +668,15 @@ a3/a4 nachgetragen am 27.07.2026.*
     Pfeilbreiten proportional zur Leistung, Werte auch in der Live-Box.
     Als «vereinfachte Bilanz» deklariert — die realen Absorptionsbanden sind
     zerklüftet, hier geht es um das Prinzip.*
-- [ ] [MITTEL] a4 EM-Spektrum: gegenläufige f-Achse unter dem Balken; E = hf als
-  Live-Grösse (bereitet den UV-Transfer vor).
-- [ ] [MITTEL] Tempo/Reset-Standard auf ein-cv, a1, a2, a5 übertragen (Q6);
-  Verweise «vertieft in 6.1a» statt Duplikation.
+- [x] [MITTEL] a4 EM-Spektrum: gegenläufige f-Achse; E = hf als Live-Grösse.
+  *Beides erledigt 28.07.2026: Unter dem Balken läuft die Frequenzachse
+  gegenläufig («wächst nach links»), weil c = λ·f gilt. Die Photonenergie steht
+  in der Live-Box und unter dem Bild — UV bei 316 nm ergibt 3.92 eV, eine
+  Mikrowelle bei 1 mm nur 0.00124 eV. Damit ist der UV-Transfer vorbereitet.*
+- [x] [MITTEL] Tempo/Reset-Standard auf ein-cv, a1, a2, a5 übertragen (Q6).
+  *Erledigt 28.07.2026: Alle vier animierten Widgets haben jetzt Reset und einen
+  Tempo-Regler 0.2× … 2×, wie in p6-1a. Der Faktor greift in der jeweiligen
+  Tick-Funktion, der Reset stellt die Phase auf null und pausiert.*
 
 ### p6-1a Wellenexperimente
 Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
