@@ -256,7 +256,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Ohmsches Gesetz</div>
-      <div class="fl-eq" id="a1-eq">I = U / R = 6.0 / 100 = 60 mA</div>
+      <div class="fl-eq" id="a1-eq-f">I = U / R</div>
+      <div class="fl-eq" id="a1-eq">I = 6.0 V / 100 Ω = 60 mA</div>
     </div>
 
     <div class="live-box">
@@ -330,7 +331,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Leiterwiderstand</div>
-      <div class="fl-eq" id="a2-eq">R = 0.017 · 100 / 2.5 = 0.68 Ω</div>
+      <div class="fl-eq" id="a2-eq-f">R = ρ · l / A</div>
+      <div class="fl-eq" id="a2-eq">R = 0.017 Ω·mm²/m · 100 m / 2.5 mm² = 0.68 Ω</div>
     </div>
 
     <div class="cv-wrap">
@@ -413,7 +415,10 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Gesamtwiderstand &amp; Strom</div>
-      <div class="fl-eq" id="a3-eq">R = 100 + 220 = 320 Ω · I = 37.5 mA</div>
+      <div class="fl-eq" id="a3-eq-fr">R = R₁ + R₂</div>
+      <div class="fl-eq" id="a3-eq-r">R = 100 Ω + 220 Ω = 320 Ω</div>
+      <div class="fl-eq" id="a3-eq-fi">I = U / R</div>
+      <div class="fl-eq" id="a3-eq-i">I = 12.0 V / 320 Ω = 37.5 mA</div>
     </div>
 
     <div class="live-box">
@@ -495,7 +500,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Gesamtwiderstand &amp; Ströme</div>
-      <div class="fl-eq" id="a4-eq">1/R = 1/100 + 1/220 → R = 68.8 Ω</div>
+      <div class="fl-eq" id="a4-eq-f">1/R = 1/R₁ + 1/R₂</div>
+      <div class="fl-eq" id="a4-eq">1/R = 1/(100 Ω) + 1/(220 Ω)  →  R = 68.8 Ω</div>
     </div>
 
     <div class="live-box">
@@ -573,7 +579,10 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Leistung &amp; Energie</div>
-      <div class="fl-eq" id="a5-eq">P = 230 · 8.0 = 1840 W · E = 2.76 kWh</div>
+      <div class="fl-eq" id="a5-eq-fp">P = U · I</div>
+      <div class="fl-eq" id="a5-eq-p">P = 230 V · 8.0 A = 1840 W</div>
+      <div class="fl-eq" id="a5-eq-fe">E = P · t</div>
+      <div class="fl-eq" id="a5-eq-e">E = 1840 W · 1.50 h = 2.76 kWh</div>
     </div>
 
     <div class="live-box">
@@ -1028,7 +1037,7 @@ function drawA1(){
   const v=a1Vals(), I_mA=v.I*1000;
   document.getElementById('a1-U-val').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a1-R-val').textContent=v.R+' Ω';
-  document.getElementById('a1-eq').textContent='I = U / R = '+v.U.toFixed(1)+' / '+v.R+' = '+I_mA.toFixed(0)+' mA';
+  document.getElementById('a1-eq').textContent='I = '+v.U.toFixed(1)+' V / '+v.R+' Ω = '+I_mA.toFixed(0)+' mA';
   document.getElementById('a1-Uv').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a1-Rv').textContent=v.R+' Ω';
   document.getElementById('a1-I').textContent=I_mA.toFixed(0)+' mA';
@@ -1076,7 +1085,7 @@ function drawA2(){
   document.getElementById('a2-l-val').textContent=l+' m';
   document.getElementById('a2-A-val').textContent=A.toFixed(1)+' mm²';
   const R=m.r*l/A;
-  document.getElementById('a2-eq').textContent='R = '+m.r+' · '+l+' / '+A.toFixed(1)+' = '+R.toFixed(2)+' Ω';
+  document.getElementById('a2-eq').textContent='R = '+m.r+' Ω·mm²/m · '+l+' m / '+A.toFixed(1)+' mm² = '+R.toFixed(2)+' Ω';
 
   const cv=initCanvas('a2-cv',180,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
@@ -1117,7 +1126,8 @@ function a3Read(){
   document.getElementById('a3-U-val').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a3-R1-val').textContent=v.R1+' Ω';
   document.getElementById('a3-R2-val').textContent=v.R2+' Ω';
-  document.getElementById('a3-eq').textContent='R = '+v.R1+' + '+v.R2+' = '+v.Rg+' Ω · I = '+(v.I*1000).toFixed(1)+' mA';
+  document.getElementById('a3-eq-r').textContent='R = '+v.R1+' Ω + '+v.R2+' Ω = '+v.Rg+' Ω';
+  document.getElementById('a3-eq-i').textContent='I = '+v.U.toFixed(1)+' V / '+v.Rg+' Ω = '+(v.I*1000).toFixed(1)+' mA';
   document.getElementById('a3-Rg').textContent=v.Rg+' Ω';
   document.getElementById('a3-I').textContent=(v.I*1000).toFixed(1)+' mA';
   document.getElementById('a3-Us').textContent=v.U1.toFixed(2)+' / '+v.U2.toFixed(2)+' V';
@@ -1167,7 +1177,7 @@ function a4Read(){
   document.getElementById('a4-U-val').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a4-R1-val').textContent=v.R1+' Ω';
   document.getElementById('a4-R2-val').textContent=v.R2+' Ω';
-  document.getElementById('a4-eq').textContent='1/R = 1/'+v.R1+' + 1/'+v.R2+' → R = '+v.Rg.toFixed(1)+' Ω';
+  document.getElementById('a4-eq').textContent='1/R = 1/('+v.R1+' Ω) + 1/('+v.R2+' Ω)  →  R = '+v.Rg.toFixed(1)+' Ω';
   document.getElementById('a4-Rg').textContent=v.Rg.toFixed(1)+' Ω';
   document.getElementById('a4-Is').textContent=(v.I1*1000).toFixed(0)+' / '+(v.I2*1000).toFixed(1)+' mA';
   document.getElementById('a4-I').textContent=(v.I*1000).toFixed(1)+' mA';
@@ -1239,7 +1249,8 @@ function drawA5(){
   document.getElementById('a5-I-val').textContent=I.toFixed(1)+' A';
   document.getElementById('a5-t-val').textContent=t.toFixed(2)+' h';
   const P=U*I, E=P*t/1000, K=E*0.21;
-  document.getElementById('a5-eq').textContent='P = '+U+' · '+I.toFixed(1)+' = '+P.toFixed(0)+' W · E = '+E.toFixed(2)+' kWh';
+  document.getElementById('a5-eq-p').textContent='P = '+U+' V · '+I.toFixed(1)+' A = '+P.toFixed(0)+' W';
+  document.getElementById('a5-eq-e').textContent='E = '+P.toFixed(0)+' W · '+t.toFixed(2)+' h = '+E.toFixed(2)+' kWh';
   document.getElementById('a5-P').textContent=P.toFixed(0)+' W';
   document.getElementById('a5-E').textContent=E.toFixed(2)+' kWh';
   document.getElementById('a5-K').textContent=K.toFixed(2)+' CHF';

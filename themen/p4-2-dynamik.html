@@ -171,7 +171,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Aktuelle Federkraft</div>
-      <div class="fl-eq" id="a1-eq">F = 80 · 0.10 = 8.0 N</div>
+      <div class="fl-eq" id="a1-eq-f">F = D · s</div>
+      <div class="fl-eq" id="a1-eq">F = 80 N/m · 0.10 m = 8.0 N</div>
     </div>
 
     <div class="a-twocol">
@@ -482,7 +483,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Beschleunigung entlang der Ebene</div>
-      <div class="fl-eq" id="a5-eq">a = 9.81 · (sin 30° − 0.10 · cos 30°) = 4.06 m/s²</div>
+      <div class="fl-eq" id="a5-eq-f">a = g · (sin α − μ · cos α)</div>
+      <div class="fl-eq" id="a5-eq">a = 9.81 m/s² · (sin 30° − 0.10 · cos 30°) = 4.06 m/s²</div>
     </div>
 
     <div class="cv-wrap">
@@ -861,7 +863,7 @@ function drawA1() {
   document.getElementById('a1-D-val').textContent = D + ' N/m';
   document.getElementById('a1-s-val').textContent = s.toFixed(2) + ' m';
   document.getElementById('a1-eq').textContent =
-    'F = ' + D + ' · ' + s.toFixed(2) + ' = ' + F.toFixed(1) + ' N';
+    'F = ' + D + ' N/m · ' + s.toFixed(2) + ' m = ' + F.toFixed(1) + ' N';
 
   // Linke Canvas: Feder
   const cv = initCanvas('a1-cv-feder', 300, false);
@@ -1229,7 +1231,7 @@ function drawA5() {
   document.getElementById('a5-alpha-val').textContent = alphaDeg + '°';
   document.getElementById('a5-mu-val').textContent = mu.toFixed(2);
   document.getElementById('a5-eq').textContent =
-    'a = 9.81 · (sin ' + alphaDeg + '° − ' + mu.toFixed(2) + ' · cos ' + alphaDeg + '°) = '
+    'a = 9.81 m/s² · (sin ' + alphaDeg + '° − ' + mu.toFixed(2) + ' · cos ' + alphaDeg + '°) = '
     + a.toFixed(2) + ' m/s²';
 
   const cv = initCanvas('a5-cv', 300, false);

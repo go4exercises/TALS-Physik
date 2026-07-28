@@ -48,6 +48,34 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   (Referenzstab/-gefäss Eisen)~~ ✓.
 - [ ] **[MITTEL] Q6 — Tempo-Regler + Reset (p6-1a-Standard) nachrüsten** bei den
   animierten Widgets ohne: p4-1 a3 (freier Fall), p6-1 ein-cv, a1, a2, a5.
+- [x] **Q7 — Stilcheck über alle 16 Themenseiten** (28.07.2026). Geprüft wurde
+  nicht der Quelltext, sondern der **gerenderte Zustand**: Playwright lädt jede
+  Seite, scrollt alle Widgets ins Sichtfeld und liest 45 `formel-live`-Blöcke,
+  87 Live-Boxen und 1117 Canvas-Beschriftungen aus (`fillText` wird dafür
+  mitgeschnitten). Der Quelltext-Scan hatte zu wenig gefunden, weil fast alle
+  `.fl-eq` erst von JS gefüllt werden.
+
+  Befunde und Korrekturen — 13 Formel-Blöcke auf 8 Seiten:
+  - **Regel 3+4** (Formel vor Werten, Werte mit Einheit): p4-1 a1, p4-2 a1/a5,
+    p4-3 a1/a2/a4, p4-4 a1/a4/a5, p4-5 a1, p6-1 a3, p6-2 a1/a2/a3/a4/a5 haben
+    jetzt durchgehend eine symbolische Formelzeile und Werte mit Einheit
+    (`p_S = 1000 kg/m³ · 9.81 m/s² · 3.0 m`, `E = ½ · 1200 kg · (14 m/s)²`).
+  - **Regel 2** (je Gleichung eine Zeile): p4-4 a1 und a5 sowie p6-2 a3 und a5
+    quetschten zwei Gleichungen mit «·» in eine Zeile — jetzt je zwei Paare aus
+    Formel- und Wertzeile. Achtung beim Nachbauen: zwei Formeln mit Leerraum in
+    *eine* `.fl-eq` zu setzen funktioniert nicht, HTML kollabiert die Abstände.
+  - **Regel 2 in Canvas-Texten**: p5-2 a7 («Atmosphäre · CO₂ 430 ppm») und
+    p5-3 a5 («V = 3.0 L · T = 293 K») ersetzt.
+  - **Regel 1** (Spaltenabstand): alle 87 Live-Boxen korrekt — die gestaffelte
+    `:has()`-Regel in `style.css` greift überall, kein Handlungsbedarf.
+  - **Regel 5/6**: keine Befunde.
+
+  Zwei bewusst stehengelassene Fehlalarme des Prüfers: `5·10⁰ m = 5 m` (p0-3 a1)
+  ist eine Wertdarstellung ohne einzusetzende Formel, und bei
+  `Q_warm = COP · E_el = 3.5 · 1.0 kWh` ist der COP dimensionslos.
+
+  Alle geänderten Zahlenwerte in Python nachgerechnet, Render-Check bei 1280 px
+  und 360 px.
 
 ---
 

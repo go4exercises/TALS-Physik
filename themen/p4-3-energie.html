@@ -183,7 +183,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Verrichtete Arbeit</div>
-      <div class="fl-eq" id="a1-eq">W = 50 · 2.0 · cos 0° = 100 J</div>
+      <div class="fl-eq" id="a1-eq-f">W = F · s · cos α</div>
+      <div class="fl-eq" id="a1-eq">W = 50 N · 2.0 m · cos 0° = 100 J</div>
     </div>
 
     <div class="a-twocol">
@@ -255,7 +256,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Kinetische Energie</div>
-      <div class="fl-eq" id="a2-eq">E = ½ · 1200 · 14² = 117.6 kJ</div>
+      <div class="fl-eq" id="a2-eq-f">E = ½ · m · v²</div>
+      <div class="fl-eq" id="a2-eq">E = ½ · 1200 kg · (14 m/s)² = 117.6 kJ</div>
     </div>
 
     <div class="a-twocol">
@@ -413,7 +415,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Gespeicherte Spannenergie</div>
-      <div class="fl-eq" id="a4-eq">E = ½ · 800 · 0.080² = 2.56 J</div>
+      <div class="fl-eq" id="a4-eq-f">E = ½ · D · s²</div>
+      <div class="fl-eq" id="a4-eq">E = ½ · 800 N/m · (0.080 m)² = 2.56 J</div>
     </div>
 
     <div class="a-twocol">
@@ -903,7 +906,7 @@ function drawA1() {
   document.getElementById('a1-s-val').textContent = s.toFixed(1) + ' m';
   document.getElementById('a1-alpha-val').textContent = alpha + '°';
   document.getElementById('a1-eq').textContent =
-    'W = ' + F + ' · ' + s.toFixed(1) + ' · cos ' + alpha + '° = ' + W.toFixed(0) + ' J';
+    'W = ' + F + ' N · ' + s.toFixed(1) + ' m · cos ' + alpha + '° = ' + W.toFixed(0) + ' J';
 
   // Linke Canvas: Szene
   const cv = initCanvas('a1-cv-szene', 260, false);
@@ -983,7 +986,7 @@ function drawA2() {
   document.getElementById('a2-v-val').textContent = v + ' m/s';
   document.getElementById('a2-m-val').textContent = m + ' kg';
   document.getElementById('a2-eq').textContent =
-    'E = ½ · ' + m + ' · ' + v + '² = ' + (Ek/1000).toFixed(1) + ' kJ';
+    'E = ½ · ' + m + ' kg · (' + v + ' m/s)² = ' + (Ek/1000).toFixed(1) + ' kJ';
 
   // Szene: Fahrzeug
   const cv = initCanvas('a2-cv-szene', 240, false);
@@ -1182,7 +1185,7 @@ function drawA4() {
   document.getElementById('a4-D-val').textContent = D + ' N/m';
   document.getElementById('a4-s-val').textContent = s.toFixed(3) + ' m';
   document.getElementById('a4-eq').textContent =
-    'E = ½ · ' + D + ' · ' + s.toFixed(3) + '² = ' + E.toFixed(2) + ' J';
+    'E = ½ · ' + D + ' N/m · (' + s.toFixed(3) + ' m)² = ' + E.toFixed(2) + ' J';
 
   // Feder
   const cv = initCanvas('a4-cv-feder', 240, false);

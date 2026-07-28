@@ -243,7 +243,10 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Komponentenzerlegung</div>
-      <div class="fl-eq" id="a1-eq">F_x = 80 · cos(35°) = 65.5 N · F_y = 80 · sin(35°) = 45.9 N</div>
+      <div class="fl-eq" id="a1-eq-fx">F_x = F · cos φ</div>
+      <div class="fl-eq" id="a1-eq-x">F_x = 80 N · cos(35°) = 65.5 N</div>
+      <div class="fl-eq" id="a1-eq-fy">F_y = F · sin φ</div>
+      <div class="fl-eq" id="a1-eq-y">F_y = 80 N · sin(35°) = 45.9 N</div>
     </div>
 
     <div class="live-box">
@@ -500,7 +503,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Drehmoment</div>
-      <div class="fl-eq" id="a4-eq">M = 200 · 0.30 · sin(60°) = 52.0 Nm</div>
+      <div class="fl-eq" id="a4-eq-f">M = F · l · sin α</div>
+      <div class="fl-eq" id="a4-eq">M = 200 N · 0.30 m · sin(60°) = 52.0 Nm</div>
     </div>
 
     <div class="live-box">
@@ -576,7 +580,9 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Momentenvergleich</div>
-      <div class="fl-eq" id="a5-eq">M_1 = 40 · 0.30 = 12.0 Nm · M_2 = 24 · 0.50 = 12.0 Nm</div>
+      <div class="fl-eq" id="a5-eq-f">M = F · r</div>
+      <div class="fl-eq" id="a5-eq1">M_1 = 40 N · 0.30 m = 12.0 Nm</div>
+      <div class="fl-eq" id="a5-eq2">M_2 = 24 N · 0.50 m = 12.0 Nm</div>
     </div>
 
     <div class="live-box">
@@ -1118,8 +1124,10 @@ function drawA1() {
   document.getElementById('a1-phib').textContent = phi + '°';
   document.getElementById('a1-fx').textContent = f1(Fx) + ' N';
   document.getElementById('a1-fy').textContent = f1(Fy) + ' N';
-  document.getElementById('a1-eq').textContent =
-    'F_x = '+F+' · cos('+phi+'°) = '+f1(Fx)+' N   ·   F_y = '+F+' · sin('+phi+'°) = '+f1(Fy)+' N';
+  document.getElementById('a1-eq-x').textContent =
+    'F_x = '+F+' N · cos('+phi+'°) = '+f1(Fx)+' N';
+  document.getElementById('a1-eq-y').textContent =
+    'F_y = '+F+' N · sin('+phi+'°) = '+f1(Fy)+' N';
 
   const cv = initCanvas('a1-cv', 0, true);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -1264,7 +1272,7 @@ function drawA4() {
   document.getElementById('a4-l-val').textContent = l.toFixed(2) + ' m';
   document.getElementById('a4-al-val').textContent = al + '°';
   document.getElementById('a4-eq').textContent =
-    'M = '+F+' · '+l.toFixed(2)+' · sin('+al+'°) = '+M.toFixed(1)+' Nm';
+    'M = '+F+' N · '+l.toFixed(2)+' m · sin('+al+'°) = '+M.toFixed(1)+' Nm';
   document.getElementById('a4-m').textContent = M.toFixed(1) + ' Nm';
   document.getElementById('a4-rperp').textContent = rperp.toFixed(2) + ' m';
   document.getElementById('a4-fperp').textContent = Fperp.toFixed(0) + ' N';
@@ -1332,8 +1340,10 @@ function drawA5() {
   document.getElementById('a5-f2-val').textContent = F2 + ' N';
   document.getElementById('a5-r2-val').textContent = r2.toFixed(2) + ' m';
   const M1 = A5_F1*A5_R1, M2 = F2*r2;
-  document.getElementById('a5-eq').textContent =
-    'M_1 = '+A5_F1+' · '+A5_R1.toFixed(2)+' = '+M1.toFixed(1)+' Nm   ·   M_2 = '+F2+' · '+r2.toFixed(2)+' = '+M2.toFixed(1)+' Nm';
+  document.getElementById('a5-eq1').textContent =
+    'M_1 = '+A5_F1+' N · '+A5_R1.toFixed(2)+' m = '+M1.toFixed(1)+' Nm';
+  document.getElementById('a5-eq2').textContent =
+    'M_2 = '+F2+' N · '+r2.toFixed(2)+' m = '+M2.toFixed(1)+' Nm';
   document.getElementById('a5-m1').textContent = M1.toFixed(1) + ' Nm';
   document.getElementById('a5-m2').textContent = M2.toFixed(1) + ' Nm';
   const diff = M2 - M1;
