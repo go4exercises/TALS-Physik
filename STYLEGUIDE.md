@@ -154,7 +154,8 @@ Einheit in eckigen Klammern an die Grösse geschrieben statt an die Zahl:
 
 Damit sieht die Leserin an jeder Zahl, in welcher Skala sie steht, ohne dass die
 Gleichung dimensionell falsch wird. Gleiches Muster bei km/h ↔ m/s.
-Referenzen: `themen/p5-1-temperatur.html` a3, `themen/p0-3-vorwissen-technik.html` a2.
+Referenzen: `themen/p5-1-temperatur.html` a3, `themen/p0-2-vorwissen-physik.html` b2
+(Tempo-Umrechner, Animation 9).
 
 Echte **Differenzen** sind davon nicht betroffen — dort wird ganz normal mit
 Einheit eingesetzt: `Δϑ = ϑ₂ − ϑ₁ = 95 °C − 12 °C = 83 °C` (p5-1 a4).

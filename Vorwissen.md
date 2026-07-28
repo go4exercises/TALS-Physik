@@ -1,3 +1,9 @@
+> **Umsetzung (Stand 28.07.2026).** Diese Datei ist die ursprüngliche Stoffliste.
+> Umgesetzt ist sie auf drei Seiten statt vier: **0.0** «Vorwissen — die Alltagstour»
+> (Einstieg ohne Formeln), **0.1** «Rechnen und Schliessen» = Punkte 0.1 + 0.4 dieser
+> Liste, **0.2** «Grössen, Einheiten und Messen» = Punkte 0.2 + 0.3. Kein Stoffpunkt
+> ist dabei entfallen.
+
 0. Vorwissen
 
 0.1 **Mathematisch**

@@ -19,6 +19,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 
 ## Projektstruktur
 
+- `themen/` — Vorwissen: `p0-0` (Alltagstour), `p0-1` (Rechnen und Schliessen),
+  `p0-2` (Grössen, Einheiten und Messen). Auf `p0-1`/`p0-2` tragen die aus den
+  früheren Seiten 0.3/0.4 übernommenen Widgets den ID-Präfix `b` statt `a`; ihr
+  Skript steht gekapselt in einer IIFE am Dateiende.
 - `themen/` — 10 Themenseiten: `p4-1`…`p4-5` (Mechanik), `p5-1`…`p5-3` (Thermo),
   `p6-1`,`p6-2` (Wellen/Elektrizität). Alle inhaltlich fertig und auditiert.
 - `physiklib.js` — Canvas-Bibliothek + globale Helfer (`toggleL`, `fmt`, `initCanvas`,

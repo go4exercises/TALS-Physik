@@ -1,5 +1,12 @@
 # TODO — Didaktisches Review aller Canvas-Animationen
 
+> **Hinweis 28.07.2026 — das Vorwissen-Kapitel wurde von fünf auf drei Seiten
+> zusammengelegt.** Die unten genannten Seiten 0.3 und 0.4 existieren nicht mehr:
+> `p0-4` (Logik) ist in `p0-1` «Rechnen und Schliessen» aufgegangen, `p0-3` (Technik)
+> in `p0-2` «Grössen, Einheiten und Messen». Übernommene Widgets tragen dort den
+> ID-Präfix `b`, und alle Animationen sind seitenweit neu durchnummeriert (je 13).
+> Die Einträge unten beschreiben den Stand vor der Zusammenlegung.
+
 Stand: 25.07.2026. Grundlage: systematische Durchsicht aller 16 Themenseiten
 (~130 Canvas-Elemente) samt umgebendem HTML, Bedienelementen, Hinweis-Popups und
 Zeichencode. Bewertungskriterien: Verständlichkeit, Nachvollziehbarkeit der
