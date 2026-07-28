@@ -472,20 +472,31 @@ alt a3…a8 entsprechen neu a2…a7.*
   *Erledigt 28.07.2026: Werte stehen an den Pfeilen, Seilkräfte über F_G werden
   rot, und unten erscheint der Faktor. Bei α = β = 10° trägt jedes Seil 2.9× die
   Last, bei 5° schon 5.7×.*
-- [ ] ~~[HOCH] a4 Hebel: F⊥-Sicht zusätzlich zur r-Konstruktion darstellen (der
-  Beweis-Block verspricht beide Sichtweisen)~~ ✓ 28.07.2026: F wird am Angriffs-
+- [x] [HOCH] a4 Hebel: F⊥-Sicht zusätzlich zur r-Konstruktion. ✓ 28.07.2026: F wird am Angriffs-
   punkt in F⊥ (grün, senkrecht zum Hebel) und F∥ (grau, dreht nicht) zerlegt,
   mit gestricheltem Ergänzungsrechteck. Unten stehen beide Rechenwege je auf
   eigener Zeile — M = F · r und M = F⊥ · l — und liefern denselben Wert.
-  **Offen bleibt:** [MITTEL] M als Bogenpfeil um D.
-- [ ] [MITTEL] a5 vs. ae-cv (Wippe): doppeln sich — a5 aufwerten (Momenten-Balken
-  M₁/M₂ oder Kraft unter Winkel als Brücke zu a4), sonst a5 streichen und das
-  Hebelgesetz an der Wippe formalisieren.
-- [ ] [MITTEL] a1: Winkelbogen φ am Ursprung (warum wird Fx negativ?).
-- [ ] [MITTEL] a3-tri: Beträge (N) an die Dreieckseiten.
-- [ ] [MITTEL] a7 Schiefe Ebene: Live-Vergleich tan α vs. μ_H bzw. Grenzwinkel
-  arctan μ_H anzeigen.
-- [ ] [NIEDRIG] ae-cv: «m₁ = 25 kg (fix)» im Canvas anschreiben; a6: formel-live.
+  Ebenfalls erledigt 28.07.2026: M als bernsteinfarbener Bogenpfeil um D, dessen
+  Öffnungswinkel mit dem Moment wächst, mit Wert darüber.
+- [x] [MITTEL] a5 vs. ae-cv (Wippe): a5 aufgewertet statt gestrichen.
+  *Erledigt 28.07.2026: Über dem Hebel stehen jetzt zwei Momenten-Balken M₁ und
+  M₂ mit ihren Werten und einem Vergleichszeichen (=, < oder >). Damit hat a5
+  einen eigenen Inhalt — die Wippe im Einstieg zeigt das Kippen, a5 zeigt die
+  beiden Momente als Grössen und schlägt die Brücke zu a4 (M = F · r).*
+- [x] [MITTEL] a1: Winkelbogen φ am Ursprung (warum wird Fx negativ?).
+  *Erledigt 28.07.2026: Bogen mit Wert am Ursprung; sobald F_x negativ wird,
+  erscheint der Hinweis «φ > 90° → cos φ < 0 → F_x zeigt nach links».*
+- [x] [MITTEL] a3-tri: Beträge (N) an die Dreieckseiten.
+  *Erledigt 28.07.2026: jede Seite trägt ihren Betrag, z.B. F_G = 78 N,
+  S1 = S2 = 55 N bei 45°/45°.*
+- [x] [MITTEL] a7 Schiefe Ebene: Live-Vergleich tan α vs. μ_H und Grenzwinkel.
+  *Erledigt 28.07.2026: eigene Formelzeile zeigt, wie sich die Masse herauskürzt
+  (m·g·sin α ≤ μ_H·m·g·cos α → tan α ≤ μ_H), darunter der aktuelle Vergleich mit
+  Zahlen und dem Grenzwinkel arctan μ_H. Bei μ = 0.5 liegt er bei 26.6°.*
+- [x] [NIEDRIG] ae-cv: «m₁ = 25 kg (fix)» im Canvas anschreiben; a6: formel-live.
+  *Beides erledigt 28.07.2026: die feste linke Last steht im Bild, und a6 hat
+  eine formel-live mit dem Momentengleichgewicht um A — je Gleichung eine Zeile
+  aus Ansatz und Werten.*
 
 ### p4-5 Hydrostatik
 - [x] [HOCH] a1-ph: Wasser-Referenzgerade fest einzeichnen oder y-Achse fixieren —

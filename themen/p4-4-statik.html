@@ -659,6 +659,14 @@ MathJax = {
       </div>
     </div>
 
+    <div class="formel-live">
+      <div class="fl-label">Momentengleichgewicht um A</div>
+      <div class="fl-eq">F_B = F_G · x / L</div>
+      <div class="fl-eq" id="a6-eq">F_B = 600 N · 1.50 m / 4.0 m = 225.0 N</div>
+      <div class="fl-eq">F_A = F_G − F_B</div>
+      <div class="fl-eq" id="a6-eq2">F_A = 600 N − 225.0 N = 375.0 N</div>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Auflager \(F_A\)</span><span class="lb-val" id="a6-fa">375 N</span></div>
       <div class="lb-item"><span class="lb-lab">Auflager \(F_B\)</span><span class="lb-val" id="a6-fb">225 N</span></div>
@@ -739,11 +747,19 @@ MathJax = {
       </div>
     </div>
 
+    <div class="formel-live">
+      <div class="fl-label">Rutschbedingung — die Masse kürzt sich heraus</div>
+      <div class="fl-eq">m · g · sin α ≤ μ_H · m · g · cos α   →   tan α ≤ μ_H</div>
+      <div class="fl-eq" id="a7-verg">tan 25° = 0.466 ≤ μ = 0.50   →   haftet (Grenzwinkel 26.6°)</div>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Hangabtrieb \(F_H\)</span><span class="lb-val" id="a7-fh">82.9 N</span></div>
       <div class="lb-item"><span class="lb-lab">Normalkraft \(F_N\)</span><span class="lb-val" id="a7-fn">177.8 N</span></div>
       <div class="lb-item"><span class="lb-lab">max. Haftreibung \(\mu_H F_N\)</span><span class="lb-val" id="a7-frmax">88.9 N</span></div>
       <div class="lb-item"><span class="lb-lab">Zustand</span><span class="lb-val" id="a7-stat">haftet</span></div>
+      <div class="lb-item"><span class="lb-lab">\(\tan\alpha\)</span><span class="lb-val" id="a7-tan">0.466</span></div>
+      <div class="lb-item"><span class="lb-lab">Grenzwinkel \(\arctan\mu_H\)</span><span class="lb-val" id="a7-grenz">26.6°</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -1078,6 +1094,8 @@ function aeRender() {
   const theta = Math.max(-0.32, Math.min(0.32, -diff / 1400));   // >0 = rechts senkt sich   // >0 rechts unten
 
   ctx.fillStyle = '#cbb89a'; ctx.fillRect(0, H-18, W, 18);
+  ctx.fillStyle = '#5a6068'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('links fest: m₁ = ' + AE_M1 + ' kg bei r₁ = ' + AE_R1.toFixed(2) + ' m', 10, 16);
   ctx.fillStyle = '#7a6a52';
   ctx.beginPath(); ctx.moveTo(px, pivotY); ctx.lineTo(px-26, H-18); ctx.lineTo(px+26, H-18); ctx.closePath(); ctx.fill();
 
@@ -1142,6 +1160,19 @@ function drawA1() {
   drawVector(ctx, grid.cx, grid.cy, 0, 0, Fx, 0, C_KOMP, 'Fx', 2);
   drawVector(ctx, grid.cx, grid.cy, Fx, 0, 0, Fy, C_KOMP, 'Fy', 2);
   drawVector(ctx, grid.cx, grid.cy, 0, 0, Fx, Fy, C_HAUPT, 'F', 3);
+  // Winkelbogen φ am Ursprung — er erklärt, warum F_x ab 90° negativ wird:
+  // der Vektor zeigt dann nach links, cos φ wechselt das Vorzeichen.
+  const r0 = 34;
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.arc(grid.cx(0), grid.cy(0), r0, 0, -rad, true); ctx.stroke();
+  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('φ = '+phi+'°', grid.cx(0) + (r0+10)*Math.cos(rad/2), grid.cy(0) - (r0+10)*Math.sin(rad/2) - 6);
+  if (Fx < -0.5) {
+    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px Source Sans 3,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('φ > 90° → cos φ < 0 → F_x zeigt nach links', W/2, H - 10);
+  }
 }
 ['a1-F','a1-phi'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
 
@@ -1253,16 +1284,17 @@ function drawA3() {
   const vS2x =  Math.cos(b)*S2, vS2y = -Math.sin(b)*S2;
   const sc2 = Math.min((W2-80)/(Math.abs(vS1x)+Math.abs(vS2x)+1), (H2-80)/(FG+1)) * 0.8;
   const sx = W2*0.5 - (vFGx+vS1x)*sc2*0.5, sy = 36;
+  // Beträge an die Seiten — ohne Zahlen bleibt das Dreieck eine blosse Figur
   function seg(x0,y0,vx,vy,col,lab){
     const x1 = x0 + vx*sc2, y1 = y0 + vy*sc2;
     drawArrow(c2, x0, y0, x1, y1, col, 2.6, 9);
     c2.fillStyle = col; c2.font='bold 13px JetBrains Mono,monospace'; c2.textAlign='center';
-    c2.fillText(lab, (x0+x1)/2 + 14, (y0+y1)/2);
+    c2.fillText(lab, (x0+x1)/2 + 16, (y0+y1)/2 + 4);
     return {x:x1,y:y1};
   }
-  let p = seg(sx, sy, vFGx, vFGy, C_GEW, 'F_G');
-  p = seg(p.x, p.y, vS1x, vS1y, C_HAUPT, 'S1');
-  p = seg(p.x, p.y, vS2x, vS2y, C_HAUPT, 'S2');
+  let p = seg(sx, sy, vFGx, vFGy, C_GEW, 'F_G = '+FG.toFixed(0)+' N');
+  p = seg(p.x, p.y, vS1x, vS1y, C_HAUPT, 'S1 = '+S1.toFixed(0)+' N');
+  p = seg(p.x, p.y, vS2x, vS2y, C_HAUPT, 'S2 = '+S2.toFixed(0)+' N');
   c2.fillStyle = '#5a6068'; c2.font='13px JetBrains Mono,monospace'; c2.textAlign='center';
   c2.fillText('Summe = 0  ->  geschlossen', W2/2, H2-12);
 }
@@ -1356,6 +1388,17 @@ function drawA4() {
   ctx.fillStyle = '#5a6068'; ctx.textAlign='center';
   ctx.fillText('l = '+l.toFixed(2)+' m', (D.x+B.x)/2, D.y + 42);
 
+  // Drehmoment als Bogenpfeil um D — M ist eine Drehwirkung, kein Pfeil entlang
+  // einer Richtung. Der Bogen wächst mit M.
+  const bogR2 = 46, bogSpan = Math.min(2.2, 0.5 + M / 40);
+  ctx.strokeStyle = '#b85c00'; ctx.lineWidth = 2.6;
+  ctx.beginPath(); ctx.arc(D.x, D.y, bogR2, -0.3, -0.3 - bogSpan, true); ctx.stroke();
+  const bEnd = -0.3 - bogSpan;
+  drawArrow(ctx, D.x + bogR2*Math.cos(bEnd+0.13), D.y + bogR2*Math.sin(bEnd+0.13),
+                 D.x + bogR2*Math.cos(bEnd),      D.y + bogR2*Math.sin(bEnd), '#b85c00', 2.6, 9);
+  ctx.fillStyle = '#b85c00'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('M = '+M.toFixed(1)+' Nm', D.x, D.y - bogR2 - 8);
+
   // Beide Rechenwege je auf eigener Zeile (Regel 2: eine Gleichung, eine Zeile)
   ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillStyle = C_KOMP;
@@ -1424,6 +1467,26 @@ function drawA5() {
   ctx.fillStyle = '#5a6068'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText('r1='+A5_R1.toFixed(2)+'m', px - A5_R1*pxPerM*Math.cos(theta), pivotY - 12);
   ctx.fillText('r2='+r2.toFixed(2)+'m', px + r2*pxPerM*Math.cos(theta), pivotY - 12);
+
+  // Momenten-Balken: a5 zeigte bisher dasselbe Kipp-Feedback wie die Wippe im
+  // Einstieg. Erst der direkte Vergleich der beiden Momente macht daraus einen
+  // eigenen Schritt — und schlägt die Brücke zu a4 (M = F · r).
+  const bH = 16, bY = 18, bMax = Math.max(M1, M2, 1);
+  const bW = Math.min(150, W/2 - 70);
+  ctx.fillStyle = '#efeade'; ctx.fillRect(px - 20 - bW, bY, bW, bH);
+  ctx.fillRect(px + 20, bY, bW, bH);
+  ctx.fillStyle = C_GEW;  ctx.fillRect(px - 20 - M1/bMax*bW, bY, M1/bMax*bW, bH);
+  ctx.fillStyle = C_RES;  ctx.fillRect(px + 20, bY, M2/bMax*bW, bH);
+  ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1;
+  ctx.strokeRect(px - 20 - bW, bY, bW, bH); ctx.strokeRect(px + 20, bY, bW, bH);
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.fillStyle = C_GEW; ctx.textAlign = 'right';
+  ctx.fillText('M₁ = ' + M1.toFixed(1) + ' Nm', px - 26, bY + bH + 14);
+  ctx.fillStyle = C_RES; ctx.textAlign = 'left';
+  ctx.fillText('M₂ = ' + M2.toFixed(1) + ' Nm', px + 26, bY + bH + 14);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = Math.abs(diff) < 0.4 ? '#1f6b3a' : '#9b1c1c';
+  ctx.fillText(Math.abs(diff) < 0.4 ? '=' : (diff > 0 ? '<' : '>'), px, bY + bH - 3);
 }
 ['a5-f2','a5-r2'].forEach(id => document.getElementById(id).addEventListener('input', drawA5));
 
@@ -1438,6 +1501,10 @@ function drawA6() {
   document.getElementById('a6-x-val').textContent = x.toFixed(2) + ' m';
   document.getElementById('a6-fg-val').textContent = FG + ' N';
   const FB = FG*x/A6_L, FA = FG*(1 - x/A6_L);
+  document.getElementById('a6-eq').textContent =
+    'F_B = ' + FG + ' N · ' + x.toFixed(2) + ' m / ' + A6_L.toFixed(1) + ' m = ' + FB.toFixed(1) + ' N';
+  document.getElementById('a6-eq2').textContent =
+    'F_A = ' + FG + ' N − ' + FB.toFixed(1) + ' N = ' + FA.toFixed(1) + ' N';
   document.getElementById('a6-fa').textContent = FA.toFixed(0) + ' N';
   document.getElementById('a6-fb').textContent = FB.toFixed(0) + ' N';
   document.getElementById('a6-sum').textContent = (FA+FB).toFixed(0) + ' N';
@@ -1497,6 +1564,14 @@ function drawA7() {
   document.getElementById('a7-frmax').textContent = FRmax.toFixed(1) + ' N';
   const haftet = FH <= FRmax + 1e-9;
   document.getElementById('a7-stat').textContent = haftet ? 'haftet' : 'rutscht';
+  // Der Vergleich tan α gegen μ entscheidet, nicht die Masse: aus
+  // F_H ≤ μ·F_N folgt mg·sin α ≤ μ·mg·cos α, also tan α ≤ μ. Die Masse kürzt sich.
+  const grenz = Math.atan(mu) * 180 / Math.PI;
+  document.getElementById('a7-tan').textContent = Math.tan(a).toFixed(3);
+  document.getElementById('a7-grenz').textContent = grenz.toFixed(1) + '°';
+  document.getElementById('a7-verg').textContent =
+    'tan ' + al + '° = ' + Math.tan(a).toFixed(3) + (haftet ? ' ≤ ' : ' > ') + 'μ = ' + mu.toFixed(2)
+    + '   →   ' + (haftet ? 'haftet' : 'rutscht') + ' (Grenzwinkel ' + grenz.toFixed(1) + '°)';
 
   const cv = initCanvas('a7-cv', 300, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
