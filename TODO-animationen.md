@@ -23,13 +23,14 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   Die Achse skaliert mit dem Parameter mit, dadurch sieht der Graph bei jeder
   Einstellung gleich aus; genau der versprochene Vergleich (Steigung, wandernder
   Punkt) wird unsichtbar. Fix: feste Achsen oder feste Referenzkurve.
-  Betroffen: p0-4 a1 (Feder), p0-4 a2 (s = v·t), p0-4 a4 (Einholproblem),
+  Betroffen: ~~p0-4 a1 (Feder), p0-4 a2 (s = v·t), p0-4 a4 (Einholproblem)~~ ✓,
   p4-5 a1-cv-ph (p(h) je Dichte), ~~p5-2 a1 (Wärmebedarf-Balken)~~ ✓, p6-1 a3
   (Schall-Balken), p6-2 a1 (U-I-Kennlinie), ~~p0-0 a6 / p0-2 a1~~ ✓ (Dichte-Balken).
-- [ ] **[HOCH] Q2 — Überhöhungsfaktoren nicht am Reglermaximum kalibriert (Sättigung).**
+- [x] **[HOCH] Q2 — Überhöhungsfaktoren nicht am Reglermaximum kalibriert (Sättigung).**
   ~~p5-3 a1 (Faktor 4000 → ≈260), p5-3 a2 (120 → ≈4.5), p5-3 a4 (120 → ≈46)~~ ✓:
   Die Grafik klemmt über weite Bereiche am Anschlag, Materialwechsel und
   ΔT-Regler ändern das Bild nicht. Ein gemeinsamer, kleiner Fix.
+  *Erledigt 26.07.2026 — die Liste betraf nur p5-3, alle drei Faktoren neu kalibriert.*
 - [ ] **[MITTEL] Q3 — Pfeillängen mit Sockel/Cap oder fix statt proportional.**
   Wo der Grössenvergleich der Pfeile die Botschaft ist, muss streng proportional
   skaliert werden. Betroffen: p4-1 a5 (v/a_z), p4-2 a2 (F/a), p4-2 a6
@@ -39,11 +40,11 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   anpassen: p4-1 a3 (Fallwege vergleichen ohne Zeitlupe/Spur), p4-2 a3
   (Bezugssystem wechseln ohne Umschalter), p4-2 a4 («losruckt» ohne Bewegung),
   p6-1a a2 (zwei Teilchen vergleichen, nur eines markierbar), ~~p5-2 a4
-  (Vakuum-Frage ohne Vakuum)~~ ✓, p0-2 a1 (Balken reagieren nicht).
+  (Vakuum-Frage ohne Vakuum)~~ ✓, ~~p0-2 a1 (Balken reagieren nicht)~~ ✓.
 - [ ] **[MITTEL] Q5 — Vergleiche ohne Gedächtnis.** Serielle Vergleiche (erst A
   einstellen, dann B, Wert merken) durch Geister-/Referenzdarstellungen ersetzen:
-  p4-2 a2 («letzter Lauf»-Zeile), p4-3 a2-diag (Geister-Punkt bei 2v), p0-2 a2
-  (Referenzmarken Erde/Mond/Mars), p4-1 a4 («Bahn festhalten»), ~~p5-3 a1/a2
+  p4-2 a2 («letzter Lauf»-Zeile), p4-3 a2-diag (Geister-Punkt bei 2v), ~~p0-2 a2
+  (Referenzmarken Erde/Mond/Mars)~~ ✓, p4-1 a4 («Bahn festhalten»), ~~p5-3 a1/a2
   (Referenzstab/-gefäss Eisen)~~ ✓.
 - [ ] **[MITTEL] Q6 — Tempo-Regler + Reset (p6-1a-Standard) nachrüsten** bei den
   animierten Widgets ohne: p4-1 a3 (freier Fall), p6-1 ein-cv, a1, a2, a5.
@@ -492,11 +493,12 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 - **Ersetzen:** p6-2 a5 (Leistungsbalken) → P-t-Flächendiagramm.
 - **Streichkandidat (nur falls nicht aufgewertet):** p4-3 a2-cv-szene (statisches
   Auto) — ohne Bremsweg-Erweiterung trägt es nichts, was das Diagramm nicht zeigt.
-- **Zusammenlegen oder differenzieren:** p0-0 a1 + a2 (zweimal dieselbe
-  Preis-Mengen-Gerade) — ein Widget mit Modus-Umschalter, oder a2 mit
-  1-kg-Punkt aufwerten. p4-4 ae-cv + a5 (zweimal Hebelgesetz mit Kipp-Feedback) —
-  a5 aufwerten oder streichen. p0-4 a4 + a5 visuell differenzieren (derzeit fast
-  identisches Bild für zwei verschiedene Konzepte).
+- **Zusammenlegen oder differenzieren:** ~~p0-0 a1 + a2 (zweimal dieselbe
+  Preis-Mengen-Gerade)~~ ✓ *erledigt 26.07.2026: a2 entfallen, a1 trägt jetzt vier
+  Szenarien (Taxi ohne/mit Grundgebühr, Äpfel lose/in Harasse)*.
+  p4-4 ae-cv + a5 (zweimal Hebelgesetz mit Kipp-Feedback) — a5 aufwerten oder
+  streichen. ~~p0-4 a4 + a5 visuell differenzieren~~ ✓ *erledigt 27.07.2026:
+  a5 hat jetzt die 1D-Strassenleiste über dem Diagramm*.
 - **Bewusst behalten trotz Überlappung:** p4-1 a1/a2 (gleichförmig → beschleunigt,
   saubere Stufung), p4-5 ae/a1 (Phänomen → Formel), p5-1 a3/a4 (Wert → Differenz),
   p6-1 vs. p6-1a (Überblick vs. Vertiefung — aber a1 kausal korrigieren).
