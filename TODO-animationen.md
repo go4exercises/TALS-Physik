@@ -64,8 +64,9 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   anpassen: ~~p4-1 a3 (Fallwege vergleichen ohne Zeitlupe/Spur)~~ ✓,
   ~~p4-2 a3 (Bezugssystem wechseln ohne Umschalter)~~ ✓,
   ~~p4-2 a4 («losruckt» ohne Bewegung)~~ ✓,
-  p6-1a a2 (zwei Teilchen vergleichen, nur eines markierbar), ~~p5-2 a4
-  (Vakuum-Frage ohne Vakuum)~~ ✓, ~~p0-2 a1 (Balken reagieren nicht)~~ ✓.
+  ~~p6-1a a2 (zwei Teilchen vergleichen, nur eines markierbar)~~ ✓,
+  ~~p5-2 a4 (Vakuum-Frage ohne Vakuum)~~ ✓, ~~p0-2 a1~~ ✓.
+  **Q4 vollständig erledigt am 28.07.2026.**
 - [ ] **[MITTEL] Q5 — Vergleiche ohne Gedächtnis.** Serielle Vergleiche (erst A
   einstellen, dann B, Wert merken) durch Geister-/Referenzdarstellungen ersetzen:
   ~~p4-2 a2 («letzter Lauf»-Zeile)~~ ✓, ~~p4-3 a2-diag (Geister-Punkt bei 2v)~~ ✓,
@@ -680,17 +681,27 @@ a3/a4 nachgetragen am 27.07.2026.*
 
 ### p6-1a Wellenexperimente
 Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
-- [ ] [MITTEL] a1: y(t)-Achse an die tatsächliche Durchlaufzeit anpassen
-  (bei c = 4 bleiben derzeit drei Viertel des Diagramms leer).
-- [ ] [MITTEL] a2: optionales zweites markiertes Teilchen (Checkbox, zweite
-  Spurfarbe) — der Hinweis «vergleiche zwei Teilchen» ist sonst nicht ausführbar.
-- [ ] [MITTEL] a4 Reflexion: Checkbox «Spiegelpuls zeigen» (wird intern bereits
-  gerechnet) — erklärt Berg→Tal konstruktiv statt nur als Resultat.
-- [ ] [MITTEL] a6 stehende Welle: gestrichelte Einhüllende ±2A·cos(2πs/λ) im
-  Steh-Modus (wie in a7) — beim Nulldurchgang wirkt es sonst wie «keine Welle».
-- [ ] [MITTEL] a7 Eigenmoden: Preset «Gitarrensaite e¹» (L = 0.65 m, c = 429 m/s)
-  oder c-Regler — die Erkenntnis rechnet das Beispiel vor, die Simulation kann
-  es nicht darstellen. [NIEDRIG] Ton hörbar machen (WebAudio-Sinus bei f_n).
+- [x] [MITTEL] a1: y(t)-Achse an die tatsächliche Durchlaufzeit anpassen.
+  *Erledigt 28.07.2026: Die t-Achse reicht jetzt bis t_end = (L + 2w)/c — bei
+  c = 4 m/s sind das 2.5 s statt der fixen 8 s.*
+- [x] [MITTEL] a2: zweites markiertes Teilchen (Q4).
+  *Erledigt 28.07.2026: eigener Regler, violetter Punkt im Momentbild und
+  gestrichelte zweite Spur im Mitschrieb. Dazu die Auswertung des Versatzes:
+  bei Δs = 1.5 m sind das 0.75 λ und 0.75 s Zeitversatz.*
+- [x] [MITTEL] a4 Reflexion: «Spiegelpuls zeigen».
+  *Erledigt 28.07.2026: Der Knopf blendet den einlaufenden Puls (blau) und den
+  am Ende gespiegelten (rot) gestrichelt ein; die durchgezogene Kurve ist ihre
+  Summe. Damit wird Berg→Tal konstruiert statt nur behauptet.*
+- [x] [MITTEL] a6 stehende Welle: gestrichelte Einhüllende ±2A·cos(2πs/λ).
+  *Erledigt 28.07.2026: im Steh-Modus hält die Hülle die Form fest, wenn die
+  Saite gerade flach liegt.*
+- [x] [MITTEL] a7 Eigenmoden: Preset «Gitarrensaite e¹» und c-Regler.
+  *Beides erledigt 28.07.2026, dazu der [NIEDRIG]-Punkt: c ist jetzt einstellbar
+  (8 … 500 m/s), zwei Presets schalten zwischen Demo-Seil (L = 2 m, c = 12 m/s
+  → f₁ = 3.0 Hz) und Gitarrensaite e¹ (L = 0.65 m, c = 429 m/s → f₁ = 330.0 Hz).
+  Die s-Achse folgt der Saitenlänge. Ein Knopf «🔈 Ton hören» spielt f_n als
+  WebAudio-Sinus; liegt die Frequenz ausserhalb 20 … 12000 Hz, sagt der Knopf
+  das statt zu schweigen — beim Demo-Seil ist genau das der Fall.*
 
 ### p6-2 Elektrizität
 - [ ] ~~[HOCH] ein-cv: Elektronenrichtung fixen (Block B)~~ ✓ 28.07.2026;

@@ -236,6 +236,12 @@ MathJax = {
 
       </div>
       <div class="sl-grp">
+      <label>2. Teilchen bei \(s\):</label>
+      <input type="range" id="a2-teilchen2" min="0" max="6" value="4.5" step="0.1">
+      <span class="sl-val" id="a2-teilchen2-val">4.5 m</span>
+
+      </div>
+      <div class="sl-grp">
       <label>Animationstempo:</label>
       <input type="range" id="a2-speed" min="0" max="1" value="1" step="0.05">
       <span class="sl-val" id="a2-speed-val">1.00</span>
@@ -435,6 +441,9 @@ MathJax = {
     <div class="typ-btns">
       <button class="typ-btn aktiv" id="a4-fest">🧱 festes Ende (Wand)</button>
       <button class="typ-btn" id="a4-los">⭕ loses Ende (Ring auf Stab)</button>
+    </div>
+    <div class="typ-btns">
+      <button class="typ-btn" id="a4-spiegel">👻 Spiegelpuls zeigen</button>
     </div>
     <div class="typ-btns">
       <button class="typ-btn aktiv" id="a4-tr">〰 Transversal (Seil)</button>
@@ -732,11 +741,23 @@ MathJax = {
       <button class="typ-btn" id="a7-n5">n = 5</button>
     </div>
 
+    <div class="typ-btns">
+      <button class="typ-btn" id="a7-gitarre">🎸 Gitarrensaite e¹ (L = 0.65 m, c = 429 m/s)</button>
+      <button class="typ-btn aktiv" id="a7-seil">〰 Demo-Seil (L = 2 m, c = 12 m/s)</button>
+      <button class="typ-btn" id="a7-ton">🔈 Ton hören</button>
+    </div>
+
     <div class="sl-row">
       <div class="sl-grp">
       <label>Seillänge \(L\):</label>
-      <input type="range" id="a7-L" min="1" max="3" value="2" step="0.1">
-      <span class="sl-val" id="a7-L-val">2.0 m</span>
+      <input type="range" id="a7-L" min="0.5" max="3" value="2" step="0.05">
+      <span class="sl-val" id="a7-L-val">2.00 m</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Ausbreitungstempo \(c\):</label>
+      <input type="range" id="a7-c" min="8" max="500" value="12" step="1">
+      <span class="sl-val" id="a7-c-val">12 m/s</span>
 
       </div>
       <div class="sl-grp">
@@ -1097,9 +1118,12 @@ function a1Render(){
   }
   drawAxesUnits(cv.ctx,cv.W,cv.H,gr.cx,gr.cy,'s [m]', a1St.typ==='T'?'y [cm]':'u [cm]');
 
-  // unten: Mitschrieb y(t)
+  // unten: Mitschrieb y(t). Die t-Achse reicht genau bis zur Durchlaufzeit
+  // t_end = (L + 2w)/c — vorher stand sie fix auf 8 s, bei c = 4 m/s blieben
+  // dadurch drei Viertel des Diagramms leer.
+  const tEndA = (A1L + 2*v.w) / v.c;
   const cv2=initCanvas('a1-cv-t',200,false);
-  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,-0.4,8.4,-8,8);
+  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,-0.05*tEndA,tEndA*1.05,-8,8);
   drawAxesUnits(cv2.ctx,cv2.W,cv2.H,g2.cx,g2.cy,'t [s]', a1St.typ==='T'?'y [cm]':'u [cm]');
   if(a1St.hist.length>1){
     cv2.ctx.strokeStyle='#1f6b3a'; cv2.ctx.lineWidth=2.6; cv2.ctx.setLineDash([]);
@@ -1137,6 +1161,7 @@ const A2C=2.0, A2L=6;
 
 function a2Vals(){ return { f:+id('a2-f').value, A:+id('a2-A').value }; }
 function a2SM(){ return +id('a2-teilchen').value; }
+function a2SM2(){ return +id('a2-teilchen2').value; }
 function a2Y(s, v){ return s<=A2C*a2St.tau ? v.A*Math.sin(2*Math.PI*v.f*(a2St.tau-s/A2C)) : 0; }
 function a2Ud(s, v){ return s<=A2C*a2St.tau ? -v.A*Math.cos(2*Math.PI*v.f*(a2St.tau-s/A2C))*2*Math.PI*v.f/A2C : 0; }
 
@@ -1164,6 +1189,7 @@ function a2Render(){
   if(a2St.typ==='T'){
     drawCurve(cv.ctx,gr.cx,gr.cy,function(s){return s;},yFn,0,A2L,240,'#8a4a0e',2.6);
     ketteT(cv.ctx,gr,0,A2L,48,yFn,a2SM());
+    drawDot(cv.ctx,gr.cx,gr.cy,a2SM2(),yFn(a2SM2()),'#5b2d8e',6);
     cv.ctx.fillStyle='#8a4a0e';
     cv.ctx.fillRect(gr.cx(0)-11,gr.cy(yFn(0))-5,10,10);   // Hand am Seil
   } else {
@@ -1200,19 +1226,43 @@ function a2Render(){
       if(i===0)cv2.ctx.moveTo(px,py); else cv2.ctx.lineTo(px,py); });
     cv2.ctx.stroke();
   }
+  if(a2St.hist2 && a2St.hist2.length>1){
+    cv2.ctx.strokeStyle='#5b2d8e'; cv2.ctx.lineWidth=2.2; cv2.ctx.setLineDash([5,4]);
+    cv2.ctx.beginPath();
+    a2St.hist2.forEach(function(p,i){ const px=g2.cx(p[0]), py=g2.cy(p[1]);
+      if(i===0)cv2.ctx.moveTo(px,py); else cv2.ctx.lineTo(px,py); });
+    cv2.ctx.stroke(); cv2.ctx.setLineDash([]);
+  }
   if(a2St.hist.length){
     const last=a2St.hist[a2St.hist.length-1];
     drawDot(cv2.ctx,g2.cx,g2.cy,last[0],last[1],'#1f6b3a',5);
   }
+  if(a2St.hist2 && a2St.hist2.length){
+    const l2=a2St.hist2[a2St.hist2.length-1];
+    drawDot(cv2.ctx,g2.cx,g2.cy,l2[0],l2[1],'#5b2d8e',5);
+  }
+  // Phasenversatz der beiden Teilchen beziffern
+  const dS=Math.abs(a2SM2()-a2SM());
+  cv2.ctx.fillStyle='#5b2d8e'; cv2.ctx.font='bold 13px JetBrains Mono,monospace';
+  cv2.ctx.textAlign='right';
+  cv2.ctx.fillText('Abstand Δs = '+dS.toFixed(1)+' m = '+(dS/lam).toFixed(2)+' λ  →  Zeitversatz '
+                   +(dS/A2C).toFixed(2)+' s', cv2.W-8, 18);
 }
 function a2Tick(dt){
   const v=a2Vals();
   a2St.tau+=dt*spd(2);
   a2St.hist.push([a2St.tau, a2Y(a2SM(),v)]);
+  if(!a2St.hist2) a2St.hist2=[];
+  a2St.hist2.push([a2St.tau, a2Y(a2SM2(),v)]);
   while(a2St.hist.length && a2St.hist[0][0]<a2St.tau-6.4) a2St.hist.shift();
+  while(a2St.hist2.length && a2St.hist2[0][0]<a2St.tau-6.4) a2St.hist2.shift();
   a2Render();
 }
 const a2Loop=makeLoop('a2-cv-s','a2-btn',a2Tick);
+id('a2-teilchen2').addEventListener('input',function(){
+  id('a2-teilchen2-val').textContent=(+this.value).toFixed(1)+' m';
+  a2St.hist2=[]; a2Render();
+});
 ['a2-f','a2-A'].forEach(function(i){ id(i).addEventListener('input',function(){
   a2St.tau=0; a2St.hist=[]; a2Read(); a2Render(); }); });
 id('a2-teilchen').addEventListener('input',function(){
@@ -1322,7 +1372,7 @@ function drawA3D(t0,s0){
 ['a3-t','a3-s'].forEach(function(i){ id(i).addEventListener('input',drawA3); });
 
 // ══════════════ ANIMATION 4 — Reflexion am Ende ══════════════
-const a4St={typ:'T', ende:'fest', tau:0, hist:[]};
+const a4St={typ:'T', ende:'fest', tau:0, hist:[], spiegel:false};
 const A4A=6, A4W=0.8, A4L=8;
 function a4SM(){ return +id('a4-teilchen').value; }
 
@@ -1349,6 +1399,15 @@ function a4Render(){
   const udFn=function(s){ return a4Ud(s,c); };
   const cv=initCanvas('a4-cv',240,false);
   const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.4,8.9,-13,13);
+  // Spiegelpuls: die Reflexion wird intern als zweiter, am Ende gespiegelter
+  // Puls gerechnet. Sichtbar gemacht erklärt er, WARUM aus dem Berg ein Tal
+  // wird — statt dass das Ergebnis nur behauptet wird.
+  if(a4St.spiegel){
+    const b=-A4W+c*a4St.tau;
+    dashCurve(cv.ctx,gr,function(s){ return A4A*pw((s-b)/A4W); },0,2*A4L,'rgba(26,79,138,0.55)',1.8);
+    dashCurve(cv.ctx,gr,function(s){ return a4R()*A4A*pw(((2*A4L-s)-b)/A4W); },0,2*A4L,'rgba(155,28,28,0.55)',1.8);
+    halo(cv.ctx,'einlaufend + Spiegelpuls (Summe = rote Kurve)',gr.cx(4.2),gr.cy(-11.4),'#5a5040');
+  }
   // Seilende: Wand (fest) oder Ring auf Stab (los)
   const ctx=cv.ctx, xE=gr.cx(A4L);
   if(a4St.ende==='fest'){
@@ -1404,6 +1463,12 @@ id('a4-teilchen').addEventListener('input',function(){
 });
 id('a4-fest').addEventListener('click',function(){ a4St.ende='fest'; setAktiv('a4-fest',['a4-los']); a4St.tau=0; a4St.hist=[]; a4Render(); });
 id('a4-los').addEventListener('click',function(){ a4St.ende='los'; setAktiv('a4-los',['a4-fest']); a4St.tau=0; a4St.hist=[]; a4Render(); });
+id('a4-spiegel').addEventListener('click',function(){
+  a4St.spiegel=!a4St.spiegel;
+  this.classList.toggle('aktiv', a4St.spiegel);
+  this.textContent = a4St.spiegel ? '👻 Spiegelpuls ausblenden' : '👻 Spiegelpuls zeigen';
+  a4Render();
+});
 id('a4-tr').addEventListener('click',function(){ a4St.typ='T'; setAktiv('a4-tr',['a4-lo']); a4Render(); });
 id('a4-lo').addEventListener('click',function(){ a4St.typ='L'; setAktiv('a4-lo',['a4-tr']); a4Render(); });
 
@@ -1491,6 +1556,12 @@ function a6Render(){
   const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.3,6.3,-8,8);
   dashCurve(cv.ctx,gr,function(s){return a6Y1(s,v.f);},0,A6L,'#1a4f8a',1.6);
   if(a6St.mode==='steh') dashCurve(cv.ctx,gr,function(s){return a6Y2(s,v.f);},0,A6L,'#8a4a0e',1.6);
+  // Einhüllende ±2A·cos(2πs/λ): beim Nulldurchgang liegt die Saite flach und
+  // es sieht aus, als gäbe es gar keine Welle — die Hülle hält die Form fest.
+  if(a6St.mode==='steh'){
+    dashCurve(cv.ctx,gr,function(s){return  2*A6A*Math.cos(2*Math.PI*s/v.lam);},0,A6L,'rgba(155,28,28,0.45)',1.6);
+    dashCurve(cv.ctx,gr,function(s){return -2*A6A*Math.cos(2*Math.PI*s/v.lam);},0,A6L,'rgba(155,28,28,0.45)',1.6);
+  }
   drawCurve(cv.ctx,gr.cx,gr.cy,function(s){return s;},function(s){return a6Sum(s,v.f);},0,A6L,260,'#9b1c1c',2.8);
   ketteT(cv.ctx,gr,0,A6L,48,function(s){return a6Sum(s,v.f);},v.s);
   if(a6St.mode==='steh'){
@@ -1571,13 +1642,18 @@ id('a6-bauch').addEventListener('click',function(){
 
 // ══════════════ ANIMATION 7 — Eigenmoden der Saite ══════════════
 const a7St={n:1, phase:0};
-const A7C=12, A7A=4;
+const A7A=4;
+// c ist jetzt einstellbar: die Erkenntnis rechnet die Gitarrensaite e¹ vor
+// (L = 0.65 m, c = 429 m/s → f₁ = 330 Hz), das feste c = 12 m/s konnte das nicht.
+function A7c(){ return +id('a7-c').value; }
 
 function a7Read(){
-  const L=+id('a7-L').value;
-  id('a7-L-val').textContent=L.toFixed(1)+' m';
-  id('a7-lam').textContent=(2*L/a7St.n).toFixed(2)+' m';
-  id('a7-fn').textContent=(a7St.n*A7C/(2*L)).toFixed(2)+' Hz';
+  const L=+id('a7-L').value, c=A7c();
+  id('a7-L-val').textContent=L.toFixed(2)+' m';
+  id('a7-c-val').textContent=c+' m/s';
+  id('a7-lam').textContent=(2*L/a7St.n).toFixed(3)+' m';
+  const fn=a7St.n*c/(2*L);
+  id('a7-fn').textContent=(fn<10?fn.toFixed(2):fn.toFixed(1))+' Hz';
   id('a7-kn').textContent=a7St.n+' / '+(a7St.n-1);
   return L;
 }
@@ -1586,7 +1662,7 @@ function a7Render(){
   const n=a7St.n;
   const yFn=function(s){ return A7A*Math.sin(n*Math.PI*s/L)*Math.cos(a7St.phase); };
   const cv=initCanvas('a7-cv',240,false);
-  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.2,3.3,-6,6);
+  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.1*L,L*1.12,-6,6);   // Achse folgt der Saitenlänge
   const ctx=cv.ctx;
   // Einspannungen an beiden Enden
   ctx.fillStyle='#c9bfae';
@@ -1621,13 +1697,40 @@ function a7Render(){
 }
 function a7Tick(dt){
   const L=+id('a7-L').value;
-  const fn=a7St.n*A7C/(2*L);
+  const fn=a7St.n*A7c()/(2*L);
   a7St.phase+=2*Math.PI*fn*spd(7)*dt;   // Animationstempo 1 = echte Frequenz f_n; 0 = Stillstand
   if(a7St.phase>2*Math.PI) a7St.phase-=2*Math.PI;
   a7Render();
 }
 const a7Loop=makeLoop('a7-cv','a7-btn',a7Tick);
 id('a7-L').addEventListener('input',a7Render);
+id('a7-c').addEventListener('input',a7Render);
+// Den Ton hörbar machen: nur sinnvoll, wenn f_n im Hörbereich liegt.
+// Beim Demo-Seil (3 Hz) bleibt der Knopf darum wirkungslos und sagt das auch.
+let a7Ctx=null;
+id('a7-ton').addEventListener('click',function(){
+  const L=+id('a7-L').value, fn=a7St.n*A7c()/(2*L);
+  if(fn<20 || fn>12000){ this.textContent='🔈 '+fn.toFixed(1)+' Hz — ausserhalb des Hörbereichs'; return; }
+  try{
+    a7Ctx = a7Ctx || new (window.AudioContext||window.webkitAudioContext)();
+    const osc=a7Ctx.createOscillator(), gain=a7Ctx.createGain();
+    osc.type='sine'; osc.frequency.value=fn;
+    gain.gain.setValueAtTime(0.0001,a7Ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.18,a7Ctx.currentTime+0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001,a7Ctx.currentTime+1.2);
+    osc.connect(gain); gain.connect(a7Ctx.destination);
+    osc.start(); osc.stop(a7Ctx.currentTime+1.25);
+    this.textContent='🔈 '+fn.toFixed(0)+' Hz klingt';
+  }catch(e){ this.textContent='🔈 Ton nicht verfügbar'; }
+});
+id('a7-gitarre').addEventListener('click',function(){
+  id('a7-L').value=0.65; id('a7-c').value=429;
+  setAktiv('a7-gitarre',['a7-seil']); a7Render();
+});
+id('a7-seil').addEventListener('click',function(){
+  id('a7-L').value=2; id('a7-c').value=12;
+  setAktiv('a7-seil',['a7-gitarre']); a7Render();
+});
 ['a7-n1','a7-n2','a7-n3','a7-n4','a7-n5'].forEach(function(bid,i){
   id(bid).addEventListener('click',function(){
     a7St.n=i+1; a7St.phase=0;
