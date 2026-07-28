@@ -190,6 +190,13 @@ Strings die erzeugte Zeichenkette einmal in Node ausgeben lassen.
 **Zu breite Formeln:** Displayformeln brechen nicht um. `.formel-live` hat darum
 `overflow-x:auto` — auf schmalen Viewports scrollt die Box, statt die Formel
 rechts abzuschneiden. Herunterskalieren wäre die schlechtere Wahl (unlesbar).
+Dasselbe gilt seit 28.07.2026 für **abgesetzte Formeln im Fliesstext**: die Regel
+`mjx-container[display="true"] { overflow-x:auto }` in `style.css` lässt sie im
+eigenen Kasten scrollen. Vorher kappte `.page-wrap { overflow-x:hidden }` bei
+≤ 900 px jede zu breite Zeile — betroffen waren 120 der 245 Displayformeln.
+Formelzeilen müssen darum **nicht** künstlich kurz gehalten werden; mehrere
+kurze Zeilen bleiben trotzdem die bessere Wahl, wo das Ansatz-Prinzip sie ohnehin
+verlangt. Inline-Mathe ist nicht betroffen — sie fliesst im Text mit.
 
 **Fallunterscheidung sichtbar machen:** Vereinfacht sich die Formel in einem
 Sonderfall (z.B. \(c_1 = c_2\) → \(c\) kürzt sich), bekommt der Sonderfall

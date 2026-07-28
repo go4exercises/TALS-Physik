@@ -370,6 +370,17 @@ a:hover { text-decoration: underline; }
 var, .var   { font-family: var(--mono); font-style: italic; font-size: 0.96em; }
 code, .code { font-family: var(--mono); background: var(--papier-2); border: 1px solid var(--linie); border-radius: 4px; padding: 1px 6px; font-size: 0.88em; }
 
+/* Abgesetzte Formeln \[…\] scrollen im eigenen Kasten, statt am Rand
+   abgeschnitten zu werden (auf schmalen Schirmen kappt .page-wrap sonst).
+   Inline-Mathe ist nicht betroffen — sie fliesst im Text mit. */
+mjx-container[display="true"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 3px;      /* Platz für die Scrollleiste, wo sie sichtbar ist */
+  overscroll-behavior-x: contain;
+}
+
 /* ── DIDAKTISCHE BLÖCKE ──────────────────────────────────────── */
 .block {
   border-radius: 8px;
