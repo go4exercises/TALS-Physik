@@ -540,8 +540,8 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Stelle Spannung, Stromstärke und Betriebsdauer ein.</li><li>Beobachte die Leistung \(P\) und die Energie \(E\).</li><li>Vergleiche kurze hohe gegen lange kleine Leistung.</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Stelle Spannung, Stromstärke und Betriebsdauer ein. Beobachte die Leistung P und die verbrauchte Energie E. Vergleiche eine kurze hohe Leistung mit einer lang anliegenden kleinen Leistung." aria-pressed="false">🔊 vorlesen</button>
+      <div class="ah-text"><ul><li>Stelle Spannung, Stromstärke und Betriebsdauer ein.</li><li>Die <strong>Fläche</strong> des Rechtecks ist die Energie — nicht seine Höhe.</li><li>Stelle \(2000\;\text{W}\) für \(0.5\;\text{h}\) ein, halte den Vergleich fest, und stelle dann \(500\;\text{W}\) für \(2\;\text{h}\) ein: beide Rechtecke haben dieselbe Fläche.</li><li>Die gestrichelte Kurve verbindet alle Einstellungen mit genau \(1\;\text{kWh}\).</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Stelle Spannung, Stromstärke und Betriebsdauer ein. Die Fläche des Rechtecks ist die Energie, nicht seine Höhe. Stelle 2000 Watt für eine halbe Stunde ein, halte den Vergleich fest, und stelle dann 500 Watt für zwei Stunden ein: beide Rechtecke haben dieselbe Fläche. Die gestrichelte Kurve verbindet alle Einstellungen mit genau einer Kilowattstunde." aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -591,9 +591,14 @@ MathJax = {
       <div class="lb-item"><span class="lb-lab">Kosten (0.21 CHF/\(\text{kWh}\))</span><span class="lb-val" id="a5-K">0.58 CHF</span></div>
     </div>
 
+    <div style="display:flex; gap:12px; align-items:center; margin:0 0 12px; flex-wrap:wrap;">
+      <button class="play-btn" id="a5-halten">◻ Vergleich festhalten</button>
+      <button class="play-btn paused" id="a5-loeschen" style="background:var(--tinte-2);">✕ Vergleich löschen</button>
+    </div>
+
     <div class="cv-wrap">
-      <div class="cv-titel">📊 Leistung als Energiefluss pro Zeit</div>
-      <canvas id="a5-cv" height="160"></canvas>
+      <div class="cv-titel">📊 \(P\)-\(t\)-Diagramm — die Rechteckfläche ist die Energie</div>
+      <canvas id="a5-cv" height="300" role="img" aria-label="Leistungs-Zeit-Diagramm mit fester Achse bis 4000 Watt und 12 Stunden. Die eingestellte Leistung und Dauer spannen ein Rechteck auf, dessen Fläche der verbrauchten Energie entspricht. Eine gestrichelte Hyperbel markiert alle Kombinationen, die genau eine Kilowattstunde ergeben. Mit dem Knopf lässt sich ein Vergleichsrechteck festhalten."></canvas>
     </div>
 
   </div>
@@ -1263,19 +1268,76 @@ function drawA5(){
   document.getElementById('a5-E').textContent=E.toFixed(2)+' kWh';
   document.getElementById('a5-K').textContent=K.toFixed(2)+' CHF';
 
-  const cv=initCanvas('a5-cv',160,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
-  ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  // Leistungsbalken
-  const Pmax=250*16, x0=W*0.06, x1=W*0.94, y=H*0.34, bh=H*0.22;
-  ctx.fillStyle='#efeade'; ctx.fillRect(x0,y,x1-x0,bh);
-  const frac=Math.min(1,P/Pmax);
-  ctx.fillStyle=lerpColP(frac); ctx.fillRect(x0,y,(x1-x0)*frac,bh);
-  ctx.strokeStyle='#5a5040'; ctx.lineWidth=1.5; ctx.strokeRect(x0,y,x1-x0,bh);
-  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
-  ctx.fillText('P = '+P.toFixed(0)+' W', x0, y-8);
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('Energie in '+t.toFixed(2)+' h:  E = P · t = '+E.toFixed(2)+' kWh   →   '+(E*0.21).toFixed(2)+' CHF', W*0.5, y+bh+26);
+  // P-t-Diagramm: die Rechteckfläche IST die Energie. Der frühere Balken zeigte
+  // nur die Momentanleistung — die Dauer kam darin gar nicht vor, obwohl gerade
+  // das Produkt P · t den Kern der Animation ausmacht.
+  const cv=initCanvas('a5-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const eng = W < 520;
+  const PMAX=4200, TMAX=12.5;        // feste Achsen (Q1): 250 V · 16 A = 4000 W, Regler bis 12 h
+  const gr=drawGrid(ctx,W,H,0,TMAX,0,PMAX);
+  drawAxesUnits(ctx,W,H,gr.cx,gr.cy,'t [h]','P [W]');
+  // Referenz: alle Kombinationen mit genau 1 kWh (P = 1000 W·h / t)
+  ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]); ctx.beginPath();
+  let ersteR=true;
+  for(let i=0;i<=120;i++){
+    const tt=0.25+i*(TMAX-0.25)/120, PP=1000/tt;
+    if(PP>PMAX) continue;
+    if(ersteR){ ctx.moveTo(gr.cx(tt),gr.cy(PP)); ersteR=false; } else ctx.lineTo(gr.cx(tt),gr.cy(PP));
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+  // Legende rechtsbündig, damit sie bei keiner Breite abgeschnitten wird
+  const legT = eng ? '= 1 kWh' : 'alle Punkte darauf: 1 kWh';
+  ctx.font='13px Source Sans 3,sans-serif';
+  const legY = gr.cy(PMAX*0.94), legX = W - 10 - ctx.measureText(legT).width;
+  ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
+  ctx.beginPath(); ctx.moveTo(legX-34,legY); ctx.lineTo(legX-6,legY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#6b7280'; ctx.textAlign='left';
+  ctx.fillText(legT, legX, legY+4);
+  // festgehaltener Vergleich
+  if(a5Halt){
+    ctx.fillStyle='rgba(91,45,142,0.14)';
+    ctx.fillRect(gr.cx(0),gr.cy(a5Halt.P),gr.cx(a5Halt.t)-gr.cx(0),gr.cy(0)-gr.cy(a5Halt.P));
+    ctx.strokeStyle='#5b2d8e'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
+    ctx.strokeRect(gr.cx(0),gr.cy(a5Halt.P),gr.cx(a5Halt.t)-gr.cx(0),gr.cy(0)-gr.cy(a5Halt.P));
+    ctx.setLineDash([]);
+    ctx.fillStyle='#5b2d8e'; ctx.font='bold 13px JetBrains Mono,monospace';
+    const vt='Vergleich: '+a5Halt.E.toFixed(2)+' kWh';
+    if(gr.cx(a5Halt.t)+10+ctx.measureText(vt).width < W-6){
+      ctx.textAlign='left'; ctx.fillText(vt, gr.cx(a5Halt.t)+10, gr.cy(a5Halt.P)-6);
+    } else { ctx.textAlign='right'; ctx.fillText(vt, W-6, gr.cy(a5Halt.P)-6); }
+  }
+  // aktuelles Rechteck
+  ctx.fillStyle=lerpColP(Math.min(1,P/4000)).replace('rgb','rgba').replace(')',',0.30)');
+  ctx.fillRect(gr.cx(0),gr.cy(P),gr.cx(t)-gr.cx(0),gr.cy(0)-gr.cy(P));
+  ctx.strokeStyle=lerpColP(Math.min(1,P/4000)); ctx.lineWidth=2.2;
+  ctx.strokeRect(gr.cx(0),gr.cy(P),gr.cx(t)-gr.cx(0),gr.cy(0)-gr.cy(P));
+  // Beschriftung: in die Fläche, wenn sie gross genug ist
+  const bw=gr.cx(t)-gr.cx(0), bhh=gr.cy(0)-gr.cy(P);
+  const txt='Fläche = E = '+E.toFixed(2)+' kWh';
+  ctx.font='bold 13px JetBrains Mono,monospace';
+  ctx.fillStyle='#1c1a17';
+  if(ctx.measureText(txt).width < bw-12 && bhh > 30){
+    ctx.textAlign='center'; ctx.fillText(txt, gr.cx(t/2), gr.cy(P/2)+4);
+  } else {
+    ctx.textAlign='left';
+    ctx.fillText(txt, Math.min(gr.cx(t)+8, W-ctx.measureText(txt).width-6), Math.max(gr.cy(P)-8, 16));
+  }
+  // Seitenmasse INNEN — aussen liegen die Achsenbeschriftungen von drawGrid
+  ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#3a332a';
+  if(bw > 90 && bhh > 44){
+    ctx.textAlign='center'; ctx.fillText(t.toFixed(2)+' h', gr.cx(t/2), gr.cy(0)-8);
+    ctx.textAlign='right';  ctx.fillText(P.toFixed(0)+' W', gr.cx(t)-6, gr.cy(P)+15);
+  }
 }
+let a5Halt=null;
+document.getElementById('a5-halten').addEventListener('click',()=>{
+  const U=+document.getElementById('a5-U').value, I=+document.getElementById('a5-I').value,
+        t=+document.getElementById('a5-t').value, P=U*I;
+  a5Halt={P:P, t:t, E:P*t/1000};
+  drawA5();
+});
+document.getElementById('a5-loeschen').addEventListener('click',()=>{ a5Halt=null; drawA5(); });
 function lerpColP(f){ const r=Math.round(60+f*180), g=Math.round(150-f*100), b=Math.round(60-f*30); return 'rgb('+r+','+g+','+b+')'; }
 ['a5-U','a5-I','a5-t'].forEach(id=>document.getElementById(id).addEventListener('input', drawA5));
 

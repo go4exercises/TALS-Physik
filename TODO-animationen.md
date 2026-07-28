@@ -591,9 +591,19 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 - [x] [HOCH] a4 Parallelschaltung: Kurzschluss-Rahmen entfernen (Block B);
   [MITTEL] Trunk-Punktdichte mit I skalieren — Knotenregel I = I₁ + I₂ sichtbar.
   *Beides erledigt 28.07.2026.*
-- [ ] [HOCH] a5 Leistung: durch P-t-Diagramm mit Rechteckfläche = E ersetzen
-  (2000 W · 0.5 h = gleiche Fläche wie 500 W · 2 h) — aktuell reine Dekoration;
-  [MITTEL] Geräte-Presets (Wasserkocher, LED, Ladegerät) für die Kostenanzeige.
+- [ ] ~~[HOCH] a5 Leistung: durch P-t-Diagramm mit Rechteckfläche = E ersetzen
+  (2000 W · 0.5 h = gleiche Fläche wie 500 W · 2 h) — aktuell reine Dekoration~~
+  ✓ 28.07.2026: Der Balken zeigte nur die Momentanleistung — die Dauer kam darin
+  gar nicht vor, obwohl das Produkt \(P \cdot t\) der Kern der Animation ist.
+  Jetzt ein P-t-Diagramm mit festen Achsen (0 … 4200 W, 0 … 12.5 h, Q1); das
+  Rechteck trägt seine Fläche als «Fläche = E = … kWh».
+  Dazu zwei Ergänzungen, die den genannten Vergleich erst durchführbar machen:
+  eine gestrichelte Hyperbel \(P = 1\,\text{kWh}/t\) («alle Punkte darauf:
+  1 kWh») und ein Knopf «◻ Vergleich festhalten», der das aktuelle Rechteck als
+  violette Kontur stehen lässt (Q5, Vergleich ohne Gedächtnis). Damit wird
+  2000 W · 0.5 h gegen 500 W · 2 h als *gleich grosse Fläche* sichtbar, und beide
+  Ecken liegen auf der 1-kWh-Kurve.
+  **Offen bleibt:** [MITTEL] Geräte-Presets (Wasserkocher, LED, Ladegerät).
 - [ ] [MITTEL] a3 Reihenschaltung: U₁/U₂ als proportionale Farbbalken unter den
   Widerstandsboxen (Spannungsteilung sichtbar statt nur lesbar).
 - [ ] [MITTEL] a2 Leiterwiderstand: Konsequenz zeigen (I bzw. Verlustleistung
@@ -624,7 +634,7 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 
 ## E. Streichungen / Ersatz / Zusammenlegungen
 
-- **Ersetzen:** p6-2 a5 (Leistungsbalken) → P-t-Flächendiagramm.
+- ~~**Ersetzen:** p6-2 a5 (Leistungsbalken) → P-t-Flächendiagramm.~~ ✓ 28.07.2026.
 - **Streichkandidat (nur falls nicht aufgewertet):** p4-3 a2-cv-szene (statisches
   Auto) — ohne Bremsweg-Erweiterung trägt es nichts, was das Diagramm nicht zeigt.
 - **Zusammenlegen oder differenzieren:** ~~p0-0 a1 + a2 (zweimal dieselbe
@@ -645,6 +655,7 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
    betrifft ~10 Widgets, macht tote Regler wieder lernwirksam.~~
    ✓ erledigt 28.07.2026.
 3. **[HOCH]-Einzelpunkte** je Seite (Abschnitt C).
-   p4-1 und p6-1 vollständig erledigt am 28.07.2026.
+   p4-1, p6-1 und p6-2 vollständig erledigt am 28.07.2026 — offen bleiben die
+   HOCH-Punkte von p4-2, p4-3, p4-4, p4-5 und p6-1a.
 4. **Q3–Q6 und [MITTEL]** nach Gelegenheit, seitenweise beim nächsten Besuch.
 5. **Neue Animationen** (Abschnitt D) zuletzt — der Bestand hat Vorrang.
