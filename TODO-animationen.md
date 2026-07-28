@@ -57,19 +57,18 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   *Erledigt 26.07.2026 — die Liste betraf nur p5-3, alle drei Faktoren neu kalibriert.*
 - [ ] **[MITTEL] Q3 — Pfeillängen mit Sockel/Cap oder fix statt proportional.**
   Wo der Grössenvergleich der Pfeile die Botschaft ist, muss streng proportional
-  skaliert werden. Betroffen: ~~p4-1 a5 (v/a_z)~~ ✓, p4-2 a2 (F/a), p4-2 a6
-  (v-Pfeile gecappt), ~~p4-5 a5 (F_G/F_A fix 35 px)~~ ✓ 28.07.2026.
-  Vorbild: p4-2 a5.
+  skaliert werden. ~~Betroffen: p4-1 a5, p4-2 a2, p4-2 a6, p4-5 a5.~~
+  ✓ **vollständig erledigt am 28.07.2026.** Vorbild: p4-2 a5.
 - [ ] **[MITTEL] Q4 — «Worauf achten»-Aufträge, die das Widget nicht ausführen kann.**
   Entweder Feature nachrüsten (bevorzugt, siehe Einzelpunkte) oder Hinweistext
   anpassen: ~~p4-1 a3 (Fallwege vergleichen ohne Zeitlupe/Spur)~~ ✓,
   ~~p4-2 a3 (Bezugssystem wechseln ohne Umschalter)~~ ✓,
-  p4-2 a4 («losruckt» ohne Bewegung),
+  ~~p4-2 a4 («losruckt» ohne Bewegung)~~ ✓,
   p6-1a a2 (zwei Teilchen vergleichen, nur eines markierbar), ~~p5-2 a4
   (Vakuum-Frage ohne Vakuum)~~ ✓, ~~p0-2 a1 (Balken reagieren nicht)~~ ✓.
 - [ ] **[MITTEL] Q5 — Vergleiche ohne Gedächtnis.** Serielle Vergleiche (erst A
   einstellen, dann B, Wert merken) durch Geister-/Referenzdarstellungen ersetzen:
-  p4-2 a2 («letzter Lauf»-Zeile), ~~p4-3 a2-diag (Geister-Punkt bei 2v)~~ ✓,
+  ~~p4-2 a2 («letzter Lauf»-Zeile)~~ ✓, ~~p4-3 a2-diag (Geister-Punkt bei 2v)~~ ✓,
   ~~p0-2 a2 (Referenzmarken Erde/Mond/Mars)~~ ✓, ~~p4-1 a4 («Bahn festhalten»)~~ ✓,
   ~~p5-3 a1/a2
   (Referenzstab/-gefäss Eisen)~~ ✓.
@@ -397,21 +396,39 @@ alt a3…a8 entsprechen neu a2…a7.*
   Der Hinweistext wechselt mit, und im Wagensystem steht die Warnung, dass
   dieses Bezugssystem selbst beschleunigt ist und das Trägheitsgesetz dort
   nicht gilt.*
-- [ ] ~~[HOCH] a5 Hang: Zerlegungs-Rechteck gestrichelt einzeichnen — der Abschnitt
-  heisst «Kräfte zerlegen», die Konstruktion fehlt~~ ✓ 28.07.2026: gestricheltes
+- [x] [HOCH] a5 Hang: Zerlegungs-Rechteck gestrichelt einzeichnen — der Abschnitt
+  heisst «Kräfte zerlegen», die Konstruktion fehlt. ✓ 28.07.2026: gestricheltes
   Rechteck von der F_H-Spitze über die F_G-Spitze zur Normalkomponente, mit
   rechtem Winkel an der Hangecke. In Python gegengerechnet:
   sin α · û − cos α · n̂ = (0, 1) für jeden Winkel, das Rechteck schliesst also
   exakt auf F_G.
-  **Offen bleibt:** [MITTEL] Live-Box mit F_H/F_N/F_R in N und Deklaration der Masse.
-- [ ] [MITTEL] a1 Feder: Modus «Masse anhängen» (m-Regler, s = mg/D) — verbindet
-  Hooke mit F_G = m·g und Aufgabe A1; Steigungsdreieck «D = …» im Diagramm;
-  optional g-Umschalter Erde/Mond (deckt Mond-Transfer im Mini-Check ab).
-- [ ] [MITTEL] a2 F = m·a: «Letzter Lauf»-Zeile (Q5); Pfeile proportional (Q3).
-- [ ] [MITTEL] a4 Reibung: Block beim Übergang kurz losruckeln lassen; Knickpunkt
-  beschriften (μ_H·F_N, gestrichelte Vertikale); a = (F_zug − F_R)/m anzeigen.
-- [ ] [MITTEL] a6 Rückstoss: Produkte m·|v| beidseitig anzeigen (actio = reactio
-  quantitativ); Pfeil-Cap entfernen; kurze Feder-Expansionsphase animieren.
+  Ebenfalls erledigt 28.07.2026: Live-Box mit F_H, F_N und F_R in Newton und der
+  ausdrücklich deklarierten Bezugsmasse 1.0 kg.
+- [x] [MITTEL] a1 Feder: Modus «Masse anhängen», Steigungsdreieck, g-Umschalter.
+  *Alles erledigt 28.07.2026: Zwei Modi — «Dehnung vorgeben» (wie bisher) und
+  «Masse anhängen», wo die Gewichtskraft die Feder dehnt bis F = F_G. Die
+  Rechnung steht als eigene Zeile (F_G = m · g → s = F_G / D). Im Modus «Masse»
+  erscheint der Ortsumschalter Erde/Mond: 0.8 kg dehnen die Feder auf der Erde
+  um 9.8 cm, auf dem Mond nur um 1.6 cm. Im Diagramm ein Steigungsdreieck
+  Δs = 0.08 m mit ΔF und D = ΔF/Δs.*
+- [x] [MITTEL] a2 F = m·a: «Letzter Lauf»-Zeile (Q5); Pfeile proportional (Q3).
+  *Erledigt 28.07.2026: Alle drei Pfeile ohne Sockel, v zusätzlich ohne Cap;
+  feste Skalen am Reglermaximum (F bis 40 N, a bis 80 m/s², v bis 35.8 m/s).
+  Nach jedem vollständigen Lauf bleibt eine graue Zeile mit F, m, a und der
+  Zeit für die 8 m stehen — damit lässt sich der nächste Lauf vergleichen,
+  ohne Werte im Kopf zu behalten.*
+- [x] [MITTEL] a4 Reibung: Losruckeln, Knickpunkt, a = (F_zug − F_R)/m.
+  *Alles erledigt 28.07.2026: Beim Überschreiten von F_H,max ruckt die Kiste
+  0.55 s lang gedämpft — der Hinweistext sprach davon, ohne dass etwas passierte
+  (Q4). Im Diagramm markieren eine gestrichelte Vertikale und ein Punkt den
+  Knick bei μ_H · F_N. Solange die Kiste haftet, steht «a = 0», sobald sie
+  gleitet die vollständige Rechnung mit Werten und Einheiten.*
+- [x] [MITTEL] a6 Rückstoss: Produkte m·|v|, Pfeil-Cap entfernt, Feder-Expansion.
+  *Alles erledigt 28.07.2026: Beide Impulsbeträge stehen im Bild und sind bei
+  jeder Massenkombination gleich gross (2 kg · 3.00 m/s = 4 kg · 1.50 m/s
+  = 6.00 kg·m/s) — actio = reactio wird damit quantitativ. Der Cap bei 70 px
+  ist weg, feste Skala bis 6 m/s. Neue Phase «exp»: die Feder drückt 0.35 s
+  lang, die Wagen beschleunigen auf ihr Endtempo, statt schlagartig loszuspringen.*
 
 ### p4-3 Energie
 - [x] [HOCH] a1: α-Slider auf 0–90° erweitern — der Kernfall W = 0 bei 90°

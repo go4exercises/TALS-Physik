@@ -154,6 +154,16 @@ MathJax = {
   </div>
   <div class="widget-body">
 
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a1modus="s">Dehnung vorgeben</button>
+      <button class="typ-btn" data-a1modus="m">Masse anhängen</button>
+    </div>
+
+    <div class="typ-btns" id="a1-ort-btns" style="display:none;">
+      <button class="typ-btn aktiv" data-a1g="9.81">🌍 Erde (9.81 m/s²)</button>
+      <button class="typ-btn" data-a1g="1.62">🌕 Mond (1.62 m/s²)</button>
+    </div>
+
     <div class="sl-row">
       <div class="sl-grp">
       <label>Federkonstante \(D\):</label>
@@ -161,10 +171,16 @@ MathJax = {
       <span class="sl-val" id="a1-D-val">80 N/m</span>
 
       </div>
-      <div class="sl-grp">
+      <div class="sl-grp" id="a1-grp-s">
       <label>Dehnung \(s\):</label>
       <input type="range" id="a1-s" min="0" max="0.20" value="0.10" step="0.005">
       <span class="sl-val" id="a1-s-val">0.10 m</span>
+
+      </div>
+      <div class="sl-grp" id="a1-grp-m" style="display:none;">
+      <label>angehängte Masse \(m\):</label>
+      <input type="range" id="a1-m" min="0" max="4" value="0.8" step="0.1">
+      <span class="sl-val" id="a1-m-val">0.8 kg</span>
 
       </div>
     </div>
@@ -173,6 +189,13 @@ MathJax = {
       <div class="fl-label">Aktuelle Federkraft</div>
       <div class="fl-eq" id="a1-eq-f">F = D · s</div>
       <div class="fl-eq" id="a1-eq">F = 80 N/m · 0.10 m = 8.0 N</div>
+      <div class="fl-eq" id="a1-eq-m" style="display:none;">F_G = m · g = 0.8 kg · 9.81 m/s² = 7.85 N   →   s = F_G / D</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Federkraft \(F\)</span><span class="lb-val" id="a1-live-F">8.0 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Dehnung \(s\)</span><span class="lb-val" id="a1-live-s">0.10 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Steigung \(D = F/s\)</span><span class="lb-val" id="a1-live-D">80 N/m</span></div>
     </div>
 
     <div class="a-twocol">
@@ -490,6 +513,13 @@ MathJax = {
       <div class="fl-label">Beschleunigung entlang der Ebene</div>
       <div class="fl-eq" id="a5-eq-f">a = g · (sin α − μ · cos α)</div>
       <div class="fl-eq" id="a5-eq">a = 9.81 m/s² · (sin 30° − 0.10 · cos 30°) = 4.06 m/s²</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Masse (fest)</span><span class="lb-val">1.0 kg</span></div>
+      <div class="lb-item"><span class="lb-lab">Hangabtrieb \(F_H\)</span><span class="lb-val" id="a5-fh">4.91 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Normalkraft \(F_N\)</span><span class="lb-val" id="a5-fn">8.50 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Reibkraft \(F_R\)</span><span class="lb-val" id="a5-fr">0.85 N</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -861,14 +891,31 @@ const g = 9.81;
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 1: Federkraft (Hooke) + F-s-Diagramm
 // ══════════════════════════════════════════════════════════
+let a1Modus = 's', a1G = 9.81;
 function drawA1() {
   const D = +document.getElementById('a1-D').value;
-  const s = +document.getElementById('a1-s').value;
-  const F = D * s;
+  let s, F;
+  if (a1Modus === 'm') {
+    // Masse anhängen: die Gewichtskraft dehnt die Feder, bis F = F_G.
+    // Verbindet das Hookesche Gesetz mit F_G = m · g (Aufgabe A1).
+    const m = +document.getElementById('a1-m').value;
+    F = m * a1G;
+    s = Math.min(0.20, F / D);
+    document.getElementById('a1-m-val').textContent = m.toFixed(1) + ' kg';
+    document.getElementById('a1-eq-m').textContent =
+      'F_G = ' + m.toFixed(1) + ' kg · ' + a1G.toFixed(2) + ' m/s² = ' + F.toFixed(2) + ' N'
+      + '   →   s = ' + F.toFixed(2) + ' N / ' + D + ' N/m = ' + s.toFixed(3) + ' m';
+  } else {
+    s = +document.getElementById('a1-s').value;
+    F = D * s;
+  }
   document.getElementById('a1-D-val').textContent = D + ' N/m';
   document.getElementById('a1-s-val').textContent = s.toFixed(2) + ' m';
   document.getElementById('a1-eq').textContent =
     'F = ' + D + ' N/m · ' + s.toFixed(2) + ' m = ' + F.toFixed(1) + ' N';
+  document.getElementById('a1-live-F').textContent = F.toFixed(1) + ' N';
+  document.getElementById('a1-live-s').textContent = s.toFixed(3) + ' m';
+  document.getElementById('a1-live-D').textContent = D + ' N/m';
 
   // Linke Canvas: Feder
   const cv = initCanvas('a1-cv-feder', 300, false);
@@ -936,6 +983,18 @@ function drawA1() {
   c2.moveTo(grid.cx(0), grid.cy(0));
   c2.lineTo(grid.cx(0.20), grid.cy(D * 0.20));
   c2.stroke();
+  // Steigungsdreieck: D ist die Steigung, das soll man ablesen können
+  const sT1 = 0.06, sT2 = 0.14;
+  c2.strokeStyle = '#5b2d8e'; c2.lineWidth = 1.3; c2.setLineDash([4, 3]);
+  c2.beginPath();
+  c2.moveTo(grid.cx(sT1), grid.cy(D*sT1)); c2.lineTo(grid.cx(sT2), grid.cy(D*sT1));
+  c2.lineTo(grid.cx(sT2), grid.cy(D*sT2)); c2.stroke(); c2.setLineDash([]);
+  c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace';
+  c2.textAlign = 'center';
+  c2.fillText('Δs = 0.08 m', (grid.cx(sT1)+grid.cx(sT2))/2, grid.cy(D*sT1) - 6);
+  c2.textAlign = 'left';
+  c2.fillText('ΔF = ' + (D*0.08).toFixed(1) + ' N', grid.cx(sT2) + 6, (grid.cy(D*sT1)+grid.cy(D*sT2))/2);
+  c2.fillText('D = ΔF/Δs = ' + D + ' N/m', grid.cx(0.01), grid.cy(Fmax*0.95));
   // Aktueller Punkt
   drawDot(c2, grid.cx, grid.cy, s, F, '#9b1c1c', 5);
   c2.setLineDash([3,3]); c2.strokeStyle = '#9b1c1c'; c2.lineWidth = 1;
@@ -943,7 +1002,22 @@ function drawA1() {
   c2.beginPath(); c2.moveTo(grid.cx(0), grid.cy(F)); c2.lineTo(grid.cx(s), grid.cy(F)); c2.stroke();
   c2.setLineDash([]);
 }
-['a1-D','a1-s'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
+['a1-D','a1-s','a1-m'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
+document.querySelectorAll('[data-a1modus]').forEach(b => b.addEventListener('click', () => {
+  a1Modus = b.dataset.a1modus;
+  document.querySelectorAll('[data-a1modus]').forEach(x => x.classList.toggle('aktiv', x === b));
+  const mM = a1Modus === 'm';
+  document.getElementById('a1-grp-s').style.display = mM ? 'none' : '';
+  document.getElementById('a1-grp-m').style.display = mM ? '' : 'none';
+  document.getElementById('a1-eq-m').style.display  = mM ? '' : 'none';
+  document.getElementById('a1-ort-btns').style.display = mM ? '' : 'none';
+  drawA1();
+}));
+document.querySelectorAll('[data-a1g]').forEach(b => b.addEventListener('click', () => {
+  a1G = +b.dataset.a1g;
+  document.querySelectorAll('[data-a1g]').forEach(x => x.classList.toggle('aktiv', x === b));
+  drawA1();
+}));
 
 
 // ══════════════════════════════════════════════════════════
@@ -951,6 +1025,7 @@ function drawA1() {
 // ══════════════════════════════════════════════════════════
 const a2State = { t: 0, x: 0, v: 0, running: false, lastTs: 0, rafId: null };
 const A2_SMAX = 8.0;   // sichtbarer Weg in m
+let a2Letzt = null;    // Kennwerte des letzten vollständigen Laufs (Q5)
 
 function a2Vals() {
   const F = +document.getElementById('a2-F').value;
@@ -992,21 +1067,36 @@ function a2Render() {
   ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText(m.toFixed(1) + ' kg', px + wB/2, wy + wH/2 + 4);
 
-  // Kraftpfeil (bernstein → eigentlich Kraft: blau für Hauptvektor) nach rechts
-  const fLen = 12 + F * 2.2;
+  // Q3: streng proportional, feste Skalen am Reglermaximum (F bis 40 N,
+  // a bis 40/0.5 = 80 m/s², v bis √(2·80·8) ≈ 35.8 m/s). Vorher hatten alle
+  // drei Pfeile einen Sockel und v zusätzlich einen Cap — der Vergleich
+  // «doppelte Kraft, doppelte Beschleunigung» war damit nicht ablesbar.
+  const A2_PX = 120;
+  const fLen = F / 40 * A2_PX;
   drawArrow(ctx, px + wB, wy + wH/2, px + wB + fLen, wy + wH/2, '#1a4f8a', 2.6, 10);
   ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('F = ' + F + ' N', px + wB + 6, wy - 4);
 
-  // Beschleunigungspfeil (violett) unter dem Wagen
-  const aLen = 10 + a * 8;
-  drawArrow(ctx, px + wB/2, wy + wH + 14, px + wB/2 + aLen, wy + wH + 14, '#5b2d8e', 2.2, 9);
+  // Beschleunigungspfeil (violett) im Bodenstreifen — über den Rädern lag er
+  // vorher auf der Radnabe, und proportional ist er oft nur wenige Pixel lang.
+  const aLen = a / 80 * A2_PX;
+  drawArrow(ctx, px + wB/2, bodenY + 22, px + wB/2 + aLen, bodenY + 22, '#5b2d8e', 2.2, 9);
   ctx.fillStyle = '#5b2d8e'; ctx.textAlign = 'left';
-  ctx.fillText('a', px + wB/2 + aLen + 4, wy + wH + 18);
+  ctx.fillText('a = ' + a.toFixed(1) + ' m/s²', px + wB/2 + aLen + 6, bodenY + 26);
+  // Q5: «letzter Lauf» als Gedächtnis — sonst muss man Werte im Kopf behalten
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#1a4f8a'; ctx.fillText('F = ' + F + ' N', 12, 20);
+  ctx.fillStyle = '#5b2d8e'; ctx.fillText('a = ' + a.toFixed(1) + ' m/s²', 12, 38);
+  if (a2Letzt) {
+    ctx.fillStyle = '#8a8478'; ctx.font = '13px JetBrains Mono,monospace';
+    ctx.fillText('letzter Lauf: F = ' + a2Letzt.F + ' N, m = ' + a2Letzt.m.toFixed(1)
+                 + ' kg → a = ' + a2Letzt.a.toFixed(1) + ' m/s², Zeit für '
+                 + A2_SMAX + ' m: ' + a2Letzt.t.toFixed(2) + ' s', 12, 58);
+  }
 
   // Geschwindigkeitspfeil (grün) über dem Wagen
   if (a2State.v > 0.05) {
-    const vLen = Math.min(120, a2State.v * 10);
+    const vLen = a2State.v / 35.8 * A2_PX;
     drawArrow(ctx, px + wB/2, wy - 16, px + wB/2 + vLen, wy - 16, '#1f6b3a', 2.2, 9);
     ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'left';
     ctx.fillText('v', px + wB/2 + vLen + 4, wy - 12);
@@ -1023,6 +1113,8 @@ function a2Tick(ts) {
   a2State.x += a2State.v * dt;
   if (a2State.x >= A2_SMAX) {
     a2State.x = A2_SMAX; a2State.running = false;
+    const vv = a2Vals();
+    a2Letzt = { F: vv.F, m: vv.m, a: vv.a, t: a2State.t };   // Lauf merken (Q5)
     document.getElementById('a2-btn').textContent = '▶ Start';
     document.getElementById('a2-btn').classList.remove('paused');
   }
@@ -1184,6 +1276,9 @@ document.getElementById('a3-reset').addEventListener('click', () => {
 //  ANIMATION 4: Reibung — Haft → Gleit
 // ══════════════════════════════════════════════════════════
 const A4_MUH = 0.60, A4_MUG = 0.45;
+// Kurzer Ruck beim Übergang Haft → Gleit: der Hinweistext spricht davon, dass
+// die Kiste «losruckt» — ohne Bewegung war das nicht zu sehen (Q4).
+const a4Ruck = { t: 0, rafId: null, warGleit: false };
 function drawA4() {
   const m = +document.getElementById('a4-m').value;
   const Fz = +document.getElementById('a4-F').value;
@@ -1211,7 +1306,8 @@ function drawA4() {
   ctx.strokeStyle = '#aab2ba'; ctx.lineWidth = 1;
   for (let x = 0; x < W; x += 12) { ctx.beginPath(); ctx.moveTo(x, bodenY); ctx.lineTo(x - 8, bodenY + 10); ctx.stroke(); }
 
-  const bx = W*0.36, bw = 64, bh = 50, by = bodenY - bh;
+  const ruckPx = a4Ruck.t > 0 ? Math.sin(a4Ruck.t * 26) * 9 * Math.max(0, 1 - a4Ruck.t / 0.55) : 0;
+  const bx = W*0.36 + ruckPx, bw = 64, bh = 50, by = bodenY - bh;
   ctx.fillStyle = gleitet ? '#c98a3a' : '#b5651d';
   ctx.fillRect(bx, by, bw, bh);
   ctx.strokeStyle = '#7a3f10'; ctx.lineWidth = 1.5; ctx.strokeRect(bx, by, bw, bh);
@@ -1228,6 +1324,17 @@ function drawA4() {
   drawArrow(ctx, bx, by + bh/2 + 4, bx - rLen, by + bh/2 + 4, '#9b1c1c', 2.6, 10);
   ctx.fillStyle = '#9b1c1c'; ctx.textAlign = 'right';
   ctx.fillText('F_R = ' + FR.toFixed(0) + ' N', bx - 6, by + bh/2 + 22);
+  // Resultierende und Beschleunigung, sobald die Kiste gleitet
+  ctx.textAlign = 'left'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  if (gleitet) {
+    const aRes = (Fz - FR) / m;
+    ctx.fillStyle = '#5b2d8e';
+    ctx.fillText('a = (F_zug − F_R) / m = (' + Fz + ' N − ' + FR.toFixed(0) + ' N) / '
+                 + m + ' kg = ' + aRes.toFixed(2) + ' m/s²', 12, 20);
+  } else {
+    ctx.fillStyle = '#1f6b3a';
+    ctx.fillText('Kiste haftet: F_R hält genau dagegen, a = 0', 12, 20);
+  }
 
   // Rechte Canvas: FR über Fzug Diagramm
   const cv2 = initCanvas('a4-cv-diag', 240, false);
@@ -1241,12 +1348,37 @@ function drawA4() {
   // Gleit-Ast: waagrecht bei FgGleit ab FhMax
   c2.strokeStyle = '#9b1c1c'; c2.lineWidth = 2.5; c2.beginPath();
   c2.moveTo(grid.cx(FhMax), grid.cy(FgGleit)); c2.lineTo(grid.cx(FzMax), grid.cy(FgGleit)); c2.stroke();
+  // Knickpunkt beschriften: hier reisst die Haftung ab
+  c2.strokeStyle = '#9aa1ab'; c2.lineWidth = 1.2; c2.setLineDash([4, 3]);
+  c2.beginPath(); c2.moveTo(grid.cx(FhMax), grid.cy(0)); c2.lineTo(grid.cx(FhMax), grid.cy(FhMax));
+  c2.stroke(); c2.setLineDash([]);
+  drawDot(c2, grid.cx, grid.cy, FhMax, FhMax, '#5b2d8e', 5);
+  c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace'; c2.textAlign = 'left';
+  c2.fillText('F_H,max = μ_H · F_N = ' + FhMax.toFixed(0) + ' N',
+              Math.min(grid.cx(FhMax) + 8, W2 - 210), grid.cy(FhMax) - 8);
   // Spitzenmarkierung
   drawDot(c2, grid.cx, grid.cy, FhMax, FhMax, '#5b2d8e', 4);
   // aktueller Punkt
   drawDot(c2, grid.cx, grid.cy, Fz, FR, gleitet ? '#9b1c1c' : '#1f6b3a', 5);
 }
-['a4-m','a4-F'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
+['a4-m','a4-F'].forEach(id => document.getElementById(id).addEventListener('input', () => {
+  const m = +document.getElementById('a4-m').value, Fz = +document.getElementById('a4-F').value;
+  const jetztGleit = Fz > A4_MUH * m * g;
+  if (jetztGleit && !a4Ruck.warGleit) a4Ruck.t = 0.0001;   // Übergang → Ruck auslösen
+  a4Ruck.warGleit = jetztGleit;
+  drawA4();
+}));
+function a4RuckTick(ts) {
+  if (!a4Ruck.last) a4Ruck.last = ts;
+  const dt = (ts - a4Ruck.last) / 1000; a4Ruck.last = ts;
+  if (a4Ruck.t > 0) {
+    a4Ruck.t += dt;
+    if (a4Ruck.t > 0.55) a4Ruck.t = 0;
+    drawA4();
+  }
+  a4Ruck.rafId = requestAnimationFrame(a4RuckTick);
+}
+requestAnimationFrame(a4RuckTick);
 
 
 // ══════════════════════════════════════════════════════════
@@ -1262,6 +1394,12 @@ function drawA5() {
   document.getElementById('a5-eq').textContent =
     'a = 9.81 m/s² · (sin ' + alphaDeg + '° − ' + mu.toFixed(2) + ' · cos ' + alphaDeg + '°) = '
     + a.toFixed(2) + ' m/s²';
+
+  // Alle Kräfte für die Einheitsmasse 1.0 kg — das steht jetzt auch in der
+  // Live-Box, vorher war die Bezugsmasse nirgends deklariert.
+  document.getElementById('a5-fh').textContent = (g*Math.sin(alpha)).toFixed(2) + ' N';
+  document.getElementById('a5-fn').textContent = (g*Math.cos(alpha)).toFixed(2) + ' N';
+  document.getElementById('a5-fr').textContent = (mu*g*Math.cos(alpha)).toFixed(2) + ' N';
 
   const cv = initCanvas('a5-cv', 300, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -1363,7 +1501,9 @@ function drawA5() {
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 6: Wechselwirkung — zwei Wagen stossen sich ab (RAF)
 // ══════════════════════════════════════════════════════════
-const a6State = { phase: 'ready', x1: 0, x2: 0, v1: 0, v2: 0, lastTs: 0, rafId: null };
+const a6State = { phase: 'ready', x1: 0, x2: 0, v1: 0, v2: 0, lastTs: 0, rafId: null, exp: 0 };
+const A6_P = 6.0;          // gemeinsamer Impulsbetrag in kg·m/s
+const A6_EXPDAUER = 0.35;  // s für die Feder-Expansion
 
 function a6Render() {
   const m1 = +document.getElementById('a6-m1').value;
@@ -1389,8 +1529,8 @@ function a6Render() {
   const cx1 = mid - gap0 + a6State.x1 * scale;
   const cx2 = mid + gap0 + a6State.x2 * scale;
 
-  // Feder dazwischen (nur in Ruhe sichtbar gespannt)
-  if (a6State.phase === 'ready') {
+  // Feder dazwischen: gespannt in Ruhe, danach kurz sichtbar entspannend
+  if (a6State.phase === 'ready' || a6State.phase === 'exp') {
     ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 2;
     const fx0 = cx1, fx1 = cx2, fy = bodenY - wh/2 - 8;
     ctx.beginPath(); ctx.moveTo(fx0, fy);
@@ -1419,7 +1559,7 @@ function a6Render() {
   ctx.fillText(m2.toFixed(1)+' kg', cx2 + w2/2, wy+wh/2+4);
 
   // Kraftpfeile (gleich lang!) beim Abstossen
-  if (a6State.phase === 'ready') {
+  if (a6State.phase === 'ready' || a6State.phase === 'exp') {
     const fl = 30;
     drawArrow(ctx, cx1, wy - 12, cx1 - fl, wy - 12, '#9b1c1c', 2.4, 9);
     drawArrow(ctx, cx2, wy - 12, cx2 + fl, wy - 12, '#9b1c1c', 2.4, 9);
@@ -1427,22 +1567,51 @@ function a6Render() {
     ctx.fillText('F', cx1 - fl/2, wy - 16);
     ctx.fillText('F', cx2 + fl/2, wy - 16);
   } else {
-    // Geschwindigkeitspfeile (grün), Länge ∝ |v|
-    if (Math.abs(a6State.v1) > 0.05) {
-      const l = Math.min(70, Math.abs(a6State.v1)*16);
-      drawArrow(ctx, cx1 - w1/2, wy - 12, cx1 - w1/2 - l, wy - 12, '#1f6b3a', 2.4, 9);
-    }
-    if (Math.abs(a6State.v2) > 0.05) {
-      const l = Math.min(70, Math.abs(a6State.v2)*16);
-      drawArrow(ctx, cx2 + w2/2, wy - 12, cx2 + w2/2 + l, wy - 12, '#1f6b3a', 2.4, 9);
-    }
+    // Q3: Geschwindigkeitspfeile ohne Cap — der Cap bei 70 px machte die
+    // kleine Masse und die grosse Masse optisch gleich schnell, obwohl genau
+    // ihr Tempo-Unterschied die Aussage ist. Feste Skala: v_max = 6/1 = 6 m/s.
+    const A6_VMAX = A6_P / 1, A6_PX = 96;
+    if (Math.abs(a6State.v1) > 0.05)
+      drawArrow(ctx, cx1 - w1/2, wy - 12, cx1 - w1/2 - Math.abs(a6State.v1)/A6_VMAX*A6_PX, wy - 12, '#1f6b3a', 2.4, 9);
+    if (Math.abs(a6State.v2) > 0.05)
+      drawArrow(ctx, cx2 + w2/2, wy - 12, cx2 + w2/2 + Math.abs(a6State.v2)/A6_VMAX*A6_PX, wy - 12, '#1f6b3a', 2.4, 9);
+  }
+
+  // Produkte m·|v| beidseitig — actio = reactio wird damit quantitativ:
+  // beide Wagen tragen denselben Impulsbetrag, obwohl die Tempi verschieden sind.
+  const p1 = m1 * Math.abs(a6State.v1), p2 = m2 * Math.abs(a6State.v2);
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.fillStyle = '#1a4f8a'; ctx.textAlign = 'left';
+  ctx.fillText('m₁ · |v₁| = ' + m1.toFixed(1) + ' kg · ' + Math.abs(a6State.v1).toFixed(2)
+               + ' m/s = ' + p1.toFixed(2) + ' kg·m/s', 12, 20);
+  ctx.fillStyle = '#8a4a0e'; ctx.textAlign = 'right';
+  ctx.fillText('m₂ · |v₂| = ' + m2.toFixed(1) + ' kg · ' + Math.abs(a6State.v2).toFixed(2)
+               + ' m/s = ' + p2.toFixed(2) + ' kg·m/s', W - 12, 20);
+  if (p1 > 0.01) {
+    ctx.fillStyle = '#5b2d8e'; ctx.textAlign = 'center';
+    ctx.fillText('gleich gross — actio = reactio', W / 2, 20);
   }
 }
 function a6Tick(ts) {
-  if (a6State.phase !== 'run') return;
+  if (a6State.phase !== 'run' && a6State.phase !== 'exp') return;
   if (!a6State.lastTs) a6State.lastTs = ts;
   const dt = (ts - a6State.lastTs)/1000;
   a6State.lastTs = ts;
+  // Expansionsphase: die Feder drückt, die Wagen beschleunigen erst auf ihr
+  // Endtempo. Vorher sprangen sie schlagartig los.
+  if (a6State.phase === 'exp') {
+    a6State.exp += dt;
+    const f = Math.min(1, a6State.exp / A6_EXPDAUER);
+    const m1e = +document.getElementById('a6-m1').value, m2e = +document.getElementById('a6-m2').value;
+    a6State.v1 = -A6_P / m1e * f;
+    a6State.v2 = +A6_P / m2e * f;
+    a6State.x1 += a6State.v1 * dt;
+    a6State.x2 += a6State.v2 * dt;
+    if (f >= 1) a6State.phase = 'run';
+    a6Render();
+    a6State.rafId = requestAnimationFrame(a6Tick);
+    return;
+  }
   a6State.x1 += a6State.v1 * dt;
   a6State.x2 += a6State.v2 * dt;
   a6Render();
@@ -1462,24 +1631,24 @@ document.getElementById('a6-btn').addEventListener('click', () => {
     a6State.phase = 'paused'; btn.textContent = '▶ Weiter'; btn.classList.remove('paused');
   } else {
     if (a6State.phase === 'done') { a6State.x1=0; a6State.x2=0; }
-    // Impulserhaltung: m1·v1 = m2·v2 (Beträge), wähle festen Gesamtimpuls
-    const p = 6.0;                 // willkürlicher gemeinsamer Impulsbetrag
-    a6State.v1 = -p / m1;          // nach links
-    a6State.v2 = +p / m2;          // nach rechts
-    a6State.phase = 'run'; a6State.lastTs = 0;
+    // Impulserhaltung: m1·v1 = m2·v2 (Beträge), fester gemeinsamer Impulsbetrag
+    a6State.v1 = 0; a6State.v2 = 0; a6State.exp = 0;
+    a6State.phase = (a6State.phase === 'paused') ? 'run' : 'exp';
+    if (a6State.phase === 'run') { a6State.v1 = -A6_P / m1; a6State.v2 = +A6_P / m2; }
+    a6State.lastTs = 0;
     btn.textContent = '⏸ Pause'; btn.classList.add('paused');
     a6State.rafId = requestAnimationFrame(a6Tick);
   }
 });
 document.getElementById('a6-reset').addEventListener('click', () => {
-  a6State.phase = 'ready'; a6State.x1=0; a6State.x2=0; a6State.v1=0; a6State.v2=0;
+  a6State.phase = 'ready'; a6State.x1=0; a6State.x2=0; a6State.v1=0; a6State.v2=0; a6State.exp=0;
   document.getElementById('a6-btn').textContent = '▶ Loslassen';
   document.getElementById('a6-btn').classList.remove('paused');
   a6Render();
 });
 ['a6-m1','a6-m2'].forEach(id => document.getElementById(id).addEventListener('input', () => {
-  if (a6State.phase === 'run') return;
-  a6State.phase = 'ready'; a6State.x1=0; a6State.x2=0; a6State.v1=0; a6State.v2=0;
+  if (a6State.phase === 'run' || a6State.phase === 'exp') return;
+  a6State.phase = 'ready'; a6State.x1=0; a6State.x2=0; a6State.v1=0; a6State.v2=0; a6State.exp=0;
   a6Render();
 }));
 
