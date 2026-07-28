@@ -57,22 +57,24 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   *Erledigt 26.07.2026 — die Liste betraf nur p5-3, alle drei Faktoren neu kalibriert.*
 - [ ] **[MITTEL] Q3 — Pfeillängen mit Sockel/Cap oder fix statt proportional.**
   Wo der Grössenvergleich der Pfeile die Botschaft ist, muss streng proportional
-  skaliert werden. Betroffen: p4-1 a5 (v/a_z), p4-2 a2 (F/a), p4-2 a6
+  skaliert werden. Betroffen: ~~p4-1 a5 (v/a_z)~~ ✓, p4-2 a2 (F/a), p4-2 a6
   (v-Pfeile gecappt), ~~p4-5 a5 (F_G/F_A fix 35 px)~~ ✓ 28.07.2026.
   Vorbild: p4-2 a5.
 - [ ] **[MITTEL] Q4 — «Worauf achten»-Aufträge, die das Widget nicht ausführen kann.**
   Entweder Feature nachrüsten (bevorzugt, siehe Einzelpunkte) oder Hinweistext
-  anpassen: p4-1 a3 (Fallwege vergleichen ohne Zeitlupe/Spur), p4-2 a3
-  (Bezugssystem wechseln ohne Umschalter), p4-2 a4 («losruckt» ohne Bewegung),
+  anpassen: ~~p4-1 a3 (Fallwege vergleichen ohne Zeitlupe/Spur)~~ ✓,
+  ~~p4-2 a3 (Bezugssystem wechseln ohne Umschalter)~~ ✓,
+  p4-2 a4 («losruckt» ohne Bewegung),
   p6-1a a2 (zwei Teilchen vergleichen, nur eines markierbar), ~~p5-2 a4
   (Vakuum-Frage ohne Vakuum)~~ ✓, ~~p0-2 a1 (Balken reagieren nicht)~~ ✓.
 - [ ] **[MITTEL] Q5 — Vergleiche ohne Gedächtnis.** Serielle Vergleiche (erst A
   einstellen, dann B, Wert merken) durch Geister-/Referenzdarstellungen ersetzen:
-  p4-2 a2 («letzter Lauf»-Zeile), p4-3 a2-diag (Geister-Punkt bei 2v), ~~p0-2 a2
-  (Referenzmarken Erde/Mond/Mars)~~ ✓, p4-1 a4 («Bahn festhalten»), ~~p5-3 a1/a2
+  p4-2 a2 («letzter Lauf»-Zeile), ~~p4-3 a2-diag (Geister-Punkt bei 2v)~~ ✓,
+  ~~p0-2 a2 (Referenzmarken Erde/Mond/Mars)~~ ✓, ~~p4-1 a4 («Bahn festhalten»)~~ ✓,
+  ~~p5-3 a1/a2
   (Referenzstab/-gefäss Eisen)~~ ✓.
 - [ ] **[MITTEL] Q6 — Tempo-Regler + Reset (p6-1a-Standard) nachrüsten** bei den
-  animierten Widgets ohne: p4-1 a3 (freier Fall), p6-1 ein-cv, a1, a2, a5.
+  animierten Widgets ohne: ~~p4-1 a3 (freier Fall)~~ ✓, p6-1 ein-cv, a1, a2, a5.
 - [x] **Q7 — Stilcheck über alle 16 Themenseiten** (28.07.2026). Geprüft wurde
   nicht der Quelltext, sondern der **gerenderte Zustand**: Playwright lädt jede
   Seite, scrollt alle Widgets ins Sichtfeld und liest 45 `formel-live`-Blöcke,
@@ -340,22 +342,23 @@ alt a3…a8 entsprechen neu a2…a7.*
   Trapez unter v(t) («Fläche = s = 25.0 m»), beide bis zum eingestellten t.
   Gemeinsamer Helfer `flaechenLabel` setzt die Beschriftung mittig hinein oder
   daneben, je nach Platz.*
-- [ ] ~~[HOCH] a3 Freier Fall: Tempo-Regler (0.25x–1x) + Stroboskop-Spur (alle
-  0.25 s eine blasse Silhouette → s ∝ t² direkt sichtbar)~~ ✓ 28.07.2026:
+- [x] [HOCH] a3 Freier Fall: Tempo-Regler + Stroboskop-Spur ✓ 28.07.2026:
   Zeitlupenregler 0.1× … 1× (Default 0.4×) und blasse Apfel-Silhouetten alle
   0.25 s mit Zeitmarke. Die Abstände wachsen von 0.31 m auf 4.60 m — das
   Quadratgesetz ist damit direkt ablesbar. Zeitmarken werden ausgelassen, wo
   die Bilder oben zu dicht stehen.
-  **Offen bleibt:** [MITTEL] h₀-Regler mit Live-Fallzeit; [MITTEL] zweiter,
-  schwererer Körper (Massenunabhängigkeit).
-- [ ] ~~[HOCH] a4 Schiefer Wurf: Play-Knopf mit fliegendem Punkt und mitlaufenden
-  Projektionen auf beide Achsen (Überlagerungsprinzip)~~ ✓ 28.07.2026:
+  Ebenfalls erledigt 28.07.2026: h₀-Regler 5 … 40 m mit Live-Fallzeit und
+  Aufprall-Tempo, dazu eine 5-kg-Kugel neben dem 0.1-kg-Apfel — beide fallen
+  sichtbar gleich schnell (Massenunabhängigkeit).
+- [x] [HOCH] a4 Schiefer Wurf: Play-Knopf mit Projektionen ✓ 28.07.2026:
   «▶ Wurf abspielen» mit Pause und Reset; der fliegende Punkt trägt Lote auf
   beide Achsen, die x-Marke wandert gleichförmig, die y-Marke wird langsamer,
   kehrt um und wird wieder schneller. Beide Werte zusätzlich in der Live-Box.
   Der bereits geflogene Bahnteil wird kräftiger nachgezeichnet.
-  **Offen bleibt:** [MITTEL] Geisterkurve «Bahn festhalten» (30°/60°-Vergleich);
-  [MITTEL] Winkelbogen mit α einzeichnen.
+  Ebenfalls erledigt 28.07.2026: Knopf «◻ Bahn festhalten» legt eine violett
+  gestrichelte Vergleichsbahn ins Bild — damit ist der 30°/60°-Vergleich (beide
+  35.3 m) in einem Blick zu sehen. Winkelbogen am Abwurfpunkt mit α, dazu der
+  Hinweis, dass die verschieden skalierten Achsen den Winkel optisch verzerren.
 - [x] [HOCH] a6 Schwimmer: animierte Querung mit Bahn und Landepunkt-Versatz in m;
   [MITTEL] Ziel-Fähnchen + Status «trifft das Ziel» bei γ ≈ 0.
   *Beides erledigt 28.07.2026: zweite Leinwand mit der Aufsicht auf einen 40 m
@@ -365,11 +368,20 @@ alt a3…a8 entsprechen neu a2…a7.*
   erscheint «✓ trifft das Ziel». Querzeit und Versatz zusätzlich in der
   Live-Box. Bei β = 0° oder 180° gibt es keine Querkomponente — dann steht
   statt der Bahn der Hinweis, dass das Zielufer nie erreicht wird.*
-- [ ] [MITTEL] a0 Zugfahrt: v̄ als gestrichelte Rechteckhöhe über dem Intervall.
-- [ ] [MITTEL] a5 Kreisbewegung: Pause-Knopf; Pfeile streng proportional (Q3).
-- [ ] [MITTEL] herl-cv Trapez: Zerlegung in Rechteck (v0·t) + Dreieck (½at²) tönen.
-- [ ] [MITTEL] Neu: Mini-Canvas «Sekante → Tangente» (Δt-Regler) im
-  Definitions-Abschnitt Momentangeschwindigkeit.
+- [x] [MITTEL] a0 Zugfahrt: v̄ als gestrichelte Rechteckhöhe über dem Intervall.
+  *Erledigt 28.07.2026, mit dem Zusatz «gleiche Fläche wie die Kurve».*
+- [x] [MITTEL] a5 Kreisbewegung: Pause-Knopf; Pfeile streng proportional (Q3).
+  *Erledigt 28.07.2026: beide Pfeile ohne Sockel und Cap — vorher 50 + v·8 bzw.
+  30 + a_z·4, damit war der Vergleich wertlos. Feste Skalen am Reglermaximum
+  (v bis 9 m/s, a_z bis 27 m/s²); die Zahlenwerte stehen als Legende oben links,
+  weil kurze Pfeile keine Beschriftung tragen können.*
+- [x] [MITTEL] herl-cv Trapez: Zerlegung in Rechteck (v0·t) + Dreieck (½at²) tönen.
+  *Erledigt 28.07.2026: grünes Rechteck v₀·t, violettes Dreieck ½·a·t².*
+- [x] [MITTEL] Neu: Mini-Canvas «Sekante → Tangente» (Δt-Regler) im
+  Definitions-Abschnitt Momentangeschwindigkeit. *Erledigt 28.07.2026: eigenes
+  Widget mit s(t) = ½·a·t² (a = 2 m/s²), Reglern für t₀ und Δt, Steigungsdreieck,
+  Sekante (violett gestrichelt) und Tangente (grün). Die Differenz ist exakt
+  a·Δt/2 — bei Δt = 3 s sind es 3.00 m/s, bei Δt = 0.1 s noch 0.10 m/s.*
 - [x] [NIEDRIG] a1: unbeschrifteten Fixpunkt bei t = 5 s beschriften oder entfernen.
   *Mit dem t-Regler erledigt — der Punkt ist jetzt der eingestellte Zeitpunkt
   und trägt seinen s-Wert.*

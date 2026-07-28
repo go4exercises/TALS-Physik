@@ -159,6 +159,66 @@ MathJax = {
   <p>Der Geschwindigkeits-Vektor zeigt in Richtung der Bewegung. Sein <strong>Betrag</strong> — umgangssprachlich auch <em>Tempo</em> — gibt an, wie schnell die Bewegung ist, ohne Richtung. SI-Einheit: m/s (auch km/h gebräuchlich, mit \( 1\;\text{m/s} = 3.6\;\text{km/h} \)).</p>
 </div>
 
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+  <h3>Sekante → Tangente · was «\(\Delta t \to 0\)» bedeutet</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Verkleinere \(\Delta t\) und beobachte, wie die Sekante in die Tangente kippt.</li><li>Vergleiche die beiden Zahlen: \(\bar{v}\) über das Intervall und \(v\) im Punkt.</li><li>Bei \(\Delta t = 0.1\;\text{s}\) stimmen sie schon auf eine Stelle überein.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Verkleinere das Zeitintervall und beobachte, wie die Sekante in die Tangente kippt. Vergleiche die beiden Zahlen: die Durchschnittsgeschwindigkeit über das Intervall und die Momentangeschwindigkeit im Punkt. Bei einem Zehntel einer Sekunde stimmen sie schon auf eine Stelle überein." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Die Sekante durch zwei Punkte liefert die Durchschnittsgeschwindigkeit.</li><li>Je kleiner \(\Delta t\), desto näher liegt sie an der Momentangeschwindigkeit.</li><li>Der Grenzwert \(\Delta t \to 0\) ist die Tangentensteigung im Punkt.</li></ul></div>
+      <button type="button" class="ah-speak" data-vorlesen="Die Sekante durch zwei Punkte liefert die Durchschnittsgeschwindigkeit. Je kleiner das Zeitintervall, desto näher liegt sie an der Momentangeschwindigkeit. Der Grenzwert für Delta t gegen null ist die Steigung der Tangente im Punkt." aria-pressed="false">🔊 vorlesen</button>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Zeitpunkt \(t_0\):</label>
+      <input type="range" id="sek-t0" min="1" max="7" value="3" step="0.1">
+      <span class="sl-val" id="sek-t0-val">3.0 s</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Intervall \(\Delta t\):</label>
+      <input type="range" id="sek-dt" min="0.1" max="4" value="3" step="0.1">
+      <span class="sl-val" id="sek-dt-val">3.0 s</span>
+
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Sekantensteigung gegen Tangentensteigung</div>
+      <div class="fl-eq" id="sek-eq-f">v̄ = Δs / Δt</div>
+      <div class="fl-eq" id="sek-eq">v̄ = 27.0 m / 3.0 s = 9.00 m/s</div>
+      <div class="fl-eq" id="sek-eq2">Tangente im Punkt: v(3.0 s) = 6.00 m/s</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Sekante \(\bar{v}\)</span><span class="lb-val" id="sek-vbar">9.00 m/s</span></div>
+      <div class="lb-item"><span class="lb-lab">Tangente \(v(t_0)\)</span><span class="lb-val" id="sek-vt">6.00 m/s</span></div>
+      <div class="lb-item"><span class="lb-lab">Abweichung</span><span class="lb-val" id="sek-diff">3.00 m/s</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">📈 \(s(t)\) mit Sekante und Tangente</div>
+      <canvas id="sek-cv" height="300" role="img" aria-label="Weg-Zeit-Diagramm einer beschleunigten Bewegung. Durch zwei Punkte im Abstand Delta t verläuft eine Sekante, deren Steigung die Durchschnittsgeschwindigkeit ist. Im linken Punkt ist zusätzlich die Tangente eingezeichnet, deren Steigung die Momentangeschwindigkeit ist. Wird Delta t verkleinert, nähern sich die beiden Geraden an."></canvas>
+    </div>
+
+  </div>
+</div>
+
 <div class="block block-def">
   <div class="block-titel">📘 Beschleunigung</div>
   <p>Die <strong>Beschleunigung</strong> ist die Änderung der Geschwindigkeit pro Zeit:</p>
@@ -406,19 +466,30 @@ Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></d
     <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
       <button class="play-btn" id="a3-btn">▶ Start</button>
       <button class="play-btn paused" id="a3-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
-      <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">Fallhöhe \(h_0\): 20 m  ·  \(g = 9.81\;\text{m/s}^2\)</div>
+      <div style="font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2);">\(g = 9.81\;\text{m/s}^2\)</div>
     </div>
 
     <div class="sl-row">
+      <div class="sl-grp">
+      <label>Fallhöhe \(h_0\):</label>
+      <input type="range" id="a3-h0" min="5" max="40" value="20" step="1">
+      <span class="sl-val" id="a3-h0-val">20 m</span>
+
+      </div>
+      <div class="sl-grp">
       <label>Zeitlupe:</label>
       <input type="range" id="a3-tempo" min="0.1" max="1" value="0.4" step="0.05">
       <span class="sl-val" id="a3-tempo-val">0.40×</span>
+
+      </div>
     </div>
 
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Zeit \(t\)</span><span class="lb-val" id="a3-t">0.00 s</span></div>
       <div class="lb-item"><span class="lb-lab">Geschwindigkeit \(v\)</span><span class="lb-val" id="a3-v">0.0 m/s</span></div>
       <div class="lb-item"><span class="lb-lab">Fallweg \(s\)</span><span class="lb-val" id="a3-s">0.00 m</span></div>
+      <div class="lb-item"><span class="lb-lab">Fallzeit aus \(h_0\)</span><span class="lb-val" id="a3-tf">2.02 s</span></div>
+      <div class="lb-item"><span class="lb-lab">Aufprall-Tempo</span><span class="lb-val" id="a3-vend">19.8 m/s</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -486,6 +557,7 @@ Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></d
 
     <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
       <button class="play-btn" id="a4-btn">▶ Wurf abspielen</button>
+      <button class="play-btn" id="a4-halten" style="background:var(--tinte-2);">◻ Bahn festhalten</button>
       <button class="play-btn paused" id="a4-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
     </div>
 
@@ -570,6 +642,10 @@ Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></d
       <span class="sl-val" id="a5-omega-val">1.5 rad/s</span>
 
       </div>
+    </div>
+
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+      <button class="play-btn paused" id="a5-btn">⏸ Pause</button>
     </div>
 
     <div class="live-box">
@@ -1031,6 +1107,21 @@ function drawA0() {
     ctx.stroke();
   }
 
+  // v̄ als Rechteckhöhe über dem Intervall: das flächengleiche Rechteck macht
+  // sichtbar, dass die Durchschnittsgeschwindigkeit die «ausgeglichene» Höhe ist.
+  if (t2 - t1 > 0.5) {
+    ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 2; ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(X(t1), gr.cy(0)); ctx.lineTo(X(t1), gr.cy(vbar));
+    ctx.lineTo(X(t2), gr.cy(vbar)); ctx.lineTo(X(t2), gr.cy(0));
+    ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#5b2d8e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('v̄ = ' + vbar.toFixed(1) + ' km/h', (X(t1) + X(t2)) / 2, gr.cy(vbar) - 8);
+    ctx.font = '13px Source Sans 3,sans-serif'; ctx.fillStyle = '#7a6a92';
+    ctx.fillText('gleiche Fläche wie die Kurve', (X(t1) + X(t2)) / 2, gr.cy(vbar) + 16);
+  }
+
   // Marker t1, t2 (gestrichelt, ziehbar) mit Beschriftung + Griff-Punkt
   ctx.strokeStyle = '#8a4a0e';
   ctx.lineWidth = 1.6;
@@ -1118,12 +1209,21 @@ function drawHerleitung() {
   const X = function (tt) { return left + tt / 7 * (W - left - 30); };
   const Y = function (vv) { return (H - bot) - vv / 13 * (H - bot - 26); };
   const v0 = 4, T = 6, vT = 11;
-  // Trapez-Fläche
-  ctx.fillStyle = 'rgba(138,74,14,0.15)';
+  // Trapez in seine zwei Teile zerlegen: Rechteck v₀·t (was ohne Beschleunigung
+  // zurückgelegt würde) plus Dreieck ½·a·t² (was die Beschleunigung beisteuert).
+  // Genau diese Zerlegung ist die Herleitung von s = v₀t + ½at².
+  ctx.fillStyle = 'rgba(31,107,58,0.18)';
+  ctx.fillRect(X(0), Y(v0), X(T) - X(0), Y(0) - Y(v0));
+  ctx.fillStyle = 'rgba(91,45,142,0.22)';
   ctx.beginPath();
-  ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(0), Y(v0));
-  ctx.lineTo(X(T), Y(vT)); ctx.lineTo(X(T), Y(0));
+  ctx.moveTo(X(0), Y(v0)); ctx.lineTo(X(T), Y(vT)); ctx.lineTo(X(T), Y(v0));
   ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(X(0), Y(v0)); ctx.lineTo(X(T), Y(v0)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#1f6b3a'; ctx.fillText('v₀ · t', (X(0)+X(T))/2, (Y(v0)+Y(0))/2 + 4);
+  ctx.fillStyle = '#5b2d8e'; ctx.fillText('½ · a · t²', X(0) + (X(T)-X(0))*0.68, Y(v0) - 10);
   // Hilfslinie (gestrichelt): v(t)-Niveau
   ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1.2; ctx.setLineDash([4, 4]);
   ctx.beginPath(); ctx.moveTo(X(0), Y(vT)); ctx.lineTo(X(T), Y(vT)); ctx.stroke();
@@ -1153,6 +1253,68 @@ function drawHerleitung() {
   ctx.fillStyle = '#8a4a0e'; ctx.textAlign = 'center';
   ctx.fillText('Fläche = s − s₀', X(3.4), Y(1.8));
 }
+
+// ══════════════ SEKANTE → TANGENTE ══════════════
+// s(t) = ½·a·t² mit a = 2 m/s² ⇒ v(t) = a·t. Die Sekantensteigung über
+// [t₀, t₀+Δt] ist a·(t₀ + Δt/2) — sie liegt also immer um a·Δt/2 über der
+// Tangentensteigung und geht für Δt → 0 exakt in sie über.
+const SEK_A = 2;
+function drawSekante() {
+  const t0 = +document.getElementById('sek-t0').value;
+  const dt = +document.getElementById('sek-dt').value;
+  const sOf = tt => 0.5 * SEK_A * tt * tt;
+  const vOf = tt => SEK_A * tt;
+  const t1 = Math.min(t0 + dt, 8);
+  const ds = sOf(t1) - sOf(t0), dtt = t1 - t0;
+  const vbar = dtt > 0 ? ds / dtt : vOf(t0);
+  const vtan = vOf(t0);
+  document.getElementById('sek-t0-val').textContent = t0.toFixed(1) + ' s';
+  document.getElementById('sek-dt-val').textContent = dtt.toFixed(1) + ' s';
+  document.getElementById('sek-eq').textContent =
+    'v̄ = ' + ds.toFixed(1) + ' m / ' + dtt.toFixed(1) + ' s = ' + vbar.toFixed(2) + ' m/s';
+  document.getElementById('sek-eq2').textContent =
+    'Tangente im Punkt: v(' + t0.toFixed(1) + ' s) = ' + vtan.toFixed(2) + ' m/s';
+  document.getElementById('sek-vbar').textContent = vbar.toFixed(2) + ' m/s';
+  document.getElementById('sek-vt').textContent = vtan.toFixed(2) + ' m/s';
+  document.getElementById('sek-diff').textContent = (vbar - vtan).toFixed(2) + ' m/s';
+
+  const cv = initCanvas('sek-cv', 300, false);
+  const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.3, 8.3, -3, 68);   // feste Achsen (Q1)
+  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [s]', 's [m]');
+  const c = cv.ctx;
+  // s(t)-Kurve
+  c.strokeStyle = '#8a4a0e'; c.lineWidth = 2.6; c.beginPath();
+  for (let i = 0; i <= 80; i++) { const tt = i * 8 / 80;
+    if (i === 0) c.moveTo(gr.cx(tt), gr.cy(sOf(tt))); else c.lineTo(gr.cx(tt), gr.cy(sOf(tt))); }
+  c.stroke();
+  // Tangente im Punkt t0 (durchgezogen, grün)
+  c.strokeStyle = '#1f6b3a'; c.lineWidth = 2.2; c.beginPath();
+  c.moveTo(gr.cx(0), gr.cy(sOf(t0) + vtan * (0 - t0)));
+  c.lineTo(gr.cx(8), gr.cy(sOf(t0) + vtan * (8 - t0)));
+  c.stroke();
+  // Sekante (violett gestrichelt)
+  c.strokeStyle = '#5b2d8e'; c.lineWidth = 2.2; c.setLineDash([6, 4]); c.beginPath();
+  c.moveTo(gr.cx(0), gr.cy(sOf(t0) + vbar * (0 - t0)));
+  c.lineTo(gr.cx(8), gr.cy(sOf(t0) + vbar * (8 - t0)));
+  c.stroke(); c.setLineDash([]);
+  // Steigungsdreieck der Sekante
+  c.strokeStyle = '#5b2d8e'; c.lineWidth = 1.2; c.setLineDash([3, 3]);
+  c.beginPath();
+  c.moveTo(gr.cx(t0), gr.cy(sOf(t0))); c.lineTo(gr.cx(t1), gr.cy(sOf(t0)));
+  c.lineTo(gr.cx(t1), gr.cy(sOf(t1))); c.stroke(); c.setLineDash([]);
+  c.fillStyle = '#5b2d8e'; c.font = 'bold 13px JetBrains Mono,monospace';
+  c.textAlign = 'center';
+  c.fillText('Δt = ' + dtt.toFixed(1) + ' s', (gr.cx(t0) + gr.cx(t1)) / 2, gr.cy(sOf(t0)) + 18);
+  c.textAlign = 'left';
+  c.fillText('Δs = ' + ds.toFixed(1) + ' m', gr.cx(t1) + 6, (gr.cy(sOf(t0)) + gr.cy(sOf(t1))) / 2);
+  drawDot(c, gr.cx, gr.cy, t0, sOf(t0), '#1f6b3a', 6);
+  drawDot(c, gr.cx, gr.cy, t1, sOf(t1), '#5b2d8e', 5);
+  c.fillStyle = '#1f6b3a'; c.textAlign = 'right'; c.font = 'bold 13px JetBrains Mono,monospace';
+  c.fillText('Tangente: ' + vtan.toFixed(2) + ' m/s', cv.W - 10, 20);
+  c.fillStyle = '#5b2d8e';
+  c.fillText('Sekante: ' + vbar.toFixed(2) + ' m/s', cv.W - 10, 38);
+}
+['sek-t0','sek-dt'].forEach(id => document.getElementById(id).addEventListener('input', drawSekante));
 
 // ══════════════ ANIMATION 1 ══════════════
 function drawA1() {
@@ -1339,10 +1501,14 @@ function drawA2() {
 
 // ══════════════ ANIMATION 3 — Freier Fall ══════════════
 const a3State = { t: 0, running: false, lastTs: 0, rafId: null };
-const a3H0 = 20;        // Fallhöhe in m
+let a3H0 = 20;          // Fallhöhe in m (einstellbar)
 const A3_STROBO = 0.25; // s zwischen zwei Stroboskop-Bildern
 
 function a3Render() {
+  a3H0 = +document.getElementById('a3-h0').value;
+  document.getElementById('a3-h0-val').textContent = a3H0 + ' m';
+  document.getElementById('a3-tf').textContent = Math.sqrt(2*a3H0/g).toFixed(2) + ' s';
+  document.getElementById('a3-vend').textContent = Math.sqrt(2*g*a3H0).toFixed(1) + ' m/s';
   const t = a3State.t;
   const v = g * t;
   const s = 0.5 * g * t * t;
@@ -1416,6 +1582,16 @@ function a3Render() {
     }
   }
 
+  // Zweiter, deutlich schwererer Körper: gleiche Bahn, gleiche Zeit. Die
+  // Massenunabhängigkeit ist die Kernaussage — mit nur einem Körper bleibt sie
+  // eine Behauptung.
+  const kugelX = baumX - 52 * k;
+  ctx.fillStyle = '#5a5550';
+  ctx.beginPath(); ctx.arc(kugelX, apfelY, 11 * k, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#33302c'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.fillStyle = '#3a332a'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'right';
+  ctx.fillText('5 kg', kugelX - 15 * k, apfelY + 4);
+
   // Apfel
   ctx.fillStyle = '#c8331e';
   ctx.beginPath(); ctx.arc(apfelX, apfelY, 8 * k, 0, Math.PI * 2); ctx.fill();
@@ -1431,6 +1607,10 @@ function a3Render() {
     ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
     ctx.fillText('v', apfelX + 6, apfelY + 30 * k);
   }
+  ctx.fillStyle = '#3a332a'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('0.1 kg', apfelX + 15 * k, apfelY + 4);
+  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('beide fallen gleich schnell — g ist massenunabhängig', W / 2, H - botMargin - 8);
 }
 
 function a3Tick(ts) {
@@ -1468,6 +1648,12 @@ document.getElementById('a3-btn').addEventListener('click', () => {
   }
 });
 document.getElementById('a3-tempo').addEventListener('input', a3Render);
+document.getElementById('a3-h0').addEventListener('input', () => {
+  a3State.running = false; a3State.t = 0;
+  document.getElementById('a3-btn').textContent = '▶ Start';
+  document.getElementById('a3-btn').classList.remove('paused');
+  a3Render();
+});
 document.getElementById('a3-reset').addEventListener('click', () => {
   a3State.running = false;
   a3State.t = 0;
@@ -1482,6 +1668,7 @@ document.getElementById('a3-reset').addEventListener('click', () => {
 // schneller. Genau das ist das Überlagerungsprinzip — die statische Parabel
 // allein zeigt es nicht.
 const a4State = { t: 0, running: false, lastTs: 0, rafId: null };
+let a4Halt = null;      // festgehaltene Bahn für den Winkelvergleich (Q5)
 function drawA4() {
   const v0    = +document.getElementById('a4-v0').value;
   const alpha = +document.getElementById('a4-alpha').value;
@@ -1504,6 +1691,24 @@ function drawA4() {
   const cv = initCanvas('a4-cv', 320, false);
   const grid = drawGrid(cv.ctx, cv.W, cv.H, -5, xMax, -3, yMax);
   drawAxesUnits(cv.ctx, cv.W, cv.H, grid.cx, grid.cy, 'x [m]', 'y [m]');
+
+  // festgehaltene Vergleichsbahn — 30° und 60° liefern dieselbe Weite, das
+  // sieht man nur, wenn beide Kurven gleichzeitig im Bild stehen (Q5)
+  if (a4Halt) {
+    const hvx = a4Halt.v0 * Math.cos(a4Halt.rad), hvy = a4Halt.v0 * Math.sin(a4Halt.rad);
+    const htF = 2 * hvy / g;
+    cv.ctx.strokeStyle = '#5b2d8e'; cv.ctx.lineWidth = 2; cv.ctx.setLineDash([6, 4]);
+    cv.ctx.beginPath();
+    for (let i = 0; i <= 100; i++) {
+      const tt = htF * i / 100, x = hvx * tt, y = hvy * tt - 0.5 * g * tt * tt;
+      if (i === 0) cv.ctx.moveTo(grid.cx(x), grid.cy(y)); else cv.ctx.lineTo(grid.cx(x), grid.cy(y));
+    }
+    cv.ctx.stroke(); cv.ctx.setLineDash([]);
+    cv.ctx.fillStyle = '#5b2d8e'; cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
+    cv.ctx.textAlign = 'left';
+    cv.ctx.fillText('festgehalten: ' + a4Halt.v0 + ' m/s, ' + a4Halt.alpha + '° → '
+                    + (hvx * htF).toFixed(1) + ' m', 14, 38);
+  }
 
   // Bahnkurve zeichnen
   cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8;
@@ -1569,6 +1774,24 @@ function drawA4() {
   drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, 0, vy * 0.3, '#5b2d8e', 'vᵧ', 2);
   drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, vx * 0.3, vy * 0.3, '#1a4f8a', 'v₀', 2.4);
 
+  // Winkelbogen am Abwurfpunkt. Achtung: x-Achse 100 m, y-Achse 30 m — der
+  // Bogen zeigt den Winkel darum optisch verzerrt. Das wird angeschrieben,
+  // statt eine falsche Anschauung stehen zu lassen.
+  const bogR = 34;
+  const vx0px = grid.cx(1) - grid.cx(0), vy0px = grid.cy(0) - grid.cy(1);
+  const dirx = vx * vx0px, diry = vy * vy0px;
+  const bild = Math.atan2(diry, dirx);
+  cv.ctx.strokeStyle = '#1f6b3a'; cv.ctx.lineWidth = 1.4;
+  cv.ctx.beginPath();
+  cv.ctx.arc(grid.cx(0), grid.cy(0), bogR, 0, -bild, true); cv.ctx.stroke();
+  cv.ctx.fillStyle = '#1f6b3a'; cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
+  cv.ctx.textAlign = 'left';
+  cv.ctx.fillText('α = ' + alpha + '°', grid.cx(0) + bogR * Math.cos(bild/2) + 6,
+                  grid.cy(0) - bogR * Math.sin(bild/2) - 4);
+  cv.ctx.font = '13px Source Sans 3,sans-serif'; cv.ctx.fillStyle = '#6b7280';
+  cv.ctx.textAlign = 'right';
+  cv.ctx.fillText('Achsen verschieden skaliert — der Winkel wirkt im Bild grösser', cv.W - 10, 56);
+
   // Labels für Wurfweite & Höhe
   cv.ctx.fillStyle = '#1f6b3a';
   cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
@@ -1612,6 +1835,16 @@ document.getElementById('a4-btn').addEventListener('click', () => {
     a4State.rafId = requestAnimationFrame(a4Tick);
   }
 });
+document.getElementById('a4-halten').addEventListener('click', () => {
+  const b = document.getElementById('a4-halten');
+  if (a4Halt) { a4Halt = null; b.textContent = '◻ Bahn festhalten'; }
+  else {
+    const v0 = +document.getElementById('a4-v0').value, al = +document.getElementById('a4-alpha').value;
+    a4Halt = { v0: v0, alpha: al, rad: al * Math.PI / 180 };
+    b.textContent = '✕ Vergleich löschen';
+  }
+  drawA4();
+});
 document.getElementById('a4-reset').addEventListener('click', () => {
   a4State.running = false; a4State.t = 0;
   document.getElementById('a4-btn').textContent = '▶ Wurf abspielen';
@@ -1626,8 +1859,9 @@ document.getElementById('a4-reset').addEventListener('click', () => {
 }));
 
 // ══════════════ ANIMATION 5 — Gleichförmige Kreisbewegung ══════════════
-const a5State = { phi: 0, lastTs: 0, rafId: null };
+const a5State = { phi: 0, lastTs: 0, rafId: null, running: true };
 function a5Tick(ts) {
+  if (!a5State.running) return;
   if (!a5State.lastTs) a5State.lastTs = ts;
   const dt = (ts - a5State.lastTs) / 1000;
   a5State.lastTs = ts;
@@ -1635,7 +1869,7 @@ function a5Tick(ts) {
   a5State.phi += omega * dt;
   if (a5State.phi > 2 * Math.PI) a5State.phi -= 2 * Math.PI;
   drawA5();
-  a5State.rafId = requestAnimationFrame(a5Tick);
+  if (a5State.running) a5State.rafId = requestAnimationFrame(a5Tick);
 }
 function drawA5() {
   const r     = +document.getElementById('a5-r').value;
@@ -1689,18 +1923,31 @@ function drawA5() {
   ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('r', (cxC + px) / 2 + 10, (cyC + py) / 2 - 5);
 
-  // Geschwindigkeits-Vektor (tangential)
+  // Q3: STRENG PROPORTIONALE Pfeile. Vorher hatten beide einen Sockel
+  // (50 + v·8 bzw. 30 + az·4) und einen Cap — damit war der Längenvergleich
+  // wertlos, obwohl v ∝ ω·r und a_z ∝ ω²·r gerade das Thema sind.
+  // Feste Skalen, am Reglermaximum kalibriert: v_max = 3·3 = 9 m/s,
+  // a_z,max = 3²·3 = 27 m/s².
+  const A5_VMAX = 9, A5_AZMAX = 27, A5_PX = scale * 1.9;
   const tx = -Math.sin(phi), ty = -Math.cos(phi);
-  const vLen = Math.min(50 + v * 8, scale * 2.2);  // begrenzt, damit der Pfeil bei schmalem Bild nicht klippt
+  const vLen = v / A5_VMAX * A5_PX;
   drawArrow(ctx, px, py, px + tx * vLen, py + ty * vLen, '#1f6b3a', 2.8, 11);
   ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'center';
-  ctx.fillText('v', px + tx * vLen * 1.1, py + ty * vLen * 1.1 - 4);
+  ctx.fillText('v', px + tx * (vLen + 12), py + ty * (vLen + 12));
 
   // Zentripetal-Beschleunigung (zur Mitte)
-  const aLen = Math.min(30 + az * 4, scale * 1.6);
+  const aLen = az / A5_AZMAX * A5_PX;
   drawArrow(ctx, px, py, px - (px - cxC) / (r * scale) * aLen, py - (py - cyC) / (r * scale) * aLen, '#9b1c1c', 2.5, 10);
   ctx.fillStyle = '#9b1c1c';
-  ctx.fillText('a_z', px - (px - cxC) / (r * scale) * aLen - 14, py - (py - cyC) / (r * scale) * aLen);
+  ctx.fillText('a_z', px - (px - cxC) / (r * scale) * (aLen + 14),
+                     py - (py - cyC) / (r * scale) * (aLen + 14) + 4);
+  // Werte als Legende oben links — bei kurzen Pfeilen kollidieren Beschriftungen
+  // sonst miteinander und mit dem Radius.
+  ctx.textAlign = 'left'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.fillStyle = '#1f6b3a'; ctx.fillText('v   = ' + v.toFixed(2) + ' m/s', 12, 20);
+  ctx.fillStyle = '#9b1c1c'; ctx.fillText('a_z = ' + az.toFixed(2) + ' m/s²', 12, 38);
+  ctx.fillStyle = '#6b7280'; ctx.font = '13px Source Sans 3,sans-serif';
+  ctx.fillText('Pfeillängen streng proportional (v bis 9 m/s, a_z bis 27 m/s²)', 12, 56);
 
   // Mittelpunkt
   ctx.fillStyle = '#1c1a17';
@@ -1930,12 +2177,18 @@ document.getElementById('a6-reset').addEventListener('click', () => {
 
 // ══════════════ INIT + RESIZE ══════════════
 function renderAll() {
-  drawA0(); drawHerleitung(); drawA1(); drawA2(); a3Render(); drawA4(); drawA5(); drawA6(); drawA6Fluss();
+  drawA0(); drawSekante(); drawHerleitung(); drawA1(); drawA2(); a3Render(); drawA4(); drawA5(); drawA6(); drawA6Fluss();
 }
 document.addEventListener('DOMContentLoaded', () => {
   renderAll();
   // Kreisbewegung-RAF starten
   a5State.rafId = requestAnimationFrame(a5Tick);
+  document.getElementById('a5-btn').addEventListener('click', () => {
+    const b = document.getElementById('a5-btn');
+    if (a5State.running) { a5State.running = false; b.textContent = '▶ Weiter'; b.classList.remove('paused'); }
+    else { a5State.running = true; a5State.lastTs = 0; b.textContent = '⏸ Pause'; b.classList.add('paused');
+           a5State.rafId = requestAnimationFrame(a5Tick); }
+  });
 });
 // Bei Breitenänderung des Browsers neu zeichnen — per rAF gedrosselt, damit der
 // Resize flüssig bleibt (sonst würden alle Canvases pro Resize-Event neu initialisiert).
