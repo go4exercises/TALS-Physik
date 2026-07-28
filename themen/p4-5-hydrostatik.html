@@ -412,6 +412,11 @@ MathJax = {
       </div>
     </div>
 
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+      <button class="play-btn" id="a3-btn">▶ Pressen</button>
+      <button class="play-btn paused" id="a3-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
+    </div>
+
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Druck \(p\)</span><span class="lb-val" id="a3-p">1.00 bar</span></div>
       <div class="lb-item"><span class="lb-lab">Ausgangskraft \(F_2\)</span><span class="lb-val" id="a3-f2">1000 N</span></div>
@@ -596,7 +601,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">Würfel im Wasserbehälter</div>
-      <canvas id="a5-cv" height="320"></canvas>
+      <canvas id="a5-cv" height="390"></canvas>
     </div>
 
   </div>
@@ -1400,7 +1405,11 @@ document.getElementById('a2-h').addEventListener('input', drawA2);
 
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 3: Hydraulische Presse
+//  Abspielbar: die Kolben fahren gegenläufig, das verdrängte Volumen ist auf
+//  beiden Seiten gleich. Ohne Bewegung war «kleiner Weg, grosse Kraft» nur eine
+//  Zahl in der Live-Box — der Abschnitt lebt aber genau davon.
 // ══════════════════════════════════════════════════════════
+const a3Presse = { q: 0, running: false, lastTs: 0, rafId: null };
 function drawA3() {
   const F1 = +document.getElementById('a3-f1').value;
   const A1 = +document.getElementById('a3-a1').value;  // cm²
@@ -1454,6 +1463,7 @@ function drawA3() {
   // Linke Seite Wasser-Stand bei einer Höhe; rechte Seite entsprechend
   // Wir machen das visuell: aktueller Kolbenposition durch s1/s2 nach unten/oben gedrückt
   // Linker Kolben sitzt bei yPistL, rechter bei yPistR
+  const eng = W_c < 520;      // schmale Leinwand: Beschriftungen kürzen/umlegen
   const s1max = 50;
   const pushL = (s1/s1max) * (yU-yTop-30);
   const pushR = (s2/(s1max/(A1/A2 || 1))) * (yU-yTop-30);  // proportional
@@ -1462,8 +1472,12 @@ function drawA3() {
   const yPistR = yTop + (yU-yTop-30 - pushR*A1/A2*ratio); // einfacher: rechts steigt um s2 weniger Hub
   // Hilfs-Visualisierung der Hub-Verhältnisse: Wir zeigen einfach beide Kolben in Mittellage und zeichnen Pfeile s1, s2 daneben
 
-  const pistY_L = yTop + 30;
-  const pistY_R = yTop + 30;
+  // Kolbenstellung nach Hubfortschritt q: links sinkt um s₁, rechts steigt um
+  // s₂ = s₁ · A₁/A₂. Gleiches verdrängtes Volumen, sehr ungleiche Wege.
+  const q = a3Presse.q;
+  const cmPx = Math.min(3.0, (yU - yTop - 70) / 50);
+  const pistY_L = Math.min(yU - 22, yTop + 24 + q * s1 * cmPx);
+  const pistY_R = Math.max(yTop + 10, yTop + 62 - q * s2 * cmPx);
   // Flüssigkeit
   ctx.fillStyle = '#e3c75a99';
   ctx.fillRect(xL-wL/2, pistY_L, wL, yU-pistY_L);
@@ -1479,13 +1493,13 @@ function drawA3() {
   drawArrow(ctx, xL, pistY_L-50, xL, pistY_L-15, '#9b1c1c', 2.5, 11);
   ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'left';
-  ctx.fillText('F₁ = '+F1+' N', xL+wL/2+8, pistY_L-32);
+  ctx.fillText((eng?'F₁ ':'F₁ = ')+F1+' N', xL+wL/2+8, pistY_L-32);
 
   // Kraftpfeil F2 (oben am grossen Kolben, nach oben — vom Kolben aus angezeigt)
   drawArrow(ctx, xR, pistY_R-15, xR, pistY_R-50, '#1a4f8a', 2.5, 11);
   ctx.fillStyle = '#1a4f8a';
   ctx.textAlign = 'right';
-  ctx.fillText('F₂ = '+F2.toFixed(0)+' N', xR-wR/2-8, pistY_R-32);
+  ctx.fillText((eng?'F₂ ':'F₂ = ')+F2.toFixed(0)+' N', xR-wR/2-8, pistY_R-48);
 
   // Hubweg-Pfeile (rechts vom kleinen, links vom grossen)
   // s1 nach unten an Kolben 1
@@ -1496,8 +1510,8 @@ function drawA3() {
   ctx.setLineDash([]);
   drawArrow(ctx, xL-wL/2-22, pistY_L-12 + s1*1.2 - 6, xL-wL/2-22, pistY_L-12 + s1*1.2, '#5b2d8e', 1.5, 7);
   ctx.fillStyle = '#5b2d8e'; ctx.font = '13px JetBrains Mono,monospace';
-  ctx.textAlign = 'right';
-  ctx.fillText('s₁='+s1+' cm', xL-wL/2-26, pistY_L-12 + s1*1.2/2);
+  if (eng) { ctx.textAlign = 'left'; ctx.fillText('s₁='+s1+' cm', 4, pistY_L-12 + s1*1.2/2); }
+  else { ctx.textAlign = 'right'; ctx.fillText('s₁='+s1+' cm', xL-wL/2-26, pistY_L-12 + s1*1.2/2); }
 
   // s2 (sehr klein) am grossen Kolben
   ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
@@ -1508,7 +1522,7 @@ function drawA3() {
   drawArrow(ctx, xR-wR/2-22, pistY_R-12 - s2*1.2 + 6, xR-wR/2-22, pistY_R-12 - s2*1.2, '#5b2d8e', 1.5, 7);
   ctx.fillStyle = '#5b2d8e';
   ctx.textAlign = 'right';
-  ctx.fillText('s₂='+s2.toFixed(1)+' cm', xR-wR/2-26, pistY_R-12 - s2*1.2/2);
+  ctx.fillText('s₂='+s2.toFixed(1)+' cm', xR-wR/2-26, pistY_R-12 - s2*1.2/2 - (eng?16:0));
 
   // Labels A1, A2 in der Mitte der Kolben
   ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace';
@@ -1520,8 +1534,53 @@ function drawA3() {
   ctx.fillStyle = '#7a5a10'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'center';
   ctx.fillText('p = '+(p/1e5).toFixed(2)+' bar überall', (xL+xR)/2, yU+15);
+  a3VolLabel(ctx, W_c, H_c, A1, s1, A2, s2, q);
 }
-['a3-f1','a3-a1','a3-a2','a3-s1'].forEach(id => document.getElementById(id).addEventListener('input', drawA3));
+
+// Verdrängtes Volumen beziffern — der Kern der Volumenerhaltung
+function a3VolLabel(ctx, W_c, H_c, A1, s1, A2, s2, q) {
+  const Vcm = A1 * s1 * q;                    // cm³, links verdrängt
+  ctx.fillStyle = '#5b2d8e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(W_c < 520 ? ('A₁·s₁ = A₂·s₂ = ' + Vcm.toFixed(0) + ' cm³')
+                         : ('verdrängt: A₁ · s₁ = ' + Vcm.toFixed(0) + ' cm³ = A₂ · s₂'), W_c/2, H_c - 8);
+}
+function a3Tick(ts) {
+  if (!a3Presse.running) return;
+  if (!a3Presse.lastTs) a3Presse.lastTs = ts;
+  let dt = (ts - a3Presse.lastTs) / 1000; a3Presse.lastTs = ts;
+  if (dt > 0.05) dt = 0.05;
+  a3Presse.q += dt * 0.5;                     // ein Hub dauert 2 s
+  if (a3Presse.q >= 1) {
+    a3Presse.q = 1; a3Presse.running = false;
+    document.getElementById('a3-btn').textContent = '▶ Pressen';
+    document.getElementById('a3-btn').classList.remove('paused');
+  }
+  drawA3();
+  if (a3Presse.running) a3Presse.rafId = requestAnimationFrame(a3Tick);
+}
+document.getElementById('a3-btn').addEventListener('click', () => {
+  const btn = document.getElementById('a3-btn');
+  if (a3Presse.running) { a3Presse.running = false; btn.textContent = '▶ Weiter'; btn.classList.remove('paused'); }
+  else {
+    if (a3Presse.q >= 1) a3Presse.q = 0;
+    a3Presse.running = true; a3Presse.lastTs = 0;
+    btn.textContent = '⏸ Pause'; btn.classList.add('paused');
+    a3Presse.rafId = requestAnimationFrame(a3Tick);
+  }
+});
+document.getElementById('a3-reset').addEventListener('click', () => {
+  a3Presse.running = false; a3Presse.q = 0;
+  document.getElementById('a3-btn').textContent = '▶ Pressen';
+  document.getElementById('a3-btn').classList.remove('paused');
+  drawA3();
+});
+['a3-f1','a3-a1','a3-a2','a3-s1'].forEach(id => document.getElementById(id).addEventListener('input', () => {
+  a3Presse.running = false; a3Presse.q = 0;
+  document.getElementById('a3-btn').textContent = '▶ Pressen';
+  document.getElementById('a3-btn').classList.remove('paused');
+  drawA3();
+}));
 
 
 // ══════════════════════════════════════════════════════════
@@ -1670,12 +1729,12 @@ function drawA5() {
     if (+b.dataset.rho === rhoK) b.classList.add('aktiv');
   });
 
-  const cv = initCanvas('a5-cv', 320, false);
+  const cv = initCanvas('a5-cv', 390, false);
   const ctx = cv.ctx, Wc = cv.W, Hc = cv.H;
   ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, Wc, Hc);
 
-  // Behälter
-  const becL = 60, becR = Wc-60, becT = 30, becB = Hc-30;
+  // Behälter — unten bleibt Platz für den proportionalen F_G-Pfeil (bis 74 px)
+  const becL = 60, becR = Wc-60, becT = 30, becB = Hc-96;
   const wasserY = becT + 35;
   ctx.fillStyle = '#cfd5dc';
   ctx.fillRect(becL-6, becT, 6, becB-becT+6);
@@ -1712,20 +1771,29 @@ function drawA5() {
   ctx.strokeStyle = '#3a3a3a'; ctx.lineWidth = 1.5;
   ctx.strokeRect(xQ - wq/2, yQtop, wq, wq);
 
-  // Kräftepfeile
-  const arr_len = 35;
-  // FG nach unten in der Mitte des Würfels
-  drawArrow(ctx, xQ, yQtop+wq/2, xQ, yQtop+wq/2+arr_len, '#9b1c1c', 2.5, 10);
+  // Kräftepfeile — Q3: STRENG PROPORTIONAL. Vorher waren beide fix 35 px lang,
+  // damit sahen Schwimmen, Schweben und Sinken identisch aus, obwohl gerade der
+  // Längenvergleich F_G gegen F_A die ganze Lernbotschaft ist.
+  // Feste Skala am Reglermaximum kalibriert (Q2): 3000 kg/m³ → 29.4 N.
+  const A5_FMAX = 3000 * V * g;              // N bei der dichtesten Einstellung
+  const A5_PXMAX = 74;                       // px für diese Kraft
+  const pxN = A5_PXMAX / A5_FMAX;
+  const lenG = Math.max(6, FG * pxN), lenA = Math.max(6, FA * pxN);
+  const yM = yQtop + wq/2;
+  drawArrow(ctx, xQ, yM, xQ, yM + lenG, '#9b1c1c', 2.5, 10);
   ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'left';
-  ctx.fillText('F_G = '+FG.toFixed(2)+' N', xQ+wq/2+8, yQtop+wq/2+arr_len);
-  // FA nach oben
-  drawArrow(ctx, xQ-25, yQtop+wq/2+arr_len, xQ-25, yQtop+wq/2, '#1f6b3a', 2.5, 10);
-  // Bei sinken: FA klein dargestellt, nicht kompensierend
-  const faShown = FA;
+  ctx.fillText('F_G = '+FG.toFixed(2)+' N', xQ+wq/2+8, yM + lenG);
+  drawArrow(ctx, xQ-26, yM, xQ-26, yM - lenA, '#1f6b3a', 2.5, 10);
   ctx.fillStyle = '#1f6b3a';
   ctx.textAlign = 'right';
-  ctx.fillText('F_A = '+faShown.toFixed(2)+' N', xQ-wq/2-8, yQtop+wq/2-5);
+  ctx.fillText('F_A = '+FA.toFixed(2)+' N', xQ-wq/2-8, yM - lenA);
+  // Differenz beziffern — beim Sinken ist genau sie die resultierende Kraft
+  if (Math.abs(FG - FA) > 0.02) {
+    ctx.fillStyle = '#5b2d8e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('F_G − F_A = '+(FG-FA).toFixed(2)+' N', xQ, yM + Math.max(lenG, 30) + 20);
+  }
 
   // Mode-Label oben
   ctx.fillStyle = mode==='schwimmt' ? '#1f6b3a' : mode==='schwebt' ? '#5b2d8e' : '#9b1c1c';
@@ -1734,7 +1802,7 @@ function drawA5() {
   ctx.fillText(mode.toUpperCase(), Wc/2, becT-10);
   // Dichten-Vergleich
   ctx.fillStyle = '#5a6068'; ctx.font = '13px JetBrains Mono,monospace';
-  ctx.fillText('ρ_K = '+rhoK+' kg/m³ '+(rhoK<RHO_W?'<':rhoK>RHO_W?'>':'=')+' '+RHO_W+' = ρ_W', Wc/2, becB+22);
+  ctx.fillText('ρ_K = '+rhoK+' kg/m³ '+(rhoK<RHO_W?'<':rhoK>RHO_W?'>':'=')+' '+RHO_W+' = ρ_W', Wc/2, Hc-8);   // ganz unten, sonst auf dem F_G-Label
 }
 document.getElementById('a5-rho').addEventListener('input', drawA5);
 document.querySelectorAll('.widget')[5].querySelectorAll('.typ-btn').forEach(btn => {

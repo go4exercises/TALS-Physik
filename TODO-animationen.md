@@ -17,6 +17,12 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
 
 ---
 
+> **Stand 28.07.2026 — alle [HOCH]-Punkte sind erledigt.**
+> Abgearbeitet sind: Block B (fachliche Fehler), die Querschnittspunkte Q1 und Q2,
+> sämtliche [HOCH]-Einzelpunkte aller 16 Themenseiten sowie ein Stilcheck über
+> alle Seiten. Offen sind noch 45 Punkte: Q3–Q6, die [MITTEL]- und
+> [NIEDRIG]-Einträge je Seite und Abschnitt D (neue Animationen).
+
 ## A. Querschnittsbefunde (mehrere Seiten, gemeinsame Ursache)
 
 - [x] **[HOCH] Q1 — Mitwachsende/adaptive Achsen neutralisieren den Lerneffekt.**
@@ -52,7 +58,8 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
 - [ ] **[MITTEL] Q3 — Pfeillängen mit Sockel/Cap oder fix statt proportional.**
   Wo der Grössenvergleich der Pfeile die Botschaft ist, muss streng proportional
   skaliert werden. Betroffen: p4-1 a5 (v/a_z), p4-2 a2 (F/a), p4-2 a6
-  (v-Pfeile gecappt), p4-5 a5 (F_G/F_A fix 35 px). Vorbild: p4-2 a5.
+  (v-Pfeile gecappt), ~~p4-5 a5 (F_G/F_A fix 35 px)~~ ✓ 28.07.2026.
+  Vorbild: p4-2 a5.
 - [ ] **[MITTEL] Q4 — «Worauf achten»-Aufträge, die das Widget nicht ausführen kann.**
   Entweder Feature nachrüsten (bevorzugt, siehe Einzelpunkte) oder Hinweistext
   anpassen: p4-1 a3 (Fallwege vergleichen ohne Zeitlupe/Spur), p4-2 a3
@@ -368,12 +375,23 @@ alt a3…a8 entsprechen neu a2…a7.*
   und trägt seinen s-Wert.*
 
 ### p4-2 Dynamik
-- [ ] [HOCH] a3 Trägheit: Umschalter «Bezugssystem: Strasse | Wagen» — der
+- [x] [HOCH] a3 Trägheit: Umschalter «Bezugssystem: Strasse | Wagen» — der
   Hinweis verlangt den Vergleich, das Widget kann ihn nicht; ausserdem feste
-  Bodenmarken (die mitfahrende Kamera ist selbst ein beschleunigtes Bezugssystem).
-- [ ] [HOCH] a5 Hang: Zerlegungs-Rechteck gestrichelt einzeichnen — der Abschnitt
-  heisst «Kräfte zerlegen», die Konstruktion fehlt; [MITTEL] Live-Box mit
-  F_H/F_N/F_R in N und Deklaration der Masse.
+  Bodenmarken. *Erledigt 28.07.2026: Zwei Knöpfe schalten die Kamera um. Im
+  Strassensystem steht sie fest, der Wagen fährt aus dem Bild; im Wagensystem
+  hängt sie am Wagen, dafür wandern Strasse und Kiste nach links. Metermarken
+  an Weltpositionen machen die Bewegung in beiden Systemen sichtbar — ohne sie
+  ist im mitfahrenden System nicht zu erkennen, dass sich überhaupt etwas regt.
+  Der Hinweistext wechselt mit, und im Wagensystem steht die Warnung, dass
+  dieses Bezugssystem selbst beschleunigt ist und das Trägheitsgesetz dort
+  nicht gilt.*
+- [ ] ~~[HOCH] a5 Hang: Zerlegungs-Rechteck gestrichelt einzeichnen — der Abschnitt
+  heisst «Kräfte zerlegen», die Konstruktion fehlt~~ ✓ 28.07.2026: gestricheltes
+  Rechteck von der F_H-Spitze über die F_G-Spitze zur Normalkomponente, mit
+  rechtem Winkel an der Hangecke. In Python gegengerechnet:
+  sin α · û − cos α · n̂ = (0, 1) für jeden Winkel, das Rechteck schliesst also
+  exakt auf F_G.
+  **Offen bleibt:** [MITTEL] Live-Box mit F_H/F_N/F_R in N und Deklaration der Masse.
 - [ ] [MITTEL] a1 Feder: Modus «Masse anhängen» (m-Regler, s = mg/D) — verbindet
   Hooke mit F_G = m·g und Aufgabe A1; Steigungsdreieck «D = …» im Diagramm;
   optional g-Umschalter Erde/Mond (deckt Mond-Transfer im Mini-Check ab).
@@ -384,11 +402,22 @@ alt a3…a8 entsprechen neu a2…a7.*
   quantitativ); Pfeil-Cap entfernen; kurze Feder-Expansionsphase animieren.
 
 ### p4-3 Energie
-- [ ] [HOCH] a1: α-Slider auf 0–90° erweitern — der Kernfall W = 0 bei 90°
+- [x] [HOCH] a1: α-Slider auf 0–90° erweitern — der Kernfall W = 0 bei 90°
   (Erkenntnis + Mini-Check) ist derzeit nicht einstellbar.
-- [ ] [HOCH] a2: Geister-Punkt bei 2v («×4») bzw. Referenzkurve 2m («×2») in der
-  E(v)-Parabel; Bremsweg-Balken in der Szene (v²-Wirkung körperlich sichtbar,
-  trägt den 30/50-km/h-Einstieg) — sonst ist a2-cv-szene Streichkandidat.
+  *Erledigt 28.07.2026: Regler bis 90°, dazu eine eigene Formelzeile, die bei
+  genau 90° erscheint: «cos 90° = 0 → die Kraft steht senkrecht auf dem Weg und
+  verrichtet keine Arbeit».*
+- [x] [HOCH] a2: Geister-Punkt bei 2v («×4») bzw. Referenzkurve 2m («×2») in der
+  E(v)-Parabel; Bremsweg-Balken in der Szene. *Alles erledigt 28.07.2026:*
+  - *Geister-Punkt bei 2v mit Loten auf beide Achsen und Marke «2v → ×4»,
+    gestrichelte Referenzkurve für die doppelte Masse.*
+  - *Dabei fiel eine mitwachsende Achse auf (Q1): die E-Achse richtete sich nach
+    der eingestellten Masse, dadurch sah die Parabel bei 200 kg genauso aus wie
+    bei 2000 kg. Jetzt fest 0 … 900 kJ (Reglermaximum).*
+  - *Bremsweg-Balken in der Szene auf fester Skala 0 … 60 m, mit Geisterbalken
+    für doppeltes Tempo. Aus ½mv² = μmgs folgt s = v²/(2μg) — die Masse kürzt
+    sich heraus. Bei μ = 0.8: 30 km/h → 4.4 m, 50 km/h → 12.3 m, Verhältnis
+    2.78 = (50/30)². Damit ist a2-cv-szene kein Streichkandidat mehr.*
 - [ ] [MITTEL] a3 Pendel: Checkbox «mit Reibung» (E_ges sinkt, Kategorie «Wärme»
   wächst — beantwortet die ❓-Frage); Pendellänge L = 1.2 m deklarieren.
 - [ ] [MITTEL] a5 Heben: zwei Kisten parallel (t fix vs. Slider-t) — Leistung
@@ -399,10 +428,17 @@ alt a3…a8 entsprechen neu a2…a7.*
   (lineare Kraft, Faktor ½) im Text/Popup.
 
 ### p4-4 Statik
-- [ ] [HOCH] a3 Seile: Werte S₁/S₂/F_G direkt an die Pfeile, bei S > F_G rot —
+- [x] [HOCH] a3 Seile: Werte S₁/S₂/F_G direkt an die Pfeile, bei S > F_G rot —
   der Aha-Effekt «flache Seile → riesige Kräfte» ist sonst nur in der Live-Box.
-- [ ] [HOCH] a4 Hebel: F⊥-Sicht zusätzlich zur r-Konstruktion darstellen (der
-  Beweis-Block verspricht beide Sichtweisen); [MITTEL] M als Bogenpfeil um D.
+  *Erledigt 28.07.2026: Werte stehen an den Pfeilen, Seilkräfte über F_G werden
+  rot, und unten erscheint der Faktor. Bei α = β = 10° trägt jedes Seil 2.9× die
+  Last, bei 5° schon 5.7×.*
+- [ ] ~~[HOCH] a4 Hebel: F⊥-Sicht zusätzlich zur r-Konstruktion darstellen (der
+  Beweis-Block verspricht beide Sichtweisen)~~ ✓ 28.07.2026: F wird am Angriffs-
+  punkt in F⊥ (grün, senkrecht zum Hebel) und F∥ (grau, dreht nicht) zerlegt,
+  mit gestricheltem Ergänzungsrechteck. Unten stehen beide Rechenwege je auf
+  eigener Zeile — M = F · r und M = F⊥ · l — und liefern denselben Wert.
+  **Offen bleibt:** [MITTEL] M als Bogenpfeil um D.
 - [ ] [MITTEL] a5 vs. ae-cv (Wippe): doppeln sich — a5 aufwerten (Momenten-Balken
   M₁/M₂ oder Kraft unter Winkel als Brücke zu a4), sonst a5 streichen und das
   Hebelgesetz an der Wippe formalisieren.
@@ -417,11 +453,19 @@ alt a3…a8 entsprechen neu a2…a7.*
   die adaptive Skala macht den Dichtevergleich unsichtbar (Q1).
   *Erledigt 28.07.2026: beides — feste Achse 0 … 1400 kPa, Wasser-Referenzgerade
   und bezifferte Steigung.*
-- [ ] [HOCH] a3 Presse: Knopf «▶ Pressen» (Kolben fahren gegenläufig, Volumen-
-  erhaltung animiert) — trägt den ganzen Abschnitt; [MITTEL] Slider reduzieren
-  (F₁ + Verhältnis A₂/A₁ + s₁ statt vier Einzelregler).
-- [ ] [HOCH] a5 Schwimmen/Sinken: F_G/F_A-Pfeile proportional statt fix 35 px —
-  der Pfeilvergleich IST die Lernbotschaft (Q3).
+- [ ] ~~[HOCH] a3 Presse: Knopf «▶ Pressen» (Kolben fahren gegenläufig, Volumen-
+  erhaltung animiert) — trägt den ganzen Abschnitt~~ ✓ 28.07.2026: «▶ Pressen»
+  mit Pause und Reset; der linke Kolben sinkt um s₁, der rechte steigt um
+  s₂ = s₁ · A₁/A₂. Unten steht das verdrängte Volumen A₁ · s₁ = A₂ · s₂ als Zahl.
+  Vorher standen beide Kolben starr in Mittellage — «kleiner Weg, grosse Kraft»
+  war nur eine Zeile in der Live-Box.
+  **Offen bleibt:** [MITTEL] Slider reduzieren (F₁ + Verhältnis A₂/A₁ + s₁).
+- [x] [HOCH] a5 Schwimmen/Sinken: F_G/F_A-Pfeile proportional statt fix 35 px —
+  der Pfeilvergleich IST die Lernbotschaft (Q3). *Erledigt 28.07.2026: beide
+  Pfeile streng proportional, feste Skala am Reglermaximum kalibriert
+  (3000 kg/m³ → 74 px, Q2). Bei Aluminium ist F_G jetzt 2.7-mal so lang wie
+  F_A; die Differenz F_G − F_A ist zusätzlich beziffert. Das Becken musste dafür
+  höher werden — der längste Pfeil lief sonst aus der Leinwand.*
 - [ ] [MITTEL] a2 Paradoxon: Titel/Bild angleichen (Block B); Checkbox
   «Bodenkraft F = p·A» (koppelt an den Häufiger-Fehler-Block).
 - [ ] [MITTEL] a4-quader: Haltestab/Hand einzeichnen («wird gehalten» — der
@@ -635,8 +679,9 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 ## E. Streichungen / Ersatz / Zusammenlegungen
 
 - ~~**Ersetzen:** p6-2 a5 (Leistungsbalken) → P-t-Flächendiagramm.~~ ✓ 28.07.2026.
-- **Streichkandidat (nur falls nicht aufgewertet):** p4-3 a2-cv-szene (statisches
-  Auto) — ohne Bremsweg-Erweiterung trägt es nichts, was das Diagramm nicht zeigt.
+- ~~**Streichkandidat (nur falls nicht aufgewertet):** p4-3 a2-cv-szene (statisches
+  Auto) — ohne Bremsweg-Erweiterung trägt es nichts, was das Diagramm nicht zeigt.~~
+  ✓ 28.07.2026 aufgewertet: Bremsweg-Balken mit Geisterbalken bei 2v. Bleibt.
 - **Zusammenlegen oder differenzieren:** ~~p0-0 a1 + a2 (zweimal dieselbe
   Preis-Mengen-Gerade)~~ ✓ *erledigt 26.07.2026: a2 entfallen, a1 trägt jetzt vier
   Szenarien (Taxi ohne/mit Grundgebühr, Äpfel lose/in Harasse)*.
@@ -654,8 +699,10 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 2. ~~**Q1 + Q2** (feste Achsen, Überhöhungs-Kalibrierung) — eine Fix-Familie,
    betrifft ~10 Widgets, macht tote Regler wieder lernwirksam.~~
    ✓ erledigt 28.07.2026.
-3. **[HOCH]-Einzelpunkte** je Seite (Abschnitt C).
-   p4-1, p6-1 und p6-2 vollständig erledigt am 28.07.2026 — offen bleiben die
-   HOCH-Punkte von p4-2, p4-3, p4-4, p4-5 und p6-1a.
+3. ~~**[HOCH]-Einzelpunkte** je Seite (Abschnitt C).~~
+   ✓ **alle erledigt am 28.07.2026** — p4-1 bis p4-5, p6-1 und p6-2.
+   p6-1a hatte keine HOCH-Punkte. Damit sind die Schritte 1 bis 3 der
+   empfohlenen Reihenfolge durch; es verbleiben Q3–Q6, die [MITTEL]- und
+   [NIEDRIG]-Punkte sowie Abschnitt D (neue Animationen).
 4. **Q3–Q6 und [MITTEL]** nach Gelegenheit, seitenweise beim nächsten Besuch.
 5. **Neue Animationen** (Abschnitt D) zuletzt — der Bestand hat Vorrang.

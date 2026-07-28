@@ -1225,11 +1225,23 @@ function drawA3() {
   drawArrow(ctx, P.x, P.y, P.x + (-Math.cos(a))*S1*sc, P.y + (-Math.sin(a))*S1*sc, C_HAUPT, 2.6, 9);
   drawArrow(ctx, P.x, P.y, P.x + ( Math.cos(b))*S2*sc, P.y + (-Math.sin(b))*S2*sc, C_HAUPT, 2.6, 9);
   drawArrow(ctx, P.x, P.y, P.x, P.y + FG*sc, C_GEW, 2.6, 9);
+  // Werte direkt an die Pfeile — der Aha-Effekt «flache Seile → riesige Kräfte»
+  // stand bisher nur in der Live-Box. Rot, sobald eine Seilkraft die Last
+  // übersteigt: dann trägt jedes Seil mehr, als überhaupt hängt.
   ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillStyle = C_HAUPT;
-  ctx.fillText('S1', P.x + (-Math.cos(a))*S1*sc - 10, P.y + (-Math.sin(a))*S1*sc - 4);
-  ctx.fillText('S2', P.x + ( Math.cos(b))*S2*sc + 10, P.y + (-Math.sin(b))*S2*sc - 4);
-  ctx.fillStyle = C_GEW; ctx.fillText('F_G', P.x + 18, P.y + FG*sc + 4);
+  const kritisch = f => f > FG ? '#9b1c1c' : C_HAUPT;
+  ctx.fillStyle = kritisch(S1);
+  ctx.fillText('S1 = ' + S1.toFixed(0) + ' N',
+               Math.max(52, P.x + (-Math.cos(a))*S1*sc - 24), P.y + (-Math.sin(a))*S1*sc - 8);
+  ctx.fillStyle = kritisch(S2);
+  ctx.fillText('S2 = ' + S2.toFixed(0) + ' N',
+               Math.min(W - 52, P.x + ( Math.cos(b))*S2*sc + 24), P.y + (-Math.sin(b))*S2*sc - 8);
+  ctx.fillStyle = C_GEW; ctx.textAlign = 'left';
+  ctx.fillText('F_G = ' + FG.toFixed(0) + ' N', P.x + 18, P.y + FG*sc + 4);
+  if (S1 > FG || S2 > FG) {
+    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('Seilkraft grösser als die Last — ' + (Math.max(S1,S2)/FG).toFixed(1) + '× F_G', W/2, H - 10);
+  }
   dotPx(ctx, P.x, P.y, '#000', 3);
 
   // — Kräftedreieck —
@@ -1309,13 +1321,30 @@ function drawA4() {
   const footx = B.x + fdx*tproj, footy = B.y + fdy*tproj;
   ctx.strokeStyle = C_KOMP; ctx.lineWidth = 2; ctx.setLineDash([4,3]);
   ctx.beginPath(); ctx.moveTo(D.x, D.y); ctx.lineTo(footx, footy); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = C_KOMP; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText('r', (D.x+footx)/2 - 6, (D.y+footy)/2 - 6);
+  ctx.fillStyle = C_KOMP; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
+  ctx.fillText('r = '+rperp.toFixed(2)+' m', (D.x+footx)/2 - 10, (D.y+footy)/2 + 16);
 
   // Kraftpfeil
   drawArrow(ctx, B.x, B.y, B.x + fdx*Fpx, B.y + fdy*Fpx, C_GEW, 3, 10);
   ctx.fillStyle = C_GEW; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText('F', B.x + fdx*Fpx + 4, B.y + fdy*Fpx - 4);
+
+  // Zweite Sichtweise: F in die Komponente senkrecht zum Hebel (wirksam) und
+  // längs zum Hebel (ohne Drehwirkung) zerlegen. Der Beweis-Block nennt beide
+  // Wege — gezeichnet war bisher nur der Hebelarm r.
+  const pxN = Fpx / F;                       // px pro Newton
+  const perpPx = Fperp * pxN, paraPx = F*Math.cos(a) * pxN;
+  ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1.2; ctx.setLineDash([4,3]);
+  ctx.beginPath();
+  ctx.moveTo(B.x, B.y - perpPx); ctx.lineTo(B.x + fdx*Fpx, B.y + fdy*Fpx);
+  ctx.lineTo(B.x + paraPx, B.y); ctx.stroke(); ctx.setLineDash([]);
+  drawArrow(ctx, B.x, B.y, B.x, B.y - perpPx, '#1f6b3a', 2.6, 9);
+  drawArrow(ctx, B.x, B.y, B.x + paraPx, B.y, '#9aa1ab', 2.2, 8);
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'right';
+  ctx.fillText('F⊥ = '+Fperp.toFixed(0)+' N', B.x - 8, B.y - perpPx + 4);
+  ctx.fillStyle = '#8a8478'; ctx.textAlign = 'left';
+  ctx.fillText('F∥ (dreht nicht)', B.x + paraPx + 8, B.y + 5);
 
   // Winkelbogen alpha bei B
   ctx.strokeStyle = '#5a6068'; ctx.lineWidth = 1.2;
@@ -1325,7 +1354,14 @@ function drawA4() {
 
   // Beschriftung Hebellänge
   ctx.fillStyle = '#5a6068'; ctx.textAlign='center';
-  ctx.fillText('l = '+l.toFixed(2)+' m', (D.x+B.x)/2, D.y + 20);
+  ctx.fillText('l = '+l.toFixed(2)+' m', (D.x+B.x)/2, D.y + 42);
+
+  // Beide Rechenwege je auf eigener Zeile (Regel 2: eine Gleichung, eine Zeile)
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillStyle = C_KOMP;
+  ctx.fillText('über r:  M = F · r = '+F+' N · '+rperp.toFixed(2)+' m = '+M.toFixed(1)+' Nm', 12, H - 26);
+  ctx.fillStyle = '#1f6b3a';
+  ctx.fillText('über F⊥: M = F⊥ · l = '+Fperp.toFixed(0)+' N · '+l.toFixed(2)+' m = '+M.toFixed(1)+' Nm', 12, H - 8);
 }
 ['a4-F','a4-l','a4-al'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
 

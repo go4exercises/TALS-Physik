@@ -307,6 +307,11 @@ MathJax = {
   </div>
   <div class="widget-body">
 
+    <div class="typ-btns">
+      <button class="typ-btn aktiv" data-a3bez="0">🛣 Bezugssystem Strasse</button>
+      <button class="typ-btn" data-a3bez="1">🚚 Bezugssystem Wagen</button>
+    </div>
+
     <div class="btn-row">
       <button class="play-btn" id="a3-btn">▶ Losfahren</button>
       <button class="play-btn" id="a3-reset" style="background:var(--tinte-2);">↻ Zurücksetzen</button>
@@ -1050,6 +1055,7 @@ document.getElementById('a2-reset').addEventListener('click', () => {
 const a3State = { t: 0, xw: 0, vw: 0, xk: 0, running: false, lastTs: 0, rafId: null, anschlag: false };
 const A3_AW = 1.6;     // Wagenbeschleunigung m/s²
 const A3_LADE = 3.2;   // Ladeflächenlänge in m (Kiste darf relativ so weit zurück)
+let a3Bez = 0;         // 0 = Strasse (Inertialsystem), 1 = mitfahrender Wagen
 
 function a3Render() {
   document.getElementById('a3-xw').textContent = a3State.xw.toFixed(1) + ' m';
@@ -1063,14 +1069,25 @@ function a3Render() {
   // Strasse
   const bodenY = H - 34;
   ctx.fillStyle = '#5a5550'; ctx.fillRect(0, bodenY, W, H - bodenY);
-  ctx.strokeStyle = '#cfcabf'; ctx.lineWidth = 2; ctx.setLineDash([16, 12]);
-  ctx.beginPath(); ctx.moveTo(0, bodenY + 16); ctx.lineTo(W, bodenY + 16); ctx.stroke();
-  ctx.setLineDash([]);
 
-  // Skala in m (welt → px), Wagen fährt nach rechts; Kamera folgt teils
-  const scale = 26;             // px pro m
-  const camX = Math.max(0, a3State.xw - 4);  // Kamera so, dass Wagen sichtbar bleibt
+  // Skala in m (welt → px). Das Bezugssystem entscheidet, was stillsteht:
+  // Strasse → Kamera fest, der Wagen fährt aus dem Bild nach rechts.
+  // Wagen   → Kamera am Wagen, dafür wandern Strasse und Kiste nach links.
+  const scale = Math.min(26, (W - 120) / 15);   // 0 … 15 m müssen ins Bild passen
+  const camX = a3Bez === 0 ? 0 : Math.max(0, a3State.xw - 4);
   const worldToPx = xm => 50 + (xm - camX) * scale;
+
+  // Feste Bodenmarken an Weltpositionen — ohne sie ist im Wagen-Bezugssystem
+  // nicht zu sehen, dass sich überhaupt etwas bewegt.
+  ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  for (let m = 0; m <= 16; m++) {
+    const mx = worldToPx(m);
+    if (mx < -10 || mx > W + 10) continue;
+    const gross = m % 2 === 0;
+    ctx.strokeStyle = gross ? '#cfcabf' : '#8a857c'; ctx.lineWidth = gross ? 2 : 1;
+    ctx.beginPath(); ctx.moveTo(mx, bodenY); ctx.lineTo(mx, bodenY + (gross ? 12 : 7)); ctx.stroke();
+    if (gross) { ctx.fillStyle = '#cfcabf'; ctx.fillText(m + ' m', mx, bodenY + 26); }
+  }
 
   // Lieferwagen: Führerhaus + Ladefläche
   const wx = worldToPx(a3State.xw);
@@ -1100,14 +1117,21 @@ function a3Render() {
   ctx.beginPath(); ctx.moveTo(kx, kY); ctx.lineTo(kx + kSize, kY + kSize);
   ctx.moveTo(kx + kSize, kY); ctx.lineTo(kx, kY + kSize); ctx.stroke();
 
-  // Hinweis-Label
+  // Hinweis-Label, je Bezugssystem verschieden formuliert
   ctx.fillStyle = '#1c1a17'; ctx.font = '13px Source Sans 3,sans-serif'; ctx.textAlign = 'left';
+  let txt;
   if (a3State.anschlag)
-    ctx.fillText('Kiste an der Bordwand — fährt jetzt mit.', 12, 22);
+    txt = 'Kiste an der Bordwand — jetzt wirkt eine Kraft, sie fährt mit.';
   else if (a3State.running || a3State.xw > 0)
-    ctx.fillText('Kiste bleibt zurück (Trägheit) — keine waagrechte Kraft.', 12, 22);
+    txt = a3Bez === 0 ? 'Strasse: die Kiste bleibt einfach stehen — keine waagrechte Kraft.'
+                      : 'Wagen: die Kiste scheint nach hinten zu beschleunigen — trotzdem wirkt keine Kraft auf sie.';
   else
-    ctx.fillText('Wagen und Kiste in Ruhe.', 12, 22);
+    txt = 'Wagen und Kiste in Ruhe.';
+  ctx.fillText(txt, 12, 22);
+  if (a3Bez === 1) {
+    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px Source Sans 3,sans-serif';
+    ctx.fillText('⚠ Dieses Bezugssystem ist selbst beschleunigt — hier gilt das Trägheitsgesetz nicht.', 12, 40);
+  }
 }
 function a3Tick(ts) {
   if (!a3State.running) return;
@@ -1143,6 +1167,11 @@ document.getElementById('a3-btn').addEventListener('click', () => {
     a3State.rafId = requestAnimationFrame(a3Tick);
   }
 });
+document.querySelectorAll('[data-a3bez]').forEach(b => b.addEventListener('click', () => {
+  a3Bez = +b.dataset.a3bez;
+  document.querySelectorAll('[data-a3bez]').forEach(x => x.classList.toggle('aktiv', x === b));
+  a3Render();
+}));
 document.getElementById('a3-reset').addEventListener('click', () => {
   a3State.running = false; a3State.t = 0; a3State.xw = 0; a3State.vw = 0; a3State.xk = 0; a3State.anschlag = false;
   document.getElementById('a3-btn').textContent = '▶ Losfahren';
@@ -1275,6 +1304,10 @@ function drawA5() {
   ctx.strokeStyle = '#7a3f10'; ctx.lineWidth = 1.5; ctx.strokeRect(-bs/2, -bs/2, bs, bs);
   ctx.restore();
 
+  // Zerlegungs-Rechteck: F_G zerfällt in die Hangabtriebskraft (entlang û) und
+  // die Komponente senkrecht in die Rampe (entgegen n̂). Der Abschnitt heisst
+  // «Kräfte zerlegen» — ohne diese Konstruktion sind die drei Pfeile nur
+  // behauptet. Rechnerisch: sinα·û − cosα·n̂ = (0, 1), also genau F_G.
   // Kräfte (Pixel-Längen, didaktisch skaliert)
   const m = 1; // Einheitsmasse für Pfeil-Skalierung
   const FG = g;                       // Gewichtskraft-Skalar
@@ -1282,6 +1315,24 @@ function drawA5() {
   const FNk = g * Math.cos(alpha);
   const FR = mu * FNk;
   const sc = 6.5;                     // px pro N (Einheitsmasse)
+  // Zerlegungs-Rechteck zuerst, damit die Pfeile darüber liegen
+  const pH = { x: cxB + ux * FH * sc, y: cyB + uy * FH * sc };          // F_H-Spitze
+  const pN = { x: cxB - nx * FNk * sc, y: cyB - ny * FNk * sc };        // in die Rampe hinein
+  const pG = { x: cxB, y: cyB + FG * sc };                              // F_G-Spitze
+  ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1.3; ctx.setLineDash([5, 4]);
+  ctx.beginPath();
+  ctx.moveTo(pH.x, pH.y); ctx.lineTo(pG.x, pG.y); ctx.lineTo(pN.x, pN.y);
+  ctx.stroke(); ctx.setLineDash([]);
+  // rechter Winkel an der F_H-Ecke
+  const rw = 9;
+  ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pH.x - ux * rw, pH.y - uy * rw);
+  ctx.lineTo(pH.x - ux * rw - nx * rw, pH.y - uy * rw - ny * rw);
+  ctx.lineTo(pH.x - nx * rw, pH.y - ny * rw);
+  ctx.stroke();
+  ctx.fillStyle = '#6b7280'; ctx.font = '13px Source Sans 3,sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('gestrichelt: Zerlegung von F_G in Hang- und Normalrichtung', 12, 40);
   // Gewichtskraft (bernstein) senkrecht nach unten vom Block-Mittelpunkt
   drawArrow(ctx, cxB, cyB, cxB, cyB + FG * sc, '#8a4a0e', 2.4, 10);
   ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';

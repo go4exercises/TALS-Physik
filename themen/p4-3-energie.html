@@ -175,7 +175,7 @@ MathJax = {
       </div>
       <div class="sl-grp">
       <label>Winkel \(\alpha\):</label>
-      <input type="range" id="a1-alpha" min="0" max="80" value="0" step="5">
+      <input type="range" id="a1-alpha" min="0" max="90" value="0" step="5">
       <span class="sl-val" id="a1-alpha-val">0°</span>
 
       </div>
@@ -185,6 +185,7 @@ MathJax = {
       <div class="fl-label">Verrichtete Arbeit</div>
       <div class="fl-eq" id="a1-eq-f">W = F · s · cos α</div>
       <div class="fl-eq" id="a1-eq">W = 50 N · 2.0 m · cos 0° = 100 J</div>
+      <div class="fl-eq" id="a1-null" style="display:none; color:#9b1c1c;">cos 90° = 0 → die Kraft steht senkrecht auf dem Weg und verrichtet keine Arbeit</div>
     </div>
 
     <div class="a-twocol">
@@ -907,6 +908,11 @@ function drawA1() {
   document.getElementById('a1-alpha-val').textContent = alpha + '°';
   document.getElementById('a1-eq').textContent =
     'W = ' + F + ' N · ' + s.toFixed(1) + ' m · cos ' + alpha + '° = ' + W.toFixed(0) + ' J';
+  // Bei α = 90° steht die Kraft senkrecht auf dem Weg: sie verrichtet keine
+  // Arbeit. Erkenntnis-Box und Mini-Check nennen genau diesen Fall — bis jetzt
+  // liess der Regler ihn nicht zu (Maximum 80°).
+  const a1Hinw = document.getElementById('a1-null');
+  if (a1Hinw) a1Hinw.style.display = (alpha === 90) ? '' : 'none';
 
   // Linke Canvas: Szene
   const cv = initCanvas('a1-cv-szene', 260, false);
@@ -1019,12 +1025,36 @@ function drawA2() {
   ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('E_kin = ' + (Ek/1000).toFixed(1) + ' kJ', W/2, 28);
 
+  // Bremsweg: die ganze kinetische Energie wird von der Reibkraft aufgezehrt,
+  // ½mv² = μ·m·g·s → s = v²/(2μg). Die Masse kürzt sich heraus; der Weg wächst
+  // quadratisch mit v. Das ist der 30/50-km/h-Einstieg in körperlicher Länge.
+  const MU = 0.8, aBr = MU * g;
+  const sBr = v * v / (2 * aBr), sBr2 = (2 * v) * (2 * v) / (2 * aBr);
+  const bx0 = 20, bxMax = W - 30, SMAX = 60;          // feste Skala 0 … 60 m
+  const mToPx = mm => bx0 + Math.min(mm, SMAX) / SMAX * (bxMax - bx0);
+  const yBr = bodenY + 18;
+  ctx.strokeStyle = '#e0d6c6'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(bx0, yBr + 14); ctx.lineTo(bxMax, yBr + 14); ctx.stroke();
+  ctx.fillStyle = '#6b7280'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  for (let mm = 0; mm <= SMAX; mm += 20) ctx.fillText(mm + ' m', mToPx(mm), yBr + 28);
+  // Geisterbalken für doppeltes Tempo — vierfacher Weg
+  ctx.fillStyle = 'rgba(155,28,28,0.20)';
+  ctx.fillRect(bx0, yBr, mToPx(sBr2) - bx0, 10);
+  ctx.fillStyle = '#9b1c1c'; ctx.fillRect(bx0, yBr, mToPx(sBr) - bx0, 10);
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('Bremsweg ' + sBr.toFixed(1) + ' m', bx0 + 4, yBr - 4);
+  if (v > 0.1) {
+    ctx.fillStyle = 'rgba(155,28,28,0.75)'; ctx.textAlign = 'right';
+    ctx.fillText('bei 2v: ' + Math.min(sBr2, SMAX).toFixed(1) + ' m' + (sBr2 > SMAX ? ' +' : ''), bxMax, yBr - 4);
+  }
+
   // Diagramm: Parabel E(v)
   const cv2 = initCanvas('a2-cv-diag', 240, false);
   const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
   const vMax = 30;
-  const EmaxJ = 0.5 * m * vMax * vMax;       // J
-  const EmaxK = EmaxJ / 1000;                // kJ
+  // Q1: feste E-Achse. Vorher richtete sie sich nach der eingestellten Masse —
+  // die Parabel sah bei 200 kg genauso aus wie bei 2000 kg.
+  const EmaxK = 0.5 * 2000 * vMax * vMax / 1000;   // 900 kJ, Reglermaximum
   const grid = drawGrid(c2, W2, H2, -1, vMax + 1, -EmaxK*0.05, EmaxK * 1.05);
   drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 'v [m/s]', 'E [kJ]');
   // Kurve
@@ -1035,6 +1065,29 @@ function drawA2() {
     if (vv === 0) c2.moveTo(X, Y); else c2.lineTo(X, Y);
   }
   c2.stroke();
+  // Referenzkurve für die doppelte Masse — «doppelte Masse, doppelte Energie»
+  c2.strokeStyle = '#9aa1ab'; c2.lineWidth = 1.6; c2.setLineDash([5,4]); c2.beginPath();
+  let ersteM = true;
+  for (let vv = 0; vv <= vMax; vv += 0.5) {
+    const EE = 0.5 * (2*m) * vv * vv / 1000;
+    if (EE > EmaxK) break;
+    if (ersteM) { c2.moveTo(grid.cx(vv), grid.cy(EE)); ersteM = false; }
+    else c2.lineTo(grid.cx(vv), grid.cy(EE));
+  }
+  c2.stroke(); c2.setLineDash([]);
+  c2.fillStyle = '#6b7280'; c2.font = '13px Source Sans 3,sans-serif'; c2.textAlign = 'right';
+  c2.fillText('doppelte Masse (×2)', W2 - 8, 18);
+  // Geister-Punkt bei doppelter Geschwindigkeit — vierfache Energie
+  const v2 = Math.min(2*v, vMax), Ek2 = 0.5*m*v2*v2/1000;
+  if (v > 0.1 && 2*v <= vMax) {
+    drawDot(c2, grid.cx, grid.cy, v2, Ek2, '#5b2d8e', 5);
+    c2.setLineDash([3,3]); c2.strokeStyle = '#5b2d8e'; c2.lineWidth = 1;
+    c2.beginPath(); c2.moveTo(grid.cx(v2), grid.cy(0)); c2.lineTo(grid.cx(v2), grid.cy(Ek2));
+    c2.moveTo(grid.cx(0), grid.cy(Ek2)); c2.lineTo(grid.cx(v2), grid.cy(Ek2)); c2.stroke();
+    c2.setLineDash([]);
+    c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace'; c2.textAlign = 'right';
+    c2.fillText('2v → ×4', grid.cx(v2) - 8, grid.cy(Ek2) - 8);
+  }
   // aktueller Punkt
   drawDot(c2, grid.cx, grid.cy, v, Ek/1000, '#9b1c1c', 5);
   c2.setLineDash([3,3]); c2.strokeStyle = '#9b1c1c'; c2.lineWidth = 1;
