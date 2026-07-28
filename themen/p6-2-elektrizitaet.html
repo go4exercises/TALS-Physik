@@ -602,7 +602,7 @@ MathJax = {
 
 <h2 id="gefahren">Gefahren des elektrischen Stroms</h2>
 
-<p>Wie gefährlich ein Stromfluss durch den Körper ist, hängt von der Stromstärke <em>und</em> der Einwirkzeit ab. Die Bereiche nach IEC zeigen, ab wann Herzkammerflimmern droht.</p>
+<p>Wie gefährlich ein Stromfluss durch den Körper ist, hängt von der Stromstärke <em>und</em> der Einwirkzeit ab. Die vier Gefahrenbereiche im Diagramm sind <strong>vereinfacht nachgebildet</strong> und an die Zonen der Norm IEC 60479-1 angelehnt: Sie zeigen die Grössenordnung und den Verlauf richtig — je länger der Strom einwirkt, desto kleiner darf er sein —, sind aber <em>keine</em> Bemessungsgrundlage. Die genauen Grenzkurven stehen in der Norm selbst.</p>
 
 <div class="widget">
   <div class="widget-header">
@@ -649,7 +649,7 @@ MathJax = {
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">⚠ Stromstärke-Zeit-Diagramm (IEC)</div>
+      <div class="cv-titel">⚠ Stromstärke-Zeit-Diagramm — vereinfacht nach IEC 60479-1</div>
       <canvas id="a6-cv" height="240"></canvas>
     </div>
 
@@ -966,7 +966,7 @@ function rectPoint(g,s){ // s in [0,1) im Uhrzeigersinn ab oben-links
   if(d<w) return {x:g.R-d,y:g.B};            d-=w;
   return {x:g.L,y:g.B-d};
 }
-function einTick(dt){ const U=+document.getElementById('ein-U').value; einPhase=(einPhase+dt*U*0.02)%1; einRender(); }
+function einTick(dt){ const U=+document.getElementById('ein-U').value; einPhase=(einPhase-dt*U*0.02%1+1)%1; einRender(); }
 function einRender(){
   const U=+document.getElementById('ein-U').value;
   document.getElementById('ein-U-val').textContent=U.toFixed(1)+' V';
@@ -1002,8 +1002,18 @@ function einRender(){
     ctx.fillStyle='#1a4f8a'; ctx.beginPath(); ctx.arc(p.x,p.y,4,0,6.283); ctx.fill();
     ctx.fillStyle='#cfe0f2'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     ctx.fillText('–',p.x,p.y+2.5); }
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText(U>0 ? 'Strom fliesst — Lampe leuchtet' : 'U = 0: kein Strom', (g.L+g.R)/2, g.B+22);
+  // Richtungen benennen: die Elektronen laufen aussen von − nach +, die
+  // technische Stromrichtung ist historisch genau umgekehrt definiert.
+  const mx=(g.L+g.R)/2, sp=Math.min(34,(g.R-g.L)/5);
+  ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  if(U>0){
+    drawArrow(ctx, mx+sp, g.B-30, mx-sp, g.B-30, '#8a4a0e', 2.4, 8);
+    ctx.fillStyle='#8a4a0e'; ctx.fillText('technische Stromrichtung I', mx, g.B-40);
+    drawArrow(ctx, mx-sp, g.B+18, mx+sp, g.B+18, '#1a4f8a', 2.4, 8);
+    ctx.fillStyle='#1a4f8a'; ctx.fillText('Elektronen: – → +', mx, g.B+34);
+  }
+  ctx.fillStyle='#5a5040'; ctx.textAlign='center';
+  ctx.fillText(U>0 ? 'Strom fliesst — Lampe leuchtet' : 'U = 0: kein Strom', mx, H-6);
 }
 const einLoop=makeLoop('ein-cv','ein-btn',einTick);
 document.getElementById('ein-U').addEventListener('input', ()=>{ if(!einLoop.running) einRender(); else einRender(); });
@@ -1173,10 +1183,13 @@ function a4Render(){
   const v=a4Vals();
   const cv=initCanvas('a4-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const L=W*0.12, Rr=W*0.90, T=H*0.22, B=H*0.80, xr1=W*0.46, xr2=W*0.72;
-  // Rahmen
+  const L=W*0.12, T=H*0.22, B=H*0.80, xr1=W*0.42, xr2=W*0.78;
+  // Rahmen: die Sammelschienen enden beim zweiten Zweig. Ein durchgezogener
+  // rechter Schenkel wäre eine Leitung ohne Bauteil parallel zu R₁ und R₂ —
+  // topologisch ein Kurzschluss, der die ganze Schaltung überbrückt.
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.moveTo(L,T); ctx.lineTo(Rr,T); ctx.lineTo(Rr,B); ctx.lineTo(L,B); ctx.lineTo(L,T); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(L,B); ctx.lineTo(L,T); ctx.lineTo(xr2,T); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(L,B); ctx.lineTo(xr2,B); ctx.stroke();
   // Batterie links
   const by=(T+B)/2; ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(L-12,by-12); ctx.lineTo(L+12,by-12); ctx.stroke();
@@ -1191,16 +1204,27 @@ function a4Render(){
   resV(xr1,'R₁',  '#b85c00');
   resV(xr2,'R₂',  '#5b2d8e');
   // Stroeme: Verzweigungen, Punktdichte ~ Strom
-  const kI=Math.max(v.I1,v.I2,0.001);
-  drawStream(ctx, xr1, T+6, xr1, by-H*0.10-6, a4Phase, Math.round(2+8*v.I1/kI), '#b85c00');   // R1
-  drawStream(ctx, xr2, T+6, xr2, by-H*0.10-6, a4Phase, Math.round(2+8*v.I2/kI), '#5b2d8e');   // R2
-  drawStream(ctx, L+6, T, Rr-6, T, a4Phase, 14, '#e08020');   // oberer Trunk (gesamt)
-  drawStream(ctx, Rr-6, B, L+6, B, a4Phase, 14, '#e08020');   // unterer Trunk
+  // Zweigströme auf beiden Zuleitungsstummeln, Punktzahl proportional zum Strom
+  const kI=Math.max(v.I1,v.I2,0.001), bh2=H*0.10;
+  const zweig=(x,I,col)=>{
+    const n=Math.max(2, Math.round((by-bh2-T)/14*I/kI));
+    drawStream(ctx, x, T,      x, by-bh2, a4Phase, n, col);
+    drawStream(ctx, x, by+bh2, x, B,      a4Phase, n, col);
+  };
+  zweig(xr1, v.I1, '#b85c00');
+  zweig(xr2, v.I2, '#5b2d8e');
+  // Vor der ersten Verzweigung fliesst der Gesamtstrom, danach nur noch I₂ —
+  // die Punktdichte macht die Aufteilung sichtbar.
+  const pkt=(len,I)=>Math.max(1,Math.round(len/24*(I/v.I)));
+  drawStream(ctx, L+6,  T, xr1, T, a4Phase, pkt(xr1-L-6, v.I),  '#e08020');   // Trunk gesamt
+  drawStream(ctx, xr1,  T, xr2, T, a4Phase, pkt(xr2-xr1, v.I2), '#5b2d8e');   // nur noch I₂
+  drawStream(ctx, xr2,  B, xr1, B, a4Phase, pkt(xr2-xr1, v.I2), '#5b2d8e');
+  drawStream(ctx, xr1,  B, L+6, B, a4Phase, pkt(xr1-L-6, v.I),  '#e08020');
   // Labels
   ctx.fillStyle='#b85c00'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('I₁='+(v.I1*1000).toFixed(0)+' mA', xr1, B-6);
-  ctx.fillStyle='#5b2d8e'; ctx.fillText('I₂='+(v.I2*1000).toFixed(1)+' mA', xr2, B-6);
-  ctx.fillStyle='#5a5040'; ctx.fillText('Gesamtstrom I = '+(v.I*1000).toFixed(1)+' mA · gleiche Spannung über R₁, R₂', (L+Rr)/2, H*0.99);
+  ctx.fillText('I₁='+(v.I1*1000).toFixed(0)+' mA', xr1, B+16);   // unter die Schiene,
+  ctx.fillStyle='#5b2d8e'; ctx.fillText('I₂='+(v.I2*1000).toFixed(1)+' mA', xr2, B+16);   // sonst über den Punkten
+  ctx.fillStyle='#5a5040'; ctx.fillText('Gesamtstrom I = '+(v.I*1000).toFixed(1)+' mA — gleiche Spannung über R₁ und R₂', W*0.5, H*0.99);
 }
 const a4Loop=makeLoop('a4-cv','a4-btn',a4Tick);
 ['a4-U','a4-R1','a4-R2'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{ a4Read(); if(!a4Loop.running) a4Render(); }));
@@ -1238,10 +1262,15 @@ function lerpColP(f){ const r=Math.round(60+f*180), g=Math.round(150-f*100), b=M
 
 
 // ══════════════════════════════════════════════════════════
-//  ANIMATION 6: Gefahren — Stromstärke-Zeit-Diagramm (IEC)
+//  ANIMATION 6: Gefahren — Stromstärke-Zeit-Diagramm
+//  ACHTUNG: Die beiden Grenzkurven sind eigene Näherungen der Form
+//  I = a + b/t, an die Zonen von IEC 60479-1 angelehnt, aber NICHT aus der
+//  Norm entnommen. Sie geben Grössenordnung und Verlauf wieder; wer exakte
+//  Werte braucht, schlägt in der Norm nach. Darum steht «vereinfacht nach
+//  IEC 60479-1» im Bildtitel und im Fliesstext — nie «nach IEC» allein.
 // ══════════════════════════════════════════════════════════
-function a6_b3(t){ return 10 + 5000/t; }   // Schwelle Zone2/3 (mA), t in ms
-function a6_b4(t){ return 40 + 30000/t; }  // Schwelle Zone3/4 (mA)
+function a6_b3(t){ return 10 + 5000/t; }   // Näherung Schwelle Zone2/3 (mA), t in ms
+function a6_b4(t){ return 40 + 30000/t; }  // Näherung Schwelle Zone3/4 (mA)
 const A6ZONES=[
   ['1 — keine Reaktion','keine Wirkung','rgba(120,170,120,0.30)'],
   ['2 — wahrnehmbar','keine gefährliche Wirkung','rgba(210,200,90,0.30)'],

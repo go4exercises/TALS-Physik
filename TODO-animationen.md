@@ -53,16 +53,38 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
 
 ## B. Fachliche Fehler (vor allem anderen beheben)
 
-- [ ] **[HOCH] p6-2 ein-cv:** Elektronen laufen aussen von + nach −; die
+*Vollständig abgearbeitet am 28.07.2026 — dabei ein achter Fehler entdeckt und
+mitbehoben (invertierte Dichtefärbung in p6-1 a2).*
+
+- [x] **[HOCH] p6-2 ein-cv:** Elektronen laufen aussen von + nach −; die
   Erkenntnis-Box lehrt das Gegenteil. Umlaufrichtung umkehren, Pfeile
   «Elektronen» vs. «technische Stromrichtung» beschriften.
-- [ ] **[HOCH] p6-1 a2:** Labels «Verdichtung»/«Verdünnung» stehen ortsfest,
+  *Erledigt 28.07.2026: Der Umlauf zählte im Uhrzeigersinn, damit ging es vom
+  Minuspol direkt aufwärts zum Pluspol — durch die Batterie statt durch den
+  äusseren Kreis. Jetzt Gegenuhrzeigersinn; zusätzlich zwei benannte Pfeile
+  (blau «Elektronen: – → +», bernstein «technische Stromrichtung I»).*
+- [x] **[HOCH] p6-1 a2:** Labels «Verdichtung»/«Verdünnung» stehen ortsfest,
   das Dichtemuster wandert — Beschriftung meist an der falschen Stelle.
   Labelposition aus der Phase berechnen (Lösung existiert in p6-1a, Z. 1094 ff.).
-- [ ] **[HOCH] p6-1 a1 (c = λ·f):** λ und f unabhängig einstellbar, c abgeleitet —
+  *Erledigt 28.07.2026: Beide Labels sitzen jetzt auf dem berechneten
+  Dichte-Extremum und tragen eine Führungslinie zur Teilchenreihe.*
+- [x] **[HOCH] p6-1 a2 — zweiter, schwererer Fehler (beim Fix entdeckt):** Die
+  Einfärbung war invertiert. Der Code setzte `dens = +cos(k·x − ph)` und färbte
+  `dens > 0` rot als «Verdichtung». Die Teilchendichte ist aber
+  \(\propto -\partial(\text{Auslenkung})/\partial x = -A k \cos(\dots)\), also
+  maximal beim **negativen** Cosinus. Nachgerechnet: an der bisher rot gefärbten
+  Stelle war die lokale Dichte 5- bis 11-mal *kleiner* als an der blauen. Rot
+  markierte damit durchgehend die verdünnten Zonen. Vorzeichen korrigiert und
+  über fünf Phasenlagen nachgerechnet (28.07.2026).
+- [x] **[HOCH] p6-1 a1 (c = λ·f):** λ und f unabhängig einstellbar, c abgeleitet —
   erzeugt das Fehlkonzept «Medium passt seine Geschwindigkeit an», im Widerspruch
   zum eigenen Theorieblock und zu p6-1a A2. Kausalität umdrehen (Regler f und c,
   λ = c/f abgeleitet); zudem Gitter + s-Achse ergänzen.
+  *Erledigt 28.07.2026: Regler sind jetzt \(c\) (1 … 6 m/s, «Medium») und \(f\)
+  (1 … 4 Hz, «Sender»); \(\lambda = c/f\) steht als abgeleitete Grösse in der
+  Live-Box, dazu die Probe \(\lambda \cdot f\). Feste s-Achse 0 … 6 m mit
+  Meter-Gitter (Q1), λ-Klammer mit Endmarken, Laufrichtungspfeil mit \(c\).
+  Beide Hinweisboxen und der Einleitungstext auf die neue Kausalität umgeschrieben.*
 - [x] **[HOCH] p5-2 a6 (Treibhaus):** Bei 280 ppm wird kein einziger IR-Strahl
   zurückgeworfen — der natürliche Treibhauseffekt (Mini-Check!) existiert im
   Modell nicht. Basis-Rückhaltung > 0 bei 280 ppm, Regler-Effekt als «zusätzlich»
@@ -77,14 +99,29 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
   «hs», «ks», «Ms» — widerspricht dem eigenen Lehrtext («oberhalb der Sekunde
   nicht dezimal»). Obere Sprossen ausblenden oder durch min/h ersetzen.
   *Erledigt 27.07.2026: durchgestrichen ausgewiesen, min und h ergänzt.*
-- [ ] **[HOCH] p6-2 a4 (Parallelschaltung):** Der rechte Rahmen ist topologisch
+- [x] **[HOCH] p6-2 a4 (Parallelschaltung):** Der rechte Rahmen ist topologisch
   ein Kurzschluss-Zweig ohne Strompunkte. Leitung beim zweiten Zweig enden lassen.
-- [ ] **[MITTEL] p6-2 a6:** Zonengrenzen sind vereinfachte Eigenformeln, aber mit
+  *Erledigt 28.07.2026: Sammelschienen enden bei R₂. Zusätzlich führt der Trunk
+  zwischen den Zweigen jetzt sichtbar nur noch I₂ (Punktdichte proportional zum
+  Strom, Farbe wechselt an der Verzweigung) — die Aufteilung wird damit ablesbar.*
+- [x] **[MITTEL] p6-2 a6:** Zonengrenzen sind vereinfachte Eigenformeln, aber mit
   «IEC» beschriftet — «vereinfacht nach IEC 60479» deklarieren oder verifizieren.
-- [ ] **[MITTEL] p4-3 a4:** Text sagt «Dehnung», gezeichnet ist eine Stauchung —
+  *Erledigt 28.07.2026: als «vereinfacht nach IEC 60479-1» deklariert — im
+  Bildtitel, im Fliesstext und als Kommentar über den beiden Näherungsformeln.
+  Nicht verifiziert: die Norm liegt nicht vor, und Grenzkurven werden nicht
+  geraten (CLAUDE.md, Verifikations-Standard).*
+- [x] **[MITTEL] p4-3 a4:** Text sagt «Dehnung», gezeichnet ist eine Stauchung —
   Bild oder Wortwahl («Auslenkung») vereinheitlichen.
-- [ ] **[MITTEL] p4-5 a2:** Titel «Drei verbundene Gefässe», gezeichnet sind
+  *Erledigt 28.07.2026: das Bild folgt dem Text, weil Regler, Mini-Check und
+  Transferaufgabe («gespanntes Gummiband») durchgehend von Dehnung sprechen.
+  Die Feder wird jetzt länger, dazu eine gestrichelte Ruhelage-Marke und der
+  Massband-Pfeil von der Ruhelage zum Block.*
+- [x] **[MITTEL] p4-5 a2:** Titel «Drei verbundene Gefässe», gezeichnet sind
   getrennte Gefässe — Titel korrigieren oder Verbindungsrohr einzeichnen.
+  *Erledigt 28.07.2026: Titel korrigiert. Ein Verbindungsrohr wäre der falsche
+  Weg — das Paradoxon lebt davon, dass drei **getrennte** Gefässe bei gleicher
+  Füllhöhe denselben Bodendruck zeigen. Überschrift, Fliesstext und Hinweisboxen
+  sagten das bereits richtig, nur der Bildtitel nicht.*
 
 ---
 
@@ -505,7 +542,8 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 
 ## F. Empfohlene Reihenfolge der Umsetzung
 
-1. **Block B** (fachliche Fehler) — kleine Eingriffe, grösster Schaden behoben.
+1. ~~**Block B** (fachliche Fehler) — kleine Eingriffe, grösster Schaden behoben.~~
+   ✓ erledigt 28.07.2026.
 2. **Q1 + Q2** (feste Achsen, Überhöhungs-Kalibrierung) — eine Fix-Familie,
    betrifft ~10 Widgets, macht tote Regler wieder lernwirksam.
 3. **[HOCH]-Einzelpunkte** je Seite (Abschnitt C).

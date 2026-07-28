@@ -1192,10 +1192,13 @@ function drawA4() {
   const wallX = 40;
   // Wand
   ctx.fillStyle = '#9aa4ad'; ctx.fillRect(wallX - 14, yMid - 50, 14, 100);
-  // Feder gestaucht: Länge sinkt mit s
+  // Feder gedehnt: die Länge WÄCHST mit s. Vorher war eine Stauchung
+  // gezeichnet, während Text, Mini-Check und Transferaufgabe durchgehend von
+  // Dehnung sprechen (gespanntes Gummiband). ruheLen so gewählt, dass der
+  // Block bei s = sMax noch ganz im Bild steht.
   const sMax = 0.15;
-  const ruheLen = W - 160;
-  const len = ruheLen * (1 - 0.6 * (s / sMax));
+  const ruheLen = (W - 160) / 1.6;
+  const len = ruheLen * (1 + 0.6 * (s / sMax));
   const windungen = 10, amp = 16;
   ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(wallX, yMid);
@@ -1210,11 +1213,14 @@ function drawA4() {
   // Block
   ctx.fillStyle = '#8a4a0e'; ctx.fillRect(blockX, yMid - 26, 34, 52);
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.5; ctx.strokeRect(blockX, yMid - 26, 34, 52);
-  // Stauchungs-Massband
-  ctx.setLineDash([3,3]); ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.2;
+  // Dehnungs-Massband: von der Ruhelage bis zum ausgelenkten Block
   const ruheEnd = wallX + ruheLen;
-  drawArrow(ctx, blockX, yMid + 40, ruheEnd, yMid + 40, '#9b1c1c', 1.4, 7);
+  ctx.setLineDash([3,3]); ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(ruheEnd, yMid - 40); ctx.lineTo(ruheEnd, yMid + 46); ctx.stroke();
   ctx.setLineDash([]);
+  ctx.fillStyle = '#6b7280'; ctx.font = '13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Ruhelage', ruheEnd, yMid - 46);
+  if (s > 0.001) drawArrow(ctx, ruheEnd, yMid + 40, blockX, yMid + 40, '#9b1c1c', 1.4, 7);
   ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('s = ' + s.toFixed(3) + ' m', (blockX + ruheEnd)/2, yMid + 56);
 
