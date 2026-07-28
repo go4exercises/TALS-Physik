@@ -1209,16 +1209,31 @@ function drawA1() {
   // Rechts: p(h)-Diagramm (linear)
   const cv2 = initCanvas('a1-cv-ph', 320, false);
   const ctx2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
-  // Max-p für Skalierung: aktuelle Dichte * g * 10
-  const pMax = rho * g * 10 / 1000;  // in kPa
-  const grid = drawGrid(ctx2, W2, H2, -0.5, 10.5, -pMax*0.05, pMax*1.05);
+  // Q1: FESTE p-Achse. Vorher skalierte sie mit der eingestellten Dichte mit —
+  // die Gerade sah bei jeder Flüssigkeit gleich steil aus, und genau der
+  // Dichtevergleich ging verloren. 1400 kPa deckt den ganzen Reglerbereich ab
+  // (14000 kg/m³ bei 10 m ergibt 1373 kPa).
+  const A1_PMAX = 1400;              // kPa, fest
+  const grid = drawGrid(ctx2, W2, H2, -0.5, 10.5, -A1_PMAX*0.05, A1_PMAX*1.05);
   drawAxesUnits(ctx2, W2, H2, grid.cx, grid.cy, 'h [m]', 'p_S [kPa]');
+  // Wasser als dauerhafte Referenz: bei leichten Flüssigkeiten liegen die
+  // Geraden dicht beieinander, gegen diese Marke bleiben sie trotzdem lesbar.
+  ctx2.strokeStyle = '#9aa1ab'; ctx2.lineWidth = 1.6; ctx2.setLineDash([5, 4]);
+  ctx2.beginPath(); ctx2.moveTo(grid.cx(0), grid.cy(0));
+  ctx2.lineTo(grid.cx(10), grid.cy(1000*g*10/1000)); ctx2.stroke(); ctx2.setLineDash([]);
+  ctx2.fillStyle = '#6b7280'; ctx2.font = '13px Source Sans 3,sans-serif'; ctx2.textAlign = 'right';
+  ctx2.fillText('Wasser (Referenz)', grid.cx(9.6), grid.cy(1000*g*9.6/1000) - 12);
   // Linie p = rho*g*h
   ctx2.strokeStyle = '#8a4a0e'; ctx2.lineWidth = 2.8;
   ctx2.beginPath();
   ctx2.moveTo(grid.cx(0), grid.cy(0));
   ctx2.lineTo(grid.cx(10), grid.cy(rho*g*10/1000));
   ctx2.stroke();
+  // Steigung beziffern — bei dicht beieinander liegenden Geraden ist sie die
+  // einzige Grösse, an der man Öl von Meerwasser noch unterscheiden kann.
+  ctx2.fillStyle = '#8a4a0e'; ctx2.font = 'bold 13px JetBrains Mono,monospace'; ctx2.textAlign = 'right';
+  ctx2.fillText((W2 < 520 ? 'ρ·g = ' : 'Steigung ρ · g = ') + (rho*g/1000).toFixed(2) + ' kPa/m',
+                W2 - 10, W2 < 520 ? 36 : 20);   // schmal: unter das Achsenlabel
   // Aktueller Punkt
   drawDot(ctx2, grid.cx, grid.cy, h, pS/1000, '#9b1c1c', 6);
   // Hilfslinien zum Punkt

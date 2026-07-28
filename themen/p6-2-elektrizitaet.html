@@ -1043,14 +1043,22 @@ function drawA1(){
   document.getElementById('a1-I').textContent=I_mA.toFixed(0)+' mA';
 
   const cv=initCanvas('a1-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
-  // adaptive x-Achse: Strom bei U=12 V bestimmt den Maximalwert
-  const Imax12=12/v.R*1000; // mA
-  const steps=[30,60,150,300,600,1200]; let xMax=1200;
-  for(const s of steps){ if(s>=Imax12){ xMax=s; break; } }
-  const g=drawGrid(ctx,W,H,0,xMax,0,12); drawAxesUnits(ctx,W,H,g.cx,g.cy,'I [mA]','U [V]');
+  // Q1: FESTE I-Achse. Vorher sprang xMax in Stufen mit dem Widerstand mit,
+  // dadurch hatte die Kennlinie bei jedem R praktisch dieselbe Neigung — die
+  // Aussage «Steigung = R» war unsichtbar. 1200 mA deckt den ganzen
+  // Reglerbereich ab (12 V an 10 Ω).
+  const A1_IMAX=1200;   // mA, fest
+  const Imax12=12/v.R*1000;
+  const g=drawGrid(ctx,W,H,0,A1_IMAX,0,12); drawAxesUnits(ctx,W,H,g.cx,g.cy,'I [mA]','U [V]');
+  // Referenzkennlinie 100 Ω, damit auch grosse Widerstände einen Vergleich haben
+  ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
+  ctx.beginPath(); ctx.moveTo(g.cx(0),g.cy(0)); ctx.lineTo(g.cx(120),g.cy(12)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#6b7280'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  // auf halber Höhe an der Referenzgeraden — oben links kollidiert sie mit «U [V]»
+  ctx.fillText(W<520?'Ref. 100 Ω':'100 Ω (Referenz)', g.cx(70), g.cy(6.6));
   // Gerade U = R·I : von (0,0) bis (I bei U=12, 12 V)
   ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.6;
-  ctx.beginPath(); ctx.moveTo(g.cx(0),g.cy(0)); ctx.lineTo(g.cx(Math.min(xMax,Imax12)),g.cy(12)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(g.cx(0),g.cy(0)); ctx.lineTo(g.cx(Math.min(A1_IMAX,Imax12)),g.cy(Math.min(12,A1_IMAX*v.R/1000))); ctx.stroke();
   // Arbeitspunkt
   const px=g.cx(I_mA), py=g.cy(v.U);
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);

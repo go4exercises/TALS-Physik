@@ -386,7 +386,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">📊 Wellenlänge bei gleicher Frequenz (je Medium)</div>
-      <canvas id="a3-cv" height="240"></canvas>
+      <canvas id="a3-cv" height="260"></canvas>
     </div>
 
   </div>
@@ -1043,20 +1043,56 @@ function drawA3(){
   const sel=A3MED[a3Sel], lamSel=sel.c/f;
   document.getElementById('a3-eq').textContent='λ = '+sel.c+' m/s / '+f+' Hz = '+lamSel.toFixed(2)+' m';
 
-  const cv=initCanvas('a3-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const cv=initCanvas('a3-cv',260,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const lams=A3MED.map(m=>m.c/f), lmax=Math.max(...lams);
-  const x0=W*0.22, x1=W*0.93, n=A3MED.length, gap=(H*0.86)/n, bh=gap*0.6;
-  for(let i=0;i<n;i++){
-    const y=H*0.07+i*gap, len=(x1-x0)*(lams[i]/lmax);
-    ctx.fillStyle=(i===a3Sel)?'#b85c00':'#d9c4a3'; ctx.fillRect(x0,y,len,bh);
-    ctx.fillStyle='#1c1a17'; ctx.font=(i===a3Sel?'bold ':'')+'12px Source Sans 3,sans-serif'; ctx.textAlign='right';
-    ctx.fillText(A3MED[i].n, x0-8, y+bh*0.72);
-    ctx.textAlign='left'; ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
-    ctx.fillText(lams[i].toFixed(2)+' m', x0+len+6, y+bh*0.72);
+  // Q1: Die Balken waren auf die jeweils längste Wellenlänge normiert. Damit sah
+  // das Bild bei JEDER Frequenz identisch aus — der Frequenzregler bewirkte
+  // optisch nichts, obwohl er alle λ um denselben Faktor ändert.
+  // Jetzt eine FESTE logarithmische λ-Achse: linear geht nicht, weil zwischen
+  // Luft bei 2000 Hz (0.17 m) und Stahl bei 50 Hz (103 m) ein Faktor 600 liegt.
+  // Auf der Log-Achse verschiebt eine Frequenzänderung alle vier Marken
+  // gemeinsam — der Regler wird sichtbar, die Abstände der Medien bleiben fest.
+  const eng = W < 520;                       // Handybreite: Ränder und Texte kürzen
+  const LMIN=0.1, LMAX=200, L=eng?30:64, Rm=eng?12:20;
+  const xOf=lam=>L+(Math.log10(lam)-Math.log10(LMIN))/(Math.log10(LMAX)-Math.log10(LMIN))*(W-L-Rm);
+  const yAchse=H-46;
+  // Dekaden-Gitter
+  for(let e=-1;e<=2;e++){
+    for(let m=1;m<=9;m++){
+      const lam=m*Math.pow(10,e); if(lam>LMAX) break;
+      const x=xOf(lam);
+      ctx.strokeStyle=(m===1)?'#d8d0c4':'#eceadf'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(x,14); ctx.lineTo(x,yAchse); ctx.stroke();
+    }
   }
+  ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1.4;
+  ctx.beginPath(); ctx.moveTo(L-8,yAchse); ctx.lineTo(W-6,yAchse); ctx.stroke();
+  ctx.fillStyle='#6b7280'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
+  [[0.1,'0.1'],[1,'1'],[10,'10'],[100,'100']].forEach(([lam,t])=>{
+    const x=xOf(lam);
+    ctx.beginPath(); ctx.moveTo(x,yAchse); ctx.lineTo(x,yAchse+5); ctx.stroke();
+    ctx.fillText(t,x,yAchse+18); });
+  ctx.textAlign='right'; ctx.fillStyle='#374151'; ctx.font='bold 13px Source Sans 3,sans-serif';
+  ctx.fillText(eng?'λ [m], log':'λ [m] — logarithmisch', W-6, yAchse-8);
+  // Die vier Medien als Marken, aufsteigend nach λ von oben nach unten
+  A3MED.forEach((m,i)=>{
+    const lam=m.c/f, x=xOf(lam), y=26+i*30, akt=(i===a3Sel);
+    const col=akt?'#b85c00':'#9aa1ab';
+    ctx.strokeStyle=col; ctx.lineWidth=akt?2:1; ctx.setLineDash(akt?[]:[3,3]);
+    ctx.beginPath(); ctx.moveTo(x,y+4); ctx.lineTo(x,yAchse); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,yAchse,akt?6:4,0,6.283); ctx.fill();
+    if(akt){ ctx.strokeStyle='#fff'; ctx.lineWidth=1.6; ctx.stroke(); }
+    const kurz=m.n.replace(/\s*\(.*\)/,'');
+    const txt=(eng?kurz+'  ':m.n+'   λ = ')+lam.toFixed(2)+' m';
+    ctx.font=(akt?'bold ':'')+(eng?12:13)+'px Source Sans 3,sans-serif';
+    const bw=ctx.measureText(txt).width;
+    ctx.fillStyle=akt?'#8a4a0e':'#6b7280';
+    if(x+10+bw <= W-6){        ctx.textAlign='left';  ctx.fillText(txt, x+10, y); }
+    else if(x-10-bw >= 6){     ctx.textAlign='right'; ctx.fillText(txt, x-10, y); }
+    else {                     ctx.textAlign='left';  ctx.fillText(txt, 6, y); }   // passt nirgends daneben
+  });
   ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('gleiche Frequenz '+f+' Hz — Wellenlänge λ = c/f', W*0.5, H*0.99);
+  ctx.fillText(eng ? ('f = '+f+' Hz für alle Medien') : ('gleiche Frequenz '+f+' Hz für alle vier Medien — λ = c / f'), W*0.5, H-8);
 }
 ['a3-f'].forEach(id=>document.getElementById(id).addEventListener('input', drawA3));
 

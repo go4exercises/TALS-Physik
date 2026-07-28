@@ -19,13 +19,31 @@ Streichungen sind fast nirgends nötig — die Probleme sind reparierbar.
 
 ## A. Querschnittsbefunde (mehrere Seiten, gemeinsame Ursache)
 
-- [ ] **[HOCH] Q1 — Mitwachsende/adaptive Achsen neutralisieren den Lerneffekt.**
+- [x] **[HOCH] Q1 — Mitwachsende/adaptive Achsen neutralisieren den Lerneffekt.**
   Die Achse skaliert mit dem Parameter mit, dadurch sieht der Graph bei jeder
   Einstellung gleich aus; genau der versprochene Vergleich (Steigung, wandernder
   Punkt) wird unsichtbar. Fix: feste Achsen oder feste Referenzkurve.
-  Betroffen: ~~p0-4 a1 (Feder), p0-4 a2 (s = v·t), p0-4 a4 (Einholproblem)~~ ✓,
-  p4-5 a1-cv-ph (p(h) je Dichte), ~~p5-2 a1 (Wärmebedarf-Balken)~~ ✓, p6-1 a3
-  (Schall-Balken), p6-2 a1 (U-I-Kennlinie), ~~p0-0 a6 / p0-2 a1~~ ✓ (Dichte-Balken).
+  Betroffen: ~~p0-4 a1 (Feder), p0-4 a2 (s = v·t), p0-4 a4 (Einholproblem),
+  p4-5 a1-cv-ph (p(h) je Dichte), p5-2 a1 (Wärmebedarf-Balken), p6-1 a3
+  (Schall-Balken), p6-2 a1 (U-I-Kennlinie), p0-0 a6 / p0-2 a1 (Dichte-Balken)~~ ✓
+  — **vollständig erledigt am 28.07.2026.**
+
+  Die drei letzten Fälle brauchten je eine eigene Antwort, weil die Wertebereiche
+  sehr unterschiedlich weit sind:
+  - **p4-5 a1-ph** (Dichte 500 … 14 000 kg/m³, Spanne 28×): feste p-Achse
+    0 … 1400 kPa plus eine dauerhaft eingezeichnete Wasser-Referenzgerade.
+    Damit leichte Flüssigkeiten trotz flacher Geraden unterscheidbar bleiben,
+    steht die Steigung zusätzlich beziffert im Bild (ρ·g in kPa/m) — Öl gegen
+    Meerwasser ist optisch sonst nicht auflösbar.
+  - **p6-2 a1** (R 10 … 500 Ω, Spanne 50×): feste I-Achse 0 … 1200 mA plus
+    Referenzkennlinie 100 Ω. Die Aussage «Steigung = R» wird damit erst sichtbar;
+    vorher sprang xMax in Stufen mit und jede Kennlinie sah gleich steil aus.
+  - **p6-1 a3** (λ von 0.17 m bis 103 m, Spanne 608×): hier war eine lineare
+    feste Achse unmöglich. Die auf die längste Wellenlänge normierten Balken sind
+    darum durch eine **feste logarithmische λ-Achse** (0.1 … 200 m) mit vier
+    Medienmarken ersetzt. Eine Frequenzänderung verschiebt jetzt alle vier Marken
+    gemeinsam — der Regler wirkt sichtbar, während die Abstände der Medien
+    (feste c-Verhältnisse) korrekt konstant bleiben.
 - [x] **[HOCH] Q2 — Überhöhungsfaktoren nicht am Reglermaximum kalibriert (Sättigung).**
   ~~p5-3 a1 (Faktor 4000 → ≈260), p5-3 a2 (120 → ≈4.5), p5-3 a4 (120 → ≈46)~~ ✓:
   Die Grafik klemmt über weite Bereiche am Anschlag, Materialwechsel und
@@ -368,8 +386,10 @@ alt a3…a8 entsprechen neu a2…a7.*
 - [ ] [NIEDRIG] ae-cv: «m₁ = 25 kg (fix)» im Canvas anschreiben; a6: formel-live.
 
 ### p4-5 Hydrostatik
-- [ ] [HOCH] a1-ph: Wasser-Referenzgerade fest einzeichnen oder y-Achse fixieren —
+- [x] [HOCH] a1-ph: Wasser-Referenzgerade fest einzeichnen oder y-Achse fixieren —
   die adaptive Skala macht den Dichtevergleich unsichtbar (Q1).
+  *Erledigt 28.07.2026: beides — feste Achse 0 … 1400 kPa, Wasser-Referenzgerade
+  und bezifferte Steigung.*
 - [ ] [HOCH] a3 Presse: Knopf «▶ Pressen» (Kolben fahren gegenläufig, Volumen-
   erhaltung animiert) — trägt den ganzen Abschnitt; [MITTEL] Slider reduzieren
   (F₁ + Verhältnis A₂/A₁ + s₁ statt vier Einzelregler).
@@ -487,10 +507,12 @@ a3/a4 nachgetragen am 27.07.2026.*
   (schaltet bei 70 °C).
 
 ### p6-1 Wellen
-- [ ] [HOCH] a1 c = λ·f: Kausalität umdrehen (Block B).
-- [ ] [HOCH] a2 Quer-/Längswelle: wandernde Labels fixen (Block B).
-- [ ] [HOCH] a3 Schall in Medien: feste, bezifferte λ-Achse — Balken reagieren
-  sichtbar auf den f-Regler (Q1).
+- [x] [HOCH] a1 c = λ·f: Kausalität umdrehen (Block B). *Erledigt 28.07.2026.*
+- [x] [HOCH] a2 Quer-/Längswelle: wandernde Labels fixen (Block B).
+  *Erledigt 28.07.2026, dazu die invertierte Dichtefärbung — siehe Block B.*
+- [x] [HOCH] a3 Schall in Medien: feste, bezifferte λ-Achse — Balken reagieren
+  sichtbar auf den f-Regler (Q1). *Erledigt 28.07.2026: feste logarithmische
+  λ-Achse 0.1 … 200 m mit vier Medienmarken statt normierter Balken.*
 - [ ] [HOCH] a5 Emission/Laser: Photonrichtung randomisieren, am Elektron starten
   («zufällige Richtung» wird derzeit behauptet, aber nicht gezeigt); [MITTEL]
   E1/E2-Niveauschema mit ΔE = hf; [MITTEL] Laser: Pumpen + Photonen-Vermehrung.
@@ -517,11 +539,15 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
   es nicht darstellen. [NIEDRIG] Ton hörbar machen (WebAudio-Sinus bei f_n).
 
 ### p6-2 Elektrizität
-- [ ] [HOCH] ein-cv: Elektronenrichtung fixen (Block B); [MITTEL] Schalter
-  klickbar machen (trägt «Strom nur im geschlossenen Kreis»).
-- [ ] [HOCH] a1 Kennlinie: Achse fixieren oder Referenzgerade (Block B / Q1).
-- [ ] [HOCH] a4 Parallelschaltung: Kurzschluss-Rahmen entfernen (Block B);
+- [ ] ~~[HOCH] ein-cv: Elektronenrichtung fixen (Block B)~~ ✓ 28.07.2026;
+  **offen bleibt** [MITTEL] Schalter klickbar machen (trägt «Strom nur im
+  geschlossenen Kreis»).
+- [x] [HOCH] a1 Kennlinie: Achse fixieren oder Referenzgerade (Block B / Q1).
+  *Erledigt 28.07.2026: beides — feste I-Achse 0 … 1200 mA und Referenzkennlinie
+  100 Ω.*
+- [x] [HOCH] a4 Parallelschaltung: Kurzschluss-Rahmen entfernen (Block B);
   [MITTEL] Trunk-Punktdichte mit I skalieren — Knotenregel I = I₁ + I₂ sichtbar.
+  *Beides erledigt 28.07.2026.*
 - [ ] [HOCH] a5 Leistung: durch P-t-Diagramm mit Rechteckfläche = E ersetzen
   (2000 W · 0.5 h = gleiche Fläche wie 500 W · 2 h) — aktuell reine Dekoration;
   [MITTEL] Geräte-Presets (Wasserkocher, LED, Ladegerät) für die Kostenanzeige.
@@ -572,8 +598,9 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
 
 1. ~~**Block B** (fachliche Fehler) — kleine Eingriffe, grösster Schaden behoben.~~
    ✓ erledigt 28.07.2026.
-2. **Q1 + Q2** (feste Achsen, Überhöhungs-Kalibrierung) — eine Fix-Familie,
-   betrifft ~10 Widgets, macht tote Regler wieder lernwirksam.
+2. ~~**Q1 + Q2** (feste Achsen, Überhöhungs-Kalibrierung) — eine Fix-Familie,
+   betrifft ~10 Widgets, macht tote Regler wieder lernwirksam.~~
+   ✓ erledigt 28.07.2026.
 3. **[HOCH]-Einzelpunkte** je Seite (Abschnitt C).
 4. **Q3–Q6 und [MITTEL]** nach Gelegenheit, seitenweise beim nächsten Besuch.
 5. **Neue Animationen** (Abschnitt D) zuletzt — der Bestand hat Vorrang.
