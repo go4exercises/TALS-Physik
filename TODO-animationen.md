@@ -540,12 +540,28 @@ a3/a4 nachgetragen am 27.07.2026.*
 - [x] [HOCH] a3 Schall in Medien: feste, bezifferte λ-Achse — Balken reagieren
   sichtbar auf den f-Regler (Q1). *Erledigt 28.07.2026: feste logarithmische
   λ-Achse 0.1 … 200 m mit vier Medienmarken statt normierter Balken.*
-- [ ] [HOCH] a5 Emission/Laser: Photonrichtung randomisieren, am Elektron starten
-  («zufällige Richtung» wird derzeit behauptet, aber nicht gezeigt); [MITTEL]
-  E1/E2-Niveauschema mit ΔE = hf; [MITTEL] Laser: Pumpen + Photonen-Vermehrung.
-- [ ] [HOCH] a6 Absorption: Energiefluss-Panel Sonne/Boden/Atmosphäre ergänzen —
+- [ ] ~~[HOCH] a5 Emission/Laser: Photonrichtung randomisieren, am Elektron starten
+  («zufällige Richtung» wird derzeit behauptet, aber nicht gezeigt)~~ ✓ 28.07.2026:
+  Das Photon startete bisher immer am selben festen Punkt und flog immer nach
+  rechts oben. Jetzt startet es dort, wo das Elektron beim Rücksprung steht, und
+  fliegt in eine je Zyklus andere Richtung. Die letzten fünf Richtungen bleiben
+  blass stehen — erst dadurch ist die Zufälligkeit im Bild und nicht nur im Text.
+  Der Winkel wird deterministisch aus der Zyklusnummer berechnet (`a5PhotonWinkel`),
+  nicht mit `Math.random()` pro Frame — sonst zappelt das Photon.
+  **Offen bleibt:** [MITTEL] E1/E2-Niveauschema mit ΔE = hf; [MITTEL] Laser:
+  Pumpen + Photonen-Vermehrung.
+- [x] [HOCH] a6 Absorption: Energiefluss-Panel Sonne/Boden/Atmosphäre ergänzen —
   die Transmissionskurve allein trägt den Mechanismus (Aufgabe A6.3) nicht;
-  λ-Achse in µm beziffern.
+  λ-Achse in µm beziffern. *Erledigt 28.07.2026, beides:*
+  - *Die x-Achse war eine unbezifferte 0…1-Hilfsgrösse — man konnte nicht sehen,
+    WO die Absorption einsetzt. Jetzt feste logarithmische Achse 0.2 … 100 µm
+    (linear unmöglich: Sonnenlicht 0.4 … 0.8 µm, Erdabstrahlung 4 … 50 µm), das
+    sichtbare Band ist markiert, der Abfall liegt bei 3 … 5 µm.*
+  - *Zweite Leinwand mit der Bilanz: 240 W/m² kurzwellig durch die Atmosphäre zum
+    Boden, 240 W/m² langwellig zurück, davon (1−g) ins All und g zum Boden.
+    Pfeilbreiten proportional zur Leistung, Werte auch in der Live-Box.
+    Als «vereinfachte Bilanz» deklariert — die realen Absorptionsbanden sind
+    zerklüftet, hier geht es um das Prinzip.*
 - [ ] [MITTEL] a4 EM-Spektrum: gegenläufige f-Achse unter dem Balken; E = hf als
   Live-Grösse (bereitet den UV-Transfer vor).
 - [ ] [MITTEL] Tempo/Reset-Standard auf ein-cv, a1, a2, a5 übertragen (Q6);
@@ -629,6 +645,6 @@ Insgesamt die stärkste Seite — nur Feinschliff, keine Streichungen:
    betrifft ~10 Widgets, macht tote Regler wieder lernwirksam.~~
    ✓ erledigt 28.07.2026.
 3. **[HOCH]-Einzelpunkte** je Seite (Abschnitt C).
-   p4-1 vollständig erledigt am 28.07.2026 (a1, a2, a3, a4, a6).
+   p4-1 und p6-1 vollständig erledigt am 28.07.2026.
 4. **Q3–Q6 und [MITTEL]** nach Gelegenheit, seitenweise beim nächsten Besuch.
 5. **Neue Animationen** (Abschnitt D) zuletzt — der Bestand hat Vorrang.

@@ -554,11 +554,18 @@ MathJax = {
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">sichtbares Licht</span><span class="lb-val" id="a6-vis">durchgelassen</span></div>
       <div class="lb-item"><span class="lb-lab">Infrarot (Wärme)</span><span class="lb-val" id="a6-ir">40 % absorbiert</span></div>
+      <div class="lb-item"><span class="lb-lab">entweicht ins All</span><span class="lb-val" id="a6-raus">144 W/m²</span></div>
+      <div class="lb-item"><span class="lb-lab">zurück zum Boden</span><span class="lb-val" id="a6-zurueck">96 W/m²</span></div>
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">🌍 Durchlässigkeit über der Wellenlänge</div>
-      <canvas id="a6-cv" height="240"></canvas>
+      <div class="cv-titel">🌍 Durchlässigkeit über der Wellenlänge — feste Skala \(0.2 \ldots 100\;\mu\text{m}\)</div>
+      <canvas id="a6-cv" height="250"></canvas>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">♻ Energiefluss Sonne → Boden → Atmosphäre (vereinfacht)</div>
+      <canvas id="a6-cv2" height="270" role="img" aria-label="Schema des Energieflusses: kurzwellige Sonnenstrahlung von 240 Watt pro Quadratmeter durchdringt die Atmosphäre und erwärmt den Boden. Der Boden strahlt dieselbe Leistung als langwellige Wärmestrahlung zurück. Die Atmosphäre lässt einen Teil ins All entweichen und wirft den vom Treibhausgas-Regler bestimmten Anteil zum Boden zurück."></canvas>
     </div>
 
   </div>
@@ -1182,6 +1189,13 @@ function a5Buttons(){
     box.appendChild(b); });
 }
 function a5Tick(dt){ a5State.t += dt; a5Render(); }
+// Richtung je Emissionszyklus, deterministisch aus der Zyklusnummer: gleiche
+// Zahl bei jedem Frame desselben Zyklus (sonst zappelt das Photon), aber von
+// Zyklus zu Zyklus eine andere. Math.random() pro Frame wäre unbrauchbar.
+function a5PhotonWinkel(k){
+  const r = Math.sin(k * 12.9898 + 78.233) * 43758.5453;
+  return (r - Math.floor(r)) * 2 * Math.PI;
+}
 function wavyArrow(ctx,x1,y1,x2,y2,col){
   const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,nx=-uy,ny=ux;
   ctx.strokeStyle=col; ctx.lineWidth=2; ctx.beginPath();
@@ -1206,6 +1220,9 @@ function a5Render(){
     // Phase: 0-0.30 anregen (inner + Energie rein), 0.30-0.65 outer, 0.65-1 Photon raus (inner)
     const onOuter = (p>=0.30 && p<0.65);
     const ang=t*2.0;
+    const zyk = Math.floor(t*0.35);                 // laufende Zyklusnummer
+    const tSprung = (zyk + 0.65) / 0.35;            // Zeitpunkt des Rücksprungs
+    const angSprung = tSprung * 2.0;                // Elektronwinkel dabei
     const er = onOuter ? r2 : r1;
     const ex=cx+er*Math.cos(ang), ey=cy+er*Math.sin(ang);
     // Anregungsenergie
@@ -1217,13 +1234,29 @@ function a5Render(){
       ctx.beginPath(); ctx.moveTo(cx+r1,cy); ctx.lineTo(cx+r2,cy); ctx.stroke(); ctx.setLineDash([]); }
     // Elektron
     ctx.fillStyle='#1a4f8a'; ctx.beginPath(); ctx.arc(ex,ey,6,0,6.283); ctx.fill();
-    // Photon-Emission
-    if(p>=0.65){ const d=(p-0.65)/0.35; const sx=cx+r1, sy=cy;
-      wavyArrow(ctx, sx, sy, sx+W*0.32*d, sy-H*0.30*d, '#b85c00');
-      ctx.fillStyle='#b85c00'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
-      ctx.fillText('Photon', sx+W*0.32*d-30, sy-H*0.30*d-6); }
+    // Richtungen der letzten Emissionen blass stehen lassen — erst dadurch ist
+    // die Zufälligkeit sichtbar, statt nur im Text behauptet zu werden.
+    for(let j=1;j<=5;j++){
+      if(zyk-j < 0) break;
+      const phi=a5PhotonWinkel(zyk-j), a0=(zyk-j+0.65)/0.35*2.0;
+      const ox=cx+r1*Math.cos(a0), oy=cy+r1*Math.sin(a0), L=r2+34;
+      ctx.strokeStyle='rgba(184,92,0,'+(0.34-0.055*j).toFixed(3)+')'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+L*Math.cos(phi), oy+L*Math.sin(phi)); ctx.stroke();
+    }
+    // Photon-Emission: startet dort, wo das Elektron beim Rücksprung war
+    if(p>=0.65){
+      const d=(p-0.65)/0.35, phi=a5PhotonWinkel(zyk);
+      const sx=cx+r1*Math.cos(angSprung), sy=cy+r1*Math.sin(angSprung);
+      const L=Math.min(W*0.34, H*0.40) + 40;
+      const ex2=sx+L*d*Math.cos(phi), ey2=sy+L*d*Math.sin(phi);
+      wavyArrow(ctx, sx, sy, ex2, ey2, '#b85c00');
+      ctx.fillStyle='#b85c00'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+      ctx.fillText('Photon', Math.max(40, Math.min(W-40, ex2)), Math.max(14, Math.min(H-40, ey2-10)));
+    }
     ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-    ctx.fillText('Elektron springt zurück und sendet ein Photon in zufälliger Richtung aus', W*0.5, H*0.95);
+    ctx.fillText(W < 520 ? 'jedes Mal eine andere Richtung'
+                         : 'Rücksprung → Photon; die Richtung ist jedes Mal eine andere (blass: die letzten fünf)',
+                 W*0.5, H*0.95);
   } else {                  // Laser
     const xL=W*0.12, xR=W*0.74, yT=H*0.20, yB=H*0.70, ymid=(yT+yB)/2;
     // Spiegel
@@ -1264,9 +1297,17 @@ function drawA6(){
   document.getElementById('a6-vis').textContent='durchgelassen';
   document.getElementById('a6-ir').textContent=Math.round(g*100)+' % absorbiert';
 
-  const cv=initCanvas('a6-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const cv=initCanvas('a6-cv',250,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const px0=W*0.10, px1=W*0.93, py0=H*0.14, py1=H*0.74;
+  const eng = W < 520;
+  const px0=W*0.10, px1=W*0.93, py0=H*0.14, py1=H*0.70;
+  // Feste logarithmische Wellenlängenachse in µm. Vorher war die x-Achse eine
+  // unbezifferte 0…1-Hilfsgrösse — man konnte nicht sehen, WO die Absorption
+  // einsetzt. Sonnenlicht liegt bei 0.4…0.8 µm, die Wärmestrahlung der Erde
+  // bei rund 4…50 µm; nur auf einer Log-Achse sind beide zugleich lesbar.
+  const LAM0=0.2, LAM1=100;
+  const lamX = lam => px0 + (Math.log10(lam)-Math.log10(LAM0))/(Math.log10(LAM1)-Math.log10(LAM0))*(px1-px0);
+  const xLam = x  => Math.pow(10, Math.log10(LAM0) + x*(Math.log10(LAM1)-Math.log10(LAM0)));
   // Achsen
   ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(px0,py0); ctx.lineTo(px0,py1); ctx.lineTo(px1,py1); ctx.stroke();
@@ -1274,14 +1315,18 @@ function drawA6(){
   ctx.fillText('100 %', px0-16, py0+4); ctx.fillText('0 %', px0-14, py1+2);
   ctx.save(); ctx.translate(px0-32,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Durchlässigkeit',0,0); ctx.restore();
   // x: links kurzwellig (sichtbar/Sonne) -> rechts langwellig (Infrarot/Wärme)
-  const xMid=px0+(px1-px0)*0.42;
+  const xMid=lamX(4);           // Übergang bei rund 4 µm
   // Region-Hintergruende
   ctx.fillStyle='rgba(230,200,40,0.12)'; ctx.fillRect(px0,py0,xMid-px0,py1-py0);
   ctx.fillStyle='rgba(192,57,43,0.10)'; ctx.fillRect(xMid,py0,px1-xMid,py1-py0);
   // Durchlaessigkeitskurve: links hoch (~95%), rechts faellt um g
-  function trans(x){ // x in [0,1] ueber die Achse
-    if(x<0.36) return 0.95;
-    if(x<0.46){ const u=(x-0.36)/0.10; return 0.95 - u*0.95*g; } // Uebergang
+  // Vereinfachte Durchlässigkeit: bis 3 µm offen, ab 5 µm um g gedämpft.
+  // Die realen Absorptionsbanden sind stark zerklüftet — hier geht es nur um
+  // das Prinzip «kurzwellig durch, langwellig zurückgehalten».
+  function trans(x){
+    const lam=xLam(x);
+    if(lam<3) return 0.95;
+    if(lam<5){ const u=(Math.log10(lam)-Math.log10(3))/(Math.log10(5)-Math.log10(3)); return 0.95 - u*0.95*g; }
     return 0.95*(1-g);
   }
   const yOf=T=>py1-(T)*(py1-py0);
@@ -1290,21 +1335,93 @@ function drawA6(){
     if(i===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
   ctx.stroke();
   // absorbierte Flaeche (zwischen Kurve und 100%) im IR
-  ctx.fillStyle='rgba(192,57,43,0.30)'; ctx.beginPath(); ctx.moveTo(px0+0.46*(px1-px0),yOf(0.95));
-  for(let i=46;i<=100;i++){ const x=i/100; ctx.lineTo(px0+x*(px1-px0), yOf(trans(x))); }
-  for(let i=100;i>=46;i--){ const x=i/100; ctx.lineTo(px0+x*(px1-px0), yOf(0.95)); }
+  const xAb=(Math.log10(3)-Math.log10(LAM0))/(Math.log10(LAM1)-Math.log10(LAM0));
+  ctx.fillStyle='rgba(192,57,43,0.30)'; ctx.beginPath(); ctx.moveTo(px0+xAb*(px1-px0),yOf(0.95));
+  for(let i=Math.round(xAb*100);i<=100;i++){ const x=i/100; ctx.lineTo(px0+x*(px1-px0), yOf(trans(x))); }
+  for(let i=100;i>=Math.round(xAb*100);i--){ const x=i/100; ctx.lineTo(px0+x*(px1-px0), yOf(0.95)); }
   ctx.closePath(); ctx.fill();
   // Trennlinie + Labels
   ctx.strokeStyle='#9aa0a6'; ctx.setLineDash([4,3]); ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(xMid,py0); ctx.lineTo(xMid,py1); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#8a6d12'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('sichtbares Licht (Sonne)', (px0+xMid)/2, py1+16);
-  ctx.fillStyle='#a8392b';
-  ctx.fillText('Infrarot (Wärmestrahlung)', (xMid+px1)/2, py1+16);
-  ctx.fillText('← kurzwellig          Wellenlänge          langwellig →', W*0.5, py1+32);
+  // µm-Ticks
+  ctx.fillStyle='#6b7280'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1;
+  [0.2,0.5,1,2,5,10,20,50,100].forEach(lam=>{
+    const x=lamX(lam);
+    ctx.beginPath(); ctx.moveTo(x,py1); ctx.lineTo(x,py1+4); ctx.stroke();
+    if(!eng || [0.2,1,10,100].includes(lam)) ctx.fillText(String(lam), x, py1+17); });
+  ctx.textAlign='right'; ctx.fillStyle='#374151'; ctx.font='bold 13px Source Sans 3,sans-serif';
+  ctx.fillText('λ [µm]', px1, py1+32);
+  // sichtbares Band 0.38 … 0.78 µm markieren
+  ctx.fillStyle='rgba(230,200,40,0.45)';
+  ctx.fillRect(lamX(0.38), py0, lamX(0.78)-lamX(0.38), py1-py0);
+  ctx.fillStyle='#8a6d12'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillText(eng?'sichtbar':'sichtbar 0.4 … 0.8 µm', lamX(0.9), py0+36);   // unter die Kurve
+  if(!eng){ ctx.fillStyle='#a8392b'; ctx.textAlign='center';
+    ctx.fillText('Wärmestrahlung der Erde (4 … 50 µm)', (xMid+px1)/2, py1+32); }
   // Hinweis
   ctx.fillStyle='#a8392b'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText(Math.round(g*100)+' % der Wärmestrahlung absorbiert', (xMid+px1)/2, (py0+py1)/2);
+  ctx.fillText(eng ? (Math.round(g*100)+' % absorbiert') : (Math.round(g*100)+' % der Wärmestrahlung absorbiert'),
+               (xMid+px1)/2, eng ? py1-14 : (py0+py1)/2);
+  drawA6Fluss();
+}
+// ── Energiefluss Sonne → Boden → Atmosphäre ─────────────────────────────
+// Die Transmissionskurve allein zeigt nur, WAS die Atmosphäre durchlässt.
+// Der Mechanismus (Aufgabe A6.3) braucht die Bilanz: kurzwellig kommt durch,
+// langwellig wird teilweise zurückgeworfen und heizt den Boden zusätzlich.
+const A6_S = 240;   // W/m² kurzwellig absorbiert — Standard-Grössenordnung
+function drawA6Fluss(){
+  const g=+document.getElementById('a6-g').value/100;
+  const raus=A6_S*(1-g), zurueck=A6_S*g;
+  document.getElementById('a6-raus').textContent=Math.round(raus)+' W/m²';
+  document.getElementById('a6-zurueck').textContent=Math.round(zurueck)+' W/m²';
+
+  const cv=initCanvas('a6-cv2',270,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  const eng = W < 520;
+  const yAll=26, yAtmO=H*0.34, yAtmU=H*0.52, yBoden=H-46;
+  ctx.fillStyle='#f2f6fa'; ctx.fillRect(0,0,W,H);
+  // Atmosphärenband, Deckkraft nach Treibhausgas-Anteil
+  ctx.fillStyle='rgba(120,160,200,'+(0.16+0.34*g).toFixed(3)+')';
+  ctx.fillRect(0,yAtmO,W,yAtmU-yAtmO);
+  ctx.strokeStyle='#8fa9c4'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(0,yAtmO); ctx.lineTo(W,yAtmO); ctx.moveTo(0,yAtmU); ctx.lineTo(W,yAtmU); ctx.stroke();
+  // Boden
+  ctx.fillStyle='#86a85e'; ctx.fillRect(0,yBoden,W,H-yBoden);
+  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif';
+  ctx.textAlign='left'; ctx.fillText('Weltall', 10, yAll-8);
+  if(!eng) ctx.fillText('Atmosphäre — '+Math.round(g*100)+' % Wirkung', 10, (yAtmO+yAtmU)/2+4);
+  if(!eng) { ctx.fillStyle='#2f4a12'; ctx.fillText('Erdboden', 10, H-14); }
+
+  const breite = f => Math.max(3, f/A6_S*22);     // Pfeilbreite ∝ Leistung
+  function pfeil(x,y1,y2,f,col,txt,seite){
+    const b=breite(f);
+    ctx.strokeStyle=col; ctx.lineWidth=b; ctx.lineCap='butt';
+    ctx.beginPath(); ctx.moveTo(x,y1); ctx.lineTo(x,y2-(y2>y1?10:-10)); ctx.stroke();
+    ctx.fillStyle=col; ctx.beginPath();
+    const d=y2>y1?1:-1;
+    ctx.moveTo(x,y2); ctx.lineTo(x-b*0.9-3,y2-d*12); ctx.lineTo(x+b*0.9+3,y2-d*12); ctx.closePath(); ctx.fill();
+    ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign=seite;
+    ctx.fillText(txt, x+(seite==='left'?b/2+8:-b/2-8), (y1+y2)/2+4);
+  }
+  // kurzwellig: Sonne → Boden, ungehindert
+  pfeil(W*(eng?0.14:0.20), yAll, yBoden, A6_S, '#d8a326',
+        eng ? (A6_S+' W/m²') : (A6_S+' W/m² kurzwellig'), 'left');
+  if(!eng){ ctx.fillStyle='#8a6d12'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+    ctx.fillText('geht durch', W*0.20+22, yAtmU+18); }
+  // langwellig: Boden → Atmosphäre (Beschriftung links vom Pfeil, sonst
+  // kollidiert sie mit der Rückstrahlung weiter rechts)
+  pfeil(W*(eng?0.52:0.58), yBoden, yAtmU, A6_S, '#c0392b',
+        eng ? (A6_S+' W/m²') : (A6_S+' W/m² langwellig'), 'right');
+  // Aufteilung an der Atmosphäre
+  if(raus>0.5) pfeil(W*(eng?0.52:0.58), yAtmO, yAll, raus, '#c0392b',
+        Math.round(raus)+(eng?' ↑All':' W/m² ins All'), 'left');
+  if(zurueck>0.5) pfeil(W*(eng?0.88:0.88), yAtmU, yBoden, zurueck, '#9b1c1c',
+        Math.round(zurueck)+(eng?' ↓':' W/m² zurück'), 'right');
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillText(zurueck>0.5 ? (eng?'Rückstrahlung heizt den Boden':'diese Rückstrahlung heizt den Boden zusätzlich')
+                           : 'ohne Treibhausgase geht alles ins All', W*0.5, H-6);
+  if(!eng){ ctx.fillStyle='#6b7280'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.fillText('vereinfachte Bilanz', W-8, yAll-8); }
 }
 ['a6-g'].forEach(id=>document.getElementById(id).addEventListener('input', drawA6));
 
