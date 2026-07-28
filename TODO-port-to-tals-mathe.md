@@ -8,10 +8,17 @@ eigenen Farb-Variablen (`--blau*` statt `--bernstein*`) der Mathe-Seite belassen
 
 > Vor dem Übertragen prüfen, ob die Klassennamen / Dateinamen in Mathe identisch sind
 > (`style.css`, `physiklib.js` bzw. das dortige Pendant, `.live-box`, `.anim-hinweis`,
-> `.widget-titelzeile`). Wo sie abweichen, Selektoren entsprechend anpassen.
-> Nach jeder Änderung den Mathe-Pre-Flight laufen lassen (falls vorhanden) und – sobald
-> ein Browser verfügbar ist – einen Render-Check bei 1280 px **und** 360 px machen
-> (dieser steht in Physik noch aus: Playwright war lokal nicht installierbar).
+> `.widget-titelzeile`). Wo sie abweichen, Selektoren entsprechend anpassen. **Nicht
+> jede Physik-Struktur hat in Mathe ein Pendant** — §2 unten ist das Beispiel dafür.
+> Nach jeder Änderung den Mathe-Pre-Flight laufen lassen und einen Render-Check bei
+> 1280 px **und** 360 px machen. Mathe hat dafür `.claude/tools/screenshot-widgets.mjs`;
+> in Physik läuft Playwright seit dem 26.07.2026 lokal (Chromium unter
+> `~/.cache/ms-playwright/`), ein eigenes Werkzeugskript fehlt hier noch.
+
+> **Status-Hinweis:** Der massgebliche Stand steht in der Mathe-Kopie dieser Datei
+> (`/home/paps/tals-mathe/TODO-port-to-tals-mathe.md`) — dort wird abgehakt, was
+> tatsächlich portiert wurde. Diese Physik-Kopie ist die Absenderliste und wurde am
+> 28.07.2026 mit dem Mathe-Stand abgeglichen.
 
 ---
 
@@ -46,8 +53,9 @@ for f in sorted(glob.glob('themen/*.html')) + ['physiklib.js']:
 darf nichts mehr finden. Lange Satz-Beschriftungen auf 360 px gegen Überlauf sichten
 (in Physik der einzige Restpunkt).
 
-- [ ] Skript in Mathe ausgeführt (themen + Canvas-Bibliothek)
-- [ ] keine `<13px`-Fonts mehr vorhanden
+- [x] Skript in Mathe ausgeführt — 21 HTML-Seiten (grundlagen + schwerpunkt) und
+  `mathlib.js` (Achsen-Zahlen 11→13, Achsen-Labels `bold 11`→`bold 13`).
+- [x] keine `<13px`-Fonts mehr vorhanden (`grep` über grundlagen/schwerpunkt/mathlib.js leer)
 
 ---
 
@@ -59,20 +67,34 @@ Dichte Boxen (≥ 4 Werte) bekommen den engen Abstand zurück.
 **Warum:** Mehr horizontaler Abstand liest sich deutlich besser; getrennter Zeilen-/
 Spaltenabstand hält die Werte beim Umbruch (Mobile) trotzdem eng beieinander.
 
-**Diff (nur die `gap`-Zeile ändern + eine neue Regel; Farben/Übriges der Mathe-Box lassen):**
+**Diff (nur die `gap`-Zeile ändern + zwei neue Regeln; Farben/Übriges der Box lassen):**
 
 ```css
 /* vorher: .live-box { … gap:14px … } */
 .live-box { … gap:14px 70px … }
-/* NEU direkt darunter: dichte Boxen (4+ Werte) wieder eng */
-.live-box:has(> .lb-item:nth-child(4)) { column-gap:14px; }
+/* dichte Boxen gestuft verkleinern — NICHT bis auf den Zeilenabstand */
+.live-box:has(> .lb-item:nth-child(4)) { column-gap:40px; }
+.live-box:has(> .lb-item:nth-child(6)) { column-gap:24px; }
 ```
 
 **Hinweis:** `:has()` ist seit Ende 2023 Baseline (alle aktuellen Browser) — für GitHub
 Pages unkritisch.
 
-- [ ] `gap:14px 70px` gesetzt
-- [ ] `:has()`-Ausnahme für 4+-Werte-Boxen ergänzt
+> **KORREKTUR (27.07.2026):** Der ursprüngliche Vorschlag liess dichte Boxen (4+ Werte)
+> auf `column-gap:14px` zurückfallen — also auf den Zeilenabstand. Das ist in Physik
+> aufgefallen, sobald eine Animation einen vierten Wert bekam: die Werte klebten
+> zusammen und waren nicht mehr als getrennte Grössen lesbar. Richtig ist die
+> **gestaffelte** Verkleinerung 70 / 40 / 24 px oben. Wer den alten Stand kopiert,
+> baut den Fehler nach. Daraus wurde Stilcheck-Regel 1 (STYLEGUIDE §5.3).
+
+> **NICHT ÜBERTRAGBAR (2026-06-24, in Mathe geprüft):** TALS-Mathe hat keine
+> `.live-box`/`.lb-item`-Struktur. Live-Werte stehen dort als vertikale Legende
+> (`.legende` / `.legende-zeile`) oder inline als `.wert`-Spans in der Formel. Es gibt
+> also keinen Spaltenabstand zwischen nebeneinanderliegenden Wert-Boxen, der sich
+> vergrössern liesse — kein passendes Pendant. Punkt entfällt für Mathe.
+
+- [~] `gap:14px 70px` gesetzt — entfällt (kein `.live-box` in Mathe, s. o.)
+- [~] gestaffelte `:has()`-Ausnahmen ergänzt — entfällt (s. o.)
 
 ---
 
@@ -107,11 +129,11 @@ links öffnend passt auf jeder Breite.
 Variante richtet sich (über `position:static`) an der `.widget-titelzeile` aus und passt
 mit `width:min(440px,86vw)` auf jeder Breite.
 
-- [ ] `.widget-titelzeile` → `position:relative`
-- [ ] `.widget-titelzeile h3` → `margin-right:auto`
-- [ ] `.anim-hinweis.rechts { margin-left:auto }` entfernt
-- [ ] `.anim-hinweis.links { position:static }` ergänzt
-- [ ] `.anim-hinweis.links .ah-pop` zur `left:auto; right:0`-Regel hinzugefügt
+- [x] `.widget-titelzeile` → `position:relative`
+- [x] `.widget-titelzeile h3` → `margin-right:auto`
+- [x] `.anim-hinweis.rechts { margin-left:auto }` entfernt
+- [x] `.anim-hinweis.links { position:static }` ergänzt
+- [x] `.anim-hinweis.links .ah-pop` zur `left:auto; right:0`-Regel hinzugefügt
 
 ---
 
@@ -129,8 +151,50 @@ inhaltlich passt:
 
 ---
 
+## 5. Stilcheck-Regelwerk  (neu, 26.–28.07.2026)
+
+**Was:** Aus der Überarbeitung der Canvas-Animationen sind sechs verbindliche
+Darstellungsregeln entstanden, abrufbar über das Stichwort **«Stilcheck»** im Prompt.
+Sie stehen in `STYLEGUIDE.md` (§2.1, §2.6b, §2.7, §2.8, §5.3) und als Tabelle in
+`CLAUDE.md`.
+
+**Warum als Port:** Die Regeln entstanden als Einzelbefunde («Abstände zu klein»,
+«Punkt als Trenner geht gar nicht») und werden ohne Sammelstelle und Auslöser bei der
+nächsten Änderung wieder verletzt — oft von der Ergänzung selbst.
+
+**Wie:** Ein geprüftes Skript liegt bereits im Mathe-Repo:
+`scripts/port_stilcheck_von_physik.py` (Trockenlauf ist Standard, idempotent).
+
+```bash
+cd /home/paps/tals-mathe
+python3 scripts/port_stilcheck_von_physik.py all --apply   # Doku + 2 CSS-Zeilen
+python3 scripts/port_stilcheck_von_physik.py check         # Befundliste Bestand
+```
+
+**Was dabei bewusst NICHT übertragen wird:**
+
+- **Regel 1** (Live-Box-Spaltenabstand) entfällt — kein `.live-box` in Mathe (§2 oben).
+  Mathe bekommt darum fünf statt sechs Regeln.
+- **Zentralisierung der `.formel-live`-Inline-Stile** wurde getestet und verworfen:
+  fünf Mathe-Seiten setzen `.fl-eq` ohne `font-style`, eine zentrale Regel mit
+  `italic` würde sie kursivieren (CSS mischt eigenschaftsweise). Der Unterbefehl
+  `inline` listet die Varianten je Datei auf — die Entscheidung bleibt redaktionell.
+- **CHANGELOG-Ablösung** gilt nur für Physik. Mathes `CHANGELOG.md` wird weiter
+  gepflegt (ZIP-Snapshot-Rhythmus, letzter Eintrag 11.07.2026).
+
+**Achtung, sichtbare Änderung:** Die zentrale Regel `.fl-eq + .fl-eq { margin-top:6px }`
+betrifft 130 mehrzeilige Anzeigen auf 32 Mathe-Seiten. Render-Check ist Pflicht.
+
+- [ ] `docs` und `css` in Mathe ausgeführt
+- [ ] Render-Check 1280 px + 360 px nach der CSS-Änderung
+- [ ] `check`-Befundliste abgearbeitet (Stand 28.07.2026: 34 echte Treffer zu Regel 1,
+  1 zu Regel «Preis/Kosten»; die 3 Treffer zu «Formel vor Werten» sind Fehlalarme)
+
+---
+
 ### Verifikation pro Port
 1. Mathe-Pre-Flight: `ALLE CHECKS BESTANDEN`.
 2. `node --check` auf geänderte Inline-Scripts (macht der Pre-Flight i. d. R. mit).
-3. Render-Check 1280 px + 360 px, sobald ein Browser verfügbar ist (in Physik offen).
+3. Render-Check 1280 px + 360 px — in Mathe mit `.claude/tools/screenshot-widgets.mjs`,
+   in Physik mit einem Playwright-Skript (Chromium liegt unter `~/.cache/ms-playwright/`).
 4. CSS-Klammerbilanz: `python3 -c "s=open('style.css').read(); print(s.count('{')==s.count('}'))"`.
