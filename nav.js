@@ -144,7 +144,9 @@ function buildNav(cfg) {
     <p><em>Empfohlene Namensnennung:</em> Raphael Arnold Kohler, TALS Physik,
        https://go4exercises.github.io/TALS-Physik/, CC BY-NC 4.0.</p>
     <p><a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener" class="meta-link">
-       → Lizenztext (CC BY-NC 4.0)</a></p>`;
+       → Lizenztext (CC BY-NC 4.0)</a></p>
+    <p><a href="https://github.com/go4exercises/TALS-Physik" target="_blank" rel="noopener" class="meta-link">
+       → Quelltext und Inhalte des Lehrmittels (GitHub)</a></p>`;
 
   // ── HEADER ──
   const headerHTML = `
