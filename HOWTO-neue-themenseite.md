@@ -78,6 +78,7 @@ Mindestens muss vorhanden sein:
   </div>
   <footer class="site-footer">…</footer>
   <script src="../nav.js"></script>
+  <script src="../suche.js"></script>
   <script src="../physiklib.js"></script>
   <script src="../anim-hinweise.js"></script>
   <script>
@@ -158,7 +159,7 @@ Jede Animation erhält statt der Bedienungszeile unter dem Titel eine `<div clas
 
 ### 4.1 nav.js
 
-In `nav.js` sind alle bestehenden Themenseiten der Sidebar über die zentrale Seitenliste (`id`/`nr`/`titel`/`url`) erfasst; ein Status-Feld („fertig\"/„geplant\") führt `nav.js` nicht — der Status lebt allein in den Karten von `index.html`. **Für eine zusätzliche Seite genügt ein neuer Listeneintrag** mit korrekter `url`, sobald die HTML-Datei am erwarteten Pfad existiert. Das «Ausblick»-Panel in `nav.js` (Abschnitte „Erstellt\"/„Geplant\") bei Bedarf an den neuen Stand anpassen.
+In `nav.js` sind alle bestehenden Themenseiten der Sidebar über die zentrale Seitenliste (`id`/`nr`/`titel`/`url`) erfasst; ein Status-Feld („fertig\"/„geplant\") führt `nav.js` nicht — der Status lebt allein in den Karten von `index.html`. **Für eine zusätzliche Seite genügt ein neuer Listeneintrag** mit korrekter `url`, sobald die HTML-Datei am erwarteten Pfad existiert. Das «Ausblick»-Panel in `nav.js` (Abschnitte „Erstellt\"/„Ideen für den Ausbau\") bei Bedarf an den neuen Stand anpassen.
 
 ### 4.2 index.html
 
@@ -214,8 +215,19 @@ grep -c 'class="page-wrap"' themen/p4-2-dynamik.html  # erwartet: 1
 grep -c 'class="content"' themen/p4-2-dynamik.html    # erwartet: 1
 # nav.js, physiklib.js und anim-hinweise.js müssen eingebunden sein
 grep -c 'src="../nav.js"' themen/p4-2-dynamik.html         # erwartet: 1
+grep -c 'src="../suche.js"' themen/p4-2-dynamik.html       # erwartet: 1
 grep -c 'src="../physiklib.js"' themen/p4-2-dynamik.html   # erwartet: 1
 grep -c 'src="../anim-hinweise.js"' themen/p4-2-dynamik.html # erwartet: 1
+```
+
+### 6.1a Suchindex neu bauen
+
+Eine neue Seite ist erst auffindbar, wenn der Index sie kennt (er liest die Seitenliste
+aus `nav.js`):
+
+```bash
+python3 scripts/build-suchindex.py          # neu bauen — suchindex.js gehört in den Commit
+python3 scripts/build-suchindex.py --check  # Exit 1 = veraltet; der Pre-Flight warnt ebenfalls
 ```
 
 ### 6.2 Aufgaben mit toggleL

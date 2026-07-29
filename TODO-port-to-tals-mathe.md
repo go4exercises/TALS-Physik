@@ -19,6 +19,10 @@ eigenen Farb-Variablen (`--blau*` statt `--bernstein*`) der Mathe-Seite belassen
 > (`/home/paps/tals-mathe/TODO-port-to-tals-mathe.md`) — dort wird abgehakt, was
 > tatsächlich portiert wurde. Diese Physik-Kopie ist die Absenderliste und wurde am
 > 28.07.2026 mit dem Mathe-Stand abgeglichen.
+>
+> **§§ 6–10 ergänzt am 29.07.2026** (Suche, klebender Header, Rechtliches/Footer,
+> Startseite, Kleinteiliges). Die Angaben zum Mathe-Stand darin sind am 29.07.2026
+> direkt im Mathe-Repo nachgesehen, nicht geschätzt.
 
 ---
 
@@ -191,6 +195,209 @@ betrifft 130 mehrzeilige Anzeigen auf 32 Mathe-Seiten. Render-Check ist Pflicht.
   1 zu Regel «Preis/Kosten»; die 3 Treffer zu «Formel vor Werten» sind Fehlalarme)
 
 ---
+
+---
+
+## 6. Header bleibt beim Scrollen stehen  (`style.css`, 1 Zeile + 1 Regel)
+
+**Was:** `#nav-root` wird selbst `sticky`. Dazu bekommt `.mobile-nav` eine Höhenbegrenzung
+mit eigenem Scrolling.
+
+```css
+#nav-root { position: sticky; top: 0; z-index: 200; }
+
+.mobile-nav {
+  /* … bestehende Regeln … */
+  max-height: calc(100vh - 54px); overflow-y: auto;
+}
+```
+
+**Warum:** `.site-hdr` trägt zwar `position: sticky; top: 0`, klebt aber nie — der Header
+liegt in `<div id="nav-root">`, und ein klebendes Element klebt nur innerhalb der Box
+seines Containers. Der ist 54 px hoch und scrollt weg. In Physik gemessen: bei
+Scrollposition 2500 lag die Header-Oberkante bei −2500, auf allen Breiten und Seiten.
+Zweiter Effekt: das Burger-Menü liegt im Textfluss direkt unter dem Header und ging beim
+Scrollen **ausserhalb des Bildschirms** auf (bei 360 px gemessen: Menü bei −4029, und die
+eingefügten 1083 px schoben die Seite zusätzlich weiter). Ohne `max-height` ist das offene
+Menü höher als der Schirm und die unteren Einträge sind unerreichbar.
+
+**Mathe-Stand (29.07.2026 geprüft):** identischer Fehler. `style.css:53` setzt
+`position: sticky` auf `.site-hdr`, eine Regel für `#nav-root` gibt es nicht;
+`.mobile-nav` ist vorhanden. Der Port ist 1:1 möglich, keine Farbfrage.
+
+**Dazu gehört:** Sprungziele nicht unter den Header rutschen lassen —
+
+```css
+.content h2[id], .content h3[id] { scroll-margin-top: 66px; }
+```
+
+Betrifft die Sprünge aus dem Inhaltsverzeichnis und (nach §7) aus der Suche. Mathe hat
+heute kein `scroll-margin` im `style.css`.
+
+- [ ] `#nav-root` sticky gesetzt, Header steht bei 1280 px und 360 px
+- [ ] `.mobile-nav` mit `max-height` + `overflow-y`, Burger-Menü beim Scrollen brauchbar
+- [ ] `scroll-margin-top` für `h2[id]`/`h3[id]`
+
+---
+
+## 7. Volltextsuche über die ganze Site  (neu: 3 Dateien + Header-Feld)
+
+**Was:** Suchfeld oben rechts im Header, Trefferpanel mit Kapitelnummer, Abschnittstitel
+und markiertem Textausschnitt, Sprung auf den `<h2>`-Anker. Rein statisch, kein Server,
+keine Fremdbibliothek.
+
+**Dateien aus Physik (in dieser Reihenfolge übernehmen):**
+
+| Datei | Rolle | Anpassung für Mathe |
+|---|---|---|
+| `scripts/build-suchindex.py` | erzeugt den Index aus den Seiten | Seitenliste, Skip-Listen, Pfade |
+| `suche.js` | Suchlogik + Panel | nur Pfad-/Textkosmetik |
+| `suchindex.js` | **generiert** — nie von Hand ändern | entsteht beim ersten Lauf |
+| `nav.js` | Suchfeld ins Header-Markup | 1:1 (Markup ist farbfrei) |
+| `style.css` | Feld + Panel + Mobile-Lupe | `--bernstein*` → `--blau*` |
+
+**Nötige Änderungen im Generator (Mathe-Stand 29.07.2026 geprüft):**
+
+1. `seiten_aus_navjs()` liest in Physik **eine** Liste (`themen: [ … ]`). Mathe hat in
+   `nav.js` **zwei** (`grundlagen: [ … ]` und `schwerpunkt: [ … ]`, zusammen 46 Seiten) —
+   beide einlesen und aneinanderhängen, danach `glossar.html` und `formelsammlung.html`.
+2. Die Skip-Liste `SKIP_CLASSES` prüfen: `minicheck`, `aufg-liste`, `block-aufg`, `frage`
+   gibt es in Mathe ebenfalls; **`widget-body` existiert dort nicht** — nachsehen, was die
+   Animationsbedienung in Mathe umschliesst, sonst landen Reglerbeschriftungen und
+   Live-Werte im Index.
+3. `SKIP_SECTIONS` (`aufgaben`, `downloads`, `ressourcen`) gegen die tatsächlichen
+   `<h2 id>` in Mathe abgleichen.
+4. Der Glossar-Modus schneidet pro `.glossar-eintrag`, der Formelsammlungs-Modus pro
+   `<h3>` — beides gegen das Mathe-Markup prüfen.
+
+**Grösse:** Physik hat 507 KB Rohtext → 208 Abschnitte → `suchindex.js` 250 KB
+(~45 KB über die Leitung). Mathe hat **1086 KB Rohtext über 48 Seiten**, also grob das
+Doppelte. Der Index wird erst beim ersten Tastendruck im Suchfeld nachgeladen, das ist
+verkraftbar — wenn er unangenehm gross wird, den Abschnittstext im Generator kappen
+(z.B. 1500 Zeichen) statt Seiten wegzulassen.
+
+**Warum `.js` statt `.json`:** `fetch()` auf eine JSON-Datei scheitert unter `file://` an
+CORS. Als `window.SUCHINDEX = {…}` funktioniert die Suche auch, wenn jemand die Seiten
+lokal öffnet.
+
+**Pflege:** Nach jeder inhaltlichen Änderung `python3 scripts/build-suchindex.py`. In
+Physik prüft der Pre-Flight das mit (`--check`, Exit 1 = veraltet) und meldet `[WARN]` —
+denselben Aufruf in den Mathe-Pre-Flight aufnehmen. Der Fingerabdruck geht über den
+*indexierten Inhalt*, nicht über die Rohdateien; Änderungen an Skripten oder Aufgaben
+lösen also keine Fehlalarme aus.
+
+- [ ] `scripts/build-suchindex.py` übernommen und auf zwei Seitenlisten umgebaut
+- [ ] Skip-Listen an Mathe-Klassen angepasst (Stichprobe: ein Aufgabentext und eine
+  Mini-Check-Frage dürfen **nicht** im Index stehen, ein Einstiegstext schon)
+- [ ] `suche.js` übernommen, `suchindex.js` gebaut
+- [ ] Suchfeld in `nav.js` (Header rechts, Lupe ab 640 px) + CSS mit Mathe-Farben
+- [ ] `<script src="…/suche.js">` auf allen Seiten eingebunden (in Physik per Skript
+  direkt nach der `nav.js`-Zeile)
+- [ ] Pre-Flight um den `--check`-Aufruf ergänzt
+- [ ] Render-Check 1280 px + 360 px, Tastatur (`/`, Strg/Cmd+K, Pfeile, Enter, Esc)
+
+---
+
+## 8. Rechtliches, Footer und «Kontakt & Feedback»
+
+**Was:** Autor, Lizenz, Haftung und Datenschutz sind belegt und von jeder Seite aus
+erreichbar; Kontakt läuft ausschliesslich über das Feedbackformular, es gibt **keine**
+veröffentlichte E-Mail-Adresse.
+
+**Teile:**
+
+1. **`rechtliches.html`** (neu, Root, kein eigener Headerpunkt): Verantwortlich · Haftung ·
+   Datenschutz beim Seitenaufruf · Datenschutz beim Feedback · Betroffenenrechte · keine
+   Cookies. Verlinkt aus Footer und Formular. **Pflicht, sobald `feedback.html` portiert
+   ist** — die Physik-Fassung des Formulars verlinkt relativ auf `rechtliches.html`, in
+   Mathe liefe der Link sonst ins Leere.
+2. **`feedback.html`**: Die Datei ist in beiden Projekten dieselbe und erkennt das Projekt
+   selbst aus der URL. Die Physik-Fassung kann **1:1** übernommen werden; sie enthält den
+   Datenschutzhinweis unter dem Senden-Knopf (erscheint erst mit ihm), den kleinen Fuss und
+   die entschärften Platzhalter („freiwillig — kann leer bleiben" statt „leer lassen =
+   anonym"; „anonym" lässt sich bei Übermittlung über einen externen Dienst nicht
+   absolut versprechen).
+3. **Header-Beschriftung**: aus „Feedback" wird „Kontakt & Feedback" — in Mathe heisst der
+   Punkt heute `FEEDBACK` (eigener `.nav-btn nav-meta`-Eintrag, Desktop und Mobil).
+4. **Über-Panel** (`nav.js`): Autor namentlich, Unabhängigkeit von SBFI/Kanton/Schule,
+   KI-Einsatz mit redaktioneller Verantwortung, CC BY-NC 4.0 mit empfohlener Namensnennung.
+   Die Physik-Texte sind wörtlich übertragbar, nur „TALS Physik" → „TALS Mathematik".
+5. **Einheitlicher Footer** auf allen Seiten:
+
+```html
+<footer class="site-footer">
+  <p><strong>TALS Mathematik</strong> — Lernmaterial für die Berufsmaturität …</p>
+  <p>Mathematik · 3.2 Lineare Funktionen</p>          <!-- seitenspezifisch -->
+  <p>© 2026 Raphael Arnold Kohler · <a href="…by-nc/4.0/deed.de">CC BY-NC 4.0</a></p>
+  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
+  <p>Keine Cookies · Kein Tracking · Version X · Stand …</p>
+</footer>
+```
+
+   **Kein GitHub-Link im Footer.** Er steht genau einmal, im Über-Panel unter „Lizenz"
+   („→ Quelltext und Inhalte des Lehrmittels (GitHub)"). Begründung: für Lernende ist
+   „GitHub" Fachjargon und eine Dateiliste wirkt wie ein Fehler; wer das Repo sucht, liest
+   es ohnehin aus der Domain `go4exercises.github.io/…`. Mathes heutiger Footer nennt
+   „GitHub Pages" in Zeile 2 — der fällt weg.
+
+**Vor dem Behaupten prüfen:** Die Aussage „keine Cookies" gilt nur, solange nichts im
+Browser gespeichert wird. In Physik geprüft: kein `document.cookie`, kein
+`localStorage`/`sessionStorage`/`indexedDB` im ganzen Projekt. In Mathe vor der
+Veröffentlichung derselbe Grep. Ebenso die Löschfrist im Datenschutztext (12 Monate) —
+sie muss zur tatsächlichen Praxis im Apps Script und im Postfach passen.
+
+- [ ] `rechtliches.html` erstellt (Texte aus Physik, Fach und Projektname angepasst)
+- [ ] `feedback.html` aus Physik übernommen, Versand einmal echt getestet
+- [ ] Headerpunkt „Kontakt & Feedback" (Desktop + Mobil)
+- [ ] Über-Panel: Autor, Ausblick, Lizenz nachgeführt, GitHub-Link unter Lizenz
+- [ ] Footer auf allen 48 Seiten + `TEMPLATE.html` vereinheitlicht
+- [ ] Cookie-Grep und Löschfrist verifiziert
+
+---
+
+## 9. Startseite straffen  — nur als Muster, nicht 1:1
+
+**Was in Physik gemacht wurde:** Der Kopfbereich der Startseite hat rund 380 px verloren.
+Die Kopfzeile rückt direkt unter den Header und schreibt sich gemischt
+(„Berufsmaturität **T**echnik, **A**rchitektur, **L**ife **S**ciences — **TALS**", die
+Anfangsbuchstaben und das abschliessende TALS in der Leitfarbe und fett); Titel und
+Untertitel sind zu einer Zeile zusammengefasst; Chip-Reihe, Statuszeile („16 fertig · 0 in
+Arbeit") und die Bereichs-Kopfzeile samt Fachbereichs-Zeile sind ersatzlos entfernt.
+Die Kapitelliste steht damit ohne Scrollen im ersten Bildschirm.
+
+**Mathe-Stand:** Die Startseite ist **anders aufgebaut** — `.hero-ew`, `.kap-hdr`, `.k-lek`
+und `.ds-grid` gibt es dort nicht. Der Port ist also keine CSS-Übernahme, sondern die
+Frage: Was steht auf der Mathe-Startseite über der ersten Kapitelzeile, und wie viel davon
+liest tatsächlich jemand? Zahlen-Kacheln und Fortschrittszeilen sind die üblichen
+Kandidaten.
+
+**Mitgehende Kleinigkeiten aus demselben Durchgang** (nur, wenn die Struktur existiert):
+
+- Lange Statuszeilen in Kapitelköpfen unter 600 px umbrechen lassen
+  (`white-space: normal; text-align: right`) — sonst laufen sie rechts aus dem Bild.
+- Legenden-Kacheln auf feste Spaltenzahl statt `auto-fill`, damit alle in eine Reihe
+  passen und die Wortbeispiele umbrechen dürfen.
+
+- [ ] Startseite gesichtet, überflüssige Kopfelemente benannt
+- [ ] Entscheid getroffen (kein Automatismus)
+
+---
+
+## 10. Kleinteiliges aus demselben Durchgang
+
+- [ ] **Links im Über-Panel bleiben inline.** `.dd-menu a { display:flex }` macht jeden
+  Link im Panel zu einer eigenen Zeile; ein Link mitten im Satz bricht dadurch heraus.
+  Gegenregel: `.ueber-panel .meta-link { display:inline; padding:0; }`. Mathe hat
+  `.dd-menu a` und `.ueber-panel` — derselbe Fehler ist dort latent vorhanden.
+- [ ] **`TOC_KURZ` für Nachschlagewerke füllen.** Auf der Formelsammlung standen im
+  Inhaltsverzeichnis abgeschnittene „Lerngebiet 4 · Mec…"; kurze Ersatzlabels lösen das.
+  In Mathe die dortigen `<h2 id>` der Formelsammlung ansehen.
+- [ ] **Version und Datum einmal zentral prüfen.** In Physik standen 13 Seiten auf „Stand
+  Juni", 4 auf „Juli"; jetzt einheitlich und auf 1.0 gehoben (README mitgeführt).
+
+**Bereits erledigt, nichts zu tun:** Die Regel `mjx-container[display="true"]
+{ overflow-x:auto }` aus dem Physik-Durchgang vom 28.07.2026 steht in Mathes `style.css`
+bereits (Zeile 1099).
 
 ### Verifikation pro Port
 1. Mathe-Pre-Flight: `ALLE CHECKS BESTANDEN`.

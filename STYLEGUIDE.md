@@ -474,8 +474,9 @@ Strikt einhalten, sonst bricht das Layout. Jede Themenseite hat folgende Wurzels
     <div id="toc"></div>       <!-- Wird von buildToC befüllt -->
   </aside>
 </div>
-<footer class="site-footer">...</footer>
+<footer class="site-footer">...</footer>   <!-- 5 Zeilen, siehe §6.1a -->
 <script src="../nav.js"></script>
+<script src="../suche.js"></script>
 <script src="../physiklib.js"></script>
 <script>
   buildNav({ id, kapitelNr, kapitelTitel, prev, next });
@@ -483,6 +484,25 @@ Strikt einhalten, sonst bricht das Layout. Jede Themenseite hat folgende Wurzels
 </script>
 </body>
 ```
+
+### 6.1a Footer
+
+Auf jeder Seite identisch, nur die zweite Zeile ist seitenspezifisch. Relative Pfade
+auf Themenseiten mit `../`, auf Root-Seiten ohne:
+
+```html
+<footer class="site-footer">
+  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p>Physik · 4.2 Dynamik</p>                          <!-- seitenspezifisch -->
+  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
+  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand Juli 2026</p>
+</footer>
+```
+
+**Kein GitHub-Link im Footer** — er steht bewusst nur einmal, im Über-Panel unter
+„Lizenz". „GitHub" ist für die Lernenden Fachjargon; wer das Repo sucht, liest es
+ohnehin aus der Domain.
 
 ### 6.2 buildNav-Signatur
 
@@ -621,7 +641,8 @@ Bevor eine Themenseite live geht, prüfe:
 - [ ] `<main class="content">` — nicht `inhalt` o.Ä.
 - [ ] Anker-IDs direkt am `<h2 id="…">` — keine `<section>`-Wrapper
 - [ ] `<script src="../nav.js">` direkt vor dem `buildNav()`-Inline-Script
-- [ ] `../style.css` und `../physiklib.js` verlinkt
+- [ ] `../style.css`, `../suche.js` und `../physiklib.js` verlinkt
+- [ ] Footer nach §6.1a (fünf Zeilen, kapitelspezifische Zeile angepasst)
 - [ ] Pre-Flight-Bash-Check ausgeführt: Tag-Balance (`div`/`ol`/`li`), Skelett-Marker, `bad=0`, JS-Syntax via `node --check`
 
 **Druckseiten (`downloads/.../*.html`)**
