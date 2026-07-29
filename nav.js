@@ -190,6 +190,12 @@ function buildNav(cfg) {
     </div>
     <a href="${prefix}feedback.html" class="nav-meta">Feedback</a>
   </nav>
+  <div class="suche" id="suche">
+    <button class="such-lupe" id="such-lupe" aria-label="Suche öffnen">🔍</button>
+    <input type="search" class="such-feld" id="such-feld" autocomplete="off" spellcheck="false"
+           placeholder="Suchen …  /" aria-label="Lehrmittel durchsuchen">
+    <div class="such-panel" id="such-panel" role="listbox"></div>
+  </div>
   <button class="burger" onclick="toggleMobileNav()" aria-label="Navigation">☰</button>
 </header>
 <div class="mobile-nav" id="mobile-nav">

@@ -28,7 +28,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 - `physiklib.js` — Canvas-Bibliothek + globale Helfer (`toggleL`, `fmt`, `initCanvas`,
   `drawGrid`, `drawAxesUnits`, `drawArrow`, `drawVector`, `drawDot`, …).
 - `minicheck.js` — Akkordeon-Logik der Mini-Checks. `anim-hinweise.js` — Hinweis-Logik.
-- `nav.js` — Navigation (`buildNav`). `style.css` — gesamtes Design.
+- `nav.js` — Navigation (`buildNav`) inkl. Suchfeld im Header rechts. `style.css` — gesamtes Design.
+- `suche.js` — Volltextsuche (Logik + Trefferpanel). `suchindex.js` — **generiert**,
+  nie von Hand ändern: `python3 scripts/build-suchindex.py` (siehe Pre-Flight).
 - Pilot-/Referenzseite für jedes Skelett: `themen/p4-1-kinematik.html`.
 
 ## Inhaltliche Regeln
@@ -130,6 +132,9 @@ Vorab-Kontrolle, sondern Git — darum gilt verbindlich:
 
 **Nach jedem abgeschlossenen Auftrag (= ein „Durchgang") automatisch, ohne Rückfrage:**
 
+0. Wurde Fliesstext auf einer Themenseite, im Glossar oder in der Formelsammlung
+   geändert: `python3 scripts/build-suchindex.py` (der Pre-Flight warnt sonst
+   „Suchindex veraltet"). Die generierte `suchindex.js` gehört zum Commit.
 1. Pre-Flight über die geänderten Themenseiten laufen lassen
    (`python3 .claude/skills/preflight/preflight.py themen/<datei>.html`).
 2. **Nur wenn `ALLE CHECKS BESTANDEN`:** `git add -A` und `git commit` mit einer

@@ -221,6 +221,12 @@ def run_deep(file_args, rep):
             elif not m:
                 rep.warn("verify_js_runtime.js", "Summenzeile nicht erkannt")
 
+    si = scripts / "build-suchindex.py"
+    if si.is_file():
+        r = subprocess.run(["python3", str(si), "--check"], capture_output=True, text=True)
+        if r.returncode != 0:
+            rep.warn("suchindex", "Suchindex veraltet — `python3 scripts/build-suchindex.py`")
+
     ic = scripts / "check_identifier_collisions.py"
     if ic.is_file():
         r = subprocess.run(["python3", str(ic)], capture_output=True, text=True)

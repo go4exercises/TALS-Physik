@@ -50,6 +50,22 @@ python3 -m http.server 8000
 
 Dann http://localhost:8000 öffnen. Alternativ direkt `index.html` im Browser öffnen — funktioniert auch, nur ohne MathJax-Live-Reload.
 
+## Suche
+
+Das Suchfeld oben rechts im Header durchsucht den Fliesstext aller Themenseiten sowie
+Glossar und Formelsammlung — ohne Server, rein im Browser (`/` oder Strg/Cmd+K springt
+ins Feld). Grundlage ist `suchindex.js`, erzeugt aus den Seiten:
+
+```bash
+python3 scripts/build-suchindex.py          # Index neu bauen
+python3 scripts/build-suchindex.py --check  # prüft, ob er zum Stand passt
+```
+
+Der Index wird erst beim ersten Tastendruck im Suchfeld nachgeladen. Nach jeder
+inhaltlichen Änderung neu bauen — der Pre-Flight warnt, wenn er veraltet ist.
+Nicht im Index: Mini-Checks, Verständnisfragen, Aufgaben, Zusatzmaterial und
+externe Ressourcen.
+
 ## Verwendete Technik
 
 - **HTML5 + CSS3** für Layout und Stil (`style.css` für die ganze Site, kein Build-Schritt)
