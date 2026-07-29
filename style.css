@@ -50,6 +50,10 @@ a { color: var(--bernstein); }
 a:hover { text-decoration: underline; }
 
 /* ── HEADER ─────────────────────────────────────────────────── */
+/* Der Header liegt in #nav-root (von nav.js befüllt). Ein klebendes Element
+   klebt nur innerhalb der Box seines Containers — darum muss #nav-root selbst
+   sticky sein, sonst scrollt der Header trotz `position: sticky` weg. */
+#nav-root { position: sticky; top: 0; z-index: 200; }
 .site-hdr {
   background: var(--weiss);
   border-bottom: 2.5px solid var(--bernstein);
@@ -239,6 +243,9 @@ a:hover { text-decoration: underline; }
   display: none; flex-direction: column;
   background: var(--weiss); border-bottom: 1px solid var(--linie);
   padding: 12px 16px; gap: 2px;
+  /* Mit dem klebenden #nav-root wird das offene Menü sonst höher als der
+     Schirm und die unteren Einträge sind unerreichbar. */
+  max-height: calc(100vh - 54px); overflow-y: auto;
 }
 .mobile-nav.open { display: flex; }
 .mobile-nav a {

@@ -159,6 +159,12 @@
     if (p) { p.classList.remove('offen'); p.innerHTML = ''; }
     markiert = -1;
   }
+  // Mobil: Panel zu UND das über der Seite liegende Feld wieder einklappen
+  function schliesseAlles() {
+    schliessePanel();
+    const s = document.getElementById('suche');
+    if (s) s.classList.remove('offen');
+  }
 
   function rendere(q) {
     const tokens = q.trim().split(/\s+/).filter(t => t.length >= 2).map(varianten);
@@ -219,15 +225,19 @@
         const items = [...document.querySelectorAll('#such-panel .sr')];
         const ziel = items[markiert >= 0 ? markiert : 0];
         if (ziel) { ev.preventDefault(); ziel.click(); }
-      } else if (ev.key === 'Escape') { feld.blur(); schliessePanel(); }
+      } else if (ev.key === 'Escape') { feld.blur(); schliesseAlles(); }
     });
 
     // Klick auf einen Treffer der *aktuellen* Seite: nur springen, nicht neu laden
     document.addEventListener('click', function (ev) {
       const a = ev.target.closest && ev.target.closest('#such-panel .sr');
-      if (a) { schliessePanel(); return; }
-      if (!ev.target.closest || !ev.target.closest('.suche')) schliessePanel();
+      if (a) { schliesseAlles(); return; }
+      if (!ev.target.closest || !ev.target.closest('.suche')) schliesseAlles();
     });
+
+    // Burger und Suche sollen sich auf schmalen Schirmen nicht überlagern
+    const burger = document.querySelector('.burger');
+    if (burger) burger.addEventListener('click', schliesseAlles);
 
     // Tastenkürzel: „/" oder Strg/Cmd + K
     document.addEventListener('keydown', function (ev) {
