@@ -107,14 +107,16 @@ function buildNav(cfg) {
   // ── META-DROPDOWN-INHALTE ──
   const metaAutorHTML = `
     <div class="meta-titel">Autor &amp; Intention</div>
-    <p>Erstellt von einem Elektroingenieur mit über 30 Jahren Unterrichtserfahrung,
-       der gerne Mathematik und Physik erklärt — seinen Schülerinnen und Schülern
-       genauso wie seinen fünf Kindern. Begeistert von dem, was sich mit KI im
-       Bildungsbereich machen lässt.</p>
-    <p>Dieses Lehrmittel <strong>ersetzt weder Lehrperson noch klassisches Lehrbuch</strong>.
-       Es will eine niederschwellige, animierte und animierende Ergänzung sein, die der
-       Lehrperson didaktischen Freiraum schafft — zum Beispiel für Methoden wie
-       <em>Flipped Classroom</em>.</p>`;
+    <p><strong>Autor:</strong> Raphael Arnold Kohler, Elektroingenieur und Lehrperson
+       mit über 30 Jahren Unterrichtserfahrung.</p>
+    <p>TALS Physik ist ein unabhängiges, kostenlos zugängliches Lernangebot für die
+       Berufsmaturität Technik, Architektur, Life Sciences nach RLP-BM 2030. Es ergänzt
+       Unterricht und Lehrmittel, ersetzt sie aber nicht. Das Angebot ist
+       <strong>keine offizielle Publikation</strong> des SBFI, eines Kantons, einer
+       Schule oder einer Prüfungsorganisation.</p>
+    <p>Bei der Erstellung und technischen Umsetzung wurden KI-Werkzeuge eingesetzt.
+       Alle veröffentlichten Inhalte werden redaktionell geprüft; die Verantwortung
+       für die Veröffentlichung liegt bei Raphael Arnold Kohler.</p>`;
 
   const metaAusblickHTML = `
     <div class="meta-titel">Ausblick</div>
@@ -131,16 +133,20 @@ function buildNav(cfg) {
     </ul>
     <div class="meta-sub">Schwesterprojekt</div>
     <ul>
-      <li><a href="https://github.com/go4exercises/TALS-Mathe" target="_blank" rel="noopener" class="meta-link">TALS Mathematik</a> — gleicher Aufbau für das Fach Mathematik</li>
+      <li><a href="https://go4exercises.github.io/TALS-Mathe/" target="_blank" rel="noopener" class="meta-link">TALS Mathematik</a> — gleicher Aufbau für das Fach Mathematik</li>
     </ul>`;
 
   const metaLizenzHTML = `
     <div class="meta-titel">Lizenz</div>
-    <p>Inhalte erstellt mit Unterstützung von <strong>Claude</strong> (Anthropic).</p>
-    <p>Veröffentlicht unter <strong>Creative Commons BY-NC 4.0</strong>:
-       Inhalte sind frei nutzbar für nicht-kommerzielle Zwecke, dürfen verändert
-       und weitergegeben werden — bei Kopien und Weiterverarbeitung bitte auf die
-       Herkunft verweisen. Die Inhalte sind frei und sollen frei bleiben.</p>
+    <p><strong>Autor:</strong> Raphael Arnold Kohler. Soweit nicht anders angegeben, stehen
+       die von ihm erstellten Lerninhalte unter der Lizenz <strong>Creative Commons
+       Namensnennung – Nicht kommerziell 4.0 International (CC BY-NC 4.0)</strong>.</p>
+    <p>Die Inhalte dürfen für nicht-kommerzielle Zwecke geteilt und bearbeitet werden.
+       Dabei sind Raphael Arnold Kohler als Urheber zu nennen, die Lizenz zu verlinken
+       und Änderungen kenntlich zu machen. Inhalte Dritter und verlinkte externe
+       Angebote unterliegen ihren eigenen Rechten und Nutzungsbedingungen.</p>
+    <p><em>Empfohlene Namensnennung:</em> Raphael Arnold Kohler, TALS Physik,
+       https://go4exercises.github.io/TALS-Physik/, CC BY-NC 4.0.</p>
     <p><a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener" class="meta-link">
        → Lizenztext (CC BY-NC 4.0)</a></p>`;
 
@@ -188,7 +194,7 @@ function buildNav(cfg) {
         </div>
       </div>
     </div>
-    <a href="${prefix}feedback.html" class="nav-meta">Feedback</a>
+    <a href="${prefix}feedback.html" class="nav-meta">Kontakt &amp; Feedback</a>
   </nav>
   <div class="suche" id="suche">
     <button class="such-lupe" id="such-lupe" aria-label="Suche öffnen">🔍</button>
@@ -206,7 +212,7 @@ function buildNav(cfg) {
   <details class="mn-meta"><summary>Autor &amp; Intention</summary><div class="mn-meta-body">${metaAutorHTML}</div></details>
   <details class="mn-meta"><summary>Ausblick</summary><div class="mn-meta-body">${metaAusblickHTML}</div></details>
   <details class="mn-meta"><summary>Lizenz</summary><div class="mn-meta-body">${metaLizenzHTML}</div></details>
-  <a href="${prefix}feedback.html">Feedback</a>
+  <a href="${prefix}feedback.html">Kontakt &amp; Feedback</a>
 </div>`;
 
   document.getElementById('nav-root').innerHTML = headerHTML;
@@ -251,7 +257,10 @@ const TOC_KURZ = {
   aufgaben:       'Aufgaben',
   zusammenfassung:'Zusammenfassung',
   downloads:      'Zusatzmaterial',
-  ressourcen:     'Externe V&S&A'
+  ressourcen:     'Externe V&S&A',
+  // rechtliches.html
+  'datenschutz-aufruf':   'DS Seitenaufruf',
+  'datenschutz-feedback': 'DS Feedback'
 };
 
 function buildToC() {

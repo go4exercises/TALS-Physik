@@ -31,6 +31,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 - `nav.js` — Navigation (`buildNav`) inkl. Suchfeld im Header rechts. `style.css` — gesamtes Design.
 - `suche.js` — Volltextsuche (Logik + Trefferpanel). `suchindex.js` — **generiert**,
   nie von Hand ändern: `python3 scripts/build-suchindex.py` (siehe Pre-Flight).
+- `rechtliches.html` — Haftung + Datenschutz, verlinkt aus Footer und Feedbackformular
+  (bewusst **kein** eigener Headerpunkt). Kontakt läuft ausschliesslich über
+  `feedback.html` („Kontakt & Feedback") — es gibt keine veröffentlichte E-Mail-Adresse.
 - Pilot-/Referenzseite für jedes Skelett: `themen/p4-1-kinematik.html`.
 
 ## Inhaltliche Regeln

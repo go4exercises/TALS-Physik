@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feedback — TALS</title>
+<title>Kontakt &amp; Feedback — TALS</title>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════════════════════
@@ -40,6 +40,16 @@ body{font-family:var(--sans);background:var(--papier);color:var(--tinte);font-si
 fieldset{border:none;margin-bottom:22px}
 legend,.lbl{display:block;font-weight:600;font-size:.88rem;margin-bottom:8px}
 .hinweis{font-size:.76rem;color:var(--tinte-2);font-weight:300;margin-top:-4px;margin-bottom:8px}
+
+/* Datenschutzhinweis direkt vor dem Senden-Knopf */
+.datenschutz{font-size:.76rem;line-height:1.6;color:var(--tinte-2);background:var(--papier-2);border:1px solid var(--linie);border-radius:8px;padding:12px 14px;margin:4px 0 16px}
+.datenschutz strong{color:var(--tinte)}
+.datenschutz a{color:var(--blau)}
+
+/* Kleiner Fuss unter dem Formular */
+.fuss{margin-top:28px;text-align:center;font-size:.72rem;line-height:1.9;color:var(--tinte-2);font-weight:300}
+.fuss a{color:var(--tinte-2);text-decoration:none}
+.fuss a:hover{color:var(--tinte);text-decoration:underline}
 
 /* Kategorien-Chips */
 .kats{display:flex;flex-wrap:wrap;gap:8px}
@@ -96,9 +106,9 @@ button[type=submit]:focus-visible{outline:2px solid var(--tinte);outline-offset:
 <div class="wrap">
 
   <header class="kopf">
-    <div class="kopf-ew">Feedback</div>
+    <div class="kopf-ew">Kontakt &amp; Feedback</div>
     <h1 id="titel">Rückmeldung zu den TALS Lernseiten</h1>
-    <p>Anonym und ohne Anmeldung. Bei Fehlermeldungen helfen präzise Angaben, damit die Korrektur schnell umgesetzt werden kann.</p>
+    <p>Rückmeldungen sind ohne Anmeldung möglich. Name und E-Mail-Adresse sind freiwillig. Bei Fehlermeldungen helfen präzise Angaben, damit die Korrektur schnell umgesetzt werden kann.</p>
     <a class="zurueck" id="zurueck" href="index.html">← zurück zur Übersicht</a>
   </header>
 
@@ -242,18 +252,39 @@ button[type=submit]:focus-visible{outline:2px solid var(--tinte);outline-offset:
       <div class="zeile">
         <div class="feld">
           <label class="lbl" for="name">Name (freiwillig)</label>
-          <input type="text" id="name" name="name" placeholder="leer lassen = anonym">
+          <input type="text" id="name" name="name" placeholder="freiwillig — kann leer bleiben">
         </div>
         <div class="feld">
           <label class="lbl" for="email">E-Mail für Rückfragen (freiwillig)</label>
-          <input type="email" id="email" name="email" placeholder="leer lassen = anonym">
+          <input type="email" id="email" name="email" placeholder="freiwillig — nötig für eine Antwort">
         </div>
       </div>
+    </div>
+
+    <div class="datenschutz">
+      <strong>Datenschutz:</strong> Mit dem Absenden werden die Nachricht sowie freiwillig
+      angegebener Name, E-Mail-Adresse und ein hochgeladener Screenshot über Google Apps Script
+      an den Betreiber übermittelt. Die Angaben werden ausschliesslich zur Prüfung, Bearbeitung
+      und gegebenenfalls Beantwortung der Rückmeldung verwendet. Bitte keine sensiblen
+      Personendaten oder Bilder erkennbarer Personen übermitteln. Die Daten werden nach Abschluss
+      der Bearbeitung, spätestens nach 12 Monaten, gelöscht. Weitere Angaben:
+      <a href="rechtliches.html">Rechtliches &amp; Datenschutz</a>.
+      <br><br>
+      Kontakt für Auskunft, Berichtigung oder Löschung: über dieses Formular. Damit eine Antwort
+      möglich ist, bitte im freiwilligen Feld eine E-Mail-Adresse angeben.
     </div>
 
     <button type="submit" id="senden" class="hidden" disabled>Feedback senden</button>
     <div class="status" id="status" role="status"></div>
   </form>
+
+  <footer class="fuss">
+    <p>© 2026 Raphael Arnold Kohler · <span id="fuss-projekt">TALS</span> ·
+       <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+    <p><a href="rechtliches.html">Rechtliches &amp; Datenschutz</a> ·
+       <a id="fuss-github" href="https://github.com/go4exercises/TALS-Physik" target="_blank" rel="noopener">GitHub</a></p>
+    <p>Version 0.9 · Stand Juli 2026</p>
+  </footer>
 </div>
 
 <script>
@@ -273,7 +304,13 @@ button[type=submit]:focus-visible{outline:2px solid var(--tinte);outline-offset:
   const PROJEKT = pfad.includes('physik') ? 'TALS-Physik'
                 : pfad.includes('mathe')  ? 'TALS-Mathe'
                 : 'TALS';
-  document.title = 'Feedback — ' + PROJEKT;
+  document.title = 'Kontakt & Feedback — ' + PROJEKT;
+
+  /* Fuss an das erkannte Projekt anpassen */
+  const fp = document.getElementById('fuss-projekt');
+  if (fp) fp.textContent = PROJEKT.replace('-', ' ');
+  const fg = document.getElementById('fuss-github');
+  if (fg && PROJEKT !== 'TALS') fg.href = 'https://github.com/go4exercises/' + PROJEKT;
 
   /* ── Herkunftsseite ermitteln ─────────────────────────────────
      1. Priorität: Link-Parameter  feedback.html?seite=g4-2
