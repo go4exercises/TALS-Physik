@@ -57,9 +57,14 @@ Glossar und Formelsammlung — ohne Server, rein im Browser (`/` oder Strg/Cmd+K
 ins Feld). Grundlage ist `suchindex.js`, erzeugt aus den Seiten:
 
 ```bash
-python3 scripts/build-suchindex.py          # Index neu bauen
-python3 scripts/build-suchindex.py --check  # prüft, ob er zum Stand passt
+python3 scripts/build-suchindex.py            # Index neu bauen
+python3 scripts/build-suchindex.py --check    # prüft, ob er zum Stand passt
+python3 scripts/build-suchindex.py --dry-run  # bauen und berichten, nichts schreiben
 ```
+
+Der Generator ist projektübergreifend: er erkennt Physik und Mathe an der
+Canvas-Bibliothek im Repo-Root und liest die Seitenliste aus `nav.js` — egal ob das
+Projekt eine Liste führt oder mehrere. `--root PFAD` zielt aufs Schwesterprojekt.
 
 Der Index wird erst beim ersten Tastendruck im Suchfeld nachgeladen. Nach jeder
 inhaltlichen Änderung neu bauen — der Pre-Flight warnt, wenn er veraltet ist.

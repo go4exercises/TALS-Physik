@@ -31,6 +31,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 - `nav.js` — Navigation (`buildNav`) inkl. Suchfeld im Header rechts. `style.css` — gesamtes Design.
 - `suche.js` — Volltextsuche (Logik + Trefferpanel). `suchindex.js` — **generiert**,
   nie von Hand ändern: `python3 scripts/build-suchindex.py` (siehe Pre-Flight).
+  Der Generator läuft in **beiden** TALS-Repos (erkennt Physik/Mathe an
+  `physiklib.js`/`mathlib.js`); projektabhängig ist allein die Liste `PROJEKTE`
+  am Dateikopf. `--dry-run` baut ohne zu schreiben, `--root PFAD` zielt aufs
+  Schwesterprojekt.
 - `rechtliches.html` — Haftung + Datenschutz, verlinkt aus Footer und Feedbackformular
   (bewusst **kein** eigener Headerpunkt). Kontakt läuft ausschliesslich über
   `feedback.html` („Kontakt & Feedback") — es gibt keine veröffentlichte E-Mail-Adresse.

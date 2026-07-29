@@ -256,19 +256,40 @@ keine Fremdbibliothek.
 | `nav.js` | Suchfeld ins Header-Markup | 1:1 (Markup ist farbfrei) |
 | `style.css` | Feld + Panel + Mobile-Lupe | `--bernstein*` → `--blau*` |
 
-**Nötige Änderungen im Generator (Mathe-Stand 29.07.2026 geprüft):**
+**Der Generator ist seit 29.07.2026 projektübergreifend — nichts umzubauen.**
+`scripts/build-suchindex.py` erkennt das Projekt an der Canvas-Bibliothek im Repo-Root
+(`physiklib.js` / `mathlib.js`), liest **alle** Listen aus dem `const SITE = {…}`-Block
+(Physik: `themen`; Mathe: `grundlagen` + `schwerpunkt`) und hängt Glossar und
+Formelsammlung an, sofern vorhanden. Projektabhängig ist nur ein Feld:
 
-1. `seiten_aus_navjs()` liest in Physik **eine** Liste (`themen: [ … ]`). Mathe hat in
-   `nav.js` **zwei** (`grundlagen: [ … ]` und `schwerpunkt: [ … ]`, zusammen 46 Seiten) —
-   beide einlesen und aneinanderhängen, danach `glossar.html` und `formelsammlung.html`.
-2. Die Skip-Liste `SKIP_CLASSES` prüfen: `minicheck`, `aufg-liste`, `block-aufg`, `frage`
-   gibt es in Mathe ebenfalls; **`widget-body` existiert dort nicht** — nachsehen, was die
-   Animationsbedienung in Mathe umschliesst, sonst landen Reglerbeschriftungen und
-   Live-Werte im Index.
-3. `SKIP_SECTIONS` (`aufgaben`, `downloads`, `ressourcen`) gegen die tatsächlichen
-   `<h2 id>` in Mathe abgleichen.
-4. Der Glossar-Modus schneidet pro `.glossar-eintrag`, der Formelsammlungs-Modus pro
-   `<h3>` — beides gegen das Mathe-Markup prüfen.
+```python
+PROJEKTE = [
+    {'name': 'TALS Physik', 'kennung': 'physiklib.js',
+     'skip_classes': {'widget-body'}},
+    {'name': 'TALS Mathe',  'kennung': 'mathlib.js',
+     'skip_classes': {'regler', 'legende', 'formel', 'wert', 'val', 'lab', …}},
+]
+```
+
+Mathe hat kein `.widget-body`; die Bedienung liegt in `.bedien`, wo neben Reglern und
+Legenden auch die `.erklaerung` steht — darum sind dort die Kinder einzeln ausgeschlossen
+und `.bedien` selbst bleibt drin, sonst ginge der Erklärtext verloren. Die
+Abschnittsnamen (`aufgaben`, `downloads`, `ressourcen`), das Glossar-Markup
+(`.glossar-eintrag`/`.ge-begriff`/`.ge-quer`) und der `<h3>`-Aufbau der Formelsammlung
+sind in beiden Projekten identisch — geprüft, nichts anzupassen.
+
+**Datei einfach übernehmen und laufen lassen:**
+
+```bash
+cp /home/paps/tals-physik/scripts/build-suchindex.py scripts/
+python3 scripts/build-suchindex.py --dry-run   # baut, schreibt nichts
+python3 scripts/build-suchindex.py             # schreibt suchindex.js
+```
+
+Der Trockenlauf gegen das Mathe-Repo ist am 29.07.2026 gelaufen: **48 Seiten,
+398 Abschnitte, 558 KB** (Physik: 208 / 247 KB). Stichproben bestanden — Mini-Check-Fragen,
+Lösungen, Aufgaben-Marker und Legendenwerte fehlen im Index, die `.erklaerung`-Texte sind
+drin. Ändert sich das Markup, wird nur `PROJEKTE` angefasst, nicht der Parser.
 
 **Grösse:** Physik hat 507 KB Rohtext → 208 Abschnitte → `suchindex.js` 250 KB
 (~45 KB über die Leitung). Mathe hat **1086 KB Rohtext über 48 Seiten**, also grob das
@@ -286,9 +307,9 @@ denselben Aufruf in den Mathe-Pre-Flight aufnehmen. Der Fingerabdruck geht über
 *indexierten Inhalt*, nicht über die Rohdateien; Änderungen an Skripten oder Aufgaben
 lösen also keine Fehlalarme aus.
 
-- [ ] `scripts/build-suchindex.py` übernommen und auf zwei Seitenlisten umgebaut
-- [ ] Skip-Listen an Mathe-Klassen angepasst (Stichprobe: ein Aufgabentext und eine
-  Mini-Check-Frage dürfen **nicht** im Index stehen, ein Einstiegstext schon)
+- [ ] `scripts/build-suchindex.py` aus Physik kopiert (kein Umbau nötig)
+- [ ] Stichprobe nach dem ersten Lauf: ein Aufgabentext und eine Mini-Check-Frage dürfen
+  **nicht** im Index stehen, Einstiegstext und `.erklaerung` schon
 - [ ] `suche.js` übernommen, `suchindex.js` gebaut
 - [ ] Suchfeld in `nav.js` (Header rechts, Lupe ab 640 px) + CSS mit Mathe-Farben
 - [ ] `<script src="…/suche.js">` auf allen Seiten eingebunden (in Physik per Skript

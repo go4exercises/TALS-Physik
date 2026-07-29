@@ -1,26 +1,38 @@
 #!/usr/bin/env python3
 # ─────────────────────────────────────────────────────────────
-#  TALS Physik — Suchindex-Generator
+#  TALS — Suchindex-Generator (Physik und Mathe, eine Implementierung)
 #
-#  Liest die Themenseiten, das Glossar und die Formelsammlung, schneidet
-#  den *Fliesstext* an den <h2 id="…">-Ankern in Abschnitte und schreibt
-#  daraus  suchindex.js  (window.SUCHINDEX = {…}).
+#  Liest die Themen-/Kapitelseiten, das Glossar und die Formelsammlung,
+#  schneidet den *Fliesstext* an den <h2 id="…">-Ankern in Abschnitte und
+#  schreibt daraus  suchindex.js  (window.SUCHINDEX = {…}).
+#
+#  Die Seitenliste kommt aus `nav.js` (Block `const SITE = {…}`) — egal ob
+#  das Projekt eine Liste fuehrt (Physik: `themen`) oder mehrere
+#  (Mathe: `grundlagen` + `schwerpunkt`). Das Projekt wird an der
+#  Canvas-Bibliothek erkannt (physiklib.js / mathlib.js); daran haengen nur
+#  die projekteigenen Skip-Klassen, alles Uebrige ist gemeinsam.
 #
 #  Ausgabe bewusst als .js und nicht als .json: so funktioniert die Suche
 #  auch, wenn eine Seite lokal per file:// geoeffnet wird (fetch() auf JSON
 #  scheitert dort an CORS).
 #
 #  Aufruf (immer vom Repo-Root):
-#      python3 scripts/build-suchindex.py            # neu bauen
-#      python3 scripts/build-suchindex.py --check    # nur pruefen, ob aktuell
-#                                                    # Exit 1 = veraltet
+#      python3 scripts/build-suchindex.py              # neu bauen
+#      python3 scripts/build-suchindex.py --check      # nur pruefen, ob aktuell
+#                                                      # Exit 1 = veraltet
+#      python3 scripts/build-suchindex.py --dry-run    # bauen, nur berichten
+#      python3 scripts/build-suchindex.py --root PFAD  # anderes Repo (schreibt
+#                                                      # dorthin — mit --dry-run
+#                                                      # gefahrlos pruefbar)
 #
 #  Was NICHT in den Index kommt (Entscheid: nur Fliesstext):
 #    - Mini-Checks (.minicheck) und Verstaendnisfragen (.frage)
 #    - Aufgaben (Sektion #aufgaben, .block-aufg, .aufg-liste)
 #    - Zusatzmaterial (#downloads) und externe Ressourcen (#ressourcen)
-#    - Animationen: Bedienelemente und Live-Werte (.widget-body, <canvas>)
-#      — Titel und Hinweis der Animation bleiben drin
+#    - Animationen: Bedienelemente und Live-Werte — in Physik .widget-body,
+#      in Mathe .regler/.legende/.formel; Titel, Hinweis und (in Mathe) die
+#      .erklaerung bleiben drin
+#    - Bedienelemente aller Art (<button>, <select>, <input>), <canvas>
 #    - Navigation, Footer, Scripts, Styles
 # ─────────────────────────────────────────────────────────────
 
@@ -31,25 +43,54 @@ import sys
 from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, 'suchindex.js')
 
 # ── Was uebersprungen wird ────────────────────────────────────
-SKIP_TAGS = {'script', 'style', 'canvas', 'svg', 'noscript', 'template', 'head'}
+SKIP_TAGS = {'script', 'style', 'canvas', 'svg', 'noscript', 'template', 'head',
+             'button', 'select'}
 VOID_TAGS = {'br', 'img', 'hr', 'input', 'meta', 'link', 'source', 'col',
              'area', 'base', 'embed', 'param', 'track', 'wbr'}
 
+# In beiden Projekten gleich
 SKIP_CLASSES = {
-    'minicheck', 'mc-item', 'mc-kopf',      # Mini-Checks
+    'minicheck', 'mc-item', 'mc-kopf',       # Mini-Checks
     'frage',                                 # Verstaendnisfragen ❓
     'block-aufg', 'aufg-liste', 'aufg',      # Aufgaben
-    'widget-body',                           # Animations-Bedienung + Live-Werte
+    'loesung-toggle', 'loesung-body',        # Loesungen zu Aufgaben
     'dl-grid', 'links-grid',                 # Kachel-/Linklisten
     'toc-wrap', 'site-footer', 'mobile-nav', 'site-hdr',
 }
 SKIP_IDS = {'nav-root', 'toc'}
 
-# Ganze Abschnitte, die uebersprungen werden (h2-Anker)
+# Ganze Abschnitte, die uebersprungen werden (h2-Anker) — in beiden Projekten
+# heissen sie gleich.
 SKIP_SECTIONS = {'aufgaben', 'downloads', 'ressourcen'}
+
+# ── Projekte ──────────────────────────────────────────────────
+# Erkannt wird an der Canvas-Bibliothek im Repo-Root. Nur die Klassen der
+# Animations-Bedienung unterscheiden sich; wer ein Projekt umbaut, ergaenzt
+# hier — nicht im Parser.
+PROJEKTE = [
+    {'name': 'TALS Physik', 'kennung': 'physiklib.js',
+     # .widget-body umfasst Regler, Live-Boxen und Canvas; Titel und
+     # „Worauf achten?"-Hinweis stehen im .widget-header und bleiben drin.
+     'skip_classes': {'widget-body'}},
+    {'name': 'TALS Mathe', 'kennung': 'mathlib.js',
+     # Mathe hat kein .widget-body: die Bedienung liegt in .bedien, wo neben
+     # Reglern und Legenden auch die .erklaerung steht — darum die Kinder
+     # einzeln ausschliessen und .bedien selbst behalten.
+     'skip_classes': {'regler', 'regler-label', 'legende', 'legende-zeile',
+                      'legende-titel', 'formel', 'wert', 'val', 'lab',
+                      'eingabe-row', 'btn-pruef', 'cr'}},
+]
+
+
+def projekt_erkennen(root):
+    for p in PROJEKTE:
+        if os.path.exists(os.path.join(root, p['kennung'])):
+            return p
+    raise SystemExit('[FEHLER] Kein bekanntes TALS-Repo: weder ' +
+                     ' noch '.join(p['kennung'] for p in PROJEKTE) +
+                     f' in {root} gefunden.')
 
 # ── LaTeX-Bereinigung ─────────────────────────────────────────
 # Griechische Buchstaben und ein paar Begriffe behalten ihren Namen als Wort,
@@ -98,9 +139,10 @@ def normalize(t):
 class Extractor(HTMLParser):
     """Zerlegt eine Seite in Abschnitte {anker, titel, text}."""
 
-    def __init__(self, mode='thema'):
+    def __init__(self, mode='thema', skip_classes=SKIP_CLASSES):
         super().__init__(convert_charrefs=True)
         self.mode = mode            # 'thema' | 'glossar' | 'formeln'
+        self.skip_classes = skip_classes
         self.eintraege = []
         self.skipdepth = 0
         self.depth = 0
@@ -176,7 +218,7 @@ class Extractor(HTMLParser):
             self.skipdepth = 1
             return
 
-        if (tag in SKIP_TAGS or eid in SKIP_IDS or (cls & SKIP_CLASSES)):
+        if (tag in SKIP_TAGS or eid in SKIP_IDS or (cls & self.skip_classes)):
             self.skipdepth = 1
             return
 
@@ -217,14 +259,45 @@ class Extractor(HTMLParser):
 
 
 # ── Seitenliste aus nav.js (einzige Quelle der Wahrheit) ──────
-def seiten_aus_navjs():
-    src = open(os.path.join(ROOT, 'nav.js'), encoding='utf-8').read()
-    block = src.split('themen: [', 1)[1].split(']', 1)[0]
-    seiten = []
+def _site_block(src):
+    """Der `const SITE = { … }`-Block, ueber die Klammerbilanz abgegrenzt."""
+    i = src.index('const SITE')
+    j = src.index('{', i)
+    tiefe = 0
+    for k in range(j, len(src)):
+        if src[k] == '{':
+            tiefe += 1
+        elif src[k] == '}':
+            tiefe -= 1
+            if tiefe == 0:
+                return src[j:k + 1]
+    raise SystemExit('[FEHLER] nav.js: const SITE ist nicht sauber geklammert.')
+
+
+def seiten_aus_navjs(root):
+    """Alle Seiteneintraege in Quelltext-Reihenfolge.
+
+    Physik fuehrt eine Liste (`themen`), Mathe zwei (`grundlagen`,
+    `schwerpunkt`). Beides faellt hier zusammen — entscheidend ist nur die
+    Reihenfolge, in der die Eintraege in nav.js stehen.
+    """
+    src = open(os.path.join(root, 'nav.js'), encoding='utf-8').read()
+    block = _site_block(src)
+    seiten, gesehen = [], set()
     for m in re.finditer(r"nr:\s*'([^']+)'\s*,\s*titel:\s*'([^']+)'\s*,\s*url:\s*'([^']+)'", block):
-        seiten.append({'nr': m.group(1), 'titel': m.group(2), 'url': m.group(3), 'mode': 'thema'})
-    seiten.append({'nr': 'A–Z', 'titel': 'Glossar', 'url': 'glossar.html', 'mode': 'glossar'})
-    seiten.append({'nr': '∑', 'titel': 'Formelsammlung', 'url': 'formelsammlung.html', 'mode': 'formeln'})
+        url = m.group(3)
+        if url in gesehen:
+            continue
+        gesehen.add(url)
+        seiten.append({'nr': m.group(1), 'titel': m.group(2), 'url': url, 'mode': 'thema'})
+    if not seiten:
+        raise SystemExit('[FEHLER] nav.js: keine Seiteneintraege im SITE-Block gefunden.')
+
+    # Nachschlagewerke, sofern vorhanden (beide Projekte haben sie im Root)
+    for url, nr, titel, mode in [('glossar.html', 'A–Z', 'Glossar', 'glossar'),
+                                 ('formelsammlung.html', '∑', 'Formelsammlung', 'formeln')]:
+        if os.path.exists(os.path.join(root, url)):
+            seiten.append({'nr': nr, 'titel': titel, 'url': url, 'mode': mode})
     return seiten
 
 
@@ -232,17 +305,18 @@ def js_string(s):
     return '"' + s.replace('\\', '\\\\').replace('"', '\\"').replace('\n', ' ') + '"'
 
 
-def build():
-    seiten = seiten_aus_navjs()
+def build(root, projekt):
+    seiten = seiten_aus_navjs(root)
+    skip_classes = SKIP_CLASSES | projekt['skip_classes']
     eintraege = []
 
     for pi, s in enumerate(seiten):
-        pfad = os.path.join(ROOT, s['url'])
+        pfad = os.path.join(root, s['url'])
         if not os.path.exists(pfad):
             print(f"[WARN] fehlt: {s['url']}", file=sys.stderr)
             continue
         roh = open(pfad, encoding='utf-8').read()
-        ex = Extractor(mode=s['mode'])
+        ex = Extractor(mode=s['mode'], skip_classes=skip_classes)
         ex.feed(roh)
         ex.close()
         n = 0
@@ -263,7 +337,7 @@ def build():
 
     zeilen = []
     zeilen.append('// ─────────────────────────────────────────────────────────────')
-    zeilen.append('//  TALS Physik — Suchindex  (GENERIERT, nicht von Hand aendern)')
+    zeilen.append(f"//  {projekt['name']} — Suchindex  (GENERIERT, nicht von Hand aendern)")
     zeilen.append('//  Neu bauen:  python3 scripts/build-suchindex.py')
     zeilen.append('// ─────────────────────────────────────────────────────────────')
     zeilen.append('window.SUCHINDEX = {')
@@ -280,25 +354,37 @@ def build():
     return '\n'.join(zeilen) + '\n', fingerprint, len(eintraege)
 
 
-def aktuelle_fp():
-    if not os.path.exists(OUT):
+def aktuelle_fp(out):
+    if not os.path.exists(out):
         return None
-    m = re.search(r'fp:\s*"([0-9a-f]+)"', open(OUT, encoding='utf-8').read())
+    m = re.search(r'fp:\s*"([0-9a-f]+)"', open(out, encoding='utf-8').read())
     return m.group(1) if m else None
 
 
 def main(argv):
     check = '--check' in argv
-    inhalt, fp, n = build()
+    dry = '--dry-run' in argv
+    root = ROOT
+    if '--root' in argv:
+        root = os.path.abspath(argv[argv.index('--root') + 1])
+
+    projekt = projekt_erkennen(root)
+    out = os.path.join(root, 'suchindex.js')
+    print(f"Projekt: {projekt['name']}  ({root})")
+
+    inhalt, fp, n = build(root, projekt)
+    kb = len(inhalt.encode('utf-8')) / 1024
+
     if check:
-        alt = aktuelle_fp()
-        if alt == fp:
+        if aktuelle_fp(out) == fp:
             print(f"Suchindex aktuell ({n} Abschnitte).")
             return 0
         print("Suchindex VERALTET — neu bauen mit: python3 scripts/build-suchindex.py")
         return 1
-    open(OUT, 'w', encoding='utf-8').write(inhalt)
-    kb = len(inhalt.encode('utf-8')) / 1024
+    if dry:
+        print(f"\n[Trockenlauf] nichts geschrieben: {n} Abschnitte, {kb:.0f} KB (fp {fp})")
+        return 0
+    open(out, 'w', encoding='utf-8').write(inhalt)
     print(f"\nsuchindex.js geschrieben: {n} Abschnitte, {kb:.0f} KB (fp {fp})")
     return 0
 
