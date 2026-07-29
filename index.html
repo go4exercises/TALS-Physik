@@ -67,7 +67,9 @@
   .ds { margin-top: 50px; padding: 14px 18px; background: var(--weiss); border: 1px solid var(--linie); border-radius: 10px; box-shadow: var(--s); }
   .ds-t { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--tinte-2); margin-bottom: 11px; padding-bottom: 8px; border-bottom: 1px solid var(--linie); display: flex; gap: 9px; align-items: baseline; }
   .ds-t span { font-family: var(--mono); font-size: 0.6rem; background: var(--papier-2); color: var(--tinte-2); padding: 2px 7px; border-radius: 4px; }
-  .ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; }
+  /* Feste Spaltenzahl statt auto-fill: so passen alle sechs Kacheln in eine
+     Reihe und die Wortbeispiele duerfen auf zwei Zeilen umbrechen. */
+  .ds-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
   .ds-i { display: flex; align-items: center; gap: 9px; font-size: 0.78rem; padding: 8px 10px; border-radius: 7px; border-left: 4px solid; }
   .ds-i.def    { background: var(--blau-hell);   border-color: var(--blau); }
   .ds-i.bsp    { background: var(--gruen-hell);  border-color: var(--gruen); }
@@ -79,8 +81,15 @@
   .ds-lb { font-weight: 700; font-size: 0.72rem; color: var(--tinte); }
   .ds-wn { font-size: 0.67rem; color: var(--tinte-2); font-style: italic; }
 
+  @media (max-width: 900px) { .ds-grid { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 600px) {
-    .hero { padding: 28px 16px 24px; } .page { padding: 18px 12px 60px; }
+    .hero { padding: 16px 16px 22px; } .page { padding: 18px 12px 60px; }
+    .ds-grid { grid-template-columns: repeat(2, 1fr); }
+    /* Lektionsangabe darf umbrechen, sonst laeuft die Kapitelzeile
+       auf schmalen Schirmen rechts aus dem Bild. */
+    .kap-hdr { align-items: flex-start; }
+    .k-lek { white-space: normal; text-align: right; line-height: 1.4; }
+    .k-nr, .k-name { padding-top: 1px; }
   }
 </style>
 </head>
@@ -91,7 +100,7 @@
 <div class="hero">
   <!-- Text in einem span: .hero-ew ist ein Flex-Container mit gap — einzelne
        <strong> würden sonst zu eigenen Flex-Items mit Lücken davor und danach. -->
-  <div class="hero-ew"><span>Berufsmaturität <strong>T</strong>echnik, <strong>A</strong>rchitektur, <strong>L</strong>ife <strong>S</strong>ciences — TALS</span></div>
+  <div class="hero-ew"><span>Berufsmaturität <strong>T</strong>echnik, <strong>A</strong>rchitektur, <strong>L</strong>ife <strong>S</strong>ciences — <strong>TALS</strong></span></div>
   <h1>Physik <span>nach BM RLP 2030</span></h1>
 </div>
 
@@ -239,6 +248,7 @@
   <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="feedback.html">Kontakt &amp; Feedback</a> · <a href="rechtliches.html">Rechtliches &amp; Datenschutz</a> · <a href="https://github.com/go4exercises/TALS-Physik" target="_blank" rel="noopener">GitHub</a></p>
+  <p>Keine Cookies · Kein Tracking</p>
   <p>Version 0.9 · Stand Juli 2026</p>
 </footer>
 
