@@ -41,8 +41,8 @@ fieldset{border:none;margin-bottom:22px}
 legend,.lbl{display:block;font-weight:600;font-size:.88rem;margin-bottom:8px}
 .hinweis{font-size:.76rem;color:var(--tinte-2);font-weight:300;margin-top:-4px;margin-bottom:8px}
 
-/* Datenschutzhinweis direkt vor dem Senden-Knopf */
-.datenschutz{font-size:.76rem;line-height:1.6;color:var(--tinte-2);background:var(--papier-2);border:1px solid var(--linie);border-radius:8px;padding:12px 14px;margin:4px 0 16px}
+/* Datenschutzhinweis unter dem Senden-Knopf — erscheint zusammen mit ihm */
+.datenschutz{font-size:.76rem;line-height:1.6;color:var(--tinte-2);background:var(--papier-2);border:1px solid var(--linie);border-radius:8px;padding:12px 14px;margin:16px 0 0}
 .datenschutz strong{color:var(--tinte)}
 .datenschutz a{color:var(--blau)}
 
@@ -261,7 +261,9 @@ button[type=submit]:focus-visible{outline:2px solid var(--tinte);outline-offset:
       </div>
     </div>
 
-    <div class="datenschutz">
+    <button type="submit" id="senden" class="hidden" disabled>Feedback senden</button>
+
+    <div class="datenschutz hidden" id="ds-hinweis">
       <strong>Datenschutz:</strong> Mit dem Absenden werden die Nachricht sowie freiwillig
       angegebener Name, E-Mail-Adresse und ein hochgeladener Screenshot über Google Apps Script
       an den Betreiber übermittelt. Die Angaben werden ausschliesslich zur Prüfung, Bearbeitung
@@ -274,7 +276,6 @@ button[type=submit]:focus-visible{outline:2px solid var(--tinte);outline-offset:
       möglich ist, bitte im freiwilligen Feld eine E-Mail-Adresse angeben.
     </div>
 
-    <button type="submit" id="senden" class="hidden" disabled>Feedback senden</button>
     <div class="status" id="status" role="status"></div>
   </form>
 
@@ -339,6 +340,7 @@ button[type=submit]:focus-visible{outline:2px solid var(--tinte);outline-offset:
   };
   const feldEmail = document.getElementById('feld-email');
   const btn       = document.getElementById('senden');
+  const dsHinweis = document.getElementById('ds-hinweis');
   const status    = document.getElementById('status');
 
   const EINFACH = ['Lob/Tadel'];
@@ -351,6 +353,7 @@ button[type=submit]:focus-visible{outline:2px solid var(--tinte);outline-offset:
     zStruktur.classList.toggle('hidden', einfach);
     feldEmail.classList.remove('hidden');
     btn.classList.remove('hidden');
+    dsHinweis.classList.remove('hidden');   /* Datenschutzhinweis zeigt sich mit dem Knopf */
     btn.disabled = false;
     /* Herkunftsseite in alle Seitenfelder vorbefüllen (überschreibbar) */
     if (herkunft){
@@ -509,6 +512,7 @@ button[type=submit]:focus-visible{outline:2px solid var(--tinte);outline-offset:
         btn.textContent = 'Feedback senden';
         btn.disabled = true;
         btn.classList.add('hidden');
+        dsHinweis.classList.add('hidden');
         return;
       }
       throw new Error(data.message || 'Unbekannter Fehler');

@@ -8,8 +8,11 @@
 <link rel="stylesheet" href="style.css">
 <style>
   /* ── Index-spezifisch ── */
-  .hero { background: var(--weiss); border-bottom: 1px solid var(--linie); padding: 50px 40px 42px; text-align: center; }
-  .hero-ew { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--bernstein); margin-bottom: 14px; }
+  .hero { background: var(--weiss); border-bottom: 1px solid var(--linie); padding: 16px 40px 28px; text-align: center; }
+  /* Gemischte Schreibweise (kein text-transform), damit die fett gesetzten
+     Anfangsbuchstaben T·A·L·S als Herkunft des Namens lesbar bleiben. */
+  .hero-ew { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 1px; color: var(--tinte-2); margin-bottom: 10px; }
+  .hero-ew strong { font-weight: 700; color: var(--bernstein); }
   .hero-ew::before, .hero-ew::after { content:''; display:block; width:22px; height:1.5px; background:var(--bernstein-rand); }
   .hero h1 { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.15; margin-bottom: 12px; }
   .hero h1 span { color: var(--bernstein); }
@@ -36,6 +39,8 @@
   .b-desc { margin-top: 6px; font-size: 0.78rem; color: var(--tinte-2); font-weight: 300; }
 
   .kap { border: 1.5px solid var(--bernstein-rand); border-top: none; overflow: hidden; }
+  /* Ohne Bereichs-Kopfzeile trägt das erste Kapitel den oberen Rahmen selbst */
+  .kap:first-of-type { border-top: 1.5px solid var(--bernstein-rand); border-radius: 10px 10px 0 0; }
   .kap:last-of-type { border-radius: 0 0 10px 10px; }
 
   .kap-hdr { display: flex; align-items: center; gap: 11px; padding: 12px 18px; background: color-mix(in srgb, var(--bernstein-hell) 45%, var(--weiss)); border-bottom: 1px solid var(--bernstein-rand); cursor: pointer; user-select: none; transition: background 0.15s; }
@@ -84,44 +89,20 @@
 <div id="nav-root"></div>
 
 <div class="hero">
-  <div class="hero-ew">Berufsmaturität Technik, Architektur, Life Sciences</div>
-  <h1>Physik<br><span>1:1 nach BM RLP 2030</span></h1>
-  <div class="chips">
-    <span class="chip c-be">10 Teilgebiete · 160 Lektionen</span>
-    <a href="https://www.sbfi.admin.ch/dam/de/sd-web/xCh9wCCwVgrh/formulaire_final_d.pdf"
-       target="_blank" rel="noopener" class="chip c-gr" style="text-decoration:none">📄 Formelsammlung SBFI</a>
-    <a href="https://go4exercises.github.io/TALS-Mathe/"
-       target="_blank" rel="noopener" class="chip c-gr" style="text-decoration:none">↗ TALS Mathematik</a>
-  </div>
+  <!-- Text in einem span: .hero-ew ist ein Flex-Container mit gap — einzelne
+       <strong> würden sonst zu eigenen Flex-Items mit Lücken davor und danach. -->
+  <div class="hero-ew"><span>Berufsmaturität <strong>T</strong>echnik, <strong>A</strong>rchitektur, <strong>L</strong>ife <strong>S</strong>ciences — TALS</span></div>
+  <h1>Physik <span>nach BM RLP 2030</span></h1>
 </div>
 
 <main class="page">
-
-  <div class="stats">
-    <div class="st"><div class="st-dot" style="background:var(--gruen)"></div><span class="st-n">16</span><span>fertig</span></div>
-    <div class="st"><div class="st-dot" style="background:var(--orange)"></div><span class="st-n">0</span><span>in Arbeit</span></div>
-    <div class="st"><div class="st-dot" style="background:var(--linie)"></div><span class="st-n">0</span><span>geplant</span></div>
-    <span class="st-hint">10 RLP-Teilgebiete + 5 Vorwissen-Seiten + 1 Vertiefung · ▼ Lerngebiet anklicken zum Aufklappen</span>
-  </div>
-
-
-  <!-- ══════════════════════════════════════════
-       BEREICH: Physik · RLP 7.5.4.1 Gruppe 1 · 160 Lektionen
-  ══════════════════════════════════════════ -->
-  <div class="bereich" id="ph">
-    <div class="bh">
-      <span class="b-badge">Physik</span>
-      <span class="b-titel">Physik nach RLP-BM 2030</span>
-    </div>
-    <div class="b-desc">FH-Fachbereich: Technik, Architektur, Life Sciences. 3 Lerngebiete, 10 Teilgebiete, 160 Lektionen.</div>
-  </div>
 
   <!-- P0: Vorwissen · kein RLP-Lerngebiet -->
   <div class="kap">
     <div class="kap-hdr" onclick="tog('p0')">
       <span class="k-nr">0</span>
       <span class="k-name">Vorwissen</span>
-      <span class="k-lek">Sek-I-Auffrischung · 5 Seiten · kein RLP-Lerngebiet</span>
+      <span class="k-lek">Sek-I-Auffrischung · 3 Seiten · kein RLP-Lerngebiet</span>
       <span class="k-tog" id="tg-p0">▼</span>
     </div>
     <div class="tc" id="tc-p0">

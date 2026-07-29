@@ -78,42 +78,36 @@ function buildNav(cfg) {
   const refItems = [
     { href:`${prefix}glossar.html`,         nr:'A–Z', tit:'Glossar',                     cur:(cfg.id==='glossar') },
     { href:`${prefix}formelsammlung.html`,  nr:'∑',   tit:'Formelsammlung',               cur:(cfg.id==='formeln') },
+    { href:`${prefix}TALS-Physik-Formelsammlung.pdf`, nr:'PDF',
+      tit:'Formelsammlung illustriert — zum Herunterladen und Drucken', extern:true },
   ];
   function renderRefDropdown() {
     const intern = refItems.map(r =>
-      `<a href="${r.href}" class="${r.cur?'dd-aktiv':''}">
+      `<a href="${r.href}" class="${r.cur?'dd-aktiv':''}"${r.extern?' target="_blank" rel="noopener"':''}>
         <span class="dd-nr">${r.nr}</span>
         <span class="dd-tit">${r.tit}</span>
       </a>`).join('');
     return `<div class="dd-gruppe">
         <div class="dd-gruppe-titel">Lehrmittel-intern</div>
         ${intern}
-      </div>
-      <div class="dd-gruppe">
-        <div class="dd-gruppe-titel">Offiziell</div>
-        <a href="https://www.sbfi.admin.ch/dam/de/sd-web/xCh9wCCwVgrh/formulaire_final_d.pdf" target="_blank" rel="noopener">
-          <span class="dd-nr">↗</span>
-          <span class="dd-tit">BM-Formelsammlung (SBFI)</span>
-        </a>
       </div>`;
   }
   function renderMobileRef() {
     const intern = refItems.map(r =>
-      `<a href="${r.href}" class="${r.cur?'mn-aktiv':''}">${r.nr} · ${r.tit}</a>`).join('');
-    return `<div class="mn-untergruppe">Nachschlagen</div>${intern}
-      <a href="https://www.sbfi.admin.ch/dam/de/sd-web/xCh9wCCwVgrh/formulaire_final_d.pdf" target="_blank" rel="noopener">↗ BM-Formelsammlung (SBFI)</a>`;
+      `<a href="${r.href}" class="${r.cur?'mn-aktiv':''}"${r.extern?' target="_blank" rel="noopener"':''}>${r.nr} · ${r.tit}</a>`).join('');
+    return `<div class="mn-untergruppe">Nachschlagen</div>${intern}`;
   }
 
   // ── META-DROPDOWN-INHALTE ──
   const metaAutorHTML = `
     <div class="meta-titel">Autor &amp; Intention</div>
-    <p><strong>Autor:</strong> Raphael Arnold Kohler, Elektroingenieur und Lehrperson
-       mit über 30 Jahren Unterrichtserfahrung.</p>
-    <p>TALS Physik ist ein unabhängiges, kostenlos zugängliches Lernangebot für die
-       Berufsmaturität Technik, Architektur, Life Sciences nach RLP-BM 2030. Es ergänzt
-       Unterricht und Lehrmittel, ersetzt sie aber nicht. Das Angebot ist
-       <strong>keine offizielle Publikation</strong> des SBFI, eines Kantons, einer
-       Schule oder einer Prüfungsorganisation.</p>
+    <p><strong>Autor:</strong> Raphael Arnold Kohler, Elektroingenieur und BM-Fachlehrperson
+       für Mathematik und Physik mit über 30 Jahren Unterrichtserfahrung.</p>
+    <p>TALS Physik ist ein unabhängiges, kostenlos zugängliches Lernangebot für die Sek II,
+       ausgerichtet auf den Rahmenlehrplan der Berufsmaturität Gruppe Technik, Architektur,
+       Life Sciences (RLP-BM 2030, TALS). Es ergänzt Unterricht und Lehrmittel, ersetzt sie
+       aber nicht. Das Angebot ist <strong>keine offizielle Publikation</strong> des SBFI,
+       eines Kantons, einer Schule oder einer Prüfungsorganisation.</p>
     <p>Bei der Erstellung und technischen Umsetzung wurden KI-Werkzeuge eingesetzt.
        Alle veröffentlichten Inhalte werden redaktionell geprüft; die Verantwortung
        für die Veröffentlichung liegt bei Raphael Arnold Kohler.</p>`;
@@ -123,17 +117,19 @@ function buildNav(cfg) {
     <div class="meta-sub">Erstellt</div>
     <ul>
       <li>Alle 10 Teilgebiete vollständig (Lerngebiete 4 Mechanik, 5 Thermodynamik, 6 Wellen und Elektrizität)</li>
-      <li>Kapitel 0 Vorwissen (5 Seiten zur Sek-I-Auffrischung: kompakte Alltagstour plus Mathematik, Physik, Technik, Logik — kein RLP-Lerngebiet)</li>
-      <li>6.1a Wellenexperimente — dynamische Vertiefungsseite zu 6.1 (Transversal-/Longitudinalwellen, Superposition, stehende Wellen)</li>
+      <li>Kapitel 0 Vorwissen (3 Seiten zur Sek-I-Auffrischung)</li>
       <li>Je Themenseite: interaktive Animationen, Aufgaben, Zusammenfassung, 5 Druckseiten/Materialien und externe Ressourcen</li>
+      <li>Schwesterprojekt: <a href="https://go4exercises.github.io/TALS-Mathe/" target="_blank" rel="noopener" class="meta-link">TALS Mathematik</a> — gleicher Aufbau für das Fach Mathematik</li>
     </ul>
-    <div class="meta-sub">Geplant</div>
+    <div class="meta-sub">Ideen für den Ausbau</div>
     <ul>
-      <li>Optionale Erweiterungen über die RLP-Grundlagen hinaus (z.B. Magnetismus / Elektromagnetismus, Schwingungen)</li>
-    </ul>
-    <div class="meta-sub">Schwesterprojekt</div>
-    <ul>
-      <li><a href="https://go4exercises.github.io/TALS-Mathe/" target="_blank" rel="noopener" class="meta-link">TALS Mathematik</a> — gleicher Aufbau für das Fach Mathematik</li>
+      <li>Erweiterungen über die RLP-Grundlagen hinaus (z.B. Magnetismus / Elektromagnetismus, Schwingungen)</li>
+      <li>Animationen, die Lehrerdemos und Schülerexperimente visualisieren</li>
+      <li>Übersetzung in Englisch</li>
+      <li>Kapitelweise Moodle-Fragesammlungen</li>
+      <li>Animierte Lösungen zu alten BM-Abschlussprüfungen</li>
+      <li>Erweiterung für die Vorbereitung auf die Passerelle und die eidgenössische Maturitätsprüfung</li>
+      <li>Mathematik erweitern mit Kombinatorik für die Gruppe GS</li>
     </ul>`;
 
   const metaLizenzHTML = `
@@ -260,7 +256,12 @@ const TOC_KURZ = {
   ressourcen:     'Externe V&S&A',
   // rechtliches.html
   'datenschutz-aufruf':   'DS Seitenaufruf',
-  'datenschutz-feedback': 'DS Feedback'
+  'datenschutz-feedback': 'DS Feedback',
+  // formelsammlung.html — sonst schneidet das ToC „Lerngebiet 4 · Mec…" ab
+  konstanten:     'Konstanten',
+  lg4:            '4 Mechanik',
+  lg5:            '5 Thermodynamik',
+  lg6:            '6 Andere Bereiche'
 };
 
 function buildToC() {
