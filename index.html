@@ -43,12 +43,15 @@
   .kap:first-of-type { border-top: 1.5px solid var(--bernstein-rand); border-radius: 10px 10px 0 0; }
   .kap:last-of-type { border-radius: 0 0 10px 10px; }
 
-  .kap-hdr { display: flex; align-items: center; gap: 11px; padding: 12px 18px; background: color-mix(in srgb, var(--bernstein-hell) 45%, var(--weiss)); border-bottom: 1px solid var(--bernstein-rand); cursor: pointer; user-select: none; transition: background 0.15s; }
+  .kap-hdr { display: flex; align-items: center; gap: 10px; padding: 9px 16px; background: color-mix(in srgb, var(--bernstein-hell) 45%, var(--weiss)); border-bottom: 1px solid var(--bernstein-rand); cursor: pointer; user-select: none; transition: background 0.15s; }
   .kap-hdr:hover, .kap-hdr.offen { background: var(--bernstein-hell); }
   .k-nr { font-family: var(--mono); font-size: 0.66rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; white-space: nowrap;
           background: var(--bernstein); color: #fff; }
-  .k-name { font-family: var(--serif); font-size: 0.96rem; font-weight: 600; color: var(--tinte); }
-  .k-lek { margin-left: auto; font-family: var(--mono); font-size: 0.62rem; color: var(--tinte-2); white-space: nowrap; }
+  /* Titel und Lektionsangabe stehen untereinander: die Angabe bekommt die volle
+     Zeilenbreite und konkurriert nicht mehr mit dem Titel um den Platz. */
+  .k-txt { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
+  .k-name { font-family: var(--serif); font-size: 0.96rem; font-weight: 600; color: var(--tinte); line-height: 1.2; }
+  .k-lek { font-family: var(--mono); font-size: 0.6rem; color: var(--tinte-2); line-height: 1.25; }
   .k-tog { color: var(--bernstein); font-size: 0.72rem; transition: transform 0.2s; flex-shrink: 0; }
   .kap-hdr.offen .k-tog { transform: rotate(180deg); }
 
@@ -85,11 +88,9 @@
   @media (max-width: 600px) {
     .hero { padding: 16px 16px 14px; } .page { padding: 12px 12px 60px; }
     .ds-grid { grid-template-columns: repeat(2, 1fr); }
-    /* Lektionsangabe darf umbrechen, sonst laeuft die Kapitelzeile
-       auf schmalen Schirmen rechts aus dem Bild. */
-    .kap-hdr { align-items: flex-start; }
-    .k-lek { white-space: normal; text-align: right; line-height: 1.4; }
-    .k-nr, .k-name { padding-top: 1px; }
+    /* Die Angabe steht ohnehin unter dem Titel — hier nur die Polsterung
+       weiter zurücknehmen. */
+    .kap-hdr { padding: 8px 12px; }
   }
 </style>
 </head>
@@ -110,8 +111,10 @@
   <div class="kap">
     <div class="kap-hdr" onclick="tog('p0')">
       <span class="k-nr">0</span>
-      <span class="k-name">Vorwissen</span>
-      <span class="k-lek">Sek-I-Auffrischung · 3 Seiten · kein RLP-Lerngebiet</span>
+      <span class="k-txt">
+        <span class="k-name">Vorwissen</span>
+        <span class="k-lek">Sek-I-Auffrischung · 3 Seiten · kein RLP-Lerngebiet</span>
+      </span>
       <span class="k-tog" id="tg-p0">▼</span>
     </div>
     <div class="tc" id="tc-p0">
@@ -138,8 +141,10 @@
   <div class="kap">
     <div class="kap-hdr" onclick="tog('p4')">
       <span class="k-nr">4</span>
-      <span class="k-name">Mechanik</span>
-      <span class="k-lek">100 Lektionen · 5 Teilgebiete</span>
+      <span class="k-txt">
+        <span class="k-name">Mechanik</span>
+        <span class="k-lek">100 Lektionen · 5 Teilgebiete</span>
+      </span>
       <span class="k-tog" id="tg-p4">▼</span>
     </div>
     <div class="tc" id="tc-p4">
@@ -176,8 +181,10 @@
   <div class="kap">
     <div class="kap-hdr" onclick="tog('p5')">
       <span class="k-nr">5</span>
-      <span class="k-name">Thermodynamik</span>
-      <span class="k-lek">30 Lektionen · 3 Teilgebiete</span>
+      <span class="k-txt">
+        <span class="k-name">Thermodynamik</span>
+        <span class="k-lek">30 Lektionen · 3 Teilgebiete</span>
+      </span>
       <span class="k-tog" id="tg-p5">▼</span>
     </div>
     <div class="tc" id="tc-p5">
@@ -204,8 +211,10 @@
   <div class="kap">
     <div class="kap-hdr" onclick="tog('p6')">
       <span class="k-nr">6</span>
-      <span class="k-name">Einführung in andere Bereiche der Physik</span>
-      <span class="k-lek">30 Lektionen · 2 Teilgebiete + 1 Vertiefung</span>
+      <span class="k-txt">
+        <span class="k-name">Einführung in andere Bereiche der Physik</span>
+        <span class="k-lek">30 Lektionen · 2 Teilgebiete + 1 Vertiefung</span>
+      </span>
       <span class="k-tog" id="tg-p6">▼</span>
     </div>
     <div class="tc" id="tc-p6">
