@@ -177,7 +177,7 @@ function buildNav(cfg) {
 
     <div class="dropdown">
       <button class="nav-btn nav-meta" onclick="toggleDD('dd-ueber')">
-        <span class="ueber-icon" aria-hidden="true">ⓘ</span> Über ▾
+        Über ▾
       </button>
       <div class="dd-menu dd-menu-ueber" id="dd-ueber">
         <div class="ueber-tabs" role="tablist">
