@@ -1552,10 +1552,12 @@ function drawA3() {
   ctx.fillStyle = '#5b2d8e'; ctx.font = '13px JetBrains Mono,monospace';
   if (eng) { ctx.textAlign = 'left'; ctx.fillText('s₁='+s1+' cm', 4, pistY_L-12 + s1*1.2/2); }
   else {
+    // Links vom kleinen Kolben ist fuer eine Zeile kein Platz: zweizeilig und
+    // rechtsbuendig links vom Massband, sonst laeuft der Text ueber den Pfeil.
     ctx.textAlign = 'right';
-    const s1Txt = 's₁='+s1+' cm';
-    // rechtsbündig, aber nie über den linken Rand hinaus
-    ctx.fillText(s1Txt, Math.max(xL-wL/2-26, ctx.measureText(s1Txt).width + 4), pistY_L-12 + s1*1.2/2);
+    const xS1 = xL-wL/2-28, yS1 = pistY_L-12 + s1*1.2/2;
+    ctx.fillText('s₁', xS1, yS1 - 5);
+    ctx.fillText(s1+' cm', xS1, yS1 + 9);
   }
 
   // s2 (sehr klein) am grossen Kolben

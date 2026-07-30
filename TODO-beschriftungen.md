@@ -152,6 +152,16 @@ Diese Punkte kamen aus der Sichtprüfung am Bildschirm; die Messung erfasst sie 
   Zeiger unter dem Balken ist von 26 auf 14 px gekürzt, damit er nicht durch die Namen
   läuft.
 
+- [x] **[4.5 Pascal](http://localhost:8000/themen/p4-5-hydrostatik.html#pascal)** ·
+  `a3-cv` — „s₁=20 cm" berührte das dünne Massband; links vom kleinen Kolben ist für
+  eine Zeile kein Platz (der Text ist 62 px breit, der Rand 53 px).
+  → Zweizeilig: „s₁" über „20 cm", rechtsbündig links vom Massband.
+
+- [x] **[4.4 Drehmoment](http://localhost:8000/themen/p4-4-statik.html#drehmoment)** ·
+  `a4-cv` — die gestrichelte Wirkungslinie kreuzte „l = 0.30 m".
+  → Das Label bleibt rechts von der Linie: die x-Position der Linie wird auf der
+  Label-Höhe aus dem Winkel berechnet, bei flachen Winkeln steht es wieder mittig.
+
 ### Ausserdem beobachtet, ohne sichtbaren Konflikt
 
 Auf **[6.2 Gefahren](http://localhost:8000/themen/p6-2-elektrizitaet.html#gefahren)**

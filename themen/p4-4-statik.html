@@ -1391,7 +1391,11 @@ function drawA4() {
 
   // Beschriftung Hebellänge
   ctx.fillStyle = '#5a6068'; ctx.textAlign='center';
-  ctx.fillText('l = '+l.toFixed(2)+' m', (D.x+B.x)/2, D.y + 58);
+  // Die Wirkungslinie laeuft unter dem Hebel nach links; das Label bleibt rechts
+  // von ihr, sonst schneidet die gestrichelte Linie durch den Text.
+  const lY = D.y + 58, lTxt = 'l = '+l.toFixed(2)+' m';
+  const xWirk = B.x - (lY - B.y) / Math.tan(a);
+  ctx.fillText(lTxt, Math.max((D.x+B.x)/2, xWirk + 10 + ctx.measureText(lTxt).width/2), lY);
 
   // Drehmoment als Bogenpfeil um D — M ist eine Drehwirkung, kein Pfeil entlang
   // einer Richtung. Der Bogen wächst mit M.
