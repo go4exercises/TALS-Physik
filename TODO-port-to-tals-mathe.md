@@ -437,6 +437,36 @@ die Bereichsköpfe tragen den oberen Rahmen weiter.
 }
 ```
 
+**4 · Abstände unter dem Titel** (nachgezogen 30.07.2026)
+
+Nach dem Entfernen der Chips steht der Titel als letztes Element im Hero — seine
+`margin-bottom` ist dann toter Raum, und die alten Polsterwerte sind auf einen Hero mit
+drei Elementen ausgelegt. Vier Werte, in Physik gemessen und übernommen:
+
+```css
+.hero    { padding: 16px 40px 18px; }   /* Unterkante 28 → 18 */
+.hero h1 { margin-bottom: 0; }          /* vorher 12px — nur richtig, wenn .chips weg ist */
+.page    { padding: 18px 22px 80px; }   /* Oberkante 32 → 18 */
+
+@media (max-width: 600px) {
+  .hero { padding: 16px 16px 14px; }    /* Unterkante 22 → 14 */
+  .page { padding: 12px 12px 60px; }    /* Oberkante 18 → 12 */
+}
+```
+
+**Mathe-Stand (30.07.2026 nachgesehen):** `.hero { padding: 16px 40px 28px }`,
+`.hero h1 { margin-bottom: 12px }`, `.page { padding: 32px 22px 80px }` und mobil
+`16px 16px 22px` / `18px 12px 60px` — also genau die Physik-Werte vor dieser Änderung.
+Der Diff passt damit wörtlich, sobald Schritt 2 (`.chips` entfernt) erledigt ist.
+
+**Wirkung in Physik**, gemessen als Abstand von der Titel-Unterkante bis zur ersten
+Kapitelzeile:
+
+| Breite | vorher | nachher |
+|---|---:|---:|
+| 1280 px | 73 px | **37 px** |
+| 360 px | 53 px | **27 px** |
+
 **Prüfen:** bei 1280 px die Position der ersten `.kap`-Zeile vorher/nachher vergleichen,
 bei 360 px `document.body.scrollWidth === document.documentElement.clientWidth`
 (kein Horizontalscroll) und die fett gesetzten T·A·L·S auf Lesbarkeit sichten.
@@ -445,6 +475,7 @@ bei 360 px `document.body.scrollWidth === document.documentElement.clientWidth`
 - [ ] `.chips`, `.stats` und beide `.b-desc` entfernt, Bereichsköpfe behalten
 - [ ] `.ds-grid` auf 5 Spalten, gestufte Media-Queries
 - [ ] `.k-lek` bricht unter 600 px um
+- [ ] Abstände unter dem Titel nach Schritt 4 (vier Werte, Diff passt wörtlich)
 - [ ] Render-Check 1280 px + 360 px
 
 ---
