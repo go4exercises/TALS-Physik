@@ -1550,7 +1550,12 @@ function drawA3() {
   drawArrow(ctx, xL-wL/2-22, pistY_L-12 + s1*1.2 - 6, xL-wL/2-22, pistY_L-12 + s1*1.2, '#5b2d8e', 1.5, 7);
   ctx.fillStyle = '#5b2d8e'; ctx.font = '13px JetBrains Mono,monospace';
   if (eng) { ctx.textAlign = 'left'; ctx.fillText('s₁='+s1+' cm', 4, pistY_L-12 + s1*1.2/2); }
-  else { ctx.textAlign = 'right'; ctx.fillText('s₁='+s1+' cm', xL-wL/2-26, pistY_L-12 + s1*1.2/2); }
+  else {
+    ctx.textAlign = 'right';
+    const s1Txt = 's₁='+s1+' cm';
+    // rechtsbündig, aber nie über den linken Rand hinaus
+    ctx.fillText(s1Txt, Math.max(xL-wL/2-26, ctx.measureText(s1Txt).width + 4), pistY_L-12 + s1*1.2/2);
+  }
 
   // s2 (sehr klein) am grossen Kolben
   ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
@@ -1705,7 +1710,7 @@ function drawA4() {
     drawArrow(ctx, xQ, yQbot+6, xQ, yQbot+6-pfeil, '#1f6b3a', 2.5, 11);
     ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('F_A = '+FA.toFixed(2)+' N', xQ+wq/2+15, yQbot+6-pfeil/2);
+    ctx.fillText('F_A = '+FA.toFixed(2)+' N', xQ+wq/2+15, yQbot-8-pfeil/2);
   }
   // Federwaage: scheinbares Gewicht = F_G − F_A. Der Quader ist aus Holz mit
   // ρ = 700 kg/m³, seine Gewichtskraft folgt aus dem Gesamtvolumen.

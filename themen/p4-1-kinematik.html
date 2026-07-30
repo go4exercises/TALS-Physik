@@ -1136,17 +1136,22 @@ function drawA0() {
   ctx.font = 'bold 13px JetBrains Mono,monospace';
   // Marker-Labels mit weissem Halo (gegen Kollision mit Tick-Beschriftungen);
   // nahe am Rand auf die Innenseite der Linie kippen
-  function a0Lbl(txt, x, alignRight) {
+  function a0Lbl(txt, x, alignRight, y) {
+    const yy = y || 20;
     const w = ctx.measureText(txt).width;
     const x0 = alignRight ? x - w : x;
     ctx.fillStyle = '#fff';
-    ctx.fillRect(x0 - 2, 9, w + 4, 14);
+    ctx.fillRect(x0 - 2, yy - 11, w + 4, 14);
     ctx.fillStyle = '#8a4a0e';
     ctx.textAlign = alignRight ? 'right' : 'left';
-    ctx.fillText(txt, x, 20);
+    ctx.fillText(txt, x, yy);
   }
-  if (X(t1) - 4 < 18) a0Lbl('t₁', X(t1) + 4, false);
-  else                a0Lbl('t₁', X(t1) - 4, true);
+  // Innen kippen, sobald das Label links in die Spalte der y-Tick-Werte geriete —
+  // dort steht es dann eine Zeile tiefer, damit es den Achsentitel «v [km/h]»
+  // nicht berührt.
+  const a0YAchse = gr.cx(0);
+  if (X(t1) - 4 - ctx.measureText('t₁').width < a0YAchse) a0Lbl('t₁', X(t1) + 4, false, 34);
+  else                                                    a0Lbl('t₁', X(t1) - 4, true);
   if (X(t2) + 4 > cv.W - 18) a0Lbl('t₂', X(t2) - 4, true);
   else                       a0Lbl('t₂', X(t2) + 4, false);
   // kleine Griff-Punkte oben auf den Markerlinien
@@ -1225,7 +1230,7 @@ function drawHerleitung() {
   ctx.beginPath(); ctx.moveTo(X(0), Y(v0)); ctx.lineTo(X(T), Y(v0)); ctx.stroke();
   ctx.setLineDash([]);
   ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  ctx.fillStyle = '#1f6b3a'; ctx.fillText('v₀ · t', (X(0)+X(T))/2, (Y(v0)+Y(0))/2 + 4);
+  ctx.fillStyle = '#1f6b3a'; ctx.fillText('v₀ · t', X(1.5), (Y(v0)+Y(0))/2 + 4);
   ctx.fillStyle = '#5b2d8e'; ctx.fillText('½ · a · t²', X(0) + (X(T)-X(0))*0.68, Y(v0) - 10);
   // Hilfslinie (gestrichelt): v(t)-Niveau
   ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1.2; ctx.setLineDash([4, 4]);
@@ -1924,7 +1929,8 @@ function drawA5() {
   ctx.beginPath(); ctx.moveTo(cxC, cyC); ctx.lineTo(px, py); ctx.stroke();
   ctx.fillStyle = '#5b2d8e';
   ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  ctx.fillText('r', (cxC + px) / 2 + 10, (cyC + py) / 2 - 5);
+  ctx.fillText('r', cxC + (px - cxC) * 0.35 - Math.sin(phi) * 14,
+                    cyC + (py - cyC) * 0.35 - Math.cos(phi) * 14 + 4);
 
   // Q3: STRENG PROPORTIONALE Pfeile. Vorher hatten beide einen Sockel
   // (50 + v·8 bzw. 30 + az·4) und einen Cap — damit war der Längenvergleich

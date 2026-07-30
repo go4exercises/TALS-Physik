@@ -168,7 +168,7 @@ function drawGrid(ctx, W, H, xMin, xMax, yMin, yMax) {
    mit Grösse + Einheit zu überschreiben. Beispiel:
      drawAxesUnits(ctx, W, H, cx, cy, 't [s]', 'v [m/s]');
 */
-function drawAxesUnits(ctx, W, H, cx, cy, xLabel, yLabel) {
+function drawAxesUnits(ctx, W, H, cx, cy, xLabel, yLabel, xLblDy) {
   // Position der Achsen (auch wenn 0 nicht im Bereich liegt)
   const xAxisPy = (typeof cy === 'function')
     ? (cy(0) >= 0 && cy(0) <= H ? cy(0) : (cy(0) < 0 ? 0 : H))
@@ -180,13 +180,20 @@ function drawAxesUnits(ctx, W, H, cx, cy, xLabel, yLabel) {
   const xLblW = Math.ceil(ctx.measureText(xLabel).width) + 8;
   const yLblW = Math.ceil(ctx.measureText(yLabel).width) + 8;
   // Generisches Default-Label überdecken (bedarfsorientiert tight)
+  // xLblDy: negativer Versatz, wenn die Tick-Beschriftungen derselben Achse in
+  // derselben Zeile liegen (z.B. wenn die Achse am unteren Rand klebt)
+  const dyX = xLblDy || 0;
   ctx.fillStyle = '#fff';
-  ctx.fillRect(W - xLblW, xAxisPy - 19, xLblW - 2, 17);
+  // Bei Versatz zwei Flecken: ein schmaler ueber dem generischen Default-Label
+  // (sonst bleibt das 'x' sichtbar) und der breite in der neuen Zeile. Ein
+  // breiter Fleck ueber beide Zeilen wuerde die letzte Tick-Beschriftung fressen.
+  if (dyX) ctx.fillRect(W - 18, xAxisPy - 19, 16, 17);
+  ctx.fillRect(W - xLblW, xAxisPy - 19 + dyX, xLblW - 2, 17);
   ctx.fillRect(yAxisPx + 2, 0, yLblW, 18);
   // Neu zeichnen
   ctx.fillStyle = '#374151';
   ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic';
-  ctx.fillText(xLabel, W - 4, xAxisPy - 6);
+  ctx.fillText(xLabel, W - 4, xAxisPy - 6 + dyX);
   ctx.textAlign = 'left';
   ctx.fillText(yLabel, yAxisPx + 6, 12);
 }
@@ -223,9 +230,18 @@ function drawVector(ctx, cx, cy, x0, y0, dx, dy, color, label, lw = 2.2) {
     ctx.fillStyle = color;
     ctx.font = 'bold 13px JetBrains Mono,monospace';
     ctx.textAlign = 'center';
-    // Label leicht über dem Pfeilkopf
-    const lx = (px1 + px2) / 2 + (py2 < py1 ? 0 : 0);
-    const ly = (py1 + py2) / 2 - 7;
+    // Label mittig über dem Pfeil — ausser bei STEILEN Pfeilen: dort liegt es
+    // sonst auf den Achsenwerten, darum wandert es zur Seite (in Pfeilrichtung
+    // gesehen nach rechts).
+    const vdx = px2 - px1, vdy = py2 - py1;
+    let lx, ly;
+    if (Math.abs(vdy) > 2 * Math.abs(vdx)) {
+      lx = (px1 + px2) / 2 + (vdy < 0 ? 11 : -11);
+      ly = (py1 + py2) / 2 + 4;
+    } else {
+      lx = (px1 + px2) / 2;
+      ly = (py1 + py2) / 2 - 7;
+    }
     ctx.fillText(label, lx, ly);
   }
 }

@@ -1926,8 +1926,11 @@ function thgGas(id){
   for(let v=0; v<=g.max; v+=step){ const y=Y(v);
     ctx.globalAlpha=.6; ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x1,y); ctx.stroke();
     ctx.globalAlpha=1; ctx.fillText(v,x0-6,y); }
-  ctx.save(); ctx.translate(12,(y0+y1)/2); ctx.rotate(-Math.PI/2);
-  ctx.textAlign='center'; ctx.fillStyle=THG.soft; ctx.fillText(g.unit,0,0); ctx.restore();
+  // Einheit unter den Achsenfuss statt gedreht neben die Achse: die
+  // Tick-Beschriftungen reichen bis an den linken Rand, dort ist kein Platz.
+  ctx.textAlign='left'; ctx.textBaseline='top'; ctx.fillStyle=THG.soft;
+  ctx.fillText(g.unit, 4, y0+8);
+  ctx.textBaseline='middle';
   const bw=(x1-x0)/4.4, gap=(x1-x0-2*bw)/3;
   [['vor',g.pre,THG.sand],['heute',g.now,THG.bernD]].forEach((b,i)=>{
     const bx=x0+gap+i*(bw+gap), by=Y(b[1]), rr=3;
