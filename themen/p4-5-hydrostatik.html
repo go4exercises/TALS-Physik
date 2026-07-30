@@ -1199,11 +1199,13 @@ function drawA1() {
   ctx.fillText('h = ' + h.toFixed(1) + ' m', gefL-25, (fuellY+gefB)/2);
 
   // Manometer am Boden (kleines U-Rohr-Symbol)
-  const manX = gefR + 60, manY = gefB - 10;
+  // Kasten 84 px breit (die Zeile „(0.29 bar)" braucht 79) und weit genug rechts,
+  // dass die Tiefen-Skala daneben frei bleibt.
+  const manX = gefR + 86, manY = gefB - 10;
   ctx.fillStyle = '#fff8eb';
-  ctx.fillRect(manX-30, manY-30, 65, 50);
+  ctx.fillRect(manX-40, manY-30, 84, 50);
   ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5;
-  ctx.strokeRect(manX-30, manY-30, 65, 50);
+  ctx.strokeRect(manX-40, manY-30, 84, 50);
   // Zeiger
   ctx.fillStyle = '#8a4a0e';
   ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
@@ -1214,13 +1216,13 @@ function drawA1() {
   if (pS < 1000) pStr = pS.toFixed(0) + ' Pa';
   else if (pS < 1e6) pStr = (pS/1000).toFixed(1) + ' kPa';
   else pStr = (pS/1e6).toFixed(2) + ' MPa';
-  ctx.fillText(pStr, manX+2, manY-3);
+  ctx.fillText(pStr, manX+2, manY-4);
   ctx.fillStyle = '#7a5a10'; ctx.font = '13px JetBrains Mono,monospace';
-  ctx.fillText('(' + (pS/1e5).toFixed(2) + ' bar)', manX+2, manY+10);
+  ctx.fillText('(' + (pS/1e5).toFixed(2) + ' bar)', manX+2, manY+12);
 
   // Verbindungslinie Boden → Manometer
   ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
-  ctx.beginPath(); ctx.moveTo(gefR+6, gefB-3); ctx.lineTo(manX-30, manY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(gefR+6, gefB-3); ctx.lineTo(manX-40, manY); ctx.stroke();
   ctx.setLineDash([]);
 
   // Rechts: p(h)-Diagramm (linear)
@@ -1486,17 +1488,16 @@ function drawA3() {
   const wR = 10 + Math.sqrt(A2)/sqrtMax * 90;
   const xL = 90, xR = W_c - 90;
 
-  // Linker Zylinder
+  // Gefaesswand: aussen laufen die Waende bis auf den Boden durch, innen enden
+  // sie an der Kanaloberkante — nur so ist der Kanal zu beiden Rohren hin offen.
+  const yBoden = H_c - 30;
   ctx.fillStyle = '#cfd5dc';
-  ctx.fillRect(xL-wL/2-4, yTop, 4, yU-yTop);     // linke Wand
-  ctx.fillRect(xL+wL/2, yTop, 4, yU-yTop);       // rechte Wand
-  // Rechter Zylinder
-  ctx.fillRect(xR-wR/2-4, yTop, 4, yU-yTop);
-  ctx.fillRect(xR+wR/2, yTop, 4, yU-yTop);
-  // Horizontales Verbindungsrohr
-  ctx.fillStyle = '#cfd5dc';
-  ctx.fillRect(xL-wL/2-4, yU, xR+wR/2 - xL+wL/2 + 8, 4);
-  ctx.fillRect(xL-wL/2-4, H_c-30, xR+wR/2 - xL+wL/2 + 8, 4);
+  ctx.fillRect(xL-wL/2-4, yTop, 4, yBoden - yTop);   // Aussenwand links
+  ctx.fillRect(xR+wR/2,   yTop, 4, yBoden - yTop);   // Aussenwand rechts
+  ctx.fillRect(xL+wL/2,   yTop, 4, yU - yTop);       // Innenwand des kleinen Rohrs
+  ctx.fillRect(xR-wR/2-4, yTop, 4, yU - yTop);       // Innenwand des grossen Rohrs
+  ctx.fillRect(xL+wL/2, yU, (xR-wR/2) - (xL+wL/2), 4);            // Kanaldeckel
+  ctx.fillRect(xL-wL/2-4, yBoden, (xR+wR/2+4) - (xL-wL/2-4), 4);  // Kanalboden
 
   // Hydraulik-Flüssigkeit (Bernstein-Ton, halbtransparent)
   // Linke Seite Wasser-Stand bei einer Höhe; rechte Seite entsprechend

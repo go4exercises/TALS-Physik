@@ -1383,9 +1383,11 @@ function drawA4() {
 
   // Winkelbogen alpha bei B
   ctx.strokeStyle = '#5a6068'; ctx.lineWidth = 1.2;
-  ctx.beginPath(); ctx.arc(B.x, B.y, 22, Math.PI, Math.PI + a); ctx.stroke();
+  // Der Winkel liegt zwischen der Hebelrichtung (nach rechts) und F, also von
+  // -a bis 0. Vorher war der Bogen gespiegelt und lag auf dem Hebel selbst.
+  ctx.beginPath(); ctx.arc(B.x, B.y, 30, -a, 0); ctx.stroke();
   ctx.fillStyle='#5a6068'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText('α', B.x - 30*Math.cos(a/2), B.y - 30*Math.sin(a/2) + 4);
+  ctx.fillText('α', B.x + 42*Math.cos(a/2), B.y - 42*Math.sin(a/2) + 4);
 
   // Beschriftung Hebellänge
   ctx.fillStyle = '#5a6068'; ctx.textAlign='center';

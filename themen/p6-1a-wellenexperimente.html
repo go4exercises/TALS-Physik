@@ -1420,6 +1420,11 @@ function a4Render(){
       ctx.beginPath(); ctx.moveTo(xE,gr.cy(yy)); ctx.lineTo(xE+9,gr.cy(yy+2)); ctx.stroke();
     }
     ctx.beginPath(); ctx.moveTo(xE,gr.cy(12.5)); ctx.lineTo(xE,gr.cy(-12.5)); ctx.stroke();
+    // Achsenwert ueber der Wand wiederholen — drawGrid zeichnet ihn davor
+    ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#6b7280';
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    ctx.fillText(fmtTick(A4L, gr.stepX), xE, gr.cy(0)+5);
+    ctx.textBaseline='alphabetic';
   } else {
     ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=3;
     ctx.beginPath(); ctx.moveTo(xE+4,gr.cy(12.5)); ctx.lineTo(xE+4,gr.cy(-12.5)); ctx.stroke();
@@ -1668,12 +1673,19 @@ function a7Render(){
   const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.1*L,L*1.12,-6,6);   // Achse folgt der Saitenlänge
   const ctx=cv.ctx;
   // Einspannungen an beiden Enden
+  // Klemmen mittig auf den Endpunkten (vorher lag die linke ueber den y-Werten)
   ctx.fillStyle='#c9bfae';
-  ctx.fillRect(gr.cx(0)-8,gr.cy(5.6),8,gr.cy(-5.6)-gr.cy(5.6));
-  ctx.fillRect(gr.cx(L),gr.cy(5.6),8,gr.cy(-5.6)-gr.cy(5.6));
+  ctx.fillRect(gr.cx(0)-4,gr.cy(5.6),8,gr.cy(-5.6)-gr.cy(5.6));
+  ctx.fillRect(gr.cx(L)-4,gr.cy(5.6),8,gr.cy(-5.6)-gr.cy(5.6));
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=1.2;
   ctx.beginPath(); ctx.moveTo(gr.cx(0),gr.cy(5.6)); ctx.lineTo(gr.cx(0),gr.cy(-5.6)); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(gr.cx(L),gr.cy(5.6)); ctx.lineTo(gr.cx(L),gr.cy(-5.6)); ctx.stroke();
+  // drawGrid zeichnet die Achsenwerte vor der Klemme — den letzten hier
+  // wiederholen, sonst verschwindet er dahinter.
+  ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#6b7280';
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  ctx.fillText(fmtTick(L, gr.stepX), gr.cx(L), gr.cy(0)+5);
+  ctx.textBaseline='alphabetic';
   // Einhüllende gestrichelt
   dashCurve(ctx,gr,function(s){return A7A*Math.sin(n*Math.PI*s/L);},0,L,'#b8c4d4',1.4);
   dashCurve(ctx,gr,function(s){return -A7A*Math.sin(n*Math.PI*s/L);},0,L,'#b8c4d4',1.4);

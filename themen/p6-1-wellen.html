@@ -1237,7 +1237,8 @@ function drawA4(){
         const lamNm=780-(780-380)*fr; ctx.fillStyle=visColor(lamNm); ctx.fillRect(xx,by0,2.5,by1-by0); }
     } else { ctx.fillStyle=b[3]; ctx.fillRect(xa,by0,xb-xa,by1-by0); }
     ctx.fillStyle='#3a332a'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-    ctx.save(); ctx.translate((xa+xb)/2 + (b[4] || 0), by1+8); ctx.rotate(-0.5);   // b[4]: Versatz für sehr schmale Bänder
+    // by1+20: die gedrehten Namen ragen sonst mit ihrem oberen Ende in den Balken
+    ctx.save(); ctx.translate((xa+xb)/2 + (b[4] || 0), by1+20); ctx.rotate(-0.5);   // b[4]: Versatz für sehr schmale Bänder
     ctx.fillText(b[2], 0,0); ctx.restore();
   }
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=1; ctx.strokeRect(bx0,by0,bx1-bx0,by1-by0);
@@ -1258,7 +1259,9 @@ function drawA4(){
   const mx=xOf(L);
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(mx,by0-2); ctx.lineTo(mx,by1+2); ctx.stroke();
-  drawArrow(ctx, mx, by1+30, mx, by1+4, '#1c1a17',2,7);
+  // kurzer Zeiger: die Bandnamen beginnen bei by1+20, ein langer Pfeil wuerde
+  // mitten durch „sichtbares Licht" laufen
+  drawArrow(ctx, mx, by1+18, mx, by1+4, '#1c1a17',2,7);
   ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText(band[2] + '   λ = ' + a4FmtLam(lam) + '   f = ' + emFmt(f) + ' Hz   E = h · f = '
                + (E_eV >= 1e-3 ? E_eV.toPrecision(3) : E_eV.toExponential(2)) + ' eV', W*0.5, H - 8);

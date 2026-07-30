@@ -646,6 +646,7 @@ Ort: \(s = 6\;\text{m/s} \cdot 15\;\text{s} = 90\;\text{m}\).</div></details></d
 
     <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
       <button class="play-btn paused" id="a5-btn">⏸ Pause</button>
+      <button type="button" class="typ-btn aktiv" id="a5-r-btn" aria-pressed="true">Radius \(r\) zeigen</button>
     </div>
 
     <div class="live-box">
@@ -1120,9 +1121,12 @@ function drawA0() {
     ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle = '#5b2d8e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('v̄ = ' + vbar.toFixed(1) + ' km/h', (X(t1) + X(t2)) / 2, gr.cy(vbar) - 8);
+    // bei 30 % des Intervalls statt in der Mitte: dort verlaeuft die Kurve
+    // waagrecht, in der Mitte schneidet die Bremsflanke durch den Text
+    const vbX = X(t1) + 0.30 * (X(t2) - X(t1));
+    ctx.fillText('v̄ = ' + vbar.toFixed(1) + ' km/h', vbX, gr.cy(vbar) - 8);
     ctx.font = '13px Source Sans 3,sans-serif'; ctx.fillStyle = '#7a6a92';
-    ctx.fillText('gleiche Fläche wie die Kurve', (X(t1) + X(t2)) / 2, gr.cy(vbar) + 16);
+    ctx.fillText('gleiche Fläche wie die Kurve', vbX, gr.cy(vbar) + 16);
   }
 
   // Marker t1, t2 (gestrichelt, ziehbar) mit Beschriftung + Griff-Punkt
@@ -1867,7 +1871,7 @@ document.getElementById('a4-reset').addEventListener('click', () => {
 }));
 
 // ══════════════ ANIMATION 5 — Gleichförmige Kreisbewegung ══════════════
-const a5State = { phi: 0, lastTs: 0, rafId: null, running: true };
+const a5State = { phi: 0, lastTs: 0, rafId: null, running: true, zeigeR: true };
 function a5Tick(ts) {
   if (!a5State.running) return;
   if (!a5State.lastTs) a5State.lastTs = ts;
@@ -1924,13 +1928,15 @@ function drawA5() {
   const px = cxC + r * scale * Math.cos(phi);
   const py = cyC - r * scale * Math.sin(phi);
 
-  // Radius
-  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.moveTo(cxC, cyC); ctx.lineTo(px, py); ctx.stroke();
-  ctx.fillStyle = '#5b2d8e';
-  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  ctx.fillText('r', cxC + (px - cxC) * 0.35 - Math.sin(phi) * 14,
-                    cyC + (py - cyC) * 0.35 - Math.cos(phi) * 14 + 4);
+  // Radius — abschaltbar, weil er bei kurzen Pfeilen mit a_z ins Gehege kommt
+  if (a5State.zeigeR) {
+    ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(cxC, cyC); ctx.lineTo(px, py); ctx.stroke();
+    ctx.fillStyle = '#5b2d8e';
+    ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+    ctx.fillText('r', cxC + (px - cxC) * 0.35 - Math.sin(phi) * 14,
+                      cyC + (py - cyC) * 0.35 - Math.cos(phi) * 14 + 4);
+  }
 
   // Q3: STRENG PROPORTIONALE Pfeile. Vorher hatten beide einen Sockel
   // (50 + v·8 bzw. 30 + az·4) und einen Cap — damit war der Längenvergleich
@@ -2197,6 +2203,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (a5State.running) { a5State.running = false; b.textContent = '▶ Weiter'; b.classList.remove('paused'); }
     else { a5State.running = true; a5State.lastTs = 0; b.textContent = '⏸ Pause'; b.classList.add('paused');
            a5State.rafId = requestAnimationFrame(a5Tick); }
+  });
+  // Radius ein-/ausblenden: bei kleinem r und kleinem ω liegen r und a_z eng
+  // beieinander — dann hilft es, den Radius kurz wegzuschalten.
+  document.getElementById('a5-r-btn').addEventListener('click', () => {
+    const b = document.getElementById('a5-r-btn');
+    a5State.zeigeR = !a5State.zeigeR;
+    b.classList.toggle('aktiv', a5State.zeigeR);
+    b.setAttribute('aria-pressed', a5State.zeigeR ? 'true' : 'false');
+    if (!a5State.running) drawA5();
   });
 });
 // Bei Breitenänderung des Browsers neu zeichnen — per rAF gedrosselt, damit der

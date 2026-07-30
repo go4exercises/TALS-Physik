@@ -990,7 +990,9 @@ function drawA1() {
   const cv2 = initCanvas('a1-cv-diag', 260, false);
   const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
   const Fmax = 100;
-  const grid = drawGrid(c2, W2, H2, -0.1, 4.2, -5, Fmax * 1.05);
+  // yMin so, dass unter der Achse >= 18 px bleiben: drawGrid setzt die x-Werte
+  // sonst OBEN an die Achse — dort verdeckt sie die Arbeitsflaeche.
+  const grid = drawGrid(c2, W2, H2, -0.1, 4.2, -Fmax * 0.10, Fmax * 1.05);
   drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 's [m]', 'F∥ [N]');
   // Rechteck: effektive Kraft über Weg
   c2.fillStyle = 'rgba(31,107,58,0.22)';

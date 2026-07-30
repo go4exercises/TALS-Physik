@@ -1929,7 +1929,9 @@ function drawA2() {
   document.getElementById('a2-eq').textContent   = z.werte(x, y);
 
   const cv = initCanvas('a2-cv', 280, false);
-  const gr = drawGrid(cv.ctx, cv.W, cv.H, -z.xMax*0.05, z.xMax*1.05, -z.yMax*0.05, z.yMax);
+  // yMin tiefer: sonst setzt drawGrid die x-Werte oben an die Achse, wo sie
+  // von der getoenten Flaeche verdeckt werden.
+  const gr = drawGrid(cv.ctx, cv.W, cv.H, -z.xMax*0.05, z.xMax*1.05, -z.yMax*0.10, z.yMax);
   drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, z.xAchse, z.yAchse);
   const ctx = cv.ctx;
   // Rechteck x·y unter dem Kurvenpunkt: seine Fläche ist das konstante Produkt.
