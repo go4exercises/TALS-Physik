@@ -250,6 +250,17 @@
       }
     });
 
+    // Direkteinstieg per Adresse: …/?q=reibung  (so verlangt es auch die
+    // SearchAction in den strukturierten Daten der Startseite)
+    const vorgabe = new URLSearchParams(location.search).get('q');
+    if (vorgabe && vorgabe.trim().length >= 2) {
+      feld.value = vorgabe;
+      letzteQuery = vorgabe;
+      const s = document.getElementById('suche');
+      if (s) s.classList.add('offen');
+      ladeIndex(() => rendere(vorgabe));
+    }
+
     // Mobile: Lupe klappt das Feld auf
     const lupe = document.getElementById('such-lupe');
     if (lupe) lupe.addEventListener('click', function () {

@@ -227,6 +227,12 @@ def run_deep(file_args, rep):
         if r.returncode != 0:
             rep.warn("suchindex", "Suchindex veraltet — `python3 scripts/build-suchindex.py`")
 
+    seo = scripts / "build-seo.py"
+    if seo.is_file():
+        r = subprocess.run(["python3", str(seo), "--check"], capture_output=True, text=True)
+        if r.returncode != 0:
+            rep.warn("seo", "Metadaten/sitemap veraltet — `python3 scripts/build-seo.py`")
+
     ic = scripts / "check_identifier_collisions.py"
     if ic.is_file():
         r = subprocess.run(["python3", str(ic)], capture_output=True, text=True)

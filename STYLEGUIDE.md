@@ -466,6 +466,12 @@ Referenz-Implementierung: `a0Hit` (Hit-Test), `a0EvtT` (Event-Koordinaten), `a0A
 
 Strikt einhalten, sonst bricht das Layout. Jede Themenseite hat folgende Wurzelstruktur:
 
+Im `<head>` steht direkt nach dem `<title>` der generierte SEO-Block zwischen
+`<!-- SEO:ANFANG -->` und `<!-- SEO:ENDE -->` (Beschreibung, canonical, Favicons,
+Open Graph, JSON-LD). Er wird **nie von Hand** bearbeitet, sondern über
+`scripts/build-seo.py` erzeugt; eine neue Seite muss dort in der Tabelle `SEITEN`
+eingetragen werden.
+
 ```html
 <body>
 <div id="nav-root"></div>     <!-- Wird von nav.js befüllt -->

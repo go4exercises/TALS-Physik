@@ -29,6 +29,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `drawGrid`, `drawAxesUnits`, `drawArrow`, `drawVector`, `drawDot`, …).
 - `minicheck.js` — Akkordeon-Logik der Mini-Checks. `anim-hinweise.js` — Hinweis-Logik.
 - `nav.js` — Navigation (`buildNav`) inkl. Suchfeld im Header rechts. `style.css` — gesamtes Design.
+- `scripts/build-seo.py` — erzeugt Seiten-Metadaten (Beschreibung, canonical, Open
+  Graph, JSON-LD nach schema.org/LearningResource), `sitemap.xml` und `robots.txt`.
+  Der Kopfblock zwischen `<!-- SEO:ANFANG -->` und `<!-- SEO:ENDE -->` ist
+  **generiert** — gepflegt wird die Tabelle `SEITEN` im Skript. Neue Seite = dort
+  eintragen, sonst fehlen ihr Beschreibung und Sitemap-Eintrag. Der Pre-Flight
+  warnt, wenn die Metadaten veraltet sind.
 - `suche.js` — Volltextsuche (Logik + Trefferpanel). `suchindex.js` — **generiert**,
   nie von Hand ändern: `python3 scripts/build-suchindex.py` (siehe Pre-Flight).
   Der Generator läuft in **beiden** TALS-Repos (erkennt Physik/Mathe an

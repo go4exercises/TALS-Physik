@@ -71,6 +71,22 @@ inhaltlichen Änderung neu bauen — der Pre-Flight warnt, wenn er veraltet ist.
 Nicht im Index: Mini-Checks, Verständnisfragen, Aufgaben, Zusatzmaterial und
 externe Ressourcen.
 
+## Auffindbarkeit
+
+Jede Seite trägt eine eigene Beschreibung, `canonical`, Open-Graph-Daten für
+Link-Vorschauen und strukturierte Daten nach `schema.org/LearningResource` (LRMI) —
+inklusive Lizenz, Bildungsstufe, Zielgruppe und der RLP-Kompetenzen, die direkt aus
+der Seite gelesen werden. Dazu `sitemap.xml` und `robots.txt`.
+
+```bash
+python3 scripts/build-seo.py            # Metadaten, sitemap.xml, robots.txt schreiben
+python3 scripts/build-seo.py --check    # prüft, ob sie zum Stand passen
+```
+
+Gepflegt wird die Tabelle `SEITEN` im Skript; der Block in den Seiten selbst ist
+generiert. Die Suche nimmt `?q=…` entgegen (`…/index.html?q=reibung`), darauf stützt
+sich die `SearchAction` in den strukturierten Daten.
+
 ## Verwendete Technik
 
 - **HTML5 + CSS3** für Layout und Stil (`style.css` für die ganze Site, kein Build-Schritt)
