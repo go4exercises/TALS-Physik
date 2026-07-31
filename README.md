@@ -80,7 +80,7 @@ externe Ressourcen.
 
 ## Version
 
-**Version 1.0 · Stand Juli 2026** — alle zehn Themenseiten inhaltlich fertig, dazu Vorwissen, Glossar, Formelsammlung, Volltextsuche und die Seite Rechtliches & Datenschutz. Die Versionszeile steht zusätzlich im Footer jeder Seite.
+**Version 1.0 · Stand 1. August 2026** — alle zehn Themenseiten inhaltlich fertig, dazu Vorwissen, Glossar, Formelsammlung, Volltextsuche und die Seite Rechtliches & Datenschutz. Die Versionszeile steht zusätzlich im Footer jeder Seite.
 
 ## Änderungen
 

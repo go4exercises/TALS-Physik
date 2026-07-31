@@ -103,8 +103,7 @@ Die beste Vorlage ist `themen/p4-1-kinematik.html`. Reihenfolge zum Bauen:
 6. Aufgaben A1-A6 — **alle** im einheitlichen `block-aufg`-Muster (STYLEGUIDE §5.5), nie das alte `aw`-System
 7. Zusammenfassung
 8. Zusatzmaterial — die Druckseiten-Links zeigen auf `../downloads/themen/p4-2-dynamik/...`
-   (Handout, Anki-Deck, Teste-dich-selbst, Aufgabenserie; der Formelauszug wird erstellt,
-   aber seit 30.07.2026 nicht mehr verlinkt)
+   (Handout, Anki-Deck, Teste-dich-selbst, Aufgabenserie)
 9. Externe Ressourcen — Sektion 13 nach HOWTO-externe-ressourcen.md
 
 ---
@@ -184,14 +183,11 @@ Die buildNav-Aufrufe der Nachbar-Themenseiten anpassen, sodass sie auf die neue 
 
 ## 5. Druckseiten (Zusatzmaterial)
 
-Pro Themenseite werden 4 Druckseiten und 1 Anki-Deck angelegt unter (verlinkt werden
-auf der Themenseite nur Handout, Teste-dich-selbst, Aufgabenserie und das Anki-Deck —
-der Formelauszug bleibt als Datei bestehen, ohne Link):
+Pro Themenseite werden 3 Druckseiten und 1 Anki-Deck angelegt unter:
 
 ```
 downloads/themen/p<lg>-<nr>-<kurzname>/
 ├── handout.html
-├── formelauszug.html
 ├── ankideck.apkg
 ├── teste-dich-selbst.html
 └── aufgabenserie.html

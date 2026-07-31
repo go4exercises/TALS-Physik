@@ -1,6 +1,6 @@
 # TALS-Physik · Styleguide
 
-**Version 1.2 · Stand: Juli 2026** · (1.2: §6.1a Footer, Volltextsuche und `suche.js` im
+**Version 1.2 · Stand: 1. August 2026** · (1.2: §6.1a Footer, Volltextsuche und `suche.js` im
 Skelett, Zusatzmaterial ohne Formelauszug, Stilcheck-Regeln 1–6 · 1.1: §3.6 Label-Robustheit,
 §3.7 Einheiten-Zweitzeile, §5.3 Gruppierung, §5.8 Direkt-Manipulation)
 
@@ -307,10 +307,9 @@ Bei umfangreichen Themen kann das `.widget`-Schema mit `id`-Suffix `a`/`b`/`c` s
 - **Höchstens** 10 Canvas-Animationen (sonst wird die Seite unleserlich; bei Bedarf Themenseite splitten)
 - **Genau** 6 Aufgaben (A1-A6), nicht mehr — die Aufgabenserie unter „Zusatzmaterial" deckt mehr ab
 - **Genau** 3 Druckseiten + 1 Anki-Deck unter „Zusatzmaterial": Handout,
-  Teste-dich-selbst, Aufgabenserie. **Der Formelauszug wird seit dem 30.07.2026
-  nicht mehr verlinkt** — die Dateien `downloads/themen/<seite>/formelauszug.html`
-  liegen weiterhin im Repo und werden weiter mitgepflegt, sie erscheinen nur nicht
-  mehr auf der Themenseite.
+  Teste-dich-selbst, Aufgabenserie. Einen seitenweisen Formelauszug gibt es seit
+  dem 01.08.2026 nicht mehr — an seine Stelle tritt die illustrierte
+  Gesamt-Formelsammlung als PDF (Menü „Nachschlagen").
 
 ---
 
@@ -500,7 +499,7 @@ auf Themenseiten mit `../`, auf Root-Seiten ohne:
   <p>Physik · 4.2 Dynamik</p>                          <!-- seitenspezifisch -->
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand Juli 2026</p>
+  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 1. August 2026</p>
 </footer>
 ```
 
@@ -635,7 +634,6 @@ Bevor eine Themenseite live geht, prüfe:
 
 **Struktur & Konventionen**
 - [ ] Zusatzmaterial-Sektion vor externen Ressourcen, 3 Druckseiten + Anki-Deck verlinkt
-      (Formelauszug bewusst **nicht** verlinkt)
 - [ ] Druckseiten öffnen in neuem Tab (`target="_blank" rel="noopener"`)
 - [ ] Externe Ressourcen **dreispaltig** (🎬 Videos · 🧪 Simulationen · 📝 Aufgaben), alle per `web_fetch` verifiziert
 - [ ] Block-Modifier nur aus dem Inventar von §5.1 plus `block-experiment` — **keine Eigenkreationen**
