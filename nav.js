@@ -118,7 +118,7 @@ function buildNav(cfg) {
     <ul>
       <li>Alle 10 Teilgebiete vollständig (Lerngebiete 4 Mechanik, 5 Thermodynamik, 6 Wellen und Elektrizität)</li>
       <li>Kapitel 0 Vorwissen (3 Seiten zur Sek-I-Auffrischung)</li>
-      <li>Je Themenseite: interaktive Animationen, Aufgaben, Zusammenfassung, 5 Druckseiten/Materialien und externe Ressourcen</li>
+      <li>Je Themenseite: interaktive Animationen, Aufgaben, Zusammenfassung, Druckseiten/Materialien und externe Ressourcen</li>
       <li>Schwesterprojekt: <a href="https://go4exercises.github.io/TALS-Mathe/" target="_blank" rel="noopener" class="meta-link">TALS Mathematik</a> — gleicher Aufbau für das Fach Mathematik</li>
     </ul>
     <div class="meta-sub">Ideen für den Ausbau</div>

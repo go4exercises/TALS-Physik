@@ -52,8 +52,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 
 ## Skelett & Klassen — kopieren, nicht erfinden
 
-- Neue Seite / neuer Block: Skelett aus `themen/p4-1-kinematik.html` (oder `TEMPLATE.html`)
-  **1:1 kopieren**, nur Inhalt anpassen. CSS und `nav.js` sind auf die *exakten*
+- Neue Seite / neuer Block: Skelett aus `themen/p4-1-kinematik.html`
+  **1:1 kopieren**, nur Inhalt anpassen (die frühere `TEMPLATE.html` ist am
+  31.07.2026 entfallen — die Pilotseite ist die Vorlage). CSS und `nav.js` sind auf die *exakten*
   Klassennamen ausgerichtet.
 - **Niemals eigene Klassennamen, Container-Hierarchien oder API-Signaturen erfinden.**
   „Klingt vernünftig" reicht nicht — erfundene Klassen fallen still auf Block-Default
@@ -150,9 +151,11 @@ Vorab-Kontrolle, sondern Git — darum gilt verbindlich:
 3. Schlägt der Pre-Flight fehl: **nicht committen**, Fehler melden und beheben, dann 1.
 4. **Niemals `git push`.** Der Push bleibt manuell beim Auftraggeber.
 
-`CHANGELOG.md` wird **nicht** mehr gepflegt — die Datei ist mit Phase 5.41
-(13.06.2026) abgeschlossen, seither ist der Git-Verlauf die Quelle. Kein
-Nachtragen, auch nicht rückwirkend.
+**Der Git-Verlauf ist die einzige Änderungsdokumentation.** `CHANGELOG.md` und die
+TODO-/BERICHT-Dateien sind am 31.07.2026 aus dem Repo entfernt worden, weil das
+Repo zugleich die veröffentlichte Website ist und die Entstehungsgeschichte nicht
+öffentlich einsehbar sein soll. Kein Wiederanlegen, keine Änderungsprotokolle als
+Datei — jede Änderung wird über eine aussagekräftige Commit-Message dokumentiert.
 
 `git add`, `git commit` und der Pre-Flight sind in der `settings.json` vorab erlaubt und
 laufen darum prompt-frei. `git push` steht bewusst unter `ask` — es hält an.

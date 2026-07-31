@@ -1,6 +1,8 @@
 # TALS-Physik · Styleguide
 
-**Version 1.1 · Stand: Juni 2026** · (1.1: §3.6 Label-Robustheit, §3.7 Einheiten-Zweitzeile, §5.3 Gruppierung, §5.8 Direkt-Manipulation — Referenz-Implementierung p4-1 Einstiegs-Animation, Phasen 5.28–5.30)
+**Version 1.2 · Stand: Juli 2026** · (1.2: §6.1a Footer, Volltextsuche und `suche.js` im
+Skelett, Zusatzmaterial ohne Formelauszug, Stilcheck-Regeln 1–6 · 1.1: §3.6 Label-Robustheit,
+§3.7 Einheiten-Zweitzeile, §5.3 Gruppierung, §5.8 Direkt-Manipulation)
 
 Verbindliche Referenz für alle Themenseiten des Lehrmittels „TALS-Physik". Sichert Konsistenz in Notation, Aufbau, Sprache und visuellem Design — themenübergreifend und chatübergreifend.
 
@@ -292,7 +294,7 @@ Jede Themenseite folgt diesem Aufbau. Punkte mit (*) können je nach Themenumfan
 | 6-9 | **Spezialfälle als Animationen** | Pro Spezialfall ein `.widget` (freier Fall, Wurf, Kreisbewegung, Vektoraddition …). Ziel: 5-10 Animationen total |
 | 10 | **Aufgaben A1-A6** | Stufenweise nach Schwierigkeit: A1 ablesen → A2 rechnen einfach → A3 mehrteilig → A4-A6 Anwendung. **Alle sechs** Aufgaben nutzen identisch das `.block-aufg`-Muster aus §5.5 (siehe dort) mit `toggleL('lX')` — keine Sonderbehandlung einzelner Aufgaben |
 | 11 | **Zusammenfassung** | `.ftb-tabelle` mit allen Formeln + `.merksatz` |
-| 12 | **Zusatzmaterial** | `.dl-grid` mit den 5 Druckseiten + Anki-Deck |
+| 12 | **Zusatzmaterial** | `.dl-grid` mit 3 Druckseiten + Anki-Deck |
 | 13 | **Externe Ressourcen** | **Dreispaltig**: 🎬 Videos · 🧪 Simulationen · 📝 Aufgaben |
 
 ### 4.1 Sub-Splits
@@ -304,7 +306,11 @@ Bei umfangreichen Themen kann das `.widget`-Schema mit `id`-Suffix `a`/`b`/`c` s
 - **Mindestens** 5 Canvas-Animationen pro Themenseite
 - **Höchstens** 10 Canvas-Animationen (sonst wird die Seite unleserlich; bei Bedarf Themenseite splitten)
 - **Genau** 6 Aufgaben (A1-A6), nicht mehr — die Aufgabenserie unter „Zusatzmaterial" deckt mehr ab
-- **Genau** 5 Druckseiten + 1 Anki-Deck unter „Zusatzmaterial"
+- **Genau** 3 Druckseiten + 1 Anki-Deck unter „Zusatzmaterial": Handout,
+  Teste-dich-selbst, Aufgabenserie. **Der Formelauszug wird seit dem 30.07.2026
+  nicht mehr verlinkt** — die Dateien `downloads/themen/<seite>/formelauszug.html`
+  liegen weiterhin im Repo und werden weiter mitgepflegt, sie erscheinen nur nicht
+  mehr auf der Themenseite.
 
 ---
 
@@ -410,7 +416,6 @@ Jede Animation trägt in der **Titelzeile** zwei dezente Rollover-Hinweise: nach
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
       <div class="ah-text"><ul><li>…</li></ul></div>
-      <button type="button" class="ah-speak" data-vorlesen="Klartext-Fassung" aria-pressed="false">🔊 vorlesen</button>
     </div>
   </div>
   ```
@@ -418,8 +423,7 @@ Jede Animation trägt in der **Titelzeile** zwei dezente Rollover-Hinweise: nach
   - «Worauf achten?» = was man ausprobieren/beobachten soll (Slider-Verhalten, Grenzfälle, was in der Live-Anzeige zu verfolgen ist).
   - «Erkenntnis» = die physikalischen Schlüsse inkl. der zugehörigen Formeln.
 - **Notation:** sichtbarer Text in **Projekt-Notation** (MathJax `\(…\)`, Dezimalpunkt, korrekte Symbole/Vektoren wie §2). Kein rohes `<` in der Mathe (sonst HTML-Konflikt) — «negativ» schreiben oder `\lt` verwenden.
-- **Vorlesen:** Die `\(…\)`-Formeln würden als roher LaTeX-Code vorgelesen. Darum trägt jede `.ah-speak`-Schaltfläche eine **Klartext-Fassung** im Attribut `data-vorlesen` (Formeln in Worten, z.B. «s von t gleich s null plus v mal t»).
-- **Zentral, nicht pro Seite duplizieren:** Gestaltung in `style.css` (Abschnitt «Animations-Hinweise»), Logik in `anim-hinweise.js` (auf jeder Themenseite nach `physiklib.js` eingebunden). Die Logik regelt Hover/Fokus-Anzeige, **Klick fixiert** das Rollover (damit der Vorleseknopf erreichbar ist, auch auf Touch), Aussenklick/Escape schliesst, Sprachausgabe läuft weiter.
+- **Zentral, nicht pro Seite duplizieren:** Gestaltung in `style.css` (Abschnitt «Animations-Hinweise»), Logik in `anim-hinweise.js` (auf jeder Themenseite nach `physiklib.js` eingebunden). Die Logik regelt Hover/Fokus-Anzeige, **Klick fixiert** das Rollover (damit es auf Touch offen bleibt), Aussenklick/Escape schliesst. Die frühere Vorlese-Funktion ist am 31.07.2026 entfernt worden.
 
 ### 5.7 Mini-Checks (Selbsttest pro Abschnitt)
 
@@ -630,7 +634,8 @@ Bevor eine Themenseite live geht, prüfe:
 - [ ] Lösungen zugeklappt by default, `toggleL('lX')` aus `physiklib.js`
 
 **Struktur & Konventionen**
-- [ ] Zusatzmaterial-Sektion vor externen Ressourcen, alle 5 Druckseiten + Anki-Deck verlinkt
+- [ ] Zusatzmaterial-Sektion vor externen Ressourcen, 3 Druckseiten + Anki-Deck verlinkt
+      (Formelauszug bewusst **nicht** verlinkt)
 - [ ] Druckseiten öffnen in neuem Tab (`target="_blank" rel="noopener"`)
 - [ ] Externe Ressourcen **dreispaltig** (🎬 Videos · 🧪 Simulationen · 📝 Aufgaben), alle per `web_fetch` verifiziert
 - [ ] Block-Modifier nur aus dem Inventar von §5.1 plus `block-experiment` — **keine Eigenkreationen**

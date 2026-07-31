@@ -8,7 +8,7 @@ Schwesterprojekt zu [TALS Mathematik](https://github.com/go4exercises/tals-mathe
 
 3 Lerngebiete, 10 Teilgebiete, 160 Lektionen — alle Pflicht-Inhalte nach RLP-BM 2030 Ziff. 7.5.4.1 (Gruppe 1: Technik, Architektur, Life Sciences).
 
-**Stand:** Alle 10 Teilgebiete vollständig ausgebaut (10/10 ✅). Jede Themenseite umfasst interaktive Canvas-Animationen, Aufgaben A1–A6, Zusammenfassung mit Merksatz, 5 Druckseiten/Materialien (Handout, Formelauszug, Anki-Deck, Teste-dich-selbst, Aufgabenserie) sowie eine dreispaltige Sektion mit externen Ressourcen.
+**Stand:** Alle 10 Teilgebiete vollständig ausgebaut (10/10 ✅). Jede Themenseite umfasst interaktive Canvas-Animationen, Aufgaben A1–A6, Zusammenfassung mit Merksatz, Zusatzmaterial (Handout, Anki-Deck, Teste-dich-selbst, Aufgabenserie) sowie eine dreispaltige Sektion mit externen Ressourcen.
 
 | Nr | Teilgebiet | Lektionen | Status |
 |----|------------|----------:|--------|
@@ -36,7 +36,7 @@ Jede Themenseite folgt einem festen 13-Punkte-Master-Schema (siehe `STYLEGUIDE.m
 4-9. Interaktive Animationen (5-10 pro Seite) mit eingebettetem Theorieteil
 10. Aufgaben A1-A6 (zunehmend selbstständig)
 11. Zusammenfassung mit Merksatz
-12. Zusatzmaterial (5 Druckseiten: Handout, Formelauszug, Anki-Deck, Teste-dich-selbst, Aufgabenserie)
+12. Zusatzmaterial (Handout, Anki-Deck, Teste-dich-selbst, Aufgabenserie)
 13. Externe Ressourcen — **dreispaltig**: 🎬 Videos · 🧪 Simulationen · 📝 Aufgaben
 
 ## Lokal testen
@@ -82,9 +82,10 @@ externe Ressourcen.
 
 **Version 1.0 · Stand Juli 2026** — alle zehn Themenseiten inhaltlich fertig, dazu Vorwissen, Glossar, Formelsammlung, Volltextsuche und die Seite Rechtliches & Datenschutz. Die Versionszeile steht zusätzlich im Footer jeder Seite.
 
-## Changelog
+## Änderungen
 
-**Ab 14.06.2026 führt der Git-Verlauf die Änderungen** (`git log --oneline`). [`CHANGELOG.md`](CHANGELOG.md) ist abgeschlossen und dokumentiert die Projektgeschichte bis Phase 5.41 (13.06.2026) aus der Zeit vor der Git-Umstellung; dort wird nichts mehr nachgetragen. Stand und Begründungen der laufenden Animations-Überarbeitung stehen in [`TODO-animationen.md`](TODO-animationen.md).
+Der **Git-Verlauf** ist die Änderungsdokumentation: `git log --oneline`. Eigene
+Changelog- oder TODO-Dateien werden nicht geführt.
 
 ## Lizenz
 
