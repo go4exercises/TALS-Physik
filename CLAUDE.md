@@ -35,6 +35,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `physiklib.js`/`mathlib.js`); projektabhängig ist allein die Liste `PROJEKTE`
   am Dateikopf. `--dry-run` baut ohne zu schreiben, `--root PFAD` zielt aufs
   Schwesterprojekt.
+- `.quellen/formelsammlung/` — LaTeX-Quelle der illustrierten Formelsammlung samt
+  Bauanleitung (`README-Build.md`). Punkt-Ordner, damit GitHub Pages ihn nicht
+  ausliefert. Das fertige PDF steht als `TALS-Physik-Formelsammlung.pdf` im Root;
+  nach einem Neubau (`latexmk -pdf formelsammlung.tex`) dorthin kopieren.
 - `rechtliches.html` — Haftung + Datenschutz, verlinkt aus Footer und Feedbackformular
   (bewusst **kein** eigener Headerpunkt). Kontakt läuft ausschliesslich über
   `feedback.html` („Kontakt & Feedback") — es gibt keine veröffentlichte E-Mail-Adresse.

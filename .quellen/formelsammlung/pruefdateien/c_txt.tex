@@ -1,0 +1,264 @@
+% =====================================================================
+%  TALS Physik - Formelsammlung (RLP-BM 2030)
+%  Berufsmaturitaet Technik, Architektur, Life Sciences
+%
+%  Aufbau folgt den Themenseiten von go4exercises.github.io/TALS-Physik:
+%    0  Mathematischer Werkzeugkasten (aus den Vorwissen-Seiten)
+%    4  Mechanik        (4.1 - 4.5)
+%    5  Thermodynamik   (5.1 - 5.3)
+%    6  Wellen und Elektrizitaet (6.1, 6.2)
+%    A  Anhang: Konstanten, Stoffwerte, Einheiten
+%
+%  Lizenz: CC BY-NC 4.0 · Haftungsausschluss am Dokumentende
+%  Konventionen: Schweizer Hochdeutsch (kein Eszett), Dezimalpunkt,
+%  Skalare kursiv, Vektoren mit Pfeil, Einheiten aufrecht,
+%  Bernstein-Farbschema #8A4A0E, alle Skizzen parametrisiert (TikZ).
+%
+%  Uebersetzen:  pdflatex formelsammlung.tex   (zweimal, wegen Inhaltsverzeichnis)
+%  Benoetigt:    tikz, needspace, fancyhdr, xcolor, geometry, multicol,
+%                enumitem, hyperref, amsmath
+%  Hinweis: babel wird mit [provide=*] geladen, damit die Datei auch ohne
+%  installierte ngerman-Trennmuster uebersetzt.
+%
+%  Satzspiegel je Formel-Eintrag:
+%      \ftitel{Titel}                        <- volle Breite
+%      \begin{minipage}[t]{0.54\linewidth}   <- LINKS: Formel(n), linksbuendig
+%          \[ ... \]  \hinweis{...}            (fleqn, \mathindent = 0pt)
+%      \end{minipage}\hfill
+%      \begin{minipage}[t]{0.44\linewidth}   <- RECHTS: Legende + Skizze
+%          \begin{leg} ... \end{leg}
+%          {\centering\tikzfont <tikzpicture> \fcap{...}\par}
+%      \end{minipage}
+%
+%  Struktur-Makros:  \LG{Nr}{Lerngebiet}   \TG{Nr}{Teilgebiet}
+%                    \ftitel{Formeltitel}  leg-Umgebung (Legende)
+%                    \hinweis{...}  \fcap{Skizzen-Bildunterschrift}
+% =====================================================================
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{charter}
+\usepackage[utf8]{inputenc}
+\usepackage[provide=*,ngerman]{babel}
+\usepackage[fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[table]{xcolor}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{needspace}
+
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={TALS Physik -- Formelsammlung},
+  pdfauthor={Raphael Arnold Kohler},
+  pdfsubject={Berufsmaturität TALS, RLP-BM 2030},
+  pdfkeywords={Physik, Formelsammlung, Berufsmaturität, TALS, RLP-BM 2030},
+  pdflang={de-CH}}
+\urlstyle{same}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing,patterns,calc,angles,quotes}
+
+\setlength{\headheight}{13pt}
+\geometry{a4paper,left=14mm,right=14mm,top=15mm,bottom=12mm,headsep=3.5mm,footskip=7mm}
+
+\definecolor{bern}{HTML}{8A4A0E}
+\definecolor{bernm}{HTML}{9A5F12}
+\definecolor{bernl}{HTML}{F7EFE6}
+\definecolor{grau}{HTML}{4A4A4A}
+\definecolor{hgrau}{HTML}{6B6B6B}
+
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{bernm}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[L]{\footnotesize\color{bern}\textbf{TALS Physik} · Formelsammlung \color{hgrau}v1.0}
+\makeatletter
+\newcounter{talsLG}
+\newcommand{\talsfresh}[1]{\expandafter\gdef\csname talsfresh@#1\endcsname{}}
+\newcommand{\talsmarkfresh}{\immediate\write\@auxout{\string\talsfresh{\thepage}}}
+\newcommand{\tals@L}[2]{#1}
+\newcommand{\tals@R}[2]{#2}
+\newcommand{\talskopf}{%
+  \protected@edef\tals@tm{\topmark}%
+  \@ifundefined{talsfresh@\the\c@page}{}{\tals@freshtrue}%
+  \iftals@fresh
+    \leftmark
+  \else
+  \ifx\tals@tm\@empty
+    \leftmark
+  \else
+    \protected@edef\tals@a{\expandafter\tals@L\topmark}%
+    \protected@edef\tals@b{\leftmark}%
+    \ifx\tals@a\@empty
+      \leftmark
+    \else
+      \ifx\tals@a\tals@b
+        \leftmark
+      \else
+        \tals@a\ \textbar\ \tals@b
+      \fi
+    \fi
+  \fi
+  \fi
+  \tals@freshfalse}
+\newif\iftals@fresh
+\makeatother
+\fancyhead[R]{\footnotesize\color{grau}\talskopf}
+\fancyfoot[C]{\footnotesize\color{grau}\thepage}
+
+% Seite 1 hat keine Marke vom Seitenanfang -- dort direkt \leftmark verwenden.
+\fancypagestyle{talstitel}{%
+  \fancyhf{}%
+  \fancyhead[L]{\footnotesize\color{bern}\textbf{TALS Physik} · Formelsammlung \color{hgrau}v1.0}%
+  \fancyhead[R]{\footnotesize\color{grau}\leftmark}%
+  \fancyfoot[C]{\footnotesize\color{grau}\thepage}}
+
+\setlength{\mathindent}{0pt}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}
+\setlength{\belowdisplayshortskip}{2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% ---------- Struktur-Makros ----------
+\newcommand{\LG}[2]{%
+  \par\vspace{1.6mm}\needspace{7\baselineskip}%
+  \ifdim\pagetotal=0pt\relax\talsmarkfresh\fi%
+  \phantomsection%
+  \addcontentsline{toc}{section}{\textbf{#1}\quad #2}%
+  \markboth{#1\ \ #2}{}%
+  \noindent\colorbox{bern}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\vspace{0.4mm}\color{white}\bfseries\large #1\quad #2\vspace{0.4mm}}}%
+  \par\vspace{1.6mm}}
+
+\newcommand{\TG}[2]{%
+  \par\vspace{2.4mm}\needspace{5\baselineskip}\phantomsection%
+  \addcontentsline{toc}{subsection}{#1\quad #2}%
+  \noindent{\color{bern}\bfseries\normalsize #1\quad #2}%
+  \par\vspace{-1.4mm}{\color{bernm}\rule{\linewidth}{0.8pt}}\par\vspace{1.2mm}}
+
+\newcommand{\ftitel}[1]{\par\noindent{\bfseries\footnotesize\color{grau}#1}\par\vspace{0.2mm}\nopagebreak}
+\newcommand{\ftitelD}[1]{\par\noindent{\bfseries\footnotesize\color{grau}#1}\par\nopagebreak\vspace{\dimexpr-0.5mm-\baselineskip\relax}\nopagebreak}
+
+\newenvironment{leg}%
+  {\par\begingroup\footnotesize\setlength{\tabcolsep}{2.5pt}%
+   \renewcommand{\arraystretch}{1.0}%
+   \begin{tabular}[t]{@{}>{$}l<{$}@{\ \,}l@{\quad}l@{}}}%
+  {\end{tabular}\endgroup\par\vspace{0.3mm}}
+
+\newcommand{\warnsym}{\tikz[baseline=-0.5ex]{\draw[bern,line width=0.45pt] (0,0)--(0.21,0.36)--(0.42,0)--cycle;
+  \node at (0.21,0.12) {\tiny\bfseries !};}}
+\newcommand{\gilt}[1]{\par\vspace{0.3mm}{\footnotesize\color{grau}\textbf{Gültig:} #1}\par\vspace{0.5mm}}
+\newcommand{\warn}[1]{\par\vspace{0.4mm}{\footnotesize\color{bern}\warnsym\ #1}\par\vspace{0.6mm}}
+\newcommand{\merk}[1]{\par\vspace{0.7mm}\noindent\colorbox{bernl}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}%
+  {\vspace{0.5mm}\footnotesize\color{grau}#1\vspace{0.5mm}}}\par\vspace{0.9mm}}
+\newcommand{\hinweis}[1]{\par\vspace{0.4mm}{\footnotesize\color{hgrau}#1}\par\vspace{1.6mm}}
+
+\newcommand{\fcap}[1]{\par\vspace{-1mm}{\scriptsize\color{hgrau}#1}\par}
+
+\newcommand{\ME}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\anm}[1]{\;\text{\normalfont\footnotesize\color{grau}#1}}
+\newcommand{\mtxt}[1]{\text{\small #1}}
+% Zwischenüberschrift, der direkt eine Displayformel folgt (unterdrückt die Phantomzeile)
+\newcommand{\zwiD}[1]{\par\vspace{0.7mm}\noindent{\footnotesize\color{grau}#1}\par\nopagebreak%
+  \vspace{\dimexpr-0.5mm-\baselineskip\relax}\nopagebreak}
+% Fliesstext, dem direkt eine Displayformel folgt
+\newcommand{\hinweisD}[1]{\par\vspace{0.3mm}{\footnotesize\color{hgrau}#1}\par\nopagebreak%
+  \vspace{\dimexpr-0.5mm-\baselineskip\relax}\nopagebreak}
+\newcommand{\warnD}[1]{\par\vspace{0.4mm}{\footnotesize\color{bern}\warnsym\ #1}\par\nopagebreak%
+  \vspace{\dimexpr-0.5mm-\baselineskip\relax}\nopagebreak}
+
+% ---------- TikZ-Stile ----------
+\tikzset{
+  vec/.style={-{Latex[length=1.9mm,width=1.4mm]},bern,line width=0.7pt},
+  vecg/.style={-{Latex[length=1.9mm,width=1.4mm]},bernm,line width=0.7pt},
+  ax/.style={-{Latex[length=1.6mm,width=1.2mm]},grau,line width=0.5pt},
+  kurve/.style={bern,line width=0.9pt},
+  hilf/.style={hgrau,dashed,line width=0.4pt},
+  koerper/.style={fill=bernl,draw=bern,line width=0.6pt},
+}
+\newcommand{\tikzfont}{\footnotesize}
+
+
+\begin{document}
+\pagestyle{empty}
+\footnotesize
+\noindent\begin{tikzpicture}[scale=0.95]
+  \draw[white] (0.35,0)--(2.65,0);
+  \draw[white] (2.65,0)--(2.65,0.52);
+  \draw[white] (2.65,1.08)--(2.65,1.60);
+  \draw[white] (2.65,1.60)--(0.35,1.60);
+  \draw[white] (0.35,1.60)--(0.35,1.02);
+  \draw[white] (0.35,0.58)--(0.35,0);
+  \draw[white] (0.13,1.02)--(0.57,1.02);
+  \draw[white] (0.23,0.58)--(0.47,0.58);
+  \node[grau,right,inner sep=2pt] at (0.59,1.02) {\tiny$+$};
+  \node[grau,right,inner sep=2pt] at (0.59,0.58) {\tiny$-$};
+  \draw[white] (0.13,1.02)--(-0.22,1.02);
+  \draw[white] (0.23,0.58)--(-0.22,0.58);
+  \draw[white] (-0.16,1.02)--(-0.16,0.58);
+  \node[bernm,left,inner sep=2pt] at (-0.20,0.80) {$U$};
+  \draw[white] (2.29,0.52) rectangle (3.01,1.08);
+  \node at (2.65,0.80) {$R$};
+  \draw[white] (1.18,1.60)--(1.82,1.60);
+  \node[bernm,above,inner sep=3pt] at (1.50,1.62) {$I$};
+  \draw[white] (3.05,1.08)--(3.42,1.08);
+  \draw[white] (3.05,0.52)--(3.42,0.52);
+  \draw[white] (3.36,1.08)--(3.36,0.52);
+  \node[bernm,right,inner sep=3pt] at (3.40,0.80) {$U$};
+\end{tikzpicture}\par\vspace{6mm}
+\noindent\begin{tikzpicture}[scale=0.80]
+  \draw[white] (0,0)--(0,1.60)--(0.70,1.60);
+  \draw[white] (0.70,1.42) rectangle (1.40,1.78); \node at (1.05,1.60) {$R_1$};
+  \draw[white] (1.40,1.60)--(1.90,1.60);
+  \draw[white] (1.90,1.42) rectangle (2.60,1.78); \node at (2.25,1.60) {$R_2$};
+  \draw[white] (2.60,1.60)--(2.95,1.60);
+  \foreach \x in {3.10,3.30,3.50}{\fill[white] (\x,1.60) circle (0.045);}
+  \draw[white] (3.65,1.60)--(4.10,1.60)--(4.10,0)--(2.42,0);
+  \draw[white] (1.92,0)--(0,0);
+  \draw[white] (1.92,-0.22)--(1.92,0.22);
+  \draw[white] (2.42,-0.12)--(2.42,0.12);
+  \node[grau,above,inner sep=1pt] at (1.92,0.22) {\tiny$+$};
+  \node[grau,above,inner sep=1pt] at (2.42,0.12) {\tiny$-$};
+  \draw[white] (1.92,-0.22)--(1.92,-0.52);
+  \draw[white] (2.42,-0.12)--(2.42,-0.52);
+  \draw[white] (1.92,-0.46)--(2.42,-0.46);
+  \node[bernm,below,inner sep=2pt] at (2.17,-0.50) {$U$};
+  \draw[white] (0.18,1.60)--(0.58,1.60);
+  \node[bernm,above,inner sep=2pt] at (0.38,1.62) {$I$};
+  \draw[white] (0.70,1.42)--(0.70,1.02); \draw[white] (1.40,1.42)--(1.40,1.02);
+  \draw[white] (0.70,1.02)--(1.40,1.02);
+  \node[bernm,below,inner sep=2pt] at (1.05,1.00) {$U_1$};
+  \draw[white] (1.90,1.42)--(1.90,1.02); \draw[white] (2.60,1.42)--(2.60,1.02);
+  \draw[white] (1.90,1.02)--(2.60,1.02);
+  \node[bernm,below,inner sep=2pt] at (2.25,1.00) {$U_2$};
+\end{tikzpicture}\par\vspace{6mm}
+\noindent\begin{tikzpicture}[scale=0.80]
+  \draw[white] (0,1.70)--(0,1.06);
+  \draw[white]   (-0.24,1.06)--(0.24,1.06);
+  \draw[white] (-0.13,0.64)--(0.13,0.64);
+  \draw[white] (0,0.64)--(0,0);
+  \node[grau,right,inner sep=2pt] at (0.26,1.06) {\tiny$+$};
+  \node[grau,right,inner sep=2pt] at (0.15,0.64) {\tiny$-$};
+  \draw[white] (-0.24,1.06)--(-0.62,1.06);
+  \draw[white] (-0.13,0.64)--(-0.62,0.64);
+  \draw[white] (-0.56,1.06)--(-0.56,0.64);
+  \node[bernm,left,inner sep=2pt] at (-0.60,0.85) {$U$};
+  \draw[white] (0,1.70)--(3.55,1.70);
+  \draw[white] (0,0)--(3.55,0);
+  \draw[white] (0.35,1.70)--(0.80,1.70);
+  \node[bernm,above,inner sep=2pt] at (0.58,1.72) {$I$};
+  \draw[white] (1.30,1.70)--(1.30,1.15);
+  \draw[white] (1.30,0.55)--(1.30,0);
+  \draw[white] (0.95,0.55) rectangle (1.65,1.15); \node at (1.30,0.85) {$R_1$};
+  \draw[white] (1.30,1.62)--(1.30,1.26);
+  \node[bernm,left,inner sep=2pt] at (1.26,1.44) {$I_1$};
+  \draw[white] (2.60,1.70)--(2.60,1.15);
+  \draw[white] (2.60,0.55)--(2.60,0);
+  \draw[white] (2.25,0.55) rectangle (2.95,1.15); \node at (2.60,0.85) {$R_2$};
+  \draw[white] (2.60,1.62)--(2.60,1.26);
+  \node[bernm,left,inner sep=2pt] at (2.56,1.44) {$I_2$};
+  \foreach \y in {0.65,0.85,1.05}{\fill[white] (3.30,\y) circle (0.045);}
+\end{tikzpicture}\par\vspace{6mm}
+\end{document}

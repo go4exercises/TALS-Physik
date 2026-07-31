@@ -1,0 +1,231 @@
+% =====================================================================
+%  TALS Physik - Formelsammlung (RLP-BM 2030)
+%  Berufsmaturitaet Technik, Architektur, Life Sciences
+%
+%  Aufbau folgt den Themenseiten von go4exercises.github.io/TALS-Physik:
+%    0  Mathematischer Werkzeugkasten (aus den Vorwissen-Seiten)
+%    4  Mechanik        (4.1 - 4.5)
+%    5  Thermodynamik   (5.1 - 5.3)
+%    6  Wellen und Elektrizitaet (6.1, 6.2)
+%    A  Anhang: Konstanten, Stoffwerte, Einheiten
+%
+%  Lizenz: CC BY-NC 4.0 · Haftungsausschluss am Dokumentende
+%  Konventionen: Schweizer Hochdeutsch (kein Eszett), Dezimalpunkt,
+%  Skalare kursiv, Vektoren mit Pfeil, Einheiten aufrecht,
+%  Bernstein-Farbschema #8A4A0E, alle Skizzen parametrisiert (TikZ).
+%
+%  Uebersetzen:  pdflatex formelsammlung.tex   (zweimal, wegen Inhaltsverzeichnis)
+%  Benoetigt:    tikz, needspace, fancyhdr, xcolor, geometry, multicol,
+%                enumitem, hyperref, amsmath
+%  Hinweis: babel wird mit [provide=*] geladen, damit die Datei auch ohne
+%  installierte ngerman-Trennmuster uebersetzt.
+%
+%  Satzspiegel je Formel-Eintrag:
+%      \ftitel{Titel}                        <- volle Breite
+%      \begin{minipage}[t]{0.54\linewidth}   <- LINKS: Formel(n), linksbuendig
+%          \[ ... \]  \hinweis{...}            (fleqn, \mathindent = 0pt)
+%      \end{minipage}\hfill
+%      \begin{minipage}[t]{0.44\linewidth}   <- RECHTS: Legende + Skizze
+%          \begin{leg} ... \end{leg}
+%          {\centering\tikzfont <tikzpicture> \fcap{...}\par}
+%      \end{minipage}
+%
+%  Struktur-Makros:  \LG{Nr}{Lerngebiet}   \TG{Nr}{Teilgebiet}
+%                    \ftitel{Formeltitel}  leg-Umgebung (Legende)
+%                    \hinweis{...}  \fcap{Skizzen-Bildunterschrift}
+% =====================================================================
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{charter}
+\usepackage[utf8]{inputenc}
+\usepackage[provide=*,ngerman]{babel}
+\usepackage[fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[table]{xcolor}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{needspace}
+
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={TALS Physik -- Formelsammlung},
+  pdfauthor={Raphael Arnold Kohler},
+  pdfsubject={Berufsmaturität TALS, RLP-BM 2030},
+  pdfkeywords={Physik, Formelsammlung, Berufsmaturität, TALS, RLP-BM 2030},
+  pdflang={de-CH}}
+\urlstyle{same}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing,patterns,calc,angles,quotes}
+
+\setlength{\headheight}{13pt}
+\geometry{a4paper,left=14mm,right=14mm,top=15mm,bottom=12mm,headsep=3.5mm,footskip=7mm}
+
+\definecolor{bern}{HTML}{8A4A0E}
+\definecolor{bernm}{HTML}{9A5F12}
+\definecolor{bernl}{HTML}{F7EFE6}
+\definecolor{grau}{HTML}{4A4A4A}
+\definecolor{hgrau}{HTML}{6B6B6B}
+
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{bernm}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[L]{\footnotesize\color{bern}\textbf{TALS Physik} · Formelsammlung \color{hgrau}v1.0}
+\makeatletter
+\newcounter{talsLG}
+\newcommand{\talsfresh}[1]{\expandafter\gdef\csname talsfresh@#1\endcsname{}}
+\newcommand{\talsmarkfresh}{\immediate\write\@auxout{\string\talsfresh{\thepage}}}
+\newcommand{\tals@L}[2]{#1}
+\newcommand{\tals@R}[2]{#2}
+\newcommand{\talskopf}{%
+  \protected@edef\tals@tm{\topmark}%
+  \@ifundefined{talsfresh@\the\c@page}{}{\tals@freshtrue}%
+  \iftals@fresh
+    \leftmark
+  \else
+  \ifx\tals@tm\@empty
+    \leftmark
+  \else
+    \protected@edef\tals@a{\expandafter\tals@L\topmark}%
+    \protected@edef\tals@b{\leftmark}%
+    \ifx\tals@a\@empty
+      \leftmark
+    \else
+      \ifx\tals@a\tals@b
+        \leftmark
+      \else
+        \tals@a\ \textbar\ \tals@b
+      \fi
+    \fi
+  \fi
+  \fi
+  \tals@freshfalse}
+\newif\iftals@fresh
+\makeatother
+\fancyhead[R]{\footnotesize\color{grau}\talskopf}
+\fancyfoot[C]{\footnotesize\color{grau}\thepage}
+
+% Seite 1 hat keine Marke vom Seitenanfang -- dort direkt \leftmark verwenden.
+\fancypagestyle{talstitel}{%
+  \fancyhf{}%
+  \fancyhead[L]{\footnotesize\color{bern}\textbf{TALS Physik} · Formelsammlung \color{hgrau}v1.0}%
+  \fancyhead[R]{\footnotesize\color{grau}\leftmark}%
+  \fancyfoot[C]{\footnotesize\color{grau}\thepage}}
+
+\setlength{\mathindent}{0pt}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{2pt}
+\setlength{\belowdisplayshortskip}{2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% ---------- Struktur-Makros ----------
+\newcommand{\LG}[2]{%
+  \par\vspace{1.6mm}\needspace{7\baselineskip}%
+  \ifdim\pagetotal=0pt\relax\talsmarkfresh\fi%
+  \phantomsection%
+  \addcontentsline{toc}{section}{\textbf{#1}\quad #2}%
+  \markboth{#1\ \ #2}{}%
+  \noindent\colorbox{bern}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\vspace{0.4mm}\color{white}\bfseries\large #1\quad #2\vspace{0.4mm}}}%
+  \par\vspace{1.6mm}}
+
+\newcommand{\TG}[2]{%
+  \par\vspace{2.4mm}\needspace{5\baselineskip}\phantomsection%
+  \addcontentsline{toc}{subsection}{#1\quad #2}%
+  \noindent{\color{bern}\bfseries\normalsize #1\quad #2}%
+  \par\vspace{-1.4mm}{\color{bernm}\rule{\linewidth}{0.8pt}}\par\vspace{1.2mm}}
+
+\newcommand{\ftitel}[1]{\par\noindent{\bfseries\footnotesize\color{grau}#1}\par\vspace{0.2mm}\nopagebreak}
+\newcommand{\ftitelD}[1]{\par\noindent{\bfseries\footnotesize\color{grau}#1}\par\nopagebreak\vspace{\dimexpr-0.5mm-\baselineskip\relax}\nopagebreak}
+
+\newenvironment{leg}%
+  {\par\begingroup\footnotesize\setlength{\tabcolsep}{2.5pt}%
+   \renewcommand{\arraystretch}{1.0}%
+   \begin{tabular}[t]{@{}>{$}l<{$}@{\ \,}l@{\quad}l@{}}}%
+  {\end{tabular}\endgroup\par\vspace{0.3mm}}
+
+\newcommand{\warnsym}{\tikz[baseline=-0.5ex]{\draw[bern,line width=0.45pt] (0,0)--(0.21,0.36)--(0.42,0)--cycle;
+  \node at (0.21,0.12) {\tiny\bfseries !};}}
+\newcommand{\gilt}[1]{\par\vspace{0.3mm}{\footnotesize\color{grau}\textbf{Gültig:} #1}\par\vspace{0.5mm}}
+\newcommand{\warn}[1]{\par\vspace{0.4mm}{\footnotesize\color{bern}\warnsym\ #1}\par\vspace{0.6mm}}
+\newcommand{\merk}[1]{\par\vspace{0.7mm}\noindent\colorbox{bernl}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}%
+  {\vspace{0.5mm}\footnotesize\color{grau}#1\vspace{0.5mm}}}\par\vspace{0.9mm}}
+\newcommand{\hinweis}[1]{\par\vspace{0.4mm}{\footnotesize\color{hgrau}#1}\par\vspace{1.6mm}}
+
+\newcommand{\fcap}[1]{\par\vspace{-1mm}{\scriptsize\color{hgrau}#1}\par}
+
+\newcommand{\ME}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\anm}[1]{\;\text{\normalfont\footnotesize\color{grau}#1}}
+\newcommand{\mtxt}[1]{\text{\small #1}}
+% Zwischenüberschrift, der direkt eine Displayformel folgt (unterdrückt die Phantomzeile)
+\newcommand{\zwiD}[1]{\par\vspace{0.7mm}\noindent{\footnotesize\color{grau}#1}\par\nopagebreak%
+  \vspace{\dimexpr-0.5mm-\baselineskip\relax}\nopagebreak}
+% Fliesstext, dem direkt eine Displayformel folgt
+\newcommand{\hinweisD}[1]{\par\vspace{0.3mm}{\footnotesize\color{hgrau}#1}\par\nopagebreak%
+  \vspace{\dimexpr-0.5mm-\baselineskip\relax}\nopagebreak}
+\newcommand{\warnD}[1]{\par\vspace{0.4mm}{\footnotesize\color{bern}\warnsym\ #1}\par\nopagebreak%
+  \vspace{\dimexpr-0.5mm-\baselineskip\relax}\nopagebreak}
+
+% ---------- TikZ-Stile ----------
+\tikzset{
+  vec/.style={-{Latex[length=1.9mm,width=1.4mm]},bern,line width=0.7pt},
+  vecg/.style={-{Latex[length=1.9mm,width=1.4mm]},bernm,line width=0.7pt},
+  ax/.style={-{Latex[length=1.6mm,width=1.2mm]},grau,line width=0.5pt},
+  kurve/.style={bern,line width=0.9pt},
+  hilf/.style={hgrau,dashed,line width=0.4pt},
+  koerper/.style={fill=bernl,draw=bern,line width=0.6pt},
+}
+\newcommand{\tikzfont}{\footnotesize}
+
+
+\begin{document}
+\pagestyle{empty}
+\footnotesize
+\noindent\begin{tikzpicture}[scale=0.92]
+  \draw[ax] (-0.62,0)--(4.0,0) node[below right]{$t$ [s]};
+  \draw[ax] (0,-1.05)--(0,1.05) node[left]{$y$ [m]};
+  \draw[bern!35,line width=0.7pt,domain=-0.62:3.7,samples=110,variable=\x]
+    plot ({\x},{0.7*sin(deg(2*pi*\x/1.6))});
+  \draw[kurve,domain=-0.62:3.7,samples=110,variable=\x]
+    plot ({\x},{0.7*sin(deg(2*pi*\x/1.6+60))});
+  % Periode: von Wellenberg zu Wellenberg
+  \draw[hilf] (0.1333,0.70)--(0.1333,1.00);
+  \draw[hilf] (1.7333,0.70)--(1.7333,1.00);
+  \fill[bern] (0.1333,0.70) circle (1.3pt);
+  \fill[bern] (1.7333,0.70) circle (1.3pt);
+  \draw[<->,bernm,line width=0.5pt] (0.1333,0.92)--(1.7333,0.92)
+    node[midway,above,inner sep=1.2pt]{$T$ (Berg zu Berg)};
+  % Phasenverschiebung: Nulldurchgang der kraeftigen Kurve liegt um Delta t frueher
+  \draw[hilf] (-0.2667,0)--(-0.2667,-0.86);
+  \fill[bern] (-0.2667,0) circle (1.3pt);
+  \draw[<->,grau,line width=0.5pt] (-0.2667,-0.86)--(0,-0.86);
+  \node[grau,below,inner sep=2pt,text=white] at (-0.1333,-0.90) {$\Delta t$};
+  \draw[<->,bernm,line width=0.5pt] (3.30,0)--(3.30,0.70);
+  \node[bernm,right,inner sep=2pt,text=white] at (3.34,0.35) {$A$};
+\end{tikzpicture}\par\vspace{5mm}
+\noindent\begin{tikzpicture}[scale=0.92]
+  \draw[ax] (-0.62,0)--(4.0,0) node[below right]{$s$ [m]};
+  \draw[ax] (0,-1.05)--(0,1.05) node[left]{$y$ [m]};
+  \draw[bern!35,line width=0.7pt,domain=-0.62:3.7,samples=110,variable=\x]
+    plot ({\x},{0.7*sin(deg(2*pi*\x/1.6))});
+  \draw[kurve,domain=-0.62:3.7,samples=110,variable=\x]
+    plot ({\x},{0.7*sin(deg(2*pi*\x/1.6+60))});
+  % Wellenlaenge: von Wellenberg zu Wellenberg
+  \draw[hilf] (0.1333,0.70)--(0.1333,1.00);
+  \draw[hilf] (1.7333,0.70)--(1.7333,1.00);
+  \fill[bern] (0.1333,0.70) circle (1.3pt);
+  \fill[bern] (1.7333,0.70) circle (1.3pt);
+  \draw[<->,bernm,line width=0.5pt] (0.1333,0.92)--(1.7333,0.92)
+    node[midway,above,inner sep=1.2pt]{$\lambda$ (Berg zu Berg)};
+  % Phasenverschiebung
+  \draw[hilf] (-0.2667,0)--(-0.2667,-0.86);
+  \fill[bern] (-0.2667,0) circle (1.3pt);
+  \draw[<->,grau,line width=0.5pt] (-0.2667,-0.86)--(0,-0.86);
+  \node[grau,below,inner sep=2pt,text=white] at (-0.1333,-0.90) {$\Delta s$};
+  \draw[<->,bernm,line width=0.5pt] (3.30,0)--(3.30,0.70);
+  \node[bernm,right,inner sep=2pt,text=white] at (3.34,0.35) {$A$};
+\end{tikzpicture}\par\vspace{5mm}
+\end{document}
