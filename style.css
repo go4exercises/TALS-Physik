@@ -307,14 +307,39 @@ var, .var   { font-family: var(--mono); font-style: italic; font-size: 0.96em; }
 code, .code { font-family: var(--mono); background: var(--papier-2); border: 1px solid var(--linie); border-radius: 4px; padding: 1px 6px; font-size: 0.88em; }
 
 /* Abgesetzte Formeln \[…\] scrollen im eigenen Kasten, statt am Rand
-   abgeschnitten zu werden (auf schmalen Schirmen kappt .page-wrap sonst).
-   Inline-Mathe ist nicht betroffen — sie fliesst im Text mit. */
+   abgeschnitten zu werden (auf schmalen Schirmen kappt .page-wrap sonst). */
 mjx-container[display="true"] {
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 3px;      /* Platz für die Scrollleiste, wo sie sichtbar ist */
   overscroll-behavior-x: contain;
+}
+
+/* Inline-Mathe \(…\) fliesst im Text mit, bricht aber in sich selbst nicht um.
+   Eine lange Zahlengleichung in einer Mini-Check-Lösung ist damit breiter als
+   ihr Elternelement und wurde von dessen overflow:hidden abgeschnitten —
+   gemessen bis 152 px (p4-4, Resultierende zweier Kräfte). Sichtbar war davon
+   nichts: die Seite scrollte nicht, der Rest der Formel fehlte einfach.
+
+   Nicht am mjx-container selbst zu beheben: der ist display:inline, dort haben
+   max-width und overflow laut Spezifikation keine Wirkung. Ihn auf inline-block
+   zu setzen wirkt zwar, verschiebt aber jede Inline-Formel im Fliesstext um
+   ~7 px nach unten — overflow != visible legt die Baseline eines inline-block
+   auf dessen Unterkante, während MathJax die Ausrichtung per Inline-Style auf
+   dem <svg> setzt. Nachgemessen mit .claude/tools/render-check.mjs: 3264
+   verschobene Formeln. Deshalb scrollt der Textbehälter, nicht die Formel. */
+.mc-antwort { overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; }
+
+/* MathJax legt für Screenreader eine unsichtbare MathML-Kopie ab
+   (position:absolute, width:100% !important). Sie bleibt im DOM und damit
+   vorlesbar, zählt aber sonst zur Scrollbreite. MathJax injiziert sein
+   Stylesheet nach diesem — daher die höhere Spezifität über «body». */
+body mjx-assistive-mml,
+body mjx-assistive-mml[display="block"] {
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
 }
 
 /* ── DIDAKTISCHE BLÖCKE ──────────────────────────────────────── */
@@ -662,9 +687,16 @@ canvas { display: block; width: 100%; }
   display: flex; gap: 16px; padding: 10px 16px;
   border-top: 1px solid var(--linie); flex-wrap: wrap;
 }
-.cl-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--tinte-2); font-family: var(--mono); }
-.cl-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.cl-line { width: 22px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+/* Block statt Flex: einzelne Legendenzeilen tragen ganze Sätze mit Formeln
+   (p4-3, Fläche unter der F-s-Kurve). Als Flex-Container wird jeder Textteil
+   und jedes <strong> zu einem eigenen Flex-Element — die Zeile bricht dann gar
+   nicht um (läuft auf 360 px aus dem .cv-wrap heraus und wird von dessen
+   overflow:hidden abgeschnitten) oder, mit flex-wrap, an unsinnigen Stellen
+   mitten in der Interpunktion. Als Block fliesst der Text normal.
+   Das Farbplättchen steht dafür inline vor dem Text statt als Flex-Kind. */
+.cl-item { display: block; font-size: 0.75rem; color: var(--tinte-2); font-family: var(--mono); }
+.cl-dot  { width: 10px; height: 10px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 6px; }
+.cl-line { width: 22px; height: 3px; border-radius: 2px; display: inline-block; vertical-align: middle; margin-right: 6px; }
 
 /* Kompakte Button-Reihe für Demo-Schalter (z.B. Vergleich von Bewegungstypen) */
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 16px; border-top: 1px solid var(--linie); background: var(--papier-2); }
