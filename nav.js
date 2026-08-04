@@ -64,13 +64,20 @@ function buildNav(cfg) {
     }).join('');
   }
 
+  // Lerngebiet der aktuellen Seite — nur dessen Klappe startet offen, damit das
+  // Mobilmenü nicht wieder als 22-zeilige Liste aufgeht.
+  const aktGruppe = (GROUPS.find(g => g.ids.indexOf(cfg.id) !== -1) || {}).nr;
+
   function renderMobileGroup() {
     return GROUPS.map(g => {
       const items = g.ids.map(id => {
         const p = pageById[id];
         return `<a href="${prefix}${p.url}" class="${p.id===cfg.id?'mn-aktiv':''}">${p.nr} · ${p.titel}</a>`;
       }).join('');
-      return `<div class="mn-untergruppe">${g.nr} · ${g.titel}</div>${items}`;
+      return `<details class="mn-lg"${g.nr===aktGruppe?' open':''}>
+        <summary>${g.nr} · ${g.titel}</summary>
+        <div class="mn-lg-body">${items}</div>
+      </details>`;
     }).join('');
   }
 
@@ -81,6 +88,8 @@ function buildNav(cfg) {
     { href:`${prefix}TALS-Physik-Formelsammlung.pdf`, nr:'PDF',
       tit:'Formelsammlung illustriert — zum Herunterladen und Drucken', extern:true },
   ];
+  // Auf Glossar/Formelsammlung startet im Mobilmenü «Nachschlagen» offen statt «Themen».
+  const refAktiv = (cfg.id === 'glossar' || cfg.id === 'formeln');
   function renderRefDropdown() {
     const intern = refItems.map(r =>
       `<a href="${r.href}" class="${r.cur?'dd-aktiv':''}"${r.extern?' target="_blank" rel="noopener"':''}>
@@ -93,9 +102,8 @@ function buildNav(cfg) {
       </div>`;
   }
   function renderMobileRef() {
-    const intern = refItems.map(r =>
+    return refItems.map(r =>
       `<a href="${r.href}" class="${r.cur?'mn-aktiv':''}"${r.extern?' target="_blank" rel="noopener"':''}>${r.nr} · ${r.tit}</a>`).join('');
-    return `<div class="mn-untergruppe">Nachschlagen</div>${intern}`;
   }
 
   // ── META-DROPDOWN-INHALTE ──
@@ -203,14 +211,25 @@ function buildNav(cfg) {
   <button class="burger" onclick="toggleMobileNav()" aria-label="Navigation">☰</button>
 </header>
 <div class="mobile-nav" id="mobile-nav">
-  <a href="${indexHref}">← Übersicht</a>
-  ${renderMobileGroup()}
-  ${renderMobileRef()}
-  <div class="mn-gruppe">Über dieses Lehrmittel</div>
-  <details class="mn-meta"><summary>Autor &amp; Intention</summary><div class="mn-meta-body">${metaAutorHTML}</div></details>
-  <details class="mn-meta"><summary>Ausblick</summary><div class="mn-meta-body">${metaAusblickHTML}</div></details>
-  <details class="mn-meta"><summary>Lizenz</summary><div class="mn-meta-body">${metaLizenzHTML}</div></details>
-  <a href="${prefix}feedback.html">Kontakt &amp; Feedback</a>
+  <a href="${indexHref}" class="mn-direkt">← Übersicht</a>
+  <details class="mn-sektion"${refAktiv?'':' open'}>
+    <summary>Themen</summary>
+    <div class="mn-sektion-body">${renderMobileGroup()}</div>
+  </details>
+  <details class="mn-sektion"${refAktiv?' open':''}>
+    <summary>Nachschlagen</summary>
+    <div class="mn-sektion-body">${renderMobileRef()}</div>
+  </details>
+  <a href="https://go4exercises.github.io/TALS-Mathe/" target="_blank" rel="noopener" class="mn-direkt">Mathematik ↗</a>
+  <details class="mn-sektion">
+    <summary>Über dieses Lehrmittel</summary>
+    <div class="mn-sektion-body">
+      <details class="mn-meta"><summary>Autor &amp; Intention</summary><div class="mn-meta-body">${metaAutorHTML}</div></details>
+      <details class="mn-meta"><summary>Ausblick</summary><div class="mn-meta-body">${metaAusblickHTML}</div></details>
+      <details class="mn-meta"><summary>Lizenz</summary><div class="mn-meta-body">${metaLizenzHTML}</div></details>
+    </div>
+  </details>
+  <a href="${prefix}feedback.html" class="mn-direkt">Kontakt &amp; Feedback</a>
 </div>`;
 
   document.getElementById('nav-root').innerHTML = headerHTML;

@@ -181,7 +181,11 @@ a:hover { text-decoration: underline; }
 .ueber-panel .meta-link { display: inline; padding: 0; color: var(--bernstein); font-weight: 600; text-decoration: none; }
 .ueber-panel .meta-link:hover { text-decoration: underline; }
 
-@media (max-width: 720px) {
+/* 1000px statt 720: das breite Menue ist am Button verankert (left:0) und reicht
+   immer bis x=984 — unter 1000px Fensterbreite stuende es rechts hinaus. Seit der
+   Burger erst bei 880px kommt, ist dieser Bereich sichtbar und braucht die
+   schmale Spaltenvariante. */
+@media (max-width: 1000px) {
   .dd-menu-ueber { min-width: 320px; max-width: 90vw; flex-direction: column; }
   .ueber-tabs {
     flex: none; flex-direction: row; flex-wrap: wrap;
@@ -213,11 +217,43 @@ a:hover { text-decoration: underline; }
   padding: 7px 10px; border-radius: 6px;
 }
 .mobile-nav a:hover, .mobile-nav a.mn-aktiv { background: var(--bernstein-hell); color: var(--bernstein); }
-.mn-gruppe {
-  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--tinte-2);
-  padding: 10px 10px 4px; margin-top: 4px;
+/* Das Mobilmenü spiegelt die Kopfzeile: Übersicht · Themen · Nachschlagen ·
+   Mathematik · Über · Kontakt. Die Sektionen klappen, damit nicht wie früher
+   22 Zeilen gleichzeitig offen stehen. Direktlinks tragen .mn-direkt und
+   stehen optisch auf derselben Stufe wie eine Sektions-Summary. */
+.mobile-nav .mn-direkt { font-size: 0.9rem; font-weight: 700; color: var(--tinte); padding: 10px; }
+.mobile-nav .mn-sektion { margin: 0 4px; border-top: 1px solid var(--linie); }
+.mobile-nav .mn-sektion > summary {
+  list-style: none; cursor: pointer;
+  font-size: 0.9rem; font-weight: 700; color: var(--tinte);
+  padding: 10px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: space-between;
 }
+.mobile-nav .mn-sektion > summary::-webkit-details-marker { display: none; }
+.mobile-nav .mn-sektion > summary::after {
+  content: '▾'; font-size: 0.7rem; color: var(--tinte-2);
+  transition: transform 0.2s;
+}
+.mobile-nav .mn-sektion[open] > summary::after { transform: rotate(180deg); }
+.mobile-nav .mn-sektion > summary:hover { background: var(--papier); }
+.mobile-nav .mn-sektion-body { display: flex; flex-direction: column; gap: 2px; padding: 0 0 8px 6px; }
+
+/* Zweite Ebene: die vier Lerngebiete innerhalb von „Themen". */
+.mobile-nav .mn-lg > summary {
+  list-style: none; cursor: pointer;
+  font-size: 0.78rem; font-weight: 700; color: var(--bernstein);
+  padding: 8px 10px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.mobile-nav .mn-lg > summary::-webkit-details-marker { display: none; }
+.mobile-nav .mn-lg > summary::after {
+  content: '▾'; font-size: 0.65rem; color: var(--bernstein);
+  transition: transform 0.2s;
+}
+.mobile-nav .mn-lg[open] > summary::after { transform: rotate(180deg); }
+.mobile-nav .mn-lg > summary:hover { background: var(--bernstein-hell); }
+.mobile-nav .mn-lg-body { display: flex; flex-direction: column; gap: 1px; padding-left: 8px; }
+
 .mobile-nav .mn-meta { margin: 0 4px; border-top: 1px solid var(--linie); }
 .mobile-nav .mn-meta:first-of-type { border-top: none; }
 .mobile-nav .mn-meta > summary {
@@ -245,12 +281,6 @@ a:hover { text-decoration: underline; }
 .mobile-nav .mn-meta-body p { margin: 0 0 6px; }
 .mobile-nav .mn-meta-body ul { margin: 0 0 4px; padding-left: 18px; }
 .mobile-nav .mn-meta-body .meta-link { color: var(--bernstein); font-weight: 600; text-decoration: none; }
-.mn-untergruppe {
-  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 1px;
-  text-transform: uppercase; color: var(--bernstein);
-  padding: 8px 10px 2px; margin-top: 2px;
-}
-
 /* ── SEITEN-LAYOUT ──────────────────────────────────────────── */
 .page-wrap {
   max-width: 1400px; margin: 0 auto;
@@ -731,7 +761,10 @@ canvas { display: block; width: 100%; }
 .site-footer strong { color: rgba(255,255,255,0.82); }
 
 /* ── RESPONSIVE ─────────────────────────────────────────────── */
-@media (max-width: 1024px) {
+/* 880px statt 1024: die Kopfzeile braucht real nur ~800px (Logo 51 + Nav 489 +
+   Suche 190 + Polsterung 64), die Ueberlappung beginnt erst bei 821px. Der
+   Burger kommt damit erst bei starkem Zoom — 1280px-Fenster ab 150% statt 125%. */
+@media (max-width: 880px) {
   .site-nav { display: none; }
   .burger   { display: block; }
 }
@@ -984,7 +1017,8 @@ canvas { display: block; width: 100%; }
    (gilt auch für die Sprünge aus dem Inhaltsverzeichnis) */
 .content h2[id], .content h3[id] { scroll-margin-top: 66px; }
 
-@media (max-width: 1024px) {
+/* Gleiche Kante wie oben: ohne .site-nav (flex:1) fehlt der Schub nach rechts. */
+@media (max-width: 880px) {
   .suche  { margin-left: auto; }
   .burger { margin-left: 4px; }
 }
