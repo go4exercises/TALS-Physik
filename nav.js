@@ -109,6 +109,8 @@ function buildNav(cfg) {
   // ── META-DROPDOWN-INHALTE ──
   const metaAutorHTML = `
     <div class="meta-titel">Autor &amp; Intention</div>
+    <img class="meta-portrait" src="${prefix}autor.jpg" width="112" height="112" loading="lazy"
+         alt="Porträt von Raphael Arnold Kohler (Aquarell)">
     <p><strong>Autor:</strong> Raphael Arnold Kohler, Elektroingenieur und BM-Fachlehrperson
        für Mathematik und Physik mit über 30 Jahren Unterrichtserfahrung.</p>
     <p>TALS Physik ist ein unabhängiges, kostenlos zugängliches Lernangebot für die Sek II,
