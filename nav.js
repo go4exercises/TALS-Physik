@@ -129,7 +129,7 @@ function buildNav(cfg) {
       <li>Alle 10 Teilgebiete vollständig (Lerngebiete 4 Mechanik, 5 Thermodynamik, 6 Wellen und Elektrizität)</li>
       <li>Kapitel 0 Vorwissen (3 Seiten zur Sek-I-Auffrischung)</li>
       <li>Je Themenseite: interaktive Animationen, Aufgaben, Zusammenfassung, Druckseiten/Materialien und externe Ressourcen</li>
-      <li>Schwesterprojekt: <a href="https://go4exercises.github.io/TALS-Mathe/" target="_blank" rel="noopener" class="meta-link">TALS Mathematik</a> — gleicher Aufbau für das Fach Mathematik</li>
+      <li>Schwesterprojekt: <a href="https://mathe.begreifbar.ch/" target="_blank" rel="noopener" class="meta-link">TALS Mathematik</a> — gleicher Aufbau für das Fach Mathematik</li>
     </ul>
     <div class="meta-sub">Ideen für den Ausbau</div>
     <ul>
@@ -152,7 +152,7 @@ function buildNav(cfg) {
        und Änderungen kenntlich zu machen. Inhalte Dritter und verlinkte externe
        Angebote unterliegen ihren eigenen Rechten und Nutzungsbedingungen.</p>
     <p><em>Empfohlene Namensnennung:</em> Raphael Arnold Kohler, TALS Physik,
-       https://go4exercises.github.io/TALS-Physik/, CC BY-NC 4.0.</p>
+       https://physik.begreifbar.ch/, CC BY-NC 4.0.</p>
     <p><a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener" class="meta-link">
        → Lizenztext (CC BY-NC 4.0)</a></p>
     <p><a href="https://github.com/go4exercises/TALS-Physik" target="_blank" rel="noopener" class="meta-link">
@@ -181,7 +181,7 @@ function buildNav(cfg) {
         ${renderRefDropdown()}
       </div>
     </div>
-    <a href="https://go4exercises.github.io/TALS-Mathe/" target="_blank" rel="noopener">Mathematik ↗</a>
+    <a href="https://mathe.begreifbar.ch/" target="_blank" rel="noopener">Mathematik ↗</a>
 
     <span class="nav-sep" aria-hidden="true"></span>
 
@@ -222,7 +222,7 @@ function buildNav(cfg) {
     <summary>Nachschlagen</summary>
     <div class="mn-sektion-body">${renderMobileRef()}</div>
   </details>
-  <a href="https://go4exercises.github.io/TALS-Mathe/" target="_blank" rel="noopener" class="mn-direkt">Mathematik ↗</a>
+  <a href="https://mathe.begreifbar.ch/" target="_blank" rel="noopener" class="mn-direkt">Mathematik ↗</a>
   <details class="mn-sektion">
     <summary>Über dieses Lehrmittel</summary>
     <div class="mn-sektion-body">

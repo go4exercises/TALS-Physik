@@ -25,7 +25,7 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASIS = 'https://go4exercises.github.io/TALS-Physik/'
+BASIS = 'https://physik.begreifbar.ch/'
 AUTOR = 'Raphael Arnold Kohler'
 LIZENZ = 'https://creativecommons.org/licenses/by-nc/4.0/deed.de'
 STAND = '2026-08-01'
