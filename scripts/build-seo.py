@@ -60,6 +60,11 @@ SEITEN = {
    titel='Kontakt & Feedback',
    beschreibung='Fehler melden, Verbesserungen vorschlagen oder Rückmeldung geben zu TALS Physik — ohne Anmeldung, Name und E-Mail freiwillig.',
    themen=['Kontakt', 'Feedback']),
+ 'sonnenfinsternis-12-08-2026.html': dict(
+   typ='article', lrt='Extras',
+   titel='Sonnenfinsternis vom 12. August 2026 über Thun',
+   beschreibung='Partielle Sonnenfinsternis am 12. August 2026 über Thun: Sicherheitsregeln zum Filter, Simulation der Netzhautschädigung und der Verlauf des Abends zum Selberbewegen.',
+   themen=['Sonnenfinsternis', 'Astronomie', 'Optik', 'Thun']),
 
  'themen/p0-0-vorwissen-kompakt.html': dict(
    beschreibung='Vorwissen Physik im Alltag: sieben Situationen vom Rucksack bis zum Wasserkocher zeigen, welche Werkzeuge aus der Sek I in der Berufsmaturität gebraucht werden.',
