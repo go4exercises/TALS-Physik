@@ -41,6 +41,11 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `physiklib.js`/`mathlib.js`); projektabhängig ist allein die Liste `PROJEKTE`
   am Dateikopf. `--dry-run` baut ohne zu schreiben, `--root PFAD` zielt aufs
   Schwesterprojekt.
+- `scripts/build-animationen.py` — setzt die **Animationsnummern** aus der
+  Dokumentreihenfolge, in den `<h3>`-Titeln wie in den Textverweisen. Gepflegt
+  wird im Quelltext nur der Anker, nie die Nummer (Details: STYLEGUIDE §5.9).
+  `--check` prüft ohne zu schreiben, `--root PFAD` zielt aufs Schwesterprojekt.
+  Der Pre-Flight ruft `--check` auf und meldet Abweichungen als **[FEHLER]**.
 - `.quellen/formelsammlung/` — LaTeX-Quelle der illustrierten Formelsammlung samt
   Bauanleitung (`README-Build.md`). Punkt-Ordner, damit GitHub Pages ihn nicht
   ausliefert. Das fertige PDF steht als `TALS-Physik-Formelsammlung.pdf` im Root;
@@ -150,7 +155,9 @@ Vorab-Kontrolle, sondern Git — darum gilt verbindlich:
 
 **Nach jedem abgeschlossenen Auftrag (= ein „Durchgang") automatisch, ohne Rückfrage:**
 
-0. Wurde Fliesstext auf einer Themenseite, im Glossar oder in der Formelsammlung
+0. Wurde eine Animation eingefügt, entfernt oder verschoben:
+   `python3 scripts/build-animationen.py` (setzt Titel- und Verweisnummern neu).
+   Wurde Fliesstext auf einer Themenseite, im Glossar oder in der Formelsammlung
    geändert: `python3 scripts/build-suchindex.py` (der Pre-Flight warnt sonst
    „Suchindex veraltet"). Die generierte `suchindex.js` gehört zum Commit.
 1. Pre-Flight über die geänderten Themenseiten laufen lassen

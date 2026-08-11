@@ -1029,6 +1029,18 @@ canvas { display: block; width: 100%; }
    (gilt auch für die Sprünge aus dem Inhaltsverzeichnis) */
 .content h2[id], .content h3[id] { scroll-margin-top: 66px; }
 
+/* Verweis auf eine Animation. Nummer und Anker werden von
+   scripts/build-animationen.py gesetzt — im Quelltext nie von Hand ändern.
+   Als <span> (in Link-Karten, wo kein <a> im <a> stehen darf) bleibt der
+   Verweis blosser Text und wird darum auch nicht wie ein Link ausgezeichnet. */
+a.anim-ref {
+  color: var(--bernstein); text-decoration: underline;
+  text-decoration-style: dotted; text-underline-offset: 2px;
+  white-space: nowrap;
+}
+a.anim-ref:hover { text-decoration-style: solid; }
+span.anim-ref { white-space: nowrap; }
+
 /* Gleiche Kante wie oben: ohne .site-nav (flex:1) fehlt der Schub nach rechts. */
 @media (max-width: 880px) {
   .suche  { margin-left: auto; }

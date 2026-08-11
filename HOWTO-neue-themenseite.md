@@ -154,6 +154,16 @@ window.addEventListener('resize', renderAll);
 
 Jede Animation erhält statt der Bedienungszeile unter dem Titel eine `<div class="widget-titelzeile">`, die den `<h3>`-Titel und die beiden Rollover-Hinweise «💡 Worauf achten?» und «✓ Erkenntnis» auf einer Zeile bündelt (Muster und Inhaltsregeln: STYLEGUIDE §5.6). Gestaltung kommt aus `style.css`, die Logik aus `anim-hinweise.js` — also nichts pro Seite duplizieren, nur das Markup einsetzen. Wichtig: sichtbarer Text in Projekt-Notation `\(…\)`.
 
+Der `<h3>` trägt einen **Anker**, die Nummer schreibt der Generator (STYLEGUIDE §5.9):
+
+```html
+<h3 id="anim-schiefer-wurf">Animation 4 · Schiefer Wurf</h3>
+…
+Probe mit <a class="anim-ref" href="#anim-schiefer-wurf">Animation 4</a> (Winkel 40°) …
+```
+
+Nach jedem Einfügen, Löschen oder Verschieben einer Animation `python3 scripts/build-animationen.py` laufen lassen — er zieht Titel- und Verweisnummern gemeinsam nach, sodass ein Einschub keinen Textverweis mehr brechen kann. Nummern nie von Hand setzen; der Pre-Flight meldet Abweichungen als `[FEHLER]`.
+
 ---
 
 ## 4. Navigation aktualisieren

@@ -458,6 +458,41 @@ Punkt oder Marker direkt im Canvas ziehen statt über Schieberegler — **KEIN P
 
 Referenz-Implementierung: `a0Hit` (Hit-Test), `a0EvtT` (Event-Koordinaten), `a0Apply` (Drag-Anwendung) in `themen/p4-1-kinematik.html` (Einstiegs-Animation, Phase 5.29).
 
+### 5.9 Animationsnummern und Verweise (verbindlich)
+
+**Die Nummer einer Animation wird nie von Hand geschrieben** — weder im Titel noch im Verweis. Gepflegt wird allein der **Anker**; `python3 scripts/build-animationen.py` setzt beide Nummern aus der Dokumentreihenfolge. Grund: Früher trug jede Animation ihre Nummer als blossen Text, und ein nachträglich eingeschobenes Widget liess sämtliche Rückverweise auf die falsche Animation zeigen — ein Fehler, der beim Lesen nicht auffällt, weil die Nummer ja *existiert*.
+
+Titel — der Anker steht am `<h3>`, sonst unverändertes Widget-Skelett:
+
+```html
+<h3 id="anim-je-desto-explorer">Animation 2 · Je-desto-Explorer — Federdehnung</h3>
+```
+
+Verweis im Fliesstext, im Mini-Check oder in einer Aufgabe:
+
+```html
+Vergleiche mit <a class="anim-ref" href="#anim-je-desto-explorer">Animation 2</a>.
+```
+
+Über Seitengrenzen mit Dateinamen davor:
+
+```html
+<a class="anim-ref" href="p0-1-vorwissen-mathematik.html#anim-dreisatz">Animation 6</a>
+```
+
+Innerhalb einer Link-Karte (`<a class="lk">`) wäre ein verschachteltes `<a>` ungültiges HTML — dort dieselbe Konvention mit `<span>`, das Ziel in `data-anim-ref`:
+
+```html
+<span class="anim-ref" data-anim-ref="p0-2-vorwissen-physik.html#anim-praefix-leiter">Animation 8</span>
+```
+
+Regeln:
+
+- **Anker sind stabil.** Der Slug wird einmal aus dem Titel gebildet und danach nicht mehr geändert — auch nicht, wenn der Titel umformuliert wird. Nur so überlebt ein Verweis eine Titeländerung.
+- **Ein Verweis nennt genau eine Animation.** Statt «die Animationen 4 und 5» zwei Verweise setzen («Animation 4 und Animation 5»), sonst kann der Generator die zweite Nummer nicht nachziehen.
+- **Kein blosser Text.** Der Pre-Flight meldet jedes freistehende «Animation N» im Markup als `[FEHLER]`. Ausgenommen sind `<script>`- und `<style>`-Blöcke, wo kein Markup möglich ist — dort steht die Nummer nur in Kommentaren und ist von Hand zu pflegen.
+- Der Generator meldet ausserdem Titel ohne Anker und Verweise auf Anker, die es nicht gibt.
+
 ---
 
 ## 6. Code-Konventionen

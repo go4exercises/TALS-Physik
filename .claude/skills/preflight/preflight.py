@@ -233,6 +233,16 @@ def run_deep(file_args, rep):
         if r.returncode != 0:
             rep.warn("seo", "Metadaten/sitemap veraltet — `python3 scripts/build-seo.py`")
 
+    ba = scripts / "build-animationen.py"
+    if ba.is_file():
+        r = subprocess.run(["python3", str(ba), "--check"], capture_output=True, text=True)
+        out = (r.stdout or "") + (r.stderr or "")
+        print("---- build-animationen.py ----")
+        print(out.rstrip())
+        if r.returncode != 0:
+            rep.err("animationen", "Animationsnummern/-verweise stimmen nicht "
+                                   "(siehe oben)")
+
     ic = scripts / "check_identifier_collisions.py"
     if ic.is_file():
         r = subprocess.run(["python3", str(ic)], capture_output=True, text=True)
