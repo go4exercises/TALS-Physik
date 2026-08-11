@@ -28,6 +28,9 @@ const SITE = {
     { id:'p6-1', nr:'6.1', titel:'Wellen',                         url:'themen/p6-1-wellen.html' },
     { id:'p6-1a', nr:'6.1a', titel:'Wellenexperimente',            url:'themen/p6-1a-wellenexperimente.html' },
     { id:'p6-2', nr:'6.2', titel:'Elektrizität',                   url:'themen/p6-2-elektrizitaet.html' },
+    // Extras liegen im Wurzelverzeichnis, nicht unter themen/ — sie folgen dem
+    // Themenseiten-Skelett nicht und gehören zu keinem RLP-Lerngebiet.
+    { id:'sofi', nr:'99.1', titel:'Sonnenfinsternis vom 12. August 2026', url:'sonnenfinsternis-12-08-2026.html' },
   ]
 };
 
@@ -36,7 +39,8 @@ const GROUPS = [
   { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-0','p0-1','p0-2'] },
   { nr:'4', titel:'Mechanik',                            lek:100, ids:['p4-1','p4-2','p4-3','p4-4','p4-5'] },
   { nr:'5', titel:'Thermodynamik',                       lek:30,  ids:['p5-1','p5-2','p5-3'] },
-  { nr:'6', titel:'Einführung in andere Bereiche der Physik', lek:30, ids:['p6-1','p6-1a','p6-2'] }
+  { nr:'6', titel:'Einführung in andere Bereiche der Physik', lek:30, ids:['p6-1','p6-1a','p6-2'] },
+  { nr:'99', titel:'Extras (kein RLP-Lerngebiet)',       ids:['sofi'] }
 ];
 
 function buildNav(cfg) {
