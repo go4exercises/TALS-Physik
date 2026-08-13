@@ -111,6 +111,7 @@ Die Liste steht in `STYLEGUIDE.md` und wächst; aktuell:
 | 4 | Werte werden **mit Einheit** eingesetzt, auch in `.fl-eq` (`1.0 kg · 4182 J/(kg·K) · 50 K`). Dimensionslose «Teile» durch eine konkrete Bezugsgrösse ersetzen. | §2.7 |
 | 5 | Formelzeilen **komplett** in LaTeX — Formel *und* Zahlengleichung, Brüche als `\frac{…}{…}`. Dynamisches Neu-Rendern gedrosselt und serialisiert; auf doppelte Backslashes in JS-Strings achten. | §2.8 |
 | 6 | **Preis** = Kosten pro Einheit (CHF/kg, CHF/km); **Kosten** = Gesamtbetrag (CHF). «Preis» nie mit der Einheit CHF — weder im Text noch an Achsen oder in Live-Boxen. | §2.6b |
+| 7 | **Liter klein**: `l`, `ml`, `dl`, `kg/l` — nie `L`/`mL`. Gilt in LaTeX, Fliesstext, Tabellen, Live-Boxen und Canvas. Das grosse `L` bleibt, wo es Saiten-/Pendel-/Balkenlänge, latente Wärme, `mL` als margin-left oder Lektionen meint. | §2.3 |
 
 Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
 **und** hier in der Tabelle nachgeführt.

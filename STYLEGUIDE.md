@@ -75,6 +75,15 @@ In LaTeX:
   `9.81\;\text{m/s}^2` ✓
 - **Einheit ist nicht kursiv**: Variable kursiv, Einheit aufrecht. In LaTeX die Einheit immer in `\text{...}` setzen.
 - **Bruchstrich bei Einheiten:** `m/s` oder `m·s⁻¹`; die Slash-Variante ist üblicher und in der BM-Formelsammlung dominant.
+- **Liter mit kleinem l** (verbindlich seit 13.08.2026): `l`, `ml`, `dl`, `cl`, `kg/l`, `g/l`, `t/m³`,
+  `l/min` — nie `L`, `mL`, `kg/L`. Das gilt für LaTeX (`1\;\text{l}`), Fliesstext (`150 l`),
+  Tabellen, Live-Anzeigen und Canvas-Beschriftungen gleichermassen. Das Wort «Liter» bleibt
+  als Substantiv gross.
+  Achtung beim Nachziehen: Das grosse `L` ist im Repo mehrfach anders belegt und darf dort
+  **nicht** angefasst werden — Saitenlänge \(L\) (`2L/n`, `A1L…A7L` in p6-1a), Pendellänge in
+  `g/L` (p4-3), Balkenlänge in `x/L`, spezifische latente Wärme in \(Q = m L\) (p5-2),
+  `mL` als margin-left (p4-4, p5-3) und «100 L» für Lektionen (nav.js). Eindeutig ist die
+  Einheit nur innerhalb von `\text{…}`; alles andere von Hand prüfen.
 
 ### 2.4 Konstanten
 
@@ -110,7 +119,7 @@ Zwei Grössen, die der Alltag beide «Preis» nennt, im Lehrmittel aber nie:
 
 | Grösse | Bedeutung | Einheit |
 |---|---|---|
-| **Preis** \(p\) | Kosten **pro Einheit** | \(\text{CHF/kg}\), \(\text{CHF/km}\), \(\text{CHF/L}\) |
+| **Preis** \(p\) | Kosten **pro Einheit** | \(\text{CHF/kg}\), \(\text{CHF/km}\), \(\text{CHF/l}\) |
 | **Kosten** \(K\) | der **Gesamtbetrag** | \(\text{CHF}\) |
 
 \[ K = m \cdot p \]

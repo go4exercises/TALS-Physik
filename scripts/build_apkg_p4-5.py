@@ -181,7 +181,7 @@ p45_cards = [
     ("Druck am Boden eines 5-m-Schwimmbeckens (Schweredruck)",
      "p_S = 1000 · 9.81 · 5 ≈ <b>49 050 Pa ≈ 0.49 bar</b><br>Mit Luftdruck dazu: Gesamtdruck ca. <b>1.5 bar</b> — etwa 50 % mehr als an der Oberfläche."),
     ("Auftriebskraft auf 1 Liter Wasser",
-     "Volumen 1 L = 10⁻³ m³ → F_A = 1000 · 10⁻³ · 9.81 ≈ <b>9.81 N</b><br>(Gewicht von 1 kg Wasser — Auftrieb = verdrängtes Wassergewicht.)"),
+     "Volumen 1 l = 10⁻³ m³ → F_A = 1000 · 10⁻³ · 9.81 ≈ <b>9.81 N</b><br>(Gewicht von 1 kg Wasser — Auftrieb = verdrängtes Wassergewicht.)"),
     ("Welche Wassersäule entspricht einem Atmosphären-Druck?",
      "p = ρ·g·h → h = p/(ρ·g) = 101 325 / (1000·9.81) ≈ <b>10.3 m</b> Wasser.<br>Das ist auch die maximale „Saughöhe“ einer einfachen Pumpe — über 10 m saugt sie kein Wasser hoch."),
     ("Was leistet Pascal-Prinzip in einer 1:50-Hydraulik?",
