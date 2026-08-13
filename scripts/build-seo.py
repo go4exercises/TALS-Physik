@@ -75,6 +75,9 @@ SEITEN = {
  'themen/p0-2-vorwissen-physik.html': dict(
    beschreibung='Grössen, Einheiten und Messen: von der Grundgrösse zur SI-Einheit, Dichte, Kraft und Energie, Präfixe, Umrechnen und Abschätzen — mit Animationen.',
    themen=['SI-Einheiten', 'Grössen', 'Dichte', 'Einheitenpräfixe', 'Messen']),
+ 'themen/p0-3-messen-waagen-dichte.html': dict(
+   beschreibung='Messen in der Physik: Masse und Gewichtskraft, Balkenwaage gegen Küchen- und Federwaage, direktes und indirektes Messen, Dichte bestimmen und Einheiten umrechnen.',
+   themen=['Masse', 'Gewichtskraft', 'Waage', 'Dichte', 'Verdrängungsmethode', 'Dichte-Einheiten']),
  'themen/p4-1-kinematik.html': dict(
    beschreibung='Kinematik: Weg, Geschwindigkeit und Beschleunigung im v-t-Diagramm, gleichförmige und beschleunigte Bewegung, freier Fall, Wurf und Kreisbewegung.',
    themen=['Kinematik', 'Geschwindigkeit', 'Beschleunigung', 'v-t-Diagramm', 'Freier Fall', 'Kreisbewegung'],

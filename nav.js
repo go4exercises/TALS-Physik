@@ -17,6 +17,7 @@ const SITE = {
     { id:'p0-0', nr:'0.0', titel:'Vorwissen — die Alltagstour',    url:'themen/p0-0-vorwissen-kompakt.html' },
     { id:'p0-1', nr:'0.1', titel:'Rechnen und Schliessen',         url:'themen/p0-1-vorwissen-mathematik.html' },
     { id:'p0-2', nr:'0.2', titel:'Grössen, Einheiten und Messen', url:'themen/p0-2-vorwissen-physik.html' },
+    { id:'p0-3', nr:'0.3', titel:'Messen — Waagen, Dichte, Einheiten', url:'themen/p0-3-messen-waagen-dichte.html' },
     { id:'p4-1', nr:'4.1', titel:'Kinematik des Schwerpunkts',     url:'themen/p4-1-kinematik.html' },
     { id:'p4-2', nr:'4.2', titel:'Dynamik',                        url:'themen/p4-2-dynamik.html' },
     { id:'p4-3', nr:'4.3', titel:'Energie',                        url:'themen/p4-3-energie.html' },
@@ -36,7 +37,7 @@ const SITE = {
 
 // Lerngebiet-Gruppen für die Dropdown-Anzeige
 const GROUPS = [
-  { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-0','p0-1','p0-2'] },
+  { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-0','p0-1','p0-2','p0-3'] },
   { nr:'4', titel:'Mechanik',                            lek:100, ids:['p4-1','p4-2','p4-3','p4-4','p4-5'] },
   { nr:'5', titel:'Thermodynamik',                       lek:30,  ids:['p5-1','p5-2','p5-3'] },
   { nr:'6', titel:'Einführung in andere Bereiche der Physik', lek:30, ids:['p6-1','p6-1a','p6-2'] },
