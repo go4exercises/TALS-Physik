@@ -876,12 +876,19 @@ function etDiagnose(x, a) {
     return { art:'richtung', klasse:'fehler',
              text:'Du hast in die andere Richtung umgerechnet — von ' + a.u2.e + ' nach ' + a.u1.e + ' statt umgekehrt.' };
 
-  // Sonderfaktoren: 3.6 (km/h), 60 und 3600 (Zeit), 3600 und 1000 (Wh, kWh)
-  const sonder = { tempo:[3.6], zeit:[60, 3600], energie:[3600, 1000] }[g.id] || [];
-  for (const s of sonder) {
-    if (etPasst(x, a.soll * s) || etPasst(x, a.soll / s))
-      return { art:'sonderfaktor', klasse:'fehler',
-               text:'Dein Ergebnis unterscheidet sich um den Faktor ' + etZahl(s) + ' von der Lösung. Diese Umrechnung ist keine reine Zehnerpotenz.' };
+  // Sonderfaktoren nur dort, wo das konkrete Einheitenpaar selbst keine reine
+  // Zehnerpotenz ist. 1 kJ = 1000 J ist eine Vorsatzumrechnung — eine
+  // Abweichung um 1000 ist dort ein Zehnerpotenz-Fehler und kein Sonderfall.
+  // Aufgenommen sind nur echte Nicht-Zehner-Faktoren (3.6, 60, 3600).
+  if (!etIstZehner(etVerhaeltnis(a.u1, a.u2))) {
+    const sonder = { tempo:[3.6], zeit:[60, 3600], energie:[3.6, 3600] }[g.id] || [];
+    for (const s of sonder) {
+      if (etPasst(x, a.soll * s) || etPasst(x, a.soll / s))
+        return { art:'sonderfaktor', klasse:'fehler',
+                 text:'Dein Ergebnis unterscheidet sich um den Faktor ' + etZahl(s) + ' von der Lösung. ' +
+                      'Die Umrechnung ' + a.u1.e + ' → ' + a.u2.e + ' ist keine reine Zehnerpotenz.',
+                 kurz:'Faktor ' + etZahl(s) + ' daneben' };
+    }
   }
 
   // Zehnerpotenz-Abweichung — nur bei gleichem Vorzeichen und ohne Null,
@@ -952,40 +959,70 @@ function etWert(u, maxStellen, groesse, dez) {
   }
   return +v.toFixed(stellen);
 }
-// «Krumm» heisst: mehr als fünf signifikante Stellen — solche Zahlen tippt
-// niemand ab. Der Test läuft über signifikante Stellen und nicht über ein
-// festes Dezimalraster, sonst gälte 0.0004415 fälschlich als krumm und der
-// Generator wiche auf absurd grosse Werte aus (441 000 000 mm).
-function etKrumm(x) {
+// «Krumm» heisst: mehr signifikante Stellen als erlaubt. Gemessen wird über
+// signifikante Stellen und nicht über ein festes Dezimalraster, sonst gälte
+// 0.0004415 fälschlich als krumm und der Generator wiche auf absurd grosse
+// Werte aus (441 000 000 mm). Der Massstab ist unterschiedlich: die Antwort
+// wird getippt und darf höchstens fünf Stellen tragen, der Aufgabenwert wird
+// nur gelesen und darf etwas länger sein — sonst liesse sich zu Paaren wie
+// d → ms mit grossen Zahlen gar keine Aufgabe bilden.
+function etKrumm(x, stellen) {
   if (x === 0) return false;
-  return Math.abs(x - (+x.toPrecision(5))) > Math.abs(x) * 1e-12;
+  return Math.abs(x - (+x.toPrecision(stellen || 5))) > Math.abs(x) * 1e-12;
 }
 
 // Baut eine Aufgabe aus einem festen Einheitenpaar; null, wenn keine
 // brauchbaren Zahlen zustande kommen.
+const ET_MAX_VERSUCHE = 40;
 function etBaue(g, u1, u2, opt) {
   opt = opt || {};
   const groesse = opt.groesse !== undefined ? opt.groesse : 1;
   const dez = opt.dez !== undefined ? opt.dez : 1;
-  for (let versuch = 0; versuch < 30; versuch++) {
-    let wert = etWert(u1, opt.maxStellen, groesse, dez);
+  for (let versuch = 0; versuch < ET_MAX_VERSUCHE; versuch++) {
+    const streng = versuch < Math.floor(ET_MAX_VERSUCHE * 0.6);
+    // In der zweiten Phase ohne Dezimalstellen würfeln: bei Paaren mit grossem
+    // Verhältnis (d → ms) hat sonst jedes Ergebnis zu viele signifikante
+    // Stellen, und es käme gar keine Aufgabe zustande.
+    let wert = etWert(u1, opt.maxStellen, groesse, streng ? dez : 0);
+    // Phase 2 würfelt bewusst runde Zahlen (zwei signifikante Stellen). Bei
+    // Paaren wie d → ms ist das der einzige Weg zu einer Aufgabe, deren beide
+    // Zahlen sich sauber schreiben lassen.
+    if (!streng) wert = +wert.toPrecision(2);
     let soll = etRechne(u1, u2, wert);
     // Krumme Faktoren (Zeit, km/h) liefern vorwärts Endlos-Dezimalzahlen. Dann
     // wird das Resultat gewürfelt und der Aufgabenwert zurückgerechnet — so
     // entsteht «72 km/h = 20 m/s» statt «50 km/h = 13.888… m/s».
-    if (etKrumm(soll)) {
-      const s2 = etWert(u2, 1, groesse, dez);
+    // Phase 1 will eine besonders runde Antwort (5 Stellen). Phase 2 lässt
+    // mehr Stellen zu — endlich bleibt die Zahl trotzdem, und die Toleranz
+    // akzeptiert eine sauber gerundete Eingabe. Ohne diese Lockerung gäbe es
+    // zu d → s mit grossen Zahlen keine einzige Aufgabe.
+    if (etKrumm(soll, streng ? 5 : 9)) {
+      let s2 = etWert(u2, streng ? 1 : 0, groesse, streng ? dez : 0);
+      if (!streng) s2 = +s2.toPrecision(2);
       const w2 = etRechne(u2, u1, s2);
-      if (etKrumm(w2)) continue;
+      if (etKrumm(w2, streng ? 7 : 9)) continue;
       wert = w2; soll = s2;
     }
+    if (etKrumm(wert, streng ? 7 : 9)) continue;
     if (!isFinite(wert) || !isFinite(soll)) continue;
-    if (Math.abs(soll) < 1e-9 || Math.abs(soll) > 1e15) continue;
+    // Zwei Phasen: zuerst wird ein Ergebnis in gewöhnlicher Dezimalschreibweise
+    // gesucht (das Band, in dem etZahl ohne Zehnerpotenz auskommt). Gelingt das
+    // nicht — etwa bei nm → km mit dem Verhältnis 10^-12 —, wird in der zweiten
+    // Phase auch die wissenschaftliche Schreibweise zugelassen. So bleibt kein
+    // Einheitenpaar ohne Aufgabe, und die Suche endet immer nach
+    // ET_MAX_VERSUCHE Durchgängen.
+    const unten = streng ? 1e-4 : 1e-18;
+    const oben  = streng ? 1e9  : 1e18;
+    if (Math.abs(soll) < unten || Math.abs(soll) > oben) continue;
     // Gleitkomma-Artefakte gleich hier beseitigen (0.000052000000000000004),
     // damit der gespeicherte Wert dem angezeigten entspricht. Zwölf
     // signifikante Stellen lassen jeden echten Wert unangetastet.
     wert = +wert.toPrecision(12);
     soll = +soll.toPrecision(12);
+    // Invariante: Was angezeigt wird, ist auch gemeint. Sonst rechnete der
+    // Lernende mit einer gerundeten Zahl gegen einen exakteren Sollwert.
+    if (!etNah(etLies(etZahl(wert)).wert, wert)) continue;
+    if (!etNah(etLies(etZahl(soll)).wert, soll)) continue;
     if (g.offset && (wert * u1.f + (u1.o || 0)) < 0) continue;   // nie unter 0 K
     return { g:g, u1:u1, u2:u2, wert:+wert, soll:+soll, stufe:etStufe(g, u1, u2),
              key:g.id + ':' + u1.e + '>' + u2.e, stand:'', versuche:0 };
@@ -1738,10 +1775,11 @@ function etTabellen() {
    Aufruf in der Konsole: etSelbsttest()
    Genutzt von scripts/verify_einheitentrainer.js
    ═══════════════════════════════════════════════════════════════════ */
-function etSelbsttest() {
+function etSelbsttest(proPaar) {
   const fehler = [];
   const werte = [0, 1, 0.1, 10, 1000, 3.7, 0.025];
-  let paare = 0, faelle = 0;
+  const runden = Math.max(1, proPaar || 1);      // Zufallsaufgaben je Paar
+  let paare = 0, faelle = 0, aufgaben = 0;
   ET_GRUPPEN.forEach(g => {
     etPaare(g, null, false).forEach(p => {
       paare++;
@@ -1763,23 +1801,53 @@ function etSelbsttest() {
           fehler.push('Kelvin negativ: ' + v0 + ' ' + p.u1.e + ' → ' + hin);
         }
       });
-      const a = etBaue(g, p.u1, p.u2, { groesse:1, dez:1 });
-      if (!a) { fehler.push('kein Aufgabenwert für ' + g.name + ' ' + p.u1.e + '→' + p.u2.e); return; }
-      if (!isFinite(a.wert) || !isFinite(a.soll)) fehler.push('NaN in ' + a.key);
-      if (etZahl(a.soll).length > 18) fehler.push('unlesbares Resultat in ' + a.key + ': ' + etZahl(a.soll));
-      if (!etPasst(a.soll, a.soll)) fehler.push('Toleranz greift nicht bei ' + a.key);
-      if (a.soll !== 0 && etPasst(a.soll * 10, a.soll)) fehler.push('Toleranz zu weit bei ' + a.key);
-      // Rundungsartefakte zeigen sich immer im Nachkommateil (0.30000000000004)
-      [a.wert, a.soll].forEach(x => {
-        const roh = String(x), punkt = roh.indexOf('.');
-        const nach = punkt === -1 ? '' : roh.slice(punkt + 1);
-        if (/0{6,}[1-9]|9{6,}/.test(nach)) fehler.push('Rundungsartefakt in ' + a.key + ': ' + roh);
-      });
-      if (etLies(etZahl(a.soll)).wert === undefined || isNaN(etLies(etZahl(a.soll)).wert)) {
-        fehler.push('Anzeige nicht wieder einlesbar: ' + a.key + ' → ' + etZahl(a.soll));
+      // Generator: mehrere Zufallsaufgaben je Richtung (P16/P24)
+      for (let r = 0; r < runden; r++) {
+        const groesse = r % 3;                    // klein, mittel, gross durchspielen
+        const a = etBaue(g, p.u1, p.u2, { groesse:groesse, dez:r % 2 ? 1 : 2 });
+        if (!a) { fehler.push('kein Aufgabenwert für ' + g.name + ' ' + p.u1.e + '→' + p.u2.e +
+                              ' (Grösse ' + groesse + ')'); break; }
+        aufgaben++;
+        if (!isFinite(a.wert) || !isFinite(a.soll)) { fehler.push('NaN/Infinity in ' + a.key); break; }
+        // Sollwert gegen die Umrechnung selbst gegenpruefen
+        if (Math.abs(a.soll - etRechne(p.u1, p.u2, a.wert)) > Math.abs(a.soll) * 1e-9 + 1e-12) {
+          fehler.push('falscher Sollwert in ' + a.key + ': ' + a.soll); break;
+        }
+        if (g.offset && (a.wert * p.u1.f + (p.u1.o || 0)) < 0) { fehler.push('Kelvinwert unter 0 in ' + a.key); break; }
+        if (etZahl(a.soll).length > 18) { fehler.push('unlesbares Resultat in ' + a.key + ': ' + etZahl(a.soll)); break; }
+        if (!etPasst(a.soll, a.soll)) { fehler.push('Toleranz greift nicht bei ' + a.key); break; }
+        if (a.soll !== 0 && etPasst(a.soll * 10, a.soll)) { fehler.push('Toleranz zu weit bei ' + a.key); break; }
+        // Rundungsartefakte zeigen sich immer im Nachkommateil (0.30000000000004)
+        let artefakt = false;
+        [a.wert, a.soll].forEach(x => {
+          const roh = String(x), punkt = roh.indexOf('.');
+          const nach = punkt === -1 ? '' : roh.slice(punkt + 1);
+          if (/0{6,}[1-9]|9{6,}/.test(nach)) { fehler.push('Rundungsartefakt in ' + a.key + ': ' + roh); artefakt = true; }
+        });
+        if (artefakt) break;
+        // Anzeige muss sich wieder einlesen lassen (auch als Zehnerpotenz)
+        const zurueck = etLies(etZahl(a.soll)).wert;
+        if (isNaN(zurueck) || Math.abs(zurueck - a.soll) > Math.abs(a.soll) * 1e-6 + 1e-15) {
+          fehler.push('Anzeige nicht wieder einlesbar: ' + a.key + ' → ' + etZahl(a.soll)); break;
+        }
       }
     });
   });
+  // P15/P20 — Extremkombinationen muessen Aufgaben liefern, auch mit «klein»
+  [['laenge','nm','km'], ['laenge','km','nm'], ['flaeche','mm²','km²'], ['flaeche','km²','mm²'],
+   ['volumen','mm³','m³'], ['volumen','m³','mm³'], ['energie','mJ','MJ'], ['energie','MJ','mJ'],
+   ['druck','Pa','MPa'], ['druck','MPa','Pa'], ['masse','mg','t'], ['masse','t','mg']]
+  .forEach(x => {
+    const g = ET_GID[x[0]];
+    const u1 = g.eh.filter(u => u.e === x[1])[0], u2 = g.eh.filter(u => u.e === x[2])[0];
+    if (!u1 || !u2) { fehler.push('Extremtest: Einheit fehlt ' + x[1] + '/' + x[2]); return; }
+    for (let gr = 0; gr <= 2; gr++) {
+      const a = etBaue(g, u1, u2, { groesse:gr, dez:1 });
+      if (!a) fehler.push('Extremkombination ohne Aufgabe: ' + x[1] + ' → ' + x[2] + ' (Grösse ' + gr + ')');
+      else if (isNaN(etLies(etZahl(a.soll)).wert)) fehler.push('Extremkombination unlesbar: ' + x[1] + ' → ' + x[2]);
+    }
+  });
+
   // Feste Referenzwerte aus dem Lehrmittel
   const referenz = [
     ['laenge', 'km', 'm', 2.5, 2500], ['laenge', 'm', 'cm', 1, 100],
@@ -1791,6 +1859,8 @@ function etSelbsttest() {
     ['energie', 'kWh', 'J', 1, 3.6e6], ['energie', 'kWh', 'J', 0.75, 2.7e6],
     ['temperatur', '°C', 'K', 0, 273.15], ['temperatur', '°C', 'K', -20, 253.15],
     ['temperatur', '°C', 'K', 100, 373.15], ['temperatur', 'K', '°C', 273.15, 0],
+    ['temperatur', '°C', 'K', -273.15, 0], ['temperatur', 'K', '°C', 0, -273.15],
+    ['temperatur', 'K', '°C', 1, -272.15],
     ['temperatur', 'K', '°C', 253.15, -20], ['temperatur', 'K', '°C', 293.15, 20],
     // Flaechen und Volumen in beide Richtungen
     ['flaeche', 'cm²', 'm²', 1, 0.0001], ['volumen', 'cm³', 'm³', 1, 1e-6],
@@ -1841,10 +1911,38 @@ function etSelbsttest() {
   const probeV = { g:gV, u1:ms, u2:kmh, wert:10, soll:36, key:'testV', versuche:0 };
   if (etDiagnose(10, probeV).art !== 'sonderfaktor') fehler.push('Diagnose: vergessener Faktor 3.6 nicht erkannt');
   if (etDiagnose(etRechne(kmh, ms, 10), probeV).art !== 'richtung') fehler.push('Diagnose: durch 3.6 statt mal 3.6 nicht als Richtungsfehler erkannt');
+  // Energie: Vorsatzumrechnung ist ein Zehnerpotenz-Fehler, keine Sonderumrechnung
+  const gE = ET_GID['energie'];
+  const eh = e => gE.eh.filter(u => u.e === e)[0];
+  const diagE = (e1, e2, wert, antwort) => {
+    const u1 = eh(e1), u2 = eh(e2);
+    return etDiagnose(antwort, { g:gE, u1:u1, u2:u2, wert:wert, soll:etRechne(u1, u2, wert), key:'e', versuche:0 }).art;
+  };
+  if (diagE('kJ', 'J', 1, 1) !== 'zehn-1000') fehler.push('kJ → J: Faktor 1000 nicht als Zehnerpotenz erkannt');
+  if (diagE('Wh', 'kWh', 1, 1) !== 'zehn-1000') fehler.push('Wh → kWh: Faktor 1000 nicht als Zehnerpotenz erkannt');
+  if (diagE('MJ', 'kJ', 1, 1) !== 'zehn-1000') fehler.push('MJ → kJ: Faktor 1000 nicht als Zehnerpotenz erkannt');
+  if (diagE('J', 'kJ', 1000, 1000) !== 'zehn-1000') fehler.push('J → kJ: Faktor 1000 nicht als Zehnerpotenz erkannt');
+  if (diagE('Wh', 'J', 1, 1) !== 'sonderfaktor') fehler.push('Wh → J: echte Sonderumrechnung nicht erkannt');
+  if (diagE('kWh', 'J', 1, 1000) !== 'sonderfaktor') fehler.push('kWh → J: Sonderfaktor 3600 nicht erkannt');
+  if (diagE('kWh', 'J', 1, 3.6e6) !== 'ok') fehler.push('kWh → J: richtige Antwort nicht als richtig erkannt');
+  if (diagE('kWh', 'J', 1, 3.6e3) !== 'zehn-1000') fehler.push('kWh → J: Abweichung 10^3 nicht als Zehnerpotenz erkannt');
+  // Zeit und Geschwindigkeit: dekadische Paare duerfen keinen Sonderfaktor melden
+  const gZ = ET_GID['zeit'];
+  const msE = gZ.eh.filter(u => u.e === 'ms')[0], sE = gZ.eh.filter(u => u.e === 's')[0];
+  const minE = gZ.eh.filter(u => u.e === 'min')[0];
+  if (etDiagnose(1, { g:gZ, u1:msE, u2:sE, wert:1000, soll:1, key:'z', versuche:0 }).art !== 'ok')
+    fehler.push('ms → s: richtige Antwort nicht erkannt');
+  if (etDiagnose(1, { g:gZ, u1:sE, u2:msE, wert:1, soll:1000, key:'z2', versuche:0 }).art !== 'zehn-1000')
+    fehler.push('s → ms: Faktor 1000 nicht als Zehnerpotenz erkannt');
+  if (etDiagnose(2, { g:gZ, u1:minE, u2:sE, wert:2, soll:120, key:'z3', versuche:0 }).art !== 'sonderfaktor')
+    fehler.push('min → s: Sonderfaktor 60 nicht erkannt');
+
   const gT = ET_GID['temperatur'], c = gT.eh.filter(u => u.e === '°C')[0], kk = gT.eh.filter(u => u.e === 'K')[0];
   const probeT = { g:gT, u1:c, u2:kk, wert:20, soll:293.15, key:'testT', versuche:0 };
   if (etDiagnose(20, probeT).art !== 'temp-offset') fehler.push('Diagnose: fehlende Verschiebung nicht erkannt');
   if (etDiagnose(-253.15, probeT).art !== 'temp-richtung') fehler.push('Diagnose: falsche Richtung bei Temperatur nicht erkannt');
+  if (etDiagnose(-293.15, probeT).art === 'zehn-10' || etDiagnose(-293.15, probeT).art === 'zehn-100')
+    fehler.push('Diagnose: Vorzeichenfehler bei Temperatur faelschlich als Zehnerpotenz');
   // P13 — schwache Bereiche muessen haeufiger drankommen. Simuliert wird ein
   // Lernstand mit schwacher Flaeche und starker Laenge; danach wird gezaehlt,
   // was die adaptive Auswahl liefert.
@@ -1890,7 +1988,7 @@ function etSelbsttest() {
     if (k < 3 || k > 5) fehler.push('Pruefungsmischung unausgewogen: ' + t + ' = ' + k + ' von 20');
   });
 
-  return { paare:paare, faelle:faelle, fehler:fehler };
+  return { paare:paare, faelle:faelle, aufgaben:aufgaben, fehler:fehler };
 }
 
 /* ═══════════════════════════════════════════════════════════════════

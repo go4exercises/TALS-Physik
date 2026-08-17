@@ -12,7 +12,9 @@
      - die Eingabeformate (Punkt, Komma, e-Notation, 10^-Schreibweise)
      - die Fehlerdiagnose-Kategorien
 
-   Aufruf vom Repo-Root:  node scripts/verify_einheitentrainer.js
+   Aufruf vom Repo-Root:
+     node scripts/verify_einheitentrainer.js           # 5 Aufgaben je Paar
+     node scripts/verify_einheitentrainer.js --gross   # 200 je Paar (>50 000)
    Exit 0 = alles gruen, Exit 1 = mindestens ein Fehler.
    ───────────────────────────────────────────────────────────── */
 
@@ -54,9 +56,16 @@ try {
   process.exit(1);
 }
 
-const ergebnis = dom.window.eval('etSelbsttest()');
-console.log('Einheitentrainer: ' + ergebnis.paare + ' Einheitenpaare, ' +
-            ergebnis.faelle + ' Umrechnungsfaelle geprueft');
+// Umfang: Zufallsaufgaben je gerichtetem Einheitenpaar. Standard 5 (schnell,
+// laeuft im Pre-Flight mit), --gross 200 fuer den vollen Lauf mit ueber
+// 50 000 Aufgaben.
+const gross = process.argv.indexOf('--gross') !== -1;
+const proPaar = gross ? 200 : 5;
+const t0 = Date.now();
+const ergebnis = dom.window.eval('etSelbsttest(' + proPaar + ')');
+console.log('Einheitentrainer: ' + ergebnis.paare + ' gerichtete Einheitenpaare, ' +
+            ergebnis.faelle + ' Umrechnungsfaelle, ' + ergebnis.aufgaben +
+            ' Zufallsaufgaben in ' + ((Date.now() - t0) / 1000).toFixed(1) + ' s');
 
 if (ergebnis.fehler.length) {
   console.error('[FEHLER] ' + ergebnis.fehler.length + ' Testfaelle fehlgeschlagen:');
