@@ -4,11 +4,12 @@ Pre-Flight-Check für TALS-Physik-Themenseiten (themen/).
 
 Zwei Stufen:
 1. Schnelle, abhängigkeitsfreie Eigen-Checks (Tag-Bilanz, ß, Dezimalkomma in Math,
-   doppelte IDs, Skelett, Phantom-Klassen, physiklib-Abhängigkeit, Ressourcen-Marker
-   inkl. Slot-Limits).
+   HTML innerhalb eines LaTeX-Ausdrucks, doppelte IDs, Skelett, Phantom-Klassen,
+   physiklib-Abhängigkeit, Ressourcen-Marker inkl. Slot-Limits).
 2. Orchestrierung der vorhandenen, autoritativen Repo-Skripte in scripts/:
    - verify_mathjax.js     (echte MathJax-Render-Prüfung; braucht node_modules/mathjax-full)
    - verify_js_runtime.js  (JS-Laufzeit in jsdom; braucht node_modules/jsdom)
+   - verify_einheitentrainer.js (Selbsttest des Einheitentrainers; braucht jsdom)
    - check_identifier_collisions.py (falls vorhanden; ohne npm)
    Fehlt ein npm-Modul, wird der Tiefen-Check sauber als WARN übersprungen.
 
@@ -100,6 +101,23 @@ def check_decimal_comma_in_math(text, fname, rep):
         rep.err(fname, "Dezimalkomma in Math: " + "; ".join(hits[:5]))
 
 
+def check_html_in_math(text, fname, rep):
+    r"""HTML-Element innerhalb eines LaTeX-Ausdrucks.
+
+    MathJax bricht daran ab und zeigt die Formel als Rohtext — sichtbar oft
+    erst, wenn ein Akkordeon geöffnet wird. Typischer Fall: eine Lücke
+    <span class="mc-luecke"> im Index einer Formel.
+    Das Kleiner-Zeichen in \(a < b\) ist erlaubt: gesucht wird ein echtes Tag.
+    """
+    body = _strip_scripts(text)
+    spans = re.findall(r"\\\((.*?)\\\)", body, re.DOTALL) + \
+            re.findall(r"\\\[(.*?)\\\]", body, re.DOTALL)
+    tag = re.compile(r"</?[a-zA-Z][a-zA-Z0-9]*[^<>]*>")
+    hits = [s.strip()[:70] for s in spans if tag.search(s)]
+    if hits:
+        rep.err(fname, "HTML im LaTeX-Ausdruck (MathJax rendert nicht): " + "; ".join(hits[:3]))
+
+
 def check_skeleton(text, fname, rep):
     pw = len(re.findall(r"page-wrap", text))
     mc = len(re.findall(r'main class="content"', text))
@@ -163,6 +181,7 @@ def run_light(path, rep):
     check_duplicate_ids(text, fname, rep)
     check_no_eszett(text, fname, rep)
     check_decimal_comma_in_math(text, fname, rep)
+    check_html_in_math(text, fname, rep)
     check_skeleton(text, fname, rep)
     check_lib_dep(text, fname, rep)
     check_resources_section(text, fname, rep)
