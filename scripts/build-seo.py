@@ -73,7 +73,7 @@ SEITEN = {
    beschreibung='Rechnen und Schliessen für die Physik: Proportionalität, Formeln umstellen, Zehnerpotenzen, Runden und signifikante Stellen — mit interaktiven Übungen.',
    themen=['Proportionalität', 'Formel umstellen', 'Zehnerpotenzen', 'Signifikante Stellen', 'Dreisatz']),
  'themen/p0-2-vorwissen-physik.html': dict(
-   beschreibung='Grössen, Einheiten und Messen: von der Grundgrösse zur SI-Einheit, Dichte, Kraft und Energie, Präfixe, Umrechnen und Abschätzen — mit Animationen.',
+   beschreibung='Grössen, Einheiten und Messen: von der Grösse zur SI-Einheit, Dichte, Kraft und Energie, Präfixe, Umrechnen und Abschätzen — mit Animationen.',
    themen=['SI-Einheiten', 'Grössen', 'Dichte', 'Einheitenpräfixe', 'Messen']),
  'themen/p0-3-messen-waagen-dichte.html': dict(
    beschreibung='Messen in der Physik: Masse und Gewichtskraft, Balkenwaage gegen Küchen- und Federwaage, direktes und indirektes Messen, Dichte bestimmen und Einheiten umrechnen.',
