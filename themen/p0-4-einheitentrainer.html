@@ -43,7 +43,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-08-16",
+   "dateModified": "2026-08-17",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -219,6 +219,7 @@ MathJax = {
 .et-fk-zeile { display:flex; gap:8px; font-size:0.8rem; line-height:1.45; }
 .et-fk-zeile > span:first-child { flex:0 0 7.5em; color:var(--tinte-2); }
 .et-fk-zeile b { font-family:var(--mono); }
+.et-fk.offen { border-color:var(--linie); border-left-color:var(--tinte-2); }
 .et-fk-hinweis { font-size:0.78rem; color:var(--tinte-2); margin-top:6px; border-top:1px solid var(--linie); padding-top:6px; }
 .et-empfehlung { font-size:0.88rem; margin-top:8px; }
 </style>
@@ -257,7 +258,7 @@ MathJax = {
     <li><strong>Lernmodus</strong> — Themen anklicken, starten. Der Trainer wählt die Aufgaben selbst, steigert die Schwierigkeit und fragt Fehler später mit anderen Zahlen erneut ab. Bei einer falschen Antwort kommt zuerst ein Hinweis, dann die Umrechnungsbeziehung, dann der Lösungsweg.</li>
     <li><strong>Prüfungsmodus</strong> — Themen, Anzahl, Schwierigkeit und wahlweise ein Zeitlimit einstellen. Während der Prüfung gibt es keinerlei Rückmeldung; die Auswertung kommt am Schluss.</li>
   </ul>
-  <p>Geschrieben wird mit <strong>Dezimalpunkt</strong> (Schweizer Schulkonvention): \(2.5\), nicht \(2{,}5\). Ein Komma wird trotzdem gelesen, der Trainer weist dich aber darauf hin. Auch \(3.6 \cdot 10^{6}\) darfst du eintippen — als <span class="mono">3.6e6</span> oder als <span class="mono">3.6*10^6</span>. Mit <kbd>Enter</kbd> prüfst du, mit einem zweiten <kbd>Enter</kbd> geht es weiter.</p>
+  <p>In diesem Lehrmittel wird mit <strong>Dezimalpunkt</strong> geschrieben: \(2.5\), nicht \(2{,}5\). Ein Dezimalkomma wird beim Eintippen ebenfalls akzeptiert — der Trainer rechnet es intern in dieselbe Zahl um und weist dich einmal auf die Schreibweise hin. Auch \(3.6 \cdot 10^{6}\) darfst du eintippen — als <span class="mono">3.6e6</span> oder als <span class="mono">3.6*10^6</span>. Mit <kbd>Enter</kbd> prüfst du, mit einem zweiten <kbd>Enter</kbd> geht es weiter.</p>
 </div>
 
 
@@ -440,6 +441,14 @@ MathJax = {
           <button class="typ-btn" id="et-pr-zurueck">Zurück</button>
           <button class="typ-btn" id="et-pr-ende">Prüfung beenden</button>
         </div>
+        <div class="et-fb warn" id="et-pr-abfrage" role="alertdialog" aria-live="assertive" style="display:none">
+          <b>Noch nicht alles beantwortet</b>
+          <span id="et-pr-abfrage-text">Es sind noch Aufgaben offen.</span>
+          <div class="btn-row" style="margin-top:8px">
+            <button class="play-btn" id="et-pr-weiterarbeiten">Weiterarbeiten</button>
+            <button class="typ-btn" id="et-pr-trotzdem">Trotzdem abgeben</button>
+          </div>
+        </div>
       </div>
 
       <div id="et-pr-ergebnis" style="display:none"></div>
@@ -451,7 +460,8 @@ MathJax = {
 <details class="frage">
   <summary>❓ Warum meldet der Trainer «Faktor \(10^n\) daneben» getrennt von «falsch»?</summary>
   <div class="frage-antwort">
-    <p>Weil sich diese beiden Fälle im Ergebnis zuverlässig unterscheiden lassen: Ist der Quotient aus deiner Antwort und der Lösung genau eine Zehnerpotenz, liegt der Fehler in der Zehnerpotenz — nicht in der Rechenidee. Der Trainer sagt dann bewusst nur, <em>was</em> er misst («dein Ergebnis unterscheidet sich um den Faktor 100»), und nicht, was du gedacht hast: Dieselbe Abweichung kann vom falschen Vorsatz, von der falschen Richtung oder von der vergessenen Quadrierung bei Flächen kommen. Welche der drei Ursachen es war, weisst nur du.</p>
+    <p>Unterscheidet sich deine Antwort von der richtigen Lösung um einen Faktor \(10^n\), erkennt der Trainer dieses <em>Fehlermuster</em>. Mehr nicht: Die konkrete Ursache lässt sich daraus nicht bestimmen. Mögliche Ursachen sind ein falscher Vorsatz, eine falsche Umrechnungsrichtung oder eine nicht berücksichtigte Quadrat- oder Kubikpotenz — welche davon zutrifft, weisst nur du.</p>
+    <p>Deshalb nennt der Trainer nur, was er misst («dein Ergebnis unterscheidet sich um den Faktor 100»), und sagt dir, wo du nachschauen sollst. Er behauptet nicht, deine Rechenidee sei richtig gewesen.</p>
   </div>
 </details>
 
@@ -662,7 +672,7 @@ MathJax = {
   <li>Bei Flächen wird der Längenfaktor quadriert, bei Volumen kubiert.</li>
   <li>Die Dichte trägt zwei Umrechnungen zugleich: \(10^{-3}\) im Zähler und \(10^{-6}\) im Nenner ergeben \(10^{3}\).</li>
   <li>Zeit, \(\text{km/h} \leftrightarrow \text{m/s}\), \(\text{kWh} \leftrightarrow \text{J}\) und \(^\circ\text{C} \leftrightarrow \text{K}\) folgen nicht dem Zehnersystem.</li>
-  <li>Die häufigste Fehlerart ist nicht die falsche Formel, sondern die falsche Zehnerpotenz — dagegen hilft die Grössenordnungs-Abschätzung.</li>
+  <li>Ein typisches Fehlermuster ist eine Abweichung um eine Zehnerpotenz — dagegen hilft die Grössenordnungs-Abschätzung.</li>
 </ul>
 
 <div class="merksatz">
@@ -796,9 +806,18 @@ function etNah(a, b) { return isFinite(a) && isFinite(b) && Math.abs(a - b) <= M
 // e-Notation und die Schreibweisen 3.6*10^6 / 3.6·10^6 / 3.6x10^6.
 function etLies(roh) {
   const komma = roh.indexOf(',') !== -1;
-  let s = roh.replace(/[\s'’]/g, '').replace(',', '.');
-  s = s.replace(/(?:·|\*|x|×)10\^?([+-]?\d+)/i, 'e$1');
-  s = s.replace(/^10\^([+-]?\d+)$/i, '1e$1');
+  let s = roh.trim().replace(/['’]/g, '');
+  // Zuerst die Zehnerpotenz-Schreibweisen normalisieren (auch mit Leerzeichen,
+  // denn genau so zeigt der Trainer sehr kleine Werte an: 2.15 · 10^-5)
+  s = s.replace(/\s*(?:·|\*|x|×)\s*10\s*\^?\s*([+-]?\d+)/i, 'e$1');
+  s = s.replace(/^10\s*\^\s*([+-]?\d+)$/i, '1e$1');
+  // Danach gilt: Leerzeichen nur als Tausendertrennung (1 250.5) — «5 5» ist
+  // ein Tippfehler und darf nicht stillschweigend zu 55 werden.
+  if (/\s/.test(s)) {
+    if (/^[+-]?\d{1,3}(\s\d{3})+([.,]\d+)?$/.test(s)) s = s.replace(/\s/g, '');
+    else return { wert: NaN, komma: komma };
+  }
+  s = s.replace(',', '.');
   if (!/^[+-]?(\d+\.?\d*|\.\d+)(e[+-]?\d+)?$/i.test(s)) return { wert: NaN, komma: komma };
   const w = parseFloat(s);
   return { wert: isFinite(w) ? w : NaN, komma: komma };
@@ -825,8 +844,18 @@ function etPasst(x, soll) {
    nie eine Behauptung über den Denkweg.
    ═══════════════════════════════════════════════════════════════════ */
 function etDiagnose(x, a) {
+  // Vor jeder Analyse: nur endliche Zahlen auswerten
+  if (typeof x !== 'number' || isNaN(x) || !isFinite(x)) {
+    return { art:'ungueltig', klasse:'fehler', text:'Bitte gib eine gültige Zahl ein.' };
+  }
   if (etPasst(x, a.soll)) return { art:'ok', klasse:'ok', text:'Richtig.' };
   const g = a.g;
+
+  // Vorzeichen gedreht: das ist kein Zehnerpotenz-Fehler
+  if (!g.offset && a.soll !== 0 && etPasst(x, -a.soll)) {
+    return { art:'vorzeichen', klasse:'fehler',
+             text:'Dein Ergebnis hat das umgekehrte Vorzeichen.', kurz:'Vorzeichen gedreht' };
+  }
 
   // Temperatur: Verschiebung vergessen, falsch herum verrechnet, Vorzeichen
   if (g.offset) {
@@ -855,8 +884,9 @@ function etDiagnose(x, a) {
                text:'Dein Ergebnis unterscheidet sich um den Faktor ' + etZahl(s) + ' von der Lösung. Diese Umrechnung ist keine reine Zehnerpotenz.' };
   }
 
-  // Zehnerpotenz-Abweichung
-  if (x !== 0 && a.soll !== 0 && x * a.soll > 0) {
+  // Zehnerpotenz-Abweichung — nur bei gleichem Vorzeichen und ohne Null,
+  // sonst ist der Quotient nicht aussagekräftig
+  if (x !== 0 && a.soll !== 0 && isFinite(x / a.soll) && x * a.soll > 0) {
     const e = Math.log10(Math.abs(x / a.soll));
     const n = Math.round(e);
     if (Math.abs(e - n) < 1e-6 && n !== 0) {
@@ -1433,6 +1463,7 @@ function etPruefungStart() {
   document.getElementById('et-pr-start').style.display = 'none';
   document.getElementById('et-pr-ergebnis').style.display = 'none';
   document.getElementById('et-pr-lauf').style.display = '';
+  document.getElementById('et-pr-abfrage').style.display = 'none';
   etPruefungZeige();
   if (ET_PR.uhr) window.clearInterval(ET_PR.uhr);
   if (ET_PR.limit) {
@@ -1485,56 +1516,87 @@ function etPruefungZurueck() {
   if (ET_PR.i > 0) { ET_PR.i--; etPruefungZeige(); }
 }
 
+// Wie viele Aufgaben sind noch offen? (fuer die Sicherheitsabfrage)
+function etPruefungOffen() {
+  etPruefungSpeichern();
+  let offen = 0;
+  ET_PR.antworten.forEach(a => { if ((a || '').trim() === '') offen++; });
+  return offen;
+}
+
 // finishExam
 function etPruefungEnde(zeitAus) {
   if (!ET_PR.laeuft) return;
-  if (!zeitAus) etPruefungSpeichern();
+  // Auch beim Zeitablauf zuerst sichern — sonst geht die gerade getippte
+  // Antwort verloren.
+  etPruefungSpeichern();
   const dauer = Math.floor((Date.now() - ET_PR.start) / 1000);
   ET_PR.laeuft = false;
   if (ET_PR.uhr) { window.clearInterval(ET_PR.uhr); ET_PR.uhr = null; }
   document.getElementById('et-pr-lauf').style.display = 'none';
+  document.getElementById('et-pr-abfrage').style.display = 'none';
 
-  let ok = 0;
+  // Drei Zustaende: richtig, falsch, unbeantwortet. Eine leere Antwort ist
+  // kein Rechenfehler — sie fliesst darum weder in die Fehlerarten noch in
+  // den Beherrschungsgrad ein.
+  let ok = 0, leer = 0;
   const proThema = {}, fehler = [];
   ET_PR.aufgaben.forEach((a, i) => {
     const roh = (ET_PR.antworten[i] || '').trim();
-    const g = roh === '' ? { wert:NaN } : etLies(roh);
-    const richtig = !isNaN(g.wert) && etPasst(g.wert, a.soll);
-    const t = proThema[a.g.name] || (proThema[a.g.name] = { n:0, ok:0 });
+    const t = proThema[a.g.name] || (proThema[a.g.name] = { n:0, ok:0, leer:0 });
     t.n++;
+    if (roh === '') {
+      leer++; t.leer++;
+      fehler.push({ a:a, eingabe:'', offen:true, d:{ text:'Aufgabe wurde nicht beantwortet.' } });
+      return;                                   // kein Eintrag im Lernstand
+    }
+    const g = etLies(roh);
+    const richtig = !isNaN(g.wert) && etPasst(g.wert, a.soll);
     if (richtig) { ok++; t.ok++; }
-    else fehler.push({ a:a, eingabe:roh, d:isNaN(g.wert) ? { text:'Keine Antwort eingetragen.' } : etDiagnose(g.wert, a) });
+    else fehler.push({ a:a, eingabe:roh, offen:false,
+                       d:isNaN(g.wert) ? { text:'Das war keine gültige Zahl.' } : etDiagnose(g.wert, a) });
     etFortschritt(a, richtig, false, richtig ? '' : 'pruefung');
   });
   const n = ET_PR.aufgaben.length;
+  const falsch = n - ok - leer;
   const prozent = Math.round(ok / n * 100);
   ET_STAND.pruefungen.push({ datum:etHeuteDatum(), n:n, ok:ok, prozent:prozent });
   if (ET_STAND.pruefungen.length > 20) ET_STAND.pruefungen.shift();
   etSichere();
 
-  let h = '<h4>Ergebnis</h4><div class="live-box">' +
-    '<div class="lb-item"><span class="lb-lab">richtig</span><span class="lb-val">' + ok + ' / ' + n + '</span></div>' +
-    '<div class="lb-item"><span class="lb-lab">Anteil</span><span class="lb-val">' + prozent + ' %</span></div>' +
+  let h = '';
+  if (zeitAus) {
+    h += '<div class="block block-tipp"><div class="block-titel">⏱ Zeit abgelaufen</div>' +
+         '<p>Die Zeit ist abgelaufen. Deine bisherigen Antworten wurden gespeichert.</p></div>';
+  }
+  h += '<h4>Ergebnis</h4><div class="live-box">' +
+    '<div class="lb-item" style="margin-right:30px"><span class="lb-lab">Punkte</span><span class="lb-val">' +
+      ok + ' / ' + n + ' · ' + prozent + ' %</span></div>' +
+    '<div class="lb-item"><span class="lb-lab">richtig</span><span class="lb-val">' + ok + '</span></div>' +
+    '<div class="lb-item"><span class="lb-lab">falsch</span><span class="lb-val">' + falsch + '</span></div>' +
+    '<div class="lb-item"><span class="lb-lab">unbeantwortet</span><span class="lb-val">' + leer + '</span></div>' +
     '<div class="lb-item"><span class="lb-lab">Zeit</span><span class="lb-val">' + etDauer(dauer) + '</span></div>' +
-    (zeitAus ? '<div class="lb-item"><span class="lb-lab">Ende</span><span class="lb-val">Zeit abgelaufen</span></div>' : '') +
     '</div>';
 
-  h += '<h4>Auswertung nach Themen</h4><table class="ftb-tabelle"><thead><tr><th>Thema</th><th>richtig</th><th>Anteil</th></tr></thead><tbody>';
+  const gabLeere = leer > 0;
+  h += '<h4>Auswertung nach Themen</h4><table class="ftb-tabelle"><thead><tr><th>Thema</th><th>richtig</th><th>Anteil</th>' +
+       (gabLeere ? '<th>unbeantwortet</th>' : '') + '</tr></thead><tbody>';
   Object.keys(proThema).forEach(k => {
     const t = proThema[k];
-    h += '<tr><td>' + k + '</td><td>' + t.ok + ' / ' + t.n + '</td><td>' + Math.round(t.ok / t.n * 100) + ' %</td></tr>';
+    h += '<tr><td>' + k + '</td><td>' + t.ok + ' / ' + t.n + '</td><td>' + Math.round(t.ok / t.n * 100) + ' %</td>' +
+         (gabLeere ? '<td>' + (t.leer || 0) + '</td>' : '') + '</tr>';
   });
   h += '</tbody></table>';
 
   if (fehler.length) {
-    h += '<h4>Fehleranalyse</h4><div class="et-fehlerliste">';
+    h += '<h4>Aufgaben zum Nacharbeiten</h4><div class="et-fehlerliste">';
     fehler.forEach(f => {
-      h += '<div class="et-fk">' +
+      h += '<div class="et-fk' + (f.offen ? ' offen' : '') + '">' +
            '<div class="et-fk-kopf">' + etZahl(f.a.wert) + ' ' + f.a.u1.e + ' → ' + f.a.u2.e + '</div>' +
            '<div class="et-fk-zeile"><span>deine Antwort</span><b>' +
-             (f.eingabe === '' ? '—' : f.eingabe + ' ' + f.a.u2.e) + '</b></div>' +
+             (f.offen ? 'keine Antwort' : f.eingabe + ' ' + f.a.u2.e) + '</b></div>' +
            '<div class="et-fk-zeile"><span>richtig</span><b>' + etZahl(f.a.soll) + ' ' + f.a.u2.e + '</b></div>' +
-           '<div class="et-fk-hinweis">' + f.d.text + ' Es gilt: ' + etHinweis2(f.a) + '</div>' +
+           '<div class="et-fk-hinweis">' + f.d.text + (f.offen ? '' : ' ') + 'Es gilt: ' + etHinweis2(f.a) + '</div>' +
            '</div>';
     });
     h += '</div>';
@@ -1728,7 +1790,15 @@ function etSelbsttest() {
     ['druck', 'hPa', 'Pa', 1013, 101300], ['dichte', 'g/cm³', 'kg/m³', 1, 1000],
     ['energie', 'kWh', 'J', 1, 3.6e6], ['energie', 'kWh', 'J', 0.75, 2.7e6],
     ['temperatur', '°C', 'K', 0, 273.15], ['temperatur', '°C', 'K', -20, 253.15],
-    ['temperatur', 'K', '°C', 293.15, 20]
+    ['temperatur', '°C', 'K', 100, 373.15], ['temperatur', 'K', '°C', 273.15, 0],
+    ['temperatur', 'K', '°C', 253.15, -20], ['temperatur', 'K', '°C', 293.15, 20],
+    // Flaechen und Volumen in beide Richtungen
+    ['flaeche', 'cm²', 'm²', 1, 0.0001], ['volumen', 'cm³', 'm³', 1, 1e-6],
+    ['volumen', 'm³', 'l', 1, 1000], ['volumen', 'l', 'm³', 1, 0.001],
+    // Sonderumrechnungen in beide Richtungen
+    ['tempo', 'km/h', 'm/s', 36, 10], ['zeit', 's', 'h', 3600, 1],
+    ['druck', 'Pa', 'bar', 100000, 1], ['druck', 'Pa', 'hPa', 100, 1],
+    ['dichte', 'kg/m³', 'g/cm³', 1000, 1], ['energie', 'J', 'kWh', 3.6e6, 1]
   ];
   referenz.forEach(r => {
     const g = ET_GID[r[0]];
@@ -1740,9 +1810,13 @@ function etSelbsttest() {
     }
   });
   // Eingabeformate
-  [['3.14', 3.14], ['3,14', 3.14], ['3.6e6', 3.6e6], ['3.6E6', 3.6e6],
-   ['3.6*10^6', 3.6e6], ['3.6·10^6', 3.6e6], ["1'250.5", 1250.5],
-   ['-20', -20], ['abc', NaN], ['', NaN], ['1..2', NaN]]
+  [['3.14', 3.14], ['3,14', 3.14], ['0', 0], ['0.5', 0.5], ['0,5', 0.5],
+   ['-20', -20], ['-20,5', -20.5], ['3.6e6', 3.6e6], ['3.6E6', 3.6e6],
+   ['3.6e-6', 3.6e-6], ['3.6*10^6', 3.6e6], ['3.6·10^6', 3.6e6], ['10^3', 1000],
+   ["1'250.5", 1250.5], ['  42  ', 42], ['1e15', 1e15], ['1e-15', 1e-15],
+   ['abc', NaN], ['', NaN], ['1..2', NaN], ['NaN', NaN], ['Infinity', NaN],
+   ['12,5.3', NaN], ['--5', NaN], ['5 5', NaN], ['1 250.5', 1250.5], ['12 34', NaN],
+   ['2.15 · 10^-5', 2.15e-5], ['3 · 10^11', 3e11]]
    .forEach(t => {
      const w = etLies(t[0]).wert;
      const ok = isNaN(t[1]) ? isNaN(w) : Math.abs(w - t[1]) < 1e-9;
@@ -1756,10 +1830,66 @@ function etSelbsttest() {
   if (etDiagnose(25, probe).art !== 'zehn-100') fehler.push('Diagnose: Faktor 100 nicht erkannt');
   if (etDiagnose(2.5, probe).art !== 'zehn-1000') fehler.push('Diagnose: Faktor 1000 nicht erkannt');
   if (etDiagnose(1234, probe).art !== 'rechenfehler') fehler.push('Diagnose: Rechenfehler nicht erkannt');
+  if (etDiagnose(-2500, probe).art !== 'vorzeichen') fehler.push('Diagnose: Vorzeichenfehler nicht erkannt');
+  if (etDiagnose(NaN, probe).art !== 'ungueltig') fehler.push('Diagnose: NaN nicht abgefangen');
+  if (etDiagnose(Infinity, probe).art !== 'ungueltig') fehler.push('Diagnose: Infinity nicht abgefangen');
+  // Richtung vertauscht: 2.5 km sollen m werden, geliefert wird die Gegenrichtung
+  const probeR = { g:gL, u1:km, u2:m, wert:2.5, soll:2500, key:'testR', versuche:0 };
+  if (etDiagnose(etRechne(m, km, 2.5), probeR).art !== 'richtung') fehler.push('Diagnose: vertauschte Richtung nicht erkannt');
+  // Sonderfaktor 3.6
+  const gV = ET_GID['tempo'], ms = gV.eh.filter(u => u.e === 'm/s')[0], kmh = gV.eh.filter(u => u.e === 'km/h')[0];
+  const probeV = { g:gV, u1:ms, u2:kmh, wert:10, soll:36, key:'testV', versuche:0 };
+  if (etDiagnose(10, probeV).art !== 'sonderfaktor') fehler.push('Diagnose: vergessener Faktor 3.6 nicht erkannt');
+  if (etDiagnose(etRechne(kmh, ms, 10), probeV).art !== 'richtung') fehler.push('Diagnose: durch 3.6 statt mal 3.6 nicht als Richtungsfehler erkannt');
   const gT = ET_GID['temperatur'], c = gT.eh.filter(u => u.e === '°C')[0], kk = gT.eh.filter(u => u.e === 'K')[0];
   const probeT = { g:gT, u1:c, u2:kk, wert:20, soll:293.15, key:'testT', versuche:0 };
   if (etDiagnose(20, probeT).art !== 'temp-offset') fehler.push('Diagnose: fehlende Verschiebung nicht erkannt');
   if (etDiagnose(-253.15, probeT).art !== 'temp-richtung') fehler.push('Diagnose: falsche Richtung bei Temperatur nicht erkannt');
+  // P13 — schwache Bereiche muessen haeufiger drankommen. Simuliert wird ein
+  // Lernstand mit schwacher Flaeche und starker Laenge; danach wird gezaehlt,
+  // was die adaptive Auswahl liefert.
+  const sicherung = JSON.stringify(ET_STAND);
+  const lernSicherung = { themen:ET_LERN.themen.slice(), wv:ET_LERN.wiedervorlage.slice(), z:ET_LERN.zaehler };
+  ET_STAND.paare = {}; ET_STAND.fehlerarten = {}; ET_STAND.stufe = 3; ET_STAND.stufenLog = {};
+  etPaare(ET_GID['laenge'], null, false).forEach(pp => {
+    ET_STAND.paare['laenge:' + pp.u1.e + '>' + pp.u2.e] = { n:5, ok:5, falsch:0, serie:5, letzterFehler:0, art:'', score:100 };
+  });
+  etPaare(ET_GID['flaeche'], null, false).forEach(pp => {
+    ET_STAND.paare['flaeche:' + pp.u1.e + '>' + pp.u2.e] = { n:5, ok:0, falsch:5, serie:0, letzterFehler:1, art:'zehn-100', score:5 };
+  });
+  ET_LERN.themen = ['laenge', 'flaeche'];
+  ET_LERN.wiedervorlage = [];
+  let nFlaeche = 0, nLaenge = 0;
+  for (let i = 0; i < 200; i++) {
+    const a = etWaehleAdaptiv();
+    if (!a) { fehler.push('adaptive Auswahl liefert nichts'); break; }
+    if (a.g.id === 'flaeche') nFlaeche++;
+    if (a.g.id === 'laenge') nLaenge++;
+  }
+  if (nFlaeche <= nLaenge) {
+    fehler.push('adaptive Auswahl bevorzugt das schwache Thema nicht (Fläche ' + nFlaeche + ' zu Länge ' + nLaenge + ')');
+  }
+  if (nLaenge === 0) fehler.push('gut beherrschtes Thema kommt gar nicht mehr vor');
+  ET_STAND = JSON.parse(sicherung);
+  ET_LERN.themen = lernSicherung.themen; ET_LERN.wiedervorlage = lernSicherung.wv; ET_LERN.zaehler = lernSicherung.z;
+
+  // P15/P16 — ausgewogene Pruefungsmischung ohne unmittelbare Wiederholung
+  const themen5 = ['laenge', 'flaeche', 'volumen', 'masse', 'zeit'];
+  const mix = [];
+  let runde = 0;
+  while (mix.length < 20 && runde < 500) {
+    const g = ET_GID[themen5[(mix.length + runde) % themen5.length]];
+    const pp = etPaare(g, [1, 2, 3, 4], false);
+    const a = pp.length ? etBaue(g, pp[etGanz(0, pp.length - 1)].u1, pp[etGanz(0, pp.length - 1)].u2, {}) : null;
+    if (a) mix.push(a); else runde++;
+  }
+  const zaehler = {};
+  mix.forEach(a => { zaehler[a.g.id] = (zaehler[a.g.id] || 0) + 1; });
+  themen5.forEach(t => {
+    const k = zaehler[t] || 0;
+    if (k < 3 || k > 5) fehler.push('Pruefungsmischung unausgewogen: ' + t + ' = ' + k + ' von 20');
+  });
+
   return { paare:paare, faelle:faelle, fehler:fehler };
 }
 
@@ -1883,7 +2013,22 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('et-pr-los').addEventListener('click', etPruefungStart);
   document.getElementById('et-pr-weiter').addEventListener('click', etPruefungWeiter);
   document.getElementById('et-pr-zurueck').addEventListener('click', etPruefungZurueck);
-  document.getElementById('et-pr-ende').addEventListener('click', () => etPruefungEnde(false));
+  document.getElementById('et-pr-ende').addEventListener('click', () => {
+    // Offene Aufgaben: erst nachfragen. «Weiterarbeiten» kehrt an dieselbe
+    // Stelle zurueck, ohne dass eine Antwort verloren geht.
+    const offen = etPruefungOffen();
+    if (offen === 0) { etPruefungEnde(false); return; }
+    document.getElementById('et-pr-abfrage-text').textContent =
+      offen === 1 ? 'Eine Aufgabe ist noch unbeantwortet. Möchtest du die Prüfung trotzdem abgeben?'
+                  : offen + ' Aufgaben sind noch unbeantwortet. Möchtest du die Prüfung trotzdem abgeben?';
+    document.getElementById('et-pr-abfrage').style.display = '';
+    document.getElementById('et-pr-weiterarbeiten').focus();
+  });
+  document.getElementById('et-pr-weiterarbeiten').addEventListener('click', () => {
+    document.getElementById('et-pr-abfrage').style.display = 'none';
+    document.getElementById('et-pr-eingabe').focus();
+  });
+  document.getElementById('et-pr-trotzdem').addEventListener('click', () => etPruefungEnde(false));
   document.getElementById('et-pr-eingabe').addEventListener('keydown', ev => {
     if (ev.key !== 'Enter') return;
     ev.preventDefault();
