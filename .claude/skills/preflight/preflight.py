@@ -221,6 +221,18 @@ def run_deep(file_args, rep):
             elif not m:
                 rep.warn("verify_js_runtime.js", "Summenzeile nicht erkannt")
 
+    et = scripts / "verify_einheitentrainer.js"
+    if et.is_file():
+        if not _dep_present("jsdom"):
+            rep.warn("verify_einheitentrainer.js", "node_modules/jsdom fehlt — `npm install jsdom`")
+        else:
+            r = _run_node(str(et), [], env)
+            out = (r.stdout or "") + (r.stderr or "")
+            print("---- verify_einheitentrainer.js ----")
+            print(out.rstrip())
+            if r.returncode != 0:
+                rep.err("verify_einheitentrainer.js", "Einheitentrainer-Tests fehlgeschlagen (siehe oben)")
+
     si = scripts / "build-suchindex.py"
     if si.is_file():
         r = subprocess.run(["python3", str(si), "--check"], capture_output=True, text=True)

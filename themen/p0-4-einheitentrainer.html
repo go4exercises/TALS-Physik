@@ -86,10 +86,10 @@
    },
    "interactivityType": "active",
    "teaches": [
-    "Einheiten innerhalb einer Grösse sicher umrechnen: Länge, Fläche, Volumen, Masse, Zeit, Geschwindigkeit, Kraft, Druck, Energie, Leistung, Dichte",
-    "Einheitenpräfixe als Zehnerpotenzen lesen und anwenden (µ, m, c, d, h, k, M)",
-    "erkennen, dass Flächen quadratisch und Volumen kubisch skalieren",
-    "die Sonderfälle beherrschen: km/h m/s mit dem Faktor 3.6 und die Kelvin-Skala als Verschiebung statt als Faktor",
+    "Einheiten innerhalb einer Grösse sicher umrechnen: Länge, Fläche, Volumen, Masse, Zeit, Geschwindigkeit, Kraft, Druck, Energie, Leistung, Dichte, Temperatur",
+    "Einheitenvorsätze als Zehnerpotenzen lesen und anwenden (µ, m, c, d, h, k, M)",
+    "erkennen, dass bei Flächen der Längenfaktor quadriert und bei Volumen kubiert wird",
+    "die Sonderfälle beherrschen: Zeit, km/h m/s, kWh J und °C K",
     "ein Resultat auf die richtige Grössenordnung prüfen, bevor man es hinschreibt"
    ]
   },
@@ -140,9 +140,10 @@ MathJax = {
 
 <style>
 /* ── Widget-Styles: zentral in style.css ──
-   Seitenspezifisch nur der Trainer: Auswahlliste der Einheiten, Aufgabenzeilen
-   mit Eingabefeld und Statusmarke. Dafür gibt es in style.css kein Muster,
-   weil alle anderen Seiten mit Schiebereglern (.sl-row) arbeiten. */
+   Seitenspezifisch nur der Trainer: Einheitenauswahl, Aufgabenzeilen mit
+   Eingabefeld, Rückmeldekasten und Fortschrittsbalken. Dafür gibt es in
+   style.css kein Muster, weil alle anderen Seiten mit Schiebereglern
+   (.sl-row) und Canvas arbeiten. */
 .et-gruppen { display:grid; grid-template-columns:repeat(auto-fill, minmax(215px, 1fr)); gap:10px; margin:10px 0 4px; }
 .et-gruppe { border:1.5px solid var(--linie); border-radius:9px; background:var(--weiss); padding:9px 11px; }
 .et-gruppe.aktiv { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
@@ -160,8 +161,9 @@ MathJax = {
 .et-wahl { display:flex; flex-wrap:wrap; gap:10px 18px; align-items:flex-end; margin-bottom:12px; }
 .et-feld { display:flex; flex-direction:column; gap:4px; }
 .et-feld > span { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--bernstein); }
-.et-feld select { font-family:var(--sans); font-size:0.88rem; padding:6px 9px; border:1.5px solid var(--linie); border-radius:6px; background:var(--weiss); color:var(--tinte); }
-.et-feld select:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.et-feld select, .et-feld input { font-family:var(--sans); font-size:0.88rem; padding:6px 9px; border:1.5px solid var(--linie); border-radius:6px; background:var(--weiss); color:var(--tinte); }
+.et-feld input { width:90px; font-family:var(--mono); }
+.et-feld select:focus-visible, .et-feld input:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
 
 .et-liste { margin:14px 0 0; }
 .et-zeile { display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:7px 10px; border-radius:8px; }
@@ -180,6 +182,45 @@ MathJax = {
 .et-zeile.zehn .et-marke   { color:var(--orange); font-weight:700; }
 .et-zeile.falsch .et-marke { color:var(--rot); font-weight:700; }
 .et-leer { font-size:0.85rem; color:var(--tinte-2); padding:10px 0; }
+
+/* Einzelaufgabe in Lern- und Prüfungsmodus */
+.et-karte { border:1.5px solid var(--bernstein-rand); border-radius:10px; background:var(--papier); padding:16px 18px; margin:12px 0; }
+.et-kopfzeile { display:flex; flex-wrap:wrap; gap:8px 16px; align-items:baseline; font-family:var(--mono); font-size:0.68rem;
+                font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--tinte-2); margin-bottom:10px; }
+.et-kopfzeile .et-stufe { color:var(--bernstein); }
+.et-uhr { margin-left:auto; font-size:0.8rem; letter-spacing:1px; }
+.et-uhr.knapp { color:var(--rot); }
+.et-gross { font-family:var(--mono); font-size:1.3rem; font-weight:700; color:var(--tinte); display:flex;
+            flex-wrap:wrap; align-items:center; gap:10px; }
+.et-gross input { font-family:var(--mono); font-size:1.15rem; font-weight:700; width:150px; padding:6px 10px; text-align:right;
+                  border:2px solid var(--bernstein-rand); border-radius:7px; background:var(--weiss); color:var(--tinte); }
+.et-gross input:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.et-fb { margin-top:12px; padding:10px 13px; border-radius:8px; font-size:0.88rem; border-left:5px solid var(--linie); background:var(--weiss); }
+.et-fb.ok     { border-left-color:var(--gruen); background:var(--gruen-hell); }
+.et-fb.warn   { border-left-color:var(--orange); background:var(--orange-hell); }
+.et-fb.fehler { border-left-color:var(--rot); background:var(--rot-hell); }
+.et-fb b { display:block; margin-bottom:3px; }
+.et-fb .et-weg { font-family:var(--mono); font-size:0.82rem; margin-top:6px; line-height:1.6; }
+
+/* Fortschritt */
+.et-fortschritt { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:6px 18px; margin:10px 0; }
+.et-bar-zeile { display:flex; align-items:center; gap:8px; font-size:0.78rem; }
+.et-bar-name { flex:0 0 8.5em; color:var(--tinte-2); }
+.et-bar { flex:1; height:8px; border-radius:4px; background:var(--papier-2); overflow:hidden; min-width:60px; }
+.et-bar i { display:block; height:100%; background:var(--bernstein); }
+.et-bar-wert { font-family:var(--mono); font-size:0.72rem; font-weight:700; color:var(--bernstein); width:3.2em; text-align:right; }
+.et-heute { font-family:var(--mono); font-size:0.78rem; color:var(--tinte-2); }
+
+/* Fehleranalyse der Pruefung: Karten statt Tabelle — eine vierspaltige Tabelle
+   mit Hinweistext ist auf 360 px nicht lesbar. */
+.et-fehlerliste { display:grid; grid-template-columns:repeat(auto-fill, minmax(290px, 1fr)); gap:10px; margin:10px 0; }
+.et-fk { border:1px solid var(--rot-rand); border-left:5px solid var(--rot); border-radius:9px; background:var(--weiss); padding:10px 13px; }
+.et-fk-kopf { font-family:var(--mono); font-size:0.95rem; font-weight:700; color:var(--tinte); margin-bottom:6px; }
+.et-fk-zeile { display:flex; gap:8px; font-size:0.8rem; line-height:1.45; }
+.et-fk-zeile > span:first-child { flex:0 0 7.5em; color:var(--tinte-2); }
+.et-fk-zeile b { font-family:var(--mono); }
+.et-fk-hinweis { font-size:0.78rem; color:var(--tinte-2); margin-top:6px; border-top:1px solid var(--linie); padding-top:6px; }
+.et-empfehlung { font-size:0.88rem; margin-top:8px; }
 </style>
 </head>
 <body>
@@ -193,31 +234,30 @@ MathJax = {
 <div class="page-titel">
   <div class="pt-bereich">Physik · Vorwissen — Auffrischung aus der Sek I</div>
   <h1 class="pt-h1">0.4 Einheitentrainer</h1>
-  <p class="pt-untertitel">Umrechnen wird durch Üben sicher, nicht durch Zuschauen. Der Trainer würfelt so viele Aufgaben, wie du willst — und sagt dir bei jedem Fehler, ob nur die Zehnerpotenz danebenlag oder die ganze Rechnung.</p>
+  <p class="pt-untertitel">Umrechnen wird durch Üben sicher, nicht durch Zuschauen. Drei Modi: frei üben, vom Trainer führen lassen oder unter Prüfungsbedingungen antreten.</p>
 </div>
 
 <div class="rlp-kompetenzen">
   <div class="rlp-titel">🧭 Übungsseite — kein RLP-Lerngebiet</div>
   <ul>
-    <li>Einheiten innerhalb einer Grösse sicher umrechnen: Länge, Fläche, Volumen, Masse, Zeit, Geschwindigkeit, Kraft, Druck, Energie, Leistung, Dichte</li>
-    <li>Einheitenpräfixe als Zehnerpotenzen lesen und anwenden (µ, m, c, d, h, k, M)</li>
-    <li>erkennen, dass Flächen quadratisch und Volumen kubisch skalieren</li>
-    <li>die Sonderfälle beherrschen: \(\text{km/h} \leftrightarrow \text{m/s}\) mit dem Faktor 3.6 und die Kelvin-Skala als Verschiebung statt als Faktor</li>
+    <li>Einheiten innerhalb einer Grösse sicher umrechnen: Länge, Fläche, Volumen, Masse, Zeit, Geschwindigkeit, Kraft, Druck, Energie, Leistung, Dichte, Temperatur</li>
+    <li>Einheitenvorsätze als Zehnerpotenzen lesen und anwenden (µ, m, c, d, h, k, M)</li>
+    <li>erkennen, dass bei Flächen der Längenfaktor quadriert und bei Volumen kubiert wird</li>
+    <li>die Sonderfälle beherrschen: Zeit, \(\text{km/h} \leftrightarrow \text{m/s}\), \(\text{kWh} \leftrightarrow \text{J}\) und \(^\circ\text{C} \leftrightarrow \text{K}\)</li>
     <li>ein Resultat auf die richtige Grössenordnung prüfen, bevor man es hinschreibt</li>
   </ul>
 </div>
 
-<p>Diese Seite ist eine reine Übungsseite: kein neuer Stoff, sondern Wiederholung mit beliebig vielen Aufgaben. Gruppen auswählen, Schwierigkeit einstellen, Aufgaben erzeugen. Wo eine Einheit im Lehrmittel erklärt ist, steht bei jeder Gruppe und gesammelt im Abschnitt <a href="#erklaerungen">Wo die Einheiten erklärt sind</a>.</p>
+<p>Diese Seite ist eine reine Übungsseite: kein neuer Stoff, sondern Wiederholung mit beliebig vielen Aufgaben. Wo eine Einheit im Lehrmittel erklärt ist, steht bei jeder Gruppe und gesammelt im Abschnitt <a href="#erklaerungen">Wo die Einheiten erklärt sind</a>.</p>
 
 <div class="block block-tipp">
-  <div class="block-titel">💡 So gehst du vor</div>
-  <ol>
-    <li>Gruppen anklicken, die du üben willst — innerhalb einer Gruppe kannst du einzelne Einheiten dazunehmen oder abwählen.</li>
-    <li>Anzahl der Aufgaben, Dezimalstellen und Grösse der Zahlen einstellen.</li>
-    <li>«Neue Aufgaben» drücken, Lösungen eintippen. Jede Eingabe wird sofort geprüft — mit <kbd>Enter</kbd> springst du zur nächsten Zeile.</li>
-    <li>Am Schluss zeigt die Fehlerstatistik, welche Gruppe noch hakt.</li>
-  </ol>
-  <p>Geschrieben wird mit <strong>Dezimalpunkt</strong> (Schweizer Schulkonvention): \(2.5\), nicht \(2{,}5\). Ein Komma wird trotzdem akzeptiert, der Trainer weist dich aber darauf hin. Auch \(1.2 \cdot 10^{-3}\) darfst du als <span class="mono">1.2e-3</span> eintippen.</p>
+  <div class="block-titel">💡 Die drei Modi</div>
+  <ul>
+    <li><strong>Freies Üben</strong> — du stellst alles selbst ein: Gruppen, einzelne Einheiten, Anzahl, Dezimalstellen, Zahlengrösse und Einheiten-Abstand. Eine Liste von Aufgaben, sofortige Rückmeldung.</li>
+    <li><strong>Lernmodus</strong> — Themen anklicken, starten. Der Trainer wählt die Aufgaben selbst, steigert die Schwierigkeit und fragt Fehler später mit anderen Zahlen erneut ab. Bei einer falschen Antwort kommt zuerst ein Hinweis, dann die Umrechnungsbeziehung, dann der Lösungsweg.</li>
+    <li><strong>Prüfungsmodus</strong> — Themen, Anzahl, Schwierigkeit und wahlweise ein Zeitlimit einstellen. Während der Prüfung gibt es keinerlei Rückmeldung; die Auswertung kommt am Schluss.</li>
+  </ul>
+  <p>Geschrieben wird mit <strong>Dezimalpunkt</strong> (Schweizer Schulkonvention): \(2.5\), nicht \(2{,}5\). Ein Komma wird trotzdem gelesen, der Trainer weist dich aber darauf hin. Auch \(3.6 \cdot 10^{6}\) darfst du eintippen — als <span class="mono">3.6e6</span> oder als <span class="mono">3.6*10^6</span>. Mit <kbd>Enter</kbd> prüfst du, mit einem zweiten <kbd>Enter</kbd> geht es weiter.</p>
 </div>
 
 
@@ -227,79 +267,191 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
     <div class="widget-titelzeile">
-      <h3 id="anim-einheitentrainer">Animation 1 · Einheitentrainer — Aufgaben nach Mass</h3>
+      <h3 id="einheitentrainer">Interaktiver Einheitentrainer</h3>
       <div class="anim-hinweis links">
-        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu diesem Trainer">💡 Worauf achten?</span>
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zum Einheitentrainer">💡 Worauf achten?</span>
         <div class="ah-pop" role="tooltip">
           <span class="ah-titel">Worauf achten?</span>
-          <div class="ah-text"><ul><li>Fang mit einer einzigen Gruppe an und nimm erst dazu, was sitzt.</li><li>Rechne im Kopf über die Grundeinheit: erst in die Basis der Gruppe, dann in die Zieleinheit.</li><li>Schätze vor dem Tippen: wird die Zahl grösser oder kleiner? Kleinere Einheit → grössere Zahl.</li><li>Die orange Marke «Zehnerpotenz» heisst: die Ziffern stimmen, nur der Faktor \(10^n\) nicht — das ist der häufigste Fehler überhaupt.</li></ul></div>
+          <div class="ah-text"><ul><li>Fang mit einer einzigen Gruppe an und nimm erst dazu, was sitzt.</li><li>Rechne über eine Referenzeinheit: erst in die Basis der Gruppe, dann in die Zieleinheit.</li><li>Schätze vor dem Tippen: wird der Zahlenwert grösser oder kleiner?</li><li>Die orange Marke «Faktor \(10^n\)» heisst: dein Ergebnis unterscheidet sich um eine Zehnerpotenz von der Lösung — prüfe Vorsatz, Richtung und bei Flächen und Volumen die Potenz.</li></ul></div>
         </div>
       </div>
       <div class="anim-hinweis rechts">
-        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu diesem Trainer">✓ Erkenntnis</span>
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zum Einheitentrainer">✓ Erkenntnis</span>
         <div class="ah-pop" role="tooltip">
           <span class="ah-titel">Erkenntnis</span>
-          <div class="ah-text"><ul><li>Jede Umrechnung ist eine Multiplikation mit einer Zehnerpotenz — ausser bei Zeit, \(\text{km/h}\) und Kelvin.</li><li>Bei Flächen zählt der Längenfaktor im Quadrat, bei Volumen in der dritten Potenz: \(1\;\text{m}^2 = 10\,000\;\text{cm}^2\), \(1\;\text{m}^3 = 10^6\;\text{cm}^3\).</li><li>\(1\;\text{km/h} = \frac{1000\;\text{m}}{3600\;\text{s}}\) — daher der Faktor 3.6.</li><li>Kelvin ist eine <em>Verschiebung</em> um 273.15, kein Faktor: \(T = \vartheta + 273.15\).</li></ul></div>
+          <div class="ah-text"><ul><li>Viele Umrechnungen mit Vorsätzen beruhen auf Zehnerpotenzen. Sonderfälle sind Zeitumrechnungen, \(\text{km/h} \leftrightarrow \text{m/s}\), \(\text{kWh} \leftrightarrow \text{J}\) und \(^\circ\text{C} \leftrightarrow \text{K}\).</li><li>Bei Flächen wird der Längenfaktor quadriert, bei Volumen kubiert: \(1\;\text{m}^2 = 10\,000\;\text{cm}^2\), \(1\;\text{m}^3 = 10^{6}\;\text{cm}^3\).</li><li>\(1\;\text{km/h} = \frac{1000\;\text{m}}{3600\;\text{s}}\) — daher der Faktor 3.6.</li><li>Bei \(^\circ\text{C} \to \text{K}\) wird zum Zahlenwert 273.15 addiert: \(T\,[\text{K}] = \vartheta\,[^\circ\text{C}] + 273.15\).</li></ul></div>
         </div>
       </div>
     </div>
   </div>
   <div class="widget-body">
 
-    <div class="et-wahl">
-      <label class="et-feld" for="et-anzahl"><span>Anzahl Aufgaben</span>
-        <select id="et-anzahl">
-          <option>5</option><option selected>10</option><option>15</option><option>20</option>
-        </select></label>
-      <label class="et-feld" for="et-dez"><span>Dezimalstellen</span>
-        <select id="et-dez">
-          <option value="0">keine — ganze Zahlen</option>
-          <option value="1" selected>manchmal bis zwei</option>
-          <option value="2">viele Dezimalzahlen</option>
-        </select></label>
-      <label class="et-feld" for="et-groesse"><span>Grösse der Zahlen</span>
-        <select id="et-groesse">
-          <option value="0">klein</option>
-          <option value="1" selected>mittel</option>
-          <option value="2">gross</option>
-        </select></label>
-      <label class="et-feld" for="et-nachbar"><span>Einheiten-Abstand</span>
-        <select id="et-nachbar">
-          <option value="1" selected>meist benachbart</option>
-          <option value="0">quer durch die Gruppe</option>
-        </select></label>
+    <div class="typ-btns" id="et-modi" role="tablist" aria-label="Modus wählen">
+      <button class="typ-btn aktiv" data-modus="frei" role="tab" aria-selected="true">Freies Üben</button>
+      <button class="typ-btn" data-modus="lernen" role="tab" aria-selected="false">Lernmodus</button>
+      <button class="typ-btn" data-modus="pruefung" role="tab" aria-selected="false">Prüfungsmodus</button>
     </div>
 
-    <div class="et-gruppen" id="et-gruppen"></div>
+    <!-- ─────────── FREIES ÜBEN ─────────── -->
+    <div id="et-panel-frei">
 
-    <div class="btn-row">
-      <button class="play-btn" id="et-neu">▶ Neue Aufgaben</button>
-      <button class="typ-btn" id="et-pruefen">Alle prüfen</button>
-      <button class="typ-btn" id="et-loesungen">Lösungen zeigen</button>
-      <button class="typ-btn" id="et-alle-an">Alle Gruppen</button>
-      <button class="typ-btn" id="et-keine">Keine Gruppe</button>
+      <div class="et-wahl">
+        <label class="et-feld" for="et-anzahl"><span>Anzahl Aufgaben</span>
+          <select id="et-anzahl">
+            <option>5</option><option selected>10</option><option>15</option><option>20</option>
+          </select></label>
+        <label class="et-feld" for="et-dez"><span>Dezimalstellen</span>
+          <select id="et-dez">
+            <option value="0">keine — ganze Zahlen</option>
+            <option value="1" selected>manchmal bis zwei</option>
+            <option value="2">viele Dezimalzahlen</option>
+          </select></label>
+        <label class="et-feld" for="et-groesse"><span>Grösse der Zahlen</span>
+          <select id="et-groesse">
+            <option value="0">klein</option>
+            <option value="1" selected>mittel</option>
+            <option value="2">gross</option>
+          </select></label>
+        <label class="et-feld" for="et-nachbar"><span>Einheiten-Abstand</span>
+          <select id="et-nachbar">
+            <option value="1" selected>meist benachbart</option>
+            <option value="0">quer durch die Gruppe</option>
+          </select></label>
+      </div>
+
+      <div class="et-gruppen" id="et-gruppen"></div>
+
+      <div class="btn-row">
+        <button class="play-btn" id="et-neu">Neue Aufgaben</button>
+        <button class="typ-btn" id="et-pruefen">Alle prüfen</button>
+        <button class="typ-btn" id="et-loesungen">Lösungen zeigen</button>
+        <button class="typ-btn" id="et-alle-an">Alle Gruppen</button>
+        <button class="typ-btn" id="et-keine">Keine Gruppe</button>
+      </div>
+
+      <div class="live-box">
+        <div class="lb-item"><span class="lb-lab">Aufgaben</span><span class="lb-val" id="et-s-total">0</span></div>
+        <div class="lb-item"><span class="lb-lab">richtig</span><span class="lb-val" id="et-s-ok">0</span></div>
+        <div class="lb-item"><span class="lb-lab">Faktor \(10^n\) daneben</span><span class="lb-val" id="et-s-zehn">0</span></div>
+        <div class="lb-item"><span class="lb-lab">falsch</span><span class="lb-val" id="et-s-falsch">0</span></div>
+      </div>
+
+      <div class="et-liste" id="et-liste">
+        <div class="et-leer">Wähle mindestens eine Gruppe und drücke «Neue Aufgaben».</div>
+      </div>
+
+      <div id="et-statistik"></div>
     </div>
 
-    <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Aufgaben</span><span class="lb-val" id="et-s-total">0</span></div>
-      <div class="lb-item"><span class="lb-lab">richtig</span><span class="lb-val" id="et-s-ok">0</span></div>
-      <div class="lb-item"><span class="lb-lab">Zehnerpotenz daneben</span><span class="lb-val" id="et-s-zehn">0</span></div>
-      <div class="lb-item"><span class="lb-lab">falsch</span><span class="lb-val" id="et-s-falsch">0</span></div>
+    <!-- ─────────── LERNMODUS ─────────── -->
+    <div id="et-panel-lernen" style="display:none">
+
+      <div id="et-lern-start">
+        <p class="et-hinweis" style="font-size:0.85rem">Themen auswählen — der Trainer übernimmt den Rest: Er beginnt mit einfachen Vorsatz-Umrechnungen, steigert die Schwierigkeit, sobald eine Stufe sitzt, und fragt Fehler später mit anderen Zahlen erneut ab.</p>
+        <div class="et-einheiten" id="et-lern-themen" style="margin:10px 0 12px"></div>
+        <div class="btn-row">
+          <button class="play-btn" id="et-lern-los">Lernen starten</button>
+          <button class="typ-btn" id="et-lern-alle">Alle Themen</button>
+        </div>
+      </div>
+
+      <div id="et-lern-lauf" style="display:none">
+        <div class="et-karte">
+          <div class="et-kopfzeile">
+            <span id="et-lern-zaehler">Aufgabe 1</span>
+            <span class="et-stufe" id="et-lern-stufe">Stufe 1</span>
+            <span id="et-lern-thema">Länge</span>
+          </div>
+          <div class="et-gross">
+            <span id="et-lern-frage">1 km =</span>
+            <input type="text" inputmode="decimal" autocomplete="off" id="et-lern-eingabe" aria-label="Deine Antwort">
+            <span id="et-lern-ziel">m</span>
+          </div>
+          <div class="et-fb" id="et-lern-fb" role="status" aria-live="polite" style="display:none"></div>
+        </div>
+        <div class="btn-row">
+          <button class="play-btn" id="et-lern-check">Prüfen</button>
+          <button class="typ-btn" id="et-lern-weiter">Nächste Aufgabe</button>
+          <button class="typ-btn" id="et-lern-stop">Themen ändern</button>
+        </div>
+      </div>
+
+      <h4>Lernfortschritt</h4>
+      <div class="et-fortschritt" id="et-lern-fortschritt"></div>
+      <div class="et-heute" id="et-lern-heute"></div>
+      <div class="et-empfehlung" id="et-lern-empfehlung"></div>
+      <div class="btn-row">
+        <button class="typ-btn" id="et-reset">Lernstand zurücksetzen</button>
+      </div>
     </div>
 
-    <div class="et-liste" id="et-liste">
-      <div class="et-leer">Wähle mindestens eine Gruppe und drücke «Neue Aufgaben».</div>
-    </div>
+    <!-- ─────────── PRÜFUNGSMODUS ─────────── -->
+    <div id="et-panel-pruefung" style="display:none">
 
-    <div id="et-statistik"></div>
+      <div id="et-pr-start">
+        <p class="et-hinweis" style="font-size:0.85rem">Während der Prüfung gibt es keine Hinweise, keine Lösungen und keine Rückmeldung, ob eine Antwort stimmt. Die Auswertung kommt am Schluss.</p>
+
+        <div class="et-wahl" style="margin-top:12px">
+          <label class="et-feld" for="et-pr-anzahl"><span>Anzahl Aufgaben</span>
+            <select id="et-pr-anzahl">
+              <option>10</option><option selected>20</option><option>30</option><option value="eigen">eigene Anzahl</option>
+            </select></label>
+          <label class="et-feld" for="et-pr-eigen" id="et-pr-eigen-feld" style="display:none"><span>eigene Anzahl</span>
+            <input type="number" id="et-pr-eigen" min="4" max="60" value="25"></label>
+          <label class="et-feld" for="et-pr-grad"><span>Schwierigkeitsgrad</span>
+            <select id="et-pr-grad">
+              <option value="basis">Basis</option>
+              <option value="standard" selected>Standard</option>
+              <option value="hoch">anspruchsvoll</option>
+              <option value="gemischt">gemischt</option>
+            </select></label>
+          <label class="et-feld" for="et-pr-zeit"><span>Zeitlimit</span>
+            <select id="et-pr-zeit">
+              <option value="0" selected>ohne Zeitlimit</option>
+              <option value="5">5 min</option>
+              <option value="10">10 min</option>
+              <option value="15">15 min</option>
+              <option value="20">20 min</option>
+            </select></label>
+        </div>
+
+        <div class="et-einheiten" id="et-pr-themen" style="margin:4px 0 12px"></div>
+        <div class="btn-row">
+          <button class="play-btn" id="et-pr-los">Prüfung starten</button>
+          <button class="typ-btn" id="et-pr-alle">Alle Themen</button>
+        </div>
+      </div>
+
+      <div id="et-pr-lauf" style="display:none">
+        <div class="et-karte">
+          <div class="et-kopfzeile">
+            <span id="et-pr-zaehler">Aufgabe 1 von 20</span>
+            <span id="et-pr-thema">Länge</span>
+            <span class="et-uhr" id="et-pr-uhr"></span>
+          </div>
+          <div class="et-gross">
+            <span id="et-pr-frage">1 km =</span>
+            <input type="text" inputmode="decimal" autocomplete="off" id="et-pr-eingabe" aria-label="Deine Antwort">
+            <span id="et-pr-ziel">m</span>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="play-btn" id="et-pr-weiter">Weiter</button>
+          <button class="typ-btn" id="et-pr-zurueck">Zurück</button>
+          <button class="typ-btn" id="et-pr-ende">Prüfung beenden</button>
+        </div>
+      </div>
+
+      <div id="et-pr-ergebnis" style="display:none"></div>
+    </div>
 
   </div>
 </div>
 
 <details class="frage">
-  <summary>❓ Warum ist die Marke «Zehnerpotenz daneben» eine eigene Fehlerart und nicht einfach «falsch»?</summary>
+  <summary>❓ Warum meldet der Trainer «Faktor \(10^n\) daneben» getrennt von «falsch»?</summary>
   <div class="frage-antwort">
-    <p>Weil sie eine andere Ursache hat. Wer \(2.5\;\text{km}\) in \(250\;\text{m}\) umrechnet, hat den Weg verstanden und sich nur in der Zehnerpotenz vertan — meist, weil er die Richtung verwechselt hat («kleinere Einheit, also grössere Zahl»). Wer dagegen \(2.5\;\text{km}\) in \(2.5 \cdot 3.6\) umrechnet, hat die falsche Beziehung benutzt. Das Erste übt man mit der Präfix-Leiter, das Zweite mit dem Verständnis der Grösse — deshalb trennt der Trainer die beiden.</p>
+    <p>Weil sich diese beiden Fälle im Ergebnis zuverlässig unterscheiden lassen: Ist der Quotient aus deiner Antwort und der Lösung genau eine Zehnerpotenz, liegt der Fehler in der Zehnerpotenz — nicht in der Rechenidee. Der Trainer sagt dann bewusst nur, <em>was</em> er misst («dein Ergebnis unterscheidet sich um den Faktor 100»), und nicht, was du gedacht hast: Dieselbe Abweichung kann vom falschen Vorsatz, von der falschen Richtung oder von der vergessenen Quadrierung bei Flächen kommen. Welche der drei Ursachen es war, weisst nur du.</p>
   </div>
 </details>
 
@@ -309,7 +461,7 @@ MathJax = {
 
 <p>Jede Einheit, die im Trainer vorkommt, ist im Lehrmittel hergeleitet und an Beispielen gezeigt. Diese Übersicht sammelt die Stellen; die Links führen an genau den Abschnitt.</p>
 
-<div class="ressourcen-subtitel">📏 Grundlagen: Grössen, Präfixe, Umrechnen</div>
+<div class="ressourcen-subtitel">📏 Grundlagen: Grössen, Vorsätze, Umrechnen</div>
 <div class="links-grid">
   <a href="p0-2-vorwissen-physik.html#grundgroessen" class="lk">
     <span class="lk-ic">📐</span>
@@ -321,7 +473,7 @@ MathJax = {
   </a>
   <a href="p0-2-vorwissen-physik.html#umrechnen" class="lk">
     <span class="lk-ic">🔁</span>
-    <div><div class="lk-t">Einheiten umrechnen — km/h ↔ m/s, Flächen und Volumen</div><div class="lk-s">0.2 · woher der Faktor 3.6 kommt und warum Flächen quadratisch, Volumen kubisch skalieren</div></div>
+    <div><div class="lk-t">Einheiten umrechnen — km/h ↔ m/s, Flächen und Volumen</div><div class="lk-s">0.2 · woher der Faktor 3.6 kommt und warum bei Flächen quadriert und bei Volumen kubiert wird</div></div>
   </a>
   <a href="p0-2-vorwissen-physik.html#tempo-lesen" class="lk">
     <span class="lk-ic">⚖️</span>
@@ -377,7 +529,7 @@ MathJax = {
   </a>
   <a href="p5-1-temperatur.html#skalen" class="lk">
     <span class="lk-ic">🌡️</span>
-    <div><div class="lk-t">Celsius und Kelvin im Vergleich</div><div class="lk-s">5.1 · die Verschiebung um 273.15 — die einzige Umrechnung ohne Faktor</div></div>
+    <div><div class="lk-t">Celsius und Kelvin im Vergleich</div><div class="lk-s">5.1 · die einzige Umrechnung ohne Faktor: zum Zahlenwert wird 273.15 addiert</div></div>
   </a>
   <a href="p5-2-waerme.html#waermemenge" class="lk">
     <span class="lk-ic">🔥</span>
@@ -422,46 +574,64 @@ MathJax = {
 <div id="et-tabellen"></div>
 
 <div class="block block-merksatz">
-  <div class="block-titel">🎯 Der eine Trick</div>
-  <p>Rechne <strong>immer über die Basiseinheit</strong>, nie direkt von Einheit zu Einheit:</p>
-  \[ \text{Wert} \cdot \underbrace{f_1}_{\text{Startein­heit}} = \text{Wert in der Basis} \qquad\text{dann}\qquad \frac{\text{Wert in der Basis}}{f_2} = \text{Wert in der Zieleinheit} \]
-  <p>Beispiel \(2.5\;\text{km} \to \text{cm}\): erst \(2.5 \cdot 1000 = 2500\;\text{m}\), dann \(2500 : 0.01 = 250\,000\;\text{cm}\). Zwei kleine Schritte statt eines grossen — und der Faktor 100 000 muss nirgends auswendig gelernt werden.</p>
+  <div class="block-titel">🎯 Eine sichere Standardstrategie</div>
+  <p>Als sichere Standardstrategie kannst du zuerst in eine <strong>Referenzeinheit</strong> umrechnen und danach in die Zieleinheit:</p>
+  \[ \text{Wert} \cdot \underbrace{f_1}_{\text{Startein­heit}} = \text{Wert in der Referenzeinheit} \qquad\text{dann}\qquad \frac{\text{Wert in der Referenzeinheit}}{f_2} = \text{Wert in der Zieleinheit} \]
+  <p>Beispiel \(2.5\;\text{km} \to \text{cm}\) über die Referenzeinheit Meter: erst \(2.5 \cdot 1000 = 2500\;\text{m}\), dann \(2500 : 0.01 = 250\,000\;\text{cm}\). Zwei kleine Schritte statt eines grossen — und der Faktor 100 000 muss nirgends auswendig gelernt werden.</p>
+  <p>Wenn du eine direkte Umrechnungsbeziehung sicher kennst, darfst du natürlich auch direkt umrechnen: \(1\;\text{l} = 1\;\text{dm}^3\) oder \(1\;\text{bar} = 10^{5}\;\text{Pa}\) muss niemand über einen Umweg herleiten.</p>
 </div>
 
 
 <!-- ══════════════ TIPPS ══════════════ -->
-<h2 id="tipps">Die drei häufigsten Fehler</h2>
+<h2 id="tipps">Die häufigsten Fehler</h2>
 
 <div class="block block-fehler">
-  <div class="block-titel">⚠ Falsche Richtung — die Zahl wird grösser statt kleiner</div>
-  <p>Von einer <strong>grossen</strong> Einheit in eine <strong>kleine</strong> wird die Zahl <strong>grösser</strong>: \(1\;\text{m} = 100\;\text{cm}\). Der Zentimeter ist kleiner, also braucht es mehr davon. Umgekehrt wird die Zahl kleiner: \(250\;\text{cm} = 2.5\;\text{m}\).</p>
+  <div class="block-titel">⚠ Falsche Richtung — der Zahlenwert wird grösser statt kleiner</div>
+  <p>Bei einer einfachen multiplikativen Umrechnung in eine kleinere Einheit wird der Zahlenwert grösser: \(1\;\text{m} = 100\;\text{cm}\). Der Zentimeter ist kleiner, also braucht es mehr davon. Umgekehrt wird der Zahlenwert kleiner: \(250\;\text{cm} = 2.5\;\text{m}\).</p>
+  <p>Bei zusammengesetzten Einheiten, Flächen, Volumen, Dichte oder Temperatur muss die konkrete Umrechnungsbeziehung beachtet werden — dort genügt der Blick auf «kleiner oder grösser» nicht.</p>
   <p>Probe im Kopf: Ist das Resultat plausibel? Ein Mensch ist \(1.8\;\text{m}\) gross, also \(180\;\text{cm}\) und nicht \(0.018\;\text{cm}\).</p>
 </div>
 
 <div class="block block-fehler">
-  <div class="block-titel">⚠ Flächen und Volumen mit dem Längenfaktor umgerechnet</div>
-  <p>Bei Flächen zählt der Längenfaktor <strong>im Quadrat</strong>, bei Volumen <strong>in der dritten Potenz</strong>:</p>
+  <div class="block-titel">⚠ Bei Flächen und Volumen nur den Längenfaktor verwendet</div>
+  <p>Bei Flächen wird der Längenfaktor <strong>quadriert</strong>, bei Volumen <strong>kubiert</strong>:</p>
   \[ 1\;\text{m} = 100\;\text{cm} \quad\Longrightarrow\quad 1\;\text{m}^2 = 100^2\;\text{cm}^2 = 10\,000\;\text{cm}^2 \]
   \[ 1\;\text{m} = 100\;\text{cm} \quad\Longrightarrow\quad 1\;\text{m}^3 = 100^3\;\text{cm}^3 = 1\,000\,000\;\text{cm}^3 \]
   <p>Deshalb ist \(1\;\text{m}^3 = 1000\;\text{l}\) und nicht \(100\;\text{l}\): ein Liter ist ein Kubikdezimeter, und in einen Kubikmeter passen \(10^3\) davon.</p>
 </div>
 
 <div class="block block-fehler">
-  <div class="block-titel">⚠ Zeit, km/h und Kelvin wie Zehnerpotenzen behandelt</div>
-  <p>Drei Gruppen laufen <em>nicht</em> im Zehnersystem:</p>
+  <div class="block-titel">⚠ Bei der Dichte nur einen der beiden Faktoren berücksichtigt</div>
+  <p>Die Dichte trägt zwei Umrechnungen gleichzeitig — eine im Zähler und eine im Nenner. Beim Volumen entsteht wegen der dritten Potenz der Faktor \(10^{6}\). Zusammen mit der Umrechnung von Gramm in Kilogramm (\(10^{-3}\)) ergibt sich insgesamt der Faktor \(10^{3}\):</p>
+  \[ 1\;\frac{\text{g}}{\text{cm}^3} = \frac{10^{-3}\;\text{kg}}{10^{-6}\;\text{m}^3} = 10^{3}\;\frac{\text{kg}}{\text{m}^3} = 1000\;\frac{\text{kg}}{\text{m}^3} \]
+  <p>Wer nur an das Gramm denkt, landet bei \(10^{-3}\); wer nur an den Kubikzentimeter denkt, bei \(10^{6}\). Richtig ist der Quotient der beiden.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Zeit, km/h, kWh und Kelvin wie Zehnerpotenzen behandelt</div>
+  <p>Vier Fälle laufen <em>nicht</em> im Zehnersystem:</p>
   <ul>
     <li><strong>Zeit:</strong> \(1\;\text{h} = 60\;\text{min} = 3600\;\text{s}\) — Faktor 60, nicht 100.</li>
     <li><strong>Geschwindigkeit:</strong> \(1\;\text{m/s} = 3.6\;\text{km/h}\), weil \(1\;\text{km/h} = \frac{1000\;\text{m}}{3600\;\text{s}}\).</li>
-    <li><strong>Temperatur:</strong> \(T = \vartheta + 273.15\) — eine Verschiebung, kein Faktor. \(20\;^\circ\text{C}\) sind \(293.15\;\text{K}\), nicht \(20 \cdot 273.15\). Eine Temperatur<em>differenz</em> ist dagegen in beiden Skalen gleich gross: \(\Delta T = 10\;\text{K} = 10\;^\circ\text{C}\).</li>
+    <li><strong>Energie:</strong> \(1\;\text{kWh} = 1000\;\text{W} \cdot 3600\;\text{s} = 3.6 \cdot 10^{6}\;\text{J}\) — die Stunde bringt den Faktor 3600 mit.</li>
+    <li><strong>Temperatur:</strong> Beim Umrechnen von \(^\circ\text{C}\) nach \(\text{K}\) wird zum Zahlenwert 273.15 addiert:
+      \[ T\,[\text{K}] = \vartheta\,[^\circ\text{C}] + 273.15 \qquad\qquad \vartheta\,[^\circ\text{C}] = T\,[\text{K}] - 273.15 \]
+      Eine Temperatur<em>differenz</em> ist dagegen in beiden Skalen gleich gross: \(\Delta T = 10\;\text{K}\) entspricht \(\Delta\vartheta = 10\;^\circ\text{C}\).</li>
   </ul>
+</div>
+
+<div class="block block-tipp">
+  <div class="block-titel">💡 Zwei Zeichen, die leicht verwechselt werden</div>
+  <p>Achtung: Das <strong>h</strong> in \(\text{hPa}\) bedeutet <strong>hekto</strong> \(= 10^{2}\), es ist also ein Vorsatz. Das Einheitenzeichen \(\text{h}\) allein bedeutet bei der Zeit <strong>Stunde</strong>.</p>
+  <p>Damit gilt \(1\;\text{hPa} = 100\;\text{Pa}\) — der Luftdruck von \(1013\;\text{hPa}\) sind also \(101\,300\;\text{Pa}\) oder \(1.013\;\text{bar}\).</p>
 </div>
 
 <details class="minicheck">
 <summary class="mc-kopf">✏️ Mini-Check</summary>
-<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wie viele Quadratzentimeter sind \(1\;\text{m}^2\)?</p><ul class="mc-optionen"><li data-opt="A">100</li><li data-opt="B">10 000</li><li data-opt="C">1 000 000</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Der Längenfaktor 100 zählt im Quadrat: \(100^2 = 10\,000\). Eine Million wäre die Antwort für Kubikzentimeter im Kubikmeter.</div></details></div>
-<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Von einer grossen in eine kleine Einheit wird die Zahl <span class="mc-luecke"></span>. Der Umrechnungsfaktor zwischen \(\text{m/s}\) und \(\text{km/h}\) ist <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">grösser — 3.6. Aus \(1\;\text{m/s} = 3.6\;\text{km/h}\) folgt umgekehrt: km/h durch 3.6 teilen ergibt m/s.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wie viele Quadratzentimeter sind \(1\;\text{m}^2\)?</p><ul class="mc-optionen"><li data-opt="A">100</li><li data-opt="B">10 000</li><li data-opt="C">1 000 000</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Der Längenfaktor 100 wird quadriert: \(100^2 = 10\,000\). Eine Million wäre die Antwort für Kubikzentimeter im Kubikmeter.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Das \(\text{h}\) in \(\text{hPa}\) steht für den Vorsatz <span class="mc-luecke"></span>, das Einheitenzeichen \(\text{h}\) allein für die <span class="mc-luecke"></span>.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">hekto (\(10^{2}\)) — Stunde. Darum ist \(1\;\text{hPa} = 100\;\text{Pa}\), aber \(1\;\text{h} = 3600\;\text{s}\).</div></details></div>
 <div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Rechne \(0.75\;\text{kWh}\) in Joule um.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><p><strong>Ansatz:</strong> \(1\;\text{Wh} = 1\;\text{W} \cdot 3600\;\text{s} = 3600\;\text{J}\), also \(1\;\text{kWh} = 3.6 \cdot 10^{6}\;\text{J}\).</p>\[ 0.75\;\text{kWh} = 0.75 \cdot 3.6 \cdot 10^{6}\;\text{J} = 2.7 \cdot 10^{6}\;\text{J} = 2700\;\text{kJ} \]</div></details></div>
-<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Mitschülerin rechnet \(2.5\;\text{km}\) in \(250\;\text{m}\) um. Der Trainer markiert «Zehnerpotenz daneben». Was ist passiert, und wie merkt man sich die richtige Richtung?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Sie hat mit 100 statt mit 1000 multipliziert — die Ziffern 2 und 5 stimmen, nur die Zehnerpotenz nicht. Merkhilfe: \(1\;\text{km} = 1000\;\text{m}\), also \(2.5\;\text{km} = 2500\;\text{m}\). Die Probe ist eine Grössenordnungs-Abschätzung: 2.5 km sind gut zwei Bahnhof-Distanzen, also einige tausend Meter — 250 m wären eine Häuserzeile.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Mitschülerin rechnet \(2.5\;\text{km}\) in \(250\;\text{m}\) um. Der Trainer meldet: «Dein Ergebnis unterscheidet sich um den Faktor 10 von der richtigen Lösung.» Welche Ursachen kommen in Frage, und wie prüfst du das Resultat?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Möglich sind der falsche Vorsatz (mit 100 statt 1000 multipliziert), ein Verrechnen um eine Stufe auf der Präfix-Leiter oder ein Zahlendreher. Richtig ist \(1\;\text{km} = 1000\;\text{m}\), also \(2.5\;\text{km} = 2500\;\text{m}\). Die Probe ist eine Grössenordnungs-Abschätzung: 2.5 km sind gut zwei Bahnhof-Distanzen, also einige tausend Meter — 250 m wären eine Häuserzeile.</div></details></div>
 </details>
 
 
@@ -472,30 +642,31 @@ MathJax = {
   <thead><tr><th>Grösse</th><th>Basiseinheit</th><th>typische Umrechnung</th><th>Stolperstelle</th></tr></thead>
   <tbody>
     <tr><td>Länge</td><td>m</td><td>\(1\;\text{km} = 1000\;\text{m}\), \(1\;\text{m} = 100\;\text{cm}\)</td><td>Richtung verwechselt</td></tr>
-    <tr><td>Fläche</td><td>m²</td><td>\(1\;\text{m}^2 = 10\,000\;\text{cm}^2\), \(1\;\text{ha} = 10\,000\;\text{m}^2\)</td><td>Längenfaktor statt Quadrat</td></tr>
-    <tr><td>Volumen</td><td>m³</td><td>\(1\;\text{m}^3 = 1000\;\text{l}\), \(1\;\text{l} = 1000\;\text{cm}^3\)</td><td>Längenfaktor statt dritte Potenz</td></tr>
+    <tr><td>Fläche</td><td>m²</td><td>\(1\;\text{m}^2 = 10\,000\;\text{cm}^2\), \(1\;\text{ha} = 10\,000\;\text{m}^2\)</td><td>Längenfaktor nicht quadriert</td></tr>
+    <tr><td>Volumen</td><td>m³</td><td>\(1\;\text{m}^3 = 1000\;\text{l}\), \(1\;\text{l} = 1000\;\text{cm}^3\)</td><td>Längenfaktor nicht kubiert</td></tr>
     <tr><td>Masse</td><td>kg</td><td>\(1\;\text{t} = 1000\;\text{kg}\), \(1\;\text{kg} = 1000\;\text{g}\)</td><td>Masse mit Gewichtskraft verwechselt</td></tr>
     <tr><td>Zeit</td><td>s</td><td>\(1\;\text{h} = 3600\;\text{s}\)</td><td>Faktor 60 statt 100</td></tr>
     <tr><td>Geschwindigkeit</td><td>m/s</td><td>\(1\;\text{m/s} = 3.6\;\text{km/h}\)</td><td>mal statt geteilt durch 3.6</td></tr>
     <tr><td>Kraft</td><td>N</td><td>\(1\;\text{kN} = 1000\;\text{N}\)</td><td>—</td></tr>
-    <tr><td>Druck</td><td>Pa</td><td>\(1\;\text{bar} = 10^{5}\;\text{Pa}\), \(1\;\text{hPa} = 100\;\text{Pa}\)</td><td>bar und Pascal verwechselt</td></tr>
-    <tr><td>Energie</td><td>J</td><td>\(1\;\text{kWh} = 3.6 \cdot 10^{6}\;\text{J}\)</td><td>Wh mit W verwechselt</td></tr>
+    <tr><td>Druck</td><td>Pa</td><td>\(1\;\text{bar} = 10^{5}\;\text{Pa}\), \(1\;\text{hPa} = 100\;\text{Pa}\)</td><td>\(\text{h}\) als Stunde statt als hekto gelesen</td></tr>
+    <tr><td>Energie</td><td>J</td><td>\(1\;\text{kWh} = 3.6 \cdot 10^{6}\;\text{J}\)</td><td>Faktor 3600 der Stunde vergessen</td></tr>
     <tr><td>Leistung</td><td>W</td><td>\(1\;\text{kW} = 1000\;\text{W}\)</td><td>Leistung mit Energie verwechselt</td></tr>
-    <tr><td>Dichte</td><td>kg/m³</td><td>\(1\;\text{g/cm}^3 = 1000\;\text{kg/m}^3\)</td><td>Faktor 1000 statt 10<sup>6</sup></td></tr>
-    <tr><td>Temperatur</td><td>K</td><td>\(T = \vartheta + 273.15\)</td><td>Verschiebung als Faktor gerechnet</td></tr>
+    <tr><td>Dichte</td><td>kg/m³</td><td>\(1\;\text{g/cm}^3 = 1000\;\text{kg/m}^3\)</td><td>nur einen der beiden Faktoren gerechnet</td></tr>
+    <tr><td>Temperatur</td><td>K</td><td>\(T\,[\text{K}] = \vartheta\,[^\circ\text{C}] + 273.15\)</td><td>Addition als Faktor gerechnet</td></tr>
   </tbody>
 </table>
 
 <ul class="kernpunkte">
-  <li>Jede Umrechnung läuft sicher über die Basiseinheit: erst hinein, dann heraus.</li>
-  <li>Kleinere Einheit heisst grössere Zahl — und umgekehrt.</li>
-  <li>Flächen skalieren quadratisch, Volumen kubisch mit dem Längenfaktor.</li>
-  <li>Zeit (Faktor 60), Geschwindigkeit (Faktor 3.6) und Temperatur (Verschiebung 273.15) folgen nicht dem Zehnersystem.</li>
+  <li>Eine sichere Standardstrategie ist der Umweg über eine Referenzeinheit: erst hinein, dann heraus. Wer eine direkte Beziehung sicher kennt, darf sie direkt nutzen.</li>
+  <li>Bei einer einfachen multiplikativen Umrechnung in eine kleinere Einheit wird der Zahlenwert grösser — bei zusammengesetzten Einheiten, Flächen, Volumen, Dichte und Temperatur zählt die konkrete Beziehung.</li>
+  <li>Bei Flächen wird der Längenfaktor quadriert, bei Volumen kubiert.</li>
+  <li>Die Dichte trägt zwei Umrechnungen zugleich: \(10^{-3}\) im Zähler und \(10^{-6}\) im Nenner ergeben \(10^{3}\).</li>
+  <li>Zeit, \(\text{km/h} \leftrightarrow \text{m/s}\), \(\text{kWh} \leftrightarrow \text{J}\) und \(^\circ\text{C} \leftrightarrow \text{K}\) folgen nicht dem Zehnersystem.</li>
   <li>Die häufigste Fehlerart ist nicht die falsche Formel, sondern die falsche Zehnerpotenz — dagegen hilft die Grössenordnungs-Abschätzung.</li>
 </ul>
 
 <div class="merksatz">
-  Einheiten umrechnen ist kein Auswendiglernen von Faktoren, sondern zweimal Nachdenken: In welche Basiseinheit gehört der Wert — und wird die Zahl dabei grösser oder kleiner? Wer das im Kopf mitführt, merkt einen Zehnerpotenz-Fehler, bevor er ihn hinschreibt.
+  Einheiten umrechnen ist kein Auswendiglernen von Faktoren, sondern zweimal Nachdenken: Über welche Referenzeinheit läuft der Weg — und wird der Zahlenwert dabei grösser oder kleiner? Wer das im Kopf mitführt, merkt einen Zehnerpotenz-Fehler, bevor er ihn hinschreibt.
 </div>
 
 
@@ -526,19 +697,22 @@ buildNav({
   next:{nr:'4.1', titel:'Kinematik des Schwerpunkts', url:'p4-1-kinematik.html'}
 });
 
-// ══════════════ Datenmodell ══════════════
-// Aufbau wie beim Vorbild (arndt-bruenner.de): jede Gruppe hat eine Basiseinheit,
-// jede Einheit einen Faktor zu dieser Basis. Umrechnung: Wert · f1 / f2.
-// Temperatur zusaetzlich mit Verschiebung o (Basis Kelvin): Basiswert = Wert + o.
-// Alle Faktoren gegen die Stofftabellen des Lehrmittels geprueft.
+/* ═══════════════════════════════════════════════════════════════════
+   1. DATEN — einzige Quelle für Einheiten und Faktoren
+   Jede Gruppe hat eine Basiseinheit, jede Einheit einen Faktor dorthin.
+   Umrechnung: Wert · f1 / f2. Temperatur zusätzlich mit Verschiebung o
+   (Basis Kelvin): Basiswert = Wert · f + o.
+   von/bis begrenzt Einheiten auf physikalisch sinnvolle Werte.
+   fTex ist die Anzeigeform in den Umrechnungstabellen.
+   ═══════════════════════════════════════════════════════════════════ */
 const ET_GRUPPEN = [
   { id:'laenge', name:'Länge', basis:'m', erkl:'p0-2-vorwissen-physik.html#grundgroessen', erklT:'0.2 Grundgrössen',
     eh:[ {e:'nm',f:1e-9}, {e:'µm',f:1e-6}, {e:'mm',f:1e-3,an:1}, {e:'cm',f:1e-2,an:1},
          {e:'dm',f:0.1}, {e:'m',f:1,an:1}, {e:'km',f:1000,an:1} ] },
-  { id:'flaeche', name:'Fläche', basis:'m²', erkl:'p0-2-vorwissen-physik.html#umrechnen', erklT:'0.2 Umrechnen',
+  { id:'flaeche', name:'Fläche', basis:'m²', potenz:2, erkl:'p0-2-vorwissen-physik.html#umrechnen', erklT:'0.2 Umrechnen',
     eh:[ {e:'mm²',f:1e-6}, {e:'cm²',f:1e-4,an:1}, {e:'dm²',f:1e-2}, {e:'m²',f:1,an:1},
          {e:'a',f:100}, {e:'ha',f:1e4,an:1}, {e:'km²',f:1e6,an:1} ] },
-  { id:'volumen', name:'Volumen', basis:'m³', erkl:'p0-1-vorwissen-mathematik.html#geometrie', erklT:'0.1 Flächen und Volumen',
+  { id:'volumen', name:'Volumen', basis:'m³', potenz:3, erkl:'p0-1-vorwissen-mathematik.html#geometrie', erklT:'0.1 Flächen und Volumen',
     eh:[ {e:'mm³',f:1e-9}, {e:'cm³',f:1e-6,an:1}, {e:'ml',f:1e-6,an:1}, {e:'cl',f:1e-5},
          {e:'dl',f:1e-4}, {e:'l',f:1e-3,an:1}, {e:'dm³',f:1e-3}, {e:'m³',f:1,an:1} ] },
   { id:'masse', name:'Masse', basis:'kg', erkl:'p0-3-messen-waagen-dichte.html#masse-kraft', erklT:'0.3 Masse und Gewichtskraft',
@@ -563,68 +737,320 @@ const ET_GRUPPEN = [
     eh:[ {e:'kg/m³',f:1,an:1,von:1,bis:20000}, {e:'g/l',f:1,von:1,bis:2000},
          {e:'g/cm³',f:1000,an:1,von:0.02,bis:22}, {e:'kg/l',f:1000,von:0.02,bis:22},
          {e:'t/m³',f:1000,von:0.02,bis:22} ] },
-  { id:'temperatur', name:'Temperatur', basis:'K', erkl:'p5-1-temperatur.html#skalen', erklT:'5.1 Celsius und Kelvin',
-    warn:'Kelvin ist eine Verschiebung um 273.15, kein Faktor.',
-    eh:[ {e:'°C',f:1,o:273.15,an:1,von:-50,bis:150}, {e:'K',f:1,o:0,an:1,von:220,bis:420} ] }
+  { id:'temperatur', name:'Temperatur', basis:'K', offset:true, erkl:'p5-1-temperatur.html#skalen', erklT:'5.1 Celsius und Kelvin',
+    warn:'Bei °C → K wird zum Zahlenwert 273.15 addiert.',
+    eh:[ {e:'°C',f:1,o:273.15,an:1,von:-50,bis:150}, {e:'K',f:1,o:0,an:1,von:230,bis:420} ] }
 ];
+const ET_GID = {};
+ET_GRUPPEN.forEach(g => { ET_GID[g.id] = g; g.eh.forEach(u => { u.an = !!u.an; }); });
 
-// ══════════════ Zustand ══════════════
-const ET_AKTIV = {};                      // Gruppen-ID -> true/false
-ET_GRUPPEN.forEach(g => { ET_AKTIV[g.id] = ['laenge','masse','zeit'].indexOf(g.id) !== -1; });
-ET_GRUPPEN.forEach(g => g.eh.forEach(u => { u.an = !!u.an; }));
-let ET_AUFGABEN = [];                     // {g, e1, e2, wert, soll, stand}
+/* ═══════════════════════════════════════════════════════════════════
+   2. UMRECHNUNG UND SCHWIERIGKEITSSTUFE
+   ═══════════════════════════════════════════════════════════════════ */
+// calculateCorrectAnswer
+function etRechne(u1, u2, wert) {
+  const basis = wert * u1.f + (u1.o || 0);
+  return (basis - (u2.o || 0)) / u2.f;
+}
+function etVerhaeltnis(u1, u2) { return u1.f / u2.f; }
+function etIstZehner(q) {
+  if (!(q > 0)) return false;
+  const e = Math.log10(q);
+  return Math.abs(e - Math.round(e)) < 1e-9;
+}
+// Lernstufe eines Einheitenpaars (Progression Stufe 1 bis 4)
+function etStufe(g, u1, u2) {
+  if (g.offset) return 4;                                  // °C ↔ K
+  const q = etVerhaeltnis(u1, u2);
+  if (!etIstZehner(q)) return 4;                           // Zeit, km/h, Wh, kWh
+  if (g.potenz || g.id === 'dichte') return 3;             // Fläche, Volumen, Dichte
+  const stufen = Math.abs(Math.round(Math.log10(q)));
+  return stufen <= 3 ? 1 : 2;                              // kleiner oder grosser Sprung
+}
 
-// ══════════════ Zahlen ══════════════
-// Ausgabe mit Dezimalpunkt, ohne Exponent solange lesbar (STYLEGUIDE §2.5).
+/* ═══════════════════════════════════════════════════════════════════
+   3. ZAHLEN: Formatieren, Lesen, Vergleichen
+   ═══════════════════════════════════════════════════════════════════ */
+// Ausgabe mit Dezimalpunkt (STYLEGUIDE §2.5), ohne Rundungsartefakte
 function etZahl(x) {
   if (!isFinite(x)) return '—';
+  if (x === 0) return '0';
   const a = Math.abs(x);
-  if (a !== 0 && (a < 1e-4 || a >= 1e9)) {
-    return x.toExponential(3).replace(/\.?0+e/, 'e').replace(/e([+-])(\d+)/, ' · 10^$1$2').replace('^+', '^');
+  if (a < 1e-4 || a >= 1e9) {
+    const m = x.toExponential(4).split('e');
+    return (+m[0]).toString() + ' · 10^' + (+m[1]);
   }
-  let s = x.toFixed(a < 1 ? 8 : (a < 1000 ? 6 : 3));
+  const gerundet = +x.toPrecision(10);
+  let s = gerundet.toFixed(Math.max(0, Math.min(10, 10 - Math.floor(Math.log10(a)) - 1)));
   if (s.indexOf('.') !== -1) s = s.replace(/0+$/, '').replace(/\.$/, '');
   return s;
 }
 function etGanz(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function etMisch(arr) {
+  for (let i = arr.length - 1; i > 0; i--) { const j = etGanz(0, i); const t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+  return arr;
+}
+function etNah(a, b) { return isFinite(a) && isFinite(b) && Math.abs(a - b) <= Math.max(Math.abs(b) * 1e-6, 1e-9); }
 
-// Eingabe lesen: Dezimalpunkt, notfalls Komma; Schweizer Tausender-Apostroph und
-// Leerzeichen fallen weg; 1.2e-3 ist erlaubt. Liefert {wert, komma}.
+// Eingabe lesen: Dezimalpunkt oder -komma, Schweizer Tausender-Apostroph,
+// e-Notation und die Schreibweisen 3.6*10^6 / 3.6·10^6 / 3.6x10^6.
 function etLies(roh) {
   const komma = roh.indexOf(',') !== -1;
-  const s = roh.replace(/[\s'’]/g, '').replace(',', '.');
+  let s = roh.replace(/[\s'’]/g, '').replace(',', '.');
+  s = s.replace(/(?:·|\*|x|×)10\^?([+-]?\d+)/i, 'e$1');
+  s = s.replace(/^10\^([+-]?\d+)$/i, '1e$1');
   if (!/^[+-]?(\d+\.?\d*|\.\d+)(e[+-]?\d+)?$/i.test(s)) return { wert: NaN, komma: komma };
-  return { wert: parseFloat(s), komma: komma };
+  const w = parseFloat(s);
+  return { wert: isFinite(w) ? w : NaN, komma: komma };
 }
 
-// ══════════════ Aufgaben erzeugen ══════════════
-function etUmrechnen(g, u1, u2, wert) {
-  const basis = wert * u1.f + (u1.o || 0);
-  return (basis - (u2.o || 0)) / u2.f;
+// Richtig ist auch ein sauber gerundetes Resultat (2 bis 10 signifikante
+// Stellen) — sonst wäre 2.78 für 2.7777… m/s falsch. Nie mit === vergleichen.
+function etPasst(x, soll) {
+  if (!isFinite(x)) return false;
+  const tol = Math.max(Math.abs(soll) * 1e-9, 1e-12);
+  if (Math.abs(x - soll) <= tol) return true;
+  if (soll === 0) return Math.abs(x) <= 1e-12;
+  const ord = Math.floor(Math.log10(Math.abs(soll)));
+  for (let k = 2; k <= 10; k++) {
+    const p = Math.pow(10, k - 1 - ord);
+    if (Math.abs(x - Math.round(soll * p) / p) <= tol) return true;
+  }
+  return false;
 }
 
-function etWert(u, maxStellen) {
-  const gr = +document.getElementById('et-groesse').value;
-  const dz = +document.getElementById('et-dez').value;
-  let stellen = dz === 0 ? 0 : (dz === 1 ? (Math.random() < 0.45 ? etGanz(1, 2) : 0)
-                                         : (Math.random() < 0.8 ? etGanz(1, 3) : 0));
+/* ═══════════════════════════════════════════════════════════════════
+   4. FEHLERDIAGNOSE (classifyError)
+   Gemeldet wird nur, was sich aus dem Ergebnis zuverlässig ablesen lässt —
+   nie eine Behauptung über den Denkweg.
+   ═══════════════════════════════════════════════════════════════════ */
+function etDiagnose(x, a) {
+  if (etPasst(x, a.soll)) return { art:'ok', klasse:'ok', text:'Richtig.' };
+  const g = a.g;
+
+  // Temperatur: Verschiebung vergessen, falsch herum verrechnet, Vorzeichen
+  if (g.offset) {
+    if (etNah(x, a.wert))
+      return { art:'temp-offset', klasse:'fehler',
+               text:'Der Zahlenwert ist unverändert geblieben. Beim Wechsel zwischen °C und K werden 273.15 addiert oder subtrahiert.' };
+    if (etNah(x, a.wert - 273.15) || etNah(x, a.wert + 273.15))
+      return { art:'temp-richtung', klasse:'fehler',
+               text:'Die 273.15 wurden in die falsche Richtung verrechnet. Es gilt T [K] = ϑ [°C] + 273.15 und ϑ [°C] = T [K] − 273.15.' };
+    if (etNah(x, -a.soll))
+      return { art:'temp-vorzeichen', klasse:'fehler', text:'Dein Ergebnis hat das umgekehrte Vorzeichen.' };
+    return { art:'rechenfehler', klasse:'fehler', text:'Das Ergebnis stimmt noch nicht. Prüfe deine Umrechnung.' };
+  }
+
+  // Richtung vertauscht: mal f2/f1 statt mal f1/f2
+  const rueck = etRechne(a.u2, a.u1, a.wert);
+  if (etPasst(x, rueck) && !etNah(rueck, a.soll))
+    return { art:'richtung', klasse:'fehler',
+             text:'Du hast in die andere Richtung umgerechnet — von ' + a.u2.e + ' nach ' + a.u1.e + ' statt umgekehrt.' };
+
+  // Sonderfaktoren: 3.6 (km/h), 60 und 3600 (Zeit), 3600 und 1000 (Wh, kWh)
+  const sonder = { tempo:[3.6], zeit:[60, 3600], energie:[3600, 1000] }[g.id] || [];
+  for (const s of sonder) {
+    if (etPasst(x, a.soll * s) || etPasst(x, a.soll / s))
+      return { art:'sonderfaktor', klasse:'fehler',
+               text:'Dein Ergebnis unterscheidet sich um den Faktor ' + etZahl(s) + ' von der Lösung. Diese Umrechnung ist keine reine Zehnerpotenz.' };
+  }
+
+  // Zehnerpotenz-Abweichung
+  if (x !== 0 && a.soll !== 0 && x * a.soll > 0) {
+    const e = Math.log10(Math.abs(x / a.soll));
+    const n = Math.round(e);
+    if (Math.abs(e - n) < 1e-6 && n !== 0) {
+      const betrag = Math.pow(10, Math.abs(n));
+      const art = (betrag === 10) ? 'zehn-10' : (betrag === 100) ? 'zehn-100'
+                : (betrag === 1000) ? 'zehn-1000' : 'zehn-n';
+      const fak = Math.abs(n) <= 4 ? etZahl(betrag) : '10^' + Math.abs(n);
+      let t = 'Dein Ergebnis unterscheidet sich um den Faktor ' + fak + ' von der richtigen Lösung. ';
+      const kurz = 'Faktor ' + fak + ' daneben';
+      t += g.potenz
+        ? 'Prüfe Vorsatz, Umrechnungsrichtung und die Potenz der Einheit — bei ' +
+          (g.potenz === 2 ? 'Flächen wird der Längenfaktor quadriert.' : 'Volumen wird der Längenfaktor kubiert.')
+        : (g.id === 'dichte'
+            ? 'Prüfe beide Umrechnungen: eine im Zähler (Masse) und eine im Nenner (Volumen).'
+            : 'Prüfe Vorsatz und Umrechnungsrichtung.');
+      return { art:art, klasse:'warn', text:t, kurz:kurz };
+    }
+  }
+  return { art:'rechenfehler', klasse:'fehler', text:'Das Ergebnis stimmt noch nicht. Prüfe deine Umrechnung.' };
+}
+
+// Gestufte Hinweise: 1. Fehlversuch kurz, 2. Beziehung, 3. Lösungsweg
+function etHinweis1(a) {
+  const g = a.g;
+  if (g.offset) return 'Hier hilft keine Multiplikation: Zwischen °C und K liegt eine Addition.';
+  if (g.potenz) return 'Beachte, dass die Einheit ' + (g.potenz === 2 ? 'quadriert' : 'kubiert') + ' wird.';
+  if (g.id === 'dichte') return 'Die Dichte trägt zwei Umrechnungen zugleich — eine im Zähler und eine im Nenner.';
+  if (!etIstZehner(etVerhaeltnis(a.u1, a.u2))) return 'Hier handelt es sich nicht um eine reine Zehnerpotenz.';
+  return 'Wird der Zahlenwert beim Wechsel in diese Einheit grösser oder kleiner?';
+}
+function etHinweis2(a) {
+  if (a.g.offset) return a.u1.e === '°C' ? 'T [K] = ϑ [°C] + 273.15' : 'ϑ [°C] = T [K] − 273.15';
+  const q = etVerhaeltnis(a.u1, a.u2);
+  return q >= 1 ? '1 ' + a.u1.e + ' = ' + etZahl(q) + ' ' + a.u2.e
+                : '1 ' + a.u2.e + ' = ' + etZahl(1 / q) + ' ' + a.u1.e;
+}
+function etLoesungsweg(a) {
+  if (a.g.offset) {
+    return a.u1.e === '°C'
+      ? etZahl(a.wert) + ' °C + 273.15 = ' + etZahl(a.soll) + ' K'
+      : etZahl(a.wert) + ' K − 273.15 = ' + etZahl(a.soll) + ' °C';
+  }
+  const basis = a.wert * a.u1.f;
+  return etZahl(a.wert) + ' ' + a.u1.e + ' · ' + etZahl(a.u1.f) + ' = ' + etZahl(basis) + ' ' + a.g.basis + '<br>' +
+         etZahl(basis) + ' ' + a.g.basis + ' : ' + etZahl(a.u2.f) + ' = ' + etZahl(a.soll) + ' ' + a.u2.e;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. AUFGABEN ERZEUGEN (generateTask)
+   ═══════════════════════════════════════════════════════════════════ */
+function etWert(u, maxStellen, groesse, dez) {
+  let stellen = dez === 0 ? 0 : (dez === 1 ? (Math.random() < 0.45 ? etGanz(1, 2) : 0)
+                                           : (Math.random() < 0.8 ? etGanz(1, 3) : 0));
   if (maxStellen !== undefined) stellen = Math.min(stellen, maxStellen);
   // Einheiten mit von/bis tragen einen physikalisch sinnvollen Bereich: eine
-  // Dichte von 477 g/cm³ oder ein Tempo von 453 m/s wäre zwar richtig gerechnet,
-  // aber als Physik-Aufgabe Unsinn. Dort zählt der Bereich, nicht die
-  // Grössen-Einstellung.
+  // Dichte von 477 g/cm³ wäre richtig gerechnet, als Physikaufgabe aber Unsinn.
   let v;
   if (u.von !== undefined) {
     v = u.von + Math.random() * (u.bis - u.von);
-    if (u.bis - u.von <= 30 && stellen === 0) stellen = 1;   // sonst zu grobes Raster
+    if (u.bis - u.von <= 30 && stellen === 0) stellen = 1;
   } else {
-    v = etGanz(1, [20, 500, 20000][gr]);
+    v = etGanz(1, [20, 500, 20000][groesse]);
   }
   return +v.toFixed(stellen);
 }
+// «Krumm» heisst: mehr als fünf signifikante Stellen — solche Zahlen tippt
+// niemand ab. Der Test läuft über signifikante Stellen und nicht über ein
+// festes Dezimalraster, sonst gälte 0.0004415 fälschlich als krumm und der
+// Generator wiche auf absurd grosse Werte aus (441 000 000 mm).
+function etKrumm(x) {
+  if (x === 0) return false;
+  return Math.abs(x - (+x.toPrecision(5))) > Math.abs(x) * 1e-12;
+}
 
-// «Krumm» = mehr als vier Dezimalstellen; solche Werte tippt niemand ab.
-function etKrumm(x) { return Math.abs(x * 1e4 - Math.round(x * 1e4)) > 1e-6; }
+// Baut eine Aufgabe aus einem festen Einheitenpaar; null, wenn keine
+// brauchbaren Zahlen zustande kommen.
+function etBaue(g, u1, u2, opt) {
+  opt = opt || {};
+  const groesse = opt.groesse !== undefined ? opt.groesse : 1;
+  const dez = opt.dez !== undefined ? opt.dez : 1;
+  for (let versuch = 0; versuch < 30; versuch++) {
+    let wert = etWert(u1, opt.maxStellen, groesse, dez);
+    let soll = etRechne(u1, u2, wert);
+    // Krumme Faktoren (Zeit, km/h) liefern vorwärts Endlos-Dezimalzahlen. Dann
+    // wird das Resultat gewürfelt und der Aufgabenwert zurückgerechnet — so
+    // entsteht «72 km/h = 20 m/s» statt «50 km/h = 13.888… m/s».
+    if (etKrumm(soll)) {
+      const s2 = etWert(u2, 1, groesse, dez);
+      const w2 = etRechne(u2, u1, s2);
+      if (etKrumm(w2)) continue;
+      wert = w2; soll = s2;
+    }
+    if (!isFinite(wert) || !isFinite(soll)) continue;
+    if (Math.abs(soll) < 1e-9 || Math.abs(soll) > 1e15) continue;
+    // Gleitkomma-Artefakte gleich hier beseitigen (0.000052000000000000004),
+    // damit der gespeicherte Wert dem angezeigten entspricht. Zwölf
+    // signifikante Stellen lassen jeden echten Wert unangetastet.
+    wert = +wert.toPrecision(12);
+    soll = +soll.toPrecision(12);
+    if (g.offset && (wert * u1.f + (u1.o || 0)) < 0) continue;   // nie unter 0 K
+    return { g:g, u1:u1, u2:u2, wert:+wert, soll:+soll, stufe:etStufe(g, u1, u2),
+             key:g.id + ':' + u1.e + '>' + u2.e, stand:'', versuche:0 };
+  }
+  return null;
+}
+
+// Alle Paare einer Gruppe, optional auf Stufen eingeschränkt.
+// Sprünge über mehr als neun Zehnerpotenzen (km → nm, km² → mm²) bleiben
+// aussen vor: rechnerisch korrekt, als Schulaufgabe aber ohne Wert. Im freien
+// Üben sind sie weiterhin möglich, wenn man beide Einheiten selbst anklickt.
+function etPaare(g, stufen, nurAktive) {
+  const eh = nurAktive ? g.eh.filter(u => u.an) : g.eh;
+  const out = [];
+  for (const u1 of eh) for (const u2 of eh) {
+    if (u1.e === u2.e) continue;
+    if (!g.offset && etNah(u1.f, u2.f)) continue;       // z.B. ml und cm³
+    if (!g.offset && Math.abs(Math.log10(etVerhaeltnis(u1, u2))) > 9) continue;
+    const s = etStufe(g, u1, u2);
+    if (stufen && stufen.indexOf(s) === -1) continue;
+    out.push({ u1:u1, u2:u2, stufe:s });
+  }
+  return out;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   6. LERNSTAND (localStorage)
+   ═══════════════════════════════════════════════════════════════════ */
+const ET_KEY = 'tals-physik-p0-4-lernstand-v1';
+let ET_STAND = { paare:{}, fehlerarten:{}, heute:{ datum:'', n:0, ok:0 }, stufe:1, stufenLog:{}, pruefungen:[] };
+
+function etHeuteDatum() { return new Date().toISOString().slice(0, 10); }
+function etLade() {
+  try {
+    const roh = window.localStorage.getItem(ET_KEY);
+    if (roh) {
+      const d = JSON.parse(roh);
+      if (d && typeof d === 'object') {
+        ET_STAND = Object.assign(ET_STAND, d);
+        ET_STAND.paare = ET_STAND.paare || {};
+        ET_STAND.fehlerarten = ET_STAND.fehlerarten || {};
+        ET_STAND.pruefungen = ET_STAND.pruefungen || [];
+        ET_STAND.stufenLog = ET_STAND.stufenLog || {};
+        ET_STAND.heute = ET_STAND.heute || { datum:'', n:0, ok:0 };
+      }
+    }
+  } catch (e) { /* privater Modus oder gesperrter Speicher: ohne Lernstand weiter */ }
+  if (ET_STAND.heute.datum !== etHeuteDatum()) ET_STAND.heute = { datum:etHeuteDatum(), n:0, ok:0 };
+}
+function etSichere() {
+  try { window.localStorage.setItem(ET_KEY, JSON.stringify(ET_STAND)); } catch (e) { /* ignorieren */ }
+}
+function etPaarStand(key) {
+  if (!ET_STAND.paare[key]) ET_STAND.paare[key] = { n:0, ok:0, falsch:0, serie:0, letzterFehler:0, art:'', score:0 };
+  return ET_STAND.paare[key];
+}
+// updateLearningProgress
+function etFortschritt(a, richtig, mitHinweis, art) {
+  const p = etPaarStand(a.key);
+  p.n++;
+  if (richtig) {
+    p.ok++; p.serie++;
+    p.score += mitHinweis ? 8 : 15;
+    if (p.serie % 3 === 0) p.score += 10;
+  } else {
+    p.falsch++; p.serie = 0; p.score -= 10;
+    p.letzterFehler = ET_LERN.zaehler;
+    p.art = art || '';
+    if (art) ET_STAND.fehlerarten[art] = (ET_STAND.fehlerarten[art] || 0) + 1;
+  }
+  p.score = Math.max(0, Math.min(100, p.score));
+  // Rollendes Protokoll je Stufe (letzte 12 Antworten) — Grundlage fuer den
+  // Stufenaufstieg. Der Beherrschungsgrad je Paar waere dafuer zu traege:
+  // er braucht mehrere Wiederholungen desselben Paars, um 80 zu erreichen.
+  const st = a.stufe || 1;
+  const log = ET_STAND.stufenLog[st] || (ET_STAND.stufenLog[st] = []);
+  log.push(richtig && !mitHinweis ? 1 : 0);
+  if (log.length > 12) log.shift();
+  if (ET_STAND.heute.datum !== etHeuteDatum()) ET_STAND.heute = { datum:etHeuteDatum(), n:0, ok:0 };
+  ET_STAND.heute.n++;
+  if (richtig) ET_STAND.heute.ok++;
+  etSichere();
+}
+function etKatScore(g) {
+  let summe = 0, n = 0;
+  for (const k in ET_STAND.paare) {
+    if (k.indexOf(g.id + ':') === 0) { summe += ET_STAND.paare[k].score; n++; }
+  }
+  return n ? Math.round(summe / n) : 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   7. FREIES ÜBEN — Aufgabenliste wie bisher
+   ═══════════════════════════════════════════════════════════════════ */
+let ET_AUFGABEN = [];
 
 function etEinePaarung(g) {
   const aktiv = g.eh.filter(u => u.an);
@@ -638,12 +1064,12 @@ function etEinePaarung(g) {
   } else {
     do { j = etGanz(0, aktiv.length - 1); } while (j === i);
   }
-  if (j === i) return null;
+  if (j === i || aktiv[i].e === aktiv[j].e) return null;
   return [aktiv[i], aktiv[j]];
 }
 
 function etNeueAufgaben() {
-  const gruppen = ET_GRUPPEN.filter(g => ET_AKTIV[g.id] && g.eh.filter(u => u.an).length >= 2);
+  const gruppen = ET_GRUPPEN.filter(g => g.gewaehlt && g.eh.filter(u => u.an).length >= 2);
   const liste = document.getElementById('et-liste');
   if (!gruppen.length) {
     ET_AUFGABEN = [];
@@ -652,6 +1078,7 @@ function etNeueAufgaben() {
     return;
   }
   const n = +document.getElementById('et-anzahl').value;
+  const opt = { groesse:+document.getElementById('et-groesse').value, dez:+document.getElementById('et-dez').value };
   ET_AUFGABEN = [];
   let schutz = 0;
   while (ET_AUFGABEN.length < n && schutz < n * 200) {
@@ -659,30 +1086,16 @@ function etNeueAufgaben() {
     const g = gruppen[etGanz(0, gruppen.length - 1)];
     const paar = etEinePaarung(g);
     if (!paar) continue;
-    if (paar[0].e === paar[1].e) continue;
-    let wert = etWert(paar[0]);
-    let soll = etUmrechnen(g, paar[0], paar[1], wert);
-    // Krumme Faktoren (Zeit, km/h) liefern vorwärts Endlos-Dezimalzahlen. Dann
-    // wird das Resultat gewürfelt und der Aufgabenwert zurückgerechnet — so
-    // entsteht «72 km/h = 20 m/s» statt «50 km/h = 13.888… m/s».
-    if (etKrumm(soll)) {
-      const s2 = etWert(paar[1], 1);   // höchstens eine Dezimalstelle, damit der
-                                       // zurückgerechnete Aufgabenwert rund bleibt
-      const w2 = etUmrechnen(g, paar[1], paar[0], s2);
-      if (!etKrumm(w2)) { wert = w2; soll = s2; }
-      else if (schutz < n * 80) continue;
-    }
-    // Unbrauchbares aussortieren: Winzlinge und Ungetüme
-    if (Math.abs(soll) < 1e-6 || Math.abs(soll) > 1e12) continue;
-    ET_AUFGABEN.push({ g: g, u1: paar[0], u2: paar[1], wert: wert, soll: soll, stand: '' });
+    const a = etBaue(g, paar[0], paar[1], opt);
+    if (a) ET_AUFGABEN.push(a);
   }
   etZeichne();
   etZaehle();
+  document.getElementById('et-statistik').innerHTML = '';
   const erstes = liste.querySelector('input');
   if (erstes) erstes.focus();
 }
 
-// ══════════════ Darstellung ══════════════
 function etZeichne() {
   const liste = document.getElementById('et-liste');
   liste.innerHTML = '';
@@ -701,10 +1114,10 @@ function etZeichne() {
   });
   ET_AUFGABEN.forEach((a, i) => {
     const feld = document.getElementById('et-e' + i);
-    feld.addEventListener('input', () => etPruefe(i, false));
+    feld.addEventListener('input', () => etPruefeZeile(i, false));
     feld.addEventListener('keydown', ev => {
       if (ev.key === 'Enter') {
-        etPruefe(i, true);
+        etPruefeZeile(i, true);
         const naechstes = document.getElementById('et-e' + (i + 1));
         if (naechstes) naechstes.focus();
       }
@@ -712,27 +1125,7 @@ function etZeichne() {
   });
 }
 
-// ══════════════ Prüfen ══════════════
-// Drei Ausgänge wie beim Vorbild: richtig · nur die Zehnerpotenz daneben · falsch.
-// «Richtig» ist auch ein sauber gerundetes Resultat (2 bis 8 signifikante Stellen) —
-// sonst wäre 2.78 für 2.7777… m/s falsch.
-function etPasst(x, soll) {
-  if (soll === 0) return Math.abs(x) < 1e-12;
-  if (Math.abs(x - soll) <= Math.abs(soll) * 1e-9) return true;
-  for (let k = 2; k <= 8; k++) {
-    const p = Math.pow(10, k - 1 - Math.floor(Math.log10(Math.abs(soll))));
-    if (Math.abs(x - Math.round(soll * p) / p) < 1e-12) return true;
-  }
-  return false;
-}
-function etZehner(x, soll) {
-  if (x === 0 || soll === 0) return false;
-  if (x * soll < 0) return false;
-  const e = Math.log10(Math.abs(x / soll));
-  return Math.abs(e - Math.round(e)) < 1e-6 && Math.round(e) !== 0;
-}
-
-function etPruefe(i, hart) {
+function etPruefeZeile(i, hart) {
   const a = ET_AUFGABEN[i];
   const feld = document.getElementById('et-e' + i);
   const zeile = document.getElementById('et-z' + i);
@@ -743,23 +1136,25 @@ function etPruefe(i, hart) {
   const g = etLies(roh);
   if (isNaN(g.wert)) {
     a.stand = hart ? 'falsch' : '';
-    marke.textContent = hart ? '✗ keine Zahl' : '';
+    marke.textContent = hart ? '✗ keine gültige Zahl' : '';
     if (hart) zeile.classList.add('falsch');
     etZaehle();
     return;
   }
   const komma = g.komma ? ' (bitte Dezimalpunkt)' : '';
-  if (etPasst(g.wert, a.soll)) {
+  const d = etDiagnose(g.wert, a);
+  if (d.art === 'ok') {
     a.stand = 'ok'; zeile.classList.add('ok'); marke.textContent = '✓ richtig' + komma;
-  } else if (etZehner(g.wert, a.soll)) {
+  } else if (d.klasse === 'warn') {
     a.stand = 'zehn'; zeile.classList.add('zehn');
-    marke.textContent = hart ? '⚠ Zehnerpotenz daneben — richtig: ' + etZahl(a.soll) + ' ' + a.u2.e
-                             : '⚠ Ziffern stimmen, Zehnerpotenz nicht';
+    // In der Liste die Kurzform, den vollen Diagnosetext gibt es im Lernmodus
+    marke.textContent = hart ? '⚠ ' + (d.kurz || 'Faktor 10ⁿ daneben') + ' — richtig: ' + etZahl(a.soll) + ' ' + a.u2.e
+                             : '⚠ ' + (d.kurz || 'Faktor 10ⁿ daneben');
   } else {
     a.stand = 'falsch';
     if (hart) {
       zeile.classList.add('falsch');
-      marke.textContent = '✗ richtig: ' + etZahl(a.soll) + ' ' + a.u2.e;
+      marke.textContent = '✗ falsch — richtig: ' + etZahl(a.soll) + ' ' + a.u2.e;
     } else {
       marke.textContent = '';
     }
@@ -768,10 +1163,9 @@ function etPruefe(i, hart) {
 }
 
 function etAllePruefen() {
-  ET_AUFGABEN.forEach((a, i) => { if (document.getElementById('et-e' + i).value.trim() !== '') etPruefe(i, true); });
+  ET_AUFGABEN.forEach((a, i) => { if (document.getElementById('et-e' + i).value.trim() !== '') etPruefeZeile(i, true); });
   etStatistik();
 }
-
 function etLoesungen() {
   ET_AUFGABEN.forEach((a, i) => {
     const feld = document.getElementById('et-e' + i);
@@ -780,97 +1174,474 @@ function etLoesungen() {
       a.stand = 'gezeigt';
       document.getElementById('et-m' + i).textContent = 'Lösung';
     } else {
-      etPruefe(i, true);
+      etPruefeZeile(i, true);
     }
   });
   etZaehle();
   etStatistik();
 }
-
-// ══════════════ Zählen und Statistik ══════════════
 function etZaehle() {
-  const z = { ok: 0, zehn: 0, falsch: 0 };
+  const z = { ok:0, zehn:0, falsch:0 };
   ET_AUFGABEN.forEach(a => { if (z[a.stand] !== undefined) z[a.stand]++; });
   document.getElementById('et-s-total').textContent = ET_AUFGABEN.length;
   document.getElementById('et-s-ok').textContent = z.ok;
   document.getElementById('et-s-zehn').textContent = z.zehn;
   document.getElementById('et-s-falsch').textContent = z.falsch;
 }
-
 function etStatistik() {
-  const proGruppe = {};
+  const pro = {};
   ET_AUFGABEN.forEach(a => {
-    const s = proGruppe[a.g.name] || (proGruppe[a.g.name] = { n: 0, ok: 0, zehn: 0, falsch: 0 });
+    const s = pro[a.g.name] || (pro[a.g.name] = { n:0, ok:0, zehn:0, falsch:0 });
     s.n++;
     if (s[a.stand] !== undefined) s[a.stand]++;
   });
-  const namen = Object.keys(proGruppe);
+  const namen = Object.keys(pro);
   const ziel = document.getElementById('et-statistik');
   if (!namen.length) { ziel.innerHTML = ''; return; }
   let t = '<table class="ftb-tabelle"><thead><tr><th>Gruppe</th><th>Aufgaben</th><th>richtig</th>' +
-          '<th>Zehnerpotenz daneben</th><th>falsch</th></tr></thead><tbody>';
+          '<th>Faktor 10ⁿ daneben</th><th>falsch</th></tr></thead><tbody>';
   namen.forEach(n => {
-    const s = proGruppe[n];
+    const s = pro[n];
     t += '<tr><td>' + n + '</td><td>' + s.n + '</td><td>' + s.ok + '</td><td>' + s.zehn + '</td><td>' + s.falsch + '</td></tr>';
   });
-  t += '</tbody></table>';
-  ziel.innerHTML = t;
+  ziel.innerHTML = t + '</tbody></table>';
 }
 
-// ══════════════ Gruppenauswahl ══════════════
+/* ═══════════════════════════════════════════════════════════════════
+   8. LERNMODUS — adaptive Auswahl mit gestuftem Feedback
+   ═══════════════════════════════════════════════════════════════════ */
+const ET_LERN = { themen:[], aufgabe:null, zaehler:0, wiedervorlage:[], mitHinweis:false, laeuft:false, geprueft:false };
+
+// selectAdaptiveTask
+function etWaehleAdaptiv() {
+  const gruppen = ET_LERN.themen.map(id => ET_GID[id]).filter(Boolean);
+  if (!gruppen.length) return null;
+
+  // 1. Fällige Wiedervorlage: dasselbe Konzept, andere Zahlen
+  for (let i = 0; i < ET_LERN.wiedervorlage.length; i++) {
+    const w = ET_LERN.wiedervorlage[i];
+    if (w.faellig <= ET_LERN.zaehler) {
+      ET_LERN.wiedervorlage.splice(i, 1);
+      const g = ET_GID[w.gid];
+      if (!g) continue;
+      const u1 = g.eh.filter(u => u.e === w.u1)[0], u2 = g.eh.filter(u => u.e === w.u2)[0];
+      if (u1 && u2) {
+        for (let t = 0; t < 8; t++) {
+          const a = etBaue(g, u1, u2, { groesse:1, dez:1 });
+          if (a && !etNah(a.wert, w.wert)) return a;
+        }
+      }
+    }
+  }
+
+  // 2. Stufenband: meist die aktuelle Stufe, dazu Wiederholung und ein Ausblick
+  const stufe = ET_STAND.stufe || 1;
+  const r = Math.random();
+  const zielStufe = r < 0.7 ? stufe : (r < 0.9 ? Math.max(1, stufe - etGanz(1, 2)) : Math.min(4, stufe + 1));
+
+  // 3. Kandidaten sammeln und nach Beherrschungsgrad gewichten
+  let kandidaten = [];
+  gruppen.forEach(g => { etPaare(g, [zielStufe], false).forEach(p => kandidaten.push({ g:g, u1:p.u1, u2:p.u2 })); });
+  if (!kandidaten.length) {
+    gruppen.forEach(g => { etPaare(g, null, false).forEach(p => kandidaten.push({ g:g, u1:p.u1, u2:p.u2 })); });
+  }
+  if (!kandidaten.length) return null;
+
+  // Fehler mit Potenz-Bezug verstärken Fläche, Volumen und Dichte
+  const potenzFehler = (ET_STAND.fehlerarten['zehn-100'] || 0) + (ET_STAND.fehlerarten['zehn-1000'] || 0) +
+                       (ET_STAND.fehlerarten['zehn-n'] || 0);
+  const gewichte = kandidaten.map(k => {
+    const p = ET_STAND.paare[k.g.id + ':' + k.u1.e + '>' + k.u2.e];
+    const score = p ? p.score : 0;
+    let w = !p ? 6 : (score <= 30 ? 8 : score <= 60 ? 4 : score <= 80 ? 2 : 1);
+    if (potenzFehler >= 3 && (k.g.potenz || k.g.id === 'dichte')) w *= 2;
+    return w;
+  });
+  let summe = 0; gewichte.forEach(w => summe += w);
+  let wurf = Math.random() * summe;
+  let gewaehlt = kandidaten[0];
+  for (let i = 0; i < kandidaten.length; i++) {
+    wurf -= gewichte[i];
+    if (wurf <= 0) { gewaehlt = kandidaten[i]; break; }
+  }
+  return etBaue(gewaehlt.g, gewaehlt.u1, gewaehlt.u2, { groesse:1, dez:1 });
+}
+
+// Stufenaufstieg ab 80 % Beherrschung der aktuellen Stufe, gemessen an den
+// letzten hoechstens zwoelf Antworten dieser Stufe (mindestens acht). Keine
+// harte Sperre — die Auswahl mischt ohnehin tiefere und hoehere Stufen bei.
+function etStufePruefen() {
+  const stufe = ET_STAND.stufe || 1;
+  if (stufe >= 4) return;
+  const log = ET_STAND.stufenLog[stufe] || [];
+  if (log.length < 8) return;
+  let ok = 0;
+  log.forEach(x => { ok += x; });
+  if (ok / log.length >= 0.8) { ET_STAND.stufe = stufe + 1; etSichere(); }
+}
+
+function etLernNaechste() {
+  const a = etWaehleAdaptiv();
+  const fb = document.getElementById('et-lern-fb');
+  if (!a) {
+    fb.style.display = 'block';
+    fb.className = 'et-fb warn';
+    fb.innerHTML = '<b>Keine Aufgabe möglich</b>Wähle mindestens ein Thema aus.';
+    return;
+  }
+  ET_LERN.aufgabe = a;
+  ET_LERN.zaehler++;
+  ET_LERN.mitHinweis = false;
+  ET_LERN.geprueft = false;
+  document.getElementById('et-lern-zaehler').textContent = 'Aufgabe ' + ET_LERN.zaehler;
+  document.getElementById('et-lern-stufe').textContent = 'Stufe ' + a.stufe;
+  document.getElementById('et-lern-thema').textContent = a.g.name;
+  document.getElementById('et-lern-frage').textContent = etZahl(a.wert) + ' ' + a.u1.e + ' =';
+  document.getElementById('et-lern-ziel').textContent = a.u2.e;
+  const feld = document.getElementById('et-lern-eingabe');
+  feld.value = '';
+  feld.setAttribute('aria-label', 'Antwort für ' + etZahl(a.wert) + ' ' + a.u1.e + ' in ' + a.u2.e);
+  feld.focus();
+  fb.style.display = 'none';
+  fb.innerHTML = '';
+}
+
+function etLernPruefe() {
+  const a = ET_LERN.aufgabe;
+  if (!a) return;
+  if (ET_LERN.geprueft) { etLernNaechste(); return; }
+  const roh = document.getElementById('et-lern-eingabe').value.trim();
+  const fb = document.getElementById('et-lern-fb');
+  if (roh === '') return;
+  const g = etLies(roh);
+  fb.style.display = 'block';
+  if (isNaN(g.wert)) {
+    fb.className = 'et-fb fehler';
+    fb.innerHTML = '<b>✗ Keine gültige Zahl</b>Erlaubt sind 12.5 · 12,5 · 1.25e1 · 1.25*10^1';
+    return;
+  }
+  const d = etDiagnose(g.wert, a);
+  const komma = g.komma ? ' Schreibe künftig mit Dezimalpunkt: ' + etZahl(g.wert) + '.' : '';
+
+  if (d.art === 'ok') {
+    ET_LERN.geprueft = true;
+    fb.className = 'et-fb ok';
+    fb.innerHTML = '<b>✓ Richtig</b>' + etZahl(a.wert) + ' ' + a.u1.e + ' = ' + etZahl(a.soll) + ' ' + a.u2.e + '.' + komma +
+                   '<div class="et-weg">Enter für die nächste Aufgabe.</div>';
+    etFortschritt(a, true, ET_LERN.mitHinweis, '');
+    etStufePruefen();
+    etLernFortschritt();
+    return;
+  }
+
+  a.versuche++;
+  ET_LERN.mitHinweis = true;
+  const titel = d.klasse === 'warn' ? '⚠ Fast' : '✗ Noch nicht';
+  if (a.versuche === 1) {
+    fb.className = 'et-fb ' + d.klasse;
+    fb.innerHTML = '<b>' + titel + '</b>' + d.text + komma + '<div class="et-weg">' + etHinweis1(a) + '</div>';
+  } else if (a.versuche === 2) {
+    fb.className = 'et-fb ' + d.klasse;
+    fb.innerHTML = '<b>' + titel + '</b>' + d.text + komma + '<div class="et-weg">Es gilt: ' + etHinweis2(a) + '</div>';
+  } else {
+    ET_LERN.geprueft = true;
+    fb.className = 'et-fb fehler';
+    fb.innerHTML = '<b>✗ Falsch — hier der Lösungsweg</b>' + d.text +
+                   '<div class="et-weg">' + etLoesungsweg(a) + '</div>' +
+                   '<div class="et-weg">Enter für die nächste Aufgabe.</div>';
+    etFortschritt(a, false, true, d.art);
+    etStufePruefen();
+    // Wiedervorlage in 2 bis 4 Aufgaben, mit anderen Zahlen
+    ET_LERN.wiedervorlage.push({ gid:a.g.id, u1:a.u1.e, u2:a.u2.e, wert:a.wert, faellig:ET_LERN.zaehler + etGanz(2, 4) });
+    etLernFortschritt();
+  }
+}
+
+function etLernFortschritt() {
+  const ziel = document.getElementById('et-lern-fortschritt');
+  const themen = ET_LERN.themen.length ? ET_LERN.themen : ET_GRUPPEN.map(g => g.id);
+  let h = '';
+  themen.forEach(id => {
+    const g = ET_GID[id];
+    if (!g) return;
+    const s = etKatScore(g);
+    h += '<div class="et-bar-zeile"><span class="et-bar-name">' + g.name + '</span>' +
+         '<span class="et-bar" role="img" aria-label="Beherrschung ' + s + ' Prozent"><i style="width:' + s + '%"></i></span>' +
+         '<span class="et-bar-wert">' + s + ' %</span></div>';
+  });
+  ziel.innerHTML = h;
+  const heute = ET_STAND.heute;
+  document.getElementById('et-lern-heute').textContent =
+    'Heute: ' + heute.n + ' Aufgaben · ' + heute.ok + ' richtig' +
+    (heute.n ? ' · ' + Math.round(heute.ok / heute.n * 100) + ' %' : '');
+
+  const schwach = ET_GRUPPEN
+    .map(g => ({ g:g, s:etKatScore(g), n:Object.keys(ET_STAND.paare).filter(k => k.indexOf(g.id + ':') === 0).length }))
+    .filter(x => x.n > 0 && x.s < 70)
+    .sort((a, b) => a.s - b.s)
+    .slice(0, 2);
+  document.getElementById('et-lern-empfehlung').textContent = schwach.length
+    ? 'Besonders üben solltest du momentan ' + etListe(schwach.map(x => x.g.name)) + '.'
+    : (Object.keys(ET_STAND.paare).length ? 'Sauber — im Moment liegt nichts deutlich zurück.' : '');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   9. PRÜFUNGSMODUS — keine Rückmeldung bis zum Schluss
+   ═══════════════════════════════════════════════════════════════════ */
+const ET_PR = { themen:[], aufgaben:[], i:0, antworten:[], start:0, limit:0, uhr:null, laeuft:false };
+const ET_GRADE = { basis:[1, 2], standard:[1, 2, 3], hoch:[3, 4], gemischt:[1, 2, 3, 4] };
+
+// startExam — verteilt die Aufgaben ausgewogen über die gewählten Themen
+function etPruefungStart() {
+  const gruppen = ET_PR.themen.map(id => ET_GID[id]).filter(Boolean);
+  if (!gruppen.length) { window.alert('Wähle mindestens ein Thema.'); return; }
+  const wahl = document.getElementById('et-pr-anzahl').value;
+  const n = Math.max(4, Math.min(60, wahl === 'eigen' ? (+document.getElementById('et-pr-eigen').value || 20) : +wahl));
+  const stufen = ET_GRADE[document.getElementById('et-pr-grad').value];
+
+  // Reihum durch die Themen, damit kein Thema dominiert
+  const aufgaben = [];
+  let runde = 0, schutz = 0;
+  while (aufgaben.length < n && schutz < n * 60) {
+    schutz++;
+    const g = gruppen[(aufgaben.length + runde) % gruppen.length];
+    const paare = etPaare(g, stufen, false);
+    if (!paare.length) { runde++; continue; }
+    const p = paare[etGanz(0, paare.length - 1)];
+    const a = etBaue(g, p.u1, p.u2, { groesse:1, dez:1 });
+    if (a) aufgaben.push(a); else runde++;
+  }
+  if (!aufgaben.length) { window.alert('Für diese Auswahl liessen sich keine Aufgaben bilden.'); return; }
+  etMisch(aufgaben);
+  // Gleiche Paarungen nicht direkt hintereinander
+  for (let i = 1; i < aufgaben.length; i++) {
+    if (aufgaben[i].key === aufgaben[i - 1].key) {
+      for (let j = i + 1; j < aufgaben.length; j++) {
+        if (aufgaben[j].key !== aufgaben[i - 1].key) {
+          const t = aufgaben[i]; aufgaben[i] = aufgaben[j]; aufgaben[j] = t;
+          break;
+        }
+      }
+    }
+  }
+  ET_PR.aufgaben = aufgaben;
+  ET_PR.antworten = aufgaben.map(() => '');
+  ET_PR.i = 0;
+  ET_PR.laeuft = true;
+  ET_PR.limit = +document.getElementById('et-pr-zeit').value * 60;
+  ET_PR.start = Date.now();
+  document.getElementById('et-pr-start').style.display = 'none';
+  document.getElementById('et-pr-ergebnis').style.display = 'none';
+  document.getElementById('et-pr-lauf').style.display = '';
+  etPruefungZeige();
+  if (ET_PR.uhr) window.clearInterval(ET_PR.uhr);
+  if (ET_PR.limit) {
+    ET_PR.uhr = window.setInterval(etPruefungUhr, 1000);
+    etPruefungUhr();
+  } else {
+    document.getElementById('et-pr-uhr').textContent = 'ohne Zeitlimit';
+  }
+}
+
+function etPruefungUhr() {
+  if (!ET_PR.laeuft || !ET_PR.limit) return;
+  const rest = ET_PR.limit - Math.floor((Date.now() - ET_PR.start) / 1000);
+  const el = document.getElementById('et-pr-uhr');
+  if (rest <= 0) { el.textContent = '00:00'; etPruefungEnde(true); return; }
+  const m = Math.floor(rest / 60), s = rest % 60;
+  el.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  el.classList.toggle('knapp', rest <= 60);
+}
+
+function etPruefungZeige() {
+  const a = ET_PR.aufgaben[ET_PR.i];
+  document.getElementById('et-pr-zaehler').textContent = 'Aufgabe ' + (ET_PR.i + 1) + ' von ' + ET_PR.aufgaben.length;
+  document.getElementById('et-pr-thema').textContent = a.g.name;
+  document.getElementById('et-pr-frage').textContent = etZahl(a.wert) + ' ' + a.u1.e + ' =';
+  document.getElementById('et-pr-ziel').textContent = a.u2.e;
+  const feld = document.getElementById('et-pr-eingabe');
+  feld.value = ET_PR.antworten[ET_PR.i] || '';
+  feld.setAttribute('aria-label', 'Antwort für ' + etZahl(a.wert) + ' ' + a.u1.e + ' in ' + a.u2.e);
+  feld.focus();
+  document.getElementById('et-pr-zurueck').disabled = ET_PR.i === 0;
+  document.getElementById('et-pr-weiter').textContent =
+    ET_PR.i === ET_PR.aufgaben.length - 1 ? 'Abschliessen' : 'Weiter';
+}
+
+function etPruefungSpeichern() {
+  if (!ET_PR.laeuft) return;
+  ET_PR.antworten[ET_PR.i] = document.getElementById('et-pr-eingabe').value.trim();
+}
+function etPruefungWeiter() {
+  if (!ET_PR.laeuft) return;
+  etPruefungSpeichern();
+  if (ET_PR.i === ET_PR.aufgaben.length - 1) { etPruefungEnde(false); return; }
+  ET_PR.i++;
+  etPruefungZeige();
+}
+function etPruefungZurueck() {
+  if (!ET_PR.laeuft) return;
+  etPruefungSpeichern();
+  if (ET_PR.i > 0) { ET_PR.i--; etPruefungZeige(); }
+}
+
+// finishExam
+function etPruefungEnde(zeitAus) {
+  if (!ET_PR.laeuft) return;
+  if (!zeitAus) etPruefungSpeichern();
+  const dauer = Math.floor((Date.now() - ET_PR.start) / 1000);
+  ET_PR.laeuft = false;
+  if (ET_PR.uhr) { window.clearInterval(ET_PR.uhr); ET_PR.uhr = null; }
+  document.getElementById('et-pr-lauf').style.display = 'none';
+
+  let ok = 0;
+  const proThema = {}, fehler = [];
+  ET_PR.aufgaben.forEach((a, i) => {
+    const roh = (ET_PR.antworten[i] || '').trim();
+    const g = roh === '' ? { wert:NaN } : etLies(roh);
+    const richtig = !isNaN(g.wert) && etPasst(g.wert, a.soll);
+    const t = proThema[a.g.name] || (proThema[a.g.name] = { n:0, ok:0 });
+    t.n++;
+    if (richtig) { ok++; t.ok++; }
+    else fehler.push({ a:a, eingabe:roh, d:isNaN(g.wert) ? { text:'Keine Antwort eingetragen.' } : etDiagnose(g.wert, a) });
+    etFortschritt(a, richtig, false, richtig ? '' : 'pruefung');
+  });
+  const n = ET_PR.aufgaben.length;
+  const prozent = Math.round(ok / n * 100);
+  ET_STAND.pruefungen.push({ datum:etHeuteDatum(), n:n, ok:ok, prozent:prozent });
+  if (ET_STAND.pruefungen.length > 20) ET_STAND.pruefungen.shift();
+  etSichere();
+
+  let h = '<h4>Ergebnis</h4><div class="live-box">' +
+    '<div class="lb-item"><span class="lb-lab">richtig</span><span class="lb-val">' + ok + ' / ' + n + '</span></div>' +
+    '<div class="lb-item"><span class="lb-lab">Anteil</span><span class="lb-val">' + prozent + ' %</span></div>' +
+    '<div class="lb-item"><span class="lb-lab">Zeit</span><span class="lb-val">' + etDauer(dauer) + '</span></div>' +
+    (zeitAus ? '<div class="lb-item"><span class="lb-lab">Ende</span><span class="lb-val">Zeit abgelaufen</span></div>' : '') +
+    '</div>';
+
+  h += '<h4>Auswertung nach Themen</h4><table class="ftb-tabelle"><thead><tr><th>Thema</th><th>richtig</th><th>Anteil</th></tr></thead><tbody>';
+  Object.keys(proThema).forEach(k => {
+    const t = proThema[k];
+    h += '<tr><td>' + k + '</td><td>' + t.ok + ' / ' + t.n + '</td><td>' + Math.round(t.ok / t.n * 100) + ' %</td></tr>';
+  });
+  h += '</tbody></table>';
+
+  if (fehler.length) {
+    h += '<h4>Fehleranalyse</h4><div class="et-fehlerliste">';
+    fehler.forEach(f => {
+      h += '<div class="et-fk">' +
+           '<div class="et-fk-kopf">' + etZahl(f.a.wert) + ' ' + f.a.u1.e + ' → ' + f.a.u2.e + '</div>' +
+           '<div class="et-fk-zeile"><span>deine Antwort</span><b>' +
+             (f.eingabe === '' ? '—' : f.eingabe + ' ' + f.a.u2.e) + '</b></div>' +
+           '<div class="et-fk-zeile"><span>richtig</span><b>' + etZahl(f.a.soll) + ' ' + f.a.u2.e + '</b></div>' +
+           '<div class="et-fk-hinweis">' + f.d.text + ' Es gilt: ' + etHinweis2(f.a) + '</div>' +
+           '</div>';
+    });
+    h += '</div>';
+  } else {
+    h += '<p><strong>Alles richtig.</strong> Nichts zu analysieren.</p>';
+  }
+
+  const schwach = Object.keys(proThema).filter(k => proThema[k].ok / proThema[k].n < 0.75);
+  const stark = Object.keys(proThema).filter(k => proThema[k].ok / proThema[k].n >= 0.9);
+  let empf;
+  if (!fehler.length) empf = 'Alle Aufgaben richtig — du kannst die Schwierigkeit erhöhen.';
+  else if (schwach.length) empf = (stark.length ? 'Sicher sitzen ' + etListe(stark.slice(0, 3)) + '. ' : '') +
+                                  'Wiederhole besonders ' + etListe(schwach.slice(0, 3)) + '.';
+  else empf = 'Kein Thema fällt deutlich ab — die Fehler verteilen sich.';
+  h += '<div class="block block-tipp" style="margin-top:14px"><div class="block-titel">💡 Lernempfehlung</div><p>' + empf + '</p></div>';
+
+  h += '<div class="btn-row"><button class="play-btn" id="et-pr-ueben">Fehler gezielt üben</button>' +
+       '<button class="typ-btn" id="et-pr-neu">Neue Prüfung</button></div>';
+
+  const ziel = document.getElementById('et-pr-ergebnis');
+  ziel.innerHTML = h;
+  ziel.style.display = '';
+  document.getElementById('et-pr-ueben').addEventListener('click', () => etFehlerUeben(fehler));
+  document.getElementById('et-pr-neu').addEventListener('click', () => {
+    ziel.style.display = 'none';
+    document.getElementById('et-pr-start').style.display = '';
+  });
+  etLernFortschritt();
+}
+
+// «A», «A und B», «A, B und C» — statt «A und B und C»
+function etListe(namen) {
+  if (namen.length <= 1) return namen.join('');
+  return namen.slice(0, -1).join(', ') + ' und ' + namen[namen.length - 1];
+}
+function etDauer(s) {
+  const m = Math.floor(s / 60);
+  return m + ':' + ((s % 60) < 10 ? '0' : '') + (s % 60) + ' min';
+}
+
+// Verbindung Prüfung → Lernmodus: schwache Themen vorwählen, fehlerhafte
+// Konzepte zur Wiedervorlage anmelden — mit anderen Zahlen.
+function etFehlerUeben(fehler) {
+  const themen = [];
+  fehler.forEach(f => { if (themen.indexOf(f.a.g.id) === -1) themen.push(f.a.g.id); });
+  ET_LERN.themen = themen.length ? themen : ET_GRUPPEN.map(g => g.id);
+  ET_LERN.wiedervorlage = [];
+  ET_LERN.zaehler = 0;
+  fehler.slice(0, 8).forEach((f, i) => {
+    ET_LERN.wiedervorlage.push({ gid:f.a.g.id, u1:f.a.u1.e, u2:f.a.u2.e, wert:f.a.wert, faellig:i * 2 });
+  });
+  etThemenZeichnen('et-lern-themen', ET_LERN.themen);
+  etModusWechsel('lernen');
+  document.getElementById('et-lern-start').style.display = 'none';
+  document.getElementById('et-lern-lauf').style.display = '';
+  ET_LERN.laeuft = true;
+  etLernNaechste();
+  etLernFortschritt();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   10. OBERFLÄCHE
+   ═══════════════════════════════════════════════════════════════════ */
+function etModusWechsel(m) {
+  ['frei', 'lernen', 'pruefung'].forEach(k => {
+    document.getElementById('et-panel-' + k).style.display = (k === m) ? '' : 'none';
+  });
+  document.querySelectorAll('#et-modi .typ-btn').forEach(b => {
+    const an = b.dataset.modus === m;
+    b.classList.toggle('aktiv', an);
+    b.setAttribute('aria-selected', an ? 'true' : 'false');
+  });
+  if (m === 'lernen') etLernFortschritt();
+}
+
 function etGruppenZeichnen() {
   const ziel = document.getElementById('et-gruppen');
   ziel.innerHTML = '';
   ET_GRUPPEN.forEach(g => {
     const k = document.createElement('div');
-    k.className = 'et-gruppe' + (ET_AKTIV[g.id] ? ' aktiv' : '');
+    k.className = 'et-gruppe' + (g.gewaehlt ? ' aktiv' : '');
     k.id = 'et-g-' + g.id;
     let h = '<label class="et-kopf"><input type="checkbox" id="et-c-' + g.id + '"' +
-            (ET_AKTIV[g.id] ? ' checked' : '') + '><b>' + g.name + '</b>' +
+            (g.gewaehlt ? ' checked' : '') + '><b>' + g.name + '</b>' +
             '<span class="et-basis">Basis ' + g.basis + '</span></label><div class="et-einheiten">';
     g.eh.forEach((u, j) => {
       h += '<span class="et-eh' + (u.an ? ' an' : '') + '" data-g="' + g.id + '" data-j="' + j +
-           '" role="button" tabindex="0" aria-pressed="' + (u.an ? 'true' : 'false') + '">' + u.e + '</span>';
+           '" role="button" tabindex="0" aria-pressed="' + (u.an ? 'true' : 'false') +
+           '" aria-label="Einheit ' + u.e + ' ' + (u.an ? 'abwählen' : 'auswählen') + '">' + u.e + '</span>';
     });
     h += '</div><div class="et-hinweis">' + (g.warn ? '⚠ ' + g.warn + ' ' : '') +
          'Erklärt in <a href="' + g.erkl + '">' + g.erklT + '</a></div>';
     k.innerHTML = h;
     ziel.appendChild(k);
   });
-  document.getElementById('et-gruppen').addEventListener('click', ev => {
-    const chip = ev.target.closest('.et-eh');
-    if (chip) {
-      const g = ET_GRUPPEN.filter(x => x.id === chip.dataset.g)[0];
-      const u = g.eh[+chip.dataset.j];
-      u.an = !u.an;
-      chip.classList.toggle('an', u.an);
-      chip.setAttribute('aria-pressed', u.an ? 'true' : 'false');
-      return;
-    }
-    const box = ev.target.closest('input[type=checkbox]');
-    if (box) {
-      const id = box.id.replace('et-c-', '');
-      ET_AKTIV[id] = box.checked;
-      document.getElementById('et-g-' + id).classList.toggle('aktiv', box.checked);
-    }
-  });
-  document.getElementById('et-gruppen').addEventListener('keydown', ev => {
-    if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.classList.contains('et-eh')) {
-      ev.preventDefault();
-      ev.target.click();
-    }
-  });
 }
 
-function etAlleGruppen(an) {
-  ET_GRUPPEN.forEach(g => {
-    ET_AKTIV[g.id] = an;
-    document.getElementById('et-c-' + g.id).checked = an;
-    document.getElementById('et-g-' + g.id).classList.toggle('aktiv', an);
-  });
+function etThemenZeichnen(zielId, auswahl) {
+  document.getElementById(zielId).innerHTML = ET_GRUPPEN.map(g =>
+    '<span class="et-eh' + (auswahl.indexOf(g.id) !== -1 ? ' an' : '') + '" data-thema="' + g.id +
+    '" role="button" tabindex="0" aria-pressed="' + (auswahl.indexOf(g.id) !== -1 ? 'true' : 'false') +
+    '">' + g.name + '</span>').join('');
 }
 
-// ══════════════ Umrechnungstabellen ══════════════
+/* ═══════════════════════════════════════════════════════════════════
+   11. UMRECHNUNGSTABELLEN (aus denselben Daten)
+   ═══════════════════════════════════════════════════════════════════ */
 function etTabellen() {
   let t = '';
   ET_GRUPPEN.forEach(g => {
@@ -881,11 +1652,10 @@ function etTabellen() {
       const p = Math.log10(u.f);
       const dekadisch = Math.abs(p - Math.round(p)) < 1e-9;
       let faktor, potenz;
-      if (u.o !== undefined && u.o !== 0) {          // Kelvin-Verschiebung statt Faktor
-        faktor = '\\(+\\,' + u.o + '\\) — Verschiebung';
+      if (u.o !== undefined && u.o !== 0) {
+        faktor = 'Zahlenwert \\(+\\,' + u.o + '\\)';
         potenz = '—';
       } else {
-        // Lesbare Grössen dezimal, winzige und riesige als Zehnerpotenz
         faktor = u.fTex ? '\\(' + u.fTex + '\\)'
                : (dekadisch && (Math.round(p) < -3 || Math.round(p) > 4)
                     ? '\\(10^{' + Math.round(p) + '}\\)'
@@ -896,19 +1666,231 @@ function etTabellen() {
     });
     t += '</tbody></table>';
   });
-  document.getElementById('et-tabellen').innerHTML = t;
-  if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([document.getElementById('et-tabellen')]);
+  const ziel = document.getElementById('et-tabellen');
+  ziel.innerHTML = t;
+  if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([ziel]);
 }
 
-// ══════════════ Start ══════════════
+/* ═══════════════════════════════════════════════════════════════════
+   12. SELBSTTEST — jedes Einheitenpaar hin und zurück
+   Aufruf in der Konsole: etSelbsttest()
+   Genutzt von scripts/verify_einheitentrainer.js
+   ═══════════════════════════════════════════════════════════════════ */
+function etSelbsttest() {
+  const fehler = [];
+  const werte = [0, 1, 0.1, 10, 1000, 3.7, 0.025];
+  let paare = 0, faelle = 0;
+  ET_GRUPPEN.forEach(g => {
+    etPaare(g, null, false).forEach(p => {
+      paare++;
+      const proben = g.offset ? [-20, 0, 25, 100] : werte;
+      proben.forEach(v0 => {
+        if (g.offset && p.u1.e === 'K' && v0 < 0) return;      // kein negatives Kelvin
+        faelle++;
+        const hin = etRechne(p.u1, p.u2, v0);
+        const zurueck = etRechne(p.u2, p.u1, hin);
+        if (!isFinite(hin) || !isFinite(zurueck)) {
+          fehler.push(g.name + ' ' + p.u1.e + '→' + p.u2.e + ' bei ' + v0 + ': nicht endlich');
+          return;
+        }
+        const tol = Math.max(Math.abs(v0) * 1e-9, 1e-9);
+        if (Math.abs(zurueck - v0) > tol) {
+          fehler.push(g.name + ' ' + p.u1.e + '→' + p.u2.e + '→' + p.u1.e + ' bei ' + v0 + ': ' + zurueck);
+        }
+        if (g.offset && p.u2.e === 'K' && hin < 0) {
+          fehler.push('Kelvin negativ: ' + v0 + ' ' + p.u1.e + ' → ' + hin);
+        }
+      });
+      const a = etBaue(g, p.u1, p.u2, { groesse:1, dez:1 });
+      if (!a) { fehler.push('kein Aufgabenwert für ' + g.name + ' ' + p.u1.e + '→' + p.u2.e); return; }
+      if (!isFinite(a.wert) || !isFinite(a.soll)) fehler.push('NaN in ' + a.key);
+      if (etZahl(a.soll).length > 18) fehler.push('unlesbares Resultat in ' + a.key + ': ' + etZahl(a.soll));
+      if (!etPasst(a.soll, a.soll)) fehler.push('Toleranz greift nicht bei ' + a.key);
+      if (a.soll !== 0 && etPasst(a.soll * 10, a.soll)) fehler.push('Toleranz zu weit bei ' + a.key);
+      // Rundungsartefakte zeigen sich immer im Nachkommateil (0.30000000000004)
+      [a.wert, a.soll].forEach(x => {
+        const roh = String(x), punkt = roh.indexOf('.');
+        const nach = punkt === -1 ? '' : roh.slice(punkt + 1);
+        if (/0{6,}[1-9]|9{6,}/.test(nach)) fehler.push('Rundungsartefakt in ' + a.key + ': ' + roh);
+      });
+      if (etLies(etZahl(a.soll)).wert === undefined || isNaN(etLies(etZahl(a.soll)).wert)) {
+        fehler.push('Anzeige nicht wieder einlesbar: ' + a.key + ' → ' + etZahl(a.soll));
+      }
+    });
+  });
+  // Feste Referenzwerte aus dem Lehrmittel
+  const referenz = [
+    ['laenge', 'km', 'm', 2.5, 2500], ['laenge', 'm', 'cm', 1, 100],
+    ['flaeche', 'm²', 'cm²', 1, 10000], ['volumen', 'm³', 'cm³', 1, 1e6],
+    ['volumen', 'l', 'm³', 1000, 1], ['masse', 'kg', 'g', 1, 1000],
+    ['zeit', 'h', 's', 1, 3600], ['tempo', 'm/s', 'km/h', 1, 3.6],
+    ['tempo', 'km/h', 'm/s', 72, 20], ['druck', 'bar', 'Pa', 1, 1e5],
+    ['druck', 'hPa', 'Pa', 1013, 101300], ['dichte', 'g/cm³', 'kg/m³', 1, 1000],
+    ['energie', 'kWh', 'J', 1, 3.6e6], ['energie', 'kWh', 'J', 0.75, 2.7e6],
+    ['temperatur', '°C', 'K', 0, 273.15], ['temperatur', '°C', 'K', -20, 253.15],
+    ['temperatur', 'K', '°C', 293.15, 20]
+  ];
+  referenz.forEach(r => {
+    const g = ET_GID[r[0]];
+    const u1 = g.eh.filter(u => u.e === r[1])[0], u2 = g.eh.filter(u => u.e === r[2])[0];
+    if (!u1 || !u2) { fehler.push('Referenz: Einheit fehlt ' + r[1] + '/' + r[2]); return; }
+    const x = etRechne(u1, u2, r[3]);
+    if (Math.abs(x - r[4]) > Math.max(Math.abs(r[4]) * 1e-9, 1e-9)) {
+      fehler.push('Referenz falsch: ' + r[3] + ' ' + r[1] + ' → ' + x + ' statt ' + r[4]);
+    }
+  });
+  // Eingabeformate
+  [['3.14', 3.14], ['3,14', 3.14], ['3.6e6', 3.6e6], ['3.6E6', 3.6e6],
+   ['3.6*10^6', 3.6e6], ['3.6·10^6', 3.6e6], ["1'250.5", 1250.5],
+   ['-20', -20], ['abc', NaN], ['', NaN], ['1..2', NaN]]
+   .forEach(t => {
+     const w = etLies(t[0]).wert;
+     const ok = isNaN(t[1]) ? isNaN(w) : Math.abs(w - t[1]) < 1e-9;
+     if (!ok) fehler.push('Eingabe «' + t[0] + '» ergibt ' + w);
+   });
+  // Diagnose-Kategorien
+  const gL = ET_GID['laenge'], km = gL.eh.filter(u => u.e === 'km')[0], m = gL.eh.filter(u => u.e === 'm')[0];
+  const probe = { g:gL, u1:km, u2:m, wert:2.5, soll:2500, key:'test', versuche:0 };
+  if (etDiagnose(2500, probe).art !== 'ok') fehler.push('Diagnose: richtige Antwort nicht erkannt');
+  if (etDiagnose(250, probe).art !== 'zehn-10') fehler.push('Diagnose: Faktor 10 nicht erkannt');
+  if (etDiagnose(25, probe).art !== 'zehn-100') fehler.push('Diagnose: Faktor 100 nicht erkannt');
+  if (etDiagnose(2.5, probe).art !== 'zehn-1000') fehler.push('Diagnose: Faktor 1000 nicht erkannt');
+  if (etDiagnose(1234, probe).art !== 'rechenfehler') fehler.push('Diagnose: Rechenfehler nicht erkannt');
+  const gT = ET_GID['temperatur'], c = gT.eh.filter(u => u.e === '°C')[0], kk = gT.eh.filter(u => u.e === 'K')[0];
+  const probeT = { g:gT, u1:c, u2:kk, wert:20, soll:293.15, key:'testT', versuche:0 };
+  if (etDiagnose(20, probeT).art !== 'temp-offset') fehler.push('Diagnose: fehlende Verschiebung nicht erkannt');
+  if (etDiagnose(-253.15, probeT).art !== 'temp-richtung') fehler.push('Diagnose: falsche Richtung bei Temperatur nicht erkannt');
+  return { paare:paare, faelle:faelle, fehler:fehler };
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   13. START
+   ═══════════════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
+  etLade();
+  ['laenge', 'masse', 'zeit'].forEach(id => { ET_GID[id].gewaehlt = true; });
+  ET_LERN.themen = ['laenge', 'flaeche', 'volumen', 'masse', 'zeit'];
+  ET_PR.themen = ET_GRUPPEN.map(g => g.id);
+
   etGruppenZeichnen();
+  etThemenZeichnen('et-lern-themen', ET_LERN.themen);
+  etThemenZeichnen('et-pr-themen', ET_PR.themen);
   etTabellen();
+
+  document.getElementById('et-modi').addEventListener('click', ev => {
+    const b = ev.target.closest('.typ-btn');
+    if (b) etModusWechsel(b.dataset.modus);
+  });
+
+  // Freies Üben
+  const gruppenBox = document.getElementById('et-gruppen');
+  gruppenBox.addEventListener('click', ev => {
+    const chip = ev.target.closest('.et-eh');
+    if (chip) {
+      const g = ET_GID[chip.dataset.g];
+      const u = g.eh[+chip.dataset.j];
+      u.an = !u.an;
+      chip.classList.toggle('an', u.an);
+      chip.setAttribute('aria-pressed', u.an ? 'true' : 'false');
+      chip.setAttribute('aria-label', 'Einheit ' + u.e + ' ' + (u.an ? 'abwählen' : 'auswählen'));
+      return;
+    }
+    const box = ev.target.closest('input[type=checkbox]');
+    if (box) {
+      const id = box.id.replace('et-c-', '');
+      ET_GID[id].gewaehlt = box.checked;
+      document.getElementById('et-g-' + id).classList.toggle('aktiv', box.checked);
+    }
+  });
+  gruppenBox.addEventListener('keydown', ev => {
+    if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.classList.contains('et-eh')) {
+      ev.preventDefault(); ev.target.click();
+    }
+  });
   document.getElementById('et-neu').addEventListener('click', etNeueAufgaben);
   document.getElementById('et-pruefen').addEventListener('click', etAllePruefen);
   document.getElementById('et-loesungen').addEventListener('click', etLoesungen);
-  document.getElementById('et-alle-an').addEventListener('click', () => etAlleGruppen(true));
-  document.getElementById('et-keine').addEventListener('click', () => etAlleGruppen(false));
+  document.getElementById('et-alle-an').addEventListener('click', () => {
+    ET_GRUPPEN.forEach(g => { g.gewaehlt = true; });
+    etGruppenZeichnen();
+  });
+  document.getElementById('et-keine').addEventListener('click', () => {
+    ET_GRUPPEN.forEach(g => { g.gewaehlt = false; });
+    etGruppenZeichnen();
+  });
+
+  // Themen-Chips in Lern- und Prüfungsmodus
+  [['et-lern-themen', ET_LERN], ['et-pr-themen', ET_PR]].forEach(paar => {
+    const box = document.getElementById(paar[0]);
+    const zustand = paar[1];
+    const um = chip => {
+      const id = chip.dataset.thema;
+      const i = zustand.themen.indexOf(id);
+      if (i === -1) zustand.themen.push(id); else zustand.themen.splice(i, 1);
+      chip.classList.toggle('an', i === -1);
+      chip.setAttribute('aria-pressed', i === -1 ? 'true' : 'false');
+    };
+    box.addEventListener('click', ev => { const c = ev.target.closest('.et-eh'); if (c) um(c); });
+    box.addEventListener('keydown', ev => {
+      if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.classList.contains('et-eh')) {
+        ev.preventDefault(); um(ev.target);
+      }
+    });
+  });
+
+  // Lernmodus
+  document.getElementById('et-lern-alle').addEventListener('click', () => {
+    ET_LERN.themen = ET_GRUPPEN.map(g => g.id);
+    etThemenZeichnen('et-lern-themen', ET_LERN.themen);
+    etLernFortschritt();
+  });
+  document.getElementById('et-lern-los').addEventListener('click', () => {
+    if (!ET_LERN.themen.length) { window.alert('Wähle mindestens ein Thema.'); return; }
+    document.getElementById('et-lern-start').style.display = 'none';
+    document.getElementById('et-lern-lauf').style.display = '';
+    ET_LERN.laeuft = true;
+    ET_LERN.zaehler = 0;
+    etLernNaechste();
+  });
+  document.getElementById('et-lern-stop').addEventListener('click', () => {
+    ET_LERN.laeuft = false;
+    document.getElementById('et-lern-lauf').style.display = 'none';
+    document.getElementById('et-lern-start').style.display = '';
+  });
+  document.getElementById('et-lern-check').addEventListener('click', etLernPruefe);
+  document.getElementById('et-lern-weiter').addEventListener('click', etLernNaechste);
+  document.getElementById('et-lern-eingabe').addEventListener('keydown', ev => {
+    if (ev.key !== 'Enter') return;
+    ev.preventDefault();
+    if (ET_LERN.geprueft) etLernNaechste(); else etLernPruefe();
+  });
+  document.getElementById('et-reset').addEventListener('click', () => {
+    if (!window.confirm('Möchtest du deinen gesamten gespeicherten Lernfortschritt wirklich löschen?')) return;
+    ET_STAND = { paare:{}, fehlerarten:{}, heute:{ datum:etHeuteDatum(), n:0, ok:0 }, stufe:1, stufenLog:{}, pruefungen:[] };
+    try { window.localStorage.removeItem(ET_KEY); } catch (e) { /* ignorieren */ }
+    ET_LERN.wiedervorlage = [];
+    etLernFortschritt();
+  });
+
+  // Prüfungsmodus
+  document.getElementById('et-pr-alle').addEventListener('click', () => {
+    ET_PR.themen = ET_GRUPPEN.map(g => g.id);
+    etThemenZeichnen('et-pr-themen', ET_PR.themen);
+  });
+  document.getElementById('et-pr-anzahl').addEventListener('change', ev => {
+    document.getElementById('et-pr-eigen-feld').style.display = ev.target.value === 'eigen' ? '' : 'none';
+  });
+  document.getElementById('et-pr-los').addEventListener('click', etPruefungStart);
+  document.getElementById('et-pr-weiter').addEventListener('click', etPruefungWeiter);
+  document.getElementById('et-pr-zurueck').addEventListener('click', etPruefungZurueck);
+  document.getElementById('et-pr-ende').addEventListener('click', () => etPruefungEnde(false));
+  document.getElementById('et-pr-eingabe').addEventListener('keydown', ev => {
+    if (ev.key !== 'Enter') return;
+    ev.preventDefault();
+    etPruefungWeiter();
+  });
+
+  etLernFortschritt();
   etNeueAufgaben();
 });
 </script>
