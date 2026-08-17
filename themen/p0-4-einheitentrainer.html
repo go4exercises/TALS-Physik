@@ -944,7 +944,7 @@ function etLoesungsweg(a) {
 /* ═══════════════════════════════════════════════════════════════════
    5. AUFGABEN ERZEUGEN (generateTask)
    ═══════════════════════════════════════════════════════════════════ */
-function etWert(u, maxStellen, groesse, dez) {
+function etWert(u, maxStellen, groesse, dez, bereich) {
   let stellen = dez === 0 ? 0 : (dez === 1 ? (Math.random() < 0.45 ? etGanz(1, 2) : 0)
                                            : (Math.random() < 0.8 ? etGanz(1, 3) : 0));
   if (maxStellen !== undefined) stellen = Math.min(stellen, maxStellen);
@@ -952,8 +952,9 @@ function etWert(u, maxStellen, groesse, dez) {
   // Dichte von 477 g/cm³ wäre richtig gerechnet, als Physikaufgabe aber Unsinn.
   let v;
   if (u.von !== undefined) {
-    v = u.von + Math.random() * (u.bis - u.von);
-    if (u.bis - u.von <= 30 && stellen === 0) stellen = 1;
+    const von = bereich ? bereich[0] : u.von, bis = bereich ? bereich[1] : u.bis;
+    v = von + Math.random() * (bis - von);
+    if (bis - von <= 30 && stellen === 0) stellen = 1;
   } else {
     v = etGanz(1, [20, 500, 20000][groesse]);
   }
@@ -973,6 +974,48 @@ function etKrumm(x, stellen) {
 
 // Baut eine Aufgabe aus einem festen Einheitenpaar; null, wenn keine
 // brauchbaren Zahlen zustande kommen.
+// Zulässiges Band einer Einheit: der erklärte Bereich mit einer Zehnerpotenz
+// Spielraum. 0.005 g/cm³ (ein Gas) soll erlaubt bleiben, 120 000 mm/s dagegen
+// nicht. Bei Bereichen, die auch null oder negative Werte umfassen (°C), tritt
+// an die Stelle des Faktors ein additiver Zuschlag von einer halben Spannweite.
+function etBand(u) {
+  const spanne = u.bis - u.von;
+  return [u.von > 0 ? u.von / 10 : u.von - spanne * 0.5,
+          u.bis > 0 ? u.bis * 10 : u.bis + spanne * 0.5];
+}
+// Liegt ein Wert im Band seiner Einheit? Der gezogene Wert tut das per
+// Konstruktion — der daraus berechnete Gegenwert nicht, und nach der
+// Rückwärtskonstruktion gilt das sogar für den Aufgabenwert selbst.
+function etImBereich(u, x) {
+  if (u.von === undefined) return true;
+  const b = etBand(u);
+  return x >= b[0] && x <= b[1];
+}
+// Passen die Bänder zweier Einheiten überhaupt zusammen? mm/s und km/s liegen
+// sechs Zehnerpotenzen auseinander — dazwischen gibt es keinen Wert, der auf
+// beiden Seiten sinnvoll ist. Solche Paarungen werden gar nicht erst angeboten,
+// statt Aufgaben wie «108 000 km/h = 30 km/s» zu erzeugen.
+function etPaarMoeglich(u1, u2) {
+  if (u1.von === undefined || u2.von === undefined) return true;
+  return etZiehBereich(u1, u2) !== null;
+}
+
+// Aus welchem Fenster darf der Aufgabenwert gezogen werden? Der eigene
+// Bereich, geschnitten mit dem Bereich, der auf der anderen Seite noch im Band
+// landet. Ohne diesen Schnitt müsste der Generator verwerfen, bis es zufällig
+// passt — bei km/s → m/s wäre nur jeder 140. Wurf brauchbar.
+function etZiehBereich(u1, u2) {
+  if (u1.von === undefined) return null;
+  let lo = u1.von, hi = u1.bis;
+  if (u2.von !== undefined) {
+    const b = etBand(u2);
+    const a1 = etRechne(u2, u1, b[0]), a2 = etRechne(u2, u1, b[1]);
+    lo = Math.max(lo, Math.min(a1, a2));
+    hi = Math.min(hi, Math.max(a1, a2));
+  }
+  return hi > lo ? [lo, hi] : null;
+}
+
 const ET_MAX_VERSUCHE = 40;
 function etBaue(g, u1, u2, opt) {
   opt = opt || {};
@@ -983,7 +1026,7 @@ function etBaue(g, u1, u2, opt) {
     // In der zweiten Phase ohne Dezimalstellen würfeln: bei Paaren mit grossem
     // Verhältnis (d → ms) hat sonst jedes Ergebnis zu viele signifikante
     // Stellen, und es käme gar keine Aufgabe zustande.
-    let wert = etWert(u1, opt.maxStellen, groesse, streng ? dez : 0);
+    let wert = etWert(u1, opt.maxStellen, groesse, streng ? dez : 0, etZiehBereich(u1, u2));
     // Phase 2 würfelt bewusst runde Zahlen (zwei signifikante Stellen). Bei
     // Paaren wie d → ms ist das der einzige Weg zu einer Aufgabe, deren beide
     // Zahlen sich sauber schreiben lassen.
@@ -997,7 +1040,7 @@ function etBaue(g, u1, u2, opt) {
     // akzeptiert eine sauber gerundete Eingabe. Ohne diese Lockerung gäbe es
     // zu d → s mit grossen Zahlen keine einzige Aufgabe.
     if (etKrumm(soll, streng ? 5 : 9)) {
-      let s2 = etWert(u2, streng ? 1 : 0, groesse, streng ? dez : 0);
+      let s2 = etWert(u2, streng ? 1 : 0, groesse, streng ? dez : 0, etZiehBereich(u2, u1));
       if (!streng) s2 = +s2.toPrecision(2);
       const w2 = etRechne(u2, u1, s2);
       if (etKrumm(w2, streng ? 7 : 9)) continue;
@@ -1023,6 +1066,9 @@ function etBaue(g, u1, u2, opt) {
     // Lernende mit einer gerundeten Zahl gegen einen exakteren Sollwert.
     if (!etNah(etLies(etZahl(wert)).wert, wert)) continue;
     if (!etNah(etLies(etZahl(soll)).wert, soll)) continue;
+    // Beide Seiten im Band ihrer Einheit — auch der zurückgerechnete Wert.
+    // Gilt in beiden Phasen: lieber keine Aufgabe als eine unsinnige.
+    if (!etImBereich(u1, wert) || !etImBereich(u2, soll)) continue;
     if (g.offset && (wert * u1.f + (u1.o || 0)) < 0) continue;   // nie unter 0 K
     return { g:g, u1:u1, u2:u2, wert:+wert, soll:+soll, stufe:etStufe(g, u1, u2),
              key:g.id + ':' + u1.e + '>' + u2.e, stand:'', versuche:0 };
@@ -1041,6 +1087,7 @@ function etPaare(g, stufen, nurAktive) {
     if (u1.e === u2.e) continue;
     if (!g.offset && etNah(u1.f, u2.f)) continue;       // z.B. ml und cm³
     if (!g.offset && Math.abs(Math.log10(etVerhaeltnis(u1, u2))) > 9) continue;
+    if (!etPaarMoeglich(u1, u2)) continue;
     const s = etStufe(g, u1, u2);
     if (stufen && stufen.indexOf(s) === -1) continue;
     out.push({ u1:u1, u2:u2, stufe:s });
@@ -1132,6 +1179,7 @@ function etEinePaarung(g) {
     do { j = etGanz(0, aktiv.length - 1); } while (j === i);
   }
   if (j === i || aktiv[i].e === aktiv[j].e) return null;
+  if (!etPaarMoeglich(aktiv[i], aktiv[j])) return null;
   return [aktiv[i], aktiv[j]];
 }
 
@@ -1803,6 +1851,7 @@ function etSelbsttest(proPaar) {
       });
       // Generator: mehrere Zufallsaufgaben je Richtung (P16/P24)
       for (let r = 0; r < runden; r++) {
+        if (!etPaarMoeglich(p.u1, p.u2)) break;   // Bänder passen nicht zusammen
         const groesse = r % 3;                    // klein, mittel, gross durchspielen
         const a = etBaue(g, p.u1, p.u2, { groesse:groesse, dez:r % 2 ? 1 : 2 });
         if (!a) { fehler.push('kein Aufgabenwert für ' + g.name + ' ' + p.u1.e + '→' + p.u2.e +
@@ -1833,6 +1882,29 @@ function etSelbsttest(proPaar) {
       }
     });
   });
+  // Bereichsprüfung: bei Paaren mit vereinbaren Bereichen muss jeder erzeugte
+  // Wert auf beiden Seiten im erklärten Band liegen — auch der aus der
+  // Rückwärtskonstruktion stammende Aufgabenwert.
+  [['tempo', 'm/s', 'km/h'], ['tempo', 'km/h', 'm/s'], ['tempo', 'mm/s', 'cm/s'],
+   ['dichte', 'kg/m³', 'g/cm³'], ['dichte', 'g/cm³', 'kg/m³'], ['dichte', 'kg/l', 't/m³'],
+   ['temperatur', '°C', 'K'], ['temperatur', 'K', '°C']].forEach(x => {
+    const g = ET_GID[x[0]];
+    const u1 = g.eh.filter(u => u.e === x[1])[0], u2 = g.eh.filter(u => u.e === x[2])[0];
+    if (!etPaarMoeglich(u1, u2)) { fehler.push('Bereichstest: ' + x[1] + ' → ' + x[2] + ' gilt als unmöglich'); return; }
+    for (let i = 0; i < 60; i++) {
+      const a = etBaue(g, u1, u2, { groesse:i % 3, dez:i % 2 });
+      if (!a) { fehler.push('Bereichstest: keine Aufgabe für ' + x[1] + ' → ' + x[2]); break; }
+      if (!etImBereich(u1, a.wert)) {
+        fehler.push('Aufgabenwert ausserhalb des Bereichs: ' + etZahl(a.wert) + ' ' + x[1] +
+                    ' (erlaubt ' + u1.von + ' bis ' + u1.bis + ')'); break;
+      }
+      if (!etImBereich(u2, a.soll)) {
+        fehler.push('Lösung ausserhalb des Bereichs: ' + etZahl(a.soll) + ' ' + x[2] +
+                    ' (erlaubt ' + u2.von + ' bis ' + u2.bis + ')'); break;
+      }
+    }
+  });
+
   // P15/P20 — Extremkombinationen muessen Aufgaben liefern, auch mit «klein»
   [['laenge','nm','km'], ['laenge','km','nm'], ['flaeche','mm²','km²'], ['flaeche','km²','mm²'],
    ['volumen','mm³','m³'], ['volumen','m³','mm³'], ['energie','mJ','MJ'], ['energie','MJ','mJ'],
@@ -1842,6 +1914,7 @@ function etSelbsttest(proPaar) {
     const u1 = g.eh.filter(u => u.e === x[1])[0], u2 = g.eh.filter(u => u.e === x[2])[0];
     if (!u1 || !u2) { fehler.push('Extremtest: Einheit fehlt ' + x[1] + '/' + x[2]); return; }
     for (let gr = 0; gr <= 2; gr++) {
+      if (!etPaarMoeglich(u1, u2)) break;
       const a = etBaue(g, u1, u2, { groesse:gr, dez:1 });
       if (!a) fehler.push('Extremkombination ohne Aufgabe: ' + x[1] + ' → ' + x[2] + ' (Grösse ' + gr + ')');
       else if (isNaN(etLies(etZahl(a.soll)).wert)) fehler.push('Extremkombination unlesbar: ' + x[1] + ' → ' + x[2]);
