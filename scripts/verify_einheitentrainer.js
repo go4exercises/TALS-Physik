@@ -4,7 +4,9 @@
 
    Laedt die Seite in jsdom und ruft die dort definierte Funktion
    etSelbsttest() auf. Diese prueft:
-     - jedes Einheitenpaar hin und zurueck (Rundreise-Toleranz)
+     - jedes vom Trainer angebotene Einheitenpaar hin und zurueck. Paare, die
+       etPaare() bewusst aussortiert (gleicher Faktor, Spruenge ueber neun
+       Zehnerpotenzen, unvereinbare Wertebereiche), sind nicht enthalten.
      - feste Referenzwerte aus dem Lehrmittel (m/km, m²/cm², kWh/J, °C/K …)
      - keine NaN-/Infinity-Werte, keine negativen Kelvinwerte
      - den Aufgabengenerator (lesbare Zahlen, keine Rundungsartefakte)
