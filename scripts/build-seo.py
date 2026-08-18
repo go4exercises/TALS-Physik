@@ -81,6 +81,9 @@ SEITEN = {
  'themen/p0-4-einheitentrainer.html': dict(
    beschreibung='Einheiten umrechnen üben: Übungsgenerator für Länge, Fläche, Volumen, Masse, Zeit, Tempo, Kraft, Druck, Energie, Leistung, Dichte und Temperatur.',
    themen=['Einheiten umrechnen', 'Übungsgenerator', 'Einheitenpräfixe', 'Zehnerpotenzen', 'SI-Einheiten']),
+ 'themen/p0-5-si-einheiten.html': dict(
+   beschreibung='Die sieben SI-Basiseinheiten: Herkunft und heutige Definition von Sekunde, Meter, Kilogramm, Ampere, Kelvin, Mol und Candela — mit Simulationen.',
+   themen=['SI-Basiseinheiten', 'Naturkonstanten', 'Meter', 'Kilogramm', 'Sekunde', 'Einheitenvorsilben']),
  'themen/p4-1-kinematik.html': dict(
    beschreibung='Kinematik: Weg, Geschwindigkeit und Beschleunigung im v-t-Diagramm, gleichförmige und beschleunigte Bewegung, freier Fall, Wurf und Kreisbewegung.',
    themen=['Kinematik', 'Geschwindigkeit', 'Beschleunigung', 'v-t-Diagramm', 'Freier Fall', 'Kreisbewegung'],

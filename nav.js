@@ -19,6 +19,7 @@ const SITE = {
     { id:'p0-2', nr:'0.2', titel:'Grössen, Einheiten und Messen', url:'themen/p0-2-vorwissen-physik.html' },
     { id:'p0-3', nr:'0.3', titel:'Messen — Waagen, Dichte, Einheiten', url:'themen/p0-3-messen-waagen-dichte.html' },
     { id:'p0-4', nr:'0.4', titel:'Einheitentrainer',                url:'themen/p0-4-einheitentrainer.html' },
+    { id:'p0-5', nr:'0.5', titel:'Die sieben SI-Basiseinheiten',    url:'themen/p0-5-si-einheiten.html' },
     { id:'p4-1', nr:'4.1', titel:'Kinematik des Schwerpunkts',     url:'themen/p4-1-kinematik.html' },
     { id:'p4-2', nr:'4.2', titel:'Dynamik',                        url:'themen/p4-2-dynamik.html' },
     { id:'p4-3', nr:'4.3', titel:'Energie',                        url:'themen/p4-3-energie.html' },
@@ -38,7 +39,7 @@ const SITE = {
 
 // Lerngebiet-Gruppen für die Dropdown-Anzeige
 const GROUPS = [
-  { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-0','p0-1','p0-2','p0-3','p0-4'] },
+  { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-0','p0-1','p0-2','p0-3','p0-4','p0-5'] },
   { nr:'4', titel:'Mechanik',                            lek:100, ids:['p4-1','p4-2','p4-3','p4-4','p4-5'] },
   { nr:'5', titel:'Thermodynamik',                       lek:30,  ids:['p5-1','p5-2','p5-3'] },
   { nr:'6', titel:'Einführung in andere Bereiche der Physik', lek:30, ids:['p6-1','p6-1a','p6-2'] },
@@ -133,7 +134,7 @@ function buildNav(cfg) {
     <div class="meta-sub">Erstellt</div>
     <ul>
       <li>Alle 10 Teilgebiete vollständig (Lerngebiete 4 Mechanik, 5 Thermodynamik, 6 Wellen und Elektrizität)</li>
-      <li>Kapitel 0 Vorwissen (3 Seiten zur Sek-I-Auffrischung)</li>
+      <li>Kapitel 0 Vorwissen (6 Seiten: Alltagstour, Rechnen, Grössen, Messen, Einheitentrainer, SI-Basiseinheiten)</li>
       <li>Je Themenseite: interaktive Animationen, Aufgaben, Zusammenfassung, Druckseiten/Materialien und externe Ressourcen</li>
       <li>Schwesterprojekt: <a href="https://mathe.begreifbar.ch/" target="_blank" rel="noopener" class="meta-link">TALS Mathematik</a> — gleicher Aufbau für das Fach Mathematik</li>
     </ul>
