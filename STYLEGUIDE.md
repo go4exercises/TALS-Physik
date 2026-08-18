@@ -1,6 +1,8 @@
 # TALS-Physik · Styleguide
 
-**Version 1.2 · Stand: 1. August 2026** · (1.2: §6.1a Footer, Volltextsuche und `suche.js` im
+**Version 1.3 · Stand: 18. August 2026** · (1.3: §2.3 Liter klein sowie Basisgrösse gegen
+abgeleitete Grösse und «Referenzeinheit», §5.7 kein HTML in einem LaTeX-Ausdruck,
+Stilcheck-Regel 7 · 1.2: §6.1a Footer, Volltextsuche und `suche.js` im
 Skelett, Zusatzmaterial ohne Formelauszug, Stilcheck-Regeln 1–6 · 1.1: §3.6 Label-Robustheit,
 §3.7 Einheiten-Zweitzeile, §5.3 Gruppierung, §5.8 Direkt-Manipulation)
 
@@ -75,6 +77,15 @@ In LaTeX:
   `9.81\;\text{m/s}^2` ✓
 - **Einheit ist nicht kursiv**: Variable kursiv, Einheit aufrecht. In LaTeX die Einheit immer in `\text{...}` setzen.
 - **Bruchstrich bei Einheiten:** `m/s` oder `m·s⁻¹`; die Slash-Variante ist üblicher und in der BM-Formelsammlung dominant.
+- **Basisgrösse oder abgeleitete Grösse** (verbindlich seit 18.08.2026): Das SI kennt
+  genau **sieben Basisgrössen** mit je einer Basiseinheit — Länge (m), Masse (kg),
+  Zeit (s), elektrische Stromstärke (A), thermodynamische Temperatur (K), Stoffmenge
+  (mol), Lichtstärke (cd). Alles andere ist **abgeleitet**: Fläche (m²), Volumen (m³),
+  Kraft (N), Druck (Pa), Energie (J), Leistung (W), Dichte (kg/m³) — und auch die
+  Geschwindigkeit. Entsprechend heisst es nie „die Grundgrössen Weg, Zeit, Masse und
+  Volumen" (p0-2, korrigiert am 17.08.2026) und nie „Basiseinheit m²".
+  Braucht eine Darstellung eine Bezugseinheit, auf die andere umgerechnet werden
+  (Einheitentrainer p0-4, Umrechnungstabellen), heisst sie **Referenzeinheit**.
 - **Liter mit kleinem l** (verbindlich seit 13.08.2026): `l`, `ml`, `dl`, `cl`, `kg/l`, `g/l`, `t/m³`,
   `l/min` — nie `L`, `mL`, `kg/L`. Das gilt für LaTeX (`1\;\text{l}`), Fliesstext (`150 l`),
   Tabellen, Live-Anzeigen und Canvas-Beschriftungen gleichermassen. Das Wort «Liter» bleibt
@@ -452,6 +463,16 @@ Am Ende **jedes Inhaltsabschnitts** (zwischen den `<h2>`-Abschnitten, eingefügt
   ```
 - **Teilaufgaben:** Multiple Choice (3 Optionen), Lückentext (mit `<span class="mc-luecke">`-Ausfüllstrich), kurze Rechnung und **Transfer** (gleichwertige vierte Teilaufgabe — **kein** gesonderter «für Leistungsstarke»-Block). Jede Teilaufgabe hat ihre eigene Lösungseinblendung via `<details class="mc-loesung">`.
 - **Notation & Sprache:** sichtbarer Text in Projekt-Notation (`\(…\)`, Dezimalpunkt, Symbole wie §2), Schweizer Hochdeutsch, kein ß. Alle Zahlenwerte vor dem Einbau in Python verifizieren.
+- **Kein HTML innerhalb eines LaTeX-Ausdrucks** (verbindlich seit 17.08.2026): MathJax
+  bricht daran ab und zeigt die ganze Formel als Rohtext — sichtbar erst, wenn jemand
+  das Akkordeon öffnet. Die Ausfüllstriche eines Lückentexts gehören darum **ausserhalb**
+  der Formel:
+  ```html
+  ✗ \(W = \Delta E_{\text{<span class="mc-luecke"></span>}}\)
+  ✓ \(W = \Delta E_i\). Welcher Index gehört anstelle von \(i\): <span class="mc-luecke"></span>?
+  ```
+  Der Pre-Flight prüft das seit dem 17.08.2026 und meldet jeden Treffer als `[FEHLER]`;
+  das Kleiner-Zeichen in `\(a < b\)` bleibt erlaubt.
 - **Akkordeon:** Es ist immer höchstens **ein** Mini-Check offen — beim Öffnen des nächsten schliesst der vorher offene. Diese Logik liegt zentral in `minicheck.js` (auf jeder Themenseite nach `anim-hinweise.js` eingebunden); die inneren `.mc-loesung` bleiben davon unberührt. Gestaltung zentral in `style.css` (Abschnitt «Mini-Checks»).
 - **Aufbau:** mit `scripts/minicheck_lib.py` (`mc`, `lueck`, `rech`, `block`, `apply_page`) — fügt jeden Block vor dem Ziel-`<h2>` ein, bindet `minicheck.js` ein und besitzt einen Idempotenz-Guard.
 

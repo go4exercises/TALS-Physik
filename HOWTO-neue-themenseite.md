@@ -2,7 +2,7 @@
 
 Schritt-für-Schritt-Anleitung für das Hinzufügen einer neuen RLP-Themenseite zu TALS-Physik. Folgt dem Master-Schema aus `STYLEGUIDE.md` §4.
 
-> **Projektstand (Juni 2026):** Alle 10 RLP-Teilgebiete (p4-1 bis p6-2) sind vollständig ausgebaut. Diese Anleitung dient damit als Referenz für **zusätzliche oder optionale** Seiten über die RLP-Grundlagen hinaus (z.B. Magnetismus / Elektromagnetismus, Schwingungen) sowie als Nachschlagewerk für Aufbau und Konventionen. Als gespiegelte Vorlage eignet sich jede fertige Themenseite; als Referenzmuster für Animationsstruktur dient `p4-5-hydrostatik.html`.
+> **Projektstand (August 2026):** Alle 10 RLP-Teilgebiete (p4-1 bis p6-2) sind vollständig ausgebaut, dazu die fünfteilige Vorwissen-Reihe p0-0 bis p0-4. Diese Anleitung dient damit als Referenz für **zusätzliche oder optionale** Seiten über die RLP-Grundlagen hinaus (z.B. Magnetismus / Elektromagnetismus, Schwingungen) sowie als Nachschlagewerk für Aufbau und Konventionen. Als gespiegelte Vorlage eignet sich jede fertige Themenseite; als Referenzmuster für Animationsstruktur dient `p4-5-hydrostatik.html`.
 
 ---
 
@@ -212,76 +212,43 @@ CSS in `downloads/print.css` (gespiegelt aus Mathe mit Bernstein-Akzent).
 
 ---
 
-## 6. Pre-Flight-Checks
+## 6. Pre-Flight
 
-Vor dem ZIP-Bauen mindestens diese Checks fahren (per `bash_tool` / `grep`):
-
-### 6.1 Strukturelle Integrität
-
-```bash
-# Es muss genau ein page-wrap geben
-grep -c 'class="page-wrap"' themen/p4-2-dynamik.html  # erwartet: 1
-# Es muss genau ein content-main geben
-grep -c 'class="content"' themen/p4-2-dynamik.html    # erwartet: 1
-# nav.js, physiklib.js und anim-hinweise.js müssen eingebunden sein
-grep -c 'src="../nav.js"' themen/p4-2-dynamik.html         # erwartet: 1
-grep -c 'src="../suche.js"' themen/p4-2-dynamik.html       # erwartet: 1
-grep -c 'src="../physiklib.js"' themen/p4-2-dynamik.html   # erwartet: 1
-grep -c 'src="../anim-hinweise.js"' themen/p4-2-dynamik.html # erwartet: 1
-```
-
-### 6.1a Suchindex neu bauen
-
-Eine neue Seite ist erst auffindbar, wenn der Index sie kennt (er liest die Seitenliste
-aus `nav.js`):
+Die Handprüfungen von früher sind abgelöst: Alles, was hier stand — Skelett,
+Klassen, physiklib-Abhängigkeit, buildNav, LaTeX-Konventionen —, prüft das
+Skript automatisch und gründlicher.
 
 ```bash
-python3 scripts/build-suchindex.py          # neu bauen — suchindex.js gehört in den Commit
-python3 scripts/build-suchindex.py --check  # Exit 1 = veraltet; der Pre-Flight warnt ebenfalls
+python3 .claude/skills/preflight/preflight.py themen/<datei>.html
+# oder über alle: python3 .claude/skills/preflight/preflight.py themen/*.html
 ```
 
-### 6.2 Aufgaben mit toggleL
+Erwartete Ausgabe: `ALLE CHECKS BESTANDEN`. Jede `[FEHLER]`-Meldung wird vor dem
+Commit behoben, `[WARN]` ist kein Blocker. Was geprüft wird, steht in `CLAUDE.md`
+im Abschnitt Pre-Flight; die Details stehen im Skript selbst.
 
-Falls `toggleL` verwendet wird, muss `physiklib.js` eingebunden sein (es enthält die Funktion):
+Vor dem Pre-Flight laufen bei Bedarf die Generatoren:
 
 ```bash
-toggle_count=$(grep -c "toggleL(" themen/p4-2-dynamik.html)
-lib_count=$(grep -c 'src="../physiklib.js"' themen/p4-2-dynamik.html)
-if [ "$toggle_count" -gt 0 ] && [ "$lib_count" -eq 0 ]; then
-  echo "FEHLER: $toggle_count Toggle-Aufrufe, aber physiklib.js nicht eingebunden"
-fi
+python3 scripts/build-animationen.py   # Animationsnummern aus der Dokumentreihenfolge
+python3 scripts/build-suchindex.py     # Volltextindex; suchindex.js gehört in den Commit
+python3 scripts/build-seo.py           # Metadaten, sitemap.xml, robots.txt
 ```
 
-### 6.3 Keine erfundenen CSS-Klassen
-
-Alle verwendeten Klassen sollten in `style.css` oder in der seitenspezifischen `<style>`-Sektion definiert sein. Übliche Verdächtige bei Physik: `.live-box`, `.cv-titel`, `.drei-spalten`, `.block-experiment`, `.lk.sim`.
-
-```bash
-# Alle Klassen extrahieren und sehen, ob sie irgendwo definiert sind:
-grep -oE 'class="[^"]*"' themen/p4-2-dynamik.html | grep -oE '[a-z][a-z0-9-]+' | sort -u
-```
-
-### 6.4 buildNav-Signatur
-
-```bash
-grep -A6 "buildNav({" themen/p4-2-dynamik.html
-# Muss id, kapitelNr, kapitelTitel, prev, next enthalten
-```
-
-### 6.5 LaTeX-Konventionen
-
-- `\cdot` zwischen Zahl und Variable (siehe STYLEGUIDE §2.1)
-- Dezimal**punkt** (nicht Komma)
-- Einheiten in `\text{...}` mit `\;` davor
+Neue Seite? Dann zusätzlich: Eintrag in `nav.js` (SITE und GROUPS), Karte in
+`index.html`, `prev`/`next` der Nachbarseiten und die Tabelle `SEITEN` in
+`scripts/build-seo.py`.
 
 ---
 
-## 7. ZIP-Lieferung
+## 7. Ausliefern
+
+Es gibt keine ZIP-Lieferung mehr. Der Git-Verlauf ist die Dokumentation, und die
+Veröffentlichung läuft über GitHub Pages:
 
 ```bash
-cd /home/claude
-zip -r tals-physik_phaseN.zip tals-physik/ -x "*.DS_Store" -x "*/__pycache__/*"
-ls -lh tals-physik_phaseN.zip
+git add -A
+git commit -m "p4-2: … "   # Seite + was geändert wurde
 ```
 
-Dann mit `present_files` ausliefern.
+`git push` bleibt beim Auftraggeber (siehe `CLAUDE.md`).

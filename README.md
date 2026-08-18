@@ -10,6 +10,8 @@ Schwesterprojekt zu [TALS Mathematik](https://github.com/go4exercises/tals-mathe
 
 **Stand:** Alle 10 Teilgebiete vollständig ausgebaut (10/10 ✅). Jede Themenseite umfasst interaktive Canvas-Animationen, Aufgaben A1–A6, Zusammenfassung mit Merksatz, Zusatzmaterial (Handout, Anki-Deck, Teste-dich-selbst, Aufgabenserie) sowie eine dreispaltige Sektion mit externen Ressourcen.
 
+Davor steht die **Vorwissen-Reihe** (Themenkreis 0, kein RLP-Lerngebiet, 5 Seiten): 0.0 Alltagstour, 0.1 Rechnen und Schliessen, 0.2 Grössen, Einheiten und Messen, 0.3 Messen — Waagen, Dichte, Einheiten, 0.4 Einheitentrainer. Diese Seiten folgen dem 13-Punkte-Schema nur sinngemäss; 0.4 ist eine reine Übungsseite mit Freiem Üben, Lernmodus und Prüfungsmodus.
+
 | Nr | Teilgebiet | Lektionen | Status |
 |----|------------|----------:|--------|
 | **4 — Mechanik** | | **100** | |
@@ -28,7 +30,7 @@ Schwesterprojekt zu [TALS Mathematik](https://github.com/go4exercises/tals-mathe
 
 ## Aufbau einer Themenseite
 
-Jede Themenseite folgt einem festen 13-Punkte-Master-Schema (siehe `STYLEGUIDE.md` §4):
+Jede Themenseite der Lerngebiete 4 bis 6 folgt einem festen 13-Punkte-Master-Schema (siehe `STYLEGUIDE.md` §4); die Vorwissenseiten des Themenkreises 0 halten sich nur sinngemäss daran (kein Zusatzmaterial, keine externen Ressourcen):
 
 1. Titel + RLP-Kompetenzen
 2. Einstieg (konkretes Alltagsphänomen)
@@ -97,6 +99,8 @@ sich die `SearchAction` in den strukturierten Daten.
 ## Version
 
 **Version 1.0 · Stand 1. August 2026** — alle zehn Themenseiten inhaltlich fertig, dazu Vorwissen, Glossar, Formelsammlung, Volltextsuche und die Seite Rechtliches & Datenschutz. Die Versionszeile steht zusätzlich im Footer jeder Seite.
+
+Seither hinzugekommen, ohne dass die Versionszeile angehoben wurde: die Vorwissenseiten 0.3 und 0.4 sowie die Extras-Seite zur Sonnenfinsternis vom 12. August 2026.
 
 ## Änderungen
 

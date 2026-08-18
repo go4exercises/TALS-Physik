@@ -19,10 +19,17 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 
 ## Projektstruktur
 
-- `themen/` — Vorwissen: `p0-0` (Alltagstour), `p0-1` (Rechnen und Schliessen),
-  `p0-2` (Grössen, Einheiten und Messen). Auf `p0-1`/`p0-2` tragen die aus den
-  früheren Seiten 0.3/0.4 übernommenen Widgets den ID-Präfix `b` statt `a`; ihr
+- `themen/` — Vorwissen (5 Seiten): `p0-0` (Alltagstour), `p0-1` (Rechnen und
+  Schliessen), `p0-2` (Grössen, Einheiten und Messen), `p0-3` (Messen — Waagen,
+  Dichte, Einheiten), `p0-4` (Einheitentrainer). Auf `p0-1`/`p0-2` tragen die aus
+  den früheren Seiten 0.3/0.4 übernommenen Widgets den ID-Präfix `b` statt `a`; ihr
   Skript steht gekapselt in einer IIFE am Dateiende.
+- `themen/p0-4-einheitentrainer.html` — Übungsseite mit drei Modi (Freies Üben,
+  Lernmodus, Prüfungsmodus). Einziger Ort im Repo, der `localStorage` nutzt (Key
+  `tals-physik-p0-4-lernstand-v1`, Lernstand mit Rücksetzknopf) — deshalb hält
+  `rechtliches.html` das ausdrücklich fest. Einheiten und Faktoren stehen dort in
+  **einer** Datenstruktur (`ET_GRUPPEN`), aus der Aufgaben, Diagnosen und die
+  Umrechnungstabellen zugleich entstehen; Faktoren nie an zweiter Stelle notieren.
 - `themen/` — 10 Themenseiten: `p4-1`…`p4-5` (Mechanik), `p5-1`…`p5-3` (Thermo),
   `p6-1`,`p6-2` (Wellen/Elektrizität). Alle inhaltlich fertig und auditiert.
 - `physiklib.js` — Canvas-Bibliothek + globale Helfer (`toggleL`, `fmt`, `initCanvas`,
@@ -35,6 +42,11 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   **generiert** — gepflegt wird die Tabelle `SEITEN` im Skript. Neue Seite = dort
   eintragen, sonst fehlen ihr Beschreibung und Sitemap-Eintrag. Der Pre-Flight
   warnt, wenn die Metadaten veraltet sind.
+- `scripts/verify_einheitentrainer.js` — Selbsttest des Einheitentrainers: lädt
+  `p0-4` in jsdom und ruft dort `etSelbsttest(n)` auf (jedes angebotene
+  Einheitenpaar hin und zurück, Referenzwerte, Grenzfälle, Generator, Toleranz,
+  Eingabeformate, Diagnosekategorien). Standard 5 Zufallsaufgaben je Paar,
+  `--gross` fährt 200 je Paar (über 50 000). Läuft im Pre-Flight mit.
 - `suche.js` — Volltextsuche (Logik + Trefferpanel). `suchindex.js` — **generiert**,
   nie von Hand ändern: `python3 scripts/build-suchindex.py` (siehe Pre-Flight).
   Der Generator läuft in **beiden** TALS-Repos (erkennt Physik/Mathe an
@@ -88,11 +100,13 @@ python3 .claude/skills/preflight/preflight.py themen/<geänderte_datei>.html
 
 Erwartete Ausgabe: `ALLE CHECKS BESTANDEN`. Jede `[FEHLER]`-Meldung wird vor dem Commit
 behoben (`[WARN]` ist kein Blocker). Zweistufig: (1) schnelle Eigen-Checks — div/details-
-Bilanz, doppelte IDs, kein ß, Dezimalkomma in Body-Math, Skelett, Phantom-Klassen,
-physiklib-Einbindung, Ressourcen-Marker und Slot-Limits; (2) Aufruf der vorhandenen
-Repo-Skripte `verify_mathjax.js` (echte Render-Prüfung) und `verify_js_runtime.js`
-(JS-Laufzeit). Stufe 2 braucht einmalig `npm install mathjax-full jsdom` im Repo-Root;
-fehlen die Module, werden diese Checks als `[WARN]` übersprungen. **Vom Repo-Root aufrufen.**
+Bilanz, doppelte IDs, kein ß, Dezimalkomma in Body-Math, **HTML innerhalb eines
+LaTeX-Ausdrucks**, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Marker
+und Slot-Limits; (2) Aufruf der vorhandenen Repo-Skripte `verify_mathjax.js` (echte
+Render-Prüfung), `verify_js_runtime.js` (JS-Laufzeit) und `verify_einheitentrainer.js`
+(Selbsttest von p0-4). Stufe 2 braucht einmalig `npm install mathjax-full jsdom` im
+Repo-Root; fehlen die Module, werden diese Checks als `[WARN]` übersprungen.
+**Vom Repo-Root aufrufen.**
 
 ## Stichwort «Stilcheck»
 
