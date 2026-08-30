@@ -204,6 +204,16 @@ ruckelt und sich zwei Läufe nicht überholen, gilt das Muster aus
   dem Laden von MathJax feuert;
 - ein `dataset.stand`-Vergleich verhindert Neu-Rendern, wenn sich nichts ändert.
 
+**Einzelne Re-Typesets laufen über `mjTypeset(els)`** aus `physiklib.js` statt über
+einen direkten `MathJax.typesetPromise(…)`-Aufruf. Der Helfer verkettet alle
+Durchläufe seriell und hängt die erste Stufe an `MathJax.startup.promise` — damit
+kollidiert kein eigener Aufruf mit MathJax' initialem Seitenrender und keine zwei
+Re-Typesets überlappen sich auf denselben Elementen. Nur bei **dynamisch** (per
+`innerHTML`) geänderter Mathematik aufrufen; statische HTML-Formeln rendert MathJax
+beim Laden selbst. Wo eine Animation wie oben eine eigene, bereits serialisierte
+Kette mit `typesetClear` führt (p5-2, Animation 2), bleibt diese — dort sichert die
+lokale Kette zusätzlich die Reihenfolge von `typesetClear` und `innerHTML`.
+
 **Escaping-Falle:** In JS-Strings muss der LaTeX-Backslash **doppelt** stehen.
 `'\;\text{kg}'` ✗ liefert `;\text{kg}` — JavaScript verschluckt den einzelnen
 Backslash. Richtig ist `'\\;\\text{kg}'`. Nach jeder Änderung an solchen

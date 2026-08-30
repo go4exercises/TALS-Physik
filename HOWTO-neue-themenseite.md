@@ -150,6 +150,17 @@ document.addEventListener('DOMContentLoaded', renderAll);
 window.addEventListener('resize', renderAll);
 ```
 
+**Formeln neu rendern:** Wer per `innerHTML` LaTeX in die Seite schreibt, ruft
+danach `mjTypeset([ziel])` aus `physiklib.js` auf — nie direkt
+`MathJax.typesetPromise(…)`. Der Helfer serialisiert alle Durchläufe und wartet
+zuerst auf `MathJax.startup.promise` (STYLEGUIDE §2.8).
+
+> **Fehlerbild «Formeln rendern sporadisch leer»** — tritt beim Hard-Refresh auf,
+> nicht beim Zurückblättern aus dem bfcache. Ursache ist fast immer ein eigener
+> `MathJax.typesetPromise(…)`-Aufruf beim Laden, der mit MathJax' initialem Render
+> kollidiert, oder zwei überlappende Re-Typesets auf demselben Element. Abhilfe:
+> den Aufruf durch `mjTypeset(…)` ersetzen.
+
 ### 3.4 Animations-Hinweise in der Titelzeile
 
 Jede Animation erhält statt der Bedienungszeile unter dem Titel eine `<div class="widget-titelzeile">`, die den `<h3>`-Titel und die beiden Rollover-Hinweise «💡 Worauf achten?» und «✓ Erkenntnis» auf einer Zeile bündelt (Muster und Inhaltsregeln: STYLEGUIDE §5.6). Gestaltung kommt aus `style.css`, die Logik aus `anim-hinweise.js` — also nichts pro Seite duplizieren, nur das Markup einsetzen. Wichtig: sichtbarer Text in Projekt-Notation `\(…\)`.
