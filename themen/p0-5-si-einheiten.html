@@ -998,6 +998,19 @@ function a1Start() {
 /* ═══════════ ANIMATION 2 — Lichtweg ═══════════ */
 let a2Modus = 'labor';
 
+/* Ein Regler, zwei Massstaebe: im Labormodus sind roh 1–300 gleich 0.01–3 m
+   Lichtweg, im Reisemodus 1–140 gleich 0.01–1.4 s Laufzeit. Die Begrenzung auf
+   1.4 s gehoert zur Skala (400 000 km): ohne sie liefe der Regler bis 3 s, und
+   der Lichtpuls stuende ueber die halbe Reglerstrecke still am Skalenende. */
+const A2_ROH_MAX = { labor: 300, raum: 140 };
+
+function a2Reglerbereich() {
+  const r = document.getElementById('a2-t');
+  const max = A2_ROH_MAX[a2Modus];
+  r.max = max;
+  if (+r.value > max) r.value = max;
+}
+
 function drawA2() {
   const roh = +document.getElementById('a2-t').value;
   // Labor: Schritte von 1 cm Lichtweg (roh = 100 sind exakt 1 m) · Raum: 0.01 bis 3 s
@@ -1641,11 +1654,13 @@ function renderAll() { drawA1(); drawA2(); drawA3(); drawA4(); drawA5(); drawA6(
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('a1-t').addEventListener('input', drawA1);
   document.getElementById('a1-play').addEventListener('click', a1Start);
+  a2Reglerbereich();
   document.getElementById('a2-t').addEventListener('input', drawA2);
   document.querySelectorAll('#a2-modi .typ-btn').forEach(b => {
     b.addEventListener('click', () => {
       document.querySelectorAll('#a2-modi .typ-btn').forEach(o => o.classList.toggle('aktiv', o === b));
       a2Modus = b.dataset.modus;
+      a2Reglerbereich();
       drawA2();
     });
   });
