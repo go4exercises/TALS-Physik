@@ -294,6 +294,34 @@ const TOC_KURZ = {
   lg6:            '6 Andere Bereiche'
 };
 
+/* ── ToC: aktiven Abschnitt markieren ───────────────────────────────────────
+   Aktiv ist die letzte Ueberschrift, deren Oberkante ueber 30 % der Fenster-
+   hoehe steht — sonst die erste. Ersetzt den frueheren IntersectionObserver
+   (rootMargin '-20% 0px -70% 0px'): der meldete nur, wenn eine Ueberschrift
+   dieses schmale Band durchquerte, also weder beim Laden noch nach einer
+   Sprungmarke noch nach schnellem Rollen. */
+let tocEl = null;
+let tocUeberschriften = [];
+let tocRafId = 0;
+
+function markiereTocAktiv() {
+  if (!tocEl || !tocUeberschriften.length) return;
+  const grenze = window.innerHeight * 0.3;
+  let aktiv = tocUeberschriften[0];
+  for (const h of tocUeberschriften) {
+    if (h.getBoundingClientRect().top >= grenze) break;
+    aktiv = h;
+  }
+  tocEl.querySelectorAll('.toc-link').forEach(l => l.classList.remove('toc-aktiv'));
+  const link = tocEl.querySelector(`[href="#${aktiv.id}"]`);
+  if (link) link.classList.add('toc-aktiv');
+}
+
+function tocScrollHorcher() {
+  if (tocRafId) return;
+  tocRafId = requestAnimationFrame(() => { tocRafId = 0; markiereTocAktiv(); });
+}
+
 function buildToC() {
   const toc = document.getElementById('toc');
   if (!toc) return;
@@ -323,17 +351,15 @@ function buildToC() {
     }).join('') +
     (nextLink ? `<div class="toc-nav toc-nav-unten">${nextLink}</div>` : '');
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('toc-aktiv'));
-        const link = toc.querySelector(`[href="#${e.target.id}"]`);
-        if (link) link.classList.add('toc-aktiv');
-      }
-    });
-  }, { rootMargin: '-20% 0px -70% 0px' });
-
-  headings.forEach(h => observer.observe(h));
+  tocEl = toc;
+  tocUeberschriften = [...headings];
+  // Horcher vor dem Binden abmelden, damit ein zweiter buildToC()-Aufruf sie
+  // nicht doppelt registriert.
+  window.removeEventListener('scroll', tocScrollHorcher);
+  window.addEventListener('scroll', tocScrollHorcher, { passive: true });
+  window.removeEventListener('hashchange', markiereTocAktiv);
+  window.addEventListener('hashchange', markiereTocAktiv);
+  markiereTocAktiv();
 
   // Sofortige, konsistente Markierung beim Klick (ohne auf den Observer zu warten);
   // Sprünge sind instant (kein Smooth-Scroll), wie bei der Titelwahl.
@@ -348,7 +374,7 @@ function buildToC() {
   if (titelEl) titelEl.addEventListener('click', () => {
     window.scrollTo(0, 0);
     history.replaceState(null, '', location.pathname + location.search);
-    document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('toc-aktiv'));
+    markiereTocAktiv();
   });
 }
 
