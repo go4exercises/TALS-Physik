@@ -69,6 +69,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (`--schreiben`; wiederholbar, rechnen die `../`-Tiefe selbst aus).
   **Kein Aufruf an fonts.googleapis.com, fonts.gstatic.com oder cdn.jsdelivr.net** —
   der Pre-Flight meldet ihn als `[FEHLER]`.
+- `.claude/tools/scan-live.mjs` — sucht den **Malpunkt als Trennzeichen** in
+  Wertanzeigen (STYLEGUIDE §2.1). Fährt jede Seite durch ihre Bedienzustände und
+  liest Wertanzeigen **und** Canvas-`fillText` — Letzteres ist der Grund für das
+  eigene Werkzeug: Animationsbeschriftungen stehen in keinem DOM-Knoten.
+  `--alle` listet jede `·`-Zeile für die vollständige Sichtung. Exit 1 bei
+  Verdachtsfällen. Nicht im Pre-Flight (braucht einen echten Browser).
 - `.claude/tools/build-bilder.mjs` — baut `favicon-32.png`, `apple-touch-icon.png`
   (aus `favicon.svg`) und `og-bild.png` (aus einer HTML-Vorlage im Skript) mit
   Playwright neu. Nur bei Bedarf laufen lassen: die PNGs sind versioniert und

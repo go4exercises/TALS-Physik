@@ -70,10 +70,24 @@ Geforkt aus dem Styleguide von TALS-Mathematik (v1.8); nur die für Physik abwei
 
   **Prüfen:** Der Quelltext allein genügt nicht — die meisten Vorkommen entstehen
   erst zur Laufzeit, und in Physik lagen fünf von sieben Fundstellen auf einem
-  **Canvas**, also gar nicht im DOM. Zu prüfen sind darum drei Orte: die
-  `.fl-eq`-/`.lb-val`-Inhalte im HTML, die JS-Stringliterale, die sie erzeugen,
-  und die `fillText`-Aufrufe der Animationen — Letztere über alle Bedienzustände
-  hinweg (Modusknöpfe, Regler an beiden Anschlägen).
+  **Canvas**, also gar nicht im DOM. Dafür gibt es
+
+  ```bash
+  node .claude/tools/scan-live.mjs themen/*.html          # nur Verdachtsfälle
+  node .claude/tools/scan-live.mjs themen/p4-1-*.html --alle   # jede `·`-Zeile
+  ```
+
+  Das Skript fährt jede Seite durch ihre Bedienzustände (Umschaltknöpfe, Regler
+  an beiden Anschlägen, eine ungültige und eine gültige Eingabe in jedes
+  Textfeld) und liest dabei **beides**: den Text der Wertanzeigen und jeden
+  `fillText`-Aufruf der Canvas.
+
+  Es meldet, was sich zuverlässig erkennen lässt: **Zahl · Zahl in einer Zeile
+  ohne Vergleichszeichen** — ein Produkt steht praktisch immer in einer
+  Gleichung, ein Trennzeichen nie. Nicht erkennbar und darum Sache von `--alle`:
+  «Etikett · Wert = …» (trägt ein `=`) und zwei vollständige Gleichungen
+  nebeneinander, die strukturgleich zur korrekten Kette
+  `P = 230 V · 8.0 A = 1840 W` sind. Das Skript ist ein Filter, kein Beweis.
 - **Ansatz vor Werten, auch in Live-Anzeigen (verbindlich, Stichwort «Stilcheck»):**
   Eine `.fl-eq` nennt zuerst die Formel symbolisch, dann erst die Zahlen:
   `Δϑ = ϑ₂ − ϑ₁ = 95 − 12 = 83 °C` ✓, nicht `Δϑ = 95 − 12 = 83 °C` ✗.
