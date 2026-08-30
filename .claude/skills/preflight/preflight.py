@@ -170,6 +170,22 @@ def check_resources_section(text, fname, rep):
             rep.err(fname, f"Slot-Limit {label}: {n} Links (erwartet ≤4)")
 
 
+FREMDHOSTS = ("fonts.googleapis.com", "fonts.gstatic.com", "cdn.jsdelivr.net")
+
+
+def check_keine_fremdhosts(text, fname, rep):
+    """Schriften und MathJax werden lokal ausgeliefert (schriften.css,
+    vendor/mathjax/). Ein Aufruf an einen Fremdhost uebertraegt die IP-Adresse
+    der Besucherin an einen Dritten — der Fussbereich sagt aber «Keine Cookies ·
+    Kein Tracking». Ohne diesen Check kommt der CDN-Aufruf beim naechsten
+    Kopieren einer alten Vorlage zurueck."""
+    for host in FREMDHOSTS:
+        n = text.count(host)
+        if n:
+            rep.err(fname, f"{n}x {host} — lokal einbinden "
+                           f"(schriften.css bzw. vendor/mathjax/tex-svg.js)")
+
+
 def run_light(path, rep):
     fname = path.name
     try:
@@ -185,6 +201,7 @@ def run_light(path, rep):
     check_skeleton(text, fname, rep)
     check_lib_dep(text, fname, rep)
     check_resources_section(text, fname, rep)
+    check_keine_fremdhosts(text, fname, rep)
 
 
 # ---------- Stufe 2: vorhandene Repo-Skripte orchestrieren ----------

@@ -58,6 +58,17 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   wird im Quelltext nur der Anker, nie die Nummer (Details: STYLEGUIDE §5.9).
   `--check` prüft ohne zu schreiben, `--root PFAD` zielt aufs Schwesterprojekt.
   Der Pre-Flight ruft `--check` auf und meldet Abweichungen als **[FEHLER]**.
+- `schriften.css` + `schriften/` — **lokal ausgelieferte Schriften** (Source Serif 4,
+  Source Sans 3, JetBrains Mono; Fontsource, OFL 1.1). Subsets latin / latin-ext /
+  **greek** — Letzteres ist Pflicht: ausserhalb von MathJax stehen im Repo rund
+  hundert griechische Zeichen (Ω, Δ, ϑ, α, λ, …). `vendor/mathjax/` — **lokales
+  MathJax 3.2.2** (dieselbe Fassung, die das CDN lieferte), samt
+  `input/tex/extensions/boldsymbol.js` (20 Seiten laden es), `output/chtml*` und
+  `a11y/`+`sre/mathmaps/` für die Menüpunkte «Math Renderer» und «Accessibility».
+  Umgestellt wird mit `scripts/schriften-lokal.py` und `scripts/mathjax-lokal.py`
+  (`--schreiben`; wiederholbar, rechnen die `../`-Tiefe selbst aus).
+  **Kein Aufruf an fonts.googleapis.com, fonts.gstatic.com oder cdn.jsdelivr.net** —
+  der Pre-Flight meldet ihn als `[FEHLER]`.
 - `.claude/tools/build-bilder.mjs` — baut `favicon-32.png`, `apple-touch-icon.png`
   (aus `favicon.svg`) und `og-bild.png` (aus einer HTML-Vorlage im Skript) mit
   Playwright neu. Nur bei Bedarf laufen lassen: die PNGs sind versioniert und

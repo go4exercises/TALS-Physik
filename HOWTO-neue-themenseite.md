@@ -63,9 +63,10 @@ Mindestens muss vorhanden sein:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>X.Y Themenname — TALS Physik</title>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4...&family=Source+Sans+3...&family=JetBrains+Mono...&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../schriften.css">
   <link rel="stylesheet" href="../style.css">
-  <!-- MathJax-Setup wie in p4-1-kinematik.html -->
+  <!-- MathJax-Setup wie in p4-1-kinematik.html; Skript lokal:
+       <script src="../vendor/mathjax/tex-svg.js"></script> -->
   <style>/* Widget-Styles spezifisch für diese Seite */</style>
 </head>
 <body>
@@ -90,6 +91,16 @@ Mindestens muss vorhanden sein:
 </body>
 </html>
 ```
+
+**Keine Fremdhosts.** Schriften kommen aus `../schriften.css`, MathJax aus
+`../vendor/mathjax/tex-svg.js` — nie von `fonts.googleapis.com` oder
+`cdn.jsdelivr.net`. Sonst geht bei jedem Seitenaufruf die IP-Adresse der
+Besucherin an einen Dritten, während der Fussbereich «Keine Cookies · Kein
+Tracking» verspricht. Der Pre-Flight meldet einen Fremdhost als `[FEHLER]`.
+Wer eine alte Datei kopiert, stellt sie mit
+`python3 scripts/schriften-lokal.py --schreiben` und
+`python3 scripts/mathjax-lokal.py --schreiben` um (beide sind wiederholbar und
+rechnen die `../`-Tiefe selbst aus).
 
 ### 2.3 Vorlage zum Spiegeln
 
