@@ -922,6 +922,16 @@ function siHalo(ctx, txt, x, y, farbe, font, align) {
   ctx.fillText(txt, x, y);
 }
 
+/* Zentrierte Beschriftungen, die einem beweglichen Objekt folgen, laufen an den
+   Reglerenden aus dem Bild. siKlemmX haelt sie im Canvas: x wird so verschoben,
+   dass links und rechts `rand` Pixel frei bleiben. Passt der Text ueberhaupt
+   nicht, wird mittig gesetzt statt einseitig abgeschnitten. */
+function siKlemmX(ctx, txt, x, W, font, rand) {
+  ctx.font = font || '12px "Source Sans 3",sans-serif';
+  const halb = ctx.measureText(txt).width / 2 + (rand === undefined ? 6 : rand);
+  return 2 * halb >= W ? W / 2 : Math.max(halb, Math.min(x, W - halb));
+}
+
 /* ═══════════ ANIMATION 1 — Atomuhr ═══════════ */
 let a1Lauf = null;
 
@@ -1030,7 +1040,10 @@ function drawA2() {
     const x = px(m[0]);
     ctx.strokeStyle = SI_F.linie; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(x, yB - 12); ctx.lineTo(x, yB + 12); ctx.stroke();
-    siHalo(ctx, m[1], x, yB + 30, SI_F.tinte2, '11px "Source Sans 3",sans-serif', 'center');
+    // Der Strich bleibt auf der Marke, die Beschriftung rutscht bei Bedarf herein
+    // («1 Lichtsekunde» sitzt am rechten Skalenende und lief sonst aus dem Bild).
+    const mFont = '11px "Source Sans 3",sans-serif';
+    siHalo(ctx, m[1], siKlemmX(ctx, m[1], x, W, mFont), yB + 30, SI_F.tinte2, mFont, 'center');
   });
 
   // Lichtpuls
@@ -1049,7 +1062,8 @@ function drawA2() {
   const txt = a2Modus === 'labor'
     ? siFmt(t * 1e9, 3) + ' ns,  ' + siFmt(s, 3) + ' m'
     : siFmt(t, 2) + ' s,  ' + siGrupp(s / 1000) + ' km';
-  siHalo(ctx, txt, xp, yB - 34, SI_F.bern, '700 13px "JetBrains Mono",monospace', 'center');
+  const txtFont = '700 13px "JetBrains Mono",monospace';
+  siHalo(ctx, txt, siKlemmX(ctx, txt, xp, W, txtFont), yB - 34, SI_F.bern, txtFont, 'center');
 
   // Definitionszeile
   siZeile(ctx, '1 m = Lichtweg in 1/299 792 458 s   →   3.33564 ns je Meter', W / 2, H - 18,
