@@ -1,6 +1,6 @@
 # TALS-Physik · Styleguide
 
-**Version 1.3 · Stand: 18. August 2026** · (1.3: §2.3 Liter klein sowie Basisgrösse gegen
+**Version 1.4 · Stand: 30. August 2026** · (1.4: §2.1 Ersatztabelle für den Malpunkt als Trennzeichen — Strichpunkt statt Komma, wie in Mathe; Prüforte HTML/JS/Canvas · 1.3: §2.3 Liter klein sowie Basisgrösse gegen
 abgeleitete Grösse und «Referenzeinheit», §5.7 kein HTML in einem LaTeX-Ausdruck,
 Stilcheck-Regel 7 · 1.2: §6.1a Footer, Volltextsuche und `suche.js` im
 Skelett, Zusatzmaterial ohne Formelauszug, Stilcheck-Regeln 1–6 · 1.1: §3.6 Label-Robustheit,
@@ -38,16 +38,42 @@ Geforkt aus dem Styleguide von TALS-Mathematik (v1.8); nur die für Physik abwei
 - **In LaTeX-Display-Formeln** darf `\cdot` weggelassen werden, wenn Multiplikation typografisch eindeutig ist (z.B. `v_0 t`), aber bei Zahl·Variable (`2 \cdot t`) und bei mehreren Skalaren (`v_0 \cdot \cos\alpha`) IMMER setzen.
 - **Vektor·Skalar** und **Skalarprodukt**: immer mit `\cdot` (`\vec{F} \cdot \vec{s}`).
 - **Der Punkt ist reserviert (verbindlich, Stichwort «Stilcheck»):** In allen
-  **Rechen- und Wertanzeigen** — `.fl-eq`, `.lb-val`, Canvas-Beschriftungen mit
-  Zahlen, Lösungswege — bedeutet `·` ausschliesslich Multiplikation und wird
-  **nie** als Trennzeichen verwendet. Das ist dort nicht bloss unschön, sondern
-  falsch lesbar: `… = 83 °C · ΔT = …` liest sich als Produkt. Stehen zwei
-  Gleichungen nebeneinander, bekommt **jede eine eigene Zeile** (mehrere
-  `.fl-eq` in derselben `.formel-live`; `style.css` setzt den Abstand über
-  `.fl-eq + .fl-eq`).
-  *Nicht betroffen:* Titel, Breadcrumbs, Quellen- und Fusszeilen
-  (`Physik · Lerngebiet 5`, `Animation 4 · Doppelter Zahlenstrahl`) — dort ist
-  der Punkt etablierte Typografie ohne Rechenkontext und bleibt.
+  **Rechen- und Wertanzeigen** — `.fl-eq`, `.lb-val`, `.sl-val`,
+  Canvas-Beschriftungen mit Zahlen, Lösungswege, Rückmeldungstexte — bedeutet
+  `·` ausschliesslich Multiplikation und wird **nie** als Trennzeichen
+  verwendet. Das ist dort nicht bloss unschön, sondern falsch lesbar:
+  `… = 83 °C · ΔT = …` liest sich als Produkt, und `7 / 10 · 70 %` erst recht.
+  Stehen zwei Gleichungen nebeneinander, bekommt **jede eine eigene Zeile**
+  (mehrere `.fl-eq` in derselben `.formel-live`; `style.css` setzt den Abstand
+  über `.fl-eq + .fl-eq`). Wo das nicht geht — eine Canvas-Zeile hat nur den
+  Platz, den sie hat —, trennt der Strichpunkt.
+
+  | Situation | Ersatz | Beispiel |
+  |---|---|---|
+  | Zwei Werte desselben Objekts (Koordinaten, Stoffdaten) | Strichpunkt `;` | `250 mA; 120 ms` |
+  | Zwei gleichrangige Ergebnisse oder Gleichungen in einer Zeile | Strichpunkt `;` | `1 A = 1 C/s;   1 C = 1/e ≈ …` |
+  | Aufzählung von Fällen oder Formaten | Strichpunkt `;` oder echte Liste | `12.5; 12,5; 1.25e1` |
+  | Etikett vor einem Wert | Doppelpunkt `:` | `Erde: g = 9.81 m/s²` |
+  | Zusatzangabe zu einem Wert | Klammer | `7 / 10 (70 %)` |
+  | Zwei aufeinanderfolgende Rechenschritte | Pfeil `→` | `1 m = Lichtweg in … → 3.33564 ns je Meter` |
+
+  **Kein Komma als Trenner**, auch wenn Physik den Dezimalpunkt verwendet und
+  das Komma darum eindeutig wäre: Der Strichpunkt gilt in **beiden**
+  TALS-Projekten (Mathe-Styleguide §2.1), und der Einheitentrainer akzeptiert
+  `12,5` als Eingabe — in einer Aufzählung wäre das Komma dort mehrdeutig.
+
+  *Nicht betroffen:* Titel, Breadcrumbs, Quellen- und Fusszeilen, Bedienhinweise
+  ohne Rechenkontext (`Physik · Lerngebiet 5`, `Animation 4 · Doppelter
+  Zahlenstrahl`, `5 Treffer · ↑ ↓ wählen`) — dort ist der Punkt etablierte
+  Typografie und bleibt. Ebenso bleibt er, wo er **Wörter** statt Zahlen trennt
+  (`Basalt · Gneis`).
+
+  **Prüfen:** Der Quelltext allein genügt nicht — die meisten Vorkommen entstehen
+  erst zur Laufzeit, und in Physik lagen fünf von sieben Fundstellen auf einem
+  **Canvas**, also gar nicht im DOM. Zu prüfen sind darum drei Orte: die
+  `.fl-eq`-/`.lb-val`-Inhalte im HTML, die JS-Stringliterale, die sie erzeugen,
+  und die `fillText`-Aufrufe der Animationen — Letztere über alle Bedienzustände
+  hinweg (Modusknöpfe, Regler an beiden Anschlägen).
 - **Ansatz vor Werten, auch in Live-Anzeigen (verbindlich, Stichwort «Stilcheck»):**
   Eine `.fl-eq` nennt zuerst die Formel symbolisch, dann erst die Zahlen:
   `Δϑ = ϑ₂ − ϑ₁ = 95 − 12 = 83 °C` ✓, nicht `Δϑ = 95 − 12 = 83 °C` ✗.

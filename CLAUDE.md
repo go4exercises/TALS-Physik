@@ -136,7 +136,7 @@ Die Liste steht in `STYLEGUIDE.md` und wächst; aktuell:
 | # | Regel | STYLEGUIDE |
 |---|---|---|
 | 1 | Live-Box: Spaltenabstand gestuft (70/40/24 px), nie auf Zeilenabstand zusammenfallen. Wer einen Wert hinzufügt, prüft die ganze Box. | §5.3 |
-| 2 | In Rechen-/Wertanzeigen (`.fl-eq`, `.lb-val`, Canvas-Zahlen) heisst `·` nur Multiplikation — nie Trennzeichen. Zwei Gleichungen = zwei `.fl-eq`-Zeilen. Titel/Breadcrumbs sind ausgenommen. | §2.1 |
+| 2 | In Rechen-/Wertanzeigen (`.fl-eq`, `.lb-val`, `.sl-val`, Canvas-Zahlen, Rückmeldungen) heisst `·` **nur Multiplikation — nie Trennzeichen**. Ersatz: Strichpunkt `;` (Wertepaare, gleichrangige Ergebnisse, Aufzählungen), Doppelpunkt (Etikett vor Wert), Klammer (Zusatzangabe), Pfeil `→` (Rechenschritte) — **kein Komma**, der Strichpunkt gilt in beiden TALS-Projekten. Zwei Gleichungen = zwei `.fl-eq`-Zeilen. Prüfen in HTML, JS-Strings **und** `fillText` über alle Bedienzustände. Titel, Breadcrumbs, Bedienhinweise und Wort-Trennungen (`Basalt · Gneis`) sind ausgenommen. | §2.1 |
 | 3 | **Jede** `.fl-eq` nennt zuerst die Formel symbolisch, dann die Werte (Ansatz-Prinzip in Live-Anzeigen) — auf der ganzen Seite prüfen, nicht nur an der geänderten Animation. | §2.1 |
 | 4 | Werte werden **mit Einheit** eingesetzt, auch in `.fl-eq` (`1.0 kg · 4182 J/(kg·K) · 50 K`). Dimensionslose «Teile» durch eine konkrete Bezugsgrösse ersetzen. | §2.7 |
 | 5 | Formelzeilen **komplett** in LaTeX — Formel *und* Zahlengleichung, Brüche als `\frac{…}{…}`. Dynamisches Neu-Rendern gedrosselt und serialisiert; auf doppelte Backslashes in JS-Strings achten. | §2.8 |
