@@ -58,6 +58,11 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   wird im Quelltext nur der Anker, nie die Nummer (Details: STYLEGUIDE §5.9).
   `--check` prüft ohne zu schreiben, `--root PFAD` zielt aufs Schwesterprojekt.
   Der Pre-Flight ruft `--check` auf und meldet Abweichungen als **[FEHLER]**.
+- `.claude/tools/build-bilder.mjs` — baut `favicon-32.png`, `apple-touch-icon.png`
+  (aus `favicon.svg`) und `og-bild.png` (aus einer HTML-Vorlage im Skript) mit
+  Playwright neu. Nur bei Bedarf laufen lassen: die PNGs sind versioniert und
+  ändern sich nur, wenn Farbe, Wortlaut, Adresse oder Schrift der Vorlage
+  angepasst werden. Wortlaut und Adresse gehören in die Vorlage, nicht ins Bild.
 - `.quellen/formelsammlung/` — LaTeX-Quelle der illustrierten Formelsammlung samt
   Bauanleitung (`README-Build.md`). Punkt-Ordner, damit GitHub Pages ihn nicht
   ausliefert. Das fertige PDF steht als `TALS-Physik-Formelsammlung.pdf` im Root;
