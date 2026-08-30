@@ -121,8 +121,9 @@ def check_html_in_math(text, fname, rep):
 def check_skeleton(text, fname, rep):
     pw = len(re.findall(r"page-wrap", text))
     mc = len(re.findall(r'main class="content"', text))
-    nav_defer = len(re.findall(r'src="\.\./nav\.js" defer', text))
-    nav_any = len(re.findall(r'src="\.\./nav\.js"', text))
+    # Themenseiten binden ../nav.js ein, Wurzelseiten nav.js — beides gilt.
+    nav_defer = len(re.findall(r'src="(?:\.\./)?nav\.js" defer', text))
+    nav_any = len(re.findall(r'src="(?:\.\./)?nav\.js"', text))
     if pw != 1:
         rep.err(fname, f'Skelett: page-wrap {pw}× (erwartet 1)')
     if mc != 1:
@@ -241,11 +242,21 @@ def run_deep(file_args, rep):
                 rep.warn("verify_mathjax.js", "Summenzeile nicht erkannt")
 
     js = scripts / "verify_js_runtime.js"
-    if js.is_file():
+    # Das Skript ersetzt Bibliotheks-Einbindungen der Form src="../nav.js" —
+    # es rechnet also mit Seiten genau eine Ebene tief. Wurzelseiten
+    # (index, glossar, formelsammlung, rechtliches, feedback) wuerden dort
+    # einen falschen [FEHLER] erzeugen, darum bekommt es nur Themenseiten
+    # zu sehen.
+    themenseiten = [f for f in file_args
+                    if f.replace("\\", "/").split("/")[0] == "themen"]
+    if js.is_file() and not themenseiten:
+        print("---- verify_js_runtime.js ----")
+        print("keine Themenseiten uebergeben — uebersprungen")
+    elif js.is_file():
         if not _dep_present("jsdom"):
             rep.warn("verify_js_runtime.js", "node_modules/jsdom fehlt — `npm install jsdom`")
         else:
-            r = _run_node(str(js), file_args, env)
+            r = _run_node(str(js), themenseiten, env)
             out = (r.stdout or "") + (r.stderr or "")
             print("---- verify_js_runtime.js ----")
             print(out.rstrip())
