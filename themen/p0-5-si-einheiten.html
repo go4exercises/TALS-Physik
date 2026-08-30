@@ -1027,7 +1027,11 @@ function drawA2() {
   ctx.fillStyle = SI_F.weiss; ctx.fillRect(0, 0, W, H);
 
   const links = 34, rechts = W - 24, yB = 120;
-  const smax = a2Modus === 'labor' ? 3 : SI.c * 0.1 * 10;   // 3 m bzw. 3e8 m
+  // 3 m bzw. 4e8 m = 400 000 km. Die Reise-Skala reicht bewusst ueber die
+  // Lichtsekunde (300 000 km) hinaus, damit der Mond mit 384 400 km innerhalb
+  // der Skala liegt — sonst wird seine Marke ans Ende geklemmt und ueberdeckt
+  // dort die Marke «1 Lichtsekunde».
+  const smax = a2Modus === 'labor' ? 3 : 4e8;
   const px = x => links + (rechts - links) * Math.min(1, x / smax);
 
   // Skala
