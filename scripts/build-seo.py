@@ -50,6 +50,28 @@ SEITEN = {
    titel='Formelsammlung Physik — alle Formeln nach Lerngebieten',
    beschreibung='Alle Physik-Formeln der Berufsmaturität auf einer Seite: Mechanik, Thermodynamik, Wellen und Elektrizität, geordnet nach den Lerngebieten des RLP-BM 2030.',
    themen=['Physik', 'Formelsammlung', 'Formeln', 'Berufsmaturität']),
+ 'leitprogramme.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramme — Physik im eigenen Tempo erarbeiten',
+   beschreibung='Selbstlerneinheiten der Physik-Berufsmaturität: Vortest, Erklärung, '
+                'Beispiel und Selbstkontrolle nach jedem Schritt, am Schluss ein Kapiteltest. '
+                'Zum Vertiefen, Nachholen und für den Fernunterricht.',
+   themen=['Physik', 'Leitprogramm', 'Selbststudium', 'Berufsmaturität']),
+ 'leitprogramme/leitprogramm-ideale-gase.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Ideale Gase — Gasgesetze selbst erarbeiten',
+   beschreibung='Leitprogramm zu den idealen Gasen: Boyle-Mariotte, Amontons und Gay-Lussac '
+                'in acht Schritten zur allgemeinen Gasgleichung, mit Normbedingungen, den '
+                'Grenzen des Modells, Vortest und Kapiteltest zur Selbstkontrolle.',
+   themen=['Ideale Gase', 'Gasgesetze', 'Allgemeine Gasgleichung', 'Boyle-Mariotte',
+           'Gay-Lussac', 'Amontons', 'Thermodynamik']),
+ 'clips.html': dict(
+   typ='article', lrt=['Lernvideo', 'Animation'],
+   titel='Clips — kurze Animationen zu den Rechenwegen',
+   beschreibung='Kurze Animationen der Physik-Berufsmaturität: Ein Clip baut einen '
+                'Gedankengang Schritt für Schritt auf, mit Farbführung und Text zum '
+                'Mitlesen. Nach Lerngebieten geordnet.',
+   themen=['Physik', 'Erklärclips', 'Animationen']),
  'rechtliches.html': dict(
    typ='website', noindex=False,
    titel='Rechtliches & Datenschutz',

@@ -92,11 +92,13 @@ function buildNav(cfg) {
   const refItems = [
     { href:`${prefix}glossar.html`,         nr:'A–Z', tit:'Glossar',                     cur:(cfg.id==='glossar') },
     { href:`${prefix}formelsammlung.html`,  nr:'∑',   tit:'Formelsammlung',               cur:(cfg.id==='formeln') },
+    { href:`${prefix}leitprogramme.html`,   nr:'LP',  tit:'Leitprogramme — Selbstlerneinheiten', cur:(cfg.id==='leitprogramme') },
+    { href:`${prefix}clips.html`,           nr:'▶',   tit:'Clips — kurze Animationen',    cur:(cfg.id==='clips') },
     { href:`${prefix}TALS-Physik-Formelsammlung.pdf`, nr:'PDF',
       tit:'Formelsammlung illustriert — zum Herunterladen und Drucken', extern:true },
   ];
-  // Auf Glossar/Formelsammlung startet im Mobilmenü «Nachschlagen» offen statt «Themen».
-  const refAktiv = (cfg.id === 'glossar' || cfg.id === 'formeln');
+  // Auf den Nachschlagen-Seiten startet im Mobilmenü «Nachschlagen» offen statt «Themen».
+  const refAktiv = ['glossar', 'formeln', 'leitprogramme', 'clips'].includes(cfg.id);
   function renderRefDropdown() {
     const intern = refItems.map(r =>
       `<a href="${r.href}" class="${r.cur?'dd-aktiv':''}"${r.extern?' target="_blank" rel="noopener"':''}>

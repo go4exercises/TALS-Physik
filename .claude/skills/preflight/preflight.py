@@ -199,9 +199,15 @@ def run_light(path, rep):
     check_no_eszett(text, fname, rep)
     check_decimal_comma_in_math(text, fname, rep)
     check_html_in_math(text, fname, rep)
-    check_skeleton(text, fname, rep)
-    check_lib_dep(text, fname, rep)
-    check_resources_section(text, fname, rep)
+    # Skelett, Bibliotheks-Einbindung und Ressourcen-Sektion beschreiben den
+    # Aufbau einer THEMENSEITE. Die Startseite, die Nachschlagen-Seiten und die
+    # Leitprogramme haben bewusst ein eigenes Geruest — dort meldete der Check
+    # `page-wrap 0x` und `main class="content" 0x` als Fehler, die keine sind.
+    if "themen" in path.parts:
+        check_skeleton(text, fname, rep)
+        check_lib_dep(text, fname, rep)
+        check_resources_section(text, fname, rep)
+    # Fremdhosts gelten ueberall — die Datenschutzaussage im Fussbereich auch.
     check_keine_fremdhosts(text, fname, rep)
 
 

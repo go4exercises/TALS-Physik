@@ -1056,3 +1056,491 @@ span.anim-ref { white-space: nowrap; }
   }
   .such-panel { position: fixed; top: 104px; left: 10px; right: 10px; width: auto; max-width: none; }
 }
+
+
+/* ── Clips ─────────────────────────────────────────────────────
+   Eigene Erklaerclips (clips/*.html). Der Clip wird NICHT beim
+   Seitenaufruf geladen: sichtbar ist zuerst nur der kleine Startknopf,
+   erst der Klick setzt das <iframe> ein (clipStart in mathlib.js),
+   «Clip schliessen» nimmt es wieder heraus (clipStop). So laeuft bei
+   mehreren Clips auf einer Seite keiner von selbst los, und die Seite
+   laedt nicht N zusaetzliche Dokumente mit. */
+.clip-grid { margin-top: 12px; }
+
+/* Eigene Ueberschrift je Clip — build-suchindex.py schneidet daran einen
+   eigenen Abschnitt, sonst heissen alle Treffer einer Seite «Clips». */
+.clip-h {
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin: 20px 0 3px;
+}
+.clip-grid > .clip-h:first-child { margin-top: 4px; }
+.clip-text {
+  font-size: 0.78rem;
+  color: var(--tinte-2);
+  margin: 0 0 9px;
+  max-width: 62ch;
+}
+
+/* Startknopf: bewusst klein — der Titel steht schon in der Ueberschrift,
+   also bleibt nur ▶ und die Dauer. */
+.clip-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: inherit;
+  cursor: pointer;
+  background: var(--weiss);
+  border: 1px solid var(--linie);
+  border-left: 3px solid var(--bernstein);
+  border-radius: 7px;
+  padding: 5px 12px 5px 9px;
+  color: var(--bernstein);
+  box-shadow: var(--s);
+  transition: background 0.15s, border-color 0.15s;
+}
+.clip-start[hidden] { display: none; }   /* schlaegt das display:inline-flex */
+.clip-start:hover { background: var(--bernstein-hell); border-color: var(--bernstein-rand); }
+.clip-start:focus-visible { outline: 2px solid var(--bernstein); outline-offset: 2px; }
+.clip-play { font-size: 0.7rem; line-height: 1; }
+.clip-meta {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.clip-ansicht { margin-top: 10px; }
+.clip-zu {
+  display: block;
+  margin: 0 0 6px auto;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--tinte-2);
+  background: none;
+  border: 0;
+  padding: 3px 2px;
+  cursor: pointer;
+}
+.clip-zu:hover { color: var(--bernstein); }
+.clip-zu:focus-visible { outline: 2px solid var(--bernstein); outline-offset: 2px; }
+
+/* Buehne 16:9 plus 60 px Bedienleiste — die Hoehe der Leiste im Clip.
+   padding-bottom statt aspect-ratio, damit die Summe exakt aufgeht. */
+.clip-rahmen {
+  position: relative;
+  width: 100%;
+  padding-bottom: calc(56.25% + 60px);
+  border: 1px solid var(--linie);
+  border-radius: 9px;
+  overflow: hidden;
+  box-shadow: var(--s);
+  background: var(--papier);
+}
+.clip-rahmen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* ── Clip-Bibliothek (clips.html) ──────────────────────────────
+   Auf viele Clips ausgelegt: Die Lerngebiete sind zugeklappt, ihre
+   Kopfzeile nennt Anzahl und Gesamtlaufzeit. Dasselbe Prinzip wie die
+   Kapitelbloecke der Startseite — sonst wird die Seite bei hundert
+   Clips eine Liste, durch die man scrollt. Je Zeile nur Titel und
+   Laufzeit; Kurzbeschrieb und Transkript stehen auf der Lektionsseite. */
+/* Die Lerngebiete stehen ueber die ganze Breite untereinander. Erst die
+   Clips darin sind zweispaltig — dort wird der Platz gebraucht. */
+.cl-liste {
+  margin: 10px 0 26px;
+  border: 1px solid var(--linie);
+  border-radius: 9px;
+  overflow: hidden;
+  box-shadow: var(--s);
+}
+.cl-kap + .cl-kap { border-top: 1px solid var(--linie); }
+
+.cl-hdr {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 10px 14px;
+  background: var(--weiss); border: 0; cursor: pointer;
+  font: inherit; text-align: left; color: inherit;
+}
+.cl-hdr:hover { background: var(--papier-2); }
+.cl-hdr:focus-visible { outline: 2px solid var(--bernstein); outline-offset: -2px; }
+.cl-nr {
+  flex-shrink: 0; width: 22px; height: 22px;
+  display: grid; place-items: center; border-radius: 5px;
+  background: var(--bernstein-hell); color: var(--bernstein);
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+}
+.cl-name { font-family: var(--serif); font-size: 0.92rem; font-weight: 700; }
+.cl-anz {
+  margin-left: auto; flex-shrink: 0;
+  font-family: var(--mono); font-size: 0.6rem; color: var(--tinte-2); white-space: nowrap;
+}
+.cl-tog { flex-shrink: 0; font-size: 0.6rem; color: var(--tinte-2); }
+
+/* Die Clipauswahl zweispaltig, aber SPALTENWEISE gefuellt: erst die linke
+   Spalte von oben nach unten, dann die rechte. Zeilenweise gefuellt wuerde
+   eine nummerierte Reihe ueber beide Spalten zickzacken (1 links, 2 rechts,
+   3 wieder links). Die Zeilenzahl setzt der Generator je Gruppe als
+   Inline-Stil — sie haengt an der Anzahl Clips. */
+.clip-auswahl {
+  background: var(--papier); border-top: 1px solid var(--linie);
+  padding: 6px 8px;
+  display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column;
+  gap: 2px 10px;
+}
+/* Die Bibliothek unterteilt zusaetzlich nach Lektion und Reihe. Mit einem
+   Raster ginge das nicht: Eine Ueberschrift muesste dort ihre Spalte
+   kennen. Mehrspaltiger Satz laesst die Gruppen der Reihe nach in die
+   Spalten laufen und haelt jede zusammen. */
+.cl-body {
+  background: var(--papier); border-top: 1px solid var(--linie);
+  padding: 6px 8px 10px;
+  display: block; columns: 2; column-gap: 22px;
+}
+.cl-gruppe { break-inside: avoid; margin-bottom: 10px; }
+/* Zwei Klassen, damit die Regel `.content h3` nicht gewinnt. */
+.cl-body .cl-gt {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 6px 0 3px; padding: 0 4px;
+  font-family: var(--sans); font-size: .78rem; font-weight: 600;
+  letter-spacing: .03em; text-transform: uppercase;
+  color: var(--bernstein); border: 0;
+}
+.cl-sp .cl-gt { color: var(--bernstein); }
+.cl-gnr {
+  font-variant-numeric: tabular-nums; letter-spacing: 0;
+  text-transform: none; opacity: .62;
+}
+/* Muss sein: das display oben schlaegt sonst das hidden-Attribut, und
+   alle Gruppen stuenden offen. Dieselbe Falle wie bei .clip-start. */
+.cl-body[hidden] { display: none; }
+/* Auf der Lektionsseite steht die Auswahl frei, ohne Aufklapper darum. */
+.clip-auswahl { border: 1px solid var(--linie); border-radius: 9px;
+  border-top: 1px solid var(--linie); margin-top: 12px; box-shadow: var(--s); }
+@media (max-width: 720px) {
+  .clip-auswahl { grid-template-columns: 1fr; grid-auto-flow: row; grid-template-rows: none !important; }
+  /* einspaltig: Zeilenvorgabe des Generators zuruecknehmen, sonst
+     quetscht das Raster alle Clips in die halbe Anzahl Zeilen. */
+  .cl-body { columns: 1; }
+}
+.cl-clip {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 6px 14px 6px 22px;
+  background: none; border: 0; cursor: pointer;
+  font: inherit; text-align: left; color: inherit;
+}
+.cl-clip:hover { background: var(--bernstein-hell); }
+.cl-clip[hidden] { display: none; }
+.cl-clip:focus-visible { outline: 2px solid var(--bernstein); outline-offset: -2px; }
+/* Platz des Clips in seiner Reihe. Sagt, in welcher Reihenfolge die Clips
+   einer Reihe gedacht sind — Ergaenzungen ohne Nummer stehen dahinter. */
+.cl-folge {
+  flex-shrink: 0; width: 19px; height: 19px;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--bernstein); color: #fff;
+  font-family: var(--mono); font-size: 0.58rem; font-weight: 700;
+}
+.cl-folge.cl-ohne { background: none; color: var(--tinte-2); font-size: 0.7rem; }
+
+/* Farbnuancen je Reihe: Jede Reihe bekommt eine eigene, bei der naechsten
+   wird weitergeschaltet. Die Farbe sitzt an der Zeile — Plakette UND linke
+   Kante —, weil ein 19-px-Kreis allein zu schwach gruppiert; aufeinander
+   folgende Clips einer Reihe bilden so einen durchgehenden Balken.
+   Bewusst nur Nuancen der Bereichsfarbe: Die didaktischen Farben aus
+   STYLEGUIDE 5.1 bedeuten etwas (blau Definition, gruen Beispiel, orange
+   Aufgabe, rot Fehler, lila Beweis) — sie hier fuer eine Gruppierung zu
+   verwenden hiesse, sie umzudeuten. Alle Nuancen tragen weisse Schrift mit
+   mindestens 4.6 Kontrast, und ihre Helligkeiten sind gespreizt, damit sie
+   sich auch in klein unterscheiden. */
+.cl-clip { border-left: 3px solid transparent; }
+.cl-r1 .cl-folge { background: #0f3a5c; }  .cl-r1 .cl-clip { border-left-color: #0f3a5c; }
+.cl-r2 .cl-folge { background: #26709b; }  .cl-r2 .cl-clip { border-left-color: #26709b; }
+.cl-r3 .cl-folge { background: #0f5f6e; }  .cl-r3 .cl-clip { border-left-color: #0f5f6e; }
+.cl-r4 .cl-folge { background: #42759c; }  .cl-r4 .cl-clip { border-left-color: #42759c; }
+.cl-r5 .cl-folge { background: #1a4f8a; }  .cl-r5 .cl-clip { border-left-color: #1a4f8a; }
+.cl-r6 .cl-folge { background: #3d6b90; }  .cl-r6 .cl-clip { border-left-color: #3d6b90; }
+.cl-r7 .cl-folge { background: #14496e; }  .cl-r7 .cl-clip { border-left-color: #14496e; }
+.cl-r8 .cl-folge { background: #3a5aa0; }  .cl-r8 .cl-clip { border-left-color: #3a5aa0; }
+
+.cl-sp .cl-r1 .cl-folge { background: #3c1c63; }  .cl-sp .cl-r1 .cl-clip { border-left-color: #3c1c63; }
+.cl-sp .cl-r2 .cl-folge { background: #7d5a9e; }  .cl-sp .cl-r2 .cl-clip { border-left-color: #7d5a9e; }
+.cl-sp .cl-r3 .cl-folge { background: #5b2d8e; }  .cl-sp .cl-r3 .cl-clip { border-left-color: #5b2d8e; }
+.cl-sp .cl-r4 .cl-folge { background: #8a4a8a; }  .cl-sp .cl-r4 .cl-clip { border-left-color: #8a4a8a; }
+.cl-sp .cl-r5 .cl-folge { background: #6d4fa8; }  .cl-sp .cl-r5 .cl-clip { border-left-color: #6d4fa8; }
+.cl-sp .cl-r6 .cl-folge { background: #46256e; }  .cl-sp .cl-r6 .cl-clip { border-left-color: #46256e; }
+.cl-sp .cl-r7 .cl-folge { background: #7a3f9e; }  .cl-sp .cl-r7 .cl-clip { border-left-color: #7a3f9e; }
+.cl-sp .cl-r8 .cl-folge { background: #5a4bb0; }  .cl-sp .cl-r8 .cl-clip { border-left-color: #5a4bb0; }
+.cl-titel { font-size: 0.85rem; }
+.cl-zeit {
+  margin-left: auto; flex-shrink: 0;
+  font-family: var(--mono); font-size: 0.62rem; color: var(--tinte-2);
+}
+
+/* ── Grosse Buehne ────────────────────────────────────────────
+   Aus der Bibliothek laeuft ein Clip nicht in seiner Zeile, sondern
+   ueber dem Fenster: dort ist er so gross wie der Bildschirm hergibt,
+   und beim Schliessen steht man wieder genau in der Liste. Ein neuer
+   Tab kann das nicht — er verliert die Liste und laeuft weiter, wenn
+   man ihn vergisst. Fuers Projizieren fuehrt ein Link im Kopf trotzdem
+   in einen eigenen Tab. */
+.clip-buehne {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(14, 20, 24, 0.88);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 18px;
+}
+.cb-kopf {
+  display: flex; align-items: center; gap: 16px;
+  width: min(96vw, calc((100vh - 150px) * 16 / 9));
+  color: #eef2f5;
+}
+.cb-titel { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; }
+.cb-tab, .cb-zu {
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: #eef2f5; background: none; border: 0; cursor: pointer; padding: 4px 6px;
+  text-decoration: none; white-space: nowrap;
+}
+.cb-tab { margin-left: auto; opacity: 0.72; }
+.cb-tab:hover, .cb-zu:hover { opacity: 1; text-decoration: underline; }
+.cb-zu { border: 1px solid rgba(255,255,255,.35); border-radius: 6px; }
+.cb-rahmen {
+  position: relative;
+  width: min(96vw, calc((100vh - 150px) * 16 / 9));
+  padding-bottom: min(calc(96vw * 0.5625 + 60px), calc(100vh - 150px));
+  border-radius: 9px; overflow: hidden; background: var(--papier);
+}
+.cb-rahmen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+@media (max-width: 720px) {
+  .clip-buehne { padding: 8px; }
+  .cb-kopf, .cb-rahmen { width: 100%; }
+  .cb-rahmen { padding-bottom: calc(100vw * 0.5625 + 60px); }
+}
+.cl-leer { color: var(--tinte-2); font-size: 0.85rem; }
+
+/* Schwerpunktfach violett — Bereichsfarben nach STYLEGUIDE 5.2 */
+.cl-sp .cl-nr   { background: var(--lila-hell); color: var(--bernstein); }
+.cl-sp .cl-folge.cl-ohne { background: none; color: var(--tinte-2); }
+.cl-sp .cl-clip:hover { background: var(--lila-hell); }
+.cl-sp .cl-hdr:focus-visible,
+.cl-sp .cl-clip:focus-visible { outline-color: var(--bernstein); }
+
+/* Transkripte: der einzige Text, den Suchmaschine und Volltextsuche vom
+   Clip sehen. Klasse darf NICHT in SKIP_CLASSES von build-suchindex.py. */
+.clip-transkript, .clip-transkripte { margin-top: 12px; }
+.clip-transkripte .clip-h { margin: 16px 0 2px; font-size: 0.95rem; }
+.clip-transkripte .clip-h:first-of-type { margin-top: 8px; }
+.clip-transkript > summary, .clip-transkripte > summary {
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--tinte-2);
+  padding: 4px 0;
+}
+.clip-transkript > summary:hover, .clip-transkripte > summary:hover { color: var(--bernstein); }
+.clip-transkript ol, .clip-transkripte ol { margin: 8px 0 0; padding-left: 0; list-style: none; }
+.clip-transkript li, .clip-transkripte li {
+  display: flex;
+  gap: 12px;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  padding: 3px 0;
+}
+
+.clip-transkript .tk-zeit, .clip-transkripte .tk-zeit {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--tinte-2);
+  min-width: 44px;
+}
+
+/* ════════════════════════════════════════════════════════════════
+ *  Animations-Karte (.anim)
+ *  Wird seitenübergreifend für interaktive Canvas-Animationen
+ *  verwendet. Layout: Canvas links, Bedienelemente rechts.
+ *  Auf schmalen Bildschirmen einspaltig.
+ * ════════════════════════════════════════════════════════════════ */
+.anim {
+  background: var(--papier);
+  border: 1px solid var(--linie);
+  border-radius: 8px;
+  padding: 18px;
+  margin: 14px 0 22px;
+  box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+}
+/* Steht eine .anim-Karte im Körper eines .widget, macht .widget den Rahmen.
+   .anim bleibt dann nur noch Namensraum für seine 22 Nachfahren-Regeln
+   (.bedien, .regler, .chips, .legende, .formel …) und gibt die Karten-Optik
+   ab — sonst entstünde Rahmen im Rahmen. Verbindlich seit STYLEGUIDE §2.10. */
+.widget-body > .anim {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+.anim-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .anim-layout { grid-template-columns: minmax(0, 1fr); }
+}
+.anim canvas {
+  width: 100%;
+  height: auto;
+  background: var(--papier-2);
+  border: 1px solid var(--linie);
+  border-radius: 6px;
+  display: block;
+  touch-action: none;
+}
+.anim .bedien { display: flex; flex-direction: column; gap: 12px; }
+.anim .regler { display: flex; flex-direction: column; gap: 3px; }
+.anim .regler-label {
+  display: flex; justify-content: space-between;
+  font-size: 0.88rem; color: var(--tinte-2);
+}
+.anim .regler-label .wert {
+  font-family: var(--mono); color: var(--bernstein); font-weight: 500;
+}
+.anim input[type="range"] { width: 100%; accent-color: var(--bernstein); }
+.anim .feld-titel {
+  font-size: 0.74rem; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--tinte-2);
+  font-weight: 600; margin-bottom: 2px;
+}
+.anim .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.anim .chip {
+  background: var(--papier-2);
+  border: 1px solid var(--linie);
+  color: var(--tinte-2);
+  padding: 5px 9px; border-radius: 14px;
+  font-size: 0.82rem; cursor: pointer;
+  font-family: var(--mono); transition: all 0.12s;
+}
+.anim .chip:hover { border-color: var(--bernstein-rand); color: var(--bernstein); }
+.anim .chip.aktiv {
+  background: var(--bernstein); border-color: var(--bernstein); color: white;
+}
+.anim .legende {
+  background: var(--papier-2);
+  border: 1px solid var(--linie);
+  border-radius: 6px;
+  padding: 8px 11px;
+  font-size: 0.86rem;
+}
+.anim .legende-titel {
+  font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--tinte-2);
+  font-weight: 600; margin-bottom: 5px;
+}
+.anim .legende-zeile {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 0.85rem;
+  padding: 1px 0;
+}
+.anim .legende-zeile .lab { color: var(--tinte); }
+.anim .legende-zeile .val { color: var(--bernstein); font-weight: 500; }
+.anim .formel {
+  background: var(--bernstein-hell);
+  border: 1px solid var(--bernstein-rand);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.93rem;
+  transition: background 0.3s, border-color 0.3s;
+}
+.anim .erklaerung {
+  background: var(--papier-2);
+  border-left: 3px solid var(--bernstein);
+  padding: 7px 11px;
+  font-size: 0.84rem;
+  color: var(--tinte-2);
+  border-radius: 0 4px 4px 0;
+  min-height: 36px;
+}
+.anim .anim-titel {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--bernstein);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.anim .kn-quad {
+  background: var(--papier-2);
+  border: 1px solid var(--linie);
+  color: var(--tinte);
+  padding: 4px 9px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: var(--mono);
+  transition: all 0.12s;
+}
+.anim .kn-quad:hover { border-color: var(--bernstein-rand); color: var(--bernstein); }
+
+
+/* ── Leitprogramme (leitprogramme.html) ────────────────────────
+   Selbstlerneinheiten, die als eigenstaendige Seite laufen: eigenes
+   Inhalts-CSS, eigener Ablauf. Hier steht nur die Bibliothekskarte, die
+   dorthin fuehrt. Aufbau bewusst wie .cl-liste in der Clip-Bibliothek —
+   eine gerahmte Liste, deren Eintraege sich beruehren. */
+.lp-liste {
+  margin: 10px 0 26px;
+  border: 1px solid var(--linie);
+  border-radius: 9px;
+  overflow: hidden;
+  box-shadow: var(--s);
+}
+.lp-karte + .lp-karte { border-top: 1px solid var(--linie); }
+
+.lp-karte {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 13px 15px;
+  background: var(--weiss);
+  text-decoration: none; color: inherit;
+  transition: background 0.15s;
+}
+.lp-karte:hover { background: var(--bernstein-hell); }
+.lp-karte:focus-visible { outline: 2px solid var(--bernstein); outline-offset: -2px; }
+
+.lp-nr {
+  flex-shrink: 0; min-width: 30px; height: 22px; padding: 0 5px;
+  display: grid; place-items: center; border-radius: 5px;
+  background: var(--bernstein-hell); color: var(--bernstein);
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+  margin-top: 2px;
+}
+.lp-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+.lp-titel {
+  font-family: var(--serif); font-size: 1.02rem; font-weight: 700;
+  color: var(--tinte); line-height: 1.25;
+}
+.lp-beschr { font-size: 0.85rem; color: var(--tinte-2); line-height: 1.5; }
+.lp-meta {
+  font-family: var(--mono); font-size: 0.62rem; color: var(--tinte-2);
+  letter-spacing: 0.02em;
+}
+/* Der Pfeil sitzt auf der Titelzeile, nicht in der Mitte der Karte —
+   sonst wandert er bei langem Beschrieb nach unten weg. */
+.lp-pfeil {
+  flex-shrink: 0; color: var(--bernstein); font-size: 1.1rem;
+  line-height: 1.25; margin-top: 1px;
+}
+
+@media (max-width: 600px) {
+  .lp-karte { padding: 11px 12px; gap: 9px; }
+  .lp-beschr { font-size: 0.8rem; }
+}

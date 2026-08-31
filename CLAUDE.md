@@ -90,6 +90,22 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Bauanleitung (`README-Build.md`). Punkt-Ordner, damit GitHub Pages ihn nicht
   ausliefert. Das fertige PDF steht als `TALS-Physik-Formelsammlung.pdf` im Root;
   nach einem Neubau (`latexmk -pdf formelsammlung.tex`) dorthin kopieren.
+- `clips.html` + `clips/` — **Erklärclips** (Bibliotheksseite und Drehbücher).
+  Ein Clip wird nie beim Seitenaufruf geladen: sichtbar ist zuerst nur der
+  Startknopf, erst der Klick setzt das `<iframe>` ein (`clipStart` in
+  `physiklib.js`). `scripts/build-clips.py` baut aus einem Drehbuch
+  (`clips/<name>.json`) den Clip, `scripts/build-clips-einbau.py` trägt ihn in
+  die Lektionsseite und zwischen die Marker `<!-- CLIPS-BIBLIOTHEK:ANFANG/ENDE -->`
+  in `clips.html` ein. Physik hat **noch keine Clips** — die Mechanik steht
+  bereit, die Bibliothek sagt bis dahin «Noch keine Clips.». Anders als Mathe
+  gruppiert die Bibliothek nur nach Lerngebiet (kein Grundlagen-/Schwerpunktfach).
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**. Die
+  Bibliotheksseite trägt nur die Karten (`.lp-*` in `style.css`); jedes
+  Leitprogramm ist eine **eigenständige Seite mit eigenem Inhalts-CSS** und
+  bewusst ohne `nav.js`/`style.css` — Aufbau und Ablauf sind auf das
+  Leitprogramm zugeschnitten. Verbindlich bleiben: keine Fremdhosts
+  (`../schriften.css`, `../vendor/mathjax/tex-svg.js`) und je ein Anker auf den
+  `<h2>`, damit `build-suchindex.py` dort Abschnitte schneiden kann.
 - `rechtliches.html` — Haftung + Datenschutz, verlinkt aus Footer und Feedbackformular
   (bewusst **kein** eigener Headerpunkt). Kontakt läuft ausschliesslich über
   `feedback.html` („Kontakt & Feedback") — es gibt keine veröffentlichte E-Mail-Adresse.

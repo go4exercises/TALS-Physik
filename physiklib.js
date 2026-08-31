@@ -6,6 +6,7 @@
 //    - Zahlen-Formatierer (fmt, fmtS, fmtSig)
 //    - Lösungs-Toggle (toggleL)
 //    - MathJax-Re-Typeset, serialisiert (mjTypeset)
+//    - Clip-Start/-Stop fuer die Erklaerclips (clipStart, clipStop)
 //
 //  Einbindung auf Themenseiten:
 //    <script src="../physiklib.js"></script>
@@ -293,3 +294,128 @@ function drawCurve(ctx, cx, cy, xFn, yFn, tMin, tMax, steps, color, lw = 2.5) {
   }
   ctx.stroke();
 }
+
+/* ── Clip starten und wieder schliessen ───────────────────────────────────────
+   Ein Clip wird bewusst nicht beim Seitenaufruf geladen. Sichtbar ist zuerst
+   nur der Knopf; erst der Klick setzt das <iframe> ein. So laeuft bei mehreren
+   Clips keiner von selbst los, und die Seite laedt nicht N Dokumente mit.
+
+   Zwei Spielarten, gesteuert ueber data-modus am .clip-Element:
+     ohne Angabe  — der Clip laeuft an Ort und Stelle. So auf den
+                    Lektionsseiten, wo er zwischen Theorie und Aufgaben gehoert.
+     "gross"      — der Clip laeuft ueber dem Fenster. So in der Bibliothek,
+                    wo die Zeile viel zu schmal waere.
+   Markup erzeugt scripts/build-clips-einbau.py. */
+function clipStart(btn) {
+  const karte = btn.closest('.clip');
+  if (!karte) return;
+  const quelle = karte.dataset.clip;
+  const titel  = karte.dataset.titel || 'Clip';
+  if (!quelle) return;
+
+  if (karte.dataset.modus === 'gross') {
+    if (document.querySelector('.clip-buehne')) return;
+    clipBuehne(quelle, titel);
+    return;
+  }
+  if (karte.querySelector('.clip-ansicht')) return;
+
+  const ansicht = document.createElement('div');
+  ansicht.className = 'clip-ansicht';
+  ansicht.appendChild(clipKnopf('clip-zu', '✕ Clip schliessen'));
+  ansicht.appendChild(clipRahmen('clip-rahmen', quelle, titel));
+  btn.hidden = true;
+  karte.appendChild(ansicht);
+  ansicht.querySelector('iframe').focus({ preventScroll: true });
+}
+
+/* Grosse Buehne ueber dem Fenster. Bewusst kein neuer Tab: Der wuerde die
+   Liste verlassen, und ein vergessener Tab spielt weiter. Wer projizieren
+   will, findet im Kopf trotzdem einen Link in einen eigenen Tab. */
+function clipBuehne(quelle, titel) {
+  const buehne = document.createElement('div');
+  buehne.className = 'clip-buehne';
+  buehne.setAttribute('role', 'dialog');
+  buehne.setAttribute('aria-modal', 'true');
+  buehne.setAttribute('aria-label', 'Clip: ' + titel);
+
+  const kopf = document.createElement('div');
+  kopf.className = 'cb-kopf';
+  const t = document.createElement('span');
+  t.className = 'cb-titel';
+  t.textContent = titel;
+  const tab = document.createElement('a');
+  tab.className = 'cb-tab';
+  tab.href = quelle;
+  tab.target = '_blank';
+  tab.rel = 'noopener';
+  tab.textContent = 'eigener Tab ↗';
+  kopf.appendChild(t);
+  kopf.appendChild(tab);
+  kopf.appendChild(clipKnopf('cb-zu', '✕ Schliessen'));
+
+  buehne.appendChild(kopf);
+  buehne.appendChild(clipRahmen('cb-rahmen', quelle, titel));
+
+  // Klick auf den dunklen Rand schliesst, Klick auf den Clip nicht.
+  buehne.addEventListener('click', e => { if (e.target === buehne) clipZu(); });
+  document.addEventListener('keydown', clipEscape);
+  document.body.appendChild(buehne);
+  buehne.querySelector('.cb-zu').focus({ preventScroll: true });
+}
+
+function clipKnopf(klasse, text) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = klasse;
+  b.textContent = text;
+  b.setAttribute('onclick', 'clipStop(this)');
+  return b;
+}
+
+function clipRahmen(klasse, quelle, titel) {
+  const rahmen = document.createElement('div');
+  rahmen.className = klasse;
+  const f = document.createElement('iframe');
+  f.src = quelle;
+  f.title = 'Clip: ' + titel;
+  f.setAttribute('allowfullscreen', '');
+  rahmen.appendChild(f);
+  return rahmen;
+}
+
+function clipEscape(e) { if (e.key === 'Escape') clipZu(); }
+
+function clipZu() {
+  const buehne = document.querySelector('.clip-buehne');
+  if (!buehne) return;
+  buehne.remove();                       // entfernt das iframe, der Clip haelt an
+  document.removeEventListener('keydown', clipEscape);
+}
+
+function clipStop(knopf) {
+  if (knopf.closest('.clip-buehne')) { clipZu(); return; }
+  const karte = knopf.closest('.clip');
+  if (!karte) return;
+  const ansicht = karte.querySelector('.clip-ansicht');
+  if (ansicht) ansicht.remove();
+  const btn = karte.querySelector('.clip-start');
+  if (btn) { btn.hidden = false; btn.focus({ preventScroll: true }); }
+}
+
+/* Ein Sprungziel in einem zugeklappten <details> waere sonst unerreichbar:
+   Die Suche fuehrt auf #clip-…, das steht im Transkript-Aufklapper. */
+(function () {
+  function oeffneZiel() {
+    if (!location.hash) return;
+    const ziel = document.getElementById(location.hash.slice(1));
+    if (!ziel) return;
+    let d = ziel.closest('details');
+    while (d) { d.open = true; d = d.parentElement && d.parentElement.closest('details'); }
+    ziel.scrollIntoView();
+  }
+  window.addEventListener('hashchange', oeffneZiel);
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', oeffneZiel);
+  else oeffneZiel();
+})();

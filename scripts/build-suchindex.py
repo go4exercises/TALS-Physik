@@ -295,9 +295,21 @@ def seiten_aus_navjs(root):
 
     # Nachschlagewerke, sofern vorhanden (beide Projekte haben sie im Root)
     for url, nr, titel, mode in [('glossar.html', 'A–Z', 'Glossar', 'glossar'),
-                                 ('formelsammlung.html', '∑', 'Formelsammlung', 'formeln')]:
+                                 ('formelsammlung.html', '∑', 'Formelsammlung', 'formeln'),
+                                 ('leitprogramme.html', 'LP', 'Leitprogramme', 'thema'),
+                                 ('clips.html', '▶', 'Clips', 'thema')]:
         if os.path.exists(os.path.join(root, url)):
             seiten.append({'nr': nr, 'titel': titel, 'url': url, 'mode': mode})
+
+    # Die Leitprogramme selbst: sie tragen den eigentlichen Lehrtext, die
+    # Bibliotheksseite nur die Karten. Wer «Gay-Lussac» sucht, soll im
+    # Leitprogramm landen und nicht bloss in der Uebersicht.
+    lp = os.path.join(root, 'leitprogramme')
+    if os.path.isdir(lp):
+        for datei in sorted(os.listdir(lp)):
+            if datei.endswith('.html'):
+                seiten.append({'nr': 'LP', 'titel': 'Leitprogramm',
+                               'url': f'leitprogramme/{datei}', 'mode': 'thema'})
     return seiten
 
 
