@@ -31,7 +31,8 @@ Browser zur Anmeldung.
 
 ## 2. Einmalig: Projekt vorbereiten
 
-Dieses Kit (`CLAUDE.md`, `.claude/skills/preflight/`, `.gitignore`, `SETUP.md`) liegt im
+Dieses Kit (`CLAUDE.md`, `.claude/skills/preflight/`, `.claude/tools/`, `.gitignore`,
+`SETUP.md`) liegt im
 **Wurzelverzeichnis** deiner bestehenden Projektstruktur — neben `themen/`, `physiklib.js`,
 `style.css` usw. Es fasst deine Inhalte nicht an.
 
@@ -48,7 +49,10 @@ git commit -m "Ausgangsstand + Claude-Code-Kit"
 Für die Tiefen-Checks (MathJax-Render + JS-Laufzeit) einmalig im Repo-Root:
 `npm install mathjax-full jsdom`. Ohne diese Module laufen nur die schnellen Eigen-Checks;
 die Tiefen-Checks werden mit `[WARN]` übersprungen (kein Blocker).
-Für optionale Render-Checks: `pip install playwright && playwright install chromium`.
+Die Browser-Werkzeuge in `.claude/tools/` (`render-check.mjs`, `scan-live.mjs`,
+`build-bilder.mjs`) laufen unter Node, nicht unter Python. `playwright` steht in den
+`devDependencies`, ein `npm install` im Repo-Root genügt also; die Browser-Binärdatei
+kommt einmalig mit `npx playwright install chromium` dazu.
 
 ## 3. Laufender Workflow
 

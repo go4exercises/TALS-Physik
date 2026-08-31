@@ -19,9 +19,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 
 ## Projektstruktur
 
-- `themen/` — Vorwissen (5 Seiten): `p0-0` (Alltagstour), `p0-1` (Rechnen und
+- `themen/` — Vorwissen (6 Seiten): `p0-0` (Alltagstour), `p0-1` (Rechnen und
   Schliessen), `p0-2` (Grössen, Einheiten und Messen), `p0-3` (Messen — Waagen,
-  Dichte, Einheiten), `p0-4` (Einheitentrainer). Auf `p0-1`/`p0-2` tragen die aus
+  Dichte, Einheiten), `p0-4` (Einheitentrainer), `p0-5` (Die sieben SI-Basiseinheiten). Auf `p0-1`/`p0-2` tragen die aus
   den früheren Seiten 0.3/0.4 übernommenen Widgets den ID-Präfix `b` statt `a`; ihr
   Skript steht gekapselt in einer IIFE am Dateiende.
 - `themen/p0-4-einheitentrainer.html` — Übungsseite mit drei Modi (Freies Üben,
@@ -32,6 +32,8 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Umrechnungstabellen zugleich entstehen; Faktoren nie an zweiter Stelle notieren.
 - `themen/` — 10 Themenseiten: `p4-1`…`p4-5` (Mechanik), `p5-1`…`p5-3` (Thermo),
   `p6-1`,`p6-2` (Wellen/Elektrizität). Alle inhaltlich fertig und auditiert.
+  Dazu `p6-1a-wellenexperimente.html` — Vertiefung zu 6.1, im RLP nicht als
+  eigenes Teilgebiet geführt (macht zusammen 17 Dateien in `themen/`).
 - `physiklib.js` — Canvas-Bibliothek + globale Helfer (`toggleL`, `fmt`, `initCanvas`,
   `drawGrid`, `drawAxesUnits`, `drawArrow`, `drawVector`, `drawDot`, …).
 - `minicheck.js` — Akkordeon-Logik der Mini-Checks. `anim-hinweise.js` — Hinweis-Logik.
@@ -69,6 +71,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (`--schreiben`; wiederholbar, rechnen die `../`-Tiefe selbst aus).
   **Kein Aufruf an fonts.googleapis.com, fonts.gstatic.com oder cdn.jsdelivr.net** —
   der Pre-Flight meldet ihn als `[FEHLER]`.
+- `.claude/tools/render-check.mjs` — Render-Kontrolle bei 1280 und 360 px in echtem
+  Chromium: meldet seitlichen Überlauf und Inhalte, die ein Vorfahr mit
+  `overflow:hidden` unsichtbar abschneidet. Das kann der Pre-Flight nicht — jsdom
+  hat kein Layout.
 - `.claude/tools/scan-live.mjs` — sucht den **Malpunkt als Trennzeichen** in
   Wertanzeigen (STYLEGUIDE §2.1). Fährt jede Seite durch ihre Bedienzustände und
   liest Wertanzeigen **und** Canvas-`fillText` — Letzteres ist der Grund für das
@@ -123,10 +129,13 @@ python3 .claude/skills/preflight/preflight.py themen/<geänderte_datei>.html
 Erwartete Ausgabe: `ALLE CHECKS BESTANDEN`. Jede `[FEHLER]`-Meldung wird vor dem Commit
 behoben (`[WARN]` ist kein Blocker). Zweistufig: (1) schnelle Eigen-Checks — div/details-
 Bilanz, doppelte IDs, kein ß, Dezimalkomma in Body-Math, **HTML innerhalb eines
-LaTeX-Ausdrucks**, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Marker
-und Slot-Limits; (2) Aufruf der vorhandenen Repo-Skripte `verify_mathjax.js` (echte
+LaTeX-Ausdrucks**, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Marker,
+Slot-Limits und **keine Fremdhosts** (`fonts.googleapis.com`, `fonts.gstatic.com`,
+`cdn.jsdelivr.net`); (2) Aufruf der vorhandenen Repo-Skripte `verify_mathjax.js` (echte
 Render-Prüfung), `verify_js_runtime.js` (JS-Laufzeit) und `verify_einheitentrainer.js`
-(Selbsttest von p0-4). Stufe 2 braucht einmalig `npm install mathjax-full jsdom` im
+(Selbsttest von p0-4). `verify_js_runtime.js` bekommt nur `themen/`-Seiten zu sehen —
+es ersetzt Einbindungen der Form `src="../nav.js"` und meldet auf Wurzelseiten sonst
+einen Fehler, der keiner ist. Stufe 2 braucht einmalig `npm install mathjax-full jsdom` im
 Repo-Root; fehlen die Module, werden diese Checks als `[WARN]` übersprungen.
 **Vom Repo-Root aufrufen.**
 
@@ -148,6 +157,7 @@ Die Liste steht in `STYLEGUIDE.md` und wächst; aktuell:
 | 5 | Formelzeilen **komplett** in LaTeX — Formel *und* Zahlengleichung, Brüche als `\frac{…}{…}`. Dynamisches Neu-Rendern gedrosselt und serialisiert; auf doppelte Backslashes in JS-Strings achten. | §2.8 |
 | 6 | **Preis** = Kosten pro Einheit (CHF/kg, CHF/km); **Kosten** = Gesamtbetrag (CHF). «Preis» nie mit der Einheit CHF — weder im Text noch an Achsen oder in Live-Boxen. | §2.6b |
 | 7 | **Liter klein**: `l`, `ml`, `dl`, `kg/l` — nie `L`/`mL`. Gilt in LaTeX, Fliesstext, Tabellen, Live-Boxen und Canvas. Das grosse `L` bleibt, wo es Saiten-/Pendel-/Balkenlänge, latente Wärme, `mL` als margin-left oder Lektionen meint. | §2.3 |
+| 8 | **Kein Gedankenstrich an einer Formel im Titel** — gerendert liest er sich als Vorzeichen. Vor der Formel: Doppelpunkt (nach `?`/`!` ersatzlos). Nach der Formel: Titel umstellen, Formel ans Ende. Nur direkter Kontakt zählt; Fliesstext bleibt. Gilt für `h2`, `h3`, `.block-titel`, `.aufg-titel-text`. | §2.9 |
 
 Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
 **und** hier in der Tabelle nachgeführt.

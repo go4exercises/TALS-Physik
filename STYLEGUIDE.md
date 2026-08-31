@@ -1,6 +1,6 @@
 # TALS-Physik · Styleguide
 
-**Version 1.4 · Stand: 30. August 2026** · (1.4: §2.1 Ersatztabelle für den Malpunkt als Trennzeichen — Strichpunkt statt Komma, wie in Mathe; Prüforte HTML/JS/Canvas · 1.3: §2.3 Liter klein sowie Basisgrösse gegen
+**Version 1.5 · Stand: 31. August 2026** · (1.5: §2.9 kein Gedankenstrich an einer Formel im Titel, Stilcheck-Regel 8 · 1.4: §2.1 Ersatztabelle für den Malpunkt als Trennzeichen — Strichpunkt statt Komma, wie in Mathe; Prüforte HTML/JS/Canvas · 1.3: §2.3 Liter klein sowie Basisgrösse gegen
 abgeleitete Grösse und «Referenzeinheit», §5.7 kein HTML in einem LaTeX-Ausdruck,
 Stilcheck-Regel 7 · 1.2: §6.1a Footer, Volltextsuche und `suche.js` im
 Skelett, Zusatzmaterial ohne Formelauszug, Stilcheck-Regeln 1–6 · 1.1: §3.6 Label-Robustheit,
@@ -274,6 +274,36 @@ verlangt. Inline-Mathe ist nicht betroffen — sie fliesst im Text mit.
 Sonderfall (z.B. \(c_1 = c_2\) → \(c\) kürzt sich), bekommt der Sonderfall
 eine eigene Formelzeile, die nur in diesem Fall eingeblendet wird.
 Referenz: `themen/p5-2-waerme.html`, Animation 2.
+
+### 2.9 Kein Gedankenstrich an einer Formel im Titel (verbindlich, Stichwort «Stilcheck»)
+
+Gerendert klebt der Gedankenstrich an der Formel und liest sich als Vorzeichen:
+aus «Das Grundgesetz — \(F = m \cdot a\)» wird optisch \(-F = m \cdot a\).
+Betroffen sind alle Titelarten — `h2`, `h3`, `.block-titel`, `.aufg-titel-text`.
+
+**Steht der Strich vor der Formel**, ersetzt ihn der **Doppelpunkt**; nach einem
+Frage- oder Ausrufezeichen entfällt er ersatzlos:
+
+| statt | richtig |
+|---|---|
+| `Das Grundgesetz — \(F = m \cdot a\)` | `Das Grundgesetz: \(F = m \cdot a\)` |
+| `Werte ablesen — \(v\)-\(t\)-Diagramm` | `Werte ablesen: \(v\)-\(t\)-Diagramm` |
+| `Was ist konstant? — \(s = v \cdot t\) …` | `Was ist konstant? \(s = v \cdot t\) …` |
+
+**Steht der Strich nach der Formel**, hilft kein Ersatzzeichen — dort hängt sich
+das Minus ans Formelende. Der Titel wird umgestellt: die Tätigkeit oder
+Beschreibung an den Anfang, die Formel ans Ende, wo neben ihr nichts mehr steht
+(`Animation 2 · \(E_{\text{kin}}(v)\) — die Energie-Parabel` →
+`Animation 2 · Die Energie-Parabel: \(E_{\text{kin}}(v)\)`). Trägt der erste
+Teil dagegen bloss ein Etikett (`⚠ Wichtig`, `🟢 Beispiel 2`), wird nicht
+umgestellt, sondern der Strich durch den Doppelpunkt ersetzt.
+
+**Nur direkter Kontakt zählt.** Steht zwischen Formel und Strich noch ein Wort,
+klärt es die Lesart und der Titel bleibt, wie er ist — `Werte ablesen —
+Federkraft` ist einwandfrei. **Fliesstext wird nicht angefasst:** dort ist der
+Gedankenstrich ein Satzzeichen mit grammatischer Funktion.
+
+Suchmuster für beide Richtungen: `[—–]\s*\\(` und `\\)\s*[—–]`.
 
 ## 3. Achsenskalierung
 
