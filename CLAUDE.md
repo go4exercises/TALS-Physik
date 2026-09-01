@@ -101,6 +101,13 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Bauanleitung (`README-Build.md`). Punkt-Ordner, damit GitHub Pages ihn nicht
   ausliefert. Das fertige PDF steht als `TALS-Physik-Formelsammlung.pdf` im Root;
   nach einem Neubau (`latexmk -pdf formelsammlung.tex`) dorthin kopieren.
+- `scripts/build-clip-ton.py` — **Vertonung** eines Clips, lokal und offline mit
+  Piper. Erzeugt **eine** MP3 je Clip (`clips/ton/<name>.mp3`) und schreibt die
+  gemessene Sprechdauer je Szene als `dauer` ins Drehbuch zurück — danach sitzt
+  Bild auf Sprache. Aufruf mit `PIPER_MODELL=<pfad zur .onnx>`; danach den Clip
+  mit `build-clips.py` neu bauen. **Zahlen im `sprecher`-Text ausschreiben:**
+  nachgemessen liest die Stimme `1.62` als «eins Punkt zweiundsechzig» statt
+  «ein Komma sechs zwei». Das Stimmmodell liegt bewusst ausserhalb des Repos.
 - `clips.html` + `clips/` — **Erklärclips** (Bibliotheksseite und Drehbücher).
   Ein Clip wird nie beim Seitenaufruf geladen: sichtbar ist zuerst nur der
   Startknopf, erst der Klick setzt das `<iframe>` ein (`clipStart` in
