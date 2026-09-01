@@ -508,6 +508,101 @@ figcaption{
 
 /* ---------- Einstiegsszenen ---------- */
 .scene{margin:0 0 1.7em;max-width:66ch}
+/* ── Interaktive Simulationen ──────────────────────────────────────────
+   Anders als eine .scene laeuft eine .sim nicht ab, sondern wartet auf den
+   Regler. Aufbau bewusst wie die Szenen: Bild oben, Bedienleiste unten,
+   damit beide Bausteine im Leitprogramm gleich aussehen. */
+.sim-frame{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  border-bottom:none;
+  border-radius:6px 6px 0 0;
+  padding:14px 16px 4px;
+  overflow-x:auto;
+  box-shadow:var(--shadow);
+}
+.sim-frame svg{display:block;width:100%;height:auto;min-width:320px}
+.sim-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  background:var(--surface-2);
+  border:1px solid var(--rule);
+  border-bottom:none;
+  padding:10px 14px;
+}
+.sim-lab{
+  font-family:var(--sans);
+  font-size:12.5px;
+  color:var(--ink-soft);
+  flex:none;
+}
+.sim-range{
+  flex:1;
+  min-width:120px;
+  accent-color:var(--accent);
+  height:4px;
+  cursor:pointer;
+}
+.sim-range:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.sim-val{
+  font-family:var(--mono);
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--accent);
+  font-variant-numeric:tabular-nums;
+  flex:none;
+  min-width:84px;
+  text-align:right;
+}
+/* Umschalter (°C/K, Betriebsart) — mehrere Knoepfe, einer aktiv. */
+.sim-tog{display:flex;gap:0;flex:none}
+.sim-tog button{
+  font-family:var(--sans);
+  font-size:11.5px;
+  padding:4px 10px;
+  border:1px solid var(--rule-strong);
+  background:var(--surface);
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.sim-tog button:first-child{border-radius:5px 0 0 5px}
+.sim-tog button:last-child{border-radius:0 5px 5px 0}
+.sim-tog button + button{border-left:none}
+.sim-tog button[aria-pressed="true"]{
+  background:var(--accent-wash);
+  border-color:var(--accent);
+  color:var(--accent);
+  font-weight:600;
+}
+.sim-tog button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* Ableseleiste: die Zahlen, die sich mitbewegen, und die Formel darunter. */
+.sim-out{
+  background:var(--surface-2);
+  border:1px solid var(--rule);
+  border-radius:0 0 6px 6px;
+  padding:9px 14px 11px;
+  font-family:var(--mono);
+  font-size:12.5px;
+  color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.sim-out b{color:var(--accent);font-weight:600}
+.sim-konst{
+  display:inline-block;
+  margin-top:5px;
+  padding:2px 9px;
+  border-radius:4px;
+  background:var(--check-wash);
+  color:var(--check);
+  font-weight:600;
+}
+@media (max-width:520px){
+  .sim-val{min-width:0}
+  .sim-lab{font-size:12px}
+}
+
 .scene-frame{
   background:var(--surface);
   border:1px solid var(--rule);
@@ -791,6 +886,96 @@ footer{
       </div>
     </section>
 
+    <!-- ============ ZWEI SKALEN, DIE ALLES ENTSCHEIDEN ============ -->
+    <section class="step prose">
+      <h2 id="skalen" class="step-title">Zwei Skalen, bevor es losgeht</h2>
+      <p>Fast alle Fehler in diesem Kapitel entstehen an zwei Stellen: beim Druck und
+         bei der Temperatur. Beide Male steht die Null an einem anderen Ort, als man
+         denkt. Sehen Sie sich die zwei Bilder an, bevor Sie den Vortest lösen.</p>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 420 152" role="img" aria-label="Druckskala von Vakuum über Atmosphäre bis Reifen, oben der Absolutdruck, unten der Überdruck">
+            <line x1="112" y1="66" x2="404" y2="66" class="svg-axis"/>
+            <line x1="132" y1="56" x2="132" y2="76" class="svg-axis"/>
+            <line x1="212" y1="56" x2="212" y2="76" class="svg-axis"/>
+            <line x1="372" y1="56" x2="372" y2="76" class="svg-axis"/>
+
+            <text x="132" y="26" class="svg-label" text-anchor="middle">Vakuum</text>
+            <text x="212" y="26" class="svg-label" text-anchor="middle">Atmosphäre</text>
+            <text x="372" y="26" class="svg-label" text-anchor="middle">Reifen</text>
+
+            <text x="102" y="50" class="svg-label" text-anchor="end">bar absolut</text>
+            <text x="132" y="50" class="svg-label-em" text-anchor="middle">0</text>
+            <text x="212" y="50" class="svg-label-em" text-anchor="middle">1.0</text>
+            <text x="372" y="50" class="svg-label-em" text-anchor="middle">3.5</text>
+
+            <text x="102" y="94" class="svg-label" text-anchor="end">bar Überdruck</text>
+            <text x="212" y="94" class="svg-label" text-anchor="middle">0</text>
+            <text x="372" y="94" class="svg-label" text-anchor="middle">2.5</text>
+
+            <path d="M212 108 L212 120 L372 120 L372 108" class="svg-grid"/>
+            <text x="292" y="138" class="svg-label" text-anchor="middle">so viel zeigt der Prüfer an</text>
+          </svg>
+        </div>
+        <figcaption>Abb. A — Zwei Nullpunkte für denselben Druck. Der Manometerzeiger beginnt
+          erst beim Luftdruck; die Gasgleichung rechnet ab dem Vakuum.</figcaption>
+      </figure>
+
+      <div class="merksatz">
+        <p class="card-label">Absolutdruck</p>
+        <p style="margin-bottom:0">\[ p_\text{abs} = p_\text{ü} + p_\text{L} \qquad p_\text{L} \approx 1.0\,\mathrm{bar} \]</p>
+      </div>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 420 168" role="img" aria-label="Celsius- und Kelvin-Skala nebeneinander, um 273.15 gegeneinander verschoben">
+            <line x1="120" y1="20" x2="120" y2="146" class="svg-axis"/>
+            <line x1="270" y1="20" x2="270" y2="146" class="svg-axis"/>
+            <text x="120" y="14" class="svg-label-em" text-anchor="middle">°C</text>
+            <text x="270" y="14" class="svg-label-em" text-anchor="middle">K</text>
+
+            <line x1="112" y1="34"  x2="128" y2="34"  class="svg-axis"/>
+            <line x1="262" y1="34"  x2="278" y2="34"  class="svg-axis"/>
+            <text x="104" y="38" class="svg-label" text-anchor="end">100</text>
+            <text x="286" y="38" class="svg-label">373.15</text>
+
+            <line x1="112" y1="68"  x2="128" y2="68"  class="svg-axis"/>
+            <line x1="262" y1="68"  x2="278" y2="68"  class="svg-axis"/>
+            <text x="104" y="72" class="svg-label" text-anchor="end">20</text>
+            <text x="286" y="72" class="svg-label">293.15</text>
+
+            <line x1="112" y1="94"  x2="128" y2="94"  class="svg-axis"/>
+            <line x1="262" y1="94"  x2="278" y2="94"  class="svg-axis"/>
+            <text x="104" y="98" class="svg-label" text-anchor="end">0</text>
+            <text x="286" y="98" class="svg-label">273.15</text>
+
+            <line x1="112" y1="140" x2="128" y2="140" class="svg-axis"/>
+            <line x1="262" y1="140" x2="278" y2="140" class="svg-axis"/>
+            <text x="104" y="144" class="svg-label-em" text-anchor="end">−273.15</text>
+            <text x="286" y="144" class="svg-label-em">0</text>
+
+            <path d="M132 140 L258 140" class="svg-grid"/>
+            <text x="195" y="160" class="svg-label" text-anchor="middle">hier ist wirklich Schluss</text>
+          </svg>
+        </div>
+        <figcaption>Abb. B — Dieselbe Temperatur, zwei Zahlen. Die Striche liegen gleich weit
+          auseinander: Nur der Nullpunkt ist verschoben, die Schrittweite ist dieselbe.</figcaption>
+      </figure>
+
+      <div class="merksatz">
+        <p class="card-label">Kelvin</p>
+        <p style="margin-bottom:0">\[ T = \vartheta + 273.15 \qquad \Delta T = \Delta\vartheta \]</p>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Die Regel für alles Weitere</p>
+        <p style="margin-bottom:0">In die Gasgleichung gehören <strong>Absolutdruck</strong> und
+        <strong>Kelvin</strong>. Eine Differenz dürfen Sie dagegen in beiden Skalen angeben —
+        eine Erwärmung um 10 °C ist eine Erwärmung um 10 K.</p>
+      </div>
+    </section>
+
     <!-- ============ VORTEST ============ -->
     <section class="step prose">
       <div class="step-head">
@@ -1024,6 +1209,62 @@ footer{
           </svg>
         </div>
         <figcaption>Abb. 2 — Dieselben Messwerte, zwei Darstellungen. Erst über dem Kehrwert des Volumens wird die umgekehrte Proportionalität als Gerade sichtbar.</figcaption>
+      </figure>
+
+
+      <figure class="sim" data-sim="iso">
+        <div class="sim-frame">
+          <svg viewBox="0 0 420 196" role="img" aria-label="Zylinder mit beweglichem Kolben und Gasteilchen, daneben ein Manometer und ein Druck-Volumen-Diagramm; alle drei reagieren auf den Volumenregler">
+            <!-- ── Zylinder ── -->
+            <rect x="18" y="44" width="176" height="92" rx="4" class="svg-box"/>
+            <rect id="iso-gas" x="20" y="46" width="130" height="88" class="svg-fill" opacity="0.16"/>
+            <g id="iso-teilchen">
+              <circle class="iso-p svg-fill" cx="40"  cy="70"  r="3.2"/>
+              <circle class="iso-p svg-fill" cx="70"  cy="104" r="3.2"/>
+              <circle class="iso-p svg-fill" cx="100" cy="62"  r="3.2"/>
+              <circle class="iso-p svg-fill" cx="126" cy="116" r="3.2"/>
+              <circle class="iso-p svg-fill" cx="55"  cy="122" r="3.2"/>
+              <circle class="iso-p svg-fill" cx="112" cy="86"  r="3.2"/>
+              <circle class="iso-p svg-fill" cx="84"  cy="128" r="3.2"/>
+              <circle class="iso-p svg-fill" cx="140" cy="56"  r="3.2"/>
+              <circle class="iso-p svg-fill" cx="62"  cy="52"  r="3.2"/>
+              <circle class="iso-p svg-fill" cx="132" cy="98"  r="3.2"/>
+              <circle class="iso-p svg-fill" cx="94"  cy="108" r="3.2"/>
+              <circle class="iso-p svg-fill" cx="46"  cy="94"  r="3.2"/>
+            </g>
+            <!-- Kolben: Platte plus Stange -->
+            <rect id="iso-kolben" x="150" y="42" width="9" height="96" rx="2" class="svg-soft"/>
+            <line id="iso-stange" x1="159" y1="90" x2="196" y2="90" class="svg-axis" stroke-width="5"/>
+            <text x="106" y="158" class="svg-label" text-anchor="middle">Temperatur bleibt gleich</text>
+
+            <!-- ── Manometer ── -->
+            <circle cx="246" cy="86" r="34" class="svg-box"/>
+            <circle cx="246" cy="86" r="2.6" class="svg-fill"/>
+            <line id="iso-zeiger" x1="246" y1="86" x2="246" y2="58" class="svg-axis" stroke-width="2.6"/>
+            <text x="246" y="140" class="svg-label" text-anchor="middle">Manometer</text>
+            <text x="212" y="120" class="svg-label">0</text>
+            <text x="272" y="120" class="svg-label">5</text>
+
+            <!-- ── p-V-Diagramm ── -->
+            <path d="M306 26 L306 132 L406 132" class="svg-axis"/>
+            <path id="iso-kurve" d="" class="svg-curve"/>
+            <circle id="iso-punkt" cx="0" cy="0" r="4.2" class="svg-fill"/>
+            <text x="298" y="24" class="svg-label-em" text-anchor="end">p</text>
+            <text x="406" y="148" class="svg-label-em" text-anchor="end">V</text>
+          </svg>
+        </div>
+        <div class="sim-bar">
+          <span class="sim-lab" id="iso-lab">Volumen V</span>
+          <input class="sim-range" id="iso-r" type="range" min="100" max="250" value="250" step="1"
+                 aria-labelledby="iso-lab">
+          <span class="sim-val" id="iso-rv">250 cm³</span>
+        </div>
+        <div class="sim-out">
+          <span>Druck <b id="iso-p">1.00 bar</b> &nbsp;·&nbsp; Volumen <b id="iso-v">250 cm³</b></span>
+          <br><span class="sim-konst" id="iso-k">p · V = 250 bar·cm³</span>
+        </div>
+        <figcaption>Abb. 2b — Schieben Sie den Kolben. Teilchen, Manometerzeiger, Diagrammpunkt und
+          das Produkt p · V gehören zusammen: Das Produkt bleibt stehen, alles andere bewegt sich.</figcaption>
       </figure>
 
       <div class="merksatz">
@@ -2215,6 +2456,101 @@ window.MathJax = {
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
   <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 1. August 2026</p>
 </footer>
+
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   Interaktive Simulationen (figure.sim)
+
+   Anders als die Szenen laufen sie nicht ab: Die Lernenden ziehen selbst an
+   einem Regler und sehen gleichzeitig Kolben, Teilchen, Messgeraet, Diagramm
+   und Formel. Genau diese Verbindung der Darstellungsformen ist der Zweck —
+   darum haengt jede Anzeige am selben Zustand und wird in einer Funktion
+   nachgefuehrt.
+
+   Alle Simulationen rechnen mit dem idealen Gasmodell und mit Absolutdruck
+   und Kelvin, wie im ganzen Leitprogramm.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  // Zahl mit fester Stellenzahl, Dezimalpunkt (Schweizer Schul-Konvention).
+  function z(x, n) { return x.toFixed(n); }
+
+  // Zeigerwinkel eines Manometers: 0 bis max auf 240 Grad, Nullstellung unten links.
+  function zeiger(el, cx, cy, wert, max, laenge) {
+    var w = (-120 + 240 * Math.max(0, Math.min(1, wert / max))) * Math.PI / 180;
+    el.setAttribute('x2', (cx + laenge * Math.sin(w)).toFixed(1));
+    el.setAttribute('y2', (cy - laenge * Math.cos(w)).toFixed(1));
+  }
+
+  /* ── Schritt 2 · isotherm ────────────────────────────────────────────────
+     Regler: Volumen 100 bis 250 cm³ bei konstanter Temperatur.
+     p folgt aus p·V = 250 bar·cm³ — dem Wert des Musterbeispiels daneben. */
+  function initIso(fig) {
+    var K = 250;                                  // bar·cm³, bleibt konstant
+    var r   = fig.querySelector('#iso-r');
+    var gas = fig.querySelector('#iso-gas');
+    var kol = fig.querySelector('#iso-kolben');
+    var st  = fig.querySelector('#iso-stange');
+    var zg  = fig.querySelector('#iso-zeiger');
+    var pkt = fig.querySelector('#iso-punkt');
+    var kur = fig.querySelector('#iso-kurve');
+    var teil = [].slice.call(fig.querySelectorAll('.iso-p'));
+    var ausV = fig.querySelector('#iso-rv'),
+        ausP = fig.querySelector('#iso-p'),
+        ausVo = fig.querySelector('#iso-v'),
+        ausK = fig.querySelector('#iso-k');
+
+    // Ausgangslage der Teilchen merken, damit sie beim Zusammendruecken
+    // proportional mitwandern statt zufaellig zu springen.
+    teil.forEach(function (p) { p.dataset.x0 = p.getAttribute('cx'); });
+
+    // p-V-Hyperbel einmal zeichnen: p = K / V, ueber den Reglerbereich.
+    var d = '';
+    for (var v = 100; v <= 250; v += 5) {
+      var x = 306 + (v - 100) / 150 * 96;
+      var y = 132 - (K / v) / 2.6 * 100;
+      d += (d ? ' L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+    }
+    kur.setAttribute('d', d);
+
+    function zeichne() {
+      var V = +r.value, p = K / V;
+
+      // Kolben und Gasraum: 250 cm³ entsprechen 130 px Gasbreite.
+      var breite = 130 * V / 250;
+      gas.setAttribute('width', breite.toFixed(1));
+      kol.setAttribute('x', (20 + breite).toFixed(1));
+      st.setAttribute('x1', (29 + breite).toFixed(1));
+      teil.forEach(function (t) {
+        var f = (+t.dataset.x0 - 20) / 130;        // Anteil im Ausgangsraum
+        t.setAttribute('cx', (20 + f * breite).toFixed(1));
+      });
+
+      zeiger(zg, 246, 86, p, 5, 28);
+      var x = 306 + (V - 100) / 150 * 96;
+      var y = 132 - p / 2.6 * 100;
+      pkt.setAttribute('cx', x.toFixed(1));
+      pkt.setAttribute('cy', y.toFixed(1));
+
+      ausV.textContent  = V + ' cm³';
+      ausP.textContent  = z(p, 2) + ' bar';
+      ausVo.textContent = V + ' cm³';
+      ausK.textContent  = 'p · V = ' + z(p * V, 0) + ' bar·cm³';
+    }
+    r.addEventListener('input', zeichne);
+    zeichne();
+  }
+
+  var STARTER = { iso: initIso };
+
+  document.querySelectorAll('figure.sim').forEach(function (fig) {
+    var f = STARTER[fig.dataset.sim];
+    if (f) f(fig);
+  });
+})();
+</script>
 
 <script src="../physiklib.js"></script>
 <script src="../nav.js"></script>
