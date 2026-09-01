@@ -71,6 +71,17 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (`--schreiben`; wiederholbar, rechnen die `../`-Tiefe selbst aus).
   **Kein Aufruf an fonts.googleapis.com, fonts.gstatic.com oder cdn.jsdelivr.net** —
   der Pre-Flight meldet ihn als `[FEHLER]`.
+- `.claude/tools/pruef-mathjax.mjs` — lädt eine **ausgelieferte** Seite im Browser,
+  zählt die gesetzten Ausdrücke und meldet jede fehlgeschlagene Anfrage. Das sieht
+  der Pre-Flight strukturell nicht: `verify_mathjax.js` setzt mit `mathjax-full`
+  aus `node_modules` und schaut nie in `vendor/`. MathJax lädt TeX-Erweiterungen
+  erst **bei Bedarf** nach — fehlt eine, bleibt die **komplette Seite** ohne
+  Formelsatz, ohne Fehlermeldung im Bild. Darum liegt der ganze Ordner
+  `vendor/mathjax/input/tex/extensions/` im Repo (34 Dateien, 340 kB, nur bei
+  Bedarf geladen; `all-packages.js` fehlt bewusst — der Autoload fordert es nie an).
+  Nachgemessen: ohne `color.js` rendert eine Seite mit einem einzigen `\textcolor`
+  **0 von 162** Ausdrücken.
+- `.claude/tools/pruef-clip.mjs` — dasselbe für einen einzelnen Clip.
 - `.claude/tools/render-check.mjs` — Render-Kontrolle bei 1280 und 360 px in echtem
   Chromium: meldet seitlichen Überlauf und Inhalte, die ein Vorfahr mit
   `overflow:hidden` unsichtbar abschneidet. Das kann der Pre-Flight nicht — jsdom
@@ -99,7 +110,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   in `clips.html` ein. Physik hat **noch keine Clips** — die Mechanik steht
   bereit, die Bibliothek sagt bis dahin «Noch keine Clips.». Anders als Mathe
   gruppiert die Bibliothek nur nach Lerngebiet (kein Grundlagen-/Schwerpunktfach).
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**. Die
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**. Vorgehen beim
+  Übertrag einer extern gebauten Datei: `HOWTO-leitprogramme.md` (neun Punkte,
+  je mit dem Fehlerbild, an dem man merkt, dass der Punkt fehlt). Die
   Bibliotheksseite trägt nur die Karten (`.lp-*` in `style.css`); jedes
   Leitprogramm ist eine **eigenständige Seite mit eigenem Inhalts-CSS** und
   bewusst ohne `nav.js`/`style.css` — Aufbau und Ablauf sind auf das

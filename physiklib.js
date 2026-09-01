@@ -333,6 +333,10 @@ function clipStart(btn) {
    Liste verlassen, und ein vergessener Tab spielt weiter. Wer projizieren
    will, findet im Kopf trotzdem einen Link in einen eigenen Tab. */
 function clipBuehne(quelle, titel) {
+  // Die Buehne deckt die Seite ab; scrollte sie darunter weiter, verlaesst
+  // man beim Schliessen die Stelle, an der man war.
+  clipRueckkehr = document.activeElement;
+  document.body.style.overflow = 'hidden';
   const buehne = document.createElement('div');
   buehne.className = 'clip-buehne';
   buehne.setAttribute('role', 'dialog');
@@ -386,11 +390,17 @@ function clipRahmen(klasse, quelle, titel) {
 
 function clipEscape(e) { if (e.key === 'Escape') clipZu(); }
 
+// Wohin der Fokus nach dem Schliessen zurueckgeht. Ohne das landet er am
+// Seitenanfang, und wer per Tastatur bedient, sucht seine Stelle neu.
+let clipRueckkehr = null;
+
 function clipZu() {
   const buehne = document.querySelector('.clip-buehne');
   if (!buehne) return;
   buehne.remove();                       // entfernt das iframe, der Clip haelt an
   document.removeEventListener('keydown', clipEscape);
+  document.body.style.overflow = '';     // Seite wieder scrollbar
+  if (clipRueckkehr) { clipRueckkehr.focus({ preventScroll: true }); clipRueckkehr = null; }
 }
 
 function clipStop(knopf) {
