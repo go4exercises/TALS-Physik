@@ -104,10 +104,26 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 - `scripts/build-clip-ton.py` — **Vertonung** eines Clips, lokal und offline mit
   Piper. Erzeugt **eine** MP3 je Clip (`clips/ton/<name>.mp3`) und schreibt die
   gemessene Sprechdauer je Szene als `dauer` ins Drehbuch zurück — danach sitzt
-  Bild auf Sprache. Aufruf mit `PIPER_MODELL=<pfad zur .onnx>`; danach den Clip
-  mit `build-clips.py` neu bauen. **Zahlen im `sprecher`-Text ausschreiben:**
-  nachgemessen liest die Stimme `1.62` als «eins Punkt zweiundsechzig» statt
-  «ein Komma sechs zwei». Das Stimmmodell liegt bewusst ausserhalb des Repos.
+  Bild auf Sprache. Danach den Clip mit `build-clips.py` neu bauen.
+
+  **Stimme: `de_DE-thorsten-high` (verbindlich, bis der Auftraggeber es ändert).**
+
+  ```bash
+  export PIPER_MODELL=/home/paps/piper-stimmen/de_DE-thorsten-high.onnx
+  python3 scripts/build-clip-ton.py <clipname>
+  python3 scripts/build-clips.py    <clipname>
+  ```
+
+  Datensatz Thorsten-Voice, CC0 — dieselbe Stimme wie in TALS Mathe. Das
+  persönliche Modell `de_CH-kohler-medium` wird **nicht** verwendet. Kein
+  Stimmmodell gehört ins Repo.
+
+  **Zahlen im `sprecher`-Text ausschreiben.** Nachgemessen über die Sprechdauer
+  desselben Satzes in fünf Varianten: Beide Stimmen lesen `1.62` als
+  zusammengesetzte Zahl («… zweiundsechzig») statt als Stellenfolge
+  («… sechs zwei»), kohler zusätzlich den Dezimalpunkt als «Punkt». Bei
+  Messwerten ist die Stellenfolge die übliche Lesart — darum ausschreiben. In
+  Mathes 50 Clips steht aus demselben Grund keine einzige Ziffer im Sprechertext.
 - `clips.html` + `clips/` — **Erklärclips** (Bibliotheksseite und Drehbücher).
   Ein Clip wird nie beim Seitenaufruf geladen: sichtbar ist zuerst nur der
   Startknopf, erst der Klick setzt das `<iframe>` ein (`clipStart` in
