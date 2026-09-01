@@ -223,6 +223,12 @@ Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
 - Render-Check bei Diagramm-Änderungen, wenn ein Browser verfügbar ist: Playwright
   headless bei 1280 px **und** 360 px, Screenshots der Canvases sichten (Tick-Werte
   lesbar, Achsenlabels überdecken nichts, keine Kollision mit Inhalts-Markern).
+  **Playwright-Falle:** Die Option heisst `viewport`, nicht `viewportSize` —
+  `newPage({ viewportSize: … })` wird stillschweigend ignoriert, die Seite läuft
+  dann mit 1280 px, und jede «360-px-Messung» ist wertlos, ohne dass etwas
+  auffällt. Im Zweifel `window.innerWidth` mitmessen. Die Werkzeuge in
+  `.claude/tools/` machen es richtig; der Fehler passiert in schnell
+  hingeschriebenen Prüfskripten.
 - **Keine erfundenen Quellen, Zitate oder Lehrplan-Stellen.** Im Zweifel: „muss
   verifiziert werden" schreiben, nicht raten.
 
