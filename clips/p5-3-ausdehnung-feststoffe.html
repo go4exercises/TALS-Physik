@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de-CH"><head><meta charset="utf-8"><title>Wärmeausdehnung: von der Länge zum Volumen — und woher die Drei kommt</title><style>
+@import url("../schriften.css");
+:root{--papier:#f8f6f1;--tinte:#1c1a17;--blau:#8a4a0e;--rot:#9b1c1c;--gruen:#1f6b3a;--gold:#b85c00;--f1:#8a4a0e;--f1w:#fbecd2;--f2:#b85c00;--f2w:#fdefd8;--f3:#1f6b3a;--f3w:#d8f0e2;--f4:#9b1c1c;--f4w:#fde8e8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0d1418;overflow:hidden}
+#wrap{position:absolute;left:0;right:0;top:0;bottom:60px;overflow:hidden}
+:fullscreen #wrap{bottom:0} :fullscreen #ui{display:none}
+#stage{width:1920px;height:1080px;position:absolute;left:50%;top:50%;overflow:hidden;
+ background:var(--papier);color:var(--tinte);font-family:'Source Serif 4',Georgia,serif;transform-origin:center center}
+body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!important}
+#stage::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(to right,rgba(138,74,14,.10) 0 1.5px,transparent 1.5px 60px),repeating-linear-gradient(to bottom,rgba(138,74,14,.10) 0 1.5px,transparent 1.5px 60px);}
+#stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(120% 100% at 50% 40%,rgba(255,255,255,0) 55%,rgba(90,80,64,.09) 100%)}
+#rand{position:absolute;left:76px;top:0;bottom:0;width:3px}
+
+#kopf,#fuss{position:absolute;left:130px;right:100px;display:flex;justify-content:space-between;
+ align-items:baseline;font-family:'Source Sans 3',sans-serif;z-index:5}
+#kopf{top:46px;font-size:27px}
+#kopf .marke{font-weight:600;letter-spacing:.01em;color:var(--blau)}
+#kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
+#fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
+
+.l{position:absolute;will-change:opacity,transform}
+.l.flow{position:relative}
+.m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
+.hand{font-family:'Caveat',cursive;line-height:1.24}
+.sans{font-family:'Source Sans 3',system-ui,sans-serif}
+.huelle{display:flex;justify-content:flex-start}
+.mitte.huelle{justify-content:center}
+.huelle>span{white-space:nowrap}
+.f1,.f2,.f3,.f4{border-radius:7px;padding:0 .14em;margin:0 .02em}
+.f1{color:var(--f1);background:var(--f1w)}
+.f2{color:var(--f2);background:var(--f2w)}
+.f3{color:var(--f3);background:var(--f3w)}
+.f4{color:var(--f4);background:var(--f4w)}
+.dim{opacity:.62}
+.graf{line-height:0}
+.graf svg{display:inline-block;vertical-align:top}
+.ov{display:inline-block;line-height:1;padding-top:.07em;margin-top:.12em;border-top:3.5px solid currentColor}
+.row{display:flex;align-items:center;line-height:1.06;white-space:nowrap;gap:.26em}
+.mitte.row{justify-content:center}
+.fr{position:relative;z-index:1;display:inline-flex;flex-direction:column;align-items:center;
+ line-height:1.08;margin:0 .12em;vertical-align:middle}
+.fr>span:first-child{padding:0 .32em .07em}
+.fr>span:last-child{padding:.20em .32em 0;border-top:3.5px solid currentColor}
+.box{border:3.5px solid var(--tinte);border-radius:14px;padding:12px 30px;background:rgba(255,255,255,.62)}
+.boxg{border-color:var(--gruen);color:var(--gruen)}
+.karte{background:rgba(255,255,255,.70);border:2.5px solid rgba(128,128,128,.28);border-radius:16px;padding:14px 26px}
+.strich{height:5px;background:var(--rot);border-radius:3px;transform-origin:left center}
+.lz{display:flex;align-items:baseline;gap:22px;margin-bottom:26px}
+.ln{color:var(--blau);font-weight:600;min-width:34px}
+.step{display:flex;align-items:flex-start;gap:18px;margin-bottom:34px}
+.num{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:var(--blau);color:var(--papier);
+ font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:31px;display:grid;place-items:center}
+.stxt{font-family:'Source Sans 3',sans-serif;font-size:31px;line-height:1.24;padding-top:7px}
+
+#ui{position:absolute;left:0;right:0;bottom:0;height:60px;display:flex;align-items:center;gap:18px;
+ padding:0 26px;background:rgba(13,20,24,.85);color:#e8eef2;font-family:system-ui,sans-serif;font-size:14px;z-index:99}
+body.render #ui{display:none}
+#bar{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden;cursor:pointer}
+#barf{height:100%;width:0;background:var(--gold)}
+#ui button{background:rgba(255,255,255,.12);color:#e8eef2;border:0;border-radius:7px;padding:7px 14px;
+ font-size:14px;cursor:pointer;white-space:nowrap}
+#tt{white-space:nowrap;font-variant-numeric:tabular-nums}
+#tip{opacity:.6;white-space:nowrap}
+/* Auf dem Telefon gibt es weder Leertaste noch Pfeiltasten — der Hinweis
+   waere dort nur Text, der die 60px hohe Leiste sprengt. */
+@media (max-width:700px){#ui{gap:11px;padding:0 12px} #tip{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[],macros:{fa:['\\bbox[##fbecd2,3px]{\\textcolor{##8a4a0e}{#1}}',1],fb:['\\bbox[##fdefd8,3px]{\\textcolor{##b85c00}{#1}}',1],fc:['\\bbox[##d8f0e2,3px]{\\textcolor{##1f6b3a}{#1}}',1],fd:['\\bbox[##fde8e8,3px]{\\textcolor{##9b1c1c}{#1}}',1]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script><script src="../vendor/mathjax/tex-svg.js"></script></head><body>
+<div id="wrap"><div id="stage">
+<div id="rand" style="background:rgba(155,28,28,.24)"></div>
+<div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Thermodynamik · BM</span></div>
+<div id="fuss"><span>Raphael Arnold Kohler</span><span>01.09.2026</span></div>
+<div class="l" data-at="9.50" data-out="43.92" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,18.11"><div class="num">1</div><div class="stxt">Die Formel<br><span class="dim">\Delta l = \alpha l_0 \Delta T</span></div></div><div class="step l flow" data-at="18.41" data-anim="rise" data-dim="18.11,26.23"><div class="num">2</div><div class="stxt">Ein Beispiel<br><span class="dim">100 m Eisen</span></div></div><div class="step l flow" data-at="26.53" data-anim="rise" data-dim="26.23,35.29"><div class="num">3</div><div class="stxt">Drei Richtungen<br><span class="dim">Volumen</span></div></div><div class="step l flow" data-at="35.59" data-anim="rise" data-dim="35.29,43.92"><div class="num">4</div><div class="stxt">Material<br><span class="dim">jedes anders</span></div></div></div>
+<div class="l hand mitte mitte" data-at="0.40" data-out="9.50" data-anim="rise" style="left:0;right:0;text-align:center;top:244px;font-size:112px;font-weight:600;color:var(--tinte)">Warum die Lücke?</div>
+<div class="l sans mitte mitte" data-at="2.10" data-out="9.50" data-anim="rise" style="left:0;right:0;text-align:center;top:434px;font-size:48px;color:var(--blau)">Wärmeausdehnung von Festkörpern</div>
+<div class="l m row mitte" data-at="3.80" data-out="9.50" data-anim="pop" style="left:0;right:0;text-align:center;top:614px;font-size:58px"><span>\(\text{warm} \;\longrightarrow\; \fa{\text{länger}} \;\longrightarrow\; \text{Platz nötig}\)</span></div>
+<div class="l hand mitte" data-at="5.50" data-out="9.50" data-anim="rise" style="left:0;right:0;text-align:center;top:844px;font-size:56px;color:var(--rot)">Wie viel länger ist eine Brücke im Sommer?</div>
+<div class="l m row" data-at="9.90" data-out="26.23" data-anim="rise" style="left:680px;top:178px;font-size:70px"><span>\(\Delta l = \fb{\alpha} \cdot \fa{l_0} \cdot \fc{\Delta T}\)</span></div>
+<div class="l m" data-at="11.60" data-out="18.11" data-anim="rise" style="left:680px;top:378px;font-size:54px">Materialwert mal Anfangslänge mal Temperaturänderung.</div>
+<div class="l hand" data-at="13.30" data-out="18.11" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau)">\(\fb{\alpha}\) heisst Längenausdehnungskoeffizient und steht in der Tabelle.</div>
+<div class="l m row" data-at="18.51" data-out="26.23" data-anim="rise" style="left:680px;top:430px;font-size:54px"><span>\(\Delta l = \fb{12 \cdot 10^{-6}\,\tfrac{1}{\mathrm{K}}} \cdot \fa{100\,\mathrm{m}} \cdot \fc{40\,\mathrm{K}}\)</span></div>
+<div class="l m row" data-at="20.21" data-out="26.23" data-anim="rise" style="left:680px;top:600px;font-size:60px"><span>\(= \fd{0.048\,\mathrm{m}} = \fd{48\,\mathrm{mm}}\)</span></div>
+<div class="l hand" data-at="21.91" data-out="26.23" data-anim="rise" style="left:680px;top:760px;font-size:52px;color:var(--blau)">Fast fünf Zentimeter auf hundert Meter — pro Brückenfeld.</div>
+<div class="l m row" data-at="26.63" data-out="35.29" data-anim="rise" style="left:680px;top:430px;font-size:56px"><span>\(\Delta V = \fb{\gamma} \cdot \fa{V_0} \cdot \fc{\Delta T} \qquad \fb{\gamma} \approx 3\,\fb{\alpha}\)</span></div>
+<div class="l m row" data-at="28.33" data-out="35.29" data-anim="rise" style="left:680px;top:610px;font-size:56px"><span>\(\text{Länge } \fb{\alpha} \quad \text{Fläche } 2\,\fb{\alpha} \quad \text{Volumen } 3\,\fb{\alpha}\)</span></div>
+<div class="l hand" data-at="30.03" data-out="35.29" data-anim="rise" style="left:680px;top:770px;font-size:52px;color:var(--blau)">Dieselbe Logik wie bei den Einheiten: die Dimension zählt den Faktor.</div>
+<div class="l m row" data-at="35.69" data-out="43.92" data-anim="rise" style="left:680px;top:430px;font-size:50px"><span>\(\text{Aluminium } 23.8 \quad \text{Messing } 18.4 \quad \text{Eisen } 12 \quad \text{Beton } 10\)</span></div>
+<div class="l m" data-at="37.39" data-out="43.92" data-anim="rise" style="left:680px;top:590px;font-size:54px">alle in \(10^{-6}\,\tfrac{1}{\mathrm{K}}\) — Beton und Eisen fast gleich.</div>
+<div class="l hand" data-at="39.09" data-out="43.92" data-anim="rise" style="left:680px;top:740px;font-size:52px;color:var(--blau)">Darum hält Stahlbeton: Beide dehnen sich gleich stark, der Verbund bleibt.</div>
+<div class="l m mitte mitte" data-at="44.32" data-out="53.42" data-anim="pop" style="left:0;right:0;text-align:center;top:248px;font-size:80px;font-weight:600">Zwei Metalle, ein Schalter</div>
+<div class="l m mitte" data-at="46.02" data-out="53.42" data-anim="rise" style="left:0;right:0;text-align:center;top:416px;font-size:54px">Bimetall: Aussen dehnt sich stärker, der Streifen krümmt sich.</div>
+<div class="l hand mitte" data-at="47.72" data-out="53.42" data-anim="rise" style="left:0;right:0;text-align:center;top:566px;font-size:52px;color:var(--blau)">Und darum haben Schienen, Brücken und Rohrleitungen Dehnungsfugen.</div>
+<div class="l hand mitte" data-at="49.42" data-out="53.42" data-anim="rise" style="left:0;right:0;text-align:center;top:696px;font-size:52px;color:var(--blau)">Ohne Fuge drückt sich das Material auf — mit erheblicher Kraft.</div>
+</div></div>
+<audio id="ton" preload="auto" src="ton/p5-3-ausdehnung-feststoffe.mp3"></audio>
+<div id="ui">
+  <button id="pp">Pause</button>
+  <button id="ts" hidden>🔇 Ton an</button>
+  <div id="bar"><div id="barf"></div></div>
+  <span id="tt">0.0 s</span>
+  <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
+</div>
+<script>
+const DUR = 53.42;
+const SPRECHER = [{"bei": 0.4, "text": "Brücken und Schienen haben Lücken. Nicht aus Schlamperei — sondern weil Stahl im Sommer länger ist als im Winter."}, {"bei": 9.9, "text": "Die Längenänderung hängt an drei Dingen: dem Material, der Anfangslänge und der Temperaturänderung. Alle drei stehen als Produkt in der Formel."}, {"bei": 18.51, "text": "Hundert Meter Eisen, im Sommer vierzig Kelvin wärmer als im Winter: knapp fünf Zentimeter. Genau dafür ist die Lücke da."}, {"bei": 26.63, "text": "Ein Körper wird aber nicht nur länger, sondern auch breiter und höher. Alle drei Kanten wachsen — darum ist der Volumenkoeffizient rund dreimal so gross."}, {"bei": 35.69, "text": "Wie stark sich etwas dehnt, hängt am Stoff. Aluminium dehnt sich doppelt so stark wie Eisen — und genau diesen Unterschied nutzt ein Bimetall."}, {"bei": 44.32, "text": "Zwei Metalle mit verschiedener Ausdehnung, aufeinander gewalzt, biegen sich beim Erwärmen — das ist der Schalter im Bügeleisen."}];
+const stage = document.getElementById('stage');
+const layers = [...document.querySelectorAll('.l')].map(el => ({
+  el, at: parseFloat(el.dataset.at || '0'),
+  out: el.dataset.out ? parseFloat(el.dataset.out) : Infinity,
+  anim: el.dataset.anim || 'fade',
+  dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
+}));
+const IN = 0.5, OUT = 0.4;
+const ease = p => 1 - Math.pow(1 - p, 3);
+const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
+function seek(t)  {
+  for (const L of layers) {
+    const pi = ease(cl((t - L.at) / IN));
+    const po = L.out === Infinity ? 0 : ease(cl((t - L.out) / OUT));
+    let o = pi * (1 - po), tr = '';
+    if (L.anim === 'rise') tr = 'translateY(' + ((1 - pi) * 26) + 'px)';
+    else if (L.anim === 'pop') tr = 'scale(' + (0.90 + 0.10 * pi) + ')';
+    else if (L.anim === 'wipe') { tr = 'scaleX(' + pi + ')'; o = (t >= L.at ? 1 : 0) * (1 - po); }
+    if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
+    L.el.style.transform = tr; L.el.style.opacity = o;
+  }
+}
+window.__seek = seek;
+window.__dauer = DUR;
+if (!location.search.includes('render')) {
+  let t0 = performance.now(), playing = true, t = 0;
+  const barf = document.getElementById('barf'), tt = document.getElementById('tt'),
+        pp = document.getElementById('pp'), wrap = document.getElementById('wrap');
+  const fit = () => { stage.style.transform = 'translate(-50%,-50%) scale('
+      + Math.min(wrap.clientWidth / 1920, wrap.clientHeight / 1080) + ')'; };
+  window.addEventListener('resize', fit);
+  document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
+  fit();
+  // Der Ton startet stumm mit — stummes Abspielen erlauben die Browser
+  // ohne Nutzergeste. Der Klick auf «Ton an» ist die Geste, die ihn
+  // hoerbar macht; ab dann fuehrt die Tonspur die Uhr, weil Tondrift
+  // auffaellt und Bilddrift nicht.
+  const ton = document.getElementById('ton'), ts = document.getElementById('ts');
+  if (ton) {
+    ts.hidden = false;
+    ton.muted = true;
+    ton.play().catch(() => {});
+    ts.onclick = () => {
+      ton.muted = !ton.muted;
+      ts.textContent = ton.muted ? '🔇 Ton an' : '🔊 Ton aus';
+      if (!ton.muted) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); }
+    };
+  }
+  const tonLaeuft = () => ton && !ton.paused && !ton.ended;
+  function loop(now) {
+    if (playing) {
+      if (tonLaeuft()) t = ton.currentTime;
+      else { t += (now - t0) / 1000; if (t > DUR) t = DUR; }
+    }
+    t0 = now; seek(t);
+    barf.style.width = (t / DUR * 100) + '%'; tt.textContent = t.toFixed(1) + ' s';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  const tonAn = () => { if (ton) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); } };
+  const toggle = () => {
+    playing = !playing;
+    pp.textContent = playing ? 'Pause' : 'Play';
+    if (ton) { if (playing) ton.play().catch(() => {}); else ton.pause(); }
+  };
+  pp.onclick = toggle;
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    if (e.code === 'ArrowRight') { t = Math.min(DUR, t + 5); tonAn(); }
+    if (e.code === 'ArrowLeft') { t = Math.max(0, t - 5); tonAn(); }
+    const k = e.key.toLowerCase();
+    if (k === 'r') { t = 0; playing = true; pp.textContent = 'Pause'; tonAn(); }
+    if (k === 'f') document.documentElement.requestFullscreen?.();
+  });
+  document.getElementById('bar').onclick = e => {
+    const r = e.currentTarget.getBoundingClientRect();
+    t = (e.clientX - r.left) / r.width * DUR; tonAn();
+  };
+} else { document.body.classList.add('render'); seek(0); }
+</script></body></html>
