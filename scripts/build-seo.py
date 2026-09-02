@@ -65,6 +65,16 @@ SEITEN = {
                 'Grenzen des Modells, Vortest und Kapiteltest zur Selbstkontrolle.',
    themen=['Ideale Gase', 'Gasgesetze', 'Allgemeine Gasgleichung', 'Boyle-Mariotte',
            'Gay-Lussac', 'Amontons', 'Thermodynamik']),
+ 'leitprogramme/leitprogramm-vorwissen.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Grössen, Messen, Druck — das Vorwissen selbst erarbeiten',
+   beschreibung='Leitprogramm zum physikalischen Vorwissen: Zahlenwert und Einheit, '
+                'Vorsilben als Zehnerpotenzen, Flächen und Volumen, Runden auf drei '
+                'signifikante Stellen, Masse und Gewichtskraft, Dichte, Druck und '
+                'Überdruck — in acht Schritten mit Erklärclip, Simulation, Vortest '
+                'und Gesamttest zur Selbstkontrolle.',
+   themen=['Vorwissen', 'Grössen und Einheiten', 'Vorsilben', 'Signifikante Stellen',
+           'Dichte', 'Druck', 'Überdruck', 'Gewichtskraft']),
  'clips.html': dict(
    typ='article', lrt=['Lernvideo', 'Animation'],
    titel='Clips — kurze Animationen zu den Rechenwegen',
