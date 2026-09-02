@@ -586,11 +586,18 @@ def bauen(quelle, eigenstaendig=False):
                 aus = ende
             anim = el.get("anim", "pop" if el.get("typ") in ("box", "aussage") else "rise")
 
+            # Die Textbreite begrenzen. Ohne das laeuft eine lange Zeile bis an
+            # den Buehnenrand und bricht dort unausgeglichen um — im
+            # Schienen-Layout bis 1920 statt bis 1820, in der Mitte ueber die
+            # volle Breite ohne Rand. `breite` war bisher totes Kapital.
             if mitte and "x" not in el:
                 klassen.append("mitte")
-                stil.insert(0, "left:0;right:0;text-align:center")
+                rand = (1920 - breite) // 2
+                stil.insert(0, "left:%dpx;right:%dpx;text-align:center" % (rand, rand))
             else:
                 stil.insert(0, "left:%dpx" % el.get("x", links))
+                if "breite" not in el and el.get("typ") not in ("graf", "strich"):
+                    stil.append("width:%dpx" % breite)
             stil.insert(1, "top:%dpx" % el.get("y", y))
 
             hoehe = el.get("hoehe", int(el.get("groesse", 50) * 1.5) + 40)
