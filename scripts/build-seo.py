@@ -57,6 +57,19 @@ SEITEN = {
                 'Beispiel und Selbstkontrolle nach jedem Schritt, am Schluss ein Kapiteltest. '
                 'Zum Vertiefen, Nachholen und für den Fernunterricht.',
    themen=['Physik', 'Leitprogramm', 'Selbststudium', 'Berufsmaturität']),
+ 'leitprogramme/leitprogramm-waermeausdehnung.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Wärmeausdehnung — Feststoffe und Flüssigkeiten',
+   beschreibung='Leitprogramm zur Wärmeausdehnung: Längen-, Flächen- und '
+                'Volumenausdehnung fester Körper, warum der Volumenkoeffizient '
+                'rund dreimal so gross ist wie der Längenkoeffizient, die '
+                'Volumenausdehnung von Flüssigkeiten, die scheinbare Ausdehnung '
+                'im Gefäss, Dichte und Temperatur sowie die Anomalie des Wassers '
+                '— in acht Schritten mit Erklärclip, Simulation, Vortest und '
+                'Gesamttest zur Selbstkontrolle.',
+   themen=['Wärmeausdehnung', 'Längenausdehnung', 'Volumenausdehnung',
+           'Ausdehnungskoeffizient', 'Scheinbare Ausdehnung', 'Dichte',
+           'Anomalie des Wassers', 'Bimetall']),
  'leitprogramme/leitprogramm-ideale-gase.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Ideale Gase — Gasgesetze selbst erarbeiten',

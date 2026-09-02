@@ -205,7 +205,24 @@ einer Bildunterschrift oder an einem Regler steht, wird als Klartext
 geschrieben (`Teile je Kante n`, `Volumen V`, `g/cm³`).
 
 **Merkt man daran:** keine Prüfung meldet es, der Render-Check auch nicht —
-es passt ja in die Zeile. Man sieht es nur im Bild.
+es passt ja in die Zeile. Man sieht es nur im Bild. Die Kontrolle lautet
+
+```bash
+grep -n 'class="step-goal"\|<figcaption>\|class="sim-lab"' <datei> | grep '\\('
+```
+
+und muss **0** ergeben. Beim dritten Leitprogramm ist die Falle zweimal
+zugeschlagen: erst in den Lernzielen, nach deren Bereinigung noch einmal in
+den vier Bildunterschriften.
+
+Dazu gehört ein zweiter, verwandter Punkt: Lange deutsche Komposita sprengen
+die schmale Spalte bei 360 px. «Volumenausdehnung» allein misst mehr als die
+235 px, die dort für die Überschrift bleiben. Ein Wortumbruch kostet drei
+Zeilen und rettet die Mobilansicht:
+
+```css
+.step-title, .step-goal, .masthead h1{ overflow-wrap:break-word; hyphens:auto; }
+```
 
 ### 11. Der Sprechertext ist ein Transkript, kein Fliesstext
 
