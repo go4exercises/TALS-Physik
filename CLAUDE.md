@@ -133,8 +133,11 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   in `clips.html` ein. Physik hat **noch keine Clips** — die Mechanik steht
   bereit, die Bibliothek sagt bis dahin «Noch keine Clips.». Anders als Mathe
   gruppiert die Bibliothek nur nach Lerngebiet (kein Grundlagen-/Schwerpunktfach).
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**. Vorgehen beim
-  Übertrag einer extern gebauten Datei: `HOWTO-leitprogramme.md` (neun Punkte,
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell zwei:
+  `leitprogramm-vorwissen` (Grössen, Messen, Druck — mit sieben eingebetteten
+  Clips und fünf Simulationen) und `leitprogramm-ideale-gase`. Vorgehen beim
+  Übertrag einer fremden Datei **und** beim Schreiben einer neuen:
+  `HOWTO-leitprogramme.md` (zwölf Punkte,
   je mit dem Fehlerbild, an dem man merkt, dass der Punkt fehlt). Die
   Bibliotheksseite trägt nur die Karten (`.lp-*` in `style.css`); jedes
   Leitprogramm ist eine **eigenständige Seite mit eigenem Inhalts-CSS** und

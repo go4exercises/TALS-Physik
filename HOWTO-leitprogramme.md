@@ -5,9 +5,11 @@ Vorwissenstest, Kapitel in kleinen Schritten, Selbstkontrolle nach jedem Schritt
 am Schluss ein Kapiteltest. Es ist ein anderes Format als eine Themenseite und
 behält darum sein eigenes Layout — geerbt werden nur Kopf, Fuss und die Bühne.
 
-Übernommen aus `tals-mathe/HOWTO-leitprogramme.md` (Stand 1.9.2026) und um das
-ergänzt, was beim ersten Physik-Übertrag (`leitprogramm-ideale-gase`, 31.8.2026)
-zusätzlich nötig war.
+Übernommen aus `tals-mathe/HOWTO-leitprogramme.md` (Stand 1.9.2026), ergänzt um
+das, was beim ersten Physik-Übertrag (`leitprogramm-ideale-gase`, 31.8.2026)
+zusätzlich nötig war, und um die Punkte 9 bis 11, die beim Bau von
+`leitprogramm-vorwissen` (2.9.2026) dazukamen. Die Liste gilt für beide Wege —
+den Übertrag einer fremden Datei und das Schreiben einer neuen.
 
 ---
 
@@ -163,7 +165,64 @@ Dunkelmodus kippt `--tinte` mit dem Text nach hell — der Fuss würde weiss.
 > }
 > ```
 
-### 9. Eintragen
+### 9. Klassennamen, die mit `style.css` kollidieren
+
+Weil `style.css` **vor** dem eigenen `<style>` steht, gewinnt der eigene Block
+bei gleichem Gewicht — aber nur für **dieselbe Eigenschaft**. Setzt `style.css`
+eine Eigenschaft, die das Leitprogramm gar nicht anfasst, bleibt sie stehen.
+
+Gemessen an `.frage`: Auf einer Themenseite ist das das
+Verständnisfrage-Akkordeon und trägt `background: var(--blau-hell)`, `border`
+und `border-radius`. In beiden Leitprogrammen heisst `.frage` die
+**Einstiegsfrage** und definiert nur `border-left` — die blaue Fläche kam also
+ungefragt mit. Im Hellmodus leuchtete ein blauer Kasten in einer durchgehend
+bernsteinfarbenen Seite; im Dunkelmodus stand heller Text (`--ink` kippt mit)
+auf hellblauem Grund und war unlesbar. `--blau-hell` gehört zu den Tokens, die
+ein Leitprogramm **nicht** umfärbt.
+
+Darum: Wer eine Klasse benutzt, die es in `style.css` auch gibt, nimmt die
+fremden Eigenschaften ausdrücklich zurück.
+
+```css
+.frage{ background:none; border:none; border-radius:0; overflow:visible;
+        border-left:3px solid var(--rule-strong); }
+```
+
+**Merkt man daran:** gar nicht — bis man die Seite im Dunkelmodus anschaut.
+Die Kandidaten findet man mit
+
+```bash
+grep -oE '^\.[a-z][a-z0-9-]*' style.css | sort -u > /tmp/site.txt
+# dieselbe Liste aus dem <style> des Leitprogramms ziehen und schneiden
+```
+
+### 10. Kein LaTeX in den kleinen Textbausteinen
+
+In `figcaption`, `.sim-lab`, `.step-goal` und `.scene-cap` wird MathJax
+riesig gesetzt — ein einzelnes \(n\) erscheint sechzig Pixel hoch und sprengt
+die Zeile. Beide Leitprogramme vermeiden es dort darum durchgehend: Was in
+einer Bildunterschrift oder an einem Regler steht, wird als Klartext
+geschrieben (`Teile je Kante n`, `Volumen V`, `g/cm³`).
+
+**Merkt man daran:** keine Prüfung meldet es, der Render-Check auch nicht —
+es passt ja in die Zeile. Man sieht es nur im Bild.
+
+### 11. Der Sprechertext ist ein Transkript, kein Fliesstext
+
+Was in `<details class="script">` steht, ist die Verschriftung des
+eingebetteten Tons. Er liegt als base64-MP3 im `TON`-Block der Seite und
+lässt sich nicht nebenbei neu sprechen: Die Szenenstimme des
+Gase-Leitprogramms ist rund anderthalbmal schneller als
+`de_DE-thorsten-high` (4.0 s gegen 6.15 s für denselben Satz), und die
+Zeitmarken in `TON[key].k` sind auf sie eingemessen.
+
+Beim Umschreiben auf **du** ist der Sprechertext darum ausgenommen — vier
+Sätze siezen im Gase-Leitprogramm weiter, weil der Ton sie so spricht. Ein
+Transkript, das vom Ton abweicht, ist schlimmer als ein Sprecher, der siezt.
+
+**Merkt man daran:** an nichts — ausser man hört hin.
+
+### 12. Eintragen
 
 | Datei | was |
 |---|---|
@@ -195,6 +254,9 @@ für `themen/` — ein Leitprogramm hat bewusst kein `page-wrap` und kein
 - eine weisse Kopfleiste über dunkler Seite (Punkt 8)
 - ein heller Fuss im Hellmodus, weil die Dunkelregel zu weit greift (Punkt 8)
 - ein Clip, der vom Live-Stand kommt statt aus `clips/` (Punkt 5)
+- eine blaue Einstiegsfrage oder heller Text auf hellem Grund, weil eine
+  Klasse aus `style.css` durchschlägt (Punkt 9)
+- riesig gesetzte Formeln in Bildunterschriften und an Reglern (Punkt 10)
 
 Beim ersten Übertrag ist jeder dieser Punkte erst im Bild aufgefallen.
 
