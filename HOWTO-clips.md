@@ -116,8 +116,17 @@ Die Regel lautet darum:
 wenn die nächste Szene das Layout `schiene` hat; sonst meldet der Generator eine
 Warnung und lässt es weg.
 
+**`halten` erreicht das Band nur vom ersten Element des ersten Schritts aus.**
+Ein Element weiter unten in der Szene behält beim Halten seine eigene Höhe — bei
+der dritten Zeile sind das rund 420 px, und dort beginnt schon der Inhalt der
+nächsten Szene. Für alles ausser der ersten Zeile ist `mitnehmen` das richtige
+Werkzeug.
+
 Mehr als **eine** Zeile gehört nie ins Band. Sie ist der Faden, nicht die
-Zusammenfassung.
+Zusammenfassung. Und das Band bleibt leer, wo der Faden nur begrifflich läuft:
+Dass es einen Schritt davor gab, sagt die Merkschiene links ohnehin. Ins Band
+gehört nur, was der laufende Schritt **einsetzt oder fortschreibt** — sonst
+steht dort Dekoration.
 
 ### Elementtypen
 
