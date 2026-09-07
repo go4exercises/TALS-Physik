@@ -57,6 +57,19 @@ SEITEN = {
                 'Beispiel und Selbstkontrolle nach jedem Schritt, am Schluss ein Kapiteltest. '
                 'Zum Vertiefen, Nachholen und für den Fernunterricht.',
    themen=['Physik', 'Leitprogramm', 'Selbststudium', 'Berufsmaturität']),
+ 'leitprogramme/leitprogramm-waermemenge.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Wärmemenge und Wärmebilanz — Temperatur, Wärme, Heizkurve',
+   beschreibung='Leitprogramm zur Wärmelehre: Temperatur als Teilchenbewegung, '
+                'Celsius und Kelvin, Wärme als übertragene Energie, die '
+                'Wärmemenge Q = m · c · ΔT, Wärmebilanz und Mischtemperatur, '
+                'latente Wärme beim Schmelzen und Verdampfen, die Heizkurve '
+                'sowie Leistung, Wirkungsgrad und Heizwert — in acht Schritten '
+                'mit Erklärclip, Simulation, Vortest und Gesamttest zur '
+                'Selbstkontrolle.',
+   themen=['Wärmemenge', 'Spezifische Wärmekapazität', 'Wärmebilanz',
+           'Mischtemperatur', 'Latente Wärme', 'Heizkurve', 'Wirkungsgrad',
+           'Heizwert', 'Temperatur', 'Kelvin']),
  'leitprogramme/leitprogramm-waermeausdehnung.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Wärmeausdehnung — Feststoffe und Flüssigkeiten',

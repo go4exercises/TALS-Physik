@@ -11,6 +11,16 @@ zusätzlich nötig war, und um die Punkte 9 bis 11, die beim Bau von
 `leitprogramm-vorwissen` (2.9.2026) dazukamen. Die Liste gilt für beide Wege —
 den Übertrag einer fremden Datei und das Schreiben einer neuen.
 
+Das vierte Leitprogramm (`leitprogramm-waermemenge`, 7.9.2026) ist ganz neu
+geschrieben worden, und zwar so: Kopf, `<style>`-Block, Fortschritts- und
+Clipkarten-Skript **wörtlich** aus `leitprogramm-waermeausdehnung` übernommen,
+neu geschrieben nur Inhalt und Simulations-Skript. Das ist der schnellste Weg
+und hält die vier Dateien beieinander. Neu aufgefallen ist dabei nur eines:
+Der `render-check` (1280 und 360 px) gehört auch hier dazu — zwei lange
+Inline-Formelketten in den Vortest-Lösungen wurden bei 360 px abgeschnitten,
+und keine andere Prüfung sieht das. Abhilfe ist dieselbe wie auf den
+Themenseiten: die Kette in zwei Formeln teilen, damit die Zeile brechen kann.
+
 ---
 
 ## Die Übertragsliste
