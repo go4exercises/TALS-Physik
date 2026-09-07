@@ -5,9 +5,9 @@ Gedankengang in rund einer Minute aufbaut: animierte Zeilen auf einer Bühne von
 1920 × 1080, dazu eine gesprochene Tonspur. Gebaut wird er nicht von Hand,
 sondern aus einem **Drehbuch** — einer JSON-Datei daneben.
 
-Stand 07.09.2026: **82 Clips, 75:37 min, in 22 Reihen** — jede Themenseite der
+Stand 07.09.2026: **86 Clips, 79:06 min, in 23 Reihen** — jede Themenseite der
 Lerngebiete 4 bis 6 hat ihre Reihe, dazu das Vorwissen. Verteilung nach
-Lerngebiet (Mehrfachzuordnungen mitgezählt): Vorwissen 11, Mechanik 36,
+Lerngebiet (Mehrfachzuordnungen mitgezählt): Vorwissen 15, Mechanik 36,
 Thermodynamik 29, Wellen und Elektrizität 18. Kürzester Clip 50 s, längster
 64 s, Mittel 55 s. Diese Anleitung ist die Physik-Fassung; das
 Schwesterprojekt Mathe hat eine eigene mit demselben Aufbau und 50 Clips.
