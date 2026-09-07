@@ -210,7 +210,7 @@ def auch_in(clip, ids, seiten):
     return "auch in " + " und ".join([", ".join(nummern[:-1]), nummern[-1]])
 
 
-def zeile(clip, vor="", nuance=1, suche=None, auch=""):
+def zeile(clip, vor="", nuance=1, suche=None, auch="", anker=None):
     """Eine Clip-Zeile: Nummer, Titel, Laufzeit. Sonst nichts.
 
     Dieselbe Zeile in der Bibliothek und auf der Lektionsseite — es ist
@@ -229,9 +229,15 @@ def zeile(clip, vor="", nuance=1, suche=None, auch=""):
     # `data-suche` traegt die Bibliothek, die Lektionsseite nicht: Dort
     # gibt es nichts zu filtern, und das Attribut waere nur Ballast.
     such = f' data-suche="{suche}"' if suche else ""
+    # Sprungziel der Volltextsuche. Sie fuehrt zum einzelnen Clip, nicht
+    # mehr zur Bibliotheksseite — dafuer braucht die Zeile eine Adresse.
+    # Nur die Bibliothek vergibt sie, und dort nur beim ersten Vorkommen:
+    # Ein Clip auf zwei Lerngebieten steht zweimal in der Liste, eine ID
+    # darf es nur einmal geben.
+    id_ = f' id="{anker}"' if anker else ""
     marke = ([f'    <span class="cl-auch">{html.escape(auch)}</span>'] if auch else [])
     return [
-        f'<div class="clip cl-r{nuance}" data-clip="{vor}clips/{clip["datei"]}"'
+        f'<div class="clip cl-r{nuance}"{id_} data-clip="{vor}clips/{clip["datei"]}"'
         f' data-titel="{titel}" data-modus="gross"{such}>',
         '  <button class="clip-start cl-clip" type="button" onclick="clipStart(this)"'
         f' aria-label="Clip abspielen: {titel}">',
@@ -317,6 +323,7 @@ def block_bibliothek(alle, seiten):
     aus = [BIB_AUF]
     offen = False
     gesamt = 0
+    benannt = set()          # Clips, die ihre ID schon haben
     for nr, titel, ids in gruppen:
         drin, gesehen = [], set()
         for code in ids:
@@ -366,9 +373,13 @@ def block_bibliothek(alle, seiten):
                            + (f'<span class="cl-gnr">{marke}</span>' if marke else "")
                            + html.escape(schlue[1]) + '</h3>')
                 letzte = schlue
+            stamm = c["datei"].replace(".html", "")
+            anker = None if stamm in benannt else "clip-" + stamm
+            benannt.add(stamm)
             aus += ["      " + z for z in
                     zeile(c, "", nuance[c.get("reihe") or c["titel"]],
-                          suche=suchtext(c), auch=auch_in(c, ids, seiten))]
+                          suche=suchtext(c), auch=auch_in(c, ids, seiten),
+                          anker=anker)]
         if letzte is not None:
             aus.append('    </div>')
         aus += ['  </div>', '</div>']

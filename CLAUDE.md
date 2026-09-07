@@ -54,7 +54,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Der Generator läuft in **beiden** TALS-Repos (erkennt Physik/Mathe an
   `physiklib.js`/`mathlib.js`); projektabhängig ist allein die Liste `PROJEKTE`
   am Dateikopf. `--dry-run` baut ohne zu schreiben, `--root PFAD` zielt aufs
-  Schwesterprojekt.
+  Schwesterprojekt. **Clips stehen einzeln im Index** (Kurzbeschrieb,
+  Transkript, Stichworte; Ziel `clips.html#clip-<name>`) — der
+  Transkript-Aufklapper der Lektionsseite ist darum vom Index ausgenommen.
 - `scripts/build-animationen.py` — setzt die **Animationsnummern** aus der
   Dokumentreihenfolge, in den `<h3>`-Titeln wie in den Textverweisen. Gepflegt
   wird im Quelltext nur der Anker, nie die Nummer (Details: STYLEGUIDE §5.9).

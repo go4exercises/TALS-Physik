@@ -34,9 +34,14 @@
 #      .erklaerung bleiben drin
 #    - Bedienelemente aller Art (<button>, <select>, <input>), <canvas>
 #    - Navigation, Footer, Scripts, Styles
+#    - die Transkript-Aufklapper der Lektionsseiten (.clip-transkripte):
+#      Jeder Clip steht einmal als eigener Eintrag unter clips.html — sonst
+#      faende man denselben Satz zweimal, und der Treffer fuehrte auf eine
+#      Seite statt auf den Clip.
 # ─────────────────────────────────────────────────────────────
 
 import hashlib
+import json
 import os
 import re
 import sys
@@ -57,6 +62,7 @@ SKIP_CLASSES = {
     'block-aufg', 'aufg-liste', 'aufg',      # Aufgaben
     'loesung-toggle', 'loesung-body',        # Loesungen zu Aufgaben
     'dl-grid', 'links-grid',                 # Kachel-/Linklisten
+    'clip-transkripte',                      # Clips stehen einzeln im Index
     'toc-wrap', 'site-footer', 'mobile-nav', 'site-hdr',
 }
 SKIP_IDS = {'nav-root', 'toc'}
@@ -313,6 +319,51 @@ def seiten_aus_navjs(root):
     return seiten
 
 
+def clip_eintraege(root):
+    """Ein Eintrag je Clip — Kurzbeschrieb, Transkript, Stichworte.
+
+    Ein Clip ist ein Film: Im HTML der Bibliothek steht von seinem Inhalt
+    kein Wort, und im Aufklapper der Lektionsseite stehen alle Transkripte
+    einer Seite in einem einzigen Abschnitt. Wer «Bremsweg» sucht, landete
+    darum auf einer Seite und musste den Clip dort selbst suchen. Hier
+    entsteht statt dessen je Clip ein Eintrag, der auf
+    `clips.html#clip-<name>` zeigt; die Bibliothek klappt sein Lerngebiet
+    beim Ankommen auf.
+
+    Quelle sind die erzeugten Dateien neben den Clips: `clips/clips.json`
+    fuer Titel, Kurzbeschrieb und Stichworte, `clips/sprechertext-*.txt`
+    fuer den gesprochenen Text. Gibt es sie nicht, bleibt alles beim Alten.
+
+    Zahlen stehen im Transkript ausgeschrieben («zweiundsiebzig») — die
+    Stelle wird also ueber Wort und Kurzbeschrieb gefunden, nicht ueber
+    die Ziffer.
+    """
+    pfad = os.path.join(root, 'clips', 'clips.json')
+    if not os.path.exists(pfad):
+        return []
+    daten = json.load(open(pfad, encoding='utf-8'))
+    aus = []
+    for c in daten.get('clips', []):
+        stamm = c.get('datei', '').replace('.html', '')
+        if not stamm:
+            continue
+        teile = [c.get('kurzbeschrieb', '')]
+        tk = os.path.join(root, 'clips', f'sprechertext-{stamm}.txt')
+        if os.path.exists(tk):
+            for z in open(tk, encoding='utf-8'):
+                if '\t' in z:
+                    teile.append(z.split('\t', 1)[1].strip())
+        sw = [w for w in (c.get('schlagworte') or []) if w]
+        if sw:
+            teile.append('Stichworte: ' + ', '.join(sw) + '.')
+        if c.get('reihe'):
+            teile.append('Reihe: ' + c['reihe'] + '.')
+        aus.append({'anker': 'clip-' + stamm,
+                    'titel': normalize(c.get('titel', stamm)),
+                    'text': normalize(' '.join(t for t in teile if t))})
+    return aus
+
+
 def js_string(s):
     return '"' + s.replace('\\', '\\\\').replace('"', '\\"').replace('\n', ' ') + '"'
 
@@ -332,7 +383,8 @@ def build(root, projekt):
         ex.feed(roh)
         ex.close()
         n = 0
-        for e in ex.eintraege:
+        zusatz = clip_eintraege(root) if s['url'] == 'clips.html' else []
+        for e in list(ex.eintraege) + zusatz:
             if len(e['text']) < 40:      # blosse Zwischenueberschrift ohne Inhalt
                 continue
             eintraege.append({'p': pi, 'a': e['anker'], 't': e['titel'], 'x': e['text']})

@@ -235,6 +235,16 @@ Der Block enthält je Clip eine Startkarte und darunter das **Transkript** aus
 `clips/sprechertext-*.txt`. Das Transkript ist kein Beiwerk: Von einem animierten
 Clip sieht eine Suchmaschine nichts, und die Volltextsuche der Site ebenso wenig.
 
+In der **Volltextsuche** steht jeder Clip einzeln: `build-suchindex.py` legt je
+Clip einen Eintrag aus Kurzbeschrieb, Transkript und Stichworten an und zielt auf
+`clips.html#clip-<name>`; die Bibliothek klappt beim Ankommen sein Lerngebiet auf
+und legt einen Ring um die Zeile. Darum indexiert der Generator den
+Transkript-Aufklapper der Lektionsseite (`.clip-transkripte`) **nicht** mehr —
+sonst fände man denselben Satz zweimal, und der zweite Treffer führte nur auf
+eine Seite mit zwanzig Clips. Die Zeile in der Bibliothek trägt dafür ihre ID;
+vergeben wird sie beim **ersten** Vorkommen, denn ein Clip zweier Lerngebiete
+steht zweimal in der Liste.
+
 Ein Clip lädt nie beim Seitenaufruf — sichtbar ist zuerst nur der Startknopf,
 erst der Klick setzt das `<iframe>` ein (`clipStart` in `physiklib.js`).
 Leitprogramme benutzen dieselbe Bühne über `clipBuehne`; wer an ihr etwas

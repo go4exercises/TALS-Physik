@@ -96,7 +96,7 @@ sogar **ohne Netzverbindung**.
 ## Suche
 
 Das Suchfeld oben rechts im Header durchsucht den Fliesstext aller Themenseiten,
-der Leitprogramme und der Clip-Transkripte sowie Glossar und Formelsammlung —
+der Leitprogramme und der Clips sowie Glossar und Formelsammlung —
 ohne Server, rein im Browser (`/` oder Strg/Cmd+K springt
 ins Feld). Grundlage ist `suchindex.js`, erzeugt aus den Seiten:
 
@@ -109,6 +109,11 @@ python3 scripts/build-suchindex.py --dry-run  # bauen und berichten, nichts schr
 Der Generator ist projektübergreifend: er erkennt Physik und Mathe an der
 Canvas-Bibliothek im Repo-Root und liest die Seitenliste aus `nav.js` — egal ob das
 Projekt eine Liste führt oder mehrere. `--root PFAD` zielt aufs Schwesterprojekt.
+
+Jeder Clip steht einzeln im Index — mit Kurzbeschrieb, gesprochenem Text und
+Stichworten. Ein Treffer führt an die Zeile des Clips in der Bibliothek
+(`clips.html#clip-<name>`), nicht bloss auf die Seite: Das Lerngebiet klappt beim
+Ankommen auf, die Zeile bekommt einen Ring.
 
 Der Index wird erst beim ersten Tastendruck im Suchfeld nachgeladen. Nach jeder
 inhaltlichen Änderung neu bauen — der Pre-Flight warnt, wenn er veraltet ist.
