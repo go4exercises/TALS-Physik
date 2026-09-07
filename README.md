@@ -70,10 +70,10 @@ Bauanleitung, Stolpersteine und die didaktische Prüfliste stehen in
 
 ## Leitprogramme
 
-Vier **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
+Fünf **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
 `leitprogramme.html`: Vorwissen (Grössen, Messen, Druck), Wärmemenge und
-Wärmebilanz, Wärmeausdehnung und Ideale Gase. Jede besteht aus Vortest,
-Lernschritten mit Clip, Simulation und
+Wärmebilanz, Heizen, Dämmen, Umwandeln, Wärmeausdehnung und Ideale Gase. Jede
+besteht aus Vortest, Lernschritten mit Clip, Simulation und
 Selbstkontrolle sowie einem Kapiteltest unter Prüfungsbedingungen; der
 Fortschritt bleibt auf dem Gerät gespeichert.
 

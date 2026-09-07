@@ -57,6 +57,19 @@ SEITEN = {
                 'Beispiel und Selbstkontrolle nach jedem Schritt, am Schluss ein Kapiteltest. '
                 'Zum Vertiefen, Nachholen und für den Fernunterricht.',
    themen=['Physik', 'Leitprogramm', 'Selbststudium', 'Berufsmaturität']),
+ 'leitprogramme/leitprogramm-heizen.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Heizen, Dämmen, Umwandeln — Wirkungsgrad, Heizwert, Wärmetransport',
+   beschreibung='Leitprogramm zur Energienutzung: Energieerhaltung und '
+                'Entwertung, Wirkungsgrad und Wirkungsgrade in Serie, '
+                'Heizwert und Brennstoffmenge, Wärmepumpe und Leistungszahl, '
+                'Energiequellen im Vergleich sowie Leitung, Konvektion und '
+                'Strahlung samt Dämmung und Treibhauseffekt — in acht '
+                'Schritten mit Erklärclip, Simulation, Vortest und Gesamttest '
+                'zur Selbstkontrolle.',
+   themen=['Wirkungsgrad', 'Heizwert', 'Wärmepumpe', 'Leistungszahl',
+           'Energiequellen', 'Wärmeleitung', 'Konvektion', 'Wärmestrahlung',
+           'Treibhauseffekt', 'Dämmung']),
  'leitprogramme/leitprogramm-waermemenge.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Wärmemenge und Wärmebilanz — Temperatur, Wärme, Heizkurve',

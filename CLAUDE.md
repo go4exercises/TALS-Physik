@@ -148,13 +148,15 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Ein Clip liegt **einmal** und darf über die Liste `lektion` auf mehreren
   Seiten stehen; zehn tun das. Bauanleitung, Stolpersteine und die
   didaktische Prüfliste: `HOWTO-clips.md`.
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell vier:
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell fünf:
   `leitprogramm-vorwissen` (Grössen, Messen, Druck — sieben Clips, fünf
   Simulationen), `leitprogramm-waermemenge` (Temperatur, Wärmemenge, Bilanz,
   latente Wärme, Heizkurve, Heizzeit — zehn Clips, sieben Simulationen),
+  `leitprogramm-heizen` (Wirkungsgrad, Heizwert, Wärmepumpe, Energiequellen,
+  Wärmetransport, Treibhauseffekt — neun Clips, fünf Simulationen),
   `leitprogramm-waermeausdehnung` (Feststoffe und Flüssigkeiten
   — sieben Clips, sechs Simulationen) und `leitprogramm-ideale-gase` (acht
-  Clips, fünf Simulationen). Alle vier starten ihre Clips über `.clipkarte`
+  Clips, fünf Simulationen). Alle fünf starten ihre Clips über `.clipkarte`
   aus `clips/`; eigener, ins Dokument eingebetteter Ton gehört nicht hinein
   (siehe `HOWTO-leitprogramme.md`, Punkt 11). Vorgehen beim
   Übertrag einer fremden Datei **und** beim Schreiben einer neuen:
