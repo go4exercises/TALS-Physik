@@ -276,7 +276,7 @@ MathJax = {
       <button class="play-btn" id="a1-play">▶ Eine Sekunde abspielen</button>
     </div>
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Zeit \(t\)</span><span class="lb-val" id="a1-t2">0.25 s</span></div>
+      <div class="lb-item"><span class="lb-lab">Zeit \(t\)</span><span class="lb-val" id="a1-t2">0.250 s</span></div>
       <div class="lb-item" style="margin-right:30px"><span class="lb-lab">gezählte Schwingungen</span><span class="lb-val" id="a1-n">2 298 157 943</span></div>
       <div class="lb-item"><span class="lb-lab">Anteil der Sekunde</span><span class="lb-val" id="a1-p">25 %</span></div>
     </div>
@@ -500,7 +500,7 @@ MathJax = {
     </div>
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Temperatur \(T\)</span><span class="lb-val" id="a5-lt">300 K</span></div>
-      <div class="lb-item"><span class="lb-lab">in Grad Celsius</span><span class="lb-val" id="a5-lc">26.9 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">in Grad Celsius</span><span class="lb-val" id="a5-lc">26.85 °C</span></div>
       <div class="lb-item" style="margin-right:30px"><span class="lb-lab">\(\overline{E}_\text{kin} = \tfrac{3}{2} k T\)</span><span class="lb-val" id="a5-le">6.21 · 10^-21 J</span></div>
       <div class="lb-item"><span class="lb-lab">Tempo eines N₂-Moleküls \(v_\text{rms}\)</span><span class="lb-val" id="a5-lv">517 m/s</span></div>
     </div>
@@ -745,7 +745,7 @@ MathJax = {
       <div class="lb-item"><span class="lb-lab">Vorsilbe</span><span class="lb-val" id="a9-lv">kilo (k)</span></div>
       <div class="lb-item"><span class="lb-lab">Faktor</span><span class="lb-val" id="a9-lf">1000</span></div>
       <div class="lb-item" style="margin-right:30px"><span class="lb-lab">1 Einheit entspricht</span><span class="lb-val" id="a9-lm">1 km = 1000 m</span></div>
-      <div class="lb-item"><span class="lb-lab">Beispiel</span><span class="lb-val" id="a9-lb">Weg zum Bahnhof</span></div>
+      <div class="lb-item"><span class="lb-lab">Beispiel</span><span class="lb-val" id="a9-lb">Weg zum Bahnhof (1 km)</span></div>
     </div>
     <div class="cv-wrap">
       <div class="cv-titel">🔟 Logarithmische Skala von Nano bis Giga</div>
@@ -1621,12 +1621,19 @@ const A9_VOR = {
   '-9': { n:'nano',  z:'n', bsp:'fünf Atome nebeneinander (1 nm)' }
 };
 
+// Zehnerpotenz mit echter Hochzahl. Die Seite schreibt sie ueberall sonst so
+// (10^-34, 10^23 im Fliesstext); nur diese Anzeige stand mit Dach da.
+const A9_HOCH = { '-':'\u207B', '0':'\u2070', '1':'\u00B9', '2':'\u00B2',
+                  '3':'\u00B3', '4':'\u2074', '5':'\u2075', '6':'\u2076',
+                  '7':'\u2077', '8':'\u2078', '9':'\u2079' };
+const a9Hoch = n => String(n).split('').map(c => A9_HOCH[c] || c).join('');
+
 function drawA9() {
   const p = +document.getElementById('a9-p').value;
   const v = A9_VOR[String(p)];
   const faktor = Math.pow(10, p);
   const text = v ? (v.n === '—' ? 'keine Vorsilbe' : v.n + ' (' + v.z + ')') : 'keine gebräuchliche Vorsilbe';
-  document.getElementById('a9-p-val').textContent = '10^' + p + (v && v.n !== '—' ? ' — ' + v.n : '');
+  document.getElementById('a9-p-val').textContent = '10' + a9Hoch(p) + (v && v.n !== '—' ? ' — ' + v.n : '');
   document.getElementById('a9-lv').textContent = text;
   document.getElementById('a9-lf').textContent = faktor >= 1 ? siGrupp(faktor) : String(faktor);
   document.getElementById('a9-lm').textContent = v && v.z
