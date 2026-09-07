@@ -44,7 +44,7 @@ Jede Themenseite der Lerngebiete 4 bis 6 folgt einem festen 13-Punkte-Master-Sch
 ## Erklärclips
 
 Zu jeder Themenseite der Lerngebiete 4 bis 6 gehört eine Reihe kurzer,
-vertonter Erklärclips — **79 Clips in 22 Reihen, zusammen 72:57 min**. Ein Clip
+vertonter Erklärclips — **81 Clips in 22 Reihen, zusammen 74:42 min**. Ein Clip
 baut einen einzigen Gedanken in rund einer Minute auf: animierte Zeilen auf
 einer Bühne von 1920 × 1080, dazu eine gesprochene Tonspur.
 
@@ -158,7 +158,7 @@ Seither hinzugekommen, ohne dass die Versionszeile angehoben wurde: die Vorwisse
 0.3, 0.4 und 0.5 sowie die Extras-Seite zur Sonnenfinsternis vom 12. August 2026. Am
 30. August 2026 sind Schriften und MathJax von den Fremdhosts auf lokale Auslieferung
 umgestellt worden. Ende August und Anfang September 2026 kamen die drei
-Leitprogramme dazu, im September die Erklärclips — am 7. September 2026 auf 79
+Leitprogramme dazu, im September die Erklärclips — am 7. September 2026 auf 81
 Clips ausgebaut, sodass jede der zehn Themenseiten eine Reihe hat und alle 46
 RLP-Kompetenzen von mindestens einem Clip getragen werden.
 
