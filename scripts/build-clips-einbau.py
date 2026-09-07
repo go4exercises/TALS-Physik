@@ -173,7 +173,44 @@ def transkript(datei):
     return zeilen or None
 
 
-def zeile(clip, vor="", nuance=1):
+def suchtext(clip):
+    """Alles, wonach in der Bibliothek gesucht werden koennen soll.
+
+    Titel und Reihe stehen sichtbar in der Zeile, Schlagworte und
+    Kurzbeschrieb nicht — sie liegen im Drehbuch und waeren sonst totes
+    Kapital. Dazu die Lektionsnummer, damit «4.1» ebenso trifft wie
+    «Kinematik». Kleingeschrieben, weil das Suchfeld ebenso vergleicht.
+    """
+    teile = [clip.get("titel", ""), clip.get("reihe", ""),
+             clip.get("kurzbeschrieb", "")]
+    teile += clip.get("schlagworte") or []
+    teile += [lektionsnummer(c) for c in codes(clip)]
+    return html.escape(" ".join(teile).lower(), quote=True)
+
+
+def auch_in(clip, ids, seiten):
+    """Wo derselbe Clip sonst noch steht — ohne die Lektionen dieser Gruppe.
+
+    Fuenf Clips sind ueber Lerngebietsgrenzen hinweg zugeordnet und
+    erscheinen darum zweimal in der Liste. Ohne diesen Hinweis sieht das
+    nach zwei Clips aus; mit ihm sieht man, was das Projekt richtig macht:
+    einmal gespeichert, mehrfach zugeordnet.
+    """
+    fremd = [c for c in codes(clip) if c not in ids]
+    if not fremd:
+        return ""
+    # Eine fremde Lektion bekommt ihren Namen, mehrere nur die Nummern:
+    # «auch in 0.3 Messen — Waagen, Dichte, Einheiten und 0.2 Groessen,
+    # Einheiten und Messen» liest niemand mehr.
+    if len(fremd) == 1:
+        s = seiten.get(fremd[0])
+        name = f"{lektionsnummer(fremd[0])} {s['titel']}" if s else lektionsnummer(fremd[0])
+        return "auch in " + name
+    nummern = sorted(lektionsnummer(c) for c in fremd)
+    return "auch in " + " und ".join([", ".join(nummern[:-1]), nummern[-1]])
+
+
+def zeile(clip, vor="", nuance=1, suche=None, auch=""):
     """Eine Clip-Zeile: Nummer, Titel, Laufzeit. Sonst nichts.
 
     Dieselbe Zeile in der Bibliothek und auf der Lektionsseite — es ist
@@ -189,17 +226,20 @@ def zeile(clip, vor="", nuance=1):
     folge = clip.get("folge")
     nr = (f'<span class="cl-folge">{folge}</span>' if folge
           else '<span class="cl-folge cl-ohne" aria-hidden="true">·</span>')
+    # `data-suche` traegt die Bibliothek, die Lektionsseite nicht: Dort
+    # gibt es nichts zu filtern, und das Attribut waere nur Ballast.
+    such = f' data-suche="{suche}"' if suche else ""
+    marke = ([f'    <span class="cl-auch">{html.escape(auch)}</span>'] if auch else [])
     return [
         f'<div class="clip cl-r{nuance}" data-clip="{vor}clips/{clip["datei"]}"'
-        f' data-titel="{titel}" data-modus="gross">',
+        f' data-titel="{titel}" data-modus="gross"{such}>',
         '  <button class="clip-start cl-clip" type="button" onclick="clipStart(this)"'
         f' aria-label="Clip abspielen: {titel}">',
         '    ' + nr,
         f'    <span class="cl-titel">{titel}</span>',
         f'    <span class="cl-zeit">{mmss(clip.get("dauer_s", 0))}</span>',
         '  </button>',
-        '</div>',
-    ]
+    ] + marke + ['</div>']
 
 
 
@@ -327,7 +367,8 @@ def block_bibliothek(alle, seiten):
                            + html.escape(schlue[1]) + '</h3>')
                 letzte = schlue
             aus += ["      " + z for z in
-                    zeile(c, "", nuance[c.get("reihe") or c["titel"]])]
+                    zeile(c, "", nuance[c.get("reihe") or c["titel"]],
+                          suche=suchtext(c), auch=auch_in(c, ids, seiten))]
         if letzte is not None:
             aus.append('    </div>')
         aus += ['  </div>', '</div>']
