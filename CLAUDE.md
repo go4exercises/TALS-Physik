@@ -146,8 +146,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (kein Grundlagen-/Schwerpunktfach), und sie zieht die Gruppen aus `nav.js`,
   nicht aus dem Freitextfeld `lerngebiet` im Drehbuch.
   Ein Clip liegt **einmal** und darf über die Liste `lektion` auf mehreren
-  Seiten stehen; zehn tun das. Bauanleitung, Stolpersteine und die
-  didaktische Prüfliste: `HOWTO-clips.md`.
+  Seiten stehen; zehn tun das — die Bibliothek zeigt das mit der Zeile
+  «↳ auch in 4.5 Hydrostatik» unter dem Titel. Über der Liste steht eine
+  **Sofortsuche** (Titel, Reihe, Kurzbeschrieb, Schlagworte, Lektionsnummer);
+  Feld und Filterskript stehen **ausserhalb** der Marker und werden von Hand
+  gepflegt, das `data-suche` je Zeile kommt aus dem Generator.
+  Bauanleitung, Stolpersteine und die didaktische Prüfliste: `HOWTO-clips.md`.
 - `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell sechs:
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
@@ -183,6 +187,17 @@ Der Block steht zuoberst auf jeder Seite der Lerngebiete 4 bis 6
 («📋 Kompetenzen nach RLP-BM 2030 …») und ist vor der Planung zu lesen; was
 dort nicht steht, gehört auch nicht in die Reihe. Bauanleitung und Prüfliste:
 `HOWTO-clips.md`.
+
+## Querverweise ins Vorwissen
+
+Jede Themenseite der Lerngebiete 4 bis 6 trägt direkt unter dem
+Kompetenzblock einen `.block-tipp` **«💡 Vorwissen zu dieser Seite»** mit den
+zwei bis drei Abschnitten, die sie voraussetzt — verlinkt als **Anker**
+(`p0-2-vorwissen-physik.html#praefixe`), nicht als blosser Seitenlink.
+Umgekehrt trägt jede der sechs Vorwissenseiten einen Kasten **«💡 Lieber
+geführt durcharbeiten?»**, der auf das passende Leitprogramm zeigt und sagt,
+was nur auf der Seite steht. Wer eine Seite neu anlegt oder einen Abschnitt
+umbenennt, führt beides nach; die Anker sind Teil der Verabredung.
 
 ## Inhaltliche Regeln
 

@@ -102,6 +102,26 @@ Wer eine alte Datei kopiert, stellt sie mit
 `python3 scripts/mathjax-lokal.py --schreiben` um (beide sind wiederholbar und
 rechnen die `../`-Tiefe selbst aus).
 
+### 2.2b Vorwissen-Kasten
+
+Direkt unter den `.rlp-kompetenzen` steht auf jeder Themenseite der Lerngebiete
+4 bis 6 ein Kasten mit dem Vorwissen, das die Seite voraussetzt:
+
+```html
+<div class="block block-tipp">
+  <div class="block-titel">💡 Vorwissen zu dieser Seite</div>
+  <p>Diese Seite setzt die <a href="p0-3-messen-waagen-dichte.html#dichte">Dichte</a>
+  und die <a href="p0-2-vorwissen-physik.html#praefixe">Druckeinheiten mit ihren
+  Vorsilben</a> voraus. Beides steht im
+  <a href="../leitprogramme/leitprogramm-vorwissen.html">Leitprogramm «Grössen, Messen,
+  Druck»</a> als Kurs.</p>
+</div>
+```
+
+Zwei bis drei Abschnitte, nicht mehr, und **immer mit Anker** — ein blosser
+Seitenlink lässt die Leserin in einer 200-kB-Seite stehen. Die Gegenrichtung
+pflegt die Vorwissenseite selbst (Kasten «💡 Lieber geführt durcharbeiten?»).
+
 ### 2.3 Vorlage zum Spiegeln
 
 Die beste Vorlage ist `themen/p4-1-kinematik.html`. Reihenfolge zum Bauen:

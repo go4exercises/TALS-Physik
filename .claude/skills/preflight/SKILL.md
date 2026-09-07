@@ -30,10 +30,24 @@ und Slot-Limit (≤4 Links je Sektion).
 ## Stufe 2 — autoritative Repo-Skripte (in scripts/)
 
 - **verify_mathjax.js** — rendert jeden Ausdruck mit `mathjax-full`, findet echte
-  TeX-Fehler. Braucht `node_modules/mathjax-full`.
+  TeX-Fehler. Braucht `node_modules/mathjax-full`. Achtung: Es liest den
+  **Quelltext**, nicht den DOM — ein `&lt;` in einer Formel meldet es darum als
+  Fehler; richtig sind `\lt` und `\gt`.
 - **verify_js_runtime.js** — führt den Seiten-JS in jsdom aus, findet Laufzeitfehler.
-  Braucht `node_modules/jsdom`.
+  Braucht `node_modules/jsdom`. Bekommt nur `themen/`-Seiten zu sehen.
+- **verify_einheitentrainer.js** — Selbsttest von `p0-4` (Einheitenpaare hin und
+  zurück, Referenzwerte, Grenzfälle). Braucht `node_modules/jsdom`.
+- **build-animationen.py --check** — Animationsnummern und Textverweise; Abweichung
+  ist ein **[FEHLER]**.
+- **build-suchindex.py --check** und **build-seo.py --check** — veralteter Index
+  beziehungsweise veraltete Metadaten sind ein `[WARN]`; neu bauen mit demselben
+  Skript ohne `--check`.
 - **check_identifier_collisions.py** — falls im Repo vorhanden; ohne npm.
+
+Was der Pre-Flight **nicht** sieht: das Layout. Dafür `.claude/tools/render-check.mjs`
+(1280 und 360 px, findet abgeschnittene Formeln und Tabellen) und
+`.claude/tools/pruef-mathjax.mjs` gegen eine ausgelieferte Seite (findet fehlende
+TeX-Erweiterungen in `vendor/mathjax/`).
 
 Fehlt ein npm-Modul, meldet der Pre-Flight das als `[WARN]` und überspringt nur diesen
 Teil. Einmalig installieren mit: `npm install mathjax-full jsdom` (im Repo-Root).

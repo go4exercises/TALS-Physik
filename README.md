@@ -10,7 +10,7 @@ Schwesterprojekt zu [TALS Mathematik](https://github.com/go4exercises/tals-mathe
 
 **Stand:** Alle 10 Teilgebiete vollständig ausgebaut (10/10 ✅). Jede Themenseite umfasst interaktive Canvas-Animationen, Aufgaben A1–A6, Zusammenfassung mit Merksatz, Zusatzmaterial (Handout, Anki-Deck, Teste-dich-selbst, Aufgabenserie) sowie eine dreispaltige Sektion mit externen Ressourcen.
 
-Davor steht die **Vorwissen-Reihe** (Themenkreis 0, kein RLP-Lerngebiet, 6 Seiten): 0.0 Alltagstour, 0.1 Rechnen und Schliessen, 0.2 Grössen, Einheiten und Messen, 0.3 Messen — Waagen, Dichte, Einheiten, 0.4 Einheitentrainer, 0.5 Die sieben SI-Basiseinheiten. Diese Seiten folgen dem 13-Punkte-Schema nur sinngemäss; 0.4 ist eine reine Übungsseite mit Freiem Üben, Lernmodus und Prüfungsmodus.
+Davor steht die **Vorwissen-Reihe** (Themenkreis 0, kein RLP-Lerngebiet, 6 Seiten): 0.0 Alltagstour, 0.1 Rechnen und Schliessen, 0.2 Grössen, Einheiten und Messen, 0.3 Messen — Waagen, Dichte, Einheiten, 0.4 Einheitentrainer, 0.5 Die sieben SI-Basiseinheiten. Diese Seiten folgen dem 13-Punkte-Schema nur sinngemäss; 0.4 ist eine reine Übungsseite mit Freiem Üben, Lernmodus und Prüfungsmodus. Sie sind zum **Nachschlagen** gebaut; wer denselben Stoff als Kurs durcharbeiten will, nimmt die beiden Vorwissen-Leitprogramme «Rechnen und Schliessen» und «Grössen, Messen, Druck». Kästen auf beiden Seiten verweisen aufeinander.
 
 | Nr | Teilgebiet | Lektionen | Status |
 |----|------------|----------:|--------|
@@ -158,10 +158,15 @@ keine Cookies, kein Tracking. Der Pre-Flight meldet einen Fremdhost als Fehler.
 Seither hinzugekommen, ohne dass die Versionszeile angehoben wurde: die Vorwissenseiten
 0.3, 0.4 und 0.5 sowie die Extras-Seite zur Sonnenfinsternis vom 12. August 2026. Am
 30. August 2026 sind Schriften und MathJax von den Fremdhosts auf lokale Auslieferung
-umgestellt worden. Ende August und Anfang September 2026 kamen die drei
+umgestellt worden. Ende August und Anfang September 2026 kamen die ersten drei
 Leitprogramme dazu, im September die Erklärclips — am 7. September 2026 auf 86
 Clips ausgebaut, sodass jede der zehn Themenseiten eine Reihe hat und alle 46
 RLP-Kompetenzen von mindestens einem Clip getragen werden.
+
+Ebenfalls am 7. September 2026: drei weitere Leitprogramme (Wärmemenge und
+Wärmebilanz, Heizen/Dämmen/Umwandeln, Rechnen und Schliessen), die Sofortsuche in
+`clips.html`, jeder Clip als eigener Treffer in der Volltextsuche und die
+Querverweise zwischen den Vorwissenseiten, den Leitprogrammen und den Lerngebieten.
 
 ## Änderungen
 

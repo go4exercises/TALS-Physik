@@ -387,6 +387,7 @@ Jede Themenseite folgt diesem Aufbau. Punkte mit (*) können je nach Themenumfan
 | # | Abschnitt | Inhalt |
 |---|---|---|
 | 1 | **Titel + RLP** | `.page-titel` mit Lerngebiet, `.rlp-kompetenzen` mit den RLP-Stichpunkten 1:1 |
+| 1b | **Vorwissen-Kasten** | direkt darunter ein `.block-tipp` «💡 Vorwissen zu dieser Seite»: zwei bis drei Abschnitte der Vorwissen-Reihe, die diese Seite wirklich voraussetzt — als **Anker** (`p0-3-messen-waagen-dichte.html#dichte`), nicht als blosser Seitenlink, dazu der Hinweis aufs passende Leitprogramm |
 | 2 | **Einstieg** | Konkretes Alltagsphänomen, einleitende Frage, evtl. `.block-experiment` |
 | 3 | **Grundbegriffe** | `.block-def` für jeden zentralen Begriff (Schwerpunkt, Bahnkurve, Geschwindigkeit, Beschleunigung …) |
 | 4 | **Animation 1** | Hauptphänomen interaktiv (z.B. gleichförmige Bewegung) — `.widget` mit `.cv-wrap`; Titelzeile mit Hinweisen «Worauf achten?» / «Erkenntnis» (§5.6) |
@@ -800,7 +801,7 @@ Bevor eine Themenseite live geht, prüfe:
 - [ ] Pre-Flight-Bash-Check ausgeführt: Tag-Balance (`div`/`ol`/`li`), Skelett-Marker, `bad=0`, JS-Syntax via `node --check`
 
 **Druckseiten (`downloads/.../*.html`)**
-- [ ] Handout nur Theorie; „Seite drucken"-Knopf + Rück-Link; `print.css` eingebunden
+- [ ] Handout nur Theorie; „Seite drucken"-Knopf + Rück-Link; `downloads/print.css` eingebunden
 - [ ] Saubere A4-Seitenwechsel; Anki-Deck erstellt und als `.apkg` verlinkt
 
 **Technisch**

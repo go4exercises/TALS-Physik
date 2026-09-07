@@ -11,15 +11,36 @@ zusätzlich nötig war, und um die Punkte 9 bis 11, die beim Bau von
 `leitprogramm-vorwissen` (2.9.2026) dazukamen. Die Liste gilt für beide Wege —
 den Übertrag einer fremden Datei und das Schreiben einer neuen.
 
-Das vierte Leitprogramm (`leitprogramm-waermemenge`, 7.9.2026) ist ganz neu
-geschrieben worden, und zwar so: Kopf, `<style>`-Block, Fortschritts- und
-Clipkarten-Skript **wörtlich** aus `leitprogramm-waermeausdehnung` übernommen,
-neu geschrieben nur Inhalt und Simulations-Skript. Das ist der schnellste Weg
-und hält die vier Dateien beieinander. Neu aufgefallen ist dabei nur eines:
-Der `render-check` (1280 und 360 px) gehört auch hier dazu — zwei lange
-Inline-Formelketten in den Vortest-Lösungen wurden bei 360 px abgeschnitten,
-und keine andere Prüfung sieht das. Abhilfe ist dieselbe wie auf den
-Themenseiten: die Kette in zwei Formeln teilen, damit die Zeile brechen kann.
+Am 7.9.2026 sind drei weitere dazugekommen, alle drei **neu geschrieben**
+statt übertragen: `leitprogramm-waermemenge`, `leitprogramm-heizen` und
+`leitprogramm-rechnen`. Bestand damit: **sechs Leitprogramme** —
+`leitprogramm-rechnen` und `leitprogramm-vorwissen` fürs Vorwissen,
+`leitprogramm-waermemenge`, `leitprogramm-heizen`,
+`leitprogramm-waermeausdehnung` und `leitprogramm-ideale-gase` für die
+Thermodynamik.
+
+**Der Weg für eine neue Datei:** Kopf, `<style>`-Block, Fortschritts- und
+Clipkarten-Skript **wörtlich** aus einem bestehenden Leitprogramm übernehmen,
+neu geschrieben werden nur Inhalt und Simulations-Skript. Das ist der
+schnellste Weg und hält die sechs Dateien beieinander. Vier Dinge sind dabei
+neu aufgefallen:
+
+1. **Der `render-check` (1280 und 360 px) gehört dazu.** In zwei der drei
+   neuen Dateien wurden lange Inline-Formelketten in den Vortest-Lösungen bei
+   360 px abgeschnitten, und keine andere Prüfung sieht das. Abhilfe wie auf
+   den Themenseiten: die Kette in zwei Formeln teilen, damit die Zeile brechen
+   kann — oder sie als abgesetzte Formel `\[ … \]` schreiben.
+2. **`&lt;` in einer LaTeX-Formel meldet der Pre-Flight als Fehler.** Im
+   Browser funktioniert es, weil MathJax den DOM-Text liest; `verify_mathjax.js`
+   liest den Quelltext und sieht `&lt;`. Richtig sind `\lt` und `\gt`.
+3. **Wenn ein Umschalter die Bedeutung des Reglers wechselt** (Fläche gegen
+   Anzahl Maschinen, Kraft gegen Druck), müssen `min`, `max`, `step`, `value`
+   und die Beschriftung im JS mitgesetzt werden. Sonst zeigt der Regler eine
+   Zahl an, die es im neuen Fall gar nicht gibt.
+4. **Die Auswertungstabellen tragen eine dritte Spalte «ausführlich
+   nachlesen»** mit einem Anker auf die zugehörige Themenseite. Das
+   Leitprogramm ist der Kurs, die Themenseite das Nachschlagewerk — und beim
+   Auswerten ist der Moment, in dem jemand tatsächlich nachschlägt.
 
 ---
 
@@ -277,9 +298,15 @@ Danach `python3 scripts/build-seo.py` und `python3 scripts/build-suchindex.py`.
 
 ```bash
 python3 .claude/skills/preflight/preflight.py leitprogramme/<name>.html leitprogramme.html
+node .claude/tools/render-check.mjs leitprogramme/<name>.html    # 1280 und 360 px
 python3 -m http.server 8899 &
 node .claude/tools/pruef-mathjax.mjs http://localhost:8899/leitprogramme/<name>.html
 ```
+
+Dazu die **Simulationen im Browser gegen nachgerechnete Werte stellen**: Regler
+auf einen Wert setzen, die Ausgabe auslesen und mit dem `python3`-Ergebnis
+vergleichen. Ein Vorzeichen- oder Massstabsfehler im Zeichencode fällt sonst
+nirgends auf — die Grafik sieht immer plausibel aus.
 
 Der Pre-Flight prüft Skelett, Bibliotheks-Einbindung und Ressourcen-Sektion nur
 für `themen/` — ein Leitprogramm hat bewusst kein `page-wrap` und kein

@@ -73,7 +73,7 @@ Einbettungen.
 
 ### Der Szenenbau
 
-Bewährt und in allen 79 Clips gleich:
+Bewährt und in allen 86 Clips gleich:
 
 | Szene | Layout | `oben` | Aufgabe |
 |---|---|---|---|
