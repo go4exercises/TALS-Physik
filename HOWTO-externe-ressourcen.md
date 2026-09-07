@@ -2,7 +2,7 @@
 
 Dieser Leitfaden beschreibt den Workflow, mit dem die Sektion **„Externe Videos, Simulationen &amp; Aufgabensammlungen"** (Master-Schema §13) jeder Themenseite kuratiert wird. Adressat sind sowohl der Auftraggeber als auch Claude in jedem zukünftigen Chat.
 
-Verwandte Dokumente: `STYLEGUIDE.md` §7.3, `HOWTO-neue-themenseite.md`, `COLLABORATION.md` §9.
+Verwandte Dokumente: `STYLEGUIDE.md` §7.3, `HOWTO-neue-themenseite.md`, `CLAUDE.md`.
 
 > **Unterschied zu Mathe:** Physik-Themenseiten haben **drei** Spalten in dieser Sektion (Videos · Simulationen · Aufgaben), während Mathe nur zwei hat (Videos · Aufgaben). Interaktive Simulationen sind in Physik so verbreitet und didaktisch wertvoll (PhET, Walter Fendt, LEIFI), dass sie eine eigene Spalte verdienen.
 

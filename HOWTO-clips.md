@@ -5,9 +5,12 @@ Gedankengang in rund einer Minute aufbaut: animierte Zeilen auf einer Bühne von
 1920 × 1080, dazu eine gesprochene Tonspur. Gebaut wird er nicht von Hand,
 sondern aus einem **Drehbuch** — einer JSON-Datei daneben.
 
-Stand 07.09.2026: 21 Clips, 19:47 min, in fünf Reihen. Diese Anleitung ist die
-Physik-Fassung; das Schwesterprojekt Mathe hat eine eigene mit demselben
-Aufbau und 50 Clips.
+Stand 07.09.2026: **79 Clips, 72:57 min, in 22 Reihen** — jede Themenseite der
+Lerngebiete 4 bis 6 hat ihre Reihe, dazu das Vorwissen. Verteilung nach
+Lerngebiet (Mehrfachzuordnungen mitgezählt): Vorwissen 7, Mechanik 35,
+Thermodynamik 25, Wellen und Elektrizität 16. Kürzester Clip 50 s, längster
+64 s, Mittel 55 s. Diese Anleitung ist die Physik-Fassung; das
+Schwesterprojekt Mathe hat eine eigene mit demselben Aufbau und 50 Clips.
 
 > **Autoritativ bleiben CLAUDE.md und STYLEGUIDE.md.** Alles hier Beschriebene
 > gilt zusätzlich, nichts davon hebt eine dortige Regel auf — Dezimalpunkt statt
@@ -70,7 +73,7 @@ Einbettungen.
 
 ### Der Szenenbau
 
-Bewährt und in allen 21 Clips gleich:
+Bewährt und in allen 79 Clips gleich:
 
 | Szene | Layout | `oben` | Aufgabe |
 |---|---|---|---|
@@ -379,6 +382,7 @@ als in Mathe gibt es keine Trennung in Grundlagen- und Schwerpunktfach. Die
 Lerngebiete sind beim Laden zugeklappt; die Kopfzeile nennt Anzahl und
 Gesamtdauer — gezählt werden **einzigartige Clips**, nicht Einbettungen.
 
-Ab etwa vierzig Clips lohnt ein Filter nach Lerngebiet und eine Kennzeichnung
-der Clips, die auf mehreren Seiten stehen. Die Metadaten dafür liegen längst im
-Drehbuch (`lerngebiet`, `reihe`, `schlagworte`, `lektion`).
+**Offen:** ein Filter nach Lerngebiet und eine Kennzeichnung der Clips, die auf
+mehreren Seiten stehen. Mit 79 Clips ist die Schwelle überschritten, ab der sich
+beides lohnt; die Metadaten dafür liegen längst im Drehbuch (`lerngebiet`,
+`reihe`, `schlagworte`, `lektion`), gebaut ist es noch nicht.

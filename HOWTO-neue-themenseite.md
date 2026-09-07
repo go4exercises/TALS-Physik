@@ -2,7 +2,7 @@
 
 Schritt-für-Schritt-Anleitung für das Hinzufügen einer neuen RLP-Themenseite zu TALS-Physik. Folgt dem Master-Schema aus `STYLEGUIDE.md` §4.
 
-> **Projektstand (August 2026):** Alle 10 RLP-Teilgebiete (p4-1 bis p6-2) sind vollständig ausgebaut, dazu die fünfteilige Vorwissen-Reihe p0-0 bis p0-4. Diese Anleitung dient damit als Referenz für **zusätzliche oder optionale** Seiten über die RLP-Grundlagen hinaus (z.B. Magnetismus / Elektromagnetismus, Schwingungen) sowie als Nachschlagewerk für Aufbau und Konventionen. Als gespiegelte Vorlage eignet sich jede fertige Themenseite; als Referenzmuster für Animationsstruktur dient `p4-5-hydrostatik.html`.
+> **Projektstand (September 2026):** Alle 10 RLP-Teilgebiete (p4-1 bis p6-2) sind vollständig ausgebaut, dazu die sechsteilige Vorwissen-Reihe p0-0 bis p0-5 und die Vertiefungsseite p6-1a. Jede Themenseite der Lerngebiete 4 bis 6 trägt eine Reihe vertonter Erklärclips (Abschnitt 7). Diese Anleitung dient damit als Referenz für **zusätzliche oder optionale** Seiten über die RLP-Grundlagen hinaus (z.B. Magnetismus / Elektromagnetismus, Schwingungen) sowie als Nachschlagewerk für Aufbau und Konventionen. Als gespiegelte Vorlage eignet sich jede fertige Themenseite; als Referenzmuster für Animationsstruktur dient `p4-5-hydrostatik.html`.
 
 ---
 
@@ -263,7 +263,30 @@ Neue Seite? Dann zusätzlich: Eintrag in `nav.js` (SITE und GROUPS), Karte in
 
 ---
 
-## 7. Ausliefern
+## 7. Clipreihe
+
+Zu jeder Themenseite der Lerngebiete 4 bis 6 gehört eine Reihe vertonter
+Erklärclips. Zwei Handgriffe an der Seite selbst:
+
+1. **Markerpaar setzen**, direkt vor `</main>` — den Rest schreibt der
+   Generator, samt `<h2 id="clips">Clips</h2>` und den Transkripten:
+
+   ```html
+   <!-- CLIPS:ANFANG — generiert von scripts/build-clips-einbau.py, nicht von Hand ändern -->
+   <!-- CLIPS:ENDE -->
+   ```
+
+   Fehlt es, meldet `build-clips-einbau.py` `[WARN] pX-Y hat n Clip(s), aber
+   keine CLIPS-Marker` und lässt die Seite in Ruhe.
+
+2. **Reihe planen — nach dem Kompetenzblock der Seite**, nicht nach den
+   Abschnitten. Jede RLP-Kompetenz braucht einen Clip, der sie trägt; was nicht
+   im Block steht, gehört auch nicht in die Reihe. Bauanleitung, Drehbuch-Grammatik
+   und Prüfliste: `HOWTO-clips.md`.
+
+---
+
+## 8. Ausliefern
 
 Es gibt keine ZIP-Lieferung mehr. Der Git-Verlauf ist die Dokumentation, und die
 Veröffentlichung läuft über GitHub Pages:

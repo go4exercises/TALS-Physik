@@ -81,7 +81,15 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Bedarf geladen; `all-packages.js` fehlt bewusst — der Autoload fordert es nie an).
   Nachgemessen: ohne `color.js` rendert eine Seite mit einem einzigen `\textcolor`
   **0 von 162** Ausdrücken.
-- `.claude/tools/pruef-clip.mjs` — dasselbe für einen einzelnen Clip.
+- `.claude/tools/pruef-clip.mjs` — dasselbe für einen einzelnen Clip, dazu die
+  Geometrie: Es springt in einzelne Sekunden, misst die sichtbaren Zeilen und
+  meldet Überlappungen sowie alles, was über die Bühne hinausragt. Gemessen wird
+  seit dem 07.09.2026 der **Inhalt**, nicht der Container — eine Formelzeile
+  trägt `white-space:nowrap`, läuft über ihren 1140 px breiten Container hinaus
+  und wurde vorher nicht bemerkt. Zeitmarken dicht setzen (alle 2 bis 4 s), sonst
+  trifft man den Zustand nicht, in dem sich etwas berührt. Bilder landen in `$SP`;
+  ohne die Variable im Arbeitsverzeichnis (`szene-*.png` ist darum in
+  `.gitignore`).
 - `.claude/tools/render-check.mjs` — Render-Kontrolle bei 1280 und 360 px in echtem
   Chromium: meldet seitlichen Überlauf und Inhalte, die ein Vorfahr mit
   `overflow:hidden` unsichtbar abschneidet. Das kann der Pre-Flight nicht — jsdom
@@ -130,13 +138,21 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `physiklib.js`). `scripts/build-clips.py` baut aus einem Drehbuch
   (`clips/<name>.json`) den Clip, `scripts/build-clips-einbau.py` trägt ihn in
   die Lektionsseite und zwischen die Marker `<!-- CLIPS-BIBLIOTHEK:ANFANG/ENDE -->`
-  in `clips.html` ein. Physik hat **noch keine Clips** — die Mechanik steht
-  bereit, die Bibliothek sagt bis dahin «Noch keine Clips.». Anders als Mathe
-  gruppiert die Bibliothek nur nach Lerngebiet (kein Grundlagen-/Schwerpunktfach).
+  in `clips.html` ein. Stand 07.09.2026: **79 Clips in 22 Reihen, 72:57 min** —
+  jede der zehn Themenseiten der Lerngebiete 4 bis 6 hat ihre Reihe, dazu das
+  Vorwissen. Anders als Mathe gruppiert die Bibliothek nur nach Lerngebiet
+  (kein Grundlagen-/Schwerpunktfach), und sie zieht die Gruppen aus `nav.js`,
+  nicht aus dem Freitextfeld `lerngebiet` im Drehbuch.
+  Ein Clip liegt **einmal** und darf über die Liste `lektion` auf mehreren
+  Seiten stehen; zehn tun das. Bauanleitung, Stolpersteine und die
+  didaktische Prüfliste: `HOWTO-clips.md`.
 - `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell drei:
   `leitprogramm-vorwissen` (Grössen, Messen, Druck — sieben Clips, fünf
   Simulationen), `leitprogramm-waermeausdehnung` (Feststoffe und Flüssigkeiten
-  — sieben Clips, sechs Simulationen) und `leitprogramm-ideale-gase`. Vorgehen beim
+  — sieben Clips, sechs Simulationen) und `leitprogramm-ideale-gase` (acht
+  Clips, fünf Simulationen). Alle drei starten ihre Clips über `.clipkarte`
+  aus `clips/`; eigener, ins Dokument eingebetteter Ton gehört nicht hinein
+  (siehe `HOWTO-leitprogramme.md`, Punkt 11). Vorgehen beim
   Übertrag einer fremden Datei **und** beim Schreiben einer neuen:
   `HOWTO-leitprogramme.md` (zwölf Punkte,
   je mit dem Fehlerbild, an dem man merkt, dass der Punkt fehlt). Die

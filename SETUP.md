@@ -50,9 +50,22 @@ Für die Tiefen-Checks (MathJax-Render + JS-Laufzeit) einmalig im Repo-Root:
 `npm install mathjax-full jsdom`. Ohne diese Module laufen nur die schnellen Eigen-Checks;
 die Tiefen-Checks werden mit `[WARN]` übersprungen (kein Blocker).
 Die Browser-Werkzeuge in `.claude/tools/` (`render-check.mjs`, `scan-live.mjs`,
-`build-bilder.mjs`) laufen unter Node, nicht unter Python. `playwright` steht in den
-`devDependencies`, ein `npm install` im Repo-Root genügt also; die Browser-Binärdatei
-kommt einmalig mit `npx playwright install chromium` dazu.
+`pruef-clip.mjs`, `pruef-mathjax.mjs`, `build-bilder.mjs`) laufen unter Node, nicht
+unter Python. `playwright` steht in den `devDependencies`, ein `npm install` im
+Repo-Root genügt also; die Browser-Binärdatei kommt einmalig mit
+`npx playwright install chromium` dazu.
+
+Nur wer **Clips vertont**, braucht zusätzlich Piper und die Stimme — beides
+bleibt ausserhalb des Repos:
+
+```bash
+pip install piper-tts soundfile
+# Stimme laden: rhasspy/piper-voices → de/de_DE/thorsten/high (rund 109 MB)
+export PIPER_MODELL=/pfad/zu/de_DE-thorsten-high.onnx
+```
+
+Ohne Piper lassen sich vorhandene Clips weiterhin bauen und prüfen; nur
+`build-clip-ton.py` braucht ihn.
 
 ## 3. Laufender Workflow
 

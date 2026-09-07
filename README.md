@@ -41,6 +41,45 @@ Jede Themenseite der Lerngebiete 4 bis 6 folgt einem festen 13-Punkte-Master-Sch
 12. Zusatzmaterial (Handout, Anki-Deck, Teste-dich-selbst, Aufgabenserie)
 13. Externe Ressourcen — **dreispaltig**: 🎬 Videos · 🧪 Simulationen · 📝 Aufgaben
 
+## Erklärclips
+
+Zu jeder Themenseite der Lerngebiete 4 bis 6 gehört eine Reihe kurzer,
+vertonter Erklärclips — **79 Clips in 22 Reihen, zusammen 72:57 min**. Ein Clip
+baut einen einzigen Gedanken in rund einer Minute auf: animierte Zeilen auf
+einer Bühne von 1920 × 1080, dazu eine gesprochene Tonspur.
+
+Massstab für die Vollständigkeit einer Reihe sind die **RLP-Kompetenzen** der
+zugehörigen Themenseite; alle 46 sind abgedeckt. Gefunden werden die Clips über
+`clips.html` (nach Lerngebiet gruppiert) und am Fuss der jeweiligen
+Themenseite, jeweils mit vollständigem Transkript — ohne das sähe weder eine
+Suchmaschine noch die Volltextsuche etwas von ihnen.
+
+Ein Clip wird nie beim Seitenaufruf geladen; sichtbar ist zuerst nur ein
+Startknopf. Er liegt genau einmal auf der Platte und darf über das Feld
+`lektion` auf mehreren Seiten stehen — zehn Clips tun das.
+
+```bash
+python3 scripts/build-clip-ton.py <name>          # vertonen (Piper, offline)
+python3 scripts/build-clips.py <name>             # Clip aus dem Drehbuch bauen
+python3 scripts/build-clips-einbau.py --schreiben # in Seiten und Bibliothek eintragen
+```
+
+Gepflegt wird nur das Drehbuch `clips/<name>.json`; alles andere ist erzeugt.
+Bauanleitung, Stolpersteine und die didaktische Prüfliste stehen in
+`HOWTO-clips.md`.
+
+## Leitprogramme
+
+Drei **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
+`leitprogramme.html`: Vorwissen (Grössen, Messen, Druck), Wärmeausdehnung und
+Ideale Gase. Jede besteht aus Vortest, Lernschritten mit Clip, Simulation und
+Selbstkontrolle sowie einem Kapiteltest unter Prüfungsbedingungen; der
+Fortschritt bleibt auf dem Gerät gespeichert.
+
+Anders als eine Themenseite behält ein Leitprogramm sein eigenes Layout — geerbt
+werden nur Kopfleiste, Fuss und die Clip-Bühne. Vorgehen und Fallstricke:
+`HOWTO-leitprogramme.md`.
+
 ## Lokal testen
 
 Da das Projekt vollständig statisch ist (HTML + CSS + JS), reicht ein einfacher Server:
@@ -56,8 +95,9 @@ sogar **ohne Netzverbindung**.
 
 ## Suche
 
-Das Suchfeld oben rechts im Header durchsucht den Fliesstext aller Themenseiten sowie
-Glossar und Formelsammlung — ohne Server, rein im Browser (`/` oder Strg/Cmd+K springt
+Das Suchfeld oben rechts im Header durchsucht den Fliesstext aller Themenseiten,
+der Leitprogramme und der Clip-Transkripte sowie Glossar und Formelsammlung —
+ohne Server, rein im Browser (`/` oder Strg/Cmd+K springt
 ins Feld). Grundlage ist `suchindex.js`, erzeugt aus den Seiten:
 
 ```bash
@@ -99,6 +139,8 @@ sich die `SearchAction` in den strukturierten Daten.
   Fontsource, OFL 1.1), eingebunden über `schriften.css`
 - **Canvas 2D** für alle Animationen (keine externen Libraries)
 - **physiklib.js** als geteilte Helper-Library (Canvas-Setup, Vektor-Pfeile, Zahlenformat)
+- **Piper** (Stimme `de_DE-thorsten-high`, Datensatz CC0) für die Clip-Vertonung —
+  läuft lokal und offline, nur beim Bauen; ausgeliefert wird eine fertige MP3
 
 Beim Seitenaufruf geht damit **keine Anfrage an Dritte** — kein Google Fonts, kein CDN,
 keine Cookies, kein Tracking. Der Pre-Flight meldet einen Fremdhost als Fehler.
@@ -110,7 +152,10 @@ keine Cookies, kein Tracking. Der Pre-Flight meldet einen Fremdhost als Fehler.
 Seither hinzugekommen, ohne dass die Versionszeile angehoben wurde: die Vorwissenseiten
 0.3, 0.4 und 0.5 sowie die Extras-Seite zur Sonnenfinsternis vom 12. August 2026. Am
 30. August 2026 sind Schriften und MathJax von den Fremdhosts auf lokale Auslieferung
-umgestellt worden.
+umgestellt worden. Ende August und Anfang September 2026 kamen die drei
+Leitprogramme dazu, im September die Erklärclips — am 7. September 2026 auf 79
+Clips ausgebaut, sodass jede der zehn Themenseiten eine Reihe hat und alle 46
+RLP-Kompetenzen von mindestens einem Clip getragen werden.
 
 ## Änderungen
 
