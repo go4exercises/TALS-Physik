@@ -554,7 +554,8 @@ def bauen(quelle, eigenstaendig=False):
             f'style="left:130px;top:296px;width:470px">' + "".join(eintraege) + '</div>')
 
     # --- Szenen
-    for p in plan:
+    for pi, p in enumerate(plan):
+        naechste = plan[pi + 1] if pi + 1 < len(plan) else None
         sz, start, dauer = p["sz"], p["start"], p["dauer"]
         layout = sz.get("layout", "zentriert")
         ende = start + dauer
@@ -609,6 +610,36 @@ def bauen(quelle, eigenstaendig=False):
             attr += f' data-anim="{anim}"'
             teile.append(f'<div class="{" ".join(klassen)}"{attr} '
                          f'style="{";".join(stil)}">{inhalt}</div>')
+
+            # --- Anschluss an den vorherigen Schritt ------------------------
+            # `mitnehmen: true` zeigt dieses Element in der naechsten
+            # Schritt-Szene noch einmal, oben im Band, das das Schienen-Layout
+            # dafuer frei laesst (168 bis 430 px). Das ist nicht dasselbe wie
+            # `halten`: Gehalten bleibt ein Element an seinem Platz stehen —
+            # was nur beim ersten Schritt oben passt. Mitgenommen wird es an
+            # den Kopf der naechsten Szene gesetzt, gleich wo es vorher stand.
+            #
+            # Wozu: Ohne das faellt beim Szenenwechsel die Formel weg, die der
+            # naechste Schritt gerade einsetzt. Auf der Merkschiene links steht
+            # dann zwar noch, *dass* es einen Schritt davor gab, aber nicht
+            # mehr, *was* er ergeben hat — und das Ansatz-Prinzip (erst die
+            # Formel, dann die Werte) ist im Bild nicht mehr zu sehen.
+            if el.get("mitnehmen"):
+                if naechste is None or naechste["sz"].get("layout") != "schiene":
+                    print("  [WARN] mitnehmen ohne folgende Schritt-Szene: %s"
+                          % sz.get("name"))
+                else:
+                    a_kl, a_stil, a_inhalt = element_html(el, theme)
+                    a_kl.append("anschluss")
+                    a_stil.insert(0, "left:680px;top:168px")
+                    if "breite" not in el and el.get("typ") not in ("graf", "strich"):
+                        a_stil.append("width:1140px")
+                    a_ein = naechste["start"] + 0.25
+                    a_aus = naechste["start"] + naechste["dauer"]
+                    teile.append(
+                        f'<div class="{" ".join(a_kl)}" data-at="{a_ein:.2f}" '
+                        f'data-out="{a_aus:.2f}" data-anim="fade" '
+                        f'style="{";".join(a_stil)}">{a_inhalt}</div>')
 
     karo = ""
     if theme.get("karo"):
