@@ -151,6 +151,15 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `feedback.html` („Kontakt & Feedback") — es gibt keine veröffentlichte E-Mail-Adresse.
 - Pilot-/Referenzseite für jedes Skelett: `themen/p4-1-kinematik.html`.
 
+## Clips: Massstab ist der Kompetenzblock
+
+Eine Clipreihe zu einer Lektion ist vollständig, wenn sie die **RLP-Kompetenzen
+der Themenseite** abdeckt — nicht, wenn eine Stichwortliste abgearbeitet ist.
+Der Block steht zuoberst auf jeder Seite der Lerngebiete 4 bis 6
+(«📋 Kompetenzen nach RLP-BM 2030 …») und ist vor der Planung zu lesen; was
+dort nicht steht, gehört auch nicht in die Reihe. Bauanleitung und Prüfliste:
+`HOWTO-clips.md`.
+
 ## Inhaltliche Regeln
 
 - **Ansatz-Prinzip:** Jede Lösung beginnt mit einer benannten Formel / symbolischem

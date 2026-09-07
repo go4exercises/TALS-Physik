@@ -306,6 +306,40 @@ Farbfläche die Gruppierung tragen lassen.
 
 ---
 
+## Der Massstab: die RLP-Kompetenzen der Seite
+
+**Bevor eine Clipreihe geplant wird, wird der Kompetenzblock der Themenseite
+gelesen.** Er steht ganz oben auf jeder Seite der Lerngebiete 4 bis 6:
+
+```
+📋 Kompetenzen nach RLP-BM 2030 · Lerngebiet 4.1 · 100 Lektionen
+```
+
+Darin steht wörtlich, was der Rahmenlehrplan verlangt — und genau das ist der
+Massstab für die Vollständigkeit einer Reihe, nicht eine Stichwortliste und
+nicht die Abschnittsfolge der Seite. Die Prüfung ist eine Tabelle: jede
+Kompetenz in eine Zeile, daneben der Clip, der sie trägt. Bleibt eine Zeile
+leer, fehlt ein Clip.
+
+Am 07.09.2026 hat dieser Schritt gefehlt, und es zeigte sich sofort, was das
+kostet: In 4.1 fehlten die parabolische Bewegung, die Kreisbewegung und die
+Relativbewegung in Vektor-Form — alle drei stehen wörtlich im RLP —, dazu die
+Begriffe Schwerpunkt und Bahnkurve. In 4.2 fehlte das Hookesche Gesetz, in 5.2
+der Vergleich der Energiesysteme. Sechs Clips, die niemand vermisst hätte, weil
+die Reihe für sich rund aussah.
+
+Umgekehrt begrenzt der Block auch: Was dort nicht steht, gehört nicht in die
+Reihe. Brechung, Beugung und Interferenz etwa kommen in den Kompetenzen zu 6.1
+nicht vor — darum stehen sie auch nicht auf der Themenseite, und darum braucht
+es keine Clips dazu.
+
+Ein Clip darf mehrere Kompetenzen bedienen und eine Kompetenz mehrere Clips
+brauchen. Wo eine Kompetenz schon von einem Clip einer anderen Lektion getragen
+wird, bekommt jener einen Eintrag mehr in `lektion` — kein zweiter Clip mit
+demselben Lernziel.
+
+---
+
 ## Didaktische Prüfliste
 
 Für jeden neuen Clip. Die ersten drei Punkte prüft der Generator mit, der Rest
@@ -330,6 +364,7 @@ ist Handarbeit.
 | 15 | Diagramme und Animationen **kausal** aufbauen | Ursache links, Folge rechts; `\Longrightarrow` statt Aufzählung |
 | 16 | Prüfen, ob es **schon einen Clip mit demselben Lernziel** gibt | `clips.json` nach `reihe` und `schlagworte` durchsehen |
 | 17 | Der Clip muss **allein verständlich** sein, nicht nur im Leitprogramm | Er wird über `clips.html` gefunden, ohne Vorgeschichte |
+| 18 | Die **RLP-Kompetenzen** der Lektion sind von der Reihe vollständig abgedeckt | Kompetenzblock der Themenseite gegen die Clipliste stellen (siehe oben) |
 
 Punkt 17 ist der Grund, warum es keine zweite Sorte Clip gibt. Was im
 Leitprogramm gebraucht wird, ist ein gewöhnlicher Clip aus `clips/` — nichts,
