@@ -32,7 +32,21 @@ for (const t of marken) {
       // ist 470px breit und ragt damit in jede zentrierte Zeile hinein,
       // ohne dass sich im Bild etwas beruehrt.
       .filter(el => !el.querySelector('.step'))
-      .map(el => ({ t: el.textContent.trim().slice(0, 42), r: el.getBoundingClientRect() }));
+      // Gemessen wird nicht der Container, sondern was tatsaechlich im Bild
+      // steht. Eine Formelzeile traegt `white-space:nowrap`: Sie bricht nicht
+      // um, sondern laeuft ueber ihren 1140px breiten Container hinaus und im
+      // Zweifel aus der Buehne. Der Container merkt davon nichts — er bleibt
+      // 1140px breit, und die Pruefung sah bis zum 07.09.2026 nichts.
+      .map(el => {
+        const k = el.children.length ? [...el.children] : [el];
+        const rr = [el.getBoundingClientRect(), ...k.map(x => x.getBoundingClientRect())];
+        return { t: el.textContent.trim().slice(0, 42), r: {
+          left:   Math.min(...rr.map(x => x.left)),
+          right:  Math.max(...rr.map(x => x.right)),
+          top:    Math.min(...rr.map(x => x.top)),
+          bottom: Math.max(...rr.map(x => x.bottom)),
+        } };
+      });
     const t = [];
     for (let i = 0; i < sichtbar.length; i++)
       for (let j = i + 1; j < sichtbar.length; j++) {

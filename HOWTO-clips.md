@@ -265,6 +265,23 @@ Zeichen** um, im Layout `zentriert` (Breite 1660) nach rund **70**. Ein
 Entweder kürzen oder `abstand: 220` setzen. Der Fehler ist im Drehbuch nicht zu
 sehen — nur `pruef-clip.mjs` meldet ihn.
 
+**Eine Formelzeile bricht nicht um — sie läuft aus dem Bild.** `formel`, `box`
+und `karte` tragen `white-space:nowrap`. Wird die Zeile zu lang, wächst sie über
+ihren 1140 px breiten Container hinaus und im Zweifel über die Bühne; sichtbar
+bleibt, was links von 1920 px steht, der Rest ist weg. Faustwerte für die
+Textspalte (680 bis 1820 px): bei Grösse 50 rund **34 Zeichen** Formeltext, bei
+Grösse 42 rund **40**. Eine Aufzählung mit vier Einträgen ist meist die Grenze —
+sonst zwei `formel`-Zeilen daraus machen oder die Grösse senken.
+
+`pruef-clip.mjs` hat das bis zum 07.09.2026 **nicht** gemeldet: Es mass den
+Container, und der bleibt 1140 px breit, egal was herausragt. Seit dem misst es
+den Inhalt; zehn abgeschnittene Zeilen in fünf Clips kamen bei der Umstellung
+zum Vorschein.
+
+**`<` und `>` gehören als `\lt` und `\gt` ins Drehbuch.** Der Formelsatz
+maskiert selbst; ein direkt geschriebenes `<` wird zu `&lt;` und MathJax bricht
+daran ab. Für `≤` und `≥` schreibt man `\le` und `\ge`.
+
 **Brüche gibt es nur in Formel-Elementen.** `formel`, `karte` und `box` schicken
 ihren ganzen Text durch den Formelsatz. In `text` oder `notiz` gehört eine
 Formel in `@…@`; ein `|` darin würde sonst zuerst zum Zeilenumbruch.
