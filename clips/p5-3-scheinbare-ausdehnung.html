@@ -141,18 +141,29 @@ if (!location.search.includes('render')) {
   window.addEventListener('resize', fit);
   document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
   fit();
-  // Der Ton startet stumm mit — stummes Abspielen erlauben die Browser
-  // ohne Nutzergeste. Der Klick auf «Ton an» ist die Geste, die ihn
-  // hoerbar macht; ab dann fuehrt die Tonspur die Uhr, weil Tondrift
-  // auffaellt und Bilddrift nicht.
+  // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
+  // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
+  // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
+  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
+  // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
+  // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.
   const ton = document.getElementById('ton'), ts = document.getElementById('ts');
+  const tonBeschriften = () => {
+    if (ts) ts.textContent = (!ton || ton.muted) ? '🔇 Ton an' : '🔊 Ton aus';
+  };
   if (ton) {
     ts.hidden = false;
-    ton.muted = true;
-    ton.play().catch(() => {});
+    ton.muted = false;
+    ton.play().then(tonBeschriften).catch(() => {
+      ton.muted = true;
+      tonBeschriften();
+      ton.play().catch(() => {});
+    });
+    tonBeschriften();
     ts.onclick = () => {
       ton.muted = !ton.muted;
-      ts.textContent = ton.muted ? '🔇 Ton an' : '🔊 Ton aus';
+      tonBeschriften();
       if (!ton.muted) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); }
     };
   }

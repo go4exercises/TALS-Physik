@@ -191,6 +191,24 @@ giesst sie als base64 hinein. Das ist mit Absicht so: Eine Seite, die eine
 Minute Ton als Datei-URI mitschleppt, wächst um rund 300 kB, die vor dem ersten
 Buchstaben geladen werden.
 
+**Der Ton startet hörbar — und das hängt an zwei Stellen.** Der Clip setzt beim
+Laden `muted = false` und ruft `play()`. Erlaubt ist das nur, weil der Klick auf
+die Clipkarte die nötige Nutzergeste war **und** das `<iframe>` sie über
+`allow="autoplay"` weitergereicht bekommt; gesetzt wird das Attribut in
+`clipRahmen` in `physiklib.js`, also für alle drei Wege zugleich — Lektionsseite,
+Bibliothek und Leitprogramm. Fehlt es, verweigert der Browser den Ton im Rahmen,
+obwohl geklickt wurde.
+
+Schlägt `play()` trotzdem fehl — etwa wenn jemand die Clipdatei direkt aufruft,
+ohne vorher irgendwo zu klicken —, schaltet der Clip auf stumm und spielt weiter;
+sichtbar wird das am Knopf, der dann «🔇 Ton an» statt «🔊 Ton aus» zeigt. Prüfen
+lässt sich beides nur mit strenger Autoplay-Regel, sonst erlaubt der Testbrowser
+ohnehin alles:
+
+```bash
+chromium --autoplay-policy=document-user-activation-required
+```
+
 **Zahlen im `sprecher`-Text ausschreiben.** Beide Piper-Stimmen lesen `1.62` als
 zusammengesetzte Zahl («… zweiundsechzig») statt als Stellenfolge — bei
 Messwerten ist die Stellenfolge die übliche Lesart. Also «zwei Komma fünf bar»,

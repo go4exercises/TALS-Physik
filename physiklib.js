@@ -384,6 +384,10 @@ function clipRahmen(klasse, quelle, titel) {
   f.src = quelle;
   f.title = 'Clip: ' + titel;
   f.setAttribute('allowfullscreen', '');
+  // Der Clip startet den Ton selbst. Ohne diese Erlaubnis verweigert der
+  // Browser das im eingebetteten Rahmen, obwohl der Klick auf die Karte
+  // die noetige Geste war — der Clip faellt dann still auf stumm zurueck.
+  f.setAttribute('allow', 'autoplay');
   rahmen.appendChild(f);
   return rahmen;
 }
