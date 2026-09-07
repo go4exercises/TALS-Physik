@@ -57,6 +57,19 @@ SEITEN = {
                 'Beispiel und Selbstkontrolle nach jedem Schritt, am Schluss ein Kapiteltest. '
                 'Zum Vertiefen, Nachholen und für den Fernunterricht.',
    themen=['Physik', 'Leitprogramm', 'Selbststudium', 'Berufsmaturität']),
+ 'leitprogramme/leitprogramm-rechnen.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Rechnen und Schliessen — Dreisatz, Umstellen, Zehnerpotenzen',
+   beschreibung='Leitprogramm zum Rechnen in der Physik: Variablen und '
+                'Konstanten, direkte und indirekte Proportionalität, der '
+                'Dreisatz, Gleichungen umstellen, Zehnerpotenzen und die '
+                'EE-Taste, Bedingungen und Fallunterscheidungen, Kreis und '
+                'Bogenmass sowie die drei Plausibilitätsproben — in acht '
+                'Schritten mit Erklärclip, Simulation, Vortest und Gesamttest '
+                'zur Selbstkontrolle.',
+   themen=['Proportionalität', 'Dreisatz', 'Gleichungen umstellen',
+           'Zehnerpotenzen', 'Bogenmass', 'Kreiszahl', 'Plausibilität',
+           'Grössenordnung', 'Einheitenprobe']),
  'leitprogramme/leitprogramm-heizen.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Heizen, Dämmen, Umwandeln — Wirkungsgrad, Heizwert, Wärmetransport',
