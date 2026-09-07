@@ -224,20 +224,31 @@ Zeilen und rettet die Mobilansicht:
 .step-title, .step-goal, .masthead h1{ overflow-wrap:break-word; hyphens:auto; }
 ```
 
-### 11. Der Sprechertext ist ein Transkript, kein Fliesstext
+### 11. Eingebetteter Ton fesselt den Text — besser ein richtiger Clip
 
-Was in `<details class="script">` steht, ist die Verschriftung des
-eingebetteten Tons. Er liegt als base64-MP3 im `TON`-Block der Seite und
-lässt sich nicht nebenbei neu sprechen: Die Szenenstimme des
-Gase-Leitprogramms ist rund anderthalbmal schneller als
-`de_DE-thorsten-high` (4.0 s gegen 6.15 s für denselben Satz), und die
-Zeitmarken in `TON[key].k` sind auf sie eingemessen.
-
-Beim Umschreiben auf **du** ist der Sprechertext darum ausgenommen — vier
-Sätze siezen im Gase-Leitprogramm weiter, weil der Ton sie so spricht. Ein
+Eine fremde Datei kann ihre Erklärszenen als **base64-MP3 im `TON`-Block**
+mitbringen. Das sieht bequem aus, bindet aber Hände: Der Text in
+`<details class="script">` ist dann die Verschriftung genau dieses Tons und
+lässt sich nicht mehr frei ändern. Beim Gase-Leitprogramm sprach die
+mitgelieferte Stimme rund anderthalbmal schneller als `de_DE-thorsten-high`
+(4.0 s gegen 6.15 s für denselben Satz), und die Zeitmarken in `TON[key].k`
+waren auf sie eingemessen — nachsprechen liess sich das nicht. Solange der
+Ton im Dokument steckt, ist auch das Umschreiben auf **du** blockiert: Ein
 Transkript, das vom Ton abweicht, ist schlimmer als ein Sprecher, der siezt.
 
-**Merkt man daran:** an nichts — ausser man hört hin.
+Dazu kommt das Gewicht. Acht vertonte Szenen als Datei-URI machten aus einer
+130-kB-Seite eine von **1.05 MB**, die vollständig geladen wird, bevor der
+erste Buchstabe steht.
+
+**Die Auflösung ist ein richtiger Clip.** Am 07.09.2026 sind die acht Szenen
+des Gase-Leitprogramms durch acht Clips in `clips/` ersetzt worden (Reihe
+«Ideale Gase»): gebaut aus einem Drehbuch, vertont mit der Hausstimme,
+zentral in `clips.html` auffindbar — und im Leitprogramm als `.clipkarte`,
+die erst beim Klick lädt. Damit sieht das Gase-Leitprogramm aus wie die
+beiden anderen, und der Sprechertext lebt an genau einer Stelle.
+
+**Merkt man daran:** an der Dateigrösse — und daran, dass sich ein Satz im
+Transkript nicht ändern lässt, ohne dass Bild und Ton auseinanderlaufen.
 
 ### 12. Eintragen
 
