@@ -152,7 +152,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Feld und Filterskript stehen **ausserhalb** der Marker und werden von Hand
   gepflegt, das `data-suche` je Zeile kommt aus dem Generator.
   Bauanleitung, Stolpersteine und die didaktische Prüfliste: `HOWTO-clips.md`.
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell sechs:
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell sieben:
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
   `leitprogramm-vorwissen` (Grössen, Messen, Druck — sieben Clips, fünf
@@ -161,8 +161,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `leitprogramm-heizen` (Wirkungsgrad, Heizwert, Wärmepumpe, Energiequellen,
   Wärmetransport, Treibhauseffekt — neun Clips, fünf Simulationen),
   `leitprogramm-waermeausdehnung` (Feststoffe und Flüssigkeiten
-  — sieben Clips, sechs Simulationen) und `leitprogramm-ideale-gase` (acht
-  Clips, fünf Simulationen). Alle sechs starten ihre Clips über `.clipkarte`
+  — sieben Clips, sechs Simulationen), `leitprogramm-ideale-gase` (acht
+  Clips, fünf Simulationen) und `leitprogramm-experimente-waerme` (der Einstieg
+  über sieben Schulversuche statt über die Formel — sechs Clips, sieben
+  gerechnete Simulationen). Alle sieben starten ihre Clips über `.clipkarte`
   aus `clips/`; eigener, ins Dokument eingebetteter Ton gehört nicht hinein
   (siehe `HOWTO-leitprogramme.md`, Punkt 11). Vorgehen beim
   Übertrag einer fremden Datei **und** beim Schreiben einer neuen:

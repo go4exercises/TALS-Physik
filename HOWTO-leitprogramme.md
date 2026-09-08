@@ -13,11 +13,28 @@ den Übertrag einer fremden Datei und das Schreiben einer neuen.
 
 Am 7.9.2026 sind drei weitere dazugekommen, alle drei **neu geschrieben**
 statt übertragen: `leitprogramm-waermemenge`, `leitprogramm-heizen` und
-`leitprogramm-rechnen`. Bestand damit: **sechs Leitprogramme** —
+`leitprogramm-rechnen`. Bestand damit waren es **sechs Leitprogramme** —
 `leitprogramm-rechnen` und `leitprogramm-vorwissen` fürs Vorwissen,
 `leitprogramm-waermemenge`, `leitprogramm-heizen`,
 `leitprogramm-waermeausdehnung` und `leitprogramm-ideale-gase` für die
 Thermodynamik.
+
+Am 8.9.2026 kam `leitprogramm-experimente-waerme` dazu — das siebte und das
+erste, das nicht von der Formel ausgeht, sondern vom **Versuch**: sieben
+Schulexperimente zu Wärme und Wärmekapazität, jedes mit Vorhersage, Clip,
+gerechneter Simulation und Auswertung. Neu daran ist nur der Aufbau der
+Schritte; Kopf, `<style>`-Block und die beiden Skripte sind wörtlich aus
+`leitprogramm-waermemenge` übernommen, wie unten beschrieben. Zwei Dinge sind
+dabei aufgefallen:
+
+- **Die Klassen `.svg-warm` und `.svg-water` sind Flächen, keine Linien**
+  (`fill` mit Deckkraft). Als Klasse an einer `<polyline>` färben sie die
+  Fläche unter der Kurve und ignorieren ein `fill="none"` im Attribut — CSS
+  gewinnt gegen Präsentationsattribute. Für Kurven gehören `.svg-curve` und
+  `.svg-dash` genommen, für Balken die Flächenklassen.
+- **Der `render-check` hat wieder zugeschlagen**, wieder an genau derselben
+  Stelle: zwei lange Inline-Formelketten in Lösungen, bei 360 px abgeschnitten.
+  Abgesetzt als `\[ … \]` ist das erledigt.
 
 **Der Weg für eine neue Datei:** Kopf, `<style>`-Block, Fortschritts- und
 Clipkarten-Skript **wörtlich** aus einem bestehenden Leitprogramm übernehmen,

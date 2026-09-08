@@ -83,6 +83,20 @@ SEITEN = {
    themen=['Wirkungsgrad', 'Heizwert', 'Wärmepumpe', 'Leistungszahl',
            'Energiequellen', 'Wärmeleitung', 'Konvektion', 'Wärmestrahlung',
            'Treibhauseffekt', 'Dämmung']),
+ 'leitprogramme/leitprogramm-experimente-waerme.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Wärme im Experiment — Einstieg und Wärmekapazität',
+   beschreibung='Sieben einfache Schulversuche zur Wärmelehre, gerechnet und '
+                'simuliert: warum sich Metall kälter anfühlt als Holz, warum '
+                'der Eiswürfel auf Aluminium schneller schmilzt, wie die '
+                'Büroklammer ohne Flamme warm wird, der Wasserkocher als '
+                'Messgerät für den Wirkungsgrad, Wasser gegen Speiseöl bei '
+                'gleicher Heizleistung, vier Metallzylinder gleicher Masse und '
+                'der Wasserballon über der Kerze — mit Vortest, Erklärclips, '
+                'Simulationen und Gesamttest.',
+   themen=['Wärme', 'Temperatur', 'Innere Energie', 'Wärmestrom',
+           'Spezifische Wärmekapazität', 'Wärmebilanz', 'Mischtemperatur',
+           'Wirkungsgrad', 'Experiment', 'Wärmeeindringzahl']),
  'leitprogramme/leitprogramm-waermemenge.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Wärmemenge und Wärmebilanz — Temperatur, Wärme, Heizkurve',
