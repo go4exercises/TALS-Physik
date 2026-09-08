@@ -35,6 +35,14 @@ dabei aufgefallen:
 - **Der `render-check` hat wieder zugeschlagen**, wieder an genau derselben
   Stelle: zwei lange Inline-Formelketten in Lösungen, bei 360 px abgeschnitten.
   Abgesetzt als `\[ … \]` ist das erledigt.
+- **Ein Balken darf nie sättigen, während die Zahl daneben weiterläuft.** Mit
+  fester Achse (20 bis 32 °C) und einem Regler, der die Mischtemperatur bis
+  37.8 °C treibt, endet der Balken am Achsenende und die Beschriftung
+  widerspricht ihm. Entweder den Reglerbereich begrenzen oder — besser — die
+  Skala mitwachsen lassen und die Achsenbeschriftungen im JS mitsetzen. Keine
+  Prüfung meldet das; man sieht es nur, wenn man den Regler ans Ende zieht.
+  Genau dafür steht unten «Simulationen im Browser gegen nachgerechnete Werte
+  stellen» — und zwar **an beiden Reglerenden**, nicht nur in der Mitte.
 
 **Der Weg für eine neue Datei:** Kopf, `<style>`-Block, Fortschritts- und
 Clipkarten-Skript **wörtlich** aus einem bestehenden Leitprogramm übernehmen,

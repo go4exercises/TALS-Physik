@@ -5,11 +5,11 @@ Gedankengang in rund einer Minute aufbaut: animierte Zeilen auf einer Bühne von
 1920 × 1080, dazu eine gesprochene Tonspur. Gebaut wird er nicht von Hand,
 sondern aus einem **Drehbuch** — einer JSON-Datei daneben.
 
-Stand 07.09.2026: **86 Clips, 79:06 min, in 23 Reihen** — jede Themenseite der
+Stand 08.09.2026: **86 Clips, 79:37 min, in 23 Reihen** — jede Themenseite der
 Lerngebiete 4 bis 6 hat ihre Reihe, dazu das Vorwissen. Verteilung nach
-Lerngebiet (Mehrfachzuordnungen mitgezählt): Vorwissen 15, Mechanik 36,
+Lerngebiet (Mehrfachzuordnungen mitgezählt): Vorwissen 15, Mechanik 38,
 Thermodynamik 29, Wellen und Elektrizität 18. Kürzester Clip 50 s, längster
-64 s, Mittel 55 s. Diese Anleitung ist die Physik-Fassung; das
+65 s, Mittel 56 s. Diese Anleitung ist die Physik-Fassung; das
 Schwesterprojekt Mathe hat eine eigene mit demselben Aufbau und 50 Clips.
 
 > **Autoritativ bleiben CLAUDE.md und STYLEGUIDE.md.** Alles hier Beschriebene
@@ -348,7 +348,10 @@ gelesen.** Er steht ganz oben auf jeder Seite der Lerngebiete 4 bis 6:
 
 Darin steht wörtlich, was der Rahmenlehrplan verlangt — und genau das ist der
 Massstab für die Vollständigkeit einer Reihe, nicht eine Stichwortliste und
-nicht die Abschnittsfolge der Seite. Die Prüfung ist eine Tabelle: jede
+nicht die Abschnittsfolge der Seite. Seit dem 08.09.2026 ist der Block ein
+reines **Zitat** (STYLEGUIDE §4.1): Was dieses Haus zusätzlich unterrichtet,
+steht in den Lernzielen darunter. Für die Clipreihe zählt der **Block**, nicht
+die Lernziele — sonst wächst die Reihe über den Lehrplan hinaus. Die Prüfung ist eine Tabelle: jede
 Kompetenz in eine Zeile, daneben der Clip, der sie trägt. Bleibt eine Zeile
 leer, fehlt ein Clip.
 

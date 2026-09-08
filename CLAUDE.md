@@ -140,13 +140,13 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `physiklib.js`). `scripts/build-clips.py` baut aus einem Drehbuch
   (`clips/<name>.json`) den Clip, `scripts/build-clips-einbau.py` trägt ihn in
   die Lektionsseite und zwischen die Marker `<!-- CLIPS-BIBLIOTHEK:ANFANG/ENDE -->`
-  in `clips.html` ein. Stand 07.09.2026: **86 Clips in 23 Reihen, 79:06 min** —
+  in `clips.html` ein. Stand 08.09.2026: **86 Clips in 23 Reihen, 79:37 min** —
   jede der zehn Themenseiten der Lerngebiete 4 bis 6 hat ihre Reihe, dazu das
   Vorwissen. Anders als Mathe gruppiert die Bibliothek nur nach Lerngebiet
   (kein Grundlagen-/Schwerpunktfach), und sie zieht die Gruppen aus `nav.js`,
   nicht aus dem Freitextfeld `lerngebiet` im Drehbuch.
   Ein Clip liegt **einmal** und darf über die Liste `lektion` auf mehreren
-  Seiten stehen; zehn tun das — die Bibliothek zeigt das mit der Zeile
+  Seiten stehen; elf tun das — die Bibliothek zeigt das mit der Zeile
   «↳ auch in 4.5 Hydrostatik» unter dem Titel. Über der Liste steht eine
   **Sofortsuche** (Titel, Reihe, Kurzbeschrieb, Schlagworte, Lektionsnummer);
   Feld und Filterskript stehen **ausserhalb** der Marker und werden von Hand
@@ -180,6 +180,27 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (bewusst **kein** eigener Headerpunkt). Kontakt läuft ausschliesslich über
   `feedback.html` („Kontakt & Feedback") — es gibt keine veröffentlichte E-Mail-Adresse.
 - Pilot-/Referenzseite für jedes Skelett: `themen/p4-1-kinematik.html`.
+
+## Kompetenzblock: Wortlaut aus dem RLP, Ausformulierung in den Lernzielen
+
+Der Block `.rlp-kompetenzen` zuoberst auf jeder Themenseite ist ein **Zitat**:
+der Wortlaut des Rahmenlehrplans, Zeile für Zeile, in seiner Reihenfolge, ohne
+Kürzung und ohne Zusatz. Alles, was dieses Haus daraus macht — Formeln,
+zusätzliche Teilfähigkeiten, die Ich-Form — steht in den `.lernziele` **direkt
+darunter**. Dort darf über den RLP hinausgegangen werden, im Block nicht.
+
+**Quelle:** SBFI, *Rahmenlehrplan für die Berufsmaturität*, 13.06.2025, in
+Kraft seit 01.03.2026, Abschnitt **7.5.4.1 Gruppe 1**, S. 85–88. Der Auszug
+liegt als `../physik.pdf` neben dem Arbeitsverzeichnis, nicht im Repo — das
+vollständige PDF steht beim SBFI. 44 Kompetenzen in den Lerngebieten 4, 5 und 6.
+
+**Zwei Fallen, beide am 08.09.2026 zugeschlagen** — Details und Belege in
+STYLEGUIDE §4.1: Der RLP führt Physik **viermal**, je Berufsgruppe; verbindlich
+ist Gruppe 1. Gruppe 3 sagt an derselben Stelle «Brennwert», wo Gruppe 1
+«Heizwert» sagt. Und zwei tragende Halbsätze stehen im PDF in einem
+Subset-Font, den keine naive Textextraktion mitliest — «das zweite
+Newton’sche Gesetz in einfachen Fällen (…» und «das Pascal’sche Gesetz anhand
+einfacher Aufgaben anwenden».
 
 ## Clips: Massstab ist der Kompetenzblock
 

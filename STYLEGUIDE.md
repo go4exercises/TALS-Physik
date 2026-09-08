@@ -197,6 +197,17 @@ Der Grund ist nicht Kosmetik: Das Mitführen der Einheiten ist die einzige
 Selbstkontrolle, die Lernende beim Einsetzen haben. Wer nur Zahlen einsetzt,
 merkt einen Einheitenfehler (Gramm statt Kilogramm, °C statt K) erst nie.
 
+**Innerhalb einer Zahlengleichung bleiben die Einheiten unter sich stimmig.**
+Ein Stoffwert je Kilogramm verträgt keine Masse in Gramm daneben — auch dann
+nicht, wenn intern richtig gerechnet wird und das Ergebnis stimmt:
+
+- `ΔT = W / (m · c) = 1.00 J / (0.00015 kg · 450 J/(kg·K)) = 14.8 K` ✓
+- `ΔT = W / (m · c) = 1.00 J / (0.15 g · 450 J/(kg·K)) = 14.8 K` ✗
+
+Die zweite Zeile ist zum Abschreiben unbrauchbar: Wer sie übernimmt und selbst
+rechnet, landet um den Faktor tausend daneben. Gefunden am 08.09.2026 in zwei
+Live-Zeilen des Leitprogramms «Wärme im Experiment».
+
 **Bezugsgrössen konkret machen:** Wo eine Animation mit dimensionslosen «Teilen»
 oder Prozenten arbeiten würde, wird stattdessen eine konkrete Bezugsgrösse mit
 Einheit gewählt (z.B. Wärmepumpe: \(1\;\text{kWh}\) Strom statt «1 Teil»).
@@ -386,7 +397,7 @@ Jede Themenseite folgt diesem Aufbau. Punkte mit (*) können je nach Themenumfan
 
 | # | Abschnitt | Inhalt |
 |---|---|---|
-| 1 | **Titel + RLP** | `.page-titel` mit Lerngebiet, `.rlp-kompetenzen` mit den RLP-Stichpunkten 1:1 |
+| 1 | **Titel + RLP** | `.page-titel` mit Lerngebiet, `.rlp-kompetenzen` mit dem **Wortlaut** des RLP (§4.1), darunter die `.lernziele` mit allem, was dieses Haus daraus macht |
 | 1b | **Vorwissen-Kasten** | direkt darunter ein `.block-tipp` «💡 Vorwissen zu dieser Seite»: zwei bis drei Abschnitte der Vorwissen-Reihe, die diese Seite wirklich voraussetzt — als **Anker** (`p0-3-messen-waagen-dichte.html#dichte`), nicht als blosser Seitenlink, dazu der Hinweis aufs passende Leitprogramm |
 | 2 | **Einstieg** | Konkretes Alltagsphänomen, einleitende Frage, evtl. `.block-experiment` |
 | 3 | **Grundbegriffe** | `.block-def` für jeden zentralen Begriff (Schwerpunkt, Bahnkurve, Geschwindigkeit, Beschleunigung …) |
@@ -398,11 +409,65 @@ Jede Themenseite folgt diesem Aufbau. Punkte mit (*) können je nach Themenumfan
 | 12 | **Zusatzmaterial** | `.dl-grid` mit 3 Druckseiten + Anki-Deck |
 | 13 | **Externe Ressourcen** | **Dreispaltig**: 🎬 Videos · 🧪 Simulationen · 📝 Aufgaben |
 
-### 4.1 Sub-Splits
+### 4.1 Kompetenzblock: Wortlaut, nichts anderes
+
+Der Block `.rlp-kompetenzen` gibt den **Wortlaut des Rahmenlehrplans** wieder —
+Zeile für Zeile, in der Reihenfolge des RLP, ohne Kürzung und ohne Zusatz. Er
+ist ein Zitat, kein Inhaltsverzeichnis der Seite. Alles, was dieses Haus daraus
+macht — Formeln, Beispiele, zusätzliche Teilfähigkeiten, die Sprache in der
+Ich-Form — gehört in die `.lernziele` **direkt darunter**. Dort darf und soll
+über den RLP hinausgegangen werden.
+
+```html
+<div class="rlp-kompetenzen">      <!-- Zitat, 1:1 -->
+  <li>das zweite Newton’sche Gesetz in einfachen Fällen (gleichmässig
+      beschleunigte geradlinige Bewegung und gleichförmige Kreisbewegung)
+      anwenden</li>
+</div>
+<details class="lernziele">        <!-- Ausformulierung dieses Hauses -->
+  <li>Ich kann die Zentripetalkraft \(F_z = m v^2/r\) berechnen …</li>
+</details>
+```
+
+**Die Quelle.** SBFI, *Rahmenlehrplan für die Berufsmaturität*, Bern,
+13. Juni 2025, in Kraft seit 1. März 2026 — Schwerpunktbereich, Abschnitt
+**7.5 Naturwissenschaften**, Unterabschnitt **7.5.4.1 Gruppe 1**, Seiten 85–88.
+Der Auszug liegt als `../physik.pdf` neben dem Arbeitsverzeichnis, nicht im
+Repo; das vollständige PDF steht beim SBFI.
+Für TALS-Physik gelten dort die Lerngebiete **4 Mechanik (100 Lektionen)**,
+**5 Thermodynamik (30)** und **6 Einführung in andere Bereiche der Physik (30)**
+mit zusammen **44 Kompetenzen**.
+
+> **Die Falle: Der RLP enthält Physik viermal.** Je Berufsgruppe steht im
+> Schwerpunktfach Naturwissenschaften eine eigene Liste. Verbindlich ist
+> Gruppe 1 — der RLP sagt es selbst in der Vorbemerkung zu Gruppe 2: «Das Fach
+> Physik ist für die gesamte Ausrichtung der Berufsmaturität Technik,
+> Architektur, Life Sciences dasselbe.» Die Listen sind aber **nicht** wörtlich
+> gleich: Gruppe 1 verlangt in 5.2 die Energieerzeugung «mit Hilfe des
+> **Heizwertes**», Gruppe 3 (Land- und Forstwirtschaft, Lerngebiet 12.2, S. 100)
+> «mit Hilfe des **Brennwertes**». Wer aus der falschen Gruppe zitiert, ändert
+> den Inhalt. Am 08.09.2026 ist genau das in einem externen Prüfbericht passiert.
+
+> **Zweite Falle: zwei Textstellen fehlen in jeder naiven Textextraktion.**
+> Sie stehen im PDF in einem Subset-Font mit eigener Glyphenkodierung. Es sind
+> ausgerechnet die tragenden Halbsätze «das zweite **Newton’sche Gesetz in
+> einfachen Fällen (**gleichmässig beschleunigte …» (4.2) und «**das
+> Pascal’sche Gesetz anhand einfacher Aufgaben anwen**den» (4.5). Ohne sie sieht
+> 4.2 wie eine Ein-Punkt-Kompetenz aus und das Pascal-Prinzip fehlt ganz.
+
+**Drei bewusste Abweichungen vom Wortlaut** — nicht zurückändern:
+
+| Stelle | RLP | Seite | Grund |
+|---|---|---|---|
+| 5.1 | «Grad Celsius in **Grad Kelvin** umrechnen» | wörtlich übernommen, im Lernziel darunter richtiggestellt | «Grad Kelvin» gibt es seit 1967 nicht mehr; ein Zitat darf falsch sein, die Seite nicht |
+| 6.1 | «(Beschaffenheit, … und ihre Absorption beschreiben.» | Klammer geschlossen | offensichtlicher Satzfehler der Quelle |
+| 6.1 | «Absorption Sonnen- und Wärmestrahlung» | «Absorption **von** Sonnen- und Wärmestrahlung» | fehlende Präposition |
+
+### 4.2 Sub-Splits
 
 Bei umfangreichen Themen kann das `.widget`-Schema mit `id`-Suffix `a`/`b`/`c` strukturiert werden. Beispiel für ein langes Mechanik-Thema: 5 Animationen zur Translation + 2 zur Rotation. Trotzdem bleibt es **eine** Themenseite — kein zweites HTML-File.
 
-### 4.2 Mindest- und Höchstinhalt
+### 4.3 Mindest- und Höchstinhalt
 
 - **Mindestens** 5 Canvas-Animationen pro Themenseite
 - **Höchstens** 10 Canvas-Animationen (sonst wird die Seite unleserlich; bei Bedarf Themenseite splitten)

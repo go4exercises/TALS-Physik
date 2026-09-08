@@ -10,11 +10,24 @@ Schritt-für-Schritt-Anleitung für das Hinzufügen einer neuen RLP-Themenseite 
 
 ### 1.1 RLP-Kompetenzen extrahieren
 
-Aus dem RLP-BM 2030 (im Project-Knowledge als `physik.pdf`) die Kompetenzen für das jeweilige Teilgebiet 1:1 herausziehen. Beispiel für 4.2 Dynamik:
-- Die drei Newtonschen Gesetze beschreiben und auf Aufgabenstellungen anwenden
-- Trägheits- und Federkräfte berechnen
-- Gleitreibung und Haftreibung definieren und Aufgaben dazu lösen
-- … (siehe physik.pdf Seite 2)
+Aus dem RLP (`../physik.pdf` — SBFI, 13.06.2025, Abschnitt **7.5.4.1 Gruppe 1**,
+S. 85–88) die Kompetenzen des Teilgebiets **wörtlich** herausziehen. Wörtlich
+heisst wörtlich: keine Kürzung, keine Formel, keine Ergänzung. Für 4.2 Dynamik
+sind es genau zwei:
+
+- den Zusammenhang zwischen Kraft, Masse und Beschleunigung beschreiben
+- das zweite Newton’sche Gesetz in einfachen Fällen (gleichmässig beschleunigte
+  geradlinige Bewegung und gleichförmige Kreisbewegung) anwenden
+
+Was die Seite darüber hinaus behandelt — bei 4.2 etwa Hooke, Haft- und
+Gleitreibung und die schiefe Ebene — gehört in die **Lernziele** darunter, nicht
+in den Kompetenzblock (STYLEGUIDE §4.1). Bis zum 08.09.2026 stand hier ein
+Beispiel, das genau diesen Fehler vormachte.
+
+**Vorsicht bei der Textextraktion:** Zwei Halbsätze des PDF stehen in einem
+Subset-Font und fehlen in jeder naiven Extraktion — der Kern von 4.2 und das
+Pascal’sche Gesetz in 4.5. Und der RLP führt Physik viermal, je Berufsgruppe;
+nur Gruppe 1 gilt. Beides steht mit Beleg in STYLEGUIDE §4.1.
 
 ### 1.2 Skript-Kapitel überfliegen
 

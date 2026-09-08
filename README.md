@@ -6,7 +6,7 @@ Schwesterprojekt zu [TALS Mathematik](https://github.com/go4exercises/tals-mathe
 
 ## Inhalt
 
-3 Lerngebiete, 10 Teilgebiete, 160 Lektionen — alle Pflicht-Inhalte nach RLP-BM 2030 Ziff. 7.5.4.1 (Gruppe 1: Technik, Architektur, Life Sciences).
+3 Lerngebiete, 10 Teilgebiete, 160 Lektionen — alle Pflicht-Inhalte nach RLP-BM 2030 Ziff. 7.5.4.1 (Gruppe 1: Technik, Architektur, Life Sciences), Fassung vom 13. Juni 2025, S. 85–88, in Kraft seit 1. März 2026. Der Kompetenzblock jeder Themenseite zitiert diesen Wortlaut 1:1; was dieses Haus daraus macht, steht in den Lernzielen darunter.
 
 **Stand:** Alle 10 Teilgebiete vollständig ausgebaut (10/10 ✅). Jede Themenseite umfasst interaktive Canvas-Animationen, Aufgaben A1–A6, Zusammenfassung mit Merksatz, Zusatzmaterial (Handout, Anki-Deck, Teste-dich-selbst, Aufgabenserie) sowie eine dreispaltige Sektion mit externen Ressourcen.
 
@@ -44,19 +44,19 @@ Jede Themenseite der Lerngebiete 4 bis 6 folgt einem festen 13-Punkte-Master-Sch
 ## Erklärclips
 
 Zu jeder Themenseite der Lerngebiete 4 bis 6 gehört eine Reihe kurzer,
-vertonter Erklärclips — **86 Clips in 23 Reihen, zusammen 79:06 min**. Ein Clip
+vertonter Erklärclips — **86 Clips in 23 Reihen, zusammen 79:37 min**. Ein Clip
 baut einen einzigen Gedanken in rund einer Minute auf: animierte Zeilen auf
 einer Bühne von 1920 × 1080, dazu eine gesprochene Tonspur.
 
 Massstab für die Vollständigkeit einer Reihe sind die **RLP-Kompetenzen** der
-zugehörigen Themenseite; alle 46 sind abgedeckt. Gefunden werden die Clips über
+zugehörigen Themenseite; alle 44 sind abgedeckt. Gefunden werden die Clips über
 `clips.html` (nach Lerngebiet gruppiert) und am Fuss der jeweiligen
 Themenseite, jeweils mit vollständigem Transkript — ohne das sähe weder eine
 Suchmaschine noch die Volltextsuche etwas von ihnen.
 
 Ein Clip wird nie beim Seitenaufruf geladen; sichtbar ist zuerst nur ein
 Startknopf. Er liegt genau einmal auf der Platte und darf über das Feld
-`lektion` auf mehreren Seiten stehen — zehn Clips tun das.
+`lektion` auf mehreren Seiten stehen — elf Clips tun das.
 
 ```bash
 python3 scripts/build-clip-ton.py <name>          # vertonen (Piper, offline)
@@ -70,12 +70,18 @@ Bauanleitung, Stolpersteine und die didaktische Prüfliste stehen in
 
 ## Leitprogramme
 
-Sechs **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
+Sieben **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
 `leitprogramme.html`: Rechnen und Schliessen, Vorwissen (Grössen, Messen,
-Druck), Wärmemenge und Wärmebilanz, Heizen, Dämmen, Umwandeln, Wärmeausdehnung
-und Ideale Gase. Jede besteht aus Vortest, Lernschritten mit Clip, Simulation und
-Selbstkontrolle sowie einem Kapiteltest unter Prüfungsbedingungen; der
-Fortschritt bleibt auf dem Gerät gespeichert.
+Druck), Wärmemenge und Wärmebilanz, Heizen, Dämmen, Umwandeln, Wärmeausdehnung,
+Ideale Gase und Wärme im Experiment. Jede besteht aus Vortest, Lernschritten mit
+Clip, Simulation und Selbstkontrolle sowie einem Kapiteltest unter
+Prüfungsbedingungen; der Fortschritt bleibt auf dem Gerät gespeichert.
+
+«Wärme im Experiment» fällt aus der Reihe: Es geht nicht von der Formel aus,
+sondern vom **Versuch**. Sieben einfache Schulexperimente zu Wärme und
+Wärmekapazität, jedes mit Vorhersage, Clip, gerechneter Simulation und
+Auswertung — vom Metallgeländer, das sich kälter anfühlt, bis zum Wasserballon
+über der Kerzenflamme.
 
 Anders als eine Themenseite behält ein Leitprogramm sein eigenes Layout — geerbt
 werden nur Kopfleiste, Fuss und die Clip-Bühne. Vorgehen und Fallstricke:
@@ -160,7 +166,7 @@ Seither hinzugekommen, ohne dass die Versionszeile angehoben wurde: die Vorwisse
 30. August 2026 sind Schriften und MathJax von den Fremdhosts auf lokale Auslieferung
 umgestellt worden. Ende August und Anfang September 2026 kamen die ersten drei
 Leitprogramme dazu, im September die Erklärclips — am 7. September 2026 auf 86
-Clips ausgebaut, sodass jede der zehn Themenseiten eine Reihe hat und alle 46
+Clips ausgebaut, sodass jede der zehn Themenseiten eine Reihe hat und alle 44
 RLP-Kompetenzen von mindestens einem Clip getragen werden.
 
 Ebenfalls am 7. September 2026: drei weitere Leitprogramme (Wärmemenge und
