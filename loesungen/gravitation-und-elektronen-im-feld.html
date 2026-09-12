@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lösungen: Gravitation und Elektronen im Feld</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Zwei Aufgabenblätter Schritt für Schritt gelöst: Gravitationsfeldstärke mit der Höhe, halbe Fluchtgeschwindigkeit, der Asteroid Pulcova mit seinem Möndchen — und Aufgabe 262 zu Elektronen im Plattenkondensator, Geschwindigkeitsfilter und Kreisbahn. Mit Erklärclips und Simulationen.">
+<meta name="author" content="Raphael Arnold Kohler">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+
+<!-- Eigenstaendige Seite: kein nav.js, kein style.css, kein physiklib.js.
+     Geerbt werden nur die lokal ausgelieferten Schriften und das lokale
+     MathJax — beides Pflicht, weil im Repo keine Seite einen fremden Host
+     anspricht. Alles Uebrige (Clip-Buehne, Fuss) steht hier im Dokument. -->
+<link rel="stylesheet" href="../schriften.css">
+
+<style>
+:root{
+  --ground:#faf8f5;
+  --surface:#ffffff;
+  --surface-2:#f4f0e9;
+  --ink:#1f1b16;
+  --ink-soft:#5c554c;
+  --ink-faint:#8a8175;
+  --rule:#e3ddd3;
+  --rule-strong:#cec5b7;
+  --accent:#b45309;
+  --accent-hot:#d97706;
+  --accent-wash:#fdf5e9;
+  --check:#0f6b66;
+  --check-wash:#eef6f5;
+  --shadow:0 1px 2px rgba(31,27,22,.05), 0 8px 24px -16px rgba(31,27,22,.25);
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#17140f;
+    --surface:#201c16;
+    --surface-2:#2a251d;
+    --ink:#ede7de;
+    --ink-soft:#a79e92;
+    --ink-faint:#7d7466;
+    --rule:#3a332a;
+    --rule-strong:#4d4437;
+    --accent:#f0a742;
+    --accent-hot:#f5bb6a;
+    --accent-wash:#2a2117;
+    --check:#5cc0b8;
+    --check-wash:#17272a;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    /* Von style.css geerbte Bausteine mitfaerben. style.css kennt keinen
+       Dunkelmodus — die Site hat keinen. Ein dunkles --weiss genuegt fuer
+       Kopfleiste, Menue, Suchfeld und Ueber-Panel, weil style.css seine
+       Flaechen ueber dieses Token faerbt. */
+    --weiss:#201c16;
+    --papier:#17140f;
+    --papier-2:#2a251d;
+    --tinte:#ede7de;
+    --tinte-2:#a79e92;
+    --linie:#3a332a;
+    --bernstein:#f0a742;
+    --bernstein-hell:#2a2117;
+    --bernstein-rand:#6b4a1e;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#17140f;
+  --surface:#201c16;
+  --surface-2:#2a251d;
+  --ink:#ede7de;
+  --ink-soft:#a79e92;
+  --ink-faint:#7d7466;
+  --rule:#3a332a;
+  --rule-strong:#4d4437;
+  --accent:#f0a742;
+  --accent-hot:#f5bb6a;
+  --accent-wash:#2a2117;
+  --check:#5cc0b8;
+  --check-wash:#17272a;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  /* Von style.css geerbte Bausteine mitfaerben. style.css kennt keinen
+     Dunkelmodus — die Site hat keinen. Ein dunkles --weiss genuegt fuer
+     Kopfleiste, Menue, Suchfeld und Ueber-Panel, weil style.css seine
+     Flaechen ueber dieses Token faerbt. */
+  --weiss:#201c16;
+  --papier:#17140f;
+  --papier-2:#2a251d;
+  --tinte:#ede7de;
+  --tinte-2:#a79e92;
+  --linie:#3a332a;
+  --bernstein:#f0a742;
+  --bernstein-hell:#2a2117;
+  --bernstein-rand:#6b4a1e;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.page{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0;
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 20px 96px;
+}
+@media (min-width:1000px){
+  .page{grid-template-columns:232px minmax(0,1fr); gap:56px; padding:0 32px 120px}
+}
+
+/* ---------- Kopf ---------- */
+.masthead{
+  grid-column:1/-1;
+  border-bottom:2px solid var(--ink);
+  padding:44px 0 24px;
+  margin-bottom:40px;
+}
+.eyebrow{
+  font-family:var(--sans);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0 0 12px;
+}
+h1{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(2.2rem,5.5vw,3.4rem);
+  line-height:1.06;
+  letter-spacing:-.015em;
+  margin:0 0 10px;
+  text-wrap:balance;
+}
+.standfirst{
+  font-size:1.1rem;
+  color:var(--ink-soft);
+  max-width:60ch;
+  margin:0 0 26px;
+}
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 28px;
+  font-family:var(--sans);
+  font-size:13.5px;
+  color:var(--ink-soft);
+}
+.meta b{font-weight:600;color:var(--ink)}
+
+/* ---------- Navigation ---------- */
+nav.rail{display:none}
+@media (min-width:1000px){
+  nav.rail{
+    display:block;
+    position:sticky;
+    top:24px;
+    align-self:start;
+    max-height:calc(100vh - 48px);
+    overflow-y:auto;
+    font-family:var(--sans);
+    font-size:13.5px;
+  }
+}
+.rail h2{
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  margin:0 0 12px;
+}
+.rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.rail a{
+  display:flex;
+  gap:10px;
+  align-items:baseline;
+  padding:5px 8px;
+  border-radius:4px;
+  text-decoration:none;
+  color:var(--ink-soft);
+  border-left:2px solid transparent;
+}
+.rail a:hover{color:var(--ink);background:var(--surface-2)}
+.rail a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.rail a .n{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);min-width:1.6em}
+.rail a.done{color:var(--check)}
+.rail a.done .n::after{content:"✓";margin-left:.15em}
+
+.progress-wrap{margin:22px 0 0;padding-top:18px;border-top:1px solid var(--rule)}
+.progress-label{
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);display:flex;justify-content:space-between;
+  margin-bottom:8px;
+}
+.progress-track{height:5px;background:var(--rule);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .3s ease}
+@media (prefers-reduced-motion:reduce){.progress-fill{transition:none}}
+.reset{
+  margin-top:12px;font-family:var(--sans);font-size:12px;color:var(--ink-faint);
+  background:none;border:none;padding:4px 0;cursor:pointer;text-decoration:underline;
+  text-underline-offset:3px;
+}
+.reset:hover{color:var(--ink)}
+.reset:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- Fliesstext ---------- */
+main{min-width:0}
+.prose{max-width:66ch}
+p{margin:0 0 1.05em}
+h2.step-title, .step-goal, .masthead h1{
+  overflow-wrap:break-word;
+  hyphens:auto;
+}
+.step-title{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:1.72rem;
+  line-height:1.18;
+  letter-spacing:-.01em;
+  margin:0 0 4px;
+  text-wrap:balance;
+}
+h3{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:.82rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  margin:2em 0 .7em;
+}
+ul,ol.body-list{margin:0 0 1.05em;padding-left:1.25em}
+li{margin-bottom:.4em}
+strong{font-weight:600}
+em{font-style:italic}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+
+/* ---------- Abschnitte ---------- */
+section.step{
+  scroll-margin-top:20px;
+  padding-bottom:46px;
+  margin-bottom:46px;
+  border-bottom:1px solid var(--rule);
+}
+section.step:last-of-type{border-bottom:none}
+.step-head{display:flex;gap:18px;align-items:flex-start;margin-bottom:20px}
+.step-num{
+  flex:none;
+  font-family:var(--mono);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  color:var(--accent);
+  border:1.5px solid var(--accent);
+  border-radius:3px;
+  padding:5px 8px;
+  margin-top:5px;
+  white-space:nowrap;
+}
+.step-goal{
+  font-family:var(--sans);
+  font-size:.92rem;
+  color:var(--ink-soft);
+  margin:0;
+}
+
+/* ---------- Karten ---------- */
+.card{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  border-radius:6px;
+  padding:20px 22px;
+  margin:0 0 1.4em;
+  box-shadow:var(--shadow);
+}
+.card > :last-child{margin-bottom:0}
+.card-label{
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-faint);margin:0 0 .7em;
+}
+.merksatz{
+  background:var(--accent-wash);
+  border:1px solid var(--rule);
+  border-left:3px solid var(--accent);
+  border-radius:0 5px 5px 0;
+  padding:16px 20px;
+  margin:0 0 1.4em;
+}
+.merksatz .card-label{color:var(--accent)}
+.merksatz > :last-child{margin-bottom:0}
+/* style.css faerbt .frage blau und gibt ihr Rahmen und Radius — dort ist es
+   das Verstaendnisfrage-Akkordeon der Themenseiten. Hier heisst .frage die
+   Einstiegsfrage und traegt nur einen Randstrich. Flaeche, Rahmen und Radius
+   muessen darum ausdruecklich zurueckgenommen werden: sonst steht im
+   Dunkelmodus heller Text auf hellblauem Grund, und im Hellmodus leuchtet
+   ein blauer Kasten in einer Seite, die sonst durchgehend bernsteinfarben ist. */
+.frage{
+  font-family:var(--sans);
+  font-size:1.02rem;
+  color:var(--ink);
+  background:none;
+  border:none;
+  border-left:3px solid var(--rule-strong);
+  border-radius:0;
+  overflow:visible;
+  padding:2px 0 2px 18px;
+  margin:0 0 1.4em;
+}
+
+/* ---------- Aufgaben ---------- */
+.task{
+  border-top:1px solid var(--rule);
+  padding-top:18px;
+  margin-top:22px;
+}
+.task-id{
+  font-family:var(--mono);
+  font-size:12px;
+  font-weight:600;
+  color:var(--accent);
+  letter-spacing:.04em;
+}
+.task-id .pts{color:var(--ink-faint);font-weight:400;margin-left:.6em}
+/* Kern- und Vertiefungsaufgaben: Wer knapp Zeit hat, rechnet die Kernaufgaben
+   und laesst die Vertiefung als Hausaufgabe stehen. */
+.task-id .kern{color:var(--accent);font-weight:600;margin-left:.6em;font-size:.82em;letter-spacing:.05em}
+.task-id .vert{color:var(--ink-faint);font-weight:600;margin-left:.6em;font-size:.82em;letter-spacing:.05em}
+.task p{margin:.45em 0 1em}
+
+details.sol{
+  border:1px solid var(--rule);
+  border-radius:5px;
+  background:var(--check-wash);
+  overflow:hidden;
+}
+details.sol summary{
+  cursor:pointer;
+  list-style:none;
+  font-family:var(--sans);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.02em;
+  color:var(--check);
+  padding:9px 16px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+details.sol summary::-webkit-details-marker{display:none}
+details.sol summary::before{
+  content:"";
+  width:0;height:0;
+  border-left:5px solid currentColor;
+  border-top:4px solid transparent;
+  border-bottom:4px solid transparent;
+  transition:transform .18s ease;
+}
+@media (prefers-reduced-motion:reduce){details.sol summary::before{transition:none}}
+details.sol[open] summary::before{transform:rotate(90deg)}
+details.sol summary:hover{background:rgba(0,0,0,.03)}
+details.sol summary:focus-visible{outline:2px solid var(--check);outline-offset:-2px}
+.sol-body{
+  padding:4px 18px 16px;
+  border-top:1px solid var(--rule);
+  font-size:.97rem;
+}
+.sol-body > :first-child{margin-top:.9em}
+.sol-body > :last-child{margin-bottom:0}
+
+/* ---------- Tabellen ---------- */
+.table-scroll{overflow-x:auto;margin:0 0 1.4em}
+table{
+  border-collapse:collapse;
+  width:100%;
+  font-family:var(--sans);
+  font-size:.92rem;
+  font-variant-numeric:tabular-nums;
+}
+th,td{
+  text-align:left;
+  padding:8px 14px 8px 0;
+  border-bottom:1px solid var(--rule);
+  white-space:nowrap;
+}
+th{
+  font-weight:700;
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  border-bottom:1px solid var(--rule-strong);
+}
+td.q{font-family:var(--mono);color:var(--accent);font-weight:600}
+
+/* ---------- Abbildungen ---------- */
+figure{margin:0 0 1.5em;padding:0}
+.fig-frame{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  border-radius:6px;
+  padding:16px;
+  overflow-x:auto;
+}
+figure svg{display:block;width:100%;height:auto;max-width:100%}
+figcaption{
+  font-family:var(--sans);
+  font-size:12.5px;
+  color:var(--ink-soft);
+  margin-top:9px;
+  line-height:1.45;
+}
+.svg-label{font-family:"Source Sans 3",sans-serif;font-size:10px;fill:var(--ink-soft)}
+.svg-label-em{font-family:"Source Sans 3",sans-serif;font-size:10.5px;font-weight:600;fill:var(--ink)}
+.svg-axis{stroke:var(--ink-soft);stroke-width:1.2;fill:none}
+.svg-curve{stroke:var(--accent);stroke-width:2;fill:none}
+.svg-dash{stroke:var(--accent);stroke-width:1.6;fill:none;stroke-dasharray:4 4;opacity:.75}
+.svg-grid{stroke:var(--rule);stroke-width:1;fill:none}
+.svg-fill{fill:var(--accent)}
+.svg-box{stroke:var(--ink-soft);stroke-width:1.4;fill:none}
+.svg-soft{fill:var(--surface-2);stroke:var(--rule-strong);stroke-width:1}
+
+/* ---------- Einstiegsszenen ---------- */
+.scene{margin:0 0 1.7em;max-width:66ch}
+/* ── Interaktive Simulationen ──────────────────────────────────────────
+   Anders als eine .scene laeuft eine .sim nicht ab, sondern wartet auf den
+   Regler. Aufbau bewusst wie die Szenen: Bild oben, Bedienleiste unten,
+   damit beide Bausteine im Leitprogramm gleich aussehen. */
+.sim-frame{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  border-bottom:none;
+  border-radius:6px 6px 0 0;
+  padding:14px 16px 4px;
+  overflow-x:auto;
+  box-shadow:var(--shadow);
+}
+.sim-frame svg{display:block;width:100%;height:auto;min-width:320px}
+.sim-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  background:var(--surface-2);
+  border:1px solid var(--rule);
+  border-bottom:none;
+  padding:10px 14px;
+}
+.sim-lab{
+  font-family:var(--sans);
+  font-size:12.5px;
+  color:var(--ink-soft);
+  flex:none;
+}
+.sim-range{
+  flex:1;
+  min-width:120px;
+  accent-color:var(--accent);
+  height:4px;
+  cursor:pointer;
+}
+.sim-range:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.sim-val{
+  font-family:var(--mono);
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--accent);
+  font-variant-numeric:tabular-nums;
+  flex:none;
+  min-width:84px;
+  text-align:right;
+}
+/* Umschalter (°C/K, Betriebsart) — mehrere Knoepfe, einer aktiv. */
+.sim-tog{display:flex;gap:0;flex:none}
+.sim-tog button{
+  font-family:var(--sans);
+  font-size:11.5px;
+  padding:4px 10px;
+  border:1px solid var(--rule-strong);
+  background:var(--surface);
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.sim-tog button:first-child{border-radius:5px 0 0 5px}
+.sim-tog button:last-child{border-radius:0 5px 5px 0}
+.sim-tog button + button{border-left:none}
+.sim-tog button[aria-pressed="true"]{
+  background:var(--accent-wash);
+  border-color:var(--accent);
+  color:var(--accent);
+  font-weight:600;
+}
+.sim-tog button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* Ableseleiste: die Zahlen, die sich mitbewegen, und die Formel darunter. */
+.sim-out{
+  background:var(--surface-2);
+  border:1px solid var(--rule);
+  border-radius:0 0 6px 6px;
+  padding:9px 14px 11px;
+  font-family:var(--mono);
+  font-size:12.5px;
+  color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.sim-out b{color:var(--accent);font-weight:600}
+.sim-konst{
+  display:inline-block;
+  margin-top:5px;
+  padding:2px 9px;
+  border-radius:4px;
+  background:var(--check-wash);
+  color:var(--check);
+  font-weight:600;
+}
+@media (max-width:520px){
+  .sim-val{min-width:0}
+  .sim-lab{font-size:12px}
+}
+
+.scene-frame{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  border-bottom:none;
+  border-radius:6px 6px 0 0;
+  padding:14px 16px 0;
+  overflow-x:auto;
+  box-shadow:var(--shadow);
+}
+.scene-frame svg{display:block;width:100%;height:auto;min-width:320px}
+.scene-cap{
+  font-family:var(--sans);
+  font-size:13.5px;
+  line-height:1.5;
+  color:var(--ink);
+  min-height:3em;
+  margin:10px 0 13px;
+  text-wrap:pretty;
+}
+.scene-bar{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  background:var(--surface-2);
+  border:1px solid var(--rule);
+  border-radius:0 0 6px 6px;
+  padding:9px 14px;
+}
+.scene-play{
+  flex:none;
+  width:30px;height:30px;
+  border-radius:50%;
+  border:1.5px solid var(--accent);
+  background:var(--surface);
+  color:var(--accent);
+  font-size:11px;
+  line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sans);
+}
+.scene-play:hover{background:var(--accent);color:var(--surface)}
+.scene-play:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.scene-ton{
+  flex:none;
+  width:30px;height:30px;
+  border-radius:50%;
+  border:1.5px solid var(--rule);
+  background:var(--surface);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.scene-ton[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.scene-ton:hover{border-color:var(--accent)}
+.scene-ton:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.scene-seek{
+  flex:1;
+  min-width:60px;
+  accent-color:var(--accent);
+  height:4px;
+  cursor:pointer;
+}
+.scene-seek:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.scene-time{
+  font-family:var(--mono);
+  font-size:11.5px;
+  color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;
+  flex:none;
+}
+.scene-step{
+  flex:none;
+  font-family:var(--sans);
+  font-size:12px;
+  color:var(--ink-faint);
+}
+details.script{
+  margin-top:11px;
+  border:1px solid var(--rule);
+  border-radius:5px;
+  background:var(--surface);
+  overflow:hidden;
+}
+details.script summary{
+  cursor:pointer;
+  list-style:none;
+  font-family:var(--sans);
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--ink-soft);
+  padding:8px 15px;
+  display:flex;align-items:center;gap:9px;
+}
+details.script summary::-webkit-details-marker{display:none}
+details.script summary::before{
+  content:"";width:0;height:0;
+  border-left:5px solid currentColor;
+  border-top:4px solid transparent;
+  border-bottom:4px solid transparent;
+  transition:transform .18s ease;
+}
+@media (prefers-reduced-motion:reduce){details.script summary::before{transition:none}}
+details.script[open] summary::before{transform:rotate(90deg)}
+details.script summary:hover{color:var(--ink)}
+details.script summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.script-body{
+  padding:2px 16px 15px;
+  border-top:1px solid var(--rule);
+  font-size:.94rem;
+}
+.script-body p{margin:.75em 0;display:flex;gap:14px;align-items:baseline}
+.script-body p:last-child{margin-bottom:0}
+.tc{
+  font-family:var(--mono);
+  font-size:11.5px;
+  color:var(--accent);
+  flex:none;
+  padding-top:.15em;
+}
+.svg-water{fill:var(--accent);opacity:.13}
+.svg-warm{fill:var(--accent);opacity:.22}
+.svg-thin{stroke:var(--ink-soft);stroke-width:1;fill:none}
+
+/* ---------- Erledigt-Schalter ---------- */
+.done-row{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-top:26px;
+  padding:11px 16px;
+  border:1px dashed var(--rule-strong);
+  border-radius:5px;
+  font-family:var(--sans);
+  font-size:13.5px;
+  color:var(--ink-soft);
+  cursor:pointer;
+  max-width:66ch;
+  user-select:none;
+}
+.done-row:hover{border-color:var(--accent);color:var(--ink)}
+.done-row input{
+  appearance:none;
+  width:17px;height:17px;
+  flex:none;
+  border:1.5px solid var(--rule-strong);
+  border-radius:3px;
+  background:var(--surface);
+  cursor:pointer;
+  position:relative;
+}
+.done-row input:checked{background:var(--check);border-color:var(--check)}
+.done-row input:checked::after{
+  content:"";
+  position:absolute;left:5px;top:1.5px;
+  width:4px;height:9px;
+  border:solid #fff;border-width:0 2px 2px 0;
+  transform:rotate(43deg);
+}
+.done-row input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.done-row:has(input:checked){border-style:solid;border-color:var(--check);color:var(--check)}
+
+/* ---------- Test ---------- */
+.test-head{
+  background:var(--surface-2);
+  border:1px solid var(--rule-strong);
+  border-radius:6px;
+  padding:20px 22px;
+  margin-bottom:26px;
+}
+.test-head > :last-child{margin-bottom:0}
+
+/* ---------- Fuss ---------- */
+footer{
+  grid-column:1/-1;
+  margin-top:56px;
+  padding-top:22px;
+  border-top:2px solid var(--ink);
+  font-family:var(--sans);
+  font-size:12.5px;
+  color:var(--ink-faint);
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 26px;
+}
+
+/* ---------- Druck ---------- */
+@media print{
+  body{background:#fff;color:#000;font-size:10.5pt}
+  .page{display:block;max-width:none;padding:0}
+  nav.rail,.done-row,.reset{display:none !important}
+  details.sol{background:none;border:1px solid #bbb}
+  details.sol summary{color:#000}
+  .card,.fig-frame{box-shadow:none;border:1px solid #bbb}
+  section.step{page-break-inside:auto;border-bottom:1px solid #999}
+  h2.step-title{page-break-after:avoid}
+  .task{page-break-inside:avoid}
+  figure{page-break-inside:avoid}
+}
+
+/* ---------- Clipkarte ----------------------------------------------------
+   Startet einen vertonten Erklaerclip in der Buehne weiter unten im
+   Dokument. Der Clip wird erst beim Klick geladen — vorher steht hier nur
+   ein Knopf. */
+.clipkarte{margin:22px 0 26px}
+.clip-start{display:flex;width:100%;align-items:center;gap:15px;text-align:left;cursor:pointer;
+  background:var(--accent-wash);border:1px solid var(--rule-strong);border-radius:10px;
+  padding:14px 17px;font-family:var(--sans);color:var(--ink)}
+.clip-start:hover{box-shadow:var(--shadow)}
+.clip-start:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.clip-play{flex:none;width:38px;height:38px;border-radius:50%;
+  background:var(--accent);color:var(--ground);
+  display:grid;place-items:center;font-size:.9rem;padding-left:3px}
+.clip-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.clip-titel{font-weight:600;font-size:.97rem;line-height:1.32}
+.clip-quelle{font-size:.75rem;color:var(--ink-faint);letter-spacing:.03em}
+.clip-zeit{font-family:var(--mono);font-size:.8rem;color:var(--ink-faint);flex:none}
+@media (max-width:520px){ .clip-zeit{display:none} }
+@media print{ .clipkarte{display:none} }
+
+/* ---------- Clip-Buehne --------------------------------------------------
+   Sonst geerbt aus style.css; diese Seite steht eigenstaendig und traegt sie
+   darum selbst. Der Clip laeuft ueber dem Fenster statt in der Zeile: dort
+   ist er so gross, wie der Bildschirm hergibt, und beim Schliessen steht man
+   wieder genau an der Aufgabe. */
+.clip-buehne{
+  position:fixed; inset:0; z-index:200;
+  background:rgba(14,20,24,.88);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:12px; padding:18px;
+}
+.cb-kopf{
+  display:flex; align-items:center; gap:16px;
+  width:min(96vw, calc((100vh - 150px) * 16 / 9));
+  color:#eef2f5;
+}
+.cb-titel{font-family:var(--serif); font-size:.95rem; font-weight:700}
+.cb-tab,.cb-zu{
+  font-family:var(--mono); font-size:.62rem; font-weight:700;
+  letter-spacing:1px; text-transform:uppercase;
+  color:#eef2f5; background:none; border:0; cursor:pointer; padding:4px 6px;
+  text-decoration:none; white-space:nowrap;
+}
+.cb-tab{margin-left:auto; opacity:.72}
+.cb-tab:hover,.cb-zu:hover{opacity:1; text-decoration:underline}
+.cb-zu{border:1px solid rgba(255,255,255,.35); border-radius:6px}
+.cb-rahmen{
+  position:relative;
+  width:min(96vw, calc((100vh - 150px) * 16 / 9));
+  padding-bottom:min(calc(96vw * .5625 + 60px), calc(100vh - 150px));
+  border-radius:9px; overflow:hidden; background:var(--surface);
+}
+.cb-rahmen iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+@media (max-width:720px){
+  .clip-buehne{padding:8px}
+  .cb-kopf,.cb-rahmen{width:100%}
+  .cb-rahmen{padding-bottom:calc(100vw * .5625 + 60px)}
+}
+
+/* ---------- Nur auf dieser Seite ----------------------------------------
+   Der Aufgabenbogen oben steht ohne Loesungen: wer die Serie schreiben will,
+   darf die Antwort nicht im Augenwinkel haben. Er ist darum gedaempft
+   gesetzt und traegt links einen Strich. */
+.bogen{
+  background:var(--surface-2);
+  border:1px solid var(--rule);
+  border-left:3px solid var(--ink-faint);
+  border-radius:0 6px 6px 0;
+  padding:18px 22px;
+  margin:0 0 1.4em;
+}
+.bogen > :last-child{margin-bottom:0}
+.bogen h3{margin-top:1.4em}
+.bogen h3:first-child{margin-top:0}
+.bogen ol{padding-left:1.4em}
+.bogen ol ol{margin-top:.4em}
+
+/* Die Clipkarte sitzt zwischen Aufgabentext und Loesungsaufklapper und ist
+   gleich eingerueckt wie die Aufgabe — sonst zerreisst sie den Block. */
+.clipkarte.zu-aufg{margin:12px 0 10px}
+
+/* Was in der Korrektur zaehlt. Orange wie jede Aufgabenmarke. */
+.pkt-hinweis{
+  font-family:var(--sans); font-size:.83rem; color:var(--ink-soft);
+  border-left:2.5px solid var(--accent); padding-left:12px; margin:12px 0 0;
+}
+
+/* Kennwerte-Tabelle im Werkzeugkasten: hier duerfen Zellen umbrechen,
+   sonst laeuft die Seite bei 360 px seitlich ueber. */
+.kennwerte td,.kennwerte th{white-space:normal}
+.kennwerte td:first-child{white-space:nowrap}
+
+/* Ergebniszeile am Ende einer Loesung. */
+.ergebnis{
+  background:var(--check-wash);
+  border:1px solid var(--check);
+  border-radius:5px;
+  padding:10px 16px;
+  margin:1em 0 0;
+}
+.ergebnis > :last-child{margin-bottom:0}
+
+/* Der Text der Erledigt-Zeile braucht ein eigenes Element mit min-width:0:
+   Als anonymes Flex-Element kann er sonst nicht unter seine Min-Content-Breite
+   schrumpfen, und die Seite laeuft bei 360 px seitlich ueber. */
+.done-row .done-txt{min-width:0}
+
+/* Formelsatz: Ohne style.css bringt diese Seite die Regel selbst mit.
+   Abgesetzte Formeln bekommen einen eigenen Scrollkasten, statt die Seite
+   seitlich ueberlaufen zu lassen — und statt verkleinert zu werden, was auf
+   dem Telefon unlesbar waere. Lange Ketten werden trotzdem geteilt; der
+   Kasten ist das Sicherheitsnetz, nicht die Loesung. */
+mjx-container{max-width:100%}
+mjx-container[display="true"]{
+  overflow-x:auto; overflow-y:hidden;
+  padding-bottom:3px;
+}
+mjx-container[display="true"] svg{max-width:none}
+
+/* Zusaetzliche SVG-Rollen dieser Seite. */
+.svg-kalt{stroke:#2563eb;stroke-width:2;fill:none}
+.svg-flaeche{fill:var(--accent);opacity:.12}
+.svg-koerper{fill:var(--surface-2);stroke:var(--rule-strong);stroke-width:1.2}
+.svg-platte{fill:var(--ink-soft)}
+.svg-rot{stroke:#c2410c;stroke-width:2;fill:none}
+.svg-rot-f{fill:#c2410c}
+.svg-blau{stroke:#2563eb;stroke-width:2;fill:none}
+.svg-blau-f{fill:#2563eb}
+.svg-punkt{fill:var(--accent)}
+.svg-hilfs{stroke:var(--rule-strong);stroke-width:1;fill:none;stroke-dasharray:3 3}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lösungsblatt · eigenständige Seite</p>
+    <h1>Gravitation und Elektronen im Feld</h1>
+    <p class="standfirst">Zwei Aufgabenblätter, Teilaufgabe für Teilaufgabe gelöst: drei Aufgaben zum Gravitationsgesetz — Ballon, Kanonenkugel, der Asteroid Pulcova — und die sechsteilige Aufgabe 262 zu Elektronen im Plattenkondensator. Jede Teilaufgabe mit vertontem Erklärclip, jede Kernidee mit einer Simulation, die sich bewegen lässt.</p>
+    <div class="meta">
+      <span><b>Umfang</b> 10 Teilaufgaben · 12 Clips · 7 Simulationen</span>
+      <span><b>Bearbeitungszeit</b> rund 2 bis 3 Lektionen</span>
+      <span><b>Du brauchst</b> Taschenrechner, Notizpapier, Kopfhörer</span>
+    </div>
+  </header>
+
+  <nav class="rail" aria-label="Abschnitte">
+    <h2 id="abschnitte">Abschnitte</h2>
+    <ol id="railList">
+      <li><a href="#anleitung"><span class="n">·</span><span>So arbeitest du damit</span></a></li>
+      <li><a href="#bogen"><span class="n">·</span><span>Der Aufgabenbogen</span></a></li>
+      <li><a href="#a1" data-for="a1"><span class="n">1</span><span>Ballon auf 40 km</span></a></li>
+      <li><a href="#a2" data-for="a2"><span class="n">2</span><span>Halbe Fluchtgeschwindigkeit</span></a></li>
+      <li><a href="#a3" data-for="a3"><span class="n">3</span><span>Der Asteroid Pulcova</span></a></li>
+      <li><a href="#e-ab" data-for="e-ab"><span class="n">4</span><span>262 a/b · Bahn im Feld</span></a></li>
+      <li><a href="#e-cde" data-for="e-cde"><span class="n">5</span><span>262 c–e · Filter</span></a></li>
+      <li><a href="#e-f" data-for="e-f"><span class="n">6</span><span>262 f · Kreisbahn</span></a></li>
+      <li><a href="#werkzeug"><span class="n">·</span><span>Werkzeugkasten</span></a></li>
+    </ol>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Fortschritt</span><span id="progressText">0 / 6</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <button class="reset" id="resetBtn" type="button">Fortschritt zurücksetzen</button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ============ ANLEITUNG ============ -->
+    <section class="step prose">
+      <h2 id="anleitung" class="step-title">So arbeitest du mit diesem Blatt</h2>
+      <p>Diese Seite löst zwei fremde Aufgabenblätter auf. Sie ist absichtlich eigenständig: Sie hängt an keinem Kapitel, steht in keinem Menü und in keiner Suche. Wer den Link hat, kommt hinein — mehr Schutz ist das nicht.</p>
+      <ol class="body-list">
+        <li><strong>Zuerst schreiben, dann lesen.</strong> Ganz oben steht der Aufgabenbogen am Stück, ohne Lösungen. Rechne ihn durch, bevor du weiterscrollst. Eine selbst gerechnete falsche Lösung lernt sich besser als eine gelesene richtige.</li>
+        <li><strong>Clip statt Lösungstext.</strong> Zu jeder Teilaufgabe gehört ein vertonter Clip von rund einer Minute. Er zeigt den Gedankengang; der Lösungstext darunter hält ihn fest.</li>
+        <li><strong>Simulation ziehen.</strong> Wo ein Regler steht, gehört er bewegt. Achte darauf, welche Anzeige mitgeht und welche stehen bleibt — meistens ist genau das der Lerninhalt.</li>
+        <li><strong>Ansatz vor Zahlen.</strong> Jede Lösung hier beginnt mit der benannten Formel und setzt erst danach ein, mit Einheiten. In der Prüfung zählt genau dieser Aufbau.</li>
+        <li><strong>Abhaken</strong>, wenn ein Abschnitt sitzt. Der Fortschritt bleibt auf diesem Gerät gespeichert.</li>
+      </ol>
+
+      <div class="merksatz">
+        <p class="card-label">Ein Satz für beide Blätter</p>
+        <p style="margin-bottom:0">Jede der zehn Teilaufgaben beginnt mit derselben Frage: <em>Welche Kraft wirkt, und was macht sie?</em> Im ersten Blatt ist es immer die Gravitationskraft \(F = G\,\frac{M\,m}{r^{2}}\) — einmal als Feldstärke, einmal als Energie, einmal als Zentripetalkraft. Im zweiten Blatt sind es zwei Kräfte zugleich, die elektrische \(F = e\,E\) und die Lorentzkraft \(F = e\,v\,B\); alles Weitere folgt daraus, ob sie sich aufheben oder nicht.</p>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Warum der Bogen zweimal dasteht</p>
+        <p style="margin-bottom:0">Die Aufgabentexte stehen auf dieser Seite zweimal: oben im Bogen und unten noch einmal bei der Lösung. Das ist Absicht. Wer beim Lösungsteil erst nachschlagen muss, was gefragt war, verliert den Faden — und wer den Bogen selbst rechnen will, darf die Lösung nicht danebenstehen haben.</p>
+      </div>
+    </section>
+
+    <!-- ============ DER BOGEN ============ -->
+    <section class="step prose">
+      <div class="step-head">
+        <span class="step-num">BOGEN</span>
+        <div>
+          <h2 id="bogen" class="step-title">Der Aufgabenbogen am Stück</h2>
+          <p class="step-goal">Beide Blätter, ohne Lösungen und ohne Clips. Rechne sie durch, bevor du weiterliest.</p>
+        </div>
+      </div>
+
+      <p>Die Aufgabentexte sind in Schweizer Schreibweise wiedergegeben (Dezimalpunkt statt Komma, kein Eszett) und durchgehend in der Du-Form; an der Physik ändert das nichts.</p>
+
+      <div class="bogen">
+        <h3>Blatt 1 — Gravitation</h3>
+        <ol class="body-list">
+          <li>Ein Ballon steige von der Erdoberfläche auf eine Höhe von \(40\,\mathrm{km}\). Um wie viele Prozent nimmt die Gravitationsfeldstärke ab?</li>
+          <li>Wie weit kann sich eine Kanonenkugel, die mit halber Fluchtgeschwindigkeit senkrecht von der Erdoberfläche nach oben geschossen wird, vom Erdmittelpunkt entfernen? (nur formal)</li>
+          <li>Der Asteroid Pulcova war der dritte, bei dem ein Mond entdeckt wurde (2000). Das Möndchen hat \(800\,\mathrm{km}\) Bahnradius. Pulcova hat \(1.40 \cdot 10^{18}\,\mathrm{kg}\) Masse.
+            <ol type="a">
+              <li>Berechne die Umlaufzeit des Mondes.</li>
+              <li>Pulcova hat \(137\,\mathrm{km}\) Durchmesser. Berechne den Ortsfaktor \(g\) an seiner Oberfläche. Nimm an, Pulcova sei kugelförmig.</li>
+              <li>Berechne die Fluchtgeschwindigkeit an der Oberfläche von Pulcova.</li>
+              <li>Pulcova hat eine grosse Halbachse von \(3.1543\) astronomischen Einheiten (AE) sowie eine Exzentrizität von \(0.10146\). Berechne den kleinsten Abstand von der Sonne in AE und in Meter. Wie heisst diese Stelle auf der Bahn?</li>
+            </ol>
+          </li>
+        </ol>
+
+        <h3>Blatt 2 — Aufgabe 262: Elektronen im Plattenkondensator</h3>
+        <p>Aus einer Elektronenquelle treten die Elektronen mit einer Geschwindigkeit \(v_0\) senkrecht in das homogene elektrische Feld eines Plattenkondensators der Breite \(8.0\,\mathrm{cm}\) und der Länge \(10.0\,\mathrm{cm}\) ein. Der Einschuss liegt mittig, also \(4.0\,\mathrm{cm}\) unter der oberen Platte. An den Plattenkondensator wird eine Spannung von \(12\,\mathrm{kV}\) angelegt; die obere Platte ist der Pluspol.</p>
+        <ol type="a" class="body-list">
+          <li>Leite eine allgemeine Gleichung für die Elektronenbahn im Feld her.</li>
+          <li>Bei welcher Eintrittsgeschwindigkeit erreichen die Elektronen genau den hinteren Rand der Platte? Wie fliegen sie, wenn die Eintrittsgeschwindigkeit grösser ist als der berechnete Wert?</li>
+        </ol>
+        <p>Zwischen den Kondensatorplatten soll dem elektrischen Feld ein homogenes Magnetfeld so überlagert werden, dass die Elektronen der Geschwindigkeit \(1.8 \cdot 10^{7}\,\mathrm{m/s}\) die Anordnung unabgelenkt durchfliegen.</p>
+        <ol type="a" start="3" class="body-list">
+          <li>Wie muss das Magnetfeld orientiert sein?</li>
+          <li>Zeige, dass der Betrag der magnetischen Flussdichte \(8.3\,\mathrm{mT}\) sein muss.</li>
+          <li>Erkläre, in welche Richtung Elektronen mit einer kleineren Geschwindigkeit unmittelbar nach dem Einschuss in den Feldbereich abgelenkt werden.</li>
+        </ol>
+        <p>Nun wird die Ablenkspannung ausgeschaltet, so dass nur noch das magnetische Feld vorhanden ist.</p>
+        <ol type="a" start="6" class="body-list">
+          <li style="margin-bottom:0">Welche Eintrittsgeschwindigkeit müssen die Elektronen haben, um den Feldbereich wieder verlassen zu können, ohne auf eine Kondensatorplatte zu treffen?</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Was du dafür brauchst</p>
+        <p style="margin-bottom:0">Gravitationskonstante, Erdradius, Erdmasse, Elementarladung, Elektronenmasse und die astronomische Einheit — alle Werte stehen unten im <a href="#werkzeug">Werkzeugkasten</a>. Im ersten Blatt braucht keine einzige Aufgabe eine Zahl, die nicht dort steht; im zweiten reichen \(e\), \(m_{\mathrm{e}}\) und die Angaben der Aufgabe.</p>
+      </div>
+    </section>
+
+    <!-- ============ AUFGABE 1 ============ -->
+    <section class="step prose">
+      <div class="step-head">
+        <span class="step-num">BLATT 1 · A1</span>
+        <div>
+          <h2 id="a1" class="step-title">Der Ballon auf 40 km Höhe</h2>
+          <p class="step-goal">Um wie viele Prozent nimmt die Gravitationsfeldstärke ab? Eine Aufgabe, die ohne Zahlenwert für die Gravitationskonstante auskommt.</p>
+        </div>
+      </div>
+
+      <div class="frage">Ein Ballon steige von der Erdoberfläche auf eine Höhe von \(40\,\mathrm{km}\). Um wie viele Prozent nimmt die Gravitationsfeldstärke ab?</div>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-g1-feldstaerke-mit-hoehe.html" data-titel="Aufgabe 1: Wie stark nimmt g auf 40 km Höhe ab?">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 1: Wie stark nimmt g auf 40 km Höhe ab?</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:52</span>
+        </button>
+      </div>
+
+      <p>Die Gravitationsfeldstärke am Ort eines Probekörpers ist die Kraft je Masse. Aus dem Gravitationsgesetz folgt sie unmittelbar:</p>
+
+      <p>\[ F = G\,\frac{M\,m}{r^{2}} \qquad\Longrightarrow\qquad g(r) = \frac{F}{m} = \frac{G\,M}{r^{2}} \]</p>
+
+      <p>Entscheidend ist, was \(r\) bedeutet: der Abstand vom <em>Erdmittelpunkt</em>, nicht die Höhe über dem Boden. Ein Ballon auf \(40\,\mathrm{km}\) steht deshalb nicht bei \(r = 40\,\mathrm{km}\), sondern bei \(r = R + h\).</p>
+
+      <figure class="sim" data-sim="feldstaerke">
+        <div class="sim-frame">
+          <svg viewBox="0 0 420 210" role="img" aria-label="Gravitationsfeldstärke über der Höhe: eine fallende Kurve von 9.81 auf 8.69 Meter je Sekundenquadrat zwischen 0 und 400 Kilometern">
+            <line class="svg-axis" x1="58" y1="24" x2="58" y2="156"/>
+            <line class="svg-axis" x1="58" y1="156" x2="404" y2="156"/>
+            <g id="fs-grid"></g>
+            <polyline id="fs-kurve" class="svg-curve" points=""/>
+            <line id="fs-lot" class="svg-hilfs" x1="58" y1="24" x2="58" y2="156"/>
+            <circle id="fs-punkt" class="svg-punkt" cx="58" cy="30" r="4"/>
+            <text class="svg-label" x="230" y="180" text-anchor="middle">Höhe h über der Erdoberfläche in km</text>
+            <text class="svg-label" x="10" y="18">g in m/s²</text>
+            <text class="svg-label-em" id="fs-marke" x="70" y="42">9.81</text>
+          </svg>
+        </div>
+        <div class="sim-bar">
+          <span class="sim-lab" id="fs-lab">Höhe h</span>
+          <input class="sim-range" id="fs-r" type="range" min="0" max="400" value="40" step="1" aria-labelledby="fs-lab">
+          <span class="sim-val" id="fs-rv">40 km</span>
+          <span class="sim-tog" role="group" aria-label="Bekannte Höhen">
+            <button type="button" data-h="11" aria-pressed="false">Linienflug</button>
+            <button type="button" data-h="40" aria-pressed="true">Ballon</button>
+            <button type="button" data-h="400" aria-pressed="false">ISS</button>
+          </span>
+        </div>
+        <div class="sim-out">
+          <span>Abstand vom Mittelpunkt <b id="fs-o1">6411 km</b>; Feldstärke <b id="fs-o2">9.69 m/s²</b>; Abnahme <b id="fs-o3">1.24 %</b></span>
+          <br><span class="sim-konst" id="fs-k">g(h) / g₀ = (6371 km / 6411 km)² = 0.9876</span>
+        </div>
+        <figcaption>Abb. 1 — Die Feldstärke fällt mit dem Quadrat des Abstands. Auf der Höhe eines Linienflugs ist die Abnahme noch nicht einmal ein halbes Prozent; selbst auf ISS-Höhe bleiben rund 89 Prozent stehen. Der Erdradius steht im Nenner und dämpft alles.</figcaption>
+      </figure>
+
+      <div class="card">
+        <p class="card-label">Lösung — Schritt für Schritt</p>
+        <p><strong>Ansatz.</strong> Gefragt ist kein Wert, sondern ein Anteil. Also wird der Quotient der beiden Feldstärken gebildet — dabei kürzen sich \(G\) und \(M\) weg, und die Aufgabe braucht keinen einzigen Tabellenwert ausser dem Erdradius.</p>
+        <p>\[ \frac{g(h)}{g_0} = \frac{\dfrac{G\,M}{(R+h)^{2}}}{\dfrac{G\,M}{R^{2}}} = \left(\frac{R}{R+h}\right)^{2} \]</p>
+        <p><strong>Einsetzen.</strong> Mit \(R = 6371\,\mathrm{km}\) und \(h = 40\,\mathrm{km}\):</p>
+        <p>\[ \frac{g(h)}{g_0} = \left(\frac{6371\,\mathrm{km}}{6411\,\mathrm{km}}\right)^{2} = 0.99376^{2} = 0.98756 \]</p>
+        <p><strong>Auf Prozent bringen.</strong> Die Feldstärke sinkt auf \(98.756\,\%\) ihres Ausgangswerts:</p>
+        <p>\[ \text{Abnahme} = 1 - 0.98756 = 0.01244 = 1.24\,\% \]</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> Die Gravitationsfeldstärke nimmt um rund \(1.2\,\%\) ab — von \(9.81\,\mathrm{m/s^2}\) auf \(9.69\,\mathrm{m/s^2}\).</p>
+        </div>
+        <p class="pkt-hinweis">In der Korrektur zählt der Quotientenansatz, nicht die Zahl: Wer \(g\) zweimal einzeln ausrechnet, braucht \(G\) und \(M\) und macht sich das Leben unnötig schwer — richtig ist es trotzdem.</p>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Die Näherung, die man kennen sollte</p>
+        <p>Für \(h \ll R\) lässt sich der Ausdruck entwickeln:</p>
+        <p>\[ \left(1 + \frac{h}{R}\right)^{-2} \approx 1 - \frac{2h}{R} \]</p>
+        <p>Die Abnahme ist damit näherungsweise \(2h/R\).</p>
+        <p style="margin-bottom:0">Hier ergibt das \(2 \cdot 40 / 6371 = 1.256\,\%\) gegen exakt \(1.244\,\%\) — ein Fehler von einem Prozent des Resultats. Als Kopfrechenprobe ist die Faustregel ausgezeichnet: <em>relative Höhenzunahme mal zwei</em>.</p>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Häufigster Fehler</p>
+        <p style="margin-bottom:0">\(r = 40\,\mathrm{km}\) statt \(r = 6411\,\mathrm{km}\) einsetzen. Dann käme heraus, dass die Feldstärke auf das Fünfundzwanzigtausendfache steigt. Die Grössenordnung verrät den Fehler sofort — eine Kontrolle, die in jeder Gravitationsaufgabe funktioniert.</p>
+      </div>
+
+      <label class="done-row"><input type="checkbox" data-step="a1"><span class="done-txt">Aufgabe 1 sitzt: Feldstärke als \(GM/r^{2}\), \(r\) ab dem Mittelpunkt, Anteil über den Quotienten.</span></label>
+    </section>
+
+    <!-- ============ AUFGABE 2 ============ -->
+    <section class="step prose">
+      <div class="step-head">
+        <span class="step-num">BLATT 1 · A2</span>
+        <div>
+          <h2 id="a2" class="step-title">Mit halber Fluchtgeschwindigkeit nach oben</h2>
+          <p class="step-goal">Wie weit entfernt sich die Kugel vom Erdmittelpunkt? Eine Aufgabe, deren Antwort keine einzige Zahl enthält.</p>
+        </div>
+      </div>
+
+      <div class="frage">Wie weit kann sich eine Kanonenkugel, die mit halber Fluchtgeschwindigkeit senkrecht von der Erdoberfläche nach oben geschossen wird, vom Erdmittelpunkt entfernen? (nur formal)</div>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-g2-halbe-fluchtgeschwindigkeit.html" data-titel="Aufgabe 2: Halbe Fluchtgeschwindigkeit — wie weit kommt die Kugel?">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 2: Halbe Fluchtgeschwindigkeit — wie weit kommt die Kugel?</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:51</span>
+        </button>
+      </div>
+
+      <p>Der Zusatz «nur formal» sagt, was verlangt ist: ein Ausdruck in \(R\), keine Zahl in Kilometern. Und tatsächlich fällt am Ende alles weg — die Erdmasse, die Gravitationskonstante, sogar die Masse der Kugel.</p>
+
+      <p>Das Werkzeug ist der Energiesatz. Im Gravitationsfeld ist die Lageenergie nicht \(m\,g\,h\); diese Formel gilt nur, solange \(g\) konstant bleibt, also in Bodennähe. Über Tausende von Kilometern gilt sie nicht mehr. Richtig ist</p>
+
+      <p>\[ E_{\mathrm{pot}}(r) = -\,\frac{G\,M\,m}{r} \]</p>
+
+      <p>mit dem Nullpunkt im Unendlichen. Der Energiesatz zwischen Start (Oberfläche, Geschwindigkeit \(v_0\)) und Umkehrpunkt (Abstand \(r\), Geschwindigkeit null) lautet damit:</p>
+
+      <p>\[ \tfrac{1}{2}\,m\,v_0^{2} \;-\; \frac{G\,M\,m}{R} \;=\; 0 \;-\; \frac{G\,M\,m}{r} \]</p>
+
+      <figure class="sim" data-sim="steighoehe">
+        <div class="sim-frame">
+          <svg viewBox="0 0 420 252" role="img" aria-label="Erde als Kreis, darüber der Umkehrpunkt als waagrechte Linie und die Steighöhe als Pfeil">
+            <defs>
+              <marker id="pf-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+              </marker>
+            </defs>
+            <circle class="svg-koerper" cx="78" cy="222" r="46"/>
+            <circle class="svg-punkt" cx="78" cy="222" r="2.5"/>
+            <line class="svg-hilfs" x1="24" y1="176" x2="200" y2="176"/>
+            <line id="st-um" class="svg-dash" x1="24" y1="140" x2="200" y2="140"/>
+            <line id="st-hom" class="svg-blau" x1="40" y1="164" x2="120" y2="164" stroke-dasharray="3 3"/>
+            <line id="st-pfeil" class="svg-curve" x1="78" y1="176" x2="78" y2="140" marker-end="url(#pf-a)"/>
+            <circle id="st-spitze" class="svg-punkt" cx="78" cy="140" r="4"/>
+            <text class="svg-label" x="78" y="248" text-anchor="middle">Erde, R = 6371 km</text>
+            <text class="svg-label" x="206" y="180">Erdoberfläche</text>
+            <text class="svg-label-em" id="st-tu" x="206" y="144">Umkehrpunkt</text>
+            <text class="svg-label-em" id="st-t1" x="240" y="34">r = 1.33 R</text>
+            <text class="svg-label" id="st-t2" x="240" y="52">Höhe 2124 km</text>
+            <text class="svg-label" id="st-t3" x="240" y="70" fill="#2563eb">homogen gerechnet: 1593 km</text>
+          </svg>
+        </div>
+        <div class="sim-bar">
+          <span class="sim-lab" id="st-lab">Anteil der Fluchtgeschwindigkeit</span>
+          <input class="sim-range" id="st-r" type="range" min="0" max="84" value="50" step="1" aria-labelledby="st-lab">
+          <span class="sim-val" id="st-rv">50 %</span>
+        </div>
+        <div class="sim-out">
+          <span>Startgeschwindigkeit <b id="st-o1">5.59 km/s</b>; Umkehrpunkt <b id="st-o2">1.333 R</b>; Höhe <b id="st-o3">2124 km</b></span>
+          <br><span class="sim-konst" id="st-k">r / R = 1 / (1 − k²) = 1 / (1 − 0.5²) = 1.333</span>
+        </div>
+        <figcaption>Abb. 2 — Die orange gestrichelte Linie ist der Umkehrpunkt, massstäblich über der Erdkugel. Der blaue Strich zeigt, wie hoch dieselbe Kugel käme, wenn man fälschlich mit konstantem g rechnete: bei 50 Prozent liegt er nur 531 km tiefer, die beiden Linien berühren sich fast. Zieh den Regler nach rechts — dann läuft der richtige Wert davon.</figcaption>
+      </figure>
+
+      <div class="card">
+        <p class="card-label">Lösung — Schritt für Schritt</p>
+        <p><strong>Schritt 1 · Die Fluchtgeschwindigkeit.</strong> Sie ist definiert als die Startgeschwindigkeit, bei der die Kugel gerade eben unendlich weit kommt, also mit \(v_\infty = 0\) bei \(r \to \infty\):</p>
+        <p>\[ \tfrac{1}{2}\,m\,v_{\mathrm{e}}^{2} = \frac{G\,M\,m}{R} \qquad\Longrightarrow\qquad v_{\mathrm{e}}^{2} = \frac{2\,G\,M}{R} \]</p>
+        <p><strong>Schritt 2 · Die halbe Fluchtgeschwindigkeit.</strong> Halbe Geschwindigkeit heisst ein Viertel der Bewegungsenergie — hier steckt der ganze Witz der Aufgabe:</p>
+        <p>\[ v_0 = \tfrac{1}{2}\,v_{\mathrm{e}} \qquad\Longrightarrow\qquad v_0^{2} = \tfrac{1}{4}\,v_{\mathrm{e}}^{2} = \frac{G\,M}{2\,R} \]</p>
+        <p><strong>Schritt 3 · In den Energiesatz.</strong> Die Masse \(m\) steht in jedem Term und kürzt sich weg:</p>
+        <p>\[ \tfrac{1}{2} \cdot \frac{G\,M}{2\,R} = \frac{G\,M}{R} - \frac{G\,M}{r} \]</p>
+        <p>\[ \frac{G\,M}{4\,R} = \frac{G\,M}{R} - \frac{G\,M}{r} \]</p>
+        <p><strong>Schritt 4 · Auflösen.</strong> Jetzt kürzt sich auch \(G\,M\) heraus:</p>
+        <p>\[ \frac{1}{r} = \frac{1}{R} - \frac{1}{4\,R} = \frac{3}{4\,R} \]</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> \[ r = \frac{4}{3}\,R \] Die Kugel entfernt sich auf \(\tfrac{4}{3}\) des Erdradius vom Erdmittelpunkt — das sind \(8495\,\mathrm{km}\). Über dem Boden ist das eine Steighöhe von \(\tfrac{1}{3}R \approx 2124\,\mathrm{km}\).</p>
+        </div>
+        <p class="pkt-hinweis">Verlangt ist der formale Ausdruck \(r = \tfrac{4}{3}R\). Die Kilometerangabe ist Zugabe — aber sie zeigt, dass man weiss, was \(R\) ist.</p>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Die allgemeine Formel dahinter</p>
+        <p>Dieselbe Rechnung mit \(v_0 = k\,v_{\mathrm{e}}\) statt \(k = \tfrac{1}{2}\) liefert einen Ausdruck, der die ganze Simulation oben beschreibt:</p>
+        <p>\[ \frac{r}{R} = \frac{1}{1 - k^{2}} \qquad\text{mit}\qquad k = \frac{v_0}{v_{\mathrm{e}}} \]</p>
+        <p style="margin-bottom:0">Für \(k = \tfrac{1}{2}\) ergibt das \(1/(1-\tfrac14) = \tfrac43\) — die Probe stimmt. Für \(k \to 1\) läuft \(r\) gegen unendlich, und genau das ist die Bedeutung der Fluchtgeschwindigkeit.</p>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Der teuerste Fehler dieser Aufgabe</p>
+        <p style="margin-bottom:0">Mit \(E_{\mathrm{pot}} = m\,g\,h\) rechnen. Dann käme \(h = v_0^{2}/(2g) = 1593\,\mathrm{km}\) heraus statt \(2124\,\mathrm{km}\) — ein Viertel zu wenig. Der Grund ist im Bild oben zu sehen: Auf dem Weg nach oben <em>lässt die Anziehung nach</em>, die Kugel wird schwächer gebremst als am Boden und kommt darum weiter. Die Faustregel: Sobald die Steighöhe nicht mehr klein gegen \(R\) ist, ist \(m\,g\,h\) unbrauchbar.</p>
+      </div>
+
+      <label class="done-row"><input type="checkbox" data-step="a2"><span class="done-txt">Aufgabe 2 sitzt: Energiesatz mit \(-GMm/r\), halbe Geschwindigkeit heisst ein Viertel der Energie, Ergebnis \(r = \tfrac43 R\).</span></label>
+    </section>
+
+    <!-- ============ AUFGABE 3 ============ -->
+    <section class="step prose">
+      <div class="step-head">
+        <span class="step-num">BLATT 1 · A3</span>
+        <div>
+          <h2 id="a3" class="step-title">Der Asteroid Pulcova und sein Möndchen</h2>
+          <p class="step-goal">Vier Teilaufgaben an einem einzigen Körper: Umlaufzeit, Ortsfaktor, Fluchtgeschwindigkeit und der sonnennächste Bahnpunkt.</p>
+        </div>
+      </div>
+
+      <div class="frage">Der Asteroid Pulcova war der dritte, bei dem ein Mond entdeckt wurde (2000). Das Möndchen hat \(800\,\mathrm{km}\) Bahnradius. Pulcova hat \(1.40 \cdot 10^{18}\,\mathrm{kg}\) Masse.</div>
+
+      <div class="card">
+        <p class="card-label">Einmal vorweg — das Produkt, das in allen drei Rechnungen steckt</p>
+        <p>Die Teilaufgaben a, b und c brauchen alle dasselbe Produkt \(G\,M\). Wer es einmal ausrechnet und stehen lässt, spart zwei Rechenschritte und einen Rundungsfehler:</p>
+        <p>\[ G\,M = 6.674 \cdot 10^{-11}\,\frac{\mathrm{m^3}}{\mathrm{kg}\cdot\mathrm{s^2}} \cdot 1.40 \cdot 10^{18}\,\mathrm{kg} \]</p>
+        <p style="margin-bottom:0">\[ G\,M = 9.34 \cdot 10^{7}\,\frac{\mathrm{m^3}}{\mathrm{s^2}} \]</p>
+      </div>
+
+      <h3>a) Die Umlaufzeit des Mondes</h3>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-g3a-umlaufzeit-des-moendchens.html" data-titel="Aufgabe 3a: Die Umlaufzeit von Pulcovas Möndchen">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 3a: Die Umlaufzeit von Pulcovas Möndchen</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:53</span>
+        </button>
+      </div>
+
+      <figure class="sim" data-sim="umlauf">
+        <div class="sim-frame">
+          <svg viewBox="0 0 420 200" role="img" aria-label="Links die Kreisbahn des Möndchens um Pulcova, rechts die Umlaufzeit als Funktion des Bahnradius">
+            <circle id="um-bahn" class="svg-hilfs" cx="85" cy="100" r="29"/>
+            <circle class="svg-koerper" cx="85" cy="100" r="4"/>
+            <circle id="um-mond" class="svg-punkt" cx="107" cy="81" r="3.5"/>
+            <line id="um-strich" class="svg-curve" x1="85" y1="100" x2="107" y2="81" stroke-width="1.2"/>
+            <text class="svg-label" x="85" y="182" text-anchor="middle">Pulcova mit Möndchen</text>
+            <text class="svg-label-em" id="um-a" x="85" y="30" text-anchor="middle">a = 800 km</text>
+
+            <line class="svg-axis" x1="236" y1="26" x2="236" y2="158"/>
+            <line class="svg-axis" x1="236" y1="158" x2="408" y2="158"/>
+            <g id="um-grid"></g>
+            <polyline id="um-kurve" class="svg-curve" points=""/>
+            <circle id="um-punkt" class="svg-punkt" cx="236" cy="158" r="4"/>
+            <text class="svg-label" x="322" y="182" text-anchor="middle">Bahnradius a in km</text>
+            <text class="svg-label" x="196" y="20">T in d</text>
+          </svg>
+        </div>
+        <div class="sim-bar">
+          <span class="sim-lab" id="um-lab">Bahnradius a</span>
+          <input class="sim-range" id="um-r" type="range" min="200" max="2000" value="800" step="10" aria-labelledby="um-lab">
+          <span class="sim-val" id="um-rv">800 km</span>
+        </div>
+        <div class="sim-out">
+          <span>Umlaufzeit <b id="um-o1">5.38 d</b>; das sind <b id="um-o2">4.65·10⁵ s</b>; Bahngeschwindigkeit <b id="um-o3">10.8 m/s</b></span>
+          <br><span class="sim-konst" id="um-k">T = 2π · √(a³ / (G · M)) mit G · M = 9.34·10⁷ m³/s²</span>
+        </div>
+        <figcaption>Abb. 3 — Die Umlaufzeit wächst mit der Wurzel aus der dritten Potenz des Bahnradius: doppelter Bahnradius bedeutet nicht doppelte, sondern 2.83-fache Umlaufzeit. Der Asteroid selbst ist zur Sichtbarkeit etwas vergrössert gezeichnet; die Bahn ist massstäblich. Die Bahngeschwindigkeit liegt bei rund elf Metern je Sekunde — Fussgängertempo.</figcaption>
+      </figure>
+
+      <div class="card">
+        <p class="card-label">Lösung 3a</p>
+        <p><strong>Ansatz.</strong> Auf einer Kreisbahn ist die Gravitationskraft genau die Zentripetalkraft. Mit \(v = 2\pi a / T\) wird daraus:</p>
+        <p>\[ \frac{G\,M\,m}{a^{2}} = \frac{m\,v^{2}}{a} = m\,\frac{4\pi^{2}\,a}{T^{2}} \]</p>
+        <p><strong>Umstellen.</strong> Die Masse \(m\) des Möndchens kürzt sich weg — übrig bleibt Keplers drittes Gesetz:</p>
+        <p>\[ T^{2} = \frac{4\pi^{2}\,a^{3}}{G\,M} \qquad\Longrightarrow\qquad T = 2\pi\sqrt{\frac{a^{3}}{G\,M}} \]</p>
+        <p><strong>Einsetzen.</strong> Zuerst alles in Basiseinheiten: \(a = 800\,\mathrm{km} = 8.00 \cdot 10^{5}\,\mathrm{m}\), also \(a^{3} = 5.12 \cdot 10^{17}\,\mathrm{m^3}\).</p>
+        <p>\[ T = 2\pi\sqrt{\frac{5.12 \cdot 10^{17}\,\mathrm{m^3}}{9.34 \cdot 10^{7}\,\mathrm{m^3/s^2}}} = 2\pi\sqrt{5.48 \cdot 10^{9}\,\mathrm{s^2}} \]</p>
+        <p>\[ T = 2\pi \cdot 7.40 \cdot 10^{4}\,\mathrm{s} = 4.65 \cdot 10^{5}\,\mathrm{s} \]</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> \(T = 4.65 \cdot 10^{5}\,\mathrm{s}\), also \(129\,\mathrm{h}\) oder rund \(5.4\) Tage.</p>
+        </div>
+        <p class="pkt-hinweis">Einheitenkontrolle: \(\mathrm{m^3} : (\mathrm{m^3/s^2}) = \mathrm{s^2}\), die Wurzel daraus ist eine Sekunde. Wer hier auf etwas anderes kommt, hat Kilometer und Meter vermischt.</p>
+      </div>
+
+      <h3>b) Der Ortsfaktor an Pulcovas Oberfläche</h3>
+
+      <div class="frage">Pulcova hat \(137\,\mathrm{km}\) Durchmesser. Berechne den Ortsfaktor \(g\) an seiner Oberfläche. Nimm an, Pulcova sei kugelförmig.</div>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-g3b-ortsfaktor-auf-pulcova.html" data-titel="Aufgabe 3b: Der Ortsfaktor an Pulcovas Oberfläche">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 3b: Der Ortsfaktor an Pulcovas Oberfläche</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:50</span>
+        </button>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Lösung 3b</p>
+        <p><strong>Ansatz.</strong> Dieselbe Feldstärke wie in Aufgabe 1, nur beim Abstand \(r = R\):</p>
+        <p>\[ g = \frac{G\,M}{R^{2}} \]</p>
+        <p><strong>Der Radius.</strong> Gegeben ist der Durchmesser. Halbieren und in Meter umrechnen:</p>
+        <p>\[ R = \frac{137\,\mathrm{km}}{2} = 68.5\,\mathrm{km} = 6.85 \cdot 10^{4}\,\mathrm{m} \]</p>
+        <p><strong>Einsetzen.</strong></p>
+        <p>\[ g = \frac{9.34 \cdot 10^{7}\,\mathrm{m^3/s^2}}{(6.85 \cdot 10^{4}\,\mathrm{m})^{2}} = \frac{9.34 \cdot 10^{7}}{4.69 \cdot 10^{9}}\,\frac{\mathrm{m}}{\mathrm{s^2}} \]</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> \(g = 0.0199\,\mathrm{m/s^2} \approx 20\,\mathrm{mm/s^2}\) — der \(493\)-te Teil des Erdwerts.</p>
+        </div>
+        <p class="pkt-hinweis">Der häufigste Punktverlust: der Durchmesser bleibt stehen. Dann kommt ein Viertel des richtigen Werts heraus, und nichts an der Zahl verrät den Fehler.</p>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Was das bedeutet</p>
+        <p style="margin-bottom:0">Ein Mensch von \(70\,\mathrm{kg}\) wird auf Pulcova mit \(F = m\,g = 1.4\,\mathrm{N}\) angezogen — so viel wie \(140\,\mathrm{g}\) auf der Erde. Ein Sprung, der auf der Erde \(50\,\mathrm{cm}\) hoch führt, reicht dort \(246\,\mathrm{m}\) weit hinauf: Die Absprunggeschwindigkeit bleibt dieselbe, und \(h = v^{2}/(2g)\) wächst mit dem Kehrwert von \(g\).</p>
+      </div>
+
+      <h3>c) Die Fluchtgeschwindigkeit an Pulcovas Oberfläche</h3>
+
+      <div class="frage">Berechne die Fluchtgeschwindigkeit an der Oberfläche von Pulcova.</div>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-g3c-fluchtgeschwindigkeit-pulcova.html" data-titel="Aufgabe 3c: Fluchtgeschwindigkeit an Pulcovas Oberfläche">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 3c: Fluchtgeschwindigkeit an Pulcovas Oberfläche</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:52</span>
+        </button>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Lösung 3c</p>
+        <p><strong>Ansatz.</strong> Dieselbe Bedingung wie in Aufgabe 2: In unendlicher Entfernung ist gerade keine Geschwindigkeit mehr übrig.</p>
+        <p>\[ \tfrac{1}{2}\,m\,v^{2} = \frac{G\,M\,m}{R} \qquad\Longrightarrow\qquad v = \sqrt{\frac{2\,G\,M}{R}} \]</p>
+        <p><strong>Einsetzen.</strong></p>
+        <p>\[ v = \sqrt{\frac{2 \cdot 9.34 \cdot 10^{7}\,\mathrm{m^3/s^2}}{6.85 \cdot 10^{4}\,\mathrm{m}}} = \sqrt{2728\,\mathrm{m^2/s^2}} \]</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> \(v = 52\,\mathrm{m/s} = 188\,\mathrm{km/h}\).</p>
+        </div>
+        <p class="pkt-hinweis">Wer 3b schon hat, kann abkürzen: \(v = \sqrt{2\,g\,R}\) liefert mit \(g = 0.0199\,\mathrm{m/s^2}\) und \(R = 6.85 \cdot 10^{4}\,\mathrm{m}\) ebenfalls \(52\,\mathrm{m/s}\). Beide Wege geben dieselbe Zahl — das ist zugleich die Probe.</p>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Grössenordnung als Kontrolle</p>
+        <p style="margin-bottom:0">\(52\,\mathrm{m/s}\) sind rund \(188\,\mathrm{km/h}\) — ein Tennisaufschlag erreicht das, ein geworfener Ball nicht ganz. Auf der Erde liefert dieselbe Formel \(11.2\,\mathrm{km/s}\), also das \(214\)-fache. Genau darum halten kleine Körper keine Atmosphäre fest: Ihre Gasmoleküle sind bei den üblichen Temperaturen schneller als die Fluchtgeschwindigkeit.</p>
+      </div>
+
+      <h3>d) Der kleinste Sonnenabstand</h3>
+
+      <div class="frage">Pulcova hat eine grosse Halbachse von \(3.1543\) astronomischen Einheiten (AE) sowie eine Exzentrizität von \(0.10146\). Berechne den kleinsten Abstand von der Sonne in AE und in Meter. Wie heisst diese Stelle auf der Bahn?</div>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-g3d-perihel-der-bahn.html" data-titel="Aufgabe 3d: Der sonnennächste Punkt von Pulcovas Bahn">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 3d: Der sonnennächste Punkt von Pulcovas Bahn</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:50</span>
+        </button>
+      </div>
+
+      <figure class="sim" data-sim="ellipse">
+        <div class="sim-frame">
+          <svg viewBox="0 0 420 230" role="img" aria-label="Ellipsenbahn mit der Sonne in einem Brennpunkt, Perihel links und Aphel rechts">
+            <ellipse id="el-bahn" class="svg-curve" cx="210" cy="115" rx="100" ry="99.5"/>
+            <line class="svg-hilfs" x1="110" y1="115" x2="310" y2="115"/>
+            <line id="el-rmin" class="svg-rot" x1="110" y1="115" x2="200" y2="115"/>
+            <circle id="el-sonne" cx="200" cy="115" r="6" fill="#d97706"/>
+            <circle class="svg-punkt" cx="110" cy="115" r="4"/>
+            <circle id="el-aphel" class="svg-punkt" cx="310" cy="115" r="3" opacity=".5"/>
+            <text class="svg-label-em" x="110" y="132" text-anchor="middle">Perihel</text>
+            <text class="svg-label" x="310" y="132" text-anchor="middle">Aphel</text>
+            <text class="svg-label" id="el-sl" x="210" y="105" text-anchor="middle">Sonne</text>
+            <text class="svg-label-em" id="el-t1" x="210" y="22" text-anchor="middle">Perihel 2.834 AE · Aphel 3.474 AE</text>
+            <text class="svg-label" id="el-t2" x="210" y="222" text-anchor="middle">a = 3.1543 AE; e = 0.10146</text>
+          </svg>
+        </div>
+        <div class="sim-bar">
+          <span class="sim-lab" id="el-lab">Exzentrizität e</span>
+          <input class="sim-range" id="el-r" type="range" min="0" max="60000" value="10146" step="1" aria-labelledby="el-lab">
+          <span class="sim-val" id="el-rv">0.10146</span>
+        </div>
+        <div class="sim-out">
+          <span>Perihel <b id="el-o1">2.834 AE</b>; Aphel <b id="el-o2">3.474 AE</b>; Unterschied <b id="el-o3">0.64 AE</b></span>
+          <br><span class="sim-konst" id="el-k">kleinster Abstand = a · (1 − e) = 3.1543 AE · 0.8985 = 2.834 AE</span>
+        </div>
+        <figcaption>Abb. 4 — Die Ellipse sieht bei e = 0.10146 noch fast wie ein Kreis aus; nur die Sonne sitzt sichtbar aus der Mitte. Der Abstand schwankt trotzdem um 0.64 AE — rund 96 Millionen Kilometer. Zieh den Regler: Die Form ändert sich langsam, die Lage des Brennpunkts schnell.</figcaption>
+      </figure>
+
+      <div class="card">
+        <p class="card-label">Lösung 3d</p>
+        <p><strong>Ansatz.</strong> Nach Keplers erstem Gesetz ist die Bahn eine Ellipse mit der Sonne in einem Brennpunkt. Der Brennpunkt liegt um \(a\,e\) aus der Mitte verschoben; der sonnennächste Punkt liegt darum um genau diese Strecke näher als die grosse Halbachse:</p>
+        <p>\[ r_{\min} = a - a\,e = a\,(1 - e) \]</p>
+        <p><strong>Einsetzen.</strong></p>
+        <p>\[ r_{\min} = 3.1543\,\mathrm{AE} \cdot (1 - 0.10146) \]</p>
+        <p>\[ r_{\min} = 3.1543\,\mathrm{AE} \cdot 0.89854 = 2.8343\,\mathrm{AE} \]</p>
+        <p><strong>In Meter.</strong> Mit \(1\,\mathrm{AE} = 1.496 \cdot 10^{11}\,\mathrm{m}\):</p>
+        <p>\[ r_{\min} = 2.8343 \cdot 1.496 \cdot 10^{11}\,\mathrm{m} = 4.240 \cdot 10^{11}\,\mathrm{m} \]</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> \(r_{\min} = 2.834\,\mathrm{AE}\), also \(4.24 \cdot 10^{11}\,\mathrm{m}\). Diese Stelle der Bahn heisst <strong>Perihel</strong> (der sonnenfernste Punkt heisst Aphel und liegt bei \(a\,(1+e) = 3.474\,\mathrm{AE}\)).</p>
+        </div>
+        <p class="pkt-hinweis">Die Benennung ist ein eigener Punkt. Bei einer Bahn um die Erde hiessen die beiden Stellen Perigäum und Apogäum, allgemein Periapsis und Apoapsis.</p>
+      </div>
+
+      <label class="done-row"><input type="checkbox" data-step="a3"><span class="done-txt">Aufgabe 3 sitzt: \(GM\) einmal ausrechnen, Kepler für \(T\), \(GM/R^{2}\) für \(g\), \(\sqrt{2GM/R}\) für die Flucht, \(a(1-e)\) fürs Perihel.</span></label>
+    </section>
+
+    <!-- ============ 262 a und b ============ -->
+    <section class="step prose">
+      <div class="step-head">
+        <span class="step-num">BLATT 2 · 262 a/b</span>
+        <div>
+          <h2 id="e-ab" class="step-title">Die Bahn im Plattenkondensator</h2>
+          <p class="step-goal">Herleitung der Bahngleichung und die Eintrittsgeschwindigkeit, bei der das Elektron genau die hintere Plattenkante trifft.</p>
+        </div>
+      </div>
+
+      <div class="frage">Aus einer Elektronenquelle treten die Elektronen mit einer Geschwindigkeit \(v_0\) senkrecht in das homogene elektrische Feld eines Plattenkondensators der Breite \(8.0\,\mathrm{cm}\) und der Länge \(10.0\,\mathrm{cm}\) ein. Der Einschuss liegt mittig. An den Kondensator wird eine Spannung von \(12\,\mathrm{kV}\) angelegt; die obere Platte ist der Pluspol.</div>
+
+      <div class="card">
+        <p class="card-label">Die Angaben, geordnet</p>
+        <div class="table-scroll">
+          <table class="kennwerte">
+            <tr><td class="q">\(l = 10.0\,\mathrm{cm}\)</td><td>Plattenlänge — die Strecke, über die das Feld wirkt</td></tr>
+            <tr><td class="q">\(d = 8.0\,\mathrm{cm}\)</td><td>Plattenabstand — der Weg, den die Spannung überbrückt</td></tr>
+            <tr><td class="q">\(y_{\max} = 4.0\,\mathrm{cm}\)</td><td>Platz nach oben; der Einschuss liegt mittig, also \(d/2\)</td></tr>
+            <tr><td class="q">\(U = 12\,\mathrm{kV}\)</td><td>Ablenkspannung, obere Platte positiv</td></tr>
+          </table>
+        </div>
+        <p style="margin-bottom:0">Daraus folgt sofort die Feldstärke, und sie wird auf diesem ganzen Blatt gebraucht: \[ E = \frac{U}{d} = \frac{12\,000\,\mathrm{V}}{0.080\,\mathrm{m}} = 1.5 \cdot 10^{5}\,\frac{\mathrm{V}}{\mathrm{m}} \]</p>
+      </div>
+
+      <h3>a) Die allgemeine Bahngleichung</h3>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-e1-bahngleichung-im-kondensator.html" data-titel="Aufgabe 262a: Die Bahngleichung im Plattenkondensator">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 262a: Die Bahngleichung im Plattenkondensator</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:52</span>
+        </button>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Lösung 262a</p>
+        <p><strong>Schritt 1 · Die beiden Bewegungen trennen.</strong> Längs der Platten wirkt keine Kraft; dort fliegt das Elektron gleichförmig. Quer dazu zieht die elektrische Kraft, und zwar konstant, weil das Feld homogen ist. Das ist genau der Aufbau des waagrechten Wurfs:</p>
+        <p>\[ x(t) = v_0\,t \qquad\qquad y(t) = \tfrac{1}{2}\,a\,t^{2} \]</p>
+        <p><strong>Schritt 2 · Die Querbeschleunigung.</strong> Kraft ist Ladung mal Feldstärke, Beschleunigung ist Kraft durch Masse:</p>
+        <p>\[ F = e\,E = e\,\frac{U}{d} \qquad\Longrightarrow\qquad a = \frac{F}{m} = \frac{e\,U}{m\,d} \]</p>
+        <p><strong>Schritt 3 · Die Zeit eliminieren.</strong> Aus der ersten Gleichung folgt \(t = x / v_0\); eingesetzt in die zweite:</p>
+        <p>\[ y = \tfrac{1}{2}\,a\,\frac{x^{2}}{v_0^{2}} \]</p>
+        <div class="ergebnis">
+          <p><strong>Ergebnis — die Bahngleichung.</strong></p>
+          <p style="margin-bottom:0">\[ y(x) = \frac{e\,U}{2\,m\,d\,v_0^{2}}\;x^{2} \]</p>
+        </div>
+        <p>Das ist eine Parabel: \(y\) wächst mit dem Quadrat von \(x\). Sie ist nach oben geöffnet, zur positiven Platte hin — das Elektron ist negativ, seine Kraft zeigt darum dem Feld entgegen.</p>
+        <p class="pkt-hinweis">Punkte gibt es für die Trennung der beiden Bewegungen, für \(a = eU/(md)\) und für das Eliminieren der Zeit. Die Aussage «eine Parabel» gehört ausdrücklich dazu — gefragt war die <em>Bahn</em>, nicht nur eine Formel.</p>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Was in der Formel steckt</p>
+        <p style="margin-bottom:0">\(y \sim 1/v_0^{2}\): Doppelt so schnelle Elektronen werden nur ein Viertel so stark abgelenkt. \(y \sim U\): Doppelte Spannung heisst doppelte Ablenkung. Und \(y \sim 1/d\): Enge Platten lenken stärker ab, weil dieselbe Spannung dort ein stärkeres Feld erzeugt. Hinter den Platten wirkt keine Kraft mehr — dort fliegt das Elektron geradeaus weiter, tangential an die Parabel.</p>
+      </div>
+
+      <h3>b) Die Eintrittsgeschwindigkeit für die hintere Plattenkante</h3>
+
+      <div class="frage">Bei welcher Eintrittsgeschwindigkeit erreichen die Elektronen genau den hinteren Rand der Platte? Wie fliegen sie, wenn die Eintrittsgeschwindigkeit grösser ist als der berechnete Wert?</div>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-e2-grenzgeschwindigkeit.html" data-titel="Aufgabe 262b: Welche Eintrittsgeschwindigkeit trifft genau die Plattenkante?">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 262b: Welche Eintrittsgeschwindigkeit trifft genau die Plattenkante?</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:52</span>
+        </button>
+      </div>
+
+      <figure class="sim" data-sim="bahn">
+        <div class="sim-frame">
+          <svg viewBox="0 0 420 262" role="img" aria-label="Plattenkondensator im Schnitt mit der parabelförmigen Elektronenbahn">
+            <text class="svg-label" x="195" y="12" text-anchor="middle">10.0 cm</text>
+            <line class="svg-axis" x1="70" y1="19" x2="320" y2="19" stroke-width="1"/>
+            <line class="svg-axis" x1="70" y1="15" x2="70" y2="23" stroke-width="1"/>
+            <line class="svg-axis" x1="320" y1="15" x2="320" y2="23" stroke-width="1"/>
+
+            <rect class="svg-platte" x="70" y="26" width="250" height="4"/>
+            <rect class="svg-platte" x="70" y="230" width="250" height="4"/>
+            <text class="svg-label-em" x="195" y="44" text-anchor="middle">+</text>
+            <text class="svg-label-em" x="195" y="224" text-anchor="middle">−</text>
+            <line class="svg-hilfs" x1="70" y1="130" x2="320" y2="130"/>
+
+            <line class="svg-axis" x1="62" y1="30" x2="62" y2="130" stroke-width="1"/>
+            <line class="svg-axis" x1="62" y1="130" x2="62" y2="230" stroke-width="1"/>
+            <text class="svg-label" x="30" y="72" text-anchor="middle">4.0 cm</text>
+            <text class="svg-label" x="30" y="196" text-anchor="middle">4.0 cm</text>
+
+            <rect class="svg-koerper" x="4" y="112" width="40" height="36" rx="3"/>
+            <text class="svg-label" x="24" y="134" text-anchor="middle">e⁻</text>
+            <text class="svg-label" x="24" y="160" text-anchor="middle">Quelle</text>
+            <line class="svg-curve" x1="46" y1="130" x2="66" y2="130" stroke-width="1.4"/>
+            <text class="svg-label-em" x="56" y="122" text-anchor="middle">v₀</text>
+
+            <polyline id="ba-bahn" class="svg-rot" points=""/>
+            <polyline id="ba-frei" class="svg-dash" points=""/>
+            <circle id="ba-ende" class="svg-rot-f" cx="320" cy="30" r="4"/>
+            <text class="svg-label-em" id="ba-info" x="330" y="252" text-anchor="end">y(l) = 4.00 cm</text>
+          </svg>
+        </div>
+        <div class="sim-bar">
+          <span class="sim-lab" id="ba-lab">Eintrittsgeschwindigkeit</span>
+          <input class="sim-range" id="ba-r" type="range" min="300" max="1000" value="574" step="2" aria-labelledby="ba-lab">
+          <span class="sim-val" id="ba-rv">5.74·10⁷ m/s</span>
+          <span class="sim-tog" role="group" aria-label="Ablenkspannung">
+            <button type="button" data-u="6000" aria-pressed="false">6 kV</button>
+            <button type="button" data-u="12000" aria-pressed="true">12 kV</button>
+            <button type="button" data-u="24000" aria-pressed="false">24 kV</button>
+          </span>
+        </div>
+        <div class="sim-out">
+          <span>Querbeschleunigung <b id="ba-o1">2.64·10¹⁶ m/s²</b>; Ablenkung am Plattenende <b id="ba-o2">4.00 cm</b>; <b id="ba-o3">gerade noch bis zur Kante</b></span>
+          <br><span class="sim-konst" id="ba-k">y(l) = e · U · l² / (2 · m · d · v₀²) = 4.00 cm</span>
+        </div>
+        <figcaption>Abb. 5 — Der Kondensator im Schnitt, massstäblich. Die durchgezogene Linie ist die Parabel im Feld, die gestrichelte der geradlinige Weiterflug dahinter. Zieh den Regler nach links: Unterhalb von rund 57 Millionen Meter je Sekunde schlägt das Elektron auf der oberen Platte auf, und zwar umso früher, je langsamer es ist.</figcaption>
+      </figure>
+
+      <div class="card">
+        <p class="card-label">Lösung 262b</p>
+        <p><strong>Die Bedingung.</strong> «Genau den hinteren Rand erreichen» heisst: bei \(x = l = 10.0\,\mathrm{cm}\) ist \(y\) gerade \(d/2 = 4.0\,\mathrm{cm}\) — der ganze Platz nach oben ist aufgebraucht, und zwar genau am Plattenende.</p>
+        <p><strong>Einsetzen in die Bahngleichung aus a.</strong></p>
+        <p>\[ \frac{d}{2} = \frac{e\,U\,l^{2}}{2\,m\,d\,v_0^{2}} \]</p>
+        <p><strong>Nach \(v_0\) auflösen.</strong> Mit \(2\,m\,d \cdot \tfrac{d}{2} = m\,d^{2}\) wird der Ausdruck überraschend kurz:</p>
+        <p>\[ v_0^{2} = \frac{e\,U\,l^{2}}{m\,d^{2}} \qquad\Longrightarrow\qquad v_0 = \frac{l}{d}\,\sqrt{\frac{e\,U}{m}} \]</p>
+        <p><strong>Einsetzen.</strong></p>
+        <p>\[ v_0 = \frac{0.100\,\mathrm{m}}{0.080\,\mathrm{m}}\,\sqrt{\frac{1.602 \cdot 10^{-19}\,\mathrm{C} \cdot 12\,000\,\mathrm{V}}{9.11 \cdot 10^{-31}\,\mathrm{kg}}} \]</p>
+        <p>\[ v_0 = 1.25 \cdot \sqrt{2.11 \cdot 10^{15}\,\tfrac{\mathrm{m^2}}{\mathrm{s^2}}} \]</p>
+        <p>\[ v_0 = 1.25 \cdot 4.59 \cdot 10^{7}\,\frac{\mathrm{m}}{\mathrm{s}} \]</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> \(v_0 = 5.7 \cdot 10^{7}\,\mathrm{m/s}\).</p>
+        </div>
+        <p><strong>Der zweite Teil der Frage.</strong> Bei grösserer Eintrittsgeschwindigkeit ist die Flugzeit im Feld kürzer, die Querbeschleunigung aber unverändert. Die Ablenkung am Plattenende fällt darum kleiner aus als \(4.0\,\mathrm{cm}\) — sie geht mit \(1/v_0^{2}\). Die Elektronen verlassen den Feldbereich also am hinteren Rand, ohne eine Platte zu berühren, und fliegen danach geradeaus weiter, schräg nach oben, tangential an die Parabel. Der Ablenkwinkel folgt aus \(\tan\alpha = v_y / v_0\).</p>
+        <p class="pkt-hinweis">Beide Teile zählen: die Zahl \(5.7 \cdot 10^{7}\,\mathrm{m/s}\) und die Aussage, dass schnellere Elektronen weniger abgelenkt werden und das Feld hinten verlassen.</p>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Eine ehrliche Randbemerkung</p>
+        <p style="margin-bottom:0">\(5.7 \cdot 10^{7}\,\mathrm{m/s}\) sind \(19\,\%\) der Lichtgeschwindigkeit. Dort beginnt die klassische Mechanik ungenau zu werden: Der relativistische Impuls ist rund \(1.9\,\%\) grösser als \(m\,v\). Für eine Schulaufgabe ist das ohne Belang, und gerechnet wird klassisch — man sollte aber wissen, dass man an einer Grenze rechnet.</p>
+      </div>
+
+      <label class="done-row"><input type="checkbox" data-step="e-ab"><span class="done-txt">262 a/b sitzt: zwei unabhängige Bewegungen, \(a = eU/(md)\), Zeit eliminieren, Bedingung \(y(l) = d/2\).</span></label>
+    </section>
+
+    <!-- ============ 262 c, d, e ============ -->
+    <section class="step prose">
+      <div class="step-head">
+        <span class="step-num">BLATT 2 · 262 c–e</span>
+        <div>
+          <h2 id="e-cde" class="step-title">Zwei Felder, die sich aufheben — der Geschwindigkeitsfilter</h2>
+          <p class="step-goal">Richtung des Magnetfelds, Betrag der Flussdichte und die Frage, wohin zu langsame Elektronen gehen.</p>
+        </div>
+      </div>
+
+      <div class="frage">Zwischen den Kondensatorplatten soll dem elektrischen Feld ein homogenes Magnetfeld so überlagert werden, dass die Elektronen der Geschwindigkeit \(1.8 \cdot 10^{7}\,\mathrm{m/s}\) die Anordnung unabgelenkt durchfliegen.</div>
+
+      <h3>c) Wie muss das Magnetfeld orientiert sein?</h3>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-e3-richtung-des-magnetfelds.html" data-titel="Aufgabe 262c: Wie muss das Magnetfeld orientiert sein?">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 262c: Wie muss das Magnetfeld orientiert sein?</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:52</span>
+        </button>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Lösung 262c</p>
+        <p><strong>Schritt 1 · Wohin zieht das elektrische Feld?</strong> Das Feld \(\vec E\) zeigt von der positiven zur negativen Platte, also nach unten. Das Elektron trägt die Ladung \(-e\), seine Kraft zeigt dem Feld darum entgegen:</p>
+        <p>\[ \vec F_{\mathrm{el}} = (-e)\,\vec E \]</p>
+        <p>Diese Kraft zeigt nach oben, zur positiven Platte.</p>
+        <p><strong>Schritt 2 · Was die Lorentzkraft leisten muss.</strong> Unabgelenkt heisst kräftefrei. Die Lorentzkraft muss also gleich gross sein und nach unten zeigen:</p>
+        <p>\[ \vec F_{\mathrm{mag}} = -\,\vec F_{\mathrm{el}} \]</p>
+        <p>Sie muss also nach unten zeigen, zur negativen Platte.</p>
+        <p><strong>Schritt 3 · Die Richtung von \(\vec B\).</strong> Die Lorentzkraft \(\vec F = q\,\vec v \times \vec B\) steht immer senkrecht auf \(\vec v\) <em>und</em> auf \(\vec B\). Damit ist \(\vec B\) waagrecht und quer zur Flugrichtung — es bleiben nur zwei Möglichkeiten: aus der Zeichenebene heraus oder in sie hinein.</p>
+        <p>Die Drei-Finger-Regel der rechten Hand entscheidet. Der Daumen zeigt in die <em>technische</em> Stromrichtung, also entgegen der Elektronenbewegung — nach links. Der Mittelfinger zeigt in die gewünschte Kraftrichtung — nach unten. Der Zeigefinger zeigt dann in die Zeichenebene hinein.</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> \(\vec B\) steht senkrecht auf der Flugrichtung und senkrecht auf dem elektrischen Feld, also waagrecht und parallel zu den Platten — in der Zeichnung <strong>in die Zeichenebene hinein</strong> (Symbol \(\otimes\)).</p>
+        </div>
+        <p class="pkt-hinweis">Gefragt ist die Orientierung, nicht der Betrag. Wer nur «senkrecht zu \(\vec v\)» schreibt, hat die Hälfte: Das ist die Lorentzkraft immer. Verlangt ist die dritte Achse, und die Richtung darin.</p>
+      </div>
+
+      <h3>d) Der Betrag der Flussdichte</h3>
+
+      <div class="frage">Zeige, dass der Betrag der magnetischen Flussdichte \(8.3\,\mathrm{mT}\) sein muss.</div>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-e4-flussdichte-8-3-mt.html" data-titel="Aufgabe 262d: Warum die Flussdichte 8.3 mT betragen muss">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 262d: Warum die Flussdichte 8.3 mT betragen muss</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:50</span>
+        </button>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Lösung 262d</p>
+        <p><strong>Ansatz.</strong> Kräftegleichgewicht. Weil \(\vec v\) und \(\vec B\) senkrecht aufeinander stehen, ist der Betrag der Lorentzkraft einfach \(e\,v\,B\):</p>
+        <p>\[ e\,E = e\,v\,B \]</p>
+        <p><strong>Kürzen.</strong> Die Elementarladung steht auf beiden Seiten und fällt heraus — das Ergebnis gilt darum für jede Ladung, auch für Ionen:</p>
+        <p>\[ B = \frac{E}{v} = \frac{U}{d\,v} \]</p>
+        <p><strong>Einsetzen.</strong></p>
+        <p>\[ B = \frac{1.5 \cdot 10^{5}\,\mathrm{V/m}}{1.8 \cdot 10^{7}\,\mathrm{m/s}} = 8.33 \cdot 10^{-3}\,\frac{\mathrm{V}\cdot\mathrm{s}}{\mathrm{m^2}} \]</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> \(B = 8.3 \cdot 10^{-3}\,\mathrm{T} = 8.3\,\mathrm{mT}\) — wie behauptet.</p>
+        </div>
+        <p class="pkt-hinweis">Einheitenkontrolle gehört hier ausdrücklich dazu, weil «zeigen Sie» verlangt ist: \(\dfrac{\mathrm{V/m}}{\mathrm{m/s}} = \dfrac{\mathrm{V\,s}}{\mathrm{m^2}} = \mathrm{T}\).</p>
+      </div>
+
+      <h3>e) Wohin werden langsamere Elektronen abgelenkt?</h3>
+
+      <div class="frage">Erkläre, in welche Richtung Elektronen mit einer kleineren Geschwindigkeit unmittelbar nach dem Einschuss in den Feldbereich abgelenkt werden.</div>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-e5-langsamere-elektronen.html" data-titel="Aufgabe 262e: Wohin werden langsamere Elektronen abgelenkt?">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 262e: Wohin werden langsamere Elektronen abgelenkt?</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:50</span>
+        </button>
+      </div>
+
+      <figure class="sim" data-sim="filter">
+        <div class="sim-frame">
+          <svg viewBox="0 0 420 262" role="img" aria-label="Geschwindigkeitsfilter: Kräftepfeile am Eintrittspunkt und die daraus folgende Bahn">
+            <defs>
+              <marker id="pf-rot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#c2410c"/>
+              </marker>
+              <marker id="pf-blau" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+              </marker>
+            </defs>
+            <rect class="svg-platte" x="70" y="26" width="250" height="4"/>
+            <rect class="svg-platte" x="70" y="230" width="250" height="4"/>
+            <text class="svg-label-em" x="195" y="44" text-anchor="middle">+</text>
+            <text class="svg-label-em" x="195" y="224" text-anchor="middle">−</text>
+            <line class="svg-hilfs" x1="70" y1="130" x2="320" y2="130"/>
+
+            <g class="svg-thin" id="fi-b">
+              <circle cx="140" cy="66" r="6"/><line x1="135.8" y1="61.8" x2="144.2" y2="70.2"/><line x1="144.2" y1="61.8" x2="135.8" y2="70.2"/>
+              <circle cx="230" cy="66" r="6"/><line x1="225.8" y1="61.8" x2="234.2" y2="70.2"/><line x1="234.2" y1="61.8" x2="225.8" y2="70.2"/>
+              <circle cx="290" cy="66" r="6"/><line x1="285.8" y1="61.8" x2="294.2" y2="70.2"/><line x1="294.2" y1="61.8" x2="285.8" y2="70.2"/>
+              <circle cx="140" cy="208" r="6"/><line x1="135.8" y1="203.8" x2="144.2" y2="212.2"/><line x1="144.2" y1="203.8" x2="135.8" y2="212.2"/>
+              <circle cx="230" cy="208" r="6"/><line x1="225.8" y1="203.8" x2="234.2" y2="212.2"/><line x1="234.2" y1="203.8" x2="225.8" y2="212.2"/>
+              <circle cx="290" cy="208" r="6"/><line x1="285.8" y1="203.8" x2="294.2" y2="212.2"/><line x1="294.2" y1="203.8" x2="285.8" y2="212.2"/>
+            </g>
+            <text class="svg-label" x="390" y="66" text-anchor="end">B in die Ebene</text>
+
+            <rect class="svg-koerper" x="4" y="112" width="40" height="36" rx="3"/>
+            <text class="svg-label" x="24" y="134" text-anchor="middle">e⁻</text>
+
+            <line id="fi-fel" class="svg-rot" x1="70" y1="130" x2="70" y2="80" marker-end="url(#pf-rot)" stroke-width="2.4"/>
+            <line id="fi-fmag" class="svg-blau" x1="70" y1="130" x2="70" y2="180" marker-end="url(#pf-blau)" stroke-width="2.4"/>
+            <text class="svg-label-em" id="fi-lel" x="78" y="76" fill="#c2410c">F<tspan font-size="8" dy="2">elektrisch</tspan></text>
+            <text class="svg-label-em" id="fi-lmag" x="78" y="188" fill="#2563eb">F<tspan font-size="8" dy="2">magnetisch</tspan></text>
+
+            <polyline id="fi-bahn" class="svg-curve" points="" stroke-width="2.4"/>
+            <text class="svg-label-em" id="fi-info" x="410" y="252" text-anchor="end">Gleichgewicht — geradeaus</text>
+          </svg>
+        </div>
+        <div class="sim-bar">
+          <span class="sim-lab" id="fi-lab">Eintrittsgeschwindigkeit</span>
+          <input class="sim-range" id="fi-r" type="range" min="120" max="260" value="180" step="1" aria-labelledby="fi-lab">
+          <span class="sim-val" id="fi-rv">1.80·10⁷ m/s</span>
+        </div>
+        <div class="sim-out">
+          <span>elektrische Kraft <b id="fi-o1">2.40·10⁻¹⁴ N</b>; Lorentzkraft <b id="fi-o2">2.40·10⁻¹⁴ N</b>; Rest <b id="fi-o3">0</b></span>
+          <br><span class="sim-konst" id="fi-k">Restkraft = e · (E − v · B) = 0 — nur diese Geschwindigkeit kommt geradeaus durch</span>
+        </div>
+        <figcaption>Abb. 6 — Der rote Pfeil (elektrische Kraft) bleibt gleich lang, egal wo der Regler steht; der blaue (Lorentzkraft) wächst mit der Geschwindigkeit. Nur bei 18 Millionen Meter je Sekunde sind beide gleich. Die gezeichnete Bahn gilt streng nur unmittelbar nach dem Einschuss: Sobald das Elektron eine Querkomponente hat, dreht sich die Lorentzkraft mit, und die wirkliche Bahn ist keine Parabel mehr. Genau nach diesem ersten Moment fragt die Aufgabe.</figcaption>
+      </figure>
+
+      <div class="card">
+        <p class="card-label">Lösung 262e</p>
+        <p><strong>Der entscheidende Unterschied.</strong> Die beiden Kräfte hängen verschieden von der Geschwindigkeit ab:</p>
+        <p>\[ F_{\mathrm{el}} = e\,E \qquad\text{unabhängig von } v \]</p>
+        <p>\[ F_{\mathrm{mag}} = e\,v\,B \qquad\text{proportional zu } v \]</p>
+        <p><strong>Der Vergleich.</strong> Ist \(v\) kleiner als die Durchlassgeschwindigkeit \(v_{\mathrm{durch}} = E/B\), dann ist die Lorentzkraft kleiner als die elektrische Kraft. Es bleibt eine Restkraft übrig:</p>
+        <p>\[ F_{\mathrm{rest}} = e\,(E - v\,B) \gt 0 \qquad\text{für } v \lt v_{\mathrm{durch}} \]</p>
+        <p>Diese Restkraft hat die Richtung der elektrischen Kraft, also nach oben.</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> Langsamere Elektronen werden <strong>nach oben, zur positiven Platte</strong> abgelenkt. Schnellere werden umgekehrt nach unten gezogen, zur negativen Platte.</p>
+        </div>
+        <p class="pkt-hinweis">Die Begründung zählt, nicht nur die Richtung: Die elektrische Kraft kennt die Geschwindigkeit nicht, die magnetische schon. Wer das sagt, hat die Aufgabe.</p>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Warum die Anordnung Geschwindigkeitsfilter heisst</p>
+        <p style="margin-bottom:0">Aus einer Elektronenquelle kommen Elektronen mit verschiedenen Geschwindigkeiten. Diese Anordnung lenkt alle ab, die zu langsam oder zu schnell sind — nach oben beziehungsweise nach unten. Eine Blende hinter den Platten lässt dann nur noch jene durch, für die \(v = E/B\) gilt. Der Filter sortiert nach Geschwindigkeit, nicht nach Ladung oder Masse; darum steht er in jedem Massenspektrometer vor der eigentlichen Messung.</p>
+      </div>
+
+      <label class="done-row"><input type="checkbox" data-step="e-cde"><span class="done-txt">262 c–e sitzt: \(\vec B\) senkrecht auf \(\vec v\) und \(\vec E\), \(B = E/v\), und nur die Lorentzkraft hängt von \(v\) ab.</span></label>
+    </section>
+
+    <!-- ============ 262 f ============ -->
+    <section class="step prose">
+      <div class="step-head">
+        <span class="step-num">BLATT 2 · 262 f</span>
+        <div>
+          <h2 id="e-f" class="step-title">Ablenkspannung aus — der Halbkreis zurück</h2>
+          <p class="step-goal">Ohne elektrisches Feld läuft das Elektron auf einem Kreis. Die Frage ist, ob dieser Kreis in den Spalt passt.</p>
+        </div>
+      </div>
+
+      <div class="frage">Nun wird die Ablenkspannung ausgeschaltet, so dass nur noch das magnetische Feld vorhanden ist. Welche Eintrittsgeschwindigkeit müssen die Elektronen haben, um den Feldbereich wieder verlassen zu können, ohne auf eine Kondensatorplatte zu treffen?</div>
+
+      <div class="clipkarte zu-aufg" data-clip="clips/serie-e6-halbkreis-zurueck.html" data-titel="Aufgabe 262f: Auf dem Halbkreis wieder hinaus">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt">
+            <span class="clip-titel">Aufgabe 262f: Auf dem Halbkreis wieder hinaus</span>
+            <span class="clip-quelle">Erklärclip · vier Schritte</span>
+          </span>
+          <span class="clip-zeit">0:51</span>
+        </button>
+      </div>
+
+      <p>Jetzt wirkt nur noch die Lorentzkraft. Sie steht immer senkrecht auf der Geschwindigkeit: Sie ändert die Richtung, nie den Betrag. Ein geladenes Teilchen läuft in einem homogenen Magnetfeld darum auf einem <em>Kreis</em>.</p>
+
+      <figure class="sim" data-sim="kreis">
+        <div class="sim-frame">
+          <svg viewBox="0 0 420 262" role="img" aria-label="Kreisbahn des Elektrons im reinen Magnetfeld zwischen den Kondensatorplatten">
+            <rect class="svg-platte" x="70" y="26" width="250" height="4"/>
+            <rect class="svg-platte" x="70" y="230" width="250" height="4"/>
+            <line class="svg-hilfs" x1="70" y1="130" x2="320" y2="130"/>
+            <text class="svg-label" x="195" y="20" text-anchor="middle">Feldbereich, 10.0 cm lang</text>
+            <text class="svg-label" x="330" y="34">Platte</text>
+            <text class="svg-label" x="330" y="238">Platte</text>
+
+            <g class="svg-thin">
+              <circle cx="150" cy="70" r="6"/><line x1="145.8" y1="65.8" x2="154.2" y2="74.2"/><line x1="154.2" y1="65.8" x2="145.8" y2="74.2"/>
+              <circle cx="240" cy="70" r="6"/><line x1="235.8" y1="65.8" x2="244.2" y2="74.2"/><line x1="244.2" y1="65.8" x2="235.8" y2="74.2"/>
+              <circle cx="240" cy="196" r="6"/><line x1="235.8" y1="191.8" x2="244.2" y2="200.2"/><line x1="244.2" y1="191.8" x2="235.8" y2="200.2"/>
+            </g>
+
+            <rect class="svg-koerper" x="4" y="112" width="40" height="36" rx="3"/>
+            <text class="svg-label" x="24" y="134" text-anchor="middle">e⁻</text>
+            <line class="svg-curve" x1="46" y1="130" x2="66" y2="130" stroke-width="1.4"/>
+
+            <circle id="kr-voll" class="svg-hilfs" cx="70" cy="180" r="50"/>
+            <circle id="kr-zentrum" class="svg-punkt" cx="70" cy="180" r="2.5" opacity=".6"/>
+            <path id="kr-bahn" class="svg-rot" d=""/>
+            <circle id="kr-ende" class="svg-rot-f" cx="70" cy="230" r="4"/>
+            <text class="svg-label-em" id="kr-info" x="410" y="252" text-anchor="end">Radius 2.00 cm — kehrt gerade noch um</text>
+          </svg>
+        </div>
+        <div class="sim-bar">
+          <span class="sim-lab" id="kr-lab">Eintrittsgeschwindigkeit</span>
+          <input class="sim-range" id="kr-r" type="range" min="50" max="600" value="293" step="1" aria-labelledby="kr-lab">
+          <span class="sim-val" id="kr-rv">2.93·10⁷ m/s</span>
+        </div>
+        <div class="sim-out">
+          <span>Bahnradius <b id="kr-o1">2.00 cm</b>; Tiefe des Halbkreises <b id="kr-o2">4.00 cm</b>; <b id="kr-o3">verlässt das Feld auf der Eintrittsseite</b></span>
+          <br><span class="sim-konst" id="kr-k">r = m · v / (e · B) = 2.00 cm; nötig ist 2 · r ≤ 4.0 cm</span>
+        </div>
+        <figcaption>Abb. 7 — Der gestrichelte Kreis ist die volle Bahn, die rote Linie der tatsächlich durchflogene Bogen. Zieh den Regler nach rechts: Ab rund 29 Millionen Meter je Sekunde wird der Kreis zu gross, und das Elektron schlägt auf der unteren Platte auf, bevor es umkehren kann.</figcaption>
+      </figure>
+
+      <div class="card">
+        <p class="card-label">Lösung 262f</p>
+        <p><strong>Schritt 1 · Der Bahnradius.</strong> Die Lorentzkraft ist hier die Zentripetalkraft:</p>
+        <p>\[ e\,v\,B = \frac{m\,v^{2}}{r} \qquad\Longrightarrow\qquad r = \frac{m\,v}{e\,B} \]</p>
+        <p><strong>Schritt 2 · Die geometrische Bedingung.</strong> Das Elektron tritt in der Mitte ein und wird nach unten gekrümmt, zur negativen Platte. Nach einem halben Kreis läuft es wieder nach links — dann verlässt es den Feldbereich dort, wo es hereinkam. Auf diesem Halbkreis kommt es um zwei Radien tiefer. Nach unten stehen \(4.0\,\mathrm{cm}\) zur Verfügung:</p>
+        <p>\[ 2\,r \le 4.0\,\mathrm{cm} \qquad\Longrightarrow\qquad r \le 2.0\,\mathrm{cm} \]</p>
+        <p><strong>Schritt 3 · In eine Bedingung für \(v\) umschreiben.</strong></p>
+        <p>\[ v \le \frac{e\,B\,r_{\max}}{m} \]</p>
+        <p>\[ v \le \frac{1.602 \cdot 10^{-19}\,\mathrm{C} \cdot 8.33 \cdot 10^{-3}\,\mathrm{T} \cdot 0.020\,\mathrm{m}}{9.11 \cdot 10^{-31}\,\mathrm{kg}} \]</p>
+        <div class="ergebnis">
+          <p style="margin-bottom:0"><strong>Ergebnis.</strong> \(v \le 2.9 \cdot 10^{7}\,\mathrm{m/s}\). Elektronen bis zu dieser Geschwindigkeit beschreiben einen Halbkreis und verlassen den Feldbereich auf der Eintrittsseite. Schnellere treffen die untere Platte.</p>
+        </div>
+        <p class="pkt-hinweis">Das Ergebnis ist eine <em>Ungleichung</em>, keine einzelne Zahl. Wer nur \(2.9 \cdot 10^{7}\,\mathrm{m/s}\) hinschreibt, hat den Grenzfall — und sollte dazusagen, auf welcher Seite die erlaubten Werte liegen.</p>
+      </div>
+
+      <div class="card">
+        <p class="card-label">Und der Weg nach vorne?</p>
+        <p>Es gäbe einen zweiten Ausgang: geradeaus hinten heraus, wenn der Kreis so flach ist, dass das Elektron über \(10.0\,\mathrm{cm}\) Länge höchstens \(4.0\,\mathrm{cm}\) absackt. Aus der Kreisgeometrie folgt dafür</p>
+        <p>\[ r - \sqrt{r^{2} - l^{2}} \le \frac{d}{2} \]</p>
+        <p>\[ r \ge \frac{l^{2} + (d/2)^{2}}{2 \cdot (d/2)} = 14.5\,\mathrm{cm} \]</p>
+        <p style="margin-bottom:0">Das entspräche \(v \ge 2.1 \cdot 10^{8}\,\mathrm{m/s}\), also \(71\,\%\) der Lichtgeschwindigkeit. Dort ist die klassische Formel \(r = m\,v/(e\,B)\) nicht mehr gültig — die relativistische Masse wäre um rund \(42\,\%\) grösser, der Radius entsprechend auch. Für diese Aufgabe ist die Antwort deshalb der Halbkreis; die zweite Möglichkeit zu nennen und als unrealistisch einzuordnen, ist trotzdem der bessere Lösungsweg.</p>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Eine Grösse, die von der Geschwindigkeit unabhängig ist</p>
+        <p style="margin-bottom:0">Die Umlaufdauer auf der Kreisbahn hängt nicht von \(v\) ab: \[ T = \frac{2\pi\,m}{e\,B} = 4.3\,\mathrm{ns} \] Schnellere Elektronen laufen auf grösseren Kreisen, brauchen aber genau gleich lang. Der Halbkreis dauert also immer \(2.1\,\mathrm{ns}\) — ob das Elektron nun herauskommt oder auf die Platte trifft. Auf dieser Tatsache beruht das Zyklotron.</p>
+      </div>
+
+      <label class="done-row"><input type="checkbox" data-step="e-f"><span class="done-txt">262 f sitzt: Lorentzkraft als Zentripetalkraft, \(r = mv/(eB)\), und die Bedingung ist geometrisch: \(2r \le 4.0\,\mathrm{cm}\).</span></label>
+    </section>
+
+    <!-- ============ WERKZEUGKASTEN ============ -->
+    <section class="step prose">
+      <div class="step-head">
+        <span class="step-num">ANHANG</span>
+        <div>
+          <h2 id="werkzeug" class="step-title">Werkzeugkasten</h2>
+          <p class="step-goal">Alle Konstanten und alle Formeln, die auf diesem Blatt gebraucht werden — sonst nichts.</p>
+        </div>
+      </div>
+
+      <h3>Konstanten</h3>
+      <div class="table-scroll">
+        <table class="kennwerte">
+          <tr><th>Grösse</th><th>Wert</th><th>gebraucht in</th></tr>
+          <tr><td class="q">\(G\)</td><td>\(6.674 \cdot 10^{-11}\,\mathrm{m^3\,kg^{-1}\,s^{-2}}\)</td><td>A2, A3a–c</td></tr>
+          <tr><td class="q">\(R_{\text{Erde}}\)</td><td>\(6371\,\mathrm{km}\) (mittlerer Radius)</td><td>A1, A2</td></tr>
+          <tr><td class="q">\(M_{\text{Erde}}\)</td><td>\(5.972 \cdot 10^{24}\,\mathrm{kg}\)</td><td>nur als Kontrolle</td></tr>
+          <tr><td class="q">\(g_0\)</td><td>\(9.81\,\mathrm{m/s^2}\)</td><td>A1, Vergleich in A3b</td></tr>
+          <tr><td class="q">\(1\,\mathrm{AE}\)</td><td>\(1.496 \cdot 10^{11}\,\mathrm{m}\)</td><td>A3d</td></tr>
+          <tr><td class="q">\(e\)</td><td>\(1.602 \cdot 10^{-19}\,\mathrm{C}\)</td><td>262 b, d, f</td></tr>
+          <tr><td class="q">\(m_{\mathrm{e}}\)</td><td>\(9.109 \cdot 10^{-31}\,\mathrm{kg}\)</td><td>262 b, f</td></tr>
+          <tr><td class="q">\(c\)</td><td>\(2.998 \cdot 10^{8}\,\mathrm{m/s}\)</td><td>nur zur Einordnung</td></tr>
+        </table>
+      </div>
+
+      <h3>Formeln Gravitation</h3>
+      <div class="table-scroll">
+        <table class="kennwerte">
+          <tr><th>Formel</th><th>heisst</th></tr>
+          <tr><td class="q">\(F = G\,\dfrac{M\,m}{r^{2}}\)</td><td>Gravitationsgesetz; \(r\) ab dem Mittelpunkt</td></tr>
+          <tr><td class="q">\(g = \dfrac{G\,M}{r^{2}}\)</td><td>Feldstärke — Kraft je Masse</td></tr>
+          <tr><td class="q">\(E_{\mathrm{pot}} = -\dfrac{G\,M\,m}{r}\)</td><td>Lageenergie, Nullpunkt im Unendlichen</td></tr>
+          <tr><td class="q">\(v_{\mathrm{e}} = \sqrt{\dfrac{2\,G\,M}{R}}\)</td><td>Fluchtgeschwindigkeit an der Oberfläche</td></tr>
+          <tr><td class="q">\(T = 2\pi\sqrt{\dfrac{a^{3}}{G\,M}}\)</td><td>Umlaufzeit auf der Kreisbahn (3. Kepler)</td></tr>
+          <tr><td class="q">\(r_{\min} = a\,(1-e)\)</td><td>Perihel; \(r_{\max} = a\,(1+e)\) ist das Aphel</td></tr>
+        </table>
+      </div>
+
+      <h3>Formeln Elektronen im Feld</h3>
+      <div class="table-scroll">
+        <table class="kennwerte">
+          <tr><th>Formel</th><th>heisst</th></tr>
+          <tr><td class="q">\(E = \dfrac{U}{d}\)</td><td>Feldstärke im Plattenkondensator</td></tr>
+          <tr><td class="q">\(a = \dfrac{e\,U}{m\,d}\)</td><td>Querbeschleunigung des Elektrons</td></tr>
+          <tr><td class="q">\(y(x) = \dfrac{e\,U}{2\,m\,d\,v_0^{2}}\,x^{2}\)</td><td>Bahngleichung — eine Parabel</td></tr>
+          <tr><td class="q">\(\vec F = q\,\vec v \times \vec B\)</td><td>Lorentzkraft; Betrag \(e\,v\,B\) bei \(\vec v \perp \vec B\)</td></tr>
+          <tr><td class="q">\(B = \dfrac{E}{v}\)</td><td>Bedingung des Geschwindigkeitsfilters</td></tr>
+          <tr><td class="q">\(r = \dfrac{m\,v}{e\,B}\)</td><td>Radius der Kreisbahn im Magnetfeld</td></tr>
+          <tr><td class="q">\(T = \dfrac{2\pi\,m}{e\,B}\)</td><td>Umlaufdauer — unabhängig von \(v\)</td></tr>
+        </table>
+      </div>
+
+      <div class="merksatz">
+        <p class="card-label">Drei Kontrollen, die fast jeden Fehler finden</p>
+        <p><strong>Erstens die Einheiten.</strong> Rechne sie mit, nicht nur die Zahlen. \(\mathrm{m^3/s^2}\) geteilt durch \(\mathrm{m^2}\) muss \(\mathrm{m/s^2}\) ergeben; wenn nicht, steckt irgendwo ein Kilometer.</p>
+        <p><strong>Zweitens die Grössenordnung.</strong> Ein Ortsfaktor von \(20\,\mathrm{m/s^2}\) auf einem \(137\)-Kilometer-Brocken ist offensichtlich falsch, \(0.02\,\mathrm{m/s^2}\) plausibel. Frag dich bei jedem Resultat, ob es in die Welt passt.</p>
+        <p style="margin-bottom:0"><strong>Drittens der Grenzfall.</strong> Setz in deine Formel einen Wert ein, den du kennst. \(r/R = 1/(1-k^{2})\) muss für \(k = 0\) den Wert \(1\) liefern und für \(k \to 1\) über alle Grenzen wachsen. Beides stimmt — die Formel darf stehen bleiben.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>Lösungsblatt · Gravitation und Elektronen im Feld</span>
+    <span>Eigenständige Seite, nicht verlinkt und nicht indexiert</span>
+    <span>© 2026 Raphael Arnold Kohler · CC BY-NC 4.0</span>
+  </footer>
+
+</div>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']]
+  },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+};
+</script>
+<script src="../vendor/mathjax/tex-svg.js" id="MathJax-script" async></script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   Fortschritt und Selbstkontrolle — eigener Schluessel fuer diese Seite.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  var KEY = 'loesungen-gravitation-elektronen-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.done-row input[data-step]'));
+  var fill = document.getElementById('progressFill');
+  var text = document.getElementById('progressText');
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a[data-for]'));
+
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) { return {}; }
+  }
+  function save(state) {
+    try { window.localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* nicht verfügbar */ }
+  }
+  function render(state) {
+    var done = 0;
+    boxes.forEach(function (box) {
+      var on = !!state[box.dataset.step];
+      box.checked = on;
+      if (on) done++;
+    });
+    links.forEach(function (a) { a.classList.toggle('done', !!state[a.dataset.for]); });
+    var total = boxes.length;
+    if (fill) fill.style.width = (total ? (done / total) * 100 : 0) + '%';
+    if (text) text.textContent = done + ' / ' + total;
+  }
+
+  var state = load();
+  render(state);
+  boxes.forEach(function (box) {
+    box.addEventListener('change', function () {
+      state[box.dataset.step] = box.checked;
+      save(state);
+      render(state);
+    });
+  });
+  var reset = document.getElementById('resetBtn');
+  if (reset) {
+    reset.addEventListener('click', function () { state = {}; save(state); render(state); });
+  }
+  window.addEventListener('beforeprint', function () {
+    document.querySelectorAll('details.sol').forEach(function (d) { d.open = true; });
+  });
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   Clipkarten und Buehne.
+
+   Sonst kaeme beides aus ../physiklib.js; diese Seite steht eigenstaendig
+   und traegt es darum selbst. Verhalten und Klassennamen sind dieselben,
+   damit die Clips unveraendert laufen: Der Clip wird erst beim Klick
+   geladen, laeuft ueber dem Fenster statt in der Zeile, und das <iframe>
+   bekommt allow="autoplay" — ohne das verweigert der Browser den Ton im
+   Rahmen, obwohl der Klick auf die Karte die noetige Geste war.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  var BASIS = '../';
+  var rueckkehr = null;
+
+  function knopf(klasse, beschriftung) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = klasse;
+    b.textContent = beschriftung;
+    b.addEventListener('click', zu);
+    return b;
+  }
+
+  function escape(e) { if (e.key === 'Escape') zu(); }
+
+  function zu() {
+    var buehne = document.querySelector('.clip-buehne');
+    if (!buehne) return;
+    buehne.remove();
+    document.removeEventListener('keydown', escape);
+    document.body.style.overflow = '';
+    if (rueckkehr && rueckkehr.focus) rueckkehr.focus({ preventScroll: true });
+    rueckkehr = null;
+  }
+
+  function auf(quelle, titel) {
+    if (document.querySelector('.clip-buehne')) return;
+    rueckkehr = document.activeElement;
+    document.body.style.overflow = 'hidden';
+
+    var buehne = document.createElement('div');
+    buehne.className = 'clip-buehne';
+    buehne.setAttribute('role', 'dialog');
+    buehne.setAttribute('aria-modal', 'true');
+    buehne.setAttribute('aria-label', 'Clip: ' + titel);
+
+    var kopf = document.createElement('div');
+    kopf.className = 'cb-kopf';
+    var t = document.createElement('span');
+    t.className = 'cb-titel';
+    t.textContent = titel;
+    var tab = document.createElement('a');
+    tab.className = 'cb-tab';
+    tab.href = quelle;
+    tab.target = '_blank';
+    tab.rel = 'noopener';
+    tab.textContent = 'eigener Tab ↗';
+    kopf.appendChild(t);
+    kopf.appendChild(tab);
+    kopf.appendChild(knopf('cb-zu', '✕ Schliessen'));
+
+    var rahmen = document.createElement('div');
+    rahmen.className = 'cb-rahmen';
+    var f = document.createElement('iframe');
+    f.src = quelle;
+    f.title = 'Clip: ' + titel;
+    f.setAttribute('allowfullscreen', '');
+    f.setAttribute('allow', 'autoplay');
+    rahmen.appendChild(f);
+
+    buehne.appendChild(kopf);
+    buehne.appendChild(rahmen);
+    buehne.addEventListener('click', function (e) { if (e.target === buehne) zu(); });
+    document.addEventListener('keydown', escape);
+    document.body.appendChild(buehne);
+    buehne.querySelector('.cb-zu').focus({ preventScroll: true });
+  }
+
+  document.querySelectorAll('.clipkarte').forEach(function (karte) {
+    var start = karte.querySelector('.clip-start');
+    if (!start) return;
+    start.addEventListener('click', function () {
+      auf(BASIS + karte.dataset.clip, karte.dataset.titel || 'Clip');
+    });
+  });
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   Interaktive Simulationen (figure.sim)
+
+   Alle Werte sind ungeschoent gerechnet, mit denselben Konstanten wie im
+   Loesungstext. Schweizer Konvention durchgehend: Dezimalpunkt. Der
+   Malpunkt steht nur fuer Multiplikation; getrennt wird mit Strichpunkt.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  var NS = 'http://www.w3.org/2000/svg';
+
+  /* ---- Konstanten ------------------------------------------------------ */
+  var G    = 6.674e-11;
+  var R_E  = 6371e3;          // mittlerer Erdradius in m
+  var G0   = 9.81;            // Ortsfaktor an der Erdoberflaeche
+  var V_E  = 11186;           // Fluchtgeschwindigkeit Erde in m/s
+  var GM_P = 9.3436e7;        // G · M von Pulcova in m^3/s^2
+  var AE   = 1.496e11;        // astronomische Einheit in m
+
+  var QE   = 1.602e-19;       // Elementarladung in C
+  var ME   = 9.109e-31;       // Elektronenmasse in kg
+  var D    = 0.080;           // Plattenabstand in m
+  var L    = 0.100;           // Plattenlaenge in m
+  var EFELD = 12000 / D;      // 1.5e5 V/m bei 12 kV
+  var BFELD = EFELD / 1.8e7;  // 8.333e-3 T
+
+  var PX_CM = 25;             // Massstab der Kondensatorbilder: 25 px je cm
+  var X0 = 70, Y0 = 130;      // Eintrittspunkt im Kondensatorbild
+
+  /* ---- Helfer ---------------------------------------------------------- */
+  function tx(node, s) { if (node && node.textContent !== s) node.textContent = s; }
+  function at(node, k, v) { if (node) node.setAttribute(k, v); }
+  function mk(name, attrs) {
+    var el = document.createElementNS(NS, name);
+    for (var k in attrs) el.setAttribute(k, attrs[k]);
+    return el;
+  }
+  function text(x, y, s, klasse, anker) {
+    var t = mk('text', { x: x, y: y, 'class': klasse || 'svg-label' });
+    if (anker) t.setAttribute('text-anchor', anker);
+    t.textContent = s;
+    return t;
+  }
+  var HOCH = { '0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻' };
+  function hoch(n) { return String(n).split('').map(function (c) { return HOCH[c] || c; }).join(''); }
+  /* Zehnerpotenz-Schreibweise: 2.64·10¹⁶ — der Malpunkt ist hier wirklich
+     eine Multiplikation, kein Trennzeichen. */
+  function pot(x, stellen) {
+    if (x === 0) return '0';
+    var ex = Math.floor(Math.log10(Math.abs(x)));
+    var m = x / Math.pow(10, ex);
+    return m.toFixed(stellen === undefined ? 2 : stellen) + '·10' + hoch(ex);
+  }
+  function knoepfe(fig, attr, beim) {
+    var alle = [].slice.call(fig.querySelectorAll('.sim-tog button'));
+    alle.forEach(function (k) {
+      k.addEventListener('click', function () {
+        alle.forEach(function (o) { o.setAttribute('aria-pressed', o === k ? 'true' : 'false'); });
+        beim(k.dataset[attr]);
+      });
+    });
+  }
+
+  /* ── Abb. 1 · Gravitationsfeldstaerke ueber der Hoehe ──────────────────
+     Achse h von 0 bis 400 km auf x 58…404 px, g von 8.6 bis 9.9 m/s2 auf
+     y 156…24 px. Gezeichnet wird g(h) = g0 · (R/(R+h))^2. */
+  function initFeldstaerke(fig) {
+    var XL = 58, XR = 404, YU = 156, YO = 24, HMAX = 400, GU = 8.6, GO = 9.9;
+    var r = fig.querySelector('#fs-r'), rv = fig.querySelector('#fs-rv'),
+        kurve = fig.querySelector('#fs-kurve'), lot = fig.querySelector('#fs-lot'),
+        punkt = fig.querySelector('#fs-punkt'), marke = fig.querySelector('#fs-marke'),
+        grid = fig.querySelector('#fs-grid'),
+        o1 = fig.querySelector('#fs-o1'), o2 = fig.querySelector('#fs-o2'),
+        o3 = fig.querySelector('#fs-o3'), k = fig.querySelector('#fs-k');
+
+    function px(h) { return XL + h / HMAX * (XR - XL); }
+    function py(g) { return YU - (g - GU) / (GO - GU) * (YU - YO); }
+    function gv(h) { var q = R_E / (R_E + h * 1000); return G0 * q * q; }
+
+    [8.8, 9.2, 9.6].forEach(function (g) {
+      grid.appendChild(mk('line', { 'class': 'svg-grid', x1: XL, y1: py(g), x2: XR, y2: py(g) }));
+      grid.appendChild(text(XL - 5, py(g) + 3.5, g.toFixed(1), 'svg-label', 'end'));
+    });
+    [100, 200, 300, 400].forEach(function (h) {
+      grid.appendChild(mk('line', { 'class': 'svg-grid', x1: px(h), y1: YU, x2: px(h), y2: YU + 4 }));
+      grid.appendChild(text(px(h), YU + 16, String(h), 'svg-label', 'middle'));
+    });
+
+    var p = [];
+    for (var h = 0; h <= HMAX; h += 4) p.push(px(h).toFixed(1) + ',' + py(gv(h)).toFixed(1));
+    kurve.setAttribute('points', p.join(' '));
+
+    function zeichne() {
+      var h = +r.value, g = gv(h), ab = (1 - g / G0) * 100;
+      at(lot, 'x1', px(h)); at(lot, 'x2', px(h));
+      at(lot, 'y1', py(g)); at(lot, 'y2', YU);
+      at(punkt, 'cx', px(h)); at(punkt, 'cy', py(g));
+      at(marke, 'x', Math.min(px(h) + 9, 340)); at(marke, 'y', py(g) - 7);
+      tx(marke, g.toFixed(2));
+      tx(rv, h + ' km');
+      tx(o1, (6371 + h) + ' km');
+      tx(o2, g.toFixed(2) + ' m/s²');
+      tx(o3, ab.toFixed(2) + ' %');
+      tx(k, 'g(h) / g₀ = (6371 km / ' + (6371 + h) + ' km)² = ' + (g / G0).toFixed(4));
+    }
+    knoepfe(fig, 'h', function (v) { r.value = v; zeichne(); });
+    r.addEventListener('input', zeichne);
+    zeichne();
+  }
+
+  /* ── Abb. 2 · Steighoehe bei einem Anteil k der Fluchtgeschwindigkeit ──
+     r/R = 1/(1 - k^2), Erdradius 30 px. Der blaue Strich zeigt das falsche
+     Ergebnis der Rechnung mit konstantem g: dort ist h/R = k^2. */
+  function initSteighoehe(fig) {
+    var CY = 222, RP = 46;
+    var r = fig.querySelector('#st-r'), rv = fig.querySelector('#st-rv'),
+        um = fig.querySelector('#st-um'), pfeil = fig.querySelector('#st-pfeil'),
+        spitze = fig.querySelector('#st-spitze'), hom = fig.querySelector('#st-hom'),
+        tu = fig.querySelector('#st-tu'),
+        t1 = fig.querySelector('#st-t1'), t2 = fig.querySelector('#st-t2'),
+        t3 = fig.querySelector('#st-t3'),
+        o1 = fig.querySelector('#st-o1'), o2 = fig.querySelector('#st-o2'),
+        o3 = fig.querySelector('#st-o3'), k = fig.querySelector('#st-k');
+
+    function zeichne() {
+      var kk = +r.value / 100;
+      var rR = 1 / (1 - kk * kk);
+      var rpx = RP * rR;
+      var hkm = (rR - 1) * R_E / 1000;
+      var hHom = kk * kk * R_E / 1000;
+      var yU = CY - rpx;
+
+      at(um, 'y1', yU.toFixed(1)); at(um, 'y2', yU.toFixed(1));
+      at(tu, 'y', (yU + 4).toFixed(1));
+      at(pfeil, 'y1', CY - RP);
+      at(pfeil, 'y2', Math.min(CY - RP - 1, yU));
+      at(spitze, 'cy', yU.toFixed(1));
+      at(hom, 'y1', (CY - RP * (1 + kk * kk)).toFixed(1));
+      at(hom, 'y2', (CY - RP * (1 + kk * kk)).toFixed(1));
+
+      tx(t1, 'r = ' + rR.toFixed(2) + ' R');
+      tx(t2, 'Höhe ' + Math.round(hkm) + ' km');
+      tx(t3, 'homogen gerechnet: ' + Math.round(hHom) + ' km');
+
+      tx(rv, r.value + ' %');
+      tx(o1, (kk * V_E / 1000).toFixed(2) + ' km/s');
+      tx(o2, rR.toFixed(3) + ' R');
+      tx(o3, Math.round(hkm) + ' km');
+      tx(k, 'r / R = 1 / (1 − k²) = 1 / (1 − ' + kk.toFixed(2) + '²) = ' + rR.toFixed(3));
+    }
+    r.addEventListener('input', zeichne);
+    zeichne();
+  }
+
+  /* ── Abb. 3 · Umlaufzeit des Moendchens ────────────────────────────────
+     Links die Bahn im Massstab 2000 km = 72 px, rechts T(a) von 200 bis
+     2000 km auf x 236…404 px und 0 bis 22 d auf y 158…26 px. */
+  function initUmlauf(fig) {
+    var CX = 85, CY = 100, SK = 72 / 2000;
+    var XL = 236, XR = 404, YU = 158, YO = 26, AMIN = 200, AMAX = 2000, TMAX = 22;
+    var r = fig.querySelector('#um-r'), rv = fig.querySelector('#um-rv'),
+        bahn = fig.querySelector('#um-bahn'), mond = fig.querySelector('#um-mond'),
+        strich = fig.querySelector('#um-strich'), aLab = fig.querySelector('#um-a'),
+        kurve = fig.querySelector('#um-kurve'), punkt = fig.querySelector('#um-punkt'),
+        grid = fig.querySelector('#um-grid'),
+        o1 = fig.querySelector('#um-o1'), o2 = fig.querySelector('#um-o2'),
+        o3 = fig.querySelector('#um-o3'), k = fig.querySelector('#um-k');
+
+    function T(aKm) { var a = aKm * 1000; return 2 * Math.PI * Math.sqrt(a * a * a / GM_P); }
+    function px(aKm) { return XL + (aKm - AMIN) / (AMAX - AMIN) * (XR - XL); }
+    function py(td) { return YU - td / TMAX * (YU - YO); }
+
+    [10, 20].forEach(function (td) {
+      grid.appendChild(mk('line', { 'class': 'svg-grid', x1: XL, y1: py(td), x2: XR, y2: py(td) }));
+      grid.appendChild(text(XL - 5, py(td) + 3.5, String(td), 'svg-label', 'end'));
+    });
+    [1000, 2000].forEach(function (aKm) {
+      grid.appendChild(mk('line', { 'class': 'svg-grid', x1: px(aKm), y1: YU, x2: px(aKm), y2: YU + 4 }));
+      grid.appendChild(text(px(aKm), YU + 16, String(aKm), 'svg-label', 'middle'));
+    });
+
+    var p = [];
+    for (var a = AMIN; a <= AMAX; a += 20) p.push(px(a).toFixed(1) + ',' + py(T(a) / 86400).toFixed(1));
+    kurve.setAttribute('points', p.join(' '));
+
+    function zeichne() {
+      var aKm = +r.value, t = T(aKm), rpx = aKm * SK;
+      var mx = CX + 0.766 * rpx, my = CY - 0.643 * rpx;
+      at(bahn, 'r', rpx.toFixed(1));
+      at(mond, 'cx', mx.toFixed(1)); at(mond, 'cy', my.toFixed(1));
+      at(strich, 'x2', mx.toFixed(1)); at(strich, 'y2', my.toFixed(1));
+      at(aLab, 'y', Math.max(16, CY - rpx - 8).toFixed(1));
+      tx(aLab, 'a = ' + aKm + ' km');
+      at(punkt, 'cx', px(aKm).toFixed(1)); at(punkt, 'cy', py(t / 86400).toFixed(1));
+
+      tx(rv, aKm + ' km');
+      tx(o1, (t / 86400).toFixed(2) + ' d');
+      tx(o2, pot(t, 2) + ' s');
+      tx(o3, (2 * Math.PI * aKm * 1000 / t).toFixed(1) + ' m/s');
+      tx(k, 'T = 2π · √(a³ / (G · M)) mit a = ' + pot(aKm * 1000, 2) + ' m');
+    }
+    r.addEventListener('input', zeichne);
+    zeichne();
+  }
+
+  /* ── Abb. 4 · Ellipsenbahn ─────────────────────────────────────────────
+     Grosse Halbachse fest auf 100 px, die Sonne wandert mit e aus der Mitte.
+     a = 3.1543 AE bleibt fest; veraendert wird nur die Exzentrizitaet. */
+  function initEllipse(fig) {
+    var CX = 210, CY = 115, A = 100, AAE = 3.1543;
+    var r = fig.querySelector('#el-r'), rv = fig.querySelector('#el-rv'),
+        bahn = fig.querySelector('#el-bahn'), sonne = fig.querySelector('#el-sonne'),
+        rmin = fig.querySelector('#el-rmin'), sl = fig.querySelector('#el-sl'),
+        t1 = fig.querySelector('#el-t1'), t2 = fig.querySelector('#el-t2'),
+        o1 = fig.querySelector('#el-o1'), o2 = fig.querySelector('#el-o2'),
+        o3 = fig.querySelector('#el-o3'), k = fig.querySelector('#el-k');
+
+    function zeichne() {
+      var e = +r.value / 100000;
+      var ry = A * Math.sqrt(1 - e * e);
+      var sx = CX - A * e;
+      var per = AAE * (1 - e), aph = AAE * (1 + e);
+
+      at(bahn, 'ry', ry.toFixed(1));
+      at(sonne, 'cx', sx.toFixed(1));
+      at(rmin, 'x2', sx.toFixed(1));
+      at(sl, 'x', (sx + 2).toFixed(1));
+      tx(t1, 'Perihel ' + per.toFixed(3) + ' AE; Aphel ' + aph.toFixed(3) + ' AE');
+      tx(t2, 'a = 3.1543 AE; e = ' + e.toFixed(5));
+
+      tx(rv, e.toFixed(5));
+      tx(o1, per.toFixed(3) + ' AE');
+      tx(o2, aph.toFixed(3) + ' AE');
+      tx(o3, (aph - per).toFixed(2) + ' AE');
+      tx(k, 'kleinster Abstand = a · (1 − e) = 3.1543 AE · ' + (1 - e).toFixed(4) + ' = ' + per.toFixed(3) + ' AE');
+    }
+    r.addEventListener('input', zeichne);
+    zeichne();
+  }
+
+  /* ── Abb. 5 · Parabelbahn im Plattenkondensator ────────────────────────
+     Massstab 25 px je cm, 1:1 in beiden Richtungen. Die Bahn wird abgebrochen,
+     sobald sie 4.0 cm erreicht — dort steht die Platte. */
+  function initBahn(fig) {
+    var r = fig.querySelector('#ba-r'), rv = fig.querySelector('#ba-rv'),
+        bahn = fig.querySelector('#ba-bahn'), frei = fig.querySelector('#ba-frei'),
+        ende = fig.querySelector('#ba-ende'), info = fig.querySelector('#ba-info'),
+        o1 = fig.querySelector('#ba-o1'), o2 = fig.querySelector('#ba-o2'),
+        o3 = fig.querySelector('#ba-o3'), k = fig.querySelector('#ba-k');
+    var U = 12000;
+
+    function zeichne() {
+      var v0 = +r.value * 1e5;                       // 574 -> 5.74e7 m/s
+      var a = QE * U / (ME * D);
+      var p = [], x, y, xEnd = L, yEnd = 0, trifft = false;
+
+      for (x = 0; x <= L + 1e-9; x += 0.002) {
+        y = 0.5 * a * (x / v0) * (x / v0);
+        if (y >= D / 2) {
+          y = D / 2;
+          x = v0 * Math.sqrt(2 * y / a);
+          trifft = true;
+        }
+        p.push((X0 + x * 100 * PX_CM).toFixed(1) + ',' + (Y0 - y * 100 * PX_CM).toFixed(1));
+        xEnd = x; yEnd = y;
+        if (trifft) break;
+      }
+      bahn.setAttribute('points', p.join(' '));
+      at(ende, 'cx', (X0 + xEnd * 100 * PX_CM).toFixed(1));
+      at(ende, 'cy', (Y0 - yEnd * 100 * PX_CM).toFixed(1));
+
+      if (trifft && xEnd < L - 5e-5) {
+        frei.setAttribute('points', '');
+        tx(info, 'trifft die obere Platte bei x = ' + (xEnd * 100).toFixed(1) + ' cm');
+        tx(o3, 'trifft die Platte');
+      } else if (trifft) {
+        frei.setAttribute('points', '');
+        tx(info, 'erreicht genau die hintere Plattenkante');
+        tx(o3, 'gerade noch bis zur Kante');
+      } else {
+        var m = a * L / (v0 * v0);                    // Steigung dy/dx am Plattenende
+        var xf = 0.138;
+        var yf = yEnd + m * (xf - L);
+        frei.setAttribute('points',
+          (X0 + L * 100 * PX_CM).toFixed(1) + ',' + (Y0 - yEnd * 100 * PX_CM).toFixed(1) + ' ' +
+          (X0 + xf * 100 * PX_CM).toFixed(1) + ',' + (Y0 - yf * 100 * PX_CM).toFixed(1));
+        tx(info, 'verlässt das Feld; Ablenkwinkel ' + (Math.atan(m) * 180 / Math.PI).toFixed(1) + '°');
+        tx(o3, 'verlässt das Feld hinten');
+      }
+
+      tx(rv, pot(v0, 2) + ' m/s');
+      tx(o1, pot(a, 2) + ' m/s²');
+      tx(o2, (yEnd * 100).toFixed(2) + ' cm');
+      tx(k, 'y(l) = e · U · l² / (2 · m · d · v₀²) = ' + (yEnd * 100).toFixed(2) + ' cm');
+    }
+    knoepfe(fig, 'u', function (v) { U = +v; zeichne(); });
+    r.addEventListener('input', zeichne);
+    zeichne();
+  }
+
+  /* ── Abb. 6 · Geschwindigkeitsfilter ───────────────────────────────────
+     Pfeillaenge 50 px bei der elektrischen Kraft; die Lorentzkraft waechst
+     proportional zu v. Die gezeichnete Bahn gilt streng nur unmittelbar
+     nach dem Einschuss — genau darauf zielt die Aufgabe. */
+  function initFilter(fig) {
+    var r = fig.querySelector('#fi-r'), rv = fig.querySelector('#fi-rv'),
+        fel = fig.querySelector('#fi-fel'), fmag = fig.querySelector('#fi-fmag'),
+        lel = fig.querySelector('#fi-lel'), lmag = fig.querySelector('#fi-lmag'),
+        bahn = fig.querySelector('#fi-bahn'), info = fig.querySelector('#fi-info'),
+        o1 = fig.querySelector('#fi-o1'), o2 = fig.querySelector('#fi-o2'),
+        o3 = fig.querySelector('#fi-o3'), k = fig.querySelector('#fi-k');
+
+    function zeichne() {
+      var v = +r.value * 1e5;                        // 180 -> 1.8e7 m/s
+      var Fel = QE * EFELD, Fmag = QE * v * BFELD;
+      var Lel = 50, Lmag = 50 * Fmag / Fel;
+      var a = (Fel - Fmag) / ME;                     // positiv: nach oben
+
+      at(fel, 'y2', (Y0 - Lel).toFixed(1));
+      at(lel, 'y', (Y0 - Lel - 4).toFixed(1));
+      at(fmag, 'y2', (Y0 + Lmag).toFixed(1));
+      at(lmag, 'y', (Y0 + Lmag + 12).toFixed(1));
+
+      var p = [], x, y;
+      for (x = 0; x <= L + 1e-9; x += 0.002) {
+        y = 0.5 * a * (x / v) * (x / v);
+        if (Math.abs(y) >= D / 2) { y = Math.sign(y) * D / 2; p.push((X0 + x * 100 * PX_CM).toFixed(1) + ',' + (Y0 - y * 100 * PX_CM).toFixed(1)); break; }
+        p.push((X0 + x * 100 * PX_CM).toFixed(1) + ',' + (Y0 - y * 100 * PX_CM).toFixed(1));
+      }
+      bahn.setAttribute('points', p.join(' '));
+
+      tx(rv, pot(v, 2) + ' m/s');
+      tx(o1, pot(Fel, 2) + ' N');
+      tx(o2, pot(Fmag, 2) + ' N');
+      if (Math.abs(Fel - Fmag) < 1e-17) {
+        tx(o3, '0 — Gleichgewicht');
+        tx(info, 'Gleichgewicht — geradeaus');
+        tx(k, 'Restkraft = e · (E − v · B) = 0 — nur diese Geschwindigkeit kommt geradeaus durch');
+      } else if (Fel > Fmag) {
+        tx(o3, pot(Fel - Fmag, 2) + ' N nach oben');
+        tx(info, 'zu langsam — nach oben, zur positiven Platte');
+        tx(k, 'Restkraft = e · (E − v · B) = ' + pot(Fel - Fmag, 2) + ' N; Richtung nach oben');
+      } else {
+        tx(o3, pot(Fmag - Fel, 2) + ' N nach unten');
+        tx(info, 'zu schnell — nach unten, zur negativen Platte');
+        tx(k, 'Restkraft = e · (E − v · B) = −' + pot(Fmag - Fel, 2) + ' N; Richtung nach unten');
+      }
+    }
+    r.addEventListener('input', zeichne);
+    zeichne();
+  }
+
+  /* ── Abb. 7 · Kreisbahn im reinen Magnetfeld ───────────────────────────
+     Mittelpunkt genau 1 Radius unter dem Eintrittspunkt: die Lorentzkraft
+     zeigt beim Eintritt nach unten. Nach dem Halbkreis ist das Elektron
+     2 r tiefer und laeuft nach links. */
+  function initKreis(fig) {
+    var r = fig.querySelector('#kr-r'), rv = fig.querySelector('#kr-rv'),
+        voll = fig.querySelector('#kr-voll'), zen = fig.querySelector('#kr-zentrum'),
+        bahn = fig.querySelector('#kr-bahn'), ende = fig.querySelector('#kr-ende'),
+        info = fig.querySelector('#kr-info'),
+        o1 = fig.querySelector('#kr-o1'), o2 = fig.querySelector('#kr-o2'),
+        o3 = fig.querySelector('#kr-o3'), k = fig.querySelector('#kr-k');
+
+    function zeichne() {
+      var v = +r.value * 1e5;                        // 293 -> 2.93e7 m/s
+      var rm = ME * v / (QE * BFELD);                // Radius in m
+      var rp = rm * 100 * PX_CM;                     // Radius in px
+      var cy = Y0 + rp;
+
+      at(voll, 'cy', cy.toFixed(1)); at(voll, 'r', rp.toFixed(1));
+      at(zen, 'cy', cy.toFixed(1));
+
+      var d = 'M ' + X0 + ' ' + Y0, x = X0, y = Y0, raus = true, th;
+      for (th = 0.02; th <= Math.PI + 1e-9; th += 0.02) {
+        x = X0 + rp * Math.sin(th);
+        y = Y0 + rp * (1 - Math.cos(th));
+        if (y > Y0 + 100) { raus = false; break; }
+        d += ' L ' + x.toFixed(1) + ' ' + y.toFixed(1);
+      }
+      bahn.setAttribute('d', d);
+      at(ende, 'cx', Math.min(x, 320).toFixed(1));
+      at(ende, 'cy', Math.min(y, Y0 + 100).toFixed(1));
+
+      tx(rv, pot(v, 2) + ' m/s');
+      tx(o1, (rm * 100).toFixed(2) + ' cm');
+      tx(o2, (rm * 200).toFixed(2) + ' cm');
+      if (raus) {
+        tx(o3, 'verlässt das Feld auf der Eintrittsseite');
+        tx(info, 'Radius ' + (rm * 100).toFixed(2) + ' cm — kehrt um und kommt heraus');
+      } else {
+        tx(o3, 'trifft die untere Platte');
+        tx(info, 'Radius ' + (rm * 100).toFixed(2) + ' cm — der Halbkreis ist zu tief');
+      }
+      tx(k, 'r = m · v / (e · B) = ' + (rm * 100).toFixed(2) + ' cm; nötig ist 2 · r ≤ 4.0 cm');
+    }
+    r.addEventListener('input', zeichne);
+    zeichne();
+  }
+
+  var STARTER = {
+    feldstaerke: initFeldstaerke, steighoehe: initSteighoehe, umlauf: initUmlauf,
+    ellipse: initEllipse, bahn: initBahn, filter: initFilter, kreis: initKreis
+  };
+
+  document.querySelectorAll('figure.sim').forEach(function (fig) {
+    var f = STARTER[fig.dataset.sim];
+    if (f) f(fig);
+  });
+})();
+</script>
+
+</body>
+</html>
