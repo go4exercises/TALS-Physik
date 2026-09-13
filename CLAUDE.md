@@ -360,16 +360,21 @@ Jetzt steht die Regel auf beiden Seiten.
 - **`scripts/abgleich.py` liest nur** und ist darum ausdrücklich erlaubt. Sein
   `[WARN]` im Pre-Flight ist der Anlass für einen Todo-Eintrag, nicht für einen
   Quer-Edit.
-- Änderungen, die auch ins Schwesterprojekt gehören (geteiltes Werkzeug,
-  gemeinsame CSS-Muster, `physiklib`/`mathlib`-Helfer, Nav-Logik), werden
-  **nicht** quer-editiert, sondern in **`.quellen/todo-schwesterprojekt.md`**
-  vermerkt (was, wo, warum) und später in einer Mathe-Sitzung von Hand
-  portiert. Die Datei liegt bewusst in `.quellen/` und ist per `.gitignore`
-  ausgeschlossen: Dieses Repo ist zugleich die veröffentlichte Website, und
-  Arbeitspapiere gehören nicht hinein (siehe «Der Git-Verlauf ist die einzige
-  Änderungsdokumentation»). Mathe führt sein Gegenstück als
-  `TODO-schwesterprojekt.md` im Wurzelverzeichnis — dort gilt diese
-  Einschränkung nicht.
+- **Die Warteschlange steht in `scripts/abgleich.py`, Liste `OFFEN`.** Dort,
+  weil beide Repos dieselbe Datei führen und sie in ihrer eigenen KERN-Liste
+  mit Grundlinie `1.000` steht: Wer einen Eintrag hinzufügt, macht die Datei
+  ungleich — das Schwesterrepo meldet beim nächsten Pre-Flight `[WARN]
+  abgleich`, und `--diff scripts/abgleich.py` zeigt den neuen Eintrag. Die
+  dortige Sitzung arbeitet ihn ab und übernimmt die Datei; alles Schreiben
+  bleibt im eigenen Repo.
+  **Eine lokale Notizdatei taugt dafür nicht.** Der erste Versuch am
+  13.09.2026 legte `.quellen/todo-schwesterprojekt.md` an — per `.gitignore`
+  ausgeschlossen, weil das Repo die veröffentlichte Website ist. Damit reiste
+  sie nicht mit, und nichts in Mathe zeigte auf sie: ein Kanal, den die
+  Gegenseite nie sieht. Wieder entfernt.
+  Die Gegenrichtung läuft weiter über Mathes `TODO-schwesterprojekt.md` im
+  Wurzelverzeichnis — dort ist eine versionierte Arbeitsdatei erlaubt. Vor
+  einem Übertrag nach Physik dort nachsehen.
 - **Ein guter Eintrag ist nachgezählt, nicht geschätzt.** Vor dem Schreiben im
   Mathe-Repo nachsehen und die konkreten Zahlen aufnehmen: wie viele Dateien
   betroffen sind, welche Sonderfälle es dort gibt, was dort anders heisst. Ein

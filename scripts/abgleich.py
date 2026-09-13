@@ -37,6 +37,23 @@
 #           traegt den neuen, hoeheren Wert ein.
 #  FACH     Bewusst verschieden, mit Begruendung. Wird nicht verglichen;
 #           die Liste ist die Stelle, an der die Begruendung steht.
+#
+#  DIE WARTESCHLANGE (OFFEN)
+#
+#  Beide Repos duerfen einander nur LESEN, nie beschreiben (CLAUDE.md,
+#  Abschnitt «Schwesterprojekt»). Ein Uebertrag braucht darum einen Kanal,
+#  den beide Seiten sehen — und das ist diese Datei: Sie liegt in beiden
+#  Repos und steht in ihrer eigenen KERN-Liste mit Grundlinie 1.000.
+#
+#  Daraus folgt der Mechanismus: Wer hier einen OFFEN-Eintrag hinzufuegt,
+#  macht die Datei ungleich. Das Schwesterrepo meldet beim naechsten
+#  Pre-Flight `[WARN] abgleich`, und `--diff scripts/abgleich.py` zeigt den
+#  neuen Eintrag. Die dortige Sitzung arbeitet ihn ab, streicht ihn und
+#  uebernimmt diese Datei — alles Schreiben bleibt im eigenen Repo.
+#
+#  Eine Notiz in einer lokalen Datei taugt dafuer nicht: Sie ist
+#  ausgeschlossen, reist nicht mit, und die andere Seite weiss nichts von
+#  ihr. Genau daran ist der erste Versuch am 13.09.2026 gescheitert.
 # ─────────────────────────────────────────────────────────────
 
 import argparse
@@ -58,6 +75,7 @@ GLEICH = [
 
 # Stand 13.09.2026. Nur nach oben korrigieren.
 GRUNDLINIE = {
+    'scripts/abgleich.py': 1.000,   # Traeger der Warteschlange — muss gleich sein
     'suche.js': 0.982,
     'anim-hinweise.js': 0.923,
     'schriften.css': 0.773,
@@ -103,6 +121,37 @@ BAUSTELLE = {
         'Erlaubnislisten verschieden lang. Die deny-Listen sind seit dem '
         '13.09.2026 deckungsgleich; das ist der Teil, auf den es ankommt.',
 }
+
+# Offene Uebertraege. 'quelle' ist das Repo, in dem die bessere Fassung
+# liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
+# streicht ihn hier und uebernimmt die Datei ins eigene Repo.
+OFFEN = [
+    dict(quelle='Physik', was='tals-mathe/CLAUDE.md um zwei Punkte ergaenzen',
+         wie='Abschnitt «Schwesterprojekt TALS Physik»: (a) auch --root PFAD ist '
+             'Schreiben, erlaubt nur mit --dry-run/--check; (b) abgleich.py liest nur '
+             'und ist erlaubt, sein [WARN] ist der Anlass fuer einen OFFEN-Eintrag. '
+             'Wortlaut steht in Physiks CLAUDE.md, Abschnitt «Schwesterprojekt TALS Mathe».'),
+    dict(quelle='Physik', was='.claude/tools/scan-live.mjs',
+         wie='Physik 211 Zeilen gegen Mathe 41. Die Physik-Fassung liest zusaetzlich '
+             'Canvas-fillText mit und kennt --alle. Anzupassen sind nur die '
+             'Knopf-Selektoren (BTN) und die Seitenordner.'),
+    dict(quelle='Physik', was='.claude/tools/render-check.mjs',
+         wie='Gibt es nur in Physik; prueft 1280 und 360 px auf Ueberlauf und auf '
+             'Inhalt, den ein overflow:hidden abschneidet. Mathe hat den Vorgaenger '
+             'check-breite.mjs — pruefen, ob er danach entfallen kann.'),
+    dict(quelle='Physik', was='check_html_in_math im Pre-Flight',
+         wie='Findet HTML-Auszeichnung innerhalb eines LaTeX-Ausdrucks. Nicht '
+             'fachspezifisch, eine Funktion.'),
+    dict(quelle='Physik', was='build-seo.py: argparse, --dry-run, --dry-run --diff',
+         wie='Mathe prueft weiterhin nur \'--check\' in argv; unbekannte Schalter '
+             'fallen durch, ein --help schreibt die Metadaten. SEITEN-Tabelle und '
+             'Lerngebiets-Konstanten bleiben, wie sie sind.'),
+    dict(quelle='Mathe', was='scripts/build-clip-ton.py',
+         wie='Mathe kann Klangkurve, Zweitstimme, Tempo und Rausch-Parameter '
+             '(342 Zeilen gegen 155). Kein Fachunterschied, nur Rueckstand.'),
+    dict(quelle='Mathe', was='check_clips im Pre-Flight',
+         wie='Gibt es nur in Mathe.'),
+]
 
 FACH = {
     'nav.js': 'Seitenbaum und Lerngebiete — je Fach ein anderer.',
@@ -165,6 +214,20 @@ def aehnlichkeit(a, b):
     if ta == tb:
         return 1.0
     return difflib.SequenceMatcher(None, ta, tb, autojunk=False).ratio()
+
+
+def umbruch(text, breite):
+    """Fliesstext auf feste Breite, ohne Fremdmodul."""
+    zeilen, zeile = [], ''
+    for wort in text.split():
+        if zeile and len(zeile) + 1 + len(wort) > breite:
+            zeilen.append(zeile)
+            zeile = wort
+        else:
+            zeile = (zeile + ' ' + wort).strip()
+    if zeile:
+        zeilen.append(zeile)
+    return zeilen
 
 
 def gleich_dateien(root, gegen):
@@ -260,9 +323,32 @@ def main(argv):
     # ── FACH ─────────────────────────────────────────────────────────────
     print(f'\nFACH     {len(FACH)} Dateien, bewusst verschieden — nicht verglichen')
 
+    # ── OFFEN ────────────────────────────────────────────────────────────
+    hier = 'Physik' if os.path.exists(os.path.join(WURZEL, 'physiklib.js')) else 'Mathe'
+    meine = [e for e in OFFEN if e['quelle'] != hier]
+    fremde = [e for e in OFFEN if e['quelle'] == hier]
+    print(f'\nOFFEN    {len(OFFEN)} Überträge in der Warteschlange')
+    if meine:
+        print(f'         HIER ({hier}) abzuarbeiten — die bessere Fassung liegt drüben:')
+        for e in meine:
+            print(f'           · {e["was"]}')
+            for z in umbruch(e['wie'], 74):
+                print(f'             {z}')
+    if fremde:
+        print(f'         drüben abzuarbeiten (Quelle {hier}) — dort meldet der '
+              f'Pre-Flight sie als Drift:')
+        for e in fremde:
+            print(f'           · {e["was"]}')
+
     if befunde:
         print(f'\nNEUE DRIFT in {len(befunde)} Datei(en). '
               f'Ansehen mit: python3 scripts/abgleich.py --diff <Datei>')
+        if 'scripts/abgleich.py' in befunde:
+            print('\n  Dieses Skript selbst ist gedriftet. Es traegt die Warteschlange —'
+                  '\n  solange drueben die aeltere Fassung liegt, sieht die dortige Sitzung'
+                  '\n  keinen der OFFEN-Eintraege. Der naechste Durchgang im Schwesterrepo'
+                  '\n  kopiert darum ZUERST scripts/abgleich.py herueber (Schreiben im'
+                  '\n  eigenen Repo, also erlaubt) und arbeitet dann die Liste ab.')
         return 1
     print('\nKeine neue Drift.')
     return 0
