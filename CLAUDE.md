@@ -55,7 +55,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   nie von Hand ändern: `python3 scripts/build-suchindex.py` (siehe Pre-Flight).
   Der Generator läuft in **beiden** TALS-Repos (erkennt Physik/Mathe an
   `physiklib.js`/`mathlib.js`); projektabhängig ist allein die Liste `PROJEKTE`
-  am Dateikopf. `--dry-run` baut ohne zu schreiben, `--root PFAD` zielt aufs
+  am Dateikopf. `--check` prüft ohne zu schreiben (Exit 1 = veraltet; so ruft
+  der Pre-Flight es auf), `--dry-run` baut und sagt, ob und um wie viele
+  Abschnitte sich der Index ändern würde, `--root PFAD` zielt aufs
   Schwesterprojekt. **Clips stehen einzeln im Index** (Kurzbeschrieb,
   Transkript, Stichworte; Ziel `clips.html#clip-<name>`) — der
   Transkript-Aufklapper der Lektionsseite ist darum vom Index ausgenommen.

@@ -113,6 +113,10 @@ python3 scripts/build-suchindex.py --check    # prüft, ob er zum Stand passt
 python3 scripts/build-suchindex.py --dry-run  # bauen und berichten, nichts schreiben
 ```
 
+`--check` ist das Gatter für den Pre-Flight, `--dry-run` sagt zusätzlich, **ob** und
+um wie viele Abschnitte sich der Index ändern würde. Unbekannte Schalter brechen ab,
+statt durchzufallen.
+
 Der Generator ist projektübergreifend: er erkennt Physik und Mathe an der
 Canvas-Bibliothek im Repo-Root und liest die Seitenliste aus `nav.js` — egal ob das
 Projekt eine Liste führt oder mehrere. `--root PFAD` zielt aufs Schwesterprojekt.

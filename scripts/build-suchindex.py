@@ -18,12 +18,19 @@
 #
 #  Aufruf (immer vom Repo-Root):
 #      python3 scripts/build-suchindex.py              # neu bauen
-#      python3 scripts/build-suchindex.py --check      # nur pruefen, ob aktuell
-#                                                      # Exit 1 = veraltet
+#      python3 scripts/build-suchindex.py --check      # Gatter: Exit 1 = veraltet
 #      python3 scripts/build-suchindex.py --dry-run    # bauen, nur berichten
 #      python3 scripts/build-suchindex.py --root PFAD  # anderes Repo (schreibt
 #                                                      # dorthin — mit --dry-run
 #                                                      # gefahrlos pruefbar)
+#
+#  --check ist das Gatter fuer den Pre-Flight und interessiert sich nur fuer
+#  den Exit-Code; --dry-run ist zum Hinschauen und sagt, OB und WIE STARK
+#  sich der Index aendern wuerde. Exit dort immer 0.
+#
+#  Unbekannte Schalter brechen ab, statt durchzufallen — frueher wurde nur
+#  auf '--check' und '--dry-run' in argv geprueft, und ein Tippfehler baute
+#  den Index still neu. Ein `--root` ohne Pfad brach mit IndexError ab.
 #
 #  Was NICHT in den Index kommt (Entscheid: nur Fliesstext):
 #    - Mini-Checks (.minicheck) und Verstaendnisfragen (.frage)
@@ -40,6 +47,7 @@
 #      Seite statt auf den Clip.
 # ─────────────────────────────────────────────────────────────
 
+import argparse
 import hashlib
 import json
 import os
@@ -425,12 +433,32 @@ def aktuelle_fp(out):
     return m.group(1) if m else None
 
 
+def aktuelle_zahl(out):
+    """Abschnitte im bestehenden Index — fuer den Vergleich im Trockenlauf."""
+    if not os.path.exists(out):
+        return None
+    return len(re.findall(r'^\s*\{p:\d+,', open(out, encoding='utf-8').read(), re.M))
+
+
 def main(argv):
-    check = '--check' in argv
-    dry = '--dry-run' in argv
-    root = ROOT
-    if '--root' in argv:
-        root = os.path.abspath(argv[argv.index('--root') + 1])
+    ap = argparse.ArgumentParser(
+        prog='build-suchindex.py',
+        description='Schneidet den Fliesstext der Seiten an den h2-Ankern in Abschnitte '
+                    'und schreibt daraus suchindex.js. Laeuft in beiden TALS-Repos.',
+        epilog='Ohne Schalter wird geschrieben.')
+    modus = ap.add_mutually_exclusive_group()
+    modus.add_argument('--check', action='store_true',
+                       help='nur pruefen, nichts schreiben; Exit 1, wenn der Index veraltet ist '
+                            '(so ruft der Pre-Flight das Skript auf)')
+    modus.add_argument('--dry-run', action='store_true',
+                       help='Trockenlauf: baut den Index und berichtet, schreibt aber nicht')
+    ap.add_argument('--root', default=ROOT, metavar='PFAD',
+                    help='Projektwurzel, um das Schwesterprojekt zu bauen (Standard: dieses Repo)')
+    a = ap.parse_args(argv)
+
+    root = os.path.abspath(a.root)
+    if not os.path.isdir(root):
+        ap.error(f'--root: kein Verzeichnis: {root}')
 
     projekt = projekt_erkennen(root)
     out = os.path.join(root, 'suchindex.js')
@@ -438,16 +466,26 @@ def main(argv):
 
     inhalt, fp, n = build(root, projekt)
     kb = len(inhalt.encode('utf-8')) / 1024
+    alt_fp, alt_n = aktuelle_fp(out), aktuelle_zahl(out)
 
-    if check:
-        if aktuelle_fp(out) == fp:
+    if a.check:
+        if alt_fp == fp:
             print(f"Suchindex aktuell ({n} Abschnitte).")
             return 0
         print("Suchindex VERALTET — neu bauen mit: python3 scripts/build-suchindex.py")
         return 1
-    if dry:
+
+    if a.dry_run:
         print(f"\n[Trockenlauf] nichts geschrieben: {n} Abschnitte, {kb:.0f} KB (fp {fp})")
+        if alt_fp is None:
+            print("  suchindex.js gibt es noch nicht — er wuerde neu angelegt.")
+        elif alt_fp == fp:
+            print("  Der bestehende Index ist Zeichen fuer Zeichen derselbe.")
+        else:
+            d = '' if alt_n is None else f", {n - alt_n:+d} Abschnitte"
+            print(f"  Der Index wuerde sich aendern (bisher fp {alt_fp}{d}).")
         return 0
+
     open(out, 'w', encoding='utf-8').write(inhalt)
     print(f"\nsuchindex.js geschrieben: {n} Abschnitte, {kb:.0f} KB (fp {fp})")
     return 0
