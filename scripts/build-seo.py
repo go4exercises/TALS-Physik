@@ -160,6 +160,18 @@ SEITEN = {
                 'Gedankengang Schritt für Schritt auf, mit Farbführung und Text zum '
                 'Mitlesen. Nach Lerngebieten geordnet.',
    themen=['Physik', 'Erklärclips', 'Animationen']),
+ # Unverlinkt und nicht indexiert (HOWTO-uebungspruefung.md, Schritt 6b):
+ # keine Karte, kein Eintrag im Suchindex, kein Sitemap-Eintrag — aber ein
+ # Eintrag hier, damit Beschreibung, canonical und die Robots-Marke gesetzt
+ # sind und die Seite beim naechsten Abgleich nicht vergessen wird.
+ 'loesungen/gravitation-und-elektronen-im-feld.html': dict(
+   typ='article', lrt=['Lösungsblatt', 'Übungsaufgaben'], noindex=True,
+   titel='Lösungen: Gravitation und Elektronen im Feld',
+   beschreibung='Zwei Aufgabenblätter Schritt für Schritt gelöst: Gravitationsfeldstärke '
+                'mit der Höhe, halbe Fluchtgeschwindigkeit, der Asteroid Pulcova mit seinem '
+                'Möndchen — und Aufgabe 262 zu Elektronen im Plattenkondensator, '
+                'Geschwindigkeitsfilter und Kreisbahn. Mit Erklärclips und Simulationen.',
+   themen=['Physik', 'Gravitation', 'Plattenkondensator', 'Lorentzkraft', 'Lösungen']),
  'rechtliches.html': dict(
    typ='website', noindex=False,
    titel='Rechtliches & Datenschutz',
@@ -380,7 +392,15 @@ def block(datei, cfg, seite_html):
     b = cfg['beschreibung']
     z = [MARKE_AUF,
          f'<meta name="description" content="{html.escape(b, quote=True)}">',
-         f'<meta name="author" content="{AUTOR}">',
+         f'<meta name="author" content="{AUTOR}">']
+    # noindex muss beides tun: aus der Sitemap nehmen UND die Robots-Marke
+    # setzen. Die Sitemap allein haelt keine Suchmaschine ab, die die Adresse
+    # anderswoher kennt — aus einem geteilten Link, einem Referrer, der
+    # Browserleiste. Das nofollow haelt von der Seite aus auch die verlinkten
+    # Dateien aus dem Index.
+    if cfg.get('noindex'):
+        z.append('<meta name="robots" content="noindex, nofollow">')
+    z += [
          f'<link rel="canonical" href="{url}">',
          f'<link rel="icon" href="{auf}favicon.svg" type="image/svg+xml">',
          f'<link rel="icon" href="{auf}favicon-32.png" sizes="32x32" type="image/png">',

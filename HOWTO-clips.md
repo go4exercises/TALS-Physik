@@ -265,8 +265,9 @@ Leitprogramme benutzen dieselbe Bühne über `clipBuehne`; wer an ihr etwas
 Sekunden. Eine Überlappung entsteht erst, wenn das letzte Element einer Szene
 eingeblendet ist; wer nur drei Marken setzt, trifft sie nicht. Die Bilder legt
 das Werkzeug in `$SP` ab; ohne gesetzte Variable landen sie im
-Arbeitsverzeichnis — im Repo-Wurzelverzeichnis liegen aus einem solchen Lauf
-sechs versehentlich versionierte `szene-*.png`.
+Arbeitsverzeichnis. Im Repo-Wurzelverzeichnis liegen aus solchen Läufen
+regelmässig ein paar `szene-*.png` — versioniert ist keines, `.gitignore`
+fängt sie ab. Wegräumen schadet trotzdem nicht.
 
 `pruef-mathjax.mjs` braucht eine ausgelieferte Seite, nicht `file://`:
 
