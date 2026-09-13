@@ -332,6 +332,50 @@ Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
 - **Keine erfundenen Quellen, Zitate oder Lehrplan-Stellen.** Im Zweifel: „muss
   verifiziert werden" schreiben, nicht raten.
 
+## Schwesterprojekt TALS Mathe — Übertrag per Todo, nicht direkt
+
+Gespiegelt aus `tals-mathe/CLAUDE.md`, wo diese Regel seit Längerem steht. Sie
+fehlte hier — und genau deshalb wurde sie am 13.09.2026 zweimal gebrochen
+(Clip-Port und `abgleich.py`, beide aus einer Physik-Sitzung heraus nach Mathe
+geschrieben). Beide Male stimmte das Ergebnis, aber der Weg war der falsche.
+Jetzt steht die Regel auf beiden Seiten.
+
+- **Lesen ja, schreiben nie.** Claude Code darf `../tals-mathe` jederzeit
+  *lesen* — zählen, vergleichen, Zahlen für einen Übertrag holen. Geschrieben
+  wird ausschliesslich in diesem Repo. Kein Edit, kein `git`-Befehl, kein
+  Skriptlauf, der dort hineinschreibt.
+- **Warum die Trennung nicht Vorsicht, sondern Struktur ist:** Der Harness lädt
+  `CLAUDE.md` und `.claude/settings.json` des *primären* Arbeitsverzeichnisses.
+  Aus einer Physik-Sitzung heraus gälten in Mathe also Physiks Konventionen,
+  während Mathes eigene `CLAUDE.md` und `STYLEGUIDE.md` stumm blieben — und
+  Mathe hat eigene (zwei Fächer statt flacher Lerngebiete, Blau statt
+  Bernstein, andere Klassennamen, eigene deny-Liste). Dazu kommt: die
+  Werkzeugskripte hier leiten ihr Wurzelverzeichnis aus dem eigenen Dateipfad
+  ab (`ROOT = dirname(dirname(abspath(__file__)))`) und schreiben rekursiv —
+  aus dem falschen Ordner aufgerufen patchen sie das falsche Repo, in
+  `acceptEdits` ohne Rückfrage.
+- **Auch `--root PFAD` ist Schreiben.** `build-suchindex.py` und
+  `build-animationen.py` nehmen den Schalter und schreiben damit ins andere
+  Repo. Erlaubt ist er nur zusammen mit `--dry-run` beziehungsweise `--check`.
+- **`scripts/abgleich.py` liest nur** und ist darum ausdrücklich erlaubt. Sein
+  `[WARN]` im Pre-Flight ist der Anlass für einen Todo-Eintrag, nicht für einen
+  Quer-Edit.
+- Änderungen, die auch ins Schwesterprojekt gehören (geteiltes Werkzeug,
+  gemeinsame CSS-Muster, `physiklib`/`mathlib`-Helfer, Nav-Logik), werden
+  **nicht** quer-editiert, sondern in **`.quellen/todo-schwesterprojekt.md`**
+  vermerkt (was, wo, warum) und später in einer Mathe-Sitzung von Hand
+  portiert. Die Datei liegt bewusst in `.quellen/` und ist per `.gitignore`
+  ausgeschlossen: Dieses Repo ist zugleich die veröffentlichte Website, und
+  Arbeitspapiere gehören nicht hinein (siehe «Der Git-Verlauf ist die einzige
+  Änderungsdokumentation»). Mathe führt sein Gegenstück als
+  `TODO-schwesterprojekt.md` im Wurzelverzeichnis — dort gilt diese
+  Einschränkung nicht.
+- **Ein guter Eintrag ist nachgezählt, nicht geschätzt.** Vor dem Schreiben im
+  Mathe-Repo nachsehen und die konkreten Zahlen aufnehmen: wie viele Dateien
+  betroffen sind, welche Sonderfälle es dort gibt, was dort anders heisst. Ein
+  Eintrag, aus dem sich die Portiersitzung direkt abarbeiten lässt, ist die
+  halbe Arbeit; einer aus Vermutungen kostet sie doppelt.
+
 ## Externe Ressourcen
 
 Anbieter-Reihenfolge strikt (Videos: musstewissen → Lehrerschmidt → Doc Schuster →
