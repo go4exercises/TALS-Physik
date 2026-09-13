@@ -308,6 +308,14 @@ def run_deep(file_args, rep):
             rep.err("animationen", "Animationsnummern/-verweise stimmen nicht "
                                    "(siehe oben)")
 
+
+    ab = scripts / "abgleich.py"
+    if ab.is_file():
+        r = subprocess.run(["python3", str(ab), "--check"], capture_output=True, text=True)
+        if r.returncode != 0:
+            rep.warn("abgleich", "neue Drift gegen das Schwesterrepo — "
+                                 "`python3 scripts/abgleich.py`")
+
     ic = scripts / "check_identifier_collisions.py"
     if ic.is_file():
         r = subprocess.run(["python3", str(ic)], capture_output=True, text=True)

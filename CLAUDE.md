@@ -61,6 +61,24 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Schwesterprojekt. **Clips stehen einzeln im Index** (Kurzbeschrieb,
   Transkript, Stichworte; Ziel `clips.html#clip-<name>`) — der
   Transkript-Aufklapper der Lektionsseite ist darum vom Index ausgenommen.
+- `scripts/abgleich.py` — vergleicht das **geteilte Werkzeug** mit dem
+  Schwesterrepo `tals-mathe`. Physik und Mathe teilen rund 5200 Zeilen
+  Build-Skripte und Prüfer; gepflegt werden sie zweimal, und sie laufen
+  auseinander. Das Skript verhindert das nicht, es macht es sichtbar: drei
+  Klassen (`GLEICH` Fremdgut — jeder Unterschied ist ein Befund; `KERN`
+  geteiltes Werkzeug, gemessen gegen eine **Grundlinie**, die nur steigen
+  darf; `FACH` bewusst verschieden, mit Begründung). `--check` gibt Exit 1
+  bei neuer Drift, `--diff DATEI` zeigt sie, `--gegen PFAD` wählt das
+  Gegenüber. Es schreibt nie etwas, und fehlt das Schwesterrepo, endet es
+  mit Exit 0. Der Pre-Flight ruft es auf und meldet Drift als **[WARN]** —
+  ein Hinweis, kein Blocker. Dieselbe Datei liegt in beiden Repos; wer eine
+  Fassung angleicht, trägt die neue, höhere Grundlinie dort ein.
+- `scripts/check_identifier_collisions.py` — findet Symbole in den
+  Inline-Skripten der Themenseiten, die mit `physiklib.js` oder `nav.js`
+  kollidieren. Ein kollidierendes `const` ist **blockierend**: Der Browser
+  bricht das ganze Inline-Skript beim Parsen ab, und jede Funktion darin ist
+  weg. `function`/`var` überleben, überschreiben aber die Bibliotheksfassung.
+  Läuft im Pre-Flight mit; aus tals-mathe übernommen (13.09.2026).
 - `scripts/build-animationen.py` — setzt die **Animationsnummern** aus der
   Dokumentreihenfolge, in den `<h3>`-Titeln wie in den Textverweisen. Gepflegt
   wird im Quelltext nur der Anker, nie die Nummer (Details: STYLEGUIDE §5.9).
