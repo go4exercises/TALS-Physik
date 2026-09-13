@@ -820,6 +820,55 @@ footer{
   gap:6px 26px;
 }
 
+/* ---------- Wegleitung als Aufklapper ------------------------------------
+   Der Absatz erklaert die Bedienung des Leitprogramms. Beim zweiten Besuch
+   ist er nur noch Weg — darum eingeklappt. Die Ueberschrift bleibt stehen
+   und traegt weiterhin ihre id: Sprungziele aus der Ablaufspalte und die
+   Abschnitte des Suchindex bleiben damit unveraendert. Ein Sprung auf ein
+   Ziel INNERHALB des Blocks klappt ihn auf (Skript weiter unten), und vor
+   dem Drucken wird er ebenfalls geoeffnet. */
+details.wegleitung{margin:0}
+details.wegleitung > summary{
+  cursor:pointer;
+  list-style:none;
+  display:flex;
+  align-items:flex-start;
+  gap:13px;
+}
+details.wegleitung > summary::-webkit-details-marker{display:none}
+details.wegleitung > summary::before{
+  content:"";
+  flex:none;
+  width:0;height:0;
+  border-left:8px solid var(--accent);
+  border-top:6px solid transparent;
+  border-bottom:6px solid transparent;
+  margin-top:12px;
+  transition:transform .18s ease;
+}
+@media (prefers-reduced-motion:reduce){details.wegleitung > summary::before{transition:none}}
+details.wegleitung[open] > summary::before{transform:rotate(90deg)}
+details.wegleitung > summary .step-title{flex:1 1 auto;min-width:0;margin:0}
+details.wegleitung > summary:hover .step-title{color:var(--accent)}
+details.wegleitung > summary:focus-visible{
+  outline:2px solid var(--accent);outline-offset:5px;border-radius:4px;
+}
+.weg-schalter{
+  flex:none;
+  align-self:flex-start;
+  margin-top:13px;
+  font-family:var(--sans);
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-faint);
+  white-space:nowrap;
+}
+details.wegleitung:not([open]) .weg-schalter::after{content:"aufklappen"}
+details.wegleitung[open] .weg-schalter::after{content:"zuklappen"}
+details.wegleitung > summary:hover .weg-schalter{color:var(--accent)}
+.wegleitung-inhalt{padding-top:18px}
+.wegleitung-inhalt > :last-child{margin-bottom:0}
+@media (max-width:560px){ .weg-schalter{display:none} }
+
 /* ---------- Druck ---------- */
 @media print{
   body{background:#fff;color:#000;font-size:10.5pt}
@@ -912,33 +961,40 @@ footer{
 
     <!-- ============ WEGLEITUNG ============ -->
     <section class="step prose">
-      <h2 id="anleitung" class="step-title">So arbeitest du mit diesem Leitprogramm</h2>
-      <p>Du bestimmst das Tempo selbst, die Reihenfolge nicht. Die Schritte 1 bis 5 bauen aufeinander auf: Aus der Energieerhaltung folgt der Wirkungsgrad, daraus die Kette der Verluste, und erst damit lassen sich Brennstoffe und Wärmepumpen vergleichen. Die Schritte 7 und 8 handeln vom Gegenteil des Heizens — vom Aufhalten der Wärme.</p>
-      <ol class="body-list">
-        <li><strong>Einstiegsfrage zuerst beantworten.</strong> Schreib deine Vermutung auf, bevor du weiterliest. Eine notierte falsche Vermutung lernt sich besser als eine gelesene richtige.</li>
-        <li><strong>Clip anschauen.</strong> Jeder Schritt beginnt mit einem vertonten Erklärclip von rund einer Minute. Er ersetzt den Lehrtext nicht, sondern stellt die Frage, die der Text beantwortet.</li>
-        <li><strong>Simulation selbst bewegen.</strong> Wo ein Regler steht, gehört er gezogen. Achte darauf, welche Anzeige mitgeht und welche stehen bleibt — das ist meist der ganze Lerninhalt.</li>
-        <li><strong>Aufgaben selbst lösen</strong>, erst dann die Lösung aufklappen. Wer zuerst schaut, betrügt sich um den Lerneffekt.</li>
-        <li><strong>Kern zuerst, Vertiefung danach.</strong> Jede Aufgabe trägt ein Etikett:
-          <span class="task-id"><span class="kern">KERN</span></span> bearbeiten alle,
-          <span class="task-id"><span class="vert">VERTIEFUNG</span></span> ist für schnelle Lernende
-          oder als Hausaufgabe gedacht. Wer nur die Kernaufgaben rechnet, kommt mit den angesetzten
-          vier Lektionen aus.</li>
-        <li><strong>Selbstkontrolle abhaken</strong>, wenn der Schritt sitzt. Der Fortschritt bleibt auf diesem Gerät gespeichert.</li>
-        <li><strong>Gesamttest am Schluss</strong> unter Prüfungsbedingungen: 25 Minuten, Taschenrechner und Tabellenwerte.</li>
-      </ol>
+      <details class="wegleitung">
+        <summary>
+          <h2 id="anleitung" class="step-title">So arbeitest du mit diesem Leitprogramm</h2>
+          <span class="weg-schalter" aria-hidden="true"></span>
+        </summary>
+        <div class="wegleitung-inhalt">
+          <p>Du bestimmst das Tempo selbst, die Reihenfolge nicht. Die Schritte 1 bis 5 bauen aufeinander auf: Aus der Energieerhaltung folgt der Wirkungsgrad, daraus die Kette der Verluste, und erst damit lassen sich Brennstoffe und Wärmepumpen vergleichen. Die Schritte 7 und 8 handeln vom Gegenteil des Heizens — vom Aufhalten der Wärme.</p>
+          <ol class="body-list">
+            <li><strong>Einstiegsfrage zuerst beantworten.</strong> Schreib deine Vermutung auf, bevor du weiterliest. Eine notierte falsche Vermutung lernt sich besser als eine gelesene richtige.</li>
+            <li><strong>Clip anschauen.</strong> Jeder Schritt beginnt mit einem vertonten Erklärclip von rund einer Minute. Er ersetzt den Lehrtext nicht, sondern stellt die Frage, die der Text beantwortet.</li>
+            <li><strong>Simulation selbst bewegen.</strong> Wo ein Regler steht, gehört er gezogen. Achte darauf, welche Anzeige mitgeht und welche stehen bleibt — das ist meist der ganze Lerninhalt.</li>
+            <li><strong>Aufgaben selbst lösen</strong>, erst dann die Lösung aufklappen. Wer zuerst schaut, betrügt sich um den Lerneffekt.</li>
+            <li><strong>Kern zuerst, Vertiefung danach.</strong> Jede Aufgabe trägt ein Etikett:
+              <span class="task-id"><span class="kern">KERN</span></span> bearbeiten alle,
+              <span class="task-id"><span class="vert">VERTIEFUNG</span></span> ist für schnelle Lernende
+              oder als Hausaufgabe gedacht. Wer nur die Kernaufgaben rechnet, kommt mit den angesetzten
+              vier Lektionen aus.</li>
+            <li><strong>Selbstkontrolle abhaken</strong>, wenn der Schritt sitzt. Der Fortschritt bleibt auf diesem Gerät gespeichert.</li>
+            <li><strong>Gesamttest am Schluss</strong> unter Prüfungsbedingungen: 25 Minuten, Taschenrechner und Tabellenwerte.</li>
+          </ol>
 
-      <div class="merksatz">
-        <p class="card-label">Was du am Ende können musst</p>
-        <p>Den Wirkungsgrad berechnen, Wirkungsgrade in Serie multiplizieren, mit dem Heizwert die nötige Brennstoffmenge bestimmen und erklären, warum die Leistungszahl einer Wärmepumpe über eins liegen darf.</p>
-        <p style="margin-bottom:0">Energiequellen und Technologien nach Verfügbarkeit, Wirkungsgrad und Kohlendioxid vergleichen, die drei Formen des Wärmetransports unterscheiden und den Treibhauseffekt aus der unterschiedlichen Durchlässigkeit der Atmosphäre erklären.</p>
-      </div>
+          <div class="merksatz">
+            <p class="card-label">Was du am Ende können musst</p>
+            <p>Den Wirkungsgrad berechnen, Wirkungsgrade in Serie multiplizieren, mit dem Heizwert die nötige Brennstoffmenge bestimmen und erklären, warum die Leistungszahl einer Wärmepumpe über eins liegen darf.</p>
+            <p style="margin-bottom:0">Energiequellen und Technologien nach Verfügbarkeit, Wirkungsgrad und Kohlendioxid vergleichen, die drei Formen des Wärmetransports unterscheiden und den Treibhauseffekt aus der unterschiedlichen Durchlässigkeit der Atmosphäre erklären.</p>
+          </div>
 
-      <div class="card">
-        <p class="card-label">Zwei Regeln, die in jedem Schritt gelten</p>
-        <p><strong>Erstens:</strong> Energie wird nie verbraucht, nur umgewandelt. Wo eine Rechnung nicht aufgeht, fehlt ein Weg — meist die Abwärme.</p>
-        <p style="margin-bottom:0"><strong>Zweitens:</strong> Der Wirkungsgrad ist eine reine Zahl ohne Einheit und nie grösser als eins. Kommt etwas anderes heraus, wurden nicht alle zugeführten Energien gezählt — genau das ist der Fall bei der Wärmepumpe in Schritt 5.</p>
-      </div>
+          <div class="card">
+            <p class="card-label">Zwei Regeln, die in jedem Schritt gelten</p>
+            <p><strong>Erstens:</strong> Energie wird nie verbraucht, nur umgewandelt. Wo eine Rechnung nicht aufgeht, fehlt ein Weg — meist die Abwärme.</p>
+            <p style="margin-bottom:0"><strong>Zweitens:</strong> Der Wirkungsgrad ist eine reine Zahl ohne Einheit und nie grösser als eins. Kommt etwas anderes heraus, wurden nicht alle zugeführten Energien gezählt — genau das ist der Fall bei der Wärmepumpe in Schritt 5.</p>
+          </div>
+        </div>
+      </details>
     </section>
 
     <!-- ============ VORTEST ============ -->
@@ -2189,7 +2245,8 @@ window.MathJax = {
   }
 
   window.addEventListener('beforeprint', function () {
-    document.querySelectorAll('details.sol').forEach(function (d) { d.open = true; });
+    document.querySelectorAll('details.sol, details.wegleitung')
+      .forEach(function (d) { d.open = true; });
   });
 })();
 </script>
@@ -2459,5 +2516,29 @@ window.MathJax = {
 <script src="../nav.js"></script>
 <script src="../suche.js"></script>
 <script>buildNav({ id: 'leitprogramme' });</script>
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   Wegleitung: eingeklappt, aber nie im Weg.
+
+   Zeigt der Aufruf auf ein Ziel innerhalb des Blocks — aus der Ablaufspalte,
+   aus einem geteilten Link oder aus einem Suchtreffer —, dann wird er
+   aufgeklappt. Ohne das landete man auf einer zugeklappten Ueberschrift und
+   saehe nicht, dass darunter etwas steht.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  var block = document.querySelector('details.wegleitung');
+  if (!block) return;
+
+  function pruefe() {
+    var id = window.location.hash.slice(1);
+    if (!id) return;
+    var ziel = document.getElementById(id);
+    if (ziel && block.contains(ziel)) block.open = true;
+  }
+  pruefe();
+  window.addEventListener('hashchange', pruefe);
+})();
+</script>
+
 </body>
 </html>
