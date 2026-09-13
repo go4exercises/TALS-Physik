@@ -42,8 +42,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Graph, JSON-LD nach schema.org/LearningResource), `sitemap.xml` und `robots.txt`.
   Der Kopfblock zwischen `<!-- SEO:ANFANG -->` und `<!-- SEO:ENDE -->` ist
   **generiert** — gepflegt wird die Tabelle `SEITEN` im Skript. Neue Seite = dort
-  eintragen, sonst fehlen ihr Beschreibung und Sitemap-Eintrag. Der Pre-Flight
-  warnt, wenn die Metadaten veraltet sind.
+  eintragen, sonst fehlen ihr Beschreibung und Sitemap-Eintrag. `--check` prüft
+  ohne zu schreiben (Exit 1 = veraltet; so ruft der Pre-Flight es auf und warnt),
+  `--dry-run` zeigt, welche Dateien sich ändern würden, `--dry-run --diff`
+  zusätzlich die Zeilen selbst.
 - `scripts/verify_einheitentrainer.js` — Selbsttest des Einheitentrainers: lädt
   `p0-4` in jsdom und ruft dort `etSelbsttest(n)` auf (jedes angebotene
   Einheitenpaar hin und zurück, Referenzwerte, Grenzfälle, Generator, Toleranz,

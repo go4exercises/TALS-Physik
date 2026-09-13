@@ -135,9 +135,14 @@ inklusive Lizenz, Bildungsstufe, Zielgruppe und der RLP-Kompetenzen, die direkt 
 der Seite gelesen werden. Dazu `sitemap.xml` und `robots.txt`.
 
 ```bash
-python3 scripts/build-seo.py            # Metadaten, sitemap.xml, robots.txt schreiben
-python3 scripts/build-seo.py --check    # prüft, ob sie zum Stand passen
+python3 scripts/build-seo.py                     # schreiben
+python3 scripts/build-seo.py --check             # Exit 1, wenn veraltet (Pre-Flight)
+python3 scripts/build-seo.py --dry-run           # zeigt, was sich ändern würde
+python3 scripts/build-seo.py --dry-run --diff    # dazu die Zeilen selbst
 ```
+
+`--check` ist das Gatter, `--dry-run` ist zum Hinschauen, bevor man 32 Dateien
+anfasst. Unbekannte Schalter brechen ab, statt durchzufallen.
 
 Gepflegt wird die Tabelle `SEITEN` im Skript; der Block in den Seiten selbst ist
 generiert. Die Suche nimmt `?q=…` entgegen (`…/index.html?q=reibung`), darauf stützt

@@ -13,10 +13,22 @@
 #  damit Metadaten und sichtbarer Inhalt nicht auseinanderlaufen.
 #
 #  Aufruf vom Repo-Root:
-#      python3 scripts/build-seo.py            # schreiben
-#      python3 scripts/build-seo.py --check    # nur pruefen (Exit 1 = veraltet)
+#      python3 scripts/build-seo.py             # schreiben
+#      python3 scripts/build-seo.py --check     # Gatter: Exit 1, wenn veraltet
+#      python3 scripts/build-seo.py --dry-run   # Trockenlauf: zeigt, was sich
+#                                               # aendern wuerde; Exit immer 0
+#      python3 scripts/build-seo.py --dry-run --diff   # dazu die Zeilen selbst
+#
+#  --check und --dry-run unterscheiden sich in der Absicht: --check ist das
+#  Gatter fuer den Pre-Flight und interessiert sich nur fuer den Exit-Code,
+#  --dry-run ist zum Hinschauen, bevor man 32 Dateien anfasst.
+#
+#  Unbekannte Schalter brechen ab, statt durchzufallen. Frueher schrieb ein
+#  `--help` die Metadaten, weil nur auf '--check' in argv geprueft wurde.
 # ─────────────────────────────────────────────────────────────
 
+import argparse
+import difflib
 import html
 import json
 import os
@@ -389,6 +401,8 @@ def block(datei, cfg, seite_html):
 
 
 def einsetzen(datei, cfg):
+    """Gibt (alter Stand, neuer Stand) zurueck. Beide, weil der Trockenlauf
+    sie vergleichen will — und ein zweites Lesen der Datei sich so spart."""
     pfad = os.path.join(ROOT, datei)
     s = open(pfad, encoding='utf-8').read()
     neu = block(datei, cfg, s)
@@ -398,8 +412,18 @@ def einsetzen(datei, cfg):
         m = re.search(r'</title>\n?', s)
         assert m, f'{datei}: kein <title>'
         s2 = s[:m.end()] + neu + '\n' + s[m.end():]
-    geaendert = s2 != s
-    return s2, geaendert
+    return s, s2
+
+
+def zeilenbilanz(alt, neu):
+    """Wie viele Zeilen kaemen dazu, wie viele fielen weg."""
+    plus = minus = 0
+    for z in difflib.unified_diff(alt.splitlines(), neu.splitlines(), lineterm='', n=0):
+        if z.startswith('+') and not z.startswith('+++'):
+            plus += 1
+        elif z.startswith('-') and not z.startswith('---'):
+            minus += 1
+    return plus, minus
 
 
 def sitemap():
@@ -429,30 +453,72 @@ Sitemap: {BASIS}sitemap.xml
 
 
 def main(argv):
-    pruefen = '--check' in argv
-    offen = []
+    ap = argparse.ArgumentParser(
+        prog='build-seo.py',
+        description='Setzt die generierten Kopfbloecke in die Seiten und schreibt '
+                    'sitemap.xml und robots.txt. Gepflegt wird die Tabelle SEITEN '
+                    'im Skript, nie der Block in der Seite.',
+        epilog='Ohne Schalter wird geschrieben.')
+    modus = ap.add_mutually_exclusive_group()
+    modus.add_argument('--check', action='store_true',
+                       help='nur pruefen, nichts schreiben; Exit 1, wenn etwas veraltet ist '
+                            '(so ruft der Pre-Flight das Skript auf)')
+    modus.add_argument('--dry-run', action='store_true',
+                       help='Trockenlauf: zeigt, was sich aendern wuerde, und schreibt nichts')
+    ap.add_argument('--diff', action='store_true',
+                    help='nur mit --dry-run: zusaetzlich die betroffenen Zeilen zeigen')
+    a = ap.parse_args(argv)
+    if a.diff and not a.dry_run:
+        ap.error('--diff gibt es nur zusammen mit --dry-run')
+
+    schreiben = not (a.check or a.dry_run)
+    aenderungen = []                         # (Name, alter Stand, neuer Stand)
+
     for datei, cfg in SEITEN.items():
-        s2, geaendert = einsetzen(datei, cfg)
-        if geaendert:
-            offen.append(datei)
-            if not pruefen:
-                open(os.path.join(ROOT, datei), 'w', encoding='utf-8').write(s2)
+        alt, neu = einsetzen(datei, cfg)
+        if alt != neu:
+            aenderungen.append((datei, alt, neu))
+            if schreiben:
+                open(os.path.join(ROOT, datei), 'w', encoding='utf-8').write(neu)
+
     for name, inhalt in (('sitemap.xml', sitemap()), ('robots.txt', ROBOTS)):
-        p = os.path.join(ROOT, name)
-        alt = open(p, encoding='utf-8').read() if os.path.exists(p) else ''
+        pfad = os.path.join(ROOT, name)
+        alt = open(pfad, encoding='utf-8').read() if os.path.exists(pfad) else ''
         if alt != inhalt:
-            offen.append(name)
-            if not pruefen:
-                open(p, 'w', encoding='utf-8').write(inhalt)
-    if pruefen:
-        if offen:
-            print('SEO-Metadaten VERALTET:', ', '.join(offen))
+            aenderungen.append((name, alt, inhalt))
+            if schreiben:
+                open(pfad, 'w', encoding='utf-8').write(inhalt)
+
+    namen = [n for n, _, _ in aenderungen]
+
+    if a.check:
+        if aenderungen:
+            print('SEO-Metadaten VERALTET:', ', '.join(namen))
             return 1
         print(f'SEO-Metadaten aktuell ({len(SEITEN)} Seiten).')
         return 0
+
+    if a.dry_run:
+        if not aenderungen:
+            print(f'[Trockenlauf] nichts zu tun — {len(SEITEN)} Seiten, sitemap.xml '
+                  f'und robots.txt sind aktuell.')
+            return 0
+        print(f'[Trockenlauf] nichts geschrieben. {len(aenderungen)} Datei(en) '
+              f'wuerden sich aendern:')
+        for name, alt, neu in aenderungen:
+            plus, minus = zeilenbilanz(alt, neu)
+            print(f'  {name:<52s} +{plus} / -{minus} Zeilen')
+            if a.diff:
+                for z in difflib.unified_diff(
+                        alt.splitlines(), neu.splitlines(),
+                        fromfile=name + '  (jetzt)', tofile=name + '  (neu)',
+                        lineterm='', n=1):
+                    print('    ' + z)
+        return 0
+
     print(f'{len(SEITEN)} Seiten mit Metadaten versehen, sitemap.xml und robots.txt geschrieben.')
-    if offen:
-        print('  geändert:', ', '.join(offen))
+    if aenderungen:
+        print('  geändert:', ', '.join(namen))
     return 0
 
 
