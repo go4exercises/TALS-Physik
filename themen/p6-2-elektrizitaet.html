@@ -487,7 +487,6 @@ MathJax = {
 </div>
 
 
-<!-- ══════════════ 5. ANIMATION 2 — LEITERWIDERSTAND ══════════════ -->
 <details class="minicheck">
 <summary class="mc-kopf">✏️ Mini-Check</summary>
 <div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Verdoppelt man bei festem Widerstand die Spannung, so …</p><ul class="mc-optionen"><li data-opt="A">bleibt der Strom gleich</li><li data-opt="B">verdoppelt sich der Strom</li><li data-opt="C">halbiert sich der Strom</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> \(I = U/R\) — bei festem \(R\) ist der Strom proportional zur Spannung.</div></details></div>
@@ -496,6 +495,90 @@ MathJax = {
 <div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Eine Lampe (\(R = 240\;\Omega\)) hängt am \(230\;\text{V}\)-Netz. Welcher Strom fliesst (ohmsch gerechnet)?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(I = \dfrac{U}{R} = \dfrac{230}{240} \approx 0.96\;\text{A}\).</div></details></div>
 </details>
 
+<h2 id="messen">Messen im Stromkreis</h2>
+
+<p>Ohne Messung bleibt das Ohmsche Gesetz eine Behauptung. Gemessen wird mit dem <strong>Multimeter</strong> — und dabei entscheidet die Art des Anschlusses, ob man einen Messwert bekommt oder einen Kurzschluss.</p>
+
+<div class="block block-def">
+  <div class="block-titel">🔵 Die zwei Anschlussarten</div>
+  <p><strong>Das Amperemeter kommt in Serie.</strong> Der zu messende Strom muss durch das Gerät hindurchfliessen, also wird die Leitung aufgetrennt und das Gerät eingefügt. Damit es den Stromkreis dabei möglichst wenig verändert, hat es einen <em>sehr kleinen</em> Innenwiderstand (Bruchteile eines Ohm).</p>
+  <p style="margin-bottom:0"><strong>Das Voltmeter kommt parallel.</strong> Gemessen wird die Spannung <em>über</em> einem Bauteil, also wird das Gerät daneben geklemmt, ohne die Leitung aufzutrennen. Damit es keinen nennenswerten Strom abzweigt, hat es einen <em>sehr grossen</em> Innenwiderstand (Megaohm).</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">🔴 Der teure Fehler</div>
+  <p style="margin-bottom:0">Ein <strong>Amperemeter parallel</strong> zum Verbraucher geschaltet wirkt wie ein Stück Draht: Sein kleiner Innenwiderstand überbrückt das Bauteil, der Strom steigt auf ein Vielfaches, und die Sicherung des Geräts brennt durch — im schlimmeren Fall das Messwerk. Umgekehrt ist ein <strong>Voltmeter in Serie</strong> harmlos, aber nutzlos: Sein grosser Innenwiderstand bremst den Strom fast auf null, und die Lampe bleibt dunkel.</p>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3 id="anim-multimeter-richtig-anschliessen">Animation 2 · Multimeter richtig anschliessen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Schalte zwischen den vier Fällen um und lies jedes Mal den angezeigten Wert.</li><li>Achte darauf, wo die Leitung aufgetrennt ist und wo nicht.</li><li>Vergleiche den Strom durch die Lampe in den vier Fällen.</li></ul></div>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Amperemeter in Serie, Voltmeter parallel — jede andere Kombination misst falsch oder zerstört.</li><li>Der kleine Innenwiderstand des Amperemeters ist der Grund, warum es parallel gefährlich ist.</li><li>Das Voltmeter zweigt Strom ab; je grösser sein Innenwiderstand, desto weniger stört es.</li></ul></div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Anschlussart:</label>
+      <span class="typ-gruppe">
+        <button class="typ-btn aktiv" data-mm="a-serie">Amperemeter in Serie</button>
+        <button class="typ-btn" data-mm="a-parallel">Amperemeter parallel</button>
+        <button class="typ-btn" data-mm="v-parallel">Voltmeter parallel</button>
+        <button class="typ-btn" data-mm="v-serie">Voltmeter in Serie</button>
+      </span>
+      </div>
+      <div class="sl-grp">
+      <label>Lampenwiderstand \(R_\text{L}\):</label>
+      <input type="range" id="mm-R" min="20" max="240" value="60" step="5">
+      <span class="sl-val" id="mm-R-val">60 Ω</span>
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Was der Kreis sieht</div>
+      <div class="fl-eq" id="mm-eq-f">I = U / R_ges</div>
+      <div class="fl-eq" id="mm-eq-z">I = 12.0 V / 60.1 Ω = 200 mA</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(R_\text{ges}\)</span><span class="lb-val" id="mm-Rg">60.1 Ω</span></div>
+      <div class="lb-item"><span class="lb-lab">Strom \(I\)</span><span class="lb-val" id="mm-I">200 mA</span></div>
+      <div class="lb-item"><span class="lb-lab">Anzeige</span><span class="lb-val" id="mm-anz">200 mA</span></div>
+      <div class="lb-item"><span class="lb-lab">Urteil</span><span class="lb-val" id="mm-ok">richtig</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🔌 Messgerät im Kreis</div>
+      <canvas id="mm-cv" height="250" role="img" aria-label="Stromkreis aus Quelle und Lampe. Je nach gewählter Anschlussart sitzt ein Amperemeter in der aufgetrennten Leitung oder ein Voltmeter parallel zur Lampe; bei falschem Anschluss wird der Kurzschlusspfad hervorgehoben."></canvas>
+    </div>
+
+  </div>
+</div>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein Amperemeter wird …</p><ul class="mc-optionen"><li data-opt="A">parallel zum Verbraucher geschaltet</li><li data-opt="B">in Serie zum Verbraucher geschaltet</li><li data-opt="C">zwischen Plus- und Minuspol geklemmt</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Der Strom muss durch das Gerät hindurch. Antwort A und C sind beide Kurzschlüsse.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Ein Voltmeter hat einen sehr <span class="mc-luecke"></span> Innenwiderstand.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">grossen — sonst würde es selbst nennenswert Strom abzweigen und den Messwert verfälschen.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Lampe mit \(60\;\Omega\) liegt an \(12\,\text{V}\). Ein Amperemeter mit \(0.1\;\Omega\) Innenwiderstand wird in Serie geschaltet. Um wie viel Prozent sinkt der Strom?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Ohne Gerät \(I = 12/60 = 200\,\text{mA}\), mit Gerät \(12/60.1 = 199.7\,\text{mA}\) — rund \(0.17\,\%\) weniger. Der Eingriff ist vernachlässigbar, und genau dafür ist der kleine Innenwiderstand da.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum steckt am Multimeter die rote Leitung für Strommessung oft in einer anderen Buchse als für Spannungsmessung?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die Strombuchse führt über einen sehr kleinen Widerstand (Shunt) und ist mit einer Sicherung geschützt; die Spannungsbuchse führt über einen sehr grossen Widerstand. Es sind zwei verschiedene Messwerke im selben Gehäuse — wer die Buchse vergisst und dann parallel misst, erzeugt einen Kurzschluss.</div></details></div>
+</details>
+
+<!-- ══════════════ 5. ANIMATION 2 — LEITERWIDERSTAND ══════════════ -->
 <h2 id="leiter">Der Widerstand eines Leiters</h2>
 
 <p>Der Widerstand eines Drahts wächst mit der Länge und sinkt mit dem Querschnitt — und hängt vom Material ab. Probiere es mit \(R=\rho\,l/A\) aus.</p>
@@ -503,7 +586,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-r-l-a">Animation 2 · \(R = \rho\,l/A\)</h3>
+  <h3 id="anim-r-l-a">Animation 3 · \(R = \rho\,l/A\)</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -579,12 +662,17 @@ MathJax = {
 
 <h2 id="reihe">Reihenschaltung</h2>
 
+<div class="block block-tipp">
+  <div class="block-titel">💡 Lieber geführt durcharbeiten?</div>
+  <p>Reihen-, Parallel- und gemischte Schaltungen gibt es auch als Selbstlerneinheit: <a href="../leitprogramme/leitprogramm-schaltungen.html">Leitprogramm «Schaltungen berechnen»</a> — sechs Schritte mit Vortest, Erklärclips, Simulationen, Selbstkontrolle nach jedem Schritt und Kapiteltest. Diese Seite bleibt das Nachschlagewerk; das Leitprogramm ist der Kurs.</p>
+</div>
+
 <p>In der Reihenschaltung fliesst durch beide Widerstände derselbe Strom, die Spannung teilt sich auf, und die Widerstände addieren sich: \(R = R_1 + R_2\).</p>
 
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-widerstaende-reihe">Animation 3 · Zwei Widerstände in Reihe</h3>
+  <h3 id="anim-widerstaende-reihe">Animation 4 · Zwei Widerstände in Reihe</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -667,7 +755,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-widerstaende-parallel">Animation 4 · Zwei Widerstände parallel</h3>
+  <h3 id="anim-widerstaende-parallel">Animation 5 · Zwei Widerstände parallel</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -741,6 +829,119 @@ MathJax = {
 <div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum sind die Steckdosen einer Wohnung parallel geschaltet und nicht in Reihe?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">So liegt an jedem Gerät dieselbe Netzspannung (\(230\;\text{V}\)), und die Geräte arbeiten unabhängig. Ein ausgeschaltetes oder defektes Gerät unterbricht die anderen nicht.</div></details></div>
 </details>
 
+<h2 id="gemischt">Gemischte Schaltungen</h2>
+
+<p>In der Praxis steht selten eine reine Reihen- oder Parallelschaltung. Gemischte Schaltungen rechnet man <strong>von innen nach aussen</strong>: Zuerst die Gruppe zusammenfassen, die eindeutig in Reihe oder parallel liegt, dann mit dem Ersatzwiderstand weiterrechnen, bis ein einziger Widerstand übrig ist. Rückwärts geht es dann Schritt für Schritt zu den Teilspannungen und Teilströmen zurück.</p>
+
+<div class="block block-def">
+  <div class="block-titel">🔵 Die drei Schritte</div>
+  <ol class="aufg-liste">
+    <li><strong>Gruppen erkennen.</strong> Welche Widerstände teilen sich beide Anschlusspunkte? Die liegen parallel. Welche liegen hintereinander im selben Strompfad? Die liegen in Reihe.</li>
+    <li><strong>Zusammenfassen</strong>, innen beginnend: \(R_\text{p} = \dfrac{R_2 \cdot R_3}{R_2 + R_3}\) für zwei parallele, \(R_\text{s} = R_1 + R_2\) für zwei in Reihe.</li>
+    <li style="margin-bottom:0"><strong>Zurückrechnen.</strong> Aus \(I = U/R_\text{ges}\) folgt der Gesamtstrom; über jeder Gruppe liegt dann \(U = I \cdot R\), und innerhalb einer Parallelgruppe teilt sich der Strom auf.</li>
+  </ol>
+</div>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3 id="anim-schaltung-schritt-fuer-schritt-zusammenfassen">Animation 6 · Schaltung Schritt für Schritt zusammenfassen</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Welche zwei Widerstände werden zuerst zusammengefasst — und warum gerade die?</li><li>Vergleiche \(R_\text{p}\) mit \(R_2\) und \(R_3\): Er ist kleiner als beide.</li><li>Prüfe im letzten Schritt die beiden Kontrollen: Spannungssumme und Stromsumme.</li></ul></div>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Zusammengefasst wird von innen nach aussen, gerechnet wird von aussen nach innen.</li><li>Der Ersatzwiderstand einer Parallelgruppe ist immer kleiner als ihr kleinster Einzelwiderstand.</li><li>Zwei Proben schliessen die Rechnung ab: \(U_1 + U_\text{p} = U\) und \(I_2 + I_3 = I\).</li></ul></div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Schritt:</label>
+      <span class="typ-gruppe">
+        <button class="typ-btn aktiv" data-gm="0">1 · Schaltung</button>
+        <button class="typ-btn" data-gm="1">2 · \(R_2 \parallel R_3\)</button>
+        <button class="typ-btn" data-gm="2">3 · \(R_\text{ges}\)</button>
+        <button class="typ-btn" data-gm="3">4 · zurückrechnen</button>
+      </span>
+      </div>
+    </div>
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>\(R_1\):</label>
+      <input type="range" id="gm-R1" min="20" max="300" value="100" step="10">
+      <span class="sl-val" id="gm-R1-val">100 Ω</span>
+      </div>
+      <div class="sl-grp">
+      <label>\(R_2\):</label>
+      <input type="range" id="gm-R2" min="20" max="500" value="220" step="10">
+      <span class="sl-val" id="gm-R2-val">220 Ω</span>
+      </div>
+      <div class="sl-grp">
+      <label>\(R_3\):</label>
+      <input type="range" id="gm-R3" min="20" max="500" value="330" step="10">
+      <span class="sl-val" id="gm-R3-val">330 Ω</span>
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Aktueller Schritt</div>
+      <div class="fl-eq" id="gm-eq-f">R_p = (R₂ · R₃) / (R₂ + R₃)</div>
+      <div class="fl-eq" id="gm-eq-z">R_p = (220 Ω · 330 Ω) / (220 Ω + 330 Ω) = 132.0 Ω</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(R_\text{p}\)</span><span class="lb-val" id="gm-Rp">132.0 Ω</span></div>
+      <div class="lb-item"><span class="lb-lab">\(R_\text{ges}\)</span><span class="lb-val" id="gm-Rg">232.0 Ω</span></div>
+      <div class="lb-item"><span class="lb-lab">Strom \(I\)</span><span class="lb-val" id="gm-I">51.72 mA</span></div>
+      <div class="lb-item"><span class="lb-lab">\(U_1\) ; \(U_\text{p}\)</span><span class="lb-val" id="gm-U">5.17 ; 6.83 V</span></div>
+      <div class="lb-item"><span class="lb-lab">\(I_2\) ; \(I_3\)</span><span class="lb-val" id="gm-I23">31.03 ; 20.69 mA</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">🧩 Von innen nach aussen</div>
+      <canvas id="gm-cv" height="270" role="img" aria-label="Schaltung aus einem Widerstand in Reihe zu zwei parallelen Widerständen. Mit jedem Schritt wird die Parallelgruppe zu einem Ersatzwiderstand und schliesslich die ganze Schaltung zu einem einzigen Widerstand zusammengefasst."></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel — vollständig gerechnet</div>
+  <p><em>\(R_1 = 100\,\Omega\) in Reihe zu \(R_2 = 220\,\Omega\) parallel \(R_3 = 330\,\Omega\), an \(U = 12\,\text{V}\).</em></p>
+  <p><strong>Schritt 1 — die Parallelgruppe.</strong></p>
+  <p>\[ R_\text{p} = \frac{R_2 \cdot R_3}{R_2 + R_3} = \frac{220\,\Omega \cdot 330\,\Omega}{550\,\Omega} = 132\,\Omega \]</p>
+  <p><strong>Schritt 2 — der Gesamtwiderstand.</strong> Jetzt liegen \(R_1\) und \(R_\text{p}\) in Reihe:</p>
+  <p>\[ R_\text{ges} = R_1 + R_\text{p} = 100\,\Omega + 132\,\Omega = 232\,\Omega \]</p>
+  <p><strong>Schritt 3 — zurückrechnen.</strong></p>
+  <p>\[ I = \frac{U}{R_\text{ges}} = \frac{12\,\text{V}}{232\,\Omega} = 51.7\,\text{mA} \]</p>
+  <p>\[ U_1 = I \cdot R_1 = 5.17\,\text{V} \qquad U_\text{p} = I \cdot R_\text{p} = 6.83\,\text{V} \]</p>
+  <p>\[ I_2 = \frac{U_\text{p}}{R_2} = 31.0\,\text{mA} \qquad I_3 = \frac{U_\text{p}}{R_3} = 20.7\,\text{mA} \]</p>
+  <p style="margin-bottom:0"><strong>Zwei Proben.</strong> \(U_1 + U_\text{p} = 5.17 + 6.83 = 12.0\,\text{V}\) ✓ und \(I_2 + I_3 = 31.0 + 20.7 = 51.7\,\text{mA} = I\) ✓. Wer beide macht, findet fast jeden Fehler.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">🔴 Der häufigste Fehler</div>
+  <p style="margin-bottom:0">Falsch gruppiert. Wer \(R_1\) und \(R_2\) zuerst addiert, weil sie im Schaltbild nebeneinanderstehen, rechnet an der Schaltung vorbei. Die Frage ist nicht, was nebeneinander <em>gezeichnet</em> ist, sondern was sich <em>dieselben zwei Anschlusspunkte</em> teilt. Im Zweifel die Knoten nummerieren und nachsehen, welche Widerstände zwischen denselben zwei Knoten hängen.</p>
+</div>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">\(R_1\) in Reihe zu \(R_2 \parallel R_3\). Womit beginnt die Rechnung?</p><ul class="mc-optionen"><li data-opt="A">mit \(R_1 + R_2\)</li><li data-opt="B">mit der Parallelgruppe \(R_2 \parallel R_3\)</li><li data-opt="C">mit \(U / R_1\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Innen beginnen. Erst wenn die Parallelgruppe ein einzelner Widerstand ist, darf sie mit \(R_1\) addiert werden.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Ersatzwiderstand einer Parallelgruppe ist immer <span class="mc-luecke"></span> als der kleinste Einzelwiderstand.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">kleiner — jeder zusätzliche Zweig schafft dem Strom einen weiteren Weg.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(R_1 = 100\;\Omega\) in Reihe zu \(R_2 = R_3 = 200\;\Omega\) parallel. Wie gross ist \(R_\text{ges}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Zwei gleiche parallel ergeben die Hälfte: \(R_\text{p} = 100\;\Omega\). Damit \(R_\text{ges} = 100 + 100 = 200\;\Omega\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">In der Schaltung oben wird \(R_3\) herausgenommen. Wird der Gesamtstrom grösser oder kleiner?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Kleiner. Ohne \(R_3\) fällt ein Strompfad weg, die Parallelgruppe wird zu \(R_2 = 220\;\Omega\), der Gesamtwiderstand steigt von \(232\;\Omega\) auf \(320\;\Omega\) — und der Strom sinkt von \(51.7\) auf \(37.5\,\text{mA}\).</div></details></div>
+</details>
+
 <h2 id="leistung">Leistung und Energie</h2>
 
 <p>Die Leistung \(P=U\cdot I\) gibt an, wie viel Energie pro Sekunde umgesetzt wird; über die Zeit ergibt sich die Energie \(E=P\cdot t\), abgerechnet in Kilowattstunden.</p>
@@ -748,7 +949,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-p-u-i-e">Animation 5 · \(P=U\cdot I\) und \(E=P\cdot t\)</h3>
+  <h3 id="anim-p-u-i-e">Animation 7 · \(P=U\cdot I\) und \(E=P\cdot t\)</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -831,14 +1032,102 @@ MathJax = {
 <div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein \(2000\;\text{W}\)-Wasserkocher läuft \(5\;\text{min}\). Wie viel Energie in Kilowattstunden? (\(5\;\text{min} = \tfrac{1}{12}\;\text{h}\))</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">\(E = P \cdot t = 2\;\text{kW} \cdot \tfrac{1}{12}\;\text{h} \approx 0.17\;\text{kWh}\).</div></details></div>
 </details>
 
+<h3 id="leistung-schaltung">Leistung in Reihe und parallel</h3>
+
+<p>Das Typenschild einer Glühlampe nennt die Leistung <em>bei Nennspannung</em>. Sobald zwei Lampen anders verschaltet werden, stimmt diese Zahl nicht mehr — und die Überraschung ist, in welche Richtung.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3 id="anim-zwei-lampen-in-reihe-und-parallel">Animation 8 · Zwei Lampen in Reihe und parallel</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Welche Lampe leuchtet in Reihe heller — die mit der grösseren Nennleistung?</li><li>Vergleiche die Gesamtleistung in beiden Schaltungen.</li><li>Achte darauf, dass die Widerstände sich nicht ändern, nur die Schaltung.</li></ul></div>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>In Reihe leuchtet die Lampe mit der <em>kleineren</em> Nennleistung heller — sie hat den grösseren Widerstand.</li><li>Bei gleichem Strom gilt \(P = R\,I^2\): grosser Widerstand, grosse Leistung.</li><li>Parallel liegt an jeder Lampe die volle Spannung; erst dann stimmen die Typenschilder.</li></ul></div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Schaltung:</label>
+      <span class="typ-gruppe">
+        <button class="typ-btn aktiv" data-lp="parallel">parallel</button>
+        <button class="typ-btn" data-lp="reihe">in Reihe</button>
+      </span>
+      </div>
+      <div class="sl-grp">
+      <label>Nennleistung Lampe 1:</label>
+      <input type="range" id="lp-P1" min="15" max="100" value="40" step="5">
+      <span class="sl-val" id="lp-P1-val">40 W</span>
+      </div>
+      <div class="sl-grp">
+      <label>Nennleistung Lampe 2:</label>
+      <input type="range" id="lp-P2" min="15" max="100" value="60" step="5">
+      <span class="sl-val" id="lp-P2-val">60 W</span>
+      </div>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Widerstände aus dem Typenschild</div>
+      <div class="fl-eq" id="lp-eq-f">R = U² / P</div>
+      <div class="fl-eq" id="lp-eq-z">R₁ = (230 V)² / 40 W = 1323 Ω; R₂ = (230 V)² / 60 W = 882 Ω</div>
+      <div class="fl-eq" id="lp-eq-p">P = R · I² (in Reihe) bzw. P = U² / R (parallel)</div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">\(R_1\) ; \(R_2\)</span><span class="lb-val" id="lp-R">1323 ; 882 Ω</span></div>
+      <div class="lb-item"><span class="lb-lab">Strom \(I\)</span><span class="lb-val" id="lp-I">174 ; 261 mA</span></div>
+      <div class="lb-item"><span class="lb-lab">\(P_1\) ; \(P_2\)</span><span class="lb-val" id="lp-P">40.0 ; 60.0 W</span></div>
+      <div class="lb-item"><span class="lb-lab">zusammen</span><span class="lb-val" id="lp-Pg">100.0 W</span></div>
+      <div class="lb-item"><span class="lb-lab">heller</span><span class="lb-val" id="lp-hell">Lampe 2</span></div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">💡 Zwei Lampen, zwei Schaltungen</div>
+      <canvas id="lp-cv" height="250" role="img" aria-label="Zwei Glühlampen an 230 Volt, wahlweise parallel oder in Reihe geschaltet. Die Helligkeit der Symbole entspricht der umgesetzten Leistung; daneben stehen Strom und Leistung je Lampe."></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel — 40 W und 60 W in Reihe</div>
+  <p>Aus dem Typenschild folgen die Widerstände bei Nennspannung:</p>
+  <p>\[ R = \frac{U^2}{P} \qquad R_1 = \frac{(230\,\text{V})^2}{40\,\text{W}} = 1323\,\Omega \qquad R_2 = \frac{(230\,\text{V})^2}{60\,\text{W}} = 882\,\Omega \]</p>
+  <p>In Reihe fliesst überall derselbe Strom:</p>
+  <p>\[ I = \frac{U}{R_1 + R_2} = \frac{230\,\text{V}}{2205\,\Omega} = 104\,\text{mA} \]</p>
+  <p>\[ P_1 = R_1 \, I^2 = 14.4\,\text{W} \qquad P_2 = R_2 \, I^2 = 9.6\,\text{W} \]</p>
+  <p style="margin-bottom:0">Die <strong>40-W-Lampe leuchtet heller</strong> als die 60-W-Lampe — genau umgekehrt als auf dem Typenschild. Und zusammen setzen beide nur \(24\,\text{W}\) um statt \(100\,\text{W}\). Der Grund steht in \(P = R\,I^2\): Bei gleichem Strom gewinnt der grössere Widerstand.</p>
+</div>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Eine 40-W- und eine 60-W-Lampe liegen in Reihe an \(230\,\text{V}\). Welche leuchtet heller?</p><ul class="mc-optionen"><li data-opt="A">die 60-W-Lampe</li><li data-opt="B">die 40-W-Lampe</li><li data-opt="C">beide gleich hell</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> In Reihe ist der Strom gleich, also gilt \(P = R\,I^2\). Die 40-W-Lampe hat den grösseren Widerstand und setzt darum mehr Leistung um.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Bei gleichem Strom ist die Leistung <span class="mc-luecke"></span> proportional zum Widerstand.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">direkt — \(P = R\,I^2\). Bei gleicher <em>Spannung</em> gilt dagegen \(P = U^2/R\), also umgekehrt proportional.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum stehen Haushaltsgeräte immer parallel am Netz und nie in Reihe?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Nur parallel liegt an jedem Gerät die volle Netzspannung, und nur dann leistet es, was auf dem Typenschild steht. In Reihe hinge die Leistung jedes Geräts davon ab, was sonst noch eingeschaltet ist — und ein abgeschaltetes Gerät würde den Kreis unterbrechen.</div></details></div>
+</details>
+
 <h2 id="gefahren">Gefahren des elektrischen Stroms</h2>
+
+<h3 id="gefahr-mensch">Wirkung auf den Menschen</h3>
 
 <p>Wie gefährlich ein Stromfluss durch den Körper ist, hängt von der Stromstärke <em>und</em> der Einwirkzeit ab. Die vier Gefahrenbereiche im Diagramm sind <strong>vereinfacht nachgebildet</strong> und an die Zonen der Norm IEC 60479-1 angelehnt: Sie zeigen die Grössenordnung und den Verlauf richtig — je länger der Strom einwirkt, desto kleiner darf er sein —, sind aber <em>keine</em> Bemessungsgrundlage. Die genauen Grenzkurven stehen in der Norm selbst.</p>
 
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-wirkung-50-hz-wechselstrom">Animation 6 · Wirkung von 50-Hz-Wechselstrom</h3>
+  <h3 id="anim-wirkung-50-hz-wechselstrom">Animation 9 · Wirkung von 50-Hz-Wechselstrom</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -911,6 +1200,57 @@ MathJax = {
 <div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Gefährlich ist nicht die Spannung allein, sondern die <span class="mc-luecke"></span> durch den Körper.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Stromstärke.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Bei \(230\;\text{V}\) und einem Körperwiderstand von \(1000\;\Omega\): welcher Strom fliesst etwa?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(I = \dfrac{U}{R} = \dfrac{230}{1000} = 0.23\;\text{A} = 230\;\text{mA}\) — bereits lebensgefährlich.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum ist nasse Haut beim Stromschlag besonders gefährlich?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Feuchtigkeit senkt den Körperwiderstand stark. Nach \(I = U/R\) fliesst bei kleinerem \(R\) ein viel grösserer und damit gefährlicherer Strom durch den Körper.</div></details></div>
+</details>
+
+<h3 id="gefahr-fi">Der FI-Schutzschalter — er schützt den Menschen</h3>
+
+<p>Der <strong>Fehlerstrom-Schutzschalter</strong> (FI oder RCD) vergleicht dauernd, wie viel Strom über den Aussenleiter hineinfliesst und wie viel über den Neutralleiter zurückkommt. Im gesunden Stromkreis ist das genau gleich viel. Fliesst ein Teil des Stroms anderswohin ab — durch einen Menschen, durch eine feuchte Wand —, fehlt er beim Rückweg. Diese Differenz heisst <strong>Fehlerstrom</strong>.</p>
+
+<div class="block block-def">
+  <div class="block-titel">🔵 Die Auslösebedingung</div>
+  <p style="margin-bottom:0">Übersteigt der Fehlerstrom den Nennwert — im Haushalt üblicherweise \(30\,\text{mA}\) —, trennt der FI den Kreis innerhalb von rund \(30\,\text{ms}\) allpolig ab. Beide Zahlen zusammen halten den Betriebspunkt im Diagramm oben links von der gefährlichen Zone: \(30\,\text{mA}\) bei \(30\,\text{ms}\) liegt noch im Bereich, in dem in aller Regel keine Herzkammerflimmern eintritt.</p>
+</div>
+
+<h3 id="gefahr-pe">Der Schutzleiter — er macht den Fehler sichtbar</h3>
+
+<p>Der <strong>Schutzleiter</strong> (PE, gelb-grün) verbindet alle berührbaren Metallteile eines Geräts leitend mit der Erde. Er führt im Normalbetrieb keinen Strom. Bekommt das Gehäuse durch einen Isolationsfehler Kontakt zum Aussenleiter, fliesst der Strom über den Schutzleiter ab statt über den Menschen, der das Gehäuse anfasst — und genau dieser Abfluss ist der Fehlerstrom, den der FI bemerkt.</p>
+
+<div class="block block-tipp">
+  <div class="block-titel">💡 Warum die beiden zusammengehören</div>
+  <p style="margin-bottom:0">Der Schutzleiter allein schaltet nichts ab; er stellt nur einen guten Weg zur Erde bereit. Der FI allein merkt nichts, solange kein Strom abfliesst. Erst zusammen ergeben sie eine Schutzkette: <em>PE leitet ab — FI bemerkt und trennt.</em> Geräte der Schutzklasse II (Doppelquadrat-Symbol) verzichten auf den PE und lösen dasselbe Problem anders: durch doppelte Isolation, sodass am Gehäuse gar nie Spannung anliegen kann.</p>
+</div>
+
+<h3 id="gefahr-ls">Der Leitungsschutzschalter — er schützt die Leitung</h3>
+
+<p>Der <strong>Leitungsschutzschalter</strong> (LS, umgangssprachlich «Sicherung») begrenzt den Strom in der Leitung auf ihren Nennwert — im Haushalt typisch \(10\,\text{A}\), \(13\,\text{A}\) oder \(16\,\text{A}\). Er verhindert, dass ein Kabel durch Überlast oder Kurzschluss so heiss wird, dass es brennt.</p>
+
+<div class="block block-fehler">
+  <div class="block-titel">🔴 Die Verwechslung, die Leben kostet</div>
+  <p style="margin-bottom:0">Ein Leitungsschutzschalter schützt <strong>keinen Menschen</strong>. Er löst bei \(13\,\text{A}\) aus — für den Körper ist bereits ein Hundertstel davon lebensgefährlich. Wer durch einen Defekt Strom abbekommt, zieht vielleicht \(50\,\text{mA}\); der LS bemerkt davon nichts und bleibt eingeschaltet. Umgekehrt schützt ein FI keine Leitung: Er misst nur die Differenz, und ein Kurzschluss zwischen Aussen- und Neutralleiter erzeugt keine Differenz, sondern nur einen sehr grossen Strom — den der LS abschaltet.</p>
+</div>
+
+<h3 id="gefahr-tabelle">Wovor schützt was</h3>
+
+<table class="ftb-tabelle">
+  <thead>
+    <tr><th>Einrichtung</th><th>schützt</th><th>misst / begrenzt</th><th>löst aus bei</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>FI / RCD</td><td><strong>Menschen</strong></td><td>Differenz zwischen Hin- und Rückstrom</td><td>\(30\,\text{mA}\) Fehlerstrom, in rund \(30\,\text{ms}\)</td></tr>
+    <tr><td>Schutzleiter (PE)</td><td><strong>Menschen</strong></td><td>schaltet nicht — leitet ab</td><td>—</td></tr>
+    <tr><td>Leitungsschutzschalter</td><td><strong>die Leitung</strong></td><td>Strom in der Leitung</td><td>\(10\)–\(16\,\text{A}\) Überlast, sofort bei Kurzschluss</td></tr>
+    <tr><td>Schutzklasse II</td><td><strong>Menschen</strong></td><td>schaltet nicht — isoliert doppelt</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<p>Die mittlere Spalte ist der Schlüssel: <strong>Wer die Differenz misst, schützt Menschen. Wer den Strom selbst begrenzt, schützt Material.</strong></p>
+
+<details class="minicheck">
+<summary class="mc-kopf">✏️ Mini-Check</summary>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wovor schützt ein Leitungsschutzschalter?</p><ul class="mc-optionen"><li data-opt="A">vor einem Stromschlag</li><li data-opt="B">vor Leitungsbrand durch Überlast und Kurzschluss</li><li data-opt="C">vor Überspannung aus dem Netz</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Er löst erst bei \(10\)–\(16\,\text{A}\) aus. Für den Menschen ist ein Hundertstel davon schon gefährlich — dafür ist der FI da.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der FI-Schutzschalter vergleicht den hinfliessenden mit dem <span class="mc-luecke"></span> Strom.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">zurückfliessenden — jede Differenz ist ein Fehlerstrom, der irgendwo anders abfliesst.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Ein Mensch berührt ein defektes Gehäuse und hat \(2000\;\Omega\) Körperwiderstand. Welcher Strom fliesst bei \(230\,\text{V}\), und löst ein \(13\text{-A}\)-Leitungsschutzschalter aus?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">\(I = 230/2000 = 115\,\text{mA}\). Das ist weit im lebensgefährlichen Bereich — der Leitungsschutzschalter bemerkt davon nichts, weil \(115\,\text{mA}\) nur \(0.9\,\%\) seines Nennstroms sind. Ein \(30\text{-mA}\)-FI schaltet dagegen sofort ab.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Ein Gerät der Schutzklasse II hat gar keinen Schutzleiter. Ist es deshalb gefährlicher?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Nein, es löst dasselbe Problem anders. Doppelte Isolation sorgt dafür, dass an berührbaren Teilen auch im Fehlerfall keine Spannung anliegt — dann braucht es keinen Ableitweg. Gefährlich wird es erst, wenn das Gehäuse beschädigt ist.</div></details></div>
 </details>
 
 <h2 id="aufgaben">Aufgaben</h2>
@@ -1040,6 +1380,220 @@ MathJax = {
   </div>
 </div>
 
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A7</span><span class="aufg-titel-text">Ladung und Elektronenzahl</span></div>
+  <p>Beim Abziehen eines Pullovers lädt sich ein Hemd auf \(Q = -0.32\,\mu\text{C}\) auf. (\(e = 1.602\cdot10^{-19}\,\text{C}\))</p>
+  <ol class="aufg-liste">
+    <li>Wie viele überschüssige Elektronen sitzen auf dem Hemd? Schätze zuerst die Grössenordnung ab.</li>
+    <li>Warum ist die Ladung negativ — sind beim Reiben Ladungen entstanden?</li>
+    <li>Eine Kollegin sagt: «Beim Reiben entstehen Ladungen.» Korrigiere die Aussage mit der Ladungserhaltung.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l7')">▶ Lösung</button>
+  <div class="loesung-body" id="l7">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(n = Q/e = 0.32\cdot10^{-6} / 1.602\cdot10^{-19} \approx 2.0\cdot10^{12}\) Elektronen. Grössenordnung: \(10^{-6}\) geteilt durch \(10^{-19}\) gibt \(10^{13}\), mit den Vorfaktoren \(0.32/1.6 = 0.2\) also \(2\cdot10^{12}\).</li>
+        <li>Das Hemd hat Elektronen <em>aufgenommen</em>, der Pullover ebenso viele verloren. Elektronenüberschuss heisst negative Ladung.</li>
+        <li>Ladungen entstehen nie, sie werden nur getrennt. Die Summe beider Ladungen ist vor und nach dem Reiben null: \(Q_\text{Hemd} + Q_\text{Pullover} = 0\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A8</span><span class="aufg-titel-text">Powerbank und Betriebsdauer</span></div>
+  <p>Eine Powerbank ist mit \(10\,000\,\text{mAh}\) beschriftet.</p>
+  <ol class="aufg-liste">
+    <li>Welche Ladung in Coulomb ist gespeichert?</li>
+    <li>Wie lange liefert sie im Mittel \(1.5\,\text{A}\)?</li>
+    <li>Ordne der Grösse nach: LED-Lampe, Laptop-Netzteil, Wasserkocher, Blitzschlag.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l8')">▶ Lösung</button>
+  <div class="loesung-body" id="l8">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(Q = I\,t = 10\,\text{A}\cdot 3600\,\text{s} = 36\,000\,\text{C}\). Merkregel: \(1\,\text{Ah} = 3600\,\text{C}\).</li>
+        <li>\(t = Q/I = 36\,000/1.5 = 24\,000\,\text{s} = 6.7\,\text{h}\).</li>
+        <li>LED \(\approx 20\,\text{mA}\) &lt; Laptop-Netzteil \(\approx 3\,\text{A}\) &lt; Wasserkocher \(\approx 9\,\text{A}\) &lt; Blitz \(\approx 30\,000\,\text{A}\) — vier Grössenordnungen liegen dazwischen.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A9</span><span class="aufg-titel-text">Spannung als Arbeit je Ladung</span></div>
+  <p>Eine Ladung von \(0.50\,\text{C}\) durchläuft ein Bauteil; dabei wird \(4.5\,\text{J}\) an Arbeit verrichtet.</p>
+  <ol class="aufg-liste">
+    <li>Wie gross ist die Spannung über dem Bauteil?</li>
+    <li>Welche Arbeit verrichtet eine \(9\text{-V}\)-Batterie, die insgesamt \(250\,\text{C}\) durch einen Kreis schiebt?</li>
+    <li>Erkläre mit \(U = W/Q\), warum die Einheit Volt gleich Joule je Coulomb ist.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l9')">▶ Lösung</button>
+  <div class="loesung-body" id="l9">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(U = W/Q = 4.5\,\text{J} / 0.50\,\text{C} = 9.0\,\text{V}\).</li>
+        <li>\(W = U\,Q = 9\,\text{V}\cdot 250\,\text{C} = 2250\,\text{J} = 2.25\,\text{kJ}\).</li>
+        <li>Die Spannung sagt, wie viel Energie jede einzelne Ladungseinheit auf dem Weg abgibt: \(1\,\text{V} = 1\,\text{J}/1\,\text{C}\). Sie ist keine Energie, sondern eine Energie <em>je Ladung</em>.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A10</span><span class="aufg-titel-text">Messfehler finden</span></div>
+  <p>Eine Lernende baut einen Kreis aus \(12\text{-V}\)-Quelle und Lampe (\(60\,\Omega\)) auf. Sie will den Strom messen und klemmt das Amperemeter <em>parallel</em> zur Lampe.</p>
+  <ol class="aufg-liste">
+    <li>Welchen Widerstand «sieht» die Quelle jetzt? (Amperemeter: \(R_\text{A} = 0.1\,\Omega\))</li>
+    <li>Welcher Strom fliesst, und was passiert mit dem Gerät?</li>
+    <li>Wie hätte sie das Amperemeter anschliessen müssen, und wie gross wäre der Messwert?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l10')">▶ Lösung</button>
+  <div class="loesung-body" id="l10">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(R_\text{A}\) liegt parallel zu \(R_\text{L}\): \(R = (60\cdot 0.1)/(60+0.1) = 0.0998\,\Omega\) — praktisch nur noch der Innenwiderstand des Geräts.</li>
+        <li>\(I = 12/0.0998 \approx 120\,\text{A}\). Die Gerätesicherung brennt durch; ohne Sicherung wird das Messwerk zerstört. Es ist ein Kurzschluss.</li>
+        <li>In Serie, also die Leitung auftrennen und das Gerät einfügen: \(I = 12/(60+0.1) = 199.7\,\text{mA}\) — rund \(0.2\,\%\) unter dem ungestörten Wert.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A11</span><span class="aufg-titel-text">Spannungsteiler dimensionieren</span></div>
+  <p>An einer \(12\text{-V}\)-Quelle liegt eine Reihenschaltung aus \(R_1 = 470\,\Omega\) und einem noch zu wählenden \(R_2\). Über \(R_2\) sollen genau \(3.0\,\text{V}\) abfallen.</p>
+  <ol class="aufg-liste">
+    <li>Welche Spannung fällt über \(R_1\) ab?</li>
+    <li>Welcher Strom fliesst?</li>
+    <li>Wie gross muss \(R_2\) sein?</li>
+    <li>Ohne Rechnung: Über welchem Widerstand fällt in einer Reihenschaltung die grössere Spannung ab?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l11')">▶ Lösung</button>
+  <div class="loesung-body" id="l11">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(U_1 = 12\,\text{V} - 3.0\,\text{V} = 9.0\,\text{V}\) — die Teilspannungen ergänzen sich zur Gesamtspannung.</li>
+        <li>\(I = U_1/R_1 = 9.0/470 = 19.1\,\text{mA}\), und derselbe Strom fliesst durch \(R_2\).</li>
+        <li>\(R_2 = U_2/I = 3.0 / 0.01915 = 157\,\Omega\).</li>
+        <li>Über dem grösseren Widerstand. Bei gleichem Strom gilt \(U = R\,I\), die Spannungen verhalten sich also wie die Widerstände.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A12</span><span class="aufg-titel-text">Raclette-Abend</span></div>
+  <p>Eine Steckdose ist mit \(13\,\text{A}\) abgesichert (\(230\,\text{V}\)). Ein Racletteofen hat \(1200\,\text{W}\).</p>
+  <ol class="aufg-liste">
+    <li>Welchen Strom zieht ein Ofen?</li>
+    <li>Wie viele Öfen dürfen an dieselbe Steckdose, ohne dass der Leitungsschutzschalter auslöst?</li>
+    <li>Schätze vor der Rechnung: Wird \(R_\text{ges}\) grösser oder kleiner, je mehr Öfen angesteckt werden?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l12')">▶ Lösung</button>
+  <div class="loesung-body" id="l12">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(I = P/U = 1200/230 = 5.22\,\text{A}\).</li>
+        <li>\(13 / 5.22 = 2.49\) — also <strong>zwei</strong> Öfen. Beim dritten wären es \(15.7\,\text{A}\), und der Schutzschalter trennt.</li>
+        <li>Kleiner. Jeder zusätzliche Ofen ist ein weiterer paralleler Zweig; der Gesamtwiderstand sinkt, der Gesamtstrom steigt.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A13</span><span class="aufg-titel-text">Heizdraht dimensionieren</span></div>
+  <p>Ein Heizdraht aus Konstantan (\(\rho = 1.1\,\Omega\,\text{mm}^2/\text{m}\)) mit dem Querschnitt \(0.20\,\text{mm}^2\) soll \(40\,\Omega\) haben.</p>
+  <ol class="aufg-liste">
+    <li>Wie lang muss der Draht sein?</li>
+    <li>Wie ändert sich der Widerstand, wenn man den Draht halbiert?</li>
+    <li>Warum nimmt man für Heizdrähte Konstantan und nicht Kupfer?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l13')">▶ Lösung</button>
+  <div class="loesung-body" id="l13">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(l = R\,A/\rho = 40\cdot 0.20 / 1.1 = 7.27\,\text{m}\).</li>
+        <li>Er halbiert sich auf \(20\,\Omega\) — \(R\) ist direkt proportional zur Länge.</li>
+        <li>Kupfer hat mit \(0.017\,\Omega\,\text{mm}^2/\text{m}\) einen rund \(65\)-mal kleineren spezifischen Widerstand; für \(40\,\Omega\) bräuchte es über \(470\,\text{m}\) Draht. Ausserdem bleibt der Widerstand von Konstantan über einen weiten Temperaturbereich nahezu konstant — daher der Name.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A14</span><span class="aufg-titel-text">Warum Hochspannung</span></div>
+  <p>Ein Verbraucher von \(3.5\,\text{kW}\) hängt an einer Zuleitung aus Kupfer (\(\rho = 0.017\,\Omega\,\text{mm}^2/\text{m}\)), \(25\,\text{m}\) einfache Länge, Querschnitt \(1.5\,\text{mm}^2\).</p>
+  <ol class="aufg-liste">
+    <li>Welchen Widerstand hat die Leitung? (Hin- und Rückleiter beachten)</li>
+    <li>Welche Verlustleistung entsteht bei \(230\,\text{V}\)?</li>
+    <li>Und bei \(400\,\text{V}\)? Erkläre das Verhältnis.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l14')">▶ Lösung</button>
+  <div class="loesung-body" id="l14">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(l = 2\cdot 25 = 50\,\text{m}\), also \(R_\text{L} = \rho\,l/A = 0.017\cdot 50/1.5 = 0.567\,\Omega\).</li>
+        <li>\(I = P/U = 3500/230 = 15.2\,\text{A}\), damit \(P_\text{V} = R_\text{L}\,I^2 = 0.567\cdot 15.2^2 = 131\,\text{W}\).</li>
+        <li>\(I = 3500/400 = 8.75\,\text{A}\) und \(P_\text{V} = 43\,\text{W}\) — ein Drittel. Der Grund: \(P_\text{V}\) geht mit \(I^2\), und \(I\) ist bei gleicher Leistung umgekehrt proportional zu \(U\). Also sinkt der Verlust mit \(1/U^2\); \((400/230)^2 = 3.0\). Genau darum werden Überlandleitungen mit Hochspannung betrieben.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A15</span><span class="aufg-titel-text">Stromrechnung und Standby</span></div>
+  <p>Ein Backofen mit \(2.0\,\text{kW}\) läuft im Mittel \(1.5\,\text{h}\) pro Tag. Der Strompreis beträgt \(0.25\,\text{CHF/kWh}\).</p>
+  <ol class="aufg-liste">
+    <li>Wie viel Energie verbraucht er im Jahr, und was kostet das?</li>
+    <li>Ein Gerät zieht rund um die Uhr \(3\,\text{W}\) im Standby. Wie viel ist das im Jahr?</li>
+    <li>Was verbraucht im Jahr mehr — der Dauer-Standby oder ein Backofen, der nur \(40\,\text{h}\) im Jahr läuft?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l15')">▶ Lösung</button>
+  <div class="loesung-body" id="l15">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(E = P\,t = 2.0\,\text{kW}\cdot 1.5\,\text{h}\cdot 365 = 1095\,\text{kWh}\); Kosten \(1095 \cdot 0.25 = 274\,\text{CHF}\).</li>
+        <li>\(E = 3\,\text{W}\cdot 8760\,\text{h} = 26\,\text{kWh}\), also rund \(6.60\,\text{CHF}\).</li>
+        <li>Der Backofen: \(2.5\,\text{kW}\cdot 40\,\text{h} = 100\,\text{kWh}\) gegen \(26\,\text{kWh}\). Kleine Dauerlasten summieren sich zwar, aber gegen ein Grossgerät kommen sie nicht an — entscheidend ist immer das Produkt aus Leistung <em>und</em> Zeit.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">A16</span><span class="aufg-titel-text">Gemischte Schaltung</span></div>
+  <p>\(R_1 = 150\,\Omega\) liegt in Reihe zu der Parallelschaltung aus \(R_2 = 300\,\Omega\) und \(R_3 = 600\,\Omega\). Die Quelle liefert \(9.0\,\text{V}\).</p>
+  <ol class="aufg-liste">
+    <li>Nenne die Reihenfolge der Zusammenfassung, bevor du rechnest.</li>
+    <li>Berechne \(R_\text{p}\) und \(R_\text{ges}\).</li>
+    <li>Berechne \(I\), \(U_1\), \(U_\text{p}\) sowie \(I_2\) und \(I_3\).</li>
+    <li>Führe beide Proben durch.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('l16')">▶ Lösung</button>
+  <div class="loesung-body" id="l16">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Zuerst \(R_2 \parallel R_3\) — die beiden teilen sich dieselben zwei Knoten. Erst danach darf \(R_1\) addiert werden.</li>
+        <li>\(R_\text{p} = (300\cdot 600)/900 = 200\,\Omega\); \(R_\text{ges} = 150 + 200 = 350\,\Omega\).</li>
+        <li>\(I = 9.0/350 = 25.7\,\text{mA}\); \(U_1 = I\,R_1 = 3.86\,\text{V}\); \(U_\text{p} = I\,R_\text{p} = 5.14\,\text{V}\); \(I_2 = 5.14/300 = 17.1\,\text{mA}\); \(I_3 = 5.14/600 = 8.57\,\text{mA}\).</li>
+        <li>Spannungen: \(3.86 + 5.14 = 9.0\,\text{V}\) ✓. Ströme: \(17.1 + 8.57 = 25.7\,\text{mA} = I\) ✓.</li>
+      </ol>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════ 11. ZUSAMMENFASSUNG ══════════════ -->
 <h2 id="zusammenfassung">Zusammenfassung</h2>
@@ -1973,8 +2527,397 @@ document.querySelectorAll('[data-a6sz]').forEach(b => b.addEventListener('click'
 // ══════════════════════════════════════════════════════════
 //  INITIALISIERUNG + Autostart der Loops bei Sichtbarkeit
 // ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
+//  MESSEN IM STROMKREIS: Multimeter richtig anschliessen
+//
+//  Vier Faelle an einem Kreis aus 12-V-Quelle und Lampe. Gerechnet wird
+//  jedes Mal der wirkliche Gesamtwiderstand — nur so wird sichtbar, warum
+//  das Amperemeter parallel den Strom explodieren laesst und das Voltmeter
+//  in Serie ihn erstickt.
+//    R_A = 0.1 Ω   (Shunt des Amperemeters)
+//    R_V = 1e6 Ω   (Eingangswiderstand des Voltmeters)
+// ══════════════════════════════════════════════════════════
+const MM_U = 12, MM_RA = 0.1, MM_RV = 1e6;
+let mmArt = 'a-serie';
+
+function mmRechne(){
+  const RL = +document.getElementById('mm-R').value;
+  let Rg, anzeige, einheit, ok, text;
+  if(mmArt === 'a-serie'){
+    Rg = RL + MM_RA;
+    const I = MM_U / Rg;
+    anzeige = (I*1000).toFixed(1) + ' mA'; einheit = 'Strom';
+    ok = 'richtig'; text = 'I = U / (R_L + R_A)';
+  } else if(mmArt === 'a-parallel'){
+    Rg = 1/(1/RL + 1/MM_RA);
+    const I = MM_U / Rg;
+    anzeige = (I).toFixed(1) + ' A'; einheit = 'Strom';
+    ok = 'Kurzschluss'; text = 'I = U / (R_L ∥ R_A)';
+  } else if(mmArt === 'v-parallel'){
+    Rg = 1/(1/RL + 1/MM_RV);
+    const I = MM_U / Rg;
+    anzeige = MM_U.toFixed(1) + ' V'; einheit = 'Spannung';
+    ok = 'richtig'; text = 'I = U / (R_L ∥ R_V)';
+  } else {
+    Rg = RL + MM_RV;
+    const I = MM_U / Rg;
+    anzeige = (MM_U * MM_RV/Rg).toFixed(1) + ' V'; einheit = 'Spannung';
+    ok = 'Lampe bleibt dunkel'; text = 'I = U / (R_L + R_V)';
+  }
+  return { RL:RL, Rg:Rg, I:MM_U/Rg, anzeige:anzeige, einheit:einheit, ok:ok, text:text };
+}
+
+function mmRender(){
+  const r = mmRechne();
+  document.getElementById('mm-R-val').textContent = r.RL + ' Ω';
+  document.getElementById('mm-Rg').textContent =
+      r.Rg >= 1000 ? (r.Rg/1000).toFixed(0) + ' kΩ' : r.Rg.toFixed(1) + ' Ω';
+  document.getElementById('mm-I').textContent =
+      r.I >= 1 ? r.I.toFixed(1) + ' A' : (r.I*1000).toFixed(1) + ' mA';
+  document.getElementById('mm-anz').textContent = r.anzeige;
+  document.getElementById('mm-ok').textContent = r.ok;
+  document.getElementById('mm-eq-f').textContent = r.text;
+  const rg = r.Rg >= 1000 ? (r.Rg/1000).toFixed(0) + ' kΩ' : r.Rg.toFixed(1) + ' Ω';
+  document.getElementById('mm-eq-z').textContent =
+      'I = 12.0 V / ' + rg + ' = ' + (r.I >= 1 ? r.I.toFixed(1) + ' A'
+                                               : (r.I*1000).toFixed(1) + ' mA');
+  mmDraw(r);
+}
+
+function mmDraw(r){
+  const cv = initCanvas('mm-cv', 250, false); if(!cv) return;
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const L = W*0.14, R = W*0.86, T = H*0.26, B = H*0.80;
+  const gefahr = (mmArt === 'a-parallel');
+  const dunkel = (mmArt === 'v-serie');
+
+  ctx.lineWidth = 2.4; ctx.strokeStyle = '#3f3a33';
+  // Rahmen, oben in der Mitte unterbrochen fuer das Serie-Geraet
+  const serie = (mmArt === 'a-serie' || mmArt === 'v-serie');
+  const mx = (L+R)/2;
+  ctx.beginPath();
+  if(serie){ ctx.moveTo(L,T); ctx.lineTo(mx-34,T); ctx.moveTo(mx+34,T); ctx.lineTo(R,T); }
+  else { ctx.moveTo(L,T); ctx.lineTo(R,T); }
+  ctx.moveTo(R,T); ctx.lineTo(R,B); ctx.moveTo(R,B); ctx.lineTo(L,B); ctx.moveTo(L,B); ctx.lineTo(L,T);
+  ctx.stroke();
+
+  // Quelle links
+  ctx.lineWidth = 2.6;
+  ctx.beginPath(); ctx.moveTo(L-11,(T+B)/2-16); ctx.lineTo(L+11,(T+B)/2-16); ctx.stroke();
+  ctx.lineWidth = 5;
+  ctx.beginPath(); ctx.moveTo(L-6,(T+B)/2-6); ctx.lineTo(L+6,(T+B)/2-6); ctx.stroke();
+  ctx.fillStyle = '#5c554c'; ctx.font = '12px "Source Sans 3",sans-serif';
+  ctx.textAlign = 'right'; ctx.fillText('12 V', L-16, (T+B)/2-6);
+
+  // Lampe rechts
+  const ly = (T+B)/2;
+  ctx.lineWidth = 2.2; ctx.strokeStyle = '#3f3a33';
+  ctx.beginPath(); ctx.arc(R, ly, 17, 0, Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(R-12,ly-12); ctx.lineTo(R+12,ly+12);
+  ctx.moveTo(R+12,ly-12); ctx.lineTo(R-12,ly+12); ctx.stroke();
+  ctx.fillStyle = dunkel ? '#8a8175' : '#b45309';
+  ctx.textAlign = 'left';
+  ctx.fillText(dunkel ? 'dunkel' : 'leuchtet', R+24, ly+4);
+
+  // Messgeraet
+  function geraet(x, y, buchstabe, farbe){
+    ctx.fillStyle = '#fff'; ctx.strokeStyle = farbe; ctx.lineWidth = 2.4;
+    ctx.beginPath(); ctx.arc(x, y, 19, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = farbe; ctx.font = 'bold 15px "Source Sans 3",sans-serif';
+    ctx.textAlign = 'center'; ctx.fillText(buchstabe, x, y+5);
+  }
+  if(serie){
+    ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.4;
+    ctx.beginPath(); ctx.moveTo(mx-34,T); ctx.lineTo(mx-19,T);
+    ctx.moveTo(mx+19,T); ctx.lineTo(mx+34,T); ctx.stroke();
+    geraet(mx, T, mmArt === 'a-serie' ? 'A' : 'V', mmArt === 'a-serie' ? '#0f6b66' : '#9b1c1c');
+  } else {
+    // parallel zur Lampe: Abzweig nach unten
+    const py = B + 0;
+    ctx.strokeStyle = gefahr ? '#9b1c1c' : '#3f3a33';
+    ctx.lineWidth = gefahr ? 3.4 : 2.4;
+    ctx.beginPath();
+    ctx.moveTo(R, T); ctx.lineTo(R+0, T);
+    ctx.moveTo(R, ly-17); ctx.lineTo(R+46, ly-17); ctx.lineTo(R+46, ly+30);
+    ctx.moveTo(R, ly+17); ctx.lineTo(R+46, ly+17);
+    ctx.stroke();
+    geraet(R+46, ly, mmArt === 'a-parallel' ? 'A' : 'V',
+           gefahr ? '#9b1c1c' : '#9b1c1c');
+    if(gefahr){
+      ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 12px "Source Sans 3",sans-serif';
+      ctx.textAlign = 'center'; ctx.fillText('Kurzschluss', (L+R)/2, B+30);
+    }
+  }
+
+  ctx.fillStyle = '#5c554c'; ctx.font = '12px "Source Sans 3",sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Anzeige: ' + r.anzeige + '  (' + r.einheit + ')', L, H-8);
+}
+
+function mmInit(){
+  const btns = document.querySelectorAll('[data-mm]');
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(o => o.classList.toggle('aktiv', o === b));
+    mmArt = b.dataset.mm; mmRender();
+  }));
+  const r = document.getElementById('mm-R');
+  if(r) r.addEventListener('input', mmRender);
+}
+
+// ══════════════════════════════════════════════════════════
+//  GEMISCHTE SCHALTUNGEN: von innen nach aussen zusammenfassen
+//
+//  R1 in Reihe zu (R2 ∥ R3) an 12 V. Vier Schritte: Schaltung, Parallel-
+//  gruppe zusammengefasst, alles zu einem Widerstand, zurueckgerechnet.
+//  Gerechnet wird immer vollstaendig; der Schritt steuert nur, was das
+//  Bild zeigt und welche Zeile in der Formelbox steht.
+// ══════════════════════════════════════════════════════════
+const GM_U = 12;
+let gmSchritt = 0;
+
+function gmWerte(){
+  const R1 = +document.getElementById('gm-R1').value;
+  const R2 = +document.getElementById('gm-R2').value;
+  const R3 = +document.getElementById('gm-R3').value;
+  const Rp = R2*R3/(R2+R3), Rg = R1 + Rp, I = GM_U/Rg;
+  return { R1:R1, R2:R2, R3:R3, Rp:Rp, Rg:Rg, I:I,
+           U1:I*R1, Up:I*Rp, I2:I*Rp/R2, I3:I*Rp/R3 };
+}
+
+function gmRender(){
+  const w = gmWerte();
+  document.getElementById('gm-R1-val').textContent = w.R1 + ' Ω';
+  document.getElementById('gm-R2-val').textContent = w.R2 + ' Ω';
+  document.getElementById('gm-R3-val').textContent = w.R3 + ' Ω';
+  document.getElementById('gm-Rp').textContent = w.Rp.toFixed(1) + ' Ω';
+  document.getElementById('gm-Rg').textContent = w.Rg.toFixed(1) + ' Ω';
+  document.getElementById('gm-I').textContent  = (w.I*1000).toFixed(2) + ' mA';
+  document.getElementById('gm-U').textContent  = w.U1.toFixed(2) + ' ; ' + w.Up.toFixed(2) + ' V';
+  document.getElementById('gm-I23').textContent = (w.I2*1000).toFixed(2) + ' ; ' + (w.I3*1000).toFixed(2) + ' mA';
+
+  const f = document.getElementById('gm-eq-f'), z = document.getElementById('gm-eq-z');
+  if(gmSchritt === 0){
+    f.textContent = 'R₁ in Reihe zu (R₂ ∥ R₃)';
+    z.textContent = 'R₁ = ' + w.R1 + ' Ω; R₂ = ' + w.R2 + ' Ω; R₃ = ' + w.R3 + ' Ω; U = 12.0 V';
+  } else if(gmSchritt === 1){
+    f.textContent = 'R_p = (R₂ · R₃) / (R₂ + R₃)';
+    z.textContent = 'R_p = (' + w.R2 + ' Ω · ' + w.R3 + ' Ω) / (' + w.R2 + ' Ω + ' + w.R3
+                  + ' Ω) = ' + w.Rp.toFixed(1) + ' Ω';
+  } else if(gmSchritt === 2){
+    f.textContent = 'R_ges = R₁ + R_p';
+    z.textContent = 'R_ges = ' + w.R1 + ' Ω + ' + w.Rp.toFixed(1) + ' Ω = ' + w.Rg.toFixed(1) + ' Ω';
+  } else {
+    f.textContent = 'I = U / R_ges; U₁ = I · R₁; I₂ = U_p / R₂';
+    z.textContent = 'I = 12.0 V / ' + w.Rg.toFixed(1) + ' Ω = ' + (w.I*1000).toFixed(2)
+                  + ' mA; Probe: I₂ + I₃ = ' + ((w.I2+w.I3)*1000).toFixed(2) + ' mA';
+  }
+  gmDraw(w);
+}
+
+function gmDraw(w){
+  const cv = initCanvas('gm-cv', 270, false); if(!cv) return;
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const L = W*0.12, R = W*0.88, T = H*0.24, B = H*0.80, my = (T+B)/2;
+
+  ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
+  ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+
+  function kasten(x, y, bez, wert, farbe){
+    const bw = 62, bh = 26;
+    ctx.fillStyle = '#fff'; ctx.strokeStyle = farbe || '#3f3a33'; ctx.lineWidth = 2.2;
+    ctx.beginPath(); ctx.rect(x-bw/2, y-bh/2, bw, bh); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = farbe || '#3f3a33';
+    ctx.fillText(bez, x, y-1);
+    ctx.fillStyle = '#5c554c'; ctx.font = '11px "Source Sans 3",sans-serif';
+    ctx.fillText(wert, x, y+11);
+    ctx.font = '12px "Source Sans 3",sans-serif';
+  }
+  // Quelle
+  ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.6;
+  ctx.beginPath(); ctx.moveTo(L-11, my-14); ctx.lineTo(L+11, my-14); ctx.stroke();
+  ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(L-6, my-4); ctx.lineTo(L+6, my-4); ctx.stroke();
+  ctx.fillStyle = '#5c554c'; ctx.textAlign = 'right'; ctx.fillText('12 V', L-16, my-2);
+  ctx.textAlign = 'center';
+
+  const x1 = L + (R-L)*0.30;                       // R1
+  const xp = L + (R-L)*0.70;                       // Parallelgruppe
+  ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
+
+  if(gmSchritt >= 2){
+    // alles zu einem Widerstand
+    ctx.beginPath();
+    ctx.moveTo(L, T); ctx.lineTo((L+R)/2-31, T);
+    ctx.moveTo((L+R)/2+31, T); ctx.lineTo(R, T); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
+    ctx.stroke();
+    kasten((L+R)/2, T, 'R', w.Rg.toFixed(1) + ' Ω gesamt', '#b45309');
+    if(gmSchritt === 3){
+      ctx.fillStyle = '#0f6b66'; ctx.textAlign = 'center';
+      ctx.fillText('I = ' + (w.I*1000).toFixed(2) + ' mA', (L+R)/2, B+22);
+      ctx.fillStyle = '#5c554c';
+      ctx.fillText('U₁ = ' + w.U1.toFixed(2) + ' V;   Uₚ = ' + w.Up.toFixed(2) + ' V', (L+R)/2, B+38);
+      ctx.fillText('I₂ = ' + (w.I2*1000).toFixed(2) + ' mA;   I₃ = ' + (w.I3*1000).toFixed(2) + ' mA',
+                   (L+R)/2, B+54);
+    }
+    return;
+  }
+
+  // Rahmen mit zwei Luecken
+  ctx.beginPath();
+  ctx.moveTo(L, T); ctx.lineTo(x1-31, T);
+  ctx.moveTo(x1+31, T); ctx.lineTo(xp-40, T);
+  ctx.moveTo(xp+40, T); ctx.lineTo(R, T); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
+  ctx.stroke();
+  kasten(x1, T, 'R₁', w.R1 + ' Ω');
+
+  if(gmSchritt === 0){
+    // zwei Zweige
+    const o = T - 30, u = T + 30;
+    ctx.beginPath();
+    ctx.moveTo(xp-40, T); ctx.lineTo(xp-40, o); ctx.lineTo(xp-31, o);
+    ctx.moveTo(xp+31, o); ctx.lineTo(xp+40, o); ctx.lineTo(xp+40, T);
+    ctx.moveTo(xp-40, T); ctx.lineTo(xp-40, u); ctx.lineTo(xp-31, u);
+    ctx.moveTo(xp+31, u); ctx.lineTo(xp+40, u); ctx.lineTo(xp+40, T);
+    ctx.stroke();
+    kasten(xp, o, 'R₂', w.R2 + ' Ω');
+    kasten(xp, u, 'R₃', w.R3 + ' Ω');
+    ctx.fillStyle = '#5c554c';
+    ctx.fillText('parallel — gleiche zwei Knoten', xp, u + 32);
+  } else {
+    kasten(xp, T, 'Rₚ', w.Rp.toFixed(1) + ' Ω', '#0f6b66');
+    ctx.fillStyle = '#0f6b66';
+    ctx.fillText('zusammengefasst', xp, T + 32);
+  }
+}
+
+function gmInit(){
+  const btns = document.querySelectorAll('[data-gm]');
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(o => o.classList.toggle('aktiv', o === b));
+    gmSchritt = +b.dataset.gm; gmRender();
+  }));
+  ['gm-R1','gm-R2','gm-R3'].forEach(id => {
+    const e = document.getElementById(id); if(e) e.addEventListener('input', gmRender);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+//  LEISTUNG IN REIHE UND PARALLEL
+//
+//  Zwei Gluehlampen an 230 V. Aus dem Typenschild folgt R = U²/P; der
+//  Widerstand wird dann als konstant angenommen. Das ist eine Naeherung —
+//  ein echter Wolframdraht wird bei kleinerem Strom kaelter und
+//  niederohmiger. Fuer die Aussage «in Reihe leuchtet die kleinere
+//  Nennleistung heller» aendert das nichts, sie wird sogar noch deutlicher.
+// ══════════════════════════════════════════════════════════
+const LP_U = 230;
+let lpArt = 'parallel';
+
+function lpWerte(){
+  const P1n = +document.getElementById('lp-P1').value;
+  const P2n = +document.getElementById('lp-P2').value;
+  const R1 = LP_U*LP_U/P1n, R2 = LP_U*LP_U/P2n;
+  let I1, I2, P1, P2;
+  if(lpArt === 'parallel'){
+    I1 = LP_U/R1; I2 = LP_U/R2; P1 = LP_U*LP_U/R1; P2 = LP_U*LP_U/R2;
+  } else {
+    I1 = I2 = LP_U/(R1+R2); P1 = R1*I1*I1; P2 = R2*I2*I2;
+  }
+  return { P1n:P1n, P2n:P2n, R1:R1, R2:R2, I1:I1, I2:I2, P1:P1, P2:P2, Pg:P1+P2 };
+}
+
+function lpRender(){
+  const w = lpWerte();
+  document.getElementById('lp-P1-val').textContent = w.P1n + ' W';
+  document.getElementById('lp-P2-val').textContent = w.P2n + ' W';
+  document.getElementById('lp-R').textContent = w.R1.toFixed(0) + ' ; ' + w.R2.toFixed(0) + ' Ω';
+  document.getElementById('lp-I').textContent =
+      (w.I1*1000).toFixed(0) + ' ; ' + (w.I2*1000).toFixed(0) + ' mA';
+  document.getElementById('lp-P').textContent = w.P1.toFixed(1) + ' ; ' + w.P2.toFixed(1) + ' W';
+  document.getElementById('lp-Pg').textContent = w.Pg.toFixed(1) + ' W';
+  document.getElementById('lp-hell').textContent =
+      Math.abs(w.P1-w.P2) < 0.05 ? 'gleich hell' : (w.P1 > w.P2 ? 'Lampe 1' : 'Lampe 2');
+  document.getElementById('lp-eq-z').textContent =
+      'R₁ = (230 V)² / ' + w.P1n + ' W = ' + w.R1.toFixed(0) + ' Ω; R₂ = (230 V)² / '
+      + w.P2n + ' W = ' + w.R2.toFixed(0) + ' Ω';
+  document.getElementById('lp-eq-p').textContent = lpArt === 'reihe'
+      ? 'in Reihe: I = U / (R₁ + R₂) = ' + (w.I1*1000).toFixed(0) + ' mA; P = R · I²'
+      : 'parallel: an jeder Lampe liegen 230 V; P = U² / R';
+  lpDraw(w);
+}
+
+function lpDraw(w){
+  const cv = initCanvas('lp-cv', 250, false); if(!cv) return;
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const L = W*0.16, R = W*0.84, T = H*0.24, B = H*0.78, my = (T+B)/2;
+  ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
+  ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+
+  // Quelle
+  ctx.lineWidth = 2.6;
+  ctx.beginPath(); ctx.moveTo(L-11, my-14); ctx.lineTo(L+11, my-14); ctx.stroke();
+  ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(L-6, my-4); ctx.lineTo(L+6, my-4); ctx.stroke();
+  ctx.fillStyle = '#5c554c'; ctx.textAlign = 'right'; ctx.fillText('230 V', L-16, my-2);
+  ctx.textAlign = 'center';
+
+  const max = Math.max(w.P1, w.P2, 1);
+  function lampe(x, y, P, nenn, nr){
+    const t = Math.min(1, P/max);                   // Helligkeit relativ zur staerkeren
+    ctx.beginPath(); ctx.arc(x, y, 17, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(240,167,66,' + (0.12 + 0.78*t).toFixed(2) + ')';
+    ctx.fill();
+    ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x-12,y-12); ctx.lineTo(x+12,y+12);
+    ctx.moveTo(x+12,y-12); ctx.lineTo(x-12,y+12); ctx.stroke();
+    ctx.fillStyle = '#3f3a33'; ctx.font = '11px "Source Sans 3",sans-serif';
+    ctx.fillText(nenn + ' W', x, y+33);
+    ctx.fillStyle = '#b45309'; ctx.font = 'bold 12px "Source Sans 3",sans-serif';
+    ctx.fillText(P.toFixed(1) + ' W', x, y+48);
+    ctx.font = '12px "Source Sans 3",sans-serif';
+  }
+
+  ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
+  if(lpArt === 'reihe'){
+    const xa = L + (R-L)*0.35, xb = L + (R-L)*0.72;
+    ctx.beginPath();
+    ctx.moveTo(L, T); ctx.lineTo(xa-17, T);
+    ctx.moveTo(xa+17, T); ctx.lineTo(xb-17, T);
+    ctx.moveTo(xb+17, T); ctx.lineTo(R, T); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
+    ctx.stroke();
+    lampe(xa, T, w.P1, w.P1n, 1);
+    lampe(xb, T, w.P2, w.P2n, 2);
+    ctx.fillStyle = '#0f6b66';
+    ctx.fillText('derselbe Strom: ' + (w.I1*1000).toFixed(0) + ' mA', (L+R)/2, B+20);
+  } else {
+    const xa = L + (R-L)*0.40, xb = L + (R-L)*0.75;
+    ctx.beginPath();
+    ctx.moveTo(L, T); ctx.lineTo(R, T); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
+    [xa, xb].forEach(x => { ctx.moveTo(x, T); ctx.lineTo(x, my-17); ctx.moveTo(x, my+17); ctx.lineTo(x, B); });
+    ctx.stroke();
+    lampe(xa, my, w.P1, w.P1n, 1);
+    lampe(xb, my, w.P2, w.P2n, 2);
+    ctx.fillStyle = '#0f6b66';
+    ctx.fillText('an jeder Lampe 230 V', (L+R)/2, B+20);
+  }
+  ctx.fillStyle = '#5c554c';
+  ctx.fillText('zusammen ' + w.Pg.toFixed(1) + ' W', (L+R)/2, H-8);
+}
+
+function lpInit(){
+  const btns = document.querySelectorAll('[data-lp]');
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(o => o.classList.toggle('aktiv', o === b));
+    lpArt = b.dataset.lp; lpRender();
+  }));
+  ['lp-P1','lp-P2'].forEach(id => {
+    const e = document.getElementById(id); if(e) e.addEventListener('input', lpRender);
+  });
+}
+
 function initAll(){
   einRender();
+  mmInit(); mmRender();
+  gmInit(); gmRender();
+  lpInit(); lpRender();
   drawACDC();
   drawCoulomb();
   drawA1();
@@ -2003,7 +2946,7 @@ window.addEventListener('resize', ()=>{
   if(rzT) return;
   rzT=requestAnimationFrame(()=>{
     rzT=null;
-    drawA1(); drawA2(); drawA5(); drawA6(); a3Read(); a4Read();
+    drawA1(); drawA2(); drawA5(); drawA6(); a3Read(); a4Read(); mmRender(); gmRender(); lpRender();
     if(!einLoop.running) einRender();
     if(!a3Loop.running) a3Render();
     if(!a4Loop.running) a4Render();

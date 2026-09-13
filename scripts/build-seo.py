@@ -143,6 +143,15 @@ SEITEN = {
                 'Grenzen des Modells, Vortest und Kapiteltest zur Selbstkontrolle.',
    themen=['Ideale Gase', 'Gasgesetze', 'Allgemeine Gasgleichung', 'Boyle-Mariotte',
            'Gay-Lussac', 'Amontons', 'Thermodynamik']),
+ 'leitprogramme/leitprogramm-schaltungen.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Schaltungen berechnen — Reihe, parallel, gemischt',
+   beschreibung='Leitprogramm zur Elektrizität: Knoten- und Maschenregel, Reihenschaltung, '
+                'Spannungsteiler, Parallelschaltung mit der Kehrwertformel, gemischte '
+                'Schaltungen von innen nach aussen und die Leistung einzelner Bauteile — '
+                'in sechs Schritten mit Erklärclip, Simulation, Vortest und Kapiteltest.',
+   themen=['Physik', 'Elektrizität', 'Reihenschaltung', 'Parallelschaltung',
+           'Spannungsteiler', 'Leitprogramm']),
  'leitprogramme/leitprogramm-vorwissen.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Grössen, Messen, Druck — das Vorwissen selbst erarbeiten',
