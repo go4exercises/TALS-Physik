@@ -719,6 +719,55 @@ footer{
   gap:6px 26px;
 }
 
+/* ---------- Wegleitung als Aufklapper ------------------------------------
+   Der Absatz erklaert die Bedienung des Leitprogramms. Beim zweiten Besuch
+   ist er nur noch Weg — darum eingeklappt. Die Ueberschrift bleibt stehen
+   und traegt weiterhin ihre id: Sprungziele aus der Ablaufspalte und die
+   Abschnitte des Suchindex bleiben damit unveraendert. Ein Sprung auf ein
+   Ziel INNERHALB des Blocks klappt ihn auf (Skript weiter unten), und vor
+   dem Drucken wird er ebenfalls geoeffnet. */
+details.wegleitung{margin:0}
+details.wegleitung > summary{
+  cursor:pointer;
+  list-style:none;
+  display:flex;
+  align-items:flex-start;
+  gap:13px;
+}
+details.wegleitung > summary::-webkit-details-marker{display:none}
+details.wegleitung > summary::before{
+  content:"";
+  flex:none;
+  width:0;height:0;
+  border-left:8px solid var(--accent);
+  border-top:6px solid transparent;
+  border-bottom:6px solid transparent;
+  margin-top:12px;
+  transition:transform .18s ease;
+}
+@media (prefers-reduced-motion:reduce){details.wegleitung > summary::before{transition:none}}
+details.wegleitung[open] > summary::before{transform:rotate(90deg)}
+details.wegleitung > summary .step-title{flex:1 1 auto;min-width:0;margin:0}
+details.wegleitung > summary:hover .step-title{color:var(--accent)}
+details.wegleitung > summary:focus-visible{
+  outline:2px solid var(--accent);outline-offset:5px;border-radius:4px;
+}
+.weg-schalter{
+  flex:none;
+  align-self:flex-start;
+  margin-top:13px;
+  font-family:var(--sans);
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-faint);
+  white-space:nowrap;
+}
+details.wegleitung:not([open]) .weg-schalter::after{content:"aufklappen"}
+details.wegleitung[open] .weg-schalter::after{content:"zuklappen"}
+details.wegleitung > summary:hover .weg-schalter{color:var(--accent)}
+.wegleitung-inhalt{padding-top:18px}
+.wegleitung-inhalt > :last-child{margin-bottom:0}
+@media (max-width:560px){ .weg-schalter{display:none} }
+
 /* ---------- Druck ---------- */
 @media print{
   body{background:#fff;color:#000;font-size:10.5pt}
@@ -904,25 +953,32 @@ mjx-container[display="true"] svg{max-width:none}
 
     <!-- ============ ANLEITUNG ============ -->
     <section class="step prose">
-      <h2 id="anleitung" class="step-title">So arbeitest du mit diesem Blatt</h2>
-      <p>Diese Seite löst zwei fremde Aufgabenblätter auf. Sie ist absichtlich eigenständig: Sie hängt an keinem Kapitel, steht in keinem Menü und in keiner Suche. Wer den Link hat, kommt hinein — mehr Schutz ist das nicht.</p>
-      <ol class="body-list">
-        <li><strong>Zuerst schreiben, dann lesen.</strong> Ganz oben steht der Aufgabenbogen am Stück, ohne Lösungen. Rechne ihn durch, bevor du weiterscrollst. Eine selbst gerechnete falsche Lösung lernt sich besser als eine gelesene richtige.</li>
-        <li><strong>Clip statt Lösungstext.</strong> Zu jeder Teilaufgabe gehört ein vertonter Clip von rund einer Minute. Er zeigt den Gedankengang; der Lösungstext darunter hält ihn fest.</li>
-        <li><strong>Simulation ziehen.</strong> Wo ein Regler steht, gehört er bewegt. Achte darauf, welche Anzeige mitgeht und welche stehen bleibt — meistens ist genau das der Lerninhalt.</li>
-        <li><strong>Ansatz vor Zahlen.</strong> Jede Lösung hier beginnt mit der benannten Formel und setzt erst danach ein, mit Einheiten. In der Prüfung zählt genau dieser Aufbau.</li>
-        <li><strong>Abhaken</strong>, wenn ein Abschnitt sitzt. Der Fortschritt bleibt auf diesem Gerät gespeichert.</li>
-      </ol>
+      <details class="wegleitung">
+        <summary>
+          <h2 id="anleitung" class="step-title">So arbeitest du mit diesem Blatt</h2>
+          <span class="weg-schalter" aria-hidden="true"></span>
+        </summary>
+        <div class="wegleitung-inhalt">
+          <p>Diese Seite löst zwei fremde Aufgabenblätter auf. Sie ist absichtlich eigenständig: Sie hängt an keinem Kapitel, steht in keinem Menü und in keiner Suche. Wer den Link hat, kommt hinein — mehr Schutz ist das nicht.</p>
+          <ol class="body-list">
+            <li><strong>Zuerst schreiben, dann lesen.</strong> Ganz oben steht der Aufgabenbogen am Stück, ohne Lösungen. Rechne ihn durch, bevor du weiterscrollst. Eine selbst gerechnete falsche Lösung lernt sich besser als eine gelesene richtige.</li>
+            <li><strong>Clip statt Lösungstext.</strong> Zu jeder Teilaufgabe gehört ein vertonter Clip von rund einer Minute. Er zeigt den Gedankengang; der Lösungstext darunter hält ihn fest.</li>
+            <li><strong>Simulation ziehen.</strong> Wo ein Regler steht, gehört er bewegt. Achte darauf, welche Anzeige mitgeht und welche stehen bleibt — meistens ist genau das der Lerninhalt.</li>
+            <li><strong>Ansatz vor Zahlen.</strong> Jede Lösung hier beginnt mit der benannten Formel und setzt erst danach ein, mit Einheiten. In der Prüfung zählt genau dieser Aufbau.</li>
+            <li><strong>Abhaken</strong>, wenn ein Abschnitt sitzt. Der Fortschritt bleibt auf diesem Gerät gespeichert.</li>
+          </ol>
 
-      <div class="merksatz">
-        <p class="card-label">Ein Satz für beide Blätter</p>
-        <p style="margin-bottom:0">Jede der zwölf Teilaufgaben beginnt mit derselben Frage: <em>Welche Kraft wirkt, und was macht sie?</em> Im ersten Blatt ist es immer die Gravitationskraft \(F = G\,\frac{M\,m}{r^{2}}\) — einmal als Feldstärke, einmal als Energie, einmal als Zentripetalkraft. Im zweiten Blatt sind es zwei Kräfte zugleich, die elektrische \(F = e\,E\) und die Lorentzkraft \(F = e\,v\,B\); alles Weitere folgt daraus, ob sie sich aufheben oder nicht.</p>
-      </div>
+          <div class="merksatz">
+            <p class="card-label">Ein Satz für beide Blätter</p>
+            <p style="margin-bottom:0">Jede der zwölf Teilaufgaben beginnt mit derselben Frage: <em>Welche Kraft wirkt, und was macht sie?</em> Im ersten Blatt ist es immer die Gravitationskraft \(F = G\,\frac{M\,m}{r^{2}}\) — einmal als Feldstärke, einmal als Energie, einmal als Zentripetalkraft. Im zweiten Blatt sind es zwei Kräfte zugleich, die elektrische \(F = e\,E\) und die Lorentzkraft \(F = e\,v\,B\); alles Weitere folgt daraus, ob sie sich aufheben oder nicht.</p>
+          </div>
 
-      <div class="card">
-        <p class="card-label">Warum der Bogen zweimal dasteht</p>
-        <p style="margin-bottom:0">Die Aufgabentexte stehen auf dieser Seite zweimal: oben im Bogen und unten noch einmal bei der Lösung. Das ist Absicht. Wer beim Lösungsteil erst nachschlagen muss, was gefragt war, verliert den Faden — und wer den Bogen selbst rechnen will, darf die Lösung nicht danebenstehen haben.</p>
-      </div>
+          <div class="card">
+            <p class="card-label">Warum der Bogen zweimal dasteht</p>
+            <p style="margin-bottom:0">Die Aufgabentexte stehen auf dieser Seite zweimal: oben im Bogen und unten noch einmal bei der Lösung. Das ist Absicht. Wer beim Lösungsteil erst nachschlagen muss, was gefragt war, verliert den Faden — und wer den Bogen selbst rechnen will, darf die Lösung nicht danebenstehen haben.</p>
+          </div>
+        </div>
+      </details>
     </section>
 
     <!-- ============ DER BOGEN ============ -->
@@ -1915,7 +1971,8 @@ window.MathJax = {
     reset.addEventListener('click', function () { state = {}; save(state); render(state); });
   }
   window.addEventListener('beforeprint', function () {
-    document.querySelectorAll('details.sol').forEach(function (d) { d.open = true; });
+    document.querySelectorAll('details.sol, details.wegleitung')
+      .forEach(function (d) { d.open = true; });
   });
 })();
 </script>
@@ -2428,6 +2485,31 @@ window.MathJax = {
     var f = STARTER[fig.dataset.sim];
     if (f) f(fig);
   });
+})();
+</script>
+
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   Wegleitung: eingeklappt, aber nie im Weg.
+
+   Zeigt der Aufruf auf ein Ziel innerhalb des Blocks — aus der Ablaufspalte,
+   aus einem geteilten Link oder aus einem Suchtreffer —, dann wird er
+   aufgeklappt. Ohne das landete man auf einer zugeklappten Ueberschrift und
+   saehe nicht, dass darunter etwas steht.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  var block = document.querySelector('details.wegleitung');
+  if (!block) return;
+
+  function pruefe() {
+    var id = window.location.hash.slice(1);
+    if (!id) return;
+    var ziel = document.getElementById(id);
+    if (ziel && block.contains(ziel)) block.open = true;
+  }
+  pruefe();
+  window.addEventListener('hashchange', pruefe);
 })();
 </script>
 
