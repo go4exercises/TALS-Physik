@@ -10,7 +10,8 @@ Lerngebiete 4 bis 6 hat ihre Reihe, dazu das Vorwissen. Verteilung nach
 Lerngebiet (Mehrfachzuordnungen mitgezählt): Vorwissen 15, Mechanik 38,
 Thermodynamik 29, Wellen und Elektrizität 18. Kürzester Clip 50 s, längster
 65 s, Mittel 56 s. Diese Anleitung ist die Physik-Fassung; das
-Schwesterprojekt Mathe hat eine eigene mit demselben Aufbau und 50 Clips.
+Schwesterprojekt Mathe hat eine eigene mit demselben Aufbau und — Stand
+13.09.2026 — **162 Clips, 160:41 min, in 54 Reihen**.
 
 > **Autoritativ bleiben CLAUDE.md und STYLEGUIDE.md.** Alles hier Beschriebene
 > gilt zusätzlich, nichts davon hebt eine dortige Regel auf — Dezimalpunkt statt
