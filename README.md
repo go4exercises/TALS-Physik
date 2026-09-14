@@ -70,10 +70,10 @@ Bauanleitung, Stolpersteine und die didaktische Prüfliste stehen in
 
 ## Leitprogramme
 
-Sieben **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
+Acht **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
 `leitprogramme.html`: Rechnen und Schliessen, Vorwissen (Grössen, Messen,
 Druck), Wärmemenge und Wärmebilanz, Heizen, Dämmen, Umwandeln, Wärmeausdehnung,
-Ideale Gase und Wärme im Experiment. Jede besteht aus Vortest, Lernschritten mit
+Ideale Gase, Wärme im Experiment und Schaltungen berechnen. Jede besteht aus Vortest, Lernschritten mit
 Clip, Simulation und Selbstkontrolle sowie einem Kapiteltest unter
 Prüfungsbedingungen; der Fortschritt bleibt auf dem Gerät gespeichert.
 
@@ -82,6 +82,12 @@ sondern vom **Versuch**. Sieben einfache Schulexperimente zu Wärme und
 Wärmekapazität, jedes mit Vorhersage, Clip, gerechneter Simulation und
 Auswertung — vom Metallgeländer, das sich kälter anfühlt, bis zum Wasserballon
 über der Kerzenflamme.
+
+«Schaltungen berechnen» ist das erste ausserhalb der Thermodynamik: Es führt in
+sechs Schritten von der Knoten- und Maschenregel über Reihenschaltung und
+Spannungsteiler zur Parallelschaltung und zu gemischten Netzen, die von innen
+nach aussen zusammengefasst werden — und endet bei der Frage, warum in Reihe die
+40-Watt-Lampe heller leuchtet als die 60-Watt-Lampe.
 
 Anders als eine Themenseite behält ein Leitprogramm sein eigenes Layout — geerbt
 werden nur Kopfleiste, Fuss und die Clip-Bühne. Vorgehen und Fallstricke:

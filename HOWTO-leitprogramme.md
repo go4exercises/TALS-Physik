@@ -44,10 +44,34 @@ dabei aufgefallen:
   Genau dafür steht unten «Simulationen im Browser gegen nachgerechnete Werte
   stellen» — und zwar **an beiden Reglerenden**, nicht nur in der Mitte.
 
+Am 13.9.2026 kam `leitprogramm-schaltungen` dazu — das achte und das erste
+**ausserhalb der Thermodynamik** (Lerngebiet 6.2 Elektrizität). Sechs Schritte
+von der Knoten- und Maschenregel über Reihenschaltung und Spannungsteiler zur
+Parallelschaltung und zu gemischten Netzen, dazu die Leistung einzelner
+Bauteile. Vier Simulationen, drei bereits vorhandene Clips, 31 Aufgaben.
+Wieder nichts Neues am Verfahren — Kopf, `<style>`-Block und die beiden
+Skripte wörtlich aus `leitprogramm-waermemenge`. Drei Dinge sind dabei
+aufgefallen:
+
+- **Punkt 10 schlägt auch in `.sim-out` zu.** Die Liste nennt `figcaption`,
+  `.sim-lab`, `.step-goal` und `.scene-cap` — die **Anzeigezeile** einer
+  Simulation fehlt darin und verhält sich genauso: Ein `\(R_\text{ges}\)`
+  dort wurde über die halbe Simulation hoch gesetzt und war erst im
+  Screenshot zu sehen. Die Kontrolle unten ist entsprechend erweitert.
+- **Der `</div>` für `.page` geht beim Zusammenbau verloren**, wenn man den
+  Fuss aus einer bestehenden Datei ab `<footer class="site-footer">`
+  herauskopiert: Das schliessende `</div>` steht davor. Der Pre-Flight meldet
+  es sauber als «div-Bilanz: 118 offen, 117 geschlossen» — aber erst, wenn
+  die Datei fertig ist.
+- **Eine neue Animation braucht eine Platzhalternummer.**
+  `build-animationen.py` erkennt nur `Animation <Zahl> · …`; ein Titel ohne
+  Zahl ist für den Generator unsichtbar und bleibt stumm ungezählt. Mit
+  `Animation 0 · …` einsetzen, dann nummeriert der Generator richtig durch.
+
 **Der Weg für eine neue Datei:** Kopf, `<style>`-Block, Fortschritts- und
 Clipkarten-Skript **wörtlich** aus einem bestehenden Leitprogramm übernehmen,
 neu geschrieben werden nur Inhalt und Simulations-Skript. Das ist der
-schnellste Weg und hält die sechs Dateien beieinander. Vier Dinge sind dabei
+schnellste Weg und hält die acht Dateien beieinander. Vier Dinge sind dabei
 neu aufgefallen:
 
 1. **Der `render-check` (1280 und 360 px) gehört dazu.** In zwei der drei
@@ -254,7 +278,7 @@ grep -oE '^\.[a-z][a-z0-9-]*' style.css | sort -u > /tmp/site.txt
 
 ### 10. Kein LaTeX in den kleinen Textbausteinen
 
-In `figcaption`, `.sim-lab`, `.step-goal` und `.scene-cap` wird MathJax
+In `figcaption`, `.sim-lab`, `.sim-out`, `.step-goal` und `.scene-cap` wird MathJax
 riesig gesetzt — ein einzelnes \(n\) erscheint sechzig Pixel hoch und sprengt
 die Zeile. Beide Leitprogramme vermeiden es dort darum durchgehend: Was in
 einer Bildunterschrift oder an einem Regler steht, wird als Klartext
@@ -264,7 +288,7 @@ geschrieben (`Teile je Kante n`, `Volumen V`, `g/cm³`).
 es passt ja in die Zeile. Man sieht es nur im Bild. Die Kontrolle lautet
 
 ```bash
-grep -n 'class="step-goal"\|<figcaption>\|class="sim-lab"' <datei> | grep '\\('
+grep -n 'class="step-goal"\|<figcaption>\|class="sim-lab"\|class="sim-out"' <datei> | grep '\\('
 ```
 
 und muss **0** ergeben. Beim dritten Leitprogramm ist die Falle zweimal
