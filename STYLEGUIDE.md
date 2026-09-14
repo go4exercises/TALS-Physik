@@ -721,8 +721,9 @@ auf Themenseiten mit `../`, auf Root-Seiten ohne:
 ```
 
 **Kein GitHub-Link im Footer** — er steht bewusst nur einmal, im Über-Panel unter
-„Lizenz". „GitHub" ist für die Lernenden Fachjargon; wer das Repo sucht, liest es
-ohnehin aus der Domain.
+„Lizenz". „GitHub" ist für die Lernenden Fachjargon. Seit dem Umzug auf
+`physik.begreifbar.ch` verrät die Adresse das Repo nicht mehr — der Link im Über-Panel
+ist darum der einzige Weg dorthin, und er bleibt dort.
 
 ### 6.2 buildNav-Signatur
 

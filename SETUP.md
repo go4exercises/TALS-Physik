@@ -1,6 +1,6 @@
 # SETUP — Physik begreifbar lokal mit Claude Code
 
-Einmalige Einrichtung und der laufende Arbeits-Workflow. Stand: Juni 2026.
+Einmalige Einrichtung und der laufende Arbeits-Workflow. Stand: September 2026.
 
 ## 1. Einmalig: Claude Code installieren
 
@@ -67,6 +67,10 @@ export PIPER_MODELL=/pfad/zu/de_DE-thorsten-high.onnx
 Ohne Piper lassen sich vorhandene Clips weiterhin bauen und prüfen; nur
 `build-clip-ton.py` braucht ihn.
 
+Nur wer die **Formelsammlung neu baut**, braucht LaTeX (TeX Live mit `latexmk`).
+Paketliste, die apt-Zeile für Ubuntu und die zwei Fallen (zwei Läufe; babel
+`german` statt `ngerman`) stehen in `.quellen/formelsammlung/README-Build.md`.
+
 ## 3. Laufender Workflow
 
 ```bash
@@ -107,11 +111,23 @@ fehlt, lohnt der Umweg über den Chat:
 | Anki-APKG-Rebuild (ZIP+SQLite) | ja, wenn Python steht |
 | xlsx-Recalc (Kalender, Soll-Ist) | nur mit LibreOffice installiert, sonst Chat |
 | docx-Generierung (Lernziele) | nur mit docx-Libs/Skill, sonst Chat |
+| Formelsammlung (LaTeX → PDF) | ja, mit TeX Live (siehe Abschnitt 2) |
 
 Reihenfolge bei Abhängigkeit: Inhalt lokal fertig → abgeleitetes Artefakt danach
 regenerieren.
 
-## 5. GitHub Pages (wenn so weit)
+## 5. GitHub Pages
 
-Repo zu GitHub pushen, in den Repo-Settings unter „Pages" den Branch als Quelle wählen.
-Voraussetzung erfüllt: keine absoluten internen Pfade (alle Links relativ).
+Die Website ist live unter **https://physik.begreifbar.ch** — ausgeliefert von
+GitHub Pages aus dem Repo `go4exercises/TALS-Physik`. Die eigene Adresse steht in
+der Datei `CNAME` (seit 10. August 2026, vorher `go4exercises.github.io/TALS-Physik`),
+`.nojekyll` schaltet die Jekyll-Verarbeitung ab. Jeder `git push` aktualisiert die
+Seite nach wenigen Minuten.
+
+Interne Links sind durchgehend relativ und hängen darum nicht an der Adresse. Absolut
+steht sie nur dort, wo sie es sein muss: in `canonical`, Open Graph, JSON-LD und
+`sitemap.xml` (Konstante `BASIS` in `scripts/build-seo.py`), in den Leitprogrammen
+(`BASIS`, siehe `HOWTO-leitprogramme.md`), im Über-Panel (`nav.js`, Zitiervorschlag),
+im OG-Bild (`.claude/tools/build-bilder.mjs`) und in der Formelsammlung samt
+QR-Codes. Wer die Adresse wechselt, sucht mit `grep -rn begreifbar.ch` nach und baut
+OG-Bild und Formelsammlung neu.

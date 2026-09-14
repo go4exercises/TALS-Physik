@@ -1,7 +1,8 @@
 # CLAUDE.md — Physik begreifbar
 
-Statisches HTML/CSS/JS-Lehrmittel für die BM (RLP-BM 2030), gehostet via GitHub Pages.
-Schwester-Projekt zu TALS Mathe. Diese Datei ist die lokale Claude-Code-Variante der
+Statisches HTML/CSS/JS-Lehrmittel für die BM (RLP-BM 2030), gehostet via GitHub Pages
+unter `physik.begreifbar.ch` (Datei `CNAME`; bis 10.08.2026 `go4exercises.github.io/TALS-Physik`).
+Schwester-Projekt zu Mathe begreifbar (Repo `tals-mathe`, `mathe.begreifbar.ch`). Diese Datei ist die lokale Claude-Code-Variante der
 COLLABORATION.md — sie ersetzt den alten ZIP-Workflow durch einen Git-Workflow.
 
 **Autoritative Detail-Konventionen stehen in `STYLEGUIDE.md` (im Repo). Diese Datei
@@ -61,6 +62,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Schwesterprojekt. **Clips stehen einzeln im Index** (Kurzbeschrieb,
   Transkript, Stichworte; Ziel `clips.html#clip-<name>`) — der
   Transkript-Aufklapper der Lektionsseite ist darum vom Index ausgenommen.
+  Die Kopfzeile von `suchindex.js` sagt noch «TALS Physik» — **bewusst**: Der
+  Name steht im geteilten Generator, und eine einseitige Änderung wäre Drift
+  gegen Mathe. Nicht von Hand «korrigieren».
 - `scripts/abgleich.py` — vergleicht das **geteilte Werkzeug** mit dem
   Schwesterrepo `tals-mathe`. Physik und Mathe teilen rund 5200 Zeilen
   Build-Skripte und Prüfer; gepflegt werden sie zweimal, und sie laufen
@@ -132,7 +136,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 - `.quellen/formelsammlung/` — LaTeX-Quelle der illustrierten Formelsammlung samt
   Bauanleitung (`README-Build.md`). Punkt-Ordner, damit GitHub Pages ihn nicht
   ausliefert. Das fertige PDF steht als `TALS-Physik-Formelsammlung.pdf` im Root;
-  nach einem Neubau (`latexmk -pdf formelsammlung.tex`) dorthin kopieren.
+  nach einem Neubau (`latexmk -pdf formelsammlung.tex`) dorthin kopieren. Der
+  **Dateiname bleibt** trotz neuer Marke — Menü, Sitemap und p0-4 zeigen darauf.
+  LaTeX (TeX Live 2025) ist lokal installiert, der Neubau braucht keinen Chat
+  mehr. Zwei Fallen, beide in `README-Build.md`: mindestens zwei Läufe (die
+  laufende Kopfzeile liest ihre Marken aus der `.aux`), und babel heisst
+  `german`, nicht `ngerman` (seit TeX Live 2025 ein Abbruch).
 - `scripts/build-clip-ton.py` — **Vertonung** eines Clips, lokal und offline mit
   Piper. Erzeugt **eine** MP3 je Clip (`clips/ton/<name>.mp3`) und schreibt die
   gemessene Sprechdauer je Szene als `dauer` ins Drehbuch zurück — danach sitzt
@@ -146,7 +155,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   python3 scripts/build-clips.py    <clipname>
   ```
 
-  Datensatz Thorsten-Voice, CC0 — dieselbe Stimme wie in TALS Mathe. Das
+  Datensatz Thorsten-Voice, CC0 — dieselbe Stimme wie in Mathe begreifbar. Das
   persönliche Modell `de_CH-kohler-medium` wird **nicht** verwendet. Kein
   Stimmmodell gehört ins Repo.
 

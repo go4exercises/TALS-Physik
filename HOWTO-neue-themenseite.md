@@ -322,7 +322,7 @@ Erklärclips. Zwei Handgriffe an der Seite selbst:
 ## 8. Ausliefern
 
 Es gibt keine ZIP-Lieferung mehr. Der Git-Verlauf ist die Dokumentation, und die
-Veröffentlichung läuft über GitHub Pages:
+Veröffentlichung läuft über GitHub Pages unter `physik.begreifbar.ch` (siehe `SETUP.md` §5):
 
 ```bash
 git add -A

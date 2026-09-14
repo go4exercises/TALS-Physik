@@ -2,7 +2,9 @@
 
 Interaktives Lehrmittel für das Fach **Physik** der Berufsmaturität Technik, Architektur, Life Sciences — 1:1 nach RLP-BM 2030.
 
-Schwesterprojekt zu [Mathe begreifbar](https://github.com/go4exercises/tals-mathe). Gleicher Aufbau, gleiche didaktische Konventionen, gleiches Werkzeug — angepasst an das Fach Physik.
+**Online:** https://physik.begreifbar.ch
+
+Schwesterprojekt zu [Mathe begreifbar](https://mathe.begreifbar.ch) (Repo [`tals-mathe`](https://github.com/go4exercises/tals-mathe)). Gleicher Aufbau, gleiche didaktische Konventionen, gleiches Werkzeug — angepasst an das Fach Physik.
 
 ## Inhalt
 
@@ -188,6 +190,14 @@ Ebenfalls am 7. September 2026: drei weitere Leitprogramme (Wärmemenge und
 Wärmebilanz, Heizen/Dämmen/Umwandeln, Rechnen und Schliessen), die Sofortsuche in
 `clips.html`, jeder Clip als eigener Treffer in der Volltextsuche und die
 Querverweise zwischen den Vorwissenseiten, den Leitprogrammen und den Lerngebieten.
+
+Am 13. September 2026 hat die Themenseite 6.2 Elektrizität vier neue Abschnitte und
+zehn Aufgaben bekommen, dazu das achte Leitprogramm «Schaltungen berechnen».
+
+Am 14. September 2026 wurde aus «TALS Physik» **«Physik begreifbar»** — der letzte
+Schritt des Umzugs auf die eigene Adresse `physik.begreifbar.ch`, die seit dem
+10. August 2026 gilt. Die Formelsammlung ist unter dem neuen Namen neu gebaut,
+inhaltlich unverändert; ihr Dateiname `TALS-Physik-Formelsammlung.pdf` bleibt.
 
 ## Änderungen
 
