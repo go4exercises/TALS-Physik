@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-//  TALS Physik — Shared Library (physiklib.js)
+//  Physik begreifbar — Shared Library (physiklib.js)
 //
 //  Single Source of Truth für alle Themenseiten:
 //    - Canvas-Helper (initCanvas, drawGrid, drawAxesUnits, drawArrow, drawVector)

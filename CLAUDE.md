@@ -1,4 +1,4 @@
-# CLAUDE.md — TALS Physik
+# CLAUDE.md — Physik begreifbar
 
 Statisches HTML/CSS/JS-Lehrmittel für die BM (RLP-BM 2030), gehostet via GitHub Pages.
 Schwester-Projekt zu TALS Mathe. Diese Datei ist die lokale Claude-Code-Variante der

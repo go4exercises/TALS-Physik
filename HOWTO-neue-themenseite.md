@@ -1,6 +1,6 @@
 # HOWTO — Neue Themenseite anlegen
 
-Schritt-für-Schritt-Anleitung für das Hinzufügen einer neuen RLP-Themenseite zu TALS-Physik. Folgt dem Master-Schema aus `STYLEGUIDE.md` §4.
+Schritt-für-Schritt-Anleitung für das Hinzufügen einer neuen RLP-Themenseite zu Physik begreifbar. Folgt dem Master-Schema aus `STYLEGUIDE.md` §4.
 
 > **Projektstand (September 2026):** Alle 10 RLP-Teilgebiete (p4-1 bis p6-2) sind vollständig ausgebaut, dazu die sechsteilige Vorwissen-Reihe p0-0 bis p0-5 und die Vertiefungsseite p6-1a. Jede Themenseite der Lerngebiete 4 bis 6 trägt eine Reihe vertonter Erklärclips (Abschnitt 7). Diese Anleitung dient damit als Referenz für **zusätzliche oder optionale** Seiten über die RLP-Grundlagen hinaus (z.B. Magnetismus / Elektromagnetismus, Schwingungen) sowie als Nachschlagewerk für Aufbau und Konventionen. Als gespiegelte Vorlage eignet sich jede fertige Themenseite; als Referenzmuster für Animationsstruktur dient `p4-5-hydrostatik.html`.
 
@@ -75,7 +75,7 @@ Mindestens muss vorhanden sein:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>X.Y Themenname — TALS Physik</title>
+  <title>X.Y Themenname — Physik begreifbar</title>
   <link rel="stylesheet" href="../schriften.css">
   <link rel="stylesheet" href="../style.css">
   <!-- MathJax-Setup wie in p4-1-kinematik.html; Skript lokal:

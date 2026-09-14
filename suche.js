@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-//  TALS Physik — Volltextsuche über die ganze Site (suche.js)
+//  Physik begreifbar — Volltextsuche über die ganze Site (suche.js)
 //
 //  Einbindung: <script src="../suche.js"></script>  (nach nav.js)
 //              <script src="suche.js"></script>     (Root-Seiten)

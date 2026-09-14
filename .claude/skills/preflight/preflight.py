@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Pre-Flight-Check für TALS-Physik-Themenseiten (themen/).
+Pre-Flight-Check für die Themenseiten von «Physik begreifbar» (themen/).
 
 Zwei Stufen:
 1. Schnelle, abhängigkeitsfreie Eigen-Checks (Tag-Bilanz, ß, Dezimalkomma in Math,

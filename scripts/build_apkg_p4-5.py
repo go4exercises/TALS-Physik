@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Erzeugt eine Anki-.apkg-Datei für TALS Physik · p4-5 Hydrostatik.
+"""Erzeugt eine Anki-.apkg-Datei für Physik begreifbar · p4-5 Hydrostatik.
 
 Basiert auf build_apkg_p4-1.py — gleiche Schema, gleiche CSS, andere Karten."""
 import sqlite3, zipfile, json, hashlib, random, string, os, sys

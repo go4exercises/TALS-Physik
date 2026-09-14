@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Erzeugt eine Anki-.apkg-Datei für TALS Physik · p4-2 Dynamik.
+"""Erzeugt eine Anki-.apkg-Datei für Physik begreifbar · p4-2 Dynamik.
 
 Basiert auf build_apkg_p4-5.py — gleiche Schema, gleiche CSS, andere Karten."""
 import sqlite3, zipfile, json, hashlib, random, string, os, sys

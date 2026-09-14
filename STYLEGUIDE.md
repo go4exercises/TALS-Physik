@@ -1,4 +1,4 @@
-# TALS-Physik · Styleguide
+# Physik begreifbar · Styleguide
 
 **Version 1.5 · Stand: 31. August 2026** · (1.5: §2.9 kein Gedankenstrich an einer Formel im Titel, Stilcheck-Regel 8 · 1.4: §2.1 Ersatztabelle für den Malpunkt als Trennzeichen — Strichpunkt statt Komma, wie in Mathe; Prüforte HTML/JS/Canvas · 1.3: §2.3 Liter klein sowie Basisgrösse gegen
 abgeleitete Grösse und «Referenzeinheit», §5.7 kein HTML in einem LaTeX-Ausdruck,
@@ -6,9 +6,9 @@ Stilcheck-Regel 7 · 1.2: §6.1a Footer, Volltextsuche und `suche.js` im
 Skelett, Zusatzmaterial ohne Formelauszug, Stilcheck-Regeln 1–6 · 1.1: §3.6 Label-Robustheit,
 §3.7 Einheiten-Zweitzeile, §5.3 Gruppierung, §5.8 Direkt-Manipulation)
 
-Verbindliche Referenz für alle Themenseiten des Lehrmittels „TALS-Physik". Sichert Konsistenz in Notation, Aufbau, Sprache und visuellem Design — themenübergreifend und chatübergreifend.
+Verbindliche Referenz für alle Themenseiten des Lehrmittels „Physik begreifbar". Sichert Konsistenz in Notation, Aufbau, Sprache und visuellem Design — themenübergreifend und chatübergreifend.
 
-Geforkt aus dem Styleguide von TALS-Mathematik (v1.8); nur die für Physik abweichenden Punkte sind hier ausführlich behandelt. Wo nichts anderes steht, gilt die Mathe-Konvention identisch weiter.
+Geforkt aus dem Styleguide von Mathe begreifbar (v1.8); nur die für Physik abweichenden Punkte sind hier ausführlich behandelt. Wo nichts anderes steht, gilt die Mathe-Konvention identisch weiter.
 
 ---
 
@@ -150,7 +150,7 @@ Im JS-Code von Themenseiten als globale `const` gleich am Anfang der `<script>`-
 
 ### 2.5 Dezimalpunkt (Schweizer Schul-Konvention)
 
-**Schweizer Schul-Konvention**: Dezimal**punkt**, nicht Dezimalkomma. Gilt einheitlich für TALS-Mathe und TALS-Physik.
+**Schweizer Schul-Konvention**: Dezimal**punkt**, nicht Dezimalkomma. Gilt einheitlich für Mathe begreifbar und Physik begreifbar.
 
 - **In Aufgabentexten und LaTeX-Werten**: `9.81\;\text{m/s}^2`, nicht `9,81` oder `9{,}81`.
 - **In Live-Anzeigen** (über `fmt()` aus `physiklib.js`): automatisch Punkt (JS `toFixed` liefert Punkt von Haus aus).
@@ -434,7 +434,7 @@ Ich-Form — gehört in die `.lernziele` **direkt darunter**. Dort darf und soll
 **7.5 Naturwissenschaften**, Unterabschnitt **7.5.4.1 Gruppe 1**, Seiten 85–88.
 Der Auszug liegt als `../physik.pdf` neben dem Arbeitsverzeichnis, nicht im
 Repo; das vollständige PDF steht beim SBFI.
-Für TALS-Physik gelten dort die Lerngebiete **4 Mechanik (100 Lektionen)**,
+Für Physik begreifbar gelten dort die Lerngebiete **4 Mechanik (100 Lektionen)**,
 **5 Thermodynamik (30)** und **6 Einführung in andere Bereiche der Physik (30)**
 mit zusammen **44 Kompetenzen**.
 
@@ -712,7 +712,7 @@ auf Themenseiten mit `../`, auf Root-Seiten ohne:
 
 ```html
 <footer class="site-footer">
-  <p><strong>TALS Physik</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
+  <p><strong>Physik begreifbar</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
   <p>Physik · 4.2 Dynamik</p>                          <!-- seitenspezifisch -->
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
@@ -800,7 +800,7 @@ Für Sektion 13 in jeder Themenseite. Reihenfolge ist verbindlich (siehe `HOWTO-
 
 ---
 
-## 8. Was sich gegenüber TALS-Mathematik geändert hat
+## 8. Was sich gegenüber Mathe begreifbar geändert hat
 
 | Was | Mathe | Physik |
 |---|---|---|

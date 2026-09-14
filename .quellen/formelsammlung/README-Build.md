@@ -1,4 +1,4 @@
-# TALS Physik – Formelsammlung: Build-Paket
+# Physik begreifbar – Formelsammlung: Build-Paket
 
 Stand: 1. August 2026 · Version 1.0 · 17 Seiten · 0 Fehler, 0 Overfull-Boxen
 

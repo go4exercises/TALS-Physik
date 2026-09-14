@@ -1,4 +1,4 @@
-# SETUP — TALS Physik lokal mit Claude Code
+# SETUP — Physik begreifbar lokal mit Claude Code
 
 Einmalige Einrichtung und der laufende Arbeits-Workflow. Stand: Juni 2026.
 

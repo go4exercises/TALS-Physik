@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # ─────────────────────────────────────────────────────────────
-#  TALS Physik — Auffindbarkeit: Seiten-Metadaten, sitemap.xml, robots.txt
+#  Physik begreifbar — Auffindbarkeit: Seiten-Metadaten, sitemap.xml, robots.txt
 #
 #  Schreibt in jede Seite einen generierten Kopfblock zwischen den Marken
 #      <!-- SEO:ANFANG … -->  …  <!-- SEO:ENDE -->
@@ -49,7 +49,7 @@ STAND = '2026-08-01'
 SEITEN = {
  'index.html': dict(
    typ='website',
-   titel='TALS Physik — interaktives Lehrmittel für die Berufsmaturität',
+   titel='Physik begreifbar — interaktives Lehrmittel für die Berufsmaturität',
    beschreibung='Kostenloses interaktives Physik-Lehrmittel für die Berufsmaturität TALS nach RLP-BM 2030: Mechanik, Thermodynamik, Wellen und Elektrizität mit Animationen.',
    themen=['Physik', 'Berufsmaturität', 'RLP-BM 2030', 'Lehrmittel', 'Mechanik', 'Thermodynamik']),
  'glossar.html': dict(
@@ -184,12 +184,12 @@ SEITEN = {
  'rechtliches.html': dict(
    typ='website', noindex=False,
    titel='Rechtliches & Datenschutz',
-   beschreibung='Verantwortlichkeit, Haftung, Lizenz und Datenschutz von TALS Physik — ohne Cookies, ohne Tracking.',
+   beschreibung='Verantwortlichkeit, Haftung, Lizenz und Datenschutz von Physik begreifbar — ohne Cookies, ohne Tracking.',
    themen=['Impressum', 'Datenschutz']),
  'feedback.html': dict(
    typ='website',
    titel='Kontakt & Feedback',
-   beschreibung='Fehler melden, Verbesserungen vorschlagen oder Rückmeldung geben zu TALS Physik — ohne Anmeldung, Name und E-Mail freiwillig.',
+   beschreibung='Fehler melden, Verbesserungen vorschlagen oder Rückmeldung geben zu Physik begreifbar — ohne Anmeldung, Name und E-Mail freiwillig.',
    themen=['Kontakt', 'Feedback']),
  'sonnenfinsternis-12-08-2026.html': dict(
    typ='article', lrt='Extras',
@@ -367,7 +367,7 @@ def jsonld(url, cfg, titel, komp, ist_thema):
     if cfg['datei'] == 'index.html':
         graph.append({
             '@type': 'WebSite', '@id': BASIS + '#website', 'url': BASIS,
-            'name': 'TALS Physik', 'inLanguage': 'de-CH', 'license': LIZENZ,
+            'name': 'Physik begreifbar', 'inLanguage': 'de-CH', 'license': LIZENZ,
             'publisher': person,
             'potentialAction': {
                 '@type': 'SearchAction',
@@ -376,13 +376,13 @@ def jsonld(url, cfg, titel, komp, ist_thema):
             },
         })
     else:
-        graph.append({'@type': 'WebSite', '@id': BASIS + '#website', 'url': BASIS, 'name': 'TALS Physik'})
+        graph.append({'@type': 'WebSite', '@id': BASIS + '#website', 'url': BASIS, 'name': 'Physik begreifbar'})
 
     if ist_thema:
         graph.append({
             '@type': 'BreadcrumbList',
             'itemListElement': [
-                {'@type': 'ListItem', 'position': 1, 'name': 'TALS Physik', 'item': BASIS},
+                {'@type': 'ListItem', 'position': 1, 'name': 'Physik begreifbar', 'item': BASIS},
                 {'@type': 'ListItem', 'position': 2, 'name': cfg['lg'] if cfg.get('lg') else 'Vorwissen'},
                 {'@type': 'ListItem', 'position': 3, 'name': cfg.get('tg', titel), 'item': url},
             ],
@@ -415,7 +415,7 @@ def block(datei, cfg, seite_html):
          f'<link rel="icon" href="{auf}favicon-32.png" sizes="32x32" type="image/png">',
          f'<link rel="apple-touch-icon" href="{auf}apple-touch-icon.png">',
          f'<meta property="og:type" content="{cfg.get("typ", "article")}">',
-         '<meta property="og:site_name" content="TALS Physik">',
+         '<meta property="og:site_name" content="Physik begreifbar">',
          '<meta property="og:locale" content="de_CH">',
          f'<meta property="og:title" content="{html.escape(titel, quote=True)}">',
          f'<meta property="og:description" content="{html.escape(b, quote=True)}">',
@@ -473,7 +473,7 @@ def sitemap():
     return '\n'.join(z) + '\n'
 
 
-ROBOTS = f"""# TALS Physik — alles darf indexiert werden.
+ROBOTS = f"""# Physik begreifbar — alles darf indexiert werden.
 User-agent: *
 Allow: /
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Erzeugt eine Anki-.apkg-Datei für TALS Physik · p4-1 Kinematik."""
+"""Erzeugt eine Anki-.apkg-Datei für Physik begreifbar · p4-1 Kinematik."""
 import sqlite3, zipfile, json, hashlib, random, string, os, sys
 
 SCHEMA = """

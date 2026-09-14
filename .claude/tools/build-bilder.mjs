@@ -37,14 +37,14 @@ const OG = `<!doctype html><html><head><meta charset="utf-8">
          color:#5a5040; margin-bottom:30px; line-height:1.45; }
   .ew b { color:#8a4a0e; font-weight:700; }
   h1   { font-size:104px; font-weight:700; line-height:1.06; color:#1c1a17; }
-  h1 span { color:#8a4a0e; }   /* laeuft im Fluss weiter, kein Zeilenumbruch erzwungen */
+  h1 span { color:#8a4a0e; display:block; }   /* der Name steht zweizeilig: «Physik» / «begreifbar» */
   .ut  { font-size:34px; color:#5a5040; margin-top:36px; line-height:1.35; }
   .url { font-family:'JetBrains Mono',monospace; font-size:23px; color:#5a5040; margin-top:32px; }
 </style></head><body>
 <div class="balken"></div>
 <div class="inhalt">
   <div class="ew">Berufsmaturität <b>T</b>echnik, <b>A</b>rchitektur, <b>L</b>ife <b>S</b>ciences — <b>TALS</b></div>
-  <h1>Physik <span>nach BM RLP 2030</span></h1>
+  <h1>Physik<span>begreifbar</span></h1>
   <div class="ut">Interaktives Lehrmittel mit Animationen, Aufgaben und Formelsammlung</div>
   <div class="url">physik.begreifbar.ch · CC BY-NC 4.0</div>
 </div>

@@ -1,8 +1,8 @@
-# TALS Physik
+# Physik begreifbar
 
 Interaktives Lehrmittel für das Fach **Physik** der Berufsmaturität Technik, Architektur, Life Sciences — 1:1 nach RLP-BM 2030.
 
-Schwesterprojekt zu [TALS Mathematik](https://github.com/go4exercises/tals-mathe). Gleicher Aufbau, gleiche didaktische Konventionen, gleiches Werkzeug — angepasst an das Fach Physik.
+Schwesterprojekt zu [Mathe begreifbar](https://github.com/go4exercises/tals-mathe). Gleicher Aufbau, gleiche didaktische Konventionen, gleiches Werkzeug — angepasst an das Fach Physik.
 
 ## Inhalt
 

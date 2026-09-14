@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Erzeugt eine Anki-.apkg-Datei für TALS Physik · p5-3 Wärmeausdehnung.
+"""Erzeugt eine Anki-.apkg-Datei für Physik begreifbar · p5-3 Wärmeausdehnung.
 
 Basiert auf build_apkg_p5-2.py — gleiches Schema, gleiche CSS, andere Karten."""
 import sqlite3, zipfile, json, hashlib, random, string, os, sys

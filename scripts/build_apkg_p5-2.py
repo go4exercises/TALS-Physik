@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Erzeugt eine Anki-.apkg-Datei für TALS Physik · p5-2 Wärme.
+"""Erzeugt eine Anki-.apkg-Datei für Physik begreifbar · p5-2 Wärme.
 
 Basiert auf build_apkg_p5-1.py — gleiches Schema, gleiche CSS, andere Karten."""
 import sqlite3, zipfile, json, hashlib, random, string, os, sys

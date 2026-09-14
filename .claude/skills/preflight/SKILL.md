@@ -1,9 +1,9 @@
 ---
 name: preflight
-description: Pflicht-Qualitätscheck für TALS-Physik-Themenseiten. IMMER ausführen, bevor Änderungen an einer Datei in themen/*.html committet werden. Zweistufig: schnelle Eigen-Checks (Tag-Bilanz, ß, Dezimalkomma in Math, doppelte IDs, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Marker inkl. Slot-Limits) plus Aufruf der autoritativen Repo-Skripte verify_mathjax.js (echte Render-Prüfung) und verify_js_runtime.js (JS-Laufzeit in jsdom). Fehlen die npm-Module mathjax-full/jsdom, werden die Tiefen-Checks sauber übersprungen.
+description: Pflicht-Qualitätscheck für die Themenseiten von «Physik begreifbar». IMMER ausführen, bevor Änderungen an einer Datei in themen/*.html committet werden. Zweistufig: schnelle Eigen-Checks (Tag-Bilanz, ß, Dezimalkomma in Math, doppelte IDs, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Marker inkl. Slot-Limits) plus Aufruf der autoritativen Repo-Skripte verify_mathjax.js (echte Render-Prüfung) und verify_js_runtime.js (JS-Laufzeit in jsdom). Fehlen die npm-Module mathjax-full/jsdom, werden die Tiefen-Checks sauber übersprungen.
 ---
 
-# Pre-Flight für TALS-Physik-Themenseiten
+# Pre-Flight für die Themenseiten von «Physik begreifbar»
 
 Vor jedem Commit, der `themen/*.html` betrifft.
 **Vom Repo-Wurzelverzeichnis aufrufen** (wegen `scripts/` und `node_modules/`).
