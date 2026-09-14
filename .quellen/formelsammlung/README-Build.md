@@ -1,6 +1,6 @@
 # Physik begreifbar – Formelsammlung: Build-Paket
 
-Stand: 1. August 2026 · Version 1.0 · 17 Seiten · 0 Fehler, 0 Overfull-Boxen
+Stand: 14. September 2026 · Version 1.0 · 17 Seiten · 0 Fehler, 0 Overfull-Boxen
 
 ## Inhalt
 
@@ -21,9 +21,24 @@ Stand: 1. August 2026 · Version 1.0 · 17 Seiten · 0 Fehler, 0 Overfull-Boxen
 latexmk -pdf formelsammlung.tex
 ```
 
-Getestet mit pdfTeX 1.40.25 / LaTeX2e 2023-11-01, TeX Live 2023.
+Gebaut mit pdfTeX 1.40.28 / TeX Live 2025 (Ubuntu 26.04); vorher TeX Live 2023.
 Benötigte Pakete ausserhalb der Standardinstallation: `qrcode`, `needspace`, `fancyhdr`,
 `tikz` (mit `arrows.meta`, `decorations.pathmorphing`, `patterns`, `calc`, `angles`, `quotes`).
+
+Auf Ubuntu genügt:
+
+```bash
+sudo apt-get install --no-install-recommends latexmk texlive-latex-recommended \
+  texlive-latex-extra texlive-pictures texlive-fonts-recommended texlive-lang-german
+```
+
+### babel: `german`, nicht `ngerman`
+
+Die Zeile heisst `\usepackage[provide=*,german]{babel}`. Mit `provide=*` läuft babel über
+den **ini-Mechanismus**, und der kennt nur `german` — `ngerman` bricht dort mit
+«'ngerman' not valid with the 'ini' mechanism» ab. Das ist keine Rückkehr zur alten
+Rechtschreibung: `babel-de.ini` setzt `hyphenrules = ngerman`, die Trennmuster sind
+also die neuen. Bis TeX Live 2023 wurde `ngerman` noch geschluckt; seit 2025 nicht mehr.
 
 ### Achtung: zwei Durchläufe sind zwingend
 
@@ -68,7 +83,9 @@ Das ausgelieferte Dokument steht im Repo-Root als `TALS-Physik-Formelsammlung.pd
 damit es nur eine gültige Fassung gibt. Nach einem Neubau die erzeugte
 `formelsammlung.pdf` dorthin kopieren und umbenennen.
 
-**Stand 01.08.2026:** Das ausgelieferte PDF wurde nicht neu gebaut, sondern nur im
-fertigen Dokument auf den 1. August umdatiert (die Quelle lag damals nicht vor).
-Quelle und PDF stimmen inhaltlich überein; der nächste `latexmk`-Lauf ersetzt das
-umdatierte durch ein sauber gebautes.
+**Stand 14.09.2026:** Sauber aus der Quelle gebaut — das umdatierte Dokument vom
+1. August ist damit ersetzt. Inhaltlich unverändert (Version 1.0); neu sind allein der
+Name «Physik begreifbar» und die Adresse `physik.begreifbar.ch`, Letztere auch in allen
+18 Verweisen und in den drei QR-Codes. Der **Dateiname bleibt**
+`TALS-Physik-Formelsammlung.pdf`: Menü, Sitemap und die Einheitentrainer-Seite zeigen
+darauf.
