@@ -152,6 +152,17 @@ SEITEN = {
                 'in sechs Schritten mit Erklärclip, Simulation, Vortest und Kapiteltest.',
    themen=['Physik', 'Elektrizität', 'Reihenschaltung', 'Parallelschaltung',
            'Spannungsteiler', 'Leitprogramm']),
+ 'leitprogramme/uebungstest-waermelehre.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit', 'Übungsaufgaben'],
+   titel='Leitprogramm Übungstest Wärmelehre — fünfzehn Aufgaben mit Erklärclip',
+   beschreibung='Ein vollständiger Übungsbogen zur Wärmelehre, Aufgabe für Aufgabe '
+                'aufgelöst: Einheiten und Dichte, Längen-, Flächen- und '
+                'Volumenausdehnung, das ideale Gasgesetz mit Prozenten und '
+                'Normbedingungen, Wärmebilanz mit Phasenwechsel und die Heizkurve — '
+                'fünfzehn Aufgaben mit je einem vertonten Erklärclip, Musterlösung '
+                'und Hinweis auf den typischen Fehler.',
+   themen=['Wärmelehre', 'Wärmeausdehnung', 'Ideales Gas', 'Wärmebilanz',
+           'Heizkurve', 'Dichte', 'Übungsaufgaben', 'Leitprogramm']),
  'leitprogramme/leitprogramm-vorwissen.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Grössen, Messen, Druck — das Vorwissen selbst erarbeiten',
