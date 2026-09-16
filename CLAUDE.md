@@ -186,7 +186,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Feld und Filterskript stehen **ausserhalb** der Marker und werden von Hand
   gepflegt, das `data-suche` je Zeile kommt aus dem Generator.
   Bauanleitung, Stolpersteine und die didaktische Prüfliste: `HOWTO-clips.md`.
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell acht:
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell neun:
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
   `leitprogramm-vorwissen` (Grössen, Messen, Druck — sieben Clips, fünf
@@ -201,12 +201,19 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   gerechnete Simulationen) und `leitprogramm-schaltungen` (Knoten- und
   Maschenregel, Reihe, Spannungsteiler, Parallel, gemischte Schaltungen,
   Leistung — drei Clips, vier Simulationen; das erste ausserhalb der
-  Thermodynamik). Alle acht starten ihre Clips über `.clipkarte`
+  Thermodynamik). Dazu als Sonderfall `uebungstest-waermelehre` — ein
+  **Prüfungsbogen statt eines Stoffgebiets**: fünfzehn Aufgaben, je eine mit
+  Aufgabentext, eigenem Erklärclip, Musterlösung und Fehlerkasten, dazu die
+  Darstellungsregeln als roter Faden (16.09.2026). Alle neun starten ihre
+  Clips über `.clipkarte`
   aus `clips/`; eigener, ins Dokument eingebetteter Ton gehört nicht hinein
   (siehe `HOWTO-leitprogramme.md`, Punkt 11). Vorgehen beim
   Übertrag einer fremden Datei **und** beim Schreiben einer neuen:
   `HOWTO-leitprogramme.md` (zwölf Punkte,
-  je mit dem Fehlerbild, an dem man merkt, dass der Punkt fehlt). Die
+  je mit dem Fehlerbild, an dem man merkt, dass der Punkt fehlt); für eine
+  Seite aus einem Prüfungs-PDF zusätzlich `HOWTO-uebungspruefung.md` (PDF
+  misstrauisch lesen, `probe: true` für die Clips, die `</head>`-Falle, und
+  wie ein Prüfungsrahmen wegbleibt, ohne dass die Aufgaben leiden). Die
   Bibliotheksseite trägt nur die Karten (`.lp-*` in `style.css`); jedes
   Leitprogramm ist eine **eigenständige Seite mit eigenem Inhalts-CSS** und
   bewusst ohne `nav.js`/`style.css` — Aufbau und Ablauf sind auf das

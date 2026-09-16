@@ -72,10 +72,11 @@ Bauanleitung, Stolpersteine und die didaktische Prüfliste stehen in
 
 ## Leitprogramme
 
-Acht **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
+Neun **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
 `leitprogramme.html`: Rechnen und Schliessen, Vorwissen (Grössen, Messen,
 Druck), Wärmemenge und Wärmebilanz, Heizen, Dämmen, Umwandeln, Wärmeausdehnung,
-Ideale Gase, Wärme im Experiment und Schaltungen berechnen. Jede besteht aus Vortest, Lernschritten mit
+Ideale Gase, Wärme im Experiment, Schaltungen berechnen und der Übungstest
+Wärmelehre. Die meisten bestehen aus Vortest, Lernschritten mit
 Clip, Simulation und Selbstkontrolle sowie einem Kapiteltest unter
 Prüfungsbedingungen; der Fortschritt bleibt auf dem Gerät gespeichert.
 
@@ -91,9 +92,16 @@ Spannungsteiler zur Parallelschaltung und zu gemischten Netzen, die von innen
 nach aussen zusammengefasst werden — und endet bei der Frage, warum in Reihe die
 40-Watt-Lampe heller leuchtet als die 60-Watt-Lampe.
 
+Der «Übungstest Wärmelehre» ist der Sonderfall unter ihnen: Seine Gliederung
+kommt nicht aus dem Stoff, sondern aus einem Prüfungsbogen. Fünfzehn Aufgaben,
+je eine mit Aufgabentext, eigenem Erklärclip, Musterlösung und einem Kasten zum
+typischen Fehler — und statt eines Kapiteltests am Schluss eine Selbstkontrolle,
+die die eigenen Aufschriebe an vier Darstellungsregeln misst.
+
 Anders als eine Themenseite behält ein Leitprogramm sein eigenes Layout — geerbt
 werden nur Kopfleiste, Fuss und die Clip-Bühne. Vorgehen und Fallstricke:
-`HOWTO-leitprogramme.md`.
+`HOWTO-leitprogramme.md`, für eine Seite aus einem Prüfungs-PDF zusätzlich
+`HOWTO-uebungspruefung.md`.
 
 ## Lokal testen
 
