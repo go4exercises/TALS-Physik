@@ -1187,7 +1187,7 @@ function a1Render(){
     }
   }
   if(T===0){
-    ctx.fillStyle = '#1a4f8a'; ctx.font='bold 14px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle = '#1a4f8a'; ctx.font='bold 14px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText('absoluter Nullpunkt — Bewegung ruht', W/2, H*0.5);
   }
 }
@@ -1307,7 +1307,7 @@ function a2Schiene(ctx, W, HB, T){
     ctx.fillStyle = zo.col; ctx.fillRect(x1, yB, x2-x1, hB);
     ctx.strokeStyle = '#b8ae99'; ctx.lineWidth = 1; ctx.strokeRect(x1, yB, x2-x1, hB);
     if(x2-x1 > 56){
-      ctx.fillStyle='#5a5040'; ctx.font='bold 10px Source Sans 3,sans-serif'; ctx.textAlign='center';
+      ctx.fillStyle='#5a5040'; ctx.font='bold 10px "Source Sans 3",sans-serif'; ctx.textAlign='center';
       ctx.fillText(zo.lab, (x1+x2)/2, yB+hB-4);
     }
   }
@@ -1318,7 +1318,7 @@ function a2Schiene(ctx, W, HB, T){
     ctx.strokeStyle = m.col; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(x, yB-6); ctx.lineTo(x, yB+hB+6); ctx.stroke();
     ctx.fillStyle = m.col; ctx.textAlign='center';
-    ctx.font='bold 11px Source Sans 3,sans-serif';
+    ctx.font='bold 11px "Source Sans 3",sans-serif';
     ctx.fillText(m.t, x, HB+12);
     ctx.font='11px JetBrains Mono,monospace';
     ctx.fillText(vz(m.v) + ' °C', x, yB+hB+20);
@@ -1356,7 +1356,7 @@ function a2Render(z, T){
     if(rolle === 'fest'){ ctx.strokeStyle='rgba(0,0,0,0.18)'; ctx.lineWidth=1; ctx.stroke(); }
   }
   // Zustandslabel
-  ctx.fillStyle = '#5a5040'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle = '#5a5040'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   const lab = { fest:'fest (Gitter)', fluessig:'flüssig (verschiebbar)', gas:'gasförmig (frei)',
                 schmelzen:'Schmelzpunkt — fest und flüssig zugleich',
                 sieden:'Siedepunkt — flüssig und gasförmig zugleich' }[z];
@@ -1366,7 +1366,7 @@ function a2Render(z, T){
     const paare = (z === 'schmelzen')
       ? [{t:'flüssig', y:HB*0.60}, {t:'fest', y:HB*0.86}]
       : [{t:'gasförmig', y:HB*0.22}, {t:'flüssig', y:HB*0.88}];
-    ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.font='bold 12px "Source Sans 3",sans-serif'; ctx.textAlign='right';
     ctx.lineWidth=3; ctx.strokeStyle='#fbfaf7';   // Halo, damit die Schrift über Teilchen lesbar bleibt
     for(const p of paare){ ctx.strokeText(p.t, W*0.95, p.y); ctx.fillStyle='#5a5040'; ctx.fillText(p.t, W*0.95, p.y); }
   }
@@ -1454,7 +1454,7 @@ function drawA3(){
     ctx.fillStyle='#5a5040'; ctx.textAlign='right'; ctx.fillText(vz(v), xMid-tubeW/2-8, y+3);
     ctx.textAlign='left'; ctx.fillText(Math.round(v+T0)+'', xMid+tubeW/2+8, y+3);
   }
-  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px Source Sans 3,sans-serif';
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px "Source Sans 3",sans-serif';
   ctx.textAlign='right'; ctx.fillText('°C', xMid-tubeW/2-8, yTop-18);
   ctx.textAlign='left';  ctx.fillText('K',  xMid+tubeW/2+8, yTop-18);
 
@@ -1514,7 +1514,7 @@ function drawA4(){
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(xL,yC); ctx.lineTo(xR,yC); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(xL,yK); ctx.lineTo(xR,yK); ctx.stroke();
-  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText('Celsius [°C]', xL, yC-16);
   ctx.fillText('Kelvin [K]', xL, yK+24);
   // Striche alle 50
@@ -1566,7 +1566,7 @@ function drawA4(){
   };
   zeile('Δϑ = ΔT = '+vz(d)+' K', 'bold 13px JetBrains Mono,monospace', yMid);
   zeile(d > 0 ? 'Erwärmung' : (d < 0 ? 'Abkühlung' : 'keine Änderung'),
-        '12px Source Sans 3,sans-serif', yMid+15);
+        '12px "Source Sans 3",sans-serif', yMid+15);
 }
 ['a4-t1','a4-t2'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
 

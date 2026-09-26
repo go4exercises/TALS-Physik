@@ -1440,7 +1440,7 @@ function einBox(ctx,W,H,x0,x1,parts,T,label){
   const by0=H*0.80, by1=H*0.95, bx0=px0, bx1=px1;
   ctx.strokeStyle='#b8ae99'; ctx.lineWidth=1; ctx.strokeRect(bx0,by0,bx1-bx0,by1-by0);
   ctx.fillStyle=col; ctx.fillRect(bx0,by0,(bx1-bx0)*(T/100),by1-by0);
-  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText(label+': '+T.toFixed(0)+' °C', (px0+px1)/2, py0-6);
 }
 function einRender(){
@@ -1456,9 +1456,9 @@ function einRender(){
     const dir = einState.TL>einState.TR ? 1 : -1;
     const cyA=HS*0.40, x1=W*0.42, x2=W*0.58;
     drawArrow(ctx, dir>0?x1:x2, cyA, dir>0?x2:x1, cyA, '#9b1c1c', 6, 16);
-    ctx.fillStyle='#9b1c1c'; ctx.font='bold 17px Source Sans 3,sans-serif'; ctx.fillText('Q', W*0.5, cyA-12);
+    ctx.fillStyle='#9b1c1c'; ctx.font='bold 17px "Source Sans 3",sans-serif'; ctx.fillText('Q', W*0.5, cyA-12);
   } else {
-    ctx.fillStyle='#1f6b3a'; ctx.font='bold 16px Source Sans 3,sans-serif'; ctx.fillText('Gleichgewicht', W*0.5, HS*0.40);
+    ctx.fillStyle='#1f6b3a'; ctx.font='bold 16px "Source Sans 3",sans-serif'; ctx.fillText('Gleichgewicht', W*0.5, HS*0.40);
   }
   einDiagramm(ctx, W, HS, H);
 }
@@ -1481,7 +1481,7 @@ function einDiagramm(ctx, W, y0, H){
   }
   ctx.strokeStyle='#b8ae99'; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(xL,yT); ctx.lineTo(xL,yB); ctx.stroke();
-  ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText('ϑ [°C]', xL, yT-6);
   ctx.textAlign='right'; ctx.fillText('t [s]', xR, yB+16);
   // Kurven
@@ -1503,7 +1503,7 @@ function einDiagramm(ctx, W, y0, H){
     ctx.fillStyle=farbe.L; ctx.fillText('links',  Math.min(xOf(last.t)+5, xR-38), yOf(last.L)+4);
     ctx.fillStyle=farbe.R; ctx.fillText('rechts', Math.min(xOf(last.t)+5, xR-42), yOf(last.R)+4);
   } else {
-    ctx.fillStyle='#8f8f8f'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#8f8f8f'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText('Der Verlauf wird aufgezeichnet, sobald die Animation läuft.', (xL+xR)/2, (yT+yB)/2);
   }
 }
@@ -1572,7 +1572,7 @@ function a1Render(){
     const y=yPlot+i*gap+(gap-bh)/2, len=(x1-x0)*Math.min(1, qs[i]/QMAX);
     ctx.fillStyle = (i===a1Sel)?'#b85c00':'#d9c4a3';
     ctx.fillRect(x0,y,len,bh);
-    ctx.fillStyle='#1c1a17'; ctx.font=(i===a1Sel?'bold ':'')+'12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.fillStyle='#1c1a17'; ctx.font=(i===a1Sel?'bold ':'')+'12px "Source Sans 3",sans-serif'; ctx.textAlign='right';
     ctx.fillText(STOFFE[i].name, x0-8, y+bh*0.75);
     ctx.textAlign='left'; ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
     ctx.fillText(qs[i].toFixed(1), x0+len+6, y+bh*0.75);
@@ -1638,11 +1638,11 @@ function a2Render(){
     if(eng){                                 // Masse und Temperatur je auf eigener Zeile
       ctx.fillText(m.toFixed(1)+' kg',  cx, base+28);
       ctx.fillText(T.toFixed(1)+' °C',  cx, base+41);
-      if(sub){ ctx.font='11px Source Sans 3,sans-serif'; ctx.fillStyle='#5a5040';
+      if(sub){ ctx.font='11px "Source Sans 3",sans-serif'; ctx.fillStyle='#5a5040';
                ctx.fillText(sub, cx, base+54); }
     } else {
       ctx.fillText(m.toFixed(1)+' kg   '+T.toFixed(1)+' °C', cx, base+30);
-      if(sub){ ctx.font='12px Source Sans 3,sans-serif'; ctx.fillStyle='#5a5040';
+      if(sub){ ctx.font='12px "Source Sans 3",sans-serif'; ctx.fillStyle='#5a5040';
                ctx.fillText(sub, cx, base+44); }
     }
   }
@@ -1670,7 +1670,7 @@ function a2Render(){
     ctx.beginPath(); ctx.moveTo(x,yA-4); ctx.lineTo(x,yA+4); ctx.stroke();
     ctx.fillText(v+'', x, yA+17);
   }
-  ctx.textAlign='left'; ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px Source Sans 3,sans-serif';
+  ctx.textAlign='left'; ctx.fillStyle='#8a4a0e'; ctx.font='bold 11px "Source Sans 3",sans-serif';
   ctx.fillText('ϑ [°C]', xL, yA-27);
   // Spannen als Balken: kalt→ϑm und ϑm→warm
   const xk=xOf(Math.min(t1,t2)), xw=xOf(Math.max(t1,t2)), xm=xOf(tm);
@@ -1794,7 +1794,7 @@ function drawA3(){
   const plx=rechts?px-9-pw:px+9, ply=(py>H*0.72)?py-10:py+16;
   const frei=(x,y,w)=>!(x<plx+pw+6 && x+w>plx-6 && Math.abs(y-ply)<14);
   // Plateau-Beschriftungen
-  ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   const l1='Schmelzen (0 °C)', l1x=cx(42), l1y=cy(0)-8;
   if(frei(l1x,l1y,ctx.measureText(l1).width)){ ctx.fillStyle='#1a4f8a'; ctx.fillText(l1,l1x,l1y); }
   const l2='Verdampfen (100 °C)', l2w=ctx.measureText(l2).width;
@@ -1852,22 +1852,22 @@ function a4Render(){
     ctx.fillStyle = ok ? 'rgba(31,107,58,0.10)' : 'rgba(155,28,28,0.10)';
     ctx.fillRect(0, H*0.90, W, H*0.10);
     ctx.fillStyle = ok ? '#1f6b3a' : '#9b1c1c';
-    ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText(txt, W*0.5, H*0.965);
   }
   if(vak && a4State.mode!==2){
     // ── Vakuum: Quelle links, Körper rechts, nichts dazwischen ──
     const sx=W*0.14, ox=W*0.84, midY=H*0.42;
     ctx.fillStyle='#1c1a17'; ctx.fillRect(W*0.24, H*0.10, W*0.52, H*0.66);
-    ctx.fillStyle='#8f8f8f'; ctx.font='bold 15px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#8f8f8f'; ctx.font='bold 15px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText('Vakuum — kein Material', W*0.5, H*0.44);
-    ctx.font='12px Source Sans 3,sans-serif';
+    ctx.font='12px "Source Sans 3",sans-serif';
     ctx.fillText('keine Teilchen, die Energie weiterreichen könnten', W*0.5, H*0.52);
     ctx.fillStyle='#9b1c1c'; ctx.beginPath(); ctx.arc(sx,midY,26,0,6.283); ctx.fill();
-    ctx.fillStyle='#fff'; ctx.font='13px Source Sans 3,sans-serif'; ctx.fillText('heiss', sx, midY+4);
+    ctx.fillStyle='#fff'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.fillText('heiss', sx, midY+4);
     ctx.fillStyle=lerpCol(0.12); ctx.fillRect(ox-10, midY-34, 30, 68);
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(ox-10,midY-34,30,68);
-    ctx.fillStyle='#1a4f8a'; ctx.font='13px Source Sans 3,sans-serif';
+    ctx.fillStyle='#1a4f8a'; ctx.font='13px "Source Sans 3",sans-serif';
     ctx.fillText('bleibt kalt', ox+5, midY+52);
     vakLabel(a4State.mode===0
       ? 'Wärmeleitung braucht Material zwischen den Körpern — im Vakuum unmöglich.'
@@ -1882,7 +1882,7 @@ function a4Render(){
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(x0,y0,x1-x0,y1-y0);
     // Heizquelle links
     ctx.fillStyle='#9b1c1c'; ctx.fillRect(x0-W*0.05,y0,W*0.05,y1-y0);
-    ctx.fillStyle='#9b1c1c'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#9b1c1c'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText('heiss', x0-W*0.025, y0-6); 
     ctx.fillStyle='#1a4f8a'; ctx.fillText('kalt', x1, y0-6);
     // vibrierende Teilchen am Ort
@@ -1895,13 +1895,13 @@ function a4Render(){
     const pf=(t*0.35)%1; const pulseX=x0+pf*(x1-x0);
     ctx.strokeStyle='rgba(255,230,150,0.9)'; ctx.lineWidth=4;
     ctx.beginPath(); ctx.moveTo(pulseX,y0); ctx.lineTo(pulseX,y1); ctx.stroke();
-    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px Source Sans 3,sans-serif';
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px "Source Sans 3",sans-serif';
     ctx.fillText('Teilchen schwingen am Ort, geben Energie an Nachbarn weiter →', W*0.5, y1+24);
   } else if(a4State.mode===1){    // ── Konvektion ──
     const cx0=W*0.28,cx1=W*0.72,cy0=H*0.12,cy1=H*0.80;
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(cx0,cy0,cx1-cx0,cy1-cy0);
     ctx.fillStyle='#9b1c1c'; ctx.fillRect(cx0,cy1,cx1-cx0,H*0.05);   // Heizung unten
-    ctx.fillStyle='#fff'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#fff'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText('Wärmequelle', (cx0+cx1)/2, cy1+H*0.035);
     // Umlauf: hoch in der Mitte, runter aussen (zwei Wirbel)
     const midX=(cx0+cx1)/2, w=(cx1-cx0)/2-8, h=(cy1-cy0)-16, ty=cy0+8;
@@ -1917,14 +1917,14 @@ function a4Render(){
     // Pfeile
     ctx.strokeStyle='#5a5040';
     drawArrow(ctx, midX, cy0+30, midX, cy0+12, '#9b1c1c',2,7);
-    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px Source Sans 3,sans-serif';
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px "Source Sans 3",sans-serif';
     ctx.fillText('warmes Material steigt auf, kühlt oben ab und sinkt', W*0.5, cy1+H*0.05+18);
   } else {                        // ── Wärmestrahlung ──
     const sx=W*0.14, ox=W*0.84, midY=H*0.45;
     if(vak){ ctx.fillStyle='#1c1a17'; ctx.fillRect(W*0.24, H*0.10, W*0.52, H*0.66); }
     // Quelle
     ctx.fillStyle='#9b1c1c'; ctx.beginPath(); ctx.arc(sx,midY,26,0,6.283); ctx.fill();
-    ctx.fillStyle='#fff'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.fillText('heiss', sx, midY+4);
+    ctx.fillStyle='#fff'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center'; ctx.fillText('heiss', sx, midY+4);
     // Objekt rechts (erwaermt sich leicht)
     const warm=0.35+0.25*(0.5+0.5*Math.sin(t*1.5));
     ctx.fillStyle=lerpCol(warm); ctx.fillRect(ox-10, midY-34, 30, 68);
@@ -1940,7 +1940,7 @@ function a4Render(){
       }
       ctx.stroke();
     }
-    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px Source Sans 3,sans-serif';   // Text liegt unter der Vakuum-Fläche
+    ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px "Source Sans 3",sans-serif';   // Text liegt unter der Vakuum-Fläche
     ctx.fillText('Infrarotstrahlung überträgt Energie durch den leeren Raum →', W*0.5, H*0.86);
     if(vak) vakLabel('Strahlung braucht kein Material — sie funktioniert auch im Vakuum.', true);
   }
@@ -2122,7 +2122,7 @@ function a7Render(){
   ctx.fillStyle='#dcebf7'; ctx.fillRect(0,0,W,H);
   // Boden (wärmer bei mehr CO2)
   ctx.fillStyle=lerpCol(0.30+frac*0.5); ctx.fillRect(0,yGround,W,H-yGround);
-  ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.lineWidth=3.5; ctx.lineJoin='round'; ctx.strokeStyle='rgba(0,0,0,0.6)';
   ctx.strokeText('Erdoberfläche ('+lab+')', W*0.5, yGround+H*0.13);
   ctx.fillStyle='#fff'; ctx.fillText('Erdoberfläche ('+lab+')', W*0.5, yGround+H*0.13);
@@ -2130,7 +2130,7 @@ function a7Render(){
   // Atmosphärenschicht (gestrichelt) – variiert stark mit der CO2-Konzentration
   ctx.strokeStyle='rgba(110,110,110,'+(0.12+frac*0.85)+')'; ctx.lineWidth=1.5+frac*9; ctx.setLineDash([9,6]);
   ctx.beginPath(); ctx.moveTo(0,yAtm); ctx.lineTo(W,yAtm); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth=1;
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText('Atmosphäre — CO₂ '+ppm+' ppm', 6, yAtm-7);
 
   // ── Eintreffendes Sonnenlicht (gelb): parallele Strahlen über die ganze Breite, schräger Einfall ──
@@ -2182,7 +2182,7 @@ function a7Render(){
     {col:'#7b2d8e', txt:'zusätzlich durch mehr CO₂: '+extra},
     {col:'#e8a81c', txt:'entweichen ins All: '+(nOut-halt)}
   ];
-  ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.font='bold 12px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   const legH=16, legY=H-6-legEintraege.length*legH;
   let legW=0; legEintraege.forEach(e=>{ legW=Math.max(legW, ctx.measureText(e.txt).width); });
   ctx.fillStyle='rgba(255,255,255,0.88)'; ctx.fillRect(4, legY-4, legW+30, legEintraege.length*legH+8);
@@ -2209,7 +2209,7 @@ function thgCurve(){
   const M={l:52,r:18,t:16,b:34}, x0=M.l,x1=w-M.r,y0=h-M.b,y1=M.t, yMin=150,yMax=450;
   const X=tt=>x0+(1-tt)*(x1-x0), Y=v=>y0+(v-yMin)/(yMax-yMin)*(y1-y0);
   ctx.fillStyle=THG.band; ctx.fillRect(x0,Y(280),x1-x0,Y(180)-Y(280));   // Band 180–280
-  ctx.strokeStyle=THG.line; ctx.fillStyle=THG.soft; ctx.font='13px Source Sans 3,sans-serif';
+  ctx.strokeStyle=THG.line; ctx.fillStyle=THG.soft; ctx.font='13px "Source Sans 3",sans-serif';
   ctx.textAlign='right'; ctx.textBaseline='middle'; ctx.lineWidth=1;
   const step=thgStep(yMax-yMin,5);
   for(let v=Math.ceil(yMin/step)*step; v<=yMax; v+=step){ const y=Y(v);
@@ -2229,9 +2229,9 @@ function thgCurve(){
   ctx.beginPath(); ctx.moveTo(X(tInd*4),Y(282)); ctx.lineTo(X(tInd),Y(300)); ctx.lineTo(X(0),Y(430));
   ctx.strokeStyle=THG.alarm; ctx.lineWidth=2.4; ctx.stroke();
   ctx.fillStyle=THG.alarm; ctx.beginPath(); ctx.arc(X(0),Y(430),3.6,0,7); ctx.fill();
-  ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.font='bold 13px Source Sans 3,sans-serif';
+  ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.font='bold 13px "Source Sans 3",sans-serif';
   ctx.fillText('heute ≈ 430',X(0)-6,Y(430)-2);
-  ctx.fillStyle=THG.bernD; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillStyle=THG.bernD; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left'; ctx.textBaseline='middle';
   ctx.fillText('Warmzeiten ≈ 280 ppm',x0+8,Y(280)-9);
   ctx.fillText('Eiszeiten ≈ 180 ppm',x0+8,Y(180)+10);
 }
@@ -2241,7 +2241,7 @@ function thgGas(id){
   const cv=initCanvas(id,190,false); const ctx=cv.ctx,w=cv.W,h=cv.H;
   ctx.clearRect(0,0,w,h);
   const M={l:42,r:10,t:20,b:22}, x0=M.l,x1=w-M.r,y0=h-M.b,y1=M.t, Y=v=>y0+(v/g.max)*(y1-y0);
-  ctx.strokeStyle=THG.line; ctx.lineWidth=1; ctx.fillStyle=THG.soft; ctx.font='13px Source Sans 3,sans-serif';
+  ctx.strokeStyle=THG.line; ctx.lineWidth=1; ctx.fillStyle=THG.soft; ctx.font='13px "Source Sans 3",sans-serif';
   ctx.textAlign='right'; ctx.textBaseline='middle';
   const step=thgStep(g.max,4);
   for(let v=0; v<=g.max; v+=step){ const y=Y(v);
@@ -2259,7 +2259,7 @@ function thgGas(id){
     ctx.moveTo(bx,y0); ctx.lineTo(bx,by+rr); ctx.arcTo(bx,by,bx+rr,by,rr);
     ctx.lineTo(bx+bw-rr,by); ctx.arcTo(bx+bw,by,bx+bw,by+rr,rr); ctx.lineTo(bx+bw,y0);
     ctx.closePath(); ctx.fill();
-    ctx.fillStyle=THG.ink; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillStyle=THG.ink; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom';
     ctx.fillText(b[1],bx+bw/2,by-3);
   });
 }

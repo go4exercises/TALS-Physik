@@ -1972,12 +1972,12 @@ function einRender(){
   const N=einZu?18:0;
   for(let i=0;i<N;i++){ const s=((i/N)+einPhase)%1; const p=rectPoint(g,s);
     ctx.fillStyle='#1a4f8a'; ctx.beginPath(); ctx.arc(p.x,p.y,4,0,6.283); ctx.fill();
-    ctx.fillStyle='#cfe0f2'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#cfe0f2'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText('–',p.x,p.y+2.5); }
   // Richtungen benennen: die Elektronen laufen aussen von − nach +, die
   // technische Stromrichtung ist historisch genau umgekehrt definiert.
   const mx=(g.L+g.R)/2, sp=Math.min(34,(g.R-g.L)/5);
-  ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   if(U>0 && einZu){
     drawArrow(ctx, mx+sp, g.B-30, mx-sp, g.B-30, '#8a4a0e', 2.4, 8);
     ctx.fillStyle='#8a4a0e'; ctx.fillText('technische Stromrichtung I', mx, g.B-40);
@@ -2032,7 +2032,7 @@ function drawACDC(){
   c.fillStyle = '#9b1c1c'; c.fillText('U_eff = 230 V', gr.cx(0.5), gr.cy(230) - 6);
   c.fillStyle = '#8a4a0e'; c.fillText('Scheitel 325 V = 230 V · √2', gr.cx(6.2), gr.cy(Us) + 18);
   c.fillStyle = '#1a4f8a'; c.fillText('DC 12 V (Autobatterie)', gr.cx(0.5), gr.cy(12) - 6);
-  c.fillStyle = '#5a5040'; c.font = '13px Source Sans 3,sans-serif'; c.textAlign = 'center';
+  c.fillStyle = '#5a5040'; c.font = '13px "Source Sans 3",sans-serif'; c.textAlign = 'center';
   c.fillText('eine Periode dauert 20 ms — 50 Hz', gr.cx(20), gr.cy(-320));
 }
 
@@ -2157,7 +2157,7 @@ function drawA1(){
   // Referenzkennlinie 100 Ω, damit auch grosse Widerstände einen Vergleich haben
   ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
   ctx.beginPath(); ctx.moveTo(g.cx(0),g.cy(0)); ctx.lineTo(g.cx(120),g.cy(12)); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#6b7280'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#6b7280'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   // auf halber Höhe an der Referenzgeraden — oben links kollidiert sie mit «U [V]»
   // rechts neben der Geraden (bei U = 9.4 V liegt sie bei I = 94 mA), sonst
   // schneidet die Linie mitten durch den Text
@@ -2173,7 +2173,7 @@ function drawA1(){
   ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText('('+I_mA.toFixed(0)+' mA | '+v.U.toFixed(1)+' V)', Math.min(px+8,W-130), Math.max(py-6,g.cy(12)+12));
   // Steigungslabel mit weisser Box, oben zentriert
-  const lab='Steigung = R = '+v.R+' Ω'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  const lab='Steigung = R = '+v.R+' Ω'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   const lw=ctx.measureText(lab).width, lcx=W*0.5, lcy=g.cy(12)+8;
   ctx.fillStyle='rgba(251,250,247,0.85)'; ctx.fillRect(lcx-lw/2-4,lcy-2,lw+8,16);
   ctx.fillStyle='#5a5040'; ctx.fillText(lab, lcx, lcy+10);
@@ -2225,14 +2225,14 @@ function drawA2(){
   // Masslinien
   ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=1; ctx.setLineDash([3,2]);
   ctx.beginPath(); ctx.moveTo(x0,yc+th/2+10); ctx.lineTo(x0+dw,yc+th/2+10); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#1a4f8a'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#1a4f8a'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('l = '+l+' m', x0+dw/2, yc+th/2+24);
   ctx.save(); ctx.translate(x0-W*0.075, yc); ctx.rotate(-Math.PI/2);
   ctx.fillText('A = '+A.toFixed(1)+' mm²',0,0); ctx.restore();
   // R-Wert
   ctx.fillStyle='#9b1c1c'; ctx.font='bold 15px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText('R = '+R.toFixed(2)+' Ω', W*0.5, H*0.14);
-  ctx.fillStyle='#3a332a'; ctx.font='13px Source Sans 3,sans-serif';
+  ctx.fillStyle='#3a332a'; ctx.font='13px "Source Sans 3",sans-serif';
   ctx.fillText(m.n+' (ρ = '+m.r+' Ω·mm²/m)', W*0.5, H*0.95);
 }
 ['a2-l','a2-A'].forEach(id=>document.getElementById(id).addEventListener('input', drawA2));
@@ -2378,7 +2378,7 @@ function a4Render(){
   drawStream(ctx, xr2,  B, xr1, B, a4Phase, pkt(xr2-xr1, v.I2), '#5b2d8e');
   drawStream(ctx, xr1,  B, L+6, B, a4Phase, pkt(xr1-L-6, v.I),  '#e08020');
   // Labels
-  ctx.fillStyle='#b85c00'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#b85c00'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('I₁='+(v.I1*1000).toFixed(0)+' mA', xr1, B+16);   // unter die Schiene,
   ctx.fillStyle='#5b2d8e'; ctx.fillText('I₂='+(v.I2*1000).toFixed(1)+' mA', xr2, B+16);   // sonst über den Punkten
   ctx.fillStyle='#5a5040'; ctx.fillText('Gesamtstrom I = '+(v.I*1000).toFixed(1)+' mA — gleiche Spannung über R₁ und R₂', W*0.5, H*0.99);
@@ -2421,7 +2421,7 @@ function drawA5(){
   ctx.stroke(); ctx.setLineDash([]);
   // Legende rechtsbündig, damit sie bei keiner Breite abgeschnitten wird
   const legT = eng ? '= 1 kWh' : 'alle Punkte darauf: 1 kWh';
-  ctx.font='13px Source Sans 3,sans-serif';
+  ctx.font='13px "Source Sans 3",sans-serif';
   const legY = gr.cy(PMAX*0.94), legX = W - 10 - ctx.measureText(legT).width;
   ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
   ctx.beginPath(); ctx.moveTo(legX-34,legY); ctx.lineTo(legX-6,legY); ctx.stroke();
@@ -2531,17 +2531,17 @@ function drawA6(){
   ctx.fillStyle='#6b7280'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
   [1,10,100,1000].forEach(v=>{ if(v<=2000) ctx.fillText(v<1000?v+'':'1000', lx(v), py1+12); });
   ctx.textAlign='right'; [10,100,1000,10000].forEach(v=>ctx.fillText(v+'', px0-4, ly(v)+3));
-  ctx.fillStyle='#374151'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#374151'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('Stromstärke [mA]', (px0+px1)/2, py1+26);
   ctx.save(); ctx.translate(px0-50,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Einwirkzeit [ms]',0,0); ctx.restore();
   // FI/RCD-Marke bei 30 mA — der Wert, auf den Schutzschalter auslösen
   const x30 = lx(30);
   ctx.strokeStyle='#1f6b3a'; ctx.lineWidth=2; ctx.setLineDash([6,4]);
   ctx.beginPath(); ctx.moveTo(x30,py0); ctx.lineTo(x30,py1); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#1f6b3a'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#1f6b3a'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText('30 mA — FI/RCD löst aus', x30+6, py0+14);
   // Zonen-Nummern
-  ctx.fillStyle='#3a332a'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#3a332a'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('1', lx(0.25), py0+H*0.10); ctx.fillText('2', lx(3), py0+H*0.10);
   ctx.fillText('3', lx(70), py0+H*0.10); ctx.fillText('4', lx(800), py0+H*0.10);
   // Arbeitspunkt

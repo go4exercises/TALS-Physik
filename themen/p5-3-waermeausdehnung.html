@@ -1285,12 +1285,12 @@ function einRender(){
     ctx.fillStyle='#1a4f8a'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
     ctx.fillText('Lücke '+gap.toFixed(1)+' mm', mid, yb-12);
   } else {
-    ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText('⚠ Lücke geschlossen — Verwerfung droht!', mid, yb-12);
     ctx.font='13px JetBrains Mono,monospace';
     ctx.fillText('geschlossen ab ϑ ≈ '+EIN_TGRENZ.toFixed(1)+' °C', mid, yb-28);
   }
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('reale Längenänderung Δl = '+(dl_mm>=0?'+':'')+dl_mm.toFixed(1)+' mm (Bild stark vergrössert)', mid, H*0.93);
 }
 document.getElementById('ein-T').addEventListener('input', einRender);
@@ -1300,7 +1300,7 @@ document.getElementById('ein-T').addEventListener('input', einRender);
 // wirken die Bilder wie echte Grössenverhältnisse. Darum als Marke oben rechts.
 function ueberhoehung(ctx, W, faktor){
   const txt = faktor+'-fach überhöht';
-  ctx.font='bold 13px Source Sans 3,sans-serif';
+  ctx.font='bold 13px "Source Sans 3",sans-serif';
   const w=ctx.measureText(txt).width+34, h=26, x=W-w-8, y=8;
   ctx.fillStyle='#8a4a0e';
   ctx.beginPath(); ctx.roundRect(x,y,w,h,7); ctx.fill();
@@ -1353,7 +1353,7 @@ function a1Render(){
   }
   // Referenzstab Eisen (immer sichtbar, damit der Materialvergleich kein Gedächtnis braucht)
   const refExt = stab(yRef, A1MAT[A1_REF], a1Sel===A1_REF);
-  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#5a5040'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText('Referenz Eisen (α = 12·10⁻⁶ 1/K)', x0, yRef+hbar+14);
   ctx.font='12px JetBrains Mono,monospace';
   const rTxt=(A1MAT[A1_REF].a*1e-6*l0*dT*1000).toFixed(1)+' mm', rX=x0+baseLen+Math.max(refExt,0)+8;
@@ -1361,7 +1361,7 @@ function a1Render(){
   else { ctx.textAlign='right'; ctx.fillText(rTxt, W-6, yRef-6); }
   // gewähltes Material
   const ext = stab(y, m, true);
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText(m.n+' · l₀ = '+l0+' m', x0, y-8);
   const tipX=x0+baseLen+ext;
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,2]);
@@ -1374,7 +1374,7 @@ function a1Render(){
   ueberhoehung(ctx, W, A1_EXAG);
   // Massstabs-Hinweis unten links — oben rechts steht die Marke, dort weicht
   // bei langem Stab auch der Δl-Wert hin.
-  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#5a5040'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText('Länge massstäblich zu l₀', x0, H*0.96);
 }
 ['a1-l0','a1-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a1Render));
@@ -1462,7 +1462,7 @@ function a2Render(){
   const mL = g => (g*V0*dT*1000>=0?'+':'')+(g*V0*dT*1000).toFixed(1)+' ml';
   const eisen = STOFFE2[A2_REF];
   function beschriften(cx, titel, wert, yTitel, yWert){
-    ctx.fillStyle='#1c1a17'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#1c1a17'; ctx.font='bold 12px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText(titel, cx, yTitel);
     ctx.font='bold 12px JetBrains Mono,monospace'; ctx.fillStyle='#5a5040';
     ctx.fillText(wert, cx, yWert);
@@ -1500,7 +1500,7 @@ function a2Render(){
     beschriften(cxA, s.n, mL(s.g), yT, yW);
     beschriften(cxB, eisen.n+' (Referenz)', mL(eisen.g), yT, yW);
     ueberhoehung(ctx, W, A2_KANTE);
-    ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.fillStyle='#5a5040'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='right';
     ctx.fillText('Kantenlänge massstäblich zu ∛V₀', W-8, 50);   // unter der Marke, frei von den Werten
     return;
   }
@@ -1519,7 +1519,7 @@ function a2Render(){
   gefaess(cxA, s, lerpCol(0.5+(dT/80)*0.45), s.n);
   gefaess(cxB, eisen, '#9aa7b4', eisen.n+' (Referenz)');
   ueberhoehung(ctx, W, A2_EXAG);
-  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillStyle='#5a5040'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='right';
   ctx.fillText('Säulenhöhe massstäblich zu V₀', W-8, 50);
 }
 ['a2-V0','a2-dT'].forEach(id=>document.getElementById(id).addEventListener('input', a2Render));
@@ -1552,7 +1552,7 @@ function bmRender(){
     for(let u=1;u>=-0.001;u-=0.02){ const X=x0+u*L, Y=yOf(u)+off+d; ctx.lineTo(X,Y); }
     ctx.closePath(); ctx.fillStyle=col; ctx.fill();
     ctx.strokeStyle='rgba(0,0,0,0.25)'; ctx.lineWidth=1; ctx.stroke();
-    ctx.fillStyle='#1c1a17'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+    ctx.fillStyle='#1c1a17'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='right';
     ctx.fillText(lab, x0-8, yOf(0)+off+(off<0 ? -3 : 2*d+3));   // Schichten auseinanderziehen
   }
   schicht(-d, '#c9a227', 'Messing');                   // grösseres α: aussen im Bogen
@@ -1573,9 +1573,9 @@ function bmRender(){
     ctx.strokeStyle=farbe; ctx.lineWidth=1.5; ctx.setLineDash([3,3]);
     ctx.beginPath(); ctx.moveTo(kx, kyFix+6); ctx.lineTo(kx, tipY-6); ctx.stroke(); ctx.setLineDash([]);
   }
-  ctx.fillStyle=farbe; ctx.font='bold 13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle=farbe; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText(auf ? 'Kontakt offen — Heizung aus' : 'Kontakt geschlossen — Heizung an', kx+14, kyFix-8);
-  ctx.fillStyle='#5a5040'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillStyle='#5a5040'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='right';
   ctx.fillText('Krümmung stark überhöht', W*0.97, H*0.96);
 }
 document.getElementById('bm-T').addEventListener('input', bmRender);
@@ -1630,7 +1630,7 @@ function drawA3(){
   ctx.textAlign='right';
   for(const r of [998,999,1000]) ctx.fillText(r+'', px0-5, yFl(r)+3);
   for(const r of [917,920])      ctx.fillText(r+'', px0-5, yEis(r)+3);
-  ctx.fillStyle='#374151'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#374151'; ctx.font='bold 12px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('ϑ [°C]', (px0+px1)/2, py1+28);
   ctx.save(); ctx.translate(px0-38,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('ρ [kg/m³]',0,0); ctx.restore();
   // Kurve Wasser (0 … 20 °C)
@@ -1645,19 +1645,19 @@ function drawA3(){
   ctx.strokeStyle='#9b1c1c'; ctx.lineWidth=1.6; ctx.setLineDash([4,3]);
   ctx.beginPath(); ctx.moveTo(xT(0),yFl(rhoW(0))); ctx.lineTo(xT(0),yEis(rhoEis(0))); ctx.stroke(); ctx.setLineDash([]);
   const yG=(yFl(rhoW(0))+yEis(rhoEis(0)))/2;
-  ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   if(schmal){                                     // rechts der Sprunglinie ist nur gut 100 px Platz
     ctx.fillText('Gefrieren:', xT(0)+6, yG-6); ctx.fillText('−83 kg/m³', xT(0)+6, yG+7);
-    ctx.font='11px Source Sans 3,sans-serif'; ctx.fillText('(Volumen +9 %)', xT(0)+6, yG+20);
+    ctx.font='11px "Source Sans 3",sans-serif'; ctx.fillText('(Volumen +9 %)', xT(0)+6, yG+20);
   } else {
     ctx.fillText('Gefrieren: −83 kg/m³', xT(0)+6, yG);
-    ctx.font='11px Source Sans 3,sans-serif';
+    ctx.font='11px "Source Sans 3",sans-serif';
     ctx.fillText('(Volumen +9 %)', xT(0)+6, yG+13);
   }
   // Maximum bei 4 °C
   ctx.strokeStyle='#9b6bd4'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(xT(4),oben[1]); ctx.lineTo(xT(4),yFl(rhoW(4))); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#5b2d8e'; ctx.font='12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#5b2d8e'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('Max bei 4 °C', xT(4), yFl(rhoW(4))-6);
   // aktueller Punkt
   drawDot(ctx,x=>x,y=>y, xT(T), eis?yEis(rho):yFl(rho), '#b85c00', 6);
@@ -1679,12 +1679,12 @@ function drawA3(){
       ctx.fillStyle='rgba(184,92,0,0.18)'; ctx.fillRect(lx0,yy,lx1-lx0,hh);
       ctx.strokeStyle='#b85c00'; ctx.lineWidth=2.5; ctx.strokeRect(lx0+1,yy+1,lx1-lx0-2,hh-2);
     }
-    ctx.fillStyle='#1c1a17'; ctx.font=(aktiv?'bold ':'')+'12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+    ctx.fillStyle='#1c1a17'; ctx.font=(aktiv?'bold ':'')+'12px "Source Sans 3",sans-serif'; ctx.textAlign='left';
     ctx.fillText(sch.lab, lx0+6, yy+hh/2+3);
     yy+=hh;
   }
   ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(lx0,ly0,lx1-lx0,ly1-ly0);
-  ctx.fillStyle='#5a5040'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#5a5040'; ctx.font='bold 12px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('See im Winter', (lx0+lx1)/2, ly0-4);
   // Auch die Eisdecke schwimmt: der Anteil ρ_Eis/ρ_Wasser liegt unter der
   // Wasserlinie, nur der Rest ragt heraus. Die Linie wird darum IN die Eisschicht
@@ -1698,7 +1698,7 @@ function drawA3(){
     ctx.fillStyle='#1a4f8a'; ctx.font='bold 10px JetBrains Mono,monospace'; ctx.textAlign='center';
     ctx.fillText((eisUnter*100).toFixed(1)+' % unter der Wasserlinie', (lx0+lx1)/2, wl+(ly0+hEis-wl)/2+4);
   }
-  ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle='#5a5040'; ctx.font='11px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   const unter = eis ? ['Eis hat die kleinere Dichte —', 'es schwimmt oben auf.']
                     : ['Das dichteste Wasser (4 °C)', 'sinkt an den Grund.'];
   if(schmal){ ctx.fillText(unter[0], (lx0+lx1)/2, ly1+16); ctx.fillText(unter[1], (lx0+lx1)/2, ly1+30); }
@@ -1745,9 +1745,9 @@ function drawA4(){
   ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.fillText('Δh = '+(dh*100).toFixed(0)+' cm', W*0.85, (seaTop+newTop)/2+4);
   // Labels
-  ctx.fillStyle='#1c3a52'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#1c3a52'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText('erwärmte Wassersäule: '+h0+' m, ΔT = '+dT.toFixed(1)+' K', 8, seaBot-8);
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='right';
+  ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='right';
   ctx.fillText('(Anstieg im Bild stark vergrössert)', W*0.77, seaTop+14);
 }
 ['a4-h0','a4-dT'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
@@ -1811,7 +1811,7 @@ function a5Render(){
   // Labels
   ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   ctx.fillText('p = '+v.p.toFixed(2)+' bar', zx0+gasW/2, zy0-8);
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='left';
+  ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   ctx.fillText('V = '+v.V.toFixed(1)+' l    T = '+Math.round(v.T)+' K', zx0, zy1+18);   // «·» wäre hier Trenner
 }
 function a5Tick(dt){
@@ -1894,9 +1894,9 @@ function drawA6(){
     const nx=g.cx(60), ny=g.cy(0.62);
     ctx.strokeStyle='#5b2d8e'; ctx.lineWidth=1; ctx.setLineDash([2,3]);
     ctx.beginPath(); ctx.moveTo(nx-4, ny+4); ctx.lineTo(g.cx(0)+4, g.cy(0)-4); ctx.stroke(); ctx.setLineDash([]);
-    ctx.fillStyle='#5b2d8e'; ctx.font='bold 12px Source Sans 3,sans-serif'; ctx.textAlign='left';
+    ctx.fillStyle='#5b2d8e'; ctx.font='bold 12px "Source Sans 3",sans-serif'; ctx.textAlign='left';
     ctx.fillText('0 K = absoluter Nullpunkt', nx, ny);
-    ctx.font='12px Source Sans 3,sans-serif';
+    ctx.font='12px "Source Sans 3",sans-serif';
     ctx.fillText('(vgl. Kapitel 5.1)', nx, ny+14);
   }
 }
