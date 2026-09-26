@@ -399,7 +399,7 @@ Jede Themenseite folgt diesem Aufbau. Punkte mit (*) können je nach Themenumfan
 |---|---|---|
 | 1 | **Titel + RLP** | `.page-titel` mit Lerngebiet, `.rlp-kompetenzen` mit dem **Wortlaut** des RLP (§4.1), darunter die `.lernziele` mit allem, was dieses Haus daraus macht |
 | 1b | **Vorwissen-Kasten** | direkt darunter ein `.block-tipp` «💡 Vorwissen zu dieser Seite»: zwei bis drei Abschnitte der Vorwissen-Reihe, die diese Seite wirklich voraussetzt — als **Anker** (`p0-3-messen-waagen-dichte.html#dichte`), nicht als blosser Seitenlink, dazu der Hinweis aufs passende Leitprogramm |
-| 2 | **Einstieg** | Konkretes Alltagsphänomen, einleitende Frage, evtl. `.block-experiment` |
+| 2 | **Einstieg** | Konkretes Alltagsphänomen, einleitende Frage, evtl. `.block-experiment` — der Kasten trägt das **Phänomen**, nie die Bedienung einer Animation (§5.6) |
 | 3 | **Grundbegriffe** | `.block-def` für jeden zentralen Begriff (Schwerpunkt, Bahnkurve, Geschwindigkeit, Beschleunigung …) |
 | 4 | **Animation 1** | Hauptphänomen interaktiv (z.B. gleichförmige Bewegung) — `.widget` mit `.cv-wrap`; Titelzeile mit Hinweisen «Worauf achten?» / «Erkenntnis» (§5.6) |
 | 5 | **Theorie + Animation 2** | Herleitung der Bewegungsgleichungen mit `.block-beweis`, dann gekoppelte Diagramme |
@@ -573,6 +573,8 @@ Verbindliche Regeln:
 ### 5.6 Animations-Hinweise («Worauf achten?» / «Erkenntnis»)
 
 Jede Animation trägt in der **Titelzeile** zwei dezente Rollover-Hinweise: nach dem Titel «💡 Worauf achten?», ganz rechts «✓ Erkenntnis». Sie ersetzen die frühere Bedienungszeile unter dem Titel (deren Inhalt steht jetzt in «Worauf achten?»).
+
+Sie ersetzen **auch** den früheren Kasten «🧪 Beobachte» vor der Einstiegs-Animation. Eine Bedienanweisung («Erhöhe die Spannung und beobachte …») steht nur im Rollover, nicht zusätzlich in einem `.block-experiment` darüber — sonst steht sie zweimal. Referenz ist p5-2: `<h2 id="einstieg">`, dann das Phänomen im Fliesstext, dann das `.widget`. Der `.block-experiment` im Einstieg bleibt dem **Alltagsphänomen** oder einem Versuch mit echtem Material vorbehalten (§4, Punkt 2). Hat der Einstieg keine eigene Animation, steht der Vorwärtsverweis (`<a class="anim-ref" …>`) als gewöhnlicher Fliesstext; die Beobachtungspunkte gehören ins Rollover der Zielanimation.
 
 - **Struktur:** Titel und beide Hinweise stehen gemeinsam in `<div class="widget-titelzeile">` (statt `<h3>` allein im `.widget-header`). Markup pro Hinweis:
   ```html
