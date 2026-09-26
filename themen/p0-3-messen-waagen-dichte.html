@@ -1316,33 +1316,36 @@ function a2SkalaX(r, WL) {
   return 55 + Math.max(0, Math.min(1, t)) * (WL - 105);
 }
 
+// Schriftfaktor der Dichte-Zeichnung (siehe drawA2)
+let a2Fk = 1;
+const a2Px = n => (n * a2Fk).toFixed(1);
 function a2Dichteskala(ctx, WL, rho, y) {
   ctx.strokeStyle = P0_C.linie; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(20, y - 40); ctx.lineTo(WL - 20, y - 40); ctx.stroke();
   ctx.strokeStyle = P0_C.tinte2; ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.moveTo(55, y); ctx.lineTo(WL - 50, y); ctx.stroke();
-  ctx.font = '10px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+  ctx.font = a2Px(10) + 'px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
   A2_SKALA.forEach((s, i) => {
     const px = a2SkalaX(s.r, WL);
     ctx.strokeStyle = P0_C.grau; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(px, y - 5); ctx.lineTo(px, y + 5); ctx.stroke();
     ctx.fillStyle = P0_C.tinte2;
-    ctx.fillText(s.n, px, y + (i % 2 === 0 ? 18 : 29));
+    ctx.fillText(s.n, px, y + (i % 2 === 0 ? 18 : 18 + 11 * a2Fk));
   });
-  ctx.fillStyle = P0_C.tinte2; ctx.textAlign = 'right'; ctx.font = '10px "Source Sans 3",sans-serif';
+  ctx.fillStyle = P0_C.tinte2; ctx.textAlign = 'right'; ctx.font = a2Px(10) + 'px "Source Sans 3",sans-serif';
   ctx.fillText('Dichte in g/cm³ (logarithmische Skala)', WL - 20, y - 46);
   const px = a2SkalaX(rho, WL);
   ctx.fillStyle = P0_C.rot;
   ctx.beginPath(); ctx.moveTo(px, y - 8); ctx.lineTo(px - 6, y - 19); ctx.lineTo(px + 6, y - 19);
   ctx.closePath(); ctx.fill();
-  ctx.font = '700 11px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
+  ctx.font = '700 ' + a2Px(11) + 'px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
   ctx.fillText(pfmt(rho, 2), px, y - 23);
 }
 
 function a2Quader(ctx, WL, a, b, c) {
   const oy = 248;
   const tC = 'c = ' + pfmt(c, 1) + ' cm', tB = 'b = ' + pfmt(b, 1) + ' cm';
-  ctx.font = '600 12px "Source Sans 3",sans-serif';
+  ctx.font = '600 ' + a2Px(12) + 'px "Source Sans 3",sans-serif';
   const wC = ctx.measureText(tC).width, wB = ctx.measureText(tB).width;
   // Massstab: 13 px/cm, aber so weit verkleinert, dass der Körper samt
   // Kantenbeschriftungen in die Breite und über der Skala in die Höhe passt.
@@ -1365,7 +1368,7 @@ function a2Quader(ctx, WL, a, b, c) {
   ctx.moveTo(ox + w / 2, oy - h); ctx.lineTo(ox + w / 2 + d, oy - h - d);
   ctx.lineTo(ox + w / 2 + d, oy - d); ctx.lineTo(ox + w / 2, oy);
   ctx.closePath(); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = P0_C.bern; ctx.font = '600 12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = P0_C.bern; ctx.font = '600 ' + a2Px(12) + 'px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('a = ' + pfmt(a, 1) + ' cm', ox, oy + 18);
   ctx.textAlign = 'right';
   ctx.fillText('c = ' + pfmt(c, 1) + ' cm', ox - w / 2 - 8, oy - h / 2 + 4);
@@ -1373,7 +1376,7 @@ function a2Quader(ctx, WL, a, b, c) {
   ctx.fillText('b = ' + pfmt(b, 1) + ' cm', ox + w / 2 + d + 8, oy - h - d / 2);
   ctx.strokeStyle = P0_C.bern; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(ox - w / 2, oy + 6); ctx.lineTo(ox + w / 2, oy + 6); ctx.stroke();
-  ctx.fillStyle = P0_C.tinte2; ctx.font = '11px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = P0_C.tinte2; ctx.font = a2Px(11) + 'px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Kanten messen  →  V = a · b · c  (indirekt)', WL / 2, 42);
 }
 
@@ -1386,7 +1389,7 @@ function a2Messzyl(ctx, cx, fuell, koerper) {
   ctx.beginPath(); ctx.rect(cx - br / 2 + 2, bo - hW, br - 4, hW - 2); ctx.fill();
   ctx.strokeStyle = P0_C.wasser; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(cx - br / 2 + 2, bo - hW); ctx.lineTo(cx + br / 2 - 2, bo - hW); ctx.stroke();
-  ctx.strokeStyle = P0_C.grau; ctx.lineWidth = 1; ctx.font = '9px "Source Sans 3",sans-serif';
+  ctx.strokeStyle = P0_C.grau; ctx.lineWidth = 1; ctx.font = a2Px(9) + 'px "Source Sans 3",sans-serif';
   ctx.textAlign = 'left'; ctx.fillStyle = P0_C.tinte2;
   for (let v = 0; v <= skalaMax; v += 10) {
     const y = bo - v / skalaMax * (ho - 14), lang = (v % 50 === 0);
@@ -1408,6 +1411,9 @@ function drawA2() {
   const HL = breit ? 350 : 410;
   const WL = Math.max(wRoh, 340);
   const k = wRoh / WL;
+  // Unter 340 px wird die Zeichnung verkleinert (k < 1); die Schrift wächst im
+  // selben Mass mit, damit sie gerendert nicht unter ihre Sollgrösse fällt.
+  a2Fk = Math.min(1.35, 1 / k);
   const cv = initCanvas('a2-cv', Math.round(HL * k), false);
   const ctx = cv.ctx;
   ctx.scale(k, k);
@@ -1433,7 +1439,7 @@ function drawA2() {
     const cx2 = breit ? WL * 0.60 : WL * 0.70;
     a2Messzyl(ctx, cx1, 50, 0);
     a2Messzyl(ctx, cx2, 50 + V, V);
-    ctx.fillStyle = P0_C.tinte2; ctx.font = '600 12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = P0_C.tinte2; ctx.font = '600 ' + a2Px(12) + 'px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('vorher: 50 ml', cx1, 268);
     ctx.fillText('nachher: ' + pfmt(50 + V, 0) + ' ml', cx2, 268);
     // Pfeil zwischen den beiden Zylindern
@@ -1443,9 +1449,12 @@ function drawA2() {
     ctx.moveTo(px1, 150); ctx.lineTo(px2, 150);
     ctx.lineTo(px2 - 8, 145); ctx.moveTo(px2, 150); ctx.lineTo(px2 - 8, 155);
     ctx.stroke();
-    ctx.fillStyle = P0_C.bern; ctx.font = '600 12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+    // zwischen den Zylindern ist schmal wenig Platz: die Schrift passt sich an
+    ctx.font = '600 12px "Source Sans 3",sans-serif';
+    const eG = Math.min(12 * a2Fk, 12 * (px2 - px1 - 6) / ctx.measureText('eintauchen').width);
+    ctx.fillStyle = P0_C.bern; ctx.font = '600 ' + eG.toFixed(1) + 'px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('eintauchen', pm, 138);
-    ctx.fillStyle = P0_C.tinte2; ctx.font = '11px "Source Sans 3",sans-serif';
+    ctx.fillStyle = P0_C.tinte2; ctx.font = a2Px(11) + 'px "Source Sans 3",sans-serif';
     if (breit) {
       ctx.textAlign = 'left';
       ctx.fillText('ΔV = ' + pfmt(50 + V, 0) + ' ml − 50 ml', WL * 0.695, 142);

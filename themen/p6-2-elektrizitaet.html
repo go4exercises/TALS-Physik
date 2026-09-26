@@ -716,7 +716,7 @@ MathJax = {
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">\(R_\text{ges}\)</span><span class="lb-val" id="a3-Rg">320 Ω</span></div>
       <div class="lb-item"><span class="lb-lab">Strom \(I\)</span><span class="lb-val" id="a3-I">37.5 mA</span></div>
-      <div class="lb-item"><span class="lb-lab">\(U_1\) / \(U_2\)</span><span class="lb-val" id="a3-Us">3.75 / 8.25 V</span></div>
+      <div class="lb-item"><span class="lb-lab">\(U_1\) ; \(U_2\)</span><span class="lb-val" id="a3-Us">3.75 ; 8.25 V</span></div>
     </div>
 
     <div class="cv-wrap">
@@ -795,7 +795,7 @@ MathJax = {
 
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">\(R_\text{ges}\)</span><span class="lb-val" id="a4-Rg">68.8 Ω</span></div>
-      <div class="lb-item"><span class="lb-lab">\(I_1\) / \(I_2\)</span><span class="lb-val" id="a4-Is">120 / 54.5 mA</span></div>
+      <div class="lb-item"><span class="lb-lab">\(I_1\) ; \(I_2\)</span><span class="lb-val" id="a4-Is">120 ; 54.5 mA</span></div>
       <div class="lb-item"><span class="lb-lab">Gesamtstrom \(I\)</span><span class="lb-val" id="a4-I">174.5 mA</span></div>
     </div>
 
@@ -1970,7 +1970,12 @@ function einRender(){
   ctx.beginPath(); ctx.moveTo(lx-8,ly-8); ctx.lineTo(lx+8,ly+8); ctx.moveTo(lx+8,ly-8); ctx.lineTo(lx-8,ly+8); ctx.stroke();
   // Elektronen
   const N=einZu?18:0;
+  const lyE=(g.T+g.B)/2, swxE=(g.L+g.R)/2;
+  const frei=p=> !((Math.abs(p.x-g.L)<1 && Math.abs(p.y-by)<14)        // Quelle
+                 || (Math.abs(p.y-g.T)<1 && Math.abs(p.x-swxE)<25)     // Schalter
+                 || (Math.abs(p.x-g.R)<1 && Math.abs(p.y-lyE)<18));    // Lampe
   for(let i=0;i<N;i++){ const s=((i/N)+einPhase)%1; const p=rectPoint(g,s);
+    if(!frei(p)) continue;
     ctx.fillStyle='#1a4f8a'; ctx.beginPath(); ctx.arc(p.x,p.y,4,0,6.283); ctx.fill();
     ctx.fillStyle='#cfe0f2'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText('–',p.x,p.y+2.5); }
@@ -2133,7 +2138,10 @@ function drawCoulomb(){
     const gekappt = F > FMAX;
     // Schmal: 5 N → 36 px, sonst läuft der Abstossungspfeil von Q₁ links
     // aus dem Bild (Q₁ steht dort nur 46 px vom Rand)
-    const L = Math.max(8, Math.min(1, F / FMAX) * (schmal ? 36 : 96));
+    let L = Math.max(8, Math.min(1, F / FMAX) * (schmal ? 36 : 96));
+    // Anziehung: beide Pfeile zeigen aufeinander zu; länger als der halbe Abstand
+    // überlagern sie sich zu einer Doppelpfeil-Linie über beide Ladungen
+    if (anzieh) L = Math.min(L, Math.max(8, (xB - xA)/2 - 6));
     const ri = anzieh ? 1 : -1;
     drawArrow(ctx, xA, yM + 30, xA + ri*L, yM + 30, '#5b2d8e', 2.6, 9);
     drawArrow(ctx, xB, yM + 30, xB - ri*L, yM + 30, '#5b2d8e', 2.6, 9);
@@ -2232,16 +2240,20 @@ function drawA2(){
   document.getElementById('a2-l-val').textContent=l+' m';
   document.getElementById('a2-A-val').textContent=A.toFixed(1)+' mm²';
   const R=m.r*l/A;
+  // Kleine Werte mit zwei gültigen Ziffern statt «0.00 Ω» (Silber, 1 m, 10 mm²: 0.0016 Ω)
+  const a2Z = x => x >= 1 ? x.toFixed(2) : String(Number(x.toPrecision(2)));
+  const Rs = a2Z(R);
   flTex('a2-eq', ['R = \\rho\\cdot\\frac{l}{A}', '= '+m.r+'\\;\\frac{\\Omega\\cdot\\text{mm}^2}{\\text{m}}\\cdot\\frac{'+texE(l,'m')+'}{'
-    +texE(A.toFixed(1),'mm')+'^2}', '= '+texO(R.toFixed(2))]);
+    +texE(A.toFixed(1),'mm')+'^2}', '= '+texO(Rs)]);
   // Konsequenz: bei fester Übertragung fliesst ein Strom, und der Leitungs-
   // widerstand frisst P_V = R · I². Das ist das Überlandleitungs-Argument.
   const A2_I = 20;                       // A, angenommener Laststrom
   const PV = R * A2_I * A2_I;            // W
   const UV = R * A2_I;                   // V Spannungsabfall
-  document.getElementById('a2-pv').textContent = PV.toFixed(0) + ' W';
-  document.getElementById('a2-uv').textContent = UV.toFixed(1) + ' V';
-  flTex('a2-eq2', ['P_\\text{V} = R\\cdot I^2', '= ' + texO(R.toFixed(2)) + '\\cdot(' + texE(A2_I,'A') + ')^2', '= ' + texE(PV.toFixed(0),'W')]);
+  const PVs = PV >= 10 ? PV.toFixed(0) : a2Z(PV), UVs = UV >= 1 ? UV.toFixed(1) : a2Z(UV);
+  document.getElementById('a2-pv').textContent = PVs + ' W';
+  document.getElementById('a2-uv').textContent = UVs + ' V';
+  flTex('a2-eq2', ['P_\\text{V} = R\\cdot I^2', '= ' + texO(Rs) + '\\cdot(' + texE(A2_I,'A') + ')^2', '= ' + texE(PVs,'W')]);
 
   const cv=initCanvas('a2-cv',180,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
@@ -2266,7 +2278,7 @@ function drawA2(){
   ctx.fillText('A = '+A.toFixed(1)+' mm²', x0, yc-th/2-8);
   // R-Wert
   ctx.fillStyle='#9b1c1c'; ctx.font='bold 15px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText('R = '+R.toFixed(2)+' Ω', W*0.5, H*0.11);   // Luft zu «A = …» über dem dicksten Draht
+  ctx.fillText('R = '+Rs+' Ω', W*0.5, H*0.11);   // Luft zu «A = …» über dem dicksten Draht
   ctx.fillStyle='#3a332a'; ctx.font='13px "Source Sans 3",sans-serif';
   ctx.fillText(m.n+' (ρ = '+m.r+' Ω·mm²/m)', W*0.5, H*0.95);
 }
@@ -2288,7 +2300,7 @@ function a3Read(){
   flTex('a3-eq-i', ['I = \\frac{U}{R}', '= \\frac{'+texE(v.U.toFixed(1),'V')+'}{'+texO(v.Rg)+'}', '= '+texE((v.I*1000).toFixed(1),'mA')]);
   document.getElementById('a3-Rg').textContent=v.Rg+' Ω';
   document.getElementById('a3-I').textContent=(v.I*1000).toFixed(1)+' mA';
-  document.getElementById('a3-Us').textContent=v.U1.toFixed(2)+' / '+v.U2.toFixed(2)+' V';
+  document.getElementById('a3-Us').textContent=v.U1.toFixed(2)+' ; '+v.U2.toFixed(2)+' V';
 }
 function a3Tick(dt){ const v=a3Vals(); a3Phase=(a3Phase+dt*v.I*1.2)%1; a3Render(); }
 function a3Render(){
@@ -2328,9 +2340,9 @@ function a3Render(){
   ctx.fillStyle = '#5b2d8e'; ctx.fillRect(x0b + w1, balkenY, w2, balkenH);
   ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1; ctx.strokeRect(x0b, balkenY, gesamtW, balkenH);
   ctx.font = 'bold 13px JetBrains Mono,monospace';
-  ctx.fillStyle = '#b85c00'; ctx.textAlign = 'center';
+  // Schrift weiss auf dem farbigen Balken — in Balkenfarbe war sie unsichtbar
+  ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
   if (w1 > 54) ctx.fillText(v.U1.toFixed(1)+' V', x0b + w1/2, balkenY + 12);
-  ctx.fillStyle = '#5b2d8e';
   if (w2 > 54) ctx.fillText(v.U2.toFixed(1)+' V', x0b + w1 + w2/2, balkenY + 12);
   ctx.fillStyle = '#5a5040'; ctx.font = (schmal ? '12px' : '13px') + ' "Source Sans 3",sans-serif';
   if(schmal){   // zwei Zeilen statt einer, die bei 360 px beidseitig abgeschnitten war
@@ -2368,7 +2380,7 @@ function a4Read(){
   flTex('a4-eq', ['\\frac{1}{R} = \\frac{1}{R_1} + \\frac{1}{R_2}', '= \\frac{1}{'+texO(v.R1)+'} + \\frac{1}{'+texO(v.R2)+'}',
                   '\\;\\rightarrow\\; R = '+texO(v.Rg.toFixed(1))]);
   document.getElementById('a4-Rg').textContent=v.Rg.toFixed(1)+' Ω';
-  document.getElementById('a4-Is').textContent=(v.I1*1000).toFixed(0)+' / '+(v.I2*1000).toFixed(1)+' mA';
+  document.getElementById('a4-Is').textContent=(v.I1*1000).toFixed(0)+' ; '+(v.I2*1000).toFixed(1)+' mA';
   document.getElementById('a4-I').textContent=(v.I*1000).toFixed(1)+' mA';
 }
 function drawStream(ctx,x1,y1,x2,y2,phase,nDots,col){
@@ -2602,9 +2614,11 @@ function drawA6(){
   ctx.fillText(fiTxt, x30+6, py0+14);
   // Zonen-Nummern
   ctx.fillStyle='#3a332a'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
-  if(lx(0.25) > px0+6) ctx.fillText('1', lx(0.25), py0+H*0.10);   // Zone 1 liegt links der Achse
-  ctx.fillText('2', lx(3), py0+H*0.10);
-  ctx.fillText('3', lx(70), py0+H*0.10); ctx.fillText('4', lx(800), py0+H*0.10);
+  // eine Zeile unter der FI-Beschriftung (py0+14) — vorher lag «30 mA — FI/RCD löst aus» auf der 3
+  const zy = py0 + Math.max(34, H*0.10);
+  if(lx(0.25) > px0+6) ctx.fillText('1', lx(0.25), zy);   // Zone 1 liegt links der Achse
+  ctx.fillText('2', lx(3), zy);
+  ctx.fillText('3', lx(70), zy); ctx.fillText('4', lx(800), zy);
   // Arbeitspunkt
   const mx=lx(I), my=ly(t);
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
@@ -2849,14 +2863,14 @@ function gmDraw(w){
   function kasten(x, y, bez, wert, farbe){
     // Breite nach dem Wert: «232.0 Ω gesamt» ragte über den festen 62-px-Kasten
     ctx.font = '11px "Source Sans 3",sans-serif';
-    const bw = Math.max(62, Math.ceil(ctx.measureText(wert).width) + 12), bh = 26;
+    const bw = Math.max(62, Math.ceil(ctx.measureText(wert).width) + 12), bh = 30;
     ctx.font = '12px "Source Sans 3",sans-serif';
     ctx.fillStyle = '#fff'; ctx.strokeStyle = farbe || '#3f3a33'; ctx.lineWidth = 2.2;
     ctx.beginPath(); ctx.rect(x-bw/2, y-bh/2, bw, bh); ctx.fill(); ctx.stroke();
     ctx.fillStyle = farbe || '#3f3a33';
-    ctx.fillText(bez, x, y-1);
+    ctx.fillText(bez, x, y-2);
     ctx.fillStyle = '#5c554c'; ctx.font = '11px "Source Sans 3",sans-serif';
-    ctx.fillText(wert, x, y+11);
+    ctx.fillText(wert, x, y+10);
     ctx.font = '12px "Source Sans 3",sans-serif';
   }
 
@@ -2904,7 +2918,10 @@ function gmDraw(w){
     kasten(xp, o, 'R₂', w.R2 + ' Ω');
     kasten(xp, u, 'R₃', w.R3 + ' Ω');
     ctx.fillStyle = '#5c554c';
-    ctx.fillText('parallel — gleiche zwei Knoten', xp, u + 32);
+    // schmal rechtsbündig vor der rechten Leitung — zentriert kreuzte die Zeile sie
+    const pTxt = 'parallel — gleiche zwei Knoten', pW = ctx.measureText(pTxt).width;
+    if (xp + pW/2 > R - 8) { ctx.textAlign = 'right'; ctx.fillText(pTxt, R - 8, u + 34); ctx.textAlign = 'center'; }
+    else ctx.fillText(pTxt, xp, u + 34);
   } else {
     kasten(xp, T, 'Rₚ', w.Rp.toFixed(1) + ' Ω', '#0f6b66');
     ctx.fillStyle = '#0f6b66';

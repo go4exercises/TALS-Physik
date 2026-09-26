@@ -1189,7 +1189,79 @@ function halo(ctx, txt, x, y, color, align){
 function dblArrow(ctx, x1, x2, yPx, color, label){
   drawArrow(ctx, x1, yPx, x2, yPx, color, 1.8, 8);
   drawArrow(ctx, x2, yPx, x1, yPx, color, 1.8, 8);
-  if(label) halo(ctx, label, (x1+x2)/2, yPx+4, color);
+  if(!label) return;
+  // Ist die Beschriftung breiter als der Pfeil, stünde sie ganz auf ihm und
+  // verdeckte ihn (λ/2 bei hoher Frequenz) — dann steht sie darüber.
+  ctx.font='bold 13px JetBrains Mono,monospace';
+  const wL = ctx.measureText(label).width, passt = wL + 24 < Math.abs(x2 - x1);
+  // darüber gesetzt im Canvas halten und rechts der y-Zahlen (Achse links, bis 40 px)
+  const xm = passt ? (x1+x2)/2 : Math.min(Math.max((x1+x2)/2, 44 + wL/2), ctx.canvas.clientWidth - wL/2 - 4);
+  halo(ctx, label, xm, passt ? yPx+4 : yPx-8, color);
+}
+
+// ── Achsenzahlen über den Kurven ─────────────────────────
+// drawGrid (physiklib.js) setzt die Zahlen, bevor die Kurven gezeichnet sind;
+// Wellen, Klemmen und Wände liefen dann über sie. gitter() ruft drawGrid und
+// merkt sich die Parameter; zahlenFlush() am Ende jeder Zeichenfunktion setzt
+// die Zahlen mit hellem Grund neu — dieselbe Auswahl und Lage wie drawGrid.
+// opt.ohneNegX: negative x-Werte ausblenden (links der Einspannung sinnlos).
+// opt.sperr: Kreise {x, y (Datenwerte), r (px)}; eine Zahl, die ein solcher
+// Punkt verdecken würde, steht über der Achse — oder entfällt, wenn auch dort.
+const zahlenListe=[];
+function zahlenLagen(z){
+  const {ctx,W,H,xMin,xMax,yMin,yMax,opt,g}=z;
+  const stepX=niceStep(xMax-xMin,W,65), stepY=niceStep(yMax-yMin,H,40);
+  const xAxisY=(yMin<=0 && 0<=yMax) ? g.cy(0) : (yMin>0 ? g.cy(yMin) : g.cy(yMax));
+  const yAxisX=(xMin<=0 && 0<=xMax) ? g.cx(0) : (xMin>0 ? g.cx(xMin) : g.cx(xMax));
+  ctx.font='13px JetBrains Mono,monospace';
+  const unten=(H-xAxisY)>=18;
+  const trifft=(x0,y0,w,h)=> (opt.sperr||[]).some(k=>{
+    const px=g.cx(k.x), py=g.cy(k.y), qx=Math.max(x0,Math.min(px,x0+w)), qy=Math.max(y0,Math.min(py,y0+h));
+    return (px-qx)*(px-qx)+(py-qy)*(py-qy) < (k.r+2)*(k.r+2); });
+  const xs=[];
+  for(let v=Math.ceil(xMin/stepX)*stepX; v<=xMax+stepX*1e-6; v+=stepX){
+    if(Math.abs(v)<stepX*1e-6) continue;
+    const x=g.cx(v); if(x<14 || x>W-72) continue;
+    const t=fmtTick(v,stepX), w=ctx.measureText(t).width;
+    const yU=unten ? xAxisY+5 : xAxisY-5-13, yO=xAxisY-5-13;
+    const L={t,x,w,x0:x-w/2,y0:yU,h:13,weg:false,oben:false};
+    if(opt.ohneNegX && v<0) L.weg=true;
+    else if(trifft(L.x0,yU,w,13)){ if(unten && !trifft(L.x0,yO,w,13)) L.oben=true; else L.weg=true; }
+    xs.push(L);
+  }
+  let maxW=0; const yv=[];
+  for(let v=Math.ceil(yMin/stepY)*stepY; v<=yMax+stepY*1e-6; v+=stepY){
+    if(Math.abs(v)<stepY*1e-6) continue;
+    const t=fmtTick(v,stepY); maxW=Math.max(maxW,ctx.measureText(t).width); yv.push([v,t]); }
+  const links=yAxisX>=maxW+8, ys=[];
+  yv.forEach(([v,t])=>{ const y=g.cy(v); if(y<22 || y>H-6) return;
+    ys.push({t,x:links ? yAxisX-5 : yAxisX+5,y,align:links?'right':'left'}); });
+  return {x:xs,y:ys,xAxisY};
+}
+function gitter(ctx,W,H,xMin,xMax,yMin,yMax,opt){
+  const g=drawGrid(ctx,W,H,xMin,xMax,yMin,yMax);
+  const z={ctx,W,H,xMin,xMax,yMin,yMax,opt:opt||{},g};
+  z.lagen=zahlenLagen(z);
+  // Unerwünschte bzw. verlegte Zahlen gleich entfernen — noch liegt darunter nur das Gitter
+  ctx.fillStyle='#fff';
+  z.lagen.x.forEach(L=>{ if(L.weg||L.oben) ctx.fillRect(L.x0-1,L.y0-1,L.w+2,L.h+2); });
+  zahlenListe.push(z); return g;
+}
+function zahlenFlush(){
+  while(zahlenListe.length){
+    const z=zahlenListe.shift(), ctx=z.ctx, lg=z.lagen;
+    ctx.save(); ctx.font='13px JetBrains Mono,monospace';
+    const grund='rgba(255,255,255,0.9)', schrift='#6b7280';
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    lg.x.forEach(L=>{ if(L.weg) return; const y=L.oben ? lg.xAxisY-5-13 : L.y0;
+      ctx.fillStyle=grund; ctx.fillRect(L.x0-1,y+1,L.w+2,11);   // nur Ziffernhöhe
+      ctx.fillStyle=schrift; ctx.fillText(L.t,L.x,y); });
+    ctx.textBaseline='middle';
+    lg.y.forEach(L=>{ const w=ctx.measureText(L.t).width, x0=L.align==='right' ? L.x-w : L.x;
+      ctx.fillStyle=grund; ctx.fillRect(x0-2,L.y-8,w+4,15);
+      ctx.fillStyle=schrift; ctx.textAlign=L.align; ctx.fillText(L.t,L.x,L.y); });
+    ctx.restore();
+  }
 }
 
 // gestrichelte Kurve y=fn(s) im Gitter gr
@@ -1271,7 +1343,7 @@ function a1Render(){
 
   // oben: Momentbild
   const cv=initCanvas('a1-cv-s',230,false);
-  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.4,8.4,-8,8);
+  const gr=gitter(cv.ctx,cv.W,cv.H,-0.4,8.4,-8,8,{sperr:[{x:a1SM(),y:a1St.typ==='T'?yFn(a1SM()):0,r:7}]});
   if(a1St.typ==='T'){
     drawCurve(cv.ctx,gr.cx,gr.cy,function(s){return s;},yFn,0,A1L,220,'#8a4a0e',2.6);
     ketteT(cv.ctx,gr,0,A1L,32,yFn,a1SM());
@@ -1289,7 +1361,7 @@ function a1Render(){
   // dadurch drei Viertel des Diagramms leer.
   const tEndA = (A1L + 2*v.w) / v.c;
   const cv2=initCanvas('a1-cv-t',200,false);
-  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,-0.05*tEndA,tEndA*1.05,-8,8);
+  const g2=gitter(cv2.ctx,cv2.W,cv2.H,-0.05*tEndA,tEndA*1.05,-8,8);
   drawAxesUnits(cv2.ctx,cv2.W,cv2.H,g2.cx,g2.cy,'t [s]', a1St.typ==='T'?'y [cm]':'u [cm]');
   if(a1St.hist.length>1){
     cv2.ctx.strokeStyle='#1f6b3a'; cv2.ctx.lineWidth=2.6; cv2.ctx.setLineDash([]);
@@ -1302,6 +1374,7 @@ function a1Render(){
     const last=a1St.hist[a1St.hist.length-1];
     drawDot(cv2.ctx,g2.cx,g2.cy,last[0],last[1],'#1f6b3a',5);
   }
+  zahlenFlush();
 }
 function a1Tick(dt){
   const v=a1Vals();
@@ -1347,7 +1420,7 @@ function a2Render(){
 
   // oben: Momentbild
   const cv=initCanvas('a2-cv-s',230,false);
-  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.3,6.3,-10,10);
+  const gr=gitter(cv.ctx,cv.W,cv.H,-0.3,6.3,-10,10,{sperr:[a2SM(),a2SM2()].map(x=>({x,y:a2St.typ==='T'?yFn(x):0,r:7}))});
   // Erreger links
   cv.ctx.strokeStyle='#d8d0c4'; cv.ctx.lineWidth=1.2; cv.ctx.setLineDash([3,3]);
   cv.ctx.beginPath(); cv.ctx.moveTo(gr.cx(0),gr.cy(-9)); cv.ctx.lineTo(gr.cx(0),gr.cy(9)); cv.ctx.stroke();
@@ -1357,17 +1430,18 @@ function a2Render(){
     ketteT(cv.ctx,gr,0,A2L,48,yFn,a2SM());
     drawDot(cv.ctx,gr.cx,gr.cy,a2SM2(),yFn(a2SM2()),'#5b2d8e',6);
     cv.ctx.fillStyle='#8a4a0e';
-    cv.ctx.fillRect(gr.cx(0)-11,gr.cy(yFn(0))-5,10,10);   // Hand am Seil
+    cv.ctx.fillRect(gr.cx(0)-5,gr.cy(yFn(0))-5,10,10);   // Hand am Seil, mittig auf der Achse (links lagen die y-Zahlen)
   } else {
     dashCurve(cv.ctx,gr,yFn,0,A2L,'rgba(138,74,14,0.6)',1.6);
     ketteL(cv.ctx,gr,0,A2L,48,yFn,udFn,udMax,a2SM(),0.03);
     cv.ctx.fillStyle='#8a4a0e';
-    cv.ctx.fillRect(gr.cx(0)-11,gr.cy(0)-5,10,10);
+    cv.ctx.fillRect(gr.cx(0)-5,gr.cy(0)-5,10,10);
     // Ort maximaler Verdichtung: cos(2πf(τ−s/c)) = −1 … Färbung zeigt es; Label am ersten Maximum
     const sVd=A2C*a2St.tau-lam*0.5;
     if(sVd>0.4 && sVd<A2L-0.4) halo(cv.ctx,'Verdichtung',gr.cx(sVd),gr.cy(7.5),'#9b1c1c');
   }
-  halo(cv.ctx,'Erreger',gr.cx(0)+8,gr.cy(-8.6),'#8a4a0e','left');
+  // Stehen die y-Zahlen schmal rechts der Achse (drawGrid), rückt «Erreger» hinter sie
+  halo(cv.ctx,'Erreger',gr.cx(0)+8+(gr.cx(0)<32 ? 30 : 0),gr.cy(-8.6),'#8a4a0e','left');
   // λ-Doppelpfeil zwischen zwei Bergen (nur wenn zwei Berge sichtbar sind)
   const crests=[];
   for(let n=0;n<14;n++){
@@ -1386,7 +1460,7 @@ function a2Render(){
   // Oben Luft über dem grössten Ausschlag (8 cm) für die Kopfzeile zum Zeitversatz;
   // schmal braucht sie zwei Zeilen und etwas mehr Platz
   const a2eng = cv2.W < 560;
-  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,tLo-0.2,tLo+6.4,-10,a2eng?17:13);
+  const g2=gitter(cv2.ctx,cv2.W,cv2.H,tLo-0.2,tLo+6.4,-10,a2eng?17:13);
   drawAxesUnits(cv2.ctx,cv2.W,cv2.H,g2.cx,g2.cy,'t [s]', a2St.typ==='T'?'y [cm]':'u [cm]');
   if(a2St.hist.length>1){
     cv2.ctx.strokeStyle='#1f6b3a'; cv2.ctx.lineWidth=2.6; cv2.ctx.setLineDash([]);
@@ -1422,6 +1496,7 @@ function a2Render(){
     cv2.ctx.fillText('Δs = '+dS.toFixed(1)+' m = '+(dS/lam).toFixed(2)+' λ', cv2.W-8, 16);
     cv2.ctx.fillText('→ Zeitversatz '+(dS/A2C).toFixed(2)+' s', cv2.W-8, 31);
   }
+  zahlenFlush();
 }
 function a2Tick(dt){
   const v=a2Vals();
@@ -1461,7 +1536,7 @@ function drawA3(){
   const cv=initCanvas('a3-cv-s',240,false);
   // rechts Rand, damit der Punkt am Anschlag (s = 6 m) vor «s [m]» bleibt;
   // oben Luft, damit der λ-Pfeil nicht in der Zeile von «y [cm]» liegt
-  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.3,6.3*cv.W/(cv.W-80)-0.3,-7,9.5);
+  const gr=gitter(cv.ctx,cv.W,cv.H,-0.3,6.3*cv.W/(cv.W-80)-0.3,-7,9.5,{sperr:[{x:s0,y:a3Y(s0,t0),r:6.5}]});
   drawAxesUnits(cv.ctx,cv.W,cv.H,gr.cx,gr.cy,'s [m]','y [cm]');
   cv.ctx.strokeStyle='#d8d0c4'; cv.ctx.lineWidth=1.2; cv.ctx.setLineDash([3,3]);
   cv.ctx.beginPath(); cv.ctx.moveTo(gr.cx(s0),gr.cy(-6.6)); cv.ctx.lineTo(gr.cx(s0),gr.cy(6.6)); cv.ctx.stroke();
@@ -1480,7 +1555,7 @@ function drawA3(){
 
   // rechts: Punktbewegung y(t) bei s = s0
   const cv2=initCanvas('a3-cv-t',240,false);
-  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,-0.25,4.25*cv2.W/(cv2.W-80)-0.25,-7,9.5);   // wie links
+  const g2=gitter(cv2.ctx,cv2.W,cv2.H,-0.25,4.25*cv2.W/(cv2.W-80)-0.25,-7,9.5,{sperr:[{x:t0,y:a3Y(s0,t0),r:6.5}]});   // wie links
   drawAxesUnits(cv2.ctx,cv2.W,cv2.H,g2.cx,g2.cy,'t [s]','y [cm]');
   cv2.ctx.strokeStyle='#d8d0c4'; cv2.ctx.lineWidth=1.2; cv2.ctx.setLineDash([3,3]);
   cv2.ctx.beginPath(); cv2.ctx.moveTo(g2.cx(t0),g2.cy(-6.6)); cv2.ctx.lineTo(g2.cx(t0),g2.cy(6.6)); cv2.ctx.stroke();
@@ -1495,6 +1570,7 @@ function drawA3(){
   cv2.ctx.fillStyle='#8a4a0e';
   cv2.ctx.beginPath(); cv2.ctx.arc(g2.cx(t0),g2.cy(a3Y(s0,t0)),6.5,0,6.283); cv2.ctx.fill();
   cv2.ctx.strokeStyle='#1c1a17'; cv2.ctx.lineWidth=2; cv2.ctx.stroke();
+  zahlenFlush();
 
   drawA3D(t0,s0);
 }
@@ -1578,7 +1654,7 @@ function a4Render(){
   const yFn=function(s){ return a4Y(s,c); };
   const udFn=function(s){ return a4Ud(s,c); };
   const cv=initCanvas('a4-cv',240,false);
-  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.4,8.9,-13,13);
+  const gr=gitter(cv.ctx,cv.W,cv.H,-0.4,8.9,-13,13,{sperr:[{x:a4SM(),y:a4St.typ==='T'?yFn(a4SM()):0,r:7}]});
   // Spiegelpuls: die Reflexion wird intern als zweiter, am Ende gespiegelter
   // Puls gerechnet. Sichtbar gemacht erklärt er, WARUM aus dem Berg ein Tal
   // wird — statt dass das Ergebnis nur behauptet wird.
@@ -1619,7 +1695,7 @@ function a4Render(){
 
   // unten: Mitschrieb y(t) des gewählten Teilchens (Achse deckt die längste Laufzeit 2·(L+w)/c bei c = 2 ab)
   const cv2=initCanvas('a4-cv-t',190,false);
-  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,-0.4,9.0,-13,13);
+  const g2=gitter(cv2.ctx,cv2.W,cv2.H,-0.4,9.0,-13,13);
   if(a4St.hist.length>1){
     cv2.ctx.strokeStyle='#1f6b3a'; cv2.ctx.lineWidth=2.6; cv2.ctx.setLineDash([]);
     cv2.ctx.beginPath();
@@ -1632,6 +1708,7 @@ function a4Render(){
     drawDot(cv2.ctx,g2.cx,g2.cy,last[0],last[1],'#1f6b3a',5);
   }
   drawAxesUnits(cv2.ctx,cv2.W,cv2.H,g2.cx,g2.cy,'t [s]', a4St.typ==='T'?'y [cm]':'u [cm]');
+  zahlenFlush();
 }
 function a4Tick(dt){
   const c=+id('a4-c').value;
@@ -1672,7 +1749,7 @@ function a5Render(){
   id('a5-sum').textContent=fmtVal(y1+y2,1,'cm');
 
   const cv=initCanvas('a5-cv-s',250,false);
-  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.4,8.4,-14,14);
+  const gr=gitter(cv.ctx,cv.W,cv.H,-0.4,8.4,-14,14,{sperr:[{x:a5SM(),y:a5Y1(a5SM())+a5Y2(a5SM()),r:7}]});
   dashCurve(cv.ctx,gr,a5Y1,0,A5L,'#1a4f8a',1.8);
   dashCurve(cv.ctx,gr,a5Y2,0,A5L,'#8a4a0e',1.8);
   drawCurve(cv.ctx,gr.cx,gr.cy,function(s){return s;},function(s){return a5Y1(s)+a5Y2(s);},0,A5L,260,'#9b1c1c',2.8);
@@ -1680,7 +1757,7 @@ function a5Render(){
   drawAxesUnits(cv.ctx,cv.W,cv.H,gr.cx,gr.cy,'s [m]','y [cm]');
 
   const cv2=initCanvas('a5-cv-t',190,false);
-  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,-0.25,5.25,-14,14);
+  const g2=gitter(cv2.ctx,cv2.W,cv2.H,-0.25,5.25,-14,14);
   drawAxesUnits(cv2.ctx,cv2.W,cv2.H,g2.cx,g2.cy,'t [s]','y [cm]');
   if(a5St.hist.length>1){
     cv2.ctx.strokeStyle='#1f6b3a'; cv2.ctx.lineWidth=2.6; cv2.ctx.setLineDash([]);
@@ -1693,6 +1770,7 @@ function a5Render(){
     const last=a5St.hist[a5St.hist.length-1];
     drawDot(cv2.ctx,g2.cx,g2.cy,last[0],last[1],'#1f6b3a',5);
   }
+  zahlenFlush();
 }
 function a5Tick(dt){
   a5St.tau+=dt*spd(5);
@@ -1738,7 +1816,7 @@ function a6Render(){
   const v=a6Vals();
   a6Read();
   const cv=initCanvas('a6-cv-s',240,false);
-  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.3,6.3,-8,8);
+  const gr=gitter(cv.ctx,cv.W,cv.H,-0.3,6.3,-8,8,{sperr:[{x:v.s,y:a6Sum(v.s,v.f),r:7}]});
   dashCurve(cv.ctx,gr,function(s){return a6Y1(s,v.f);},0,A6L,'#1a4f8a',1.6);
   if(a6St.mode==='steh') dashCurve(cv.ctx,gr,function(s){return a6Y2(s,v.f);},0,A6L,'#8a4a0e',1.6);
   // Einhüllende ±2A·cos(2πs/λ): beim Nulldurchgang liegt die Saite flach und
@@ -1758,14 +1836,14 @@ function a6Render(){
     });
     // K-Label am ersten Knoten, der nicht mit dem linken Achsenbereich kollidiert
     const nodesFrei=nodes.filter(function(s){ return gr.cx(s)>70; });
-    if(nodesFrei.length>=1) halo(cv.ctx,'K',gr.cx(nodesFrei[0]),gr.cy(0)+22,'#1c1a17');
+    if(nodesFrei.length>=1) halo(cv.ctx,'K',gr.cx(nodesFrei[0]),gr.cy(0)+34,'#1c1a17');   // unter der Zahlenzeile
     if(nodes.length>=2)
       dblArrow(cv.ctx,gr.cx(nodes[0]),gr.cx(nodes[1]),gr.cy(-6.9),'#1c1a17','λ/2 = '+(v.lam/2).toFixed(2)+' m');
     // Bauch-Markierung (erster Bauch ausserhalb des Achsenlabel-Bereichs)
     for(let k=1;k<24;k++){
       const sB=k*v.lam/2;
       if(sB>=A6L) break;
-      if(gr.cx(sB)>70){ halo(cv.ctx,'B',gr.cx(sB),gr.cy(7.3),'#9b1c1c'); break; }
+      if(gr.cx(sB)>gr.cx(0)+80){ halo(cv.ctx,'B',gr.cx(sB),gr.cy(7.3),'#9b1c1c'); break; }   // rechts von «y [cm]»
     }
   } else {
     // λ-Doppelpfeil zwischen zwei Bergen der laufenden Welle
@@ -1780,7 +1858,7 @@ function a6Render(){
 
   const tLo=Math.max(0,a6St.tau-6);
   const cv2=initCanvas('a6-cv-t',190,false);
-  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,tLo-0.2,tLo+6.4,-8,8);
+  const g2=gitter(cv2.ctx,cv2.W,cv2.H,tLo-0.2,tLo+6.4,-8,8);
   drawAxesUnits(cv2.ctx,cv2.W,cv2.H,g2.cx,g2.cy,'t [s]','y [cm]');
   if(a6St.hist.length>1){
     cv2.ctx.strokeStyle='#1f6b3a'; cv2.ctx.lineWidth=2.6; cv2.ctx.setLineDash([]);
@@ -1793,6 +1871,7 @@ function a6Render(){
     const last=a6St.hist[a6St.hist.length-1];
     drawDot(cv2.ctx,g2.cx,g2.cy,last[0],last[1],'#1f6b3a',5);
   }
+  zahlenFlush();
 }
 function a6Tick(dt){
   const v=a6Vals();
@@ -1847,7 +1926,7 @@ function a7Render(){
   const n=a7St.n;
   const yFn=function(s){ return A7A*Math.sin(n*Math.PI*s/L)*Math.cos(a7St.phase); };
   const cv=initCanvas('a7-cv',240,false);
-  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.1*L,L*1.12,-6,6);   // Achse folgt der Saitenlänge
+  const gr=gitter(cv.ctx,cv.W,cv.H,-0.1*L,L*1.12,-6,6,{ohneNegX:true});   // Achse folgt der Saitenlänge
   const ctx=cv.ctx;
   // Einspannungen an beiden Enden
   // Klemmen mittig auf den Endpunkten (vorher lag die linke ueber den y-Werten)
@@ -1857,12 +1936,7 @@ function a7Render(){
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=1.2;
   ctx.beginPath(); ctx.moveTo(gr.cx(0),gr.cy(5.6)); ctx.lineTo(gr.cx(0),gr.cy(-5.6)); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(gr.cx(L),gr.cy(5.6)); ctx.lineTo(gr.cx(L),gr.cy(-5.6)); ctx.stroke();
-  // drawGrid zeichnet die Achsenwerte vor der Klemme — den letzten hier
-  // wiederholen, sonst verschwindet er dahinter.
-  ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#6b7280';
-  ctx.textAlign='center'; ctx.textBaseline='top';
-  ctx.fillText(fmtTick(L, gr.stepX), gr.cx(L), gr.cy(0)+5);
-  ctx.textBaseline='alphabetic';
+  // Die Achsenwerte hinter den Klemmen setzt zahlenFlush() am Ende neu.
   // Einhüllende gestrichelt
   dashCurve(ctx,gr,function(s){return A7A*Math.sin(n*Math.PI*s/L);},0,L,'#b8c4d4',1.4);
   dashCurve(ctx,gr,function(s){return -A7A*Math.sin(n*Math.PI*s/L);},0,L,'#b8c4d4',1.4);
@@ -1876,16 +1950,17 @@ function a7Render(){
   }
   if(n>1){
     for(let k=1;k<n;k++){
-      if(gr.cx(k*L/n)>78){ halo(ctx,'Knoten',gr.cx(k*L/n),gr.cy(0)+22,'#1c1a17'); break; }
+      if(gr.cx(k*L/n)>78){ halo(ctx,'Knoten',gr.cx(k*L/n),gr.cy(0)+34,'#1c1a17'); break; }   // unter der Zahlenzeile
     }
   }
   for(let k=1;k<=n;k++){
     const sB=(2*k-1)*L/(2*n);
-    if(gr.cx(sB)>78){ halo(ctx,'Bauch',gr.cx(sB),gr.cy(5.2),'#9b1c1c'); break; }
+    if(gr.cx(sB)>gr.cx(0)+110){ halo(ctx,'Bauch',gr.cx(sB),gr.cy(5.2),'#9b1c1c'); break; }   // rechts von «y [cm]»
   }
   // λn-Doppelpfeil über eine ganze Wellenlänge (falls sie auf die Saite passt)
   if(n>=2) dblArrow(ctx,gr.cx(0),gr.cx(2*L/n),gr.cy(-5.4),'#1f6b3a','λ = '+(2*L/n).toFixed(2)+' m');
   drawAxesUnits(ctx,cv.W,cv.H,gr.cx,gr.cy,'s [m]','y [cm]');
+  zahlenFlush();
 }
 function a7Tick(dt){
   const L=+id('a7-L').value;

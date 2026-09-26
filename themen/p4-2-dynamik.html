@@ -1289,11 +1289,13 @@ function drawA1() {
   }
   ctx.lineTo(cxMid, federBot); ctx.stroke();
 
-  // Last (Gewicht)
+  // Last (Gewicht) — so breit wie ihre Beschriftung («40.0 N» ragte hinaus)
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const lastB = Math.max(44, ctx.measureText(F.toFixed(1) + ' N').width + 12);
   ctx.fillStyle = '#8a4a0e';
-  ctx.fillRect(cxMid - 22, federBot, 44, 26);
-  ctx.strokeStyle = '#5e3208'; ctx.strokeRect(cxMid - 22, federBot, 44, 26);
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillRect(cxMid - lastB / 2, federBot, lastB, 26);
+  ctx.strokeStyle = '#5e3208'; ctx.strokeRect(cxMid - lastB / 2, federBot, lastB, 26);
+  ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
   ctx.fillText(F.toFixed(1) + ' N', cxMid, federBot + 17);
 
   // Dehnungs-Massbalken rechts
@@ -1308,7 +1310,9 @@ function drawA1() {
     ctx.beginPath(); ctx.moveTo(cxMid, yEnd - 22); ctx.lineTo(xb, yEnd - 22); ctx.stroke();
     ctx.setLineDash([]);
     ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-    ctx.fillText('s = ' + s.toFixed(2) + ' m', xb + 5, (y0 + yEnd - 22) / 2 + 4);
+    const sTxt = 's = ' + s.toFixed(2) + ' m', ym = (y0 + yEnd - 22) / 2 + 4;
+    if (xb + 5 + ctx.measureText(sTxt).width <= W - 4) ctx.fillText(sTxt, xb + 5, ym);
+    else { ctx.fillText('s =', xb + 5, ym - 8); ctx.fillText(s.toFixed(2) + ' m', xb + 5, ym + 8); }  // schmal zweizeilig
   }
   if (aus) {
     ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
@@ -1341,13 +1345,6 @@ function drawA1() {
   // Flaches Dreieck (kleines D): Beschriftungen gemeinsam über der Geraden,
   // an den Schenkeln lägen sie auf der Geraden bzw. auf der Achse
   const flach = (yU - yO) < 18 || (grid.cy(0) - yU) < 24;
-  if (flach) {
-    c2.textAlign = 'center'; halo2('Δs = 0.08 m', xM, yO - 22);
-    c2.textAlign = 'left';   halo2('ΔF = ' + (D*0.08).toFixed(1) + ' N', grid.cx(sT2) + 6, yO - 22);
-  } else {
-    c2.textAlign = 'center'; halo2('Δs = 0.08 m', xM, yU + 16);
-    c2.textAlign = 'left';   halo2('ΔF = ' + (D*0.08).toFixed(1) + ' N', grid.cx(sT2) + 6, (yU + yO) / 2);
-  }
   c2.fillText('D = ΔF/Δs = ' + D + ' N/m', grid.cx(0.01), grid.cy(Fmax*0.95));
   // Aktueller Punkt — liegt er rechts ausserhalb, zeigt ein Pfeil am Rand
   // auf ihn, statt ihn an falscher Stelle zu zeichnen.
@@ -1361,6 +1358,16 @@ function drawA1() {
     drawArrow(c2, grid.cx(0.17), grid.cy(F), W2 - 4, grid.cy(F), '#9b1c1c', 2, 9);
     c2.fillStyle = '#9b1c1c'; c2.font = 'bold 13px JetBrains Mono,monospace'; c2.textAlign = 'right';
     c2.fillText('Punkt bei s = ' + s.toFixed(2) + ' m', W2 - 6, grid.cy(F) + 18);
+  }
+  // Beschriftung des Steigungsdreiecks zuletzt, mit hellem Grund: sonst
+  // laufen die Lotlinien des Punkts (bei s = 0.10 m mitten durch Δs) darüber
+  c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace';
+  if (flach) {
+    c2.textAlign = 'center'; halo2('Δs = 0.08 m', xM, yO - 22);
+    c2.textAlign = 'left';   halo2('ΔF = ' + (D*0.08).toFixed(1) + ' N', grid.cx(sT2) + 6, yO - 22);
+  } else {
+    c2.textAlign = 'center'; halo2('Δs = 0.08 m', xM, yU + 16);
+    c2.textAlign = 'left';   halo2('ΔF = ' + (D*0.08).toFixed(1) + ' N', grid.cx(sT2) + 6, (yU + yO) / 2);
   }
 }
 ['a1-D','a1-s','a1-m'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
@@ -1413,10 +1420,11 @@ function a2Render() {
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.moveTo(0, bodenY); ctx.lineTo(W, bodenY); ctx.stroke();
 
-  // Wagen-Position (x in m → px), Reserve am rechten Rand
-  const margin = 70;
-  const px = margin + (a2State.x / A2_SMAX) * (W - 2*margin - 60);
-  const wB = 56, wH = 30;
+  // Pfeilmassstab und Fahrweg an die Breite gebunden: Am Ende des Wegs muss
+  // der längste F-Pfeil (40 N) samt Beschriftung noch ins Bild passen
+  const A2_PX = Math.min(120, Math.max(50, W * 0.18));
+  const wB = 56, wH = 30, margin = Math.min(70, W * 0.08);
+  const px = margin + (a2State.x / A2_SMAX) * (W - margin - wB - A2_PX - 12 - margin * 0.3);
   const wy = bodenY - wH - 10;
 
   // Räder
@@ -1433,35 +1441,48 @@ function a2Render() {
   // a bis 40/0.5 = 80 m/s², v bis √(2·80·8) ≈ 35.8 m/s). Vorher hatten alle
   // drei Pfeile einen Sockel und v zusätzlich einen Cap — der Vergleich
   // «doppelte Kraft, doppelte Beschleunigung» war damit nicht ablesbar.
-  const A2_PX = 120;
   const fLen = F / 40 * A2_PX;
   drawArrow(ctx, px + wB, wy + wH/2, px + wB + fLen, wy + wH/2, '#1a4f8a', 2.6, 10);
-  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-  ctx.fillText('F = ' + F + ' N', px + wB + 6, wy - 4);
+  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  // F-Beschriftung über dem Wagen, rechtsbündig in der Bühne; der v-Pfeil
+  // liegt eine Zeile höher (vorher lagen beide auf derselben Höhe)
+  const fTxt = 'F = ' + F + ' N', fB = ctx.measureText(fTxt).width;
+  ctx.textAlign = 'left'; ctx.fillText(fTxt, Math.min(px + wB + 6, W - fB - 4), wy - 4);
 
   // Beschleunigungspfeil (violett) im Bodenstreifen — über den Rädern lag er
   // vorher auf der Radnabe, und proportional ist er oft nur wenige Pixel lang.
   const aLen = a / 80 * A2_PX;
   drawArrow(ctx, px + wB/2, bodenY + 22, px + wB/2 + aLen, bodenY + 22, '#5b2d8e', 2.2, 9);
-  ctx.fillStyle = '#5b2d8e'; ctx.textAlign = 'left';
-  ctx.fillText('a = ' + a.toFixed(1) + ' m/s²', px + wB/2 + aLen + 6, bodenY + 26);
+  ctx.fillStyle = '#5b2d8e';
+  const aTxt = 'a = ' + a.toFixed(1) + ' m/s²', aB = ctx.measureText(aTxt).width;
+  if (px + wB/2 + aLen + 6 + aB <= W - 4) { ctx.textAlign = 'left'; ctx.fillText(aTxt, px + wB/2 + aLen + 6, bodenY + 26); }
+  else if (px + wB/2 - 6 - aB >= 4)      { ctx.textAlign = 'right'; ctx.fillText(aTxt, px + wB/2 - 6, bodenY + 26); }
+  else { ctx.textAlign = 'right'; ctx.fillText(aTxt, W - 4, bodenY + 26); }
   // Q5: «letzter Lauf» als Gedächtnis — sonst muss man Werte im Kopf behalten
   ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillStyle = '#1a4f8a'; ctx.fillText('F = ' + F + ' N', 12, 20);
   ctx.fillStyle = '#5b2d8e'; ctx.fillText('a = ' + a.toFixed(1) + ' m/s²', 12, 38);
   if (a2Letzt) {
     ctx.fillStyle = '#8a8478'; ctx.font = '13px JetBrains Mono,monospace';
-    ctx.fillText('letzter Lauf: F = ' + a2Letzt.F + ' N, m = ' + a2Letzt.m.toFixed(1)
-                 + ' kg → a = ' + a2Letzt.a.toFixed(1) + ' m/s², Zeit für '
-                 + A2_SMAX + ' m: ' + a2Letzt.t.toFixed(2) + ' s', 12, 58);
+    // Strichpunkt statt Komma als Trenner (Regel 2); schmal umbrechen
+    const teile = ['letzter Lauf: F = ' + a2Letzt.F + ' N;', 'm = ' + a2Letzt.m.toFixed(1) + ' kg',
+                   '→ a = ' + a2Letzt.a.toFixed(1) + ' m/s²;', 'Zeit für ' + A2_SMAX + ' m: ' + a2Letzt.t.toFixed(2) + ' s'];
+    let z = '', zy = 58;
+    for (const t of teile) {
+      const probe = z ? z + ' ' + t : t;
+      if (ctx.measureText(probe).width > W - 24 && z) { ctx.fillText(z, 12, zy); zy += 16; z = t; } else z = probe;
+    }
+    ctx.fillText(z, 12, zy);
   }
 
   // Geschwindigkeitspfeil (grün) über dem Wagen
   if (a2State.v > 0.05) {
     const vLen = a2State.v / 35.8 * A2_PX;
-    drawArrow(ctx, px + wB/2, wy - 16, px + wB/2 + vLen, wy - 16, '#1f6b3a', 2.2, 9);
-    ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'left';
-    ctx.fillText('v', px + wB/2 + vLen + 4, wy - 12);
+    drawArrow(ctx, px + wB/2, wy - 26, px + wB/2 + vLen, wy - 26, '#1f6b3a', 2.2, 9);
+    ctx.fillStyle = '#1f6b3a';
+    const vx = px + wB/2 + vLen + 4;
+    if (vx + 10 <= W - 4) { ctx.textAlign = 'left'; ctx.fillText('v', vx, wy - 22); }
+    else { ctx.textAlign = 'right'; ctx.fillText('v', px + wB/2 - 4, wy - 22); }
   }
 }
 function a2Tick(ts) {
@@ -1561,8 +1582,9 @@ function a3Render() {
   const ladeY = bodenY - px(2.7), ladeH = px(1.9), ladeL = px(A3_LADE), wand = px(A3_WAND);
   // Räder
   ctx.fillStyle = '#23201d';
-  ctx.beginPath(); ctx.arc(wx + px(1.0), bodenY - px(0.23), px(0.42), 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(wx + ladeL + px(0.5), bodenY - px(0.23), px(0.42), 0, Math.PI*2); ctx.fill();
+  // Radmitte einen Radius über der Strasse: die Räder stehen auf ihr, nicht darin
+  ctx.beginPath(); ctx.arc(wx + px(1.0), bodenY - px(0.42), px(0.42), 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(wx + ladeL + px(0.5), bodenY - px(0.42), px(0.42), 0, Math.PI*2); ctx.fill();
   // Ladefläche (offen, mit Bordwand vorne und hinten)
   ctx.fillStyle = '#c9d2da'; ctx.fillRect(wx, ladeY, ladeL, ladeH);
   ctx.strokeStyle = '#6b7680'; ctx.lineWidth = 2; ctx.strokeRect(wx, ladeY, ladeL, ladeH);
@@ -1997,6 +2019,11 @@ function a6Render() {
     if (Math.abs(a6State.v2) > 0.05)
       drawArrow(ctx, cx2 + w2/2, wy - 12, cx2 + w2/2 + Math.abs(a6State.v2)/A6_VMAX*A6_PX, wy - 12, '#1f6b3a', 2.4, 9);
   }
+  // Am Bildrand anhalten, bevor ein Wagen oder sein Pfeil verschwindet
+  // (vorher erst bei ±5 m = 180 px — bei 360 px längst ausserhalb)
+  const linksAussen  = Math.min(cx1 - w1, cx1 - w1/2 - Math.abs(a6State.v1)/(A6_P / 1)*96);
+  const rechtsAussen = Math.max(cx2 + w2, cx2 + w2/2 + Math.abs(a6State.v2)/(A6_P / 1)*96);
+  a6State.amRand = linksAussen <= 4 || rechtsAussen >= W - 4;
 
   // Produkte m·|v| beidseitig — actio = reactio wird damit quantitativ:
   // beide Wagen tragen denselben Impulsbetrag, obwohl die Tempi verschieden sind.
@@ -2045,7 +2072,7 @@ function a6Tick(ts) {
   a6State.x2 += a6State.v2 * dt;
   a6Render();
   // stoppen, wenn ein Wagen den Rand erreicht
-  if (a6State.x1 < -5 || a6State.x2 > 5) { a6State.phase = 'done';
+  if (a6State.amRand || a6State.x1 < -5 || a6State.x2 > 5) { a6State.phase = 'done';
     document.getElementById('a6-btn').textContent = '▶ Loslassen';
     document.getElementById('a6-btn').classList.remove('paused');
     return;

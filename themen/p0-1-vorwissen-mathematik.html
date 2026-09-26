@@ -2244,7 +2244,7 @@ function drawA3() {
   ctx.strokeStyle='#c2bdb4'; ctx.lineWidth=1; ctx.strokeRect(bx, byTop, bwB, byBot-byTop);
   ctx.fillStyle='#1a4f8a'; ctx.fillRect(bx, yL(V*1000), bwB, byBot-yL(V*1000));
   ctx.fillStyle='#5a5040'; ctx.font='bold 11px "Source Sans 3",sans-serif'; ctx.textAlign='center';
-  ctx.fillText('V [L]', bx+bwB/2, byTop-8);
+  ctx.fillText('V [l]', bx+bwB/2, byTop-8);
   haloLabel(ctx, Math.round(V*1000)+' l', bx+bwB/2, Math.max(byTop+14, yL(V*1000)-6), '#1a4f8a', 'center');
   // Höhe: neben dem Pfeil, wenn bis zu den Skalenzahlen des Balkens Platz ist;
   // sonst im freien Streifen unter der Bodenlinie (die Skala endet darüber)
@@ -2257,13 +2257,17 @@ function drawA3() {
 ['a3-r','a3-h'].forEach(id => document.getElementById(id).addEventListener('input', drawA3));
 
 // ══════════════ ANIMATION 8 — Kreis, Winkel, Bogenmass ══════════════
+// Der Knopf «genau 1 rad» braucht 180°/π = 57.2958°; der Regler läuft in ganzen
+// Grad und rastet auf 57° ein (0.995 rad). Darum wird der exakte Winkel gemerkt,
+// bis der Regler wieder bewegt wird.
+let a4Exakt = null;
 function drawA4() {
-  const phiDeg = +document.getElementById('a4-phi').value;
+  const phiDeg = a4Exakt !== null ? a4Exakt : +document.getElementById('a4-phi').value;
   const r      = +document.getElementById('a4-r').value;
   const phi = phiDeg * Math.PI / 180;
   const s = r * phi;
   const U = 2 * Math.PI * r;
-  document.getElementById('a4-phi-val').textContent  = phiDeg + '°';
+  document.getElementById('a4-phi-val').textContent  = (Number.isInteger(phiDeg) ? phiDeg : phiDeg.toFixed(1)) + '°';
   document.getElementById('a4-r-val').textContent    = r.toFixed(1) + ' m';
   document.getElementById('a4-live-rad').textContent = phi.toFixed(3) + ' rad';
   document.getElementById('a4-live-s').textContent   = s.toFixed(2) + ' m';
@@ -2274,12 +2278,15 @@ function drawA4() {
   // Quadratisches Canvas wie Animation 5 in p4-1
   const el = document.getElementById('a4-cv'); el.style.width = '';
   const w = el.offsetWidth || 600;
-  const cv = initCanvas('a4-cv', Math.max(240, Math.min(340, Math.round(w))), false);
+  // Oben ein eigener Streifen für die Umfangszeile: bei r = 2 m reicht der
+  // Kreis sonst bis an den oberen Rand und die Zeile läge auf ihm.
+  const TOP = 26;
+  const cv = initCanvas('a4-cv', Math.max(240, Math.min(340, Math.round(w))) + TOP, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
   const BAND = 62;                   // unteres Vergleichsband r gegen s
-  const cxC = W / 2, cyC = (H - BAND) / 2;
-  const S = Math.min(W, H - BAND);
+  const cxC = W / 2, cyC = TOP + (H - TOP - BAND) / 2;
+  const S = Math.min(W, H - TOP - BAND);
   const scale = (S / 2 - 12) / 2;    // 1:1 — r bis 2 m bleibt mit Rand im Bild
   const R = r * scale;
 
@@ -2305,15 +2312,22 @@ function drawA4() {
   ctx.beginPath(); ctx.arc(cxC, cyC, 22, 0, -phi, true); ctx.stroke();
   // Labels: phi, r, s (mit Halo, Rand-sicher zentriert innen)
   let a4PhiBox = null;               // Fläche des φ-Labels, für den Bogentext
+  let a4SImBand = false;
   if (phiDeg > 12) {
-    const mid = phi / 2;
-    // Text vom Mittelpunkt WEG ausrichten: zeigt die Winkelhalbierende nach links
-    // (φ > 180°), liefe ein linksbündiger Text über Mittelpunkt und Radius
-    const links = Math.cos(mid) < 0;
-    const fx = cxC + 38 * Math.cos(mid) + (links ? -12 : 12), fy = cyC - 38 * Math.sin(mid) + 4;
-    haloLabel(ctx, 'φ = ' + phiDeg + '°', fx, fy, '#1f6b3a', links ? 'right' : 'left');
     ctx.font = 'bold 13px JetBrains Mono,monospace';
-    const fw = ctx.measureText('φ = ' + phiDeg + '°').width;
+    const fTxt = 'φ = ' + (Number.isInteger(phiDeg) ? phiDeg : phiDeg.toFixed(1)) + '°', fw = ctx.measureText(fTxt).width;
+    let fx, fy, links;
+    if (phiDeg <= 180) {
+      // unter dem Startarm: dort liegt kein Bogen (er läuft von 0° nach oben),
+      // höchstens der gestrichelte Kreis
+      links = false; fx = cxC + 14; fy = cyC + 18;
+    } else {
+      // Winkelhalbierende zeigt nach links: Text vom Mittelpunkt weg ausrichten
+      const mid = phi / 2;
+      links = Math.cos(mid) < 0;
+      fx = cxC + 38 * Math.cos(mid) + (links ? -12 : 12); fy = cyC - 38 * Math.sin(mid) + 4;
+    }
+    haloLabel(ctx, fTxt, fx, fy, '#1f6b3a', links ? 'right' : 'left');
     a4PhiBox = {x: links ? fx - fw - 2 : fx - 2, y: fy - 11, w: fw + 4, h: 14};
   }
   haloLabel(ctx, 'r', cxC + 0.55 * R * Math.cos(phi) - 12, cyC - 0.55 * R * Math.sin(phi) - 6, '#5b2d8e', 'center');
@@ -2323,15 +2337,38 @@ function drawA4() {
     const sTxt = 's = ' + s.toFixed(2) + ' m';
     ctx.font = 'bold 13px JetBrains Mono,monospace';
     const sw = ctx.measureText(sTxt).width;
-    const lage = f => { const am = phi * f;
-      const x = Math.min(Math.max(cxC + (R + 16) * Math.cos(am), sw/2 + 4), W - sw/2 - 4);
-      const y = cyC - (R + 16) * Math.sin(am) + 4;
-      return {x, y, box: {x: x - sw/2 - 2, y: y - 11, w: sw + 4, h: 14}}; };
-    const frei = L => L.box.y >= 26 && L.box.y + L.box.h <= H - BAND &&
-      !(a4PhiBox && L.box.x < a4PhiBox.x + a4PhiBox.w &&
-        a4PhiBox.x < L.box.x + L.box.w && L.box.y < a4PhiBox.y + a4PhiBox.h && a4PhiBox.y < L.box.y + L.box.h);
-    const L = [0.6, 0.35, 0.8, 0.2, 0.5].map(lage).find(frei) || lage(0.6);
-    haloLabel(ctx, sTxt, L.x, L.y, '#8a4a0e', 'center');
+    // Die Ecke der Beschriftung, die zum Mittelpunkt zeigt, liegt 10 px ausserhalb
+    // des Kreises — so berührt der Text weder Bogen noch Kreis.
+    const lage = f => { const am = phi * f, c = Math.cos(am), sn = Math.sin(am);
+      const qx = cxC + (R + 10) * c, qy = cyC - (R + 10) * sn;
+      let bx = c >= 0 ? qx : qx - sw, by = sn >= 0 ? qy - 14 : qy;
+      bx = Math.min(Math.max(bx, 4), W - sw - 4);
+      return {x: bx + sw / 2, y: by + 11, box: {x: bx - 2, y: by, w: sw + 4, h: 14}}; };
+    const ueberlapp = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+    // Kreis nach dem Randschieben erneut prüfen (nächster Boxpunkt zum Zentrum)
+    const imKreis = b => { const nx = Math.max(b.x, Math.min(cxC, b.x + b.w)), ny = Math.max(b.y, Math.min(cyC, b.y + b.h));
+      return Math.hypot(nx - cxC, ny - cyC) < R + 4; };
+    const punkt = {x: px - 9, y: py - 9, w: 18, h: 18};
+    const frei = L => L.box.y >= TOP && L.box.y + L.box.h <= H - BAND && !imKreis(L.box) &&
+      !ueberlapp(L.box, punkt) && !(a4PhiBox && ueberlapp(L.box, a4PhiBox));
+    // Reicht aussen der Platz nicht (grosser Kreis auf schmalem Bildschirm), steht
+    // die Beschriftung innen am Bogen: die äussere Ecke 10 px innerhalb des Kreises.
+    const innen = f => { const am = phi * f, c = Math.cos(am), sn = Math.sin(am);
+      const qx = cxC + (R - 10) * c, qy = cyC - (R - 10) * sn;
+      const bx = c >= 0 ? qx - sw : qx, by = sn >= 0 ? qy : qy - 14;
+      return {x: bx + sw / 2, y: by + 11, box: {x: bx - 2, y: by, w: sw + 4, h: 14}}; };
+    const zentrum = {x: cxC - 26, y: cyC - 26, w: 52, h: 52};    // Winkelbogen und Mitte
+    const armFrei = b => { // Radiusarm als Strecke gegen die Box (grob, 12 Stützpunkte)
+      for (let i = 0; i <= 12; i++) { const x = cxC + (px - cxC) * i / 12, y = cyC + (py - cyC) * i / 12;
+        if (x > b.x - 3 && x < b.x + b.w + 3 && y > b.y - 3 && y < b.y + b.h + 3) return false; } return true; };
+    const freiInnen = L => L.box.x >= 2 && L.box.x + L.box.w <= W - 2 && L.box.y >= TOP &&
+      !ueberlapp(L.box, punkt) && !ueberlapp(L.box, zentrum) && armFrei(L.box) &&
+      !(a4PhiBox && ueberlapp(L.box, a4PhiBox));
+    const L = [0.5, 0.3, 0.7, 0.15, 0.85].map(lage).find(frei)
+           || [0.5, 0.3, 0.7, 0.15, 0.85].map(innen).find(freiInnen);
+    // Kein Platz am Bogen (grosser Kreis auf schmalem Bildschirm): der Wert
+    // steht dann unten im Vergleichsband bei «Bogen s».
+    if (L) haloLabel(ctx, sTxt, L.x, L.y, '#8a4a0e', 'center'); else a4SImBand = true;
   }
   // Punkt auf dem Kreis + Zentrum
   ctx.fillStyle = '#8a4a0e';
@@ -2352,7 +2389,10 @@ function drawA4() {
   ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 4;
   ctx.beginPath(); ctx.moveTo(14, yR); ctx.lineTo(14 + R, yR); ctx.stroke();
   ctx.lineWidth = 1;
-  haloLabel(ctx, 'Bogen s', 14 + sPx + 8, yS + 4, '#8a4a0e', 'left');
+  const bTxt = a4SImBand ? 'Bogen s = ' + s.toFixed(2) + ' m' : 'Bogen s';
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  if (14 + sPx + 8 + ctx.measureText(bTxt).width <= W - 4) haloLabel(ctx, bTxt, 14 + sPx + 8, yS + 4, '#8a4a0e', 'left');
+  else haloLabel(ctx, bTxt, 14, yS - 10, '#8a4a0e', 'left');   // über dem Balken
   haloLabel(ctx, 'Radius r', 14 + R + 8, yR + 4, '#5b2d8e', 'left');
   if (Math.abs(phi - 1) < 0.02) {
     haloLabel(ctx, 's = r  →  φ = 1 rad', W - 10, yS - 16, '#1f6b3a', 'right');
@@ -2361,10 +2401,12 @@ function drawA4() {
 ['a4-phi','a4-r'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
 document.querySelectorAll('[data-a4phi]').forEach(b => b.addEventListener('click', () => {
   document.getElementById('a4-phi').value = b.dataset.a4phi;
+  a4Exakt = b.dataset.a4phi === '57.3' ? 180 / Math.PI : null;
   document.querySelectorAll('[data-a4phi]').forEach(x => x.classList.toggle('aktiv', x === b));
   drawA4();
 }));
 document.getElementById('a4-phi').addEventListener('input', () => {
+  a4Exakt = null; drawA4();
   document.querySelectorAll('[data-a4phi]').forEach(x => x.classList.remove('aktiv'));
 });
 
@@ -2931,11 +2973,33 @@ function drawB1() {
   cv.ctx.setLineDash([]);
   drawDot(cv.ctx, gr.cx, gr.cy, m, xcm, '#8a4a0e', 6);
 
-  lbl(cv.ctx, cv.W, 'x = m·g/D', gr.cx(1.45) + 8, gr.cy(1.45 * g / D * 100) - 8, '#8a4a0e', 'left');
+  // Beschriftungen oberhalb/links der steigenden Geraden: dort liegt keine
+  // Linie. Die Kurvenbeschriftung weicht dem Punkt aus.
+  cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const pxKg = gr.cx(1) - gr.cx(0);
+  // zuerst der Punkt: oben links von ihm (über der steigenden Geraden), bei
+  // kleiner Masse rechts darüber, schmal und steil als Zeile oben links
+  let obenZeile = false;
   if (m > 0.05) {
-    lbl(cv.ctx, cv.W, m.toFixed(1) + ' kg → ' + xcm.toFixed(1) + ' cm',
-        gr.cx(m) + 10, gr.cy(xcm) + 18, '#5a5040', 'left');
+    const pt = m.toFixed(1) + ' kg → ' + xcm.toFixed(1) + ' cm';
+    const pw = cv.ctx.measureText(pt).width;
+    if (gr.cx(m) - 10 - pw >= gr.cx(0) + 30) {
+      lbl(cv.ctx, cv.W, pt, gr.cx(m) - 10, gr.cy(xcm) - 10, '#5a5040', 'right');
+    } else {
+      const mEnd = m + (10 + pw + 4) / pxKg;
+      const yR = Math.min(gr.cy(xcm) - 10, gr.cy(mEnd * g / D * 100) - 6);
+      if (yR >= gr.cy(xcm) - 60) lbl(cv.ctx, cv.W, pt, gr.cx(m) + 10, yR, '#5a5040', 'left');
+      else { lbl(cv.ctx, cv.W, pt, gr.cx(0) + 60, gr.cy(yTop * 0.93), '#5a5040', 'left'); obenZeile = true; }
+    }
   }
+  // dann die Gerade: rechtsbündig über ihr, ohne die y-Zahlen, weg vom Punkt
+  // und — steht die Punktzeile oben — nicht ganz oben
+  cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const kw = cv.ctx.measureText('x = m·g/D').width;
+  const mFit = (36 + kw + 6) / pxKg;
+  const kand = [1.45, 1.9, 0.75].filter(x => x >= mFit && !(obenZeile && x * g / D * 100 > yTop * 0.75));
+  const ma = kand.find(x => Math.abs(m - x) > 0.4) || kand[kand.length - 1] || 1.45;
+  lbl(cv.ctx, cv.W, 'x = m·g/D', gr.cx(ma) - 6, gr.cy(ma * g / D * 100) - 6, '#8a4a0e', 'right');
 }
 document.getElementById('b1-m').addEventListener('input', drawB1);
 
@@ -3031,9 +3095,9 @@ function drawB3() {
   const preis = B3_EK * m;
   document.getElementById('b3-m-val').textContent = m.toFixed(1) + ' kg';
   document.getElementById('b3-preis').textContent = preis.toFixed(2) + ' CHF';
-  flTex('b3-eq1', ['\\text{Schritt 1, auf 1 zurück:}', 'p = \\frac{K}{m}', '= \\frac{' + texE('7.50','CHF') + '}{' + texE(3,'kg') + '}',
+  flTex('b3-eq1', ['\\text{Schritt 1, auf 1 zurück:}\\;\\;', 'p = \\frac{K}{m}', '= \\frac{' + texE('7.50','CHF') + '}{' + texE(3,'kg') + '}',
                    '= ' + texE(B3_EK.toFixed(2),'CHF/kg')]);
-  flTex('b3-eq2', ['\\text{Schritt 2, hochrechnen:}', 'K = m\\cdot p', '= ' + texE(m.toFixed(1),'kg') + '\\cdot ' + texE(B3_EK.toFixed(2),'CHF/kg'),
+  flTex('b3-eq2', ['\\text{Schritt 2, hochrechnen:}\\;\\;', 'K = m\\cdot p', '= ' + texE(m.toFixed(1),'kg') + '\\cdot ' + texE(B3_EK.toFixed(2),'CHF/kg'),
                    '= ' + texE(preis.toFixed(2),'CHF')]);
 
   const mMax = 6;
@@ -3052,7 +3116,6 @@ function drawB3() {
   // stehen dann als Liste oben links (dort ist frei: die längste Zeile endet bei
   // etwa 4.3 kg, wo die Gerade erst bei 10.8 CHF liegt), in den Farben ihrer Punkte.
   const b3Schmal = cv.W < 520;
-  if (!b3Schmal) lbl(cv.ctx, cv.W, 'auf 1 zurück: 1 kg → 2.50 CHF', gr.cx(1) + 10, gr.cy(B3_EK) - 10, '#5b2d8e', 'left');
 
   // Ursprungsgerade
   cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
@@ -3065,7 +3128,8 @@ function drawB3() {
   cv.ctx.beginPath();
   cv.ctx.arc(gr.cx(3), gr.cy(7.5), 7, 0, 2 * Math.PI);
   cv.ctx.stroke();
-  if (!b3Schmal) lbl(cv.ctx, cv.W, 'gegeben: 3 kg → 7.50 CHF', gr.cx(3) - 12, gr.cy(7.5) - 10, '#1f6b3a', 'right');
+  // unter der Geraden rechts vom Ring ist frei (die Gerade steigt)
+  if (!b3Schmal) lbl(cv.ctx, cv.W, 'gegeben: 3 kg → 7.50 CHF', gr.cx(3) + 12, gr.cy(7.5) + 18, '#1f6b3a', 'left');
 
   // Zielmengen-Punkt
   drawDot(cv.ctx, gr.cx, gr.cy, m, preis, '#8a4a0e', 6);
@@ -3078,7 +3142,25 @@ function drawB3() {
     lbl(cv.ctx, cv.W, '1 kg → 2.50 CHF', x0, 51, '#5b2d8e', 'left');
     lbl(cv.ctx, cv.W, zielTxt, x0, 68, '#8a4a0e', 'left');
   } else {
-    lbl(cv.ctx, cv.W, zielTxt, gr.cx(m) + 10, gr.cy(preis) + 20, '#5a5040', 'left');
+    // «auf 1 zurück» links oben über der Geraden; die Grundlinie so hoch, dass
+    // auch das rechte Textende (die engste Stelle) über der Geraden liegt.
+    const pxKg = gr.cx(1) - gr.cx(0), x0 = gr.cx(0) + 30;   // rechts der y-Zahlen
+    const ueber = (txt, yMax) => {
+      cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
+      const mEnd = (x0 + cv.ctx.measureText(txt).width + 4 - gr.cx(0)) / pxKg;
+      return Math.min(yMax, gr.cy(B3_EK * mEnd) - 6);
+    };
+    const y1 = ueber('auf 1 zurück: 1 kg → 2.50 CHF', gr.cy(B3_EK) - 10);
+    lbl(cv.ctx, cv.W, 'auf 1 zurück: 1 kg → 2.50 CHF', x0, y1, '#5b2d8e', 'left');
+    // Zielpunkt: nahe der Achse über «auf 1 zurück» gestapelt (unten stehen die
+    // Achsenzahlen), beim gegebenen Punkt oder am rechten Rand oben links vom
+    // Punkt, sonst unter der Geraden rechts vom Punkt.
+    cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
+    const zw = cv.ctx.measureText(zielTxt).width;
+    if (m < 1.6) lbl(cv.ctx, cv.W, zielTxt, x0, ueber(zielTxt, y1 - 18), '#5a5040', 'left');
+    else if (Math.abs(m - 3) < 0.6 || gr.cx(m) + 10 + zw > cv.W - 4)
+      lbl(cv.ctx, cv.W, zielTxt, gr.cx(m) - 24, gr.cy(preis) - 10, '#5a5040', 'right');
+    else lbl(cv.ctx, cv.W, zielTxt, gr.cx(m) + 10, gr.cy(preis) + 20, '#5a5040', 'left');
   }
 }
 document.getElementById('b3-m').addEventListener('input', drawB3);
@@ -3136,8 +3218,13 @@ function drawB4() {
   cv.ctx.moveTo(gr.cx(0), gr.cy(d)); cv.ctx.lineTo(gr.cx(tEnd), gr.cy(d + vB * tEnd));
   cv.ctx.stroke();
 
-  lbl(cv.ctx, cv.W, 'A', gr.cx(tEnd * 0.55), gr.cy(vA * tEnd * 0.55) - 8, '#8a4a0e', 'center');
-  lbl(cv.ctx, cv.W, 'B', gr.cx(tEnd * 0.55), gr.cy(d + vB * tEnd * 0.55) - 8, '#1a4f8a', 'center');
+  // Die obere Gerade wird oberhalb, die untere unterhalb beschriftet; liegen
+  // beide an der Stelle eng beieinander, rückt B nach rechts.
+  const tL = tEnd * 0.55, yA = gr.cy(vA * tL), yB = gr.cy(d + vB * tL);
+  const aOben = yA <= yB;
+  lbl(cv.ctx, cv.W, 'A', gr.cx(tL), aOben ? yA - 8 : yA + 18, '#8a4a0e', 'center');
+  const tB = Math.abs(yA - yB) < 30 ? tEnd * 0.8 : tL, yB2 = gr.cy(d + vB * tB);
+  lbl(cv.ctx, cv.W, 'B', gr.cx(tB), aOben ? yB2 + 18 : yB2 - 8, '#1a4f8a', 'center');
 
   if (catches) {
     // Hilfslinien + Einholpunkt
@@ -3148,10 +3235,21 @@ function drawB4() {
     cv.ctx.stroke();
     cv.ctx.setLineDash([]);
     drawDot(cv.ctx, gr.cx, gr.cy, tStar, sStar, '#9b1c1c', 6);
-    lbl(cv.ctx, cv.W, 't* = ' + fmt(tStar) + ' s, s* = ' + fmt(sStar) + ' m',
-        gr.cx(tStar) - 10, gr.cy(sStar) - 12, '#9b1c1c', 'right');
+    // Werte oben links im Diagramm: dort ist immer frei (beide Geraden starten
+    // unter 100 m). Am Punkt selbst kreuzte die Zeile beide Geraden; die
+    // gestrichelten Ablesehilfen verbinden Punkt und Achsen.
+    const wert = 't* = ' + fmt(tStar) + ' s; s* = ' + fmt(sStar) + ' m';
+    const x0 = gr.cx(0) + 60;             // rechts vom Achsentitel «s [m]»
+    if (tStar > tEnd) {
+      lbl(cv.ctx, cv.W, 'Einholpunkt (ausserhalb):', x0, 26, '#9b1c1c', 'left');
+      lbl(cv.ctx, cv.W, wert, x0, 43, '#9b1c1c', 'left');
+    } else {
+      lbl(cv.ctx, cv.W, 'Einholpunkt:', x0, 26, '#9b1c1c', 'left');
+      lbl(cv.ctx, cv.W, wert, x0, 43, '#9b1c1c', 'left');
+    }
   } else {
-    lbl(cv.ctx, cv.W, 'v_A ≤ v_B — A holt nie ein', cv.W / 2, 26, '#9b1c1c', 'center');
+    lbl(cv.ctx, cv.W, 'A ist nicht schneller als B:', cv.W / 2, 26, '#9b1c1c', 'center');
+    lbl(cv.ctx, cv.W, 'A holt nie ein', cv.W / 2, 43, '#9b1c1c', 'center');
   }
 }
 ['b4-va','b4-vb','b4-d'].forEach(id => document.getElementById(id).addEventListener('input', drawB4));

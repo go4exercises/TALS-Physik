@@ -1674,6 +1674,76 @@ function drawSekante() {
 ['sek-t0','sek-dt'].forEach(id => document.getElementById(id).addEventListener('input', drawSekante));
 
 // ══════════════ ANIMATION 1 ══════════════
+// ══════════════ Beschriftungs-Helfer (Animation 1 und 2) ══════════════
+// Skalenzahlen nach dem Zeichnen noch einmal setzen, mit hellem Grund —
+// sonst überdecken Kurven und Flächen sie. Lage wie in drawGrid (physiklib).
+function tickHalo(c, W, H, g, xMin, xMax, yMin, yMax) {
+  const xAchse = (yMin <= 0 && 0 <= yMax) ? g.cy(0) : (yMin > 0 ? g.cy(yMin) : g.cy(yMax));
+  const yAchse = (xMin <= 0 && 0 <= xMax) ? g.cx(0) : (xMin > 0 ? g.cx(xMin) : g.cx(xMax));
+  const belegt = [{ l: yAchse, r: yAchse + 100, o: 0, u: 20 },          // y-Achsentitel
+                  { l: W - 70, r: W, o: xAchse - 22, u: xAchse }];        // x-Achsentitel
+  c.save();
+  c.font = '13px JetBrains Mono,monospace'; c.fillStyle = '#6b7280';
+  c.strokeStyle = '#fff'; c.lineWidth = 3; c.lineJoin = 'round';
+  const unten = (H - xAchse) >= 18;
+  c.textAlign = 'center'; c.textBaseline = unten ? 'top' : 'bottom';
+  for (let v = Math.ceil(xMin / g.stepX) * g.stepX; v <= xMax + g.stepX * 1e-6; v += g.stepX) {
+    if (Math.abs(v) < g.stepX * 1e-6 || g.cx(v) < 14 || g.cx(v) > W - 72) continue;
+    const t = fmtTick(v, g.stepX), y = xAchse + (unten ? 5 : -5), b = c.measureText(t).width;
+    c.strokeText(t, g.cx(v), y); c.fillText(t, g.cx(v), y);
+    belegt.push({ l: g.cx(v) - b / 2 - 2, r: g.cx(v) + b / 2 + 2, o: unten ? y : y - 15, u: unten ? y + 15 : y });
+  }
+  c.textBaseline = 'middle';
+  const ys = [];
+  for (let v = Math.ceil(yMin / g.stepY) * g.stepY; v <= yMax + g.stepY * 1e-6; v += g.stepY)
+    if (Math.abs(v) >= g.stepY * 1e-6) ys.push(v);
+  const maxB = Math.max(0, ...ys.map(v => c.measureText(fmtTick(v, g.stepY)).width));
+  const links = yAchse >= maxB + 8;
+  c.textAlign = links ? 'right' : 'left';
+  for (const v of ys) {
+    if (g.cy(v) < 22 || g.cy(v) > H - 6) continue;
+    const t = fmtTick(v, g.stepY), x = links ? yAchse - 5 : yAchse + 5, b = c.measureText(t).width;
+    c.strokeText(t, x, g.cy(v)); c.fillText(t, x, g.cy(v));
+    belegt.push({ l: links ? x - b - 2 : x - 2, r: links ? x + 2 : x + b + 2, o: g.cy(v) - 9, u: g.cy(v) + 9 });
+  }
+  c.restore();
+  return belegt;
+}
+// Erste Lage aus kand, die ganz im Canvas liegt und von keiner Strecke
+// [x1, y1, x2, y2] berührt wird. y ist die Grundlinie; align wie textAlign.
+// belegt: Rechtecke {l, r, o, u}, die frei bleiben müssen (Zahlen, Achsentitel).
+// Ist keine Lage ganz frei, gewinnt die mit den wenigsten Berührungen.
+function freieLage(c, txt, kand, strecken, W, H, belegt) {
+  const tb = c.measureText(txt).width;
+  let best = kand[0], bestWert = Infinity;
+  for (const k of kand) {
+    const x0 = k.align === 'right' ? k.x - tb : k.align === 'center' ? k.x - tb / 2 : k.x;
+    const l = x0 - 3, r = x0 + tb + 3, o = k.y - 15, u = k.y + 4;
+    if (l < 0 || r > W || o < 0 || u > H) continue;
+    let wert = 20 * (belegt || []).filter(h => !(h.r < l || h.l > r || h.u < o || h.o > u)).length;
+    for (const [x1, y1, x2, y2] of strecken) {
+      const n = Math.max(2, Math.ceil(Math.hypot(x2 - x1, y2 - y1) / 3));
+      for (let i = 0; i <= n; i++) {
+        const x = x1 + (x2 - x1) * i / n, y = y1 + (y2 - y1) * i / n;
+        if (x >= l && x <= r && y >= o && y <= u) wert++;
+      }
+    }
+    if (wert === 0) return k;
+    if (wert < bestWert) { bestWert = wert; best = k; }
+  }
+  return best;
+}
+// Raster aus Ersatzlagen über die ganze Fläche, nach den bevorzugten Lagen zu prüfen
+function rasterLagen(W, H, links) {
+  const r = [];
+  for (let y = 36; y <= H - 16; y += 16)
+    r.push({ x: links, y, align: 'left' }, { x: W / 2, y, align: 'center' }, { x: W - 6, y, align: 'right' });
+  return r;
+}
+function haloText(c, txt, x, y) {
+  c.save(); c.strokeStyle = '#fff'; c.lineWidth = 4; c.lineJoin = 'round';
+  c.strokeText(txt, x, y); c.restore(); c.fillText(txt, x, y);
+}
 function drawA1() {
   const v  = +document.getElementById('a1-v').value;
   const s0 = +document.getElementById('a1-s0').value;
@@ -1713,10 +1783,18 @@ function drawA1() {
   cv1.ctx.moveTo(g1.cx(0), g1.cy(s0 + A)); cv1.ctx.lineTo(g1.cx(t), g1.cy(s0 + A)); cv1.ctx.stroke();
   cv1.ctx.setLineDash([]);
   drawDot(cv1.ctx, g1.cx, g1.cy, t, s0 + A, '#8a4a0e', 6);
+  const bs = tickHalo(cv1.ctx, cv1.W, cv1.H, g1, -1, tMax + 1, sLo, sHi);
   cv1.ctx.fillStyle = '#8a4a0e'; cv1.ctx.font = 'bold 13px JetBrains Mono,monospace';
-  cv1.ctx.textAlign = 'left';
-  cv1.ctx.fillText('s = ' + fmt(s0 + A) + ' m',
-                   Math.min(g1.cx(t) + 8, cv1.W - 110), g1.cy(s0 + A) - 8);
+  {
+    const txt = 's = ' + fmt(s0 + A) + ' m', px = g1.cx(t), py = g1.cy(s0 + A);
+    const k = freieLage(cv1.ctx, txt, [
+      { x: px + 10, y: py - 10, align: 'left' },  { x: px + 10, y: py + 20, align: 'left' },
+      { x: px - 10, y: py - 10, align: 'right' }, { x: px - 10, y: py + 20, align: 'right' },
+      ...rasterLagen(cv1.W, cv1.H, g1.cx(0) + 8)],
+      [[g1.cx(0), g1.cy(s0), g1.cx(tMax), g1.cy(sEnd)], [px, g1.cy(0), px, py], [g1.cx(0), py, px, py]],
+      cv1.W, cv1.H, bs);
+    cv1.ctx.textAlign = k.align; haloText(cv1.ctx, txt, k.x, k.y);
+  }
 
   // v-t Diagramm — Linie horizontal bei v
   const vLo = Math.min(v, 0) - 5;
@@ -1750,21 +1828,25 @@ function drawA1() {
   cv2.ctx.strokeStyle = '#1f6b3a88'; cv2.ctx.lineWidth = 1; cv2.ctx.setLineDash([3, 3]);
   cv2.ctx.beginPath(); cv2.ctx.moveTo(g2.cx(t), g2.cy(0)); cv2.ctx.lineTo(g2.cx(t), g2.cy(v));
   cv2.ctx.stroke(); cv2.ctx.setLineDash([]);
+  tickHalo(cv2.ctx, cv2.W, cv2.H, g2, -1, tMax + 1, vLo, vHi);
 }
 ['a1-v','a1-s0','a1-t'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
 
 // ══════════════ ANIMATION 2 ══════════════
 // Beschriftet eine eingefärbte Fläche: mittig hinein, wenn sie breit genug ist,
 // sonst rechts daneben über der Kurve.
-function flaechenLabel(cv, g, t, txt, yMitte, yOben, farbe) {
+// strecken: Linien, die die Beschriftung nicht berühren darf (Kurve, Flächenrand).
+function flaechenLabel(cv, g, t, txt, yMitte, yOben, farbe, strecken, belegt) {
   const c = cv.ctx, breite = g.cx(t) - g.cx(0);
   c.font = 'bold 13px JetBrains Mono,monospace'; c.fillStyle = farbe;
-  const tw = c.measureText(txt).width;
-  if (tw < breite - 10) { c.textAlign = 'center'; c.fillText(txt, (g.cx(0) + g.cx(t)) / 2, yMitte + 4); }
-  else {
-    c.textAlign = 'left';
-    c.fillText(txt, Math.min(g.cx(t) + 6, cv.W - tw - 4), Math.max(yOben - 8, 14));
-  }
+  const tw = c.measureText(txt).width, mx = (g.cx(0) + g.cx(t)) / 2;
+  const kand = [];
+  if (tw < breite - 10) kand.push({ x: mx, y: yMitte + 4, align: 'center' });
+  const xr = Math.min(g.cx(t) + 6, cv.W - tw - 4);
+  for (const dy of [-8, -26, 22, 40]) kand.push({ x: xr, y: yOben + dy, align: 'left' });
+  kand.push(...rasterLagen(cv.W, cv.H, g.cx(0) + 8));
+  const k = freieLage(c, txt, kand, strecken || [], cv.W, cv.H, belegt);
+  c.textAlign = k.align; haloText(c, txt, k.x, k.y);
 }
 function drawA2() {
   const a  = +document.getElementById('a2-a').value;
@@ -1794,13 +1876,16 @@ function drawA2() {
     cv1.ctx.fillRect(g1.cx(0), g1.cy(a), g1.cx(t) - g1.cx(0), g1.cy(0) - g1.cy(a));
     cv1.ctx.strokeStyle = '#5b2d8e'; cv1.ctx.lineWidth = 1.2;
     cv1.ctx.strokeRect(g1.cx(0), g1.cy(a), g1.cx(t) - g1.cx(0), g1.cy(0) - g1.cy(a));
-    flaechenLabel(cv1, g1, t, 'Fläche = Δv = ' + (a * t).toFixed(1) + ' m/s',
-                  (g1.cy(a) + g1.cy(0)) / 2, g1.cy(a), '#5b2d8e');
   }
   cv1.ctx.strokeStyle = '#5b2d8e'; cv1.ctx.lineWidth = 2.5;
   cv1.ctx.beginPath();
   cv1.ctx.moveTo(g1.cx(0), g1.cy(a)); cv1.ctx.lineTo(g1.cx(tMax), g1.cy(a)); cv1.ctx.stroke();
   drawDot(cv1.ctx, g1.cx, g1.cy, t, a, '#5b2d8e', 5);
+  const b1 = tickHalo(cv1.ctx, cv1.W, cv1.H, g1, -1, tMax + 1, aLo, aHi);
+  if (a !== 0 && t > 0)
+    flaechenLabel(cv1, g1, t, 'Fläche = Δv = ' + (a * t).toFixed(1) + ' m/s',
+                  (g1.cy(a) + g1.cy(0)) / 2, g1.cy(a), '#5b2d8e',
+                  [[g1.cx(0), g1.cy(a), g1.cx(tMax), g1.cy(a)], [g1.cx(t), g1.cy(0), g1.cx(t), g1.cy(a)]], b1);
 
   // v-t Diagramm
   const vEnd = v0 + a * tMax;
@@ -1819,14 +1904,18 @@ function drawA2() {
     cv2.ctx.lineTo(g2.cx(t), g2.cy(0));
     cv2.ctx.closePath(); cv2.ctx.fill();
     cv2.ctx.strokeStyle = '#1f6b3a'; cv2.ctx.lineWidth = 1.2; cv2.ctx.stroke();
-    flaechenLabel(cv2, g2, t, 'Fläche = s = ' + sAt.toFixed(1) + ' m',
-                  (g2.cy(0) + g2.cy(Math.max(v0, vAt))) / 2,
-                  g2.cy(Math.max(v0, vAt)), '#1f6b3a');
   }
   cv2.ctx.strokeStyle = '#1f6b3a'; cv2.ctx.lineWidth = 2.5;
   cv2.ctx.beginPath();
   cv2.ctx.moveTo(g2.cx(0), g2.cy(v0)); cv2.ctx.lineTo(g2.cx(tMax), g2.cy(vEnd)); cv2.ctx.stroke();
   drawDot(cv2.ctx, g2.cx, g2.cy, t, vAt, '#1f6b3a', 5);
+  const b2 = tickHalo(cv2.ctx, cv2.W, cv2.H, g2, -1, tMax + 1, vLo, vHi);
+  if (t > 0)
+    flaechenLabel(cv2, g2, t, 'Fläche = s = ' + sAt.toFixed(1) + ' m',
+                  (g2.cy(0) + g2.cy(Math.max(v0, vAt))) / 2,
+                  g2.cy(Math.max(v0, vAt)), '#1f6b3a',
+                  [[g2.cx(0), g2.cy(v0), g2.cx(tMax), g2.cy(vEnd)], [g2.cx(t), g2.cy(0), g2.cx(t), g2.cy(vAt)],
+                   [g2.cx(0), g2.cy(0), g2.cx(0), g2.cy(v0)]], b2);
 
   // s-t Diagramm — Parabel
   const sEnd = v0 * tMax + 0.5 * a * tMax * tMax;
@@ -1852,6 +1941,7 @@ function drawA2() {
     else         cv3.ctx.lineTo(g3.cx(tt), g3.cy(ss));
   }
   cv3.ctx.stroke();
+  tickHalo(cv3.ctx, cv3.W, cv3.H, g3, -1, tMax + 1, sLo, sHi);
   drawDot(cv3.ctx, g3.cx, g3.cy, t, sAt, '#8a4a0e', 5);
 }
 ['a2-a','a2-v0','a2-t'].forEach(id => document.getElementById(id).addEventListener('input', drawA2));
@@ -2507,7 +2597,10 @@ function drawA6() {
   }
 
   // Vektoren im Bild — Figur horizontal im Bildausschnitt zentriert
-  const oy = H - 34;
+  // Kollinear (β nahe 0° oder 180°): Figur in die Mitte, damit die versetzten
+  // Pfeile und ihre Beschriftungen oben und unten Platz haben
+  const flachFall = vf >= 0.05 && Math.abs(vSx * vRy - vSy * vRx) / (vs || 1) * scale < 14;
+  const oy = flachFall ? Math.round(H / 2 + 4) : H - 34;
   // Spitzen relativ zum Ursprung (Canvas-Koordinaten, y nach unten)
   const Sdx = vSx * scale, Sdy = -vSy * scale;   // vS-Spitze
   const Rdx = vRx * scale, Rdy = -vRy * scale;   // vR-/vF-Spitze
@@ -2534,18 +2627,47 @@ function drawA6() {
   }
 
   ctx.font = 'bold 13px JetBrains Mono,monospace';
+  // Beschriftung an fester Stelle, mit hellem Grund
+  function lab(text, x, y, color, align, base) {
+    ctx.save(); ctx.textAlign = align; ctx.textBaseline = base;
+    ctx.strokeStyle = '#c0d8e8'; ctx.lineWidth = 4; ctx.lineJoin = 'round'; ctx.strokeText(text, x, y);
+    ctx.fillStyle = color; ctx.fillText(text, x, y); ctx.restore();
+  }
+  const lenS = Math.hypot(Sdx, Sdy) || 1;
+  const ux = Sdx / lenS, uy = Sdy / lenS;              // Richtung von vₛ
+  let nx = -uy, ny = ux; if (ny > 0) { nx = -nx; ny = -ny; }   // Normale nach oben
+  const abstand = Math.abs(Sdx * Rdy - Sdy * Rdx) / lenS;      // v_Ufer-Spitze zur Geraden von vₛ
+  const ohneFluss = vf < 0.05;
+  const flach = !ohneFluss && abstand < 14 && flachFall;
 
-  // Vektor vS (Schwimmer)
-  drawArrow(ctx, ox, oy, Sx, Sy, '#1f6b3a', 2.8, 10);
-  vLabel(ox, oy, Sx, Sy, 'vₛ', '#1f6b3a');
-
-  // Vektor vF (Fluss) — von der vS-Spitze aus
-  drawArrow(ctx, Sx, Sy, Rx, Ry, '#5b2d8e', 2.8, 10);
-  vLabel(Sx, Sy, Rx, Ry, 'v_F', '#5b2d8e');
-
-  // Resultierende vR (Ursprung → vF-Spitze)
-  drawArrow(ctx, ox, oy, Rx, Ry, '#9b1c1c', 3, 11);
-  vLabel(ox, oy, Rx, Ry, 'v_Ufer', '#9b1c1c');
+  if (ohneFluss) {
+    // Ohne Strömung ist v_Ufer = vₛ: ein Pfeil, eine Beschriftung
+    drawArrow(ctx, ox, oy, Sx, Sy, '#9b1c1c', 3, 11);
+    lab('vₛ = v_Ufer', (ox + Sx) / 2 + nx * 22, (oy + Sy) / 2 + ny * 22, '#9b1c1c',
+        nx < -0.25 ? 'right' : nx > 0.25 ? 'left' : 'center', Math.abs(nx) > 0.25 ? 'middle' : 'bottom');
+  } else if (flach) {
+    // Kollinear (β nahe 0° oder 180°): v_F und v_Ufer seitlich versetzt, damit
+    // drei Pfeile und drei Beschriftungen getrennt lesbar bleiben
+    const d = 7;
+    drawArrow(ctx, ox, oy, Sx, Sy, '#1f6b3a', 2.8, 10);
+    drawArrow(ctx, Sx - nx * d, Sy - ny * d, Rx - nx * d, Ry - ny * d, '#5b2d8e', 2.8, 10);
+    drawArrow(ctx, ox + nx * d, oy + ny * d, Rx + nx * d, Ry + ny * d, '#9b1c1c', 3, 11);
+    const gegen = (Rdx - Sdx) * ux + (Rdy - Sdy) * uy < 0;   // Fluss gegen vₛ
+    if (gegen) lab('vₛ', Sx + ux * 12, Sy + uy * 12, '#1f6b3a', ux < 0 ? 'right' : 'left', 'middle');
+    else       lab('vₛ', (ox + Sx) / 2 - nx * 18, (oy + Sy) / 2 - ny * 18, '#1f6b3a', 'center', 'top');
+    lab('v_F', (Sx + Rx) / 2 - nx * 22, (Sy + Ry) / 2 - ny * 22, '#5b2d8e', 'center', 'top');
+    lab('v_Ufer', (ox + Rx) / 2 + nx * 18, (oy + Ry) / 2 + ny * 18, '#9b1c1c', 'center', 'bottom');
+  } else {
+    // Vektor vS (Schwimmer)
+    drawArrow(ctx, ox, oy, Sx, Sy, '#1f6b3a', 2.8, 10);
+    vLabel(ox, oy, Sx, Sy, 'vₛ', '#1f6b3a');
+    // Vektor vF (Fluss) — von der vS-Spitze aus
+    drawArrow(ctx, Sx, Sy, Rx, Ry, '#5b2d8e', 2.8, 10);
+    vLabel(Sx, Sy, Rx, Ry, 'v_F', '#5b2d8e');
+    // Resultierende vR (Ursprung → vF-Spitze)
+    drawArrow(ctx, ox, oy, Rx, Ry, '#9b1c1c', 3, 11);
+    vLabel(ox, oy, Rx, Ry, 'v_Ufer', '#9b1c1c');
+  }
 
   // Ursprung
   ctx.fillStyle = '#1c1a17';
@@ -2579,12 +2701,22 @@ function drawA6Fluss() {
   ctx.strokeStyle = '#9aa1ab'; ctx.lineWidth = 1;
   ctx.fillStyle = '#6b7280'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   const schritt = W < 520 ? 40 : 20;   // schmal: nur jede zweite Marke beschriften
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const einheitB = ctx.measureText('x [m]').width;
+  ctx.font = '13px JetBrains Mono,monospace';
   for (let x = XMIN; x <= XMAX; x += 20) {
     ctx.beginPath(); ctx.moveTo(px(x), B); ctx.lineTo(px(x), B + 4); ctx.stroke();
-    if (x % schritt === 0) ctx.fillText(String(x), px(x), B + 17);
+    const zb = ctx.measureText(String(x)).width;
+    if (x % schritt === 0 && px(x) + zb / 2 < W - einheitB - 10) ctx.fillText(String(x), px(x), B + 17);
   }
-  ctx.textAlign = 'left'; ctx.fillStyle = '#374151'; ctx.font = 'bold 13px "Source Sans 3",sans-serif';
-  ctx.fillText('Start', px(0) + 8, B - 8);   // im Wasser, nicht auf der 0-Marke
+  ctx.textAlign = 'right'; ctx.fillStyle = '#374151'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  ctx.fillText('x [m]', W - 2, B + 17);
+  // «Start» auf der Seite, zu der die Bahn nicht läuft
+  const wStart = a6Werte();
+  ctx.font = 'bold 13px "Source Sans 3",sans-serif';
+  const startRechts = !(isFinite(wStart.tQ) && wStart.dx > 0);
+  ctx.textAlign = startRechts ? 'left' : 'right';
+  ctx.fillText('Start', px(0) + (startRechts ? 8 : -8), B - 8);
   // Ziel senkrecht gegenüber
   ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.4; ctx.setLineDash([4, 3]);
   ctx.beginPath(); ctx.moveTo(px(0), py(0)); ctx.lineTo(px(0), py(A6_B)); ctx.stroke(); ctx.setLineDash([]);
@@ -2619,7 +2751,17 @@ function drawA6Fluss() {
   ctx.fillStyle = trifft ? '#1f6b3a' : '#9b1c1c';
   const txt = trifft ? '✓ trifft das Ziel' : 'Versatz ' + (w.dx >= 0 ? '+' : '') + w.dx.toFixed(1) + ' m'
               + (w.dx > XMAX ? '  (ausserhalb der Skala)' : '');
-  ctx.fillText(txt, Math.max(90, Math.min(W - 90, px(w.dx / 2))), py(A6_B) + 32);
+  // Neben die Bahn setzen, nicht darauf: auf Höhe der Beschriftung liegt die
+  // Bahn bei x(y); der Text kommt auf die Seite mit mehr Platz.
+  const yT = py(A6_B) + 32, tb = ctx.measureText(txt).width;
+  const xBahn = px(w.dx * (1 - 32 / (B - T)));
+  let xT;
+  if (xBahn + 10 + tb <= W - Rm - 4) { ctx.textAlign = 'left'; xT = xBahn + 10; }
+  else if (xBahn - 10 - tb >= L + 4) { ctx.textAlign = 'right'; xT = xBahn - 10; }
+  else { ctx.textAlign = 'center'; xT = Math.max(L + tb / 2 + 4, Math.min(W - Rm - tb / 2 - 4, px(w.dx / 2))); }
+  ctx.save(); ctx.strokeStyle = '#c0d8e8'; ctx.lineWidth = 4; ctx.lineJoin = 'round';
+  ctx.strokeText(txt, xT, yT); ctx.restore();
+  ctx.fillText(txt, xT, yT);
 }
 ['a6-vs','a6-beta','a6-vf'].forEach(id => document.getElementById(id).addEventListener('input', () => {
   a6State.t = 0; a6State.running = false;

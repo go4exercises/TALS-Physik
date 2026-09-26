@@ -1463,9 +1463,16 @@ function einRender(){
     const dir = einState.TL>einState.TR ? 1 : -1;
     const cyA=HS*0.40, x1=W*0.42, x2=W*0.58;
     drawArrow(ctx, dir>0?x1:x2, cyA, dir>0?x2:x1, cyA, '#9b1c1c', 6, 16);
-    ctx.fillStyle='#9b1c1c'; ctx.font='bold 17px "Source Sans 3",sans-serif'; ctx.fillText('Q', W*0.5, cyA-12);
+    // Beschriftungen mitten auf der Trennwand: ein heller Grund, sonst streicht
+    // die Wand sie durch
+    ctx.font='bold 17px "Source Sans 3",sans-serif';
+    ctx.fillStyle='#fbfaf7'; ctx.fillRect(W*0.5 - 7, cyA-26, 14, 18);
+    ctx.fillStyle='#9b1c1c'; ctx.fillText('Q', W*0.5, cyA-12);
   } else {
-    ctx.fillStyle='#1f6b3a'; ctx.font='bold 16px "Source Sans 3",sans-serif'; ctx.fillText('Gleichgewicht', W*0.5, HS*0.40);
+    ctx.font='bold 16px "Source Sans 3",sans-serif';
+    const gB = ctx.measureText('Gleichgewicht').width;
+    ctx.fillStyle='rgba(251,250,247,0.92)'; ctx.fillRect(W*0.5 - gB/2 - 6, HS*0.40 - 15, gB + 12, 21);
+    ctx.fillStyle='#1f6b3a'; ctx.fillText('Gleichgewicht', W*0.5, HS*0.40);
   }
   einDiagramm(ctx, W, HS, H);
 }
@@ -1507,8 +1514,15 @@ function einDiagramm(ctx, W, y0, H){
     });
     const last=pts[pts.length-1];
     ctx.font='11px JetBrains Mono,monospace'; ctx.textAlign='left';
-    ctx.fillStyle=farbe.L; ctx.fillText('links',  Math.min(xOf(last.t)+5, xR-38), yOf(last.L)+4);
-    ctx.fillStyle=farbe.R; ctx.fillText('rechts', Math.min(xOf(last.t)+5, xR-42), yOf(last.R)+4);
+    // Liegen die Kurvenenden fast gleich hoch, stehen die Namen über- statt
+    // aufeinander: der höhere (bei Gleichstand «links») oben
+    let yLl = yOf(last.L)+4, yRl = yOf(last.R)+4;
+    if (Math.abs(yLl - yRl) < 12) {
+      const mitte = (yLl + yRl)/2, lOben = last.L >= last.R;
+      yLl = mitte + (lOben ? -6 : 7); yRl = mitte + (lOben ? 7 : -6);
+    }
+    ctx.fillStyle=farbe.L; ctx.fillText('links',  Math.min(xOf(last.t)+5, xR-38), yLl);
+    ctx.fillStyle=farbe.R; ctx.fillText('rechts', Math.min(xOf(last.t)+5, xR-42), yRl);
   } else {
     ctx.fillStyle='#8f8f8f'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText('Der Verlauf wird aufgezeichnet, sobald die Animation läuft.', (xL+xR)/2, (yT+yB)/2);
@@ -1636,7 +1650,7 @@ function a2Render(){
   const cv=initCanvas('a2-cv', eng?450:390, false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
   const HB=H-132;                           // oberer Teil: Gefässe; darunter der Zahlenstrahl
-  const base=HB-(eng?46:40), top=HB*0.14, maxFill=6;   // volle Höhe = 6 kg
+  const base=HB-(eng?46:40), top=HB*0.14, maxFill=7.5; // volle Höhe = 7.5 kg: auch 6 kg «zusammen» bleiben innerhalb der Wände
   function beaker(cx,wpx,m,T,lab,sub){
     const h=(base-top)*(m/maxFill), y=base-h;
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2;
@@ -1656,13 +1670,15 @@ function a2Render(){
                ctx.fillText(sub, cx, base+44); }
     }
   }
-  const bw=W*(eng?0.24:0.20);
+  const bw=W*(eng?0.22:0.20);
   beaker(W*0.15, bw, m1, t1, 'Portion 1', 'Wasser');
   beaker(W*0.44, bw, m2, t2, 'Portion 2', s2.name);
   beaker(W*0.84, bw, m1+m2, tm, 'zusammen', a2Sel==='wasser' ? 'Wasser' : 'Wasser + Öl');
   ctx.fillStyle='#5a5040'; ctx.font='bold '+(eng?'22px ':'34px ')+'"Source Sans 3",sans-serif';
   ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText('+', W*0.295, HB*0.50); ctx.fillText('=', W*0.65, HB*0.50);
+  // Zeichen mittig in der Lücke zwischen den Gefässen
+  ctx.fillText('+', (W*0.15+bw/2 + W*0.44-bw/2)/2, HB*0.50);
+  ctx.fillText('=', (W*0.44+bw/2 + W*0.84-bw/2)/2, HB*0.50);
   ctx.textBaseline='alphabetic';
   ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
   ctx.fillText('ϑm = '+tm.toFixed(1)+' °C', W-4, top-4);
@@ -1686,16 +1702,20 @@ function a2Render(){
   const xk=xOf(Math.min(t1,t2)), xw=xOf(Math.max(t1,t2)), xm=xOf(tm);
   ctx.fillStyle='rgba(26,79,138,0.16)'; ctx.fillRect(Math.min(xk,xm), yA-9, Math.abs(xm-xk), 18);
   ctx.fillStyle='rgba(155,28,28,0.14)'; ctx.fillRect(Math.min(xm,xw), yA-9, Math.abs(xw-xm), 18);
-  function marke(x,col,lab,oben){
+  // seite: 0 = mittig über der Marke, −1/+1 = links/rechts daneben (wenn ϑ₁ und
+  // ϑ₂ fast zusammenfallen, sonst verdeckt das eine Etikett das andere)
+  function marke(x,col,lab,oben,seite){
     ctx.strokeStyle=col; ctx.lineWidth=2;
     ctx.beginPath(); ctx.moveTo(x,yA-11); ctx.lineTo(x,yA+11); ctx.stroke();
     ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,yA,4,0,6.283); ctx.fill();
-    ctx.font='bold 12px JetBrains Mono,monospace'; ctx.textAlign='center';
-    ctx.fillText(lab, x, oben ? yA-13 : yA+29);
+    ctx.font='bold 12px JetBrains Mono,monospace';
+    ctx.textAlign = seite < 0 ? 'right' : (seite > 0 ? 'left' : 'center');
+    ctx.fillText(lab, x + 3*(seite||0), oben ? yA-13 : yA+32);
   }
-  marke(xOf(t2), '#1a4f8a', 'ϑ₂', true);
-  marke(xOf(t1), '#9b1c1c', 'ϑ₁', true);
-  marke(xm, '#b85c00', 'ϑm', false);
+  const x1=xOf(t1), x2=xOf(t2), nah=Math.abs(x1-x2) < 18;
+  marke(x2, '#1a4f8a', 'ϑ₂', true, nah ? (x2 <= x1 ? -1 : 1) : 0);
+  marke(x1, '#9b1c1c', 'ϑ₁', true, nah ? (x2 <= x1 ? 1 : -1) : 0);
+  marke(xm, '#b85c00', 'ϑm', false, 0);
   // Nachweis des Hebelgesetzes in Zahlen
   // Zwei Gleichungen = zwei Zeilen (STYLEGUIDE §2.1); der Punkt bleibt der Malpunkt.
   ctx.font=(eng?'10px ':'12px ')+'JetBrains Mono,monospace'; ctx.textAlign='center';
@@ -1773,11 +1793,21 @@ function drawA3(){
   flTex('a3-eq-t', sg.temp);
 
   const cv=initCanvas('a3-cv',360,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
-  const g=drawGrid(ctx,W,H,0,320,-30,160);
+  // y-Achse 36 px eingerückt: die Skalenzahlen stehen links von ihr, und die
+  // Punkte bei Q = 0 liegen nicht mehr halb ausserhalb. Knapp genug, dass links
+  // der Achse keine (sinnlose) negative Q-Marke entsteht.
+  // Unten bis −38 °C: die Klammerzeile liegt dann unter dem tiefsten Punkt (−20 °C)
+  // statt auf seiner Höhe.
+  const g=drawGrid(ctx,W,H,-36*320/(W-36),320,-38,160);
   drawAxesUnits(ctx,W,H,g.cx,g.cy,'Q [kJ]','ϑ [°C]');
   const cx=g.cx, cy=g.cy;
   // ── Segment-Klammern unter der Kurve: belegen, wo die Energie hingeht ──
-  const yK=cy(-16);
+  const yK=cy(-26);
+  // Wert der aktiven Klammer zuerst vermessen: er steht immer da (rechts der
+  // y-Achse geklemmt), andere Klammerwerte weichen ihm aus.
+  ctx.font='bold 11px JetBrains Mono,monospace';
+  const akLab=HK_SEG[si].kJ.toFixed(1)+' kJ', akW=ctx.measureText(akLab).width;
+  const akX=Math.max(cx(0)+akW/2+4, Math.min(W-akW/2-2, cx((HK_SEG[si].q0+HK_SEG[si].q1)/2000)));
   HK_SEG.forEach((sgm,i)=>{
     const xa=cx(sgm.q0/1000), xb=cx(sgm.q1/1000), aktiv=(i===si);
     ctx.strokeStyle=aktiv?'#b85c00':'#b8ae99'; ctx.lineWidth=aktiv?2.4:1.2;
@@ -1786,9 +1816,13 @@ function drawA3(){
     ctx.stroke();
     const lab=sgm.kJ.toFixed(1)+' kJ';
     ctx.font=(aktiv?'bold ':'')+'11px JetBrains Mono,monospace';
-    if(ctx.measureText(lab).width + 8 < xb-xa){
+    // Passt der Wert nicht unter die Klammer, entfällt er — ausser bei der
+    // aktiven Klammer: deren Wert steht immer da, ins Bild geklemmt.
+    const lw=ctx.measureText(lab).width, xm=(xa+xb)/2;
+    const stoert = !aktiv && Math.abs(xm-akX) < (lw+akW)/2+6;
+    if(aktiv || (lw + 8 < xb-xa && !stoert)){
       ctx.fillStyle=aktiv?'#b85c00':'#5a5040'; ctx.textAlign='center';
-      ctx.fillText(lab, (xa+xb)/2, yK+13);
+      ctx.fillText(lab, aktiv ? akX : xm, yK+13);
     }
   });
   // Kurve
@@ -1801,19 +1835,21 @@ function drawA3(){
   ctx.font='bold 13px JetBrains Mono,monospace';
   const ptxt=T.toFixed(0)+' °C', pw=ctx.measureText(ptxt).width;
   const rechts=px>W*0.86;
-  const plx=rechts?px-9-pw:px+9, ply=(py>H*0.72)?py-10:py+16;
+  // unter 5 °C über dem Schmelzplateau — weiter unten läge sie auf der Skalenzahl
+  // «−20» und in der Klammerzeile
+  const plx=rechts?px-9-pw:px+9, ply=(T<5)?cy(0)-26:((py>H*0.72)?py-10:py+16);
   const frei=(x,y,w)=>!(x<plx+pw+6 && x+w>plx-6 && Math.abs(y-ply)<14);
   // Plateau-Beschriftungen
   ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   // mittig über dem Schmelzplateau (HK[1] … HK[2]), nicht über dem Anstieg danach
   const l1='Schmelzen (0 °C)', l1w=ctx.measureText(l1).width;
-  const l1x=cx((HK[1][0]+HK[2][0])/2000)-l1w/2, l1y=cy(0)-8;
+  const l1x=Math.max(cx(0)+4, cx((HK[1][0]+HK[2][0])/2000)-l1w/2), l1y=cy(0)-8;
   if(frei(l1x,l1y,l1w)){ ctx.fillStyle='#1a4f8a'; ctx.fillText(l1,l1x,l1y); }
   const l2='Verdampfen (100 °C)', l2w=ctx.measureText(l2).width;
   const l2x=cx((79.42+305.02)/2)-l2w/2, l2y=cy(100)-10;
   if(frei(l2x,l2y,l2w)){ ctx.fillStyle='#9b1c1c'; ctx.fillText(l2,l2x,l2y); }
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
-  ctx.beginPath(); ctx.moveTo(px,cy(-30)); ctx.lineTo(px,py); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(px,cy(0)); ctx.lineTo(px,py); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
   drawDot(ctx,cx,cy,Q/1000,T,'#1c1a17',6);
   ctx.font='bold 13px JetBrains Mono,monospace';
@@ -2102,8 +2138,13 @@ function drawA6(){
   ctx.fillText('Umgebungswärme (gratis)', boxCx, boxB+Lsv+Lh+18);
   ctx.fillText(umg.toFixed(1)+' kWh',      boxCx, boxB+Lsv+Lh+32);
   ctx.fillStyle='#c0563a';
-  ctx.fillText('Heizwärme',            boxR+(Ls+Lh)/2, yMid-c*dWarm/2-22);
-  ctx.fillText(cop.toFixed(1)+' kWh',   boxR+(Ls+Lh)/2, yMid-c*dWarm/2-9);
+  // 14 px über der Oberkante des Pfeilkopfs — die Beschriftung liegt über seinem
+  // breitesten Teil, mit 9 px berührte sie ihn
+  // mittig über dem Pfeil, aber nie über den Kasten und nie über den Rand
+  const hwB = ctx.measureText('Heizwärme').width;
+  const hwX = Math.min(W - hwB/2 - 2, Math.max(boxR + hwB/2 + 5, boxR+(Ls+Lh)/2));
+  ctx.fillText('Heizwärme',            hwX, yMid-c*dWarm/2-27);
+  ctx.fillText(cop.toFixed(1)+' kWh',   hwX, yMid-c*dWarm/2-14);
   ctx.fillStyle='#1c1a17'; ctx.font='bold 13px '+SS;
   ctx.fillText('Wärmepumpe', boxCx, yMid-4);
   ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#8a4a0e';

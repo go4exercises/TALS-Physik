@@ -1400,6 +1400,8 @@ function drawA3(){
   ctx.textAlign='right'; ctx.fillStyle='#374151'; ctx.font='bold 13px "Source Sans 3",sans-serif';
   ctx.fillText(eng?'λ [m], log':'λ [m] — logarithmisch', W-6, yAchse-8);
   // Die vier Medien als Marken, aufsteigend nach λ von oben nach unten
+  // Zwei Durchgänge: erst alle Linien, dann alle Beschriftungen mit hellem
+  // Grund — sonst laufen die Linien späterer Medien durch frühere Texte.
   A3MED.forEach((m,i)=>{
     const lam=m.c/f, x=xOf(lam), y=26+i*30, akt=(i===a3Sel);
     const col=akt?'#b85c00':'#9aa1ab';
@@ -1407,14 +1409,20 @@ function drawA3(){
     ctx.beginPath(); ctx.moveTo(x,y+4); ctx.lineTo(x,yAchse); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,yAchse,akt?6:4,0,6.283); ctx.fill();
     if(akt){ ctx.strokeStyle='#fff'; ctx.lineWidth=1.6; ctx.stroke(); }
+  });
+  A3MED.forEach((m,i)=>{
+    const lam=m.c/f, x=xOf(lam), y=26+i*30, akt=(i===a3Sel);
     const kurz=m.n.replace(/\s*\(.*\)/,'');
     const txt=(eng?kurz+'  ':m.n+'   λ = ')+lam.toFixed(2)+' m';
     ctx.font=(akt?'bold ':'')+(eng?12:13)+'px "Source Sans 3",sans-serif';
     const bw=ctx.measureText(txt).width;
-    ctx.fillStyle=akt?'#8a4a0e':'#6b7280';
-    if(x+10+bw <= W-6){        ctx.textAlign='left';  ctx.fillText(txt, x+10, y); }
-    else if(x-10-bw >= 6){     ctx.textAlign='right'; ctx.fillText(txt, x-10, y); }
-    else {                     ctx.textAlign='left';  ctx.fillText(txt, 6, y); }   // passt nirgends daneben
+    let tx, ta;
+    if(x+10+bw <= W-6){        ta='left';  tx=x+10; }
+    else if(x-10-bw >= 6){     ta='right'; tx=x-10; }
+    else {                     ta='left';  tx=6; }   // passt nirgends daneben
+    const x0=ta==='left'?tx:tx-bw;
+    ctx.fillStyle='#fbfaf7'; ctx.fillRect(x0-3, y-12, bw+6, 16);
+    ctx.fillStyle=akt?'#8a4a0e':'#6b7280'; ctx.textAlign=ta; ctx.fillText(txt, tx, y);
   });
   ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText(eng ? ('f = '+f+' Hz für alle Medien') : ('gleiche Frequenz '+f+' Hz für alle vier Medien — λ = c / f'), W*0.5, H-8);
@@ -1525,9 +1533,11 @@ function drawA4(){
   const mx=xOf(L);
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(mx,by0-2); ctx.lineTo(mx,by1+2); ctx.stroke();
-  // kurzer Zeiger: die Bandnamen beginnen bei by1+20, ein langer Pfeil wuerde
-  // mitten durch „sichtbares Licht" laufen (schmal: Namen direkt unter dem Band, kein Zeiger)
-  if(!schmal) drawArrow(ctx, mx, by1+18, mx, by1+4, '#1c1a17',2,7);
+  // Zeiger als kleines Dreieck ÜBER dem Band, in der Lücke zwischen den
+  // λ-Zahlen (Grundlinie by0−6) und der Bandoberkante. Unter dem Band stiess
+  // der Pfeil an die gedrehten Bandnamen.
+  ctx.fillStyle='#1c1a17'; ctx.beginPath();
+  ctx.moveTo(mx-4, by0-6); ctx.lineTo(mx+4, by0-6); ctx.lineTo(mx, by0-1); ctx.closePath(); ctx.fill();
   const eTxt = eFmt(E_eV) + ' eV';
   ctx.fillStyle='#1c1a17'; ctx.font='bold '+fz+'px JetBrains Mono,monospace'; ctx.textAlign='center';
   if(schmal){
@@ -1712,12 +1722,16 @@ function a7wRender(){
   ctx.fillStyle='#c8b98f'; ctx.fillRect(0, grund, W, H-grund);
   // Wasserkörper bis zur momentanen Oberfläche
   ctx.fillStyle='rgba(95,169,198,0.45)'; ctx.beginPath();
-  ctx.moveTo(0, grund);
-  for(let x=0;x<=W;x+=3){ ctx.lineTo(x, pos(x,0)[1]); }
-  ctx.lineTo(W, grund); ctx.closePath(); ctx.fill();
+  // Füllung und Linie aus denselben Punkten (x-Verschiebung inklusive), sonst
+  // laufen Füllrand und Oberflächenlinie in den Tälern sichtbar auseinander.
+  // Über die Ränder hinaus rechnen: die Punkte sind um bis zu A verschoben.
+  const ober=[]; for(let x=-2*A;x<=W+2*A;x+=3) ober.push(pos(x,0));
+  ctx.moveTo(ober[0][0], grund);
+  ober.forEach(p=>ctx.lineTo(p[0],p[1]));
+  ctx.lineTo(ober[ober.length-1][0], grund); ctx.closePath(); ctx.fill();
   // Oberflächenlinie
   ctx.strokeStyle='#1a4f8a'; ctx.lineWidth=2.4; ctx.beginPath();
-  for(let x=0;x<=W;x+=3){ const p=pos(x,0); if(x===0)ctx.moveTo(p[0],p[1]); else ctx.lineTo(p[0],p[1]); }
+  ober.forEach((p,i)=>{ if(i===0) ctx.moveTo(p[0],p[1]); else ctx.lineTo(p[0],p[1]); });
   ctx.stroke();
   // Teilchen in mehreren Tiefen
   const tiefen=[0,34,68,102,136];
@@ -1797,7 +1811,9 @@ function drawA6(){
   const cv=initCanvas('a6-cv',250,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
   const eng = W < 520;
-  const px0=W*0.10, px1=W*0.93, py0=H*0.14, py1=H*0.70;
+  // Links Platz für «100 %» (rechtsbündig an der Achse) und den gedrehten
+  // Achsentitel — bei W·0.10 waren das auf schmalen Bildschirmen nur 28 px.
+  const px0=Math.max(W*0.10, 62), px1=W*0.93, py0=H*0.14, py1=H*0.70;
   // Feste logarithmische Wellenlängenachse in µm. Vorher war die x-Achse eine
   // unbezifferte 0…1-Hilfsgrösse — man konnte nicht sehen, WO die Absorption
   // einsetzt. Sonnenlicht liegt bei 0.4…0.8 µm, die Wärmestrahlung der Erde
@@ -1808,9 +1824,10 @@ function drawA6(){
   // Achsen
   ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(px0,py0); ctx.lineTo(px0,py1); ctx.lineTo(px1,py1); ctx.stroke();
-  ctx.fillStyle='#374151'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
-  ctx.fillText('100 %', px0-16, py0+4); ctx.fillText('0 %', px0-14, py1+2);
-  ctx.save(); ctx.translate(px0-32,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Durchlässigkeit',0,0); ctx.restore();
+  ctx.fillStyle='#374151'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='right';
+  ctx.fillText('100 %', px0-5, py0+4); ctx.fillText('0 %', px0-5, py1+2);
+  ctx.textAlign='center';
+  ctx.save(); ctx.translate(px0-48,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Durchlässigkeit',0,0); ctx.restore();
   // x: links kurzwellig (sichtbar/Sonne) -> rechts langwellig (Infrarot/Wärme)
   const xMid=lamX(4);           // Übergang bei rund 4 µm
   // Region-Hintergruende

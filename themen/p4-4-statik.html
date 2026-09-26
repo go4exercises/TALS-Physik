@@ -1388,7 +1388,7 @@ function aeRender() {
   // Beschriftung parallel zum Band (gedreht wie der Balken), damit das schräge
   // Band sie nicht kreuzt; berühren sich r₁ und r₂, rückt r₂ entlang des Bandes nach aussen
   ctx.fillStyle = '#5a6068'; ctx.font = (eng ? 11 : 13) + 'px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  const t1 = 'r₁ = '+AE_R1.toFixed(1)+' m', t2 = 'r₂ = '+r2.toFixed(2)+' m';
+  const t1 = 'r₁ = '+AE_R1.toFixed(2)+' m', t2 = 'r₂ = '+r2.toFixed(2)+' m';   // gleich viele Stellen
   const b1 = ctx.measureText(t1).width, b2 = ctx.measureText(t2).width;
   const u1 = Math.min(-AE_R1*pxPerM/2, -6 - b1/2);            // frei vom Strich an der Drehachse
   const u2 = Math.max(r2*pxPerM/2, 6 + b2/2);
@@ -1404,6 +1404,69 @@ function aeRender() {
 // ══════════════════════════════════════════════════════════
 //  ANIMATION 1: Kraftvektor mit Komponenten (1:1-Plot)
 // ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
+//  Beschriftungen in den Vektor-Plots (Animation 1 und 2)
+//  drawVector setzt sein Label immer über die Pfeilmitte; bei kurzen,
+//  kollinearen oder randnahen Pfeilen lagen die Labels übereinander, auf den
+//  Skalenzahlen oder den Achsentiteln. Hier werden sie der Reihe nach an die
+//  erste freie Stelle gesetzt.
+// ══════════════════════════════════════════════════════════
+function belegteTicks(ctx, W, H, g, xMin, xMax, yMin, yMax) {
+  const xA = g.cy(0), yA = g.cx(0), r = [];
+  ctx.font = '13px JetBrains Mono,monospace';
+  for (let v = Math.ceil(xMin / g.stepX) * g.stepX; v <= xMax + 1e-6; v += g.stepX) {
+    if (Math.abs(v) < 1e-6 || g.cx(v) < 14 || g.cx(v) > W - 72) continue;
+    const b = ctx.measureText(fmtTick(v, g.stepX)).width;
+    r.push({ l: g.cx(v) - b / 2 - 2, r: g.cx(v) + b / 2 + 2, o: xA + 3, u: xA + 20 });
+  }
+  for (let v = Math.ceil(yMin / g.stepY) * g.stepY; v <= yMax + 1e-6; v += g.stepY) {
+    if (Math.abs(v) < 1e-6 || g.cy(v) < 22 || g.cy(v) > H - 6) continue;
+    const b = ctx.measureText(fmtTick(v, g.stepY)).width;
+    r.push({ l: yA - b - 8, r: yA - 3, o: g.cy(v) - 9, u: g.cy(v) + 9 });
+  }
+  r.push({ l: yA, r: yA + 90, o: 0, u: 20 }, { l: W - 80, r: W, o: xA - 22, u: xA });   // Achsentitel
+  return r;
+}
+// Label an die erste freie Stelle neben dem Pfeil (x1,y1)→(x2,y2) setzen.
+// belegt: Rechtecke; strecken: [x1,y1,x2,y2]. Das gesetzte Label wird belegt.
+function vekLabel(ctx, x1, y1, x2, y2, txt, farbe, belegt, strecken, W, H) {
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const b = ctx.measureText(txt).width, h = 13;
+  const len = Math.hypot(x2 - x1, y2 - y1) || 1, ux = (x2 - x1) / len, uy = (y2 - y1) / len;
+  const nx = -uy, ny = ux, mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+  const kand = [];
+  for (const d of [14, 26]) kand.push([mx + nx * d, my + ny * d], [mx - nx * d, my - ny * d]);
+  kand.push([x2 + ux * 16, y2 + uy * 16], [x2 + ux * 16 + nx * 14, y2 + uy * 16 + ny * 14],
+            [x2 + ux * 16 - nx * 14, y2 + uy * 16 - ny * 14], [x2 + nx * 18, y2 + ny * 18], [x2 - nx * 18, y2 - ny * 18]);
+  setzeLabel(ctx, txt, farbe, kand, belegt, strecken, W, H);
+}
+// Setzt txt an die beste Stelle aus kand ([cx, cy] = Textmitte).
+function setzeLabel(ctx, txt, farbe, kand, belegt, strecken, W, H) {
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const b = ctx.measureText(txt).width, h = 13;
+  let best = null, bestWert = Infinity;
+  for (const [cx, cy] of kand) {
+    const l = cx - b / 2 - 2, r = cx + b / 2 + 2, o = cy - h / 2 - 2, u = cy + h / 2 + 2;
+    if (l < 2 || r > W - 2 || o < 2 || u > H - 2) continue;
+    let wert = 10 * belegt.filter(q => !(q.r < l || q.l > r || q.u < o || q.o > u)).length;
+    for (const [a1, b1, a2, b2] of strecken) {
+      const n = Math.max(2, Math.ceil(Math.hypot(a2 - a1, b2 - b1) / 3));
+      for (let i = 0; i <= n; i++) {
+        const x = a1 + (a2 - a1) * i / n, y = b1 + (b2 - b1) * i / n;
+        if (x >= l && x <= r && y >= o && y <= u) { wert++; }
+      }
+    }
+    if (wert < bestWert) { bestWert = wert; best = { cx, cy, l, r, o, u }; }
+    if (wert === 0) break;
+  }
+  if (!best) return;
+  ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.lineJoin = 'round';
+  ctx.strokeText(txt, best.cx, best.cy); ctx.fillStyle = farbe; ctx.fillText(txt, best.cx, best.cy);
+  ctx.restore();
+  belegt.push(best);
+}
+
 function drawA1() {
   const F = +document.getElementById('a1-F').value;
   const phi = +document.getElementById('a1-phi').value;
@@ -1428,21 +1491,49 @@ function drawA1() {
   ctx.moveTo(grid.cx(Fx), grid.cy(0)); ctx.lineTo(grid.cx(Fx), grid.cy(Fy));
   ctx.lineTo(grid.cx(0), grid.cy(Fy));
   ctx.stroke(); ctx.setLineDash([]);
-  drawVector(ctx, grid.cx, grid.cy, 0, 0, Fx, 0, C_KOMP, 'Fx', 2);
-  drawVector(ctx, grid.cx, grid.cy, Fx, 0, 0, Fy, C_KOMP, 'Fy', 2);
-  drawVector(ctx, grid.cx, grid.cy, 0, 0, Fx, Fy, C_HAUPT, 'F', 3);
+  // Komponenten nur zeichnen, wenn sie eine sichtbare Länge haben
+  const hatX = Math.abs(grid.cx(Fx) - grid.cx(0)) > 3, hatY = Math.abs(grid.cy(Fy) - grid.cy(0)) > 3;
+  if (hatX) drawVector(ctx, grid.cx, grid.cy, 0, 0, Fx, 0, C_KOMP, null, 2);
+  if (hatY) drawVector(ctx, grid.cx, grid.cy, Fx, 0, 0, Fy, C_KOMP, null, 2);
+  drawVector(ctx, grid.cx, grid.cy, 0, 0, Fx, Fy, C_HAUPT, null, 3);
   // Winkelbogen φ am Ursprung — er erklärt, warum F_x ab 90° negativ wird:
   // der Vektor zeigt dann nach links, cos φ wechselt das Vorzeichen.
-  const r0 = 34;
+  const r0 = 34, ox = grid.cx(0), oy = grid.cy(0);
   ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.6;
-  ctx.beginPath(); ctx.arc(grid.cx(0), grid.cy(0), r0, 0, -rad, true); ctx.stroke();
-  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
-  ctx.textAlign = 'left';
-  ctx.fillText('φ = '+phi+'°', grid.cx(0) + (r0+10)*Math.cos(rad/2), grid.cy(0) - (r0+10)*Math.sin(rad/2) - 6);
+  ctx.beginPath(); ctx.arc(ox, oy, r0, 0, -rad, true); ctx.stroke();
+  const belegt = belegteTicks(ctx, W, H, grid, -110, 110, -110, 110);
+  const pF = [ox, oy, grid.cx(Fx), grid.cy(Fy)], pX = [ox, oy, grid.cx(Fx), oy], pY = [grid.cx(Fx), oy, grid.cx(Fx), grid.cy(Fy)];
+  const strecken = [pF, pX, pY, [0, oy, W, oy], [ox, 0, ox, H]];
+  // Winkel-Beschriftung zuerst: sie gehört an den Bogen — Lagen entlang der
+  // Winkelhalbierenden, jeweils aussen an den Bogen angelehnt
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const phiTxt = 'φ = ' + phi + '°', pb = ctx.measureText(phiTxt).width;
+  const phiKand = [];
+  for (const dw of [0, 0.35, -0.35, 0.7, -0.7])
+    for (const rr of [r0 + 12, r0 + 26, r0 + 44]) {
+      const w = rad / 2 + dw, cw = Math.cos(w);
+      phiKand.push([ox + rr * cw + (cw >= 0 ? pb / 2 : -pb / 2), oy - rr * Math.sin(w)]);
+    }
+  const bogen = [];
+  for (let i = 0; i < 12; i++) { const a0 = rad * i / 12, a1 = rad * (i + 1) / 12;
+    bogen.push([ox + r0 * Math.cos(a0), oy - r0 * Math.sin(a0), ox + r0 * Math.cos(a1), oy - r0 * Math.sin(a1)]); }
+  setzeLabel(ctx, phiTxt, '#1f6b3a', phiKand, belegt, [pF, pX, pY, [0, oy, W, oy], [ox, 0, ox, H], ...bogen], W, H);
+  vekLabel(ctx, ...pF, 'F', C_HAUPT, belegt, strecken, W, H);
+  if (hatX) vekLabel(ctx, ...pX, 'Fx', C_KOMP, belegt, strecken, W, H);
+  if (hatY) vekLabel(ctx, ...pY, 'Fy', C_KOMP, belegt, strecken, W, H);
   if (Fx < -0.5) {
-    ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px "Source Sans 3",sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('φ > 90° → cos φ < 0 → F_x zeigt nach links', W/2, H - 10);
+    // Hinweis in den Quadranten links, in dem der Vektor nicht liegt, umbrochen
+    // auf die Breite links der y-Achse (unten lag er auf «−100»)
+    ctx.font = 'bold 13px "Source Sans 3",sans-serif';
+    const maxB = ox - 52, woerter = 'φ > 90° → cos φ < 0 → F_x zeigt nach links'.split(' ');
+    const zeilen = []; let z = '';
+    for (const w of woerter) { const pr = z ? z + ' ' + w : w; if (ctx.measureText(pr).width > maxB && z) { zeilen.push(z); z = w; } else z = pr; }
+    zeilen.push(z);
+    const oben = Fy < 0;
+    let y = oben ? 34 : H - 12 - (zeilen.length - 1) * 16;
+    ctx.save(); ctx.textAlign = 'left'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.lineJoin = 'round';
+    for (const t of zeilen) { ctx.strokeText(t, 6, y); ctx.fillStyle = '#9b1c1c'; ctx.fillText(t, 6, y); y += 16; }
+    ctx.restore();
   }
 }
 ['a1-F','a1-phi'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
@@ -1480,9 +1571,24 @@ function drawA2() {
   ctx.moveTo(grid.cx(v2x), grid.cy(v2y)); ctx.lineTo(grid.cx(Rx), grid.cy(Ry));
   ctx.stroke(); ctx.setLineDash([]);
 
-  drawVector(ctx, grid.cx, grid.cy, 0, 0, v1x, v1y, C_GEW, 'F1', 2.4);
-  drawVector(ctx, grid.cx, grid.cy, 0, 0, v2x, v2y, C_GEW, 'F2', 2.4);
-  drawVector(ctx, grid.cx, grid.cy, 0, 0, Rx, Ry, C_RES, 'FR', 3.2);
+  const ox = grid.cx(0), oy = grid.cy(0);
+  const q1 = [ox, oy, grid.cx(v1x), grid.cy(v1y)], q2 = [ox, oy, grid.cx(v2x), grid.cy(v2y)], qR = [ox, oy, grid.cx(Rx), grid.cy(Ry)];
+  const rSichtbar = Math.hypot(qR[2] - ox, qR[3] - oy) > 4;
+  drawVector(ctx, grid.cx, grid.cy, 0, 0, v1x, v1y, C_GEW, null, 2.4);
+  drawVector(ctx, grid.cx, grid.cy, 0, 0, v2x, v2y, C_GEW, null, 2.4);
+  if (rSichtbar) drawVector(ctx, grid.cx, grid.cy, 0, 0, Rx, Ry, C_RES, null, 3.2);
+  const belegt = belegteTicks(ctx, W, H, grid, -140, 140, -140, 140);
+  const strecken = [q1, q2, qR, [0, oy, W, oy], [ox, 0, ox, H],
+                    [q1[2], q1[3], qR[2], qR[3]], [q2[2], q2[3], qR[2], qR[3]]];
+  if (rSichtbar) vekLabel(ctx, ...qR, 'FR', C_RES, belegt, strecken, W, H);
+  vekLabel(ctx, ...q1, 'F1', C_GEW, belegt, strecken, W, H);
+  vekLabel(ctx, ...q2, 'F2', C_GEW, belegt, strecken, W, H);
+  if (!rSichtbar) {
+    // F1 = −F2: keine Resultierende — das steht da, statt eines «FR» am Ursprung
+    ctx.save(); ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.lineJoin = 'round';
+    ctx.strokeText('FR = 0', ox + 8, oy - 26); ctx.fillStyle = C_RES; ctx.fillText('FR = 0', ox + 8, oy - 26); ctx.restore();
+  }
 }
 ['a2-f1','a2-p1','a2-f2','a2-p2'].forEach(id => document.getElementById(id).addEventListener('input', drawA2));
 

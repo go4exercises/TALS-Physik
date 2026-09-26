@@ -1332,10 +1332,12 @@ function drawA2() {
 
   // Geschwindigkeitspfeil (grün), proportional zu v
   if (v > 0.1) {
-    const vLen = Math.min(150, v * 5);
+    const kV = Math.min(5, (W - cx - 90) / 30);        // px je m/s, v = 30 m/s passt immer
+    const vLen = v * kV;
     drawArrow(ctx, cx + 80, cyB - 20, cx + 80 + vLen, cyB - 20, '#1f6b3a', 2.6, 10);
     ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-    ctx.fillText('v = ' + v + ' m/s', cx + 84, cyB - 28);
+    const vTxt = 'v = ' + v + ' m/s';
+    ctx.fillText(vTxt, Math.min(cx + 84, W - ctx.measureText(vTxt).width - 4), cyB - 28);
   }
   // Energie-Hinweis
   ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
@@ -1357,11 +1359,17 @@ function drawA2() {
   ctx.fillStyle = 'rgba(155,28,28,0.20)';
   ctx.fillRect(bx0, yBr, mToPx(sBr2) - bx0, 10);
   ctx.fillStyle = '#9b1c1c'; ctx.fillRect(bx0, yBr, mToPx(sBr) - bx0, 10);
-  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-  ctx.fillText('Bremsweg ' + sBr.toFixed(1) + ' m', bx0 + 4, yBr - 4);
-  if (v > 0.1) {
-    ctx.fillStyle = 'rgba(155,28,28,0.75)'; ctx.textAlign = 'right';
-    ctx.fillText('bei 2v: ' + Math.min(sBr2, SMAX).toFixed(1) + ' m' + (sBr2 > SMAX ? ' +' : ''), bxMax, yBr - 4);
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const tBr = 'Bremsweg ' + sBr.toFixed(1) + ' m';
+  const tBr2 = 'bei 2v: ' + Math.min(sBr2, SMAX).toFixed(1) + ' m' + (sBr2 > SMAX ? ' +' : '');
+  const passtZeile = v <= 0.1 || ctx.measureText(tBr).width + ctx.measureText(tBr2).width + 16 <= bxMax - bx0 - 4;
+  if (passtZeile) {
+    ctx.textAlign = 'left'; ctx.fillText(tBr, bx0 + 4, yBr - 4);
+    if (v > 0.1) { ctx.fillStyle = 'rgba(155,28,28,0.75)'; ctx.textAlign = 'right'; ctx.fillText(tBr2, bxMax, yBr - 4); }
+  } else {
+    // Schmal: beide Werte als Legende oben, unter der Energie
+    ctx.textAlign = 'center'; ctx.fillText(tBr, W / 2, 48);
+    ctx.fillStyle = 'rgba(155,28,28,0.75)'; ctx.fillText(tBr2, W / 2, 66);
   }
 
   // Diagramm: Parabel E(v)
@@ -1371,8 +1379,11 @@ function drawA2() {
   // Q1: feste E-Achse. Vorher richtete sie sich nach der eingestellten Masse —
   // die Parabel sah bei 200 kg genauso aus wie bei 2000 kg.
   const EmaxK = 0.5 * 2000 * vMax * vMax / 1000;   // 900 kJ, Reglermaximum
-  const grid = drawGrid(c2, W2, H2, -1, vMax + 1, -EmaxK*0.05, EmaxK * 1.05);
-  drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 'v [m/s]', 'E [kJ]');
+  // Rechts Luft bis 34 m/s: der Punkt bei 30 m/s sass am Rand. Unten Platz,
+  // damit die Skalenzahlen und «v [m/s]» unter der Achse stehen — darüber
+  // kreuzte sie die Lotlinie des Punkts.
+  const grid = drawGrid(c2, W2, H2, -1, vMax + 4, -EmaxK*0.14, EmaxK * 1.05);
+  drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 'v [m/s]', 'E [kJ]', 22);
   // Kurve
   c2.strokeStyle = '#1f6b3a'; c2.lineWidth = 2.4; c2.beginPath();
   for (let vv = 0; vv <= vMax; vv += 0.5) {
@@ -1391,8 +1402,18 @@ function drawA2() {
     else c2.lineTo(grid.cx(vv), grid.cy(EE));
   }
   c2.stroke(); c2.setLineDash([]);
-  c2.fillStyle = '#6b7280'; c2.font = '13px "Source Sans 3",sans-serif'; c2.textAlign = 'right';
-  c2.fillText('doppelte Masse (×2)', W2 - 8, 18);
+  // Beschriftung am Ende der gestrichelten Kurve, nicht oben rechts beim Punkt
+  {
+    const vE = Math.min(vMax, Math.sqrt(EmaxK * 1000 / m)), EE = 0.5 * 2 * m * vE * vE / 1000;
+    const xe = grid.cx(vE), ye = grid.cy(EE), t2 = 'doppelte Masse (×2)';
+    c2.fillStyle = '#6b7280'; c2.font = '13px "Source Sans 3",sans-serif';
+    const b = c2.measureText(t2).width;
+    // rechts vom Kurvenende, sofern dort weder der Rand noch der Messpunkt im Weg ist
+    const pX = grid.cx(v), pY = grid.cy(Ek / 1000);
+    const trifftPunkt = pX > xe - 4 && pX < xe + 8 + b + 10 && Math.abs(pY - (ye + 9)) < 16;
+    if (xe + 8 + b <= W2 - 4 && ye + 14 < grid.cy(0.5 * m * vE * vE / 1000) - 6 && !trifftPunkt) { c2.textAlign = 'left'; c2.fillText(t2, xe + 8, ye + 14); }
+    else { c2.textAlign = 'right'; c2.fillText(t2, Math.min(xe - 8, W2 - 4), Math.max(16, ye - 8)); }
+  }
   // Geister-Punkt bei doppelter Geschwindigkeit — vierfache Energie
   const v2 = Math.min(2*v, vMax), Ek2 = 0.5*m*v2*v2/1000;
   if (v > 0.1 && 2*v <= vMax) {
@@ -1616,8 +1637,9 @@ function drawA4() {
   const cv2 = initCanvas('a4-cv-diag', 240, false);
   const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
   const Fmax = 1200 * 0.15;
-  const grid = drawGrid(c2, W2, H2, -0.005, 0.16, -8, Fmax * 1.05);
-  drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 's [m]', 'F [N]');
+  // unten Platz, damit die s-Zahlen unter der Achse stehen, nicht in der Fläche
+  const grid = drawGrid(c2, W2, H2, -0.005, 0.16, -Fmax * 0.14, Fmax * 1.05);
+  drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 's [m]', 'F [N]', 22);
   // Dreiecksfläche
   c2.fillStyle = 'rgba(91,45,142,0.20)';
   c2.beginPath();
@@ -1631,9 +1653,24 @@ function drawA4() {
   // aktueller Punkt
   drawDot(c2, grid.cx, grid.cy, s, D * s, '#9b1c1c', 5);
   // Flächenlabel
-  if (s > 0.02) {
-    c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace'; c2.textAlign = 'center';
-    c2.fillText('E = ' + E.toFixed(2) + ' J', grid.cx(s*0.55), grid.cy(D*s*0.30));
+  // Flächenlabel: im Dreieck (Schwerpunkt), wenn es dort Platz hat, sonst
+  // rechts neben der senkrechten Kante — dort liegt die Gerade schon darüber
+  if (s > 0.005) {
+    c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace';
+    const eTxt = 'E = ' + E.toFixed(2) + ' J', b = c2.measureText(eTxt).width;
+    const yS = Math.min(grid.cy(D * s / 3) + 5, grid.cy(0) - 8);   // nie auf der Achse
+    const breiteDort = (grid.cx(s) - grid.cx(0)) * (1 - (D * s / 3 + 8) / (D * s));   // Dreiecksbreite auf Texthöhe
+    const halo = (x) => { c2.save(); c2.strokeStyle = '#fff'; c2.lineWidth = 3; c2.lineJoin = 'round';
+      c2.strokeText(eTxt, x, yS); c2.restore(); c2.fillText(eTxt, x, yS); };
+    if (b + 10 < breiteDort && grid.cy(0) - yS > 8) { c2.textAlign = 'right'; halo(grid.cx(s) - 6); }
+    else {
+      // kleines Dreieck: über den Messpunkt, links davon — dort liegt die Gerade tiefer
+      c2.textAlign = 'right';
+      const xr = Math.max(grid.cx(s) - 6, grid.cx(0) + b + 8);
+      c2.save(); c2.strokeStyle = '#fff'; c2.lineWidth = 3; c2.lineJoin = 'round';
+      c2.strokeText(eTxt, xr, grid.cy(D * s) - 12); c2.restore();
+      c2.fillText(eTxt, xr, grid.cy(D * s) - 12);
+    }
   }
 }
 ['a4-D','a4-s'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));

@@ -1372,7 +1372,7 @@ function a1Render(){
   // gewähltes Material
   const ext = stab(y, m, true);
   ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
-  ctx.fillText(m.n+' · l₀ = '+l0+' m', x0, y-8);
+  ctx.fillText(m.n+' (l₀ = '+l0+' m)', x0, y-8);          // Klammer statt «·» als Trenner (Regel 2)
   const tipX=x0+baseLen+ext;
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,2]);
   ctx.beginPath(); ctx.moveTo(x0+baseLen,y+hbar+6); ctx.lineTo(tipX,y+hbar+6); ctx.stroke(); ctx.setLineDash([]);
@@ -1655,18 +1655,21 @@ function drawA3(){
   ctx.strokeStyle='#9b1c1c'; ctx.lineWidth=1.6; ctx.setLineDash([4,3]);
   ctx.beginPath(); ctx.moveTo(xT(0),yFl(rhoW(0))); ctx.lineTo(xT(0),yEis(rhoEis(0))); ctx.stroke(); ctx.setLineDash([]);
   const yG=(yFl(rhoW(0))+yEis(rhoEis(0)))/2;
-  ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px "Source Sans 3",sans-serif'; ctx.textAlign='left';
-  if(schmal){                                     // rechts der Sprunglinie ist nur gut 100 px Platz
-    ctx.fillText('Gefrieren:', xT(0)+6, yG-6); ctx.fillText('−83 kg/m³', xT(0)+6, yG+7);
-    ctx.font='11px "Source Sans 3",sans-serif'; ctx.fillText('(Volumen +9 %)', xT(0)+6, yG+20);
-  } else {
-    ctx.fillText('Gefrieren: −83 kg/m³', xT(0)+6, yG);
-    ctx.font='11px "Source Sans 3",sans-serif';
-    ctx.fillText('(Volumen +9 %)', xT(0)+6, yG+13);
-  }
-  // Maximum bei 4 °C
+  // Maximum bei 4 °C — vor dem Sprung-Text, damit dessen heller Rand die
+  // gestrichelte Linie dort ausspart, wo sie durch den Text liefe
   ctx.strokeStyle='#9b6bd4'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(xT(4),oben[1]); ctx.lineTo(xT(4),yFl(rhoW(4))); ctx.stroke(); ctx.setLineDash([]);
+  const gTxt=(t,x,y)=>{ ctx.save(); ctx.strokeStyle='#fbfaf7'; ctx.lineWidth=4; ctx.lineJoin='round';
+    ctx.strokeText(t,x,y); ctx.restore(); ctx.fillText(t,x,y); };
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px "Source Sans 3",sans-serif'; ctx.textAlign='left';
+  if(schmal){                                     // rechts der Sprunglinie ist nur gut 100 px Platz
+    gTxt('Gefrieren:', xT(0)+6, yG-6); gTxt('−83 kg/m³', xT(0)+6, yG+7);
+    ctx.font='11px "Source Sans 3",sans-serif'; gTxt('(Volumen +9 %)', xT(0)+6, yG+20);
+  } else {
+    gTxt('Gefrieren: −83 kg/m³', xT(0)+6, yG);
+    ctx.font='11px "Source Sans 3",sans-serif';
+    gTxt('(Volumen +9 %)', xT(0)+6, yG+13);
+  }
   ctx.fillStyle='#5b2d8e'; ctx.font='12px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('Max bei 4 °C', xT(4), yFl(rhoW(4))-6);
   // aktueller Punkt
@@ -1740,7 +1743,7 @@ function drawA4(){
   ctx.fillStyle='#3b7fb0'; ctx.fillRect(0,seaTop,W*0.78,seaBot-seaTop);
   // urspruenglicher Pegel
   ctx.strokeStyle='#1c3a52'; ctx.lineWidth=1.5; ctx.setLineDash([6,4]);
-  ctx.beginPath(); ctx.moveTo(0,seaTop); ctx.lineTo(W*0.82,seaTop); ctx.stroke(); ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(0,seaTop); ctx.lineTo(W*0.78,seaTop); ctx.stroke(); ctx.setLineDash([]);
   // neuer Pegel (Anstieg stark vergroessert)
   // Faktor am Reglermaximum kalibriert (Δh_max = 1.68 m -> 77 px), damit die
   // Darstellung über den ganzen Reglerbereich reagiert statt zu klemmen (Q2).
@@ -1748,14 +1751,16 @@ function drawA4(){
   const newTop=seaTop-risePx;
   ctx.fillStyle='rgba(90,160,205,0.6)'; ctx.fillRect(0,newTop,W*0.78,risePx);
   ctx.strokeStyle='#b85c00'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(0,newTop); ctx.lineTo(W*0.82,newTop); ctx.stroke();
-  // Klammer Δh
+  ctx.beginPath(); ctx.moveTo(0,newTop); ctx.lineTo(W*0.78,newTop); ctx.stroke();
+  // Massklammer Δh: die Pegel enden am Ufer (W·0.78); die Klammer steht knapp
+  // daneben, mit kurzen Hilfsstrichen auf Höhe der beiden Pegel
   ctx.strokeStyle='#b85c00'; ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.moveTo(W*0.84,seaTop); ctx.lineTo(W*0.84,newTop); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W*0.84,seaTop); ctx.lineTo(W*0.84,newTop);
+  ctx.moveTo(W*0.83,seaTop); ctx.lineTo(W*0.85,seaTop); ctx.moveTo(W*0.83,newTop); ctx.lineTo(W*0.85,newTop); ctx.stroke();
   ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace';
   const dhTxt='Δh = '+(dh*100).toFixed(0)+' cm';
-  if(W*0.85+ctx.measureText(dhTxt).width <= W-4){
-    ctx.textAlign='left'; ctx.fillText(dhTxt, W*0.85, (seaTop+newTop)/2+4);
+  if(W*0.86+ctx.measureText(dhTxt).width <= W-4){
+    ctx.textAlign='left'; ctx.fillText(dhTxt, W*0.86, (seaTop+newTop)/2+4);
   } else {                                   // schmal: über dem neuen Pegel, links der Küste
     ctx.textAlign='right'; ctx.fillText(dhTxt, W*0.76, newTop-6);
   }
@@ -1812,8 +1817,11 @@ function a5Render(){
   ctx.globalAlpha=0.18; ctx.fillRect(zx0,zy0,gasW,zy1-zy0); ctx.globalAlpha=1;
   // Teilchen
   const col=lerpCol((v.Tc+50)/300);
+  // Innenraum: Wand (3 px, halb innen) und Teilchenradius abziehen, damit
+  // kein Teilchen auf Wand oder Kolben liegt
+  const rT=4.5, inX=zx0+1.5+rT, inW=Math.max(0,gasW-1.5-2*rT), inY=zy0+1.5+rT, inH=zy1-zy0-3-2*rT;
   for(const q of a5State.p){
-    const px=zx0+q.x*gasW, py=zy0+q.y*(zy1-zy0);
+    const px=inX+q.x*inW, py=inY+q.y*inH;
     ctx.fillStyle=col; ctx.beginPath(); ctx.arc(px,py,4.5,0,6.283); ctx.fill();
   }
   // Kolben
@@ -1866,6 +1874,10 @@ function a6SetSlider(){
   else { s.min=200; s.max=500; s.step=5; s.value=300; lab.innerHTML='Temperatur \\(T\\):'; }
   if(window.MathJax&&MathJax.typeset) try{MathJax.typeset([lab]);}catch(e){}
 }
+// Ablese-Linien enden vor den Achsenzahlen: drawGrid setzt sie innen an die
+// Achsen (x-Zahlen gut 18 px über der x-Achse, y-Zahlen rechts der y-Achse).
+const a6Unten = g => g.cy(0) - 20;
+const a6Links = g => g.cx(0) + 36;
 function drawA6(){
   const x=+document.getElementById('a6-x').value;
   const cv=initCanvas('a6-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
@@ -1883,7 +1895,7 @@ function drawA6(){
     ctx.stroke();
     const px=g.cx(x), py=g.cy(p);
     ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
-    ctx.beginPath(); ctx.moveTo(px,g.cy(0)); ctx.lineTo(px,py); ctx.moveTo(g.cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(px,a6Unten(g)); ctx.lineTo(px,py); ctx.moveTo(a6Links(g),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
     drawDot(ctx,a=>a,b=>b,px,py,'#9b1c1c',6);
     ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
     ctx.fillText('('+x.toFixed(1)+' l | '+p.toFixed(2)+' bar)', px+8, py-6);
@@ -1898,7 +1910,7 @@ function drawA6(){
     ctx.beginPath(); ctx.moveTo(g.cx(0),g.cy(0)); ctx.lineTo(g.cx(520),g.cy(A6_AMON_K*520)); ctx.stroke();
     const px=g.cx(x), py=g.cy(p);
     ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
-    ctx.beginPath(); ctx.moveTo(px,g.cy(0)); ctx.lineTo(px,py); ctx.moveTo(g.cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(px,a6Unten(g)); ctx.lineTo(px,py); ctx.moveTo(a6Links(g),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
     drawDot(ctx,a=>a,b=>b,px,py,'#9b1c1c',6);
     ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
     ctx.fillText('('+Math.round(x)+' K | '+p.toFixed(2)+' bar)', px+8, py-6);

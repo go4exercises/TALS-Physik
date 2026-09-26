@@ -454,7 +454,7 @@ MathJax = {
     </div>
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Stromstärke \(I\)</span><span class="lb-val" id="a4-li">1.00 A</span></div>
-      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">Ladungen pro Sekunde</span><span class="lb-val" id="a4-ln">6.24 · 10^18</span></div>
+      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">Ladungen pro Sekunde</span><span class="lb-val" id="a4-ln">6.24 · 10¹⁸</span></div>
       <div class="lb-item"><span class="lb-lab">Ladung in \(1\;\text{s}\)</span><span class="lb-val" id="a4-lq">1.00 C</span></div>
     </div>
     <div class="cv-wrap">
@@ -506,7 +506,7 @@ MathJax = {
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Temperatur \(T\)</span><span class="lb-val" id="a5-lt">300 K</span></div>
       <div class="lb-item"><span class="lb-lab">in Grad Celsius</span><span class="lb-val" id="a5-lc">26.85 °C</span></div>
-      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">\(\overline{E}_\text{kin} = \tfrac{3}{2} k T\)</span><span class="lb-val" id="a5-le">6.21 · 10^-21 J</span></div>
+      <div class="lb-item" style="margin-right:30px"><span class="lb-lab">\(\overline{E}_\text{kin} = \tfrac{3}{2} k T\)</span><span class="lb-val" id="a5-le">6.21 · 10⁻²¹ J</span></div>
       <div class="lb-item"><span class="lb-lab">Tempo eines \(\text{N}_2\)-Moleküls \(v_\text{rms}\)</span><span class="lb-val" id="a5-lv">517 m/s</span></div>
     </div>
     <div class="cv-wrap">
@@ -553,7 +553,7 @@ MathJax = {
       <button class="typ-btn" data-stoff="gold">Gold</button>
     </div>
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Teilchenzahl</span><span class="lb-val" id="a6-ln">6.022 · 10^23</span></div>
+      <div class="lb-item"><span class="lb-lab">Teilchenzahl</span><span class="lb-val" id="a6-ln">6.022 · 10²³</span></div>
       <div class="lb-item"><span class="lb-lab">molare Masse \(M\)</span><span class="lb-val" id="a6-lm">18.015 g/mol</span></div>
       <div class="lb-item" style="margin-right:30px"><span class="lb-lab">Volumen von \(1\;\text{mol}\)</span><span class="lb-val" id="a6-lv">18.05 cm³</span></div>
       <div class="lb-item"><span class="lb-lab">Würfelkante</span><span class="lb-val" id="a6-la">2.62 cm</span></div>
@@ -608,7 +608,7 @@ MathJax = {
     </div>
     <div class="cv-wrap">
       <div class="cv-titel">👁️ Augenempfindlichkeit über dem sichtbaren Spektrum</div>
-      <canvas id="a7-cv" height="260" role="img" aria-label="Die genormte Kurve der Augenempfindlichkeit über dem sichtbaren Spektrum von 400 bis 700 Nanometern, unterlegt mit den Spektralfarben. Ein Zeiger markiert die eingestellte Wellenlänge, ein Balken daneben die zugehörige Lichtstärke."></canvas>
+      <canvas id="a7-cv" height="274" role="img" aria-label="Die genormte Kurve der Augenempfindlichkeit über dem sichtbaren Spektrum von 400 bis 700 Nanometern, unterlegt mit den Spektralfarben. Ein Zeiger markiert die eingestellte Wellenlänge, ein Balken daneben die zugehörige Lichtstärke."></canvas>
     </div>
   </div>
 </div>
@@ -909,12 +909,18 @@ function siGrupp(x) {
   const z = String(Math.round(x));
   return z.length > 4 ? z.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : z;
 }
+// Hochzahl als echte Hochstellung: 10¹⁸ statt «10^18» — im Canvas und in
+// Wertanzeigen, wo kein LaTeX läuft (so auch auf p0-2).
+const SI_HOCH = { '-':'\u207B', '0':'\u2070', '1':'\u00B9', '2':'\u00B2',
+                  '3':'\u00B3', '4':'\u2074', '5':'\u2075', '6':'\u2076',
+                  '7':'\u2077', '8':'\u2078', '9':'\u2079' };
+const siHoch = n => String(n).split('').map(c => SI_HOCH[c] || c).join('');
 // Zehnerpotenz-Schreibweise fuer sehr kleine oder grosse Werte
 function siPot(x, n) {
   if (x === 0) return '0';
   const e = Math.floor(Math.log10(Math.abs(x)));
   const m = x / Math.pow(10, e);
-  return siFmt(m, n === undefined ? 2 : n) + ' · 10^' + e;
+  return siFmt(m, n === undefined ? 2 : n) + ' · 10' + siHoch(e);
 }
 // Beschriftung mit hellem Grund, damit sie nie im Strich verschwindet (§3.6)
 // Zeile mittig setzen und die Schrift so weit verkleinern, bis sie in die Breite passt
@@ -1154,6 +1160,14 @@ function drawA3() {
   const winkel = bewegen ? 0 : Math.max(-0.2, Math.min(0.2, diff * 0.5));
   const lx = cx - Math.cos(winkel) * halb, ly = py + Math.sin(winkel) * halb;
   const rx = cx + Math.cos(winkel) * halb, ry = py - Math.sin(winkel) * halb;
+  // Balkenhöhe an der Stelle x — für Beschriftungen, die über dem schrägen
+  // Balken stehen müssen, statt von ihm durchstrichen zu werden
+  const balkenY = x => ly + (ry - ly) * (Math.max(lx, Math.min(rx, x)) - lx) / (rx - lx);
+  const ueberBalken = (txt, xm, yMax) => {
+    ctx.font = '700 11px "JetBrains Mono",monospace';
+    const w = ctx.measureText(txt).width;
+    return Math.max(16, Math.min(yMax, balkenY(xm - w / 2), balkenY(xm + w / 2)) - 8);
+  };
 
   // Stativ
   ctx.strokeStyle = SI_F.tinte; ctx.fillStyle = '#d8cdba'; ctx.lineWidth = 2;
@@ -1199,32 +1213,43 @@ function drawA3() {
     ctx.fillStyle = SI_F.blau; ctx.font = '10px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('Spule im Magnetfeld', lx, ly + 94);
     siHalo(ctx, 'B l unbekannt', lx, ly + 110, SI_F.tinte2, '10px "Source Sans 3",sans-serif', 'center');
-    drawArrow(ctx, lx, ly + 30, lx, ly + 30 - Math.min(52, Fs * 6), SI_F.gruen, 2.4, 9);
-    siHalo(ctx, 'F = B l I = ' + siFmt(Fs, 2) + ' N', a3LabX(ctx, 'F = B l I = ' + siFmt(Fs, 2) + ' N', lx, W),
-           ly - 16, SI_F.gruen, '700 11px "JetBrains Mono",monospace', 'center');
+    const fsLen = Math.min(52, Fs * 6);
+    drawArrow(ctx, lx, ly + 30, lx, ly + 30 - fsLen, SI_F.gruen, 2.4, 9);
+    const fsTxt = 'F = B l I = ' + siFmt(Fs, 2) + ' N', fsX = a3LabX(ctx, fsTxt, lx, W);
+    siHalo(ctx, fsTxt, fsX, ueberBalken(fsTxt, fsX, ly + 30 - fsLen - 6),
+           SI_F.gruen, '700 11px "JetBrains Mono",monospace', 'center');
   }
 
-  // Rechte Seite: Waagschale
+  // Rechte Seite: Waagschale an einem Bügel — die Masse steht zwischen den
+  // Schnüren, und zwischen Masse und Balken bleibt Luft (vorher reichte der
+  // 1000-g-Block bis an den Balken und verdeckte die Aufhängung).
+  const ps = ry + 58;                                   // Oberkante der Schale
   ctx.strokeStyle = SI_F.tinte2; ctx.lineWidth = 1.2;
-  ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx, ry + 34); ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(rx, ry); ctx.lineTo(rx, ry + 10);
+  ctx.moveTo(rx - 28, ry + 10); ctx.lineTo(rx + 28, ry + 10);
+  ctx.moveTo(rx - 28, ry + 10); ctx.lineTo(rx - 28, ps);
+  ctx.moveTo(rx + 28, ry + 10); ctx.lineTo(rx + 28, ps);
+  ctx.stroke();
   ctx.fillStyle = '#efe6d6'; ctx.strokeStyle = SI_F.tinte; ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.moveTo(rx - 30, ry + 34); ctx.lineTo(rx + 30, ry + 34);
-  ctx.lineTo(rx + 22, ry + 48); ctx.lineTo(rx - 22, ry + 48);
+  ctx.moveTo(rx - 32, ps); ctx.lineTo(rx + 32, ps);
+  ctx.lineTo(rx + 24, ps + 14); ctx.lineTo(rx - 24, ps + 14);
   ctx.closePath(); ctx.fill(); ctx.stroke();
 
   if (bewegen) {
-    siHalo(ctx, 'keine Masse aufgelegt', rx, ry + 66, SI_F.tinte2,
+    siHalo(ctx, 'keine Masse aufgelegt', rx, ps + 32, SI_F.tinte2,
            '10px "Source Sans 3",sans-serif', 'center');
   } else {
-    const kh = Math.max(10, Math.min(40, m * 34));
+    const kh = Math.max(14, Math.min(34, m * 28));       // höchstens bis 14 px unter den Bügel
     ctx.fillStyle = '#9aa0a6'; ctx.strokeStyle = SI_F.tinte; ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.rect(rx - 20, ry + 34 - kh, 40, kh); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.rect(rx - 20, ps - kh, 40, kh); ctx.fill(); ctx.stroke();
     ctx.fillStyle = SI_F.weiss; ctx.font = '700 10px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
-    ctx.fillText(Math.round(m * 1000) + ' g', rx, ry + 34 - kh / 2 + 4);
-    drawArrow(ctx, rx, ry + 52, rx, ry + 52 + Math.min(52, Fg * 6), SI_F.rot, 2.4, 9);
-    siHalo(ctx, 'F_G = m g = ' + siFmt(Fg, 2) + ' N', a3LabX(ctx, 'F_G = m g = ' + siFmt(Fg, 2) + ' N', rx, W),
-           ry - 16, SI_F.rot, '700 11px "JetBrains Mono",monospace', 'center');
+    ctx.fillText(Math.round(m * 1000) + ' g', rx, ps - kh / 2 + 4);
+    drawArrow(ctx, rx, ps + 18, rx, ps + 18 + Math.min(44, Fg * 5), SI_F.rot, 2.4, 9);
+    const fgTxt = 'F_G = m g = ' + siFmt(Fg, 2) + ' N', fgX = a3LabX(ctx, fgTxt, rx, W);
+    siHalo(ctx, fgTxt, fgX, ueberBalken(fgTxt, fgX, ry - 8),
+           SI_F.rot, '700 11px "JetBrains Mono",monospace', 'center');
   }
 
   // Statuszeile
@@ -1233,12 +1258,11 @@ function drawA3() {
              + ' mm/s durch dasselbe Feld gezogen und erzeugt U = B l · v = '
              + siFmt(U * 1000, 1) + ' mV.', W / 2, H - 26, W - 24, SI_F.tinte2);
   } else {
-    ctx.fillStyle = gleich ? SI_F.gruen : SI_F.tinte2;
-    ctx.font = '600 13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText(gleich ? '✓ Gleichgewicht — jetzt gilt m g = B l · I'
+    // schmal verkleinert siZeile die Schrift, statt den Satz abzuschneiden
+    siZeile(ctx, gleich ? '✓ Gleichgewicht — jetzt gilt m g = B l · I'
                         : (Fs > Fg ? 'Spulenkraft überwiegt — Masse erhöhen oder Strom senken'
                                    : 'Gewichtskraft überwiegt — Strom erhöhen oder Masse senken'),
-                 W / 2, H - 14);
+            W / 2, H - 14, W - 16, '600', 13, gleich ? SI_F.gruen : SI_F.tinte2, '"Source Sans 3",sans-serif');
   }
 }
 
@@ -1327,7 +1351,7 @@ function drawA4() {
 
   // Zaehlzeile
   siZeile(ctx, siPot(n, 2) + ' Elementarladungen je Sekunde', W / 2, H - 32, W - 20, '700', 15, SI_F.tinte);
-  siZeile(ctx, '1 A = 1 C/s;   1 C = 1/e ≈ 6.24 · 10^18 Ladungen', W / 2, H - 12, W - 20,
+  siZeile(ctx, '1 A = 1 C/s;   1 C = 1/e ≈ 6.24 · 10¹⁸ Ladungen', W / 2, H - 12, W - 20,
           '', 12, SI_F.tinte2, '"Source Sans 3",sans-serif');
 }
 
@@ -1411,7 +1435,7 @@ function drawA6() {
   const s = A6_STOFFE[a6Stoff];
   const V = (s.M / 1000) / s.rho * 1e6;        // cm³
   const a = Math.pow(V, 1 / 3);                // cm
-  document.getElementById('a6-ln').textContent = '6.022 · 10^23';
+  document.getElementById('a6-ln').textContent = '6.022 · 10²³';
   document.getElementById('a6-lm').textContent = siFmt(s.M, 3) + ' g/mol';
   document.getElementById('a6-lv').textContent = siFmt(V, 2) + ' cm³';
   document.getElementById('a6-la').textContent = siFmt(a, 2) + ' cm';
@@ -1502,7 +1526,7 @@ function drawA7() {
   document.getElementById('a7-lp').textContent = '1/683 W/sr';
   document.getElementById('a7-lc').textContent = siFmt(V, 2) + ' cd';
 
-  const cv = initCanvas('a7-cv', 260, false);
+  const cv = initCanvas('a7-cv', 274, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = SI_F.weiss; ctx.fillRect(0, 0, W, H);
 
@@ -1535,7 +1559,10 @@ function drawA7() {
     siHalo(ctx, 'V(λ) — Augenempfindlichkeit', links + 6, oben + 2, SI_F.tinte2,
            '600 12px "Source Sans 3",sans-serif');
   }
-  siHalo(ctx, 'λ in nm', rechts, unten - 8, SI_F.tinte2, '11px "JetBrains Mono",monospace', 'right');
+  // Achsentitel in eigener Zeile unter den Zahlen: über der Achse kreuzt ihn
+  // je nach Breite die Kurve oder der Zeiger
+  ctx.fillStyle = SI_F.tinte2; ctx.font = '11px "JetBrains Mono",monospace'; ctx.textAlign = 'right';
+  ctx.fillText('λ in nm', rechts + 8, unten + 55);
 
   // Kurve
   ctx.strokeStyle = SI_F.bern; ctx.lineWidth = 2.6;
@@ -1552,8 +1579,12 @@ function drawA7() {
   ctx.setLineDash([]);
   ctx.fillStyle = SI_F.rot;
   ctx.beginPath(); ctx.arc(px(lam), py(V), 6, 0, 6.283); ctx.fill();
-  siHalo(ctx, 'V = ' + siFmt(V, 2), px(lam), py(V) + (V > 0.85 ? 24 : -12), SI_F.rot,
-         '700 12px "JetBrains Mono",monospace', 'center');
+  // Wert immer über dem Punkt — darunter liefe die Zeigerlinie durch; am
+  // rechten Rand links vom Punkt, sonst stösst er an den Balken
+  const amRand = px(lam) > rechts - 40, amStart = px(lam) < links + 40;
+  siHalo(ctx, 'V = ' + siFmt(V, 2), amRand ? px(lam) - 10 : (amStart ? px(lam) + 10 : px(lam)),
+         Math.max(14, py(V) - 12), SI_F.rot,
+         '700 12px "JetBrains Mono",monospace', amRand ? 'right' : (amStart ? 'left' : 'center'));
 
   // Balken der Lichtstaerke
   const bx = rechts + 24, bw = 34;
@@ -1603,7 +1634,7 @@ const A8 = {
          hinweis:'Ereignisse je Sekunde. Das Netz in Europa schwingt mit 50 Hz.' },
   C:   { name:'Coulomb (C)', groesse:'Ladung',       formel:'1\\;\\text{C} = 1\\;\\text{A}\\cdot 1\\;\\text{s}',
          basis:'A · s', bau:['A','·','s'],
-         hinweis:'Ladung ist Strom mal Zeit. 1 C entspricht 6.24 · 10^18 Elementarladungen.' },
+         hinweis:'Ladung ist Strom mal Zeit. 1 C entspricht 6.24 · 10¹⁸ Elementarladungen.' },
   V:   { name:'Volt (V)',    groesse:'Spannung',     formel:'1\\;\\text{V} = \\frac{1\\;\\text{W}}{1\\;\\text{A}}',
          basis:'kg · m² / (A · s³)', bau:['kg','·','m²','/','A','/','s³'],
          hinweis:'Leistung je Strom — oder Energie je Ladung: 1 V = 1 J/C.' },
@@ -1640,12 +1671,8 @@ const A9_VOR = {
   '-9': { n:'nano',  z:'n', bsp:'fünf Atome nebeneinander (1 nm)' }
 };
 
-// Zehnerpotenz mit echter Hochzahl. Die Seite schreibt sie ueberall sonst so
-// (10^-34, 10^23 im Fliesstext); nur diese Anzeige stand mit Dach da.
-const A9_HOCH = { '-':'\u207B', '0':'\u2070', '1':'\u00B9', '2':'\u00B2',
-                  '3':'\u00B3', '4':'\u2074', '5':'\u2075', '6':'\u2076',
-                  '7':'\u2077', '8':'\u2078', '9':'\u2079' };
-const a9Hoch = n => String(n).split('').map(c => A9_HOCH[c] || c).join('');
+// Zehnerpotenz mit echter Hochzahl: siHoch (oben bei siPot)
+const a9Hoch = siHoch;
 
 function drawA9() {
   const p = +document.getElementById('a9-p').value;
@@ -1679,7 +1706,7 @@ function drawA9() {
       const v2 = A9_VOR[String(e)];
       if (e % 3 === 0) {                    // nur die Dreierschritte beschriften, sonst wird es eng
         ctx.fillStyle = SI_F.tinte2; ctx.font = '10px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
-        ctx.fillText('10^' + e, px(e), y + (e % 2 === 0 ? 26 : 40));
+        ctx.fillText('10' + siHoch(e), px(e), y + (e % 2 === 0 ? 26 : 40));
       }
       if (v2.z) {
         ctx.fillStyle = SI_F.bern; ctx.font = '700 12px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
@@ -1692,7 +1719,7 @@ function drawA9() {
   const xz = px(p);
   ctx.fillStyle = SI_F.rot;
   ctx.beginPath(); ctx.moveTo(xz, y - 46); ctx.lineTo(xz - 7, y - 60); ctx.lineTo(xz + 7, y - 60); ctx.closePath(); ctx.fill();
-  siHalo(ctx, '10^' + p, xz, y - 66, SI_F.rot, '700 13px "JetBrains Mono",monospace', 'center');
+  siHalo(ctx, '10' + siHoch(p), xz, y - 66, SI_F.rot, '700 13px "JetBrains Mono",monospace', 'center');
 
   siZeile(ctx, text, W / 2, y + 74, W - 20, '700', 15, SI_F.tinte, '"Source Sans 3",sans-serif');
   siZeile(ctx, v ? v.bsp : 'zwischen den gebräuchlichen Stufen', W / 2, y + 96, W - 20,
