@@ -147,6 +147,13 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   gemessene Sprechdauer je Szene als `dauer` ins Drehbuch zurück — danach sitzt
   Bild auf Sprache. Danach den Clip mit `build-clips.py` neu bauen.
 
+  Seit dem 26.09.2026 dieselbe Fassung wie in Mathe: `--zweitstimme NAME`
+  baut eine zweite Spur `clips/ton/<name>-NAME.mp3` auf die Zeitspur der
+  ersten (dazu `--modell2`, `--klang`, `--tempo`, `--noise-scale`,
+  `--noise-w`; das Drehbuch bleibt dabei unverändert). **Abgespielt wird sie
+  hier noch nicht** — den Stimmenwechsel im Player hat nur Mathes
+  `build-clips.py`.
+
   **Stimme: `de_DE-thorsten-high` (verbindlich, bis der Auftraggeber es ändert).**
 
   ```bash
@@ -304,7 +311,10 @@ LaTeX-Ausdrucks**, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Ma
 Slot-Limits und **keine Fremdhosts** (`fonts.googleapis.com`, `fonts.gstatic.com`,
 `cdn.jsdelivr.net`); (2) Aufruf der vorhandenen Repo-Skripte `verify_mathjax.js` (echte
 Render-Prüfung), `verify_js_runtime.js` (JS-Laufzeit) und `verify_einheitentrainer.js`
-(Selbsttest von p0-4). `verify_js_runtime.js` bekommt nur `themen/`-Seiten zu sehen —
+(Selbsttest von p0-4), dazu `check_clips` — die Clip-Ablage gegen `clips/clips.json`:
+Clip ohne Eintrag, Eintrag ohne Datei, `lektion`-Code, den `nav.js` nicht kennt
+(alle `[FEHLER]`), fehlender Sprechertext (`[WARN]`); Drehbücher mit `probe: true`
+sind ausgenommen. Aus tals-mathe übernommen (26.09.2026). `verify_js_runtime.js` bekommt nur `themen/`-Seiten zu sehen —
 es ersetzt Einbindungen der Form `src="../nav.js"` und meldet auf Wurzelseiten sonst
 einen Fehler, der keiner ist. Stufe 2 braucht einmalig `npm install mathjax-full jsdom` im
 Repo-Root; fehlen die Module, werden diese Checks als `[WARN]` übersprungen.

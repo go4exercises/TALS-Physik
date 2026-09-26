@@ -11,6 +11,7 @@ Zwei Stufen:
    - verify_js_runtime.js  (JS-Laufzeit in jsdom; braucht node_modules/jsdom)
    - verify_einheitentrainer.js (Selbsttest des Einheitentrainers; braucht jsdom)
    - check_identifier_collisions.py (falls vorhanden; ohne npm)
+   - check_clips (Clip-Ablage gegen clips/clips.json und nav.js)
    Fehlt ein npm-Modul, wird der Tiefen-Check sauber als WARN übersprungen.
 
 MUSS vom Repo-Wurzelverzeichnis aufgerufen werden (wegen scripts/ und node_modules/).
@@ -222,6 +223,64 @@ def _run_node(script, file_args, env):
                           capture_output=True, text=True, env=env)
 
 
+def check_clips(wurzel, rep):
+    """Konsistenz der Clip-Ablage. Faellt sonst nirgends auf: ein Clip ohne
+    Eintrag fehlt lautlos in der Bibliothek, ein Eintrag ohne Datei liefert
+    dort einen toten Knopf, und ein `lektion`-Code, den nav.js nicht kennt,
+    landet auf keiner Seite."""
+    import json as _json
+    clips = wurzel / "clips"
+    index = clips / "clips.json"
+    if not clips.is_dir() or not index.is_file():
+        return
+
+    try:
+        eintraege = _json.loads(index.read_text(encoding="utf-8")).get("clips", [])
+    except ValueError as e:
+        rep.err("clips.json", f"nicht lesbar: {e}")
+        return
+
+    # Drehbuecher mit "probe": true sind Versuche. Sie werden gebaut, aber
+    # bewusst nicht ins Verzeichnis aufgenommen — sonst stuenden sie in der
+    # Bibliothek und auf den Lektionsseiten.
+    proben = set()
+    for d in clips.glob("*.json"):
+        if d.name == "clips.json":
+            continue
+        try:
+            dreh = _json.loads(d.read_text(encoding="utf-8"))
+            if dreh.get("probe"):
+                proben.add((dreh.get("dateiname") or d.stem) + ".html")
+        except ValueError:
+            pass
+
+    dateien = {f.name for f in clips.glob("*.html")} - proben
+    gelistet = {e.get("datei", "") for e in eintraege}
+    for fehlt in sorted(gelistet - dateien):
+        rep.err("clips.json", f"Eintrag '{fehlt}' hat keine Datei")
+    for fehlt in sorted(dateien - gelistet):
+        rep.err("clips/", f"{fehlt} steht nicht in clips.json — "
+                          "`python3 scripts/build-clips.py`")
+
+    nav = wurzel / "nav.js"
+    bekannt = set(re.findall(r"id:\s*'([^']+)'", nav.read_text(encoding="utf-8"))) \
+        if nav.is_file() else set()
+    for e in eintraege:
+        codes = e.get("lektion") or []
+        if isinstance(codes, str):
+            codes = [codes]
+        if not codes:
+            rep.err("clips.json", f"{e.get('datei')}: Feld 'lektion' ist leer")
+        for c in codes:
+            if bekannt and c not in bekannt:
+                rep.err("clips.json", f"{e.get('datei')}: Lektion '{c}' "
+                                      "steht nicht in nav.js")
+        stamm = e.get("datei", "").replace(".html", "")
+        if stamm and not (clips / f"sprechertext-{stamm}.txt").is_file():
+            rep.warn("clips/", f"kein Sprechertext zu {e.get('datei')} — "
+                               "die Seite bekommt kein Transkript")
+
+
 def run_deep(file_args, rep):
     scripts = Path("scripts")
     if not scripts.is_dir():
@@ -308,6 +367,8 @@ def run_deep(file_args, rep):
             rep.err("animationen", "Animationsnummern/-verweise stimmen nicht "
                                    "(siehe oben)")
 
+
+    check_clips(scripts.parent, rep)
 
     ab = scripts / "abgleich.py"
     if ab.is_file():

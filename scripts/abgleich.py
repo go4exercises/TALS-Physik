@@ -87,7 +87,7 @@ GRUNDLINIE = {
     'scripts/build-suchindex.py': 0.962,
     'scripts/build-clips.py': 0.782,
     'scripts/build-clips-einbau.py': 0.806,
-    'scripts/build-clip-ton.py': 0.575,
+    'scripts/build-clip-ton.py': 1.000,
     'scripts/build-seo.py': 0.520,
     'scripts/schriften-lokal.py': 0.961,
     'scripts/mathjax-lokal.py': 0.853,
@@ -99,7 +99,7 @@ GRUNDLINIE = {
     '.claude/tools/scan-live.mjs': 0.761,
     '.claude/tools/render-check.mjs': 0.968,
     '.claude/tools/build-bilder.mjs': 0.753,
-    '.claude/skills/preflight/preflight.py': 0.760,
+    '.claude/skills/preflight/preflight.py': 0.849,
     '.claude/skills/preflight/SKILL.md': 0.659,
     '.claude/settings.json': 0.509,
 }
@@ -111,12 +111,11 @@ BAUSTELLE = {
         'Grosse Teile sind Projektdatei (SEITEN, Lerngebiete). Die Logik ist seit '
         'dem 13.09.2026 gleich (argparse, --dry-run, einsetzen, main). Trennen '
         'waere der naechste Schritt.',
-    'scripts/build-clip-ton.py':
-        'Mathe kann Klangkurve, Zweitstimme und Tempo; Physik nicht. Kein Fach-'
-        'unterschied, nur Rueckstand.',
     '.claude/skills/preflight/preflight.py':
-        'Neun Pruefungen geteilt (check_html_in_math seit 13.09.2026 in beiden). '
-        'Offen: check_clips nur in Mathe.',
+        'Alle Pruefungen geteilt (check_html_in_math seit 13.09.2026, '
+        'check_clips seit 26.09.2026 in beiden). Verschieden bleiben Ordner und '
+        'Bibliotheksname, dazu Einzelheiten: Slot-Limits nur in Physik, '
+        'Skelett-Ausnahmen (EIGENES_SKELETT) nur in Mathe.',
     '.claude/settings.json':
         'Erlaubnislisten verschieden lang. Die deny-Listen sind seit dem '
         '13.09.2026 deckungsgleich; das ist der Teil, auf den es ankommt.',
@@ -126,11 +125,6 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Mathe', was='scripts/build-clip-ton.py',
-         wie='Mathe kann Klangkurve, Zweitstimme, Tempo und Rausch-Parameter '
-             '(342 Zeilen gegen 155). Kein Fachunterschied, nur Rueckstand.'),
-    dict(quelle='Mathe', was='check_clips im Pre-Flight',
-         wie='Gibt es nur in Mathe.'),
 ]
 
 FACH = {
