@@ -79,7 +79,7 @@ GRUNDLINIE = {
     'suche.js': 0.982,
     'anim-hinweise.js': 0.923,
     'schriften.css': 0.773,
-    'package.json': 0.833,
+    'package.json': 0.880,
     '.gitignore': 0.740,
     'downloads/print.css': 0.900,
     'feedback.html': 0.977,
@@ -88,7 +88,7 @@ GRUNDLINIE = {
     'scripts/build-clips.py': 0.782,
     'scripts/build-clips-einbau.py': 0.806,
     'scripts/build-clip-ton.py': 0.575,
-    'scripts/build-seo.py': 0.404,
+    'scripts/build-seo.py': 0.520,
     'scripts/schriften-lokal.py': 0.961,
     'scripts/mathjax-lokal.py': 0.853,
     'scripts/verify_mathjax.js': 0.941,
@@ -96,9 +96,10 @@ GRUNDLINIE = {
     'scripts/check_identifier_collisions.py': 0.940,
     '.claude/tools/pruef-mathjax.mjs': 0.962,
     '.claude/tools/pruef-clip.mjs': 0.880,
-    '.claude/tools/scan-live.mjs': 0.095,
+    '.claude/tools/scan-live.mjs': 0.761,
+    '.claude/tools/render-check.mjs': 0.968,
     '.claude/tools/build-bilder.mjs': 0.753,
-    '.claude/skills/preflight/preflight.py': 0.724,
+    '.claude/skills/preflight/preflight.py': 0.760,
     '.claude/skills/preflight/SKILL.md': 0.659,
     '.claude/settings.json': 0.509,
 }
@@ -106,17 +107,16 @@ GRUNDLINIE = {
 # Was tief unter seiner Grundlinie liegt, ist kein Naturgesetz, sondern eine
 # offene Baustelle. Hier steht, was daran zu tun waere.
 BAUSTELLE = {
-    '.claude/tools/scan-live.mjs':
-        'Physik 211 Zeilen (liest Canvas-fillText mit), Mathe 41. Dieselbe '
-        'STYLEGUIDE-Regel, zwei Schaerfegrade — die Physik-Fassung gehoert hinueber.',
     'scripts/build-seo.py':
-        'Grosse Teile sind Projektdatei (SEITEN, Lerngebiete). Die Logik allein '
-        'ist zu 66 % gleich. Trennen waere der naechste Schritt.',
+        'Grosse Teile sind Projektdatei (SEITEN, Lerngebiete). Die Logik ist seit '
+        'dem 13.09.2026 gleich (argparse, --dry-run, einsetzen, main). Trennen '
+        'waere der naechste Schritt.',
     'scripts/build-clip-ton.py':
         'Mathe kann Klangkurve, Zweitstimme und Tempo; Physik nicht. Kein Fach-'
         'unterschied, nur Rueckstand.',
     '.claude/skills/preflight/preflight.py':
-        'Acht Pruefungen geteilt. Beide Repos sollten dieselben Gatter haben.',
+        'Neun Pruefungen geteilt (check_html_in_math seit 13.09.2026 in beiden). '
+        'Offen: check_clips nur in Mathe.',
     '.claude/settings.json':
         'Erlaubnislisten verschieden lang. Die deny-Listen sind seit dem '
         '13.09.2026 deckungsgleich; das ist der Teil, auf den es ankommt.',
@@ -126,26 +126,6 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='tals-mathe/CLAUDE.md um zwei Punkte ergaenzen',
-         wie='Abschnitt «Schwesterprojekt TALS Physik»: (a) auch --root PFAD ist '
-             'Schreiben, erlaubt nur mit --dry-run/--check; (b) abgleich.py liest nur '
-             'und ist erlaubt, sein [WARN] ist der Anlass fuer einen OFFEN-Eintrag. '
-             'Wortlaut steht in Physiks CLAUDE.md, Abschnitt «Schwesterprojekt TALS Mathe».'),
-    dict(quelle='Physik', was='.claude/tools/scan-live.mjs',
-         wie='Physik 211 Zeilen gegen Mathe 41. Die Physik-Fassung liest zusaetzlich '
-             'Canvas-fillText mit und kennt --alle. Anzupassen sind nur die '
-             'Knopf-Selektoren (BTN) und die Seitenordner.'),
-    dict(quelle='Physik', was='.claude/tools/render-check.mjs',
-         wie='Gibt es nur in Physik; prueft 1280 und 360 px auf Ueberlauf und auf '
-             'Inhalt, den ein overflow:hidden abschneidet. Mathe hat den Vorgaenger '
-             'check-breite.mjs — pruefen, ob er danach entfallen kann.'),
-    dict(quelle='Physik', was='check_html_in_math im Pre-Flight',
-         wie='Findet HTML-Auszeichnung innerhalb eines LaTeX-Ausdrucks. Nicht '
-             'fachspezifisch, eine Funktion.'),
-    dict(quelle='Physik', was='build-seo.py: argparse, --dry-run, --dry-run --diff',
-         wie='Mathe prueft weiterhin nur \'--check\' in argv; unbekannte Schalter '
-             'fallen durch, ein --help schreibt die Metadaten. SEITEN-Tabelle und '
-             'Lerngebiets-Konstanten bleiben, wie sie sind.'),
     dict(quelle='Mathe', was='scripts/build-clip-ton.py',
          wie='Mathe kann Klangkurve, Zweitstimme, Tempo und Rausch-Parameter '
              '(342 Zeilen gegen 155). Kein Fachunterschied, nur Rueckstand.'),

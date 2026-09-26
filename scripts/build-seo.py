@@ -25,6 +25,11 @@
 #
 #  Unbekannte Schalter brechen ab, statt durchzufallen. Frueher schrieb ein
 #  `--help` die Metadaten, weil nur auf '--check' in argv geprueft wurde.
+#
+#  Achtung, zwei Laeufe: dateModified und lastmod kommen aus dem Git-Datum der
+#  jeweiligen Datei. Ein Commit, der eine Seite anfasst, macht damit deren
+#  eigenen Block um eine Generation veraltet. Nach dem Commit also noch einmal
+#  laufen lassen und die Datumsaenderung mitcommitten — danach ist es stabil.
 # ─────────────────────────────────────────────────────────────
 
 import argparse
