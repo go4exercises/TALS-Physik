@@ -220,7 +220,7 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Stelle mit dem Regler eine Spannung ein, starte die Animation und beobachte die Lampe.</li><li>Verfolge die Bewegung der Elektronen im Leiter.</li><li>Achte auf die Richtung: vom Minus- zum Pluspol.</li></ul></div>
+      <div class="ah-text"><ul><li>Starte die Animation, öffne und schliesse den Schalter und beobachte die Lampe.</li><li>Verändere die Spannung und vergleiche die Helligkeit.</li><li>Verfolge die Bewegung der Elektronen im Leiter.</li><li>Achte auf die Richtung: vom Minus- zum Pluspol.</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -242,6 +242,7 @@ MathJax = {
 
     <div style="margin:10px 0;">
       <button class="play-btn" id="ein-btn">▶ Start</button>
+      <button class="play-btn" id="ein-sw">🔌 Schalter öffnen</button>
     </div>
 
     <div class="cv-wrap">
@@ -325,8 +326,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Coulomb-Kraft</div>
-      <div class="fl-eq">F = k · Q₁ · Q₂ / r²</div>
-      <div class="fl-eq" id="cb-eq">F = 8.99·10⁹ N·m²/C² · 2.0·10⁻⁶ C · 3.0·10⁻⁶ C / (0.20 m)² = 1.35 N</div>
+      <div class="fl-eq">\[ F = k\cdot\frac{Q_1\cdot Q_2}{r^2} \]</div>
+      <div class="fl-eq" id="cb-eq"></div>
     </div>
 
     <div class="live-box">
@@ -347,13 +348,13 @@ MathJax = {
   <div class="block-titel">📘 Stromstärke und Spannung</div>
   <p>Der elektrische <strong>Strom</strong> ist bewegte Ladung pro Zeit. Die <strong>Stromstärke</strong> \(I\) wird in Ampere (A) gemessen:</p>
   \[ I = \frac{Q}{t}, \qquad Q = I\cdot t, \qquad 1\,\text{A} = 1\,\frac{\text{C}}{\text{s}} \]
-  <p>Die <strong>Spannung</strong> \(U\) (Volt, V) ist die pro Ladung verrichtete Arbeit — sie «treibt» die Elektronen an. Die Elektronen fliessen vom Minus- zum Pluspol (natürliche Stromrichtung); die technische Stromrichtung zeigt umgekehrt. Bei <strong>Gleichstrom</strong> (DC) bleibt die Richtung gleich, bei <strong>Wechselstrom</strong> (AC, Haushaltsnetz 230 V) wechselt sie periodisch.</p>
+  <p>Die <strong>Spannung</strong> \(U\) (Volt, V) ist die pro Ladung verrichtete Arbeit — sie «treibt» die Elektronen an. Die Elektronen fliessen vom Minus- zum Pluspol (natürliche Stromrichtung); die technische Stromrichtung zeigt umgekehrt. Bei <strong>Gleichstrom</strong> (DC) bleibt die Richtung gleich, bei <strong>Wechselstrom</strong> (AC, Haushaltsnetz \(230\;\text{V}\)) wechselt sie periodisch.</p>
   <table class="ftb-tabelle">
     <thead><tr><th>Quelle</th><th>\(U\)</th><th>Quelle</th><th>\(U\)</th></tr></thead>
     <tbody>
-      <tr><td>Batterie (AA)</td><td>1.5 V</td><td>Tram (DC)</td><td>600 V</td></tr>
-      <tr><td>Autobatterie</td><td>12 V</td><td>Eisenbahn (AC)</td><td>15 kV</td></tr>
-      <tr><td>Haushalt (AC)</td><td>230 V</td><td>Hochspannung</td><td>50–380 kV</td></tr>
+      <tr><td>Batterie (AA)</td><td>\(1.5\;\text{V}\)</td><td>Tram (DC)</td><td>\(600\;\text{V}\)</td></tr>
+      <tr><td>Autobatterie</td><td>\(12\;\text{V}\)</td><td>Eisenbahn (AC)</td><td>\(15\;\text{kV}\)</td></tr>
+      <tr><td>Haushalt (AC)</td><td>\(230\;\text{V}\)</td><td>Hochspannung</td><td>\(50\text{–}380\;\text{kV}\)</td></tr>
     </tbody>
   </table>
 </div>
@@ -362,9 +363,9 @@ MathJax = {
   <div class="cv-titel">📉 Gleichspannung und Wechselspannung im \(U\)-\(t\)-Diagramm</div>
   <canvas id="acdc-cv" height="230" role="img" aria-label="Spannungs-Zeit-Diagramm über 40 Millisekunden. Eine waagrechte Linie zeigt die Gleichspannung einer 12-Volt-Autobatterie. Eine Sinuskurve zeigt die Netzwechselspannung mit 50 Hertz, deren Scheitelwert 325 Volt beträgt und deren Effektivwert 230 Volt als gestrichelte Linie eingezeichnet ist."></canvas>
   <div class="canvas-legend">
-    <span class="cl-item"><span class="cl-line" style="background:#1a4f8a"></span>Gleichspannung (DC) 12 V</span>
-    <span class="cl-item"><span class="cl-line" style="background:#8a4a0e"></span>Netz-Wechselspannung (AC) 50 Hz</span>
-    <span class="cl-item"><span class="cl-line" style="background:#9b1c1c"></span>Effektivwert 230 V</span>
+    <span class="cl-item"><span class="cl-line" style="background:#1a4f8a"></span>Gleichspannung (DC) \(12\;\text{V}\)</span>
+    <span class="cl-item"><span class="cl-line" style="background:#8a4a0e"></span>Netz-Wechselspannung (AC) \(50\;\text{Hz}\)</span>
+    <span class="cl-item"><span class="cl-line" style="background:#9b1c1c"></span>Effektivwert \(230\;\text{V}\)</span>
   </div>
 </div>
 
@@ -407,7 +408,7 @@ MathJax = {
 
 <div class="block block-fehler">
   <div class="block-titel">⚠ Gefahren und Schutzmassnahmen</div>
-  <p>Nerven und Muskeln — auch das Herz — arbeiten mit elektrischen Impulsen. Fliesst von aussen Strom durch den Körper, verkrampfen die Muskeln; man kann die Berührungsstelle oft nicht mehr loslassen. Ströme über das Herz (Hand zu Hand oder Hand zu Fuss) sind besonders gefährlich: Netzstrom (50 Hz) kann <strong>Herzkammerflimmern</strong> und Kreislaufstillstand auslösen. Ströme über \(500\,\text{mA}\) können schon nach wenigen Millisekunden tödlich sein. Wichtige Schutzmassnahmen sind Isolierung, der <strong>Schutzleiter</strong> (Erdung), der <strong>Fehlerstromschutzschalter</strong> (FI/RCD, löst typisch bei \(30\,\text{mA}\) Fehlerstrom aus) und das Beachten von Sicherheitsregeln.</p>
+  <p>Nerven und Muskeln — auch das Herz — arbeiten mit elektrischen Impulsen. Fliesst von aussen Strom durch den Körper, verkrampfen die Muskeln; man kann die Berührungsstelle oft nicht mehr loslassen. Ströme über das Herz (Hand zu Hand oder Hand zu Fuss) sind besonders gefährlich: Netzstrom (\(50\;\text{Hz}\)) kann <strong>Herzkammerflimmern</strong> und Kreislaufstillstand auslösen. Ströme über \(500\,\text{mA}\) können schon nach wenigen Millisekunden tödlich sein. Wichtige Schutzmassnahmen sind Isolierung, der <strong>Schutzleiter</strong> (Erdung), der <strong>Fehlerstromschutzschalter</strong> (FI/RCD, löst typisch bei \(30\,\text{mA}\) Fehlerstrom aus) und das Beachten von Sicherheitsregeln.</p>
 </div>
 
 
@@ -463,8 +464,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Ohmsches Gesetz</div>
-      <div class="fl-eq" id="a1-eq-f">I = U / R</div>
-      <div class="fl-eq" id="a1-eq">I = 6.0 V / 100 Ω = 60 mA</div>
+      <div class="fl-eq" id="a1-eq-f">\[ I = \frac{U}{R} \]</div>
+      <div class="fl-eq" id="a1-eq"></div>
     </div>
 
     <div class="live-box">
@@ -528,15 +529,15 @@ MathJax = {
   <div class="widget-body">
 
     <div class="sl-row">
-      <div class="sl-grp">
       <label>Anschlussart:</label>
-      <span class="typ-gruppe">
+      <div class="typ-btns" style="margin-bottom:0">
         <button class="typ-btn aktiv" data-mm="a-serie">Amperemeter in Serie</button>
         <button class="typ-btn" data-mm="a-parallel">Amperemeter parallel</button>
         <button class="typ-btn" data-mm="v-parallel">Voltmeter parallel</button>
         <button class="typ-btn" data-mm="v-serie">Voltmeter in Serie</button>
-      </span>
       </div>
+    </div>
+    <div class="sl-row">
       <div class="sl-grp">
       <label>Lampenwiderstand \(R_\text{L}\):</label>
       <input type="range" id="mm-R" min="20" max="240" value="60" step="5">
@@ -546,8 +547,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Was der Kreis sieht</div>
-      <div class="fl-eq" id="mm-eq-f">I = U / R_ges</div>
-      <div class="fl-eq" id="mm-eq-z">I = 12.0 V / 60.1 Ω = 200 mA</div>
+      <div class="fl-eq" id="mm-eq-f"></div>
+      <div class="fl-eq" id="mm-eq-z"></div>
     </div>
 
     <div class="live-box">
@@ -559,7 +560,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">🔌 Messgerät im Kreis</div>
-      <canvas id="mm-cv" height="250" role="img" aria-label="Stromkreis aus Quelle und Lampe. Je nach gewählter Anschlussart sitzt ein Amperemeter in der aufgetrennten Leitung oder ein Voltmeter parallel zur Lampe; bei falschem Anschluss wird der Kurzschlusspfad hervorgehoben."></canvas>
+      <canvas id="mm-cv" height="250" role="img" aria-label="Stromkreis aus Quelle und Lampe. Je nach gewählter Anschlussart sitzt das Messgerät in der aufgetrennten Leitung oder in einem eigenen Zweig parallel zur Lampe; der Messwert steht direkt am Gerät. Richtiger Anschluss ist grün, das Voltmeter in Serie orange; beim Amperemeter parallel ist der Kurzschlusspfad rot hinterlegt."></canvas>
     </div>
 
   </div>
@@ -567,7 +568,7 @@ MathJax = {
 
 <details class="minicheck">
 <summary class="mc-kopf">✏️ Mini-Check</summary>
-<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein Amperemeter wird …</p><ul class="mc-optionen"><li data-opt="A">parallel zum Verbraucher geschaltet</li><li data-opt="B">in Serie zum Verbraucher geschaltet</li><li data-opt="C">zwischen Plus- und Minuspol geklemmt</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Der Strom muss durch das Gerät hindurch. Antwort A und C sind beide Kurzschlüsse.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Ein Amperemeter wird …</p><ul class="mc-optionen"><li data-opt="A">parallel zum Verbraucher geschaltet</li><li data-opt="B">in Serie zum Verbraucher geschaltet</li><li data-opt="C">zwischen Plus- und Minuspol geklemmt</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Der Strom muss durch das Gerät hindurch. Antwort A und C sind beide Kurzschlüsse: Der kleine Innenwiderstand des Amperemeters lässt einen sehr grossen Strom fliessen, und die Sicherung des Amperemeters wird zerstört.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Ein Voltmeter hat einen sehr <span class="mc-luecke"></span> Innenwiderstand.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">grossen — sonst würde es selbst nennenswert Strom abzweigen und den Messwert verfälschen.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Eine Lampe mit \(60\;\Omega\) liegt an \(12\,\text{V}\). Ein Amperemeter mit \(0.1\;\Omega\) Innenwiderstand wird in Serie geschaltet. Um wie viel Prozent sinkt der Strom?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Ohne Gerät \(I = 12/60 = 200\,\text{mA}\), mit Gerät \(12/60.1 = 199.7\,\text{mA}\) — rund \(0.17\,\%\) weniger. Der Eingriff ist vernachlässigbar, und genau dafür ist der kleine Innenwiderstand da.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum steckt am Multimeter die rote Leitung für Strommessung oft in einer anderen Buchse als für Spannungsmessung?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Die Strombuchse führt über einen sehr kleinen Widerstand (Shunt) und ist mit einer Sicherung geschützt; die Spannungsbuchse führt über einen sehr grossen Widerstand. Es sind zwei verschiedene Messwerke im selben Gehäuse — wer die Buchse vergisst und dann parallel misst, erzeugt einen Kurzschluss.</div></details></div>
@@ -581,7 +582,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-r-l-a">Animation 3 · \(R = \rho\,l/A\)</h3>
+  <h3 id="anim-r-l-a">Animation 3 · Widerstand eines Leiters: \(R = \rho\,l/A\)</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -619,14 +620,14 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Leiterwiderstand</div>
-      <div class="fl-eq" id="a2-eq-f">R = ρ · l / A</div>
-      <div class="fl-eq" id="a2-eq">R = 0.017 Ω·mm²/m · 100 m / 2.5 mm² = 0.68 Ω</div>
-      <div class="fl-eq">P_V = R · I²   (Verlustleistung bei I = 20 A)</div>
-      <div class="fl-eq" id="a2-eq2">P_V = R · I² = 0.68 Ω · (20 A)² = 272 W</div>
+      <div class="fl-eq" id="a2-eq-f">\[ R = \rho\cdot\frac{l}{A} \]</div>
+      <div class="fl-eq" id="a2-eq"></div>
+      <div class="fl-eq">\(\displaystyle P_\text{V} = R\cdot I^2\)&ensp; \(\text{(Verlustleistung bei } I = 20\;\text{A)}\)</div>
+      <div class="fl-eq" id="a2-eq2"></div>
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Verlustleistung bei 20 A</span><span class="lb-val" id="a2-pv">272 W</span></div>
+      <div class="lb-item"><span class="lb-lab">Verlustleistung bei \(I = 20\;\text{A}\)</span><span class="lb-val" id="a2-pv">272 W</span></div>
       <div class="lb-item"><span class="lb-lab">Spannungsabfall</span><span class="lb-val" id="a2-uv">13.6 V</span></div>
     </div>
 
@@ -713,10 +714,10 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Gesamtwiderstand &amp; Strom</div>
-      <div class="fl-eq" id="a3-eq-fr">R = R₁ + R₂</div>
-      <div class="fl-eq" id="a3-eq-r">R = 100 Ω + 220 Ω = 320 Ω</div>
-      <div class="fl-eq" id="a3-eq-fi">I = U / R</div>
-      <div class="fl-eq" id="a3-eq-i">I = 12.0 V / 320 Ω = 37.5 mA</div>
+      <div class="fl-eq" id="a3-eq-fr">\[ R = R_1 + R_2 \]</div>
+      <div class="fl-eq" id="a3-eq-r"></div>
+      <div class="fl-eq" id="a3-eq-fi">\[ I = \frac{U}{R} \]</div>
+      <div class="fl-eq" id="a3-eq-i"></div>
     </div>
 
     <div class="live-box">
@@ -796,8 +797,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Gesamtwiderstand &amp; Ströme</div>
-      <div class="fl-eq" id="a4-eq-f">1/R = 1/R₁ + 1/R₂</div>
-      <div class="fl-eq" id="a4-eq">1/R = 1/(100 Ω) + 1/(220 Ω)  →  R = 68.8 Ω</div>
+      <div class="fl-eq" id="a4-eq-f">\[ \frac{1}{R} = \frac{1}{R_1} + \frac{1}{R_2} \]</div>
+      <div class="fl-eq" id="a4-eq"></div>
     </div>
 
     <div class="live-box">
@@ -860,14 +861,12 @@ MathJax = {
   <div class="widget-body">
 
     <div class="sl-row">
-      <div class="sl-grp">
       <label>Schritt:</label>
-      <span class="typ-gruppe">
-        <button class="typ-btn aktiv" data-gm="0">1 · Schaltung</button>
-        <button class="typ-btn" data-gm="1">2 · \(R_2 \parallel R_3\)</button>
-        <button class="typ-btn" data-gm="2">3 · \(R_\text{ges}\)</button>
-        <button class="typ-btn" data-gm="3">4 · zurückrechnen</button>
-      </span>
+      <div class="typ-btns" style="margin-bottom:0">
+        <button class="typ-btn aktiv" data-gm="0">1: Schaltung</button>
+        <button class="typ-btn" data-gm="1">2: \(R_2 \parallel R_3\)</button>
+        <button class="typ-btn" data-gm="2">3: \(R_\text{ges}\)</button>
+        <button class="typ-btn" data-gm="3">4: zurückrechnen</button>
       </div>
     </div>
     <div class="sl-row">
@@ -890,8 +889,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Aktueller Schritt</div>
-      <div class="fl-eq" id="gm-eq-f">R_p = (R₂ · R₃) / (R₂ + R₃)</div>
-      <div class="fl-eq" id="gm-eq-z">R_p = (220 Ω · 330 Ω) / (220 Ω + 330 Ω) = 132.0 Ω</div>
+      <div class="fl-eq" id="gm-eq-f"></div>
+      <div class="fl-eq" id="gm-eq-z"></div>
     </div>
 
     <div class="live-box">
@@ -944,7 +943,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-p-u-i-e">Animation 7 · \(P=U\cdot I\) und \(E=P\cdot t\)</h3>
+  <h3 id="anim-p-u-i-e">Animation 7 · Leistung und Energie: \(P=U\cdot I\) und \(E=P\cdot t\)</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -986,22 +985,22 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Leistung &amp; Energie</div>
-      <div class="fl-eq" id="a5-eq-fp">P = U · I</div>
-      <div class="fl-eq" id="a5-eq-p">P = 230 V · 8.0 A = 1840 W</div>
-      <div class="fl-eq" id="a5-eq-fe">E = P · t</div>
-      <div class="fl-eq" id="a5-eq-e">E = 1840 W · 1.50 h = 2.76 kWh</div>
+      <div class="fl-eq" id="a5-eq-fp">\[ P = U\cdot I \]</div>
+      <div class="fl-eq" id="a5-eq-p"></div>
+      <div class="fl-eq" id="a5-eq-fe">\[ E = P\cdot t \]</div>
+      <div class="fl-eq" id="a5-eq-e"></div>
     </div>
 
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Leistung \(P\)</span><span class="lb-val" id="a5-P">1840 W</span></div>
       <div class="lb-item"><span class="lb-lab">Energie \(E\)</span><span class="lb-val" id="a5-E">2.76 kWh</span></div>
-      <div class="lb-item"><span class="lb-lab">Kosten (0.21 CHF/\(\text{kWh}\))</span><span class="lb-val" id="a5-K">0.58 CHF</span></div>
+      <div class="lb-item"><span class="lb-lab">Kosten (\(0.21\;\text{CHF/kWh}\))</span><span class="lb-val" id="a5-K">0.58 CHF</span></div>
     </div>
 
     <div class="typ-btns">
-      <button class="typ-btn" data-a5ger="230,8.7,0.25">🫖 Wasserkocher (2000 W, 15 min)</button>
-      <button class="typ-btn" data-a5ger="230,0.04,5">💡 LED-Lampe (9 W, 5 h)</button>
-      <button class="typ-btn" data-a5ger="230,0.09,2">🔌 Ladegerät (20 W, 2 h)</button>
+      <button class="typ-btn" data-a5ger="230,8.7,0.25">🫖 Wasserkocher (\(2000\;\text{W}\), \(15\;\text{min}\))</button>
+      <button class="typ-btn" data-a5ger="230,0.04,5">💡 LED-Lampe (\(9\;\text{W}\), \(5\;\text{h}\))</button>
+      <button class="typ-btn" data-a5ger="230,0.09,2">🔌 Ladegerät (\(20\;\text{W}\), \(2\;\text{h}\))</button>
     </div>
 
     <div style="display:flex; gap:12px; align-items:center; margin:0 0 12px; flex-wrap:wrap;">
@@ -1054,13 +1053,13 @@ MathJax = {
   <div class="widget-body">
 
     <div class="sl-row">
-      <div class="sl-grp">
       <label>Schaltung:</label>
-      <span class="typ-gruppe">
+      <div class="typ-btns" style="margin-bottom:0">
         <button class="typ-btn aktiv" data-lp="parallel">parallel</button>
         <button class="typ-btn" data-lp="reihe">in Reihe</button>
-      </span>
       </div>
+    </div>
+    <div class="sl-row">
       <div class="sl-grp">
       <label>Nennleistung Lampe 1:</label>
       <input type="range" id="lp-P1" min="15" max="100" value="40" step="5">
@@ -1075,9 +1074,10 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Widerstände aus dem Typenschild</div>
-      <div class="fl-eq" id="lp-eq-f">R = U² / P</div>
-      <div class="fl-eq" id="lp-eq-z">R₁ = (230 V)² / 40 W = 1323 Ω; R₂ = (230 V)² / 60 W = 882 Ω</div>
-      <div class="fl-eq" id="lp-eq-p">P = R · I² (in Reihe) bzw. P = U² / R (parallel)</div>
+      <div class="fl-eq" id="lp-eq-f">\[ R = \frac{U^2}{P} \]</div>
+      <div class="fl-eq" id="lp-eq-z"></div>
+      <div class="fl-eq" id="lp-eq-z2"></div>
+      <div class="fl-eq" id="lp-eq-p"></div>
     </div>
 
     <div class="live-box">
@@ -1097,7 +1097,7 @@ MathJax = {
 </div>
 
 <div class="block block-bsp">
-  <div class="block-titel">🟢 Beispiel — 40 W und 60 W in Reihe</div>
+  <div class="block-titel">🟢 Beispiel: \(40\;\text{W}\) und \(60\;\text{W}\) in Reihe</div>
   <p>Aus dem Typenschild folgen die Widerstände bei Nennspannung:</p>
   <p>\[ R = \frac{U^2}{P} \qquad R_1 = \frac{(230\,\text{V})^2}{40\,\text{W}} = 1323\,\Omega \qquad R_2 = \frac{(230\,\text{V})^2}{60\,\text{W}} = 882\,\Omega \]</p>
   <p>In Reihe fliesst überall derselbe Strom:</p>
@@ -1157,9 +1157,9 @@ MathJax = {
     </div>
 
     <div class="typ-btns">
-      <button class="typ-btn" data-a6sz="230,1000,500">⚡ 230 V an 1 kΩ, 0.5 s</button>
-      <button class="typ-btn" data-a6sz="230,5000,2000">🖐 230 V an 5 kΩ (trocken), 2 s</button>
-      <button class="typ-btn" data-a6sz="12,1000,2000">🔋 12 V an 1 kΩ, 2 s</button>
+      <button class="typ-btn" data-a6sz="230,1000,500">⚡ \(230\;\text{V}\) an \(1\;\text{k}\Omega\), \(0.5\;\text{s}\)</button>
+      <button class="typ-btn" data-a6sz="230,5000,2000">🖐 \(230\;\text{V}\) an \(5\;\text{k}\Omega\) (trocken), \(2\;\text{s}\)</button>
+      <button class="typ-btn" data-a6sz="12,1000,2000">🔋 \(12\;\text{V}\) an \(1\;\text{k}\Omega\), \(2\;\text{s}\)</button>
     </div>
 
     <div class="formel-live">
@@ -1252,7 +1252,7 @@ MathJax = {
 
 <div class="block block-aufg">
   <div class="block-titel">🟠 <span class="aufg-nr-tag">A1</span><span class="aufg-titel-text">Ladung und Stromstärke</span></div>
-  <p>Eine Batterie (AA, 1.5 V) ist mit \(2500\,\text{mAh}\) beschriftet.</p>
+  <p>Eine Batterie (AA, \(1.5\;\text{V}\)) ist mit \(2500\,\text{mAh}\) beschriftet.</p>
   <ol class="aufg-liste">
     <li>Welche Ladung \(Q\) in Coulomb ist gespeichert? (\(1\,\text{Ah}=3600\,\text{C}\))</li>
     <li>Wie lange liefert sie Strom bei durchschnittlich \(500\,\text{mA}\)?</li>
@@ -1367,7 +1367,7 @@ MathJax = {
     <div class="block block-bsp" style="margin:6px 0 0">
       <div class="block-titel">🟢 Lösung</div>
       <ol class="aufg-liste">
-        <li>Das Herz arbeitet mit elektrischen Impulsen. Ein Netzstrom (50 Hz) über das Herz kann Herzrhythmusstörungen und Herzkammerflimmern auslösen, was zum Kreislaufstillstand führt.</li>
+        <li>Das Herz arbeitet mit elektrischen Impulsen. Ein Netzstrom (\(50\;\text{Hz}\)) über das Herz kann Herzrhythmusstörungen und Herzkammerflimmern auslösen, was zum Kreislaufstillstand führt.</li>
         <li>Die Muskeln verkrampfen; man kann die Berührungsstelle oft nicht mehr loslassen, wodurch die Einwirkzeit unkontrolliert lang wird.</li>
         <li>Z.&nbsp;B. Isolierung der Leiter, Schutzleiter (Erdung), Fehlerstromschutzschalter (FI/RCD); ausserdem Sicherheitsregeln und das Freischalten vor Arbeiten.</li>
       </ol>
@@ -1896,11 +1896,76 @@ function makeLoop(canvasId, btnId, tickFn){
   LOOPS.push(st); return st;
 }
 
+// ── Formelzeilen live in LaTeX (STYLEGUIDE §2.8) ──────────
+// Formel und Zahlengleichung stehen in LaTeX; MathJax muss darum bei jeder
+// Reglerbewegung neu setzen. Jede Zeile wird auf einen Frame gedrosselt, alle
+// Zeilen laufen in EINER Promise-Kette — sonst überholen sich zwei Läufe und
+// hinterlassen halb gesetzte Formeln. Muster aus p5-2, Animation 2.
+let flKette = Promise.resolve();
+const flOffen = new Map();
+// Ein Array statt eines Strings setzt mehrere Formeln nebeneinander, getrennt
+// durch Strichpunkt; auf schmalen Bildschirmen brechen sie zwischen den Teilen
+// um, statt die Box seitlich scrollen zu lassen.
+function flTex(id, tex){
+  const el = document.getElementById(id); if(!el) return;
+  const h = Array.isArray(tex)
+    ? tex.map((t, i) => '\\(\\displaystyle ' + t + (i < tex.length-1 ? ';' : '') + '\\)').join('&ensp; ')
+    : '\\[ ' + tex + ' \\]';
+  const wartet = flOffen.has(el);
+  if(!wartet && el.dataset.stand === h) return;           // nichts geändert
+  flOffen.set(el, h);
+  if(wartet) return;
+  requestAnimationFrame(() => {
+    const h2 = flOffen.get(el); flOffen.delete(el);
+    if(el.dataset.stand === h2) return;
+    el.dataset.stand = h2;
+    flKette = flKette
+      .then(() => window.MathJax && MathJax.startup && MathJax.startup.promise)
+      .then(() => {
+        if(window.MathJax && MathJax.typesetClear) MathJax.typesetClear([el]);
+        el.innerHTML = h2;
+        return (window.MathJax && MathJax.typesetPromise) ? MathJax.typesetPromise([el]) : null;
+      }).catch(() => {});
+  });
+}
+// ── Schaltzeichen Gleichspannungsquelle ───────────────────
+// Lange, dünne Platte = Pluspol, kurze, dicke = Minuspol. Die Leitung endet an
+// den Platten und ist zwischen ihnen unterbrochen — eine durchgezogene Leitung
+// wäre im Schaltbild ein Kurzschluss der Quelle. Erwartet eine bereits
+// gezeichnete senkrechte Leitung bei x; bg = Hintergrundfarbe des Canvas
+// (ohne Angabe: durchsichtig).
+function quelle(ctx, x, y, text, bg){
+  const d = 5;                                        // halber Plattenabstand
+  if(bg){ ctx.fillStyle = bg; ctx.fillRect(x-5, y-d+1, 10, 2*d-3.5); }
+  else ctx.clearRect(x-5, y-d+1, 10, 2*d-3.5);
+  ctx.save(); ctx.lineCap = 'butt'; ctx.strokeStyle = '#1c1a17';
+  ctx.lineWidth = 2;   ctx.beginPath(); ctx.moveTo(x-15, y-d); ctx.lineTo(x+15, y-d); ctx.stroke();
+  ctx.lineWidth = 5;   ctx.beginPath(); ctx.moveTo(x-7,  y+d); ctx.lineTo(x+7,  y+d); ctx.stroke();
+  // Polzeichen und Spannung aussen links, damit innen nichts kollidiert
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px "Source Sans 3",sans-serif'; ctx.textAlign = 'right';
+  ctx.fillText('+', x-18, y-d+1); ctx.fillText('−', x-18, y+d+9);
+  if(text){ ctx.fillStyle = '#5c554c'; ctx.font = '12px "Source Sans 3",sans-serif';
+    ctx.fillText(text, x-8, y+d+26); }
+  ctx.restore();
+}
+// Zahl mit Einheit, STYLEGUIDE §2.3: \; vor der Einheit, Einheit aufrecht
+const tE = (zahl, einheit) => zahl + '\\;\\text{' + einheit + '}';
+const tO = zahl => zahl + '\\;\\Omega';
+// Ohm mit passendem Vorsatz
+const tR = R => R >= 1000 ? (R/1000).toFixed(0) + '\\;\\text{k}\\Omega' : tO(R.toFixed(1));
+// Strom mit passendem Vorsatz
+const tI = I => I >= 1 ? tE(I.toFixed(1), 'A') : I >= 1e-3 ? tE((I*1000).toFixed(1), 'mA') : tE((I*1e6).toFixed(1), 'µA');
+
 // ══════════════════════════════════════════════════════════
 //  EINSTIEG: einfacher Stromkreis mit Elektronen
 // ══════════════════════════════════════════════════════════
 let einPhase=0, einZu=true;   // Schalter geschlossen?
-function einGeom(W,H){ return {L:W*0.15,R:W*0.85,T:H*0.26,B:H*0.74}; }
+function einGeom(W,H){ return {L:W*0.15,R:W*0.85,T:H*0.30,B:H*0.74}; }
+// Klickfläche des Schalters (CSS-Pixel), gezeichnet und abgefragt aus derselben Quelle
+function einZone(g){ const swx=(g.L+g.R)/2; return {x:swx-46, y:g.T-34, w:92, h:48}; }
+function einSchalten(){ einZu=!einZu;
+  document.getElementById('ein-sw').textContent = einZu ? '🔌 Schalter öffnen' : '🔌 Schalter schliessen';
+  einRender(); }
 function rectPoint(g,s){ // s in [0,1) im Uhrzeigersinn ab oben-links
   const w=g.R-g.L, h=g.B-g.T, per=2*(w+h); let d=s*per;
   if(d<w) return {x:g.L+d,y:g.T};            d-=w;
@@ -1920,27 +1985,25 @@ function einRender(){
   // Leiterbahn
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=3;
   ctx.strokeRect(g.L,g.T,g.R-g.L,g.B-g.T);
-  // Batterie (links Mitte)
+  // Quelle (links Mitte)
   const by=(g.T+g.B)/2;
-  ctx.fillStyle='#fbfaf7'; ctx.fillRect(g.L-9,by-22,18,44);
-  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(g.L-12,by-14); ctx.lineTo(g.L+12,by-14); ctx.stroke(); // lang +
-  ctx.beginPath(); ctx.moveTo(g.L-6,by+14); ctx.lineTo(g.L+6,by+14); ctx.lineWidth=4; ctx.stroke(); // kurz -
-  ctx.fillStyle='#1c1a17'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='right';
-  ctx.fillText('+', g.L-14, by-10); ctx.fillText('–', g.L-14, by+18);
+  quelle(ctx, g.L, by, '', '#fbfaf7');
   // Schalter (oben Mitte) — anklickbar. «Strom nur im geschlossenen Kreis» ist
-  // die Kernaussage des Einstiegs; ohne bedienbaren Schalter blieb sie Text.
-  const swx=(g.L+g.R)/2;
-  ctx.fillStyle='#5a5040'; ctx.beginPath(); ctx.arc(swx-14,g.T,3,0,6.283); ctx.fill();
-  ctx.beginPath(); ctx.arc(swx+14,g.T,3,0,6.283); ctx.fill();
-  if(!einZu){
-    // Lücke: Leiterbahn an dieser Stelle mit Hintergrund übermalen
-    ctx.fillStyle='#fbfaf7'; ctx.fillRect(swx-15,g.T-3,30,6);
-    ctx.strokeStyle='#5a5040'; ctx.lineWidth=3;
-    ctx.beginPath(); ctx.moveTo(swx-14,g.T); ctx.lineTo(swx+8,g.T-18); ctx.stroke();
-  }
-  ctx.fillStyle=einZu?'#1f6b3a':'#9b1c1c'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText(einZu?'Schalter geschlossen (klicken zum Öffnen)':'Schalter offen (klicken zum Schliessen)', swx, g.T-26);
+  // die Kernaussage des Einstiegs; darum ist der Schalter hervorgehoben: eine
+  // umrandete Klickfläche, grosse Kontakte, der Hebel in der Zustandsfarbe.
+  const swx=(g.L+g.R)/2, z=einZone(g), col=einZu?'#1f6b3a':'#9b1c1c';
+  ctx.fillStyle='rgba(138,74,14,0.08)'; ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=1.5;
+  ctx.setLineDash([4,3]); ctx.beginPath(); ctx.roundRect(z.x,z.y,z.w,z.h,8); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#fbfaf7'; ctx.fillRect(swx-18,g.T-3,36,6);     // Leiterbahn zwischen den Kontakten weg
+  ctx.strokeStyle=col; ctx.lineWidth=4; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(swx-18,g.T);
+  if(einZu) ctx.lineTo(swx+18,g.T); else ctx.lineTo(swx-18+36*Math.cos(0.61), g.T-36*Math.sin(0.61));
+  ctx.stroke(); ctx.lineCap='butt';
+  ctx.fillStyle='#1c1a17'; ctx.beginPath(); ctx.arc(swx-18,g.T,4.5,0,6.283); ctx.fill();
+  ctx.beginPath(); ctx.arc(swx+18,g.T,4.5,0,6.283); ctx.fill();
+  ctx.fillStyle=col; ctx.font='bold 14px "Source Sans 3",sans-serif'; ctx.textAlign='center';
+  ctx.fillText(einZu?'Schalter geschlossen':'Schalter offen', swx, z.y-7);
+  ctx.fillStyle='#8a4a0e'; ctx.font='12px "Source Sans 3",sans-serif';
+  ctx.fillText(einZu?'👆 klicken zum Öffnen':'👆 klicken zum Schliessen', swx, z.y+z.h+15);
   // Lampe (rechts Mitte)
   const lx=g.R, ly=(g.T+g.B)/2, glow=einZu?Math.min(1,U/12):0;
   if(glow>0){ const grd=ctx.createRadialGradient(lx,ly,2,lx,ly,40);
@@ -1971,13 +2034,16 @@ function einRender(){
                : (U>0 ? 'Strom fliesst — Lampe leuchtet' : 'U = 0: kein Strom'), mx, H-6);
 }
 const einLoop=makeLoop('ein-cv','ein-btn',einTick);
-// Klick auf den Schalterbereich öffnet/schliesst den Kreis
-document.getElementById('ein-cv').addEventListener('click', function(ev){
-  const r=this.getBoundingClientRect();
-  const x=(ev.clientX-r.left)/r.width, y=(ev.clientY-r.top)/r.height;
-  if(x>0.40 && x<0.60 && y<0.42){ einZu=!einZu; einRender(); }
-});
-document.getElementById('ein-cv').style.cursor='pointer';
+// Klick auf den Schalter öffnet/schliesst den Kreis; der Knopf darüber tut dasselbe
+function einImSchalter(cv, ev){
+  const r=cv.getBoundingClientRect(), x=ev.clientX-r.left, y=ev.clientY-r.top;
+  const z=einZone(einGeom(r.width, r.height));
+  return x>=z.x && x<=z.x+z.w && y>=z.y && y<=z.y+z.h;
+}
+document.getElementById('ein-cv').addEventListener('click', function(ev){ if(einImSchalter(this, ev)) einSchalten(); });
+document.getElementById('ein-cv').addEventListener('mousemove', function(ev){
+  this.style.cursor = einImSchalter(this, ev) ? 'pointer' : ''; });
+document.getElementById('ein-sw').addEventListener('click', einSchalten);
 document.getElementById('ein-U').addEventListener('input', ()=>{ if(!einLoop.running) einRender(); else einRender(); });
 
 
@@ -2032,9 +2098,9 @@ function drawCoulomb(){
   document.getElementById('cb-f').textContent = F.toFixed(2) + ' N';
   document.getElementById('cb-art').textContent = nullF ? 'keine Kraft' : (anzieh ? 'Anziehung' : 'Abstossung');
   document.getElementById('cb-f2').textContent = (F/4).toFixed(2) + ' N';
-  document.getElementById('cb-eq').textContent =
-    'F = 8.99·10⁹ N·m²/C² · ' + Math.abs(q1).toFixed(1) + '·10⁻⁶ C · ' + Math.abs(q2).toFixed(1)
-    + '·10⁻⁶ C / (' + r.toFixed(2) + ' m)² = ' + F.toFixed(2) + ' N';
+  flTex('cb-eq', 'F = 8.99\\cdot10^{9}\\;\\frac{\\text{N}\\cdot\\text{m}^2}{\\text{C}^2}\\cdot\\frac{'
+    + Math.abs(q1).toFixed(1) + '\\cdot10^{-6}\\;\\text{C}\\cdot ' + Math.abs(q2).toFixed(1)
+    + '\\cdot10^{-6}\\;\\text{C}}{(' + tE(r.toFixed(2), 'm') + ')^2} = ' + tE(F.toFixed(2), 'N'));
 
   const cv = initCanvas('cb-cv', 240, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -2099,7 +2165,7 @@ function drawA1(){
   const v=a1Vals(), I_mA=v.I*1000;
   document.getElementById('a1-U-val').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a1-R-val').textContent=v.R+' Ω';
-  document.getElementById('a1-eq').textContent='I = '+v.U.toFixed(1)+' V / '+v.R+' Ω = '+I_mA.toFixed(0)+' mA';
+  flTex('a1-eq', 'I = \\frac{'+tE(v.U.toFixed(1),'V')+'}{'+tO(v.R)+'} = '+tE(I_mA.toFixed(0),'mA'));
   document.getElementById('a1-Uv').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a1-Rv').textContent=v.R+' Ω';
   document.getElementById('a1-I').textContent=I_mA.toFixed(0)+' mA';
@@ -2157,7 +2223,8 @@ function drawA2(){
   document.getElementById('a2-l-val').textContent=l+' m';
   document.getElementById('a2-A-val').textContent=A.toFixed(1)+' mm²';
   const R=m.r*l/A;
-  document.getElementById('a2-eq').textContent='R = '+m.r+' Ω·mm²/m · '+l+' m / '+A.toFixed(1)+' mm² = '+R.toFixed(2)+' Ω';
+  flTex('a2-eq', 'R = '+m.r+'\\;\\frac{\\Omega\\cdot\\text{mm}^2}{\\text{m}}\\cdot\\frac{'+tE(l,'m')+'}{'
+    +tE(A.toFixed(1),'mm')+'^2} = '+tO(R.toFixed(2)));
   // Konsequenz: bei fester Übertragung fliesst ein Strom, und der Leitungs-
   // widerstand frisst P_V = R · I². Das ist das Überlandleitungs-Argument.
   const A2_I = 20;                       // A, angenommener Laststrom
@@ -2165,8 +2232,7 @@ function drawA2(){
   const UV = R * A2_I;                   // V Spannungsabfall
   document.getElementById('a2-pv').textContent = PV.toFixed(0) + ' W';
   document.getElementById('a2-uv').textContent = UV.toFixed(1) + ' V';
-  document.getElementById('a2-eq2').textContent =
-    'P_V = R · I² = ' + R.toFixed(2) + ' Ω · (' + A2_I + ' A)² = ' + PV.toFixed(0) + ' W';
+  flTex('a2-eq2', 'P_\\text{V} = R\\cdot I^2 = ' + tO(R.toFixed(2)) + '\\cdot(' + tE(A2_I,'A') + ')^2 = ' + tE(PV.toFixed(0),'W'));
 
   const cv=initCanvas('a2-cv',180,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
@@ -2207,8 +2273,8 @@ function a3Read(){
   document.getElementById('a3-U-val').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a3-R1-val').textContent=v.R1+' Ω';
   document.getElementById('a3-R2-val').textContent=v.R2+' Ω';
-  document.getElementById('a3-eq-r').textContent='R = '+v.R1+' Ω + '+v.R2+' Ω = '+v.Rg+' Ω';
-  document.getElementById('a3-eq-i').textContent='I = '+v.U.toFixed(1)+' V / '+v.Rg+' Ω = '+(v.I*1000).toFixed(1)+' mA';
+  flTex('a3-eq-r', 'R = '+tO(v.R1)+' + '+tO(v.R2)+' = '+tO(v.Rg));
+  flTex('a3-eq-i', 'I = \\frac{'+tE(v.U.toFixed(1),'V')+'}{'+tO(v.Rg)+'} = '+tE((v.I*1000).toFixed(1),'mA'));
   document.getElementById('a3-Rg').textContent=v.Rg+' Ω';
   document.getElementById('a3-I').textContent=(v.I*1000).toFixed(1)+' mA';
   document.getElementById('a3-Us').textContent=v.U1.toFixed(2)+' / '+v.U2.toFixed(2)+' V';
@@ -2218,15 +2284,11 @@ function a3Render(){
   const v=a3Vals();
   const cv=initCanvas('a3-cv',290,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const g={L:W*0.12,R:W*0.88,T:H*0.22,B:H*0.62};   // Platz unten für die Spannungsbalken
+  const g={L:Math.max(W*0.12,58),R:W*0.88,T:H*0.22,B:H*0.62};   // Platz unten für die Spannungsbalken
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=3; ctx.strokeRect(g.L,g.T,g.R-g.L,g.B-g.T);
-  // Batterie links
+  // Quelle links
   const by=(g.T+g.B)/2;
-  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(g.L-12,by-12); ctx.lineTo(g.L+12,by-12); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(g.L-6,by+12); ctx.lineTo(g.L+6,by+12); ctx.lineWidth=4; ctx.stroke();
-  ctx.fillStyle='#1c1a17'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText(v.U.toFixed(1)+' V', g.L-2, by+30);
+  quelle(ctx, g.L, by, v.U.toFixed(1)+' V', '#fbfaf7');
   // zwei Widerstaende auf oberer Kante
   function resBox(cx,label,sub,col){ const bw=W*0.16,bh=H*0.13;
     ctx.fillStyle='#fff'; ctx.fillRect(cx-bw/2,g.T-bh/2,bw,bh);
@@ -2275,7 +2337,7 @@ function a4Read(){
   document.getElementById('a4-U-val').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a4-R1-val').textContent=v.R1+' Ω';
   document.getElementById('a4-R2-val').textContent=v.R2+' Ω';
-  document.getElementById('a4-eq').textContent='1/R = 1/('+v.R1+' Ω) + 1/('+v.R2+' Ω)  →  R = '+v.Rg.toFixed(1)+' Ω';
+  flTex('a4-eq', '\\frac{1}{R} = \\frac{1}{'+tO(v.R1)+'} + \\frac{1}{'+tO(v.R2)+'} \\;\\rightarrow\\; R = '+tO(v.Rg.toFixed(1)));
   document.getElementById('a4-Rg').textContent=v.Rg.toFixed(1)+' Ω';
   document.getElementById('a4-Is').textContent=(v.I1*1000).toFixed(0)+' / '+(v.I2*1000).toFixed(1)+' mA';
   document.getElementById('a4-I').textContent=(v.I*1000).toFixed(1)+' mA';
@@ -2291,18 +2353,16 @@ function a4Render(){
   const v=a4Vals();
   const cv=initCanvas('a4-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const L=W*0.12, T=H*0.22, B=H*0.80, xr1=W*0.42, xr2=W*0.78;
+  const L=Math.max(W*0.12,58), T=H*0.22, B=H*0.80, xr1=W*0.42, xr2=W*0.78;
   // Rahmen: die Sammelschienen enden beim zweiten Zweig. Ein durchgezogener
   // rechter Schenkel wäre eine Leitung ohne Bauteil parallel zu R₁ und R₂ —
   // topologisch ein Kurzschluss, der die ganze Schaltung überbrückt.
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=3;
   ctx.beginPath(); ctx.moveTo(L,B); ctx.lineTo(L,T); ctx.lineTo(xr2,T); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(L,B); ctx.lineTo(xr2,B); ctx.stroke();
-  // Batterie links
-  const by=(T+B)/2; ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(L-12,by-12); ctx.lineTo(L+12,by-12); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(L-6,by+12); ctx.lineTo(L+6,by+12); ctx.lineWidth=4; ctx.stroke();
-  ctx.fillStyle='#1c1a17'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center'; ctx.fillText(v.U.toFixed(1)+' V', L-2, by+30);
+  // Quelle links
+  const by=(T+B)/2;
+  quelle(ctx, L, by, v.U.toFixed(1)+' V', '#fbfaf7');
   // zwei parallele Widerstaende (vertikal)
   function resV(x,label,col){ const bw=W*0.10,bh=H*0.20;
     ctx.fillStyle='#fff'; ctx.fillRect(x-bw/2,by-bh/2,bw,bh);
@@ -2347,8 +2407,8 @@ function drawA5(){
   document.getElementById('a5-I-val').textContent=I.toFixed(1)+' A';
   document.getElementById('a5-t-val').textContent=t.toFixed(2)+' h';
   const P=U*I, E=P*t/1000, K=E*0.21;
-  document.getElementById('a5-eq-p').textContent='P = '+U+' V · '+I.toFixed(1)+' A = '+P.toFixed(0)+' W';
-  document.getElementById('a5-eq-e').textContent='E = '+P.toFixed(0)+' W · '+t.toFixed(2)+' h = '+E.toFixed(2)+' kWh';
+  flTex('a5-eq-p', 'P = '+tE(U,'V')+'\\cdot '+tE(I.toFixed(1),'A')+' = '+tE(P.toFixed(0),'W'));
+  flTex('a5-eq-e', 'E = '+tE(P.toFixed(0),'W')+'\\cdot '+tE(t.toFixed(2),'h')+' = '+tE(E.toFixed(2),'kWh'));
   document.getElementById('a5-P').textContent=P.toFixed(0)+' W';
   document.getElementById('a5-E').textContent=E.toFixed(2)+' kWh';
   document.getElementById('a5-K').textContent=K.toFixed(2)+' CHF';
@@ -2511,9 +2571,9 @@ document.querySelectorAll('[data-a6sz]').forEach(b => b.addEventListener('click'
   document.getElementById('a6-I').value = Math.log10(Math.min(2000, Math.max(1, I_mA)));
   document.getElementById('a6-t').value = Math.log10(Math.min(10000, Math.max(10, tms)));
   document.querySelectorAll('[data-a6sz]').forEach(x => x.classList.toggle('aktiv', x === b));
-  const rTxt = R >= 1000 ? (R/1000) + ' kΩ' : R + ' Ω';
-  document.getElementById('a6-szen').textContent =
-    'I = U / R = ' + U + ' V / ' + rTxt + ' = ' + I_mA.toFixed(0) + ' mA   bei ' + (tms/1000).toFixed(2) + ' s';
+  const rTxt = R >= 1000 ? (R/1000) + '\\;\\text{k}\\Omega' : tO(R);
+  flTex('a6-szen', ['I = \\frac{U}{R} = \\frac{' + tE(U,'V') + '}{' + rTxt + '} = ' + tE(I_mA.toFixed(0),'mA'),
+                    't = ' + tE((tms/1000).toFixed(2),'s')]);
   drawA6();
 }));
 ['a6-I','a6-t'].forEach(id=>document.getElementById(id).addEventListener('input', drawA6));
@@ -2542,22 +2602,22 @@ function mmRechne(){
     Rg = RL + MM_RA;
     const I = MM_U / Rg;
     anzeige = (I*1000).toFixed(1) + ' mA'; einheit = 'Strom';
-    ok = 'richtig'; text = 'I = U / (R_L + R_A)';
+    ok = 'richtig'; text = 'I = \\frac{U}{R_\\text{L} + R_\\text{A}}';
   } else if(mmArt === 'a-parallel'){
     Rg = 1/(1/RL + 1/MM_RA);
     const I = MM_U / Rg;
     anzeige = (I).toFixed(1) + ' A'; einheit = 'Strom';
-    ok = 'Kurzschluss'; text = 'I = U / (R_L ∥ R_A)';
+    ok = 'Kurzschluss'; text = 'I = \\frac{U}{R_\\text{L} \\parallel R_\\text{A}}';
   } else if(mmArt === 'v-parallel'){
     Rg = 1/(1/RL + 1/MM_RV);
     const I = MM_U / Rg;
     anzeige = MM_U.toFixed(1) + ' V'; einheit = 'Spannung';
-    ok = 'richtig'; text = 'I = U / (R_L ∥ R_V)';
+    ok = 'richtig'; text = 'I = \\frac{U}{R_\\text{L} \\parallel R_\\text{V}}';
   } else {
     Rg = RL + MM_RV;
     const I = MM_U / Rg;
     anzeige = (MM_U * MM_RV/Rg).toFixed(1) + ' V'; einheit = 'Spannung';
-    ok = 'Lampe bleibt dunkel'; text = 'I = U / (R_L + R_V)';
+    ok = 'Lampe bleibt dunkel'; text = 'I = \\frac{U}{R_\\text{L} + R_\\text{V}}';
   }
   return { RL:RL, Rg:Rg, I:MM_U/Rg, anzeige:anzeige, einheit:einheit, ok:ok, text:text };
 }
@@ -2568,85 +2628,99 @@ function mmRender(){
   document.getElementById('mm-Rg').textContent =
       r.Rg >= 1000 ? (r.Rg/1000).toFixed(0) + ' kΩ' : r.Rg.toFixed(1) + ' Ω';
   document.getElementById('mm-I').textContent =
-      r.I >= 1 ? r.I.toFixed(1) + ' A' : (r.I*1000).toFixed(1) + ' mA';
+      r.I >= 1 ? r.I.toFixed(1) + ' A' : r.I >= 1e-3 ? (r.I*1000).toFixed(1) + ' mA' : (r.I*1e6).toFixed(1) + ' µA';
   document.getElementById('mm-anz').textContent = r.anzeige;
   document.getElementById('mm-ok').textContent = r.ok;
-  document.getElementById('mm-eq-f').textContent = r.text;
-  const rg = r.Rg >= 1000 ? (r.Rg/1000).toFixed(0) + ' kΩ' : r.Rg.toFixed(1) + ' Ω';
-  document.getElementById('mm-eq-z').textContent =
-      'I = 12.0 V / ' + rg + ' = ' + (r.I >= 1 ? r.I.toFixed(1) + ' A'
-                                               : (r.I*1000).toFixed(1) + ' mA');
+  flTex('mm-eq-f', r.text);
+  flTex('mm-eq-z', 'I = \\frac{' + tE(MM_U.toFixed(1),'V') + '}{' + tR(r.Rg) + '} = ' + tI(r.I));
   mmDraw(r);
 }
 
 function mmDraw(r){
   const cv = initCanvas('mm-cv', 250, false); if(!cv) return;
   const ctx = cv.ctx, W = cv.W, H = cv.H;
-  const L = W*0.14, R = W*0.86, T = H*0.26, B = H*0.80;
+  const L = Math.max(60, W*0.12), R = W - Math.max(40, W*0.12), T = H*0.30, B = H*0.78, my = (T+B)/2;
+  const serie  = (mmArt === 'a-serie' || mmArt === 'v-serie');
   const gefahr = (mmArt === 'a-parallel');
   const dunkel = (mmArt === 'v-serie');
+  const richtig = (mmArt === 'a-serie' || mmArt === 'v-parallel');
+  // Grün = richtig, Rot = zerstört das Gerät, Orange = harmlos, aber nutzlos
+  const farbe = richtig ? '#1f6b3a' : (gefahr ? '#9b1c1c' : '#b45309');
+  const mx = (L+R)/2;                                  // Serie: oben in der Leitung
+  const xp = R - Math.min(120, (R-L)*0.32);            // parallel: eigener Zweig neben der Lampe
+  const rM = 18, rL = 15;
+  ctx.lineCap = 'butt'; ctx.lineJoin = 'round';
 
-  ctx.lineWidth = 2.4; ctx.strokeStyle = '#3f3a33';
-  // Rahmen, oben in der Mitte unterbrochen fuer das Serie-Geraet
-  const serie = (mmArt === 'a-serie' || mmArt === 'v-serie');
-  const mx = (L+R)/2;
+  // Kurzschlusspfad zuerst, damit die Leitungen darüber liegen:
+  // Quelle → oberer Knoten → Amperemeter → unterer Knoten → Quelle
+  if(gefahr){
+    ctx.strokeStyle = 'rgba(155,28,28,0.28)'; ctx.lineWidth = 12;
+    ctx.beginPath(); ctx.moveTo(L, my); ctx.lineTo(L, T); ctx.lineTo(xp, T); ctx.lineTo(xp, B);
+    ctx.lineTo(L, B); ctx.lineTo(L, my); ctx.stroke();
+  }
+
+  // Leitungen
+  ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.4;
   ctx.beginPath();
-  if(serie){ ctx.moveTo(L,T); ctx.lineTo(mx-34,T); ctx.moveTo(mx+34,T); ctx.lineTo(R,T); }
-  else { ctx.moveTo(L,T); ctx.lineTo(R,T); }
-  ctx.moveTo(R,T); ctx.lineTo(R,B); ctx.moveTo(R,B); ctx.lineTo(L,B); ctx.moveTo(L,B); ctx.lineTo(L,T);
+  if(serie){ ctx.moveTo(L,T); ctx.lineTo(mx-rM,T); ctx.moveTo(mx+rM,T); ctx.lineTo(R,T); }
+  else     { ctx.moveTo(L,T); ctx.lineTo(R,T); }
+  ctx.lineTo(R, my-rL); ctx.moveTo(R, my+rL); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
   ctx.stroke();
-
-  // Quelle links
-  ctx.lineWidth = 2.6;
-  ctx.beginPath(); ctx.moveTo(L-11,(T+B)/2-16); ctx.lineTo(L+11,(T+B)/2-16); ctx.stroke();
-  ctx.lineWidth = 5;
-  ctx.beginPath(); ctx.moveTo(L-6,(T+B)/2-6); ctx.lineTo(L+6,(T+B)/2-6); ctx.stroke();
-  ctx.fillStyle = '#5c554c'; ctx.font = '12px "Source Sans 3",sans-serif';
-  ctx.textAlign = 'right'; ctx.fillText('12 V', L-16, (T+B)/2-6);
-
-  // Lampe rechts
-  const ly = (T+B)/2;
-  ctx.lineWidth = 2.2; ctx.strokeStyle = '#3f3a33';
-  ctx.beginPath(); ctx.arc(R, ly, 17, 0, Math.PI*2); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(R-12,ly-12); ctx.lineTo(R+12,ly+12);
-  ctx.moveTo(R+12,ly-12); ctx.lineTo(R-12,ly+12); ctx.stroke();
-  ctx.fillStyle = dunkel ? '#8a8175' : '#b45309';
-  ctx.textAlign = 'left';
-  ctx.fillText(dunkel ? 'dunkel' : 'leuchtet', R+24, ly+4);
-
-  // Messgeraet
-  function geraet(x, y, buchstabe, farbe){
-    ctx.fillStyle = '#fff'; ctx.strokeStyle = farbe; ctx.lineWidth = 2.4;
-    ctx.beginPath(); ctx.arc(x, y, 19, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = farbe; ctx.font = 'bold 15px "Source Sans 3",sans-serif';
-    ctx.textAlign = 'center'; ctx.fillText(buchstabe, x, y+5);
+  if(!serie){
+    // Zweig des Messgeräts: an denselben zwei Knoten wie die Lampe
+    ctx.strokeStyle = gefahr ? '#9b1c1c' : '#3f3a33'; ctx.lineWidth = gefahr ? 3.4 : 2.4;
+    ctx.beginPath(); ctx.moveTo(xp, T); ctx.lineTo(xp, my-rM); ctx.moveTo(xp, my+rM); ctx.lineTo(xp, B); ctx.stroke();
+    ctx.fillStyle = '#3f3a33';
+    [T, B].forEach(y => { ctx.beginPath(); ctx.arc(xp, y, 4, 0, 6.283); ctx.fill(); });
   }
-  if(serie){
-    ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.4;
-    ctx.beginPath(); ctx.moveTo(mx-34,T); ctx.lineTo(mx-19,T);
-    ctx.moveTo(mx+19,T); ctx.lineTo(mx+34,T); ctx.stroke();
-    geraet(mx, T, mmArt === 'a-serie' ? 'A' : 'V', mmArt === 'a-serie' ? '#0f6b66' : '#9b1c1c');
-  } else {
-    // parallel zur Lampe: Abzweig nach unten
-    const py = B + 0;
-    ctx.strokeStyle = gefahr ? '#9b1c1c' : '#3f3a33';
-    ctx.lineWidth = gefahr ? 3.4 : 2.4;
-    ctx.beginPath();
-    ctx.moveTo(R, T); ctx.lineTo(R+0, T);
-    ctx.moveTo(R, ly-17); ctx.lineTo(R+46, ly-17); ctx.lineTo(R+46, ly+30);
-    ctx.moveTo(R, ly+17); ctx.lineTo(R+46, ly+17);
-    ctx.stroke();
-    geraet(R+46, ly, mmArt === 'a-parallel' ? 'A' : 'V',
-           gefahr ? '#9b1c1c' : '#9b1c1c');
-    if(gefahr){
-      ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 12px "Source Sans 3",sans-serif';
-      ctx.textAlign = 'center'; ctx.fillText('Kurzschluss', (L+R)/2, B+30);
-    }
+  quelle(ctx, L, my, MM_U + ' V');
+
+  // Lampe rechts; leuchtet, solange Strom durch sie fliesst
+  if(!dunkel){
+    const grd = ctx.createRadialGradient(R, my, 2, R, my, 34);
+    grd.addColorStop(0, 'rgba(255,210,60,0.75)'); grd.addColorStop(1, 'rgba(255,210,60,0)');
+    ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(R, my, 34, 0, 6.283); ctx.fill();
+  }
+  ctx.fillStyle = dunkel ? '#e7ddcd' : 'rgba(255,200,40,0.9)';
+  ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
+  ctx.beginPath(); ctx.arc(R, my, rL, 0, 6.283); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(R-10.6, my-10.6); ctx.lineTo(R+10.6, my+10.6);
+  ctx.moveTo(R+10.6, my-10.6); ctx.lineTo(R-10.6, my+10.6); ctx.stroke();
+
+  // Messgerät
+  const gx = serie ? mx : xp, gy = serie ? T : my;
+  ctx.fillStyle = '#fff'; ctx.strokeStyle = farbe; ctx.lineWidth = 2.6;
+  ctx.beginPath(); ctx.arc(gx, gy, rM, 0, 6.283); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = farbe; ctx.font = 'bold 16px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(mmArt.charAt(0) === 'a' ? 'A' : 'V', gx, gy+6);
+
+  // Messwert direkt am Gerät: bei Serie darüber, bei parallel links daneben
+  ctx.font = 'bold 13px "JetBrains Mono",monospace';
+  const aw = ctx.measureText(r.anzeige).width + 16, ah = 22;
+  const ax = serie ? gx : gx - rM - 10 - aw/2, ay = serie ? gy - rM - 8 - ah/2 : gy;
+  ctx.fillStyle = '#fff'; ctx.strokeStyle = farbe; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.roundRect(ax-aw/2, ay-ah/2, aw, ah, 5); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = farbe; ctx.fillText(r.anzeige, ax, ay+4.5);
+  if(gefahr){
+    ctx.font = '18px sans-serif'; ctx.fillText('⚡', gx+rM+10, gy-rM+4);
   }
 
-  ctx.fillStyle = '#5c554c'; ctx.font = '12px "Source Sans 3",sans-serif';
-  ctx.textAlign = 'left';
-  ctx.fillText('Anzeige: ' + r.anzeige + '  (' + r.einheit + ')', L, H-8);
+  // Urteil und Begründung
+  const hinweis = {
+    'a-serie':    'Der ganze Strom fliesst durch das Gerät.',
+    'a-parallel': 'Die Sicherung des Amperemeters brennt durch.',
+    'v-parallel': 'Gerät und Lampe an denselben zwei Knoten.',
+    'v-serie':    'Das Voltmeter bremst den Strom fast auf null.'
+  }[mmArt];
+  const urteil = {
+    'a-serie': '✓ richtig angeschlossen', 'v-parallel': '✓ richtig angeschlossen',
+    'a-parallel': '✗ falsch: Kurzschluss', 'v-serie': '✗ falsch: Lampe bleibt dunkel'
+  }[mmArt];
+  ctx.textAlign = 'center';
+  ctx.fillStyle = farbe; ctx.font = 'bold 14px "Source Sans 3",sans-serif';
+  ctx.fillText(urteil, (L+R)/2, B+22);
+  ctx.fillStyle = gefahr ? '#9b1c1c' : '#5c554c'; ctx.font = (gefahr ? 'bold ' : '') + '12px "Source Sans 3",sans-serif';
+  ctx.fillText(hinweis, (L+R)/2, B+40);
 }
 
 function mmInit(){
@@ -2690,21 +2764,20 @@ function gmRender(){
   document.getElementById('gm-U').textContent  = w.U1.toFixed(2) + ' ; ' + w.Up.toFixed(2) + ' V';
   document.getElementById('gm-I23').textContent = (w.I2*1000).toFixed(2) + ' ; ' + (w.I3*1000).toFixed(2) + ' mA';
 
-  const f = document.getElementById('gm-eq-f'), z = document.getElementById('gm-eq-z');
   if(gmSchritt === 0){
-    f.textContent = 'R₁ in Reihe zu (R₂ ∥ R₃)';
-    z.textContent = 'R₁ = ' + w.R1 + ' Ω; R₂ = ' + w.R2 + ' Ω; R₃ = ' + w.R3 + ' Ω; U = 12.0 V';
+    flTex('gm-eq-f', 'R_1 \\text{ in Reihe zu } (R_2 \\parallel R_3)');
+    flTex('gm-eq-z', ['R_1 = ' + tO(w.R1), 'R_2 = ' + tO(w.R2), 'R_3 = ' + tO(w.R3), 'U = ' + tE(GM_U.toFixed(1),'V')]);
   } else if(gmSchritt === 1){
-    f.textContent = 'R_p = (R₂ · R₃) / (R₂ + R₃)';
-    z.textContent = 'R_p = (' + w.R2 + ' Ω · ' + w.R3 + ' Ω) / (' + w.R2 + ' Ω + ' + w.R3
-                  + ' Ω) = ' + w.Rp.toFixed(1) + ' Ω';
+    flTex('gm-eq-f', 'R_\\text{p} = \\frac{R_2\\cdot R_3}{R_2 + R_3}');
+    flTex('gm-eq-z', 'R_\\text{p} = \\frac{' + tO(w.R2) + '\\cdot ' + tO(w.R3) + '}{' + tO(w.R2) + ' + ' + tO(w.R3)
+                   + '} = ' + tO(w.Rp.toFixed(1)));
   } else if(gmSchritt === 2){
-    f.textContent = 'R_ges = R₁ + R_p';
-    z.textContent = 'R_ges = ' + w.R1 + ' Ω + ' + w.Rp.toFixed(1) + ' Ω = ' + w.Rg.toFixed(1) + ' Ω';
+    flTex('gm-eq-f', 'R_\\text{ges} = R_1 + R_\\text{p}');
+    flTex('gm-eq-z', 'R_\\text{ges} = ' + tO(w.R1) + ' + ' + tO(w.Rp.toFixed(1)) + ' = ' + tO(w.Rg.toFixed(1)));
   } else {
-    f.textContent = 'I = U / R_ges; U₁ = I · R₁; I₂ = U_p / R₂';
-    z.textContent = 'I = 12.0 V / ' + w.Rg.toFixed(1) + ' Ω = ' + (w.I*1000).toFixed(2)
-                  + ' mA; Probe: I₂ + I₃ = ' + ((w.I2+w.I3)*1000).toFixed(2) + ' mA';
+    flTex('gm-eq-f', ['I = \\frac{U}{R_\\text{ges}}', 'U_1 = I\\cdot R_1', 'I_2 = \\frac{U_\\text{p}}{R_2}']);
+    flTex('gm-eq-z', ['I = \\frac{' + tE(GM_U.toFixed(1),'V') + '}{' + tO(w.Rg.toFixed(1)) + '} = ' + tE((w.I*1000).toFixed(2),'mA'),
+                      '\\text{Probe: } I_2 + I_3 = ' + tE(((w.I2+w.I3)*1000).toFixed(2),'mA')]);
   }
   gmDraw(w);
 }
@@ -2712,7 +2785,7 @@ function gmRender(){
 function gmDraw(w){
   const cv = initCanvas('gm-cv', 270, false); if(!cv) return;
   const ctx = cv.ctx, W = cv.W, H = cv.H;
-  const L = W*0.12, R = W*0.88, T = H*0.24, B = H*0.80, my = (T+B)/2;
+  const L = Math.max(W*0.12, 58), R = W*0.88, T = H*0.24, B = H*0.80, my = (T+B)/2;
 
   ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
   ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
@@ -2727,12 +2800,6 @@ function gmDraw(w){
     ctx.fillText(wert, x, y+11);
     ctx.font = '12px "Source Sans 3",sans-serif';
   }
-  // Quelle
-  ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.6;
-  ctx.beginPath(); ctx.moveTo(L-11, my-14); ctx.lineTo(L+11, my-14); ctx.stroke();
-  ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(L-6, my-4); ctx.lineTo(L+6, my-4); ctx.stroke();
-  ctx.fillStyle = '#5c554c'; ctx.textAlign = 'right'; ctx.fillText('12 V', L-16, my-2);
-  ctx.textAlign = 'center';
 
   const x1 = L + (R-L)*0.30;                       // R1
   const xp = L + (R-L)*0.70;                       // Parallelgruppe
@@ -2744,6 +2811,7 @@ function gmDraw(w){
     ctx.moveTo(L, T); ctx.lineTo((L+R)/2-31, T);
     ctx.moveTo((L+R)/2+31, T); ctx.lineTo(R, T); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
     ctx.stroke();
+    quelle(ctx, L, my, GM_U + ' V');
     kasten((L+R)/2, T, 'R', w.Rg.toFixed(1) + ' Ω gesamt', '#b45309');
     if(gmSchritt === 3){
       ctx.fillStyle = '#0f6b66'; ctx.textAlign = 'center';
@@ -2762,6 +2830,7 @@ function gmDraw(w){
   ctx.moveTo(x1+31, T); ctx.lineTo(xp-40, T);
   ctx.moveTo(xp+40, T); ctx.lineTo(R, T); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
   ctx.stroke();
+  quelle(ctx, L, my, GM_U + ' V');
   kasten(x1, T, 'R₁', w.R1 + ' Ω');
 
   if(gmSchritt === 0){
@@ -2831,28 +2900,21 @@ function lpRender(){
   document.getElementById('lp-Pg').textContent = w.Pg.toFixed(1) + ' W';
   document.getElementById('lp-hell').textContent =
       Math.abs(w.P1-w.P2) < 0.05 ? 'gleich hell' : (w.P1 > w.P2 ? 'Lampe 1' : 'Lampe 2');
-  document.getElementById('lp-eq-z').textContent =
-      'R₁ = (230 V)² / ' + w.P1n + ' W = ' + w.R1.toFixed(0) + ' Ω; R₂ = (230 V)² / '
-      + w.P2n + ' W = ' + w.R2.toFixed(0) + ' Ω';
-  document.getElementById('lp-eq-p').textContent = lpArt === 'reihe'
-      ? 'in Reihe: I = U / (R₁ + R₂) = ' + (w.I1*1000).toFixed(0) + ' mA; P = R · I²'
-      : 'parallel: an jeder Lampe liegen 230 V; P = U² / R';
+  flTex('lp-eq-z', 'R_1 = \\frac{(' + tE(LP_U,'V') + ')^2}{' + tE(w.P1n,'W') + '} = ' + tO(w.R1.toFixed(0)));
+  flTex('lp-eq-z2', 'R_2 = \\frac{(' + tE(LP_U,'V') + ')^2}{' + tE(w.P2n,'W') + '} = ' + tO(w.R2.toFixed(0)));
+  flTex('lp-eq-p', lpArt === 'reihe'
+      ? ['\\text{in Reihe: } I = \\frac{U}{R_1 + R_2} = ' + tE((w.I1*1000).toFixed(0),'mA'), 'P = R\\cdot I^2']
+      : ['\\text{parallel: } U_1 = U_2 = ' + tE(LP_U,'V'), 'P = \\frac{U^2}{R}']);
   lpDraw(w);
 }
 
 function lpDraw(w){
   const cv = initCanvas('lp-cv', 250, false); if(!cv) return;
   const ctx = cv.ctx, W = cv.W, H = cv.H;
-  const L = W*0.16, R = W*0.84, T = H*0.24, B = H*0.78, my = (T+B)/2;
+  const L = Math.max(W*0.16, 62), R = W*0.84, T = H*0.24, B = H*0.78, my = (T+B)/2;
   ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
   ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
 
-  // Quelle
-  ctx.lineWidth = 2.6;
-  ctx.beginPath(); ctx.moveTo(L-11, my-14); ctx.lineTo(L+11, my-14); ctx.stroke();
-  ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(L-6, my-4); ctx.lineTo(L+6, my-4); ctx.stroke();
-  ctx.fillStyle = '#5c554c'; ctx.textAlign = 'right'; ctx.fillText('230 V', L-16, my-2);
-  ctx.textAlign = 'center';
 
   const max = Math.max(w.P1, w.P2, 1);
   function lampe(x, y, P, nenn, nr){
@@ -2893,7 +2955,8 @@ function lpDraw(w){
     ctx.fillStyle = '#0f6b66';
     ctx.fillText('an jeder Lampe 230 V', (L+R)/2, B+20);
   }
-  ctx.fillStyle = '#5c554c';
+  quelle(ctx, L, my, LP_U + ' V');
+  ctx.fillStyle = '#5c554c'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('zusammen ' + w.Pg.toFixed(1) + ' W', (L+R)/2, H-8);
 }
 

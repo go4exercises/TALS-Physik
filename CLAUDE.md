@@ -336,7 +336,7 @@ Die Liste steht in `STYLEGUIDE.md` und wächst; aktuell:
 | 5 | Formelzeilen **komplett** in LaTeX — Formel *und* Zahlengleichung, Brüche als `\frac{…}{…}`. Dynamisches Neu-Rendern gedrosselt und serialisiert; auf doppelte Backslashes in JS-Strings achten. | §2.8 |
 | 6 | **Preis** = Kosten pro Einheit (CHF/kg, CHF/km); **Kosten** = Gesamtbetrag (CHF). «Preis» nie mit der Einheit CHF — weder im Text noch an Achsen oder in Live-Boxen. | §2.6b |
 | 7 | **Liter klein**: `l`, `ml`, `dl`, `kg/l` — nie `L`/`mL`. Gilt in LaTeX, Fliesstext, Tabellen, Live-Boxen und Canvas. Das grosse `L` bleibt, wo es Saiten-/Pendel-/Balkenlänge, latente Wärme, `mL` als margin-left oder Lektionen meint. | §2.3 |
-| 8 | **Kein Gedankenstrich an einer Formel im Titel** — gerendert liest er sich als Vorzeichen. Vor der Formel: Doppelpunkt (nach `?`/`!` ersatzlos). Nach der Formel: Titel umstellen, Formel ans Ende. Nur direkter Kontakt zählt; Fliesstext bleibt. Gilt für `h2`, `h3`, `.block-titel`, `.aufg-titel-text`. | §2.9 |
+| 8 | **Kein Gedankenstrich an einer Formel im Titel** — gerendert liest er sich als Vorzeichen. Vor der Formel: Doppelpunkt (nach `?`/`!` ersatzlos). Nach der Formel: Titel umstellen, Formel ans Ende. Nur direkter Kontakt zählt; Fliesstext bleibt. Gilt für `h2`, `h3`, `.block-titel`, `.aufg-titel-text`. **Ebenso kein Mittepunkt `·` direkt vor einer Formel** (liest sich als Malpunkt: `Animation 3 · \(R…\)`) — in Titeln und Knopfbeschriftungen durch Doppelpunkt ersetzen. | §2.9 |
 
 Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
 **und** hier in der Tabelle nachgeführt.

@@ -316,6 +316,15 @@ Gedankenstrich ein Satzzeichen mit grammatischer Funktion.
 
 Suchmuster für beide Richtungen: `[—–]\s*\\(` und `\\)\s*[—–]`.
 
+**Dasselbe gilt für den Mittepunkt `·` direkt vor einer Formel** (seit
+26.09.2026). Gerendert liest er sich als Malpunkt: aus
+`Animation 3 · \(R = \rho\,l/A\)` wird optisch «3 mal R». Ersatz ist der
+Doppelpunkt nach einer Beschreibung — `Animation 3 · Widerstand eines Leiters:
+\(R = \rho\,l/A\)`. Das gilt auch für **Knopfbeschriftungen** mit Nummer
+(`2 · \(R_2 \parallel R_3\)` → `2: \(R_2 \parallel R_3\)`). Der Punkt zwischen
+Nummer und **Wort** bleibt (`Animation 4 · Zwei Widerstände in Reihe`, §2.1).
+Suchmuster: `·\s*\\(` in Titeln und `<button>`.
+
 ## 3. Achsenskalierung
 
 Physik unterscheidet sich grundlegend von Mathematik: **Achsen tragen IMMER Einheiten**. Es gibt keine reinen 1:1-Achsen wie im Mathe-Repo.
