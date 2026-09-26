@@ -6,6 +6,7 @@
 //    - Zahlen-Formatierer (fmt, fmtS, fmtSig)
 //    - Lösungs-Toggle (toggleL)
 //    - MathJax-Re-Typeset, serialisiert (mjTypeset)
+//    - Formelzeilen in LaTeX, eine Rechnung pro Zeile (flTex, texE, texO)
 //    - Clip-Start/-Stop fuer die Erklaerclips (clipStart, clipStop)
 //
 //  Einbindung auf Themenseiten:
@@ -69,6 +70,65 @@ function mjTypeset(els) {
     .catch(err => console.error('mjTypeset:', err));
   return _mjTypesetQueue;
 }
+
+/* ── Formelzeilen in LaTeX (flTex) ─────────────────────────
+   Für jede .fl-eq mit Live-Werten. Auf allen Themenseiten dieselbe Umsetzung;
+   Regeln: STYLEGUIDE §2.8 («Eine Rechnung, eine Zeile»).
+   Aufruf:  flTex(id, ['I = \\frac{U}{R}', '= \\frac{'+texE(6,'V')+'}{'+texO(100)+'}', '= '+texE(60,'mA')])
+─────────────────────────────────────────────────────────── */
+// Formel und Zahlengleichung stehen in LaTeX; MathJax muss darum bei jeder
+// Reglerbewegung neu setzen. Jede Zeile wird auf einen Frame gedrosselt, alle
+// Zeilen laufen in EINER Promise-Kette — sonst überholen sich zwei Läufe und
+// hinterlassen halb gesetzte Formeln. Muster aus p5-2, Animation 2.
+let flKette = Promise.resolve();
+const flOffen = new Map();
+// Eine Rechnung steht auf EINER Zeile: Formelzeichen = Formel = Zahlen mit
+// Einheiten = Ergebnis. Sie wird als Array von Gliedern übergeben
+// (['I = \\frac{U}{R}', '= \\frac{…}{…}', '= 60\\;\\text{mA}']); jedes Glied ist
+// eine eigene Formel, dazwischen eine Umbruchstelle ohne Abstand (<wbr> — ein
+// Leerzeichen käme zum Abstand vor dem «=» noch dazu). Reicht der Platz nicht, bricht
+// die Zeile darum nur vor einem Gleichheitszeichen um — nie mitten im Bruch.
+// tex: String oder Glieder-Array = eine Rechnung; Array von Rechnungen = mehrere,
+// durch Strichpunkt getrennt. '' leert und versteckt die Zeile.
+// Ein «=» am Anfang eines Glieds bekäme von MathJax links keinen Abstand;
+// das leere {} davor macht es zum gewöhnlichen Relationszeichen.
+const flTeil = t => '\\(\\displaystyle ' + (t.charAt(0) === '=' ? '{}' : '') + t + '\\)';
+function flHtml(tex){
+  const liste = (Array.isArray(tex) && tex.some(Array.isArray)) ? tex : [tex];
+  return liste.map((r, i) => {
+    const glieder = Array.isArray(r) ? r.slice() : [r];
+    if(i < liste.length-1) glieder[glieder.length-1] += ';';
+    return glieder.map(flTeil).join('<wbr>');
+  }).join('&ensp; ');
+}
+function flTex(id, tex){
+  const el = document.getElementById(id); if(!el) return;
+  el.style.display = tex === '' ? 'none' : '';
+  const h = tex === '' ? '' : flHtml(tex);
+  const wartet = flOffen.has(el);
+  if(!wartet && el.dataset.stand === h) return;           // nichts geändert
+  flOffen.set(el, h);
+  if(wartet) return;
+  requestAnimationFrame(() => {
+    const h2 = flOffen.get(el); flOffen.delete(el);
+    if(el.dataset.stand === h2) return;
+    el.dataset.stand = h2;
+    flKette = flKette
+      .then(() => window.MathJax && MathJax.startup && MathJax.startup.promise)
+      .then(() => {
+        if(window.MathJax && MathJax.typesetClear) MathJax.typesetClear([el]);
+        el.innerHTML = h2;
+        return (window.MathJax && MathJax.typesetPromise) ? MathJax.typesetPromise([el]) : null;
+      }).then(() => {
+        // Jedes Glied als inline-block: dann reserviert die Zeile die volle Höhe
+        // der Brüche, und umgebrochene Glieder berühren sich nicht.
+        el.querySelectorAll('mjx-container').forEach(c => { c.style.display = 'inline-block'; c.style.margin = '2px 0'; });
+      }).catch(() => {});
+  });
+}
+// Zahl mit Einheit, STYLEGUIDE §2.3: \; vor der Einheit, Einheit aufrecht
+const texE = (zahl, einheit) => zahl + '\\;\\text{' + einheit + '}';
+const texO = zahl => zahl + '\\;\\Omega';
 
 /* ── Canvas-Helper ───────────────────────────────────────────
    initCanvas(id, H, square)
