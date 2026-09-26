@@ -1233,6 +1233,13 @@ function lerpCol(t){ t=Math.max(0,Math.min(1,t));
 
 // ── Loop-Manager (rAF + IntersectionObserver-Autostart) ───
 const LOOPS = [];
+// Canvas-Text in Zeilen, die höchstens maxW breit sind (Wortgrenzen; Schrift vorher setzen)
+function zeilenUmbruch(ctx, txt, maxW){
+  const z=[]; let akt='';
+  for(const w of txt.split(' ')){ const t=akt?akt+' '+w:w;
+    if(akt && ctx.measureText(t).width>maxW){ z.push(akt); akt=w; } else akt=t; }
+  if(akt) z.push(akt); return z;
+}
 function makeLoop(canvasId, btnId, tickFn){
   const st={running:false,userPaused:false,rafId:null,last:0,canvasId:canvasId};
   const btn=document.getElementById(btnId); st.btn=btn;
@@ -1291,7 +1298,10 @@ function einRender(){
     ctx.fillText('geschlossen ab ϑ ≈ '+EIN_TGRENZ.toFixed(1)+' °C', mid, yb-28);
   }
   ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
-  ctx.fillText('reale Längenänderung Δl = '+(dl_mm>=0?'+':'')+dl_mm.toFixed(1)+' mm (Bild stark vergrössert)', mid, H*0.93);
+  // Unter den Schwellen ist nur Platz für eine Zeile: schmal die Kurzfassung
+  const dlTxt=(dl_mm>=0?'+':'')+dl_mm.toFixed(1)+' mm';
+  const einLang='reale Längenänderung Δl = '+dlTxt+' (Bild stark vergrössert)';
+  ctx.fillText(ctx.measureText(einLang).width<=W-16 ? einLang : 'real: Δl = '+dlTxt+' (Bild vergrössert)', mid, H*0.93);
 }
 document.getElementById('ein-T').addEventListener('input', einRender);
 
@@ -1742,11 +1752,17 @@ function drawA4(){
   // Klammer Δh
   ctx.strokeStyle='#b85c00'; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(W*0.84,seaTop); ctx.lineTo(W*0.84,newTop); ctx.stroke();
-  ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
-  ctx.fillText('Δh = '+(dh*100).toFixed(0)+' cm', W*0.85, (seaTop+newTop)/2+4);
+  ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace';
+  const dhTxt='Δh = '+(dh*100).toFixed(0)+' cm';
+  if(W*0.85+ctx.measureText(dhTxt).width <= W-4){
+    ctx.textAlign='left'; ctx.fillText(dhTxt, W*0.85, (seaTop+newTop)/2+4);
+  } else {                                   // schmal: über dem neuen Pegel, links der Küste
+    ctx.textAlign='right'; ctx.fillText(dhTxt, W*0.76, newTop-6);
+  }
   // Labels
   ctx.fillStyle='#1c3a52'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
-  ctx.fillText('erwärmte Wassersäule: '+h0+' m, ΔT = '+dT.toFixed(1)+' K', 8, seaBot-8);
+  const wsZ=zeilenUmbruch(ctx, 'erwärmte Wassersäule: '+h0+' m; ΔT = '+dT.toFixed(1)+' K', W*0.78-16);
+  wsZ.forEach((z,i)=>ctx.fillText(z, 8, seaBot-8-(wsZ.length-1-i)*16));
   ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='right';
   ctx.fillText('(Anstieg im Bild stark vergrössert)', W*0.77, seaTop+14);
 }

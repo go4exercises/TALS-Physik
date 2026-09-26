@@ -1345,7 +1345,8 @@ function aeRender() {
   const theta = Math.max(-thetaMax, Math.min(thetaMax, -diff / 1400));   // >0 = rechts senkt sich
 
   ctx.fillStyle = '#cbb89a'; ctx.fillRect(0, H-18, W, 18);
-  ctx.fillStyle = '#5a6068'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  const eng = W < 420;                        // schmal: sonst läuft die Kopfzeile rechts hinaus
+  ctx.fillStyle = '#5a6068'; ctx.font = (eng ? 11 : 13) + 'px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('links fest: m₁ = ' + AE_M1 + ' kg bei r₁ = ' + AE_R1.toFixed(2) + ' m', 10, 16);
   ctx.fillStyle = '#7a6a52';
   ctx.beginPath(); ctx.moveTo(px, pivotY); ctx.lineTo(px-26, H-18); ctx.lineTo(px+26, H-18); ctx.closePath(); ctx.fill();
@@ -1371,9 +1372,31 @@ function aeRender() {
   sitz(-1, AE_R1, AE_M1, '#7a3b9e');
   sitz(+1, r2, m2, '#b8722a');
 
-  ctx.fillStyle = '#5a6068'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  ctx.fillText('r1 = '+AE_R1.toFixed(1)+' m', px - AE_R1*pxPerM*Math.cos(theta), pivotY + 28);
-  ctx.fillText('r2 = '+r2.toFixed(2)+' m', px + r2*pxPerM*Math.cos(theta), pivotY + 28);
+  // Hebelarme als Massbänder parallel zum Balken, über den Kindern — auf fester
+  // Höhe unter dem Balken kreuzten Balken und Stützdreieck die Beschriftung.
+  const ab = 42;                                          // Abstand über dem Balken
+  const ox = -ab*Math.sin(theta), oy = -ab*Math.cos(theta);   // Normale nach oben
+  const punkt = (side, d) => [px + side*d*pxPerM*Math.cos(theta) + ox, pivotY - side*d*pxPerM*Math.sin(theta) + oy];
+  ctx.strokeStyle = '#8a8f96'; ctx.lineWidth = 1;
+  const massband = (side, d) => {
+    const [x0, y0] = punkt(0, 0), [x1, y1] = punkt(side, d);
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+    [[x0, y0], [x1, y1]].forEach(([x, y]) => { ctx.beginPath(); ctx.moveTo(x + 5*Math.sin(theta), y + 5*Math.cos(theta)); ctx.lineTo(x - 5*Math.sin(theta), y - 5*Math.cos(theta)); ctx.stroke(); });
+    return [(x0+x1)/2, (y0+y1)/2];
+  };
+  massband(-1, AE_R1); massband(+1, r2);
+  // Beschriftung parallel zum Band (gedreht wie der Balken), damit das schräge
+  // Band sie nicht kreuzt; berühren sich r₁ und r₂, rückt r₂ entlang des Bandes nach aussen
+  ctx.fillStyle = '#5a6068'; ctx.font = (eng ? 11 : 13) + 'px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  const t1 = 'r₁ = '+AE_R1.toFixed(1)+' m', t2 = 'r₂ = '+r2.toFixed(2)+' m';
+  const b1 = ctx.measureText(t1).width, b2 = ctx.measureText(t2).width;
+  const u1 = Math.min(-AE_R1*pxPerM/2, -6 - b1/2);            // frei vom Strich an der Drehachse
+  const u2 = Math.max(r2*pxPerM/2, 6 + b2/2);
+  const [ax, ay] = punkt(0, 0);
+  ctx.save(); ctx.translate(ax, ay); ctx.rotate(-theta);
+  ctx.fillText(t1, u1, -9);                              // über den Endstrichen (±5 px), Tiefstellung inbegriffen
+  ctx.fillText(t2, u2, -9);
+  ctx.restore();
 }
 ['ae-r2','ae-m2'].forEach(id => document.getElementById(id).addEventListener('input', aeRender));
 
@@ -1514,19 +1537,28 @@ function drawA3() {
   // Werte direkt an die Pfeile — der Aha-Effekt «flache Seile → riesige Kräfte»
   // stand bisher nur in der Live-Box. Rot, sobald eine Seilkraft die Last
   // übersteigt: dann trägt jedes Seil mehr, als überhaupt hängt.
-  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
+  // Beschriftung senkrecht zum Seil nach AUSSEN versetzt (links vom linken,
+  // rechts vom rechten Seil): auf der Pfeilspitze lag sie auf dem Seil, und bei
+  // steilen Seilen überlappten S1 und S2 in der Mitte.
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
   const kritisch = f => f > FG ? '#9b1c1c' : C_HAUPT;
-  ctx.fillStyle = kritisch(S1);
-  ctx.fillText('S1 = ' + S1.toFixed(0) + ' N',
-               Math.max(52, P.x + (-Math.cos(a))*S1*sc - 24), P.y + (-Math.sin(a))*S1*sc - 8);
-  ctx.fillStyle = kritisch(S2);
-  ctx.fillText('S2 = ' + S2.toFixed(0) + ' N',
-               Math.min(W - 52, P.x + ( Math.cos(b))*S2*sc + 24), P.y + (-Math.sin(b))*S2*sc - 8);
+  const tS1 = 'S1 = ' + S1.toFixed(0) + ' N', tS2 = 'S2 = ' + S2.toFixed(0) + ' N';
+  const m1x = P.x - Math.cos(a)*S1*sc*0.6, m1y = P.y - Math.sin(a)*S1*sc*0.6;
+  const m2x = P.x + Math.cos(b)*S2*sc*0.6, m2y = P.y - Math.sin(b)*S2*sc*0.6;
+  ctx.fillStyle = kritisch(S1); ctx.textAlign = 'right';
+  ctx.fillText(tS1, Math.max(4 + ctx.measureText(tS1).width, m1x - 12*Math.sin(a)), m1y + 12*Math.cos(a) + 4);
+  ctx.fillStyle = kritisch(S2); ctx.textAlign = 'left';
+  ctx.fillText(tS2, Math.min(W - 4 - ctx.measureText(tS2).width, m2x + 12*Math.sin(b)), m2y + 12*Math.cos(b) + 4);
   ctx.fillStyle = C_GEW; ctx.textAlign = 'left';
-  ctx.fillText('F_G = ' + FG.toFixed(0) + ' N', P.x + 18, P.y + FG*sc + 4);
+  ctx.fillText('F_G = ' + FG.toFixed(0) + ' N', P.x + 22, P.y + FG*sc + 4);   // frei vom Quader (±16 px)
   if (S1 > FG || S2 > FG) {
     ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('Seilkraft grösser als die Last — ' + (Math.max(S1,S2)/FG).toFixed(1) + '× F_G', W/2, H - 10);
+    const warn = 'Seilkraft grösser als die Last — ' + (Math.max(S1,S2)/FG).toFixed(1) + '× F_G';
+    if (ctx.measureText(warn).width <= W - 8) ctx.fillText(warn, W/2, H - 10);
+    else {                                      // schmal: zweizeilig statt abgeschnitten
+      ctx.fillText('Seilkraft grösser als die Last:', W/2, H - 26);
+      ctx.fillText((Math.max(S1,S2)/FG).toFixed(1) + '× F_G', W/2, H - 10);
+    }
   }
   dotPx(ctx, P.x, P.y, '#000', 3);
 
@@ -1540,16 +1572,26 @@ function drawA3() {
   const sc2 = Math.min((W2-80)/(Math.abs(vS1x)+Math.abs(vS2x)+1), (H2-80)/(FG+1)) * 0.8;
   const sx = W2*0.5 - (vFGx+vS1x)*sc2*0.5, sy = 36;
   // Beträge an die Seiten — ohne Zahlen bleibt das Dreieck eine blosse Figur
-  function seg(x0,y0,vx,vy,col,lab){
-    const x1 = x0 + vx*sc2, y1 = y0 + vy*sc2;
-    drawArrow(c2, x0, y0, x1, y1, col, 2.6, 9);
-    c2.fillStyle = col; c2.font='bold 13px JetBrains Mono,monospace'; c2.textAlign='center';
-    c2.fillText(lab, (x0+x1)/2 + 16, (y0+y1)/2 + 4);
-    return {x:x1,y:y1};
+  // Beschriftung auf der AUSSENSEITE jeder Dreiecksseite (weg vom Schwerpunkt
+  // des Dreiecks); in der Seitenmitte kreuzten die Linien den Text
+  const e0 = {x: sx, y: sy}, e1 = {x: sx + vFGx*sc2, y: sy + vFGy*sc2}, e2 = {x: e1.x + vS1x*sc2, y: e1.y + vS1y*sc2};
+  const sp = {x: (e0.x+e1.x+e2.x)/3, y: (e0.y+e1.y+e2.y)/3};
+  function seg(p0, p1, col, lab){
+    drawArrow(c2, p0.x, p0.y, p1.x, p1.y, col, 2.6, 9);
+    const mx = (p0.x+p1.x)/2, my = (p0.y+p1.y)/2, L = Math.hypot(p1.x-p0.x, p1.y-p0.y) || 1;
+    let nx = -(p1.y-p0.y)/L, ny = (p1.x-p0.x)/L;
+    if (nx*(mx-sp.x) + ny*(my-sp.y) < 0) { nx = -nx; ny = -ny; }
+    c2.fillStyle = col; c2.font='bold 13px JetBrains Mono,monospace';
+    c2.textAlign = nx > 0.3 ? 'left' : nx < -0.3 ? 'right' : 'center';
+    const bx = c2.measureText(lab).width;
+    let tx = mx + nx*10, ty = my + ny*10 + (Math.abs(nx) > 0.3 ? 4 : (ny > 0 ? 14 : -4));
+    if (c2.textAlign === 'left') tx = Math.min(tx, W2 - 4 - bx);
+    if (c2.textAlign === 'right') tx = Math.max(tx, 4 + bx);
+    c2.fillText(lab, tx, ty);
   }
-  let p = seg(sx, sy, vFGx, vFGy, C_GEW, 'F_G = '+FG.toFixed(0)+' N');
-  p = seg(p.x, p.y, vS1x, vS1y, C_HAUPT, 'S1 = '+S1.toFixed(0)+' N');
-  p = seg(p.x, p.y, vS2x, vS2y, C_HAUPT, 'S2 = '+S2.toFixed(0)+' N');
+  seg(e0, e1, C_GEW, 'F_G = '+FG.toFixed(0)+' N');
+  seg(e1, e2, C_HAUPT, 'S1 = '+S1.toFixed(0)+' N');
+  seg(e2, e0, C_HAUPT, 'S2 = '+S2.toFixed(0)+' N');
   c2.fillStyle = '#5a6068'; c2.font='13px JetBrains Mono,monospace'; c2.textAlign='center';
   c2.fillText('Summe = 0  ->  geschlossen', W2/2, H2-12);
 }
@@ -1576,11 +1618,21 @@ function drawA4() {
   document.getElementById('a4-rperp').textContent = rperp.toFixed(2) + ' m';
   document.getElementById('a4-fperp').textContent = Fperp.toFixed(0) + ' N';
 
-  const cv = initCanvas('a4-cv', 300, false);
+  let cv = initCanvas('a4-cv', 300, false);
+  const eng = cv.W < 420;                     // schmal: höher, Rechenzeilen zweizeilig
+  if (eng) cv = initCanvas('a4-cv', 370, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const textAb = H - (eng ? 62 : 44);         // darunter nur die Rechenzeilen
+  // Beschriftung mit hellem Grund: die gestrichelte Wirkungslinie darf dahinter durchlaufen
+  const mitGrund = (t, x, y) => {
+    const b = ctx.measureText(t).width, al = ctx.textAlign;
+    const x0 = al === 'right' ? x - b : al === 'center' ? x - b/2 : x;
+    const f = ctx.fillStyle; ctx.fillStyle = 'rgba(246,247,249,0.92)';
+    ctx.fillRect(x0 - 2, y - 11, b + 4, 15); ctx.fillStyle = f; ctx.fillText(t, x, y);
+  };
   ctx.fillStyle = '#f6f7f9'; ctx.fillRect(0, 0, W, H);
 
-  const D = { x: W*0.24, y: H*0.60 };
+  const D = { x: W*0.24, y: eng ? H*0.52 : H*0.60 };
   const pxPerM = Math.min(280, (W*0.58)/0.5);
   const B = { x: D.x + l*pxPerM, y: D.y };
   // Hebel
@@ -1589,18 +1641,25 @@ function drawA4() {
   // Drehachse
   ctx.fillStyle = '#7a6a52'; ctx.beginPath(); ctx.arc(D.x, D.y, 7, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(D.x, D.y, 2.5, 0, Math.PI*2); ctx.fill();
+  // «D» links oben: auf Achshöhe lief bei α > 90° der F∥-Pfeil hindurch
   ctx.fillStyle = C_TINTE; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
-  ctx.fillText('D', D.x-10, D.y+4);
+  ctx.fillText('D', D.x-10, D.y-20);
 
   // Kraftrichtung: Winkel a vom Hebel (+x), gegen Uhrzeigersinn -> nach oben
   const fdx = Math.cos(a), fdy = -Math.sin(a);
-  const Fpx = 95;
+  // Pfeillänge: höchstens 95 px (schmal 70), und die Spitze bleibt im Bild
+  let Fpx = eng ? 70 : 95;
+  if (fdx > 1e-6)  Fpx = Math.min(Fpx, (W - 22 - B.x) / fdx);    // 22 px: Platz für «F»
+  if (fdx < -1e-6) Fpx = Math.min(Fpx, (B.x - 22) / -fdx);
+  if (fdy < -1e-6) Fpx = Math.min(Fpx, (B.y - 22) / -fdy);
   // Wirkungslinie (gestrichelt)
+  // nur oberhalb der Rechenzeilen — sonst lief die Linie durch den Text
+  ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, textAb - 4); ctx.clip();
   ctx.strokeStyle = '#b0b6bd'; ctx.lineWidth = 1; ctx.setLineDash([5,4]);
   ctx.beginPath();
-  ctx.moveTo(B.x - fdx*220, B.y - fdy*220);
-  ctx.lineTo(B.x + fdx*220, B.y + fdy*220);
-  ctx.stroke(); ctx.setLineDash([]);
+  ctx.moveTo(B.x - fdx*400, B.y - fdy*400);
+  ctx.lineTo(B.x + fdx*400, B.y + fdy*400);
+  ctx.stroke(); ctx.setLineDash([]); ctx.restore();
   // wirksamer Hebelarm r = Lot von D auf Wirkungslinie
   // Fusspunkt: Projektion von D auf Linie durch B mit Richtung (fdx,fdy)
   const wx = D.x - B.x, wy = D.y - B.y;
@@ -1609,12 +1668,18 @@ function drawA4() {
   ctx.strokeStyle = C_KOMP; ctx.lineWidth = 2; ctx.setLineDash([4,3]);
   ctx.beginPath(); ctx.moveTo(D.x, D.y); ctx.lineTo(footx, footy); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle = C_KOMP; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
-  ctx.fillText('r = '+rperp.toFixed(2)+' m', (D.x+footx)/2 - 10, (D.y+footy)/2 + 16);
+  const rLang = Math.hypot(footx - D.x, footy - D.y) >= 30;
+  if (eng) ctx.font = 'bold 11px JetBrains Mono,monospace';
+  const tR = 'r = '+rperp.toFixed(2)+' m', bR = ctx.measureText(tR).width;
+  // kurzer Hebelarm: an fester Stelle unter D, sonst fiel alles am Drehpunkt zusammen
+  if (rLang) mitGrund(tR, Math.max(4 + bR, (D.x+footx)/2 - 10), (D.y+footy)/2 + 16);
+  else mitGrund(tR, Math.max(4 + bR, D.x - 8), D.y + 36);
 
   // Kraftpfeil
   drawArrow(ctx, B.x, B.y, B.x + fdx*Fpx, B.y + fdy*Fpx, C_GEW, 3, 10);
-  ctx.fillStyle = C_GEW; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
-  ctx.fillText('F', B.x + fdx*Fpx + 4, B.y + fdy*Fpx - 4);
+  ctx.fillStyle = C_GEW; ctx.font='bold 13px JetBrains Mono,monospace';
+  ctx.textAlign = fdx < -0.2 ? 'right' : 'left';           // auf der dem Pfeil abgewandten Seite
+  ctx.fillText('F', B.x + fdx*Fpx + (fdx < -0.2 ? -4 : 4), B.y + fdy*Fpx - 4);
 
   // Zweite Sichtweise: F in die Komponente senkrecht zum Hebel (wirksam) und
   // längs zum Hebel (ohne Drehwirkung) zerlegen. Der Beweis-Block nennt beide
@@ -1627,11 +1692,27 @@ function drawA4() {
   ctx.lineTo(B.x + paraPx, B.y); ctx.stroke(); ctx.setLineDash([]);
   drawArrow(ctx, B.x, B.y, B.x, B.y - perpPx, '#1f6b3a', 2.6, 9);
   drawArrow(ctx, B.x, B.y, B.x + paraPx, B.y, '#9aa1ab', 2.2, 8);
-  ctx.font = 'bold 13px JetBrains Mono,monospace';
-  ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'right';
-  ctx.fillText('F⊥ = '+Fperp.toFixed(0)+' N', B.x - 8, B.y - perpPx + 4);
-  ctx.fillStyle = '#8a8478'; ctx.textAlign = 'left';
-  ctx.fillText('F∥ (dreht nicht)', B.x + paraPx + 8, B.y + 5);
+  ctx.font = 'bold ' + (eng ? 11 : 13) + 'px JetBrains Mono,monospace';
+  // F⊥ auf die Seite, auf der F NICHT liegt; mind. 12 px über dem Hebel
+  const yPerp = Math.min(B.y - perpPx + 4, B.y - 12);
+  ctx.fillStyle = '#1f6b3a';
+  const tPerp = 'F⊥ = '+Fperp.toFixed(0)+' N', bPerp = ctx.measureText(tPerp).width;
+  // nach links: rechts neben dem α-Bogen (Radius 30 px), im Bild gehalten
+  if (fdx < -0.2) {
+    ctx.textAlign = 'left';
+    const xP = Math.min(B.x + 36, W - 4 - bPerp);
+    if (xP >= B.x + 32) ctx.fillText(tPerp, xP, yPerp);
+    else ctx.fillText(tPerp, W - 4 - bPerp, B.y + 36);      // kein Platz neben dem Bogen: unter den Hebel
+  }
+  else            { ctx.textAlign = 'right'; ctx.fillText(tPerp, Math.max(B.x - 8, 4 + bPerp), yPerp); }
+  ctx.fillStyle = '#8a8478';
+  const tPar = 'F∥ (dreht nicht)', bPar = ctx.measureText(tPar).width;
+  if (paraPx >= 0 && B.x + paraPx + 8 + bPar <= W - 4) {
+    ctx.textAlign = 'left'; mitGrund(tPar, B.x + paraPx + 8, B.y + 5);
+  } else {                                     // nach links oder kein Platz: unter die Pfeilmitte
+    ctx.textAlign = 'center';
+    mitGrund(tPar, Math.min(W - 4 - bPar/2, Math.max(4 + bPar/2, B.x + paraPx/2)), B.y + 20);
+  }
 
   // Winkelbogen alpha bei B
   ctx.strokeStyle = '#5a6068'; ctx.lineWidth = 1.2;
@@ -1647,7 +1728,7 @@ function drawA4() {
   // von ihr, sonst schneidet die gestrichelte Linie durch den Text.
   const lY = D.y + 58, lTxt = 'l = '+l.toFixed(2)+' m';
   const xWirk = B.x - (lY - B.y) / Math.tan(a);
-  ctx.fillText(lTxt, Math.max((D.x+B.x)/2, xWirk + 10 + ctx.measureText(lTxt).width/2), lY);
+  mitGrund(lTxt, Math.max((D.x+B.x)/2, xWirk + 10 + ctx.measureText(lTxt).width/2), lY);
 
   // Drehmoment als Bogenpfeil um D — M ist eine Drehwirkung, kein Pfeil entlang
   // einer Richtung. Der Bogen wächst mit M.
@@ -1657,15 +1738,25 @@ function drawA4() {
   const bEnd = -0.3 - bogSpan;
   drawArrow(ctx, D.x + bogR2*Math.cos(bEnd+0.13), D.y + bogR2*Math.sin(bEnd+0.13),
                  D.x + bogR2*Math.cos(bEnd),      D.y + bogR2*Math.sin(bEnd), '#b85c00', 2.6, 9);
-  ctx.fillStyle = '#b85c00'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  ctx.fillText('M = '+M.toFixed(1)+' Nm', D.x, D.y - bogR2 - 8);
+  ctx.fillStyle = '#b85c00'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  // schmal liegt D so nah an B, dass die Beschriftung über dem Bogen F⊥ traf: dann oben links
+  if (eng) { ctx.textAlign = 'left'; ctx.fillText('M = '+M.toFixed(1)+' Nm', 6, 16); }
+  else { ctx.textAlign = 'center'; ctx.fillText('M = '+M.toFixed(1)+' Nm', D.x, D.y - bogR2 - 8); }
 
-  // Beide Rechenwege je auf eigener Zeile (Regel 2: eine Gleichung, eine Zeile)
-  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-  ctx.fillStyle = C_KOMP;
-  ctx.fillText('über r:  M = F · r = '+F+' N · '+rperp.toFixed(2)+' m = '+M.toFixed(1)+' Nm', 12, H - 26);
-  ctx.fillStyle = '#1f6b3a';
-  ctx.fillText('über F⊥: M = F⊥ · l = '+Fperp.toFixed(0)+' N · '+l.toFixed(2)+' m = '+M.toFixed(1)+' Nm', 12, H - 8);
+  // Beide Rechenwege je auf eigener Zeile (Regel 2: eine Gleichung, eine Zeile);
+  // schmal je zweizeilig, Umbruch vor dem «=»
+  ctx.textAlign = 'left';
+  const wege = [
+    [C_KOMP,    'über r:  M = F · r', '= '+F+' N · '+rperp.toFixed(2)+' m = '+M.toFixed(1)+' Nm'],
+    ['#1f6b3a', 'über F⊥: M = F⊥ · l', '= '+Fperp.toFixed(0)+' N · '+l.toFixed(2)+' m = '+M.toFixed(1)+' Nm']];
+  if (eng) {
+    ctx.font = 'bold 11px JetBrains Mono,monospace';
+    wege.forEach(([f, a1, a2], k) => { ctx.fillStyle = f;
+      ctx.fillText(a1, 8, H - 50 + k*28); ctx.fillText('   ' + a2, 8, H - 37 + k*28); });
+  } else {
+    ctx.font = 'bold 13px JetBrains Mono,monospace';
+    wege.forEach(([f, a1, a2], k) => { ctx.fillStyle = f; ctx.fillText(a1 + ' ' + a2, 12, H - 26 + k*18); });
+  }
 }
 ['a4-F','a4-l','a4-al'].forEach(id => document.getElementById(id).addEventListener('input', drawA4));
 
@@ -1693,7 +1784,7 @@ function drawA5() {
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#f6f7f9'; ctx.fillRect(0, 0, W, H);
 
-  const px = W/2, pivotY = H*0.42;
+  const px = W/2, pivotY = H*0.48;              // tiefer: Platz für die Massbänder unter den Momentenbalken
   const pxPerM = Math.min(170, (W/2 - 50)/0.5);
   const theta = Math.max(-0.30, Math.min(0.30, -diff/26));   // >0 = rechts senkt sich   // >0 rechts unten
 
@@ -1717,15 +1808,39 @@ function drawA5() {
     ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy+12); ctx.stroke();
     drawArrow(ctx, cx, cy+12, cx, cy+12+len, col, 2.6, 9);
-    ctx.fillStyle = col; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-    ctx.fillText(lab, cx, cy+12+len+14);
+    // neben den Pfeil, nach aussen: unter der Spitze lag F₂ bei kleinem r₂ auf dem Ständer
+    ctx.fillStyle = col; ctx.font='bold 13px JetBrains Mono,monospace';
+    // aussen einzeilig, sonst aussen zweizeilig, erst dann innen
+    const passt = t => side < 0 ? cx - 8 - ctx.measureText(t).width >= 4 : cx + 8 + ctx.measureText(t).width <= W - 4;
+    const [kopf, wert] = lab.split(' = ');
+    const yL = cy+12+len - 4;
+    ctx.textAlign = side < 0 ? 'right' : 'left';
+    if (passt(lab)) ctx.fillText(lab, cx + side*8, yL);
+    else if (passt(wert)) { ctx.fillText(kopf + ' =', cx + side*8, yL - 14); ctx.fillText(wert, cx + side*8, yL); }
+    else { ctx.textAlign = side < 0 ? 'left' : 'right'; ctx.fillText(lab, cx - side*8, yL); }
   }
-  last(-1, A5_R1, A5_F1, C_GEW, 'F1='+A5_F1+'N');
-  last(+1, r2, F2, C_RES, 'F2='+F2+'N');
+  last(-1, A5_R1, A5_F1, C_GEW, 'F₁ = '+A5_F1+' N');
+  last(+1, r2, F2, C_RES, 'F₂ = '+F2+' N');
 
+  // Hebelarme als Massbänder über dem Balken, Beschriftung parallel dazu
+  // (wie bei der Wippe im Einstieg); früher liefen r₁ und r₂ ineinander und
+  // der schräge Balken durchstrich sie
+  const ab = 16, ox = -ab*Math.sin(theta), oy = -ab*Math.cos(theta);
+  const pkt = (side, d) => [px + side*d*pxPerM*Math.cos(theta) + ox, pivotY - side*d*pxPerM*Math.sin(theta) + oy];
+  ctx.strokeStyle = '#8a8f96'; ctx.lineWidth = 1;
+  [[-1, A5_R1], [1, r2]].forEach(([side, d]) => {
+    const [x0, y0] = pkt(0, 0), [x1, y1] = pkt(side, d);
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+    [[x0, y0], [x1, y1]].forEach(([x, y]) => { ctx.beginPath(); ctx.moveTo(x + 4*Math.sin(theta), y + 4*Math.cos(theta)); ctx.lineTo(x - 4*Math.sin(theta), y - 4*Math.cos(theta)); ctx.stroke(); });
+  });
   ctx.fillStyle = '#5a6068'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText('r1='+A5_R1.toFixed(2)+'m', px - A5_R1*pxPerM*Math.cos(theta), pivotY - 12);
-  ctx.fillText('r2='+r2.toFixed(2)+'m', px + r2*pxPerM*Math.cos(theta), pivotY - 12);
+  const tr1 = 'r₁ = '+A5_R1.toFixed(2)+' m', tr2 = 'r₂ = '+r2.toFixed(2)+' m';
+  const br1 = ctx.measureText(tr1).width, br2 = ctx.measureText(tr2).width;
+  const u1 = Math.min(-A5_R1*pxPerM/2, -6 - br1/2), u2 = Math.max(r2*pxPerM/2, 6 + br2/2);
+  const [qx, qy] = pkt(0, 0);
+  ctx.save(); ctx.translate(qx, qy); ctx.rotate(-theta);
+  ctx.fillText(tr1, u1, -8); ctx.fillText(tr2, u2, -8);
+  ctx.restore();
 
   // Momenten-Balken: a5 zeigte bisher dasselbe Kipp-Feedback wie die Wippe im
   // Einstieg. Erst der direkte Vergleich der beiden Momente macht daraus einen
@@ -1767,11 +1882,11 @@ function drawA6() {
   document.getElementById('a6-fb').textContent = FB.toFixed(0) + ' N';
   document.getElementById('a6-sum').textContent = (FA+FB).toFixed(0) + ' N';
 
-  const cv = initCanvas('a6-cv', 240, false);
+  const cv = initCanvas('a6-cv', 280, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#f6f7f9'; ctx.fillRect(0, 0, W, H);
 
-  const mL = 50, mR = W-50, beamY = H*0.46;
+  const mL = 50, mR = W-50, beamY = H*0.5;
   const cx = m => mL + (m/A6_L)*(mR-mL);
   // Balken
   ctx.fillStyle = '#b8722a'; ctx.fillRect(mL-10, beamY-7, (mR-mL)+20, 14);
@@ -1780,26 +1895,37 @@ function drawA6() {
   function stuetze(sx, lab) {
     ctx.fillStyle = '#7a6a52';
     ctx.beginPath(); ctx.moveTo(sx, beamY+7); ctx.lineTo(sx-16, beamY+7+24); ctx.lineTo(sx+16, beamY+7+24); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = C_TINTE; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-    ctx.fillText(lab, sx, beamY+7+38);
+    // Buchstabe aussen neben die Stütze: darunter lag der Auflagerpfeil
+    ctx.fillStyle = C_TINTE; ctx.font='bold 13px JetBrains Mono,monospace';
+    ctx.textAlign = lab === 'A' ? 'right' : 'left';
+    ctx.fillText(lab, sx + (lab === 'A' ? -20 : 20), beamY+7+22);
   }
   stuetze(cx(0), 'A'); stuetze(cx(A6_L), 'B');
 
   // Last-Pfeil nach unten bei x
   const lx = cx(x);
-  const sc = 80/1000;
+  const sc = 0.11;                            // px pro N, für Last und Auflager gleich
   drawArrow(ctx, lx, beamY-8-FG*sc, lx, beamY-8, C_GEW, 3, 10);
   ctx.fillStyle = C_GEW; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText('F_G='+FG+'N', lx, beamY-12-FG*sc);
+  ctx.fillText('F_G = '+FG+' N', lx, beamY-12-FG*sc);
   // kleine Last-Markierung (Kasten) auf dem Balken
   ctx.fillStyle = C_TINTE; ctx.fillRect(lx-9, beamY-7, 18, 14);
 
-  // Auflagerkräfte nach oben (grün) unter den Stützen
-  drawArrow(ctx, cx(0), beamY+7+24+FA*sc, cx(0), beamY+7+24, C_NORM, 3, 10);
-  drawArrow(ctx, cx(A6_L), beamY+7+24+FB*sc, cx(A6_L), beamY+7+24, C_NORM, 3, 10);
+  // Auflagerkräfte nach oben (grün), im selben Massstab wie F_G. Sie stehen
+  // innen neben der Stütze und enden an der Balkenunterseite, wo sie angreifen;
+  // unter der Stütze war F_B (225 N) bis auf 8 px verdeckt.
+  const xA = cx(0) + 26, xB = cx(A6_L) - 26, yUnten = beamY + 7;
+  if (FA > 0.5) drawArrow(ctx, xA, yUnten + FA*sc, xA, yUnten, C_NORM, 3, 10);
+  if (FB > 0.5) drawArrow(ctx, xB, yUnten + FB*sc, xB, yUnten, C_NORM, 3, 10);
   ctx.fillStyle = C_NORM; ctx.textAlign='center';
-  ctx.fillText('F_A='+FA.toFixed(0)+'N', cx(0), beamY+7+24+FA*sc+14);
-  ctx.fillText('F_B='+FB.toFixed(0)+'N', cx(A6_L), beamY+7+24+FB*sc+14);
+  const tA = 'F_A = '+FA.toFixed(0)+' N', tB = 'F_B = '+FB.toFixed(0)+' N';
+  const yA = yUnten + Math.max(FA*sc, 30) + 14;
+  let yB = yUnten + Math.max(FB*sc, 30) + 14;
+  // schmal liegen die Stützen dicht: berühren sich die Beschriftungen, F_B eine Zeile tiefer
+  const rechtsA = xA + 18 + ctx.measureText(tA).width/2, linksB = xB - 18 - ctx.measureText(tB).width/2;
+  if (linksB < rechtsA + 20 && Math.abs(yA - yB) < 16) yB = yA + 16;
+  ctx.fillText(tA, xA + 18, yA);
+  ctx.fillText(tB, xB - 18, yB);
 }
 ['a6-x','a6-fg'].forEach(id => document.getElementById(id).addEventListener('input', drawA6));
 
@@ -1871,7 +1997,8 @@ function drawA7() {
   ctx.restore();
 
   // Kraftpfeile vom Blockmittelpunkt
-  const sc = 60/Math.max(FG,1);
+  // 90 px für F_G, höchstens bis 20 px über den unteren Rand; alle Kräfte im selben Massstab
+  const sc = Math.min(90, H - 20 - bcy) / Math.max(FG, 1);
   // Gewichtskraft (runter)
   drawArrow(ctx, bcx, bcy, bcx, bcy + FG*sc, C_GEW, 2.6, 9);
   // Hangabtrieb (hangabwärts = -u)
@@ -1883,11 +2010,19 @@ function drawA7() {
   if (FR > 0.5) drawArrow(ctx, bcx, bcy, bcx + ux*FR*sc, bcy + uy*FR*sc, C_REIB, 2.4, 8);
 
   // Labels
+  // Beschriftung jenseits der Pfeilspitze in Pfeilrichtung, mindestens 40 px
+  // vom Klotzmittelpunkt (nie auf dem Klotz); hangparallele Kräfte zusätzlich
+  // vom Hang weg, sonst lägen sie auf der Hanglinie
   ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillStyle = C_GEW;  ctx.fillText('F_G', bcx+14, bcy + FG*sc + 2);
-  ctx.fillStyle = C_KOMP; ctx.fillText('F_H', bcx - ux*FH*sc - 6, bcy - uy*FH*sc - 4);
-  ctx.fillStyle = C_NORM; ctx.fillText('F_N', bcx + nx*FN*sc - 8, bcy + ny*FN*sc - 4);
-  if (FR > 0.5) { ctx.fillStyle = C_REIB; ctx.fillText('F_R', bcx + ux*FR*sc + 8, bcy + uy*FR*sc + 10); }
+  const beschr = (t, farbe, dx, dy, len, weg) => {
+    const d = Math.max(len + 14, 40);
+    ctx.fillStyle = farbe;
+    ctx.fillText(t, bcx + dx*d + nx*weg, bcy + dy*d + ny*weg + 4);
+  };
+  beschr('F_G', C_GEW, 0, 1, FG*sc, 0);
+  beschr('F_H', C_KOMP, -ux, -uy, FH*sc, 14);
+  beschr('F_N', C_NORM, nx, ny, FN*sc, 0);
+  if (FR > 0.5) beschr('F_R', C_REIB, ux, uy, FR*sc, 14);
 
   // Status-Badge
   ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';

@@ -1368,10 +1368,14 @@ function drawA0() {
   // x-Achse in Stunden: Auto-Tick liefert 0.1 h = 6 min (auf sehr schmalen
   // Canvases adaptiv 0.2 h = 12 min). Minuten als zweite Beschriftungszeile.
   const cv = initCanvas('a0-cv', 300, false);
-  const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.05, 1.05, -25, 175);
-  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [h]', 'v [km/h]');
+  // Links so viel Rand, dass die y-Zahlen (bis «160») links der Achse Platz
+  // haben — schmal legte drawGrid sie sonst rechts davon, mitten in die Fläche.
+  const xMin = -Math.max(0.05, 38 / (cv.W - 38));
+  const gr = drawGrid(cv.ctx, cv.W, cv.H, xMin, 1.05, -25, 175);
+  // «t [h]» eine Zeile unter der Achse: darüber lag es auf der t₂-Linie bei 60 min
+  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [h]', 'v [km/h]', 22);
   const ctx = cv.ctx;
-  a0St.gr = gr; a0St.W = cv.W; a0St.H = cv.H;
+  a0St.gr = gr; a0St.W = cv.W; a0St.H = cv.H; a0St.xMin = xMin;
   const X = function (tm) { return gr.cx(tm / 60); };  // Minuten -> Pixel
 
   // Minuten-Zweitzeile unter den Stunden-Ticks
@@ -1382,10 +1386,10 @@ function drawA0() {
   for (let h = gr.stepX; h <= 1.0 + 1e-9; h += gr.stepX) {
     const px = gr.cx(h);
     if (px < 14 || px > cv.W - 40) continue;
-    ctx.fillText(String(Math.round(h * 60)), px, axisY + 18);
+    ctx.fillText(String(Math.round(h * 60)), px, axisY + 22);
   }
   ctx.textAlign = 'right';
-  ctx.fillText('min', cv.W - 4, axisY + 18);
+  ctx.fillText('min', cv.W - 4, axisY + 22);
   ctx.textBaseline = 'alphabetic';
 
   // Intervall-Fläche unter v(t) zwischen t1 und t2 (= Δs)
@@ -1425,10 +1429,14 @@ function drawA0() {
     ctx.textAlign = 'center';
     // bei 30 % des Intervalls statt in der Mitte: dort verlaeuft die Kurve
     // waagrecht, in der Mitte schneidet die Bremsflanke durch den Text
+    // Beide Zeilen bleiben ganz im Bild und rechts der y-Achse
+    const imBild = (x, w) => Math.min(cv.W - w / 2 - 4, Math.max(gr.cx(0) + w / 2 + 6, x));
     const vbX = X(t1) + 0.30 * (X(t2) - X(t1));
-    ctx.fillText('v̄ = ' + vbar.toFixed(1) + ' km/h', vbX, gr.cy(vbar) - 8);
+    const vbT = 'v̄ = ' + vbar.toFixed(1) + ' km/h';
+    ctx.fillText(vbT, imBild(vbX, ctx.measureText(vbT).width), gr.cy(vbar) - 8);
     ctx.font = '13px "Source Sans 3",sans-serif'; ctx.fillStyle = '#7a6a92';
-    ctx.fillText('gleiche Fläche wie die Kurve', vbX, gr.cy(vbar) + 16);
+    const gfT = 'gleiche Fläche wie die Kurve';
+    ctx.fillText(gfT, imBild(vbX, ctx.measureText(gfT).width), gr.cy(vbar) + 16);
   }
 
   // Marker t1, t2 (gestrichelt, ziehbar) mit Beschriftung + Griff-Punkt
@@ -1472,7 +1480,8 @@ function drawA0() {
 const a0Cv = document.getElementById('a0-cv');
 function a0EvtT(evt) {  // Pointer-Position -> Zeit in Minuten (Raster 0.5)
   const r = a0Cv.getBoundingClientRect();
-  const tm = ((evt.clientX - r.left) / a0St.W * 1.1 - 0.05) * 60;
+  const xMin = a0St.xMin || -0.05;                    // derselbe Rand wie in drawA0
+  const tm = ((evt.clientX - r.left) / a0St.W * (1.05 - xMin) + xMin) * 60;
   return Math.round(tm * 2) / 2;
 }
 function a0Hit(evt) {  // welcher Griff liegt unter dem Pointer?
@@ -1593,14 +1602,22 @@ function drawSekante() {
   document.getElementById('sek-diff').textContent = (vbar - vtan).toFixed(2) + ' m/s';
 
   const cv = initCanvas('sek-cv', 300, false);
-  const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.3, 8.3, -3, 68);   // feste Achsen (Q1)
+  // feste Achsen (Q1). Unten bis −10 m, damit die t-Zahlen unter der Achse
+  // Platz haben — bei −3 m legte drawGrid sie darüber, und die Geraden kreuzten sie.
+  const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.3, 8.3, -10, 68);
   drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [s]', 's [m]');
   const c = cv.ctx;
+  // Text mit weissem Rand, damit er über Linien lesbar bleibt
+  const halo = (txt, x, y) => { c.lineWidth = 3; c.strokeStyle = '#fff'; c.lineJoin = 'round';
+    c.strokeText(txt, x, y); c.fillText(txt, x, y); };
   // s(t)-Kurve
   c.strokeStyle = '#8a4a0e'; c.lineWidth = 2.6; c.beginPath();
   for (let i = 0; i <= 80; i++) { const tt = i * 8 / 80;
     if (i === 0) c.moveTo(gr.cx(tt), gr.cy(sOf(tt))); else c.lineTo(gr.cx(tt), gr.cy(sOf(tt))); }
   c.stroke();
+  // Tangente und Sekante nur über der t-Achse zeichnen (Clip), sonst laufen
+  // sie durch die Zahlen unter der Achse
+  c.save(); c.beginPath(); c.rect(0, 0, cv.W, gr.cy(0)); c.clip();
   // Tangente im Punkt t0 (durchgezogen, grün)
   c.strokeStyle = '#1f6b3a'; c.lineWidth = 2.2; c.beginPath();
   c.moveTo(gr.cx(0), gr.cy(sOf(t0) + vtan * (0 - t0)));
@@ -1611,22 +1628,48 @@ function drawSekante() {
   c.moveTo(gr.cx(0), gr.cy(sOf(t0) + vbar * (0 - t0)));
   c.lineTo(gr.cx(8), gr.cy(sOf(t0) + vbar * (8 - t0)));
   c.stroke(); c.setLineDash([]);
+  c.restore();
   // Steigungsdreieck der Sekante
   c.strokeStyle = '#5b2d8e'; c.lineWidth = 1.2; c.setLineDash([3, 3]);
   c.beginPath();
   c.moveTo(gr.cx(t0), gr.cy(sOf(t0))); c.lineTo(gr.cx(t1), gr.cy(sOf(t0)));
   c.lineTo(gr.cx(t1), gr.cy(sOf(t1))); c.stroke(); c.setLineDash([]);
-  c.fillStyle = '#5b2d8e'; c.font = 'bold 13px JetBrains Mono,monospace';
-  c.textAlign = 'center';
-  c.fillText('Δt = ' + dtt.toFixed(1) + ' s', (gr.cx(t0) + gr.cx(t1)) / 2, gr.cy(sOf(t0)) + 18);
-  c.textAlign = 'left';
-  c.fillText('Δs = ' + ds.toFixed(1) + ' m', gr.cx(t1) + 6, (gr.cy(sOf(t0)) + gr.cy(sOf(t1))) / 2);
   drawDot(c, gr.cx, gr.cy, t0, sOf(t0), '#1f6b3a', 6);
   drawDot(c, gr.cx, gr.cy, t1, sOf(t1), '#5b2d8e', 5);
-  c.fillStyle = '#1f6b3a'; c.textAlign = 'right'; c.font = 'bold 13px JetBrains Mono,monospace';
-  c.fillText('Tangente: ' + vtan.toFixed(2) + ' m/s', cv.W - 10, 20);
+  c.fillStyle = '#5b2d8e'; c.font = 'bold 13px JetBrains Mono,monospace';
+  const dtT = 'Δt = ' + dtt.toFixed(1) + ' s', dsT = 'Δs = ' + ds.toFixed(1) + ' m';
+  const x0p = gr.cx(t0), x1p = gr.cx(t1), y0p = gr.cy(sOf(t0)), y1p = gr.cy(sOf(t1));
+  const dtW = c.measureText(dtT).width, dsW = c.measureText(dsT).width;
+  const klein = (x1p - x0p) < dtW + 12 || (y0p - y1p) < 18;
+  const achse = gr.cy(0) - 4;              // darunter stehen die t-Zahlen
+  if (klein) {
+    // Dreieck zu klein für Beschriftungen daran: beide neben den Punkt —
+    // unterhalb, wenn dort Platz bis zur Achse ist, sonst oberhalb. Passen sie
+    // nicht nebeneinander (Δt links, Δs rechts), stehen sie übereinander.
+    const yA = (y0p + 40 < achse) ? y0p + 22 : y0p - 30;
+    if (x0p + 8 + dsW <= cv.W - 4 && x0p - 8 - dtW >= gr.cx(0) + 34) {
+      c.textAlign = 'right'; halo(dtT, x0p - 8, yA);
+      c.textAlign = 'left';  halo(dsT, x0p + 8, yA);
+    } else if (x0p - 8 - Math.max(dtW, dsW) >= gr.cx(0) + 34) {   // links frei (y-Zahlen bis +34 px)
+      c.textAlign = 'right'; halo(dtT, x0p - 8, yA); halo(dsT, x0p - 8, yA + 16);
+    } else {
+      const xl = Math.min(x0p + 10, cv.W - 4 - Math.max(dtW, dsW));
+      c.textAlign = 'left'; halo(dtT, xl, yA); halo(dsT, xl, yA + 16);
+    }
+  } else {
+    c.textAlign = 'center';
+    halo(dtT, (x0p + x1p) / 2, (y0p + 18 < achse) ? y0p + 18 : y0p - 6);
+    // Δs rechts der Senkrechten; reicht der Platz nicht, links davon
+    const rechts = x1p + 6 + dsW <= cv.W - 4;
+    c.textAlign = rechts ? 'left' : 'right';
+    halo(dsT, rechts ? x1p + 6 : x1p - 6, (y0p + y1p) / 2);
+  }
+  // Legende oben links neben dem Achsentitel: rechts oben läuft die Kurve durch
+  c.fillStyle = '#1f6b3a'; c.textAlign = 'left'; c.font = 'bold 13px JetBrains Mono,monospace';
+  const legX = gr.cx(0) + 64;
+  halo('Tangente: ' + vtan.toFixed(2) + ' m/s', legX, 20);
   c.fillStyle = '#5b2d8e';
-  c.fillText('Sekante: ' + vbar.toFixed(2) + ' m/s', cv.W - 10, 38);
+  halo('Sekante: ' + vbar.toFixed(2) + ' m/s', legX, 38);
 }
 ['sek-t0','sek-dt'].forEach(id => document.getElementById(id).addEventListener('input', drawSekante));
 
@@ -1840,8 +1883,11 @@ function a3Render() {
   const k = H / 320;  // Szenen-Elemente proportional zur Bildhöhe skalieren
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
 
-  // Hintergrund: Baum, Boden unten
-  const topMargin = 30 * k, botMargin = 24 * k;
+  // Hintergrund: Baum, Boden unten. Oben Platz für die ganze Krone (Radius
+  // 38·k um die Starthöhe), unten ein Bodenstreifen, der den Merksatz trägt —
+  // über dem Boden kreuzte ihn der Stamm, und schmal lief er aus dem Bild.
+  const a3schmal = W < 560;
+  const topMargin = 46 * k, botMargin = a3schmal ? 50 : 32;
   // Boden
   ctx.fillStyle = '#86a85e';
   ctx.fillRect(0, H - botMargin, W, botMargin);
@@ -1852,19 +1898,23 @@ function a3Render() {
   const skala_y = y_m => topMargin + (a3H0 - y_m) / a3H0 * (H - topMargin - botMargin);
   ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(40, topMargin); ctx.lineTo(40, H - botMargin); ctx.stroke();
+  ctx.moveTo(50, topMargin); ctx.lineTo(50, H - botMargin); ctx.stroke();
   ctx.font = '13px JetBrains Mono,monospace'; ctx.fillStyle = '#5a5040';
   ctx.textAlign = 'right';
   for (let h = 0; h <= a3H0; h += 5) {
     const py = skala_y(h);
-    ctx.beginPath(); ctx.moveTo(35, py); ctx.lineTo(45, py); ctx.stroke();
-    ctx.fillText(h + ' m', 32, py + 4);
+    ctx.beginPath(); ctx.moveTo(45, py); ctx.lineTo(55, py); ctx.stroke();
+    ctx.fillText(h + ' m', 42, h === 0 ? py - 4 : py + 4);   // «0 m» über dem Boden, nicht im Streifen
   }
 
   // Baum-Position und Apfel
   const baumX = W / 2, kroneY = skala_y(a3H0) - 5 * k;
   const apfelX = baumX + 30 * k;
-  const apfelY = skala_y(a3H0 - yPos);  // start oben (a3H0), Boden bei 0
+  const gelandet = yPos >= a3H0 - 1e-9;
+  // Gelandet liegen die Körper AUF dem Boden (Unterkante auf der Bodenlinie),
+  // nicht mit dem Mittelpunkt darauf und halb im Bodenstreifen
+  const apfelY = gelandet ? H - botMargin - 8 * k : skala_y(a3H0 - yPos);  // start oben (a3H0), Boden bei 0
+  const kugelY = gelandet ? H - botMargin - 11 * k : apfelY;
 
   // Baum: Stamm
   ctx.fillStyle = '#6a4a2a';
@@ -1888,7 +1938,7 @@ function a3Render() {
     ctx.strokeStyle = 'rgba(122, 26, 16, 0.30)'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.arc(apfelX, py, 8 * k, 0, Math.PI * 2); ctx.stroke();
     // Zeitmarke rechts daneben — oben stehen die Bilder dicht, dort auslassen
-    if (py - letzteMarke >= 17) {
+    if (py - letzteMarke >= 17 && Math.abs(py - apfelY) >= 16) {   // nicht auf «0.1 kg»
       letzteMarke = py;
       ctx.fillStyle = 'rgba(90, 80, 64, 0.75)';
       ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
@@ -1901,10 +1951,12 @@ function a3Render() {
   // eine Behauptung.
   const kugelX = baumX - 52 * k;
   ctx.fillStyle = '#5a5550';
-  ctx.beginPath(); ctx.arc(kugelX, apfelY, 11 * k, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(kugelX, kugelY, 11 * k, 0, Math.PI * 2); ctx.fill();
   ctx.strokeStyle = '#33302c'; ctx.lineWidth = 1.5; ctx.stroke();
-  ctx.fillStyle = '#3a332a'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'right';
-  ctx.fillText('5 kg', kugelX - 15 * k, apfelY + 4);
+  ctx.fillStyle = '#3a332a'; ctx.font = '13px JetBrains Mono,monospace';
+  // schmal über der Kugel — links daneben stiesse die Beschriftung an die Skala
+  if (a3schmal) { ctx.textAlign = 'center'; ctx.fillText('5 kg', kugelX, kugelY - 11 * k - 6); }
+  else { ctx.textAlign = 'right'; ctx.fillText('5 kg', kugelX - 15 * k, kugelY + 4); }
 
   // Apfel
   ctx.fillStyle = '#c8331e';
@@ -1915,7 +1967,7 @@ function a3Render() {
   ctx.beginPath(); ctx.moveTo(apfelX, apfelY - 8 * k); ctx.lineTo(apfelX + 2, apfelY - 13 * k); ctx.stroke();
 
   // Geschwindigkeitspfeil falls in Bewegung
-  if (a3State.running || t > 0) {
+  if ((a3State.running || t > 0) && !gelandet) {   // gelandet: in Ruhe, kein Pfeil
     drawArrow(ctx, apfelX, apfelY + 10 * k, apfelX, apfelY + 10 * k + Math.min(60, v * 1.4) * k, '#1f6b3a', 2.5, 9);
     ctx.fillStyle = '#1f6b3a';
     ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
@@ -1923,8 +1975,11 @@ function a3Render() {
   }
   ctx.fillStyle = '#3a332a'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
   ctx.fillText('0.1 kg', apfelX + 15 * k, apfelY + 4);
-  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText('beide fallen gleich schnell — g ist massenunabhängig', W / 2, H - botMargin - 8);
+  ctx.fillStyle = '#1f3a10'; ctx.font = 'bold 13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+  if (a3schmal) {
+    ctx.fillText('beide fallen gleich schnell —', W / 2, H - botMargin + 20);
+    ctx.fillText('g ist massenunabhängig', W / 2, H - botMargin + 38);
+  } else ctx.fillText('beide fallen gleich schnell — g ist massenunabhängig', W / 2, H - botMargin / 2 + 5);
 }
 
 function a3Tick(ts) {
@@ -2009,6 +2064,61 @@ function drawA4() {
   const grid = drawGrid(cv.ctx, cv.W, cv.H, -5, xMax, -3, yMax);
   drawAxesUnits(cv.ctx, cv.W, cv.H, grid.cx, grid.cy, 'x [m]', 'y [m]');
 
+  // Beschriftungen mit Belegungsprüfung: Jede Beschriftung probiert mehrere
+  // Plätze und nimmt den ersten, der im Canvas liegt und nichts Belegtes
+  // überdeckt. Vorher standen v₀, vₓ, vᵧ, α, h und sₓ fest am Abwurfpunkt
+  // und klumpten bei kleinen Würfen zu einem unlesbaren Knäuel.
+  const ctx = cv.ctx, W = cv.W, H = cv.H;
+  const x0 = grid.cx(0), y0 = grid.cy(0);
+  const belegt = [];
+  const ueberlappt = (r, q) => !(r[2] < q[0] || r[0] > q[2] || r[3] < q[1] || r[1] > q[3]);
+  const frei = r => r[0] >= 2 && r[2] <= W - 2 && r[1] >= 2 && r[3] <= H - 2 && !belegt.some(q => ueberlappt(r, q));
+  const merke = (x, y, rad) => belegt.push([x - rad, y - rad, x + rad, y + rad]);
+  // anker: [x, y] des beschrifteten Punkts. Steht die Beschriftung weit weg
+  // (Ausweichplatz), führt eine dünne Hinweislinie zum Punkt.
+  function setze(text, kand, farbe, font, anker) {
+    ctx.font = font; const w = ctx.measureText(text).width;
+    for (const [x, y, al] of kand) {
+      const xl = al === 'right' ? x - w : (al === 'center' ? x - w / 2 : x);
+      const r = [xl - 2, y - 12, xl + w + 2, y + 3];
+      const weit = anker && Math.hypot(xl - anker[0], y - 5 - anker[1]) > 60;
+      // Eine Hinweislinie darf nichts Belegtes kreuzen (Stichproben alle 5 px;
+      // die ersten 26 px am Punkt selbst sind ausgenommen — dort drängen sich
+      // bei kleinen Würfen die Pfeilbeschriftungen)
+      const linieFrei = () => {
+        const ax = anker[0] + 4, ay = anker[1] - 4, bx = xl - 3, by = y - 5, n = Math.hypot(bx - ax, by - ay);
+        for (let k = 26; k < n - 3; k += 5) {
+          const px = ax + (bx - ax) * k / n, py = ay + (by - ay) * k / n;
+          if (belegt.some(q => px > q[0] && px < q[2] && py > q[1] && py < q[3])) return false;
+        }
+        return true;
+      };
+      if (frei(r) && (!weit || linieFrei())) {
+        belegt.push(r); ctx.fillStyle = farbe; ctx.textAlign = al; ctx.textBaseline = 'alphabetic';
+        ctx.fillText(text, x, y);
+        if (weit) {
+          ctx.strokeStyle = farbe; ctx.lineWidth = 0.8; ctx.setLineDash([2, 3]);
+          ctx.beginPath(); ctx.moveTo(anker[0] + 4, anker[1] - 4); ctx.lineTo(xl - 3, y - 5); ctx.stroke();
+          ctx.setLineDash([]);
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+  // Ausweichplätze: Reihen über der x-Achse, weiter rechts
+  const weiter = (xa, ya) => {
+    const k = [];
+    for (const dy of [34, 52, 70]) for (let dx = 70; dx <= 330; dx += 40) k.push([xa + dx, ya - dy, 'left']);
+    return k;
+  };
+  // Achsenzahlen und Achsentitel vormerken (drawGrid legt die y-Zahlen je
+  // nach Platz links oder rechts der y-Achse)
+  belegt.push([0, y0 + 3, W, y0 + 19]);
+  belegt.push(x0 >= 24 ? [0, 0, x0 - 3, H] : [x0 + 2, 0, x0 + 24, H]);
+  belegt.push([x0, 0, x0 + 56, 18], [W - 56, y0 - 18, W, y0]);
+  belegt.push([0, y0 - 2, W, y0 + 2], [x0 - 2, 0, x0 + 2, H]);   // Achsenlinien selbst
+
   // festgehaltene Vergleichsbahn — 30° und 60° liefern dieselbe Weite, das
   // sieht man nur, wenn beide Kurven gleichzeitig im Bild stehen (Q5)
   if (a4Halt) {
@@ -2019,12 +2129,13 @@ function drawA4() {
     for (let i = 0; i <= 100; i++) {
       const tt = htF * i / 100, x = hvx * tt, y = hvy * tt - 0.5 * g * tt * tt;
       if (i === 0) cv.ctx.moveTo(grid.cx(x), grid.cy(y)); else cv.ctx.lineTo(grid.cx(x), grid.cy(y));
+      if (i % 4 === 0) merke(grid.cx(x), grid.cy(y), 3);
     }
     cv.ctx.stroke(); cv.ctx.setLineDash([]);
     cv.ctx.fillStyle = '#5b2d8e'; cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
     cv.ctx.textAlign = 'left';
     cv.ctx.fillText('festgehalten: ' + a4Halt.v0 + ' m/s, ' + a4Halt.alpha + '° → '
-                    + (hvx * htF).toFixed(1) + ' m', 14, 38);
+                    + (hvx * htF).toFixed(1) + ' m', x0 + 8, 38);   // rechts der y-Achse, nicht über den Zahlen
   }
 
   // Bahnkurve zeichnen
@@ -2037,6 +2148,7 @@ function drawA4() {
     const y = vy * t - 0.5 * g * t * t;
     if (i === 0) cv.ctx.moveTo(grid.cx(x), grid.cy(y));
     else         cv.ctx.lineTo(grid.cx(x), grid.cy(y));
+    if (i % 4 === 0) merke(grid.cx(x), grid.cy(y), 3);
   }
   cv.ctx.stroke();
 
@@ -2049,6 +2161,7 @@ function drawA4() {
 
   // ── Abspiel-Zustand: fliegender Punkt + Projektionen ──────────────────
   const tNow = Math.min(a4State.t, tF);
+  let anim = null;
   if (a4State.t > 0) {
     const xN = vx * tNow, yN = vy * tNow - 0.5 * g * tNow * tNow;
     document.getElementById('a4-x').textContent = xN.toFixed(1) + ' m';
@@ -2073,53 +2186,87 @@ function drawA4() {
     drawDot(cv.ctx, grid.cx, grid.cy, 0, yN, '#1f6b3a', 6);
     // fliegender Körper
     drawDot(cv.ctx, grid.cx, grid.cy, xN, yN, '#1a4f8a', 7);
-    cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
     // Der x-Wert steht in der Live-Box; im Bild wäre er entweder auf den
     // Achsenticks oder ausserhalb der Leinwand — die violette Marke genügt.
-    cv.ctx.fillStyle = '#1f6b3a'; cv.ctx.textAlign = 'left';
-    cv.ctx.fillText(Math.max(0, yN).toFixed(1) + ' m', grid.cx(0) + 6, grid.cy(yN) - 6);
-    // Zeit fest oben links — am Scheitel kollidiert sie sonst mit «h = …»
-    cv.ctx.fillStyle = '#1a4f8a'; cv.ctx.textAlign = 'right';
-    cv.ctx.fillText('t = ' + tNow.toFixed(2) + ' s', cv.W - 14, 20);
+    // y-Wert und Zeit werden unten mit den übrigen Beschriftungen gesetzt.
+    anim = { yN: yN, tNow: tNow };
   } else {
     document.getElementById('a4-x').textContent = '—';
     document.getElementById('a4-y').textContent = '—';
   }
 
-  // Geschwindigkeits-Vektor am Start: Komponenten zeigen
-  drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, vx * 0.3, 0, '#5b2d8e', 'vₓ', 2);
-  drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, 0, vy * 0.3, '#5b2d8e', 'vᵧ', 2);
-  drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, vx * 0.3, vy * 0.3, '#1a4f8a', 'v₀', 2.4);
+  // Geschwindigkeit am Start: Länge in Pixeln (46 … 80 px, proportional zu v₀),
+  // Richtung = Tangente an die gezeichnete Bahn. In Metern gezeichnet (vorher
+  // v · 0.3 s) schrumpften die Pfeile bei kleinen Würfen auf wenige Pixel.
+  const pxX = grid.cx(1) - grid.cx(0), pxY = grid.cy(0) - grid.cy(1);
+  const dirx = vx * pxX, diry = vy * pxY, dl = Math.hypot(dirx, diry);
+  const ux = dirx / dl, uy = diry / dl;                    // Bildrichtung, y nach oben
+  const L = 46 + (v0 - 5) / 25 * 34;
+  const tipX = x0 + L * ux, tipY = y0 - L * uy;
+  drawArrow(ctx, x0, y0, tipX, y0, '#5b2d8e', 2, 10);
+  drawArrow(ctx, x0, y0, x0, tipY, '#5b2d8e', 2, 10);
+  drawArrow(ctx, x0, y0, tipX, tipY, '#1a4f8a', 2.4, 10);
+  for (let k = 0; k <= L; k += 6) {
+    merke(x0 + k * ux, y0 - k * uy, 3); merke(x0 + k * ux, y0, 3); merke(x0, y0 - k * uy, 3);
+  }
 
   // Winkelbogen am Abwurfpunkt. Achtung: x-Achse 100 m, y-Achse 50 m — der
   // Bogen zeigt den Winkel darum optisch verzerrt. Das wird angeschrieben,
   // statt eine falsche Anschauung stehen zu lassen.
-  const bogR = 34;
-  const vx0px = grid.cx(1) - grid.cx(0), vy0px = grid.cy(0) - grid.cy(1);
-  const dirx = vx * vx0px, diry = vy * vy0px;
   const bild = Math.atan2(diry, dirx);
-  cv.ctx.strokeStyle = '#1f6b3a'; cv.ctx.lineWidth = 1.4;
-  cv.ctx.beginPath();
-  cv.ctx.arc(grid.cx(0), grid.cy(0), bogR, 0, -bild, true); cv.ctx.stroke();
-  cv.ctx.fillStyle = '#1f6b3a'; cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
-  cv.ctx.textAlign = 'left';
-  cv.ctx.fillText('α = ' + alpha + '°', grid.cx(0) + bogR * Math.cos(bild/2) + 6,
-                  grid.cy(0) - bogR * Math.sin(bild/2) - 4);
-  cv.ctx.font = '13px "Source Sans 3",sans-serif'; cv.ctx.fillStyle = '#6b7280';
-  cv.ctx.textAlign = 'right';
-  cv.ctx.fillText('Achsen verschieden skaliert — der Winkel wirkt im Bild grösser', cv.W - 10, 56);
+  const bogR = Math.min(30, L * 0.55);
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.arc(x0, y0, bogR, 0, -bild, true); ctx.stroke();
 
-  // Labels für Wurfweite & Höhe
-  cv.ctx.fillStyle = '#1f6b3a';
-  cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
-  const sxLabel = 'sₓ = ' + sx.toFixed(1) + ' m';
-  cv.ctx.textAlign = 'left';
-  let sxLx = grid.cx(sx) + 10;
-  if (sxLx + cv.ctx.measureText(sxLabel).width > cv.W - 6) { cv.ctx.textAlign = 'right'; sxLx = grid.cx(sx) - 10; }
-  cv.ctx.fillText(sxLabel, sxLx, grid.cy(0) - 8);
-  cv.ctx.fillStyle = '#9b1c1c';
-  cv.ctx.textAlign = 'left';
-  cv.ctx.fillText('h = ' + hMax.toFixed(1) + ' m', grid.cx(sx / 2) + 6, grid.cy(hMax) - 6);
+  const MONO = 'bold 13px JetBrains Mono,monospace';
+  if (anim) {
+    ctx.font = MONO;
+    const tText = 't = ' + anim.tNow.toFixed(2) + ' s';
+    ctx.fillStyle = '#1a4f8a'; ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText(tText, W - 14, 20);
+    belegt.push([W - 16 - ctx.measureText(tText).width, 6, W - 12, 24]);
+  }
+  if (a4Halt) belegt.push([x0 + 6, 24, W - 12, 42]);      // Zeile «festgehalten: …»
+
+  // Hinweis zur Achsenskalierung: breit einzeilig, schmal zweizeilig
+  const HINW = '13px "Source Sans 3",sans-serif';
+  if (W >= 560) setze('Achsen verschieden skaliert — der Winkel wirkt im Bild grösser', [[W - 10, 56, 'right']], '#6b7280', HINW);
+  else {
+    setze('Achsen verschieden skaliert:', [[W - 8, 56, 'right']], '#6b7280', HINW);
+    setze('der Winkel wirkt im Bild grösser', [[W - 8, 72, 'right']], '#6b7280', HINW);
+  }
+
+  // Zuerst die Pfeile (sie sitzen am engsten), dann α, Scheitel, Weite und Momentanhöhe
+  setze('vᵧ', [[x0 + 6, tipY + 4, 'left'], [x0 - 6, tipY + 4, 'right'], [x0 + 6, tipY - 8, 'left'],
+               [x0, tipY - 10, 'center']], '#5b2d8e', MONO);
+  const hb = bild / 2;
+  setze('α = ' + alpha + '°', [
+    [x0 + (bogR + 6) * Math.cos(hb), y0 - (bogR + 6) * Math.sin(hb) + 4, 'left'],
+    [x0 + (bogR + 22) * Math.cos(hb), y0 - (bogR + 22) * Math.sin(hb) + 4, 'left'],
+    [x0 + bogR + 4, y0 - 6, 'left']].concat(weiter(x0, y0 + 12)), '#1f6b3a', MONO, [x0 + bogR, y0 - 4]);
+
+  setze('vₓ', [[tipX + 6, y0 + 16, 'left'], [tipX + 12, y0 - 6, 'left'], [tipX, y0 - 10, 'center'],
+               [tipX + 12, y0 - 20, 'left'], [tipX + 30, y0 - 6, 'left'], [tipX - 4, y0 + 16, 'right']], '#5b2d8e', MONO);
+  setze('v₀', [[tipX + 8 * ux + 3, tipY - 8 * uy - 2, 'left'], [tipX - 6, tipY - 8, 'right'],
+               [tipX + 6, tipY - 14, 'left'], [tipX + 20 * ux + 3, tipY - 20 * uy - 2, 'left'],
+               [tipX - 12, tipY - 2, 'right'], [tipX + 8, tipY + 12, 'left']], '#1a4f8a', MONO);
+  const apX = grid.cx(sx / 2), apY = grid.cy(hMax);
+  const hOk = setze('h = ' + hMax.toFixed(1) + ' m', [[apX + 8, apY - 6, 'left'], [apX - 8, apY - 6, 'right'],
+        [apX, apY - 12, 'center'], [apX + 8, apY - 22, 'left']].concat(weiter(apX, apY)), '#9b1c1c', MONO, [apX, apY]);
+  const lX = grid.cx(sx);
+  const sOk = setze('sₓ = ' + sx.toFixed(1) + ' m', [[lX + 10, y0 - 8, 'left'], [lX - 10, y0 - 8, 'right'],
+        [lX + 10, y0 - 24, 'left'], [lX - 10, y0 - 24, 'right']].concat(weiter(lX, y0 + 20)), '#1f6b3a', MONO, [lX, y0]);
+  // Letzte Stufe bei sehr kleinen Würfen: Werte als Bildzeile oben links, ohne Linie
+  if (!hOk || !sOk) {
+    const t = (hOk ? '' : 'h = ' + hMax.toFixed(1) + ' m') + (!hOk && !sOk ? ';  ' : '')
+            + (sOk ? '' : 'sₓ = ' + sx.toFixed(1) + ' m');
+    setze(t, [[x0 + 62, 20, 'left'], [x0 + 62, 38, 'left'], [x0 + 62, 90, 'left'], [W - 10, 90, 'right']], '#9b1c1c', MONO);
+  }
+  if (anim) {
+    const yP = grid.cy(anim.yN);
+    setze(Math.max(0, anim.yN).toFixed(1) + ' m', [[x0 + 6, yP - 6, 'left'], [x0 + 6, yP + 16, 'left'],
+          [x0 + 30, yP - 6, 'left']], '#1f6b3a', MONO);
+  }
 }
 function a4Flugzeit() {
   const v0 = +document.getElementById('a4-v0').value;
@@ -2206,22 +2353,28 @@ function drawA5() {
   // Quadratisches Canvas — Koordinaten von -4 bis 4 in beiden Richtungen
   const a5el = document.getElementById('a5-cv'); a5el.style.width = '';
   const a5w = a5el.offsetWidth || 600;
-  const cv = initCanvas('a5-cv', Math.max(240, Math.min(340, Math.round(a5w))), false);  // quadratisch, schmal nicht überhoch
+  // Oben ein eigenes Band für die Legende (schmal zweizeilig), darunter das
+  // quadratische Bahnfeld. Vorher lag die Legende im Feld, und bei r = 3 m lief
+  // der Punkt durch sie hindurch.
+  const a5schmal = a5w < 560;
+  const LB = a5schmal ? 80 : 64;
+  const feld = Math.max(240, Math.min(300, Math.round(a5w)));
+  const cv = initCanvas('a5-cv', feld + LB, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
-  const cxC = W / 2, cyC = H / 2;
-  const scale = Math.min(W, H) / 8;  // 1 m = scale px
+  const cxC = W / 2, cyC = LB + (H - LB) / 2;
+  const scale = Math.min(W, H - LB) / 8;  // 1 m = scale px
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
 
-  // Gitter
+  // Gitter (nur im Bahnfeld)
   ctx.strokeStyle = '#eff1f5'; ctx.lineWidth = 1;
   for (let i = -4; i <= 4; i++) {
-    ctx.beginPath(); ctx.moveTo(cxC + i * scale, 0); ctx.lineTo(cxC + i * scale, H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cxC + i * scale, LB); ctx.lineTo(cxC + i * scale, H); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(0, cyC + i * scale); ctx.lineTo(W, cyC + i * scale); ctx.stroke();
   }
   // Achsen
   ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.moveTo(0, cyC); ctx.lineTo(W, cyC); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(cxC, 0); ctx.lineTo(cxC, H); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cxC, LB); ctx.lineTo(cxC, H); ctx.stroke();
 
   // Kreisbahn
   ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1.4; ctx.setLineDash([4, 3]);
@@ -2233,14 +2386,20 @@ function drawA5() {
   const px = cxC + r * scale * Math.cos(phi);
   const py = cyC - r * scale * Math.sin(phi);
 
-  // Radius — abschaltbar, weil er bei kurzen Pfeilen mit a_z ins Gehege kommt
+  // Tangente (Richtung von v) und Einheitsvektor nach aussen
+  const tx = -Math.sin(phi), ty = -Math.cos(phi);
+  const nx = Math.cos(phi), ny = -Math.sin(phi);
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+  // Radius — abschaltbar. «r» steht auf der Seite gegen die Bewegung, «a_z» auf
+  // der Seite in Bewegungsrichtung: a_z liegt physikalisch auf dem Radius, die
+  // Beschriftungen stapelten sich sonst. Bei sehr kleinem Kreis entfällt «r».
   if (a5State.zeigeR) {
     ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.moveTo(cxC, cyC); ctx.lineTo(px, py); ctx.stroke();
-    ctx.fillStyle = '#5b2d8e';
-    ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-    ctx.fillText('r', cxC + (px - cxC) * 0.35 - Math.sin(phi) * 14,
-                      cyC + (py - cyC) * 0.35 - Math.cos(phi) * 14 + 4);
+    if (r * scale >= 36) {
+      ctx.fillStyle = '#5b2d8e';
+      ctx.fillText('r', cxC + nx * r * scale * 0.3 - tx * 13, cyC + ny * r * scale * 0.3 - ty * 13 + 4);
+    }
   }
 
   // Q3: STRENG PROPORTIONALE Pfeile. Vorher hatten beide einen Sockel
@@ -2249,25 +2408,32 @@ function drawA5() {
   // Feste Skalen, am Reglermaximum kalibriert: v_max = 3·3 = 9 m/s,
   // a_z,max = 3²·3 = 27 m/s².
   const A5_VMAX = 9, A5_AZMAX = 27, A5_PX = scale * 1.9;
-  const tx = -Math.sin(phi), ty = -Math.cos(phi);
   const vLen = v / A5_VMAX * A5_PX;
   drawArrow(ctx, px, py, px + tx * vLen, py + ty * vLen, '#1f6b3a', 2.8, 11);
-  ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'center';
-  ctx.fillText('v', px + tx * (vLen + 12), py + ty * (vLen + 12));
+  // Beschriftungen nur an Pfeilen, die lang genug sind — die Werte stehen
+  // ohnehin in der Legende; an einem Stummel stapelten sie sich.
+  if (vLen >= 14) {
+    ctx.fillStyle = '#1f6b3a';
+    ctx.fillText('v', px + tx * (vLen + 12), py + ty * (vLen + 12) + 4);
+  }
 
-  // Zentripetal-Beschleunigung (zur Mitte)
+  // Zentripetal-Beschleunigung (zur Mitte), Beschriftung neben der Pfeilmitte
   const aLen = az / A5_AZMAX * A5_PX;
-  drawArrow(ctx, px, py, px - (px - cxC) / (r * scale) * aLen, py - (py - cyC) / (r * scale) * aLen, '#9b1c1c', 2.5, 10);
-  ctx.fillStyle = '#9b1c1c';
-  ctx.fillText('a_z', px - (px - cxC) / (r * scale) * (aLen + 14),
-                     py - (py - cyC) / (r * scale) * (aLen + 14) + 4);
+  drawArrow(ctx, px, py, px - nx * aLen, py - ny * aLen, '#9b1c1c', 2.5, 10);
+  if (aLen >= 14) {
+    ctx.fillStyle = '#9b1c1c';
+    ctx.fillText('a_z', px - nx * aLen * 0.5 + tx * 16, py - ny * aLen * 0.5 + ty * 16 + 4);
+  }
   // Werte als Legende oben links — bei kurzen Pfeilen kollidieren Beschriftungen
   // sonst miteinander und mit dem Radius.
   ctx.textAlign = 'left'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.fillStyle = '#1f6b3a'; ctx.fillText('v   = ' + v.toFixed(2) + ' m/s', 12, 20);
   ctx.fillStyle = '#9b1c1c'; ctx.fillText('a_z = ' + az.toFixed(2) + ' m/s²', 12, 38);
   ctx.fillStyle = '#6b7280'; ctx.font = '13px "Source Sans 3",sans-serif';
-  ctx.fillText('Pfeillängen streng proportional (v bis 9 m/s, a_z bis 27 m/s²)', 12, 56);
+  if (a5schmal) {
+    ctx.fillText('Pfeillängen streng proportional', 12, 56);
+    ctx.fillText('(v bis 9 m/s; a_z bis 27 m/s²)', 12, 72);
+  } else ctx.fillText('Pfeillängen streng proportional (v bis 9 m/s; a_z bis 27 m/s²)', 12, 56);
 
   // Mittelpunkt
   ctx.fillStyle = '#1c1a17';

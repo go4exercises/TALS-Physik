@@ -1160,6 +1160,13 @@ function supDigits(n){ const s={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','
 
 // ── Loop-Manager (rAF + IntersectionObserver-Autostart) ───
 const LOOPS = [];
+// Canvas-Text in Zeilen, die höchstens maxW breit sind (Wortgrenzen; Schrift vorher setzen)
+function zeilenUmbruch(ctx, txt, maxW){
+  const z=[]; let akt='';
+  for(const w of txt.split(' ')){ const t=akt?akt+' '+w:w;
+    if(akt && ctx.measureText(t).width>maxW){ z.push(akt); akt=w; } else akt=t; }
+  if(akt) z.push(akt); return z;
+}
 function makeLoop(canvasId, btnId, tickFn){
   const st={running:false,userPaused:false,rafId:null,last:0,canvasId:canvasId};
   const btn=document.getElementById(btnId); st.btn=btn;
@@ -1457,8 +1464,14 @@ function drawA4(){
   // E = h · f — bereitet den UV-Transfer vor (kurze Wellen = energiereich)
   const H_PLANCK = 6.626e-34;
   const E_J = H_PLANCK * f, E_eV = E_J / 1.602e-19;
-  document.getElementById('a4-e').textContent =
-    (E_eV >= 1e-3 ? E_eV.toPrecision(3) + ' eV' : E_eV.toExponential(2) + ' eV');
+  // drei gültige Ziffern; ausserhalb 0.01 … 999 als Zehnerpotenz (nie JS-«e+6»)
+  const eFmt = x => {
+    if (x >= 0.01 && x < 999.5) return x.toPrecision(3);
+    let e = Math.floor(Math.log10(x)), m = x / Math.pow(10, e);
+    if (+m.toFixed(2) >= 10) { m /= 10; e += 1; }
+    return m.toFixed(2) + '·10' + supDigits(e);
+  };
+  document.getElementById('a4-e').textContent = eFmt(E_eV) + ' eV';
   // Schmal (Handy): eigene Anordnung. Die schräg gestellten Bandnamen überdecken
   // sich dort (UV, sichtbar, IR liegen keine 20 px auseinander), und die langen
   // Überschriften passen nicht in die Breite.
@@ -1498,9 +1511,13 @@ function drawA4(){
   // Links kurze Wellen und hohe Frequenz — genau die energiereiche Seite.
   const yF = schmal ? by1+118 : by1+62;
   ctx.fillStyle='#5b2d8e'; ctx.font=fz+'px JetBrains Mono,monospace'; ctx.textAlign='center';
-  for(let l=Lmin;l<=Lmax;l+=3){
-    const fl = Math.log10(C_LIGHT / Math.pow(10, l));
-    ctx.fillText('10'+supDigits(Math.round(fl)), xOf(l), yF);
+  // Jede f-Marke dort, wo f wirklich eine Zehnerpotenz ist: λ = c/f, also
+  // log λ = log c − n. Unter λ-Marken gesetzt stünde «10²⁰» bei 3·10²⁰ Hz.
+  const logC = Math.log10(C_LIGHT);
+  for(let n=6;n<=20;n+=3){
+    const l = logC - n;
+    if(l < Lmin || l > Lmax) continue;
+    ctx.fillText('10'+supDigits(n), xOf(l), yF);
   }
   ctx.fillStyle='#5b2d8e'; ctx.font='bold '+fz+'px JetBrains Mono,monospace';
   ctx.fillText(schmal?'f [Hz]  ←  wächst nach links':'Frequenz f [Hz]  ←  wächst nach links', W*0.5, yF+18);
@@ -1511,7 +1528,7 @@ function drawA4(){
   // kurzer Zeiger: die Bandnamen beginnen bei by1+20, ein langer Pfeil wuerde
   // mitten durch „sichtbares Licht" laufen (schmal: Namen direkt unter dem Band, kein Zeiger)
   if(!schmal) drawArrow(ctx, mx, by1+18, mx, by1+4, '#1c1a17',2,7);
-  const eTxt = (E_eV >= 1e-3 ? E_eV.toPrecision(3) : E_eV.toExponential(2)) + ' eV';
+  const eTxt = eFmt(E_eV) + ' eV';
   ctx.fillStyle='#1c1a17'; ctx.font='bold '+fz+'px JetBrains Mono,monospace'; ctx.textAlign='center';
   if(schmal){
     ctx.fillText(band[2], W*0.5, H-46);
@@ -1623,7 +1640,12 @@ function a5Render(){
     ctx.fillStyle='#b85c00'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
     ctx.fillText('ΔE = h · f', nx0+nw*0.64, (yE1+yE2)/2 + 4);
     ctx.fillStyle='#6b7280'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
-    ctx.fillText('die Niveaudifferenz legt die Farbe fest', nx0+nw/2, yE1 + 26);
+    const nTxt='die Niveaudifferenz legt die Farbe fest', nMx=nx0+nw/2;
+    if(nMx+ctx.measureText(nTxt).width/2 <= W-4) ctx.fillText(nTxt, nMx, yE1 + 26);
+    else {                                   // schmal: rechtsbündig in zwei Zeilen
+      ctx.textAlign='right';
+      zeilenUmbruch(ctx, nTxt, W*0.45).forEach((z,i)=>ctx.fillText(z, W-6, yE1 + 26 + i*15));
+    }
 
     ctx.fillStyle='#5a5040'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText(W < 520 ? 'jedes Mal eine andere Richtung'
@@ -1830,14 +1852,19 @@ function drawA6(){
   // sichtbares Band 0.38 … 0.78 µm markieren
   ctx.fillStyle='rgba(230,200,40,0.45)';
   ctx.fillRect(lamX(0.38), py0, lamX(0.78)-lamX(0.38), py1-py0);
-  ctx.fillStyle='#8a6d12'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
-  ctx.fillText(eng?'sichtbar':'sichtbar 0.4 … 0.8 µm', lamX(0.9), py0+36);   // unter die Kurve
+  // mittig auf dem gelben Band, unter der (dort flachen) Kurve — nicht daneben
+  ctx.fillStyle='#8a6d12'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
+  ctx.fillText(eng?'sichtbar':'sichtbar 0.4 … 0.8 µm', (lamX(0.38)+lamX(0.78))/2, py0+36);
   if(!eng){ ctx.fillStyle='#a8392b'; ctx.textAlign='center';
     ctx.fillText('Wärmestrahlung der Erde (4 … 50 µm)', (xMid+px1)/2, py1+32); }
   // Hinweis
   ctx.fillStyle='#a8392b'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
+  // breit: in der absorbierten Fläche zwischen 95 % und der Kurve, wenn sie
+  // hoch genug ist, sonst knapp unter der Kurve — nie auf ihr
+  const yT=yOf(0.95), yK=yOf(0.95*(1-g));
+  const yHin = eng ? py1-14 : (yK-yT >= 26 ? (yT+yK)/2+5 : yK+18);
   ctx.fillText(eng ? (Math.round(g*100)+' % absorbiert') : (Math.round(g*100)+' % der Wärmestrahlung absorbiert'),
-               (xMid+px1)/2, eng ? py1-14 : (py0+py1)/2);
+               (xMid+px1)/2, yHin);
   drawA6Fluss();
 }
 // ── Energiefluss Sonne → Boden → Atmosphäre ─────────────────────────────

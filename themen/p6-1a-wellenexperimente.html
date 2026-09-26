@@ -1383,7 +1383,10 @@ function a2Render(){
   // unten: Mitschrieb (rollendes Zeitfenster)
   const tLo=Math.max(0,a2St.tau-6);
   const cv2=initCanvas('a2-cv-t',190,false);
-  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,tLo-0.2,tLo+6.4,-10,10);
+  // Oben Luft über dem grössten Ausschlag (8 cm) für die Kopfzeile zum Zeitversatz;
+  // schmal braucht sie zwei Zeilen und etwas mehr Platz
+  const a2eng = cv2.W < 560;
+  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,tLo-0.2,tLo+6.4,-10,a2eng?17:13);
   drawAxesUnits(cv2.ctx,cv2.W,cv2.H,g2.cx,g2.cy,'t [s]', a2St.typ==='T'?'y [cm]':'u [cm]');
   if(a2St.hist.length>1){
     cv2.ctx.strokeStyle='#1f6b3a'; cv2.ctx.lineWidth=2.6; cv2.ctx.setLineDash([]);
@@ -1411,8 +1414,14 @@ function a2Render(){
   const dS=Math.abs(a2SM2()-a2SM());
   cv2.ctx.fillStyle='#5b2d8e'; cv2.ctx.font='bold 13px JetBrains Mono,monospace';
   cv2.ctx.textAlign='right';
-  cv2.ctx.fillText('Abstand Δs = '+dS.toFixed(1)+' m = '+(dS/lam).toFixed(2)+' λ  →  Zeitversatz '
-                   +(dS/A2C).toFixed(2)+' s', cv2.W-8, 18);
+  if(!a2eng){
+    cv2.ctx.fillText('Abstand Δs = '+dS.toFixed(1)+' m = '+(dS/lam).toFixed(2)+' λ  →  Zeitversatz '
+                     +(dS/A2C).toFixed(2)+' s', cv2.W-8, 18);
+  } else {   // links oben steht «y [cm]»: zwei kurze Zeilen rechtsbündig
+    cv2.ctx.font='bold 12px JetBrains Mono,monospace';
+    cv2.ctx.fillText('Δs = '+dS.toFixed(1)+' m = '+(dS/lam).toFixed(2)+' λ', cv2.W-8, 16);
+    cv2.ctx.fillText('→ Zeitversatz '+(dS/A2C).toFixed(2)+' s', cv2.W-8, 31);
+  }
 }
 function a2Tick(dt){
   const v=a2Vals();
@@ -1450,7 +1459,9 @@ function drawA3(){
 
   // links: Momentbild y(s) bei t = t0
   const cv=initCanvas('a3-cv-s',240,false);
-  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.3,6.3,-7,7);
+  // rechts Rand, damit der Punkt am Anschlag (s = 6 m) vor «s [m]» bleibt;
+  // oben Luft, damit der λ-Pfeil nicht in der Zeile von «y [cm]» liegt
+  const gr=drawGrid(cv.ctx,cv.W,cv.H,-0.3,6.3*cv.W/(cv.W-80)-0.3,-7,9.5);
   drawAxesUnits(cv.ctx,cv.W,cv.H,gr.cx,gr.cy,'s [m]','y [cm]');
   cv.ctx.strokeStyle='#d8d0c4'; cv.ctx.lineWidth=1.2; cv.ctx.setLineDash([3,3]);
   cv.ctx.beginPath(); cv.ctx.moveTo(gr.cx(s0),gr.cy(-6.6)); cv.ctx.lineTo(gr.cx(s0),gr.cy(6.6)); cv.ctx.stroke();
@@ -1460,14 +1471,16 @@ function drawA3(){
   let sB=null;
   for(let n=-6;n<=6;n++){ const s=A3LAM*(t0/A3T-0.25-n);
     if(s>=0.2 && s<=6-A3LAM-0.2 && (sB===null || s<sB)) sB=s; }
-  if(sB!==null) dblArrow(cv.ctx,gr.cx(sB),gr.cx(sB+A3LAM),gr.cy(6.1),'#8a4a0e','λ = 2 m');
+  // Beschriftung über dem Pfeil statt darauf: schmal war der Pfeil sonst ganz verdeckt
+  if(sB!==null){ dblArrow(cv.ctx,gr.cx(sB),gr.cx(sB+A3LAM),gr.cy(6.1),'#8a4a0e');
+    halo(cv.ctx,'λ = 2 m',(gr.cx(sB)+gr.cx(sB+A3LAM))/2,gr.cy(6.1)-8,'#8a4a0e'); }
   cv.ctx.fillStyle='#8a4a0e';
   cv.ctx.beginPath(); cv.ctx.arc(gr.cx(s0),gr.cy(a3Y(s0,t0)),6.5,0,6.283); cv.ctx.fill();
   cv.ctx.strokeStyle='#1c1a17'; cv.ctx.lineWidth=2; cv.ctx.stroke();
 
   // rechts: Punktbewegung y(t) bei s = s0
   const cv2=initCanvas('a3-cv-t',240,false);
-  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,-0.25,4.25,-7,7);
+  const g2=drawGrid(cv2.ctx,cv2.W,cv2.H,-0.25,4.25*cv2.W/(cv2.W-80)-0.25,-7,9.5);   // wie links
   drawAxesUnits(cv2.ctx,cv2.W,cv2.H,g2.cx,g2.cy,'t [s]','y [cm]');
   cv2.ctx.strokeStyle='#d8d0c4'; cv2.ctx.lineWidth=1.2; cv2.ctx.setLineDash([3,3]);
   cv2.ctx.beginPath(); cv2.ctx.moveTo(g2.cx(t0),g2.cy(-6.6)); cv2.ctx.lineTo(g2.cx(t0),g2.cy(6.6)); cv2.ctx.stroke();
@@ -1477,7 +1490,8 @@ function drawA3(){
   let tB=null;
   for(let n=-6;n<=6;n++){ const t=A3T*(0.25+s0/A3LAM+n);
     if(t>=0.15 && t<=4-A3T-0.15 && (tB===null || t<tB)) tB=t; }
-  if(tB!==null) dblArrow(cv2.ctx,g2.cx(tB),g2.cx(tB+A3T),g2.cy(6.1),'#1f6b3a','T = 1 s');
+  if(tB!==null){ dblArrow(cv2.ctx,g2.cx(tB),g2.cx(tB+A3T),g2.cy(6.1),'#1f6b3a');
+    halo(cv2.ctx,'T = 1 s',(g2.cx(tB)+g2.cx(tB+A3T))/2,g2.cy(6.1)-8,'#1f6b3a'); }
   cv2.ctx.fillStyle='#8a4a0e';
   cv2.ctx.beginPath(); cv2.ctx.arc(g2.cx(t0),g2.cy(a3Y(s0,t0)),6.5,0,6.283); cv2.ctx.fill();
   cv2.ctx.strokeStyle='#1c1a17'; cv2.ctx.lineWidth=2; cv2.ctx.stroke();

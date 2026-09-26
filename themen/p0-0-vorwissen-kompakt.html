@@ -800,6 +800,14 @@ function drawA1() {
     ctx.setLineDash([]);
     lbl(ctx, cv.W, 'reine Proportionalität', gr.cx(xAchse*0.72), gr.cy(xAchse*0.72*p)-8, '#1f6b3a', 'right');
   }
+  // Fläche des Labels «reine Proportionalität» (lbl kappt nach links, wenn es rechts nicht passt)
+  let propRect = null;
+  if(!gilt){
+    ctx.font = 'bold 13px JetBrains Mono,monospace';
+    const w = ctx.measureText('reine Proportionalität').width, px = gr.cx(xAchse*0.72);
+    const x0 = (px - w < 4) ? px : px - w;
+    propRect = {x: x0 - 2, y: Math.max(14, gr.cy(xAchse*0.72*p)-8) - 12, w: w + 4, h: 15};
+  }
   // Ableselinien
   ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1.2; ctx.setLineDash([4,4]);
   ctx.beginPath(); ctx.moveTo(gr.cx(x), gr.cy(0)); ctx.lineTo(gr.cx(x), gr.cy(K)); ctx.stroke();
@@ -821,14 +829,44 @@ function drawA1() {
       ctx.setLineDash([]);
     }
   }
-  // Beschriftung der Probe über den Ring statt daneben — links davon steht der
-  // aktuelle Punkt, sonst überlagern sich die drei Labels.
-  lbl(ctx, cv.W, 'Dreisatz: ' + KVor.toFixed(2) + ' CHF',
-      gr.cx(xD), gr.cy(KVor)-18, '#1f6b3a', 'center');
+  // Beschriftungen von Probe (Ring) und aktuellem Punkt gemeinsam setzen: aus
+  // mehreren Lagen je Label die Kombination mit den wenigsten Überdeckungen
+  // (Randverletzung zählt schwer); bei Gleichstand gewinnt die Lage nahe am
+  // eigenen Punkt — die Kandidaten stehen darum in Vorzugsreihenfolge.
+  // y-Zahlen stehen rechts der Achse, x-Zahlen über ihr: beide Streifen freihalten
+  const xLinks = gr.cx(0) + 32, yUnten = gr.cy(0) - 18;
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const ringX = gr.cx(xD), ringY = gr.cy(KVor), pX = gr.cx(x), pY = gr.cy(K);
+  const rTxt = 'Dreisatz: ' + KVor.toFixed(2) + ' CHF', rW = ctx.measureText(rTxt).width;
+  const pTxt = x.toFixed(1)+' '+z.xEinheit+' → '+K.toFixed(2)+' CHF', pW = ctx.measureText(pTxt).width;
+  const box = (px, py, al, w) => { const x0 = al === 'left' ? px : (al === 'right' ? px - w : px - w/2);
+    return {x: x0 - 2, y: py - 12, w: w + 4, h: 15}; };
+  const schneidet = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+  // Aus dem Bild ragen ist schlimmer als einen Zahlenstreifen anzuschneiden
+  const aussen = r => (r.x < 2 || r.x + r.w > cv.W - 2 || r.y < 2 || r.y + r.h > cv.H - 2) ? 5
+                    : (r.x < xLinks || r.y + r.h > yUnten) ? 1 : 0;
+  const hind = [
+    {x: ringX - 11, y: ringY - 11, w: 22, h: 22},                  // Ring
+    {x: pX - 8, y: pY - 8, w: 16, h: 16},                          // Punkt
+    {x: cv.W - 150, y: 0, w: 150, h: 40}                           // Urteil-Marke
+  ];
+  if(!gilt) hind.push({x: gr.cx(xD) - 9, y: gr.cy(KEcht) - 9, w: 18, h: 18});
+  if(propRect) hind.push(propRect);
+  const kosten = r => aussen(r) * 2 + hind.filter(q => schneidet(r, q)).length;
+  const rLagen = [[ringX, ringY-18, 'center'], [ringX+16, ringY+4, 'left'], [ringX-16, ringY+4, 'right'],
+                  [ringX, ringY+26, 'center'], [ringX, ringY-40, 'center'],
+                  [ringX+10, ringY-18, 'left'], [ringX+10, ringY-40, 'left']].map(l => box(l[0], l[1], l[2], rW));
+  const pLagen = [[pX+10, pY+20, 'left'], [pX+10, pY-12, 'left'], [pX-10, pY-12, 'right'], [pX-10, pY+20, 'right'],
+                  [pX+10, pY-34, 'left'], [pX-10, pY-34, 'right'], [pX+10, pY-56, 'left']].map(l => box(l[0], l[1], l[2], pW));
+  let best = null;
+  rLagen.forEach((r, ri) => pLagen.forEach((q, pi) => {
+    const k = (kosten(r) + kosten(q) + (schneidet(r, q) ? 5 : 0)) * 100 + ri + pi;
+    if(!best || k < best.k) best = {k, r, q};
+  }));
+  // lbl zeichnet am Ankerpunkt; aus dem Rechteck zurückrechnen (linksbündig)
+  lbl(ctx, cv.W, rTxt, best.r.x + 2, best.r.y + 12, '#1f6b3a', 'left');
   drawDot(ctx, gr.cx, gr.cy, x, K, '#8a4a0e', 6);
-  // Beschriftung nach oben ausweichen, wenn der Punkt tief liegt (Tick-Zeile)
-  lbl(ctx, cv.W, x.toFixed(1)+' '+z.xEinheit+' → '+K.toFixed(2)+' CHF',
-      gr.cx(x)+10, gr.cy(K) > cv.H*0.74 ? gr.cy(K)-12 : gr.cy(K)+20, '#5a5040', 'left');
+  lbl(ctx, cv.W, pTxt, best.q.x + 2, best.q.y + 12, '#5a5040', 'left');
   // Urteil als Marke oben links
   const txt = gilt ? '✓ Dreisatz gilt' : '✗ Dreisatz gilt nicht';
   ctx.font='bold 13px "Source Sans 3",sans-serif';

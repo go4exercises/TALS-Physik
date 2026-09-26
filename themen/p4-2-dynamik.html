@@ -1319,7 +1319,8 @@ function drawA1() {
   const cv2 = initCanvas('a1-cv-diag', 300, false);
   const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
   const Fmax = 200 * 0.20;  // 40 N maximal
-  const grid = drawGrid(c2, W2, H2, -0.01, 0.215, -2, Fmax * 1.05);
+  // unten bis −6 N: bei −2 N standen die s-Zahlen über der Achse, auf Gerade und Punkt
+  const grid = drawGrid(c2, W2, H2, -0.01, 0.215, -6, Fmax * 1.05);
   drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 's [m]', 'F [N]');
   // Gerade F = D·s
   c2.strokeStyle = '#5b2d8e'; c2.lineWidth = 2.5;
@@ -1334,10 +1335,19 @@ function drawA1() {
   c2.moveTo(grid.cx(sT1), grid.cy(D*sT1)); c2.lineTo(grid.cx(sT2), grid.cy(D*sT1));
   c2.lineTo(grid.cx(sT2), grid.cy(D*sT2)); c2.stroke(); c2.setLineDash([]);
   c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace';
-  c2.textAlign = 'center';
-  c2.fillText('Δs = 0.08 m', (grid.cx(sT1)+grid.cx(sT2))/2, grid.cy(D*sT1) - 6);
-  c2.textAlign = 'left';
-  c2.fillText('ΔF = ' + (D*0.08).toFixed(1) + ' N', grid.cx(sT2) + 6, (grid.cy(D*sT1)+grid.cy(D*sT2))/2);
+  const halo2 = (t, x, y) => { c2.lineWidth = 3; c2.strokeStyle = '#fff'; c2.lineJoin = 'round';
+    c2.strokeText(t, x, y); c2.fillText(t, x, y); };
+  const yU = grid.cy(D*sT1), yO = grid.cy(D*sT2), xM = (grid.cx(sT1)+grid.cx(sT2))/2;
+  // Flaches Dreieck (kleines D): Beschriftungen gemeinsam über der Geraden,
+  // an den Schenkeln lägen sie auf der Geraden bzw. auf der Achse
+  const flach = (yU - yO) < 18 || (grid.cy(0) - yU) < 24;
+  if (flach) {
+    c2.textAlign = 'center'; halo2('Δs = 0.08 m', xM, yO - 22);
+    c2.textAlign = 'left';   halo2('ΔF = ' + (D*0.08).toFixed(1) + ' N', grid.cx(sT2) + 6, yO - 22);
+  } else {
+    c2.textAlign = 'center'; halo2('Δs = 0.08 m', xM, yU + 16);
+    c2.textAlign = 'left';   halo2('ΔF = ' + (D*0.08).toFixed(1) + ' N', grid.cx(sT2) + 6, (yU + yO) / 2);
+  }
   c2.fillText('D = ΔF/Δs = ' + D + ' N/m', grid.cx(0.01), grid.cy(Fmax*0.95));
   // Aktueller Punkt — liegt er rechts ausserhalb, zeigt ein Pfeil am Rand
   // auf ihn, statt ihn an falscher Stelle zu zeichnen.
@@ -1688,48 +1698,74 @@ function drawA4() {
   ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText(m + ' kg', bx + bw/2, by + bh/2 + 4);
 
-  // Zugkraft (blau) nach rechts
-  const fLen = 8 + Fz * 1.0;
+  // Zugkraft (blau) nach rechts. 1 px pro N, schmal weniger, damit der Pfeil
+  // bei 120 N nicht über den Rand läuft (beide Pfeile mit demselben Massstab)
+  const pxN = Math.min(1, (W - bx - bw - 16 - 8) / 120);
+  const fLen = 8 + Fz * pxN;
   drawArrow(ctx, bx + bw, by + bh/2, bx + bw + fLen, by + bh/2, '#1a4f8a', 2.6, 10);
   ctx.fillStyle = '#1a4f8a'; ctx.textAlign = 'left'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.fillText('F_zug = ' + Fz + ' N', bx + bw + 6, by + bh/2 - 8);
   // Reibung (rot) nach links
-  const rLen = 8 + FR * 1.0;
+  const rLen = 8 + FR * pxN;
   drawArrow(ctx, bx, by + bh/2 + 4, bx - rLen, by + bh/2 + 4, '#9b1c1c', 2.6, 10);
   ctx.fillStyle = '#9b1c1c'; ctx.textAlign = 'right';
   ctx.fillText('F_R = ' + FR.toFixed(0) + ' N', bx - 6, by + bh/2 + 22);
-  // Resultierende und Beschleunigung, sobald die Kiste gleitet
+  // Resultierende und Beschleunigung, sobald die Kiste gleitet. Die Glieder
+  // werden zeilenweise gefüllt — in einer Zeile lief die Rechnung rechts hinaus.
   ctx.textAlign = 'left'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const umbrechen = (teile, farbe) => {
+    ctx.fillStyle = farbe; let zeile = '', y = 20;
+    for (const t of teile) {
+      const probe = zeile ? zeile + ' ' + t : t;
+      if (zeile && ctx.measureText(probe).width > W - 24) { ctx.fillText(zeile, 12, y); y += 17; zeile = '  ' + t; }
+      else zeile = probe;
+    }
+    ctx.fillText(zeile, 12, y);
+  };
   if (gleitet) {
     const aRes = (Fz - FR) / m;
-    ctx.fillStyle = '#5b2d8e';
-    ctx.fillText('a = (F_zug − F_R) / m = (' + Fz + ' N − ' + FR.toFixed(0) + ' N) / '
-                 + m + ' kg = ' + aRes.toFixed(2) + ' m/s²', 12, 20);
+    umbrechen(['a = (F_zug − F_R) / m', '= (' + Fz + ' N − ' + FR.toFixed(0) + ' N) / ' + m + ' kg',
+               '= ' + aRes.toFixed(2) + ' m/s²'], '#5b2d8e');
   } else {
-    ctx.fillStyle = '#1f6b3a';
-    ctx.fillText('Kiste haftet: F_R hält genau dagegen, a = 0', 12, 20);
+    umbrechen(['Kiste haftet:', 'F_R hält genau dagegen,', 'a = 0'], '#1f6b3a');
   }
 
   // Rechte Canvas: FR über Fzug Diagramm
   const cv2 = initCanvas('a4-cv-diag', 240, false);
   const c2 = cv2.ctx, W2 = cv2.W, H2 = cv2.H;
-  const FzMax = 120, FRax = A4_MUH * 20 * g; // max Skala
-  const grid = drawGrid(c2, W2, H2, -4, FzMax*1.05, -6, FRax*1.05);
+  // x-Achse bis 160 N, obwohl der Regler bei 120 N endet: Bei m = 20 kg liegt
+  // F_H,max bei 118 N, und der Gleitast wäre sonst nur ein Strich am Rand.
+  // Unten bis −14 N, damit die Achsenzahlen unter der Achse Platz haben.
+  const FzMax = 120, FzAchse = 160, FRax = A4_MUH * 20 * g; // max Skala
+  const grid = drawGrid(c2, W2, H2, -4, FzAchse, -14, FRax*1.05);
   drawAxesUnits(c2, W2, H2, grid.cx, grid.cy, 'F_zug [N]', 'F_R [N]');
   // Haft-Ast: Diagonale FR=Fzug bis FhMax
   c2.strokeStyle = '#1f6b3a'; c2.lineWidth = 2.5; c2.beginPath();
   c2.moveTo(grid.cx(0), grid.cy(0)); c2.lineTo(grid.cx(FhMax), grid.cy(FhMax)); c2.stroke();
   // Gleit-Ast: waagrecht bei FgGleit ab FhMax
   c2.strokeStyle = '#9b1c1c'; c2.lineWidth = 2.5; c2.beginPath();
-  c2.moveTo(grid.cx(FhMax), grid.cy(FgGleit)); c2.lineTo(grid.cx(FzMax), grid.cy(FgGleit)); c2.stroke();
+  // Liegt der Gleitast auf Höhe des Achsentitels «F_zug [N]», endet er davor
+  const titelBand = Math.abs(grid.cy(FgGleit) - (grid.cy(0) - 12)) < 12;
+  c2.moveTo(grid.cx(FhMax), grid.cy(FgGleit));
+  c2.lineTo(titelBand ? W2 - 92 : grid.cx(FzAchse), grid.cy(FgGleit)); c2.stroke();
   // Knickpunkt beschriften: hier reisst die Haftung ab
   c2.strokeStyle = '#9aa1ab'; c2.lineWidth = 1.2; c2.setLineDash([4, 3]);
   c2.beginPath(); c2.moveTo(grid.cx(FhMax), grid.cy(0)); c2.lineTo(grid.cx(FhMax), grid.cy(FhMax));
   c2.stroke(); c2.setLineDash([]);
   drawDot(c2, grid.cx, grid.cy, FhMax, FhMax, '#5b2d8e', 5);
-  c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace'; c2.textAlign = 'left';
-  c2.fillText('F_H,max = μ_H · F_N = ' + FhMax.toFixed(0) + ' N',
-              Math.min(grid.cx(FhMax) + 8, W2 - 210), grid.cy(FhMax) - 8);
+  c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace';
+  // Beschriftung am Knick: ganz im Bild. Rechts oben vom Punkt, sonst links
+  // oben, sonst rechts unter dem Punkt; schmal in Kurzform.
+  const fhLang = 'F_H,max = μ_H · F_N = ' + FhMax.toFixed(0) + ' N';
+  const fhT = W2 >= 400 ? fhLang : 'F_H,max = ' + FhMax.toFixed(0) + ' N';
+  const fhW = c2.measureText(fhT).width, kx = grid.cx(FhMax), ky = grid.cy(FhMax);
+  const fhY = Math.max(34, ky - 8);                         // nicht in die Titelzeile «F_R [N]»
+  // weisser Rand: die Haftgerade läuft unter dem Punkt durch die Beschriftung
+  const fhSetze = (x, y) => { c2.lineWidth = 3; c2.strokeStyle = '#fff'; c2.lineJoin = 'round';
+    c2.strokeText(fhT, x, y); c2.fillText(fhT, x, y); };
+  if (kx + 8 + fhW <= W2 - 4)                { c2.textAlign = 'left';  fhSetze(kx + 8, fhY); }
+  else if (kx - 8 - fhW >= grid.cx(0) + 30)  { c2.textAlign = 'right'; fhSetze(kx - 8, fhY); }
+  else { c2.textAlign = 'right'; fhSetze(W2 - 4, Math.max(fhY, ky + 20)); }
   // Spitzenmarkierung
   drawDot(c2, grid.cx, grid.cy, FhMax, FhMax, '#5b2d8e', 4);
   // aktueller Punkt
@@ -1799,7 +1835,9 @@ function drawA5() {
   ctx.beginPath(); ctx.moveTo(0, oy); ctx.lineTo(W, oy); ctx.stroke();
   // Winkelbogen + Label
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.2;
-  ctx.beginPath(); ctx.arc(ox, oy, 34, Math.PI, Math.PI - alpha, true); ctx.stroke();
+  // von der Grundlinie (π, nach links) im Uhrzeigersinn zur Hangfläche (π + α,
+  // nach links oben) — vorher lief der Bogen gegen den Uhrzeigersinn unter den Boden
+  ctx.beginPath(); ctx.arc(ox, oy, 34, Math.PI, Math.PI + alpha, false); ctx.stroke();
   ctx.fillStyle = '#5e3208'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'right';
   ctx.fillText(alphaDeg + '°', ox - 40, oy - 8);
 
@@ -1848,7 +1886,11 @@ function drawA5() {
   ctx.lineTo(pH.x - nx * rw, pH.y - ny * rw);
   ctx.stroke();
   ctx.fillStyle = '#6b7280'; ctx.font = '13px "Source Sans 3",sans-serif'; ctx.textAlign = 'left';
-  ctx.fillText('gestrichelt: Zerlegung von F_G in Hang- und Normalrichtung', 12, 40);
+  // schmal zweizeilig, sonst rechts abgeschnitten
+  if (ctx.measureText('gestrichelt: Zerlegung von F_G in Hang- und Normalrichtung').width > W - 24) {
+    ctx.fillText('gestrichelt: Zerlegung von F_G', 12, 40);
+    ctx.fillText('in Hang- und Normalrichtung', 12, 56);
+  } else ctx.fillText('gestrichelt: Zerlegung von F_G in Hang- und Normalrichtung', 12, 40);
   // Gewichtskraft (bernstein) senkrecht nach unten vom Block-Mittelpunkt
   drawArrow(ctx, cxB, cyB, cxB, cyB + FG * sc, '#8a4a0e', 2.4, 10);
   ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
@@ -1901,7 +1943,8 @@ function a6Render() {
 
   const mid = W/2, scale = 36;
   // Wagengrössen proportional zur Masse (Breite)
-  const w1 = 30 + m1 * 7, w2 = 30 + m2 * 7, wh = 34;
+  // +18 px Grundbreite: «1.0 kg» ist 47 px breit und ragte beim leichtesten Wagen hinaus
+  const w1 = 48 + m1 * 7, w2 = 48 + m2 * 7, wh = 34;
   const gap0 = 28;  // halber Abstand in Ruhe
   // Positionen: x1/x2 sind Verschiebungen in m vom Startpunkt
   const cx1 = mid - gap0 + a6State.x1 * scale;
@@ -1957,17 +2000,25 @@ function a6Render() {
 
   // Produkte m·|v| beidseitig — actio = reactio wird damit quantitativ:
   // beide Wagen tragen denselben Impulsbetrag, obwohl die Tempi verschieden sind.
+  // Untereinander statt nebeneinander (sie überlappten sich); schmal bricht
+  // jede Zeile vor dem Ergebnis um.
   const p1 = m1 * Math.abs(a6State.v1), p2 = m2 * Math.abs(a6State.v2);
-  ctx.font = 'bold 13px JetBrains Mono,monospace';
-  ctx.fillStyle = '#1a4f8a'; ctx.textAlign = 'left';
-  ctx.fillText('m₁ · |v₁| = ' + m1.toFixed(1) + ' kg · ' + Math.abs(a6State.v1).toFixed(2)
-               + ' m/s = ' + p1.toFixed(2) + ' kg·m/s', 12, 20);
-  ctx.fillStyle = '#8a4a0e'; ctx.textAlign = 'right';
-  ctx.fillText('m₂ · |v₂| = ' + m2.toFixed(1) + ' kg · ' + Math.abs(a6State.v2).toFixed(2)
-               + ' m/s = ' + p2.toFixed(2) + ' kg·m/s', W - 12, 20);
+  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+  const z1a = 'm₁ · |v₁| = ' + m1.toFixed(1) + ' kg · ' + Math.abs(a6State.v1).toFixed(2) + ' m/s';
+  const z2a = 'm₂ · |v₂| = ' + m2.toFixed(1) + ' kg · ' + Math.abs(a6State.v2).toFixed(2) + ' m/s';
+  const z1b = '= ' + p1.toFixed(2) + ' kg·m/s', z2b = '= ' + p2.toFixed(2) + ' kg·m/s';
+  const einzeilig = ctx.measureText(z1a + ' ' + z1b).width <= W - 24;
+  let zy = 20;
+  const zeile = (farbe, a, b) => {
+    ctx.fillStyle = farbe;
+    if (einzeilig) { ctx.fillText(a + ' ' + b, 12, zy); zy += 18; }
+    else { ctx.fillText(a, 12, zy); ctx.fillText(b, 12 + ctx.measureText('m₁ · |v₁| ').width, zy + 16); zy += 36; }
+  };
+  zeile('#1a4f8a', z1a, z1b);
+  zeile('#8a4a0e', z2a, z2b);
   if (p1 > 0.01) {
-    ctx.fillStyle = '#5b2d8e'; ctx.textAlign = 'center';
-    ctx.fillText('gleich gross — actio = reactio', W / 2, 20);
+    ctx.fillStyle = '#5b2d8e';
+    ctx.fillText('gleich gross: actio = reactio', 12, zy);
   }
 }
 function a6Tick(ts) {

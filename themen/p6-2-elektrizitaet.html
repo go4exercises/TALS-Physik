@@ -964,7 +964,7 @@ MathJax = {
       </div>
       <div class="sl-grp">
       <label>Stromstärke \(I\):</label>
-      <input type="range" id="a5-I" min="0" max="16" value="8" step="0.1">
+      <input type="range" id="a5-I" min="0" max="16" value="8" step="0.01">
       <span class="sl-val" id="a5-I-val">8.0 A</span>
 
       </div>
@@ -2009,31 +2009,53 @@ document.getElementById('ein-U').addEventListener('input', ()=>{ if(!einLoop.run
 // ══════════════════════════════════════════════════════════
 function drawACDC(){
   const cv = initCanvas('acdc-cv', 230, false);
-  const gr = drawGrid(cv.ctx, cv.W, cv.H, -1, 41, -360, 360);
-  drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [ms]', 'U [V]');
-  const c = cv.ctx;
+  const c = cv.ctx, W = cv.W, H = cv.H;
+  // Schmal nur eine Periode: bei 40 ms hätte keine Beschriftung zwischen den
+  // Kurvenästen Platz.
+  const schmal = W < 600, tMax = schmal ? 20 : 40;
+  // Linker Rand: U-Skalenzahlen links der Achse, sonst kreuzt die Kurve sie.
+  // Oben Luft über dem Scheitel, unten unter dem Tal — dort stehen die Texte.
+  const mL = 46, mR = 14, yLo = -430, yHi = 470;
+  const tMin = -tMax * mL / (W - mL - mR), tHi = tMax + tMax * mR / (W - mL - mR);
+  const gr = drawGrid(c, W, H, tMin, tHi, yLo, yHi);
+  drawAxesUnits(c, W, H, gr.cx, gr.cy, 't [ms]', 'U [V]');
   // AC 50 Hz: Periode 20 ms, Scheitel 325 V
   const Us = 230 * Math.SQRT2;
   c.strokeStyle = '#8a4a0e'; c.lineWidth = 2.6; c.beginPath();
   for (let i = 0; i <= 200; i++) {
-    const t = i * 40 / 200, U = Us * Math.sin(2 * Math.PI * 50 * t / 1000);
+    const t = i * tMax / 200, U = Us * Math.sin(2 * Math.PI * 50 * t / 1000);
     if (i === 0) c.moveTo(gr.cx(t), gr.cy(U)); else c.lineTo(gr.cx(t), gr.cy(U));
   }
   c.stroke();
   // Effektivwert ±230 V
   c.strokeStyle = '#9b1c1c'; c.lineWidth = 1.6; c.setLineDash([5, 4]);
-  [230, -230].forEach(U => { c.beginPath(); c.moveTo(gr.cx(0), gr.cy(U)); c.lineTo(gr.cx(40), gr.cy(U)); c.stroke(); });
+  [230, -230].forEach(U => { c.beginPath(); c.moveTo(gr.cx(0), gr.cy(U)); c.lineTo(gr.cx(tMax), gr.cy(U)); c.stroke(); });
   c.setLineDash([]);
   // DC 12 V
   c.strokeStyle = '#1a4f8a'; c.lineWidth = 2.6;
-  c.beginPath(); c.moveTo(gr.cx(0), gr.cy(12)); c.lineTo(gr.cx(40), gr.cy(12)); c.stroke();
-  // Beschriftungen
-  c.font = 'bold 13px JetBrains Mono,monospace'; c.textAlign = 'left';
-  c.fillStyle = '#9b1c1c'; c.fillText('U_eff = 230 V', gr.cx(0.5), gr.cy(230) - 6);
-  c.fillStyle = '#8a4a0e'; c.fillText('Scheitel 325 V = 230 V · √2', gr.cx(6.2), gr.cy(Us) + 18);
-  c.fillStyle = '#1a4f8a'; c.fillText('DC 12 V (Autobatterie)', gr.cx(0.5), gr.cy(12) - 6);
-  c.fillStyle = '#5a5040'; c.font = '13px "Source Sans 3",sans-serif'; c.textAlign = 'center';
-  c.fillText('eine Periode dauert 20 ms — 50 Hz', gr.cx(20), gr.cy(-320));
+  c.beginPath(); c.moveTo(gr.cx(0), gr.cy(12)); c.lineTo(gr.cx(tMax), gr.cy(12)); c.stroke();
+  // t-Skalenzahlen: die Kurve geht bei 10, 20, 30 ms durch die Achse — Zahlen
+  // mit hellem Grund neu setzen, damit sie lesbar bleiben
+  c.font = '13px JetBrains Mono,monospace'; c.textAlign = 'center'; c.textBaseline = 'top';
+  for (let v = gr.stepX; v <= tMax + 1e-9; v += gr.stepX) {
+    const x = gr.cx(v); if (x < 14 || x > W - 72) continue;
+    const txt = String(Math.round(v)), tw = c.measureText(txt).width;
+    c.fillStyle = 'rgba(255,255,255,0.9)'; c.fillRect(x - tw/2 - 2, gr.cy(0) + 4, tw + 4, 15);
+    c.fillStyle = '#6b7280'; c.fillText(txt, x, gr.cy(0) + 5);
+  }
+  c.textBaseline = 'alphabetic';
+  // Beschriftungen dort, wo die Kurve nicht ist: zwischen 10 und 20 ms ist
+  // sie negativ, also ist der Raum über der t-Achse frei
+  const fs = schmal ? 12 : 13;
+  c.font = 'bold ' + fs + 'px JetBrains Mono,monospace'; c.textAlign = 'center';
+  c.fillStyle = '#8a4a0e';
+  c.fillText(schmal ? 'Scheitel 325 V' : 'Scheitel 325 V = 230 V · √2', gr.cx(5), gr.cy(Us) - 8);
+  c.fillStyle = '#9b1c1c'; c.fillText('U_eff = 230 V', gr.cx(15), gr.cy(230) - 6);
+  c.fillStyle = '#1a4f8a'; c.fillText(schmal ? 'DC 12 V' : 'DC 12 V (Autobatterie)', gr.cx(schmal ? 12.5 : 15), gr.cy(12) - 7);   // schmal weg von «t [ms]»
+  c.fillStyle = '#5a5040'; c.font = fs + 'px "Source Sans 3",sans-serif';
+  c.fillText(schmal ? 'eine Periode: 20 ms — 50 Hz' : 'eine Periode dauert 20 ms — 50 Hz', gr.cx(schmal ? 10 : 20), gr.cy(-Us) + 22);
+  document.getElementById('acdc-cv').setAttribute('aria-label',
+    'Spannungs-Zeit-Diagramm über ' + tMax + ' Millisekunden. Eine waagrechte Linie zeigt die Gleichspannung einer 12-Volt-Autobatterie. Eine Sinuskurve zeigt die Netzwechselspannung mit 50 Hertz, deren Scheitelwert 325 Volt beträgt und deren Effektivwert 230 Volt als gestrichelte Linie eingezeichnet ist.');
 }
 
 // ══════════════════════════════════════════════════════════
@@ -2153,7 +2175,13 @@ function drawA1(){
   // Reglerbereich ab (12 V an 10 Ω).
   const A1_IMAX=1200;   // mA, fest
   const Imax12=12/v.R*1000;
-  const g=drawGrid(ctx,W,H,0,A1_IMAX,0,12); drawAxesUnits(ctx,W,H,g.cx,g.cy,'I [mA]','U [V]');
+  // Feste Pixelränder: links Platz für die U-Skala, unten für die I-Skala, oben
+  // für «U [V]» und das Steigungsetikett. Die Achsgrenzen folgen daraus, damit
+  // der Ursprung nicht am Canvasrand klebt.
+  const mL=36, mR=12, mT=30, mB=24;
+  const xMin=-A1_IMAX*mL/(W-mL-mR), xMax=A1_IMAX+A1_IMAX*mR/(W-mL-mR);
+  const yMin=-12*mB/(H-mB-mT),      yMax=12+12*mT/(H-mB-mT);
+  const g=drawGrid(ctx,W,H,xMin,xMax,yMin,yMax); drawAxesUnits(ctx,W,H,g.cx,g.cy,'I [mA]','U [V]');
   // Referenzkennlinie 100 Ω, damit auch grosse Widerstände einen Vergleich haben
   ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
   ctx.beginPath(); ctx.moveTo(g.cx(0),g.cy(0)); ctx.lineTo(g.cx(120),g.cy(12)); ctx.stroke(); ctx.setLineDash([]);
@@ -2171,10 +2199,15 @@ function drawA1(){
   ctx.beginPath(); ctx.moveTo(px,g.cy(0)); ctx.lineTo(px,py); ctx.moveTo(g.cx(0),py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
   drawDot(ctx,g.cx,g.cy,I_mA,v.U,'#9b1c1c',6);
   ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
-  ctx.fillText('('+I_mA.toFixed(0)+' mA | '+v.U.toFixed(1)+' V)', Math.min(px+8,W-130), Math.max(py-6,g.cy(12)+12));
-  // Steigungslabel mit weisser Box, oben zentriert
+  // Punktbeschriftung: rechts vom Punkt, sonst links; nahe am oberen Rand darunter
+  const ptxt='('+I_mA.toFixed(0)+' mA | '+v.U.toFixed(1)+' V)', ptw=ctx.measureText(ptxt).width;
+  const ptx = (px+10+ptw <= W-4) ? px+10 : px-10-ptw;
+  const pty = (py-10 < mT+12) ? py+20 : py-10;
+  ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.fillRect(ptx-2, pty-12, ptw+4, 16);
+  ctx.fillStyle='#9b1c1c'; ctx.fillText(ptxt, ptx, pty);
+  // Steigungslabel mit weisser Box, oben rechts im Rand (links oben steht «U [V]»)
   const lab='Steigung = R = '+v.R+' Ω'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
-  const lw=ctx.measureText(lab).width, lcx=W*0.5, lcy=g.cy(12)+8;
+  const lw=ctx.measureText(lab).width, lcx=W-lw/2-10, lcy=4;
   ctx.fillStyle='rgba(251,250,247,0.85)'; ctx.fillRect(lcx-lw/2-4,lcy-2,lw+8,16);
   ctx.fillStyle='#5a5040'; ctx.fillText(lab, lcx, lcy+10);
 }
@@ -2227,11 +2260,13 @@ function drawA2(){
   ctx.beginPath(); ctx.moveTo(x0,yc+th/2+10); ctx.lineTo(x0+dw,yc+th/2+10); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle='#1a4f8a'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('l = '+l+' m', x0+dw/2, yc+th/2+24);
-  ctx.save(); ctx.translate(x0-W*0.075, yc); ctx.rotate(-Math.PI/2);
-  ctx.fillText('A = '+A.toFixed(1)+' mm²',0,0); ctx.restore();
+  // Querschnitt waagrecht über dem linken Drahtende; senkrecht am Rand wurde
+  // die Beschriftung bei schmalem Bildschirm abgeschnitten
+  ctx.textAlign='left';
+  ctx.fillText('A = '+A.toFixed(1)+' mm²', x0, yc-th/2-8);
   // R-Wert
   ctx.fillStyle='#9b1c1c'; ctx.font='bold 15px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText('R = '+R.toFixed(2)+' Ω', W*0.5, H*0.14);
+  ctx.fillText('R = '+R.toFixed(2)+' Ω', W*0.5, H*0.11);   // Luft zu «A = …» über dem dicksten Draht
   ctx.fillStyle='#3a332a'; ctx.font='13px "Source Sans 3",sans-serif';
   ctx.fillText(m.n+' (ρ = '+m.r+' Ω·mm²/m)', W*0.5, H*0.95);
 }
@@ -2280,8 +2315,9 @@ function a3Render(){
     ctx.font='12px "Source Sans 3",sans-serif'; ctx.fillStyle=col;
     const y1 = oben ? g.T-bh/2-20 : g.T+bh/2+13, y2 = y1 + 14;
     ctx.fillText(name+' = '+wert, cx, y1); ctx.fillText(sub, cx, y2); }
-  resBox(g.L+(g.R-g.L)*0.34,'R₁',v.R1+' Ω','U₁ = '+v.U1.toFixed(2)+' V','#b85c00',false);
-  resBox(g.L+(g.R-g.L)*0.68,'R₂',v.R2+' Ω','U₂ = '+v.U2.toFixed(2)+' V','#5b2d8e',true);
+  const xR1=g.L+(g.R-g.L)*0.34, xR2=g.L+(g.R-g.L)*0.68, bwR=schmal?40:W*0.16;
+  resBox(xR1,'R₁',v.R1+' Ω','U₁ = '+v.U1.toFixed(2)+' V','#b85c00',false);
+  resBox(xR2,'R₂',v.R2+' Ω','U₂ = '+v.U2.toFixed(2)+' V','#5b2d8e',true);
   // Spannungsteilung als proportionale Balken — U₁ : U₂ = R₁ : R₂ ist sonst nur
   // aus zwei Zahlen abzulesen, nicht zu sehen.
   const balkenY = g.B + 34, balkenH = 16, gesamtW = (g.R - g.L) * 0.76;
@@ -2305,7 +2341,11 @@ function a3Render(){
                + '   —   zusammen ' + v.U.toFixed(1) + ' V', (g.L+g.R)/2, balkenY + balkenH + 16);
   // Strompunkte (gleichmaessig - Serie)
   const N=22;
-  for(let i=0;i<N;i++){ const s=((i/N)+a3Phase)%1; const p=rectPoint(g,s);
+  // In den Kästen und zwischen den Quellplatten verdeckt das Bauteil den Strom:
+  // dort keinen Punkt zeichnen, sonst läuft er über Beschriftung und Platten
+  const verdeckt = p => (Math.abs(p.y-g.T)<1 && (Math.abs(p.x-xR1)<bwR/2+5 || Math.abs(p.x-xR2)<bwR/2+5))
+                     || (Math.abs(p.x-g.L)<1 && Math.abs(p.y-by)<14);
+  for(let i=0;i<N;i++){ const s=((i/N)+a3Phase)%1; const p=rectPoint(g,s); if(verdeckt(p)) continue;
     ctx.fillStyle='#e08020'; ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,6.283); ctx.fill(); }
   ctx.fillStyle='#5a5040'; ctx.font=(schmal?'12px':'13px')+' "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('gleicher Strom I = '+(v.I*1000).toFixed(1)+' mA überall', schmal ? W/2 : (g.L+g.R)/2, g.B+24);
@@ -2340,9 +2380,11 @@ function drawStream(ctx,x1,y1,x2,y2,phase,nDots,col){
 function a4Tick(dt){ a4Phase=(a4Phase+dt*0.5)%1; a4Render(); }
 function a4Render(){
   const v=a4Vals();
-  const cv=initCanvas('a4-cv',220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  // Schmal steht die Fusszeile auf zwei Zeilen; dafür etwas mehr Höhe
+  const schmalA4 = (document.getElementById('a4-cv').offsetWidth || 600) < 500;
+  const cv=initCanvas('a4-cv',schmalA4?240:220,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const L=Math.max(W*0.12,58), T=H*0.22, B=H*0.80, xr1=W*0.42, xr2=W*0.78;
+  const L=Math.max(W*0.12,58), T=H*0.22, B=schmalA4?176:H*0.80, xr1=W*0.42, xr2=W*0.78;
   // Rahmen: die Sammelschienen enden beim zweiten Zweig. Ein durchgezogener
   // rechter Schenkel wäre eine Leitung ohne Bauteil parallel zu R₁ und R₂ —
   // topologisch ein Kurzschluss, der die ganze Schaltung überbrückt.
@@ -2381,7 +2423,11 @@ function a4Render(){
   ctx.fillStyle='#b85c00'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('I₁='+(v.I1*1000).toFixed(0)+' mA', xr1, B+16);   // unter die Schiene,
   ctx.fillStyle='#5b2d8e'; ctx.fillText('I₂='+(v.I2*1000).toFixed(1)+' mA', xr2, B+16);   // sonst über den Punkten
-  ctx.fillStyle='#5a5040'; ctx.fillText('Gesamtstrom I = '+(v.I*1000).toFixed(1)+' mA — gleiche Spannung über R₁ und R₂', W*0.5, H*0.99);
+  ctx.fillStyle='#5a5040';
+  if(schmalA4){   // eine Zeile war bei 360 px beidseitig abgeschnitten
+    ctx.fillText('Gesamtstrom I = '+(v.I*1000).toFixed(1)+' mA', W*0.5, H-22);
+    ctx.fillText('gleiche Spannung über R₁ und R₂', W*0.5, H-6);
+  } else ctx.fillText('Gesamtstrom I = '+(v.I*1000).toFixed(1)+' mA — gleiche Spannung über R₁ und R₂', W*0.5, H*0.99);
 }
 const a4Loop=makeLoop('a4-cv','a4-btn',a4Tick);
 ['a4-U','a4-R1','a4-R2'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{ a4Read(); if(!a4Loop.running) a4Render(); }));
@@ -2393,10 +2439,11 @@ const a4Loop=makeLoop('a4-cv','a4-btn',a4Tick);
 function drawA5(){
   const U=+document.getElementById('a5-U').value, I=+document.getElementById('a5-I').value, t=+document.getElementById('a5-t').value;
   document.getElementById('a5-U-val').textContent=U+' V';
-  document.getElementById('a5-I-val').textContent=I.toFixed(1)+' A';
+  const a5A = x => x < 1 ? x.toFixed(2) : x.toFixed(1);   // LED: 0.04 A, sonst zeigte es «0.0 A»
+  document.getElementById('a5-I-val').textContent=a5A(I)+' A';
   document.getElementById('a5-t-val').textContent=t.toFixed(2)+' h';
   const P=U*I, E=P*t/1000, K=E*0.21;
-  flTex('a5-eq-p', ['P = U\\cdot I', '= '+texE(U,'V')+'\\cdot '+texE(I.toFixed(1),'A'), '= '+texE(P.toFixed(0),'W')]);
+  flTex('a5-eq-p', ['P = U\\cdot I', '= '+texE(U,'V')+'\\cdot '+texE(a5A(I),'A'), '= '+texE(P.toFixed(0),'W')]);
   flTex('a5-eq-e', ['E = P\\cdot t', '= '+texE(P.toFixed(0),'W')+'\\cdot '+texE(t.toFixed(2),'h'), '= '+texE(E.toFixed(2),'kWh')]);
   document.getElementById('a5-P').textContent=P.toFixed(0)+' W';
   document.getElementById('a5-E').textContent=E.toFixed(2)+' kWh';
@@ -2408,7 +2455,10 @@ function drawA5(){
   const cv=initCanvas('a5-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   const eng = W < 520;
   const PMAX=4200, TMAX=12.5;        // feste Achsen (Q1): 250 V · 16 A = 4000 W, Regler bis 12 h
-  const gr=drawGrid(ctx,W,H,0,TMAX,0,PMAX);
+  // Feste Pixelränder wie in Animation 1: Skalenzahlen neben statt auf den Achsen,
+  // oben eine Zeile für «P [W]» und die Legende
+  const mL=44, mR=12, mT=24, mB=22;
+  const gr=drawGrid(ctx,W,H,-TMAX*mL/(W-mL-mR),TMAX+TMAX*mR/(W-mL-mR),-PMAX*mB/(H-mB-mT),PMAX+PMAX*mT/(H-mB-mT));
   drawAxesUnits(ctx,W,H,gr.cx,gr.cy,'t [h]','P [W]');
   // Referenz: alle Kombinationen mit genau 1 kWh (P = 1000 W·h / t)
   ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]); ctx.beginPath();
@@ -2422,7 +2472,7 @@ function drawA5(){
   // Legende rechtsbündig, damit sie bei keiner Breite abgeschnitten wird
   const legT = eng ? '= 1 kWh' : 'alle Punkte darauf: 1 kWh';
   ctx.font='13px "Source Sans 3",sans-serif';
-  const legY = gr.cy(PMAX*0.94), legX = W - 10 - ctx.measureText(legT).width;
+  const legY = 12, legX = W - 10 - ctx.measureText(legT).width;   // im oberen Rand, weg von «4000 W»
   ctx.strokeStyle='#9aa1ab'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
   ctx.beginPath(); ctx.moveTo(legX-34,legY); ctx.lineTo(legX-6,legY); ctx.stroke();
   ctx.setLineDash([]);
@@ -2454,13 +2504,18 @@ function drawA5(){
   if(ctx.measureText(txt).width < bw-12 && bhh > 30){
     ctx.textAlign='center'; ctx.fillText(txt, gr.cx(t/2), gr.cy(P/2)+4);
   } else {
+    // ausserhalb der Fläche mit hellem Grund — bei kleinem P liegt der Text sonst auf der 1-kWh-Kurve
     ctx.textAlign='left';
-    ctx.fillText(txt, Math.min(gr.cx(t)+8, W-ctx.measureText(txt).width-6), Math.max(gr.cy(P)-8, 16));
+    const fw=ctx.measureText(txt).width, fx=Math.min(gr.cx(t)+8, W-fw-6), fy=Math.max(Math.min(gr.cy(P)-8, gr.cy(0)-24), mT+14);   // über der Zeile von «t [h]»
+    ctx.fillStyle='rgba(255,255,255,0.88)'; ctx.fillRect(fx-3, fy-13, fw+6, 17);
+    ctx.fillStyle='#1c1a17'; ctx.fillText(txt, fx, fy);
   }
   // Seitenmasse INNEN — aussen liegen die Achsenbeschriftungen von drawGrid
   ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#3a332a';
   if(bw > 90 && bhh > 44){
-    ctx.textAlign='center'; ctx.fillText(t.toFixed(2)+' h', gr.cx(t/2), gr.cy(0)-8);
+    // rechts steht über der Achse «t [h]» (letzte 72 px): dort nicht hinein
+    const th=t.toFixed(2)+' h', thw=ctx.measureText(th).width;
+    ctx.textAlign='center'; ctx.fillText(th, Math.min(gr.cx(t/2), W-76-thw/2), gr.cy(0)-8);
     ctx.textAlign='right';  ctx.fillText(P.toFixed(0)+' W', gr.cx(t)-6, gr.cy(P)+15);
   }
 }
@@ -2513,13 +2568,16 @@ function drawA6(){
 
   const cv=initCanvas('a6-cv',240,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
-  const px0=W*0.12, px1=W*0.93, py0=H*0.10, py1=H*0.80;
+  // links mindestens 70 px: «10000» und die gedrehte Achsenbeschriftung
+  const px0=Math.max(W*0.12,70), px1=W*0.93, py0=H*0.10, py1=H*0.80;
   const lx=v=>px0+(Math.log10(v)-0)/(Math.log10(2000))*(px1-px0);      // I 1..2000 mA
   const ly=v=>py1-(Math.log10(v)-1)/(4-1)*(py1-py0);                   // t 10..10000 ms
   // Zonen zeilenweise fuellen
   for(let yy=py0;yy<py1;yy+=2){
     const tt=Math.pow(10, 1 + (py1-yy)/(py1-py0)*3);
-    const xb2=lx(0.5), xb3=lx(Math.min(2000,a6_b3(tt))), xb4=lx(Math.min(2000,a6_b4(tt)));
+    // auf das Diagramm begrenzt: Zone 1 (< 0.5 mA) liegt links der 1-mA-Achse
+    const cl=x=>Math.max(px0,Math.min(px1,x));
+    const xb2=cl(lx(0.5)), xb3=cl(lx(Math.min(2000,a6_b3(tt)))), xb4=cl(lx(Math.min(2000,a6_b4(tt))));
     ctx.fillStyle=A6ZONES[0][2]; ctx.fillRect(px0,yy,Math.max(0,xb2-px0),2);
     ctx.fillStyle=A6ZONES[1][2]; ctx.fillRect(xb2,yy,Math.max(0,xb3-xb2),2);
     ctx.fillStyle=A6ZONES[2][2]; ctx.fillRect(xb3,yy,Math.max(0,xb4-xb3),2);
@@ -2533,16 +2591,19 @@ function drawA6(){
   ctx.textAlign='right'; [10,100,1000,10000].forEach(v=>ctx.fillText(v+'', px0-4, ly(v)+3));
   ctx.fillStyle='#374151'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('Stromstärke [mA]', (px0+px1)/2, py1+26);
-  ctx.save(); ctx.translate(px0-50,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Einwirkzeit [ms]',0,0); ctx.restore();
+  ctx.save(); ctx.translate(px0-52,(py0+py1)/2); ctx.rotate(-Math.PI/2); ctx.fillText('Einwirkzeit [ms]',0,0); ctx.restore();
   // FI/RCD-Marke bei 30 mA — der Wert, auf den Schutzschalter auslösen
   const x30 = lx(30);
   ctx.strokeStyle='#1f6b3a'; ctx.lineWidth=2; ctx.setLineDash([6,4]);
   ctx.beginPath(); ctx.moveTo(x30,py0); ctx.lineTo(x30,py1); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle='#1f6b3a'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
-  ctx.fillText('30 mA — FI/RCD löst aus', x30+6, py0+14);
+  // schmal kurz: die lange Fassung ragte bei 360 px rechts hinaus
+  const fiTxt = (x30+6+ctx.measureText('30 mA — FI/RCD löst aus').width <= W-4) ? '30 mA — FI/RCD löst aus' : '30 mA (FI)';
+  ctx.fillText(fiTxt, x30+6, py0+14);
   // Zonen-Nummern
   ctx.fillStyle='#3a332a'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
-  ctx.fillText('1', lx(0.25), py0+H*0.10); ctx.fillText('2', lx(3), py0+H*0.10);
+  if(lx(0.25) > px0+6) ctx.fillText('1', lx(0.25), py0+H*0.10);   // Zone 1 liegt links der Achse
+  ctx.fillText('2', lx(3), py0+H*0.10);
   ctx.fillText('3', lx(70), py0+H*0.10); ctx.fillText('4', lx(800), py0+H*0.10);
   // Arbeitspunkt
   const mx=lx(I), my=ly(t);
@@ -2551,7 +2612,10 @@ function drawA6(){
   ctx.fillStyle='#1c1a17'; ctx.beginPath(); ctx.arc(mx,my,6,0,6.283); ctx.fill();
   ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   const lab=(I<1000?I.toFixed(0)+' mA':(I/1000).toFixed(1)+' A')+'; '+(t<1000?t.toFixed(0)+' ms':(t/1000).toFixed(1)+' s');
-  ctx.fillText(lab, Math.min(mx+8,W-150), my-8);
+  // rechts vom Punkt, sonst links davon — nie über dem Punkt
+  const lw6=ctx.measureText(lab).width;
+  const lx6 = (mx+10+lw6 <= W-4) ? mx+10 : Math.max(px0+2, mx-10-lw6);
+  ctx.fillText(lab, lx6, Math.max(my-8, 14));
 }
 // Szenario-Presets: U und R sind anschaulicher als eine abstrakte Stromstärke.
 document.querySelectorAll('[data-a6sz]').forEach(b => b.addEventListener('click', () => {
@@ -2783,7 +2847,10 @@ function gmDraw(w){
   ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
 
   function kasten(x, y, bez, wert, farbe){
-    const bw = 62, bh = 26;
+    // Breite nach dem Wert: «232.0 Ω gesamt» ragte über den festen 62-px-Kasten
+    ctx.font = '11px "Source Sans 3",sans-serif';
+    const bw = Math.max(62, Math.ceil(ctx.measureText(wert).width) + 12), bh = 26;
+    ctx.font = '12px "Source Sans 3",sans-serif';
     ctx.fillStyle = '#fff'; ctx.strokeStyle = farbe || '#3f3a33'; ctx.lineWidth = 2.2;
     ctx.beginPath(); ctx.rect(x-bw/2, y-bh/2, bw, bh); ctx.fill(); ctx.stroke();
     ctx.fillStyle = farbe || '#3f3a33';
@@ -2807,11 +2874,11 @@ function gmDraw(w){
     kasten((L+R)/2, T, 'R', w.Rg.toFixed(1) + ' Ω gesamt', '#b45309');
     if(gmSchritt === 3){
       ctx.fillStyle = '#0f6b66'; ctx.textAlign = 'center';
-      ctx.fillText('I = ' + (w.I*1000).toFixed(2) + ' mA', (L+R)/2, B+22);
+      ctx.fillText('I = ' + (w.I*1000).toFixed(2) + ' mA', (L+R)/2, B+18);
       ctx.fillStyle = '#5c554c';
-      ctx.fillText('U₁ = ' + w.U1.toFixed(2) + ' V;   Uₚ = ' + w.Up.toFixed(2) + ' V', (L+R)/2, B+38);
+      ctx.fillText('U₁ = ' + w.U1.toFixed(2) + ' V;   Uₚ = ' + w.Up.toFixed(2) + ' V', (L+R)/2, B+33);
       ctx.fillText('I₂ = ' + (w.I2*1000).toFixed(2) + ' mA;   I₃ = ' + (w.I3*1000).toFixed(2) + ' mA',
-                   (L+R)/2, B+54);
+                   (L+R)/2, B+48);
     }
     return;
   }
@@ -2918,10 +2985,16 @@ function lpDraw(w){
     ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2; ctx.stroke();
     ctx.beginPath(); ctx.moveTo(x-12,y-12); ctx.lineTo(x+12,y+12);
     ctx.moveTo(x+12,y-12); ctx.lineTo(x-12,y+12); ctx.stroke();
+    // heller Grund: in der Parallelschaltung läuft die Zuleitung senkrecht
+    // unter der Lampe durch — ohne Grund lag sie mitten in den Zahlen
+    const t1 = nenn + ' W', t2 = P.toFixed(1) + ' W';
+    ctx.font = 'bold 12px "Source Sans 3",sans-serif';
+    const bwL = Math.max(ctx.measureText(t1).width, ctx.measureText(t2).width) + 8;
+    ctx.clearRect(x - bwL/2, y+22, bwL, 31);   // Canvas ist durchsichtig: zeigt den Grund des Rahmens
     ctx.fillStyle = '#3f3a33'; ctx.font = '11px "Source Sans 3",sans-serif';
-    ctx.fillText(nenn + ' W', x, y+33);
+    ctx.fillText(t1, x, y+33);
     ctx.fillStyle = '#b45309'; ctx.font = 'bold 12px "Source Sans 3",sans-serif';
-    ctx.fillText(P.toFixed(1) + ' W', x, y+48);
+    ctx.fillText(t2, x, y+48);
     ctx.font = '12px "Source Sans 3",sans-serif';
   }
 

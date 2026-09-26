@@ -1225,16 +1225,23 @@ function drawA1() {
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.moveTo(0, bodenY); ctx.lineTo(W0, bodenY); ctx.stroke();
 
-  // Schlitten (Position abhängig von s zur Veranschaulichung)
-  const x0 = 60;
-  const px = x0 + (s / 4) * (W0 - 150);
-  const bW = 56, bH = 30;
-  const by = bodenY - bH;
+  // Schlitten (Position abhängig von s zur Veranschaulichung). Rechts bleibt
+  // ein fester Streifen R für den Kraftpfeil frei — vorher lief der Pfeil bei
+  // s = 4 m und 100 N aus dem Bild. Kufen statt Rädern: Titel und Text sprechen
+  // von einem Schlitten.
+  const x0 = 60, bW = 56, bH = 26;
+  const R = Math.min(150, Math.max(90, W0 * 0.35));
+  const px = x0 + (s / 4) * Math.max(0, W0 - x0 - bW - R);
+  const by = bodenY - bH - 8;
   ctx.fillStyle = '#8a4a0e'; ctx.fillRect(px, by, bW, bH);
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.5; ctx.strokeRect(px, by, bW, bH);
-  ctx.fillStyle = '#3a3530';
-  ctx.beginPath(); ctx.arc(px + 14, bodenY, 6, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(px + bW - 14, bodenY, 6, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#3a3530'; ctx.lineWidth = 2.2;
+  ctx.beginPath();                                   // zwei Streben
+  ctx.moveTo(px + 10, by + bH); ctx.lineTo(px + 10, bodenY - 2);
+  ctx.moveTo(px + bW - 10, by + bH); ctx.lineTo(px + bW - 10, bodenY - 2); ctx.stroke();
+  ctx.beginPath();                                   // Kufe mit aufgebogener Spitze vorne
+  ctx.moveTo(px - 2, bodenY - 1.5); ctx.lineTo(px + bW + 2, bodenY - 1.5);
+  ctx.quadraticCurveTo(px + bW + 12, bodenY - 1.5, px + bW + 12, bodenY - 12); ctx.stroke();
 
   // Wegmarke
   ctx.setLineDash([4,3]); ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.2;
@@ -1243,23 +1250,29 @@ function drawA1() {
   ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('s = ' + s.toFixed(1) + ' m', (x0 + px + bW/2)/2, bodenY + 40);
 
-  // Zugkraft unter Winkel
+  // Zugkraft unter Winkel — Massstab so, dass 100 N in den freien Streifen passen
   const ax = px + bW/2, ay = by + bH/2;
-  const len = 30 + F * 0.9;
+  const len = 12 + F * (bW / 2 + R - 24) / 100;
   const ex = ax + len * Math.cos(rad);
   const ey = ay - len * Math.sin(rad);
   drawArrow(ctx, ax, ay, ex, ey, '#1a4f8a', 2.6, 10);
-  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-  ctx.fillText('F = ' + F + ' N', ex + 4, ey - 4);
+  ctx.fillStyle = '#1a4f8a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const tF = 'F = ' + F + ' N', wF = ctx.measureText(tF).width;
+  if (ex + 4 + wF <= W0 - 4) { ctx.textAlign = 'left'; ctx.fillText(tF, ex + 4, Math.max(16, ey - 4)); }
+  else { ctx.textAlign = 'right'; ctx.fillText(tF, ex - 8, Math.max(16, ey - 8)); }
 
-  // Komponente längs Weg (violett gestrichelt)
-  if (alpha > 0) {
-    const exh = ax + len * Math.cos(rad);
+  // Komponente längs Weg (violett gestrichelt). Bei α nahe 90° gibt es keine —
+  // dann auch keine Beschriftung (sie lag sonst auf dem Schlitten).
+  const exh = ax + len * Math.cos(rad);
+  if (alpha > 0 && exh - ax > 6) {
     ctx.setLineDash([4,3]);
     drawArrow(ctx, ax, ay, exh, ay, '#5b2d8e', 2, 9);
     ctx.setLineDash([]);
     ctx.fillStyle = '#5b2d8e'; ctx.font = '13px JetBrains Mono,monospace';
-    ctx.fillText('F cos α', exh + 4, ay + 14);
+    // unter dem Pfeilende, aber rechts neben dem Schlitten
+    ctx.textAlign = 'left';
+    const xC = Math.min(W0 - 4 - ctx.measureText('F cos α').width, Math.max(px + bW + 16, exh + 4));
+    ctx.fillText('F cos α', xC, ay + 16);
   }
 
   // Rechte Canvas: F-s-Diagramm (Fläche = Arbeit)
@@ -1649,7 +1662,9 @@ function a5Render() {
   const cv = initCanvas('a5-cv', 290, false);
   const ctx = cv.ctx, Wd = cv.W, H = cv.H;
   ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, Wd, H);
-  const bodenY = H - 54, topY = 30;   // Platz unten für die beiden Beschriftungen
+  const schmal = Wd < 560;
+  // oben: Kopfsatz (schmal zweizeilig), darunter ein Träger mit Umlenkrollen
+  const bodenY = H - 54, topY = schmal ? 62 : 46;
   ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, bodenY, Wd, H - bodenY);
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.moveTo(0, bodenY); ctx.lineTo(Wd, bodenY); ctx.stroke();
@@ -1659,23 +1674,38 @@ function a5Render() {
   // vorher nur seriell durch Merken der Werte zu erkennen.
   const A5_TREF = 3.0;
   const cxRef = Wd * 0.32, cx = Wd * 0.68;
+  // Träger mit Schraffur und je einer Rolle über den Seilen — vorher hingen die
+  // Seile oben frei in der Luft
+  const tragY = topY - 12;
+  ctx.fillStyle = '#9aa4ad'; ctx.fillRect(cxRef - 60, tragY - 6, cx - cxRef + 120, 6);
+  ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 1;
+  for (let x = cxRef - 56; x < cx + 60; x += 10) { ctx.beginPath(); ctx.moveTo(x, tragY - 6); ctx.lineTo(x + 6, tragY - 12); ctx.stroke(); }
+  [cxRef, cx].forEach(x => {
+    ctx.strokeStyle = '#3a3530'; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(x, tragY); ctx.lineTo(x, topY - 6); ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x, topY - 6, 5, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+  });
   const travel = bodenY - topY - 36;
   const boxY = bodenY - 36 - a5State.prog * travel;
   const progRef = Math.min(1, a5State.prog * t / A5_TREF);
   const boxYRef = bodenY - 36 - progRef * travel;
   // Referenzkiste (grau)
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.4;
-  ctx.beginPath(); ctx.moveTo(cxRef, topY - 6); ctx.lineTo(cxRef, boxYRef); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cxRef, topY - 1); ctx.lineTo(cxRef, boxYRef); ctx.stroke();
   ctx.fillStyle = '#b9b3a8'; ctx.fillRect(cxRef - 24, boxYRef, 48, 36);
   ctx.strokeStyle = '#8a8478'; ctx.strokeRect(cxRef - 24, boxYRef, 48, 36);
   ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText(m + ' kg', cxRef, boxYRef + 22);
   ctx.fillStyle = '#6b7280'; ctx.font = '13px JetBrains Mono,monospace';
-  ctx.fillText('Referenz: t = ' + A5_TREF.toFixed(1) + ' s', cxRef, bodenY + 18);
-  ctx.fillText('P = ' + (W / A5_TREF).toFixed(0) + ' W', cxRef, bodenY + 34);
+  // schmal dreizeilig — zweizeilig überlagerten sich die beiden Spalten
+  const fuss = (x, kopf, zeit, leistung) => {
+    if (schmal) { ctx.fillText(kopf, x, bodenY + 14); ctx.fillText(zeit, x, bodenY + 29); ctx.fillText(leistung, x, bodenY + 44); }
+    else { ctx.fillText(kopf + ': ' + zeit, x, bodenY + 18); ctx.fillText(leistung, x, bodenY + 34); }
+  };
+  fuss(cxRef, 'Referenz', 't = ' + A5_TREF.toFixed(1) + ' s', 'P = ' + (W / A5_TREF).toFixed(0) + ' W');
   // Seil
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.6;
-  ctx.beginPath(); ctx.moveTo(cx, topY - 6); ctx.lineTo(cx, boxY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, topY - 1); ctx.lineTo(cx, boxY); ctx.stroke();
   // Kiste
   ctx.fillStyle = '#8a4a0e'; ctx.fillRect(cx - 24, boxY, 48, 36);
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.5; ctx.strokeRect(cx - 24, boxY, 48, 36);
@@ -1683,17 +1713,22 @@ function a5Render() {
   ctx.fillText(m + ' kg', cx, boxY + 22);
   // Höhen-Massband
   ctx.setLineDash([3,3]); ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.2;
-  const xb = cx + 70;
+  const xb = schmal ? cx + 36 : cx + 70;
   drawArrow(ctx, xb, bodenY - 36, xb, bodenY - 36 - travel, '#1f6b3a', 1.4, 7);
   ctx.setLineDash([]);
   ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-  ctx.fillText('h = ' + h.toFixed(1) + ' m', xb + 5, bodenY - 36 - travel/2);
+  const hMitte = bodenY - 36 - travel/2;
+  if (schmal) { ctx.fillText('h =', xb + 5, hMitte - 2); ctx.fillText(h.toFixed(1) + ' m', xb + 5, hMitte + 14); }
+  else ctx.fillText('h = ' + h.toFixed(1) + ' m', xb + 5, hMitte);
   ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  ctx.fillText('eingestellt: t = ' + t.toFixed(1) + ' s', cx, bodenY + 18);
-  ctx.fillText('P = ' + P.toFixed(0) + ' W', cx, bodenY + 34);
+  fuss(cx, 'eingestellt', 't = ' + t.toFixed(1) + ' s', 'P = ' + P.toFixed(0) + ' W');
   // gemeinsame Arbeit oben
   ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  ctx.fillText('beide leisten dieselbe Arbeit W = ' + W.toFixed(0) + ' J — nur die Zeit unterscheidet sich',
+  if (schmal) {
+    ctx.font = 'bold 12px JetBrains Mono,monospace';
+    ctx.fillText('dieselbe Arbeit W = ' + W.toFixed(0) + ' J —', Wd / 2, 16);
+    ctx.fillText('nur die Zeit ist verschieden', Wd / 2, 31);
+  } else ctx.fillText('beide leisten dieselbe Arbeit W = ' + W.toFixed(0) + ' J — nur die Zeit unterscheidet sich',
                Wd / 2, 18);
 }
 function a5Tick(ts) {
@@ -1767,7 +1802,7 @@ function drawA6() {
   const kB = Math.max(0, Math.min(1, (W - 284) / (600 - 284)));
   const lin = (a, b) => a + (b - a) * kB;
   const xIn = lin(18, 60), wIn = lin(26, 46);
-  const boxFont = kB < 0.5 ? '12px' : '13px';
+  const boxFont = kB < 0.3 ? '11px' : (kB < 0.5 ? '12px' : '13px');
   const fullH = H - 70;
   const hIn = (Ein / maxE) * fullH;
   const yInTop = (H - 30) - hIn;
@@ -1776,50 +1811,69 @@ function drawA6() {
   ctx.fillText('E_zu', xIn + wIn/2, H - 12);
   ctx.fillStyle = '#1a4f8a'; ctx.fillText(Ein + ' J', xIn + wIn/2, yInTop - 6);
 
+  // Pfeildicken MENGENTREU: ein Massstab für alle Pfeile (24 px für 1000 J).
+  // Vorher war der Zufluss fest 3 px dünn, der Nutzpfeil dagegen dick — im Bild
+  // floss mehr heraus als hinein.
+  const PX_J = lin(14, 24) / maxE;                           // schmal dünner, sonst kein Platz für Kopf und Schaft
+  const dicke = E => Math.max(1.5, E * PX_J);
+  const kopf = th => Math.max(10, 1.3 * th + 8);             // Kopf breiter als der Schaft
+  const E1 = Ein * eta;                                      // nach Stufe 1
+  const V1 = Ein - E1, V2 = zwei ? E1 - nutz : 0;            // Verlust je Stufe
+
   // Maschine (Box in der Mitte)
-  const mx = xIn + wIn + lin(20, 40), mw = lin(62, 70), my = 50, mh = H - 110, gap2 = lin(12, 26);
-  ctx.fillStyle = '#eceae4'; ctx.strokeStyle = '#5c5346'; ctx.lineWidth = 1.5;
-  ctx.fillRect(mx, my, mw, mh); ctx.strokeRect(mx, my, mw, mh);
-  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold ' + boxFont + ' Source Sans 3,sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText('Maschine', mx + mw/2, my + mh/2 - 4);
-  ctx.font = boxFont + ' JetBrains Mono,monospace';
-  ctx.fillText('η = ' + Math.round(eta*100) + '%', mx + mw/2, my + mh/2 + 14);
-  if (zwei) {
-    // zweite Maschine direkt dahinter
-    const mx2 = mx + mw + gap2;
+  const gapIn = lin(34, 64);                                  // Platz für den dicken Zuflusspfeil
+  const mx = xIn + wIn + gapIn, mw = lin(62, 70), my = 50, mh = H - 110, gap2 = lin(20, 34);
+  const box = (x, name, e) => {
     ctx.fillStyle = '#eceae4'; ctx.strokeStyle = '#5c5346'; ctx.lineWidth = 1.5;
-    ctx.fillRect(mx2, my, mw, mh); ctx.strokeRect(mx2, my, mw, mh);
-    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold ' + boxFont + ' Source Sans 3,sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('2. Stufe', mx2 + mw/2, my + mh/2 - 4);
+    ctx.fillRect(x, my, mw, mh); ctx.strokeRect(x, my, mw, mh);
+    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold ' + boxFont + ' "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(name, x + mw/2, my + mh/2 - 4);
     ctx.font = boxFont + ' JetBrains Mono,monospace';
-    ctx.fillText('η = ' + Math.round(eta2*100) + '%', mx2 + mw/2, my + mh/2 + 14);
-    drawArrow(ctx, mx + mw + 3, my + mh/2, mx2 - 3, my + mh/2, '#1a4f8a', 3, 9);
+    ctx.fillText('η = ' + Math.round(e*100) + '%', x + mw/2, my + mh/2 + 14);
+  };
+  box(mx, 'Maschine', eta);
+  const mx2 = mx + mw + gap2;
+  if (zwei) {
+    box(mx2, '2. Stufe', eta2);
+    drawArrow(ctx, mx + mw + 2, my + mh/2, mx2 - 2, my + mh/2, '#1a4f8a', dicke(E1), Math.min(gap2 * 0.7, kopf(dicke(E1))));
   }
 
-  // Pfeil hinein
-  drawArrow(ctx, xIn + wIn + 4, my + mh/2, mx - 4, my + mh/2, '#1a4f8a', 3, 10);
+  // Pfeil hinein: von der Balkenmitte zur Maschine — so liegt er nie auf der
+  // Wertbeschriftung über dem Balken
+  const yEin = Math.min(my + mh - 12, Math.max(my + 12, yInTop + hIn / 2));
+  drawArrow(ctx, xIn + wIn + 3, Math.max(yInTop + 3, Math.min(H - 33, yInTop + hIn / 2)), mx - 3, yEin,
+            '#1a4f8a', dicke(Ein), Math.min(gapIn * 0.7, kopf(dicke(Ein))));
 
-  // Nutz-Pfeil (grün, rechts, Dicke prop. nutz)
-  const xOut = (zwei ? mx + mw + gap2 + mw : mx + mw) + 8;
+  // Nutz-Pfeil (grün, rechts)
+  const yNutz = my + mh * 0.35;
+  const xOut = (zwei ? mx2 + mw : mx + mw) + 8;
   const xEnd = Math.max(xOut + 30, W - lin(8, 70));    // zeigt immer nach rechts
-  const nutzW = Math.max(4, (nutz / maxE) * 24);
-  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = nutzW;
-  drawArrow(ctx, xOut, my + mh*0.35, xEnd, my + mh*0.35, '#1f6b3a', nutzW, 12);
+  const nutzW = dicke(nutz);
+  drawArrow(ctx, xOut, yNutz, xEnd, yNutz, '#1f6b3a', nutzW, kopf(nutzW));
   ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   // Beschriftungen bleiben im Canvas: passt sie nicht links bündig, rechts bündig an den Rand
   const imBild = (txt, x) => (x + ctx.measureText(txt).width > W - 6) ? (ctx.textAlign = 'right', W - 6) : (ctx.textAlign = 'left', x);
   const tNutz = 'Nutz: ' + nutz.toFixed(0) + ' J';
-  // Passt sie nicht neben den Pfeil, steht sie über den Kästen statt an deren Rand
+  // über dem Pfeil, nach seiner Dicke — bei η = 95 % lag der dicke Pfeil auf der Schrift.
+  // Passt sie nicht neben den Pfeil, steht sie über den Kästen statt an deren Rand.
   const passt = xOut + 6 + ctx.measureText(tNutz).width <= W - 6;
-  ctx.fillText(tNutz, imBild(tNutz, xOut + 6), passt ? my + mh*0.35 - 12 : my - 8);
+  ctx.fillText(tNutz, imBild(tNutz, xOut + 6), passt ? yNutz - nutzW / 2 - 7 : my - 8);
 
-  // Verlust-Pfeil (rot, nach unten/rechts, Dicke prop. verl)
-  const verlW = Math.max(4, (verl / maxE) * 24);
-  ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = verlW;
-  drawArrow(ctx, mx + mw/2, my + mh + 4, mx + mw/2 + 60, H - 24, '#9b1c1c', verlW, 12);
+  // Verlust-Pfeile (rot) je Stufe schräg nach unten; die Spitzen enden über der
+  // Beschriftungszeile — vorher lag die Spitze auf dem Wort «Verlust».
+  const tipY = H - 32;
+  const verlPfeil = (x, E) => {
+    if (E <= 0.5) return;
+    const th = dicke(E);
+    drawArrow(ctx, x, my + mh + 3, x + 40, tipY, '#9b1c1c', th, Math.min(22, kopf(th)));
+  };
+  verlPfeil(mx + mw/2, V1);
+  if (zwei) verlPfeil(mx2 + mw/2, V2);
   ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
-  const tVerl = 'Verlust (Wärme): ' + verl.toFixed(0) + ' J';
-  ctx.fillText(tVerl, imBild(tVerl, mx + mw/2 + 20), H - 14);
+  const xV = mx + mw/2;
+  let tVerl = 'Verlust (Wärme): ' + verl.toFixed(0) + ' J';
+  if (xV + ctx.measureText(tVerl).width > W - 6) tVerl = 'Verlust: ' + verl.toFixed(0) + ' J';
+  ctx.fillText(tVerl, imBild(tVerl, xV), H - 8);
 }
 document.querySelectorAll('[data-a6stufen]').forEach(b => b.addEventListener('click', () => {
   a6Zwei = b.dataset.a6stufen === '2';

@@ -1944,7 +1944,8 @@ function drawA1() {
   const A1_SKALA = 12;                                   // kg pro Liter
   const kgProL = st.rho / 1000, wasserProL = 1.0;
   const bx0 = W * 0.56;
-  const topY = 40, baseY = H - 46, fullH = baseY - topY;
+  const eng = W < 560;                                  // schmal: Titel und Achse getrennt
+  const topY = eng ? 46 : 40, baseY = H - 46, fullH = baseY - topY;
   const yOf = v => baseY - v / A1_SKALA * fullH;
   const bw = Math.min(64, (W - bx0) / 4);
   const gap = (W - bx0 - 2 * bw - 14) / 3;
@@ -1961,6 +1962,11 @@ function drawA1() {
     { lab: st.name, val: kgProL,     fill: '#8a4a0e' },
     { lab: 'Wasser', val: wasserProL, fill: '#1a4f8a' }
   ];
+  // Stoffnamen unter den Balken: stossen sie aneinander, rückt der zweite eine Zeile tiefer
+  ctx.font = '12px "Source Sans 3",sans-serif';
+  const labMitte = i => bx0 + gap + i * (bw + gap) + bw / 2;
+  const versetzt = labMitte(0) + ctx.measureText(bars[0].lab).width / 2 + 4
+                 > labMitte(1) - ctx.measureText(bars[1].lab).width / 2;
   bars.forEach((b, i) => {
     const x = bx0 + gap + i * (bw + gap);
     const h = Math.max(3, baseY - yOf(b.val));         // Mindesthöhe für Styropor
@@ -1969,18 +1975,19 @@ function drawA1() {
     ctx.fillStyle = b.fill;
     ctx.fillRect(x, baseY - h, bw, h);
     ctx.fillStyle = '#1c1a17'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText(b.lab, x + bw / 2, baseY + 16);
+    ctx.fillText(b.lab, x + bw / 2, baseY + (versetzt && i === 1 ? 27 : 16));
     haloText(ctx, b.val.toFixed(2) + ' kg', x + bw / 2, Math.max(topY + 2, baseY - h - 6) + 2,
              b.fill, 'bold 12px "JetBrains Mono",monospace', 'center');
   });
   // Wasserlinie als Grenze schwimmt/sinkt
   ctx.strokeStyle = '#1a4f8a'; ctx.lineWidth = 1.4; ctx.setLineDash([5, 4]);
   ctx.beginPath(); ctx.moveTo(bx0, yOf(1)); ctx.lineTo(W - 12, yOf(1)); ctx.stroke(); ctx.setLineDash([]);
+  // Schmal passt die Zeile nicht unter die Balken: dann über die ganze Breite am unteren Rand
   haloText(ctx, 'dein Würfel (a = ' + aCm + ' cm): ' + a1FmtMasse(m),
-           bx0 + (W - 12 - bx0) / 2, baseY + 34, '#5a5040',
+           eng ? W / 2 : bx0 + (W - 12 - bx0) / 2, eng ? H - 4 : baseY + 34, '#5a5040',
            '12px "Source Sans 3",sans-serif', 'center');
   ctx.fillStyle = '#1c1a17'; ctx.font = '13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText(W < 560 ? 'Masse von 1 Liter' : 'Masse von 1 Liter — feste Skala', bx0 + (W - bx0) / 2, 24);
+  ctx.fillText(eng ? 'Masse von 1 Liter' : 'Masse von 1 Liter — feste Skala', bx0 + (W - bx0) / 2, eng ? 14 : 24);
 }
 document.getElementById('a1-a').addEventListener('input', drawA1);
 document.querySelectorAll('[data-stoff]').forEach(btn => {
@@ -2013,7 +2020,12 @@ function drawA2() {
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
 
-  const cx = W / 2;
+  // Rechts neben der Feder stehen die Orts-Beschriftungen; die Mitte rückt nach
+  // links, sobald sie sonst über den Rand liefen (schmale Bildschirme).
+  ctx.font = 'bold 12px "JetBrains Mono",monospace';
+  const labW = Math.max(...Object.values(A2_ORTE).map(o =>
+    ctx.measureText(o.name + ' ' + (m * o.g).toFixed(1) + ' N').width));
+  const cx = Math.max(Math.min(W / 2, W - 6 - 82 - labW), 118);
   // Aufhängung
   ctx.fillStyle = '#9aa4ad'; ctx.fillRect(cx - 40, 12, 80, 8);
   // Newton-Skala: 0..100 N -> y = 60..250
@@ -2032,14 +2044,25 @@ function drawA2() {
   ctx.fillText('F_G [N]', xR - 34, 44);
   // Referenzmarken der beiden anderen Orte dauerhaft an der Skala: der
   // Sechstel-Vergleich Erde/Mond wird damit zum Ablesen statt zum Merken.
-  Object.entries(A2_ORTE).forEach(([key, o]) => {
-    const f = m * o.g, y = yF(Math.min(f, 100));
-    const aktiv = key === a2Ort;
-    ctx.strokeStyle = o.col; ctx.lineWidth = aktiv ? 2.2 : 1.4;
+  // Bei kleiner Masse liegen die drei Marken wenige Pixel auseinander: die
+  // Beschriftungen werden dann nach unten auseinandergeschoben (mindestens 15 px)
+  // und mit einem kurzen Strich an ihre Marke gebunden.
+  const marken = Object.entries(A2_ORTE).map(([key, o]) => {
+    const f = m * o.g;
+    return { key, o, f, y: yF(Math.min(f, 100)) };
+  }).sort((a, b) => a.y - b.y);
+  marken.forEach((mk, i) => { mk.ly = i === 0 ? mk.y : Math.max(mk.y, marken[i - 1].ly + 15); });
+  marken.forEach(mk => {
+    const aktiv = mk.key === a2Ort;
+    ctx.strokeStyle = mk.o.col; ctx.lineWidth = aktiv ? 2.2 : 1.4;
     ctx.setLineDash(aktiv ? [] : [5, 4]);
-    ctx.beginPath(); ctx.moveTo(xR, y); ctx.lineTo(cx + 78, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(xR, mk.y); ctx.lineTo(cx + 78, mk.y); ctx.stroke();
     ctx.setLineDash([]);
-    haloText(ctx, o.name + ' ' + f.toFixed(1) + ' N', cx + 82, y + 4, o.col,
+    if (mk.ly - mk.y > 1) {
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(cx + 78, mk.y); ctx.lineTo(cx + 81, mk.ly); ctx.stroke();
+    }
+    haloText(ctx, mk.o.name + ' ' + mk.f.toFixed(1) + ' N', cx + 82, mk.ly + 4, mk.o.col,
              (aktiv ? 'bold ' : '') + '12px "JetBrains Mono",monospace', 'left');
   });
   // Feder als Zickzack von der Aufhängung bis zum Zeigerwert
@@ -2130,36 +2153,54 @@ function drawA3() {
   }
   ctx.textAlign = 'left'; ctx.font = 'bold 12px "JetBrains Mono",monospace';
   ctx.fillText('h [m]', xS - 28, 18);
-  // Regalbrett auf der Zielhöhe
-  const yReg = yH(h), xReg = W * 0.30, regW = W * 0.24;
+  // Regalbrett auf der Zielhöhe; schmal rückt die Szene nach links, damit
+  // rechts Platz für das Balkendiagramm bleibt
+  const eng = W < 560;
+  const yReg = yH(h), xReg = eng ? 58 : W * 0.30, regW = eng ? 64 : W * 0.24;
   ctx.fillStyle = '#8a6a3a'; ctx.fillRect(xReg, yReg, regW, 6);
   ctx.fillRect(xReg + regW - 8, yReg, 8, yBoden - yReg);
   // Kiste: feste Grösse, Masse als Zahl
-  const kw = 58, kh = 40, kx = xReg + 18, ky = yH(hJetzt) - kh;
+  const kw = 58, kh = 40, kx = xReg + (eng ? 6 : 18), ky = yH(hJetzt) - kh;
   ctx.fillStyle = '#c8a165'; ctx.fillRect(kx, ky, kw, kh);
   ctx.strokeStyle = '#8a6a3a'; ctx.lineWidth = 1.5; ctx.strokeRect(kx, ky, kw, kh);
   ctx.beginPath(); ctx.moveTo(kx, ky + kh / 2); ctx.lineTo(kx + kw, ky + kh / 2); ctx.stroke();
   ctx.fillStyle = '#5e3208'; ctx.font = 'bold 13px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
   ctx.fillText(m + ' kg', kx + kw / 2, ky + kh / 2 + 5);
   // Hubhöhen-Doppelpfeil
-  const xA = xReg + regW + 26;
+  const xA = xReg + regW + (eng ? 14 : 26);
   ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
   ctx.beginPath(); ctx.moveTo(xReg, yReg); ctx.lineTo(xA + 20, yReg); ctx.stroke();
   ctx.setLineDash([]);
   drawArrow(ctx, xA, yBoden, xA, yReg, '#8a4a0e', 1.8, 7);
   drawArrow(ctx, xA, yReg, xA, yBoden, '#8a4a0e', 1.8, 7);
-  haloText(ctx, 'h = ' + h.toFixed(1) + ' m', xA + 8, (yBoden + yReg) / 2 + 4, '#8a4a0e',
-           'bold 13px "JetBrains Mono",monospace', 'left');
-  // Hubkraft-Pfeil, Länge ∝ F_G
-  const fLen = 26 + Math.min(40, FG * 0.08);
-  drawArrow(ctx, kx - 12, ky + kh + fLen - 6, kx - 12, ky + kh - 6, '#1f6b3a', 2.2, 8);
-  haloText(ctx, 'F = F_G', kx - 20, ky + kh + fLen + 12, '#1f6b3a',
-           'bold 12px "JetBrains Mono",monospace', 'right');
+  if (eng) {                                  // schmal zweizeilig, sonst läuft es ins Diagramm
+    const yMh = (yBoden + yReg) / 2;
+    haloText(ctx, 'h =', xA + 6, yMh - 3, '#8a4a0e', 'bold 12px "JetBrains Mono",monospace', 'left');
+    haloText(ctx, h.toFixed(1) + ' m', xA + 6, yMh + 12, '#8a4a0e', 'bold 12px "JetBrains Mono",monospace', 'left');
+  } else {
+    haloText(ctx, 'h = ' + h.toFixed(1) + ' m', xA + 8, (yBoden + yReg) / 2 + 4, '#8a4a0e',
+             'bold 13px "JetBrains Mono",monospace', 'left');
+  }
+  // Hubkraft-Pfeil, Länge ∝ F_G, greift an der Kiste an: bevorzugt von der
+  // Oberkante nach oben; ist oben kein Platz (Kiste ganz oben), drückt er von unten.
+  const fLen = 26 + Math.min(40, FG * 0.08), fx = kx + kw / 2;
+  if (ky - fLen >= 14) {
+    drawArrow(ctx, fx, ky, fx, ky - fLen, '#1f6b3a', 2.2, 8);
+    haloText(ctx, 'F = F_G', fx + 8, ky - fLen / 2 + 4, '#1f6b3a',
+             'bold 12px "JetBrains Mono",monospace', 'left');
+  } else {
+    drawArrow(ctx, fx, ky + kh + fLen, fx, ky + kh, '#1f6b3a', 2.2, 8);
+    // unter dem Pfeilende, aber links vom Regalpfosten und vom h-Pfeil
+    ctx.font = 'bold 12px "JetBrains Mono",monospace';
+    const fw = ctx.measureText('F = F_G').width;
+    haloText(ctx, 'F = F_G', Math.min(fx, xReg + regW - 12 - fw / 2), ky + kh + fLen + 14, '#1f6b3a',
+             'bold 12px "JetBrains Mono",monospace', 'center');
+  }
 
   // ── Balken rechts mit FESTER Nm-Skala ──
   // Beim Anheben summiert sich die Arbeit auf; liegt die Kiste oben, steckt
   // genau diese Arbeit als Lageenergie im Regal.
-  const bx = Math.min(W - 96, W * 0.72), topY = 26;
+  const bx = eng ? W - 64 : Math.min(W - 96, W * 0.72), topY = 26;
   const yW = v => yBoden - Math.min(v, A3_WMAX) / A3_WMAX * (yBoden - topY);
   ctx.font = '11px "JetBrains Mono",monospace'; ctx.textAlign = 'right';
   for (let v = 0; v <= A3_WMAX; v += 250) {
@@ -2182,7 +2223,11 @@ function drawA3() {
   ctx.setLineDash([]);
   haloText(ctx, WJetzt.toFixed(0) + ' Nm', bxB + bw / 2, Math.max(topY + 14, yW(WJetzt) - 6),
            oben ? '#1f6b3a' : '#8a4a0e', 'bold 12px "JetBrains Mono",monospace', 'center');
-  haloText(ctx, oben ? 'als E_pot gelagert' : 'Hubarbeit läuft', bxB + bw / 2, yBoden + 16,
+  // am rechten Rand halten
+  const lab3 = oben ? (eng ? 'E_pot gelagert' : 'als E_pot gelagert') : 'Hubarbeit läuft';
+  ctx.font = 'bold 11px "Source Sans 3",sans-serif';
+  const lab3x = Math.min(bxB + bw / 2, W - 4 - ctx.measureText(lab3).width / 2);
+  haloText(ctx, lab3, lab3x, yBoden + 16,
            oben ? '#1f6b3a' : '#8a4a0e', 'bold 11px "Source Sans 3",sans-serif', 'center');
 }
 ['a3-m', 'a3-h'].forEach(id => document.getElementById(id).addEventListener('input', drawA3));
@@ -2377,11 +2422,14 @@ function drawA5() {
                     '= '+texE(A5_W.toFixed(0),'J')]);
   flTex('a5-eq-p', ['P = \\frac{W}{t}', '= \\frac{'+texE(A5_W.toFixed(0),'J')+'}{'+texE(t,'s')+'}', '= '+texE(P.toFixed(0),'W')]);
 
-  const cv = initCanvas('a5-cv', 280, false);
+  // Schmal: Treppe oben, Diagramme darunter (höheres Canvas); breit nebeneinander.
+  const a5El = document.getElementById('a5-cv'); a5El.style.width = '';
+  const eng = (a5El.offsetWidth || 600) < 560;
+  const cv = initCanvas('a5-cv', eng ? 470 : 280, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
-  const yBoden = H - 30;
-  ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, yBoden, W, H - yBoden);
+  const yBoden = eng ? 240 : H - 30;
+  ctx.fillStyle = '#d7dde3'; ctx.fillRect(0, yBoden, W, eng ? 18 : H - yBoden);
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1.2;
   ctx.beginPath(); ctx.moveTo(0, yBoden); ctx.lineTo(W, yBoden); ctx.stroke();
 
@@ -2389,7 +2437,7 @@ function drawA5() {
   // Die Person steigt nur bis h — so sieht man, welchen Teil des Treppenhauses
   // sie tatsächlich schafft, statt dass die Treppe selbst mitschrumpft.
   const A5_HAUS = 20;                          // Treppenhaus-Höhe in m
-  const nSt = 10, stW = Math.min(24, W * 0.036), stH = (yBoden - 60) / nSt;
+  const nSt = 10, stW = eng ? Math.min(16, (W - 110) / nSt) : Math.min(24, W * 0.036), stH = (yBoden - 60) / nSt;
   const tx0 = 24;
   ctx.fillStyle = '#c9c2b6'; ctx.strokeStyle = '#9a927f'; ctx.lineWidth = 1;
   ctx.beginPath();
@@ -2423,26 +2471,47 @@ function drawA5() {
   haloText(ctx, A5_M + ' kg', Math.max(fx, 30), fy - 36, '#1c1a17',
            'bold 12px "JetBrains Mono",monospace', 'center');   // am linken Rand halten
   // Höhen-Doppelpfeile: aussen das Treppenhaus, innen die geschaffte Höhe
-  const xA = tx0 + nSt * stW + 22;
+  const xA = tx0 + nSt * stW + (eng ? 16 : 22);
   ctx.globalAlpha = 0.55;
   drawArrow(ctx, xA, yBoden, xA, yBoden - nSt * stH, '#5a5040', 1.4, 6);
   drawArrow(ctx, xA, yBoden - nSt * stH, xA, yBoden, '#5a5040', 1.4, 6);
   ctx.globalAlpha = 1;
-  haloText(ctx, 'Haus 20 m', xA + 6, yBoden - nSt * stH + 12, '#5a5040',
-           '11px "Source Sans 3",sans-serif', 'left');
-  const xB = xA + 54;
+  // über der Pfeilspitze: dort kreuzt ihn der h-Pfeil nie
+  haloText(ctx, 'Haus 20 m', xA, yBoden - nSt * stH - 8, '#5a5040',
+           '11px "Source Sans 3",sans-serif', 'center');
+  const xB = xA + (eng ? 26 : 54);
   drawArrow(ctx, xB, yBoden, xB, yZiel, '#1f6b3a', 1.8, 7);
   drawArrow(ctx, xB, yZiel, xB, yBoden, '#1f6b3a', 1.8, 7);
-  haloText(ctx, 'h = ' + h.toFixed(1) + ' m', xB + 8, (yBoden + yZiel) / 2 + 4, '#1f6b3a',
-           'bold 13px "JetBrains Mono",monospace', 'left');
+  const yMh = (yBoden + yZiel) / 2;
+  if (eng) {
+    haloText(ctx, 'h =', xB + 6, yMh - 3, '#1f6b3a', 'bold 12px "JetBrains Mono",monospace', 'left');
+    haloText(ctx, h.toFixed(1) + ' m', xB + 6, yMh + 12, '#1f6b3a', 'bold 12px "JetBrains Mono",monospace', 'left');
+  } else {
+    haloText(ctx, 'h = ' + h.toFixed(1) + ' m', xB + 8, yMh + 4, '#1f6b3a',
+             'bold 13px "JetBrains Mono",monospace', 'left');
+  }
 
-  // ── Arbeits- und Leistungsbalken rechts, beide mit FESTER Skala ──
+  // ── Leistung und Arbeit: zwei Diagramme mit je EIGENER Achse ──
+  // Vorher stand der Arbeitsbalken an der P-Achse (W) — 5.9 kJ las sich als
+  // 590 W. Jetzt: links P mit W-Skala, rechts W mit kJ-Skala.
   // Obergrenzen am Reglermaximum: W = 120 kg · 9.81 · 20 m = 23.5 kJ,
   // P = 23544 J / 10 s = 2354 W.
-  const xR = Math.min(Math.max(xA + 95, W * 0.6), W - 60);
-  const topY = 30, baseY = yBoden;
   const PMAX = 2400, WMAX = 24000;
-  const yP = p => baseY - Math.min(p,PMAX) / PMAX * (baseY - topY);
+  const refs = [[100, eng ? '≈ 100 W' : 'Dauerleistung ≈ 100 W'], [735, eng ? '1 PS' : '1 PS ≈ 735 W']];
+  ctx.font = '11px "Source Sans 3",sans-serif';
+  const refW = Math.max(...refs.map(r => ctx.measureText(r[1]).width));
+  const bw = eng ? 30 : 40;
+  ctx.font = 'bold 11px "JetBrains Mono",monospace';
+  const epotTxt = eng ? 'E_pot' : 'E_pot = ' + (A5_W / 1000).toFixed(1) + ' kJ';
+  const epotW = ctx.measureText(epotTxt).width;
+  const bedarf = 10 + bw + 6 + refW + 34 + 10 + bw + 6 + epotW;   // Breite ab der P-Achse
+  const xR = eng ? 44 : Math.min(Math.max(xA + 95, W * 0.6), W - 6 - bedarf);
+  const topY = eng ? yBoden + 50 : 30, baseY = eng ? H - 26 : yBoden;
+  const yP = p => baseY - Math.min(p, PMAX) / PMAX * (baseY - topY);
+  const yW = v => baseY - Math.min(v, WMAX) / WMAX * (baseY - topY);
+  const bxP = xR + 10, refX = bxP + bw + 6;
+  const xW = refX + refW + 34, bxW = xW + 10;
+  // P-Achse
   ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(xR, yP(0)); ctx.lineTo(xR, yP(PMAX)); ctx.stroke();
   ctx.font = '12px "JetBrains Mono",monospace'; ctx.fillStyle = '#5a5040'; ctx.textAlign = 'right';
@@ -2452,11 +2521,20 @@ function drawA5() {
     if (major) ctx.fillText(String(p), xR - 10, y + 4);
   }
   ctx.textAlign = 'left'; ctx.font = 'bold 12px "JetBrains Mono",monospace';
-  ctx.fillText('P [W]', xR - 30, 18);
-  const bw = Math.max(16, Math.min(40, (W - xR - 34)/2)), bxP = xR + 10;
-  // Arbeitsbalken direkt daneben — er zeigt, dass W allein von m und h abhängt,
+  ctx.fillText('P [W]', xR - 30, topY - 12);
+  // W-Achse mit eigener kJ-Skala
+  ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(xW, yW(0)); ctx.lineTo(xW, yW(WMAX)); ctx.stroke();
+  ctx.font = '12px "JetBrains Mono",monospace'; ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'right';
+  for (let v = 0; v <= WMAX; v += 2000) {
+    const y = yW(v), major = v % 6000 === 0;
+    ctx.beginPath(); ctx.moveTo(xW - (major ? 7 : 4), y); ctx.lineTo(xW, y); ctx.stroke();
+    if (major) ctx.fillText(String(v / 1000), xW - 9, y + 4);
+  }
+  ctx.textAlign = 'center'; ctx.font = 'bold 12px "JetBrains Mono",monospace';
+  ctx.fillText('W [kJ]', xW, topY - 12);
+  // Arbeitsbalken — er zeigt, dass W allein von m und h abhängt,
   // die Laufzeit ihn also NICHT verändert. Genau das trennt Arbeit von Leistung.
-  const bxW = bxP + bw + 8, yW = v => baseY - Math.min(v,WMAX)/WMAX*(baseY-topY);
   // Während des Aufstiegs summiert sich die Arbeit auf: W(t) = m · g · h(t).
   // Der Balken wächst mit, die gestrichelte Marke zeigt das Ziel — die
   // Lageenergie E_pot = m · g · h, die am Schluss genau erreicht wird.
@@ -2470,9 +2548,13 @@ function drawA5() {
   ctx.beginPath(); ctx.moveTo(bxW-4, yW(A5_W)); ctx.lineTo(bxW+bw+4, yW(A5_W)); ctx.stroke();
   ctx.setLineDash([]);
   haloText(ctx, 'W', bxW + bw/2, baseY + 14, '#1f6b3a', 'bold 12px "Source Sans 3",sans-serif', 'center');
-  haloText(ctx, (WJetzt/1000).toFixed(1)+' kJ', bxW + bw/2, Math.max(topY+14, yW(WJetzt)-6),
-           '#1f6b3a', 'bold 11px "JetBrains Mono",monospace', 'center');
-  haloText(ctx, 'E_pot ' + (A5_W/1000).toFixed(1) + ' kJ', bxW + bw + 8, yW(A5_W) - 4, '#144726',
+  // Wert rechts auf Höhe der Balkenoberkante, E_pot-Marke darüber: der Wert
+  // liegt nie höher als die Marke, die beiden Zeilen halten also 14 px Abstand.
+  // breit trägt die E_pot-Marke den Wert schon; der Balkenwert erscheint dort nur während des Aufstiegs
+  if (eng || WJetzt < A5_W - 0.5)
+    haloText(ctx, (WJetzt/1000).toFixed(1)+' kJ', bxW + bw + 6, yW(WJetzt) + 6,
+             '#1f6b3a', 'bold 11px "JetBrains Mono",monospace', 'left');
+  haloText(ctx, epotTxt, bxW + bw + 6, yW(A5_W) - 8, '#144726',
            'bold 11px "JetBrains Mono",monospace', 'left');
   haloText(ctx, 'P', bxP + bw/2, baseY + 14, '#8a4a0e', 'bold 12px "Source Sans 3",sans-serif', 'center');
   // Balken zuerst, Referenzlinien danach — so bleiben die Labels lesbar
@@ -2480,18 +2562,20 @@ function drawA5() {
   ctx.fillRect(bxP, yP(P), bw, baseY - yP(P));
   ctx.strokeStyle = '#5e3208'; ctx.lineWidth = 1.2;
   ctx.strokeRect(bxP, yP(P), bw, baseY - yP(P));
-  // Referenzlinien — auf schmalen Canvases kurze Labels, rechtsbündig am Rand
-  const eng = W < 560;
-  [[100, eng ? '≈ 100 W' : 'Dauerleistung Mensch ≈ 100 W'],
-   [735, eng ? '1 PS' : '1 PS ≈ 735 W']].forEach(([p, lab]) => {
+  // Referenzlinien nur über dem P-Diagramm, Beschriftung direkt dahinter
+  refs.forEach(([p, lab]) => {
     ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
-    ctx.beginPath(); ctx.moveTo(xR, yP(p)); ctx.lineTo(W - 10, yP(p)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(xR, yP(p)); ctx.lineTo(bxP + bw + 4, yP(p)); ctx.stroke();
     ctx.setLineDash([]);
-    haloText(ctx, lab, W - 12, yP(p) - 4, '#5a5040',
-             '11px "Source Sans 3",sans-serif', 'right');
+    haloText(ctx, lab, refX, yP(p) + 4, '#5a5040', '11px "Source Sans 3",sans-serif', 'left');
   });
-  haloText(ctx, P.toFixed(0) + ' W', bxP + bw / 2, yP(P) - 7, '#8a4a0e',
-           'bold 13px "JetBrains Mono",monospace', 'center');
+  // über dem Balken; stösst er oben an den Achsentitel, rechts daneben
+  if (yP(P) - 7 < topY + 4)
+    haloText(ctx, P.toFixed(0) + ' W', refX, yP(P) + 10, '#8a4a0e',
+             'bold 13px "JetBrains Mono",monospace', 'left');
+  else
+    haloText(ctx, P.toFixed(0) + ' W', bxP + bw / 2, yP(P) - 7, '#8a4a0e',
+             'bold 13px "JetBrains Mono",monospace', 'center');
 }
 ['a5-t','a5-h','a5-m'].forEach(id=>document.getElementById(id).addEventListener('input', drawA5));
 // Aufstieg abspielen: der Fortschritt läuft in der eingestellten Laufzeit von 0 auf 1.
@@ -2660,21 +2744,32 @@ function drawWaermestrom() {
   const tC = v => v + '\\,^\\circ\\text{C}';           // °C nach STYLEGUIDE §2.3
   flTex('ws-eq', ['\\Delta\\vartheta = \\vartheta_1 - \\vartheta_2', '= ' + tC(wsSt.t1.toFixed(0)) + ' - ' + tC(wsSt.t2.toFixed(0)),
                   '= ' + texE(d.toFixed(1),'K'),
-                  '\\;\\rightarrow\\;\\text{' + (Math.abs(d) < 0.5 ? 'kein Wärmestrom}' : 'Wärme fliesst}'),
-                  Math.abs(d) < 0.5 ? '' : '\\text{' + richtung + '}'].filter(t => t));
+                  '\\;\\rightarrow\\;\\text{' + (Math.abs(d) < 0.5 ? 'kein Wärmestrom' : 'Wärme fliesst ' + richtung) + '}']);
 
   const cv = initCanvas('ws-cv', 250, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0, 0, W, H);
+  const eng = W < 560;
   const bw = Math.min(150, W * 0.22), bh = 110, by = 56;
   const x1 = W * 0.22 - bw / 2, x2 = W * 0.78 - bw / 2;
   [[x1, wsSt.t1, 'ϑ₁'], [x2, wsSt.t2, 'ϑ₂']].forEach(([x, T, lab]) => {
     ctx.fillStyle = wsFarbe(T); ctx.fillRect(x, by, bw, bh);
     ctx.strokeStyle = '#5a5040'; ctx.lineWidth = 1.6; ctx.strokeRect(x, by, bw, bh);
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 15px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-    ctx.fillText(T.toFixed(1) + ' °C', x + bw / 2, by + bh / 2 + 6);
+    // Temperatur muss in den Kasten passen: Schrift notfalls verkleinern
+    const tTxt = T.toFixed(1) + ' °C';
+    let fs = 15;
+    ctx.font = 'bold ' + fs + 'px JetBrains Mono,monospace';
+    while (fs > 10 && ctx.measureText(tTxt).width > bw - 8) { fs--; ctx.font = 'bold ' + fs + 'px JetBrains Mono,monospace'; }
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+    ctx.fillText(tTxt, x + bw / 2, by + bh / 2 + 6);
     ctx.fillStyle = '#3a332a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
-    ctx.fillText(lab + ' — 1 kg Wasser', x + bw / 2, by - 10);
+    if (eng) {                                   // schmal zweizeilig über dem Kasten
+      ctx.fillText(lab, x + bw / 2, by - 24);
+      ctx.font = '11px JetBrains Mono,monospace';
+      ctx.fillText('1 kg Wasser', x + bw / 2, by - 9);
+    } else {
+      ctx.fillText(lab + ' — 1 kg Wasser', x + bw / 2, by - 10);
+    }
   });
   // Wärmestrom-Pfeil: Dicke ∝ |Δϑ|, feste Skala (Reglermaximum 100 K)
   const xa = x1 + bw + 12, xb = x2 - 12;
@@ -2686,13 +2781,20 @@ function drawWaermestrom() {
     ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
     ctx.fillText('Wärme', (xa + xb) / 2, by + bh / 2 - dick - 12);
     ctx.font = '13px "Source Sans 3",sans-serif';
-    ctx.fillText('Δϑ = ' + Math.abs(d).toFixed(1) + ' K', (xa + xb) / 2, by + bh / 2 + dick + 24);
+    // unter den Kästen: zwischen ihnen ist schmal kein Platz für die Zeile
+    ctx.fillText('Δϑ = ' + Math.abs(d).toFixed(1) + ' K', (xa + xb) / 2,
+                 eng ? by + bh + 20 : by + bh / 2 + dick + 24);
   } else {
     ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('gleiche Temperatur → kein Wärmestrom', (xa + xb) / 2, by + bh / 2 + 5);
   }
   ctx.fillStyle = '#5a5040'; ctx.font = '13px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText('Wärme fliesst nie von selbst vom kälteren zum wärmeren Körper', W / 2, H - 14);
+  if (eng) {
+    ctx.fillText('Wärme fliesst nie von selbst', W / 2, H - 28);
+    ctx.fillText('vom kälteren zum wärmeren Körper', W / 2, H - 12);
+  } else {
+    ctx.fillText('Wärme fliesst nie von selbst vom kälteren zum wärmeren Körper', W / 2, H - 14);
+  }
 }
 function wsTick(ts) {
   if (!wsSt.running) return;
@@ -2830,6 +2932,10 @@ function drawB1() {
   }
   // Sprossen mit Einheiten-Labels (oben) und Faktor (unten)
   const istZeit = b1St.g === 'zeit';
+  // Schmal liegen m, c, d und 0 nur ~17 px auseinander: jede zweite Sprosse
+  // setzt ihr Präfix eine Zeile höher und ihren Exponenten eine Zeile tiefer.
+  const eng = W < 560;
+  const versetzt = e => eng && (e === -2 || e === 0 || e === 3);
   ctx.font = 'bold 13px JetBrains Mono,monospace';
   for (const r of B1RUNGS) {
     const px = X(r[1]);
@@ -2838,14 +2944,17 @@ function drawB1() {
     ctx.beginPath(); ctx.moveTo(px, yLine - 12); ctx.lineTo(px, yLine + 12); ctx.stroke();
     ctx.fillStyle = tot ? '#aeb4bc' : '#374151'; ctx.textAlign = 'center';
     const lab = r[0] + G.base;
-    ctx.fillText(lab, px, yLine - 18);
+    const dy = versetzt(r[1]) ? 16 : 0;
+    ctx.fillText(lab, px, yLine - 18 - dy);
     if (tot) {                                   // durchgestrichen = gibt es, nutzt man nicht
       const lw2 = ctx.measureText(lab).width;
       ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.4;
-      ctx.beginPath(); ctx.moveTo(px - lw2/2 - 1, yLine - 22); ctx.lineTo(px + lw2/2 + 1, yLine - 22); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px - lw2/2 - 1, yLine - 22 - dy); ctx.lineTo(px + lw2/2 + 1, yLine - 22 - dy); ctx.stroke();
     }
     ctx.fillStyle = tot ? '#c7ccd3' : '#6b7280'; ctx.font = '12px JetBrains Mono,monospace';
-    ctx.fillText('10' + supStr(r[1]), px, yLine + 26);
+    // schmal im Zeitmodus: 10² und 10³ der ungebräuchlichen Sprossen weglassen,
+    // sie liegen übereinander und auf «min»/«h»
+    if (!(eng && tot && r[1] === 3)) ctx.fillText('10' + supStr(r[1]), px, yLine + 26 + dy);
     ctx.font = 'bold 13px JetBrains Mono,monospace';
   }
   if (istZeit) {
@@ -2858,21 +2967,31 @@ function drawB1() {
       // und min liegt fast auf hs (log 1.78 gegen 2).
       ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'center'; ctx.font = 'bold 13px JetBrains Mono,monospace';
       ctx.fillText(lab, px, yLine + 46);
-      ctx.font = '11px JetBrains Mono,monospace';
-      ctx.fillText(sek + ' s', px, yLine + 60);
+      // schmal liegen min und h zu nah für «60 s»/«3600 s»: die Sekunden stehen dann in der Legende
+      if (!eng) {
+        ctx.font = '11px JetBrains Mono,monospace';
+        ctx.fillText(sek + ' s', px, yLine + 60);
+      }
     }
     ctx.fillStyle = '#9b1c1c'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'left';
-    ctx.fillText('durchgestrichen: gibt es als Präfix, wird bei der Zeit aber nicht verwendet', 8, H - 10);
+    ctx.fillText(eng ? 'durchgestrichen: bei der Zeit nicht verwendet'
+                     : 'durchgestrichen: gibt es als Präfix, wird bei der Zeit aber nicht verwendet', 8, H - 10);
     ctx.fillStyle = '#1f6b3a'; ctx.textAlign = 'left';
-    ctx.fillText('grün: die tatsächlich gebräuchlichen Stufen min und h', 8, H - 26);
+    ctx.fillText(eng ? 'grün: min = 60 s, h = 3600 s' : 'grün: die tatsächlich gebräuchlichen Stufen min und h', 8, H - 26);
   }
   // Achsen-Caption
   ctx.fillStyle = '#6b7280'; ctx.font = '12px JetBrains Mono,monospace';
   ctx.textAlign = 'right';
-  ctx.fillText('Faktor gegenüber 1 ' + G.base, W - 6, yLine + (b1St.g === 'zeit' ? 74 : 46));
+  // schmal eine Zeile tiefer: dort stehen die versetzten Exponenten
+  ctx.fillText('Faktor gegenüber 1 ' + G.base, W - 6, yLine + (b1St.g === 'zeit' ? (eng ? 62 : 74) : (eng ? 64 : 46)));
   // Die Leiter ist logarithmisch — ohne diesen Hinweis liest man die Abstände falsch
   ctx.textAlign = 'left'; ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 12px "Source Sans 3",sans-serif';
-  ctx.fillText('Skala logarithmisch — gleicher Abstand bedeutet Faktor 10', 8, 20);
+  if (eng) {                                     // schmal zweizeilig
+    ctx.fillText('Skala logarithmisch:', 8, 16);
+    ctx.fillText('gleicher Abstand = Faktor 10', 8, 31);
+  } else {
+    ctx.fillText('Skala logarithmisch — gleicher Abstand bedeutet Faktor 10', 8, 20);
+  }
 
   // Marker: Position log10(5·10^n) = n + log10(5), mit Halo-Label
   const mx = X(n + B1LOG5);
@@ -2934,9 +3053,11 @@ function drawB2() {
     ctx.beginPath(); ctx.moveTo(X(t), yT - 5); ctx.lineTo(X(t), yT + 5); ctx.stroke();
     ctx.fillText(String(t), X(t), yT + 8);
   }
+  const eng = W < 560;
   ctx.fillStyle = '#374151'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-  ctx.fillText('v [km/h]', W - R + 18 - ctx.measureText('v [km/h]').width, yT - 16);
+  // schmal: unter die Zahlen, oben kreuzt sonst die 250-Ankerlinie den Titel
+  ctx.fillText('v [km/h]', W - R + 18 - ctx.measureText('v [km/h]').width, eng ? yT + 32 : yT - 16);
 
   // untere Skala: m/s (gleiche Pixel-Position = gleiche Geschwindigkeit)
   ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.6;
@@ -2954,7 +3075,8 @@ function drawB2() {
   ctx.font = '12px JetBrains Mono,monospace';
   for (let i = 0; i < B2ANK.length; i++) {
     const av = B2ANK[i][0], px = X(av);
-    const yLbl = (i % 2 === 0) ? 30 : 54;
+    // schmal liegen 5, 20 und 50 km/h dicht: drei statt zwei Zeilen
+    const yLbl = eng ? [24, 44, 64][i % 3] : ((i % 2 === 0) ? 30 : 54);
     ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(px, yLbl + 8); ctx.lineTo(px, yT - 6); ctx.stroke();
     ctx.fillStyle = '#374151';
@@ -2982,6 +3104,15 @@ function drawB2() {
   }
   b2Lbl(v + ' km/h', yT - 30, '#8a4a0e');
   b2Lbl(ms.toFixed(1) + ' m/s', yB + 38, '#1f6b3a');
+  // Skalenzahlen zuletzt, mit hellem Grund: der Marker verdeckt sie sonst
+  ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  const zahl = (txt, x, y, col) => {
+    const w = ctx.measureText(txt).width;
+    if (Math.abs(x - mx) < w / 2 + 3) { ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fillRect(x - w / 2 - 1, y - 1, w + 2, 15); }
+    ctx.fillStyle = col; ctx.fillText(txt, x, y);
+  };
+  for (let t = 0; t <= 300; t += 50) zahl(String(t), X(t), yT + 8, '#6b7280');
+  for (let m = 0; m <= 80; m += 10) zahl(String(m), X(m * 3.6), yB + 8, '#1f6b3a');
   ctx.textBaseline = 'alphabetic';
 }
 document.getElementById('b2-v').addEventListener('input', drawB2);
@@ -3345,11 +3476,29 @@ function drawB5() {
   cd.strokeStyle = '#b8c4d4'; cd.lineWidth = 1.2; cd.setLineDash([4,4]);
   cd.beginPath(); cd.moveTo(gd.cx(h), gd.cy(0)); cd.lineTo(gd.cx(h), gd.cy(dJetzt)); cd.stroke();
   cd.setLineDash([]);
+  // Unter ~7 m ist Δp negativ, die Kurve läuft dort durch das Band der
+  // h-Zahlen: die Zahlen werden darum nach der Kurve noch einmal mit hellem
+  // Grund gesetzt.
+  cd.font = '13px JetBrains Mono,monospace'; cd.textAlign = 'center'; cd.textBaseline = 'top';
+  for (let v = Math.ceil(-1 / gd.stepX) * gd.stepX; v <= 42 + 1e-9; v += gd.stepX) {
+    const X = gd.cx(v);
+    if (Math.abs(v) < 1e-9 || X < 14 || X > cvD.W - 72) continue;
+    const t = fmtTick(v, gd.stepX), w = cd.measureText(t).width;
+    cd.fillStyle = 'rgba(255,255,255,0.9)'; cd.fillRect(X - w / 2 - 1, gd.cy(0) + 4, w + 2, 15);
+    cd.fillStyle = '#6b7280'; cd.fillText(t, X, gd.cy(0) + 5);
+  }
+  cd.textBaseline = 'alphabetic';
   drawDot(cd, gd.cx, gd.cy, h, dJetzt, '#8a4a0e', 5);
-  cd.fillStyle = '#1f6b3a'; cd.font = 'bold 12px JetBrains Mono,monospace'; cd.textAlign = 'left';
-  cd.fillText((dJetzt >= 0 ? '+' : '−') + Math.abs(dJetzt).toFixed(3) + ' bar ('
-              + (dJetzt >= 0 ? '+' : '−') + Math.abs(100*dJetzt/b5Exakt(h)).toFixed(2) + ' %)',
-              Math.min(gd.cx(h) + 8, cvD.W - 150), gd.cy(dJetzt) - 8);
+  // Beschriftung immer über der Achse, auch wenn der Punkt darunter liegt
+  const dLbl = (dJetzt >= 0 ? '+' : '−') + Math.abs(dJetzt).toFixed(3) + ' bar ('
+             + (dJetzt >= 0 ? '+' : '−') + Math.abs(100*dJetzt/b5Exakt(h)).toFixed(2) + ' %)';
+  cd.font = 'bold 12px JetBrains Mono,monospace';
+  const dW = cd.measureText(dLbl).width;
+  const dX = Math.max(gd.cx(0) + 6, Math.min(gd.cx(h) + 8, cvD.W - 6 - dW));
+  const dY = Math.min(gd.cy(dJetzt) - 8, gd.cy(0) - 8);
+  cd.fillStyle = 'rgba(255,255,255,0.9)'; cd.fillRect(dX - 2, dY - 11, dW + 4, 14);
+  cd.fillStyle = '#1f6b3a'; cd.textAlign = 'left';
+  cd.fillText(dLbl, dX, dY);
 }
 document.getElementById('b5-h').addEventListener('input', drawB5);
 
@@ -3371,7 +3520,10 @@ function drawDegRad() {
   document.getElementById('b6-vr').textContent = vz(vr);
   document.getElementById('b6-um').textContent = (x * Math.PI / 180).toFixed(3) + ' rad';
 
-  const cv = initCanvas('b6-degrad-cv', 300, false);
+  // Schmal: kürzere Titel und eine eigene Zeile für den Schnelltest (höheres Canvas)
+  const drEl = document.getElementById('b6-degrad-cv'); drEl.style.width = '';
+  const eng = (drEl.offsetWidth || 600) < 560;
+  const cv = initCanvas('b6-degrad-cv', eng ? 320 : 300, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0, 0, W, H);
   const L = 56, R = 20, XMAX = 360;
@@ -3401,8 +3553,10 @@ function drawDegRad() {
     ctx.textAlign = px(x) > W * 0.7 ? 'right' : 'left';
     ctx.fillText(vz(v), px(x) + (px(x) > W * 0.7 ? -10 : 10), yMid - v * hoch + 4);
   }
-  kurve(H * 0.26, 46, xx => Math.sin(xx * Math.PI / 180), '#1f6b3a', 'DEG — die Zahl gilt als Grad');
-  kurve(H * 0.68, 46, xx => Math.sin(xx), '#9b1c1c', 'RAD — dieselbe Zahl gilt als Radiant');
+  kurve(eng ? 96 : H * 0.26, 46, xx => Math.sin(xx * Math.PI / 180), '#1f6b3a',
+        eng ? 'DEG: Zahl gilt als Grad' : 'DEG — die Zahl gilt als Grad');
+  kurve(H * 0.68, 46, xx => Math.sin(xx), '#9b1c1c',
+        eng ? 'RAD: Zahl gilt als Radiant' : 'RAD — dieselbe Zahl gilt als Radiant');
   // x-Achse
   ctx.fillStyle = '#6b7280'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   for (let v = 0; v <= XMAX; v += 60) ctx.fillText(String(v), px(v), H - 12);

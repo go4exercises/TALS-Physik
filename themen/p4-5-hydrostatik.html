@@ -1256,77 +1256,60 @@ function aeRender() {
     ctx.fillText(m + ' m', beckenL+13, py+3);
   }
 
-  // Schwimmerin — schwY ist Kopfmittelpunkt.
-  // Die Slider-Tiefe h misst die KOPFMITTE-Tiefe (vereinfachter Druckmesspunkt).
-  // Bei h=0: Kopf an Wasseroberfläche, oberer Halbkreis schaut raus.
-  // Bei h=6: Kopf am Boden (vollständig untergetaucht).
-  // Person-Körper unterhalb der Kopfmitte: bis schwY+34 (Füsse).
-  // Damit die Füsse nicht durch den Beckenboden ragen, wird die Kopfposition geclampt.
+  // Taucherin. Die Tiefe h ist die Tiefe des KOPFES (dort sitzen die Ohren,
+  // um die es im Einstieg geht). Aufrecht ginge das nicht auf: wer auf dem
+  // Beckenboden steht, hat den Kopf nicht auf 6 m. Darum taucht sie kopfüber
+  // ab — an der Oberfläche liegt sie waagrecht, bis 1.2 m dreht sie sich
+  // kopfüber; ab dort liegt der Kopf genau auf der eingestellten Tiefe.
   const schwX = (beckenL + beckenR) / 2;
-  const schwY_uncl = wasserY + (h / AE_HMAX) * (bodenY - wasserY);
-  const schwY = Math.min(schwY_uncl, bodenY - 34);
+  const schwY = Math.min(wasserY + (h / AE_HMAX) * (bodenY - wasserY), bodenY - 10);
+  const th = Math.PI/2 + Math.PI/2 * Math.min(1, h / 1.2);    // Körperachse Kopf→Füsse
+  const dx = Math.sin(th), dy = Math.cos(th);                 // Richtung Kopf→Füsse
+  const nx = dy, ny = -dx;                                    // senkrecht zur Körperachse
 
-  ctx.fillStyle = '#fcd7b6';
-  ctx.strokeStyle = '#7a4525'; ctx.lineWidth = 1.2;
-  // Kopf
-  ctx.beginPath(); ctx.arc(schwX, schwY, 6, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-  // Tauchermaske
-  ctx.fillStyle = '#1c1a17'; ctx.fillRect(schwX-4, schwY-2, 8, 3);
-  // Badeanzug
-  ctx.fillStyle = '#c43030'; ctx.fillRect(schwX-5, schwY+6, 10, 14);
-  ctx.strokeStyle = '#7a1a10'; ctx.strokeRect(schwX-5, schwY+6, 10, 14);
-  // Arme
+  ctx.save();
+  ctx.translate(schwX, schwY); ctx.rotate(-th);               // lokal: Körper entlang +y
+  ctx.fillStyle = '#fcd7b6'; ctx.strokeStyle = '#7a4525'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI*2); ctx.fill(); ctx.stroke();   // Kopf
+  ctx.fillStyle = '#1c1a17'; ctx.fillRect(-4, -2, 8, 3);                       // Tauchermaske
+  ctx.fillStyle = '#c43030'; ctx.fillRect(-5, 6, 10, 14);                      // Badeanzug
+  ctx.strokeStyle = '#7a1a10'; ctx.strokeRect(-5, 6, 10, 14);
   ctx.strokeStyle = '#fcd7b6'; ctx.lineWidth = 3; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(schwX-5, schwY+8); ctx.lineTo(schwX-9, schwY+18); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(schwX+5, schwY+8); ctx.lineTo(schwX+9, schwY+18); ctx.stroke();
-  // Beine
-  ctx.beginPath(); ctx.moveTo(schwX-2, schwY+20); ctx.lineTo(schwX-2, schwY+34); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(schwX+2, schwY+20); ctx.lineTo(schwX+2, schwY+34); ctx.stroke();
-  ctx.lineCap = 'butt';
+  ctx.beginPath(); ctx.moveTo(-5, 8); ctx.lineTo(-9, 18); ctx.stroke();       // Arme
+  ctx.beginPath(); ctx.moveTo(5, 8);  ctx.lineTo(9, 18);  ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-2, 20); ctx.lineTo(-2, 34); ctx.stroke();      // Beine
+  ctx.beginPath(); ctx.moveTo(2, 20);  ctx.lineTo(2, 34);  ctx.stroke();
+  ctx.restore();
 
-  // Druckpfeile auf drei Höhen am Körper: Kopf (kurz), Brust (mittel), Beine (lang).
-  // Länge proportional zur lokalen Tiefe am Pfeil-Ansatzpunkt, didaktisch übertrieben
-  // damit der "Druck wächst mit der Tiefe"-Effekt klar sichtbar wird.
-  // Kontrastreiches Rot, halbtransparent — gut sichtbar auf dem blauen Wasser.
+  // Druckpfeile senkrecht auf den Körper, an Kopf, Brust und Beinen; die Länge
+  // wächst mit der Tiefe des Ansatzpunkts (didaktisch übertrieben). Dazu je ein
+  // Pfeil auf Kopf und Füsse entlang der Körperachse. Nichts reicht unter den Boden.
   if (h > 0.1) {
-    const tiefe_pro_px = AE_HMAX / (bodenY - wasserY);   // m pro Pixel
-    const farbe = '#e02020', farbe_alpha = '#e02020cc';
-    ctx.strokeStyle = farbe; ctx.lineWidth = 1.8;
-
-    // Drei Ansatz-Höhen am Körper (relativ zu schwY)
-    // schwY ist Kopfmitte, der Körper geht ca. bis schwY+34 (Füsse)
-    const hoehen = [
-      { y_off: -2,  radius: 9,  label: 'kopf'  },   // knapp über Kopfmitte
-      { y_off: 12, radius: 11, label: 'brust' },   // Brust-Höhe
-      { y_off: 28, radius: 9,  label: 'fuss'  }    // Knie/Bein-Höhe
-    ];
-
-    hoehen.forEach(({ y_off, radius }) => {
-      const cy = schwY + y_off;
-      // Lokale Tiefe an dieser Körperhöhe
-      const lokaleTiefe = Math.max(0, (cy - wasserY) * tiefe_pro_px);
-      // Länge: Basis 8 + 9 px pro Meter Tiefe (Faktor 3 grösser als zuvor)
-      const arrLen = 6 + lokaleTiefe * 7;
-
-      // Pfeile nach links und rechts (waagrecht — anschaulichste Richtung)
-      drawArrow(ctx, schwX - (radius + arrLen), cy, schwX - radius, cy, farbe_alpha, 1.8, 8);
-      drawArrow(ctx, schwX + (radius + arrLen), cy, schwX + radius, cy, farbe_alpha, 1.8, 8);
+    const tiefe_pro_px = AE_HMAX / (bodenY - wasserY);        // m pro Pixel
+    const farbe = '#e02020cc';
+    const laenge = y => 6 + Math.max(0, (y - wasserY) * tiefe_pro_px) * 7;
+    const unterWasser = y => y > wasserY + 2;
+    [{ s: 0, r: 9 }, { s: 13, r: 11 }, { s: 28, r: 9 }].forEach(({ s, r }) => {
+      const px = schwX + s*dx, py = schwY + s*dy;
+      if (!unterWasser(py)) return;
+      const L = laenge(py);
+      [1, -1].forEach(sg => {
+        const ex = px + sg*r*nx, ey = py + sg*r*ny;
+        let sx = px + sg*(r+L)*nx, sy = py + sg*(r+L)*ny;
+        if (sy > bodenY - 2) { const k = (bodenY - 2 - ey) / (sy - ey); sx = ex + (sx-ex)*k; sy = ey + (sy-ey)*k; }
+        if (Math.hypot(sx-ex, sy-ey) >= 6) drawArrow(ctx, sx, sy, ex, ey, farbe, 1.8, 8);
+      });
     });
-
-    // Zusätzlich oben: Pfeil nach UNTEN am Kopf (Druck von oben drückt nach unten)
-    {
-      const cy = schwY - 8;
-      const lokaleTiefe = Math.max(0, (cy - wasserY) * tiefe_pro_px);
-      const arrLen = 6 + lokaleTiefe * 7;
-      drawArrow(ctx, schwX, cy - arrLen, schwX, cy, farbe_alpha, 1.8, 8);
-    }
-    // Unten: Pfeil nach OBEN am Fuss (Druck von unten drückt nach oben)
-    {
-      const cy = schwY + 36;
-      const lokaleTiefe = Math.max(0, (cy - wasserY) * tiefe_pro_px);
-      const arrLen = 6 + lokaleTiefe * 7;
-      drawArrow(ctx, schwX, cy + arrLen, schwX, cy, farbe_alpha, 1.8, 8);
-    }
+    // entlang der Achse: vor dem Kopf (−d) und hinter den Füssen (+d)
+    [{ s: -8, sg: -1 }, { s: 36, sg: 1 }].forEach(({ s, sg }) => {
+      const ex = schwX + s*dx, ey = schwY + s*dy;
+      if (!unterWasser(ey)) return;
+      const L = laenge(ey);
+      let sx = ex + sg*L*dx, sy = ey + sg*L*dy;
+      if (sy > bodenY - 2) sy = bodenY - 2;
+      if (sy < wasserY + 2) sy = wasserY + 2;
+      if (Math.hypot(sx-ex, sy-ey) >= 6) drawArrow(ctx, sx, sy, ex, ey, farbe, 1.8, 8);
+    });
   }
 }
 
@@ -1353,8 +1336,28 @@ function drawA1() {
   const ctx = cv1.ctx, W = cv1.W, H = cv1.H;
   ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
 
-  // Gefäss-Wände
-  const gefL = W*0.30, gefR = W*0.55, gefT = 30, gefB = H - 20;
+  // Aufteilung aus gemessenen Textbreiten: links das Tiefenmass, dann das
+  // Gefäss, die Skala, ganz rechts der Messwert-Kasten. Feste Anteile von W
+  // liessen bei 360 px das Mass links und den Kasten rechts aus dem Bild laufen
+  // und legten den Kasten auf die Skala.
+  const eng = W < 360;
+  const fS = eng ? 11 : 13;
+  const hZeilen = eng ? ['h =', h.toFixed(1) + ' m'] : ['h = ' + h.toFixed(1) + ' m'];
+  let pStr;
+  if (pS < 1000) pStr = pS.toFixed(0) + ' Pa';
+  else if (pS < 1e6) pStr = (pS/1000).toFixed(1) + ' kPa';
+  else pStr = (pS/1e6).toFixed(2) + ' MPa';
+  const kZeilen = ['p_S am Boden', pStr, '(' + (pS/1e5).toFixed(2) + ' bar)'];
+  ctx.font = 'bold ' + fS + 'px JetBrains Mono,monospace';
+  const bH = Math.max(...hZeilen.map(t => ctx.measureText(t).width));
+  const bK = Math.max(...kZeilen.map(t => ctx.measureText(t).width)) + 12;
+  ctx.font = fS + 'px JetBrains Mono,monospace';
+  const bSkala = ctx.measureText('10 m').width;
+  const pfeilX = 6 + bH + 8;                          // x des Tiefenpfeils
+  const kastenL = W - 6 - bK;                          // Messwert-Kasten ganz rechts
+  const gefL = Math.max(W*0.30, pfeilX + 18);
+  const gefR = Math.min(W*0.55, kastenL - 10 - bSkala - 18 - 6);
+  const gefT = 30, gefB = H - 20;
   const gefH = gefB - gefT;
   // Wand
   ctx.fillStyle = '#cfd5dc';
@@ -1406,7 +1409,7 @@ function drawA1() {
 
   // Tiefen-Skala rechts vom Gefäss
   ctx.strokeStyle = '#9aa4ad'; ctx.lineWidth = 1;
-  ctx.font = '13px JetBrains Mono,monospace'; ctx.fillStyle = '#5a6068';
+  ctx.font = fS + 'px JetBrains Mono,monospace'; ctx.fillStyle = '#5a6068';
   ctx.textAlign = 'left';
   for (let m = 0; m <= 10; m += 2) {
     const py = gefT + (10-m)/10 * gefH;
@@ -1418,37 +1421,25 @@ function drawA1() {
   const tiefeY = gefT + (10-0)/10 * gefH - 1;  // unten?
   // Wir zeichnen einen Tiefen-Pfeil vom Wasserspiegel bis zum Boden (= h tief)
   ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 2;
-  drawArrow(ctx, gefL-22, fuellY, gefL-22, gefB-2, '#8a4a0e', 2, 10);
-  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  if (h > 0) drawArrow(ctx, pfeilX, fuellY, pfeilX, gefB-2, '#8a4a0e', 2, 10);
+  ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold ' + fS + 'px JetBrains Mono,monospace';
   ctx.textAlign = 'right';
-  ctx.fillText('h = ' + h.toFixed(1) + ' m', gefL-25, (fuellY+gefB)/2);
+  const hMitte = h > 0 ? (fuellY+gefB)/2 : gefB - 10;
+  hZeilen.forEach((t, k) => ctx.fillText(t, pfeilX - 5, hMitte + 4 - (hZeilen.length-1)*7 + k*14));
 
-  // Manometer am Boden (kleines U-Rohr-Symbol)
-  // Kasten 84 px breit (die Zeile „(0.29 bar)" braucht 79) und weit genug rechts,
-  // dass die Tiefen-Skala daneben frei bleibt.
-  const manX = gefR + 86, manY = gefB - 10;
-  ctx.fillStyle = '#fff8eb';
-  ctx.fillRect(manX-40, manY-30, 84, 50);
-  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5;
-  ctx.strokeRect(manX-40, manY-30, 84, 50);
-  // Zeiger
-  ctx.fillStyle = '#8a4a0e';
-  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  ctx.fillText('p_S', manX+2, manY-18);
-  ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.fillStyle = '#1c1a17';
-  // Format adaptive
-  let pStr;
-  if (pS < 1000) pStr = pS.toFixed(0) + ' Pa';
-  else if (pS < 1e6) pStr = (pS/1000).toFixed(1) + ' kPa';
-  else pStr = (pS/1e6).toFixed(2) + ' MPa';
-  ctx.fillText(pStr, manX+2, manY-4);
-  ctx.fillStyle = '#7a5a10'; ctx.font = '13px JetBrains Mono,monospace';
-  ctx.fillText('(' + (pS/1e5).toFixed(2) + ' bar)', manX+2, manY+12);
-
-  // Verbindungslinie Boden → Manometer
-  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
-  ctx.beginPath(); ctx.moveTo(gefR+6, gefB-3); ctx.lineTo(manX-40, manY); ctx.stroke();
-  ctx.setLineDash([]);
+  // Messwert-Kasten rechts neben der Skala, unten auf Bodenhöhe; die
+  // Überschrift «am Boden» ersetzt die frühere Verbindungslinie, die durch
+  // die Skalenbeschriftung «0 m» lief.
+  const kH = 3*(fS+3) + 10, kT = gefB + 6 - kH;
+  ctx.fillStyle = '#fff8eb'; ctx.fillRect(kastenL, kT, bK, kH);
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 1.5; ctx.strokeRect(kastenL, kT, bK, kH);
+  ctx.textAlign = 'center';
+  const kFarben = ['#8a4a0e', '#1c1a17', '#7a5a10'];
+  kZeilen.forEach((t, k) => {
+    ctx.fillStyle = kFarben[k];
+    ctx.font = (k < 2 ? 'bold ' : '') + fS + 'px JetBrains Mono,monospace';
+    ctx.fillText(t, kastenL + bK/2, kT + 5 + (k+1)*(fS+3) - 2);
+  });
 
   // Rechts: p(h)-Diagramm (linear)
   const cv2 = initCanvas('a1-cv-ph', 320, false);
@@ -1475,9 +1466,6 @@ function drawA1() {
   ctx2.stroke();
   // Steigung beziffern — bei dicht beieinander liegenden Geraden ist sie die
   // einzige Grösse, an der man Öl von Meerwasser noch unterscheiden kann.
-  ctx2.fillStyle = '#8a4a0e'; ctx2.font = 'bold 13px JetBrains Mono,monospace'; ctx2.textAlign = 'right';
-  ctx2.fillText((W2 < 520 ? 'ρ·g = ' : 'Steigung ρ · g = ') + (rho*g/1000).toFixed(2) + ' kPa/m',
-                W2 - 10, W2 < 520 ? 36 : 20);   // schmal: unter das Achsenlabel
   // Aktueller Punkt
   drawDot(ctx2, grid.cx, grid.cy, h, pS/1000, '#9b1c1c', 6);
   // Hilfslinien zum Punkt
@@ -1485,6 +1473,13 @@ function drawA1() {
   ctx2.beginPath(); ctx2.moveTo(grid.cx(h), grid.cy(0)); ctx2.lineTo(grid.cx(h), grid.cy(pS/1000)); ctx2.stroke();
   ctx2.beginPath(); ctx2.moveTo(grid.cx(0), grid.cy(pS/1000)); ctx2.lineTo(grid.cx(h), grid.cy(pS/1000)); ctx2.stroke();
   ctx2.setLineDash([]);
+  // Oben links, wo die Gerade nie hinkommt (grösste Steigung 137 kPa/m); ein
+  // heller Grund deckt die gestrichelte Hilfslinie ab, falls sie dort durchläuft.
+  ctx2.font = 'bold 13px JetBrains Mono,monospace'; ctx2.textAlign = 'left';
+  const stTxt = (W2 < 520 ? 'ρ·g = ' : 'Steigung ρ · g = ') + (rho*g/1000).toFixed(2) + ' kPa/m';
+  const stX = grid.cx(0) + 12, stY = 44, stB = ctx2.measureText(stTxt).width;
+  ctx2.fillStyle = 'rgba(255,255,255,0.9)'; ctx2.fillRect(stX - 4, stY - 13, stB + 8, 18);
+  ctx2.fillStyle = '#8a4a0e'; ctx2.fillText(stTxt, stX, stY);
 }
 ['a1-h', 'a1-rho'].forEach(id => document.getElementById(id).addEventListener('input', drawA1));
 // Material-Buttons
@@ -1611,11 +1606,13 @@ function drawA2() {
   ctx.setLineDash([]);
   ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'left';
+  // Beschriftung als Legende über den Gefässen: an der Linie selbst kreuzte
+  // sie in jeder Breite eine Gefässwand.
   const fTxt = 'Füllhöhe h = ' + h.toFixed(1) + ' cm';
-  ctx.fillStyle = 'rgba(248,250,252,0.9)';                 // Grund, damit die Gefässwände den Text nicht kreuzen
-  ctx.fillRect(4, fuellY-18, ctx.measureText(fTxt).width + 8, 16);
+  ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = 1.4; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(8, 13); ctx.lineTo(34, 13); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle = '#9b1c1c';
-  ctx.fillText(fTxt, 8, fuellY-5);
+  ctx.fillText(fTxt, 40, 18);
 
   // Manometer unter jedem Gefäss
   function manometer(cx, label, pVal) {
@@ -1639,7 +1636,7 @@ function drawA2() {
     const Fs = [pS*A1_m2, pS*A2_m2, pS*A3_m2];
     const Fmax = Math.max(...Fs, 0.01);
     [[xG1, Fs[0]], [xG2, Fs[1]], [xG3, Fs[2]]].forEach(([xx, FF]) => {
-      const L = FF / Fmax * (eng ? 30 : 40);   // Platz bis zum Satz am unteren Rand
+      const L = Math.max(12, FF / Fmax * (eng ? 30 : 40));   // mind. 12 px: sonst ragt die Spitze ins Kästchen
       const y0 = bodenY + 68 + unten;
       drawArrow(ctx, xx, y0, xx, y0 + L, '#9b1c1c', 2.4, 9);
       ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
@@ -1756,11 +1753,15 @@ function drawA3() {
   // Hilfs-Visualisierung der Hub-Verhältnisse: Wir zeigen einfach beide Kolben in Mittellage und zeichnen Pfeile s1, s2 daneben
 
   // Kolbenstellung nach Hubfortschritt q: links sinkt um s₁, rechts steigt um
-  // s₂ = s₁ · A₁/A₂. Gleiches verdrängtes Volumen, sehr ungleiche Wege.
+  // s₂ = s₁ · A₁/A₂ — beide im SELBEN Massstab. Früher war der rechte Kolben
+  // oben gekappt und die Massbänder in einem zweiten Massstab (s · 1.2 px)
+  // gezeichnet: bei A₁ = A₂ sank links 135 px, rechts stieg es nur 52 px.
+  // Der rechte Kolben startet darum unten; so hat auch s₂ = 50 cm Platz.
   const q = a3Presse.q;
-  const cmPx = Math.min(3.0, (yU - yTop - 70) / 50);
-  const pistY_L = Math.min(yU - 22, yTop + 24 + q * s1 * cmPx);
-  const pistY_R = Math.max(yTop + 10, yTop + 62 - q * s2 * cmPx);
+  const startL = yTop + 24, startR = yU - 22;
+  const cmPx = Math.min(3.0, (startR - startL) / 50);         // 50 cm = grösster Hub
+  const pistY_L = startL + q * s1 * cmPx;
+  const pistY_R = startR - q * s2 * cmPx;
   // Flüssigkeit
   ctx.fillStyle = '#e3c75a99';
   ctx.fillRect(xL-wL/2, pistY_L, wL, yU-pistY_L);
@@ -1775,49 +1776,55 @@ function drawA3() {
   // Kraftpfeil F1 (oben am kleinen Kolben, nach unten)
   drawArrow(ctx, xL, pistY_L-50, xL, pistY_L-15, '#9b1c1c', 2.5, 11);
   ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
-  // schmal: Kraft ÜBER dem Pfeil — seitlich stiess sie an das andere Rohr
-  if (eng) { ctx.textAlign = 'center'; ctx.fillText('F₁ = '+F1+' N', xL, pistY_L-55); }
-  else { ctx.textAlign = 'left'; ctx.fillText('F₁ = '+F1+' N', xL+wL/2+8, pistY_L-32); }
+  // schmal: zweizeilig im Spalt zwischen den Rohren, F₁ linksbündig, F₂
+  // rechtsbündig — mittig über dem Pfeil kreuzte sie Rohrwand und Massband
+  const spaltL = xL+wL/2+8, spaltR = xR-wR/2-8;
+  if (eng) {
+    ctx.font = 'bold 11px JetBrains Mono,monospace'; ctx.textAlign = 'left';
+    ctx.fillText('F₁ =', spaltL, pistY_L-38); ctx.fillText(F1+' N', spaltL, pistY_L-25);
+  }
+  else { ctx.textAlign = 'left'; ctx.fillText('F₁ = '+F1+' N', spaltL, pistY_L-32); }
 
-  // Kraftpfeil F2 (oben am grossen Kolben, nach oben — vom Kolben aus angezeigt)
+  // Kraftpfeil F2 (oben am grossen Kolben, nach oben); Kraft über dem Pfeil
   drawArrow(ctx, xR, pistY_R-15, xR, pistY_R-50, '#1a4f8a', 2.5, 11);
   ctx.fillStyle = '#1a4f8a';
-  if (eng) { ctx.textAlign = 'center'; ctx.fillText('F₂ = '+F2.toFixed(0)+' N', xR, pistY_R-55); }
-  else { ctx.textAlign = 'right'; ctx.fillText('F₂ = '+F2.toFixed(0)+' N', xR-wR/2-8, pistY_R-48); }
+  if (eng) {
+    ctx.font = 'bold 11px JetBrains Mono,monospace';
+    const wF2 = ctx.measureText(F2.toFixed(0)+' N').width;
+    if (wF2 <= (spaltR - spaltL)/2) {            // Spalt reicht: rechtsbündig darin
+      ctx.textAlign = 'right';
+      ctx.fillText('F₂ =', spaltR, pistY_R-38); ctx.fillText(F2.toFixed(0)+' N', spaltR, pistY_R-25);
+    } else {                                     // grosses Rohr ist dann breit: über dem Pfeil
+      ctx.textAlign = 'center';
+      ctx.fillText('F₂ = '+F2.toFixed(0)+' N', xR, pistY_R-55);
+    }
+    ctx.font = 'bold 13px JetBrains Mono,monospace';
+  } else { ctx.textAlign = 'center'; ctx.fillText('F₂ = '+F2.toFixed(0)+' N', xR, pistY_R-55); }
 
-  // Hubweg-Pfeile (rechts vom kleinen, links vom grossen)
-  // s1 nach unten an Kolben 1
-  // Massbänder: links vom kleinen, rechts vom grossen Rohr — bei schmaler
-  // Leinwand stand das s₂-Band sonst über dem kleinen Rohr
-  const xM1 = xL-wL/2-(eng ? 12 : 22), xM2 = eng ? xR+wR/2+12 : xR-wR/2-22;
-  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
-  ctx.beginPath();
-  ctx.moveTo(xM1, pistY_L-12); ctx.lineTo(xM1, pistY_L-12 + s1*1.2);
-  ctx.stroke();
-  ctx.setLineDash([]);
-  drawArrow(ctx, xM1, pistY_L-12 + s1*1.2 - 6, xM1, pistY_L-12 + s1*1.2, '#5b2d8e', 1.5, 7);
+  // Massbänder für den ganzen Hub, ab der Startlage, im Kolbenmassstab:
+  // links vom kleinen Rohr (s₁ nach unten), rechts vom grossen (s₂ nach oben)
+  const xM1 = xL-wL/2-(eng ? 12 : 22), xM2 = xR+wR/2+12;
+  const band = (x, y0, y1) => {
+    ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x, y1); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(x-4, y0); ctx.lineTo(x+4, y0); ctx.stroke();
+    if (Math.abs(y1 - y0) >= 8) drawArrow(ctx, x, y1 + Math.sign(y0-y1)*6, x, y1, '#5b2d8e', 1.5, 7);
+  };
+  band(xM1, startL-12, startL-12 + s1*cmPx);
+  band(xM2, startR-12, startR-12 - s2*cmPx);
   ctx.fillStyle = '#5b2d8e'; ctx.font = '13px JetBrains Mono,monospace';
   // schmal nur das Formelzeichen; die Werte stehen im Regler und in der Live-Box
-  if (eng) { ctx.textAlign = 'right'; ctx.fillText('s₁', xM1-4, pistY_L-12 + s1*1.2/2 + 4); }
+  if (eng) { ctx.textAlign = 'right'; ctx.fillText('s₁', xM1-4, startL-12 + s1*cmPx/2 + 4); }
   else {
-    // Links vom kleinen Kolben ist fuer eine Zeile kein Platz: zweizeilig und
-    // rechtsbuendig links vom Massband, sonst laeuft der Text ueber den Pfeil.
+    // zweizeilig und rechtsbündig links vom Massband
     ctx.textAlign = 'right';
-    const xS1 = xL-wL/2-28, yS1 = pistY_L-12 + s1*1.2/2;
+    const xS1 = xL-wL/2-28, yS1 = startL-12 + s1*cmPx/2;
     ctx.fillText('s₁', xS1, yS1 - 5);
     ctx.fillText(s1+' cm', xS1, yS1 + 9);
   }
-
-  // s2 (sehr klein) am grossen Kolben
-  ctx.strokeStyle = '#5b2d8e'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
-  ctx.beginPath();
-  ctx.moveTo(xM2, pistY_R-12); ctx.lineTo(xM2, pistY_R-12 - s2*1.2);
-  ctx.stroke();
-  ctx.setLineDash([]);
-  drawArrow(ctx, xM2, pistY_R-12 - s2*1.2 + 6, xM2, pistY_R-12 - s2*1.2, '#5b2d8e', 1.5, 7);
-  ctx.fillStyle = '#5b2d8e';
-  if (eng) { ctx.textAlign = 'left'; ctx.fillText('s₂', xM2+4, pistY_R-12 + 4); }
-  else { ctx.textAlign = 'right'; ctx.fillText('s₂='+s2.toFixed(1)+' cm', xR-wR/2-26, pistY_R-12 - s2*1.2/2); }
+  // rechts neben dem grossen Rohr ist nur für das Formelzeichen Platz
+  ctx.textAlign = 'left';
+  ctx.fillText('s₂', xM2 + 5, startR - 12 - Math.max(8, s2*cmPx/2) + 4);
 
   // Labels A1, A2 in der Mitte der Kolben
   ctx.fillStyle = '#fff'; ctx.font = 'bold 13px JetBrains Mono,monospace';
@@ -1828,7 +1835,11 @@ function drawA3() {
   // Druck-Beschriftung in der Flüssigkeit
   ctx.fillStyle = '#7a5a10'; ctx.font = 'bold 13px JetBrains Mono,monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('p = '+(p/1e5).toFixed(2)+' bar überall', (xL+xR)/2, yU+15);
+  if (eng) {                                   // schmal: Kanal zu kurz für eine Zeile
+    ctx.font = 'bold 11px JetBrains Mono,monospace';
+    ctx.fillText('p = '+(p/1e5).toFixed(2)+' bar', (xL+xR)/2, yU+14);
+    ctx.fillText('überall', (xL+xR)/2, yU+26);
+  } else ctx.fillText('p = '+(p/1e5).toFixed(2)+' bar überall', (xL+xR)/2, yU+15);
   a3VolLabel(ctx, W_c, H_c, A1, s1, A2, s2, q);
 }
 
@@ -2085,8 +2096,12 @@ function drawA5() {
   ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, Wc, Hc);
 
   // Behälter — unten bleibt Platz für den proportionalen F_G-Pfeil (bis 74 px)
-  const becL = 60, becR = Wc-60, becT = 30, becB = Hc-96;
-  const wasserY = becT + 35;
+  // Wasserspiegel 65 px unter dem Rand: auch Kork (24 % eingetaucht) bleibt
+  // so unter der Statuszeile; unten Platz für den längsten F_G-Pfeil (110 px)
+  const eng = Wc < 400;                        // schmal: Wände an den Rand, sonst liefen die Kraftbeschriftungen darüber
+  const becL = eng ? 16 : 60, becR = Wc - becL, becT = 30, becB = Hc-122;
+  const fK = 'bold ' + (eng ? 11 : 13) + 'px JetBrains Mono,monospace';
+  const wasserY = becT + 65;
   ctx.fillStyle = '#cfd5dc';
   ctx.fillRect(becL-6, becT, 6, becB-becT+6);
   ctx.fillRect(becR, becT, 6, becB-becT+6);
@@ -2127,18 +2142,24 @@ function drawA5() {
   // Längenvergleich F_G gegen F_A die ganze Lernbotschaft ist.
   // Feste Skala am Reglermaximum kalibriert (Q2): 3000 kg/m³ → 29.4 N.
   const A5_FMAX = 3000 * V * g;              // N bei der dichtesten Einstellung
-  const A5_PXMAX = 74;                       // px für diese Kraft
+  const A5_PXMAX = 110;                      // px für diese Kraft
   const pxN = A5_PXMAX / A5_FMAX;
   const lenG = Math.max(6, FG * pxN), lenA = Math.max(6, FA * pxN);
+  // Angriffspunkte: F_G im Schwerpunkt des Würfels, F_A im Schwerpunkt des
+  // EINGETAUCHTEN Teils (Auftriebsmittelpunkt) — nie im trockenen Teil.
+  // Leicht seitlich versetzt, damit sich die Pfeile nicht decken.
   const yM = yQtop + wq/2;
-  drawArrow(ctx, xQ, yM, xQ, yM + lenG, '#9b1c1c', 2.5, 10);
-  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const yB = (Math.max(yQtop, wasserY) + yQtop + wq) / 2;
+  drawDot(ctx, v => v, v => v, xQ+9, yM, '#9b1c1c', 3);
+  drawArrow(ctx, xQ+9, yM, xQ+9, yM + lenG, '#9b1c1c', 2.5, 10);
+  ctx.fillStyle = '#9b1c1c'; ctx.font = fK;
   ctx.textAlign = 'left';
-  ctx.fillText('F_G = '+FG.toFixed(2)+' N', xQ+wq/2+8, yM + lenG);
-  drawArrow(ctx, xQ-26, yM, xQ-26, yM - lenA, '#1f6b3a', 2.5, 10);
+  ctx.fillText('F_G = '+FG.toFixed(2)+' N', xQ+wq/2+8, Math.max(yM + lenG, yM + 4));
+  drawDot(ctx, v => v, v => v, xQ-9, yB, '#1f6b3a', 3);
+  drawArrow(ctx, xQ-9, yB, xQ-9, yB - lenA, '#1f6b3a', 2.5, 10);
   ctx.fillStyle = '#1f6b3a';
   ctx.textAlign = 'right';
-  ctx.fillText('F_A = '+FA.toFixed(2)+' N', xQ-wq/2-8, yM - lenA);
+  ctx.fillText('F_A = '+FA.toFixed(2)+' N', xQ-wq/2-8, Math.min(yB - lenA, yB) + 4);
   // Differenz beziffern — beim Sinken ist genau sie die resultierende Kraft
   if (Math.abs(FG - FA) > 0.02) {
     ctx.fillStyle = '#5b2d8e'; ctx.font = 'bold 13px JetBrains Mono,monospace';
@@ -2237,6 +2258,16 @@ function drawA6() {
   if (hOel*sc >= 16) { ctx.fillStyle = '#6b5410'; ctx.fillText('Öl', xL, (yOelTop+yGrenze)/2 + 4); }
   ctx.fillStyle = '#ffffff';
   ctx.fillText('Wasser', mitte, yC + wTube/2 + 4);
+
+  // Ohne Öl gibt es keine Grenzfläche und keine Masse — alles fiele auf eine
+  // Linie zusammen. Stattdessen nur die Aussage.
+  if (hOel === 0) {
+    ctx.fillStyle = '#3a7a96'; ctx.textAlign = 'center';
+    ctx.font = 'bold ' + (eng ? 12 : 13) + 'px "Source Sans 3",sans-serif';
+    const satz = eng ? ['ohne Öl: beide Wasserspiegel', 'gleich hoch'] : ['ohne Öl: beide Wasserspiegel gleich hoch'];
+    satz.forEach((t, k) => ctx.fillText(t, Wc/2, (eng ? 16 : 20) + k*16));   // in der freien Kopfzeile
+    return;
+  }
 
   // Vergleichshöhe: eine durchgehende Linie durch BEIDE Schenkel. Auf ihr
   // herrscht in der zusammenhängenden Wassersäule überall derselbe Druck —

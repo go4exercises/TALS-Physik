@@ -1627,8 +1627,17 @@ function drawA5(){
   ctx.setLineDash([]);
   drawDot(ctx, cx, cy, th, pRelB(th), A5_COL_B, 6);
   drawDot(ctx, cx, cy, th, pRel(th), '#9b1c1c', 6);
-  ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
-  ctx.fillText(vz(th)+' °C', px+8, py-6);
+  // Beschriftung des Messpunkts: nie über den rechten Rand (bei 200 °C links
+  // vom Punkt), nie in die Tick-Zeile über der Achse, und bei tiefen
+  // Temperaturen über dem Etikett «abs. Nullpunkt» statt darin.
+  ctx.fillStyle='#9b1c1c'; ctx.font='bold 13px JetBrains Mono,monospace';
+  const lab = vz(th)+' °C', lw = ctx.measureText(lab).width;
+  const rechts = px + 8 + lw <= W - 4;
+  ctx.textAlign = rechts ? 'left' : 'right';
+  let lyP = Math.min(py - 6, cy(0) - 22);
+  if (ext && th < -180) lyP = Math.min(lyP, cy(0) - 62);
+  if (lyP < 26) lyP = py + 20;                  // oben am Rand: unter den Punkt, weg vom Achsentitel
+  ctx.fillText(lab, rechts ? px + 8 : px - 10, lyP);
 
   // Legende links oben (dort ist die Fläche in jedem Zustand frei)
   const lx=10, ly=18;

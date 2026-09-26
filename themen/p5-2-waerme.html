@@ -1367,6 +1367,13 @@ function grp(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g
 
 // ── Loop-Manager (rAF + IntersectionObserver-Autostart) ───
 const LOOPS = [];
+// Canvas-Text in Zeilen, die höchstens maxW breit sind (Wortgrenzen; Schrift vorher setzen)
+function zeilenUmbruch(ctx, txt, maxW){
+  const z=[]; let akt='';
+  for(const w of txt.split(' ')){ const t=akt?akt+' '+w:w;
+    if(akt && ctx.measureText(t).width>maxW){ z.push(akt); akt=w; } else akt=t; }
+  if(akt) z.push(akt); return z;
+}
 function makeLoop(canvasId, btnId, tickFn){
   const st = { running:false, userPaused:false, rafId:null, last:0, canvasId:canvasId };
   const btn = document.getElementById(btnId); st.btn = btn;
@@ -1554,7 +1561,10 @@ function a1Render(){
   // (5 kg · 4182 J/(kg·K) · 100 K = 2091 kJ), aufgerundet auf 2100 kJ.
   const QMAX=2100;                       // kJ
   const qs=STOFFE.map(st=>m*st.c*dT/1000);
-  const x0=W*0.20, x1=W*0.94, n=STOFFE.length;
+  // linker Rand aus der breitesten Stoffbezeichnung, sonst schneidet 360 px «Aluminium» ab
+  ctx.font='bold 12px "Source Sans 3",sans-serif';
+  const nameW=Math.max(...STOFFE.map(st=>ctx.measureText(st.name).width));
+  const x0=Math.max(W*0.20, nameW+14), x1=W*0.94, n=STOFFE.length;
   const yPlot=H*0.04, hPlot=H*0.78;
   const xOf=q=>x0+(q/QMAX)*(x1-x0);
   // Achsengitter alle 500 kJ
@@ -1632,7 +1642,7 @@ function a2Render(){
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2;
     ctx.strokeRect(cx-wpx/2, top, wpx, base-top);
     ctx.fillStyle=lerpCol(T/100); ctx.fillRect(cx-wpx/2+2, y, wpx-4, h);
-    ctx.fillStyle='#1c1a17'; ctx.font=(eng?'11px ':'13px ')+'Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#1c1a17'; ctx.font=(eng?'11px ':'13px ')+'"Source Sans 3",sans-serif'; ctx.textAlign='center';
     ctx.fillText(lab, cx, base+14);
     ctx.font='bold '+(eng?'11px ':'13px ')+'JetBrains Mono,monospace';
     if(eng){                                 // Masse und Temperatur je auf eigener Zeile
@@ -1650,7 +1660,7 @@ function a2Render(){
   beaker(W*0.15, bw, m1, t1, 'Portion 1', 'Wasser');
   beaker(W*0.44, bw, m2, t2, 'Portion 2', s2.name);
   beaker(W*0.84, bw, m1+m2, tm, 'zusammen', a2Sel==='wasser' ? 'Wasser' : 'Wasser + Öl');
-  ctx.fillStyle='#5a5040'; ctx.font='bold '+(eng?'22px ':'34px ')+'Source Sans 3,sans-serif';
+  ctx.fillStyle='#5a5040'; ctx.font='bold '+(eng?'22px ':'34px ')+'"Source Sans 3",sans-serif';
   ctx.textAlign='center'; ctx.textBaseline='middle';
   ctx.fillText('+', W*0.295, HB*0.50); ctx.fillText('=', W*0.65, HB*0.50);
   ctx.textBaseline='alphabetic';
@@ -1795,8 +1805,10 @@ function drawA3(){
   const frei=(x,y,w)=>!(x<plx+pw+6 && x+w>plx-6 && Math.abs(y-ply)<14);
   // Plateau-Beschriftungen
   ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
-  const l1='Schmelzen (0 °C)', l1x=cx(42), l1y=cy(0)-8;
-  if(frei(l1x,l1y,ctx.measureText(l1).width)){ ctx.fillStyle='#1a4f8a'; ctx.fillText(l1,l1x,l1y); }
+  // mittig über dem Schmelzplateau (HK[1] … HK[2]), nicht über dem Anstieg danach
+  const l1='Schmelzen (0 °C)', l1w=ctx.measureText(l1).width;
+  const l1x=cx((HK[1][0]+HK[2][0])/2000)-l1w/2, l1y=cy(0)-8;
+  if(frei(l1x,l1y,l1w)){ ctx.fillStyle='#1a4f8a'; ctx.fillText(l1,l1x,l1y); }
   const l2='Verdampfen (100 °C)', l2w=ctx.measureText(l2).width;
   const l2x=cx((79.42+305.02)/2)-l2w/2, l2y=cy(100)-10;
   if(frei(l2x,l2y,l2w)){ ctx.fillStyle='#9b1c1c'; ctx.fillText(l2,l2x,l2y); }
@@ -1896,7 +1908,8 @@ function a4Render(){
     ctx.strokeStyle='rgba(255,230,150,0.9)'; ctx.lineWidth=4;
     ctx.beginPath(); ctx.moveTo(pulseX,y0); ctx.lineTo(pulseX,y1); ctx.stroke();
     ctx.fillStyle='#5a5040'; ctx.textAlign='center'; ctx.font='13px "Source Sans 3",sans-serif';
-    ctx.fillText('Teilchen schwingen am Ort, geben Energie an Nachbarn weiter →', W*0.5, y1+24);
+    zeilenUmbruch(ctx, 'Teilchen schwingen am Ort, geben Energie an Nachbarn weiter →', W-16)
+      .forEach((z,i)=>ctx.fillText(z, W*0.5, y1+24+i*17));
   } else if(a4State.mode===1){    // ── Konvektion ──
     const cx0=W*0.28,cx1=W*0.72,cy0=H*0.12,cy1=H*0.80;
     ctx.strokeStyle='#8a4a0e'; ctx.lineWidth=2; ctx.strokeRect(cx0,cy0,cx1-cx0,cy1-cy0);
@@ -1980,7 +1993,7 @@ function drawA5(){
   const k=Math.min(1, (W-16)/314);
   const yMid=96, W0=60*k, Ls=58*k, Lh=34*k, Ltot=Ls+Lh, c=1.5, boxW=116*k, boxH=104;
   const LsIn=Ls+14*k, LtotIn=LsIn+Lh;   // Eingangspfeil etwas länger (optischer Ausgleich gegen die beiden Ausgangspfeile)
-  const SS='Source Sans 3,sans-serif';
+  const SS='"Source Sans 3",sans-serif';
   const assembly=LtotIn+boxW+Ltot;
   let startX=(W-assembly)/2; if(startX<8) startX=8;
   const boxL=startX+LtotIn, boxR=boxL+boxW, boxCx=(boxL+boxR)/2;
@@ -2053,11 +2066,13 @@ function drawA6(){
 
   const cv=initCanvas('a6-cv',340,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const SS='Source Sans 3,sans-serif';
-  // Geometrie vorab durchgerechnet: Heizwärme = 96 px entspricht COP Teilen,
-  // Strom und Umgebungswärme sind streng proportional dazu (Summe geht auf).
-  const DICK=96, dWarm=DICK, dEl=DICK/cop, dUmg=DICK*umg/cop;
-  const boxW=Math.min(150, Math.max(72, W*0.20)), boxH=118, yMid=140;
+  const SS='"Source Sans 3",sans-serif';
+  // Fester Massstab in px je kWh: 1.0 kWh Strom ist immer gleich dick, die
+  // Heizwärme wächst mit dem COP — so passen Breiten und Beschriftungen
+  // zusammen. 96 px beim grössten COP (5.0 kWh), also 19.2 px je kWh.
+  // Schmal wird der ganze Massstab kleiner (höchstens ein Viertel der Breite für 5 kWh).
+  const PX_KWH=Math.min(96, W*0.25)/5, dEl=PX_KWH, dUmg=PX_KWH*umg, dWarm=PX_KWH*cop;
+  const boxW=Math.min(150, Math.max(90, W*0.20)), boxH=118, yMid=140;
   const boxL=W/2-boxW/2, boxR=boxL+boxW, boxCx=W/2;
   const boxT=yMid-boxH/2, boxB=yMid+boxH/2;
   const Lh=26, Ls=Math.min(74, boxL*0.44), Lsv=44, c=1.5;
@@ -2081,14 +2096,14 @@ function drawA6(){
 
   ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   ctx.fillStyle='#1a4f8a'; ctx.font='bold 13px '+SS;
-  ctx.fillText('Strom',    boxL-(Ls+Lh)/2, yEl-dEl/2-22);
-  ctx.fillText('1.0 kWh',  boxL-(Ls+Lh)/2, yEl-dEl/2-9);
+  ctx.fillText('Strom',    boxL-(Ls+Lh)/2, yEl-c*dEl/2-22);
+  ctx.fillText('1.0 kWh',  boxL-(Ls+Lh)/2, yEl-c*dEl/2-9);
   ctx.fillStyle='#1f6b3a';
   ctx.fillText('Umgebungswärme (gratis)', boxCx, boxB+Lsv+Lh+18);
   ctx.fillText(umg.toFixed(1)+' kWh',      boxCx, boxB+Lsv+Lh+32);
   ctx.fillStyle='#c0563a';
-  ctx.fillText('Heizwärme',            boxR+(Ls+Lh)/2, yMid-dWarm/2-22);
-  ctx.fillText(cop.toFixed(1)+' kWh',   boxR+(Ls+Lh)/2, yMid-dWarm/2-9);
+  ctx.fillText('Heizwärme',            boxR+(Ls+Lh)/2, yMid-c*dWarm/2-22);
+  ctx.fillText(cop.toFixed(1)+' kWh',   boxR+(Ls+Lh)/2, yMid-c*dWarm/2-9);
   ctx.fillStyle='#1c1a17'; ctx.font='bold 13px '+SS;
   ctx.fillText('Wärmepumpe', boxCx, yMid-4);
   ctx.font='13px JetBrains Mono,monospace'; ctx.fillStyle='#8a4a0e';
@@ -2116,7 +2131,12 @@ function a7Render(){
   const extraR=Math.round(frac*A7_EXTRA);
   document.getElementById('a7-halt').textContent = A7_NATUR+' + '+extraR+' von '+A7_STRAHLEN;
 
-  const cv=initCanvas('a7-cv',300,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  // Schmal (unter 460 px) passt die Legende nicht neben «Erdoberfläche (…)»:
+  // dann wird das Canvas um die Legende höher, und sie steht unter dem Boden.
+  // Gezeichnet wird immer auf der logischen Höhe H = 300.
+  const a7Schmal=(document.getElementById('a7-cv').parentElement.clientWidth||600)<460;
+  const cv=initCanvas('a7-cv',a7Schmal?300+3*16+14:300,false); const ctx=cv.ctx,W=cv.W,H=300;
+  if(a7Schmal){ ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,H,W,cv.H-H); }
   const t=a7State.t, yGround=H*0.80, yAtm=H*0.22, slope=0.38;   // slope = tan(Einfallwinkel) ≈ 21°
   // Himmel
   ctx.fillStyle='#dcebf7'; ctx.fillRect(0,0,W,H);
@@ -2183,7 +2203,7 @@ function a7Render(){
     {col:'#e8a81c', txt:'entweichen ins All: '+(nOut-halt)}
   ];
   ctx.font='bold 12px "Source Sans 3",sans-serif'; ctx.textAlign='left';
-  const legH=16, legY=H-6-legEintraege.length*legH;
+  const legH=16, legY=a7Schmal ? H+8 : H-6-legEintraege.length*legH;
   let legW=0; legEintraege.forEach(e=>{ legW=Math.max(legW, ctx.measureText(e.txt).width); });
   ctx.fillStyle='rgba(255,255,255,0.88)'; ctx.fillRect(4, legY-4, legW+30, legEintraege.length*legH+8);
   legEintraege.forEach((e,i)=>{

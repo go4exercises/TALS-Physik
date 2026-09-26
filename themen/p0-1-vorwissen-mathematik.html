@@ -1995,13 +1995,20 @@ function drawA1() {
     ctx1.fillStyle = '#c9b98a'; ctx1.fillRect(0, H1 - bot, W1, bot);
     // Lastende Wassersäule über dem Taucher einfärben — sie ist die Ursache
     // des Drucks und war vorher unsichtbar.
-    const dx = 60 + (W1 - 80) * 0.5, saeule = Math.min(70, W1*0.22);
+    // Säule so weit links, dass rechts daneben die Beschriftung (~140 px) Platz hat
+    const saeule = Math.min(70, W1*0.22), dx = Math.min(60 + (W1 - 80) * 0.5, W1 - 150 - saeule/2);
     ctx1.fillStyle = 'rgba(58,110,150,0.42)';
     ctx1.fillRect(dx - saeule/2, yOf(0), saeule, yOf(x) - yOf(0));
     ctx1.strokeStyle = '#3a6e96'; ctx1.lineWidth = 1.4;
     ctx1.strokeRect(dx - saeule/2, yOf(0), saeule, yOf(x) - yOf(0));
-    haloLabel(ctx1, 'diese Wassersäule', dx + saeule/2 + 8, yOf(x/2) - 6, '#2c5675', 'left');
-    haloLabel(ctx1, 'drückt auf dich', dx + saeule/2 + 8, yOf(x/2) + 10, '#2c5675', 'left');
+    // Säulentext: neben der Säulenmitte; ist die Säule zu kurz dafür, unter den
+    // Werten h und p. Bei h = 0 gibt es keine Säule und darum keinen Text.
+    const saeuleLang = yOf(x) - yOf(0) >= 40, unten = yOf(x) + 34 > H1 - 4;
+    const tY = saeuleLang ? yOf(x/2) : yOf(x) + 50;
+    if (x > 0) {
+      haloLabel(ctx1, 'diese Wassersäule', dx + saeule/2 + 8, tY - 6, '#2c5675', 'left');
+      haloLabel(ctx1, 'drückt auf dich', dx + saeule/2 + 8, tY + 10, '#2c5675', 'left');
+    }
     ctx1.strokeStyle = '#5a86ad'; ctx1.lineWidth = 2; ctx1.beginPath();
     for (let px = 0; px <= W1; px += 4) { const py = top + Math.sin(px / 9) * 1.6;
       if (px === 0) ctx1.moveTo(px, py); else ctx1.lineTo(px, py); }
@@ -2016,8 +2023,10 @@ function drawA1() {
     ctx1.fillStyle = '#8a4a0e';
     ctx1.beginPath(); ctx1.arc(dx, yOf(x), 8, 0, 2 * Math.PI); ctx1.fill();
     ctx1.strokeStyle = '#fff'; ctx1.lineWidth = 2; ctx1.stroke();
-    haloLabel(ctx1, 'h = ' + x + ' m', dx + saeule/2 + 8, yOf(x) + 14, '#5b2d8e', 'left');
-    haloLabel(ctx1, 'p = ' + y.toFixed(1) + ' bar', dx + saeule/2 + 8, yOf(x) + 30, '#8a4a0e', 'left');
+    // Werte unter dem Taucher; am Grund (kein Platz im Sand) über ihm
+    const wY = unten ? yOf(x) - 26 : yOf(x) + 14;
+    haloLabel(ctx1, 'h = ' + x + ' m', dx + saeule/2 + 8, wY, '#5b2d8e', 'left');
+    haloLabel(ctx1, 'p = ' + y.toFixed(1) + ' bar', dx + saeule/2 + 8, wY + 16, '#8a4a0e', 'left');
   } else {
     // Marktstand: der Sack füllt sich proportional zur Menge
     ctx1.fillStyle = '#fbfaf7'; ctx1.fillRect(0, 0, W1, H1);
@@ -2049,19 +2058,22 @@ function drawA1() {
   ctx2.beginPath(); ctx2.moveTo(gr.cx(0), gr.cy(0)); ctx2.lineTo(gr.cx(z.xMax), gr.cy(z.k*z.xMax)); ctx2.stroke();
   // Steigungsdreieck: eine Einheit nach rechts, k nach oben — macht den
   // konstanten Quotienten als Steigung sichtbar.
-  const dxT = z.xMax * 0.22, x0T = z.xMax * 0.30;
+  // Genau eine runde Einheit breit (1 kg bzw. 10 m): dann steht die Steigung
+  // selbst an der Höhe, und Breite und Höhe passen auch gerundet zusammen
+  // (vorher 1.32 kg, angeschrieben «1.3 kg» neben «4.22 CHF»).
+  const dxT = a1Szen === 'aepfel' ? 1 : 10, x0T = z.xMax * 0.30;
   ctx2.strokeStyle = '#1f6b3a'; ctx2.lineWidth = 1.8; ctx2.setLineDash([4,3]);
   ctx2.beginPath();
   ctx2.moveTo(gr.cx(x0T), gr.cy(z.k*x0T));
   ctx2.lineTo(gr.cx(x0T+dxT), gr.cy(z.k*x0T));
   ctx2.lineTo(gr.cx(x0T+dxT), gr.cy(z.k*(x0T+dxT)));
   ctx2.stroke(); ctx2.setLineDash([]);
-  haloLabel(ctx2, dxT.toFixed(1)+' '+z.eX, gr.cx(x0T+dxT/2), gr.cy(z.k*x0T)+16, '#1f6b3a', 'center');
-  haloLabel(ctx2, (z.k*dxT).toFixed(2)+' '+z.eY, gr.cx(x0T+dxT)+8, gr.cy(z.k*(x0T+dxT/2)), '#1f6b3a', 'left');
+  haloLabel(ctx2, dxT+' '+z.eX, gr.cx(x0T+dxT/2), gr.cy(z.k*x0T)+16, '#1f6b3a', 'center');
+  haloLabel(ctx2, (z.k*dxT).toFixed(z.eY==='CHF'?2:1)+' '+z.eY, gr.cx(x0T+dxT)+8, gr.cy(z.k*(x0T+dxT/2)), '#1f6b3a', 'left');
   ctx2.strokeStyle = '#b8c4d4'; ctx2.lineWidth = 1.2; ctx2.setLineDash([4,4]);
   ctx2.beginPath(); ctx2.moveTo(gr.cx(x), gr.cy(0)); ctx2.lineTo(gr.cx(x), gr.cy(y)); ctx2.lineTo(gr.cx(0), gr.cy(y)); ctx2.stroke();
   ctx2.setLineDash([]);
-  if (2*x <= z.xMax) {
+  if (x > 0 && 2*x <= z.xMax) {              // das Doppelte von 0 wäre wieder der Ursprung
     drawDot(ctx2, gr.cx, gr.cy, 2*x, 2*y, '#5b2d8e', 5);
     const alignR = gr.cx(2*x) > cv2.W - 130;
     haloLabel(ctx2, 'doppelt → doppelt', gr.cx(2*x) + (alignR ? -10 : 10), gr.cy(2*y) - 8, '#5b2d8e', alignR ? 'right' : 'left');
@@ -2124,7 +2136,21 @@ function drawA2() {
   ctx.fillRect(gr.cx(0), gr.cy(y), gr.cx(x)-gr.cx(0), gr.cy(0)-gr.cy(y));
   ctx.strokeStyle = '#b39b73'; ctx.lineWidth = 1.2;
   ctx.strokeRect(gr.cx(0), gr.cy(y), gr.cx(x)-gr.cx(0), gr.cy(0)-gr.cy(y));
-  haloLabel(ctx, 'Fläche = ' + z.prod, gr.cx(x*0.5), gr.cy(y*0.5), '#7a6748', 'center');
+  // Beschriftung des Rechtecks: einzeilig, wenn sie hineinpasst, sonst zweizeilig;
+  // waagrecht zwischen den y-Zahlen (rechts der Achse) und dem Achsentitel rechts
+  // unten gehalten. Ist das Rechteck viel schmaler als der Text, steht sie rechts
+  // daneben — dort, unter der fallenden Kurve, ist frei.
+  const rB = gr.cx(x) - gr.cx(0), fTxt = 'Fläche = ' + z.prod;
+  ctx.font = 'bold 13px JetBrains Mono,monospace';          // dieselbe Schrift wie haloLabel
+  const zeilen = ctx.measureText(fTxt).width <= rB - 8 ? [fTxt] : ['Fläche =', z.prod];
+  const wMax = Math.max(...zeilen.map(t => ctx.measureText(t).width));
+  const yMitte = gr.cy(y * 0.5) - (zeilen.length - 1) * 8;
+  if (wMax <= rB + 40) {
+    const fx = Math.max(gr.cx(0) + 30 + wMax/2, Math.min(gr.cx(x*0.5), cv.W - 80 - wMax/2));
+    zeilen.forEach((t, i) => haloLabel(ctx, t, fx, yMitte + i * 16, '#7a6748', 'center'));
+  } else {
+    zeilen.forEach((t, i) => haloLabel(ctx, t, gr.cx(x) + 8, gr.cy(y * 0.3) + i * 16, '#7a6748', 'left'));
+  }
   // Hyperbel
   drawCurve(ctx, gr.cx, gr.cy, xx => xx, xx => z.k / xx, z.xMin, z.xMax, 140, '#8a4a0e', 2.8);
   // Hilfslinien zum aktuellen Punkt
@@ -2135,8 +2161,12 @@ function drawA2() {
   if (2 * x <= z.xMax) {
     const y2 = z.k / (2 * x);
     drawDot(ctx, gr.cx, gr.cy, 2 * x, y2, '#5b2d8e', 5);
-    const alignR = gr.cx(2 * x) > cv.W - 130;
-    haloLabel(ctx, 'doppelt → halb', gr.cx(2 * x) + (alignR ? -10 : 10), gr.cy(y2) - 10, '#5b2d8e', alignR ? 'right' : 'left');
+    // Rechts daneben, wenn Platz ist; sonst rechtsbündig am Rand darüber — links
+    // oder mittig läge es auf der Höhe der Rechteck-Beschriftung
+    if (gr.cx(2 * x) + 10 + 110 <= cv.W - 4)
+      haloLabel(ctx, 'doppelt → halb', gr.cx(2 * x) + 10, gr.cy(y2) - 10, '#5b2d8e', 'left');
+    else
+      haloLabel(ctx, 'doppelt → halb', cv.W - 4, gr.cy(y2) - 14, '#5b2d8e', 'right');
   }
   drawDot(ctx, gr.cx, gr.cy, x, y, '#8a4a0e', 6);
 }
@@ -2161,9 +2191,11 @@ function drawA3() {
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
   // Massstab: 95 px pro m — Worst Case r=1, h=2 bleibt im Bild (Python-verifiziert)
-  const scale = Math.min(95, (W - 130) / 2);   // auf schmalen Canvases verkleinern
+  // Tank samt Höhenpfeil (≈ 78 px) muss links der Balkenskala (ab 0.8·W − 48 px)
+  // bleiben — auch bei r = 1 m. Bei 1280 px greift weiter 95 px/m.
+  const scale = Math.min(95, (W - 130) / 2, (W * 0.80 - 98) / 2);
   const rx = r * scale, ry = 0.25 * r * scale;
-  const cxM = W / 2 - 20;
+  const cxM = Math.min(W / 2 - 20, W * 0.80 - 78 - rx);
   const yBot = H - 34 - ry;          // Zentrum untere Ellipse
   const yTop = yBot - h * scale;     // Zentrum obere Ellipse
   // Mantelfläche
@@ -2192,7 +2224,6 @@ function drawA3() {
   ctx.beginPath(); ctx.moveTo(hx - 6, yBot); ctx.lineTo(hx + 6, yBot); ctx.stroke();
   drawArrow(ctx, hx, yTop + 3, hx, yBot - 3, '#1f6b3a', 1.6, 7);
   drawArrow(ctx, hx, yBot - 3, hx, yTop + 3, '#1f6b3a', 1.6, 7);
-  haloLabel(ctx, 'h = ' + h.toFixed(2) + ' m', hx + 10, (yTop + yBot) / 2 + 4, '#1f6b3a', 'left');
   // Boden-Linie
   ctx.strokeStyle = '#c9b98a'; ctx.lineWidth = 3;
   ctx.beginPath(); ctx.moveTo(20, yBot + ry + 4); ctx.lineTo(W - 20, yBot + ry + 4); ctx.stroke();
@@ -2215,6 +2246,13 @@ function drawA3() {
   ctx.fillStyle='#5a5040'; ctx.font='bold 11px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('V [L]', bx+bwB/2, byTop-8);
   haloLabel(ctx, Math.round(V*1000)+' l', bx+bwB/2, Math.max(byTop+14, yL(V*1000)-6), '#1a4f8a', 'center');
+  // Höhe: neben dem Pfeil, wenn bis zu den Skalenzahlen des Balkens Platz ist;
+  // sonst im freien Streifen unter der Bodenlinie (die Skala endet darüber)
+  const hTxt = 'h = ' + h.toFixed(2) + ' m';
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const hW = ctx.measureText(hTxt).width;
+  if (hx + 10 + hW <= bx - 48) haloLabel(ctx, hTxt, hx + 10, (yTop + yBot) / 2 + 4, '#1f6b3a', 'left');
+  else haloLabel(ctx, hTxt, Math.max(hW/2 + 4, Math.min(hx, W - hW/2 - 4)), H - 8, '#1f6b3a', 'center');
 }
 ['a3-r','a3-h'].forEach(id => document.getElementById(id).addEventListener('input', drawA3));
 
@@ -2266,15 +2304,34 @@ function drawA4() {
   ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.8;
   ctx.beginPath(); ctx.arc(cxC, cyC, 22, 0, -phi, true); ctx.stroke();
   // Labels: phi, r, s (mit Halo, Rand-sicher zentriert innen)
+  let a4PhiBox = null;               // Fläche des φ-Labels, für den Bogentext
   if (phiDeg > 12) {
     const mid = phi / 2;
-    haloLabel(ctx, 'φ = ' + phiDeg + '°', cxC + 38 * Math.cos(mid) + 12, cyC - 38 * Math.sin(mid) + 4, '#1f6b3a', 'left');
+    // Text vom Mittelpunkt WEG ausrichten: zeigt die Winkelhalbierende nach links
+    // (φ > 180°), liefe ein linksbündiger Text über Mittelpunkt und Radius
+    const links = Math.cos(mid) < 0;
+    const fx = cxC + 38 * Math.cos(mid) + (links ? -12 : 12), fy = cyC - 38 * Math.sin(mid) + 4;
+    haloLabel(ctx, 'φ = ' + phiDeg + '°', fx, fy, '#1f6b3a', links ? 'right' : 'left');
+    ctx.font = 'bold 13px JetBrains Mono,monospace';
+    const fw = ctx.measureText('φ = ' + phiDeg + '°').width;
+    a4PhiBox = {x: links ? fx - fw - 2 : fx - 2, y: fy - 11, w: fw + 4, h: 14};
   }
   haloLabel(ctx, 'r', cxC + 0.55 * R * Math.cos(phi) - 12, cyC - 0.55 * R * Math.sin(phi) - 6, '#5b2d8e', 'center');
   if (phiDeg > 20) {
-    const am = phi * 0.6;
-    const lx = cxC + (R + 16) * Math.cos(am), ly = cyC - (R + 16) * Math.sin(am);
-    haloLabel(ctx, 's = ' + s.toFixed(2) + ' m', Math.min(Math.max(lx, 58), W - 58), ly + 4, '#8a4a0e', 'center');
+    // Bogentext aussen am Bogen: erste Lage (Anteil des Winkels), die weder das
+    // φ-Label noch die Umfangszeile oben (bis y = 26) berührt
+    const sTxt = 's = ' + s.toFixed(2) + ' m';
+    ctx.font = 'bold 13px JetBrains Mono,monospace';
+    const sw = ctx.measureText(sTxt).width;
+    const lage = f => { const am = phi * f;
+      const x = Math.min(Math.max(cxC + (R + 16) * Math.cos(am), sw/2 + 4), W - sw/2 - 4);
+      const y = cyC - (R + 16) * Math.sin(am) + 4;
+      return {x, y, box: {x: x - sw/2 - 2, y: y - 11, w: sw + 4, h: 14}}; };
+    const frei = L => L.box.y >= 26 && L.box.y + L.box.h <= H - BAND &&
+      !(a4PhiBox && L.box.x < a4PhiBox.x + a4PhiBox.w &&
+        a4PhiBox.x < L.box.x + L.box.w && L.box.y < a4PhiBox.y + a4PhiBox.h && a4PhiBox.y < L.box.y + L.box.h);
+    const L = [0.6, 0.35, 0.8, 0.2, 0.5].map(lage).find(frei) || lage(0.6);
+    haloLabel(ctx, sTxt, L.x, L.y, '#8a4a0e', 'center');
   }
   // Punkt auf dem Kreis + Zentrum
   ctx.fillStyle = '#8a4a0e';
@@ -2372,12 +2429,18 @@ function drawA5() {
     ctx.fillStyle = '#374151';
     ctx.beginPath(); ctx.moveTo(W - 12, z.y - 4); ctx.lineTo(W - 4, z.y); ctx.lineTo(W - 12, z.y + 4); ctx.fill();
     ctx.font = '13px JetBrains Mono,monospace';
+    // Randzahl nur, wenn keine Dreierstufe zu nah daneben steht (schmal stiessen
+    // «10²10³» und «10⁹10¹⁰» zusammen)
+    const dekW = ctx.measureText('10¹⁰').width + 6;
     for (let e = z.von; e <= z.bis; e++) {
       const big = (e % 3 === 0) || e === z.von || e === z.bis;
       ctx.strokeStyle = big ? '#374151' : '#b8c4d4';
       ctx.lineWidth = big ? 1.4 : 1;
       ctx.beginPath(); ctx.moveTo(XZ(z, e), z.y - (big ? 7 : 4)); ctx.lineTo(XZ(z, e), z.y + (big ? 7 : 4)); ctx.stroke();
-      if (big) {
+      const rand = e % 3 !== 0;
+      const nachbar = rand && [-1, 1, -2, 2].some(d => (e + d) % 3 === 0 && e + d >= z.von && e + d <= z.bis
+                                        && Math.abs(XZ(z, e + d) - XZ(z, e)) < dekW);
+      if (big && !nachbar) {
         ctx.fillStyle = '#6b7280'; ctx.textAlign = 'center';
         ctx.fillText('10' + sup(e), XZ(z, e), z.y + 22);
       }
@@ -2385,10 +2448,17 @@ function drawA5() {
     // Übergang zwischen den Zeilen kenntlich machen
     ctx.fillStyle = '#8a4a0e'; ctx.font = 'bold 11px "Source Sans 3",sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText(zi === 0 ? 'klein  10⁻⁶ … 10²' : 'gross  10² … 10¹⁰', L - 8, z.y - 96);
+    // über dem Wertlabel des aktuellen Punkts (z.y − 108 … − 91), nicht auf seiner Höhe
+    ctx.fillText(zi === 0 ? 'klein  10⁻⁶ … 10²' : 'gross  10² … 10¹⁰', L - 8, z.y - 114);
     if (zi === 0) { ctx.textAlign = 'right';
       ctx.fillText('weiter unten →', W - 6, z.y + 38); }
   });
+
+  // Markierungslinie des aktuellen Werts zuerst — die Objektnamen liegen darüber
+  const zA = ZEILEN[zAktiv], mx = XZ(zA, expo);
+  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(mx, zA.y - 92); ctx.lineTo(mx, zA.y - 8); ctx.stroke();
+  ctx.setLineDash([]);
 
   // Vergleichsobjekte auf die passende Zeile
   for (const [name, val, row] of A5MARKS) {
@@ -2400,15 +2470,12 @@ function drawA5() {
     ctx.beginPath(); ctx.moveTo(x, z.y - 7); ctx.lineTo(x, yLbl + 6); ctx.stroke();
     ctx.fillStyle = '#9aa1ab'; ctx.beginPath(); ctx.arc(x, z.y, 3.5, 0, 6.283); ctx.fill();
     ctx.fillStyle = '#6b7280'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-    const nw = ctx.measureText(name).width;
-    ctx.fillText(name, Math.max(nw/2 + 4, Math.min(W - nw/2 - 4, x)), yLbl);
+    const nw = ctx.measureText(name).width, nx = Math.max(nw/2 + 4, Math.min(W - nw/2 - 4, x));
+    ctx.fillStyle = '#fff'; ctx.fillRect(nx - nw/2 - 2, yLbl - 11, nw + 4, 14);
+    ctx.fillStyle = '#6b7280'; ctx.fillText(name, nx, yLbl);
   }
 
   // aktueller Wert
-  const zA = ZEILEN[zAktiv], mx = XZ(zA, expo);
-  ctx.strokeStyle = '#8a4a0e'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
-  ctx.beginPath(); ctx.moveTo(mx, zA.y - 92); ctx.lineTo(mx, zA.y - 8); ctx.stroke();
-  ctx.setLineDash([]);
   ctx.fillStyle = '#8a4a0e';
   ctx.beginPath(); ctx.arc(mx, zA.y, 6.5, 0, 6.283); ctx.fill();
   const lblTxt = mStr + '·10' + sup(n) + ' m';
@@ -2918,29 +2985,40 @@ function drawB2() {
     // x-Achse: t in [0, 60], Gerade s = v·t
     const tMax = 60;
     const sTop = B2_SMAX;                   // fest: sonst sieht jede Konstante gleich aus
-    const gr = drawGrid(cv.ctx, cv.W, cv.H, -2, tMax * 1.05, -sTop * 0.05, sTop);
+    const gr = drawGrid(cv.ctx, cv.W, cv.H, -2, tMax * 1.05, -sTop * 0.05, sTop * 1.06);   // Luft: Punkt bei 600 m ganz sichtbar
     drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [s]', 's [m]');
     cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
     cv.ctx.beginPath();
     cv.ctx.moveTo(gr.cx(0), gr.cy(0)); cv.ctx.lineTo(gr.cx(tMax), gr.cy(v * tMax));
     cv.ctx.stroke();
     drawDot(cv.ctx, gr.cx, gr.cy, t, s, '#8a4a0e', 6);
-    lbl(cv.ctx, cv.W, 's = v·t (v fest)', gr.cx(40) + 8, gr.cy(v * 40) - 8, '#8a4a0e', 'left');
-    lbl(cv.ctx, cv.W, 't = ' + t + ' s → s = ' + fmt(s) + ' m', gr.cx(t) + 10, gr.cy(s) + 18, '#5a5040', 'left');
+    b2Labels(cv, gr, 's = v·t (v fest)', 't = ' + t + ' s → s = ' + fmt(s) + ' m', t, s, sTop);
   } else {
     // x-Achse: v in [0, 10], Gerade s = t·v
     const vMax = 10;
     const sTop = B2_SMAX;                   // dieselbe feste Achse wie im t-Modus
-    const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.4, vMax * 1.05, -sTop * 0.05, sTop);
+    const gr = drawGrid(cv.ctx, cv.W, cv.H, -0.4, vMax * 1.05, -sTop * 0.05, sTop * 1.06);
     drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 'v [m/s]', 's [m]');
     cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
     cv.ctx.beginPath();
     cv.ctx.moveTo(gr.cx(0), gr.cy(0)); cv.ctx.lineTo(gr.cx(vMax), gr.cy(vMax * t));
     cv.ctx.stroke();
     drawDot(cv.ctx, gr.cx, gr.cy, v, s, '#8a4a0e', 6);
-    lbl(cv.ctx, cv.W, 's = t·v (t fest)', gr.cx(6.7) + 8, gr.cy(6.7 * t) - 8, '#8a4a0e', 'left');
-    lbl(cv.ctx, cv.W, 'v = ' + v + ' m/s → s = ' + fmt(s) + ' m', gr.cx(v) + 10, gr.cy(s) + 18, '#5a5040', 'left');
+    b2Labels(cv, gr, 's = t·v (t fest)', 'v = ' + v + ' m/s → s = ' + fmt(s) + ' m', v, s, sTop);
   }
+}
+// Beschriftungen oben links im Diagramm — dort ist immer frei, weil die
+// steilste Gerade (10 m/s) die 500 m erst nach 50 s erreicht. Am Punkt selbst
+// fand die Wertzeile bei schmaler Breite keinen Platz ohne die Gerade oder die
+// Achsenzahlen zu kreuzen; gestrichelte Ablesehilfen verbinden Punkt und Achsen.
+function b2Labels(cv, gr, name, wert, x, s, sTop) {
+  const c = cv.ctx;
+  c.strokeStyle = '#b8c4d4'; c.lineWidth = 1.2; c.setLineDash([4, 4]);
+  c.beginPath(); c.moveTo(gr.cx(x), gr.cy(0)); c.lineTo(gr.cx(x), gr.cy(s)); c.lineTo(gr.cx(0), gr.cy(s)); c.stroke();
+  c.setLineDash([]);
+  drawDot(c, gr.cx, gr.cy, x, s, '#8a4a0e', 6);
+  lbl(c, cv.W, name, gr.cx(0) + 40, gr.cy(sTop * 0.95), '#8a4a0e', 'left');
+  lbl(c, cv.W, wert, gr.cx(0) + 40, gr.cy(sTop * 0.95) + 18, '#5a5040', 'left');
 }
 ['b2-v','b2-t'].forEach(id => document.getElementById(id).addEventListener('input', drawB2));
 
@@ -2970,7 +3048,11 @@ function drawB3() {
   cv.ctx.moveTo(gr.cx(1), gr.cy(0)); cv.ctx.lineTo(gr.cx(1), gr.cy(B3_EK));
   cv.ctx.lineTo(gr.cx(0), gr.cy(B3_EK)); cv.ctx.stroke(); cv.ctx.setLineDash([]);
   drawDot(cv.ctx, gr.cx, gr.cy, 1, B3_EK, '#5b2d8e', 6);
-  lbl(cv.ctx, cv.W, 'auf 1 zurück: 1 kg → 2.50 CHF', gr.cx(1) + 10, gr.cy(B3_EK) - 10, '#5b2d8e', 'left');
+  // Schmal ist an der steilen Geraden kein Platz für drei Beschriftungen; sie
+  // stehen dann als Liste oben links (dort ist frei: die längste Zeile endet bei
+  // etwa 4.3 kg, wo die Gerade erst bei 10.8 CHF liegt), in den Farben ihrer Punkte.
+  const b3Schmal = cv.W < 520;
+  if (!b3Schmal) lbl(cv.ctx, cv.W, 'auf 1 zurück: 1 kg → 2.50 CHF', gr.cx(1) + 10, gr.cy(B3_EK) - 10, '#5b2d8e', 'left');
 
   // Ursprungsgerade
   cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
@@ -2983,12 +3065,21 @@ function drawB3() {
   cv.ctx.beginPath();
   cv.ctx.arc(gr.cx(3), gr.cy(7.5), 7, 0, 2 * Math.PI);
   cv.ctx.stroke();
-  lbl(cv.ctx, cv.W, 'gegeben: 3 kg → 7.50 CHF', gr.cx(3) - 12, gr.cy(7.5) - 10, '#1f6b3a', 'right');
+  if (!b3Schmal) lbl(cv.ctx, cv.W, 'gegeben: 3 kg → 7.50 CHF', gr.cx(3) - 12, gr.cy(7.5) - 10, '#1f6b3a', 'right');
 
   // Zielmengen-Punkt
   drawDot(cv.ctx, gr.cx, gr.cy, m, preis, '#8a4a0e', 6);
-  lbl(cv.ctx, cv.W, m.toFixed(1) + ' kg → ' + preis.toFixed(2) + ' CHF',
-      gr.cx(m) + 10, gr.cy(preis) + 20, '#5a5040', 'left');
+  const zielTxt = m.toFixed(1) + ' kg → ' + preis.toFixed(2) + ' CHF';
+  if (b3Schmal) {
+    // unter dem Achsentitel; nur die Werte — was gegeben und was Ziel ist, sagen
+    // Farbe und Legende (lange Zeilen liefen sonst in die Gerade)
+    const x0 = gr.cx(0) + 32;
+    lbl(cv.ctx, cv.W, '3 kg → 7.50 CHF', x0, 34, '#1f6b3a', 'left');
+    lbl(cv.ctx, cv.W, '1 kg → 2.50 CHF', x0, 51, '#5b2d8e', 'left');
+    lbl(cv.ctx, cv.W, zielTxt, x0, 68, '#8a4a0e', 'left');
+  } else {
+    lbl(cv.ctx, cv.W, zielTxt, gr.cx(m) + 10, gr.cy(preis) + 20, '#5a5040', 'left');
+  }
 }
 document.getElementById('b3-m').addEventListener('input', drawB3);
 
@@ -3122,7 +3213,8 @@ function drawB5() {
     ctxS.fillText(d + ' m', xR, yS + 30);
     // Eigene Zeile, damit die Angabe nicht auf «0 m» oder «d m» fällt
     ctxS.fillStyle = stimmt ? '#1f6b3a' : '#9b1c1c'; ctxS.font = 'bold 12px "JetBrains Mono",monospace';
-    const tTxt = stimmt ? 'Treffpunkt ' + xLinks.toFixed(0) + ' m'
+    // schmal entfällt die Beschriftung im Diagramm — dann steht die Zeit hier
+    const tTxt = stimmt ? 'Treffpunkt ' + xLinks.toFixed(0) + ' m' + (W < 520 ? ' nach ' + fmt(t) + ' s' : '')
                         : 'A wäre bei ' + xLinks.toFixed(0) + ' m, B bei ' + xRechts.toFixed(0) + ' m';
     const tw = ctxS.measureText(tTxt).width;
     ctxS.fillText(tTxt, Math.max(tw/2 + 4, Math.min(W - tw/2 - 4, xOf(xLinks))), yS + 46);
@@ -3133,16 +3225,17 @@ function drawB5() {
   const gr = drawGrid(cv.ctx, cv.W, cv.H - 92, -tEnd * 0.03, tEnd * 1.05, -d * 0.05, d * 1.05);
   drawAxesUnits(cv.ctx, cv.W, cv.H - 92, gr.cx, gr.cy, 't [s]', 'x [m]');
 
+  // Beide Velos fahren nur bis ans Strassenende: A bis x = d, B bis x = 0.
+  // Vorher liefen die Geraden bis tEnd weiter, B unter die t-Achse.
+  const tA = Math.min(tEnd, d / vA), tB = Math.min(tEnd, d / vB);
+  const segA = [gr.cx(0), gr.cy(0), gr.cx(tA), gr.cy(vA * tA)];
+  const segB = [gr.cx(0), gr.cy(d), gr.cx(tB), gr.cy(d - vB * tB)];
   // Velo A von links (Bernstein)
   cv.ctx.strokeStyle = '#8a4a0e'; cv.ctx.lineWidth = 2.8; cv.ctx.setLineDash([]);
-  cv.ctx.beginPath();
-  cv.ctx.moveTo(gr.cx(0), gr.cy(0)); cv.ctx.lineTo(gr.cx(tEnd), gr.cy(vA * tEnd));
-  cv.ctx.stroke();
+  cv.ctx.beginPath(); cv.ctx.moveTo(segA[0], segA[1]); cv.ctx.lineTo(segA[2], segA[3]); cv.ctx.stroke();
   // Velo B von rechts (Blau)
   cv.ctx.strokeStyle = '#1a4f8a'; cv.ctx.lineWidth = 2.8;
-  cv.ctx.beginPath();
-  cv.ctx.moveTo(gr.cx(0), gr.cy(d)); cv.ctx.lineTo(gr.cx(tEnd), gr.cy(d - vB * tEnd));
-  cv.ctx.stroke();
+  cv.ctx.beginPath(); cv.ctx.moveTo(segB[0], segB[1]); cv.ctx.lineTo(segB[2], segB[3]); cv.ctx.stroke();
 
   lbl(cv.ctx, cv.W, 'A →', gr.cx(t * 0.5), gr.cy(vA * t * 0.5) - 8, '#8a4a0e', 'center');
   lbl(cv.ctx, cv.W, '← B', gr.cx(t * 0.5), gr.cy(d - vB * t * 0.5) - 8, '#1a4f8a', 'center');
@@ -3155,8 +3248,32 @@ function drawB5() {
   cv.ctx.stroke();
   cv.ctx.setLineDash([]);
   drawDot(cv.ctx, gr.cx, gr.cy, t, xLinks, '#9b1c1c', 6);
-  lbl(cv.ctx, cv.W, 'Treffpunkt: ' + xLinks.toFixed(1) + ' m nach ' + fmt(t) + ' s',
-      gr.cx(t) + 10, gr.cy(xLinks) - 12, '#9b1c1c', 'left');
+  // Beschriftung zweizeilig an der ersten Lage, die keine Gerade und keine
+  // Hilfslinie schneidet (geprüft gegen die echten Strecken). Schmal steht die
+  // Zeit stattdessen in der Strassenzeile oben.
+  if (cv.W >= 520) {
+    const pX = gr.cx(t), pY = gr.cy(xLinks);
+    const z1 = 'Treffpunkt: ' + xLinks.toFixed(1) + ' m', z2 = 'nach ' + fmt(t) + ' s';
+    cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
+    const bw = Math.max(cv.ctx.measureText(z1).width, cv.ctx.measureText(z2).width) + 4, bh = 32;
+    const strecken = [segA, segB, [pX, gr.cy(0), pX, pY], [gr.cx(0), pY, pX, pY]];
+    const schneidet = (q, r) => {                     // Strecke q gegen Rechteck r
+      const [x1, y1, x2, y2] = q;
+      for (let i = 0; i <= 40; i++) { const x = x1 + (x2 - x1) * i / 40, y = y1 + (y2 - y1) * i / 40;
+        if (x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h) return true; }
+      return false; };
+    const plotB = cv.H - 92;
+    const lagen = [[pX + 14, pY - bh/2], [pX + 14, pY - bh - 8], [pX + 14, pY + 10],
+                   [pX - 14 - bw, pY - bh/2], [pX - 14 - bw, pY - bh - 8], [pX - 14 - bw, pY + 10],
+                   [cv.W - bw - 6, gr.cy(0) - bh - 22], [gr.cx(0) + 34, 6]]
+      .map(([x, y]) => ({x, y, w: bw, h: bh}))
+      .filter(r => r.x >= gr.cx(0) + 30 && r.x + r.w <= cv.W - 4 && r.y >= 4 && r.y + r.h <= gr.cy(0) - 18);
+    const r = lagen.find(q => !strecken.some(sg => schneidet(sg, q))) || lagen[0];
+    if (r) {
+      lbl(cv.ctx, cv.W, z1, r.x + 2, r.y + 13, '#9b1c1c', 'left');
+      lbl(cv.ctx, cv.W, z2, r.x + 2, r.y + 29, '#9b1c1c', 'left');
+    }
+  }
   cv.ctx.restore();
 }
 ['b5-d','b5-va','b5-vb'].forEach(id => document.getElementById(id).addEventListener('input', drawB5));
@@ -3202,17 +3319,20 @@ function drawKorrelation() {
     c.beginPath(); c.arc(gr.cx(p.glace), gr.cy(p.brand), 5.5, 0, 6.283); c.fill();
     c.strokeStyle = '#fff'; c.lineWidth = 1; c.stroke();
   });
-  // Farbskala als Legende
+  // Farbskala als Legende — unten rechts: bei positiver Korrelation liegt dort
+  // kein Punkt (viel Glacé und wenig Sonnenbrand kommt in den Daten nicht vor)
   if (b6Modus !== 0) {
-    const lx = cv.W - 190, ly = 18;
+    const lx = gr.cx(250) + 4, ly = gr.cy(12);
+    const lw = Math.min(130, cv.W - 12 - lx);          // schmal: Balken kürzer
     for (let i = 0; i < 100; i++) {
       c.fillStyle = b6SonnenFarbe(2 + i / 100 * 10);
-      c.fillRect(lx + i * 1.3, ly, 1.4, 12);
+      c.fillRect(lx + i * lw / 100, ly, lw / 100 + 0.4, 12);
     }
-    c.strokeStyle = '#9aa1ab'; c.lineWidth = 1; c.strokeRect(lx, ly, 130, 12);
+    c.strokeStyle = '#9aa1ab'; c.lineWidth = 1; c.strokeRect(lx, ly, lw, 12);
     c.fillStyle = '#6b7280'; c.font = '13px JetBrains Mono,monospace';
     c.textAlign = 'left'; c.fillText('2 h', lx, ly + 26);
-    c.textAlign = 'right'; c.fillText('12 h Sonne', lx + 130, ly + 26);
+    c.textAlign = 'right'; c.fillText(lw < 110 ? '12 h' : '12 h Sonne', lx + lw, ly + 26);
+    if (lw < 110) c.fillText('Sonne', lx + lw, ly + 42);
   }
   // Korrelationskoeffizient der gezeigten Punkte
   const n = gezeigt.length;
@@ -3234,10 +3354,17 @@ function drawKorrelation() {
     if (window.MathJax && MathJax.typesetClear) MathJax.typesetClear([b6El]);
     b6El.innerHTML = b6Html; mjTypeset([b6El]);
   }
+  // Kopfzeile rechtsbündig, damit sie nicht an «Sonnenbrände» (oben links)
+  // stösst; ist sie zu breit, zweizeilig am Pfeil getrennt
   c.fillStyle = b6Modus === 2 ? '#1f6b3a' : '#5a5040';
-  c.font = 'bold 13px "Source Sans 3",sans-serif'; c.textAlign = 'center';
-  c.fillText(b6Modus === 2 ? 'dritte Grösse festgehalten → kein Zusammenhang mehr'
-                           : 'r = ' + r.toFixed(2), cv.W / 2, 16);
+  c.font = 'bold 13px "Source Sans 3",sans-serif'; c.textAlign = 'right';
+  const b6Kopf = b6Modus === 2 ? 'dritte Grösse festgehalten → kein Zusammenhang mehr' : 'r = ' + r.toFixed(2);
+  if (c.measureText(b6Kopf).width > cv.W - 130) {
+    const [k1, k2] = b6Kopf.split(' → ');
+    // eine Zeile tiefer als sonst, damit sie nicht an «Sonnenbrände» stösst
+    c.fillText(k1 + ' →', cv.W - 8, 34); c.fillText(k2, cv.W - 8, 50);
+  } else c.fillText(b6Kopf, cv.W - 8, 16);
+  c.textAlign = 'left';
 }
 document.querySelectorAll('[data-b6f]').forEach(b => b.addEventListener('click', () => {
   b6Modus = +b.dataset.b6f;

@@ -1180,9 +1180,15 @@ function drawA3() {
     const pfeil = Math.min(52, 14 + v * 1000 * 8);
     drawArrow(ctx, lx + 52, ly + 78, lx + 52, ly + 78 - pfeil, SI_F.blau, 2.4, 9);
     siHalo(ctx, 'v', lx + 52, ly + 94, SI_F.blau, '700 12px "JetBrains Mono",monospace', 'center');
-    // Voltmeter unter der Spule
+    // Voltmeter unter der Spule, an BEIDE Spulenenden angeschlossen —
+    // eine Spannung misst man immer zwischen zwei Punkten
     ctx.strokeStyle = SI_F.tinte2; ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.moveTo(lx, ly + 78); ctx.lineTo(lx, ly + 95); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(lx - 26, ly + 78); ctx.lineTo(lx - 26, ly + 112); ctx.lineTo(lx - 17, ly + 112);
+    ctx.moveTo(lx + 26, ly + 78); ctx.lineTo(lx + 26, ly + 112); ctx.lineTo(lx + 17, ly + 112);
+    ctx.stroke();
+    ctx.fillStyle = SI_F.tinte2;
+    [lx - 26, lx + 26].forEach(xa => { ctx.beginPath(); ctx.arc(xa, ly + 78, 2.5, 0, 6.283); ctx.fill(); });
     ctx.fillStyle = SI_F.weiss; ctx.strokeStyle = SI_F.tinte; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.arc(lx, ly + 112, 17, 0, 6.283); ctx.fill(); ctx.stroke();
     ctx.fillStyle = SI_F.tinte; ctx.font = '700 13px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
@@ -1194,8 +1200,8 @@ function drawA3() {
     ctx.fillText('Spule im Magnetfeld', lx, ly + 94);
     siHalo(ctx, 'B l unbekannt', lx, ly + 110, SI_F.tinte2, '10px "Source Sans 3",sans-serif', 'center');
     drawArrow(ctx, lx, ly + 30, lx, ly + 30 - Math.min(52, Fs * 6), SI_F.gruen, 2.4, 9);
-    siHalo(ctx, 'F = B l I = ' + siFmt(Fs, 2) + ' N', lx, ly - 16, SI_F.gruen,
-           '700 11px "JetBrains Mono",monospace', 'center');
+    siHalo(ctx, 'F = B l I = ' + siFmt(Fs, 2) + ' N', a3LabX(ctx, 'F = B l I = ' + siFmt(Fs, 2) + ' N', lx, W),
+           ly - 16, SI_F.gruen, '700 11px "JetBrains Mono",monospace', 'center');
   }
 
   // Rechte Seite: Waagschale
@@ -1217,8 +1223,8 @@ function drawA3() {
     ctx.fillStyle = SI_F.weiss; ctx.font = '700 10px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
     ctx.fillText(Math.round(m * 1000) + ' g', rx, ry + 34 - kh / 2 + 4);
     drawArrow(ctx, rx, ry + 52, rx, ry + 52 + Math.min(52, Fg * 6), SI_F.rot, 2.4, 9);
-    siHalo(ctx, 'F_G = m g = ' + siFmt(Fg, 2) + ' N', rx, ry - 16, SI_F.rot,
-           '700 11px "JetBrains Mono",monospace', 'center');
+    siHalo(ctx, 'F_G = m g = ' + siFmt(Fg, 2) + ' N', a3LabX(ctx, 'F_G = m g = ' + siFmt(Fg, 2) + ' N', rx, W),
+           ry - 16, SI_F.rot, '700 11px "JetBrains Mono",monospace', 'center');
   }
 
   // Statuszeile
@@ -1234,6 +1240,14 @@ function drawA3() {
                                    : 'Gewichtskraft überwiegt — Strom erhöhen oder Masse senken'),
                  W / 2, H - 14);
   }
+}
+
+// Zentrierte Beschriftung so verschieben, dass sie ganz im Canvas bleibt
+// (schmal liegen die Balkenenden nahe am Rand)
+function a3LabX(ctx, txt, x, W) {
+  ctx.font = '700 11px "JetBrains Mono",monospace';
+  const w = ctx.measureText(txt).width;
+  return Math.max(4 + w / 2, Math.min(W - 4 - w / 2, x));
 }
 
 // Dritter Schritt: beide Gleichungen nebeneinander, B·l kuerzt sich heraus
