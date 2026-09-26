@@ -1761,7 +1761,13 @@ function drawA6() {
 
   // Eingangsbalken (links, blau) — Höhe proportional Ein
   const maxE = 1000;
-  const xIn = 60, wIn = 46;
+  // Masse zwischen schmal (W = 284 px, 360-px-Bildschirm) und breit (ab 600 px)
+  // stufenlos: vorher feste Pixel — bei 360 px lag das Ende des Nutz-Pfeils
+  // links von seinem Anfang, und die zweite Stufe ragte aus dem Bild.
+  const kB = Math.max(0, Math.min(1, (W - 284) / (600 - 284)));
+  const lin = (a, b) => a + (b - a) * kB;
+  const xIn = lin(18, 60), wIn = lin(26, 46);
+  const boxFont = kB < 0.5 ? '12px' : '13px';
   const fullH = H - 70;
   const hIn = (Ein / maxE) * fullH;
   const yInTop = (H - 30) - hIn;
@@ -1771,21 +1777,21 @@ function drawA6() {
   ctx.fillStyle = '#1a4f8a'; ctx.fillText(Ein + ' J', xIn + wIn/2, yInTop - 6);
 
   // Maschine (Box in der Mitte)
-  const mx = xIn + wIn + 40, mw = 70, my = 50, mh = H - 110;
+  const mx = xIn + wIn + lin(20, 40), mw = lin(62, 70), my = 50, mh = H - 110, gap2 = lin(12, 26);
   ctx.fillStyle = '#eceae4'; ctx.strokeStyle = '#5c5346'; ctx.lineWidth = 1.5;
   ctx.fillRect(mx, my, mw, mh); ctx.strokeRect(mx, my, mw, mh);
-  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#1c1a17'; ctx.font = 'bold ' + boxFont + ' Source Sans 3,sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('Maschine', mx + mw/2, my + mh/2 - 4);
-  ctx.font = '13px JetBrains Mono,monospace';
+  ctx.font = boxFont + ' JetBrains Mono,monospace';
   ctx.fillText('η = ' + Math.round(eta*100) + '%', mx + mw/2, my + mh/2 + 14);
   if (zwei) {
     // zweite Maschine direkt dahinter
-    const mx2 = mx + mw + 26;
+    const mx2 = mx + mw + gap2;
     ctx.fillStyle = '#eceae4'; ctx.strokeStyle = '#5c5346'; ctx.lineWidth = 1.5;
     ctx.fillRect(mx2, my, mw, mh); ctx.strokeRect(mx2, my, mw, mh);
-    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 13px Source Sans 3,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold ' + boxFont + ' Source Sans 3,sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('2. Stufe', mx2 + mw/2, my + mh/2 - 4);
-    ctx.font = '13px JetBrains Mono,monospace';
+    ctx.font = boxFont + ' JetBrains Mono,monospace';
     ctx.fillText('η = ' + Math.round(eta2*100) + '%', mx2 + mw/2, my + mh/2 + 14);
     drawArrow(ctx, mx + mw + 3, my + mh/2, mx2 - 3, my + mh/2, '#1a4f8a', 3, 9);
   }
@@ -1794,19 +1800,26 @@ function drawA6() {
   drawArrow(ctx, xIn + wIn + 4, my + mh/2, mx - 4, my + mh/2, '#1a4f8a', 3, 10);
 
   // Nutz-Pfeil (grün, rechts, Dicke prop. nutz)
-  const xOut = (zwei ? mx + mw + 26 + mw : mx + mw) + 8;
+  const xOut = (zwei ? mx + mw + gap2 + mw : mx + mw) + 8;
+  const xEnd = Math.max(xOut + 30, W - lin(8, 70));    // zeigt immer nach rechts
   const nutzW = Math.max(4, (nutz / maxE) * 24);
   ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = nutzW;
-  drawArrow(ctx, xOut, my + mh*0.35, W - 70, my + mh*0.35, '#1f6b3a', nutzW, 12);
-  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-  ctx.fillText('Nutz: ' + nutz.toFixed(0) + ' J', xOut + 6, my + mh*0.35 - 12);
+  drawArrow(ctx, xOut, my + mh*0.35, xEnd, my + mh*0.35, '#1f6b3a', nutzW, 12);
+  ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  // Beschriftungen bleiben im Canvas: passt sie nicht links bündig, rechts bündig an den Rand
+  const imBild = (txt, x) => (x + ctx.measureText(txt).width > W - 6) ? (ctx.textAlign = 'right', W - 6) : (ctx.textAlign = 'left', x);
+  const tNutz = 'Nutz: ' + nutz.toFixed(0) + ' J';
+  // Passt sie nicht neben den Pfeil, steht sie über den Kästen statt an deren Rand
+  const passt = xOut + 6 + ctx.measureText(tNutz).width <= W - 6;
+  ctx.fillText(tNutz, imBild(tNutz, xOut + 6), passt ? my + mh*0.35 - 12 : my - 8);
 
   // Verlust-Pfeil (rot, nach unten/rechts, Dicke prop. verl)
   const verlW = Math.max(4, (verl / maxE) * 24);
   ctx.strokeStyle = '#9b1c1c'; ctx.lineWidth = verlW;
   drawArrow(ctx, mx + mw/2, my + mh + 4, mx + mw/2 + 60, H - 24, '#9b1c1c', verlW, 12);
-  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
-  ctx.fillText('Verlust (Wärme): ' + verl.toFixed(0) + ' J', mx + mw/2 + 20, H - 14);
+  ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const tVerl = 'Verlust (Wärme): ' + verl.toFixed(0) + ' J';
+  ctx.fillText(tVerl, imBild(tVerl, mx + mw/2 + 20), H - 14);
 }
 document.querySelectorAll('[data-a6stufen]').forEach(b => b.addEventListener('click', () => {
   a6Zwei = b.dataset.a6stufen === '2';

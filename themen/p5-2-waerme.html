@@ -1975,8 +1975,11 @@ function drawA5(){
 
   const cv=initCanvas('a5-cv',280,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const yMid=96, W0=60, Ls=58, Lh=34, Ltot=Ls+Lh, c=1.5, boxW=116, boxH=104;
-  const LsIn=Ls+14, LtotIn=LsIn+Lh;   // Eingangspfeil etwas länger (optischer Ausgleich gegen die beiden Ausgangspfeile)
+  // Auf schmalen Bildschirmen passt die Anordnung (314 px) nicht: dann alle
+  // waagrechten Masse mit demselben Faktor verkleinern, statt rechts abzuschneiden.
+  const k=Math.min(1, (W-16)/314);
+  const yMid=96, W0=60*k, Ls=58*k, Lh=34*k, Ltot=Ls+Lh, c=1.5, boxW=116*k, boxH=104;
+  const LsIn=Ls+14*k, LtotIn=LsIn+Lh;   // Eingangspfeil etwas länger (optischer Ausgleich gegen die beiden Ausgangspfeile)
   const SS='Source Sans 3,sans-serif';
   const assembly=LtotIn+boxW+Ltot;
   let startX=(W-assembly)/2; if(startX<8) startX=8;

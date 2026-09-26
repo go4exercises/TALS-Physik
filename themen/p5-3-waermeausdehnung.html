@@ -545,10 +545,10 @@ MathJax = {
 <!-- ══════════════ 7. ANIMATION 4 — MEERESSPIEGEL ══════════════ -->
 <details class="minicheck">
 <summary class="mc-kopf">✏️ Mini-Check</summary>
-<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wasser hat seine grösste Dichte bei …</p><ul class="mc-optionen"><li data-opt="A">\(0°C\)</li><li data-opt="B">\(4°C\)</li><li data-opt="C">\(100°C\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die Anomalie des Wassers: maximale Dichte bei \(4°C\).</div></details></div>
-<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Beim Abkühlen unter \(4°C\) <span class="mc-luecke"></span> sich Wasser wieder aus.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">dehnt.</div></details></div>
-<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Bei welcher Temperatur sammelt sich im Winter das dichteste Wasser am Seeboden?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Bei \(4°C\) — dort ist Wasser am dichtesten und sinkt nach unten.</div></details></div>
-<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum gefriert ein See von oben nach unten und nicht umgekehrt?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Das dichteste Wasser (\(4°C\)) sinkt nach unten; kälteres, leichteres Wasser bleibt oben und gefriert dort zuerst. Die Eisschicht isoliert das Wasser darunter, sodass Fische überleben.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">Wasser hat seine grösste Dichte bei …</p><ul class="mc-optionen"><li data-opt="A">\(0\,^\circ\text{C}\)</li><li data-opt="B">\(4\,^\circ\text{C}\)</li><li data-opt="C">\(100\,^\circ\text{C}\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Die Anomalie des Wassers: maximale Dichte bei \(4\,^\circ\text{C}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Beim Abkühlen unter \(4\,^\circ\text{C}\) <span class="mc-luecke"></span> sich Wasser wieder aus.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">dehnt.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">Bei welcher Temperatur sammelt sich im Winter das dichteste Wasser am Seeboden?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Bei \(4\,^\circ\text{C}\) — dort ist Wasser am dichtesten und sinkt nach unten.</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">Warum gefriert ein See von oben nach unten und nicht umgekehrt?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Das dichteste Wasser (\(4\,^\circ\text{C}\)) sinkt nach unten; kälteres, leichteres Wasser bleibt oben und gefriert dort zuerst. Die Eisschicht isoliert das Wasser darunter, sodass Fische überleben.</div></details></div>
 </details>
 
 <h2 id="meeresspiegel">Anwendung: Meeresspiegelanstieg</h2>
@@ -1426,7 +1426,7 @@ function a2Ebene(ctx,ox,oy,dx,y,dz,s,col){
 function a2Wuerfel(ctx,ox,oy,k,s,fuell,rand,gestrichelt){
   const P=(x,y,z)=>a2Iso(ox,oy,x*k,y*k,z*k,s);
   const flaechen=[
-    [[0,0,0],[1,0,0],[1,1,0],[0,1,0]],   // vorne  (z = 0)
+    [[0,0,1],[1,0,1],[1,1,1],[0,1,1]],   // vorne  (z = 1) — z = 0 ist die verdeckte Rückseite
     [[1,0,0],[1,0,1],[1,1,1],[1,1,0]],   // rechts (x = 1)
     [[0,1,0],[1,1,0],[1,1,1],[0,1,1]]    // oben   (y = 1)
   ];
@@ -1601,13 +1601,16 @@ function drawA3(){
     ? 'schwimmt — rund 9 % leichter'
     : (Math.abs(T-4)<0.3 ? 'maximale Dichte' : (T<4 ? 'leichter (unter 4 °C)' : 'leichter (über 4 °C)'));
 
-  const cv=initCanvas('a3-cv',340,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  // Schmal (Handy): Diagramm und See untereinander statt nebeneinander — nebeneinander
+  // bleiben für beide unter 150 px, und die Beschriftungen überdecken sich.
+  const schmal=(document.getElementById('a3-cv').parentElement.clientWidth||600) < 560;   // Elternbreite: das Canvas selbst trägt noch die alte Pixelbreite
+  const cv=initCanvas('a3-cv',schmal?580:340,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  // ── links: ρ-ϑ-Kurve mit unterbrochener Achse ──
+  // ── links (schmal: oben): ρ-ϑ-Kurve mit unterbrochener Achse ──
   // Der Sprung Wasser -> Eis ist rund 83 kg/m³ gross, die Anomalie nur 1.8 kg/m³.
   // Auf einer durchgehenden Achse wäre eines von beidem unsichtbar; darum zwei
   // Bänder mit Achsenbruch.
-  const px0=W*0.13, px1=W*0.52, py0=H*0.10, py1=H*0.80;
+  const px0=schmal?58:W*0.13, px1=schmal?W-14:W*0.52, py0=schmal?18:H*0.10, py1=schmal?262:H*0.80;
   const yBruch=(py0+py1)*0.62, spalt=10;
   const oben=[py0, yBruch-spalt/2], unten=[yBruch+spalt/2, py1];   // oben 998…1000.4, unten 915…921
   const xT=t=>px0+((t+20)/40)*(px1-px0);
@@ -1641,10 +1644,16 @@ function drawA3(){
   // Sprung bei 0 °C
   ctx.strokeStyle='#9b1c1c'; ctx.lineWidth=1.6; ctx.setLineDash([4,3]);
   ctx.beginPath(); ctx.moveTo(xT(0),yFl(rhoW(0))); ctx.lineTo(xT(0),yEis(rhoEis(0))); ctx.stroke(); ctx.setLineDash([]);
+  const yG=(yFl(rhoW(0))+yEis(rhoEis(0)))/2;
   ctx.fillStyle='#9b1c1c'; ctx.font='bold 11px Source Sans 3,sans-serif'; ctx.textAlign='left';
-  ctx.fillText('Gefrieren: −83 kg/m³', xT(0)+6, (yFl(rhoW(0))+yEis(rhoEis(0)))/2);
-  ctx.font='11px Source Sans 3,sans-serif';
-  ctx.fillText('(Volumen +9 %)', xT(0)+6, (yFl(rhoW(0))+yEis(rhoEis(0)))/2+13);
+  if(schmal){                                     // rechts der Sprunglinie ist nur gut 100 px Platz
+    ctx.fillText('Gefrieren:', xT(0)+6, yG-6); ctx.fillText('−83 kg/m³', xT(0)+6, yG+7);
+    ctx.font='11px Source Sans 3,sans-serif'; ctx.fillText('(Volumen +9 %)', xT(0)+6, yG+20);
+  } else {
+    ctx.fillText('Gefrieren: −83 kg/m³', xT(0)+6, yG);
+    ctx.font='11px Source Sans 3,sans-serif';
+    ctx.fillText('(Volumen +9 %)', xT(0)+6, yG+13);
+  }
   // Maximum bei 4 °C
   ctx.strokeStyle='#9b6bd4'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
   ctx.beginPath(); ctx.moveTo(xT(4),oben[1]); ctx.lineTo(xT(4),yFl(rhoW(4))); ctx.stroke(); ctx.setLineDash([]);
@@ -1654,7 +1663,7 @@ function drawA3(){
   drawDot(ctx,x=>x,y=>y, xT(T), eis?yEis(rho):yFl(rho), '#b85c00', 6);
 
   // ── rechts: See im Winter, an den Regler gekoppelt ──
-  const lx0=W*0.62, lx1=W*0.96, ly0=H*0.10, ly1=H*0.82;
+  const lx0=schmal?W*0.06:W*0.62, lx1=schmal?W*0.94:W*0.96, ly0=schmal?340:H*0.10, ly1=schmal?H-46:H*0.82;
   const schichten=[
     {lab:'Eis',        col:'#dff0fb', frac:0.14, tv:t=>t<0},
     {lab:'0 … 1 °C',   col:'#bcd9f0', frac:0.17, tv:t=>t>=0&&t<1},
@@ -1690,8 +1699,10 @@ function drawA3(){
     ctx.fillText((eisUnter*100).toFixed(1)+' % unter der Wasserlinie', (lx0+lx1)/2, wl+(ly0+hEis-wl)/2+4);
   }
   ctx.fillStyle='#5a5040'; ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText(eis ? 'Eis hat die kleinere Dichte — es schwimmt oben auf.'
-                   : 'Das dichteste Wasser (4 °C) sinkt an den Grund.', (lx0+lx1)/2, ly1+16);
+  const unter = eis ? ['Eis hat die kleinere Dichte —', 'es schwimmt oben auf.']
+                    : ['Das dichteste Wasser (4 °C)', 'sinkt an den Grund.'];
+  if(schmal){ ctx.fillText(unter[0], (lx0+lx1)/2, ly1+16); ctx.fillText(unter[1], (lx0+lx1)/2, ly1+30); }
+  else ctx.fillText(unter.join(' '), (lx0+lx1)/2, ly1+16);
 }
 document.getElementById('a3-T').addEventListener('input', drawA3);
 

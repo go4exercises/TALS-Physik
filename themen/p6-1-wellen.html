@@ -1459,9 +1459,13 @@ function drawA4(){
   const E_J = H_PLANCK * f, E_eV = E_J / 1.602e-19;
   document.getElementById('a4-e').textContent =
     (E_eV >= 1e-3 ? E_eV.toPrecision(3) + ' eV' : E_eV.toExponential(2) + ' eV');
-  const cv=initCanvas('a4-cv',250,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
+  // Schmal (Handy): eigene Anordnung. Die schräg gestellten Bandnamen überdecken
+  // sich dort (UV, sichtbar, IR liegen keine 20 px auseinander), und die langen
+  // Überschriften passen nicht in die Breite.
+  const schmal=(document.getElementById('a4-cv').parentElement.clientWidth||600) < 560;
+  const cv=initCanvas('a4-cv',schmal?300:250,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  const bx0=W*0.05, bx1=W*0.95, by0=H*0.30, by1=H*0.56;
+  const bx0=W*(schmal?0.09:0.05), bx1=W*(schmal?0.91:0.95), by0=schmal?40:H*0.30, by1=schmal?74:H*0.56;   // schmal: Platz für die Randzahlen 10⁻¹² und 10²⁰
   const Lmin=-12, Lmax=3, xOf=l=>bx0+(l-Lmin)/(Lmax-Lmin)*(bx1-bx0);
   // Baender
   for(const b of A4BANDS){
@@ -1470,35 +1474,53 @@ function drawA4(){
       for(let xx=xa;xx<xb;xx+=2){ const fr=(xx-xa)/(xb-xa);
         const lamNm=780-(780-380)*fr; ctx.fillStyle=visColor(lamNm); ctx.fillRect(xx,by0,2.5,by1-by0); }
     } else { ctx.fillStyle=b[3]; ctx.fillRect(xa,by0,xb-xa,by1-by0); }
-    ctx.fillStyle='#3a332a'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='#3a332a';
+    if(schmal){
+      // senkrecht, von der Bandunterkante nach unten gelesen: braucht nur eine Zeilenhöhe Breite
+      ctx.font='11px Source Sans 3,sans-serif'; ctx.textAlign='right'; ctx.textBaseline='middle';
+      ctx.save(); ctx.translate((xa+xb)/2, by1+6); ctx.rotate(-Math.PI/2);
+      ctx.fillText(b[2], 0,0); ctx.restore(); ctx.textBaseline='alphabetic';
+      continue;
+    }
+    ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
     // by1+20: die gedrehten Namen ragen sonst mit ihrem oberen Ende in den Balken
     ctx.save(); ctx.translate((xa+xb)/2 + (b[4] || 0), by1+20); ctx.rotate(-0.5);   // b[4]: Versatz für sehr schmale Bänder
     ctx.fillText(b[2], 0,0); ctx.restore();
   }
   ctx.strokeStyle='#5a5040'; ctx.lineWidth=1; ctx.strokeRect(bx0,by0,bx1-bx0,by1-by0);
+  const fz=schmal?11:13;
   // Achsenticks (log)
-  ctx.fillStyle='#6b7280'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
+  ctx.fillStyle='#6b7280'; ctx.font=fz+'px JetBrains Mono,monospace'; ctx.textAlign='center';
   for(let l=Lmin;l<=Lmax;l+=3){ ctx.fillText('10'+supDigits(l), xOf(l), by0-6); }
-  ctx.fillStyle='#374151'; ctx.fillText('Wellenlänge λ [m]  →  wächst nach rechts', W*0.5, by0-20);
+  ctx.fillStyle='#374151';
+  ctx.fillText(schmal?'λ [m]  →  wächst nach rechts':'Wellenlänge λ [m]  →  wächst nach rechts', W*0.5, by0-20);
   // Gegenläufige Frequenzachse: λ und f laufen wegen c = λ·f gegeneinander.
   // Links kurze Wellen und hohe Frequenz — genau die energiereiche Seite.
-  ctx.fillStyle='#5b2d8e'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
+  const yF = schmal ? by1+118 : by1+62;
+  ctx.fillStyle='#5b2d8e'; ctx.font=fz+'px JetBrains Mono,monospace'; ctx.textAlign='center';
   for(let l=Lmin;l<=Lmax;l+=3){
     const fl = Math.log10(C_LIGHT / Math.pow(10, l));
-    ctx.fillText('10'+supDigits(Math.round(fl)), xOf(l), by1+62);
+    ctx.fillText('10'+supDigits(Math.round(fl)), xOf(l), yF);
   }
-  ctx.fillStyle='#5b2d8e'; ctx.font='bold 13px JetBrains Mono,monospace';
-  ctx.fillText('Frequenz f [Hz]  ←  wächst nach links', W*0.5, by1+80);
+  ctx.fillStyle='#5b2d8e'; ctx.font='bold '+fz+'px JetBrains Mono,monospace';
+  ctx.fillText(schmal?'f [Hz]  ←  wächst nach links':'Frequenz f [Hz]  ←  wächst nach links', W*0.5, yF+18);
   // Marker
   const mx=xOf(L);
   ctx.strokeStyle='#1c1a17'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(mx,by0-2); ctx.lineTo(mx,by1+2); ctx.stroke();
   // kurzer Zeiger: die Bandnamen beginnen bei by1+20, ein langer Pfeil wuerde
-  // mitten durch „sichtbares Licht" laufen
-  drawArrow(ctx, mx, by1+18, mx, by1+4, '#1c1a17',2,7);
-  ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  ctx.fillText(band[2] + '   λ = ' + a4FmtLam(lam) + '   f = ' + emFmt(f) + ' Hz   E = h · f = '
-               + (E_eV >= 1e-3 ? E_eV.toPrecision(3) : E_eV.toExponential(2)) + ' eV', W*0.5, H - 8);
+  // mitten durch „sichtbares Licht" laufen (schmal: Namen direkt unter dem Band, kein Zeiger)
+  if(!schmal) drawArrow(ctx, mx, by1+18, mx, by1+4, '#1c1a17',2,7);
+  const eTxt = (E_eV >= 1e-3 ? E_eV.toPrecision(3) : E_eV.toExponential(2)) + ' eV';
+  ctx.fillStyle='#1c1a17'; ctx.font='bold '+fz+'px JetBrains Mono,monospace'; ctx.textAlign='center';
+  if(schmal){
+    ctx.fillText(band[2], W*0.5, H-46);
+    ctx.fillText('λ = ' + a4FmtLam(lam) + ';  f = ' + emFmt(f) + ' Hz', W*0.5, H-28);
+    ctx.fillText('E = h · f = ' + eTxt, W*0.5, H-10);
+  } else {
+    ctx.fillText(band[2] + '   λ = ' + a4FmtLam(lam) + '   f = ' + emFmt(f) + ' Hz   E = h · f = '
+                 + eTxt, W*0.5, H - 8);
+  }
 }
 ['a4-x'].forEach(id=>document.getElementById(id).addEventListener('input', drawA4));
 

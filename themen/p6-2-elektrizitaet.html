@@ -2062,29 +2062,45 @@ function drawCoulomb(){
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#fbfaf7'; ctx.fillRect(0, 0, W, H);
   const yM = H*0.46;
-  // feste Ortsskala 0 … 0.6 m (Q1)
-  const RMAX = 0.6, x0 = 70, xE = W - 70;
+  // feste Ortsskala 0 … 0.6 m (Q1). Schmal (360 px): engere Ränder, nur jede
+  // zweite Skalenzahl, Achsenbeschriftung eine Zeile tiefer — sonst laufen die
+  // Zahlen «0.00.10.2…» ineinander.
+  const schmal = W < 500;
+  const RMAX = 0.6, x0 = schmal ? 28 : 70, xE = schmal ? W - 44 : W - 70;
   const mToPx = m => x0 + m / RMAX * (xE - x0);
   ctx.strokeStyle = '#d8d0c4'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(x0, yM + 58); ctx.lineTo(xE, yM + 58); ctx.stroke();
   ctx.fillStyle = '#6b7280'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  for (let m = 0; m <= RMAX + 1e-9; m += 0.1) {
+  for (let k = 0; k <= 6; k++) {
+    const m = k / 10;
     ctx.beginPath(); ctx.moveTo(mToPx(m), yM+58); ctx.lineTo(mToPx(m), yM+63); ctx.stroke();
-    ctx.fillText(m.toFixed(1), mToPx(m), yM + 78);
+    if (!schmal || k % 2 === 0) ctx.fillText(m.toFixed(1), mToPx(m), yM + 78);
   }
-  ctx.textAlign = 'right'; ctx.fillStyle = '#374151'; ctx.font = 'bold 13px Source Sans 3,sans-serif';
-  ctx.fillText('r [m]', xE + 56, yM + 78);
+  ctx.textAlign = 'right'; ctx.fillStyle = '#374151'; ctx.font = 'bold 13px "Source Sans 3",sans-serif';
+  if (schmal) ctx.fillText('r [m]', W - 4, yM + 96);
+  else ctx.fillText('r [m]', xE + 56, yM + 78);
   // Ladungen
   const xA = mToPx(0.05), xB = mToPx(0.05 + r);
-  function ladung(x, q){
-    const rad = 12 + Math.abs(q) * 2.2;
+  // Liegen die Ladungen eng beieinander (schmal: ab 18 px), schrumpfen die
+  // Kreise, damit sie sich nicht überdecken; das Vorzeichen steht dann nur in
+  // der Farbe und in der Beschriftung.
+  const radMax = Math.max(7, (xB - xA) / 2 - 1);
+  // Beschriftung von Q₂ rechts neben den Kreis, wenn die zwei Etiketten oben
+  // sonst ineinanderlaufen (Etikett gut 60 px breit, dazu Luft)
+  const eng = xB - xA < 80;
+  function ladung(x, q, rechts){
+    const rad = Math.min(12 + Math.abs(q) * 2.2, radMax);
     ctx.fillStyle = q >= 0 ? '#9b1c1c' : '#1a4f8a';
     ctx.beginPath(); ctx.arc(x, yM, rad, 0, 6.283); ctx.fill();
     ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 15px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-    ctx.fillText(q >= 0 ? '+' : '−', x, yM + 5);
+    if (rad >= 11) {
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 15px JetBrains Mono,monospace'; ctx.textAlign = 'center';
+      ctx.fillText(q >= 0 ? '+' : '−', x, yM + 5);
+    }
     ctx.fillStyle = q >= 0 ? '#9b1c1c' : '#1a4f8a'; ctx.font = 'bold 13px JetBrains Mono,monospace';
-    ctx.fillText((q>=0?'+':'') + q.toFixed(1) + ' µC', x, yM - rad - 8);
+    const txt = (q>=0?'+':'') + q.toFixed(1) + ' µC';
+    if (rechts) { ctx.textAlign = 'left'; ctx.fillText(txt, x + rad + 6, yM + 5); }
+    else { ctx.textAlign = 'center'; ctx.fillText(txt, x, yM - Math.max(rad, 12) - 8); }
   }
   // Kraftpfeile: gleich lang, Richtung nach Vorzeichenprodukt
   if (!nullF) {
@@ -2093,20 +2109,24 @@ function drawCoulomb(){
     // werden gekappt und mit «+» gekennzeichnet.
     const FMAX = 5;
     const gekappt = F > FMAX;
-    const L = Math.max(8, Math.min(1, F / FMAX) * 96);
+    // Schmal: 5 N → 36 px, sonst läuft der Abstossungspfeil von Q₁ links
+    // aus dem Bild (Q₁ steht dort nur 46 px vom Rand)
+    const L = Math.max(8, Math.min(1, F / FMAX) * (schmal ? 36 : 96));
     const ri = anzieh ? 1 : -1;
     drawArrow(ctx, xA, yM + 30, xA + ri*L, yM + 30, '#5b2d8e', 2.6, 9);
     drawArrow(ctx, xB, yM + 30, xB - ri*L, yM + 30, '#5b2d8e', 2.6, 9);
     ctx.fillStyle = '#5b2d8e'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-    ctx.fillText('F = ' + F.toFixed(2) + ' N' + (gekappt ? '  (Pfeil gekappt)' : ''), (xA+xB)/2, yM + 52);
+    const fTxt = 'F = ' + F.toFixed(2) + ' N' + (gekappt ? (schmal ? ' (gekappt)' : '  (Pfeil gekappt)') : '');
+    const fW = ctx.measureText(fTxt).width;
+    ctx.fillText(fTxt, Math.min(Math.max((xA+xB)/2, fW/2 + 4), W - fW/2 - 4), yM + 52);
   }
-  ladung(xA, q1); ladung(xB, q2);
+  ladung(xA, q1, false); ladung(xB, q2, eng);
   // Abstandsmass
   ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.4; ctx.setLineDash([4,3]);
   ctx.beginPath(); ctx.moveTo(xA, yM-46); ctx.lineTo(xB, yM-46); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold 13px JetBrains Mono,monospace'; ctx.textAlign = 'center';
   ctx.fillText('r = ' + r.toFixed(2) + ' m', (xA+xB)/2, yM - 52);
-  ctx.fillStyle = nullF ? '#6b7280' : '#5b2d8e'; ctx.font = 'bold 13px Source Sans 3,sans-serif';
+  ctx.fillStyle = nullF ? '#6b7280' : '#5b2d8e'; ctx.font = 'bold 13px "Source Sans 3",sans-serif';
   ctx.fillText(nullF ? 'eine Ladung ist null — keine Kraft'
                : (anzieh ? 'ungleiche Vorzeichen → Anziehung' : 'gleiche Vorzeichen → Abstossung'), W/2, 22);
 }
@@ -2245,15 +2265,23 @@ function a3Render(){
   // Quelle links
   const by=(g.T+g.B)/2;
   quelle(ctx, g.L, by, v.U.toFixed(1)+' V', '#fbfaf7');
-  // zwei Widerstaende auf oberer Kante
-  function resBox(cx,label,sub,col){ const bw=W*0.16,bh=H*0.13;
+  // zwei Widerstaende auf oberer Kante. Schmal (360 px) passt «R₁ = 100 Ω» nicht
+  // in den Kasten und die zwei Beschriftungen nicht nebeneinander: im Kasten
+  // steht nur R₁/R₂, die Werte stehen bei R₁ unter, bei R₂ über dem Kasten.
+  const schmal = W < 500;
+  function resBox(cx,name,wert,sub,col,oben){ const bw=schmal?40:W*0.16,bh=H*0.13;
     ctx.fillStyle='#fff'; ctx.fillRect(cx-bw/2,g.T-bh/2,bw,bh);
     ctx.strokeStyle=col; ctx.lineWidth=2; ctx.strokeRect(cx-bw/2,g.T-bh/2,bw,bh);
     ctx.fillStyle='#1c1a17'; ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
-    ctx.fillText(label, cx, g.T-2); ctx.font='13px Source Sans 3,sans-serif'; ctx.fillStyle=col;
-    ctx.fillText(sub, cx, g.T+bh/2+12); }
-  resBox(g.L+(g.R-g.L)*0.34,'R₁ = '+v.R1+' Ω','U₁ = '+v.U1.toFixed(2)+' V','#b85c00');
-  resBox(g.L+(g.R-g.L)*0.68,'R₂ = '+v.R2+' Ω','U₂ = '+v.U2.toFixed(2)+' V','#5b2d8e');
+    if(!schmal){
+      ctx.fillText(name+' = '+wert, cx, g.T-2); ctx.font='13px "Source Sans 3",sans-serif'; ctx.fillStyle=col;
+      ctx.fillText(sub, cx, g.T+bh/2+12); return; }
+    ctx.fillText(name, cx, g.T+4);
+    ctx.font='12px "Source Sans 3",sans-serif'; ctx.fillStyle=col;
+    const y1 = oben ? g.T-bh/2-20 : g.T+bh/2+13, y2 = y1 + 14;
+    ctx.fillText(name+' = '+wert, cx, y1); ctx.fillText(sub, cx, y2); }
+  resBox(g.L+(g.R-g.L)*0.34,'R₁',v.R1+' Ω','U₁ = '+v.U1.toFixed(2)+' V','#b85c00',false);
+  resBox(g.L+(g.R-g.L)*0.68,'R₂',v.R2+' Ω','U₂ = '+v.U2.toFixed(2)+' V','#5b2d8e',true);
   // Spannungsteilung als proportionale Balken — U₁ : U₂ = R₁ : R₂ ist sonst nur
   // aus zwei Zahlen abzulesen, nicht zu sehen.
   const balkenY = g.B + 34, balkenH = 16, gesamtW = (g.R - g.L) * 0.76;
@@ -2268,15 +2296,19 @@ function a3Render(){
   if (w1 > 54) ctx.fillText(v.U1.toFixed(1)+' V', x0b + w1/2, balkenY + 12);
   ctx.fillStyle = '#5b2d8e';
   if (w2 > 54) ctx.fillText(v.U2.toFixed(1)+' V', x0b + w1 + w2/2, balkenY + 12);
-  ctx.fillStyle = '#5a5040'; ctx.font = '13px Source Sans 3,sans-serif';
+  ctx.fillStyle = '#5a5040'; ctx.font = (schmal ? '12px' : '13px') + ' "Source Sans 3",sans-serif';
+  if(schmal){   // zwei Zeilen statt einer, die bei 360 px beidseitig abgeschnitten war
+    ctx.fillText('U₁ : U₂ = R₁ : R₂ = ' + v.R1 + ' : ' + v.R2, W/2, balkenY + balkenH + 16);
+    ctx.fillText('zusammen ' + v.U.toFixed(1) + ' V', W/2, balkenY + balkenH + 31);
+  } else
   ctx.fillText('U₁ : U₂ = R₁ : R₂ = ' + v.R1 + ' : ' + v.R2
                + '   —   zusammen ' + v.U.toFixed(1) + ' V', (g.L+g.R)/2, balkenY + balkenH + 16);
   // Strompunkte (gleichmaessig - Serie)
   const N=22;
   for(let i=0;i<N;i++){ const s=((i/N)+a3Phase)%1; const p=rectPoint(g,s);
     ctx.fillStyle='#e08020'; ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,6.283); ctx.fill(); }
-  ctx.fillStyle='#5a5040'; ctx.font='13px Source Sans 3,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('gleicher Strom I = '+(v.I*1000).toFixed(1)+' mA überall', (g.L+g.R)/2, g.B+24);
+  ctx.fillStyle='#5a5040'; ctx.font=(schmal?'12px':'13px')+' "Source Sans 3",sans-serif'; ctx.textAlign='center';
+  ctx.fillText('gleicher Strom I = '+(v.I*1000).toFixed(1)+' mA überall', schmal ? W/2 : (g.L+g.R)/2, g.B+24);
 }
 const a3Loop=makeLoop('a3-cv','a3-btn',a3Tick);
 ['a3-U','a3-R1','a3-R2'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{ a3Read(); if(!a3Loop.running) a3Render(); }));

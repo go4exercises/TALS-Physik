@@ -2000,8 +2000,11 @@ function drawA4() {
   document.getElementById('a4-h').textContent  = hMax.toFixed(1) + ' m';
   document.getElementById('a4-tF').textContent = tF.toFixed(2) + ' s';
 
-  // Canvas-Skala: Worst Case v0=30, alpha=45 → sₓ ≈ 91.7 m, h ≈ 22.9 m
-  const xMax = 100, yMax = 30;
+  // Canvas-Skala fest über den ganzen Reglerbereich (v0 ≤ 30 m/s, α ≤ 80°), damit
+  // die Achsen beim Regeln nicht springen: grösste Weite bei 45° ≈ 91.7 m,
+  // grösste Steighöhe bei 80° ≈ 44.5 m. Vorher yMax = 30 — steile Würfe liefen
+  // oben aus dem Bild, Scheitel und «h = …» waren unsichtbar.
+  const xMax = 100, yMax = 50;
   const cv = initCanvas('a4-cv', 320, false);
   const grid = drawGrid(cv.ctx, cv.W, cv.H, -5, xMax, -3, yMax);
   drawAxesUnits(cv.ctx, cv.W, cv.H, grid.cx, grid.cy, 'x [m]', 'y [m]');
@@ -2088,7 +2091,7 @@ function drawA4() {
   drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, 0, vy * 0.3, '#5b2d8e', 'vᵧ', 2);
   drawVector(cv.ctx, grid.cx, grid.cy, 0, 0, vx * 0.3, vy * 0.3, '#1a4f8a', 'v₀', 2.4);
 
-  // Winkelbogen am Abwurfpunkt. Achtung: x-Achse 100 m, y-Achse 30 m — der
+  // Winkelbogen am Abwurfpunkt. Achtung: x-Achse 100 m, y-Achse 50 m — der
   // Bogen zeigt den Winkel darum optisch verzerrt. Das wird angeschrieben,
   // statt eine falsche Anschauung stehen zu lassen.
   const bogR = 34;

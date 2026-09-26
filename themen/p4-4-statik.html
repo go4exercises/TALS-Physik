@@ -1336,7 +1336,13 @@ function aeRender() {
 
   const px = W/2, pivotY = H - 60;
   const pxPerM = Math.min(70, (W/2 - 60) / 2.5);
-  const theta = Math.max(-0.32, Math.min(0.32, -diff / 1400));   // >0 = rechts senkt sich   // >0 rechts unten
+  // Neigung begrenzt durch den Bodenkontakt: das tiefere Balkenende (Radius 4 px
+  // wegen lineWidth 8) liegt dann genau auf dem Boden (Oberkante H-18). Vorher
+  // fest ±0.32 rad — bei breiter Leinwand ist der Balken länger und stiess
+  // durch den Boden.
+  const Lh = 2.7 * pxPerM;
+  const thetaMax = Math.min(0.32, Math.asin(Math.min(1, (H - 18 - 4 - pivotY) / Lh)));
+  const theta = Math.max(-thetaMax, Math.min(thetaMax, -diff / 1400));   // >0 = rechts senkt sich
 
   ctx.fillStyle = '#cbb89a'; ctx.fillRect(0, H-18, W, 18);
   ctx.fillStyle = '#5a6068'; ctx.font = '13px JetBrains Mono,monospace'; ctx.textAlign = 'left';
@@ -1344,7 +1350,6 @@ function aeRender() {
   ctx.fillStyle = '#7a6a52';
   ctx.beginPath(); ctx.moveTo(px, pivotY); ctx.lineTo(px-26, H-18); ctx.lineTo(px+26, H-18); ctx.closePath(); ctx.fill();
 
-  const Lh = 2.7 * pxPerM;
   const lx = px - Lh*Math.cos(theta), ly = pivotY + Lh*Math.sin(theta);
   const rx = px + Lh*Math.cos(theta), ry = pivotY - Lh*Math.sin(theta);
   ctx.strokeStyle = C_TINTE; ctx.lineWidth = 8; ctx.lineCap = 'round';
@@ -1483,19 +1488,26 @@ function drawA3() {
   ctx.fillStyle = '#b8b0a2'; ctx.fillRect(0, 0, W, 16);
   for (let x = 6; x < W; x += 14) { ctx.strokeStyle='#8c8576'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x,2); ctx.lineTo(x-6,16); ctx.stroke(); }
 
-  const P = { x: W*0.5, y: H*0.60 };
-  const reach = Math.min(W*0.42, (H*0.60-20));
-  const aLx = P.x - reach*Math.cos(a), aLy = P.y - reach*Math.sin(a);
-  const aRx = P.x + reach*Math.cos(b), aRy = P.y - reach*Math.sin(b);
+  // Beide Seile enden an der Decke (Unterkante y = 16). Der Knoten P hängt
+  // dafür so tief, dass auch das flachere Seil die Decke noch INNERHALB der
+  // Leinwand erreicht — vorher hatten die Seile eine feste Länge und endeten
+  // bei flachen Winkeln frei im Raum.
+  const yDecke = 16;
+  const dy = Math.min(H*0.60 - yDecke, (W/2 - 14) * Math.tan(Math.min(a, b)));
+  const P = { x: W*0.5, y: yDecke + dy };
+  const aLx = P.x - dy/Math.tan(a), aRx = P.x + dy/Math.tan(b);
   ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(aLx, Math.max(16,aLy)); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(aRx, Math.max(16,aRy)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(aLx, yDecke); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(aRx, yDecke); ctx.stroke();
+  dotPx(ctx, aLx, yDecke, '#374151', 3.5); dotPx(ctx, aRx, yDecke, '#374151', 3.5);   // Aufhängepunkte
 
   ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(P.x, P.y+18); ctx.stroke();
   ctx.fillStyle = C_TINTE; ctx.fillRect(P.x-16, P.y+18, 32, 26);
   ctx.strokeStyle='#000'; ctx.lineWidth=1; ctx.strokeRect(P.x-16, P.y+18, 32, 26);
 
-  const sc = 70 / Math.max(FG, S1, S2);
+  // Pfeile höchstens so lang, dass die Seilkraft-Pfeile unter der Decke bleiben
+  const sc = Math.min(70 / Math.max(FG, S1, S2),
+                      (P.y - yDecke - 22) / Math.max(S1*Math.sin(a), S2*Math.sin(b), 1e-9));
   drawArrow(ctx, P.x, P.y, P.x + (-Math.cos(a))*S1*sc, P.y + (-Math.sin(a))*S1*sc, C_HAUPT, 2.6, 9);
   drawArrow(ctx, P.x, P.y, P.x + ( Math.cos(b))*S2*sc, P.y + (-Math.sin(b))*S2*sc, C_HAUPT, 2.6, 9);
   drawArrow(ctx, P.x, P.y, P.x, P.y + FG*sc, C_GEW, 2.6, 9);
