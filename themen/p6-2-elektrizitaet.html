@@ -326,7 +326,6 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Coulomb-Kraft</div>
-      <div class="fl-eq">\[ F = k\cdot\frac{Q_1\cdot Q_2}{r^2} \]</div>
       <div class="fl-eq" id="cb-eq"></div>
     </div>
 
@@ -464,7 +463,6 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Ohmsches Gesetz</div>
-      <div class="fl-eq" id="a1-eq-f">\[ I = \frac{U}{R} \]</div>
       <div class="fl-eq" id="a1-eq"></div>
     </div>
 
@@ -547,8 +545,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Was der Kreis sieht</div>
-      <div class="fl-eq" id="mm-eq-f"></div>
-      <div class="fl-eq" id="mm-eq-z"></div>
+      <div class="fl-eq" id="mm-eq"></div>
     </div>
 
     <div class="live-box">
@@ -620,9 +617,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Leiterwiderstand</div>
-      <div class="fl-eq" id="a2-eq-f">\[ R = \rho\cdot\frac{l}{A} \]</div>
       <div class="fl-eq" id="a2-eq"></div>
-      <div class="fl-eq">\(\displaystyle P_\text{V} = R\cdot I^2\)&ensp; \(\text{(Verlustleistung bei } I = 20\;\text{A)}\)</div>
       <div class="fl-eq" id="a2-eq2"></div>
     </div>
 
@@ -714,9 +709,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Gesamtwiderstand &amp; Strom</div>
-      <div class="fl-eq" id="a3-eq-fr">\[ R = R_1 + R_2 \]</div>
       <div class="fl-eq" id="a3-eq-r"></div>
-      <div class="fl-eq" id="a3-eq-fi">\[ I = \frac{U}{R} \]</div>
       <div class="fl-eq" id="a3-eq-i"></div>
     </div>
 
@@ -797,7 +790,6 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Gesamtwiderstand &amp; Ströme</div>
-      <div class="fl-eq" id="a4-eq-f">\[ \frac{1}{R} = \frac{1}{R_1} + \frac{1}{R_2} \]</div>
       <div class="fl-eq" id="a4-eq"></div>
     </div>
 
@@ -891,6 +883,7 @@ MathJax = {
       <div class="fl-label">Aktueller Schritt</div>
       <div class="fl-eq" id="gm-eq-f"></div>
       <div class="fl-eq" id="gm-eq-z"></div>
+      <div class="fl-eq" id="gm-eq-p"></div>
     </div>
 
     <div class="live-box">
@@ -985,9 +978,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Leistung &amp; Energie</div>
-      <div class="fl-eq" id="a5-eq-fp">\[ P = U\cdot I \]</div>
       <div class="fl-eq" id="a5-eq-p"></div>
-      <div class="fl-eq" id="a5-eq-fe">\[ E = P\cdot t \]</div>
       <div class="fl-eq" id="a5-eq-e"></div>
     </div>
 
@@ -1074,7 +1065,6 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Widerstände aus dem Typenschild</div>
-      <div class="fl-eq" id="lp-eq-f">\[ R = \frac{U^2}{P} \]</div>
       <div class="fl-eq" id="lp-eq-z"></div>
       <div class="fl-eq" id="lp-eq-z2"></div>
       <div class="fl-eq" id="lp-eq-p"></div>
@@ -1903,14 +1893,29 @@ function makeLoop(canvasId, btnId, tickFn){
 // hinterlassen halb gesetzte Formeln. Muster aus p5-2, Animation 2.
 let flKette = Promise.resolve();
 const flOffen = new Map();
-// Ein Array statt eines Strings setzt mehrere Formeln nebeneinander, getrennt
-// durch Strichpunkt; auf schmalen Bildschirmen brechen sie zwischen den Teilen
-// um, statt die Box seitlich scrollen zu lassen.
+// Eine Rechnung steht auf EINER Zeile: Formelzeichen = Formel = Zahlen mit
+// Einheiten = Ergebnis. Sie wird als Array von Gliedern übergeben
+// (['I = \\frac{U}{R}', '= \\frac{…}{…}', '= 60\\;\\text{mA}']); jedes Glied ist
+// eine eigene Formel, dazwischen eine Umbruchstelle ohne Abstand (<wbr> — ein
+// Leerzeichen käme zum Abstand vor dem «=» noch dazu). Reicht der Platz nicht, bricht
+// die Zeile darum nur vor einem Gleichheitszeichen um — nie mitten im Bruch.
+// tex: String oder Glieder-Array = eine Rechnung; Array von Rechnungen = mehrere,
+// durch Strichpunkt getrennt. '' leert und versteckt die Zeile.
+// Ein «=» am Anfang eines Glieds bekäme von MathJax links keinen Abstand;
+// das leere {} davor macht es zum gewöhnlichen Relationszeichen.
+const flTeil = t => '\\(\\displaystyle ' + (t.charAt(0) === '=' ? '{}' : '') + t + '\\)';
+function flHtml(tex){
+  const liste = (Array.isArray(tex) && tex.some(Array.isArray)) ? tex : [tex];
+  return liste.map((r, i) => {
+    const glieder = Array.isArray(r) ? r.slice() : [r];
+    if(i < liste.length-1) glieder[glieder.length-1] += ';';
+    return glieder.map(flTeil).join('<wbr>');
+  }).join('&ensp; ');
+}
 function flTex(id, tex){
   const el = document.getElementById(id); if(!el) return;
-  const h = Array.isArray(tex)
-    ? tex.map((t, i) => '\\(\\displaystyle ' + t + (i < tex.length-1 ? ';' : '') + '\\)').join('&ensp; ')
-    : '\\[ ' + tex + ' \\]';
+  el.style.display = tex === '' ? 'none' : '';
+  const h = tex === '' ? '' : flHtml(tex);
   const wartet = flOffen.has(el);
   if(!wartet && el.dataset.stand === h) return;           // nichts geändert
   flOffen.set(el, h);
@@ -1925,6 +1930,10 @@ function flTex(id, tex){
         if(window.MathJax && MathJax.typesetClear) MathJax.typesetClear([el]);
         el.innerHTML = h2;
         return (window.MathJax && MathJax.typesetPromise) ? MathJax.typesetPromise([el]) : null;
+      }).then(() => {
+        // Jedes Glied als inline-block: dann reserviert die Zeile die volle Höhe
+        // der Brüche, und umgebrochene Glieder berühren sich nicht.
+        el.querySelectorAll('mjx-container').forEach(c => { c.style.display = 'inline-block'; c.style.margin = '2px 0'; });
       }).catch(() => {});
   });
 }
@@ -2098,9 +2107,10 @@ function drawCoulomb(){
   document.getElementById('cb-f').textContent = F.toFixed(2) + ' N';
   document.getElementById('cb-art').textContent = nullF ? 'keine Kraft' : (anzieh ? 'Anziehung' : 'Abstossung');
   document.getElementById('cb-f2').textContent = (F/4).toFixed(2) + ' N';
-  flTex('cb-eq', 'F = 8.99\\cdot10^{9}\\;\\frac{\\text{N}\\cdot\\text{m}^2}{\\text{C}^2}\\cdot\\frac{'
+  flTex('cb-eq', ['F = k\\cdot\\frac{Q_1\\cdot Q_2}{r^2}',
+    '= 8.99\\cdot10^{9}\\;\\frac{\\text{N}\\cdot\\text{m}^2}{\\text{C}^2}\\cdot\\frac{'
     + Math.abs(q1).toFixed(1) + '\\cdot10^{-6}\\;\\text{C}\\cdot ' + Math.abs(q2).toFixed(1)
-    + '\\cdot10^{-6}\\;\\text{C}}{(' + tE(r.toFixed(2), 'm') + ')^2} = ' + tE(F.toFixed(2), 'N'));
+    + '\\cdot10^{-6}\\;\\text{C}}{(' + tE(r.toFixed(2), 'm') + ')^2}', '= ' + tE(F.toFixed(2), 'N')]);
 
   const cv = initCanvas('cb-cv', 240, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -2165,7 +2175,7 @@ function drawA1(){
   const v=a1Vals(), I_mA=v.I*1000;
   document.getElementById('a1-U-val').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a1-R-val').textContent=v.R+' Ω';
-  flTex('a1-eq', 'I = \\frac{'+tE(v.U.toFixed(1),'V')+'}{'+tO(v.R)+'} = '+tE(I_mA.toFixed(0),'mA'));
+  flTex('a1-eq', ['I = \\frac{U}{R}', '= \\frac{'+tE(v.U.toFixed(1),'V')+'}{'+tO(v.R)+'}', '= '+tE(I_mA.toFixed(0),'mA')]);
   document.getElementById('a1-Uv').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a1-Rv').textContent=v.R+' Ω';
   document.getElementById('a1-I').textContent=I_mA.toFixed(0)+' mA';
@@ -2223,8 +2233,8 @@ function drawA2(){
   document.getElementById('a2-l-val').textContent=l+' m';
   document.getElementById('a2-A-val').textContent=A.toFixed(1)+' mm²';
   const R=m.r*l/A;
-  flTex('a2-eq', 'R = '+m.r+'\\;\\frac{\\Omega\\cdot\\text{mm}^2}{\\text{m}}\\cdot\\frac{'+tE(l,'m')+'}{'
-    +tE(A.toFixed(1),'mm')+'^2} = '+tO(R.toFixed(2)));
+  flTex('a2-eq', ['R = \\rho\\cdot\\frac{l}{A}', '= '+m.r+'\\;\\frac{\\Omega\\cdot\\text{mm}^2}{\\text{m}}\\cdot\\frac{'+tE(l,'m')+'}{'
+    +tE(A.toFixed(1),'mm')+'^2}', '= '+tO(R.toFixed(2))]);
   // Konsequenz: bei fester Übertragung fliesst ein Strom, und der Leitungs-
   // widerstand frisst P_V = R · I². Das ist das Überlandleitungs-Argument.
   const A2_I = 20;                       // A, angenommener Laststrom
@@ -2232,7 +2242,7 @@ function drawA2(){
   const UV = R * A2_I;                   // V Spannungsabfall
   document.getElementById('a2-pv').textContent = PV.toFixed(0) + ' W';
   document.getElementById('a2-uv').textContent = UV.toFixed(1) + ' V';
-  flTex('a2-eq2', 'P_\\text{V} = R\\cdot I^2 = ' + tO(R.toFixed(2)) + '\\cdot(' + tE(A2_I,'A') + ')^2 = ' + tE(PV.toFixed(0),'W'));
+  flTex('a2-eq2', ['P_\\text{V} = R\\cdot I^2', '= ' + tO(R.toFixed(2)) + '\\cdot(' + tE(A2_I,'A') + ')^2', '= ' + tE(PV.toFixed(0),'W')]);
 
   const cv=initCanvas('a2-cv',180,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
@@ -2273,8 +2283,8 @@ function a3Read(){
   document.getElementById('a3-U-val').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a3-R1-val').textContent=v.R1+' Ω';
   document.getElementById('a3-R2-val').textContent=v.R2+' Ω';
-  flTex('a3-eq-r', 'R = '+tO(v.R1)+' + '+tO(v.R2)+' = '+tO(v.Rg));
-  flTex('a3-eq-i', 'I = \\frac{'+tE(v.U.toFixed(1),'V')+'}{'+tO(v.Rg)+'} = '+tE((v.I*1000).toFixed(1),'mA'));
+  flTex('a3-eq-r', ['R = R_1 + R_2', '= '+tO(v.R1)+' + '+tO(v.R2), '= '+tO(v.Rg)]);
+  flTex('a3-eq-i', ['I = \\frac{U}{R}', '= \\frac{'+tE(v.U.toFixed(1),'V')+'}{'+tO(v.Rg)+'}', '= '+tE((v.I*1000).toFixed(1),'mA')]);
   document.getElementById('a3-Rg').textContent=v.Rg+' Ω';
   document.getElementById('a3-I').textContent=(v.I*1000).toFixed(1)+' mA';
   document.getElementById('a3-Us').textContent=v.U1.toFixed(2)+' / '+v.U2.toFixed(2)+' V';
@@ -2337,7 +2347,8 @@ function a4Read(){
   document.getElementById('a4-U-val').textContent=v.U.toFixed(1)+' V';
   document.getElementById('a4-R1-val').textContent=v.R1+' Ω';
   document.getElementById('a4-R2-val').textContent=v.R2+' Ω';
-  flTex('a4-eq', '\\frac{1}{R} = \\frac{1}{'+tO(v.R1)+'} + \\frac{1}{'+tO(v.R2)+'} \\;\\rightarrow\\; R = '+tO(v.Rg.toFixed(1)));
+  flTex('a4-eq', ['\\frac{1}{R} = \\frac{1}{R_1} + \\frac{1}{R_2}', '= \\frac{1}{'+tO(v.R1)+'} + \\frac{1}{'+tO(v.R2)+'}',
+                  '\\;\\rightarrow\\; R = '+tO(v.Rg.toFixed(1))]);
   document.getElementById('a4-Rg').textContent=v.Rg.toFixed(1)+' Ω';
   document.getElementById('a4-Is').textContent=(v.I1*1000).toFixed(0)+' / '+(v.I2*1000).toFixed(1)+' mA';
   document.getElementById('a4-I').textContent=(v.I*1000).toFixed(1)+' mA';
@@ -2407,8 +2418,8 @@ function drawA5(){
   document.getElementById('a5-I-val').textContent=I.toFixed(1)+' A';
   document.getElementById('a5-t-val').textContent=t.toFixed(2)+' h';
   const P=U*I, E=P*t/1000, K=E*0.21;
-  flTex('a5-eq-p', 'P = '+tE(U,'V')+'\\cdot '+tE(I.toFixed(1),'A')+' = '+tE(P.toFixed(0),'W'));
-  flTex('a5-eq-e', 'E = '+tE(P.toFixed(0),'W')+'\\cdot '+tE(t.toFixed(2),'h')+' = '+tE(E.toFixed(2),'kWh'));
+  flTex('a5-eq-p', ['P = U\\cdot I', '= '+tE(U,'V')+'\\cdot '+tE(I.toFixed(1),'A'), '= '+tE(P.toFixed(0),'W')]);
+  flTex('a5-eq-e', ['E = P\\cdot t', '= '+tE(P.toFixed(0),'W')+'\\cdot '+tE(t.toFixed(2),'h'), '= '+tE(E.toFixed(2),'kWh')]);
   document.getElementById('a5-P').textContent=P.toFixed(0)+' W';
   document.getElementById('a5-E').textContent=E.toFixed(2)+' kWh';
   document.getElementById('a5-K').textContent=K.toFixed(2)+' CHF';
@@ -2572,7 +2583,7 @@ document.querySelectorAll('[data-a6sz]').forEach(b => b.addEventListener('click'
   document.getElementById('a6-t').value = Math.log10(Math.min(10000, Math.max(10, tms)));
   document.querySelectorAll('[data-a6sz]').forEach(x => x.classList.toggle('aktiv', x === b));
   const rTxt = R >= 1000 ? (R/1000) + '\\;\\text{k}\\Omega' : tO(R);
-  flTex('a6-szen', ['I = \\frac{U}{R} = \\frac{' + tE(U,'V') + '}{' + rTxt + '} = ' + tE(I_mA.toFixed(0),'mA'),
+  flTex('a6-szen', [['I = \\frac{U}{R}', '= \\frac{' + tE(U,'V') + '}{' + rTxt + '}', '= ' + tE(I_mA.toFixed(0),'mA')],
                     't = ' + tE((tms/1000).toFixed(2),'s')]);
   drawA6();
 }));
@@ -2631,8 +2642,7 @@ function mmRender(){
       r.I >= 1 ? r.I.toFixed(1) + ' A' : r.I >= 1e-3 ? (r.I*1000).toFixed(1) + ' mA' : (r.I*1e6).toFixed(1) + ' µA';
   document.getElementById('mm-anz').textContent = r.anzeige;
   document.getElementById('mm-ok').textContent = r.ok;
-  flTex('mm-eq-f', r.text);
-  flTex('mm-eq-z', 'I = \\frac{' + tE(MM_U.toFixed(1),'V') + '}{' + tR(r.Rg) + '} = ' + tI(r.I));
+  flTex('mm-eq', [r.text, '= \\frac{' + tE(MM_U.toFixed(1),'V') + '}{' + tR(r.Rg) + '}', '= ' + tI(r.I)]);
   mmDraw(r);
 }
 
@@ -2766,18 +2776,22 @@ function gmRender(){
 
   if(gmSchritt === 0){
     flTex('gm-eq-f', 'R_1 \\text{ in Reihe zu } (R_2 \\parallel R_3)');
-    flTex('gm-eq-z', ['R_1 = ' + tO(w.R1), 'R_2 = ' + tO(w.R2), 'R_3 = ' + tO(w.R3), 'U = ' + tE(GM_U.toFixed(1),'V')]);
+    flTex('gm-eq-p', '');
+    flTex('gm-eq-z', [['R_1 = ' + tO(w.R1)], ['R_2 = ' + tO(w.R2)], ['R_3 = ' + tO(w.R3)], ['U = ' + tE(GM_U.toFixed(1),'V')]]);
   } else if(gmSchritt === 1){
-    flTex('gm-eq-f', 'R_\\text{p} = \\frac{R_2\\cdot R_3}{R_2 + R_3}');
-    flTex('gm-eq-z', 'R_\\text{p} = \\frac{' + tO(w.R2) + '\\cdot ' + tO(w.R3) + '}{' + tO(w.R2) + ' + ' + tO(w.R3)
-                   + '} = ' + tO(w.Rp.toFixed(1)));
+    flTex('gm-eq-f', ['R_\\text{p} = \\frac{R_2\\cdot R_3}{R_2 + R_3}',
+                      '= \\frac{' + tO(w.R2) + '\\cdot ' + tO(w.R3) + '}{' + tO(w.R2) + ' + ' + tO(w.R3) + '}',
+                      '= ' + tO(w.Rp.toFixed(1))]);
+    flTex('gm-eq-z', ''); flTex('gm-eq-p', '');
   } else if(gmSchritt === 2){
-    flTex('gm-eq-f', 'R_\\text{ges} = R_1 + R_\\text{p}');
-    flTex('gm-eq-z', 'R_\\text{ges} = ' + tO(w.R1) + ' + ' + tO(w.Rp.toFixed(1)) + ' = ' + tO(w.Rg.toFixed(1)));
+    flTex('gm-eq-f', ['R_\\text{ges} = R_1 + R_\\text{p}', '= ' + tO(w.R1) + ' + ' + tO(w.Rp.toFixed(1)), '= ' + tO(w.Rg.toFixed(1))]);
+    flTex('gm-eq-z', ''); flTex('gm-eq-p', '');
   } else {
-    flTex('gm-eq-f', ['I = \\frac{U}{R_\\text{ges}}', 'U_1 = I\\cdot R_1', 'I_2 = \\frac{U_\\text{p}}{R_2}']);
-    flTex('gm-eq-z', ['I = \\frac{' + tE(GM_U.toFixed(1),'V') + '}{' + tO(w.Rg.toFixed(1)) + '} = ' + tE((w.I*1000).toFixed(2),'mA'),
-                      '\\text{Probe: } I_2 + I_3 = ' + tE(((w.I2+w.I3)*1000).toFixed(2),'mA')]);
+    flTex('gm-eq-f', ['I = \\frac{U}{R_\\text{ges}}', '= \\frac{' + tE(GM_U.toFixed(1),'V') + '}{' + tO(w.Rg.toFixed(1)) + '}',
+                      '= ' + tE((w.I*1000).toFixed(2),'mA')]);
+    flTex('gm-eq-z', ['U_1 = I\\cdot R_1', '= ' + tE((w.I*1000).toFixed(2),'mA') + '\\cdot ' + tO(w.R1), '= ' + tE(w.U1.toFixed(2),'V')]);
+    flTex('gm-eq-p', ['\\text{Probe: } I_2 + I_3', '= ' + tE((w.I2*1000).toFixed(2),'mA') + ' + ' + tE((w.I3*1000).toFixed(2),'mA'),
+                      '= ' + tE(((w.I2+w.I3)*1000).toFixed(2),'mA')]);
   }
   gmDraw(w);
 }
@@ -2900,11 +2914,12 @@ function lpRender(){
   document.getElementById('lp-Pg').textContent = w.Pg.toFixed(1) + ' W';
   document.getElementById('lp-hell').textContent =
       Math.abs(w.P1-w.P2) < 0.05 ? 'gleich hell' : (w.P1 > w.P2 ? 'Lampe 1' : 'Lampe 2');
-  flTex('lp-eq-z', 'R_1 = \\frac{(' + tE(LP_U,'V') + ')^2}{' + tE(w.P1n,'W') + '} = ' + tO(w.R1.toFixed(0)));
-  flTex('lp-eq-z2', 'R_2 = \\frac{(' + tE(LP_U,'V') + ')^2}{' + tE(w.P2n,'W') + '} = ' + tO(w.R2.toFixed(0)));
+  flTex('lp-eq-z', ['R_1 = \\frac{U^2}{P_1}', '= \\frac{(' + tE(LP_U,'V') + ')^2}{' + tE(w.P1n,'W') + '}', '= ' + tO(w.R1.toFixed(0))]);
+  flTex('lp-eq-z2', ['R_2 = \\frac{U^2}{P_2}', '= \\frac{(' + tE(LP_U,'V') + ')^2}{' + tE(w.P2n,'W') + '}', '= ' + tO(w.R2.toFixed(0))]);
   flTex('lp-eq-p', lpArt === 'reihe'
-      ? ['\\text{in Reihe: } I = \\frac{U}{R_1 + R_2} = ' + tE((w.I1*1000).toFixed(0),'mA'), 'P = R\\cdot I^2']
-      : ['\\text{parallel: } U_1 = U_2 = ' + tE(LP_U,'V'), 'P = \\frac{U^2}{R}']);
+      ? [['\\text{in Reihe: } I = \\frac{U}{R_1 + R_2}', '= \\frac{' + tE(LP_U,'V') + '}{' + tO(w.R1.toFixed(0)) + ' + ' + tO(w.R2.toFixed(0)) + '}',
+          '= ' + tE((w.I1*1000).toFixed(0),'mA')], 'P = R\\cdot I^2']
+      : [['\\text{parallel: } U_1 = U_2 = ' + tE(LP_U,'V')], ['P = \\frac{U^2}{R}']]);
   lpDraw(w);
 }
 

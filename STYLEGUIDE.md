@@ -255,6 +255,25 @@ ruckelt und sich zwei Läufe nicht überholen, gilt das Muster aus
   dem Laden von MathJax feuert;
 - ein `dataset.stand`-Vergleich verhindert Neu-Rendern, wenn sich nichts ändert.
 
+**Eine Rechnung, eine Zeile** (verbindlich seit 26.09.2026, Stichwort
+«Stilcheck»): Formelzeichen, Formel, Zahlen mit Einheiten und Ergebnis stehen
+als **eine Kette** auf einer Zeile — nicht Formel und Zahlengleichung in zwei
+getrennten `.fl-eq`:
+
+- \( I = \frac{U}{R} = \frac{6.0\;\text{V}}{100\;\Omega} = 60\;\text{mA} \) ✓
+- zwei Zeilen `I = U/R` und darunter `I = 6.0 V / 100 Ω = 60 mA` ✗
+
+Reicht der Platz nicht (360 px), bricht die Kette **vor einem
+Gleichheitszeichen** um, nie mitten in einem Bruch. Umsetzung in
+`themen/p6-2-elektrizitaet.html` (`flTex`): jedes Glied (`I = \frac{U}{R}`,
+`= \frac{…}{…}`, `= 60\;\text{mA}`) ist eine eigene Inline-Formel mit
+`\displaystyle`, dazwischen `<wbr>`; ein führendes `=` bekommt ein `{}` davor,
+sonst fehlt ihm links der Abstand; die Formel-Container werden `inline-block`,
+damit umgebrochene Brüche sich nicht berühren. **Verschiedene** Rechnungen
+bleiben getrennte Zeilen (§2.1); reine Aufzählungen (gegebene Werte) stehen mit
+Strichpunkt auf einer Zeile. Eine einzelne Kette, die selbst als Glied zu breit
+ist, scrollt (siehe unten).
+
 **Einzelne Re-Typesets laufen über `mjTypeset(els)`** aus `physiklib.js` statt über
 einen direkten `MathJax.typesetPromise(…)`-Aufruf. Der Helfer verkettet alle
 Durchläufe seriell und hängt die erste Stufe an `MathJax.startup.promise` — damit
