@@ -128,6 +128,23 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
+    dict(quelle='Physik', was='Regel «Eine Rechnung, eine Zeile» (Entscheid Auftraggeber 26.09.2026)',
+         wie='Formelzeichen = Formel = Zahlen (mit Einheiten) = Ergebnis als EINE Kette in einer '
+             '.fl-eq statt Formel- und Zahlenzeile untereinander; fehlt der Platz, Umbruch nur vor '
+             'einem «=». Quelle Physik: STYLEGUIDE §2.8 (Absatz «Eine Rechnung, eine Zeile»), '
+             'CLAUDE.md Stilcheck-Regel 9, physiklib.js flTex/flHtml/flTeil (Z. 95-130; Glieder '
+             'als Inline-Formeln mit \\displaystyle, dazwischen <wbr>, fuehrendes = mit {}, '
+             'Container inline-block, Frame-Drosselung + serielle Typeset-Kette). Commits '
+             'f8c108d, ff768a1. Stand Mathe (gezaehlt 26.09.2026): 34 Seiten mit 147 .fl-eq; '
+             'nur 5 statisch LaTeX, 83 per innerHTML + mjTypeset (20 Seiten) — dort sitzt das '
+             'Zusammenlegen; mathlib.js hat mjTypeset, aber kein flTex. Typisches Paar: '
+             's3-4a bk-eq (Formelzeile darueber, Zahlenzeile darunter). Sonderfaelle: '
+             'farbige tx-gruen/tx-blau-Spans in g5-1 (wp-*-eq, sw-eq) muessen als \\color '
+             'oder Fach-Ausnahme mit; reine Wertanzeigen (g5-1 wv-grad, py-min/py-c/py-max, '
+             'zt-frage) sind keine Rechnung und bleiben. Nebenbefund Physik: LaTeX im Kopf '
+             'einer ❓-Frage braucht <summary><span>…</span></summary>, sonst zerlegt der '
+             'Flex-Container den Satz (Mathe-style.css pruefen). Falle beim Patchen: \\\\; in '
+             'eingetippten Skripten kam als \\; an — Backslashes per chr(92) schreiben.'),
     dict(quelle='Physik', was='Zweitstimme zurueckbauen (Entscheid Auftraggeber 26.09.2026)',
          wie='Die Mechanik war fuer de_CH-kohler-medium gebaut; seit dem 07.09.2026 '
              'gibt es keine Kohler-Spur mehr (clips/ton: 0 Treffer), sie laeuft leer. '
