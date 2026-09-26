@@ -369,10 +369,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Komponentenzerlegung</div>
-      <div class="fl-eq" id="a1-eq-fx">F_x = F · cos φ</div>
-      <div class="fl-eq" id="a1-eq-x">F_x = 80 N · cos(35°) = 65.5 N</div>
-      <div class="fl-eq" id="a1-eq-fy">F_y = F · sin φ</div>
-      <div class="fl-eq" id="a1-eq-y">F_y = 80 N · sin(35°) = 45.9 N</div>
+      <div class="fl-eq" id="a1-eq-x"></div>
+      <div class="fl-eq" id="a1-eq-y"></div>
     </div>
 
     <div class="live-box">
@@ -623,8 +621,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Drehmoment</div>
-      <div class="fl-eq" id="a4-eq-f">M = F · l · sin α</div>
-      <div class="fl-eq" id="a4-eq">M = 200 N · 0.30 m · sin(60°) = 52.0 Nm</div>
+      <div class="fl-eq" id="a4-eq"></div>
     </div>
 
     <div class="live-box">
@@ -698,9 +695,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Momentenvergleich</div>
-      <div class="fl-eq" id="a5-eq-f">M = F · r</div>
-      <div class="fl-eq" id="a5-eq1">M_1 = 40 N · 0.30 m = 12.0 Nm</div>
-      <div class="fl-eq" id="a5-eq2">M_2 = 24 N · 0.50 m = 12.0 Nm</div>
+      <div class="fl-eq" id="a5-eq1"></div>
+      <div class="fl-eq" id="a5-eq2"></div>
     </div>
 
     <div class="live-box">
@@ -777,10 +773,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Momentengleichgewicht um A</div>
-      <div class="fl-eq">F_B = F_G · x / L</div>
-      <div class="fl-eq" id="a6-eq">F_B = 600 N · 1.50 m / 4.0 m = 225.0 N</div>
-      <div class="fl-eq">F_A = F_G − F_B</div>
-      <div class="fl-eq" id="a6-eq2">F_A = 600 N − 225.0 N = 375.0 N</div>
+      <div class="fl-eq" id="a6-eq"></div>
+      <div class="fl-eq" id="a6-eq2"></div>
     </div>
 
     <div class="live-box">
@@ -863,8 +857,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Rutschbedingung — die Masse kürzt sich heraus</div>
-      <div class="fl-eq">m · g · sin α ≤ μ_H · m · g · cos α   →   tan α ≤ μ_H</div>
-      <div class="fl-eq" id="a7-verg">tan 25° = 0.466 ≤ μ = 0.50   →   haftet (Grenzwinkel 26.6°)</div>
+      <div class="fl-eq" id="a7-bed"></div>
+      <div class="fl-eq" id="a7-verg"></div>
     </div>
 
     <div class="live-box">
@@ -1393,10 +1387,8 @@ function drawA1() {
   document.getElementById('a1-phib').textContent = phi + '°';
   document.getElementById('a1-fx').textContent = f1(Fx) + ' N';
   document.getElementById('a1-fy').textContent = f1(Fy) + ' N';
-  document.getElementById('a1-eq-x').textContent =
-    'F_x = '+F+' N · cos('+phi+'°) = '+f1(Fx)+' N';
-  document.getElementById('a1-eq-y').textContent =
-    'F_y = '+F+' N · sin('+phi+'°) = '+f1(Fy)+' N';
+  flTex('a1-eq-x', ['F_x = F\\cdot\\cos\\varphi', '= '+texE(F,'N')+'\\cdot\\cos('+phi+'^\\circ)', '= '+texE(f1(Fx),'N')]);
+  flTex('a1-eq-y', ['F_y = F\\cdot\\sin\\varphi', '= '+texE(F,'N')+'\\cdot\\sin('+phi+'^\\circ)', '= '+texE(f1(Fy),'N')]);
 
   const cv = initCanvas('a1-cv', 0, true);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
@@ -1566,8 +1558,8 @@ function drawA4() {
   document.getElementById('a4-F-val').textContent = F + ' N';
   document.getElementById('a4-l-val').textContent = l.toFixed(2) + ' m';
   document.getElementById('a4-al-val').textContent = al + '°';
-  document.getElementById('a4-eq').textContent =
-    'M = '+F+' N · '+l.toFixed(2)+' m · sin('+al+'°) = '+M.toFixed(1)+' Nm';
+  flTex('a4-eq', ['M = F\\cdot l\\cdot\\sin\\alpha', '= '+texE(F,'N')+'\\cdot '+texE(l.toFixed(2),'m')+'\\cdot\\sin('+al+'^\\circ)',
+                  '= '+texE(M.toFixed(1),'Nm')]);
   document.getElementById('a4-m').textContent = M.toFixed(1) + ' Nm';
   document.getElementById('a4-rperp').textContent = rperp.toFixed(2) + ' m';
   document.getElementById('a4-fperp').textContent = Fperp.toFixed(0) + ' N';
@@ -1676,10 +1668,8 @@ function drawA5() {
   document.getElementById('a5-f2-val').textContent = F2 + ' N';
   document.getElementById('a5-r2-val').textContent = r2.toFixed(2) + ' m';
   const M1 = A5_F1*A5_R1, M2 = F2*r2;
-  document.getElementById('a5-eq1').textContent =
-    'M_1 = '+A5_F1+' N · '+A5_R1.toFixed(2)+' m = '+M1.toFixed(1)+' Nm';
-  document.getElementById('a5-eq2').textContent =
-    'M_2 = '+F2+' N · '+r2.toFixed(2)+' m = '+M2.toFixed(1)+' Nm';
+  flTex('a5-eq1', ['M_1 = F_1\\cdot r_1', '= '+texE(A5_F1,'N')+'\\cdot '+texE(A5_R1.toFixed(2),'m'), '= '+texE(M1.toFixed(1),'Nm')]);
+  flTex('a5-eq2', ['M_2 = F_2\\cdot r_2', '= '+texE(F2,'N')+'\\cdot '+texE(r2.toFixed(2),'m'), '= '+texE(M2.toFixed(1),'Nm')]);
   document.getElementById('a5-m1').textContent = M1.toFixed(1) + ' Nm';
   document.getElementById('a5-m2').textContent = M2.toFixed(1) + ' Nm';
   const diff = M2 - M1;
@@ -1758,10 +1748,9 @@ function drawA6() {
   document.getElementById('a6-x-val').textContent = x.toFixed(2) + ' m';
   document.getElementById('a6-fg-val').textContent = FG + ' N';
   const FB = FG*x/A6_L, FA = FG*(1 - x/A6_L);
-  document.getElementById('a6-eq').textContent =
-    'F_B = ' + FG + ' N · ' + x.toFixed(2) + ' m / ' + A6_L.toFixed(1) + ' m = ' + FB.toFixed(1) + ' N';
-  document.getElementById('a6-eq2').textContent =
-    'F_A = ' + FG + ' N − ' + FB.toFixed(1) + ' N = ' + FA.toFixed(1) + ' N';
+  flTex('a6-eq', ['F_B = \\frac{F_G\\cdot x}{L}', '= \\frac{' + texE(FG,'N') + '\\cdot ' + texE(x.toFixed(2),'m') + '}{' + texE(A6_L.toFixed(1),'m') + '}',
+                  '= ' + texE(FB.toFixed(1),'N')]);
+  flTex('a6-eq2', ['F_A = F_G - F_B', '= ' + texE(FG,'N') + ' - ' + texE(FB.toFixed(1),'N'), '= ' + texE(FA.toFixed(1),'N')]);
   document.getElementById('a6-fa').textContent = FA.toFixed(0) + ' N';
   document.getElementById('a6-fb').textContent = FB.toFixed(0) + ' N';
   document.getElementById('a6-sum').textContent = (FA+FB).toFixed(0) + ' N';
@@ -1826,9 +1815,9 @@ function drawA7() {
   const grenz = Math.atan(mu) * 180 / Math.PI;
   document.getElementById('a7-tan').textContent = Math.tan(a).toFixed(3);
   document.getElementById('a7-grenz').textContent = grenz.toFixed(1) + '°';
-  document.getElementById('a7-verg').textContent =
-    'tan ' + al + '° = ' + Math.tan(a).toFixed(3) + (haftet ? ' ≤ ' : ' > ') + 'μ = ' + mu.toFixed(2)
-    + '   →   ' + (haftet ? 'haftet' : 'rutscht') + ' (Grenzwinkel ' + grenz.toFixed(1) + '°)';
+  flTex('a7-bed', ['m\\cdot g\\cdot\\sin\\alpha', '{}\\le \\mu_H\\cdot m\\cdot g\\cdot\\cos\\alpha', '{}\\;\\rightarrow\\; \\tan\\alpha \\le \\mu_H']);
+  flTex('a7-verg', ['\\tan ' + al + '^\\circ = ' + Math.tan(a).toFixed(3), '{}' + (haftet ? '\\le' : '>') + ' \\mu_H = ' + mu.toFixed(2),
+                    '{}\\;\\rightarrow\\; \\text{' + (haftet ? 'haftet' : 'rutscht') + '}', '{}\\;(\\text{Grenzwinkel } ' + grenz.toFixed(1) + '^\\circ)']);
 
   const cv = initCanvas('a7-cv', 300, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;

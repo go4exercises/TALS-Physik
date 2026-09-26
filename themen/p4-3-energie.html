@@ -316,9 +316,8 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Verrichtete Arbeit</div>
-      <div class="fl-eq" id="a1-eq-f">W = F · s · cos α</div>
-      <div class="fl-eq" id="a1-eq">W = 50 N · 2.0 m · cos 0° = 100 J</div>
-      <div class="fl-eq" id="a1-null" style="display:none; color:#9b1c1c;">cos 90° = 0 → die Kraft steht senkrecht auf dem Weg und verrichtet keine Arbeit</div>
+      <div class="fl-eq" id="a1-eq"></div>
+      <div class="fl-eq" id="a1-null" style="display:none; color:#9b1c1c;">\(\cos 90^\circ = 0\) → die Kraft steht senkrecht auf dem Weg und verrichtet keine Arbeit</div>
     </div>
 
     <div class="a-twocol">
@@ -347,7 +346,7 @@ MathJax = {
 
 <h2 id="kinetisch">Kinetische Energie — quadratisch mit dem Tempo</h2>
 
-<p>Die Bewegungsenergie wächst mit dem <strong>Quadrat</strong> der Geschwindigkeit. Das hat dramatische Folgen im Strassenverkehr: Wer statt mit 30 km/h mit 50 km/h fährt, hat nicht knapp doppelt, sondern fast die dreifache Bewegungsenergie — und damit einen entsprechend längeren Anhalteweg.</p>
+<p>Die Bewegungsenergie wächst mit dem <strong>Quadrat</strong> der Geschwindigkeit. Das hat dramatische Folgen im Strassenverkehr: Wer statt mit \(30\;\text{km/h}\) mit \(50\;\text{km/h}\) fährt, hat nicht knapp doppelt, sondern fast die dreifache Bewegungsenergie — und damit einen entsprechend längeren Anhalteweg.</p>
 
 <div class="widget">
   <div class="widget-header">
@@ -388,8 +387,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Kinetische Energie</div>
-      <div class="fl-eq" id="a2-eq-f">E = ½ · m · v²</div>
-      <div class="fl-eq" id="a2-eq">E = ½ · 1200 kg · (14 m/s)² = 117.6 kJ</div>
+      <div class="fl-eq" id="a2-eq"></div>
     </div>
 
     <div class="a-twocol">
@@ -550,8 +548,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Gespeicherte Spannenergie</div>
-      <div class="fl-eq" id="a4-eq-f">E = ½ · D · s²</div>
-      <div class="fl-eq" id="a4-eq">E = ½ · 800 N/m · (0.080 m)² = 2.56 J</div>
+      <div class="fl-eq" id="a4-eq"></div>
     </div>
 
     <div class="a-twocol">
@@ -705,7 +702,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Wirkungsgrad der Kette</div>
-      <div class="fl-eq" id="a6-stufen">η_ges = 60 % (eine Stufe)</div>
+      <div class="fl-eq" id="a6-stufen"></div>
     </div>
 
     <div class="live-box">
@@ -1210,8 +1207,8 @@ function drawA1() {
   document.getElementById('a1-F-val').textContent = F + ' N';
   document.getElementById('a1-s-val').textContent = s.toFixed(1) + ' m';
   document.getElementById('a1-alpha-val').textContent = alpha + '°';
-  document.getElementById('a1-eq').textContent =
-    'W = ' + F + ' N · ' + s.toFixed(1) + ' m · cos ' + alpha + '° = ' + W.toFixed(0) + ' J';
+  flTex('a1-eq', ['W = F\\cdot s\\cdot\\cos\\alpha', '= ' + texE(F,'N') + '\\cdot ' + texE(s.toFixed(1),'m') + '\\cdot\\cos ' + alpha + '^\\circ',
+                  '= ' + texE(W.toFixed(0),'J')]);
   // Bei α = 90° steht die Kraft senkrecht auf dem Weg: sie verrichtet keine
   // Arbeit. Erkenntnis-Box und Mini-Check nennen genau diesen Fall — bis jetzt
   // liess der Regler ihn nicht zu (Maximum 80°).
@@ -1297,8 +1294,8 @@ function drawA2() {
   const Ek = 0.5 * m * v * v;
   document.getElementById('a2-v-val').textContent = v + ' m/s';
   document.getElementById('a2-m-val').textContent = m + ' kg';
-  document.getElementById('a2-eq').textContent =
-    'E = ½ · ' + m + ' kg · (' + v + ' m/s)² = ' + (Ek/1000).toFixed(1) + ' kJ';
+  flTex('a2-eq', ['E_{\\text{kin}} = \\frac{1}{2}\\cdot m\\cdot v^2', '= \\frac{1}{2}\\cdot ' + texE(m,'kg') + '\\cdot(' + texE(v,'m/s') + ')^2',
+                  '= ' + texE((Ek/1000).toFixed(1),'kJ')]);
 
   // Szene: Fahrzeug
   const cv = initCanvas('a2-cv-szene', 240, false);
@@ -1559,8 +1556,8 @@ function drawA4() {
   const E = 0.5 * D * s * s;
   document.getElementById('a4-D-val').textContent = D + ' N/m';
   document.getElementById('a4-s-val').textContent = s.toFixed(3) + ' m';
-  document.getElementById('a4-eq').textContent =
-    'E = ½ · ' + D + ' N/m · (' + s.toFixed(3) + ' m)² = ' + E.toFixed(2) + ' J';
+  flTex('a4-eq', ['E = \\frac{1}{2}\\cdot D\\cdot s^2', '= \\frac{1}{2}\\cdot ' + texE(D,'N/m') + '\\cdot(' + texE(s.toFixed(3),'m') + ')^2',
+                  '= ' + texE(E.toFixed(2),'J')]);
 
   // Feder
   const cv = initCanvas('a4-cv-feder', 240, false);
@@ -1749,9 +1746,10 @@ function drawA6() {
   const nutz = Ein * etaGes;
   const verl = Ein * (1 - etaGes);
   document.getElementById('a6-etages').textContent = (etaGes*100).toFixed(1) + ' %';
-  document.getElementById('a6-stufen').textContent = zwei
-    ? 'η_ges = ' + Math.round(eta*100) + ' % · ' + Math.round(eta2*100) + ' % = ' + (etaGes*100).toFixed(1) + ' %'
-    : 'η_ges = ' + Math.round(eta*100) + ' % (eine Stufe)';
+  flTex('a6-stufen', zwei
+    ? ['\\eta_{\\text{ges}} = \\eta_1\\cdot\\eta_2', '= ' + (Math.round(eta*100) + '\\;\\%') + '\\cdot ' + (Math.round(eta2*100) + '\\;\\%'),
+       '= ' + ((etaGes*100).toFixed(1) + '\\;\\%')]
+    : ['\\eta_{\\text{ges}} = ' + (Math.round(eta*100) + '\\;\\%') + '\\quad\\text{(eine Stufe)}']);
   document.getElementById('a6-ein-val').textContent = Ein + ' J';
   document.getElementById('a6-eta-val').textContent = Math.round(eta*100) + ' %';
   document.getElementById('a6-nutz').textContent = nutz.toFixed(0) + ' J';

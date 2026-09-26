@@ -342,8 +342,8 @@ MathJax = {
   <table class="ftb-tabelle">
     <thead><tr><th>Medium</th><th>\(c\) [m/s]</th><th>Medium</th><th>\(c\) [m/s]</th></tr></thead>
     <tbody>
-      <tr><td>Luft (15 °C)</td><td>340</td><td>Wasser</td><td>≈ 1500</td></tr>
-      <tr><td>Luft (25 °C)</td><td>346</td><td>Eisen</td><td>5170</td></tr>
+      <tr><td>Luft (\(15\,^\circ\text{C}\))</td><td>340</td><td>Wasser</td><td>≈ 1500</td></tr>
+      <tr><td>Luft (\(25\,^\circ\text{C}\))</td><td>346</td><td>Eisen</td><td>5170</td></tr>
       <tr><td>Helium</td><td>980</td><td>Aluminium</td><td>6300</td></tr>
     </tbody>
   </table>
@@ -363,7 +363,7 @@ MathJax = {
   <table class="ftb-tabelle">
     <thead><tr><th>Art</th><th>Mechanismus</th><th>Beispiel</th></tr></thead>
     <tbody>
-      <tr><td>Wärmestrahlung</td><td>heisse Körper strahlen (thermische Emission)</td><td>Glühlampe, Sonne (5800 K)</td></tr>
+      <tr><td>Wärmestrahlung</td><td>heisse Körper strahlen (thermische Emission)</td><td>Glühlampe, Sonne (\(5800\;\text{K}\))</td></tr>
       <tr><td>atomare Emission</td><td>angeregte Atome geben beim Zurückspringen ein Photon ab</td><td>Leuchtstoffröhre, Leuchtreklame</td></tr>
       <tr><td>Laser</td><td>stimulierte Emission erzeugt gebündeltes, gleichfarbiges Licht</td><td>Laserpointer, CO₂-Laser</td></tr>
     </tbody>
@@ -437,8 +437,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Wellengleichung, nach der abgeleiteten Grösse aufgelöst</div>
-      <div class="fl-eq" id="a1-eq-f">λ = c / f</div>
-      <div class="fl-eq" id="a1-eq">λ = 2.00 m/s / 1.0 Hz = 2.00 m</div>
+      <div class="fl-eq" id="a1-eq"></div>
     </div>
 
     <div class="live-box">
@@ -448,7 +447,7 @@ MathJax = {
     </div>
 
     <div class="cv-wrap">
-      <div class="cv-titel">〰 Laufende Welle über dem Weg \(s\) — feste Achse 0 … 6 m</div>
+      <div class="cv-titel">〰 Laufende Welle über dem Weg \(s\) — feste Achse \(0\) … \(6\;\text{m}\)</div>
       <canvas id="a1-cv" height="220"></canvas>
     </div>
 
@@ -567,8 +566,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Wellenlänge</div>
-      <div class="fl-eq" id="a3-eq-f">λ = c / f</div>
-      <div class="fl-eq" id="a3-eq">λ = 340 m/s / 440 Hz = 0.77 m</div>
+      <div class="fl-eq" id="a3-eq"></div>
     </div>
 
     <div class="cv-wrap">
@@ -616,7 +614,7 @@ MathJax = {
   <div class="widget-body">
 
     <div class="sl-row">
-      <label>log₁₀(λ / m):</label>
+      <label>\(\log_{10}(\lambda/\text{m})\):</label>
       <input type="range" id="a4-x" min="-12" max="3" value="-6.5" step="0.05">
       <span class="sl-val" id="a4-x-val">λ ≈ 316 nm</span>
     </div>
@@ -1235,7 +1233,7 @@ function a1Read(){
   document.getElementById('a1-c-val').textContent=v.c.toFixed(2)+' m/s';
   document.getElementById('a1-f-val').textContent=v.f.toFixed(1)+' Hz';
   // Ansatz-Prinzip: Formel steht als eigene Zeile im Markup, hier nur die Werte
-  document.getElementById('a1-eq').textContent='λ = '+v.c.toFixed(2)+' m/s / '+v.f.toFixed(1)+' Hz = '+v.lam.toFixed(2)+' m';
+  flTex('a1-eq', ['\\lambda = \\frac{c}{f}', '= \\frac{'+texE(v.c.toFixed(2),'m/s')+'}{'+texE(v.f.toFixed(1),'Hz')+'}', '= '+texE(v.lam.toFixed(2),'m')]);
   document.getElementById('a1-lamv').textContent=v.lam.toFixed(2)+' m';
   document.getElementById('a1-T').textContent=v.T.toFixed(2)+' s';
   document.getElementById('a1-probe').textContent=(v.lam*v.f).toFixed(2)+' m/s';
@@ -1361,7 +1359,7 @@ function drawA3(){
   const f=+document.getElementById('a3-f').value;
   document.getElementById('a3-f-val').textContent=f+' Hz';
   const sel=A3MED[a3Sel], lamSel=sel.c/f;
-  document.getElementById('a3-eq').textContent='λ = '+sel.c+' m/s / '+f+' Hz = '+lamSel.toFixed(2)+' m';
+  flTex('a3-eq', ['\\lambda = \\frac{c}{f}', '= \\frac{'+texE(sel.c,'m/s')+'}{'+texE(f,'Hz')+'}', '= '+texE(lamSel.toFixed(2),'m')]);
 
   const cv=initCanvas('a3-cv',260,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);

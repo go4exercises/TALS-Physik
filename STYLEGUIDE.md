@@ -264,8 +264,8 @@ getrennten `.fl-eq`:
 - zwei Zeilen `I = U/R` und darunter `I = 6.0 V / 100 Ω = 60 mA` ✗
 
 Reicht der Platz nicht (360 px), bricht die Kette **vor einem
-Gleichheitszeichen** um, nie mitten in einem Bruch. Umsetzung in
-`themen/p6-2-elektrizitaet.html` (`flTex`): jedes Glied (`I = \frac{U}{R}`,
+Gleichheitszeichen** um, nie mitten in einem Bruch. Umsetzung: `flTex(id, glieder)`
+aus `physiklib.js` (seit 26.09.2026 auf allen Themenseiten, dazu `texE(zahl, einheit)`): jedes Glied (`I = \frac{U}{R}`,
 `= \frac{…}{…}`, `= 60\;\text{mA}`) ist eine eigene Inline-Formel mit
 `\displaystyle`, dazwischen `<wbr>`; ein führendes `=` bekommt ein `{}` davor,
 sonst fehlt ihm links der Abstand; die Formel-Container werden `inline-block`,
@@ -273,6 +273,11 @@ damit umgebrochene Brüche sich nicht berühren. **Verschiedene** Rechnungen
 bleiben getrennte Zeilen (§2.1); reine Aufzählungen (gegebene Werte) stehen mit
 Strichpunkt auf einer Zeile. Eine einzelne Kette, die selbst als Glied zu breit
 ist, scrollt (siehe unten).
+
+Steht LaTeX im Kopf einer ❓-Frage, gehört der Kopftext in ein `<span>`
+(`<summary><span>❓ … \(…\) …</span></summary>`): `.frage > summary` ist ein
+Flex-Container, und jede Formel würde sonst ein eigenes Flex-Element — der Satz
+zerfällt in Spalten.
 
 **Einzelne Re-Typesets laufen über `mjTypeset(els)`** aus `physiklib.js` statt über
 einen direkten `MathJax.typesetPromise(…)`-Aufruf. Der Helfer verkettet alle

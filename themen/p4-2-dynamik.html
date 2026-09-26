@@ -285,8 +285,8 @@ MathJax = {
     </div>
 
     <div class="typ-btns" id="a1-ort-btns" style="display:none;">
-      <button class="typ-btn aktiv" data-a1g="9.81">🌍 Erde (9.81 m/s²)</button>
-      <button class="typ-btn" data-a1g="1.62">🌕 Mond (1.62 m/s²)</button>
+      <button class="typ-btn aktiv" data-a1g="9.81">🌍 Erde (\(9.81\;\text{m/s}^2\))</button>
+      <button class="typ-btn" data-a1g="1.62">🌕 Mond (\(1.62\;\text{m/s}^2\))</button>
     </div>
 
     <div class="sl-row">
@@ -312,9 +312,9 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Aktuelle Federkraft</div>
-      <div class="fl-eq" id="a1-eq-f">F = D · s</div>
-      <div class="fl-eq" id="a1-eq">F = 80 N/m · 0.10 m = 8.0 N</div>
-      <div class="fl-eq" id="a1-eq-m" style="display:none;">F_G = m · g = 0.8 kg · 9.81 m/s² = 7.85 N   →   s = F_G / D</div>
+      <div class="fl-eq" id="a1-eq-m" style="display:none;"></div>
+      <div class="fl-eq" id="a1-eq-m2" style="display:none;"></div>
+      <div class="fl-eq" id="a1-eq"></div>
     </div>
 
     <div class="live-box">
@@ -628,8 +628,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Beschleunigung entlang der Ebene</div>
-      <div class="fl-eq" id="a5-eq-f">a = g · (sin α − μ · cos α)</div>
-      <div class="fl-eq" id="a5-eq">a = 9.81 m/s² · (sin 30° − 0.10 · cos 30°) = 4.06 m/s²</div>
+      <div class="fl-eq" id="a5-eq"></div>
     </div>
 
     <div class="live-box">
@@ -722,8 +721,7 @@ MathJax = {
 
     <div class="formel-live">
       <div class="fl-label">Zentripetalkraft bei \(m = 1000\;\text{kg}\)</div>
-      <div class="fl-eq" id="a6k-eq-f">F_z = m · v² / r</div>
-      <div class="fl-eq" id="a6k-eq">F_z = 1000 kg · (15 m/s)² / 30 m = 7500 N</div>
+      <div class="fl-eq" id="a6k-eq"></div>
     </div>
 
     <div class="live-box">
@@ -1239,17 +1237,18 @@ function drawA1() {
     F = m * a1G;
     s = Math.min(0.20, F / D);
     document.getElementById('a1-m-val').textContent = m.toFixed(1) + ' kg';
-    document.getElementById('a1-eq-m').textContent =
-      'F_G = ' + m.toFixed(1) + ' kg · ' + a1G.toFixed(2) + ' m/s² = ' + F.toFixed(2) + ' N'
-      + '   →   s = ' + F.toFixed(2) + ' N / ' + D + ' N/m = ' + s.toFixed(3) + ' m';
+    flTex('a1-eq-m', ['F_\\text{G} = m\\cdot g', '= ' + texE(m.toFixed(1),'kg') + '\\cdot ' + texE(a1G.toFixed(2),'m/s') + '^2',
+                      '= ' + texE(F.toFixed(2),'N')]);
+    flTex('a1-eq-m2', ['s = \\frac{F_\\text{G}}{D}', '= \\frac{' + texE(F.toFixed(2),'N') + '}{' + texE(D,'N/m') + '}',
+                       '= ' + texE(s.toFixed(3),'m')]);
   } else {
     s = +document.getElementById('a1-s').value;
     F = D * s;
   }
   document.getElementById('a1-D-val').textContent = D + ' N/m';
   document.getElementById('a1-s-val').textContent = s.toFixed(2) + ' m';
-  document.getElementById('a1-eq').textContent =
-    'F = ' + D + ' N/m · ' + s.toFixed(2) + ' m = ' + F.toFixed(1) + ' N';
+  // Im Modus «Masse anhängen» dieselbe Rundung wie in s = F_G/D, sonst widersprechen sich die Zeilen
+  flTex('a1-eq', ['F = D\\cdot s', '= ' + texE(D,'N/m') + '\\cdot ' + texE(s.toFixed(a1Modus === 'm' ? 3 : 2),'m'), '= ' + texE(F.toFixed(1),'N')]);
   document.getElementById('a1-live-F').textContent = F.toFixed(1) + ' N';
   document.getElementById('a1-live-s').textContent = s.toFixed(3) + ' m';
   document.getElementById('a1-live-D').textContent = D + ' N/m';
@@ -1347,6 +1346,7 @@ document.querySelectorAll('[data-a1modus]').forEach(b => b.addEventListener('cli
   document.getElementById('a1-grp-s').style.display = mM ? 'none' : '';
   document.getElementById('a1-grp-m').style.display = mM ? '' : 'none';
   document.getElementById('a1-eq-m').style.display  = mM ? '' : 'none';
+  document.getElementById('a1-eq-m2').style.display = mM ? '' : 'none';
   document.getElementById('a1-ort-btns').style.display = mM ? '' : 'none';
   drawA1();
 }));
@@ -1728,9 +1728,9 @@ function drawA5() {
   const a = g * (Math.sin(alpha) - mu * Math.cos(alpha));
   document.getElementById('a5-alpha-val').textContent = alphaDeg + '°';
   document.getElementById('a5-mu-val').textContent = mu.toFixed(2);
-  document.getElementById('a5-eq').textContent =
-    'a = 9.81 m/s² · (sin ' + alphaDeg + '° − ' + mu.toFixed(2) + ' · cos ' + alphaDeg + '°) = '
-    + a.toFixed(2) + ' m/s²';
+  flTex('a5-eq', ['a = g\\cdot(\\sin\\alpha - \\mu\\cdot\\cos\\alpha)',
+                  '= ' + texE('9.81','m/s') + '^2\\cdot(\\sin ' + alphaDeg + '^\\circ - ' + mu.toFixed(2) + '\\cdot\\cos ' + alphaDeg + '^\\circ)',
+                  '= ' + texE(a.toFixed(2),'m/s') + '^2']);
 
   // Alle Kräfte für die Einheitsmasse 1.0 kg — das steht jetzt auch in der
   // Live-Box, vorher war die Bezugsmasse nirgends deklariert.
@@ -2005,8 +2005,8 @@ function drawA6k() {
 
   document.getElementById('a6k-v-val').textContent = v + ' m/s';
   document.getElementById('a6k-r-val').textContent = r + ' m';
-  document.getElementById('a6k-eq').textContent =
-    'F_z = 1000 kg · (' + v + ' m/s)² / ' + r + ' m = ' + Fz.toFixed(0) + ' N';
+  flTex('a6k-eq', ['F_z = \\frac{m\\cdot v^2}{r}', '= \\frac{' + texE(A6K_M,'kg') + '\\cdot(' + texE(v,'m/s') + ')^2}{' + texE(r,'m') + '}',
+                   '= ' + texE(Fz.toFixed(0),'N')]);
   document.getElementById('a6k-az').textContent = az.toFixed(2) + ' m/s²';
   document.getElementById('a6k-fz').textContent = Fz.toFixed(0) + ' N';
   document.getElementById('a6k-mu').textContent = muMin.toFixed(2);
