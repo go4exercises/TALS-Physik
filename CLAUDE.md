@@ -147,12 +147,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   gemessene Sprechdauer je Szene als `dauer` ins Drehbuch zurück — danach sitzt
   Bild auf Sprache. Danach den Clip mit `build-clips.py` neu bauen.
 
-  Seit dem 26.09.2026 dieselbe Fassung wie in Mathe: `--zweitstimme NAME`
-  baut eine zweite Spur `clips/ton/<name>-NAME.mp3` auf die Zeitspur der
-  ersten (dazu `--modell2`, `--klang`, `--tempo`, `--noise-scale`,
-  `--noise-w`; das Drehbuch bleibt dabei unverändert). **Abgespielt wird sie
-  hier noch nicht** — den Stimmenwechsel im Player hat nur Mathes
-  `build-clips.py`.
+  **Keine Zweitstimme.** Mathe hatte zeitweise `--zweitstimme` samt
+  Umschalter im Player — gebaut für das persönliche Modell, das hier nicht
+  verwendet wird. Am 26.09.2026 bewusst nicht übernommen; der Rückbau in
+  Mathe steht in der Warteschlange von `scripts/abgleich.py`.
 
   **Stimme: `de_DE-thorsten-high` (verbindlich, bis der Auftraggeber es ändert).**
 

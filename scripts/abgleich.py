@@ -87,7 +87,7 @@ GRUNDLINIE = {
     'scripts/build-suchindex.py': 0.962,
     'scripts/build-clips.py': 0.782,
     'scripts/build-clips-einbau.py': 0.806,
-    'scripts/build-clip-ton.py': 1.000,
+    'scripts/build-clip-ton.py': 0.575,   # zurueck auf 1.000, sobald Mathe OFFEN abgearbeitet hat
     'scripts/build-seo.py': 0.520,
     'scripts/schriften-lokal.py': 0.961,
     'scripts/mathjax-lokal.py': 0.853,
@@ -107,6 +107,9 @@ GRUNDLINIE = {
 # Was tief unter seiner Grundlinie liegt, ist kein Naturgesetz, sondern eine
 # offene Baustelle. Hier steht, was daran zu tun waere.
 BAUSTELLE = {
+    'scripts/build-clip-ton.py':
+        'Physik ist die Fassung ohne Zweitstimme; Mathe traegt die Mechanik noch, '
+        'obwohl seit dem 07.09.2026 keine Spur sie nutzt. Rueckbau: siehe OFFEN.',
     'scripts/build-seo.py':
         'Grosse Teile sind Projektdatei (SEITEN, Lerngebiete). Die Logik ist seit '
         'dem 13.09.2026 gleich (argparse, --dry-run, einsetzen, main). Trennen '
@@ -125,6 +128,21 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
+    dict(quelle='Physik', was='Zweitstimme zurueckbauen (Entscheid Auftraggeber 26.09.2026)',
+         wie='Die Mechanik war fuer de_CH-kohler-medium gebaut; seit dem 07.09.2026 '
+             'gibt es keine Kohler-Spur mehr (clips/ton: 0 Treffer), sie laeuft leer. '
+             'Zu entfernen: (1) scripts/build-clip-ton.py — --zweitstimme, --modell2, '
+             '--noise-scale, --noise-w, --klang, --tempo, mittleres_spektrum, '
+             'klangkurve, klang_anwenden, Dehnung, Lautheitsangleichung, Beipackzettel; '
+             'Ziel ist Physiks Fassung (155 Zeilen), danach 1:1 kopieren. Nebenbei weg: '
+             'bei festem --tempo druckte der Szenen-Print dehnungen[-1] = Szenenindex '
+             'als Faktor. (2) scripts/build-clips.py — STANDARDSTIMME (Z. 56-59), die '
+             'Stimmenliste weitere/liste/stimmen_js (Z. 814-841), im Player STIMMEN, '
+             'dehnung und der Umschalter (Z. 1218-1259); t * dehnung wird t. '
+             '(3) HOWTO-clips.md — die vier Abschnitte «Zweite Stimme» bis «Wenn die '
+             'Stimme dafuer zu schnell wird» (Z. 795-912); «Lizenzlage» bleibt. '
+             '(4) Alle 203 Clips neu bauen — jede clips/*.html traegt den toten '
+             'STIMMEN-Code. Danach in Physik die Grundlinie build-clip-ton wieder 1.000.'),
 ]
 
 FACH = {
