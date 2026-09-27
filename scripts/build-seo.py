@@ -157,6 +157,24 @@ SEITEN = {
                 'in sechs Schritten mit Erklärclip, Simulation, Vortest und Kapiteltest.',
    themen=['Physik', 'Elektrizität', 'Reihenschaltung', 'Parallelschaltung',
            'Spannungsteiler', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung',
+   beschreibung='Leitprogramm zur Elektrizität: ohmsches Gesetz und Kennlinien, richtig messen '
+                'mit Ampere- und Voltmeter, Widerstand eines Leiters, elektrische Leistung, '
+                'Energie und Kosten, Verlustleistung und Hochspannung — in sieben Schritten '
+                'mit Erklärclips, Simulationen, Vortest und Gesamttest.',
+   themen=['Physik', 'Elektrizität', 'Ohmsches Gesetz', 'Widerstand', 'Leistung',
+           'Energie', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-gefahren.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Gefahren und Schutzmassnahmen — FI, Schutzleiter, Sicherung',
+   beschreibung='Leitprogramm zur Elektrizität: warum der Strom über die Erde zurückfliesst, '
+                'Wirkung auf den Menschen, FI-Schutzschalter als zusätzlicher Schutz, '
+                'Schutzleiter und Leitungsschutzschalter — in sechs Schritten mit '
+                'Erklärclips, Simulationen, Vortest und Gesamttest.',
+   themen=['Physik', 'Elektrizität', 'Elektrische Sicherheit', 'FI-Schutzschalter',
+           'Schutzleiter', 'Leitungsschutzschalter', 'Leitprogramm']),
  'leitprogramme/uebungstest-waermelehre.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit', 'Übungsaufgaben'],
    titel='Leitprogramm Übungstest Wärmelehre — fünfzehn Aufgaben mit Erklärclip',

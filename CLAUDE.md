@@ -179,7 +179,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `physiklib.js`). `scripts/build-clips.py` baut aus einem Drehbuch
   (`clips/<name>.json`) den Clip, `scripts/build-clips-einbau.py` trägt ihn in
   die Lektionsseite und zwischen die Marker `<!-- CLIPS-BIBLIOTHEK:ANFANG/ENDE -->`
-  in `clips.html` ein. Stand 08.09.2026: **86 Clips in 23 Reihen, 79:37 min** —
+  in `clips.html` ein. Stand 27.09.2026: **89 Clips in 24 Reihen, 82:26 min** —
   jede der zehn Themenseiten der Lerngebiete 4 bis 6 hat ihre Reihe, dazu das
   Vorwissen. Anders als Mathe gruppiert die Bibliothek nur nach Lerngebiet
   (kein Grundlagen-/Schwerpunktfach), und sie zieht die Gruppen aus `nav.js`,
@@ -191,7 +191,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Feld und Filterskript stehen **ausserhalb** der Marker und werden von Hand
   gepflegt, das `data-suche` je Zeile kommt aus dem Generator.
   Bauanleitung, Stolpersteine und die didaktische Prüfliste: `HOWTO-clips.md`.
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell neun:
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell elf:
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
   `leitprogramm-vorwissen` (Grössen, Messen, Druck — sieben Clips, fünf
@@ -205,11 +205,18 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   über sieben Schulversuche statt über die Formel — sechs Clips, sieben
   gerechnete Simulationen) und `leitprogramm-schaltungen` (Knoten- und
   Maschenregel, Reihe, Spannungsteiler, Parallel, gemischte Schaltungen,
-  Leistung — drei Clips, vier Simulationen; das erste ausserhalb der
-  Thermodynamik). Dazu als Sonderfall `uebungstest-waermelehre` — ein
+  Leistung — vier Clips, vier Simulationen; das erste ausserhalb der
+  Thermodynamik; die Frage «40 W oder 60 W in Reihe?» bleibt von Schritt 2
+  bis 6 offen), `leitprogramm-widerstand-leistung` (ohmsches Gesetz,
+  Kennlinien, Messen, Leiterwiderstand, Leistung, Energie, Verlustleistung —
+  sechs Clips, sieben Simulationen) und `leitprogramm-gefahren` (Erde als
+  Rückleiter, Wirkung, FI, Schutzleiter, LS, Übersicht — zwei Clips, vier
+  Simulationen); die drei Elektrizitäts-Leitprogramme folgen
+  `Leitprogramme-Elektrizitaet-Architektur.md` (liegt neben dem Repo, nicht
+  darin), mit den am 27.09.2026 korrigierten Merksätzen. Dazu als Sonderfall `uebungstest-waermelehre` — ein
   **Prüfungsbogen statt eines Stoffgebiets**: fünfzehn Aufgaben, je eine mit
   Aufgabentext, eigenem Erklärclip, Musterlösung und Fehlerkasten, dazu die
-  Darstellungsregeln als roter Faden (16.09.2026). Alle neun starten ihre
+  Darstellungsregeln als roter Faden (16.09.2026). Alle elf starten ihre
   Clips über `.clipkarte`
   aus `clips/`; eigener, ins Dokument eingebetteter Ton gehört nicht hinein
   (siehe `HOWTO-leitprogramme.md`, Punkt 11). Vorgehen beim
@@ -220,9 +227,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   misstrauisch lesen, `probe: true` für die Clips, die `</head>`-Falle, und
   wie ein Prüfungsrahmen wegbleibt, ohne dass die Aufgaben leiden). Die
   Bibliotheksseite trägt nur die Karten (`.lp-*` in `style.css`); jedes
-  Leitprogramm ist eine **eigenständige Seite mit eigenem Inhalts-CSS** und
-  bewusst ohne `nav.js`/`style.css` — Aufbau und Ablauf sind auf das
-  Leitprogramm zugeschnitten. Verbindlich bleiben: keine Fremdhosts
+  Leitprogramm ist eine **eigenständige Seite mit eigenem Inhalts-CSS**; Aufbau
+  und Ablauf sind auf das Leitprogramm zugeschnitten. Kopfnavigation und Suche
+  gehören trotzdem dazu: vor `</body>` stehen `../physiklib.js`, `../nav.js`,
+  `../suche.js` und `buildNav({ id: 'leitprogramme' })` — ohne `physiklib.js`
+  läuft jede Clipkarte ins Leere, weil `clipBuehne` von dort kommt (so bei
+  `leitprogramm-schaltungen` vom 13.09. bis 27.09.2026). Verbindlich bleiben: keine Fremdhosts
   (`../schriften.css`, `../vendor/mathjax/tex-svg.js`) und je ein Anker auf den
   `<h2>`, damit `build-suchindex.py` dort Abschnitte schneiden kann.
 - `rechtliches.html` — Haftung + Datenschutz, verlinkt aus Footer und Feedbackformular
