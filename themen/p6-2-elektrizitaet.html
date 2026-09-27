@@ -605,7 +605,7 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Wähle einen Auftrag und überlege zuerst: Welcher Bereich, welche Buchse, welche Anschlussart?</li><li>Probiere auch falsche Einstellungen aus und lies die Rückmeldung: Warum zeigt das Gerät «OL», «0.00» oder fast die Quellenspannung?</li><li>Miss den Widerstand einmal im Kreis und einmal ausgebaut. Warum stimmt nur einer der Werte?</li></ul></div>
+      <div class="ah-text"><ul><li>Wähle einen Auftrag und überlege zuerst: Welcher Bereich, welche Buchse, welche Anschlussart?</li><li>Stelle zuerst alles ein, dann schalte das Netzgerät ein. Es lässt sich nur einschalten, wenn alles richtig angeschlossen ist; sonst sagt die Rückmeldung, was beim Einschalten passieren würde (Sicherung, «OL», dunkle Lampe).</li><li>Umstecken und umschalten nur ohne Spannung: Jede Änderung schaltet das Netzgerät aus.</li><li>Miss den Widerstand einmal im Kreis und einmal ausgebaut. Warum stimmt nur einer der Werte?</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -656,9 +656,8 @@ MathJax = {
     <div class="sl-row">
       <label>Netzgerät:</label>
       <div class="typ-btns" style="margin-bottom:0">
-        <button class="typ-btn aktiv" data-mbq="ein">ein</button>
-        <button class="typ-btn" data-mbq="aus">aus</button>
-        <button class="typ-btn" id="mb-fix" style="display:none">🔧 Sicherung ersetzen</button>
+        <button class="typ-btn" data-mbq="ein">ein</button>
+        <button class="typ-btn aktiv" data-mbq="aus">aus</button>
       </div>
     </div>
 
@@ -3897,10 +3896,13 @@ function wsInit(){
 //  28.6 (R ∥ R_L, Quelle aus); Ω in Serie 140.0.
 // ══════════════════════════════════════════════════════════
 const MB_E = 12, MB_R = 100, MB_RL = 40, MB_RV = 1e7, MB_RMA = 1, MB_RA10 = 0.01, MB_FUSE = 0.2;
-let mbAuftrag = 'U', mbSchalter = 'off', mbBuchse = 'vomA', mbKreis = 'par', mbQuelle = true, mbDefekt = false;
+let mbAuftrag = 'U', mbSchalter = 'off', mbBuchse = 'vomA', mbKreis = 'par', mbQuelle = false, mbDefekt = false;
+// Das Netzgerät lässt sich nur einschalten, wenn alles richtig angeschlossen ist.
+// mbMeldung: Grund, warum es aus blieb bzw. ausging (wird bei der nächsten Aktion ersetzt).
+let mbMeldung = '';
 
-function mbRechne(){
-  const s = mbSchalter, b = mbBuchse, k = mbKreis, q = mbQuelle;
+function mbRechne(qErzwingen){
+  const s = mbSchalter, b = mbBuchse, k = mbKreis, q = qErzwingen === undefined ? mbQuelle : qErzwingen;
   // Innenwiderstand zwischen den Messleitungen (∞ = offen) und was angezeigt wird
   let Rm = Infinity, art = 'aus', warn = '';
   if(s === 'v2' || s === 'v20'){ art = 'V'; Rm = b === 'vomA' ? MB_RV : MB_RA10; if(b !== 'vomA') warn = 'buchse'; }
@@ -3966,13 +3968,24 @@ function mbRechne(){
   return { anz, ok, fb, sicherung, eq, IL, art, warn, Rm };
 }
 
+// Prüfung beim Einschalten: Was geschähe mit Spannung? Nur wenn der Auftrag
+// damit erfüllt ist, geht das Netzgerät an; sonst bleibt es aus, und die
+// Rückmeldung nennt die Folge, die beim Einschalten eintreten würde.
+function mbEinschalten(){
+  if(mbAuftrag === 'R') return 'Netzgerät bleibt aus: Widerstand misst man nur ohne Spannung. Das Ohmmeter schickt selbst einen kleinen Messstrom; eine fremde Spannung verfälscht das Ergebnis und kann das Gerät beschädigen. Miss am ausgebauten R bei ausgeschaltetem Netzgerät.';
+  if(mbSchalter === 'off') return 'Netzgerät bleibt aus: Der Drehschalter steht auf OFF — wähle zuerst den Bereich, der zum Auftrag passt.';
+  const h = mbRechne(true);
+  if(h.ok) return '';
+  return 'Netzgerät bleibt aus. Beim Einschalten: ' + h.fb;
+}
+
 function mbRender(){
   const r = mbRechne();
-  if(r.sicherung){ mbDefekt = true; }
-  document.getElementById('mb-fix').style.display = mbDefekt ? '' : 'none';
   const fb = document.getElementById('mb-fb');
-  fb.textContent = r.fb;
-  fb.style.borderLeftColor = r.ok ? 'var(--gruen)' : (r.sicherung || /Sicherung|Err|nur ohne/.test(r.fb) ? 'var(--rot)' : 'var(--linie)');
+  const text = mbMeldung ? mbMeldung : (mbQuelle ? r.fb
+             : (r.ok ? r.fb : r.fb + ' Stelle alles ein und schalte dann das Netzgerät ein.'));
+  fb.textContent = text;
+  fb.style.borderLeftColor = mbMeldung ? 'var(--rot)' : (r.ok ? 'var(--gruen)' : 'var(--linie)');
   flTex('mb-eq', r.eq || '');
   document.getElementById('mb-eq').closest('.formel-live').style.display = r.eq ? '' : 'none';
   mbDraw(r);
@@ -4070,14 +4083,22 @@ function mbDraw(r){
 }
 
 function mbInit(){
+  const qb = document.querySelectorAll('[data-mbq]');
+  const quelleZeigen = () => qb.forEach(o => o.classList.toggle('aktiv', (o.dataset.mbq === 'ein') === mbQuelle));
+  // Jede Änderung am Aufbau schaltet ein laufendes Netzgerät aus
   const bind = (attr, set) => { const bs = document.querySelectorAll('[' + attr + ']');
-    bs.forEach(b => b.addEventListener('click', () => { bs.forEach(o => o.classList.toggle('aktiv', o === b)); set(b.getAttribute(attr)); mbRender(); })); };
+    bs.forEach(b => b.addEventListener('click', () => {
+      bs.forEach(o => o.classList.toggle('aktiv', o === b)); set(b.getAttribute(attr));
+      mbMeldung = mbQuelle ? 'Netzgerät ausgeschaltet: Umstecken und umschalten nur ohne Spannung. Schalte es wieder ein, wenn alles stimmt.' : '';
+      mbQuelle = false; quelleZeigen(); mbRender(); })); };
   bind('data-mba', v => mbAuftrag = v);
   bind('data-mbs', v => mbSchalter = v);
   bind('data-mbb', v => mbBuchse = v);
   bind('data-mbk', v => mbKreis = v);
-  bind('data-mbq', v => mbQuelle = v === 'ein');
-  document.getElementById('mb-fix').addEventListener('click', () => { mbDefekt = false; mbRender(); });
+  qb.forEach(b => b.addEventListener('click', () => {
+    if(b.dataset.mbq === 'aus'){ mbQuelle = false; mbMeldung = ''; }
+    else { const fehler = mbEinschalten(); mbQuelle = fehler === ''; mbMeldung = fehler; }
+    quelleZeigen(); mbRender(); }));
 }
 
 function initAll(){
