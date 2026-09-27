@@ -180,6 +180,71 @@ function fmtTick(v, step) {
 /* drawGrid: kartesisches Gitter + Achsen + Pfeile + Default-Zahlenlabels.
    Verwendet automatische Tick-Schrittweite ("nice ticks") damit Beschriftungen
    bei beliebigen Bereichen lesbar bleiben. Liefert die Pixel-Konverter cx und cy. */
+/* Skalenzahlen nach den Kurven noch einmal setzen.
+   drawGrid zeichnet die Zahlen, bevor die Seite ihre Kurven, Flächen und Pfeile
+   darüberlegt. Liegt die Achse am Rand, stehen die Zahlen im Diagramm und werden
+   von Linien gekreuzt. Darum merkt sich drawGrid die Zahlen samt der aktuellen
+   Transformation und prüft in einem Microtask — er läuft, sobald die synchrone
+   Zeichenfunktion der Seite fertig ist, und noch vor dem Neuzeichnen des
+   Bildschirms, also ohne Flackern —, was aus jeder Zahl geworden ist:
+     - noch grösstenteils sichtbar (nur gekreuzt): neu setzen, mit schmalem
+       weissem Rand um die Ziffern;
+     - grösstenteils verschwunden (ein Punkt, eine Fläche oder ein Pfeil liegt
+       darauf, oder die Seite hat sie absichtlich übermalt): so lassen.
+   Ein Kästchen statt des Rands wäre zu grob — es zerschneidet Pfeile und stanzt
+   Löcher in Flächen. Gemessen wird am Bild: Anteil der Pixel in Zahlenfarbe,
+   verglichen mit der Ziffernmenge derselben Zahl auf einem Hilfs-Canvas. */
+const _tickTinte = new Map();          // Schrift|Text|Massstab -> Anzahl Ziffernpixel
+function _tickPixel(font, text, scale) {
+  const key = font + '|' + text + '|' + scale;
+  if (_tickTinte.has(key)) return _tickTinte.get(key);
+  const c = document.createElement('canvas'); c.width = 200 * scale; c.height = 24 * scale;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  g.scale(scale, scale); g.font = font; g.fillStyle = '#6b7280'; g.textBaseline = 'top'; g.fillText(text, 2, 2);
+  const d = g.getImageData(0, 0, c.width, c.height).data; let n = 0;
+  for (let k = 0; k < d.length; k += 4) if (d[k + 3] > 200) n++;
+  _tickTinte.set(key, n); return n;
+}
+function tickNachzeichnen(ctx, labels, font, farbe) {
+  if (!labels.length || typeof ctx.getTransform !== 'function') return;   // jsdom u. ä.
+  const offen = ctx.__tickNach;
+  const eintrag = { T: ctx.getTransform(), labels, font, farbe };
+  if (offen) { offen.push(eintrag); return; }
+  ctx.__tickNach = [eintrag];
+  Promise.resolve().then(() => {
+    const alle = ctx.__tickNach; ctx.__tickNach = null;
+    const cv = ctx.canvas;
+    let bild;
+    try { bild = ctx.getImageData(0, 0, cv.width, cv.height); } catch (e) { return; }   // z. B. «tainted»
+    const d = bild.data, BW = cv.width, BH = cv.height;
+    for (const g of alle) {
+      const T = g.T, sc = Math.abs(T.a) || 1;
+      ctx.save();
+      ctx.setTransform(T); ctx.globalAlpha = 1; ctx.setLineDash([]); ctx.font = g.font;
+      for (const l of g.labels) {
+        const w = ctx.measureText(l.t).width, h = 14;
+        const x0 = l.a === 'center' ? l.x - w / 2 : (l.a === 'right' ? l.x - w : l.x);
+        const y0 = l.b === 'top' ? l.y : (l.b === 'bottom' ? l.y - h : l.y - h / 2);
+        // Box in Gerätepixel (keine Drehung in drawGrid-Diagrammen)
+        const X0 = Math.max(0, Math.floor(T.a * x0 + T.e)), X1 = Math.min(BW, Math.ceil(T.a * (x0 + w) + T.e));
+        const Y0 = Math.max(0, Math.floor(T.d * y0 + T.f)), Y1 = Math.min(BH, Math.ceil(T.d * (y0 + h) + T.f));
+        let n = 0;
+        for (let y = Y0; y < Y1; y++) for (let x = X0; x < X1; x++) {
+          const k = (y * BW + x) * 4;
+          if (d[k + 3] > 200 && Math.abs(d[k] - 107) + Math.abs(d[k + 1] - 114) + Math.abs(d[k + 2] - 128) < 60) n++;
+        }
+        const soll = _tickPixel(g.font, l.t, sc);
+        if (!soll || n / soll < 0.5) continue;           // zugedeckt oder absichtlich entfernt
+        ctx.textAlign = l.a; ctx.textBaseline = l.b;
+        ctx.lineJoin = 'round'; ctx.lineWidth = 3; ctx.strokeStyle = '#fff';
+        ctx.strokeText(l.t, l.x, l.y);
+        ctx.fillStyle = g.farbe; ctx.fillText(l.t, l.x, l.y);
+      }
+      ctx.restore();
+    }
+  });
+}
+
 function drawGrid(ctx, W, H, xMin, xMax, yMin, yMax) {
   const cx = x => (x - xMin) / (xMax - xMin) * W;
   const cy = y => H - (y - yMin) / (yMax - yMin) * H;
@@ -222,11 +287,13 @@ function drawGrid(ctx, W, H, xMin, xMax, yMin, yMax) {
   // x-Tick-Labels: oben oder unten relativ zur x-Achse, je nach verfügbarem Platz
   const xLblBelow = (H - xAxisY) >= 18;
   ctx.textAlign = 'center'; ctx.textBaseline = xLblBelow ? 'top' : 'bottom';
+  const tickLabels = [];                               // für das Nachzeichnen, s. unten
   for (const v of xTicks) {
     if (Math.abs(v) < stepX * 1e-6) continue;
     if (cx(v) < 14 || cx(v) > W - 72) continue;        // Rand-Bereich für x-Label reserviert
     const py = xAxisY + (xLblBelow ? 5 : -5);
     ctx.fillText(fmtTick(v, stepX), cx(v), py);
+    tickLabels.push({ t: fmtTick(v, stepX), x: cx(v), y: py, a: 'center', b: ctx.textBaseline });
   }
   // y-Tick-Labels: je nach Platz links oder rechts der Y-Achse anbringen
   ctx.textBaseline = 'middle';
@@ -243,8 +310,10 @@ function drawGrid(ctx, W, H, xMin, xMax, yMin, yMax) {
     if (cy(v) < 22 || cy(v) > H - 6) continue;          // Bereich oben für y-Label reserviert
     const px = labelLeft ? yAxisX - 5 : yAxisX + 5;
     ctx.fillText(fmtTick(v, stepY), px, cy(v));
+    tickLabels.push({ t: fmtTick(v, stepY), x: px, y: cy(v), a: ctx.textAlign, b: 'middle' });
   }
   ctx.textBaseline = 'alphabetic';
+  tickNachzeichnen(ctx, tickLabels, '13px JetBrains Mono,monospace', '#6b7280');
   // Default-Achsenlabels "x" und "y" (werden ggf. von drawAxesUnits überschrieben)
   ctx.fillStyle = '#374151'; ctx.font = 'bold 13px monospace';
   ctx.textAlign = 'left';   ctx.fillText('x', W - 14, xAxisY - 7);
