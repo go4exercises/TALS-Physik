@@ -497,7 +497,17 @@ function clipBuehne(quelle, titel) {
   buehne.addEventListener('click', e => { if (e.target === buehne) clipZu(); });
   document.addEventListener('keydown', clipEscape);
   document.body.appendChild(buehne);
-  buehne.querySelector('.cb-zu').focus({ preventScroll: true });
+  // Der Fokus gehoert in den Clip, nicht auf «Schliessen»: Sonst landen
+  // Pfeiltasten (spulen) auf der Seite, und die Leertaste (Pause) drueckt
+  // den Knopf und schliesst den Clip. Escape faengt der Clip nicht selbst
+  // ab — darum haengt sich clipEscape nach dem Laden auch an sein Dokument
+  // (gleiche Herkunft; bei file:// verweigert, dann bleiben Knopf und Rand).
+  const f = buehne.querySelector('iframe');
+  f.focus({ preventScroll: true });
+  f.addEventListener('load', () => {
+    f.focus({ preventScroll: true });
+    try { f.contentWindow.document.addEventListener('keydown', clipEscape); } catch (e) {}
+  });
 }
 
 function clipKnopf(klasse, text) {
