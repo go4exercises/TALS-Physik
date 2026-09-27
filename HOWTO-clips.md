@@ -160,13 +160,19 @@ ein Skript neben der Quelle (`.quellen/clip-bilder/fi-schema.py`), das die
 Werte aus der Rechnung der Animation nachrechnet — Zahlen im Bild und in der
 Animation dürfen nie auseinanderlaufen. Im Schienen-Layout passt eine Skizze
 von 1140 × 400 px über Formelzeile, Text und Notiz; `abstand` auf etwa 450
-setzen. Auf der Lektionsseite startet ihn ein Eintrag «▶ Clip» rechts in der
-Titelzeile der Animation, neben «Erkenntnis» — von Hand gesetzt, ausserhalb
-der generierten Clips-Liste:
-`<div class="clip" data-clip="../clips/<name>.html" data-titel="…" data-modus="gross">`
-mit `<button class="ah-clip-knopf" … onclick="clipStart(this)">▶ Clip</button>`
-als letztem Kind der `.widget-titelzeile`. Die Dauer steht nur im
-`aria-label` und ist beim Neubau nachzuführen.
+setzen. Das Drehbuch trägt dazu `"animation": "<Anker des h3>"`, die Reihe
+`Animationen erklärt` und als `folge` die Nummer der Animation.
+`build-clips-einbau.py` setzt dann den Eintrag «▶ Clip» rechts in die
+Titelzeile der Animation, neben «Erkenntnis» (zwischen den Markern
+`<!-- CLIP-ANIM … -->`, nie von Hand ändern), stellt den Clip auf der
+Lektionsseite in eine eigene Gruppe «Clips zu den Animationen» und hebt ihn
+dort wie in `clips.html` in Bernstein mit der Marke «Animation» ab.
+
+`bild` nimmt auch JPG und PNG: Aufnahmen der Animation selbst, gemacht mit
+`node .claude/tools/aufnahme-anim.mjs <plan.json>` (Zustände per Klick,
+Reglerwert oder JS-Aufruf, doppelte Pixeldichte, JPEG). Das zeigt im Clip
+genau das Bild, das auf der Seite steht; eine eigene SVG-Skizze lohnt nur,
+wo die Animation etwas nicht zeigen kann.
 
 ### Formeln und Farben
 

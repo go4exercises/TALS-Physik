@@ -430,10 +430,25 @@ def element_html(el, theme):
         # Animation der Lektionsseite wiederholen — der Clip zeigt dann
         # dasselbe Bild, das die Lernenden eben selbst bedient haben.
         klassen += ["graf"]
-        with open(os.path.join(CLIPS, el["datei"]), encoding="utf-8") as f:
-            inhalt = f.read().strip()
-        if not inhalt.startswith("<svg"):
-            raise SystemExit("bild erwartet eine SVG-Datei: %s" % el["datei"])
+        pfad = os.path.join(CLIPS, el["datei"])
+        endung = os.path.splitext(pfad)[1].lower()
+        if endung == ".svg":
+            with open(pfad, encoding="utf-8") as f:
+                inhalt = f.read().strip()
+            if not inhalt.startswith("<svg"):
+                raise SystemExit("bild: keine SVG-Datei: %s" % el["datei"])
+        elif endung in (".jpg", ".jpeg", ".png"):
+            # Aufnahme einer Animation (Canvas), als data:-URL eingegossen.
+            # `breite` in Buehnenpixeln; die Hoehe folgt dem Seitenverhaeltnis.
+            import base64
+            typ_ = "image/png" if endung == ".png" else "image/jpeg"
+            with open(pfad, "rb") as f:
+                daten = base64.b64encode(f.read()).decode("ascii")
+            inhalt = ('<img src="data:%s;base64,%s" alt="" style="width:%dpx;'
+                      'display:block;border:2px solid rgba(0,0,0,.12);border-radius:10px">'
+                      % (typ_, daten, el.get("breite", 1140)))
+        else:
+            raise SystemExit("bild: SVG, JPG oder PNG erwartet: %s" % el["datei"])
     elif typ == "strich":
         klassen += ["strich"]
         stil.append("width:%dpx" % el.get("breite", 760))
@@ -991,5 +1006,10 @@ if __name__ == "__main__":
                 "dauer_s": round(dauer),
                 "datum": dreh.get("datum", ""),
             })
+            # Clip zu einer einzelnen Animation: Anker ihres <h3>. Daran
+            # haengt build-clips-einbau.py den Knopf «▶ Clip» in die
+            # Titelzeile und hebt die Zeile in den Listen farbig ab.
+            if dreh.get("animation"):
+                eintraege[-1]["animation"] = dreh["animation"]
     if eintraege:
         verzeichnis(eintraege)
