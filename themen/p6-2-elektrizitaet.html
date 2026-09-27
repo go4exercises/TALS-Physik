@@ -1190,7 +1190,7 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Sage zuerst voraus: Erwärmt eine Wechselspannung mit Scheitelwert \(325\;\text{V}\) den Widerstand gleich stark wie eine Gleichspannung von \(325\;\text{V}\)?</li><li>Der Punkt läuft achtfach verlangsamt durch die Zeit und zeigt die Momentanwerte \(u\) und \(p\). Verfolge ihn: Wie oft pro Periode erreicht \(p\) sein Maximum, wie oft null — und was macht \(p\), wenn \(u\) negativ ist?</li><li>Die Heizwiderstände folgen dem schnellen Auf und Ab nicht: Ein Heizdraht ist zu träge und heizt mit dem Mittelwert.</li><li>Drücke «gleiche Heizwirkung» und lies ab, bei welcher Gleichspannung beide Widerstände gleich warm werden.</li></ul></div>
+      <div class="ah-text"><ul><li>Sage zuerst voraus: Erwärmt eine Wechselspannung mit Scheitelwert \(325\;\text{V}\) den Widerstand gleich stark wie eine Gleichspannung von \(325\;\text{V}\)?</li><li>Verschiebe den Zeitpunkt \(t\): Der Punkt zeigt die Momentanwerte \(u\) und \(p\). Wie oft pro Periode erreicht \(p\) sein Maximum, wie oft null — und was macht \(p\), wenn \(u\) negativ ist?</li><li>Die Heizwiderstände folgen dem schnellen Auf und Ab nicht: Ein Heizdraht ist zu träge und heizt mit dem Mittelwert.</li><li>Drücke «gleiche Heizwirkung» und lies ab, bei welcher Gleichspannung beide Widerstände gleich warm werden.</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -1238,8 +1238,12 @@ MathJax = {
       </div>
     </div>
 
-    <div style="margin:10px 0;">
-      <button class="play-btn" id="ws-btn">▶ Start</button>
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Zeitpunkt \(t\):</label>
+      <input type="range" id="ws-t" min="0" max="40" value="15" step="0.1">
+      <span class="sl-val" id="ws-t-val">15.0 ms</span>
+      </div>
     </div>
 
     <div class="formel-live">
@@ -4084,7 +4088,7 @@ function fiInit(){
 //  → 2116 W (doppelt).
 // ══════════════════════════════════════════════════════════
 const WS_R = 50, WS_F = 50, WS_TMAX = 40;       // Ω, Hz, ms im Diagramm
-let wsT = 0, wsModus = 'scheitel', wsVh = null;
+let wsT = 15, wsModus = 'scheitel', wsVh = null;   // wsT: Zeitpunkt in ms (Regler)
 function wsWerte(){
   const Us = +document.getElementById('ws-Us').value, Ud = +document.getElementById('ws-Ud').value;
   const Ueff = Us / Math.SQRT2, Pac = Ueff*Ueff / WS_R, Pdc = Ud*Ud / WS_R;
@@ -4106,7 +4110,6 @@ function wsLesen(){
   flTex('ws-eq2', ['\\bar P_\\sim = \\frac{U_\\text{eff}^2}{R}', '= \\frac{(' + texE(v.Ueff.toFixed(1),'V') + ')^2}{' + texO(WS_R) + '}', '= ' + texE(v.Pac.toFixed(0),'W')]);
   flTex('ws-eq3', ['P_{=} = \\frac{U^2}{R}', '= \\frac{(' + texE(v.Ud.toFixed(1),'V') + ')^2}{' + texO(WS_R) + '}', '= ' + texE(v.Pdc.toFixed(0),'W')]);
 }
-function wsTick(dt){ wsT = (wsT + dt * 1000 / 8) % WS_TMAX; wsRender(); }   // 8-fach verlangsamt
 function wsRender(){
   const v = wsWerte();
   const cv = initCanvas('ws-cv', 330, false); if(!cv) return;
@@ -4205,7 +4208,7 @@ function wsRender(){
   ctx.fillStyle = '#5c554c'; ctx.font = FS(11); ctx.textAlign = 'center';
   ctx.fillText('je R = 50 Ω', hx0 + hw/2, hy0 + hh - 6);
 }
-// Momentanwert neben dem laufenden Punkt: Ohne Zahl ist der Punkt nur
+// Momentanwert neben dem Punkt zum Zeitpunkt t: Ohne Zahl ist der Punkt nur
 // Bewegung — mit ihr sieht man, dass p auch bei negativem u positiv bleibt.
 // Die Heizwiderstände glühen bewusst NICHT im Takt von p: Ein Heizdraht ist
 // viel zu träge, um 100 Hz zu folgen; er heizt mit dem Mittelwert.
@@ -4228,7 +4231,6 @@ function wsMarke(ctx, x, y, txt, pw, yMax, feste){
   ctx.fillStyle = '#8a4a0e'; ctx.textAlign = 'left'; ctx.fillText(txt, tx, ty);
   ctx.restore();
 }
-const wsLoop = makeLoop('ws-cv', 'ws-btn', wsTick);
 function wsSetzen(){
   const Us = +document.getElementById('ws-Us').value;
   document.getElementById('ws-Ud').value = wsModus === 'heiz' ? (Us / Math.SQRT2).toFixed(1) : Us;
@@ -4236,12 +4238,15 @@ function wsSetzen(){
 function wsInit(){
   const mb = document.querySelectorAll('[data-ws]'), vb = document.querySelectorAll('[data-wsv]');
   mb.forEach(b => b.addEventListener('click', () => {
-    mb.forEach(o => o.classList.toggle('aktiv', o === b)); wsModus = b.dataset.ws; wsSetzen(); wsLesen(); if(!wsLoop.running) wsRender(); }));
+    mb.forEach(o => o.classList.toggle('aktiv', o === b)); wsModus = b.dataset.ws; wsSetzen(); wsLesen(); wsRender(); }));
   vb.forEach(b => b.addEventListener('click', () => {
     vb.forEach(o => o.classList.toggle('aktiv', o === b)); wsVh = b.dataset.wsv; wsLesen(); }));
-  document.getElementById('ws-Us').addEventListener('input', () => { if(wsModus !== 'frei') wsSetzen(); wsLesen(); if(!wsLoop.running) wsRender(); });
+  document.getElementById('ws-Us').addEventListener('input', () => { if(wsModus !== 'frei') wsSetzen(); wsLesen(); wsRender(); });
   document.getElementById('ws-Ud').addEventListener('input', () => {
-    wsModus = 'frei'; mb.forEach(o => o.classList.remove('aktiv')); wsLesen(); if(!wsLoop.running) wsRender(); });
+    wsModus = 'frei'; mb.forEach(o => o.classList.remove('aktiv')); wsLesen(); wsRender(); });
+  // Zeitpunkt von Hand statt eines laufenden Punkts — der wandernde Punkt lenkte ab
+  document.getElementById('ws-t').addEventListener('input', e => {
+    wsT = +e.target.value; document.getElementById('ws-t-val').textContent = wsT.toFixed(1) + ' ms'; wsRender(); });
 }
 
 // ══════════════════════════════════════════════════════════
@@ -4502,7 +4507,7 @@ window.addEventListener('resize', ()=>{
   rzT=requestAnimationFrame(()=>{
     rzT=null;
     drawA1(); drawA2(); drawA5(); drawA6(); a3Read(); a4Read(); mmRender(); mbRender(); gmRender(); lpRender(); fiRender(); wsLesen();
-    if(!wsLoop.running) wsRender();
+    wsRender();
     if(!einLoop.running) einRender();
     if(!a3Loop.running) a3Render();
     if(!a4Loop.running) a4Render();
