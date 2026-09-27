@@ -172,7 +172,13 @@ OFFEN = [
              'CLIP-ANIM), eigene Gruppe auf der Lektionsseite, Zeilen cl-anim mit vorangestelltem '
              'Link «Anim» (a.cl-animlink neben dem Knopf); style.css .ah-clip-knopf/.cl-anim*; Werkzeug '
              '.claude/tools/aufnahme-anim.mjs. Ohne Uebernahme sinkt die KERN-Aehnlichkeit von build-clips.py '
-             '(Physik 78.2 -> 78.0 %); Grundlinie dann auf 0.780 senken oder uebernehmen.'),
+             '(Physik 78.2 -> 78.0 %); Grundlinie dann auf 0.780 senken oder uebernehmen. ' 
+             'FARBE (nachgeprueft 27.09.2026): style.css ist FACH — die Physik-Regeln .ah-clip-knopf, .cl-anim, .cl-anim .cl-clip/.cl-folge, .cl-animlink, .cl-animkopf '
+             '(physik style.css Z. 911-916 und ab Z. 1292) NICHT kopieren, sondern in Mathes Farbe nachbauen: Sie '
+             'benutzen var(--bernstein), --bernstein-hell, --bernstein-rand und #fcf1e1 — diese Variablen gibt es in '
+             'Mathe nicht, die Regeln fielen still auf keine Farbe zurueck. In Mathes Clip-Liste sind Blau-Nuancen '
+             '(Zeilen, --blau/--blau-hell), Lila (.cl-sp Schwerpunktfach) und Orange (.cl-tr) schon vergeben; die '
+             'Animationsclips brauchen eine Farbe, die sich davon klar abhebt — Wahl beim Auftraggeber.'),
     dict(quelle='Physik', was='clipBuehne: Fokus in den Clip (Fehler, 27.09.2026)',
          wie='mathlib.js Z. 466 setzt den Fokus nach dem Oeffnen der Buehne auf .cb-zu. '
              'Folge: Pfeiltasten spulen nicht (sie gehen an die Seite), die Leertaste '
