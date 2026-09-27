@@ -78,8 +78,10 @@ AUSSPRACHE = [
     ("isotherm", "iːzoːtˈɛɾm"),         # bisher «I-sotterm»
     ("isobar", "iːzoːbˈɑːɾ"),           # bisher «I-sobar»
     ("photonen", "foːtˈoːnən"),         # sonst ohne Hauptbetonung
+    ("zentripetal", "tsɛntɾipeːtˈɑːl"),  # sonst englisch «Sentraipt-oh…»
 ]
-# Nicht geaendert, weil die bisherige Lesart besser klang: Archimedes.
+# Nicht geaendert, weil die bisherige Lesart besser klang: Archimedes,
+# Perihel, Parabel.
 #
 # 2. Abkuerzungen, die buchstabiert werden: nur in exakt dieser Schreibung
 #    als ganzes Wort (sonst traefe «SI» auch «si» in anderen Woertern).
