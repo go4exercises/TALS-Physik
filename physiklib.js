@@ -206,6 +206,7 @@ function _tickPixel(font, text, scale) {
   _tickTinte.set(key, n); return n;
 }
 const _tickOffen = new WeakMap();       // Kontext -> noch nicht gesetzte Zahlen
+const _tickEntscheid = new WeakMap();   // Kontext -> letzte Messung (für laufende Animationen)
 function tickNachzeichnen(ctx, labels, font, farbe) {
   if (!labels.length || typeof ctx.getTransform !== 'function') return;
   const T = ctx.getTransform();
@@ -216,36 +217,55 @@ function tickNachzeichnen(ctx, labels, font, farbe) {
   _tickOffen.set(ctx, [eintrag]);
   Promise.resolve().then(() => {
     const alle = _tickOffen.get(ctx); _tickOffen.delete(ctx);
-    const cv = ctx.canvas;
-    let bild;
-    try { bild = ctx.getImageData(0, 0, cv.width, cv.height); } catch (e) { return; }   // z. B. «tainted»
-    const d = bild.data, BW = cv.width, BH = cv.height;
+    const cv = ctx.canvas, BW = cv.width, BH = cv.height;
+    // Laufende Animation (nächster Aufruf < 60 ms nach dem letzten): nur jedes
+    // achte Bild neu messen und dazwischen die letzte Entscheidung verwenden.
+    // Jedes Rücklesen zwingt den Browser, auf die Grafikkarte zu warten —
+    // auch kleine Flächen kosteten zusammen rund 3 ms pro Bild.
+    const jetzt = performance.now(), alt = _tickEntscheid.get(ctx);
+    const schluessel = alle.map(g => g.labels.map(l => l.t + '@' + Math.round(l.x) + ',' + Math.round(l.y)).join('|')).join('#');
+    if (alt && alt.schluessel === schluessel && jetzt - alt.zuletzt < 60 && alt.frei < 7) {
+      alt.zuletzt = jetzt; alt.frei++;
+      for (const [gi, li] of alt.plan) zeichne(alle[gi], alle[gi].labels[li]);
+      return;
+    }
+    // Nur die Flächen der Zahlen auslesen, nicht das ganze Bild: In laufenden
+    // Animationen geschieht das in jedem Bild, und ein Rücklesen des ganzen
+    // Canvas kostete gemessen 8 ms pro Bild (Wechselspannung, 2 Diagramme).
+    // Erst messen, dann zeichnen — sonst läse die zweite Zahl die erste mit.
+    const plan = [];
     for (const g of alle) {
-      const T = g.T, sc = Math.abs(T.a) || 1;
-      ctx.save();
-      ctx.setTransform(T); ctx.globalAlpha = 1; ctx.setLineDash([]); ctx.font = g.font;
+      const T = g.T;
+      ctx.save(); ctx.setTransform(T); ctx.font = g.font;
       for (const l of g.labels) {
         const w = ctx.measureText(l.t).width, h = 14;
         const x0 = l.a === 'center' ? l.x - w / 2 : (l.a === 'right' ? l.x - w : l.x);
         const y0 = l.b === 'top' ? l.y : (l.b === 'bottom' ? l.y - h : l.y - h / 2);
-        // Box in Gerätepixel (keine Drehung in drawGrid-Diagrammen)
         const X0 = Math.max(0, Math.floor(T.a * x0 + T.e)), X1 = Math.min(BW, Math.ceil(T.a * (x0 + w) + T.e));
         const Y0 = Math.max(0, Math.floor(T.d * y0 + T.f)), Y1 = Math.min(BH, Math.ceil(T.d * (y0 + h) + T.f));
+        if (X1 <= X0 || Y1 <= Y0) continue;
+        let d;
+        try { d = ctx.getImageData(X0, Y0, X1 - X0, Y1 - Y0).data; } catch (e) { ctx.restore(); return; }   // «tainted»
         let n = 0;
-        for (let y = Y0; y < Y1; y++) for (let x = X0; x < X1; x++) {
-          const k = (y * BW + x) * 4;
+        for (let k = 0; k < d.length; k += 4)
           if (d[k + 3] > 200 && Math.abs(d[k] - 107) + Math.abs(d[k + 1] - 114) + Math.abs(d[k + 2] - 128) < 60) n++;
-        }
-        const soll = _tickPixel(g.font, l.t, sc);
-        if (!soll || n / soll < 0.5) continue;           // zugedeckt oder absichtlich entfernt
-        ctx.textAlign = l.a; ctx.textBaseline = l.b;
-        ctx.lineJoin = 'round'; ctx.lineWidth = 3; ctx.strokeStyle = '#fff';
-        ctx.strokeText(l.t, l.x, l.y);
-        ctx.fillStyle = g.farbe; ctx.fillText(l.t, l.x, l.y);
+        const soll = _tickPixel(g.font, l.t, Math.abs(T.a) || 1);
+        if (soll && n / soll >= 0.5) plan.push([alle.indexOf(g), g.labels.indexOf(l)]);   // sonst zugedeckt oder absichtlich entfernt
       }
       ctx.restore();
     }
+    _tickEntscheid.set(ctx, { schluessel, plan, zuletzt: jetzt, frei: 0 });
+    for (const [gi, li] of plan) zeichne(alle[gi], alle[gi].labels[li]);
   });
+  function zeichne(g, l) {
+    ctx.save();
+    ctx.setTransform(g.T); ctx.globalAlpha = 1; ctx.setLineDash([]); ctx.font = g.font;
+    ctx.textAlign = l.a; ctx.textBaseline = l.b;
+    ctx.lineJoin = 'round'; ctx.lineWidth = 3; ctx.strokeStyle = '#fff';
+    ctx.strokeText(l.t, l.x, l.y);
+    ctx.fillStyle = g.farbe; ctx.fillText(l.t, l.x, l.y);
+    ctx.restore();
+  }
 }
 
 function drawGrid(ctx, W, H, xMin, xMax, yMin, yMax) {

@@ -439,6 +439,7 @@ Jede Themenseite folgt diesem Aufbau. Punkte mit (*) können je nach Themenumfan
 | 6-9 | **Spezialfälle als Animationen** | Pro Spezialfall ein `.widget` (freier Fall, Wurf, Kreisbewegung, Vektoraddition …). Ziel: 5-10 Animationen total |
 | 10 | **Aufgaben A1-A6** | Stufenweise nach Schwierigkeit: A1 ablesen → A2 rechnen einfach → A3 mehrteilig → A4-A6 Anwendung. **Alle sechs** Aufgaben nutzen identisch das `.block-aufg`-Muster aus §5.5 (siehe dort) mit `toggleL('lX')` — keine Sonderbehandlung einzelner Aufgaben |
 | 11 | **Zusammenfassung** | `.ftb-tabelle` mit allen Formeln + `.merksatz` |
+| 11b | **Clips** | generiert zwischen `<!-- CLIPS:ANFANG/ENDE -->` (`build-clips-einbau.py`): Clips zum Stoff, darunter die Clips zu den Animationen. Immer **nach der Zusammenfassung, vor dem Zusatzmaterial** (Entscheid Auftraggeber 27.09.2026) |
 | 12 | **Zusatzmaterial** | `.dl-grid` mit 3 Druckseiten + Anki-Deck |
 | 13 | **Externe Ressourcen** | **Dreispaltig**: 🎬 Videos · 🧪 Simulationen · 📝 Aufgaben |
 

@@ -252,8 +252,10 @@ nur, was ausserhalb steht:
 
 **Eine Seite, die noch nie einen Clip hatte, hat den Marker nicht.** Das Skript
 meldet dann `[WARN] pX-Y hat 1 Clip(s), aber keine CLIPS-Marker` und lässt die
-Seite in Ruhe. Das leere Markerpaar gehört von Hand hinein, direkt vor
-`</main>`; den `<h2 id="clips">Clips</h2>` bringt der Generator selbst mit.
+Seite in Ruhe. Das leere Markerpaar gehört von Hand hinein, **nach der
+Zusammenfassung und vor dem Zusatzmaterial** (`<h2 id="downloads">`; ohne
+Zusatzmaterial direkt nach der Zusammenfassung); den `<h2 id="clips">Clips</h2>`
+bringt der Generator selbst mit.
 
 Der Block enthält je Clip eine Startkarte und darunter das **Transkript** aus
 `clips/sprechertext-*.txt`. Das Transkript ist kein Beiwerk: Von einem animierten
