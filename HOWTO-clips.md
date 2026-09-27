@@ -235,13 +235,30 @@ chromium --autoplay-policy=document-user-activation-required
 
 **Aussprache-Tabelle.** Liest die Stimme ein Fremdwort falsch, kommt es in
 `AUSSPRACHE` in `scripts/build-clip-ton.py`: Wortstamm und Lautschrift (IPA),
-Piper erhält es als `[[…]]`. Stand: Ampere → [ampˈɛːɾ], Coulomb → [kulˈoː];
-Vorsilben (Milli-, Mikro-, Kilo-, …) und Zusammensetzungen (Amperemeter)
-greifen mit. Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
+Piper erhält es als `[[…]]`. Buchstabierte Abkürzungen stehen in
+`ABKUERZUNGEN` (nur exakt als ganzes Wort: FI, LED, COP, SI), einfache
+Worttausche ohne Lautschrift in `TAUSCH` (achthundert, Newtonmeter,
+Lageenergie). Vorsilben (Milli-, Kilo-, Hekto-, …) und Zusammensetzungen
+(Amperemeter, Zentripetalkraft) greifen mit. Jeder Eintrag ist nach Hörproben
+entschieden; bewusst **nicht** geändert, weil die bisherige Lesart besser
+klang: Archimedes, Perihel, Parabel. Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
 nach `]]` verschluckt Piper samt Pause und klebt das nächste Wort an — es
 gehört in die Klammer. Und ohne Wortgrenze träfe «ampere» auch
 «Schlamperei». Probe vor dem Eintrag: `PiperVoice.load(modell).phonemize(text)`
 zeigt, was die Stimme daraus macht; Hörproben mit `synthesize_wav`.
+
+*Problemwörter finden* — zwei Durchgänge, am 27.09.2026 über alle Drehbücher:
+(1) nach Schreibung: Einheiten, Personennamen, Abkürzungen, Fremdschreibungen
+(c, y, ph, th, ou …) phonemisieren und die Lautschrift lesen; (2) über **alle**
+Wörter der Sprechertexte (rund 2900): englische Laute (ɹ, ð, θ, w, æ …) und
+Wörter mit drei und mehr Silben ohne Hauptbetonung. Der zweite fand
+«Zentripetalkraft», das die Stimme englisch las. Ein deutsches Wort, das nur
+auf der falschen Silbe betont ist, findet keiner der beiden — das hört man
+nur. *Hörproben zeigen:* je Wort «bisher» und «Vorschlag» als WAV, dazu eine
+kleine `index.html` mit `<audio>`-Knöpfen im selben Ordner; im Windows-Browser
+über `file://wsl.localhost/Ubuntu/<pfad>/index.html` öffnen. Nach einem neuen
+Eintrag die betroffenen Clips ermitteln (`aussprache(text) != text`) und neu
+vertonen.
 
 **Zahlen im `sprecher`-Text ausschreiben.** Beide Piper-Stimmen lesen `1.62` als
 zusammengesetzte Zahl («… zweiundsechzig») statt als Stellenfolge — bei
@@ -310,6 +327,14 @@ fängt sie ab. Wegräumen schadet trotzdem nicht.
 python3 -m http.server 8912 --directory /home/paps/tals-physik &
 node .claude/tools/pruef-mathjax.mjs http://localhost:8912/clips/<name>.html
 ```
+
+**Spulen und Ton lokal testen:** `python3 -m http.server` beantwortet keine
+Range-Anfragen (Antwort 200 statt 206) — der Ton springt dann beim Spulen auf 0,
+obwohl der Clip in Ordnung ist. Spulen mit `file://` oder auf GitHub Pages
+prüfen (dort 206). In der grossen Bühne bekommt der Clip beim Öffnen den Fokus
+(`clipBuehne` in `physiklib.js`), damit ← → spulen und die Leertaste pausiert;
+Escape schliesst über einen Listener im Clipdokument, unter `file://`
+verweigert der Browser das — dann Knopf oder Klick auf den Rand.
 
 Das ist nicht dasselbe, was `verify_mathjax.js` im Pre-Flight tut: Jenes setzt
 mit `mathjax-full` aus `node_modules` und schaut nie in `vendor/`. Fehlt dort

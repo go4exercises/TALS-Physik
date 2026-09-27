@@ -395,6 +395,13 @@ drawAxesUnits(ctx, W, H, grid.cx, grid.cy, 'h [m]', 'p_S [kPa]');
 - ❌ Wertebereich der nur ein, zwei Hauptticks enthält (z.B. `0..0.05` wenn nicht in passende Einheit konvertiert) — lieber in `mbar`, `kPa`, `kN` umrechnen vor dem Plotten
 - ❌ Sehr breite Wertebereiche (z.B. mehrere Grössenordnungen): die nice-tick-Automatik wählt einen sinnvollen Schritt, aber bei Bedarf logarithmische Achse erwägen (separater Helper nötig — derzeit nicht in `physiklib.js`)
 
+**Überdeckte Skalenzahlen:** `drawGrid` zeichnet eine Skalenzahl, die eine später
+gezeichnete Linie durchstreicht, am Ende mit weissem Rand neu — ausser sie ist
+absichtlich zugedeckt (Fläche, Kasten). Dafür liest es die Pixel **nur der
+Zahlenflächen** zurück und misst in laufenden Animationen nur jedes achte Bild neu
+(vorher 8 ms pro Bild, jetzt unter 2 ms). Eigene Zeichenroutinen lesen **nie** pro
+Bild das ganze Canvas zurück (`getImageData`) — das bremst jede laufende Animation.
+
 **Eigene Tick-Schritte erzwingen** (Sonderfall, nicht empfohlen):
 - Möglich, indem nach `drawGrid` direkt mit `ctx.fillText` über die Labels gezeichnet wird. Nutze diesen Workaround nur, wenn die Automatik wirklich nicht passt — meistens deutet das auf einen schlecht gewählten Wertebereich hin.
 
@@ -624,6 +631,10 @@ Sie ersetzen **auch** den früheren Kasten «🧪 Beobachte» vor der Einstiegs-
   - «Worauf achten?» = was man ausprobieren/beobachten soll (Slider-Verhalten, Grenzfälle, was in der Live-Anzeige zu verfolgen ist).
   - «Erkenntnis» = die physikalischen Schlüsse inkl. der zugehörigen Formeln.
 - **Notation:** sichtbarer Text in **Projekt-Notation** (MathJax `\(…\)`, Dezimalpunkt, korrekte Symbole/Vektoren wie §2). Kein rohes `<` in der Mathe (sonst HTML-Konflikt) — «negativ» schreiben oder `\lt` verwenden.
+- **Dritter Eintrag «▶ Clip»:** Gibt es einen Erklärclip zu genau dieser Animation
+  (Drehbuch-Feld `animation`), setzt `build-clips-einbau.py` rechts in die Titelzeile
+  den Knopf «▶ Clip» (zwischen `<!-- CLIP-ANIM -->`-Markern, nie von Hand). Details:
+  `HOWTO-clips.md`.
 - **Zentral, nicht pro Seite duplizieren:** Gestaltung in `style.css` (Abschnitt «Animations-Hinweise»), Logik in `anim-hinweise.js` (auf jeder Themenseite nach `physiklib.js` eingebunden). Die Logik regelt Hover/Fokus-Anzeige, **Klick fixiert** das Rollover (damit es auf Touch offen bleibt), Aussenklick/Escape schliesst. Die frühere Vorlese-Funktion ist am 31.07.2026 entfernt worden.
 
 ### 5.7 Mini-Checks (Selbsttest pro Abschnitt)
@@ -706,6 +717,31 @@ Regeln:
 - Der Generator meldet ausserdem Titel ohne Anker und Verweise auf Anker, die es nicht gibt.
 
 ---
+
+### 5.10 Werte und Bewegung in Animationen (Entscheide 27.09.2026)
+
+- **Eine Grösse, eine Rundung.** Derselbe Wert steht im Canvas, in der Live-Box und in
+  der Formelzeile mit denselben Stellen — nicht «U₁ = 3.75 V» an der Beschriftung und
+  «3.8 V» im Balken, nicht «120 mA» neben «60.0 mA». Wer eine Anzeige ergänzt, prüft
+  alle Stellen, an denen die Grösse sonst noch steht.
+- **Voreinstellungen treffen die Werte der Seite.** Ein Regler, ein Gerät oder ein
+  Szenario ergibt genau die Zahl, die der Text nennt: Scheitel 325.3 V (= 230 V · √2),
+  damit der Effektivwert 230.0 V ist und nicht 229.8 V; ein Gerät «2000 W» setzt
+  \(I = P/U\) exakt statt 8.7 A (= 2001 W). Rastet ein Regler auf ein Szenario ein
+  und verfälscht es (230 mA → 229 mA), bekommt er `step="any"`. Verlangt «Worauf
+  achten?» eine Einstellung, muss sie sich auch einstellen lassen.
+- **Keine Bewegung ohne Anlass.** Ein Punkt, der von selbst durch ein Diagramm
+  wandert, lenkt ab. Momentanwerte zeigt ein Regler «Zeitpunkt t», den man selbst
+  verschiebt (Referenz: Animation «Wechselspannung und Effektivwert», p6-2). Selbst
+  laufen darf, was das Phänomen selbst ist (Elektronenfluss, Welle).
+- **Beschriftungen über Kurven bekommen einen hellen Grund**, und eine bewegliche
+  Beschriftung weicht den festen aus — sie wählt die erste freie von mehreren Lagen um
+  ihren Punkt, gemessen an den echten Rechtecken der festen Beschriftungen, Achsen
+  und Skalenzahlen (Referenz: `wsMarke` in p6-2). Prüfen über **alle** Zustände, nicht
+  an einem Bild.
+- **Zeichnung und Rechnung trennen:** Die Rechnung bildet immer die reale Situation ab;
+  ein Umschalter darf nur die Darstellung ändern (z. B. Schaltbild ↔ Ersatzschaltbild
+  mit Innenwiderständen), nicht das Modell.
 
 ## 6. Code-Konventionen
 

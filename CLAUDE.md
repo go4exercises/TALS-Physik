@@ -128,6 +128,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   eigene Werkzeug: Animationsbeschriftungen stehen in keinem DOM-Knoten.
   `--alle` listet jede `·`-Zeile für die vollständige Sichtung. Exit 1 bei
   Verdachtsfällen. Nicht im Pre-Flight (braucht einen echten Browser).
+- `.claude/tools/aufnahme-anim.mjs` — nimmt Zustände einer Animation als JPEG
+  für Clips auf (Plan-JSON: Seite, Element, Aktionen per Klick, Reglerwert oder
+  JS; doppelte Pixeldichte). Eine Animation mit eigenem Loop vorher anhalten
+  (`…Loop.userPaused = true; …Loop.stop()`), sonst startet sie beim
+  Hineinscrollen und das Bild zeigt einen anderen Zeitpunkt; kein
+  `scrollIntoView` im Plan — das holt die Kopfzeile mit ins Bild.
 - `.claude/tools/build-bilder.mjs` — baut `favicon-32.png`, `apple-touch-icon.png`
   (aus `favicon.svg`) und `og-bild.png` (aus einer HTML-Vorlage im Skript) mit
   Playwright neu. Nur bei Bedarf laufen lassen: die PNGs sind versioniert und
@@ -169,10 +175,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Transkript und Suchindex behalten die Schreibweise. Stand 27.09.2026, jeder
   Eintrag nach Hörproben entschieden: Einheiten (Ampere, Coulomb, Joule,
   Pascal, Hertz), Namen (Boyle, Mariotte, Gay-Lussac, Hooke, Pythagoras),
-  Fremdwörter, buchstabierte Abkürzungen (FI, LED, COP, SI) und drei
-  Worttausche (achthundert, Newtonmeter, Lageenergie). Archimedes bleibt
-  bewusst ungeändert. Ein neues Wort gehört in diese Tabellen, nicht als
-  Umschreibung ins Drehbuch; betroffene Clips danach neu vertonen.
+  Fremdwörter (u. a. Zentripetal…, das die Stimme englisch las),
+  buchstabierte Abkürzungen (FI, LED, COP, SI) und drei Worttausche
+  (achthundert, Newtonmeter, Lageenergie). Archimedes, Perihel und Parabel
+  bleiben bewusst ungeändert. Ein neues Wort gehört in diese Tabellen, nicht
+  als Umschreibung ins Drehbuch; betroffene Clips danach neu vertonen. Wie man
+  Problemwörter findet und Hörproben zeigt: `HOWTO-clips.md`, Abschnitt «Ton».
 
   **Zahlen im `sprecher`-Text ausschreiben.** Nachgemessen über die Sprechdauer
   desselben Satzes in fünf Varianten: Beide Stimmen lesen `1.62` als
@@ -189,7 +197,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `physiklib.js`). `scripts/build-clips.py` baut aus einem Drehbuch
   (`clips/<name>.json`) den Clip, `scripts/build-clips-einbau.py` trägt ihn in
   die Lektionsseite und zwischen die Marker `<!-- CLIPS-BIBLIOTHEK:ANFANG/ENDE -->`
-  in `clips.html` ein. Stand 27.09.2026: **101 Clips in 25 Reihen, 95:46 min** (davon zwölf zu einzelnen Animationen auf 6.2, Reihe «Animationen erklärt») —
+  in `clips.html` ein. Stand 27.09.2026: **101 Clips in 25 Reihen, 95:48 min** (davon zwölf zu einzelnen Animationen auf 6.2, Reihe «Animationen erklärt») —
   jede der zehn Themenseiten der Lerngebiete 4 bis 6 hat ihre Reihe, dazu das
   Vorwissen. Anders als Mathe gruppiert die Bibliothek nur nach Lerngebiet
   (kein Grundlagen-/Schwerpunktfach), und sie zieht die Gruppen aus `nav.js`,
@@ -200,6 +208,16 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   **Sofortsuche** (Titel, Reihe, Kurzbeschrieb, Schlagworte, Lektionsnummer);
   Feld und Filterskript stehen **ausserhalb** der Marker und werden von Hand
   gepflegt, das `data-suche` je Zeile kommt aus dem Generator.
+  Auf der Themenseite steht der Clip-Block **nach der Zusammenfassung, vor dem
+  Zusatzmaterial** (STYLEGUIDE §4, Zeile 11b).
+  **Clips zu einer einzelnen Animation** (Prototyp 6.2, 27.09.2026): Drehbuch-Feld
+  `animation` (Anker des `h3`), Reihe «Animationen erklärt», `folge` = Nummer der
+  Animation. Der Generator setzt dann «▶ Clip» in die Titelzeile der Animation,
+  stellt den Clip auf der Seite in die Gruppe «Clips zu den Animationen» und
+  hebt ihn in beiden Listen in Bernstein ab, mit dem Link «Anim» davor. Bilder
+  darin sind Aufnahmen der Animation selbst (`bild` mit JPG,
+  `.claude/tools/aufnahme-anim.mjs`); der Titel muss sich klar vom Stoff-Clip
+  zum selben Thema unterscheiden.
   Bauanleitung, Stolpersteine und die didaktische Prüfliste: `HOWTO-clips.md`.
 - `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell elf:
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
@@ -358,6 +376,7 @@ Die Liste steht in `STYLEGUIDE.md` und wächst; aktuell:
 | 7 | **Liter klein**: `l`, `ml`, `dl`, `kg/l` — nie `L`/`mL`. Gilt in LaTeX, Fliesstext, Tabellen, Live-Boxen und Canvas. Das grosse `L` bleibt, wo es Saiten-/Pendel-/Balkenlänge, latente Wärme, `mL` als margin-left oder Lektionen meint. | §2.3 |
 | 8 | **Kein Gedankenstrich an einer Formel im Titel** — gerendert liest er sich als Vorzeichen. Vor der Formel: Doppelpunkt (nach `?`/`!` ersatzlos). Nach der Formel: Titel umstellen, Formel ans Ende. Nur direkter Kontakt zählt; Fliesstext bleibt. Gilt für `h2`, `h3`, `.block-titel`, `.aufg-titel-text`. **Ebenso kein Mittepunkt `·` direkt vor einer Formel** (liest sich als Malpunkt: `Animation 3 · \(R…\)`) — in Titeln und Knopfbeschriftungen durch Doppelpunkt ersetzen. | §2.9 |
 | 9 | **Eine Rechnung, eine Zeile:** Formelzeichen = Formel = Zahlen mit Einheiten = Ergebnis als eine Kette in **einer** `.fl-eq`, nicht Formel und Zahlengleichung auf zwei Zeilen. Fehlt der Platz, Umbruch nur vor einem `=` (Glieder als Inline-Formeln, `flTex` aus `physiklib.js`). Verschiedene Rechnungen bleiben getrennte Zeilen. | §2.8 |
+| 10 | **Werte und Bewegung in Animationen:** dieselbe Grösse überall mit derselben Rundung (Canvas, Live-Box, Formelzeile); Voreinstellungen und Geräteknöpfe treffen die Werte der Seite exakt (sonst Regler `step="any"`); kein Punkt, der ohne Anlass selbst durchs Diagramm wandert — Momentanwerte per Regler; Beschriftungen auf Kurven mit hellem Grund, bewegliche weichen festen aus. | §5.10 |
 
 Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
 **und** hier in der Tabelle nachgeführt.
