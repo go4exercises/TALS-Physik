@@ -160,9 +160,13 @@ ein Skript neben der Quelle (`.quellen/clip-bilder/fi-schema.py`), das die
 Werte aus der Rechnung der Animation nachrechnet — Zahlen im Bild und in der
 Animation dürfen nie auseinanderlaufen. Im Schienen-Layout passt eine Skizze
 von 1140 × 400 px über Formelzeile, Text und Notiz; `abstand` auf etwa 450
-setzen. Unter der Animation steht auf der Lektionsseite eine Startkarte von
-Hand (ausserhalb der generierten Clips-Liste), deren Dauer beim Neubau
-nachzuführen ist.
+setzen. Auf der Lektionsseite startet ihn ein Eintrag «▶ Clip» rechts in der
+Titelzeile der Animation, neben «Erkenntnis» — von Hand gesetzt, ausserhalb
+der generierten Clips-Liste:
+`<div class="clip" data-clip="../clips/<name>.html" data-titel="…" data-modus="gross">`
+mit `<button class="ah-clip-knopf" … onclick="clipStart(this)">▶ Clip</button>`
+als letztem Kind der `.widget-titelzeile`. Die Dauer steht nur im
+`aria-label` und ist beim Neubau nachzuführen.
 
 ### Formeln und Farben
 
