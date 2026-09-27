@@ -2626,10 +2626,23 @@ function drawA6(){
   ctx.fillStyle='#1c1a17'; ctx.beginPath(); ctx.arc(mx,my,6,0,6.283); ctx.fill();
   ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   const lab=(I<1000?I.toFixed(0)+' mA':(I/1000).toFixed(1)+' A')+'; '+(t<1000?t.toFixed(0)+' ms':(t/1000).toFixed(1)+' s');
-  // rechts vom Punkt, sonst links davon — nie über dem Punkt
+  // Lagen rechts/links, oben/unten vom Punkt; ausgeschlossen, was die FI-Linie
+  // kreuzt oder auf FI-Beschriftung bzw. Zonenziffern liegt. Nie über dem Punkt.
   const lw6=ctx.measureText(lab).width;
-  const lx6 = (mx+10+lw6 <= W-4) ? mx+10 : Math.max(px0+2, mx-10-lw6);
-  ctx.fillText(lab, lx6, Math.max(my-8, 14));
+  ctx.font='bold 13px "Source Sans 3",sans-serif';
+  const fiB=[x30+4, py0, x30+8+ctx.measureText(fiTxt).width, py0+18];
+  const zB=[[lx(3),zy],[lx(70),zy],[lx(800),zy],[lx(0.25),zy]].map(([x,y])=>[x-8,y-14,x+8,y+4]);
+  ctx.font='bold 13px JetBrains Mono,monospace';
+  const lagen6=[[mx+10, my-8],[mx-10-lw6, my-8],[mx+10, my+20],[mx-10-lw6, my+20]];
+  for (const dy of [20, 36, 52, -24]) lagen6.push([W-6-lw6, my+dy], [mx-lw6/2, my+dy]);   // rechtsbündig (mit Polster) bzw. zentriert
+  const ok6=([x,y])=>{ const x0=x-2, x1=x+lw6+2, y0=y-13, y1=y+3;
+    if(x0<px0+2 || x1>W-4 || y0<2 || y1>py1-2) return false;
+    if(x30>x0-3 && x30<x1+3) return false;
+    return ![fiB, ...zB].some(([a,b2,c,d])=>x1>a && x0<c && y1>b2 && y0<d); };
+  const wahl6=lagen6.find(ok6);
+  const [lx6, ly6]=wahl6 || [Math.max(px0+2, Math.min(W-4-lw6, mx+10)), Math.max(my-8, 14)];
+  ctx.save(); ctx.strokeStyle='#fff'; ctx.lineWidth=3.5; ctx.lineJoin='round';
+  ctx.strokeText(lab, lx6, ly6); ctx.fillText(lab, lx6, ly6); ctx.restore();
 }
 // Szenario-Presets: U und R sind anschaulicher als eine abstrakte Stromstärke.
 document.querySelectorAll('[data-a6sz]').forEach(b => b.addEventListener('click', () => {

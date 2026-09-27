@@ -947,6 +947,18 @@ function siFliess(ctx, txt, x, y, maxW, farbe) {
   zeilen.slice(0, 2).forEach((z, i) => ctx.fillText(z, x, y + i * 16));
 }
 
+// Wie siHalo (zentriert), aber mit Index: Hauptzeichen, Index kleiner und tiefer, Rest.
+function siIdxHalo(ctx, haupt, idx, rest, x, y, farbe, px) {
+  const f1 = '700 ' + px + 'px "JetBrains Mono",monospace', f2 = '700 ' + Math.round(px * 0.75) + 'px "JetBrains Mono",monospace';
+  ctx.font = f1; const w1 = ctx.measureText(haupt).width, w3 = ctx.measureText(rest).width;
+  ctx.font = f2; const w2 = ctx.measureText(idx).width;
+  const x0 = x - (w1 + w2 + w3) / 2;
+  ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fillRect(x0 - 2, y - 11, w1 + w2 + w3 + 4, 16);
+  ctx.fillStyle = farbe || SI_F.tinte; ctx.textAlign = 'left';
+  ctx.font = f1; ctx.fillText(haupt, x0, y);
+  ctx.font = f2; ctx.fillText(idx, x0 + w1, y + 3);
+  ctx.font = f1; ctx.fillText(rest, x0 + w1 + w2, y);
+}
 function siHalo(ctx, txt, x, y, farbe, font, align) {
   ctx.font = font || '12px "Source Sans 3",sans-serif';
   ctx.textAlign = align || 'left';
@@ -1242,14 +1254,18 @@ function drawA3() {
            '10px "Source Sans 3",sans-serif', 'center');
   } else {
     const kh = Math.max(14, Math.min(34, m * 28));       // höchstens bis 14 px unter den Bügel
+    // Block so breit wie seine Beschriftung (mit Rand), höchstens 52 px — die Schale ist 64 px breit
+    const mTxt = Math.round(m * 1000) + ' g';
+    ctx.font = '700 10px "JetBrains Mono",monospace';
+    const kb = Math.min(52, Math.max(40, ctx.measureText(mTxt).width + 12));
     ctx.fillStyle = '#9aa0a6'; ctx.strokeStyle = SI_F.tinte; ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.rect(rx - 20, ps - kh, 40, kh); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = SI_F.weiss; ctx.font = '700 10px "JetBrains Mono",monospace'; ctx.textAlign = 'center';
-    ctx.fillText(Math.round(m * 1000) + ' g', rx, ps - kh / 2 + 4);
+    ctx.beginPath(); ctx.rect(rx - kb / 2, ps - kh, kb, kh); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = SI_F.weiss; ctx.textAlign = 'center';
+    ctx.fillText(mTxt, rx, ps - kh / 2 + 4);
     drawArrow(ctx, rx, ps + 18, rx, ps + 18 + Math.min(44, Fg * 5), SI_F.rot, 2.4, 9);
-    const fgTxt = 'F_G = m g = ' + siFmt(Fg, 2) + ' N', fgX = a3LabX(ctx, fgTxt, rx, W);
-    siHalo(ctx, fgTxt, fgX, ueberBalken(fgTxt, fgX, ry - 8),
-           SI_F.rot, '700 11px "JetBrains Mono",monospace', 'center');
+    // «F» mit tiefgestelltem «G» statt «F_G»; für Lage und Breite zählt «FG = …»
+    const fgRest = ' = m g = ' + siFmt(Fg, 2) + ' N', fgTxt = 'FG' + fgRest, fgX = a3LabX(ctx, fgTxt, rx, W);
+    siIdxHalo(ctx, 'F', 'G', fgRest, fgX, ueberBalken(fgTxt, fgX, ry - 8), SI_F.rot, 11);
   }
 
   // Statuszeile

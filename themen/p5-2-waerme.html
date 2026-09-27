@@ -1837,8 +1837,26 @@ function drawA3(){
   const rechts=px>W*0.86;
   // unter 5 °C über dem Schmelzplateau — weiter unten läge sie auf der Skalenzahl
   // «−20» und in der Klammerzeile
-  const plx=rechts?px-9-pw:px+9, ply=(T<5)?cy(0)-26:((py>H*0.72)?py-10:py+16);
-  const frei=(x,y,w)=>!(x<plx+pw+6 && x+w>plx-6 && Math.abs(y-ply)<14);
+  // Kandidaten gegen die echten Hindernisse prüfen: Kurve, Skalenzahlen der
+  // Q-Achse, Klammerzeile. Schmal ist links über dem Schmelzplateau nur ein
+  // Keil zwischen y-Achse und steilem Anstieg — dort passt die Beschriftung nicht.
+  const lagen=[[rechts?px-9-pw:px+9, (T<5)?cy(0)-26:((py>H*0.72)?py-10:py+16)],
+               [px+9,py+5],[px+9,py-10],[px+9,py+18],[px-9-pw,py-10],[px-9-pw,py+18]];
+  const tickBoxen=[];
+  for(let v=g.stepX; cx(v)<=W-72; v+=g.stepX) if(cx(v)>=14) tickBoxen.push([cx(v)-14, cx(v)+14]);
+  const kollidiert=(x,y)=>{
+    const x0=x-3, x1=x+pw+3, y0=y-13, y1=y+4;
+    if(x0<cx(0)+2 || x1>W-2 || y0<2 || y1>H-2) return true;
+    if(y1>yK-3 && y0<yK+14) return true;                                        // Klammerzeile
+    if(y1>cy(0)+4 && y0<cy(0)+19 && tickBoxen.some(([a,b])=>x1>a && x0<b)) return true; // Q-Zahlen
+    for(let i=1;i<HK.length;i++){ const ax=cx(HK[i-1][0]/1000), ay=cy(HK[i-1][1]), bx=cx(HK[i][0]/1000), by=cy(HK[i][1]);
+      const n=Math.max(2,Math.ceil(Math.hypot(bx-ax,by-ay)/2));
+      for(let k=0;k<=n;k++){ const qx=ax+(bx-ax)*k/n, qy=ay+(by-ay)*k/n; if(qx>x0&&qx<x1&&qy>y0&&qy<y1) return true; } }
+    return false; };
+  const [plx, ply]=lagen.find(([x,y])=>!kollidiert(x,y)) || lagen[0];
+  // frei von der Punkt-Beschriftung und vom Punkt selbst (Radius 6 plus Luft)
+  const frei=(x,y,w)=>!(x<plx+pw+6 && x+w>plx-6 && Math.abs(y-ply)<14)
+                      && !(px>x-9 && px<x+w+9 && py>y-22 && py<y+9);
   // Plateau-Beschriftungen
   ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   // mittig über dem Schmelzplateau (HK[1] … HK[2]), nicht über dem Anstieg danach

@@ -1436,6 +1436,10 @@ function vekLabel(ctx, x1, y1, x2, y2, txt, farbe, belegt, strecken, W, H) {
   const nx = -uy, ny = ux, mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
   const kand = [];
   for (const d of [14, 26]) kand.push([mx + nx * d, my + ny * d], [mx - nx * d, my - ny * d]);
+  // weitere Lagen bei einem Viertel und drei Vierteln der Länge — schmal sind Mitte
+  // und Spitze oft schon von φ-, F-Beschriftung oder Achsentitel belegt
+  for (const t of [0.3, 0.7]) { const qx = x1 + (x2 - x1) * t, qy = y1 + (y2 - y1) * t;
+    kand.push([qx + nx * 14, qy + ny * 14], [qx - nx * 14, qy - ny * 14]); }
   kand.push([x2 + ux * 16, y2 + uy * 16], [x2 + ux * 16 + nx * 14, y2 + uy * 16 + ny * 14],
             [x2 + ux * 16 - nx * 14, y2 + uy * 16 - ny * 14], [x2 + nx * 18, y2 + ny * 18], [x2 - nx * 18, y2 - ny * 18]);
   setzeLabel(ctx, txt, farbe, kand, belegt, strecken, W, H);
@@ -1448,7 +1452,8 @@ function setzeLabel(ctx, txt, farbe, kand, belegt, strecken, W, H) {
   for (const [cx, cy] of kand) {
     const l = cx - b / 2 - 2, r = cx + b / 2 + 2, o = cy - h / 2 - 2, u = cy + h / 2 + 2;
     if (l < 2 || r > W - 2 || o < 2 || u > H - 2) continue;
-    let wert = 10 * belegt.filter(q => !(q.r < l || q.l > r || q.u < o || q.o > u)).length;
+    // Text auf Text wiegt schwerer als eine gekreuzte Linie (die Beschriftung hat einen weissen Rand)
+    let wert = 100 * belegt.filter(q => !(q.r < l || q.l > r || q.u < o || q.o > u)).length;
     for (const [a1, b1, a2, b2] of strecken) {
       const n = Math.max(2, Math.ceil(Math.hypot(a2 - a1, b2 - b1) / 3));
       for (let i = 0; i <= n; i++) {
@@ -1484,7 +1489,19 @@ function drawA1() {
   const cv = initCanvas('a1-cv', 0, true);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   const grid = drawGrid(ctx, W, H, -110, 110, -110, 110);
-  drawAxesUnits(ctx, W, H, grid.cx, grid.cy, 'F_x [N]', 'F_y [N]');
+  // «F_x [N]» steht am rechten Ende über der Achse. Läuft dort der F_y-Pfeil
+  // oder der Vektor F durch (Fy > 0, Fx nahe am Rand — schmal schon bei 35°),
+  // kommt die Beschriftung unter die Achse.
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const oy0 = grid.cy(0), axW = ctx.measureText('F_x [N]').width + 8;
+  const axK = { l: W - axW - 4, r: W, o: oy0 - 21, u: oy0 - 1 };
+  const schneidetAx = (x1, y1, x2, y2) => {
+    for (let i = 0; i <= 40; i++) { const x = x1 + (x2 - x1) * i / 40, y = y1 + (y2 - y1) * i / 40;
+      if (x >= axK.l - 3 && x <= axK.r && y >= axK.o && y <= axK.u) return true; }
+    return false; };
+  const axUnten = Fy > 0 && (schneidetAx(grid.cx(Fx), oy0, grid.cx(Fx), grid.cy(Fy))
+                          || schneidetAx(grid.cx(0), oy0, grid.cx(Fx), grid.cy(Fy)));
+  drawAxesUnits(ctx, W, H, grid.cx, grid.cy, 'F_x [N]', 'F_y [N]', axUnten ? 22 : 0);
 
   ctx.strokeStyle = C_KOMP+'66'; ctx.lineWidth = 1; ctx.setLineDash([4,3]);
   ctx.beginPath();
@@ -1502,6 +1519,7 @@ function drawA1() {
   ctx.strokeStyle = '#1f6b3a'; ctx.lineWidth = 1.6;
   ctx.beginPath(); ctx.arc(ox, oy, r0, 0, -rad, true); ctx.stroke();
   const belegt = belegteTicks(ctx, W, H, grid, -110, 110, -110, 110);
+  if (axUnten) belegt[belegt.length - 1] = { l: W - 80, r: W, o: oy + 2, u: oy + 22 };   // Achsentitel unten
   const pF = [ox, oy, grid.cx(Fx), grid.cy(Fy)], pX = [ox, oy, grid.cx(Fx), oy], pY = [grid.cx(Fx), oy, grid.cx(Fx), grid.cy(Fy)];
   const strecken = [pF, pX, pY, [0, oy, W, oy], [ox, 0, ox, H]];
   // Winkel-Beschriftung zuerst: sie gehört an den Bogen — Lagen entlang der

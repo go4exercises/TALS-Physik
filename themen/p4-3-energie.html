@@ -1403,6 +1403,7 @@ function drawA2() {
   }
   c2.stroke(); c2.setLineDash([]);
   // Beschriftung am Ende der gestrichelten Kurve, nicht oben rechts beim Punkt
+  let boxDM = null;                    // ihr Kasten — Hindernis für «2v → ×4»
   {
     const vE = Math.min(vMax, Math.sqrt(EmaxK * 1000 / m)), EE = 0.5 * 2 * m * vE * vE / 1000;
     const xe = grid.cx(vE), ye = grid.cy(EE), t2 = 'doppelte Masse (×2)';
@@ -1411,8 +1412,12 @@ function drawA2() {
     // rechts vom Kurvenende, sofern dort weder der Rand noch der Messpunkt im Weg ist
     const pX = grid.cx(v), pY = grid.cy(Ek / 1000);
     const trifftPunkt = pX > xe - 4 && pX < xe + 8 + b + 10 && Math.abs(pY - (ye + 9)) < 16;
-    if (xe + 8 + b <= W2 - 4 && ye + 14 < grid.cy(0.5 * m * vE * vE / 1000) - 6 && !trifftPunkt) { c2.textAlign = 'left'; c2.fillText(t2, xe + 8, ye + 14); }
-    else { c2.textAlign = 'right'; c2.fillText(t2, Math.min(xe - 8, W2 - 4), Math.max(16, ye - 8)); }
+    if (xe + 8 + b <= W2 - 4 && ye + 14 < grid.cy(0.5 * m * vE * vE / 1000) - 6 && !trifftPunkt) {
+      c2.textAlign = 'left'; c2.fillText(t2, xe + 8, ye + 14); boxDM = [xe + 8, ye + 1, xe + 8 + b, ye + 17];
+    } else {
+      const xr = Math.min(xe - 8, W2 - 4), yr = Math.max(16, ye - 8);
+      c2.textAlign = 'right'; c2.fillText(t2, xr, yr); boxDM = [xr - b, yr - 13, xr, yr + 3];
+    }
   }
   // Geister-Punkt bei doppelter Geschwindigkeit — vierfache Energie
   const v2 = Math.min(2*v, vMax), Ek2 = 0.5*m*v2*v2/1000;
@@ -1422,8 +1427,27 @@ function drawA2() {
     c2.beginPath(); c2.moveTo(grid.cx(v2), grid.cy(0)); c2.lineTo(grid.cx(v2), grid.cy(Ek2));
     c2.moveTo(grid.cx(0), grid.cy(Ek2)); c2.lineTo(grid.cx(v2), grid.cy(Ek2)); c2.stroke();
     c2.setLineDash([]);
-    c2.fillStyle = '#5b2d8e'; c2.font = 'bold 13px JetBrains Mono,monospace'; c2.textAlign = 'right';
-    c2.fillText('2v → ×4', grid.cx(v2) - 8, grid.cy(Ek2) - 8);
+    // Lage frei von beiden Parabeln (m und 2m) und vom Canvasrand wählen:
+    // oben links, unten rechts, oben rechts, unten links — die erste freie gewinnt.
+    c2.font = 'bold 13px JetBrains Mono,monospace';
+    const t4 = '2v → ×4', b4 = c2.measureText(t4).width, X4 = grid.cx(v2), Y4 = grid.cy(Ek2);
+    const kurvenPkt = [];
+    for (let vv = 0; vv <= vMax; vv += 0.25) for (const mm of [m, 2*m]) {
+      const EE = 0.5 * mm * vv * vv / 1000; if (EE <= EmaxK) kurvenPkt.push([grid.cx(vv), grid.cy(EE)]);
+    }
+    const lagen = [['right', X4 - 8, Y4 - 8], ['left', X4 + 8, Y4 + 18], ['left', X4 + 8, Y4 - 8], ['right', X4 - 8, Y4 + 18]];
+    for (const dy of [30, 50, 70]) lagen.push(['center', X4, Y4 - dy], ['right', X4 - 8, Y4 - dy], ['left', X4 + 8, Y4 - dy]);
+    // Treffer zählen: Randverletzung zählt schwer, jeder Kurvenpunkt in der Box einfach
+    const treffer = ([al, x, y]) => {
+      const x0 = al === 'right' ? x - b4 : (al === 'center' ? x - b4 / 2 : x), x1 = x0 + b4, y0 = y - 13, y1 = y + 3;
+      if (x0 < grid.cx(0) + 4 || x1 > W2 - 4 || y0 < 4 || y1 > grid.cy(0) - 4) return 1e6;
+      if (boxDM && x0 < boxDM[2] + 4 && x1 > boxDM[0] - 4 && y0 < boxDM[3] + 3 && y1 > boxDM[1] - 3) return 1e5;
+      return kurvenPkt.filter(([px, py]) => px > x0 - 3 && px < x1 + 3 && py > y0 - 3 && py < y1 + 3).length;
+    };
+    const bewertet = lagen.map(l => [treffer(l), l]);
+    const [al4, x4, y4] = (bewertet.find(([t]) => t === 0) || bewertet.reduce((a, c) => c[0] < a[0] ? c : a))[1];
+    c2.fillStyle = '#5b2d8e'; c2.textAlign = al4;
+    c2.fillText(t4, x4, y4);
   }
   // aktueller Punkt
   drawDot(c2, grid.cx, grid.cy, v, Ek/1000, '#9b1c1c', 5);
