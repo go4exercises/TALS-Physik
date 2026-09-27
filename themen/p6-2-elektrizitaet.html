@@ -1413,14 +1413,14 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Wähle einen Fall und sage zuerst voraus, ob der FI auslöst — erst dann zeigt die Animation, was die Schalter tun.</li><li>Vergleiche «Strom hin» und «Strom zurück»: Für den FI zählt nur ihre Differenz.</li><li>Beim Menschen am Gehäuse: Erhöhe den Körperwiderstand. Ab wann löst der FI nicht mehr sicher aus — und ist der Strom dann harmlos?</li><li>Beim Kurzschluss: Welcher der beiden Schalter trennt?</li><li>\(R_\text{Schleife}\) ist der Widerstand des ganzen Fehlerwegs, Leitungen hin und zurück — hier \(2\;\Omega\) über den Schutzleiter und \(0.5\;\Omega\) beim Kurzschluss.</li></ul></div>
+      <div class="ah-text"><ul><li>Wähle einen Fall und sage zuerst voraus, ob der FI auslöst — erst dann zeigt die Animation, was die Schalter tun.</li><li>Vergleiche «Strom hin» und «Strom zurück»: Für den FI zählt nur ihre Differenz.</li><li>Beim Menschen am Gehäuse: Erhöhe den Körperwiderstand. Ab wann löst der FI nicht mehr sicher aus — und ist der Strom dann harmlos?</li><li>Vergleiche die beiden Fälle mit einem Menschen, ohne und mit Schutzleiter: Wie gross ist der Körperstrom, und wer trennt?</li><li>Beim Kurzschluss: Welcher der beiden Schalter trennt?</li><li>\(R_\text{Schleife}\) ist der Widerstand des ganzen Fehlerwegs, Leitungen hin und zurück — hier \(2\;\Omega\) über den Schutzleiter und \(0.5\;\Omega\) beim Kurzschluss.</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Eine Differenz \(\Delta I = I_\text{L} - I_\text{N}\) heisst: Ein Teil des Stroms fliesst anderswo ab — durch einen Menschen oder über den Schutzleiter.</li><li>Ab dem Nennfehlerstrom \(30\;\text{mA}\) muss der FI auslösen, je grösser die Differenz, desto schneller; zwischen \(15\) und \(30\;\text{mA}\) darf er, muss aber nicht.</li><li>Ein Kurzschluss zwischen L und N erzeugt keine Differenz: Der FI bleibt ein, der Leitungsschutzschalter trennt.</li><li>Der FI ist zusätzlicher Schutz. Auch Ströme unter \(30\;\text{mA}\) können gefährlich sein.</li></ul></div>
+      <div class="ah-text"><ul><li>Eine Differenz \(\Delta I = I_\text{L} - I_\text{N}\) heisst: Ein Teil des Stroms fliesst anderswo ab — durch einen Menschen oder über den Schutzleiter.</li><li>Ab dem Nennfehlerstrom \(30\;\text{mA}\) muss der FI auslösen, je grösser die Differenz, desto schneller; zwischen \(15\) und \(30\;\text{mA}\) darf er, muss aber nicht.</li><li>Ein Kurzschluss zwischen L und N erzeugt keine Differenz: Der FI bleibt ein, der Leitungsschutzschalter trennt.</li><li>Mit Schutzleiter fliesst der Fehlerstrom über den PE; er ist so gross, dass auch der Leitungsschutzschalter sofort trennt. Das Gehäuse liegt bis dahin auf rund der halben Netzspannung — der Schutz liegt in der kurzen Zeit, nicht darin, dass keine Spannung anliegt. Ohne Schutzleiter und ohne FI würde nichts abschalten.</li><li>Der FI ist zusätzlicher Schutz. Auch Ströme unter \(30\;\text{mA}\) können gefährlich sein.</li></ul></div>
     </div>
   </div>
 </div>
@@ -1432,6 +1432,7 @@ MathJax = {
       <div class="typ-btns" style="margin-bottom:0">
         <button class="typ-btn aktiv" data-fi="normal">Normalbetrieb</button>
         <button class="typ-btn" data-fi="koerper">Mensch am defekten Gehäuse, Schutzleiter fehlt</button>
+        <button class="typ-btn" data-fi="pemensch">Mensch am defekten Gehäuse, mit Schutzleiter</button>
         <button class="typ-btn" data-fi="pe">Defekt, Gehäuse am Schutzleiter</button>
         <button class="typ-btn" data-fi="kurz">Kurzschluss L–N</button>
       </div>
@@ -1454,6 +1455,7 @@ MathJax = {
     <div class="formel-live">
       <div class="fl-label">Was der FI vergleicht — im Moment des Fehlers, bevor ein Schalter trennt</div>
       <div class="fl-eq" id="fi-eq1"></div>
+      <div class="fl-eq" id="fi-eq3"></div>
       <div class="fl-eq" id="fi-eq2"></div>
     </div>
 
@@ -3567,18 +3569,27 @@ function lpInit(){
 //  Kurzschluss magnetisch ab (ab 5 · I_n = 80 A sofort). Fälle:
 //    koerper: Fehlerstrom 230 V / R_K durch einen Menschen zur Erde
 //    pe:      Fehlerstrom über den Schutzleiter, Fehlerschleife 2 Ω → 115 A
+//    pemensch: Mensch am Gehäuse, PE angeschlossen. Schleife je 1 Ω Aussen-
+//             leiter und Schutzleiter; der Mensch liegt parallel zum PE.
+//             Nachgerechnet (R_K = 1000 Ω): U_B = 114.9 V, I_K = 114.9 mA,
+//             I_F = 114.9 A, ΔI = 115.1 A → FI ≤ 40 ms, LS sofort.
 //    kurz:    L–N-Schluss, Schleife 0.5 Ω → 460 A, aber keine Differenz
 //  FI: muss ab I_Δn = 30 mA auslösen (spätestens 300 ms; ab 2 · I_Δn 150 ms;
 //  ab 5 · I_Δn 40 ms), darf ab I_Δn/2 = 15 mA auslösen.
 // ══════════════════════════════════════════════════════════
 const FI_U = 230, FI_P = 2000, FI_IDN = 0.030, FI_LSN = 16, FI_RPE = 2, FI_RKURZ = 0.5;
+const FI_RLEIT = 1, FI_RPEL = 1;          // Fall pemensch: Aussenleiter und Schutzleiter je 1 Ω
 let fiFall = 'normal', fiVh = null;
 
 function fiRechne(){
   const RK = +document.getElementById('fi-R').value;
   const Ilast = FI_P / FI_U;
-  let IL = Ilast, IN = Ilast, IF = 0, IK = 0;
-  if(fiFall === 'koerper'){ IF = FI_U / RK; IL = Ilast + IF; }
+  let IL = Ilast, IN = Ilast, IF = 0, IK = 0, IKoerper = 0, UB = 0, IPE = 0;
+  if(fiFall === 'koerper'){ IF = FI_U / RK; IL = Ilast + IF; IKoerper = IF; UB = FI_U; }
+  else if(fiFall === 'pemensch'){
+    // Mensch parallel zum Schutzleiter; zusammen in Serie zum Aussenleiter
+    const Rp = 1 / (1/FI_RPEL + 1/RK);
+    IF = FI_U / (FI_RLEIT + Rp); UB = IF * Rp; IKoerper = UB / RK; IPE = UB / FI_RPEL; IL = Ilast + IF; }
   else if(fiFall === 'pe'){ IF = FI_U / FI_RPE; IL = Ilast + IF; }
   else if(fiFall === 'kurz'){ IK = FI_U / FI_RKURZ; IL = Ilast + IK; IN = IL; }
   // Differenz direkt aus dem Fehlerstrom: IL − IN aus zwei grossen Zahlen
@@ -3588,7 +3599,7 @@ function fiRechne(){
   const fi = fak >= 1 ? 'ja' : fak >= 0.5 ? 'kann' : 'nein';
   const zeit = fak >= 5 ? '40 ms' : fak >= 2 ? '150 ms' : '300 ms';
   const ls = IL >= 5 * FI_LSN;
-  return { RK, Ilast, IL, IN, IF, IK, dI, fak, fi, zeit, ls };
+  return { RK, Ilast, IL, IN, IF, IK, dI, fak, fi, zeit, ls, IKoerper, UB, IPE };
 }
 // Hin- und Rückstrom auf mA genau, solange eine Differenz im mA-Bereich zählt;
 // Fehler- und Kurzschlussströme von über 100 A nur auf 0.1 A
@@ -3601,7 +3612,7 @@ const fiTD = I => I >= 1 ? texE(I.toFixed(1), 'A') : I >= 0.1 ? texE((I*1000).to
 
 function fiRender(){
   const r = fiRechne();
-  document.getElementById('fi-R-row').style.display = fiFall === 'koerper' ? '' : 'none';
+  document.getElementById('fi-R-row').style.display = (fiFall === 'koerper' || fiFall === 'pemensch') ? '' : 'none';
   document.getElementById('fi-R-val').textContent = r.RK + ' Ω';
   document.getElementById('fi-IL').textContent = fiA(r.IL);
   document.getElementById('fi-IN').textContent = fiA(r.IN);
@@ -3614,12 +3625,21 @@ function fiRender(){
     flTex('fi-eq1', ['I = \\frac{P}{U}', '= \\frac{' + texE(FI_P,'W') + '}{' + texE(FI_U,'V') + '}', '= ' + fiTA(r.Ilast)]);
   else if(fiFall === 'koerper')
     flTex('fi-eq1', ['I_\\text{K} = \\frac{U}{R_\\text{K}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(r.RK) + '}', '= ' + fiTD(r.IF)]);
+  else if(fiFall === 'pemensch')
+    flTex('fi-eq1', ['U_\\text{B} \\approx U\\cdot\\frac{R_\\text{PE}}{R_\\text{L} + R_\\text{PE}}',
+                     '= ' + texE(FI_U,'V') + '\\cdot\\frac{' + texO(FI_RPEL) + '}{' + texO(FI_RLEIT) + ' + ' + texO(FI_RPEL) + '}',
+                     '\\approx ' + texE(r.UB.toFixed(0),'V')]);
   else if(fiFall === 'pe')
     flTex('fi-eq1', ['I_\\text{F} = \\frac{U}{R_\\text{Schleife}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(FI_RPE) + '}', '= ' + fiTD(r.IF)]);
   else
     flTex('fi-eq1', ['I_\\text{Kurz} = \\frac{U}{R_\\text{Schleife}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(FI_RKURZ) + '}', '= ' + fiTD(r.IK)]);
+  flTex('fi-eq3', fiFall === 'pemensch'
+    ? ['I_\\text{K} = \\frac{U_\\text{B}}{R_\\text{K}}', '= \\frac{' + texE(r.UB.toFixed(0),'V') + '}{' + texO(r.RK) + '}', '= ' + fiTD(r.IKoerper)]
+    : '');
   // Bei einem Fehler ist die Differenz genau der Fehlerstrom
-  flTex('fi-eq2', fiFall === 'koerper' || fiFall === 'pe'
+  flTex('fi-eq2', fiFall === 'pemensch'
+    ? ['\\Delta I = I_\\text{L} - I_\\text{N}', '= I_\\text{PE} + I_\\text{K}', '= ' + fiTD(r.dI)]
+    : fiFall === 'koerper' || fiFall === 'pe'
     ? ['\\Delta I = I_\\text{L} - I_\\text{N}', '= ' + (fiFall === 'koerper' ? 'I_\\text{K}' : 'I_\\text{F}'), '= ' + fiTD(r.dI)]
     : ['\\Delta I = I_\\text{L} - I_\\text{N}', '= ' + fiTA(r.IL) + ' - ' + fiTA(r.IN), '= ' + fiTD(r.dI)]);
   fiDraw(r);
@@ -3676,7 +3696,7 @@ function fiDraw(r){
   ctx.strokeStyle = '#b8a888'; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
   ctx.beginPath(); ctx.moveTo(x0 + 8, yErde + 8); ctx.lineTo(W - 8, yErde + 8); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle = '#8a7a5c'; ctx.font = FS(f - 1); ctx.textAlign = 'left';
-  ctx.fillText('Erde', x0 + 22, yErde + 22);   // Urteilszeile steht tiefer (H − 6)
+  ctx.fillText('Erde', x0 + 22, yErde + 3);    // über der Erdlinie: darunter stehen bis zu zwei Urteilszeilen
 
   // Leitungsschutzschalter auf L
   ctx.fillStyle = '#fff'; ctx.strokeStyle = lsAus ? ROT : '#3f3a33'; ctx.lineWidth = 2;
@@ -3717,7 +3737,8 @@ function fiDraw(r){
   ctx.font = FS(f - 2); ctx.fillText(schmal ? 'Gehäuse' : 'Metallgehäuse', xG + gW/2 + 4, gB - 6);
 
   // Fehler
-  if(fiFall === 'koerper' || fiFall === 'pe'){
+  const mensch = fiFall === 'koerper' || fiFall === 'pemensch';
+  if(mensch || fiFall === 'pe'){
     // Isolationsfehler: L berührt das Gehäuse
     ctx.strokeStyle = ROT; ctx.lineWidth = 2.2; ctx.beginPath();
     ctx.moveTo(hx + 6, yL + 4); ctx.lineTo(hx + 12, yL + 12); ctx.lineTo(hx + 8, yL + 18); ctx.lineTo(xG + gW, yL + 26); ctx.stroke();
@@ -3726,7 +3747,7 @@ function fiDraw(r){
     ctx.strokeStyle = ROT; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(xG - 14, yL); ctx.lineTo(xG - 14, yN); ctx.stroke();
     ctx.font = '16px sans-serif'; ctx.fillStyle = ROT; ctx.textAlign = 'center'; ctx.fillText('⚡', xG - 26, (yL + yN)/2 + 5);
   }
-  if(fiFall === 'koerper'){
+  if(mensch){
     // Mensch: Hand am Gehäuse, Füsse auf der Erde
     const kopf = gT + 6, fuss = yErde + 6;
     ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.4;
@@ -3738,12 +3759,12 @@ function fiDraw(r){
     // Fehlerstrom durch den Körper
     // Fehlerstrom durch den Körper: Pfeil neben dem Bein, Wert links davon
     drawArrow(ctx, xP - 14, fuss - 60, xP - 14, fuss - 14, ROT, 2.2, 8);
-    mmIdx(ctx, xP - 20, fuss - 34, 'I', 'K', ' = ' + fiD(r.IF), 'right', ROT);
+    mmIdx(ctx, xP - 20, fuss - 34, 'I', 'K', ' = ' + fiD(r.IKoerper), 'right', ROT);
   }
-  if(fiFall === 'pe'){
-    const xa = (xFI + fiW/2 + xG) / 2;
+  if(fiFall === 'pe' || fiFall === 'pemensch'){
+    const xa = (xFI + fiW/2 + xG) / 2, pm = fiFall === 'pemensch';
     drawArrow(ctx, xa + 30, yPE - 8, xa - 30, yPE - 8, ROT, 2.2, 8);
-    mmIdx(ctx, xa, yPE - 14, schmal ? 'I' : 'Fehlerstrom I', 'F', ' = ' + fiD(r.IF), 'center', ROT);
+    mmIdx(ctx, xa, yPE - 14, schmal ? 'I' : 'Fehlerstrom I', pm ? 'PE' : 'F', ' = ' + fiD(pm ? r.IPE : r.IF), 'center', ROT);
   }
 
   // Ströme an L und N (zwischen FI und Gerät)
@@ -3764,13 +3785,23 @@ function fiDraw(r){
                 : r.fi === 'kann' ? 'FI darf auslösen, muss aber nicht'
                 : 'FI bleibt ein';
     const lsTxt = r.ls ? '; LS trennt sofort' : '';
-    const warn = (fiFall === 'koerper' && r.fi !== 'ja') ? ' — ' + fiD(r.IF) + ' durch den Körper sind trotzdem gefährlich' : '';
+    const warn = (fiFall === 'koerper' && r.fi !== 'ja') ? ' — ' + fiD(r.IF) + ' durch den Körper sind trotzdem gefährlich'
+               : fiFall === 'pemensch' ? ' — ' + fiD(r.IKoerper) + ' durch den Körper, aber nur Millisekunden' : '';
     txt = (stimmt === null ? '≈ ' : stimmt ? '✓ ' : '✗ ') + fiTxt + lsTxt + warn;
     col = stimmt === false ? ROT : (r.fi === 'ja' || r.ls ? '#1f6b3a' : GRAU);
   }
-  ctx.fillStyle = col; let fs = schmal ? 12 : 14; ctx.font = 'bold ' + FS(fs); ctx.textAlign = 'center';
-  while(fs > 9 && ctx.measureText(txt).width > W - 10){ fs--; ctx.font = 'bold ' + FS(fs); }
-  ctx.fillText(txt, W/2, H - 6);
+  // Passt die Zeile auch bei 11 px nicht, wird sie am Gedankenstrich in zwei
+  // Zeilen geteilt (schmal: Urteil und Begründung untereinander)
+  ctx.fillStyle = col; ctx.textAlign = 'center';
+  const passt = (t, min) => { let fs = schmal ? 12 : 14; ctx.font = 'bold ' + FS(fs);
+    while(fs > min && ctx.measureText(t).width > W - 10){ fs--; ctx.font = 'bold ' + FS(fs); }
+    return ctx.measureText(t).width <= W - 10 ? fs : 0; };
+  const teile = txt.split(' — ');
+  if(passt(txt, 11) || teile.length < 2){ passt(txt, 9); ctx.fillText(txt, W/2, H - 6); }
+  else {
+    passt(teile[0], 9); ctx.fillText(teile[0], W/2, H - 21);
+    passt(teile[1], 9); ctx.fillText(teile[1], W/2, H - 6);
+  }
 }
 
 function fiInit(){
