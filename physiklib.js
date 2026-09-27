@@ -205,14 +205,17 @@ function _tickPixel(font, text, scale) {
   for (let k = 0; k < d.length; k += 4) if (d[k + 3] > 200) n++;
   _tickTinte.set(key, n); return n;
 }
+const _tickOffen = new WeakMap();       // Kontext -> noch nicht gesetzte Zahlen
 function tickNachzeichnen(ctx, labels, font, farbe) {
-  if (!labels.length || typeof ctx.getTransform !== 'function') return;   // jsdom u. ä.
-  const offen = ctx.__tickNach;
-  const eintrag = { T: ctx.getTransform(), labels, font, farbe };
+  if (!labels.length || typeof ctx.getTransform !== 'function') return;
+  const T = ctx.getTransform();
+  if (!T || typeof T.a !== 'number' || !ctx.canvas) return;   // jsdom-Attrappe u. ä.
+  const eintrag = { T, labels, font, farbe };
+  const offen = _tickOffen.get(ctx);
   if (offen) { offen.push(eintrag); return; }
-  ctx.__tickNach = [eintrag];
+  _tickOffen.set(ctx, [eintrag]);
   Promise.resolve().then(() => {
-    const alle = ctx.__tickNach; ctx.__tickNach = null;
+    const alle = _tickOffen.get(ctx); _tickOffen.delete(ctx);
     const cv = ctx.canvas;
     let bild;
     try { bild = ctx.getImageData(0, 0, cv.width, cv.height); } catch (e) { return; }   // z. B. «tainted»
