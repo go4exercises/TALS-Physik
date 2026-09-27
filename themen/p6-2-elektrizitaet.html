@@ -3469,16 +3469,34 @@ function lpRender(){
   lpDraw(w);
 }
 
+// Schaltzeichen Wechselspannungsquelle (Netz): Kreis mit Sinuslinie, die Leitung
+// endet am Kreis. Erwartet eine bereits gezeichnete senkrechte Leitung bei x.
+function quelleAC(ctx, x, y, text){
+  const r = 13;
+  ctx.clearRect(x - 4, y - r, 8, 2*r);
+  ctx.save();
+  ctx.fillStyle = '#fff'; ctx.strokeStyle = '#1c1a17'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, 2*Math.PI); ctx.fill(); ctx.stroke();
+  ctx.lineWidth = 1.6; ctx.beginPath();
+  for(let i = 0; i <= 20; i++){ const u = -8 + 16*i/20; const v = -4.5*Math.sin(u/8*Math.PI);
+    if(i === 0) ctx.moveTo(x + u, y + v); else ctx.lineTo(x + u, y + v); }
+  ctx.stroke();
+  if(text){ ctx.fillStyle = '#5c554c'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(text, x - r - 5, y + 4); }
+  ctx.restore();
+}
+
 function lpDraw(w){
   const cv = initCanvas('lp-cv', 250, false); if(!cv) return;
   const ctx = cv.ctx, W = cv.W, H = cv.H;
-  const L = Math.max(W*0.16, 62), R = W*0.84, T = H*0.24, B = H*0.78, my = (T+B)/2;
+  const L = Math.max(W*0.16, 66), R = W - Math.max(W*0.16, 52), T = H*0.24, B = H*0.78, my = (T+B)/2;
   ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
   ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
 
-
   const max = Math.max(w.P1, w.P2, 1);
-  function lampe(x, y, P, nenn, nr){
+  // Beschriftung unter der Lampe (Reihe: darunter ist frei) oder rechts
+  // daneben (parallel: unter der Lampe läuft der Zweig weiter)
+  function lampe(x, y, P, nenn, seite){
     const t = Math.min(1, P/max);                   // Helligkeit relativ zur staerkeren
     ctx.beginPath(); ctx.arc(x, y, 17, 0, Math.PI*2);
     ctx.fillStyle = 'rgba(240,167,66,' + (0.12 + 0.78*t).toFixed(2) + ')';
@@ -3486,17 +3504,15 @@ function lpDraw(w){
     ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2; ctx.stroke();
     ctx.beginPath(); ctx.moveTo(x-12,y-12); ctx.lineTo(x+12,y+12);
     ctx.moveTo(x+12,y-12); ctx.lineTo(x-12,y+12); ctx.stroke();
-    // heller Grund: in der Parallelschaltung läuft die Zuleitung senkrecht
-    // unter der Lampe durch — ohne Grund lag sie mitten in den Zahlen
     const t1 = nenn + ' W', t2 = P.toFixed(1) + ' W';
-    ctx.font = 'bold 12px "Source Sans 3",sans-serif';
-    const bwL = Math.max(ctx.measureText(t1).width, ctx.measureText(t2).width) + 8;
-    ctx.clearRect(x - bwL/2, y+22, bwL, 31);   // Canvas ist durchsichtig: zeigt den Grund des Rahmens
+    const rechts = seite === 'rechts';
+    ctx.textAlign = rechts ? 'left' : 'center';
+    const tx = rechts ? x + 23 : x, y1 = rechts ? y - 3 : y + 33, y2 = rechts ? y + 12 : y + 48;
     ctx.fillStyle = '#3f3a33'; ctx.font = '11px "Source Sans 3",sans-serif';
-    ctx.fillText(t1, x, y+33);
+    ctx.fillText(t1, tx, y1);
     ctx.fillStyle = '#b45309'; ctx.font = 'bold 12px "Source Sans 3",sans-serif';
-    ctx.fillText(t2, x, y+48);
-    ctx.font = '12px "Source Sans 3",sans-serif';
+    ctx.fillText(t2, tx, y2);
+    ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
   }
 
   ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
@@ -3507,22 +3523,27 @@ function lpDraw(w){
     ctx.moveTo(xa+17, T); ctx.lineTo(xb-17, T);
     ctx.moveTo(xb+17, T); ctx.lineTo(R, T); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
     ctx.stroke();
-    lampe(xa, T, w.P1, w.P1n, 1);
-    lampe(xb, T, w.P2, w.P2n, 2);
+    lampe(xa, T, w.P1, w.P1n, 'unten');
+    lampe(xb, T, w.P2, w.P2n, 'unten');
     ctx.fillStyle = '#0f6b66';
     ctx.fillText('derselbe Strom: ' + (w.I1*1000).toFixed(0) + ' mA', (L+R)/2, B+20);
   } else {
-    const xa = L + (R-L)*0.40, xb = L + (R-L)*0.75;
+    // Zwei Zweige zwischen denselben zwei Schienen. Die Schienen enden am
+    // zweiten Zweig — eine eigene rechte Leitung wäre ein Draht ohne Bauteil
+    // parallel zu beiden Lampen, also ein Kurzschluss.
+    const xa = L + (R-L)*0.48, xb = R;
     ctx.beginPath();
-    ctx.moveTo(L, T); ctx.lineTo(R, T); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
+    ctx.moveTo(xb, T); ctx.lineTo(L, T); ctx.lineTo(L, B); ctx.lineTo(xb, B);
     [xa, xb].forEach(x => { ctx.moveTo(x, T); ctx.lineTo(x, my-17); ctx.moveTo(x, my+17); ctx.lineTo(x, B); });
     ctx.stroke();
-    lampe(xa, my, w.P1, w.P1n, 1);
-    lampe(xb, my, w.P2, w.P2n, 2);
+    ctx.fillStyle = '#3f3a33';
+    [T, B].forEach(y => { ctx.beginPath(); ctx.arc(xa, y, 4, 0, 2*Math.PI); ctx.fill(); });
+    lampe(xa, my, w.P1, w.P1n, 'rechts');
+    lampe(xb, my, w.P2, w.P2n, 'rechts');
     ctx.fillStyle = '#0f6b66';
     ctx.fillText('an jeder Lampe 230 V', (L+R)/2, B+20);
   }
-  quelle(ctx, L, my, LP_U + ' V');
+  quelleAC(ctx, L, my, LP_U + ' V');
   ctx.fillStyle = '#5c554c'; ctx.font = '12px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
   ctx.fillText('zusammen ' + w.Pg.toFixed(1) + ' W', (L+R)/2, H-8);
 }
