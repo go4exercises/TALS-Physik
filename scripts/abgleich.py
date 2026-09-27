@@ -160,7 +160,7 @@ OFFEN = [
              'Stimme dafuer zu schnell wird» (Z. 795-912); «Lizenzlage» bleibt. '
              '(4) Alle 203 Clips neu bauen — jede clips/*.html traegt den toten '
              'STIMMEN-Code. Danach in Physik die Grundlinie build-clip-ton wieder 1.000.'),
-    dict(quelle='Physik', was='Clip-Element `bild` (Prototyp 27.09.2026, optional)',
+    dict(quelle='Physik', was='Clips zu einzelnen Animationen: bild, animation, Einbau (27.09.2026, optional)',
          wie='scripts/build-clips.py, element_html: neuer Zweig typ == "bild" (liest '
              'el["datei"] relativ zu CLIPS, prueft auf <svg, giesst die SVG ein; Klasse graf) '
              'und "bild" in den beiden Ausnahmelisten ("graf", "bild", "strich") fuer die '
@@ -183,12 +183,34 @@ OFFEN = [
              'bleiben). Die Clips selbst brauchen keinen Neubau. Testfalle: python3 -m '
              'http.server kann keine Range-Anfragen, der Ton springt beim Spulen auf 0 — '
              'mit file:// oder auf GitHub Pages (206) pruefen.'),
-    dict(quelle='Physik', was='build-clip-ton: Aussprache-Tabelle (27.09.2026, optional)',
-         wie='AUSSPRACHE + aussprache(text) vor sprich(): Wortstamm -> IPA als [[…]], '
-             'nur im Text an Piper. Physik: ampere -> ampˈɛːɾ, coulomb -> kulˈoː. '
-             'Fallen: Satzzeichen muss in die Klammer (sonst verschluckt, Wort klebt '
-             'an), Wortgrenze bzw. Vorsilbe noetig («Schlamperei»). Fuer Mathe pruefen, '
-             'ob dort Woerter falsch klingen (Tabelle darf je Fach verschieden sein).'),
+    dict(quelle='Physik', was='build-clip-ton: Aussprache-Tabellen (27.09.2026)',
+         wie='Physik ba888a2/8559cc9/02c0c1b: AUSSPRACHE (Wortstamm -> IPA als [[…]]), '
+             'ABKUERZUNGEN (nur exakt als ganzes Wort), TAUSCH (reiner Worttausch), '
+             'VORSILBEN; aussprache(text) wirkt nur auf den Text an Piper. Mathe: in '
+             'sprich(...) an allen vier Aufrufstellen (Z. 182, 193, 199, 213) den Text '
+             'durch aussprache(text) ersetzen — oder erst die Zweitstimme zurueckbauen '
+             '(eigener OFFEN-Eintrag), dann bleibt eine Stelle. Nachgezaehlt 27.09.2026: '
+             '9 von 204 Mathe-Drehbuechern betroffen — Pythagoras 7 (g5-2a-pythagoras, '
+             'g5-3-cosinussatz, g5-4-spezialwinkel, g5-4-trig-pythagoras, s4-2b-…), '
+             'achthundert 1 (trigo2-3-ballon-zwei-fehler), Megahertz 1 (g1-4-ti30x-ee-eng); '
+             'danach diese 9 neu vertonen. Die Tabellen sind nach Hoerproben des '
+             'Auftraggebers entschieden und gelten fuer Thorsten in beiden Repos. Fallen: '
+             'Satzzeichen muss in die Klammer (sonst verschluckt, Wort klebt an), '
+             'Wortgrenze/Vorsilbe noetig («Schlamperei»). Empfohlen: Mathes eigenes '
+             'Vokabular mit denselben zwei Suchdurchgaengen pruefen (HOWTO-clips.md, '
+             'Abschnitt Ton; Physik fand so «Zentripetalkraft» englisch gelesen) — '
+             'Entscheid je Wort per Hoerprobe durch den Auftraggeber.'),
+    dict(quelle='Physik', was='build-seo: tex_weg loest Brueche und LaTeX-Abstaende auf (Fehler in Mathe)',
+         wie='Physik cac3db1: bruch_auf(x) loest \\frac/\\tfrac/\\dfrac{a}{b} zu a/b auf '
+             '(von innen nach aussen), dazu \\, \\; \\: \\! -> Leerzeichen und ^\\circ -> °. '
+             'In Mathe nachgewiesen (27.09.2026): grundlagen/g5-4-einheitskreis.html '
+             'schreibt in teaches «sin(/π2-φ) = cos(φ)» statt «sin(π/2-φ)». Betroffen '
+             'sind die rlp-kompetenzen von 4 Seiten: g5-4-einheitskreis (frac), '
+             's1-3-logarithmen, s3-4a-exponentialfunktionen, s3-4b-logarithmusfunktionen '
+             '(Abstaende). Uebernehmen: bruch_auf und die zwei re.sub-Zeilen in innen(); '
+             'danach build-seo.py laufen lassen und die vier Beschreibungen ansehen. '
+             'Die Drift von build-seo.py (50.9 % gegen Grundlinie 52 %) kommt sonst aus '
+             'Projektdaten (SEITEN-Tabelle), nicht aus der Logik.'),
 ]
 
 FACH = {
