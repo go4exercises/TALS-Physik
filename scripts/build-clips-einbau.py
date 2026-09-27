@@ -237,22 +237,21 @@ def zeile(clip, vor="", nuance=1, suche=None, auch="", anker=None, animlink=None
     id_ = f' id="{anker}"' if anker else ""
     marke = ([f'    <span class="cl-auch">{html.escape(auch)}</span>'] if auch else [])
     # Clips zu einer einzelnen Animation sind farblich abgesetzt und tragen
-    # die Marke «Animation» — sie erklaeren ein Bild auf der Seite, nicht
-    # ein Stoffgebiet, und sollen als solche erkennbar sein.
+    # vorn den Link «Anim» zu ihrer Animation — sie erklaeren ein Bild auf
+    # der Seite, nicht ein Stoffgebiet. Der Link steht neben dem Knopf, nicht
+    # darin: ein <a> in einem <button> ist kein gueltiges HTML.
     anim = clip.get("animation")
     kl = f"clip cl-r{nuance}" + (" cl-anim" if anim else "")
-    amarke = ['    <span class="cl-animtag">Animation</span>'] if anim else []
-    # Rueckweg zur Animation, die der Clip erklaert — unter der Zeile wie «auch in»
-    if anim and animlink:
-        marke = marke + [f'    <a class="cl-animlink" href="{animlink}">zur Animation</a>']
+    alink = ([f'  <a class="cl-animlink" href="{animlink}"'
+              f' aria-label="Zur Animation: {titel}">Anim</a>'] if anim and animlink else [])
     return [
         f'<div class="{kl}"{id_} data-clip="{vor}clips/{clip["datei"]}"'
         f' data-titel="{titel}" data-modus="gross"{such}>',
+    ] + alink + [
         '  <button class="clip-start cl-clip" type="button" onclick="clipStart(this)"'
         f' aria-label="Clip abspielen: {titel}">',
         '    ' + nr,
         f'    <span class="cl-titel">{titel}</span>',
-    ] + amarke + [
         f'    <span class="cl-zeit">{mmss(clip.get("dauer_s", 0))}</span>',
         '  </button>',
     ] + marke + ['</div>']
