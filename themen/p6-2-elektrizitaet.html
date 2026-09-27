@@ -1413,7 +1413,7 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Wähle einen Fall und sage zuerst voraus, ob der FI auslöst — erst dann zeigt die Animation, was die Schalter tun.</li><li>Vergleiche «Strom hin» und «Strom zurück»: Für den FI zählt nur ihre Differenz.</li><li>Beim Menschen am Gehäuse: Erhöhe den Körperwiderstand. Ab wann löst der FI nicht mehr sicher aus — und ist der Strom dann harmlos?</li><li>Beim Kurzschluss: Welcher der beiden Schalter trennt?</li></ul></div>
+      <div class="ah-text"><ul><li>Wähle einen Fall und sage zuerst voraus, ob der FI auslöst — erst dann zeigt die Animation, was die Schalter tun.</li><li>Vergleiche «Strom hin» und «Strom zurück»: Für den FI zählt nur ihre Differenz.</li><li>Beim Menschen am Gehäuse: Erhöhe den Körperwiderstand. Ab wann löst der FI nicht mehr sicher aus — und ist der Strom dann harmlos?</li><li>Beim Kurzschluss: Welcher der beiden Schalter trennt?</li><li>\(R_\text{Schleife}\) ist der Widerstand des ganzen Fehlerwegs, Leitungen hin und zurück — hier \(2\;\Omega\) über den Schutzleiter und \(0.5\;\Omega\) beim Kurzschluss.</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -1431,7 +1431,7 @@ MathJax = {
       <label>Fall:</label>
       <div class="typ-btns" style="margin-bottom:0">
         <button class="typ-btn aktiv" data-fi="normal">Normalbetrieb</button>
-        <button class="typ-btn" data-fi="koerper">Mensch berührt defektes Gehäuse</button>
+        <button class="typ-btn" data-fi="koerper">Mensch am defekten Gehäuse, Schutzleiter fehlt</button>
         <button class="typ-btn" data-fi="pe">Defekt, Gehäuse am Schutzleiter</button>
         <button class="typ-btn" data-fi="kurz">Kurzschluss L–N</button>
       </div>
@@ -1452,7 +1452,7 @@ MathJax = {
     </div>
 
     <div class="formel-live">
-      <div class="fl-label">Was der FI vergleicht</div>
+      <div class="fl-label">Was der FI vergleicht — im Moment des Fehlers, bevor ein Schalter trennt</div>
       <div class="fl-eq" id="fi-eq1"></div>
       <div class="fl-eq" id="fi-eq2"></div>
     </div>
@@ -3581,17 +3581,23 @@ function fiRechne(){
   if(fiFall === 'koerper'){ IF = FI_U / RK; IL = Ilast + IF; }
   else if(fiFall === 'pe'){ IF = FI_U / FI_RPE; IL = Ilast + IF; }
   else if(fiFall === 'kurz'){ IK = FI_U / FI_RKURZ; IL = Ilast + IK; IN = IL; }
-  const dI = IL - IN, fak = dI / FI_IDN;
+  // Differenz direkt aus dem Fehlerstrom: IL − IN aus zwei grossen Zahlen
+  // rundete bei 11.5 mA einmal auf 11, einmal auf 12 mA
+  const dI = IF, fak = dI / FI_IDN;
   // FI: 'ja' (muss), 'kann' (darf, muss nicht), 'nein'
   const fi = fak >= 1 ? 'ja' : fak >= 0.5 ? 'kann' : 'nein';
   const zeit = fak >= 5 ? '40 ms' : fak >= 2 ? '150 ms' : '300 ms';
   const ls = IL >= 5 * FI_LSN;
   return { RK, Ilast, IL, IN, IF, IK, dI, fak, fi, zeit, ls };
 }
-const fiA  = I => I.toFixed(3) + ' A';
-const fiD  = I => I >= 1 ? I.toFixed(1) + ' A' : (I*1000).toFixed(0) + ' mA';
-const fiTA = I => texE(I.toFixed(3), 'A');
-const fiTD = I => I >= 1 ? texE(I.toFixed(1), 'A') : texE((I*1000).toFixed(0), 'mA');
+// Hin- und Rückstrom auf mA genau, solange eine Differenz im mA-Bereich zählt;
+// Fehler- und Kurzschlussströme von über 100 A nur auf 0.1 A
+const fiA  = I => I >= 100 ? I.toFixed(1) + ' A' : I.toFixed(4) + ' A';
+const fiD  = I => I >= 1 ? I.toFixed(1) + ' A' : I >= 0.1 ? (I*1000).toFixed(0) + ' mA'
+               : I > 0 ? (I*1000).toFixed(1) + ' mA' : '0 mA';
+const fiTA = I => texE(I >= 100 ? I.toFixed(1) : I.toFixed(4), 'A');
+const fiTD = I => I >= 1 ? texE(I.toFixed(1), 'A') : I >= 0.1 ? texE((I*1000).toFixed(0), 'mA')
+               : I > 0 ? texE((I*1000).toFixed(1), 'mA') : texE('0', 'mA');
 
 function fiRender(){
   const r = fiRechne();
@@ -3609,10 +3615,13 @@ function fiRender(){
   else if(fiFall === 'koerper')
     flTex('fi-eq1', ['I_\\text{K} = \\frac{U}{R_\\text{K}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(r.RK) + '}', '= ' + fiTD(r.IF)]);
   else if(fiFall === 'pe')
-    flTex('fi-eq1', ['I_\\text{F} = \\frac{U}{R_\\text{F}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(FI_RPE) + '}', '= ' + fiTD(r.IF)]);
+    flTex('fi-eq1', ['I_\\text{F} = \\frac{U}{R_\\text{Schleife}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(FI_RPE) + '}', '= ' + fiTD(r.IF)]);
   else
-    flTex('fi-eq1', ['I_\\text{Kurz} = \\frac{U}{R_\\text{Kurz}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(FI_RKURZ) + '}', '= ' + fiTD(r.IK)]);
-  flTex('fi-eq2', ['\\Delta I = I_\\text{L} - I_\\text{N}', '= ' + fiTA(r.IL) + ' - ' + fiTA(r.IN), '= ' + fiTD(r.dI)]);
+    flTex('fi-eq1', ['I_\\text{Kurz} = \\frac{U}{R_\\text{Schleife}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(FI_RKURZ) + '}', '= ' + fiTD(r.IK)]);
+  // Bei einem Fehler ist die Differenz genau der Fehlerstrom
+  flTex('fi-eq2', fiFall === 'koerper' || fiFall === 'pe'
+    ? ['\\Delta I = I_\\text{L} - I_\\text{N}', '= ' + (fiFall === 'koerper' ? 'I_\\text{K}' : 'I_\\text{F}'), '= ' + fiTD(r.dI)]
+    : ['\\Delta I = I_\\text{L} - I_\\text{N}', '= ' + fiTA(r.IL) + ' - ' + fiTA(r.IN), '= ' + fiTD(r.dI)]);
   fiDraw(r);
 }
 
