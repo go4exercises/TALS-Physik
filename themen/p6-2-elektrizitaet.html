@@ -519,14 +519,14 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Schalte zwischen den vier Fällen um und lies jedes Mal den angezeigten Wert.</li><li>Achte darauf, wo die Leitung aufgetrennt ist und wo nicht.</li><li>Vergleiche den Strom durch die Lampe in den vier Fällen.</li><li>Beim Amperemeter parallel: Schalte zwischen «Kurzschluss» und «Sicherung durchgebrannt» um und vergleiche Klemmenspannung, Lampe und Anzeige.</li><li>Schalte die Innenwiderstände aus und wieder ein: Was ändert sich bei den richtigen, was bei den falschen Anschlüssen?</li></ul></div>
+      <div class="ah-text"><ul><li>Schalte zwischen den vier Fällen um und lies jedes Mal den angezeigten Wert.</li><li>Achte darauf, wo die Leitung aufgetrennt ist und wo nicht.</li><li>Vergleiche den Strom durch die Lampe in den vier Fällen.</li><li>Beim Amperemeter parallel: Schalte zwischen «Kurzschluss» und «Sicherung durchgebrannt» um und vergleiche Klemmenspannung, Lampe und Anzeige.</li><li>Schalte auf «Ersatzschaltbild»: Jedes Element zeigt seinen Innenwiderstand, und an den Leitungen stehen die Ströme. Verfolge, wohin der Strom der Quelle fliesst.</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Amperemeter in Serie, Voltmeter parallel — jede andere Kombination misst falsch oder zerstört.</li><li>Der kleine Innenwiderstand des Amperemeters ist der Grund, warum es parallel gefährlich ist.</li><li>Das Voltmeter zweigt Strom ab; je grösser sein Innenwiderstand, desto weniger stört es.</li><li>Eine reale Quelle hat einen Innenwiderstand: Beim Kurzschluss bricht ihre Klemmenspannung ein, die Lampe wird fast dunkel.</li><li>Die Sicherung trennt den Messzweig; danach arbeitet der Kreis, als wäre das Gerät nicht da.</li><li>Ideale Geräte (\(R_\text{A} = 0\), \(R_\text{V} = \infty\)) messen ohne Rückwirkung. Beim Amperemeter parallel versagt das ideale Modell: Der Strom würde unendlich — erst \(R_\text{i}\) und \(R_\text{A}\) machen ihn endlich.</li></ul></div>
+      <div class="ah-text"><ul><li>Amperemeter in Serie, Voltmeter parallel — jede andere Kombination misst falsch oder zerstört.</li><li>Der kleine Innenwiderstand des Amperemeters ist der Grund, warum es parallel gefährlich ist.</li><li>Das Voltmeter zweigt Strom ab; je grösser sein Innenwiderstand, desto weniger stört es.</li><li>Eine reale Quelle hat einen Innenwiderstand: Beim Kurzschluss bricht ihre Klemmenspannung ein, die Lampe wird fast dunkel.</li><li>Die Sicherung trennt den Messzweig; danach arbeitet der Kreis, als wäre das Gerät nicht da.</li><li>Das Schaltbild zeigt, wie die Geräte angeschlossen sind; erst das Ersatzschaltbild mit \(R_\text{i}\), \(R_\text{A}\), \(R_\text{V}\) und \(R_\text{L}\) erklärt, welcher Strom wo fliesst. Gerechnet wird in beiden Ansichten dieselbe reale Schaltung.</li></ul></div>
     </div>
   </div>
 </div>
@@ -543,10 +543,10 @@ MathJax = {
       </div>
     </div>
     <div class="sl-row">
-      <label>Innenwiderstände:</label>
+      <label>Zeichnung:</label>
       <div class="typ-btns" style="margin-bottom:0">
-        <button class="typ-btn aktiv" data-mmi="mit">mit \(R_\text{i}\), \(R_\text{A}\), \(R_\text{V}\) (real)</button>
-        <button class="typ-btn" data-mmi="ohne">ohne (ideal)</button>
+        <button class="typ-btn aktiv" data-mmi="schaltbild">Schaltbild (Funktion)</button>
+        <button class="typ-btn" data-mmi="ersatz">Ersatzschaltbild (mit Innenwiderständen)</button>
       </div>
     </div>
     <div class="sl-row" id="mm-zust-row" style="display:none">
@@ -581,7 +581,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">🔌 Messgerät im Kreis</div>
-      <canvas id="mm-cv" height="250" role="img" aria-label="Stromkreis aus einer Quelle (12 Volt) und einer Lampe, wahlweise mit Innenwiderständen (Quelle 0.5 Ohm, Amperemeter 0.1 Ohm, Voltmeter 1 Megaohm) oder ideal ohne. Je nach gewählter Anschlussart sitzt das Messgerät in der aufgetrennten Leitung oder in einem eigenen Zweig parallel zur Lampe; der Messwert steht direkt am Gerät. Richtiger Anschluss ist grün, das Voltmeter in Serie orange. Beim Amperemeter parallel ist der Kurzschlusspfad rot hinterlegt, die Lampe fast dunkel; im Zustand Sicherung durchgebrannt ist die Sicherung im Messzweig offen, die Anzeige null und die Lampe leuchtet wieder."></canvas>
+      <canvas id="mm-cv" height="280" role="img" aria-label="Stromkreis aus einer realen Quelle (12 Volt, Innenwiderstand 0.5 Ohm) und einer Lampe, wahlweise als Schaltbild mit den gewöhnlichen Symbolen oder als Ersatzschaltbild, in dem jedes Element seinen Innenwiderstand zeigt (Quelle 0.5 Ohm, Amperemeter 0.1 Ohm, Voltmeter 1 Megaohm, Lampe als Widerstand) und die Ströme an den Leitungen stehen. Je nach gewählter Anschlussart sitzt das Messgerät in der aufgetrennten Leitung oder in einem eigenen Zweig parallel zur Lampe; der Messwert steht direkt am Gerät. Richtiger Anschluss ist grün, das Voltmeter in Serie orange. Beim Amperemeter parallel ist der Kurzschlusspfad rot hinterlegt, die Lampe fast dunkel; im Zustand Sicherung durchgebrannt ist die Sicherung im Messzweig offen, die Anzeige null und die Lampe leuchtet wieder."></canvas>
     </div>
 
   </div>
@@ -2703,110 +2703,128 @@ document.querySelectorAll('[data-a6sz]').forEach(b => b.addEventListener('click'
 //  198.3 mA; Voltmeter parallel 11.90 V.
 // ══════════════════════════════════════════════════════════
 const MM_U = 12, MM_RI = 0.5, MM_RA = 0.1, MM_RV = 1e6;
-let mmArt = 'a-serie', mmDurch = false, mmIdeal = false;
+// mmErsatz: nur die Zeichnung — gerechnet wird immer die reale Schaltung
+let mmArt = 'a-serie', mmDurch = false, mmErsatz = false;
 
-// Parallelschaltung, auch mit 0 und ∞ (ideales Ampere- bzw. Voltmeter)
-const mmPar = (a, b) => (a === 0 || b === 0) ? 0 : (a === Infinity ? b : (b === Infinity ? a : 1 / (1/a + 1/b)));
+const mmPar = (a, b) => 1 / (1/a + 1/b);
 // Strom mit passender Einheit (Live-Box, Canvas)
-const mmI = I => I === Infinity ? '∞' : I >= 1 ? I.toFixed(2) + ' A' : I >= 1e-3 ? (I*1000).toFixed(1) + ' mA'
-              : I > 0 ? (I*1e6).toFixed(1) + ' µA' : '0 A';
-const mmR = R => R === Infinity ? '∞' : R >= 1000 ? (R/1000).toFixed(0) + ' kΩ' : R.toFixed(2) + ' Ω';
+const mmI = I => I === 0 ? '0 A' : I >= 1 ? I.toFixed(2) + ' A' : I >= 1e-3 ? (I*1000).toFixed(1) + ' mA' : (I*1e6).toFixed(1) + ' µA';
 
 function mmRechne(){
   const RL = +document.getElementById('mm-R').value;
   const durch = (mmArt === 'a-parallel' && mmDurch);
-  // «ohne» = ideales Modell: R_i = 0, R_A = 0, R_V = ∞
-  const ri = mmIdeal ? 0 : MM_RI, ra = mmIdeal ? 0 : MM_RA, rv = mmIdeal ? Infinity : MM_RV;
   // Aussenwiderstand an den Klemmen der Quelle und sein Formelzeichen
   const fall = {
-    'a-serie':    { Ra: RL + ra,          sym: 'R_\\text{L} + R_\\text{A}' },
-    'a-parallel': durch ? { Ra: RL,       sym: 'R_\\text{L}' }
-                        : { Ra: mmPar(RL, ra), sym: '(R_\\text{L} \\parallel R_\\text{A})' },
-    'v-parallel': { Ra: mmPar(RL, rv),    sym: '(R_\\text{L} \\parallel R_\\text{V})' },
-    'v-serie':    { Ra: RL + rv,          sym: 'R_\\text{L} + R_\\text{V}' }
+    'a-serie':    { Ra: RL + MM_RA,        sym: 'R_\\text{L} + R_\\text{A}' },
+    'a-parallel': durch ? { Ra: RL,        sym: 'R_\\text{L}' }
+                        : { Ra: mmPar(RL, MM_RA), sym: '(R_\\text{L} \\parallel R_\\text{A})' },
+    'v-parallel': { Ra: mmPar(RL, MM_RV),  sym: '(R_\\text{L} \\parallel R_\\text{V})' },
+    'v-serie':    { Ra: RL + MM_RV,        sym: 'R_\\text{L} + R_\\text{V}' }
   }[mmArt];
-  const Rg = ri + fall.Ra;
-  const I  = Rg === 0 ? Infinity : MM_U / Rg;          // ideal kurzgeschlossen: unbegrenzt
-  const Uk = ri === 0 ? MM_U : MM_U - I * ri;          // Klemmenspannung
-  let IL, anzeige, ok;
-  if(mmArt === 'a-serie'){          IL = I;       anzeige = mmI(I);                  ok = 'richtig'; }
+  const Rg = MM_RI + fall.Ra;
+  const I  = MM_U / Rg;                       // Strom aus der Quelle
+  const Uk = MM_U - I * MM_RI;                // Klemmenspannung
+  let IL, IM, anzeige, ok;                    // IM: Strom durch den Zweig des Messgeräts
+  if(mmArt === 'a-serie'){          IL = I;       IM = I;           anzeige = mmI(I);                 ok = 'richtig'; }
   else if(mmArt === 'a-parallel'){
-    if(durch){                      IL = I;       anzeige = '0.00 A';                ok = 'Sicherung zerstört'; }
-    else {                          IL = Uk / RL; anzeige = ra === 0 ? '∞' : mmI(Uk / ra); ok = 'Kurzschluss'; }
+    if(durch){                      IL = I;       IM = 0;           anzeige = '0.00 A';               ok = 'Sicherung zerstört'; }
+    else {                          IL = Uk / RL; IM = Uk / MM_RA;  anzeige = mmI(IM);                ok = 'Kurzschluss'; }
   }
-  else if(mmArt === 'v-parallel'){  IL = Uk / RL; anzeige = Uk.toFixed(2) + ' V';    ok = 'richtig'; }
-  else {                            IL = I;       anzeige = (Uk - I * RL).toFixed(2) + ' V'; ok = 'Lampe bleibt dunkel'; }
+  else if(mmArt === 'v-parallel'){  IL = Uk / RL; IM = Uk / MM_RV;  anzeige = Uk.toFixed(2) + ' V';   ok = 'richtig'; }
+  else {                            IL = I;       IM = I;           anzeige = (I * MM_RV).toFixed(2) + ' V'; ok = 'Lampe bleibt dunkel'; }
   // Helligkeit: Anteil der Leistung, die die Lampe an der vollen Quellenspannung hätte
   const hell = Math.min(1, (IL * IL * RL) / (MM_U * MM_U / RL));
-  return { RL, Ra: fall.Ra, sym: fall.sym, Rg, I, Uk, IL, hell, anzeige, ok, durch, ri, ra, rv };
+  return { RL, Ra: fall.Ra, sym: fall.sym, Rg, I, Uk, IL, IM, hell, anzeige, ok, durch };
 }
 
 function mmRender(){
   const r = mmRechne();
   document.getElementById('mm-R-val').textContent = r.RL + ' Ω';
   document.getElementById('mm-zust-row').style.display = mmArt === 'a-parallel' ? '' : 'none';
-  document.getElementById('mm-Rg').textContent  = mmR(r.Rg);
+  document.getElementById('mm-Rg').textContent =
+      r.Rg >= 1000 ? (r.Rg/1000).toFixed(0) + ' kΩ' : r.Rg.toFixed(2) + ' Ω';
   document.getElementById('mm-I').textContent   = mmI(r.I);
   document.getElementById('mm-Uk').textContent  = r.Uk.toFixed(2) + ' V';
   document.getElementById('mm-IL').textContent  = mmI(r.IL);
   document.getElementById('mm-anz').textContent = r.anzeige;
   document.getElementById('mm-ok').textContent  = r.ok;
-  const tIm = I => I === Infinity ? '\\infty' : I === 0 ? texE('0','A') : I >= 1 ? texE(I.toFixed(2),'A') : tI(I);
-  const tRa = R => R === Infinity ? '\\infty' : R === 0 ? texO('0') : R >= 1000 ? tR(R) : texO(R < 1 ? R.toFixed(3) : R.toFixed(1));
-  const nenner = mmIdeal ? r.sym.replace(/^\(|\)$/g, '') : 'R_\\text{i} + ' + r.sym;
-  const zahlen = mmIdeal ? tRa(r.Ra) : texO(MM_RI.toFixed(1)) + ' + ' + tRa(r.Ra);
-  flTex('mm-eq', ['I = \\frac{U_0}{' + nenner + '}',
-                  '= \\frac{' + texE(MM_U.toFixed(1),'V') + '}{' + zahlen + '}',
-                  (r.I === Infinity ? '\\rightarrow ' : '= ') + tIm(r.I)]);
-  flTex('mm-eq2', mmIdeal
-    ? ['U_\\text{K} = U_0', '= ' + texE(MM_U.toFixed(2),'V') + '\\quad\\text{(ideale Quelle)}']
-    : ['U_\\text{K} = U_0 - I\\cdot R_\\text{i}',
-       '= ' + texE(MM_U.toFixed(1),'V') + ' - ' + tIm(r.I) + '\\cdot ' + texO(MM_RI.toFixed(1)),
-       '= ' + texE(r.Uk.toFixed(2),'V')]);
+  const rA  = r.Ra >= 1000 ? tR(r.Ra) : texO(r.Ra < 1 ? r.Ra.toFixed(3) : r.Ra.toFixed(1));
+  const tIm = I => I >= 1 ? texE(I.toFixed(2),'A') : tI(I);   // wie in der Live-Box
+  flTex('mm-eq', ['I = \\frac{U_0}{R_\\text{i} + ' + r.sym + '}',
+                  '= \\frac{' + texE(MM_U.toFixed(1),'V') + '}{' + texO(MM_RI.toFixed(1)) + ' + ' + rA + '}',
+                  '= ' + tIm(r.I)]);
+  flTex('mm-eq2', ['U_\\text{K} = U_0 - I\\cdot R_\\text{i}',
+                   '= ' + texE(MM_U.toFixed(1),'V') + ' - ' + tIm(r.I) + '\\cdot ' + texO(MM_RI.toFixed(1)),
+                   '= ' + texE(r.Uk.toFixed(2),'V')]);
   mmDraw(r);
 }
 
+// ── Zeichnung ───────────────────────────────────────────────
+// Schaltbild: gewöhnliche Symbole, zeigt die Funktion.
+// Ersatzschaltbild: jedes Element mit Innenwiderstand — Quelle = ideale Quelle
+// + R_i in Serie, Amperemeter = Messwerk + R_A in Serie, Voltmeter = Messwerk
+// mit R_V parallel, Lampe = Widerstand R_L; dazu die Ströme an den Leitungen.
+function mmBox(ctx, x, y, w, h, fill){             // Widerstand (Norm-Rechteck)
+  ctx.fillStyle = fill || '#fff'; ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 1.8;
+  ctx.fillRect(x - w/2, y - h/2, w, h); ctx.strokeRect(x - w/2, y - h/2, w, h);
+}
+function mmIdx(ctx, x, y, haupt, idx, rest, align, farbe){   // «R» + tiefer Index + Rest
+  const f1 = '11px "Source Sans 3",sans-serif', f2 = '8px "Source Sans 3",sans-serif';
+  ctx.font = f1; const w1 = ctx.measureText(haupt).width, w3 = ctx.measureText(rest).width;
+  ctx.font = f2; const w2 = ctx.measureText(idx).width;
+  const w = w1 + w2 + w3;
+  let x0 = align === 'right' ? x - w : align === 'center' ? x - w/2 : x;
+  ctx.fillStyle = farbe || '#5c554c'; ctx.textAlign = 'left';
+  ctx.font = f1; ctx.fillText(haupt, x0, y); x0 += w1;
+  ctx.font = f2; ctx.fillText(idx, x0, y + 3); x0 += w2;
+  ctx.font = f1; ctx.fillText(rest, x0, y);
+  return w;
+}
+
 function mmDraw(r){
-  const cv = initCanvas('mm-cv', 250, false); if(!cv) return;
+  const cv = initCanvas('mm-cv', 280, false); if(!cv) return;
   const ctx = cv.ctx, W = cv.W, H = cv.H;
-  const L = Math.max(60, W*0.12), R = W - Math.max(40, W*0.12), T = H*0.30, B = H*0.78, my = (T+B)/2;
+  const schmal = W < 520, E = mmErsatz;
+  // Rechts Platz für R_L und I_L neben der Lampe (schmal: «198.3 mA» sonst abgeschnitten)
+  const L = Math.max(62, W*0.12), R = W - (schmal ? 58 : Math.max(46, W*0.12)), T = H*0.26, B = H*0.74, my = (T+B)/2;
   const serie  = (mmArt === 'a-serie' || mmArt === 'v-serie');
   const aPar   = (mmArt === 'a-parallel');
   const gefahr = aPar && !r.durch;                     // Moment des Kurzschlusses
   const richtig = (mmArt === 'a-serie' || mmArt === 'v-parallel');
   // Grün = richtig, Rot = zerstört das Gerät, Orange = harmlos, aber nutzlos
   const farbe = richtig ? '#1f6b3a' : (aPar ? '#9b1c1c' : '#b45309');
+  const STROM = '#0f6b66';
   const mx = (L+R)/2;                                  // Serie: oben in der Leitung
-  const xp = R - Math.min(120, (R-L)*0.32);            // parallel: eigener Zweig neben der Lampe
+  const xp = R - (schmal ? 48 : Math.min(120, (R-L)*0.32));   // parallel: eigener Zweig
   const rM = 18, rL = 15;
   ctx.lineCap = 'butt'; ctx.lineJoin = 'round';
 
-  // Kurzschlusspfad zuerst, damit die Leitungen darüber liegen:
-  // Quelle → oberer Knoten → Amperemeter → unterer Knoten → Quelle
+  // Kurzschlusspfad zuerst, damit die Leitungen darüber liegen
   if(gefahr){
     ctx.strokeStyle = 'rgba(155,28,28,0.28)'; ctx.lineWidth = 12;
     ctx.beginPath(); ctx.moveTo(L, my); ctx.lineTo(L, T); ctx.lineTo(xp, T); ctx.lineTo(xp, B);
     ctx.lineTo(L, B); ctx.lineTo(L, my); ctx.stroke();
   }
 
-  // Leitungen
+  // Leitungen (Lücken für Serie-Gerät und Lampe)
   ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.4;
+  const lampH = E ? 17 : rL;
   ctx.beginPath();
   if(serie){ ctx.moveTo(L,T); ctx.lineTo(mx-rM,T); ctx.moveTo(mx+rM,T); ctx.lineTo(R,T); }
   else     { ctx.moveTo(L,T); ctx.lineTo(R,T); }
-  ctx.lineTo(R, my-rL); ctx.moveTo(R, my+rL); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
+  ctx.lineTo(R, my-lampH); ctx.moveTo(R, my+lampH); ctx.lineTo(R, B); ctx.lineTo(L, B); ctx.lineTo(L, T);
   ctx.stroke();
+
+  // Messzweig parallel zur Lampe
   if(!serie){
-    // Zweig des Messgeräts: an denselben zwei Knoten wie die Lampe
     ctx.strokeStyle = gefahr ? '#9b1c1c' : (r.durch ? '#9a938a' : '#3f3a33'); ctx.lineWidth = gefahr ? 3.4 : 2.4;
     ctx.beginPath(); ctx.moveTo(xp, T); ctx.lineTo(xp, my-rM); ctx.moveTo(xp, my+rM); ctx.lineTo(xp, B); ctx.stroke();
     ctx.fillStyle = '#3f3a33';
     [T, B].forEach(y => { ctx.beginPath(); ctx.arc(xp, y, 4, 0, 6.283); ctx.fill(); });
   }
   if(aPar){
-    // Gerätesicherung im Messzweig, zwischen oberem Knoten und Messwerk:
-    // Kästchen mit Schmelzdraht; durchgebrannt ist der Draht in der Mitte offen.
-    const fy = (T + my - rM) / 2, fh = Math.min(24, (my - rM - T) - 8), fw = 11;
+    // Gerätesicherung zwischen oberem Knoten und Messwerk; durchgebrannt offen
+    const fy = (T + my - rM) / 2, fh = Math.min(22, (my - rM - T) - 8), fw = 11;
     ctx.fillStyle = '#fff'; ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 1.8;
     ctx.fillRect(xp - fw/2, fy - fh/2, fw, fh); ctx.strokeRect(xp - fw/2, fy - fh/2, fw, fh);
     ctx.strokeStyle = r.durch ? '#9b1c1c' : '#3f3a33'; ctx.lineWidth = 1.6;
@@ -2815,84 +2833,117 @@ function mmDraw(r){
     else       { ctx.moveTo(xp, fy - fh/2); ctx.lineTo(xp, fy + fh/2); }
     ctx.stroke();
     ctx.fillStyle = r.durch ? '#9b1c1c' : '#5c554c'; ctx.font = '11px "Source Sans 3",sans-serif';
-    // Breit rechts vom Kästchen; schmal links davon, sonst läuft sie in die Lampe
-    const schmal = W < 520;
     ctx.textAlign = schmal ? 'right' : 'left';
     ctx.fillText(r.durch ? 'Sicherung offen' : 'Sicherung', schmal ? xp - fw/2 - 5 : xp + fw/2 + 5, fy + 4);
   }
-  // Quelle: real = ideale Spannungsquelle und Innenwiderstand R_i in Serie;
-  // ideal (Knopf «ohne») nur die Spannungsquelle
-  const qy = mmIdeal ? my : my - 16, riY = my + 24, riH = 24, riW = 12;
+
+  // Quelle: Schaltbild nur Spannungsquelle; Ersatzschaltbild + R_i in Serie
+  const qy = E ? my - 18 : my, riY = my + 22;
   quelle(ctx, L, qy, '');
-  if(!mmIdeal){
-    ctx.clearRect(L - 3, riY - riH/2, 6, riH);
-    ctx.fillStyle = '#fff'; ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 1.8;
-    ctx.fillRect(L - riW/2, riY - riH/2, riW, riH); ctx.strokeRect(L - riW/2, riY - riH/2, riW, riH);
+  if(E){
+    ctx.clearRect(L - 3, riY - 12, 6, 24);
+    mmBox(ctx, L, riY, 12, 24);
   }
   ctx.fillStyle = '#5c554c'; ctx.font = '12px "Source Sans 3",sans-serif';
-  if(W < 520){
-    // Schmal: aussen links; innen läge das Anzeigefeld des Messgeräts darüber
-    ctx.textAlign = 'right';
-    ctx.fillText('U₀ = ' + MM_U + ' V', L - 6, qy - 16);
-    if(!mmIdeal) ctx.fillText('Rᵢ = ' + MM_RI.toFixed(1) + ' Ω', L - 9, riY + 4);
+  if(schmal){
+    ctx.textAlign = 'right'; ctx.fillText('U₀ = ' + MM_U + ' V', L - 6, qy - 16);
+    if(E) mmIdx(ctx, L - 9, riY + 4, 'R', 'i', ' = ' + MM_RI.toFixed(1) + ' Ω', 'right');
   } else {
-    ctx.textAlign = 'left';
-    ctx.fillText('U₀ = ' + MM_U + ' V', L + 12, qy + 4);
-    if(!mmIdeal) ctx.fillText('Rᵢ = ' + MM_RI.toFixed(1) + ' Ω', L + 12, riY + 4);
+    ctx.textAlign = 'left'; ctx.fillText('U₀ = ' + MM_U + ' V', L + 12, qy + 4);
+    if(E) mmIdx(ctx, L + 12, riY + 4, 'R', 'i', ' = ' + MM_RI.toFixed(1) + ' Ω', 'left');
   }
 
-  // Lampe rechts; Helligkeit nach der Leistung, die sie wirklich bekommt
-  // (Kurzschluss: rund 3 % — praktisch dunkel)
+  // Lampe: Helligkeit nach der Leistung, die sie wirklich bekommt
   const h = r.hell;
   if(h > 0.02){
     const grd = ctx.createRadialGradient(R, my, 2, R, my, 34);
     grd.addColorStop(0, 'rgba(255,210,60,' + (0.75*h).toFixed(3) + ')'); grd.addColorStop(1, 'rgba(255,210,60,0)');
     ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(R, my, 34, 0, 6.283); ctx.fill();
   }
-  ctx.fillStyle = h > 0.02 ? 'rgba(255,200,40,' + (0.15 + 0.75*h).toFixed(3) + ')' : '#e7ddcd';
-  ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
-  ctx.beginPath(); ctx.arc(R, my, rL, 0, 6.283); ctx.fill(); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(R-10.6, my-10.6); ctx.lineTo(R+10.6, my+10.6);
-  ctx.moveTo(R+10.6, my-10.6); ctx.lineTo(R-10.6, my+10.6); ctx.stroke();
+  const lampFill = h > 0.02 ? 'rgba(255,200,40,' + (0.15 + 0.75*h).toFixed(3) + ')' : '#e7ddcd';
+  if(E){
+    // Lampe als ihr Widerstand R_L
+    mmBox(ctx, R, my, 14, 34, lampFill);
+    mmIdx(ctx, R + 11, my - 4, 'R', 'L', '', 'left');
+    ctx.font = '11px "Source Sans 3",sans-serif'; ctx.fillStyle = '#5c554c'; ctx.textAlign = 'left';
+    ctx.fillText(r.RL + ' Ω', R + 11, my + 9);
+  } else {
+    ctx.fillStyle = lampFill; ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
+    ctx.beginPath(); ctx.arc(R, my, rL, 0, 6.283); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(R-10.6, my-10.6); ctx.lineTo(R+10.6, my+10.6);
+    ctx.moveTo(R+10.6, my-10.6); ctx.lineTo(R-10.6, my+10.6); ctx.stroke();
+  }
 
-  // Messgerät
+  // Messgerät (Messwerk)
   const gx = serie ? mx : xp, gy = serie ? T : my;
+  const istA = mmArt.charAt(0) === 'a';
+  // Ersatzschaltbild: Innenwiderstand des Geräts
+  if(E){
+    ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2;
+    if(istA && serie){                         // R_A in Serie, rechts neben dem Messwerk
+      const bx = gx + rM + 24;
+      ctx.clearRect(bx - 14, T - 3, 28, 6); mmBox(ctx, bx, T, 26, 12);
+      mmIdx(ctx, bx, T + 20, 'R', 'A', ' = ' + MM_RA + ' Ω', 'center');
+    } else if(istA){                           // R_A in Serie unter dem Messwerk
+      const by = (my + rM + B) / 2;
+      ctx.clearRect(xp - 3, by - 11, 6, 22); mmBox(ctx, xp, by, 12, 20);
+      mmIdx(ctx, xp + 10, by + 4, 'R', 'A', ' = ' + MM_RA + ' Ω', 'left');
+    } else if(serie){                          // R_V parallel zum Messwerk, darunter
+      const yb = T + 36, xl = gx - rM - 8, xr = gx + rM + 8;
+      ctx.beginPath(); ctx.moveTo(xl, T); ctx.lineTo(xl, yb); ctx.lineTo(gx - 15, yb);
+      ctx.moveTo(gx + 15, yb); ctx.lineTo(xr, yb); ctx.lineTo(xr, T); ctx.stroke();
+      mmBox(ctx, gx, yb, 30, 12);
+      [xl, xr].forEach(x => { ctx.fillStyle = '#3f3a33'; ctx.beginPath(); ctx.arc(x, T, 3, 0, 6.283); ctx.fill(); });
+      mmIdx(ctx, gx, yb + 20, 'R', 'V', ' = 1 MΩ', 'center');
+    } else {                                   // R_V parallel zum Messwerk, links daneben
+      const yo = my - rM - 8, yu = my + rM + 8, xb = xp - 30;
+      ctx.beginPath(); ctx.moveTo(xp, yo); ctx.lineTo(xb, yo); ctx.lineTo(xb, my - 13);
+      ctx.moveTo(xb, my + 13); ctx.lineTo(xb, yu); ctx.lineTo(xp, yu); ctx.stroke();
+      mmBox(ctx, xb, my, 12, 26);
+      [yo, yu].forEach(y => { ctx.fillStyle = '#3f3a33'; ctx.beginPath(); ctx.arc(xp, y, 3, 0, 6.283); ctx.fill(); });
+      mmIdx(ctx, xb, yu + 16, 'R', 'V', ' = 1 MΩ', 'center');
+    }
+  }
   ctx.fillStyle = '#fff'; ctx.strokeStyle = farbe; ctx.lineWidth = 2.6;
   ctx.beginPath(); ctx.arc(gx, gy, rM, 0, 6.283); ctx.fill(); ctx.stroke();
   ctx.fillStyle = farbe; ctx.font = 'bold 16px "Source Sans 3",sans-serif'; ctx.textAlign = 'center';
-  ctx.fillText(mmArt.charAt(0) === 'a' ? 'A' : 'V', gx, gy+6);
+  ctx.fillText(istA ? 'A' : 'V', gx, gy+6);
 
   // Messwert direkt am Gerät: bei Serie darüber, bei parallel links daneben
   ctx.font = 'bold 13px "JetBrains Mono",monospace';
   const aw = ctx.measureText(r.anzeige).width + 16, ah = 22;
-  const ax = serie ? gx : gx - rM - 10 - aw/2, ay = serie ? gy - rM - 8 - ah/2 : gy;
+  const links = (E && !serie && !istA) ? xp - 30 - 10 : gx - rM - 10;   // Ersatz-V: links vom R_V
+  const ax = serie ? gx : links - aw/2, ay = serie ? gy - rM - 8 - ah/2 : gy;
   ctx.fillStyle = '#fff'; ctx.strokeStyle = farbe; ctx.lineWidth = 1.6;
   ctx.beginPath(); ctx.roundRect(ax-aw/2, ay-ah/2, aw, ah, 5); ctx.fill(); ctx.stroke();
   ctx.fillStyle = farbe; ctx.fillText(r.anzeige, ax, ay+4.5);
-  // Innenwiderstand des Geräts (nur im realen Modell): unter dem Gerät bzw. unter dem Anzeigefeld
-  if(!mmIdeal){
-    // «R» + tiefgestellter Grossbuchstabe (Unicode hat kein tiefes A/V) + Wert
-    const idx = mmArt.charAt(0) === 'a' ? 'A' : 'V';
-    const rest = idx === 'A' ? ' = ' + MM_RA + ' Ω' : ' = 1 MΩ';
-    const f1 = '11px "Source Sans 3",sans-serif', f2 = '8px "Source Sans 3",sans-serif';
-    ctx.font = f1; const w1 = ctx.measureText('R').width, w3 = ctx.measureText(rest).width;
-    ctx.font = f2; const w2 = ctx.measureText(idx).width;
-    const cxT = serie ? gx : ax, yT = serie ? gy + rM + 14 : ay + ah/2 + 13;
-    let x = cxT - (w1 + w2 + w3) / 2;
-    ctx.fillStyle = '#5c554c'; ctx.textAlign = 'left';
-    ctx.font = f1; ctx.fillText('R', x, yT); x += w1;
-    ctx.font = f2; ctx.fillText(idx, x, yT + 3); x += w2;
-    ctx.font = f1; ctx.fillText(rest, x, yT);
-  }
   if(gefahr){
     ctx.font = '18px sans-serif'; ctx.fillText('⚡', gx+rM+10, gy-rM+4);
+  }
+
+  // Ersatzschaltbild: Ströme an den Leitungen (technische Stromrichtung)
+  if(E){
+    ctx.font = '11px "Source Sans 3",sans-serif';
+    // Quelle: zurück über die untere Leitung nach links zum Minuspol
+    const x1 = L + 18, x2 = L + 48;
+    drawArrow(ctx, x2, B, x1, B, STROM, 2, 7);
+    mmIdx(ctx, x2 + 6, B - 6, 'I', '', ' = ' + mmI(r.I), 'left', STROM);
+    // Lampe: nach unten
+    drawArrow(ctx, R, my + lampH + 4, R, my + lampH + 20, STROM, 2, 7);
+    mmIdx(ctx, R + 8, my + lampH + 14, 'I', 'L', '', 'left', STROM);
+    ctx.font = '11px "Source Sans 3",sans-serif'; ctx.fillStyle = STROM; ctx.textAlign = 'left';
+    ctx.fillText(mmI(r.IL), R + 8, my + lampH + 27);
+    // Messzweig parallel: Strom durch das Gerät
+    if(!serie){
+      const idx = istA ? 'A' : 'V';
+      mmIdx(ctx, xp - 9, T + 16, '↓ I', idx, ' = ' + mmI(r.IM), 'right', STROM);
+    }
   }
 
   // Urteil und Begründung
   const hinweis = {
     'a-serie':    'Der ganze Strom fliesst durch das Gerät.',
     'a-parallel': r.durch ? 'Zweig offen: Lampe leuchtet, Anzeige 0 A.'
-                : mmIdeal ? 'Ideal: Strom unbegrenzt, Modell versagt.'
                           : 'Spannung bricht ein: Lampe fast dunkel.',
     'v-parallel': 'Gerät und Lampe an denselben zwei Knoten.',
     'v-serie':    'Das Voltmeter bremst den Strom fast auf null.'
@@ -2904,11 +2955,11 @@ function mmDraw(r){
   }[mmArt];
   ctx.textAlign = 'center';
   ctx.fillStyle = farbe; ctx.font = 'bold 14px "Source Sans 3",sans-serif';
-  ctx.fillText(urteil, (L+R)/2, B+22);
+  ctx.fillText(urteil, W/2, B + 26);
   ctx.fillStyle = aPar ? '#9b1c1c' : '#5c554c';
   let fs = 12; ctx.font = (aPar ? 'bold ' : '') + fs + 'px "Source Sans 3",sans-serif';
   while(fs > 10 && ctx.measureText(hinweis).width > W - 12){ fs--; ctx.font = (aPar ? 'bold ' : '') + fs + 'px "Source Sans 3",sans-serif'; }
-  ctx.fillText(hinweis, W/2, B+40);
+  ctx.fillText(hinweis, W/2, B + 44);
 }
 
 function mmInit(){
@@ -2925,7 +2976,7 @@ function mmInit(){
   const ib = document.querySelectorAll('[data-mmi]');
   ib.forEach(b => b.addEventListener('click', () => {
     ib.forEach(o => o.classList.toggle('aktiv', o === b));
-    mmIdeal = b.dataset.mmi === 'ohne'; mmRender();
+    mmErsatz = b.dataset.mmi === 'ersatz'; mmRender();
   }));
   const r = document.getElementById('mm-R');
   if(r) r.addEventListener('input', mmRender);
