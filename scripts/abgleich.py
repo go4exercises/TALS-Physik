@@ -166,7 +166,12 @@ OFFEN = [
              'und "bild" in den beiden Ausnahmelisten ("graf", "bild", "strich") fuer die '
              'Breite. 12 Zeilen. Doku: HOWTO-clips.md, Tabelle Elementtypen + Absatz «bild». '
              'Anlass: Clip zu einer einzelnen Animation (p6-2-fi-stromvergleich), der deren '
-             'Skizze zeigt. Ohne Uebernahme sinkt die KERN-Aehnlichkeit von build-clips.py '
+             'Skizze zeigt. Seit 91bd722/586c637 dazu: bild nimmt JPG/PNG (data:-URL); '
+             'Drehbuch-Feld animation (Anker des h3) wandert nach clips.json; '
+             'build-clips-einbau.py setzt «▶ Clip» in die .widget-titelzeile (Marker '
+             'CLIP-ANIM), eigene Gruppe auf der Lektionsseite, Zeilen cl-anim mit Marke und '
+             'Link «zur Animation»; style.css .ah-clip-knopf/.cl-anim*; Werkzeug '
+             '.claude/tools/aufnahme-anim.mjs. Ohne Uebernahme sinkt die KERN-Aehnlichkeit von build-clips.py '
              '(Physik 78.2 -> 78.0 %); Grundlinie dann auf 0.780 senken oder uebernehmen.'),
     dict(quelle='Physik', was='clipBuehne: Fokus in den Clip (Fehler, 27.09.2026)',
          wie='mathlib.js Z. 466 setzt den Fokus nach dem Oeffnen der Buehne auf .cb-zu. '

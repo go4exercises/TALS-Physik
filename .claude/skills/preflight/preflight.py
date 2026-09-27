@@ -153,6 +153,9 @@ def check_resources_section(text, fname, rep):
     if not m:
         return
     block = m.group(0)
+    # Der generierte Clip-Block folgt auf die Ressourcen und hat eigene Links
+    # («zur Animation») — er gehoert nicht zur Zaehlung
+    block = block.split('<!-- CLIPS:ANFANG', 1)[0]
     a_open = len(re.findall(r'<a [^>]*class="lk', block))
     a_close = len(re.findall(r"</a>", block))
     if a_open and a_open != a_close:

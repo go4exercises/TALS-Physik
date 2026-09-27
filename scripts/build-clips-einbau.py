@@ -210,7 +210,7 @@ def auch_in(clip, ids, seiten):
     return "auch in " + " und ".join([", ".join(nummern[:-1]), nummern[-1]])
 
 
-def zeile(clip, vor="", nuance=1, suche=None, auch="", anker=None):
+def zeile(clip, vor="", nuance=1, suche=None, auch="", anker=None, animlink=None):
     """Eine Clip-Zeile: Nummer, Titel, Laufzeit. Sonst nichts.
 
     Dieselbe Zeile in der Bibliothek und auf der Lektionsseite — es ist
@@ -242,6 +242,9 @@ def zeile(clip, vor="", nuance=1, suche=None, auch="", anker=None):
     anim = clip.get("animation")
     kl = f"clip cl-r{nuance}" + (" cl-anim" if anim else "")
     amarke = ['    <span class="cl-animtag">Animation</span>'] if anim else []
+    # Rueckweg zur Animation, die der Clip erklaert — unter der Zeile wie «auch in»
+    if anim and animlink:
+        marke = marke + [f'    <a class="cl-animlink" href="{animlink}">zur Animation</a>']
     return [
         f'<div class="{kl}"{id_} data-clip="{vor}clips/{clip["datei"]}"'
         f' data-titel="{titel}" data-modus="gross"{such}>',
@@ -342,7 +345,8 @@ def block_lektion(clips, tiefe, code=None):
                    f' style="grid-template-rows: repeat({-(-len(gruppe) // 2)}, auto)">')
         for c in gruppe:
             aus += ["  " + z for z in
-                    zeile(c, vor, nuance[c.get("reihe") or c["titel"]])]
+                    zeile(c, vor, nuance[c.get("reihe") or c["titel"]],
+                          animlink=("#" + c["animation"]) if c.get("animation") else None)]
         aus.append('</div>')
 
     tk = [(c, transkript(c["datei"])) for c in clips]
@@ -443,7 +447,9 @@ def block_bibliothek(alle, seiten):
             aus += ["      " + z for z in
                     zeile(c, "", nuance[c.get("reihe") or c["titel"]],
                           suche=suchtext(c), auch=auch_in(c, ids, seiten),
-                          anker=anker)]
+                          anker=anker,
+                          animlink=(seiten[eigene[0]]["url"] + "#" + c["animation"])
+                          if c.get("animation") and eigene else None)]
         if letzte is not None:
             aus.append('    </div>')
         aus += ['  </div>', '</div>']

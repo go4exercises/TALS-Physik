@@ -166,7 +166,7 @@ setzen. Das Drehbuch trägt dazu `"animation": "<Anker des h3>"`, die Reihe
 Titelzeile der Animation, neben «Erkenntnis» (zwischen den Markern
 `<!-- CLIP-ANIM … -->`, nie von Hand ändern), stellt den Clip auf der
 Lektionsseite in eine eigene Gruppe «Clips zu den Animationen» und hebt ihn
-dort wie in `clips.html` in Bernstein mit der Marke «Animation» ab.
+dort wie in `clips.html` in Bernstein mit der Marke «Animation» ab; unter jeder solchen Zeile führt «↗ zur Animation» zurück zur Animation.
 
 `bild` nimmt auch JPG und PNG: Aufnahmen der Animation selbst, gemacht mit
 `node .claude/tools/aufnahme-anim.mjs <plan.json>` (Zustände per Klick,
