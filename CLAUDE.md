@@ -164,12 +164,15 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   persönliche Modell `de_CH-kohler-medium` wird **nicht** verwendet. Kein
   Stimmmodell gehört ins Repo.
 
-  **Aussprache von Fremdwörtern:** `AUSSPRACHE` in `build-clip-ton.py` setzt
-  für Wörter, die Thorsten falsch liest, eine feste Lautschrift ein — nur im
-  Text an Piper, Transkript und Suchindex behalten die Schreibweise. Stand
-  27.09.2026 (nach Hörproben entschieden): Ampere «am-PÄÄR» [ampˈɛːɾ],
-  Coulomb «ku-LOO» [kulˈoː], auch in Milliampere, Amperemeter usw. Ein neues
-  Wort gehört in diese Tabelle, nicht als Umschreibung ins Drehbuch.
+  **Aussprache von Fremdwörtern:** Die Tabellen `AUSSPRACHE`, `ABKUERZUNGEN`
+  und `TAUSCH` in `build-clip-ton.py` ändern nur den Text an Piper;
+  Transkript und Suchindex behalten die Schreibweise. Stand 27.09.2026, jeder
+  Eintrag nach Hörproben entschieden: Einheiten (Ampere, Coulomb, Joule,
+  Pascal, Hertz), Namen (Boyle, Mariotte, Gay-Lussac, Hooke, Pythagoras),
+  Fremdwörter, buchstabierte Abkürzungen (FI, LED, COP, SI) und drei
+  Worttausche (achthundert, Newtonmeter, Lageenergie). Archimedes bleibt
+  bewusst ungeändert. Ein neues Wort gehört in diese Tabellen, nicht als
+  Umschreibung ins Drehbuch; betroffene Clips danach neu vertonen.
 
   **Zahlen im `sprecher`-Text ausschreiben.** Nachgemessen über die Sprechdauer
   desselben Satzes in fünf Varianten: Beide Stimmen lesen `1.62` als
