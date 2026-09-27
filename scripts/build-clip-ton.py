@@ -57,28 +57,67 @@ def lade_generator():
 # (Piper nimmt IPA zwischen [[ und ]]). Getauscht wird nur im Text, der an
 # Piper geht — Drehbuch, Transkript und Suchindex behalten die Schreibweise.
 # Gilt auch in Zusammensetzungen (Milliampere, Amperemeter).
-# Entscheid Auftraggeber 27.09.2026 nach Hoerproben:
-#   Ampere  bisher [ˈampərə] «AM-pe-re»  -> [ampˈɛːɾ] «am-PÄÄR», mit r
-#   Coulomb bisher [kˈuːlɔmp] «KUH-lomp» -> [kulˈoː]  «ku-LOO», ohne Nasal
-#     (den Nasal [kulˈɔ̃ː] kennt die Stimme kaum)
-AUSSPRACHE = [("ampere", "ampˈɛːɾ"), ("coulomb", "kulˈoː")]
+# Alles nach Hoerproben entschieden (Auftraggeber, 27.09.2026).
+#
+# 1. Wortstaemme -> Lautschrift. Gross/klein egal, nur am Wortanfang oder
+#    nach einer Einheiten-Vorsilbe (sonst traefe «ampere» auch
+#    «Schlamperei»); Zusammensetzungen greifen mit (Amperemeter).
+AUSSPRACHE = [
+    ("ampere", "ampˈɛːɾ"),              # bisher «AM-pe-re»
+    ("coulomb", "kulˈoː"),              # bisher «KUH-lomp»; Nasal kennt die Stimme kaum
+    ("joule", "dʒˈuːl"),                # bisher «Juh-le»
+    ("pascal", "paskˈal"),              # bisher «PAS-kal»
+    ("hertz", "hˈɛɾts"),                # «Kilohertz» verlor sonst das h
+    ("boyle", "bˈɔɪl"),                 # bisher «Böh-le»
+    ("mariotte", "maɾjˈɔt"),            # bisher «MAri-o-te»
+    ("gay-lussac", "ɡeːlyːsˈak"),       # «Gee-lüü-SACK», langes ee und üü
+    ("hooke", "hˈʊk"),                  # bisher «Hoo-ke»
+    ("pythagoras", "pytˈɑːɡoːras"),     # bisher «PÜ-tagoras»
+    ("laserpointer", "lˈeːzɐpɔɪntɐ"),   # bisher «Laaser-po-inter»
+    ("spraydose", "ʃprˈeːdoːzə"),       # bisher «Schprei-dose»
+    ("isotherm", "iːzoːtˈɛɾm"),         # bisher «I-sotterm»
+    ("isobar", "iːzoːbˈɑːɾ"),           # bisher «I-sobar»
+    ("photonen", "foːtˈoːnən"),         # sonst ohne Hauptbetonung
+]
+# Nicht geaendert, weil die bisherige Lesart besser klang: Archimedes.
+#
+# 2. Abkuerzungen, die buchstabiert werden: nur in exakt dieser Schreibung
+#    als ganzes Wort (sonst traefe «SI» auch «si» in anderen Woertern).
+ABKUERZUNGEN = [
+    ("FI", "ɛfˈiː"),                    # bisher «Fie»
+    ("LED", "ɛleːdˈeː"),                # bisher «Leet»
+    ("COP", "tseːoːpˈeː"),              # bisher «Kop»
+    ("SI", "ɛsˈiː"),                    # bisher «Sie»
+]
+# 3. Einfache Worttausche, wo keine Lautschrift noetig ist.
+TAUSCH = [
+    ("achthundert", "acht hundert"),    # sonst «acht-undert», auch in tausendachthundert…
+    ("Newtonmeter", "Newton-Meter"),    # sonst englisch «Njuten-mieter»
+    ("Lageenergie", "Lage-Energie"),    # sonst «Lag-energie»
+]
+VORSILBEN = r"(?:milli|mikro|nano|zenti|dezi|hekto|kilo|mega|giga)?"
 
 
 def aussprache(text):
-    """Setzt die Lautschrift ein. Falle: Folgt ein Satzzeichen direkt auf
-    ]], verschluckt Piper es und klebt das naechste Wort an («ampˈɛːɾdan»,
-    ohne Satzpause). Darum wandert ein Satzzeichen mit in die Klammer."""
+    """Setzt Lautschrift und Worttausche ein. Falle: Folgt ein Satzzeichen
+    direkt auf ]], verschluckt Piper es und klebt das naechste Wort an
+    («ampˈɛːɾdan», ohne Satzpause). Darum wandert ein Satzzeichen mit in die
+    Klammer."""
     import re
+
+    def klammer(ipa, nach, zeichen):
+        if nach:                           # Amperemeter: Satzzeichen hinter dem Rest
+            return "[[" + ipa + "]]" + nach + zeichen
+        return "[[" + ipa + zeichen + "]]"
+
+    for alt, neu_ in TAUSCH:
+        text = re.sub(alt, neu_, text, flags=re.I) if alt.islower() else text.replace(alt, neu_)
     for wort, ipa in AUSSPRACHE:
-        # nur am Wortanfang oder nach einer Einheiten-Vorsilbe — sonst traefe
-        # «ampere» auch «Schlamperei»
-        muster = re.compile(r"\b((?:milli|mikro|nano|kilo|mega)?)(%s)([^\W\d_]*)([.,;:!?]*)" % wort, re.I)
-        def tausch(m):
-            vor, _, nach, zeichen = m.groups()
-            if nach:                       # Amperemeter: Satzzeichen hinter dem Rest
-                return vor + "[[" + ipa + "]]" + nach + zeichen
-            return vor + "[[" + ipa + zeichen + "]]"
-        text = muster.sub(tausch, text)
+        muster = re.compile(r"\b(%s)(%s)([^\W\d_]*)([.,;:!?]*)" % (VORSILBEN, re.escape(wort)), re.I)
+        text = muster.sub(lambda m: m.group(1) + klammer(ipa, m.group(3), m.group(4)), text)
+    for abk, ipa in ABKUERZUNGEN:
+        muster = re.compile(r"\b%s\b([.,;:!?]*)" % re.escape(abk))
+        text = muster.sub(lambda m: klammer(ipa, "", m.group(1)), text)
     return text
 
 
