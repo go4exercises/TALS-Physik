@@ -4,8 +4,8 @@
 Dieselbe Anordnung wie Animation 12 auf p6-2 (Canvas `fi-cv`): Netz links,
 Leitungsschutzschalter auf L, FI mit Ringkern um L und N, Wasserkocher mit
 Metallgehaeuse, Schutzleiter PE, Mensch rechts. Die Werte stammen aus
-fiRechne() der Animation (230 V, 2000 W, R_K = 1000 Ohm, Leitung und
-Schutzleiter je 1 Ohm, Kurzschluss 0.5 Ohm) und werden hier nachgerechnet.
+fiRechne() der Animation (230 V, 2000 W, R_K = 1000 Ohm, Fehler-
+schleife ueber den Schutzleiter 2 Ohm, Kurzschluss 0.5 Ohm) und werden hier nachgerechnet.
 
 Aufruf vom Repo-Root:  python3 .quellen/clip-bilder/fi-schema.py
 Schreibt clips/bilder/fi-<fall>.svg.
@@ -16,6 +16,7 @@ WURZEL = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file_
 ZIEL = os.path.join(WURZEL, "clips", "bilder")
 
 U, P, RK = 230.0, 2000.0, 1000.0
+RPE = 2.0                                        # FI_RPE: Fehlerschleife ueber den PE
 ILAST = P / U
 TINTE, ROT, GRUEN = "#1c1a17", "#9b1c1c", "#1f6b3a"
 LFARBE, NFARBE, PEFARBE = "#7a4a1e", "#1f4e8a", "#3f8f3a"
@@ -35,11 +36,9 @@ def werte(fall):
     if fall == "koerper":
         iK = U / RK
         iL, w["iK"] = ILAST + iK, iK
-    elif fall == "pemensch":
-        rp = 1 / (1 / 1.0 + 1 / RK)
-        iF = U / (1.0 + rp)
-        uB = iF * rp
-        iL, w["iK"], w["iPE"] = ILAST + iF, uB / RK, uB
+    elif fall == "pe":
+        iF = U / RPE
+        iL, w["iPE"] = ILAST + iF, iF
     elif fall == "kurz":
         iL = iN = ILAST + U / 0.5
     w["iL"], w["iN"] = iL, iN
@@ -118,8 +117,12 @@ def schema(fall):
     # Stromangaben auf L und N
     t.append(text(560, YL - 14, "hin: %s A" % fmt(w["iL"], 1 if w["iL"] >= 100 else 2), LFARBE, 28, "middle", True))
     t.append(text(560, YN + 38, "zurück: %s A" % fmt(w["iN"], 1 if w["iN"] >= 100 else 2), NFARBE, 28, "middle", True))
+    # Isolationsfehler: L beruehrt das Gehaeuse
+    if fall in ("koerper", "pe"):
+        t.append('<polyline points="%d,%d %d,%d %d,%d %d,%d" fill="none" stroke="%s" stroke-width="4"/>'
+             % (HX + 12, YL + 30, HX + 30, YL + 20, HX + 38, YL + 42, GX1, YL + 34, ROT))
     # Mensch
-    mensch = fall in ("koerper", "pemensch")
+    mensch = fall == "koerper"
     if mensch:
         mx = 1060
         t.append('<g stroke="%s" stroke-width="4" fill="none">' % TINTE)
@@ -130,14 +133,11 @@ def schema(fall):
         t.append('<line x1="%d" y1="120" x2="%d" y2="170"/>' % (mx, mx + 26))
         t.append('<line x1="%d" y1="120" x2="%d" y2="130"/>' % (mx, GX1))
         t.append('</g>')
-        # Fehler: L beruehrt das Gehaeuse
-        t.append('<polyline points="%d,%d %d,%d %d,%d %d,%d" fill="none" stroke="%s" stroke-width="4"/>'
-                 % (HX + 12, YL + 30, HX + 30, YL + 20, HX + 38, YL + 42, GX1, YL + 34, ROT))
         t.append(pfeil(mx - 44, 250, mx - 44, 335, ROT))
         t.append(text(mx - 56, 318, idx("I", "K") + "= %d mA" % round(w["iK"] * 1000), ROT, 26, "end", True))
-    if fall == "pemensch":
+    if fall == "pe":
         t.append(pfeil(760, YPE + 36, 600, YPE + 36, ROT))
-        t.append(text(585, YPE + 46, "Fehlerstrom " + idx("I", "PE") + "= %d A" % round(w["iPE"]), ROT, 28, "end", True))
+        t.append(text(585, YPE + 46, "Fehlerstrom " + idx("I", "F") + "= %d A" % round(w["iPE"]), ROT, 28, "end", True))
     if fall == "kurz":
         t.append('<line x1="760" y1="%d" x2="760" y2="%d" stroke="%s" stroke-width="7"/>' % (YL, YN, ROT))
         t.append(text(730, (YL + YN) // 2 + 12, "⚡", ROT, 36, "end"))
@@ -147,7 +147,7 @@ def schema(fall):
 
 if __name__ == "__main__":
     os.makedirs(ZIEL, exist_ok=True)
-    for fall in ("normal", "koerper", "pemensch", "kurz"):
+    for fall in ("normal", "koerper", "pe", "kurz"):
         with open(os.path.join(ZIEL, "fi-%s.svg" % fall), "w", encoding="utf-8") as f:
             f.write(schema(fall) + "\n")
         w = werte(fall)
