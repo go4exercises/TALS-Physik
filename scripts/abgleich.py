@@ -160,6 +160,14 @@ OFFEN = [
              'Stimme dafuer zu schnell wird» (Z. 795-912); «Lizenzlage» bleibt. '
              '(4) Alle 203 Clips neu bauen — jede clips/*.html traegt den toten '
              'STIMMEN-Code. Danach in Physik die Grundlinie build-clip-ton wieder 1.000.'),
+    dict(quelle='Physik', was='Clip-Element `bild` (Prototyp 27.09.2026, optional)',
+         wie='scripts/build-clips.py, element_html: neuer Zweig typ == "bild" (liest '
+             'el["datei"] relativ zu CLIPS, prueft auf <svg, giesst die SVG ein; Klasse graf) '
+             'und "bild" in den beiden Ausnahmelisten ("graf", "bild", "strich") fuer die '
+             'Breite. 12 Zeilen. Doku: HOWTO-clips.md, Tabelle Elementtypen + Absatz «bild». '
+             'Anlass: Clip zu einer einzelnen Animation (p6-2-fi-stromvergleich), der deren '
+             'Skizze zeigt. Ohne Uebernahme sinkt die KERN-Aehnlichkeit von build-clips.py '
+             '(Physik 78.2 -> 78.0 %); Grundlinie dann auf 0.780 senken oder uebernehmen.'),
 ]
 
 FACH = {

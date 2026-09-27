@@ -146,10 +146,23 @@ steht dort Dekoration.
 | `karte` | gerahmter Zwischenschritt | 42 |
 | `liste` | nummerierte Merkliste, braucht `punkte: [...]` | — |
 | `strich` | roter Unterstreichungsstrich | — |
+| `bild` | fertige SVG-Skizze, `datei` relativ zu `clips/` (z. B. `bilder/fi-normal.svg`) | — |
 
 Gemeinsame Felder: `abstand` (Abstand zur nächsten Zeile in Pixel), `groesse`,
 `anim` (`rise`, `pop`, `fade`, `wipe`), `ein` (Sekunde in der Szene; ohne Angabe
 im Takt von 1.7 s gestaffelt), `x`/`y` für eine eigene Position, `breite`.
+
+**`bild` — die Skizze einer Animation im Clip.** Seit dem 27.09.2026, als
+Prototyp für Clips, die die Erkenntnisse *einer* Animation zusammenfassen
+(`p6-2-fi-stromvergleich` zu «FI-Schutzschalter: der Stromvergleich»). Die SVG
+wird beim Bauen eingegossen, der Clip bleibt eine Datei. Die Skizzen erzeugt
+ein Skript neben der Quelle (`.quellen/clip-bilder/fi-schema.py`), das die
+Werte aus der Rechnung der Animation nachrechnet — Zahlen im Bild und in der
+Animation dürfen nie auseinanderlaufen. Im Schienen-Layout passt eine Skizze
+von 1140 × 400 px über Formelzeile, Text und Notiz; `abstand` auf etwa 450
+setzen. Unter der Animation steht auf der Lektionsseite eine Startkarte von
+Hand (ausserhalb der generierten Clips-Liste), deren Dauer beim Neubau
+nachzuführen ist.
 
 ### Formeln und Farben
 

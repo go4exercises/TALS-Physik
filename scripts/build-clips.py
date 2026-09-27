@@ -424,6 +424,16 @@ def element_html(el, theme):
     elif typ == "graf":
         klassen += ["graf"]
         inhalt = graf_svg(el, theme)
+    elif typ == "bild":
+        # Eine fertige SVG-Zeichnung aus clips/bilder/, eingegossen statt
+        # verlinkt: Der Clip bleibt eine Datei. Gedacht fuer Skizzen, die eine
+        # Animation der Lektionsseite wiederholen — der Clip zeigt dann
+        # dasselbe Bild, das die Lernenden eben selbst bedient haben.
+        klassen += ["graf"]
+        with open(os.path.join(CLIPS, el["datei"]), encoding="utf-8") as f:
+            inhalt = f.read().strip()
+        if not inhalt.startswith("<svg"):
+            raise SystemExit("bild erwartet eine SVG-Datei: %s" % el["datei"])
     elif typ == "strich":
         klassen += ["strich"]
         stil.append("width:%dpx" % el.get("breite", 760))
@@ -597,7 +607,7 @@ def bauen(quelle, eigenstaendig=False):
                 stil.insert(0, "left:%dpx;right:%dpx;text-align:center" % (rand, rand))
             else:
                 stil.insert(0, "left:%dpx" % el.get("x", links))
-                if "breite" not in el and el.get("typ") not in ("graf", "strich"):
+                if "breite" not in el and el.get("typ") not in ("graf", "bild", "strich"):
                     stil.append("width:%dpx" % breite)
             stil.insert(1, "top:%dpx" % el.get("y", y))
 
@@ -632,7 +642,7 @@ def bauen(quelle, eigenstaendig=False):
                     a_kl, a_stil, a_inhalt = element_html(el, theme)
                     a_kl.append("anschluss")
                     a_stil.insert(0, "left:680px;top:168px")
-                    if "breite" not in el and el.get("typ") not in ("graf", "strich"):
+                    if "breite" not in el and el.get("typ") not in ("graf", "bild", "strich"):
                         a_stil.append("width:1140px")
                     a_ein = naechste["start"] + 0.25
                     a_aus = naechste["start"] + naechste["dauer"]
