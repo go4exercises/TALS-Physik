@@ -183,6 +183,12 @@ OFFEN = [
              'bleiben). Die Clips selbst brauchen keinen Neubau. Testfalle: python3 -m '
              'http.server kann keine Range-Anfragen, der Ton springt beim Spulen auf 0 — '
              'mit file:// oder auf GitHub Pages (206) pruefen.'),
+    dict(quelle='Physik', was='build-clip-ton: Aussprache-Tabelle (27.09.2026, optional)',
+         wie='AUSSPRACHE + aussprache(text) vor sprich(): Wortstamm -> IPA als [[…]], '
+             'nur im Text an Piper. Physik: ampere -> ampˈɛːɾ, coulomb -> kulˈoː. '
+             'Fallen: Satzzeichen muss in die Klammer (sonst verschluckt, Wort klebt '
+             'an), Wortgrenze bzw. Vorsilbe noetig («Schlamperei»). Fuer Mathe pruefen, '
+             'ob dort Woerter falsch klingen (Tabelle darf je Fach verschieden sein).'),
 ]
 
 FACH = {

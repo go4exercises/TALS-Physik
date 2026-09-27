@@ -52,6 +52,36 @@ def lade_generator():
     return m
 
 
+# ---------------------------------------------------------------- Aussprache
+# Fremdwoerter, die die Stimme falsch liest, bekommen eine feste Lautschrift
+# (Piper nimmt IPA zwischen [[ und ]]). Getauscht wird nur im Text, der an
+# Piper geht — Drehbuch, Transkript und Suchindex behalten die Schreibweise.
+# Gilt auch in Zusammensetzungen (Milliampere, Amperemeter).
+# Entscheid Auftraggeber 27.09.2026 nach Hoerproben:
+#   Ampere  bisher [ˈampərə] «AM-pe-re»  -> [ampˈɛːɾ] «am-PÄÄR», mit r
+#   Coulomb bisher [kˈuːlɔmp] «KUH-lomp» -> [kulˈoː]  «ku-LOO», ohne Nasal
+#     (den Nasal [kulˈɔ̃ː] kennt die Stimme kaum)
+AUSSPRACHE = [("ampere", "ampˈɛːɾ"), ("coulomb", "kulˈoː")]
+
+
+def aussprache(text):
+    """Setzt die Lautschrift ein. Falle: Folgt ein Satzzeichen direkt auf
+    ]], verschluckt Piper es und klebt das naechste Wort an («ampˈɛːɾdan»,
+    ohne Satzpause). Darum wandert ein Satzzeichen mit in die Klammer."""
+    import re
+    for wort, ipa in AUSSPRACHE:
+        # nur am Wortanfang oder nach einer Einheiten-Vorsilbe — sonst traefe
+        # «ampere» auch «Schlamperei»
+        muster = re.compile(r"\b((?:milli|mikro|nano|kilo|mega)?)(%s)([^\W\d_]*)([.,;:!?]*)" % wort, re.I)
+        def tausch(m):
+            vor, _, nach, zeichen = m.groups()
+            if nach:                       # Amperemeter: Satzzeichen hinter dem Rest
+                return vor + "[[" + ipa + "]]" + nach + zeichen
+            return vor + "[[" + ipa + zeichen + "]]"
+        text = muster.sub(tausch, text)
+    return text
+
+
 def sprich(piper, modell, text, ziel):
     with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False,
                                      encoding="utf-8") as f:
@@ -100,7 +130,7 @@ def main():
             if not text:
                 continue
             w = os.path.join(tmp, f"{i}.wav")
-            sprich(piper, a.modell, text, w)
+            sprich(piper, a.modell, aussprache(text), w)
             daten, sr = sf.read(w, dtype="float32")
             stuecke[i] = (daten, sr)
             print(f"  Szene {i+1}: {len(daten)/sr:6.2f} s   {text[:52]}")

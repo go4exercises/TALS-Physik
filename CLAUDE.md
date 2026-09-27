@@ -164,6 +164,13 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   persönliche Modell `de_CH-kohler-medium` wird **nicht** verwendet. Kein
   Stimmmodell gehört ins Repo.
 
+  **Aussprache von Fremdwörtern:** `AUSSPRACHE` in `build-clip-ton.py` setzt
+  für Wörter, die Thorsten falsch liest, eine feste Lautschrift ein — nur im
+  Text an Piper, Transkript und Suchindex behalten die Schreibweise. Stand
+  27.09.2026 (nach Hörproben entschieden): Ampere «am-PÄÄR» [ampˈɛːɾ],
+  Coulomb «ku-LOO» [kulˈoː], auch in Milliampere, Amperemeter usw. Ein neues
+  Wort gehört in diese Tabelle, nicht als Umschreibung ins Drehbuch.
+
   **Zahlen im `sprecher`-Text ausschreiben.** Nachgemessen über die Sprechdauer
   desselben Satzes in fünf Varianten: Beide Stimmen lesen `1.62` als
   zusammengesetzte Zahl («… zweiundsechzig») statt als Stellenfolge

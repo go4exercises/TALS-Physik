@@ -233,6 +233,16 @@ ohnehin alles:
 chromium --autoplay-policy=document-user-activation-required
 ```
 
+**Aussprache-Tabelle.** Liest die Stimme ein Fremdwort falsch, kommt es in
+`AUSSPRACHE` in `scripts/build-clip-ton.py`: Wortstamm und Lautschrift (IPA),
+Piper erhält es als `[[…]]`. Stand: Ampere → [ampˈɛːɾ], Coulomb → [kulˈoː];
+Vorsilben (Milli-, Mikro-, Kilo-, …) und Zusammensetzungen (Amperemeter)
+greifen mit. Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
+nach `]]` verschluckt Piper samt Pause und klebt das nächste Wort an — es
+gehört in die Klammer. Und ohne Wortgrenze träfe «ampere» auch
+«Schlamperei». Probe vor dem Eintrag: `PiperVoice.load(modell).phonemize(text)`
+zeigt, was die Stimme daraus macht; Hörproben mit `synthesize_wav`.
+
 **Zahlen im `sprecher`-Text ausschreiben.** Beide Piper-Stimmen lesen `1.62` als
 zusammengesetzte Zahl («… zweiundsechzig») statt als Stellenfolge — bei
 Messwerten ist die Stellenfolge die übliche Lesart. Also «zwei Komma fünf bar»,
