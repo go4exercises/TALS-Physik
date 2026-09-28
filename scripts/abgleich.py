@@ -286,6 +286,14 @@ OFFEN = [
              'Nachkommastelle, trifft diese nicht). Bewusst NICHT: Gneis, Basalt, Lumen, Milliarden, '
              'Elementarladung, Einholzeit, Gegenrechnung, Sonnenstunde, Marktstand, Kohlenstoff, Stickstoff. '
              'In Mathe nachgezaehlt (nur gelesen): 0 Clips betroffen.'),
+    dict(quelle='Physik', was='Wassermodell des Stromkreises eingebaut (28.09.2026) — Mathe-TODO streichen',
+         wie='Erledigt in Physik mit Commit 0db4d47: themen/p6-2-elektrizitaet.html, Animation 1 '
+             '(Anker anim-wassermodell) im Abschnitt Grundbegriffe, dazu Clip p6-2-anim-wassermodell. '
+             'In Mathe nur aufraeumen, nichts portieren: (1) in TODO-schwesterprojekt.md den Eintrag '
+             '«2026-09-28 · Wassermodell des Stromkreises als neue Animation» loeschen (erledigte Eintraege '
+             'werden dort geloescht, nicht markiert); (2) die Vorlage _intern/uebertrag-physik-wassermodell/ '
+             'wird nicht mehr gebraucht (lokal, per .gitignore ausgeschlossen) und kann weg. '
+             'Keine geteilte Datei betroffen, keine Grundlinie aendert sich.'),
 
 ]
 
