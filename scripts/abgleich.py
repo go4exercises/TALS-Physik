@@ -100,7 +100,7 @@ GRUNDLINIE = {
     '.claude/tools/render-check.mjs': 0.968,
     '.claude/tools/build-bilder.mjs': 0.753,
     '.claude/skills/preflight/preflight.py': 0.849,
-    '.claude/skills/preflight/SKILL.md': 0.659,
+    '.claude/skills/preflight/SKILL.md': 0.680,
     '.claude/settings.json': 0.509,
 }
 
@@ -125,17 +125,6 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='Pre-Flight: Warnung fuer offene Eintraege in TODO-schwesterprojekt.md (28.09.2026)',
-         wie='Neue Funktion check_todo_schwester(wurzel, rep) in .claude/skills/preflight/preflight.py, '
-             'aufgerufen direkt nach dem abgleich-Check (check_todo_schwester(scripts.parent, rep)); dazu '
-             'eine Zeile im Docstring und ein Punkt in SKILL.md unter Stufe 2. Die Funktion 1:1 aus Physik '
-             'kopieren: Sie bestimmt das Schwesterrepo selbst (physiklib.js vorhanden -> ../tals-mathe, '
-             'sonst ../tals-physik), liest dort TODO-schwesterprojekt.md, zaehlt die «- **»-Eintraege '
-             'unter «## Offen» und meldet [WARN] todo-schwester mit Datum und Titel. In Mathe bleibt sie '
-             'stumm, weil Physik keine solche Datei fuehrt — sie steht dort nur, damit preflight.py '
-             'nicht weiter auseinanderlaeuft (KERN jetzt 0.808 unter der Grundlinie 0.85; nach dem '
-             'Uebertrag wieder darueber). Achtung: wurzel mit Path(wurzel).resolve() aufloesen, '
-             'scripts.parent ist relativ.'),
 ]
 
 FACH = {
