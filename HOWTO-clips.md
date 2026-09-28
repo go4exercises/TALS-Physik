@@ -5,13 +5,15 @@ Gedankengang in rund einer Minute aufbaut: animierte Zeilen auf einer Bühne von
 1920 × 1080, dazu eine gesprochene Tonspur. Gebaut wird er nicht von Hand,
 sondern aus einem **Drehbuch** — einer JSON-Datei daneben.
 
-Stand 08.09.2026: **86 Clips, 79:37 min, in 23 Reihen** — jede Themenseite der
-Lerngebiete 4 bis 6 hat ihre Reihe, dazu das Vorwissen. Verteilung nach
-Lerngebiet (Mehrfachzuordnungen mitgezählt): Vorwissen 15, Mechanik 38,
-Thermodynamik 29, Wellen und Elektrizität 18. Kürzester Clip 50 s, längster
-65 s, Mittel 56 s. Diese Anleitung ist die Physik-Fassung; das
-Schwesterprojekt Mathe hat eine eigene mit demselben Aufbau und — Stand
-13.09.2026 — **162 Clips, 160:41 min, in 54 Reihen**.
+Stand 28.09.2026: **204 Clips, 219:54 min, in 25 Reihen.** Zwei Sorten:
+**89 Clips zum Stoff** (82:26 min) — jede Themenseite der Lerngebiete 4 bis 6
+hat ihre Reihe, dazu das Vorwissen; 50 bis 65 s, Mittel 56 s — und **115 Clips
+zu je einer Animation** (137:28 min, Reihe «Animationen erklärt») — jede
+Animation der Themen- und Vorwissenseiten hat ihren; 55 bis 87 s, Mittel 72 s.
+Einbettungen je Lerngebiet (Mehrfachzuordnungen mitgezählt): Vorwissen 54,
+Mechanik 70, Thermodynamik 47, Wellen und Elektrizität 47. Diese Anleitung ist
+die Physik-Fassung; das Schwesterprojekt Mathe hat eine eigene mit demselben
+Aufbau und — Stand 28.09.2026 — **391 Clips, 361:32 min, in 56 Reihen**.
 
 > **Autoritativ bleiben CLAUDE.md und STYLEGUIDE.md.** Alles hier Beschriebene
 > gilt zusätzlich, nichts davon hebt eine dortige Regel auf — Dezimalpunkt statt
@@ -74,7 +76,8 @@ Einbettungen.
 
 ### Der Szenenbau
 
-Bewährt und in allen 86 Clips gleich:
+Bewährt in allen Clips zum Stoff (die Clips zu einer Animation weichen ab,
+siehe «Clips zu einer einzelnen Animation» unten):
 
 | Szene | Layout | `oben` | Aufgabe |
 |---|---|---|---|
@@ -152,9 +155,10 @@ Gemeinsame Felder: `abstand` (Abstand zur nächsten Zeile in Pixel), `groesse`,
 `anim` (`rise`, `pop`, `fade`, `wipe`), `ein` (Sekunde in der Szene; ohne Angabe
 im Takt von 1.7 s gestaffelt), `x`/`y` für eine eigene Position, `breite`.
 
-**`bild` — die Skizze einer Animation im Clip.** Seit dem 27.09.2026, als
-Prototyp für Clips, die die Erkenntnisse *einer* Animation zusammenfassen
-(`p6-2-fi-stromvergleich` zu «FI-Schutzschalter: der Stromvergleich»). Die SVG
+**`bild` — die Skizze einer Animation im Clip.** Zuerst am 27.09.2026 als
+SVG-Skizze (`p6-2-fi-stromvergleich` zu «FI-Schutzschalter: der
+Stromvergleich»); seit dem 28.09.2026 zeigen die Clips zu einer Animation fast
+nur noch Aufnahmen der Animation selbst (siehe unten). Die SVG
 wird beim Bauen eingegossen, der Clip bleibt eine Datei. Die Skizzen erzeugt
 ein Skript neben der Quelle (`.quellen/clip-bilder/fi-schema.py`), das die
 Werte aus der Rechnung der Animation nachrechnet — Zahlen im Bild und in der
@@ -197,6 +201,67 @@ In Prosa-Typen (`text`, `notiz`, …) steht eine eingebettete Formel in `@…@`,
 ein Zeilenumbruch als `|`, gedämpfter Text in `~…~`. **Auch in der `schiene`.**
 
 ---
+
+## Clips zu einer einzelnen Animation
+
+Seit dem 28.09.2026 hat jede Animation der Themen- und Vorwissenseiten ihren
+Clip (115, Reihe «Animationen erklärt»). Er fasst zusammen, was die Animation
+zeigt, und zwar mit ihren eigenen Bildern. Wer eine Animation neu baut, baut
+ihren Clip mit.
+
+**Kopf:** wie jeder Clip, dazu `"animation": "<Anker des h3>"`,
+`"reihe": "Animationen erklärt"`, `"folge"` = Nummer der Animation auf der
+Seite, `lektion` = die Seite. Der Titel unterscheidet sich klar vom Stoff-Clip
+zum selben Thema — beide stehen in derselben Liste.
+
+**Szenenbau:** Titel (`zentriert`), vier Schritte (`schiene`, `oben: 150`),
+Merksatz. Jeder Schritt beginnt mit einer Aufnahme (`bild`, `breite: 900`,
+`abstand: 490`), darunter Formelzeile, Text, Notiz. Der Sprechertext beginnt
+mit «In der Animation …» und führt durch vier aussagekräftige Zustände.
+
+**Aufnehmen** mit `node .claude/tools/aufnahme-anim.mjs <plan.json>`:
+- Laufende Animationen vorher anhalten (`…Loop.userPaused = true;
+  …Loop.stop()`) und ihre Zeit per JS auf einen festen Wert setzen — sonst
+  zeigt das Bild einen zufälligen Moment.
+- Auf `p0-1` und `p0-2` stehen die Widgets mit ID-Präfix `b` in einer IIFE:
+  deren Funktionen sind von aussen nicht erreichbar, Zustände dort per Klick
+  oder Reglerwert setzen.
+- Zwei Canvas eines Widgets (Momentbild und Mitschrieb) werden einzeln
+  aufgenommen und übereinander gesetzt, mit 16 px weissem Streifen.
+- **Bildnamen immer mit dem vollen Clipnamen als Präfix**
+  (`bilder/p6-1a-anim-puls-1.jpg`). Zwei parallel arbeitende Stränge wählten
+  am 28.09.2026 beide `p6-1a-puls-*` und überschrieben sich gegenseitig.
+- **Den Aufnahmeplan aufbewahren.** Er lag bisher nur im Scratchpad der
+  Sitzung; wurde die Animation später geändert, musste er aus dem Clip
+  zurückgewonnen werden.
+
+**Zahlen:** Jede Zahl im Clip kommt aus dem Code der Animation, mit python3
+nachgerechnet, in **derselben Rundung** wie dort (Stilregel 10). Zeigt die
+Animation eine Grösse gar nicht, rechnet der Clip ein ausdrücklich so
+benanntes Beispiel.
+
+**Fehler der Animation beheben, nicht umgehen.** Der Clipbau fährt jede
+Animation Zustand für Zustand durch und ist darum ihre gründlichste Prüfung:
+Am 28.09.2026 kamen dabei rund dreissig Fehler zum Vorschein — verdeckte
+Beschriftungen, uneinheitliche Rundung, JavaScript-Zahlen wie `1e-7`, ein
+verkehrter Umlaufsinn, ein Widerspruch zwischen Text und gezeigtem Wert.
+Solche Fehler an der Animation beheben; ein Clip, der sie nur meidet, lässt
+sie auf der Seite stehen.
+
+**Wird die Animation geändert, zieht der Clip mit:** betroffene Bilder neu
+aufnehmen, Zahlen in Formelzeilen und Sprechertext angleichen (Sprechertext
+geändert → neu vertonen), neu bauen, `pruef-clip`.
+
+**Parallel arbeiten** (mehrere Stränge, je eine Seite oder ein Teil davon):
+- Während der Arbeit trägt jedes neue Drehbuch `"probe": true`.
+  `build-clips.py` liest und schreibt bei jedem Lauf `clips/clips.json`; ohne
+  `probe` überschreiben sich die Stränge den Index gegenseitig.
+- `probe` am Ende zentral entfernen, alles neu bauen, dann einmal
+  `build-clips-einbau.py --schreiben`, `build-suchindex.py`, `build-seo.py`.
+- Solange Stränge laufen, gezielt committen, nie `git add -A` — sonst landen
+  halbfertige Dateien im Commit.
+- Aussprache-Verdachtsfälle melden die Stränge nur; eingetragen wird nach
+  Hörprobe (die Tabellen gelten für beide Repos).
 
 ## Ton
 
@@ -245,7 +310,7 @@ Regel angehört und abgelehnt — bei Widerstand, Kilowattstunde u. a. klang es
 ohne besser —, darum steht jedes Wort einzeln. Vorsilben (Milli-, Kilo-, Hekto-, …) und Zusammensetzungen
 (Amperemeter, Zentripetalkraft) greifen mit. Jeder Eintrag ist nach Hörproben
 entschieden; bewusst **nicht** geändert, weil die bisherige Lesart besser
-klang: Archimedes, Perihel, Parabel, Mikrometer, Mikro, Volumen, linear, Erdbeschleunigung, Transversal-, Niveau, Photon. Die Tabellen sind seit dem 28.09.2026 in Physik und Mathe dieselben — ein neues Wort wird mit Sätzen aus beiden Repos angehört und gilt für beide. Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
+klang: Archimedes, Perihel, Parabel, Mikrometer, Mikro, Volumen, linear, Erdbeschleunigung, Transversal-, Niveau, Photon, Gneis, Basalt, Lumen, Milliarden, Elementarladung, Einholzeit, Gegenrechnung — und als Wortfuge Widerstand, Kilowattstunde, Sonnenstunde, Marktstand, Kohlenstoff, Stickstoff. Die Tabellen sind seit dem 28.09.2026 in Physik und Mathe dieselben — ein neues Wort wird mit Sätzen aus beiden Repos angehört und gilt für beide. Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
 nach `]]` verschluckt Piper samt Pause und klebt das nächste Wort an — es
 gehört in die Klammer. Und ohne Wortgrenze träfe «ampere» auch
 «Schlamperei». Probe vor dem Eintrag: `PiperVoice.load(modell).phonemize(text)`

@@ -45,8 +45,10 @@ Jede Themenseite der Lerngebiete 4 bis 6 folgt einem festen 13-Punkte-Master-Sch
 
 ## Erklärclips
 
-Zu jeder Themenseite der Lerngebiete 4 bis 6 gehört eine Reihe kurzer,
-vertonter Erklärclips — **86 Clips in 23 Reihen, zusammen 79:37 min**. Ein Clip
+Zu jeder Themenseite der Lerngebiete 4 bis 6 und zum Vorwissen gehört eine
+Reihe kurzer, vertonter Erklärclips; dazu erklärt zu **jeder Animation** der
+Themen- und Vorwissenseiten ein eigener Clip, was sie zeigt — **204 Clips in
+25 Reihen, zusammen 219:54 min** (89 zum Stoff, 115 zu je einer Animation). Ein Clip
 baut einen einzigen Gedanken in rund einer Minute auf: animierte Zeilen auf
 einer Bühne von 1920 × 1080, dazu eine gesprochene Tonspur.
 

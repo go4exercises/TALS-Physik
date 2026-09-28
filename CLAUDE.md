@@ -210,7 +210,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `physiklib.js`). `scripts/build-clips.py` baut aus einem Drehbuch
   (`clips/<name>.json`) den Clip, `scripts/build-clips-einbau.py` trägt ihn in
   die Lektionsseite und zwischen die Marker `<!-- CLIPS-BIBLIOTHEK:ANFANG/ENDE -->`
-  in `clips.html` ein. Stand 28.09.2026: **204 Clips in 25 Reihen, 219:52 min** (davon 115 zu einzelnen Animationen — jede Animation der Themenseiten, von 6.1a und der Vorwissenseiten hat ihren Clip — Reihe «Animationen erklärt») —
+  in `clips.html` ein. Stand 28.09.2026: **204 Clips in 25 Reihen, 219:54 min** (davon 115 zu einzelnen Animationen — jede Animation der Themenseiten, von 6.1a und der Vorwissenseiten hat ihren Clip — Reihe «Animationen erklärt») —
   jede der zehn Themenseiten der Lerngebiete 4 bis 6 hat ihre Reihe, dazu das
   Vorwissen. Anders als Mathe gruppiert die Bibliothek nur nach Lerngebiet
   (kein Grundlagen-/Schwerpunktfach), und sie zieht die Gruppen aus `nav.js`,
@@ -223,14 +223,22 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   gepflegt, das `data-suche` je Zeile kommt aus dem Generator.
   Auf der Themenseite steht der Clip-Block **nach der Zusammenfassung, vor dem
   Zusatzmaterial** (STYLEGUIDE §4, Zeile 11b).
-  **Clips zu einer einzelnen Animation** (Prototyp 6.2, 27.09.2026): Drehbuch-Feld
+  **Clips zu einer einzelnen Animation** (seit 28.09.2026 zu jeder der 115
+  Animationen der Themen- und Vorwissenseiten; wer eine Animation neu baut,
+  baut ihren Clip mit): Drehbuch-Feld
   `animation` (Anker des `h3`), Reihe «Animationen erklärt», `folge` = Nummer der
   Animation. Der Generator setzt dann «▶ Clip» in die Titelzeile der Animation,
   stellt den Clip auf der Seite in die Gruppe «Clips zu den Animationen» und
   hebt ihn in beiden Listen in Bernstein ab, mit dem Link «Anim» davor. Bilder
   darin sind Aufnahmen der Animation selbst (`bild` mit JPG,
   `.claude/tools/aufnahme-anim.mjs`); der Titel muss sich klar vom Stoff-Clip
-  zum selben Thema unterscheiden.
+  zum selben Thema unterscheiden. **Wird eine Animation geändert, zieht ihr
+  Clip mit:** betroffene Bilder neu aufnehmen, Zahlen in Formelzeilen und
+  Sprechertext an die Animation angleichen (Sprechertext geändert → neu
+  vertonen), neu bauen, `pruef-clip`. Umgekehrt ist der Clipbau die
+  gründlichste Prüfung einer Animation: Am 28.09.2026 kamen dabei rund
+  dreissig Darstellungsfehler zum Vorschein — sie werden an der Animation
+  behoben, nicht im Clip umgangen.
   Bauanleitung, Stolpersteine und die didaktische Prüfliste: `HOWTO-clips.md`.
 - `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell elf:
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,

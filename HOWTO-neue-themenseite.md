@@ -2,7 +2,7 @@
 
 Schritt-für-Schritt-Anleitung für das Hinzufügen einer neuen RLP-Themenseite zu Physik begreifbar. Folgt dem Master-Schema aus `STYLEGUIDE.md` §4.
 
-> **Projektstand (September 2026):** Alle 10 RLP-Teilgebiete (p4-1 bis p6-2) sind vollständig ausgebaut, dazu die sechsteilige Vorwissen-Reihe p0-0 bis p0-5 und die Vertiefungsseite p6-1a. Jede Themenseite der Lerngebiete 4 bis 6 trägt eine Reihe vertonter Erklärclips (Abschnitt 7). Diese Anleitung dient damit als Referenz für **zusätzliche oder optionale** Seiten über die RLP-Grundlagen hinaus (z.B. Magnetismus / Elektromagnetismus, Schwingungen) sowie als Nachschlagewerk für Aufbau und Konventionen. Als gespiegelte Vorlage eignet sich jede fertige Themenseite; als Referenzmuster für Animationsstruktur dient `p4-5-hydrostatik.html`.
+> **Projektstand (September 2026):** Alle 10 RLP-Teilgebiete (p4-1 bis p6-2) sind vollständig ausgebaut, dazu die sechsteilige Vorwissen-Reihe p0-0 bis p0-5 und die Vertiefungsseite p6-1a. Jede Themenseite der Lerngebiete 4 bis 6 trägt eine Reihe vertonter Erklärclips, und jede Animation der Themen- und Vorwissenseiten hat ihren eigenen Clip (Abschnitt 7). Diese Anleitung dient damit als Referenz für **zusätzliche oder optionale** Seiten über die RLP-Grundlagen hinaus (z.B. Magnetismus / Elektromagnetismus, Schwingungen) sowie als Nachschlagewerk für Aufbau und Konventionen. Als gespiegelte Vorlage eignet sich jede fertige Themenseite; als Referenzmuster für Animationsstruktur dient `p4-5-hydrostatik.html`.
 
 ---
 
@@ -301,8 +301,10 @@ Neue Seite? Dann zusätzlich: Eintrag in `nav.js` (SITE und GROUPS), Karte in
 Zu jeder Themenseite der Lerngebiete 4 bis 6 gehört eine Reihe vertonter
 Erklärclips. Zwei Handgriffe an der Seite selbst:
 
-1. **Markerpaar setzen**, direkt vor `</main>` — den Rest schreibt der
-   Generator, samt `<h2 id="clips">Clips</h2>` und den Transkripten:
+1. **Markerpaar setzen**, nach der Zusammenfassung und vor dem Zusatzmaterial
+   (`<h2 id="downloads">`; ohne Zusatzmaterial direkt nach der Zusammenfassung,
+   STYLEGUIDE §4 Zeile 11b) — den Rest schreibt der Generator, samt
+   `<h2 id="clips">Clips</h2>` und den Transkripten:
 
    ```html
    <!-- CLIPS:ANFANG — generiert von scripts/build-clips-einbau.py, nicht von Hand ändern -->
@@ -316,6 +318,13 @@ Erklärclips. Zwei Handgriffe an der Seite selbst:
    Abschnitten. Jede RLP-Kompetenz braucht einen Clip, der sie trägt; was nicht
    im Block steht, gehört auch nicht in die Reihe. Bauanleitung, Drehbuch-Grammatik
    und Prüfliste: `HOWTO-clips.md`.
+
+3. **Zu jeder Animation ein Clip** (Reihe «Animationen erklärt», Drehbuch-Feld
+   `animation`): Er zeigt Aufnahmen der Animation selbst und fasst zusammen,
+   was sie zeigt. Der Generator setzt dazu «▶ Clip» in ihre Titelzeile. Beim
+   Bau fallen erfahrungsgemäss Darstellungsfehler der Animation auf — die
+   gehören an der Animation behoben. Ablauf: `HOWTO-clips.md`, Abschnitt
+   «Clips zu einer einzelnen Animation».
 
 ---
 
