@@ -125,18 +125,17 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='Regel gegen Ueberkreuzen der Warteschlange (Entscheid Auftraggeber 28.09.2026)',
-         wie='Am 28.09.2026 haben beide Repos diese Datei geaendert, ohne die andere Fassung zu kennen: '
-             'Mathe arbeitete die Physik-Eintraege ab und legte «Anker an div.anim-titel» an, Physik haengte '
-             'an die alte Fassung einen Eintrag an. «Die ganze Datei uebernehmen» haette jeweils den Eintrag '
-             'der anderen Seite geloescht. Physik hat darum Mathes Fassung uebernommen, den Mathe-Eintrag '
-             'abgearbeitet (build-clips-einbau.py: anim_knoepfe 1:1 aus Mathe, in Physik wirkungslos, '
-             'KERN 0.833) und ihn gestrichen. In Mathe zu tun: (1) diese Datei 1:1 uebernehmen; (2) in '
-             'CLAUDE.md, Abschnitt Schwesterprojekt, beim Punkt zu scripts/abgleich.py die Regel ergaenzen, '
-             'die in Physiks CLAUDE.md steht: Vor jedem Hinzufuegen oder Streichen eines OFFEN-Eintrags '
-             'zuerst `python3 scripts/abgleich.py --diff scripts/abgleich.py`. Ist die Datei gedriftet, '
-             'zuerst die Fassung von drueben uebernehmen und deren Eintraege sichten, dann erst die eigene '
-             'Aenderung machen — nie blind anhaengen, nie blind ueberschreiben. (3) Diesen Eintrag streichen.'),
+    dict(quelle='Physik', was='Pre-Flight: Warnung fuer offene Eintraege in TODO-schwesterprojekt.md (28.09.2026)',
+         wie='Neue Funktion check_todo_schwester(wurzel, rep) in .claude/skills/preflight/preflight.py, '
+             'aufgerufen direkt nach dem abgleich-Check (check_todo_schwester(scripts.parent, rep)); dazu '
+             'eine Zeile im Docstring und ein Punkt in SKILL.md unter Stufe 2. Die Funktion 1:1 aus Physik '
+             'kopieren: Sie bestimmt das Schwesterrepo selbst (physiklib.js vorhanden -> ../tals-mathe, '
+             'sonst ../tals-physik), liest dort TODO-schwesterprojekt.md, zaehlt die «- **»-Eintraege '
+             'unter «## Offen» und meldet [WARN] todo-schwester mit Datum und Titel. In Mathe bleibt sie '
+             'stumm, weil Physik keine solche Datei fuehrt — sie steht dort nur, damit preflight.py '
+             'nicht weiter auseinanderlaeuft (KERN jetzt 0.808 unter der Grundlinie 0.85; nach dem '
+             'Uebertrag wieder darueber). Achtung: wurzel mit Path(wurzel).resolve() aufloesen, '
+             'scripts.parent ist relativ.'),
 ]
 
 FACH = {

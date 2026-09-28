@@ -12,6 +12,8 @@ Zwei Stufen:
    - verify_einheitentrainer.js (Selbsttest des Einheitentrainers; braucht jsdom)
    - check_identifier_collisions.py (falls vorhanden; ohne npm)
    - check_clips (Clip-Ablage gegen clips/clips.json und nav.js)
+   - check_todo_schwester (offene Eintraege in TODO-schwesterprojekt.md des
+     Schwesterrepos; nur gelesen, WARN)
    Fehlt ein npm-Modul, wird der Tiefen-Check sauber als WARN übersprungen.
 
 MUSS vom Repo-Wurzelverzeichnis aufgerufen werden (wegen scripts/ und node_modules/).
@@ -380,6 +382,8 @@ def run_deep(file_args, rep):
             rep.warn("abgleich", "neue Drift gegen das Schwesterrepo — "
                                  "`python3 scripts/abgleich.py`")
 
+    check_todo_schwester(scripts.parent, rep)
+
     ic = scripts / "check_identifier_collisions.py"
     if ic.is_file():
         r = subprocess.run(["python3", str(ic)], capture_output=True, text=True)
@@ -388,6 +392,39 @@ def run_deep(file_args, rep):
         print(out.rstrip())
         if r.returncode != 0:
             rep.err("check_identifier_collisions.py", "blockierende Symbol-Kollision (siehe oben)")
+
+
+def check_todo_schwester(wurzel, rep):
+    """Offene Eintraege in der TODO-Datei des Schwesterrepos.
+
+    Die Warteschlange OFFEN in scripts/abgleich.py meldet sich ueber die
+    Drift von selbst. Mathes TODO-schwesterprojekt.md (Inhaltsauftraege an
+    Physik) dagegen sah der Pre-Flight nicht — sie wurde nur gelesen, wenn
+    jemand daran dachte. Gelesen wird die Datei im Nachbarordner, nie
+    geschrieben. Physik fuehrt keine solche Datei (das Repo ist die Website);
+    in Mathe findet der Check darum nichts und schweigt.
+    """
+    wurzel = Path(wurzel).resolve()
+    physik = (wurzel / "physiklib.js").is_file()
+    todo = wurzel.parent / ("tals-mathe" if physik else "tals-physik") / "TODO-schwesterprojekt.md"
+    if not todo.is_file():
+        return
+    text = todo.read_text(encoding="utf-8")
+    m = re.search(r"^## Offen\s*$(.*?)(?=^## |\Z)", text, re.M | re.S)
+    if not m:
+        return
+    titel = []
+    for e in re.finditer(r"^- \*\*(.+?)(?:\*\*|$)", m.group(1), re.M):
+        teile = [t.strip() for t in e.group(1).split(" · ") if t.strip(" ·")]
+        titel.append(" · ".join(teile[:2]).rstrip(" ·"))
+    if not titel:
+        return
+    print("---- " + todo.parent.name + "/TODO-schwesterprojekt.md ----")
+    for t in titel:
+        print("  · " + t)
+    n = len(titel)
+    rep.warn("todo-schwester", "%d %s fuer dieses Repo in `../%s/TODO-schwesterprojekt.md`"
+             % (n, "offener Eintrag" if n == 1 else "offene Eintraege", todo.parent.name))
 
 
 def main(argv):

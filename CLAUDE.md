@@ -371,7 +371,7 @@ Render-Prüfung), `verify_js_runtime.js` (JS-Laufzeit) und `verify_einheitentrai
 (Selbsttest von p0-4), dazu `check_clips` — die Clip-Ablage gegen `clips/clips.json`:
 Clip ohne Eintrag, Eintrag ohne Datei, `lektion`-Code, den `nav.js` nicht kennt
 (alle `[FEHLER]`), fehlender Sprechertext (`[WARN]`); Drehbücher mit `probe: true`
-sind ausgenommen. Aus tals-mathe übernommen (26.09.2026). `verify_js_runtime.js` bekommt nur `themen/`-Seiten zu sehen —
+sind ausgenommen. Aus tals-mathe übernommen (26.09.2026). Dazu `check_todo_schwester` — offene Einträge in `../tals-mathe/TODO-schwesterprojekt.md` als `[WARN]`. `verify_js_runtime.js` bekommt nur `themen/`-Seiten zu sehen —
 es ersetzt Einbindungen der Form `src="../nav.js"` und meldet auf Wurzelseiten sonst
 einen Fehler, der keiner ist. Stufe 2 braucht einmalig `npm install mathjax-full jsdom` im
 Repo-Root; fehlen die Module, werden diese Checks als `[WARN]` übersprungen.
@@ -468,8 +468,12 @@ Jetzt steht die Regel auf beiden Seiten.
   sie nicht mit, und nichts in Mathe zeigte auf sie: ein Kanal, den die
   Gegenseite nie sieht. Wieder entfernt.
   Die Gegenrichtung läuft weiter über Mathes `TODO-schwesterprojekt.md` im
-  Wurzelverzeichnis — dort ist eine versionierte Arbeitsdatei erlaubt. Vor
-  einem Übertrag nach Physik dort nachsehen.
+  Wurzelverzeichnis — dort ist eine versionierte Arbeitsdatei erlaubt. Seit
+  dem 28.09.2026 meldet der Pre-Flight ihre offenen Einträge als
+  `[WARN] todo-schwester` (Check `check_todo_schwester`, liest nur); vorher
+  sah man sie nur, wenn man daran dachte. Die Warnung bleibt stehen, bis
+  Mathe den Eintrag löscht — ein bewusst zurückgestellter Eintrag meldet
+  sich also bei jedem Lauf.
 - **Ein guter Eintrag ist nachgezählt, nicht geschätzt.** Vor dem Schreiben im
   Mathe-Repo nachsehen und die konkreten Zahlen aufnehmen: wie viele Dateien
   betroffen sind, welche Sonderfälle es dort gibt, was dort anders heisst. Ein
