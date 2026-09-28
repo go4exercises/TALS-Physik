@@ -221,7 +221,7 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Starte die Animation — gern mit heruntergeregeltem Animationstempo — und verfolge den Puls im oberen Bild und gleichzeitig das markierte Teilchen (mit dem \(s\)-Regler wählbar); ↺ Reset startet den Mitschrieb neu.</li><li>Das Teilchen bewegt sich nur, während der Puls vorbeikommt — vorher und nachher ruht es.</li><li>Erhöhe \(c\): der Puls kommt früher beim Teilchen an, und sein Ausschlag im \(y(t)\)-Bild wird schmaler.</li><li>Verändere die Pulsbreite \(w\) und vergleiche die Breite des Buckels in beiden Diagrammen.</li><li>Schalte auf «Longitudinal (Feder)»: dieselbe Störung läuft als Verdichtung — die Teilchen schwingen jetzt vor und zurück.</li></ul></div>
+      <div class="ah-text"><ul><li>Starte die Animation — gern mit heruntergeregeltem Animationstempo — und verfolge den Puls im oberen Bild und gleichzeitig das markierte Teilchen (mit dem \(s\)-Regler wählbar); ↺ Reset startet den Mitschrieb neu.</li><li>Das Teilchen bewegt sich nur, während der Puls vorbeikommt — vorher und nachher ruht es.</li><li>Erhöhe \(c\): der Puls kommt früher beim Teilchen an, und sein Ausschlag im \(y(t)\)-Bild wird schmaler.</li><li>Verändere die Pulslänge und vergleiche die Breite des Buckels in beiden Diagrammen.</li><li>Schalte auf «Longitudinal (Feder)»: dieselbe Störung läuft als Verdichtung — die Teilchen schwingen jetzt vor und zurück.</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -253,9 +253,9 @@ MathJax = {
 
       </div>
       <div class="sl-grp">
-      <label>Pulsbreite \(w\):</label>
-      <input type="range" id="a1-w" min="0.5" max="1.5" value="1" step="0.1">
-      <span class="sl-val" id="a1-w-val">1.0 m</span>
+      <label>Pulslänge:</label>
+      <input type="range" id="a1-w" min="1" max="3" value="2" step="0.2">
+      <span class="sl-val" id="a1-w-val">2.0 m</span>
 
       </div>
     </div>
@@ -931,7 +931,7 @@ MathJax = {
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">\(\lambda_n = 2L/n\)</span><span class="lb-val" id="a7-lam">4.000 m</span></div>
+      <div class="lb-item"><span class="lb-lab">\(\lambda_n = 2L/n\)</span><span class="lb-val" id="a7-lam">4.00 m</span></div>
       <div class="lb-item"><span class="lb-lab">\(f_n = n \cdot c/(2L)\)</span><span class="lb-val" id="a7-fn">3.00 Hz</span></div>
       <div class="lb-item"><span class="lb-lab">Bäuche / innere Knoten</span><span class="lb-val" id="a7-kn">1 / 0</span></div>
     </div>
@@ -1480,14 +1480,15 @@ function spd(n){
 const a1St={typ:'T', tau:0, hist:[]};
 const A1A=6, A1L=8, A1K=0.04;   // Amplitude cm, Seillänge m, Versatz m/cm
 
-function a1Vals(){ return { c:+id('a1-c').value, w:+id('a1-w').value }; }
+// Der Regler zeigt die ganze Pulslänge; pw() rechnet mit der halben (Nullstellen bei |u| = 1)
+function a1Vals(){ return { c:+id('a1-c').value, w:+id('a1-w').value/2 }; }
 function a1SM(){ return +id('a1-teilchen').value; }
 function a1U(s, v){ return (s-(-v.w+v.c*a1St.tau))/v.w; }
 
 function a1Render(){
   const v=a1Vals();
   id('a1-c-val').textContent=v.c.toFixed(1)+' m/s';
-  id('a1-w-val').textContent=v.w.toFixed(1)+' m';
+  id('a1-w-val').textContent=(2*v.w).toFixed(1)+' m';
   const sP=-v.w+v.c*a1St.tau;
   const yM=A1A*pw(a1U(a1SM(),v));
   id('a1-zeit').textContent=a1St.tau.toFixed(2)+' s';
@@ -1607,7 +1608,7 @@ function a2Render(){
   }
   if(crests.length>=2){
     const yArr=Math.min(v.A+1.6,9.2);
-    dblArrow(cv.ctx,gr.cx(crests[1]),gr.cx(crests[0]),gr.cy(yArr),'#1f6b3a','λ = '+lam.toFixed(1)+' m');
+    dblArrow(cv.ctx,gr.cx(crests[1]),gr.cx(crests[0]),gr.cy(yArr),'#1f6b3a','λ = '+lam.toFixed(2)+' m');   // wie die Live-Box (a2-lam)
   }
   drawAxesUnits(cv.ctx,cv.W,cv.H,gr.cx,gr.cy,'s [m]', a2St.typ==='T'?'y [cm]':'u [cm]');
 
@@ -1705,7 +1706,7 @@ function drawA3(){
     if(s>=0.2 && s<=6-A3LAM-0.2 && (sB===null || s<sB)) sB=s; }
   // Beschriftung über dem Pfeil statt darauf: schmal war der Pfeil sonst ganz verdeckt
   if(sB!==null){ dblArrow(cv.ctx,gr.cx(sB),gr.cx(sB+A3LAM),gr.cy(6.1),'#8a4a0e');
-    halo(cv.ctx,'λ = 2 m',(gr.cx(sB)+gr.cx(sB+A3LAM))/2,gr.cy(6.1)-8,'#8a4a0e'); }
+    halo(cv.ctx,'λ = 2.0 m',(gr.cx(sB)+gr.cx(sB+A3LAM))/2,gr.cy(6.1)-8,'#8a4a0e'); }
   cv.ctx.fillStyle='#8a4a0e';
   cv.ctx.beginPath(); cv.ctx.arc(gr.cx(s0),gr.cy(a3Y(s0,t0)),6.5,0,6.283); cv.ctx.fill();
   cv.ctx.strokeStyle='#1c1a17'; cv.ctx.lineWidth=2; cv.ctx.stroke();
@@ -1723,7 +1724,7 @@ function drawA3(){
   for(let n=-6;n<=6;n++){ const t=A3T*(0.25+s0/A3LAM+n);
     if(t>=0.15 && t<=4-A3T-0.15 && (tB===null || t<tB)) tB=t; }
   if(tB!==null){ dblArrow(cv2.ctx,g2.cx(tB),g2.cx(tB+A3T),g2.cy(6.1),'#1f6b3a');
-    halo(cv2.ctx,'T = 1 s',(g2.cx(tB)+g2.cx(tB+A3T))/2,g2.cy(6.1)-8,'#1f6b3a'); }
+    halo(cv2.ctx,'T = 1.0 s',(g2.cx(tB)+g2.cx(tB+A3T))/2,g2.cy(6.1)-8,'#1f6b3a'); }
   cv2.ctx.fillStyle='#8a4a0e';
   cv2.ctx.beginPath(); cv2.ctx.arc(g2.cx(t0),g2.cy(a3Y(s0,t0)),6.5,0,6.283); cv2.ctx.fill();
   cv2.ctx.strokeStyle='#1c1a17'; cv2.ctx.lineWidth=2; cv2.ctx.stroke();
@@ -2072,7 +2073,7 @@ function a7Read(){
   const L=+id('a7-L').value, c=A7c();
   id('a7-L-val').textContent=L.toFixed(2)+' m';
   id('a7-c-val').textContent=c+' m/s';
-  id('a7-lam').textContent=(2*L/a7St.n).toFixed(3)+' m';
+  id('a7-lam').textContent=(2*L/a7St.n).toFixed(2)+' m';   // wie der λ-Pfeil
   const fn=a7St.n*c/(2*L);
   id('a7-fn').textContent=(fn<10?fn.toFixed(2):fn.toFixed(1))+' Hz';
   id('a7-kn').textContent=a7St.n+' / '+(a7St.n-1);
