@@ -3723,7 +3723,7 @@ function drawB4() {
   const gr = drawGrid(cv.ctx, cv.W, cv.H, b4xMin, 25.5, -2, 26);
   drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 't [h]', 'T [°C]');
   const ctx = cv.ctx;
-  b4St.gr = gr; b4St.W = cv.W;
+  b4St.gr = gr; b4St.W = cv.W; b4St.xMin = b4xMin;
 
   // Temperaturkurve
   drawCurve(ctx, gr.cx, gr.cy, tt => tt, b4T, 0, 24, 96, '#8a4a0e', 2.8);
@@ -3753,14 +3753,30 @@ function drawB4() {
     const dT = TB - T, dt = tB - t;
     ctx.fillStyle = '#5b2d8e'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'center';
     const dtTxt = 'Δt = ' + fmtS(dt) + ' h', dTTxt = 'ΔT = ' + fmtS(dT) + ' °C';
-    const dtX = (gr.cx(t) + gr.cx(tB)) / 2, dtY = gr.cy(T) + 16, dTY = (gr.cy(T) + gr.cy(TB)) / 2;
-    ctx.fillText(dtTxt, dtX, dtY);
-    ctx.textAlign = 'left';
-    ctx.fillText(dTTxt, gr.cx(tB) + 8, dTY);
-    // Die Punktbeschriftung (weisser Grund) darf diese beiden nicht zudecken
+    // Lagen je nach Dreieck: Δt auf der Seite des waagrechten Schenkels, von der
+    // der senkrechte NICHT weggeht; ΔT aussen neben dem senkrechten Schenkel,
+    // innen, wenn aussen der Platz fehlt (20 → 22 h lief es über den Rand).
+    // Bei kurzen Intervallen stiessen die beiden sonst aneinander (360 px).
     const wDt = ctx.measureText(dtTxt).width, wDT = ctx.measureText(dTTxt).width;
-    b4Sperr = [{ x0: dtX - wDt / 2, x1: dtX + wDt / 2, y0: dtY - 12, y1: dtY + 4 },
-               { x0: gr.cx(tB) + 8, x1: gr.cx(tB) + 8 + wDT, y0: dTY - 12, y1: dTY + 4 }];
+    const xLeg = gr.cx(tB), yLeg = gr.cy(T), runter = gr.cy(TB) > yLeg;
+    const dtX = Math.max(wDt / 2 + 4, Math.min(cv.W - wDt / 2 - 4, (gr.cx(t) + xLeg) / 2));
+    const dtY = runter ? yLeg - 7 : yLeg + 16;
+    const aussenRechts = tB >= t;
+    let dTx0 = aussenRechts ? xLeg + 8 : xLeg - 8 - wDT;
+    if (dTx0 < 4 || dTx0 + wDT > cv.W - 4) dTx0 = aussenRechts ? xLeg - 8 - wDT : xLeg + 8;
+    dTx0 = Math.max(4, Math.min(cv.W - 4 - wDT, dTx0));
+    let dTY = (yLeg + gr.cy(TB)) / 2;
+    const rDt = { x0: dtX - wDt / 2, x1: dtX + wDt / 2, y0: dtY - 12, y1: dtY + 4 };
+    const ueber = y => dTx0 < rDt.x1 + 4 && dTx0 + wDT > rDt.x0 - 4 && y - 12 < rDt.y1 + 2 && y + 4 > rDt.y0 - 2;
+    if (ueber(dTY)) dTY = runter ? rDt.y1 + 16 : rDt.y0 - 6;      // vom Δt-Etikett weg
+    // heller Grund: Kurve, Sekante und Hilfslinien laufen bei kurzen Intervallen durch
+    const halo = (txt, x, y) => { ctx.save(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.lineJoin = 'round';
+      ctx.strokeText(txt, x, y); ctx.restore(); ctx.fillText(txt, x, y); };
+    halo(dtTxt, dtX, dtY);
+    ctx.textAlign = 'left';
+    halo(dTTxt, dTx0, dTY);
+    // Die Punktbeschriftung (weisser Grund) darf diese beiden nicht zudecken
+    b4Sperr = [rDt, { x0: dTx0, x1: dTx0 + wDT, y0: dTY - 12, y1: dTY + 4 }];
   }
 
   // Ablese-Hilfslinien zu den Achsen
@@ -3802,7 +3818,9 @@ function drawB4() {
 const b4Cv = document.getElementById('b4-cv');
 function b4EvtT(evt) {
   const r = b4Cv.getBoundingClientRect();
-  const tt = (evt.clientX - r.left) / b4St.W * 26.5 - 1;   // Pixel -> Stunden
+  // Pixel -> Stunden über dieselbe Achse wie drawGrid (xMin hängt von der Breite ab;
+  // mit fest −1 … 25.5 lag der Punkt bei 360 px neben dem Finger)
+  const xMin = b4St.xMin ?? -1, tt = xMin + (evt.clientX - r.left) / b4St.W * (25.5 - xMin);
   return Math.min(24, Math.max(0, Math.round(tt * 2) / 2));
 }
 b4Cv.addEventListener('pointerdown', function (evt) {

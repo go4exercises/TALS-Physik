@@ -918,9 +918,15 @@ function drawA1() {
   const kosten = r => aussen(r) * 2 + hind.filter(q => schneidet(r, q)).length;
   const rLagen = [[ringX, ringY-18, 'center'], [ringX+16, ringY+4, 'left'], [ringX-16, ringY+4, 'right'],
                   [ringX, ringY+26, 'center'], [ringX, ringY-40, 'center'],
-                  [ringX+10, ringY-18, 'left'], [ringX+10, ringY-40, 'left']].map(l => box(l[0], l[1], l[2], rW));
+                  [ringX+10, ringY-18, 'left'], [ringX+10, ringY-40, 'left'], [ringX+10, ringY-62, 'left'],
+                  [ringX+10, ringY-84, 'left']]
+                  .map(l => box(l[2] === 'left' ? Math.max(l[0], xLinks + 2) : l[0], l[1], l[2], rW));
   const pLagen = [[pX+10, pY+20, 'left'], [pX+10, pY-12, 'left'], [pX-10, pY-12, 'right'], [pX-10, pY+20, 'right'],
-                  [pX+10, pY-34, 'left'], [pX-10, pY-34, 'right'], [pX+10, pY-56, 'left']].map(l => box(l[0], l[1], l[2], pW));
+                  [pX+10, pY-34, 'left'], [pX-10, pY-34, 'right'], [pX+10, pY-56, 'left'],
+                  // nahe am Ursprung (360 px) sind die Lagen darunter besetzt: weiter hinauf statt in den Zahlenstreifen
+                  [pX+10, pY-78, 'left'], [pX+10, pY-100, 'left']]
+                  // linksbündig nie in die Spalte der y-Zahlen: rechts daneben beginnen
+                  .map(l => box(l[2] === 'left' ? Math.max(l[0], xLinks + 2) : l[0], l[1], l[2], pW));
   let best = null;
   rLagen.forEach((r, ri) => pLagen.forEach((q, pi) => {
     const k = (kosten(r) + kosten(q) + (schneidet(r, q) ? 5 : 0)) * 100 + ri + pi;
