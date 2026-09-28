@@ -266,7 +266,21 @@ OFFEN = [
              'variablenmenü) und variablenmenü auf «vaɾiˈɑːblənmeːnˌyː» umgestellt. Trifft alle 16 Stellen in 8 '
              'Mathe-Clips, neu zu vertonen: g1-2-ti30x-brueche, g1-2-ti30x-ggt-kgv, g1-4-ti30x-konstanten, '
              'g2-2b-ti30x-real-oder-i, g3-1-ti30x-wertetabelle, g4-3-ti30x-haeufigkeiten, g4-3-ti30x-lagemasse, '
-             'g5-3-ti30x-dms. In Physik 0 Stellen.'),
+             'g5-3-ti30x-dms. In Physik 0 Stellen. '
+             '(6) Zweite Runde 28.09.2026 (Woerter aus Physiks 6.1-Clips, Entscheid Auftraggeber nach '
+             'Hoerprobe): AUSSPRACHE neu am Ende oktave, ellipsen, ellipse, longitudinal, laser («LEH-ser» wie '
+             'laserpointer), orange (nasal oɾˈɑ̃ːʒə), radio, elektromagnetisch; bewusst NICHT: transversal, niveau, '
+             'photon (Photonenergie bleibt, obwohl «photonen» dort greift). TAUSCH neu: Wortfuge per Bindestrich '
+             'fuer Waermestrahlung, Gammastrahlung, Nachkommastelle(n), Zahlenstrahl(en), Haeufigkeitsspalte, '
+             'Bewegungszustand, Tabellendichte, Normdichte — die Stimme las in Zusammensetzungen «s-t» statt '
+             '«scht». Als allgemeine Regel angehoert und abgelehnt: Widerstand, Kilowattstunde, Normzustand, '
+             'Brennstoff, Meeresspiegel klangen ohne Fuge besser. Mathe-Clips, die (6) trifft (gezaehlt '
+             '28.09.2026, nur gelesen): g1-1-anim-flaechenmodell, g1-2-anim-intervalle, g1-3-anim-zusammenfassen, '
+             'g1-4-anim-einschachteln, g1-4-signifikante-stellen, g1-4-ti30x-modus, g2-2b-anim-d-zahlenstrahl, '
+             'g2-2b-anim-flaechenmodell, g2-2b-ungleichung-vorzeichenmuster, g2-3-anim-bueschel, '
+             'g4-3-ti30x-haeufigkeiten, g5-1-anim-parallelen, g5-2a-anim-flaechenformel, g5-2b-anim-drachen, '
+             'g5-2b-anim-sehnen-tangenten, g5-2c-anim-kreissegment, g5-2d-anim-zentrische-streckung, '
+             's2-1-anim-scheinloesung, s2-1-anim-waage (19) — vor dem Vertonen neu ermitteln.'),
 
 ]
 

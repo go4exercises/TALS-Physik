@@ -238,10 +238,14 @@ chromium --autoplay-policy=document-user-activation-required
 Piper erhält es als `[[…]]`. Buchstabierte Abkürzungen stehen in
 `ABKUERZUNGEN` (nur exakt als ganzes Wort: FI, LED, COP, SI, dazu «My» als «mü»), einfache
 Worttausche ohne Lautschrift in `TAUSCH` (achthundert, Newtonmeter,
-Lageenergie). Vorsilben (Milli-, Kilo-, Hekto-, …) und Zusammensetzungen
+Lageenergie). Ebenfalls dort die **Wortfuge**: In Zusammensetzungen erkennt die
+Stimme die Fuge nicht und liest «s-t» statt «scht» (Wärme-s-trahlung); ein
+Bindestrich nur für die Stimme behebt das (`Wärme-strahlung`). Als allgemeine
+Regel angehört und abgelehnt — bei Widerstand, Kilowattstunde u. a. klang es
+ohne besser —, darum steht jedes Wort einzeln. Vorsilben (Milli-, Kilo-, Hekto-, …) und Zusammensetzungen
 (Amperemeter, Zentripetalkraft) greifen mit. Jeder Eintrag ist nach Hörproben
 entschieden; bewusst **nicht** geändert, weil die bisherige Lesart besser
-klang: Archimedes, Perihel, Parabel, Mikrometer, Mikro, Volumen, linear, Erdbeschleunigung. Die Tabellen sind seit dem 28.09.2026 in Physik und Mathe dieselben — ein neues Wort wird mit Sätzen aus beiden Repos angehört und gilt für beide. Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
+klang: Archimedes, Perihel, Parabel, Mikrometer, Mikro, Volumen, linear, Erdbeschleunigung, Transversal-, Niveau, Photon. Die Tabellen sind seit dem 28.09.2026 in Physik und Mathe dieselben — ein neues Wort wird mit Sätzen aus beiden Repos angehört und gilt für beide. Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
 nach `]]` verschluckt Piper samt Pause und klebt das nächste Wort an — es
 gehört in die Klammer. Und ohne Wortgrenze träfe «ampere» auch
 «Schlamperei». Probe vor dem Eintrag: `PiperVoice.load(modell).phonemize(text)`

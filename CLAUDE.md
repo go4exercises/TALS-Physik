@@ -178,9 +178,16 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Fremdwörter (u. a. Zentripetal…, das die Stimme englisch las), Mathes
   Wörter (Hyperbel, Tangens, Sechstel, komponentenweise, Hypotenuse, Menü
   hinten betont, TI-30X-Tasten …), exakte Wörter (FI, LED, COP, SI buchstabiert; «My» als «mü»,
-  sonst englisch «Mai») und vier Worttausche (achthundert, Newtonmeter,
-  Lageenergie, TI-30X). Archimedes, Perihel, Parabel, Mikrometer, Mikro,
-  Volumen, linear und Erdbeschleunigung bleiben bewusst ungeändert. **Die
+  sonst englisch «Mai»), Oktave, Ellipse, Longitudinal-, Laser, orange,
+  Radio-, elektromagnetisch, dazu Worttausche (achthundert, Newtonmeter,
+  Lageenergie, TI-30X) und die **Wortfuge per Bindestrich** für einzelne
+  Zusammensetzungen, in denen die Stimme «s-t» statt «scht» las
+  (Wärme-strahlung, Gamma-strahlung, Nachkomma-stellen, Zahlen-strahl,
+  Häufigkeits-spalte, Bewegungszu-stand, Tabellen-dichte, Norm-dichte).
+  Archimedes, Perihel, Parabel, Mikrometer, Mikro, Volumen, linear,
+  Erdbeschleunigung, Transversal-, Niveau und Photon bleiben bewusst
+  ungeändert, ebenso Widerstand, Kilowattstunde und die übrigen Fugenwörter
+  (als allgemeine Regel angehört und abgelehnt). **Die
   Tabellen sind in beiden Repos dieselben** (am 28.09.2026 in Sätzen aus
   beiden angehört und je Wort einmal entschieden); ein neues Wort gilt also
   für beide — Hörprobe mit Sätzen aus beiden, Übertrag über `abgleich.py`. Ein neues Wort gehört in diese Tabellen, nicht
