@@ -167,6 +167,11 @@ MathJax = {
 .typ-btn[data-mm="a-parallel"]:hover, .typ-btn[data-mm="v-serie"]:hover { background:var(--rot-hell); color:var(--rot); border-color:var(--rot); }
 .typ-btn.aktiv[data-mm="a-serie"], .typ-btn.aktiv[data-mm="v-parallel"] { background:var(--gruen); color:#fff; border-color:var(--gruen); }
 .typ-btn.aktiv[data-mm="a-parallel"], .typ-btn.aktiv[data-mm="v-serie"] { background:var(--rot); color:#fff; border-color:var(--rot); }
+/* Animation Wassermodell: Farbskalen der Legende, angetippte Zeile der Vergleichstabelle */
+.wm-sk-w { background:linear-gradient(to right,#d4e7f5,#1c4f8f); width:44px; height:8px; }
+.wm-sk-e { background:linear-gradient(to right,#f3e2c6,#b0431a); width:44px; height:8px; }
+.wm-tab tr[data-wm-hl] { cursor:pointer; }
+.wm-tab tr[data-wm-hl]:hover, .wm-tab tr[data-wm-hl]:focus, .wm-tab tr.wm-an { background:var(--bernstein-hell); }
 </style>
 </head>
 <body>
@@ -415,6 +420,151 @@ MathJax = {
   <p>In der Reihenschaltung ist der Gesamtwiderstand grösser als jeder Einzelwiderstand, in der Parallelschaltung kleiner als der kleinste. Im Haushalt sind alle Geräte parallel geschaltet.</p>
 </div>
 
+<p>Was im Draht geschieht, sieht man nicht. Ein Wasserkreis in derselben Anordnung macht es sichtbar: Eine Pumpe treibt Wasser durch Rohre, wie eine Quelle Ladung durch Leitungen treibt. Jede Grösse im einen Kreis hat ihr Gegenstück im anderen.</p>
+
+<div class="widget">
+  <div class="widget-header">
+<div class="widget-titelzeile">
+  <h3 id="anim-wassermodell">Animation 1 · Das Wassermodell des Stromkreises</h3>
+  <div class="anim-hinweis links">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Worauf achten?</span>
+      <div class="ah-text"><ul><li>Vergleiche die beiden Durchflussmesser vor und nach der Kiesfüllung, dann die beiden Amperemeter im Stromkreis.</li><li>Drehe den Hahn zu: Wo liegt jetzt der ganze Pumpendruck, wo im Stromkreis die ganze Spannung?</li><li>Verdopple den Antrieb von \(3\;\text{V}\) auf \(6\;\text{V}\) und beobachte Volumenstrom und Stromstärke.</li><li>Wähle «In Reihe» und stelle \(R_2\) doppelt so gross ein wie \(R_1\).</li><li>Wähle «Parallel» und verkleinere \(R_2\): Was geschieht mit dem Gesamtstrom?</li></ul></div>
+    </div>
+  </div>
+  <div class="anim-hinweis rechts">
+    <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
+    <div class="ah-pop" role="tooltip">
+      <span class="ah-titel">Erkenntnis</span>
+      <div class="ah-text"><ul><li>Ein Widerstand verbraucht keinen Strom: Vor und nach ihm fliesst gleich viel. Kleiner wird der Druck, im Stromkreis die Spannung gegenüber dem Minuspol.</li><li>Am geschlossenen Hahn liegt der ganze Pumpendruck, am offenen Schalter die ganze Spannung der Quelle.</li><li>Bei gleichem Widerstand sind Antrieb und Strom proportional: \(\Delta p = R_\text{hyd}\cdot\dot V\) wie \(U = R\cdot I\).</li><li>In Reihe teilt sich der Antrieb auf, parallel teilt sich der Strom auf.</li></ul></div>
+    </div>
+  </div>
+  <!-- CLIP-ANIM — generiert von scripts/build-clips-einbau.py -->
+  <div class="clip" data-clip="../clips/p6-2-anim-wassermodell.html" data-titel="Das Wassermodell: Pumpe, Kies und Hahn im Stromkreis" data-modus="gross">
+    <button class="ah-clip-knopf" type="button" onclick="clipStart(this)" aria-label="Clip zu dieser Animation abspielen (1:21): Das Wassermodell: Pumpe, Kies und Hahn im Stromkreis">▶ Clip</button>
+  </div>
+  <!-- /CLIP-ANIM -->
+</div>
+  </div>
+  <div class="widget-body">
+
+    <div class="sl-row">
+      <label>Ansicht:</label>
+      <div class="typ-btns" style="margin-bottom:0">
+        <button class="typ-btn aktiv" data-wm-ansicht="um">Ein Bild, umschaltbar</button>
+        <button class="typ-btn" data-wm-ansicht="beide">Beide Kreise untereinander</button>
+      </div>
+    </div>
+    <div class="sl-row" id="wm-kreis-row">
+      <label>Kreis:</label>
+      <div class="typ-btns" style="margin-bottom:0">
+        <button class="typ-btn aktiv" data-wm-kreis="0">💧 Wasserkreis</button>
+        <button class="typ-btn" data-wm-kreis="1">⚡ Stromkreis</button>
+      </div>
+    </div>
+    <div class="sl-row">
+      <label>Schaltung:</label>
+      <div class="typ-btns" style="margin-bottom:0">
+        <button class="typ-btn aktiv" data-wm-cfg="einfach">Ein Widerstand</button>
+        <button class="typ-btn" data-wm-cfg="reihe">In Reihe</button>
+        <button class="typ-btn" data-wm-cfg="parallel">Parallel</button>
+      </div>
+    </div>
+
+    <div class="sl-row">
+      <div class="sl-grp">
+      <label>Antrieb \(U\):</label>
+      <input type="range" id="wm-U" min="0" max="12" value="6" step="0.5">
+      <span class="sl-val" id="wm-U-val">6.0 V</span>
+
+      </div>
+      <div class="sl-grp">
+      <label>Widerstand \(R_1\):</label>
+      <input type="range" id="wm-R1" min="5" max="50" value="10" step="1">
+      <span class="sl-val" id="wm-R1-val">10 Ω</span>
+
+      </div>
+      <div class="sl-grp" id="wm-R2-grp" style="display:none">
+      <label>Widerstand \(R_2\):</label>
+      <input type="range" id="wm-R2" min="5" max="50" value="20" step="1">
+      <span class="sl-val" id="wm-R2-val">20 Ω</span>
+
+      </div>
+    </div>
+
+    <div style="margin:10px 0;">
+      <button class="play-btn" id="wm-btn">▶ Start</button>
+      <button class="play-btn" id="wm-sw">🚰 Hahn zudrehen / Schalter öffnen</button>
+      <button class="play-btn" id="wm-el">Elektronen zeigen</button>
+    </div>
+
+    <div class="formel-live">
+      <div class="fl-label">Ohmsches Gesetz in beiden Kreisen</div>
+      <div class="fl-eq" id="wm-eq-w"></div>
+      <div class="fl-eq" id="wm-eq-e"></div>
+    </div>
+
+    <div class="live-box">
+      <div class="lb-item"><span class="lb-lab">Antrieb \(\Delta p\) ; \(U\)</span><span class="lb-val" id="wm-lb-u">60 kPa ; 6.0 V</span></div>
+      <div class="lb-item"><span class="lb-lab">Strom \(\dot V\) ; \(I\)</span><span class="lb-val" id="wm-lb-i">60 ml/s ; 0.60 A</span></div>
+      <div class="lb-item"><span class="lb-lab">Leistung \(P\)</span><span class="lb-val" id="wm-lb-p">3.60 W</span></div>
+    </div>
+
+    <div class="cv-wrap" id="wm-buehne">
+      <div class="cv-titel" id="wm-titel">💧 Wasserkreis — Klick aufs Bild wechselt zum Stromkreis</div>
+      <canvas id="wm-cv-m" style="cursor:pointer"></canvas>
+      <div id="wm-beide" style="display:none">
+        <canvas id="wm-cv-w"></canvas>
+        <div class="cv-titel" style="border-top:1px solid var(--linie)">⚡ Stromkreis in derselben Anordnung</div>
+        <canvas id="wm-cv-e"></canvas>
+      </div>
+      <div class="canvas-legend">
+        <span class="cl-item"><span class="cl-line wm-sk-w"></span>Rohrfarbe: Druck (dunkel = hoch)</span>
+        <span class="cl-item"><span class="cl-line wm-sk-e"></span>Leitungsfarbe: Spannung gegenüber dem Minuspol (dunkel = hoch)</span>
+        <span class="cl-item" id="wm-lg-teilchen">Punkte: Wasser bzw. Ladung in technischer Stromrichtung (+ nach −)</span>
+        <span class="cl-item">Massstab: 1 V entspricht 10 kPa; 1 A entspricht 100 ml/s</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Wasserkreis und Stromkreis im Vergleich</div>
+  <p>Fahre über eine Zeile oder tippe sie an: Das Bauteil leuchtet in der Animation auf.</p>
+  <table class="ftb-tabelle wm-tab">
+    <thead><tr><th>Wasserkreis</th><th>Stromkreis</th></tr></thead>
+    <tbody>
+      <tr data-wm-hl="quelle" tabindex="0"><td>Pumpe: erzeugt den Druckunterschied \(\Delta p\), liefert kein Wasser</td><td>Quelle: erzeugt die Spannung \(U\), liefert keine Ladung</td></tr>
+      <tr data-wm-hl="leitung" tabindex="0"><td>Rohr, randvoll mit Wasser</td><td>Leitung, voller beweglicher Ladung</td></tr>
+      <tr data-wm-hl="traeger" tabindex="0"><td>Wasser; Volumenstrom \(\dot V\) in \(\text{ml/s}\)</td><td>Ladung (im Metall: Elektronen); Stromstärke \(I\) in \(\text{A}\)</td></tr>
+      <tr data-wm-hl="rs" tabindex="0"><td>Kiesfüllung: bremst, Reibung erwärmt; Strömungswiderstand \(R_\text{hyd} = \Delta p/\dot V\)</td><td>Widerstand: bremst, wird warm; \(R = U/I\)</td></tr>
+      <tr data-wm-hl="schalter" tabindex="0"><td>Hahn <strong>offen</strong>: Wasser fliesst</td><td>Schalter <strong>geschlossen</strong>: Strom fliesst</td></tr>
+      <tr data-wm-hl="amp" tabindex="0"><td>Durchflussmesser, im Rohr</td><td>Amperemeter, in Serie</td></tr>
+      <tr data-wm-hl="volt" tabindex="0"><td>U-Rohr-Manometer, an beiden Enden angeschlossen</td><td>Voltmeter, parallel angeschlossen</td></tr>
+      <tr data-wm-hl="leitung" tabindex="0"><td>Druck an einer Stelle (Farbe des Rohrs)</td><td>Spannung gegenüber dem Minuspol (Farbe der Leitung)</td></tr>
+    </tbody>
+  </table>
+  <p>Auch die Gesetze haben dieselbe Form: \(\Delta p = R_\text{hyd}\cdot\dot V\) entspricht \(U = R\cdot I\), die Leistung \(P = \Delta p\cdot\dot V\) entspricht \(P = U\cdot I\), die Wassermenge \(V = \dot V\cdot t\) der Ladung \(Q = I\cdot t\). Der Massstab der Animation koppelt \(1\;\text{V}\) an \(10\;\text{kPa}\) und \(1\;\text{A}\) an \(100\;\text{ml/s}\). Mit dieser Wahl stimmen auch die Leistungen in Watt überein, denn \(10\;\text{kPa}\cdot 0.1\;\text{l/s}\) sind in SI-Einheiten \(10\,000\;\text{Pa}\cdot 0.0001\;\text{m}^3\text{/s} = 1\;\text{W}\).</p>
+</div>
+
+<div class="block block-merksatz">
+  <div class="block-titel">💡 Die Quelle ist eine Pumpe, kein Vorratstank</div>
+  <p>Sie treibt die Ladung an, die schon überall im Kreis ist; darum setzt der Strom überall gleichzeitig ein. Im unverzweigten Kreis ist die Stromstärke an jeder Stelle gleich. Am Widerstand geht nicht Strom verloren, sondern Druck: Die Spannung fällt ab, und die Energie wird in Wärme umgesetzt.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Wo das Modell hinkt</div>
+  <ul>
+    <li><strong>Hahn und Schalter sind umgekehrt benannt.</strong> Ein <em>offener</em> Hahn lässt Wasser durch, ein <em>offener</em> Schalter unterbricht den Strom.</li>
+    <li><strong>Kein Auslaufen.</strong> Ein aufgeschnittenes Rohr verliert Wasser. Eine aufgeschnittene Leitung verliert keine Ladung, der Strom hört einfach auf.</li>
+    <li><strong>Richtung.</strong> Das Wasser fliesst hier wie die technische Stromrichtung von + nach −. Die Elektronen im Metall bewegen sich umgekehrt; «Elektronen zeigen» macht das sichtbar.</li>
+    <li><strong>Tempo.</strong> Die Elektronen kriechen: bei \(1\;\text{A}\) in einem Kupferdraht von \(1\;\text{mm}^2\) etwa \(0.07\;\text{mm/s}\). Die Lampe leuchtet trotzdem sofort, weil sich der Antrieb fast mit Lichtgeschwindigkeit ausbreitet. Beim vollen Gartenschlauch kommt vorne auch sofort Wasser, nur nicht dasselbe, das hinten hineingeht.</li>
+    <li><strong>Der Massstab ist gewählt.</strong> Dass \(1\;\text{V}\) genau \(10\;\text{kPa}\) entspricht, ist eine Festlegung für dieses Bild, kein Naturgesetz.</li>
+  </ul>
+</div>
+
 <div class="block block-fehler">
   <div class="block-titel">⚠ Gefahren und Schutzmassnahmen</div>
   <p>Nerven und Muskeln — auch das Herz — arbeiten mit elektrischen Impulsen. Fliesst von aussen Strom durch den Körper, verkrampfen die Muskeln; man kann die Berührungsstelle oft nicht mehr loslassen. Ströme über das Herz (Hand zu Hand oder Hand zu Fuss) sind besonders gefährlich: Netzstrom (\(50\;\text{Hz}\)) kann <strong>Herzkammerflimmern</strong> und Kreislaufstillstand auslösen. Ströme über \(500\,\text{mA}\) können schon nach wenigen Millisekunden tödlich sein. Wichtige Schutzmassnahmen sind Isolierung, der <strong>Schutzleiter</strong> (Erdung), der <strong>Fehlerstromschutzschalter</strong> (FI/RCD, löst typisch bei \(30\,\text{mA}\) Fehlerstrom aus) und das Beachten von Sicherheitsregeln.</p>
@@ -442,7 +592,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-spannung-strom-widerstand">Animation 1 · Spannung, Strom und Widerstand</h3>
+  <h3 id="anim-spannung-strom-widerstand">Animation 2 · Spannung, Strom und Widerstand</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -527,7 +677,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-multimeter-richtig-anschliessen">Animation 2 · Multimeter richtig anschliessen</h3>
+  <h3 id="anim-multimeter-richtig-anschliessen">Animation 3 · Multimeter richtig anschliessen</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -610,7 +760,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-multimeter-bedienen">Animation 3 · Multimeter bedienen</h3>
+  <h3 id="anim-multimeter-bedienen">Animation 4 · Multimeter bedienen</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -707,7 +857,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-r-l-a">Animation 4 · Widerstand eines Leiters: \(R = \rho\,l/A\)</h3>
+  <h3 id="anim-r-l-a">Animation 5 · Widerstand eines Leiters: \(R = \rho\,l/A\)</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -796,7 +946,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-widerstaende-reihe">Animation 5 · Zwei Widerstände in Reihe</h3>
+  <h3 id="anim-widerstaende-reihe">Animation 6 · Zwei Widerstände in Reihe</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -882,7 +1032,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-widerstaende-parallel">Animation 6 · Zwei Widerstände parallel</h3>
+  <h3 id="anim-widerstaende-parallel">Animation 7 · Zwei Widerstände parallel</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -976,7 +1126,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-schaltung-schritt-fuer-schritt-zusammenfassen">Animation 7 · Schaltung Schritt für Schritt zusammenfassen</h3>
+  <h3 id="anim-schaltung-schritt-fuer-schritt-zusammenfassen">Animation 8 · Schaltung Schritt für Schritt zusammenfassen</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -1084,7 +1234,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-p-u-i-e">Animation 8 · Leistung und Energie: \(P=U\cdot I\) und \(E=P\cdot t\)</h3>
+  <h3 id="anim-p-u-i-e">Animation 9 · Leistung und Energie: \(P=U\cdot I\) und \(E=P\cdot t\)</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -1185,7 +1335,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-wechselspannung-effektivwert">Animation 9 · Wechselspannung und Effektivwert</h3>
+  <h3 id="anim-wechselspannung-effektivwert">Animation 10 · Wechselspannung und Effektivwert</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -1276,7 +1426,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-zwei-lampen-in-reihe-und-parallel">Animation 10 · Zwei Lampen in Reihe und parallel</h3>
+  <h3 id="anim-zwei-lampen-in-reihe-und-parallel">Animation 11 · Zwei Lampen in Reihe und parallel</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -1374,7 +1524,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-wirkung-50-hz-wechselstrom">Animation 11 · Wirkung von 50-Hz-Wechselstrom</h3>
+  <h3 id="anim-wirkung-50-hz-wechselstrom">Animation 12 · Wirkung von 50-Hz-Wechselstrom</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -1468,7 +1618,7 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
 <div class="widget-titelzeile">
-  <h3 id="anim-fi-stromvergleich">Animation 12 · FI-Schutzschalter: der Stromvergleich</h3>
+  <h3 id="anim-fi-stromvergleich">Animation 13 · FI-Schutzschalter: der Stromvergleich</h3>
   <div class="anim-hinweis links">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
@@ -1785,7 +1935,7 @@ MathJax = {
       <div class="block-titel">🟢 Lösung</div>
       <ol class="aufg-liste">
         <li>\(R_\text{A}\) liegt parallel zu \(R_\text{L}\): \(R = (60\cdot 0.1)/(60+0.1) = 0.0998\,\Omega\) — praktisch nur noch der Innenwiderstand des Geräts.</li>
-        <li>\(I = 12/0.0998 \approx 120\,\text{A}\). Die Gerätesicherung brennt durch; ohne Sicherung wird das Messwerk zerstört. Es ist ein Kurzschluss. (Gerechnet mit idealer Quelle. Eine reale Quelle hat einen Innenwiderstand, der den Strom begrenzt — mit \(R_\text{i} = 0.5\;\Omega\) wie in <a class="anim-ref" href="#anim-multimeter-richtig-anschliessen">Animation 2</a> sind es rund \(20\;\text{A}\), immer noch weit über jeder Gerätesicherung.)</li>
+        <li>\(I = 12/0.0998 \approx 120\,\text{A}\). Die Gerätesicherung brennt durch; ohne Sicherung wird das Messwerk zerstört. Es ist ein Kurzschluss. (Gerechnet mit idealer Quelle. Eine reale Quelle hat einen Innenwiderstand, der den Strom begrenzt — mit \(R_\text{i} = 0.5\;\Omega\) wie in <a class="anim-ref" href="#anim-multimeter-richtig-anschliessen">Animation 3</a> sind es rund \(20\;\text{A}\), immer noch weit über jeder Gerätesicherung.)</li>
         <li>In Serie, also die Leitung auftrennen und das Gerät einfügen: \(I = 12/(60+0.1) = 199.7\,\text{mA}\) — rund \(0.2\,\%\) unter dem ungestörten Wert.</li>
       </ol>
     </div>
@@ -2046,11 +2196,19 @@ MathJax = {
   </div>
 </div>
 <p class="cl-animkopf">Clips zu den Animationen — was jede Animation zeigt</p>
-<div class="cl-body clip-auswahl" style="grid-template-rows: repeat(6, auto)">
+<div class="cl-body clip-auswahl" style="grid-template-rows: repeat(7, auto)">
+  <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-wassermodell.html" data-titel="Das Wassermodell: Pumpe, Kies und Hahn im Stromkreis" data-modus="gross">
+    <a class="cl-animlink" href="#anim-wassermodell" aria-label="Zur Animation: Das Wassermodell: Pumpe, Kies und Hahn im Stromkreis">Anim</a>
+    <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Das Wassermodell: Pumpe, Kies und Hahn im Stromkreis">
+      <span class="cl-folge">1</span>
+      <span class="cl-titel">Das Wassermodell: Pumpe, Kies und Hahn im Stromkreis</span>
+      <span class="cl-zeit">1:21</span>
+    </button>
+  </div>
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-ohm.html" data-titel="Ohmsches Gesetz: was die Kennlinie zeigt" data-modus="gross">
     <a class="cl-animlink" href="#anim-spannung-strom-widerstand" aria-label="Zur Animation: Ohmsches Gesetz: was die Kennlinie zeigt">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Ohmsches Gesetz: was die Kennlinie zeigt">
-      <span class="cl-folge">1</span>
+      <span class="cl-folge">2</span>
       <span class="cl-titel">Ohmsches Gesetz: was die Kennlinie zeigt</span>
       <span class="cl-zeit">0:55</span>
     </button>
@@ -2058,7 +2216,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-multimeter-anschluss.html" data-titel="Multimeter anschliessen: in Serie oder parallel" data-modus="gross">
     <a class="cl-animlink" href="#anim-multimeter-richtig-anschliessen" aria-label="Zur Animation: Multimeter anschliessen: in Serie oder parallel">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Multimeter anschliessen: in Serie oder parallel">
-      <span class="cl-folge">2</span>
+      <span class="cl-folge">3</span>
       <span class="cl-titel">Multimeter anschliessen: in Serie oder parallel</span>
       <span class="cl-zeit">1:15</span>
     </button>
@@ -2066,7 +2224,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-multimeter-bedienen.html" data-titel="Multimeter bedienen: Bereich, Buchse, Anschluss" data-modus="gross">
     <a class="cl-animlink" href="#anim-multimeter-bedienen" aria-label="Zur Animation: Multimeter bedienen: Bereich, Buchse, Anschluss">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Multimeter bedienen: Bereich, Buchse, Anschluss">
-      <span class="cl-folge">3</span>
+      <span class="cl-folge">4</span>
       <span class="cl-titel">Multimeter bedienen: Bereich, Buchse, Anschluss</span>
       <span class="cl-zeit">1:11</span>
     </button>
@@ -2074,7 +2232,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-leiter.html" data-titel="Widerstand eines Leiters: was Länge, Querschnitt und Material bewirken" data-modus="gross">
     <a class="cl-animlink" href="#anim-r-l-a" aria-label="Zur Animation: Widerstand eines Leiters: was Länge, Querschnitt und Material bewirken">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Widerstand eines Leiters: was Länge, Querschnitt und Material bewirken">
-      <span class="cl-folge">4</span>
+      <span class="cl-folge">5</span>
       <span class="cl-titel">Widerstand eines Leiters: was Länge, Querschnitt und Material bewirken</span>
       <span class="cl-zeit">1:01</span>
     </button>
@@ -2082,7 +2240,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-reihe.html" data-titel="Zwei Widerstände in Reihe: Widerstände addieren, Spannung teilt sich im Verhältnis" data-modus="gross">
     <a class="cl-animlink" href="#anim-widerstaende-reihe" aria-label="Zur Animation: Zwei Widerstände in Reihe: Widerstände addieren, Spannung teilt sich im Verhältnis">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Zwei Widerstände in Reihe: Widerstände addieren, Spannung teilt sich im Verhältnis">
-      <span class="cl-folge">5</span>
+      <span class="cl-folge">6</span>
       <span class="cl-titel">Zwei Widerstände in Reihe: Widerstände addieren, Spannung teilt sich im Verhältnis</span>
       <span class="cl-zeit">1:01</span>
     </button>
@@ -2090,7 +2248,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-parallel.html" data-titel="Zwei Widerstände parallel: Teilströme addieren, Gesamtwiderstand sinkt" data-modus="gross">
     <a class="cl-animlink" href="#anim-widerstaende-parallel" aria-label="Zur Animation: Zwei Widerstände parallel: Teilströme addieren, Gesamtwiderstand sinkt">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Zwei Widerstände parallel: Teilströme addieren, Gesamtwiderstand sinkt">
-      <span class="cl-folge">6</span>
+      <span class="cl-folge">7</span>
       <span class="cl-titel">Zwei Widerstände parallel: Teilströme addieren, Gesamtwiderstand sinkt</span>
       <span class="cl-zeit">1:02</span>
     </button>
@@ -2098,7 +2256,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-schaltung.html" data-titel="Gemischte Schaltung durchgerechnet: zusammenfassen, zurückrechnen, prüfen" data-modus="gross">
     <a class="cl-animlink" href="#anim-schaltung-schritt-fuer-schritt-zusammenfassen" aria-label="Zur Animation: Gemischte Schaltung durchgerechnet: zusammenfassen, zurückrechnen, prüfen">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Gemischte Schaltung durchgerechnet: zusammenfassen, zurückrechnen, prüfen">
-      <span class="cl-folge">7</span>
+      <span class="cl-folge">8</span>
       <span class="cl-titel">Gemischte Schaltung durchgerechnet: zusammenfassen, zurückrechnen, prüfen</span>
       <span class="cl-zeit">1:14</span>
     </button>
@@ -2106,7 +2264,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-leistung.html" data-titel="Leistung und Energie: die Fläche unter dem Rechteck" data-modus="gross">
     <a class="cl-animlink" href="#anim-p-u-i-e" aria-label="Zur Animation: Leistung und Energie: die Fläche unter dem Rechteck">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Leistung und Energie: die Fläche unter dem Rechteck">
-      <span class="cl-folge">8</span>
+      <span class="cl-folge">9</span>
       <span class="cl-titel">Leistung und Energie: die Fläche unter dem Rechteck</span>
       <span class="cl-zeit">1:00</span>
     </button>
@@ -2114,7 +2272,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-effektivwert.html" data-titel="Wechselspannung: gleicher Scheitelwert, halbe Heizleistung" data-modus="gross">
     <a class="cl-animlink" href="#anim-wechselspannung-effektivwert" aria-label="Zur Animation: Wechselspannung: gleicher Scheitelwert, halbe Heizleistung">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Wechselspannung: gleicher Scheitelwert, halbe Heizleistung">
-      <span class="cl-folge">9</span>
+      <span class="cl-folge">10</span>
       <span class="cl-titel">Wechselspannung: gleicher Scheitelwert, halbe Heizleistung</span>
       <span class="cl-zeit">1:06</span>
     </button>
@@ -2122,7 +2280,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-zwei-lampen.html" data-titel="Zwei Lampen: welche leuchtet in Reihe heller?" data-modus="gross">
     <a class="cl-animlink" href="#anim-zwei-lampen-in-reihe-und-parallel" aria-label="Zur Animation: Zwei Lampen: welche leuchtet in Reihe heller?">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Zwei Lampen: welche leuchtet in Reihe heller?">
-      <span class="cl-folge">10</span>
+      <span class="cl-folge">11</span>
       <span class="cl-titel">Zwei Lampen: welche leuchtet in Reihe heller?</span>
       <span class="cl-zeit">1:04</span>
     </button>
@@ -2130,7 +2288,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-stromwirkung.html" data-titel="Stromschlag: Stromstärke und Einwirkzeit entscheiden" data-modus="gross">
     <a class="cl-animlink" href="#anim-wirkung-50-hz-wechselstrom" aria-label="Zur Animation: Stromschlag: Stromstärke und Einwirkzeit entscheiden">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Stromschlag: Stromstärke und Einwirkzeit entscheiden">
-      <span class="cl-folge">11</span>
+      <span class="cl-folge">12</span>
       <span class="cl-titel">Stromschlag: Stromstärke und Einwirkzeit entscheiden</span>
       <span class="cl-zeit">1:12</span>
     </button>
@@ -2138,7 +2296,7 @@ MathJax = {
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-fi-stromvergleich.html" data-titel="FI-Schutzschalter: was der Stromvergleich zeigt" data-modus="gross">
     <a class="cl-animlink" href="#anim-fi-stromvergleich" aria-label="Zur Animation: FI-Schutzschalter: was der Stromvergleich zeigt">Anim</a>
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: FI-Schutzschalter: was der Stromvergleich zeigt">
-      <span class="cl-folge">12</span>
+      <span class="cl-folge">13</span>
       <span class="cl-titel">FI-Schutzschalter: was der Stromvergleich zeigt</span>
       <span class="cl-zeit">1:21</span>
     </button>
@@ -2146,6 +2304,15 @@ MathJax = {
 </div>
 <details class="clip-transkripte">
 <summary>Transkripte — der gesprochene Text zum Mitlesen</summary>
+<h3 id="clip-p6-2-anim-wassermodell" class="clip-h">Das Wassermodell: Pumpe, Kies und Hahn im Stromkreis</h3>
+<ol>
+<li><span class="tk-zeit">0:00</span><span>In der Animation stehen ein Wasserkreis und ein Stromkreis in derselben Anordnung. Jedes Bauteil hat sein Gegenstück, und ein Klick wechselt zwischen den beiden Bildern.</span></li>
+<li><span class="tk-zeit">0:10</span><span>Im Wasserkreis treibt eine Pumpe mit sechzig Kilopascal das Wasser durch eine Kiesfüllung. Beide Durchflussmesser zeigen sechzig Milliliter pro Sekunde, vor und nach dem Kies. Das Wasser wird nicht weniger. Nur der Druck sinkt: Nach dem Kies ist das Rohr hell.</span></li>
+<li><span class="tk-zeit">0:25</span><span>Schalte zum Stromkreis. Die Pumpe wird zur Quelle mit sechs Volt, der Kies zum Widerstand mit zehn Ohm. Beide Amperemeter zeigen null Komma sechs Ampere. Der Widerstand verbraucht keinen Strom. An ihm fällt die Spannung ab, wie der Druck am Kies.</span></li>
+<li><span class="tk-zeit">0:39</span><span>Drehst du den Hahn zu, steht das Wasser überall zugleich still. Im Stromkreis heisst das: Schalter offen. Der Strom ist null, und das Voltmeter am Widerstand zeigt nichts mehr. Die ganzen sechs Volt liegen jetzt am offenen Schalter.</span></li>
+<li><span class="tk-zeit">0:53</span><span>Wähle Parallel mit zehn und zwanzig Ohm. An beiden Zweigen liegen die vollen sechs Volt. Durch den ersten fliessen null Komma sechs Ampere, durch den zweiten null Komma drei. Zusammen sind es null Komma neun Ampere, so wie sich im Wasserkreis sechzig und dreissig zu neunzig Millilitern pro Sekunde addieren.</span></li>
+<li><span class="tk-zeit">1:10</span><span>Merke: Die Quelle ist eine Pumpe, kein Vorratstank. Die Spannung entspricht dem Druckunterschied, die Stromstärke dem Volumenstrom. Am Widerstand geht Druck verloren, nicht Strom.</span></li>
+</ol>
 <h3 id="clip-p6-2-anim-ohm" class="clip-h">Ohmsches Gesetz: was die Kennlinie zeigt</h3>
 <ol>
 <li><span class="tk-zeit">0:00</span><span>In der Animation zum ohmschen Gesetz hast du Spannung und Widerstand eingestellt. Hier sind die Erkenntnisse: Spannung, Strom und Widerstand hängen über eine einzige Gleichung zusammen.</span></li>
@@ -2505,6 +2672,350 @@ function quelle(ctx, x, y, text, bg){
 const tR = R => R >= 1000 ? (R/1000).toFixed(0) + '\\;\\text{k}\\Omega' : texO(R.toFixed(1));
 // Strom mit passendem Vorsatz
 const tI = I => I >= 1 ? texE(I.toFixed(1), 'A') : I >= 1e-3 ? texE((I*1000).toFixed(1), 'mA') : texE((I*1e6).toFixed(1), 'µA');
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATION 1: Wassermodell des Stromkreises
+//  Wasser- und Stromkreis in derselben Anordnung (logisch 700 × 400),
+//  umschaltbar per Überblendung oder beide untereinander.
+//  Massstab 1 V ↔ 10 kPa, 1 A ↔ 100 ml/s — dann stimmen auch die
+//  Leistungen in W überein. Übernommen aus Mathe begreifbar (28.09.2026).
+// ══════════════════════════════════════════════════════════
+const wmAnim = (function(){
+  const W=700, H=400;
+  const X0=120, YT=70, YB=330, SY0=155, SY1=245, SWA=195, SWB=225, SWX=210, FMX=320;
+  const K=60, SP=18;
+  const T={grund:'#fbfaf7', tinte:'#1c1a17', tinte2:'#5a5040', flaeche:'#ffffff', rohr:'#66717d',
+    kies:'#7b6a52', mess:'#b0306a', teil:'#ffffff', teilR:'#16385f', halo:'#e8a33d',
+    blau:'#1a4f8a', bern:'#8a4a0e', whS:'#1c4f8f',
+    wT:[212,231,245], wH:[28,79,143], eT:[243,226,198], eH:[176,67,26]};
+  const st={cfg:'einfach', U:6, R1:10, R2:20, zu:true, elek:false, ansicht:'um', ziel:0, mix:0,
+    hl:null, ph:[0,0,0], rot:{I:0,I1:0,I2:0}};
+  let FS=1, eng=false;
+  const el = id => document.getElementById(id);
+
+  function rechne(){
+    const {U,R1,R2,zu,cfg}=st; let I=0,I1=0,I2=0,U1=0,U2=0,Rg;
+    if(cfg==='einfach') Rg=R1; else if(cfg==='reihe') Rg=R1+R2; else Rg=R1*R2/(R1+R2);
+    if(zu){
+      if(cfg==='einfach'){ I=U/R1; I1=I; U1=U; }
+      else if(cfg==='reihe'){ I=U/Rg; I1=I2=I; U1=I*R1; U2=I*R2; }
+      else { I1=U/R1; I2=U/R2; I=I1+I2; U1=U2=U; }
+    }
+    return {U,I,I1,I2,U1,U2,Rg,P:U*I};
+  }
+
+  // Leitungsstücke als Punktfolgen [x, y, Spannung gegenüber dem Minuspol]
+  function geom(v){
+    const U=v.U, d=x=>st.zu?x:0;
+    const kopf=[[X0,SY1,0],[X0,SY0,U],[X0,YT,U],[SWA,YT,U],[SWB,YT,d(U)]];
+    const g={pfade:[],R:[],fm:[],mano:[]};
+    g.mano.push({key:'quelle',xc:X0,y0:SY0,y1:SY1,dir:-1,dv:U,idx:'',lab:{x:65,y:SY1+22,al:'center'}});
+    g.fm.push({x:FMX,y:YT,cur:'I',idx:'',lab:{x:FMX,y:YT-29,al:'center'}},
+              {x:FMX,y:YB,cur:'I',idx:'',lab:{x:FMX,y:YB+30,al:'center'}});
+    if(st.cfg==='einfach'){
+      const XR=500;
+      g.pfade.push({cur:'I',pts:[...kopf,[XR,YT,d(U)],[XR,150,d(U)],[XR,250,0],[XR,YB,0],[X0,YB,0],[X0,SY1,0]]});
+      g.R.push({key:'r1',x:XR,y0:150,y1:250,R:st.R1,nr:'',name:{x:478,y:200,al:'right'}});
+      g.mano.push({key:'r1',xc:XR,y0:150,y1:250,dir:1,dv:v.U1,idx:'',lab:{x:582,y:195,al:'left'}});
+    } else if(st.cfg==='reihe'){
+      const XR=500, Um=d(v.U2);
+      g.pfade.push({cur:'I',pts:[...kopf,[XR,YT,d(U)],[XR,90,d(U)],[XR,180,Um],[XR,220,Um],[XR,310,0],[XR,YB,0],[X0,YB,0],[X0,SY1,0]]});
+      g.R.push({key:'r1',x:XR,y0:90,y1:180,R:st.R1,nr:'1',name:{x:478,y:135,al:'right'}});
+      g.R.push({key:'r2',x:XR,y0:220,y1:310,R:st.R2,nr:'2',name:{x:478,y:265,al:'right'}});
+      g.mano.push({key:'r1',xc:XR,y0:90,y1:180,dir:1,dv:v.U1,idx:'₁',lab:{x:582,y:130,al:'left'}});
+      g.mano.push({key:'r2',xc:XR,y0:220,y1:310,dir:1,dv:v.U2,idx:'₂',lab:{x:582,y:260,al:'left'}});
+    } else {
+      const XA=430, XB=580;
+      g.pfade.push({cur:'I',pts:[[XA,YB,0],[X0,YB,0],...kopf,[XA,YT,d(U)]]});
+      g.pfade.push({cur:'I1',pts:[[XA,YT,d(U)],[XA,150,d(U)],[XA,250,0],[XA,YB,0]]});
+      g.pfade.push({cur:'I2',pts:[[XA,YT,d(U)],[XB,YT,d(U)],[XB,150,d(U)],[XB,250,0],[XB,YB,0],[XA,YB,0]]});
+      g.R.push({key:'r1',x:XA,y0:150,y1:250,R:st.R1,nr:'1',name:{x:450,y:178,al:'left'}});
+      g.R.push({key:'r2',x:XB,y0:150,y1:250,R:st.R2,nr:'2',name:{x:560,y:222,al:'right'}});
+      g.mano.push({key:'r1',xc:XA,y0:150,y1:250,dir:-1,dv:v.U1,idx:'₁',lab:{x:375,y:272,al:'center'}});
+      g.mano.push({key:'r2',xc:XB,y0:150,y1:250,dir:1,dv:v.U2,idx:'₂',lab:{x:635,y:272,al:'center'}});
+      g.fm.push({x:XA,y:295,cur:'I1',idx:'₁',lab:{x:406,y:296,al:'right'}},
+                {x:XB,y:295,cur:'I2',idx:'₂',lab:{x:604,y:296,al:'left'}});
+    }
+    g.pfade.forEach(p=>{ let L=0; p.cum=[0];
+      for(let i=1;i<p.pts.length;i++){ L+=Math.hypot(p.pts[i][0]-p.pts[i-1][0],p.pts[i][1]-p.pts[i-1][1]); p.cum.push(L); }
+      p.len=L; });
+    return g;
+  }
+
+  // Farbe aus der Spannung gegenüber dem Minuspol (0 … 12 V)
+  function farbe(phi,a,b){ const t=Math.max(0,Math.min(1,phi/12));
+    return 'rgb('+a.map((x,i)=>Math.round(x+(b[i]-x)*t)).join(',')+')'; }
+
+  function linie(c,pts,col,lw){ c.beginPath(); c.moveTo(pts[0][0],pts[0][1]);
+    for(let i=1;i<pts.length;i++) c.lineTo(pts[i][0],pts[i][1]); c.strokeStyle=col; c.lineWidth=lw; c.stroke(); }
+  function gradSeg(c,p,a,b,lw){
+    c.lineWidth=lw;
+    for(let i=1;i<p.pts.length;i++){
+      const [x0,y0,f0]=p.pts[i-1], [x1,y1,f1]=p.pts[i];
+      const gr=c.createLinearGradient(x0,y0,x1,y1); gr.addColorStop(0,farbe(f0,a,b)); gr.addColorStop(1,farbe(f1,a,b));
+      c.strokeStyle=gr; c.beginPath(); c.moveTo(x0,y0); c.lineTo(x1,y1); c.stroke();
+    }
+  }
+  function punktBei(p,s){
+    for(let i=1;i<p.pts.length;i++){ if(s<=p.cum[i]){ const seg=p.cum[i]-p.cum[i-1]||1, t=(s-p.cum[i-1])/seg;
+      return [p.pts[i-1][0]+(p.pts[i][0]-p.pts[i-1][0])*t, p.pts[i-1][1]+(p.pts[i][1]-p.pts[i-1][1])*t]; } }
+    return [p.pts[0][0],p.pts[0][1]];
+  }
+  function teilchen(c,g,sign,r,fill,rand){
+    const gross=st.hl==='traeger'?1.7:1;
+    g.pfade.forEach((p,i)=>{
+      const n=Math.max(1,Math.round(p.len/SP)), sp=p.len/n, ph=st.ph[i]*sign;
+      for(let k=0;k<n;k++){
+        const s=(((k*sp+ph)%p.len)+p.len)%p.len, [x,y]=punktBei(p,s);
+        c.beginPath(); c.arc(x,y,r*gross,0,Math.PI*2); c.fillStyle=fill; c.fill();
+        if(rand){ c.lineWidth=1; c.strokeStyle=rand; c.stroke(); }
+      }
+    });
+  }
+  // Beschriftung mit hellem Grund (STYLEGUIDE §5.10)
+  function text(c,s,x,y,al,col,opt){
+    opt=opt||{};
+    c.font=(opt.w||600)+' '+((opt.size||14)*FS)+'px "Source Sans 3", system-ui, sans-serif';
+    c.textAlign=al; c.textBaseline='middle'; c.lineJoin='round';
+    c.lineWidth=5; c.strokeStyle=T.grund; c.strokeText(s,x,y);
+    c.fillStyle=col; c.fillText(s,x,y);
+  }
+  function manoPos(m){ return {vx:m.xc+m.dir*55, cy:(m.y0+m.y1)/2}; }
+  const kPa  = x => Math.round(10*x)+' kPa';
+  const volt = x => x.toFixed(1)+' V';
+  const mls  = x => Math.round(100*x)+' ml/s';
+  const amp  = x => x.toFixed(2)+' A';
+  // Schmale Leinwand: nur das Formelzeichen am Messgerät, die Werte stehen in der Live-Box
+  const lab = (sym, wert) => eng ? sym : sym+' = '+wert;
+
+  // Hervorhebung beim Überfahren der Vergleichstabelle
+  function halos(c,g){
+    const k=st.hl; if(!k) return;
+    c.save(); c.globalAlpha*=0.35; c.fillStyle=T.halo;
+    const kreis=(x,y,r)=>{ c.beginPath(); c.arc(x,y,r,0,Math.PI*2); c.fill(); };
+    const rr=(x,y,w,h)=>{ c.beginPath(); c.roundRect?c.roundRect(x,y,w,h,10):c.rect(x,y,w,h); c.fill(); };
+    if(k==='quelle') kreis(X0,200,46);
+    if(k==='schalter') kreis(SWX,YT,26);
+    if(k==='amp') g.fm.forEach(f=>kreis(f.x,f.y,25));
+    if(k==='volt') g.mano.forEach(m=>{ const {vx,cy}=manoPos(m); rr(vx-26,cy-50,52,96); });
+    g.R.forEach(r=>{ if(k===r.key||k==='rs') rr(r.x-22,r.y0-8,44,r.y1-r.y0+16); });
+    if(k==='leitung'){ c.lineCap='round'; c.lineJoin='round'; g.pfade.forEach(p=>linie(c,p.pts,T.halo,28)); }
+    c.restore();
+  }
+  function pfPhi(g,x,y){ for(const p of g.pfade) for(const q of p.pts) if(q[0]===x&&q[1]===y) return q[2]; return 0; }
+
+  function wasser(c,g,v){
+    c.lineCap='round'; c.lineJoin='round';
+    halos(c,g);
+    g.pfade.forEach(p=>linie(c,p.pts,T.rohr,17));
+    g.pfade.forEach(p=>gradSeg(c,p,T.wT,T.wH,11));
+    g.R.forEach(r=>{
+      const gr=c.createLinearGradient(0,r.y0,0,r.y1);
+      gr.addColorStop(0,farbe(pfPhi(g,r.x,r.y0),T.wT,T.wH)); gr.addColorStop(1,farbe(pfPhi(g,r.x,r.y1),T.wT,T.wH));
+      c.fillStyle=gr; c.fillRect(r.x-12,r.y0,24,r.y1-r.y0);
+      c.lineWidth=2.5; c.strokeStyle=T.rohr; c.strokeRect(r.x-12,r.y0,24,r.y1-r.y0);
+    });
+    teilchen(c,g,1,3.1,T.teil,T.teilR);
+    g.R.forEach(r=>{
+      c.fillStyle=T.kies; let z=0;
+      for(let y=r.y0+6;y<r.y1-3;y+=8,z++){ for(const dx of (z%2?[-5,4]:[-7,0,7])){ c.beginPath(); c.arc(r.x+dx,y,2.3,0,Math.PI*2); c.fill(); } }
+      text(c,(eng?'Kies':'Kiesfüllung')+(r.nr?' '+r.nr:''),r.name.x,r.name.y,r.name.al,T.tinte2,{w:400});
+    });
+    // Pumpe: Kreis mit Dreieck in Förderrichtung
+    c.beginPath(); c.arc(X0,200,28,0,Math.PI*2); c.fillStyle=T.flaeche; c.fill(); c.lineWidth=3; c.strokeStyle=T.rohr; c.stroke();
+    c.beginPath(); c.moveTo(X0,174); c.lineTo(X0-15,200); c.lineTo(X0+15,200); c.closePath(); c.fillStyle=T.whS; c.fill();
+    text(c,'Pumpe',X0+40,200,'left',T.tinte2,{w:400});
+    // Hahn: Ventilsymbol, Griff quer = offen
+    c.beginPath(); c.moveTo(SWA,YT-12); c.lineTo(SWB,YT+12); c.lineTo(SWB,YT-12); c.lineTo(SWA,YT+12); c.closePath();
+    c.fillStyle=st.zu?T.flaeche:T.tinte; c.fill(); c.lineWidth=2.5; c.strokeStyle=T.rohr; c.stroke();
+    c.beginPath(); c.moveTo(SWX,YT); c.lineTo(SWX,YT-24); c.stroke();
+    c.lineWidth=4; c.strokeStyle=T.tinte; c.beginPath();
+    if(st.zu){ c.moveTo(SWX-11,YT-24); c.lineTo(SWX+11,YT-24); } else { c.moveTo(SWX,YT-30); c.lineTo(SWX,YT-18); }
+    c.stroke();
+    text(c,st.zu?'Hahn offen':'Hahn zu',SWX,YT-44,'center',st.zu?T.tinte2:T.tinte,{w:st.zu?400:700});
+    // Durchflussmesser: Flügelrad dreht mit dem Volumenstrom
+    g.fm.forEach(f=>{
+      c.beginPath(); c.arc(f.x,f.y,15,0,Math.PI*2); c.fillStyle=T.flaeche; c.fill(); c.lineWidth=2.5; c.strokeStyle=T.rohr; c.stroke();
+      const a=st.rot[f.cur]; c.strokeStyle=T.whS; c.lineWidth=2.5;
+      for(let k=0;k<4;k++){ const w=a+k*Math.PI/2; c.beginPath(); c.moveTo(f.x,f.y); c.lineTo(f.x+11*Math.cos(w),f.y+11*Math.sin(w)); c.stroke(); }
+      text(c,lab('V̇'+f.idx,mls(v[f.cur])),f.lab.x,f.lab.y,f.lab.al,T.tinte);
+    });
+    // U-Rohr-Manometer: Höhenunterschied ∝ Druckdifferenz
+    g.mano.forEach(m=>{
+      const {vx,cy}=manoPos(m), xn=vx-m.dir*9, xf=vx+m.dir*9, top=cy-35, bot=cy+25, xl=xf+m.dir*12;
+      c.lineCap='butt';
+      linie(c,[[m.xc,m.y0],[xn,m.y0],[xn,top]],T.rohr,2.5);
+      linie(c,[[m.xc,m.y1],[xl,m.y1],[xl,top-8],[xf,top-8],[xf,top]],T.rohr,2.5);
+      const pfad=(y1,y2)=>{ c.beginPath(); c.moveTo(xn,y1); c.lineTo(xn,bot);
+        if(m.dir>0) c.arc(vx,bot,9,Math.PI,0,true); else c.arc(vx,bot,9,0,Math.PI,false); c.lineTo(xf,y2); };
+      pfad(top,top); c.lineWidth=12; c.strokeStyle=T.rohr; c.stroke();
+      pfad(top,top); c.lineWidth=8; c.strokeStyle=T.grund; c.stroke();
+      const h=Math.min(4*m.dv,48), ln=cy-5+h/2, lf=cy-5-h/2;
+      pfad(ln,lf); c.lineWidth=8; c.strokeStyle=T.mess; c.stroke();
+      c.lineCap='round';
+      text(c,lab('Δp'+m.idx,kPa(m.dv)),m.lab.x,m.lab.y,m.lab.al,T.tinte);
+    });
+    text(c,'Wasserkreis',14,H-20,'left',T.blau,{w:700,size:17});
+  }
+
+  function strom(c,g,v){
+    c.lineCap='round'; c.lineJoin='round';
+    halos(c,g);
+    g.pfade.forEach(p=>linie(c,p.pts,T.tinte,8));
+    g.pfade.forEach(p=>gradSeg(c,p,T.eT,T.eH,5));
+    g.R.forEach(r=>{
+      const gr=c.createLinearGradient(0,r.y0,0,r.y1);
+      gr.addColorStop(0,farbe(pfPhi(g,r.x,r.y0),T.eT,T.eH)); gr.addColorStop(1,farbe(pfPhi(g,r.x,r.y1),T.eT,T.eH));
+      c.fillStyle=gr; c.fillRect(r.x-10,r.y0,20,r.y1-r.y0); c.lineWidth=2.5; c.strokeStyle=T.tinte; c.strokeRect(r.x-10,r.y0,20,r.y1-r.y0);
+    });
+    // Lücken am Schalter und zwischen den Platten der Quelle
+    c.fillStyle=T.grund; c.fillRect(SWA+3,YT-7,SWB-SWA-6,14);
+    c.fillRect(X0-7,194,14,12);
+    teilchen(c,g,st.elek?-1:1,2.7,T.tinte,null);
+    g.R.forEach(r=>{ const n='R'+(r.nr?String.fromCharCode(0x2080 + +r.nr):'');
+      text(c,lab(n,r.R+' Ω'),r.name.x,r.name.y,r.name.al,T.tinte2,{w:400}); });
+    // Schaltzeichen der Quelle: lange Platte = Pluspol
+    c.fillStyle=T.grund; c.fillRect(X0-26,191,52,19);
+    c.strokeStyle=T.tinte; c.lineCap='butt';
+    c.lineWidth=3; c.beginPath(); c.moveTo(X0-24,193); c.lineTo(X0+24,193); c.stroke();
+    c.lineWidth=7; c.beginPath(); c.moveTo(X0-12,207); c.lineTo(X0+12,207); c.stroke();
+    c.lineCap='round';
+    text(c,'+',X0-34,182,'center',T.tinte,{w:700,size:17});
+    text(c,'−',X0-34,219,'center',T.tinte,{w:700,size:17});
+    text(c,'Quelle',X0+40,200,'left',T.tinte2,{w:400});
+    // Schalter
+    c.fillStyle=T.tinte; [SWA,SWB].forEach(x=>{ c.beginPath(); c.arc(x,YT,3.5,0,Math.PI*2); c.fill(); });
+    c.lineWidth=3; c.strokeStyle=T.tinte; c.beginPath(); c.moveTo(SWA,YT);
+    if(st.zu) c.lineTo(SWB,YT-1); else c.lineTo(SWA+28*Math.cos(Math.PI/6),YT-28*Math.sin(Math.PI/6)); c.stroke();
+    text(c,st.zu?(eng?'geschlossen':'Schalter geschlossen'):(eng?'offen':'Schalter offen'),SWX,YT-44,'center',st.zu?T.tinte2:T.tinte,{w:st.zu?400:700});
+    // Amperemeter
+    g.fm.forEach(f=>{
+      c.beginPath(); c.arc(f.x,f.y,15,0,Math.PI*2); c.fillStyle=T.flaeche; c.fill(); c.lineWidth=2.5; c.strokeStyle=T.tinte; c.stroke();
+      text(c,'A',f.x,f.y+1,'center',T.tinte,{w:700,size:15});
+      text(c,lab('I'+f.idx,amp(v[f.cur])),f.lab.x,f.lab.y,f.lab.al,T.tinte);
+    });
+    // Voltmeter
+    g.mano.forEach(m=>{
+      const {vx,cy}=manoPos(m);
+      linie(c,[[m.xc,m.y0],[vx,m.y0],[vx,cy-15]],T.tinte,1.8);
+      linie(c,[[m.xc,m.y1],[vx,m.y1],[vx,cy+15]],T.tinte,1.8);
+      c.beginPath(); c.arc(vx,cy,15,0,Math.PI*2); c.fillStyle=T.flaeche; c.fill(); c.lineWidth=2.5; c.strokeStyle=T.tinte; c.stroke();
+      text(c,'V',vx,cy+1,'center',T.tinte,{w:700,size:15});
+      text(c,lab('U'+m.idx,volt(m.dv)),m.lab.x,m.lab.y,m.lab.al,T.tinte);
+    });
+    text(c,'Stromkreis',14,H-20,'left',T.bern,{w:700,size:17});
+  }
+
+  function zeichne(id,art,g,v){
+    const cv=el(id), w=cv.offsetWidth; if(!w) return;
+    const h=Math.round(w*H/W), dpr=window.devicePixelRatio||1;
+    if(cv.width!==Math.round(w*dpr)){ cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr); }
+    cv.style.height=h+'px';
+    const c=cv.getContext('2d'), s=cv.width/W;
+    // Schrift auf dem Bildschirm mindestens 11.5 px; darunter nur Formelzeichen
+    FS=Math.min(2, Math.max(1, 11.5/(14*w/W))); eng = FS>1.3;
+    c.setTransform(s,0,0,s,0,0); c.globalAlpha=1; c.fillStyle=T.grund; c.fillRect(0,0,W,H);
+    if(art==='w') wasser(c,g,v);
+    else if(art==='e') strom(c,g,v);
+    else {
+      if(st.mix<1){ c.globalAlpha=1-st.mix; wasser(c,g,v); }
+      if(st.mix>0){ c.globalAlpha=st.mix; strom(c,g,v); }
+      c.globalAlpha=1;
+    }
+  }
+  function render(){
+    const v=rechne(), g=geom(v);
+    if(st.ansicht==='um') zeichne('wm-cv-m','m',g,v);
+    else { zeichne('wm-cv-w','w',g,v); zeichne('wm-cv-e','e',g,v); }
+  }
+  const reduziert = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : {matches:false};
+  function tick(dt){
+    const v=rechne(), g=geom(v);
+    g.pfade.forEach((p,i)=>{ st.ph[i]=(st.ph[i]+K*v[p.cur]*dt)%1e6; });
+    for(const k of ['I','I1','I2']) st.rot[k]=(st.rot[k]+v[k]*5*dt)%(Math.PI*2);
+    if(st.mix!==st.ziel){ const sch=reduziert.matches?1:dt/0.35;
+      st.mix=st.ziel>st.mix?Math.min(st.ziel,st.mix+sch):Math.max(st.ziel,st.mix-sch); }
+    render();
+  }
+
+  // Anzeigen ausserhalb der Leinwand
+  function lesen(){
+    st.U=+el('wm-U').value; st.R1=+el('wm-R1').value; st.R2=+el('wm-R2').value;
+    const v=rechne(), zwei=st.cfg!=='einfach';
+    const Rt = Number.isInteger(v.Rg) ? String(v.Rg) : v.Rg.toFixed(2);
+    el('wm-U-val').textContent=volt(st.U)+' ('+kPa(st.U)+')';
+    el('wm-R1-val').textContent=st.R1+' Ω';
+    el('wm-R2-val').textContent=st.R2+' Ω';
+    el('wm-R2-grp').style.display=zwei?'':'none';
+    el('wm-lb-u').textContent=kPa(v.U)+' ; '+volt(v.U);
+    el('wm-lb-i').textContent=mls(v.I)+' ; '+amp(v.I);
+    el('wm-lb-p').textContent=v.P.toFixed(2)+' W';
+    if(st.zu){
+      flTex('wm-eq-w', ['\\dot V = \\frac{\\Delta p}{R_\\text{hyd}}',
+        '= \\frac{'+texE(Math.round(10*v.U),'kPa')+'}{'+Math.round(100*v.Rg)+'\\;\\text{kPa}\\cdot\\text{s/l}}',
+        '= '+texE(Math.round(100*v.I),'ml/s')]);
+      flTex('wm-eq-e', ['I = \\frac{U}{R}',
+        '= \\frac{'+texE(v.U.toFixed(1),'V')+'}{'+texO(Rt)+'}', '= '+texE(v.I.toFixed(2),'A')]);
+    } else {
+      flTex('wm-eq-w', '\\text{Hahn zu: } \\dot V = '+texE(0,'ml/s'));
+      flTex('wm-eq-e', '\\text{Schalter offen: } I = '+texE('0.00','A'));
+    }
+    el('wm-sw').textContent = st.zu ? '🚰 Hahn zudrehen / Schalter öffnen' : '🚰 Hahn aufdrehen / Schalter schliessen';
+    el('wm-el').textContent = st.elek ? 'Technische Stromrichtung zeigen' : 'Elektronen zeigen';
+    el('wm-lg-teilchen').textContent = st.elek
+      ? 'Punkte: Wasser in technischer Stromrichtung (+ nach −), im Stromkreis Elektronen (− nach +)'
+      : 'Punkte: Wasser bzw. Ladung in technischer Stromrichtung (+ nach −)';
+    el('wm-titel').textContent = st.ziel ? '⚡ Stromkreis — Klick aufs Bild wechselt zum Wasserkreis'
+                                         : '💧 Wasserkreis — Klick aufs Bild wechselt zum Stromkreis';
+    const art={einfach:'Ein Widerstand', reihe:'Zwei Widerstände in Reihe', parallel:'Zwei Widerstände parallel'}[st.cfg];
+    const txt=art+'; '+(st.zu?'Hahn offen und Schalter geschlossen':'Hahn zu und Schalter offen')
+      +'. Pumpe '+kPa(v.U)+' entspricht Quelle '+volt(v.U)+'; Volumenstrom '+mls(v.I)+' entspricht Stromstärke '+amp(v.I)+'.';
+    el('wm-cv-m').setAttribute('aria-label',(st.ziel?'Stromkreis. ':'Wasserkreis. ')+txt);
+    el('wm-cv-w').setAttribute('aria-label','Wasserkreis. '+txt);
+    el('wm-cv-e').setAttribute('aria-label','Stromkreis. '+txt);
+  }
+
+  function waehle(attr, fn){
+    const knoepfe=document.querySelectorAll('[data-'+attr+']');
+    knoepfe.forEach(b=>b.addEventListener('click',()=>{
+      knoepfe.forEach(x=>x.classList.toggle('aktiv',x===b));
+      fn(b.dataset[attr.replace(/-(\w)/g,(_,z)=>z.toUpperCase())]); neu();
+    }));
+  }
+  let loop=null;
+  function neu(){ lesen(); if(!loop || !loop.running){ st.mix=st.ziel; render(); } }
+  function setKreis(z){
+    st.ziel=z;
+    document.querySelectorAll('[data-wm-kreis]').forEach(x=>x.classList.toggle('aktiv',+x.dataset.wmKreis===z));
+    neu();
+  }
+  function init(){
+    waehle('wm-ansicht', a=>{ st.ansicht=a; const b=a==='beide';
+      el('wm-cv-m').style.display=b?'none':''; el('wm-beide').style.display=b?'':'none';
+      el('wm-kreis-row').style.display=b?'none':'';
+      el('wm-titel').style.display=b?'none':''; });
+    waehle('wm-kreis', z=>{ st.ziel=+z; });
+    waehle('wm-cfg', c=>{ st.cfg=c; st.ph=[0,0,0]; });
+    el('wm-cv-m').addEventListener('click',()=>setKreis(st.ziel?0:1));
+    el('wm-sw').addEventListener('click',()=>{ st.zu=!st.zu; neu(); });
+    el('wm-el').addEventListener('click',()=>{ st.elek=!st.elek; neu(); });
+    ['wm-U','wm-R1','wm-R2'].forEach(id=>el(id).addEventListener('input',neu));
+    document.querySelectorAll('tr[data-wm-hl]').forEach(tr=>{
+      const an=()=>{ st.hl=tr.dataset.wmHl; if(!loop.running) render(); };
+      // Beim Verlassen zurück auf die angetippte Zeile, sonst keine Hervorhebung
+      const aus=()=>{ const fest=document.querySelector('tr.wm-an'); st.hl=fest?fest.dataset.wmHl:null; if(!loop.running) render(); };
+      tr.addEventListener('mouseenter',an); tr.addEventListener('mouseleave',aus);
+      tr.addEventListener('focus',an); tr.addEventListener('blur',aus);
+      tr.addEventListener('click',()=>{ const war=tr.classList.contains('wm-an');
+        document.querySelectorAll('tr.wm-an').forEach(x=>x.classList.remove('wm-an'));
+        if(!war){ tr.classList.add('wm-an'); st.hl=tr.dataset.wmHl; } else st.hl=null;
+        if(!loop.running) render(); });
+    });
+    loop=makeLoop('wm-buehne','wm-btn',tick);
+    lesen(); render();
+  }
+  return {init, lesen, render, get loop(){ return loop; }, st};
+})();
 
 // ══════════════════════════════════════════════════════════
 //  EINSTIEG: einfacher Stromkreis mit Elektronen
@@ -4471,6 +4982,7 @@ function mbInit(){
 }
 
 function initAll(){
+  wmAnim.init();
   einRender();
   mmInit(); mmRender();
   mbInit(); mbRender();
@@ -4506,6 +5018,7 @@ window.addEventListener('resize', ()=>{
   if(rzT) return;
   rzT=requestAnimationFrame(()=>{
     rzT=null;
+    wmAnim.lesen(); if(!wmAnim.loop.running) wmAnim.render();
     drawA1(); drawA2(); drawA5(); drawA6(); a3Read(); a4Read(); mmRender(); mbRender(); gmRender(); lpRender(); fiRender(); wsLesen();
     wsRender();
     if(!einLoop.running) einRender();
