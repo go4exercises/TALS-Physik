@@ -267,7 +267,8 @@ def anim_knoepfe(text, clips, tiefe):
     """Setzt in die Titelzeile jeder Animation, zu der es einen Clip gibt,
     den Eintrag «▶ Clip» neben «Worauf achten?» und «Erkenntnis».
 
-    Gefunden wird die Animation ueber den Anker ihres <h3> (Feld
+    Gefunden wird die Animation ueber den Anker ihres <h3>,
+    div.anim-titel oder <p> am Anfang der Titelzeile (Feld
     `animation` im Drehbuch); eingesetzt wird als letztes Kind der
     .widget-titelzeile, zwischen eigenen Markern — so bleibt der Knopf
     generiert und die Dauer stimmt nach jedem Neubau.
@@ -278,12 +279,21 @@ def anim_knoepfe(text, clips, tiefe):
         anker = c.get("animation")
         if not anker:
             continue
-        m = re.search(r'<h3 id="%s"' % re.escape(anker), text)
+        # Mathe: Animationen in Aufgaben tragen statt <h3> ein div.anim-titel
+        m = re.search(r'<(?:h3|div class="anim-titel"|p) id="%s"' % re.escape(anker), text)
         if not m:
             print(f"  [FEHLER] {c['datei']}: Animation #{anker} nicht gefunden")
             continue
-        start = text.rfind('<div class="widget-titelzeile">', 0, m.start())
+        # Titelzeile auch mit weiteren Attributen (Mathe: style="margin:…")
+        auf = [t.start() for t in re.finditer(r'<div class="widget-titelzeile"[^>]*>', text[:m.start()])]
+        start = auf[-1] if auf else -1
         if start < 0 or m.start() - start > 200:
+            # Mathe: <h3> im .widget-header, Titelzeile erst im .widget-body —
+            # dann die naechste Titelzeile, sofern sie im selben Widget liegt
+            nach = re.search(r'<div class="widget-titelzeile"[^>]*>', text[m.end():])
+            if nach and '<div class="widget">' not in text[m.end():m.end() + nach.start()]:
+                start = m.end() + nach.start()
+        if start < 0 or (start < m.start() and m.start() - start > 200):
             print(f"  [FEHLER] {c['datei']}: #{anker} steht in keiner .widget-titelzeile")
             continue
         # Ende der Titelzeile: das passende </div> ab ihrem Anfang

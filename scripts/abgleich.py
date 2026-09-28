@@ -80,15 +80,15 @@ GRUNDLINIE = {
     'anim-hinweise.js': 0.923,
     'schriften.css': 0.773,
     'package.json': 0.880,
-    '.gitignore': 0.740,
+    '.gitignore': 0.793,
     'downloads/print.css': 0.900,
     'feedback.html': 0.977,
     'LICENSE': 0.955,
     'scripts/build-suchindex.py': 0.962,
-    'scripts/build-clips.py': 0.782,
-    'scripts/build-clips-einbau.py': 0.806,
-    'scripts/build-clip-ton.py': 0.575,   # zurueck auf 1.000, sobald Mathe OFFEN abgearbeitet hat
-    'scripts/build-seo.py': 0.520,
+    'scripts/build-clips.py': 0.812,
+    'scripts/build-clips-einbau.py': 0.830,
+    'scripts/build-clip-ton.py': 1.000,
+    'scripts/build-seo.py': 0.533,
     'scripts/schriften-lokal.py': 0.961,
     'scripts/mathjax-lokal.py': 0.853,
     'scripts/verify_mathjax.js': 0.941,
@@ -107,9 +107,6 @@ GRUNDLINIE = {
 # Was tief unter seiner Grundlinie liegt, ist kein Naturgesetz, sondern eine
 # offene Baustelle. Hier steht, was daran zu tun waere.
 BAUSTELLE = {
-    'scripts/build-clip-ton.py':
-        'Physik ist die Fassung ohne Zweitstimme; Mathe traegt die Mechanik noch, '
-        'obwohl seit dem 07.09.2026 keine Spur sie nutzt. Rueckbau: siehe OFFEN.',
     'scripts/build-seo.py':
         'Grosse Teile sind Projektdatei (SEITEN, Lerngebiete). Die Logik ist seit '
         'dem 13.09.2026 gleich (argparse, --dry-run, einsetzen, main). Trennen '
@@ -128,173 +125,18 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='Regel «Eine Rechnung, eine Zeile» (Entscheid Auftraggeber 26.09.2026)',
-         wie='Formelzeichen = Formel = Zahlen (mit Einheiten) = Ergebnis als EINE Kette in einer '
-             '.fl-eq statt Formel- und Zahlenzeile untereinander; fehlt der Platz, Umbruch nur vor '
-             'einem «=». Quelle Physik: STYLEGUIDE §2.8 (Absatz «Eine Rechnung, eine Zeile»), '
-             'CLAUDE.md Stilcheck-Regel 9, physiklib.js flTex/flHtml/flTeil (Z. 95-130; Glieder '
-             'als Inline-Formeln mit \\displaystyle, dazwischen <wbr>, fuehrendes = mit {}, '
-             'Container inline-block, Frame-Drosselung + serielle Typeset-Kette). Commits '
-             'f8c108d, ff768a1. Stand Mathe (gezaehlt 26.09.2026): 34 Seiten mit 147 .fl-eq; '
-             'nur 5 statisch LaTeX, 83 per innerHTML + mjTypeset (20 Seiten) — dort sitzt das '
-             'Zusammenlegen; mathlib.js hat mjTypeset, aber kein flTex. Typisches Paar: '
-             's3-4a bk-eq (Formelzeile darueber, Zahlenzeile darunter). Sonderfaelle: '
-             'farbige tx-gruen/tx-blau-Spans in g5-1 (wp-*-eq, sw-eq) muessen als \\color '
-             'oder Fach-Ausnahme mit; reine Wertanzeigen (g5-1 wv-grad, py-min/py-c/py-max, '
-             'zt-frage) sind keine Rechnung und bleiben. Nebenbefund Physik: LaTeX im Kopf '
-             'einer ❓-Frage braucht <summary><span>…</span></summary>, sonst zerlegt der '
-             'Flex-Container den Satz (Mathe-style.css pruefen). Falle beim Patchen: \\\\; in '
-             'eingetippten Skripten kam als \\; an — Backslashes per chr(92) schreiben.'),
-    dict(quelle='Physik', was='Zweitstimme zurueckbauen (Entscheid Auftraggeber 26.09.2026)',
-         wie='Die Mechanik war fuer de_CH-kohler-medium gebaut; seit dem 07.09.2026 '
-             'gibt es keine Kohler-Spur mehr (clips/ton: 0 Treffer), sie laeuft leer. '
-             'Zu entfernen: (1) scripts/build-clip-ton.py — --zweitstimme, --modell2, '
-             '--noise-scale, --noise-w, --klang, --tempo, mittleres_spektrum, '
-             'klangkurve, klang_anwenden, Dehnung, Lautheitsangleichung, Beipackzettel; '
-             'Ziel ist Physiks Fassung (155 Zeilen), danach 1:1 kopieren. Nebenbei weg: '
-             'bei festem --tempo druckte der Szenen-Print dehnungen[-1] = Szenenindex '
-             'als Faktor. (2) scripts/build-clips.py — STANDARDSTIMME (Z. 56-59), die '
-             'Stimmenliste weitere/liste/stimmen_js (Z. 814-841), im Player STIMMEN, '
-             'dehnung und der Umschalter (Z. 1218-1259); t * dehnung wird t. '
-             '(3) HOWTO-clips.md — die vier Abschnitte «Zweite Stimme» bis «Wenn die '
-             'Stimme dafuer zu schnell wird» (Z. 795-912); «Lizenzlage» bleibt. '
-             '(4) Alle 203 Clips neu bauen — jede clips/*.html traegt den toten '
-             'STIMMEN-Code. Danach in Physik die Grundlinie build-clip-ton wieder 1.000.'),
-    dict(quelle='Physik', was='Clips zu einzelnen Animationen: bild, animation, Einbau (27.09.2026, optional)',
-         wie='scripts/build-clips.py, element_html: neuer Zweig typ == "bild" (liest '
-             'el["datei"] relativ zu CLIPS, prueft auf <svg, giesst die SVG ein; Klasse graf) '
-             'und "bild" in den beiden Ausnahmelisten ("graf", "bild", "strich") fuer die '
-             'Breite. 12 Zeilen. Doku: HOWTO-clips.md, Tabelle Elementtypen + Absatz «bild». '
-             'Anlass: Clip zu einer einzelnen Animation (p6-2-fi-stromvergleich), der deren '
-             'Skizze zeigt. Seit 91bd722/586c637 dazu: bild nimmt JPG/PNG (data:-URL); '
-             'Drehbuch-Feld animation (Anker des h3) wandert nach clips.json; '
-             'build-clips-einbau.py setzt «▶ Clip» in die .widget-titelzeile (Marker '
-             'CLIP-ANIM), eigene Gruppe auf der Lektionsseite, Zeilen cl-anim mit vorangestelltem '
-             'Link «Anim» (a.cl-animlink neben dem Knopf); style.css .ah-clip-knopf/.cl-anim*; Werkzeug '
-             '.claude/tools/aufnahme-anim.mjs. Ohne Uebernahme sinkt die KERN-Aehnlichkeit von build-clips.py '
-             '(Physik 78.2 -> 78.0 %); Grundlinie dann auf 0.780 senken oder uebernehmen. ' 
-             'FARBE (nachgeprueft 27.09.2026): style.css ist FACH — die Physik-Regeln .ah-clip-knopf, .cl-anim, .cl-anim .cl-clip/.cl-folge, .cl-animlink, .cl-animkopf '
-             '(physik style.css Z. 911-916 und ab Z. 1292) NICHT kopieren, sondern in Mathes Farbe nachbauen: Sie '
-             'benutzen var(--bernstein), --bernstein-hell, --bernstein-rand und #fcf1e1 — diese Variablen gibt es in '
-             'Mathe nicht, die Regeln fielen still auf keine Farbe zurueck. In Mathes Clip-Liste sind Blau-Nuancen '
-             '(Zeilen, --blau/--blau-hell), Lila (.cl-sp Schwerpunktfach) und Orange (.cl-tr) schon vergeben; die '
-             'Animationsclips brauchen eine Farbe, die sich davon klar abhebt — Wahl beim Auftraggeber.'),
-    dict(quelle='Physik', was='clipBuehne: Fokus in den Clip (Fehler, 27.09.2026)',
-         wie='mathlib.js Z. 466 setzt den Fokus nach dem Oeffnen der Buehne auf .cb-zu. '
-             'Folge: Pfeiltasten spulen nicht (sie gehen an die Seite), die Leertaste '
-             'drueckt «Schliessen» statt zu pausieren. Physik-Fix physiklib.js clipBuehne '
-             '(Commit 86d3071): iframe fokussieren, sofort und im load-Handler; dort '
-             'zusaetzlich clipEscape per try an f.contentWindow.document haengen, sonst '
-             'schliesst Escape nicht mehr (unter file:// verweigert — Knopf und Rand '
-             'bleiben). Die Clips selbst brauchen keinen Neubau. Testfalle: python3 -m '
-             'http.server kann keine Range-Anfragen, der Ton springt beim Spulen auf 0 — '
-             'mit file:// oder auf GitHub Pages (206) pruefen.'),
-    dict(quelle='Physik', was='build-clip-ton: Aussprache-Tabellen (27.09.2026)',
-         wie='Physik ba888a2/8559cc9/02c0c1b: AUSSPRACHE (Wortstamm -> IPA als [[…]]), '
-             'ABKUERZUNGEN (nur exakt als ganzes Wort), TAUSCH (reiner Worttausch), '
-             'VORSILBEN; aussprache(text) wirkt nur auf den Text an Piper. Mathe: in '
-             'sprich(...) an allen vier Aufrufstellen (Z. 182, 193, 199, 213) den Text '
-             'durch aussprache(text) ersetzen — oder erst die Zweitstimme zurueckbauen '
-             '(eigener OFFEN-Eintrag), dann bleibt eine Stelle. Nachgezaehlt 27.09.2026: '
-             '9 von 204 Mathe-Drehbuechern betroffen — Pythagoras 7 (g5-2a-pythagoras, '
-             'g5-3-cosinussatz, g5-4-spezialwinkel, g5-4-trig-pythagoras, s4-2b-…), '
-             'achthundert 1 (trigo2-3-ballon-zwei-fehler), Megahertz 1 (g1-4-ti30x-ee-eng); '
-             'danach diese 9 neu vertonen. Die Tabellen sind nach Hoerproben des '
-             'Auftraggebers entschieden und gelten fuer Thorsten in beiden Repos. Fallen: '
-             'Satzzeichen muss in die Klammer (sonst verschluckt, Wort klebt an), '
-             'Wortgrenze/Vorsilbe noetig («Schlamperei»). Empfohlen: Mathes eigenes '
-             'Vokabular mit denselben zwei Suchdurchgaengen pruefen (HOWTO-clips.md, '
-             'Abschnitt Ton; Physik fand so «Zentripetalkraft» englisch gelesen) — '
-             'Entscheid je Wort per Hoerprobe durch den Auftraggeber.'),
-    dict(quelle='Physik', was='build-seo: tex_weg loest Brueche und LaTeX-Abstaende auf (Fehler in Mathe)',
-         wie='Physik cac3db1: bruch_auf(x) loest \\frac/\\tfrac/\\dfrac{a}{b} zu a/b auf '
-             '(von innen nach aussen), dazu \\, \\; \\: \\! -> Leerzeichen und ^\\circ -> °. '
-             'In Mathe nachgewiesen (27.09.2026): grundlagen/g5-4-einheitskreis.html '
-             'schreibt in teaches «sin(/π2-φ) = cos(φ)» statt «sin(π/2-φ)». Betroffen '
-             'sind die rlp-kompetenzen von 4 Seiten: g5-4-einheitskreis (frac), '
-             's1-3-logarithmen, s3-4a-exponentialfunktionen, s3-4b-logarithmusfunktionen '
-             '(Abstaende). Uebernehmen: bruch_auf und die zwei re.sub-Zeilen in innen(); '
-             'danach build-seo.py laufen lassen und die vier Beschreibungen ansehen. '
-             'Die Drift von build-seo.py (50.9 % gegen Grundlinie 52 %) kommt sonst aus '
-             'Projektdaten (SEITEN-Tabelle), nicht aus der Logik.'),
-    dict(quelle='Physik', was='Clips auf der Themenseite vor das Zusatzmaterial (Entscheid Auftraggeber 27.09.2026)',
-         wie='Physik b0079f0: der Clip-Block steht nach der Zusammenfassung und VOR dem Zusatzmaterial '
-             '(<h2 id="downloads">), nicht mehr danach. Physik-Doku: STYLEGUIDE §4 Skelett-Zeile 11b, '
-             'HOWTO-clips.md Abschnitt «Einbauen» (Markerpaar «nach der Zusammenfassung und vor dem '
-             'Zusatzmaterial; ohne Zusatzmaterial direkt nach der Zusammenfassung»). build-clips-einbau.py '
-             'blieb unveraendert — es schreibt nur zwischen die Marker; verschoben wird das Markerpaar '
-             'selbst, samt Inhalt. Stand Mathe (gezaehlt 28.09.2026): 45 Seiten mit CLIPS-Markern '
-             '(grundlagen/ und schwerpunkt/), auf ALLEN die Folge zusammenfassung -> downloads -> '
-             'CLIPS -> ressourcen; alle 45 haben id="zusammenfassung" und id="downloads". Also: Block '
-             '<!-- CLIPS:ANFANG ... CLIPS:ENDE --> je Seite ausschneiden und direkt vor <h2 id="downloads"> '
-             'setzen (ein Skript, nicht 45 Edits), danach build-clips-einbau.py --schreiben (muss '
-             '«aktuell» melden), build-suchindex.py, Pre-Flight. Fuenf Seiten haben den Block leer, ohne '
-             '<h2 id="clips">: g5-2b-vierecke, s1-1-, s2-1-, s3-1-, s4-1-grundlagen; auch dort '
-             'verschieben, damit ein spaeterer Clip gleich richtig steht. Doku in Mathe mitziehen: STYLEGUIDE §4 Seitenschema '
-             '(Z. ~410: Clips als eigener Punkt zwischen 8. Zusammenfassung und 9. Zusatzmaterial '
-             'nennen, dort fehlen sie bisher ganz) und HOWTO-clips.md «Schritt 3» (Z. ~456: heute '
-             '«sinnvollerweise direkt vor <h2 id="ressourcen">»).'),
-    dict(quelle='Physik', was='.gitignore: Wegwerfskripte ausschliessen (28.09.2026)',
-         wie='Physik fuehrt vier Zeilen, Mathe keine davon: __*.mjs, __*.py (seit einem __sem.mjs, das '
-             'von August bis September 2026 unter physik.begreifbar.ch lag) und neu .*.mjs, .*.py '
-             '(Physik a1fc9d9, nach .k3.mjs aus b0079f0, entfernt in fcd55ca). Das Repo ist die '
-             'Website — was dort liegt, wird ausgeliefert. Stand Mathe (gezaehlt 28.09.2026): '
-             'keine solche Datei versioniert oder im Wurzelverzeichnis, die Regel ist also reine '
-             'Vorsorge und aendert nichts am Bestand. Die vier Zeilen samt Kommentar aus Physiks '
-             '.gitignore (Abschnitt «Wegwerf-Pruefskripte») uebernehmen; vorher mit git ls-files -ci '
-             '--exclude-standard pruefen, dass keine versionierte Datei darunter faellt. Danach in '
-             'Physik die KERN-Grundlinie fuer .gitignore neu messen und anheben (heute 0.740, '
-             'Physik gemessen 71.8 %).'),
-    dict(quelle='Physik', was='build-clip-ton: Aussprache-Tabellen vereinheitlicht (Entscheid Auftraggeber 28.09.2026)',
-         wie='Ersetzt Mathes TODO-schwesterprojekt-Eintrag «Aussprache-Tabellen um Mathe-Woerter erweitert» '
-             '(dort als erledigt markieren). Der Auftraggeber hat die Unterschiede in Saetzen aus BEIDEN Repos '
-             'angehoert und je Wort einmal fuer beide entschieden. Physiks scripts/build-clip-ton.py ist jetzt '
-             'Mathes Fassung mit genau diesen Aenderungen — danach 1:1 nach Mathe kopieren, die Datei ist dann '
-             'gleich (KERN-Grundlinie in beiden Repos auf 1.000): (1) ENTFERNT, also ohne Lautschrift wie '
-             'frueher: volumen, lineares/linearen/lineare/linear, erdbeschleunigung. (2) BLEIBT: sechstel, '
-             'komponentenweise und alle uebrigen Mathe-Woerter (in Physik 0 Stellen, also ohne Wirkung dort). '
-             '(3) NEU: ABKUERZUNGEN ("My", "mˈyː") — Reibungszahl, in Mathe 0 Stellen. (4) Kommentare: Kopf des '
-             'Blocks «Nach Hoerproben 28.09.2026, in Saetzen aus beiden Repos», Liste «Nicht geaendert» um '
-             'Mikrometer, Mikro, Volumen, linear, Erdbeschleunigung ergaenzt. In Mathe danach neu vertonen, '
-             'was (1) trifft — nachgezaehlt 28.09.2026 (nur gelesen): volumen 11 Stellen in 5 Clips, linear-'
-             'Familie 38 Stellen in 30 Clips, erdbeschleunigung 1 Stelle (g1-4-ti30x-konstanten); ermitteln '
-             'mit aussprache(alt) != aussprache(neu) ueber alle Drehbuecher. In Physik neu vertont: '
-             'p0-3-masse-gewicht (Sechstel), p4-4-kraefte-zerlegen (komponentenweise), vorher schon '
-             'p4-2-anim-hang, p4-4-anim-ebene, p5-3-anim-gasgesetze (Tangens, My, Hyperbel). '
-             '(5) Menue, Entscheid Variante A «me-NUE» (Betonung hinten, 28.09.2026, Hoerprobe mit Mathe-'
-             'Saetzen): neue Zeilen untermenüs, untermenü, menüs, menü (in dieser Reihenfolge, nach '
-             'variablenmenü) und variablenmenü auf «vaɾiˈɑːblənmeːnˌyː» umgestellt. Trifft alle 16 Stellen in 8 '
-             'Mathe-Clips, neu zu vertonen: g1-2-ti30x-brueche, g1-2-ti30x-ggt-kgv, g1-4-ti30x-konstanten, '
-             'g2-2b-ti30x-real-oder-i, g3-1-ti30x-wertetabelle, g4-3-ti30x-haeufigkeiten, g4-3-ti30x-lagemasse, '
-             'g5-3-ti30x-dms. In Physik 0 Stellen. '
-             '(6) Zweite Runde 28.09.2026 (Woerter aus Physiks 6.1-Clips, Entscheid Auftraggeber nach '
-             'Hoerprobe): AUSSPRACHE neu am Ende oktave, ellipsen, ellipse, longitudinal, laser («LEH-ser» wie '
-             'laserpointer), orange (nasal oɾˈɑ̃ːʒə), radio, elektromagnetisch; bewusst NICHT: transversal, niveau, '
-             'photon (Photonenergie bleibt, obwohl «photonen» dort greift). TAUSCH neu: Wortfuge per Bindestrich '
-             'fuer Waermestrahlung, Gammastrahlung, Nachkommastelle(n), Zahlenstrahl(en), Haeufigkeitsspalte, '
-             'Bewegungszustand, Tabellendichte, Normdichte — die Stimme las in Zusammensetzungen «s-t» statt '
-             '«scht». Als allgemeine Regel angehoert und abgelehnt: Widerstand, Kilowattstunde, Normzustand, '
-             'Brennstoff, Meeresspiegel klangen ohne Fuge besser. Mathe-Clips, die (6) trifft (gezaehlt '
-             '28.09.2026, nur gelesen): g1-1-anim-flaechenmodell, g1-2-anim-intervalle, g1-3-anim-zusammenfassen, '
-             'g1-4-anim-einschachteln, g1-4-signifikante-stellen, g1-4-ti30x-modus, g2-2b-anim-d-zahlenstrahl, '
-             'g2-2b-anim-flaechenmodell, g2-2b-ungleichung-vorzeichenmuster, g2-3-anim-bueschel, '
-             'g4-3-ti30x-haeufigkeiten, g5-1-anim-parallelen, g5-2a-anim-flaechenformel, g5-2b-anim-drachen, '
-             'g5-2b-anim-sehnen-tangenten, g5-2c-anim-kreissegment, g5-2d-anim-zentrische-streckung, '
-             's2-1-anim-scheinloesung, s2-1-anim-waage (19) — vor dem Vertonen neu ermitteln. '
-             '(7) Dritte Runde 28.09.2026 (Woerter aus Physiks Vorwissen-Clips): AUSSPRACHE neu am Ende '
-             'glacé, caesium, cäsium, granit, candela; TAUSCH neu Kommastelle -> Komma-stelle (nach '
-             'Nachkommastelle, trifft diese nicht). Bewusst NICHT: Gneis, Basalt, Lumen, Milliarden, '
-             'Elementarladung, Einholzeit, Gegenrechnung, Sonnenstunde, Marktstand, Kohlenstoff, Stickstoff. '
-             'In Mathe nachgezaehlt (nur gelesen): 0 Clips betroffen.'),
-    dict(quelle='Physik', was='Wassermodell des Stromkreises eingebaut (28.09.2026) — Mathe-TODO streichen',
-         wie='Erledigt in Physik mit Commit 0db4d47: themen/p6-2-elektrizitaet.html, Animation 1 '
-             '(Anker anim-wassermodell) im Abschnitt Grundbegriffe, dazu Clip p6-2-anim-wassermodell. '
-             'In Mathe nur aufraeumen, nichts portieren: (1) in TODO-schwesterprojekt.md den Eintrag '
-             '«2026-09-28 · Wassermodell des Stromkreises als neue Animation» loeschen (erledigte Eintraege '
-             'werden dort geloescht, nicht markiert); (2) die Vorlage _intern/uebertrag-physik-wassermodell/ '
-             'wird nicht mehr gebraucht (lokal, per .gitignore ausgeschlossen) und kann weg. '
-             'Keine geteilte Datei betroffen, keine Grundlinie aendert sich.'),
-
+    dict(quelle='Physik', was='Regel gegen Ueberkreuzen der Warteschlange (Entscheid Auftraggeber 28.09.2026)',
+         wie='Am 28.09.2026 haben beide Repos diese Datei geaendert, ohne die andere Fassung zu kennen: '
+             'Mathe arbeitete die Physik-Eintraege ab und legte «Anker an div.anim-titel» an, Physik haengte '
+             'an die alte Fassung einen Eintrag an. «Die ganze Datei uebernehmen» haette jeweils den Eintrag '
+             'der anderen Seite geloescht. Physik hat darum Mathes Fassung uebernommen, den Mathe-Eintrag '
+             'abgearbeitet (build-clips-einbau.py: anim_knoepfe 1:1 aus Mathe, in Physik wirkungslos, '
+             'KERN 0.833) und ihn gestrichen. In Mathe zu tun: (1) diese Datei 1:1 uebernehmen; (2) in '
+             'CLAUDE.md, Abschnitt Schwesterprojekt, beim Punkt zu scripts/abgleich.py die Regel ergaenzen, '
+             'die in Physiks CLAUDE.md steht: Vor jedem Hinzufuegen oder Streichen eines OFFEN-Eintrags '
+             'zuerst `python3 scripts/abgleich.py --diff scripts/abgleich.py`. Ist die Datei gedriftet, '
+             'zuerst die Fassung von drueben uebernehmen und deren Eintraege sichten, dann erst die eigene '
+             'Aenderung machen — nie blind anhaengen, nie blind ueberschreiben. (3) Diesen Eintrag streichen.'),
 ]
 
 FACH = {

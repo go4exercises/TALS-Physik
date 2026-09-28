@@ -455,6 +455,13 @@ Jetzt steht die Regel auf beiden Seiten.
   abgleich`, und `--diff scripts/abgleich.py` zeigt den neuen Eintrag. Die
   dortige Sitzung arbeitet ihn ab und übernimmt die Datei; alles Schreiben
   bleibt im eigenen Repo.
+  **Vor jedem Hinzufügen oder Streichen eines Eintrags zuerst
+  `python3 scripts/abgleich.py --diff scripts/abgleich.py`.** Ist die Datei
+  gedriftet, liegt drüben vielleicht eine neuere Fassung — dann zuerst diese
+  übernehmen und ihre Einträge sichten, erst danach die eigene Änderung.
+  Nie blind anhängen, nie blind überschreiben: Am 28.09.2026 hatten beide
+  Repos die Datei geändert, und jede Übernahme der ganzen Datei hätte den
+  Eintrag der anderen Seite gelöscht.
   **Eine lokale Notizdatei taugt dafür nicht.** Der erste Versuch am
   13.09.2026 legte `.quellen/todo-schwesterprojekt.md` an — per `.gitignore`
   ausgeschlossen, weil das Repo die veröffentlichte Website ist. Damit reiste
