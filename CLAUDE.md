@@ -197,7 +197,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `physiklib.js`). `scripts/build-clips.py` baut aus einem Drehbuch
   (`clips/<name>.json`) den Clip, `scripts/build-clips-einbau.py` trägt ihn in
   die Lektionsseite und zwischen die Marker `<!-- CLIPS-BIBLIOTHEK:ANFANG/ENDE -->`
-  in `clips.html` ein. Stand 28.09.2026: **133 Clips in 25 Reihen, 133:42 min** (davon 44 zu einzelnen Animationen auf 4.1 bis 4.5 und 6.2, Reihe «Animationen erklärt») —
+  in `clips.html` ein. Stand 28.09.2026: **151 Clips in 25 Reihen, 155:47 min** (davon 62 zu einzelnen Animationen auf 4.1 bis 5.3 und 6.2, Reihe «Animationen erklärt») —
   jede der zehn Themenseiten der Lerngebiete 4 bis 6 hat ihre Reihe, dazu das
   Vorwissen. Anders als Mathe gruppiert die Bibliothek nur nach Lerngebiet
   (kein Grundlagen-/Schwerpunktfach), und sie zieht die Gruppen aus `nav.js`,
