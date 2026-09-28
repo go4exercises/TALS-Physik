@@ -172,13 +172,17 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 
   **Aussprache von Fremdwörtern:** Die Tabellen `AUSSPRACHE`, `ABKUERZUNGEN`
   und `TAUSCH` in `build-clip-ton.py` ändern nur den Text an Piper;
-  Transkript und Suchindex behalten die Schreibweise. Stand 27.09.2026, jeder
+  Transkript und Suchindex behalten die Schreibweise. Stand 28.09.2026, jeder
   Eintrag nach Hörproben entschieden: Einheiten (Ampere, Coulomb, Joule,
   Pascal, Hertz), Namen (Boyle, Mariotte, Gay-Lussac, Hooke, Pythagoras),
-  Fremdwörter (u. a. Zentripetal…, das die Stimme englisch las),
-  buchstabierte Abkürzungen (FI, LED, COP, SI) und drei Worttausche
-  (achthundert, Newtonmeter, Lageenergie). Archimedes, Perihel und Parabel
-  bleiben bewusst ungeändert. Ein neues Wort gehört in diese Tabellen, nicht
+  Fremdwörter (u. a. Zentripetal…, das die Stimme englisch las), aus Mathe
+  Hyperbel und Tangens, exakte Wörter (FI, LED, COP, SI buchstabiert; «My»
+  als «mü», sonst englisch «Mai») und drei Worttausche (achthundert,
+  Newtonmeter, Lageenergie). Archimedes, Perihel und Parabel bleiben bewusst
+  ungeändert, ebenso Mikrometer, Mikro und Mathes übrige Wörter (Volumen,
+  Erdbeschleunigung, linear, Sechstel, komponentenweise) — in Physik-Sätzen
+  angehört und abgelehnt. Die Tabellen sind darum mit Mathe nicht mehr
+  gleich (Warteschlange in `abgleich.py`). Ein neues Wort gehört in diese Tabellen, nicht
   als Umschreibung ins Drehbuch; betroffene Clips danach neu vertonen. Wie man
   Problemwörter findet und Hörproben zeigt: `HOWTO-clips.md`, Abschnitt «Ton».
 

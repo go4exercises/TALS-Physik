@@ -79,9 +79,14 @@ AUSSPRACHE = [
     ("isobar", "iːzoːbˈɑːɾ"),           # bisher «I-sobar»
     ("photonen", "foːtˈoːnən"),         # sonst ohne Hauptbetonung
     ("zentripetal", "tsɛntɾipeːtˈɑːl"),  # sonst englisch «Sentraipt-oh…»
+    # Aus Mathe, nach Hoerprobe in Physik-Saetzen (28.09.2026)
+    ("hyperbel", "hypˈɛɾbəl"),
+    ("tangens", "tˈaŋɡɛns"),
 ]
 # Nicht geaendert, weil die bisherige Lesart besser klang: Archimedes,
-# Perihel, Parabel.
+# Perihel, Parabel. Von Mathes Woertern (28.09.2026) in Physik-Saetzen
+# angehoert und nicht uebernommen: Volumen, Erdbeschleunigung, linear,
+# Sechstel, komponentenweise. Ebenso bleiben Mikrometer und Mikro.
 #
 # 2. Abkuerzungen, die buchstabiert werden: nur in exakt dieser Schreibung
 #    als ganzes Wort (sonst traefe «SI» auch «si» in anderen Woertern).
@@ -90,6 +95,7 @@ ABKUERZUNGEN = [
     ("LED", "ɛleːdˈeː"),                # bisher «Leet»
     ("COP", "tseːoːpˈeː"),              # bisher «Kop»
     ("SI", "ɛsˈiː"),                    # bisher «Sie»
+    ("My", "mˈyː"),                     # Reibungszahl μ; bisher englisch «Mai»
 ]
 # 3. Einfache Worttausche, wo keine Lautschrift noetig ist.
 TAUSCH = [

@@ -245,6 +245,21 @@ OFFEN = [
              '--exclude-standard pruefen, dass keine versionierte Datei darunter faellt. Danach in '
              'Physik die KERN-Grundlinie fuer .gitignore neu messen und anheben (heute 0.740, '
              'Physik gemessen 71.8 %).'),
+    dict(quelle='Physik', was='Antwort auf «Aussprache-Tabellen um Mathe-Woerter erweitert» (28.09.2026)',
+         wie='Mathes TODO-schwesterprojekt-Eintrag vom 28.09.2026 ist in Physik bearbeitet, aber NICHT als '
+             '1:1-Kopie: Der Auftraggeber hat Mathes Woerter in Physik-Saetzen angehoert und nur hyperbel und '
+             'tangens uebernommen (Zeilen wortgleich mit Mathe, am Ende von AUSSPRACHE). Nicht uebernommen: '
+             'volumen, erdbeschleunigung, linear(e/en/es), sechstel, komponentenweise — in Physik-Saetzen '
+             'klang die bisherige Lesart besser; Mikrometer und Mikro bleiben ebenfalls. Neu aus Physik: '
+             'ABKUERZUNGEN ("My", "mˈyː") fuer die Reibungszahl (bisher englisch «Mai»); in Mathe nachgezaehlt '
+             '0 Treffer fuer «My» im sprecher, also harmlos — uebernehmen. Physik-Commit: siehe Log '
+             '«Clip-Ton: Hyperbel, Tangens, My». Neu vertont wurden in Physik nur 3 Clips (p4-2-anim-hang, '
+             'p4-4-anim-ebene, p5-3-anim-gasgesetze), nicht 42. Folge fuer den Abgleich: Die Tabellen koennen '
+             'nicht mehr in beiden Repos gleich sein, ohne dass eine Seite Woerter bekommt, die ihr Auftraggeber '
+             'abgelehnt hat. Vorschlag zur Entscheidung beim Auftraggeber: gemeinsame Liste plus je eine '
+             'Fach-Liste, gewaehlt ueber die Projekterkennung wie in build-suchindex.py (physiklib.js/mathlib.js) '
+             '— dann bleibt die Datei selbst gleich. Bis dahin ist build-clip-ton.py bewusst ungleich; '
+             'Mathes TODO-Eintrag dort als erledigt markieren.'),
 ]
 
 FACH = {

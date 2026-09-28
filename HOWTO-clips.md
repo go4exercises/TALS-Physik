@@ -236,12 +236,12 @@ chromium --autoplay-policy=document-user-activation-required
 **Aussprache-Tabelle.** Liest die Stimme ein Fremdwort falsch, kommt es in
 `AUSSPRACHE` in `scripts/build-clip-ton.py`: Wortstamm und Lautschrift (IPA),
 Piper erhält es als `[[…]]`. Buchstabierte Abkürzungen stehen in
-`ABKUERZUNGEN` (nur exakt als ganzes Wort: FI, LED, COP, SI), einfache
+`ABKUERZUNGEN` (nur exakt als ganzes Wort: FI, LED, COP, SI, dazu «My» als «mü»), einfache
 Worttausche ohne Lautschrift in `TAUSCH` (achthundert, Newtonmeter,
 Lageenergie). Vorsilben (Milli-, Kilo-, Hekto-, …) und Zusammensetzungen
 (Amperemeter, Zentripetalkraft) greifen mit. Jeder Eintrag ist nach Hörproben
 entschieden; bewusst **nicht** geändert, weil die bisherige Lesart besser
-klang: Archimedes, Perihel, Parabel. Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
+klang: Archimedes, Perihel, Parabel, Mikrometer, Mikro und Mathes Volumen, Erdbeschleunigung, linear, Sechstel, komponentenweise (Hörprobe 28.09.2026; Hyperbel und Tangens kamen aus Mathe dazu). Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
 nach `]]` verschluckt Piper samt Pause und klebt das nächste Wort an — es
 gehört in die Klammer. Und ohne Wortgrenze träfe «ampere» auch
 «Schlamperei». Probe vor dem Eintrag: `PiperVoice.load(modell).phonemize(text)`
