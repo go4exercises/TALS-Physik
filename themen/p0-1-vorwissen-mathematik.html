@@ -3460,6 +3460,27 @@ document.getElementById('b3-m').addEventListener('input', drawB3);
 const B4_TMAX = 120, B4_SMAX = 1060;
 // t* = d/(vA-vB) nur für vA > vB. Beispiel d=40, vA=5, vB=3: t*=20 s, s*=100 m
 // (Python-verifiziert).
+// Gestrichelte Ablesehilfen vom Punkt (t, x) zu den Achsen — so, dass sie keine
+// Achsenzahl durchstreichen: senkrecht über der Zahlenzeile der t-Achse
+// beginnen, waagrecht vor der Zahlenspalte der x-Achse enden (Lage der Zahlen
+// nach derselben Regel wie drawGrid). Liegt der Punkt in der Zeile des
+// Achsentitels ganz oben, entfällt die waagrechte Linie.
+function bAblese(ctx, gr, W, H, yMin, yMax, t, x, farbe) {
+  ctx.save(); ctx.font = '13px JetBrains Mono,monospace';
+  let zahlB = 0;
+  for (let v = Math.ceil(yMin / gr.stepY) * gr.stepY; v <= yMax + gr.stepY * 1e-6; v += gr.stepY)
+    if (Math.abs(v) > gr.stepY * 1e-6) zahlB = Math.max(zahlB, ctx.measureText(fmtTick(v, gr.stepY)).width);
+  ctx.restore();
+  const xAchse = gr.cx(0), yAchse = gr.cy(0);
+  const xEnde = xAchse >= zahlB + 8 ? xAchse : xAchse + 5 + zahlB + 4;
+  const yStart = (H - yAchse) >= 18 ? yAchse : yAchse - 20;
+  const pX = gr.cx(t), pY = gr.cy(x);
+  ctx.strokeStyle = farbe; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  if (pY < yStart) { ctx.moveTo(pX, yStart); ctx.lineTo(pX, pY); }
+  if (pY >= 22 && pX > xEnde) { ctx.moveTo(pX, pY); ctx.lineTo(xEnde, pY); }
+  ctx.stroke(); ctx.setLineDash([]);
+}
 function drawB4() {
   const vA = +document.getElementById('b4-va').value;
   const vB = +document.getElementById('b4-vb').value;
@@ -3469,7 +3490,8 @@ function drawB4() {
   document.getElementById('b4-d-val').textContent = d + ' m';
 
   const diff = vA - vB;
-  document.getElementById('b4-diff').textContent = fmtS(diff) + ' m/s';
+  // eine Stelle wie die Regler (Schritt 0.5 — exakt)
+  document.getElementById('b4-diff').textContent = (diff < 0 ? '− ' : '+ ') + Math.abs(diff).toFixed(1) + ' m/s';
   const catches = diff > 1e-9;
   let tStar = 0, sStar = 0, tEnd;
   if (catches) {
@@ -3515,12 +3537,7 @@ function drawB4() {
 
   if (catches) {
     // Hilfslinien + Einholpunkt
-    cv.ctx.strokeStyle = '#9b1c1c'; cv.ctx.lineWidth = 1; cv.ctx.setLineDash([4, 4]);
-    cv.ctx.beginPath();
-    cv.ctx.moveTo(gr.cx(tStar), gr.cy(0)); cv.ctx.lineTo(gr.cx(tStar), gr.cy(sStar));
-    cv.ctx.lineTo(gr.cx(0), gr.cy(sStar));
-    cv.ctx.stroke();
-    cv.ctx.setLineDash([]);
+    bAblese(cv.ctx, gr, cv.W, cv.H, -sMax * 0.05, sMax, tStar, sStar, '#9b1c1c');
     drawDot(cv.ctx, gr.cx, gr.cy, tStar, sStar, '#9b1c1c', 6);
     // Werte oben links im Diagramm: dort ist immer frei (beide Geraden starten
     // unter 100 m). Am Punkt selbst kreuzte die Zeile beide Geraden; die
@@ -3599,8 +3616,8 @@ function drawB5() {
     // Eigene Zeile, damit die Angabe nicht auf «0 m» oder «d m» fällt
     ctxS.fillStyle = stimmt ? '#1f6b3a' : '#9b1c1c'; ctxS.font = 'bold 12px "JetBrains Mono",monospace';
     // schmal entfällt die Beschriftung im Diagramm — dann steht die Zeit hier
-    const tTxt = stimmt ? 'Treffpunkt ' + xLinks.toFixed(0) + ' m' + (W < 520 ? ' nach ' + fmt(t) + ' s' : '')
-                        : 'A wäre bei ' + xLinks.toFixed(0) + ' m, B bei ' + xRechts.toFixed(0) + ' m';
+    const tTxt = stimmt ? 'Treffpunkt ' + xLinks.toFixed(1) + ' m' + (W < 520 ? ' nach ' + fmt(t) + ' s' : '')
+                        : 'A wäre bei ' + xLinks.toFixed(1) + ' m, B bei ' + xRechts.toFixed(1) + ' m';
     const tw = ctxS.measureText(tTxt).width;
     ctxS.fillText(tTxt, Math.max(tw/2 + 4, Math.min(W - tw/2 - 4, xOf(xLinks))), yS + 46);
   }
@@ -3625,23 +3642,32 @@ function drawB5() {
   lbl(cv.ctx, cv.W, 'A →', gr.cx(t * 0.5), gr.cy(vA * t * 0.5) - 8, '#8a4a0e', 'center');
   lbl(cv.ctx, cv.W, '← B', gr.cx(t * 0.5), gr.cy(d - vB * t * 0.5) - 8, '#1a4f8a', 'center');
 
-  // Treffpunkt + Hilfslinien
-  cv.ctx.strokeStyle = '#9b1c1c'; cv.ctx.lineWidth = 1; cv.ctx.setLineDash([4, 4]);
-  cv.ctx.beginPath();
-  cv.ctx.moveTo(gr.cx(t), gr.cy(0)); cv.ctx.lineTo(gr.cx(t), gr.cy(xLinks));
-  cv.ctx.lineTo(gr.cx(0), gr.cy(xLinks));
-  cv.ctx.stroke();
-  cv.ctx.setLineDash([]);
-  drawDot(cv.ctx, gr.cx, gr.cy, t, xLinks, '#9b1c1c', 6);
+  // Treffpunkt + Hilfslinien. Im Fehlermodus gibt es keinen Treffpunkt: Dann
+  // markieren zwei Punkte, wo A und B zur falsch berechneten Zeit stehen, und
+  // eine rote Strecke zeigt die Lücke. (x_A ist dort immer d — die waagrechte
+  // Ablesehilfe liefe durch den Achsentitel und entfällt.)
+  const plotH = cv.H - 92;
+  if (stimmt) {
+    bAblese(cv.ctx, gr, cv.W, plotH, -d * 0.05, d * 1.05, t, xLinks, '#9b1c1c');
+    drawDot(cv.ctx, gr.cx, gr.cy, t, xLinks, '#9b1c1c', 6);
+  } else {
+    bAblese(cv.ctx, gr, cv.W, plotH, -d * 0.05, d * 1.05, t, Math.max(xLinks, xRechts), '#9b1c1c');
+    cv.ctx.strokeStyle = '#9b1c1c'; cv.ctx.lineWidth = 2.4;
+    cv.ctx.beginPath(); cv.ctx.moveTo(gr.cx(t), gr.cy(xLinks)); cv.ctx.lineTo(gr.cx(t), gr.cy(xRechts)); cv.ctx.stroke();
+    drawDot(cv.ctx, gr.cx, gr.cy, t, xLinks, '#8a4a0e', 6);
+    drawDot(cv.ctx, gr.cx, gr.cy, t, xRechts, '#1a4f8a', 6);
+  }
   // Beschriftung zweizeilig an der ersten Lage, die keine Gerade und keine
   // Hilfslinie schneidet (geprüft gegen die echten Strecken). Schmal steht die
   // Zeit stattdessen in der Strassenzeile oben.
   if (cv.W >= 520) {
     const pX = gr.cx(t), pY = gr.cy(xLinks);
-    const z1 = 'Treffpunkt: ' + xLinks.toFixed(1) + ' m', z2 = 'nach ' + fmt(t) + ' s';
+    const z1 = stimmt ? 'Treffpunkt: ' + xLinks.toFixed(1) + ' m' : 'A bei ' + xLinks.toFixed(1) + ' m, B bei ' + xRechts.toFixed(1) + ' m',
+          z2 = 'nach ' + fmt(t) + ' s' + (stimmt ? '' : ': kein Treffpunkt');
     cv.ctx.font = 'bold 13px JetBrains Mono,monospace';
     const bw = Math.max(cv.ctx.measureText(z1).width, cv.ctx.measureText(z2).width) + 4, bh = 32;
-    const strecken = [segA, segB, [pX, gr.cy(0), pX, pY], [gr.cx(0), pY, pX, pY]];
+    const strecken = stimmt ? [segA, segB, [pX, gr.cy(0), pX, pY], [gr.cx(0), pY, pX, pY]]
+                            : [segA, segB, [pX, gr.cy(0), pX, gr.cy(Math.max(xLinks, xRechts))]];
     const schneidet = (q, r) => {                     // Strecke q gegen Rechteck r
       const [x1, y1, x2, y2] = q;
       for (let i = 0; i <= 40; i++) { const x = x1 + (x2 - x1) * i / 40, y = y1 + (y2 - y1) * i / 40;
@@ -3653,7 +3679,17 @@ function drawB5() {
                    [cv.W - bw - 6, gr.cy(0) - bh - 22], [gr.cx(0) + 34, 6]]
       .map(([x, y]) => ({x, y, w: bw, h: bh}))
       .filter(r => r.x >= gr.cx(0) + 30 && r.x + r.w <= cv.W - 4 && r.y >= 4 && r.y + r.h <= gr.cy(0) - 18);
-    const r = lagen.find(q => !strecken.some(sg => schneidet(sg, q))) || lagen[0];
+    // Sind alle festen Lagen belegt, im Raster die freie Lage suchen, die dem
+    // Punkt am nächsten liegt (im Fehlermodus steht A oben an der Kante).
+    let r = lagen.find(q => !strecken.some(sg => schneidet(sg, q)));
+    if (!r) {
+      const raster = [];
+      for (let y = 4; y + bh <= gr.cy(0) - 18; y += 8)
+        for (let x = gr.cx(0) + 30; x + bw <= cv.W - 4; x += 12) raster.push({x, y, w: bw, h: bh});
+      const mitRand = q => ({x: q.x - 6, y: q.y - 6, w: q.w + 12, h: q.h + 12});   // Luft zu Punkten und Linien
+      r = raster.filter(q => !strecken.some(sg => schneidet(sg, mitRand(q))))
+                .sort((a, b) => Math.hypot(a.x + bw/2 - pX, a.y + bh/2 - pY) - Math.hypot(b.x + bw/2 - pX, b.y + bh/2 - pY))[0] || lagen[0];
+    }
     if (r) {
       lbl(cv.ctx, cv.W, z1, r.x + 2, r.y + 13, '#9b1c1c', 'left');
       lbl(cv.ctx, cv.W, z2, r.x + 2, r.y + 29, '#9b1c1c', 'left');

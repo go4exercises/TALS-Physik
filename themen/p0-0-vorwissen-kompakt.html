@@ -43,7 +43,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-09-26",
+   "dateModified": "2026-09-28",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -769,6 +769,16 @@ function a1SetSzenario(key){
   document.querySelectorAll('[data-a1]').forEach(b=>b.classList.toggle('aktiv', b.dataset.a1===key));
   drawA1();
 }
+const A1_ZUFALL = 'hier zufällig gleich — andere Menge probieren!';
+// mittig unter dem Punkt, aber ganz im Bild (bei 360 px lief der Satz rechts hinaus)
+function a1ZufallX(px, w, W){ return Math.max(4 + w/2, Math.min(W - 4 - w/2, px)); }
+// Passt der Satz nicht in die Breite (Handy), steht er zweizeilig am Gedankenstrich getrennt
+function a1ZufallZeilen(ctx, W){
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const ganz = ctx.measureText(A1_ZUFALL).width;
+  const teile = ganz <= W - 8 ? [A1_ZUFALL] : ['hier zufällig gleich —', 'andere Menge probieren!'];
+  return teile.map(t => ({t, w: ctx.measureText(t).width}));
+}
 function drawA1() {
   const z = A1_SZEN[a1Szen];
   const x = +document.getElementById('a1-m').value;
@@ -830,15 +840,36 @@ function drawA1() {
     ctx.strokeStyle='#1f6b3a'; ctx.lineWidth=1.6; ctx.setLineDash([6,4]);
     ctx.beginPath(); ctx.moveTo(gr.cx(0), gr.cy(0)); ctx.lineTo(gr.cx(xAchse), gr.cy(xAchse*p)); ctx.stroke();
     ctx.setLineDash([]);
-    lbl(ctx, cv.W, 'reine Proportionalität', gr.cx(xAchse*0.72), gr.cy(xAchse*0.72*p)-8, '#1f6b3a', 'right');
   }
-  // Fläche des Labels «reine Proportionalität» (lbl kappt nach links, wenn es rechts nicht passt)
+  // Label «reine Proportionalität»: erste freie Lage entlang der grünen Geraden,
+  // über oder unter ihr. Fest bei 72 % lag der Probe-Ring darauf (Taxi mit
+  // Grundgebühr, 10 km). Hindernisse: Ring, roter Punkt, aktueller Punkt, Marke.
   let propRect = null;
   if(!gilt){
     ctx.font = 'bold 13px JetBrains Mono,monospace';
-    const w = ctx.measureText('reine Proportionalität').width, px = gr.cx(xAchse*0.72);
-    const x0 = (px - w < 4) ? px : px - w;
-    propRect = {x: x0 - 2, y: Math.max(14, gr.cy(xAchse*0.72*p)-8) - 12, w: w + 4, h: 15};
+    const w = ctx.measureText('reine Proportionalität').width;
+    const frei = [
+      {x: gr.cx(xD) - 11, y: gr.cy(KVor) - 11, w: 22, h: 22},
+      {x: gr.cx(xD) - 9, y: gr.cy(KEcht) - 9, w: 18, h: 18},
+      {x: gr.cx(x) - 8, y: gr.cy(K) - 8, w: 16, h: 16},
+      {x: cv.W - 150, y: 0, w: 150, h: 40}];
+    if(zufall) a1ZufallZeilen(ctx, cv.W).forEach((z, i) => frei.push(
+      {x: a1ZufallX(gr.cx(xD), z.w, cv.W) - z.w/2 - 2, y: gr.cy(KEcht) + 22 + 15*i - 12, w: z.w + 4, h: 15}));
+    const trifft = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+    // Die Geraden steigen nach rechts: unter der Linie läuft der Text darum nach
+    // rechts (linksbündig), darüber nach links (rechtsbündig) — sonst schneiden
+    // die Linien das Label von unten bzw. von oben.
+    const lage = (t, dy) => { const px = gr.cx(xAchse*t), py = Math.max(14, gr.cy(xAchse*t*p) + dy);
+      const al = dy > 0 ? 'left' : 'right', x0 = al === 'left' ? px : px - w;
+      return {px, py, al, r: {x: x0 - 2, y: py - 12, w: w + 4, h: 15}}; };
+    const kand = [];
+    // unter der Linie zuerst: darüber verläuft die Kostenkurve dicht, und der
+    // weisse Grund des Labels würde ein Stück von ihr verdecken
+    [20, -8].forEach(dy => [0.72, 0.58, 0.86, 0.45, 0.32].forEach(t => kand.push(lage(t, dy))));
+    const l = kand.find(k => k.r.x >= 2 && k.r.x + k.r.w <= cv.W - 2 && k.r.y + k.r.h < gr.cy(0) - 18
+                             && !frei.some(q => trifft(k.r, q))) || kand[0];
+    lbl(ctx, cv.W, 'reine Proportionalität', l.px, l.py, '#1f6b3a', l.al);
+    propRect = l.r;
   }
   // Ableselinien
   ctx.strokeStyle = '#b8c4d4'; ctx.lineWidth = 1.2; ctx.setLineDash([4,4]);
@@ -851,8 +882,8 @@ function drawA1() {
   if(!gilt){
     drawDot(ctx, gr.cx, gr.cy, xD, KEcht, '#9b1c1c', 6);
     if(zufall){
-      lbl(ctx, cv.W, 'hier zufällig gleich — andere Menge probieren!',
-          gr.cx(xD), gr.cy(KEcht)+22, '#9b1c1c', 'center');
+      a1ZufallZeilen(ctx, cv.W).forEach((z, i) =>
+        lbl(ctx, cv.W, z.t, a1ZufallX(gr.cx(xD), z.w, cv.W), gr.cy(KEcht) + 22 + 15*i, '#9b1c1c', 'center'));
     } else {
       // Nur der Abstand wird gezeichnet; die Zahl steht in der Live-Box, sonst
       // drängen sich bei kleinen Mengen drei Beschriftungen am Ursprung.

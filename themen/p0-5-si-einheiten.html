@@ -43,7 +43,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-09-27",
+   "dateModified": "2026-09-28",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -1568,7 +1568,7 @@ function drawA4() {
 
   // Zaehlzeile
   siZeile(ctx, siPot(n, 2) + ' Elementarladungen je Sekunde', W / 2, H - 32, W - 20, '700', 15, SI_F.tinte);
-  siZeile(ctx, '1 A = 1 C/s;   1 C = 1/e ≈ 6.24 · 10¹⁸ Ladungen', W / 2, H - 12, W - 20,
+  siZeile(ctx, '1 A = 1 C/s;   1 C / e ≈ 6.24 · 10¹⁸ Ladungen', W / 2, H - 12, W - 20,
           '', 12, SI_F.tinte2, '"Source Sans 3",sans-serif');
 }
 
@@ -1875,18 +1875,27 @@ function drawA8() {
 
 /* ═══════════ ANIMATION 9 — Vorsilben-Leiter ═══════════ */
 const A9_VOR = {
-  '9':  { n:'giga',  z:'G', bsp:'Leistung eines Kraftwerks (1 GW)' },
-  '6':  { n:'mega',  z:'M', bsp:'Energie in einem Schokoriegel (1 MJ)' },
-  '3':  { n:'kilo',  z:'k', bsp:'Weg zum Bahnhof (1 km)' },
-  '2':  { n:'hekto', z:'h', bsp:'Luftdruck (1013 hPa)' },
-  '1':  { n:'deka',  z:'da', bsp:'im Alltag selten (1 dag = 10 g)' },
-  '0':  { n:'—',     z:'',  bsp:'die Einheit selbst (1 m)' },
-  '-1': { n:'dezi',  z:'d', bsp:'ein kleines Glas (1 dl)' },
-  '-2': { n:'zenti', z:'c', bsp:'Breite eines Fingernagels (1 cm)' },
-  '-3': { n:'milli', z:'m', bsp:'Dicke einer Kreditkarte (1 mm)' },
-  '-6': { n:'mikro', z:'µ', bsp:'Länge eines Bakteriums (einige µm)' },
-  '-9': { n:'nano',  z:'n', bsp:'fünf Atome nebeneinander (1 nm)' }
+  // e: Einheit des Beispiels — die Zeile «1 Einheit entspricht» rechnet in ihr
+  '9':  { n:'giga',  z:'G', e:'W',  bsp:'Leistung eines Kraftwerks (1 GW)' },
+  '6':  { n:'mega',  z:'M', e:'J',  bsp:'Energie in einem Schokoriegel (1 MJ)' },
+  '3':  { n:'kilo',  z:'k', e:'m',  bsp:'Weg zum Bahnhof (1 km)' },
+  '2':  { n:'hekto', z:'h', e:'Pa', bsp:'Luftdruck (1013 hPa)' },
+  '1':  { n:'deka',  z:'da', e:'g', bsp:'im Alltag selten (1 dag = 10 g)' },
+  '0':  { n:'—',     z:'',  e:'m',  bsp:'die Einheit selbst (1 m)' },
+  '-1': { n:'dezi',  z:'d', e:'l',  bsp:'ein kleines Glas (1 dl)' },
+  '-2': { n:'zenti', z:'c', e:'m',  bsp:'Breite eines Fingernagels (1 cm)' },
+  '-3': { n:'milli', z:'m', e:'m',  bsp:'Dicke einer Kreditkarte (1 mm)' },
+  '-6': { n:'mikro', z:'µ', e:'m',  bsp:'Länge eines Bakteriums (einige µm)' },
+  '-9': { n:'nano',  z:'n', e:'m',  bsp:'fünf Atome nebeneinander (1 nm)' }
 };
+// Faktor 10^p als Dezimalzahl wie in der Tabelle darunter (1 000 000, 0.000 001),
+// aus Ziffern gebaut: String(1e-7) hiesse «1e-7», 10^-1 als Gleitkommazahl
+// ist nicht exakt 0.1.
+function a9Faktor(p) {
+  if (p >= 0) return siGrupp(Math.pow(10, p));
+  const nach = '0'.repeat(-p - 1) + '1';
+  return '0.' + nach.replace(/(\d{3})(?=\d)/g, '$1 ');
+}
 
 // Zehnerpotenz mit echter Hochzahl: siHoch (oben bei siPot)
 const a9Hoch = siHoch;
@@ -1894,14 +1903,13 @@ const a9Hoch = siHoch;
 function drawA9() {
   const p = +document.getElementById('a9-p').value;
   const v = A9_VOR[String(p)];
-  const faktor = Math.pow(10, p);
   const text = v ? (v.n === '—' ? 'keine Vorsilbe' : v.n + ' (' + v.z + ')') : 'keine gebräuchliche Vorsilbe';
   document.getElementById('a9-p-val').textContent = '10' + a9Hoch(p) + (v && v.n !== '—' ? ' — ' + v.n : '');
   document.getElementById('a9-lv').textContent = text;
-  document.getElementById('a9-lf').textContent = faktor >= 1 ? siGrupp(faktor) : String(faktor);
-  document.getElementById('a9-lm').textContent = v && v.z
-    ? '1 ' + v.z + 'm = ' + (faktor >= 1 ? siGrupp(faktor) : String(faktor)) + ' m'
-    : '1 m = 1 m';
+  document.getElementById('a9-lf').textContent = a9Faktor(p);
+  document.getElementById('a9-lm').textContent = v
+    ? (v.z ? '1 ' + v.z + v.e + ' = ' + a9Faktor(p) + ' ' + v.e : '1 ' + v.e + ' = 1 ' + v.e)
+    : '—';
   document.getElementById('a9-lb').textContent = v ? v.bsp : '—';
 
   const cv = initCanvas('a9-cv', 240, false);

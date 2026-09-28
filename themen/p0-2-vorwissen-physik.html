@@ -43,7 +43,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-09-27",
+   "dateModified": "2026-09-28",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -2188,7 +2188,8 @@ function haloText(ctx, txt, x, y, color, font, align) {
 }
 // Freie Lage für eine Beschriftung: die erste Kandidatenposition, deren Kasten
 // keine der Linien (Funktionen x → y in Canvas-Pixeln) schneidet und in den
-// Grenzen bleibt. kand: [{x, y, align}], y = Grundlinie; sperr: [{y0, y1}]-Bänder.
+// Grenzen bleibt. kand: [{x, y, align}], y = Grundlinie; sperr: [{y0, y1}]-Bänder,
+// mit x0/x1 auch Rechtecke (andere Beschriftungen).
 function freieLage(kand, w, linien, gz, sperr) {
   // Ist keine Lage ganz frei, gewinnt die mit den wenigsten Treffern — nach
   // dem Einrücken in die Grenzen, damit nichts abgeschnitten wird.
@@ -2198,7 +2199,8 @@ function freieLage(kand, w, linien, gz, sperr) {
     x0 = Math.max(gz.x0, Math.min(gz.x1 - w, x0));
     const y0 = k.y - 14, y1 = k.y + 4;
     if (y0 < gz.y0 || y1 > gz.y1) continue;
-    if ((sperr || []).some(b => y1 > b.y0 && y0 < b.y1)) continue;
+    if ((sperr || []).some(b => y1 > b.y0 && y0 < b.y1 &&
+        (b.x0 === undefined || (x0 + w + 3 > b.x0 && x0 - 3 < b.x1)))) continue;
     let n = 0;
     for (const fn of linien)
       for (let xx = x0 - 3; xx <= x0 + w + 3; xx += 2) {
@@ -2802,7 +2804,10 @@ function drawA5() {
 
   // Schmal: Treppe oben, Diagramme darunter (höheres Canvas); breit nebeneinander.
   const a5El = document.getElementById('a5-cv'); a5El.style.width = '';
-  const eng = (a5El.offsetWidth || 600) < 560;
+  // Nebeneinander braucht die Treppe bis zur P-Achse rund 380 px und der
+  // Diagrammblock rund 350 px; darunter lag die P-Achse auf der Treppe
+  // (z. B. 696 px Canvas bei 800 px Fenster). Darum schon unter 740 px gestapelt.
+  const eng = (a5El.offsetWidth || 600) < 740;
   const cv = initCanvas('a5-cv', eng ? 470 : 280, false);
   const ctx = cv.ctx, W = cv.W, H = cv.H;
   ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, W, H);
@@ -2861,13 +2866,12 @@ function drawA5() {
   drawArrow(ctx, xB, yBoden, xB, yZiel, '#1f6b3a', 1.8, 7);
   drawArrow(ctx, xB, yZiel, xB, yBoden, '#1f6b3a', 1.8, 7);
   const yMh = (yBoden + yZiel) / 2;
-  if (eng) {
-    haloText(ctx, 'h =', xB + 6, yMh - 3, '#1f6b3a', 'bold 12px "JetBrains Mono",monospace', 'left');
-    haloText(ctx, h.toFixed(1) + ' m', xB + 6, yMh + 12, '#1f6b3a', 'bold 12px "JetBrains Mono",monospace', 'left');
-  } else {
-    haloText(ctx, 'h = ' + h.toFixed(1) + ' m', xB + 8, yMh + 4, '#1f6b3a',
-             'bold 13px "JetBrains Mono",monospace', 'left');
-  }
+  // Breite der h-Beschriftung und der P-Achsenzahlen: Die P-Achse rückt so weit
+  // nach rechts, dass beide nebeneinander Platz haben (bei 1100 px lag
+  // «h = 10.0 m» auf der «600»). Gezeichnet wird die Beschriftung weiter unten.
+  const hTxt = 'h = ' + h.toFixed(1) + ' m';
+  ctx.font = 'bold 13px "JetBrains Mono",monospace'; const hW = ctx.measureText(hTxt).width;
+  ctx.font = '12px "JetBrains Mono",monospace'; const tickW = ctx.measureText('2400').width;
 
   // ── Leistung und Arbeit: zwei Diagramme mit je EIGENER Achse ──
   // Vorher stand der Arbeitsbalken an der P-Achse (W) — 5.9 kJ las sich als
@@ -2883,7 +2887,17 @@ function drawA5() {
   const epotTxt = eng ? 'E_pot' : 'E_pot = ' + (A5_W / 1000).toFixed(1) + ' kJ';
   const epotW = idxMass(ctx, epotTxt);
   const bedarf = 10 + bw + 6 + refW + 34 + 10 + bw + 6 + epotW;   // Breite ab der P-Achse
-  const xR = eng ? 44 : Math.min(Math.max(xA + 95, W * 0.6), W - 6 - bedarf);
+  const xR = eng ? 44 : Math.min(Math.max(xA + 95, W * 0.6, xB + 8 + hW + 10 + tickW + 10), W - 6 - bedarf);
+  // Reicht der Platz trotzdem nicht (die P-Achse stösst rechts an), steht die
+  // Beschriftung im Bodenstreifen unter dem Pfeil — dort liegt keine Achsenzahl.
+  if (eng) {
+    haloText(ctx, 'h =', xB + 6, yMh - 3, '#1f6b3a', 'bold 12px "JetBrains Mono",monospace', 'left');
+    haloText(ctx, h.toFixed(1) + ' m', xB + 6, yMh + 12, '#1f6b3a', 'bold 12px "JetBrains Mono",monospace', 'left');
+  } else if (xB + 8 + hW + 10 <= xR - 10 - tickW) {
+    haloText(ctx, hTxt, xB + 8, yMh + 4, '#1f6b3a', 'bold 13px "JetBrains Mono",monospace', 'left');
+  } else {
+    haloText(ctx, hTxt, xB, yBoden + 19, '#1f6b3a', 'bold 13px "JetBrains Mono",monospace', 'center');
+  }
   const topY = eng ? yBoden + 50 : 30, baseY = eng ? H - 26 : yBoden;
   const yP = p => baseY - Math.min(p, PMAX) / PMAX * (baseY - topY);
   const yW = v => baseY - Math.min(v, WMAX) / WMAX * (baseY - topY);
@@ -3714,6 +3728,7 @@ function drawB4() {
   // Temperaturkurve
   drawCurve(ctx, gr.cx, gr.cy, tt => tt, b4T, 0, 24, 96, '#8a4a0e', 2.8);
 
+  let b4Sperr = [];
   if (b4St.modus === 'tangente') {
     // Tangente am Ablesepunkt (±2.5 h, an [0,24] geklammert): Momentanrate
     const t1 = Math.max(0, t - 2.5), t2 = Math.min(24, t + 2.5);
@@ -3737,9 +3752,15 @@ function drawB4() {
     drawDot(ctx, gr.cx, gr.cy, tB, TB, '#5b2d8e', 5);
     const dT = TB - T, dt = tB - t;
     ctx.fillStyle = '#5b2d8e'; ctx.font = 'bold 12px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-    ctx.fillText('Δt = ' + fmtS(dt) + ' h', (gr.cx(t) + gr.cx(tB)) / 2, gr.cy(T) + 16);
+    const dtTxt = 'Δt = ' + fmtS(dt) + ' h', dTTxt = 'ΔT = ' + fmtS(dT) + ' °C';
+    const dtX = (gr.cx(t) + gr.cx(tB)) / 2, dtY = gr.cy(T) + 16, dTY = (gr.cy(T) + gr.cy(TB)) / 2;
+    ctx.fillText(dtTxt, dtX, dtY);
     ctx.textAlign = 'left';
-    ctx.fillText('ΔT = ' + fmtS(dT) + ' °C', gr.cx(tB) + 8, (gr.cy(T) + gr.cy(TB)) / 2);
+    ctx.fillText(dTTxt, gr.cx(tB) + 8, dTY);
+    // Die Punktbeschriftung (weisser Grund) darf diese beiden nicht zudecken
+    const wDt = ctx.measureText(dtTxt).width, wDT = ctx.measureText(dTTxt).width;
+    b4Sperr = [{ x0: dtX - wDt / 2, x1: dtX + wDt / 2, y0: dtY - 12, y1: dtY + 4 },
+               { x0: gr.cx(tB) + 8, x1: gr.cx(tB) + 8 + wDT, y0: dTY - 12, y1: dTY + 4 }];
   }
 
   // Ablese-Hilfslinien zu den Achsen
@@ -3770,7 +3791,7 @@ function drawB4() {
       { x: pxT - 12, y: pyT - 14, align: 'right' }, { x: pxT - 12, y: pyT + 22, align: 'right' },
       { x: pxT + 12, y: pyT - 34, align: 'left' }, { x: pxT - 12, y: pyT - 34, align: 'right' },
       { x: pxT + 12, y: pyT + 42, align: 'left' }, { x: pxT - 12, y: pyT + 42, align: 'right' }],
-    lw, linien, { x0: gr.cx(0) + 4, x1: cv.W - 4, y0: 18, y1: gr.cy(0) - 4 });
+    lw, linien, { x0: gr.cx(0) + 4, x1: cv.W - 4, y0: 18, y1: gr.cy(0) - 4 }, b4Sperr);
   const lx = pos.align === 'right' ? pos.x - lw : pos.x, ly = pos.y;
   ctx.fillStyle = '#fff'; ctx.fillRect(lx - 2, ly - 13, lw + 4, 16);
   ctx.fillStyle = '#8a4a0e'; ctx.textAlign = 'left';
@@ -3851,7 +3872,7 @@ function drawB5() {
   drawDot(ctx, gr.cx, gr.cy, h, pe, '#8a4a0e', 6);
 
   // Halo-Label am Punkt mit Rand-Klammerung
-  const lbl = pe.toFixed(2) + ' bar bei ' + h + ' m';
+  const lbl = pe.toFixed(3) + ' bar bei ' + h + ' m';
   ctx.font = 'bold 13px JetBrains Mono,monospace';
   const lw = ctx.measureText(lbl).width;
   // Lage neben dem Punkt, die keine der beiden Geraden schneidet: die Geraden
