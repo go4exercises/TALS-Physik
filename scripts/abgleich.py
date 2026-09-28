@@ -217,6 +217,23 @@ OFFEN = [
              'danach build-seo.py laufen lassen und die vier Beschreibungen ansehen. '
              'Die Drift von build-seo.py (50.9 % gegen Grundlinie 52 %) kommt sonst aus '
              'Projektdaten (SEITEN-Tabelle), nicht aus der Logik.'),
+    dict(quelle='Physik', was='Clips auf der Themenseite vor das Zusatzmaterial (Entscheid Auftraggeber 27.09.2026)',
+         wie='Physik b0079f0: der Clip-Block steht nach der Zusammenfassung und VOR dem Zusatzmaterial '
+             '(<h2 id="downloads">), nicht mehr danach. Physik-Doku: STYLEGUIDE §4 Skelett-Zeile 11b, '
+             'HOWTO-clips.md Abschnitt «Einbauen» (Markerpaar «nach der Zusammenfassung und vor dem '
+             'Zusatzmaterial; ohne Zusatzmaterial direkt nach der Zusammenfassung»). build-clips-einbau.py '
+             'blieb unveraendert — es schreibt nur zwischen die Marker; verschoben wird das Markerpaar '
+             'selbst, samt Inhalt. Stand Mathe (gezaehlt 28.09.2026): 45 Seiten mit CLIPS-Markern '
+             '(grundlagen/ und schwerpunkt/), auf ALLEN die Folge zusammenfassung -> downloads -> '
+             'CLIPS -> ressourcen; alle 45 haben id="zusammenfassung" und id="downloads". Also: Block '
+             '<!-- CLIPS:ANFANG ... CLIPS:ENDE --> je Seite ausschneiden und direkt vor <h2 id="downloads"> '
+             'setzen (ein Skript, nicht 45 Edits), danach build-clips-einbau.py --schreiben (muss '
+             '«aktuell» melden), build-suchindex.py, Pre-Flight. Fuenf Seiten haben den Block leer, ohne '
+             '<h2 id="clips">: g5-2b-vierecke, s1-1-, s2-1-, s3-1-, s4-1-grundlagen; auch dort '
+             'verschieben, damit ein spaeterer Clip gleich richtig steht. Doku in Mathe mitziehen: STYLEGUIDE §4 Seitenschema '
+             '(Z. ~410: Clips als eigener Punkt zwischen 8. Zusammenfassung und 9. Zusatzmaterial '
+             'nennen, dort fehlen sie bisher ganz) und HOWTO-clips.md «Schritt 3» (Z. ~456: heute '
+             '«sinnvollerweise direkt vor <h2 id="ressourcen">»).'),
 ]
 
 FACH = {
