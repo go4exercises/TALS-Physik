@@ -241,7 +241,7 @@ Worttausche ohne Lautschrift in `TAUSCH` (achthundert, Newtonmeter,
 Lageenergie). Vorsilben (Milli-, Kilo-, Hekto-, …) und Zusammensetzungen
 (Amperemeter, Zentripetalkraft) greifen mit. Jeder Eintrag ist nach Hörproben
 entschieden; bewusst **nicht** geändert, weil die bisherige Lesart besser
-klang: Archimedes, Perihel, Parabel, Mikrometer, Mikro und Mathes Volumen, Erdbeschleunigung, linear, Sechstel, komponentenweise (Hörprobe 28.09.2026; Hyperbel und Tangens kamen aus Mathe dazu). Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
+klang: Archimedes, Perihel, Parabel, Mikrometer, Mikro, Volumen, linear, Erdbeschleunigung. Die Tabellen sind seit dem 28.09.2026 in Physik und Mathe dieselben — ein neues Wort wird mit Sätzen aus beiden Repos angehört und gilt für beide. Zwei Fallen, beide im Skript abgefangen: Ein Satzzeichen direkt
 nach `]]` verschluckt Piper samt Pause und klebt das nächste Wort an — es
 gehört in die Klammer. Und ohne Wortgrenze träfe «ampere» auch
 «Schlamperei». Probe vor dem Eintrag: `PiperVoice.load(modell).phonemize(text)`

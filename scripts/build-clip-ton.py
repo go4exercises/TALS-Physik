@@ -79,14 +79,40 @@ AUSSPRACHE = [
     ("isobar", "iːzoːbˈɑːɾ"),           # bisher «I-sobar»
     ("photonen", "foːtˈoːnən"),         # sonst ohne Hauptbetonung
     ("zentripetal", "tsɛntɾipeːtˈɑːl"),  # sonst englisch «Sentraipt-oh…»
-    # Aus Mathe, nach Hoerprobe in Physik-Saetzen (28.09.2026)
+    # Nach Hoerproben 28.09.2026, in Saetzen aus beiden Repos (bisher meist
+    # falsche Hauptbetonung)
+    ("hypotenuse", "hypoːteːnˈuːzə"),
+    ("logarithmus", "loːɡarˈɪtmʊs"),
+    ("logarithmen", "loːɡarˈɪtmən"),
+    ("definitions", "deːfiːniːtsjˈoːns"),
+    ("funktions", "fʊŋktsjˈoːns"),
+    ("äquivalenz", "ɛkviːvaːlˈɛnts"),
+    ("sechstel", "zˈɛkstəl"),               # bisher «Sechs-TEEL»
+    ("achsenabschnitt", "ˈaksənapʃnɪt"),
+    ("komponentenweise", "kɔmpoːnˈɛntənvaɪzə"),
+    ("mantisse", "mantˈɪsə"),
+    ("exponentielles", "ɛkspoːnɛntsjˈɛləs"),
+    ("exponential", "ɛkspoːnɛntsjˈɑːl"),
+    ("exakte", "ɛksˈaktə"),                 # vor «exakt», sonst [[…]]e
+    ("exakt", "ɛksˈakt"),
     ("hyperbel", "hypˈɛɾbəl"),
+    ("gegenkathete", "ɡˈeːɡənkateːtə"),    # bisher «KA-te-te», kurz und verschluckt
+    ("ankathete", "ˈankateːtə"),
+    ("kathete", "katˈeːtə"),
+    ("arkustangens", "ˈaɾkʊstˌaŋɡɛns"),    # vor «tangens»; bisher «TANG-ens» ohne g
     ("tangens", "tˈaŋɡɛns"),
+    ("vertippt", "fɛɾtˈɪpt"),
+    ("varianz", "vaɾiˈants"),
+    ("variablenmenü", "vaɾiˈɑːblənmeːnyː"),
+    ("variablentaste", "vaɾiˈɑːbləntastə"),
+    ("extremwerten", "ɛkstrˈeːmveːɾtən"),
+    ("clear", "klˈiːɐ"),                    # Taste des TI-30X
+    ("round", "rˈaʊnt"),
+    ("domain", "doːmˈeːn"),
 ]
 # Nicht geaendert, weil die bisherige Lesart besser klang: Archimedes,
-# Perihel, Parabel. Von Mathes Woertern (28.09.2026) in Physik-Saetzen
-# angehoert und nicht uebernommen: Volumen, Erdbeschleunigung, linear,
-# Sechstel, komponentenweise. Ebenso bleiben Mikrometer und Mikro.
+# Perihel, Parabel, MathPrint, Asymptote, Mikrometer, Mikro; Volumen, linear
+# und Erdbeschleunigung (28.09.2026 in Saetzen aus beiden Repos angehoert).
 #
 # 2. Abkuerzungen, die buchstabiert werden: nur in exakt dieser Schreibung
 #    als ganzes Wort (sonst traefe «SI» auch «si» in anderen Woertern).
@@ -95,6 +121,11 @@ ABKUERZUNGEN = [
     ("LED", "ɛleːdˈeː"),                # bisher «Leet»
     ("COP", "tseːoːpˈeː"),              # bisher «Kop»
     ("SI", "ɛsˈiː"),                    # bisher «Sie»
+    ("EE", "eːˈeː"),                    # Tasten des TI-30X (Mathe, 28.09.2026)
+    ("HY", "haːˈʏpsɪlɔn"),
+    ("NAMES", "nˈeːms"),
+    ("UNITS", "jˈuːnɪts"),
+    ("Pfactor", "pˈeːfɛktɐ"),
     ("My", "mˈyː"),                     # Reibungszahl μ; bisher englisch «Mai»
 ]
 # 3. Einfache Worttausche, wo keine Lautschrift noetig ist.
@@ -102,6 +133,7 @@ TAUSCH = [
     ("achthundert", "acht hundert"),    # sonst «acht-undert», auch in tausendachthundert…
     ("Newtonmeter", "Newton-Meter"),    # sonst englisch «Njuten-mieter»
     ("Lageenergie", "Lage-Energie"),    # sonst «Lag-energie»
+    ("TI-30X", "T-I 30X"),              # Lautschrift vor «-30X» hiesse «minus dreissig»
 ]
 VORSILBEN = r"(?:milli|mikro|nano|zenti|dezi|hekto|kilo|mega|giga)?"
 

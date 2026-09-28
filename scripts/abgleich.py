@@ -245,21 +245,24 @@ OFFEN = [
              '--exclude-standard pruefen, dass keine versionierte Datei darunter faellt. Danach in '
              'Physik die KERN-Grundlinie fuer .gitignore neu messen und anheben (heute 0.740, '
              'Physik gemessen 71.8 %).'),
-    dict(quelle='Physik', was='Antwort auf «Aussprache-Tabellen um Mathe-Woerter erweitert» (28.09.2026)',
-         wie='Mathes TODO-schwesterprojekt-Eintrag vom 28.09.2026 ist in Physik bearbeitet, aber NICHT als '
-             '1:1-Kopie: Der Auftraggeber hat Mathes Woerter in Physik-Saetzen angehoert und nur hyperbel und '
-             'tangens uebernommen (Zeilen wortgleich mit Mathe, am Ende von AUSSPRACHE). Nicht uebernommen: '
-             'volumen, erdbeschleunigung, linear(e/en/es), sechstel, komponentenweise — in Physik-Saetzen '
-             'klang die bisherige Lesart besser; Mikrometer und Mikro bleiben ebenfalls. Neu aus Physik: '
-             'ABKUERZUNGEN ("My", "mˈyː") fuer die Reibungszahl (bisher englisch «Mai»); in Mathe nachgezaehlt '
-             '0 Treffer fuer «My» im sprecher, also harmlos — uebernehmen. Physik-Commit: siehe Log '
-             '«Clip-Ton: Hyperbel, Tangens, My». Neu vertont wurden in Physik nur 3 Clips (p4-2-anim-hang, '
-             'p4-4-anim-ebene, p5-3-anim-gasgesetze), nicht 42. Folge fuer den Abgleich: Die Tabellen koennen '
-             'nicht mehr in beiden Repos gleich sein, ohne dass eine Seite Woerter bekommt, die ihr Auftraggeber '
-             'abgelehnt hat. Vorschlag zur Entscheidung beim Auftraggeber: gemeinsame Liste plus je eine '
-             'Fach-Liste, gewaehlt ueber die Projekterkennung wie in build-suchindex.py (physiklib.js/mathlib.js) '
-             '— dann bleibt die Datei selbst gleich. Bis dahin ist build-clip-ton.py bewusst ungleich; '
-             'Mathes TODO-Eintrag dort als erledigt markieren.'),
+    dict(quelle='Physik', was='build-clip-ton: Aussprache-Tabellen vereinheitlicht (Entscheid Auftraggeber 28.09.2026)',
+         wie='Ersetzt Mathes TODO-schwesterprojekt-Eintrag «Aussprache-Tabellen um Mathe-Woerter erweitert» '
+             '(dort als erledigt markieren). Der Auftraggeber hat die Unterschiede in Saetzen aus BEIDEN Repos '
+             'angehoert und je Wort einmal fuer beide entschieden. Physiks scripts/build-clip-ton.py ist jetzt '
+             'Mathes Fassung mit genau diesen Aenderungen — danach 1:1 nach Mathe kopieren, die Datei ist dann '
+             'gleich (KERN-Grundlinie in beiden Repos auf 1.000): (1) ENTFERNT, also ohne Lautschrift wie '
+             'frueher: volumen, lineares/linearen/lineare/linear, erdbeschleunigung. (2) BLEIBT: sechstel, '
+             'komponentenweise und alle uebrigen Mathe-Woerter (in Physik 0 Stellen, also ohne Wirkung dort). '
+             '(3) NEU: ABKUERZUNGEN ("My", "mˈyː") — Reibungszahl, in Mathe 0 Stellen. (4) Kommentare: Kopf des '
+             'Blocks «Nach Hoerproben 28.09.2026, in Saetzen aus beiden Repos», Liste «Nicht geaendert» um '
+             'Mikrometer, Mikro, Volumen, linear, Erdbeschleunigung ergaenzt. In Mathe danach neu vertonen, '
+             'was (1) trifft — nachgezaehlt 28.09.2026 (nur gelesen): volumen 11 Stellen in 5 Clips, linear-'
+             'Familie 38 Stellen in 30 Clips, erdbeschleunigung 1 Stelle (g1-4-ti30x-konstanten); ermitteln '
+             'mit aussprache(alt) != aussprache(neu) ueber alle Drehbuecher. In Physik neu vertont: '
+             'p0-3-masse-gewicht (Sechstel), p4-4-kraefte-zerlegen (komponentenweise), vorher schon '
+             'p4-2-anim-hang, p4-4-anim-ebene, p5-3-anim-gasgesetze (Tangens, My, Hyperbel). '
+             'OFFEN: «Menue» (nur Mathe, 16 Stellen in 8 Clips) — Hoerprobe laeuft, Eintrag folgt.'),
+
 ]
 
 FACH = {

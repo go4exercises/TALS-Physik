@@ -175,14 +175,15 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Transkript und Suchindex behalten die Schreibweise. Stand 28.09.2026, jeder
   Eintrag nach Hörproben entschieden: Einheiten (Ampere, Coulomb, Joule,
   Pascal, Hertz), Namen (Boyle, Mariotte, Gay-Lussac, Hooke, Pythagoras),
-  Fremdwörter (u. a. Zentripetal…, das die Stimme englisch las), aus Mathe
-  Hyperbel und Tangens, exakte Wörter (FI, LED, COP, SI buchstabiert; «My»
-  als «mü», sonst englisch «Mai») und drei Worttausche (achthundert,
-  Newtonmeter, Lageenergie). Archimedes, Perihel und Parabel bleiben bewusst
-  ungeändert, ebenso Mikrometer, Mikro und Mathes übrige Wörter (Volumen,
-  Erdbeschleunigung, linear, Sechstel, komponentenweise) — in Physik-Sätzen
-  angehört und abgelehnt. Die Tabellen sind darum mit Mathe nicht mehr
-  gleich (Warteschlange in `abgleich.py`). Ein neues Wort gehört in diese Tabellen, nicht
+  Fremdwörter (u. a. Zentripetal…, das die Stimme englisch las), Mathes
+  Wörter (Hyperbel, Tangens, Sechstel, komponentenweise, Hypotenuse, TI-30X-
+  Tasten …), exakte Wörter (FI, LED, COP, SI buchstabiert; «My» als «mü»,
+  sonst englisch «Mai») und vier Worttausche (achthundert, Newtonmeter,
+  Lageenergie, TI-30X). Archimedes, Perihel, Parabel, Mikrometer, Mikro,
+  Volumen, linear und Erdbeschleunigung bleiben bewusst ungeändert. **Die
+  Tabellen sind in beiden Repos dieselben** (am 28.09.2026 in Sätzen aus
+  beiden angehört und je Wort einmal entschieden); ein neues Wort gilt also
+  für beide — Hörprobe mit Sätzen aus beiden, Übertrag über `abgleich.py`. Ein neues Wort gehört in diese Tabellen, nicht
   als Umschreibung ins Drehbuch; betroffene Clips danach neu vertonen. Wie man
   Problemwörter findet und Hörproben zeigt: `HOWTO-clips.md`, Abschnitt «Ton».
 
