@@ -3409,7 +3409,9 @@ function drawKorrelation() {
   const gr = drawGrid(cv.ctx, cv.W, cv.H, -10, 400, -1, 34);
   drawAxesUnits(cv.ctx, cv.W, cv.H, gr.cx, gr.cy, 'Glacé [Portionen]', 'Sonnenbrände', -16);
   const c = cv.ctx;
-  const gezeigt = B6_DATEN.filter(p => b6Modus !== 2 || (p.sonne >= 8 && p.sonne <= 10));
+  // Gruppe 6–8 h: 18 Tage, r ≈ 0.13. Die frühere Gruppe 8–10 h hatte nur 8 Tage
+  // und zufällig r = 0.84 («stark») — das Gegenteil dessen, was der Satz sagt.
+  const gezeigt = B6_DATEN.filter(p => b6Modus !== 2 || (p.sonne >= 6 && p.sonne <= 8));
   gezeigt.forEach(p => {
     c.fillStyle = b6Modus === 0 ? '#5a5040' : b6SonnenFarbe(p.sonne);
     c.beginPath(); c.arc(gr.cx(p.glace), gr.cy(p.brand), 5.5, 0, 6.283); c.fill();
@@ -3437,14 +3439,14 @@ function drawKorrelation() {
   let sxy = 0, sxx = 0, syy = 0;
   gezeigt.forEach(p => { const dx = p.glace - mx, dy = p.brand - my; sxy += dx*dy; sxx += dx*dx; syy += dy*dy; });
   const r = sxy / Math.sqrt(sxx * syy);
-  document.getElementById('b6-n').textContent = n + (b6Modus === 2 ? ' Tage (8–10 h Sonne)' : ' Tage');
+  document.getElementById('b6-n').textContent = n + (b6Modus === 2 ? ' Tage (6–8 h Sonne)' : ' Tage');
   document.getElementById('b6-str').textContent = Math.abs(r) > 0.7 ? 'stark' : (Math.abs(r) > 0.4 ? 'mittel' : 'kaum vorhanden');
   document.getElementById('b6-urs').textContent = 'Sonnenstunden';
   // Satz mit eingestreuter Grösse: Text bleibt Text, r und die Stunden in LaTeX
   const b6El = document.getElementById('b6-korr');
   const b6Html = b6Modus === 0 ? 'alle 60 Tage zusammen: \\(r = ' + r.toFixed(2) + '\\) — sieht nach klarem Zusammenhang aus'
     : b6Modus === 1 ? 'dieselben Punkte, nach Sonnenstunden eingefärbt: die Wolke ordnet sich nach der Farbe'
-    : 'nur Tage mit \\(8\\text{–}10\\;\\text{h}\\) Sonne: \\(r = ' + r.toFixed(2) + '\\) — der Zusammenhang ist fast verschwunden';
+    : 'nur Tage mit \\(6\\text{–}8\\;\\text{h}\\) Sonne: \\(r = ' + r.toFixed(2) + '\\) — der Zusammenhang ist fast verschwunden';
   if (b6El.dataset.stand !== b6Html) {
     b6El.dataset.stand = b6Html;
     if (window.MathJax && MathJax.typesetClear) MathJax.typesetClear([b6El]);
