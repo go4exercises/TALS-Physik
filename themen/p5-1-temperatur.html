@@ -1799,8 +1799,9 @@ function drawA5(){
   ctx.beginPath(); ctx.moveTo(px, cy(0)); ctx.lineTo(px, py); ctx.stroke();
   // Ablesehilfen von der p-Achse zum Punkt (abgelesen wird an der Achse; vom
   // linken Rand aus kreuzten sie Legende und Nullpunkt-Etikett)
-  ctx.beginPath(); ctx.moveTo(cx(0), py); ctx.lineTo(px, py); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(cx(0), pyB); ctx.lineTo(px, pyB); ctx.stroke();
+  // In der Zahlenzeile über der ϑ-Achse entfallen sie: Dort strichen sie die
+  // Zahlen durch, und so knapp über der Achse liest man nichts mehr ab.
+  for (const y of [py, pyB]) if (y < cy(0) - 21) { ctx.beginPath(); ctx.moveTo(cx(0), y); ctx.lineTo(px, y); ctx.stroke(); }
   ctx.setLineDash([]);
   // Achsentitel über die Hilfslinien legen: Bei hohen Temperaturen liefe die
   // senkrechte durch «ϑ [°C]», die waagrechte durch «p [%]».
