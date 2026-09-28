@@ -122,11 +122,19 @@ AUSSPRACHE = [
     ("orange", "oɾˈɑ̃ːʒə"),                 # bisher «O-rang-e»
     ("radio", "ɾˈaːdioː"),                 # Radiowellen: Betonung auf «Ra-»
     ("elektromagnetisch", "eːlɛktɾoːmaɡnˈeːtɪʃ"),
+    # Nach Hoerprobe 28.09.2026 (Woerter aus den Vorwissen-Clips)
+    ("glacé", "ɡlasˈeː"),                  # bisher «Gla-KEE»
+    ("caesium", "tsˈɛːziʊm"),              # bisher «KÄ-sium»
+    ("cäsium", "tsˈɛːziʊm"),
+    ("granit", "ɡɾanˈiːt"),                # bisher kurzes i
+    ("candela", "kandˈeːla"),              # bisher «KAN-dela»
 ]
 # Nicht geaendert, weil die bisherige Lesart besser klang: Archimedes,
 # Perihel, Parabel, MathPrint, Asymptote, Mikrometer, Mikro; Volumen, linear
 # und Erdbeschleunigung (28.09.2026 in Saetzen aus beiden Repos angehoert);
-# Transversal, Niveau, Photon (28.09.2026).
+# Transversal, Niveau, Photon; Gneis, Basalt, Lumen, Milliarden, Elementar-
+# ladung, Einholzeit, Gegenrechnung, Sonnenstunde, Marktstand, Kohlenstoff,
+# Stickstoff (alle 28.09.2026).
 #
 # 2. Abkuerzungen, die buchstabiert werden: nur in exakt dieser Schreibung
 #    als ganzes Wort (sonst traefe «SI» auch «si» in anderen Woertern).
@@ -160,6 +168,7 @@ TAUSCH = [
     ("Bewegungszustand", "Bewegungszu-stand"),
     ("Tabellendichte", "Tabellen-dichte"),     # bisher «Tabellen-digge»
     ("Normdichte", "Norm-dichte"),
+    ("Kommastelle", "Komma-stelle"),           # auch «…stellen»; «Nachkommastelle» steht oben
 ]
 VORSILBEN = r"(?:milli|mikro|nano|zenti|dezi|hekto|kilo|mega|giga)?"
 

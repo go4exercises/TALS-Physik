@@ -280,7 +280,12 @@ OFFEN = [
              'g2-2b-anim-flaechenmodell, g2-2b-ungleichung-vorzeichenmuster, g2-3-anim-bueschel, '
              'g4-3-ti30x-haeufigkeiten, g5-1-anim-parallelen, g5-2a-anim-flaechenformel, g5-2b-anim-drachen, '
              'g5-2b-anim-sehnen-tangenten, g5-2c-anim-kreissegment, g5-2d-anim-zentrische-streckung, '
-             's2-1-anim-scheinloesung, s2-1-anim-waage (19) — vor dem Vertonen neu ermitteln.'),
+             's2-1-anim-scheinloesung, s2-1-anim-waage (19) — vor dem Vertonen neu ermitteln. '
+             '(7) Dritte Runde 28.09.2026 (Woerter aus Physiks Vorwissen-Clips): AUSSPRACHE neu am Ende '
+             'glacé, caesium, cäsium, granit, candela; TAUSCH neu Kommastelle -> Komma-stelle (nach '
+             'Nachkommastelle, trifft diese nicht). Bewusst NICHT: Gneis, Basalt, Lumen, Milliarden, '
+             'Elementarladung, Einholzeit, Gegenrechnung, Sonnenstunde, Marktstand, Kohlenstoff, Stickstoff. '
+             'In Mathe nachgezaehlt (nur gelesen): 0 Clips betroffen.'),
 
 ]
 

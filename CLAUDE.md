@@ -179,13 +179,15 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Wörter (Hyperbel, Tangens, Sechstel, komponentenweise, Hypotenuse, Menü
   hinten betont, TI-30X-Tasten …), exakte Wörter (FI, LED, COP, SI buchstabiert; «My» als «mü»,
   sonst englisch «Mai»), Oktave, Ellipse, Longitudinal-, Laser, orange,
-  Radio-, elektromagnetisch, dazu Worttausche (achthundert, Newtonmeter,
+  Radio-, elektromagnetisch, Glacé, Caesium, Granit, Candela, dazu Worttausche (achthundert, Newtonmeter,
   Lageenergie, TI-30X) und die **Wortfuge per Bindestrich** für einzelne
   Zusammensetzungen, in denen die Stimme «s-t» statt «scht» las
   (Wärme-strahlung, Gamma-strahlung, Nachkomma-stellen, Zahlen-strahl,
-  Häufigkeits-spalte, Bewegungszu-stand, Tabellen-dichte, Norm-dichte).
+  Häufigkeits-spalte, Bewegungszu-stand, Tabellen-dichte, Norm-dichte,
+  Komma-stellen).
   Archimedes, Perihel, Parabel, Mikrometer, Mikro, Volumen, linear,
-  Erdbeschleunigung, Transversal-, Niveau und Photon bleiben bewusst
+  Erdbeschleunigung, Transversal-, Niveau, Photon, Gneis, Basalt, Lumen,
+  Milliarden, Elementarladung, Einholzeit und Gegenrechnung bleiben bewusst
   ungeändert, ebenso Widerstand, Kilowattstunde und die übrigen Fugenwörter
   (als allgemeine Regel angehört und abgelehnt). **Die
   Tabellen sind in beiden Repos dieselben** (am 28.09.2026 in Sätzen aus
