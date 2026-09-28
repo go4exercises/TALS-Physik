@@ -261,7 +261,12 @@ OFFEN = [
              'mit aussprache(alt) != aussprache(neu) ueber alle Drehbuecher. In Physik neu vertont: '
              'p0-3-masse-gewicht (Sechstel), p4-4-kraefte-zerlegen (komponentenweise), vorher schon '
              'p4-2-anim-hang, p4-4-anim-ebene, p5-3-anim-gasgesetze (Tangens, My, Hyperbel). '
-             'OFFEN: «Menue» (nur Mathe, 16 Stellen in 8 Clips) — Hoerprobe laeuft, Eintrag folgt.'),
+             '(5) Menue, Entscheid Variante A «me-NUE» (Betonung hinten, 28.09.2026, Hoerprobe mit Mathe-'
+             'Saetzen): neue Zeilen untermenüs, untermenü, menüs, menü (in dieser Reihenfolge, nach '
+             'variablenmenü) und variablenmenü auf «vaɾiˈɑːblənmeːnˌyː» umgestellt. Trifft alle 16 Stellen in 8 '
+             'Mathe-Clips, neu zu vertonen: g1-2-ti30x-brueche, g1-2-ti30x-ggt-kgv, g1-4-ti30x-konstanten, '
+             'g2-2b-ti30x-real-oder-i, g3-1-ti30x-wertetabelle, g4-3-ti30x-haeufigkeiten, g4-3-ti30x-lagemasse, '
+             'g5-3-ti30x-dms. In Physik 0 Stellen.'),
 
 ]
 

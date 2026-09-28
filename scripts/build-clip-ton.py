@@ -103,7 +103,11 @@ AUSSPRACHE = [
     ("tangens", "tˈaŋɡɛns"),
     ("vertippt", "fɛɾtˈɪpt"),
     ("varianz", "vaɾiˈants"),
-    ("variablenmenü", "vaɾiˈɑːblənmeːnyː"),
+    ("variablenmenü", "vaɾiˈɑːblənmeːnˌyː"),
+    ("untermenüs", "ˈʊntɐmeːnˌyːs"),       # «Menü» immer hinten betont (me-NÜ);
+    ("untermenü", "ˈʊntɐmeːnˌyː"),         # bisher «Menüs» vorne, «Menü» hinten
+    ("menüs", "meːnˈyːs"),                 # vor «menü», sonst [[…]]s
+    ("menü", "meːnˈyː"),
     ("variablentaste", "vaɾiˈɑːbləntastə"),
     ("extremwerten", "ɛkstrˈeːmveːɾtən"),
     ("clear", "klˈiːɐ"),                    # Taste des TI-30X

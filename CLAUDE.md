@@ -176,8 +176,8 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Eintrag nach Hörproben entschieden: Einheiten (Ampere, Coulomb, Joule,
   Pascal, Hertz), Namen (Boyle, Mariotte, Gay-Lussac, Hooke, Pythagoras),
   Fremdwörter (u. a. Zentripetal…, das die Stimme englisch las), Mathes
-  Wörter (Hyperbel, Tangens, Sechstel, komponentenweise, Hypotenuse, TI-30X-
-  Tasten …), exakte Wörter (FI, LED, COP, SI buchstabiert; «My» als «mü»,
+  Wörter (Hyperbel, Tangens, Sechstel, komponentenweise, Hypotenuse, Menü
+  hinten betont, TI-30X-Tasten …), exakte Wörter (FI, LED, COP, SI buchstabiert; «My» als «mü»,
   sonst englisch «Mai») und vier Worttausche (achthundert, Newtonmeter,
   Lageenergie, TI-30X). Archimedes, Perihel, Parabel, Mikrometer, Mikro,
   Volumen, linear und Erdbeschleunigung bleiben bewusst ungeändert. **Die
