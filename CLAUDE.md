@@ -189,8 +189,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Messwerten ist die Stellenfolge die übliche Lesart — darum ausschreiben. In
   Mathes 162 Clips steht aus demselben Grund fast nirgends eine Ziffer im
   Sprechertext; die Ausnahmen sind Geräte- und Listennamen (`TI-30X`, `L1`) —
-  das sind Namen, keine Werte. Die Reihe `trigo2` hält sich als einzige nicht
-  daran (18 Szenen, Stand 13.09.2026).
+  das sind Namen, keine Werte.
 - `clips.html` + `clips/` — **Erklärclips** (Bibliotheksseite und Drehbücher).
   Ein Clip wird nie beim Seitenaufruf geladen: sichtbar ist zuerst nur der
   Startknopf, erst der Klick setzt das `<iframe>` ein (`clipStart` in

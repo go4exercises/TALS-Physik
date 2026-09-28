@@ -29,6 +29,8 @@ RESERVED = {
     'drawArrow', 'drawVector', 'drawDot',
     'clipStart', 'clipStop', 'clipBuehne', 'clipRahmen', 'clipKnopf',
     'clipZu', 'clipEscape', 'clipRueckkehr',
+    'flTex', 'flHtml', 'flTeil', 'flOffen', 'texE',
+    'flKette', 'texO', 'tickNachzeichnen', '_tickPixel', '_tickTinte', '_tickOffen', '_tickEntscheid',
     # nav.js
     'SITE', 'GROUPS', 'TOC_KURZ',
     'buildNav', 'buildToC', 'toggleDD', 'toggleMobileNav',

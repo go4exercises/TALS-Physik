@@ -2614,15 +2614,13 @@ function a6Tex(t) {
                 (m, z, n, klammer) => '\\frac{' + z + '}{' + (klammer !== undefined ? klammer : n) + '}');
   return x.replace(/ · /g, '\\cdot ').replace(/· /g, '\\cdot ').replace(/π/g, '\\pi ').replace(/²/g, '^2');
 }
-// MathJax-Läufe der Historie seriell, damit sich zwei Klicks nicht überholen
-let a6Kette = Promise.resolve();
+// Historie neu setzen; mjTypeset reiht den Lauf in die gemeinsame Kette der
+// Seite ein, damit sich zwei Klicks und andere Läufe nicht überholen
 function a6SetzeHistorie(html) {
   const box = document.getElementById('a6-hist');
-  a6Kette = a6Kette.then(() => window.MathJax && MathJax.startup && MathJax.startup.promise).then(() => {
-    if (window.MathJax && MathJax.typesetClear) MathJax.typesetClear([box]);
-    box.innerHTML = html;
-    return (window.MathJax && MathJax.typesetPromise) ? MathJax.typesetPromise([box]) : null;
-  }).catch(() => {});
+  if (window.MathJax && MathJax.typesetClear) MathJax.typesetClear([box]);
+  box.innerHTML = html;
+  mjTypeset([box]);
 }
 function drawA6() {
   const { zeilen, z } = a6Zustaende();
