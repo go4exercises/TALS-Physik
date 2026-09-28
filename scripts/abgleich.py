@@ -234,6 +234,17 @@ OFFEN = [
              '(Z. ~410: Clips als eigener Punkt zwischen 8. Zusammenfassung und 9. Zusatzmaterial '
              'nennen, dort fehlen sie bisher ganz) und HOWTO-clips.md «Schritt 3» (Z. ~456: heute '
              '«sinnvollerweise direkt vor <h2 id="ressourcen">»).'),
+    dict(quelle='Physik', was='.gitignore: Wegwerfskripte ausschliessen (28.09.2026)',
+         wie='Physik fuehrt vier Zeilen, Mathe keine davon: __*.mjs, __*.py (seit einem __sem.mjs, das '
+             'von August bis September 2026 unter physik.begreifbar.ch lag) und neu .*.mjs, .*.py '
+             '(Physik a1fc9d9, nach .k3.mjs aus b0079f0, entfernt in fcd55ca). Das Repo ist die '
+             'Website — was dort liegt, wird ausgeliefert. Stand Mathe (gezaehlt 28.09.2026): '
+             'keine solche Datei versioniert oder im Wurzelverzeichnis, die Regel ist also reine '
+             'Vorsorge und aendert nichts am Bestand. Die vier Zeilen samt Kommentar aus Physiks '
+             '.gitignore (Abschnitt «Wegwerf-Pruefskripte») uebernehmen; vorher mit git ls-files -ci '
+             '--exclude-standard pruefen, dass keine versionierte Datei darunter faellt. Danach in '
+             'Physik die KERN-Grundlinie fuer .gitignore neu messen und anheben (heute 0.740, '
+             'Physik gemessen 71.8 %).'),
 ]
 
 FACH = {
