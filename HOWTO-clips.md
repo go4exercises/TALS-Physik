@@ -68,11 +68,40 @@ danach sitzt das Bild nicht auf der Sprache.
 | `stufe`, `schlagworte` | für Suche und Filter |
 | `nachlauf` | Standzeit nach der letzten Einblendung; in diesem Projekt `4.0` |
 | `probe: true` | baut den Clip, hält ihn aber aus `clips.json` heraus — für Versuche |
+| `voraussetzung` | Bedingungsleiste unter der Kopfzeile, siehe unten |
 
 `lektion` ist eine Liste, weil ein Clip mehreren Seiten gehören darf. Er wird
 dabei **einmal** gespeichert und mehrfach eingebunden: `p0-3-druck` steht auf
 `p0-3`, `p0-2` und `p4-5`. Die Bibliothek zählt einzigartige Clips, nicht
 Einbettungen.
+
+### Die Bedingungsleiste `voraussetzung`
+
+Eine schmale Leiste unter der Kopfzeile, die **über den ganzen Clip stehen
+bleibt**. Dort steht die Bedingung, auf der alles Folgende ruht: «ohmsch,
+Temperatur konstant», «\(p\) konstant», «ohne Reibung». Wer bei Minute zwei
+einsteigt, sieht sonst die Rechnung, aber nicht, wofür sie gilt. Die Leiste
+liegt ausserhalb des Szenenflusses und kostet darum keine Zeile. Übernommen
+aus Mathe (28.09.2026).
+
+```json
+"voraussetzung": "p = \\text{konst.}"
+"voraussetzung": {"text": "U = 12.0\\,\\mathrm{V}", "tag": "gilt ab", "ab": "Szenenname", "bis": "Szenenname"}
+"voraussetzung": [ {…}, {…} ]
+```
+
+`tag` ist das kleine Etikett links (Standard «Voraussetzung»); `ab` und `bis`
+begrenzen einen Eintrag auf einen Szenenbereich, mehrere stehen nebeneinander.
+
+- **Nur, was von Anfang an gilt.** Was der Clip erst herleitet, gehört nicht
+  hinein — sonst steht die Antwort in der Kopfzeile, bevor die Frage gestellt ist.
+- **Szenen beginnen dann bei `oben` ≥ 170.** Die Leiste endet bei y = 150; der
+  Generator bricht ab, wenn eine Szene höher beginnt. Physiks Schritt-Szenen
+  stehen meist auf `oben: 150` und müssen mit einer Leiste um 20 px tiefer. Das
+  Band für `mitnehmen` (ab 168 px) kollidiert nicht.
+- Verwandt mit `halten`, aber nicht dasselbe: `halten` trägt eine Zeile *aus
+  einer Szene* weiter und blockiert dort ihren Platz, die Leiste steht über dem
+  *ganzen* Clip.
 
 ### Der Szenenbau
 

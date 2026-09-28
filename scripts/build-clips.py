@@ -555,6 +555,46 @@ def bauen(quelle, eigenstaendig=False):
         f'<div id="fuss"><span>{entschaerfen(autor)}</span>'
         f'<span>{entschaerfen(datum)}</span></div>')
 
+    # --- Bedingungsleiste ------------------------------------------------
+    # Was eine Rechnung voraussetzt, verschwindet sonst mit der Szene, in der
+    # es genannt wurde — und drei Szenen spaeter rechnet der Clip auf einer
+    # Bedingung weiter, die niemand mehr sieht. `halten` loest das nur halb:
+    # ein gehaltenes Element behaelt die Position seiner Szene und blockiert
+    # damit den Fluss aller folgenden. Die Leiste steht ausserhalb des
+    # Flusses und kostet darum keine Zeile.
+    #
+    #   "voraussetzung": "a \\neq 0"
+    #   "voraussetzung": {"text": "...", "ab": "Szenenname", "bis": "Szenenname"}
+    #   "voraussetzung": [ {...}, {...} ]      mehrere nacheinander
+    #
+    vor = dreh.get("voraussetzung")
+    if vor:
+        if not isinstance(vor, list):
+            vor = [vor]
+        leiste = []
+        for v in vor:
+            if isinstance(v, str):
+                v = {"text": v}
+            def szene_zeit(name, feld):
+                if name is None:
+                    return None
+                q = next((q for q in plan if q["sz"].get("name") == name), None)
+                if q is None:
+                    raise SystemExit("voraussetzung verweist auf unbekannte Szene: %s" % name)
+                return q["start"] if feld == "start" else q["start"] + q["dauer"]
+            ab = szene_zeit(v.get("ab"), "start")
+            bis = szene_zeit(v.get("bis"), "ende")
+            ein = (ab if ab is not None else 0.0) + v.get("verzug", 0.6)
+            attr = f' data-at="{ein:.2f}"'
+            if bis is not None:
+                attr += f' data-out="{bis:.2f}"'
+            attr += ' data-anim="fade"'
+            tag = entschaerfen(v.get("tag", "Voraussetzung"))
+            leiste.append(f'<div class="l vorzeile"{attr} style="position:relative">'
+                          f'<span class="vor"><span class="vor-tag">{tag}</span>'
+                          f'<span class="vor-txt">{formel(v["text"])}</span></span></div>')
+        teile.append('<div id="vorleiste">' + "".join(leiste) + '</div>')
+
     # --- Schiene (Merkweg) wird einmal gebaut, Sichtbarkeit über die Szenen
     schienen_szenen = [p for p in plan if p["sz"].get("schritt")]
     if schiene and schienen_szenen:
@@ -595,6 +635,15 @@ def bauen(quelle, eigenstaendig=False):
         else:
             links, breite, oben, abstand = 130, 1660, 230, 118
             mitte = True
+
+        # Die Bedingungsleiste sitzt bei top:96px und ist rund 54px hoch, sie
+        # endet also bei y = 150. Wer sie benutzt, laesst die Szenen darunter
+        # beginnen. Lieber hier abbrechen als es spaeter im Bild suchen.
+        if dreh.get("voraussetzung") and sz.get("oben", oben) < 170:
+            raise SystemExit(
+                "Szene %r beginnt bei oben=%d und liefe in die Bedingungsleiste "
+                "(sie endet bei y=150). Mit einer Voraussetzung beginnen die Szenen "
+                "bei oben >= 170." % (sz.get("name", "?"), sz.get("oben", oben)))
 
         y = sz.get("oben", oben)
         for i, el in enumerate(sz.get("elemente", [])):
@@ -763,6 +812,21 @@ body.render #wrap{{bottom:0}} body.render #stage{{left:0;top:0;transform:none!im
 #kopf .marke{{font-weight:600;letter-spacing:.01em;color:var(--blau)}}
 #kopf .bereich{{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}}
 #fuss{{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}}
+
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}}
+.vor{{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}}
+.vor .vor-tag{{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}}
+.vor .vor-txt{{white-space:nowrap}}
 
 .l{{position:absolute;will-change:opacity,transform}}
 .l.flow{{position:relative}}

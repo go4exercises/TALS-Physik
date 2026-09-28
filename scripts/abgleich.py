@@ -85,7 +85,7 @@ GRUNDLINIE = {
     'feedback.html': 0.977,
     'LICENSE': 0.955,
     'scripts/build-suchindex.py': 0.962,
-    'scripts/build-clips.py': 0.812,
+    'scripts/build-clips.py': 0.836,
     'scripts/build-clips-einbau.py': 0.830,
     'scripts/build-clip-ton.py': 1.000,
     'scripts/build-seo.py': 0.533,
@@ -125,6 +125,15 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
+    dict(quelle='Physik', was='Bedingungsleiste: Abstand zwischen zwei Eintraegen; TODO-Eintraege loeschen (28.09.2026)',
+         wie='(1) scripts/build-clips.py, CSS #vorleiste: gap:14px ergaenzen (nach justify-content:center). '
+             'Physik hat die Bedingungsleiste aus Mathe uebernommen (Emission, Schutzregel oben >= 170, CSS, '
+             'alles 1:1) und an einer Probe mit zwei gleichzeitigen Eintraegen gesehen, dass die Kaestchen '
+             'ohne Abstand aneinanderstossen. Danach ist build-clips.py KERN >= 0.836. '
+             '(2) TODO-schwesterprojekt.md: drei Eintraege loeschen, Entscheid Auftraggeber 28.09.2026: '
+             '«Clip-Generator: Bedingungsleiste voraussetzung» (in Physik umgesetzt), «Rechner-Clips als '
+             'eigener Strang» und «Intervallgrenzen am Zahlenstrahl als Klammer» (beide fuer Physik '
+             'gestrichen, nicht umsetzen). Danach meldet Physiks Pre-Flight kein todo-schwester mehr.'),
 ]
 
 FACH = {
