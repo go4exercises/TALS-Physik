@@ -43,7 +43,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-09-27",
+   "dateModified": "2026-09-28",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -2019,9 +2019,18 @@ function drawA3(){
   // Plateau-Beschriftungen
   ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='left';
   // mittig über dem Schmelzplateau (HK[1] … HK[2]), nicht über dem Anstieg danach
+  // Ist das Plateau schmaler als die Beschriftung, ragte sie in den Anstieg
+  // danach — dann zweizeilig. Gezeigt wird sie ganz oder gar nicht.
   const l1='Schmelzen (0 °C)', l1w=ctx.measureText(l1).width;
-  const l1x=Math.max(cx(0)+4, cx((HK[1][0]+HK[2][0])/2000)-l1w/2), l1y=cy(0)-8;
-  if(frei(l1x,l1y,l1w)){ ctx.fillStyle='#1a4f8a'; ctx.fillText(l1,l1x,l1y); }
+  const pl0=cx(HK[1][0]/1000), pl1=cx(HK[2][0]/1000), plM=(pl0+pl1)/2;
+  const l1Zeilen = (l1w+8 <= pl1-Math.max(cx(0),pl0)) ? [[l1, cy(0)-8]] : [['Schmelzen', cy(0)-22], ['(0 °C)', cy(0)-8]];
+  const l1Lagen = l1Zeilen.map(([t,y])=>{ const w=ctx.measureText(t).width; return [t, Math.max(cx(0)+4, plM-w/2), y, w]; });
+  if(l1Lagen.every(([t,x,y,w])=>frei(x,y,w))){
+    // heller Grund: auf schmalen Schirmen ist das Plateau schmaler als «Schmelzen»
+    ctx.lineWidth=3.5; ctx.lineJoin='round'; ctx.strokeStyle='#fff';
+    l1Lagen.forEach(([t,x,y])=>ctx.strokeText(t,x,y)); ctx.lineWidth=1;
+    ctx.fillStyle='#1a4f8a'; l1Lagen.forEach(([t,x,y])=>ctx.fillText(t,x,y));
+  }
   const l2='Verdampfen (100 °C)', l2w=ctx.measureText(l2).width;
   const l2x=cx((79.42+305.02)/2)-l2w/2, l2y=cy(100)-10;
   if(frei(l2x,l2y,l2w)){ ctx.fillStyle='#9b1c1c'; ctx.fillText(l2,l2x,l2y); }

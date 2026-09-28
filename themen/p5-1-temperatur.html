@@ -43,7 +43,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-09-27",
+   "dateModified": "2026-09-28",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -348,7 +348,7 @@ MathJax = {
 
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Temperatur</span><span class="lb-val" id="a1-Tk">300 K</span></div>
-      <div class="lb-item"><span class="lb-lab">entspricht</span><span class="lb-val" id="a1-Tc">26.9 °C</span></div>
+      <div class="lb-item"><span class="lb-lab">entspricht</span><span class="lb-val" id="a1-Tc">26.85 °C</span></div>
       <div class="lb-item"><span class="lb-lab">mittl. Tempo (rel.)</span><span class="lb-val" id="a1-v">100 %</span></div>
       <div class="lb-item"><span class="lb-lab">markiertes Teilchen</span><span class="lb-val" id="a1-vm">142 %</span></div>
     </div>
@@ -1267,7 +1267,7 @@ function a1Readout(){
   const T = +document.getElementById('a1-T').value;
   document.getElementById('a1-T-val').textContent = T + ' K';
   document.getElementById('a1-Tk').textContent = T + ' K';
-  document.getElementById('a1-Tc').textContent = vz((T - T0).toFixed(1)) + ' °C';
+  document.getElementById('a1-Tc').textContent = vz((T - T0).toFixed(2)) + ' °C';
   document.getElementById('a1-v').textContent = Math.round(a1Speed()*100) + ' %';
   document.getElementById('a1-vm').textContent = Math.round(a1Speed()*A1_SPREAD[A1_MARK]*100) + ' %';
 }
@@ -1749,6 +1749,7 @@ function pRelB(theta){ return 60*(1 + theta/T0); }   // Gas B: % bei 0 °C =  60
 const A5_MESS = [-20, 20, 60, 100, 140, 180];        // tatsächlich gemessene Temperaturen
 const A5_COL_A = '#b85c00', A5_COL_B = '#1f6b3a';
 let a5NullY = 0;                                  // Grundlinie des Nullpunkt-Etiketts (für die Punktbeschriftung)
+let a5NullR = 0;                                  // rechter Rand des Nullpunkt-Etiketts
 function drawA5(){
   const th = +document.getElementById('a5-T').value;
   const ext = document.getElementById('a5-ext').classList.contains('aktiv');
@@ -1783,6 +1784,7 @@ function drawA5(){
     a5NullY = Math.min(cy(0) - 34, cy(pRel(Math.min(tR, -20))) - 8);
     ctx.fillText('abs. Nullpunkt', nx0, a5NullY - 12);
     ctx.fillText('−273.15 °C', nx0, a5NullY);
+    a5NullR = nx0 + nB;
   }
 
   // Messpunkte (immer sichtbar — sie sind das, was man wirklich misst)
@@ -1800,6 +1802,9 @@ function drawA5(){
   ctx.beginPath(); ctx.moveTo(cx(0), py); ctx.lineTo(px, py); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(cx(0), pyB); ctx.lineTo(px, pyB); ctx.stroke();
   ctx.setLineDash([]);
+  // Achsentitel über die Hilfslinien legen: Bei hohen Temperaturen liefe die
+  // senkrechte durch «ϑ [°C]», die waagrechte durch «p [%]».
+  drawAxesUnits(ctx, W, H, cx, cy, 'ϑ [°C]', 'p [%]');
   drawDot(ctx, cx, cy, th, pRelB(th), A5_COL_B, 6);
   drawDot(ctx, cx, cy, th, pRel(th), '#9b1c1c', 6);
   // Beschriftung des Messpunkts: nie über den rechten Rand (bei 200 °C links
@@ -1810,6 +1815,9 @@ function drawA5(){
   // deckt Linien ab, die unter dem Etikett durchlaufen.
   ctx.font='bold 13px JetBrains Mono,monospace';
   const lab = vz(th)+' °C', lw = ctx.measureText(lab).width;
+  const zahlen = [];                             // y-Achsenzahlen wie in drawGrid: [x links, x rechts, Mitte]
+  for (let v = g.stepY; v <= 180; v += g.stepY)
+    if (cy(v) >= 22 && cy(v) <= H - 6) zahlen.push([cx(0) - 5 - ctx.measureText(String(v)).width, cx(0) - 5, cy(v)]);
   const punkte = [];
   A5_MESS.forEach(t => { punkte.push([cx(t), cy(pRel(t))], [cx(t), cy(pRelB(t))]); });
   punkte.push([px, py], [px, pyB]);
@@ -1817,10 +1825,15 @@ function drawA5(){
     const obenMin = (x0 < cx(0) + 60 && x0 + lw > cx(0) - 10) ? 22 : 13;   // «p [%]» steht nur an der Achse
     if (x0 < 4 || x0 + lw > W - 4 || yb - 12 < obenMin || yb > cy(0) - 20) return false;
     if (ext && th < -180 && x0 < cx(-273.15) + 130 && yb > a5NullY - 30) return false;
+    if (zahlen.some(([zx0, zx1, zy]) => x0 < zx1 + 4 && x0 + lw > zx0 - 4 && yb + 4 > zy - 8 && yb - 12 < zy + 8)) return false;   // y-Achsenzahlen
+    if (ext && x0 < a5NullR + 6 && yb > a5NullY - 30 && yb - 12 < a5NullY + 4) return false;   // Nullpunkt-Etikett
     return punkte.every(([qx, qy]) => qx < x0 - 6 || qx > x0 + lw + 6 || qy < yb - 18 || qy > yb + 6);
   };
   const kand = [[px + 8, py - 6], [px - 10 - lw, py - 6], [px - 14 - lw, py + 4], [px + 8, py + 20], [px - 10 - lw, py + 22],
-                [px - 10 - lw, py - 22], [px + 8, py - 22], [px - 10 - lw, py + 38], [px + 8, (ext ? a5NullY - 30 : py - 6)]];
+                [px - 10 - lw, py - 22], [px + 8, py - 22], [px - 10 - lw, py + 38], [px - 10 - lw, py + 54],
+                [px - 10 - lw, py - 38], [px + 8, (ext ? a5NullY - 30 : py - 6)]];
+  // Punkt dicht links der Achse: neben der Spalte der Achsenzahlen, auf seiner Höhe
+  if (zahlen.length && px < cx(0)) { const zl = Math.min(...zahlen.map(z => z[0])) - 6 - lw; kand.push([zl, py - 6], [zl, py + 10], [zl, py + 26], [zl, py - 22], [zl, py + 42]); }
   const [lxP, lyP] = kand.find(([x, y]) => frei(x, y))
     || [Math.min(Math.max(4, px - 10 - lw), W - 4 - lw), Math.max(16, py - 6)];   // Notfall: ins Bild geklemmt
   ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fillRect(lxP - 2, lyP - 12, lw + 4, 16);
