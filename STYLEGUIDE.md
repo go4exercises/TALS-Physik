@@ -314,7 +314,8 @@ Referenz: `themen/p5-2-waerme.html`, Animation 2.
 
 Gerendert klebt der Gedankenstrich an der Formel und liest sich als Vorzeichen:
 aus «Das Grundgesetz — \(F = m \cdot a\)» wird optisch \(-F = m \cdot a\).
-Betroffen sind alle Titelarten — `h2`, `h3`, `.block-titel`, `.aufg-titel-text`.
+Betroffen sind alle Titelarten — `h2`, `h3`, `.block-titel`, `.aufg-titel-text`
+und die Diagrammtitel `.cv-titel` (seit 28.09.2026, Entscheid Auftraggeber in Mathe).
 
 **Steht der Strich vor der Formel**, ersetzt ihn der **Doppelpunkt**; nach einem
 Frage- oder Ausrufezeichen entfällt er ersatzlos:
