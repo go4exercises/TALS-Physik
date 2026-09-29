@@ -48,7 +48,8 @@ Am 13.9.2026 kam `leitprogramm-schaltungen` dazu — das achte und das erste
 **ausserhalb der Thermodynamik** (Lerngebiet 6.2 Elektrizität). Sechs Schritte
 von der Knoten- und Maschenregel über Reihenschaltung und Spannungsteiler zur
 Parallelschaltung und zu gemischten Netzen, dazu die Leistung einzelner
-Bauteile. Vier Simulationen, drei bereits vorhandene Clips, 31 Aufgaben.
+Bauteile. Vier Simulationen, drei bereits vorhandene Clips (seit dem 29.9.2026
+fünf), 31 Aufgaben.
 Wieder nichts Neues am Verfahren — Kopf, `<style>`-Block und die beiden
 Skripte wörtlich aus `leitprogramm-waermemenge`. Drei Dinge sind dabei
 aufgefallen:
