@@ -21,6 +21,21 @@ body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!impor
 #kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
 #fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
 
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
 .l{position:absolute;will-change:opacity,transform}
 .l.flow{position:relative}
 .m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
@@ -73,28 +88,28 @@ body.render #ui{display:none}
 <div id="rand" style="background:rgba(155,28,28,.24)"></div>
 <div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Elektrizität · BM</span></div>
 <div id="fuss"><span>Raphael Arnold Kohler</span><span>07.09.2026</span></div>
-<div class="l" data-at="9.50" data-out="42.09" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.32"><div class="num">1</div><div class="stxt">Der Widerstand<br><span class="dim">\(\fb{R} = \fa{U}/\fc{I}\)</span></div></div><div class="step l flow" data-at="17.62" data-anim="rise" data-dim="17.32,25.61"><div class="num">2</div><div class="stxt">Das Gesetz<br><span class="dim">\(\fa{U} = \fb{R}\,\fc{I}\)</span></div></div><div class="step l flow" data-at="25.91" data-anim="rise" data-dim="25.61,33.41"><div class="num">3</div><div class="stxt">Ein Beispiel<br><span class="dim">12 V an 200 Ω</span></div></div><div class="step l flow" data-at="33.71" data-anim="rise" data-dim="33.41,42.09"><div class="num">4</div><div class="stxt">Die Grenze<br><span class="dim">Glühlampe</span></div></div></div>
+<div class="l" data-at="9.50" data-out="51.55" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.30"><div class="num">1</div><div class="stxt">Der Widerstand<br><span class="dim">\(\fb{R} = \fa{U}/\fc{I}\)</span></div></div><div class="step l flow" data-at="17.60" data-anim="rise" data-dim="17.30,29.70"><div class="num">2</div><div class="stxt">Das Gesetz<br><span class="dim">\(\fa{U} = \fb{R}\,\fc{I}\)</span></div></div><div class="step l flow" data-at="30.00" data-anim="rise" data-dim="29.70,42.80"><div class="num">3</div><div class="stxt">Ein Beispiel<br><span class="dim">12 V an 200 Ω</span></div></div><div class="step l flow" data-at="43.10" data-anim="rise" data-dim="42.80,51.55"><div class="num">4</div><div class="stxt">Die Grenze<br><span class="dim">Glühlampe</span></div></div></div>
 <div class="l hand mitte mitte" data-at="0.40" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:244px;font-size:104px;font-weight:600;color:var(--tinte)">Wer bremst den Strom?</div>
 <div class="l sans mitte mitte" data-at="2.10" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:434px;font-size:48px;color:var(--blau)">Der Widerstand und das ohmsche Gesetz</div>
 <div class="l m row mitte" data-at="3.80" data-out="9.50" data-anim="pop" style="left:130px;right:130px;text-align:center;top:614px;font-size:84px"><span>\(\fa{U} = \fb{R} \cdot \fc{I}\)</span></div>
 <div class="l hand mitte" data-at="5.50" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:844px;font-size:56px;color:var(--rot)">Gleiche Spannung, verschiedener Strom — es liegt am Bauteil.</div>
-<div class="l m row" data-at="9.90" data-out="25.61" data-anim="rise" style="left:680px;top:178px;font-size:60px;width:1140px"><span>\(\fb{R} = \frac{\fa{U}}{\fc{I}} \qquad 1\,\Omega = 1\,\tfrac{\mathrm{V}}{\mathrm{A}}\)</span></div>
-<div class="l m" data-at="11.60" data-out="17.32" data-anim="rise" style="left:680px;top:378px;font-size:52px;width:1140px">Viel Spannung und wenig Strom heisst grosser Widerstand.</div>
-<div class="l hand" data-at="13.30" data-out="17.32" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau);width:1140px">Ein Draht hat wenig, ein Heizstab viel, Luft praktisch unendlich viel.</div>
-<div class="l m row" data-at="17.72" data-out="25.61" data-anim="rise" style="left:680px;top:430px;font-size:62px;width:1140px"><span>\(\fa{U} = \fb{R} \cdot \fc{I} \qquad \fc{I} = \frac{\fa{U}}{\fb{R}}\)</span></div>
-<div class="l m row anschluss" data-at="25.86" data-out="33.41" data-anim="fade" style="left:680px;top:168px;font-size:62px;width:1140px"><span>\(\fa{U} = \fb{R} \cdot \fc{I} \qquad \fc{I} = \frac{\fa{U}}{\fb{R}}\)</span></div>
-<div class="l m" data-at="19.42" data-out="25.61" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Doppelte Spannung, doppelter Strom — bei festem \(\fb{R}\).</div>
-<div class="l hand" data-at="21.12" data-out="25.61" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">In der Kennlinie ist die Steigung der Kehrwert des Widerstands.</div>
-<div class="l m row" data-at="26.01" data-out="33.41" data-anim="rise" style="left:680px;top:430px;font-size:56px;width:1140px"><span>\(\fc{I} = \frac{\fa{12\,\mathrm{V}}}{\fb{200\,\Omega}} = \fd{0.06\,\mathrm{A}} = \fd{60\,\mathrm{mA}}\)</span></div>
-<div class="l m" data-at="27.71" data-out="33.41" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Milliampere sind im Elektronikalltag die übliche Grösse.</div>
-<div class="l hand" data-at="29.41" data-out="33.41" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Derselbe Strom entsteht bei 6 V an 100 Ω — es zählt das Verhältnis.</div>
-<div class="l m row" data-at="33.81" data-out="42.09" data-anim="rise" style="left:680px;top:430px;font-size:50px;width:1140px"><span>\(\text{Glühlampe: } \fb{R} \ \text{steigt mit der Temperatur}\)</span></div>
-<div class="l m" data-at="35.51" data-out="42.09" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Ihre Kennlinie ist gekrümmt, keine Gerade.</div>
-<div class="l hand" data-at="37.21" data-out="42.09" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--rot);width:1140px">Darum ist der Einschaltstrom einer Glühlampe viel grösser als der Betriebsstrom.</div>
-<div class="l m mitte mitte" data-at="42.49" data-out="51.59" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:82px;font-weight:600">Zwei Grössen, ein Faktor</div>
-<div class="l m row mitte" data-at="44.19" data-out="51.59" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:76px"><span>\(\fa{U} = \fb{R} \cdot \fc{I}\)</span></div>
-<div class="l hand mitte" data-at="45.89" data-out="51.59" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Umgestellt liefert dieselbe Formel \(\fc{I}\) und \(\fb{R}\).</div>
-<div class="l hand mitte" data-at="47.59" data-out="51.59" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Sie gilt für ohmsche Bauteile — nicht für jedes Bauteil.</div>
+<div class="l m row" data-at="9.90" data-out="29.70" data-anim="rise" style="left:680px;top:178px;font-size:60px;width:1140px"><span>\(\fb{R} = \frac{\fa{U}}{\fc{I}} \qquad 1\,\Omega = 1\,\tfrac{\mathrm{V}}{\mathrm{A}}\)</span></div>
+<div class="l m" data-at="11.60" data-out="17.30" data-anim="rise" style="left:680px;top:378px;font-size:52px;width:1140px">Viel Spannung und wenig Strom heisst grosser Widerstand.</div>
+<div class="l hand" data-at="13.30" data-out="17.30" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau);width:1140px">Ein Kabel hat Bruchteile eines Ohms, ein Heizstab einige zehn Ohm, Luft fast unendlich viel.</div>
+<div class="l m row" data-at="17.70" data-out="29.70" data-anim="rise" style="left:680px;top:430px;font-size:62px;width:1140px"><span>\(\fa{U} = \fb{R} \cdot \fc{I} \qquad \fc{I} = \frac{\fa{U}}{\fb{R}}\)</span></div>
+<div class="l m row anschluss" data-at="29.95" data-out="42.80" data-anim="fade" style="left:680px;top:168px;font-size:62px;width:1140px"><span>\(\fa{U} = \fb{R} \cdot \fc{I} \qquad \fc{I} = \frac{\fa{U}}{\fb{R}}\)</span></div>
+<div class="l m" data-at="19.40" data-out="29.70" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Doppelte Spannung, doppelter Strom — bei gleicher Temperatur.</div>
+<div class="l hand" data-at="21.10" data-out="29.70" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Kennlinie \(\fa{U}\) über \(\fc{I}\): Die Steigung ist \(\fb{R}\).</div>
+<div class="l m row" data-at="30.10" data-out="42.80" data-anim="rise" style="left:680px;top:430px;font-size:56px;width:1140px"><span>\(\fc{I} = \frac{\fa{12\,\mathrm{V}}}{\fb{200\,\Omega}} = \fd{0.06\,\mathrm{A}} = \fd{60\,\mathrm{mA}}\)</span></div>
+<div class="l m" data-at="31.80" data-out="42.80" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Milliampere sind im Elektronikalltag die übliche Grösse.</div>
+<div class="l hand" data-at="33.50" data-out="42.80" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Derselbe Strom entsteht bei 6 V an 100 Ω — es zählt das Verhältnis.</div>
+<div class="l m row" data-at="43.20" data-out="51.55" data-anim="rise" style="left:680px;top:430px;font-size:50px;width:1140px"><span>\(\text{Glühlampe: } \fb{R} \ \text{steigt mit der Temperatur}\)</span></div>
+<div class="l m" data-at="44.90" data-out="51.55" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Ihre Kennlinie ist gekrümmt, keine Gerade.</div>
+<div class="l hand" data-at="46.60" data-out="51.55" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--rot);width:1140px">Darum ist der Einschaltstrom einer Glühlampe viel grösser als der Betriebsstrom.</div>
+<div class="l m mitte mitte" data-at="51.95" data-out="61.05" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:82px;font-weight:600">Zwei Grössen, ein Faktor</div>
+<div class="l m row mitte" data-at="53.65" data-out="61.05" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:76px"><span>\(\fa{U} = \fb{R} \cdot \fc{I}\)</span></div>
+<div class="l hand mitte" data-at="55.35" data-out="61.05" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Umgestellt liefert dieselbe Formel \(\fc{I}\) und \(\fb{R}\).</div>
+<div class="l hand mitte" data-at="57.05" data-out="61.05" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Sie gilt für ohmsche Bauteile — nicht für jedes Bauteil.</div>
 </div></div>
 <audio id="ton" preload="auto" src="ton/p6-2-ohmsches-gesetz.mp3"></audio>
 <div id="ui">
@@ -105,8 +120,8 @@ body.render #ui{display:none}
   <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
 </div>
 <script>
-const DUR = 51.59;
-const SPRECHER = [{"bei": 0.4, "text": "Zwei Lampen an derselben Batterie: Die eine leuchtet hell, die andere schwach. Beide bekommen dieselbe Spannung."}, {"bei": 9.9, "text": "Der Widerstand sagt, wie stark ein Bauteil den Strom bremst: Spannung geteilt durch Stromstärke. Gemessen wird er in Ohm."}, {"bei": 17.72, "text": "Bei einem ohmschen Bauteil bleibt dieser Quotient konstant. Trägt man Strom über Spannung auf, ergibt sich eine Gerade durch den Ursprung."}, {"bei": 26.01, "text": "Zwölf Volt an zweihundert Ohm ergeben sechzig Milliampere."}, {"bei": 33.81, "text": "Das Gesetz gilt für ohmsche Bauteile. Eine Glühlampe gehört nicht dazu: Ihr Draht wird heiss, und mit der Temperatur steigt sein Widerstand."}, {"bei": 42.49, "text": "Merke: Spannung ist Widerstand mal Stromstärke. Bei festem Widerstand sind Strom und Spannung proportional."}];
+const DUR = 61.05;
+const SPRECHER = [{"bei": 0.4, "text": "Zwei Lampen an derselben Batterie: Die eine leuchtet hell, die andere schwach. Beide bekommen dieselbe Spannung."}, {"bei": 9.9, "text": "Der Widerstand sagt, wie stark ein Bauteil den Strom bremst: Spannung geteilt durch Stromstärke. Gemessen wird er in Ohm."}, {"bei": 17.7, "text": "Bei einem ohmschen Bauteil bleibt dieser Quotient konstant, solange die Temperatur gleich bleibt. Trägt man die Spannung über der Stromstärke auf, ergibt sich eine Gerade durch den Ursprung. Ihre Steigung ist der Widerstand."}, {"bei": 30.1, "text": "Ein Beispiel: Zwölf Volt an zweihundert Ohm. Die Stromstärke ist Spannung geteilt durch Widerstand, also null Komma null sechs Ampere oder sechzig Milliampere. Sechs Volt an hundert Ohm ergäben denselben Strom."}, {"bei": 43.2, "text": "Das Gesetz gilt für ohmsche Bauteile. Eine Glühlampe gehört nicht dazu: Ihr Draht wird heiss, und mit der Temperatur steigt sein Widerstand."}, {"bei": 51.95, "text": "Merke: Spannung ist Widerstand mal Stromstärke. Bei festem Widerstand sind Strom und Spannung proportional."}];
 const stage = document.getElementById('stage');
 const layers = [...document.querySelectorAll('.l')].map(el => ({
   el, at: parseFloat(el.dataset.at || '0'),

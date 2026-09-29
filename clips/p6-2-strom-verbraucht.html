@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de-CH"><head><meta charset="utf-8"><title>Strom wird nicht verbraucht, Energie schon</title><style>
+<html lang="de-CH"><head><meta charset="utf-8"><title>Strom wird nicht verbraucht, Energie wird umgesetzt</title><style>
 @import url("../schriften.css");
 :root{--papier:#f8f6f1;--tinte:#1c1a17;--blau:#8a4a0e;--rot:#9b1c1c;--gruen:#1f6b3a;--gold:#b85c00;--f1:#8a4a0e;--f1w:#fbecd2;--f2:#b85c00;--f2w:#fdefd8;--f3:#1f6b3a;--f3w:#d8f0e2;--f4:#9b1c1c;--f4w:#fde8e8}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -20,6 +20,21 @@ body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!impor
 #kopf .marke{font-weight:600;letter-spacing:.01em;color:var(--blau)}
 #kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
 #fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
+
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
 
 .l{position:absolute;will-change:opacity,transform}
 .l.flow{position:relative}
@@ -73,27 +88,27 @@ body.render #ui{display:none}
 <div id="rand" style="background:rgba(155,28,28,.24)"></div>
 <div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Elektrizität · BM</span></div>
 <div id="fuss"><span>Raphael Arnold Kohler</span><span>07.09.2026</span></div>
-<div class="l" data-at="9.50" data-out="41.21" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.30"><div class="num">1</div><div class="stxt">Die Messung<br><span class="dim">vorher gleich nachher</span></div></div><div class="step l flow" data-at="17.60" data-anim="rise" data-dim="17.30,25.10"><div class="num">2</div><div class="stxt">Der Grund<br><span class="dim">Ladung bleibt</span></div></div><div class="step l flow" data-at="25.40" data-anim="rise" data-dim="25.10,33.41"><div class="num">3</div><div class="stxt">Was sich ändert<br><span class="dim">\(\fa{U}\) fällt ab</span></div></div><div class="step l flow" data-at="33.71" data-anim="rise" data-dim="33.41,41.21"><div class="num">4</div><div class="stxt">Das Wort<br><span class="dim">Stromverbrauch</span></div></div></div>
+<div class="l" data-at="9.50" data-out="43.08" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.54"><div class="num">1</div><div class="stxt">Die Messung<br><span class="dim">vorher gleich nachher</span></div></div><div class="step l flow" data-at="17.84" data-anim="rise" data-dim="17.54,25.34"><div class="num">2</div><div class="stxt">Der Grund<br><span class="dim">Ladung bleibt</span></div></div><div class="step l flow" data-at="25.64" data-anim="rise" data-dim="25.34,35.28"><div class="num">3</div><div class="stxt">Was sich ändert<br><span class="dim">\(\fa{U}\) fällt ab</span></div></div><div class="step l flow" data-at="35.58" data-anim="rise" data-dim="35.28,43.08"><div class="num">4</div><div class="stxt">Das Wort<br><span class="dim">Stromverbrauch</span></div></div></div>
 <div class="l hand mitte mitte" data-at="0.40" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:244px;font-size:96px;font-weight:600;color:var(--tinte)">Was verbraucht die Lampe?</div>
 <div class="l sans mitte mitte" data-at="2.10" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:434px;font-size:48px;color:var(--blau)">Ein Messwert, der viele überrascht</div>
 <div class="l m row mitte" data-at="3.80" data-out="9.50" data-anim="pop" style="left:130px;right:130px;text-align:center;top:614px;font-size:70px"><span>\(\fc{I_\text{vorher}} = \fc{I_\text{nachher}}\)</span></div>
 <div class="l hand mitte" data-at="5.50" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:844px;font-size:56px;color:var(--rot)">Wo bleibt dann das, was «verbraucht» wird?</div>
-<div class="l m row" data-at="9.90" data-out="25.10" data-anim="rise" style="left:680px;top:178px;font-size:68px;width:1140px"><span>\(\fc{I_\text{vorher}} = \fc{I_\text{nachher}} = \fc{I}\)</span></div>
-<div class="l m" data-at="11.60" data-out="17.30" data-anim="rise" style="left:680px;top:378px;font-size:52px;width:1140px">In Reihe geschaltet fliesst überall derselbe Strom.</div>
-<div class="l hand" data-at="13.30" data-out="17.30" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau);width:1140px">Das gilt für jedes Bauteil — auch für den Heizstab.</div>
-<div class="l m row" data-at="17.70" data-out="25.10" data-anim="rise" style="left:680px;top:430px;font-size:46px;width:1140px"><span>\(\text{Ladung bleibt erhalten} \;\Longrightarrow\; \text{der Kreis ist geschlossen}\)</span></div>
-<div class="l m" data-at="19.40" data-out="25.10" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Die Quelle liefert keine Ladung, sie treibt vorhandene an.</div>
-<div class="l hand" data-at="21.10" data-out="25.10" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Im Wasserbild: Die Pumpe verbraucht kein Wasser.</div>
-<div class="l m row" data-at="25.50" data-out="33.41" data-anim="rise" style="left:680px;top:430px;font-size:76px;width:1140px"><span>\(\fd{P} = \fa{U} \cdot \fc{I}\)</span></div>
-<div class="l m" data-at="27.20" data-out="33.41" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Die Ladung kommt energieärmer zurück, als sie losgezogen ist.</div>
-<div class="l hand" data-at="28.90" data-out="33.41" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Aus der Energie wird Licht und Wärme — beim Heizstab nur Wärme.</div>
-<div class="l m row" data-at="33.81" data-out="41.21" data-anim="rise" style="left:680px;top:430px;font-size:46px;width:1140px"><span>\(\text{Rechnung in } \fd{\mathrm{kWh}} \quad \longrightarrow \quad \text{Energie, nicht Ladung}\)</span></div>
-<div class="l m" data-at="35.51" data-out="41.21" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Genauer wäre «Energieverbrauch».</div>
-<div class="l hand" data-at="37.21" data-out="41.21" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Wer den Unterschied kennt, liest jede Stromrechnung richtig.</div>
-<div class="l m mitte mitte" data-at="41.61" data-out="50.71" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:74px;font-weight:600">Der Strom bleibt, die Energie geht</div>
-<div class="l m row mitte" data-at="43.31" data-out="50.71" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:52px"><span>\(\fc{I}\ \text{gleich} \qquad \fd{E} = \fa{U} \cdot \fc{I} \cdot t\ \text{abgegeben}\)</span></div>
-<div class="l hand mitte" data-at="45.01" data-out="50.71" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Darum ist eine leere Batterie nicht leer an Ladung, sondern an Energie.</div>
-<div class="l hand mitte" data-at="46.71" data-out="50.71" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Der Kreis muss geschlossen sein, sonst fliesst gar nichts.</div>
+<div class="l m row" data-at="9.90" data-out="25.34" data-anim="rise" style="left:680px;top:178px;font-size:68px;width:1140px"><span>\(\fc{I_\text{vorher}} = \fc{I_\text{nachher}} = \fc{I}\)</span></div>
+<div class="l m" data-at="11.60" data-out="17.54" data-anim="rise" style="left:680px;top:378px;font-size:52px;width:1140px">In Reihe geschaltet fliesst überall derselbe Strom.</div>
+<div class="l hand" data-at="13.30" data-out="17.54" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau);width:1140px">Das gilt für jedes Bauteil — auch für den Heizstab.</div>
+<div class="l m row" data-at="17.94" data-out="25.34" data-anim="rise" style="left:680px;top:430px;font-size:46px;width:1140px"><span>\(\text{Ladung bleibt erhalten} \;\Longrightarrow\; \fc{I_\text{hinein}} = \fc{I_\text{hinaus}}\)</span></div>
+<div class="l m" data-at="19.64" data-out="25.34" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Die Quelle liefert keine Ladung, sie treibt vorhandene an.</div>
+<div class="l hand" data-at="21.34" data-out="25.34" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Im Wasserbild: Die Pumpe verbraucht kein Wasser.</div>
+<div class="l m row" data-at="25.74" data-out="35.28" data-anim="rise" style="left:680px;top:430px;font-size:76px;width:1140px"><span>\(\fd{P} = \fa{U} \cdot \fc{I}\)</span></div>
+<div class="l m" data-at="27.44" data-out="35.28" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Die Ladung kommt energieärmer zurück, als sie losgezogen ist.</div>
+<div class="l hand" data-at="29.14" data-out="35.28" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Aus der Energie wird Licht und Wärme — beim Heizstab nur Wärme.</div>
+<div class="l m row" data-at="35.68" data-out="43.08" data-anim="rise" style="left:680px;top:430px;font-size:46px;width:1140px"><span>\(\text{Rechnung in } \fd{\mathrm{kWh}} \quad \longrightarrow \quad \text{Energie, nicht Ladung}\)</span></div>
+<div class="l m" data-at="37.38" data-out="43.08" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Gemeint ist die umgesetzte elektrische Energie.</div>
+<div class="l hand" data-at="39.08" data-out="43.08" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Wer den Unterschied kennt, liest jede Stromrechnung richtig.</div>
+<div class="l m mitte mitte" data-at="43.48" data-out="52.58" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:64px;font-weight:600">Der Strom bleibt, die Energie wird umgesetzt</div>
+<div class="l m row mitte" data-at="45.18" data-out="52.58" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:52px"><span>\(\fc{I}\ \text{gleich} \qquad \fd{E} = \fa{U} \cdot \fc{I} \cdot t\ \text{umgesetzt}\)</span></div>
+<div class="l hand mitte" data-at="46.88" data-out="52.58" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Darum ist eine leere Batterie nicht leer an Ladung, sondern an Energie.</div>
+<div class="l hand mitte" data-at="48.58" data-out="52.58" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Der Kreis muss geschlossen sein, sonst fliesst gar nichts.</div>
 </div></div>
 <audio id="ton" preload="auto" src="ton/p6-2-strom-verbraucht.mp3"></audio>
 <div id="ui">
@@ -104,8 +119,8 @@ body.render #ui{display:none}
   <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
 </div>
 <script>
-const DUR = 50.71;
-const SPRECHER = [{"bei": 0.4, "text": "Zwei Messgeräte, eines vor und eines nach der Lampe. Beide zeigen denselben Wert — obwohl die Lampe doch leuchtet."}, {"bei": 9.9, "text": "Der Befund ist eindeutig: In die Lampe hinein fliesst genau so viel Strom wie aus ihr heraus. Kein Elektron bleibt darin stecken."}, {"bei": 17.7, "text": "Ladung geht nicht verloren. Sie wandert im geschlossenen Kreis herum und kommt vollständig zur Quelle zurück."}, {"bei": 25.5, "text": "Verändert wird nicht die Ladungsmenge, sondern ihre Energie. Über der Lampe fällt Spannung ab — und genau dort wird Energie umgesetzt."}, {"bei": 33.81, "text": "Der «Stromverbrauch» auf der Rechnung ist darum ein schiefer Ausdruck. Abgerechnet wird Energie, in Kilowattstunden."}, {"bei": 41.61, "text": "Merke: Der Strom fliesst durch und kommt vollständig zurück. Verbraucht wird die Energie, die er unterwegs abgibt."}];
+const DUR = 52.58;
+const SPRECHER = [{"bei": 0.4, "text": "Zwei Messgeräte, eines vor und eines nach der Lampe. Beide zeigen denselben Wert — obwohl die Lampe doch leuchtet."}, {"bei": 9.9, "text": "Der Befund ist eindeutig: In die Lampe hinein fliesst genau so viel Strom wie aus ihr heraus. Kein Elektron bleibt darin stecken."}, {"bei": 17.94, "text": "Ladung geht nicht verloren. Sie wandert im geschlossenen Kreis herum und kommt vollständig zur Quelle zurück."}, {"bei": 25.74, "text": "Verändert wird nicht die Ladungsmenge, sondern ihre Energie. Über der Lampe fällt Spannung ab, und genau dort wird Energie umgesetzt. Die Leistung ist Spannung mal Stromstärke."}, {"bei": 35.68, "text": "Der «Stromverbrauch» auf der Rechnung ist darum ein schiefer Ausdruck. Abgerechnet wird Energie, in Kilowattstunden."}, {"bei": 43.48, "text": "Merke: Der Strom fliesst durch und kommt vollständig zurück. Nicht der Strom wird verbraucht: Die Energie wird umgesetzt, in der Lampe in Licht und Wärme."}];
 const stage = document.getElementById('stage');
 const layers = [...document.querySelectorAll('.l')].map(el => ({
   el, at: parseFloat(el.dataset.at || '0'),

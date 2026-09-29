@@ -21,6 +21,21 @@ body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!impor
 #kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
 #fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
 
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
 .l{position:absolute;will-change:opacity,transform}
 .l.flow{position:relative}
 .m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
@@ -73,28 +88,28 @@ body.render #ui{display:none}
 <div id="rand" style="background:rgba(155,28,28,.24)"></div>
 <div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Elektrizität · BM</span></div>
 <div id="fuss"><span>Raphael Arnold Kohler</span><span>27.09.2026</span></div>
-<div class="l" data-at="9.50" data-out="48.15" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.30"><div class="num">1</div><div class="stxt">Das Amperemeter<br><span class="dim">in Serie</span></div></div><div class="step l flow" data-at="17.60" data-anim="rise" data-dim="17.30,25.10"><div class="num">2</div><div class="stxt">Das Voltmeter<br><span class="dim">parallel</span></div></div><div class="step l flow" data-at="25.40" data-anim="rise" data-dim="25.10,36.27"><div class="num">3</div><div class="stxt">Der Fehlanschluss<br><span class="dim">Kurzschluss</span></div></div><div class="step l flow" data-at="36.57" data-anim="rise" data-dim="36.27,48.15"><div class="num">4</div><div class="stxt">Ein Beispiel<br><span class="dim">60 Ω an 12 V</span></div></div></div>
+<div class="l" data-at="9.50" data-out="52.14" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.96"><div class="num">1</div><div class="stxt">Das Amperemeter<br><span class="dim">in Serie</span></div></div><div class="step l flow" data-at="18.26" data-anim="rise" data-dim="17.96,26.38"><div class="num">2</div><div class="stxt">Das Voltmeter<br><span class="dim">parallel</span></div></div><div class="step l flow" data-at="26.68" data-anim="rise" data-dim="26.38,37.47"><div class="num">3</div><div class="stxt">Der Fehlanschluss<br><span class="dim">Kurzschluss</span></div></div><div class="step l flow" data-at="37.77" data-anim="rise" data-dim="37.47,52.14"><div class="num">4</div><div class="stxt">Ein Beispiel<br><span class="dim">60 Ω an 12 V</span></div></div></div>
 <div class="l hand mitte mitte" data-at="0.40" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:244px;font-size:100px;font-weight:600;color:var(--tinte)">Messen, ohne zu stören</div>
 <div class="l sans mitte mitte" data-at="2.10" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:434px;font-size:48px;color:var(--blau)">Wo das Messgerät hingehört</div>
 <div class="l m row mitte" data-at="3.80" data-out="9.50" data-anim="pop" style="left:130px;right:130px;text-align:center;top:614px;font-size:72px"><span>\(\fc{I}\ \text{in Serie} \qquad \fa{U}\ \text{parallel}\)</span></div>
 <div class="l hand mitte" data-at="5.50" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:844px;font-size:56px;color:var(--rot)">Falsch angeschlossen misst es nicht nur falsch.</div>
-<div class="l m row" data-at="9.90" data-out="25.10" data-anim="rise" style="left:680px;top:178px;font-size:72px;width:1140px"><span>\(\fb{R_\text{A}}\ \text{sehr klein}\)</span></div>
-<div class="l m" data-at="11.60" data-out="17.30" data-anim="rise" style="left:680px;top:378px;font-size:52px;width:1140px">In Serie: Leitung auftrennen, Gerät einsetzen.</div>
-<div class="l hand" data-at="13.30" data-out="17.30" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau);width:1140px">Der ganze Strom fliesst durch das Gerät.</div>
-<div class="l m row" data-at="17.70" data-out="25.10" data-anim="rise" style="left:680px;top:430px;font-size:72px;width:1140px"><span>\(\fb{R_\text{V}}\ \text{sehr gross}\)</span></div>
-<div class="l m" data-at="19.40" data-out="25.10" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Parallel: an dieselben zwei Punkte wie das Bauteil.</div>
-<div class="l hand" data-at="21.10" data-out="25.10" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Nur ein winziger Strom zweigt ab.</div>
-<div class="l m row" data-at="25.50" data-out="36.27" data-anim="rise" style="left:680px;top:430px;font-size:72px;width:1140px"><span>\(\fc{I} = \frac{\fa{U}}{\fb{R}}\)</span></div>
-<div class="l m row anschluss" data-at="36.52" data-out="48.15" data-anim="fade" style="left:680px;top:168px;font-size:72px;width:1140px"><span>\(\fc{I} = \frac{\fa{U}}{\fb{R}}\)</span></div>
-<div class="l m" data-at="27.20" data-out="36.27" data-anim="rise" style="left:680px;top:605px;font-size:50px;width:1140px">Amperemeter parallel: \(\fb{R}\) fast null, \(\fc{I}\) riesig.</div>
-<div class="l hand" data-at="28.90" data-out="36.27" data-anim="rise" style="left:680px;top:755px;font-size:50px;color:var(--rot);width:1140px">Voltmeter in Serie: \(\fb{R}\) riesig, \(\fc{I}\) fast null.</div>
-<div class="l m row" data-at="36.67" data-out="48.15" data-anim="rise" style="left:680px;top:430px;font-size:50px;width:1140px"><span>\(\fc{I} = \frac{\fa{12\,\mathrm{V}}}{\fb{60.1\,\Omega}} = \fd{199.7\,\mathrm{mA}}\)</span></div>
-<div class="l m row" data-at="38.37" data-out="48.15" data-anim="rise" style="left:680px;top:595px;font-size:50px;width:1140px"><span>\(\fc{I} = \frac{\fa{12\,\mathrm{V}}}{\fb{10\,\mathrm{M}\Omega}} \approx \fd{1.2\,\mu\mathrm{A}}\)</span></div>
-<div class="l hand" data-at="40.07" data-out="48.15" data-anim="rise" style="left:680px;top:750px;font-size:52px;color:var(--blau);width:1140px">Ohne Gerät: 200 mA — das Amperemeter stört kaum.</div>
-<div class="l m mitte mitte" data-at="48.55" data-out="57.65" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:76px;font-weight:600">Strom hindurch, Spannung daneben</div>
-<div class="l m row mitte" data-at="50.25" data-out="57.65" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:46px"><span>\(\fc{I}:\ \text{Serie},\ \fb{R_\text{A}}\ \text{klein} \qquad \fa{U}:\ \text{parallel},\ \fb{R_\text{V}}\ \text{gross}\)</span></div>
-<div class="l hand mitte" data-at="51.95" data-out="57.65" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Schwarz in COM; rot in VΩmA — für grosse Ströme in 10A.</div>
-<div class="l hand mitte" data-at="53.65" data-out="57.65" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Bereich wählen, bevor die Leitungen anliegen.</div>
+<div class="l m row" data-at="9.90" data-out="26.38" data-anim="rise" style="left:680px;top:178px;font-size:62px;width:1140px"><span>\(\fb{R_\text{A}}\ \text{sehr klein, hier}\ 0.1\,\Omega\)</span></div>
+<div class="l m" data-at="11.60" data-out="17.96" data-anim="rise" style="left:680px;top:378px;font-size:52px;width:1140px">In Serie: Leitung auftrennen, Gerät einsetzen.</div>
+<div class="l hand" data-at="13.30" data-out="17.96" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau);width:1140px">Der ganze Strom fliesst durch das Gerät.</div>
+<div class="l m row" data-at="18.36" data-out="26.38" data-anim="rise" style="left:680px;top:430px;font-size:62px;width:1140px"><span>\(\fb{R_\text{V}}\ \text{sehr gross, hier}\ 10\,\mathrm{M\Omega}\)</span></div>
+<div class="l m" data-at="20.06" data-out="26.38" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Parallel: an dieselben zwei Punkte wie das Bauteil.</div>
+<div class="l hand" data-at="21.76" data-out="26.38" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Nur ein winziger Strom zweigt ab.</div>
+<div class="l m row" data-at="26.78" data-out="37.47" data-anim="rise" style="left:680px;top:430px;font-size:72px;width:1140px"><span>\(\fc{I} = \frac{\fa{U}}{\fb{R}}\)</span></div>
+<div class="l m row anschluss" data-at="37.72" data-out="52.14" data-anim="fade" style="left:680px;top:168px;font-size:72px;width:1140px"><span>\(\fc{I} = \frac{\fa{U}}{\fb{R}}\)</span></div>
+<div class="l m" data-at="28.48" data-out="37.47" data-anim="rise" style="left:680px;top:605px;font-size:50px;width:1140px">Amperemeter parallel: \(\fb{R}\) fast null, \(\fc{I}\) riesig.</div>
+<div class="l hand" data-at="30.18" data-out="37.47" data-anim="rise" style="left:680px;top:755px;font-size:50px;color:var(--rot);width:1140px">Voltmeter in Serie: \(\fb{R}\) riesig, \(\fc{I}\) fast null.</div>
+<div class="l m row" data-at="37.87" data-out="52.14" data-anim="rise" style="left:680px;top:430px;font-size:46px;width:1140px"><span>\(\fc{I} = \frac{\fa{U}}{\fb{R} + \fb{R_\text{A}}} = \frac{\fa{12\,\mathrm{V}}}{\fb{60\,\Omega} + \fb{0.1\,\Omega}} = \fd{199.7\,\mathrm{mA}}\)</span></div>
+<div class="l m row" data-at="39.57" data-out="52.14" data-anim="rise" style="left:680px;top:595px;font-size:46px;width:1140px"><span>\(\fc{I} = \frac{\fa{U}}{\fb{R} + \fb{R_\text{V}}} = \frac{\fa{12\,\mathrm{V}}}{\fb{60\,\Omega} + \fb{10\,\mathrm{M\Omega}}} \approx \fd{1.2\,\mu\mathrm{A}}\)</span></div>
+<div class="l hand" data-at="41.27" data-out="52.14" data-anim="rise" style="left:680px;top:750px;font-size:52px;color:var(--blau);width:1140px">Ohne Gerät: 200 mA — das Amperemeter stört kaum.</div>
+<div class="l m mitte mitte" data-at="52.54" data-out="61.64" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:76px;font-weight:600">Strom hindurch, Spannung daneben</div>
+<div class="l m row mitte" data-at="54.24" data-out="61.64" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:46px"><span>\(\fc{I}:\ \text{Serie},\ \fb{R_\text{A}}\ \text{klein} \qquad \fa{U}:\ \text{parallel},\ \fb{R_\text{V}}\ \text{gross}\)</span></div>
+<div class="l hand mitte" data-at="55.94" data-out="61.64" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Schwarz in COM; rot in VΩmA — für grosse Ströme in 10A.</div>
+<div class="l hand mitte" data-at="57.64" data-out="61.64" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Bereich wählen, bevor die Leitungen anliegen.</div>
 </div></div>
 <audio id="ton" preload="auto" src="ton/p6-2-multimeter.mp3"></audio>
 <div id="ui">
@@ -105,8 +120,8 @@ body.render #ui{display:none}
   <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
 </div>
 <script>
-const DUR = 57.65;
-const SPRECHER = [{"bei": 0.4, "text": "Ein Amperemeter parallel zur Lampe geklemmt — und die Sicherung im Messgerät brennt durch. Wie schliesst man richtig an?"}, {"bei": 9.9, "text": "Der Strom muss durch das Gerät hindurch. Das Amperemeter kommt in Serie, sein Innenwiderstand ist sehr klein."}, {"bei": 17.7, "text": "Die Spannung liegt zwischen zwei Punkten. Das Voltmeter kommt parallel dazu, sein Innenwiderstand ist sehr gross."}, {"bei": 25.5, "text": "Vertauscht man das, geht es schief. Das Amperemeter parallel wirkt wie ein Draht: Kurzschluss, die Sicherung brennt durch. Das Voltmeter in Serie bremst den Strom fast auf null."}, {"bei": 36.67, "text": "Sechzig Ohm an zwölf Volt: zweihundert Milliampere. Mit dem Amperemeter in Serie hundertneunundneunzig Komma sieben — kaum ein Unterschied. Mit dem Voltmeter in Serie nur etwa ein Mikroampere."}, {"bei": 48.55, "text": "Merke: Amperemeter in Serie und niederohmig, Voltmeter parallel und hochohmig. Und vorher Bereich und Buchse wählen."}];
+const DUR = 61.64;
+const SPRECHER = [{"bei": 0.4, "text": "Ein Amperemeter parallel zur Lampe geklemmt — und die Sicherung im Messgerät brennt durch. Wie schliesst man richtig an?"}, {"bei": 9.9, "text": "Der Strom muss durch das Gerät hindurch. Das Amperemeter kommt in Serie, sein Innenwiderstand ist sehr klein, hier ein Zehntel Ohm."}, {"bei": 18.36, "text": "Die Spannung liegt zwischen zwei Punkten. Das Voltmeter kommt parallel dazu, sein Innenwiderstand ist sehr gross, hier zehn Megaohm."}, {"bei": 26.78, "text": "Vertauscht man das, geht es schief. Das Amperemeter parallel wirkt wie ein Draht: Kurzschluss, die Sicherung brennt durch. Das Voltmeter in Serie bremst den Strom fast auf null."}, {"bei": 37.87, "text": "Sechzig Ohm an zwölf Volt: zweihundert Milliampere. Mit dem Amperemeter in Serie kommt sein Zehntel Ohm dazu: hundertneunundneunzig Komma sieben — kaum ein Unterschied. Mit dem Voltmeter in Serie nur eins Komma zwei Mikroampere."}, {"bei": 52.54, "text": "Merke: Amperemeter in Serie und niederohmig, Voltmeter parallel und hochohmig. Und vorher Bereich und Buchse wählen."}];
 const stage = document.getElementById('stage');
 const layers = [...document.querySelectorAll('.l')].map(el => ({
   el, at: parseFloat(el.dataset.at || '0'),

@@ -21,6 +21,21 @@ body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!impor
 #kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
 #fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
 
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
 .l{position:absolute;will-change:opacity,transform}
 .l.flow{position:relative}
 .m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
@@ -73,28 +88,28 @@ body.render #ui{display:none}
 <div id="rand" style="background:rgba(155,28,28,.24)"></div>
 <div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Elektrizität · BM</span></div>
 <div id="fuss"><span>Raphael Arnold Kohler</span><span>07.09.2026</span></div>
-<div class="l" data-at="9.50" data-out="47.81" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.30"><div class="num">1</div><div class="stxt">Der Kurzschluss<br><span class="dim">\(\fb{R}\) fast null</span></div></div><div class="step l flow" data-at="17.60" data-anim="rise" data-dim="17.30,27.14"><div class="num">2</div><div class="stxt">Die Sicherung<br><span class="dim">schützt die Leitung</span></div></div><div class="step l flow" data-at="27.44" data-anim="rise" data-dim="27.14,37.88"><div class="num">3</div><div class="stxt">Der Mensch<br><span class="dim">230 mA</span></div></div><div class="step l flow" data-at="38.18" data-anim="rise" data-dim="37.88,47.81"><div class="num">4</div><div class="stxt">Der FI<br><span class="dim">30 mA</span></div></div></div>
+<div class="l" data-at="9.50" data-out="56.29" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.30"><div class="num">1</div><div class="stxt">Der Kurzschluss<br><span class="dim">\(\fb{R}\) fast null</span></div></div><div class="step l flow" data-at="17.60" data-anim="rise" data-dim="17.30,30.26"><div class="num">2</div><div class="stxt">Die Sicherung<br><span class="dim">schützt die Leitung</span></div></div><div class="step l flow" data-at="30.56" data-anim="rise" data-dim="30.26,45.60"><div class="num">3</div><div class="stxt">Der Mensch<br><span class="dim">230 mA</span></div></div><div class="step l flow" data-at="45.90" data-anim="rise" data-dim="45.60,56.29"><div class="num">4</div><div class="stxt">Der FI<br><span class="dim">30 mA</span></div></div></div>
 <div class="l hand mitte mitte" data-at="0.40" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:244px;font-size:86px;font-weight:600;color:var(--tinte)">Zwei Schalter, zwei Aufgaben</div>
 <div class="l sans mitte mitte" data-at="2.10" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:434px;font-size:48px;color:var(--blau)">Kurzschluss, Sicherung und Fehlerstromschutz</div>
-<div class="l m row mitte" data-at="3.80" data-out="9.50" data-anim="pop" style="left:130px;right:130px;text-align:center;top:614px;font-size:68px"><span>\(\fb{10\,\mathrm{A}} \quad \text{gegen} \quad \fd{30\,\mathrm{mA}}\)</span></div>
-<div class="l hand mitte" data-at="5.50" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:844px;font-size:56px;color:var(--rot)">Ein Faktor von mehr als dreihundert liegt dazwischen.</div>
-<div class="l m row" data-at="9.90" data-out="27.14" data-anim="rise" style="left:680px;top:178px;font-size:58px;width:1140px"><span>\(\fc{I} = \frac{\fa{230\,\mathrm{V}}}{\fb{0.1\,\Omega}} = \fd{2300\,\mathrm{A}}\)</span></div>
+<div class="l m row mitte" data-at="3.80" data-out="9.50" data-anim="pop" style="left:130px;right:130px;text-align:center;top:614px;font-size:68px"><span>\(\fb{13\,\mathrm{A}} \quad \text{gegen} \quad \fd{30\,\mathrm{mA}}\)</span></div>
+<div class="l hand mitte" data-at="5.50" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:844px;font-size:56px;color:var(--rot)">Ein Faktor von mehr als vierhundert liegt dazwischen.</div>
+<div class="l m row" data-at="9.90" data-out="30.26" data-anim="rise" style="left:680px;top:178px;font-size:58px;width:1140px"><span>\(\fc{I} = \frac{\fa{230\,\mathrm{V}}}{\fb{0.1\,\Omega}} = \fd{2300\,\mathrm{A}}\)</span></div>
 <div class="l m" data-at="11.60" data-out="17.30" data-anim="rise" style="left:680px;top:378px;font-size:52px;width:1140px">So viel Strom bringt jede Leitung in Sekunden zum Glühen.</div>
 <div class="l hand" data-at="13.30" data-out="17.30" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau);width:1140px">Die Verlustleistung wächst mit dem Quadrat der Stromstärke.</div>
-<div class="l m row" data-at="17.70" data-out="27.14" data-anim="rise" style="left:680px;top:430px;font-size:56px;width:1140px"><span>\(\text{Sicherung } \fb{10\,\mathrm{A}} = \fb{10\,000\,\mathrm{mA}}\)</span></div>
-<div class="l m" data-at="19.40" data-out="27.14" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Sie löst bei Überlast und bei Kurzschluss aus.</div>
-<div class="l hand" data-at="21.10" data-out="27.14" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--rot);width:1140px">Für einen Menschen sind schon Ströme weit unter diesem Wert lebensgefährlich.</div>
-<div class="l m row" data-at="27.54" data-out="37.88" data-anim="rise" style="left:680px;top:430px;font-size:56px;width:1140px"><span>\(\fc{I} = \frac{\fa{230\,\mathrm{V}}}{\fb{1000\,\Omega}} = \fd{230\,\mathrm{mA}}\)</span></div>
-<div class="l m" data-at="29.24" data-out="37.88" data-anim="rise" style="left:680px;top:605px;font-size:50px;width:1140px">Entscheidend sind Stromstärke und Einwirkzeit, nicht die Spannung allein.</div>
-<div class="l hand" data-at="30.94" data-out="37.88" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--rot);width:1140px">Nasse Haut senkt den Körperwiderstand stark — und hebt den Strom entsprechend.</div>
-<div class="l m row" data-at="38.28" data-out="47.81" data-anim="rise" style="left:680px;top:430px;font-size:52px;width:1140px"><span>\(\fd{30\,\mathrm{mA}} \ \text{Differenz} \;\Longrightarrow\; \text{Abschaltung}\)</span></div>
-<div class="l m" data-at="39.98" data-out="47.81" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Fehlt Strom auf dem Rückweg, fliesst er durch etwas anderes.</div>
-<div class="l hand" data-at="41.68" data-out="47.81" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Dazu kommen Isolierung und Schutzleiter — Schutz ist immer mehrstufig.</div>
-<div class="l m mitte mitte" data-at="48.21" data-out="59.01" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:70px;font-weight:600">Leitung und Mensch getrennt geschützt</div>
-<div class="l m row mitte" data-at="49.91" data-out="59.01" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:54px"><span>\(\fb{\text{Sicherung}}\ 10\,\mathrm{A} \qquad \fd{\text{FI}}\ 30\,\mathrm{mA}\)</span></div>
-<div class="l hand mitte" data-at="51.61" data-out="59.01" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--rot)">Ein FI ersetzt keine Sicherung und umgekehrt.</div>
-<div class="l hand mitte" data-at="53.31" data-out="59.01" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--rot)">30 mA sind keine sichere Grenze: Der FI ist zusätzlicher Schutz.</div>
-<div class="l hand mitte" data-at="55.01" data-out="59.01" data-anim="rise" style="left:130px;right:130px;text-align:center;top:831px;font-size:52px;color:var(--blau)">Arbeiten an der Installation gehören in die Hand einer Fachperson.</div>
+<div class="l m row" data-at="17.70" data-out="30.26" data-anim="rise" style="left:680px;top:430px;font-size:56px;width:1140px"><span>\(\text{Sicherung } \fb{13\,\mathrm{A}} = \fb{13\,000\,\mathrm{mA}}\)</span></div>
+<div class="l m" data-at="19.40" data-out="30.26" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Heute meist ein Leitungsschutzschalter (LS).</div>
+<div class="l hand" data-at="21.10" data-out="30.26" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--rot);width:1140px">Für einen Menschen sind schon Ströme weit unter diesem Wert lebensgefährlich.</div>
+<div class="l m row" data-at="30.66" data-out="45.60" data-anim="rise" style="left:680px;top:430px;font-size:56px;width:1140px"><span>\(\fc{I} = \frac{\fa{230\,\mathrm{V}}}{\fb{1000\,\Omega}} = \fd{230\,\mathrm{mA}}\)</span></div>
+<div class="l m" data-at="32.36" data-out="45.60" data-anim="rise" style="left:680px;top:605px;font-size:50px;width:1140px">Hand zu Fuss, zurück über die Erde: Herzkammerflimmern möglich.</div>
+<div class="l hand" data-at="34.06" data-out="45.60" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--rot);width:1140px">Nasse Haut senkt den Körperwiderstand stark — und hebt den Strom entsprechend.</div>
+<div class="l m row" data-at="46.00" data-out="56.29" data-anim="rise" style="left:680px;top:430px;font-size:52px;width:1140px"><span>\(\fd{30\,\mathrm{mA}} \ \text{Differenz} \;\Longrightarrow\; \text{Abschaltung}\)</span></div>
+<div class="l m" data-at="47.70" data-out="56.29" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Fehlt Strom auf dem Rückweg, fliesst er durch etwas anderes.</div>
+<div class="l hand" data-at="49.40" data-out="56.29" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Dazu kommen Isolierung und Schutzleiter — Schutz ist immer mehrstufig.</div>
+<div class="l m mitte mitte" data-at="56.69" data-out="67.49" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:70px;font-weight:600">Leitung und Mensch getrennt geschützt</div>
+<div class="l m row mitte" data-at="58.39" data-out="67.49" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:54px"><span>\(\fb{\text{Sicherung}}\ 13\,\mathrm{A} \qquad \fd{\text{FI}}\ 30\,\mathrm{mA}\)</span></div>
+<div class="l hand mitte" data-at="60.09" data-out="67.49" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--rot)">Ein FI ersetzt keine Sicherung und umgekehrt.</div>
+<div class="l hand mitte" data-at="61.79" data-out="67.49" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--rot)">30 mA sind keine sichere Grenze: Der FI ist zusätzlicher Schutz.</div>
+<div class="l hand mitte" data-at="63.49" data-out="67.49" data-anim="rise" style="left:130px;right:130px;text-align:center;top:831px;font-size:52px;color:var(--blau)">Arbeiten an der Installation gehören in die Hand einer Fachperson.</div>
 </div></div>
 <audio id="ton" preload="auto" src="ton/p6-2-schutz.mp3"></audio>
 <div id="ui">
@@ -105,8 +120,8 @@ body.render #ui{display:none}
   <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
 </div>
 <script>
-const DUR = 59.01;
-const SPRECHER = [{"bei": 0.4, "text": "Im Sicherungskasten sitzen zwei ganz verschiedene Schutzschalter nebeneinander. Der eine schützt die Leitungen, der andere zusätzlich die Menschen."}, {"bei": 9.9, "text": "Berühren sich die beiden Leiter direkt, bleibt fast kein Widerstand übrig. Nach dem ohmschen Gesetz wird der Strom dann riesig."}, {"bei": 17.7, "text": "Dagegen sitzt die Sicherung im Kasten. Sie trennt den Kreis, wenn der Strom zu gross wird, beim Kurzschluss sofort. Sie schützt die Installation, nicht den Menschen."}, {"bei": 27.54, "text": "Denn durch einen Körper mit tausend Ohm treiben zweihundertdreissig Volt bereits zweihundertdreissig Milliampere. Wie gefährlich das ist, hängt von Stromstärke und Einwirkzeit ab."}, {"bei": 38.28, "text": "Darum gibt es den Fehlerstromschutzschalter. Er vergleicht Hin- und Rückstrom und trennt ab rund dreissig Milliampere Unterschied, je grösser der Fehlerstrom, desto schneller."}, {"bei": 48.21, "text": "Merke: Die Sicherung schützt die Leitung, der Fehlerstromschutzschalter zusätzlich den Menschen. Eine sichere Grenze sind dreissig Milliampere aber nicht."}];
+const DUR = 67.49;
+const SPRECHER = [{"bei": 0.4, "text": "Im Sicherungskasten sitzen zwei ganz verschiedene Schutzschalter nebeneinander. Der eine schützt die Leitungen, der andere zusätzlich die Menschen."}, {"bei": 9.9, "text": "Berühren sich die beiden Leiter direkt, bleibt fast kein Widerstand übrig. Nach dem ohmschen Gesetz wird der Strom dann riesig."}, {"bei": 17.7, "text": "Dagegen sitzt im Kasten die Sicherung, heute meist ein Sicherungsautomat. Er trennt den Kreis, wenn der Strom zu gross wird, beim Kurzschluss sofort. Er schützt die Installation; gegen einen Strom durch einen Menschen ist er machtlos."}, {"bei": 30.66, "text": "Berührt ein Mensch einen Leiter unter Spannung, fliesst der Strom durch ihn und über die Erde zurück. Bei rund tausend Ohm von der Hand zu den Füssen sind das zweihundertdreissig Milliampere. Das ist lebensgefährlich: Schon nach Sekundenbruchteilen kann Herzkammerflimmern einsetzen."}, {"bei": 46.0, "text": "Darum gibt es den Fehlerstromschutzschalter. Er vergleicht Hin- und Rückstrom und trennt spätestens bei dreissig Milliampere Unterschied, je grösser der Fehlerstrom, desto schneller."}, {"bei": 56.69, "text": "Merke: Die Sicherung schützt die Leitung, der Fehlerstromschutzschalter zusätzlich den Menschen. Eine sichere Grenze sind dreissig Milliampere aber nicht."}];
 const stage = document.getElementById('stage');
 const layers = [...document.querySelectorAll('.l')].map(el => ({
   el, at: parseFloat(el.dataset.at || '0'),

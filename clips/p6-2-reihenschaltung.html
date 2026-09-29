@@ -21,6 +21,21 @@ body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!impor
 #kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
 #fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
 
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
 .l{position:absolute;will-change:opacity,transform}
 .l.flow{position:relative}
 .m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
@@ -86,11 +101,13 @@ body.render #ui{display:none}
 <div class="l hand" data-at="21.10" data-out="25.10" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Genau das nutzt ein Spannungsteiler.</div>
 <div class="l m row" data-at="25.50" data-out="33.97" data-anim="rise" style="left:680px;top:430px;font-size:76px;width:1140px"><span>\(\fb{R} = \fb{R_1} + \fb{R_2}\)</span></div>
 <div class="l m row anschluss" data-at="34.22" data-out="47.37" data-anim="fade" style="left:680px;top:168px;font-size:76px;width:1140px"><span>\(\fb{R} = \fb{R_1} + \fb{R_2}\)</span></div>
-<div class="l m" data-at="27.20" data-out="33.97" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Mehr Bauteile in Reihe heisst weniger Strom.</div>
+<div class="l m" data-at="27.20" data-out="33.97" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Mehr in Reihe: weniger Strom bei gleicher Spannung.</div>
 <div class="l hand" data-at="28.90" data-out="33.97" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Grösser als der grösste Einzelwiderstand — immer.</div>
-<div class="l m row" data-at="34.37" data-out="47.37" data-anim="rise" style="left:680px;top:430px;font-size:48px;width:1140px"><span>\(\fb{R} = 320\,\Omega \qquad \fc{I} = \frac{\fa{12\,\mathrm{V}}}{\fb{320\,\Omega}} = \fd{37.5\,\mathrm{mA}}\)</span></div>
-<div class="l m row" data-at="36.07" data-out="47.37" data-anim="rise" style="left:680px;top:595px;font-size:52px;width:1140px"><span>\(\fa{U_1} = \fb{R_1}\fc{I} = \fd{3.75\,\mathrm{V}} \qquad \fa{U_2} = \fb{R_2}\fc{I} = \fd{8.25\,\mathrm{V}}\)</span></div>
-<div class="l hand" data-at="37.77" data-out="47.37" data-anim="rise" style="left:680px;top:750px;font-size:52px;color:var(--blau);width:1140px">Probe: 3.75 plus 8.25 ergibt genau die 12 V der Quelle.</div>
+<div class="l m row" data-at="34.37" data-out="47.37" data-anim="rise" style="left:680px;top:430px;font-size:46px;width:1140px"><span>\(\fb{R} = \fb{R_1} + \fb{R_2} = 100\,\Omega + 220\,\Omega = \fd{320\,\Omega}\)</span></div>
+<div class="l m row" data-at="36.07" data-out="47.37" data-anim="rise" style="left:680px;top:530px;font-size:46px;width:1140px"><span>\(\fc{I} = \frac{\fa{U}}{\fb{R}} = \frac{\fa{12\,\mathrm{V}}}{\fb{320\,\Omega}} = \fd{37.5\,\mathrm{mA}}\)</span></div>
+<div class="l m row" data-at="37.77" data-out="47.37" data-anim="rise" style="left:680px;top:650px;font-size:46px;width:1140px"><span>\(\fa{U_1} = \fb{R_1}\fc{I} = 100\,\Omega \cdot 37.5\,\mathrm{mA} = \fd{3.75\,\mathrm{V}}\)</span></div>
+<div class="l m row" data-at="39.47" data-out="47.37" data-anim="rise" style="left:680px;top:740px;font-size:46px;width:1140px"><span>\(\fa{U_2} = \fb{R_2}\fc{I} = 220\,\Omega \cdot 37.5\,\mathrm{mA} = \fd{8.25\,\mathrm{V}}\)</span></div>
+<div class="l hand" data-at="41.17" data-out="47.37" data-anim="rise" style="left:680px;top:850px;font-size:50px;color:var(--blau);width:1140px">Probe: \(3.75\,\mathrm{V} + 8.25\,\mathrm{V} = 12\,\mathrm{V}\), die Quellenspannung.</div>
 <div class="l m mitte mitte" data-at="47.77" data-out="56.87" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:80px;font-weight:600">Ein Strom, geteilte Spannung</div>
 <div class="l m row mitte" data-at="49.47" data-out="56.87" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:50px"><span>\(\fc{I}\ \text{gleich} \qquad \fa{U} = \fa{U_1} + \fa{U_2} \qquad \fb{R} = \fb{R_1} + \fb{R_2}\)</span></div>
 <div class="l hand mitte" data-at="51.17" data-out="56.87" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Darum bleibt die alte Lichterkette ganz dunkel.</div>

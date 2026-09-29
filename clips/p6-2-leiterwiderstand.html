@@ -21,6 +21,21 @@ body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!impor
 #kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
 #fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
 
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
 .l{position:absolute;will-change:opacity,transform}
 .l.flow{position:relative}
 .m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
@@ -73,29 +88,30 @@ body.render #ui{display:none}
 <div id="rand" style="background:rgba(155,28,28,.24)"></div>
 <div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Elektrizität · BM</span></div>
 <div id="fuss"><span>Raphael Arnold Kohler</span><span>07.09.2026</span></div>
-<div class="l" data-at="9.50" data-out="44.72" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.97"><div class="num">1</div><div class="stxt">Die Formel<br><span class="dim">\(\fb{R} = \rho\,l/A\)</span></div></div><div class="step l flow" data-at="18.27" data-anim="rise" data-dim="17.97,27.83"><div class="num">2</div><div class="stxt">Das Material<br><span class="dim">\(\rho\)</span></div></div><div class="step l flow" data-at="28.13" data-anim="rise" data-dim="27.83,36.86"><div class="num">3</div><div class="stxt">Ein Beispiel<br><span class="dim">100 m Kabel</span></div></div><div class="step l flow" data-at="37.16" data-anim="rise" data-dim="36.86,44.72"><div class="num">4</div><div class="stxt">Die Folge<br><span class="dim">544 W Verlust</span></div></div></div>
+<div class="l" data-at="9.50" data-out="55.57" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,18.05"><div class="num">1</div><div class="stxt">Die Formel<br><span class="dim">\(\fb{R} = \rho\,l/A\)</span></div></div><div class="step l flow" data-at="18.35" data-anim="rise" data-dim="18.05,32.18"><div class="num">2</div><div class="stxt">Das Material<br><span class="dim">\(\rho\)</span></div></div><div class="step l flow" data-at="32.48" data-anim="rise" data-dim="32.18,41.26"><div class="num">3</div><div class="stxt">Ein Beispiel<br><span class="dim">100 m Kabel</span></div></div><div class="step l flow" data-at="41.56" data-anim="rise" data-dim="41.26,55.57"><div class="num">4</div><div class="stxt">Die Folge<br><span class="dim">136 W Verlust</span></div></div></div>
 <div class="l hand mitte mitte" data-at="0.40" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:244px;font-size:88px;font-weight:600;color:var(--tinte)">Warum die Trommel warm wird</div>
 <div class="l sans mitte mitte" data-at="2.10" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:434px;font-size:48px;color:var(--blau)">Der Widerstand eines Drahtes</div>
 <div class="l m row mitte" data-at="3.80" data-out="9.50" data-anim="pop" style="left:130px;right:130px;text-align:center;top:614px;font-size:80px"><span>\(\fb{R} = \rho \cdot \frac{l}{A}\)</span></div>
 <div class="l hand mitte" data-at="5.50" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:844px;font-size:56px;color:var(--rot)">Auch ein Kupferdraht hat einen Widerstand.</div>
-<div class="l m row" data-at="9.90" data-out="27.83" data-anim="rise" style="left:680px;top:178px;font-size:76px;width:1140px"><span>\(\fb{R} = \rho \cdot \frac{l}{A}\)</span></div>
-<div class="l m" data-at="11.60" data-out="17.97" data-anim="rise" style="left:680px;top:378px;font-size:52px;width:1140px">Doppelte Länge verdoppelt, doppelter Querschnitt halbiert.</div>
-<div class="l hand" data-at="13.30" data-out="17.97" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau);width:1140px">Bei einem Kabel zählt die doppelte Länge — Hin- und Rückleiter.</div>
-<div class="l m row" data-at="18.37" data-out="27.83" data-anim="rise" style="left:680px;top:430px;font-size:44px;width:1140px"><span>\(\text{Silber } \rho\,0.016 \quad \text{Kupfer } 0.017 \quad \text{Alu } 0.03 \quad \text{Eisen } 0.10\)</span></div>
-<div class="l m row anschluss" data-at="28.08" data-out="36.86" data-anim="fade" style="left:680px;top:168px;font-size:44px;width:1140px"><span>\(\text{Silber } \rho\,0.016 \quad \text{Kupfer } 0.017 \quad \text{Alu } 0.03 \quad \text{Eisen } 0.10\)</span></div>
-<div class="l m" data-at="20.07" data-out="27.83" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">alle in \(\Omega\,\mathrm{mm^2}/\mathrm{m}\) bei 20 Grad.</div>
-<div class="l hand" data-at="21.77" data-out="27.83" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Kupfer ist fast so gut wie Silber und viel billiger — darum ist es überall.</div>
-<div class="l m row" data-at="28.23" data-out="36.86" data-anim="rise" style="left:680px;top:430px;font-size:56px;width:1140px"><span>\(\fb{R} = \frac{0.017\,\tfrac{\Omega\,\mathrm{mm^2}}{\mathrm{m}} \cdot 200\,\mathrm{m}}{2.5\,\mathrm{mm^2}} = \fd{1.36\,\Omega}\)</span></div>
-<div class="l m row anschluss" data-at="37.11" data-out="44.72" data-anim="fade" style="left:680px;top:168px;font-size:56px;width:1140px"><span>\(\fb{R} = \frac{0.017\,\tfrac{\Omega\,\mathrm{mm^2}}{\mathrm{m}} \cdot 200\,\mathrm{m}}{2.5\,\mathrm{mm^2}} = \fd{1.36\,\Omega}\)</span></div>
-<div class="l m" data-at="29.93" data-out="36.86" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Hin- und Rückleiter zählen beide — 2 · 100 m.</div>
-<div class="l hand" data-at="31.63" data-out="36.86" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Beim halben Querschnitt wäre es das Doppelte: 2.72 Ω.</div>
-<div class="l m row" data-at="37.26" data-out="44.72" data-anim="rise" style="left:680px;top:430px;font-size:46px;width:1140px"><span>\(\fd{P_\text{V}} = \fb{R} \cdot \fc{I}^2 = \fb{1.36\,\Omega} \cdot (\fc{20\,\mathrm{A}})^2 = \fd{544\,\mathrm{W}}\)</span></div>
-<div class="l m" data-at="38.96" data-out="44.72" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Das ist die Leistung eines kleinen Heizofens — im Kabel.</div>
-<div class="l hand" data-at="40.66" data-out="44.72" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--rot);width:1140px">Darum steht auf jeder Kabeltrommel: bei Volllast abrollen.</div>
-<div class="l m mitte mitte" data-at="45.12" data-out="54.22" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:80px;font-weight:600">Lang und dünn heisst warm</div>
-<div class="l m row mitte" data-at="46.82" data-out="54.22" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:58px"><span>\(\fb{R} = \rho \cdot \frac{l}{A} \qquad \fd{P_\text{V}} = \fb{R} \cdot \fc{I}^2\)</span></div>
-<div class="l hand mitte" data-at="48.52" data-out="54.22" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Darum hängen Überlandleitungen als dicke Seile am Mast.</div>
-<div class="l hand mitte" data-at="50.22" data-out="54.22" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Und darum wird bei hoher Spannung übertragen: weniger Strom, weniger Verlust.</div>
+<div class="l m row" data-at="9.90" data-out="32.18" data-anim="rise" style="left:680px;top:178px;font-size:76px;width:1140px"><span>\(\fb{R} = \rho \cdot \frac{l}{A}\)</span></div>
+<div class="l m" data-at="11.60" data-out="18.05" data-anim="rise" style="left:680px;top:378px;font-size:52px;width:1140px">Doppelte Länge verdoppelt, doppelter Querschnitt halbiert.</div>
+<div class="l hand" data-at="13.30" data-out="18.05" data-anim="rise" style="left:680px;top:528px;font-size:52px;color:var(--blau);width:1140px">Bei einem Kabel zählt die doppelte Länge — Hin- und Rückleiter.</div>
+<div class="l m row" data-at="18.45" data-out="32.18" data-anim="rise" style="left:680px;top:430px;font-size:50px;width:1140px"><span>\(\rho_\text{Ag} = 0.016 \qquad \rho_\text{Cu} = 0.017\)</span></div>
+<div class="l m row anschluss" data-at="32.43" data-out="41.26" data-anim="fade" style="left:680px;top:168px;font-size:50px;width:1140px"><span>\(\rho_\text{Ag} = 0.016 \qquad \rho_\text{Cu} = 0.017\)</span></div>
+<div class="l m row" data-at="20.15" data-out="32.18" data-anim="rise" style="left:680px;top:540px;font-size:50px;width:1140px"><span>\(\rho_\text{Al} = 0.028 \qquad \rho_\text{Fe} = 0.10\)</span></div>
+<div class="l m" data-at="21.85" data-out="32.18" data-anim="rise" style="left:680px;top:670px;font-size:52px;width:1140px">alle in \(\Omega\,\mathrm{mm^2}/\mathrm{m}\), bei \(20\,^\circ\mathrm{C}\).</div>
+<div class="l hand" data-at="23.55" data-out="32.18" data-anim="rise" style="left:680px;top:820px;font-size:52px;color:var(--blau);width:1140px">Kupfer ist fast so gut wie Silber und viel billiger — darum ist es überall.</div>
+<div class="l m row" data-at="32.58" data-out="41.26" data-anim="rise" style="left:680px;top:430px;font-size:56px;width:1140px"><span>\(\fb{R} = \frac{0.017\,\tfrac{\Omega\,\mathrm{mm^2}}{\mathrm{m}} \cdot 200\,\mathrm{m}}{2.5\,\mathrm{mm^2}} = \fd{1.36\,\Omega}\)</span></div>
+<div class="l m row anschluss" data-at="41.51" data-out="55.57" data-anim="fade" style="left:680px;top:168px;font-size:56px;width:1140px"><span>\(\fb{R} = \frac{0.017\,\tfrac{\Omega\,\mathrm{mm^2}}{\mathrm{m}} \cdot 200\,\mathrm{m}}{2.5\,\mathrm{mm^2}} = \fd{1.36\,\Omega}\)</span></div>
+<div class="l m" data-at="34.28" data-out="41.26" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Hin und zurück: \(l = 2 \cdot 100\,\mathrm{m} = 200\,\mathrm{m}\).</div>
+<div class="l hand" data-at="35.98" data-out="41.26" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Halber Querschnitt, doppelter Widerstand: \(2.72\,\Omega\).</div>
+<div class="l m row" data-at="41.66" data-out="55.57" data-anim="rise" style="left:680px;top:430px;font-size:48px;width:1140px"><span>\(\fd{P_\text{V}} = \fb{R} \cdot \fc{I}^2 = \fb{1.36\,\Omega} \cdot (\fc{10\,\mathrm{A}})^2 = \fd{136\,\mathrm{W}}\)</span></div>
+<div class="l m" data-at="43.36" data-out="55.57" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Aufgerollt heizen sich die Windungen gegenseitig auf.</div>
+<div class="l hand" data-at="45.06" data-out="55.57" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--rot);width:1140px">Darum steht auf der Trommel: aufgerollt 1000 W, abgerollt 2300 W.</div>
+<div class="l m mitte mitte" data-at="55.97" data-out="65.07" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:80px;font-weight:600">Lang und dünn heisst warm</div>
+<div class="l m row mitte" data-at="57.67" data-out="65.07" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:58px"><span>\(\fb{R} = \rho \cdot \frac{l}{A} \qquad \fd{P_\text{V}} = \fb{R} \cdot \fc{I}^2\)</span></div>
+<div class="l hand mitte" data-at="59.37" data-out="65.07" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Darum hängen Überlandleitungen als dicke Seile am Mast.</div>
+<div class="l hand mitte" data-at="61.07" data-out="65.07" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Und darum wird bei hoher Spannung übertragen: weniger Strom, weniger Verlust.</div>
 </div></div>
 <audio id="ton" preload="auto" src="ton/p6-2-leiterwiderstand.mp3"></audio>
 <div id="ui">
@@ -106,8 +122,8 @@ body.render #ui{display:none}
   <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
 </div>
 <script>
-const DUR = 54.22;
-const SPRECHER = [{"bei": 0.4, "text": "Eine Kabeltrommel mit hundert Metern Kabel, aufgerollt und voll belastet. Nach einer Weile ist sie warm."}, {"bei": 9.9, "text": "Der Widerstand eines Drahtes hängt an drei Dingen: am Material, an der Länge und am Querschnitt. Länger heisst mehr, dicker heisst weniger."}, {"bei": 18.37, "text": "Der spezifische Widerstand gilt für einen Meter Länge bei einem Quadratmillimeter Querschnitt. Silber und Kupfer sind die besten Leiter, Eisen ist deutlich schlechter."}, {"bei": 28.23, "text": "Hundert Meter Kabel sind zweihundert Meter Leiter — hin und zurück. Mit zweieinhalb Quadratmillimetern ergibt das ein Komma drei sechs Ohm."}, {"bei": 37.26, "text": "Bei zwanzig Ampere fallen daran siebenundzwanzig Volt ab, und die Trommel setzt fünfhundertvierundvierzig Watt in Wärme um."}, {"bei": 45.12, "text": "Merke: Widerstand wächst mit der Länge und sinkt mit dem Querschnitt. Die Verlustleistung wächst mit dem Quadrat der Stromstärke."}];
+const DUR = 65.07;
+const SPRECHER = [{"bei": 0.4, "text": "Eine Kabeltrommel mit hundert Metern Kabel, aufgerollt und voll belastet. Nach einer Weile ist sie warm."}, {"bei": 9.9, "text": "Der Widerstand eines Drahtes hängt an drei Dingen: am Material, an der Länge und am Querschnitt. Länger heisst mehr, dicker heisst weniger."}, {"bei": 18.45, "text": "Der spezifische Widerstand ist eine Eigenschaft des Materials: der Widerstand eines Drahtes von einem Meter Länge und einem Quadratmillimeter Querschnitt, bei zwanzig Grad Celsius. Silber und Kupfer sind die besten Leiter, Eisen ist deutlich schlechter."}, {"bei": 32.58, "text": "Hundert Meter Kabel sind zweihundert Meter Leiter — hin und zurück. Mit zweieinhalb Quadratmillimetern ergibt das ein Komma drei sechs Ohm."}, {"bei": 41.66, "text": "Bei zehn Ampere, so viel wie eine Steckdose hergibt, fallen daran dreizehn Komma sechs Volt ab, und das Kabel setzt hundertsechsunddreissig Watt in Wärme um. Aufgerollt kann diese Wärme kaum entweichen: Die Windungen heizen sich gegenseitig auf."}, {"bei": 55.97, "text": "Merke: Widerstand wächst mit der Länge und sinkt mit dem Querschnitt. Die Verlustleistung wächst mit dem Quadrat der Stromstärke."}];
 const stage = document.getElementById('stage');
 const layers = [...document.querySelectorAll('.l')].map(el => ({
   el, at: parseFloat(el.dataset.at || '0'),

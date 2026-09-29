@@ -21,6 +21,21 @@ body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!impor
 #kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
 #fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
 
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
 .l{position:absolute;will-change:opacity,transform}
 .l.flow{position:relative}
 .m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
@@ -73,7 +88,7 @@ body.render #ui{display:none}
 <div id="rand" style="background:rgba(155,28,28,.24)"></div>
 <div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Elektrizität · BM</span></div>
 <div id="fuss"><span>Raphael Arnold Kohler</span><span>07.09.2026</span></div>
-<div class="l" data-at="9.50" data-out="47.27" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.30"><div class="num">1</div><div class="stxt">Die Spannung<br><span class="dim">überall gleich</span></div></div><div class="step l flow" data-at="17.60" data-anim="rise" data-dim="17.30,25.10"><div class="num">2</div><div class="stxt">Der Strom<br><span class="dim">teilt sich</span></div></div><div class="step l flow" data-at="25.40" data-anim="rise" data-dim="25.10,33.72"><div class="num">3</div><div class="stxt">Der Ersatzwiderstand<br><span class="dim">Kehrwerte</span></div></div><div class="step l flow" data-at="34.02" data-anim="rise" data-dim="33.72,47.27"><div class="num">4</div><div class="stxt">Ein Beispiel<br><span class="dim">100 und 220 Ω</span></div></div></div>
+<div class="l" data-at="9.50" data-out="49.13" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,17.30"><div class="num">1</div><div class="stxt">Die Spannung<br><span class="dim">überall gleich</span></div></div><div class="step l flow" data-at="17.60" data-anim="rise" data-dim="17.30,25.10"><div class="num">2</div><div class="stxt">Der Strom<br><span class="dim">teilt sich</span></div></div><div class="step l flow" data-at="25.40" data-anim="rise" data-dim="25.10,33.78"><div class="num">3</div><div class="stxt">Der Ersatzwiderstand<br><span class="dim">Kehrwerte</span></div></div><div class="step l flow" data-at="34.08" data-anim="rise" data-dim="33.78,49.13"><div class="num">4</div><div class="stxt">Ein Beispiel<br><span class="dim">100 und 220 Ω</span></div></div></div>
 <div class="l hand mitte mitte" data-at="0.40" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:244px;font-size:112px;font-weight:600;color:var(--tinte)">Jedes für sich</div>
 <div class="l sans mitte mitte" data-at="2.10" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:434px;font-size:48px;color:var(--blau)">Was in der Parallelschaltung gilt</div>
 <div class="l m row mitte" data-at="3.80" data-out="9.50" data-anim="pop" style="left:130px;right:130px;text-align:center;top:614px;font-size:66px"><span>\(\frac{1}{\fb{R}} = \frac{1}{\fb{R_1}} + \frac{1}{\fb{R_2}}\)</span></div>
@@ -84,18 +99,18 @@ body.render #ui{display:none}
 <div class="l m row" data-at="17.70" data-out="25.10" data-anim="rise" style="left:680px;top:430px;font-size:76px;width:1140px"><span>\(\fc{I} = \fc{I_1} + \fc{I_2}\)</span></div>
 <div class="l m" data-at="19.40" data-out="25.10" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Jeder Zweig nimmt sich, was sein Widerstand zulässt.</div>
 <div class="l hand" data-at="21.10" data-out="25.10" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Mehr eingeschaltete Geräte heisst mehr Gesamtstrom in der Zuleitung.</div>
-<div class="l m row" data-at="25.50" data-out="33.72" data-anim="rise" style="left:680px;top:430px;font-size:66px;width:1140px"><span>\(\frac{1}{\fb{R}} = \frac{1}{\fb{R_1}} + \frac{1}{\fb{R_2}}\)</span></div>
-<div class="l m row anschluss" data-at="33.97" data-out="47.27" data-anim="fade" style="left:680px;top:168px;font-size:66px;width:1140px"><span>\(\frac{1}{\fb{R}} = \frac{1}{\fb{R_1}} + \frac{1}{\fb{R_2}}\)</span></div>
-<div class="l m" data-at="27.20" data-out="33.72" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Zwei gleiche Widerstände parallel ergeben die Hälfte.</div>
-<div class="l hand" data-at="28.90" data-out="33.72" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Dem Strom stehen mehr Wege offen — darum sinkt der Widerstand.</div>
-<div class="l m row" data-at="34.12" data-out="47.27" data-anim="rise" style="left:680px;top:430px;font-size:42px;width:1140px"><span>\(\fc{I_1} = \frac{\fa{12\,\mathrm{V}}}{\fb{100\,\Omega}} = \fd{120\,\mathrm{mA}} \qquad \fc{I_2} = \frac{\fa{12\,\mathrm{V}}}{\fb{220\,\Omega}} = \fd{54.5\,\mathrm{mA}}\)</span></div>
-<div class="l m row" data-at="35.82" data-out="47.27" data-anim="rise" style="left:680px;top:555px;font-size:48px;width:1140px"><span>\(\fc{I} = \fc{I_1} + \fc{I_2} = \fd{174.5\,\mathrm{mA}}\)</span></div>
-<div class="l m row" data-at="37.52" data-out="47.27" data-anim="rise" style="left:680px;top:680px;font-size:46px;width:1140px"><span>\(\fb{R} = \frac{\fa{12\,\mathrm{V}}}{\fc{174.5\,\mathrm{mA}}} = \fd{68.8\,\Omega}\)</span></div>
-<div class="l hand" data-at="39.22" data-out="47.27" data-anim="rise" style="left:680px;top:805px;font-size:52px;color:var(--blau);width:1140px">Probe: 12 V geteilt durch 68.8 Ω ergibt dieselben 174.5 mA.</div>
-<div class="l m mitte mitte" data-at="47.67" data-out="56.77" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:78px;font-weight:600">Eine Spannung, geteilter Strom</div>
-<div class="l m row mitte" data-at="49.37" data-out="56.77" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:50px"><span>\(\fa{U}\ \text{gleich} \qquad \fc{I} = \fc{I_1} + \fc{I_2} \qquad \fb{R} \lt \fb{R_\text{klein}}\)</span></div>
-<div class="l hand mitte" data-at="51.07" data-out="56.77" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Darum sind Steckdosen parallel geschaltet.</div>
-<div class="l hand mitte" data-at="52.77" data-out="56.77" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Und darum kann eine überlastete Zuleitung zum Problem werden.</div>
+<div class="l m row" data-at="25.50" data-out="33.78" data-anim="rise" style="left:680px;top:430px;font-size:66px;width:1140px"><span>\(\frac{1}{\fb{R}} = \frac{1}{\fb{R_1}} + \frac{1}{\fb{R_2}}\)</span></div>
+<div class="l m row anschluss" data-at="34.03" data-out="49.13" data-anim="fade" style="left:680px;top:168px;font-size:66px;width:1140px"><span>\(\frac{1}{\fb{R}} = \frac{1}{\fb{R_1}} + \frac{1}{\fb{R_2}}\)</span></div>
+<div class="l m" data-at="27.20" data-out="33.78" data-anim="rise" style="left:680px;top:605px;font-size:52px;width:1140px">Zwei gleiche Widerstände parallel ergeben die Hälfte.</div>
+<div class="l hand" data-at="28.90" data-out="33.78" data-anim="rise" style="left:680px;top:755px;font-size:52px;color:var(--blau);width:1140px">Dem Strom stehen mehr Wege offen — darum sinkt der Widerstand.</div>
+<div class="l m row" data-at="34.18" data-out="49.13" data-anim="rise" style="left:680px;top:430px;font-size:42px;width:1140px"><span>\(\fc{I_1} = \frac{\fa{12\,\mathrm{V}}}{\fb{100\,\Omega}} = \fd{120\,\mathrm{mA}} \qquad \fc{I_2} = \frac{\fa{12\,\mathrm{V}}}{\fb{220\,\Omega}} = \fd{54.5\,\mathrm{mA}}\)</span></div>
+<div class="l m row" data-at="35.88" data-out="49.13" data-anim="rise" style="left:680px;top:550px;font-size:44px;width:1140px"><span>\(\fc{I} = \fc{I_1} + \fc{I_2} = 120\,\mathrm{mA} + 54.5\,\mathrm{mA} = \fd{174.5\,\mathrm{mA}}\)</span></div>
+<div class="l m row" data-at="37.58" data-out="49.13" data-anim="rise" style="left:680px;top:660px;font-size:46px;width:1140px"><span>\(\frac{1}{\fb{R}} = \frac{1}{\fb{100\,\Omega}} + \frac{1}{\fb{220\,\Omega}} = \frac{1}{\fd{68.75\,\Omega}}\)</span></div>
+<div class="l hand" data-at="39.28" data-out="49.13" data-anim="rise" style="left:680px;top:795px;font-size:50px;color:var(--blau);width:1140px">Probe: \(12\,\mathrm{V} / 68.75\,\Omega = 174.5\,\mathrm{mA}\), dasselbe wie oben.</div>
+<div class="l m mitte mitte" data-at="49.53" data-out="58.63" data-anim="pop" style="left:130px;right:130px;text-align:center;top:248px;font-size:78px;font-weight:600">Eine Spannung, geteilter Strom</div>
+<div class="l m row mitte" data-at="51.23" data-out="58.63" data-anim="rise" style="left:130px;right:130px;text-align:center;top:416px;font-size:50px"><span>\(\fa{U}\ \text{gleich} \qquad \fc{I} = \fc{I_1} + \fc{I_2} \qquad \fb{R} \lt \fb{R_\text{klein}}\)</span></div>
+<div class="l hand mitte" data-at="52.93" data-out="58.63" data-anim="rise" style="left:130px;right:130px;text-align:center;top:571px;font-size:52px;color:var(--blau)">Darum sind Steckdosen parallel geschaltet.</div>
+<div class="l hand mitte" data-at="54.63" data-out="58.63" data-anim="rise" style="left:130px;right:130px;text-align:center;top:701px;font-size:52px;color:var(--blau)">Und darum kann eine überlastete Zuleitung zum Problem werden.</div>
 </div></div>
 <audio id="ton" preload="auto" src="ton/p6-2-parallelschaltung.mp3"></audio>
 <div id="ui">
@@ -106,8 +121,8 @@ body.render #ui{display:none}
   <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
 </div>
 <script>
-const DUR = 56.77;
-const SPRECHER = [{"bei": 0.4, "text": "Im Haushalt hängen alle Geräte an denselben zweihundertdreissig Volt, und jedes läuft für sich. Ein ausgeschaltetes stört die anderen nicht."}, {"bei": 9.9, "text": "Parallel geschaltete Bauteile hängen an denselben zwei Punkten. Darum liegt an jedem dieselbe Spannung."}, {"bei": 17.7, "text": "Dafür teilt sich der Strom an der Verzweigung auf. Durch den kleineren Widerstand fliesst mehr."}, {"bei": 25.5, "text": "Für den Ersatzwiderstand addieren sich nicht die Widerstände, sondern ihre Kehrwerte. Er ist immer kleiner als der kleinste Einzelwiderstand."}, {"bei": 34.12, "text": "Hundert und zweihundertzwanzig Ohm an zwölf Volt: die Zweigströme sind hundertzwanzig und vierundfünfzig Komma fünf Milliampere, zusammen hundertvierundsiebzig Komma fünf — und der Ersatzwiderstand achtundsechzig Komma acht Ohm."}, {"bei": 47.67, "text": "Merke: Parallel ist die Spannung überall gleich, der Strom teilt sich, und der Ersatzwiderstand ist kleiner als der kleinste Einzelwiderstand."}];
+const DUR = 58.63;
+const SPRECHER = [{"bei": 0.4, "text": "Im Haushalt hängen alle Geräte an denselben zweihundertdreissig Volt, und jedes läuft für sich. Ein ausgeschaltetes stört die anderen nicht."}, {"bei": 9.9, "text": "Parallel geschaltete Bauteile hängen an denselben zwei Punkten. Darum liegt an jedem dieselbe Spannung."}, {"bei": 17.7, "text": "Dafür teilt sich der Strom an der Verzweigung auf. Durch den kleineren Widerstand fliesst mehr."}, {"bei": 25.5, "text": "Für den Ersatzwiderstand addieren sich nicht die Widerstände, sondern ihre Kehrwerte. Er ist immer kleiner als der kleinste Einzelwiderstand."}, {"bei": 34.18, "text": "Hundert und zweihundertzwanzig Ohm an zwölf Volt: Die Zweigströme sind hundertzwanzig und vierundfünfzig Komma fünf Milliampere, zusammen hundertvierundsiebzig Komma fünf. Mit den Kehrwerten ergibt sich der Ersatzwiderstand: achtundsechzig Komma sieben fünf Ohm."}, {"bei": 49.53, "text": "Merke: Parallel ist die Spannung überall gleich, der Strom teilt sich, und der Ersatzwiderstand ist kleiner als der kleinste Einzelwiderstand."}];
 const stage = document.getElementById('stage');
 const layers = [...document.querySelectorAll('.l')].map(el => ({
   el, at: parseFloat(el.dataset.at || '0'),
