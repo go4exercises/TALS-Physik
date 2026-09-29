@@ -169,7 +169,8 @@ SEITEN = {
  'leitprogramme/leitprogramm-gefahren.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Gefahren und Schutzmassnahmen — FI, Schutzleiter, Sicherung',
-   beschreibung='Leitprogramm zur Elektrizität: warum der Strom über die Erde zurückfliesst, '
+   beschreibung='Leitprogramm zur Elektrizität: warum die Erde zum Rückleiter wird '
+                '(der Neutralleiter ist am Transformator geerdet), '
                 'Wirkung auf den Menschen, FI-Schutzschalter als zusätzlicher Schutz, '
                 'Schutzleiter und Leitungsschutzschalter — in sechs Schritten mit '
                 'Erklärclips, Simulationen, Vortest und Gesamttest.',
