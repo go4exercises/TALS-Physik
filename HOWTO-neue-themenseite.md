@@ -221,6 +221,21 @@ Nach jedem Einfügen, Löschen oder Verschieben einer Animation `python3 scripts
 
 ---
 
+### 3.5 Höhe, Bedienung im Bild, Zoom
+
+- **Bedienung und Bild zugleich sichtbar.** Sind Bedienelemente und Bild einer
+  Animation bei 1280×720 zusammen höher als etwa 650 px, kommt sie in
+  `.anim-layout`: Bild links, Bedienung rechts, Formelzeile und Live-Box darunter
+  (STYLEGUIDE §5.11; Referenz: Anim. 1 und 10 auf `p6-2`).
+- **Gerät im Bild bedienen**, wo die Zeichnung ein Bedienteil zeigt (Drehschalter,
+  Buchse, Schalter): Klickflächen beim Zeichnen registrieren, ein Klick ruft
+  `.click()` auf den vorhandenen Knopf, die Knöpfe bleiben als Tastatur-Ersatz im
+  Aufklapper (STYLEGUIDE §5.12; Referenz: Anim. 4 auf `p6-2`).
+- **Mauskoordinaten zoomfest umrechnen.** Die Website läuft ab 1100 px mit
+  `zoom: 0.9` (STYLEGUIDE §5.13). Klick- und Ziehpositionen darum über die Breite
+  des gemessenen Rechtecks umrechnen, `(evt.clientX − r.left) · W / r.width`, nie
+  über eine gespeicherte Layoutbreite. Sonst greift die Animation um 10 % daneben.
+
 ## 4. Navigation aktualisieren
 
 ### 4.1 nav.js

@@ -217,7 +217,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `physiklib.js`). `scripts/build-clips.py` baut aus einem Drehbuch
   (`clips/<name>.json`) den Clip, `scripts/build-clips-einbau.py` trägt ihn in
   die Lektionsseite und zwischen die Marker `<!-- CLIPS-BIBLIOTHEK:ANFANG/ENDE -->`
-  in `clips.html` ein. Stand 28.09.2026: **204 Clips in 25 Reihen, 219:54 min** (davon 115 zu einzelnen Animationen — jede Animation der Themenseiten, von 6.1a und der Vorwissenseiten hat ihren Clip — Reihe «Animationen erklärt») —
+  in `clips.html` ein. Stand 30.09.2026: **205 Clips in 25 Reihen, 222:51 min** (davon 116 zu einzelnen Animationen — jede Animation der Themenseiten, von 6.1a und der Vorwissenseiten hat ihren Clip — Reihe «Animationen erklärt») —
   jede der zehn Themenseiten der Lerngebiete 4 bis 6 hat ihre Reihe, dazu das
   Vorwissen. Anders als Mathe gruppiert die Bibliothek nur nach Lerngebiet
   (kein Grundlagen-/Schwerpunktfach), und sie zieht die Gruppen aus `nav.js`,
@@ -230,7 +230,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   gepflegt, das `data-suche` je Zeile kommt aus dem Generator.
   Auf der Themenseite steht der Clip-Block **nach der Zusammenfassung, vor dem
   Zusatzmaterial** (STYLEGUIDE §4, Zeile 11b).
-  **Clips zu einer einzelnen Animation** (seit 28.09.2026 zu jeder der 115
+  **Clips zu einer einzelnen Animation** (seit 28.09.2026 zu jeder der heute 116
   Animationen der Themen- und Vorwissenseiten; wer eine Animation neu baut,
   baut ihren Clip mit): Drehbuch-Feld
   `animation` (Anker des `h3`), Reihe «Animationen erklärt», `folge` = Nummer der
@@ -261,7 +261,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   über sieben Schulversuche statt über die Formel — sechs Clips, sieben
   gerechnete Simulationen) und `leitprogramm-schaltungen` (Knoten- und
   Maschenregel, Reihe, Spannungsteiler, Parallel, gemischte Schaltungen,
-  Leistung — vier Clips, vier Simulationen; das erste ausserhalb der
+  Leistung — fünf Clips, vier Simulationen; das erste ausserhalb der
   Thermodynamik; die Frage «40 W oder 60 W in Reihe?» bleibt von Schritt 2
   bis 6 offen), `leitprogramm-widerstand-leistung` (ohmsches Gesetz,
   Kennlinien, Messen, Leiterwiderstand, Leistung, Energie, Verlustleistung —

@@ -5,10 +5,10 @@ Gedankengang in rund einer Minute aufbaut: animierte Zeilen auf einer Bühne von
 1920 × 1080, dazu eine gesprochene Tonspur. Gebaut wird er nicht von Hand,
 sondern aus einem **Drehbuch** — einer JSON-Datei daneben.
 
-Stand 28.09.2026: **204 Clips, 219:54 min, in 25 Reihen.** Zwei Sorten:
-**89 Clips zum Stoff** (82:26 min) — jede Themenseite der Lerngebiete 4 bis 6
-hat ihre Reihe, dazu das Vorwissen; 50 bis 65 s, Mittel 56 s — und **115 Clips
-zu je einer Animation** (137:28 min, Reihe «Animationen erklärt») — jede
+Stand 30.09.2026: **205 Clips, 222:51 min, in 25 Reihen.** Zwei Sorten:
+**89 Clips zum Stoff** (83:14 min) — jede Themenseite der Lerngebiete 4 bis 6
+hat ihre Reihe, dazu das Vorwissen; 50 bis 67 s, Mittel 56 s — und **116 Clips
+zu je einer Animation** (139:37 min, Reihe «Animationen erklärt») — jede
 Animation der Themen- und Vorwissenseiten hat ihren; 55 bis 87 s, Mittel 72 s.
 Einbettungen je Lerngebiet (Mehrfachzuordnungen mitgezählt): Vorwissen 54,
 Mechanik 70, Thermodynamik 47, Wellen und Elektrizität 47. Diese Anleitung ist
@@ -234,7 +234,7 @@ ein Zeilenumbruch als `|`, gedämpfter Text in `~…~`. **Auch in der `schiene`.
 ## Clips zu einer einzelnen Animation
 
 Seit dem 28.09.2026 hat jede Animation der Themen- und Vorwissenseiten ihren
-Clip (115, Reihe «Animationen erklärt»). Er fasst zusammen, was die Animation
+Clip (116, Reihe «Animationen erklärt»). Er fasst zusammen, was die Animation
 zeigt, und zwar mit ihren eigenen Bildern. Wer eine Animation neu baut, baut
 ihren Clip mit.
 
@@ -263,6 +263,18 @@ mit «In der Animation …» und führt durch vier aussagekräftige Zustände.
 - **Den Aufnahmeplan aufbewahren.** Er lag bisher nur im Scratchpad der
   Sitzung; wurde die Animation später geändert, musste er aus dem Clip
   zurückgewonnen werden.
+- **Der Zoom der Website ist beim Aufnehmen aus** (seit 30.09.2026,
+  STYLEGUIDE §5.13): `aufnahme-anim` setzt `html{zoom:1 !important}`, damit
+  neue Bilder wie die bestehenden aussehen. `"zoom": true` im Plan behält ihn.
+- **Zustände über ihre Knöpfe setzen, in der Reihenfolge der Animation.**
+  Setzt eine Wahl die Animation zurück (Anim. 4 auf 6.2: jede Auftragswahl
+  löst die Messleitungen), kommt sie im Plan zuerst. Liegen die Knöpfe in
+  einem zugeklappten Aufklapper (Bedienung im Bild, STYLEGUIDE §5.12), klickt
+  der Plan sie per JS (`document.querySelector(…).click()`).
+- **Bild neben Bedienung** (STYLEGUIDE §5.11) macht das Bild schmaler, und
+  manche Zeichnung ordnet sich dann anders an. Neu aufgenommene Bilder mit
+  `pruef-clip` prüfen: Anim. 10 auf 6.2 brauchte danach eine kleinere
+  Bildbreite im Drehbuch.
 
 **Zahlen:** Jede Zahl im Clip kommt aus dem Code der Animation, mit python3
 nachgerechnet, in **derselben Rundung** wie dort (Stilregel 10). Zeigt die
