@@ -173,12 +173,18 @@ MathJax = {
 .wm-tab tr[data-wm-hl] { cursor:pointer; }
 .wm-tab tr[data-wm-hl]:hover, .wm-tab tr[data-wm-hl]:focus, .wm-tab tr.wm-an { background:var(--bernstein-hell); }
 .mb-vorgehen { margin:0; padding:0; list-style:none; counter-reset:mbv; display:flex; flex-wrap:wrap; gap:6px 22px; font-family:var(--mono); font-size:0.8rem; color:var(--tinte); }
-.mb-vorgehen li { counter-increment:mbv; }
+.mb-vorgehen li { counter-increment:mbv; display:flex; align-items:center; gap:0 4px; }   /* Nummer bleibt beim Knopf */
+.mb-vorgehen li::before { white-space:nowrap; }
+.mb-vorgehen .typ-btn { text-align:left; }
 .mb-vorgehen li::before { content:counter(mbv) ". "; color:var(--bernstein); font-weight:700; }
 .mb-vorgehen li + li::before { content:"→ " counter(mbv) ". "; }
 /* Vorgehensschritte sind Knöpfe; ein erfüllter Schritt wird grün abgehakt */
 .mb-vorgehen .typ-btn[data-erledigt] { border-color:var(--gruen); background:var(--gruen-hell); color:var(--gruen); }
 .mb-vorgehen .typ-btn[data-erledigt]::before { content:"✓ "; }
+/* Rückmeldezeile: neutral für Zustandshinweise, grün bei richtigem Vorgehen, rot bei Fehlern */
+.mb-fb { margin:10px 0; padding:8px 12px; color:var(--tinte); background:var(--papier-2); border:1px solid transparent; border-left:4px solid var(--linie); border-radius:6px; }
+.mb-fb.mb-fb-ok { background:var(--gruen-hell); border-color:var(--gruen-rand); border-left-color:var(--gruen); }
+.mb-fb.mb-fb-fehler { background:var(--rot-hell); border-color:var(--rot-rand); border-left-color:var(--rot); }
 </style>
 </head>
 <body>
@@ -790,19 +796,19 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Wähle einen Auftrag und überlege zuerst: Welcher Bereich, welche Buchse, welche Anschlussart?</li><li>Stelle zuerst alles ein, dann schalte das Netzgerät ein. Es lässt sich nur einschalten, wenn alles richtig angeschlossen ist; sonst sagt die Rückmeldung, was beim Einschalten passieren würde (Sicherung, «OL», dunkle Lampe).</li><li>Umstecken und umschalten nur ohne Spannung: Jede Änderung schaltet das Netzgerät aus.</li><li>Miss den Widerstand einmal im Kreis und einmal ausgebaut. Warum stimmt nur einer der Werte?</li></ul></div>
+      <div class="ah-text"><ul><li>Wähle einen Auftrag und überlege zuerst: Welcher Bereich, welche Buchse, welche Anschlussart?</li><li>Bei unbekannter Grösse beginnst du im grössten Bereich: Spannung im 20-V-Bereich, Strom im 10-A-Bereich (rote Leitung in 10A). Erst danach verkleinerst du, wenn möglich.</li><li>Stelle zuerst alles ein, dann schalte das Netzgerät ein. Es lässt sich nur einschalten, wenn alles richtig angeschlossen ist; sonst sagt die Rückmeldung, was beim Einschalten passieren würde (Sicherung, «OL», dunkle Lampe).</li><li>Umstecken und umschalten nur ohne Spannung: Jede Änderung schaltet das Netzgerät aus. Einzige Ausnahme ist der Wechsel zwischen den beiden Spannungsbereichen.</li><li>Miss den Widerstand einmal im Kreis und einmal ausgebaut. Warum stimmt nur einer der Werte?</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Spannung: V-Bereich, Buchse VΩmA, parallel zum Bauteil. Strom: mA- oder A-Bereich mit passender Buchse, in Serie in die aufgetrennte Leitung.</li><li>Ein zu kleiner Bereich zeigt «OL» (Überlauf); ein zu grosser Bereich zeigt den Wert nur grob.</li><li>Widerstände misst man ohne Spannung und ausgebaut — im Kreis misst das Gerät die ganze Parallelschaltung mit.</li><li>Das Amperemeter parallel überbrückt das Bauteil; im mA-Bereich brennt dabei schnell die Sicherung durch.</li></ul></div>
+      <div class="ah-text"><ul><li>Spannung: V-Bereich, Buchse VΩmA, parallel zum Bauteil. Strom: mA- oder A-Bereich mit passender Buchse, in Serie in die aufgetrennte Leitung.</li><li>Ein zu kleiner Bereich zeigt «OL» (Überlauf); ein zu grosser Bereich zeigt den Wert nur grob. Darum beginnt man bei unbekannter Grösse im grössten Bereich und verkleinert dann: Der grosse Bereich schützt Gerät und Sicherung, der kleine misst genauer.</li><li>Widerstände misst man ohne Spannung und ausgebaut — im Kreis misst das Gerät die ganze Parallelschaltung mit.</li><li>Das Amperemeter parallel überbrückt das Bauteil; im mA-Bereich brennt dabei schnell die Sicherung durch.</li></ul></div>
     </div>
   </div>
   <!-- CLIP-ANIM — generiert von scripts/build-clips-einbau.py -->
   <div class="clip" data-clip="../clips/p6-2-anim-multimeter-bedienen.html" data-titel="Multimeter bedienen: Bereich, Buchse, Anschluss" data-modus="gross">
-    <button class="ah-clip-knopf" type="button" onclick="clipStart(this)" aria-label="Clip zu dieser Animation abspielen (1:14): Multimeter bedienen: Bereich, Buchse, Anschluss">▶ Clip</button>
+    <button class="ah-clip-knopf" type="button" onclick="clipStart(this)" aria-label="Clip zu dieser Animation abspielen (1:21): Multimeter bedienen: Bereich, Buchse, Anschluss">▶ Clip</button>
   </div>
   <!-- /CLIP-ANIM -->
 </div>
@@ -855,7 +861,7 @@ MathJax = {
       </div>
     </div>
 
-    <p id="mb-fb" style="margin:10px 0; padding:8px 12px; border-left:4px solid var(--linie); background:var(--papier-2); border-radius:6px;">Die Messleitungen sind noch nicht angeschlossen.</p>
+    <p id="mb-fb" class="mb-fb">Die Messleitungen sind noch nicht angeschlossen.</p>
 
     <div class="formel-live">
       <div class="fl-label">Was das Gerät misst</div>
@@ -2306,7 +2312,7 @@ MathJax = {
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Multimeter bedienen: Bereich, Buchse, Anschluss">
       <span class="cl-folge">4</span>
       <span class="cl-titel">Multimeter bedienen: Bereich, Buchse, Anschluss</span>
-      <span class="cl-zeit">1:14</span>
+      <span class="cl-zeit">1:21</span>
     </button>
   </div>
   <div class="clip cl-r1 cl-anim" data-clip="../clips/p6-2-anim-leiter.html" data-titel="Drahtwiderstand: doppelt so lang, doppelt so dick, anderes Material" data-modus="gross">
@@ -2416,8 +2422,8 @@ MathJax = {
 <li><span class="tk-zeit">0:11</span><span>Für die Spannung stellst du den Zwanzig-Volt-Bereich ein, steckst die rote Leitung in die Buchse V Ohm Milliampere und klemmst das Gerät parallel zu R. Es zeigt zehn Komma neun eins Volt. Sein Innenwiderstand von zehn Megaohm stört den Kreis praktisch nicht. Im Zwei-Volt-Bereich stünde O L, Überlauf.</span></li>
 <li><span class="tk-zeit">0:29</span><span>Für den Strom wählst du den Milliampere-Bereich und trennst die Leitung auf. Das Gerät kommt in Serie dazwischen. Sein Innenwiderstand von einem Ohm senkt den Strom nur wenig, von hundertneun Komma eins auf hundertacht Komma eins Milliampere.</span></li>
 <li><span class="tk-zeit">0:42</span><span>Misst du den Widerstand im eingebauten Zustand, zeigt das Ohmmeter neun Komma eins Ohm statt hundert. Parallel zu R liegt der Weg über Lampe und Netzgerät, und den misst es mit.</span></li>
-<li><span class="tk-zeit">0:53</span><span>Baust du R aus und misst ohne Spannung, zeigt das Gerät hundert Ohm. Das Ohmmeter schickt selbst einen kleinen Messstrom; eine fremde Spannung würde den Wert verfälschen.</span></li>
-<li><span class="tk-zeit">1:03</span><span>Merke: Spannung misst man parallel im Volt-Bereich, Strom in Serie im Milliampere-Bereich, Widerstand ausgebaut und ohne Spannung. Und umgesteckt wird nur, wenn das Netzgerät aus ist.</span></li>
+<li><span class="tk-zeit">0:52</span><span>Baust du R aus und misst ohne Spannung, zeigt das Gerät hundert Ohm. Das Ohmmeter schickt selbst einen kleinen Messstrom; eine fremde Spannung würde den Wert verfälschen.</span></li>
+<li><span class="tk-zeit">1:03</span><span>Merke: Spannung misst man parallel im Volt-Bereich, Strom in Serie im Milliampere-Bereich, Widerstand ausgebaut und ohne Spannung. Ist die Grösse unbekannt, beginnt man im grössten Bereich, bei zwanzig Volt oder zehn Ampere, und verkleinert dann. Und umgesteckt wird nur, wenn das Netzgerät aus ist.</span></li>
 </ol>
 <h3 id="clip-p6-2-anim-leiter" class="clip-h">Drahtwiderstand: doppelt so lang, doppelt so dick, anderes Material</h3>
 <ol>
@@ -5036,9 +5042,24 @@ let mbAuftrag = 'U', mbSchalter = 'off', mbBuchse = 'none', mbKreis = 'none', mb
 // mbBuchse 'none' = roter Stecker in keiner Buchse, mbKreis 'none' = Messleitungen
 // hängen frei. mbRAus: R ist ausgebaut (bei mbKreis 'aus' immer, bei 'none' möglich).
 let mbRAus = false;
+// Grösster Bereich zuerst: mbGross = im grössten Bereich des Auftrags gemessen
+// (U: 20 V, I: 10 A, je mit eingeschaltetem Netzgerät); mbGeprueft = bei U
+// geprüft, ob der 2-V-Bereich passt (Knopf zu Schritt 4 oder 2 V unter
+// Spannung gewählt). Beide gelten bis zum nächsten Neustart.
+let mbGross = false, mbGeprueft = false;
 function mbNeustart(){
   mbSchalter = 'off'; mbBuchse = 'none'; mbKreis = 'none'; mbRAus = false;
-  mbQuelle = false; mbDefekt = false; mbMeldung = '';          // mbDefekt: Sicherung ersetzt
+  mbQuelle = false; mbDefekt = false; mbMeldung = ''; mbMeldungKat = 'info';   // mbDefekt: Sicherung ersetzt
+  mbGross = false; mbGeprueft = false;
+}
+// Merkt sich nach jeder Aktion, was schon gemessen wurde
+function mbMerken(){
+  if(!mbQuelle) return;
+  if(mbAuftrag === 'U' && mbKreis === 'par' && mbBuchse === 'vomA'){
+    if(mbSchalter === 'v20') mbGross = true;
+    else if(mbSchalter === 'v2' && mbGross) mbGeprueft = true;
+  }
+  if(mbAuftrag === 'I' && mbKreis === 'ser' && mbBuchse === 'a10' && mbSchalter === 'a10') mbGross = true;
 }
 // Was zum Messkreis fehlt ('' = nichts)
 function mbFehlt(){
@@ -5050,7 +5071,7 @@ function mbFehlt(){
 }
 // Das Netzgerät lässt sich nur einschalten, wenn alles richtig angeschlossen ist.
 // mbMeldung: Grund, warum es aus blieb bzw. ausging (wird bei der nächsten Aktion ersetzt).
-let mbMeldung = '';
+let mbMeldung = '', mbMeldungKat = 'info';                         // Kategorie wie in mbRechne
 
 function mbRechne(qErzwingen){
   const s = mbSchalter, b = mbBuchse, k = mbKreis, q = qErzwingen === undefined ? mbQuelle : qErzwingen;
@@ -5073,10 +5094,14 @@ function mbRechne(qErzwingen){
   } else if(k === 'none' && !mbRAus){
     IL = q ? MB_E / (MB_R + MB_RL) : 0;                            // Gerät nicht angeschlossen: der Kreis läuft ohne es
   }                                                                // R ausgebaut: Kreis offen, IL = 0
-  // Anzeige
-  let anz = '', ok = false, fb = '', sicherung = false, eq = '';
+  // Anzeige. ein: richtig aufgebaut, das Netzgerät darf an (auch im ersten,
+  // groben Schritt); ok: der ganze Auftrag ist erfüllt, samt «grösster Bereich
+  // zuerst». kat: 'ok' (richtiges Vorgehen, grün), 'fehler' (rot) oder 'info'
+  // (Zustandshinweis, neutral).
+  let anz = '', ok = false, ein = false, fb = '', kat = 'info', sicherung = false, eq = '';
   const liest = warn === '';                                      // richtige Buchse zum Bereich
   const fehlt = mbFehlt();
+  const UR = MB_E*MB_R/(MB_R+MB_RL);                              // 10.91 V ohne Messgerät
   if(s === 'off'){ anz = ''; fb = fehlt ? fehlt + ' Der Drehschalter steht auf OFF.' : 'Drehschalter steht auf OFF — wähle den Bereich, der zum Auftrag passt.'; }
   else if(fehlt){                                                 // kein Messkreis: V und A zeigen 0, Ω zeigt Überlauf
     anz = art === 'Ω' ? 'OL' : art === 'V' ? (s === 'v2' ? '0.000' : '0.00') : art === 'mA' ? '0.0' : '0.00';
@@ -5087,38 +5112,53 @@ function mbRechne(qErzwingen){
     const U = liest ? Um : 0;
     const max = s === 'v2' ? 1.999 : 19.99;
     anz = U > max ? 'OL' : (s === 'v2' ? U.toFixed(3) : U.toFixed(2));
+    kat = 'fehler';
     if(!liest) fb = 'Die rote Leitung steckt in der 10A-Buchse: Dort ist kein Spannungsmesseingang. Für Spannung gehört sie in VΩmA.';
-    else if(!q && k !== 'aus') fb = 'Das Netzgerät ist aus — ohne Spannung zeigt das Voltmeter 0.';
+    else if(!q && k !== 'aus'){ fb = 'Das Netzgerät ist aus — ohne Spannung zeigt das Voltmeter 0.'; kat = 'info'; }
     else if(k === 'aus') fb = 'Am ausgebauten Widerstand liegt keine Spannung an. Spannung misst man am eingebauten Bauteil im laufenden Kreis.';
     else if(k === 'ser') fb = 'Voltmeter in Serie: Sein Innenwiderstand von 10 MΩ drosselt den Strom auf 1.2 µA. Fast die ganze Quellenspannung fällt am Gerät ab, die Lampe bleibt dunkel — gemessen wird nicht die Spannung über R.';
-    else if(anz === 'OL') fb = '«OL» heisst Überlauf: ' + (MB_E*MB_R/(MB_R+MB_RL)).toFixed(2) + ' V passen nicht in den 2-V-Bereich. Wähle den 20-V-Bereich.';
-    else { ok = mbAuftrag === 'U'; fb = ok ? '✓ Richtig: Voltmeter parallel zu R, Bereich 20 V. Sein Innenwiderstand von 10 MΩ stört den Kreis praktisch nicht.'
-                                          : 'Das ist die Spannung über R — der Auftrag verlangt aber etwas anderes.';
-      eq = ['U_\\text{R} = R\\cdot I', '= ' + texO(MB_R) + '\\cdot ' + texE((IL*1000).toFixed(1),'mA'), '= ' + texE(Um.toFixed(2),'V')]; }
+    else if(anz === 'OL') fb = '«OL» heisst Überlauf: ' + UR.toFixed(2) + ' V passen nicht in den 2-V-Bereich. '
+      + (mbGross && mbAuftrag === 'U' ? 'Ein kleinerer Bereich ist nicht möglich — schalte zurück auf 20 V.'
+                                      : 'Bei unbekannter Spannung beginnt man im grössten Bereich, hier 20 V. Ein zu kleiner Bereich zeigt nur «OL»; beim Strom dagegen brennt im zu kleinen Bereich die Sicherung durch.');
+    else if(mbAuftrag !== 'U') fb = 'Das ist die Spannung über R — der Auftrag verlangt aber etwas anderes.';
+    else { ein = true; ok = mbGeprueft; kat = 'ok';
+      fb = ok ? '✓ Kleinerer Bereich nicht möglich: ' + UR.toFixed(2) + ' V passen nicht in 2 V — der 20-V-Bereich bleibt. Das Voltmeter liegt parallel zu R; sein Innenwiderstand von 10 MΩ stört den Kreis praktisch nicht.'
+              : '✓ Richtig begonnen: Im 20-V-Bereich zeigt das Voltmeter ' + Um.toFixed(2) + ' V. Prüfe jetzt, ob ein kleinerer Bereich passt: Wähle den 2-V-Bereich (zwischen Spannungsbereichen darfst du unter Spannung wechseln) oder drücke Schritt 4.'; }
+    if(anz !== 'OL' && liest && q && k === 'par' && (ok || mbAuftrag !== 'U'))
+      eq = ['U_\\text{R} = R\\cdot I', '= ' + texO(MB_R) + '\\cdot ' + texE((IL*1000).toFixed(1),'mA'), '= ' + texE(Um.toFixed(2),'V')];
   }
   else if(art === 'mA' || art === 'A'){
     const I = liest ? Im : 0;
     if(art === 'mA' && liest && !mbDefekt && I > MB_FUSE){ sicherung = true; }
     if(art === 'mA'){ anz = sicherung || mbDefekt ? '0.0' : (I*1000 > 199.9 ? 'OL' : (I*1000).toFixed(1)); }
     else anz = I.toFixed(2);
+    kat = 'fehler';
+    const gueltig = liest && !sicherung && !(mbDefekt && art === 'mA') && q && k === 'ser';
     if(!liest) fb = art === 'mA' ? 'Im mA-Bereich misst nur die Buchse VΩmA; in der 10A-Buchse fliesst der Strom am Messwerk vorbei. Anzeige 0.'
                                  : 'Im 10-A-Bereich misst nur die Buchse 10A. Die rote Leitung in VΩmA ist hier nicht angeschlossen, der Kreis bleibt offen.';
     else if(sicherung) fb = 'Sicherung ausgelöst: Parallel zu R überbrückt das Amperemeter den Widerstand. Durch den mA-Eingang wollten ' + I.toFixed(2) + ' A fliessen, mehr als das Fünffache seiner 200-mA-Sicherung — die flinke Feinsicherung schmilzt in Sekundenbruchteilen.';
     else if(mbDefekt && art === 'mA') fb = 'Die Sicherung des mA-Eingangs ist durchgebrannt: Der Eingang ist offen, die Anzeige bleibt 0. Ersetze die Sicherung.';
-    else if(!q) fb = 'Das Netzgerät ist aus — es fliesst kein Strom.';
+    else if(!q){ fb = 'Das Netzgerät ist aus — es fliesst kein Strom.'; kat = 'info'; }
     else if(k === 'aus') fb = 'Durch den ausgebauten Widerstand fliesst kein Strom. Strom misst man in der aufgetrennten Leitung des laufenden Kreises.';
     else if(k === 'par') fb = 'Amperemeter parallel: Es überbrückt R, der Strom fliesst durch das Gerät statt durch R. Die Lampe leuchtet heller, R ist fast stromlos.';
-    else if(art === 'A'){ ok = mbAuftrag === 'I'; fb = ok ? '✓ Angeschlossen ist es richtig. Der 10-A-Bereich zeigt die ' + (Im*1000).toFixed(1) + ' mA aber nur grob als ' + Im.toFixed(2) + ' A — genauer misst der mA-Bereich.'
-                                                         : 'Das ist der Strom im Kreis — der Auftrag verlangt aber etwas anderes.';
-      eq = ['I = \\frac{E}{R + R_\\text{L} + R_\\text{A}}', '= \\frac{' + texE(MB_E,'V') + '}{' + texO((MB_R + MB_RL + MB_RA10).toFixed(2)) + '}', '= ' + texE((Im*1000).toFixed(1),'mA')]; }
-    else { ok = mbAuftrag === 'I'; fb = ok ? '✓ Richtig: Amperemeter in Serie in der aufgetrennten Leitung, mA-Bereich. Sein Innenwiderstand von 1 Ω senkt den Strom nur von ' + (MB_E/(MB_R+MB_RL)*1000).toFixed(1) + ' auf ' + (Im*1000).toFixed(1) + ' mA.'
-                                         : 'Das ist der Strom im Kreis — der Auftrag verlangt aber etwas anderes.';
-      eq = ['I = \\frac{E}{R + R_\\text{L} + R_\\text{A}}', '= \\frac{' + texE(MB_E,'V') + '}{' + texO(MB_R) + ' + ' + texO(MB_RL) + ' + ' + texO(MB_RMA) + '}', '= ' + texE((Im*1000).toFixed(1),'mA')]; }
+    else if(mbAuftrag !== 'I') fb = 'Das ist der Strom im Kreis — der Auftrag verlangt aber etwas anderes.';
+    else if(art === 'A'){ ein = true; kat = 'ok';
+      fb = '✓ Richtig begonnen: Im 10-A-Bereich zeigt das Gerät ' + Im.toFixed(2) + ' A — zu grob. Verkleinere den Bereich: Netzgerät aus, rote Leitung in VΩmA, mA-Bereich, wieder ein.'; }
+    else { ein = true; ok = mbGross;
+      const text = 'Amperemeter in Serie in der aufgetrennten Leitung, mA-Bereich. Sein Innenwiderstand von 1 Ω senkt den Strom nur von ' + (MB_E/(MB_R+MB_RL)*1000).toFixed(1) + ' auf ' + (Im*1000).toFixed(1) + ' mA.';
+      if(ok){ kat = 'ok'; fb = '✓ Richtig: Zuerst grob im 10-A-Bereich, jetzt genau. ' + text; }
+      else { kat = 'info'; fb = 'Die Anzeige stimmt: Das Amperemeter sitzt in Serie im mA-Bereich und zeigt ' + (Im*1000).toFixed(1) + ' mA. Aber: Bei unbekanntem Strom misst man zuerst im grössten Bereich (10 A, rote Leitung in 10A) — sonst riskiert man die Sicherung des mA-Eingangs. Für den Auftrag: zuerst im 10-A-Bereich messen, dann verkleinern.'; } }
+    if(gueltig && (ok || mbAuftrag !== 'I')){
+      eq = art === 'A'
+        ? ['I = \\frac{E}{R + R_\\text{L} + R_\\text{A}}', '= \\frac{' + texE(MB_E,'V') + '}{' + texO((MB_R + MB_RL + MB_RA10).toFixed(2)) + '}', '= ' + texE((Im*1000).toFixed(1),'mA')]
+        : ['I = \\frac{E}{R + R_\\text{L} + R_\\text{A}}', '= \\frac{' + texE(MB_E,'V') + '}{' + texO(MB_R) + ' + ' + texO(MB_RL) + ' + ' + texO(MB_RMA) + '}', '= ' + texE((Im*1000).toFixed(1),'mA')];
+    }
   }
   else if(art === 'Ω'){
+    kat = 'fehler';
     if(!liest){ anz = '----'; fb = 'Für die Widerstandsmessung gehört die rote Leitung in VΩmA.'; }
     else if(q && k !== 'aus'){ anz = 'Err'; fb = 'Widerstandsmessung nur ohne Spannung! Das Ohmmeter schickt selbst einen kleinen Messstrom; eine fremde Spannung verfälscht das Ergebnis und kann das Gerät beschädigen. Netzgerät ausschalten — besser noch R ausbauen.'; }
-    else if(k === 'aus'){ anz = MB_R.toFixed(1); ok = mbAuftrag === 'R';
+    else if(k === 'aus'){ anz = MB_R.toFixed(1); ok = ein = mbAuftrag === 'R'; if(ok) kat = 'ok';
       fb = ok ? '✓ Richtig: R ausgebaut, spannungsfrei, Ω-Bereich — das Gerät misst nur R.' : 'Das ist der Widerstand R — der Auftrag verlangt aber etwas anderes.'; }
     else if(k === 'par'){ const Rp = 1/(1/MB_R + 1/MB_RL); anz = Rp.toFixed(1);
       fb = 'Im Kreis misst das Ohmmeter nicht R allein: Parallel dazu liegt der Weg über Lampe und Netzgerät. Es zeigt R ∥ R_L = ' + Rp.toFixed(1) + ' Ω statt 100 Ω. Deshalb baut man R zum Messen aus.';
@@ -5126,19 +5166,20 @@ function mbRechne(qErzwingen){
     else { anz = (MB_R + MB_RL).toFixed(1);
       fb = 'In Serie in die Leitung gesetzt, misst das Ohmmeter den ganzen Kreis: R + R_L = ' + (MB_R + MB_RL) + ' Ω.'; }
   }
-  return { anz, ok, fb, sicherung, eq, IL, art, warn, Rm };
+  return { anz, ok, ein, fb, kat, sicherung, eq, IL, art, warn, Rm };
 }
 
 // Prüfung beim Einschalten: Was geschähe mit Spannung? Nur wenn der Auftrag
 // damit erfüllt ist, geht das Netzgerät an; sonst bleibt es aus, und die
 // Rückmeldung nennt die Folge, die beim Einschalten eintreten würde.
 function mbEinschalten(){
-  if(mbAuftrag === 'R') return 'Netzgerät bleibt aus: Widerstand misst man nur ohne Spannung. Das Ohmmeter schickt selbst einen kleinen Messstrom; eine fremde Spannung verfälscht das Ergebnis und kann das Gerät beschädigen. Miss am ausgebauten R bei ausgeschaltetem Netzgerät.';
-  if(mbFehlt()) return 'Netzgerät bleibt aus: ' + mbFehlt();
-  if(mbSchalter === 'off') return 'Netzgerät bleibt aus: Der Drehschalter steht auf OFF — wähle zuerst den Bereich, der zum Auftrag passt.';
+  // Rückgabe: null = darf an, sonst { text, kat } als Meldung
+  if(mbAuftrag === 'R') return { kat: 'fehler', text: 'Netzgerät bleibt aus: Widerstand misst man nur ohne Spannung. Das Ohmmeter schickt selbst einen kleinen Messstrom; eine fremde Spannung verfälscht das Ergebnis und kann das Gerät beschädigen. Miss am ausgebauten R bei ausgeschaltetem Netzgerät.' };
+  if(mbFehlt()) return { kat: 'info', text: 'Netzgerät bleibt aus: ' + mbFehlt() };
+  if(mbSchalter === 'off') return { kat: 'info', text: 'Netzgerät bleibt aus: Der Drehschalter steht auf OFF — wähle zuerst den Bereich, der zum Auftrag passt.' };
   const h = mbRechne(true);
-  if(h.ok) return '';
-  return 'Netzgerät bleibt aus. Beim Einschalten: ' + h.fb;
+  if(h.ein) return null;
+  return { kat: h.kat === 'info' ? 'info' : 'fehler', text: 'Netzgerät bleibt aus. Beim Einschalten: ' + h.fb };
 }
 
 // Vorgehen je Auftrag. Jeder Schritt ist zugleich ein Knopf, der ihn ausführt —
@@ -5155,13 +5196,22 @@ function mbRAusbauen(){
   if(mbKreis === 'par' || mbKreis === 'ser') mbKreis = 'none';     // die Leitungen hängen danach frei
   mbRAus = true; mbMeldung = ''; mbRender();
 }
+// U und I: erst im grössten Bereich messen, dann verkleinern. Schritte, die
+// nach dem Verkleinern anders aussehen (Buchse VΩmA, Bereich mA bzw. 2 V beim
+// Prüfen), bleiben abgehakt, sobald im grössten Bereich gemessen wurde.
 const MB_VORGEHEN = {
   U: [{ txt: 'Voltmeter einbauen', ok: () => mbBuchse === 'vomA' && mbKreis === 'par', tun: () => mbKlick('[data-mbb="vomA"]', '[data-mbk="par"]') },
-      { txt: 'Messbereich wählen', ok: () => mbSchalter === 'v20', tun: () => mbKlick('[data-mbs="v20"]') },
-      { txt: 'Quelle einschalten', ok: () => mbQuelle, tun: () => mbKlick('[data-mbq="ein"]') }],
-  I: [{ txt: 'Amperemeter einbauen', ok: () => mbBuchse === 'vomA' && mbKreis === 'ser', tun: () => mbKlick('[data-mbb="vomA"]', '[data-mbk="ser"]') },
-      { txt: 'Messbereich wählen', ok: () => mbSchalter === 'ma', tun: () => mbKlick('[data-mbs="ma"]') },
-      { txt: 'Quelle einschalten', ok: () => mbQuelle, tun: () => mbKlick('[data-mbq="ein"]') }],
+      { txt: 'grössten Messbereich wählen', ok: () => mbSchalter === 'v20' || (mbSchalter === 'v2' && mbGross), tun: () => mbKlick('[data-mbs="v20"]') },
+      { txt: 'Quelle einschalten', ok: () => mbQuelle && MB_VORGEHEN.U[0].ok() && MB_VORGEHEN.U[1].ok(), tun: () => mbKlick('[data-mbq="ein"]') },
+      // Prüft, ob der 2-V-Bereich passt: Er passt nicht (OL), der 20-V-Bereich bleibt
+      { txt: 'Messbereich verkleinern, wenn möglich', ok: () => mbGeprueft && mbSchalter === 'v20' && MB_VORGEHEN.U[2].ok(),
+        tun: () => { mbKlick('[data-mbs="v20"]'); mbGeprueft = true; mbMeldung = ''; } }],
+  I: [{ txt: 'Amperemeter einbauen', ok: () => mbKreis === 'ser' && (mbBuchse === 'a10' || (mbGross && mbBuchse === 'vomA')), tun: () => mbKlick('[data-mbb="a10"]', '[data-mbk="ser"]') },
+      { txt: 'grössten Messbereich wählen', ok: () => mbSchalter === 'a10' || (mbGross && mbSchalter === 'ma'), tun: () => mbKlick('[data-mbs="a10"]') },
+      { txt: 'Quelle einschalten', ok: () => mbGross && MB_VORGEHEN.I[0].ok() && MB_VORGEHEN.I[1].ok(), tun: () => mbKlick('[data-mbq="ein"]') },
+      // Umgesteckt wird nur ohne Spannung: aus, VΩmA, mA-Bereich, wieder ein
+      { txt: 'Messbereich verkleinern', ok: () => mbGross && mbQuelle && mbKreis === 'ser' && mbBuchse === 'vomA' && mbSchalter === 'ma',
+        tun: () => mbKlick('[data-mbq="aus"]', '[data-mbb="vomA"]', '[data-mbs="ma"]', '[data-mbq="ein"]') }],
   R: [{ txt: 'R ausbauen', ok: () => (mbRAus || mbKreis === 'aus') && !mbQuelle, tun: mbRAusbauen },
       { txt: 'Ohmmeter anschliessen', ok: () => mbBuchse === 'vomA' && mbKreis === 'aus', tun: () => mbKlick('[data-mbb="vomA"]', '[data-mbk="aus"]') },
       { txt: 'Messbereich wählen', ok: () => mbSchalter === 'ohm', tun: () => mbKlick('[data-mbs="ohm"]') }]
@@ -5190,13 +5240,16 @@ function mbKnoepfe(){
 }
 
 function mbRender(){
+  mbMerken();
   const r = mbRechne();
   mbKnoepfe(); mbVorgehen();
   const fb = document.getElementById('mb-fb');
   const text = mbMeldung ? mbMeldung : (mbQuelle ? r.fb
              : (r.ok || mbAuftrag === 'R' ? r.fb : r.fb + ' Stelle alles ein und schalte dann das Netzgerät ein.'));
   fb.textContent = text;
-  fb.style.borderLeftColor = mbMeldung ? 'var(--rot)' : (r.ok ? 'var(--gruen)' : 'var(--linie)');
+  const kat = mbMeldung ? mbMeldungKat : r.kat;
+  fb.classList.toggle('mb-fb-ok', kat === 'ok'); fb.classList.toggle('mb-fb-fehler', kat === 'fehler');
+  fb.dataset.kat = kat;
   flTex('mb-eq', r.eq || '');
   document.getElementById('mb-eq').closest('.formel-live').style.display = r.eq ? '' : 'none';
   mbDraw(r);
@@ -5327,16 +5380,24 @@ function mbInit(){
   document.querySelectorAll('[data-mba]').forEach(b => b.addEventListener('click', () => {
     mbAuftrag = b.dataset.mba; mbNeustart(); mbRender(); }));
   // Jede Änderung am Aufbau schaltet ein laufendes Netzgerät aus
+  // — einzige Ausnahme: der Wechsel zwischen den beiden Spannungsbereichen
+  // (so prüft man unter Spannung, ob der 2-V-Bereich passt)
+  const vBereich = v => v === 'v2' || v === 'v20';
   const bind = (attr, set) => document.querySelectorAll('[' + attr + ']').forEach(b => b.addEventListener('click', () => {
-      set(b.getAttribute(attr));
-      mbMeldung = mbQuelle ? 'Netzgerät ausgeschaltet: Umstecken und umschalten nur ohne Spannung. Schalte es wieder ein, wenn alles stimmt.' : '';
+      const neu = b.getAttribute(attr);
+      if(mbQuelle && attr === 'data-mbs' && vBereich(mbSchalter) && vBereich(neu)){ set(neu); mbMeldung = ''; mbRender(); return; }
+      set(neu);
+      mbMeldung = !mbQuelle ? ''
+        : attr === 'data-mbb' ? 'Netzgerät ausgeschaltet: Umgesteckt wird nur ohne Spannung. Schalte es wieder ein, wenn alles stimmt.'
+        : 'Netzgerät ausgeschaltet: Umstecken und umschalten nur ohne Spannung. Schalte es wieder ein, wenn alles stimmt.';
+      mbMeldungKat = 'fehler';
       mbQuelle = false; mbRender(); }));
   bind('data-mbs', v => mbSchalter = v);
   bind('data-mbb', v => mbBuchse = v);
   bind('data-mbk', v => { mbKreis = v; mbRAus = v === 'aus'; });   // parallel/Serie: R ist eingebaut
   document.querySelectorAll('[data-mbq]').forEach(b => b.addEventListener('click', () => {
     if(b.dataset.mbq === 'aus'){ mbQuelle = false; mbMeldung = ''; }
-    else { const fehler = mbEinschalten(); mbQuelle = fehler === ''; mbMeldung = fehler; }
+    else { const m = mbEinschalten(); mbQuelle = !m; mbMeldung = m ? m.text : ''; mbMeldungKat = m ? m.kat : 'info'; }
     mbRender(); }));
 }
 
