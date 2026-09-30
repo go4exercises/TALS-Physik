@@ -69,6 +69,20 @@ Die Reihenfolge ist **strikt bindend**. Anbieter werden in genau dieser Reihenfo
 - YouTube-Kurz-URLs (`youtu.be/…`) — Lang-Form bevorzugt
 - Wikipedia — Nachschlagewerk, aber kein Erklärvideo oder Aufgabenset
 
+### 2.5 Ausnahmen von der Anbieterliste
+Nur wenn **keiner** der Anbieter aus §1 das Thema behandelt, und nur mit Zustimmung
+des Auftraggebers. Jede Ausnahme wird hier eingetragen.
+
+| Seite | Thema | Link | Grund |
+|---|---|---|---|
+| 6.2 Elektrizität | Gefahren des Stroms | Suva Schweiz, «Vorsicht, Elektrizität! Napo zeigt die Gefahren» (`watch?v=wiQ8kIc-s7E`) | Keiner der sechs Video-Anbieter und weder LEIFI noch PhET noch Walter Fendt haben etwas zu Gefahren und Schutzmassnahmen (geprüft 30.09.2026). Die Suva ist die Schweizer Unfallversicherung und fachlich verlässlich. Freigegeben am 30.09.2026. |
+
+### 2.6 Verifikation, wenn YouTube auf die Zustimmungsseite umleitet
+Ein Abruf von `youtube.com/playlist?…` oder `watch?v=…` landet oft auf der
+Cookie-Zustimmung und liefert keinen Kanal. Zuverlässig ist oEmbed:
+`https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=<ID>`
+(auch mit `playlist?list=<ID>`). Die Antwort nennt `author_name` und `title`.
+
 ---
 
 ## 3. Verifikationsmethode
