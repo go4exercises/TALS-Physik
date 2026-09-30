@@ -1438,8 +1438,8 @@ span.anim-ref { white-space: nowrap; }
 /* ════════════════════════════════════════════════════════════════
  *  Animations-Karte (.anim)
  *  Wird seitenübergreifend für interaktive Canvas-Animationen
- *  verwendet. Layout: Canvas links, Bedienelemente rechts.
- *  Auf schmalen Bildschirmen einspaltig.
+ *  verwendet. Layout: Canvas links, Bedienelemente rechts
+ *  (.anim-layout, unten), auf schmalen Bildschirmen einspaltig.
  * ════════════════════════════════════════════════════════════════ */
 .anim {
   background: var(--papier);
@@ -1461,14 +1461,46 @@ span.anim-ref { white-space: nowrap; }
   margin: 0;
   box-shadow: none;
 }
+/* «Bild neben Bedienung» (STYLEGUIDE §5.11): im Widget-Körper steht links das
+   Bild (.anim-layout-bild mit .cv-wrap), rechts die Bedienung
+   (.anim-layout-bedienung, 320 px); Formelzeile und Live-Box folgen darunter
+   über die volle Breite, ausserhalb von .anim-layout. Genommen, wenn Bild und
+   Bedienung untereinander bei 1280×720 höher als etwa 650 px würden.
+   Unter 1100 px einspaltig (Bild oben, Bedienung darunter). Modifikator .voll:
+   einspaltig auch breit, Bedienung über dem Bild (z. B. zwei Bilder
+   untereinander). Referenz: p6-2, Animationen «Wassermodell» und
+   «Wechselspannung und Effektivwert». */
 .anim-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 20px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
   align-items: start;
+  margin-bottom: 4px;
 }
-@media (max-width: 820px) {
+.anim-layout > * { min-width: 0; }
+.anim-layout.voll { grid-template-columns: minmax(0, 1fr); }
+.anim-layout.voll > .anim-layout-bedienung { order: -1; }
+@media (max-width: 1099px) {
   .anim-layout { grid-template-columns: minmax(0, 1fr); }
+}
+/* Bedienspalte (nur zweispaltig): Etikett oben, Regler über die volle Breite,
+   Wert rechts daneben; Knöpfe dichter; Legende im Bild zweispaltig */
+@media (min-width: 1100px) {
+  .anim-layout:not(.voll) .anim-layout-bedienung .sl-row { display: block; padding: 9px 12px; }
+  .anim-layout:not(.voll) .anim-layout-bedienung .sl-row > label { display: block; min-width: 0; margin-bottom: 7px; white-space: normal; }
+  .anim-layout:not(.voll) .anim-layout-bedienung .sl-grp {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "lab lab" "reg val"; gap: 4px 10px; align-items: center;
+  }
+  .anim-layout:not(.voll) .anim-layout-bedienung .sl-grp + .sl-grp { margin-top: 10px; }
+  .anim-layout:not(.voll) .anim-layout-bedienung .sl-grp label { grid-area: lab; white-space: normal; }
+  .anim-layout:not(.voll) .anim-layout-bedienung .sl-grp input[type=range] { grid-area: reg; width: 100%; min-width: 0; }
+  .anim-layout:not(.voll) .anim-layout-bedienung .sl-grp .sl-val { grid-area: val; min-width: 0; white-space: nowrap; }
+  .anim-layout:not(.voll) .anim-layout-bedienung .typ-btns { gap: 6px; }
+  .anim-layout:not(.voll) .anim-layout-bedienung .play-btn { margin: 0 4px 6px 0; }
+  .anim-layout:not(.voll) .anim-layout-bedienung > p { font-size: 0.92rem; margin: 0 0 8px; }
+  .anim-layout:not(.voll) .anim-layout-bild .canvas-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; }
+  .anim-layout:not(.voll) .anim-layout-bild .canvas-legend .cl-item { font-size: 0.68rem; line-height: 1.35; }
 }
 .anim canvas {
   width: 100%;

@@ -744,6 +744,57 @@ Regeln:
   ein Umschalter darf nur die Darstellung ändern (z. B. Schaltbild ↔ Ersatzschaltbild
   mit Innenwiderständen), nicht das Modell.
 
+### 5.11 Bild neben Bedienung (`.anim-layout`, Entscheid 30.09.2026)
+
+Üblich stehen Bedienung, Formelzeile, Live-Box und Bild untereinander.
+**`.anim-layout` wird genommen, wenn Bedienung und Bild untereinander bei 1280×720 höher
+als etwa 650 px würden** — dann sieht man beim Bedienen das Bild nicht mehr. Die Bedienung
+rückt rechts neben das Bild; Formelzeile und Live-Box folgen darunter über die volle Breite.
+
+```html
+<div class="widget-body">
+  <div class="anim-layout">
+    <div class="anim-layout-bild"><div class="cv-wrap">…Titel, Canvas, Legende…</div></div>
+    <div class="anim-layout-bedienung">…sl-row, typ-btns, play-btn…</div>
+  </div>
+  <div class="formel-live">…</div>
+  <div class="live-box">…</div>
+</div>
+```
+
+- Rechte Spalte 320 px. Darin stehen Reglerzeilen anders als sonst: Etikett oben, Regler
+  über die volle Breite, Wert rechts daneben. Die Legende im Bild wird zweispaltig. Das
+  regelt `style.css` zentral, kein lokales CSS.
+- **Unter 1100 px Fensterbreite einspaltig:** zuerst das Bild, darunter die Bedienung.
+- Modifikator **`.voll`**: einspaltig auch in der Breite, die Bedienung rückt über das
+  Bild. Für einen Zustand, der die ganze Breite braucht (Wassermodell: «Beide Kreise
+  untereinander»). Die Animation setzt die Klasse selbst und löst danach ein `resize`
+  aus, damit die Canvas neu misst.
+- Canvas im Bild richten ihre Grösse nach `offsetWidth`, nie nach einer festen Breite —
+  die Bildspalte ist bei 1280 px rund 600 px breit, nicht 900 px.
+- Referenz: p6-2, Animationen «Wassermodell» (`anim-wassermodell`) und «Wechselspannung
+  und Effektivwert» (`anim-wechselspannung-effektivwert`).
+
+### 5.12 Bedienung im Bild (Muster, Entscheid 30.09.2026)
+
+Wo ein Gerät im Bild steht (Drehschalter, Buchsen, Schalter), darf man es dort anklicken.
+Die Knöpfe bleiben trotzdem da und bleiben die **einzige Quelle des Zustands**:
+
+- **Klickflächen beim Zeichnen registrieren.** Die Zeichenfunktion leert zu Beginn eine
+  Liste und trägt jede Fläche in den Koordinaten ein, in denen sie sie gerade zeichnet
+  (Rechteck, Kreis, Sektor), samt Selektor des zugehörigen Knopfs. So stimmen Bild und
+  Fläche auch in der schmalen Fassung. Mindestmass etwa 38 Canvas-px.
+- **Ein Klick ruft `.click()` auf den vorhandenen Knopf** — keine zweite Logik. Umrechnung
+  der Mauskoordinaten über `getBoundingClientRect()` ins Canvas-System (unabhängig von
+  `devicePixelRatio` und `zoom`).
+- **Affordanz:** Hover rahmt die Fläche in Bernstein und setzt `cursor:pointer` (nicht
+  bei Touch); anklickbare Stellen tragen im Bild eine Pille, einen Ring oder ein
+  Symbol (Schere zum Auftrennen). Der `cv-titel` sagt, was sich anklicken lässt.
+- **Knöpfe als Tastatur-Ersatz** in einem zugeklappten Aufklapper direkt unter dem Bild:
+  `<details class="mc-loesung">` mit dem Titel «Bedienung mit Knöpfen (auch per Tastatur)».
+- Referenz: p6-2, Animation «Multimeter bedienen» (`mbZonen`, `mbRect`, `mbTreffer`,
+  `mbHoverZeichnen`, Handler in `mbInit`).
+
 ## 6. Code-Konventionen
 
 ### 6.1 HTML-Skelett
