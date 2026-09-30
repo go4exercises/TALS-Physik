@@ -172,6 +172,10 @@ MathJax = {
 .wm-sk-e { background:linear-gradient(to right,#f3e2c6,#b0431a); width:44px; height:8px; }
 .wm-tab tr[data-wm-hl] { cursor:pointer; }
 .wm-tab tr[data-wm-hl]:hover, .wm-tab tr[data-wm-hl]:focus, .wm-tab tr.wm-an { background:var(--bernstein-hell); }
+.mb-vorgehen { margin:0; padding:0; list-style:none; counter-reset:mbv; display:flex; flex-wrap:wrap; gap:6px 22px; font-family:var(--mono); font-size:0.8rem; color:var(--tinte); }
+.mb-vorgehen li { counter-increment:mbv; }
+.mb-vorgehen li::before { content:counter(mbv) ". "; color:var(--bernstein); font-weight:700; }
+.mb-vorgehen li + li::before { content:"→ " counter(mbv) ". "; }
 </style>
 </head>
 <body>
@@ -809,6 +813,10 @@ MathJax = {
         <button class="typ-btn" data-mba="I">Strom durch R messen</button>
         <button class="typ-btn" data-mba="R">Widerstand R messen</button>
       </div>
+    </div>
+    <div class="sl-row">
+      <label>Vorgehen:</label>
+      <ol class="mb-vorgehen" id="mb-vorgehen" aria-live="polite"></ol>
     </div>
     <div class="sl-row">
       <label>Drehschalter:</label>
@@ -5045,7 +5053,7 @@ function mbRechne(qErzwingen){
   // Anzeige
   let anz = '', ok = false, fb = '', sicherung = false, eq = '';
   const liest = warn === '';                                      // richtige Buchse zum Bereich
-  if(s === 'off'){ anz = ''; fb = 'Drehschalter steht auf OFF — wähle zuerst den Bereich, der zum Auftrag passt.'; }
+  if(s === 'off'){ anz = ''; fb = 'Drehschalter steht auf OFF — wähle den Bereich, der zum Auftrag passt.'; }
   else if(art === 'V'){
     const U = liest ? Um : 0;
     const max = s === 'v2' ? 1.999 : 19.99;
@@ -5103,8 +5111,22 @@ function mbEinschalten(){
   return 'Netzgerät bleibt aus. Beim Einschalten: ' + h.fb;
 }
 
+// Vorgehen je Auftrag: die Handlungen in der richtigen Reihenfolge, ohne die
+// Lösung zu verraten (welcher Anschluss, welcher Bereich). Ob etwas stimmt,
+// sagt weiterhin die Rückmeldung.
+const MB_VORGEHEN = {
+  U: ['Messgerät richtig anschliessen', 'Messbereich wählen', 'Quelle einschalten'],
+  I: ['Messgerät richtig anschliessen', 'Messbereich wählen', 'Quelle einschalten'],
+  R: ['R ausbauen', 'Messgerät richtig anschliessen', 'richtigen Messbereich wählen']
+};
+function mbVorgehen(){
+  document.getElementById('mb-vorgehen').innerHTML =
+    MB_VORGEHEN[mbAuftrag].map(txt => '<li>' + txt + '</li>').join('');
+}
+
 function mbRender(){
   const r = mbRechne();
+  mbVorgehen();
   const fb = document.getElementById('mb-fb');
   const text = mbMeldung ? mbMeldung : (mbQuelle ? r.fb
              : (r.ok ? r.fb : r.fb + ' Stelle alles ein und schalte dann das Netzgerät ein.'));
