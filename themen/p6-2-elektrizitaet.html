@@ -43,7 +43,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-09-29",
+   "dateModified": "2026-09-30",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -1463,7 +1463,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">🌡️ Zwei gleiche Heizwiderstände, einmal an Gleich-, einmal an Wechselspannung</div>
-      <canvas id="ws-cv" height="330" role="img" aria-label="Oben das Spannungs-Zeit-Diagramm über 40 Millisekunden: eine Sinuskurve der Wechselspannung mit Scheitelwert und gestrichelt ihrem Effektivwert, dazu die waagrechte Gleichspannung. Darunter das Leistungs-Zeit-Diagramm: Die Momentanleistung der Wechselspannung schwankt zwischen null und ihrem Höchstwert, ihr Mittelwert ist gestrichelt; die Gleichspannung liefert eine konstante Leistung. Daneben zwei Heizwiderstände, die je nach mittlerer Leistung verschieden stark glühen."></canvas>
+      <canvas id="ws-cv" height="336" role="img" aria-label="Oben das Spannungs-Zeit-Diagramm über 40 Millisekunden: eine Sinuskurve der Wechselspannung mit Scheitelwert und gestrichelt ihrem Effektivwert, dazu die waagrechte Gleichspannung. Darunter das Leistungs-Zeit-Diagramm: Die Momentanleistung der Wechselspannung schwankt zwischen null und ihrem Höchstwert, ihr Mittelwert ist gestrichelt; die Gleichspannung liefert eine konstante Leistung. Daneben zwei Heizwiderstände, die je nach mittlerer Leistung verschieden stark glühen."></canvas>
     </div>
 
   </div>
@@ -1482,7 +1482,7 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Welche Lampe leuchtet in Reihe heller — die mit der grösseren Nennleistung?</li><li>Vergleiche die Gesamtleistung in beiden Schaltungen.</li><li>Im Modell bleiben die Widerstände fest, nur die Schaltung ändert sich (reale Glühlampen: siehe Modellannahme oben).</li><li>Die Helligkeit hat in beiden Schaltungen denselben Massstab: \(100\;\text{W}\) entspricht voller Helligkeit. Vergleiche die 40-W-Lampe parallel und in Reihe.</li></ul></div>
+      <div class="ah-text"><ul><li>Welche Lampe leuchtet in Reihe heller — die mit der grösseren Nennleistung?</li><li>Vergleiche die Gesamtleistung in beiden Schaltungen.</li><li>Im Modell bleiben die Widerstände fest, nur die Schaltung ändert sich (reale Glühlampen: siehe Modellannahme oben).</li><li>Die Helligkeit hat in beiden Schaltungen denselben Massstab: \(100\;\text{W}\) entspricht voller Helligkeit, unter \(3\;\text{W}\) bleibt die Lampe dunkel. Dazwischen ist sie logarithmisch gezeichnet, so wie das Auge Helligkeit ungefähr empfindet: Jede Verdopplung der Leistung macht die Lampe um dieselbe Stufe heller. Vergleiche die 40-W-Lampe parallel und in Reihe.</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
@@ -1623,7 +1623,7 @@ MathJax = {
     </div>
 
     <div class="typ-btns">
-      <button class="typ-btn" data-a6sz="230,1000,500">⚡ \(230\;\text{V}\) an \(1\;\text{k}\Omega\) (nass), \(0.5\;\text{s}\)</button>
+      <button class="typ-btn" data-a6sz="230,1000,500">⚡ \(230\;\text{V}\) an \(1\;\text{k}\Omega\) (nass), \(500\;\text{ms}\)</button>
       <button class="typ-btn" data-a6sz="230,2000,2000">🖐 \(230\;\text{V}\) an \(2\;\text{k}\Omega\) (trocken), \(2\;\text{s}\)</button>
       <button class="typ-btn" data-a6sz="12,5000,2000">🔋 \(12\;\text{V}\) an \(5\;\text{k}\Omega\), \(2\;\text{s}\)</button>
     </div>
@@ -1728,12 +1728,13 @@ MathJax = {
     <div class="formel-live">
       <div class="fl-label">Was der FI vergleicht — im Moment des Fehlers, bevor ein Schalter trennt</div>
       <div class="fl-eq" id="fi-eq1"></div>
+      <div class="fl-eq" id="fi-eqL" style="display:none"></div>
       <div class="fl-eq" id="fi-eq2"></div>
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Strom hin \(I_\text{L}\)</span><span class="lb-val" id="fi-IL">8.696 A</span></div>
-      <div class="lb-item"><span class="lb-lab">Strom zurück \(I_\text{N}\)</span><span class="lb-val" id="fi-IN">8.696 A</span></div>
+      <div class="lb-item"><span class="lb-lab">Strom hin \(I_\text{L}\)</span><span class="lb-val" id="fi-IL">8.6957 A</span></div>
+      <div class="lb-item"><span class="lb-lab">Strom zurück \(I_\text{N}\)</span><span class="lb-val" id="fi-IN">8.6957 A</span></div>
       <div class="lb-item"><span class="lb-lab">Differenz \(\Delta I\)</span><span class="lb-val" id="fi-dI">0 mA</span></div>
       <div class="lb-item"><span class="lb-lab">FI</span><span class="lb-val" id="fi-fi">?</span></div>
       <div class="lb-item"><span class="lb-lab">Leitungsschutzschalter</span><span class="lb-val" id="fi-ls">?</span></div>
@@ -3434,8 +3435,10 @@ function drawA2(){
 
   const cv=initCanvas('a2-cv',180,false); const ctx=cv.ctx,W=cv.W,H=cv.H;
   ctx.fillStyle='#fbfaf7'; ctx.fillRect(0,0,W,H);
-  // Draht: Laenge -> Breite, Querschnitt -> Dicke
-  const wMin=W*0.18, wMax=W*0.82, dw=wMin+(wMax-wMin)*(l/1000);
+  // Draht: Laenge -> Breite, Querschnitt -> Dicke. Die Breite ist streng
+  // proportional zu l (kein Sockel): 200 m sind doppelt so lang wie 100 m.
+  // 1000 m füllen 0.82 W; mit den Anschlüssen endet der Draht bei 0.97 W.
+  const wMax=W*0.82, dw=wMax*(l/1000);
   // Gezeichnet wird der Durchmesser, und der wächst mit √A (A = π·d²/4):
   // doppelter Querschnitt heisst √2-fache, nicht doppelte Dicke.
   const tMax=H*0.42, th=tMax*Math.sqrt(A/10);
@@ -3757,7 +3760,9 @@ const A6ZONES=[
 // Eine Rundung für Regler, Punktbeschriftung und Szenario-Formel (Regel 10)
 const a6IZ = I => I < 1 ? [I.toFixed(2),'mA'] : I < 10 ? [I.toFixed(1),'mA'] : I < 1000 ? [I.toFixed(0),'mA'] : [(I/1000).toFixed(2),'A'];
 const a6IF = I => a6IZ(I).join(' ');
-const a6TF = t => t < 1000 ? t.toFixed(0)+' ms' : (t/1000).toFixed(2)+' s';
+// Zeit ebenso: unter 1 s in ms, sonst in s — im Canvas, am Regler und in der Szenario-Formel
+const a6TZ = t => t < 1000 ? [t.toFixed(0),'ms'] : [(t/1000).toFixed(2),'s'];
+const a6TF = t => a6TZ(t).join(' ');
 function a6Zone(I,t){ if(I<0.5)return 0; if(I<a6_b3(t))return 1; if(I<a6_b4(t))return 2; return 3; }
 function drawA6(){
   const I=Math.pow(10,+document.getElementById('a6-I').value);   // mA
@@ -3806,40 +3811,61 @@ function drawA6(){
   const fiTxt = (x30+6+ctx.measureText('30 mA — FI/RCD löst aus').width <= W-4) ? '30 mA — FI/RCD löst aus' : '30 mA (FI)';
   ctx.fillText(fiTxt, x30+6, py0+14);
   // Zonen-Nummern
-  ctx.fillStyle='#3a332a'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
-  // Zeile bei t = 15 ms: Dort sind beide Grenzen gedeckelt (senkrecht bei 200
-  // und 500 mA), jede Ziffer liegt damit sicher in ihrem Bereich (in Python
-  // für W = 260…1000 px nachgeprüft) und weit weg von der FI-Linie bei 30 mA.
-  // Oben lag die 3 vorher rechts der Grenze 3/4, also in Bereich 4.
-  const zy = ly(15) + 4, A6ZX = [0.22, 5, 316, 1000];
-  A6ZX.forEach((v, i) => ctx.fillText(String(i+1), lx(v), zy));
-  // Arbeitspunkt
+  // Erste Wahl: Zeile bei t = 15 ms. Dort sind beide Grenzen gedeckelt
+  // (senkrecht bei 200 und 500 mA), jede Ziffer liegt sicher in ihrem Bereich
+  // und weit weg von der FI-Linie bei 30 mA (Oben lag die 3 vorher rechts der
+  // Grenze 3/4, also in Bereich 4). Berührt eine Hilfslinie des Arbeitspunkts,
+  // der Punkt selbst oder seine Beschriftung die Ziffer, weicht sie auf die
+  // nächste Lage aus — jede Lage in Python für W = 260…1000 px im eigenen
+  // Bereich nachgeprüft, die Wahl im Browser über 5300 Reglerstellungen.
   const mx=lx(I), my=ly(t);
-  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
-  ctx.beginPath(); ctx.moveTo(mx,py1); ctx.lineTo(mx,my); ctx.moveTo(px0,my); ctx.lineTo(mx,my); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#1c1a17'; ctx.beginPath(); ctx.arc(mx,my,6,0,6.283); ctx.fill();
-  ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
+  const A6ZL = [
+    [[0.22,15],[0.14,15],[0.35,15],[0.22,3000],[0.14,3000],[0.35,3000]],
+    [[5,15],[1.5,15],[5,3000],[1.5,3000]],
+    [[316,15],[150,100],[70,300],[350,40],[100,160]],
+    [[1000,15],[1000,100],[1000,3000],[300,3000],[250,1000]] ];
+  const zFrei = labR => ([x, y]) => {             // Ziffernkasten x−5…x+5, y−14…y+4
+    const x0 = x-5, x1 = x+5, y0 = y-14, y1 = y+4;
+    if(x1 > mx-3 && x0 < mx+3 && y1 > my-8 && y0 < py1) return false;        // senkrechte Hilfslinie samt Punkt
+    if(y1 > my-4 && y0 < my+4 && x1 > px0 && x0 < mx+8) return false;        // waagrechte Hilfslinie samt Punkt
+    return !(labR && x1 > labR[0]-2 && x0 < labR[2]+2 && y1 > labR[1]-2 && y0 < labR[3]+2);   // Punktbeschriftung
+  };
+  const zSetze = labR => A6ZL.map(l => {
+    const c = l.map(([v, tt]) => [lx(v), ly(tt) + 4]);
+    return c.find(zFrei(labR)) || c.find(zFrei(null)) || c[0];
+  });
+  ctx.font='bold 13px JetBrains Mono,monospace';
   const lab=a6IF(I)+'; '+a6TF(t);
   // Lagen rechts/links, oben/unten vom Punkt; ausgeschlossen, was die FI-Linie
   // kreuzt oder auf FI-Beschriftung bzw. Zonenziffern liegt. Nie über dem Punkt.
   const lw6=ctx.measureText(lab).width;
   ctx.font='bold 13px "Source Sans 3",sans-serif';
   const fiB=[x30+4, py0, x30+8+ctx.measureText(fiTxt).width, py0+18];
-  const zB=A6ZX.map(v=>[lx(v)-8,zy-14,lx(v)+8,zy+4]);
-  ctx.font='bold 13px JetBrains Mono,monospace';
-  const lagen6=[[mx+10, my-8],[mx-10-lw6, my-8],[mx+10, my+20],[mx-10-lw6, my+20]];
+  const lagen6=[[mx+10, my-8],[mx-10-lw6, my-8],[mx+10, my+20],[mx-10-lw6, my+20],[mx+10, my-24],[mx+10, my-40]];   // weiter oben rechts: Punkt am unteren Rand neben einer Ziffer
   for (const dy of [20, 36, 52, -24]) lagen6.push([W-6-lw6, my+dy], [mx-lw6/2, my+dy]);   // rechtsbündig (mit Polster) bzw. zentriert
-  const ok6=([x,y])=>{ const x0=x-2, x1=x+lw6+2, y0=y-13, y1=y+3;
+  const ok6=(zB, fiFrei)=>([x,y])=>{ const x0=x-2, x1=x+lw6+2, y0=y-13, y1=y+3;
     if(x0<px0+2 || x1>W-4 || y0<2 || y1>py1-2) return false;
-    if(x30>x0-3 && x30<x1+3) return false;
+    if(fiFrei && x30>x0-3 && x30<x1+3) return false;
     return ![fiB, ...zB].some(([a,b2,c,d])=>x1>a && x0<c && y1>b2 && y0<d); };
-  // Findet sich keine Lage ohne FI-Linie (Punkt knapp links davon, z. B. im
-  // Bereich 1), darf die Beschriftung die Linie kreuzen, nie aber Texte.
-  const ok6b=([x,y])=>{ const x0=x-2, x1=x+lw6+2, y0=y-13, y1=y+3;
-    if(x0<px0+2 || x1>W-4 || y0<2 || y1>py1-2) return false;
-    return ![fiB, ...zB].some(([a,b2,c,d])=>x1>a && x0<c && y1>b2 && y0<d); };
-  const wahl6=lagen6.find(ok6) || lagen6.find(ok6b);
+  // Zuerst weicht die Beschriftung den Ziffern aus. Findet sie so keine Lage
+  // frei von der FI-Linie, sucht sie ohne Rücksicht auf die Ziffern, und die
+  // Ziffern weichen ihr aus. Erst wenn auch das nicht geht, darf sie die
+  // FI-Linie kreuzen (Punkt knapp links davon, z. B. im Bereich 1), nie aber Texte.
+  let zPos = zSetze(null);
+  const zBox = zp => zp.map(([x,y])=>[x-8,y-14,x+8,y+4]);
+  let wahl6 = lagen6.find(ok6(zBox(zPos), true));
+  if(!wahl6){
+    wahl6 = lagen6.find(ok6([], true)) || lagen6.find(ok6(zBox(zPos), false)) || lagen6.find(ok6([], false));
+    if(wahl6) zPos = zSetze([wahl6[0]-2, wahl6[1]-13, wahl6[0]+lw6+2, wahl6[1]+3]);
+  }
   const [lx6, ly6]=wahl6 || [Math.max(px0+2, Math.min(W-4-lw6, mx+10)), Math.max(my-8, 14)];
+  ctx.fillStyle='#3a332a'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
+  zPos.forEach(([x, y], i) => ctx.fillText(String(i+1), x, y));
+  // Arbeitspunkt
+  ctx.strokeStyle='#1c1a17'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(mx,py1); ctx.lineTo(mx,my); ctx.moveTo(px0,my); ctx.lineTo(mx,my); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#1c1a17'; ctx.beginPath(); ctx.arc(mx,my,6,0,6.283); ctx.fill();
+  ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='left';
   ctx.save(); ctx.strokeStyle='#fff'; ctx.lineWidth=3.5; ctx.lineJoin='round';
   ctx.strokeText(lab, lx6, ly6); ctx.fillText(lab, lx6, ly6); ctx.restore();
 }
@@ -3852,7 +3878,7 @@ document.querySelectorAll('[data-a6sz]').forEach(b => b.addEventListener('click'
   document.querySelectorAll('[data-a6sz]').forEach(x => x.classList.toggle('aktiv', x === b));
   const rTxt = R >= 1000 ? (R/1000) + '\\;\\text{k}\\Omega' : texO(R);
   flTex('a6-szen', [['I = \\frac{U}{R}', '= \\frac{' + texE(U,'V') + '}{' + rTxt + '}', '= ' + texE(...a6IZ(I_mA))],
-                    't = ' + texE((tms/1000).toFixed(2),'s')]);
+                    't = ' + texE(...a6TZ(tms))]);
   drawA6();
 }));
 ['a6-I','a6-t'].forEach(id=>document.getElementById(id).addEventListener('input', drawA6));
@@ -4024,8 +4050,9 @@ function mmDraw(r){
     ctx.textAlign = 'right'; ctx.fillText('U₀ = ' + MM_U + ' V', L - 6, qy - 16);
     if(E) mmIdx(ctx, L - 9, riY + 4, 'R', 'i', ' = ' + MM_RI.toFixed(1) + ' Ω', 'right');
   } else {
-    ctx.textAlign = 'left'; ctx.fillText('U₀ = ' + MM_U + ' V', L + 12, qy + 4);
-    if(E) mmIdx(ctx, L + 12, riY + 4, 'R', 'i', ' = ' + MM_RI.toFixed(1) + ' Ω', 'left');
+    // Abstand 22 px: die lange Platte reicht 15 px nach rechts, die Schrift steht frei
+    ctx.textAlign = 'left'; ctx.fillText('U₀ = ' + MM_U + ' V', L + 22, qy + 4);
+    if(E) mmIdx(ctx, L + 22, riY + 4, 'R', 'i', ' = ' + MM_RI.toFixed(1) + ' Ω', 'left');
   }
 
   // Lampe: Helligkeit nach der Leistung, die sie wirklich bekommt
@@ -4376,14 +4403,27 @@ function lpDraw(w){
   // Fester Bezug für beide Schaltungen: 100 W (grösste Nennleistung am Regler)
   // = volle Helligkeit. Vorher wurde je Schaltung auf die hellere Lampe
   // normiert, und die 40-W-Lampe wirkte in Reihe (14.4 W) heller als parallel.
-  // Wurzel, damit auch 10 W noch sichtbar glimmen; die Reihenfolge bleibt.
-  const LP_PREF = 100;
+  // Abbildung logarithmisch zwischen 3 W (dunkel) und 100 W (voll), wie das
+  // Auge Helligkeit ungefähr empfindet (Weber-Fechner): Jede Verdopplung der
+  // Leistung gibt dieselbe Stufe (0.198). Streng monoton oberhalb 3 W; darunter
+  // bleibt eine Glühlampe tatsächlich dunkel. Nachgerechnet (40 W / 60 W):
+  // parallel 0.739 / 0.854, in Reihe (14.4 W / 9.6 W) 0.447 / 0.332 — vorher
+  // mit der Wurzel und Deckkraft allein 0.61 / 0.72 und 0.42 / 0.36.
+  // Sichtbar gemacht über Farbe (grau → bernsteingelb) und Hof (Radius, Deckkraft).
+  const LP_PMIN = 3, LP_PREF = 100;
+  const lpStufe = P => P <= LP_PMIN ? 0 : Math.min(1, Math.log(P/LP_PMIN) / Math.log(LP_PREF/LP_PMIN));
   // Beschriftung unter der Lampe (Reihe: darunter ist frei) oder rechts
   // daneben (parallel: unter der Lampe läuft der Zweig weiter)
   function lampe(x, y, P, nenn, seite){
-    const t = Math.min(1, Math.sqrt(P/LP_PREF));    // Helligkeit, fester Bezug
+    const t = lpStufe(P);                            // Helligkeit, fester Bezug
+    if(t > 0){                                       // Hof hinter Leitungen und Lampe
+      const rH = 17 + 44*t, grd = ctx.createRadialGradient(x, y, 12, x, y, rH);
+      grd.addColorStop(0, 'rgba(255,190,30,' + t.toFixed(3) + ')'); grd.addColorStop(1, 'rgba(255,190,30,0)');
+      ctx.save(); ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(x, y, rH, 0, Math.PI*2); ctx.fill(); ctx.restore();
+    }
     ctx.beginPath(); ctx.arc(x, y, 17, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(240,167,66,' + (0.12 + 0.78*t).toFixed(2) + ')';
+    ctx.fillStyle = 'rgb(' + Math.round(222 + 33*t) + ',' + Math.round(216 - 26*t) + ',' + Math.round(204 - 184*t) + ')';
     ctx.fill();
     ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.2; ctx.stroke();
     ctx.beginPath(); ctx.moveTo(x-12,y-12); ctx.lineTo(x+12,y+12);
@@ -4446,7 +4486,7 @@ function lpInit(){
 // ══════════════════════════════════════════════════════════
 //  FI-SCHUTZSCHALTER: der Stromvergleich
 //
-//  Wasserkocher 2000 W an 230 V (I = 8.696 A). Der FI vergleicht Hin- und
+//  Wasserkocher 2000 W an 230 V (I = 8.6957 A). Der FI vergleicht Hin- und
 //  Rückstrom; der Leitungsschutzschalter (LS 13 A, Charakteristik B) schaltet
 //  bei einem Kurzschluss magnetisch ab (sicher ab 5 · I_n = 65 A). Fälle:
 //    koerper: Fehlerstrom 230 V / R_K durch einen Menschen zur Erde
@@ -4502,6 +4542,15 @@ function fiRender(){
     flTex('fi-eq1', ['I_\\text{F} = \\frac{U}{R_\\text{Schleife}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(FI_RPE) + '}', '= ' + fiTD(r.IF)]);
   else
     flTex('fi-eq1', ['I_\\text{Kurz} = \\frac{U}{R_\\text{Schleife}}', '= \\frac{' + texE(FI_U,'V') + '}{' + texO(FI_RKURZ) + '}', '= ' + fiTD(r.IK)]);
+  // Der Hinstrom trägt bei einem Fehler auch den Strom des Wasserkochers:
+  // im Kurzschluss 460.0 A + 8.6957 A = 468.7 A — so steht es in der Live-Box
+  const eL = document.getElementById('fi-eqL');
+  eL.style.display = fiFall === 'normal' ? 'none' : '';
+  if(fiFall !== 'normal'){
+    const Ix = fiFall === 'kurz' ? 'I_\\text{Kurz}' : fiFall === 'koerper' ? 'I_\\text{K}' : 'I_\\text{F}';
+    const Iw = fiFall === 'kurz' ? r.IK : r.IF;
+    flTex('fi-eqL', ['I_\\text{L} = I_\\text{Gerät} + ' + Ix, '= ' + fiTA(r.Ilast) + ' + ' + (Iw >= 1 ? fiTA(Iw) : fiTD(Iw)), '= ' + fiTA(r.IL)]);
+  }
   // Bei einem Fehler ist die Differenz genau der Fehlerstrom
   flTex('fi-eq2', fiFall === 'koerper' || fiFall === 'pe'
     ? ['\\Delta I = I_\\text{L} - I_\\text{N}', '= ' + (fiFall === 'koerper' ? 'I_\\text{K}' : 'I_\\text{F}'), '= ' + fiTD(r.dI)]
@@ -4717,78 +4766,147 @@ function wsLesen(){
 }
 function wsRender(){
   const v = wsWerte();
-  const cv = initCanvas('ws-cv', 330, false); if(!cv) return;
+  const cv = initCanvas('ws-cv', 336, false); if(!cv) return;
   let ctx = cv.ctx; const W = cv.W, schmal = W < 560;
   // Schmal: Diagramme über die ganze Breite, Heizwiderstände darunter
-  const H = schmal ? 520 : 330;
+  const H = schmal ? 520 : 336;
   if(schmal){ const c2 = initCanvas('ws-cv', H, false); ctx = c2.ctx; }
   const FS = px => px + 'px "Source Sans 3",sans-serif';
   const CAC = '#8a4a0e', CDC = '#1a4f8a';
   const pw = schmal ? W : W * 0.66, ph = schmal ? 170 : 160;
   const omega = 2 * Math.PI * WS_F / 1000;                     // rad pro ms
+  // Links eine eigene Spalte für die Skalenzahlen: t = 0 liegt 42 px vom Rand,
+  // die Zahlen stehen links der u- bzw. p-Achse, und keine Kurve und keine
+  // waagrechte Linie läuft durch «200», «1000» oder «2000».
+  const PAD = 42, TMIN = -PAD * WS_TMAX / (pw - PAD);
+  const bw = t => ctx.measureText(t).width;
+  // «t [ms]» 8 px vor dem Pfeil (sonst berührt «]» die Pfeilspitze); das
+  // Vorgabe-«x» von drawGrid wird vorher zugedeckt, ohne die Spitze anzutasten
+  const achsen = (g, xl, yl, dy) => {
+    ctx.fillStyle = '#fff'; ctx.fillRect(pw - 20, g.cy(0) - 20, 20, 15.5);
+    drawAxesUnits(ctx, pw - 8, ph, g.cx, g.cy, xl, yl, dy);
+  };
+  ctx.font = 'bold 13px JetBrains Mono,monospace';
+  const tLabW = Math.ceil(bw('t [ms]')) + 8;
+  // Kurve als Punktliste (für die Wahl freier Beschriftungslagen)
+  const kurve = f => { const pts = []; for(let i = 0; i <= 800; i++){ const t = WS_TMAX * i / 800; pts.push([t, f(t)]); } return pts; };
+  const ac = t => v.Us * Math.sin(omega * t);
+
   // ── oben: u(t)
   ctx.save();
-  // oben Platz für die Beschriftungen
-  let g = drawGrid(ctx, pw, ph, 0, WS_TMAX, -420, 560); drawAxesUnits(ctx, pw, ph, g.cx, g.cy, 't [ms]', 'u [V]');
+  let g = drawGrid(ctx, pw, ph, TMIN, WS_TMAX, -420, 560);
+  // Zeitmarken nur im unteren Diagramm: Hier kreuzt die Sinuskurve die Achse
+  // genau bei 10, 20, 30 ms und liefe durch die Zahlen. Zudecken genügt —
+  // drawGrid zeichnet eine Zahl nur nach, wenn sie noch sichtbar ist.
+  ctx.font = '13px JetBrains Mono,monospace';
+  for(let t = g.stepX; t <= WS_TMAX + 1e-6; t += g.stepX){
+    const x = g.cx(t); if(x < 14 || x > pw - 72) continue;
+    const w = bw(fmtTick(t, g.stepX));
+    ctx.fillStyle = '#fff'; ctx.fillRect(x - w/2 - 2, g.cy(0) + 3, w + 4, 17);
+    ctx.strokeStyle = '#eff1f5'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x, g.cy(0) + 1); ctx.lineTo(x, g.cy(0) + 21); ctx.stroke();
+  }
+  const uT = ac(wsT);
+  ctx.strokeStyle = 'rgba(92,85,76,0.5)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(g.cx(wsT), g.cy(560)); ctx.lineTo(g.cx(wsT), g.cy(-420)); ctx.stroke();
   ctx.strokeStyle = CDC; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(g.cx(0), g.cy(v.Ud)); ctx.lineTo(g.cx(WS_TMAX), g.cy(v.Ud)); ctx.stroke();
   ctx.setLineDash([6, 4]); ctx.strokeStyle = CAC; ctx.lineWidth = 1.4;
-  // erst rechts der Skalenzahlen beginnen — sonst streichen sie «200» und «−200» durch
-  [v.Ueff, -v.Ueff].forEach(u => { ctx.beginPath(); ctx.moveTo(g.cx(0) + 46, g.cy(u)); ctx.lineTo(g.cx(WS_TMAX), g.cy(u)); ctx.stroke(); });
+  [v.Ueff, -v.Ueff].forEach(u => { ctx.beginPath(); ctx.moveTo(g.cx(0), g.cy(u)); ctx.lineTo(g.cx(WS_TMAX), g.cy(u)); ctx.stroke(); });
   ctx.setLineDash([]);
   ctx.strokeStyle = CAC; ctx.lineWidth = 2.4; ctx.beginPath();
-  for(let i = 0; i <= 400; i++){ const t = WS_TMAX * i / 400, u = v.Us * Math.sin(omega * t);
+  for(let i = 0; i <= 400; i++){ const t = WS_TMAX * i / 400, u = ac(t);
     if(i) ctx.lineTo(g.cx(t), g.cy(u)); else ctx.moveTo(g.cx(t), g.cy(u)); }
   ctx.stroke();
-  const uT = v.Us * Math.sin(omega * wsT);
-  ctx.strokeStyle = 'rgba(92,85,76,0.5)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(g.cx(wsT), g.cy(560)); ctx.lineTo(g.cx(wsT), g.cy(-420)); ctx.stroke();
+  achsen(g, 't [ms]', 'u [V]', 0);                     // nach den Linien: ihr heller Grund deckt sie zu
   ctx.fillStyle = CAC; ctx.beginPath(); ctx.arc(g.cx(wsT), g.cy(uT), 5, 0, 6.283); ctx.fill();
-  ctx.font = 'bold ' + FS(11); ctx.textAlign = 'right';
-  mmIdx(ctx, pw - 6, g.cy(v.Us) - 4, 'U', 's', ' = ' + v.Us.toFixed(1) + ' V', 'right', CAC);
-  mmIdx(ctx, pw - 6, g.cy(v.Ueff) + 14, 'U', 'eff', ' = ' + v.Ueff.toFixed(1) + ' V', 'right', CAC);
+  // Hindernisse: die Kurve, die waagrechten Linien, Achsenbeschriftungen, Skalenzahlen
+  const px = pts => pts.map(([t, y]) => [g.cx(t), g.cy(y)]);
+  const linie = u => px(kurve(() => u));
+  let hind = [px(kurve(ac)), linie(0)];
+  let feste = [
+    { x0: pw - 8 - tLabW - 2, x1: pw, y0: g.cy(0) - 21, y1: g.cy(0) - 1 },   // «t [ms]»
+    { x0: g.cx(0), x1: g.cx(0) + 64, y0: 0, y1: 22 },                       // «u [V]»
+    { x0: 0, x1: g.cx(0) + 2, y0: 0, y1: ph } ];                            // Skalenzahlen u
   ctx.font = 'bold ' + FS(11);
-  // Gleichspannung: rechts von der Achsenbeschriftung «u [V]», über ihrer Linie
-  const gTxt = 'Gleichspannung ' + v.Ud.toFixed(1) + ' V';
-  ctx.fillStyle = CDC; ctx.textAlign = 'left'; ctx.fillText(gTxt, g.cx(0) + 64, g.cy(v.Ud) - 5);
-  const bw = t => ctx.measureText(t).width;
-  wsMarke(ctx, g.cx(wsT), g.cy(uT), 'u = ' + uT.toFixed(1).replace('-', '−') + ' V', pw, ph - 4, [   // Rundung wie U_s (325.3 V)
-    wsRect(pw - 6, g.cy(v.Us) - 4, bw('Us = ' + v.Us.toFixed(1) + ' V') + 4, 'right'),
-    wsRect(pw - 6, g.cy(v.Ueff) + 14, bw('Ueff = ' + v.Ueff.toFixed(1) + ' V') + 6, 'right'),
-    wsRect(g.cx(0) + 64, g.cy(v.Ud) - 5, bw(gTxt), 'left'),
-    { x0: pw - 76, x1: pw, y0: g.cy(0) - 24, y1: g.cy(0) + 2 },     // «t [ms]»
-    { x0: 0, x1: 64, y0: 0, y1: 22 },                                  // «u [V]»
-    { x0: 0, x1: g.cx(0) + 46, y0: 0, y1: ph },                        // Skalenzahlen u
-    { x0: 0, x1: pw, y0: g.cy(0) + 3, y1: g.cy(0) + 21 } ]);           // Skalenzahlen t
+  // Breite wie gezeichnet: fett 11 px, mit Index wie mmIdx (11 px + 8 px)
+  const lab = (txt, al, xa, ya, farbe, idx) => {
+    let w;
+    if(idx){ ctx.font = FS(11); w = bw(idx[0]) + bw(idx[2]); ctx.font = FS(8); w += bw(idx[1]); }
+    else { ctx.font = 'bold ' + FS(11); w = bw(txt); }
+    ctx.font = 'bold ' + FS(11);
+    return { txt, al, x: xa, y: ya, w, farbe, idx };
+  };
+  // Scheitelwert: rechts über seiner Höhe — die Kurve reicht nie darüber
+  const sI = ['U', 's', ' = ' + v.Us.toFixed(1) + ' V'], yS = g.cy(v.Us);
+  const lUs = wsWahl([lab('', 'right', pw - 12, yS - 6, CAC, sI), lab('', 'left', g.cx(10) + 6, yS - 6, CAC, sI),
+    lab('', 'left', g.cx(30) + 6, yS - 6, CAC, sI)], hind.concat([linie(v.Ud)]), feste, pw, ph, g.cx(0));
+  feste.push(wsRect(lUs.x, lUs.y, lUs.w, lUs.al));
+  // Gleichspannung: über ihrer Linie, zuerst zwischen 10 und 20 ms (dort ist
+  // die Wechselspannung negativ und die Fläche darüber frei)
+  const gT = 'Gleichspannung ' + v.Ud.toFixed(1) + ' V', gK = 'Gleich ' + v.Ud.toFixed(1) + ' V';
+  const yD = g.cy(v.Ud);
+  const lD = wsWahl([
+    lab(gT, 'left', g.cx(10) + 6, yD - 6, CDC), lab(gK, 'left', g.cx(10) + 6, yD - 6, CDC),
+    lab(gT, 'left', g.cx(30) + 6, yD - 6, CDC), lab(gK, 'left', g.cx(30) + 6, yD - 6, CDC),
+    lab(gT, 'left', g.cx(10) + 6, yD + 15, CDC), lab(gK, 'left', g.cx(10) + 6, yD + 15, CDC),
+    lab(gT, 'left', g.cx(0) + 68, yD - 6, CDC), lab(gK, 'left', g.cx(0) + 68, yD - 6, CDC) ],
+    hind.concat([linie(v.Ueff), linie(-v.Ueff)]), feste, pw, ph, g.cx(0));
+  feste.push(wsRect(lD.x, lD.y, lD.w, lD.al));
+  // Effektivwert: unter seiner Linie, rechts oder ebenfalls zwischen 10 und 20 ms
+  const eI = ['U', 'eff', ' = ' + v.Ueff.toFixed(1) + ' V'], yE = g.cy(v.Ueff);
+  const lE = wsWahl([
+    lab('', 'right', pw - 12, yE + 15, CAC, eI), lab('', 'left', g.cx(10) + 6, yE + 15, CAC, eI),
+    lab('', 'left', g.cx(30) + 6, yE + 15, CAC, eI), lab('', 'right', pw - 12, yE - 6, CAC, eI),
+    lab('', 'left', g.cx(10) + 6, yE - 6, CAC, eI) ],
+    hind.concat([linie(v.Ud)]), feste, pw, ph, g.cx(0));
+  feste.push(wsRect(lE.x, lE.y, lE.w, lE.al));
+  [lUs, lD, lE].forEach(l => wsSchreibe(ctx, l));
+  wsMarke(ctx, g.cx(wsT), g.cy(uT), 'u = ' + uT.toFixed(1).replace('-', '−') + ' V', pw, ph - 4, feste);   // Rundung wie U_s (325.3 V)
   ctx.restore();
+
   // ── unten: p(t)
-  const PMAX = 3400, y0 = ph + 12;
+  // Bis 4000 W, damit auch 3200 W (400 V an 50 Ω) unter «p [W]» bleibt; unten
+  // 620 W Luft, damit Zeitmarken und «t [ms]» unter der Achse Platz haben —
+  // dort, wo p ≥ 0 nie hinkommt
+  const PMAX = 4000, PMIN = -620, y0 = ph + 12;
   ctx.save(); ctx.translate(0, y0);
-  g = drawGrid(ctx, pw, ph, 0, WS_TMAX, -200, PMAX); drawAxesUnits(ctx, pw, ph, g.cx, g.cy, 't [ms]', 'p [W]');
+  g = drawGrid(ctx, pw, ph, TMIN, WS_TMAX, PMIN, PMAX);
+  // Achsenbeschriftung hier schon: ihre weissen Flecken liegen über der Achse
+  // rechts, wo die p-Kurve noch verläuft — danach gezeichnet, würde sie ein Stück wegfressen
+  achsen(g, 't [ms]', 'p [W]', 23);                     // «t [ms]» unter der Achse, in der Zeile der Zeitmarken
+  const pT = uT*uT / WS_R;
+  ctx.strokeStyle = 'rgba(92,85,76,0.5)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(g.cx(wsT), g.cy(PMAX)); ctx.lineTo(g.cx(wsT), g.cy(0)); ctx.stroke();
   // Fläche unter p(t) = Energie
+  const pac = t => ac(t) * ac(t) / WS_R;
   ctx.fillStyle = 'rgba(138,74,14,0.12)'; ctx.beginPath(); ctx.moveTo(g.cx(0), g.cy(0));
-  for(let i = 0; i <= 400; i++){ const t = WS_TMAX * i / 400, u = v.Us * Math.sin(omega * t); ctx.lineTo(g.cx(t), g.cy(u*u / WS_R)); }
+  for(let i = 0; i <= 400; i++){ const t = WS_TMAX * i / 400; ctx.lineTo(g.cx(t), g.cy(pac(t))); }
   ctx.lineTo(g.cx(WS_TMAX), g.cy(0)); ctx.closePath(); ctx.fill();
   ctx.strokeStyle = CAC; ctx.lineWidth = 2.2; ctx.beginPath();
-  for(let i = 0; i <= 400; i++){ const t = WS_TMAX * i / 400, u = v.Us * Math.sin(omega * t);
-    if(i) ctx.lineTo(g.cx(t), g.cy(u*u / WS_R)); else ctx.moveTo(g.cx(t), g.cy(u*u / WS_R)); }
+  for(let i = 0; i <= 400; i++){ const t = WS_TMAX * i / 400;
+    if(i) ctx.lineTo(g.cx(t), g.cy(pac(t))); else ctx.moveTo(g.cx(t), g.cy(pac(t))); }
   ctx.stroke();
-  ctx.setLineDash([6, 4]); ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(g.cx(0) + 46, g.cy(v.Pac)); ctx.lineTo(g.cx(WS_TMAX), g.cy(v.Pac)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.setLineDash([6, 4]); ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(g.cx(0), g.cy(v.Pac)); ctx.lineTo(g.cx(WS_TMAX), g.cy(v.Pac)); ctx.stroke(); ctx.setLineDash([]);
   ctx.strokeStyle = CDC; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(g.cx(0), g.cy(v.Pdc)); ctx.lineTo(g.cx(WS_TMAX), g.cy(v.Pdc)); ctx.stroke();
-  const pT = uT*uT / WS_R;
-  ctx.strokeStyle = 'rgba(92,85,76,0.5)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(g.cx(wsT), g.cy(PMAX)); ctx.lineTo(g.cx(wsT), g.cy(-200)); ctx.stroke();
   ctx.fillStyle = CAC; ctx.beginPath(); ctx.arc(g.cx(wsT), g.cy(pT), 5, 0, 6.283); ctx.fill();
-  ctx.font = 'bold ' + FS(11); ctx.textAlign = 'right'; ctx.fillStyle = CAC;
-  const yAc = g.cy(v.Pac) - 5, yDc = g.cy(v.Pdc) - 5;
-  // heller Grund: die Beschriftung liegt sonst auf der p-Kurve
-  const mTxt = 'Mittelwert ' + v.Pac.toFixed(0) + ' W', mY = Math.abs(yAc - yDc) < 14 ? yAc + 19 : yAc, mW = ctx.measureText(mTxt).width;
-  ctx.fillStyle = 'rgba(255,255,255,0.88)'; ctx.fillRect(pw - 9 - mW, mY - 11, mW + 6, 15);
-  ctx.fillStyle = CAC; ctx.fillText(mTxt, pw - 6, mY);
-  const dTxt = 'Gleich ' + v.Pdc.toFixed(0) + ' W', dY = yDc < 24 ? yDc + 19 : yDc;
-  ctx.fillStyle = CDC; ctx.fillText(dTxt, pw - 6, dY);
-  wsMarke(ctx, g.cx(wsT), g.cy(pT), 'p = ' + pT.toFixed(0) + ' W', pw, g.cy(0) - 24, [   // über der Zahlenzeile der t-Achse
-    wsRect(pw - 6, mY, mW, 'right'), wsRect(pw - 6, dY, ctx.measureText(dTxt).width, 'right'),
-    { x0: pw - 76, x1: pw, y0: g.cy(0) - 24, y1: g.cy(0) + 2 },     // «t [ms]»
-    { x0: 0, x1: 64, y0: 0, y1: 22 },                                  // «p [W]»
-    { x0: 0, x1: g.cx(0) + 46, y0: 0, y1: ph } ]);                     // Skalenzahlen p
+  hind = [px(kurve(pac)), linie(0)];
+  feste = [
+    { x0: pw - 8 - tLabW - 2, x1: pw, y0: g.cy(0) + 3, y1: g.cy(0) + 22 },   // «t [ms]»
+    { x0: g.cx(0), x1: g.cx(0) + 64, y0: 0, y1: 22 },                       // «p [W]»
+    { x0: 0, x1: g.cx(0) + 2, y0: 0, y1: ph },                              // Skalenzahlen p
+    { x0: 0, x1: pw, y0: g.cy(0) + 3, y1: g.cy(0) + 21 } ];                 // Zeitmarken
+  ctx.font = 'bold ' + FS(11);
+  const dT = 'Gleich ' + v.Pdc.toFixed(0) + ' W', mT = 'Mittelwert ' + v.Pac.toFixed(0) + ' W';
+  const yDc = g.cy(v.Pdc), yAc = g.cy(v.Pac);
+  // Lagen: rechts aussen, sonst über einer Nullstelle von p (10, 20, 30 ms),
+  // wo die Kurve tief liegt; ist nichts frei, trägt der helle Grund
+  const lagen = (txt, y, farbe) => [lab(txt, 'right', pw - 12, y, farbe)]
+    .concat([10, 20, 30].map(t => lab(txt, 'left', g.cx(t) - bw(txt)/2, y, farbe)));
+  const lG = wsWahl(lagen(dT, yDc - 6, CDC).concat(lagen(dT, yDc + 15, CDC)),
+    hind.concat([linie(v.Pac)]), feste, pw, g.cy(0) - 2, g.cx(0));
+  feste.push(wsRect(lG.x, lG.y, lG.w, lG.al));
+  const lM = wsWahl(lagen(mT, yAc + 15, CAC).concat(lagen(mT, yAc - 6, CAC)),
+    hind.concat([linie(v.Pdc)]), feste, pw, g.cy(0) - 2, g.cx(0));
+  feste.push(wsRect(lM.x, lM.y, lM.w, lM.al));
+  [lG, lM].forEach(l => wsSchreibe(ctx, l));
+  wsMarke(ctx, g.cx(wsT), g.cy(pT), 'p = ' + pT.toFixed(0) + ' W', pw, g.cy(0) - 4, feste);
   ctx.restore();
   // ── Heizwiderstände
   const hx0 = schmal ? 0 : pw + 10, hy0 = schmal ? 2*ph + 24 : 0, hw = schmal ? W : W - pw - 10, hh = schmal ? H - hy0 : H;
@@ -4812,6 +4930,32 @@ function wsRender(){
   heizer(hx0 + hw * 0.73, v.Pac, 'Wechsel', CAC);
   ctx.fillStyle = '#5c554c'; ctx.font = FS(11); ctx.textAlign = 'center';
   ctx.fillText('je R = 50 Ω', hx0 + hw/2, hy0 + hh - 6);
+}
+// Feste Beschriftung: die erste Lage, die weder eine Kurve oder Linie noch
+// eine schon gesetzte Beschriftung berührt. Ist keine ganz frei, gewinnt die
+// Lage, unter der am wenigsten Kurve verschwindet (gezählt in Punkten der
+// Kurvenlisten) — aber nie eine über einer anderen Beschriftung. Der helle
+// Grund bleibt in jedem Fall (Stilregel 10).
+function wsWahl(lagen, kurven, feste, pw, yMax, xMin){
+  const wert = l => {
+    const r = wsRect(l.x, l.y, l.w, l.al);
+    if(r.x0 < xMin + 2 || r.x1 > pw - 2 || r.y0 < 0 || r.y1 > yMax) return Infinity;
+    if(feste.some(f => r.x0 < f.x1 && r.x1 > f.x0 && r.y0 < f.y1 && r.y1 > f.y0)) return Infinity;
+    let n = 0;
+    kurven.forEach(k => k.forEach(([x, y]) => {        // halbe Linienbreite 1.2 px
+      if(x > r.x0 - 1 && x < r.x1 + 1 && y > r.y0 - 1.5 && y < r.y1 + 1.5) n++; }));
+    return n;
+  };
+  let best = lagen[0], bw = Infinity;
+  for(const l of lagen){ const w = wert(l); if(w === 0) return l; if(w < bw){ bw = w; best = l; } }
+  return best;
+}
+function wsSchreibe(ctx, l){
+  const r = wsRect(l.x, l.y, l.w, l.al);
+  ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.fillRect(r.x0, r.y0 + 1, r.x1 - r.x0, r.y1 - r.y0 - 1);
+  ctx.font = 'bold 11px "Source Sans 3",sans-serif';
+  if(l.idx) mmIdx(ctx, l.x, l.y, l.idx[0], l.idx[1], l.idx[2], l.al, l.farbe);
+  else { ctx.fillStyle = l.farbe; ctx.textAlign = l.al; ctx.fillText(l.txt, l.x, l.y); }
 }
 // Momentanwert neben dem Punkt zum Zeitpunkt t: Ohne Zahl ist der Punkt nur
 // Bewegung — mit ihr sieht man, dass p auch bei negativem u positiv bleibt.
@@ -4984,7 +5128,7 @@ function mbDraw(r){
   ctx.stroke();
   quelle(ctx, cL, my, '');
   ctx.fillStyle = mbQuelle ? '#3f3a33' : '#9a938a'; ctx.font = FS(12); ctx.textAlign = 'left';
-  ctx.fillText('12 V ' + (mbQuelle ? 'ein' : 'aus'), cL + 12, my + 4);
+  ctx.fillText('12 V ' + (mbQuelle ? 'ein' : 'aus'), cL + 22, my + 4);   // frei von der langen Platte (±15 px)
   // R: eingebaut oder ausgebaut unter dem Kreis
   const rY = offenR ? cB + 50 : cT;
   mmBox(ctx, xR, rY, rW, 16);
