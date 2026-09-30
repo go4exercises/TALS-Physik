@@ -176,6 +176,9 @@ MathJax = {
 .mb-vorgehen li { counter-increment:mbv; }
 .mb-vorgehen li::before { content:counter(mbv) ". "; color:var(--bernstein); font-weight:700; }
 .mb-vorgehen li + li::before { content:"→ " counter(mbv) ". "; }
+/* Vorgehensschritte sind Knöpfe; ein erfüllter Schritt wird grün abgehakt */
+.mb-vorgehen .typ-btn[data-erledigt] { border-color:var(--gruen); background:var(--gruen-hell); color:var(--gruen); }
+.mb-vorgehen .typ-btn[data-erledigt]::before { content:"✓ "; }
 </style>
 </head>
 <body>
@@ -832,14 +835,14 @@ MathJax = {
     <div class="sl-row">
       <label>Rote Leitung in:</label>
       <div class="typ-btns" style="margin-bottom:0">
-        <button class="typ-btn aktiv" data-mbb="vomA">Buchse VΩmA</button>
+        <button class="typ-btn" data-mbb="vomA">Buchse VΩmA</button>
         <button class="typ-btn" data-mbb="a10">Buchse 10A</button>
       </div>
     </div>
     <div class="sl-row">
       <label>Anschluss:</label>
       <div class="typ-btns" style="margin-bottom:0">
-        <button class="typ-btn aktiv" data-mbk="par">parallel zu R</button>
+        <button class="typ-btn" data-mbk="par">parallel zu R</button>
         <button class="typ-btn" data-mbk="ser">in Serie (Leitung aufgetrennt)</button>
         <button class="typ-btn" data-mbk="aus">an ausgebautem R</button>
       </div>
@@ -852,7 +855,7 @@ MathJax = {
       </div>
     </div>
 
-    <p id="mb-fb" style="margin:10px 0; padding:8px 12px; border-left:4px solid var(--linie); background:var(--papier-2); border-radius:6px;">Drehschalter steht auf OFF.</p>
+    <p id="mb-fb" style="margin:10px 0; padding:8px 12px; border-left:4px solid var(--linie); background:var(--papier-2); border-radius:6px;">Die Messleitungen sind noch nicht angeschlossen.</p>
 
     <div class="formel-live">
       <div class="fl-label">Was das Gerät misst</div>
@@ -861,7 +864,7 @@ MathJax = {
 
     <div class="cv-wrap">
       <div class="cv-titel">🔧 Prüfkreis und Multimeter</div>
-      <canvas id="mb-cv" height="340" role="img" aria-label="Links ein Prüfkreis aus Netzgerät mit 12 Volt, einem Widerstand R von 100 Ohm und einer Lampe von 10 Ohm. Rechts ein Multimeter mit Anzeige, Drehschalter und den Buchsen 10A, COM und VΩmA. Zwei Messleitungen, schwarz aus COM und rot aus der gewählten Buchse, führen je nach Anschlussart an die Enden von R, an eine aufgetrennte Stelle der Leitung oder an den ausgebauten Widerstand. Die Anzeige zeigt den gerechneten Messwert, OL bei Überlauf oder eine Fehlermeldung."></canvas>
+      <canvas id="mb-cv" height="340" role="img" aria-label="Links ein Prüfkreis aus Netzgerät mit 12 Volt, einem Widerstand R von 100 Ohm und einer Lampe von 10 Ohm. Rechts ein Multimeter mit Anzeige, Drehschalter und den Buchsen 10A, COM und VΩmA. Zwei Messleitungen, schwarz aus COM und rot aus der gewählten Buchse, führen je nach Anschlussart an die Enden von R, an eine aufgetrennte Stelle der Leitung oder an den ausgebauten Widerstand. Nach der Wahl eines Auftrags hängen beide Leitungen frei neben dem Kreis, und der rote Stecker liegt neben den Buchsen. Die Anzeige zeigt den gerechneten Messwert, OL bei Überlauf oder eine Fehlermeldung."></canvas>
     </div>
 
   </div>
@@ -5028,7 +5031,23 @@ function wsInit(){
 //  Ω in Serie 110.0.
 // ══════════════════════════════════════════════════════════
 const MB_E = 12, MB_R = 100, MB_RL = 10, MB_RV = 1e7, MB_RMA = 1, MB_RA10 = 0.01, MB_FUSE = 0.2;
-let mbAuftrag = 'U', mbSchalter = 'off', mbBuchse = 'vomA', mbKreis = 'par', mbQuelle = false, mbDefekt = false;
+let mbAuftrag = 'U', mbSchalter = 'off', mbBuchse = 'none', mbKreis = 'none', mbQuelle = false, mbDefekt = false;
+// Neustart bei jeder Auftragswahl (und beim Seitenaufruf): Gerät OFF, Netzgerät aus,
+// mbBuchse 'none' = roter Stecker in keiner Buchse, mbKreis 'none' = Messleitungen
+// hängen frei. mbRAus: R ist ausgebaut (bei mbKreis 'aus' immer, bei 'none' möglich).
+let mbRAus = false;
+function mbNeustart(){
+  mbSchalter = 'off'; mbBuchse = 'none'; mbKreis = 'none'; mbRAus = false;
+  mbQuelle = false; mbDefekt = false; mbMeldung = '';          // mbDefekt: Sicherung ersetzt
+}
+// Was zum Messkreis fehlt ('' = nichts)
+function mbFehlt(){
+  const k = mbKreis === 'none', b = mbBuchse === 'none';
+  if(k && b) return 'Die Messleitungen sind noch nicht angeschlossen, und der rote Stecker steckt in keiner Buchse.';
+  if(k) return 'Die Messleitungen sind noch nicht angeschlossen.';
+  if(b) return 'Der rote Stecker steckt in keiner Buchse.';
+  return '';
+}
 // Das Netzgerät lässt sich nur einschalten, wenn alles richtig angeschlossen ist.
 // mbMeldung: Grund, warum es aus blieb bzw. ausging (wird bei der nächsten Aktion ersetzt).
 let mbMeldung = '';
@@ -5037,7 +5056,9 @@ function mbRechne(qErzwingen){
   const s = mbSchalter, b = mbBuchse, k = mbKreis, q = qErzwingen === undefined ? mbQuelle : qErzwingen;
   // Innenwiderstand zwischen den Messleitungen (∞ = offen) und was angezeigt wird
   let Rm = Infinity, art = 'aus', warn = '';
-  if(s === 'v2' || s === 'v20'){ art = 'V'; Rm = b === 'vomA' ? MB_RV : MB_RA10; if(b !== 'vomA') warn = 'buchse'; }
+  // Roter Stecker lose: zwischen den Messleitungen liegt nichts, der Messkreis ist offen
+  if(b === 'none'){ art = { v2: 'V', v20: 'V', ma: 'mA', a10: 'A', ohm: 'Ω' }[s] || 'aus'; if(s !== 'off') warn = 'offen'; }
+  else if(s === 'v2' || s === 'v20'){ art = 'V'; Rm = b === 'vomA' ? MB_RV : MB_RA10; if(b !== 'vomA') warn = 'buchse'; }
   else if(s === 'ma'){ art = 'mA'; Rm = b === 'vomA' ? (mbDefekt ? Infinity : MB_RMA) : MB_RA10; if(b !== 'vomA') warn = 'buchse'; }
   else if(s === 'a10'){ art = 'A'; Rm = b === 'a10' ? MB_RA10 : Infinity; if(b !== 'a10') warn = 'buchse'; }
   else if(s === 'ohm'){ art = 'Ω'; Rm = b === 'vomA' ? Infinity : MB_RA10; if(b !== 'vomA') warn = 'buchse'; }
@@ -5049,11 +5070,19 @@ function mbRechne(qErzwingen){
     IL = q ? MB_E / (MB_RL + Re) : 0; const UR = IL * Re; Um = UR; Im = Rm === Infinity ? 0 : UR / Rm;
   } else if(k === 'ser'){
     IL = (q && Rm !== Infinity) ? MB_E / (MB_R + MB_RL + Rm) : 0; Im = IL; Um = Rm === Infinity ? (q ? MB_E : 0) : IL * Rm;
-  }
+  } else if(k === 'none' && !mbRAus){
+    IL = q ? MB_E / (MB_R + MB_RL) : 0;                            // Gerät nicht angeschlossen: der Kreis läuft ohne es
+  }                                                                // R ausgebaut: Kreis offen, IL = 0
   // Anzeige
   let anz = '', ok = false, fb = '', sicherung = false, eq = '';
   const liest = warn === '';                                      // richtige Buchse zum Bereich
-  if(s === 'off'){ anz = ''; fb = 'Drehschalter steht auf OFF — wähle den Bereich, der zum Auftrag passt.'; }
+  const fehlt = mbFehlt();
+  if(s === 'off'){ anz = ''; fb = fehlt ? fehlt + ' Der Drehschalter steht auf OFF.' : 'Drehschalter steht auf OFF — wähle den Bereich, der zum Auftrag passt.'; }
+  else if(fehlt){                                                 // kein Messkreis: V und A zeigen 0, Ω zeigt Überlauf
+    anz = art === 'Ω' ? 'OL' : art === 'V' ? (s === 'v2' ? '0.000' : '0.00') : art === 'mA' ? '0.0' : '0.00';
+    fb = fehlt + (art === 'Ω' ? ' Zwischen den offenen Spitzen sieht das Ohmmeter einen unendlich grossen Widerstand und zeigt «OL».'
+                              : ' Ohne geschlossenen Messkreis zeigt das Gerät 0.');
+  }
   else if(art === 'V'){
     const U = liest ? Um : 0;
     const max = s === 'v2' ? 1.999 : 19.99;
@@ -5105,31 +5134,67 @@ function mbRechne(qErzwingen){
 // Rückmeldung nennt die Folge, die beim Einschalten eintreten würde.
 function mbEinschalten(){
   if(mbAuftrag === 'R') return 'Netzgerät bleibt aus: Widerstand misst man nur ohne Spannung. Das Ohmmeter schickt selbst einen kleinen Messstrom; eine fremde Spannung verfälscht das Ergebnis und kann das Gerät beschädigen. Miss am ausgebauten R bei ausgeschaltetem Netzgerät.';
+  if(mbFehlt()) return 'Netzgerät bleibt aus: ' + mbFehlt();
   if(mbSchalter === 'off') return 'Netzgerät bleibt aus: Der Drehschalter steht auf OFF — wähle zuerst den Bereich, der zum Auftrag passt.';
   const h = mbRechne(true);
   if(h.ok) return '';
   return 'Netzgerät bleibt aus. Beim Einschalten: ' + h.fb;
 }
 
-// Vorgehen je Auftrag: die Handlungen in der richtigen Reihenfolge, ohne die
-// Lösung zu verraten (welcher Anschluss, welcher Bereich). Ob etwas stimmt,
-// sagt weiterhin die Rückmeldung.
+// Vorgehen je Auftrag. Jeder Schritt ist zugleich ein Knopf, der ihn ausführt —
+// über die vorhandenen Knöpfe, also mit derselben Logik und Rückmeldung wie von
+// Hand. Fehlende Vorgänger laufen mit, darum entsteht nie ein unsinniger
+// Zustand. ok() prüft allein den Zustand: Ein Häkchen erscheint, sobald der
+// Schritt erfüllt ist (selbst gebaut oder per Knopf), und verschwindet wieder,
+// wenn jemand falsch umbaut.
+function mbKlick(){
+  [...arguments].forEach(sel => { const k = document.querySelector(sel); if(k && !k.classList.contains('aktiv')) k.click(); });
+}
+function mbRAusbauen(){
+  mbKlick('[data-mbq="aus"]');                                     // nur ohne Spannung
+  if(mbKreis === 'par' || mbKreis === 'ser') mbKreis = 'none';     // die Leitungen hängen danach frei
+  mbRAus = true; mbMeldung = ''; mbRender();
+}
 const MB_VORGEHEN = {
-  U: ['Messgerät richtig anschliessen', 'Messbereich wählen', 'Quelle einschalten'],
-  I: ['Messgerät richtig anschliessen', 'Messbereich wählen', 'Quelle einschalten'],
-  R: ['R ausbauen', 'Messgerät richtig anschliessen', 'richtigen Messbereich wählen']
+  U: [{ txt: 'Voltmeter einbauen', ok: () => mbBuchse === 'vomA' && mbKreis === 'par', tun: () => mbKlick('[data-mbb="vomA"]', '[data-mbk="par"]') },
+      { txt: 'Messbereich wählen', ok: () => mbSchalter === 'v20', tun: () => mbKlick('[data-mbs="v20"]') },
+      { txt: 'Quelle einschalten', ok: () => mbQuelle, tun: () => mbKlick('[data-mbq="ein"]') }],
+  I: [{ txt: 'Amperemeter einbauen', ok: () => mbBuchse === 'vomA' && mbKreis === 'ser', tun: () => mbKlick('[data-mbb="vomA"]', '[data-mbk="ser"]') },
+      { txt: 'Messbereich wählen', ok: () => mbSchalter === 'ma', tun: () => mbKlick('[data-mbs="ma"]') },
+      { txt: 'Quelle einschalten', ok: () => mbQuelle, tun: () => mbKlick('[data-mbq="ein"]') }],
+  R: [{ txt: 'R ausbauen', ok: () => (mbRAus || mbKreis === 'aus') && !mbQuelle, tun: mbRAusbauen },
+      { txt: 'Ohmmeter anschliessen', ok: () => mbBuchse === 'vomA' && mbKreis === 'aus', tun: () => mbKlick('[data-mbb="vomA"]', '[data-mbk="aus"]') },
+      { txt: 'Messbereich wählen', ok: () => mbSchalter === 'ohm', tun: () => mbKlick('[data-mbs="ohm"]') }]
 };
+function mbSchritt(i){
+  const liste = MB_VORGEHEN[mbAuftrag];
+  for(let j = 0; j <= i; j++) if(!liste[j].ok()) liste[j].tun();
+  mbRender();
+}
 function mbVorgehen(){
-  document.getElementById('mb-vorgehen').innerHTML =
-    MB_VORGEHEN[mbAuftrag].map(txt => '<li>' + txt + '</li>').join('');
+  const ol = document.getElementById('mb-vorgehen'), liste = MB_VORGEHEN[mbAuftrag];
+  // Neu aufgebaut nur beim Auftragswechsel — sonst verlöre der gedrückte Knopf den Fokus
+  if(ol.dataset.auftrag !== mbAuftrag){
+    ol.dataset.auftrag = mbAuftrag;
+    ol.innerHTML = liste.map((x, i) => '<li><button type="button" class="typ-btn" data-mbv="' + i + '">' + x.txt + '</button></li>').join('');
+    ol.querySelectorAll('[data-mbv]').forEach(b => b.addEventListener('click', () => mbSchritt(+b.dataset.mbv)));
+  }
+  ol.querySelectorAll('[data-mbv]').forEach((b, i) => { const ok = liste[i].ok();
+    b.toggleAttribute('data-erledigt', ok);
+    b.setAttribute('aria-label', 'Schritt ' + (i + 1) + (ok ? ' erledigt: ' : ' ausführen: ') + liste[i].txt); });
+}
+// Knopfzeilen nach dem Zustand: bei Buchse bzw. Anschluss 'none' ist kein Knopf aktiv
+function mbKnoepfe(){
+  [['data-mba', mbAuftrag], ['data-mbs', mbSchalter], ['data-mbb', mbBuchse], ['data-mbk', mbKreis], ['data-mbq', mbQuelle ? 'ein' : 'aus']]
+    .forEach(([a, v]) => document.querySelectorAll('[' + a + ']').forEach(o => o.classList.toggle('aktiv', o.getAttribute(a) === v)));
 }
 
 function mbRender(){
   const r = mbRechne();
-  mbVorgehen();
+  mbKnoepfe(); mbVorgehen();
   const fb = document.getElementById('mb-fb');
   const text = mbMeldung ? mbMeldung : (mbQuelle ? r.fb
-             : (r.ok ? r.fb : r.fb + ' Stelle alles ein und schalte dann das Netzgerät ein.'));
+             : (r.ok || mbAuftrag === 'R' ? r.fb : r.fb + ' Stelle alles ein und schalte dann das Netzgerät ein.'));
   fb.textContent = text;
   fb.style.borderLeftColor = mbMeldung ? 'var(--rot)' : (r.ok ? 'var(--gruen)' : 'var(--linie)');
   flTex('mb-eq', r.eq || '');
@@ -5149,7 +5214,7 @@ function mbDraw(r){
   // ── Prüfkreis
   const cL = schmal ? 62 : 70, cR = schmal ? W - 50 : W * 0.50, cT = schmal ? 390 : 70, cB = schmal ? 540 : 230, my = (cT + cB)/2;
   const xR = cL + (cR - cL) * 0.34, xg = cL + (cR - cL) * 0.72, rW = 44;
-  const offenR = mbKreis === 'aus', offenG = mbKreis === 'ser';
+  const offenR = mbKreis === 'aus' || mbRAus, offenG = mbKreis === 'ser';
   ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2.4; ctx.beginPath();
   ctx.moveTo(cL, cT); ctx.lineTo(xR - rW/2, cT);
   ctx.moveTo(xR + rW/2, cT); ctx.lineTo(offenG ? xg - 12 : cR, cT);
@@ -5222,15 +5287,33 @@ function mbDraw(r){
   // Gerät positive Werte. Vorher sass COM links, am positiveren Ende.
   if(mbKreis === 'par'){ pA = [xR + rW/2 + 2, cT]; pB = [xR - rW/2 - 2, cT]; }
   else if(mbKreis === 'ser'){ pA = [xg + 12, cT]; pB = [xg - 12, cT]; }
-  else { pA = [xR + rW/2 + 10, rY]; pB = [xR - rW/2 - 10, rY]; }
-  const kabel = (x0, y0, x1, y1, col) => {
+  else if(mbKreis === 'aus'){ pA = [xR + rW/2 + 10, rY]; pB = [xR - rW/2 - 10, rY]; }
+  // Nicht angeschlossen: Spitzen frei — breit unter dem Kreis zwischen R und Lampe,
+  // schmal unter dem Gerät, über dem Kreis
+  else if(schmal){ pA = [buchse.com - 34, mY1 + 22]; pB = [buchse.vomA - 26, mY1 + 22]; }
+  else { pA = [xg + 16, bY]; pB = [xg - 16, bY]; }                   // auf Buchsenhöhe: Bogen wie angeschlossen
+  const frei = mbKreis === 'none';
+  const kabel = (x0, y0, x1, y1, col, lose) => {
     ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x0, y0);
-    if(schmal) ctx.bezierCurveTo(x0, y0 + 50, x1, y1 - 60, x1, y1);        // von oben nach unten
+    // Breit vom losen Stecker: erst rechts hinunter unter die Buchsenschrift, dann nach links
+    if(lose && !schmal){ ctx.bezierCurveTo(x0 + 14, y0, x0 + 14, y0 + 36, x0 - 16, y0 + 36);
+      ctx.bezierCurveTo(x0 - 60, y0 + 36, x1, Math.max(y0, y1) + 60, x1, y1); }
+    else if(schmal) ctx.bezierCurveTo(x0, y0 + 50, x1, y1 - (frei ? 30 : 60), x1, y1);   // von oben nach unten
     else { const my2 = Math.max(y0, y1) + 60; ctx.bezierCurveTo(x0, my2, x1, my2, x1, y1); }
     ctx.stroke();
-    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x1, y1, 4.5, 0, 6.283); ctx.fill(); };
+    if(!frei){ ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x1, y1, 4.5, 0, 6.283); ctx.fill(); return; }
+    // Freie Prüfspitze: Griff in der Leitungsfarbe, Metallspitze, berührt nichts
+    const d = schmal ? 1 : -1;                                       // breit nach oben, schmal nach unten
+    ctx.fillStyle = col; ctx.beginPath(); ctx.roundRect(x1 - 4, d > 0 ? y1 : y1 - 16, 8, 16, 2); ctx.fill();
+    ctx.strokeStyle = '#8f8f8f'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x1, y1 + d*16); ctx.lineTo(x1, y1 + d*24); ctx.stroke(); };
   kabel(buchse.com, bY, pA[0], pA[1], '#1c1a17');
-  kabel(buchse[mbBuchse], bY, pB[0], pB[1], '#c0392b');
+  if(mbBuchse === 'none'){
+    // Roter Stecker lose rechts neben VΩmA: Stift zeigt zur Buchse, steckt aber nicht
+    const sx = buchse.vomA + 14;
+    ctx.strokeStyle = '#8f8f8f'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(sx, bY); ctx.lineTo(sx + 8, bY); ctx.stroke();
+    ctx.fillStyle = '#c0392b'; ctx.beginPath(); ctx.roundRect(sx + 8, bY - 5, 18, 10, 3); ctx.fill();
+    kabel(sx + 26, bY, pB[0], pB[1], '#c0392b', true);
+  } else kabel(buchse[mbBuchse], bY, pB[0], pB[1], '#c0392b');
   // Zustand
   // Schmal ganz unten links: Seit der Polung kreuzen sich die Messleitungen über
   // dem Kreis, und rechts oben lief die rote Leitung durch den Text
@@ -5239,22 +5322,22 @@ function mbDraw(r){
 }
 
 function mbInit(){
-  const qb = document.querySelectorAll('[data-mbq]');
-  const quelleZeigen = () => qb.forEach(o => o.classList.toggle('aktiv', (o.dataset.mbq === 'ein') === mbQuelle));
+  // Auftrag wählen = Neustart: Gerät OFF, Netzgerät aus, Leitungen ab, Sicherung ersetzt.
+  // Die aktiven Knöpfe setzt mbRender (mbKnoepfe) nach dem Zustand.
+  document.querySelectorAll('[data-mba]').forEach(b => b.addEventListener('click', () => {
+    mbAuftrag = b.dataset.mba; mbNeustart(); mbRender(); }));
   // Jede Änderung am Aufbau schaltet ein laufendes Netzgerät aus
-  const bind = (attr, set) => { const bs = document.querySelectorAll('[' + attr + ']');
-    bs.forEach(b => b.addEventListener('click', () => {
-      bs.forEach(o => o.classList.toggle('aktiv', o === b)); set(b.getAttribute(attr));
+  const bind = (attr, set) => document.querySelectorAll('[' + attr + ']').forEach(b => b.addEventListener('click', () => {
+      set(b.getAttribute(attr));
       mbMeldung = mbQuelle ? 'Netzgerät ausgeschaltet: Umstecken und umschalten nur ohne Spannung. Schalte es wieder ein, wenn alles stimmt.' : '';
-      mbQuelle = false; quelleZeigen(); mbRender(); })); };
-  bind('data-mba', v => mbAuftrag = v);
+      mbQuelle = false; mbRender(); }));
   bind('data-mbs', v => mbSchalter = v);
   bind('data-mbb', v => mbBuchse = v);
-  bind('data-mbk', v => mbKreis = v);
-  qb.forEach(b => b.addEventListener('click', () => {
+  bind('data-mbk', v => { mbKreis = v; mbRAus = v === 'aus'; });   // parallel/Serie: R ist eingebaut
+  document.querySelectorAll('[data-mbq]').forEach(b => b.addEventListener('click', () => {
     if(b.dataset.mbq === 'aus'){ mbQuelle = false; mbMeldung = ''; }
     else { const fehler = mbEinschalten(); mbQuelle = fehler === ''; mbMeldung = fehler; }
-    quelleZeigen(); mbRender(); }));
+    mbRender(); }));
 }
 
 function initAll(){
