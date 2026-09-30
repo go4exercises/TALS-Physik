@@ -5096,7 +5096,7 @@ function mbRechne(qErzwingen){
   }                                                                // R ausgebaut: Kreis offen, IL = 0
   // Anzeige. ein: richtig aufgebaut, das Netzgerät darf an (auch im ersten,
   // groben Schritt); ok: der ganze Auftrag ist erfüllt, samt «grösster Bereich
-  // zuerst». kat: 'ok' (richtiges Vorgehen, grün), 'fehler' (rot) oder 'info'
+  // zuerst». kat: 'ok' (richtiges Vorgehen, grün), 'fehler' (Fehler und Warnungen, rot) oder 'info'
   // (Zustandshinweis, neutral).
   let anz = '', ok = false, ein = false, fb = '', kat = 'info', sicherung = false, eq = '';
   const liest = warn === '';                                      // richtige Buchse zum Bereich
@@ -5147,7 +5147,7 @@ function mbRechne(qErzwingen){
     else { ein = true; ok = mbGross;
       const text = 'Amperemeter in Serie in der aufgetrennten Leitung, mA-Bereich. Sein Innenwiderstand von 1 Ω senkt den Strom nur von ' + (MB_E/(MB_R+MB_RL)*1000).toFixed(1) + ' auf ' + (Im*1000).toFixed(1) + ' mA.';
       if(ok){ kat = 'ok'; fb = '✓ Richtig: Zuerst grob im 10-A-Bereich, jetzt genau. ' + text; }
-      else { kat = 'info'; fb = 'Die Anzeige stimmt: Das Amperemeter sitzt in Serie im mA-Bereich und zeigt ' + (Im*1000).toFixed(1) + ' mA. Aber: Bei unbekanntem Strom misst man zuerst im grössten Bereich (10 A, rote Leitung in 10A) — sonst riskiert man die Sicherung des mA-Eingangs. Für den Auftrag: zuerst im 10-A-Bereich messen, dann verkleinern.'; } }
+      else { kat = 'fehler'; fb = 'Die Anzeige stimmt: Das Amperemeter sitzt in Serie im mA-Bereich und zeigt ' + (Im*1000).toFixed(1) + ' mA. Aber: Bei unbekanntem Strom misst man zuerst im grössten Bereich (10 A, rote Leitung in 10A) — sonst riskiert man die Sicherung des mA-Eingangs. Für den Auftrag: zuerst im 10-A-Bereich messen, dann verkleinern.'; } }
     if(gueltig && (ok || mbAuftrag !== 'I')){
       eq = art === 'A'
         ? ['I = \\frac{E}{R + R_\\text{L} + R_\\text{A}}', '= \\frac{' + texE(MB_E,'V') + '}{' + texO((MB_R + MB_RL + MB_RA10).toFixed(2)) + '}', '= ' + texE((Im*1000).toFixed(1),'mA')]
@@ -5175,11 +5175,11 @@ function mbRechne(qErzwingen){
 function mbEinschalten(){
   // Rückgabe: null = darf an, sonst { text, kat } als Meldung
   if(mbAuftrag === 'R') return { kat: 'fehler', text: 'Netzgerät bleibt aus: Widerstand misst man nur ohne Spannung. Das Ohmmeter schickt selbst einen kleinen Messstrom; eine fremde Spannung verfälscht das Ergebnis und kann das Gerät beschädigen. Miss am ausgebauten R bei ausgeschaltetem Netzgerät.' };
-  if(mbFehlt()) return { kat: 'info', text: 'Netzgerät bleibt aus: ' + mbFehlt() };
-  if(mbSchalter === 'off') return { kat: 'info', text: 'Netzgerät bleibt aus: Der Drehschalter steht auf OFF — wähle zuerst den Bereich, der zum Auftrag passt.' };
+  if(mbFehlt()) return { kat: 'fehler', text: 'Netzgerät bleibt aus: ' + mbFehlt() };
+  if(mbSchalter === 'off') return { kat: 'fehler', text: 'Netzgerät bleibt aus: Der Drehschalter steht auf OFF — wähle zuerst den Bereich, der zum Auftrag passt.' };
   const h = mbRechne(true);
   if(h.ein) return null;
-  return { kat: h.kat === 'info' ? 'info' : 'fehler', text: 'Netzgerät bleibt aus. Beim Einschalten: ' + h.fb };
+  return { kat: 'fehler', text: 'Netzgerät bleibt aus. Beim Einschalten: ' + h.fb };
 }
 
 // Vorgehen je Auftrag. Jeder Schritt ist zugleich ein Knopf, der ihn ausführt —
