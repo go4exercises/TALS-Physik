@@ -146,9 +146,17 @@ function initCanvas(id, H, square) {
   c.style.width = '';
   const W = c.offsetWidth || 600;
   const actualH = square ? W : H;
-  c.width = W * dpr; c.height = actualH * dpr;
+  // CSS-zoom (style.css: 0.9 ab 1100 px Fensterbreite) staucht die Canvas auf
+  // dem Bildschirm; offsetWidth zaehlt Seiten-px, getBoundingClientRect
+  // Bildschirm-px. Der Backing-Store richtet sich nach dem Bildschirm, sonst
+  // wird er beim Anzeigen herunterskaliert und die Schrift weich. Gezeichnet
+  // wird weiter in Seiten-px (W × H) — die Skalierung steckt im Transform.
+  const bw = c.getBoundingClientRect().width;
+  const z = bw > 0 && W > 0 ? Math.round(bw / W * 1000) / 1000 : 1;
+  const s = dpr * z;
+  c.width = Math.round(W * s); c.height = Math.round(actualH * s);
   c.style.width = W + 'px'; c.style.height = actualH + 'px';
-  const ctx = c.getContext('2d'); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.scale(dpr, dpr);
+  const ctx = c.getContext('2d'); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.scale(c.width / W, c.height / actualH);
   return { ctx, W, H: actualH };
 }
 

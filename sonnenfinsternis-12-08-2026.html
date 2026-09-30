@@ -536,7 +536,9 @@ const de = (x,n) => x.toFixed(n);   // Projektregel: Dezimalpunkt, nie Komma
 
 /* ---------- Canvas ---------- */
 function fit(cv, ratio, maxH, minH){
-  const box = cv.parentElement.getBoundingClientRect().width;
+  // offsetWidth (Seiten-px), nicht getBoundingClientRect (Bildschirm-px): unter
+  // zoom 0.9 (style.css ab 1100 px) waere die Zeichnung sonst seitlich gestreckt.
+  const box = cv.parentElement.offsetWidth;
   const w = Math.max(260, box || 900);
   let h = Math.round(w*ratio);
   if (maxH) h = Math.min(h,maxH);
@@ -1149,8 +1151,10 @@ qa("#augModeWahl button").forEach(function(b,i){ b.addEventListener("click", fun
 (function(){
   const cv = q("#cvAuge");
   function folge(e){
-    const r = cv.getBoundingClientRect();
-    blick.x = e.clientX - r.left; blick.y = e.clientY - r.top;
+    // Bildschirm-px -> Zeichnungs-px (zoom 0.9 ab 1100 px, siehe fit)
+    const r = cv.getBoundingClientRect(); if (!r.width) return;
+    const k = cv.offsetWidth / r.width;
+    blick.x = (e.clientX - r.left) * k; blick.y = (e.clientY - r.top) * k;
     if (sevIdx > 0) drawAuge();
   }
   cv.addEventListener("pointermove", folge);

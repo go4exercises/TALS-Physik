@@ -7,7 +7,13 @@
  * Chromium, MathJax rendert, danach wird gemessen.
  *
  * Drei Befunde:
- *   1. OVERFLOW   — body.scrollWidth > clientWidth (Seite laesst sich seitlich ziehen)
+ *   1. OVERFLOW   — die Seite laesst sich seitlich ziehen: window.scrollX
+ *                   aendert sich nach scrollTo(9999, y). Frueher body.scrollWidth
+ *                   gegen clientWidth — unter `html { zoom: 0.9 }` (style.css ab
+ *                   1100 px) rechnet body.scrollWidth in Seiten-px (1422 bei
+ *                   1280 px Fenster) und meldete falschen Ueberlauf. Die Zahlen
+ *                   in der Ausgabe sind documentElement.scrollWidth/clientWidth
+ *                   (im Standardmodus Bildschirm-px, auch unter zoom).
  *   2. GECLIPPT   — Formel/Tabelle ragt hinaus UND ein Vorfahr hat overflow:hidden.
  *                   Das ist der gefaehrliche Fall: unsichtbar, weil .page-wrap
  *                   unter 900 px kappt — der Inhalt fehlt einfach.
@@ -28,6 +34,13 @@
  *   node .claude/tools/render-check.mjs --shots            zusaetzlich check_*.png
  *   node .claude/tools/render-check.mjs --snapshot vorher.json    Geometrie sichern
  *   node .claude/tools/render-check.mjs --vergleich vorher.json   dagegen pruefen
+ *   node .claude/tools/render-check.mjs --breiten 1280x720,1100x800 index.html
+ *                                         andere Fenstermasse (Standard 1280x900, 360x900)
+ *
+ * Masse: getBoundingClientRect() liefert Bildschirm-px, offsetWidth und
+ * body.scrollWidth Seiten-px; unter zoom 0.9 unterscheiden sie sich um den
+ * Faktor 0.9. Verglichen werden Rechtecke darum mit documentElement.clientWidth,
+ * das auch unter zoom in Bildschirm-px zaehlt.
  *
  * Exit-Code 1, sobald Overflow oder geclippter Inhalt gefunden wird.
  */
@@ -40,8 +53,9 @@ const shots = argv.includes('--shots');
 const flagWert = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : null; };
 const snapshotZiel = flagWert('--snapshot');
 const vergleichQuelle = flagWert('--vergleich');
+const breitenArg = flagWert('--breiten');
 const dateien = argv.filter((a, i) =>
-  !a.startsWith('--') && argv[i - 1] !== '--snapshot' && argv[i - 1] !== '--vergleich');
+  !a.startsWith('--') && !['--snapshot', '--vergleich', '--breiten'].includes(argv[i - 1]));
 const root = process.cwd();
 
 const seiten = dateien.length
@@ -49,14 +63,28 @@ const seiten = dateien.length
   : fs.readdirSync(path.join(root, 'themen'))
       .filter(f => f.endsWith('.html')).sort().map(f => 'themen/' + f);
 
-const BREITEN = [1280, 360];
+const BREITEN = (breitenArg || '1280x900,360x900').split(',').map(t => {
+  const [w, h] = t.split('x').map(Number);
+  return { w, h: h || 900 };
+});
 
 /* Im Seitenkontext: alles messen, was nicht umbrechen kann.
    mcIndex begrenzt die Messung auf einen einzelnen Mini-Check — sonst wuerde
    der uebrige Seiteninhalt bei jedem Durchgang erneut gezaehlt. */
 function messen(mcIndex) {
-  const cw = document.documentElement.clientWidth;
-  const befund = { sw: document.body.scrollWidth, cw, geclippt: [], geometrie: [] };
+  const de = document.documentElement;
+  const zoom = parseFloat(getComputedStyle(de).zoom) || 1;
+  // Ueberlauf: laesst sich die Seite seitlich rollen? Unabhaengig von zoom.
+  const sy = window.scrollY;
+  window.scrollTo(9999, sy);
+  const rollt = window.scrollX > 0;
+  window.scrollTo(0, sy);
+  // Vergleichsbreite in Bildschirm-px wie getBoundingClientRect. Im
+  // Standardmodus liefert documentElement.clientWidth schon Bildschirm-px
+  // (Fenster ohne Rollbalken), body.clientWidth dagegen Seiten-px (1422 bei
+  // 1280 px Fenster und zoom 0.9). innerWidth faengt den Quirks-Modus ab.
+  const cw = Math.min(de.clientWidth, window.innerWidth);
+  const befund = { sw: de.scrollWidth, cw: de.clientWidth, rollt, zoom, geclippt: [], geometrie: [] };
   const wurzel = mcIndex == null
     ? document.querySelector('main') || document.body
     : document.querySelectorAll('details.minicheck')[mcIndex];
@@ -110,9 +138,9 @@ const neu = {};
 const browser = await chromium.launch();
 let fehler = 0, geclipptGes = 0, verschobenGes = 0;
 
-for (const breite of BREITEN) {
-  const ctx = await browser.newContext({ viewport: { width: breite, height: 900 } });
-  console.log(`\n════ ${breite} px ${'═'.repeat(52)}`);
+for (const { w: breite, h: hoehe } of BREITEN) {
+  const ctx = await browser.newContext({ viewport: { width: breite, height: hoehe } });
+  console.log(`\n════ ${breite}×${hoehe} px ${'═'.repeat(48)}`);
 
   for (const s of seiten) {
     const page = await ctx.newPage();
@@ -139,11 +167,12 @@ for (const breite of BREITEN) {
       await page.waitForTimeout(700);   // MathJax rendert das Aufgeklappte nach
       const t = await page.evaluate(messen, i);
       r.sw = Math.max(r.sw, t.sw);
+      r.rollt = r.rollt || t.rollt;
       r.geclippt.push(...t.geclippt);
       r.geometrie.push(...t.geometrie.map(g => ({ ...g, k: 'mc' + i + '-' + g.k })));
     }
     const name = path.basename(s);
-    const schluessel = breite + ' ' + s;
+    const schluessel = (hoehe === 900 ? breite : breite + 'x' + hoehe) + ' ' + s;
     neu[schluessel] = r.geometrie;
 
     /* Verschiebungen gegen den gesicherten Stand */
@@ -156,10 +185,11 @@ for (const breite of BREITEN) {
       }
     }
 
-    const ok = r.sw <= r.cw && r.geclippt.length === 0 && verschoben.length === 0;
-    console.log(`${ok ? '  ok  ' : '  !!  '}${name.padEnd(40)} scrollWidth=${r.sw} clientWidth=${r.cw}`);
+    const ok = !r.rollt && r.geclippt.length === 0 && verschoben.length === 0;
+    const zz = r.zoom !== 1 ? ` zoom=${r.zoom}` : '';
+    console.log(`${ok ? '  ok  ' : '  !!  '}${name.padEnd(40)} scrollWidth=${r.sw} clientWidth=${r.cw}${zz}`);
 
-    if (r.sw > r.cw) { console.log(`        OVERFLOW ${r.sw - r.cw} px`); fehler++; }
+    if (r.rollt) { console.log(`        OVERFLOW ${r.sw - r.cw} px (seitlich rollbar)`); fehler++; }
     for (const g of r.geclippt) {
       console.log(`        GECLIPPT ${String(g.ueber).padStart(3)} px von ${g.kappt}  « ${g.txt} »`);
       geclipptGes++; fehler++;

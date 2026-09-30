@@ -1613,15 +1613,20 @@ function drawA0() {
 
 // ── Zieh-Interaktion direkt im Canvas ──
 const a0Cv = document.getElementById('a0-cv');
+// Pointer -> Canvas-Koordinaten über das gemessene Rechteck: r und clientX
+// rechnen in Bildschirm-px, a0St.W in Seiten-px — unter zoom (style.css ab
+// 1100 px) unterscheiden sie sich um den Faktor 0.9.
+function a0Px(evt) {
+  const r = a0Cv.getBoundingClientRect(), k = r.width ? a0St.W / r.width : 1;
+  return { x: (evt.clientX - r.left) * k, y: (evt.clientY - r.top) * k };
+}
 function a0EvtT(evt) {  // Pointer-Position -> Zeit in Minuten (Raster 0.5)
-  const r = a0Cv.getBoundingClientRect();
   const xMin = a0St.xMin || -0.05;                    // derselbe Rand wie in drawA0
-  const tm = ((evt.clientX - r.left) / a0St.W * (1.05 - xMin) + xMin) * 60;
+  const tm = (a0Px(evt).x / a0St.W * (1.05 - xMin) + xMin) * 60;
   return Math.round(tm * 2) / 2;
 }
 function a0Hit(evt) {  // welcher Griff liegt unter dem Pointer?
-  const r = a0Cv.getBoundingClientRect();
-  const xPx = evt.clientX - r.left, yPx = evt.clientY - r.top;
+  const { x: xPx, y: yPx } = a0Px(evt);
   const gr = a0St.gr;
   if (!gr) return null;
   const dDot = Math.hypot(xPx - gr.cx(a0St.t / 60), yPx - gr.cy(a0At(a0St.t).v));

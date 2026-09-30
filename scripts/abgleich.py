@@ -134,6 +134,37 @@ OFFEN = [
              '«Clip-Generator: Bedingungsleiste voraussetzung» (in Physik umgesetzt), «Rechner-Clips als '
              'eigener Strang» und «Intervallgrenzen am Zahlenstrahl als Klammer» (beide fuer Physik '
              'gestrichen, nicht umsetzen). Danach meldet Physiks Pre-Flight kein todo-schwester mehr.'),
+    dict(quelle='Physik', was='Zoom 90 % ab 1100 px: Werkzeuge zoomfest; ob Mathe den Zoom will, entscheidet Mathe (30.09.2026)',
+         wie='Physik verkleinert seit 30.09.2026 die ganze Website ab 1100 px Fensterbreite auf 90 % '
+             '(style.css: @media (min-width:1100px){ html{zoom:0.9} }), damit bei 1280x720 Bild und Bedienung '
+             'einer Animation zugleich im Fenster stehen (zu hohe Animationen 20 -> 6 von 116). '
+             'Unter zoom rechnen getBoundingClientRect/clientX in Bildschirm-px, offsetWidth, body.scrollWidth '
+             'und die Canvas in Seiten-px (Faktor 0.9); auch vw/vh werden mit 0.9 multipliziert. '
+             'Chromium 149 gemessen; STYLEGUIDE Physik §5.13. '
+             '(1) Werkzeug, unabhaengig vom Entscheid uebernehmen: .claude/tools/render-check.mjs -- OVERFLOW '
+             'jetzt per scrollTo(9999,y)-Probe statt body.scrollWidth > clientWidth (unter zoom meldete body '
+             '1422 statt 1280 = falscher Ueberlauf), Vergleichsbreite fuer GECLIPPT = min(documentElement.clientWidth, '
+             'innerWidth), neuer Schalter --breiten 1280x720,1100x800. Mathes Fassung hat dieselbe body-Messung '
+             '(Z. 59). Danach KERN wieder >= 0.968. '
+             '(2) .claude/tools/aufnahme-anim.mjs: schaltet den Zoom fuer Aufnahmen ab (addInitScript mit '
+             'html{zoom:1 !important}, Schalter "zoom": true im Plan), damit neue Clipbilder wie die alten aussehen. '
+             'Mathes Fassung war bis heute byte-gleich mit Physik; ohne Zoom in style.css wirkt die Aenderung nicht, '
+             'schadet also nicht. Die Datei steht in keiner Liste von abgleich.py (weder GLEICH noch KERN) -- '
+             'beim Uebertrag in GLEICH aufnehmen. '
+             '(3) Unveraendert und zoomfest: pruef-mathjax.mjs, pruef-clip.mjs (Clips laden style.css nicht), '
+             'scan-live.mjs; Mathes check-breite.mjs misst documentElement.scrollWidth gegen innerWidth, auch zoomfest. '
+             '(4) Nur falls Mathe den Zoom uebernimmt (nachgezaehlt 30.09.2026, 62 Seiten: 47 in grundlagen/ und '
+             'schwerpunkt/, 6 Leitprogramme, 9 Wurzelseiten): style.css-Regel samt Gegenzoom '
+             '.clip-buehne{zoom:calc(1/0.9)} (sonst wird die Clip-Buehne 10 % kleiner, vw/vh); mathlib.js initCanvas '
+             '(Z. 204) Backing-Store nach getBoundingClientRect().width statt offsetWidth bemessen (Physik: physiklib.js, '
+             'Schrift sonst messbar weicher bei devicePixelRatio 1). Mausstellen in grundlagen/: 9 clientX in 7 Dateien; '
+             '5 rechnen schon ueber rect.width (g3-2 Z. 1412 und 1486, g3-3 Z. 2207, g5-2d Z. 1499, g5-3 Z. 2708), '
+             '4 pruefen: g5-2a Z. 1787 (teilt durch dataset.k), g5-2b Z. 2375 und 3049, g5-2c Z. 1891 (roh '
+             'clientX - rect.left). In Physik lagen genau solche Stellen um 10 % daneben (p4-1: Klick auf t = 40 min '
+             'ergab 35.5). Dazu 6 Canvas, die ihre Breite aus getBoundingClientRect().width holen (g1-2 Z. 2042, '
+             'g3-1 Z. 2607, g3-2 Z. 1516, g4-3 Z. 1462, g5-2a Z. 1570, g5-5 Z. 1693): unter zoom wird die Zeichnung '
+             'seitlich gestreckt (Physik: Sonnenfinsternis-Seite, Seitenverhaeltnis 1.99 statt 2.21) -- auf '
+             'offsetWidth umstellen. Nach dem Entscheid diesen Eintrag streichen.'),
 ]
 
 FACH = {
