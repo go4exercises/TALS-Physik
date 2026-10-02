@@ -43,7 +43,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-09-28",
+   "dateModified": "2026-09-30",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -3816,17 +3816,11 @@ function drawB4() {
 
 // Zieh-Interaktion (Muster p4-1 Einstiegs-Animation)
 const b4Cv = document.getElementById('b4-cv');
-// Pointer -> Canvas-Koordinaten über das gemessene Rechteck: r und clientX
-// rechnen in Bildschirm-px, b4St.W in Seiten-px — unter zoom (style.css ab
-// 1100 px) unterscheiden sie sich um den Faktor 0.9.
-function b4Px(evt) {
-  const r = b4Cv.getBoundingClientRect(), k = r.width ? b4St.W / r.width : 1;
-  return { x: (evt.clientX - r.left) * k, y: (evt.clientY - r.top) * k };
-}
 function b4EvtT(evt) {
+  const r = b4Cv.getBoundingClientRect();
   // Pixel -> Stunden über dieselbe Achse wie drawGrid (xMin hängt von der Breite ab;
   // mit fest −1 … 25.5 lag der Punkt bei 360 px neben dem Finger)
-  const xMin = b4St.xMin ?? -1, tt = xMin + b4Px(evt).x / b4St.W * (25.5 - xMin);
+  const xMin = b4St.xMin ?? -1, tt = xMin + (evt.clientX - r.left) / b4St.W * (25.5 - xMin);
   return Math.min(24, Math.max(0, Math.round(tt * 2) / 2));
 }
 b4Cv.addEventListener('pointerdown', function (evt) {
@@ -3839,8 +3833,9 @@ b4Cv.addEventListener('pointerdown', function (evt) {
 b4Cv.addEventListener('pointermove', function (evt) {
   if (b4St.drag) { b4St.t = b4EvtT(evt); drawB4(); return; }
   if (!b4St.gr) return;
-  const q = b4Px(evt);
-  const d = Math.hypot(q.x - b4St.gr.cx(b4St.t), q.y - b4St.gr.cy(b4T(b4St.t)));
+  const r = b4Cv.getBoundingClientRect();
+  const d = Math.hypot(evt.clientX - r.left - b4St.gr.cx(b4St.t),
+                       evt.clientY - r.top - b4St.gr.cy(b4T(b4St.t)));
   b4Cv.style.cursor = d < 18 ? 'grab' : 'pointer';
 });
 function b4Release() { b4St.drag = false; }

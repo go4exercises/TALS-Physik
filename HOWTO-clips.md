@@ -263,9 +263,6 @@ mit «In der Animation …» und führt durch vier aussagekräftige Zustände.
 - **Den Aufnahmeplan aufbewahren.** Er lag bisher nur im Scratchpad der
   Sitzung; wurde die Animation später geändert, musste er aus dem Clip
   zurückgewonnen werden.
-- **Der Zoom der Website ist beim Aufnehmen aus** (seit 30.09.2026,
-  STYLEGUIDE §5.13): `aufnahme-anim` setzt `html{zoom:1 !important}`, damit
-  neue Bilder wie die bestehenden aussehen. `"zoom": true` im Plan behält ihn.
 - **Zustände über ihre Knöpfe setzen, in der Reihenfolge der Animation.**
   Setzt eine Wahl die Animation zurück (Anim. 4 auf 6.2: jede Auftragswahl
   löst die Messleitungen), kommt sie im Plan zuerst. Liegen die Knöpfe in

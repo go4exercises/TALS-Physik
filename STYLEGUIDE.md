@@ -786,7 +786,7 @@ Die Knöpfe bleiben trotzdem da und bleiben die **einzige Quelle des Zustands**:
   Fläche auch in der schmalen Fassung. Mindestmass etwa 38 Canvas-px.
 - **Ein Klick ruft `.click()` auf den vorhandenen Knopf** — keine zweite Logik. Umrechnung
   der Mauskoordinaten über `getBoundingClientRect()` ins Canvas-System (unabhängig von
-  `devicePixelRatio` und `zoom`).
+  `devicePixelRatio` und vom Browser-Zoom).
 - **Affordanz:** Hover rahmt die Fläche in Bernstein und setzt `cursor:pointer` (nicht
   bei Touch); anklickbare Stellen tragen im Bild eine Pille, einen Ring oder ein
   Symbol (Schere zum Auftrennen). Der `cv-titel` sagt, was sich anklicken lässt.
@@ -794,37 +794,6 @@ Die Knöpfe bleiben trotzdem da und bleiben die **einzige Quelle des Zustands**:
   `<details class="mc-loesung">` mit dem Titel «Bedienung mit Knöpfen (auch per Tastatur)».
 - Referenz: p6-2, Animation «Multimeter bedienen» (`mbZonen`, `mbRect`, `mbTreffer`,
   `mbHoverZeichnen`, Handler in `mbInit`).
-
-### 5.13 Zoom 90 % ab 1100 px (Entscheid 30.09.2026)
-
-`style.css` verkleinert die ganze Website ab 1100 px Fensterbreite auf 90 %:
-`@media (min-width: 1100px) { html { zoom: 0.9 } }`. Grund: Bei 1280×720 sollen Bild und
-Bedienung einer Animation zugleich im Fenster stehen (zu hoch waren vorher 20 von 116
-Animationen, danach 6, alle auf p6-1a). Unter 1100 px bleibt es bei 100 %. Keine Seite
-setzt eine eigene `zoom`-Regel.
-
-- **Zwei Massstäbe.** `getBoundingClientRect()`, `clientX/Y` und `offsetX` zählen in
-  Bildschirm-px; `offsetWidth`, `clientWidth`, `body.scrollWidth` und alle Canvas-Koordinaten
-  in Seiten-px (Faktor 1/0.9). Auch `vw`/`vh` werden mit 0.9 multipliziert.
-- **Mauskoordinaten** immer über das gemessene Rechteck umrechnen:
-  `x = (e.clientX - r.left) * W / r.width`, nie `(e.clientX - r.left) / W` mit einer
-  gespeicherten Breite — das lag um 10 % daneben (p4-1 Einstieg, p0-2 Tagesgang, p6-2
-  Schalter, alle behoben). So stimmt es mit und ohne Zoom.
-- **Canvas-Breite** aus `offsetWidth`, nicht aus `getBoundingClientRect().width`, sonst wird
-  die Zeichnung seitlich gestreckt (so auf der Sonnenfinsternis-Seite, behoben).
-  `initCanvas` bemisst den Backing-Store nach dem Bildschirm, damit die Schrift scharf bleibt.
-- **Die Clip-Bühne** hebt den Zoom mit `zoom: calc(1 / 0.9)` wieder auf — sie soll das
-  Fenster füllen wie zuvor.
-- **Werkzeuge:** `render-check.mjs` prüft Überlauf per `scrollTo`-Probe (nicht mehr über
-  `body.scrollWidth`) und nimmt `--breiten 1280x720,1100x800`; `aufnahme-anim.mjs` schaltet den
-  Zoom für Clipbilder ab (Plan-Schalter `"zoom": true` behält ihn). Eigene Prüfskripte
-  vergleichen Rechtecke mit `documentElement.clientWidth` (Bildschirm-px), nicht mit
-  `body.clientWidth`.
-- **Gemessen ist nur Chromium 149.** Firefox unterstützt `zoom` seit Version 126 (2024),
-  Safari seit Langem; ob `getBoundingClientRect` und `clientX` dort im selben Massstab
-  rechnen wie in Chromium, ist nicht geprüft (muss verifiziert werden). Die Umrechnung über
-  `r.width` stimmt in jedem Modell, in dem beide im selben Massstab stehen; ältere Browser
-  ohne `zoom` zeigen die Seite einfach mit 100 %.
 
 ## 6. Code-Konventionen
 

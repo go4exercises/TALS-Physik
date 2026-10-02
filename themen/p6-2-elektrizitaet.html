@@ -3251,10 +3251,8 @@ function einRender(){
 const einLoop=makeLoop('ein-cv','ein-btn',einTick);
 // Klick auf den Schalter öffnet/schliesst den Kreis; der Knopf darüber tut dasselbe
 function einImSchalter(cv, ev){
-  // r und clientX in Bildschirm-px, die Zeichnung in Seiten-px (zoom 0.9 ab 1100 px)
-  const r=cv.getBoundingClientRect(); if(!r.width) return false;
-  const k=cv.offsetWidth/r.width, x=(ev.clientX-r.left)*k, y=(ev.clientY-r.top)*k;
-  const z=einZone(einGeom(cv.offsetWidth, cv.offsetHeight));
+  const r=cv.getBoundingClientRect(), x=ev.clientX-r.left, y=ev.clientY-r.top;
+  const z=einZone(einGeom(r.width, r.height));
   return x>=z.x && x<=z.x+z.w && y>=z.y && y<=z.y+z.h;
 }
 document.getElementById('ein-cv').addEventListener('click', function(ev){ if(einImSchalter(this, ev)) einSchalten(); });

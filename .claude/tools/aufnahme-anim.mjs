@@ -24,15 +24,6 @@
 // Aufnahmen unter einem halben Megabyte bleibt. Aktionen wirken
 // nacheinander auf derselben Seite — ein Zustand baut auf dem vorigen auf.
 // Laufzeitfehler der Seite werden gemeldet (Exit 1).
-//
-// Zoom: style.css verkleinert die Website ab 1100 px Fensterbreite auf 90 %
-// (`html { zoom: 0.9 }`). Für Aufnahmen schaltet dieses Werkzeug den Zoom ab
-// (`html { zoom: 1 !important }`, vor den Skripten der Seite gesetzt), damit
-// neue Clipbilder so aussehen wie die rund hundert bestehenden, die vor dem
-// 30.09.2026 ohne Zoom entstanden sind: gleiche Schriftgrösse im Bild, gleiche
-// Canvas-Breite bei gleicher Planbreite. Eine Aufnahme zeigt nur das Bild der
-// Animation, nicht die Seite — der Zoom der Seite gehört nicht hinein.
-// Mit "zoom": true im Plan bleibt er an (Bild wie im Browser ab 1100 px).
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -43,21 +34,8 @@ const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: plan.breite || 1100, height: 1000 }, deviceScaleFactor: 2 });
 const fehler = [];
 p.on('pageerror', e => fehler.push(e.message));
-if (!plan.zoom) await p.addInitScript(() => {
-  const setzen = () => {
-    const st = document.createElement('style');
-    st.textContent = 'html { zoom: 1 !important; }';
-    (document.head || document.documentElement).appendChild(st);
-  };
-  if (document.documentElement) setzen();
-  else new MutationObserver((m, o) => {
-    if (document.documentElement) { o.disconnect(); setzen(); }
-  }).observe(document, { childList: true });
-});
 await p.goto('file://' + path.join(wurzel, plan.seite));
 await p.waitForTimeout(1500);
-const zoomIst = await p.evaluate(() => getComputedStyle(document.documentElement).zoom);
-if (!plan.zoom && Number(zoomIst) !== 1) fehler.push('Zoom liess sich nicht abschalten: ' + zoomIst);
 for (const z of plan.zustaende) {
   for (const a of z.aktionen || []) {
     if (a.klick) await p.click(a.klick);

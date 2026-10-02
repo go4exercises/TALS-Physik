@@ -38,9 +38,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 - `physiklib.js` — Canvas-Bibliothek + globale Helfer (`toggleL`, `fmt`, `initCanvas`,
   `drawGrid`, `drawAxesUnits`, `drawArrow`, `drawVector`, `drawDot`, …).
 - `minicheck.js` — Akkordeon-Logik der Mini-Checks. `anim-hinweise.js` — Hinweis-Logik.
-- `nav.js` — Navigation (`buildNav`) inkl. Suchfeld im Header rechts. `style.css` — gesamtes Design,
-  darin **Zoom 90 % ab 1100 px Fensterbreite** (`html{zoom:0.9}`, STYLEGUIDE §5.13):
-  Mauskoordinaten immer über `r.width` des gemessenen Rechtecks umrechnen.
+- `nav.js` — Navigation (`buildNav`) inkl. Suchfeld im Header rechts. `style.css` — gesamtes Design.
 - `scripts/build-seo.py` — erzeugt Seiten-Metadaten (Beschreibung, canonical, Open
   Graph, JSON-LD nach schema.org/LearningResource), `sitemap.xml` und `robots.txt`.
   Der Kopfblock zwischen `<!-- SEO:ANFANG -->` und `<!-- SEO:ENDE -->` ist
@@ -123,9 +121,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 - `.claude/tools/render-check.mjs` — Render-Kontrolle bei 1280 und 360 px in echtem
   Chromium: meldet seitlichen Überlauf und Inhalte, die ein Vorfahr mit
   `overflow:hidden` unsichtbar abschneidet. Das kann der Pre-Flight nicht — jsdom
-  hat kein Layout. Andere Fenstermasse mit `--breiten 1280x720,1100x800`. Überlauf
-  prüft es per `scrollTo`-Probe, weil `body.scrollWidth` unter dem Zoom (unten)
-  in Seiten-px zählt und falschen Überlauf meldete.
+  hat kein Layout.
 - `.claude/tools/scan-live.mjs` — sucht den **Malpunkt als Trennzeichen** in
   Wertanzeigen (STYLEGUIDE §2.1). Fährt jede Seite durch ihre Bedienzustände und
   liest Wertanzeigen **und** Canvas-`fillText` — Letzteres ist der Grund für das
@@ -138,9 +134,6 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (`…Loop.userPaused = true; …Loop.stop()`), sonst startet sie beim
   Hineinscrollen und das Bild zeigt einen anderen Zeitpunkt; kein
   `scrollIntoView` im Plan — das holt die Kopfzeile mit ins Bild.
-  **Schaltet den Zoom der Website ab** (`html{zoom:1 !important}` vor den
-  Seitenskripten), damit neue Clipbilder wie die bestehenden aussehen;
-  `"zoom": true` im Plan behält ihn.
 - `.claude/tools/build-bilder.mjs` — baut `favicon-32.png`, `apple-touch-icon.png`
   (aus `favicon.svg`) und `og-bild.png` (aus einer HTML-Vorlage im Skript) mit
   Playwright neu. Nur bei Bedarf laufen lassen: die PNGs sind versioniert und

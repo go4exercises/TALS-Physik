@@ -49,32 +49,6 @@ body { font-family: var(--sans); background: var(--papier); color: var(--tinte);
 a { color: var(--bernstein); }
 a:hover { text-decoration: underline; }
 
-/* ── ZOOM 90 % AB 1100 PX (Entscheid 30.09.2026, STYLEGUIDE §5.13) ──
-   Auf einem Bildschirm ab 1100 px Breite wird die ganze Seite auf 90 %
-   verkleinert. Warum: Bei 1280×720 (Beamer, kleiner Laptop) sollen Bild und
-   Bedienung einer Animation gleichzeitig im Fenster stehen. Die Strecke vom
-   obersten Bedienelement bis zum Bildende passte bei 100 % in 20 von 116
-   Animationen nicht in die nutzbare Höhe, mit 90 % noch in 6 (alle p6-1a).
-   Schmaler bleibt es bei 100 % — dort ist die Schrift ohnehin knapp.
-   Folgen: getBoundingClientRect() und clientX rechnen in Bildschirm-px,
-   offsetWidth, body.scrollWidth und die Canvas-Koordinaten in Seiten-px
-   (Faktor 0.9); auch vw/vh werden mit 0.9 multipliziert. Mauskoordinaten
-   darum immer über r.width/r.height des gemessenen Rechtecks umrechnen, nie
-   über eine gespeicherte Breite; Canvas-Breiten aus offsetWidth, nicht aus
-   getBoundingClientRect (initCanvas in physiklib.js macht beides richtig).
-   Getestet in Chromium 149 (Playwright) bei 1100×800, 1280×720, 1366×768 und
-   1920×1080 über alle 36 Seiten: kein Überlauf, Anker, Kopfzeile,
-   Inhaltsverzeichnis, Suche, Tooltips, Clip-Bühne und Mausbedienung der
-   Animationen. Media-Queries messen weiter in Bildschirm-px — die Grenzen
-   bleiben gleich. */
-@media (min-width: 1100px) {
-  html { zoom: 0.9; }
-  /* Die Clip-Bühne soll das Fenster füllen wie bisher: Unter dem Zoom
-     rechnen auch vw/vh mit 0.9, der Clip wäre sonst 10 % kleiner als
-     nötig. Der Gegenzoom stellt für die Bühne wieder 100 % her. */
-  .clip-buehne { zoom: calc(1 / 0.9); }
-}
-
 /* ── HEADER ─────────────────────────────────────────────────── */
 /* Der Header liegt in #nav-root (von nav.js befüllt). Ein klebendes Element
    klebt nur innerhalb der Box seines Containers — darum muss #nav-root selbst
