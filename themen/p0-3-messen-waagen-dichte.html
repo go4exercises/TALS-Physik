@@ -556,12 +556,21 @@ MathJax = {
 </div>
   </div>
   <div class="widget-body">
-
+    <div class="anim-layout">
+    <div class="anim-layout-bild">
+    <div class="cv-wrap">
+      <div class="cv-titel">🧪 Volumen bestimmen und Dichte einordnen</div>
+      <canvas id="a2-cv" height="350" role="img" aria-label="Im Verdrängungsmodus zwei Messzylinder mit Volumenskala: links vor dem Eintauchen, rechts mit eingetauchtem Stein und höherem Wasserstand. Im Quadermodus ein Quader mit beschrifteten Kanten. Darunter eine logarithmische Dichteskala von Holz bis Gold mit einem Zeiger auf dem aktuellen Wert."></canvas>
+      <div class="canvas-legend">
+        <span class="cl-item">Der Stoffvorschlag nennt alle Tabellenstoffe, die innerhalb von \(5\;\%\) um den berechneten Wert liegen — mehrere Treffer sind der Normalfall, nicht der Ausnahmefall.</span>
+      </div>
+    </div>
+    </div>
+    <div class="anim-layout-bedienung">
     <div class="typ-btns" id="a2-modi">
       <button class="typ-btn aktiv" data-modus="zylinder">Unregelmässiger Körper: Wasser verdrängen</button>
       <button class="typ-btn" data-modus="quader">Quader ausmessen und rechnen</button>
     </div>
-
     <div class="sl-row" id="a2-regler-zyl">
       <div class="sl-grp">
         <label for="a2-v">Körpervolumen \(V\):</label>
@@ -574,7 +583,6 @@ MathJax = {
         <span class="sl-val" id="a2-mz-val">200 g</span>
       </div>
     </div>
-
     <div class="sl-row" id="a2-regler-quader" style="display:none">
       <div class="sl-grp">
         <label for="a2-a">Länge \(a\):</label>
@@ -597,20 +605,14 @@ MathJax = {
         <span class="sl-val" id="a2-m-val">64.8 g</span>
       </div>
     </div>
+    </div>
+    </div>
 
     <div class="live-box">
       <div class="lb-item"><span class="lb-lab">Volumen \(V\)</span><span class="lb-val" id="a2-out-v">70 cm³</span></div>
       <div class="lb-item"><span class="lb-lab">Dichte \(\rho = m/V\)</span><span class="lb-val" id="a2-out-r">2.86 g/cm³</span></div>
       <div class="lb-item" style="margin-right:30px"><span class="lb-lab">dasselbe in SI</span><span class="lb-val" id="a2-out-si">2857 kg/m³</span></div>
       <div class="lb-item"><span class="lb-lab">passender Stoff</span><span class="lb-val" id="a2-out-s">Basalt · Gneis</span></div>
-    </div>
-
-    <div class="cv-wrap">
-      <div class="cv-titel">🧪 Volumen bestimmen und Dichte einordnen</div>
-      <canvas id="a2-cv" height="350" role="img" aria-label="Im Verdrängungsmodus zwei Messzylinder mit Volumenskala: links vor dem Eintauchen, rechts mit eingetauchtem Stein und höherem Wasserstand. Im Quadermodus ein Quader mit beschrifteten Kanten. Darunter eine logarithmische Dichteskala von Holz bis Gold mit einem Zeiger auf dem aktuellen Wert."></canvas>
-      <div class="canvas-legend">
-        <span class="cl-item">Der Stoffvorschlag nennt alle Tabellenstoffe, die innerhalb von \(5\;\%\) um den berechneten Wert liegen — mehrere Treffer sind der Normalfall, nicht der Ausnahmefall.</span>
-      </div>
     </div>
 
   </div>
@@ -1474,9 +1476,11 @@ function a2Messzyl(ctx, cx, fuell, koerper) {
 function drawA2() {
   const el = document.getElementById('a2-cv'); el.style.width = '';
   const wRoh = el.offsetWidth || 720;
-  // Ab 620 px steht die Differenzrechnung rechts neben den Zylindern,
+  // Ab 590 px steht die Differenzrechnung rechts neben den Zylindern,
   // darunter rutscht sie unter die Zylinder und die Seite wird höher.
-  const breit = wRoh >= 620;
+  // (590 statt 620: Neben der Bedienung ist das Bild bei 1280 px 606 px breit;
+  // bei 591 px im Browser geprüft, die Rechnung endet vor dem Rand.)
+  const breit = wRoh >= 590;
   const HL = breit ? 350 : 410;
   const WL = Math.max(wRoh, 340);
   const k = wRoh / WL;

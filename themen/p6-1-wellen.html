@@ -763,11 +763,25 @@ MathJax = {
 </div>
   </div>
   <div class="widget-body">
-
+    <div class="anim-layout">
+    <div class="anim-layout-bild">
+    <div class="cv-wrap">
+      <div class="cv-titel">🌍 Durchlässigkeit über der Wellenlänge — feste Skala \(0.2 \ldots 100\;\mu\text{m}\)</div>
+      <canvas id="a6-cv" height="250"></canvas>
+    </div>
+    </div>
+    <div class="anim-layout-bedienung">
     <div class="sl-row">
       <label>Treibhausgase:</label>
       <input type="range" id="a6-g" min="0" max="100" value="40" step="1">
       <span class="sl-val" id="a6-g-val">40 %</span>
+    </div>
+    </div>
+    </div>
+
+    <div class="cv-wrap">
+      <div class="cv-titel">♻ Energiefluss Sonne → Boden → Atmosphäre (vereinfacht)</div>
+      <canvas id="a6-cv2" height="270" role="img" aria-label="Schema des Energieflusses: kurzwellige Sonnenstrahlung von 240 Watt pro Quadratmeter durchdringt die Atmosphäre und erwärmt den Boden. Der Boden strahlt dieselbe Leistung als langwellige Wärmestrahlung zurück. Die Atmosphäre lässt einen Teil ins All entweichen und wirft den vom Treibhausgas-Regler bestimmten Anteil zum Boden zurück."></canvas>
     </div>
 
     <div class="live-box">
@@ -775,16 +789,6 @@ MathJax = {
       <div class="lb-item"><span class="lb-lab">Infrarot (Wärme)</span><span class="lb-val" id="a6-ir">40 % absorbiert</span></div>
       <div class="lb-item"><span class="lb-lab">entweicht ins All</span><span class="lb-val" id="a6-raus">144 W/m²</span></div>
       <div class="lb-item"><span class="lb-lab">zurück zum Boden</span><span class="lb-val" id="a6-zurueck">96 W/m²</span></div>
-    </div>
-
-    <div class="cv-wrap">
-      <div class="cv-titel">🌍 Durchlässigkeit über der Wellenlänge — feste Skala \(0.2 \ldots 100\;\mu\text{m}\)</div>
-      <canvas id="a6-cv" height="250"></canvas>
-    </div>
-
-    <div class="cv-wrap">
-      <div class="cv-titel">♻ Energiefluss Sonne → Boden → Atmosphäre (vereinfacht)</div>
-      <canvas id="a6-cv2" height="270" role="img" aria-label="Schema des Energieflusses: kurzwellige Sonnenstrahlung von 240 Watt pro Quadratmeter durchdringt die Atmosphäre und erwärmt den Boden. Der Boden strahlt dieselbe Leistung als langwellige Wärmestrahlung zurück. Die Atmosphäre lässt einen Teil ins All entweichen und wirft den vom Treibhausgas-Regler bestimmten Anteil zum Boden zurück."></canvas>
     </div>
 
   </div>
@@ -2045,8 +2049,14 @@ function drawA6(){
   // mittig auf dem gelben Band, unter der (dort flachen) Kurve — nicht daneben
   ctx.fillStyle='#8a6d12'; ctx.font='13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText(eng?'sichtbar':'sichtbar 0.4 … 0.8 µm', (lamX(0.38)+lamX(0.78))/2, py0+36);
+  // Zwischen Trennlinie und «λ [µm]»; reicht der Platz nicht (Bild neben der
+  // Bedienung, rund 600 px), die kurze Fassung — sonst stiess sie an «λ [µm]»
   if(!eng){ ctx.fillStyle='#a8392b'; ctx.textAlign='center';
-    ctx.fillText('Wärmestrahlung der Erde (4 … 50 µm)', (xMid+px1)/2, py1+32); }
+    ctx.font='bold 13px "Source Sans 3",sans-serif'; const rLam=px1-ctx.measureText('λ [µm]').width-10;
+    ctx.font='13px "Source Sans 3",sans-serif';
+    const wTxt=['Wärmestrahlung der Erde (4 … 50 µm)','Wärmestrahlung (4 … 50 µm)'].find(t=>ctx.measureText(t).width<=rLam-xMid-8) || 'Wärmestrahlung';
+    const ww=ctx.measureText(wTxt).width;
+    ctx.fillText(wTxt, Math.min((xMid+px1)/2, rLam-ww/2), py1+32); }
   // Hinweis
   ctx.fillStyle='#a8392b'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   // breit: in der absorbierten Fläche zwischen 95 % und der Kurve, wenn sie

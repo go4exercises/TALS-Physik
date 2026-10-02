@@ -763,7 +763,8 @@ rückt rechts neben das Bild; Formelzeile und Live-Box folgen darunter über die
 ```
 
 - Rechte Spalte 320 px. Darin stehen Reglerzeilen anders als sonst: Etikett oben, Regler
-  über die volle Breite, Wert rechts daneben. Die Legende im Bild wird zweispaltig. Das
+  über die volle Breite, Wert rechts daneben. Die Legende im Bild wird zweispaltig; ein
+  einzelner Eintrag (ein Satz statt Linienmuster) läuft über beide Spalten. Das
   regelt `style.css` zentral, kein lokales CSS.
 - **Unter 1100 px Fensterbreite einspaltig:** zuerst das Bild, darunter die Bedienung.
 - Modifikator **`.voll`**: einspaltig auch in der Breite, die Bedienung rückt über das
@@ -781,7 +782,9 @@ rückt rechts neben das Bild; Formelzeile und Live-Box folgen darunter über die
 - **Kein Seiten-Zoom als Ausweg** (Zoom 90 % am 30.09.2026 eingebaut, am 02.10.2026
   zurückgenommen): Den Zoom stellt der Leser im Browser selbst ein.
 - Im Einsatz (Stand 02.10.2026): p6-2 Anim. 1 «Wassermodell», 3, 4, 9, 10 «Wechselspannung
-  und Effektivwert», 11, 13; p6-1a Anim. 1 bis 6. Referenz für das Markup: p6-2
+  und Effektivwert», 11, 13; p6-1a Anim. 1 bis 6; p0-1 «Kreis, Winkel und Bogenmass» und
+  «Gegenrechnung»; p0-3 «Dichte-Labor»; mit zweitem Bild über die volle Breite: p0-2
+  «Tauchgang», p4-1 «Schwimmer im Fluss», p6-1 «Durchlässigkeit der Atmosphäre». Referenz für das Markup: p6-2
   `anim-wassermodell` und `anim-wechselspannung-effektivwert`.
 
 ### 5.12 Bedienung im Bild (Muster, Entscheid 30.09.2026)
