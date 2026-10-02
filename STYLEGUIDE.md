@@ -780,7 +780,7 @@ rückt rechts neben das Bild; Formelzeile und Live-Box folgen darunter über die
   auch auf dem Desktop greifen, und Beschriftungen stossen an (Stilregel 10).
 - **Kein Seiten-Zoom als Ausweg** (Zoom 90 % am 30.09.2026 eingebaut, am 02.10.2026
   zurückgenommen): Den Zoom stellt der Leser im Browser selbst ein.
-- Im Einsatz (Stand 02.10.2026): p6-2 Anim. 1 «Wassermodell», 3, 9, 10 «Wechselspannung
+- Im Einsatz (Stand 02.10.2026): p6-2 Anim. 1 «Wassermodell», 3, 4, 9, 10 «Wechselspannung
   und Effektivwert», 11, 13; p6-1a Anim. 1 bis 6. Referenz für das Markup: p6-2
   `anim-wassermodell` und `anim-wechselspannung-effektivwert`.
 

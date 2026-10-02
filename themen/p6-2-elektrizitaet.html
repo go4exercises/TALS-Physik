@@ -855,31 +855,12 @@ MathJax = {
 </div>
   </div>
   <div class="widget-body">
-
-    <div class="sl-row">
-      <label>Auftrag:</label>
-      <div class="typ-btns" style="margin-bottom:0">
-        <button class="typ-btn aktiv" data-mba="U">Spannung über R messen</button>
-        <button class="typ-btn" data-mba="I">Strom durch R messen</button>
-        <button class="typ-btn" data-mba="R">Widerstand R messen</button>
-      </div>
-    </div>
-    <div class="sl-row">
-      <label>Vorgehen:</label>
-      <ol class="mb-vorgehen" id="mb-vorgehen" aria-live="polite"></ol>
-    </div>
-    <p id="mb-fb" class="mb-fb">Die Messleitungen sind noch nicht angeschlossen.</p>
-
-    <div class="formel-live">
-      <div class="fl-label">Was das Gerät misst</div>
-      <div class="fl-eq" id="mb-eq"></div>
-    </div>
-
+    <div class="anim-layout">
+    <div class="anim-layout-bild">
     <div class="cv-wrap">
       <div class="cv-titel">🔧 Prüfkreis und Multimeter — Drehschalter, Buchsen, Netzgerät und Anschlussstellen im Bild anklicken</div>
       <canvas id="mb-cv" height="340" role="img" aria-label="Links ein Prüfkreis aus Netzgerät mit 12 Volt, einem Widerstand R von 100 Ohm und einer Lampe von 10 Ohm. Rechts ein Multimeter mit Anzeige, Drehschalter und den Buchsen 10A, COM und VΩmA. Zwei Messleitungen, schwarz aus COM und rot aus der gewählten Buchse, führen je nach Anschlussart an die Enden von R, an eine aufgetrennte Stelle der Leitung oder an den ausgebauten Widerstand. Nach der Wahl eines Auftrags hängen beide Leitungen frei neben dem Kreis, und der rote Stecker liegt neben den Buchsen. Die Anzeige zeigt den gerechneten Messwert, OL bei Überlauf oder eine Fehlermeldung. Bedienen lässt es sich im Bild oder mit den Knöpfen darunter."></canvas>
     </div>
-
     <details class="mc-loesung mb-knoepfe">
       <summary>Bedienung mit Knöpfen (auch per Tastatur)</summary>
       <div class="sl-row">
@@ -916,6 +897,27 @@ MathJax = {
         </div>
       </div>
     </details>
+    </div>
+    <div class="anim-layout-bedienung">
+    <div class="sl-row">
+      <label>Auftrag:</label>
+      <div class="typ-btns" style="margin-bottom:0">
+        <button class="typ-btn aktiv" data-mba="U">Spannung über R messen</button>
+        <button class="typ-btn" data-mba="I">Strom durch R messen</button>
+        <button class="typ-btn" data-mba="R">Widerstand R messen</button>
+      </div>
+    </div>
+    <div class="sl-row">
+      <label>Vorgehen:</label>
+      <ol class="mb-vorgehen" id="mb-vorgehen" aria-live="polite"></ol>
+    </div>
+    <p id="mb-fb" class="mb-fb">Die Messleitungen sind noch nicht angeschlossen.</p>
+    </div>
+    </div>
+    <div class="formel-live">
+      <div class="fl-label">Was das Gerät misst</div>
+      <div class="fl-eq" id="mb-eq"></div>
+    </div>
 
   </div>
 </div>
@@ -3900,11 +3902,14 @@ function drawA6(){
   const px0=Math.max(W*0.12,70), px1=W*0.93, py0=H*0.10, py1=H*0.80;
   // Stromachse ab 0.1 mA: Erst so ist Bereich 1 (unter 0.5 mA) im Bild
   const A6_L0=-1, A6_L1=Math.log10(2000);
-  const lx=v=>px0+(Math.log10(v)-A6_L0)/(A6_L1-A6_L0)*(px1-px0);      // I 0.1..2000 mA
-  const ly=v=>py1-(Math.log10(v)-1)/(4-1)*(py1-py0);                   // t 10..10000 ms
+  // 10 px Innenrand an den unteren Enden: Am Reglerende (0.1 mA, 10 ms) lag der
+  // Punkt sonst auf den Achsenzahlen «0.1» und «10»
+  const A6_RAND=10;
+  const lx=v=>px0+A6_RAND+(Math.log10(v)-A6_L0)/(A6_L1-A6_L0)*(px1-px0-A6_RAND);   // I 0.1..2000 mA
+  const ly=v=>py1-A6_RAND-(Math.log10(v)-1)/(4-1)*(py1-py0-A6_RAND);              // t 10..10000 ms
   // Zonen zeilenweise fuellen
   for(let yy=py0;yy<py1;yy+=2){
-    const tt=Math.pow(10, 1 + (py1-yy)/(py1-py0)*3);
+    const tt=Math.pow(10, 1 + (py1-A6_RAND-yy)/(py1-py0-A6_RAND)*3);      // Umkehrung von ly (im Rand unter 10 ms)
     const cl=x=>Math.max(px0,Math.min(px1,x));
     const xb2=cl(lx(0.5)), xb3=cl(lx(Math.min(2000,a6_b3(tt)))), xb4=cl(lx(Math.min(2000,a6_b4(tt))));
     ctx.fillStyle=A6ZONES[0][2]; ctx.fillRect(px0,yy,Math.max(0,xb2-px0),2);
@@ -3916,9 +3921,8 @@ function drawA6(){
   ctx.strokeStyle='#374151'; ctx.lineWidth=1.5;
   ctx.strokeRect(px0,py0,px1-px0,py1-py0);
   ctx.fillStyle='#6b7280'; ctx.font='13px JetBrains Mono,monospace'; ctx.textAlign='center';
-  // «0.1» linksbündig an der Ecke: zentriert stiess es bei 360 px an die «10» der Zeitachse
-  [0.1,1,10,100,1000].forEach(v=>{ ctx.textAlign = v===0.1 ? 'left' : 'center'; ctx.fillText(v+'', v===0.1 ? px0+1 : lx(v), py1+12); });
-  ctx.textAlign='center';
+  // Zentriert: Mit dem Innenrand steht «0.1» weit genug von der «10» der Zeitachse
+  [0.1,1,10,100,1000].forEach(v=>ctx.fillText(v+'', lx(v), py1+12));
   ctx.textAlign='right'; [10,100,1000,10000].forEach(v=>ctx.fillText(v+'', px0-4, ly(v)+3));
   ctx.fillStyle='#374151'; ctx.font='bold 13px "Source Sans 3",sans-serif'; ctx.textAlign='center';
   ctx.fillText('Stromstärke [mA]', (px0+px1)/2, py1+26);
@@ -4578,7 +4582,13 @@ function lpDraw(w){
     // Zwei Zweige zwischen denselben zwei Schienen. Die Schienen enden am
     // zweiten Zweig — eine eigene rechte Leitung wäre ein Draht ohne Bauteil
     // parallel zu beiden Lampen, also ein Kurzschluss.
-    const xa = L + (R-L)*0.48, xb = R;
+    // Rechts neben der zweiten Lampe steht ihre Beschriftung («100.0 W»): Bei
+    // schmaler Canvas rückt die Lampe nach links, statt dass der Rand sie kappt
+    ctx.font = 'bold 12px "Source Sans 3",sans-serif';
+    const tw = P => Math.ceil(ctx.measureText(P.toFixed(1) + ' W').width);
+    const xb = Math.min(R, W - 23 - tw(w.P2) - 6);
+    const xa = Math.min(L + (xb-L)*0.48, xb - 17 - 23 - tw(w.P1) - 6);     // Schrift der ersten Lampe vor der zweiten
+    ctx.font = '12px "Source Sans 3",sans-serif';
     ctx.beginPath();
     ctx.moveTo(xb, T); ctx.lineTo(L, T); ctx.lineTo(L, B); ctx.lineTo(xb, B);
     [xa, xb].forEach(x => { ctx.moveTo(x, T); ctx.lineTo(x, my-17); ctx.moveTo(x, my+17); ctx.lineTo(x, B); });
@@ -4891,8 +4901,9 @@ function wsRender(){
   const v = wsWerte();
   const cv = initCanvas('ws-cv', 336, false); if(!cv) return;
   let ctx = cv.ctx; const W = cv.W, schmal = W < 560;
-  // Schmal: Diagramme über die ganze Breite, Heizwiderstände darunter
-  const H = schmal ? 520 : 336;
+  // Schmal: Diagramme über die ganze Breite, Heizwiderstände darunter. Die
+  // Balken enden bei hy0 + 144, «je R = 50 Ω» steht 16 px tiefer
+  const H = schmal ? 536 : 336;
   if(schmal){ const c2 = initCanvas('ws-cv', H, false); ctx = c2.ctx; }
   const FS = px => px + 'px "Source Sans 3",sans-serif';
   const CAC = '#8a4a0e', CDC = '#1a4f8a';
@@ -4982,7 +4993,8 @@ function wsRender(){
     hind.concat([linie(v.Ud)]), feste, pw, ph, g.cx(0));
   feste.push(wsRect(lE.x, lE.y, lE.w, lE.al));
   [lUs, lD, lE].forEach(l => wsSchreibe(ctx, l));
-  wsMarke(ctx, g.cx(wsT), g.cy(uT), 'u = ' + uT.toFixed(1).replace('-', '−') + ' V', pw, ph - 4, feste);   // Rundung wie U_s (325.3 V)
+  const uTxt = Math.abs(uT) < 0.05 ? '0.0' : uT.toFixed(1).replace('-', '−');          // kein «−0.0»
+  wsMarke(ctx, g.cx(wsT), g.cy(uT), 'u = ' + uTxt + ' V', pw, ph - 4, feste);   // Rundung wie U_s (325.3 V)
   ctx.restore();
 
   // ── unten: p(t)
@@ -5135,7 +5147,7 @@ function wsInit(){
 //  Ω in Serie 110.0.
 // ══════════════════════════════════════════════════════════
 const MB_E = 12, MB_R = 100, MB_RL = 10, MB_RV = 1e7, MB_RMA = 1, MB_RA10 = 0.01, MB_FUSE = 0.2;
-let mbAuftrag = 'U', mbSchalter = 'off', mbBuchse = 'none', mbKreis = 'none', mbQuelle = false, mbDefekt = false;
+let mbAuftrag = 'U', mbSchalter = 'off', mbBuchse = 'none', mbKreis = 'none', mbQuelle = false;
 // Neustart bei jeder Auftragswahl (und beim Seitenaufruf): Gerät OFF, Netzgerät aus,
 // mbBuchse 'none' = roter Stecker in keiner Buchse, mbKreis 'none' = Messleitungen
 // hängen frei. mbRAus: R ist ausgebaut (bei mbKreis 'aus' immer, bei 'none' möglich).
@@ -5147,7 +5159,7 @@ let mbRAus = false;
 let mbGross = false, mbGeprueft = false;
 function mbNeustart(){
   mbSchalter = 'off'; mbBuchse = 'none'; mbKreis = 'none'; mbRAus = false;
-  mbQuelle = false; mbDefekt = false; mbMeldung = ''; mbMeldungKat = 'info';   // mbDefekt: Sicherung ersetzt
+  mbQuelle = false; mbMeldung = ''; mbMeldungKat = 'info';
   mbGross = false; mbGeprueft = false;
 }
 // Merkt sich nach jeder Aktion, was schon gemessen wurde
@@ -5178,7 +5190,7 @@ function mbRechne(qErzwingen){
   // Roter Stecker lose: zwischen den Messleitungen liegt nichts, der Messkreis ist offen
   if(b === 'none'){ art = { v2: 'V', v20: 'V', ma: 'mA', a10: 'A', ohm: 'Ω' }[s] || 'aus'; if(s !== 'off') warn = 'offen'; }
   else if(s === 'v2' || s === 'v20'){ art = 'V'; Rm = b === 'vomA' ? MB_RV : MB_RA10; if(b !== 'vomA') warn = 'buchse'; }
-  else if(s === 'ma'){ art = 'mA'; Rm = b === 'vomA' ? (mbDefekt ? Infinity : MB_RMA) : MB_RA10; if(b !== 'vomA') warn = 'buchse'; }
+  else if(s === 'ma'){ art = 'mA'; Rm = b === 'vomA' ? MB_RMA : MB_RA10; if(b !== 'vomA') warn = 'buchse'; }
   else if(s === 'a10'){ art = 'A'; Rm = b === 'a10' ? MB_RA10 : Infinity; if(b !== 'a10') warn = 'buchse'; }
   else if(s === 'ohm'){ art = 'Ω'; Rm = b === 'vomA' ? Infinity : MB_RA10; if(b !== 'vomA') warn = 'buchse'; }
   else if(b === 'a10'){ Rm = MB_RA10; }                          // OFF: der 10A-Shunt liegt trotzdem zwischen den Buchsen
@@ -5227,15 +5239,16 @@ function mbRechne(qErzwingen){
   }
   else if(art === 'mA' || art === 'A'){
     const I = liest ? Im : 0;
-    if(art === 'mA' && liest && !mbDefekt && I > MB_FUSE){ sicherung = true; }
-    if(art === 'mA'){ anz = sicherung || mbDefekt ? '0.0' : (I*1000 > 199.9 ? 'OL' : (I*1000).toFixed(1)); }
+    // Die Sicherung brennt nie wirklich durch: In einem falschen Aufbau bleibt das
+    // Netzgerät aus (mbEinschalten), und die Rückmeldung nennt die Folge
+    if(art === 'mA' && liest && I > MB_FUSE){ sicherung = true; }
+    if(art === 'mA'){ anz = sicherung ? '0.0' : (I*1000 > 199.9 ? 'OL' : (I*1000).toFixed(1)); }
     else anz = I.toFixed(2);
     kat = 'fehler';
-    const gueltig = liest && !sicherung && !(mbDefekt && art === 'mA') && q && k === 'ser';
+    const gueltig = liest && !sicherung && q && k === 'ser';
     if(!liest) fb = art === 'mA' ? 'Im mA-Bereich misst nur die Buchse VΩmA; in der 10A-Buchse fliesst der Strom am Messwerk vorbei. Anzeige 0.'
                                  : 'Im 10-A-Bereich misst nur die Buchse 10A. Die rote Leitung in VΩmA ist hier nicht angeschlossen, der Kreis bleibt offen.';
     else if(sicherung) fb = 'Sicherung ausgelöst: Parallel zu R überbrückt das Amperemeter den Widerstand. Durch den mA-Eingang wollten ' + I.toFixed(2) + ' A fliessen, mehr als das Fünffache seiner 200-mA-Sicherung — die flinke Feinsicherung schmilzt in Sekundenbruchteilen.';
-    else if(mbDefekt && art === 'mA') fb = 'Die Sicherung des mA-Eingangs ist durchgebrannt: Der Eingang ist offen, die Anzeige bleibt 0. Ersetze die Sicherung.';
     else if(!q){ fb = 'Das Netzgerät ist aus — es fliesst kein Strom.'; kat = 'info'; }
     else if(k === 'aus') fb = 'Durch den ausgebauten Widerstand fliesst kein Strom. Strom misst man in der aufgetrennten Leitung des laufenden Kreises.';
     else if(k === 'par') fb = 'Amperemeter parallel: Es überbrückt R, der Strom fliesst durch das Gerät statt durch R. Die Lampe leuchtet heller, R ist fast stromlos.';
@@ -5428,7 +5441,8 @@ function mbDraw(r){
   const rY = offenR ? cB + 50 : cT;
   mmBox(ctx, xR, rY, rW, 16);
   ctx.fillStyle = '#3f3a33'; ctx.font = 'bold ' + FS(12); ctx.textAlign = 'center';
-  ctx.fillText('R = 100 Ω', xR, rY - 14);
+  // Schmal unter R: Dort kommen die Messleitungen von oben und kreuzten die Schrift
+  ctx.fillText('R = 100 Ω', xR, schmal ? rY + 24 : rY - 14);
   if(offenR){ ctx.fillStyle = '#3f3a33'; [xR - rW/2, xR + rW/2].forEach(x => { ctx.beginPath(); ctx.arc(x, cT, 3.5, 0, 6.283); ctx.fill(); });
     ctx.strokeStyle = '#3f3a33'; ctx.lineWidth = 2; [[xR - rW/2 - 10, xR - rW/2], [xR + rW/2, xR + rW/2 + 10]].forEach(([a, b]) => {
       ctx.beginPath(); ctx.moveTo(a, rY); ctx.lineTo(b, rY); ctx.stroke(); }); }
@@ -5489,7 +5503,6 @@ function mbDraw(r){
   ctx.fillStyle = '#1c1a17'; ctx.font = 'bold 28px "JetBrains Mono",monospace'; ctx.textAlign = 'right';
   ctx.fillText(r.anz, mX1 - 50, dY + 34);
   ctx.font = 'bold 13px "JetBrains Mono",monospace'; ctx.textAlign = 'left'; ctx.fillText(einheit, mX1 - 44, dY + 34);
-  if(mbDefekt && mbSchalter === 'ma'){ ctx.fillStyle = '#9b1c1c'; ctx.font = 'bold ' + FS(11); ctx.textAlign = 'left'; ctx.fillText('FUSE', mX0 + 20, dY + 16); }
   // Drehschalter: sechs Stellungen über 216° (Schritt 43.2°) statt über einen
   // Halbkreis — so bleibt jedes Klickfeld am Beschriftungsradius gut 40 px breit
   const pos = [['off','OFF'], ['v2','2 V'], ['v20','20 V'], ['ohm','Ω'], ['ma','mA'], ['a10','10 A']];
@@ -5513,8 +5526,10 @@ function mbDraw(r){
   [['a10','10A'], ['com','COM'], ['vomA','VΩmA']].forEach(([k, t]) => {
     ctx.fillStyle = k === 'com' ? '#1c1a17' : '#9b1c1c'; ctx.beginPath(); ctx.arc(buchse[k], bY, 9, 0, 6.283); ctx.fill();
     ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(buchse[k], bY, 3.5, 0, 6.283); ctx.fill();
-    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold ' + FS(11); ctx.textAlign = 'center'; ctx.fillText(t, buchse[k], bY + 24);
-    if(k !== 'com' && k !== mbBuchse) mbRect('[data-mbb="' + k + '"]', buchse[k] - 22, bY - 16, buchse[k] + 22, bY + 30);
+    // Schrift über der Buchse: Die Messleitungen verlassen die Buchsen nach
+    // unten und kreuzten eine Schrift darunter («10A», «COM»)
+    ctx.fillStyle = '#1c1a17'; ctx.font = 'bold ' + FS(11); ctx.textAlign = 'center'; ctx.fillText(t, buchse[k], bY - 17);
+    if(k !== 'com' && k !== mbBuchse) mbRect('[data-mbb="' + k + '"]', buchse[k] - 22, bY - 30, buchse[k] + 22, bY + 16);
     // Roter Stecker lose: freie Buchsen als Anschlussstellen markieren
     if(k !== 'com' && mbBuchse === 'none'){ ctx.strokeStyle = BS; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(buchse[k], bY, 13, 0, 6.283); ctx.stroke(); }
   });
@@ -5556,13 +5571,14 @@ function mbDraw(r){
   // Zustand
   // Schmal ganz unten links: Seit der Polung kreuzen sich die Messleitungen über
   // dem Kreis, und rechts oben lief die rote Leitung durch den Text
-  if(r.ok){ ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold ' + FS(13); ctx.textAlign = 'left';
-    ctx.fillText('✓ Auftrag erfüllt', 14, schmal ? H - 10 : 22); }
+  // (schmal rechts: links unten steht «R = 100 Ω» unter dem ausgebauten R)
+  if(r.ok){ ctx.fillStyle = '#1f6b3a'; ctx.font = 'bold ' + FS(13); ctx.textAlign = schmal ? 'right' : 'left';
+    ctx.fillText('✓ Auftrag erfüllt', schmal ? W - 14 : 14, schmal ? H - 10 : 22); }
   mbHoverZeichnen(ctx);
 }
 
 function mbInit(){
-  // Auftrag wählen = Neustart: Gerät OFF, Netzgerät aus, Leitungen ab, Sicherung ersetzt.
+  // Auftrag wählen = Neustart: Gerät OFF, Netzgerät aus, Leitungen ab.
   // Die aktiven Knöpfe setzt mbRender (mbKnoepfe) nach dem Zustand.
   document.querySelectorAll('[data-mba]').forEach(b => b.addEventListener('click', () => {
     mbAuftrag = b.dataset.mba; mbNeustart(); mbRender(); }));
