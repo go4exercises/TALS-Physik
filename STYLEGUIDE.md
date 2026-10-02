@@ -772,8 +772,17 @@ rückt rechts neben das Bild; Formelzeile und Live-Box folgen darunter über die
   aus, damit die Canvas neu misst.
 - Canvas im Bild richten ihre Grösse nach `offsetWidth`, nie nach einer festen Breite —
   die Bildspalte ist bei 1280 px rund 600 px breit, nicht 900 px.
-- Referenz: p6-2, Animationen «Wassermodell» (`anim-wassermodell`) und «Wechselspannung
-  und Effektivwert» (`anim-wechselspannung-effektivwert`).
+- **Mehrere Bilder in einer Animation:** Nur so viel in die Bildspalte, wie dort lesbar
+  bleibt. Bei 6.1a «Die zwei Gesichter einer Welle» steht die 3D-Ansicht neben der
+  Bedienung, Momentbild und Mitschrieb folgen darunter über die volle Breite.
+- **Die Zeichnung im schmaleren Bild prüfen,** in allen Bedienzuständen und bei 1100 px
+  (knapp über dem Umbruch): Breitenschwellen im Zeichencode (`schmal = W < …`) können jetzt
+  auch auf dem Desktop greifen, und Beschriftungen stossen an (Stilregel 10).
+- **Kein Seiten-Zoom als Ausweg** (Zoom 90 % am 30.09.2026 eingebaut, am 02.10.2026
+  zurückgenommen): Den Zoom stellt der Leser im Browser selbst ein.
+- Im Einsatz (Stand 02.10.2026): p6-2 Anim. 1 «Wassermodell», 3, 9, 10 «Wechselspannung
+  und Effektivwert», 11, 13; p6-1a Anim. 1 bis 6. Referenz für das Markup: p6-2
+  `anim-wassermodell` und `anim-wechselspannung-effektivwert`.
 
 ### 5.12 Bedienung im Bild (Muster, Entscheid 30.09.2026)
 

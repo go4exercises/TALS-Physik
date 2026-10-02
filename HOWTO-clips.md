@@ -272,6 +272,15 @@ mit «In der Animation …» und führt durch vier aussagekräftige Zustände.
   manche Zeichnung ordnet sich dann anders an. Neu aufgenommene Bilder mit
   `pruef-clip` prüfen: Anim. 10 auf 6.2 brauchte danach eine kleinere
   Bildbreite im Drehbuch.
+- **Die Planbreite entscheidet, welches Bild aufgenommen wird.** Bei einer
+  Animation in `.anim-layout` liefert eine Breite ab 1100 px das schmale Bild
+  neben der Bedienung, 1099 px das breite einspaltige. Die bestehenden Bilder
+  von 6.1a Anim. 1 bis 6 sind breit; ihre Pläne stehen darum auf 1099. Vor dem
+  Übernehmen neuer Bilder die Pixelmasse mit den alten vergleichen.
+- **Bei schmaler Planbreite die Kopfzeile ausblenden.** Unter 1100 px schiebt
+  sich die feste Kopfzeile ins Bild. Erste Aktion jedes Zustands:
+  `{"js": "document.querySelectorAll('#nav-root').forEach(function(e){e.style.display='none';});"}`
+  (so in den Plänen von 6.1a `puls`, `wackeln`, `gesichter`).
 
 **Zahlen:** Jede Zahl im Clip kommt aus dem Code der Animation, mit python3
 nachgerechnet, in **derselben Rundung** wie dort (Stilregel 10). Zeigt die
