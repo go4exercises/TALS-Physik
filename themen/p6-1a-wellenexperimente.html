@@ -43,7 +43,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-09-28",
+   "dateModified": "2026-10-02",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -1531,7 +1531,13 @@ function a1Render(){
 
   // oben: Momentbild
   const cv=initCanvas('a1-cv-s',230,false);
-  const gr=gitter(cv.ctx,cv.W,cv.H,-0.4,8.4,-8,8,{sperr:[{x:a1SM(),y:a1St.typ==='T'?yFn(a1SM()):0,r:7}]});
+  // Rechts so viel Platz, dass das markierte Teilchen am Seilende (s = 8 m,
+  // Radius 7 px) nicht unter «s [m]» liegt: Rand m = Beschriftung + 8 + 7 + 6 px,
+  // aus (x_max − 8)·W/(x_max + 0.4) ≥ m
+  cv.ctx.font='bold 13px JetBrains Mono,monospace';
+  const a1k=(cv.ctx.measureText('s [m]').width+21)/cv.W;
+  const a1xMax=Math.max(8.4,(A1L+0.4*a1k)/(1-a1k));
+  const gr=gitter(cv.ctx,cv.W,cv.H,-0.4,a1xMax,-8,8,{sperr:[{x:a1SM(),y:a1St.typ==='T'?yFn(a1SM()):0,r:7}]});
   if(a1St.typ==='T'){
     drawCurve(cv.ctx,gr.cx,gr.cy,function(s){return s;},yFn,0,A1L,220,'#8a4a0e',2.6);
     ketteT(cv.ctx,gr,0,A1L,32,yFn,a1SM());
@@ -1631,10 +1637,13 @@ function a2Render(){
   // Stehen die y-Zahlen schmal rechts der Achse (drawGrid), rückt «Erreger» hinter sie
   halo(cv.ctx,'Erreger',gr.cx(0)+8+(gr.cx(0)<32 ? 30 : 0),gr.cy(-8.6),'#8a4a0e','left');
   // λ-Doppelpfeil zwischen zwei Bergen (nur wenn zwei Berge sichtbar sind)
-  const crests=[];
-  for(let n=0;n<14;n++){
-    const sc=A2C*a2St.tau-lam*(0.25+n);
-    if(sc>=0.25 && sc<=Math.min(A2L,A2C*a2St.tau)-0.05) crests.push(sc);
+  // Berge bei s = c·τ − λ(n + 1/4); n direkt aus dem sichtbaren Bereich rechnen,
+  // nicht ab der Wellenfront abzählen (sonst lagen nach rund 10 s alle gezählten
+  // Berge jenseits des Seils, und der Pfeil verschwand)
+  const crests=[], sHi=Math.min(A2L,A2C*a2St.tau)-0.05, cT=A2C*a2St.tau;
+  for(let n=Math.max(0,Math.ceil((cT-sHi)/lam-0.25)); n<=Math.floor((cT-0.25)/lam-0.25); n++){
+    const sc=cT-lam*(0.25+n);
+    if(sc>=0.25 && sc<=sHi) crests.push(sc);
   }
   if(crests.length>=2){
     const yArr=Math.min(v.A+1.6,9.2);
@@ -1714,13 +1723,13 @@ id('a2-teilchen2').addEventListener('input',function(){
   a2St.hist2=[]; a2Render();
 });
 ['a2-f','a2-A'].forEach(function(i){ id(i).addEventListener('input',function(){
-  a2St.tau=0; a2St.hist=[]; a2Read(); a2Render(); }); });
+  a2St.tau=0; a2St.hist=[]; a2St.hist2=[]; a2Read(); a2Render(); }); });
 id('a2-teilchen').addEventListener('input',function(){
   id('a2-teilchen-val').textContent=(+this.value).toFixed(1)+' m';
   a2St.hist=[]; a2Render();
 });
-id('a2-tr').addEventListener('click',function(){ a2St.typ='T'; setAktiv('a2-tr',['a2-lo']); a2St.tau=0; a2St.hist=[]; a2Render(); });
-id('a2-lo').addEventListener('click',function(){ a2St.typ='L'; setAktiv('a2-lo',['a2-tr']); a2St.tau=0; a2St.hist=[]; a2Render(); });
+id('a2-tr').addEventListener('click',function(){ a2St.typ='T'; setAktiv('a2-tr',['a2-lo']); a2St.tau=0; a2St.hist=[]; a2St.hist2=[]; a2Render(); });
+id('a2-lo').addEventListener('click',function(){ a2St.typ='L'; setAktiv('a2-lo',['a2-tr']); a2St.tau=0; a2St.hist=[]; a2St.hist2=[]; a2Render(); });
 
 // ══════════════ ANIMATION 3 — Die zwei Gesichter + 3D ══════════════
 const A3A=5, A3LAM=2, A3T=1;   // cm, m, s → c = 2 m/s
@@ -1811,9 +1820,6 @@ function drawA3D(t0,s0){
   drawArrow(ctx,pO[0],pO[1],pS[0],pS[1],'#374151',1.5,8);
   drawArrow(ctx,pO[0],pO[1],pT[0],pT[1],'#374151',1.5,8);
   drawArrow(ctx,pO[0],pO[1],pO[0],oy-A3A*ky-16,'#374151',1.5,8);
-  halo(ctx,'s [m]',pS[0]-4,pS[1]+18,'#374151','right');
-  halo(ctx,'t [s]',pT[0]+8,pT[1]-4,'#374151','left');
-  halo(ctx,'y [cm]',pO[0]+7,oy-A3A*ky-8,'#374151','left');
   // hervorgehobene Schnitte: t = const (Momentbild) und s = const (Punktbewegung)
   const cutT=[]; for(let i=0;i<=140;i++){ const s=6*i/140; cutT.push(P(s,t0,a3Y(s,t0))); }
   poly(cutT,'#8a4a0e',2.8);
@@ -1824,6 +1830,11 @@ function drawA3D(t0,s0){
   ctx.fillStyle='#8a4a0e';
   ctx.beginPath(); ctx.arc(pd[0],pd[1],5.5,0,6.283); ctx.fill();
   ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+  // Achsenbeschriftungen zuletzt, auf hellem Grund: bei s = 0 läuft der grüne
+  // Schnitt sonst mitten durch «y [cm]» (Stilregel 10)
+  halo(ctx,'s [m]',pS[0]-4,pS[1]+18,'#374151','right');
+  halo(ctx,'t [s]',pT[0]+8,pT[1]-4,'#374151','left');
+  halo(ctx,'y [cm]',pO[0]+7,oy-A3A*ky-8,'#374151','left');
 }
 ['a3-t','a3-s'].forEach(function(i){ id(i).addEventListener('input',drawA3); });
 
@@ -2226,7 +2237,7 @@ id('a7-seil').addEventListener('click',function(){
 });
 // Reset: Zeit/Phase auf 0, Mitschriebe leeren — Slider-Einstellungen bleiben erhalten
 id('a1-reset').addEventListener('click',function(){ a1St.tau=0; a1St.hist=[]; a1Render(); });
-id('a2-reset').addEventListener('click',function(){ a2St.tau=0; a2St.hist=[]; a2Render(); });
+id('a2-reset').addEventListener('click',function(){ a2St.tau=0; a2St.hist=[]; a2St.hist2=[]; a2Render(); });
 id('a3-reset').addEventListener('click',function(){
   id('a3-t').value='1.2'; id('a3-s').value='1.5'; drawA3();
 });
