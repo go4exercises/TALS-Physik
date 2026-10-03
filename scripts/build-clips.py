@@ -428,10 +428,13 @@ def graf_svg(el, theme):
             farbe = fv[g.get("farbe", 1) - 1]
             gid = "bewg%d" % nr
             teile.append('<path data-bewg="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d" '
-                         'fill="none" stroke="%s" stroke-width="%s" stroke-linecap="round" %s/>'
+                         'fill="none" stroke="%s" stroke-width="%s" stroke-linecap="round" %s%s/>'
                          % (entschaerfen(json.dumps(g["bewegung"])), gid, x0, x1, y0, y1, b, h, rand,
                             farbe, g.get("dicke", 5),
-                            'stroke-dasharray="14 10"' if g.get("gestrichelt") else ""))
+                            'stroke-dasharray="14 10"' if g.get("gestrichelt") else "",
+                            # "ab": die Gerade beginnt erst bei diesem x (Physik 03.10.2026:
+                            # eine Q-t-Gerade hat keinen Teil bei negativer Zeit)
+                            ' data-ab="%g"' % g["ab"] if g.get("ab") is not None else ""))
 
             # Begleiter der bewegten Geraden, alle aus derselben Zeit gerechnet:
             # yachse ((0 | q)), nullstelle ((x_0 | 0)), marken (Punkt an festem x
@@ -817,7 +820,8 @@ function bewZustand(k, t) {
 const bewZahl = x => { const r = Math.round(x * 10) / 10; return (r < 0 ? '−' : '') + Math.abs(r); };
 // Eine bewegte Gerade y = m x + q: am Fenster abgeschnitten, dazu ihre Begleiter.
 function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
-  const [m, q] = bewZustand(T.k, t - T.L.t0);
+  const [m, q] = bewZustand(T.k, t - T.t0);
+  if (T.p.dataset.ab !== undefined) x0 = Math.max(x0, parseFloat(T.p.dataset.ab));
   const f = x => m * x + q, innen = (x, y) => x >= x0 - 1e-9 && x <= x1 + 1e-9 && y >= y0 - 1e-9 && y <= y1 + 1e-9;
   const pt = [];
   for (const x of [x0, x1]) { const y = f(x); if (y >= y0 - 1e-9 && y <= y1 + 1e-9) pt.push([x, y]); }
@@ -850,14 +854,14 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
       setze(g, x, f(x)); beschrifte(g, x, f(x), fuell(g.dataset.text, x, f(x)));
     } else if (g.classList.contains('bew-gl')) {
       const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn));
-      const x = bewZustand(bahn, t - T.L.t0)[0];
+      const x = bewZustand(bahn, t - T.t0)[0];
       setze(g, x, f(x)); beschrifte(g, x, f(x), fuell(g.dataset.text, x, f(x)));
     } else if (g.classList.contains('bew-gd')) {
       // Steigungsdreieck: von (x | f(x)) nach rechts, dann senkrecht auf die Gerade.
       let xa, dx;
       if (g.dataset.bahn) {
         const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn));
-        [xa, dx] = bewZustand(bahn, t - T.L.t0);
+        [xa, dx] = bewZustand(bahn, t - T.t0);
       } else { xa = parseFloat(g.dataset.x); dx = parseFloat(g.dataset.dx); }
       const xb = xa + dx;
       const ya = f(xa), yb = f(xb), sichtbar = innen(xa, ya) && innen(xb, yb);
@@ -878,7 +882,9 @@ function bewegen(t) {
     const [x0, x1, y0, y1, b, h, rd] = T.f;
     const px = x => rd + (x - x0) / (x1 - x0) * (b - 2 * rd);
     const py = y => h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd);
-    if (T.art === 'g') { bewegeGerade(T, t, px, py, x0, x1, y0, y1); continue; }
+    // T.L ist das Element, die Startzeit der Szene steht an L (der Liste) — vorher
+    // las bewegeGerade T.L.t0, bekam undefined, und jede Gerade stand im Endzustand.
+    if (T.art === 'g') { T.t0 = L.t0; bewegeGerade(T, t, px, py, x0, x1, y0, y1); continue; }
     const [a, u, v] = bewZustand(T.k, t - L.t0);
     let d = '', zug = false;
     for (let i = 0; i <= 240; i++) {

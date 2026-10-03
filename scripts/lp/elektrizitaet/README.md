@@ -7,7 +7,7 @@ dem Mathe-Vorbild `tals-mathe/scripts/lp/quadratische-funktionen/`.
 |---|---|---|
 | `seite.py` | baut `leitprogramme/leitprogramm-elektrizitaet.html` — Kopf, CSS, Grundskript, alle Kapitel. Aus der bestehenden Seite übernimmt es nur den SEO-Block. | **ja** — für jede Änderung an Text, Aufgaben, Kapitelaufbau |
 | `seite.js` | Seitenskript: Koordinatensystem `Achsen()`, Bedienung (Regler und Knöpfe), Aufgabenleiste `Leiste()`, Simulationen sim1–sim5, Übungen mit Rückmeldung (`TYPEN`), Minigrafen | wird von `seite.py` eingesetzt |
-| `clips.py` | Archiv: hat die zehn Drehbücher `clips/p6-2-lp-*.json` erzeugt | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern) |
+| `clips.py` | Archiv: hat die zehn Drehbücher `clips/p6-2-lp-*.json` erzeugt; die Kontrollclips in Fassung 2 (nach der Prüfung vom 03.10.2026) | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern; mit Clipnamen dahinter nur diese). Spätere Korrekturen an den Einführungsclips stehen nur in den JSONs. |
 
 ## Ablauf bei einer Änderung
 
@@ -24,7 +24,9 @@ Sprechertext oder Szenen ändern) → `build-clip-fragen-ton.py` (Kontrollclips)
 (Stimme `de_DE-thorsten-high`, siehe `CLAUDE.md`). Laufzeiten auf den Clipkarten in `seite.py`
 nachführen. Die Bilder `clips/bilder/p6-2-lp-*.jpg` sind Aufnahmen der Simulationen
 (`.claude/tools/aufnahme-anim.mjs`, Selektor `#simN > svg` — ohne `>` trifft man die
-MathJax-Formel in der Aufgabenleiste); ändert sich eine Simulation, neu aufnehmen.
+MathJax-Formel in der Aufgabenleiste; Knöpfe mit einer `js`-Aktion klicken, die Mausklicks
+des Werkzeugs griffen hier nicht). Ändert sich eine Simulation, neu aufnehmen und **jedes Bild
+ansehen**.
 
 Gesamttest und Bewertungspaket: `downloads/leitprogramme/elektrizitaet/*.tex`, bauen mit
 `python3 scripts/build-lp-pdf.py elektrizitaet`.
@@ -34,6 +36,7 @@ Gesamttest und Bewertungspaket: `downloads/leitprogramme/elektrizitaet/*.tex`, b
 ```sh
 node .claude/tools/pruef-uebungen.mjs leitprogramme/leitprogramm-elektrizitaet.html 2000
 node .claude/tools/pruef-leiste.mjs leitprogramme/leitprogramm-elektrizitaet.html
+node .claude/tools/pruef-formelsatz.mjs leitprogramme/leitprogramm-elektrizitaet.html   # Formelsatz der Übungen
 node .claude/tools/pruef-fragen.mjs p6-2-lp-kontrolle-ladung p6-2-lp-kontrolle-leistung \
      p6-2-lp-kontrolle-widerstand p6-2-lp-kontrolle-schaltungen p6-2-lp-kontrolle-gefahren
 ```

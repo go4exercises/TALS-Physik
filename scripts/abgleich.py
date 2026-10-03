@@ -125,6 +125,20 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
+    dict(quelle='Physik', was='build-clips.py: bewegte Geraden standen im Endzustand; neues Feld "ab" (03.10.2026)',
+         wie='(1) FEHLER in BEWEGUNG_JS, auch in Mathe (build-clips.py Z. 871, 904, 911): bewegeGerade '
+             'liest t - T.L.t0, T.L ist aber das Element, nicht der Listeneintrag mit t0. Ergebnis NaN, '
+             'bewZustand liefert den letzten Stuetzpunkt: Jede bewegte Gerade, jeder Laeufer und jedes '
+             'wandernde Steigungsdreieck steht sofort im Endzustand. In Mathe betrifft das die Clips '
+             'g3-2-lp-* (Gerade sehen und Kontrollclips) — dort steht die Antwort einer klick-Frage '
+             'womoeglich schon im Bild. Physik-Fix: T.L.t0 -> T.t0 und in bewegen() vor dem Aufruf '
+             'T.t0 = L.t0. Danach alle Clips mit "bewegung" an Geraden neu bauen und Pruefbilder bei '
+             '0.3 s jeder Fragenszene ansehen. (2) Neu: "ab" an einer bewegten Geraden — die Strecke '
+             'beginnt erst bei diesem x (Q-t- oder R-l-Gerade ohne negativen Teil); ohne das Feld bleibt '
+             'alles gleich. Diese Datei und build-clips.py aus Physik uebernehmen; danach build-clips.py '
+             'KERN wieder >= 0.98. (3) Neu in Physik und fuer Mathe nuetzlich: .claude/tools/'
+             'pruef-formelsatz.mjs setzt die Zufallsuebungen mit echtem MathJax (pruef-uebungen schaltet '
+             'es ab und sah darum ein «\\text{\\mu C}» nicht).'),
     dict(quelle='Physik', was='TODO-schwesterprojekt.md abraeumen, Grundlinie build-clips.py (03.10.2026)',
          wie='(1) In TODO-schwesterprojekt.md vier Eintraege loeschen, alle in Physik umgesetzt: '
              '«Zwei Styleguide-Regeln uebernehmen» (30.09.; Physik STYLEGUIDE §2.6a und §5.5, '

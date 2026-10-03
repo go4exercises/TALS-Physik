@@ -896,6 +896,16 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   gesprochener Text.
 - Notation wie im Leitprogramm, auch im Merkbild.
 - Zahlen im Sprechertext ausgeschrieben (`CLAUDE.md`, Vertonung).
+- **Bewegung im Prüfbild nachsehen**, nicht nur im Drehbuch: ein Bild bei 0.3 s jeder
+  Fragenszene und eines mitten in jeder Bewegung. (Elektrizität, 03.10.2026: Ein Fehler im
+  Generator liess jede bewegte Gerade sofort im Endzustand stehen — die Drehbücher waren
+  richtig, die Bilder nicht; behoben in `build-clips.py`.)
+- **Aufgenommene Bilder einer Simulation ansehen**, bevor sie in einen Clip gehen: Zeigt das
+  Bild den Zustand, den der Ton beschreibt? (Elektrizität: Bilder mit 12 V statt 230 V und ein
+  doppeltes Bild — die Mausklicks des Aufnahmewerkzeugs hatten nicht gegriffen. Knöpfe darum
+  mit einer `js`-Aktion auslösen: `document.querySelector(…).click()`.)
+- Kontrollfragen bringen **neue** Beispiele: weder die Werte des Einführungsclips noch seine
+  Bilder, noch die Ziele der Aufgabenleiste.
 
 **Animationen und Übungen**
 - Kein Ziel der Aufgabenleiste ist schon im Startzustand erfüllt; Ziele sind nicht die
@@ -905,6 +915,14 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   des Stoffs mit üben; kein Zufallsfall gleich einer festen Aufgabe (`pruef-uebungen`
   mit `fehler()`).
 - Hinweise rechnen nicht anders als die Lösung.
+- **Formelsatz der Übungstexte prüfen**: `pruef-uebungen` schaltet MathJax ab und sieht
+  darum weder Satzfehler noch LaTeX, das als Text erscheint. `.claude/tools/pruef-formelsatz.mjs` setzt Aufgabe,
+  Rückmeldungen und Lösung vieler Zufallsfälle mit MathJax. Falle: `\mu` gehört nicht in
+  `\text{…}` (`\;\mu\text{C}`, nicht `\text{\mu C}`).
+- Klassennamen gegen Physiks `style.css` prüfen, bevor man sie aus Mathe übernimmt
+  (`sl-row`, `sl-grp`, `sl-val`, `frage` sind dort belegt; §12 Punkt 9).
+- Minigrafen: Beschriftungen in Fensteranteilen versetzen, nicht in Dateneinheiten — sonst
+  landen sie bei kleinen Achsenwerten ausserhalb des Bildes.
 - Live-Anzeigen runden nur mit «≈»; dieselbe Grösse überall gleich gerundet.
 - Je Kapitel mindestens eine «Warum»-Aufgabe und eine Aufgabe am Diagramm (§9).
 

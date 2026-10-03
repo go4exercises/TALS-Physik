@@ -162,9 +162,9 @@ SEITEN = {
    # (UNVERLINKT in build-suchindex.py), noindex bis zur Freischaltung.
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
    titel='Leitprogramm Elektrizität — Ladung, Spannung, Widerstand, Schaltungen, Gefahren',
-   beschreibung='Leitprogramm zur Elektrizität in fünf Kapiteln: Ladung und Stromstärke, '
-                'Spannung, Leistung und Energie, Widerstand eines Leiters, Reihen- und '
-                'Parallelschaltung, Gefahren und Schutzmassnahmen — mit Erklärclips, '
+   beschreibung='Leitprogramm zur Elektrizität in fünf Kapiteln — Ladung und Stromstärke; '
+                'Spannung, Leistung und Energie; Widerstand eines Leiters; Reihen- und '
+                'Parallelschaltung; Gefahren und Schutzmassnahmen — mit Erklärclips, '
                 'Simulationen mit Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung '
                 'und Gesamttest als PDF.',
    themen=['Physik', 'Elektrizität', 'Ladung', 'Stromstärke', 'Widerstand',
