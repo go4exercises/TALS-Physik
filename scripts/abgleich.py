@@ -125,15 +125,22 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='Bedingungsleiste: Abstand zwischen zwei Eintraegen; TODO-Eintraege loeschen (28.09.2026)',
-         wie='(1) scripts/build-clips.py, CSS #vorleiste: gap:14px ergaenzen (nach justify-content:center). '
-             'Physik hat die Bedingungsleiste aus Mathe uebernommen (Emission, Schutzregel oben >= 170, CSS, '
-             'alles 1:1) und an einer Probe mit zwei gleichzeitigen Eintraegen gesehen, dass die Kaestchen '
-             'ohne Abstand aneinanderstossen. Danach ist build-clips.py KERN >= 0.836. '
-             '(2) TODO-schwesterprojekt.md: drei Eintraege loeschen, Entscheid Auftraggeber 28.09.2026: '
-             '«Clip-Generator: Bedingungsleiste voraussetzung» (in Physik umgesetzt), «Rechner-Clips als '
-             'eigener Strang» und «Intervallgrenzen am Zahlenstrahl als Klammer» (beide fuer Physik '
-             'gestrichen, nicht umsetzen). Danach meldet Physiks Pre-Flight kein todo-schwester mehr.'),
+    dict(quelle='Mathe', was='Leitprogramm-Erstellung nach dem heutigen Muster (abgenommen 03.10.2026)',
+         wie='Vier Bloecke, Einzelheiten mit Zeilenzahlen in TODO-schwesterprojekt.md: '
+             '(1) scripts/build-clips.py — "bewegung" fuer parabeln UND geraden samt BEWEGUNG_JS '
+             '(144 Z.) und "fragen" samt FRAGEN_JS (145 Z.); dazu clips/themes/begreifbar-schlicht.json, '
+             'scripts/build-clip-fragen-ton.py (77 Z.). Physik nutzt den "graf" heute in keinem '
+             'seiner 234 Drehbuecher — der Uebertrag haelt nur das Werkzeug gleich. '
+             '(2) HOWTO-leitprogramme.md Gesamtfassung (599 Z.) statt der alten technischen '
+             'Fassung (Physik 385 Z.) und ein STYLEGUIDE §6.5 (in Physik nicht vorhanden). '
+             '(3) Kapitelmuster als Bauskript: scripts/lp/<thema>/ mit seite.py, seite.js, '
+             'grafgeom.py, pruef-graf.py — kein reiner Uebertrag, entsteht am ersten '
+             'Physik-Leitprogramm. (4) Pruefung vor der Freischaltung: Skill lp-pruefung (90 Z.) '
+             'und .claude/tools/pruef-uebungen.mjs, pruef-leiste.mjs, pruef-fragen.mjs, '
+             'sprechzeiten.py (366 Z. zusammen) — in Physik fehlen alle vier. '
+             'Empfohlene Reihenfolge: (2), (4), dann (1) und (3) zusammen am ersten Leitprogramm. '
+             'Nach (1) ist build-clips.py KERN wieder vergleichbar; die Grundlinie 0.836 steigt '
+             'erst, wenn beide Repos dieselbe Fassung tragen.'),
 ]
 
 FACH = {
