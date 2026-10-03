@@ -125,14 +125,6 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Mathe', was='Leitprogramm-Erstellung: nur noch das Kapitelmuster (Rest uebernommen 03.10.2026)',
-         wie='(3) Kapitelmuster als Bauskript: scripts/lp/<thema>/ mit seite.py, seite.js, '
-             'grafgeom.py, pruef-graf.py — kein reiner Uebertrag, entsteht am ersten neuen '
-             'Physik-Leitprogramm (HOWTO-leitprogramme.md §4). (1), (2) und (4) sind in Physik '
-             'seit 03.10.2026: build-clips.py mit bewegung/fragen (KERN 0.982), Theme '
-             'begreifbar-schlicht, build-clip-fragen-ton.py, build-lp-pdf.py + lp-druck.sty, '
-             'HOWTO-leitprogramme Gesamtfassung, STYLEGUIDE §6.5, Skill lp-pruefung und die vier '
-             'Pruefwerkzeuge.'),
     dict(quelle='Physik', was='TODO-schwesterprojekt.md abraeumen, Grundlinie build-clips.py (03.10.2026)',
          wie='(1) In TODO-schwesterprojekt.md vier Eintraege loeschen, alle in Physik umgesetzt: '
              '«Zwei Styleguide-Regeln uebernehmen» (30.09.; Physik STYLEGUIDE §2.6a und §5.5, '
@@ -140,8 +132,11 @@ OFFEN = [
              '«build-clips.py: bewegte Parabel und Fragen im Clip» (02.10.), «Drei Werkzeuge aus '
              'dem Leitprogramm Quadratische Funktionen» (02.10.; ob Physiks HTML-Gesamttests auf '
              'PDF umgestellt werden, entscheidet der Auftraggeber in Physik) und «Die '
-             'Leitprogramm-Erstellung als Ganzes» (03.10.; offen ist nur das Kapitelmuster, es '
-             'steht oben in OFFEN). Danach meldet Physiks Pre-Flight kein todo-schwester mehr. '
+             'Leitprogramm-Erstellung als Ganzes» (03.10.; auch das Kapitelmuster steht jetzt: '
+             'scripts/lp/elektrizitaet/, erstes Physik-Leitprogramm danach, unverlinkt in Erprobung). '
+             'Danach meldet Physiks Pre-Flight kein todo-schwester mehr. '
+             'Nicht portieren: Physiks build-suchindex.py hat jetzt eine Menge UNVERLINKT fuer '
+             'Leitprogramme in Erprobung; Mathe loest dasselbe mit seiner Handliste (bewusst verschieden). '
              '(2) Grundlinie build-clips.py auf 0.980 nachtragen (diese Datei uebernehmen). '
              'Physiks Fassung ist Mathes vom 03.10.2026 plus die Physik-Eigenheiten '
              '(Textbreite aus `breite`, `mitnehmen`, Bedingungsleisten-Pruefung vor den Elementen); '

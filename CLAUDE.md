@@ -282,8 +282,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (`scripts/build-lp-pdf.py`, `downloads/leitprogramme/lp-druck.sty`) umgestellt
   werden, ist offen. Vor der Freischaltung: Skill `/lp-pruefung` (drei
   Prüfagenten; Werkzeuge `.claude/tools/pruef-uebungen.mjs`, `pruef-leiste.mjs`,
-  `pruef-fragen.mjs`, `sprechzeiten.py`). Das Bauskript `scripts/lp/` fehlt
-  noch — es entsteht am ersten neuen Leitprogramm. Für eine
+  `pruef-fragen.mjs`, `sprechzeiten.py`). Erstes Leitprogramm nach dem
+  Kapitelmuster: `leitprogramm-elektrizitaet` (6.2, fünf Kapitel, zehn eigene
+  Clips `p6-2-lp-*` mit `probe: true`, Gesamttest als PDF), gebaut mit
+  `scripts/lp/elektrizitaet/` (README dort) — seit 03.10.2026 **unverlinkt in
+  Erprobung** (`noindex`, `UNVERLINKT` in `build-suchindex.py`, keine Karte);
+  Freischalten erst nach `/lp-pruefung`. Für eine
   Seite aus einem Prüfungs-PDF zusätzlich `HOWTO-uebungspruefung.md` (PDF
   misstrauisch lesen, `probe: true` für die Clips, die `</head>`-Falle, und
   wie ein Prüfungsrahmen wegbleibt, ohne dass die Aufgaben leiden). Die

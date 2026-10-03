@@ -321,10 +321,16 @@ def seiten_aus_navjs(root):
     lp = os.path.join(root, 'leitprogramme')
     if os.path.isdir(lp):
         for datei in sorted(os.listdir(lp)):
-            if datei.endswith('.html'):
+            if datei.endswith('.html') and 'leitprogramme/' + datei not in UNVERLINKT:
                 seiten.append({'nr': 'LP', 'titel': 'Leitprogramm',
                                'url': f'leitprogramme/{datei}', 'mode': 'thema'})
     return seiten
+
+
+# Leitprogramme in der Erprobung: veroeffentlicht, aber unverlinkt (HOWTO-leitprogramme
+# §13). Sie stehen nicht im Index, bis sie freigeschaltet sind — dann hier streichen,
+# Karte in leitprogramme.html setzen und noindex in build-seo.py entfernen.
+UNVERLINKT = {'leitprogramme/leitprogramm-elektrizitaet.html'}
 
 
 def clip_eintraege(root):

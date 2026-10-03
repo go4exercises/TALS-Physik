@@ -1,0 +1,950 @@
+"""Baut leitprogramme/leitprogramm-elektrizitaet.html aus einer Kapitelbeschreibung (seit 03.10.2026).
+
+  python3 scripts/lp/elektrizitaet/seite.py
+
+Erstes Physik-Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4), gebaut nach
+dem Mathe-Vorbild scripts/lp/quadratische-funktionen/. Anders als dort steht hier alles im
+Skript — Kopf, CSS, Grundskript —, nichts wird aus der bestehenden Seite gelesen. Nur den
+SEO-Block übernimmt das Skript aus der Seite, damit build-seo.py ihn pflegen kann.
+Wiederholbar: zweimal laufen lassen ergibt dieselbe Datei. Danach build-seo.py, Pre-Flight.
+Siehe README.md.
+"""
+import os
+import re
+
+SP = os.path.dirname(os.path.abspath(__file__)) + '/'
+R = os.path.abspath(os.path.join(SP, '..', '..', '..')) + '/'
+ZIEL = R + 'leitprogramme/leitprogramm-elektrizitaet.html'
+TS = '../themen/p6-2-elektrizitaet.html'
+
+SEO_LEER = '<!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->\n<!-- SEO:ENDE -->'
+seo = SEO_LEER
+if os.path.exists(ZIEL):
+    m = re.search(r'<!-- SEO:ANFANG.*?<!-- SEO:ENDE -->', open(ZIEL, encoding='utf-8').read(), re.S)
+    if m:
+        seo = m.group(0)
+
+KOPF = '''<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitprogramm Elektrizität</title>
+''' + seo + '''
+
+<link rel="stylesheet" href="../schriften.css">
+<!-- Die Seite erbt Farben, Karten und die Clip-Buehne von der Site.
+     Reihenfolge zaehlt: der eigene <style> unten gewinnt bei gleichem
+     Gewicht, das Leitprogramm behaelt also sein Layout. -->
+<link rel="stylesheet" href="../style.css">
+<style>
+'''
+
+# Gerüst-CSS aus dem Mathe-Vorbild (leitprogramme/quadratische-funktionen.html), mit
+# Physiks Bereichsfarbe Bernstein für Chips, Links und PDF-Knöpfe; didaktische Farben
+# (Blau = Definition, Rot = Fehler, Orange = Aufgabe) wie dort (STYLEGUIDE §5.1).
+CSS = r'''
+:root{ --karte:var(--weiss); }
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --papier:#171512; --papier-2:#1f1c17; --karte:#211e19; --weiss:#211e19;
+    --tinte:#f1ece1; --tinte-2:#b6ab97; --linie:#3a342a;
+    --blau:#8ab6e8; --blau-hell:#1b2a3d; --blau-rand:#3f6da3;
+    --gruen:#79c894; --gruen-hell:#162c1f; --gruen-rand:#3f8058;
+    --lila:#c3a0ec; --lila-hell:#251b33; --lila-rand:#7d5cae;
+    --orange:#e9a25e; --orange-hell:#33240f; --orange-rand:#9c6a2c;
+    --rot:#ef9393; --rot-hell:#331a1a; --rot-rand:#a35050;
+    --bernstein:#f0a742; --bernstein-hell:#2a2117; --bernstein-rand:#6b4a1e;
+    --s:0 2px 10px rgba(0,0,0,.35); --sl:0 4px 22px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --papier:#171512; --papier-2:#1f1c17; --karte:#211e19; --weiss:#211e19;
+  --tinte:#f1ece1; --tinte-2:#b6ab97; --linie:#3a342a;
+  --blau:#8ab6e8; --blau-hell:#1b2a3d; --blau-rand:#3f6da3;
+  --gruen:#79c894; --gruen-hell:#162c1f; --gruen-rand:#3f8058;
+  --lila:#c3a0ec; --lila-hell:#251b33; --lila-rand:#7d5cae;
+  --orange:#e9a25e; --orange-hell:#33240f; --orange-rand:#9c6a2c;
+  --rot:#ef9393; --rot-hell:#331a1a; --rot-rand:#a35050;
+  --bernstein:#f0a742; --bernstein-hell:#2a2117; --bernstein-rand:#6b4a1e;
+  --s:0 2px 10px rgba(0,0,0,.35); --sl:0 4px 22px rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--papier);color:var(--tinte);
+  font-family:var(--serif);font-size:17px;line-height:1.62;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.22;margin:0}
+a{color:var(--bernstein)}
+:focus-visible{outline:2.5px solid var(--bernstein-rand);outline-offset:2px;border-radius:3px}
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%}
+
+/* ---------- Gerüst (HOWTO-leitprogramme §6: Fliesstext schmal, Arbeitsflächen breit) ---------- */
+.huelle{max-width:1440px;margin:0 auto;padding:0 20px 100px}
+.raster{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:1000px){ .raster{grid-template-columns:236px minmax(0,1fr);gap:52px;align-items:start} }
+.inhalt{min-width:0}
+.kap>p,.kap>h2,.kap>h3,.ziel,.duo>div>p{max-width:68ch}
+.duo{display:grid;grid-template-columns:minmax(0,1fr);gap:0 26px;align-items:start}
+.duo>*{min-width:0}
+@media(min-width:1180px){
+  .duo{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .aufg.zwei{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:34px}
+  .aufg.zwei>li:nth-last-child(2):nth-child(odd){border-bottom:none}
+}
+
+/* ---------- Kopf ---------- */
+.kopf{border-bottom:1px solid var(--linie);background:var(--papier-2);margin-bottom:44px;padding:0 20px}
+.kopf-innen{max-width:1440px;margin:0 auto;padding:30px 0 34px;
+  display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between}
+.marke{font-family:var(--sans);font-size:.76rem;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--bernstein);margin:0 0 10px}
+.kopf h1{font-size:clamp(2rem,5.2vw,2.9rem);font-weight:700;letter-spacing:-.015em}
+.kopf .unter{font-family:var(--sans);color:var(--tinte-2);margin:10px 0 0;font-size:1rem;max-width:52ch}
+.kopf-rechts{font-family:var(--sans);font-size:.82rem;color:var(--tinte-2);text-align:right;
+  display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.themenschalter{font-family:var(--sans);font-size:.78rem;font-weight:600;color:var(--tinte-2);
+  background:var(--karte);border:1px solid var(--linie);border-radius:999px;padding:6px 13px;cursor:pointer}
+.themenschalter:hover{color:var(--tinte);border-color:var(--tinte-2)}
+
+/* ---------- Seitenschiene ---------- */
+.schiene{font-family:var(--sans);font-size:.87rem;margin-bottom:40px}
+@media(min-width:1000px){.schiene{position:sticky;top:22px;margin-bottom:0}}
+.schiene h2{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--tinte-2);margin-bottom:12px}
+.schiene ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+.schiene a{display:flex;gap:9px;align-items:baseline;padding:6px 8px;border-radius:5px;
+  text-decoration:none;color:var(--tinte);border-left:2.5px solid transparent}
+.schiene a:hover{background:var(--papier-2)}
+.schiene a.aktiv{border-left-color:var(--bernstein-rand);background:var(--papier-2);font-weight:600}
+.schiene .nr{font-family:var(--mono);font-size:.76rem;color:var(--tinte-2);min-width:1.6em}
+.schiene .lekt{font-family:var(--sans);font-size:.68rem;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--tinte-2);margin:16px 0 5px;padding-left:8px}
+.fortschritt{margin-top:22px;padding-top:16px;border-top:1px solid var(--linie)}
+.balken{height:6px;background:var(--papier-2);border:1px solid var(--linie);border-radius:99px;overflow:hidden}
+.balken i{display:block;height:100%;background:var(--gruen-rand);width:0;transition:width .35s ease}
+.fortschritt p{margin:9px 0 0;font-size:.79rem;color:var(--tinte-2)}
+.fortschritt button{margin-top:10px;font-family:var(--sans);font-size:.75rem;color:var(--tinte-2);
+  background:none;border:none;padding:0;cursor:pointer;text-decoration:underline}
+
+/* ---------- Anleitung und Kompetenzen (eingeklappt) ---------- */
+.anleitung{background:var(--karte);border:1px solid var(--linie);border-radius:10px;
+  padding:22px 26px;margin-bottom:24px;box-shadow:var(--s)}
+.anleitung summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px}
+.anleitung summary::-webkit-details-marker{display:none}
+.anleitung summary::after{content:"";flex:none;margin-left:auto;width:.5em;height:.5em;
+  border-right:2px solid var(--tinte-2);border-bottom:2px solid var(--tinte-2);
+  transform:translateY(-.15em) rotate(45deg);transition:transform .2s}
+.anleitung[open] summary::after{transform:translateY(.1em) rotate(-135deg)}
+.anleitung h2{font-size:1.12rem}
+.anleitung ol{margin:12px 0 0;padding-left:1.25em;font-family:var(--sans);font-size:.94rem;color:var(--tinte-2);max-width:68ch}
+.anleitung li{margin:6px 0}
+.anleitung li b{color:var(--tinte)}
+.kompetenzen ul{margin:10px 0 0;padding-left:1.25em;font-family:var(--sans);font-size:.92rem}
+.kompetenzen li{margin:5px 0}
+.kompetenzen .rlp-quelle,.kompetenzen .rlp-fuss{font-family:var(--sans);font-size:.8rem;color:var(--tinte-2);margin:8px 0 0}
+
+/* ---------- Lektionsband ---------- */
+.band{display:flex;align-items:center;gap:14px;margin:56px 0 30px}
+.band:first-of-type{margin-top:8px}
+.band .strich{flex:1;height:1px;background:var(--linie)}
+.band span{font-family:var(--sans);font-size:.74rem;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--tinte-2);white-space:nowrap}
+@media(max-width:600px){ .band span{white-space:normal} }
+
+/* ---------- Kapitel ---------- */
+.kap{margin-bottom:52px;scroll-margin-top:20px}
+.kap-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.marker{font-family:var(--mono);font-size:.74rem;font-weight:700;letter-spacing:.04em;
+  padding:3px 8px;border-radius:4px;background:var(--papier-2);color:var(--tinte-2)}
+.abz{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.05em;
+  padding:3px 9px;border-radius:999px;border:1px solid;
+  color:var(--bernstein);border-color:var(--bernstein-rand);background:var(--bernstein-hell)}
+.zeit{font-family:var(--sans);font-size:.78rem;color:var(--tinte-2)}
+.kap h2{font-size:1.62rem;font-weight:700;letter-spacing:-.01em}
+.ziel{font-family:var(--sans);font-size:.95rem;color:var(--tinte-2);
+  border-left:2.5px solid var(--linie);padding-left:13px;margin:12px 0 22px}
+.kap h3{font-family:var(--sans);font-size:1rem;font-weight:700;margin:30px 0 10px}
+.kap p{margin:0 0 14px}
+.phase{font-family:var(--sans);font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tinte-2);margin:34px 0 8px;display:flex;align-items:center;gap:8px}
+.phase span{display:inline-grid;place-items:center;width:1.7em;height:1.7em;border-radius:50%;
+  background:var(--papier-2);border:1px solid var(--linie);color:var(--tinte);font-size:.9rem;letter-spacing:0}
+.ausf{font-family:var(--sans);font-size:.92rem;border-top:1px solid var(--linie);padding-top:12px;margin-top:26px}
+.komm{font-family:var(--sans);font-size:.87rem;color:var(--tinte-2)}
+
+/* ---------- Clipkarte (Bühne aus ../physiklib.js) ---------- */
+.clipkarte{margin:22px 0 26px;max-width:640px}
+.clip-start{display:flex;width:100%;align-items:center;gap:15px;text-align:left;cursor:pointer;
+  background:var(--lila-hell);border:1px solid var(--lila-rand);border-radius:10px;
+  padding:14px 17px;font-family:var(--sans);color:var(--tinte)}
+.clip-start:hover{box-shadow:var(--sl)}
+.clip-play{flex:none;width:38px;height:38px;border-radius:50%;background:var(--lila);color:#fff;
+  display:grid;place-items:center;font-size:.9rem;padding-left:3px}
+:root[data-theme="dark"] .clip-play{color:#171512}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .clip-play{color:#171512} }
+.clip-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.clip-titel{font-weight:600;font-size:.97rem;line-height:1.32}
+.clip-zeit{font-family:var(--mono);font-size:.8rem;color:var(--tinte-2);flex:none}
+
+/* ---------- Merkkasten, Häufiger Fehler, Tabellen ---------- */
+.merk{background:var(--blau-hell);border:1px solid var(--blau-rand);border-left-width:4px;
+  border-radius:8px;padding:16px 20px;margin:20px 0}
+.merk .titel,.warn .titel{font-family:var(--sans);font-size:.73rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:8px}
+.merk .titel{color:var(--blau)}
+.merk p:last-child,.warn p:last-child{margin-bottom:0}
+.merk ul{margin:4px 0 0;padding-left:1.2em}
+.warn{background:var(--rot-hell);border:1px solid var(--rot-rand);border-left-width:4px;
+  border-radius:8px;padding:16px 20px;margin:20px 0}
+.warn .titel{color:var(--rot)}
+.festhalten{display:grid;grid-template-columns:minmax(0,1fr);gap:0 26px}
+@media(min-width:1180px){.festhalten{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.tabhuelle{overflow-x:auto}
+table.gesetze{width:100%;border-collapse:collapse;margin:18px 0;font-size:.95rem}
+table.gesetze th,table.gesetze td{border-bottom:1px solid var(--linie);padding:9px 10px;text-align:left;vertical-align:middle}
+table.gesetze th{font-family:var(--sans);font-size:.74rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tinte-2)}
+table.gesetze td:first-child{font-family:var(--sans);font-size:.88rem;font-weight:600}
+table.gesetze td.wort{font-family:var(--sans);font-size:.88rem;color:var(--tinte-2)}
+
+/* ---------- Aufgaben mit Lösungen ---------- */
+.test{border:1.5px solid var(--gruen-rand);border-radius:11px;background:var(--karte);margin:30px 0 0;overflow:hidden}
+.test-kopf{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;
+  background:var(--gruen-hell);padding:11px 18px;border-bottom:1px solid var(--gruen-rand)}
+.test-kopf h3{font-family:var(--sans);font-size:.94rem;font-weight:700;color:var(--gruen);margin:0}
+.test-kopf .werkz{display:flex;gap:14px;align-items:center;font-family:var(--sans);font-size:.78rem}
+.test-kopf button{font-family:var(--sans);font-size:.78rem;background:none;border:none;
+  color:var(--gruen);cursor:pointer;text-decoration:underline;padding:0}
+.test-kopf label{display:flex;gap:6px;align-items:center;color:var(--tinte-2);cursor:pointer}
+.summe{font-family:var(--mono);font-size:.76rem;color:var(--tinte-2);white-space:nowrap}
+.aufg{list-style:none;margin:0;padding:6px 18px 18px}
+.aufg>li{border-bottom:1px dotted var(--linie);padding:11px 0}
+.aufg>li:last-child{border-bottom:none;padding-bottom:2px}
+.a-frage{display:flex;gap:11px;align-items:baseline}
+.a-frage .nr{font-family:var(--mono);font-size:.83rem;font-weight:700;color:var(--gruen);flex:none;min-width:2.4em}
+.a-frage .pkt{font-family:var(--mono);font-size:.72rem;color:var(--tinte-2);flex:none;min-width:3.4em;margin-left:-4px}
+.a-frage .txt{flex:1;min-width:0}
+details.loes{margin:7px 0 0 calc(5.8em + 11px)}
+details.loes summary{font-family:var(--sans);font-size:.79rem;color:var(--tinte-2);
+  cursor:pointer;list-style:none;display:inline-flex;gap:6px;align-items:center;
+  border:1px solid var(--linie);border-radius:999px;padding:2px 11px}
+details.loes summary::-webkit-details-marker{display:none}
+details.loes summary:hover{border-color:var(--gruen-rand);color:var(--gruen)}
+details.loes[open] summary{color:var(--gruen);border-color:var(--gruen-rand)}
+details.loes .inhaltbox{border-left:2.5px solid var(--gruen-rand);padding:6px 0 2px 13px;margin-top:9px}
+details.loes .inhaltbox p{margin:0 0 7px}
+details.loes .inhaltbox p:last-child{margin-bottom:0}
+
+/* ---------- Gesamttest ---------- */
+.gesamt{border:2px solid var(--tinte-2);border-radius:12px;background:var(--karte);overflow:hidden;margin-top:20px}
+.gesamt-kopf{background:var(--papier-2);padding:16px 20px;border-bottom:1px solid var(--linie)}
+.gesamt-kopf h2{font-size:1.4rem}
+.bewertung{margin:0;padding:16px 20px 20px;font-family:var(--sans);font-size:.88rem;color:var(--tinte-2)}
+.bewertung table{width:100%;border-collapse:collapse;margin-top:8px}
+.bewertung td{padding:5px 8px;border-bottom:1px solid var(--linie)}
+.bewertung td:first-child{font-family:var(--mono);white-space:nowrap;width:1%;color:var(--tinte)}
+.pdf-weg{margin:14px 0 4px;display:flex;flex-direction:column;gap:10px;font-family:var(--sans);font-size:.92rem}
+.pdf-schritt{display:flex;gap:12px;align-items:flex-start}
+.pdf-schritt .nr{flex:none;width:1.8em;height:1.8em;border-radius:50%;display:grid;place-items:center;
+  background:var(--karte);border:1px solid var(--linie);font-weight:700}
+.pdf-knopf{display:inline-block;margin-top:6px;padding:6px 14px;border-radius:999px;background:var(--bernstein-hell);
+  border:1px solid var(--bernstein-rand);color:var(--tinte);text-decoration:none;font-weight:600}
+.pdf-knopf:hover{box-shadow:var(--sl)}
+.weiter ul{font-family:var(--sans);font-size:.92rem;padding-left:1.2em}
+
+/* ---------- Fuss ---------- */
+.fuss{margin-top:64px;padding-top:20px;border-top:1px solid var(--linie);
+  font-family:var(--sans);font-size:.8rem;color:var(--tinte-2);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+:root[data-theme="dark"] .site-footer{background:var(--papier-2);color:var(--tinte-2);border-top:1px solid var(--linie)}
+:root[data-theme="dark"] .site-footer a{color:var(--bernstein)}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .site-footer{background:var(--papier-2);color:var(--tinte-2);border-top:1px solid var(--linie)}
+  :root:not([data-theme="light"]) .site-footer a{color:var(--bernstein)}
+}
+
+/* ---------- Simulation mit Aufgabenleiste (HOWTO-leitprogramme §8) ---------- */
+.sim{background:var(--karte);border:1px solid var(--linie);border-radius:10px;padding:14px 16px 12px}
+.sim-gross{max-width:640px;margin:10px 0 6px}
+.sim > svg{display:block;width:100%;max-width:440px;height:auto;margin:6px auto 10px}
+.sim-formel{font-family:var(--sans);font-size:.95rem;text-align:center;padding:6px 8px;
+  background:var(--papier-2);border-radius:6px;display:flex;flex-direction:column;gap:2px}
+.sim-formel i{font-family:var(--serif)}
+.sim-notiz{font-size:.82rem;color:var(--tinte-2)}
+.reglerfeld[hidden]{display:none}
+.reglerfeld{display:flex;flex-direction:column;gap:6px;font-family:var(--sans);font-size:.9rem}
+.regler{display:flex;gap:10px;align-items:center}
+.regler label{min-width:5.2em}
+.regler input[type=range]{flex:1;min-width:0;accent-color:var(--bernstein)}
+.regler-wert{font-family:var(--mono);font-size:.86rem;min-width:5.4em;text-align:right}
+.sim-knoepfe{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin:8px 0 4px;
+  font-family:var(--sans);font-size:.8rem;color:var(--tinte-2)}
+.sim-knoepfe button{font-family:var(--sans);font-size:.8rem;cursor:pointer;
+  background:var(--karte);color:var(--tinte);border:1px solid var(--linie);border-radius:999px;padding:4px 12px}
+.sim-knoepfe button.aktiv{background:var(--bernstein-hell);border-color:var(--bernstein-rand);color:var(--tinte);font-weight:700}
+.hilfs-schalter{display:flex;gap:7px;align-items:center;justify-content:center;font-family:var(--sans);font-size:.82rem;color:var(--tinte-2);margin:2px 0 8px;cursor:pointer}
+.ohne-hilfslinien .hilfslinie{display:none}
+.leiste{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 10px;padding:9px 12px;border-radius:9px;
+  background:var(--orange-hell);border:1px solid var(--orange-rand);font-family:var(--sans);font-size:.92rem}
+.leiste .ls-nr{font-family:var(--mono);font-size:.78rem;color:var(--orange);font-weight:700}
+.leiste .ls-text{flex:1 1 260px;min-width:0}
+.leiste .ls-ok{color:var(--gruen);font-weight:700;font-size:1.1rem;min-width:1em}
+.leiste .ls-weiter,.leiste .ls-neu{font-family:var(--sans);font-size:.8rem;cursor:pointer;border-radius:999px;padding:4px 12px;
+  border:1px solid var(--linie);background:var(--karte);color:var(--tinte-2)}
+.leiste.geloest,.leiste.fertig{background:var(--gruen-hell);border-color:var(--gruen-rand)}
+.leiste.geloest .ls-weiter{border-color:var(--gruen-rand);color:var(--tinte);font-weight:700}
+/* Diagramme: Farben im ganzen Leitprogramm — U Bernstein, I Orange, R Grün, Q und P Blau */
+.sim .gitter,svg.mini .gitter{stroke:var(--linie);stroke-width:.6}
+.sim .achse,svg.mini .achse{stroke:var(--tinte-2);stroke-width:1.2}
+.sim .pfeil,svg.mini .pfeil{fill:var(--tinte-2)}
+.sim .skala,svg.mini .skala{fill:var(--tinte-2);font-family:var(--sans);font-size:10px}
+.achsname{fill:var(--tinte);font-family:var(--sans);font-size:11.5px;stroke:var(--karte);stroke-width:4px;paint-order:stroke}
+.sim .normal{fill:none;stroke:var(--tinte-2);stroke-width:1.4;stroke-dasharray:5 4;opacity:.7}
+.hilf-text{fill:var(--tinte-2);font-family:var(--sans);font-size:10px}
+.sim .zielkurve{fill:none;stroke:var(--gruen);stroke-width:3;stroke-dasharray:7 5;opacity:.85}
+.sim .zielflaeche{fill:none;stroke:var(--gruen);stroke-width:2.5;stroke-dasharray:7 5}
+.kurve-i{fill:none;stroke:var(--orange);stroke-width:2.6}
+.kurve-p{fill:none;stroke:var(--blau);stroke-width:2.6}
+.kurve-r{fill:none;stroke:var(--gruen);stroke-width:2.6}
+.sim .feld{fill:var(--blau-hell);stroke:var(--blau);stroke-width:1;opacity:.9}
+.flaeche-text{fill:var(--blau);font-family:var(--sans);font-size:12px;font-weight:700;stroke:var(--karte);stroke-width:3px;paint-order:stroke}
+.p-q{fill:var(--tinte)} .p-r{fill:var(--gruen)}
+text.p-text{font-family:var(--sans);font-size:11.5px;font-weight:700;stroke:var(--karte);stroke-width:4px;paint-order:stroke}
+.bauteil{fill:var(--karte);stroke:var(--tinte);stroke-width:1.6}
+.draht{fill:none;stroke:var(--tinte);stroke-width:1.6}
+.quelle-lang{stroke:var(--tinte);stroke-width:2}
+.quelle-kurz{stroke:var(--tinte);stroke-width:4}
+.knoten{fill:var(--tinte)}
+.bt-text{fill:var(--tinte);font-family:var(--sans);font-size:11px}
+.bt-titel{fill:var(--tinte);font-family:var(--sans);font-size:11.5px;font-weight:700}
+.bt-klein{fill:var(--tinte-2);font-family:var(--sans);font-size:9.5px}
+.balken-u1{fill:var(--bernstein)} .balken-u2{fill:var(--bernstein-rand)}
+.balken-i1{fill:var(--orange)} .balken-i2{fill:var(--orange-rand)}
+.leiter-l{stroke:#8a5a2b;stroke-width:2.4;fill:none}
+.leiter-n{stroke:var(--blau);stroke-width:2.4;fill:none}
+.leiter-pe{stroke:#4a8a2a;stroke-width:2.8;stroke-dasharray:8 5;fill:none}
+.erde{stroke:var(--tinte-2);stroke-width:2}
+.schutz{stroke-width:1.6}
+.schutz-ein{fill:var(--karte);stroke:var(--tinte-2)}
+.schutz-aus{fill:var(--rot-hell);stroke:var(--rot)}
+.geraet{fill:var(--papier-2);stroke:var(--tinte);stroke-width:1.6}
+.geraet-fehler{stroke:var(--rot);stroke-width:2.4}
+.kurzschluss{fill:none;stroke:var(--rot);stroke-width:2.4}
+.mensch{fill:none;stroke:var(--tinte);stroke-width:2.4;stroke-linecap:round}
+svg.mini{width:190px;height:auto;background:var(--karte);border:1px solid var(--linie);border-radius:6px}
+.kurve-mini{fill:none;stroke:var(--gruen);stroke-width:2.2}
+.mini-name{fill:var(--tinte);font-family:var(--sans);font-size:12px;font-weight:700}
+.p-mini{fill:var(--tinte)}
+.mini-reihe{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 6px calc(5.8em + 11px)}
+
+/* ---------- Üben mit Rückmeldung ---------- */
+.uebung{border:1.5px solid var(--orange-rand);border-radius:11px;background:var(--karte);padding:12px 16px 14px;margin:14px 0}
+.ue-kopf{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-family:var(--sans);font-size:.8rem;margin-bottom:6px}
+.ue-titel{font-weight:700;color:var(--orange)}
+.ue-serie{color:var(--tinte-2)}
+.ue-aufgabe{margin:6px 0 10px}
+.ue-zeile{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-family:var(--sans);font-size:.95rem}
+.ue-eingabe{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center}
+.ue-eingabe i{font-family:var(--serif)}
+.ue-eingabe input{width:5.4em;font-family:var(--mono);font-size:.95rem;padding:4px 6px;margin:0 3px;border:1.5px solid var(--linie);
+  border-radius:6px;background:var(--papier);color:var(--tinte);text-align:center}
+.ue-eingabe input:focus{outline:none;border-color:var(--orange-rand)}
+.ue-eingabe input.falsch{border-color:var(--rot-rand)}
+.ue-eingabe select{font-family:var(--sans);font-size:.88rem;padding:4px 6px;margin:0 3px;border:1.5px solid var(--linie);border-radius:6px;background:var(--papier);color:var(--tinte)}
+.ue-zeile button,.ue-weiter{font-family:var(--sans);font-size:.8rem;cursor:pointer;border-radius:999px;padding:4px 12px;
+  border:1px solid var(--orange-rand);background:var(--orange-hell);color:var(--tinte)}
+.ue-zeile .ue-neu{background:none;border-color:var(--linie);color:var(--tinte-2)}
+.ue-rueck{font-family:var(--sans);font-size:.9rem;margin-top:10px;border-radius:7px}
+.ue-rueck:empty{display:none}
+.ue-rueck.richtig{background:var(--gruen-hell);border-left:4px solid var(--gruen-rand);padding:8px 12px}
+.ue-rueck.falsch{background:var(--rot-hell);border-left:4px solid var(--rot-rand);padding:8px 12px}
+.ue-rueck.hinweis{background:var(--papier-2);padding:8px 12px}
+.ue-loes{margin-top:6px} .ue-loes summary{cursor:pointer;color:var(--tinte-2)}
+
+@media(max-width:600px){
+  body{font-size:16px}
+  .huelle{padding:0 15px 70px}
+  details.loes{margin-left:0}
+  .mini-reihe{margin-left:0}
+  .regler label{min-width:4.2em}
+}
+@media print{
+  .schiene,.themenschalter,.clip-buehne,.test-kopf .werkz,.clipkarte,.sim,.uebung{display:none}
+  .kap{break-inside:avoid}
+  details.loes{display:none}
+  body{background:#fff}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+'''
+
+# Grundskript aus dem Mathe-Vorbild: Theme, Clipkarten, «alle Lösungen», Fortschritt, Schiene.
+BASIS = r'''<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="../vendor/mathjax/tex-svg.js"></script>
+
+<script>
+(function(){
+  'use strict';
+  // Relativ: die Clips kommen aus diesem Repo, eine Ebene höher.
+  var BASIS = '../';
+  var KEY = 'leitprogramm-elektrizitaet-v1';
+
+  /* ---- Theme ---- */
+  var schalter = document.getElementById('themenschalter');
+  function lesen(){ try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ return {}; } }
+  function schreiben(s){ try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){} }
+  var gespeichert = lesen().thema;
+  if (gespeichert === 'dark' || gespeichert === 'light') document.documentElement.setAttribute('data-theme', gespeichert);
+  schalter.addEventListener('click', function(){
+    var jetzt = document.documentElement.getAttribute('data-theme');
+    if (!jetzt) jetzt = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var neu = jetzt === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', neu);
+    var s = lesen(); s.thema = neu; schreiben(s);
+  });
+
+  /* ---- Clipkarten: Bühne aus ../physiklib.js (clipBuehne) ---- */
+  document.querySelectorAll('.clipkarte').forEach(function(karte){
+    karte.querySelector('.clip-start').addEventListener('click', function(){
+      if (document.querySelector('.clip-buehne')) return;
+      clipBuehne(BASIS + karte.dataset.clip, karte.dataset.titel || 'Clip');
+    });
+  });
+
+  /* ---- Lösungen: alle auf/zu ---- */
+  document.querySelectorAll('.alle-loesungen').forEach(function(knopf){
+    knopf.addEventListener('click', function(){
+      var alle = knopf.closest('.test').querySelectorAll('details.loes');
+      var oeffnen = Array.prototype.some.call(alle, function(d){ return !d.open; });
+      alle.forEach(function(d){ d.open = oeffnen; });
+      knopf.textContent = oeffnen ? 'Lösungen zuklappen' : 'alle Lösungen';
+    });
+  });
+
+  /* ---- Fortschritt ---- */
+  var tests = Array.prototype.slice.call(document.querySelectorAll('.test'));
+  var fuellung = document.getElementById('balken-fuellung');
+  var text = document.getElementById('fortschritt-text');
+  function zeichnen(){
+    var fertig = tests.filter(function(t){ return t.querySelector('.erledigt').checked; }).length;
+    fuellung.style.width = (fertig / tests.length * 100) + '%';
+    text.textContent = fertig + ' von ' + tests.length + ' Aufgabenblöcken bearbeitet';
+  }
+  var stand = lesen().stand || {};
+  tests.forEach(function(t){
+    var box = t.querySelector('.erledigt');
+    if (stand[t.dataset.test]) box.checked = true;
+    box.addEventListener('change', function(){
+      var s = lesen(); s.stand = s.stand || {}; s.stand[t.dataset.test] = box.checked; schreiben(s); zeichnen();
+    });
+  });
+  zeichnen();
+  document.getElementById('fortschritt-reset').addEventListener('click', function(){
+    tests.forEach(function(t){ t.querySelector('.erledigt').checked = false; });
+    var s = lesen(); s.stand = {}; schreiben(s); zeichnen();
+  });
+
+  /* ---- aktives Kapitel in der Schiene ---- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.schiene a'));
+  var ziele = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window && ziele.length){
+    var beobachter = new IntersectionObserver(function(eintraege){
+      eintraege.forEach(function(e){
+        if (!e.isIntersecting) return;
+        links.forEach(function(a){ a.classList.toggle('aktiv', a.getAttribute('href') === '#' + e.target.id); });
+      });
+    }, { rootMargin: '-15% 0px -70% 0px' });
+    ziele.forEach(function(z){ beobachter.observe(z); });
+  }
+})();
+</script>
+'''
+
+FUSS = '''<footer class="site-footer">
+  <p>Physik begreifbar · Lehrmittel für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
+  <p>Leitprogramm · Elektrizität</p>
+  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
+  <p>Keine Cookies · Kein Tracking · Version 0.9 (Erprobung) · Stand 3. Oktober 2026</p>
+</footer>
+
+<script src="../physiklib.js"></script>
+<script src="../nav.js"></script>
+<script src="../suche.js"></script>
+<script>buildNav({ id: 'leitprogramme' });</script>
+</body>
+</html>
+'''
+
+
+# ------------------------------------------------------------------ Bausteine
+def clipkarte(datei, titel, zeit):
+    return f'''<div class="clipkarte" data-clip="clips/{datei}.html" data-titel="{titel}">
+        <button class="clip-start" type="button">
+          <span class="clip-play" aria-hidden="true">▶</span>
+          <span class="clip-txt"><span class="clip-titel">{titel}</span></span>
+          <span class="clip-zeit">{zeit}</span>
+        </button>
+      </div>'''
+
+
+def uebung(typ, titel):
+    return f'''<div class="uebung" data-typ="{typ}">
+          <div class="ue-kopf"><span class="ue-titel">🔁 {titel}</span><span class="ue-serie">0 in Folge</span></div>
+          <p class="ue-aufgabe"></p>
+          <div class="ue-zeile"><span class="ue-eingabe"></span><button type="button" class="ue-pruefen">Prüfen</button><button type="button" class="ue-neu">Neue Zahlen</button></div>
+          <div class="ue-rueck" aria-live="polite"></div>
+        </div>'''
+
+
+def regler(sim, p, label, mn, mx, st, val, einheit, stellen=0):
+    return (f'<div class="regler"><label for="{sim}-{p}">{label}</label>'
+            f'<input type="range" id="{sim}-{p}" data-p="{p}" data-einheit="{einheit}" data-stellen="{stellen}" '
+            f'min="{mn}" max="{mx}" step="{st}" value="{val}"><span class="regler-wert"></span></div>')
+
+
+def knoepfe(p, titel, optionen, aktiv):
+    b = ''.join('<button type="button" data-wert="%s"%s>%s</button>' % (w, ' class="aktiv"' if w == aktiv else '', t)
+                for w, t in optionen)
+    return f'<div class="sim-knoepfe" data-p="{p}" role="group" aria-label="{titel}"><span>{titel}:</span>{b}</div>'
+
+
+def test(tid, titel, punkte, aufgaben, zwei=False):
+    lis = []
+    for nr, p, frage, loes, extra in aufgaben:
+        lis.append(f'''          <li>
+            <div class="a-frage"><span class="nr">{nr}</span><span class="pkt">({p} P)</span><span class="txt">{frage}</span></div>{extra}
+            <details class="loes"><summary>Lösung</summary><div class="inhaltbox">{loes}</div></details>
+          </li>''')
+    assert sum(a[1] for a in aufgaben) == punkte, (tid, punkte)
+    return f'''<div class="test" data-test="{tid}">
+        <div class="test-kopf">
+          <h3>{titel} <span class="summe">· {punkte} P</span></h3>
+          <span class="werkz"><button type="button" class="alle-loesungen">alle Lösungen</button><label title="Aufgaben auf Papier gelöst und mit den Lösungen verglichen — ob alles sitzt, zeigt der Gesamttest."><input type="checkbox" class="erledigt" aria-label="Aufgaben dieses Kapitels bearbeitet"> bearbeitet</label></span>
+        </div>
+        <ol class="aufg{' zwei' if zwei else ''}">
+{chr(10).join(lis)}
+        </ol>
+      </div>'''
+
+
+def kapitel(n, kid, titel, komp, zeit, ziel, clip1, sim, clip2, festhalten, uebungen, aufgaben, mehr):
+    ue = '\n        '.join(uebungen)
+    return f'''
+    <section class="kap" id="k{n}">
+      <div class="kap-meta"><span class="marker">Kapitel {n}</span><span class="abz">6.2 · {komp}</span><span class="zeit">≈ {zeit} min</span></div>
+      <h2 id="{kid}">{titel}</h2>
+      <p class="ziel">{ziel}</p>
+
+      <p class="phase"><span>①</span> Clip</p>
+      {clipkarte(*clip1)}
+
+      <p class="phase"><span>②</span> Tüfteln</p>
+{sim}
+
+      <p class="phase"><span>③</span> Kontrollfragen</p>
+      {clipkarte(*clip2)}
+
+      <h3>Festhalten</h3>
+{festhalten}
+
+      <p class="phase"><span>④</span> Üben mit Rückmeldung</p>
+      <div class="duo">
+        {ue}
+      </div>
+
+      <p class="phase"><span>⑤</span> Aufgaben mit Lösungen</p>
+{aufgaben}
+      <p class="ausf">Mehr dazu: {mehr}</p>
+    </section>'''
+
+
+def figur(sid, label, svg_box, inhalt, hilfs=None):
+    h = f'\n        <label class="hilfs-schalter"><input type="checkbox" checked> Hilfslinien ({hilfs})</label>' if hilfs else ''
+    return f'''      <figure class="sim sim-gross" id="{sid}">
+        <div class="leiste" aria-live="polite"></div>
+        <div class="sim-formel" data-rolle="formel" aria-live="polite"></div>
+        <svg viewBox="{svg_box}" role="img" aria-label="{label}"></svg>{h}
+{inhalt}
+      </figure>'''
+
+
+# ------------------------------------------------------------------ Kapitel 0: Vorwissen
+P01 = '../themen/p0-1-vorwissen-mathematik.html'
+P02 = '../themen/p0-2-vorwissen-physik.html'
+k0 = '''
+    <section class="kap" id="k0">
+      <div class="kap-meta"><span class="marker">Kapitel 0</span><span class="abz">Vorwissen · 0.1 · 0.2</span><span class="zeit">≈ 10 min</span></div>
+      <h2 id="vorwissen">Vorwissen</h2>
+      <p class="ziel">Vorsilben, Zehnerpotenzen, Gleichungen umstellen. Wenn das wackelt: <a href="leitprogramm-rechnen.html">Leitprogramm Rechnen und Schliessen</a>.</p>
+      ''' + clipkarte('p0-2-vorsilben-ee', 'Einheiten umrechnen: Vorsilben sind Zehnerpotenzen — und die EE-Taste', '0:58') + r'''
+''' + test('t0', 'Vortest', 10, [
+    ('0a', 3, r'Rechne um: \(250\;\text{mA}\) in \(\text{A}\), \(4.7\;\text{k}\Omega\) in \(\Omega\), \(0.32\;\mu\text{C}\) in \(\text{C}\) (als Zehnerpotenz).',
+     r'<p>\(0.25\;\text{A}\), \(4700\;\Omega\), \(3.2 \cdot 10^{-7}\;\text{C}\).</p><p class="komm">Falsch? <a href="' + P02 + r'#praefixe">Vorwissen 0.2, Vorsilben</a> und der Clip oben.</p>', ''),
+    ('0b', 2, r'Wie viele Sekunden sind \(15\;\text{min}\) und \(1.5\;\text{h}\)?',
+     r'<p>\(15 \cdot 60\;\text{s} = 900\;\text{s}\) und \(1.5 \cdot 3600\;\text{s} = 5400\;\text{s}\).</p><p class="komm">Falsch? <a href="' + P02 + r'#umrechnen">Vorwissen 0.2, Einheiten umrechnen</a></p>', ''),
+    ('0c', 3, r'Stelle \(U = R \cdot I\) nach \(I\) und nach \(R\) um, und \(Q = I \cdot t\) nach \(t\).',
+     r'<p>\(I = \dfrac{U}{R}\), \(R = \dfrac{U}{I}\), \(t = \dfrac{Q}{I}\).</p><p class="komm">Falsch? <a href="' + P01 + r'#umformen">Vorwissen 0.1, Gleichungen umformen</a></p>', ''),
+    ('0d', 2, r'Berechne ohne Rechner: \(\dfrac{6.4 \cdot 10^{-7}}{1.6 \cdot 10^{-19}}\).',
+     r'<p>\(\dfrac{6.4}{1.6} = 4\) und \(10^{-7 - (-19)} = 10^{12}\): also \(4 \cdot 10^{12}\).</p><p class="komm">Falsch? <a href="' + P01 + r'#potenzen">Vorwissen 0.1, Zehnerpotenzen</a></p>', ''),
+]) + '''
+      <p class="komm">Weniger als 7 von 10 Punkten: zuerst die verlinkten Stellen zu den falschen Aufgaben, dann Kapitel 1.</p>
+    </section>'''
+
+# ------------------------------------------------------------------ Kapitel 1: Ladung und Stromstärke
+sim1 = figur('sim1', 'Ladung Q über der Zeit t: Ursprungsgerade mit der Stromstärke I als Steigung', '-4 -4 308 268',
+    '        <div class="reglerfeld">\n          '
+    + regler('s1', 'I', '<i>I</i> Strom', 0, 3, 0.25, 2, 'A', 2) + '\n          '
+    + regler('s1', 't', '<i>t</i> Zeit', 0, 10, 0.5, 5, 's', 1) + '\n        </div>',
+    'Gerade für 1 A')
+fest1 = r'''      <div class="festhalten">
+        <div class="merk">
+          <div class="titel">Ladung und Stromstärke</div>
+          <p>Im Atomkern sitzen die positiven Protonen, in der Hülle die negativen Elektronen. Negativ geladen ist ein Körper mit Elektronenüberschuss, positiv einer mit Elektronenmangel. Ladung wird nicht erzeugt, nur verschoben.</p>
+          <p>\[ Q = n \cdot e, \qquad e = 1.602 \cdot 10^{-19}\;\text{C} \]</p>
+          <p>Strom ist bewegte Ladung pro Zeit:</p>
+          <p>\[ I = \frac{Q}{t}, \qquad Q = I \cdot t, \qquad 1\;\text{A} = 1\;\frac{\text{C}}{\text{s}} \]</p>
+        </div>
+        <div class="warn">
+          <div class="titel">Häufiger Fehler</div>
+          <p>Die Zeit nicht in Sekunden umgerechnet: \(2\;\text{A}\) während \(5\;\text{min}\) sind \(Q = 2\;\text{A} \cdot 300\;\text{s} = 600\;\text{C}\), nicht \(10\;\text{C}\).</p>
+          <p>Ebenso bei Akkus: \(2500\;\text{mAh} = 2.5\;\text{A} \cdot 3600\;\text{s} = 9000\;\text{C}\).</p>
+        </div>
+      </div>'''
+auf1 = test('t1', 'Aufgaben · Kapitel 1', 11, [
+    ('1a', 3, r'Ein Kunststoffstab trägt \(Q = -4.8\;\text{nC}\). Hat er Elektronen zu viel oder zu wenig, und wie viele?',
+     r'<p>Negativ: Elektronenüberschuss.</p><p>\(n = \dfrac{|Q|}{e} = \dfrac{4.8 \cdot 10^{-9}\;\text{C}}{1.602 \cdot 10^{-19}\;\text{C}} \approx 3.0 \cdot 10^{10}\) Elektronen.</p>', ''),
+    ('1b', 3, r'Ein Handy-Akku ist mit \(4000\;\text{mAh}\) beschriftet. Welcher Ladung in Coulomb entspricht das, und wie lange liefert er \(0.8\;\text{A}\)?',
+     r'<p>\(Q = I \cdot t = 4\;\text{A} \cdot 3600\;\text{s} = 14\,400\;\text{C}\).</p><p>\(t = \dfrac{Q}{I} = \dfrac{14\,400\;\text{C}}{0.8\;\text{A}} = 18\,000\;\text{s} = 5\;\text{h}\).</p>', ''),
+    ('1c', 2, r'Ein Hemd wird beim Ausziehen eines Pullovers negativ. Was ist mit dem Pullover passiert — und sind dabei Ladungen entstanden?',
+     r'<p>Elektronen sind vom Pullover aufs Hemd gewandert: Der Pullover ist gleich stark positiv. Entstanden ist keine Ladung, sie wurde nur verschoben; die Summe bleibt null.</p>', ''),
+    ('1d', 3, r'Das Diagramm zeigt die Ladung, die durch zwei Drähte A und B geflossen ist. Welche Stromstärke fliesst in A, welche in B? (Punkte auf Gitterpunkten)',
+     r'<p>Die Steigung ist die Stromstärke: A: \(I = \dfrac{3\;\text{C}}{6\;\text{s}} = 0.5\;\text{A}\). B: \(I = \dfrac{6\;\text{C}}{3\;\text{s}} = 2\;\text{A}\).</p>',
+     '\n            <div class="mini-reihe"><svg class="mini" data-geraden="0.5;2" data-namen="A;B" data-fenster="8,8" data-teilung="1,1" data-punkte="6,3;3,6" data-xname="t [s]" data-yname="Q [C]" aria-label="Q-t-Diagramm mit zwei Ursprungsgeraden A und B"></svg></div>'),
+])
+k1 = kapitel(1, 'ladung-und-strom', 'Ladung und Stromstärke', 'K1 · K2', 40,
+    r'Du beschreibst, woher elektrische Ladung kommt, rechnest mit \(Q = n \cdot e\) und \(I = Q/t\) und unterscheidest Ladung von Stromstärke.',
+    ('p6-2-lp-ladung', 'Strom sehen: vom Elektron zum Ampere', '1:16'),
+    sim1, ('p6-2-lp-kontrolle-ladung', 'Kontrollfragen zu Ladung und Stromstärke', '0:34'),
+    fest1, [uebung('ladung', 'Ladung aus Strom und Zeit'), uebung('strom', 'Stromstärke aus Ladung und Zeit'),
+            uebung('elektronen', 'Elektronen zählen')],
+    auf1, f'<a href="{TS}#definition">Themenseite 6.2, Grundbegriffe</a>')
+
+# ------------------------------------------------------------------ Kapitel 2: Spannung, Leistung, Energie
+sim2 = figur('sim2', 'Leistung P über der Zeit t: die Rechteckfläche ist die Energie E', '-4 -4 308 268',
+    '        ' + knoepfe('U', 'Spannung', [('12', '12 V Autobatterie'), ('230', '230 V Netz')], '230')
+    + '\n        <div class="reglerfeld">\n          '
+    + regler('s2', 'I', '<i>I</i> Strom', 0, 10, 0.1, 8.7, 'A', 1) + '\n          '
+    + regler('s2', 't', '<i>t</i> Zeit', 0, 3, 0.25, 1, 'h', 2) + '\n        </div>',
+    'Kurve für 1 kWh')
+fest2 = r'''      <div class="festhalten">
+        <div class="merk">
+          <div class="titel">Spannung, Leistung, Energie</div>
+          <p>Die Spannung ist die Arbeit, die an einer Ladung verrichtet wird, geteilt durch diese Ladung:</p>
+          <p>\[ U = \frac{W}{Q}, \qquad 1\;\text{V} = 1\;\frac{\text{J}}{\text{C}} \]</p>
+          <p>Leistung und Energie:</p>
+          <p>\[ P = U \cdot I, \qquad E = P \cdot t, \qquad 1\;\text{kWh} = 3.6\;\text{MJ} \]</p>
+          <p>Strom wird nicht verbraucht: Er fliesst vollständig zur Quelle zurück. Umgesetzt wird Energie, und die zählt die Stromrechnung in Kilowattstunden.</p>
+        </div>
+        <div class="warn">
+          <div class="titel">Häufiger Fehler</div>
+          <p>\(2000\;\text{W} \cdot 15\;\text{min}\) sind nicht \(30\,000\;\text{kWh}\). Zuerst in Kilowatt und Stunden umrechnen: \(E = 2\;\text{kW} \cdot 0.25\;\text{h} = 0.5\;\text{kWh}\).</p>
+        </div>
+      </div>'''
+auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
+    ('2a', 3, r'Eine \(1.5\text{-V}\)-Zelle schiebt \(400\;\text{C}\) durch eine Taschenlampe. Welche Arbeit verrichtet sie? An einem Bauteil werden an \(0.2\;\text{C}\) \(2.4\;\text{J}\) verrichtet: Welche Spannung liegt dort?',
+     r'<p>\(W = U \cdot Q = 1.5\;\text{V} \cdot 400\;\text{C} = 600\;\text{J}\).</p><p>\(U = \dfrac{W}{Q} = \dfrac{2.4\;\text{J}}{0.2\;\text{C}} = 12\;\text{V}\).</p>', ''),
+    ('2b', 4, r'Ein Föhn hat \(1800\;\text{W}\) und läuft am Netz (\(230\;\text{V}\)). Welcher Strom fliesst? Er läuft \(30\) Tage lang je \(10\;\text{min}\): Wie viel Energie, und was kostet das bei \(0.25\;\text{CHF/kWh}\)?',
+     r'<p>\(I = \dfrac{P}{U} = \dfrac{1800\;\text{W}}{230\;\text{V}} \approx 7.83\;\text{A}\).</p><p>\(t = 30 \cdot 10\;\text{min} = 300\;\text{min} = 5\;\text{h}\), \(E = P \cdot t = 1.8\;\text{kW} \cdot 5\;\text{h} = 9\;\text{kWh}\).</p><p>\(\text{Kosten} = E \cdot \text{Preis}\) \(= 9\;\text{kWh} \cdot 0.25\;\text{CHF/kWh}\) \(= 2.25\;\text{CHF}\).</p>', ''),
+    ('2c', 2, r'Auf der Rechnung steht «Stromverbrauch». Was wird tatsächlich verbraucht?',
+     r'<p>Strom wird nicht verbraucht: Was ins Gerät fliesst, fliesst wieder zurück. Umgesetzt wird Energie (in Wärme, Licht, Bewegung); bezahlt wird \(E = P \cdot t\) in Kilowattstunden.</p>', ''),
+    ('2d', 3, r'Ein Wasserkocher (\(2000\;\text{W}\)) läuft \(15\;\text{min}\), eine Lampe (\(60\;\text{W}\)) läuft \(10\;\text{h}\). Wer setzt mehr Energie um? Begründe am \(P\)-\(t\)-Diagramm.',
+     r'<p>Wasserkocher: \(E = 2\;\text{kW} \cdot 0.25\;\text{h} = 0.5\;\text{kWh}\). Lampe: \(E = 0.06\;\text{kW} \cdot 10\;\text{h} = 0.6\;\text{kWh}\). Die Lampe — ihr Rechteck ist niedrig, aber viel breiter; zählt die Fläche, nicht die Höhe.</p>', ''),
+])
+k2 = kapitel(2, 'spannung-leistung-energie', 'Spannung, Leistung und Energie', 'K2', 40,
+    r'Du erklärst Spannung als Energie je Ladung und rechnest mit \(P = U \cdot I\) und \(E = P \cdot t\) — auch in Kilowattstunden.',
+    ('p6-2-lp-leistung', 'Strom sehen: Leistung ist Höhe, Energie ist Fläche', '1:04'),
+    sim2, ('p6-2-lp-kontrolle-leistung', 'Kontrollfragen zu Spannung, Leistung und Energie', '0:37'),
+    fest2, [uebung('leistung', 'Leistung und Stromstärke'), uebung('energie', 'Energie in Kilowattstunden'),
+            uebung('arbeit', 'Spannung als Energie je Ladung')],
+    auf2, f'<a href="{TS}#leistung">Themenseite 6.2, Leistung und Energie</a>')
+
+# ------------------------------------------------------------------ Kapitel 3: Widerstand
+sim3 = figur('sim3', 'Widerstand R über der Leiterlänge l: Ursprungsgerade mit der Steigung rho durch A', '-4 -4 308 268',
+    '        ' + knoepfe('m', 'Material', [('Cu', 'Kupfer'), ('Al', 'Aluminium'), ('Fe', 'Eisen'), ('Konst', 'Konstantan')], 'Fe')
+    + '\n        <div class="reglerfeld">\n          '
+    + regler('s3', 'l', '<i>l</i> Länge', 0, 50, 1, 20, 'm', 0) + '\n          '
+    + regler('s3', 'A', '<i>A</i> Querschnitt', 0.5, 4, 0.25, 1, 'mm²', 2) + '\n        </div>',
+    'Kupfer, 1 mm²')
+fest3 = r'''      <div class="festhalten">
+        <div class="merk">
+          <div class="titel">Widerstand</div>
+          <p>Der Widerstand ist definiert als \(R = \dfrac{U}{I}\) (Ohm, \(\Omega\)). Ist \(R\) konstant, gilt das ohmsche Gesetz \(U = R \cdot I\): Die \(U\)-\(I\)-Kennlinie ist eine Ursprungsgerade mit der Steigung \(R\). Eine Glühlampe ist nicht ohmsch — ihr Draht wird heiss, und \(R\) wächst.</p>
+          <p>Widerstand eines Leiters:</p>
+          <p>\[ R = \rho \cdot \frac{l}{A} \]</p>
+          <p>\(\rho\) in \(\Omega\,\text{mm}^2/\text{m}\) bei \(20\;^\circ\text{C}\): Kupfer \(0.017\), Aluminium \(0.028\), Eisen \(0.10\), Konstantan \(0.49\).</p>
+        </div>
+        <div class="warn">
+          <div class="titel">Häufiger Fehler</div>
+          <p>Bei einem Kabel mit Hin- und Rückleiter ist die Leiterlänge doppelt so gross wie die Kabellänge: \(25\;\text{m}\) Kabel heisst \(l = 50\;\text{m}\).</p>
+        </div>
+      </div>'''
+auf3 = test('t3', 'Aufgaben · Kapitel 3', 11, [
+    ('3a', 3, r'Ein Lautsprecherkabel aus Kupfer ist \(15\;\text{m}\) lang und hat zwei Adern zu je \(0.75\;\text{mm}^2\). Welchen Widerstand hat die Leitung?',
+     r'<p>\(l = 2 \cdot 15\;\text{m} = 30\;\text{m}\).</p><p>\(R = \rho \cdot \dfrac{l}{A}\) \(= 0.017\;\dfrac{\Omega\,\text{mm}^2}{\text{m}} \cdot \dfrac{30\;\text{m}}{0.75\;\text{mm}^2}\) \(= 0.68\;\Omega\).</p>', ''),
+    ('3b', 3, r'Aus Konstantandraht mit \(0.5\;\text{mm}^2\) Querschnitt soll ein Messwiderstand von \(4.9\;\Omega\) werden. Wie lang muss der Draht sein? Wie gross wird \(R\), wenn man ihn halbiert?',
+     r'<p>\(l = \dfrac{R \cdot A}{\rho} = \dfrac{4.9\;\Omega \cdot 0.5\;\text{mm}^2}{0.49\;\Omega\,\text{mm}^2/\text{m}} = 5\;\text{m}\).</p><p>Halb so lang: \(R = 2.45\;\Omega\) — \(R\) ist proportional zur Länge.</p>', ''),
+    ('3c', 3, r'Das \(U\)-\(I\)-Diagramm zeigt zwei ohmsche Widerstände A und B. Wie gross sind sie? (Punkte auf Gitterpunkten)',
+     r'<p>Die Steigung ist der Widerstand: A: \(R = \dfrac{4\;\text{V}}{0.2\;\text{A}} = 20\;\Omega\). B: \(R = \dfrac{10\;\text{V}}{0.2\;\text{A}} = 50\;\Omega\).</p>',
+     '\n            <div class="mini-reihe"><svg class="mini" data-geraden="20;50" data-namen="A;B" data-fenster="0.3,12" data-teilung="0.05,2" data-punkte="0.2,4;0.2,10" data-xname="I [A]" data-yname="U [V]" aria-label="U-I-Diagramm mit zwei Ursprungsgeraden A und B"></svg></div>'),
+    ('3d', 2, r'Warum ist die \(U\)-\(I\)-Kennlinie einer Glühlampe keine Ursprungsgerade?',
+     r'<p>Mit dem Strom wird der Glühdraht heisser, und sein Widerstand wächst. \(R = U/I\) ist dann nicht konstant — die Lampe ist kein ohmsches Bauteil.</p>', ''),
+])
+k3 = kapitel(3, 'widerstand', 'Der Widerstand eines Leiters', 'K2 · K3', 40,
+    r'Du berechnest den Widerstand eines Leiters mit \(R = \rho \cdot l/A\) und rechnest mit \(U = R \cdot I\).',
+    ('p6-2-lp-widerstand', 'Strom sehen: Länge, Querschnitt, Material', '1:06'),
+    sim3, ('p6-2-lp-kontrolle-widerstand', 'Kontrollfragen zum Widerstand', '0:31'),
+    fest3, [uebung('leiter', 'Widerstand eines Drahts'), uebung('ohm', 'Strom aus Spannung und Widerstand'),
+            uebung('laenge', 'Drahtlänge für einen Widerstand')],
+    auf3, f'<a href="{TS}#ohm">Themenseite 6.2, Das ohmsche Gesetz</a> · <a href="{TS}#leiter">Der Widerstand eines Leiters</a>')
+
+# ------------------------------------------------------------------ Kapitel 4: Reihe und parallel
+sim4 = f'''      <figure class="sim sim-gross" id="sim4">
+        <div class="leiste" aria-live="polite"></div>
+        <div class="sim-formel" data-rolle="formel" aria-live="polite"></div>
+        <svg viewBox="0 0 330 240" role="img" aria-label="Zwei Widerstände an 12 V, in Reihe oder parallel, mit Balken für die Aufteilung"></svg>
+        {knoepfe('art', 'Schaltung', [('reihe', 'in Reihe'), ('parallel', 'parallel')], 'reihe')}
+        <div class="reglerfeld">
+          {regler('s4', 'R1', '<i>R</i>₁', 10, 500, 10, 100, 'Ω', 0)}
+          {regler('s4', 'R2', '<i>R</i>₂', 10, 500, 10, 220, 'Ω', 0)}
+        </div>
+      </figure>'''
+fest4 = r'''      <div class="tabhuelle">
+        <table class="gesetze">
+          <thead><tr><th></th><th>Reihenschaltung</th><th>Parallelschaltung</th></tr></thead>
+          <tbody>
+            <tr><td>Stromstärke</td><td>überall gleich: \(I = I_1 = I_2\)</td><td>teilt sich auf: \(I = I_1 + I_2\)</td></tr>
+            <tr><td>Spannung</td><td>teilt sich auf: \(U = U_1 + U_2\)</td><td>überall gleich: \(U = U_1 = U_2\)</td></tr>
+            <tr><td>Gesamtwiderstand</td><td>\(R_\text{ges} = R_1 + R_2\)</td><td>\(\dfrac{1}{R_\text{ges}} = \dfrac{1}{R_1} + \dfrac{1}{R_2}\)</td></tr>
+            <tr><td>Teilerregel</td><td>\(U_1 : U_2 = R_1 : R_2\)</td><td>\(I_1 : I_2 = R_2 : R_1\)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="festhalten">
+        <div class="merk"><div class="titel">Merke</div><p>In Reihe ist \(R_\text{ges}\) grösser als jeder Einzelwiderstand, parallel kleiner als der kleinste. Für zwei Widerstände parallel: \(R_\text{ges} = \dfrac{R_1 \cdot R_2}{R_1 + R_2}\). Im Haushalt sind alle Geräte parallel geschaltet.</p></div>
+        <div class="warn"><div class="titel">Häufiger Fehler</div><p>Den Kehrwert vergessen: \(\dfrac{1}{100\;\Omega} + \dfrac{1}{100\;\Omega} = 0.02\;\dfrac{1}{\Omega}\) ist \(\dfrac{1}{R_\text{ges}}\). Also \(R_\text{ges} = 50\;\Omega\), nicht \(0.02\;\Omega\).</p></div>
+      </div>'''
+auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
+    ('4a', 3, r'\(R_1 = 150\;\Omega\) und \(R_2 = 330\;\Omega\) liegen in Reihe an \(24\;\text{V}\). Berechne \(R_\text{ges}\), \(I\), \(U_1\) und \(U_2\).',
+     r'<p>\(R_\text{ges} = R_1 + R_2 = 150\;\Omega + 330\;\Omega = 480\;\Omega\).</p><p>\(I = \dfrac{U}{R_\text{ges}} = \dfrac{24\;\text{V}}{480\;\Omega} = 50\;\text{mA}\).</p><p>\(U_1 = I \cdot R_1 = 50\;\text{mA} \cdot 150\;\Omega = 7.5\;\text{V}\), \(U_2 = I \cdot R_2 = 50\;\text{mA} \cdot 330\;\Omega = 16.5\;\text{V}\). Probe: \(7.5\;\text{V} + 16.5\;\text{V} = 24\;\text{V}\).</p>', ''),
+    ('4b', 3, r'Dieselben Widerstände liegen parallel an \(24\;\text{V}\). Berechne \(R_\text{ges}\), \(I_1\), \(I_2\) und \(I\).',
+     r'<p>\(R_\text{ges} = \dfrac{R_1 \cdot R_2}{R_1 + R_2}\) \(= \dfrac{150\;\Omega \cdot 330\;\Omega}{480\;\Omega}\) \(\approx 103\;\Omega\).</p><p>\(I_1 = \dfrac{U}{R_1} = \dfrac{24\;\text{V}}{150\;\Omega} = 160\;\text{mA}\), \(I_2 = \dfrac{U}{R_2} = \dfrac{24\;\text{V}}{330\;\Omega} \approx 72.7\;\text{mA}\).</p><p>\(I = I_1 + I_2 \approx 233\;\text{mA}\). Probe: \(\dfrac{24\;\text{V}}{103.1\;\Omega} \approx 233\;\text{mA}\).</p>', ''),
+    ('4c', 2, r'Drei gleiche Widerstände von je \(60\;\Omega\) liegen parallel. Wie gross ist \(R_\text{ges}\)? Warum ist er kleiner als jeder einzelne?',
+     r'<p>\(\dfrac{1}{R_\text{ges}} = \dfrac{3}{60\;\Omega}\), also \(R_\text{ges} = 20\;\Omega\). Jeder Zweig öffnet dem Strom einen weiteren Weg — bei gleicher Spannung fliesst mehr Strom.</p>', ''),
+    ('4d', 2, r'In einer alten Lichterkette in Reihe brennt eine Lampe durch. Warum bleibt die ganze Kette dunkel — und warum passiert das in der Wohnung nicht?',
+     r'<p>In Reihe fliesst durch alle Lampen derselbe Strom; die defekte Lampe unterbricht den einzigen Weg. In der Wohnung sind die Geräte parallel: Jedes hat seinen eigenen Zweig an derselben Spannung.</p>', ''),
+    ('4e', 2, r'An \(9\;\text{V}\) liegt \(R_1 = 1\;\text{k}\Omega\) in Reihe mit \(R_2\). Über \(R_2\) sollen \(3\;\text{V}\) liegen. Wie gross muss \(R_2\) sein?',
+     r'<p>\(U_1 = U - U_2 = 9\;\text{V} - 3\;\text{V} = 6\;\text{V}\), \(I = \dfrac{U_1}{R_1} = \dfrac{6\;\text{V}}{1000\;\Omega} = 6\;\text{mA}\).</p><p>\(R_2 = \dfrac{U_2}{I} = \dfrac{3\;\text{V}}{6\;\text{mA}} = 500\;\Omega\).</p>', ''),
+])
+k4 = kapitel(4, 'reihe-und-parallel', 'Reihen- und Parallelschaltung', 'K4', 45,
+    r'Du berechnest Gesamtwiderstand, Ströme und Spannungen in einfachen Reihen- und Parallelschaltungen.',
+    ('p6-2-lp-schaltungen', 'Strom sehen: Reihe teilt die Spannung, parallel den Strom', '1:11'),
+    sim4, ('p6-2-lp-kontrolle-schaltungen', 'Kontrollfragen zu Reihe und parallel', '0:33'),
+    fest4, [uebung('reihe', 'Reihenschaltung'), uebung('parallel', 'Parallelschaltung'), uebung('teiler', 'Spannungsteiler')],
+    auf4, f'<a href="{TS}#reihe">Themenseite 6.2, Reihenschaltung</a> · <a href="{TS}#parallel">Parallelschaltung</a> · <a href="leitprogramm-schaltungen.html">Leitprogramm Schaltungen berechnen</a> (auch gemischte Schaltungen)')
+
+# ------------------------------------------------------------------ Kapitel 5: Gefahren und Schutz
+sim5 = f'''      <figure class="sim sim-gross" id="sim5">
+        <div class="leiste" aria-live="polite"></div>
+        <div class="sim-formel" data-rolle="formel" aria-live="polite"></div>
+        <svg viewBox="0 0 320 222" role="img" aria-label="Stromkreis mit Leitungsschutzschalter, FI-Schutzschalter und Gerät; je nach Fall Mensch, Schutzleiter oder Kurzschluss"></svg>
+        {knoepfe('fall', 'Fall', [('normal', 'Normalbetrieb'), ('koerper', 'Mensch am Gehäuse'), ('pe', 'Gehäuse am Schutzleiter'), ('kurz', 'Kurzschluss L–N')], 'normal')}
+        <div class="reglerfeld rk-zeile" hidden>
+          {regler('s5', 'RK', '<i>R</i><sub>K</sub> Körper', 500, 10000, 100, 1000, 'Ω', 0)}
+        </div>
+      </figure>'''
+fest5 = r'''      <div class="tabhuelle">
+        <table class="gesetze">
+          <thead><tr><th>Einrichtung</th><th>schützt</th><th>misst / überwacht</th><th>schaltet ab bei</th></tr></thead>
+          <tbody>
+            <tr><td>FI-Schutzschalter</td><td class="wort">Menschen (zusätzlich)</td><td class="wort">Differenz zwischen Hin- und Rückstrom</td><td class="wort">Fehlerstrom ab \(30\;\text{mA}\), je grösser, desto schneller</td></tr>
+            <tr><td>Schutzleiter (PE)</td><td class="wort">Menschen</td><td class="wort">schaltet nicht — leitet zur Erde ab</td><td class="wort">—</td></tr>
+            <tr><td>Leitungsschutzschalter</td><td class="wort">die Leitung</td><td class="wort">Strom in der Leitung</td><td class="wort">Strom über dem Nennstrom (z. B. \(13\;\text{A}\)); Kurzschluss sofort</td></tr>
+            <tr><td>Schutzklasse II</td><td class="wort">Menschen</td><td class="wort">schaltet nicht — doppelt isoliert</td><td class="wort">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="festhalten">
+        <div class="merk"><div class="titel">Gefahr</div><p>Gefährlich ist der Strom durch den Körper, \(I_\text{K} = \dfrac{U}{R_\text{K}}\), und wie lange er wirkt. Muskeln verkrampfen, über das Herz kann Netzstrom Kammerflimmern auslösen. Am Netz ist mit \(R_\text{K} \approx 1\) bis \(2\;\text{k}\Omega\) zu rechnen.</p></div>
+        <div class="warn"><div class="titel">Häufiger Fehler</div><p>«Die Sicherung schützt mich.» Ein \(13\text{-A}\)-Leitungsschutzschalter bemerkt \(115\;\text{mA}\) durch einen Menschen nicht. Und \(30\;\text{mA}\) ist keine Grenze für ungefährlichen Strom — der FI ist zusätzlicher Schutz.</p></div>
+      </div>'''
+auf5 = test('t5', 'Aufgaben · Kapitel 5', 10, [
+    ('5a', 3, r'Jemand mit feuchter Haut (\(R_\text{K} = 1.5\;\text{k}\Omega\)) berührt ein defektes Gehäuse unter \(230\;\text{V}\). Wie gross ist der Körperstrom? Was tun ein FI (\(30\;\text{mA}\)) und ein \(13\text{-A}\)-Leitungsschutzschalter?',
+     r'<p>\(I_\text{K} = \dfrac{U}{R_\text{K}} = \dfrac{230\;\text{V}}{1500\;\Omega} \approx 153\;\text{mA}\) — lebensgefährlich.</p><p>Das ist mehr als das Fünffache von \(30\;\text{mA}\): Der FI muss spätestens nach \(40\;\text{ms}\) trennen. Der Leitungsschutzschalter bemerkt \(0.15\;\text{A}\) neben seinen \(13\;\text{A}\) nicht.</p>', ''),
+    ('5b', 2, r'Warum darf man die Pole einer \(12\text{-V}\)-Autobatterie mit trockenen Händen anfassen (\(R_\text{K} \approx 5\;\text{k}\Omega\))?',
+     r'<p>\(I_\text{K} = \dfrac{12\;\text{V}}{5000\;\Omega} = 2.4\;\text{mA}\) — der Strom ist klein, weil die Spannung klein ist. Gefährlich wäre ein Kurzschluss mit einem Werkzeug: Dann fliesst ein sehr grosser Strom durch das Metall.</p>', ''),
+    ('5c', 3, r'Was schützt hier? (1) Fünf Heizlüfter am selben Stromkreis, die Leitung wird heiss. (2) Jemand berührt einen defekten Föhn. (3) Das Metallgehäuse einer Waschmaschine bekommt Kontakt zum Aussenleiter.',
+     r'<p>(1) Leitungsschutzschalter (Überlast). (2) FI-Schutzschalter (Fehlerstrom über den Körper). (3) Schutzleiter: Er leitet den Fehlerstrom zur Erde ab, und die Schutzeinrichtung schaltet sofort ab.</p>', ''),
+    ('5d', 2, r'Warum löst ein FI bei einem Kurzschluss zwischen Aussen- und Neutralleiter nicht aus?',
+     r'<p>Der FI vergleicht Hin- und Rückstrom. Beim Kurzschluss fliesst der ganze — sehr grosse — Strom über den Neutralleiter zurück: keine Differenz. Abschalten muss der Leitungsschutzschalter.</p>', ''),
+])
+k5 = kapitel(5, 'gefahren-und-schutz', 'Gefahren und Schutzmassnahmen', 'K5', 35,
+    r'Du zeigst auf, warum Strom durch den Körper gefährlich ist, und ordnest FI-Schutzschalter, Schutzleiter und Leitungsschutzschalter ihrer Schutzwirkung zu.',
+    ('p6-2-lp-gefahren', 'Strom sehen: wer misst was, wer trennt wann', '1:21'),
+    sim5, ('p6-2-lp-kontrolle-gefahren', 'Kontrollfragen zu Gefahren und Schutz', '0:40'),
+    fest5, [uebung('koerperstrom', 'Körperstrom und FI'), uebung('schutz', 'Was schützt hier?')],
+    auf5, f'<a href="{TS}#gefahren">Themenseite 6.2, Gefahren des elektrischen Stroms</a> · <a href="leitprogramm-gefahren.html">Leitprogramm Gefahren und Schutzmassnahmen</a>')
+
+# ------------------------------------------------------------------ Gesamttest
+PDF = '../downloads/leitprogramme/elektrizitaet/'
+gt = f'''
+    <section class="kap" id="gesamttest">
+      <div class="gesamt">
+        <div class="gesamt-kopf">
+          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">6.2 · K1–K5</span><span class="zeit">≈ 25 min · 25 Punkte</span></div>
+          <h2 id="gesamttest-titel">Gesamttest</h2>
+          <div class="pdf-weg">
+            <div class="pdf-schritt"><span class="nr">1</span><div><b>Lösen</b> — auf Papier, mit Rechenweg. Erlaubt sind Taschenrechner und Formelsammlung.<br>
+              <a class="pdf-knopf" href="{PDF}gesamttest.pdf" download>⬇ Gesamttest (PDF)</a></div></div>
+            <div class="pdf-schritt"><span class="nr">2</span><div><b>Bewerten lassen</b> — Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem Bewertungspaket einer KI geben, oder selbst nach dem Raster bewerten. Das Paket enthält die Musterlösung: erst danach öffnen.<br>
+              <a class="pdf-knopf" href="{PDF}bewertungspaket.pdf" download>⬇ Bewertungspaket (PDF)</a></div></div>
+            <div class="pdf-schritt"><span class="nr">3</span><div><b>Gezielt wiederholen</b> — nach der Tabelle unten.</div></div>
+          </div>
+        </div>
+        <div class="bewertung">
+          <b>Selbsteinschätzung</b>
+          <table>
+            <tr><td>22 – 25 P</td><td>Die geprüften Teile sitzen. Wo du Punkte verloren hast: das Kapitel dieser Aufgabe nochmals (Zuordnung unten).</td></tr>
+            <tr><td>17 – 21 P</td><td>Den schwächsten Teil nochmals: Simulation und Übungen des Kapitels, in dem du die meisten Punkte verloren hast.</td></tr>
+            <tr><td>11 – 16 P</td><td>Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.</td></tr>
+            <tr><td>0 – 10 P</td><td>Zurück zu Kapitel 1 und von dort der Reihe nach weiter.</td></tr>
+          </table>
+          <p>Aufgabe → Kapitel: G1 → 1 · G2 → 1 und 2 · G3 → 2 · G4 → 3 · G5 → 4 · G6 → 5</p>
+        </div>
+      </div>
+    </section>'''
+
+weiter = f'''
+    <section class="kap weiter" id="weiter">
+      <h2 id="weiter-titel">Nicht in diesem Leitprogramm</h2>
+      <ul>
+        <li>Gemischte Schaltungen, Spannungsteiler im Detail, Leistung in Reihe und parallel → <a href="leitprogramm-schaltungen.html">Leitprogramm Schaltungen berechnen</a>, <a href="{TS}#gemischt">Themenseite 6.2, Gemischte Schaltungen</a></li>
+        <li>Messen mit dem Multimeter, Kennlinien, Verlustleistung → <a href="leitprogramm-widerstand-leistung.html">Leitprogramm Widerstand, Leistung, Energie</a>, <a href="{TS}#messen">Themenseite 6.2, Messen im Stromkreis</a></li>
+        <li>Erde als Rückleiter, Stromstärke-Zeit-Diagramm → <a href="leitprogramm-gefahren.html">Leitprogramm Gefahren und Schutzmassnahmen</a></li>
+        <li>Coulomb-Gesetz, Wechselspannung und Effektivwert → <a href="{TS}#definition">Themenseite 6.2</a></li>
+      </ul>
+    </section>'''
+
+oben = '''<div id="nav-root"></div>
+<!-- Leitprogramm Elektrizität, Version 0.9 (03.10.2026, Erprobung, unverlinkt). Erstes Physik-
+     Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4): je Kapitel ① Einführungsclip →
+     ② Simulation mit Aufgabenleiste → ③ Kontrollclip mit Fragen → Festhalten → ④ Übungen mit
+     Rückmeldung → ⑤ Aufgaben mit Lösungen. Gesamttest und Bewertungspaket nur als PDF
+     (downloads/leitprogramme/elektrizitaet/*.tex). Quelle: scripts/lp/elektrizitaet/seite.py.
+
+     RLP-BM 2030, 7.5.4.1 Gruppe 1, Teilgebiet 6.2 (wörtlich wie im Kompetenzblock der Themenseite):
+       K1 die Beschaffenheit von elektrischen Ladungen beschreiben (Ursprung, Einheit, Elementarladung)
+       K2 die wichtigsten physikalischen Grössen definieren und charakterisieren (Ladung, Spannung,
+          Stromstärke, Energie, Leistung)
+       K3 den Widerstand eines Leiters berechnen
+       K4 Berechnungen in einfachen seriellen oder parallelen Schaltkreisen von Widerständen durchführen
+       K5 die wesentlichen Gefahren der Elektrizität, inklusive entsprechender Schutzmassnahmen, aufzeigen
+
+     Kompetenzmatrix: K1 → Kap. 1, Aufg. 1a 1c, G1 · K2 → Kap. 1–3, Aufg. 1b 1d 2a–2d 3d, G2 G3 ·
+     K3 → Kap. 3, Aufg. 3a–3c, G4 · K4 → Kap. 4, Aufg. 4a–4e, G5 · K5 → Kap. 5, Aufg. 5a–5d, G6.
+     Bewusst weggelassen (RLP verlangt es nicht oder nur «einfach»): gemischte Schaltungen, Messen,
+     Coulomb-Gesetz, Wechselspannung — Verweise unter «Nicht in diesem Leitprogramm».
+     Zeiten: K0 10 · K1 40 · K2 40 · K3 40 · K4 45 · K5 35 · Gesamttest 25 = 235 min ≈ 5 Lektionen. -->
+<header class="kopf">
+  <div class="kopf-innen">
+    <div>
+      <p class="marke">Physik begreifbar · Leitprogramm</p>
+      <h1>Elektrizität</h1>
+      <p class="unter">Ladung, Spannung, Widerstand, Schaltungen und Gefahren — zuschauen, tüfteln, kontrollieren, üben. Fünf Kapitel und Gesamttest, rund fünf Lektionen.</p>
+    </div>
+    <div class="kopf-rechts">
+      <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>
+      <span>Lerngebiet 6.2</span>
+    </div>
+  </div>
+</header>
+
+<div class="huelle">
+<div class="raster">
+
+  <nav class="schiene" aria-label="Kapitelnavigation">
+    <h2 id="ablauf">Ablauf</h2>
+    <p class="lekt">Lektion 1</p>
+    <ol>
+      <li><a href="#k0"><span class="nr">0</span><span>Vorwissen</span></a></li>
+      <li><a href="#k1"><span class="nr">1</span><span>Ladung und Strom</span></a></li>
+    </ol>
+    <p class="lekt">Lektion 2</p>
+    <ol><li><a href="#k2"><span class="nr">2</span><span>Leistung und Energie</span></a></li></ol>
+    <p class="lekt">Lektion 3</p>
+    <ol><li><a href="#k3"><span class="nr">3</span><span>Widerstand</span></a></li></ol>
+    <p class="lekt">Lektion 4</p>
+    <ol><li><a href="#k4"><span class="nr">4</span><span>Reihe und parallel</span></a></li></ol>
+    <p class="lekt">Lektion 5</p>
+    <ol><li><a href="#k5"><span class="nr">5</span><span>Gefahren und Schutz</span></a></li></ol>
+    <p class="lekt">Abschluss</p>
+    <ol><li><a href="#gesamttest"><span class="nr">✓</span><span>Gesamttest</span></a></li></ol>
+    <div class="fortschritt">
+      <div class="balken"><i id="balken-fuellung"></i></div>
+      <p id="fortschritt-text">0 von 6 Aufgabenblöcken bearbeitet</p>
+      <button type="button" id="fortschritt-reset">zurücksetzen</button>
+    </div>
+  </nav>
+
+  <main class="inhalt">
+
+    <div class="duo">
+      <details class="anleitung">
+        <summary><h2 id="so-arbeitest-du">So arbeitest du</h2></summary>
+        <ol>
+          <li><b>① Clip</b> anschauen.</li>
+          <li><b>② Tüfteln:</b> Aufgaben in der Animation lösen — sie zeigt ✓, wenn es stimmt.</li>
+          <li><b>③ Kontrollfragen:</b> Der Clip hält an. Erst antworten.</li>
+          <li><b>④ Üben</b> mit Rückmeldung, bis drei in Folge sitzen.</li>
+          <li><b>⑤ Aufgaben</b> auf Papier, dann Lösung aufklappen und abhaken.</li>
+        </ol>
+      </details>
+      <details class="anleitung kompetenzen">
+        <summary><h2 id="kompetenzen">Kompetenzen nach Lehrplan</h2></summary>
+        <p class="rlp-quelle">RLP-BM 2030, Lerngebiet 6.2 Elektrizität</p>
+        <ul>
+          <li><b>K1</b> die Beschaffenheit von elektrischen Ladungen beschreiben (Ursprung, Einheit, Elementarladung)</li>
+          <li><b>K2</b> die wichtigsten physikalischen Grössen definieren und charakterisieren (Ladung, Spannung, Stromstärke, Energie, Leistung)</li>
+          <li><b>K3</b> den Widerstand eines Leiters berechnen</li>
+          <li><b>K4</b> Berechnungen in einfachen seriellen oder parallelen Schaltkreisen von Widerständen durchführen</li>
+          <li><b>K5</b> die wesentlichen Gefahren der Elektrizität, inklusive entsprechender Schutzmassnahmen, aufzeigen</li>
+        </ul>
+        <p class="rlp-fuss">Die Themenseite <a href="''' + TS + '''">6.2 Elektrizität</a> ist das Nachschlagewerk; dieses Leitprogramm ist der Kurs.</p>
+      </details>
+    </div>
+'''
+unten = '''
+    <div class="fuss">
+      <span>Leitprogramm Elektrizität · Clips von physik.begreifbar.ch</span>
+      <span>Raphael Arnold Kohler</span>
+    </div>
+
+  </main>
+</div>
+</div>
+'''
+
+
+def band(n, t):
+    return f'\n    <div class="band"><span>{n if isinstance(n, str) else "Lektion " + str(n)}</span><span class="strich"></span><span>{t}</span></div>\n'
+
+
+body = (oben + band(1, 'Ladung') + k0 + k1 + band(2, 'Energie') + k2 + band(3, 'Widerstand') + k3
+        + band(4, 'Schaltungen') + k4 + band(5, 'Sicherheit') + k5 + band('Abschluss', 'Gesamttest') + gt + weiter + unten)
+seite = KOPF + CSS + '</style>\n</head>\n<body>\n' + body + '\n' + BASIS + '\n' + open(SP + 'seite.js', encoding='utf-8').read() + '\n' + FUSS
+open(ZIEL, 'w', encoding='utf-8').write(seite)
+print('geschrieben', ZIEL, len(seite.splitlines()), 'Zeilen')

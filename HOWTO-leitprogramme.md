@@ -18,11 +18,11 @@ sind. Sie sind im Format «klassisch» gebaut (§3) — von Hand, ohne Generator
 Die Fassung gilt für **neue** Leitprogramme. Ob die bestehenden HTML-Gesamttests auf PDF
 umgestellt werden (§9), ist ein **offener Entscheid des Auftraggebers**.
 
-**Vorbild für ein neues Leitprogramm:** in Physik noch keines nach dem Kapitelmuster (§4). Vorbild
-in Mathe: `leitprogramme/quadratische-funktionen.html` und `lineare-funktionen.html`, gebaut mit
-`scripts/lp/<thema>/seite.py`. Das Bauskript (`scripts/lp/`) gibt es in Physik **noch nicht** — es
-entsteht am ersten neuen Physik-Leitprogramm aus dem Gerüst des Mathe-Vorbilds (siehe §4).
-Bis dahin ist der Weg in §5 beschrieben: eine bestehende Physik-Seite kopieren.
+**Vorbild für ein neues Leitprogramm:** `leitprogramme/leitprogramm-elektrizitaet.html`, das erste
+Physik-Leitprogramm nach dem Kapitelmuster (§4), gebaut mit `scripts/lp/elektrizitaet/seite.py`
+(03.10.2026, Erprobung, unverlinkt). Vorbild in Mathe: `leitprogramme/quadratische-funktionen.html`
+und `lineare-funktionen.html`. Ein neues Leitprogramm beginnt mit einer Kopie von
+`scripts/lp/elektrizitaet/` (§5).
 **Vor der Freischaltung:** unabhängige Prüfung nach §15 (`/lp-pruefung`).
 
 ---
@@ -189,14 +189,13 @@ Weiter        nächstes Leitprogramm · Themenseite · bewusst Weggelassenes
 
 ### Innerhalb eines Kapitels: das Kapitelmuster (Mathe, Fassung 3, 02.10.2026)
 
-In Physik **noch nicht erprobt** — es wird am ersten neuen Physik-Leitprogramm übernommen.
-In Mathe folgen alle Kapitel von `leitprogramme/quadratische-funktionen.html` diesem Muster;
-die Seite entsteht dort aus einer Kapitelbeschreibung (`scripts/lp/<thema>/seite.py`), damit
-es überall gleich bleibt. **Für Physik gilt:** `scripts/lp/` gibt es noch nicht. Portierbar ist
-das Gerüst — Koordinatensystem `Achsen()`, die Aufgabenleiste `Leiste()`, der Übungsrahmen mit
-`lesen()`/`pruefen()`/`loesung()`, die Minigrafen; die Übungstypen (`TYPEN`) und die
-Simulationen schreibt Physik neu. **Nicht Datei für Datei kopieren**, sondern das Muster
-übernehmen und am ersten Physik-Leitprogramm erproben.
+In Physik erstmals am Leitprogramm Elektrizität umgesetzt (03.10.2026). Die Seite entsteht aus
+einer Kapitelbeschreibung (`scripts/lp/elektrizitaet/seite.py`), damit es überall gleich bleibt.
+Übernommen aus Mathe ist das Gerüst — Koordinatensystem `Achsen()`, die Aufgabenleiste
+`Leiste()`, der Übungsrahmen mit `lesen()`/`pruefen()`/`loesung()`, die Minigrafen; neu für
+Physik sind die Bedienung mit Knopfgruppen (`Bedienung()`, `sim.setze()`), die Übungstypen
+(`TYPEN`, je mit `fehler()` für `pruef-uebungen`) und die Simulationen. Was dabei anders wurde
+und warum: `scripts/lp/elektrizitaet/README.md`.
 
 Phasen (`<p class="phase">`) über den Abschnitten — **kein** Fahrplan unter dem Kapiteltitel.
 «So arbeitest du» und die RLP-Kompetenzen stehen oben, beide eingeklappt
@@ -246,8 +245,8 @@ Dann stehen Dokumentrahmen, Hosts, Stylesheets, Tokens, Dunkelmodus und Skripte 
 (`var KEY = 'leitprogramm-<name>-v1'`), sonst teilen zwei Leitprogramme einen
 Fortschrittsstand — das Häkchen im einen erscheint im anderen.
 
-Sobald das Kapitelmuster (§4) in Physik als Bauskript steht, ist dieses der Weg für neue
-Leitprogramme nach dem Muster.
+Für ein Leitprogramm nach dem Kapitelmuster (§4) ist der Weg das Bauskript: `scripts/lp/elektrizitaet/`
+kopieren, Kapitel, Simulationen und Übungstypen ersetzen, den Speicherschlüssel `KEY` ändern.
 
 Kommt eine Datei von aussen, gilt die Übertragsliste in §12.
 
@@ -299,8 +298,10 @@ stellen, der sie erklärt.
 ```
 
 Die Klassennamen `.huelle`, `.inhalt`, `.kap`, `.duo` stammen aus dem Mathe-Vorbild; die
-bestehenden Physik-Leitprogramme heissen anders (`.prose`, `.step-title`, …). Im ersten neuen
-Leitprogramm entscheiden und dann **einheitlich** halten — nicht in einer Seite mischen.
+bestehenden Physik-Leitprogramme heissen anders (`.prose`, `.step-title`, …). **Entschieden am
+Leitprogramm Elektrizität (03.10.2026): die Mathe-Namen** — ausser dort, wo Physiks `style.css`
+einen Namen schon belegt: `sl-row`/`sl-grp`/`sl-val` heissen `reglerfeld`/`regler`/`regler-wert`,
+`.frage` heisst `.a-frage` (§12 Punkt 9). Nicht in einer Seite mischen.
 
 ---
 
@@ -776,9 +777,9 @@ Teil der Verabredung.
 Suchindex-Treffer, Themenseite ohne Kasten, aber `build-seo.py` **mit `noindex=True`**
 (nicht weglassen). Kein `Disallow` in `robots.txt`. Es ist Unauffindbarkeit, keine
 Zugangskontrolle. Weil `build-suchindex.py` alles in `leitprogramme/` erfasst, muss die
-unverlinkte Seite dort **ausdrücklich ausgenommen** werden. Einen Schalter dafür gibt es
-noch nicht (Stand 03.10.2026: die Funktion, die die Seitenliste baut, nimmt jede `.html`
-in `leitprogramme/` auf) — vor dem ersten Einsatz einbauen.
+unverlinkte Seite dort **ausdrücklich ausgenommen** werden: Menge `UNVERLINKT` in
+`build-suchindex.py` (seit 03.10.2026). Freischalten heisst: dort streichen, `noindex` in
+`build-seo.py` entfernen, Karte in `leitprogramme.html` setzen, Kasten auf der Themenseite.
 Prüfen:
 
 ```sh

@@ -157,6 +157,18 @@ SEITEN = {
                 'in sechs Schritten mit Erklärclip, Simulation, Vortest und Kapiteltest.',
    themen=['Physik', 'Elektrizität', 'Reihenschaltung', 'Parallelschaltung',
            'Spannungsteiler', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-elektrizitaet.html': dict(
+   # Erprobung (03.10.2026): unverlinkt — keine Karte, nicht im Suchindex
+   # (UNVERLINKT in build-suchindex.py), noindex bis zur Freischaltung.
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   titel='Leitprogramm Elektrizität — Ladung, Spannung, Widerstand, Schaltungen, Gefahren',
+   beschreibung='Leitprogramm zur Elektrizität in fünf Kapiteln: Ladung und Stromstärke, '
+                'Spannung, Leistung und Energie, Widerstand eines Leiters, Reihen- und '
+                'Parallelschaltung, Gefahren und Schutzmassnahmen — mit Erklärclips, '
+                'Simulationen mit Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung '
+                'und Gesamttest als PDF.',
+   themen=['Physik', 'Elektrizität', 'Ladung', 'Stromstärke', 'Widerstand',
+           'Reihenschaltung', 'Parallelschaltung', 'FI-Schutzschalter', 'Leitprogramm']),
  'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung',
