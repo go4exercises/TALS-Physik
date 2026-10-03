@@ -54,6 +54,5 @@ einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (alle 3
 - Toleranz der Übungen relativ (0.6 %, drei signifikante Stellen) statt exakt; Zufallswerte, bei
   denen ein typischer Fehler dasselbe Ergebnis gäbe (z. B. \(I = 1\;\text{A}\) beim Kehrwert),
   werden neu gewürfelt.
-- Die Seite ist **unverlinkt** (Erprobung): `noindex` in `build-seo.py`, `UNVERLINKT` in
-  `build-suchindex.py`, keine Karte in `leitprogramme.html`, kein Kasten auf der Themenseite.
-  Freischalten = an allen vier Stellen nachführen.
+- Freigeschaltet am 03.10.2026 nach `/lp-pruefung`: Karte in `leitprogramme.html`, Kasten
+  «Lieber geführt durcharbeiten?» oben auf der Themenseite 6.2, im Suchindex und in der Sitemap.

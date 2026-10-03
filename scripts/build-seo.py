@@ -158,9 +158,8 @@ SEITEN = {
    themen=['Physik', 'Elektrizität', 'Reihenschaltung', 'Parallelschaltung',
            'Spannungsteiler', 'Leitprogramm']),
  'leitprogramme/leitprogramm-elektrizitaet.html': dict(
-   # Erprobung (03.10.2026): unverlinkt — keine Karte, nicht im Suchindex
-   # (UNVERLINKT in build-suchindex.py), noindex bis zur Freischaltung.
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   # Freigeschaltet am 03.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Elektrizität — Ladung, Spannung, Widerstand, Schaltungen, Gefahren',
    beschreibung='Leitprogramm zur Elektrizität in fünf Kapiteln — Ladung und Stromstärke; '
                 'Spannung, Leistung und Energie; Widerstand eines Leiters; Reihen- und '

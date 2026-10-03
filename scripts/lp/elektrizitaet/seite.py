@@ -472,7 +472,7 @@ FUSS = '''<footer class="site-footer">
   <p>Leitprogramm · Elektrizität</p>
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 0.9 (Erprobung) · Stand 3. Oktober 2026</p>
+  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 3. Oktober 2026</p>
 </footer>
 
 <script src="../physiklib.js"></script>
@@ -878,7 +878,7 @@ weiter = f'''
     </section>'''
 
 oben = '''<div id="nav-root"></div>
-<!-- Leitprogramm Elektrizität, Version 0.9 (03.10.2026, Erprobung, unverlinkt). Erstes Physik-
+<!-- Leitprogramm Elektrizität, Version 1.0 (03.10.2026, nach /lp-pruefung freigeschaltet). Erstes Physik-
      Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4): je Kapitel ① Einführungsclip →
      ② Simulation mit Aufgabenleiste → ③ Kontrollclip mit Fragen → Festhalten → ④ Übungen mit
      Rückmeldung → ⑤ Aufgaben mit Lösungen. Gesamttest und Bewertungspaket nur als PDF

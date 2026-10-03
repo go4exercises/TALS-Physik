@@ -244,7 +244,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (`graf`) mit **Bewegung** und **Fragen im Clip** (`fragen`, vorgelesen über
   `scripts/build-clip-fragen-ton.py`); neue Clips nehmen das Theme
   `begreifbar-schlicht` (ohne Karo und Rand).
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell elf:
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell zwölf (dazu unten `leitprogramm-elektrizitaet`):
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
   `leitprogramm-vorwissen` (Grössen, Messen, Druck — sieben Clips, fünf
@@ -285,9 +285,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `pruef-fragen.mjs`, `sprechzeiten.py`). Erstes Leitprogramm nach dem
   Kapitelmuster: `leitprogramm-elektrizitaet` (6.2, fünf Kapitel, zehn eigene
   Clips `p6-2-lp-*` mit `probe: true`, Gesamttest als PDF), gebaut mit
-  `scripts/lp/elektrizitaet/` (README dort) — seit 03.10.2026 **unverlinkt in
-  Erprobung** (`noindex`, `UNVERLINKT` in `build-suchindex.py`, keine Karte);
-  Freischalten erst nach `/lp-pruefung`. Für eine
+  `scripts/lp/elektrizitaet/` (README dort) — freigeschaltet am 03.10.2026 nach
+  `/lp-pruefung` (eine Erprobung läuft unverlinkt: `noindex` in `build-seo.py`,
+  Menge `UNVERLINKT` in `build-suchindex.py`, keine Karte). Für eine
   Seite aus einem Prüfungs-PDF zusätzlich `HOWTO-uebungspruefung.md` (PDF
   misstrauisch lesen, `probe: true` für die Clips, die `</head>`-Falle, und
   wie ein Prüfungsrahmen wegbleibt, ohne dass die Aufgaben leiden). Die
