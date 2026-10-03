@@ -9,18 +9,18 @@ beide. Bei Widerspruch gilt `STYLEGUIDE.md` §6.5.
 dort entstanden am 30.09.–02.10.2026 und erprobt an `leitprogramme/quadratische-funktionen.html`
 und `lineare-funktionen.html`) und an Physik angepasst. Die frühere technische Physik-Fassung
 («ein Leitprogramm ins Repo holen», 385 Zeilen) ist darin aufgegangen: Ihre zwölf Punkte mit
-Fehlerbild stehen unverändert in §12, ihre Erfahrungen aus den elf bestehenden Leitprogrammen
+Fehlerbild stehen unverändert in §12, ihre Erfahrungen aus den elf klassischen Leitprogrammen
 in §16. Wo die Fassung bewusst von einem Vorgänger abweicht, steht es als **⟂ Entscheid** dabei;
 die Vorgänger stehen in der Git-Geschichte.
 
-**Was für die bestehenden Leitprogramme gilt:** Die **elf Physik-Leitprogramme** bleiben, wie sie
-sind. Sie sind im Format «klassisch» gebaut (§3) — von Hand, ohne Generator, mit HTML-Gesamttest.
+**Was für die bestehenden Leitprogramme gilt:** Die **elf klassischen Physik-Leitprogramme** bleiben,
+wie sie sind. Sie sind im Format «klassisch» gebaut (§3) — von Hand, ohne Generator, mit HTML-Gesamttest.
 Die Fassung gilt für **neue** Leitprogramme. Ob die bestehenden HTML-Gesamttests auf PDF
 umgestellt werden (§9), ist ein **offener Entscheid des Auftraggebers**.
 
 **Vorbild für ein neues Leitprogramm:** `leitprogramme/leitprogramm-elektrizitaet.html`, das erste
 Physik-Leitprogramm nach dem Kapitelmuster (§4), gebaut mit `scripts/lp/elektrizitaet/seite.py`
-(03.10.2026, Erprobung, unverlinkt). Vorbild in Mathe: `leitprogramme/quadratische-funktionen.html`
+(03.10.2026, nach `/lp-pruefung` freigeschaltet; was die Prüfung fand, steht in der Prüfliste §15). Vorbild in Mathe: `leitprogramme/quadratische-funktionen.html`
 und `lineare-funktionen.html`. Ein neues Leitprogramm beginnt mit einer Kopie von
 `scripts/lp/elektrizitaet/` (§5).
 **Vor der Freischaltung:** unabhängige Prüfung nach §15 (`/lp-pruefung`).
@@ -31,7 +31,7 @@ und `lineare-funktionen.html`. Ein neues Leitprogramm beginnt mit einer Kopie vo
 
 | | gegliedert nach | Beispiele | Anleitung |
 |---|---|---|---|
-| **Thema** | dem Stoff: Vorwissen, Kapitel (bzw. Schritte), Gesamttest | `leitprogramm-waermemenge`, `leitprogramm-schaltungen`, `leitprogramm-ideale-gase` | diese Datei |
+| **Thema** | dem Stoff: Vorwissen, Kapitel (bzw. Schritte), Gesamttest | Kapitelmuster: `leitprogramm-elektrizitaet`; klassisch: `leitprogramm-waermemenge`, `leitprogramm-schaltungen` | diese Datei |
 | **Übungsprüfung** | dem Prüfungsbogen: je Aufgabe Clip, Musterlösung, Fehlerkasten | `uebungstest-waermelehre` | `HOWTO-uebungspruefung.md` |
 
 Layout, Kopf, Fuss, Farbtokens und Clip-Bühne sind bei beiden dieselben (§11–§12 gelten
@@ -155,7 +155,7 @@ unterbringen lässt.
   | Format | Kapitel | Gesamt |
   |---|---|---|
   | **Kapitelmuster** (§4; Einführungsclip → Animation → Kontrollclip → Übungen → Aufgaben; Vorbild in Mathe *Quadratische Funktionen*) | 4–5 Kapitel, je 35–45 Minuten — ein Kapitel ≈ eine Lektion | bis 5 Lektionen plus Vorwissen und Gesamttest |
-  | **klassisch** (alle elf heutigen Physik-Leitprogramme) | 4–7 Schritte, je höchstens 30 Minuten | 2–3 Lektionen plus Vorwissen und Gesamttest |
+  | **klassisch** (die elf älteren Physik-Leitprogramme) | 4–7 Schritte, je höchstens 30 Minuten | 2–3 Lektionen plus Vorwissen und Gesamttest |
 
   Ein Kapitel = eine Idee, in beiden Formaten.
 - **Clips:** rund 6–11 Clips, 8–12 Minuten Clipzeit (STYLEGUIDE §6.5).

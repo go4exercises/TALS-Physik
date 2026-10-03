@@ -976,11 +976,12 @@ Hier nur, was für beide Arten nicht verhandelbar ist.
 - **Eintragen an vier Stellen:** Karte in `leitprogramme.html` (zwischen den
   `LEITPROGRAMME`-Markern, unter dem Lerngebiet), Eintrag in `build-seo.py`, Kasten
   «💡 Lieber geführt durcharbeiten?» auf der Themen- bzw. Vorwissenseite;
-  `build-suchindex.py` erfasst `leitprogramme/` von selbst.
+  `build-suchindex.py` erfasst `leitprogramme/` von selbst — ausser den Seiten in seiner
+  Menge `UNVERLINKT`.
 - **Unverlinkt veröffentlichen ist erlaubt — aber nur vollständig.** Soll eine Seite
   ausgeliefert, jedoch nicht gefunden werden (Erprobung vor der Freischaltung, eine
   Übungsprüfung per Link), dann: keine Karte in `leitprogramme.html`, kein Kasten auf der
-  Themenseite, nicht im Suchindex, und in `build-seo.py` ein Eintrag **mit
+  Themenseite, nicht im Suchindex (Pfad in `UNVERLINKT` von `build-suchindex.py`), und in `build-seo.py` ein Eintrag **mit
   `noindex=True`** (nicht das Weglassen — sonst fehlen Beschreibung und canonical).
   `noindex=True` nimmt die Seite aus der Sitemap *und* setzt
   `<meta name="robots" content="noindex, nofollow">`. **Kein `Disallow` in

@@ -74,10 +74,11 @@ Bauanleitung, Stolpersteine und die didaktische Prüfliste stehen in
 
 ## Leitprogramme
 
-Neun **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
+Zwölf **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
 `leitprogramme.html`: Rechnen und Schliessen, Vorwissen (Grössen, Messen,
 Druck), Wärmemenge und Wärmebilanz, Heizen, Dämmen, Umwandeln, Wärmeausdehnung,
-Ideale Gase, Wärme im Experiment, Schaltungen berechnen und der Übungstest
+Ideale Gase, Wärme im Experiment, Schaltungen berechnen, Widerstand, Leistung,
+Energie, Gefahren und Schutzmassnahmen, Elektrizität und der Übungstest
 Wärmelehre. Die meisten bestehen aus Vortest, Lernschritten mit
 Clip, Simulation und Selbstkontrolle sowie einem Kapiteltest unter
 Prüfungsbedingungen; der Fortschritt bleibt auf dem Gerät gespeichert.
@@ -93,6 +94,14 @@ sechs Schritten von der Knoten- und Maschenregel über Reihenschaltung und
 Spannungsteiler zur Parallelschaltung und zu gemischten Netzen, die von innen
 nach aussen zusammengefasst werden — und endet bei der Frage, warum in Reihe die
 40-Watt-Lampe heller leuchtet als die 60-Watt-Lampe.
+
+«Elektrizität» ist das erste nach dem **Kapitelmuster**: Es deckt das ganze
+Teilgebiet 6.2 in fünf Kapiteln ab, und jedes Kapitel läuft gleich — ein Clip zum
+Zuschauen, eine Simulation, die ihre Aufgaben selbst stellt und ✓ zeigt, ein Clip,
+der anhält und fragt, Übungen mit sofortiger Rückmeldung zu typischen Fehlern und
+Aufgaben auf Papier. Der Gesamttest kommt als PDF, mit einem Bewertungspaket, das
+man selbst oder mit einer KI anwenden kann. Die Seite entsteht aus einem Bauskript
+(`scripts/lp/elektrizitaet/`).
 
 Der «Übungstest Wärmelehre» ist der Sonderfall unter ihnen: Seine Gliederung
 kommt nicht aus dem Stoff, sondern aus einem Prüfungsbogen. Fünfzehn Aufgaben,
@@ -203,6 +212,9 @@ Querverweise zwischen den Vorwissenseiten, den Leitprogrammen und den Lerngebiet
 
 Am 13. September 2026 hat die Themenseite 6.2 Elektrizität vier neue Abschnitte und
 zehn Aufgaben bekommen, dazu das achte Leitprogramm «Schaltungen berechnen».
+
+Am 3. Oktober 2026 kam mit «Elektrizität» das erste Leitprogramm nach dem
+Kapitelmuster dazu, samt zehn eigenen Clips, die sich bewegen und Fragen stellen.
 
 Am 14. September 2026 wurde aus «TALS Physik» **«Physik begreifbar»** — der letzte
 Schritt des Umzugs auf die eigene Adresse `physik.begreifbar.ch`, die seit dem

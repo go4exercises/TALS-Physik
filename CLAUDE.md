@@ -133,7 +133,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   JS; doppelte Pixeldichte). Eine Animation mit eigenem Loop vorher anhalten
   (`…Loop.userPaused = true; …Loop.stop()`), sonst startet sie beim
   Hineinscrollen und das Bild zeigt einen anderen Zeitpunkt; kein
-  `scrollIntoView` im Plan — das holt die Kopfzeile mit ins Bild.
+  `scrollIntoView` im Plan — das holt die Kopfzeile mit ins Bild. Knöpfe mit einer
+  `js`-Aktion klicken (`document.querySelector(…).click()`) und jedes Bild ansehen:
+  Am 03.10.2026 griffen Mausklicks nicht, und Bilder zeigten den falschen Zustand.
 - `.claude/tools/build-bilder.mjs` — baut `favicon-32.png`, `apple-touch-icon.png`
   (aus `favicon.svg`) und `og-bild.png` (aus einer HTML-Vorlage im Skript) mit
   Playwright neu. Nur bei Bedarf laufen lassen: die PNGs sind versioniert und
@@ -243,7 +245,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Seit 03.10.2026 kann der Generator (aus Mathe) auch **Koordinatenbilder**
   (`graf`) mit **Bewegung** und **Fragen im Clip** (`fragen`, vorgelesen über
   `scripts/build-clip-fragen-ton.py`); neue Clips nehmen das Theme
-  `begreifbar-schlicht` (ohne Karo und Rand).
+  `begreifbar-schlicht` (ohne Karo und Rand). Eine bewegte Gerade kann mit
+  `"ab"` erst bei einem \(x\) beginnen (keine negative Zeit); der Fehler,
+  durch den bewegte Geraden im Endzustand standen, ist seit 03.10.2026 behoben.
 - `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell zwölf (dazu unten `leitprogramm-elektrizitaet`):
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
@@ -269,7 +273,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   darin), mit den am 27.09.2026 korrigierten Merksätzen. Dazu als Sonderfall `uebungstest-waermelehre` — ein
   **Prüfungsbogen statt eines Stoffgebiets**: fünfzehn Aufgaben, je eine mit
   Aufgabentext, eigenem Erklärclip, Musterlösung und Fehlerkasten, dazu die
-  Darstellungsregeln als roter Faden (16.09.2026). Alle elf starten ihre
+  Darstellungsregeln als roter Faden (16.09.2026). Alle zwölf starten ihre
   Clips über `.clipkarte`
   aus `clips/`; eigener, ins Dokument eingebetteter Ton gehört nicht hinein
   (siehe `HOWTO-leitprogramme.md`, §12 Punkt 11). Vorgehen beim
@@ -278,11 +282,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   angepasst (RLP-Bindung, Planung, Kapitelmuster, Übungen, PDF-Gesamttest,
   Prüfung vor der Freischaltung; die früheren zwölf Punkte mit Fehlerbild in
   §12), verbindlich dahinter STYLEGUIDE §6.5. Gilt für **neue** Leitprogramme;
-  die elf bestehenden bleiben, ob ihre HTML-Gesamttests auf PDF
+  die elf klassischen bleiben, ob ihre HTML-Gesamttests auf PDF
   (`scripts/build-lp-pdf.py`, `downloads/leitprogramme/lp-druck.sty`) umgestellt
   werden, ist offen. Vor der Freischaltung: Skill `/lp-pruefung` (drei
   Prüfagenten; Werkzeuge `.claude/tools/pruef-uebungen.mjs`, `pruef-leiste.mjs`,
-  `pruef-fragen.mjs`, `sprechzeiten.py`). Erstes Leitprogramm nach dem
+  `pruef-fragen.mjs`, `sprechzeiten.py` und `pruef-formelsatz.mjs` — Letzteres setzt
+  die Zufallsübungen mit echtem MathJax, das `pruef-uebungen` abschaltet). Erstes Leitprogramm nach dem
   Kapitelmuster: `leitprogramm-elektrizitaet` (6.2, fünf Kapitel, zehn eigene
   Clips `p6-2-lp-*` mit `probe: true`, Gesamttest als PDF), gebaut mit
   `scripts/lp/elektrizitaet/` (README dort) — freigeschaltet am 03.10.2026 nach

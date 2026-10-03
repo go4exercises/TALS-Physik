@@ -48,7 +48,8 @@ Aufträgen unten; `<…>` aus Schritt 1 einsetzen. Alle drei bekommen denselben 
 > Aufgabenleisten erfüllbar (Reglerraster, Toleranzen) und nicht schon im Startzustand
 > erfüllt? Erzeugen die Zufallsübungen immer lösbare, schöne Aufgaben mit plausiblen
 > Werten und Einheiten, und stimmen ihre Diagnosen — auch bei Sonderwerten (0, ±1)? Lass laufen und werte aus:
-> `node .claude/tools/pruef-uebungen.mjs <S> 2000`, `node .claude/tools/pruef-leiste.mjs <S>`;
+> `node .claude/tools/pruef-uebungen.mjs <S> 2000`, `node .claude/tools/pruef-leiste.mjs <S>`,
+> `node .claude/tools/pruef-formelsatz.mjs <S>` (Formelsatz der Übungen mit echtem MathJax);
 > prüfe Diagnosen darüber hinaus selbst (node, viele Zufallsfälle). Didaktik: Reihenfolge
 > erfahren → verallgemeinern, nichts abgefragt, was nicht eingeführt ist, Passung zu
 > Lernzielen und RLP-Kompetenzen, Begriffe und Farben einheitlich, Widersprüche zur
@@ -62,6 +63,9 @@ Aufträgen unten; `<…>` aus Schritt 1 einsetzen. Alle drei bekommen denselben 
 > Antwort schon im Bild? Sind die als richtig markierten Antworten richtig, die falschen
 > eindeutig falsch, die Rückmeldungen zutreffend und ohne die Lösung zu verraten, Text =
 > gesprochener Text? Lass `node .claude/tools/pruef-fragen.mjs <Kontrollclips>` laufen.
+> Steht beim Fragebeginn (0.3 s der Szene) schon etwas im Bild, das die Antwort zeigt, und
+> bewegt sich jede `bewegung` wirklich (Bild mitten in der Bewegung)? Zeigen aufgenommene
+> Simulationsbilder den Zustand, den der Ton beschreibt?
 > Bilder an kritischen Stellen: `SP=<scratchpad>/lp-pruefung node .claude/tools/pruef-clip.mjs
 > clips/<name>.html <sekunden…>` und die PNGs ansehen (Fragen, Merkbilder, Schlussbilder).
 

@@ -50,8 +50,10 @@ Für die Tiefen-Checks (MathJax-Render + JS-Laufzeit) einmalig im Repo-Root:
 `npm install mathjax-full jsdom`. Ohne diese Module laufen nur die schnellen Eigen-Checks;
 die Tiefen-Checks werden mit `[WARN]` übersprungen (kein Blocker).
 Die Browser-Werkzeuge in `.claude/tools/` (`render-check.mjs`, `scan-live.mjs`,
-`pruef-clip.mjs`, `pruef-mathjax.mjs`, `build-bilder.mjs`) laufen unter Node, nicht
-unter Python. `playwright` steht in den `devDependencies`, ein `npm install` im
+`pruef-clip.mjs`, `pruef-mathjax.mjs`, `build-bilder.mjs`, `aufnahme-anim.mjs` und für
+die Leitprogramme `pruef-uebungen.mjs`, `pruef-leiste.mjs`, `pruef-fragen.mjs`,
+`pruef-formelsatz.mjs`) laufen unter Node, nicht unter Python; `sprechzeiten.py`
+braucht `numpy` und `soundfile`. `playwright` steht in den `devDependencies`, ein `npm install` im
 Repo-Root genügt also; die Browser-Binärdatei kommt einmalig mit
 `npx playwright install chromium` dazu.
 

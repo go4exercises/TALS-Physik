@@ -204,7 +204,10 @@ dort wie in `clips.html` in Bernstein ab; vor jeder solchen Zeile führt der Lin
 
 `bild` nimmt auch JPG und PNG: Aufnahmen der Animation selbst, gemacht mit
 `node .claude/tools/aufnahme-anim.mjs <plan.json>` (Zustände per Klick,
-Reglerwert oder JS-Aufruf, doppelte Pixeldichte, JPEG). Das zeigt im Clip
+Reglerwert oder JS-Aufruf, doppelte Pixeldichte, JPEG). Knöpfe lieber mit einer
+`js`-Aktion auslösen (`document.querySelector(…).click()`): Im Leitprogramm
+Elektrizität griffen die Mausklicks nicht, und zwei Clips bekamen Bilder im falschen
+Zustand. **Jedes aufgenommene Bild ansehen**, bevor es in einen Clip geht. Das zeigt im Clip
 genau das Bild, das auf der Seite steht; eine eigene SVG-Skizze lohnt nur,
 wo die Animation etwas nicht zeigen kann.
 
@@ -212,8 +215,9 @@ wo die Animation etwas nicht zeigen kann.
 
 *Aus Mathe begreifbar übernommen (03.10.2026), samt `bewegung`, `fragen` und dem Theme
 `begreifbar-schlicht`; der Generator ist in beiden Repos derselbe (`scripts/abgleich.py`,
-KERN). In Physik nutzt bisher kein Drehbuch den `graf` — die Beispiele unten stammen aus
-Mathe und zeigen das Format. Die Typen `boxplot` und `rechner` (TI-30X-Anzeige) kennt
+KERN). In Physik nutzen ihn die Clips `p6-2-lp-*` des Leitprogramms Elektrizität
+(Q-t- und R-l-Geraden mit `bewegung`, Kontrollclips mit `fragen`); die Beispiele unten stammen
+aus Mathe und zeigen das Format. Die Typen `boxplot` und `rechner` (TI-30X-Anzeige) kennt
 der Generator ebenfalls; sie sind Mathe-Stoff und dort in `HOWTO-clips.md` beschrieben.*
 
 Für Clips, die eine Gerade zeigen müssen. Kein Diagrammwerkzeug, nur so viel, wie ein
@@ -318,7 +322,17 @@ Begleiter der bewegten Geraden — alle aus derselben Zeit gerechnet, alle mit `
 | `"laeufer": {"bahn": [[t, x], …], "text": "{x} \| {y}"}` | Punkt, der auf der Geraden fährt |
 | `"dreieck": {"x": -3, "dx": 2}` | mitlaufendes Steigungsdreieck ab \(x\), mit «Δx = …» und «Δy = …» |
 
-In `text` gibt es zusätzlich `{m}` und `{q}`. Die Beschriftung setzt sich selbst auf die
+In `text` gibt es zusätzlich `{m}` und `{q}`.
+
+**`"ab": x`** (seit 03.10.2026, Physik) lässt eine bewegte Gerade erst bei diesem \(x\)
+beginnen — eine \(Q\)-\(t\)- oder \(R\)-\(l\)-Gerade hat keinen Teil bei negativer Zeit
+oder Länge. Ohne das Feld reicht sie wie bisher über das ganze Fenster. Begleiter links von
+`ab` werden ausgeblendet.
+
+**Prüfbild bei jeder Frage ansehen.** Bis zum 03.10.2026 lasen bewegte Geraden ihre
+Startzeit falsch und standen sofort im Endzustand — die Drehbücher waren richtig, nur die
+Bilder nicht. Ein Bild bei 0.3 s jeder Fragenszene und eines mitten in jeder Bewegung zeigt
+so etwas sofort (`pruef-clip.mjs`, Zeiten aus `sprechzeiten.py`). Die Beschriftung setzt sich selbst auf die
 Seite, auf der die Gerade *nicht* verläuft (bei \(m \gt 0\) unter den Punkt, sonst darüber) —
 eine freie Stelle von Hand suchen muss man nur bei **festen** Punkten.
 
