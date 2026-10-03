@@ -64,7 +64,7 @@ danach sitzt das Bild nicht auf der Sprache.
 | `reihe` / `folge` | didaktische Familie und Platz darin; Clips einer Reihe stehen beieinander |
 | `lektion` | **Liste** von Codes aus `nav.js` — auf diesen Seiten erscheint der Clip |
 | `themenbereich` | steht klein rechts oben im Bild, z. B. `Thermodynamik · BM` |
-| `theme` | `begreifbar` (Standard in diesem Projekt), sonst `heft`, `tafel`, `papier` |
+| `theme` | `begreifbar-schlicht` für neue Clips (ohne Karo und Rand, seit 03.10.2026; siehe unten), `begreifbar` in den bestehenden, sonst `heft`, `tafel`, `papier` |
 | `stufe`, `schlagworte` | für Suche und Filter |
 | `nachlauf` | Standzeit nach der letzten Einblendung; in diesem Projekt `4.0` |
 | `probe: true` | baut den Clip, hält ihn aber aus `clips.json` heraus — für Versuche |
@@ -179,6 +179,7 @@ steht dort Dekoration.
 | `liste` | nummerierte Merkliste, braucht `punkte: [...]` | — |
 | `strich` | roter Unterstreichungsstrich | — |
 | `bild` | fertige SVG-Skizze, `datei` relativ zu `clips/` (z. B. `bilder/fi-normal.svg`) | — |
+| `graf` | Koordinatenbild mit Geraden, Parabeln, Kurven, Punkten — auch bewegt (siehe unten) | — |
 
 Gemeinsame Felder: `abstand` (Abstand zur nächsten Zeile in Pixel), `groesse`,
 `anim` (`rise`, `pop`, `fade`, `wipe`), `ein` (Sekunde in der Szene; ohne Angabe
@@ -206,6 +207,263 @@ dort wie in `clips.html` in Bernstein ab; vor jeder solchen Zeile führt der Lin
 Reglerwert oder JS-Aufruf, doppelte Pixeldichte, JPEG). Das zeigt im Clip
 genau das Bild, das auf der Seite steht; eine eigene SVG-Skizze lohnt nur,
 wo die Animation etwas nicht zeigen kann.
+
+### Koordinatenbild — `typ: "graf"`
+
+*Aus Mathe begreifbar übernommen (03.10.2026), samt `bewegung`, `fragen` und dem Theme
+`begreifbar-schlicht`; der Generator ist in beiden Repos derselbe (`scripts/abgleich.py`,
+KERN). In Physik nutzt bisher kein Drehbuch den `graf` — die Beispiele unten stammen aus
+Mathe und zeigen das Format. Die Typen `boxplot` und `rechner` (TI-30X-Anzeige) kennt
+der Generator ebenfalls; sie sind Mathe-Stoff und dort in `HOWTO-clips.md` beschrieben.*
+
+Für Clips, die eine Gerade zeigen müssen. Kein Diagrammwerkzeug, nur so viel, wie ein
+Clip braucht: Achsen mit Teilung, Geraden über Steigung und Achsenabschnitt, markierte
+Punkte. Gezeichnet wird als SVG in den Theme-Farben.
+
+```json
+{"typ": "graf", "breite": 800, "hoehe": 620, "abstand": 650,
+ "xbereich": [-1, 5], "ybereich": [-1, 8],
+ "geraden": [{"m": -2, "q": 7, "farbe": 1, "beschriftung": "y = −2x + 7",
+              "beschriftung_bei": [3.55, 1.15]},
+             {"m": 2, "q": 1, "farbe": 2, "gestrichelt": true, "dicke": 9}],
+ "punkte":  [{"x": 2, "y": 3, "farbe": 3, "beschriftung": "S(2 | 3)"}]}
+```
+
+Parabeln gehen genauso, als `parabeln` mit `a`, `b`, `c` für \(y = ax^2+bx+c\) —
+gezeichnet als Streckenzug, der ausserhalb des Fensters abbricht und danach wieder
+einsetzt.
+
+Die Geraden werden **am Fenster** abgeschnitten, nicht an ihren Endpunkten — eine
+Gerade, die aus dem Bild läuft, hört am Rand auf statt an einer willkürlichen Stelle
+davor. `farbe` ist 1 bis 4 wie bei den Farbgruppen.
+
+**`beschriftung_bei` gibt es für alle drei** — Geraden, Parabeln und Punkte. Ohne die
+Angabe steht die Beschriftung eines Punktes rechts über ihm, und genau dort liegt am
+Scheitel einer Parabel die Achsenbeschriftung. Die Koordinaten sind Datenkoordinaten,
+nicht Pixel:
+
+```json
+"punkte": [{"x": 2, "y": -1, "farbe": 3,
+            "beschriftung": "S(2 | −1)", "beschriftung_bei": [2.35, -1.35],
+            "anker": "start"}]
+```
+
+**Die freie Stelle ausrechnen, nicht schätzen.** Vor dem Setzen kurz prüfen, wo die
+Kurve an dieser Stelle verläuft — bei `y = x²` liegt die Kurve an `x = 1.35` auf `1.82`,
+ein Label bei `7.6` ist also frei. Vier Kollisionen sind auf diese Weise entstanden und
+erst im Bild aufgefallen, nicht in der Prüfung.
+
+### Theme `begreifbar-schlicht` — Standard für neue Clips (in Physik seit 03.10.2026)
+
+Wie `begreifbar`, aber **ohne Häuschenpapier und ohne roten Rand** (`karo: false`,
+`rand: false`). Karo und Koordinatengitter eines `graf` stören sich, besonders in Bewegung.
+Neue Clips setzen `"theme": "begreifbar-schlicht"`; bestehende bleiben, wie sie sind.
+Das Theme kennt eine fünfte Farbe: `farbe: 5` ist Tinte, also «ungefärbt» — für Punkte und
+Begleiter im `graf`, die keine der Termfarben tragen sollen (Nullstellen, \((0 \mid c)\),
+gegebene Punkte). Farbe 1 ist in Physik Bernstein. (Vorbild in Mathe: In den Clips `g3-3-lp-*` gilt
+durchgehend 1 = \(a\), 2 orange = \(x_s\), 3 grün = \(y_s\) bzw. Scheitel.)
+
+### Achsen mit Pfeil und Namen: `pfeile`, `xname`, `yname` (seit 02.10.2026)
+
+`"pfeile": true` setzt Pfeilspitzen in positiver Richtung; `"xname"`/`"yname"` ersetzen die
+Beschriftung «x»/«y» — bei Anwendungen mit Grösse und Einheit: `"xname": "x [m]", "yname": "A [m²]"`.
+Benannte Achsen werden zuletzt gezeichnet, mit einem Hof in der Papierfarbe, damit eine Kurve sie
+nicht überdeckt. Ohne die Felder bleibt das Bild wie bisher (bestehende Clips bauen gleich).
+Für neue Clips mit Koordinatenbild: `pfeile` immer setzen.
+
+### Bewegte Parabel und Gerade im `graf`: `bewegung` (seit 02.10.2026)
+
+Statt eines festen Bildes je Szene kann eine Parabel **während der Szene gleiten**:
+
+```json
+{"typ": "graf", "xbereich": [-4, 5], "ybereich": [-4, 6], "parabeln": [
+  {"a": 1, "gestrichelt": true, "dicke": 3},
+  {"bewegung": [[0.8, 1, 0, 0], [3.6, 1, 0, 2]], "farbe": 1, "scheitel": {"farbe": 3}}]}
+```
+
+`bewegung` ist eine Liste von Stützpunkten `[t, a, u, v]` für \(y = a(x-u)^2 + v\), `t` in
+Sekunden **ab Szenenbeginn**. Dazwischen weich überblendet (smoothstep), vor dem ersten und
+nach dem letzten Punkt steht die Parabel still. Ein einziger Stützpunkt ergibt eine stehende
+Parabel, an der sich trotzdem Begleiter bewegen können.
+
+Begleiter — alle aus derselben Zeit gerechnet, alle mit `farbe`:
+
+| Schlüssel | zeigt |
+|---|---|
+| `"scheitel": {}` | Scheitelpunkt mit mitlaufender Beschriftung «S(u \| v)» |
+| `"nullstellen": {}` | die beiden Nullstellen; sie laufen zusammen und verschwinden, wenn die Parabel die Achse verlässt; mit `"beschriftung": true` steht «(x \| 0)» daneben |
+| `"yachse": {}` | den \(y\)-Achsenabschnitt mit «(0 \| c)» |
+| `"marken": [{"x": 0, "text": "h(0) = {y}"}]` | Punkt an festem \(x\) mit Live-Wert |
+| `"laeufer": {"bahn": [[t, x], …], "text": "A = {y}", "spiegel": true}` | Punkt, der auf der Kurve fährt; `spiegel` zeigt blass den Partner bei \(2u - x\) |
+
+In `text` stehen `{x}` und `{y}` für die laufenden Werte (eine Nachkommastelle, echtes
+Minus).
+
+**Geraden bewegen sich genauso** (seit 03.10.2026). Der Stützpunkt ist `[t, m, q]` für
+\(y = m x + q\); gezeichnet wird die am Fenster abgeschnittene Strecke:
+
+```json
+{"typ": "graf", "xbereich": [-4, 5], "ybereich": [-5, 6], "geraden": [
+  {"m": 2, "q": 0, "gestrichelt": true, "farbe": 5, "dicke": 3},
+  {"bewegung": [[0.8, 2, 0], [3.4, 2, 3]], "farbe": 1, "yachse": {"farbe": 2}}]}
+```
+
+Begleiter der bewegten Geraden — alle aus derselben Zeit gerechnet, alle mit `farbe`:
+
+| Schlüssel | zeigt |
+|---|---|
+| `"yachse": {}` | den \(y\)-Achsenabschnitt mit «(0 \| q)»; `"beschriftung": false` lässt den Text weg |
+| `"nullstelle": {}` | die Nullstelle mit «(x \| 0)»; verschwindet bei \(m = 0\) |
+| `"marken": [{"x": 2, "text": "f(2) = {y}"}]` | Punkt an festem \(x\) mit Live-Wert |
+| `"laeufer": {"bahn": [[t, x], …], "text": "{x} \| {y}"}` | Punkt, der auf der Geraden fährt |
+| `"dreieck": {"x": -3, "dx": 2}` | mitlaufendes Steigungsdreieck ab \(x\), mit «Δx = …» und «Δy = …» |
+
+In `text` gibt es zusätzlich `{m}` und `{q}`. Die Beschriftung setzt sich selbst auf die
+Seite, auf der die Gerade *nicht* verläuft (bei \(m \gt 0\) unter den Punkt, sonst darüber) —
+eine freie Stelle von Hand suchen muss man nur bei **festen** Punkten.
+
+Gezeichnet wird im Abspieler, **allein aus der Zeit**: `seek(t)` wird nur in Clips mit
+`bewegung` um `bewegen(t)` erweitert (`BEWEGUNG_JS` in `build-clips.py`). Darum stimmen
+Pause, Spulen und die Bilder von `pruef-clip.mjs` — ein Prüfbild mitten in der Bewegung
+zeigt den Zwischenstand. Alle anderen Clips bleiben beim Neubau Byte für Byte gleich.
+«Bewegung reduzieren» im Betriebssystem lässt die Parabel von Stützpunkt zu Stützpunkt
+springen statt gleiten.
+
+**Stützpunkte an den Sprechertext legen:** Die Bewegung soll laufen, während der Satz sie
+nennt — die Zeiten nach der Vertonung aus der Szenendauer wählen. Bewegungen von 2–3 s
+wirken ruhig, unter 1 s hektisch. Geht \(a\) durch 0 (Umklappen), ist die Parabel
+kurz eine Gerade — das ist gewollt und zeigt, was dabei passiert.
+
+Im Einsatz (in Mathe): die fünf Clips `g3-3-lp-*` («Parabel sehen», Leitprogramm
+Quadratische Funktionen) und die acht Clips `g3-2-lp-*` («Gerade sehen», Leitprogramm
+Lineare Funktionen). Noch nicht: bewegte freie Kurven, Live-Zahlen in Formelzeilen.
+**Formelzeile und Bewegung abstimmen:** Nennt die Formel links schon den Endwert, soll die
+Bewegung früh und kurz sein (unter 2 s) — sonst steht im Text etwas anderes als im Bild.
+
+### Fragen im Clip: `fragen` (Prototyp 02.10.2026)
+
+Ein Clip kann **anhalten und fragen**, bevor der Sprecher die Auflösung nennt — die
+Voraussage (predict–observe–explain) wandert in den Clip selbst:
+
+```json
+"fragen": [
+  {"szene": "u schiebt", "bei": 0.35, "typ": "wahl",
+   "text": "Gleich steht in der Klammer x − 2. Wohin wandert die Parabel?",
+   "optionen": ["2 nach links", "2 nach rechts", "2 nach unten"], "richtig": 1,
+   "rueck": {"0": "Das denken die meisten — wegen des Minus. Schau genau hin …"}},
+  {"szene": "Zusammen", "bei": 0.38, "typ": "klick",
+   "text": "y = (x − 2)² − 1: Wo landet der Scheitel? Tipp die Stelle ins Bild.",
+   "ziel": [2, -1], "toleranz": 0.6, "richtig_text": "Getroffen …",
+   "fallen": [{"bei": [-2, -1], "text": "Das Minus in der Klammer heisst rechts …"}],
+   "falsch_text": "Nicht ganz …"}
+]
+```
+
+- `bei` ist die Sekunde **ab Szenenbeginn** — vor `sprecher_bei` (0.4) legen, sonst
+  bricht der Satz mitten im Wort ab.
+- **Richtig → der Clip rollt sofort weiter** (kurzes ✓, keine Ansage). Nur eine falsche
+  Antwort zeigt die Erklärung, liest sie vor und wartet auf «Weiter». Darum werden die
+  Rückmeldungen zu richtigen Antworten nicht vertont (`fragen_texte()` lässt sie aus).
+- `wahl`: Knöpfe, `rueck` gibt **je Antwort** eine eigene Rückmeldung. Bei einer
+  falschen Voraussage die Lösung nicht verraten, sondern aufs Hinschauen lenken — der
+  Clip löst sie gleich danach auf.
+- `klick`: Tippen ins bewegte Bild der Szene (braucht ein `graf` mit `bewegung` —
+  Parabel oder Gerade —, denn dessen Fenster rechnet den Tipp in Koordinaten um). `fallen` sind typische falsche
+  Stellen mit eigener Rückmeldung; ein grüner Kreis zeigt danach die richtige Stelle.
+- Der Clip hält nur beim **Abspielen** an. Spulen erkennt `FRAGEN_JS` ausdrücklich
+  (Klick auf die Zeitleiste, ← →), nicht am Zeitabstand zweier Bilder: Ein Sprung an
+  einer Frage vorbei löst sie nicht aus, eine beantwortete Frage kommt beim Zurückspulen
+  nicht wieder. Springt dagegen ein *Bild* über eine Frage (langsames Laden,
+  Hintergrund-Tab), wird sie gestellt und der Clip an ihre Stelle zurückgesetzt.
+  **R** und ein Sprung vor die erste Frage sind ein Neustart: offene Frage, Markierungen
+  und Frage-Ton weg, alle Fragen wieder offen. Eine nur weggespulte, unbeantwortete
+  Frage bleibt offen. Im Prüfmodus (`?render`, `pruef-clip.mjs`) gibt es keine Fragen.
+- Wie `bewegung` nur in Clips mit `fragen` eingebaut (`FRAGEN_JS`); alle anderen bleiben
+  Byte für Byte gleich.
+- **Vorlesen:** Frage und Rückmeldung spricht dieselbe Stimme wie der Clip, sobald sie
+  erscheinen — aber nur, wenn der Ton des Clips an ist. Erzeugt werden die Dateien
+  getrennt von der Haupttonspur:
+  ```sh
+  python3 scripts/build-clip-fragen-ton.py <clip>   # je Text clips/ton/<clip>-f<i>-<schluessel>.mp3
+  python3 scripts/build-clips.py <clip>             # danach: der Clip nimmt nur vorhandene Dateien auf
+  ```
+  Gesprochen wird der Wortlaut aus `sprich`, `rueck_sprich` (je Option), `richtig_sprich`,
+  `falsch_sprich` und `fallen[].sprich` — wie beim Sprechertext ausgeschrieben («x minus
+  zwei», nicht «x − 2»). Fehlt er, liest die Stimme den angezeigten Text. Welche Texte es
+  gibt, steht an einer Stelle (`fragen_texte()` in `build-clips.py`); das Ton-Skript und der
+  Abspieler benutzen dieselbe Liste. Das Skript stammt aus Mathe, steht nicht in `abgleich.py` und
+  benutzt `sprich()` und `aussprache()` aus dem geteilten `build-clip-ton.py`, ohne es
+  zu ändern. Stimme wie beim Clip: `de_DE-thorsten-high` (`PIPER_MODELL` setzen).
+- **Lokal testen:** `python3 -m http.server` kann keine Bereichsanfragen; darum springt
+  der Ton beim Spulen auf den Anfang zurück. Auf GitHub Pages tritt das nicht auf.
+
+Im Einsatz (in Mathe): `g3-3-lp-verschieben` (drei Fragen) und die vier Kontrollclips
+`g3-2-lp-kontrolle-*` (je fünf, `wahl` und `klick` gemischt). Prüfen:
+`node .claude/tools/pruef-fragen.mjs clips/<name>.html`.
+
+### Kurven im `graf`: `kurven`, `xteilung`/`yteilung`, `von`/`bis`
+
+Bis zum 07.09.2026 konnte ein `graf` nur Geraden, Parabeln und Punkte. Für die Reihe zu
+den trigonometrischen Funktionen kamen drei Dinge dazu.
+
+**`kurven` zeichnet \(y = f(x)\) als Streckenzug.** Im Drehbuch steht die Formel, keine
+Punktliste:
+
+```json
+{"typ": "graf", "kurven": [
+  {"formel": "sin(x)", "farbe": 1, "beschriftung": "y = sin x", "beschriftung_bei": [1.8, 1.35]},
+  {"formel": "3*sin(2*x-pi/2)", "farbe": 2}
+]}
+```
+
+Erlaubt sind `sin cos tan asin acos atan sqrt exp log abs` sowie `pi` und `e` — mehr
+nicht. Ein Drehbuch beschreibt eine Kurve, es rechnet nicht.
+
+**Lücken entstehen von selbst.** Wo die Formel keinen Wert liefert oder der Wert aus dem
+Fenster läuft, bricht der Streckenzug ab und beginnt danach neu. Genau daran entstehen
+die Polstellen der Tangenskurve — im Drehbuch steht kein Wort über Pole.
+
+**`xteilung` / `yteilung` ersetzen die ganzen Zahlen an der Achse.** Eine Sinuskurve
+gehört bei \(\pi/2\) geteilt, nicht bei 1, 2, 3. Paare aus Stelle und Beschriftung; die
+Beschriftung ist Text, denn das SVG kennt kein LaTeX — also `π/2`, nicht `\tfrac{\pi}{2}`:
+
+```json
+"xteilung": [[0, "0"], [1.5708, "π/2"], [3.1416, "π"]]
+```
+
+Das Karo folgt der Teilung mit; sonst stünde das Raster bei ganzen Zahlen und die Striche
+bei Vielfachen von \(\pi\).
+
+**`von` / `bis` begrenzen eine Kurve auf ein Stück des Fensters.** Gebraucht für
+Hilfslinien: Eine Mittellinie `{"formel": "35", "von": 0, "bis": 24.6}` läuft sonst über
+die Achsenbeschriftung am linken Rand — im Bild sichtbar, für den Prüfer unsichtbar.
+
+**Zwei Fallstricke, beide beim Bau dieser Reihe bezahlt:**
+
+1. **`abstand` bei einem `graf` ist die Bildhöhe plus rund 30**, kein Zeilenabstand. Mit
+   `abstand: 120` unter einem 560 px hohen Bild überlappt die nächste Zeile um 62 px.
+   Die Konvention der bestehenden Clips: `hoehe + 30`.
+2. **Farbkopplung prüfen.** `farbe: 3` im `graf` und `\fc{…}` im Text sind dieselbe
+   Farbe — beide greifen auf `farben` des Themes zu (1 bernstein, 2 orange, 3 grün, 4 rot).
+   Wer im Text `\fd{v}` schreibt und die zugehörige Linie mit `farbe: 3` zeichnet,
+   koppelt falsch. Der Prüfer sieht das nicht; im Bild fällt es sofort auf.
+
+**Und: die Bedingungsleiste verträgt keine hohe Szene.** Trägt das Drehbuch eine
+`voraussetzung`, bricht der Bau ab, wenn eine Szene mit `oben < 170` beginnt. Bei einer
+Szene mit grossem Bild ist die Versuchung gross, `oben` klein zu setzen — dann lieber die
+Bildhöhe verkleinern.
+
+**Der senkrechte Strich `|` bricht im Fliesstext die Zeile.** Wer in einer Notiz
+\(2|a|\) schreiben will, packt es in `@…@` — dort ist der Strich geschützt. Sonst steht
+die Hälfte des Satzes auf einer neuen Zeile und die Betragsstriche sind weg.
+
+**`abstand` von Hand setzen**, sonst überschreibt die nächste Zeile das Bild: Der
+senkrechte Fluss nimmt ohne Angabe `hoehe` als Abstand, und dann beginnt die nächste
+Zeile genau an der Unterkante. Faustregel: `hoehe` plus 30.
+
+In einer Szene mit Merkschiene ist das Bild **nicht** zentriert (dort ist nichts
+zentriert) — es steht bei `x`, standardmässig 680. Ein eigenes `x` richtet es an den
+Formelzeilen darüber aus.
 
 ### Formeln und Farben
 

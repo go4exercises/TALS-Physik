@@ -85,7 +85,7 @@ GRUNDLINIE = {
     'feedback.html': 0.977,
     'LICENSE': 0.955,
     'scripts/build-suchindex.py': 0.962,
-    'scripts/build-clips.py': 0.836,
+    'scripts/build-clips.py': 0.980,
     'scripts/build-clips-einbau.py': 0.830,
     'scripts/build-clip-ton.py': 1.000,
     'scripts/build-seo.py': 0.533,
@@ -125,24 +125,28 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Mathe', was='Leitprogramm-Erstellung nach dem heutigen Muster (abgenommen 03.10.2026)',
-         wie='Vier Bloecke, Einzelheiten mit Zeilenzahlen in TODO-schwesterprojekt.md: '
-             '(1) scripts/build-clips.py — "bewegung" fuer parabeln UND geraden samt BEWEGUNG_JS '
-             '(144 Z.) und "fragen" samt FRAGEN_JS (145 Z.); dazu clips/themes/begreifbar-schlicht.json, '
-             'scripts/build-clip-fragen-ton.py (77 Z.). Physik nutzt den "graf" heute in keinem '
-             'seiner 234 Drehbuecher — der Uebertrag haelt nur das Werkzeug gleich. '
-             '(2) HOWTO-leitprogramme.md Gesamtfassung (599 Z.) statt der alten technischen '
-             'Fassung (Physik 385 Z.) und ein STYLEGUIDE §6.5 (in Physik nicht vorhanden). '
-             '(3) Kapitelmuster als Bauskript: scripts/lp/<thema>/ mit seite.py, seite.js, '
-             'grafgeom.py, pruef-graf.py — kein reiner Uebertrag, entsteht am ersten '
-             'Physik-Leitprogramm. (4) Pruefung vor der Freischaltung: Skill lp-pruefung (90 Z.) '
-             'und .claude/tools/pruef-uebungen.mjs, pruef-leiste.mjs, pruef-fragen.mjs, '
-             'sprechzeiten.py (366 Z. zusammen) — in Physik fehlen alle vier. '
-             'Empfohlene Reihenfolge: (2), (4), dann (1) und (3) zusammen am ersten Leitprogramm. '
-             'Nach (1) ist build-clips.py KERN wieder vergleichbar; die Grundlinie 0.836 steigt '
-             'erst, wenn beide Repos dieselbe Fassung tragen.'),
+    dict(quelle='Mathe', was='Leitprogramm-Erstellung: nur noch das Kapitelmuster (Rest uebernommen 03.10.2026)',
+         wie='(3) Kapitelmuster als Bauskript: scripts/lp/<thema>/ mit seite.py, seite.js, '
+             'grafgeom.py, pruef-graf.py — kein reiner Uebertrag, entsteht am ersten neuen '
+             'Physik-Leitprogramm (HOWTO-leitprogramme.md §4). (1), (2) und (4) sind in Physik '
+             'seit 03.10.2026: build-clips.py mit bewegung/fragen (KERN 0.982), Theme '
+             'begreifbar-schlicht, build-clip-fragen-ton.py, build-lp-pdf.py + lp-druck.sty, '
+             'HOWTO-leitprogramme Gesamtfassung, STYLEGUIDE §6.5, Skill lp-pruefung und die vier '
+             'Pruefwerkzeuge.'),
+    dict(quelle='Physik', was='TODO-schwesterprojekt.md abraeumen, Grundlinie build-clips.py (03.10.2026)',
+         wie='(1) In TODO-schwesterprojekt.md vier Eintraege loeschen, alle in Physik umgesetzt: '
+             '«Zwei Styleguide-Regeln uebernehmen» (30.09.; Physik STYLEGUIDE §2.6a und §5.5, '
+             'Ausnahme fuer p0-1, p0-2, p6-2 in §4.3 — p6-2-prototyp-layout gibt es nicht mehr), '
+             '«build-clips.py: bewegte Parabel und Fragen im Clip» (02.10.), «Drei Werkzeuge aus '
+             'dem Leitprogramm Quadratische Funktionen» (02.10.; ob Physiks HTML-Gesamttests auf '
+             'PDF umgestellt werden, entscheidet der Auftraggeber in Physik) und «Die '
+             'Leitprogramm-Erstellung als Ganzes» (03.10.; offen ist nur das Kapitelmuster, es '
+             'steht oben in OFFEN). Danach meldet Physiks Pre-Flight kein todo-schwester mehr. '
+             '(2) Grundlinie build-clips.py auf 0.980 nachtragen (diese Datei uebernehmen). '
+             'Physiks Fassung ist Mathes vom 03.10.2026 plus die Physik-Eigenheiten '
+             '(Textbreite aus `breite`, `mitnehmen`, Bedingungsleisten-Pruefung vor den Elementen); '
+             'das Feld "werkzeug" im Index fehlt in Physik bewusst (keine Rechner-Clips).'),
 ]
-
 FACH = {
     'nav.js': 'Seitenbaum und Lerngebiete — je Fach ein anderer.',
     'style.css': 'Leitfarbe Bernstein gegen Blau, eigene Bausteine je Fach.',

@@ -240,6 +240,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   dreissig Darstellungsfehler zum Vorschein — sie werden an der Animation
   behoben, nicht im Clip umgangen.
   Bauanleitung, Stolpersteine und die didaktische Prüfliste: `HOWTO-clips.md`.
+  Seit 03.10.2026 kann der Generator (aus Mathe) auch **Koordinatenbilder**
+  (`graf`) mit **Bewegung** und **Fragen im Clip** (`fragen`, vorgelesen über
+  `scripts/build-clip-fragen-ton.py`); neue Clips nehmen das Theme
+  `begreifbar-schlicht` (ohne Karo und Rand).
 - `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell elf:
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
@@ -268,10 +272,18 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Darstellungsregeln als roter Faden (16.09.2026). Alle elf starten ihre
   Clips über `.clipkarte`
   aus `clips/`; eigener, ins Dokument eingebetteter Ton gehört nicht hinein
-  (siehe `HOWTO-leitprogramme.md`, Punkt 11). Vorgehen beim
+  (siehe `HOWTO-leitprogramme.md`, §12 Punkt 11). Vorgehen beim
   Übertrag einer fremden Datei **und** beim Schreiben einer neuen:
-  `HOWTO-leitprogramme.md` (zwölf Punkte,
-  je mit dem Fehlerbild, an dem man merkt, dass der Punkt fehlt); für eine
+  `HOWTO-leitprogramme.md` — seit 03.10.2026 Mathes Gesamtfassung, an Physik
+  angepasst (RLP-Bindung, Planung, Kapitelmuster, Übungen, PDF-Gesamttest,
+  Prüfung vor der Freischaltung; die früheren zwölf Punkte mit Fehlerbild in
+  §12), verbindlich dahinter STYLEGUIDE §6.5. Gilt für **neue** Leitprogramme;
+  die elf bestehenden bleiben, ob ihre HTML-Gesamttests auf PDF
+  (`scripts/build-lp-pdf.py`, `downloads/leitprogramme/lp-druck.sty`) umgestellt
+  werden, ist offen. Vor der Freischaltung: Skill `/lp-pruefung` (drei
+  Prüfagenten; Werkzeuge `.claude/tools/pruef-uebungen.mjs`, `pruef-leiste.mjs`,
+  `pruef-fragen.mjs`, `sprechzeiten.py`). Das Bauskript `scripts/lp/` fehlt
+  noch — es entsteht am ersten neuen Leitprogramm. Für eine
   Seite aus einem Prüfungs-PDF zusätzlich `HOWTO-uebungspruefung.md` (PDF
   misstrauisch lesen, `probe: true` für die Clips, die `</head>`-Falle, und
   wie ein Prüfungsrahmen wegbleibt, ohne dass die Aufgaben leiden). Die

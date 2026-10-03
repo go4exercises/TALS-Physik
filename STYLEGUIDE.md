@@ -162,6 +162,15 @@ Im JS-Code von Themenseiten als globale `const` gleich am Anfang der `<script>`-
 - Signifikante Stellen: in der BM üblicherweise **3 Stellen** Genauigkeit. Endergebnisse passen ihr Stellenwerk an die Eingangsdaten an.
 - Vorzeichen: bei negativen Werten Unicode-Minus `−` (U+2212) in Live-Anzeigen verwenden, nicht ASCII-Bindestrich `-`. Die `fmtS()`-Funktion in `physiklib.js` macht das automatisch.
 
+### 2.6a Aufzählende Mengen mit Strichpunkt (verbindlich seit 30.09.2026)
+
+Aus Mathe begreifbar übernommen (dort §2.11, Entscheid Auftraggeber 30.09.2026). Die
+Elemente einer aufzählenden Menge trennt ein **Strichpunkt**, wie die Wertepaare in den
+Live-Anzeigen (§2.1): `\(\{3;\,4\}\)`, in JS-Text `{ 3; 4 }` — nicht `\{3,\,4\}`. Das
+Komma bleibt der Aufzählung in Prosa vorbehalten. Koordinaten schreiben weiter `(3 | 4)`.
+Stand 03.10.2026 steht in Physik keine aufzählende Menge; die Regel gilt für künftige
+Inhalte.
+
 ---
 
 ### 2.6b Preis und Kosten sauber trennen (verbindlich, Stichwort «Stilcheck»)
@@ -513,7 +522,10 @@ Bei umfangreichen Themen kann das `.widget`-Schema mit `id`-Suffix `a`/`b`/`c` s
 
 - **Mindestens** 5 Canvas-Animationen pro Themenseite
 - **Höchstens** 10 Canvas-Animationen (sonst wird die Seite unleserlich; bei Bedarf Themenseite splitten)
-- **Genau** 6 Aufgaben (A1-A6), nicht mehr — die Aufgabenserie unter „Zusatzmaterial" deckt mehr ab
+- **Genau** 6 Aufgaben (A1-A6), nicht mehr — die Aufgabenserie unter „Zusatzmaterial" deckt mehr ab.
+  Optional dazu **eine** Vertiefungsaufgabe (A7, Pille «Vertiefung», §5.5), immer am Ende der Reihe.
+  **Ausnahmen** (festgehalten 03.10.2026, Inhalt bleibt, wie er ist): die Vorwissenseiten
+  `p0-1` und `p0-2` (je A1–A12) und `p6-2` (A1–A16) — ohne Vertiefungsmarkierung.
 - **Genau** 3 Druckseiten + 1 Anki-Deck unter „Zusatzmaterial": Handout,
   Teste-dich-selbst, Aufgabenserie. Einen seitenweisen Formelauszug gibt es seit
   dem 01.08.2026 nicht mehr — an seine Stelle tritt die illustrierte
@@ -611,6 +623,9 @@ Verbindliche Regeln:
 - **Display-Formeln** `\[…\]` dürfen innerhalb eines `<li>` stehen — die Listennummerierung bleibt korrekt.
 - **Lösungs-Wrapper:** immer `block block-bsp` mit `style="margin:6px 0 0"` und Titel `🟢 Lösung`.
 - Hat eine Aufgabe nur einen einzigen Lösungsweg ohne Teile, entfällt die `aufg-liste`; dann steht die Lösung als Fliesstext mit `<p>` und Display-Formeln.
+- **Vertiefung:** Eine Aufgabe über den Kern hinaus trägt hinter dem Titeltext die Pille `<span class="aufg-vertiefung">Vertiefung</span>`.
+
+**Vertiefung steht am Ende der Reihe (verbindlich seit 30.09.2026, aus Mathe §5.4).** Aufgaben mit der Pille «Vertiefung» kommen nach allen übrigen. Kommt später eine reguläre Aufgabe dazu, wird sie *vor* der Vertiefung eingereiht und die Vertiefung umnummeriert — mit allen IDs, `toggleL`-Argumenten und Prüffunktionen. Nicht zu verwechseln mit `.task-id .kern` / `.vert` in den Leitprogrammen: dieselbe Idee, andere Klassen — nicht vermischen.
 
 ### 5.6 Animations-Hinweise («Worauf achten?» / «Erkenntnis»)
 
@@ -895,6 +910,100 @@ window.addEventListener('resize', renderAll);
 
 Bei RAF-Animationen (z.B. Animation 3 Freier Fall) zusätzlich darauf achten, dass `requestAnimationFrame`-Loops bei Pause sauber abbrechen, sonst werden mehrere Loops gleichzeitig gestartet.
 
+### 6.5 Leitprogramme (verbindlich, Fassung 03.10.2026)
+
+Ein Leitprogramm ist eine eigenständige Seite unter `leitprogramme/` zum
+selbstständigen Durcharbeiten. Es ist **keine Themenseite** und folgt darum nicht dem
+Skelett aus §6.1. Es gibt zwei Arten, mit **identischem Layout** und verschiedener
+Gliederung:
+
+| | gegliedert nach | Beispiele (Stand 03.10.2026) | Anleitung |
+|---|---|---|---|
+| **Thema** | dem Stoff: Vortest, Kapitel bzw. Schritte, Gesamttest | `leitprogramm-waermemenge`, `leitprogramm-schaltungen`, `leitprogramm-ideale-gase` (zehn insgesamt) | `HOWTO-leitprogramme.md` |
+| **Übungsprüfung** | dem Prüfungsbogen: je Aufgabe ein Clip, Musterlösung, Fehlerkasten | `uebungstest-waermelehre` | `HOWTO-uebungspruefung.md` |
+
+**Umfang eines Themen-Leitprogramms:** rund **6 bis 11 Clips** und **8 bis 12 Minuten**
+Clipzeit, aufgeteilt auf vier bis fünf Kapitel (klassisches Format: bis sieben Schritte)
+mit je einem Selbsttest, dazu ein Gesamttest von 20 bis 25 Punkten. Wird ein Thema
+deutlich grösser, gehört es geteilt — zwei Programme mit je eigenem Vortest und
+Gesamttest tragen mehr als eines mit zwei unverbundenen Hälften. Die Wärmelehre ist aus
+diesem Grund auf vier Leitprogramme verteilt (Wärmemenge, Heizen, Wärmeausdehnung,
+ideale Gase). Zeitrahmen und Kapitelmuster: `HOWTO-leitprogramme.md` §3–§4.
+
+**Inhaltlich gebunden an RLP und Themenseite.** Ein Leitprogramm deckt die Kompetenzen
+genau eines Teilgebiets ab (RLP 7.5.4.1, Gruppe 1, Wortlaut wie im Kompetenzblock der
+Themenseite, §4.1) — nicht mehr. Notation, Formelzeichen, Einheiten und Beispiele kommen
+von der Themenseite; das Leitprogramm bestimmt nur den Weg.
+
+**Der `localStorage`-Schlüssel ist je Seite eigen** (`var KEY = 'leitprogramm-<name>-v1'`).
+Wer eine Seite als Vorlage kopiert und ihn vergisst, lässt zwei Leitprogramme denselben
+Fortschritt teilen: Das Häkchen im einen erscheint im anderen.
+
+Hier nur, was für beide Arten nicht verhandelbar ist.
+
+- **`leitprogramme/` liegt genau eine Ebene unter der Wurzel**, wie `clips/`. Alle
+  relativen Pfade setzen das voraus.
+- **Kein fremder Host.** Schriften über `../schriften.css`, MathJax über
+  `../vendor/mathjax/tex-svg.js` — wie überall sonst (der Pre-Flight meldet
+  `fonts.googleapis.com`, `fonts.gstatic.com` und `cdn.jsdelivr.net` als Fehler).
+- **Vollständiger Dokumentrahmen.** `<!DOCTYPE html>`, `<html lang="de-CH">`,
+  `<meta charset="UTF-8">` in den ersten 1024 Bytes, Viewport. Ohne Zeichensatz rät der
+  Browser falsch, und die Umlaute zerfallen — sichtbar erst im Browser, in keiner Prüfung.
+- **Kopf und Fuss der Site gehören dazu.** `<div id="nav-root">`, ein `.site-footer` nach
+  §6.1a und vor `</body>` `../physiklib.js`, `../nav.js`, `../suche.js` und
+  `buildNav({ id: 'leitprogramme' })`. Ohne Kopf und Fuss ist die Seite eine Sackgasse;
+  ohne `physiklib.js` läuft jede Clipkarte ins Leere, weil `clipBuehne` von dort kommt.
+- **Geerbt wird, nicht kopiert.** `../style.css` **vor** dem eigenen `<style>` einbinden
+  (dann gewinnt das eigene Layout bei gleichem Gewicht), Farbtokens aus `style.css`
+  nehmen, die Clip-Bühne aus `physiklib.js`. Eine mitgelieferte Kopie der Bühne oder der
+  Palette wird gelöscht — sie stimmt heute und läuft morgen auseinander. Klassen, die es
+  auch in `style.css` gibt (z. B. `.frage`), nehmen die fremden Eigenschaften ausdrücklich
+  zurück.
+- **Eigenes Layout ist erlaubt und erwünscht.** Ablaufspalte, Fortschrittszähler,
+  Testköpfe stehen im eigenen `<style>`. Das Leitprogramm wird *nicht* in `page-wrap` +
+  `main.content` gepresst.
+- **Ein Dunkelmodus ist erlaubt** (man liest ein Leitprogramm am Stück), muss dann aber
+  `--weiss` mitsetzen — `style.css` färbt seine Flächen damit — und `.site-footer`
+  eigens behandeln, weil der `--tinte` als Fläche benutzt; die Systemvariante dieser
+  Regel steht in der Media-Abfrage.
+- **Kapitelüberschriften brauchen `id`.** Die Suche schneidet an `h2[id]`; ohne Anker
+  ist die ganze Seite ein einziger Treffer.
+- **Kein LaTeX in kleinen Textbausteinen** (`figcaption`, `.sim-lab`, `.sim-out`,
+  `.step-goal`, `.scene-cap`) — MathJax setzt dort riesig.
+- **Clips nur über `.clipkarte` aus `clips/`**, kein ins Dokument eingebetteter Ton.
+  Leitprogramm-eigene Clips tragen `"probe": true` (nicht in der Bibliothek, auf keiner
+  Themenseite).
+- **Eintragen an vier Stellen:** Karte in `leitprogramme.html` (zwischen den
+  `LEITPROGRAMME`-Markern, unter dem Lerngebiet), Eintrag in `build-seo.py`, Kasten
+  «💡 Lieber geführt durcharbeiten?» auf der Themen- bzw. Vorwissenseite;
+  `build-suchindex.py` erfasst `leitprogramme/` von selbst.
+- **Unverlinkt veröffentlichen ist erlaubt — aber nur vollständig.** Soll eine Seite
+  ausgeliefert, jedoch nicht gefunden werden (Erprobung vor der Freischaltung, eine
+  Übungsprüfung per Link), dann: keine Karte in `leitprogramme.html`, kein Kasten auf der
+  Themenseite, nicht im Suchindex, und in `build-seo.py` ein Eintrag **mit
+  `noindex=True`** (nicht das Weglassen — sonst fehlen Beschreibung und canonical).
+  `noindex=True` nimmt die Seite aus der Sitemap *und* setzt
+  `<meta name="robots" content="noindex, nofollow">`. **Kein `Disallow` in
+  `robots.txt`** — die Datei ist öffentlich lesbar und würde die URL gerade
+  bekanntmachen. Und es bleibt Unauffindbarkeit, keine Zugangskontrolle: Wer den Link
+  hat, kommt hinein.
+- **Neue Leitprogramme werden vor der Freischaltung unabhängig geprüft**
+  (`HOWTO-leitprogramme.md` §15, Skill `/lp-pruefung`); die bestehenden elf bleiben, wie
+  sie sind.
+- **Gesamttest neuer Leitprogramme als PDF aus LaTeX** mit getrenntem Bewertungspaket
+  (`downloads/leitprogramme/lp-druck.sty`, `scripts/build-lp-pdf.py`;
+  `HOWTO-leitprogramme.md` §9). Ob die bestehenden HTML-Gesamttests umgestellt werden,
+  entscheidet der Auftraggeber.
+
+#### Nur bei der Art «Übungsprüfung»
+
+- **Die Aufgabentexte stehen wörtlich da**, samt Punktzahl — geglättete Formulierungen
+  erklären eine andere Prüfung als die, die geschrieben wurde.
+- **Je Aufgabe ein Clip**, und die Clips tragen `"probe": true` — sie gehören zur Seite,
+  nicht in die Bibliothek und nicht auf eine Lektionsseite.
+- **Das Prüfungs-PDF misstrauisch lesen**; der Prüfungsrahmen bleibt weg, ohne dass die
+  Aufgaben leiden. Einzelheiten: `HOWTO-uebungspruefung.md`.
+
 ---
 
 ## 7. Inhaltliche Quellen-Politik
@@ -963,7 +1072,7 @@ Bevor eine Themenseite live geht, prüfe:
 - [ ] „mit/ohne Hilfsmittel"-Hinweise gemäss RLP gesetzt
 - [ ] Mindestens ein Alltagsphänomen im Einstieg
 - [ ] 5–10 Canvas-Animationen, Spezialfälle visualisiert
-- [ ] Genau 6 Aufgaben (A1–A6) mit zunehmender Selbstständigkeit
+- [ ] Genau 6 Aufgaben (A1–A6) mit zunehmender Selbstständigkeit; optional eine Vertiefung (A7, Pille «Vertiefung») am Ende der Reihe. Ausnahmen: §4.3
 - [ ] Zusammenfassung als kompakte `.ftb-tabelle` + `.merksatz`
 
 **Notation (siehe §2)**

@@ -53,7 +53,6 @@ STD = {
 # 28 umgestellten Drehbücher brauchen sie nicht mehr.
 LATEX = True
 
-
 def tex(text):
     """Rohes LaTeX fuer MathJax verpacken — nur HTML-Zeichen entschaerfen."""
     t = (text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
@@ -233,7 +232,96 @@ def text_html(s):
     return s
 
 
+# ---------------------------------------------------------------- Boxplot
+def boxplot_svg(el, theme):
+    """Ein Boxplot aus den fuenf Kennzahlen.
+
+    Die Konvention ist die der Themenseite 4.3: Box von Q1 bis Q3, Strich
+    beim Median, Antennen bis zum kleinsten und groessten Wert. Keine
+    Ausreisserregel — die Seite kennt keine, und ein Clip soll keine
+    einfuehren, die dort nicht steht.
+    """
+    b = el.get("breite", 1180)
+    h = el.get("hoehe", 300)
+    fv = theme.get("farben", ["#1F6FB2", "#C2621C", "#2C7A58", "#8A4BA0"])
+    tinte = theme.get("tinte", "#20303a")
+    papier = theme.get("papier", "#f7f5ef")
+    kf = fv[el.get("farbe", 1) - 1]
+    fl = theme.get("flaechen", ["rgba(31,111,178,.12)"] * 4)[el.get("farbe", 1) - 1]
+
+    lo, hi = el["min"], el["max"]
+    x0 = el.get("von", lo - (hi - lo) * 0.12)
+    x1 = el.get("bis", hi + (hi - lo) * 0.12)
+    rl, rr = 70, b - 70
+    def px(v):
+        return rl + (rr - rl) * (v - x0) / (x1 - x0)
+
+    achse_y = h - 62
+    box_o, box_u = 44, achse_y - 58
+    mitte = (box_o + box_u) / 2
+
+    t = ['<svg width="%d" height="%d" viewBox="0 0 %d %d" '
+         'xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">'
+         % (b, h, b, h)]
+    # Achse mit Teilung
+    t.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="3"/>'
+             % (rl - 20, achse_y, rr + 20, achse_y, tinte))
+    for v in el.get("teilung", []):
+        t.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
+                 % (px(v), achse_y - 9, px(v), achse_y + 9, tinte))
+        t.append('<text x="%.1f" y="%.1f" font-size="26" fill="%s" text-anchor="middle" '
+                 'opacity=".72">%s</text>' % (px(v), achse_y + 42, tinte, formel_zahl(v)))
+    # Antennen
+    for a_, e_ in ((lo, el["q1"]), (el["q3"], hi)):
+        t.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="4"/>'
+                 % (px(a_), mitte, px(e_), mitte, kf))
+    for v in (lo, hi):
+        t.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="5" '
+                 'stroke-linecap="round"/>' % (px(v), box_o + 12, px(v), box_u - 12, kf))
+    # Box und Median
+    t.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s" stroke="%s" '
+             'stroke-width="5" rx="4"/>'
+             % (px(el["q1"]), box_o, px(el["q3"]) - px(el["q1"]), box_u - box_o, fl, kf))
+    t.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="7"/>'
+             % (px(el["med"]), box_o, px(el["med"]), box_u, tinte))
+    # Beschriftung der fuenf Zahlen
+    if el.get("marken", True):
+        namen = [(lo, "min"), (el["q1"], "Q1"), (el["med"], "Median"),
+                 (el["q3"], "Q3"), (hi, "max")]
+        for v, nm in namen:
+            t.append('<text x="%.1f" y="%.1f" font-size="25" font-weight="600" fill="%s" '
+                     'text-anchor="middle">%s</text>' % (px(v), box_o - 14, kf, nm))
+    t.append("</svg>")
+    return "".join(t)
+
+
+def formel_zahl(v):
+    """Zahl fuer eine Achsenbeschriftung — Punkt als Trennzeichen, ohne .0."""
+    return ("%g" % v)
+
+
 # ---------------------------------------------------------------- Koordinatenbild
+# Was in der Formel eines "kurven"-Eintrags stehen darf. Bewusst knapp:
+# Ein Drehbuch beschreibt eine Kurve, es rechnet nicht.
+_KURVE_NS = {"sin": math.sin, "cos": math.cos, "tan": math.tan,
+             "asin": math.asin, "acos": math.acos, "atan": math.atan,
+             "sqrt": math.sqrt, "exp": math.exp, "log": math.log,
+             "abs": abs, "pi": math.pi, "e": math.e}
+
+
+def kurve_wert(formel, x):
+    """Wert einer Drehbuch-Formel an der Stelle x, oder None.
+
+    None heisst: hier gibt es keinen Punkt. Der Streckenzug bricht dann ab
+    und faengt danach neu an — genau das braucht die Tangenskurve an ihren
+    Polstellen, ohne dass im Drehbuch etwas ueber Pole stehen muss.
+    """
+    try:
+        return float(eval(formel, {"__builtins__": {}}, dict(_KURVE_NS, x=x)))
+    except Exception:
+        return None
+
+
 def graf_svg(el, theme):
     """Kleines Koordinatensystem mit Geraden und Punkten, als SVG.
 
@@ -262,12 +350,26 @@ def graf_svg(el, theme):
 
     teile = ['<svg width="%d" height="%d" viewBox="0 0 %d %d">' % (b, h, b, h)]
 
+    # Wo die Achse geteilt wird. Ganze Zahlen sind der Normalfall; wo die
+    # x-Achse ein Winkel ist, taugen sie nicht — eine Sinuskurve gehoert bei
+    # pi/2 geteilt und nicht bei 1, 2, 3. Darum "xteilung"/"yteilung":
+    # Paare [Stelle, Beschriftung], die die ganzen Zahlen ersetzen.
+    def teilung(schluessel, a, e):
+        eigen = el.get(schluessel)
+        if eigen:
+            return [(float(w), str(t)) for w, t in eigen]
+        return [(float(k), str(k).replace("-", "\u2212"))
+                for k in range(int(math.ceil(a)), int(math.floor(e)) + 1)]
+
+    xt = teilung("xteilung", x0, x1)
+    yt = teilung("yteilung", y0, y1)
+
     # Karo
     if el.get("raster", True):
-        for x in range(int(math.ceil(x0)), int(math.floor(x1)) + 1):
+        for x, _ in xt:
             teile.append('<line x1="%.1f" y1="0" x2="%.1f" y2="%d" stroke="%s" '
                          'stroke-opacity=".13" stroke-width="1.5"/>' % (px(x), px(x), h, tinte))
-        for y in range(int(math.ceil(y0)), int(math.floor(y1)) + 1):
+        for y, _ in yt:
             teile.append('<line x1="0" y1="%.1f" x2="%d" y2="%.1f" stroke="%s" '
                          'stroke-opacity=".13" stroke-width="1.5"/>' % (py(y), b, py(y), tinte))
 
@@ -276,29 +378,107 @@ def graf_svg(el, theme):
                  % (py(0), b, py(0), tinte))
     teile.append('<line x1="%.1f" y1="%d" x2="%.1f" y2="0" stroke="%s" stroke-width="3"/>'
                  % (px(0), h, px(0), tinte))
-    teile.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s">x</text>'
-                 % (b - 26, py(0) - 14, tinte))
-    teile.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s">y</text>'
-                 % (px(0) + 14, tinte))
-    for x in range(int(math.ceil(x0)), int(math.floor(x1)) + 1):
-        if x == 0:
+    # "pfeile": Pfeilspitzen in positiver Richtung; "xname"/"yname": Achsenbeschriftung,
+    # bei Anwendungen mit Grösse und Einheit ("x [m]", "A [m²]"). Ohne Angabe bleibt das
+    # Bild wie bisher — bestehende Clips bauen Byte für Byte gleich.
+    xname, yname = el.get("xname", "x"), el.get("yname", "y")
+    achsnamen = []      # benannte Achsen kommen zuletzt, mit Hof — sonst liegt die Kurve darüber
+    if el.get("pfeile"):
+        teile.append('<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="%s"/>'
+                     % (b, py(0), b - 18, py(0) - 9, b - 18, py(0) + 9, tinte))
+        teile.append('<polygon points="%.1f,0 %.1f,18 %.1f,18" fill="%s"/>'
+                     % (px(0), px(0) - 9, px(0) + 9, tinte))
+    if xname == "x":
+        teile.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s">x</text>'
+                     % (b - 26, py(0) - 14, tinte))
+    else:
+        achsnamen.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s" '
+                         'stroke="%s" stroke-width="10" paint-order="stroke" text-anchor="end">%s</text>'
+                         % (b - 8, py(0) - 16, tinte, papier, entschaerfen(xname)))
+    if yname == "y":
+        teile.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s">y</text>'
+                     % (px(0) + 14, tinte))
+    else:
+        achsnamen.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s" '
+                         'stroke="%s" stroke-width="10" paint-order="stroke">%s</text>'
+                         % (px(0) + 14, tinte, papier, entschaerfen(yname)))
+    for x, mark in xt:
+        if abs(x) < 1e-9:
             continue
         teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
                      % (px(x), py(0) - 7, px(x), py(0) + 7, tinte))
         teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="middle" fill="%s" '
                      'fill-opacity=".75">%s</text>'
-                     % (px(x), py(0) + 32, tinte, str(x).replace("-", "\u2212")))
-    for y in range(int(math.ceil(y0)), int(math.floor(y1)) + 1):
-        if y == 0:
+                     % (px(x), py(0) + 32, tinte, entschaerfen(mark)))
+    for y, mark in yt:
+        if abs(y) < 1e-9:
             continue
         teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
                      % (px(0) - 7, py(y), px(0) + 7, py(y), tinte))
         teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="end" fill="%s" '
                      'fill-opacity=".75">%s</text>'
-                     % (px(0) - 13, py(y) + 8, tinte, str(y).replace("-", "\u2212")))
+                     % (px(0) - 13, py(y) + 8, tinte, entschaerfen(mark)))
 
     # Geraden y = m x + q, am Fenster abgeschnitten
-    for g in el.get("geraden", []):
+    for nr, g in enumerate(el.get("geraden", [])):
+        # "bewegung": [[t, m, q], ...] — eine Gerade, die sich waehrend der Szene
+        # bewegt (t ab Szenenbeginn, seit 03.10.2026). Wie bei den Parabeln wird
+        # sie erst im Abspieler gezeichnet, aus der Zeit allein; siehe BEWEGUNG_JS.
+        if g.get("bewegung"):
+            farbe = fv[g.get("farbe", 1) - 1]
+            gid = "bewg%d" % nr
+            teile.append('<path data-bewg="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d" '
+                         'fill="none" stroke="%s" stroke-width="%s" stroke-linecap="round" %s/>'
+                         % (entschaerfen(json.dumps(g["bewegung"])), gid, x0, x1, y0, y1, b, h, rand,
+                            farbe, g.get("dicke", 5),
+                            'stroke-dasharray="14 10"' if g.get("gestrichelt") else ""))
+
+            # Begleiter der bewegten Geraden, alle aus derselben Zeit gerechnet:
+            # yachse ((0 | q)), nullstelle ((x_0 | 0)), marken (Punkt an festem x
+            # mit Live-Wert), laeufer (Punkt, der auf der Geraden faehrt) und
+            # dreieck (Steigungsdreieck ab Stelle x mit Breite dx, mit Delta-Zahlen).
+            def g_punkt(klasse, farbe_, attr="", text=True):
+                f_ = fv[farbe_ - 1]
+                t_ = '<g class="%s" data-zu="%s"%s>' % (klasse, gid, attr)
+                t_ += ('<g class="bew-pt"><circle r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
+                       '<circle r="5" fill="%s"/></g>' % (papier, f_, f_))
+                if text:
+                    t_ += '<text font-size="29" font-weight="600" fill="%s"></text>' % f_
+                return t_ + '</g>'
+            if g.get("yachse"):
+                teile.append(g_punkt("bew-gy", g["yachse"].get("farbe", 2),
+                                     text=g["yachse"].get("beschriftung", True) is not False))
+            if g.get("nullstelle"):
+                teile.append(g_punkt("bew-gn", g["nullstelle"].get("farbe", 3),
+                                     text=g["nullstelle"].get("beschriftung", True) is not False))
+            for mk in g.get("marken", []):
+                teile.append(g_punkt("bew-gm", mk.get("farbe", 5),
+                                     ' data-x="%g" data-text="%s"' % (mk["x"], entschaerfen(mk.get("text", "")))))
+            lf = g.get("laeufer")
+            if lf:
+                teile.append(g_punkt("bew-gl", lf.get("farbe", 5),
+                                     ' data-bahn="%s" data-text="%s"'
+                                     % (entschaerfen(json.dumps(lf["bahn"])), entschaerfen(lf.get("text", "")))))
+            dr = g.get("dreieck")
+            if dr:
+                f_ = fv[dr.get("farbe", 5) - 1]
+                # Feste Stelle und Breite — oder "bahn": [[t, x, dx], ...], dann wandert
+                # und waechst das Dreieck waehrend der Szene mit.
+                if dr.get("bahn"):
+                    teile.append('<g class="bew-gd" data-zu="%s" data-bahn="%s">'
+                                 '<path class="bew-gd-w" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="9 7"/>'
+                                 '<path class="bew-gd-s" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="9 7"/>'
+                                 '<text class="bew-gd-tx" font-size="27" font-weight="600" fill="%s" text-anchor="middle"></text>'
+                                 '<text class="bew-gd-ty" font-size="27" font-weight="600" fill="%s"></text>'
+                                 '</g>' % (gid, entschaerfen(json.dumps(dr["bahn"])), f_, f_, f_, f_))
+                    continue
+                teile.append('<g class="bew-gd" data-zu="%s" data-x="%g" data-dx="%g">'
+                             '<path class="bew-gd-w" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="9 7"/>'
+                             '<path class="bew-gd-s" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="9 7"/>'
+                             '<text class="bew-gd-tx" font-size="27" font-weight="600" fill="%s" text-anchor="middle"></text>'
+                             '<text class="bew-gd-ty" font-size="27" font-weight="600" fill="%s"></text>'
+                             '</g>' % (gid, dr["x"], dr["dx"], f_, f_, f_, f_))
+            continue
         m, q = g["m"], g["q"]
         punkte = []
         for x in (x0, x1):
@@ -327,7 +507,54 @@ def graf_svg(el, theme):
                             entschaerfen(g["beschriftung"])))
 
     # Parabeln y = a x^2 + b x + c, als Streckenzug im Fenster
-    for pa in el.get("parabeln", []):
+    for nr, pa in enumerate(el.get("parabeln", [])):
+        # "bewegung": [[t, a, u, v], ...] — eine Parabel in Scheitelform, die
+        # sich waehrend der Szene bewegt (t ab Szenenbeginn). Gezeichnet wird
+        # sie erst im Abspieler, aus der Zeit allein: Pause, Spulen und die
+        # Pruefbilder bleiben so richtig. Siehe BEWEGUNG_JS.
+        if pa.get("bewegung"):
+            farbe = fv[pa.get("farbe", 1) - 1]
+            bid = "bew%d" % nr
+            teile.append('<path data-bew="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d" '
+                         'fill="none" stroke="%s" stroke-width="%s" stroke-linecap="round" '
+                         'stroke-linejoin="round" %s/>'
+                         % (entschaerfen(json.dumps(pa["bewegung"])), bid, x0, x1, y0, y1, b, h, rand,
+                            farbe, pa.get("dicke", 5),
+                            'stroke-dasharray="14 10"' if pa.get("gestrichelt") else ""))
+            # Begleiter der bewegten Parabel, alle aus derselben Zeit gerechnet:
+            # scheitel (mit "S(u | v)"), nullstellen, yachse, marken (Punkt an
+            # festem x mit Live-Wert) und laeufer (Punkt, der auf der Kurve
+            # faehrt; "spiegel" zeigt den Partner bei 2u - x).
+            def punkt_g(klasse, farbe, attr="", geist=False, text=True):
+                f_ = fv[farbe - 1]
+                g = '<g class="%s" data-zu="%s"%s>' % (klasse, bid, attr)
+                if geist:
+                    g += ('<g class="bew-geist" opacity=".35"><circle r="11" fill="%s" stroke="%s" '
+                          'stroke-width="3.5"/><circle r="5" fill="%s"/></g>' % (papier, f_, f_))
+                g += ('<g class="bew-pt"><circle r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
+                      '<circle r="5" fill="%s"/></g>' % (papier, f_, f_))
+                if text:
+                    g += '<text font-size="29" font-weight="600" fill="%s"></text>' % f_
+                return g + '</g>'
+            if pa.get("scheitel"):
+                teile.append(punkt_g("bew-s", pa["scheitel"].get("farbe", 3)))
+            if pa.get("nullstellen"):
+                f_ = pa["nullstellen"].get("farbe", 2)
+                mit = bool(pa["nullstellen"].get("beschriftung"))   # «(x | 0)» an den Nullstellen
+                teile.append(punkt_g("bew-n bew-n1", f_, text=mit))
+                teile.append(punkt_g("bew-n bew-n2", f_, text=mit))
+            if pa.get("yachse"):
+                teile.append(punkt_g("bew-y", pa["yachse"].get("farbe", 1)))
+            for m in pa.get("marken", []):
+                teile.append(punkt_g("bew-m", m.get("farbe", 4),
+                                     ' data-x="%g" data-text="%s"' % (m["x"], entschaerfen(m.get("text", "")))))
+            lf = pa.get("laeufer")
+            if lf:
+                teile.append(punkt_g("bew-l", lf.get("farbe", 2),
+                                     ' data-bahn="%s" data-text="%s"' % (entschaerfen(json.dumps(lf["bahn"])),
+                                                                         entschaerfen(lf.get("text", ""))),
+                                     geist=bool(lf.get("spiegel"))))
+            continue
         a_, b_, c_ = pa["a"], pa.get("b", 0), pa.get("c", 0)
         stuecke, lauf = [], []
         n = 240
@@ -355,6 +582,43 @@ def graf_svg(el, theme):
                          % (px(bx_), py(by_), farbe, pa.get("anker", "start"),
                             entschaerfen(pa["beschriftung"])))
 
+    # Kurven y = f(x), als Streckenzug im Fenster. Wie die Parabeln, nur
+    # mit freier Formel — und mit dem Zusatz, dass ein Stueck auch dann
+    # abbricht, wenn f an einer Stelle gar nicht definiert ist. Genau daran
+    # entstehen die Luecken der Tangenskurve an ihren Polstellen.
+    for kv in el.get("kurven", []):
+        n = kv.get("n", 480)
+        # Eine Kurve darf auch nur ein Stueck des Fensters belegen. Gebraucht
+        # wird das fuer Hilfslinien wie die Mittellinie einer Schwingung: Ohne
+        # Grenze laeuft sie ueber die Achsenbeschriftung am linken Rand.
+        a_ = kv.get("von", x0)
+        e_ = kv.get("bis", x1)
+        stuecke, lauf = [], []
+        for i in range(n + 1):
+            x = a_ + (e_ - a_) * i / n
+            y = kurve_wert(kv["formel"], x)
+            if y is not None and y0 <= y <= y1:
+                lauf.append("%.1f,%.1f" % (px(x), py(y)))
+            elif lauf:
+                stuecke.append(lauf)
+                lauf = []
+        if lauf:
+            stuecke.append(lauf)
+        farbe = fv[kv.get("farbe", 1) - 1]
+        for st in stuecke:
+            if len(st) > 1:
+                teile.append('<polyline points="%s" fill="none" stroke="%s" '
+                             'stroke-width="%s" stroke-linecap="round" '
+                             'stroke-linejoin="round" %s/>'
+                             % (" ".join(st), farbe, kv.get("dicke", 5),
+                                'stroke-dasharray="14 10"' if kv.get("gestrichelt") else ""))
+        if kv.get("beschriftung"):
+            bx_, by_ = kv["beschriftung_bei"]
+            teile.append('<text x="%.1f" y="%.1f" font-size="27" fill="%s" '
+                         'text-anchor="%s">%s</text>'
+                         % (px(bx_), py(by_), farbe, kv.get("anker", "start"),
+                            entschaerfen(kv["beschriftung"])))
+
     # Punkte
     for pt in el.get("punkte", []):
         farbe = fv[pt.get("farbe", 3) - 1]
@@ -363,14 +627,495 @@ def graf_svg(el, theme):
         teile.append('<circle cx="%.1f" cy="%.1f" r="5" fill="%s"/>'
                      % (px(pt["x"]), py(pt["y"]), farbe))
         if pt.get("beschriftung"):
-            teile.append('<text x="%.1f" y="%.1f" font-size="29" font-weight="600" fill="%s">%s</text>'
-                         % (px(pt["x"]) + 18, py(pt["y"]) - 16, farbe,
+            # Ohne Angabe steht die Beschriftung rechts ueber dem Punkt. Das
+            # trifft am Scheitel einer Parabel die Achsenbeschriftung — darum
+            # kann man sie wie bei Geraden und Parabeln frei setzen.
+            if pt.get("beschriftung_bei"):
+                bx_, by_ = pt["beschriftung_bei"]
+                tx, ty = px(bx_), py(by_)
+            else:
+                tx, ty = px(pt["x"]) + 18, py(pt["y"]) - 16
+            teile.append('<text x="%.1f" y="%.1f" font-size="29" font-weight="600" fill="%s" '
+                         'text-anchor="%s">%s</text>'
+                         % (tx, ty, farbe, pt.get("anker", "start"),
                             entschaerfen(pt["beschriftung"])))
+    teile.extend(achsnamen)
     teile.append("</svg>")
     return "".join(teile)
 
 
+# ---------------------------------------------------------------- Rechneranzeige
+def rechner_svg(el, theme):
+    """Die Anzeige des TI-30X Pro MathPrint, so weit sie nachpruefbar ist.
+
+    Belegt sind: vier Zeilen zu 16 Zeichen, Eingabe oben, Ergebnis
+    rechtsbuendig, getrennte Tasten fuer Subtraktion (−) und negatives
+    Vorzeichen ((−)), Berechnen mit =, Brueche ueber n/d. Quelle ist das
+    Handbuch von Texas Instruments.
+
+    **Nachgebaut wird die Anzeige, nicht das Tastenfeld.** Wo die Tasten
+    auf dem Geraet liegen, steht hier nicht — es wird nur gezeigt, welche
+    gedrueckt wird. Eine erfundene Tastenanordnung waere schlimmer als
+    keine: Wer sie lernt, greift am Geraet daneben.
+
+    Bruchdarstellung im Text: [a|b] wird zweistoeckig gesetzt, wie es
+    MathPrint tut.
+    """
+    b = el.get("breite", 700)
+    zeilen = el.get("zeilen", [])
+    # Die Hoehe ergibt sich aus der Breite: 16 Zeichen, vier Zeilen. Sie
+    # wird ins Element geschrieben, damit der senkrechte Fluss sie kennt
+    # und die naechste Zeile nicht in die Anzeige laeuft.
+    # Das Geraet hat vier Zeilen. Gezeigt werden nur die benutzten plus
+    # die Ergebniszeile — ein zu drei Vierteln leeres Feld sieht nach
+    # Fehler aus, nicht nach Anzeige.
+    benutzt = min(4, max(2, len(el.get("zeilen", []))
+                         + (1 if el.get("ergebnis") is not None else 0)))
+    el["_zeilen"] = benutzt
+    # Ein Bruch ist zweistoeckig und braucht rund die anderthalbfache
+    # Zeilenhoehe — sonst schneidet der Rand Zaehler und Nenner ab.
+    bruch = any("[" in z for z in list(el.get("zeilen", []))
+                + ([el["ergebnis"]] if el.get("ergebnis") else []))
+    el["_hoch"] = 1.55 if bruch else 1.0
+    el.setdefault("hoehe", int(benutzt * ((b - 60) / 16 * 1.85 * el["_hoch"]) + 46
+                               + (82 if (el.get("taste") or el.get("tasten")) else 0)))
+    ergebnis = el.get("ergebnis")
+    # Eine Taste oder eine Reihe: gedrueckte Tasten bleiben stehen, die
+    # zuletzt gedrueckte ist gefuellt. So sieht man die ganze Folge, nicht
+    # nur den letzten Anschlag.
+    reihe = el.get("tasten") or ([el["taste"]] if el.get("taste") else [])
+    taste = reihe[-1] if reihe else None
+    tinte = theme["tinte"]
+    lcd = el.get("lcd", "#c9d4c4")          # gruenlich, wie ein LCD
+    rahmen = el.get("rahmen", "#2b2b2b")
+
+    zeichen = 16
+    zb = (b - 60) / zeichen                  # Zeichenbreite
+    zh = zb * 1.85 * el.get("_hoch", 1.0)    # Zeilenhoehe
+    reihen = el.get("_zeilen", 4)
+    h_disp = reihen * zh + 46
+    h = h_disp + (74 if taste else 0)
+    t = ['<svg width="%d" height="%d" viewBox="0 0 %d %d">' % (b, h, b, h)]
+    # Deckende Flaeche ueber das ganze Element. Eine Tastenfolge wird als
+    # Stapel gebaut: Jede neue Anzeige muss die vorige vollstaendig
+    # verdecken, auch im Tastenband — sonst schauen aeltere Kappen zwischen
+    # den neuen hervor.
+    t.append('<rect x="0" y="0" width="%d" height="%d" fill="%s"/>'
+             % (b, h, theme["papier"]))
+    t.append('<rect x="0" y="0" width="%d" height="%.0f" rx="14" fill="%s"/>'
+             % (b, h_disp, rahmen))
+    t.append('<rect x="18" y="16" width="%d" height="%.0f" rx="5" fill="%s"/>'
+             % (b - 36, h_disp - 32, lcd))
+
+    def setzen(text, y, rechts=False):
+        """Eine Displayzeile. [a|b] wird zum Bruch."""
+        teile = re.split(r"(\[[^\[\]|]*\|[^\[\]|]*\])", text)
+        breite = 0
+        for st in teile:
+            breite += (len(st) - 3) * zb if st.startswith("[") else len(st) * zb
+        x = (b - 30 - breite) if rechts else 30
+        for st in teile:
+            if st.startswith("["):
+                oben, unten = st[1:-1].split("|")
+                w = max(len(oben), len(unten)) * zb
+                mitte = y - zb * 0.55            # Strich etwa auf halber Zeichenhoehe
+                t.append('<text x="%.1f" y="%.1f" font-family="%s" font-size="%.1f" '
+                         'text-anchor="middle" fill="%s">%s</text>'
+                         % (x + w / 2, mitte - zb * 0.22, "monospace", zb * 1.25, tinte,
+                            entschaerfen(oben)))
+                t.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" '
+                         'stroke-width="2.5"/>' % (x, mitte, x + w, mitte, tinte))
+                t.append('<text x="%.1f" y="%.1f" font-family="%s" font-size="%.1f" '
+                         'text-anchor="middle" fill="%s">%s</text>'
+                         % (x + w / 2, mitte + zb * 1.15, "monospace", zb * 1.25, tinte,
+                            entschaerfen(unten)))
+                x += w
+            elif st:
+                t.append('<text x="%.1f" y="%.1f" font-family="%s" font-size="%.1f" '
+                         'fill="%s" xml:space="preserve">%s</text>'
+                         % (x, y, "monospace", zb * 1.7, tinte, entschaerfen(st)))
+                x += len(st) * zb
+
+    # Grundlinie der ersten Zeile: so weit unter der Oberkante, dass die
+    # Oberlaengen im Feld bleiben.
+    y0 = 22 + zh * 0.78
+    for i, z in enumerate(zeilen[:reihen]):
+        setzen(z, y0 + i * zh)
+    if ergebnis is not None:
+        setzen(ergebnis, y0 + min(len(zeilen), reihen - 1) * zh, rechts=True)
+
+    if taste:
+        kappen = [(k, max(60, 26 + len(k) * 19)) for k in reihe]
+        luecke = 9
+        platz = b - 16
+
+        def gesamtbreite(ks, f=1.0):
+            return sum(w * f for _, w in ks) + luecke * (len(ks) - 1)
+
+        # Passt die Reihe nicht, wird sie erst schmaler gesetzt und, wenn das
+        # nicht reicht, vorn gekuerzt: Die letzten Anschlaege sind die, auf
+        # die es ankommt.
+        skala = 1.0
+        if gesamtbreite(kappen) > platz:
+            skala = max(0.62, platz / gesamtbreite(kappen))
+        while len(kappen) > 1 and gesamtbreite(kappen, skala) > platz:
+            kappen = kappen[1:]
+            if kappen and kappen[0][0] != "…":
+                kappen = [("…", 40 / skala)] + kappen
+        kappen = [(k, w * skala) for k, w in kappen]
+        gesamt = sum(w for _, w in kappen) + luecke * (len(kappen) - 1)
+        x = max(8, (b - gesamt) / 2)
+        y = h_disp + 12
+        for i, (k, w) in enumerate(kappen):
+            jetzt = (i == len(kappen) - 1)
+            t.append('<rect x="%.1f" y="%.1f" width="%.1f" height="54" rx="10" fill="%s" '
+                     'stroke="%s" stroke-width="%s" %s/>'
+                     % (x, y, w, tinte if jetzt else theme.get("karte", "#fff"),
+                        tinte, "2.5" if jetzt else "2",
+                        "" if jetzt else 'stroke-opacity=".45"'))
+            t.append('<text x="%.1f" y="%.1f" font-family="%s" font-size="%d" '
+                     'text-anchor="middle" font-weight="600" fill="%s" %s>%s</text>'
+                     % (x + w / 2, y + 36, "monospace",
+                        max(14, int((26 if len(k) < 4 else 20) * skala)),
+                        theme["papier"] if jetzt else tinte,
+                        "" if jetzt else 'fill-opacity=".5"', entschaerfen(k)))
+            x += w + luecke
+    t.append("</svg>")
+    return "".join(t)
+
+
 # ---------------------------------------------------------------- Elemente
+# Abspieler-Zusatz fuer "bewegung" (Prototyp 02.10.2026). seek(t) wird
+# umgehaengt: erst die Ebenen wie immer, dann jede bewegte Parabel aus der
+# Zeit neu gerechnet. Zwischen zwei Stuetzpunkten weich (smoothstep); wer
+# "Bewegung reduzieren" eingestellt hat, sieht die Stuetzpunkte als Spruenge.
+BEWEGUNG_JS = r'''
+const RUHIG = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+const BEW = [...document.querySelectorAll('[data-t0]')].map(L => ({
+  t0: parseFloat(L.dataset.t0),
+  teile: [...L.querySelectorAll('[data-bew]')].map(p => ({
+    art: 'p', p, L, k: JSON.parse(p.dataset.bew), f: p.dataset.fenster.split(',').map(Number) }))
+    .concat([...L.querySelectorAll('[data-bewg]')].map(p => ({
+      art: 'g', p, L, k: JSON.parse(p.dataset.bewg), f: p.dataset.fenster.split(',').map(Number) })))
+}));
+// Zwischen zwei Stuetzpunkten weich. Wie viele Zahlen ein Stuetzpunkt traegt, sagt er
+// selbst: [t, a, u, v] bei einer Parabel, [t, m, q] bei einer Geraden, [t, x] bei einer Bahn.
+function bewZustand(k, t) {
+  const n = k[0].length - 1;
+  if (t <= k[0][0]) return k[0].slice(1);
+  for (let i = 0; i < k.length - 1; i++) {
+    if (t < k[i + 1][0]) {
+      let q = (t - k[i][0]) / (k[i + 1][0] - k[i][0]);
+      q = RUHIG ? 0 : q * q * (3 - 2 * q);
+      const aus = [];
+      for (let j = 1; j <= n; j++) aus.push(k[i][j] + (k[i + 1][j] - k[i][j]) * q);
+      return aus;
+    }
+  }
+  return k[k.length - 1].slice(1);
+}
+const bewZahl = x => { const r = Math.round(x * 10) / 10; return (r < 0 ? '−' : '') + Math.abs(r); };
+// Eine bewegte Gerade y = m x + q: am Fenster abgeschnitten, dazu ihre Begleiter.
+function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
+  const [m, q] = bewZustand(T.k, t - T.L.t0);
+  const f = x => m * x + q, innen = (x, y) => x >= x0 - 1e-9 && x <= x1 + 1e-9 && y >= y0 - 1e-9 && y <= y1 + 1e-9;
+  const pt = [];
+  for (const x of [x0, x1]) { const y = f(x); if (y >= y0 - 1e-9 && y <= y1 + 1e-9) pt.push([x, y]); }
+  if (Math.abs(m) > 1e-9) for (const y of [y0, y1]) { const x = (y - q) / m; if (x >= x0 - 1e-9 && x <= x1 + 1e-9) pt.push([x, y]); }
+  pt.sort((u, v) => u[0] - v[0]);
+  T.p.setAttribute('d', pt.length > 1
+    ? 'M' + px(pt[0][0]).toFixed(1) + ',' + py(pt[0][1]).toFixed(1) +
+      'L' + px(pt[pt.length - 1][0]).toFixed(1) + ',' + py(pt[pt.length - 1][1]).toFixed(1)
+    : '');
+  const setze = (g, x, y) => { g.style.display = innen(x, y) ? '' : 'none';
+    g.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); }); };
+  const beschrifte = (g, x, y, text) => {
+    const tx = g.querySelector(':scope > text'); if (!tx) return;
+    const rechts = x > x1 - (x1 - x0) * 0.3;
+    tx.setAttribute('x', px(x) + (rechts ? -18 : 18));
+    tx.setAttribute('y', py(y) + (m > 0 ? 44 : -18));          // auf die Seite, wo die Gerade nicht laeuft
+    tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+    tx.textContent = text;
+  };
+  const fuell = (v, x, y) => v.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y))
+                              .replace('{m}', bewZahl(m)).replace('{q}', bewZahl(q));
+  for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
+    if (g.classList.contains('bew-gy')) {
+      setze(g, 0, q); beschrifte(g, 0, q, '(0 | ' + bewZahl(q) + ')');
+    } else if (g.classList.contains('bew-gn')) {
+      if (Math.abs(m) < 1e-9) { g.style.display = 'none'; continue; }
+      const xn = -q / m; setze(g, xn, 0); beschrifte(g, xn, 0, '(' + bewZahl(xn) + ' | 0)');
+    } else if (g.classList.contains('bew-gm')) {
+      const x = parseFloat(g.dataset.x);
+      setze(g, x, f(x)); beschrifte(g, x, f(x), fuell(g.dataset.text, x, f(x)));
+    } else if (g.classList.contains('bew-gl')) {
+      const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn));
+      const x = bewZustand(bahn, t - T.L.t0)[0];
+      setze(g, x, f(x)); beschrifte(g, x, f(x), fuell(g.dataset.text, x, f(x)));
+    } else if (g.classList.contains('bew-gd')) {
+      // Steigungsdreieck: von (x | f(x)) nach rechts, dann senkrecht auf die Gerade.
+      let xa, dx;
+      if (g.dataset.bahn) {
+        const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn));
+        [xa, dx] = bewZustand(bahn, t - T.L.t0);
+      } else { xa = parseFloat(g.dataset.x); dx = parseFloat(g.dataset.dx); }
+      const xb = xa + dx;
+      const ya = f(xa), yb = f(xb), sichtbar = innen(xa, ya) && innen(xb, yb);
+      g.style.display = sichtbar ? '' : 'none';
+      if (!sichtbar) continue;
+      g.querySelector('.bew-gd-w').setAttribute('d', 'M' + px(xa) + ',' + py(ya) + 'L' + px(xb) + ',' + py(ya));
+      g.querySelector('.bew-gd-s').setAttribute('d', 'M' + px(xb) + ',' + py(ya) + 'L' + px(xb) + ',' + py(yb));
+      const tx = g.querySelector('.bew-gd-tx'), ty = g.querySelector('.bew-gd-ty');
+      tx.setAttribute('x', px((xa + xb) / 2)); tx.setAttribute('y', py(ya) + (m > 0 ? 36 : -14));
+      tx.textContent = 'Δx = ' + bewZahl(dx);
+      ty.setAttribute('x', px(xb) + 12); ty.setAttribute('y', py((ya + yb) / 2) + 10);
+      ty.textContent = 'Δy = ' + bewZahl(yb - ya);
+    }
+  }
+}
+function bewegen(t) {
+  for (const L of BEW) for (const T of L.teile) {
+    const [x0, x1, y0, y1, b, h, rd] = T.f;
+    const px = x => rd + (x - x0) / (x1 - x0) * (b - 2 * rd);
+    const py = y => h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd);
+    if (T.art === 'g') { bewegeGerade(T, t, px, py, x0, x1, y0, y1); continue; }
+    const [a, u, v] = bewZustand(T.k, t - L.t0);
+    let d = '', zug = false;
+    for (let i = 0; i <= 240; i++) {
+      const x = x0 + (x1 - x0) * i / 240, y = a * (x - u) * (x - u) + v;
+      if (y >= y0 && y <= y1) { d += (zug ? 'L' : 'M') + px(x).toFixed(1) + ',' + py(y).toFixed(1); zug = true; }
+      else zug = false;
+    }
+    T.p.setAttribute('d', d);
+    const f = x => a * (x - u) * (x - u) + v;
+    const innen = (x, y) => x >= x0 && x <= x1 && y >= y0 && y <= y1;
+    const setze = (g, x, y) => { g.style.display = innen(x, y) ? '' : 'none';
+      g.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); }); };
+    const beschrifte = (g, x, y, text, unten) => {
+      const tx = g.querySelector(':scope > text'); if (!tx) return;
+      const rechts = x > x1 - (x1 - x0) * 0.3;
+      tx.setAttribute('x', px(x) + (rechts ? -18 : 18));
+      tx.setAttribute('y', py(y) + (unten ? 44 : -18));
+      tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+      tx.textContent = text;
+    };
+    const fuell = (vorlage, x, y) => vorlage.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y));
+    for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
+      if (g.classList.contains('bew-s')) {
+        setze(g, u, v); beschrifte(g, u, v, 'S(' + bewZahl(u) + ' | ' + bewZahl(v) + ')', a > 0);
+      } else if (g.classList.contains('bew-n')) {
+        const q = a !== 0 ? -v / a : -1, w = q >= 0 ? Math.sqrt(q) : NaN;
+        if (isNaN(w)) { g.style.display = 'none'; continue; }
+        const xn = g.classList.contains('bew-n1') ? u - w : u + w;
+        setze(g, xn, 0);
+        if (g.querySelector(':scope > text')) {
+          const tx = g.querySelector(':scope > text'), links = g.classList.contains('bew-n1') && w > 1e-9;
+          tx.setAttribute('x', px(xn) + (links ? -16 : 16)); tx.setAttribute('y', py(0) + (a > 0 ? -18 : 44));
+          tx.setAttribute('text-anchor', links ? 'end' : 'start'); tx.textContent = '(' + bewZahl(xn) + ' | 0)';
+        }
+      } else if (g.classList.contains('bew-y')) {
+        setze(g, 0, f(0)); beschrifte(g, 0, f(0), '(0 | ' + bewZahl(f(0)) + ')', false);
+      } else if (g.classList.contains('bew-m')) {
+        const x = parseFloat(g.dataset.x);
+        setze(g, x, f(x)); beschrifte(g, x, f(x), fuell(g.dataset.text, x, f(x)), false);
+      } else if (g.classList.contains('bew-l')) {
+        const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn).map(b => [b[0], b[1], 0, 0]));
+        const x = bewZustand(bahn, t - L.t0)[0], y = f(x);
+        setze(g.querySelector('.bew-pt'), x, y);
+        g.style.display = innen(x, y) ? '' : 'none';
+        const gs = g.querySelector('.bew-geist');
+        if (gs) { const xs = 2 * u - x; gs.style.display = Math.abs(xs - x) > 0.05 && innen(xs, f(xs)) ? '' : 'none';
+          gs.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(xs)); c.setAttribute('cy', py(f(xs))); }); }
+        beschrifte(g, x, y, fuell(g.dataset.text, x, y), a > 0 && Math.abs(x - u) < (x1 - x0) * 0.15);
+      }
+    }
+  }
+}
+const seekOhneBewegung = seek;
+seek = function (t) { seekOhneBewegung(t); bewegen(t); };
+'''
+
+
+# Abspieler-Zusatz fuer "fragen" (Prototyp 02.10.2026): Der Clip haelt an,
+# stellt eine Frage (Knoepfe oder Tippen ins Bild), gibt Rueckmeldung und
+# laeuft auf «Weiter» weiter. Nur in Clips mit "fragen", nie im Pruefmodus
+# (?render). Gespult wird an Fragen vorbei, ohne anzuhalten.
+FRAGEN_JS = r'''
+(() => {
+  if (location.search.includes('render')) return;
+  const pp = document.getElementById('pp');
+  const css = document.createElement('style');
+  css.textContent = `
+    #frage{position:absolute;left:110px;top:560px;width:820px;z-index:50;display:none;
+      background:rgba(255,255,255,.97);border:3px solid var(--f2);border-radius:22px;
+      padding:28px 34px;box-shadow:0 10px 40px rgba(0,0,0,.18);font-family:inherit;color:inherit}
+    #frage .fr-kopf{font-size:26px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--f2);margin-bottom:10px}
+    #frage .fr-text{font-size:38px;line-height:1.3;margin-bottom:22px}
+    #frage .fr-knoepfe{display:flex;flex-wrap:wrap;gap:14px}
+    #frage button{font:inherit;font-size:32px;padding:10px 26px;border-radius:999px;cursor:pointer;
+      border:2.5px solid var(--f2);background:var(--f2w);color:inherit}
+    #frage button.ok{border-color:var(--f3);background:var(--f3w)}
+    #frage button.nein{border-color:var(--f4);background:var(--f4w)}
+    #frage .fr-rueck{font-size:32px;line-height:1.35;margin-top:20px}
+    #frage .fr-weiter{margin-top:20px}
+    .fr-tippbar, .fr-tippbar svg{pointer-events:auto !important;cursor:crosshair}`;
+  document.head.appendChild(css);
+  const box = document.createElement('div'); box.id = 'frage'; stage.appendChild(box);
+  let letzt = 0, offen = null, tippen = null, stimme = null, sprung = false;
+  // Vorlesen mit derselben Stimme wie der Clip — nur wenn dessen Ton an ist.
+  const hauptton = document.getElementById('ton');
+  const vorlesen = src => {
+    if (stimme) { stimme.pause(); stimme = null; }
+    if (!src || !hauptton || hauptton.muted) return;
+    stimme = new Audio(src); stimme.play().catch(() => {});
+  };
+  const erledigt = new Set();     // beantwortete Fragen
+  const pause = () => { if (pp.textContent === 'Pause') pp.click(); };
+  const weiter = () => { if (pp.textContent === 'Play') pp.click(); };
+  function schliessen() {
+    vorlesen(null);
+    box.style.display = 'none'; box.innerHTML = '';
+    document.querySelectorAll('.fr-marke').forEach(m => m.remove());
+    document.querySelectorAll('.fr-tippbar').forEach(l => l.classList.remove('fr-tippbar'));
+    if (tippen) { stage.removeEventListener('click', tippen); tippen = null; }
+    offen = null;
+  }
+  function antwort(F, ok, text, schl) {
+    const o = offen; erledigt.add(o.i);
+    box.dataset.fertig = '1';
+    vorlesen((F.ton || {})[schl]);
+    if (F.typ === 'klick') box.querySelector('.fr-knoepfe').innerHTML = '';
+    const r = box.querySelector('.fr-rueck');
+    r.innerHTML = (ok ? '✓ ' : '') + text;
+    r.style.color = ok ? 'var(--f3)' : '';
+    if (ok) {                      // richtig: kurz bestaetigen, dann von selbst weiter
+      setTimeout(() => { if (offen === o) { schliessen(); weiter(); } }, 1300);
+      return;
+    }
+    const w = document.createElement('button'); w.className = 'fr-weiter'; w.textContent = 'Weiter ▶';
+    w.onclick = () => { schliessen(); weiter(); };
+    box.appendChild(w); w.focus();
+  }
+  function zeigen(i, F) {
+    offen = { i, t: F.t }; pause(); delete box.dataset.fertig;
+    box.innerHTML = '<div class="fr-kopf">Deine Vorhersage</div><div class="fr-text"></div>'
+      + '<div class="fr-knoepfe"></div><div class="fr-rueck"></div>';
+    box.querySelector('.fr-text').textContent = F.text;
+    const kn = box.querySelector('.fr-knoepfe');
+    if (F.typ === 'wahl') {
+      F.optionen.forEach((o, j) => {
+        const b = document.createElement('button'); b.textContent = o;
+        b.onclick = () => {
+          kn.querySelectorAll('button').forEach(x => x.disabled = true);
+          b.classList.add(j === F.richtig ? 'ok' : 'nein');
+          antwort(F, j === F.richtig, (F.rueck || {})[j] || (j === F.richtig ? 'Richtig.' : 'Schau, was der Clip zeigt.'), 'r' + j);
+        };
+        kn.appendChild(b);
+      });
+    } else if (F.typ === 'klick') {
+      const L = [...document.querySelectorAll('.l')].find(l => +l.style.opacity > 0.5 && l.querySelector('[data-fenster]'));
+      if (!L) { schliessen(); weiter(); return; }
+      const svg = L.querySelector('svg'), fe = L.querySelector('[data-fenster]').dataset.fenster.split(',').map(Number);
+      const [x0, x1, y0, y1, b, h, rd] = fe;
+      L.classList.add('fr-tippbar');
+      // Am Stage horchen, nicht am Layer: unsichtbare spaetere Layer (Deckkraft 0)
+      // liegen obenauf und wuerden den Tipp abfangen.
+      tippen = ev => {
+        if (!offen || box.dataset.fertig || box.contains(ev.target)) return;
+        const r = svg.getBoundingClientRect();
+        if (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom) return;
+        const sx = (ev.clientX - r.left) / r.width * b, sy = (ev.clientY - r.top) / r.height * h;
+        const x = x0 + (sx - rd) / (b - 2 * rd) * (x1 - x0), y = y0 + (h - rd - sy) / (h - 2 * rd) * (y1 - y0);
+        const mk = (cx, cy, farbe) => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', 16); c.setAttribute('class', 'fr-marke');
+          c.setAttribute('fill', 'none'); c.setAttribute('stroke', farbe); c.setAttribute('stroke-width', 6); svg.appendChild(c); };
+        mk(sx, sy, 'var(--f2)');
+        const d = Math.hypot(x - F.ziel[0], y - F.ziel[1]);
+        if (d <= (F.toleranz || 0.5)) return antwort(F, true, F.richtig_text || 'Getroffen.', 'ok');
+        const zx = rd + (F.ziel[0] - x0) / (x1 - x0) * (b - 2 * rd), zy = h - rd - (F.ziel[1] - y0) / (y1 - y0) * (h - 2 * rd);
+        mk(zx, zy, 'var(--f3)');
+        const fk = (F.fallen || []).findIndex(f => Math.hypot(x - f.bei[0], y - f.bei[1]) <= (F.toleranz || 0.5));
+        antwort(F, false, fk >= 0 ? F.fallen[fk].text : (F.falsch_text || 'Nicht ganz — der grüne Kreis zeigt die Stelle.'),
+                fk >= 0 ? 'fall' + fk : 'falsch');
+      };
+      stage.addEventListener('click', tippen);
+      kn.innerHTML = '<span style="font-size:30px;color:var(--f2)">👉 Tipp ins Bild rechts.</span>';
+    }
+    box.style.display = 'block';
+    vorlesen((F.ton || {}).frage);
+  }
+  // Spulen wird ausdruecklich erkannt: Pfeiltasten und ein Klick auf die
+  // Zeitleiste setzen ein Zeichen, das das naechste Bild auswertet. Ein
+  // spaetes Bild (langsames Laden, Hintergrund-Tab) ist kein Spulen.
+  // Neustart (R) und ein Sprung vor die erste Frage stellen alle Fragen neu;
+  // nach R laeuft der Clip ab 0 wie beim ersten Abspielen.
+  document.addEventListener('keydown', e => {
+    if ((e.key || '').toLowerCase() === 'r') { schliessen(); erledigt.clear(); letzt = 0; }
+    if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') sprung = true;
+  });
+  const bar = document.getElementById('bar');
+  bar.addEventListener('click', () => { sprung = true; });
+  // Die Abspielzeit ist im Abspieler lokal; zurueckgestellt wird sie ueber
+  // dessen Zeitleiste.
+  const zurueck = s => {
+    const r = bar.getBoundingClientRect();
+    if (r.width > 0 && bar.onclick) bar.onclick({ currentTarget: bar, clientX: r.left + s / DUR * r.width });
+  };
+  const vorFragen = seek;
+  seek = function (t) {
+    vorFragen(t);
+    if (sprung) {
+      // gespult: eine uebersprungene Frage wird nicht gestellt, eine
+      // beantwortete kommt nicht wieder — ausser zurueck an den Anfang
+      sprung = false;
+      if (FRAGEN.length && t < Math.min(...FRAGEN.map(F => F.t))) { schliessen(); erledigt.clear(); }
+    } else if (!offen && pp.textContent === 'Pause') {
+      // gewoehnliches Abspielen, auch wenn ein Bild weit springt: die erste
+      // ueberschrittene Frage wird gestellt, der Clip geht an ihre Stelle zurueck
+      let i = -1;
+      FRAGEN.forEach((F, j) => {
+        if (!erledigt.has(j) && letzt < F.t && t >= F.t && (i < 0 || F.t < FRAGEN[i].t)) i = j;
+      });
+      if (i >= 0) {
+        zeigen(i, FRAGEN[i]);
+        if (offen && t - offen.t > 0.1) { t = offen.t; zurueck(t); vorFragen(t); }
+      }
+    }
+    if (offen && Math.abs(t - offen.t) > 1.0) schliessen();
+    letzt = t;
+  };
+})();
+'''
+
+
+def fragen_texte(F):
+    """Alle Texte einer Frage, die vorgelesen werden: Liste (schluessel,
+    angezeigt, gesprochen). Der gesprochene Wortlaut steht in den *_sprich-
+    Feldern (wie «x minus zwei» statt «x − 2»); fehlt er, wird der angezeigte
+    Text gelesen. Dieselbe Liste benutzt build-clip-fragen-ton.py — so passen
+    Tondateien und Abspieler immer zusammen."""
+    t = [("frage", F["text"], F.get("sprich", F["text"]))]
+    # Richtige Antworten werden nicht vorgelesen: Der Clip zeigt kurz ✓ und
+    # rollt weiter (Entscheid 02.10.2026) — eine Ansage liefe in den Sprecher.
+    if F.get("typ") == "wahl":
+        rs = F.get("rueck_sprich", {})
+        for j in range(len(F.get("optionen", []))):
+            if j == F.get("richtig"):
+                continue
+            if str(j) in F.get("rueck", {}):
+                t.append(("r%d" % j, F["rueck"][str(j)], rs.get(str(j), F["rueck"][str(j)])))
+    else:
+        for k, f in enumerate(F.get("fallen", [])):
+            t.append(("fall%d" % k, f["text"], f.get("sprich", f["text"])))
+        if F.get("falsch_text"):
+            t.append(("falsch", F["falsch_text"], F.get("falsch_sprich", F["falsch_text"])))
+    return t
+
+
+def fragen_tondatei(dateiname, i, schluessel):
+    return "%s-f%d-%s.mp3" % (dateiname, i, schluessel)
+
+
 def element_html(el, theme):
     typ = el.get("typ", "text")
     stil = []
@@ -424,6 +1169,12 @@ def element_html(el, theme):
     elif typ == "graf":
         klassen += ["graf"]
         inhalt = graf_svg(el, theme)
+    elif typ == "boxplot":
+        klassen += ["graf"]
+        inhalt = boxplot_svg(el, theme)
+    elif typ == "rechner":
+        klassen += ["graf"]
+        inhalt = rechner_svg(el, theme)
     elif typ == "bild":
         # Eine fertige SVG-Zeichnung aus clips/bilder/, eingegossen statt
         # verlinkt: Der Clip bleibt eine Datei. Gedacht fuer Skizzen, die eine
@@ -636,15 +1387,6 @@ def bauen(quelle, eigenstaendig=False):
             links, breite, oben, abstand = 130, 1660, 230, 118
             mitte = True
 
-        # Die Bedingungsleiste sitzt bei top:96px und ist rund 54px hoch, sie
-        # endet also bei y = 150. Wer sie benutzt, laesst die Szenen darunter
-        # beginnen. Lieber hier abbrechen als es spaeter im Bild suchen.
-        if dreh.get("voraussetzung") and sz.get("oben", oben) < 170:
-            raise SystemExit(
-                "Szene %r beginnt bei oben=%d und liefe in die Bedingungsleiste "
-                "(sie endet bei y=150). Mit einer Voraussetzung beginnen die Szenen "
-                "bei oben >= 170." % (sz.get("name", "?"), sz.get("oben", oben)))
-
         y = sz.get("oben", oben)
         for i, el in enumerate(sz.get("elemente", [])):
             klassen, stil, inhalt = element_html(el, theme)
@@ -679,6 +1421,9 @@ def bauen(quelle, eigenstaendig=False):
             y = el.get("y", y) + el.get("abstand", max(abstand, hoehe))
 
             attr = f' data-at="{ein:.2f}"'
+            if el.get("typ") == "graf" and (any(pa.get("bewegung") for pa in el.get("parabeln", []))
+                                            or any(ge.get("bewegung") for ge in el.get("geraden", []))):
+                attr += f' data-t0="{start:.2f}"'
             if aus is not None:
                 attr += f' data-out="{aus:.2f}"'
             attr += f' data-anim="{anim}"'
@@ -714,6 +1459,15 @@ def bauen(quelle, eigenstaendig=False):
                         f'<div class="{" ".join(a_kl)}" data-at="{a_ein:.2f}" '
                         f'data-out="{a_aus:.2f}" data-anim="fade" '
                         f'style="{";".join(a_stil)}">{a_inhalt}</div>')
+
+        # Die Bedingungsleiste sitzt bei top:96px und ist rund 54px hoch, sie
+        # endet also bei y = 150. Wer sie benutzt, laesst die Szenen darunter
+        # beginnen. Lieber hier abbrechen als es spaeter im Bild suchen.
+        if dreh.get("voraussetzung") and sz.get("oben", oben) < 170:
+            raise SystemExit(
+                "Szene %r beginnt bei oben=%d und liefe in die Bedingungsleiste "
+                "(sie endet bei y=150). Mit einer Voraussetzung beginnen die Szenen "
+                "bei oben >= 170." % (sz.get("name", "?"), sz.get("oben", oben)))
 
     karo = ""
     if theme.get("karo"):
@@ -765,6 +1519,30 @@ def bauen(quelle, eigenstaendig=False):
         inhalt="\n".join(teile),
         sprecher=json.dumps(sprecher, ensure_ascii=False),
     )
+
+    # Nur Clips mit bewegten Bildern bekommen den Zusatz — alle anderen
+    # bleiben Byte fuer Byte, wie sie waren.
+    if "data-bew=" in html or "data-bewg=" in html:
+        html = html.replace("window.__seek = seek;", BEWEGUNG_JS + "window.__seek = seek;", 1)
+    if dreh.get("fragen"):
+        fr = []
+        for F in dreh["fragen"]:
+            sz = next((q for q in plan if q["sz"].get("name") == F["szene"]), None)
+            if sz is None:
+                raise SystemExit("Frage verweist auf unbekannte Szene: %s" % F["szene"])
+            G = {k: v for k, v in F.items() if not k.startswith("_") and k not in ("szene", "bei")
+                 and not k.endswith("sprich")}
+            for f_ in G.get("fallen", []):
+                f_.pop("sprich", None)
+            G["t"] = round(sz["start"] + F.get("bei", 0.3), 2)
+            G["ton"] = {}
+            for schl, _, _ in fragen_texte(F):
+                datei = fragen_tondatei(dreh["dateiname"], len(fr), schl)
+                if os.path.exists(os.path.join(CLIPS, "ton", datei)):
+                    G["ton"][schl] = "ton/" + datei
+            fr.append(G)
+        html = html.replace("window.__seek = seek;", "const FRAGEN = " + json.dumps(fr, ensure_ascii=False)
+                            + ";" + FRAGEN_JS + "window.__seek = seek;", 1)
 
     name = dreh.get("dateiname") or os.path.splitext(os.path.basename(quelle))[0]
     if eigenstaendig:
