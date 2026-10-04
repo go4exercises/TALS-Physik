@@ -248,7 +248,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `begreifbar-schlicht` (ohne Karo und Rand). Eine bewegte Gerade kann mit
   `"ab"` erst bei einem \(x\) beginnen (keine negative Zeit); der Fehler,
   durch den bewegte Geraden im Endzustand standen, ist seit 03.10.2026 behoben.
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell zwölf (dazu unten `leitprogramm-elektrizitaet`):
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell zwölf (dazu unten `leitprogramm-elektrizitaet` und `leitprogramm-kinematik`):
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
   `leitprogramm-vorwissen` (Grössen, Messen, Druck — sieben Clips, fünf
@@ -291,7 +291,8 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Kapitelmuster: `leitprogramm-elektrizitaet` (6.2, fünf Kapitel, zehn eigene
   Clips `p6-2-lp-*` mit `probe: true`, Gesamttest als PDF), gebaut mit
   `scripts/lp/elektrizitaet/` (README dort) — freigeschaltet am 03.10.2026 nach
-  `/lp-pruefung` (eine Erprobung läuft unverlinkt: `noindex` in `build-seo.py`,
+  `/lp-pruefung`; als zweites folgte `leitprogramm-kinematik` (4.1, `scripts/lp/kinematik/`,
+  freigeschaltet am 04.10.2026) (eine Erprobung läuft unverlinkt: `noindex` in `build-seo.py`,
   Menge `UNVERLINKT` in `build-suchindex.py`, keine Karte). Für eine
   Seite aus einem Prüfungs-PDF zusätzlich `HOWTO-uebungspruefung.md` (PDF
   misstrauisch lesen, `probe: true` für die Clips, die `</head>`-Falle, und

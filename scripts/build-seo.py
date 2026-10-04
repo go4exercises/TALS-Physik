@@ -169,8 +169,8 @@ SEITEN = {
    themen=['Physik', 'Elektrizität', 'Ladung', 'Stromstärke', 'Widerstand',
            'Reihenschaltung', 'Parallelschaltung', 'FI-Schutzschalter', 'Leitprogramm']),
  'leitprogramme/leitprogramm-kinematik.html': dict(
-   # Unverlinkt in Erprobung seit 04.10.2026 — freischalten nach /lp-pruefung (noindex entfernen).
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   # Freigeschaltet am 04.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Kinematik — Geschwindigkeit, Beschleunigung, Fall und Wurf, Vektoren, Kreisbewegung',
    beschreibung='Leitprogramm zur Kinematik in fünf Kapiteln — Ort, Bahn und Geschwindigkeit; '
                 'Beschleunigung und Bremsweg; freier Fall und Wurf; Geschwindigkeit als Vektor; '

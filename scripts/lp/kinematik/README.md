@@ -54,6 +54,6 @@ mit einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (al
   im Mini-Check auch für den Winkel gegen die Senkrechte.
 - **Kreis-Simulation** mit T ≥ 3 s und festem Pfeilmassstab (v 8 px je m/s, a_z 4 px je m/s²): So
   reicht a_z nie über die Mitte, und alle Pfeile bleiben im Bild (vorab mit python3 geprüft).
-- **Unverlinkt in Erprobung** seit 04.10.2026: `noindex` in `build-seo.py`, Menge `UNVERLINKT` in
-  `build-suchindex.py`, keine Karte, kein Kasten auf der Themenseite. Freischalten erst nach
-  `/lp-pruefung` und der Abnahme durch den Auftraggeber (HOWTO §15).
+- **Freigeschaltet am 04.10.2026** nach `/lp-pruefung` (Befunde behoben): Karte in
+  `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt durcharbeiten?» auf Themenseite 4.1,
+  im Suchindex und in der Sitemap.

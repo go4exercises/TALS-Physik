@@ -904,7 +904,7 @@ weiter = f'''
     </section>'''
 
 oben = '''<div id="nav-root"></div>
-<!-- Leitprogramm Kinematik, Version 1.0 (04.10.2026), unverlinkt in Erprobung bis nach /lp-pruefung.
+<!-- Leitprogramm Kinematik, Version 1.0 (04.10.2026, nach /lp-pruefung freigeschaltet).
      Zweites Physik-Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4): je Kapitel
      ① Einführungsclip → ② Simulation mit Aufgabenleiste → ③ Kontrollclip mit Fragen → Festhalten →
      ④ Übungen mit Rückmeldung → ⑤ Aufgaben mit Lösungen. Gesamttest und Bewertungspaket nur als PDF
