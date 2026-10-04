@@ -148,12 +148,14 @@
     function zeigen(){
       if (i >= n){
         var k = anzahl();
+        var alt2 = box.querySelector('.ls-vergleich'); if (alt2) alt2.remove();
         ok.textContent = ''; box.classList.remove('geloest');
         if (k === n){ nr.textContent = '✓'; tx.innerHTML = 'Alle ' + n + ' Aufgaben gelöst — weiter mit dem Kontrollclip.'; bt.textContent = 'nochmals'; bv.hidden = true; box.classList.add('fertig'); }
         else { nr.textContent = k + '/' + n; tx.innerHTML = k + ' von ' + n + ' gelöst, ' + (n - k) + ' übersprungen.'; bt.textContent = 'zu den offenen ▶'; bv.hidden = false; box.classList.remove('fertig'); }
         return;
       }
       box.classList.remove('fertig'); bv.hidden = true;
+      var alt = box.querySelector('.ls-vergleich'); if (alt) alt.remove();
       nr.textContent = (i + 1) + '/' + n; tx.innerHTML = aufgaben[i].text; setzen(tx);
       if (aufgaben[i].setup) aufgaben[i].setup(sim);
       pruefen();
@@ -165,6 +167,14 @@
       ok.textContent = erledigt[i] ? '✓' : '';
       bt.textContent = erledigt[i] ? 'Nächste ▶' : 'überspringen';
       box.classList.toggle('geloest', !!erledigt[i]);
+      // Fragt der Auftrag nach einer Erklärung, zählt das ✓ nur die Bedienung:
+      // Die Antwort schreibt man auf und vergleicht sie erst danach.
+      var vg = box.querySelector('.ls-vergleich');
+      if (erledigt[i] && aufgaben[i].vergleich && !vg){
+        vg = document.createElement('details'); vg.className = 'ls-vergleich';
+        vg.innerHTML = '<summary>Deine Antwort notiert? Vergleichen</summary><div>' + aufgaben[i].vergleich + '</div>';
+        box.appendChild(vg); setzen(vg);
+      }
     }
     function gehe(j){ i = j; if (sim.aufraeumen) sim.aufraeumen(); zeigen(); if (sim.zeichnen) sim.zeichnen(); }
     bt.addEventListener('click', function(){
@@ -208,7 +218,8 @@
       pruefen();
     }
     pruefen = Leiste(fig, [
-      { text: 'Zieh an beiden Reglern. Was legt die Steigung der Geraden fest?', ok: function(s){ return s.bewegt.I && s.bewegt.t; } },
+      { text: 'Zieh an beiden Reglern. Was legt die Steigung der Geraden fest? Notiere deine Antwort.', ok: function(s){ return s.bewegt.I && s.bewegt.t; },
+        vergleich: 'Die Steigung ist die Stromstärke: \\(I = \\dfrac{Q}{t}\\) in \\(\\text{C}/\\text{s} = \\text{A}\\). Mehr Strom heisst steilere Gerade; die Zeit verschiebt nur den Punkt auf der Geraden.' },
       { text: 'Bring in \\(4\\;\\text{s}\\) genau \\(6\\;\\text{C}\\) durch den Querschnitt.', ok: function(s){ return gl(s.t, 4) && gl(s.I, 1.5); } },
       { text: 'Stelle \\(Q = 12\\;\\text{C}\\) ein — auf zwei verschiedene Arten.', ok: function(s){ return s.arten >= 2; } },
       { text: 'Triff die gestrichelte Gerade.', setup: function(S){ ziel = 2.5; S.setze({ I: 1 }); }, ok: function(s){ return gl(s.I, 2.5); } },
@@ -262,7 +273,8 @@
       pruefen();
     }
     pruefen = Leiste(fig, [
-      { text: 'Zieh an allen Reglern. Was zeigt die Fläche des Rechtecks?', ok: function(s){ return s.bewegt.I && s.bewegt.t; } },
+      { text: 'Zieh an allen Reglern. Was zeigt die Fläche des Rechtecks? Notiere deine Antwort mit Einheit.', ok: function(s){ return s.bewegt.I && s.bewegt.t; },
+        vergleich: 'Die Fläche ist die Energie: Höhe mal Breite, \\(E = P \\cdot t\\), in \\(\\text{kW} \\cdot \\text{h} = \\text{kWh}\\).' },
       { text: 'Ein Bügeleisen am Netz hat \\(1600\\;\\text{W}\\). Stelle die Stromstärke ein.', setup: function(S){ S.setze({ U: 230, I: 4 }); }, ok: function(s){ return gl(s.U, 230) && nah(s.P, 1600, 0.01); } },
       { text: 'Es läuft \\(45\\;\\text{min}\\). Stelle die Zeit ein und lies die Energie ab.', ok: function(s){ return gl(s.t, 0.75) && nah(s.P, 1600, 0.01); } },
       { text: 'Stelle \\(0.92\\;\\text{kWh}\\) in \\(2\\;\\text{h}\\) ein.', ok: function(s){ return gl(s.U, 230) && gl(s.t, 2) && Math.abs(s.E - 0.92) < 0.005; } },
@@ -306,7 +318,8 @@
       pruefen();
     }
     pruefen = Leiste(fig, [
-      { text: 'Probiere zwei Materialien und beide Regler. Was macht die Gerade steiler?', ok: function(s){ return s.bewegt.l && s.bewegt.A && s.stoffe >= 2; } },
+      { text: 'Probiere zwei Materialien und beide Regler. Was macht die Gerade steiler? Notiere deine Antwort.', ok: function(s){ return s.bewegt.l && s.bewegt.A && s.stoffe >= 2; },
+        vergleich: 'Die Steigung ist \\(\\dfrac{\\rho}{A}\\): Ein Material mit grösserem \\(\\rho\\) oder ein kleinerer Querschnitt machen die Gerade steiler. Die Länge verschiebt nur den Punkt auf der Geraden.' },
       { text: 'Kupfer, \\(1\\;\\text{mm}^2\\): Mach den Widerstand doppelt so gross wie bei \\(10\\;\\text{m}\\) — nur mit der Länge.', setup: function(S){ S.setze({ m: 'Cu', l: 10, A: 1 }); }, ok: function(s){ return s.m === 'Cu' && gl(s.A, 1) && gl(s.l, 20); } },
       { text: 'Und jetzt wieder so klein wie bei \\(10\\;\\text{m}\\) — nur mit dem Querschnitt.', ok: function(s){ return s.m === 'Cu' && gl(s.l, 20) && gl(s.A, 2); } },
       { text: 'Aluminiumkabel, \\(20\\;\\text{m}\\) lang, zwei Adern zu \\(2.5\\;\\text{mm}^2\\). Stelle die ganze Leiterlänge ein.', ok: function(s){ return s.m === 'Al' && gl(s.l, 40) && gl(s.A, 2.5); } },
@@ -394,9 +407,15 @@
 
   /* ---------- Kapitel 5: Gefahren und Schutz ----------
      Rechnet wie Animation 13 der Themenseite (Wasserkocher 2000 W an 230 V,
-     LS 13 A, FI 30 mA, Fehlerschleife 2 Ω über den Schutzleiter, 0.5 Ω beim
+     LS B13, FI 30 mA, Fehlerschleife 2 Ω über den Schutzleiter, 0.5 Ω beim
      Kurzschluss), zeigt aber nur das Ergebnis und kein Schaltbild mit Klemmen:
-     Hier geht es um die Zuordnung «wer misst was, wer trennt wann». */
+     Hier geht es um die Zuordnung «wer misst was, wer trennt wann».
+     Modell (Prüfung 04.10.2026): unverzögerter FI bei sinusförmigem Fehlerstrom —
+     bis 0.5·IΔn = 15 mA löst er nicht aus, darüber darf er, ab 30 mA muss er.
+     LS mit Charakteristik B: magnetisch sicher ab 5·In = 65 A, Überlast nur
+     thermisch (hier nicht nachgebildet). Die Ströme gelten im Moment des
+     Fehlers, bevor ein Schalter trennt. Die Quelle ist geerdet; der Schutzleiter
+     führt zu ihr zurück, der Körperweg über den Boden. */
   var FI = { U: 230, P: 2000, IDN: 0.030, LSN: 13, RPE: 2, RKURZ: 0.5 };
   function fiRechne(fall, RK){
     var Ilast = FI.P / FI.U, IL = Ilast, IN = Ilast, IF = 0, IK = 0;
@@ -404,7 +423,7 @@
     else if (fall === 'pe'){ IF = FI.U / FI.RPE; IL = Ilast + IF; }
     else if (fall === 'kurz'){ IK = FI.U / FI.RKURZ; IL = Ilast + IK; IN = IL; }
     var fak = IF / FI.IDN;
-    return { IL: IL, IN: IN, dI: IF, IK: IK, fi: fak >= 1 ? 'ja' : fak >= 0.5 ? 'kann' : 'nein', zeit: fak >= 5 ? '40 ms' : fak >= 2 ? '150 ms' : '300 ms', ls: IL >= 5 * FI.LSN };
+    return { IL: IL, IN: IN, dI: IF, IK: IK, fi: fak >= 1 ? 'ja' : fak > 0.5 ? 'kann' : 'nein', zeit: fak >= 5 ? '40 ms' : fak >= 2 ? '150 ms' : '300 ms', ls: IL >= 5 * FI.LSN };
   }
   function strom(I){ return I >= 100 ? fest(I, 1) + NB + 'A' : I >= 1 ? fest(I, 4) + NB + 'A' : I > 0 ? sig(I * 1000) + NB + 'mA' : '0' + NB + 'mA'; }
   (function(){
@@ -425,11 +444,18 @@
       var f = B.wert('fall'), RK = B.wert('RK'), r = fiRechne(f, RK);
       B.anzeigen(); leeren(svg);
       fig.querySelector('.rk-zeile').hidden = f !== 'koerper';
-      // Leitungen: L oben, N darunter, Schutzleiter (PE) unten
-      el(svg, 'text', { x: 4, y: 34, 'class': 'bt-titel' }, 'L'); el(svg, 'text', { x: 4, y: 84, 'class': 'bt-titel' }, 'N');
-      el(svg, 'polyline', { points: '18,30 236,30', 'class': 'leiter-l' });
-      el(svg, 'polyline', { points: '18,80 236,80', 'class': 'leiter-n' });
-      kasten(46, 10, 64, 40, 'LS 13 A', r.ls, r.ls ? 'trennt' : 'bleibt ein');
+      // Quelle links, ihr Sternpunkt (N) geerdet: So schliesst sich jeder Fehlerweg.
+      // Leitungen: L oben, N darunter, Schutzleiter (PE) unten zurück zur Quelle
+      el(svg, 'line', { x1: 14, y1: 30, x2: 14, y2: 45, 'class': 'draht' });
+      el(svg, 'line', { x1: 14, y1: 65, x2: 14, y2: 80, 'class': 'draht' });
+      el(svg, 'circle', { cx: 14, cy: 55, r: 10, 'class': 'bauteil' });
+      el(svg, 'path', { d: 'M8 55 q3 -6 6 0 t6 0', 'class': 'draht' });
+      el(svg, 'line', { x1: 14, y1: 80, x2: 14, y2: 196, 'class': 'erde' });
+      el(svg, 'text', { x: 20, y: 124, 'class': 'bt-klein' }, 'Quelle geerdet');
+      el(svg, 'text', { x: 24, y: 25, 'class': 'bt-titel' }, 'L'); el(svg, 'text', { x: 24, y: 75, 'class': 'bt-titel' }, 'N');
+      el(svg, 'polyline', { points: '14,30 236,30', 'class': 'leiter-l' });
+      el(svg, 'polyline', { points: '14,80 236,80', 'class': 'leiter-n' });
+      kasten(46, 10, 64, 40, 'LS B13', r.ls, r.ls ? 'trennt' : 'bleibt ein');
       kasten(128, 10, 72, 90, 'FI 30 mA', r.fi === 'ja', r.fi === 'ja' ? 'löst aus' : r.fi === 'kann' ? 'darf' : 'bleibt ein');
       if (r.fi === 'ja') el(svg, 'text', { x: 164, y: 70, 'text-anchor': 'middle', 'class': 'bt-text' }, '≤ ' + r.zeit);
       el(svg, 'text', { x: 164, y: 90, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'vergleicht');
@@ -439,11 +465,11 @@
       el(svg, 'text', { x: 271, y: 67, 'text-anchor': 'middle', 'class': 'bt-klein' }, '2000 W');
       if (f === 'kurz') el(svg, 'polyline', { points: '226,30 232,46 222,56 230,80', 'class': 'kurzschluss' });
       // Erde
-      el(svg, 'line', { x1: 18, y1: 196, x2: 306, y2: 196, 'class': 'erde' });
-      el(svg, 'text', { x: 18, y: 212, 'class': 'bt-klein' }, 'Erde');
+      el(svg, 'line', { x1: 14, y1: 196, x2: 306, y2: 196, 'class': 'erde' });
+      el(svg, 'text', { x: 24, y: 212, 'class': 'bt-klein' }, 'Erde');
       if (f === 'pe'){
-        el(svg, 'polyline', { points: '296,94 296,196', 'class': 'leiter-pe' });
-        el(svg, 'text', { x: 290, y: 150, 'text-anchor': 'end', 'class': 'bt-text' }, 'Schutzleiter');
+        el(svg, 'polyline', { points: '296,94 296,178 14,178', 'class': 'leiter-pe' });
+        el(svg, 'text', { x: 290, y: 170, 'text-anchor': 'end', 'class': 'bt-text' }, 'Schutzleiter PE: zurück zur Quelle');
       }
       if (f === 'koerper'){
         // Mensch: Hand am Gehäuse, Füsse auf der Erde
@@ -462,16 +488,19 @@
         ['Differenz Δ' + v('I'), strom(r.dI)]
       ];
       rolle(fig, 'formel').innerHTML = zeilen.map(function(z){ return '<span>' + z[0] + ': ' + z[1] + '</span>'; }).join('') +
-        (f === 'koerper' ? '<span>' + v('I') + '<sub>K</sub> = ' + v('U') + ' / ' + v('R') + '<sub>K</sub> = 230' + NB + 'V / ' + RK + NB + 'Ω ' + ist(r.dI * 1000, sig(r.dI * 1000)) + sig(r.dI * 1000) + NB + 'mA</span>' : '');
+        (f === 'koerper' ? '<span>' + v('I') + '<sub>K</sub> = ' + v('U') + ' / ' + v('R') + '<sub>K</sub> = 230' + NB + 'V / ' + RK + NB + 'Ω ' + ist(r.dI * 1000, sig(r.dI * 1000)) + sig(r.dI * 1000) + NB + 'mA</span>' : '') +
+        (f !== 'normal' ? '<span class="sim-notiz">Ströme im Moment des Fehlers, bevor ein Schalter trennt. Die Kästen zeigen, welche Schutzfunktion anspricht.</span>' : '');
       pruefen();
     }
     pruefen = Leiste(fig, [
       { text: 'Wähle jeden Fall einmal und vergleiche «Strom hin» mit «Strom zurück».', ok: function(s){ return s.faelle >= 4; } },
       { text: 'Finde den Fall, in dem der FI auslöst, der Leitungsschutzschalter aber nicht.', setup: function(S){ S.setze({ fall: 'normal', RK: 1000 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi === 'ja' && !s.ls; } },
       { text: 'Finde den Fall, in dem nur der Leitungsschutzschalter trennt.', ok: function(s){ return s.fall === 'kurz'; } },
-      { text: 'Mensch am Gehäuse: Erhöhe \\(R_\\text{K}\\), bis der FI nicht mehr auslösen muss. Ist der Strom dann harmlos?', setup: function(S){ S.setze({ fall: 'koerper', RK: 1000 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi !== 'ja'; } },
-      { text: 'Trockene Haut am Netz: Stelle \\(R_\\text{K} = 1.6\\;\\text{k}\\Omega\\) ein und lies den Körperstrom ab.', ok: function(s){ return s.fall === 'koerper' && gl(s.RK, 1600); } },
-      { text: 'Wähle den Fall mit Schutzleiter. Welche Schalter trennen jetzt?', ok: function(s){ return s.fall === 'pe'; } }
+      { text: 'Gedankenexperiment — so hohe Werte sind am Netz unrealistisch: Erhöhe \\(R_\\text{K}\\), bis der FI nicht mehr auslösen muss. Ist der Strom dann harmlos? Notiere deine Antwort.', setup: function(S){ S.setze({ fall: 'koerper', RK: 1000 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi !== 'ja'; },
+        vergleich: 'Nein. Über \\(7.7\\;\\text{k}\\Omega\\) fliessen weniger als \\(30\\;\\text{mA}\\), bei \\(10\\;\\text{k}\\Omega\\) noch \\(23\\;\\text{mA}\\) — genug, dass sich die Hand verkrampft. Der FI ist zusätzlicher Schutz, keine Grenze für ungefährlichen Strom. Und trockene Haut ist kein Schutz, auf den man sich verlassen kann.' },
+      { text: 'Zurück zum Modell: Trockene Haut am Netz, \\(R_\\text{K} = 1.6\\;\\text{k}\\Omega\\). Stelle ein und lies den Körperstrom ab.', ok: function(s){ return s.fall === 'koerper' && gl(s.RK, 1600); } },
+      { text: 'Wähle den Fall mit Schutzleiter. Welche Schalter sprechen an? Notiere deine Antwort.', ok: function(s){ return s.fall === 'pe'; },
+        vergleich: 'Beide. \\(115\\;\\text{A}\\) sind mehr als das Fünffache der \\(13\\;\\text{A}\\): Der LS B13 löst magnetisch aus. Und die \\(115\\;\\text{A}\\) fehlen auf dem Neutralleiter: Auch der FI spricht an. Wer zuerst öffnet, zeigt das Modell nicht — nach dem Öffnen fliesst kein Fehlerstrom mehr.' }
     ], sim);
     zeichnen();
   })();
@@ -495,7 +524,7 @@
       s = String(s).trim().replace(/\u2212/g, '-').replace(',', '.').replace(/\s+/g, '').replace(/^\+(?=[\d.])/, '');
       if (!s) return { wert: NaN, leer: true };
       var m = s.match(/^(-?(?:\d+(?:\.\d+)?|\.\d+))\/(\d+(?:\.\d+)?|\.\d+)$/);
-      return { wert: m ? parseFloat(m[1]) / parseFloat(m[2]) : (/^-?(\d+(\.\d+)?|\.\d+)(e-?\d+)?$/i.test(s) ? parseFloat(s) : NaN), komma: komma };
+      return { wert: m ? parseFloat(m[1]) / parseFloat(m[2]) : (/^-?(\d+(\.\d+)?|\.\d+)(e[-+]?\d+)?$/i.test(s) ? parseFloat(s) : NaN), komma: komma };
     }
     // Typische Fehler als Faktoren: welcher Faktor trennt die Eingabe von der Lösung?
     function faktor(e, x, f){ return nah(e, x * f, 0.006); }
@@ -581,9 +610,12 @@
         neu: function(){
           if (Math.random() < 0.5){
             var U = zufall([12, 24, 230]), I = U === 230 ? zufall([0.5, 3, 4, 6.5, 8, 10]) : zufall([0.5, 2, 3.5, 5, 8]);
-            return { art: 'P', x: U * I, U: U, I: I, text: 'Ein Gerät an \\(U = ' + ein(U, 'V') + '\\) zieht \\(I = ' + ein(I, 'A') + '\\). Welche Leistung setzt es um?' };
+            // Am Netz nur eine Heizung: Für sie gilt P = U · I auch mit Effektivwerten
+            return { art: 'P', x: U * I, U: U, I: I, text: (U === 230 ? 'Eine Heizung am Netz (\\(U = ' + ein(U, 'V') + '\\)) zieht' : 'Ein Gerät an einer Batterie mit \\(U = ' + ein(U, 'V') + '\\) zieht') + ' \\(I = ' + ein(I, 'A') + '\\). Welche Leistung setzt es um?' };
           }
-          var G = zufall([['Ein Wasserkocher', 2000], ['Ein Toaster', 900], ['Ein Staubsauger', 700], ['Ein Bügeleisen', 2200], ['Ein Heizlüfter', 1500], ['Eine Mikrowelle', 800]]);
+          // Nur Geräte, die wie ein Widerstand wirken (Heizdraht): Bei Motor oder
+          // Netzteil folgt der Strom nicht allein aus P und U
+          var G = zufall([['Ein Wasserkocher', 2000], ['Ein Toaster', 900], ['Eine Kochplatte', 1200], ['Ein Bügeleisen', 2200], ['Ein Heizlüfter', 1500], ['Ein Heizstrahler', 800]]);
           return { art: 'I', x: G[1] / 230, U: 230, P: G[1], G: G[0], text: G[0] + ' mit \\(P = ' + ein(G[1], 'W') + '\\) läuft am Netz (\\(' + ein(230, 'V') + '\\)). Welcher Strom fliesst?' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;
@@ -774,28 +806,35 @@
         loesung: function(A){ return 'I = \\dfrac{U}{R_1 + R_2} = \\dfrac{' + ein(A.U, 'V') + '}{' + (A.R1 + A.R2) + '\\;\\Omega} ' + erg(A.U / (A.R1 + A.R2) * 1000, 'mA') + ',\\quad U_2 = I \\cdot R_2 = ' + ein(+(A.U / (A.R1 + A.R2) * 1000).toPrecision(3), 'mA') + ' \\cdot ' + A.R2 + '\\;\\Omega ' + erg(A.U2, 'V'); } },
 
       /* ----- Kapitel 5 ----- */
-      'koerperstrom': { felder: ['I', 'fi'], muster: '<i>I</i><sub>K</sub> = {I} mA; FI {fi:muss auslösen|darf auslösen|löst nicht aus}',
+      'koerperstrom': { felder: ['I', 'zeit'], muster: '<i>I</i><sub>K</sub> = {I} mA; der FI muss trennen nach höchstens {zeit:300 ms|150 ms|40 ms}',
         neu: function(){
-          // Körperwiderstand wie auf der Themenseite: am Netz 1 bis 2 kΩ, bei kleiner Spannung mehr
-          var F = zufall([[230, 1000, 'nasser Haut'], [230, 1600, 'trockener Haut'], [230, 1300, 'feuchter Haut'], [50, 1500, 'nasser Haut'],
-                          [50, 2500, 'trockener Haut'], [24, 4000, 'trockener Haut'], [12, 4000, 'trockener Haut']]);
-          var I = F[0] / F[1] * 1000, fak = I / 30;
-          return { I: I, U: F[0], R: F[1], fi: fak >= 1 ? 'muss auslösen' : fak >= 0.5 ? 'darf auslösen' : 'löst nicht aus',
-            text: 'Ein Mensch mit ' + F[2] + ' (\\(R_\\text{K} = ' + tz(F[1]) + '\\;\\Omega\\)) berührt ein Gehäuse unter \\(' + ein(F[0], 'V') + '\\); der Strom fliesst über ihn zur Erde. Körperstrom? Was tut ein FI mit \\(30\\;\\text{mA}\\)?' }; },
+          // Nur am Netz (230 V Wechselspannung) und mit einem unverzögerten 30-mA-FI:
+          // Für Kleinspannung und Gleichstrom gelten diese Zeiten nicht. Alle Werte
+          // liegen über 30 mA; gefragt ist die Höchstzeit (bis 2·IΔn 300 ms, bis
+          // 5·IΔn 150 ms, darüber 40 ms). Keiner trifft eine Grenze genau.
+          var F, I;
+          do {
+            F = zufall([[1000, 'nasser Haut'], [1300, 'feuchter Haut'], [1600, 'trockener Haut'], [2300, 'trockener Haut'],
+                        [3000, 'Schuhen auf trockenem Boden'], [4000, 'Schuhen auf trockenem Boden'], [6000, 'Gummisohlen auf trockenem Boden']]);
+          } while (F[0] === 1500);   // Aufgabe 5a
+          I = 230 / F[0] * 1000;
+          var fak = I / 30;
+          return { I: I, U: 230, R: F[0], zeit: fak >= 5 ? '40 ms' : fak >= 2 ? '150 ms' : '300 ms',
+            text: 'Ein Mensch mit ' + F[1] + ' (\\(R_\\text{K} = ' + tz(F[0]) + '\\;\\Omega\\), Körper und Boden zusammen) berührt ein defektes Gehäuse am Netz (\\(230\\;\\text{V}\\) Wechselspannung). Der Strom fliesst über ihn und den Boden zur geerdeten Quelle zurück. Körperstrom? Nach welcher Zeit muss ein unverzögerter FI mit \\(30\\;\\text{mA}\\) spätestens trennen?' }; },
         pruefen: function(A, e){
           var r = [];
-          if (nah(e.I, A.I) && e.fi === A.fi) return null;
+          if (nah(e.I, A.I) && e.zeit === A.zeit) return null;
           if (!nah(e.I, A.I)){
             if (faktor(e.I, A.I, 0.001)) r.push('Das ist der Wert in Ampere — in Milliampere mal \\(1000\\).');
             else if (nah(e.I, A.U * A.R) || nah(e.I, A.R / A.U * 1000)) r.push('\\(I_\\text{K} = \\dfrac{U}{R_\\text{K}}\\): Spannung durch Körperwiderstand.');
             else r.push('\\(I_\\text{K} = \\dfrac{U}{R_\\text{K}}\\), dann in \\(\\text{mA}\\).');
           }
-          if (e.fi !== A.fi) r.push('Der FI muss ab \\(30\\;\\text{mA}\\) Fehlerstrom auslösen, darf ab \\(15\\;\\text{mA}\\) — darunter löst er nicht aus.');
+          if (e.zeit !== A.zeit) r.push('Vergleiche mit \\(30\\;\\text{mA}\\): bis zum Doppelten (\\(60\\;\\text{mA}\\)) höchstens \\(300\\;\\text{ms}\\), bis zum Fünffachen (\\(150\\;\\text{mA}\\)) höchstens \\(150\\;\\text{ms}\\), darüber \\(40\\;\\text{ms}\\).');
           return r.join(' '); },
         fehler: function(A){
-          var andere = ['muss auslösen', 'darf auslösen', 'löst nicht aus'].filter(function(x){ return x !== A.fi; });
-          return [[{ I: String(A.I / 1000), fi: A.fi }, 'Ampere'], [{ I: String(A.I), fi: andere[0] }, '30'], [{ I: String(A.R / A.U * 1000), fi: A.fi }, 'durch']]; },
-        loesung: function(A){ return 'I_\\text{K} = \\dfrac{U}{R_\\text{K}} = \\dfrac{' + ein(A.U, 'V') + '}{' + tz(A.R) + '\\;\\Omega} ' + erg(A.I, 'mA') + ',\\quad \\text{FI: ' + A.fi + '}'; } },
+          var andere = ['300 ms', '150 ms', '40 ms'].filter(function(x){ return x !== A.zeit; });
+          return [[{ I: String(A.I / 1000), zeit: A.zeit }, 'Ampere'], [{ I: String(A.I), zeit: andere[0] }, 'Doppelten'], [{ I: String(A.R / A.U * 1000), zeit: A.zeit }, 'durch']]; },
+        loesung: function(A){ return 'I_\\text{K} = \\dfrac{U}{R_\\text{K}} = \\dfrac{' + ein(A.U, 'V') + '}{' + tz(A.R) + '\\;\\Omega} ' + erg(A.I, 'mA') + ',\\quad \\text{FI: höchstens ' + A.zeit + '}'; } },
       'schutz': { felder: ['s'], muster: '{s:FI-Schutzschalter|Leitungsschutzschalter|Schutzleiter|Schutzklasse II}',
         neu: function(){
           var F = zufall([
@@ -803,7 +842,7 @@
             ['Aussen- und Neutralleiter berühren sich im Gerät direkt. Was schaltet ab?', 'Leitungsschutzschalter'],
             ['Jemand berührt einen defekten Föhn; \\(40\\;\\text{mA}\\) fliessen über den Körper zur Erde. Was schaltet ab?', 'FI-Schutzschalter'],
             ['Eine feuchte Wand lässt \\(35\\;\\text{mA}\\) vom Aussenleiter zur Erde abfliessen. Was schaltet ab?', 'FI-Schutzschalter'],
-            ['Ein Metallgehäuse bekommt Kontakt zum Aussenleiter. Was leitet den Fehlerstrom zur Erde ab, damit sofort abgeschaltet wird?', 'Schutzleiter'],
+            ['Ein Metallgehäuse bekommt Kontakt zum Aussenleiter. Was führt den Fehlerstrom zur geerdeten Quelle zurück, damit er gross wird und sofort abgeschaltet wird?', 'Schutzleiter'],
             ['Ein Gerät hat keinen Schutzleiter, aber eine doppelte Isolation (Doppelquadrat-Symbol). Wie heisst diese Schutzmassnahme?', 'Schutzklasse II']
           ]);
           if (this._letzte === F[0]) return this.neu();   // nicht zweimal hintereinander dieselbe Frage
@@ -812,8 +851,8 @@
         pruefen: function(A, e){
           if (e.s === A.s) return null;
           if (e.s === 'FI-Schutzschalter') return A.s === 'Leitungsschutzschalter' ? 'Der FI vergleicht Hin- und Rückstrom. Hier fliesst alles zurück — keine Differenz.' : 'Der FI schaltet ab, leitet aber nichts ab und isoliert nichts.';
-          if (e.s === 'Leitungsschutzschalter') return 'Der Leitungsschutzschalter reagiert erst auf Ströme über seinem Nennstrom (z. B. \\(13\\;\\text{A}\\)) — er schützt die Leitung, nicht den Menschen.';
-          if (e.s === 'Schutzleiter') return 'Der Schutzleiter schaltet nichts ab; er stellt nur einen guten Weg zur Erde bereit.';
+          if (e.s === 'Leitungsschutzschalter') return 'Der Leitungsschutzschalter reagiert erst auf Ströme über seinem Nennstrom (bei B13 über \\(13\\;\\text{A}\\): Überlast nach einiger Zeit, Kurzschluss sofort) — er schützt die Leitung, nicht den Menschen.';
+          if (e.s === 'Schutzleiter') return 'Der Schutzleiter schaltet nichts ab; er bietet dem Fehlerstrom nur einen guten Rückweg zur Quelle.';
           return 'Schutzklasse II heisst: doppelt isoliert, ohne Schutzleiter. Sie schaltet nichts ab.'; },
         loesung: function(A){ return '\\text{' + A.s + '}'; } }
     };
@@ -843,7 +882,7 @@
           if (r.leer) leer = true; else if (isNaN(r.wert)) kaputt = true; if (r.komma) komma = true;
           i.classList.toggle('falsch', !r.leer && isNaN(r.wert)); });
         if (leer){ rueck.className = 'ue-rueck hinweis'; rueck.textContent = ein.querySelector('select') ? 'Wähle aus und fülle alle offenen Felder aus.' : 'Fülle alle Felder aus.'; return; }
-        if (kaputt){ rueck.className = 'ue-rueck hinweis'; rueck.innerHTML = 'Zahlen wie <code>0.25</code>, <code>-3</code> oder <code>1/2</code>, ohne Einheit.'; return; }
+        if (kaputt){ rueck.className = 'ue-rueck hinweis'; rueck.innerHTML = 'Zahlen ohne Einheit, mit Punkt oder Komma: <code>0.25</code>, <code>-3</code>, <code>1/2</code> oder <code>2.4e-3</code> für \\(2.4 \\cdot 10^{-3}\\).'; setzen(rueck); return; }
         versuche++;
         var f = T.pruefen(A, e);
         if (f === null){

@@ -155,6 +155,22 @@ OFFEN = [
              'Physiks Fassung ist Mathes vom 03.10.2026 plus die Physik-Eigenheiten '
              '(Textbreite aus `breite`, `mitnehmen`, Bedingungsleisten-Pruefung vor den Elementen); '
              'das Feld "werkzeug" im Index fehlt in Physik bewusst (keine Rechner-Clips).'),
+    dict(quelle='Physik', was='build-clips.py: Fragen im Clip per Tastatur, Toleranz je Achse, Eingabe statt Tippen (04.10.2026)',
+         wie='Aus der Pruefung des Leitprogramms Elektrizitaet. (1) FEHLER, auch in Mathe (build-clips.py '
+             'Z. 1835): Der Hauptabspieler faengt die Leertaste ueberall ab (preventDefault + toggle) — '
+             'ein fokussierter Antwortknopf laesst sich damit nicht bestaetigen, die Leertaste schaltet '
+             'stattdessen Play/Pause. Physik: Tastenkuerzel nicht in input/select/textarea, die Leertaste '
+             'nicht auf button/a/summary; dasselbe fuer «R» im FRAGEN_JS. (2) Fokus: zeigen() setzt ihn '
+             'nach display:block auf die erste Antwort (vorher geht focus() auf ein verstecktes Element '
+             'ins Leere), schliessen() gibt ihn an Play/Pause zurueck, auch wenn er mit dem gesperrten '
+             'Knopf schon auf <body> gefallen ist. (3) "toleranz" darf [dx, dy] sein (je Achse, statt '
+             'Math.hypot in Dateneinheiten, Mathe Z. 1150) — noetig, wenn die Achsen verschiedene '
+             'Groessen tragen; eine Zahl wirkt wie bisher. (4) Neues Feld "eingabe": ["t in s", "Q in C"] '
+             'an einer klick-Frage — zwei Zahlfelder und «Pruefen» als gleichwertiger Weg ohne Maus, '
+             'gleiche Auswertung (pruefePunkt) samt fallen. Mathe hat 70 Fragen in 14 Clips, 15 davon '
+             'klick: dort "eingabe" je Frage nachtragen, sonst bleiben sie ohne Zeigegeraet unloesbar. '
+             'Danach die 14 Clips neu bauen und pruef-fragen laufen lassen. Diese Datei und '
+             'build-clips.py aus Physik uebernehmen.'),
 ]
 FACH = {
     'nav.js': 'Seitenbaum und Lerngebiete — je Fach ein anderer.',

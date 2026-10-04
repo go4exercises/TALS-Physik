@@ -384,6 +384,20 @@ Voraussage (predict–observe–explain) wandert in den Clip selbst:
 - `klick`: Tippen ins bewegte Bild der Szene (braucht ein `graf` mit `bewegung` —
   Parabel oder Gerade —, denn dessen Fenster rechnet den Tipp in Koordinaten um). `fallen` sind typische falsche
   Stellen mit eigener Rückmeldung; ein grüner Kreis zeigt danach die richtige Stelle.
+  `toleranz` ist ein Abstand in Dateneinheiten — oder `[dx, dy]` je Achse, sobald die
+  Achsen verschiedene Grössen tragen (`[0.4, 1.2]` bei \(t\) in s und \(Q\) in C: Sonst
+  zählt ein Klick eine Sekunde daneben noch als Treffer). Mit `"eingabe": ["t in s", "Q in C"]`
+  bekommt die Frage zwei Zahlfelder als gleichwertigen Weg ohne Maus (Tastatur,
+  Screenreader); sie werden wie ein Tipp ausgewertet, `fallen` eingeschlossen. Seit
+  04.10.2026 für jede neue `klick`-Frage setzen.
+- **Bedienung per Tastatur:** Erscheint eine Frage, liegt der Fokus auf der ersten
+  Antwort; Tab, Enter und Leertaste genügen. Die Leertaste schaltet nur ausserhalb von
+  Knöpfen Play/Pause, Tastenkürzel wirken nicht in Eingabefeldern. Nach der Frage kehrt
+  der Fokus zu Play/Pause zurück.
+- **Richtige Antwort nicht immer an derselben Stelle:** `richtig` über die Positionen
+  verteilen — am 04.10.2026 hatten alle 24 Auswahlfragen der Physik-Kontrollclips
+  `richtig: 0`, und der erste Knopf löste jede. `rueck` bleibt an die Option gebunden,
+  nicht an die Stelle; nach einem Umstellen den Frage-Ton neu erzeugen.
 - Der Clip hält nur beim **Abspielen** an. Spulen erkennt `FRAGEN_JS` ausdrücklich
   (Klick auf die Zeitleiste, ← →), nicht am Zeitabstand zweier Bilder: Ein Sprung an
   einer Frage vorbei löst sie nicht aus, eine beantwortete Frage kommt beim Zurückspulen

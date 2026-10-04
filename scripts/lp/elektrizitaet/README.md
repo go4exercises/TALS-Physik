@@ -7,7 +7,7 @@ dem Mathe-Vorbild `tals-mathe/scripts/lp/quadratische-funktionen/`.
 |---|---|---|
 | `seite.py` | baut `leitprogramme/leitprogramm-elektrizitaet.html` — Kopf, CSS, Grundskript, alle Kapitel. Aus der bestehenden Seite übernimmt es nur den SEO-Block. | **ja** — für jede Änderung an Text, Aufgaben, Kapitelaufbau |
 | `seite.js` | Seitenskript: Koordinatensystem `Achsen()`, Bedienung (Regler und Knöpfe), Aufgabenleiste `Leiste()`, Simulationen sim1–sim5, Übungen mit Rückmeldung (`TYPEN`), Minigrafen | wird von `seite.py` eingesetzt |
-| `clips.py` | Archiv: hat die zehn Drehbücher `clips/p6-2-lp-*.json` erzeugt; die Kontrollclips in Fassung 2 (nach der Prüfung vom 03.10.2026) | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern; mit Clipnamen dahinter nur diese). Spätere Korrekturen an den Einführungsclips stehen nur in den JSONs. |
+| `clips.py` | Archiv: hat die zehn Drehbücher `clips/p6-2-lp-*.json` erzeugt; die Kontrollclips in Fassung 2 (nach der Prüfung vom 03.10.2026) | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern; mit Clipnamen dahinter nur diese). Spätere Korrekturen an den Einführungsclips stehen nur in den JSONs, ebenso seit Fassung 1.1 (04.10.2026) die der Kontrollclips (Antwortpositionen, Eingabe der Klickfrage, Heizung statt «Gerät»). |
 
 ## Ablauf bei einer Änderung
 
