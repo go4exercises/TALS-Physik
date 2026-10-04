@@ -905,7 +905,12 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   doppeltes Bild — die Mausklicks des Aufnahmewerkzeugs hatten nicht gegriffen. Knöpfe darum
   mit einer `js`-Aktion auslösen: `document.querySelector(…).click()`.)
 - Kontrollfragen bringen **neue** Beispiele: weder die Werte des Einführungsclips noch seine
-  Bilder, noch die Ziele der Aufgabenleiste.
+  Bilder, noch die Ziele der Aufgabenleiste. Auch nicht die Mini-Checks der Themenseite (Kinematik:
+  «150 km in 2 h» und «schwere und leichte Kugel» standen dort wörtlich).
+- **Ein Bild je Aussage**: Der Clip-Generator kann ein Element nicht ausblenden. Braucht eine Szene zwei
+  Zustände (r = 2 m, dann r = 4 m bei T = 8 s), die Szene teilen — sonst steht eine Zahl neben dem falschen Bild.
+- **Marken bei Klickfragen**: Eine `marke` an der gefragten Stelle zeigt beim Fragebeginn einen Wert
+  (\(s = 0\;\text{m}\)) genau dort, wo getippt werden soll — bei Klickfragen weglassen.
 
 **Animationen und Übungen**
 - Kein Ziel der Aufgabenleiste ist schon im Startzustand erfüllt; Ziele sind nicht die
@@ -924,6 +929,14 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
 - Minigrafen: Beschriftungen in Fensteranteilen versetzen, nicht in Dateneinheiten — sonst
   landen sie bei kleinen Achsenwerten ausserhalb des Bildes.
 - Live-Anzeigen runden nur mit «≈»; dieselbe Grösse überall gleich gerundet.
+- **Zahlen, die zufällig zusammenfallen** (Kinematik, 04.10.2026): Bei \(t = 2\;\text{s}\) ist
+  \(g \cdot t = \tfrac12 \cdot g \cdot t^2\) — wer Geschwindigkeit und Fallweg verwechselt, trifft die richtige
+  Antwort. Ebenso \(t = 1\;\text{s}\) (\(t^2 = t\)), \(|a| = 1\) (Kehrwert gleich), \(v = 1\). Werte für Fragen
+  und Zufallsübungen so wählen, dass jedes Fehlermuster eine andere Zahl ergibt.
+- **Plausible Zufallswerte**: nicht nur lösbar, sondern realistisch — keine Läuferin über dem Weltrekord,
+  keine Kurvenfahrt mit mehr als rund \(0.7\,g\). Grenzen im Generator, nicht in der Liste hoffen.
+- **Gerundete Zwischenwerte**: Wer \(v\) richtig auf drei Stellen rundet und damit weiterrechnet, darf nicht
+  abgewiesen werden (Folgewert mit der Eingabe prüfen); im Bewertungspaket eine Rundungsregel (rund 2 %).
 - Je Kapitel mindestens eine «Warum»-Aufgabe und eine Aufgabe am Diagramm (§9).
 
 **Gesamttest und Bewertungspaket**
@@ -933,6 +946,10 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   je Aufgabe.
 - Selbsteinschätzung verspricht keine Kompetenz, die der Test nicht prüft; jede Aufgabe ist
   einem Kapitel zugeordnet.
+- Keine Gesamttest-Aufgabe mit dem Aufbau einer Kapitelaufgabe (Kinematik: Fähre quer, dann vorhalten
+  = Aufgabe 4c). Rückwärts fragen, am gegebenen Diagramm ablesen lassen oder begründen lassen.
+- Jede Rasterzeile passt zu ihrer Art: Eine Skizze ist kein Begründungspunkt (B), und (B) nur, wo die
+  Aufgabe «Begründe» sagt.
 - Datenschutz: kein Name, keine Standortdaten im Foto.
 
 **Zeit:** geschätzt aus den Teilen, nicht aus der Planung übernommen (§3).

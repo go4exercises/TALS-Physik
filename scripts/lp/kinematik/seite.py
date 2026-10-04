@@ -307,6 +307,7 @@ details.loes .inhaltbox p:last-child{margin-bottom:0}
 .zielmarke{fill:var(--lila-hell);stroke:var(--lila);stroke-width:1.5}
 .kurve-s{fill:none;stroke:var(--bernstein);stroke-width:2.6}
 .kurve-v{fill:none;stroke:var(--gruen);stroke-width:2.6}
+.kurve-weiter{fill:none;stroke:var(--gruen);stroke-width:1.6;stroke-dasharray:3 4;opacity:.45}
 .dreieck{fill:none;stroke:var(--tinte-2);stroke-width:1.3;stroke-dasharray:4 3}
 .sim .feld{fill:var(--bernstein-hell);stroke:var(--bernstein);stroke-width:1;opacity:.95}
 .sim .feld-neg{fill:var(--rot-hell);stroke:var(--rot);stroke-width:1;stroke-dasharray:4 3;opacity:.95}
@@ -627,7 +628,7 @@ fest1 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Bewegung beschreiben</div>
           <p><b>Schwerpunkt:</b> der Punkt, der sich so verhält, als wäre die ganze Masse des Körpers in ihm vereinigt. Für eine Verschiebung ohne Drehung genügt seine Bewegung. <b>Bahnkurve:</b> die Linie, die der Schwerpunkt im Lauf der Zeit durchläuft — gerade, kreisförmig oder gekrümmt.</p>
-          <p><b>Geschwindigkeit:</b> zurückgelegte Strecke pro Zeit. Die Durchschnittsgeschwindigkeit gilt für ein ganzes Zeitintervall, die Momentangeschwindigkeit für einen Zeitpunkt (das zeigt der Tacho).</p>
+          <p><b>Geschwindigkeit:</b> zurückgelegte Strecke pro Zeit. Die Durchschnittsgeschwindigkeit gilt für ein ganzes Zeitintervall, die Momentangeschwindigkeit für einen Zeitpunkt (das zeigt der Tacho). Auf einer Geraden zeigt das Vorzeichen von \(v\) die Richtung: negativ heisst zurück, zum Nullpunkt hin.</p>
           <p>\[ \bar v = \frac{\Delta s}{\Delta t}, \qquad 1\;\text{m/s} = 3.6\;\text{km/h} \]</p>
           <p>Geradlinig gleichförmig heisst: \(v\) ist konstant. Dann gilt</p>
           <p>\[ s(t) = s_0 + v \cdot t \]</p>
@@ -647,13 +648,13 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 11, [
     ('1c', 3, r'Das Diagramm zeigt zwei Läufer A und B. Lies für beide Startort und Geschwindigkeit ab. Wann und wo holt A den B ein? (Punkte auf Gitterpunkten)',
      r'<p>A: \(s_0 = 0\;\text{m}\), \(v = \dfrac{12\;\text{m}}{6\;\text{s}} = 2\;\text{m/s}\). B: \(s_0 = 12\;\text{m}\), \(v = \dfrac{14\;\text{m} - 12\;\text{m}}{4\;\text{s}} = 0.5\;\text{m/s}\).</p><p>Die Geraden schneiden sich bei \(t = 8\;\text{s}\), \(s = 16\;\text{m}\). Probe: \(2\;\text{m/s} \cdot 8\;\text{s} = 16\;\text{m}\) und \(12\;\text{m} + 0.5\;\text{m/s} \cdot 8\;\text{s} = 16\;\text{m}\).</p>',
      '\n            <div class="mini-reihe"><svg class="mini" data-geraden="2;0.5,12" data-namen="A;B" data-farbe="kurve-s" data-fenster="10,24" data-teilung="1,2" data-punkte="6,12;0,12;4,14;8,16" data-xname="t [s]" data-yname="s [m]" aria-label="s-t-Diagramm mit zwei Geraden A und B"></svg></div>'),
-    ('1d', 2, r'Was bedeutet im \(s\)-\(t\)-Diagramm eine fallende Gerade? Und eine waagrechte?',
-     r'<p>Fallend: Die Steigung \(v\) ist negativ — der Körper bewegt sich zurück, zum Nullpunkt hin. Waagrecht: \(v = 0\) — der Körper steht still, sein Ort ändert sich nicht.</p>', ''),
+    ('1d', 2, r'Warum bedeutet eine fallende Gerade im \(s\)-\(t\)-Diagramm, dass sich der Körper zurück bewegt? Und warum steht er bei einer waagrechten Geraden still?',
+     r'<p>Die Steigung ist die Geschwindigkeit. Fällt die Gerade, wird der Ort \(s\) mit der Zeit kleiner: \(v\) ist negativ, der Körper bewegt sich zum Nullpunkt hin.</p><p>Bei einer waagrechten Geraden ändert sich \(s\) nicht: \(v = 0\), der Körper bleibt am selben Ort.</p>', ''),
 ])
 k1 = kapitel(1, 'ort-und-geschwindigkeit', 'Ort, Bahn und Geschwindigkeit', 'K1 · K3', 40,
     r'Du erklärst Schwerpunkt, Bahnkurve und Geschwindigkeit, unterscheidest Durchschnitts- und Momentangeschwindigkeit und rechnest mit \(s = s_0 + v \cdot t\).',
-    ('p4-1-lp-gleichfoermig', 'Bewegung sehen: Ort, Bahn und Tempo', '1:28'),
-    sim1, ('p4-1-lp-kontrolle-gleichfoermig', 'Kontrollfragen zu Ort und Geschwindigkeit', '0:35'),
+    ('p4-1-lp-gleichfoermig', 'Bewegung sehen: Ort, Bahn und Tempo', '1:32'),
+    sim1, ('p4-1-lp-kontrolle-gleichfoermig', 'Kontrollfragen zu Ort und Geschwindigkeit', '0:34'),
     fest1, [uebung('ort', 'Ort bei konstanter Geschwindigkeit'), uebung('mittel', 'Durchschnittsgeschwindigkeit'),
             uebung('einholen', 'Einholen')],
     auf1, f'<a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a> · <a href="{TS}#darstellungen">Geradlinig gleichförmige Bewegung</a>')
@@ -672,7 +673,7 @@ fest2 = r'''      <div class="festhalten">
           <p>\[ a = \frac{\Delta v}{\Delta t}, \qquad [a] = \text{m/s}^2 \]</p>
           <p>Für eine <b>konstante</b> Beschleunigung gelten die drei Bewegungsgleichungen:</p>
           <p>\[ v = v_0 + a \cdot t \qquad s = s_0 + v_0 \cdot t + \tfrac12 \cdot a \cdot t^2 \qquad v^2 = v_0^2 + 2 \cdot a \cdot (s - s_0) \]</p>
-          <p>Im \(v\)-\(t\)-Diagramm ist die Steigung die Beschleunigung, die Fläche unter der Geraden der Weg. Bremsweg bis zum Stillstand: \(s = \dfrac{v_0^2}{2 \cdot |a|}\) — doppeltes Tempo, vierfacher Bremsweg.</p>
+          <p>Im \(v\)-\(t\)-Diagramm ist die Steigung die Beschleunigung, die Fläche unter der Geraden die Ortsänderung — solange \(v\) das Vorzeichen nicht wechselt, ist das der zurückgelegte Weg. Bremsweg bis zum Stillstand: \(s = \dfrac{v_0^2}{2 \cdot |a|}\) — doppeltes Tempo, vierfacher Bremsweg.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -680,21 +681,21 @@ fest2 = r'''      <div class="festhalten">
           <p>Beim Bremsen ist \(a\) negativ. Wer \(a = -5\;\text{m/s}^2\) positiv einsetzt, bekommt einen negativen Bremsweg.</p>
         </div>
       </div>'''
-auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
+auf2 = test('t2', 'Aufgaben · Kapitel 2', 13, [
     ('2a', 3, r'Ein Tram beschleunigt in \(12\;\text{s}\) gleichmässig aus dem Stand auf \(36\;\text{km/h}\). Wie gross ist die Beschleunigung? Welchen Weg legt es dabei zurück?',
-     r'<p>\(v = \dfrac{36}{3.6}\;\text{m/s} = 10\;\text{m/s}\).</p><p>\(a = \dfrac{\Delta v}{\Delta t} = \dfrac{10\;\text{m/s}}{12\;\text{s}} \approx 0.833\;\text{m/s}^2\).</p><p>\(s = \tfrac12 \cdot a \cdot t^2\) \(= \tfrac12 \cdot 0.833\;\text{m/s}^2 \cdot (12\;\text{s})^2\) \(= 60\;\text{m}\) — oder als Dreiecksfläche \(\tfrac12 \cdot 12\;\text{s} \cdot 10\;\text{m/s} = 60\;\text{m}\).</p>', ''),
+     r'<p>\(v = \dfrac{36}{3.6}\;\text{m/s} = 10\;\text{m/s}\).</p><p>\(a = \dfrac{\Delta v}{\Delta t} = \dfrac{10\;\text{m/s}}{12\;\text{s}} \approx 0.833\;\text{m/s}^2\).</p><p>Mit dem genauen Wert \(a = \tfrac56\;\text{m/s}^2\): \(s = \tfrac12 \cdot a \cdot t^2\) \(= \tfrac12 \cdot \tfrac56\;\text{m/s}^2 \cdot (12\;\text{s})^2\) \(= 60\;\text{m}\) — oder als Dreiecksfläche \(\tfrac12 \cdot 12\;\text{s} \cdot 10\;\text{m/s} = 60\;\text{m}\).</p>', ''),
     ('2b', 3, r'Das \(v\)-\(t\)-Diagramm zeigt einen Körper mit konstanter Beschleunigung. Lies \(v_0\) und \(a\) ab. Welchen Weg legt er in den ersten \(6\;\text{s}\) zurück? (Punkte auf Gitterpunkten)',
      r'<p>\(v_0 = 2\;\text{m/s}\) (Achsenabschnitt). \(a = \dfrac{\Delta v}{\Delta t} = \dfrac{14\;\text{m/s} - 2\;\text{m/s}}{6\;\text{s}} = 2\;\text{m/s}^2\) (Steigung).</p><p>Weg = Trapezfläche: \(s = \dfrac{2\;\text{m/s} + 14\;\text{m/s}}{2} \cdot 6\;\text{s} = 48\;\text{m}\). Probe: \(s = v_0 \cdot t + \tfrac12 \cdot a \cdot t^2\) \(= 12\;\text{m} + 36\;\text{m} = 48\;\text{m}\).</p>',
      '\n            <div class="mini-reihe"><svg class="mini" data-geraden="2,2" data-farbe="kurve-v" data-fenster="8,16" data-teilung="1,2" data-punkte="0,2;6,14" data-xname="t [s]" data-yname="v [m/s]" aria-label="v-t-Diagramm: Gerade von 2 m/s bei 0 s bis 14 m/s bei 6 s"></svg></div>'),
-    ('2c', 4, r'Ein Auto fährt mit \(90\;\text{km/h}\). Die Fahrerin reagiert nach \(1\;\text{s}\) und bremst dann gleichmässig mit \(6\;\text{m/s}^2\) bis zum Stillstand. Wie lang ist der Anhalteweg (Reaktionsweg plus Bremsweg)?',
-     r'<p>\(v_0 = \dfrac{90}{3.6}\;\text{m/s} = 25\;\text{m/s}\).</p><p>Reaktionsweg, gleichförmig: \(s_1 = v_0 \cdot t = 25\;\text{m/s} \cdot 1\;\text{s} = 25\;\text{m}\).</p><p>Bremsweg aus \(v^2 = v_0^2 + 2 \cdot a \cdot s\) mit \(v = 0\): \(s_2 = \dfrac{v_0^2}{2 \cdot |a|} = \dfrac{(25\;\text{m/s})^2}{2 \cdot 6\;\text{m/s}^2} \approx 52.1\;\text{m}\).</p><p>Anhalteweg: \(s = 25\;\text{m} + 52.1\;\text{m} \approx 77.1\;\text{m}\).</p>', ''),
-    ('2d', 2, r'Warum vervierfacht sich der Bremsweg, wenn sich die Geschwindigkeit verdoppelt (gleiche Bremsung)?',
-     r'<p>Im Bremsweg \(s = \dfrac{v_0^2}{2 \cdot |a|}\) steht die Geschwindigkeit im Quadrat: \(2^2 = 4\). Im \(v\)-\(t\)-Diagramm wird das Dreieck doppelt so hoch und — weil das Bremsen doppelt so lange dauert — doppelt so breit, also viermal so gross.</p>', ''),
+    ('2c', 5, r'Ein Auto fährt mit \(90\;\text{km/h}\). Die Fahrerin reagiert nach \(1\;\text{s}\) und bremst dann gleichmässig mit \(6\;\text{m/s}^2\) bis zum Stillstand. Wie lang ist der Anhalteweg (Reaktionsweg plus Bremsweg)? Skizziere das \(v\)-\(t\)-Diagramm des ganzen Vorgangs.',
+     r'<p>\(v_0 = \dfrac{90}{3.6}\;\text{m/s} = 25\;\text{m/s}\).</p><p>Reaktionsweg, gleichförmig: \(s_1 = v_0 \cdot t = 25\;\text{m/s} \cdot 1\;\text{s} = 25\;\text{m}\).</p><p>Bremsweg aus \(v^2 = v_0^2 + 2 \cdot a \cdot s\) mit \(v = 0\): \(s_2 = \dfrac{v_0^2}{2 \cdot |a|} = \dfrac{(25\;\text{m/s})^2}{2 \cdot 6\;\text{m/s}^2} \approx 52.1\;\text{m}\).</p><p>Anhalteweg: \(s = 25\;\text{m} + 52.1\;\text{m} \approx 77.1\;\text{m}\).</p><p>Skizze: \(t\) in s nach rechts, \(v\) in m/s nach oben. Eine waagrechte Linie bei \(25\;\text{m/s}\) bis \(1\;\text{s}\), dann eine fallende Gerade bis \(v = 0\) bei \(t = 1\;\text{s} + \dfrac{25\;\text{m/s}}{6\;\text{m/s}^2} \approx 5.17\;\text{s}\). Die Fläche darunter — Rechteck plus Dreieck — ist der Anhalteweg.</p>', ''),
+    ('2d', 2, r'Ein Auto braucht bei \(30\;\text{km/h}\) einen Bremsweg von \(6\;\text{m}\). Wie lang ist er bei \(50\;\text{km/h}\), gleich stark gebremst? Begründe, ohne \(a\) auszurechnen.',
+     r'<p>Im Bremsweg \(s = \dfrac{v_0^2}{2 \cdot |a|}\) steht die Geschwindigkeit im Quadrat. Das Tempo wächst um den Faktor \(\tfrac{50}{30} = \tfrac53\), der Bremsweg also um \(\left(\tfrac53\right)^2 = \tfrac{25}{9}\): \(s = 6\;\text{m} \cdot \tfrac{25}{9} \approx 16.7\;\text{m}\).</p><p class="komm">Kein Umrechnen in m/s nötig: Es zählt nur das Verhältnis der Geschwindigkeiten.</p>', ''),
 ])
 k2 = kapitel(2, 'beschleunigung', 'Beschleunigung und Bremsweg', 'K1 · K3', 40,
     r'Du erklärst die Beschleunigung, liest \(v\)-\(t\)-Diagramme über Steigung und Fläche und löst Aufgaben mit den Bewegungsgleichungen für konstante Beschleunigung.',
     ('p4-1-lp-beschleunigt', 'Bewegung sehen: Beschleunigung ist Steigung, Weg ist Fläche', '1:22'),
-    sim2, ('p4-1-lp-kontrolle-beschleunigt', 'Kontrollfragen zur Beschleunigung', '0:34'),
+    sim2, ('p4-1-lp-kontrolle-beschleunigt', 'Kontrollfragen zur Beschleunigung', '0:33'),
     fest2, [uebung('beschl', 'Beschleunigung aus zwei Geschwindigkeiten'), uebung('endwerte', 'Geschwindigkeit und Weg nach der Zeit t'),
             uebung('bremsweg', 'Bremsweg')],
     auf2, f'<a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a> · <a href="{TS}#theorie">Gleichmässig beschleunigte Bewegung</a>')
@@ -734,7 +735,7 @@ fest3 = r'''      <div class="festhalten">
           <p>\[ v = g \cdot t \qquad h = \tfrac12 \cdot g \cdot t^2 \qquad t = \sqrt{\frac{2h}{g}} \]</p>
           <p><b>Wurf:</b> zwei Bewegungen, die sich nicht stören — waagrecht gleichförmig, senkrecht wie der freie Fall. Mit Abwurftempo \(v_0\), Winkel \(\alpha\) und Abwurfhöhe \(h_0\):</p>
           <p>\[ x(t) = v_0 \cdot \cos\alpha \cdot t \qquad y(t) = h_0 + v_0 \cdot \sin\alpha \cdot t - \tfrac12 \cdot g \cdot t^2 \]</p>
-          <p>Die Bahnkurve ist eine Parabel. Beim waagrechten Wurf ist \(\alpha = 0^\circ\): Die Flugzeit hängt nur von der Höhe ab. Landet der Körper auf Abwurfhöhe (\(h_0 = 0\)), gilt \(t_F = \dfrac{2 \cdot v_0 \cdot \sin\alpha}{g}\) und \(s_x = \dfrac{v_0^2 \cdot \sin(2\alpha)}{g}\) — am weitesten bei \(45^\circ\), gleich weit bei \(\alpha\) und \(90^\circ - \alpha\).</p>
+          <p>Die Bahnkurve ist eine Parabel. Beim waagrechten Wurf ist \(\alpha = 0^\circ\): Die Flugzeit hängt nur von der Höhe ab, und senkrecht wird der Körper wie im freien Fall schneller, \(v_y = g \cdot t\). Landet der Körper auf Abwurfhöhe (\(h_0 = 0\)), gilt \(t_F = \dfrac{2 \cdot v_0 \cdot \sin\alpha}{g}\) und \(s_x = \dfrac{v_0^2 \cdot \sin(2\alpha)}{g}\) — am weitesten bei \(45^\circ\), gleich weit bei \(\alpha\) und \(90^\circ - \alpha\).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -755,8 +756,8 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 11, [
 ])
 k3 = kapitel(3, 'fall-und-wurf', 'Freier Fall und Wurf', 'K3', 45,
     r'Du löst Aufgaben zum freien Fall und zum Wurf, indem du die Bewegung in eine waagrechte gleichförmige und eine senkrechte beschleunigte Bewegung zerlegst.',
-    ('p4-1-lp-wurf', 'Bewegung sehen: Fall und Wurf in zwei Richtungen', '1:24'),
-    sim3, ('p4-1-lp-kontrolle-wurf', 'Kontrollfragen zu Fall und Wurf', '0:35'),
+    ('p4-1-lp-wurf', 'Bewegung sehen: Fall und Wurf in zwei Richtungen', '1:26'),
+    sim3, ('p4-1-lp-kontrolle-wurf', 'Kontrollfragen zu Fall und Wurf', '0:37'),
     fest3, [uebung('fall', 'Freier Fall'), uebung('waagrecht', 'Waagrechter Wurf'), uebung('schief', 'Schiefer Wurf vom Boden')],
     auf3, f'<a href="{TS}#freier-fall">Themenseite 4.1, Freier Fall</a> · <a href="{TS}#wurfparabel">Parabolische Bewegung</a>')
 
@@ -767,7 +768,7 @@ sim4 = f'''      <figure class="sim sim-gross" id="sim4">
         <svg viewBox="0 0 300 150" role="img" aria-label="Fluss von oben, 40 m breit: Geschwindigkeitspfeile des Schwimmers, der Strömung und ihre Summe, dazu die Bahn bis zum Zielufer"></svg>
         <div class="reglerfeld">
           {regler('s4', 'vS', '<i>v</i><sub>S</sub> Schwimmer', 0.5, 4, 0.25, 2, 'm/s', 2)}
-          {regler('s4', 'be', '<i>β</i> Richtung', 30, 150, 5, 90, '°', 0)}
+          {regler('s4', 'be', '<i>β</i> Richtung', 30, 150, 1, 90, '°', 0)}
           {regler('s4', 'vF', '<i>v</i><sub>F</sub> Strömung', 0, 3, 0.25, 1, 'm/s', 2)}
         </div>
         <p class="sim-notiz">Draufsicht 1:1. Pfeile: \\(1\\;\\text{{m/s}}\\) entspricht \\(8\\;\\text{{m}}\\). \\(\\beta\\) wird von der Strömungsrichtung aus gemessen; \\(90^\\circ\\) heisst quer zum Ufer.</p>
@@ -775,10 +776,10 @@ sim4 = f'''      <figure class="sim sim-gross" id="sim4">
 fest4 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Geschwindigkeit als Vektor</div>
-          <p>Eine Geschwindigkeit hat Betrag und Richtung: Sie ist ein Vektor, gezeichnet als Pfeil. Bewegt sich ein Körper gegenüber einem Träger, der sich selbst bewegt (Person im Zug, Schwimmer im Fluss), addieren sich die Geschwindigkeiten als Vektoren:</p>
+          <p>Eine Geschwindigkeit hat Betrag und Richtung: Sie ist ein Vektor, gezeichnet als Pfeil. Bewegt sich ein Körper gegenüber einem Träger, der sich selbst bewegt (Person im Zug, Schwimmer im Fluss), ist das seine <b>Relativbewegung</b>. Seine Bewegung gegenüber dem Boden oder dem Ufer — die <b>absolute Bewegung</b> — ist die Summe der Vektoren:</p>
           <p>\[ \vec v_\text{Ufer} = \vec v_S + \vec v_F \]</p>
           <p>Auf einer Geraden genügen Vorzeichen: \(30\;\text{m/s} + 1.5\;\text{m/s}\) in Fahrtrichtung, \(30\;\text{m/s} - 1.5\;\text{m/s}\) dagegen. Stehen die Pfeile senkrecht aufeinander, gilt Pythagoras: \(|\vec v_\text{Ufer}| = \sqrt{v_S^2 + v_F^2}\), und für den Driftwinkel \(\tan\gamma = \dfrac{v_F}{v_S}\).</p>
-          <p>Querzeit \(t = \dfrac{b}{v_S \cdot \sin\beta}\) — nur die Querkomponente bringt hinüber. Versatz \(d = (v_F + v_S \cdot \cos\beta) \cdot t\). Genau gegenüber kommt an, wer so schräg gegen die Strömung hält, dass \(v_S \cdot \cos\beta = -v_F\).</p>
+          <p>Die Schwimmrichtung \(\beta\) wird von der Strömungsrichtung aus gemessen: \(\beta = 90^\circ\) heisst quer zum Ufer, \(\beta \gt 90^\circ\) schräg gegen die Strömung. Querzeit \(t = \dfrac{b}{v_S \cdot \sin\beta}\) — nur die Querkomponente bringt hinüber. Versatz \(d = (v_F + v_S \cdot \cos\beta) \cdot t\). Genau gegenüber kommt an, wer so schräg gegen die Strömung hält, dass \(v_S \cdot \cos\beta = -v_F\).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -793,13 +794,13 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
      r'<p>Die Pfeile stehen senkrecht: \(|\vec v| = \sqrt{(70\;\text{m/s})^2 + (20\;\text{m/s})^2}\) \(\approx 72.8\;\text{m/s}\).</p><p>\(\tan\gamma = \dfrac{20\;\text{m/s}}{70\;\text{m/s}}\), also \(\gamma \approx 15.9^\circ\) nach Osten.</p><p class="komm">Skizze: Pfeil nach Norden (70), an seiner Spitze ein Pfeil nach Osten (20), Summe vom Anfang des ersten zur Spitze des zweiten.</p>', ''),
     ('4c', 4, r'Eine Fähre überquert einen \(120\;\text{m}\) breiten Fluss mit \(4\;\text{m/s}\) gegenüber dem Wasser; die Strömung hat \(2\;\text{m/s}\). (a) Sie fährt quer zum Ufer: Wie lange dauert es, und wie weit wird sie versetzt? (b) Unter welchem Winkel \(\beta\) zur Strömung muss sie fahren, um genau gegenüber anzukommen, und wie lange dauert es dann?',
      r'<p>(a) \(t = \dfrac{b}{v_S} = \dfrac{120\;\text{m}}{4\;\text{m/s}} = 30\;\text{s}\), \(d = v_F \cdot t = 2\;\text{m/s} \cdot 30\;\text{s} = 60\;\text{m}\).</p><p>(b) Die Längskomponente muss die Strömung aufheben: \(v_S \cdot \cos\beta = -v_F\), also \(\cos\beta = -\dfrac{2}{4} = -0.5\) und \(\beta = 120^\circ\) — \(30^\circ\) gegen die Strömung geneigt.</p><p>Quergeschwindigkeit \(v_S \cdot \sin\beta = 4\;\text{m/s} \cdot \sin 120^\circ \approx 3.46\;\text{m/s}\), also \(t = \dfrac{120\;\text{m}}{3.464\;\text{m/s}} \approx 34.6\;\text{s}\).</p>', ''),
-    ('4d', 2, r'Warum ändert eine stärkere Strömung die Querzeit nicht, solange das Boot quer zum Ufer gerichtet bleibt?',
-     r'<p>Die Strömung zeigt flussabwärts, also parallel zum Ufer. Sie hat keine Komponente quer über den Fluss. Hinüber bringt allein die Quergeschwindigkeit des Boots — die Strömung ändert nur, wie weit es dabei versetzt wird.</p>', ''),
+    ('4d', 2, r'Zwei Schwimmer queren denselben Fluss quer zum Ufer, A mit \(1\;\text{m/s}\), B mit \(2\;\text{m/s}\). Wird B halb so weit versetzt wie A? Begründe.',
+     r'<p>Ja. Die Strömung hat keinen Anteil quer über den Fluss; hinüber bringt allein die eigene Geschwindigkeit. B braucht darum nur die halbe Querzeit \(t = \dfrac{b}{v_S}\). Der Versatz \(d = v_F \cdot t\) wächst mit der Zeit, in der die Strömung wirkt: halbe Zeit, halber Versatz.</p>', ''),
 ])
 k4 = kapitel(4, 'vektoren', 'Geschwindigkeit als Vektor', 'K2', 40,
     r'Du stellst Geschwindigkeiten als Pfeile dar und berechnest damit Relativbewegungen und Bewegungen gegenüber dem Boden — auf einer Geraden mit Vorzeichen, quer dazu mit Komponenten.',
-    ('p4-1-lp-vektor', 'Bewegung sehen: Geschwindigkeiten addieren sich als Pfeile', '1:20'),
-    sim4, ('p4-1-lp-kontrolle-vektor', 'Kontrollfragen zur Vektoraddition', '0:38'),
+    ('p4-1-lp-vektor', 'Bewegung sehen: Geschwindigkeiten addieren sich als Pfeile', '1:24'),
+    sim4, ('p4-1-lp-kontrolle-vektor', 'Kontrollfragen zur Vektoraddition', '0:41'),
     fest4, [uebung('eindim', 'Relativ und gegenüber dem Boden'), uebung('quer', 'Quer zur Strömung: Betrag und Winkel'),
             uebung('fluss', 'Querzeit und Versatz')],
     auf4, f'<a href="{TS}#relativbewegung">Themenseite 4.1, Vektoraddition — Relativbewegung</a>')
@@ -851,13 +852,13 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5c', 3, r'Ein Auto fährt mit \(54\;\text{km/h}\) durch eine Kurve mit \(r = 50\;\text{m}\). Wie gross ist die Zentripetalbeschleunigung? Wie viel Prozent von \(g\) ist das?',
      r'<p>\(v = \dfrac{54}{3.6}\;\text{m/s} = 15\;\text{m/s}\), \(a_z = \dfrac{v^2}{r} = \dfrac{(15\;\text{m/s})^2}{50\;\text{m}} = 4.5\;\text{m/s}^2\).</p><p>\(\dfrac{4.5\;\text{m/s}^2}{9.81\;\text{m/s}^2} \approx 0.459\), also rund \(46\;\%\) von \(g\).</p>', ''),
     ('5d', 3, r'Ein Körper läuft gleichförmig auf der Kreisbahn um. Zeichne bei P und bei Q den Pfeil \(\vec v\) und den Pfeil \(\vec a_z\) ein. Warum ist der Körper beschleunigt, obwohl sein Tempo konstant ist?',
-     r'<p>\(\vec v\) liegt an beiden Orten tangential an der Bahn und zeigt in Drehrichtung (gegen den Uhrzeigersinn); bei P etwa nach links oben, bei Q nach links unten. \(\vec a_z\) zeigt an beiden Orten zum Mittelpunkt M.</p><p>Die beiden Pfeile \(\vec v\) sind gleich lang, zeigen aber in verschiedene Richtungen. Eine Änderung der Richtung ist eine Änderung des Vektors \(\vec v\) — also eine Beschleunigung.</p>',
+     r'<p>\(\vec v\) liegt an beiden Orten tangential an der Bahn und zeigt in Drehrichtung (gegen den Uhrzeigersinn): bei P fast senkrecht nach oben, leicht nach links geneigt, bei Q fast senkrecht nach unten, ebenfalls leicht nach links. \(\vec a_z\) zeigt an beiden Orten zum Mittelpunkt M.</p><p>Die beiden Pfeile \(\vec v\) sind gleich lang, zeigen aber in verschiedene Richtungen. Eine Änderung der Richtung ist eine Änderung des Vektors \(\vec v\) — also eine Beschleunigung.</p>',
      '\n            <div class="mini-reihe">' + kreisbild() + '</div>'),
 ])
 k5 = kapitel(5, 'kreisbewegung', 'Gleichförmige Kreisbewegung', 'K4 · K1', 40,
     r'Du bestimmst Umlaufzeit, Rotationsfrequenz, Winkelgeschwindigkeit, Bahngeschwindigkeit und Zentripetalbeschleunigung und erklärst, warum eine gleichförmige Kreisbewegung beschleunigt ist.',
-    ('p4-1-lp-kreis', 'Bewegung sehen: Kreisbahn mit konstantem Tempo', '1:19'),
-    sim5, ('p4-1-lp-kontrolle-kreis', 'Kontrollfragen zur Kreisbewegung', '0:37'),
+    ('p4-1-lp-kreis', 'Bewegung sehen: Kreisbahn mit konstantem Tempo', '1:28'),
+    sim5, ('p4-1-lp-kontrolle-kreis', 'Kontrollfragen zur Kreisbewegung', '0:38'),
     fest5, [uebung('umlauf', 'Frequenz und Winkelgeschwindigkeit'), uebung('bahn', 'Bahngeschwindigkeit und Zentripetalbeschleunigung'),
             uebung('zentripetal', 'Kurvenfahrt')],
     auf5, f'<a href="{TS}#kreisbewegung">Themenseite 4.1, Gleichförmige Kreisbewegung</a>')
@@ -886,7 +887,7 @@ gt = f'''
             <tr><td>11 – 16 P</td><td>Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.</td></tr>
             <tr><td>0 – 10 P</td><td>Zurück zu Kapitel 1 und von dort der Reihe nach weiter.</td></tr>
           </table>
-          <p>Aufgabe → Kapitel: G1 → <a href="#k1">1</a> und <a href="#k2">2</a> · G2 → <a href="#k2">2</a> · G3, G4 → <a href="#k3">3</a> · G5 → <a href="#k4">4</a> · G6 → <a href="#k5">5</a></p>
+          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a>, <a href="#k2">2</a>, <a href="#k5">5</a> → K1 · G2 → <a href="#k1">1</a>, <a href="#k2">2</a> → K1, K3 · G3, G4 → <a href="#k3">3</a> → K3 · G5 → <a href="#k4">4</a> → K2 · G6 → <a href="#k5">5</a> → K4, K1</p>
         </div>
       </div>
     </section>'''
@@ -920,9 +921,9 @@ oben = '''<div id="nav-root"></div>
           durchführen
 
      Kompetenzmatrix (Hilfsmittel überall Taschenrechner und Formelsammlung):
-       K1 → Kap. 1, 2, 5 · Aufg. 1a 1b 1d 2d 5d · G1
+       K1 → Kap. 1, 2, 5 · Aufg. 1a 1b 1d 5d · G1 G2 G6
        K2 → Kap. 4 · Aufg. 4a–4d · G5
-       K3 → Kap. 1, 2, 3 · Aufg. 1b 1c 2a–2c 3a–3d · G2 G3 G4
+       K3 → Kap. 1, 2, 3 · Aufg. 1b 1c 2a–2d 3a–3d · G2 G3 G4
        K4 → Kap. 5 · Aufg. 5a–5c · G6
      Bewusst weggelassen (RLP verlangt es nicht): Grenzwert Δt → 0 formal, Herleitung der zeitlosen
      Gleichung, Wurf mit Luftwiderstand, Kräfte — Verweise unter «Nicht in diesem Leitprogramm».

@@ -1,7 +1,8 @@
 % Gesamttest «Kinematik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py kinematik).
 % Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (04.10.2026).
-% Jede Aufgabe fragt mit anderen Zahlen und in einem anderen Zusammenhang als die Aufgaben und
-% Übungen der Seite (HOWTO-leitprogramme §9: kein Gesamttest wiederholt einen Selbsttest).
+% Jede Aufgabe fragt in eine andere Richtung als die Aufgaben und Übungen der Seite — rückwärts
+% (G3, G5, G6), am gegebenen Diagramm (G2) oder als Begründung (G1, G4) —, HOWTO-leitprogramme §9.
+% Fassung 2 nach /lp-pruefung (04.10.2026).
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Kinematik}
@@ -20,58 +21,72 @@ für das Ergebnis mit Einheit und für Begründungen in eigenen Worten. Rechne m
 Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem \emph{Bewertungspaket} bewerten lassen.
 \end{lpinfo}
 
-\lpteil{Teil A · Bewegung und Beschleunigung}{Kapitel 1 und 2 · 8 Punkte}
+\lpteil{Teil A · Bewegung und Beschleunigung}{Kapitel 1 und 2 · 9 Punkte}
 
-\begin{lpaufgabe}{G1}{Begriffe}{3 P}
-Erkläre in Worten und als Formel, was die Beschleunigung ist. Was ist die Bahnkurve eines Körpers?
-Welche Form hat die Bahnkurve der Spitze eines Uhrzeigers?
-\lpplatz{5}
-\end{lpaufgabe}
-
-\begin{lpaufgabe}{G2}{Velofahrt mit Bremsung}{5 P}
-Ein Velo fährt $12\;\text{s}$ lang gleichförmig mit $6\;\text{m/s}$. Dann bremst es gleichmässig und steht nach weiteren $3\;\text{s}$.
+\begin{lpaufgabe}{G1}{Begriffe}{4 P}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wie gross ist die Beschleunigung beim Bremsen (mit Vorzeichen)?
-\item Welchen Weg legt das Velo insgesamt zurück?
-\item Wie gross ist die Durchschnittsgeschwindigkeit der ganzen Fahrt?
-\item Skizziere das $v$-$t$-Diagramm der ganzen Fahrt.
+\item Was ist der Schwerpunkt eines Körpers, und wann genügt es, nur seine Bewegung zu beschreiben?
+\item Was ist die Bahnkurve? Welche Form hat sie bei einem Stein, der waagrecht von einer Brücke geworfen wird?
+\item Erkläre in Worten und als Formel, was die Beschleunigung ist.
+\item Eine Fahrt über $20\;\text{km}$ dauert $30\;\text{min}$; unterwegs zeigt der Tacho einmal $50\;\text{km/h}$.
+Was gibt der Tacho an? Wie gross ist die Durchschnittsgeschwindigkeit der Fahrt?
 \end{enumerate}
-\lpplatz{9}
+\lpplatz{14}
 \end{lpaufgabe}
 
-\lpteil{Teil B · Fall und Wurf}{Kapitel 3 · 8 Punkte}
+\begin{lpaufgabe}{G2}{Velofahrt im Diagramm}{5 P}
+Das $v$-$t$-Diagramm zeigt eine Velofahrt.\par\smallskip
+\begin{center}\begin{tikzpicture}
+\begin{axis}[width=10cm,height=5.2cm,xmin=0,xmax=16.5,ymin=0,ymax=7.5,axis lines=left,
+  xtick={0,2,...,14},ytick={0,1,...,7},grid=both,grid style={lplinie!70},
+  xlabel={$t$ [s]},ylabel={$v$ [m/s]},xlabel style={at={(1,0)},anchor=north east},ylabel style={rotate=-90,at={(0,1)},anchor=south east}]
+\addplot[very thick,lpgruen] coordinates {(0,6) (12,6) (15,0)};
+\end{axis}
+\end{tikzpicture}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Lies ab, wie schnell das Velo in den ersten $12\;\text{s}$ fährt. Wie gross ist die Beschleunigung beim Bremsen (mit Vorzeichen)?
+\item Welchen Weg legt es insgesamt zurück?
+\item Wie gross ist die Durchschnittsgeschwindigkeit der ganzen Fahrt?
+\item Wie schnell ist es bei $t = 13.5\;\text{s}$?
+\end{enumerate}
+\lpplatz{6}
+\end{lpaufgabe}
 
-\begin{lpaufgabe}{G3}{Stein von der Klippe}{5 P}
-Von einer $45\;\text{m}$ hohen Klippe wird ein Stein waagrecht mit $12\;\text{m/s}$ geworfen.
-Wie lange fliegt er? Wie weit vom Fuss der Klippe trifft er auf? Wie gross ist beim Aufprall seine senkrechte Geschwindigkeit?
-Wie lange fiele ein Stein, den man von derselben Stelle einfach fallen lässt? Begründe.
+\lpteil{Teil B · Fall und Wurf}{Kapitel 3 · 7 Punkte}
+
+\begin{lpaufgabe}{G3}{Stein von der Mauer}{4 P}
+Ein Stein wird von einer $11.25\;\text{m}$ hohen Mauer waagrecht geworfen und schlägt $9\;\text{m}$ vom Fuss der Mauer auf.
+Wie lange fliegt er? Mit welcher Geschwindigkeit wurde er abgeworfen?
+Wie lange fiele ein Stein, den man an derselben Stelle einfach fallen lässt? Begründe.
 \lpplatz{8}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G4}{Schuss vom Boden}{3 P}
-Ein Ball wird vom Boden mit $14\;\text{m/s}$ unter $50^\circ$ geschossen und landet wieder auf dem Boden.
-Wie gross ist die Wurfweite? Unter welchem anderen Winkel flöge er bei gleichem Tempo gleich weit?
-\lpplatz{5}
+\begin{lpaufgabe}{G4}{Weitester Schuss}{3 P}
+Ein Ball wird vom Boden mit $14\;\text{m/s}$ geschossen und landet wieder auf dem Boden.
+Unter welchem Winkel fliegt er am weitesten, und wie weit? Unter welchem anderen Winkel fliegt er gleich weit wie unter $50^\circ$? Begründe.
+\lpplatz{6}
 \end{lpaufgabe}
 
 \lpteil{Teil C · Geschwindigkeit als Vektor}{Kapitel 4 · 5 Punkte}
 
-\begin{lpaufgabe}{G5}{Kajak auf dem Fluss}{5 P}
-Ein Kajak fährt mit $2.5\;\text{m/s}$ gegenüber dem Wasser über einen $50\;\text{m}$ breiten Fluss; die Strömung hat $1.5\;\text{m/s}$.
+\begin{lpaufgabe}{G5}{Fähre zum gegenüberliegenden Steg}{5 P}
+Eine Fähre soll einen $60\;\text{m}$ breiten Fluss genau quer überqueren, vom Steg A zum gegenüberliegenden Steg B, und dafür $50\;\text{s}$ brauchen.
+Die Strömung hat $1.6\;\text{m/s}$.
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Es fährt quer zum Ufer. Wie schnell ist es gegenüber dem Ufer? Wie lange dauert die Überquerung, und wie weit wird es versetzt?
-\item Unter welchem Winkel $\beta$ zur Strömungsrichtung muss es fahren, um genau gegenüber anzukommen? Wie lange dauert es dann?
+\item Welche Geschwindigkeit quer zum Ufer braucht sie?
+\item Wie schnell muss sie gegenüber dem Wasser fahren, und unter welchem Winkel $\beta$ zur Strömungsrichtung? Zeichne die Pfeile.
+\item Bei Hochwasser schafft der Motor gegenüber dem Wasser nur noch $1.5\;\text{m/s}$, die Strömung bleibt $1.6\;\text{m/s}$. Kommt die Fähre noch genau bei B an? Begründe.
 \end{enumerate}
 \lpplatz{9}
 \end{lpaufgabe}
 
 \lpteil{Teil D · Kreisbewegung}{Kapitel 5 · 4 Punkte}
 
-\begin{lpaufgabe}{G6}{Salatschleuder}{4 P}
-Der Korb einer Salatschleuder ($r = 12\;\text{cm}$) dreht sich mit $300$ Umdrehungen pro Minute.
-Berechne Rotationsfrequenz, Winkelgeschwindigkeit, Bahngeschwindigkeit am Rand und Zentripetalbeschleunigung.
-In welche Richtung zeigt die Zentripetalbeschleunigung?
-\lpplatz{7}
+\begin{lpaufgabe}{G6}{Velorad}{4 P}
+Ein Punkt am Rand eines Velorads ($r = 0.35\;\text{m}$) bewegt sich gleichförmig mit $2.2\;\text{m/s}$ um die Achse.
+Wie lange dauert ein Umlauf? Wie gross sind Rotationsfrequenz, Winkelgeschwindigkeit und Zentripetalbeschleunigung?
+Wohin zeigt die Zentripetalbeschleunigung, und warum ist der Punkt beschleunigt, obwohl sein Tempo konstant ist?
+\lpplatz{14}
 \end{lpaufgabe}
 
 \vfill
