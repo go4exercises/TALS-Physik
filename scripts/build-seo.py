@@ -178,6 +178,16 @@ SEITEN = {
                 'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
    themen=['Physik', 'Kinematik', 'Geschwindigkeit', 'Beschleunigung', 'freier Fall',
            'Wurf', 'Relativbewegung', 'Kreisbewegung', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-dynamik.html': dict(
+   # In Erprobung, unverlinkt bis nach /lp-pruefung (noindex; Suchindex: UNVERLINKT).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   titel='Leitprogramm Dynamik — Kraft, Masse, Beschleunigung, Aufzug, Faden, Kreisbahn',
+   beschreibung='Leitprogramm zur Dynamik in fünf Kapiteln — Kraft, Masse und Beschleunigung; '
+                'Gesamtkraft und Trägheitsgesetz; Gewichtskraft und Aufzug; zwei Körper an einem '
+                'Faden; Zentripetalkraft — mit Erklärclips, laufenden Simulationen mit Aufgaben, '
+                'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Dynamik', 'Kraft', 'Grundgesetz', 'Trägheitsgesetz', 'Gewichtskraft',
+           'Normalkraft', 'Zentripetalkraft', 'Leitprogramm']),
  'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung',
