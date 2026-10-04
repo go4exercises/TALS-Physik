@@ -1,0 +1,59 @@
+# Bauskripte: Leitprogramm Kinematik
+
+Zweites Physik-Leitprogramm nach dem Kapitelmuster (`HOWTO-leitprogramme.md` §4), als Kopie von
+`scripts/lp/elektrizitaet/` entstanden (04.10.2026). Kopf, CSS, Grundskript, Bausteine und das
+Gerüst von `seite.js` (Achsen, Bedienung, Aufgabenleiste mit Vergleichsantwort, Übungsrahmen)
+sind wörtlich von dort; neu sind Kapitel, Simulationen, Übungstypen und Clips.
+
+| Datei | Zweck | laufen lassen? |
+|---|---|---|
+| `seite.py` | baut `leitprogramme/leitprogramm-kinematik.html` — Kopf, CSS, Grundskript, alle Kapitel, die zwei Aufgabenbilder (Wurf, Kreis). Aus der bestehenden Seite übernimmt es nur den SEO-Block. | **ja** — für jede Änderung an Text, Aufgaben, Kapitelaufbau |
+| `seite.js` | Seitenskript: Simulationen sim1–sim5 (s-t, v-t mit Fläche, Wurfbahn 1:1, Fluss 1:1, Kreisbahn), 15 Übungstypen (`TYPEN`, je mit `fehler()`), Minigrafen mit Geraden `m` oder `m,q` | wird von `seite.py` eingesetzt |
+| `clips.py` | Archiv: hat die zehn Drehbücher `clips/p4-1-lp-*.json` erzeugt | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern). Die Einblendezeiten sind danach im JSON auf die Sprechzeiten gelegt worden (`sprechzeiten.py`). |
+
+## Ablauf bei einer Änderung
+
+```sh
+python3 scripts/lp/kinematik/seite.py
+python3 scripts/build-seo.py
+python3 .claude/skills/preflight/preflight.py leitprogramme/leitprogramm-kinematik.html
+```
+
+Änderungen **nur hier** machen, nicht direkt in der HTML-Datei — der nächste Lauf überschreibt sie.
+
+Clips ändern: Drehbuch `clips/p4-1-lp-*.json` bearbeiten, dann `build-clip-ton.py` (Sprechertext
+geändert) → `build-clip-fragen-ton.py` (Kontrollclips) → `build-clips.py` (Stimme
+`de_DE-thorsten-high`). Laufzeiten auf den Clipkarten in `seite.py` nachführen. Die Bilder
+`clips/bilder/p4-1-lp-*.jpg` sind Aufnahmen der Simulationen (`.claude/tools/aufnahme-anim.mjs`,
+Selektor `#simN > svg`, Regler per `js`-Aktion setzen). Ändert sich eine Simulation: neu aufnehmen
+und jedes Bild ansehen.
+
+Gesamttest und Bewertungspaket: `downloads/leitprogramme/kinematik/*.tex`, bauen mit
+`python3 scripts/build-lp-pdf.py kinematik`. Das Bewertungspaket folgt der Elektrizitäts-Fassung
+1.1: Folgefehler überall gleich, Begründungspunkte (B) ohne Formelpflicht.
+
+## Prüfen
+
+```sh
+node .claude/tools/pruef-uebungen.mjs leitprogramme/leitprogramm-kinematik.html 2000
+node .claude/tools/pruef-leiste.mjs leitprogramme/leitprogramm-kinematik.html
+node .claude/tools/pruef-formelsatz.mjs leitprogramme/leitprogramm-kinematik.html
+node .claude/tools/pruef-fragen.mjs p4-1-lp-kontrolle-gleichfoermig p4-1-lp-kontrolle-beschleunigt \
+     p4-1-lp-kontrolle-wurf p4-1-lp-kontrolle-vektor p4-1-lp-kontrolle-kreis
+```
+
+Ob jede Aufgabe der Leisten **lösbar** ist, prüft `pruef-leiste` nicht — beim Bau am 04.10.2026
+mit einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (alle 30 ✓).
+
+## Entscheide
+
+- **Farben** wie Themenseite 4.1 (STYLEGUIDE §5.2): s Bernstein, v Grün, Komponenten Violett,
+  a_z und Resultierende Rot. Das Clip-Theme kennt kein Violett: Beschleunigung und v_F bleiben in
+  den Clips ungefärbt, statt eine Farbe mit anderer Bedeutung zu tragen.
+- **Vorhalten** nur mit β (v_S · cos β = −v_F): Die Themenseite benutzt γ für den Driftwinkel und
+  im Mini-Check auch für den Winkel gegen die Senkrechte.
+- **Kreis-Simulation** mit T ≥ 3 s und festem Pfeilmassstab (v 8 px je m/s, a_z 4 px je m/s²): So
+  reicht a_z nie über die Mitte, und alle Pfeile bleiben im Bild (vorab mit python3 geprüft).
+- **Unverlinkt in Erprobung** seit 04.10.2026: `noindex` in `build-seo.py`, Menge `UNVERLINKT` in
+  `build-suchindex.py`, keine Karte, kein Kasten auf der Themenseite. Freischalten erst nach
+  `/lp-pruefung` und der Abnahme durch den Auftraggeber (HOWTO §15).

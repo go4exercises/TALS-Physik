@@ -168,6 +168,16 @@ SEITEN = {
                 'und Gesamttest als PDF.',
    themen=['Physik', 'Elektrizität', 'Ladung', 'Stromstärke', 'Widerstand',
            'Reihenschaltung', 'Parallelschaltung', 'FI-Schutzschalter', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-kinematik.html': dict(
+   # Unverlinkt in Erprobung seit 04.10.2026 — freischalten nach /lp-pruefung (noindex entfernen).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   titel='Leitprogramm Kinematik — Geschwindigkeit, Beschleunigung, Fall und Wurf, Vektoren, Kreisbewegung',
+   beschreibung='Leitprogramm zur Kinematik in fünf Kapiteln — Ort, Bahn und Geschwindigkeit; '
+                'Beschleunigung und Bremsweg; freier Fall und Wurf; Geschwindigkeit als Vektor; '
+                'gleichförmige Kreisbewegung — mit Erklärclips, Simulationen mit Aufgaben, '
+                'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Kinematik', 'Geschwindigkeit', 'Beschleunigung', 'freier Fall',
+           'Wurf', 'Relativbewegung', 'Kreisbewegung', 'Leitprogramm']),
  'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung',
