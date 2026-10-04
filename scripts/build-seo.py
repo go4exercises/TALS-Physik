@@ -188,6 +188,16 @@ SEITEN = {
                 'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
    themen=['Physik', 'Dynamik', 'Kraft', 'Grundgesetz', 'Trägheitsgesetz', 'Gewichtskraft',
            'Normalkraft', 'Zentripetalkraft', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-energie.html': dict(
+   # In Erprobung, unverlinkt bis nach /lp-pruefung (noindex; Suchindex: UNVERLINKT).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   titel='Leitprogramm Energie — Arbeit, Energieerhaltung, Reibung und Motor, Leistung, Energiebilanz der Erde',
+   beschreibung='Leitprogramm zur Energie in sechs Kapiteln — Energie und Arbeit; Lage- und '
+                'Bewegungsenergie; Energieerhaltung; Reibung und Motor; Leistung und Wirkungsgrad; '
+                'die Energiebilanz der Erde — mit Erklärclips, laufenden Simulationen mit Aufgaben, '
+                'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Energie', 'Arbeit', 'Energieerhaltung', 'Leistung', 'Wirkungsgrad',
+           'Energiebilanz der Erde', 'Treibhauseffekt', 'Leitprogramm']),
  'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung',

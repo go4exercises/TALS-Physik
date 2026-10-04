@@ -1,0 +1,95 @@
+% Gesamttest «Energie» — Quelle des PDFs (python3 scripts/build-lp-pdf.py energie).
+% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (04.10.2026).
+% Jede Aufgabe fragt anders als Aufgaben und Übungen der Seite: G2 am gegebenen Kraft-Weg-Diagramm,
+% G3 rückwärts (Starthöhe aus dem Tempo oben), G4 rückwärts (Reibungskraft aus dem Tempo unten),
+% G5 als Leistungskette mit Energie in MWh, G6 an der Venus; G1 als Begründung — HOWTO §9.
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Energie}
+\definecolor{lplila}{HTML}{5B2D8E}
+\renewcommand{\lpteilgebiet}{4.3}
+\renewcommand{\lpfuss}{Gesamttest · 25 Punkte}
+\begin{document}
+\lpkopf{Gesamttest}{%
+  \vspace{4pt}\noindent\begin{tabularx}{\linewidth}{@{}X X@{}}
+  Code (kein Name): \hrulefill & Punkte: \hrulefill\ / 25
+  \end{tabularx}}
+
+\begin{lpinfo}{Anleitung}
+\textbf{Zeit:} rund 25 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
+Schreib zu jeder Aufgabe zuerst die Formel, dann die Werte \textbf{mit Einheiten}. Punkte gibt es für den Weg,
+für das Ergebnis mit Einheit und für Begründungen in eigenen Worten. Rechne mit $g = 9.81\;\text{m/s}^2$ und $\sigma = 5.67 \cdot 10^{-8}\;\text{W/(m}^2\text{K}^4)$.
+Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem \emph{Bewertungspaket} bewerten lassen.
+\end{lpinfo}
+
+\lpteil{Teil A · Energie und Arbeit}{Kapitel 1, 2 und 5 · 8 Punkte}
+
+\begin{lpaufgabe}{G1}{Begriffe}{4 P}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Was ist Energie? Nenne drei Energieformen.
+\item Eine Kraft wirkt auf einen Körper, der sich bewegt, und trotzdem verrichtet sie keine Arbeit. Wann ist das so? Gib ein Beispiel.
+\item Auf der Stromrechnung stehen «kWh». Ist das eine Energie oder eine Leistung? Begründe.
+\item Was heisst «Energieeffizienz»? Gib ein Beispiel aus der Technik.
+\end{enumerate}
+\lpplatz{12}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Paket auf dem Rollbrett}{4 P}
+Ein Paket (\(40\;\text{kg}\)) wird auf einem Rollbrett gezogen. Das Diagramm zeigt den Anteil der Kraft in Wegrichtung.\par\smallskip
+\begin{center}\begin{tikzpicture}
+\begin{axis}[width=10cm,height=5cm,xmin=0,xmax=14.5,ymin=0,ymax=185,axis lines=left,
+  xtick={0,1,...,12},ytick={0,25,...,175},grid=both,grid style={lplinie!70},xticklabel style={font=\small},
+  xlabel={$s$ [m]},ylabel={$F_s$ [N]},xlabel style={at={(1,0)},anchor=north east},ylabel style={rotate=-90,at={(0,1)},anchor=south east}]
+\addplot[very thick,lplila] coordinates {(0,150) (8,150) (8,75) (12,75) (12,0)};
+\end{axis}
+\end{tikzpicture}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Lies ab, wie gross die Kraft in Wegrichtung auf den ersten \(8\;\text{m}\) ist. Wie viel Arbeit wird auf den ganzen \(12\;\text{m}\) verrichtet?
+\item Am Ziel wird das Paket auf eine \(1.2\;\text{m}\) hohe Ladefläche gehoben. Wie gross ist die Hubarbeit?
+\item Das Seil zieht unter einem Winkel schräg nach oben. Warum zählt für die Arbeit nur der Anteil \(F \cdot \cos\alpha\)? Begründe.
+\end{enumerate}
+\lpplatz{8}
+\end{lpaufgabe}
+
+\lpteil{Teil B · Mechanische Energie und Erhaltung}{Kapitel 2, 3 und 4 · 9 Punkte}
+
+\begin{lpaufgabe}{G3}{Achterbahn}{5 P}
+Ein Achterbahnwagen (\(500\;\text{kg}\)) startet aus der Ruhe auf der Höhe \(h_0\), fährt durch ein Tal auf \(0\;\text{m}\) und dann über eine Kuppe in \(20\;\text{m}\) Höhe. Reibung und Luftwiderstand vernachlässigt.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Wie hoch muss der Start mindestens sein, damit der Wagen die Kuppe mit \(8\;\text{m/s}\) überquert?
+\item Wie schnell ist er dann im Tal?
+\item Ändert sich die nötige Starthöhe, wenn der Wagen voll besetzt ist, also schwerer? Begründe.
+\item In Wirklichkeit gibt es Reibung. Muss der Start dann höher oder tiefer liegen? Begründe.
+\end{enumerate}
+\lpplatz{10}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G4}{Skiabfahrt}{4 P}
+Eine Skifahrerin (\(65\;\text{kg}\)) fährt aus der Ruhe einen \(150\;\text{m}\) langen Hang hinunter, \(40\;\text{m}\) Höhenunterschied. Unten ist sie \(20\;\text{m/s}\) schnell.
+Wie viel Energie wurde unterwegs zu Wärme? Wie gross war die mittlere Kraft von Reibung und Luftwiderstand zusammen? Wohin ist diese Energie gegangen? Begründe mit dem Energieerhaltungssatz.
+\lpplatz{9}
+\end{lpaufgabe}
+
+\lpteil{Teil C · Leistung und Wirkungsgrad}{Kapitel 5 · 4 Punkte}
+
+\begin{lpaufgabe}{G5}{Pumpspeicherkraftwerk}{4 P}
+In einem Speicherkraftwerk fliessen jede Sekunde \(2000\;\text{kg}\) Wasser \(300\;\text{m}\) tief durch die Turbinen. Turbine und Generator wandeln zusammen \(85\;\%\) der Lageenergie in elektrische Energie um.
+Welche Leistung gibt das Wasser ab? Welche elektrische Leistung liefert das Kraftwerk? Wie viel elektrische Energie liefert es in \(2\;\text{h}\), in Megawattstunden?
+\lpplatz{9}
+\end{lpaufgabe}
+
+\lpteil{Teil D · Energiebilanz}{Kapitel 6 · 4 Punkte}
+
+\begin{lpaufgabe}{G6}{Die Venus}{4 P}
+Auf die Venus treffen \(S = 2601\;\text{W/m}^2\), ihre Albedo ist \(0.77\).
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Wie viel nimmt sie im Mittel je Quadratmeter auf?
+\item Welche Temperatur hätte sie, wenn alle Wärmestrahlung ungehindert ins All gelangte?
+\item Gemessen werden an der Oberfläche rund \(737\;\text{K}\). Erkläre den Unterschied mit der Energiebilanz.
+\end{enumerate}
+\lpplatz{10}
+\end{lpaufgabe}
+
+\vfill
+{\small\color{lpgrau}Bewerten: mit dem Bewertungspaket (Musterlösung, Punkteraster, Auftrag an eine KI) — erst nach dem Lösen öffnen.}
+\end{document}
