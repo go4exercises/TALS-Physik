@@ -954,6 +954,20 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   die Aufgabe, und die Kontrollfrage nimmt das Leistenziel vorweg. Feste Werte in die Ausschlusslisten der
   Generatoren, und jede Ausschlussbedingung prüfen, ob sie mit den Wertelisten überhaupt eintreten kann.
 
+- **Was die Kontrollfragen verlangen, bringt der Einführungsclip** (Energie 05.10.2026): Der
+  Kontrollclip steht *vor* dem Festhalten. \(P = F \cdot v\) und \(\sigma \cdot T^4\) wurden abgefragt, standen
+  aber erst im Festhalten oder gar nicht. Ebenso müssen Formeln, die Übungen und Aufgaben brauchen,
+  vorher eingeführt sein (mit Konstante und Einheit, z. B. «T in Kelvin»).
+- **Leistenziele auf dem Reglerraster:** Ein richtig gerechnetes Ergebnis muss sich einstellen lassen,
+  und das ✓ muss die Physik prüfen, nicht nur die Nähe: «Kuppe erreicht» erst, wenn die Energie
+  reicht — sonst gab es ✓ für einen Wagen, der umkehrt. Liegt das Ergebnis zwischen zwei
+  Reglerwerten, sagt der Auftrag «auf 0.1 genau» und die Vergleichsantwort, welcher Wert reicht.
+- **Startwerte der Regler** sind weder Clipbeispiel noch Leistenziel; sonst löst ein Knopfdruck die
+  Aufgabe, deren Antwort der Clip eben vorgerechnet hat.
+- **Fragen eines Clips beginnen verschieden:** `pruef-fragen.mjs` erkennt eine offene Frage an den
+  ersten 20 Zeichen ihres Texts. Zwei Fragen mit gleichem Anfang («Ein Wagen fährt reib…») lassen
+  den Durchlauf-Test (H) die falsche Antwort klicken.
+
 **Gesamttest und Bewertungspaket**
 - Jedes Kapitelziel hat eine Aufgabe; kein Modell aus Selbsttest oder Übung wiederholt.
 - Raster mit (E) Ergebnis- und (A) Ablesepunkt, typische Fehler mit Restpunkten statt

@@ -238,7 +238,7 @@
       el(eltern, 'line', { x1: xx - 3, y1: basis, x2: xx + breite + 3, y2: basis, 'class': 'achse' });
       var t = el(eltern, 'text', { x: xx + breite / 2, y: basis + 13, 'text-anchor': 'middle', 'class': 'bt-klein' });
       t.textContent = s.name;
-      el(eltern, 'text', { x: xx + breite / 2, y: basis + 25, 'text-anchor': 'middle', 'class': 'bt-wert' }, sig(s.wert / (einheit || 1)) + NB + (einheit === 1000 ? 'kJ' : 'J'));
+      el(eltern, 'text', { x: xx + breite / 2, y: basis + 25, 'text-anchor': 'middle', 'class': 'bt-wert' }, (s.wert < 1 ? '0' : sig(s.wert / (einheit || 1))) + NB + (einheit === 1000 ? 'kJ' : 'J'));
     });
   }
   function wurzel(x){ return Math.sqrt(Math.max(0, x)); }
@@ -276,9 +276,10 @@
       var bx = X0 + x * PX;
       el(szene, 'rect', { x: bx, y: 72, width: 28, height: 24, rx: 2, 'class': 'kiste' });
       var ax = bx + 28, ay = 80;
-      el(szene, 'line', { x1: ax, y1: ay, x2: ax + 62 * c, y2: ay - 62 * sn, 'class': 'seil' });
+      var ls = Math.min(62, (296 - ax) / Math.max(c, 0.2));                // Seil bleibt im Bild
+      el(szene, 'line', { x1: ax, y1: ay, x2: ax + ls * c, y2: ay - ls * sn, 'class': 'seil' });
       // Kraft (0.12 px je N) längs des Seils, ihr Anteil in Wegrichtung waagrecht darunter
-      var lf = w.F * 0.12;
+      var lf = Math.min(w.F * 0.12, ls);
       if (lf > 2){ pfeil(szene, ax, ay, ax + lf * c, ay - lf * sn, 'pf-f'); marke(szene, ax + lf * c + 7, ay - lf * sn - 3, 'F', '', 'pf-text pf-f', 'start'); }
       if (w.Fs * 0.12 > 2 && w.a > 0){ pfeil(szene, ax, 90, ax + w.Fs * 0.12, 90, 'pf-a', 6); el(szene, 'line', { x1: ax + lf * c, y1: ay - lf * sn, x2: ax + lf * c, y2: 90, 'class': 'hilfslinie' }); marke(szene, ax + w.Fs * 0.12 + 5, 93, 'F', 's', 'pf-text pf-a', 'start'); }
       el(szene, 'text', { x: ax + 16, y: ay - 4, 'class': 'bt-klein' }, w.a > 0 ? 'α = ' + zahl(w.a) + '°' : '');
@@ -298,11 +299,11 @@
     pruefen = Leiste(fig, [
       { text: 'Zieh die Kiste dreimal mit derselben Kraft und demselben Weg, aber unter drei verschiedenen Winkeln. Wie hängt die Arbeit vom Winkel ab? Notiere deine Antwort.', ok: function(s){ var l = s.laeufe, n = {}; l.forEach(function(a){ if (a.F === l[l.length - 1].F && a.s === l[l.length - 1].s) n[a.a] = true; }); return l.length && Object.keys(n).length >= 3; },
         vergleich: 'Je grösser der Winkel, desto kleiner die Arbeit: Nur der Anteil \\(F_s = F \\cdot \\cos\\alpha\\) in Wegrichtung zählt, und \\(\\cos\\alpha\\) wird mit dem Winkel kleiner. Bei \\(90^\\circ\\) wäre er null — eine Kraft senkrecht zum Weg verrichtet keine Arbeit.' },
-      { text: 'Zieh die Kiste waagrecht mit \\(200\\;\\text{N}\\) über \\(5\\;\\text{m}\\). Wie gross ist die Arbeit?', ok: function(s){ return hat(s, 200, 0, 5); } },
-      { text: 'Jetzt dieselbe Kraft, derselbe Weg, aber das Seil steigt unter \\(60^\\circ\\) an. Zieh und vergleiche.', ok: function(s){ return hat(s, 200, 60, 5); } },
+      { text: 'Zieh die Kiste waagrecht mit \\(250\\;\\text{N}\\) über \\(6\\;\\text{m}\\). Wie gross ist die Arbeit?', ok: function(s){ return hat(s, 250, 0, 6); } },
+      { text: 'Jetzt dieselbe Kraft, derselbe Weg, aber das Seil steigt unter \\(60^\\circ\\) an. Zieh und vergleiche.', ok: function(s){ return hat(s, 250, 60, 6); } },
       { text: 'Waagrecht gezogen sollen auf \\(4\\;\\text{m}\\) genau \\(600\\;\\text{J}\\) Arbeit verrichtet werden. Welche Kraft braucht es? Stelle ein und zieh.', ok: function(s){ return hat(s, 150, 0, 4); } },
       { text: 'Mit \\(300\\;\\text{N}\\) über \\(8\\;\\text{m}\\) sollen nur \\(1200\\;\\text{J}\\) Arbeit herauskommen. Unter welchem Winkel? Stelle ein und zieh.', ok: function(s){ return hat(s, 300, 60, 8); } },
-      { text: 'Triff die gestrichelte Fläche genau: Stelle Kraft, Winkel und Weg ein und zieh.', setup: function(S){ ziel = { s: 6, Fs: 160 }; S.setze({ F: 200, al: 0, s: 5 }); }, ok: function(s){ return s.lauf && s.lauf.s === 6 && Math.abs(s.lauf.Fs - 160) < 1e-6; } }
+      { text: 'Triff die gestrichelte Fläche genau: Stelle Kraft, Winkel und Weg ein und zieh.', setup: function(S){ ziel = { s: 6, Fs: 160 }; S.setze({ F: 100, al: 20, s: 3 }); }, ok: function(s){ return s.lauf && s.lauf.s === 6 && Math.abs(s.lauf.Fs - 160) < 1e-6; } }
     ], sim);
     zeichnen();
   })();
@@ -340,7 +341,7 @@
       for (var k = 0; k <= 160; k += 40) el(szene, 'text', { x: X0 + k * PX, y: 100, 'text-anchor': 'middle', 'class': 'skala' }, k + ' m');
       if (ziel) el(szene, 'line', { x1: X0 + ziel * PX, y1: 60, x2: X0 + ziel * PX, y2: 86, 'class': 'zielstrich' });
       var cx = X0 + sn * PX;
-      if (sn > 0){ el(szene, 'line', { x1: X0, y1: 85, x2: cx, y2: 85, 'class': 'bremsspur' }); el(szene, 'text', { x: X0, y: 46, 'class': 'bt-wert' }, (t >= w.te ? 'Bremsweg: ' : 'Bremsweg bisher: ') + fest(sn, 1) + NB + 'm'); }
+      if (sn > 0){ el(szene, 'line', { x1: X0, y1: 85, x2: cx, y2: 85, 'class': 'bremsspur' }); el(szene, 'text', { x: X0, y: 46, 'class': 'bt-wert' }, (t >= w.te ? 'Bremsweg: ' : 'Bremsweg bisher: ') + sig(sn) + NB + 'm'); }
       // Auto: Spitze an der gefahrenen Strecke
       el(szene, 'path', { d: 'M' + (cx - 30) + ',80 L' + (cx - 30) + ',68 L' + (cx - 22) + ',68 L' + (cx - 17) + ',60 L' + (cx - 6) + ',60 L' + (cx - 1) + ',68 L' + cx + ',70 L' + cx + ',80 Z', 'class': 'auto' });
       el(szene, 'circle', { cx: cx - 24, cy: 81, r: 4.5, 'class': 'rad' }); el(szene, 'circle', { cx: cx - 7, cy: 81, r: 4.5, 'class': 'rad' });
@@ -349,7 +350,7 @@
       // Diagramm: Parabel E_kin(v) in kJ, Punkt gleitet beim Bremsen hinunter
       if (vorher) K.kurve(function(u){ return 0.5 * vorher.m * u * u / 1000; }, 'vorher', 0, 26);
       K.kurve(function(u){ return 0.5 * w.m * u * u / 1000; }, 'kurve-ekin', 0, 26);
-      K.punkt(vn, En / 1000, 'p-v', 'Eₖᵢₙ = ' + sig(En / 1000) + NB + 'kJ', vn > 15 ? -9 : 9, -9, vn > 15 ? 'end' : 'start');
+      K.punkt(vn, En / 1000, 'p-v', 'Eₖᵢₙ = ' + sig(En / 1000, 4) + NB + 'kJ', vn > 15 ? -9 : 9, -9, vn > 15 ? 'end' : 'start');
       var z = '<span>' + v_('E') + '<sub>kin</sub> = ½ · ' + v_('m') + ' · ' + v_('v') + '² = ½ · ' + zahl(w.m) + NB + 'kg · (' + zahl(w.v) + NB + 'm/s)² ' + ist(w.E, sig(w.E, 4)) + sig(w.E, 4) + NB + 'J</span>' +
               '<span>Bremsweg: ' + v_('F') + '<sub>B</sub> · ' + v_('s') + ' = ' + v_('E') + '<sub>kin</sub> → ' + v_('s') + ' = ' + v_('E') + '<sub>kin</sub> / ' + v_('F') + '<sub>B</sub> = ' + sig(w.E, 4) + NB + 'J / ' + zahl(w.F) + NB + 'N ' + ist(w.s, sig(w.s)) + sig(w.s) + NB + 'm</span>';
       if (vorher) z += '<span class="sim-notiz">Gestrichelt grau: die Parabel der vorigen Bremsung.</span>';
@@ -360,11 +361,11 @@
     pruefen = Leiste(fig, [
       { text: 'Bremse dasselbe Auto mit derselben Bremskraft einmal aus \\(10\\;\\text{m/s}\\) und einmal aus \\(20\\;\\text{m/s}\\). Wie verändert sich der Bremsweg? Notiere deine Antwort.', ok: function(s){ return s.laeufe.some(function(a){ return a.v === 10 && s.laeufe.some(function(b){ return b.v === 20 && b.m === a.m && b.F === a.F; }); }); },
         vergleich: 'Er wird viermal so lang. Doppeltes Tempo heisst vierfache Bewegungsenergie, \\(E_\\text{kin} = \\tfrac12 \\cdot m \\cdot v^2\\), und die Bremse muss sie mit derselben Kraft abbauen: \\(F_B \\cdot s = E_\\text{kin}\\).' },
-      { text: 'Ein Auto mit \\(1000\\;\\text{kg}\\) fährt \\(10\\;\\text{m/s}\\) und bremst mit \\(5000\\;\\text{N}\\). Stelle ein, brems und lies Energie und Bremsweg ab.', ok: function(s){ return hat(s, 1000, 10, 5000); } },
-      { text: 'Gleiche Bremskraft, gleiches Tempo, aber doppelte Masse. Wie lang wird der Bremsweg? Stelle ein und brems.', ok: function(s){ return hat(s, 2000, 10, 5000); } },
+      { text: 'Ein Auto mit \\(1500\\;\\text{kg}\\) fährt \\(12\\;\\text{m/s}\\) und bremst mit \\(6000\\;\\text{N}\\). Stelle ein, brems und lies Energie und Bremsweg ab.', ok: function(s){ return hat(s, 1500, 12, 6000); } },
+      { text: 'Ein Kleinwagen mit \\(800\\;\\text{kg}\\) bremst aus \\(15\\;\\text{m/s}\\) mit \\(6000\\;\\text{N}\\). Wie lang wird der Bremsweg bei doppelter Masse, sonst gleich? Stelle ein und brems.', ok: function(s){ return hat(s, 1600, 15, 6000); } },
       { text: 'Welche Bremskraft hält ein Auto mit \\(1200\\;\\text{kg}\\) aus \\(20\\;\\text{m/s}\\) auf \\(40\\;\\text{m}\\) an? Stelle ein und brems.', ok: function(s){ return hat(s, 1200, 20, 6000); } },
       { text: 'Ein Auto mit \\(2000\\;\\text{kg}\\) hat \\(400\\;\\text{kJ}\\) Bewegungsenergie. Wie schnell fährt es? Stelle ein und brems.', ok: function(s){ return s.lauf && s.lauf.m === 2000 && s.lauf.v === 20; } },
-      { text: 'Bremse so, dass das Auto genau an der gestrichelten Linie steht.', setup: function(S){ ziel = 30; S.setze({ m: 1000, v: 10, F: 5000 }); }, ok: function(s){ return s.lauf && Math.abs(s.lauf.s - 30) < 1e-6; } }
+      { text: 'Bremse so, dass das Auto genau an der gestrichelten Linie steht.', setup: function(S){ ziel = 25; S.setze({ m: 1200, v: 8, F: 7000 }); }, ok: function(s){ return s.lauf && Math.abs(s.lauf.s - 25) < 1e-6; } }
     ], sim);
     zeichnen();
   })();
@@ -405,7 +406,8 @@
         if (w.v0 * w.v0 + 2 * G * (w.h0 - hn) < 0){ dir = -dir; rek.umkehr = true; rek.hmax = h; }
         else pos = neu;
         var x = ort(bahn, pos)[0];
-        if (Math.abs(x - 32) < 0.3 && dir > 0) rek.oben = true;
+        if (Math.abs(x - 32) < 0.3 && dir > 0 && w.v0 * w.v0 + 2 * G * (w.h0 - w.h2) >= 0) rek.oben = true;
+        if (dir < 0 && x < 14 && w.v0 * w.v0 + 2 * G * (w.h0 - ort(bahn, pos)[1]) < 0.05){ pos = Math.max(pos, 0.001); rek.ende = 'start'; letzter = rek; lauf = rek; laeufe.push(rek); zeichnen(); return false; }   // zurück auf der Starthöhe: Halt
       }
       zeichnen();
       var xe = ort(bahn, pos)[0];
@@ -423,7 +425,7 @@
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); B.setze(o); bahn = null; pos = 0; zeichnen(); },
       aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); },
       // Testhaken für Clipbilder (.claude/tools/aufnahme-anim.mjs): Wagen an die Stelle x [m] setzen
-      zeige: function(xz){ uhr.stop(); var w = werte(); bahn = bauen(w); var b = bahn.filter(function(q){ return q[0] <= xz; }); pos = b.length ? b[b.length - 1][2] : 0; zeichnen(); }
+      zeige: function(xz){ uhr.stop(); var w = werte(); bahn = bauen(w); var i = 0; while (i < bahn.length - 2 && bahn[i + 1][0] <= xz) i++; var A = bahn[i], C = bahn[i + 1]; pos = A[2] + (C[2] - A[2]) * Math.max(0, Math.min(1, (xz - A[0]) / (C[0] - A[0]))); zeichnen(); }
     };
     fig.__sim = sim;
     function zeichnen(){
@@ -437,7 +439,7 @@
       el(szene, 'text', { x: XL + 32 * S + 16, y: YB - w.h2 * S - 2, 'text-anchor': 'start', 'class': 'bt-klein' }, 'h₂ = ' + zahl(w.h2) + NB + 'm');
       var wx = XL + p[0] * S, wy = YB - h * S;
       el(szene, 'circle', { cx: wx, cy: wy - 6, r: 6, 'class': 'kugel' });
-      if (pos > 2) el(szene, 'text', { x: wx, y: wy - 16, 'text-anchor': 'middle', 'class': 'bt-wert' }, 'v = ' + sig(v) + NB + 'm/s');
+      if (pos > 2 && v > 0.3) el(szene, 'text', { x: wx, y: wy - 16, 'text-anchor': 'middle', 'class': 'bt-wert' }, 'v = ' + sig(v) + NB + 'm/s');
       // Säulen: Lage, Bewegung, Summe — gleicher Massstab, die Summe bleibt
       var Ep = w.m * G * h, Ek = 0.5 * w.m * v * v, sk = 110 / Math.max(1, w.E);
       saeulen(unten, 50, 300, 46, 34, [{ name: 'Eₚₒₜ', wert: Ep, cls: 'e-pot' }, { name: 'Eₖᵢₙ', wert: Ek, cls: 'e-kin' }, { name: 'Summe', wert: Ep + Ek, cls: 'e-ges' }], sk, 1000);
@@ -452,9 +454,10 @@
     pruefen = Leiste(fig, [
       { text: 'Lass den Wagen mit zwei verschiedenen Massen fahren, sonst gleich. Ist er im Tal verschieden schnell? Notiere deine Antwort.', ok: function(s){ return s.laeufe.some(function(a){ return s.laeufe.some(function(b){ return b.m !== a.m && b.h0 === a.h0 && b.v0 === a.v0; }); }); },
         vergleich: 'Nein. In \\(m \\cdot g \\cdot h_0 = \\tfrac12 \\cdot m \\cdot v^2\\) steht die Masse auf beiden Seiten und kürzt sich: \\(v = \\sqrt{2 \\cdot g \\cdot h_0}\\). Der schwerere Wagen hat mehr Energie, braucht aber auch mehr für dasselbe Tempo.' },
-      { text: 'Start aus der Ruhe auf \\(20\\;\\text{m}\\) Höhe: Wie schnell ist der Wagen im Tal? Stelle ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 20 && s.lauf.v0 === 0; } },
-      { text: 'Gleicher Start, der zweite Hügel ist \\(12\\;\\text{m}\\) hoch. Wie schnell ist der Wagen oben auf diesem Hügel?', ok: function(s){ return s.lauf && s.lauf.h0 === 20 && s.lauf.v0 === 0 && s.lauf.h2 === 12 && s.lauf.oben; } },
-      { text: 'Hügel 2 ist \\(25\\;\\text{m}\\) hoch, der Start \\(20\\;\\text{m}\\). Mit welchem Anfangstempo schafft der Wagen den Hügel gerade noch? Stelle ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 20 && s.lauf.h2 === 25 && s.lauf.oben && s.lauf.v0 <= 10.05; } },
+      { text: 'Start aus der Ruhe auf \\(25\\;\\text{m}\\) Höhe: Wie schnell ist der Wagen im Tal? Stelle ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 25 && s.lauf.v0 === 0; } },
+      { text: 'Gleicher Start, der zweite Hügel ist \\(15\\;\\text{m}\\) hoch. Wie schnell ist der Wagen oben auf diesem Hügel?', ok: function(s){ return s.lauf && s.lauf.h0 === 25 && s.lauf.v0 === 0 && s.lauf.h2 === 15 && s.lauf.oben; } },
+      { text: 'Hügel 2 ist \\(18\\;\\text{m}\\) hoch, der Start \\(15\\;\\text{m}\\). Mit welchem Anfangstempo schafft der Wagen den Hügel gerade noch? Stelle auf \\(0.1\\;\\text{m/s}\\) genau ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 15 && s.lauf.h2 === 18 && s.lauf.oben && s.lauf.v0 <= 7.75; },
+        vergleich: 'Gerechnet: \\(v_0 = \\sqrt{2 \\cdot g \\cdot (h_2 - h_0)} = \\sqrt{2 \\cdot 9.81\\;\\text{m/s}^2 \\cdot 3\\;\\text{m}} \\approx 7.67\\;\\text{m/s}\\). Auf dem Regler reicht \\(7.6\\;\\text{m/s}\\) knapp nicht, \\(7.7\\;\\text{m/s}\\) gerade.' },
       { text: 'Start aus der Ruhe auf \\(25\\;\\text{m}\\): Wie hoch darf Hügel 2 sein, damit der Wagen oben noch \\(10\\;\\text{m/s}\\) hat? Stelle ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 25 && s.lauf.v0 === 0 && s.lauf.oben && Math.abs(s.lauf.vTop - 10) < 0.05; } },
       { text: 'Stelle eine Fahrt ein, bei der der Wagen an Hügel 2 umkehrt. Wie hoch kommt er? Notiere deine Antwort.', ok: function(s){ return s.lauf && s.lauf.umkehr; },
         vergleich: 'Ohne Reibung genau bis zur Höhe, bei der seine ganze Energie wieder Lageenergie ist: \\(h = h_0 + \\dfrac{v_0^2}{2 \\cdot g}\\), aus der Ruhe also genau auf die Starthöhe. Dann rollt er zurück.' }
@@ -515,7 +518,7 @@
         el(unten, 'text', { x: sp[1] + 25, y: 314, 'text-anchor': 'middle', 'class': 'bt-klein' }, sp[2]);
       });
       var z = '<span>Bilanz (Lage hinunter positiv): ' + v_('m') + ' · ' + v_('g') + ' · ' + v_('h') + ' + ' + v_('F') + '<sub>M</sub> · ' + v_('s') + ' = ' + v_('E') + '<sub>kin</sub> + ' + v_('F') + '<sub>R</sub> · ' + v_('s') + '</span>';
-      if (!w.faehrt) z += '<span>Der Wagen fährt nicht los: Hangabtrieb und Motor überwinden die Reibung nicht.</span>';
+      if (!w.faehrt) z += '<span>Der Wagen fährt nicht los: ' + (w.h < 0 ? 'Der Motor überwindet ' + (w.FR > 0 ? 'Hangabtrieb und Reibung' : 'den Hangabtrieb') + ' nicht.' : w.h === 0 && w.FM === 0 ? 'Auf ebener Strecke ohne Motor wirkt keine antreibende Kraft.' : (w.FM > 0 ? 'Hangabtrieb und Motor' : 'Der Hangabtrieb') + ' ' + (w.FM > 0 ? 'überwinden' : 'überwindet') + ' die Reibung nicht.') + '</span>';
       else z += '<span>' + v_('E') + '<sub>kin</sub> = ' + zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² · ' + ew(w.h, 'm') + ' + ' + zahl(w.FM) + NB + 'N · 40' + NB + 'm − ' + zahl(w.FR) + NB + 'N · 40' + NB + 'm ' + ist(w.Ek, sig(w.Ek, 4)) + sig(w.Ek, 4) + NB + 'J</span>' +
                 '<span>' + v_('v') + ' = √(2 · ' + v_('E') + '<sub>kin</sub> / ' + v_('m') + ') = √(2 · ' + sig(w.Ek, 4) + NB + 'J / ' + zahl(w.m) + NB + 'kg) ' + ist(wurzel(2 * w.Ek / w.m), sig(wurzel(2 * w.Ek / w.m))) + sig(wurzel(2 * w.Ek / w.m)) + NB + 'm/s</span>';
       rolle(fig, 'formel').innerHTML = z;
@@ -525,8 +528,8 @@
     pruefen = Leiste(fig, [
       { text: 'Fahr zuerst ohne Reibung und ohne Motor hinunter, dann mit Reibung. Wohin geht die Energie, die unten als Bewegungsenergie fehlt? Notiere deine Antwort.', ok: function(s){ return s.laeufe.some(function(a){ return a.FR === 0 && a.FM === 0 && a.h > 0; }) && s.laeufe.some(function(a){ return a.FR > 0 && a.FM === 0 && a.h > 0; }); },
         vergleich: 'In Wärme: Die Reibung verrichtet die Arbeit \\(F_R \\cdot s\\), Räder, Lager und Boden werden etwas wärmer. Die Summe bleibt — die rechte Säule ist gleich hoch wie die linke, nur ein Teil ist jetzt Wärme statt Bewegungsenergie.' },
-      { text: 'Wagen \\(80\\;\\text{kg}\\), \\(10\\;\\text{m}\\) hinunter, ohne Reibung und Motor: Wie schnell ist er unten?', ok: function(s){ return hat(s, 80, 10, 0, 0); } },
-      { text: 'Dieselbe Fahrt mit \\(100\\;\\text{N}\\) Reibung: Wie viel Energie wird zu Wärme, und wie schnell ist der Wagen unten?', ok: function(s){ return hat(s, 80, 10, 100, 0); } },
+      { text: 'Wagen \\(60\\;\\text{kg}\\), \\(15\\;\\text{m}\\) hinunter, ohne Reibung und Motor: Wie schnell ist er unten?', ok: function(s){ return hat(s, 60, 15, 0, 0); } },
+      { text: 'Dieselbe Fahrt mit \\(80\\;\\text{N}\\) Reibung: Wie viel Energie wird zu Wärme, und wie schnell ist der Wagen unten?', ok: function(s){ return hat(s, 60, 15, 80, 0); } },
       { text: 'Bergauf: Das Ende liegt \\(5\\;\\text{m}\\) höher (\\(h = -5\\;\\text{m}\\)), Reibung \\(50\\;\\text{N}\\), Wagen \\(80\\;\\text{kg}\\). Mit welcher Motorkraft kommt er gerade noch oben an? Stelle ein und fahr.', ok: function(s){ return hat(s, 80, -5, 50, 150); } },
       { text: 'Stelle eine Fahrt ein, bei der genau ein Viertel der zugeführten Energie zu Wärme wird.', ok: function(s){ return s.lauf && s.lauf.zu > 0 && Math.abs(s.lauf.W / s.lauf.zu - 0.25) < 0.01; } },
       { text: 'Fahr mit Motor \\(10\\;\\text{m}\\) bergauf (\\(h = -10\\;\\text{m}\\)), ohne Reibung. Wohin ist die Motorarbeit gegangen? Notiere deine Antwort.', ok: function(s){ return s.lauf && s.lauf.h === -10 && s.lauf.FR === 0 && s.lauf.FM > 0; },
@@ -564,14 +567,14 @@
       el(szene, 'line', { x1: 8, y1: YB, x2: 200, y2: YB, 'class': 'boden' });
       el(szene, 'rect', { x: 46, y: 36, width: 10, height: YB - 36, 'class': 'mast' });
       el(szene, 'rect', { x: 40, y: 30, width: 150, height: 8, 'class': 'mast' });
-      for (var k = 0; k <= 20; k += 5){ el(szene, 'line', { x1: 36, y1: YB - k * S, x2: 46, y2: YB - k * S, 'class': 'achse' }); el(szene, 'text', { x: 32, y: YB - k * S + 4, 'text-anchor': 'end', 'class': 'skala' }, k + ' m'); }
+      for (var k = 0; k <= 20; k += 5){ el(szene, 'line', { x1: 36, y1: YB - k * S, x2: 46, y2: YB - k * S, 'class': 'achse' }); el(szene, 'text', { x: 32, y: YB - k * S + (k ? 4 : -3), 'text-anchor': 'end', 'class': 'skala' }, k + ' m'); }
       el(szene, 'rect', { x: 58, y: YB - 26, width: 34, height: 22, rx: 3, 'class': 'motor' });
       el(szene, 'text', { x: 75, y: YB - 11, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'Motor');
       var ly = YB - hn * S - 24;
       el(szene, 'line', { x1: 170, y1: 38, x2: 170, y2: ly, 'class': 'seil' });
       el(szene, 'rect', { x: 154, y: ly, width: 32, height: 24, rx: 2, 'class': 'kiste' });
       el(szene, 'text', { x: 170, y: ly + 16, 'text-anchor': 'middle', 'class': 'bt-klein' }, zahl(w.m) + NB + 'kg');
-      el(szene, 'line', { x1: 192, y1: YB - w.h * S, x2: 200, y2: YB - w.h * S, 'class': 'zielstrich' });
+      el(szene, 'line', { x1: 190, y1: YB - w.h * S, x2: 200, y2: YB - w.h * S, 'class': 'zielstrich' }); el(szene, 'text', { x: 195, y: YB - w.h * S - 4, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'h');
       el(szene, 'text', { x: 100, y: 58, 'class': 'bt-wert' }, 't = ' + fest(t, 1) + NB + 's');
       // Energiefluss: zugeführt teilt sich in Nutzen und Verlust (Säulen wachsen mit der Zeit)
       var sk = 150 / Math.max(1, w.Ez);
@@ -588,9 +591,9 @@
     pruefen = Leiste(fig, [
       { text: 'Heb dieselbe Last gleich hoch, einmal in der doppelten Zeit. Was ändert sich: die Arbeit oder die Leistung? Notiere deine Antwort.', ok: function(s){ return s.laeufe.some(function(a){ return s.laeufe.some(function(b){ return b.m === a.m && b.h === a.h && b.t === 2 * a.t; }); }); },
         vergleich: 'Die Arbeit \\(m \\cdot g \\cdot h\\) bleibt gleich, die Leistung halbiert sich: \\(P = \\dfrac{W}{t}\\). Leistung sagt, wie schnell Energie umgesetzt wird.' },
-      { text: 'Der Kran hebt \\(200\\;\\text{kg}\\) in \\(20\\;\\text{s}\\) auf \\(10\\;\\text{m}\\). Wie gross ist die Nutzleistung?', ok: function(s){ return hat(s, 200, 10, 20); } },
-      { text: 'Dieselbe Last in der halben Zeit: Wie gross ist die Nutzleistung jetzt?', ok: function(s){ return hat(s, 200, 10, 10); } },
-      { text: 'Wieder \\(200\\;\\text{kg}\\), \\(10\\;\\text{m}\\), \\(20\\;\\text{s}\\), aber der Antrieb hat den Wirkungsgrad \\(0.8\\). Welche Leistung muss zugeführt werden?', ok: function(s){ return hat(s, 200, 10, 20, 0.8); } },
+      { text: 'Der Kran hebt \\(300\\;\\text{kg}\\) in \\(30\\;\\text{s}\\) auf \\(15\\;\\text{m}\\). Wie gross ist die Nutzleistung?', ok: function(s){ return hat(s, 300, 15, 30); } },
+      { text: 'Dieselbe Last in der halben Zeit: Wie gross ist die Nutzleistung jetzt?', ok: function(s){ return hat(s, 300, 15, 15); } },
+      { text: 'Wieder \\(300\\;\\text{kg}\\), \\(15\\;\\text{m}\\), \\(30\\;\\text{s}\\), aber der Antrieb hat den Wirkungsgrad \\(0.75\\). Welche Leistung muss zugeführt werden?', ok: function(s){ return hat(s, 300, 15, 30, 0.75); } },
       { text: 'Der Motor nimmt höchstens \\(1500\\;\\text{W}\\) auf, \\(\\eta = 0.75\\). Last \\(300\\;\\text{kg}\\), Höhe \\(12\\;\\text{m}\\): Stelle die kürzeste mögliche Hubzeit in ganzen Sekunden ein und heb.', ok: function(s){ return hat(s, 300, 12, 32, 0.75); } },
       { text: 'Stelle einen Hub ein, für den genau \\(2\\;\\text{kW}\\) zugeführt werden müssen, und heb.', ok: function(s){ return s.lauf && Math.abs(s.lauf.Pz - 2000) < 10; } }
     ], sim);
@@ -608,9 +611,10 @@
     var fig = document.getElementById('sim6'); if (!fig) return;
     var svg = fig.querySelector('svg'), SOL = 1361, SIG = 5.67e-8, C = 4.2e8, JAHR = 3.156e7;
     var szene = g_(svg), dia = g_(svg, { transform: 'translate(0,176)' });
-    var K = Achsen(dia, { w: 300, h: 140, x0: -2.5, x1: 31, y0: 240, y1: 298, sx: 5, sy: 10, xm: [5, 10, 15, 20, 25, 30], ym: [250, 260, 270, 280, 290], xname: 't [Jahre]', yname: 'T [K]' });
+    var K = Achsen(dia, { w: 300, h: 140, x0: -2.5, x1: 31, y0: 240, y1: 314, sx: 5, sy: 10, xm: [5, 10, 15, 20, 25, 30], ym: [250, 260, 270, 280, 290, 300, 310], xname: 't [Jahre]', yname: 'T [K]' });
     var B = Bedienung(fig, function(){ uhr.stop(); spur = [[0, T]]; zeichnen(); });
-    var T = 288, spur = [[0, 288]], lauf = null, laeufe = [], pruefen = function(){}, letzt = 0;
+    var T0 = Math.pow(0.7 * SOL / 4 / (0.61 * SIG), 0.25), T = T0, spur = [[0, T0]],   // Start im Gleichgewicht von heute (a = 0.30, f = 0.61)
+         lauf = null, laeufe = [], pruefen = function(){}, letzt = 0;
     function werte(){ var a = B.wert('al'), f = B.wert('f'), ein = (1 - a) * SOL / 4; return { a: a, f: f, ein: ein, aus: f * SIG * Math.pow(T, 4), Teq: Math.pow(ein / (f * SIG), 0.25) }; }
     function schritt(jahre){ var w = werte(), n = Math.ceil(jahre / 0.05), dt = jahre / n * JAHR; for (var i = 0; i < n; i++){ T += ((1 - w.a) * SOL / 4 - w.f * SIG * Math.pow(T, 4)) / C * dt; } }
     var uhr = Uhr(function(tt){
@@ -619,7 +623,7 @@
       if (j >= 30){ w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq }; laeufe.push(lauf); zeichnen(); return false; }
     });
     aktionen(fig, [['start', '▶ 30 Jahre laufen lassen', function(){ spur = [[0, T]]; letzt = 0; if (WENIGER){ for (var j = 1; j <= 30; j++){ schritt(1); spur.push([j, T]); } var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq }; laeufe.push(lauf); zeichnen(); } else uhr.start(0); }],
-                   ['zurueck', '↺ auf 288 K', function(){ uhr.stop(); T = 288; spur = [[0, T]]; zeichnen(); }]]);
+                   ['zurueck', '↺ auf heute', function(){ uhr.stop(); T = T0; spur = [[0, T]]; zeichnen(); }]]);
     var sim = {
       zustand: function(){ var w = werte(); w.T = T; w.lauf = lauf; w.laeufe = laeufe; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); B.setze(o); spur = [[0, T]]; zeichnen(); },
@@ -641,7 +645,7 @@
       el(szene, 'text', { x: 170, y: 86, 'text-anchor': 'middle', 'class': 'erde-text' }, fest(T, 1) + NB + 'K');
       el(szene, 'text', { x: 170, y: 152, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'Treibhausgase (Hülle): Anteil ins All f = ' + zahl(w.f));
       K.kurve(function(){ return w.Teq; }, 'gleichgewicht', 0, 30);
-      K.text(30, w.Teq + (w.Teq > 292 ? -4 : 2), 'Gleichgewicht ' + fest(w.Teq, 1) + NB + 'K', 'gleichgewicht-text', 'end');
+      K.text(30, w.Teq + (w.Teq > 306 ? -5 : 2), 'Gleichgewicht ' + fest(w.Teq, 1) + NB + 'K', 'gleichgewicht-text', 'end');
       if (spur.length > 1) el(K.ebene, 'polyline', { points: spur.map(function(p){ return K.X(p[0]).toFixed(1) + ',' + K.Y(p[1]).toFixed(1); }).join(' '), 'class': 'kurve-t', 'clip-path': K.clip });
       var diff = w.ein - aus;
       rolle(fig, 'formel').innerHTML =
@@ -652,8 +656,8 @@
     }
     function fertig(s, a, f){ return s.lauf && gl(s.lauf.a, a) && gl(s.lauf.f, f) && Math.abs(s.lauf.T - s.lauf.Teq) < 0.5; }
     pruefen = Leiste(fig, [
-      { text: 'Ohne Treibhausgase gelangt alle Wärmestrahlung ins All: Stelle \\(f = 1\\) ein (Albedo \\(0.30\\)) und lass laufen. Welche Temperatur stellt sich ein?', ok: function(s){ return fertig(s, 0.3, 1); } },
-      { text: 'Stelle den heutigen Zustand ein (\\(a = 0.30\\), \\(f = 0.61\\)) und lass laufen. Wie viel nimmt die Erde je Quadratmeter auf, wie viel strahlt sie ab? Warum kühlt sie nicht aus? Notiere deine Antwort.', ok: function(s){ return fertig(s, 0.3, 0.61); },
+      { text: 'Ohne Treibhausgase gelangt alle Wärmestrahlung ins All (\\(f = 1\\)); dazu weniger Wolken, Albedo \\(0.25\\). Stelle ein und lass laufen. Welche Temperatur stellt sich ein?', ok: function(s){ return fertig(s, 0.25, 1); } },
+      { text: 'Stelle den heutigen Zustand ein (\\(a = 0.30\\), \\(f = 0.61\\)) und lass laufen. Bleibt die Temperatur gleich, obwohl die Erde ständig abstrahlt? Notiere deine Antwort.', ok: function(s){ return fertig(s, 0.3, 0.61); },
         vergleich: 'Rund \\(238\\;\\text{W/m}^2\\) hinein und \\(238\\;\\text{W/m}^2\\) hinaus. Die Erde strahlt dauernd ab, aber genauso viel Sonnenstrahlung fliesst nach. Kühlt sie ab, strahlt sie nach \\(\\sigma \\cdot T^4\\) sofort weniger ab — die Bilanz stellt sich von selbst wieder ein.' },
       { text: 'Mehr Treibhausgas: \\(f\\) sinkt von \\(0.61\\) auf \\(0.60\\). Lass vom heutigen Zustand aus laufen. Um wie viel steigt die Temperatur, und warum hört sie wieder auf zu steigen? Notiere deine Antwort.', ok: function(s){ return fertig(s, 0.3, 0.6); },
         vergleich: 'Um rund \\(1.2\\;\\text{K}\\) auf etwa \\(289\\;\\text{K}\\). Zuerst geht weniger hinaus als herein, die Erde erwärmt sich. Mit der Temperatur steigt die Abstrahlung, bis sie wieder gleich der Aufnahme ist — der Energieerhaltungssatz gilt, nur bei höherer Temperatur.' },
@@ -708,7 +712,7 @@
         neu: function(){
           var F, s, a;
           do { F = zufall([40, 60, 80, 120, 150, 250, 400]); s = zufall([3, 4, 5, 8, 12, 20, 50]); a = zufall([0, 20, 30, 45, 60]); }
-          while ((F === 200 && s === 5) || (F === 80 && s === 50 && a === 30) || F === s);   // Simulation 1, Aufgabe 1b
+          while ((F === 250 && s === 6) || (F === 80 && s === 50 && a === 30) || F === s);   // Simulation 1, Aufgabe 1b
           return { W: F * s * Math.cos(grad(a)), F: F, s: s, a: a,
             text: 'Eine Kraft von \\(' + ein(F, 'N') + '\\) zieht einen Körper \\(' + ein(s, 'm') + '\\) weit' + (a ? '; sie wirkt unter \\(' + a + '^\\circ\\) zur Bewegungsrichtung' : ', genau in Bewegungsrichtung') + '. Wie gross ist die Arbeit?' }; },
         pruefen: function(A, e){
@@ -722,7 +726,7 @@
       'hub': { felder: ['x'], muster: function(A){ return A.art === 'W' ? '<i>W</i> = {x} J' : '<i>h</i> = {x} m'; },
         neu: function(){
           var m, h;
-          do { m = zufall([2, 5, 12, 25, 60, 75]); h = zufall([1.5, 3, 4, 8, 12, 25]); } while (m === h || (m === 60 && h === 12));   // Aufgabe 1d
+          do { m = zufall([2, 5, 12, 25, 60, 75]); h = zufall([1.5, 3, 4, 8, 12, 25]); } while (m === h);
           if (Math.random() < 0.6) return { art: 'W', x: m * G * h, m: m, h: h, text: 'Ein Körper mit \\(m = ' + ein(m, 'kg') + '\\) wird \\(' + ein(h, 'm') + '\\) hoch gehoben. Wie gross ist die Hubarbeit?' };
           return { art: 'h', x: h, m: m, W: m * G * h, text: 'Für das Heben eines Körpers mit \\(m = ' + ein(m, 'kg') + '\\) werden \\(' + ein(+(m * G * h).toPrecision(4), 'J') + '\\) Hubarbeit verrichtet. Wie hoch wurde er gehoben?' }; },
         pruefen: function(A, e){
@@ -762,7 +766,7 @@
           var O, v, kmh = Math.random() < 0.35;
           do { O = zufall([['Ein Tennisball', 0.06], ['Ein Fussball', 0.4], ['Eine Läuferin', 60], ['Ein Velo mit Fahrer', 90], ['Ein Auto', 1200], ['Ein Auto', 1500]]);
                v = kmh ? zufall([36, 54, 72, 90, 108]) / 3.6 : zufall([3, 4, 5, 8, 12, 25, 40]); }
-          while ((O[1] < 1 && (v < 8)) || (O[1] > 1000 && v < 8) || (O[1] === 60 && v > 9) || (O[1] === 90 && v > 15) || (O[1] === 1500 && Math.abs(v - 20) < 1e-9) || (O[1] === 0.4 && (Math.abs(v - 10) < 1e-9 || Math.abs(v - 15) < 1e-9)));   // plausibel; Aufgabe 2a, Kontrollfrage, Festhalten
+          while ((O[1] < 1 && (v < 8)) || (O[1] > 1000 && v < 8) || (O[1] === 60 && v > 9) || (O[1] === 90 && v > 15) || (O[1] === 1500 && (Math.abs(v - 20) < 1e-9 || Math.abs(v - 10) < 1e-9)) || (O[1] === 90 && v === 5) || (O[1] === 0.4 && (Math.abs(v - 10) < 1e-9 || Math.abs(v - 15) < 1e-9)));   // plausibel; Aufgabe 2a, Kontrollfrage, Festhalten
           return { E: 0.5 * O[1] * v * v, m: O[1], v: v, kmh: kmh, vk: v * 3.6,
             text: O[0] + ' (\\(m = ' + ein(O[1], 'kg') + '\\)) bewegt sich mit \\(' + (kmh ? ein(+(v * 3.6).toFixed(6), 'km/h') : ein(v, 'm/s')) + '\\). Wie gross ist die Bewegungsenergie?' }; },
         pruefen: function(A, e){
@@ -826,7 +830,7 @@
         neu: function(){
           var h0, h2, v0;
           do { h0 = zufall([15, 18, 30, 40]); h2 = zufall([5, 8, 14, 25]); v0 = zufall([0, 3, 4, 6]); }
-          while (h2 >= h0 || (h0 === 20 && h2 === 12) || Math.abs(v0 + Math.sqrt(2 * G * (h0 - h2)) - Math.sqrt(v0 * v0 + 2 * G * h0)) < 0.02 * Math.sqrt(v0 * v0 + 2 * G * h0));   // Clip, Simulation 3; Fehlermuster unterscheidbar
+          while (h2 >= h0 || (h0 - h2 === 5 && v0 === 3) || Math.abs(v0 + Math.sqrt(2 * G * (h0 - h2)) - Math.sqrt(v0 * v0 + 2 * G * h0)) < 0.02 * Math.sqrt(v0 * v0 + 2 * G * h0));   // Clip, Simulation 3; Fehlermuster unterscheidbar
           return { v: Math.sqrt(v0 * v0 + 2 * G * (h0 - h2)), h0: h0, h2: h2, v0: v0,
             text: 'Ein Wagen fährt reibungsfrei mit \\(' + ein(v0, 'm/s') + '\\) auf \\(' + ein(h0, 'm') + '\\) Höhe los. Wie schnell ist er oben auf einem Hügel von \\(' + ein(h2, 'm') + '\\) Höhe?' }; },
         pruefen: function(A, e){
@@ -843,7 +847,7 @@
         neu: function(){
           var m, h, s, F, E;
           do { m = zufall([40, 60, 80]); h = zufall([5, 8, 12, 20]); s = zufall([20, 40, 60, 100]); F = zufall([20, 30, 50, 80]); E = m * G * h - F * s; }
-          while (E < 0.25 * m * G * h || (m === 80 && h === 10 && s === 40 && F === 100) || s / h < 2.5);   // Simulation 4
+          while (E < 0.25 * m * G * h || s / h < 2.5);   // Simulation 4
           return { v: Math.sqrt(2 * E / m), m: m, h: h, s: s, F: F, E: E,
             text: 'Ein Schlitten mit Kind (\\(m = ' + ein(m, 'kg') + '\\)) fährt aus der Ruhe einen \\(' + ein(s, 'm') + '\\) langen Hang hinunter, \\(' + ein(h, 'm') + '\\) Höhenunterschied. Die Reibung beträgt \\(' + ein(F, 'N') + '\\). Wie schnell ist er unten?' }; },
         pruefen: function(A, e){
@@ -903,7 +907,7 @@
       'pfv': { felder: ['F'], muster: '<i>F</i> = {F} N',
         neu: function(){
           var P, v;
-          do { P = zufall([15, 30, 45, 60, 90]); v = zufall([36, 54, 72, 90, 108]); } while (P === v || (P === 15 && v === 72));   // Aufgabe 5b
+          do { P = zufall([15, 30, 45, 60, 90]); v = zufall([36, 54, 72, 90, 108]); } while (P === v || (P === 15 && v === 72) || P * 1000 / (v / 3.6) > 2500 || P * 1000 / (v / 3.6) < 300);   // plausibel: Fahrwiderstand 300 bis 2500 N   // Aufgabe 5b
           return { F: P * 1000 / (v / 3.6), P: P, v: v,
             text: 'Ein Auto fährt mit konstant \\(' + ein(v, 'km/h') + '\\); der Motor gibt dabei \\(' + ein(P, 'kW') + '\\) an die Räder ab. Wie gross ist die Antriebskraft? (\\(P = F \\cdot v\\))' }; },
         pruefen: function(A, e){
@@ -935,8 +939,8 @@
       /* ----- Kapitel 6: Energiebilanz der Erde ----- */
       'albedo': { felder: ['P'], muster: '<i>P</i>/<i>A</i> = {P} W/m²',
         neu: function(){
-          var O = zufall([['die Erde', 1361, [0.25, 0.28, 0.32, 0.35]], ['der Merkur', 9116, [0.07]], ['der Jupiter', 50.5, [0.34]], ['der Mond', 1361, [0.12]]]), a = zufall(O[2]);
-          return { P: (1 - a) * O[1] / 4, S: O[1], a: a, name: O[0], text: 'Auf ' + O[0] + ' treffen ausserhalb der Atmosphäre \\(S = ' + ein(O[1], 'W/m^2').replace('\\text{W/m^2}', '\\text{W/m}^2') + '\\), die Albedo ist \\(' + tz(a) + '\\). Wie viel Leistung je Quadratmeter nimmt der Himmelskörper im Mittel auf?' }; },
+          var O = zufall([['die Erde', 1361, [0.25, 0.32, 0.35], true], ['den Merkur', 9116, [0.07], false], ['den Jupiter', 50.5, [0.34], true], ['den Mond', 1361, [0.12], false]]), a = zufall(O[2]);   // nicht 0.28 (Simulation 6)
+          return { P: (1 - a) * O[1] / 4, S: O[1], a: a, name: O[0], text: 'Auf ' + O[0] + ' treffen' + (O[3] ? ' ausserhalb der Atmosphäre' : '') + ' \\(S = ' + ein(O[1], 'W/m^2').replace('\\text{W/m^2}', '\\text{W/m}^2') + '\\), die Albedo ist \\(' + tz(a) + '\\). Wie viel Leistung je Quadratmeter nimmt der Himmelskörper im Mittel auf?' }; },
         pruefen: function(A, e){
           if (nah(e.P, A.P)) return null;
           if (nah(e.P, A.a * A.S / 4)) return 'Das ist der zurückgeworfene Anteil. Aufgenommen wird \\(1 - a\\).';
@@ -959,7 +963,7 @@
         fehler: function(A){ var l = [[{ P: String(SIG * Math.pow(A.K, 2)) }, 'Quadrat']]; if (A.c && A.T !== 0) l.push([{ P: String(SIG * Math.pow(A.T, 4)) }, 'Kelvin']); return l; },
         loesung: function(A){ return (A.c ? 'T = ' + tz(A.T) + ' + 273.15\\;\\text{K} = ' + ein(+A.K.toFixed(2), 'K') + ',\\quad ' : '') + '\\dfrac{P}{A} = \\sigma \\cdot T^4 = 5.67 \\cdot 10^{-8}\\;\\text{W/(m}^2\\text{K}^4) \\cdot (' + ein(+A.K.toFixed(2), 'K') + ')^4 ' + erg(A.P, 'W/m^2').replace('\\text{W/m^2}', '\\text{W/m}^2'); } },
       'gleichgewicht': { felder: ['T'], muster: '<i>T</i> = {T} K',
-        neu: function(){ var P = zufall([150, 200, 300, 400, 125, 180]);   // nicht 238 W/m² (Themenseite), nicht 110 W/m² (Aufgabe 6c)
+        neu: function(){ var P = zufall([200, 300, 400, 125, 180, 260]);   // nicht 238 W/m² (Themenseite), nicht rund 150 W/m² (Gesamttest G6)
           return { T: Math.pow(P / SIG, 0.25), P: P, text: 'Ein Planet ohne Atmosphäre nimmt im Mittel \\(' + ein(P, 'W/m^2').replace('\\text{W/m^2}', '\\text{W/m}^2') + '\\) auf. Bei welcher Temperatur strahlt er gleich viel ab? (\\(\\sigma = 5.67 \\cdot 10^{-8}\\;\\text{W/(m}^2\\text{K}^4)\\))' }; },
         pruefen: function(A, e){
           if (nah(e.T, A.T)) return null;

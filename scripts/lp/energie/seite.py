@@ -2,8 +2,8 @@
 
   python3 scripts/lp/energie/seite.py
 
-Drittes Physik-Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4), als Kopie von
-scripts/lp/kinematik/ entstanden: Kopf, CSS, Grundskript und Bausteine von dort, neu sind
+Viertes Physik-Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4), als Kopie von
+scripts/lp/dynamik/ entstanden: Kopf, CSS, Grundskript und Bausteine von dort, neu sind
 Kapitel, die laufenden Simulationen und die Übungstypen (seite.js). Nur den SEO-Block
 übernimmt das Skript aus der bestehenden Seite. Wiederholbar. Danach build-seo.py, Pre-Flight.
 Siehe README.md.
@@ -344,7 +344,7 @@ text.pf-v{fill:var(--gruen)} text.pf-a{fill:var(--lila)} text.pf-f{fill:var(--bl
 .sim-aktionen .aktion:hover{box-shadow:var(--sl)}
 svg.mini{width:190px;height:auto;background:var(--karte);border:1px solid var(--linie);border-radius:6px}
 .kurve-mini{fill:none;stroke:var(--tinte-2);stroke-width:2.2}
-.kurve-mini.kurve-v{stroke:var(--gruen);stroke-width:2.2} .kurve-mini.kurve-f{stroke:var(--rot);stroke-width:2.2}
+.kurve-mini.kurve-v{stroke:var(--gruen);stroke-width:2.2} .kurve-mini.kurve-f{stroke:var(--rot);stroke-width:2.2} .kurve-mini.kurve-epot{stroke:var(--bernstein);stroke-width:2.2}
 svg.mini.breit{width:260px}
 .mini-name{fill:var(--tinte);font-family:var(--sans);font-size:12px;font-weight:700}
 .p-mini{fill:var(--tinte)}
@@ -655,6 +655,31 @@ def figur(sid, label, svg_box, inhalt, hilfs=None):
       </figure>'''
 
 
+def linien_bild(punkte, x0, x1, y0, y1, xt, yt, label, xname, yname, cls='kurve-v', waagrecht=None):
+    """Diagramm für Aufgaben: Streckenzug durch die Punkte, Gitter je xt und yt, Achsen mit Einheit."""
+    w, h, ox, oy = 250, 150, 38, 126
+    kx, ky = (w - ox - 16) / (x1 - x0), (oy - 18) / (y1 - y0)
+    X = lambda x: ox + (x - x0) * kx
+    Y = lambda y: oy - (y - y0) * ky
+    t = [f'<svg class="mini breit" viewBox="0 0 {w} {h + 8}" role="img" aria-label="{label}">']
+    x = x0
+    while x <= x1 + 1e-9:
+        t.append(f'<line x1="{X(x):.1f}" y1="{Y(y1):.1f}" x2="{X(x):.1f}" y2="{oy}" class="gitter"/>')
+        if x != x0: t.append(f'<text x="{X(x):.1f}" y="{oy + 13}" text-anchor="middle" class="skala">{x:g}</text>')
+        x += xt
+    y = y0
+    while y <= y1 + 1e-9:
+        t.append(f'<line x1="{ox}" y1="{Y(y):.1f}" x2="{X(x1):.1f}" y2="{Y(y):.1f}" class="gitter"/>')
+        t.append(f'<text x="{ox - 5}" y="{Y(y) + 4:.1f}" text-anchor="end" class="skala">{y:g}</text>')
+        y += yt
+    t.append(f'<line x1="{ox}" y1="{oy}" x2="{X(x1) + 8:.1f}" y2="{oy}" class="achse"/><line x1="{ox}" y1="{oy}" x2="{ox}" y2="{Y(y1) - 8:.1f}" class="achse"/>')
+    if waagrecht is not None:
+        t.append(f'<line x1="{ox}" y1="{Y(waagrecht):.1f}" x2="{X(x1):.1f}" y2="{Y(waagrecht):.1f}" class="vorher"/>')
+    t.append('<polyline points="' + ' '.join(f'{X(a):.1f},{Y(b):.1f}' for a, b in punkte) + f'" class="kurve-mini {cls}"/>')
+    t.append(f'<text x="{X(x1) + 8:.1f}" y="{oy - 6}" text-anchor="end" class="achsname">{xname}</text><text x="{ox + 6}" y="{Y(y1) - 2:.1f}" class="achsname">{yname}</text></svg>')
+    return ''.join(t)
+
+
 # ------------------------------------------------------------------ Kapitel 0: Vorwissen
 P01 = '../themen/p0-1-vorwissen-mathematik.html'
 P02 = '../themen/p0-2-vorwissen-physik.html'
@@ -680,9 +705,9 @@ k0 = '''
 # ------------------------------------------------------------------ Kapitel 1
 sim1 = figur_anim('sim1', 'Kiste wird mit einer Kraft unter einem Winkel gezogen; darunter das Kraft-Weg-Diagramm, in dem sich die Fläche als Arbeit füllt', '-4 -4 308 318',
     '        <div class="reglerfeld">\n          '
-    + regler('s1', 'F', '<i>F</i> Kraft', 0, 400, 10, 200, 'N', 0) + '\n          '
-    + regler('s1', 'al', '<i>α</i> Winkel', 0, 80, 5, 0, '°', 0) + '\n          '
-    + regler('s1', 's', '<i>s</i> Weg', 1, 8, 0.5, 5, 'm', 1) + '\n        </div>\n'
+    + regler('s1', 'F', '<i>F</i> Kraft', 0, 400, 10, 100, 'N', 0) + '\n          '
+    + regler('s1', 'al', '<i>α</i> Winkel', 0, 80, 5, 20, '°', 0) + '\n          '
+    + regler('s1', 's', '<i>s</i> Weg', 1, 8, 0.5, 3, 'm', 1) + '\n        </div>\n'
     + '        <p class="sim-notiz">Die Kiste gleitet gleichmässig; Reibung und Gewichtskraft sind nicht gezeichnet.</p>')
 fest1 = r'''      <div class="festhalten">
         <div class="merk">
@@ -703,8 +728,9 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 11, [
      r'<p>Wasserkraftwerk: Lageenergie des Wassers → Bewegungsenergie → elektrische Energie (dazu etwas Wärme). Solarzelle: Strahlungsenergie → elektrische Energie und Wärme. Bremsende Velofahrerin: Bewegungsenergie → Wärme in Bremsen und Reifen.</p>', ''),
     ('1b', 3, r'Ein Kind zieht einen Schlitten \(50\;\text{m}\) weit; die Schnur zieht mit \(80\;\text{N}\) unter \(30^\circ\) zum Boden. Wie gross ist die Arbeit? Wie viel wäre es, wenn die Schnur waagrecht zöge?',
      r'<p>\(W = F \cdot s \cdot \cos\alpha\) \(= 80\;\text{N} \cdot 50\;\text{m} \cdot \cos 30^\circ\) \(\approx 3464\;\text{J}\).</p><p>Waagrecht: \(W = 80\;\text{N} \cdot 50\;\text{m}\) \(= 4000\;\text{J}\) — mehr, weil die ganze Kraft in Wegrichtung zeigt.</p>', ''),
-    ('1c', 3, r'Eine Person (\(60\;\text{kg}\)) steigt vier Stockwerke hoch, zusammen \(12\;\text{m}\). Wie gross ist ihre Hubarbeit? Wie viele Kilowattstunden sind das?',
-     r'<p>\(W = m \cdot g \cdot h\) \(= 60\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 12\;\text{m}\) \(\approx 7063\;\text{J}\).</p><p>\(1\;\text{kWh} = 3.6 \cdot 10^{6}\;\text{J}\), also \(\dfrac{7063\;\text{J}}{3.6 \cdot 10^{6}\;\text{J/kWh}} \approx 0.00196\;\text{kWh}\) — rund zwei Wattstunden.</p>', ''),
+    ('1c', 3, r'Das Diagramm zeigt den Anteil der Kraft in Wegrichtung, mit dem eine Kiste über den Boden geschoben wird. Wie viel Arbeit wird insgesamt verrichtet? Wie viele Kilowattstunden sind das?',
+     r'<p>Die Arbeit ist die Fläche unter der Kraft: \(W = 40\;\text{N} \cdot 3\;\text{m} + 20\;\text{N} \cdot 3\;\text{m}\) \(= 120\;\text{J} + 60\;\text{J} = 180\;\text{J}\).</p><p>\(1\;\text{kWh} = 3.6 \cdot 10^{6}\;\text{J}\), also \(\dfrac{180\;\text{J}}{3.6 \cdot 10^{6}\;\text{J/kWh}} = 5 \cdot 10^{-5}\;\text{kWh}\) — eine winzige Energie.</p>',
+     '\n            <div class="mini-reihe">' + linien_bild([(0, 40), (3, 40), (3, 20), (6, 20), (6, 0)], 0, 7, 0, 50, 1, 10, 'Kraft-Weg-Diagramm: 40 N über die ersten 3 m, dann 20 N bis 6 m', 's [m]', 'Fₛ [N]', 'kurve-fs') + '</div>'),
     ('1d', 2, r'Ein Satellit kreist mit konstantem Tempo um die Erde. Verrichtet die Gravitation an ihm Arbeit? Begründe.',
      r'<p>Nein. Die Gravitation zeigt zur Erdmitte, also senkrecht zur Bewegung auf der Kreisbahn: \(\cos 90^\circ = 0\). Darum ändert sich seine Bewegungsenergie nicht — er bleibt gleich schnell.</p>', ''),
 ])
@@ -718,9 +744,9 @@ k1 = kapitel(1, 'energie-arbeit', 'Energie und Arbeit', 'K1 · K2', 40,
 # ------------------------------------------------------------------ Kapitel 2
 sim2 = figur_anim('sim2', 'Auto bremst mit konstanter Kraft bis zum Stillstand; darunter die Bewegungsenergie über der Geschwindigkeit als Parabel, auf der ein Punkt hinuntergleitet', '-4 -4 308 324',
     '        <div class="reglerfeld">\n          '
-    + regler('s2', 'm', '<i>m</i> Masse', 800, 2000, 100, 1000, 'kg', 0) + '\n          '
-    + regler('s2', 'v', '<i>v</i> Tempo', 5, 25, 1, 10, 'm/s', 0) + '\n          '
-    + regler('s2', 'F', '<i>F</i><sub>B</sub> Bremskraft', 4000, 12000, 500, 5000, 'N', 0) + '\n        </div>')
+    + regler('s2', 'm', '<i>m</i> Masse', 800, 2000, 100, 1200, 'kg', 0) + '\n          '
+    + regler('s2', 'v', '<i>v</i> Tempo', 5, 25, 1, 8, 'm/s', 0) + '\n          '
+    + regler('s2', 'F', '<i>F</i><sub>B</sub> Bremskraft', 4000, 8000, 500, 7000, 'N', 0) + '\n        </div>')
 fest2 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Mechanische Energie</div>
@@ -728,7 +754,7 @@ fest2 = r'''      <div class="festhalten">
           <p>\[ E_\text{pot} = m \cdot g \cdot h \]</p>
           <p><b>Bewegungsenergie</b> (kinetische Energie): Ein Körper mit der Geschwindigkeit \(v\) trägt die Arbeit, die nötig war, um ihn aus der Ruhe zu beschleunigen — und die nötig ist, um ihn wieder anzuhalten:</p>
           <p>\[ E_\text{kin} = \tfrac12 \cdot m \cdot v^2 \]</p>
-          <p>Lageenergie wächst linear mit der Höhe, Bewegungsenergie quadratisch mit dem Tempo. Beim Bremsen mit konstanter Kraft gilt \(F_B \cdot s = E_\text{kin}\).</p>
+          <p>Lageenergie wächst linear mit der Höhe, Bewegungsenergie quadratisch mit dem Tempo. Bremst eine konstante Kraft bis zum Stillstand, gilt \(F_B \cdot s = E_\text{kin}\).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -740,12 +766,12 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2a', 3, r'Ein Auto (\(1500\;\text{kg}\)) fährt mit \(72\;\text{km/h}\). Wie gross ist seine Bewegungsenergie? Wie viel ist es bei \(36\;\text{km/h}\)?',
      r'<p>\(v = \dfrac{72}{3.6}\;\text{m/s}\) \(= 20\;\text{m/s}\), \(E_\text{kin} = \tfrac12 \cdot m \cdot v^2\) \(= \tfrac12 \cdot 1500\;\text{kg} \cdot (20\;\text{m/s})^2\) \(= 300\;\text{kJ}\).</p><p>Bei \(36\;\text{km/h} = 10\;\text{m/s}\): \(\tfrac12 \cdot 1500\;\text{kg} \cdot (10\;\text{m/s})^2 = 75\;\text{kJ}\) — ein Viertel, weil das Tempo im Quadrat steht.</p>', ''),
     ('2b', 3, r'Das Diagramm zeigt die Bewegungsenergie zweier Körper A und B über \(v^2\). Welche Masse hat jeder? (Punkte auf Gitterpunkten)',
-     r'<p>\(E_\text{kin} = \tfrac12 \cdot m \cdot v^2\): Die Steigung über \(v^2\) ist \(\tfrac{m}{2}\).</p><p>A: \(\dfrac{40\;\text{J}}{16\;\text{m}^2/\text{s}^2} = 2.5\;\text{kg}\), also \(m_A = 5\;\text{kg}\). B: \(\dfrac{16\;\text{J}}{16\;\text{m}^2/\text{s}^2} = 1\;\text{kg}\), also \(m_B = 2\;\text{kg}\).</p>',
-     '\n            <div class="mini-reihe"><svg class="mini" data-geraden="2.5;1" data-namen="A;B" data-farbe="kurve-v" data-fenster="20,50" data-teilung="2,5" data-punkte="16,40;16,16" data-xname="v² [m²/s²]" data-yname="E [J]" aria-label="Bewegungsenergie über v-Quadrat, zwei Ursprungsgeraden A und B"></svg></div>'),
+     r'<p>\(E_\text{kin} = \tfrac12 \cdot m \cdot v^2\): Die Steigung über \(v^2\) ist \(\tfrac{m}{2}\).</p><p>A: \(\dfrac{40\;\text{J}}{16\;\text{m}^2/\text{s}^2} = 2.5\;\text{kg}\), also \(m_A = 5\;\text{kg}\). B: \(\dfrac{20\;\text{J}}{20\;\text{m}^2/\text{s}^2} = 1\;\text{kg}\), also \(m_B = 2\;\text{kg}\).</p>',
+     '\n            <div class="mini-reihe"><svg class="mini" data-geraden="2.5;1" data-namen="A;B" data-farbe="kurve-v" data-fenster="20,50" data-teilung="2,5" data-punkte="16,40;20,20" data-xname="v² [m²/s²]" data-yname="E [J]" aria-label="Bewegungsenergie über v-Quadrat, zwei Ursprungsgeraden A und B"></svg></div>'),
     ('2c', 3, r'Ein Hammer (\(1.5\;\text{kg}\)) liegt auf einem Regal, \(2\;\text{m}\) über dem Boden. Wie gross ist seine Lageenergie bezogen auf den Boden? Wie gross bezogen auf eine Tischplatte in \(0.8\;\text{m}\) Höhe? Warum sind beide Antworten richtig?',
      r'<p>Boden: \(E_\text{pot} = m \cdot g \cdot h\) \(= 1.5\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 2\;\text{m}\) \(\approx 29.4\;\text{J}\). Tisch: \(1.5\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 1.2\;\text{m} \approx 17.7\;\text{J}\).</p><p>Das Nullniveau ist frei wählbar. Physikalisch zählt nur die Differenz: Fällt der Hammer auf den Tisch, werden in beiden Rechnungen \(17.7\;\text{J}\) frei.</p>', ''),
-    ('2d', 3, r'Bei doppeltem Tempo ist der Bremsweg eines Autos viermal so lang, obwohl die Bremsen gleich stark ziehen. Erkläre mit der Energie.',
-     r'<p>Die Bremsen müssen die ganze Bewegungsenergie in Wärme verwandeln: \(F_B \cdot s = \tfrac12 \cdot m \cdot v^2\). Doppeltes \(v\) gibt vierfache Energie, und bei gleicher Bremskraft braucht es dafür den vierfachen Weg.</p>', ''),
+    ('2d', 3, r'Ein Auto hat bei \(30\;\text{km/h}\) einen Bremsweg von \(6\;\text{m}\). Wie lang ist er bei \(50\;\text{km/h}\), gleich stark gebremst? Begründe mit der Energie.',
+     r'<p>Die Bremse muss die Bewegungsenergie abbauen: \(F_B \cdot s = \tfrac12 \cdot m \cdot v^2\). Bei gleicher Bremskraft wächst der Bremsweg wie \(v^2\).</p><p>\(s = 6\;\text{m} \cdot \left(\dfrac{50}{30}\right)^2\) \(\approx 16.7\;\text{m}\) — knapp dreimal so lang.</p>', ''),
 ])
 k2 = kapitel(2, 'mechanische-energie', 'Lage- und Bewegungsenergie', 'K3', 40,
     r'Du berechnest Lageenergie \(E_\text{pot} = m \cdot g \cdot h\) und Bewegungsenergie \(E_\text{kin} = \tfrac12 \cdot m \cdot v^2\) und erklärst damit, warum doppeltes Tempo den vierfachen Bremsweg braucht.',
@@ -757,8 +783,8 @@ k2 = kapitel(2, 'mechanische-energie', 'Lage- und Bewegungsenergie', 'K3', 40,
 # ------------------------------------------------------------------ Kapitel 3
 sim3 = figur_anim('sim3', 'Achterbahnwagen ohne Reibung: Start auf der Höhe h₀, Tal, zweiter Hügel h₂; darunter Säulen für Lage-, Bewegungsenergie und ihre Summe', '-4 -4 308 336',
     '        <div class="reglerfeld">\n          '
-    + regler('s3', 'h0', '<i>h</i>₀ Start', 5, 30, 0.5, 20, 'm', 1) + '\n          '
-    + regler('s3', 'h2', '<i>h</i>₂ Hügel 2', 0, 30, 0.1, 12, 'm', 1) + '\n          '
+    + regler('s3', 'h0', '<i>h</i>₀ Start', 5, 30, 0.5, 15, 'm', 1) + '\n          '
+    + regler('s3', 'h2', '<i>h</i>₂ Hügel 2', 0, 30, 0.1, 8, 'm', 1) + '\n          '
     + regler('s3', 'v0', '<i>v</i>₀ Start', 0, 15, 0.1, 0, 'm/s', 1) + '\n          '
     + regler('s3', 'm', '<i>m</i> Wagen', 100, 600, 50, 300, 'kg', 0) + '\n        </div>\n'
     + '        <p class="sim-notiz">Ohne Reibung und Luftwiderstand; Höhen und Längen im selben Massstab.</p>')
@@ -780,9 +806,10 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
      r'<p>\(m \cdot g \cdot h = \tfrac12 \cdot m \cdot v^2\), \(v = \sqrt{2 \cdot g \cdot h}\) \(= \sqrt{2 \cdot 9.81\;\text{m/s}^2 \cdot 3.2\;\text{m}}\) \(\approx 7.92\;\text{m/s}\).</p><p>Wieder \(3.2\;\text{m}\): Dort ist die ganze Bewegungsenergie wieder Lageenergie.</p>', ''),
     ('3b', 3, r'Ein Ball wird mit \(12\;\text{m/s}\) senkrecht hochgeworfen. Wie hoch steigt er? Wie schnell ist er in \(4\;\text{m}\) Höhe?',
      r'<p>\(\tfrac12 \cdot m \cdot v_0^2 = m \cdot g \cdot h\), \(h = \dfrac{v_0^2}{2 \cdot g}\) \(= \dfrac{(12\;\text{m/s})^2}{2 \cdot 9.81\;\text{m/s}^2}\) \(\approx 7.34\;\text{m}\).</p><p>\(v = \sqrt{v_0^2 - 2 \cdot g \cdot h}\) \(= \sqrt{(12\;\text{m/s})^2 - 2 \cdot 9.81\;\text{m/s}^2 \cdot 4\;\text{m}}\) \(\approx 8.09\;\text{m/s}\).</p>', ''),
-    ('3c', 3, r'Ein Pendel (Kugel \(0.5\;\text{kg}\)) wird so ausgelenkt, dass die Kugel \(0.2\;\text{m}\) höher liegt als im tiefsten Punkt. Wie viel Energie steckt im Pendel, und wie schnell ist die Kugel unten?',
-     r'<p>\(E = m \cdot g \cdot h\) \(= 0.5\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 0.2\;\text{m}\) \(\approx 0.981\;\text{J}\).</p><p>Unten ist alles Bewegungsenergie: \(v = \sqrt{2 \cdot g \cdot h}\) \(= \sqrt{2 \cdot 9.81\;\text{m/s}^2 \cdot 0.2\;\text{m}}\) \(\approx 1.98\;\text{m/s}\).</p>', ''),
-    ('3d', 3, r'Zwei Kinder (\(25\;\text{kg}\) und \(50\;\text{kg}\)) rutschen reibungsfrei dieselbe Rutsche hinunter, eines auf einer geraden, das andere auf einer gewellten Bahn mit demselben Höhenunterschied. Wer ist unten schneller? Begründe.',
+    ('3c', 3, r'Das Diagramm zeigt die Lageenergie eines Wagens (\(100\;\text{kg}\)) längs einer reibungsfreien Bahn; er startet ganz links aus der Ruhe. Gestrichelt: seine Gesamtenergie. Wie gross ist seine Bewegungsenergie bei \(x = 2\;\text{m}\), und wie schnell ist er dort? Wo ist er am schnellsten?',
+     r'<p>Die Summe bleibt \(20\;\text{kJ}\). Bei \(x = 2\;\text{m}\) ist \(E_\text{pot} = 5\;\text{kJ}\), also \(E_\text{kin} = 20\;\text{kJ} - 5\;\text{kJ}\) \(= 15\;\text{kJ}\).</p><p>\(v = \sqrt{\dfrac{2 \cdot E_\text{kin}}{m}}\) \(= \sqrt{\dfrac{2 \cdot 15\,000\;\text{J}}{100\;\text{kg}}}\) \(\approx 17.3\;\text{m/s}\). Am schnellsten bei \(x = 6\;\text{m}\), wo die Lageenergie null ist.</p>',
+     '\n            <div class="mini-reihe">' + linien_bild([(0, 20), (2, 5), (4, 12), (6, 0), (7, 0)], 0, 7, 0, 25, 1, 5, 'Lageenergie über dem Ort: 20 kJ am Start, 5 kJ bei 2 m, 12 kJ bei 4 m, 0 ab 6 m; gestrichelt die Gesamtenergie 20 kJ', 'x [m]', 'E [kJ]', 'kurve-epot', 20) + '</div>'),
+    ('3d', 3, r'Zwei Kinder (\(25\;\text{kg}\) und \(50\;\text{kg}\)) rutschen reibungsfrei zwei Rutschen mit demselben Höhenunterschied hinunter: das leichtere eine gerade, das schwerere eine gewellte. Wer ist unten schneller? Begründe.',
      r'<p>Beide gleich schnell. In \(m \cdot g \cdot h = \tfrac12 \cdot m \cdot v^2\) kürzt sich die Masse, und es zählt nur der Höhenunterschied, nicht die Form der Bahn — ohne Reibung geht unterwegs keine Energie verloren.</p>', ''),
 ])
 k3 = kapitel(3, 'energieerhaltung', 'Energieerhaltung', 'K3', 40,
@@ -795,8 +822,8 @@ k3 = kapitel(3, 'energieerhaltung', 'Energieerhaltung', 'K3', 40,
 # ------------------------------------------------------------------ Kapitel 4
 sim4 = figur_anim('sim4', 'Wagen auf einer 40 m langen Rampe mit Reibung und Motor; darunter zwei gleich hohe Säulen: zugeführte Energie und wohin sie gegangen ist', '-4 -4 308 324',
     '        <div class="reglerfeld">\n          '
-    + regler('s4', 'm', '<i>m</i> Wagen', 40, 150, 5, 80, 'kg', 0) + '\n          '
-    + regler('s4', 'h', '<i>h</i> hinunter', -10, 20, 1, 10, 'm', 0) + '\n          '
+    + regler('s4', 'm', '<i>m</i> Wagen', 40, 150, 5, 100, 'kg', 0) + '\n          '
+    + regler('s4', 'h', '<i>h</i> hinunter', -10, 20, 1, 5, 'm', 0) + '\n          '
     + regler('s4', 'FR', '<i>F</i><sub>R</sub> Reibung', 0, 200, 10, 0, 'N', 0) + '\n          '
     + regler('s4', 'FM', '<i>F</i><sub>M</sub> Motor', 0, 400, 10, 0, 'N', 0) + '\n        </div>\n'
     + '        <p class="sim-notiz">Negatives \\(h\\): Das Ende liegt höher, der Wagen fährt bergauf. Er startet aus der Ruhe.</p>')
@@ -816,8 +843,9 @@ fest4 = r'''      <div class="festhalten">
 auf4 = test('t4', 'Aufgaben · Kapitel 4', 11, [
     ('4a', 3, r'Ein Kind (\(30\;\text{kg}\)) rutscht aus der Ruhe eine \(4\;\text{m}\) hohe Rutschbahn hinunter und ist unten \(6\;\text{m/s}\) schnell. Wie viel Energie wurde zu Wärme? Welcher Anteil der Lageenergie ist das?',
      r'<p>\(E_\text{pot} = m \cdot g \cdot h\) \(= 30\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 4\;\text{m}\) \(\approx 1177\;\text{J}\), \(E_\text{kin} = \tfrac12 \cdot 30\;\text{kg} \cdot (6\;\text{m/s})^2\) \(= 540\;\text{J}\).</p><p>Wärme: \(1177\;\text{J} - 540\;\text{J} \approx 637\;\text{J}\), also \(\dfrac{637\;\text{J}}{1177\;\text{J}} \approx 54\;\%\).</p>', ''),
-    ('4b', 3, r'Eine Velofahrerin (\(90\;\text{kg}\) mit Velo) rollt ohne zu treten aus dem Stand \(25\;\text{m}\) weit eine Strasse hinunter, \(3\;\text{m}\) Höhenunterschied. Reibung und Luftwiderstand bremsen zusammen mit \(40\;\text{N}\). Wie schnell ist sie unten?',
-     r'<p>\(E_\text{kin} = m \cdot g \cdot h - F_R \cdot s\) \(= 90\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 3\;\text{m} - 40\;\text{N} \cdot 25\;\text{m}\) \(\approx 2649\;\text{J} - 1000\;\text{J} = 1649\;\text{J}\).</p><p>\(v = \sqrt{\dfrac{2 \cdot E_\text{kin}}{m}}\) \(= \sqrt{\dfrac{2 \cdot 1649\;\text{J}}{90\;\text{kg}}}\) \(\approx 6.05\;\text{m/s}\).</p>', ''),
+    ('4b', 3, r'Ein Schlitten (\(40\;\text{kg}\)) gleitet auf einer ebenen Strecke aus. Das Diagramm zeigt seine Bewegungsenergie über dem Weg. Wie gross ist die Reibungskraft? Wie schnell war er am Anfang?',
+     r'<p>Die Reibung nimmt auf jedem Meter gleich viel Energie weg: \(F_R \cdot s = \Delta E\), also \(F_R = \dfrac{600\;\text{J}}{20\;\text{m}}\) \(= 30\;\text{N}\) — die Steigung der Geraden.</p><p>\(v = \sqrt{\dfrac{2 \cdot E_\text{kin}}{m}}\) \(= \sqrt{\dfrac{2 \cdot 600\;\text{J}}{40\;\text{kg}}}\) \(\approx 5.48\;\text{m/s}\).</p>',
+     '\n            <div class="mini-reihe">' + linien_bild([(0, 600), (20, 0)], 0, 24, 0, 700, 4, 100, 'Bewegungsenergie über dem Weg: Gerade von 600 J bei 0 m auf 0 J bei 20 m', 's [m]', 'E [J]', 'kurve-v') + '</div>'),
     ('4c', 3, r'Ein Lift (\(800\;\text{kg}\) mit Personen) fährt mit konstantem Tempo \(20\;\text{m}\) hoch; Reibung in Führung und Seilrollen \(400\;\text{N}\). Wie viel Arbeit verrichtet der Motor? Wohin geht sie?',
      r'<p>Konstantes Tempo: \(E_\text{kin}\) bleibt. \(W_M = m \cdot g \cdot h + F_R \cdot s\) \(= 800\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 20\;\text{m}\) \(+ 400\;\text{N} \cdot 20\;\text{m}\) \(\approx 156\,960\;\text{J} + 8000\;\text{J} \approx 165\;\text{kJ}\).</p><p>Der grösste Teil wird Lageenergie, \(8\;\text{kJ}\) werden Wärme.</p>', ''),
     ('4d', 2, r'Ein Pendel schwingt in der Luft immer weniger weit und bleibt schliesslich hängen. Ist seine Energie verschwunden? Begründe mit dem Energieerhaltungssatz.',
@@ -833,10 +861,10 @@ k4 = kapitel(4, 'reibung-motor', 'Reibung und Motor', 'K4', 40,
 # ------------------------------------------------------------------ Kapitel 5
 sim5 = figur_anim('sim5', 'Kran hebt eine Last in der Hubzeit t; daneben Säulen: zugeführte Energie, Nutzen (Lageenergie) und Verlust', '0 0 300 300',
     '        <div class="reglerfeld">\n          '
-    + regler('s5', 'm', '<i>m</i> Last', 50, 500, 10, 200, 'kg', 0) + '\n          '
-    + regler('s5', 'h', '<i>h</i> Höhe', 2, 20, 1, 10, 'm', 0) + '\n          '
-    + regler('s5', 't', '<i>t</i> Hubzeit', 5, 60, 1, 20, 's', 0) + '\n          '
-    + regler('s5', 'eta', '<i>η</i> Wirkungsgrad', 0.5, 1, 0.05, 0.8, '', 2) + '\n        </div>')
+    + regler('s5', 'm', '<i>m</i> Last', 50, 500, 10, 100, 'kg', 0) + '\n          '
+    + regler('s5', 'h', '<i>h</i> Höhe', 2, 20, 1, 5, 'm', 0) + '\n          '
+    + regler('s5', 't', '<i>t</i> Hubzeit', 5, 60, 1, 10, 's', 0) + '\n          '
+    + regler('s5', 'eta', '<i>η</i> Wirkungsgrad', 0.5, 0.95, 0.05, 0.9, '', 2) + '\n        </div>')
 fest5 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Leistung und Wirkungsgrad</div>
@@ -851,14 +879,15 @@ fest5 = r'''      <div class="festhalten">
         </div>
       </div>'''
 auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
-    ('5a', 3, r'Eine Person (\(70\;\text{kg}\)) steigt in \(20\;\text{s}\) eine Treppe hoch, \(15\;\text{m}\) Höhenunterschied. Wie gross ist ihre Hubleistung? Vergleiche mit einer Lampe von \(60\;\text{W}\).',
-     r'<p>\(P = \dfrac{m \cdot g \cdot h}{t}\) \(= \dfrac{70\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 15\;\text{m}}{20\;\text{s}}\) \(\approx 515\;\text{W}\) — gut achtmal so viel wie die Lampe, aber nur während \(20\;\text{s}\).</p>', ''),
+    ('5a', 3, r'Eine Person (\(70\;\text{kg}\)) steigt in \(20\;\text{s}\) eine Treppe hoch, \(15\;\text{m}\) Höhenunterschied. Wie gross ist ihre Hubleistung? Warum ist es anstrengender, die Treppe in \(10\;\text{s}\) hochzurennen, obwohl die Arbeit gleich bleibt? Begründe.',
+     r'<p>\(P = \dfrac{m \cdot g \cdot h}{t}\) \(= \dfrac{70\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 15\;\text{m}}{20\;\text{s}}\) \(\approx 515\;\text{W}\).</p><p>In \(10\;\text{s}\) ist die Arbeit dieselbe, aber sie muss in der halben Zeit verrichtet werden: Die Leistung verdoppelt sich auf rund \(1030\;\text{W}\). Die Muskeln müssen die Energie doppelt so schnell umsetzen.</p>', ''),
     ('5b', 3, r'Ein Elektroauto fährt mit konstant \(72\;\text{km/h}\); der Motor gibt \(15\;\text{kW}\) an die Räder ab. Wie gross ist die Antriebskraft? Welche Leistung liefert die Batterie, wenn der Antrieb einen Wirkungsgrad von \(0.85\) hat?',
      r'<p>\(v = 20\;\text{m/s}\), \(F = \dfrac{P}{v}\) \(= \dfrac{15\,000\;\text{W}}{20\;\text{m/s}}\) \(= 750\;\text{N}\).</p><p>\(P_\text{zu} = \dfrac{P_\text{nutz}}{\eta}\) \(= \dfrac{15\;\text{kW}}{0.85}\) \(\approx 17.6\;\text{kW}\).</p>', ''),
-    ('5c', 3, r'Ein Wasserkocher nimmt \(2000\;\text{W}\) auf, sein Wirkungsgrad ist \(0.8\). Um einen Liter Wasser zum Sieden zu bringen, braucht das Wasser \(336\;\text{kJ}\). Wie lange dauert es?',
-     r'<p>\(P_\text{nutz} = \eta \cdot P_\text{zu}\) \(= 0.8 \cdot 2000\;\text{W}\) \(= 1600\;\text{W}\), \(t = \dfrac{E_\text{nutz}}{P_\text{nutz}}\) \(= \dfrac{336\,000\;\text{J}}{1600\;\text{W}}\) \(= 210\;\text{s}\) — dreieinhalb Minuten.</p>', ''),
+    ('5c', 3, r'Das Diagramm zeigt die Arbeit, die zwei Motoren A und B beim Heben verrichten, über der Zeit. Wie gross ist die Leistung jedes Motors? Wie lange braucht B für \(30\;\text{kJ}\)? (Punkte auf Gitterpunkten)',
+     r'<p>Die Leistung ist die Steigung: A: \(P = \dfrac{20\;\text{kJ}}{10\;\text{s}}\) \(= 2\;\text{kW}\). B: \(P = \dfrac{10\;\text{kJ}}{20\;\text{s}}\) \(= 0.5\;\text{kW}\).</p><p>\(t = \dfrac{W}{P}\) \(= \dfrac{30\;\text{kJ}}{0.5\;\text{kW}}\) \(= 60\;\text{s}\).</p>',
+     '\n            <div class="mini-reihe"><svg class="mini" data-geraden="2;0.5" data-namen="A;B" data-farbe="kurve-fs" data-fenster="25,25" data-teilung="2.5,2.5" data-punkte="10,20;20,10" data-xname="t [s]" data-yname="W [kJ]" aria-label="Arbeit über der Zeit, zwei Ursprungsgeraden A und B"></svg></div>'),
     ('5d', 3, r'Eine LED-Lampe (\(8\;\text{W}\), \(\eta = 0.35\)) ersetzt eine Glühlampe (\(60\;\text{W}\), \(\eta = 0.05\)). Geben beide etwa gleich viel Licht? Wie viel Energie spart man in \(1000\) Betriebsstunden?',
-     r'<p>Licht: LED \(0.35 \cdot 8\;\text{W} = 2.8\;\text{W}\), Glühlampe \(0.05 \cdot 60\;\text{W} = 3\;\text{W}\) — etwa gleich viel.</p><p>Ersparnis: \((60\;\text{W} - 8\;\text{W}) \cdot 1000\;\text{h} = 52\;\text{kWh}\). Die LED ist energieeffizienter: dieselbe Nutzung mit gut einem Siebtel der Energie.</p>', ''),
+     r'<p>Licht: LED \(0.35 \cdot 8\;\text{W} = 2.8\;\text{W}\), Glühlampe \(0.05 \cdot 60\;\text{W} = 3\;\text{W}\) — etwa gleich viel.</p><p>Ersparnis: \((60\;\text{W} - 8\;\text{W}) \cdot 1000\;\text{h} = 52\;\text{kWh}\). Die LED ist energieeffizienter: dieselbe Nutzung mit rund 13 % der Energie.</p>', ''),
 ])
 k5 = kapitel(5, 'leistung-wirkungsgrad', 'Leistung und Wirkungsgrad', 'K6', 40,
     r'Du definierst Leistung und Wirkungsgrad, rechnest mit \(P = \dfrac{W}{t}\), \(P = F \cdot v\) und \(\eta = \dfrac{E_\text{nutz}}{E_\text{zu}}\) und beurteilst die Energieeffizienz technischer Geräte.',
@@ -878,8 +907,8 @@ fest6 = r'''      <div class="festhalten">
           <div class="titel">Die Energiebilanz der Erde</div>
           <p>Die Erde nimmt Energie fast nur als Sonnenstrahlung auf und gibt sie nur als Wärmestrahlung ins Weltall ab. Im Mittel treffen \(\dfrac{S}{4} \approx 340\;\text{W/m}^2\) ein; den Anteil \(a \approx 0.30\) (<b>Albedo</b>) werfen Wolken, Eis und Luft zurück. Aufgenommen wird</p>
           <p>\[ (1 - a) \cdot \frac{S}{4} \approx 238\;\text{W/m}^2 \]</p>
-          <p>Abgestrahlt wird umso mehr, je wärmer die Erde ist (\(\sigma \cdot T^4\)). Darum stellt sich ein <b>Gleichgewicht</b> ein: Die Temperatur bleibt, wenn gleich viel hinaus- wie hereinkommt. Treibhausgase (Wasserdampf, \(\text{CO}_2\), Methan) halten einen Teil der Wärmestrahlung zurück — ohne sie wäre die Erde rund \(-18\;^\circ\text{C}\) kalt statt \(+15\;^\circ\text{C}\).</p>
-          <p><b>Erderwärmung:</b> Mehr Treibhausgas lässt weniger Wärmestrahlung ins All, schmelzendes Eis senkt die Albedo. Beides macht die Bilanz positiv, und die Erde erwärmt sich, bis sie bei höherer Temperatur wieder ausgeglichen ist.</p>
+          <p>Jeder Körper strahlt, und zwar mit der vierten Potenz seiner absoluten Temperatur (Gesetz von Stefan und Boltzmann): \(\dfrac{P}{A} = \sigma \cdot T^4\) mit \(\sigma = 5.67 \cdot 10^{-8}\;\text{W/(m}^2\text{K}^4)\) und \(T\) in Kelvin. Doppelte Temperatur heisst sechzehnfache Abstrahlung. Darum stellt sich ein <b>Gleichgewicht</b> ein: Die Temperatur bleibt, wenn gleich viel hinaus- wie hereinkommt. Treibhausgase (Wasserdampf, \(\text{CO}_2\), Methan) halten einen Teil der Wärmestrahlung zurück — ohne sie wäre die Erde rund \(-18\;^\circ\text{C}\) kalt statt \(+15\;^\circ\text{C}\).</p>
+          <p><b>Erderwärmung:</b> Mehr Treibhausgas lässt weniger Wärmestrahlung ins All, schmelzendes Eis senkt die Albedo. Beides macht die Bilanz positiv, und die Erde erwärmt sich, bis sie bei höherer Temperatur wieder ausgeglichen ist. Dass die Erwärmung weiteres Eis schmelzen lässt und sich so selbst verstärkt, heisst <b>Rückkopplung</b>.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -888,14 +917,15 @@ fest6 = r'''      <div class="festhalten">
         </div>
       </div>'''
 auf6 = test('t6', 'Aufgaben · Kapitel 6', 12, [
-    ('6a', 3, r'Warum steht in der Bilanz der Erde \(\dfrac{S}{4}\) und nicht die Solarkonstante \(S = 1361\;\text{W/m}^2\)? Wie viel nimmt die Erde je Quadratmeter auf, wenn die Albedo \(0.30\) ist?',
-     r'<p>Die Erde fängt die Strahlung mit ihrer Querschnittsfläche \(\pi R^2\) auf, verteilt sie aber über die ganze Oberfläche \(4\pi R^2\) — im Mittel kommt ein Viertel an: \(\dfrac{1361\;\text{W/m}^2}{4} \approx 340\;\text{W/m}^2\).</p><p>\((1 - a) \cdot \dfrac{S}{4} = (1 - 0.30) \cdot 340\;\text{W/m}^2\) \(\approx 238\;\text{W/m}^2\).</p>', ''),
-    ('6b', 3, r'Die Erde strahlt ununterbrochen Energie ins Weltall ab. Warum kühlt sie nicht immer weiter ab? Und warum wird sie nicht immer wärmer, obwohl ständig Sonnenstrahlung ankommt?',
-     r'<p>Weil sich Aufnahme und Abstrahlung einregeln: Die Abstrahlung wächst stark mit der Temperatur (\(\sigma \cdot T^4\)). Wird die Erde kälter, strahlt sie weniger ab, wird sie wärmer, mehr — bis gleich viel hinaus- wie hereinfliesst. Das ist der Energieerhaltungssatz für den ganzen Planeten.</p>', ''),
-    ('6c', 3, r'Der Mars erhält \(S = 586\;\text{W/m}^2\), seine Albedo ist \(0.25\), und er hat kaum eine Atmosphäre. Wie viel nimmt er je Quadratmeter auf, und welche Temperatur stellt sich ein?',
-     r'<p>\((1 - a) \cdot \dfrac{S}{4} = 0.75 \cdot \dfrac{586\;\text{W/m}^2}{4}\) \(\approx 110\;\text{W/m}^2\).</p><p>Gleichgewicht \(\sigma \cdot T^4 = 110\;\text{W/m}^2\): \(T = \sqrt[4]{\dfrac{110\;\text{W/m}^2}{5.67 \cdot 10^{-8}\;\text{W/(m}^2\text{K}^4)}}\) \(\approx 210\;\text{K}\), rund \(-63\;^\circ\text{C}\).</p>', ''),
-    ('6d', 3, r'Nenne zwei Gründe der heutigen Erderwärmung und erkläre jeden mit der Energiebilanz. Was ist mit «Rückkopplung» gemeint?',
-     r'<p>Mehr Treibhausgase (vor allem \(\text{CO}_2\) aus Kohle, Öl und Gas): Weniger Wärmestrahlung gelangt ins All, die Bilanz wird positiv. Kleinere Albedo, wenn Eis und Schnee schmelzen: Die Erde nimmt mehr Sonnenstrahlung auf.</p><p>Rückkopplung: Die Erwärmung lässt mehr Eis schmelzen, das senkt die Albedo und verstärkt die Erwärmung weiter.</p>', ''),
+    ('6a', 3, r'Mehr Wolken: Die Albedo der Erde steigt von \(0.30\) auf \(0.33\). Wie viel nimmt die Erde dann je Quadratmeter auf (im Mittel treffen \(\dfrac{S}{4} \approx 340\;\text{W/m}^2\) ein)? Um wie viel weniger ist das als heute? Was folgt daraus für die Temperatur? Begründe.',
+     r'<p>\((1 - a) \cdot \dfrac{S}{4} = (1 - 0.33) \cdot 340\;\text{W/m}^2\) \(\approx 228\;\text{W/m}^2\), heute \(0.70 \cdot 340\;\text{W/m}^2 \approx 238\;\text{W/m}^2\): rund \(10\;\text{W/m}^2\) weniger.</p><p>Zuerst geht mehr hinaus als herein; die Erde kühlt ab, bis ihre Abstrahlung wieder zur kleineren Aufnahme passt.</p>', ''),
+    ('6b', 3, r'Das Diagramm zeigt die Temperatur eines Planeten nach einer Änderung. In welchem Zeitabschnitt nimmt er mehr Energie auf, als er abstrahlt? Ab wann ist die Bilanz ausgeglichen? Begründe.',
+     r'<p>Von \(0\) bis rund \(10\) Jahren steigt die Temperatur: Es kommt mehr herein als hinaus. Mit der Temperatur steigt die Abstrahlung (\(\sigma \cdot T^4\)), bis sie zur Aufnahme passt.</p><p>Ab rund \(10\) Jahren bleibt die Temperatur gleich: Die Bilanz ist ausgeglichen — es fliesst weiter Energie, aber gleich viel hinein wie hinaus.</p>',
+     '\n            <div class="mini-reihe">' + linien_bild([(0, 288), (2, 289.2), (4, 289.8), (6, 290.1), (10, 290.3), (20, 290.3)], 0, 20, 287, 291, 5, 1, 'Temperatur über der Zeit: steigt von 288 K in rund 10 Jahren auf 290.3 K und bleibt dann gleich', 't [Jahre]', 'T [K]', 'kurve-t') + '</div>'),
+    ('6c', 3, r'Ein dunkler Stein liegt in der Sonne, seine Oberfläche hat \(310\;\text{K}\). Wie viel Leistung je Quadratmeter strahlt er ab (\(\sigma = 5.67 \cdot 10^{-8}\;\text{W/(m}^2\text{K}^4)\))? Wie viel mehr als nachts bei \(280\;\text{K}\)?',
+     r'<p>\(\dfrac{P}{A} = \sigma \cdot T^4\) \(= 5.67 \cdot 10^{-8}\;\text{W/(m}^2\text{K}^4) \cdot (310\;\text{K})^4\) \(\approx 524\;\text{W/m}^2\).</p><p>Bei \(280\;\text{K}\): \(\approx 349\;\text{W/m}^2\). Das Verhältnis ist \(\left(\dfrac{310}{280}\right)^4 \approx 1.50\) — rund anderthalbmal so viel, obwohl die Temperatur nur um \(11\;\%\) höher ist.</p>', ''),
+    ('6d', 3, r'Nenne zwei Gründe der heutigen Erderwärmung. Ordne jeden einem Teil der Bilanz zu — der Aufnahme \((1 - a) \cdot \tfrac{S}{4}\) oder der Abstrahlung ins All — und begründe, warum er die Erde wärmer macht.',
+     r'<p>Mehr Treibhausgase (vor allem \(\text{CO}_2\) aus Kohle, Öl und Gas): Weniger Wärmestrahlung gelangt ins All, die Bilanz wird positiv. Kleinere Albedo, wenn Eis und Schnee schmelzen: Die Erde nimmt mehr Sonnenstrahlung auf.</p><p>In beiden Fällen kommt zuerst mehr herein als hinaus, und die Temperatur steigt, bis die Bilanz wieder ausgeglichen ist.</p>', ''),
 ])
 k6 = kapitel(6, 'energiebilanz-erde', 'Die Energiebilanz der Erde', 'K5', 40,
     r'Du beschreibst die Energiebilanz der Erde mit Sonneneinstrahlung, Albedo und Abstrahlung ins Weltall und erklärst damit die Gründe der Erderwärmung.',
@@ -910,7 +940,7 @@ gt = f'''
     <section class="kap" id="gesamttest">
       <div class="gesamt">
         <div class="gesamt-kopf">
-          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">4.3 · K1 bis K6</span><span class="zeit">≈ 25 min · 25 Punkte</span></div>
+          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">4.3 · K1 bis K6</span><span class="zeit">≈ 30 min · 25 Punkte</span></div>
           <h2 id="gesamttest-titel">Gesamttest</h2>
           <div class="pdf-weg">
             <div class="pdf-schritt"><span class="nr">1</span><div><b>Lösen</b> — auf Papier, mit Rechenweg. Erlaubt sind Taschenrechner und Formelsammlung.<br>
@@ -928,7 +958,7 @@ gt = f'''
             <tr><td>11 – 16 P</td><td>Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.</td></tr>
             <tr><td>0 – 10 P</td><td>Zurück zu Kapitel 1 und von dort der Reihe nach weiter.</td></tr>
           </table>
-          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a>, <a href="#k5">5</a> → K1, K2, K6 · G2 → <a href="#k1">1</a>, <a href="#k2">2</a> → K2, K3 · G3 → <a href="#k3">3</a> → K3 · G4 → <a href="#k4">4</a> → K4 · G5 → <a href="#k5">5</a> → K6 · G6 → <a href="#k6">6</a> → K5</p>
+          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a>, <a href="#k5">5</a> → K1, K6 · G2 → <a href="#k1">1</a> → K2 · G3 → <a href="#k3">3</a>, <a href="#k4">4</a> → K3, K4 · G4 → <a href="#k4">4</a>, <a href="#k5">5</a> → K4, K6 · G5 → <a href="#k5">5</a> → K6 · G6 → <a href="#k6">6</a> → K5</p>
         </div>
       </div>
     </section>'''
@@ -963,12 +993,12 @@ oben = '''<div id="nav-root"></div>
           Anwendungen übertragen
 
      Kompetenzmatrix (Hilfsmittel überall Taschenrechner und Formelsammlung):
-       K1 → Kap. 1 · Aufg. 1a · G1     K2 → Kap. 1 · Aufg. 1b–1d · G1 G2
-       K3 → Kap. 2, 3 · Aufg. 2a–3d · G2 G3     K4 → Kap. 4 · Aufg. 4a–4d · G4
-       K5 → Kap. 6 · Aufg. 6a–6d · G6     K6 → Kap. 5 · Aufg. 5a–5d · G1 G5
+       K1 → Kap. 1 · Aufg. 1a · G1     K2 → Kap. 1 · Aufg. 1b–1d · G2
+       K3 → Kap. 2, 3 · Aufg. 2a–3d · G3     K4 → Kap. 4 · Aufg. 4a–4d · G3 G4
+       K5 → Kap. 6 · Aufg. 6a–6d · G6     K6 → Kap. 5 · Aufg. 5a–5d · G1 G4 G5
      Bewusst weggelassen: Spannenergie (in keiner Kompetenz genannt), Wirkungsgrade in Serie
      (auf der Themenseite). Albedo heisst wie auf der Themenseite a.
-     Zeiten: K0 10 · K1–K6 je 40 · Gesamttest 25 = 275 min ≈ 6.1 Lektionen. -->
+     Zeiten: K0 10 · K1–K6 je 40 · Gesamttest 30 = 280 min ≈ 6.2 Lektionen. -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>

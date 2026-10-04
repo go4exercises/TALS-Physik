@@ -41,8 +41,9 @@ node .claude/tools/pruef-fragen.mjs p4-3-lp-kontrolle-arbeit p4-3-lp-kontrolle-b
      p4-3-lp-kontrolle-reibung p4-3-lp-kontrolle-leistung p4-3-lp-kontrolle-erde
 ```
 
-Lösbarkeit der Leisten beim Bau am 04.10.2026 mit einem Prüfskript (Fahrten über die Knöpfe,
-`reducedMotion: 'reduce'`): alle 35 ✓, keine schon im Startzustand erfüllt.
+Lösbarkeit der Leisten mit einem Prüfskript (Fahrten über die Knöpfe, `reducedMotion: 'reduce'`):
+alle 35 ✓, keine schon im Startzustand erfüllt. Die Achterbahn zusätzlich mit echter Bewegung
+prüfen (Umkehr bei 7.6 m/s ohne ✓, Kuppe bei 7.7 m/s mit ✓, Halt nach dem Zurückrollen).
 
 ## Entscheide
 
@@ -56,4 +57,10 @@ Lösbarkeit der Leisten beim Bau am 04.10.2026 mit einem Prüfskript (Fahrten ü
   (390 W/m² abgestrahlt, 238 W/m² gelangen hinaus, \(f \approx 0.61\)). Albedo heisst wie dort \(a\).
 - **Achterbahn:** Bahn ohne flache Startplattform (Viertel-Sinus), sonst schleicht der Wagen oben;
   Massstab in beiden Richtungen 4.6 px je m.
-- **Rampe:** Steht der Wagen und reicht der Antrieb nicht, fährt er nicht los (Meldung statt Lauf).
+- **Rampe:** Steht der Wagen und reicht der Antrieb nicht, fährt er nicht los; die Meldung nennt je
+  nach Fall Hangabtrieb, Motor und Reibung richtig (bergauf wirkt der Hangabtrieb gegen den Motor).
+- **Nach /lp-pruefung (05.10.2026)** behoben: Kuppe nur bei genug Energie, Halt nach der Umkehr,
+  Leistenziele und Startwerte verschieden von den Clipbeispielen, Stefan-Boltzmann und \(P = F \cdot v\)
+  in Clip und Festhalten, Diagramm-Aufgaben in allen Kapiteln ausser 2 (dort 2b), neue Aufgaben 6a–6c,
+  Kontrollfragen ohne Doppelungen, Gesamttest mit Motor (G4) und Gründen der Erderwärmung (G6),
+  30 min. Freischaltung steht aus.
