@@ -1,5 +1,6 @@
-% Bewertungspaket zum Gesamttest «Dynamik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py kinematik).
+% Bewertungspaket zum Gesamttest «Dynamik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py dynamik).
 % Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (04.10.2026).
+% Fassung 2 nach /lp-pruefung (04.10.2026).
 % Aufbau, Auftrag an die KI und Punktarten (E, W, B, A) wie im Leitprogramm Kinematik.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
@@ -65,65 +66,67 @@ Folgewerte aus gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 
 a) Kraft & 1\B & an ihrer Wirkung: Der Körper wird verformt, oder seine Bewegung ändert sich (schneller, langsamer, andere Richtung)\\
 b) Trägheitsgesetz & 1\B & Wirkt keine (Gesamt-)Kraft, bleibt ein Körper in Ruhe oder bewegt sich gleichförmig geradeaus weiter (er behält seinen Bewegungszustand)\\
 c) Faktor & 1\B & $6$: $a = \dfrac{F}{m}$, Zähler mal $3$, Nenner durch $2$, also $a$ mal $3 \cdot 2 = 6$ (Faktor mit Begründung nötig)\\
-d) Mond & 1\E & Die Masse bleibt $75\;\text{kg}$, die Gewichtskraft ändert sich: $F_G = m \cdot g = 75\;\text{kg} \cdot 1.62\;\text{m/s}^2 \approx 122\;\text{N}$ (beide Teile nötig)\\
+d) Fall & 1\B & Die hundertfache Gewichtskraft muss auch die hundertfache Masse beschleunigen: $a = \dfrac{F_G}{m} = \dfrac{m \cdot g}{m} = g$ für beide. Gleichwertig in Worten: «die Masse kürzt sich» oder «doppelte Kraft, aber auch doppelte Trägheit».\\
 \end{raster}
-\fehler{c) Faktor $1.5$ ($3 : 2$) oder $\tfrac16$: c) 0 $\to$ 3 von 4\,P. d) «Die Masse ändert sich» oder $F_G \approx 736\;\text{N}$ (mit $g$ der Erde): d) 0 $\to$ 3 von 4\,P.}
+\fehler{c) Faktor $1.5$ ($3 : 2$) oder $\tfrac16$: c) 0 $\to$ 3 von 4\,P. d) «Weil die Luft fehlt» allein (ohne Kraft und Masse): d) 0 $\to$ 3 von 4\,P.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G2}{Autofahrt im Diagramm, $m = 1200\;\text{kg}$}{5 P}
 \begin{raster}
-a) Beschleunigung & 1\A & Steigung: $a = \dfrac{\Delta v}{\Delta t} = \dfrac{15\;\text{m/s}}{5\;\text{s}} = 3\;\text{m/s}^2$\\
+a) Ablesen & 1\A & $\Delta v = 15\;\text{m/s}$ in $\Delta t = 5\;\text{s}$ abgelesen, also $a = 3\;\text{m/s}^2$ (zählt auch, wenn die Werte direkt in $F = m \cdot \dfrac{\Delta v}{\Delta t}$ stehen)\\
 a) Gesamtkraft & 1\E & $F_\text{ges} = m \cdot a = 1200\;\text{kg} \cdot 3\;\text{m/s}^2 = 3600\;\text{N}$\\
 b) Gesamtkraft & 1\B & $F_\text{ges} = 0$, weil $v$ konstant ist, also $a = 0$ (Trägheitsgesetz oder $F = m \cdot a$; Begründung nötig)\\
 b) Antriebskraft & 1\E & $F_A - F_W = 0$, also $F_A = 500\;\text{N}$\\
-c) Bremsen & 1\E & $a = \dfrac{0 - 15\;\text{m/s}}{3\;\text{s}} = -5\;\text{m/s}^2$, $F_\text{ges} = 1200\;\text{kg} \cdot (-5\;\text{m/s}^2) = -6000\;\text{N}$ (Vorzeichen oder «gegen die Fahrtrichtung» nötig)\\
+c) Bremsen & 1\E & $a = \dfrac{0 - 15\;\text{m/s}}{3\;\text{s}} = -5\;\text{m/s}^2$;\newline $F_\text{ges} = 1200\;\text{kg} \cdot (-5\;\text{m/s}^2) = -6000\;\text{N}$ (Vorzeichen oder «gegen die Fahrtrichtung» nötig)\\
 \end{raster}
 \fehler{a) $F = m \cdot v = 18\,000$ (Geschwindigkeit statt Beschleunigung): a) beide Zeilen 0 $\to$ 3 von 5\,P.
-b) «Antriebskraft $0$» oder «Gesamtkraft $500\;\text{N}$»: b) Antriebskraft 0 $\to$ 4 von 5\,P. c) $+6000\;\text{N}$ ohne Richtung: c) 0 $\to$ 4 von 5\,P.}
+b) «Gesamtkraft $500\;\text{N}$»: b) Gesamtkraft 0; $F_A = 500\;\text{N}$ zählt trotzdem, wenn es dasteht $\to$ 4 von 5\,P.
+b) «Antriebskraft $0$» (bei richtiger Gesamtkraft): b) Antriebskraft 0 $\to$ 4 von 5\,P. c) $+6000\;\text{N}$ ohne Richtung: c) 0 $\to$ 4 von 5\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G3}{Schlitten: $40\;\text{kg}$, $150\;\text{N}$ gegen $70\;\text{N}$ Reibung}{3 P}
+\begin{lpaufgabe}{G3}{Handwagen: $25\;\text{kg}$, $60\;\text{N}$, in $5\;\text{s}$ auf $4\;\text{m/s}$}{3 P}
 \begin{raster}
-Beschleunigung & 1\W & $F_\text{ges} = 150\;\text{N} - 70\;\text{N} = 80\;\text{N}$, $a = \dfrac{F_\text{ges}}{m} = \dfrac{80\;\text{N}}{40\;\text{kg}} = 2\;\text{m/s}^2$\\
-Tempo nach $4\;\text{s}$ & 1\E & $v = a \cdot t = 2\;\text{m/s}^2 \cdot 4\;\text{s} = 8\;\text{m/s}$\\
-Ausrollzeit & 1\E & nur Reibung: $a = \dfrac{-70\;\text{N}}{40\;\text{kg}} = -1.75\;\text{m/s}^2$, $t = \dfrac{v}{|a|} = \dfrac{8\;\text{m/s}}{1.75\;\text{m/s}^2} \approx 4.57\;\text{s}$\\
+Beschleunigung & 1\E & $a = \dfrac{\Delta v}{\Delta t} = \dfrac{4\;\text{m/s}}{5\;\text{s}} = 0.8\;\text{m/s}^2$\\
+Reibung & 1\W & $F_A - F_W = m \cdot a$, also\newline $F_W = F_A - m \cdot a = 60\;\text{N} - 25\;\text{kg} \cdot 0.8\;\text{m/s}^2 = 40\;\text{N}$\\
+Ausrollzeit & 1\E & nur Reibung: $a = \dfrac{-40\;\text{N}}{25\;\text{kg}} = -1.6\;\text{m/s}^2$;\newline $t = \dfrac{v}{|a|} = \dfrac{4\;\text{m/s}}{1.6\;\text{m/s}^2} = 2.5\;\text{s}$\\
 \end{raster}
-\fehler{Kräfte addiert ($220\;\text{N}$, $a = 5.5\;\text{m/s}^2$): Beschleunigung 0; $v = 22\;\text{m/s}$ und $t \approx 12.6\;\text{s}$ folgerichtig zählen $\to$ 2 von 3\,P.
-Reibung vergessen ($a = 3.75\;\text{m/s}^2$): Beschleunigung 0; $v = 15\;\text{m/s}$ und $t \approx 8.57\;\text{s}$ folgerichtig $\to$ 2 von 3\,P.
-$t = v \cdot |a| = 14\;\text{s}$: Ausrollzeit 0 $\to$ 2 von 3\,P.}
+\fehler{Reibung $= m \cdot a = 20\;\text{N}$ (Gesamtkraft für die Reibung gehalten): Reibung 0; $a = -0.8\;\text{m/s}^2$, $t = 5\;\text{s}$ folgerichtig zählt $\to$ 2 von 3\,P.
+Reibung $= 60\;\text{N}$ (der Wagen beschleunigt doch): Reibung 0; $t \approx 1.67\;\text{s}$ folgerichtig $\to$ 2 von 3\,P.
+$t = v \cdot |a| = 6.4\;\text{s}$: Ausrollzeit 0 $\to$ 2 von 3\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G4}{Waage im Aufzug: $60\;\text{kg}$ in Ruhe, $52\;\text{kg}$ während der Fahrt}{4 P}
+\begin{lpaufgabe}{G4}{Aufzug fährt nach unten an: $60\;\text{kg}$, in $2\;\text{s}$ auf $3\;\text{m/s}$}{4 P}
 \begin{raster}
-Ansatz & 1\W & nach oben positiv: $F_N - F_G = m \cdot a$ mit $F_N = 52\;\text{kg} \cdot g$ und $F_G = 60\;\text{kg} \cdot g$ (Masse der Person $60\;\text{kg}$)\\
-Beschleunigung & 1\E & $a = \dfrac{(52\;\text{kg} - 60\;\text{kg}) \cdot 9.81\;\text{m/s}^2}{60\;\text{kg}} \approx -1.31\;\text{m/s}^2$ (Betrag $1.31\;\text{m/s}^2$ zählt, wenn die Richtung in der nächsten Zeile steht)\\
-Richtung & 1\B & nach unten, weil die Waage weniger zeigt als in Ruhe ($F_N < F_G$)\\
-Situationen & 1\B & Der Aufzug fährt nach unten an, oder er bremst die Fahrt nach oben (beide nötig)\\
+Beschleunigung & 1\E & $a = \dfrac{\Delta v}{\Delta t} = \dfrac{3\;\text{m/s}}{2\;\text{s}} = 1.5\;\text{m/s}^2$ nach unten; nach oben positiv $a = -1.5\;\text{m/s}^2$ (Betrag mit «nach unten» zählt)\\
+Ansatz & 1\W & nach oben positiv: $F_N - F_G = m \cdot a$, also $F_N = m \cdot (g + a)$ mit $a < 0$ (gleichwertig: $F_N = m \cdot (g - 1.5\;\text{m/s}^2)$)\\
+Normalkraft, Anzeige & 1\E & $F_N = 60\;\text{kg} \cdot (9.81 - 1.5)\;\text{m/s}^2 \approx 499\;\text{N}$; Anzeige $\dfrac{F_N}{g} \approx 50.8\;\text{kg}$ (beide nötig)\\
+andere Situation & 1\B & Die Fahrt nach oben wird mit $1.5\;\text{m/s}^2$ gebremst: Auch dann zeigt die Beschleunigung nach unten (Begründung nötig)\\
 \end{raster}
-\fehler{$a = 8\;\text{m/s}^2$ oder $a = 8\;\text{kg}$ (Anzeigen direkt abgezogen): Ansatz und Beschleunigung 0 $\to$ 2 von 4\,P.
-Nur «fährt nach unten» (ohne «anfahren»): Situationen 0 $\to$ 3 von 4\,P.}
+\fehler{Vorzeichen falsch, $F_N = 60\;\text{kg} \cdot (9.81 + 1.5)\;\text{m/s}^2 \approx 679\;\text{N}$, Anzeige $69.2\;\text{kg}$: Ansatz 0; Normalkraft und Anzeige folgerichtig $\to$ 3 von 4\,P.
+$F_N = m \cdot a = 90\;\text{N}$ (Gewichtskraft vergessen): Ansatz und Normalkraft 0 $\to$ 2 von 4\,P.
+«Fährt nach unten mit konstantem Tempo»: andere Situation 0 $\to$ 3 von 4\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G5}{Wagen $m_1 = 2.5\;\text{kg}$, gemessen $a = 2.8\;\text{m/s}^2$}{4 P}
+\begin{lpaufgabe}{G5}{Wagen $m_1 = 1.5\;\text{kg}$, gemessen $a = 2.8\;\text{m/s}^2$}{4 P}
 \begin{raster}
 Ansatz & 1\W & System: $m_2 \cdot g = (m_1 + m_2) \cdot a$, oder am Wagen $F_S = m_1 \cdot a$ und am hängenden Körper $m_2 \cdot g - F_S = m_2 \cdot a$\\
-hängende Masse & 1\E & $m_2 = \dfrac{m_1 \cdot a}{g - a} = \dfrac{2.5\;\text{kg} \cdot 2.8\;\text{m/s}^2}{(9.81 - 2.8)\;\text{m/s}^2} \approx 1.00\;\text{kg}$\\
-Fadenkraft & 1\E & $F_S = m_1 \cdot a = 2.5\;\text{kg} \cdot 2.8\;\text{m/s}^2 = 7.0\;\text{N}$\\
-Warum kleiner & 1\B & Der hängende Körper beschleunigt nach unten; dafür muss die Kraft nach unten ($m_2 \cdot g \approx 9.8\;\text{N}$) grösser sein als die Fadenkraft nach oben\\
+hängende Masse & 1\E & $m_2 = \dfrac{m_1 \cdot a}{g - a} = \dfrac{1.5\;\text{kg} \cdot 2.8\;\text{m/s}^2}{(9.81 - 2.8)\;\text{m/s}^2} \approx 0.60\;\text{kg}$\\
+Fadenkraft & 1\E & $F_S = m_1 \cdot a = 1.5\;\text{kg} \cdot 2.8\;\text{m/s}^2 = 4.2\;\text{N}$\\
+doppelter Wagen & 1\B & Nein, mehr als halb so gross: Der Antrieb $m_2 \cdot g$ bleibt, die Gesamtmasse wächst nur von $2.1\;\text{kg}$ auf $3.6\;\text{kg}$, nicht auf das Doppelte ($a \approx 1.63\;\text{m/s}^2$ statt $1.4\;\text{m/s}^2$; die Rechnung ist nicht nötig)\\
 \end{raster}
-\fehler{$m_2 = \dfrac{m_1 \cdot a}{g} \approx 0.71\;\text{kg}$ (Masse $m_2$ beim Beschleunigen vergessen): hängende Masse 0 $\to$ 3 von 4\,P.
-$F_S = m_2 \cdot g$: Fadenkraft 0 $\to$ 3 von 4\,P.}
+\fehler{$m_2 = \dfrac{m_1 \cdot a}{g} \approx 0.43\;\text{kg}$ (Masse $m_2$ beim Beschleunigen vergessen): hängende Masse 0 $\to$ 3 von 4\,P.
+$F_S = m_2 \cdot g \approx 5.9\;\text{N}$: Fadenkraft 0 $\to$ 3 von 4\,P. «Ja, doppelte Masse, halbe Beschleunigung»: doppelter Wagen 0 $\to$ 3 von 4\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G6}{Auto in der Kurve: $1100\;\text{kg}$, $r = 40\;\text{m}$, höchstens $8800\;\text{N}$}{5 P}
+\begin{lpaufgabe}{G6}{Auto in der Kurve: $1100\;\text{kg}$, $r = 40\;\text{m}$, höchstens $7500\;\text{N}$}{5 P}
 \begin{raster}
-Ansatz & 1\W & Die Haftreibung ist die Zentripetalkraft: $F_z = \dfrac{m \cdot v^2}{r}$, also $v = \sqrt{\dfrac{F_z \cdot r}{m}}$\\
-Höchsttempo & 1\E & $v = \sqrt{\dfrac{8800\;\text{N} \cdot 40\;\text{m}}{1100\;\text{kg}}} \approx 17.9\;\text{m/s}$\\
-in km/h & 1\E & $17.9\;\text{m/s} \cdot 3.6 \approx 64.4\;\text{km/h}$\\
+Ansatz & 1\W & Die Haftreibung ist die Zentripetalkraft: $F_z = \dfrac{m \cdot v^2}{r}$,\newline also $v = \sqrt{\dfrac{F_z \cdot r}{m}}$\\
+Höchsttempo & 1\E & $v = \sqrt{\dfrac{7500\;\text{N} \cdot 40\;\text{m}}{1100\;\text{kg}}} \approx 16.5\;\text{m/s}$\\
+in km/h & 1\E & $16.5\;\text{m/s} \cdot 3.6 \approx 59.5\;\text{km/h}$ — hier ist der Wert in km/h verlangt; die allgemeine Regel «m/s statt km/h» gilt für diese Zeile nicht\\
 Rolle, Richtung & 1\B & Die Haftreibung übernimmt die Rolle der Zentripetalkraft; sie zeigt zur Kurvenmitte (beides nötig)\\
-schneller & 1\B & Die Haftreibung reicht nicht mehr als Kraft zur Mitte: Das Auto rutscht aus der Kurve, es bewegt sich geradeaus (tangential) weiter statt auf dem Kreis. «Wird nach aussen geschleudert» zählt nur mit dem Grund (zu wenig Kraft zur Mitte).\\
+schneller & 1\B & Die Haftreibung reicht nicht mehr als Kraft zur Mitte: Das Auto rutscht aus der Kurve und bewegt sich geradeaus (tangential) weiter statt auf dem Kreis. «Wird nach aussen geschleudert» zählt nur mit diesem Grund.\\
 \end{raster}
-\fehler{Wurzel vergessen ($v = 320$): Höchsttempo 0; $1152\;\text{km/h}$ folgerichtig zählt $\to$ 4 von 5\,P.
+\fehler{Wurzel vergessen ($v = 273$): Höchsttempo 0; $982\;\text{km/h}$ folgerichtig zählt $\to$ 4 von 5\,P.
 «Die Zentrifugalkraft wird zu gross»: schneller 0 $\to$ 4 von 5\,P.}
 \end{lpaufgabe}
 

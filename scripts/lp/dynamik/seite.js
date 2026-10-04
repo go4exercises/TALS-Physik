@@ -267,13 +267,14 @@
       el(szene, 'circle', { cx: x - 23, cy: 82, r: 4, 'class': 'rad' }); el(szene, 'circle', { cx: x - 7, cy: 82, r: 4, 'class': 'rad' });
       el(szene, 'text', { x: x - 15, y: 75, 'text-anchor': 'middle', 'class': 'bt-klein' }, zahl(w.m) + NB + 'kg');
       // Pfeile: F 4 px je N, a 10 px je m/s² (bis 70 px); am Bahnende rücken sie ins Bild zurück
-      if (w.F > 0){ var fa = Math.min(x, 292 - w.F * 4); pfeil(szene, fa, 71, fa + w.F * 4, 71, 'pf-f'); marke(szene, fa + w.F * 4 + 4, 68, 'F', '', 'pf-text pf-f', 'start'); }
-      if (w.a > 0){ var la = Math.min(w.a * 10, 70), ax = Math.min(x - 30, 292 - la); pfeil(szene, ax, 50, ax + la, 50, 'pf-a', 6); marke(szene, ax + la + 4, 53, 'a', '', 'pf-text pf-a', 'start'); }
+      // Passt der F-Pfeil nicht mehr vor den Wagen, rückt er in eine eigene Zeile über ihn (nie über die Massenangabe)
+      if (w.F > 0){ var fa = Math.min(x, 280 - w.F * 4), fy = fa < x ? 36 : 71; pfeil(szene, fa, fy, fa + w.F * 4, fy, 'pf-f'); marke(szene, fa + w.F * 4 + 4, fy - 3, 'F', '', 'pf-text pf-f', 'start'); }
+      if (w.a > 0){ var la = Math.min(w.a * 10, 70), ax = Math.min(x - 30, 270 - la); pfeil(szene, ax, 52, ax + la, 52, 'pf-a', 6); marke(szene, ax + la + 4, 55, 'a', '', 'pf-text pf-a', 'start'); if (w.a * 10 > 70) el(szene, 'text', { x: ax, y: 45, 'class': 'bt-klein' }, 'gekürzt'); }
       // v-t-Diagramm: Ziel, voriger Lauf, aktuelle Spur
       if (ziel != null) K.kurve(function(x){ return ziel * x; }, 'zielkurve', 0, 4);
       if (vorher) K.kurve(function(x){ return vorher.a * x; }, 'vorher', 0, vorher.te);
       if (spur.length > 1) el(K.ebene, 'polyline', { points: spur.map(function(p){ return K.X(p[0]).toFixed(1) + ',' + K.Y(p[1]).toFixed(1); }).join(' '), 'class': 'kurve-v', 'clip-path': K.clip });
-      var tr = +t.toFixed(2), vr = w.a * tr;                  // angezeigt: v aus der angezeigten Zeit, damit die Zeile nachrechenbar bleibt
+      var tr = +t.toFixed(2), vr = +sig(w.a) * tr;           // angezeigt: v aus angezeigtem a und angezeigter Zeit, damit die Zeile nachrechenbar bleibt
       if (t > 0) K.punkt(t, v, 'p-v', 'v = ' + sig(vr) + NB + 'm/s', t > 2.8 ? -9 : 9, v > 17 ? 16 : -9, t > 2.8 ? 'end' : 'start');
       rolle(fig, 'formel').innerHTML =
         '<span>' + v_('a') + ' = ' + v_('F') + ' / ' + v_('m') + ' = ' + zahl(w.F) + NB + 'N / ' + zahl(w.m) + NB + 'kg ' + ist(w.a, sig(w.a)) + sig(w.a) + NB + 'm/s²</span>' +
@@ -347,22 +348,21 @@
       el(szene, 'polyline', { points: (cx - 9) + ',51 ' + (cx + 4) + ',60 ' + (cx - 2) + ',75', 'class': 'mensch' });
       el(szene, 'text', { x: cx - 30, y: 24, 'text-anchor': 'end', 'class': 'bt-klein' }, '80' + NB + 'kg');
       if (w.FA > 0){ pfeil(szene, cx + 32, 64, cx + 32 + w.FA * 0.9, 64, 'pf-f'); marke(szene, cx + 36 + w.FA * 0.9, 61, 'F', 'A', 'pf-text pf-f', 'start'); }
-      if (w.FW > 0 && (v > 0 || w.FA > 0)){
-        var fw = (v > 0 || w.FA >= w.FW) ? w.FW : w.FA;    // steht das Velo, hält der Widerstand nur so stark dagegen, wie der Antrieb zieht
-        pfeil(szene, cx - 32, 64, cx - 32 - fw * 0.9, 64, 'pf-w'); marke(szene, cx - 36 - fw * 0.9, 61, 'F', 'W', 'pf-text pf-w', 'end');
-      }
+      // Steht das Velo und reicht der Antrieb nicht (F_A ≤ F_W), hält der Widerstand nur so stark dagegen,
+      // wie der Antrieb zieht: Gesamtkraft null. Das gilt auch nach dem Halt beim Ausrollen.
+      var steht = v <= 1e-9 && w.FA <= w.FW, fw = steht ? w.FA : w.FW, Fg = w.FA - fw, a = Fg / M;
+      if (fw > 0){ pfeil(szene, cx - 32, 64, cx - 32 - fw * 0.9, 64, 'pf-w'); marke(szene, cx - 36 - fw * 0.9, 61, 'F', 'W', 'pf-text pf-w', 'end'); }
       if (v > 0){ pfeil(szene, cx + 20, 30, cx + 20 + v * 6, 30, 'pf-v', 6); marke(szene, cx + 24 + v * 6, 33, 'v', '', 'pf-text pf-v', 'start'); }
       // Diagramm
       if (ziel) K.kurve(function(x){ return ziel.v0 + ziel.a * x; }, 'zielkurve', 0, TE);
-      if (vorher) el(K.ebene, 'polyline', { points: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(function(k){ return K.X(k).toFixed(1) + ',' + K.Y(vt(vorher, k)).toFixed(1); }).join(' '), 'class': 'vorher', 'clip-path': K.clip });
+      if (vorher){ var pv = []; for (var k = 0; k <= 160; k++) pv.push(K.X(k / 20).toFixed(1) + ',' + K.Y(vt(vorher, k / 20)).toFixed(1)); el(K.ebene, 'polyline', { points: pv.join(' '), 'class': 'vorher', 'clip-path': K.clip }); }
       if (spur.length > 1) el(K.ebene, 'polyline', { points: spur.map(function(p){ return K.X(p[0]).toFixed(1) + ',' + K.Y(p[1]).toFixed(1); }).join(' '), 'class': 'kurve-v', 'clip-path': K.clip });
       if (t > 0) K.punkt(t, v, 'p-v', 'v = ' + sig(v) + NB + 'm/s', t > 5 ? -9 : 9, v > 10 ? 16 : -9, t > 5 ? 'end' : 'start');
-      var steht = w.v0 <= 0 && w.a <= 0;
       rolle(fig, 'formel').innerHTML =
-        '<span>' + v_('F') + '<sub>ges</sub> = ' + v_('F') + '<sub>A</sub> − ' + v_('F') + '<sub>W</sub> = ' + zahl(w.FA) + NB + 'N − ' + zahl(w.FW) + NB + 'N = ' + zahl(w.Fg) + NB + 'N</span>' +
-        (steht ? '<span>Das Velo steht, und der Antrieb überwindet den Widerstand nicht: Es bleibt stehen.</span>'
-               : '<span>' + v_('a') + ' = ' + v_('F') + '<sub>ges</sub> / ' + v_('m') + ' = ' + ew(w.Fg, 'N') + ' / 80' + NB + 'kg ' + ist(w.a, sig(w.a)) + minus(sig(w.a)) + NB + 'm/s²</span>') +
-        (!steht && w.a === 0 ? '<span class="sim-notiz">Gesamtkraft null: Die Geschwindigkeit bleibt, wie sie ist.</span>' : '') +
+        '<span>' + v_('F') + '<sub>ges</sub> = ' + v_('F') + '<sub>A</sub> − ' + v_('F') + '<sub>W</sub> = ' + zahl(w.FA) + NB + 'N − ' + zahl(fw) + NB + 'N = ' + zahl(Fg) + NB + 'N</span>' +
+        '<span>' + v_('a') + ' = ' + v_('F') + '<sub>ges</sub> / ' + v_('m') + ' = ' + ew(Fg, 'N') + ' / 80' + NB + 'kg ' + ist(a, sig(a)) + minus(sig(a)) + NB + 'm/s²</span>' +
+        (steht ? '<span class="sim-notiz">Das Velo steht. Der Widerstand hält nur so stark dagegen, wie der Antrieb zieht (höchstens ' + zahl(w.FW) + NB + 'N): Gesamtkraft null, es bleibt in Ruhe.</span>'
+               : Fg === 0 ? '<span class="sim-notiz">Gesamtkraft null: Die Geschwindigkeit bleibt, wie sie ist.</span>' : '') +
         (vorher ? '<span class="sim-notiz">Gestrichelt grau: der vorige Lauf.</span>' : '');
       pruefen();
     }
@@ -372,7 +372,7 @@
         vergleich: 'Aus dem Stand bleibt das Velo stehen, mit Anfangstempo fährt es mit genau diesem Tempo weiter. Beide Male ist die Gesamtkraft null, also auch die Beschleunigung: Der Bewegungszustand bleibt erhalten — das Trägheitsgesetz.' },
       { text: 'Antrieb \\(100\\;\\text{N}\\), Widerstand \\(30\\;\\text{N}\\), aus dem Stand: Stelle ein, lass fahren und lies die Beschleunigung ab.', ok: function(s){ return s.lauf && s.lauf.FA === 100 && s.lauf.FW === 30 && s.lauf.v0 === 0; } },
       { text: 'Das Velo soll mit \\(6\\;\\text{m/s}\\) gleichmässig weiterrollen, der Widerstand beträgt \\(25\\;\\text{N}\\). Stelle ein und lass fahren.', ok: function(s){ return s.lauf && s.lauf.v0 === 6 && s.lauf.FW === 25 && s.lauf.FA === 25; } },
-      { text: 'Ohne Antrieb soll das Velo von \\(6\\;\\text{m/s}\\) mit \\(0.5\\;\\text{m/s}^2\\) langsamer werden. Welcher Widerstand ist das? Stelle ein und lass fahren.', ok: function(s){ return s.lauf && s.lauf.v0 === 6 && s.lauf.FA === 0 && s.lauf.FW === 40; } },
+      { text: 'Ohne Antrieb soll das Velo von \\(6\\;\\text{m/s}\\) in genau \\(8\\;\\text{s}\\) zum Stillstand kommen. Welcher Widerstand ist das? Stelle ein und lass fahren.', ok: function(s){ return s.lauf && s.lauf.v0 === 6 && s.lauf.FA === 0 && s.lauf.FW === 60; } },
       { text: 'Der Widerstand beträgt \\(20\\;\\text{N}\\). Welcher Antrieb beschleunigt aus dem Stand mit \\(1\\;\\text{m/s}^2\\)? Stelle ein und lass fahren.', ok: function(s){ return s.lauf && s.lauf.FW === 20 && s.lauf.FA === 100 && s.lauf.v0 === 0; } },
       { text: 'Triff die gestrichelte Gerade: Stelle Anfangstempo und Kräfte ein und lass fahren.', setup: function(S){ ziel = { v0: 2, a: 0.5 }; S.setze({ v0: 0, FA: 60, FW: 20 }); }, ok: function(s){ return s.lauf && s.lauf.v0 === 2 && gl(s.lauf.a, 0.5); } }
     ], sim);
@@ -387,7 +387,7 @@
   (function(){
     var fig = document.getElementById('sim3'); if (!fig) return;
     var svg = fig.querySelector('svg'), pruefen = function(){}, pos = 0;
-    var B = Bedienung(fig, function(){ pos = 0; neuStarten(); zeichnen(); });
+    var B = Bedienung(fig, function(){ pos = 0; neuStarten(); zeichnen(); }), faehrt = false;
     function werte(){
       var ph = B.wert('ph'), m = B.wert('m'), b = B.wert('a');
       var a = ph === 'auf' ? b : ph === 'brems' ? -b : ph === 'fall' ? -G : 0;
@@ -405,7 +405,9 @@
     }
     var letzt = 0;
     var uhr = Uhr(function(tt){ var w = werte(); pos += vBild(w, tt) * (tt - letzt) * 40; letzt = tt; zeichnen(); });
-    function neuStarten(){ letzt = 0; uhr.stop(); if (B.wert('ph') !== 'ruhe' && !WENIGER) uhr.start(0); }
+    // Die Bewegung (vorbeiziehende Schachtwand) läuft erst auf Knopfdruck; Kräfte und Waage gelten sofort
+    function neuStarten(){ letzt = 0; uhr.stop(); if (faehrt && B.wert('ph') !== 'ruhe' && !WENIGER) uhr.start(0); }
+    var knopf = aktionen(fig, [['fahren', '▶ Fahrt zeigen', function(){ faehrt = !faehrt && !WENIGER; knopf.fahren.textContent = faehrt ? '⏸ Anhalten' : '▶ Fahrt zeigen'; neuStarten(); }]]);
     var sim = {
       zustand: function(){ var w = werte(); w.bewegt = B.bewegt; w.phasen = B.gesehen('ph'); return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ B.setze(o); pos = 0; neuStarten(); zeichnen(); },
@@ -430,7 +432,7 @@
       el(svg, 'polyline', { points: (mx - 14) + ',150 ' + mx + ',140 ' + (mx + 14) + ',150', 'class': 'mensch' });
       // Kräfte an der Person (0.07 px je N), Beschleunigung neben der Kabine
       var k = 0.07;
-      pfeil(svg, mx - 18, 160, mx - 18, 160 + w.FG * k, 'pf-g'); marke(svg, mx - 22, 160 + w.FG * k * 0.6, 'F', 'G', 'pf-text pf-g', 'end');
+      pfeil(svg, mx - 18, 145, mx - 18, 145 + w.FG * k, 'pf-g'); marke(svg, mx - 22, 145 + w.FG * k * 0.6, 'F', 'G', 'pf-text pf-g', 'end');
       if (w.FN > 0.5){ pfeil(svg, mx + 18, 208, mx + 18, 208 - w.FN * k, 'pf-f'); marke(svg, mx + 22, 208 - w.FN * k * 0.6, 'F', 'N', 'pf-text pf-f', 'start'); }
       if (Math.abs(w.a) > 0.01){ var la = Math.min(Math.abs(w.a) * 7, 70) * (w.a > 0 ? -1 : 1); pfeil(svg, 205, 130, 205, 130 + la, 'pf-a', 7); marke(svg, 212, 130 + la / 2, 'a', '', 'pf-text pf-a', 'start'); }
       // Anzeige der Waage
@@ -449,7 +451,7 @@
       pruefen();
     }
     pruefen = Leiste(fig, [
-      { text: 'Probiere alle fünf Fahrsituationen. Wann zeigt die Waage mehr, wann weniger als in Ruhe? Notiere deine Antwort.', ok: function(s){ return s.phasen >= 4; },
+      { text: 'Probiere alle fünf Fahrsituationen. Wann zeigt die Waage mehr, wann weniger als in Ruhe? Notiere deine Antwort.', ok: function(s){ return s.phasen >= 5; },
         vergleich: 'Mehr, wenn die Beschleunigung nach oben zeigt (Anfahren aufwärts); weniger, wenn sie nach unten zeigt (Bremsen der Aufwärtsfahrt); gleich viel bei Ruhe und gleichmässiger Fahrt. Die Waage zeigt die Normalkraft \\(F_N = m \\cdot (g + a)\\), nicht die Masse.' },
       { text: 'Eine Person von \\(80\\;\\text{kg}\\) steht im ruhenden Aufzug. Stelle ein und lies die Normalkraft ab.', ok: function(s){ return gl(s.m, 80) && s.ph === 'ruhe'; } },
       { text: 'Beim Anfahren nach oben zeigt die Waage bei einer Person von \\(75\\;\\text{kg}\\) rund \\(90\\;\\text{kg}\\) an. Stelle die Beschleunigung ein.', ok: function(s){ return gl(s.m, 75) && s.ph === 'auf' && Math.abs(s.anz - 90) < 0.6; } },
@@ -514,8 +516,8 @@
       if (t > 0) K.punkt(t, v, 'p-v', 'v = ' + sig(v) + NB + 'm/s', t > 1.6 ? -9 : 9, v > 5 ? 16 : -9, t > 1.6 ? 'end' : 'start');
       rolle(fig, 'formel').innerHTML =
         '<span>' + v_('a') + ' = ' + v_('m') + '₂ · ' + v_('g') + ' / (' + v_('m') + '₁ + ' + v_('m') + '₂) = ' + zahl(w.m2) + NB + 'kg · 9.81' + NB + 'm/s² / ' + zahl(+(w.m1 + w.m2).toFixed(2)) + NB + 'kg ' + ist(w.a, sig(w.a)) + sig(w.a) + NB + 'm/s²</span>' +
-        '<span>' + v_('F') + '<sub>S</sub> = ' + v_('m') + '₁ · ' + v_('a') + ' = ' + zahl(w.m1) + NB + 'kg · ' + sig(w.a) + NB + 'm/s² ' + ist(w.FS, sig(w.FS)) + sig(w.FS) + NB + 'N</span>' +
-        '<span>' + v_('F') + '<sub>G2</sub> = ' + v_('m') + '₂ · ' + v_('g') + ' ' + ist(w.FG2, sig(w.FG2)) + sig(w.FG2) + NB + 'N</span>' +
+        '<span>' + v_('F') + '<sub>S</sub> = ' + v_('m') + '₁ · ' + v_('a') + ' = ' + zahl(w.m1) + NB + 'kg · ' + zahl(w.m2) + NB + 'kg · 9.81' + NB + 'm/s² / ' + zahl(+(w.m1 + w.m2).toFixed(2)) + NB + 'kg ' + ist(w.FS, sig(w.FS)) + sig(w.FS) + NB + 'N</span>' +
+        '<span>' + v_('F') + '<sub>G2</sub> = ' + v_('m') + '₂ · ' + v_('g') + ' = ' + zahl(w.m2) + NB + 'kg · 9.81' + NB + 'm/s² ' + ist(w.FG2, sig(w.FG2)) + sig(w.FG2) + NB + 'N</span>' +
         (vorher ? '<span class="sim-notiz">Gestrichelt grau: der vorige Lauf.</span>' : '');
       pruefen();
     }
@@ -525,9 +527,9 @@
         vergleich: 'Nein, kleiner. Am hängenden Körper ziehen \\(F_{G2}\\) nach unten und \\(F_S\\) nach oben; weil er nach unten beschleunigt, muss \\(F_{G2}\\) grösser sein: \\(F_{G2} - F_S = m_2 \\cdot a\\). Nur wenn alles still steht, ist \\(F_S = F_{G2}\\).' },
       { text: '\\(m_1 = 2\\;\\text{kg}\\), \\(m_2 = 0.5\\;\\text{kg}\\): Stelle ein, lass los und lies die Beschleunigung ab.', ok: function(s){ return hat(s, 2, 0.5); } },
       { text: 'Gesamtmasse \\(3\\;\\text{kg}\\), aber \\(a \\approx 3.27\\;\\text{m/s}^2\\): Stelle ein und lass los.', ok: function(s){ return hat(s, 2, 1); } },
-      { text: 'Bei \\(m_2 = 1.5\\;\\text{kg}\\) soll der Wagen mit der halben Erdbeschleunigung fahren. Wähle \\(m_1\\) und lass los.', ok: function(s){ return hat(s, 1.5, 1.5); } },
+      { text: 'Bei \\(m_1 = 4\\;\\text{kg}\\) soll der Wagen mit einem Drittel der Erdbeschleunigung fahren. Wähle \\(m_2\\) und lass los.', ok: function(s){ return hat(s, 4, 2); } },
       { text: 'Die Fadenkraft soll bei \\(m_1 = 1\\;\\text{kg}\\) rund \\(4.9\\;\\text{N}\\) betragen. Wähle \\(m_2\\) und lass los.', ok: function(s){ return hat(s, 1, 1); } },
-      { text: 'Triff die gestrichelte Gerade: Wähle die Massen und lass los.', setup: function(S){ ziel = G / 5; S.setze({ m1: 3, m2: 1 }); }, ok: function(s){ return s.lauf && gl(s.lauf.a, G / 5); } }
+      { text: 'Triff die gestrichelte Gerade: Wähle die Massen und lass los.', setup: function(S){ ziel = 0.3 * G; S.setze({ m1: 3, m2: 1 }); }, ok: function(s){ return s.lauf && Math.abs(s.lauf.a - 0.3 * G) < 1e-6; } }
     ], sim);
     zeichnen();
   })();
@@ -541,7 +543,7 @@
   (function(){
     var fig = document.getElementById('sim5'); if (!fig) return;
     var svg = fig.querySelector('svg'), CX = 150, CY = 140, PXM = 60;   // 60 px je m (r bis 2 m)
-    var B = Bedienung(fig, function(){ los = null; zeichnen(); });
+    var B = Bedienung(fig, function(){ if (los){ uhr.stop(); los = null; knoepfe.kreisen.textContent = '▶ Kreisen'; } zeichnen(); });
     var phi = Math.PI / 4, los = null, schnitte = 0, arten = {}, pruefen = function(){}, letzt = 0;
     function werte(){ var m = B.wert('m'), v = B.wert('v'), r = B.wert('r'); return { m: m, v: v, r: r, az: v * v / r, Fz: m * v * v / r }; }
     var uhr = Uhr(function(tt){
@@ -550,7 +552,8 @@
       phi += w.v / w.r * dt; zeichnen();
     });
     var knoepfe = aktionen(fig, [
-      ['kreisen', '▶ Kreisen', function(){ los = null; letzt = 0; if (uhr.laeuft()){ uhr.stop(); knoepfe.kreisen.textContent = '▶ Kreisen'; } else if (!WENIGER){ uhr.start(0); knoepfe.kreisen.textContent = '⏸ Anhalten'; } }],
+      ['kreisen', '▶ Kreisen', function(){ var flog = !!los; los = null; letzt = 0; if (WENIGER){ if (!flog) phi += Math.PI / 3; zeichnen(); return; }   // ohne Bewegung: in Schritten weiterdrehen
+        if (uhr.laeuft() && !flog){ uhr.stop(); knoepfe.kreisen.textContent = '▶ Kreisen'; } else { uhr.start(0); knoepfe.kreisen.textContent = '⏸ Anhalten'; } }],
       ['kappen', '✂ Schnur kappen', function(){ if (los) return; los = { phi: phi, s: 0 }; schnitte++; letzt = 0; knoepfe.kreisen.textContent = '▶ Kreisen'; if (WENIGER){ los.s = 300 / PXM; zeichnen(); } else uhr.start(0); }],
       ['zurueck', '↺ Zurück', function(){ uhr.stop(); los = null; phi = Math.PI / 4; knoepfe.kreisen.textContent = '▶ Kreisen'; zeichnen(); }]]);
     var sim = {
@@ -567,7 +570,7 @@
       el(svg, 'circle', { cx: CX, cy: CY, r: 3.5, 'class': 'knoten' });
       var p = los ? los.phi : phi, c = Math.cos(p), s = Math.sin(p), X = CX + R * c, Y = CY - R * s;
       var tx = -s, ty = -c;                                  // Tangente in Drehrichtung (gegen den Uhrzeiger), Bildschirmkoordinaten
-      var lv = w.v * 8;
+      var lv = w.v * 14;                                     // 14 px je m/s
       if (los){
         var bx = X + tx * los.s * PXM, by = Y + ty * los.s * PXM;
         el(svg, 'line', { x1: X, y1: Y, x2: bx, y2: by, 'class': 'flugbahn' });
@@ -579,14 +582,13 @@
         el(svg, 'line', { x1: CX, y1: CY, x2: X, y2: Y, 'class': 'schnur' });
         pfeil(svg, X, Y, X + tx * lv, Y + ty * lv, 'pf-v'); marke(svg, X + tx * (lv + 11), Y + ty * (lv + 11) + 4, 'v', '', 'pf-text pf-v');
         var lf = Math.min(w.Fz * 2.5, R - 10), gekuerzt = w.Fz * 2.5 > R - 10;   // 2.5 px je N
-        if (lf > 3) pfeil(svg, X, Y, X - c * lf, Y + s * lf, 'pf-z', 7);
-        marke(svg, X - c * lf * 0.55 + s * 12, Y + s * lf * 0.55 + c * 12 + 4, 'F', 'z', 'pf-text pf-z');
+        if (lf > 14){ pfeil(svg, X, Y, X - c * lf, Y + s * lf, 'pf-z', 7); marke(svg, X - c * lf * 0.55 + s * 12, Y + s * lf * 0.55 + c * 12 + 4, 'F', 'z', 'pf-text pf-z'); }
         el(svg, 'circle', { cx: X, cy: Y, r: 6 + w.m * 1.5, 'class': 'kugel' });
         if (gekuerzt) el(svg, 'text', { x: 8, y: 274, 'class': 'bt-klein' }, 'Kraftpfeil gekürzt (passt nicht in den Kreis).');
       }
       rolle(fig, 'formel').innerHTML =
         '<span>' + v_('a') + '<sub>z</sub> = ' + v_('v') + '² / ' + v_('r') + ' = (' + zahl(w.v) + NB + 'm/s)² / ' + zahl(w.r) + NB + 'm ' + ist(w.az, sig(w.az)) + sig(w.az) + NB + 'm/s²</span>' +
-        '<span>' + v_('F') + '<sub>z</sub> = ' + v_('m') + ' · ' + v_('a') + '<sub>z</sub> = ' + zahl(w.m) + NB + 'kg · ' + sig(w.az) + NB + 'm/s² ' + ist(w.Fz, sig(w.Fz)) + sig(w.Fz) + NB + 'N</span>';
+        '<span>' + v_('F') + '<sub>z</sub> = ' + v_('m') + ' · ' + v_('v') + '² / ' + v_('r') + ' = ' + zahl(w.m) + NB + 'kg · (' + zahl(w.v) + NB + 'm/s)² / ' + zahl(w.r) + NB + 'm ' + ist(w.Fz, sig(w.Fz)) + sig(w.Fz) + NB + 'N</span>';
       pruefen();
     }
     pruefen = Leiste(fig, [
@@ -648,7 +650,7 @@
               if (gr){ mg = zufall([200, 250, 400, 500, 800]); m = mg / 1000; F = zufall([1, 2, 3, 4, 6]); }
               else { m = zufall([1.5, 2, 3, 4, 5, 8, 12, 25, 60]); F = zufall([6, 12, 15, 24, 30, 45, 60, 150, 300]); }
               a = F / m;
-            } while (a < 0.2 || a > 25 || F === m || F === 1 || Math.abs(a - 1) < 0.02 || paar([[4, 2], [6, 4], [12, 8], [10, 4], [9, 3]], F, m));   // Clip, Simulation 1
+            } while (a < 0.2 || a > 25 || F === m || F === 1 || Math.abs(a - 1) < 0.02 || paar([[4, 2], [6, 4], [12, 8], [10, 4], [9, 3], [15, 5], [6, 3]], F, m));   // Clip, Simulation 1, Kontrollfragen
             return { art: 'a', x: a, F: F, m: m, gr: gr, mg: mg,
               text: 'Eine Gesamtkraft von \\(' + ein(F, 'N') + '\\) wirkt auf einen Körper mit \\(m = ' + (gr ? ein(mg, 'g') : ein(m, 'kg')) + '\\). Wie gross ist seine Beschleunigung?' };
           }
@@ -686,7 +688,7 @@
       'anfahren': { felder: ['v', 's'], muster: '<i>v</i> = {v} m/s; <i>s</i> = {s} m',
         neu: function(){
           var F, m, t;
-          do { F = zufall([20, 30, 60, 120, 240]); m = zufall([10, 15, 20, 40, 60, 80]); t = zufall([2, 3, 4, 5]); } while (F / m > 8 || F / m < 0.25 || (F === 120 && m === 80 && t === 4));   // Aufgabe 1a
+          do { F = zufall([20, 30, 60, 120, 240]); m = zufall([10, 15, 20, 40, 60, 80]); t = zufall([3, 4, 5]); } while (F / m > 8 || F / m < 0.25 || (F === 120 && m === 80 && t === 4));   // Aufgabe 1a
           var a = F / m;
           return { v: a * t, s: 0.5 * a * t * t, a: a, F: F, m: m, t: t,
             text: 'Eine konstante Gesamtkraft von \\(' + ein(F, 'N') + '\\) beschleunigt einen Wagen (\\(m = ' + ein(m, 'kg') + '\\)) aus dem Stand. Wie schnell ist er nach \\(' + ein(t, 's') + '\\), und welchen Weg hat er dann zurückgelegt?' }; },
@@ -712,7 +714,7 @@
           return { x: k1 / k2, k1: k1, k2: k2, text: 'Die Kraft auf einen Körper wird ' + wort(k1) + ', seine Masse ' + wort(k2) + '. Wie ändert sich die Beschleunigung? (Faktor, Brüche wie \\(1/2\\) gehen)' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;
-          if (nah(e.x, A.k1 * A.k2)) return 'Mehr Masse heisst <em>weniger</em> Beschleunigung: durch den Massenfaktor teilen, \\(a = \\dfrac{F}{m}\\).';
+          if (nah(e.x, A.k1 * A.k2)) return 'Die Masse steht im Nenner: durch den Massenfaktor teilen, nicht mit ihm malnehmen, \\(a = \\dfrac{F}{m}\\).';
           if (nah(e.x, A.k2 / A.k1)) return 'Umgekehrt: Die Kraft steht im Zähler, die Masse im Nenner.';
           return '\\(a = \\dfrac{F}{m}\\): Kraftfaktor durch Massenfaktor.'; },
         fehler: function(A){ return [[{ x: String(A.k1 * A.k2) }, 'teilen'], [{ x: String(A.k2 / A.k1) }, 'Umgekehrt']]; },
@@ -723,7 +725,7 @@
         neu: function(){
           var m, FA, FW;
           do { m = zufall([20, 40, 50, 80, 120]); FA = zufall([60, 90, 120, 150, 200]); FW = zufall([20, 30, 40, 50, 70, 100]); }
-          while (FA === FW || (m === 30) || (m === 40 && FA === 150 && FW === 70) || Math.abs((FA - FW) / m) > 6);   // Gesamttest G3
+          while (FA === FW || Math.abs((FA - FW) / m) > 6);
           return { F: FA - FW, a: (FA - FW) / m, m: m, FA: FA, FW: FW,
             text: 'Ein Schlitten (\\(m = ' + ein(m, 'kg') + '\\)) gleitet schon. Er wird mit \\(' + ein(FA, 'N') + '\\) nach vorn gezogen, die Reibung bremst mit \\(' + ein(FW, 'N') + '\\). Wie gross sind Gesamtkraft und Beschleunigung? (nach vorn positiv)' }; },
         pruefen: function(A, e){
@@ -769,7 +771,7 @@
         neu: function(){
           var m, v0, FW;
           do { m = zufall([40, 60, 80, 100]); v0 = zufall([4, 6, 8, 10]); FW = zufall([20, 30, 40, 60, 80]); }
-          while ((m === 40 && v0 === 8 && FW === 70) || (m === 80 && v0 === 6 && FW === 40) || FW === m || Math.abs(v0 * m / FW - FW / m) < 1e-6 || v0 * m / FW > 40);   // Gesamttest, Simulation 2
+          while ((m === 80 && v0 === 6 && FW === 40) || FW === m || Math.abs(v0 * m / FW - FW / m) < 1e-6 || v0 * m / FW > 40);   // Gesamttest, Simulation 2
           var a = -FW / m;
           return { a: a, t: v0 / -a, m: m, v0: v0, FW: FW,
             text: 'Ein Schlitten (\\(m = ' + ein(m, 'kg') + '\\)) gleitet mit \\(' + ein(v0, 'm/s') + '\\) ohne Antrieb weiter; die Reibung beträgt \\(' + ein(FW, 'N') + '\\). Wie gross ist die Beschleunigung (nach vorn positiv), und wie lange dauert es bis zum Stillstand?' }; },
@@ -780,7 +782,7 @@
             if (nah(e.a, -A.a)) r.push('Vorzeichen: Die Reibung zeigt nach hinten, der Schlitten wird langsamer — \\(a\\) ist negativ.');
             else r.push('\\(a = \\dfrac{F_\\text{ges}}{m} = \\dfrac{-F_W}{m}\\).');
           }
-          if (!nah(e.t, A.t) && !(!nah(e.a, A.a) && nah(e.t, A.v0 / Math.abs(e.a)))){
+          if (!nah(e.t, A.t) && !(!nah(e.a, A.a) && e.a !== 0 && nah(e.t, A.v0 / Math.abs(e.a)))){
             if (nah(e.t, A.v0 * Math.abs(A.a))) r.push('Aus \\(0 = v_0 + a \\cdot t\\) folgt \\(t = \\dfrac{v_0}{|a|}\\): durch die Verzögerung teilen.');
             else r.push('\\(t = \\dfrac{v_0}{|a|}\\).');
           }
@@ -792,6 +794,7 @@
       'gewicht': { felder: ['F'], muster: '<i>F</i><sub>G</sub> = {F} N',
         neu: function(){
           var O = zufall([['auf der Erde', 9.81], ['auf dem Mond', 1.62], ['auf dem Mars', 3.71]]), m = zufall([0.25, 2, 5, 12, 50, 75]);
+          if ((m === 75 && O[1] === 1.62) || (m === 5 && O[1] === 9.81)) return TYPEN.gewicht.neu();   // Mini-Checks der Themenseite
           return { F: m * O[1], m: m, g: O[1], ort: O[0], text: 'Ein Körper mit \\(m = ' + ein(m, 'kg') + '\\) liegt ' + O[0] + ' (\\(g = ' + es(O[1]) + '\\)). Wie gross ist seine Gewichtskraft?' }; },
         pruefen: function(A, e){
           if (nah(e.F, A.F)) return null;
@@ -804,8 +807,7 @@
       'aufzug': { felder: ['F'], muster: '<i>F</i><sub>N</sub> = {F} N',
         neu: function(){
           var S, m, b;
-          do { S = zufall([['fährt nach oben an', 1], ['bremst die Fahrt nach oben', -1], ['fährt nach unten an', -1], ['bremst die Fahrt nach unten', 1]]); m = zufall([45, 55, 65, 80, 95]); b = zufall([0.8, 1.2, 1.6, 2.5]); }
-          while (m === 70 && b === 1.8);   // Themenseite A6
+          S = zufall([['fährt nach oben an', 1], ['bremst die Fahrt nach oben', -1], ['fährt nach unten an', -1], ['bremst die Fahrt nach unten', 1]]); m = zufall([45, 55, 65, 80, 95]); b = zufall([0.8, 1.2, 1.6, 2.5]);
           var a = S[1] * b;
           return { F: m * (G + a), m: m, a: a, b: b, sit: S[0],
             text: 'Eine Person (\\(m = ' + ein(m, 'kg') + '\\)) steht im Aufzug auf einer Waage. Der Aufzug ' + S[0] + ', der Betrag der Beschleunigung ist \\(' + es(b) + '\\). Welche Normalkraft misst die Waage?' }; },
@@ -820,7 +822,7 @@
       'anzeige': { felder: ['a'], muster: '<i>a</i> = {a} m/s²',
         neu: function(){
           var m, k;
-          do { m = zufall([50, 60, 75, 80]); k = zufall([-0.2, -0.15, -0.1, 0.1, 0.15, 0.2, 0.25]); } while (m === 60 && k === -52 / 60 + 1);
+          m = zufall([50, 60, 75, 80]); k = zufall([-0.2, -0.15, -0.1, 0.1, 0.15, 0.2, 0.25]);
           var X0 = +(m * (1 + k)).toFixed(1);
           if (Math.abs((X0 - m) - G * X0 / m) < 0.02 * G * X0 / m) return TYPEN.anzeige.neu();
           var X = +(m * (1 + k)).toFixed(1);
@@ -840,7 +842,7 @@
         neu: function(){
           var m1, m2;
           do { m1 = zufall([0.5, 1, 2, 2.5, 4, 5]); m2 = zufall([0.2, 0.3, 0.5, 1, 1.5, 2]); }
-          while (paar([[3, 1], [2, 0.5], [2, 1], [1.5, 1.5], [1, 1]], m1, m2) || (m1 === 2.5 && m2 === 1));   // Clip, Simulation 4, Gesamttest
+          while (paar([[3, 1], [2, 0.5], [2, 1], [4, 2], [1, 1], [4, 1]], m1, m2));   // Clip, Simulation 4
           var a = m2 * G / (m1 + m2);
           return { a: a, F: m1 * a, m1: m1, m2: m2,
             text: 'Ein Wagen (\\(m_1 = ' + ein(m1, 'kg') + '\\)) steht auf einem reibungsfreien Tisch. Über eine Rolle zieht ihn ein hängender Körper (\\(m_2 = ' + ein(m2, 'kg') + '\\)). Beschleunigung und Fadenkraft? (Faden und Rolle masselos)' }; },
@@ -861,8 +863,9 @@
         loesung: function(A){ return 'a = \\dfrac{m_2 \\cdot g}{m_1 + m_2} = \\dfrac{' + ein(A.m2, 'kg') + ' \\cdot 9.81\\;\\text{m/s}^2}{' + ein(+(A.m1 + A.m2).toFixed(2), 'kg') + '} ' + qs(A.a) + ',\\quad F_S = m_1 \\cdot a ' + erg(A.F, 'N'); } },
       'zug': { felder: ['a', 'F'], muster: '<i>a</i> = {a} m/s²; <i>F</i><sub>K</sub> = {F} N',
         neu: function(){
-          var m1 = zufall([800, 1000, 1200, 1500, 3000]), m2 = zufall([300, 500, 600, 800, 1500]), F = zufall([1500, 2000, 2400, 3000, 4500]);
-          var a = F / (m1 + m2);
+          var m1, m2, F, a;
+          do { m1 = zufall([800, 1000, 1200, 1500, 3000]); m2 = zufall([300, 500, 600, 800, 1500]); F = zufall([1500, 2000, 2400, 3000, 4500]); a = F / (m1 + m2); }
+          while (m2 >= m1 || a > 3 || (m1 === 1000 && m2 === 500 && F === 3000) || (m1 === 1200 && m2 === 600 && F === 2700));   // Anhänger leichter als das Auto; Kontrollfrage, Aufgabe 4a
           return { a: a, F: m2 * a, m1: m1, m2: m2, FA: F,
             text: 'Ein Auto (\\(' + ein(m1, 'kg') + '\\)) zieht einen Anhänger (\\(' + ein(m2, 'kg') + '\\)) mit einer Antriebskraft von \\(' + ein(F, 'N') + '\\); Widerstände vernachlässigt. Beschleunigung und Kraft in der Kupplung?' }; },
         pruefen: function(A, e){
@@ -900,11 +903,11 @@
         neu: function(){
           var kh = Math.random() < 0.4, m, v, vk, r;
           do {
-            if (kh){ m = zufall([60, 80, 1000, 1200]); vk = zufall([18, 36, 54, 72]); v = vk / 3.6; r = zufall([20, 40, 60, 100]); }
+            if (kh){ m = zufall([250, 1000, 1200, 1500]); vk = zufall([18, 36, 54, 72]); v = vk / 3.6; r = zufall([20, 40, 60, 100]); }
             else { m = zufall([0.2, 0.5, 2, 3, 5]); v = zufall([2, 3, 5, 6, 8]); r = zufall([0.5, 0.8, 1.2, 2, 3]); }
-          } while (v * v / r > 50 || (kh && v * v / r > 7) || (!kh && m === 2 && v === 3 && r === 1) || m === v || Math.abs(v - 1) < 1e-9 || Math.abs(r - 1) < 1e-9);   // Clip
+          } while (v * v / r > 50 || (kh && v * v / r > 7) || (!kh && m === 2 && v === 3 && r === 1) || (!kh && m === 2 && v === 5 && r === 2) || m === v || Math.abs(v - 1) < 1e-9 || Math.abs(r - 1) < 1e-9);   // Clip
           return { F: m * v * v / r, m: m, v: v, vk: vk, kh: kh, r: r,
-            text: (kh ? 'Ein Fahrzeug (\\(m = ' + ein(m, 'kg') + '\\)) fährt mit \\(' + ein(vk, 'km/h') + '\\) durch eine Kurve mit \\(r = ' + ein(r, 'm') + '\\).' : 'Ein Körper (\\(m = ' + ein(m, 'kg') + '\\)) kreist an einer Schnur mit \\(' + ein(v, 'm/s') + '\\) auf \\(r = ' + ein(r, 'm') + '\\).') + ' Wie gross ist die Zentripetalkraft?' }; },
+            text: (kh ? '' + (m < 500 ? 'Ein Motorrad samt Fahrer' : 'Ein Auto') + ' (\\(m = ' + ein(m, 'kg') + '\\)) fährt mit \\(' + ein(vk, 'km/h') + '\\) durch eine Kurve mit \\(r = ' + ein(r, 'm') + '\\).' : 'Ein Körper (\\(m = ' + ein(m, 'kg') + '\\)) kreist an einer Schnur mit \\(' + ein(v, 'm/s') + '\\) auf \\(r = ' + ein(r, 'm') + '\\).') + ' Wie gross ist die Zentripetalkraft?' }; },
         pruefen: function(A, e){
           if (nah(e.F, A.F)) return null;
           if (A.kh && nah(e.F, A.m * A.vk * A.vk / A.r)) return 'Erst in m/s umrechnen: ' + umr(A.vk) + '.';
@@ -917,7 +920,7 @@
       'vmax': { felder: ['v'], muster: '<i>v</i><sub>max</sub> = {v} m/s',
         neu: function(){
           var F, m, r, v;
-          do { F = zufall([20, 50, 80, 120, 200]); m = zufall([0.5, 1, 2, 4]); r = zufall([0.5, 0.8, 1.2, 2]); v = Math.sqrt(F * r / m); } while (v > 20 || (F === 20 && m === 2 && r === 1.6) || Math.abs(F * r / m - 1) < 1e-9);   // Simulation 5
+          do { F = zufall([20, 50, 80, 120, 200]); m = zufall([0.5, 1, 2, 4]); r = zufall([0.5, 0.8, 1.2, 2]); v = Math.sqrt(F * r / m); } while (v > 20 || Math.abs(F * r / m - 1) < 1e-9);
           return { v: v, F: F, m: m, r: r,
             text: 'Eine Schnur hält höchstens \\(' + ein(F, 'N') + '\\). Eine Kugel (\\(m = ' + ein(m, 'kg') + '\\)) soll daran auf \\(r = ' + ein(r, 'm') + '\\) kreisen. Wie schnell darf sie höchstens sein?' }; },
         pruefen: function(A, e){
@@ -929,7 +932,9 @@
         loesung: function(A){ return 'v = \\sqrt{\\dfrac{F_z \\cdot r}{m}} = \\sqrt{\\dfrac{' + ein(A.F, 'N') + ' \\cdot ' + ein(A.r, 'm') + '}{' + ein(A.m, 'kg') + '}} ' + erg(A.v, 'm/s'); } },
       'omega': { felder: ['F'], muster: '<i>F</i><sub>z</sub> = {F} N',
         neu: function(){
-          var m = zufall([0.5, 1, 2, 60, 75]), T = zufall([0.5, 2, 4, 5, 8]), r = zufall([0.4, 1.5, 2.5, 4]);
+          var m, T, r;
+          do { m = zufall([0.5, 1, 2, 60, 75]); T = zufall([2, 3, 4, 5, 8]); r = zufall([0.4, 1.5, 2.5, 4]); }
+          while (Math.pow(PI2 / T, 2) * r > (m > 10 ? 10 : 30));   // plausibel: Personen höchstens rund 1 g, Gegenstände höchstens rund 3 g
           return { F: m * Math.pow(PI2 / T, 2) * r, m: m, T: T, r: r,
             text: 'Ein Körper (\\(m = ' + ein(m, 'kg') + '\\)) läuft gleichförmig auf einem Kreis mit \\(r = ' + ein(r, 'm') + '\\) um; ein Umlauf dauert \\(T = ' + ein(T, 's') + '\\). Wie gross ist die Zentripetalkraft?' }; },
         pruefen: function(A, e){

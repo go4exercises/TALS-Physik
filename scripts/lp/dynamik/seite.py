@@ -312,7 +312,7 @@ text.p-text{font-family:var(--sans);font-size:11.5px;font-weight:700;stroke:var(
 .markierung{stroke:var(--tinte-2);stroke-width:2;opacity:.5}
 .wagen{fill:var(--papier-2);stroke:var(--tinte);stroke-width:1.6}
 .rad{fill:var(--tinte-2)}
-.velo-rad{fill:none;stroke:var(--tinte);stroke-width:2} .speiche{stroke:var(--tinte-2);stroke-width:.9} .rahmen{fill:none;stroke:var(--bernstein);stroke-width:2.2;stroke-linejoin:round}
+.velo-rad{fill:none;stroke:var(--tinte);stroke-width:2} .speiche{stroke:var(--tinte-2);stroke-width:.9} .rahmen{fill:none;stroke:var(--tinte-2);stroke-width:2.2;stroke-linejoin:round}
 .pf-linie{stroke-width:2.6;fill:none}
 .pf-linie.pf-v{stroke:var(--gruen)} .pf-kopf.pf-v{fill:var(--gruen)}
 .pf-linie.pf-a{stroke:var(--lila)} .pf-kopf.pf-a{fill:var(--lila)}
@@ -331,7 +331,7 @@ text.pf-v{fill:var(--gruen)} text.pf-a{fill:var(--lila)} text.pf-f{fill:var(--bl
 .anzeige-zahl{fill:var(--tinte);font-family:var(--mono);font-size:13px;font-weight:700}
 .tisch{fill:var(--tinte-2)}
 .rolle{fill:var(--karte);stroke:var(--tinte);stroke-width:1.6}
-.gewicht{fill:var(--bernstein-hell);stroke:var(--bernstein);stroke-width:1.6}
+.gewicht{fill:var(--papier-2);stroke:var(--tinte);stroke-width:1.6}
 .bahn-kreis{fill:none;stroke:var(--tinte-2);stroke-width:1.4;stroke-dasharray:4 4}
 .flugbahn{stroke:var(--tinte-2);stroke-width:1.4;stroke-dasharray:3 4}
 .kugel{fill:var(--papier-2);stroke:var(--tinte);stroke-width:1.8}
@@ -651,7 +651,7 @@ k0 = '''
       <div class="kap-meta"><span class="marker">Kapitel 0</span><span class="abz">Vorwissen · 0.1 · 0.3 · 4.1</span><span class="zeit">≈ 10 min</span></div>
       <h2 id="vorwissen">Vorwissen</h2>
       <p class="ziel">Beschleunigung und Bewegungsgleichungen aus 4.1, Masse und Gewichtskraft, Gleichungen umstellen. Wenn das wackelt: <a href="leitprogramm-kinematik.html">Leitprogramm Kinematik</a> und <a href="leitprogramm-vorwissen.html">Leitprogramm Grössen, Messen, Druck</a>.</p>
-      ''' + clipkarte('p0-3-masse-gewicht', 'Masse und Gewicht: was die Waage wirklich zeigt', '0:57') + r'''
+      ''' + clipkarte('p0-3-masse-gewicht', 'Masse und Gewicht: was die Waage wirklich zeigt') + r'''
 ''' + test('t0', 'Vortest', 10, [
     ('0a', 3, r'Ein Auto beschleunigt gleichmässig in \(5\;\text{s}\) aus dem Stand auf \(20\;\text{m/s}\). Wie gross ist die Beschleunigung, und welchen Weg legt es dabei zurück?',
      r'<p>\(a = \dfrac{\Delta v}{\Delta t} = \dfrac{20\;\text{m/s}}{5\;\text{s}} = 4\;\text{m/s}^2\), \(s = \tfrac12 \cdot a \cdot t^2 = \tfrac12 \cdot 4\;\text{m/s}^2 \cdot (5\;\text{s})^2 = 50\;\text{m}\).</p><p class="komm">Falsch? <a href="leitprogramm-kinematik.html#k2">Leitprogramm Kinematik, Kapitel 2</a></p>', ''),
@@ -666,7 +666,7 @@ k0 = '''
     </section>'''
 
 # ------------------------------------------------------------------ Kapitel 1
-sim1 = figur_anim('sim1', 'Wagen auf einer reibungsfreien Bahn, darunter das v-t-Diagramm, das während der Fahrt entsteht', '-4 34 308 284',
+sim1 = figur_anim('sim1', 'Wagen auf einer reibungsfreien Bahn, darunter das v-t-Diagramm, das während der Fahrt entsteht', '-4 22 308 296',
     '        <div class="reglerfeld">\n          '
     + regler('s1', 'F', '<i>F</i> Kraft', 0, 20, 1, 4, 'N', 0) + '\n          '
     + regler('s1', 'm', '<i>m</i> Masse', 0.5, 8, 0.5, 2, 'kg', 1) + '\n        </div>')
@@ -688,8 +688,8 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 11, [
     ('1a', 3, r'Ein Velo samt Fahrerin (\(80\;\text{kg}\)) wird mit einer Gesamtkraft von \(120\;\text{N}\) aus dem Stand beschleunigt. Wie gross ist die Beschleunigung? Wie schnell ist das Velo nach \(4\;\text{s}\), und welchen Weg hat es dann zurückgelegt?',
      r'<p>\(a = \dfrac{F_\text{ges}}{m} = \dfrac{120\;\text{N}}{80\;\text{kg}} = 1.5\;\text{m/s}^2\).</p><p>\(v = a \cdot t = 1.5\;\text{m/s}^2 \cdot 4\;\text{s} = 6\;\text{m/s}\), \(s = \tfrac12 \cdot a \cdot t^2\) \(= \tfrac12 \cdot 1.5\;\text{m/s}^2 \cdot (4\;\text{s})^2\) \(= 12\;\text{m}\).</p>', ''),
     ('1b', 3, r'Auf zwei Wagen A und B wirkt dieselbe Kraft. Das Diagramm zeigt ihre Geschwindigkeit. A hat \(2\;\text{kg}\). Wie gross ist die Kraft, und welche Masse hat B? (Punkte auf Gitterpunkten)',
-     r'<p>A: \(a = \dfrac{6\;\text{m/s}}{2\;\text{s}} = 3\;\text{m/s}^2\), also \(F = m \cdot a = 2\;\text{kg} \cdot 3\;\text{m/s}^2 = 6\;\text{N}\).</p><p>B: \(a = \dfrac{4\;\text{m/s}}{4\;\text{s}} = 1\;\text{m/s}^2\), also \(m = \dfrac{F}{a} = \dfrac{6\;\text{N}}{1\;\text{m/s}^2} = 6\;\text{kg}\) — dreimal so schwer, darum ein Drittel der Beschleunigung.</p>',
-     '\n            <div class="mini-reihe"><svg class="mini" data-geraden="3;1" data-namen="A;B" data-farbe="kurve-v" data-fenster="6,12" data-teilung="1,2" data-punkte="2,6;4,4" data-xname="t [s]" data-yname="v [m/s]" aria-label="v-t-Diagramm mit zwei Ursprungsgeraden A und B"></svg></div>'),
+     r'<p>A: \(a = \dfrac{\Delta v}{\Delta t} = \dfrac{6\;\text{m/s}}{2\;\text{s}} = 3\;\text{m/s}^2\), also \(F = m \cdot a = 2\;\text{kg} \cdot 3\;\text{m/s}^2 = 6\;\text{N}\).</p><p>B: \(a = \dfrac{\Delta v}{\Delta t} = \dfrac{6\;\text{m/s}}{8\;\text{s}} = 0.75\;\text{m/s}^2\), also \(m = \dfrac{F}{a} = \dfrac{6\;\text{N}}{0.75\;\text{m/s}^2} = 8\;\text{kg}\) — viermal so viel Masse, darum ein Viertel der Beschleunigung.</p>',
+     '\n            <div class="mini-reihe"><svg class="mini" data-geraden="3;0.75" data-namen="A;B" data-farbe="kurve-v" data-fenster="8,12" data-teilung="1,2" data-punkte="2,6;8,6" data-xname="t [s]" data-yname="v [m/s]" aria-label="v-t-Diagramm mit zwei Ursprungsgeraden A und B"></svg></div>'),
     ('1c', 2, r'Warum braucht ein voll beladener Lastwagen bei gleicher Antriebskraft länger als ein leerer, um auf \(50\;\text{km/h}\) zu kommen?',
      r'<p>Beladen hat er die grössere Masse. Nach \(a = \dfrac{F}{m}\) ist bei gleicher Kraft die Beschleunigung kleiner, er braucht also mehr Zeit für dieselbe Geschwindigkeitsänderung. Die Masse macht den Körper träger.</p>', ''),
     ('1d', 3, r'Ein Sprinter (\(75\;\text{kg}\)) erreicht aus dem Stand in \(2.5\;\text{s}\) gleichmässig \(9\;\text{m/s}\). Wie gross ist die Kraft, mit der er sich im Mittel vorwärts stösst?',
@@ -719,22 +719,22 @@ fest2 = r'''      <div class="festhalten">
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>«Wer fährt, braucht eine Kraft in Fahrtrichtung.» Bei konstantem Tempo ist die Gesamtkraft null: Der Antrieb gleicht nur den Widerstand aus. Ohne Widerstand (Puck auf Eis, Raumsonde) fährt ein Körper ganz ohne Kraft weiter.</p>
-          <p>Kräfte in Gegenrichtung addiert: \(90\;\text{N}\) Zug und \(30\;\text{N}\) Reibung geben \(F_\text{ges} = 60\;\text{N}\), nicht \(120\;\text{N}\).</p>
+          <p>«Wer fährt, braucht eine Kraft in Fahrtrichtung.» Bei konstantem Tempo ist die Gesamtkraft null: Der Antrieb gleicht nur den Widerstand aus. Ohne Widerstand, etwa ein Puck auf glattem Eis, gleitet ein Körper ganz ohne Kraft weiter.</p>
+          <p>Kräfte in Gegenrichtung addiert: \(70\;\text{N}\) Zug und \(25\;\text{N}\) Reibung geben \(F_\text{ges} = 45\;\text{N}\), nicht \(95\;\text{N}\).</p>
         </div>
       </div>'''
 auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2a', 3, r'Ein Schlitten (\(30\;\text{kg}\)) wird mit \(90\;\text{N}\) gezogen; die Reibung beträgt \(30\;\text{N}\). Wie gross sind Gesamtkraft und Beschleunigung? Wie schnell ist er nach \(5\;\text{s}\), wenn er aus dem Stand startet?',
      r'<p>\(F_\text{ges} = F_A - F_W = 90\;\text{N} - 30\;\text{N} = 60\;\text{N}\), \(a = \dfrac{F_\text{ges}}{m} = \dfrac{60\;\text{N}}{30\;\text{kg}} = 2\;\text{m/s}^2\).</p><p>\(v = a \cdot t = 2\;\text{m/s}^2 \cdot 5\;\text{s} = 10\;\text{m/s}\).</p>', ''),
     ('2b', 3, r'Das Diagramm zeigt die Fahrt eines Wagens (\(50\;\text{kg}\)). In welcher Phase ist die Gesamtkraft positiv, null, negativ? Wie gross ist sie in den ersten \(2\;\text{s}\) und in den letzten \(2\;\text{s}\)?',
-     r'<p>0 bis 2 s: \(v\) steigt, \(F_\text{ges} \gt 0\). 2 bis 6 s: \(v\) konstant, \(F_\text{ges} = 0\). 6 bis 8 s: \(v\) sinkt, \(F_\text{ges} \lt 0\).</p><p>Erste Phase: \(a = \dfrac{4\;\text{m/s}}{2\;\text{s}} = 2\;\text{m/s}^2\), \(F_\text{ges} = 50\;\text{kg} \cdot 2\;\text{m/s}^2 = 100\;\text{N}\). Letzte Phase: \(a = -2\;\text{m/s}^2\), \(F_\text{ges} = -100\;\text{N}\) (gegen die Fahrtrichtung).</p>',
+     r'<p>0 bis 2 s: \(v\) steigt, \(F_\text{ges} \gt 0\). 2 bis 6 s: \(v\) konstant, \(F_\text{ges} = 0\). 6 bis 8 s: \(v\) sinkt, \(F_\text{ges} \lt 0\).</p><p>Erste Phase: \(a = \dfrac{\Delta v}{\Delta t} = \dfrac{4\;\text{m/s}}{2\;\text{s}} = 2\;\text{m/s}^2\), \(F_\text{ges} = m \cdot a = 50\;\text{kg} \cdot 2\;\text{m/s}^2 = 100\;\text{N}\). Letzte Phase: \(a = \dfrac{-4\;\text{m/s}}{2\;\text{s}} = -2\;\text{m/s}^2\), \(F_\text{ges} = m \cdot a\) \(= 50\;\text{kg} \cdot (-2\;\text{m/s}^2) = -100\;\text{N}\) (gegen die Fahrtrichtung).</p>',
      '\n            <div class="mini-reihe">' + vt_bild([(0, 0), (2, 4), (6, 4), (8, 0)], 8, 5, 1, 1, 'v-t-Diagramm: in 2 s von 0 auf 4 m/s, bis 6 s konstant, bis 8 s zurück auf 0') + '</div>'),
     ('2c', 3, r'Eine Raumsonde fliegt mit abgeschaltetem Triebwerk weit weg von allen Planeten. Welche Kraft hält sie in Bewegung? Begründe.',
      r'<p>Keine. Auf die Sonde wirkt (fast) keine Kraft, also ist ihre Beschleunigung null: Sie behält Tempo und Richtung bei — das Trägheitsgesetz. Eine Kraft wäre nur nötig, um die Bewegung zu ändern.</p>', ''),
     ('2d', 3, r'Eine Fallschirmspringerin (\(70\;\text{kg}\) mit Ausrüstung) sinkt mit konstant \(5\;\text{m/s}\). Wie gross ist der Luftwiderstand? Kurz nach dem Öffnen des Schirms war der Widerstand \(1500\;\text{N}\): Wie gross war die Beschleunigung, und wohin zeigte sie?',
-     r'<p>Konstantes Tempo heisst \(F_\text{ges} = 0\): \(F_W = F_G = m \cdot g\) \(= 70\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 687\;\text{N}\).</p><p>Beim Öffnen (nach oben positiv): \(F_\text{ges} = 1500\;\text{N} - 687\;\text{N} = 813\;\text{N}\), \(a = \dfrac{813\;\text{N}}{70\;\text{kg}} \approx 11.6\;\text{m/s}^2\) nach oben — sie wird stark abgebremst, fällt aber weiter nach unten.</p>', ''),
+     r'<p>Konstantes Tempo heisst \(F_\text{ges} = 0\): \(F_W = F_G = m \cdot g\) \(= 70\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 687\;\text{N}\).</p><p>Beim Öffnen wirken die Kräfte senkrecht; die positive Richtung darf man frei wählen, wenn man sie nennt — hier nach oben: \(F_\text{ges} = F_W - F_G\) \(= 1500\;\text{N} - 687\;\text{N} = 813\;\text{N}\), \(a = \dfrac{F_\text{ges}}{m} = \dfrac{813\;\text{N}}{70\;\text{kg}} \approx 11.6\;\text{m/s}^2\) nach oben — sie wird stark abgebremst, fällt aber weiter nach unten.</p>', ''),
 ])
-k2 = kapitel(2, 'gesamtkraft-traegheit', 'Gesamtkraft und Trägheit', 'K1', 40,
+k2 = kapitel(2, 'gesamtkraft-traegheit', 'Gesamtkraft und Trägheit', 'K1 · K2', 40,
     r'Du bestimmst die Gesamtkraft aus Kräften auf einer Geraden, erkennst mit dem Trägheitsgesetz, wann sich die Geschwindigkeit nicht ändert, und rechnest mit \(F_\text{ges} = m \cdot a\).',
     ('p4-2-lp-gesamtkraft', 'Kraft sehen: Antrieb gegen Widerstand', None),
     sim2, ('p4-2-lp-kontrolle-gesamtkraft', 'Kontrollfragen zu Gesamtkraft und Trägheit', None),
@@ -765,7 +765,7 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 11, [
     ('3a', 3, r'Ein Kran hebt eine Last von \(500\;\text{kg}\) und beschleunigt sie dabei mit \(0.8\;\text{m/s}^2\) nach oben. Wie gross ist die Seilkraft? Wie gross wäre sie, wenn die Last mit konstantem Tempo gehoben würde?',
      r'<p>Ansatz (nach oben positiv): \(F_S - F_G = m \cdot a\), also \(F_S = m \cdot (g + a)\) \(= 500\;\text{kg} \cdot (9.81\;\text{m/s}^2 + 0.8\;\text{m/s}^2)\) \(\approx 5305\;\text{N}\).</p><p>Konstantes Tempo: \(a = 0\), \(F_S = F_G = 500\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 4905\;\text{N}\).</p>', ''),
     ('3b', 3, r'Das Diagramm zeigt eine Aufzugsfahrt nach oben (nach oben positiv). Eine Person (\(50\;\text{kg}\)) steht auf einer Waage. Welche Normalkraft misst die Waage in den drei Phasen?',
-     r'<p>0 bis 2 s: \(a = \dfrac{3\;\text{m/s}}{2\;\text{s}} = 1.5\;\text{m/s}^2\), \(F_N = 50\;\text{kg} \cdot (9.81 + 1.5)\;\text{m/s}^2 \approx 566\;\text{N}\).</p><p>2 bis 6 s: \(a = 0\), \(F_N = 50\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 491\;\text{N}\).</p><p>6 bis 9 s: \(a = \dfrac{-3\;\text{m/s}}{3\;\text{s}} = -1\;\text{m/s}^2\), \(F_N = 50\;\text{kg} \cdot (9.81 - 1)\;\text{m/s}^2 \approx 441\;\text{N}\).</p>',
+     r'<p>0 bis 2 s: \(a = \dfrac{\Delta v}{\Delta t} = \dfrac{3\;\text{m/s}}{2\;\text{s}} = 1.5\;\text{m/s}^2\), \(F_N = m \cdot (g + a)\) \(= 50\;\text{kg} \cdot (9.81 + 1.5)\;\text{m/s}^2\) \(\approx 566\;\text{N}\).</p><p>2 bis 6 s: \(a = 0\), \(F_N = m \cdot g = 50\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 491\;\text{N}\).</p><p>6 bis 9 s: \(a = \dfrac{\Delta v}{\Delta t} = \dfrac{-3\;\text{m/s}}{3\;\text{s}} = -1\;\text{m/s}^2\), \(F_N = m \cdot (g + a)\) \(= 50\;\text{kg} \cdot (9.81 - 1)\;\text{m/s}^2\) \(\approx 441\;\text{N}\).</p>',
      '\n            <div class="mini-reihe">' + vt_bild([(0, 0), (2, 3), (6, 3), (9, 0)], 9, 4, 1, 1, 'v-t-Diagramm einer Aufzugsfahrt: in 2 s auf 3 m/s, bis 6 s konstant, bis 9 s zurück auf 0') + '</div>'),
     ('3c', 2, r'Auf dem Mond fallen ein Hammer und eine Feder gleich schnell. Warum, obwohl die Gewichtskraft auf den Hammer viel grösser ist?',
      r'<p>Die grössere Gewichtskraft muss auch die grössere Masse beschleunigen. In \(a = \dfrac{F_G}{m} = \dfrac{m \cdot g}{m} = g\) kürzt sich die Masse: Beide fallen mit derselben Beschleunigung. Auf der Erde bremst der Luftwiderstand die Feder; auf dem Mond gibt es keine Luft.</p>', ''),
@@ -791,18 +791,19 @@ fest4 = r'''      <div class="festhalten">
           <p>Hängen Körper an einem gespannten Faden, bewegen sie sich gemeinsam. Für das <b>ganze System</b> gilt: Die antreibende Kraft beschleunigt die Gesamtmasse. Beim Wagen auf dem Tisch treibt die Gewichtskraft des hängenden Körpers:</p>
           <p>\[ m_2 \cdot g = (m_1 + m_2) \cdot a \qquad a = \frac{m_2 \cdot g}{m_1 + m_2} \]</p>
           <p>Die <b>Fadenkraft</b> findet man an einem Körper allein: Den Wagen beschleunigt nur der Faden, \(F_S = m_1 \cdot a\). Gilt für reibungsfreie Bewegung mit masselosem Faden und masseloser Rolle.</p>
+          <p>Ebenso beim Auto mit Anhänger: Die Antriebskraft beschleunigt beide zusammen, den Anhänger allein zieht die <b>Kupplungskraft</b> \(F_K = m_\text{Anhänger} \cdot a\).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>«Die Fadenkraft ist die Gewichtskraft des hängenden Körpers.» Dann wäre die Gesamtkraft auf ihn null, und er würde nicht fallen. Solange er beschleunigt, ist \(F_S \lt m_2 \cdot g\).</p>
+          <p>Die Fadenkraft am falschen Körper ausgerechnet: \(F_S = m_1 \cdot a\) gilt am Wagen, weil ihn nur der Faden zieht. Am hängenden Körper wirkt zusätzlich seine Gewichtskraft.</p>
           <p>Nur durch \(m_1\) geteilt: Die Gewichtskraft beschleunigt beide Körper, also durch \(m_1 + m_2\) teilen.</p>
         </div>
       </div>'''
 auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
     ('4a', 4, r'Ein Auto (\(1200\;\text{kg}\)) zieht einen Anhänger (\(600\;\text{kg}\)) mit einer Antriebskraft von \(2700\;\text{N}\); Widerstände vernachlässigt. Wie gross ist die Beschleunigung? Welche Kraft überträgt die Kupplung?',
      r'<p>System: \(a = \dfrac{F}{m_1 + m_2} = \dfrac{2700\;\text{N}}{1800\;\text{kg}} = 1.5\;\text{m/s}^2\).</p><p>Anhänger allein: \(F_K = m_2 \cdot a = 600\;\text{kg} \cdot 1.5\;\text{m/s}^2 = 900\;\text{N}\).</p><p class="komm">Probe am Auto: \(2700\;\text{N} - 900\;\text{N} = 1800\;\text{N} = 1200\;\text{kg} \cdot 1.5\;\text{m/s}^2\).</p>', ''),
-    ('4b', 3, r'Über eine reibungsfreie Rolle hängen an einem Faden zwei Körper, \(0.6\;\text{kg}\) und \(0.4\;\text{kg}\). Mit welcher Beschleunigung bewegen sie sich? Wie gross ist die Fadenkraft?',
-     r'<p>Angetrieben wird durch den Unterschied der Gewichtskräfte, beschleunigt werden beide: \(a = \dfrac{(m_1 - m_2) \cdot g}{m_1 + m_2}\) \(= \dfrac{0.2\;\text{kg} \cdot 9.81\;\text{m/s}^2}{1.0\;\text{kg}}\) \(\approx 1.96\;\text{m/s}^2\).</p><p>Am leichteren Körper (steigt, nach oben positiv): \(F_S - m_2 \cdot g = m_2 \cdot a\), \(F_S = 0.4\;\text{kg} \cdot (9.81 + 1.962)\;\text{m/s}^2\) \(\approx 4.71\;\text{N}\).</p>', ''),
+    ('4b', 3, r'Übertrag auf einen neuen Aufbau: Über eine reibungsfreie Rolle hängen an einem Faden zwei Körper, A mit \(0.6\;\text{kg}\) und B mit \(0.4\;\text{kg}\). Mit welcher Beschleunigung bewegen sie sich? Wie gross ist die Fadenkraft? (Tipp: wie beim Wagen — was treibt an, was wird beschleunigt?)',
+     r'<p>Angetrieben wird durch den Unterschied der Gewichtskräfte, beschleunigt werden beide: \(a = \dfrac{(m_A - m_B) \cdot g}{m_A + m_B}\) \(= \dfrac{0.2\;\text{kg} \cdot 9.81\;\text{m/s}^2}{1.0\;\text{kg}}\) \(\approx 1.96\;\text{m/s}^2\).</p><p>Am leichteren Körper B (steigt, nach oben positiv): \(F_S - m_B \cdot g = m_B \cdot a\), also \(F_S = m_B \cdot (g + a)\) \(F_S = 0.4\;\text{kg} \cdot (9.81 + 1.962)\;\text{m/s}^2\) \(\approx 4.71\;\text{N}\).</p>', ''),
     ('4c', 2, r'Zeichne für den Wagen auf dem Tisch und für den hängenden Körper je alle Kräfte als Pfeile (Freikörperbild). Welche Pfeile sind gleich lang?',
      r'<p>Wagen: Gewichtskraft nach unten, Normalkraft des Tisches nach oben (gleich lang, sie heben sich auf), Fadenkraft \(F_S\) zur Rolle hin. Hängender Körper: Gewichtskraft \(m_2 \cdot g\) nach unten, Fadenkraft \(F_S\) nach oben, kürzer als die Gewichtskraft.</p><p>Gleich lang sind die beiden Fadenkräfte (ein Faden, masselose Rolle) und am Wagen Gewichts- und Normalkraft.</p>', ''),
     ('4d', 3, r'Warum ist die Fadenkraft kleiner als die Gewichtskraft des hängenden Körpers, solange alles beschleunigt? Was misst man, wenn man den Wagen festhält?',
@@ -821,13 +822,14 @@ sim5 = figur_anim('sim5', 'Kugel an einer Schnur auf einer Kreisbahn von oben; G
     + regler('s5', 'm', '<i>m</i> Masse', 0.5, 3, 0.5, 2, 'kg', 1) + '\n          '
     + regler('s5', 'v', '<i>v</i> Tempo', 1, 6, 0.5, 3, 'm/s', 1) + '\n          '
     + regler('s5', 'r', '<i>r</i> Radius', 0.5, 2, 0.1, 1, 'm', 1) + '\n        </div>\n'
-    + '        <p class="sim-notiz">Von oben gesehen, Drehsinn gegen den Uhrzeigersinn; Pfeil v mit 8 px je m/s, Kraftpfeil 2.5 px je N.</p>')
+    + '        <p class="sim-notiz">Von oben gesehen, Drehsinn gegen den Uhrzeigersinn. Pfeillängen proportional zu \\(v\\) und \\(F_z\\); ein Kraftpfeil, der nicht in den Kreis passt, wird gekürzt.</p>')
 fest5 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Die Kraft zur Mitte</div>
           <p>Auf der Kreisbahn ändert sich die Richtung der Geschwindigkeit ständig: Der Körper hat die Zentripetalbeschleunigung \(a_z = \dfrac{v^2}{r}\) zur Mitte (4.1). Nach dem Grundgesetz braucht es dafür eine Gesamtkraft zur Mitte, die <b>Zentripetalkraft</b>:</p>
           <p>\[ F_z = m \cdot a_z = \frac{m \cdot v^2}{r} = m \cdot \omega^2 \cdot r \]</p>
-          <p>Sie ist keine neue Kraftart, sondern eine Rolle, die eine vorhandene Kraft übernimmt: die Schnur beim Kugelwerfen, die Haftreibung zwischen Reifen und Strasse in der Kurve, die Gravitation beim Mond. Fehlt sie, fliegt der Körper tangential geradeaus weiter — das Trägheitsgesetz.</p>
+          <p>Mit der Umlaufzeit \(T\): Winkelgeschwindigkeit \(\omega = \dfrac{2\pi}{T}\) und \(v = \omega \cdot r\) (<a href="leitprogramm-kinematik.html#k5">Leitprogramm Kinematik, Kapitel 5</a>).</p>
+          <p>Sie ist keine neue Kraftart, sondern eine Rolle, die eine vorhandene Kraft übernimmt: die Schnur beim Hammerwurf, die Haftreibung zwischen Reifen und Strasse in der Kurve, die Gravitation beim Mond. Fehlt sie, fliegt der Körper tangential geradeaus weiter — das Trägheitsgesetz.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -839,7 +841,7 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5a', 3, r'Ein Velofahrer (\(85\;\text{kg}\) mit Velo) fährt mit \(18\;\text{km/h}\) durch eine Kurve mit \(r = 12\;\text{m}\). Wie gross ist die Zentripetalkraft? Welche Kraft übernimmt diese Rolle?',
      r'<p>\(v = \dfrac{18}{3.6}\;\text{m/s} = 5\;\text{m/s}\), \(F_z = \dfrac{m \cdot v^2}{r} = \dfrac{85\;\text{kg} \cdot (5\;\text{m/s})^2}{12\;\text{m}} \approx 177\;\text{N}\).</p><p>Die Haftreibung zwischen Reifen und Strasse, gerichtet zur Kurvenmitte.</p>', ''),
     ('5b', 3, r'Die Raumstation ISS (\(420\;\text{t}\)) kreist auf \(r = 6770\;\text{km}\) um den Erdmittelpunkt, mit \(7.67\;\text{km/s}\). Wie gross ist die Kraft, die sie auf der Bahn hält? Welche Kraft ist das?',
-     r'<p>\(a_z = \dfrac{v^2}{r} = \dfrac{(7670\;\text{m/s})^2}{6.77 \cdot 10^{6}\;\text{m}} \approx 8.69\;\text{m/s}^2\).</p><p>\(F_z = m \cdot a_z\) \(= 4.2 \cdot 10^{5}\;\text{kg} \cdot 8.69\;\text{m/s}^2\) \(\approx 3.65 \cdot 10^{6}\;\text{N}\) — die Gravitation der Erde. Die ISS fällt dauernd um die Erde herum.</p>', ''),
+     r'<p>Umrechnen: \(420\;\text{t} = 4.2 \cdot 10^{5}\;\text{kg}\), \(7.67\;\text{km/s} = 7670\;\text{m/s}\), \(6770\;\text{km} = 6.77 \cdot 10^{6}\;\text{m}\).</p><p>\(a_z = \dfrac{v^2}{r} = \dfrac{(7670\;\text{m/s})^2}{6.77 \cdot 10^{6}\;\text{m}} \approx 8.69\;\text{m/s}^2\).</p><p>\(F_z = m \cdot a_z\) \(= 4.2 \cdot 10^{5}\;\text{kg} \cdot 8.69\;\text{m/s}^2\) \(\approx 3.65 \cdot 10^{6}\;\text{N}\) — die Gravitation der Erde. Die ISS fällt dauernd um die Erde herum.</p>', ''),
     ('5c', 3, r'Das Diagramm zeigt die Zentripetalkraft zweier Körper A und B auf derselben Kreisbahn (\(r = 2\;\text{m}\)), aufgetragen über \(v^2\). Welche Masse hat jeder? (Punkte auf Gitterpunkten)',
      r'<p>\(F_z = \dfrac{m}{r} \cdot v^2\): Die Steigung ist \(\dfrac{m}{r}\).</p><p>A: \(\dfrac{16\;\text{N}}{16\;\text{m}^2/\text{s}^2} = 1\;\text{kg/m}\), also \(m = 1\;\text{kg/m} \cdot 2\;\text{m} = 2\;\text{kg}\). B: \(\dfrac{8\;\text{N}}{16\;\text{m}^2/\text{s}^2} = 0.5\;\text{kg/m}\), also \(m = 1\;\text{kg}\).</p>',
      '\n            <div class="mini-reihe"><svg class="mini" data-geraden="1;0.5" data-namen="A;B" data-farbe="kurve-f" data-fenster="20,20" data-teilung="2,2" data-punkte="16,16;16,8" data-xname="v² [m²/s²]" data-yname="F [N]" aria-label="Zentripetalkraft über v-Quadrat, zwei Ursprungsgeraden A und B"></svg></div>'),
@@ -941,7 +943,7 @@ oben = '''<div id="nav-root"></div>
     <p class="lekt">Lektion 2</p>
     <ol><li><a href="#k2"><span class="nr">2</span><span>Gesamtkraft und Trägheit</span></a></li></ol>
     <p class="lekt">Lektion 3</p>
-    <ol><li><a href="#k3"><span class="nr">3</span><span>Gewichtskraft und Aufzug</span></a></li></ol>
+    <ol><li><a href="#k3"><span class="nr">3</span><span>Gewichtskraft, Fall und Aufzug</span></a></li></ol>
     <p class="lekt">Lektion 4</p>
     <ol><li><a href="#k4"><span class="nr">4</span><span>Zwei Körper, ein Faden</span></a></li></ol>
     <p class="lekt">Lektion 5</p>

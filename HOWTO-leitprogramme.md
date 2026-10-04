@@ -938,6 +938,21 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
 - **Gerundete Zwischenwerte**: Wer \(v\) richtig auf drei Stellen rundet und damit weiterrechnet, darf nicht
   abgewiesen werden (Folgewert mit der Eingabe prüfen); im Bewertungspaket eine Rundungsregel (rund 2 %).
 - Je Kapitel mindestens eine «Warum»-Aufgabe und eine Aufgabe am Diagramm (§9).
+- **Laufende Simulationen** (Fahrt auf Knopfdruck, Dynamik 04.10.2026): Nichts läuft von selbst los —
+  auch keine «nur zur Anschauung» bewegte Kulisse. Der graue Vergleich «voriger Lauf» muss beim Start
+  den *vorigen* Lauf übernehmen; wer ihn am Fahrtende setzt, zeigt den eben gefahrenen Lauf doppelt, und
+  der Vergleich ist nie zu sehen. Mit «weniger Bewegung» und bei Reglerbewegung mitten im Lauf jeden Knopf
+  einmal durchprobieren (Beschriftung und Zustand passen zusammen?).
+- **Modellgrenzen in der Formelzeile**: Bleibt ein Körper im Modell stehen (Haftung, Stillstand nach dem
+  Ausrollen), muss die Zeile \(F_\text{ges} = 0\) und \(a = 0\) zeigen — nie eine Gesamtkraft ohne
+  Beschleunigung. Die Sonderfälle (Stand, Halt, gleich grosse Kräfte) gezielt einstellen und lesen.
+- **Formelzeilen ohne gerundete Zwischenwerte**: Ein Ergebnis aus dem ungerundeten Wert hinter einem
+  gerundet angezeigten Faktor ergibt «2 kg · 4.91 m/s² = 9.81 N». Die Zeile aus den Eingaben bauen
+  (\(F_S = m_1 \cdot m_2 \cdot g / (m_1 + m_2)\)) oder mit den angezeigten Werten weiterrechnen.
+- **Kein Beispiel doppelt**: Clipbeispiel, Kontrollfrage, Leistenziel, Festhalten-Kasten, Mini-Check der
+  Themenseite, Kapitelaufgabe und Zufallsübung je mit eigenen Zahlen — der Festhalten-Kasten verrät sonst
+  die Aufgabe, und die Kontrollfrage nimmt das Leistenziel vorweg. Feste Werte in die Ausschlusslisten der
+  Generatoren, und jede Ausschlussbedingung prüfen, ob sie mit den Wertelisten überhaupt eintreten kann.
 
 **Gesamttest und Bewertungspaket**
 - Jedes Kapitelziel hat eine Aufgabe; kein Modell aus Selbsttest oder Übung wiederholt.

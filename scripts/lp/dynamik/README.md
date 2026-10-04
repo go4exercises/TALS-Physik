@@ -63,5 +63,12 @@ Startzustand erfüllt).
   weder Blau noch Violett: Diese Grössen bleiben in den Clips ungefärbt.
 - **Massstäbe:** Faden-Simulation 80 px je m waagrecht wie senkrecht (der Faden ist undehnbar);
   Kreis 60 px je m, Kraftpfeil 2.5 px je N, gekürzt mit Hinweis, wenn er nicht in den Kreis passt.
-- **Velo-Modell:** Steht das Velo und reicht der Antrieb nicht, bleibt es stehen (der Widerstand
-  schiebt nicht rückwärts); der gezeichnete Widerstand ist dann so gross wie der Antrieb.
+- **Velo-Modell:** Steht das Velo und reicht der Antrieb nicht (\(F_A \le F_W\)), hält der Widerstand
+  nur so stark dagegen, wie der Antrieb zieht: Bild und Formelzeile zeigen \(F_\text{ges} = 0\), \(a = 0\).
+  Dasselbe nach dem Halt beim Ausrollen.
+- **Aufzug** läuft wie alle Simulationen erst auf Knopfdruck («Fahrt zeigen»); Kräfte und Waage gelten
+  sofort. Mit «weniger Bewegung» dreht «Kreisen» in Sim 5 in Schritten weiter.
+- **Nach /lp-pruefung (04.10.2026)** behoben: Velo im Stand, voriger Lauf, Aufzug ohne Knopf, Regler im
+  Flug, gerundete Zwischenwerte in den Formelzeilen, doppelte Beispiele (Clip, Kontrollfrage, Leiste,
+  Festhalten, Mini-Checks), ω eingeführt, Gesamttest G1 d/G3–G6 neu, Raster präzisiert. Freischaltung
+  steht aus.
