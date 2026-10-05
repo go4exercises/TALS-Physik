@@ -198,6 +198,16 @@ SEITEN = {
                 'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
    themen=['Physik', 'Energie', 'Arbeit', 'Energieerhaltung', 'Leistung', 'Wirkungsgrad',
            'Energiebilanz der Erde', 'Treibhauseffekt', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-statik.html': dict(
+   # In Erprobung, unverlinkt bis nach /lp-pruefung (noindex; Suchindex: UNVERLINKT).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   titel='Leitprogramm Statik — Kraft als Vektor, Resultierende, Haftreibung, Drehmoment, Hebelgesetz, Auflagerkräfte',
+   beschreibung='Leitprogramm zur Statik in sechs Kapiteln — Kraft als Vektor; die resultierende '
+                'Kraft; Kräfte am ruhenden Körper und schiefe Ebene; Drehmoment; Hebelgesetz; '
+                'Auflagerkräfte — mit Erklärclips, laufenden Simulationen mit Aufgaben, '
+                'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Statik', 'Kraft', 'Vektor', 'Resultierende', 'Drehmoment', 'Hebelgesetz',
+           'Auflagerkraft', 'schiefe Ebene', 'Leitprogramm']),
  'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung',

@@ -1,0 +1,140 @@
+% Bewertungspaket zum Gesamttest «Statik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py statik).
+% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (05.10.2026).
+% Aufbau, Auftrag an die KI und Punktarten wie im Leitprogramm Energie, dazu (S) für die Kräfteskizze.
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Statik}
+\renewcommand{\lpteilgebiet}{4.4}
+\renewcommand{\lpfuss}{Bewertungspaket}
+\newcolumntype{P}{>{\centering\arraybackslash}p{10mm}}
+\newenvironment{raster}{\par\smallskip\noindent\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P X@{}}\toprule
+  \small\textsc{Teilschritt} & \small\textsc{P} & \small\textsc{Musterlösung}\\\midrule}{\bottomrule\endtabularx\par}
+\newcommand{\fehler}[1]{\par\smallskip{\small\textcolor{lprot}{\bfseries Typische Fehler:} #1}}
+\newcommand{\E}{\,{\footnotesize\bfseries\color{lpgruen}(E)}}
+\newcommand{\B}{\,{\footnotesize\bfseries(B)}}
+\newcommand{\W}{\,{\footnotesize\bfseries(W)}}
+\newcommand{\Sk}{\,{\footnotesize\bfseries(S)}}
+\newcommand{\A}{\,{\footnotesize\bfseries\color{lpgruen}(A)}}
+\begin{document}
+\lpkopf{Bewertungspaket zum Gesamttest}{}
+
+\begin{lpachtung}{Erst lösen, dann öffnen}
+Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am Ende nur, wie gut das Abschreiben gelingt.
+\end{lpachtung}
+
+\section*{1 · So gehst du vor}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Gesamttest lösen} — vollständig, mit Rechenweg, ohne dieses Paket.
+\item \textbf{Fotografieren oder scannen}, gut lesbar, eine Seite pro Bild. \textbf{Kein Name} auf den Bildern.
+  Handyfotos tragen oft unsichtbar Standort, Zeit und Gerät mit (Metadaten). Lade darum lieber einen Scan oder ein
+  Bildschirmfoto des Fotos hoch, oder entferne vorher die Standortangaben.
+\item \textbf{Bewerten lassen.} Ob du dafür eine KI nutzt und welche, entscheidest du selbst und in eigener Verantwortung —
+  je nachdem, was dir aufgrund deines Alters und deiner persönlichen Situation erlaubt ist (Altersgrenzen und
+  Nutzungsbedingungen des Anbieters, allenfalls Einverständnis deiner Eltern). Lade nur deine Lösung und dieses PDF hoch,
+  keine persönlichen Daten, und füge den Auftrag aus Abschnitt~2 ein. Ohne KI kannst du dich mit Abschnitt~3 selbst bewerten.
+\item \textbf{Rückmeldung prüfen.} Stimmt, was die KI aus deiner Handschrift gelesen hat? Eine KI kann sich irren —
+  im Zweifel gilt das Raster in Abschnitt~3.
+\item \textbf{Gezielt wiederholen} nach Abschnitt~4.
+\end{enumerate}
+
+\needspace{14\baselineskip}
+\section*{2 · Auftrag an die KI}
+\begin{tcolorbox}[colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
+Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Statik» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
+Geh so vor:\par
+1. Schreib zu jeder Aufgabe G1 bis G6 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
+2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
+3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Einheit oder Vorsilbe ($0.12\;\text{m} = 12\;\text{cm}$; $\text{m/s}$ statt $\text{km/h}$, wenn richtig umgerechnet), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen). Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll. Zeilen mit (S) sind Skizzenpunkte: Es zählt, dass die verlangten Kräfte als Pfeile mit Namen und richtiger Richtung eingezeichnet sind; Länge und Schönheit zählen nicht. Werte aus sinnvoll gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% vom Raster abweichen.\par
+4. Begründe jeden Abzug in einem Satz und nenne die Fehlerart (zum Beispiel «Sinus statt Kosinus»). Schreib die Musterlösung nicht ab — zeig mir, wo mein Fehler liegt.\par
+5. Gib zum Schluss eine Tabelle «Aufgabe | Punkte | Begründung», die Gesamtpunktzahl (von 25) und — nach der Selbsteinschätzung in Abschnitt 4 — welches Kapitel des Leitprogramms ich wiederholen soll. Keine Note.\par
+6. Fehlt ein Foto oder ist eine Aufgabe unlesbar, sag es, statt sie zu bewerten.
+\end{tcolorbox}
+
+\needspace{16\baselineskip}
+\section*{3 · Musterlösung und Punkteraster}
+\textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
+richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler) — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
+Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Gleichwertige Wege und Schreibweisen zählen voll.
+In der Spalte P: \textbf{(E)}~= Ergebnispunkt — es zählt das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit
+falscher Einheit gibt es ihn nicht. \textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten);
+steht in einer Weg-Zeile ein Zahlenwert, braucht auch er die Einheit. \textbf{(B)}~= Begründungspunkt — es zählt die fachliche
+Aussage in eigenen Worten, eine Formel ist nicht nötig. \textbf{(S)}~= Skizzenpunkt — die verlangten Kräfte als Pfeile mit Namen
+und richtiger Richtung. Folgewerte aus gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% abweichen.
+«Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
+
+\begin{lpaufgabe}{G1}{Kraft als Vektor}{4 P}
+\begin{raster}
+a) Kraft & 1\B & Eine Kraft verformt einen Körper oder ändert seinen Bewegungszustand; festgelegt durch Betrag, Richtung und Angriffspunkt (beides nötig)\\
+b) Komponenten & 1\E & \(F_x = F \cdot \cos\varphi = 5.0\;\text{kN} \cdot \cos 220^\circ \approx -3.83\;\text{kN}\), \(F_y = F \cdot \sin\varphi \approx -3.21\;\text{kN}\) (beide mit Minus; gleichwertig \(-3830\;\text{N}\), \(-3210\;\text{N}\))\\
+c) \(F_y\) & 1\E & \(F_y = \sqrt{F^2 - F_x^2} = \sqrt{(2.6\;\text{kN})^2 - (1.0\;\text{kN})^2} = 2.4\;\text{kN}\) (auch \(\pm 2.4\;\text{kN}\))\\
+d) zwei Richtungen & 1\B & \(F_y = +2.4\;\text{kN}\) oder \(-2.4\;\text{kN}\): nach rechts oben, \(\varphi \approx 67.4^\circ\), oder nach rechts unten, \(\varphi \approx 292.6^\circ\) (gleichwertig \(-67.4^\circ\)); im Quadrat \(F_y^2\) fällt das Vorzeichen weg, darum passen beide (beide Winkel und Grund nötig)\\
+\end{raster}
+\fehler{b) Sinus und Kosinus vertauscht (\(-3.21\;\text{kN}\) und \(-3.83\;\text{kN}\)) oder ohne Minus: b) 0 \(\to\) 3 von 4\,P. Taschenrechner im Bogenmass (\(4.98\;\text{kN}\), \(0.44\;\text{kN}\)): b) 0 \(\to\) 3 von 4\,P.
+c) \(2.6\;\text{kN} - 1.0\;\text{kN} = 1.6\;\text{kN}\) (subtrahiert): c) 0; d) folgerichtig mit \(\arctan 1.6\) zählt \(\to\) 3 von 4\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Drei Kräfte am Ring}{4 P}
+\begin{raster}
+Ansatz & 1\W & komponentenweise addieren: \(F_{\text{res},x} = \sum F \cdot \cos\varphi\), \(F_{\text{res},y} = \sum F \cdot \sin\varphi\)\\
+a) Komponenten & 1\E & \(F_{\text{res},x} = 300\;\text{N} + 250\;\text{N} \cdot \cos 210^\circ \approx 83.5\;\text{N}\), \(F_{\text{res},y} = 200\;\text{N} + 250\;\text{N} \cdot \sin 210^\circ = 75\;\text{N}\)\\
+b) Resultierende & 1\E & \(F_\text{res} = \sqrt{(83.5\;\text{N})^2 + (75\;\text{N})^2} \approx 112\;\text{N}\), Richtung \(\varphi = \arctan\dfrac{75}{83.5} \approx 41.9^\circ\) (beides nötig)\\
+c) Gleichgewicht & 1\B & gleich gross und entgegengesetzt: \(112\;\text{N}\) unter \(\varphi \approx 221.9^\circ\) (gleichwertig: nach links unten, \(41.9^\circ\) unter der negativen \(x\)-Achse), weil dann \(\vec{F}_\text{res} = \vec{0}\) ist\\
+\end{raster}
+\fehler{Beträge addiert (\(750\;\text{N}\)): Ansatz, a) und b) 0; c) folgerichtig «entgegengesetzt» zählt \(\to\) 1 von 4\,P.
+\(F_3\) ohne Vorzeichen (\(516.5\;\text{N}\), \(325\;\text{N}\)): a) 0; b) folgerichtig \(\approx 610\;\text{N}\), \(32.2^\circ\) und c) folgerichtig zählen \(\to\) 3 von 4\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G3}{Lenkrad, \(r = 0.19\;\text{m}\)}{4 P}
+\begin{raster}
+a) senkrecht & 1\E & \(M = F \cdot r = 30\;\text{N} \cdot 0.19\;\text{m} = 5.7\;\text{Nm}\)\\
+b) schräg & 1\E & \(M = F \cdot l \cdot \sin\alpha = 30\;\text{N} \cdot 0.19\;\text{m} \cdot \sin 50^\circ \approx 4.37\;\text{Nm}\)\\
+c) kleiner & 1\E & \(F = \dfrac{M}{r} = \dfrac{5.7\;\text{Nm}}{0.15\;\text{m}} = 38\;\text{N}\)\\
+d) Lastwagen & 1\B & Grosser Radius heisst grosser Hebelarm: Für das nötige Drehmoment genügt nach \(F = \dfrac{M}{r}\) eine kleinere Kraft\\
+\end{raster}
+\fehler{b) Kosinus statt Sinus (\(3.66\;\text{Nm}\)): b) 0 \(\to\) 3 von 4\,P. c) \(5.7\;\text{Nm} \cdot 0.15\;\text{m}\) (mal statt durch): c) 0 \(\to\) 3 von 4\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G4}{Auto, \(1200\;\text{kg}\), \(\mu_H = 0.35\)}{5 P}
+\begin{raster}
+a) Skizze & 1\Sk & Gewichtskraft senkrecht nach unten (im Schwerpunkt), Normalkraft senkrecht zur Strasse weg von ihr, Haftreibung längs der Strasse hangaufwärts; alle drei mit Namen. Eine eingezeichnete Zerlegung der Gewichtskraft schadet nicht\\
+b) Neigung & 1\E & Grenze \(F_H = \mu_H \cdot F_N\), also \(\tan\alpha = \mu_H\): \(\alpha = \arctan 0.35 \approx 19.3^\circ\)\\
+c) Normalkraft & 1\E & \(F_N = m \cdot g \cdot \cos\alpha = 1200\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot \cos 19.3^\circ \approx 11.1\;\text{kN}\)\\
+c) Haftreibung & 1\E & an der Grenze \(F_R = \mu_H \cdot F_N \approx 3.89\;\text{kN}\) (gleichwertig \(F_R = F_H = m \cdot g \cdot \sin\alpha\))\\
+d) beladen & 1\B & bei derselben Neigung: Hangabtrieb und grösste Haftreibung wachsen beide mit der Masse, die Masse kürzt sich, \(\tan\alpha = \mu_H\)\\
+\end{raster}
+\fehler{a) Normalkraft senkrecht nach oben statt senkrecht zur Strasse, oder Reibung hangabwärts: a) 0 \(\to\) 4 von 5\,P.
+b) \(\arcsin 0.35 \approx 20.5^\circ\): b) 0; c) folgerichtig (\(\approx 11.0\;\text{kN}\), \(\approx 3.86\;\text{kN}\)) zählt \(\to\) 4 von 5\,P.
+c) \(F_N = F_G \approx 11.8\;\text{kN}\) oder \(F_R = \mu_H \cdot F_G \approx 4.12\;\text{kN}\): die betroffene Zeile 0 \(\to\) 4 von 5\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G5}{Malerbrett, \(3\;\text{m}\)}{5 P}
+\begin{raster}
+Ansatz & 1\W & Momente um A (\(F_A\) fällt heraus): \(F_B \cdot 3\;\text{m} = 100\;\text{N} \cdot 0.5\;\text{m} + 150\;\text{N} \cdot 1.5\;\text{m} + 700\;\text{N} \cdot 2\;\text{m}\)\\
+a) \(F_B\) & 1\E & \(F_B = \dfrac{1675\;\text{Nm}}{3\;\text{m}} \approx 558\;\text{N}\)\\
+a) \(F_A\) & 1\E & \(F_A = 100\;\text{N} + 150\;\text{N} + 700\;\text{N} - F_B \approx 392\;\text{N}\) (gleichwertig: Momente um B)\\
+b) Drehachse & 1\B & Die Auflagerkraft dort hat keinen Hebelarm und fällt aus der Momentengleichung heraus; es bleibt eine Gleichung mit einer Unbekannten\\
+c) wie weit & 1\E & \(F_B = 750\;\text{N}\): \(750\;\text{N} \cdot 3\;\text{m} = 50\;\text{Nm} + 225\;\text{Nm} + 700\;\text{N} \cdot x\), \(x \approx 2.82\;\text{m}\) von A\\
+\end{raster}
+\fehler{Eigengewicht des Bretts vergessen (\(F_B \approx 483\;\text{N}\), \(F_A \approx 317\;\text{N}\)): Ansatz und \(F_B\) 0; \(F_A\) und c) folgerichtig (\(x \approx 3.14\;\text{m}\), also bis ans Ende) zählen \(\to\) 3 von 5\,P.
+Eigengewicht bei B statt in der Mitte (\(F_B \approx 633\;\text{N}\)): Ansatz 0; Folgewerte zählen \(\to\) 4 von 5\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G6}{Gleichgewicht}{3 P}
+\begin{raster}
+a) Bedingungen & 1\B & Er bleibt in Ruhe: Die Summe aller Kräfte ist null (\(\sum \vec{F} = \vec{0}\)) \emph{und} die Summe aller Drehmomente ist null (\(\sum M = 0\)) — beide nötig\\
+b) Stab & 1\B & Nein: Die Kräfte heben sich auf (\(\sum \vec{F} = \vec{0}\), er verschiebt sich nicht), aber sie greifen an verschiedenen Enden an und drehen beide gleich herum: \(\sum M \ne 0\), der Stab beginnt sich zu drehen\\
+c) Wippe & 1\E & \(m_1 \cdot r_1 = m_2 \cdot r_2\): \(r_2 = \dfrac{25\;\text{kg} \cdot 1.6\;\text{m}}{40\;\text{kg}} = 1.0\;\text{m}\)\\
+\end{raster}
+\fehler{b) «Ja, die Kräfte heben sich auf» ohne Momente: b) 0 \(\to\) 2 von 3\,P. c) umgekehrt (\(2.56\;\text{m}\)): c) 0 \(\to\) 2 von 3\,P.}
+\end{lpaufgabe}
+
+\needspace{14\baselineskip}
+\section*{4 · Selbsteinschätzung}
+\begin{tabularx}{\linewidth}{@{}l X@{}}\toprule
+22 – 25 P & Die geprüften Teile sitzen. Wo du Punkte verloren hast: das Kapitel dieser Aufgabe nochmals (Zuordnung unten).\\
+17 – 21 P & Den schwächsten Teil nochmals: Simulation und Übungen des Kapitels, in dem du die meisten Punkte verloren hast.\\
+11 – 16 P & Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.\\
+0 – 10 P & Zurück zu Kapitel 1 und von dort der Reihe nach weiter.\\\midrule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche): G1 $\to$ Kapitel 1 (K1) · G2 $\to$ Kapitel 2 (K4) · G3 $\to$ Kapitel 4 (K2) · G4 $\to$ Kapitel 3 (K3, K5) · G5 $\to$ Kapitel 6 (K5) · G6 $\to$ Kapitel 5, 6 (K5)}\\\bottomrule
+\end{tabularx}
+\end{document}
