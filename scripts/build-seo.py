@@ -208,6 +208,16 @@ SEITEN = {
                 'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
    themen=['Physik', 'Statik', 'Kraft', 'Vektor', 'Resultierende', 'Drehmoment', 'Hebelgesetz',
            'Auflagerkraft', 'schiefe Ebene', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-hydrostatik.html': dict(
+   # In Erprobung, unverlinkt bis nach /lp-pruefung (noindex; Suchindex: UNVERLINKT).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   titel='Leitprogramm Hydrostatik — Druck, Schweredruck, Luftdruck, Pascal, Auftrieb, Schwimmen',
+   beschreibung='Leitprogramm zur Hydrostatik in sechs Kapiteln — Druck und Druckeinheiten; '
+                'Schweredruck; Luftdruck; Pascal’sches Gesetz und hydraulische Presse; Auftrieb nach '
+                'Archimedes; Schwimmen, Schweben, Sinken — mit Erklärclips, laufenden Simulationen mit '
+                'Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Hydrostatik', 'Druck', 'Schweredruck', 'Luftdruck', 'Pascal', 'Hydraulik',
+           'Auftrieb', 'Archimedes', 'Schwimmen', 'Leitprogramm']),
  'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung',
