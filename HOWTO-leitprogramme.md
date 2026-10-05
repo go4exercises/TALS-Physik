@@ -967,6 +967,23 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
 - **Fragen eines Clips beginnen verschieden:** `pruef-fragen.mjs` erkennt eine offene Frage an den
   ersten 20 Zeichen ihres Texts. Zwei Fragen mit gleichem Anfang («Ein Wagen fährt reib…») lassen
   den Durchlauf-Test (H) die falsche Antwort klicken.
+- **Zustand nach Reglerbewegung** (Statik 05.10.2026): Jede Meldung und jeder Pfeil, der zu einem
+  Lauf gehört («Die Kiste rutscht», Gleitreibung), verschwindet, sobald ein Regler bewegt wird — der
+  Rücksetzer der Simulation setzt *alle* Laufzustände zurück, nicht nur Zeit und Weg.
+- **Drehsinn und Richtung physikalisch prüfen:** Ein Schlüssel, der im Uhrzeigersinn dreht, zieht ein
+  Rechtsgewinde an; «lösen» heisst gegen den Uhrzeigersinn. Bild und Wort müssen dasselbe meinen.
+- **Bezug im Merksatz:** «Gleich gross werden *sie*» zeigte auf Hangabtrieb und Normalkraft statt auf
+  Hangabtrieb und grösste Haftreibung. Bei zwei Grössen im Satz das Paar ausschreiben.
+- **Ein Gerät, eine Einordnung:** Die Brechstange war im Clip einarmig, in der Aufgabe zweiarmig.
+  Beispiele für Begriffe (einarmig, zweiarmig) nur dort nennen, wo sie eindeutig sind.
+- **Ergebnis erst nach der Rechnung im Bild:** Eine Simulationsaufnahme mit Endwerten (Auflagerkräfte,
+  Gleichgewichtsabstand) erscheint erst, wenn der Ton das Ergebnis sagt — nicht beim Stellen der Frage.
+- **Rückmeldungen mit Formeln** («F = M / r», «cos 90°») brauchen `rueck_sprich`, sonst liest die
+  Stimme «F gleich M R».
+- **Zufallswerte je Gegenstand:** Eine Liste für alle Werkzeuge erzeugt 2000 N Handkraft oder einen
+  Schlüssel von 2.7 m. Wertebereiche an den Gegenstand im Text binden.
+- **Querverweise «nicht hier»** dürfen nicht im Kreis zeigen (Statik verwies Gleitreibung an das
+  Leitprogramm Dynamik, das sie seinerseits auslagert): auf die Stelle verweisen, die den Stoff wirklich hat.
 
 **Gesamttest und Bewertungspaket**
 - Jedes Kapitelziel hat eine Aufgabe; kein Modell aus Selbsttest oder Übung wiederholt.
@@ -979,6 +996,8 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   = Aufgabe 4c). Rückwärts fragen, am gegebenen Diagramm ablesen lassen oder begründen lassen.
 - Jede Rasterzeile passt zu ihrer Art: Eine Skizze ist kein Begründungspunkt (B), und (B) nur, wo die
   Aufgabe «Begründe» sagt.
+- Ein Fehler, ein Abzug — auch über ähnliche Fälle gleich: Zwei Varianten desselben Fehlers (Eigengewicht
+  vergessen, Eigengewicht am falschen Ort) kosten gleich viel, und die Folgewerte stehen bei beiden.
 - Datenschutz: kein Name, keine Standortdaten im Foto.
 
 **Zeit:** geschätzt aus den Teilen, nicht aus der Planung übernommen (§3).

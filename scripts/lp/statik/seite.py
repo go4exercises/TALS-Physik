@@ -711,8 +711,8 @@ k0 = '''
         <p>Rückwärts liefert die Umkehrfunktion den Winkel, etwa \\(\\alpha = \\arctan 0.5 \\approx 26.6^\\circ\\) (Taste \\(\\tan^{-1}\\)). Der Taschenrechner muss auf Grad stehen (DEG), nicht auf Bogenmass (RAD).</p>
       </div>
 ''' + test('t0', 'Vortest', 10, [
-    ('0a', 2, r'Wie gross ist die Gewichtskraft auf einen Rucksack von \(12\;\text{kg}\)?',
-     r'<p>\(F_G = m \cdot g\) \(= 12\;\text{kg} \cdot 9.81\;\text{m/s}^2\) \(\approx 118\;\text{N}\).</p><p class="komm">Falsch? <a href="leitprogramm-dynamik.html#k3">Leitprogramm Dynamik, Kapitel 3</a></p>', ''),
+    ('0a', 2, r'Wie gross ist die Gewichtskraft auf einen Rucksack von \(15\;\text{kg}\)?',
+     r'<p>\(F_G = m \cdot g\) \(= 15\;\text{kg} \cdot 9.81\;\text{m/s}^2\) \(\approx 147\;\text{N}\).</p><p class="komm">Falsch? <a href="leitprogramm-dynamik.html#k3">Leitprogramm Dynamik, Kapitel 3</a></p>', ''),
     ('0b', 3, r'Ein rechtwinkliges Dreieck hat die Hypotenuse \(10\;\text{cm}\) und den Winkel \(\alpha = 35^\circ\). Wie lang sind die Ankathete und die Gegenkathete von \(\alpha\)?',
      r'<p>Ankathete: \(10\;\text{cm} \cdot \cos 35^\circ\) \(\approx 8.19\;\text{cm}\). Gegenkathete: \(10\;\text{cm} \cdot \sin 35^\circ\) \(\approx 5.74\;\text{cm}\).</p><p class="komm">Falsch? Taschenrechner auf DEG? Sonst den Kasten oben nochmals lesen.</p>', ''),
     ('0c', 3, r'Stelle \(M = F \cdot r\) nach \(r\) um, \(F_B \cdot L = F \cdot x\) nach \(x\) und \(\tan\alpha = \mu_H\) nach \(\alpha\).',
@@ -734,7 +734,7 @@ fest1 = r'''      <div class="festhalten">
           <p>Eine <b>Kraft</b> verformt einen Körper oder ändert seinen Bewegungszustand. Einheit: das Newton, \(1\;\text{N} = 1\;\text{kg} \cdot \text{m/s}^2\). Eine Kraft ist ein <b>Vektor</b>: Sie hat einen Betrag, eine Richtung und einen Angriffspunkt. Man zeichnet sie als Pfeil; die Gerade durch den Pfeil heisst <b>Wirkungslinie</b>. Längs der Wirkungslinie darf man eine Kraft an einem starren Körper verschieben, quer dazu nicht.</p>
           <p>Mit dem Winkel \(\varphi\) zur positiven \(x\)-Achse (gegen den Uhrzeigersinn) zerlegt man sie in <b>Komponenten</b>; rückwärts gibt Pythagoras den Betrag:</p>
           <p>\[ F_x = F \cdot \cos\varphi \qquad F_y = F \cdot \sin\varphi \qquad F = \sqrt{F_x^2 + F_y^2} \]</p>
-          <p>Die Vorzeichen ergeben sich von selbst: nach links \(F_x < 0\), nach unten \(F_y < 0\). Den Winkel liefert \(\tan\varphi = \dfrac{F_y}{F_x}\) — der Taschenrechner gibt aber nur Winkel zwischen \(-90^\circ\) und \(90^\circ\); zeigt die Kraft nach links, zählt man \(180^\circ\) dazu.</p>
+          <p>Die Vorzeichen ergeben sich von selbst: nach links \(F_x < 0\), nach unten \(F_y < 0\). Den Winkel liefert \(\tan\varphi = \dfrac{F_y}{F_x}\) — der Taschenrechner gibt aber nur Winkel zwischen \(-90^\circ\) und \(90^\circ\). Darum zuerst skizzieren: Zeigt die Kraft nach links, zählt man \(180^\circ\) dazu, zeigt sie nach rechts unten, \(360^\circ\).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -743,8 +743,8 @@ fest1 = r'''      <div class="festhalten">
         </div>
       </div>'''
 auf1 = test('t1', 'Aufgaben · Kapitel 1', 12, [
-    ('1a', 3, r'Was ist eine Kraft? Nenne ihre zwei Wirkungen und die drei Angaben, die eine Kraft festlegen. Begründe am Beispiel einer Tür, warum der Betrag allein nicht genügt.',
-     r'<p>Eine Kraft verformt einen Körper oder ändert seinen Bewegungszustand (schneller, langsamer, andere Richtung). Festgelegt ist sie durch Betrag, Richtung und Angriffspunkt.</p><p>Tür: Dieselben \(20\;\text{N}\) öffnen die Tür, wenn man am Griff senkrecht zur Tür drückt. Drückt man in Richtung der Angeln oder direkt neben den Angeln, bewegt sie sich kaum — Richtung und Angriffspunkt entscheiden mit.</p>', ''),
+    ('1a', 3, r'Was ist eine Kraft? Nenne ihre zwei Wirkungen und die drei Angaben, die eine Kraft festlegen. Begründe am Beispiel eines Fussballs, warum der Betrag allein nicht genügt.',
+     r'<p>Eine Kraft verformt einen Körper oder ändert seinen Bewegungszustand (schneller, langsamer, andere Richtung). Festgelegt ist sie durch Betrag, Richtung und Angriffspunkt.</p><p>Fussball: Derselbe kräftige Stoss schickt den Ball nach vorn oder zur Seite, je nach Richtung. Trifft er den Ball mittig, fliegt er gerade; trifft er ihn seitlich, dreht er sich zusätzlich — Richtung und Angriffspunkt entscheiden mit.</p>', ''),
     ('1b', 3, r'Ein Kind zieht einen Schlitten an einer Schnur mit \(90\;\text{N}\); die Schnur steigt unter \(25^\circ\) zur Waagrechten an. Wie gross sind die waagrechte und die senkrechte Komponente? Was bewirkt jede?',
      r'<p>\(F_x = F \cdot \cos\varphi\) \(= 90\;\text{N} \cdot \cos 25^\circ\) \(\approx 81.6\;\text{N}\), \(F_y = F \cdot \sin\varphi\) \(= 90\;\text{N} \cdot \sin 25^\circ\) \(\approx 38.0\;\text{N}\).</p><p>Die waagrechte Komponente zieht den Schlitten vorwärts, die senkrechte hebt ihn ein wenig an und entlastet den Boden.</p>', ''),
     ('1c', 3, r'Das Bild zeigt eine Kraft im Gitter (ein Feld \(10\;\text{N}\)). Lies ihre Komponenten ab und berechne Betrag und Richtungswinkel \(\varphi\).',
@@ -775,11 +775,11 @@ fest2 = r'''      <div class="festhalten">
           <p>Greifen mehrere Kräfte am selben Punkt an, wirken sie zusammen wie eine einzige Kraft, die <b>Resultierende</b> \(\vec{F}_\text{res}\) (die Themenseite schreibt auch \(\vec{F}_R\); hier heisst \(F_R\) die Reibung). Sie ist die Vektorsumme:</p>
           <p>\[ \vec{F}_\text{res} = \vec{F}_1 + \vec{F}_2 + \ldots \qquad F_{\text{res},x} = \sum F_x \qquad F_{\text{res},y} = \sum F_y \]</p>
           <p><b>Grafisch:</b> die Pfeile Spitze an Fuss aneinanderhängen; der Pfeil vom ersten Fuss zur letzten Spitze ist \(\vec{F}_\text{res}\). Bei zwei Kräften gibt das Kräfteparallelogramm dasselbe. <b>Rechnerisch:</b> Komponenten addieren, dann \(F_\text{res} = \sqrt{F_{\text{res},x}^2 + F_{\text{res},y}^2}\).</p>
-          <p>Nur gleichgerichtete Beträge darf man addieren, entgegengesetzte subtrahieren. Ist \(\vec{F}_\text{res} = \vec{0}\), schliessen sich die Pfeile zu einem Krafteck: Der Körper bleibt in Ruhe — das <b>Kräftegleichgewicht</b>.</p>
+          <p>Nur gleichgerichtete Beträge darf man addieren, entgegengesetzte subtrahieren. Ist \(\vec{F}_\text{res} = \vec{0}\), schliessen sich die Pfeile zu einem Krafteck: Ein ruhender Körper bleibt in Ruhe — das <b>Kräftegleichgewicht</b>.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>Beträge addiert, obwohl die Kräfte verschieden gerichtet sind: \(50\;\text{N}\) nach Norden und \(50\;\text{N}\) nach Osten ergeben rund \(70.7\;\text{N}\) nach Nordosten, nicht \(100\;\text{N}\).</p>
+          <p>Beträge addiert, obwohl die Kräfte verschieden gerichtet sind: \(90\;\text{N}\) nach Norden und \(40\;\text{N}\) nach Osten ergeben rund \(98.5\;\text{N}\), nicht \(130\;\text{N}\).</p>
           <p>Pythagoras mit den Beträgen gerechnet, obwohl die Kräfte nicht rechtwinklig stehen: erst die Komponenten addieren.</p>
         </div>
       </div>'''
@@ -802,7 +802,7 @@ k2 = kapitel(2, 'resultierende', 'Die resultierende Kraft', 'K4', 40,
     auf2, f'<a href="{TS}#resultierende">Themenseite 4.4, Resultierende</a> · <a href="{TS}#punkt">Kräftegleichgewicht am Punkt</a>')
 
 # ------------------------------------------------------------------ Kapitel 3
-sim3 = figur_anim('sim3', 'Kiste auf einer Rampe, die sich auf Knopfdruck neigt; Gewichtskraft, Normalkraft, Haftreibung und die Komponenten der Gewichtskraft; darunter die Kräfte über dem Neigungswinkel', '-4 -4 308 346',
+sim3 = figur_anim('sim3', 'Kiste auf einer Rampe, die sich auf Knopfdruck neigt; Gewichtskraft, Normalkraft, Haftreibung und die Komponenten der Gewichtskraft; darunter die Kräfte über dem Neigungswinkel', '-4 -4 308 368',
     '        <div class="reglerfeld">\n          '
     + regler('s3', 'm', '<i>m</i> Masse', 5, 40, 1, 10, 'kg', 0) + '\n          '
     + regler('s3', 'mu', '<i>μ</i><sub>H</sub> Haftreibung', 0.1, 1, 0.05, 0.4, '', 2) + '\n          '
@@ -822,7 +822,7 @@ fest3 = r'''      <div class="festhalten">
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
           <p>Auf der schiefen Ebene \(F_N = F_G\) gesetzt: Das gilt nur waagrecht. Schief ist \(F_N = F_G \cdot \cos\alpha\), kleiner als \(F_G\).</p>
-          <p>Die Haftreibung immer gleich \(\mu_H \cdot F_N\) gesetzt: Das ist nur ihr Höchstwert. Eine ruhende Kiste, an der niemand zieht, hat gar keine Reibung.</p>
+          <p>Die Haftreibung immer gleich \(\mu_H \cdot F_N\) gesetzt: Das ist nur ihr Höchstwert. Eine Kiste auf waagrechtem Boden, an der niemand zieht, hat gar keine Reibung.</p>
         </div>
       </div>'''
 auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
@@ -885,8 +885,8 @@ k4 = kapitel(4, 'drehmoment', 'Das Drehmoment', 'K2', 40,
 # ------------------------------------------------------------------ Kapitel 5
 sim5 = figur_anim('sim5', 'Wippe mit zwei Personen, zuerst waagrecht gehalten; auf Knopfdruck losgelassen, kippt sie zur Seite des grösseren Drehmoments oder bleibt waagrecht; darunter Balken für beide Drehmomente', '-4 -4 308 238',
     '        <div class="reglerfeld">\n          '
-    + regler('s5', 'm1', '<i>m</i>₁ links', 10, 60, 1, 40, 'kg', 0) + '\n          '
-    + regler('s5', 'r1', '<i>r</i>₁ links', 0.5, 2, 0.1, 1.2, 'm', 1) + '\n          '
+    + regler('s5', 'm1', '<i>m</i>₁ links', 10, 60, 1, 35, 'kg', 0) + '\n          '
+    + regler('s5', 'r1', '<i>r</i>₁ links', 0.5, 2, 0.1, 1.4, 'm', 1) + '\n          '
     + regler('s5', 'm2', '<i>m</i>₂ rechts', 10, 60, 1, 20, 'kg', 0) + '\n          '
     + regler('s5', 'r2', '<i>r</i>₂ rechts', 0.5, 2, 0.1, 1.5, 'm', 1) + '\n        </div>')
 fest5 = r'''      <div class="festhalten">
@@ -899,7 +899,7 @@ fest5 = r'''      <div class="festhalten">
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>Abstand und Masse im gleichen statt im umgekehrten Verhältnis: Das schwerere Kind sitzt <em>näher</em> an der Achse. \(30\;\text{kg}\) bei \(1.0\;\text{m}\) gleichen \(20\;\text{kg}\) bei \(1.5\;\text{m}\) aus, nicht bei \(0.67\;\text{m}\).</p>
+          <p>Abstand und Masse im gleichen statt im umgekehrten Verhältnis: Das schwerere Kind sitzt <em>näher</em> an der Achse. \(45\;\text{kg}\) bei \(0.8\;\text{m}\) gleichen \(30\;\text{kg}\) bei \(1.2\;\text{m}\) aus, nicht bei \(0.53\;\text{m}\).</p>
           <p>Bei zwei Lasten auf einer Seite die Massen addiert und mit einem einzigen Abstand gerechnet: Jede Last hat ihren eigenen Hebelarm.</p>
         </div>
       </div>'''
@@ -934,11 +934,11 @@ fest6 = r'''      <div class="festhalten">
           <p>Ein Körper ist im <b>statischen Gleichgewicht</b>, wenn er in Ruhe bleibt: Er verschiebt sich nicht und beginnt sich nicht zu drehen. Dafür müssen zwei Bedingungen zugleich gelten:</p>
           <p>\[ \sum \vec{F} = \vec{0} \qquad \text{und} \qquad \sum M = 0 \]</p>
           <p>Die Kräftebedingung zerfällt in \(\sum F_x = 0\) und \(\sum F_y = 0\). Die Drehachse für die Momente darf man frei wählen — geschickt dort, wo eine unbekannte Kraft angreift, dann fällt sie heraus.</p>
-          <p><b>Balken auf zwei Stützen</b> (Stützweite \(L\), Last \(F\) im Abstand \(x\) von A): Momente um A geben \(F_B \cdot L = F \cdot x\), die Kräfte \(F_A = F - F_B\). Das Eigengewicht eines gleichmässigen Balkens greift in seiner Mitte an. Die nähere Stütze trägt mehr; zusammen tragen beide immer die ganze Last.</p>
+          <p><b>Balken auf zwei Stützen</b> (Stützweite \(L\), Last \(F\) im Abstand \(x\) von A): Momente um A geben \(F_B \cdot L = F \cdot x\), die Kräfte \(F_A = F - F_B\). Das Eigengewicht eines gleichmässigen Balkens greift in seiner Mitte an. Die nähere Stütze trägt mehr; zusammen tragen beide immer die ganze Last. Eine Stütze kann nur drücken: Ergibt die Rechnung eine negative Auflagerkraft, müsste die Stütze ziehen — ohne Befestigung kippt der Balken.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>Die Stützen vertauscht: Steht die Last nahe bei A, trägt A den grösseren Teil. Über A trägt A alles.</p>
+          <p>Die Stützen vertauscht: Steht die Last nahe bei A, trägt A den grösseren Teil. Ohne Eigengewicht trägt A alles, wenn die Last genau über A steht.</p>
           <p>Nur eine Bedingung geprüft: \(\sum \vec{F} = \vec{0}\) allein reicht nicht. Zwei gleich grosse, entgegengesetzte Kräfte an verschiedenen Stellen eines Lenkrads drehen es, obwohl ihre Summe null ist.</p>
         </div>
       </div>'''
@@ -984,7 +984,7 @@ gt = f'''
             <tr><td>11 – 16 P</td><td>Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.</td></tr>
             <tr><td>0 – 10 P</td><td>Zurück zu Kapitel 1 und von dort der Reihe nach weiter.</td></tr>
           </table>
-          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a> → K1 · G2 → <a href="#k2">2</a> → K4 · G3 → <a href="#k4">4</a> → K2 · G4 → <a href="#k3">3</a> → K3, K5 · G5 → <a href="#k6">6</a> → K5 · G6 → <a href="#k5">5</a>, <a href="#k6">6</a> → K5</p>
+          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a> → K1 · G2 → <a href="#k2">2</a>, <a href="#k3">3</a> → K4, K3 · G3 → <a href="#k4">4</a> → K2 · G4 → <a href="#k3">3</a> → K3, K5 · G5 → <a href="#k6">6</a> → K5 · G6 → <a href="#k5">5</a>, <a href="#k6">6</a> → K5, K2</p>
         </div>
       </div>
     </section>'''
@@ -994,7 +994,7 @@ weiter = rf'''
       <h2 id="weiter-titel">Nicht in diesem Leitprogramm</h2>
       <ul>
         <li>Die allgemeinen Formeln für die Seilkräfte bei ungleichen Winkeln, \(S_1 = F_G \cdot \dfrac{{\cos\beta}}{{\sin(\alpha + \beta)}}\) → <a href="{TS}#punkt">Themenseite 4.4, Last an zwei Seilen</a></li>
-        <li>Gleitreibung und die Bewegung nach dem Rutschen → <a href="leitprogramm-dynamik.html">Leitprogramm Dynamik</a>, <a href="../themen/p4-2-dynamik.html">Themenseite 4.2</a></li>
+        <li>Gleitreibung und die Bewegung nach dem Rutschen → <a href="../themen/p4-2-dynamik.html#reibung">Themenseite 4.2, Reibung</a></li>
       </ul>
     </section>'''
 
@@ -1016,8 +1016,8 @@ oben = '''<div id="nav-root"></div>
           Kräfte) und anhand verschiedener Beispiele auf der horizontalen und schiefen Ebene aufzeigen
 
      Kompetenzmatrix (Hilfsmittel überall Taschenrechner und Formelsammlung):
-       K1 → Kap. 1 · Aufg. 1a–1d · G1     K2 → Kap. 4, 5 · Aufg. 4a–4d · G3
-       K3 → Kap. 3 · Aufg. 3a–3d · G4     K4 → Kap. 2 · Aufg. 2a–2d · G2
+       K1 → Kap. 1 · Aufg. 1a–1d · G1     K2 → Kap. 4, 5 · Aufg. 4a–4d · G3 G6
+       K3 → Kap. 3 · Aufg. 3a–3d · G2 G4  K4 → Kap. 2 · Aufg. 2a–2d · G2
        K5 → Kap. 2 (Punkt), 3 (schiefe Ebene), 5, 6 · Aufg. 2c, 3b, 5a–6d · G4 G5 G6
      Winkelfunktionen stehen in keiner Vorwissensseite; Kapitel 0 bringt sie in einem Kasten.
      Resultierende heisst hier F_res (Themenseite auch F_R), weil F_R die Reibung ist.

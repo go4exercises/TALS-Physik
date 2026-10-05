@@ -1,14 +1,17 @@
 % Gesamttest «Statik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py statik).
 % Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (05.10.2026).
-% Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen und Mini-Checks: G1 rückwärts
-% (aus Betrag und einer Komponente), G2 mit drei Kräften in Winkeln und der Kraft, die das
-% Gleichgewicht herstellt, G3 am Lenkrad, G4 rückwärts vom Rutschen zur Neigung, G5 mit zwei
-% Lasten, Eigengewicht und der Frage, wie weit der Maler gehen darf, G6 als Begründung — HOWTO §9.
+% Fassung 2 nach /lp-pruefung (05.10.2026): Jede Aufgabe fragt anders als Aufgaben, Übungen,
+% Kontrollfragen und Leisten — G1 rückwärts (aus Betrag und einer Komponente), G2 alle Kräfte an
+% einem gezogenen Schlitten mit Resultierender, G3 Lenkrad mit zwei Händen (Momente addieren) und
+% Anwendungen, G4 Haftreibung unterhalb der Grenze, G5 überstehendes Brett mit Kippen, G6 als
+% Erklärung und Schubkarre rückwärts (Lastarm aus der höchsten Kraft) — HOWTO §9.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Statik}
 \renewcommand{\lpteilgebiet}{4.4}
 \renewcommand{\lpfuss}{Gesamttest · 25 Punkte}
+% Freies Feld für Skizzen (ohne Linien)
+\newcommand{\skizzenfeld}[1]{\par\vspace{4pt}\noindent\begin{tikzpicture}\draw[lplinie,dashed] (0,0) rectangle (\linewidth,#1);\end{tikzpicture}\par}
 \begin{document}
 \lpkopf{Gesamttest}{%
   \vspace{4pt}\noindent\begin{tabularx}{\linewidth}{@{}X X@{}}
@@ -23,26 +26,28 @@ Winkel \(\varphi\) zählen von der positiven \(x\)-Achse aus gegen den Uhrzeiger
 Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem \emph{Bewertungspaket} bewerten lassen.
 \end{lpinfo}
 
-\lpteil{Teil A · Kräfte}{Kapitel 1 und 2 · 8 Punkte}
+\lpteil{Teil A · Kräfte}{Kapitel 1, 2 und 3 · 8 Punkte}
 
 \begin{lpaufgabe}{G1}{Kraft als Vektor}{4 P}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Was kann eine Kraft bewirken? Welche drei Angaben legen eine Kraft fest?
+\item Erkläre, warum eine Kraft ein Vektor ist und sich nicht durch eine Zahl allein beschreiben lässt.
 \item Eine Kraft von \(5.0\;\text{kN}\) zeigt unter \(\varphi = 220^\circ\). Berechne \(F_x\) und \(F_y\) mit Vorzeichen.
 \item Eine andere Kraft hat den Betrag \(2.6\;\text{kN}\) und die waagrechte Komponente \(F_x = 1.0\;\text{kN}\). Wie gross ist ihre senkrechte Komponente?
-\item Zu c): Es gibt zwei Richtungen, in die diese Kraft zeigen kann. Gib beide Winkel \(\varphi\) an und begründe, warum es zwei sind.
+\item Zu c): Die Kraft kann in zwei Richtungen zeigen. Gib beide Winkel \(\varphi\) an und begründe, warum es zwei sind.
 \end{enumerate}
-\lpplatz{7}
+\lpplatz{11}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G2}{Drei Kräfte am Ring}{4 P}
-Drei Personen ziehen an einem Ring: \(F_1 = 300\;\text{N}\) bei \(0^\circ\), \(F_2 = 200\;\text{N}\) bei \(90^\circ\), \(F_3 = 250\;\text{N}\) bei \(210^\circ\).
+\begin{lpaufgabe}{G2}{Schlitten}{4 P}
+Ein Schlitten (\(F_G = 400\;\text{N}\)) liegt auf waagrechtem Schnee. Ein Kind zieht am Seil mit \(150\;\text{N}\) unter \(30^\circ\) zur Waagrechten nach vorn oben. Der Schnee drückt mit der Normalkraft \(325\;\text{N}\), die Reibung bremst mit \(100\;\text{N}\).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Berechne die Komponenten der Resultierenden, \(F_{\text{res},x}\) und \(F_{\text{res},y}\).
-\item Wie gross ist die Resultierende, und in welche Richtung zeigt sie?
-\item Eine vierte Person soll den Ring im Gleichgewicht halten. Mit welcher Kraft und in welche Richtung muss sie ziehen? Begründe.
+\item Skizziere den Schlitten mit allen vier Kräften als Pfeile, mit Namen.
+\item Berechne die Komponenten der Resultierenden, \(F_{\text{res},x}\) (vorwärts positiv) und \(F_{\text{res},y}\) (nach oben positiv).
+\item Wie gross ist die Resultierende, und wohin zeigt sie?
+\item Begründe, warum die Normalkraft kleiner ist als die Gewichtskraft.
 \end{enumerate}
-\lpplatz{8}
+\skizzenfeld{3.2cm}
+\lpplatz{5}
 \end{lpaufgabe}
 
 \lpteil{Teil B · Drehmoment}{Kapitel 4 · 4 Punkte}
@@ -50,10 +55,10 @@ Drei Personen ziehen an einem Ring: \(F_1 = 300\;\text{N}\) bei \(0^\circ\), \(F
 \begin{lpaufgabe}{G3}{Lenkrad}{4 P}
 Ein Lenkrad hat den Radius \(0.19\;\text{m}\).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Eine Hand zieht am Rand mit \(30\;\text{N}\), senkrecht zum Radius. Wie gross ist das Drehmoment?
-\item Dieselbe Kraft greift am selben Punkt an, steht aber unter \(50^\circ\) zum Radius. Wie gross ist das Drehmoment jetzt?
-\item Ein Sportlenkrad hat nur \(0.15\;\text{m}\) Radius. Welche Kraft (senkrecht zum Radius) braucht es für dasselbe Drehmoment wie in a)?
-\item Früher hatten Lastwagen ohne Servolenkung sehr grosse Lenkräder. Begründe mit dem Drehmoment.
+\item Nenne zwei weitere Anwendungen, bei denen man ein Drehmoment nutzt, und erkläre an einer davon, wie Kraft und Hebelarm zusammenwirken.
+\item Beim Einparken zieht die linke Hand am Rand mit \(20\;\text{N}\) nach unten, die rechte drückt am gegenüberliegenden Rand mit \(20\;\text{N}\) nach oben, beide senkrecht zum Radius. Wie gross ist das gesamte Drehmoment?
+\item Die rechte Hand lässt los. Welche Kraft braucht die linke allein, senkrecht zum Radius, für dasselbe Drehmoment?
+\item Die linke Hand kann nur unter \(40^\circ\) zum Radius ziehen. Welche Kraft braucht sie jetzt?
 \end{enumerate}
 \lpplatz{7}
 \end{lpaufgabe}
@@ -61,42 +66,43 @@ Ein Lenkrad hat den Radius \(0.19\;\text{m}\).
 \lpteil{Teil C · Ruhe und Gleichgewicht}{Kapitel 3, 5 und 6 · 13 Punkte}
 
 \begin{lpaufgabe}{G4}{Auto auf Schnee}{5 P}
-Ein Auto (\(1200\;\text{kg}\)) steht mit angezogener Handbremse an einer verschneiten, geneigten Strasse. Die Haftreibungszahl zwischen Reifen und Schnee ist \(\mu_H = 0.35\).
+Ein Auto (\(1200\;\text{kg}\)) steht mit blockierten Rädern an einer verschneiten Strasse mit \(13^\circ\) Neigung. Die Haftreibungszahl zwischen Reifen und Schnee ist \(\mu_H = 0.35\).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Skizziere das Auto an der Steigung und zeichne alle Kräfte ein, die auf das Auto wirken, mit Namen und Richtung.
-\item Ab welcher Neigung der Strasse beginnt das Auto zu rutschen?
-\item Wie gross sind bei dieser Neigung die Normalkraft und die Haftreibung?
-\item Ein voll beladenes Auto (\(1500\;\text{kg}\)) steht auf derselben Strasse. Rutscht es bei einer kleineren, derselben oder einer grösseren Neigung? Begründe.
+\item Skizziere das Auto an der Steigung mit allen Kräften, die auf das Auto wirken, mit Namen und Richtung.
+\item Wie gross sind die Normalkraft und die Haftreibung, die das Auto hält?
+\item Bis zu welcher Neigung bleibt das Auto stehen?
+\item Begründe, warum die Haftreibung in b) nicht \(\mu_H \cdot F_N\) ist.
 \end{enumerate}
-\lpplatz{9}
+\skizzenfeld{3.2cm}
+\lpplatz{12}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G5}{Malerbrett}{5 P}
-Ein \(3\;\text{m}\) langes Brett liegt an seinen Enden auf zwei Böcken A (bei \(0\;\text{m}\)) und B (bei \(3\;\text{m}\)). Das Brett wiegt \(150\;\text{N}\), sein Schwerpunkt liegt in der Mitte. Ein Farbtopf (\(100\;\text{N}\)) steht bei \(0.5\;\text{m}\), ein Maler (\(700\;\text{N}\)) bei \(2\;\text{m}\), beide von A aus gemessen.\par\smallskip
-\begin{center}\begin{tikzpicture}[x=3.2cm,y=1cm,>=latex]
-\fill[lplinie!60] (0,0) rectangle (3,0.18); \draw (0,0) rectangle (3,0.18);
+\begin{lpaufgabe}{G5}{Überstehendes Brett}{5 P}
+Ein \(4\;\text{m}\) langes Brett (\(200\;\text{N}\), Schwerpunkt in der Mitte) liegt auf zwei Stützen A bei \(0\;\text{m}\) und B bei \(3\;\text{m}\); der letzte Meter ragt über B hinaus. Ein Kind (\(300\;\text{N}\)) geht von A aus über das Brett.\par\smallskip
+\begin{center}\begin{tikzpicture}[x=2.6cm,y=1cm,>=latex]
+\fill[lplinie!60] (0,0) rectangle (4,0.18); \draw (0,0) rectangle (4,0.18);
 \fill[lpgrau] (0,0) -- (-0.07,-0.45) -- (0.07,-0.45) -- cycle; \fill[lpgrau] (3,0) -- (2.93,-0.45) -- (3.07,-0.45) -- cycle;
 \node[below] at (0,-0.45) {A}; \node[below] at (3,-0.45) {B};
-\draw[->,very thick] (0.5,1.0) -- (0.5,0.22) node[pos=0,above] {\small \(100\;\text{N}\)};
-\draw[->,very thick] (2,1.4) -- (2,0.22) node[pos=0,above] {\small \(700\;\text{N}\)};
-\draw[->,thick,dashed] (1.5,0.9) -- (1.5,0.22) node[pos=0,above] {\small \(150\;\text{N}\)};
+\draw[->,thick,dashed] (2,0.9) -- (2,0.22) node[pos=0,above] {\small \(200\;\text{N}\)};
+\draw[->,very thick] (1,1.3) -- (1,0.22) node[pos=0,above] {\small Kind \(300\;\text{N}\)};
 \draw[|<->|] (0,-1.1) -- (3,-1.1) node[midway,fill=white] {\small \(3\;\text{m}\)};
+\draw[|<->|] (3,-1.1) -- (4,-1.1) node[midway,fill=white] {\small \(1\;\text{m}\)};
 \end{tikzpicture}\end{center}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Berechne die Auflagerkräfte \(F_A\) und \(F_B\).
-\item Warum ist es geschickt, die Drehachse für die Momente in A oder B zu legen?
-\item Der Maler geht nach rechts. Bis wohin darf er gehen, wenn Bock B höchstens \(750\;\text{N}\) tragen darf?
-\end{enumerate}
-\lpplatz{7}
-\end{lpaufgabe}
-
-\begin{lpaufgabe}{G6}{Gleichgewicht}{3 P}
-\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wann ist ein Körper im statischen Gleichgewicht? Nenne beide Bedingungen.
-\item Ein Stab liegt auf einer glatten Eisfläche (ohne Reibung). Am einen Ende zieht jemand mit \(15\;\text{N}\) nach Norden, am anderen Ende jemand mit \(15\;\text{N}\) nach Süden, beide quer zum Stab. Bleibt der Stab in Ruhe? Begründe mit beiden Bedingungen.
-\item Auf einer Wippe sitzt ein Kind (\(25\;\text{kg}\)) \(1.6\;\text{m}\) von der Achse. Wo muss ein Kind mit \(40\;\text{kg}\) sitzen?
+\item Das Kind steht bei \(1\;\text{m}\). Berechne die Auflagerkräfte \(F_A\) und \(F_B\).
+\item Das Kind geht weiter nach rechts. Ab welcher Stelle kippt das Brett um B?
+\item Ein zweites Kind (\(300\;\text{N}\)) stellt sich genau über A. Begründe mit den Drehmomenten um B, dass das erste Kind jetzt bis ans Ende des Bretts gehen kann.
 \end{enumerate}
 \lpplatz{6}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G6}{Gleichgewicht und Hebel}{3 P}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Erkläre, was statisches Gleichgewicht heisst, mit beiden Bedingungen.
+\item Ein Stab liegt auf einer glatten Eisfläche (ohne Reibung). Am einen Ende zieht jemand mit \(15\;\text{N}\) nach Norden, am anderen Ende jemand mit \(15\;\text{N}\) nach Süden, beide quer zum Stab. Bleibt der Stab in Ruhe? Begründe mit beiden Bedingungen.
+\item Du kannst an den Griffen einer Schubkarre (\(1.4\;\text{m}\) von der Radachse) höchstens \(200\;\text{N}\) senkrecht nach oben aufbringen. Wie weit von der Radachse darf eine Last von \(700\;\text{N}\) höchstens liegen?
+\end{enumerate}
+\lpplatz{5}
 \end{lpaufgabe}
 
 \vfill

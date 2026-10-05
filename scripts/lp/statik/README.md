@@ -65,3 +65,13 @@ alle 28 ✓, keine schon im Startzustand erfüllt.
   der dritten Kraft zu 100 N bei 0° und 120°.
 - **Rutschen:** Nach dem Losrutschen wirkt in der Simulation eine Gleitreibung von 80 % der
   Haftreibungsgrenze; die Bewegung ist Stoff der Dynamik und wird nicht abgefragt.
+- **Schraube lösen:** Schlüssel nach links, Kraft nach unten — er dreht gegen den Uhrzeigersinn, so löst
+  man ein Rechtsgewinde.
+- **Zufallswerte je Gegenstand** (Radmutter, Veloschraube, Handrad; Brechstange, Schubkarre, Kistenheber):
+  Handkraft höchstens rund 450 N.
+- **Nach /lp-pruefung (05.10.2026)** behoben: Bezug im Ruhe-Clip (Hangabtrieb und grösste Haftreibung),
+  Brechstange nicht mehr als einarmig genannt, Sim 3 setzt nach Reglerbewegung alles zurück, Sim 4 löst
+  gegen den Uhrzeigersinn, Sim 6 rechnet ungerundet weiter, Rückmeldungen der Übungen «Winkel» und
+  «Grenzwinkel», plausible Zufallswerte, Festhalten (+360°, waagrechter Boden, Eigengewicht, negative
+  Auflagerkraft), Kontrollfragen ohne Wiederholung von Clip und Leiste, Ergebnisbilder erst nach der
+  Rechnung, Gesamttest G2 bis G6 neu (Fassung 2). Freischaltung steht aus.

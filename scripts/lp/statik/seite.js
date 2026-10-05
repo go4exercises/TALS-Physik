@@ -320,8 +320,10 @@
       K.punkt(phi, fx, 'p-fx'); K.punkt(phi, fy, 'p-fy');
       stext(K.ebene, { x: 296, y: 14, 'text-anchor': 'end', 'class': 'legende l-fx' }, '— F_x');
       stext(K.ebene, { x: 296, y: 27, 'text-anchor': 'end', 'class': 'legende l-fy' }, '- - F_y');
-      var z = '<span>' + v_('F') + '<sub>x</sub> = ' + v_('F') + ' · cos ' + v_('φ') + ' = ' + zahl(F) + NB + 'N · cos ' + wink(+phi.toFixed(0)) + ' ' + ist(fx, sig(fx)) + sig(fx) + NB + 'N</span>';
-      z += '<span>' + v_('F') + '<sub>y</sub> = ' + v_('F') + ' · sin ' + v_('φ') + ' = ' + zahl(F) + NB + 'N · sin ' + wink(+phi.toFixed(0)) + ' ' + ist(fy, sig(fy)) + sig(fy) + NB + 'N</span>';
+      var pr = Math.round(phi), gx = F * Math.cos(grd(pr)), gy = F * Math.sin(grd(pr));   // Zeile mit dem angezeigten ganzen Winkel
+      if (Math.abs(gx) < 1e-9) gx = 0; if (Math.abs(gy) < 1e-9) gy = 0;
+      var z = '<span>' + v_('F') + '<sub>x</sub> = ' + v_('F') + ' · cos ' + v_('φ') + ' = ' + zahl(F) + NB + 'N · cos ' + wink(pr) + ' ' + ist(gx, sig(gx)) + sig(gx) + NB + 'N</span>';
+      z += '<span>' + v_('F') + '<sub>y</sub> = ' + v_('F') + ' · sin ' + v_('φ') + ' = ' + zahl(F) + NB + 'N · sin ' + wink(pr) + ' ' + ist(gy, sig(gy)) + sig(gy) + NB + 'N</span>';
       z += '<span class="sim-notiz">' + v_('φ') + ' wird von der positiven ' + v_('x') + '-Achse aus gegen den Uhrzeigersinn gemessen. Die Vorzeichen der Komponenten ergeben sich von selbst.</span>';
       rolle(fig, 'formel').innerHTML = z;
       pruefen();
@@ -413,9 +415,9 @@
         if (!aktiv.length) return '0';
         return aktiv.map(function(q){ return zahl(q[0].F) + NB + 'N · ' + fn + ' ' + wink(q[0].p); }).join(' + ');
       }
-      var z = '<span>' + v_('F') + '<sub>res,x</sub> = ' + summe('cos') + ' ' + ist(w.Rx, sig(w.Rx)) + sig(w.Rx) + NB + 'N</span>';
-      z += '<span>' + v_('F') + '<sub>res,y</sub> = ' + summe('sin') + ' ' + ist(w.Ry, sig(w.Ry)) + sig(w.Ry) + NB + 'N</span>';
-      z += '<span>' + v_('F') + '<sub>res</sub> = √(' + v_('F') + '<sub>res,x</sub>² + ' + v_('F') + '<sub>res,y</sub>²) ' + ist(w.R, sig(w.R)) + sig(w.R) + NB + 'N' + (w.R > 0.5 ? '; Richtung ' + v_('φ') + ' ≈ ' + sig(w.pR) + '°' : '') + '</span>';
+      var z = '<span>' + v_('F') + '<sub>res,x</sub> = Σ ' + v_('F') + ' · cos ' + v_('φ') + ' = ' + summe('cos') + ' ' + ist(w.Rx, sig(w.Rx)) + sig(w.Rx) + NB + 'N</span>';
+      z += '<span>' + v_('F') + '<sub>res,y</sub> = Σ ' + v_('F') + ' · sin ' + v_('φ') + ' = ' + summe('sin') + ' ' + ist(w.Ry, sig(w.Ry)) + sig(w.Ry) + NB + 'N</span>';
+      z += '<span>' + v_('F') + '<sub>res</sub> = √(' + v_('F') + '<sub>res,x</sub>² + ' + v_('F') + '<sub>res,y</sub>²) ' + ist(w.R, sig(w.R)) + sig(w.R) + NB + 'N' + (w.R > 0.5 ? '; Richtung ' + v_('φ') + ' ' + ist(w.pR, sig(w.pR)) + sig(w.pR) + '°' : '') + '</span>';
       z += '<span class="sim-notiz">Ein Regler auf 0 N blendet die Kraft aus. Die Pfeile zeigen Kräfte (Achsen in N), der Ring nur, wohin er sich bewegt.</span>';
       rolle(fig, 'formel').innerHTML = z;
       pruefen();
@@ -446,13 +448,13 @@
      (Bernstein), Normalkraft (Grün) und Haftreibung (Türkis) passen sich laufend an; die
      Komponenten der Gewichtskraft sind violett. Im Diagramm wachsen F_H, F_N und die Grenze
      μ_H · F_N über α mit. Wird tan α grösser als μ_H, rutscht die Kiste. Clipbeispiel:
-     m = 12 kg, μ_H = 0.5; Startwerte m = 10 kg, μ_H = 0.40, bis 15°. */
+     m = 12 kg, μ_H = 0.65; Startwerte m = 10 kg, μ_H = 0.40, bis 15°. */
   (function(){
     var fig = document.getElementById('sim3'); if (!fig) return;
     var svg = fig.querySelector('svg');
-    var szene = g_(svg), dia = g_(svg, { transform: 'translate(0,190)' });
+    var szene = g_(svg), dia = g_(svg, { transform: 'translate(0,212)' });
     var K = null;
-    var B = Bedienung(fig, function(){ uhr.stop(); al = 0; rutsch = 0; zeichnen(); });
+    var B = Bedienung(fig, function(){ uhr.stop(); los(); zeichnen(); });
     var al = 0, rutsch = 0, gerutscht = false, lauf = null, laeufe = [], pruefen = function(){};
     var HX = 22, HY = 168, LB = 262, PXM = 100;                            // Gelenk, Brettlänge, 100 px je m
     function werte(){ var m = B.wert('m'), mu = B.wert('mu'), ae = B.wert('ae'); return { m: m, mu: mu, ae: ae, FG: m * G, ag: Math.atan(mu) * 180 / Math.PI }; }
@@ -500,7 +502,7 @@
       var d = (1.7 - rutsch) * PXM, bw = 40, bh = 30;
       var mx = HX + d * ux + bh / 2 * nx, my = HY + d * uy + bh / 2 * ny;     // Mittelpunkt der Kiste
       el(szene, 'rect', { x: -bw / 2, y: -bh / 2, width: bw, height: bh, rx: 2, 'class': 'kiste', transform: 'translate(' + mx.toFixed(1) + ',' + my.toFixed(1) + ') rotate(' + (-al).toFixed(2) + ')' });
-      var k = 64 / w.FG, kx = HX + d * ux, ky = HY + d * uy;                  // Gewichtskraft immer 64 px lang; Kontaktpunkt
+      var k = 50 / w.FG, kx = HX + d * ux, ky = HY + d * uy;                  // Gewichtskraft immer 50 px lang; Kontaktpunkt
       if (gerutscht && rutsch > 0.15){ zeichneDia(); return; }                 // unten angekommen: nur noch die Kiste
       // Gewichtskraft und ihre Komponenten
       pfeil(szene, mx, my, mx, my + w.FG * k, 'pf-g', 8); marke(szene, mx + 5, my + w.FG * k + 2, 'F', 'G', 'pf-text pf-g', 'start');
@@ -567,7 +569,7 @@
     var szene = g_(svg), dia = g_(svg, { transform: 'translate(0,228)' });
     var B = Bedienung(fig, function(){ uhr.stop(); los(); zeichnen(); });
     var Fj = 0, dreh = 0, geloest = false, ende = false, lauf = null, laeufe = [], pruefen = function(){};
-    var DX = 64, DY = 60, PX = 520;                                        // Drehachse, 520 px je m
+    var DX = 236, DY = 60, PX = 520;                                       // Drehachse rechts, Schlüssel nach links, 520 px je m
     function werte(){ var F = B.wert('F'), l = B.wert('l'), a = B.wert('al'), Ml = +B.wert('Ml'); return { F: F, l: l, a: a, Ml: Ml, r: l * Math.sin(grd(a)), M: F * l * Math.sin(grd(a)) }; }
     function los(){ Fj = 0; dreh = 0; geloest = false; ende = false; }
     var tg = 0;
@@ -594,16 +596,17 @@
     function zeichnen(){
       var w = werte(), M = Fj * w.r;
       B.anzeigen(); leeren(szene); leeren(dia);
-      var th = grd(dreh), ux = Math.cos(th), uy = Math.sin(th);             // Schlüssel dreht im Uhrzeigersinn (Bildschirm: y nach unten)
+      // Schlüssel zeigt nach links, Kraft nach unten: Er dreht gegen den Uhrzeigersinn — so löst man ein Rechtsgewinde
+      var th = grd(dreh), ux = -Math.cos(th), uy = Math.sin(th);
       var L = w.l * PX, ex = DX + L * ux, ey = DY + L * uy;
       // Schraube (Sechskant) und Schlüssel
       var pts = []; for (var i = 0; i < 6; i++){ var q = th + i * Math.PI / 3; pts.push((DX + 15 * Math.cos(q)).toFixed(1) + ',' + (DY + 15 * Math.sin(q)).toFixed(1)); }
       el(szene, 'polygon', { points: pts.join(' '), 'class': 'mutter' });
       el(szene, 'line', { x1: DX, y1: DY, x2: ex, y2: ey, 'class': 'schluessel' });
       el(szene, 'circle', { cx: DX, cy: DY, r: 3, 'class': 'achspunkt' });
-      el(szene, 'text', { x: DX - 20, y: DY - 18, 'class': 'bt-klein' }, 'D');
+      el(szene, 'text', { x: DX + 20, y: DY - 18, 'class': 'bt-klein' }, 'D');
       // Kraft am Ende unter α zum Schlüssel (α = 90°: senkrecht nach unten)
-      var fr = th + grd(w.a), fx = Math.cos(fr), fy = Math.sin(fr), k = 0.2;
+      var fr = th + grd(w.a), fx = -Math.cos(fr), fy = Math.sin(fr), k = 0.2;
       // Wirkungslinie und wirksamer Hebelarm
       el(szene, 'line', { x1: ex - 110 * fx, y1: ey - 110 * fy, x2: ex + 95 * fx, y2: ey + 95 * fy, 'class': 'wirkungslinie' });
       var tt = (DX - ex) * fx + (DY - ey) * fy, lx = ex + tt * fx, ly = ey + tt * fy;
@@ -611,11 +614,12 @@
       if (w.r * PX > 18){ var nx = (ly - DY) / (w.r * PX), ny = -(lx - DX) / (w.r * PX); if (ny > 0){ nx = -nx; ny = -ny; }   // Normale nach oben
         el(szene, 'text', { x: (DX + lx) / 2 + 12 * nx, y: (DY + ly) / 2 + 12 * ny + 4, 'text-anchor': 'middle', 'class': 'pf-text pf-a' }, 'r'); }
       var lF = Math.max(Fj, 0) * k;
-      if (lF > 2){ pfeil(szene, ex, ey, ex + lF * fx, ey + lF * fy, 'pf-f', 9); marke(szene, ex + lF * fx + 7, ey + lF * fy + 4, 'F', '', 'pf-text pf-f', 'start'); }
-      if (w.a > 0 && w.a < 90) bogen(szene, ex, ey, 18, -dreh, -dreh - w.a, 'winkelbogen');
-      el(szene, 'text', { x: (DX + ex) / 2 - 12 * uy, y: (DY + ey) / 2 + 12 * ux + 6, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'l = ' + zahl(w.l) + ' m');
-      if (geloest) el(szene, 'text', { x: 296, y: 16, 'text-anchor': 'end', 'class': 'bt-meldung' }, 'Die Schraube dreht sich.');
-      else if (ende) el(szene, 'text', { x: 296, y: 16, 'text-anchor': 'end', 'class': 'bt-meldung' }, 'Die Schraube hält.');
+      if (lF > 2){ pfeil(szene, ex, ey, ex + lF * fx, ey + lF * fy, 'pf-f', 9); marke(szene, ex + lF * fx - 7, ey + lF * fy + 4, 'F', '', 'pf-text pf-f', 'end'); }
+      if (w.a > 0 && w.a < 90) bogen(szene, ex, ey, 18, 180 + dreh, 180 + dreh + w.a, 'winkelbogen');
+      var lnx = -uy, lny = ux; if (lny < 0){ lnx = -lnx; lny = -lny; }    // Normale nach unten
+      el(szene, 'text', { x: (DX + ex) / 2 + 14 * lnx, y: (DY + ey) / 2 + 14 * lny + 4, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'l = ' + zahl(w.l) + ' m');
+      if (geloest) el(szene, 'text', { x: 4, y: 16, 'text-anchor': 'start', 'class': 'bt-meldung' }, 'Die Schraube löst sich.');
+      else if (ende) el(szene, 'text', { x: 4, y: 16, 'text-anchor': 'start', 'class': 'bt-meldung' }, 'Die Schraube hält.');
       // Balken: Drehmoment gegen Losbrechmoment, 0 bis 120 Nm
       var X = function(m){ return 30 + m * 2.2; };
       el(dia, 'rect', { x: 30, y: 10, width: 264, height: 22, 'class': 'balken-leer' });
@@ -627,7 +631,7 @@
       el(dia, 'text', { x: 296, y: 64, 'text-anchor': 'end', 'class': 'achsname' }, '120 Nm');
       var z = '<span>' + v_('r') + ' = ' + v_('l') + ' · sin ' + v_('α') + ' = ' + zahl(w.l) + NB + 'm · sin ' + wink(w.a) + ' ' + ist(w.r, sig(w.r)) + sig(w.r) + NB + 'm</span>';
       z += '<span>' + v_('M') + ' = ' + v_('F') + ' · ' + v_('l') + ' · sin ' + v_('α') + ' = ' + sig(Fj) + NB + 'N · ' + zahl(w.l) + NB + 'm · sin ' + wink(w.a) + ' ' + ist(M, sig(M)) + sig(M) + NB + 'Nm</span>';
-      z += '<span class="sim-notiz">' + v_('α') + ': Winkel zwischen Schlüssel und Kraft. ' + v_('r') + ': senkrechter Abstand der Wirkungslinie von der Drehachse D (wirksamer Hebelarm).</span>';
+      z += '<span class="sim-notiz">Beim Ziehen wächst die Kraft von 0 bis ' + zahl(w.F) + NB + 'N; die Zeile zeigt die momentane Kraft. ' + v_('α') + ': Winkel zwischen Schlüssel und Kraft. ' + v_('r') + ': senkrechter Abstand der Wirkungslinie von der Drehachse D (wirksamer Hebelarm).</span>';
       rolle(fig, 'formel').innerHTML = z;
       pruefen();
     }
@@ -650,7 +654,7 @@
      die Drehmomente verschieden, kippt sie zur Seite des grösseren Moments, bis ein Ende den
      Boden berührt (Drehbeschleunigung aus Moment und Trägheit). Gleich grosse Momente: Sie
      bleibt waagrecht. Gewichtskräfte Bernstein, Momente in zwei Balken.
-     Clipbeispiel: 30 kg bei 1.6 m gegen 40 kg; Startwerte 40 kg bei 1.2 m, 20 kg bei 1.5 m. */
+     Clipbeispiel: 30 kg bei 1.6 m gegen 40 kg; Startwerte 35 kg bei 1.4 m, 20 kg bei 1.5 m. */
   (function(){
     var fig = document.getElementById('sim5'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -789,8 +793,8 @@
       K.punkt(x, k.FA, 'p-fn'); K.punkt(x, k.FB, 'p-fn');
       stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende l-fn' }, '— F_A   - - F_B');
       var z = '<span>Momente um A: ' + F_('B') + ' · ' + v_('L') + ' = ' + F_('L') + ' · ' + v_('x') + ' + ' + F_('E') + ' · ' + v_('L') + '/2' + '</span>';
-      z += '<span>' + F_('B') + ' = (' + zahl(w.FL) + NB + 'kN · ' + zahl(+x.toFixed(2)) + NB + 'm + ' + zahl(w.FE) + NB + 'kN · 5' + NB + 'm) / 10' + NB + 'm ' + ist(k.FB, sig(k.FB)) + sig(k.FB) + NB + 'kN</span>';
-      z += '<span>' + F_('A') + ' = ' + F_('L') + ' + ' + F_('E') + ' − ' + F_('B') + ' = ' + zahl(w.FL) + NB + 'kN + ' + zahl(w.FE) + NB + 'kN − ' + sig(k.FB) + NB + 'kN ' + ist(k.FA, sig(k.FA)) + sig(k.FA) + NB + 'kN</span>';
+      z += '<span>' + F_('B') + ' = (' + zahl(w.FL) + NB + 'kN · ' + zahl(+x.toFixed(2)) + NB + 'm + ' + zahl(w.FE) + NB + 'kN · 5' + NB + 'm) / 10' + NB + 'm = ' + zahl(k.FB) + NB + 'kN</span>';
+      z += '<span>' + F_('A') + ' = ' + F_('L') + ' + ' + F_('E') + ' − ' + F_('B') + ' = ' + zahl(w.FL) + NB + 'kN + ' + zahl(w.FE) + NB + 'kN − ' + zahl(k.FB) + NB + 'kN ' + '= ' + zahl(k.FA) + NB + 'kN</span>';
       z += '<span class="sim-notiz">Pfeillängen im Massstab der Gesamtlast.</span>';
       rolle(fig, 'formel').innerHTML = z;
       pruefen();
@@ -869,7 +873,7 @@
         neu: function(){
           var a, b;
           do { a = zufall([30, 45, 60, 90, 120, 150, 200]) * zufall([1, -1]); b = zufall([20, 40, 50, 75, 110, 160]) * zufall([1, -1]); }
-          while (Math.abs(a) === Math.abs(b));
+          while ((Math.abs(a) === 120 && Math.abs(b) === 50) || (Math.abs(a) === 30 && Math.abs(b) === 40) || (Math.abs(a) === 90 && Math.abs(b) === 40));   // Aufgabe 2a, Festhalten Kapitel 1 und 2
           return { F: Math.hypot(a, b), a: a, b: b,
             text: 'Eine Kraft hat die Komponenten \\(F_x = ' + ein(a, 'N') + '\\) und \\(F_y = ' + ein(b, 'N') + '\\). Wie gross ist ihr Betrag?' }; },
         pruefen: function(A, e){
@@ -890,12 +894,18 @@
             text: 'Eine Kraft hat die Komponenten \\(F_x = ' + ein(a, 'N') + '\\) und \\(F_y = ' + ein(b, 'N') + '\\). Unter welchem Winkel \\(\\varphi\\) zur positiven \\(x\\)-Achse zeigt sie (zwischen \\(0^\\circ\\) und \\(360^\\circ\\))? Mach zuerst eine Skizze.' }; },
         pruefen: function(A, e){
           if (Math.abs(e.p - A.p) <= 0.5) return null;   // auf ein halbes Grad
-          var roh = Math.atan(A.b / A.a) * 180 / Math.PI;
-          if (nah(e.p, roh) || nah(e.p, roh + 360) || nah(e.p, roh + 180)) return 'Der Taschenrechner kennt nur Winkel zwischen \\(-90^\\circ\\) und \\(90^\\circ\\). Schau in der Skizze, in welche Richtung die Kraft zeigt: ' + (A.a < 0 ? 'nach links, also \\(180^\\circ\\) dazuzählen.' : 'nach rechts unten, also \\(360^\\circ\\) dazuzählen.');
-          var t = Math.atan(A.a / A.b) * 180 / Math.PI;
-          if (nah(e.p, Math.abs(t)) || nah(e.p, 90 - Math.abs(t))) return '\\(\\tan\\varphi = \\dfrac{F_y}{F_x}\\): Gegenkathete durch Ankathete, und dann die Richtung aus der Skizze.';
+          var roh = Math.atan(A.b / A.a) * 180 / Math.PI, g = Math.abs(roh);
+          function trifft(l){ return l.some(function(w){ return Math.abs(w - A.p) > 0.5 && Math.abs(e.p - w) <= 0.5; }); }
+          // Bezugswinkel richtig, nur der Quadrant falsch
+          if (trifft([roh, roh + 180, roh + 360, g, 180 - g, 180 + g, 360 - g, -g])){
+            if (A.a > 0 && A.b > 0) return 'Die Kraft zeigt nach rechts oben (beide Komponenten positiv): Der Winkel des Taschenrechners stimmt hier schon.';
+            return 'Der Taschenrechner kennt nur Winkel zwischen \\(-90^\\circ\\) und \\(90^\\circ\\). Schau in der Skizze, in welche Richtung die Kraft zeigt: ' + (A.a < 0 ? 'nach links, also \\(180^\\circ\\) zum Rechnerwinkel dazuzählen.' : 'nach rechts unten, also \\(360^\\circ\\) zum Rechnerwinkel dazuzählen.');
+          }
+          // Katheten vertauscht: Bezugswinkel 90° − g, in irgendeinem Quadranten
+          if (trifft([90 - g, 90 + g, 270 - g, 270 + g])) return '\\(\\tan\\varphi = \\dfrac{F_y}{F_x}\\): Gegenkathete durch Ankathete, und dann die Richtung aus der Skizze.';
           return '\\(\\tan\\varphi = \\dfrac{F_y}{F_x}\\), dann den Winkel nach der Skizze in den richtigen Quadranten legen.'; },
-        fehler: function(A){ var roh = Math.atan(A.b / A.a) * 180 / Math.PI; return (A.a > 0 && A.b > 0) ? [[{ p: String(Math.atan(A.a / A.b) * 180 / Math.PI) }, 'Gegenkathete']] : [[{ p: String(roh) }, 'Taschenrechner']]; },
+        fehler: function(A){ var roh = Math.atan(A.b / A.a) * 180 / Math.PI, g = Math.abs(roh);
+          return (A.a > 0 && A.b > 0) ? [[{ p: String(90 - g) }, 'Gegenkathete'], [{ p: String(roh + 180) }, 'rechts oben']] : [[{ p: String(roh) }, 'Taschenrechner'], [{ p: String(90 - g) }, 'Gegenkathete']]; },
         loesung: function(A){ var roh = Math.atan(A.b / A.a) * 180 / Math.PI;
           return '\\arctan\\dfrac{' + ein(A.b, 'N') + '}{' + ein(A.a, 'N') + '} ' + erg(roh, '°').replace('\\;\\text{°}', '^\\circ') + (A.a < 0 ? ',\\quad \\varphi = ' + tz(+roh.toPrecision(4)) + '^\\circ + 180^\\circ ' : (A.b < 0 ? ',\\quad \\varphi = ' + tz(+roh.toPrecision(4)) + '^\\circ + 360^\\circ ' : ',\\quad \\varphi ')) + erg(A.p, '°').replace('\\;\\text{°}', '^\\circ'); } },
 
@@ -970,7 +980,7 @@
       'grenzwinkel': { felder: ['x'], muster: function(A){ return A.art === 'a' ? '<i>α</i> = {x} °' : '<i>μ</i><sub>H</sub> = {x}'; },
         neu: function(){
           if (Math.random() < 0.5){
-            var st = zufall([['Holz auf Holz', 0.45], ['Gummi auf nassem Asphalt', 0.55], ['Stahl auf Stahl', 0.15], ['Ski auf Schnee', 0.2], ['Gummi auf Beton', 0.8]]);   // nicht 0.25, 0.35, 0.4, 0.5, 0.6, 0.65, 0.7: Kontrollfrage, Gesamttest, Aufgabe 3c, Themenseite, Clip, Leiste
+            var st = zufall([['Holz auf Holz', 0.45], ['Gummi auf nassem Asphalt', 0.55], ['Gummi auf Beton', 0.8], ['Gummi auf rauem Fels', 0.9]]);   // nicht 0.25, 0.35, 0.4, 0.5, 0.6, 0.65, 0.7: Kontrollfrage, Gesamttest, Aufgabe 3c, Themenseite, Clip, Leiste; nicht unter 0.3: dort liegt arcsin zu nah an arctan
             return { art: 'a', x: Math.atan(st[1]) * 180 / Math.PI, mu: st[1],
               text: 'Haftreibungszahl für ' + st[0] + ': \\(\\mu_H = ' + tz(st[1]) + '\\). Bis zu welchem Neigungswinkel bleibt ein Körper darauf von selbst liegen?' };
           }
@@ -978,7 +988,7 @@
           return { art: 'm', x: Math.tan(grad(a)), a: a,
             text: 'Ein Klotz beginnt auf einer schiefen Ebene bei \\(\\alpha = ' + a + '^\\circ\\) gerade zu rutschen. Wie gross ist die Haftreibungszahl \\(\\mu_H\\)?' }; },
         pruefen: function(A, e){
-          if (nah(e.x, A.x)) return null;
+          if (A.art === 'a' ? Math.abs(e.x - A.x) <= 0.5 : nah(e.x, A.x)) return null;   // Winkel auf ein halbes Grad
           if (A.art === 'a'){
             if (nah(e.x, Math.asin(A.mu) * 180 / Math.PI) || nah(e.x, Math.acos(A.mu) * 180 / Math.PI)) return 'Grenze: \\(m \\cdot g \\cdot \\sin\\alpha = \\mu_H \\cdot m \\cdot g \\cdot \\cos\\alpha\\), also \\(\\tan\\alpha = \\mu_H\\). Mit \\(\\tan^{-1}\\).';
             if (nah(e.x, Math.atan(A.mu))) return 'Das ist Bogenmass. Taschenrechner auf Grad (DEG).';
@@ -1017,7 +1027,8 @@
       'moment': { felder: ['M'], muster: '<i>M</i> = {M} Nm',
         neu: function(){
           var F, l, a;
-          F = zufall([15, 35, 80, 150, 220, 360]); l = zufall([12, 20, 35, 45, 60, 80]); a = zufall([90, 90, 30, 50, 70, 120, 150]);
+          do { F = zufall([15, 35, 80, 150, 220, 360]); l = zufall([12, 20, 35, 45, 60, 80]); a = zufall([90, 90, 30, 50, 70, 120, 150]); }
+          while (F === 150 && l === 20 && a === 90);   // Festhalten Kapitel 4
           return { M: F * l / 100 * Math.sin(grad(a)), F: F, l: l, a: a,
             text: 'Eine Kraft \\(F = ' + ein(F, 'N') + '\\) greift \\(' + ein(l, 'cm') + '\\) von der Drehachse an einem Hebel an; der Winkel zwischen Hebel und Kraft ist \\(\\alpha = ' + a + '^\\circ\\). Wie gross ist das Drehmoment?' }; },
         pruefen: function(A, e){
@@ -1031,13 +1042,17 @@
         loesung: function(A){ return 'M = F \\cdot l \\cdot \\sin\\alpha = ' + ein(A.F, 'N') + ' \\cdot ' + ein(A.l / 100, 'm') + ' \\cdot \\sin ' + A.a + '^\\circ ' + erg(A.M, 'Nm'); } },
       'kraft': { felder: ['x'], muster: function(A){ return A.art === 'F' ? '<i>F</i> = {x} N' : '<i>r</i> = {x} m'; },
         neu: function(){
+          // Werte je Gegenstand (plausibel: Handkraft bis rund 450 N, Hebel passend zum Werkzeug)
+          var ctx = zufall([
+            { was: 'Eine Radmutter', tun: 'zum Lösen', am: 'am Radkreuz', M: [90, 120, 140], r: [0.3, 0.35, 0.4], F: [250, 300, 350] },
+            { was: 'Eine Schraube am Velo', tun: 'zum Lösen', am: 'am Schraubenschlüssel', M: [5, 8, 12], r: [0.1, 0.12, 0.15], F: [40, 60, 80] },
+            { was: 'Das Handrad eines Ventils', tun: 'zum Öffnen', am: 'am Rand des Handrads', M: [8, 12, 20], r: [0.1, 0.15, 0.2], F: [60, 80, 120] }]);
           var M, r, F;
-          M = zufall([12, 25, 40, 75, 110, 160]); r = zufall([0.08, 0.15, 0.3, 0.45, 0.6]); F = zufall([60, 90, 150, 240, 320]);
-          var ctx = zufall([['Radmutter', 'Radkreuz'], ['Schraube am Velo', 'Schraubenschlüssel'], ['Deckel eines Ventils', 'Handrad']]);
+          do { M = zufall(ctx.M); r = zufall(ctx.r); F = zufall(ctx.F); } while (F === 10 * M);   // sonst r · 100 = F / M: zwei Fehler, eine Zahl
           if (Math.random() < 0.5) return { art: 'F', x: M / r, M: M, r: r,
-            text: 'Eine ' + ctx[0] + ' braucht zum Lösen \\(M = ' + ein(M, 'Nm') + '\\). Man zieht senkrecht am ' + ctx[1] + ', \\(' + ein(r, 'm') + '\\) von der Drehachse. Welche Kraft braucht es mindestens?' };
+            text: ctx.was + ' braucht ' + ctx.tun + ' \\(M = ' + ein(M, 'Nm') + '\\). Man zieht senkrecht ' + ctx.am + ', \\(' + ein(r, 'm') + '\\) von der Drehachse. Welche Kraft braucht es mindestens?' };
           return { art: 'r', x: M / F, M: M, F: F,
-            text: 'Eine ' + ctx[0] + ' braucht zum Lösen \\(M = ' + ein(M, 'Nm') + '\\). Du ziehst senkrecht am ' + ctx[1] + ' mit \\(' + ein(F, 'N') + '\\). Wie weit von der Drehachse musst du mindestens greifen?' }; },
+            text: ctx.was + ' braucht ' + ctx.tun + ' \\(M = ' + ein(M, 'Nm') + '\\). Du ziehst senkrecht ' + ctx.am + ' mit \\(' + ein(F, 'N') + '\\). Wie weit von der Drehachse musst du mindestens greifen?' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;
           if (A.art === 'F' && nah(e.x, A.M * A.r)) return 'Umstellen: \\(F = \\dfrac{M}{r}\\), nicht mal.';
@@ -1050,7 +1065,7 @@
       'losbrechen': { felder: ['F'], muster: '<i>F</i> = {F} N',
         neu: function(){
           var M, l, a;
-          M = zufall([20, 35, 50, 80, 120]); l = zufall([0.2, 0.25, 0.4, 0.5]); a = zufall([20, 40, 55, 65, 75]);
+          M = zufall([20, 35, 50, 80]); l = zufall([0.25, 0.3, 0.4]); a = zufall([40, 55, 65, 75]);   // höchstens rund 500 N
           return { F: M / (l * Math.sin(grad(a))), M: M, l: l, a: a,
             text: 'Eine Schraube löst sich bei \\(M = ' + ein(M, 'Nm') + '\\). Der Schlüssel ist \\(' + ein(l, 'm') + '\\) lang, man kann nur unter \\(\\alpha = ' + a + '^\\circ\\) zum Schlüssel ziehen. Welche Kraft braucht es?' }; },
         pruefen: function(A, e){
@@ -1067,7 +1082,7 @@
         neu: function(){
           var m1, r1, m2, r2;
           do { m1 = zufall([18, 22, 27, 32, 45, 54]); r1 = zufall([0.8, 1.2, 1.4, 1.6, 1.8]); m2 = zufall([20, 30, 36, 40, 48]); r2 = zufall([0.9, 1.1, 1.5, 2]); }
-          while (m1 === m2 || (m1 * r1) / m2 > 2.2 || (m1 * r1) / r2 > 90);
+          while (m1 === m2 || (m1 * r1) / m2 > 2.2 || (m1 * r1) / r2 > 90 || (m1 * r1) / r2 < 15);   // gesuchte Masse 15 bis 90 kg
           if (Math.random() < 0.5) return { art: 'r', x: m1 * r1 / m2, m1: m1, r1: r1, m2: m2,
             text: 'Auf einer Wippe sitzt links ein Kind mit \\(' + ein(m1, 'kg') + '\\), \\(' + ein(r1, 'm') + '\\) von der Drehachse. Wie weit von der Achse muss rechts ein Kind mit \\(' + ein(m2, 'kg') + '\\) sitzen, damit Gleichgewicht herrscht?' };
           return { art: 'm', x: m1 * r1 / r2, m1: m1, r1: r1, r2: r2,
@@ -1083,10 +1098,12 @@
                                                    : 'm_1 \\cdot g \\cdot r_1 = m_2 \\cdot g \\cdot r_2,\\quad m_2 = \\dfrac{m_1 \\cdot r_1}{r_2} = \\dfrac{' + ein(A.m1, 'kg') + ' \\cdot ' + ein(A.r1, 'm') + '}{' + ein(A.r2, 'm') + '} ' + erg(A.x, 'kg'); } },
       'hebel': { felder: ['F'], muster: '<i>F</i> = {F} N',
         neu: function(){
-          var FL, a, b;
-          FL = zufall([450, 800, 1200, 2000, 3500]); a = zufall([0.05, 0.08, 0.1, 0.2, 0.25]); b = zufall([0.6, 0.9, 1.1, 1.4]);
-          var ctx = zufall([['Mit einer Brechstange hebt man eine Steinplatte', 'Steinplatte', 'Ende der Stange'], ['Mit einer Schubkarre hebt man eine Ladung', 'Ladung', 'Griffen'], ['Mit einem Kistenheber hebt man eine Kiste', 'Kiste', 'Griff']]);
-          var schub = ctx[1] === 'Ladung';
+          // Werte je Gegenstand: Schubkarre bis 80 kg Ladung, Hubkraft höchstens rund 350 N
+          var ctx = zufall([
+            ['Mit einer Brechstange hebt man eine Steinplatte', 'Steinplatte', 'Ende der Stange', [800, 1200, 2000], [0.08, 0.1, 0.15], [1.0, 1.2, 1.4]],
+            ['Mit einer Schubkarre hebt man eine Ladung', 'Ladung', 'Griffen', [400, 550, 800], [0.3, 0.45, 0.5], [1.1, 1.3, 1.5]],
+            ['Mit einem Kistenheber hebt man eine Kiste', 'Kiste', 'Griff', [300, 500, 700], [0.1, 0.15], [0.6, 0.9]]]);
+          var FL = zufall(ctx[3]), a = zufall(ctx[4]), b = zufall(ctx[5]), schub = ctx[1] === 'Ladung';
           return { F: FL * a / b, FL: FL, a: a, b: b,
             text: ctx[0] + ' (Gewichtskraft \\(' + ein(FL, 'N') + '\\)). Der Drehpunkt ' + (schub ? 'ist die Radachse' : 'liegt auf dem Boden') + '; die ' + ctx[1] + ' greift \\(' + ein(a, 'm') + '\\) davon entfernt an, ' + (schub ? 'die Hände an den Griffen' : 'die Hand am ' + ctx[2]) + ' \\(' + ein(b, 'm') + '\\). Welche Kraft braucht es, senkrecht zum Hebel?' }; },
         pruefen: function(A, e){
