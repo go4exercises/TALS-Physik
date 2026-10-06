@@ -287,13 +287,16 @@ details.loes .inhaltbox p:last-child{margin-bottom:0}
 .sim svg.schalt{margin-bottom:4px}
 .messgeraet{fill:var(--karte);stroke:var(--tinte);stroke-width:1.8}
 .bt-wert{fill:var(--tinte);font-family:var(--sans);font-size:11px;font-weight:700;stroke:var(--karte);stroke-width:3px;paint-order:stroke}
-.kennlinie{fill:none;stroke-width:2.2} .kl-a{stroke:var(--gruen)} .kl-b{stroke:var(--gruen-rand)} .kl-l{stroke:var(--bernstein);stroke-dasharray:6 4}
-.mp-a{fill:var(--gruen)} .mp-b{fill:var(--gruen-rand)} .mp-l{fill:var(--bernstein)}
+/* Lämpchen in Tinte: Bernstein gehört der Spannung */
+.kennlinie{fill:none;stroke-width:2.2} .kl-a{stroke:var(--gruen)} .kl-b{stroke:var(--gruen-rand)} .kl-l{stroke:var(--tinte);stroke-dasharray:6 4}
+.mp-a{fill:var(--gruen)} .mp-b{fill:var(--gruen-rand)} .mp-l{fill:var(--tinte)}
 .mp-jetzt{fill:none;stroke:var(--tinte);stroke-width:1.6;stroke-dasharray:3 2}
 .kl-name{font-family:var(--sans);font-size:11px;font-weight:700;stroke:var(--karte);stroke-width:3px;paint-order:stroke}
-.kl-name-a{fill:var(--gruen)} .kl-name-b{fill:var(--gruen-rand)} .kl-name-l{fill:var(--bernstein)}
+.kl-name-a{fill:var(--gruen)} .kl-name-b{fill:var(--gruen-rand)} .kl-name-l{fill:var(--tinte)}
 .knoten-farbe{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.55}
-.knoten-a{stroke:var(--rot)} .knoten-b{stroke:var(--blau)} .knoten-c{stroke:var(--lila)}
+/* Verbindungspunkte: Pluspol Bernstein (hohes Potential), Minuspol grau, dazwischen gepunktet —
+   nicht Rot (Fehler), Blau (Ladung, Leistung) oder Lila (Ziel) */
+.knoten-a{stroke:var(--bernstein)} .knoten-b{stroke:var(--tinte-2)} .knoten-c{stroke:var(--bernstein);stroke-dasharray:1 10;opacity:.8}
 .sim-aktionen{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:2px 0 8px}
 .sim-aktionen .aktion{font-family:var(--sans);font-size:.82rem;font-weight:600;cursor:pointer;border-radius:999px;padding:5px 14px;
   border:1px solid var(--bernstein-rand);background:var(--bernstein-hell);color:var(--tinte)}
@@ -312,7 +315,8 @@ details.loes .inhaltbox p:last-child{margin-bottom:0}
 .leiste .ls-vergleich{flex:1 1 100%;font-size:.88rem}
 .leiste .ls-vergleich summary{cursor:pointer;color:var(--tinte-2)}
 .leiste .ls-vergleich div{margin-top:6px}
-/* Diagramme: Farben im ganzen Leitprogramm — U Bernstein, I Orange, R Grün, Q und P Blau */
+/* Diagramme: Farben im ganzen Leitprogramm — U Bernstein, I Orange, R Grün, Q und P Blau;
+   die Energie als Fläche Bernstein-hell wie in den Clips */
 .sim .gitter,svg.mini .gitter{stroke:var(--linie);stroke-width:.6}
 .sim .achse,svg.mini .achse{stroke:var(--tinte-2);stroke-width:1.2}
 .sim .pfeil,svg.mini .pfeil{fill:var(--tinte-2)}
@@ -326,8 +330,8 @@ details.loes .inhaltbox p:last-child{margin-bottom:0}
 .kurve-i{fill:none;stroke:var(--orange);stroke-width:2.6}
 .kurve-p{fill:none;stroke:var(--blau);stroke-width:2.6}
 .kurve-r{fill:none;stroke:var(--gruen);stroke-width:2.6}
-.sim .feld{fill:var(--blau-hell);stroke:var(--blau);stroke-width:1;opacity:.9}
-.flaeche-text{fill:var(--blau);font-family:var(--sans);font-size:12px;font-weight:700;stroke:var(--karte);stroke-width:3px;paint-order:stroke}
+.sim .feld{fill:var(--bernstein-hell);stroke:var(--bernstein);stroke-width:1;opacity:.9}
+.flaeche-text{fill:var(--bernstein);font-family:var(--sans);font-size:12px;font-weight:700;stroke:var(--karte);stroke-width:3px;paint-order:stroke}
 .p-q{fill:var(--tinte)} .p-r{fill:var(--gruen)}
 text.p-text{font-family:var(--sans);font-size:11.5px;font-weight:700;stroke:var(--karte);stroke-width:4px;paint-order:stroke}
 .bauteil{fill:var(--karte);stroke:var(--tinte);stroke-width:1.6}
@@ -493,7 +497,7 @@ FUSS = '''<footer class="site-footer">
   <p>Leitprogramm · Elektrizität</p>
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 1.1 · Stand 4. Oktober 2026</p>
+  <p>Keine Cookies · Kein Tracking · Fassung 2.0 · Stand 6. Oktober 2026</p>
 </footer>
 
 <script src="../physiklib.js"></script>
@@ -627,7 +631,7 @@ P01 = '../themen/p0-1-vorwissen-mathematik.html'
 P02 = '../themen/p0-2-vorwissen-physik.html'
 k0 = '''
     <section class="kap" id="k0">
-      <div class="kap-meta"><span class="marker">Kapitel 0</span><span class="abz">Vorwissen · 0.1 · 0.2</span><span class="zeit">≈ 10 min</span></div>
+      <div class="kap-meta"><span class="marker">Kapitel 0</span><span class="abz">Vorwissen · 0.1 · 0.2</span><span class="zeit">≈ 15 min</span></div>
       <h2 id="vorwissen">Vorwissen</h2>
       <p class="ziel">Vorsilben, Zehnerpotenzen, Gleichungen umstellen. Wenn das wackelt: <a href="leitprogramm-rechnen.html">Leitprogramm Rechnen und Schliessen</a>.</p>
       ''' + clipkarte('p0-2-vorsilben-ee', 'Einheiten umrechnen: Vorsilben sind Zehnerpotenzen — und die EE-Taste', '0:58') + r'''
@@ -654,8 +658,8 @@ k0 = '''
 # ------------------------------------------------------------------ Kapitel 1: Ladung und Stromstärke
 sim1 = figur('sim1', 'Ladung Q über der Zeit t: Ursprungsgerade mit der Stromstärke I als Steigung', '-4 -4 308 268',
     '        <div class="reglerfeld">\n          '
-    + regler('s1', 'I', '<i>I</i> Strom', 0, 3, 0.25, 2, 'A', 2) + '\n          '
-    + regler('s1', 't', '<i>t</i> Zeit', 0, 10, 0.5, 5, 's', 1) + '\n        </div>',
+    + regler('s1', 'I', '<i>I</i> Strom', 0, 3, 0.25, 1.25, 'A', 2) + '\n          '
+    + regler('s1', 't', '<i>t</i> Zeit', 0, 10, 0.5, 3, 's', 1) + '\n        </div>',
     'Gerade für 1 A')
 fest1 = r'''      <div class="festhalten">
         <div class="merk">
@@ -695,8 +699,8 @@ k1 = kapitel(1, 'ladung-und-strom', 'Ladung und Stromstärke', 'K1 · K2', 40,
 sim2 = figur('sim2', 'Leistung P über der Zeit t: die Rechteckfläche ist die Energie E', '-4 -4 308 268',
     '        ' + knoepfe('U', 'Spannung', [('12', '12 V Autobatterie'), ('230', '230 V Netz')], '230')
     + '\n        <div class="reglerfeld">\n          '
-    + regler('s2', 'I', '<i>I</i> Strom', 0, 10, 0.1, 8.7, 'A', 1) + '\n          '
-    + regler('s2', 't', '<i>t</i> Zeit', 0, 3, 0.25, 1, 'h', 2) + '\n        </div>',
+    + regler('s2', 'I', '<i>I</i> Strom', 0, 10, 0.1, 3.5, 'A', 1) + '\n          '
+    + regler('s2', 't', '<i>t</i> Zeit', 0, 3, 0.25, 1.5, 'h', 2) + '\n        </div>',
     'Kurve gleicher Energie')
 fest2 = r'''      <div class="festhalten">
         <div class="merk">
@@ -705,7 +709,7 @@ fest2 = r'''      <div class="festhalten">
           <p>\[ U = \frac{W}{Q}, \qquad 1\;\text{V} = 1\;\frac{\text{J}}{\text{C}} \]</p>
           <p>Die Leistung ist die umgesetzte Energie pro Zeit: Sie sagt, <b>wie schnell</b> Energie umgesetzt wird (Watt \(= \text{J/s}\)); die Energie sagt, <b>wie viel</b> insgesamt (Joule, Kilowattstunden). Elektrisch:</p>
           <p>\[ P = U \cdot I, \qquad E = P \cdot t, \qquad 1\;\text{kWh} = 3.6\;\text{MJ} \]</p>
-          <p>\(E = P \cdot t\) gilt für eine konstant angenommene Leistung; im \(P\)-\(t\)-Diagramm ist die Energie die Fläche. Am Netz rechnet man mit den Effektivwerten (\(230\;\text{V}\)); so gilt \(P = U \cdot I\) für Geräte, die wie ein Widerstand wirken (Heizung, Wasserkocher, Lampe).</p>
+          <p>\(E = P \cdot t\) gilt für eine konstant angenommene Leistung; im \(P\)-\(t\)-Diagramm ist die Energie die Fläche. Die Netzspannung ist eine Wechselspannung: Sie wechselt ständig ihre Richtung. Die Angabe \(230\;\text{V}\) ist ihr <b>Effektivwert</b> — so gross wie die Gleichspannung, die in einem Widerstand dieselbe Leistung umsetzt. Darum gilt \(P = U \cdot I\) mit \(230\;\text{V}\) für Geräte, die wie ein Widerstand wirken (Heizung, Wasserkocher, Lampe).</p>
           <p>Bei Akkus steht die Ladung, die sie beim Entladen abgeben können, in Amperestunden: \(1\;\text{V} \cdot 1\;\text{Ah} = 1\;\text{Wh} = 3600\;\text{J}\). Gerechnet wird mit einer konstant angenommenen Spannung und ohne Verluste.</p>
           <p>Strom wird nicht verbraucht: Er fliesst vollständig zur Quelle zurück. Umgesetzt wird Energie, und die zählt die Stromrechnung in Kilowattstunden.</p>
         </div>
@@ -715,10 +719,10 @@ fest2 = r'''      <div class="festhalten">
         </div>
       </div>'''
 auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
-    ('2a', 3, r'Ein Velolicht-Akku ist mit \(3.7\;\text{V}\) und \(2.0\;\text{Ah}\) beschriftet. Wie viel Energie speichert er bei konstant angenommener Spannung, in Wattstunden und in Joule? An einem Bauteil werden an \(0.2\;\text{C}\) \(2.4\;\text{J}\) verrichtet: Welche Spannung liegt dort?',
+    ('2a', 3, r'Ein Velolicht-Akku ist mit \(3.7\;\text{V}\) und \(2.0\;\text{Ah}\) beschriftet. Wie viel Energie speichert er bei konstant angenommener Spannung, in Wattstunden und in Joule? Fliessen \(0.2\;\text{C}\) durch ein Bauteil, werden dort \(2.4\;\text{J}\) umgesetzt. Welche Spannung liegt am Bauteil?',
      r'<p>\(W = U \cdot Q = 3.7\;\text{V} \cdot 2.0\;\text{Ah} = 7.4\;\text{Wh}\), und mit \(1\;\text{Wh} = 3600\;\text{J}\): \(W = 26\,640\;\text{J}\).</p><p>\(U = \dfrac{W}{Q} = \dfrac{2.4\;\text{J}}{0.2\;\text{C}} = 12\;\text{V}\).</p>', ''),
-    ('2b', 4, r'Ein Föhn nimmt auf der Heizstufe \(1800\;\text{W}\) auf und läuft am Netz (\(230\;\text{V}\)); er wirkt dann wie ein Widerstand. Welcher Strom fliesst? Er läuft \(30\) Tage lang je \(10\;\text{min}\): Wie viel Energie, und was kostet das bei \(0.25\;\text{CHF/kWh}\)?',
-     r'<p>\(I = \dfrac{P}{U} = \dfrac{1800\;\text{W}}{230\;\text{V}} \approx 7.83\;\text{A}\).</p><p>\(t = 30 \cdot 10\;\text{min} = 300\;\text{min} = 5\;\text{h}\), \(E = P \cdot t = 1.8\;\text{kW} \cdot 5\;\text{h} = 9\;\text{kWh}\).</p><p>\(\text{Kosten} = E \cdot \text{Preis}\) \(= 9\;\text{kWh} \cdot 0.25\;\text{CHF/kWh}\) \(= 2.25\;\text{CHF}\).</p>', ''),
+    ('2b', 4, r'Eine Kochplatte am Netz (\(230\;\text{V}\)) wirkt wie ein Widerstand und zieht \(6.0\;\text{A}\). Welche Leistung nimmt sie auf? Laut Zähler hat sie in einem Monat \(13.8\;\text{kWh}\) umgesetzt: Wie viele Stunden lief sie? Was kostet das bei \(0.25\;\text{CHF/kWh}\)?',
+     r'<p>\(P = U \cdot I\) \(= 230\;\text{V} \cdot 6.0\;\text{A}\) \(= 1380\;\text{W} = 1.38\;\text{kW}\).</p><p>\(E = P \cdot t\), also \(t = \dfrac{E}{P}\) \(= \dfrac{13.8\;\text{kWh}}{1.38\;\text{kW}} = 10\;\text{h}\).</p><p>\(\text{Kosten} = E \cdot \text{Preis}\) \(= 13.8\;\text{kWh} \cdot 0.25\;\text{CHF/kWh}\) \(= 3.45\;\text{CHF}\).</p><p class="komm">Die Leistung zuerst in Kilowatt: Mit \(1380\;\text{W}\) käme \(0.01\;\text{h}\) heraus.</p>', ''),
     ('2c', 2, r'Auf der Rechnung steht «Stromverbrauch». Was wird tatsächlich verbraucht?',
      r'<p>Strom wird nicht verbraucht: Was ins Gerät fliesst, fliesst wieder zurück. Umgesetzt wird Energie (in Wärme, Licht, Bewegung); bezahlt wird \(E = P \cdot t\) in Kilowattstunden.</p>', ''),
     ('2d', 3, r'Ein Toaster nimmt \(900\;\text{W}\) auf und läuft \(4\;\text{min}\), ein Laptop-Ladegerät nimmt \(60\;\text{W}\) auf und läuft \(1\;\text{h}\). Wer setzt mehr Energie um? Zeichne beide Rechtecke in ein gemeinsames \(P\)-\(t\)-Diagramm (\(t\) in \(\text{h}\), \(P\) in \(\text{W}\)) und begründe damit.',
@@ -734,9 +738,9 @@ k2 = kapitel(2, 'spannung-leistung-energie', 'Spannung, Leistung und Energie', '
 
 # ------------------------------------------------------------------ Kapitel 3: Widerstand
 sim3 = figur('sim3', 'Widerstand R über der Leiterlänge l: Ursprungsgerade mit der Steigung rho durch A', '-4 -4 308 268',
-    '        ' + knoepfe('m', 'Material', [('Cu', 'Kupfer'), ('Al', 'Aluminium'), ('Fe', 'Eisen'), ('Konst', 'Konstantan')], 'Fe')
+    '        ' + knoepfe('m', 'Material', [('Cu', 'Kupfer'), ('Al', 'Aluminium'), ('Fe', 'Eisen'), ('Konst', 'Konstantan')], 'Al')
     + '\n        <div class="reglerfeld">\n          '
-    + regler('s3', 'l', '<i>l</i> Länge', 0, 50, 1, 20, 'm', 0) + '\n          '
+    + regler('s3', 'l', '<i>l</i> Länge', 0, 50, 1, 35, 'm', 0) + '\n          '
     + regler('s3', 'A', '<i>A</i> Querschnitt', 0.5, 4, 0.25, 1, 'mm²', 2) + '\n        </div>',
     'Kupfer, 1 mm²')
 fest3 = r'''      <div class="festhalten">
@@ -754,7 +758,7 @@ fest3 = r'''      <div class="festhalten">
           <p>Bei einem Kabel mit Hin- und Rückleiter ist die Leiterlänge doppelt so gross wie die Kabellänge: \(10\;\text{m}\) Kabel heisst \(l = 20\;\text{m}\).</p>
         </div>
       </div>'''
-auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
+auf3 = test('t3', 'Aufgaben · Kapitel 3', 15, [
     ('3a', 4, r'Ein Lautsprecherkabel aus Kupfer ist \(15\;\text{m}\) lang und hat zwei Adern zu je \(0.75\;\text{mm}^2\). Welchen Widerstand hat die Leitung? Welche Spannung fällt an ihr ab, wenn \(2\;\text{A}\) fliessen?',
      r'<p>\(l = 2 \cdot 15\;\text{m} = 30\;\text{m}\).</p><p>\(R = \rho \cdot \dfrac{l}{A}\) \(= 0.017\;\dfrac{\Omega\,\text{mm}^2}{\text{m}} \cdot \dfrac{30\;\text{m}}{0.75\;\text{mm}^2}\) \(= 0.68\;\Omega\).</p><p>\(U = R \cdot I = 0.68\;\Omega \cdot 2\;\text{A} = 1.36\;\text{V}\) — so viel fehlt dem Lautsprecher.</p>', ''),
     ('3b', 3, r'Aus Konstantandraht mit \(0.5\;\text{mm}^2\) Querschnitt soll ein Messwiderstand von \(4.9\;\Omega\) werden. Wie lang muss der Draht sein? Wie gross wird \(R\), wenn man ihn halbiert?',
@@ -763,6 +767,9 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
      r'<p>Querschnittsfläche, nicht Durchmesser: \(A = \pi \cdot r^2 = \pi \cdot (0.4\;\text{mm})^2 \approx 0.503\;\text{mm}^2\).</p><p>\(R = \rho \cdot \dfrac{l}{A}\) \(= 0.017\;\dfrac{\Omega\,\text{mm}^2}{\text{m}} \cdot \dfrac{50\;\text{m}}{0.5027\;\text{mm}^2}\) \(\approx 1.69\;\Omega\).</p><p class="komm">Mit \(0.8\;\text{mm}\) statt der Fläche gerechnet käme \(1.06\;\Omega\) heraus — falsch, weil \(\rho\) sich auf \(\text{mm}^2\) bezieht.</p>', ''),
     ('3d', 2, r'An einer Glühlampe misst man bei \(6\;\text{V}\) den Strom \(0.20\;\text{A}\). Darf man daraus schliessen, dass bei \(12\;\text{V}\) genau \(0.40\;\text{A}\) fliessen? Begründe.',
      r'<p>\(R = \dfrac{U}{I} = \dfrac{6\;\text{V}}{0.20\;\text{A}} = 30\;\Omega\) gilt nur für diesen einen Messpunkt. Der Schluss auf \(0.40\;\text{A}\) setzte ein konstantes \(R\) voraus. Beim Glühdraht wächst \(R\) mit der Temperatur, also fliesst bei \(12\;\text{V}\) weniger als \(0.40\;\text{A}\).</p>', ''),
+    ('3e', 3, r'Das Diagramm zeigt den Widerstand von zwei Eisendrähten A und B (\(\rho = 0.10\;\Omega\,\text{mm}^2/\text{m}\)) über ihrer Länge. Lies für beide den Widerstand je Meter ab und bestimme daraus den Querschnitt. Welcher Draht ist dicker, und woran erkennt man das im Diagramm? (Punkte auf Gitterpunkten)',
+     r'<p>Die Steigung ist der Widerstand je Meter, \(\dfrac{R}{l} = \dfrac{\rho}{A}\). A: \(\dfrac{4\;\Omega}{10\;\text{m}} = 0.4\;\Omega/\text{m}\). B: \(\dfrac{2\;\Omega}{40\;\text{m}} = 0.05\;\Omega/\text{m}\).</p><p>\(A = \dfrac{\rho}{R/l}\): A: \(\dfrac{0.10\;\Omega\,\text{mm}^2/\text{m}}{0.4\;\Omega/\text{m}} = 0.25\;\text{mm}^2\). B: \(\dfrac{0.10\;\Omega\,\text{mm}^2/\text{m}}{0.05\;\Omega/\text{m}} = 2\;\text{mm}^2\).</p><p>B ist dicker: Seine Gerade ist flacher. Bei gleichem Material heisst grösserer Querschnitt kleinerer Widerstand je Meter.</p>',
+     '\n            <div class="mini-reihe"><svg class="mini" data-geraden="0.4;0.05" data-namen="A;B" data-farbe="kurve-r" data-fenster="50,10" data-teilung="5,1" data-punkte="10,4;40,2" data-xname="l [m]" data-yname="R [Ω]" aria-label="R-l-Diagramm mit zwei Ursprungsgeraden A und B"></svg></div>'),
 ])
 k3 = kapitel(3, 'widerstand', 'Der Widerstand eines Leiters', 'K2 · K3', 40,
     r'Du berechnest den Widerstand eines Leiters mit \(R = \rho \cdot l/A\) und rechnest mit \(U = R \cdot I\).',
@@ -780,7 +787,7 @@ sim6 = f'''      <figure class="sim sim-gross" id="sim6">
         <svg class="schalt" viewBox="0 0 330 150" role="img" aria-label="Stromkreis mit Quelle, Bauteil, Amperemeter und Voltmeter, je nach Wahl richtig oder falsch angeschlossen"></svg>
         <svg class="kennl" viewBox="-4 -4 308 228" role="img" aria-label="U-I-Kennlinie: eingetragene Messpunkte, I in mA nach rechts, U in V nach oben"></svg>
         <div class="sim-aktionen"><button type="button" class="aktion aktion-punkt">Messpunkt eintragen</button><button type="button" class="aktion aktion-loeschen">Punkte löschen</button></div>
-        {knoepfe('bt', 'Bauteil', [('a', 'A'), ('b', 'B'), ('l', 'Lämpchen')], 'a')}
+        {knoepfe('bt', 'Bauteil', [('a', 'X'), ('b', 'Y'), ('l', 'Lämpchen')], 'a')}
         {knoepfe('am', 'Amperemeter', [('reihe', 'im Stromweg'), ('parallel', 'parallel zum Bauteil')], 'parallel')}
         {knoepfe('vm', 'Voltmeter', [('parallel', 'an den Anschlüssen'), ('reihe', 'im Stromweg')], 'reihe')}
         <div class="reglerfeld">
@@ -803,7 +810,7 @@ fest6 = r'''      <div class="festhalten">
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>Milliampere nicht umgerechnet: \(4.4\;\text{V}\) und \(20\;\text{mA}\) geben \(R = \dfrac{4.4\;\text{V}}{0.020\;\text{A}} = 220\;\Omega\), nicht \(0.22\;\Omega\).</p>
+          <p>Milliampere nicht umgerechnet: \(7.5\;\text{V}\) und \(15\;\text{mA}\) geben \(R = \dfrac{7.5\;\text{V}}{0.015\;\text{A}} = 500\;\Omega\), nicht \(0.5\;\Omega\).</p>
           <p>Achsen vertauscht: Wer \(I\) nach oben aufträgt, liest als Steigung \(I/U\) ab — den Kehrwert von \(R\).</p>
         </div>
       </div>'''
@@ -816,7 +823,7 @@ mess_schaltung = ('<svg class="mini schaltbild" viewBox="0 0 185 112" role="img"
                   '<text x="20" y="104" class="bt-text">6.0</text><text x="105" y="104" class="bt-text">24.0</text></svg>')
 aufM = test('tm', 'Aufgaben · Kapitel 4', 11, [
     ('4a', 3, r'Zeichne ein Schaltbild: Batterie, Lampe, ein Amperemeter für den Strom durch die Lampe und ein Voltmeter für die Spannung an der Lampe. Begründe, warum jedes Messgerät so angeschlossen ist.',
-     r'<p>Das Amperemeter liegt im Stromweg zwischen Batterie und Lampe (in Reihe): Der Strom durch die Lampe muss auch durch das Messgerät fliessen.</p><p>Das Voltmeter liegt an den beiden Anschlüssen der Lampe (parallel): Spannung ist eine Grösse zwischen zwei Punkten.</p><p class="komm">Umgekehrt angeschlossen unterbricht das Voltmeter den Kreis, und das Amperemeter schliesst die Lampe kurz.</p>', ''),
+     r'<p>Das Amperemeter liegt im Stromweg zwischen Batterie und Lampe (in Reihe): Der Strom durch die Lampe muss auch durch das Messgerät fliessen.</p><p>Das Voltmeter liegt an den beiden Anschlüssen der Lampe (parallel): Spannung ist eine Grösse zwischen zwei Punkten.</p><p class="komm">Falsch angeschlossen: Liegt nur das Voltmeter im Stromweg, unterbricht es den Kreis. Liegt nur das Amperemeter parallel zur Lampe, schliesst es sie kurz. Sind beide vertauscht, fliesst gar kein Strom — das Voltmeter im Stromweg unterbricht den Kreis.</p>', ''),
     ('4b', 3, r'An einem Bauteil werden diese Werte gemessen (Tabelle). Bestimme \(R\) für jedes Wertepaar. Ist das Bauteil ohmsch?',
      r'<p>\(R = \dfrac{U}{I}\) mit \(I\) in Ampere: \(\dfrac{2.0\;\text{V}}{0.0080\;\text{A}} = 250\;\Omega\), \(\dfrac{4.0\;\text{V}}{0.016\;\text{A}} = 250\;\Omega\), \(\dfrac{6.0\;\text{V}}{0.024\;\text{A}} = 250\;\Omega\).</p><p>Immer \(250\;\Omega\): \(R\) ist konstant, das Bauteil ist ohmsch. Im \(U\)-\(I\)-Diagramm liegen die Punkte auf einer Ursprungsgeraden.</p>',
      '\n            <div class="mini-reihe">' + mess_schaltung + '</div>'),
@@ -840,8 +847,8 @@ sim4 = f'''      <figure class="sim sim-gross" id="sim4">
         <svg viewBox="0 0 330 240" role="img" aria-label="Zwei Widerstände an 12 V, in Reihe oder parallel, mit Balken für die Aufteilung"></svg>
         {knoepfe('art', 'Schaltung', [('reihe', 'in Reihe'), ('parallel', 'parallel')], 'reihe')}
         <div class="reglerfeld">
-          {regler('s4', 'R1', '<i>R</i>₁', 10, 500, 10, 100, 'Ω', 0)}
-          {regler('s4', 'R2', '<i>R</i>₂', 10, 500, 10, 220, 'Ω', 0)}
+          {regler('s4', 'R1', '<i>R</i>₁', 10, 500, 10, 120, 'Ω', 0)}
+          {regler('s4', 'R2', '<i>R</i>₂', 10, 500, 10, 270, 'Ω', 0)}
         </div>
       </figure>'''
 fest4 = r'''      <div class="tabhuelle">
@@ -880,10 +887,10 @@ def schaltbild(art, titel):
             f'<text x="4" y="12" class="mini-name">{titel}</text>{q}{z}</svg>')
 
 auf4 = test('t4', 'Aufgaben · Kapitel 5', 14, [
-    ('5a', 3, r'\(R_1 = 150\;\Omega\) und \(R_2 = 330\;\Omega\) liegen in Reihe an \(24\;\text{V}\). Berechne \(R_\text{ges}\), \(I\), \(U_1\) und \(U_2\).',
-     r'<p>\(R_\text{ges} = R_1 + R_2 = 150\;\Omega + 330\;\Omega = 480\;\Omega\).</p><p>\(I = \dfrac{U}{R_\text{ges}} = \dfrac{24\;\text{V}}{480\;\Omega} = 50\;\text{mA}\).</p><p>\(U_1 = I \cdot R_1 = 50\;\text{mA} \cdot 150\;\Omega = 7.5\;\text{V}\), \(U_2 = I \cdot R_2 = 50\;\text{mA} \cdot 330\;\Omega = 16.5\;\text{V}\). Probe: \(7.5\;\text{V} + 16.5\;\text{V} = 24\;\text{V}\).</p>', ''),
-    ('5b', 3, r'Dieselben Widerstände liegen parallel an \(24\;\text{V}\). Berechne \(R_\text{ges}\), \(I_1\), \(I_2\) und \(I\).',
-     r'<p>\(R_\text{ges} = \dfrac{R_1 \cdot R_2}{R_1 + R_2}\) \(= \dfrac{150\;\Omega \cdot 330\;\Omega}{480\;\Omega}\) \(\approx 103\;\Omega\).</p><p>\(I_1 = \dfrac{U}{R_1} = \dfrac{24\;\text{V}}{150\;\Omega} = 160\;\text{mA}\), \(I_2 = \dfrac{U}{R_2} = \dfrac{24\;\text{V}}{330\;\Omega} \approx 72.7\;\text{mA}\).</p><p>\(I = I_1 + I_2 \approx 233\;\text{mA}\). Probe: \(\dfrac{24\;\text{V}}{103.1\;\Omega} \approx 233\;\text{mA}\).</p>', ''),
+    ('5a', 3, r'\(R_1 = 180\;\Omega\) und \(R_2 = 270\;\Omega\) liegen in Reihe an einer Quelle. Das Amperemeter zeigt \(40\;\text{mA}\). Welche Spannung liegt an jedem Widerstand, und welche Spannung hat die Quelle?',
+     r'<p>In Reihe fliesst durch beide derselbe Strom: \(U_1 = I \cdot R_1 = 0.040\;\text{A} \cdot 180\;\Omega = 7.2\;\text{V}\), \(U_2 = I \cdot R_2 = 0.040\;\text{A} \cdot 270\;\Omega = 10.8\;\text{V}\).</p><p>\(U = U_1 + U_2 = 7.2\;\text{V} + 10.8\;\text{V} = 18\;\text{V}\).</p><p>Probe: \(U = I \cdot R_\text{ges} = 0.040\;\text{A} \cdot 450\;\Omega = 18\;\text{V}\).</p>', ''),
+    ('5b', 3, r'Dieselben Widerstände liegen parallel an derselben Quelle. Berechne \(R_\text{ges}\), \(I_1\), \(I_2\) und \(I\).',
+     r'<p>\(R_\text{ges} = \dfrac{R_1 \cdot R_2}{R_1 + R_2}\) \(= \dfrac{180\;\Omega \cdot 270\;\Omega}{450\;\Omega}\) \(= 108\;\Omega\).</p><p>\(I_1 = \dfrac{U}{R_1} = \dfrac{18\;\text{V}}{180\;\Omega} = 100\;\text{mA}\), \(I_2 = \dfrac{U}{R_2} = \dfrac{18\;\text{V}}{270\;\Omega} \approx 66.7\;\text{mA}\).</p><p>\(I = I_1 + I_2 \approx 167\;\text{mA}\). Probe: \(\dfrac{18\;\text{V}}{108\;\Omega} \approx 167\;\text{mA}\).</p>', ''),
     ('5c', 2, r'Drei gleiche Widerstände von je \(60\;\Omega\) liegen parallel. Wie gross ist \(R_\text{ges}\)? Warum ist er kleiner als jeder einzelne?',
      r'<p>\(\dfrac{1}{R_\text{ges}} = \dfrac{3}{60\;\Omega}\), also \(R_\text{ges} = 20\;\Omega\). Jeder Zweig öffnet dem Strom einen weiteren Weg — bei gleicher Spannung fliesst mehr Strom.</p>', ''),
     ('5d', 2, r'In einer alten Lichterkette in Reihe brennt eine Lampe durch: Ihr Glühdraht reisst. Warum bleibt die ganze Kette dunkel — und warum passiert das in der Wohnung nicht?',
@@ -920,7 +927,7 @@ fest7 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Begründen und prüfen</div>
           <p><b>Ladung bleibt erhalten:</b> Was in eine Verzweigung hineinfliesst, fliesst wieder hinaus. Parallel \(I = I_1 + I_2\); in Reihe überall derselbe Strom.</p>
-          <p><b>Energiebilanz:</b> Die Quelle gibt jedem Coulomb \(U\) Joule mit, und die Widerstände geben sie zusammen ab: in Reihe \(U = U_1 + U_2\); parallel liegt an jedem Zweig die ganze Spannung.</p>
+          <p><b>Energiebilanz:</b> Die Quelle gibt jedem Coulomb die Energie \(U \cdot 1\;\text{C}\) mit, und die Widerstände geben sie zusammen ab: in Reihe \(U = U_1 + U_2\); parallel liegt an jedem Zweig die ganze Spannung.</p>
           <p><b>Proben:</b> Summen der Ströme oder Spannungen nachrechnen; parallel muss \(R_\text{ges}\) kleiner sein als der kleinste Zweigwiderstand.</p>
         </div>
         <div class="warn">
@@ -946,8 +953,8 @@ aufE = test('te', 'Aufgaben · Kapitel 6', 11, [
      '\n            <div class="mini-reihe">' + ungewohnt + '</div>'),
     ('6b', 3, r'Jemand rechnet für \(120\;\Omega\) und \(60\;\Omega\) parallel an \(12\;\text{V}\): «\(R_\text{ges} = 120\;\Omega + 60\;\Omega = 180\;\Omega\), also \(I = \dfrac{12\;\text{V}}{180\;\Omega} \approx 66.7\;\text{mA}\).» Finde den Fehler, rechne richtig und prüfe mit einer Probe.',
      r'<p>Addiert wurden die Widerstände wie in Reihe. Parallel addieren sich die Kehrwerte: \(R_\text{ges} = \dfrac{120\;\Omega \cdot 60\;\Omega}{180\;\Omega} = 40\;\Omega\), also \(I = \dfrac{12\;\text{V}}{40\;\Omega} = 0.30\;\text{A}\).</p><p>Probe: \(I_1 = \dfrac{12\;\text{V}}{120\;\Omega} = 0.10\;\text{A}\), \(I_2 = \dfrac{12\;\text{V}}{60\;\Omega} = 0.20\;\text{A}\), Summe \(0.30\;\text{A}\). Und \(40\;\Omega\) ist kleiner als \(60\;\Omega\), der kleinste Zweig.</p><p class="komm">Schon die Plausibilität verrät den Fehler: Parallel kann \(R_\text{ges}\) nicht grösser sein als ein Zweig.</p>', ''),
-    ('6c', 3, r'\(R_1 = 220\;\Omega\) und \(R_2 = 680\;\Omega\) liegen in Reihe an \(18\;\text{V}\). Berechne \(I\), \(U_1\) und \(U_2\) und sichere das Ergebnis mit zwei Proben ab.',
-     r'<p>\(R_\text{ges} = 220\;\Omega + 680\;\Omega = 900\;\Omega\), \(I = \dfrac{18\;\text{V}}{900\;\Omega} = 20\;\text{mA}\).</p><p>\(U_1 = 20\;\text{mA} \cdot 220\;\Omega = 4.4\;\text{V}\), \(U_2 = 20\;\text{mA} \cdot 680\;\Omega = 13.6\;\text{V}\).</p><p>Probe Energie: \(4.4\;\text{V} + 13.6\;\text{V} = 18\;\text{V}\). Probe Verhältnis: \(U_1 : U_2 = 220 : 680\) — am grösseren Widerstand die grössere Spannung.</p>', ''),
+    ('6c', 3, r'\(R_1 = 220\;\Omega\) und \(R_2 = 330\;\Omega\) liegen parallel an \(6.6\;\text{V}\). Jemand notiert als Messwerte: \(I_1 = 30\;\text{mA}\), \(I_2 = 20\;\text{mA}\), Gesamtstrom \(I = 60\;\text{mA}\). Prüfe die drei Werte mit zwei Proben. Welcher Wert kann nicht stimmen, und wie gross muss er sein?',
+     r'<p>Probe mit \(I = \dfrac{U}{R}\) für jeden Zweig: \(\dfrac{6.6\;\text{V}}{220\;\Omega} = 30\;\text{mA}\) und \(\dfrac{6.6\;\text{V}}{330\;\Omega} = 20\;\text{mA}\) — beide Zweigströme stimmen.</p><p>Probe Ladungserhaltung: \(I = I_1 + I_2 = 30\;\text{mA} + 20\;\text{mA} = 50\;\text{mA}\). Der Gesamtstrom \(60\;\text{mA}\) kann nicht stimmen: Was in die Verzweigung hineinfliesst, fliesst wieder hinaus.</p><p class="komm">Gegenprobe: \(R_\text{ges} = \dfrac{6.6\;\text{V}}{0.050\;\text{A}} = 132\;\Omega\), kleiner als \(220\;\Omega\), wie es parallel sein muss.</p>', ''),
     ('6d', 2, r'«Wenn ich ein zweites Gerät parallel einstecke, bleibt der Strom aus der Steckdose gleich; er verteilt sich nur auf zwei Geräte.» Stimmt das? Begründe.',
      r'<p>Nein. Jedes Gerät liegt an der vollen Netzspannung und nimmt seinen Strom \(I = U/R\) auf, unabhängig vom anderen. Der Strom aus der Steckdose ist die Summe: Mit dem zweiten Gerät wird er grösser. Die Quelle liefert nicht immer denselben Strom.</p>', ''),
 ])
@@ -965,7 +972,7 @@ sim5 = f'''      <figure class="sim sim-gross" id="sim5">
         <svg viewBox="0 0 320 222" role="img" aria-label="Stromkreis mit Leitungsschutzschalter, FI-Schutzschalter und Gerät; je nach Fall Mensch, Schutzleiter oder Kurzschluss"></svg>
         {knoepfe('fall', 'Fall', [('normal', 'Normalbetrieb'), ('koerper', 'Mensch am Gehäuse'), ('pe', 'Gehäuse am Schutzleiter'), ('kurz', 'Kurzschluss L–N')], 'normal')}
         <div class="reglerfeld rk-zeile" hidden>
-          {regler('s5', 'RK', '<i>R</i><sub>K</sub> Körper', 500, 10000, 100, 1000, 'Ω', 0)}
+          {regler('s5', 'RK', '<i>R</i><sub>K</sub> Körper', 500, 10000, 100, 2500, 'Ω', 0)}
         </div>
       </figure>'''
 fest5 = r'''      <div class="tabhuelle">
@@ -974,15 +981,15 @@ fest5 = r'''      <div class="tabhuelle">
           <tbody>
             <tr><td>FI-Schutzschalter</td><td class="wort">Menschen (zusätzlich)</td><td class="wort">Differenz zwischen Hin- und Rückstrom</td><td class="wort">muss ab \(30\;\text{mA}\) Fehlerstrom auslösen (spätestens nach \(300\;\text{ms}\), ab dem Doppelten nach \(150\;\text{ms}\), ab dem Fünffachen nach \(40\;\text{ms}\)); über \(15\;\text{mA}\) darf er schon, bis \(15\;\text{mA}\) löst er nicht aus. Gilt für den üblichen unverzögerten FI am Netz.</td></tr>
             <tr><td>Schutzleiter (PE)</td><td class="wort">Menschen</td><td class="wort">schaltet nicht — führt den Fehlerstrom zur Quelle zurück</td><td class="wort">—</td></tr>
-            <tr><td>Leitungsschutzschalter, z. B. B13</td><td class="wort">die Leitung</td><td class="wort">Strom in der Leitung</td><td class="wort">Überlast (etwas über \(13\;\text{A}\)): thermisch, nach Sekunden bis Minuten. Kurzschluss: magnetisch, sofort — bei B13 sicher ab dem Fünffachen, \(65\;\text{A}\).</td></tr>
+            <tr><td>Leitungsschutzschalter, z. B. B13</td><td class="wort">die Leitung</td><td class="wort">Strom in der Leitung</td><td class="wort">Überlast: thermisch. Deutlich über \(13\;\text{A}\) (ab rund dem \(1.45\)-Fachen) je nach Höhe nach Sekunden bis zu einer Stunde; knapp darüber erst nach langer Zeit. Kurzschluss: magnetisch, sofort — bei B13 sicher ab dem Fünffachen, \(65\;\text{A}\).</td></tr>
             <tr><td>Schutzklasse II</td><td class="wort">Menschen</td><td class="wort">schaltet nicht — doppelte oder verstärkte Isolierung</td><td class="wort">—</td></tr>
           </tbody>
         </table>
       </div>
       <div class="festhalten">
-        <div class="merk"><div class="titel">Gefahr</div><p>Gefährlich ist der Strom durch den Körper, \(I_\text{K} = \dfrac{U}{R_\text{K}}\), und wie lange er wirkt. Muskeln verkrampfen, über das Herz kann Netzstrom Kammerflimmern auslösen.</p><p>Der Körperwiderstand \(R_\text{K}\) ist keine feste Zahl: Er sinkt mit Nässe und mit steigender Spannung, weil die Haut durchschlägt. Am Netz ist mit \(1\) bis \(2\;\text{k}\Omega\) zu rechnen, bei Kleinspannung mit einigen \(\text{k}\Omega\).</p></div>
+        <div class="merk"><div class="titel">Gefahr</div><p>Gefährlich ist der Strom durch den Körper, \(I_\text{K} = \dfrac{U}{R_\text{K}}\), und wie lange er wirkt. Muskeln verkrampfen, über das Herz kann Netzstrom Kammerflimmern auslösen.</p><p>Der Körperwiderstand \(R_\text{K}\) ist keine feste Zahl: Er sinkt mit Nässe und mit steigender Spannung, weil die Haut durchschlägt. Für den Körper allein ist am Netz mit \(1\) bis \(2\;\text{k}\Omega\) zu rechnen, bei Kleinspannung mit einigen \(\text{k}\Omega\). Fliesst der Strom über Schuhe und Boden zur Erde, kommt deren Widerstand dazu; Körper und Boden zusammen können dann einige \(\text{k}\Omega\) haben — verlassen kann man sich darauf nicht.</p><p>Auch eine kleine Spannung kann gefährlich sein: Überbrückt ein Werkzeug, ein Ring oder ein Kabel die beiden Pole einer Batterie (<b>Kurzschluss</b>), begrenzt fast nur der kleine Widerstand des Metalls den Strom. Bei einer Autobatterie fliessen dann Hunderte Ampere; das Metall glüht, es gibt Funken und Verbrennungen.</p></div>
         <div class="merk"><div class="titel">Der Fehlerstrom fliesst im Kreis</div><p>Die Quelle (Transformator) ist geerdet. Berührt der Aussenleiter ein Gehäuse mit Schutzleiter, fliesst der Fehlerstrom: Quelle → Aussenleiter L → Gehäuse → Schutzleiter PE → zurück zur Quelle. Die \(2\;\Omega\) im Modell sind der Widerstand dieser ganzen Schleife. Fehlt der Schutzleiter, schliesst sich der Kreis über den Menschen und den Boden zur geerdeten Quelle.</p><p>Beide Wege umgehen den Neutralleiter. Darum fehlt der Strom auf dem Rückweg, und der FI sieht eine Differenz.</p></div>
-        <div class="warn"><div class="titel">Häufiger Fehler</div><p>«Die Sicherung schützt mich.» Ein Leitungsschutzschalter B13 bemerkt \(115\;\text{mA}\) durch einen Menschen nicht. Und \(30\;\text{mA}\) ist keine Grenze für ungefährlichen Strom — der FI ist zusätzlicher Schutz.</p></div>
+        <div class="warn"><div class="titel">Häufiger Fehler</div><p>«Die Sicherung schützt mich.» Ein Leitungsschutzschalter B13 bemerkt \(200\;\text{mA}\) durch einen Menschen nicht. Und \(30\;\text{mA}\) ist keine Grenze für ungefährlichen Strom — der FI ist zusätzlicher Schutz.</p></div>
       </div>'''
 auf5 = test('t5', 'Aufgaben · Kapitel 7', 15, [
     ('7a', 3, r'Jemand mit feuchter Haut (\(R_\text{K} = 1.5\;\text{k}\Omega\)) berührt ein defektes Gehäuse unter \(230\;\text{V}\). Wie gross ist der Körperstrom? Was tun ein FI (\(30\;\text{mA}\), unverzögert) und ein Leitungsschutzschalter B13?',
@@ -994,16 +1001,16 @@ auf5 = test('t5', 'Aufgaben · Kapitel 7', 15, [
     ('7d', 2, r'Jemand steht auf einem isolierenden Boden und fasst mit der einen Hand den Aussenleiter, mit der anderen den Neutralleiter an. Schützt ihn der FI? Begründe.',
      r'<p>Nein. Der Strom fliesst über den Aussenleiter durch den Körper und über den Neutralleiter zurück: Hin- und Rückstrom sind gleich, der FI sieht keine Differenz. Für den FI sieht der Mensch aus wie ein Gerät.</p><p class="komm">Darum ist der FI ein zusätzlicher Schutz und keine Garantie.</p>', ''),
     ('7e', 3, r'An einem Gerät ohne Schutzleiter werden im Fehlerfall diese Ströme gemessen (Bild). Wie gross ist der Fehlerstrom, wohin fliesst er, und was tut ein FI mit \(30\;\text{mA}\)?',
-     r'<p>\(\Delta I = I_\text{L} - I_\text{N}\) \(= 8.85\;\text{A} - 8.70\;\text{A}\) \(= 0.15\;\text{A} = 150\;\text{mA}\). Er fehlt auf dem Rückweg, fliesst also an N vorbei — hier über den Menschen am Gehäuse und den Boden zur geerdeten Quelle.</p><p>\(150\;\text{mA}\) ist das Fünffache von \(30\;\text{mA}\): Ein unverzögerter FI muss spätestens nach \(40\;\text{ms}\) trennen.</p>',
-     '\n            <div class="mini-reihe"><svg class="mini schaltbild breit" viewBox="0 0 240 120" role="img" aria-label="Aussenleiter mit 8.85 A hin, Neutralleiter mit 8.70 A zurück, ein Mensch berührt das Gehäuse und steht auf der Erde">'
+     r'<p>\(\Delta I = I_\text{L} - I_\text{N}\) \(= 8.88\;\text{A} - 8.70\;\text{A}\) \(= 0.18\;\text{A} = 180\;\text{mA}\). Er fehlt auf dem Rückweg, fliesst also an N vorbei — hier über den Menschen am Gehäuse und den Boden zur geerdeten Quelle.</p><p>\(180\;\text{mA}\) ist mehr als das Fünffache von \(30\;\text{mA}\) (\(150\;\text{mA}\)): Ein unverzögerter FI muss spätestens nach \(40\;\text{ms}\) trennen.</p>',
+     '\n            <div class="mini-reihe"><svg class="mini schaltbild breit" viewBox="0 0 240 120" role="img" aria-label="Aussenleiter mit 8.88 A hin, Neutralleiter mit 8.70 A zurück, ein Mensch berührt das Gehäuse und steht auf der Erde">'
      '<text x="4" y="24" class="bt-titel">L</text><text x="4" y="54" class="bt-titel">N</text>'
      '<line x1="16" y1="20" x2="170" y2="20" class="leiter-l"/><line x1="16" y1="50" x2="170" y2="50" class="leiter-n"/>'
-     '<text x="60" y="15" class="bt-text">hin 8.85 A</text><text x="60" y="45" class="bt-text">zurück 8.70 A</text>'
+     '<text x="60" y="15" class="bt-text">hin 8.88 A</text><text x="60" y="45" class="bt-text">zurück 8.70 A</text>'
      '<rect x="170" y="10" width="54" height="50" rx="5" class="geraet geraet-fehler"/><text x="197" y="39" text-anchor="middle" class="bt-text">Gerät</text>'
      '<line x1="10" y1="112" x2="232" y2="112" class="erde"/>'
      '<circle cx="186" cy="80" r="6" class="mensch"/><polyline points="186,86 186,100 180,111" class="mensch"/><polyline points="186,100 192,111" class="mensch"/><polyline points="186,90 196,86 202,60" class="mensch"/></svg></div>'),
-    ('7f', 3, r'An einer Mehrfachsteckdose mit der Aufschrift «max. \(2300\;\text{W}\)» hängen ein Wasserkocher (\(2000\;\text{W}\)) und ein Toaster (\(900\;\text{W}\)) am \(230\text{-V}\)-Netz. Der Stromkreis hat einen LS B13 und einen FI mit \(30\;\text{mA}\). Beurteile: Stromweg → Schutzeinrichtung → verbleibende Gefahr.',
-     r'<p>Stromweg: Beide Geräte liegen parallel; der Strom fliesst über Aussenleiter, Steckdose und Geräte und über den Neutralleiter zurück. \(I = \dfrac{P}{U} = \dfrac{2900\;\text{W}}{230\;\text{V}} \approx 12.6\;\text{A}\).</p><p>Schutzeinrichtungen: Der FI sieht keine Differenz zwischen Hin- und Rückstrom und bleibt ein. Der LS ist für die feste Leitung bemessen; \(12.6\;\text{A}\) liegen unter \(13\;\text{A}\), er bleibt ein.</p><p>Verbleibende Gefahr: Die Steckdosenleiste ist mit \(2900\;\text{W}\) über ihrer Angabe von \(2300\;\text{W}\) (\(10\;\text{A}\)) belastet. Sie kann sich erhitzen — Brandgefahr. Keine Schutzeinrichtung bemerkt das: Ein Gerät abhängen.</p>', ''),
+    ('7f', 3, r'Ein Wasserkocher hat ein Metallgehäuse und einen Stecker mit Schutzleiterkontakt. Eine Bohrmaschine hat ein Kunststoffgehäuse, das Doppelquadrat-Symbol (Schutzklasse II) und einen Stecker ohne Schutzleiterkontakt. In beiden Geräten versagt an einer Stelle die Isolierung des Aussenleiters. Beurteile für beide: Stromweg → Schutzeinrichtung → verbleibende Gefahr.',
+     r'<p>Wasserkocher: Der Aussenleiter berührt das Metallgehäuse. Der Fehlerstrom fliesst über das Gehäuse und den Schutzleiter zur Quelle zurück; die Schleife hat nur wenige Ohm, der Strom ist sehr gross. Der LS trennt magnetisch (bei B13 sicher ab \(65\;\text{A}\)), und der FI spricht an, weil der Strom auf dem Neutralleiter fehlt. Verbleibende Gefahr: Ist der Schutzleiter unterbrochen, steht das Gehäuse unter Spannung, und nur der FI schützt noch.</p><p>Bohrmaschine: Hinter der ersten Isolierung liegt eine zweite (doppelte oder verstärkte Isolierung). Ein einzelner Fehler setzt das berührbare Gehäuse nicht unter Spannung; es fliesst kein Fehlerstrom, und nichts muss abschalten. Darum braucht sie keinen Schutzleiter. Verbleibende Gefahr: Ist das Gehäuse beschädigt oder dringt Wasser ein, hilft die Isolierung nicht mehr; dann bleibt der FI.</p>', ''),
 ])
 k5 = kapitel(7, 'gefahren-und-schutz', 'Gefahren und Schutzmassnahmen', 'K5', 45,
     r'Du zeigst auf, warum Strom durch den Körper gefährlich ist, ordnest FI-Schutzschalter, Schutzleiter, Leitungsschutzschalter und Schutzklasse II ihrer Schutzwirkung zu und beurteilst Alltagsfälle mit ihren Grenzen.',
@@ -1036,7 +1043,7 @@ gt = f'''
             <tr><td>11 – 16 P</td><td>Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.</td></tr>
             <tr><td>0 – 10 P</td><td>Zurück zu Kapitel 1 und von dort der Reihe nach weiter.</td></tr>
           </table>
-          <p>Aufgabe → Kapitel: G1 → <a href="#k1">1</a> · G2, G3 → <a href="#k2">2</a> · G4 → <a href="#k3">3</a> · G5 → <a href="#k4">4</a>, <a href="#k5">5</a>, <a href="#k6">6</a> · G6 → <a href="#k7">7</a></p>
+          <p>Aufgabe → Kapitel: G1 → <a href="#k1">1</a> · G2, G3 → <a href="#k2">2</a> · G4 → <a href="#k3">3</a> · G5 → <a href="#k4">4</a> · G6 → <a href="#k5">5</a>, <a href="#k6">6</a> · G7 → <a href="#k7">7</a></p>
         </div>
       </div>
     </section>'''
@@ -1048,14 +1055,14 @@ weiter = f'''
       <ul>
         <li>Schaltungen: <a href="{TS}#gemischt">gemischte Schaltungen</a>, <a href="{TS}#knoten-maschen">Knoten- und Maschenregel allgemein</a>, <a href="{TS}#spannungsteiler-belastet">belasteter Spannungsteiler</a>, <a href="{TS}#leistung-schaltung">Leistung in der Schaltung</a></li>
         <li>Messen und Kennlinien: <a href="{TS}#messfehler">Messgeräte, die den Kreis verändern</a>, <a href="{TS}#kennlinien">Glühlampe und Heissleiter (NTC)</a></li>
-        <li>Energie: <a href="{TS}#wirkungsgrad">Wirkungsgrad</a>, <a href="{TS}#leitungsverluste">Spannungsfall, Leitungsverluste und Hochspannung</a></li>
+        <li>Energie: <a href="{TS}#wirkungsgrad">Wirkungsgrad</a>, <a href="{TS}#leitungsverluste">Leitungsverluste und Hochspannung</a> (den Spannungsfall an der Leitung rechnet Kapitel 3)</li>
         <li>Gefahren: <a href="{TS}#gefahr-erde">Stromweg über die Erde</a>, <a href="{TS}#gefahr-fi-grenzen">Grenzen des FI</a>, <a href="{TS}#gefahr-alltag">weitere Alltagsfälle</a></li>
         <li><a href="{TS}#definition">Coulomb-Gesetz</a>; <a href="{TS}#wechselstrom">Wechselspannung und Effektivwert</a></li>
       </ul>
     </section>'''
 
 oben = '''<div id="nav-root"></div>
-<!-- Leitprogramm Elektrizität, Version 1.1 (04.10.2026; 1.0 am 03.10.2026 nach /lp-pruefung freigeschaltet). Erstes Physik-
+<!-- Leitprogramm Elektrizität, Fassung 2.0 (06.10.2026; 1.0 am 03.10.2026 nach /lp-pruefung freigeschaltet, 1.1 am 04.10.2026). Erstes Physik-
      Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4): je Kapitel ① Einführungsclip →
      ② Simulation mit Aufgabenleiste → ③ Kontrollclip mit Fragen → Festhalten → ④ Übungen mit
      Rückmeldung → ⑤ Aufgaben mit Lösungen. Gesamttest und Bewertungspaket nur als PDF
@@ -1077,7 +1084,11 @@ oben = '''<div id="nav-root"></div>
      (Widerstand/Leistung, Schaltungen, Gefahren) sind in dieses Leitprogramm und die Themenseite 6.2
      übergegangen.
      Kompetenzmatrix: K1 → Kap. 1, 6, Aufg. 1a 1c, G1 · K2 → Kap. 1–4, 6, Aufg. 1b 1d 2a–2d 3d 4a–4d, G1 G2 G3 G5 ·
-     K3 → Kap. 3, 4, Aufg. 3a–3c, G4 · K4 → Kap. 5, 6, Aufg. 5a–5f 6a–6d, G5 · K5 → Kap. 7, Aufg. 7a–7f, G6.
+     K3 → Kap. 3, 4, Aufg. 3a–3c 3e, G4 · K4 → Kap. 5, 6, Aufg. 5a–5f 6a–6d, G6 · K5 → Kap. 7, Aufg. 7a–7f, G7.
+     Nachprüfung vom 06.10.2026 (Fassung 2.0, zweiter Durchgang): Aufgabe 3e am R-l-Diagramm, Kapitelaufgaben
+     2b 5a 5b 6c 7f neu (nicht mehr wie die Clipprobleme), Startwerte und Leistenziele weg von Clip- und
+     Kontrollfragewerten, Gesamttest mit sieben Aufgaben (jedes Kapitel geprüft, G5 Kennlinie, G6 ungewohnt
+     gezeichnete Reihenschaltung, G7 rückwärts gefragt).
      Bewusst weggelassen (RLP verlangt es nicht oder nur «einfach»): gemischte Schaltungen, belasteter
      Teiler, Messgeräte-Innenwiderstände, nichtlineare Bauteilmodelle, Coulomb-Gesetz, Wechselspannung —
      auf der Themenseite, Verweise unter «Nicht in diesem Leitprogramm».

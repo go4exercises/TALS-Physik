@@ -1,8 +1,11 @@
 % Gesamttest «Elektrizität» — Quelle des PDFs (python3 scripts/build-lp-pdf.py elektrizitaet).
-% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (03.10.2026).
-% Jede Aufgabe fragt in eine andere Richtung als die Aufgaben und Übungen der Seite
+% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (06.10.2026).
+% Jede Aufgabe fragt in eine andere Richtung als die Aufgaben, Leisten, Kontrollfragen und Clips
 % (HOWTO-leitprogramme §9: kein Gesamttest wiederholt einen Selbsttest).
-% Fassung 2.0 (06.10.2026, TODO-E): sieben Kapitel; G5 mit Messwert und ungewohnt gezeichneter Schaltung in b).
+% Fassung 2.0 (06.10.2026, TODO-E), zweiter Durchgang nach der Prüfung: sieben Aufgaben, jedes Kapitel
+% geprüft. G1 rückwärts (Zeit aus Elektronenzahl) mit Ursprung der Ladung, G5 Kennlinie eines
+% Lämpchens (Kapitel 4), G6 ungewohnt gezeichnete Reihenschaltung mit Probe (Kapitel 5, 6), G7 rückwärts
+% (grösster Schleifenwiderstand) und Schutzklasse II (Kapitel 7).
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Elektrizität}
@@ -17,67 +20,93 @@
 \begin{lpinfo}{Anleitung}
 \textbf{Zeit:} rund 25 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
 Schreib zu jeder Aufgabe zuerst die Formel, dann die Werte \textbf{mit Einheiten}. Punkte gibt es für den Weg
-und für das Ergebnis mit Einheit.
+und für das Ergebnis mit Einheit; wo «Begründe» steht, auch für die Begründung.
 Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem \emph{Bewertungspaket} bewerten lassen.
 \end{lpinfo}
 
-\lpteil{Teil A · Ladung, Strom, Energie}{Kapitel 1 und 2 · 11 Punkte}
+\lpteil{Teil A · Ladung, Strom, Energie}{Kapitel 1 und 2 · 9 Punkte}
 
-\begin{lpaufgabe}{G1}{Elektronen im Draht}{3 P}
-Durch einen Draht fliessen in $8\;\text{s}$ insgesamt $2.0 \cdot 10^{19}$ Elektronen ($e = 1.602 \cdot 10^{-19}\;\text{C}$).
-Wie gross ist der Betrag der Ladung, die durch den Draht fliesst, und wie gross ist die Stromstärke?
-\lpplatz{6}
+\begin{lpaufgabe}{G1}{Elektronen im Glühdraht}{3 P}
+Durch den Glühdraht einer Lampe fliesst ein konstanter Strom von $0.40\;\text{A}$ ($e = 1.602 \cdot 10^{-19}\;\text{C}$).
+Wie gross ist die Ladung von $1.0 \cdot 10^{20}$ Elektronen, und wie lange dauert es, bis so viele Elektronen
+durch einen Querschnitt des Drahts geflossen sind? Begründe, warum der Draht dabei nicht elektrisch geladen wird.
+\lpplatz{8}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G2}{Akku}{4 P}
+\begin{lpaufgabe}{G2}{Akku}{3 P}
 Ein Akku speichert $50\;\text{Wh}$ bei $10\;\text{V}$ (Spannung als konstant angenommen).
-Welche Ladung kann er beim Entladen abgeben (Kapazität), in Amperestunden und in Coulomb? Wie lange kann er ein Gerät mit konstant $20\;\text{W}$ versorgen (idealisiert, ohne Verluste)?
-\lpplatz{7}
+Welche Ladung kann er beim Entladen abgeben, in Amperestunden und in Coulomb? Wie lange kann er ein Gerät mit konstant $20\;\text{W}$ versorgen (idealisiert, ohne Verluste)?
+\lpplatz{8}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G3}{Elektroboiler}{4 P}
+\begin{lpaufgabe}{G3}{Elektroboiler}{3 P}
 Ein Elektroboiler am Netz ($230\;\text{V}$; sein Heizstab wirkt wie ein Widerstand) soll in $2.5\;\text{h}$ die Energie $6\;\text{kWh}$ umsetzen.
 Welche Leistung braucht er, und welcher Strom fliesst? Was kostet eine Füllung bei $0.27\;\text{CHF/kWh}$?
-Auf der Rechnung steht «Stromverbrauch». Was wird tatsächlich verbraucht?
 \lpplatz{9}
 \end{lpaufgabe}
 
-\lpteil{Teil B · Widerstand, Messen und Schaltungen}{Kapitel 3 bis 6 · 9 Punkte}
+\lpteil{Teil B · Widerstand, Messen und Schaltungen}{Kapitel 3 bis 6 · 11 Punkte}
 
 \begin{lpaufgabe}{G4}{Kabel für den Rasenmäher}{4 P}
 Ein Rasenmäher zieht $8\;\text{A}$. Sein Kupferkabel ($\rho = 0.017\;\Omega\,\text{mm}^2/\text{m}$) ist $30\;\text{m}$ lang und hat zwei Adern;
 an der Leitung sollen höchstens $6\;\text{V}$ abfallen. Wie gross darf der Widerstand der Leitung höchstens sein?
-Welcher Querschnitt ist mindestens nötig? Wähle aus $0.75\;\text{mm}^2$, $1.5\;\text{mm}^2$ und $2.5\;\text{mm}^2$ den kleinsten passenden.
-\lpplatz{8}
+Welcher Querschnitt ist mindestens nötig? Wähle aus $0.75\;\text{mm}^2$, $1.5\;\text{mm}^2$ und $2.5\;\text{mm}^2$ den kleinsten passenden und begründe deine Wahl.
+\lpplatz{14}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G5}{Ein unbekannter Widerstand}{5 P}
-$R_1 = 40\;\Omega$ liegt in Reihe mit einem unbekannten Widerstand $R_2$ an $U = 12\;\text{V}$. Gemessen werden $I = 0.2\;\text{A}$.
-\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Berechne $R_\text{ges}$, $R_2$ und die Teilspannungen $U_1$ und $U_2$.
-\item Nun werden dieselben zwei Widerstände so an die $12\;\text{V}$ angeschlossen wie im Bild. Wie sind sie geschaltet? Begründe mit den Verbindungen. Berechne $R_\text{ges}$ und den Gesamtstrom.
+\begin{lpaufgabe}{G5}{Kennlinie eines Lämpchens}{3 P}
+\begin{minipage}[t]{0.5\linewidth}\vspace{0pt}
+Das Diagramm zeigt die gemessene $U$-$I$-Kennlinie eines Lämpchens.
+Lies ab, welcher Strom bei $2\;\text{V}$ und welcher bei $6\;\text{V}$ fliesst, und berechne für beide Messpunkte den Widerstand.
+Ist das Lämpchen ein ohmsches Bauteil? Begründe.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}
+\begin{axis}[width=7.6cm,height=5.6cm,xmin=0,xmax=118,ymin=0,ymax=8.6,axis lines=left,
+  xtick={0,20,...,100},minor xtick={10,30,...,110},ytick={0,1,...,8},grid=both,grid style={lplinie!70},minor grid style={lplinie!45},
+  tick label style={font=\small},
+  xlabel={$I$ [mA]},ylabel={$U$ [V]},xlabel style={at={(1,0)},anchor=south east,yshift=2pt},ylabel style={rotate=-90,at={(0,1)},anchor=south east}]
+\addplot[very thick,lpgruen,domain=0:110,samples=120] {0.0333333*x + 2.66667e-6*x^3};
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+\lpplatz{7}
+\end{lpaufgabe}
 
-\begin{center}\begin{tikzpicture}[x=0.8cm,y=0.8cm,thick]
-\draw (0,0) -- (0,1.8); \draw[line width=2.4pt] (-0.2,1.8) -- (0.2,1.8); \draw (-0.4,2.2) -- (0.4,2.2); \draw (0,2.2) -- (0,4);
-\node[left] at (-0.45,2.0) {$12\;\text{V}$};
-\draw (0,4) -- (2,4); \draw (2,3.8) rectangle (3.4,4.2); \node[above] at (2.7,4.2) {$R_1 = 40\;\Omega$}; \draw (3.4,4) -- (7,4) -- (7,0) -- (0,0);
-\draw (1,4) -- (1,2.8) -- (5,2.8) -- (5,2.2); \draw (4.8,1.0) rectangle (5.2,2.2); \node[left] at (4.8,1.6) {$R_2$}; \draw (5,1.0) -- (5,0);
-\fill (1,4) circle (2.2pt); \fill (5,0) circle (2.2pt);
-\end{tikzpicture}\end{center}
+\begin{lpaufgabe}{G6}{Ein unbekannter Widerstand}{4 P}
+\begin{minipage}[t]{0.56\linewidth}\vspace{0pt}
+$R_1 = 60\;\Omega$ und ein unbekannter Widerstand $R_2$ sind so an eine Quelle mit $9\;\text{V}$ angeschlossen wie im Bild.
+Ein Amperemeter im Stromweg zeigt $60\;\text{mA}$.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Wie sind $R_1$ und $R_2$ geschaltet? Begründe mit den Verbindungen.
+\item Berechne $R_2$ sowie die Spannungen $U_1$ und $U_2$.
+\item Prüfe die beiden Spannungen mit einer Probe und begründe, warum sie gelten muss.
 \end{enumerate}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.4\linewidth}\vspace{4pt}\centering
+\begin{tikzpicture}[x=0.85cm,y=0.85cm,thick]
+\draw (0,0) -- (0,1.8); \draw[line width=2.4pt] (-0.2,1.8) -- (0.2,1.8); \draw (-0.4,2.2) -- (0.4,2.2); \draw (0,2.2) -- (0,4);
+\node[left] at (-0.45,2.0) {$9\;\text{V}$};
+\draw (0,4) -- (1.6,4); \draw (1.6,3.8) rectangle (3.0,4.2); \node[above] at (2.3,4.2) {$R_1 = 60\;\Omega$};
+\draw (3.0,4) -- (4.4,4) -- (4.4,2) -- (3.0,2);
+\draw (1.6,1.8) rectangle (3.0,2.2); \node[below] at (2.3,1.8) {$R_2$};
+\draw (1.6,2) -- (0.9,2) -- (0.9,0) -- (0,0);
+\end{tikzpicture}
+\end{minipage}
 \lpplatz{10}
 \end{lpaufgabe}
 
 \lpteil{Teil C · Gefahren und Schutz}{Kapitel 7 · 5 Punkte}
 
-\begin{lpaufgabe}{G6}{Waschmaschine mit Isolationsfehler}{5 P}
-Im Metallgehäuse einer Waschmaschine ($230\;\text{V}$) berührt der Aussenleiter das Gehäuse. Der Stromkreis hat einen
-Leitungsschutzschalter B13 ($13\;\text{A}$, Charakteristik B) und einen unverzögerten FI-Schutzschalter ($30\;\text{mA}$).
+\begin{lpaufgabe}{G7}{Kühlschrank mit Isolationsfehler}{5 P}
+Im Metallgehäuse eines Kühlschranks ($230\;\text{V}$) berührt der Aussenleiter das Gehäuse. Der Stromkreis hat einen
+Leitungsschutzschalter B13 ($13\;\text{A}$, Charakteristik B: magnetisch, also sofort, ab $65\;\text{A}$) und einen unverzögerten FI-Schutzschalter ($30\;\text{mA}$).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Der Schutzleiter ist angeschlossen; der ganze Fehlerweg (Aussenleiter, Gehäuse, Schutzleiter zurück zur Quelle) hat $2\;\Omega$. Wie gross ist der Fehlerstrom? Wer trennt, und warum so schnell?
-\item Der Schutzleiter ist unterbrochen. Jemand fasst das Gehäuse an; der Strom fliesst über ihn und den Boden zur geerdeten Quelle ($R_\text{K} = 1.8\;\text{k}\Omega$ für Körper und Boden). Wie gross ist der Körperstrom? Wer schützt jetzt, und warum nicht der Leitungsschutzschalter?
+\item Der Schutzleiter ist angeschlossen. Wie gross darf der Widerstand der ganzen Fehlerschleife (Aussenleiter, Gehäuse, Schutzleiter zurück zur Quelle) höchstens sein, damit der B13 sofort trennt? Begründe, warum es dafür den Schutzleiter braucht.
+\item Der Schutzleiter ist unterbrochen. Jemand fasst das Gehäuse an; der Strom fliesst über ihn und den Boden zur geerdeten Quelle ($R_\text{K} = 1.8\;\text{k}\Omega$ für Körper und Boden). Wie gross ist der Körperstrom? Wer schützt jetzt? Begründe, warum es nicht der Leitungsschutzschalter ist.
+\item Eine Kaffeemaschine hat ein Kunststoffgehäuse mit dem Doppelquadrat-Symbol und keinen Schutzleiter. Begründe, warum ein einzelner Isolationsfehler in ihr das Gehäuse trotzdem nicht gefährlich macht.
 \end{enumerate}
-\lpplatz{9}
+\lpplatz{22}
 \end{lpaufgabe}
 
 \vfill

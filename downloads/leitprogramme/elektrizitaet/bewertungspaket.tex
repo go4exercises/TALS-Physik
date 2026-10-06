@@ -1,16 +1,19 @@
 % Bewertungspaket zum Gesamttest «Elektrizität» — Quelle des PDFs (python3 scripts/build-lp-pdf.py elektrizitaet).
-% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (03.10.2026).
+% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (06.10.2026).
+% Fassung 2.0, zweiter Durchgang (06.10.2026): sieben Aufgaben, Ablesepunkte (A), Regel «ein Fehler, ein Abzug»
+% auch über Teilaufgaben, Rundungstoleranz 2 %, Zeilenabstand in den Rastern (Brüche berühren sich nicht).
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Elektrizität}
 \renewcommand{\lpteilgebiet}{6.2}
 \renewcommand{\lpfuss}{Bewertungspaket}
 \newcolumntype{P}{>{\centering\arraybackslash}p{10mm}}
-\newenvironment{raster}{\par\smallskip\noindent\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P X@{}}\toprule
+\newenvironment{raster}{\par\smallskip\noindent\renewcommand{\arraystretch}{1.5}\setlength{\lineskiplimit}{3pt}\setlength{\lineskip}{5pt}\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P >{\raggedright\arraybackslash}X@{}}\toprule
   \small\textsc{Teilschritt} & \small\textsc{P} & \small\textsc{Musterlösung}\\\midrule}{\bottomrule\endtabularx\par}
-\newcommand{\fehler}[1]{\par\smallskip{\small\textcolor{lprot}{\bfseries Typische Fehler:} #1}}
+\newcommand{\fehler}[1]{\par\smallskip{\small\raggedright\textcolor{lprot}{\bfseries Typische Fehler:} #1\par}}
 \newcommand{\E}{\,{\footnotesize\bfseries\color{lpgruen}(E)}}
 \newcommand{\B}{\,{\footnotesize\bfseries(B)}}
+\newcommand{\A}{\,{\footnotesize\bfseries(A)}}
 \begin{document}
 \lpkopf{Bewertungspaket zum Gesamttest}{}
 
@@ -33,104 +36,113 @@ Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am E
 \item \textbf{Gezielt wiederholen} nach Abschnitt~4.
 \end{enumerate}
 
-\needspace{14\baselineskip}
 \section*{2 · Auftrag an die KI}
-\begin{tcolorbox}[colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
+\begin{tcolorbox}[breakable,colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
 Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Elektrizität» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
 Geh so vor:\par
-1. Schreib zu jeder Aufgabe G1 bis G6 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
-2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
-3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Vorsilbe ($0.128\;\text{A} = 128\;\text{mA}$), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen). Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll.\par
+1. Schreib zu jeder Aufgabe G1 bis G7 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
+2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. dieselbe fehlende Umrechnung von Milliampere in Ampere) kostet nur beim ersten Vorkommen einen Punkt; die anderen Teilaufgaben werden folgerichtig bewertet. Gleichartige Fehler bewertest du gleich: ein Fehler, ein Abzug. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
+3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Vorsilbe ($0.128\;\text{A} = 128\;\text{mA}$), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen). Werte aus sinnvoll gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% vom Raster abweichen. Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (A) sind Ablesepunkte: Es zählt der abgelesene Wert mit Einheit, innerhalb der angegebenen Ablesetoleranz. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll.\par
 4. Begründe jeden Abzug in einem Satz und nenne die Fehlerart (zum Beispiel «Minuten nicht in Stunden umgerechnet»). Schreib die Musterlösung nicht ab — zeig mir, wo mein Fehler liegt.\par
 5. Gib zum Schluss eine Tabelle «Aufgabe | Punkte | Begründung», die Gesamtpunktzahl (von 25) und — nach der Selbsteinschätzung in Abschnitt 4 — welches Kapitel des Leitprogramms ich wiederholen soll. Keine Note.\par
 6. Fehlt ein Foto oder ist eine Aufgabe unlesbar, sag es, statt sie zu bewerten.
 \end{tcolorbox}
 
-\needspace{16\baselineskip}
 \section*{3 · Musterlösung und Punkteraster}
 \textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
 richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler) — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
-Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Gleichwertige Wege und Schreibweisen zählen voll.
+Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. dieselbe fehlende
+Umrechnung) kostet nur beim ersten Vorkommen einen Punkt; die anderen Teilaufgaben werden folgerichtig bewertet — ein Fehler,
+ein Abzug. Gleichwertige Wege und Schreibweisen zählen voll; Folgewerte aus gerundeten Zwischenergebnissen zählen, wenn sie
+höchstens rund 2\,\% abweichen.
 In der Spalte P: \textbf{(E)}~= Ergebnispunkt — es zählt das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit
-falscher Einheit gibt es ihn nicht. \textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten);
-steht in einer Weg-Zeile ein Zahlenwert, braucht auch er die Einheit. \textbf{(B)}~= Begründungspunkt — es zählt die fachliche
-Aussage in eigenen Worten, eine Formel ist nicht nötig. «Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
+falscher Einheit gibt es ihn nicht. \textbf{(A)}~= Ablesepunkt — der abgelesene Wert mit Einheit, innerhalb der angegebenen Toleranz.
+\textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten);
+steht in einer Weg-Zeile ein Zahlenwert, braucht auch er die Einheit. \textbf{(B)}~= Begründungspunkt (nur, wo die Aufgabe
+«Begründe» verlangt) — es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig.
+«Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
 
-\begin{lpaufgabe}{G1}{Elektronen im Draht}{3 P}
+\begin{lpaufgabe}{G1}{Elektronen im Glühdraht}{3 P}
 \begin{raster}
-Ansatz & 1\,(W) & $|Q| = n \cdot e = 2.0 \cdot 10^{19} \cdot 1.602 \cdot 10^{-19}\;\text{C}$\\
-Ladung & 1\E & $|Q| \approx 3.20\;\text{C}$ (auch $3.2\;\text{C}$; $-3.20\;\text{C}$ zählt, wenn das Vorzeichen mit den Elektronen begründet ist)\\
-Stromstärke & 1\E & $I = \dfrac{Q}{t} = \dfrac{3.20\;\text{C}}{8\;\text{s}} \approx 0.40\;\text{A}$\\
+Ladung & 1\E & $|Q| = n \cdot e = 1.0 \cdot 10^{20} \cdot 1.602 \cdot 10^{-19}\;\text{C} \approx 16.0\;\text{C}$\\\addlinespace[5pt]
+Zeit & 1\E & $t = \dfrac{Q}{I} = \dfrac{16.0\;\text{C}}{0.40\;\text{A}} \approx 40\;\text{s}$\\\addlinespace[5pt]
+Nicht geladen & 1\B & Ladung wird nicht erzeugt, nur verschoben: Für jedes Elektron, das in den Draht hineinfliesst, fliesst eines hinaus. Die Zahl der Elektronen im Draht bleibt gleich, er bleibt neutral.\\\addlinespace[5pt]
 \end{raster}
-\fehler{$Q = n / e$ ($1.25 \cdot 10^{38}$): Ansatz und Ladung 0; $I$ mit diesem Wert folgerichtig ($1.56 \cdot 10^{37}\;\text{A}$) zählt $\to$ 1 von 3\,P.
-$I = Q \cdot t$: Stromstärke 0 $\to$ 2 von 3\,P.}
+\fehler{$Q = n / e$ ($6.24 \cdot 10^{38}\;\text{C}$): Ladung 0; $t$ mit diesem Wert folgerichtig ($1.56 \cdot 10^{39}\;\text{s}$) zählt $\to$ 2 von 3\,P.
+$t = Q \cdot I = 6.4\;\text{s}$: Zeit 0 $\to$ 2 von 3\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G2}{Akku, $50\;\text{Wh}$ bei $10\;\text{V}$}{4 P}
+\begin{lpaufgabe}{G2}{Akku, $50\;\text{Wh}$ bei $10\;\text{V}$}{3 P}
 \begin{raster}
-Ansatz & 1\,(W) & $W = U \cdot Q$ (konstante Spannung), also $Q = \dfrac{W}{U} = \dfrac{50\;\text{Wh}}{10\;\text{V}}$\\
-Ladung in Ah & 1\E & $Q = 5\;\text{Ah}$\\
-Ladung in C & 1\E & $Q = 5\;\text{A} \cdot 3600\;\text{s} = 18\,000\;\text{C}$\\
-Versorgungsdauer & 1\E & $t = \dfrac{E}{P} = \dfrac{50\;\text{Wh}}{20\;\text{W}} = 2.5\;\text{h}$\\
+Ladung in Ah & 1\E & $W = U \cdot Q$ (konstante Spannung), also\par\vspace{3pt}$Q = \dfrac{W}{U} = \dfrac{50\;\text{Wh}}{10\;\text{V}} = 5\;\text{Ah}$\\\addlinespace[5pt]
+Ladung in C & 1\E & $Q = 5\;\text{A} \cdot 3600\;\text{s} = 18\,000\;\text{C}$\\\addlinespace[5pt]
+Versorgungsdauer & 1\E & $t = \dfrac{W}{P} = \dfrac{50\;\text{Wh}}{20\;\text{W}} = 2.5\;\text{h}$\\\addlinespace[5pt]
 \end{raster}
-\fehler{$Q = U \cdot W = 500$: Ansatz und Ladung in Ah 0; die Umrechnung des eigenen Werts in C ($\cdot 3600$) zählt; Versorgungsdauer unabhängig $\to$ 2 von 4\,P.
-Ladung in C mit $\cdot 60$ statt $\cdot 3600$ ($300\;\text{C}$): Ladung in C 0 $\to$ 3 von 4\,P.}
+\fehler{$Q = U \cdot W = 500\;\text{Ah}$: Ladung in Ah 0; die Umrechnung des eigenen Werts in C ($1.8 \cdot 10^{6}\;\text{C}$) zählt $\to$ 2 von 3\,P.
+Ladung in C mit $\cdot 60$ statt $\cdot 3600$ ($300\;\text{C}$): Ladung in C 0 $\to$ 2 von 3\,P.
+$t = W \cdot P = 1000$: Versorgungsdauer 0 $\to$ 2 von 3\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G3}{Elektroboiler, $6\;\text{kWh}$ in $2.5\;\text{h}$}{4 P}
+\begin{lpaufgabe}{G3}{Elektroboiler, $6\;\text{kWh}$ in $2.5\;\text{h}$}{3 P}
 \begin{raster}
-Leistung & 1\E & $P = \dfrac{E}{t} = \dfrac{6\;\text{kWh}}{2.5\;\text{h}} = 2.4\;\text{kW}$\\
-Strom & 1\E & $I = \dfrac{P}{U} = \dfrac{2400\;\text{W}}{230\;\text{V}} \approx 10.4\;\text{A}$\\
-Kosten & 1\E & $\text{Kosten} = E \cdot \text{Preis} = 6\;\text{kWh} \cdot 0.27\;\text{CHF/kWh} \approx 1.62\;\text{CHF}$\\
-«Stromverbrauch» & 1\B & Strom wird nicht verbraucht, er fliesst zurück. Umgesetzt und bezahlt wird Energie.\\
+Leistung & 1\E & $P = \dfrac{E}{t} = \dfrac{6\;\text{kWh}}{2.5\;\text{h}} = 2.4\;\text{kW}$\\\addlinespace[5pt]
+Strom & 1\E & $I = \dfrac{P}{U} = \dfrac{2400\;\text{W}}{230\;\text{V}} \approx 10.4\;\text{A}$\\\addlinespace[5pt]
+Kosten & 1\E & $\text{Kosten} = E \cdot \text{Preis} = 6\;\text{kWh} \cdot 0.27\;\text{CHF/kWh} \approx 1.62\;\text{CHF}$\\\addlinespace[5pt]
 \end{raster}
-\fehler{$P = E \cdot t = 15\;\text{kW}$: Leistung 0; Strom folgerichtig ($65.2\;\text{A}$) zählt $\to$ 3 von 4\,P.
-$I = \frac{2.4}{230}$ ohne Umrechnung in W ($0.0104\;\text{A}$): Strom 0 $\to$ 3 von 4\,P.}
+\fehler{$P = E \cdot t = 15\;\text{kW}$: Leistung 0; Strom folgerichtig ($65.2\;\text{A}$) zählt; Kosten unabhängig $\to$ 2 von 3\,P.
+$I = \frac{2.4}{230}$ ohne Umrechnung in W ($0.0104\;\text{A}$): Strom 0 $\to$ 2 von 3\,P.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G4}{Kabel für den Rasenmäher}{4 P}
 \begin{raster}
-Höchster Widerstand & 1\E & $R = \dfrac{U}{I} = \dfrac{6\;\text{V}}{8\;\text{A}} = 0.75\;\Omega$\\
-Leiterlänge & 1\,(W) & hin und zurück: $l = 2 \cdot 30\;\text{m} = 60\;\text{m}$\\
-Mindestquerschnitt & 1\E & $A = \dfrac{\rho \cdot l}{R} = \dfrac{0.017\;\Omega\,\text{mm}^2/\text{m} \cdot 60\;\text{m}}{0.75\;\Omega} = 1.36\;\text{mm}^2$\\
-Wahl & 1\B & $1.5\;\text{mm}^2$ (der kleinste Querschnitt über $1.36\;\text{mm}^2$; $0.75\;\text{mm}^2$ ist zu dünn). Gewählt nur nach dem Spannungsabfall, keine vollständige Installationsbemessung.\\
+Höchster Widerstand & 1\E & $R = \dfrac{U}{I} = \dfrac{6\;\text{V}}{8\;\text{A}} = 0.75\;\Omega$\\\addlinespace[5pt]
+Leiterlänge & 1\,(W) & hin und zurück: $l = 2 \cdot 30\;\text{m} = 60\;\text{m}$\\\addlinespace[5pt]
+Mindestquerschnitt & 1\E & $A = \dfrac{\rho \cdot l}{R} = \dfrac{0.017\;\Omega\,\text{mm}^2/\text{m} \cdot 60\;\text{m}}{0.75\;\Omega} = 1.36\;\text{mm}^2$\\\addlinespace[5pt]
+Wahl & 1\B & $1.5\;\text{mm}^2$: der kleinste Querschnitt über $1.36\;\text{mm}^2$; mit $0.75\;\text{mm}^2$ wäre der Widerstand zu gross und der Spannungsfall über $6\;\text{V}$. Gewählt nur nach dem Spannungsfall, keine vollständige Installationsbemessung.\\\addlinespace[5pt]
 \end{raster}
 \fehler{Nur $30\;\text{m}$ gerechnet ($A = 0.68\;\text{mm}^2$, Wahl $0.75\;\text{mm}^2$): Leiterlänge 0, Rest folgerichtig $\to$ 3 von 4\,P.
-$R = U \cdot I = 48\;\Omega$: Höchster Widerstand 0, Querschnitt folgerichtig ($0.021\;\text{mm}^2$) zählt, Wahl $0.75\;\text{mm}^2$ zählt $\to$ 3 von 4\,P.}
+$R = U \cdot I = 48\;\Omega$: Höchster Widerstand 0, Querschnitt folgerichtig ($0.021\;\text{mm}^2$) zählt, Wahl $0.75\;\text{mm}^2$ mit dieser Begründung zählt $\to$ 3 von 4\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G5}{$R_1 = 40\;\Omega$, $R_2$ unbekannt, $12\;\text{V}$, $0.2\;\text{A}$}{5 P}
+\begin{lpaufgabe}{G5}{Kennlinie eines Lämpchens}{3 P}
 \begin{raster}
-a) $R_\text{ges}$, $R_2$ & 1\E & $R_\text{ges} = \dfrac{U}{I} = \dfrac{12\;\text{V}}{0.2\;\text{A}} = 60\;\Omega$, $R_2 = R_\text{ges} - R_1 = 20\;\Omega$ (beides nötig)\\
-a) Teilspannungen & 1\E & $U_1 = I \cdot R_1 = 8\;\text{V}$, $U_2 = I \cdot R_2 = 4\;\text{V}$ (beide nötig)\\
-b) Schaltungsart & 1\B & parallel: Beide Widerstände verbinden denselben Punkt beim Pluspol (Abzweig oben links) mit dem Draht zum Minuspol (Punkt unten); die Lage auf dem Blatt spielt keine Rolle\\
-b) $R_\text{ges}$ parallel & 1\E & $R_\text{ges} = \dfrac{R_1 \cdot R_2}{R_1 + R_2} = \dfrac{40\;\Omega \cdot 20\;\Omega}{60\;\Omega} \approx 13.3\;\Omega$\\
-b) Gesamtstrom & 1\E & $I = \dfrac{U}{R_\text{ges}} = \dfrac{12\;\text{V}}{13.3\;\Omega} \approx 0.90\;\text{A}$ (oder $\dfrac{12\;\text{V}}{40\;\Omega} + \dfrac{12\;\text{V}}{20\;\Omega} = 0.3\;\text{A} + 0.6\;\text{A}$)\\
+Ablesen & 1\A & bei $2\;\text{V}$: $I \approx 50\;\text{mA}$; bei $6\;\text{V}$: $I \approx 100\;\text{mA}$ (beide nötig; zählt: je $\pm 3\;\text{mA}$)\\\addlinespace[5pt]
+Widerstände & 1\E & $R = \dfrac{U}{I}$: $\dfrac{2\;\text{V}}{0.050\;\text{A}} = 40\;\Omega$ und $\dfrac{6\;\text{V}}{0.100\;\text{A}} = 60\;\Omega$\par\vspace{3pt}(beide nötig; folgerichtig aus den eigenen Ablesewerten)\\\addlinespace[5pt]
+Ohmsch? & 1\B & Nein: $R = U/I$ ist nicht konstant, er wächst mit dem Strom (der Draht wird heisser). Die Kennlinie ist keine Gerade durch den Ursprung.\\\addlinespace[5pt]
 \end{raster}
-\fehler{Kehrwert vergessen ($R_\text{ges} = 0.075\;\Omega$): b)~$R_\text{ges}$ 0; der Gesamtstrom zählt folgerichtig, ob über $\frac{12\;\text{V}}{0.075\;\Omega} = 160\;\text{A}$ oder über $I_1 + I_2 = 0.9\;\text{A}$ $\to$ 4 von 5\,P.
-$R_2 = 60\;\Omega$ (Gesamtwiderstand für $R_2$ gehalten): a)~$R_\text{ges}$, $R_2$ 0; Teilspannungen ($8\;\text{V}$ und $12\;\text{V}$) und b) mit $60\;\Omega$ ($24\;\Omega$, $0.5\;\text{A}$) folgerichtig $\to$ 4 von 5\,P.
-b) für eine Reihenschaltung gehalten: Schaltungsart 0; $R_\text{ges} = 60\;\Omega$ und $I = 0.2\;\text{A}$ sind dann nur die Werte aus a), keine neue Rechnung, und zählen nicht $\to$ 2 von 5\,P.}
+\fehler{Milliampere nicht umgerechnet ($0.04\;\Omega$ und $0.06\;\Omega$): Widerstände 0; die Begründung zählt, wenn sie mit dem wachsenden Verhältnis $U/I$ argumentiert $\to$ 2 von 3\,P.
+$R = I/U$ ($0.025$ und $0.017$): Widerstände 0; «nicht ohmsch, das Verhältnis ändert sich» zählt $\to$ 2 von 3\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G6}{Waschmaschine mit Isolationsfehler}{5 P}
+\begin{lpaufgabe}{G6}{$R_1 = 60\;\Omega$, $R_2$ unbekannt, $9\;\text{V}$, $60\;\text{mA}$}{4 P}
 \begin{raster}
-a) Fehlerstrom & 1\E & $I_\text{F} = \dfrac{U}{R} = \dfrac{230\;\text{V}}{2\;\Omega} = 115\;\text{A}$\\
-a) Wer trennt & 1\B & Der LS B13 trennt sofort: $115\;\text{A}$ sind mehr als das Fünffache seiner $13\;\text{A}$, dort löst er magnetisch aus (Kurzschlussauslösung). Der FI spricht ebenfalls an, weil $115\;\text{A}$ auf dem Neutralleiter fehlen. (Einer der beiden genügt für den Punkt, wenn die Begründung stimmt; welcher zuerst öffnet, ist nicht verlangt.)\\
-b) Körperstrom & 1\E & $I_\text{K} = \dfrac{230\;\text{V}}{1800\;\Omega} \approx 0.128\;\text{A} = 128\;\text{mA}$\\
-b) Wer schützt & 1\B & Der FI: $128\;\text{mA}$ fehlen auf dem Rückweg, mehr als $30\;\text{mA}$ — er muss trennen (beim gut Vierfachen spätestens nach $150\;\text{ms}$; die Zeit ist nicht verlangt).\\
-b) Warum nicht der LS & 1\B & $0.128\;\text{A}$ liegen weit unter $13\;\text{A}$: Der Leitungsschutzschalter merkt nichts, er schützt die Leitung, nicht den Menschen.\\
+a) Schaltungsart & 1\B & In Reihe: $R_1$ und $R_2$ teilen sich nur den Draht rechts, an dem sonst nichts hängt; das andere Ende von $R_1$ führt zum Pluspol, das von $R_2$ zum Minuspol. Dass sie übereinander gezeichnet sind, spielt keine Rolle.\\\addlinespace[5pt]
+b) $R_2$ & 1\E & $R_\text{ges} = \dfrac{U}{I} = \dfrac{9\;\text{V}}{0.060\;\text{A}} = 150\;\Omega$, $R_2 = R_\text{ges} - R_1 = 90\;\Omega$\\\addlinespace[5pt]
+b) $U_1$, $U_2$ & 1\E & $U_1 = I \cdot R_1 = 0.060\;\text{A} \cdot 60\;\Omega = 3.6\;\text{V}$, $U_2 = I \cdot R_2 = 0.060\;\text{A} \cdot 90\;\Omega = 5.4\;\text{V}$ (beide nötig)\\\addlinespace[5pt]
+c) Probe & 1\B & $U_1 + U_2 = 3.6\;\text{V} + 5.4\;\text{V} = 9\;\text{V}$, die Quellenspannung. Energiebilanz: Die Quelle gibt jedem Coulomb $9\;\text{J}$ mit, die beiden Widerstände geben zusammen genau so viel ab. (Auch: $U_1 : U_2 = R_1 : R_2 = 2 : 3$, weil durch beide derselbe Strom fliesst.)\\\addlinespace[5pt]
 \end{raster}
-\fehler{$I_\text{K} = 230\;\text{V} \cdot 1800\;\Omega$: Körperstrom 0; «der FI schützt» zählt, wenn mit Hin- und Rückstrom begründet; «der LS löst aus» gibt die letzte Zeile nicht $\to$ 3 von 5\,P.
-In a) nur «der FI trennt» ohne Begründung: a)~Wer trennt 0 $\to$ 4 von 5\,P.}
+\fehler{Milliampere nicht umgerechnet ($R_\text{ges} = 0.15\;\Omega$): b)~$R_2$ 0 (kein positiver Widerstand); $U_1$, $U_2$ und die Probe mit $0.060\;\text{A}$ zählen $\to$ 3 von 4\,P.
+Für parallel gehalten und folgerichtig parallel gerechnet: a)~0; $R_2$ lässt sich so nicht bestimmen ($\frac{1}{R_2} = \frac{1}{150\;\Omega} - \frac{1}{60\;\Omega} < 0$): b)~$R_2$ 0; «$U_1 = U_2 = 9\;\text{V}$» ist folgerichtig und zählt für b)~$U_1$, $U_2$; c)~zählt, wenn mit «parallel liegt an beiden die ganze Spannung» begründet $\to$ 2 von 4\,P. Trotz «parallel» richtig in Reihe gerechnet: nur a)~0 $\to$ 3 von 4\,P.}
 \end{lpaufgabe}
 
-\needspace{14\baselineskip}
+\begin{lpaufgabe}{G7}{Kühlschrank mit Isolationsfehler}{5 P}
+\begin{raster}
+a) Grösster Widerstand & 1\E & $R_\text{max} = \dfrac{U}{I} = \dfrac{230\;\text{V}}{65\;\text{A}} \approx 3.5\;\Omega$\\\addlinespace[5pt]
+a) Schutzleiter & 1\B & Erst der Schutzleiter schliesst einen Weg aus Metall mit wenigen Ohm zur Quelle. Ohne ihn führt der Weg über Mensch und Boden (Kiloohm): Der Strom bleibt bei Milliampere, weit unter $65\;\text{A}$, und der LS trennt nicht.\\\addlinespace[5pt]
+b) Körperstrom & 1\E & $I_\text{K} = \dfrac{U}{R_\text{K}} = \dfrac{230\;\text{V}}{1800\;\Omega} \approx 0.128\;\text{A} = 128\;\text{mA}$\\\addlinespace[5pt]
+b) Wer schützt & 1\B & Der FI: $128\;\text{mA}$ fehlen auf dem Rückweg, mehr als $30\;\text{mA}$ — er muss trennen (die Zeit ist nicht verlangt). Der LS nicht: $0.128\;\text{A}$ liegen weit unter $13\;\text{A}$; er schützt die Leitung, nicht den Menschen. (Beides nötig.)\\\addlinespace[5pt]
+c) Schutzklasse II & 1\B & Doppelte oder verstärkte Isolierung: Hinter der ersten Isolierung liegt eine zweite, und das Gehäuse leitet nicht. Ein einzelner Fehler setzt das berührbare Gehäuse nicht unter Spannung; darum braucht es keinen Schutzleiter.\\\addlinespace[5pt]
+\end{raster}
+\fehler{$R = U \cdot I$ ($14\,950\;\Omega$): a)~Grösster Widerstand 0 $\to$ 4 von 5\,P. Mit $13\;\text{A}$ statt $65\;\text{A}$ gerechnet ($17.7\;\Omega$): a)~Grösster Widerstand 0 $\to$ 4 von 5\,P.
+$I_\text{K} = 230\;\text{V} \cdot 1800\;\Omega = 414\;\text{kA}$: Körperstrom 0. Wer mit diesem Wert folgerichtig begründet, dass FI und LS trennen ($414\;\text{kA}$ weit über $30\;\text{mA}$ und über $65\;\text{A}$), bekommt «Wer schützt» $\to$ 4 von 5\,P.}
+\end{lpaufgabe}
+
 \section*{4 · Selbsteinschätzung}
 \begin{tabularx}{\linewidth}{@{}l X@{}}\toprule
 22 – 25 P & Die geprüften Teile sitzen. Wo du Punkte verloren hast: das Kapitel dieser Aufgabe nochmals (Zuordnung unten).\\
 17 – 21 P & Den schwächsten Teil nochmals: Simulation und Übungen des Kapitels, in dem du die meisten Punkte verloren hast.\\
 11 – 16 P & Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.\\
 0 – 10 P & Zurück zu Kapitel 1 und von dort der Reihe nach weiter.\\\midrule
-\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche): G1 $\to$ Kapitel 1 · G2, G3 $\to$ Kapitel 2 · G4 $\to$ Kapitel 3 · G5 $\to$ Kapitel 4, 5, 6 · G6 $\to$ Kapitel 7}\\\bottomrule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche): G1 $\to$ Kapitel 1 · G2, G3 $\to$ Kapitel 2 · G4 $\to$ Kapitel 3 · G5 $\to$ Kapitel 4 · G6 $\to$ Kapitel 5, 6 · G7 $\to$ Kapitel 7}\\\bottomrule
 \end{tabularx}
 \end{document}

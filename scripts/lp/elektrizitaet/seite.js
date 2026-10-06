@@ -219,7 +219,8 @@
   /* ---------- Kapitel 1: Ladung und Stromstärke ----------
      Anders als die Themenseite (Animation 1, Wassermodell) zeigt die Simulation
      nur das Q-t-Diagramm: Die Steigung ist die Stromstärke, der Punkt die Ladung
-     nach der Zeit t. Startwert = Beispiel im Clip: 2 A während 5 s. */
+     nach der Zeit t. Startwerte (1.25 A, 3 s) weder Clipbeispiel (2 A, 5 s) noch Leistenziel;
+     die Aufnahmen für Clips setzen ihre Werte selbst. */
   (function(){
     var fig = document.getElementById('sim1'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -257,7 +258,8 @@
         vergleich: 'Zum Beispiel \\(2\\;\\text{A} \\cdot 6\\;\\text{s}\\) und \\(3\\;\\text{A} \\cdot 4\\;\\text{s}\\): Das Produkt \\(I \\cdot t\\) ist beide Male \\(12\\;\\text{C}\\). Die Punkte liegen gleich hoch, aber auf verschieden steilen Geraden.' },
       { text: 'Triff die gestrichelte Gerade. Welche Stromstärke stellt sie dar, und wie viel Ladung fliesst damit in \\(6\\;\\text{s}\\)?', setup: function(S){ ziel = 2.5; S.setze({ I: 1 }); }, ok: function(s){ return gl(s.I, 2.5); },
         vergleich: 'Die Gerade steigt in jeder Sekunde um \\(2.5\\;\\text{C}\\): \\(I = 2.5\\;\\text{A}\\). In \\(6\\;\\text{s}\\) fliessen \\(Q = 2.5\\;\\text{A} \\cdot 6\\;\\text{s} = 15\\;\\text{C}\\).' },
-      { text: 'Stelle \\(Q = 1\\;\\text{C}\\) ein und lies ab, wie viele Elektronen das sind.', setup: function(S){ S.setze({ I: 2, t: 5 }); }, ok: function(s){ return gl(s.Q, 1); } },
+      { text: 'Stelle \\(Q = 1\\;\\text{C}\\) ein und lies ab, wie viele Elektronen das sind. Notiere die Zahl: Warum rechnet man lieber in Coulomb?', setup: function(S){ S.setze({ I: 2, t: 5 }); }, ok: function(s){ return gl(s.Q, 1); },
+        vergleich: '\\(n = \\dfrac{Q}{e} = \\dfrac{1\\;\\text{C}}{1.602 \\cdot 10^{-19}\\;\\text{C}} \\approx 6.24 \\cdot 10^{18}\\) Elektronen. Schon kleine Ladungen sind riesige Anzahlen; in Coulomb bleiben die Zahlen handlich.' },
       { text: 'In \\(10\\;\\text{s}\\) sollen rund \\(3.1 \\cdot 10^{19}\\) Elektronen durch den Querschnitt. Stelle ein. Wie gross sind Ladung und Stromstärke? Notiere beide.', ok: function(s){ return gl(s.t, 10) && gl(s.I, 0.5); },
         vergleich: '\\(Q = n \\cdot e = 3.1 \\cdot 10^{19} \\cdot 1.602 \\cdot 10^{-19}\\;\\text{C} \\approx 5\\;\\text{C}\\), also \\(I = \\dfrac{5\\;\\text{C}}{10\\;\\text{s}} = 0.5\\;\\text{A}\\).' }
     ], sim);
@@ -268,8 +270,9 @@
      Wie Animation 9 der Themenseite ein P-t-Diagramm, in dem die Rechteckfläche
      die Energie ist — aber nur mit zwei Spannungen (Autobatterie, Netz), damit die
      Aufgaben mit echten Geräten arbeiten. Bei 12 V wechselt die Leistungsachse auf
-     0 bis 130 W, sonst wäre das Rechteck wenige Pixel hoch. Startwert = Clipbeispiel
-     Wasserkocher (230 V, 8.7 A, 1 h ≈ 2 kWh); die Aufgaben nehmen andere Geräte. */
+     0 bis 130 W, sonst wäre das Rechteck wenige Pixel hoch. Startwerte (230 V, 3.5 A,
+     1.5 h) weder Clipbeispiel (Wasserkocher 8.7 A, 1 h) noch Leistenziel; die Aufnahme
+     p6-2-lp-leistung-3.jpg setzt ihre Werte selbst. Energiefläche Bernstein wie in den Clips. */
   (function(){
     var fig = document.getElementById('sim2'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -303,7 +306,7 @@
       else if (t > 0) K.text(Math.max(t, 0.9) + 0.05, P + S.y1 * 0.06, 'E ' + ist(E, sig(E)) + Et, 'flaeche-text', 'start');
       var Pt = zahl(+P.toFixed(1));
       rolle(fig, 'formel').innerHTML =
-        '<span>' + v('P') + ' = ' + v('U') + ' · ' + v('I') + ' = ' + U + NB + 'V · ' + fest(I, 1) + NB + 'A = ' + Pt + NB + 'W</span>' +
+        '<span>' + v('P') + ' = ' + v('U') + ' · ' + v('I') + ' = ' + U + NB + 'V · ' + zahl(I) + NB + 'A = ' + Pt + NB + 'W</span>' +
         '<span>' + v('E') + ' = ' + v('P') + ' · ' + v('t') + ' = ' + zahl(+(P / 1000).toFixed(6)) + NB + 'kW · ' + zahl(t) + NB + 'h ' + ist(E, sig(E)) + Et + '</span>';
       pruefen();
     }
@@ -311,10 +314,11 @@
       { text: 'Zieh an allen Reglern. Was zeigt die Fläche des Rechtecks? Notiere deine Antwort mit Einheit.', ok: function(s){ return s.bewegt.I && s.bewegt.t; },
         vergleich: 'Die Fläche ist die Energie: Höhe mal Breite, \\(E = P \\cdot t\\), in \\(\\text{kW} \\cdot \\text{h} = \\text{kWh}\\).' },
       { text: 'Ein Bügeleisen am Netz hat \\(1600\\;\\text{W}\\). Stelle die Stromstärke ein und notiere sie.', setup: function(S){ S.setze({ U: 230, I: 4 }); }, ok: function(s){ return gl(s.U, 230) && nah(s.P, 1600, 0.01); },
-        vergleich: '\\(I = \\dfrac{P}{U} = \\dfrac{1600\\;\\text{W}}{230\\;\\text{V}} \\approx 6.96\\;\\text{A}\\). Der Regler geht in Schritten von \\(0.1\\;\\text{A}\\): \\(7.0\\;\\text{A}\\) gibt \\(1610\\;\\text{W}\\).' },
-      { text: 'Es läuft \\(45\\;\\text{min}\\). Stelle die Zeit ein und lies die Energie ab.', ok: function(s){ return gl(s.t, 0.75) && nah(s.P, 1600, 0.01); } },
-      { text: 'Stelle \\(0.92\\;\\text{kWh}\\) in \\(2\\;\\text{h}\\) ein. Welche Leistung ist das? Vergleiche mit der Heizung aus dem Kontrollclip zu Kapitel 2.', ok: function(s){ return gl(s.U, 230) && gl(s.t, 2) && Math.abs(s.E - 0.92) < 0.005; },
-        vergleich: '\\(P = \\dfrac{E}{t} = \\dfrac{0.92\\;\\text{kWh}}{2\\;\\text{h}} = 0.46\\;\\text{kW} = 460\\;\\text{W}\\), bei \\(230\\;\\text{V}\\) also \\(2\\;\\text{A}\\) — genau die Heizung aus dem Kontrollclip.' },
+        vergleich: '\\(I = \\dfrac{P}{U} = \\dfrac{1600\\;\\text{W}}{230\\;\\text{V}} \\approx 6.96\\;\\text{A}\\). Der Regler geht in Schritten von \\(0.1\\;\\text{A}\\): \\(7\\;\\text{A}\\) gibt \\(1610\\;\\text{W}\\).' },
+      { text: 'Es läuft \\(45\\;\\text{min}\\). Stelle die Zeit ein und lies die Energie ab. Notiere sie: Welche Zeit in Stunden hast du eingestellt?', ok: function(s){ return gl(s.t, 0.75) && nah(s.P, 1600, 0.01); },
+        vergleich: '\\(45\\;\\text{min} = 0.75\\;\\text{h}\\), nicht \\(0.45\\;\\text{h}\\). \\(E = P \\cdot t \\approx 1.6\\;\\text{kW} \\cdot 0.75\\;\\text{h} \\approx 1.2\\;\\text{kWh}\\) (mit \\(7\\;\\text{A}\\) genau \\(1.21\\;\\text{kWh}\\)).' },
+      { text: 'Stelle \\(1.38\\;\\text{kWh}\\) in \\(2\\;\\text{h}\\) ein. Welche Leistung ist das, und welcher Strom fliesst? Notiere beides.', ok: function(s){ return gl(s.U, 230) && gl(s.t, 2) && Math.abs(s.E - 1.38) < 0.005; },
+        vergleich: '\\(P = \\dfrac{E}{t} = \\dfrac{1.38\\;\\text{kWh}}{2\\;\\text{h}} = 0.69\\;\\text{kW} = 690\\;\\text{W}\\), bei \\(230\\;\\text{V}\\) also \\(I = \\dfrac{690\\;\\text{W}}{230\\;\\text{V}} = 3\\;\\text{A}\\).' },
       { text: 'Autobatterie: \\(12\\;\\text{V}\\) und \\(5\\;\\text{A}\\). Welche Leistung? Stelle ein.', ok: function(s){ return gl(s.U, 12) && gl(s.I, 5); },
         vergleich: '\\(P = U \\cdot I = 12\\;\\text{V} \\cdot 5\\;\\text{A} = 60\\;\\text{W}\\). Für dieselbe Leistung braucht das Netz mit \\(230\\;\\text{V}\\) nur rund \\(0.26\\;\\text{A}\\).' },
       { text: 'Triff das gestrichelte Rechteck. Welche Energie stellt es dar? Notiere sie mit Einheit.', setup: function(S){ ziel = { P: 1150, t: 2.5 }; S.setze({ U: 230, I: 2, t: 1 }); }, ok: function(s){ return gl(s.U, 230) && gl(s.I, 5) && gl(s.t, 2.5); },
@@ -326,7 +330,8 @@
   /* ---------- Kapitel 3: Widerstand eines Leiters ----------
      Wie Animation 5 der Themenseite R = ρ·l/A, aber als R-l-Diagramm: Die
      Steigung ρ/A macht sichtbar, dass Material und Querschnitt zusammen wirken.
-     ρ-Werte aus der Tabelle der Themenseite. Startwert = Clipbeispiel (Eisen, 20 m, 1 mm²: 2 Ω). */
+     ρ-Werte aus der Tabelle der Themenseite. Startwerte (Aluminium, 35 m, 1 mm²) weder
+     Clipbeispiel (Eisen 20 m; Kupferkabel 2 · 20 m, 1.5 mm²) noch Leistenziel. */
   var RHO = { Cu: 0.017, Al: 0.028, Fe: 0.10, Konst: 0.49 };
   var RHO_TEXT = { Cu: '0.017', Al: '0.028', Fe: '0.10', Konst: '0.49' };   // wie in der Tabelle: Eisen 0.10, nicht 0.1
   var STOFF = { Cu: 'Kupfer', Al: 'Aluminium', Fe: 'Eisen', Konst: 'Konstantan' };
@@ -360,13 +365,14 @@
     pruefen = Leiste(fig, [
       { text: 'Probiere zwei Materialien und beide Regler. Was macht die Gerade steiler? Notiere deine Antwort.', ok: function(s){ return s.bewegt.l && s.bewegt.A && s.stoffe >= 2; },
         vergleich: 'Die Steigung ist \\(\\dfrac{\\rho}{A}\\): Ein Material mit grösserem \\(\\rho\\) oder ein kleinerer Querschnitt machen die Gerade steiler. Die Länge verschiebt nur den Punkt auf der Geraden.' },
-      { text: 'Kupfer, \\(1\\;\\text{mm}^2\\): Mach den Widerstand doppelt so gross wie bei \\(10\\;\\text{m}\\) — nur mit der Länge.', setup: function(S){ S.setze({ m: 'Cu', l: 10, A: 1 }); }, ok: function(s){ return s.m === 'Cu' && gl(s.A, 1) && gl(s.l, 20); } },
+      { text: 'Kupfer, \\(1\\;\\text{mm}^2\\): Mach den Widerstand doppelt so gross wie bei \\(10\\;\\text{m}\\) — nur mit der Länge. Notiere, welche Länge es braucht und warum.', setup: function(S){ S.setze({ m: 'Cu', l: 10, A: 1 }); }, ok: function(s){ return s.m === 'Cu' && gl(s.A, 1) && gl(s.l, 20); },
+        vergleich: '\\(20\\;\\text{m}\\): \\(R\\) ist proportional zur Länge. Aus \\(0.17\\;\\Omega\\) bei \\(10\\;\\text{m}\\) werden \\(0.34\\;\\Omega\\) bei \\(20\\;\\text{m}\\).' },
       { text: 'Und jetzt wieder so klein wie bei \\(10\\;\\text{m}\\) — nur mit dem Querschnitt. Um welchen Faktor hast du ihn geändert, und warum genügt das?', ok: function(s){ return s.m === 'Cu' && gl(s.l, 20) && gl(s.A, 2); },
         vergleich: 'Verdoppelt, auf \\(2\\;\\text{mm}^2\\). In \\(R = \\rho \\cdot \\dfrac{l}{A}\\) heben sich doppelte Länge und doppelter Querschnitt auf: Der Widerstand ist wieder \\(0.17\\;\\Omega\\).' },
-      { text: 'Aluminiumkabel, \\(20\\;\\text{m}\\) lang, zwei Adern zu \\(2.5\\;\\text{mm}^2\\). Stelle die ganze Leiterlänge ein und notiere den Widerstand der Leitung.', ok: function(s){ return s.m === 'Al' && gl(s.l, 40) && gl(s.A, 2.5); },
-        vergleich: 'Hin und zurück sind \\(40\\;\\text{m}\\) Leiter: \\(R = 0.028\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{40\\;\\text{m}}{2.5\\;\\text{mm}^2} \\approx 0.45\\;\\Omega\\).' },
-      { text: 'Gleicher Widerstand mit Kupfer: Wie dünn darf es sein?', ok: function(s){ return s.m === 'Cu' && gl(s.l, 40) && nah(s.R, 0.028 * 40 / 2.5, 0.03); },
-        vergleich: '\\(A = \\rho \\cdot \\dfrac{l}{R} = 0.017\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{40\\;\\text{m}}{0.448\\;\\Omega} \\approx 1.5\\;\\text{mm}^2\\): Kupfer leitet besser, darum genügt ein dünnerer Draht.' },
+      { text: 'Aluminiumkabel, \\(15\\;\\text{m}\\) lang, zwei Adern zu \\(2.5\\;\\text{mm}^2\\). Stelle die ganze Leiterlänge ein und notiere den Widerstand der Leitung.', ok: function(s){ return s.m === 'Al' && gl(s.l, 30) && gl(s.A, 2.5); },
+        vergleich: 'Hin und zurück sind \\(30\\;\\text{m}\\) Leiter: \\(R = 0.028\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{30\\;\\text{m}}{2.5\\;\\text{mm}^2} \\approx 0.336\\;\\Omega\\).' },
+      { text: 'Gleicher Widerstand, gleiche Länge, aber Kupfer: Wie dünn darf der Leiter sein? Notiere den Querschnitt und warum er kleiner ist.', ok: function(s){ return s.m === 'Cu' && gl(s.l, 30) && nah(s.R, 0.028 * 30 / 2.5, 0.03); },
+        vergleich: '\\(A = \\rho \\cdot \\dfrac{l}{R} = 0.017\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{30\\;\\text{m}}{0.336\\;\\Omega} \\approx 1.5\\;\\text{mm}^2\\): Kupfer leitet besser, darum genügt ein dünnerer Draht.' },
       { text: 'Triff die gestrichelte Gerade. Welche Steigung hat sie, mit Einheit, und was bedeutet sie?', setup: function(S){ ziel = 0.2; S.setze({ m: 'Cu', A: 1 }); }, ok: function(s){ return gl(s.k, 0.2); },
         vergleich: '\\(\\dfrac{\\rho}{A} = 0.2\\;\\Omega/\\text{m}\\): Jeder Meter Draht bringt \\(0.2\\;\\Omega\\). Mit den Reglern trifft sie nur Eisen mit \\(0.5\\;\\text{mm}^2\\): \\(\\dfrac{0.10}{0.5} = 0.2\\).' }
     ], sim);
@@ -380,16 +386,17 @@
      den Kreis (I = 0, es zeigt die Quellenspannung); Amperemeter parallel zum
      Bauteil überbrückt es (Kurzschluss, im Modell keine Anzeige). Messpunkte (I; U)
      gehen in eine U-I-Kennlinie, I nach rechts in mA, U nach oben in V.
-     Bauteil A 150 Ω, Bauteil B 470 Ω, Lämpchen als qualitatives Beispiel mit
+     Bauteil X 150 Ω, Bauteil Y 470 Ω (X und Y, nicht A und B: A heisst das Amperemeter), Lämpchen als qualitatives Beispiel mit
      U = 50 Ω · I + 41 667 Ω/A² · I³ (Widerstand wächst mit dem Strom).
-     Startwerte: 3 V, Bauteil A, beide Messgeräte falsch angeschlossen (Aufgabe 1). Clip: 9 V und 30 mA (300 Ω). */
+     Startwerte: 3 V, Bauteil X, beide Messgeräte falsch angeschlossen (Aufgabe 1). Clip: 9 V und 30 mA (300 Ω).
+     Meldungen zum Eintragen verschwinden bei der nächsten Bedienung. */
   (function(){
     var fig = document.getElementById('sim6'); if (!fig) return;
     var svgS = fig.querySelector('svg.schalt'), svgK = fig.querySelector('svg.kennl');
     var K = Achsen(svgK, { w: 300, h: 220, x0: -12, x1: 95, y0: -1.7, y1: 13.4, sx: 10, sy: 1, xm: [20, 40, 60, 80], ym: [2, 4, 6, 8, 10, 12], xname: 'I [mA]', yname: 'U [V]' });
-    var RW = { a: 150, b: 470 }, NAME = { a: 'A', b: 'B', l: 'Lämpchen' };
+    var RW = { a: 150, b: 470 }, NAME = { a: 'X', b: 'Y', l: 'Lämpchen' };
     var punkte = { a: [], b: [], l: [] }, meldung = '', pruefen = function(){};
-    var B = Bedienung(fig, zeichnen);
+    var B = Bedienung(fig, function(){ meldung = ''; zeichnen(); });
     function strom(bt, U){                       // I in A
       if (bt !== 'l') return U / RW[bt];
       var I = U / 120;                            // Newton für 50·I + 41667·I³ = U
@@ -482,15 +489,15 @@
         vergleich: 'Stromstärke ist Ladung pro Zeit durch einen Querschnitt: Der Strom muss durch das Amperemeter fliessen, also gehört es in den Stromweg (in Reihe). Spannung liegt zwischen zwei Punkten: Das Voltmeter kommt an die beiden Anschlüsse des Bauteils (parallel).' },
       { text: 'Probiere beide falschen Anschlüsse aus. Was zeigt ein Voltmeter im Stromweg? Was macht ein Amperemeter parallel zum Bauteil? Notiere.', ok: function(s){ return s.amGesehen >= 2 && s.vmGesehen >= 2; },
         vergleich: 'Das ideale Voltmeter lässt keinen Strom durch: Im Stromweg unterbricht es den Kreis, \\(I = 0\\), und es zeigt die ganze Quellenspannung. Das ideale Amperemeter hat keinen Widerstand: Parallel zum Bauteil überbrückt es dieses — ein Kurzschluss.' },
-      { text: 'Bauteil A, Messgeräte richtig: Stelle \\(6\\;\\text{V}\\) ein und bestimme den Widerstand aus den Anzeigen. Notiere die Rechnung.', setup: function(S){ S.setze({ bt: 'a' }); },
+      { text: 'Bauteil X, Messgeräte richtig: Stelle \\(6\\;\\text{V}\\) ein und bestimme den Widerstand aus den Anzeigen. Notiere die Rechnung.', setup: function(S){ S.setze({ bt: 'a' }); },
         ok: function(s){ return s.bt === 'a' && gl(s.U, 6) && s.richtig; },
         vergleich: 'Das Amperemeter zeigt \\(40\\;\\text{mA} = 0.040\\;\\text{A}\\). \\(R = \\dfrac{U}{I} = \\dfrac{6\\;\\text{V}}{0.040\\;\\text{A}} = 150\\;\\Omega\\).' },
-      { text: 'Trage für Bauteil A drei Messpunkte bei verschiedenen Spannungen ein. Wie liegen sie im Diagramm, und was heisst das?', setup: function(S){ S.setze({ bt: 'a', am: 'reihe', vm: 'parallel' }); },
+      { text: 'Trage für Bauteil X drei Messpunkte bei verschiedenen Spannungen ein. Wie liegen sie im Diagramm, und was heisst das?', setup: function(S){ S.setze({ bt: 'a', am: 'reihe', vm: 'parallel' }); },
         ok: function(s){ return s.n.a >= 3; },
         vergleich: 'Auf einer Geraden durch den Ursprung: Doppelte Spannung, doppelter Strom. \\(R = U/I\\) ist überall gleich, \\(150\\;\\Omega\\) — das Bauteil ist ohmsch. Die Steigung der Geraden ist \\(R\\).' },
-      { text: 'Trage auch für Bauteil B drei Punkte ein. Welche Gerade ist steiler, und was sagt das über den Widerstand?', setup: function(S){ S.setze({ bt: 'b', am: 'reihe', vm: 'parallel' }); },
+      { text: 'Trage auch für Bauteil Y drei Punkte ein. Welche Gerade ist steiler, und was sagt das über den Widerstand?', setup: function(S){ S.setze({ bt: 'b', am: 'reihe', vm: 'parallel' }); },
         ok: function(s){ return s.n.b >= 3 && s.n.a >= 1; },
-        vergleich: 'Die Gerade von B ist steiler: Für denselben Strom braucht B mehr Spannung, also ist sein Widerstand grösser (\\(470\\;\\Omega\\)). Bei \\(I\\) nach rechts und \\(U\\) nach oben ist die Steigung der Widerstand.' },
+        vergleich: 'Die Gerade von Y ist steiler: Für denselben Strom braucht Y mehr Spannung, also ist sein Widerstand grösser (\\(470\\;\\Omega\\)). Bei \\(I\\) nach rechts und \\(U\\) nach oben ist die Steigung der Widerstand.' },
       { text: 'Lämpchen: Trage drei Punkte bei kleiner, mittlerer und grosser Spannung ein. Ist es ein ohmsches Bauteil? Begründe.', setup: function(S){ S.setze({ bt: 'l', am: 'reihe', vm: 'parallel' }); },
         ok: function(s){ return s.n.l >= 3; },
         vergleich: 'Nein. Die Punkte liegen nicht auf einer Geraden durch den Ursprung: \\(U/I\\) wird mit steigendem Strom grösser, weil der Glühdraht heisser wird. \\(R = U/I\\) lässt sich für jeden Punkt ausrechnen, ist aber nicht konstant. (Die Kurve ist ein Beispiel, kein Messwert eines bestimmten Lämpchens.)' }
@@ -501,7 +508,10 @@
   /* ---------- Kapitel 5: Reihe und parallel (sim4, bis 06.10.2026 Kapitel 4) ----------
      Wie die Animationen 6 und 7 der Themenseite zwei Widerstände an 12 V, aber
      umschaltbar in einem Bild und mit Balken statt Strompunkten: Reihe teilt die
-     Spannung, parallel den Strom. Startwerte R1 = 100 Ω, R2 = 220 Ω wie dort. */
+     Spannung, parallel den Strom. Startwerte R1 = 120 Ω, R2 = 270 Ω: weder die Werte der
+     Themenseite und des Clips (100 Ω, 220 Ω) noch ein Leistenziel. Die Clipaufnahmen
+     (p6-2-lp-schaltungen-*.jpg) setzen ihre Werte selbst. Jede Rechnung aus den Eingaben,
+     nicht aus gerundeten Zwischenwerten. */
   var U4 = 12;
   (function(){
     var fig = document.getElementById('sim4'); if (!fig) return;
@@ -538,7 +548,8 @@
         rolle(fig, 'formel').innerHTML =
           '<span>' + v('R') + '<sub>ges</sub> = ' + v('R') + '₁ + ' + v('R') + '₂ = ' + R1 + NB + 'Ω + ' + R2 + NB + 'Ω = ' + rges + NB + 'Ω</span>' +
           '<span>' + v('I') + ' = ' + v('U') + ' / ' + v('R') + '<sub>ges</sub> = 12' + NB + 'V / ' + rges + NB + 'Ω ' + ist(I * 1000, sig(I * 1000)) + sig(I * 1000) + NB + 'mA</span>' +
-          '<span>' + v('U') + '₁ = ' + v('I') + ' · ' + v('R') + '₁ = ' + sig(I * 1000) + NB + 'mA · ' + R1 + NB + 'Ω ' + ist(z1, sig(z1)) + sig(z1) + NB + 'V; ' + v('U') + '₂ = ' + v('I') + ' · ' + v('R') + '₂ ' + ist(z2, sig(z2)) + sig(z2) + NB + 'V</span>';
+          '<span>' + v('U') + '₁ = ' + v('I') + ' · ' + v('R') + '₁ = (12' + NB + 'V / ' + rges + NB + 'Ω) · ' + R1 + NB + 'Ω ' + ist(z1, sig(z1)) + sig(z1) + NB + 'V</span>' +
+          '<span>' + v('U') + '₂ = ' + v('I') + ' · ' + v('R') + '₂ = (12' + NB + 'V / ' + rges + NB + 'Ω) · ' + R2 + NB + 'Ω ' + ist(z2, sig(z2)) + sig(z2) + NB + 'V</span>';
       } else {
         rges = R1 * R2 / (R1 + R2); I = U4 / rges;
         draht('40,40 235,40'); draht('40,160 235,160');   // Drähte enden am letzten Zweig
@@ -548,8 +559,9 @@
         z1 = U4 / R1; z2 = U4 / R2;
         rolle(fig, 'formel').innerHTML =
           '<span>' + v('R') + '<sub>ges</sub> = ' + v('R') + '₁ · ' + v('R') + '₂ / (' + v('R') + '₁ + ' + v('R') + '₂) = ' + R1 + NB + 'Ω · ' + R2 + NB + 'Ω / ' + (R1 + R2) + NB + 'Ω ' + ist(rges, sig(rges)) + sig(rges) + NB + 'Ω</span>' +
-          '<span>' + v('I') + '₁ = ' + v('U') + ' / ' + v('R') + '₁ = 12' + NB + 'V / ' + R1 + NB + 'Ω ' + ist(z1 * 1000, sig(z1 * 1000)) + sig(z1 * 1000) + NB + 'mA; ' + v('I') + '₂ = 12' + NB + 'V / ' + R2 + NB + 'Ω ' + ist(z2 * 1000, sig(z2 * 1000)) + sig(z2 * 1000) + NB + 'mA</span>' +
-          '<span>' + v('I') + ' = ' + v('I') + '₁ + ' + v('I') + '₂ ' + ist(I * 1000, sig(I * 1000)) + sig(I * 1000) + NB + 'mA</span>';
+          '<span>' + v('I') + '₁ = ' + v('U') + ' / ' + v('R') + '₁ = 12' + NB + 'V / ' + R1 + NB + 'Ω ' + ist(z1 * 1000, sig(z1 * 1000)) + sig(z1 * 1000) + NB + 'mA</span>' +
+          '<span>' + v('I') + '₂ = ' + v('U') + ' / ' + v('R') + '₂ = 12' + NB + 'V / ' + R2 + NB + 'Ω ' + ist(z2 * 1000, sig(z2 * 1000)) + sig(z2 * 1000) + NB + 'mA</span>' +
+          '<span>' + v('I') + ' = ' + v('I') + '₁ + ' + v('I') + '₂ = ' + sig(z1 * 1000) + NB + 'mA + ' + sig(z2 * 1000) + NB + 'mA ' + ist(I * 1000, sig(I * 1000)) + sig(I * 1000) + NB + 'mA</span>';
       }
       // Balken: Reihe teilt 12 V auf, parallel addieren sich die Teilströme
       var x0 = 40, br = 250, y = 196, ges = a === 'reihe' ? U4 : I, b1 = br * z1 / ges, b2 = br * z2 / ges;
@@ -564,7 +576,8 @@
       pruefen();
     }
     pruefen = Leiste(fig, [
-      { text: 'Schalte zwischen Reihe und parallel um und zieh an \\(R_1\\) und \\(R_2\\).', ok: function(s){ return s.arten >= 2 && (s.bewegt.R1 || s.bewegt.R2); } },
+      { text: 'Schalte zwischen Reihe und parallel um und zieh an \\(R_1\\) und \\(R_2\\). Vergleiche \\(R_\\text{ges}\\) jeweils mit dem grössten und dem kleinsten Einzelwiderstand. Notiere, was du findest.', ok: function(s){ return s.arten >= 2 && (s.bewegt.R1 || s.bewegt.R2); },
+        vergleich: 'In Reihe ist \\(R_\\text{ges} = R_1 + R_2\\) grösser als jeder einzelne Widerstand. Parallel ist \\(R_\\text{ges}\\) kleiner als der kleinste: Jeder Zweig ist ein weiterer Weg für den Strom.' },
       { text: 'In Reihe: Mach \\(R_\\text{ges} = 400\\;\\Omega\\). Welcher Strom fliesst dann? Notiere ihn.', setup: function(S){ S.setze({ art: 'reihe' }); }, ok: function(s){ return s.art === 'reihe' && gl(s.R1 + s.R2, 400); },
         vergleich: '\\(I = \\dfrac{12\\;\\text{V}}{400\\;\\Omega} = 30\\;\\text{mA}\\), ganz gleich, wie sich die \\(400\\;\\Omega\\) auf \\(R_1\\) und \\(R_2\\) verteilen.' },
       { text: 'In Reihe: Über \\(R_1\\) sollen nur \\(2\\;\\text{V}\\) liegen. In welchem Verhältnis stehen \\(R_1\\) und \\(R_2\\)? Notiere es.', ok: function(s){ return s.art === 'reihe' && gl(s.R2, 5 * s.R1); },
@@ -596,7 +609,7 @@
     var sim = {
       zustand: function(){ var z = B.wert('z'); return { z: z, antwort: B.wert('antwort'), art: ART[z], farbe: farbe.checked, treffer: treffer, bewegt: B.bewegt }; },
       zeichnen: zeichnen, setze: function(o){ B.setze(o); zeichnen(); },
-      aufraeumen: function(){ B.zuruecksetzen(); }
+      aufraeumen: function(){ treffer = {}; B.zuruecksetzen(); }   // sonst wäre eine Aufgabe beim Erscheinen schon gelöst
     };
     // Zeichnungen: Drähte je Verbindungspunkt (a am Pluspol, b am Minuspol, c zwischen den Widerständen),
     // Widerstände als [x, y, Breite, Höhe, Name, Wert, Beschriftung rechts?], Knotenpunkte als [x, y]
@@ -645,12 +658,16 @@
         if (art === 'parallel'){
           var i1 = U7 / R1 * 1000, i2 = U7 / R2 * 1000, rp = R1 * R2 / (R1 + R2);
           f = '<span>Parallel: Beide Widerstände verbinden dieselben zwei Punkte, an beiden liegen ' + U7 + NB + 'V.</span>' +
-              '<span>' + v('I') + '₁ = ' + U7 + NB + 'V / ' + R1 + NB + 'Ω = ' + sig(i1) + NB + 'mA; ' + v('I') + '₂ = ' + U7 + NB + 'V / ' + R2 + NB + 'Ω = ' + sig(i2) + NB + 'mA</span>' +
-              '<span>Probe Ladung: ' + v('I') + ' = ' + v('I') + '₁ + ' + v('I') + '₂ = ' + sig(i1 + i2) + NB + 'mA; ' + v('R') + '<sub>ges</sub> = ' + U7 + NB + 'V / ' + sig(i1 + i2) + NB + 'mA = ' + sig(rp) + NB + 'Ω, kleiner als ' + R1 + NB + 'Ω</span>';
+              '<span>' + v('I') + '₁ = ' + v('U') + ' / ' + v('R') + '₁ = ' + U7 + NB + 'V / ' + R1 + NB + 'Ω = ' + sig(i1) + NB + 'mA</span>' +
+              '<span>' + v('I') + '₂ = ' + v('U') + ' / ' + v('R') + '₂ = ' + U7 + NB + 'V / ' + R2 + NB + 'Ω = ' + sig(i2) + NB + 'mA</span>' +
+              '<span>Probe Ladung: ' + v('I') + ' = ' + v('I') + '₁ + ' + v('I') + '₂ = ' + sig(i1) + NB + 'mA + ' + sig(i2) + NB + 'mA = ' + sig(i1 + i2) + NB + 'mA</span>' +
+              '<span>Probe Widerstand: ' + v('R') + '<sub>ges</sub> = ' + v('U') + ' / ' + v('I') + ' = ' + U7 + NB + 'V / ' + sig(i1 + i2) + NB + 'mA = ' + sig(rp) + NB + 'Ω, kleiner als ' + R1 + NB + 'Ω</span>';
         } else {
           var rs = R1 + R2, I = U7 / rs, u1 = I * R1, u2 = I * R2;
           f = '<span>In Reihe: Zwischen den Widerständen liegt ein Punkt, an dem sonst nichts hängt — der Strom muss durch beide.</span>' +
-              '<span>' + v('I') + ' = ' + U7 + NB + 'V / ' + rs + NB + 'Ω ' + ist(I * 1000, sig(I * 1000)) + sig(I * 1000) + NB + 'mA; ' + v('U') + '₁ = ' + sig(u1) + NB + 'V; ' + v('U') + '₂ = ' + sig(u2) + NB + 'V</span>' +
+              '<span>' + v('I') + ' = ' + v('U') + ' / ' + v('R') + '<sub>ges</sub> = ' + U7 + NB + 'V / ' + rs + NB + 'Ω ' + ist(I * 1000, sig(I * 1000)) + sig(I * 1000) + NB + 'mA</span>' +
+              '<span>' + v('U') + '₁ = ' + v('I') + ' · ' + v('R') + '₁ = (' + U7 + NB + 'V / ' + rs + NB + 'Ω) · ' + R1 + NB + 'Ω = ' + sig(u1) + NB + 'V</span>' +
+              '<span>' + v('U') + '₂ = ' + v('I') + ' · ' + v('R') + '₂ = (' + U7 + NB + 'V / ' + rs + NB + 'Ω) · ' + R2 + NB + 'Ω = ' + sig(u2) + NB + 'V</span>' +
               '<span>Probe Energie: ' + v('U') + '₁ + ' + v('U') + '₂ = ' + sig(u1) + NB + 'V + ' + sig(u2) + NB + 'V = ' + sig(u1 + u2) + NB + 'V</span>';
         }
       }
@@ -670,7 +687,7 @@
       aufgabe('z4', 4, 'Zeichnung 4: Die Widerstände stehen nebeneinander. In Reihe oder parallel? Begründe.',
         'In Reihe, obwohl sie nebeneinander stehen: Das untere Ende von \\(R_1\\) führt nur zum unteren Ende von \\(R_2\\). Dort hängt sonst nichts, also fliesst durch beide derselbe Strom.'),
       { text: 'Schalte «Verbindungspunkte färben» ein und schau alle vier Zeichnungen an. Woran erkennst du an den Farben eine Parallelschaltung? Notiere.', ok: function(s){ return s.farbe && B.gesehen('z') >= 4; },
-        vergleich: 'Parallel: Beide Widerstände verbinden dieselben zwei Farben (Pluspol-Farbe und Minuspol-Farbe). In Reihe gibt es eine dritte Farbe zwischen ihnen, und an der hängt nichts anderes.' },
+        vergleich: 'Parallel: Beide Widerstände verbinden dieselben zwei Markierungen (Pluspol: Bernstein, Minuspol: grau). In Reihe gibt es eine dritte Markierung zwischen ihnen (gepunktet), und an der hängt nichts anderes.' },
       { text: 'Prüfe für eine Parallelschaltung \\(I_1 + I_2 = I\\) und für eine Reihenschaltung \\(U_1 + U_2 = 6\\;\\text{V}\\). Womit begründet man jede der beiden Proben?', ok: function(s){ return (s.treffer.z2 || s.treffer.z3) && (s.treffer.z1 || s.treffer.z4); },
         vergleich: 'Ströme: Ladung bleibt erhalten — was an einer Verzweigung hineinfliesst, fliesst wieder hinaus. Spannungen: Energiebilanz — die Quelle gibt jedem Coulomb \\(6\\;\\text{J}\\) mit, und die Widerstände geben zusammen genau so viel ab.' }
     ], sim);
@@ -768,14 +785,15 @@
       pruefen();
     }
     pruefen = Leiste(fig, [
-      { text: 'Wähle jeden Fall einmal und vergleiche «Strom hin» mit «Strom zurück».', ok: function(s){ return s.faelle >= 4; } },
-      { text: 'Finde den Fall, in dem der FI auslöst, der Leitungsschutzschalter aber nicht. Warum bemerkt der Leitungsschutzschalter nichts?', setup: function(S){ S.setze({ fall: 'normal', RK: 1000 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi === 'ja' && !s.ls; },
-        vergleich: 'Mensch am Gehäuse: Bei \\(R_\\text{K} = 1\\;\\text{k}\\Omega\\) fliessen durch den Körper \\(230\\;\\text{mA}\\), in der Leitung zusammen mit dem Gerät rund \\(8.9\\;\\text{A}\\) — weniger als die \\(13\\;\\text{A}\\) des B13. Der FI dagegen sieht die \\(230\\;\\text{mA}\\), die auf dem Rückweg fehlen.' },
+      { text: 'Wähle jeden Fall einmal und vergleiche «Strom hin» mit «Strom zurück». In welchen Fällen sind sie verschieden, und wohin fliesst dann der Rest? Notiere.', ok: function(s){ return s.faelle >= 4; },
+        vergleich: 'Verschieden nur, wenn Strom am Neutralleiter vorbei zur Quelle zurückfliesst: beim Menschen am Gehäuse (über Körper und Erde) und beim Gehäuse am Schutzleiter (über den Schutzleiter). Im Normalbetrieb und beim Kurzschluss zwischen L und N fliesst alles über N zurück.' },
+      { text: 'Finde den Fall, in dem der FI auslöst, der Leitungsschutzschalter aber nicht. Warum bemerkt der Leitungsschutzschalter nichts?', setup: function(S){ S.setze({ fall: 'normal', RK: 1400 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi === 'ja' && !s.ls; },
+        vergleich: 'Mensch am Gehäuse: Bei zum Beispiel \\(R_\\text{K} = 1.4\\;\\text{k}\\Omega\\) fliessen durch den Körper rund \\(164\\;\\text{mA}\\), in der Leitung zusammen mit dem Gerät rund \\(8.86\\;\\text{A}\\) — weniger als die \\(13\\;\\text{A}\\) des B13. Der FI dagegen sieht die \\(164\\;\\text{mA}\\), die auf dem Rückweg fehlen.' },
       { text: 'Finde den Fall, in dem nur der Leitungsschutzschalter trennt. Warum bleibt der FI ein?', ok: function(s){ return s.fall === 'kurz'; },
         vergleich: 'Beim Kurzschluss zwischen L und N fliesst der riesige Strom auf N vollständig zurück: Hin und zurück sind gleich, die Differenz ist null. Der FI sieht nichts, der Leitungsschutzschalter trennt magnetisch.' },
-      { text: 'Gedankenexperiment — so hohe Werte sind am Netz unrealistisch: Erhöhe \\(R_\\text{K}\\), bis der FI nicht mehr auslösen muss. Ist der Strom dann harmlos? Notiere deine Antwort.', setup: function(S){ S.setze({ fall: 'koerper', RK: 1000 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi !== 'ja'; },
-        vergleich: 'Nein. Über \\(7.7\\;\\text{k}\\Omega\\) fliessen weniger als \\(30\\;\\text{mA}\\), bei \\(10\\;\\text{k}\\Omega\\) noch \\(23\\;\\text{mA}\\) — genug, dass sich die Hand verkrampft. Der FI ist zusätzlicher Schutz, keine Grenze für ungefährlichen Strom. Und trockene Haut ist kein Schutz, auf den man sich verlassen kann.' },
-      { text: 'Zurück zum Modell: Trockene Haut am Netz, \\(R_\\text{K} = 1.6\\;\\text{k}\\Omega\\). Stelle ein und lies den Körperstrom ab. Wie schnell muss der FI trennen? Notiere beides.', ok: function(s){ return s.fall === 'koerper' && gl(s.RK, 1600); },
+      { text: 'Gedankenexperiment — Körper und Boden zusammen, etwa mit Schuhen auf trockenem Boden: Erhöhe \\(R_\\text{K}\\), bis der FI nicht mehr auslösen muss. Ist der Strom dann harmlos? Notiere deine Antwort.', setup: function(S){ S.setze({ fall: 'koerper', RK: 2500 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi !== 'ja'; },
+        vergleich: 'Nein. Über \\(7.7\\;\\text{k}\\Omega\\) fliessen weniger als \\(30\\;\\text{mA}\\), bei \\(10\\;\\text{k}\\Omega\\) noch \\(23\\;\\text{mA}\\) — genug, dass sich die Hand verkrampft. Der FI ist zusätzlicher Schutz, keine Grenze für ungefährlichen Strom. Und auf trockene Haut, Schuhe oder Boden kann man sich nicht verlassen.' },
+      { text: 'Trockene Haut am Netz, \\(R_\\text{K} = 1.6\\;\\text{k}\\Omega\\). Stelle ein und lies den Körperstrom ab. Wie schnell muss der FI trennen? Notiere beides.', ok: function(s){ return s.fall === 'koerper' && gl(s.RK, 1600); },
         vergleich: '\\(I_\\text{K} = \\dfrac{230\\;\\text{V}}{1600\\;\\Omega} \\approx 144\\;\\text{mA}\\): mehr als das Doppelte, aber weniger als das Fünffache von \\(30\\;\\text{mA}\\). Der FI muss spätestens nach \\(150\\;\\text{ms}\\) trennen.' },
       { text: 'Wähle den Fall mit Schutzleiter. Welche Schalter sprechen an? Notiere deine Antwort.', ok: function(s){ return s.fall === 'pe'; },
         vergleich: 'Beide. \\(115\\;\\text{A}\\) sind mehr als das Fünffache der \\(13\\;\\text{A}\\): Der LS B13 löst magnetisch aus. Und die \\(115\\;\\text{A}\\) fehlen auf dem Neutralleiter: Auch der FI spricht an. Wer zuerst öffnet, zeigt das Modell nicht — nach dem Öffnen fliesst kein Fehlerstrom mehr.' }
@@ -815,8 +833,11 @@
       /* ----- Kapitel 1 ----- */
       'ladung': { felder: ['Q'], muster: '<i>Q</i> = {Q} C',
         neu: function(){
-          var mA = Math.random() < 0.5, I = mA ? zufall([120, 150, 250, 400, 600, 800]) : zufall([0.2, 0.5, 1.2, 1.5, 2, 2.5, 3]);
-          var min = Math.random() < 0.5, t = min ? zufall([2, 3, 5, 10, 15, 20]) : zufall([10, 20, 30, 45, 60, 90, 120]);
+          var mA, I, min, t;
+          do {   // nicht 2 A während 5 min (Häufiger Fehler in Kapitel 1)
+            mA = Math.random() < 0.5; I = mA ? zufall([120, 150, 250, 400, 600, 800]) : zufall([0.2, 0.5, 1.2, 1.5, 2, 2.5, 3]);
+            min = Math.random() < 0.5; t = min ? zufall([2, 3, 5, 10, 15, 20]) : zufall([10, 20, 30, 45, 60, 90, 120]);
+          } while (!mA && I === 2 && min && t === 5);
           var IA = mA ? I / 1000 : I, ts = min ? t * 60 : t;
           return { Q: IA * ts, IA: IA, ts: ts, mA: mA, min: min, Ir: I, tr: t,
             text: 'Durch eine Lampe fliesst \\(I = ' + ein(I, mA ? 'mA' : 'A') + '\\) während \\(t = ' + ein(t, min ? 'min' : 's') + '\\). Welche Ladung fliesst durch einen Leiterquerschnitt?' }; },
@@ -838,10 +859,10 @@
       'strom': { felder: ['I'], muster: '<i>I</i> = {I} A',
         neu: function(){
           var Q, min, t, ts;
-          do {   // Q = t hiesse I = 1 A: dann wäre der Kehrwert dieselbe Zahl
+          do {   // Q = t hiesse I = 1 A: dann wäre der Kehrwert dieselbe Zahl. Nicht 6 C in 4 s (Simulation)
             Q = zufall([3, 6, 12, 18, 24, 36, 45, 90, 120, 180]); min = Math.random() < 0.4;
             t = min ? zufall([1, 2, 3, 5]) : zufall([4, 5, 6, 8, 10, 12, 15, 20, 30, 60]); ts = min ? t * 60 : t;
-          } while (Q === ts);
+          } while (Q === ts || (Q === 6 && ts === 4));
           return { I: Q / ts, Q: Q, ts: ts, min: min, tr: t,
             text: 'In \\(t = ' + ein(t, min ? 'min' : 's') + '\\) fliessen \\(Q = ' + ein(Q, 'C') + '\\) durch einen Draht. Wie gross ist die Stromstärke?' }; },
         pruefen: function(A, e){
@@ -860,7 +881,7 @@
         neu: function(){
           var V, w, vz;
           do { V = zufall([['n', 1e-9], ['µ', 1e-6], ['p', 1e-12]]); w = zufall([0.8, 1.6, 2.4, 3.2, 4.8, 6.4, 8]); vz = Math.random() < 0.5 ? -1 : 1; }
-          while (V[0] === 'n' && (w === 4.8 || w === 8));   // Aufgabe 1a: −4.8 nC
+          while (V[0] === 'n' && (w === 4.8 || w === 8 || (w === 3.2 && vz > 0)));   // Aufgabe 1a: −4.8 nC; Clip: +3.2 nC
           var Q = vz * w * V[1], n = Math.abs(Q) / E_LAD, k = Math.floor(Math.log10(n));
           return { n: n, m: +(n / Math.pow(10, k)).toPrecision(3), p: k, Q: Q, V: V, w: w, vz: vz,
             text: 'Ein Körper trägt die Ladung \\(Q = ' + (vz < 0 ? '-' : '') + tz(w) + '\\;' + vors(V[0]) + '\\text{C}\\). Wie viele Elektronen ' + (vz < 0 ? 'hat er zu viel' : 'fehlen ihm') + '? (\\(e = 1.602 \\cdot 10^{-19}\\;\\text{C}\\))' }; },
@@ -933,7 +954,8 @@
         neu: function(){
           var r = Math.random();
           if (r < 0.34){
-            var Ua = zufall([3.7, 7.4, 11.1, 12, 36]), Qa = zufall([2, 2.5, 4, 5, 10, 14]);
+            var Ua, Qa;
+            do { Ua = zufall([3.7, 7.4, 11.1, 12, 36]); Qa = zufall([2, 2.5, 4, 5, 10, 14]); } while (Ua === 3.7 && Qa === 2);   // Aufgabe 2a
             return { art: 'Wh', x: Ua * Qa, U: Ua, Q: Qa, text: 'Ein Akku ist mit \\(' + ein(Ua, 'V') + '\\) und \\(' + ein(Qa, 'Ah') + '\\) beschriftet. Wie viel Energie speichert er — in Wattstunden?' };
           }
           if (r < 0.67){
@@ -969,11 +991,12 @@
       'leiter': { felder: ['R'], muster: '<i>R</i> = {R} Ω',
         neu: function(){
           var m, zwei, lk, A, l;
-          do {   // l = A hiesse: der vertauschte Bruch gäbe dieselbe Zahl
+          do {   // l = A hiesse: der vertauschte Bruch gäbe dieselbe Zahl; A = 1 mm²: mal statt durch gäbe dieselbe Zahl
             m = zufall(['Cu', 'Cu', 'Al', 'Fe', 'Konst']); zwei = (m === 'Cu' || m === 'Al') && Math.random() < 0.5;
             lk = m === 'Konst' || m === 'Fe' ? zufall([0.5, 1.5, 2, 4, 5]) : zufall([10, 15, 20, 25, 40, 50, 100]);
-            A = zufall([0.5, 0.75, 1, 1.5, 2.5]); l = zwei ? 2 * lk : lk;
-          } while (gl(l, A) || (m === 'Cu' && zwei && lk === 15 && A === 0.75));   // Aufgabe 3a
+            A = zufall([0.5, 0.75, 1.5, 2.5]); l = zwei ? 2 * lk : lk;
+          } while (gl(l, A) || (zwei && m === 'Cu' && ((lk === 15 && (A === 0.75 || A === 1.5)) || (lk === 20 && A === 1.5)))
+                   || (zwei && m === 'Al' && A === 2.5 && (lk === 15 || lk === 40)));   // Aufgabe 3a, Clip, Leiste, Kontrollfrage
           return { R: RHO[m] * l / A, m: m, l: l, lk: lk, A: A, zwei: zwei,
             text: (zwei
               ? 'Ein zweiadriges ' + STOFF[m] + 'kabel ist \\(' + ein(lk, 'm') + '\\) lang, jede Ader hat \\(' + ein(A, 'mm^2').replace('\\text{mm^2}', '\\text{mm}^2') + '\\).'
@@ -988,12 +1011,15 @@
         fehler: function(A){
           var l = [[{ R: String(RHO[A.m] * A.A / A.l) }, 'Zähler']];
           if (A.zwei) l.push([{ R: String(A.R / 2) }, 'Rückleiter']);
-          if (!gl(A.A, 1)) l.push([{ R: String(RHO[A.m] * A.l * A.A) }, 'teilen']);
+          l.push([{ R: String(RHO[A.m] * A.l * A.A) }, 'teilen']);
           return l; },
         loesung: function(A){ return 'R = \\rho \\cdot \\dfrac{l}{A} = ' + RHO[A.m] + '\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{' + ein(A.l, 'm') + '}{' + tz(A.A) + '\\;\\text{mm}^2} \\approx ' + ein(+A.R.toPrecision(3), '\\Omega').replace('\\text{\\Omega}', '\\Omega'); } },
       'ohm': { felder: ['I'], muster: '<i>I</i> = {I} mA',
         neu: function(){
-          var k = Math.random() < 0.5, R = k ? zufall([1, 1.5, 2.2, 4.7, 10]) : zufall([47, 100, 150, 220, 330, 470]), U = zufall([1.5, 4.5, 6, 9, 12, 24]);
+          var k, R, U;
+          do {   // nicht 1 kΩ (I in mA = U in V), nicht 1.5 V an 1.5 kΩ (Kehrwert gäbe dieselbe Zahl)
+            k = Math.random() < 0.5; R = k ? zufall([1.5, 2.2, 4.7, 10]) : zufall([47, 100, 150, 220, 330, 470]); U = zufall([1.5, 4.5, 6, 9, 12, 24]);
+          } while (k && U === R);
           var RO = k ? R * 1000 : R;
           return { I: U / RO * 1000, U: U, R: R, RO: RO, k: k,
             text: 'An einem Widerstand \\(R = ' + tz(R) + '\\;' + (k ? '\\text{k}\\Omega' : '\\Omega') + '\\) liegt \\(U = ' + ein(U, 'V') + '\\). Welcher Strom fliesst — in Milliampere?' }; },
@@ -1011,7 +1037,7 @@
         loesung: function(A){ return 'I = \\dfrac{U}{R} = \\dfrac{' + ein(A.U, 'V') + '}{' + tz(A.RO) + '\\;\\Omega} \\approx ' + ein(+A.I.toPrecision(3), 'mA'); } },
       'laenge': { felder: ['l'], muster: '<i>l</i> = {l} m',
         neu: function(){
-          var m = zufall(['Cu', 'Al', 'Fe', 'Konst']), A = zufall(m === 'Fe' ? [0.2, 0.25, 0.5, 1] : [0.1, 0.2, 0.25, 0.5, 1]);   // nicht ρ = A
+          var m = zufall(['Cu', 'Al', 'Fe', 'Konst']), A = zufall(m === 'Fe' ? [0.2, 0.25, 0.5] : [0.1, 0.2, 0.25, 0.5]);   // nicht ρ = A, nicht A = 1 mm² (R / ρ gäbe dieselbe Zahl)
           var R = m === 'Konst' ? zufall(A === 0.5 ? [9.8, 24.5, 49] : [4.9, 9.8, 24.5, 49]) : m === 'Fe' ? zufall([2, 5, 10, 20]) : zufall([0.5, 1, 1.7, 2.8, 3.4]);   // nicht Aufgabe 3b
           return { l: R * A / RHO[m], m: m, A: A, R: R,
             text: 'Aus ' + STOFF[m] + 'draht mit \\(A = ' + tz(A) + '\\;\\text{mm}^2\\) soll ein Widerstand von \\(' + tz(R) + '\\;\\Omega\\) werden. Wie lang muss der Draht sein? (\\(\\rho = ' + RHO[m] + '\\;\\Omega\\,\\text{mm}^2/\\text{m}\\))' }; },
@@ -1030,7 +1056,7 @@
           do {
             U = zufall([1.5, 3, 4.5, 6, 12, 24]); Im = zufall([5, 8, 12, 15, 20, 40, 60, 75]);
             Ia = Im / 1000; R = U / Ia;
-            ok = !(U === 9 && Im === 30) && !(U === 5 && Im === 25) && !(U === 6 && Im === 40)   // Clip, Kontrollfrage, Simulation
+            ok = !(U === 6 && Im === 40)   // Simulation (Clip 9 V / 30 mA und Kontrollfrage 5 V / 25 mA kommen in den Listen nicht vor)
               && !nah(R / 1000, Ia / U, 0.02) && !nah(R / 1000, U * Im, 0.02) && !nah(Ia / U, U * Im, 0.02) && !nah(R, U * Im, 0.02);
           } while (!ok);
           return { R: R, U: U, Im: Im,
@@ -1061,8 +1087,8 @@
       'anschluss': { felder: ['g', 'w'], muster: 'Messgerät: {g:Voltmeter|Amperemeter}; angeschlossen {w:parallel zum Bauteil|im Stromweg (in Reihe)}',
         neu: function(){
           var F = zufall([
-            ['die Spannung am Heizdraht eines Toasters', 'Voltmeter', 'parallel zum Bauteil'],
-            ['den Strom durch eine Lampe', 'Amperemeter', 'im Stromweg (in Reihe)'],
+            ['die Spannung am Heizelement einer 12-V-Sitzheizung im Auto', 'Voltmeter', 'parallel zum Bauteil'],
+            ['den Strom durch die Lampe eines Velolichts', 'Amperemeter', 'im Stromweg (in Reihe)'],
             ['die Spannung an einer LED in einer Taschenlampe', 'Voltmeter', 'parallel zum Bauteil'],
             ['den Strom, den ein kleiner Motor aufnimmt', 'Amperemeter', 'im Stromweg (in Reihe)'],
             ['die Spannung an einem Widerstand auf dem Steckbrett', 'Voltmeter', 'parallel zum Bauteil'],
@@ -1113,11 +1139,12 @@
             return { art: 'p', I: I - I1, Iges: I, I1: I1,
               text: 'In eine Verzweigung fliessen \\(' + ein(I, 'mA') + '\\) hinein. Sie teilen sich auf zwei Zweige; im ersten fliessen \\(' + ein(I1, 'mA') + '\\). Wie viel fliesst im zweiten?' };
           }
-          var J = zufall([12, 20, 35, 48, 75]);
+          var J = zufall([12, 25, 35, 48, 75]);   // nicht 20 mA (Kontrollfrage)
           return { art: 'r', I: J, Iges: J,
             text: 'Zwei Widerstände liegen in Reihe. Zwischen Pluspol und \\(R_1\\) misst man \\(' + ein(J, 'mA') + '\\). Wie viel fliesst zwischen \\(R_2\\) und dem Minuspol zur Quelle zurück?' }; },
         pruefen: function(A, e){
           if (nah(e.I, A.I)) return null;
+          if (nah(e.I, -A.I)) return 'Gefragt ist die Stromstärke als Betrag, ohne Vorzeichen: Wie viel fliesst dort?';
           if (A.art === 'p'){
             if (nah(e.I, A.Iges + A.I1)) return 'Ladung bleibt erhalten: Was hineinfliesst, fliesst wieder hinaus. Die Zweigströme ergeben zusammen den Gesamtstrom.';
             if (nah(e.I, A.Iges)) return 'Der Gesamtstrom teilt sich auf: \\(I = I_1 + I_2\\).';
@@ -1125,7 +1152,7 @@
           }
           if (e.I < A.I) return 'Strom wird nicht verbraucht: In Reihe fliesst überall derselbe Strom, auch zurück zur Quelle.';
           return 'In Reihe gibt es nur einen Weg: überall derselbe Strom.'; },
-        fehler: function(A){ return A.art === 'p' ? [[{ I: String(A.Iges + A.I1) }, 'Ladung'], [{ I: String(A.Iges) }, 'teilt']] : [[{ I: '0' }, 'verbraucht'], [{ I: String(A.I / 2) }, 'verbraucht']]; },
+        fehler: function(A){ return (A.art === 'p' ? [[{ I: String(A.Iges + A.I1) }, 'Ladung'], [{ I: String(A.Iges) }, 'teilt']] : [[{ I: '0' }, 'verbraucht'], [{ I: String(A.I / 2) }, 'verbraucht']]).concat([[{ I: String(-A.I) }, 'Betrag']]); },
         loesung: function(A){ return A.art === 'p' ? 'I_2 = I - I_1 = ' + ein(A.Iges, 'mA') + ' - ' + ein(A.I1, 'mA') + ' = ' + ein(A.I, 'mA') : 'I = ' + ein(A.I, 'mA') + '\\;\\text{(überall gleich)}'; } },
       'masche': { felder: ['U'], muster: '<i>U</i>₂ = {U} V',
         neu: function(){
@@ -1156,7 +1183,7 @@
         neu: function(){
           var R1, R2, U;
           do { R1 = zufall([47, 100, 150, 220, 330, 470]); R2 = zufall([100, 150, 220, 330, 470, 680]); U = zufall([6, 9, 12, 24]); }
-          while (R1 === 150 && R2 === 330 && U === 24);   // Aufgabe 4a
+          while (U === 12 && ((R1 === 100 && R2 === 220) || (R1 === 150 && R2 === 150)));   // Clip und Kontrollfrage
           return { R: R1 + R2, I: U / (R1 + R2) * 1000, R1: R1, R2: R2, U: U,
             text: '\\(R_1 = ' + R1 + '\\;\\Omega\\) und \\(R_2 = ' + R2 + '\\;\\Omega\\) liegen in Reihe an \\(U = ' + ein(U, 'V') + '\\). Gesamtwiderstand und Stromstärke?' }; },
         pruefen: function(A, e){
@@ -1177,7 +1204,9 @@
         loesung: function(A){ return 'R_\\text{ges} = R_1 + R_2 = ' + A.R1 + '\\;\\Omega + ' + A.R2 + '\\;\\Omega = ' + A.R + '\\;\\Omega,\\quad I = \\dfrac{U}{R_\\text{ges}} = \\dfrac{' + ein(A.U, 'V') + '}{' + A.R + '\\;\\Omega} ' + erg(A.I, 'mA'); } },
       'parallel': { felder: ['R', 'I'], muster: '<i>R</i><sub>ges</sub> = {R} Ω; <i>I</i> = {I} mA',
         neu: function(){
-          var P = zufall([[100, 100], [100, 400], [60, 30], [150, 300], [220, 330], [100, 150], [200, 300], [120, 60]]), U = zufall([6, 9, 12, 24]);
+          var P, U;
+          do { P = zufall([[100, 400], [150, 300], [220, 330], [100, 150], [200, 300], [120, 60], [47, 100], [330, 470]]); U = zufall([6, 9, 12, 24]); }
+          while ((P[0] === 150 && U === 6) || (P[0] === 120 && U === 12));   // Simulation 7 und Aufgabe 6b; 100 Ω + 100 Ω (Clip) und 60 Ω + 30 Ω (Kontrollfrage) nicht in der Liste
           var R = P[0] * P[1] / (P[0] + P[1]);
           return { R: R, I: U / R * 1000, R1: P[0], R2: P[1], U: U,
             text: '\\(R_1 = ' + P[0] + '\\;\\Omega\\) und \\(R_2 = ' + P[1] + '\\;\\Omega\\) liegen parallel an \\(U = ' + ein(U, 'V') + '\\). Gesamtwiderstand und Gesamtstrom?' }; },
@@ -1199,7 +1228,9 @@
         loesung: function(A){ return 'R_\\text{ges} = \\dfrac{R_1 \\cdot R_2}{R_1 + R_2} = \\dfrac{' + A.R1 + '\\;\\Omega \\cdot ' + A.R2 + '\\;\\Omega}{' + (A.R1 + A.R2) + '\\;\\Omega} ' + erg(A.R, 'Ω') + ',\\quad I = \\dfrac{U}{R_\\text{ges}} = \\dfrac{' + ein(A.U, 'V') + '}{' + tz(+A.R.toPrecision(4)) + '\\;\\Omega} ' + erg(A.I, 'mA'); } },
       'teiler': { felder: ['U2'], muster: '<i>U</i>₂ = {U2} V',
         neu: function(){
-          var R1 = zufall([100, 220, 330, 470, 1000]), R2 = zufall([100, 150, 220, 470, 680, 1000]), U = zufall([9, 12, 24]);
+          var R1, R2, U;
+          do { R1 = zufall([100, 220, 330, 470, 1000]); R2 = zufall([100, 150, 220, 470, 680, 1000]); U = zufall([9, 12, 24]); }
+          while (R1 === 100 && R2 === 220 && U === 12);   // Clip
           return { U2: U * R2 / (R1 + R2), R1: R1, R2: R2, U: U,
             text: '\\(R_1 = ' + R1 + '\\;\\Omega\\) und \\(R_2 = ' + R2 + '\\;\\Omega\\) liegen in Reihe an \\(U = ' + ein(U, 'V') + '\\) (unbelastet: am Abgriff zwischen den beiden hängt nichts weiter). Welche Spannung liegt über \\(R_2\\)?' }; },
         pruefen: function(A, e){
@@ -1218,12 +1249,12 @@
           // Für Kleinspannung und Gleichstrom gelten diese Zeiten nicht. Alle Werte
           // liegen über 30 mA; gefragt ist die Höchstzeit (bis 2·IΔn 300 ms, bis
           // 5·IΔn 150 ms, darüber 40 ms). Keiner trifft eine Grenze genau.
-          var F, I;
-          do {
-            F = zufall([[1000, 'nasser Haut'], [1300, 'feuchter Haut'], [1600, 'trockener Haut'], [2300, 'trockener Haut'],
-                        [3000, 'Schuhen auf trockenem Boden'], [4000, 'Schuhen auf trockenem Boden'], [6000, 'Gummisohlen auf trockenem Boden']]);
-          } while (F[0] === 1500);   // Aufgabe 5a
-          I = 230 / F[0] * 1000;
+          // Werte nicht wie Clip (1 kΩ), Kontrollfrage (1.2 kΩ), Simulation (1.4 kΩ, 1.6 kΩ),
+          // Aufgabe 7a (1.5 kΩ), Gesamttest (1.8 kΩ) und
+          // Themenseite (1 kΩ, 2 kΩ). Bis 2 kΩ: Körper (Festhalten), darüber mit Schuhen und Boden.
+          var F = zufall([[1100, 'nasser Haut'], [1300, 'feuchter Haut'], [1700, 'trockener Haut'], [1900, 'trockener Haut'],
+                          [3000, 'Schuhen auf trockenem Boden'], [4500, 'Schuhen auf trockenem Boden'], [6000, 'Gummisohlen auf trockenem Boden']]);
+          var I = 230 / F[0] * 1000;
           var fak = I / 30;
           return { I: I, U: 230, R: F[0], zeit: fak >= 5 ? '40 ms' : fak >= 2 ? '150 ms' : '300 ms',
             text: 'Ein Mensch mit ' + F[1] + ' (\\(R_\\text{K} = ' + tz(F[0]) + '\\;\\Omega\\), Körper und Boden zusammen) berührt ein defektes Gehäuse am Netz (\\(230\\;\\text{V}\\) Wechselspannung). Der Strom fliesst über ihn und den Boden zur geerdeten Quelle zurück. Körperstrom? Nach welcher Zeit muss ein unverzögerter FI mit \\(30\\;\\text{mA}\\) spätestens trennen?' }; },

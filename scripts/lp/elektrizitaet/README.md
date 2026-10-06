@@ -8,7 +8,7 @@ dem Mathe-Vorbild `tals-mathe/scripts/lp/quadratische-funktionen/`.
 | `seite.py` | baut `leitprogramme/leitprogramm-elektrizitaet.html` — Kopf, CSS, Grundskript, alle Kapitel. Aus der bestehenden Seite übernimmt es nur den SEO-Block. | **ja** — für jede Änderung an Text, Aufgaben, Kapitelaufbau |
 | `seite.js` | Seitenskript: Koordinatensystem `Achsen()`, Bedienung (Regler und Knöpfe), Aufgabenleiste `Leiste()`, Simulationen sim1–sim7, Übungen mit Rückmeldung (`TYPEN`), Minigrafen | wird von `seite.py` eingesetzt |
 | `clips_todo_e.py` | hat am 06.10.2026 die vorgerechneten Probleme samt Strategiefrage in die Einführungsclips der Kapitel 1, 2, 3, 5, 7 gesetzt und die vier Clips der Kapitel 4 und 6 erzeugt (mit Antwortbildern) | **nein** — Archiv. Seit der Visualisierung vom 06.10.2026 sind die JSONs die Quelle; ein neuer Lauf würde die Szenen «Problem/Vorgehen/Lösung» überschreiben |
-| `antworten.py` | Antwortbilder der fünf älteren Kontrollclips | bei Änderungen an diesen Kontrollfragen |
+| `antworten.py` | Antwortbilder der fünf älteren Kontrollclips | **nein** — Archiv seit dem 06.10.2026 (zweiter Durchgang): Die Antwortbilder stehen jetzt nur noch in den JSONs; ein Lauf würde sie auf den alten Stand zurücksetzen |
 | `clips.py` | Archiv: hat die zehn Drehbücher `clips/p6-2-lp-*.json` erzeugt; die Kontrollclips in Fassung 2 (nach der Prüfung vom 03.10.2026) | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern; mit Clipnamen dahinter nur diese). Spätere Korrekturen an den Einführungsclips stehen nur in den JSONs, ebenso seit Fassung 1.1 (04.10.2026) die der Kontrollclips (Antwortpositionen, Eingabe der Klickfrage, Heizung statt «Gerät»). |
 
 ## Ablauf bei einer Änderung
@@ -80,3 +80,28 @@ einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (alle 3
   auf der Themenseite 6.2 (Kästen «Weiterführend», Anker unter «Nicht in diesem Leitprogramm»), bis zur
   Löschung stehen sie als veraltet markiert im Netz (Hinweis im Kopf, eigener Abschnitt auf
   `leitprogramme.html`, `noindex`).
+
+## Fassung 2.0, zweiter Durchgang (06.10.2026, nach der Prüfung)
+
+- **Seite:** Aufgabe 3e am R-l-Diagramm (Kapitel 3 jetzt 15 P); Kapitelaufgaben 2b (Kochplatte, rückwärts),
+  5a/5b (180 Ω und 270 Ω, aus dem Strom), 6c (Messwerte mit zwei Proben prüfen), 7f (Schutzklasse I gegen II)
+  neu; 7e mit 180 mA statt genau 150 mA; Festhalten Kapitel 2 erklärt den Effektivwert, Kapitel 7 den
+  Leitungsschutzschalter bei Überlast (1.45-Fache, bis eine Stunde), Körper und Boden beim Körperwiderstand und
+  den Kurzschluss einer Batterie; «Spannungsfall» nicht mehr unter «Nicht in diesem Leitprogramm».
+- **Simulationen:** Startwerte weder Clipbeispiel noch Leistenziel (sim1 1.25 A/3 s, sim2 3.5 A/1.5 h, sim3
+  Aluminium 35 m/1 mm², sim4 120/270 Ω, sim5 2.5 kΩ); jede Leistenaufgabe mit Denkauftrag und Vergleich; sim2 A4
+  und sim3 A4/A5 mit neuen Werten; sim7 setzt die Treffer beim Aufgabenwechsel zurück; sim6 löscht Meldungen bei
+  jeder Bedienung, Bauteile X und Y (A heisst das Amperemeter), Lämpchen in Tinte; Färbung der Verbindungspunkte
+  Bernstein/grau/gepunktet statt Rot/Blau/Lila; Energiefläche Bernstein wie in den Clips; Formelzeilen aus den
+  Eingaben, eine Gleichung je Zeile.
+- **Übungen:** feste Fälle (Clips, Kontrollfragen, Leisten, Aufgaben, Themenseite) und Zahlen, bei denen ein
+  typischer Fehler das richtige Ergebnis gäbe, ausgeschlossen; Fall «Toaster (Kleinspannung)» ersetzt; Diagnose
+  für ein negatives Vorzeichen bei «Ströme an der Verzweigung».
+- **Clips** (neu vertont: kontrolle-ladung, kontrolle-gefahren, kontrolle-erkennen, leistung, widerstand,
+  messen; Fragen-Ton: kontrolle-ladung, -gefahren, -erkennen, -messen): neue Kontrollfragen (Kamm, 1.75 A · 8 s,
+  0.5 C, 1.2 kΩ, ideales Voltmeter an C), stehende Geraden mit Läufer, Kennlinien in mA, echte Probe im
+  Widerstandsclip, Ergebnisse erst mit dem Ton (neue Aufnahmen `p6-2-lp-gefahren-2a/3a/4a.jpg` ohne Ergebnis,
+  Balken der Kabelrolle einzeln), `p6-2-lp-leistung-3.jpg` neu aufgenommen (Bernstein).
+- **Gesamttest:** sieben Aufgaben, jedes Kapitel geprüft (G5 Kennlinie, G6 ungewohnt gezeichnete Reihe mit
+  Probe, G7 rückwärts und Schutzklasse II); Bewertungspaket mit «ein Fehler, ein Abzug», 2 % Rundung,
+  Ablesepunkten und Zeilenabstand in den Rastern.
