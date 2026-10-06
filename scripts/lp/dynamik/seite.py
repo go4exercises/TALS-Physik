@@ -483,7 +483,7 @@ FUSS = '''<footer class="site-footer">
   <p>Leitprogramm · Dynamik</p>
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 4. Oktober 2026</p>
+  <p>Keine Cookies · Kein Tracking · Version 1.1 · Stand 6. Oktober 2026</p>
 </footer>
 
 <script src="../physiklib.js"></script>
@@ -668,19 +668,20 @@ k0 = '''
 # ------------------------------------------------------------------ Kapitel 1
 sim1 = figur_anim('sim1', 'Wagen auf einer reibungsfreien Bahn, darunter das v-t-Diagramm, das während der Fahrt entsteht', '-4 22 308 296',
     '        <div class="reglerfeld">\n          '
-    + regler('s1', 'F', '<i>F</i> Kraft', 0, 20, 1, 4, 'N', 0) + '\n          '
-    + regler('s1', 'm', '<i>m</i> Masse', 0.5, 8, 0.5, 2, 'kg', 1) + '\n        </div>')
+    + regler('s1', 'F', '<i>F</i> Kraft', 0, 20, 1, 7, 'N', 0) + '\n          '
+    + regler('s1', 'm', '<i>m</i> Masse', 0.5, 8, 0.5, 5, 'kg', 1) + '\n        </div>')
 fest1 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Kraft, Masse, Beschleunigung</div>
           <p><b>Kraft:</b> die Ursache dafür, dass ein Körper beschleunigt (oder verformt) wird. Kräfte sind Vektoren; man erkennt sie an ihrer Wirkung. Einheit: das Newton, \(1\;\text{N} = 1\;\text{kg} \cdot \text{m/s}^2\).</p>
           <p><b>Grundgesetz</b> (zweites newtonsches Gesetz): Die Gesamtkraft auf einen Körper ist Masse mal Beschleunigung, und Kraft und Beschleunigung zeigen in dieselbe Richtung.</p>
           <p>\[ F_\text{ges} = m \cdot a \qquad a = \frac{F_\text{ges}}{m} \]</p>
+          <p><b>Gesamtkraft</b> \(F_\text{ges}\): Wirken mehrere Kräfte, zählt ihre Summe (Kapitel 2). Wirkt nur eine Kraft, ist sie die Gesamtkraft.</p>
           <p>Doppelte Kraft bei gleicher Masse: doppelte Beschleunigung. Doppelte Masse bei gleicher Kraft: halbe Beschleunigung. Die Masse ist das Mass für die Trägheit eines Körpers.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>«Die Kraft bestimmt die Geschwindigkeit.» Sie bestimmt deren <em>Änderung</em>: Eine konstante Kraft von \(4\;\text{N}\) auf \(2\;\text{kg}\) macht den Wagen jede Sekunde um \(2\;\text{m/s}\) schneller — nicht \(2\;\text{m/s}\) schnell.</p>
+          <p>«Die Kraft bestimmt die Geschwindigkeit.» Sie bestimmt deren <em>Änderung</em>: Eine konstante Kraft von \(10\;\text{N}\) auf \(5\;\text{kg}\) macht den Wagen jede Sekunde um \(2\;\text{m/s}\) schneller — nicht \(2\;\text{m/s}\) schnell.</p>
           <p>Masse in Gramm eingesetzt: \(4\;\text{N}\) auf \(500\;\text{g}\) gibt \(a = \dfrac{4\;\text{N}}{0.5\;\text{kg}} = 8\;\text{m/s}^2\), nicht \(0.008\;\text{m/s}^2\).</p>
         </div>
       </div>'''
@@ -695,7 +696,7 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 11, [
     ('1d', 3, r'Ein Sprinter (\(75\;\text{kg}\)) erreicht aus dem Stand in \(2.5\;\text{s}\) gleichmässig \(9\;\text{m/s}\). Wie gross ist die Kraft, mit der er sich im Mittel vorwärts stösst?',
      r'<p>\(a = \dfrac{\Delta v}{\Delta t} = \dfrac{9\;\text{m/s}}{2.5\;\text{s}} = 3.6\;\text{m/s}^2\).</p><p>\(F = m \cdot a = 75\;\text{kg} \cdot 3.6\;\text{m/s}^2 = 270\;\text{N}\).</p>', ''),
 ])
-k1 = kapitel(1, 'kraft-masse-beschleunigung', 'Kraft, Masse, Beschleunigung', 'K1', 40,
+k1 = kapitel(1, 'kraft-masse-beschleunigung', 'Kraft, Masse, Beschleunigung', 'K1', 45,
     r'Du beschreibst die Kraft als Ursache einer Bewegungsänderung und den Zusammenhang \(F_\text{ges} = m \cdot a\): doppelte Kraft, doppelte Beschleunigung; doppelte Masse, halbe Beschleunigung.',
     ('p4-2-lp-grundgesetz', 'Kraft sehen: doppelte Kraft, doppelte Beschleunigung', None),
     sim1, ('p4-2-lp-kontrolle-grundgesetz', 'Kontrollfragen zu Kraft, Masse und Beschleunigung', None),
@@ -707,13 +708,13 @@ k1 = kapitel(1, 'kraft-masse-beschleunigung', 'Kraft, Masse, Beschleunigung', 'K
 sim2 = figur_anim('sim2', 'Velo mit Antriebs- und Widerstandskraft, die Strasse zieht vorbei; darunter das v-t-Diagramm der Fahrt', '-4 -4 308 322',
     '        <div class="reglerfeld">\n          '
     + regler('s2', 'v0', '<i>v</i>₀ Start', 0, 8, 1, 0, 'm/s', 0) + '\n          '
-    + regler('s2', 'FA', '<i>F</i><sub>A</sub> Antrieb', 0, 120, 5, 60, 'N', 0) + '\n          '
-    + regler('s2', 'FW', '<i>F</i><sub>W</sub> Widerstand', 0, 120, 5, 20, 'N', 0) + '\n        </div>\n'
+    + regler('s2', 'FA', '<i>F</i><sub>A</sub> Antrieb', 0, 120, 5, 50, 'N', 0) + '\n          '
+    + regler('s2', 'FW', '<i>F</i><sub>W</sub> Widerstand', 0, 120, 5, 25, 'N', 0) + '\n        </div>\n'
     + '        <p class="sim-notiz">Velo mit Fahrerin: \\(m = 80\\;\\text{kg}\\). Der Widerstand wirkt gegen die Bewegung.</p>')
 fest2 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Gesamtkraft und Trägheit</div>
-          <p>Wirken mehrere Kräfte auf einer Geraden, zählt nur ihre Summe mit Vorzeichen, die <b>Gesamtkraft</b>: Kräfte in Bewegungsrichtung positiv, Kräfte dagegen negativ.</p>
+          <p>Wirken mehrere Kräfte auf einer Geraden, zählt nur ihre Summe mit Vorzeichen, die <b>Gesamtkraft</b>. Dazu eine Richtung als positiv wählen und nennen, meist die Bewegungsrichtung; Kräfte in die Gegenrichtung zählen negativ.</p>
           <p>\[ F_\text{ges} = F_A - F_W \qquad a = \frac{F_\text{ges}}{m} \]</p>
           <p><b>Trägheitsgesetz</b> (erstes newtonsches Gesetz): Ist die Gesamtkraft null, ist auch die Beschleunigung null. Der Körper behält seinen Bewegungszustand — er bleibt in Ruhe oder fährt mit konstanter Geschwindigkeit geradeaus weiter.</p>
         </div>
@@ -734,7 +735,7 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2d', 3, r'Eine Fallschirmspringerin (\(70\;\text{kg}\) mit Ausrüstung) sinkt mit konstant \(5\;\text{m/s}\). Wie gross ist der Luftwiderstand? Kurz nach dem Öffnen des Schirms war der Widerstand \(1500\;\text{N}\): Wie gross war die Beschleunigung, und wohin zeigte sie?',
      r'<p>Konstantes Tempo heisst \(F_\text{ges} = 0\): \(F_W = F_G = m \cdot g\) \(= 70\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 687\;\text{N}\).</p><p>Beim Öffnen wirken die Kräfte senkrecht; die positive Richtung darf man frei wählen, wenn man sie nennt — hier nach oben: \(F_\text{ges} = F_W - F_G\) \(= 1500\;\text{N} - 687\;\text{N} = 813\;\text{N}\), \(a = \dfrac{F_\text{ges}}{m} = \dfrac{813\;\text{N}}{70\;\text{kg}} \approx 11.6\;\text{m/s}^2\) nach oben — sie wird stark abgebremst, fällt aber weiter nach unten.</p>', ''),
 ])
-k2 = kapitel(2, 'gesamtkraft-traegheit', 'Gesamtkraft und Trägheit', 'K1 · K2', 40,
+k2 = kapitel(2, 'gesamtkraft-traegheit', 'Gesamtkraft und Trägheit', 'K1 · K2', 45,
     r'Du bestimmst die Gesamtkraft aus Kräften auf einer Geraden, erkennst mit dem Trägheitsgesetz, wann sich die Geschwindigkeit nicht ändert, und rechnest mit \(F_\text{ges} = m \cdot a\).',
     ('p4-2-lp-gesamtkraft', 'Kraft sehen: Antrieb gegen Widerstand', None),
     sim2, ('p4-2-lp-kontrolle-gesamtkraft', 'Kontrollfragen zu Gesamtkraft und Trägheit', None),
@@ -743,10 +744,10 @@ k2 = kapitel(2, 'gesamtkraft-traegheit', 'Gesamtkraft und Trägheit', 'K1 · K2'
 
 # ------------------------------------------------------------------ Kapitel 3
 sim3 = figur_anim('sim3', 'Aufzugkabine im Schacht mit Person auf einer Waage; Gewichtskraft, Normalkraft und Beschleunigung als Pfeile, die Waage zeigt live an', '0 0 300 262',
-    '        ' + knoepfe('ph', 'Fahrt', [('ruhe', 'steht'), ('auf', 'fährt nach oben an'), ('konst', 'fährt gleichmässig'), ('brems', 'bremst (nach oben)'), ('fall', 'Seil reisst')], 'auf')
+    '        ' + knoepfe('ph', 'Fahrt', [('ruhe', 'steht'), ('auf', 'fährt nach oben an'), ('konst', 'fährt gleichmässig'), ('brems', 'bremst die Fahrt nach oben'), ('fall', 'Seil reisst')], 'auf')
     + '\n        <div class="reglerfeld">\n          '
-    + regler('s3', 'm', '<i>m</i> Person', 40, 100, 1, 60, 'kg', 0) + '\n          '
-    + regler('s3', 'a', '|<i>a</i>| Betrag', 0.5, 5, 0.1, 2, 'm/s²', 1) + '\n        </div>')
+    + regler('s3', 'm', '<i>m</i> Person', 40, 100, 1, 55, 'kg', 0) + '\n          '
+    + regler('s3', 'a', '|<i>a</i>| Betrag', 0.5, 5, 0.1, 1, 'm/s²', 1) + '\n        </div>')
 fest3 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Gewichtskraft und Normalkraft</div>
@@ -772,7 +773,7 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 11, [
     ('3d', 3, r'Ein Astronaut (\(90\;\text{kg}\) mit Anzug) steht in einer Rakete, die mit \(15\;\text{m/s}^2\) senkrecht startet. Mit welcher Kraft drückt der Boden auf ihn? Das Wievielfache seiner Gewichtskraft ist das?',
      r'<p>\(F_N = m \cdot (g + a)\) \(= 90\;\text{kg} \cdot (9.81\;\text{m/s}^2 + 15\;\text{m/s}^2)\) \(\approx 2233\;\text{N}\).</p><p>\(F_G = 90\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 883\;\text{N}\), also \(\dfrac{2233\;\text{N}}{883\;\text{N}} \approx 2.5\) — er fühlt sich rund zweieinhalbmal so schwer.</p>', ''),
 ])
-k3 = kapitel(3, 'gewicht-und-aufzug', 'Gewichtskraft, Fall und Aufzug', 'K1 · K2', 40,
+k3 = kapitel(3, 'gewicht-und-aufzug', 'Gewichtskraft, Fall und Aufzug', 'K1 · K2', 45,
     r'Du erklärst mit \(F = m \cdot a\), warum alle Körper gleich schnell fallen, und berechnest die Normalkraft in einem beschleunigten Aufzug.',
     ('p4-2-lp-aufzug', 'Kraft sehen: was die Waage im Aufzug zeigt', None),
     sim3, ('p4-2-lp-kontrolle-aufzug', 'Kontrollfragen zu Gewichtskraft und Aufzug', None),
@@ -782,15 +783,15 @@ k3 = kapitel(3, 'gewicht-und-aufzug', 'Gewichtskraft, Fall und Aufzug', 'K1 · K
 # ------------------------------------------------------------------ Kapitel 4
 sim4 = figur_anim('sim4', 'Wagen auf einem Tisch, über eine Rolle von einem hängenden Körper gezogen; darunter das v-t-Diagramm der Fahrt', '-4 -4 308 410',
     '        <div class="reglerfeld">\n          '
-    + regler('s4', 'm1', '<i>m</i>₁ Wagen', 0.5, 5, 0.5, 3, 'kg', 1) + '\n          '
-    + regler('s4', 'm2', '<i>m</i>₂ hängend', 0.1, 3, 0.1, 1, 'kg', 1) + '\n        </div>\n'
+    + regler('s4', 'm1', '<i>m</i>₁ Wagen', 0.5, 5, 0.5, 2.5, 'kg', 1) + '\n          '
+    + regler('s4', 'm2', '<i>m</i>₂ hängend', 0.1, 3, 0.1, 0.8, 'kg', 1) + '\n        </div>\n'
     + '        <p class="sim-notiz">Reibungsfrei; Faden und Rolle masselos.</p>')
 fest4 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Zwei Körper, ein Faden</div>
           <p>Hängen Körper an einem gespannten Faden, bewegen sie sich gemeinsam. Für das <b>ganze System</b> gilt: Die antreibende Kraft beschleunigt die Gesamtmasse. Beim Wagen auf dem Tisch treibt die Gewichtskraft des hängenden Körpers:</p>
           <p>\[ m_2 \cdot g = (m_1 + m_2) \cdot a \qquad a = \frac{m_2 \cdot g}{m_1 + m_2} \]</p>
-          <p>Die <b>Fadenkraft</b> findet man an einem Körper allein: Den Wagen beschleunigt nur der Faden, \(F_S = m_1 \cdot a\). Gilt für reibungsfreie Bewegung mit masselosem Faden und masseloser Rolle.</p>
+          <p>Die <b>Fadenkraft</b> findet man an einem Körper allein — mit einem <b>Freikörperbild</b>: Man zeichnet den Körper allein und alle Kräfte, die auf ihn wirken, als Pfeile. Den Wagen beschleunigt nur der Faden, \(F_S = m_1 \cdot a\). Gilt für reibungsfreie Bewegung mit masselosem Faden und masseloser Rolle.</p>
           <p>Ebenso beim Auto mit Anhänger: Die Antriebskraft beschleunigt beide zusammen, den Anhänger allein zieht die <b>Kupplungskraft</b> \(F_K = m_\text{Anhänger} \cdot a\).</p>
         </div>
         <div class="warn">
@@ -800,16 +801,17 @@ fest4 = r'''      <div class="festhalten">
         </div>
       </div>'''
 auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
-    ('4a', 4, r'Ein Auto (\(1200\;\text{kg}\)) zieht einen Anhänger (\(600\;\text{kg}\)) mit einer Antriebskraft von \(2700\;\text{N}\); Widerstände vernachlässigt. Wie gross ist die Beschleunigung? Welche Kraft überträgt die Kupplung?',
-     r'<p>System: \(a = \dfrac{F}{m_1 + m_2} = \dfrac{2700\;\text{N}}{1800\;\text{kg}} = 1.5\;\text{m/s}^2\).</p><p>Anhänger allein: \(F_K = m_2 \cdot a = 600\;\text{kg} \cdot 1.5\;\text{m/s}^2 = 900\;\text{N}\).</p><p class="komm">Probe am Auto: \(2700\;\text{N} - 900\;\text{N} = 1800\;\text{N} = 1200\;\text{kg} \cdot 1.5\;\text{m/s}^2\).</p>', ''),
+    ('4a', 4, r'Rückwärts: Ein Auto (\(1200\;\text{kg}\)) zieht einen Anhänger (\(600\;\text{kg}\)); Widerstände vernachlässigt. Ein Kraftmesser in der Kupplung zeigt \(900\;\text{N}\). Wie gross ist die Beschleunigung? Welche Antriebskraft wirkt auf das Gespann?',
+     r'<p>Anhänger allein — ihn zieht nur die Kupplung: \(F_K = m_2 \cdot a\), also \(a = \dfrac{F_K}{m_2}\) \(= \dfrac{900\;\text{N}}{600\;\text{kg}} = 1.5\;\text{m/s}^2\).</p><p>Ganzes System: \(F = (m_1 + m_2) \cdot a\) \(= 1800\;\text{kg} \cdot 1.5\;\text{m/s}^2\) \(= 2700\;\text{N}\).</p><p class="komm">Probe am Auto: \(2700\;\text{N} - 900\;\text{N} = 1800\;\text{N} = 1200\;\text{kg} \cdot 1.5\;\text{m/s}^2\).</p>', ''),
     ('4b', 3, r'Übertrag auf einen neuen Aufbau: Über eine reibungsfreie Rolle hängen an einem Faden zwei Körper, A mit \(0.6\;\text{kg}\) und B mit \(0.4\;\text{kg}\). Mit welcher Beschleunigung bewegen sie sich? Wie gross ist die Fadenkraft? (Tipp: wie beim Wagen — was treibt an, was wird beschleunigt?)',
-     r'<p>Angetrieben wird durch den Unterschied der Gewichtskräfte, beschleunigt werden beide: \(a = \dfrac{(m_A - m_B) \cdot g}{m_A + m_B}\) \(= \dfrac{0.2\;\text{kg} \cdot 9.81\;\text{m/s}^2}{1.0\;\text{kg}}\) \(\approx 1.96\;\text{m/s}^2\).</p><p>Am leichteren Körper B (steigt, nach oben positiv): \(F_S - m_B \cdot g = m_B \cdot a\), also \(F_S = m_B \cdot (g + a)\) \(F_S = 0.4\;\text{kg} \cdot (9.81 + 1.962)\;\text{m/s}^2\) \(\approx 4.71\;\text{N}\).</p>', ''),
-    ('4c', 2, r'Zeichne für den Wagen auf dem Tisch und für den hängenden Körper je alle Kräfte als Pfeile (Freikörperbild). Welche Pfeile sind gleich lang?',
-     r'<p>Wagen: Gewichtskraft nach unten, Normalkraft des Tisches nach oben (gleich lang, sie heben sich auf), Fadenkraft \(F_S\) zur Rolle hin. Hängender Körper: Gewichtskraft \(m_2 \cdot g\) nach unten, Fadenkraft \(F_S\) nach oben, kürzer als die Gewichtskraft.</p><p>Gleich lang sind die beiden Fadenkräfte (ein Faden, masselose Rolle) und am Wagen Gewichts- und Normalkraft.</p>', ''),
-    ('4d', 3, r'Warum ist die Fadenkraft kleiner als die Gewichtskraft des hängenden Körpers, solange alles beschleunigt? Was misst man, wenn man den Wagen festhält?',
-     r'<p>Am hängenden Körper wirken \(m_2 \cdot g\) nach unten und \(F_S\) nach oben. Er beschleunigt nach unten, also muss die Gesamtkraft nach unten zeigen: \(F_S \lt m_2 \cdot g\).</p><p>Hält man den Wagen fest, ruht alles: \(a = 0\), die Gesamtkraft am hängenden Körper ist null, also \(F_S = m_2 \cdot g\).</p>', ''),
+     r'<p>Angetrieben wird durch den Unterschied der Gewichtskräfte, beschleunigt werden beide: \(a = \dfrac{(m_A - m_B) \cdot g}{m_A + m_B}\) \(= \dfrac{0.2\;\text{kg} \cdot 9.81\;\text{m/s}^2}{1.0\;\text{kg}}\) \(\approx 1.96\;\text{m/s}^2\).</p><p>Am leichteren Körper B (steigt, nach oben positiv): \(F_S - m_B \cdot g = m_B \cdot a\), also \(F_S = m_B \cdot (g + a)\) \(= 0.4\;\text{kg} \cdot (9.81 + 1.96)\;\text{m/s}^2\) \(\approx 4.71\;\text{N}\).</p>', ''),
+    ('4c', 2, r'Zeichne für den Wagen auf dem Tisch und für den hängenden Körper je alle Kräfte als Pfeile (Freikörperbild). Welche Pfeile sind gleich lang? Begründe.',
+     r'<p>Wagen: Gewichtskraft nach unten, Normalkraft des Tisches nach oben (gleich lang, sie heben sich auf), Fadenkraft \(F_S\) zur Rolle hin. Hängender Körper: Gewichtskraft \(m_2 \cdot g\) nach unten, Fadenkraft \(F_S\) nach oben, kürzer als die Gewichtskraft.</p><p>Gleich lang sind die beiden Fadenkräfte — ein Faden mit masseloser Rolle zieht an beiden Enden gleich stark — und am Wagen Gewichts- und Normalkraft, weil der Wagen senkrecht nicht beschleunigt.</p>', ''),
+    ('4d', 3, r'Das Diagramm zeigt die Fahrt eines Wagens (\(m_1 = 3\;\text{kg}\)) auf dem reibungsfreien Tisch, gezogen von einem hängenden Körper. Lies die Beschleunigung ab. Wie gross ist die Fadenkraft, und welche Masse hängt am Faden? (Punkte auf Gitterpunkten)',
+     r'<p>Ablesen: \(a = \dfrac{\Delta v}{\Delta t} = \dfrac{4\;\text{m/s}}{2\;\text{s}} = 2\;\text{m/s}^2\).</p><p>Am Wagen allein: \(F_S = m_1 \cdot a = 3\;\text{kg} \cdot 2\;\text{m/s}^2 = 6\;\text{N}\).</p><p>System: \(m_2 \cdot g = (m_1 + m_2) \cdot a\), also \(m_2 = \dfrac{m_1 \cdot a}{g - a}\) \(= \dfrac{3\;\text{kg} \cdot 2\;\text{m/s}^2}{(9.81 - 2)\;\text{m/s}^2}\) \(\approx 0.768\;\text{kg}\).</p><p class="komm">Probe: \(m_2 \cdot g \approx 7.54\;\text{N}\) ist grösser als \(F_S = 6\;\text{N}\) — der hängende Körper beschleunigt nach unten.</p>',
+     '\n            <div class="mini-reihe">' + vt_bild([(0, 0), (1, 2), (2, 4)], 3, 5, 1, 1, 'v-t-Diagramm des Wagens: Ursprungsgerade durch (1 s; 2 m/s) und (2 s; 4 m/s)') + '</div>'),
 ])
-k4 = kapitel(4, 'zwei-koerper', 'Zwei Körper, ein Faden', 'K2', 40,
+k4 = kapitel(4, 'zwei-koerper', 'Zwei Körper, ein Faden', 'K2', 45,
     r'Du wendest \(F = m \cdot a\) auf zusammenhängende Körper an: Die antreibende Kraft beschleunigt die Gesamtmasse, die Faden- oder Kupplungskraft bestimmst du an einem Körper allein.',
     ('p4-2-lp-faden', 'Kraft sehen: wer zieht wen am Faden', None),
     sim4, ('p4-2-lp-kontrolle-faden', 'Kontrollfragen zu Faden und Kupplung', None),
@@ -819,10 +821,10 @@ k4 = kapitel(4, 'zwei-koerper', 'Zwei Körper, ein Faden', 'K2', 40,
 # ------------------------------------------------------------------ Kapitel 5
 sim5 = figur_anim('sim5', 'Kugel an einer Schnur auf einer Kreisbahn von oben; Geschwindigkeit tangential, Zentripetalkraft zur Mitte; die Schnur lässt sich kappen', '0 0 300 280',
     '        <div class="reglerfeld">\n          '
-    + regler('s5', 'm', '<i>m</i> Masse', 0.5, 3, 0.5, 2, 'kg', 1) + '\n          '
-    + regler('s5', 'v', '<i>v</i> Tempo', 1, 6, 0.5, 3, 'm/s', 1) + '\n          '
-    + regler('s5', 'r', '<i>r</i> Radius', 0.5, 2, 0.1, 1, 'm', 1) + '\n        </div>\n'
-    + '        <p class="sim-notiz">Von oben gesehen, Drehsinn gegen den Uhrzeigersinn. Pfeillängen proportional zu \\(v\\) und \\(F_z\\); ein Kraftpfeil, der nicht in den Kreis passt, wird gekürzt.</p>')
+    + regler('s5', 'm', '<i>m</i> Masse', 0.5, 3, 0.5, 1.5, 'kg', 1) + '\n          '
+    + regler('s5', 'v', '<i>v</i> Tempo', 1, 6, 0.5, 2.5, 'm/s', 1) + '\n          '
+    + regler('s5', 'r', '<i>r</i> Radius', 0.5, 2, 0.1, 1.2, 'm', 1) + '\n        </div>\n'
+    + '        <p class="sim-notiz">Von oben gesehen: Die Kugel gleitet waagrecht auf einem glatten Tisch, die Schnur liefert allein die Kraft zur Mitte. Drehsinn gegen den Uhrzeigersinn. Pfeillängen proportional zu \\(v\\) und \\(F_z\\); ein Kraftpfeil, der nicht in den Kreis passt, wird gekürzt.</p>')
 fest5 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Die Kraft zur Mitte</div>
@@ -830,6 +832,7 @@ fest5 = r'''      <div class="festhalten">
           <p>\[ F_z = m \cdot a_z = \frac{m \cdot v^2}{r} = m \cdot \omega^2 \cdot r \]</p>
           <p>Mit der Umlaufzeit \(T\): Winkelgeschwindigkeit \(\omega = \dfrac{2\pi}{T}\) und \(v = \omega \cdot r\) (<a href="leitprogramm-kinematik.html#k5">Leitprogramm Kinematik, Kapitel 5</a>).</p>
           <p>Sie ist keine neue Kraftart, sondern eine Rolle, die eine vorhandene Kraft übernimmt: die Schnur beim Hammerwurf, die Haftreibung zwischen Reifen und Strasse in der Kurve, die Gravitation beim Mond. Fehlt sie, fliegt der Körper tangential geradeaus weiter — das Trägheitsgesetz.</p>
+          <p>Die Haftreibung ist nur so gross wie nötig, aber höchstens so gross wie ihr <b>Höchstwert</b> (<a href="leitprogramm-statik.html#ruhender-koerper">Leitprogramm Statik, Kapitel 3</a>). Braucht die Kurve mehr Kraft zur Mitte, rutscht das Auto geradeaus aus der Kurve.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -845,10 +848,10 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5c', 3, r'Das Diagramm zeigt die Zentripetalkraft zweier Körper A und B auf derselben Kreisbahn (\(r = 2\;\text{m}\)), aufgetragen über \(v^2\). Welche Masse hat jeder? (Punkte auf Gitterpunkten)',
      r'<p>\(F_z = \dfrac{m}{r} \cdot v^2\): Die Steigung ist \(\dfrac{m}{r}\).</p><p>A: \(\dfrac{16\;\text{N}}{16\;\text{m}^2/\text{s}^2} = 1\;\text{kg/m}\), also \(m = 1\;\text{kg/m} \cdot 2\;\text{m} = 2\;\text{kg}\). B: \(\dfrac{8\;\text{N}}{16\;\text{m}^2/\text{s}^2} = 0.5\;\text{kg/m}\), also \(m = 1\;\text{kg}\).</p>',
      '\n            <div class="mini-reihe"><svg class="mini" data-geraden="1;0.5" data-namen="A;B" data-farbe="kurve-f" data-fenster="20,20" data-teilung="2,2" data-punkte="16,16;16,8" data-xname="v² [m²/s²]" data-yname="F [N]" aria-label="Zentripetalkraft über v-Quadrat, zwei Ursprungsgeraden A und B"></svg></div>'),
-    ('5d', 3, r'Im Auto wird man in der Kurve gegen die Türe gedrückt. Gibt es eine Kraft, die nach aussen zieht? Erkläre mit dem Trägheitsgesetz.',
-     r'<p>Nein. Der Körper will nach dem Trägheitsgesetz geradeaus weiter. Das Auto biegt unter ihm weg, bis die Türe ihn erreicht. Die Türe drückt ihn dann nach <em>innen</em> auf die Kreisbahn — diese Kraft spürt man. Eine Kraft nach aussen braucht nur, wer sich im mitdrehenden Auto beschreibt (Scheinkraft).</p>', ''),
+    ('5d', 3, r'In der Wäscheschleuder dreht sich eine Trommel mit vielen Löchern. Warum bleibt die Wäsche in der Trommel, während das Wasser durch die Löcher hinausfliegt? Erkläre mit der Zentripetalkraft und dem Trägheitsgesetz.',
+     r'<p>Die Trommelwand drückt die Wäsche nach <em>innen</em> und liefert so die Zentripetalkraft: Die Wäsche bleibt auf der Kreisbahn.</p><p>Das Wasser an einem Loch hat nichts, was es zur Mitte zieht. Ohne Kraft zur Mitte fliegt es nach dem Trägheitsgesetz geradeaus weiter, tangential zur Bahn, durch das Loch hinaus — nicht, weil es nach aussen gezogen würde.</p>', ''),
 ])
-k5 = kapitel(5, 'kreisbewegung', 'Die Kraft zur Mitte', 'K2', 40,
+k5 = kapitel(5, 'kreisbewegung', 'Die Kraft zur Mitte', 'K2', 45,
     r'Du berechnest die Zentripetalkraft \(F_z = \dfrac{m \cdot v^2}{r}\), nennst, welche Kraft diese Rolle übernimmt, und erklärst, warum ein Körper ohne sie tangential weiterfliegt.',
     ('p4-2-lp-kurve', 'Kraft sehen: die Kraft, die im Kreis hält', None),
     sim5, ('p4-2-lp-kontrolle-kurve', 'Kontrollfragen zur Zentripetalkraft', None),
@@ -879,7 +882,7 @@ gt = f'''
             <tr><td>11 – 16 P</td><td>Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.</td></tr>
             <tr><td>0 – 10 P</td><td>Zurück zu Kapitel 1 und von dort der Reihe nach weiter.</td></tr>
           </table>
-          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a>, <a href="#k2">2</a>, <a href="#k3">3</a> → K1 · G2, G3 → <a href="#k1">1</a>, <a href="#k2">2</a> → K1, K2 · G4 → <a href="#k3">3</a> → K2 · G5 → <a href="#k4">4</a> → K2 · G6 → <a href="#k5">5</a> → K2</p>
+          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a>, <a href="#k2">2</a> → K1 · G2, G3 → <a href="#k1">1</a>, <a href="#k2">2</a> → K1, K2 · G4 → <a href="#k3">3</a> → K2 · G5 → <a href="#k4">4</a> → K2 · G6 → <a href="#k5">5</a> → K2</p>
         </div>
       </div>
     </section>'''
@@ -895,7 +898,8 @@ weiter = f'''
     </section>'''
 
 oben = '''<div id="nav-root"></div>
-<!-- Leitprogramm Dynamik, Version 1.0 (04.10.2026, nach /lp-pruefung am 06.10.2026 freigeschaltet).
+<!-- Leitprogramm Dynamik, Version 1.1 (06.10.2026: Befunde der zweiten Prüfung behoben, vorgerechnetes
+     Problem in jedem Einführungsclip; Version 1.0 vom 04.10.2026, am 06.10.2026 freigeschaltet).
      Drittes Physik-Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4): je Kapitel
      ① Einführungsclip → ② laufende Simulation mit Aufgabenleiste → ③ Kontrollclip mit Fragen →
      Festhalten → ④ Übungen mit Rückmeldung → ⑤ Aufgaben mit Lösungen. Gesamttest und
@@ -916,7 +920,8 @@ oben = '''<div id="nav-root"></div>
      Widersprüche der Themenseite, hier nicht übernommen: Gleit- und Haftreibung heissen dort zum Teil
      F_G und F_H (vergeben für Gewichtskraft und Hangabtrieb) — hier F_W für jeden Widerstand; in
      Animation 6 ist v blau statt grün — hier grün wie sonst überall.
-     Zeiten: K0 10 · K1 40 · K2 40 · K3 40 · K4 40 · K5 40 · Gesamttest 25 = 235 min ≈ 5.2 Lektionen. -->
+     Zeiten (geschätzt: Einführungsclip mit Problem ~3, Tüfteln ~10, Kontrollclip ~3, Festhalten ~3,
+     Üben ~10, Aufgaben ~16): K0 10 · K1 45 · K2 45 · K3 45 · K4 45 · K5 45 · Gesamttest 25 = 260 min ≈ 5.8 Lektionen. -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>

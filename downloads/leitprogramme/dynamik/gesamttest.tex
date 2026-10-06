@@ -1,9 +1,11 @@
 % Gesamttest «Dynamik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py dynamik).
 % Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (04.10.2026).
-% Jede Aufgabe verbindet, was die Seite getrennt übt, oder fragt rückwärts: G3 Reibung aus einer
-% gemessenen Fahrt, G4 Aufzug aus v und t, G5 hängende Masse samt Folgefrage, G6 Höchsttempo
-% mit km/h; G2 am gegebenen Diagramm, G1 als Begründung — HOWTO-leitprogramme §9.
-% Fassung 2 nach /lp-pruefung (04.10.2026).
+% Jede Aufgabe verbindet, was die Seite getrennt übt, oder fragt rückwärts: G3 Widerstand aus dem
+% gegebenen Diagramm und dem bekannten Antrieb, G2 Reibung aus der gleichförmigen Fahrt, G4 Aufzug
+% aus v und t, G5 Beschleunigung und Wagenmasse aus der gemessenen Fadenkraft, G6 Kurvenradius
+% aus Tempo und Haftreibung; G1 als Begründung — HOWTO-leitprogramme §9.
+% Fassung 3 (06.10.2026): G1d, G2 bis G6 neu (G2 Schlitten, G3 Diagramm), damit keine Aufgabe eine Kapitelaufgabe,
+% Leistenaufgabe oder Übung wiederholt; Punkte G4 5, G6 4. Werte mit python3 nachgerechnet.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Dynamik}
@@ -26,62 +28,64 @@ Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem
 
 \begin{lpaufgabe}{G1}{Begriffe}{4 P}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Woran erkennt man, dass auf einen Körper eine Kraft wirkt?
-\item Formuliere das Trägheitsgesetz.
+\item Erkläre, woran man erkennt, dass auf einen Körper eine Kraft wirkt.
+\item Formuliere das Trägheitsgesetz in eigenen Worten.
 \item Die Kraft auf einen Körper wird verdreifacht, gleichzeitig wird seine Masse halbiert. Um welchen Faktor ändert sich die Beschleunigung? Begründe.
-\item Eine Bowlingkugel ($6\;\text{kg}$) und ein Tennisball ($0.06\;\text{kg}$) fallen im Vakuum aus derselben Höhe. Auf die Kugel wirkt die hundertfache Gewichtskraft. Erkläre mit $F = m \cdot a$, warum beide trotzdem gleich schnell fallen.
+\item In einer Raumstation ist alles schwerelos. Zwei gleich aussehende Kisten schweben im Raum, eine ist leer, die andere voll. Wie findet man ohne Waage heraus, welche die grössere Masse hat? Begründe mit $F = m \cdot a$.
 \end{enumerate}
-\lpplatz{12}
+\lpplatz{7}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G2}{Autofahrt im Diagramm}{5 P}
-Das $v$-$t$-Diagramm zeigt die Fahrt eines Autos mit $m = 1200\;\text{kg}$ auf gerader Strasse.\par\smallskip
+\begin{lpaufgabe}{G2}{Schlitten}{3 P}
+Ein Schlitten ($50\;\text{kg}$) wird mit $60\;\text{N}$ gezogen und gleitet dabei mit konstant $1.5\;\text{m/s}$ geradeaus.
+Wie gross ist die Reibung? Begründe. Nun zieht man mit $100\;\text{N}$, die Reibung bleibt gleich. Wie gross ist die Beschleunigung, und wie schnell ist der Schlitten $3\;\text{s}$ später?
+\lpplatz{6}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G3}{Widerstand aus dem Diagramm}{5 P}
+Ein Auto ($m = 1200\;\text{kg}$) fährt auf gerader Strasse aus dem Stand an; die Antriebskraft beträgt dabei $3000\;\text{N}$.
+Nach $6\;\text{s}$ kuppelt die Fahrerin aus, und das Auto rollt ohne Antrieb weiter. Das $v$-$t$-Diagramm zeigt die Fahrt.\par\smallskip
 \begin{center}\begin{tikzpicture}
-\begin{axis}[width=10cm,height=5.2cm,xmin=0,xmax=18.5,ymin=0,ymax=17.5,axis lines=left,
-  xtick={0,1,...,15},ytick={0,3,...,15},grid=both,grid style={lplinie!70},xticklabel style={font=\small},
+\begin{axis}[width=9.5cm,height=4.6cm,xmin=0,xmax=16.5,ymin=0,ymax=14.5,axis lines=left,
+  xtick={0,2,...,14},minor xtick={1,3,...,15},ytick={0,2,...,12},grid=both,grid style={lplinie!70},xticklabel style={font=\small},
   xlabel={$t$ [s]},ylabel={$v$ [m/s]},xlabel style={at={(1,0)},anchor=north east},ylabel style={rotate=-90,at={(0,1)},anchor=south east}]
-\addplot[very thick,lpgruen] coordinates {(0,0) (5,15) (12,15) (15,0)};
+\addplot[very thick,lpgruen] coordinates {(0,0) (6,12) (14,8)};
+\addplot[only marks,mark=*,mark size=1.6pt,lpgruen] coordinates {(6,12) (14,8)};
 \end{axis}
 \end{tikzpicture}\end{center}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wie gross ist die Gesamtkraft auf das Auto in den ersten $5\;\text{s}$?
-\item Zwischen $5\;\text{s}$ und $12\;\text{s}$ wirkt ein Fahrwiderstand von $500\;\text{N}$. Wie gross ist dort die Gesamtkraft, und wie gross die Antriebskraft? Begründe.
-\item Wie gross ist die Gesamtkraft beim Bremsen (mit Vorzeichen, Fahrtrichtung positiv)?
+\item Wie gross ist die Gesamtkraft auf das Auto in den ersten $6\;\text{s}$?
+\item Wie gross ist der Fahrwiderstand beim Anfahren?
+\item Bestimme aus dem Diagramm die Gesamtkraft beim Ausrollen (mit Vorzeichen, Fahrtrichtung positiv). Ist der Widerstand dabei gleich gross wie beim Anfahren? Begründe.
 \end{enumerate}
-\lpplatz{9}
+\lpplatz{7}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G3}{Handwagen}{3 P}
-Ein Handwagen ($25\;\text{kg}$) wird aus dem Stand mit $60\;\text{N}$ gezogen. Nach $5\;\text{s}$ ist er gleichmässig auf $4\;\text{m/s}$ gekommen.
-Wie gross ist die Reibung, die ihn bremst? Dann wird die Deichsel losgelassen, die Reibung bleibt gleich. Wie lange rollt der Wagen noch bis zum Stillstand?
-\lpplatz{8}
-\end{lpaufgabe}
+\lpteil{Teil B · Gewichtskraft und Aufzug}{Kapitel 3 · 5 Punkte}
 
-\lpteil{Teil B · Gewichtskraft und Aufzug}{Kapitel 3 · 4 Punkte}
-
-\begin{lpaufgabe}{G4}{Waage im Aufzug}{4 P}
-Eine Person ($60\;\text{kg}$) steht im Aufzug auf einer Personenwaage. Der Aufzug fährt aus dem Stand nach unten an und ist nach $2\;\text{s}$ gleichmässig auf $3\;\text{m/s}$ gekommen.
-Welche Normalkraft misst die Waage beim Anfahren, und was zeigt sie in Kilogramm an?
+\begin{lpaufgabe}{G4}{Waage im Aufzug}{5 P}
+Eine Person ($72\;\text{kg}$) steht im Aufzug auf einer Personenwaage. Der Aufzug fährt aus dem Stand nach unten an und ist nach $1.5\;\text{s}$ gleichmässig auf $2.7\;\text{m/s}$ gekommen.
+Wie gross ist die Beschleunigung, und wohin zeigt sie? Welche Normalkraft misst die Waage beim Anfahren, und was zeigt sie in Kilogramm an?
 Bei welcher anderen Fahrsituation zeigt sie dasselbe? Begründe.
-\lpplatz{9}
+\lpplatz{7}
 \end{lpaufgabe}
 
 \lpteil{Teil C · Zwei Körper, ein Faden}{Kapitel 4 · 4 Punkte}
 
 \begin{lpaufgabe}{G5}{Wagen und hängender Körper}{4 P}
-Ein Wagen ($m_1 = 1.5\;\text{kg}$) steht auf einem reibungsfreien Tisch. Über eine Rolle zieht ihn ein Körper, der am Faden hängt.
-Gemessen wird die Beschleunigung $a = 2.8\;\text{m/s}^2$. Welche Masse hat der hängende Körper? Wie gross ist die Fadenkraft?
-Nun wird ein doppelt so schwerer Wagen aufgesetzt, der hängende Körper bleibt. Wird die Beschleunigung halb so gross? Begründe.
-\lpplatz{10}
+Ein Wagen steht auf einem reibungsfreien Tisch. Über eine Rolle zieht ihn ein Körper ($m_2 = 0.5\;\text{kg}$), der am Faden hängt.
+Ein Kraftmesser im Faden zeigt während der Fahrt $F_S = 3.6\;\text{N}$. Wie gross ist die Beschleunigung? Welche Masse hat der Wagen?
+Nun wird der Wagen durch einen doppelt so schweren ersetzt, der hängende Körper bleibt. Wird die Beschleunigung halb so gross? Begründe.
+\lpplatz{9}
 \end{lpaufgabe}
 
-\lpteil{Teil D · Kreisbewegung}{Kapitel 5 · 5 Punkte}
+\lpteil{Teil D · Kreisbewegung}{Kapitel 5 · 4 Punkte}
 
-\begin{lpaufgabe}{G6}{Auto in der Kurve}{5 P}
-Ein Auto ($1100\;\text{kg}$) fährt durch eine flache Kurve mit $r = 40\;\text{m}$. Die Haftreibung zwischen Reifen und Strasse kann höchstens $7500\;\text{N}$ betragen.
-Wie schnell darf das Auto höchstens fahren (in $\text{m/s}$ und $\text{km/h}$)? Welche Rolle spielt die Haftreibung, und wohin zeigt sie?
-Was geschieht, wenn das Auto schneller fährt? Begründe.
-\lpplatz{12}
+\begin{lpaufgabe}{G6}{Auto in der Kurve}{4 P}
+Ein Auto ($1200\;\text{kg}$) fährt mit $72\;\text{km/h}$ durch eine flache Kurve. Die Haftreibung zwischen Reifen und Strasse beträgt dabei $4000\;\text{N}$.
+Welchen Radius hat die Kurve? Welche Rolle spielt die Haftreibung, und wohin zeigt sie? Begründe.
+Bei Glatteis beträgt die Haftreibung höchstens $1500\;\text{N}$. Was geschieht, wenn das Auto gleich schnell in dieselbe Kurve fährt? Begründe.
+\lpplatz{9}
 \end{lpaufgabe}
 
 \vfill

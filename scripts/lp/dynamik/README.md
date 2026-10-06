@@ -75,3 +75,32 @@ Startzustand erfüllt).
   Festhalten, Mini-Checks), ω eingeführt, Gesamttest G1 d/G3–G6 neu, Raster präzisiert.
 - **Freigeschaltet am 06.10.2026:** Karte in `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt
   durcharbeiten?» auf der Themenseite, im Suchindex und in der Sitemap.
+
+## Fassung 1.1 (06.10.2026)
+
+Nach der zweiten Prüfung (Querschnitt aller Leitprogramme und Befundliste Dynamik) behoben:
+
+- **Einführungsclips** mit vorgerechnetem Problem (Problem → Vorgehen mit Strategiefrage «Dein Vorgehen» →
+  Lösung mit Probe), je vor «Zum Mitnehmen»: E-Trottinett (Zeit aus F und m), Kiste gegen Reibung (Zugkraft),
+  Waage im Aufzug (a aus der Anzeige), Lieferwagen mit Anhänger (Kupplungskraft; bereitet Kontrollfrage 3 vor),
+  Kind im Karussell (v aus der Umlaufzeit). Die Einblendungen hängen jetzt an `_anker` (`scripts/lp/kinematik/anker.py`).
+- **Clipbilder:** stehende Geraden mit Läufer statt drehender (grundgesetz, gesamtkraft «Ausrollen» bis 12 s,
+  dann v = 0, Antwortbilder der Kontrollclips); Steigungsdreiecke als eigene Strecken mit «Δt = 1 s», «Δv = 4 m/s»;
+  v grün, Gesamtkraft, Faden, a ungefärbt; Ergebnisse erst mit dem Ton (Aufzug als Bildfolge, Fadenkraft, 4500 N, 9 N);
+  «Gesamtkraft: 2.45 N» statt «Rest»; Einheiten bei «= 0 N»; Modellannahme «glatter Tisch» bei der Kugel an der Schnur;
+  Gesamtkraft in Kapitel 1 eingeführt (Clip und Festhalten).
+- **Kontrollfragen** mit neuen Beispielen (Ketchupflasche, Velo 75 kg, Fadenkraft bei 0.4 kg, Kugel auf r = 2 m,
+  Zug in der Kurve), Rückmeldungen ohne Lösung, jede falsche Option ein benannter Fehler.
+- **Simulationen:** Startwerte weder Clipbeispiel noch Leistenziel (7 N/5 kg; 50 N/25 N; 55 kg, 1 m/s²; 2.5 kg/0.8 kg;
+  1.5 kg, 2.5 m/s, 1.2 m); jede Leistenaufgabe mit Denkauftrag und Vergleichsantwort; Ziel «gestrichelte Gerade» in
+  Sim 2 nicht schon eingestellt; Punkt bleibt am Rand, wenn die Gerade aus dem Diagramm läuft; Formelzeile der
+  Fadenkraft mit symbolischem Zwischenschritt; Knopf «bremst die Fahrt nach oben».
+- **Übungen:** feste Beispiele ausgeschlossen (Liste `FEST_FM` und je Typ), m₁ = 1 kg beim Faden ausgelassen,
+  plausible Werte (Wagen bis 12 m/s, Fahrwiderstand ans Tempo gebunden), Folgewerte aus auf drei Stellen
+  gerundeten Zwischenwerten angenommen, Lösungen mit eingesetzten Werten, «g» statt «Ortsfaktor».
+- **Seite:** Vorzeichenregel «eine Richtung wählen und nennen», Freikörperbild im Festhalten, Haftreibung mit
+  Höchstwert (Verweis Statik, Kapitel 3), neue Aufgaben 4a (rückwärts), 4d (am Diagramm), 5d (Wäscheschleuder),
+  Kapitelzeit 45 min.
+- **Gesamttest (Fassung 3):** G1d, G2 bis G6 neu (keine Wiederholung von Kapitel-, Leisten- oder Übungsaufgaben),
+  G4 5 P, G6 4 P; Raster «ein Fehler, ein Abzug», Rundung 2 %, (B) nur bei Begründen/Erklären/Formulieren,
+  `arraystretch` 1.5, Gesamttest auf drei Seiten.
