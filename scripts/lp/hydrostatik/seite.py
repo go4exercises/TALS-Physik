@@ -985,7 +985,7 @@ weiter = rf'''
     </section>'''
 
 oben = '''<div id="nav-root"></div>
-<!-- Leitprogramm Hydrostatik, Version 1.0 (05.10.2026), unverlinkt in Erprobung bis nach /lp-pruefung.
+<!-- Leitprogramm Hydrostatik, Version 1.0 (05.10.2026, nach /lp-pruefung am 06.10.2026 freigeschaltet).
      Sechstes Physik-Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4): je Kapitel
      ① Einführungsclip → ② laufende Simulation mit Aufgabenleiste → ③ Kontrollclip mit Fragen →
      Festhalten → ④ Übungen mit Rückmeldung → ⑤ Aufgaben mit Lösungen. Gesamttest und

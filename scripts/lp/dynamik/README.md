@@ -70,5 +70,6 @@ Startzustand erfüllt).
   sofort. Mit «weniger Bewegung» dreht «Kreisen» in Sim 5 in Schritten weiter.
 - **Nach /lp-pruefung (04.10.2026)** behoben: Velo im Stand, voriger Lauf, Aufzug ohne Knopf, Regler im
   Flug, gerundete Zwischenwerte in den Formelzeilen, doppelte Beispiele (Clip, Kontrollfrage, Leiste,
-  Festhalten, Mini-Checks), ω eingeführt, Gesamttest G1 d/G3–G6 neu, Raster präzisiert. Freischaltung
-  steht aus.
+  Festhalten, Mini-Checks), ω eingeführt, Gesamttest G1 d/G3–G6 neu, Raster präzisiert.
+- **Freigeschaltet am 06.10.2026:** Karte in `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt
+  durcharbeiten?» auf der Themenseite, im Suchindex und in der Sitemap.

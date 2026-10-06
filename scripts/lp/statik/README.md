@@ -74,4 +74,6 @@ alle 28 ✓, keine schon im Startzustand erfüllt.
   gegen den Uhrzeigersinn, Sim 6 rechnet ungerundet weiter, Rückmeldungen der Übungen «Winkel» und
   «Grenzwinkel», plausible Zufallswerte, Festhalten (+360°, waagrechter Boden, Eigengewicht, negative
   Auflagerkraft), Kontrollfragen ohne Wiederholung von Clip und Leiste, Ergebnisbilder erst nach der
-  Rechnung, Gesamttest G2 bis G6 neu (Fassung 2). Freischaltung steht aus.
+  Rechnung, Gesamttest G2 bis G6 neu (Fassung 2).
+- **Freigeschaltet am 06.10.2026:** Karte in `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt
+  durcharbeiten?» auf der Themenseite, im Suchindex und in der Sitemap.

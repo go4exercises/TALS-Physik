@@ -63,4 +63,6 @@ prüfen (Umkehr bei 7.6 m/s ohne ✓, Kuppe bei 7.7 m/s mit ✓, Halt nach dem Z
   Leistenziele und Startwerte verschieden von den Clipbeispielen, Stefan-Boltzmann und \(P = F \cdot v\)
   in Clip und Festhalten, Diagramm-Aufgaben in allen Kapiteln ausser 2 (dort 2b), neue Aufgaben 6a–6c,
   Kontrollfragen ohne Doppelungen, Gesamttest mit Motor (G4) und Gründen der Erderwärmung (G6),
-  30 min. Freischaltung steht aus.
+  30 min.
+- **Freigeschaltet am 06.10.2026:** Karte in `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt
+  durcharbeiten?» auf der Themenseite, im Suchindex und in der Sitemap.

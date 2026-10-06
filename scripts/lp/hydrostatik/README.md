@@ -77,3 +77,5 @@ alle Leisten lösbar, keine schon im Startzustand erfüllt (Stand nach der Beheb
   hydrostatische Paradoxon (Kapitel 2), G4 Wagenheber rückwärts, G6 Aräometer. Kapitel 3 steckt im Luftdruck
   von G2. Raster: derselbe Fehler in mehreren Teilaufgaben kostet einen Punkt.
 - **Statik** trug Speicherschlüssel und Fusszeile von Energie; mit dieser Behebung korrigiert.
+- **Freigeschaltet am 06.10.2026:** Karte in `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt
+  durcharbeiten?» auf der Themenseite, im Suchindex und in der Sitemap.

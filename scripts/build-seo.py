@@ -179,8 +179,8 @@ SEITEN = {
    themen=['Physik', 'Kinematik', 'Geschwindigkeit', 'Beschleunigung', 'freier Fall',
            'Wurf', 'Relativbewegung', 'Kreisbewegung', 'Leitprogramm']),
  'leitprogramme/leitprogramm-dynamik.html': dict(
-   # In Erprobung, unverlinkt bis nach /lp-pruefung (noindex; Suchindex: UNVERLINKT).
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   # Freigeschaltet am 06.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Dynamik — Kraft, Masse, Beschleunigung, Aufzug, Faden, Kreisbahn',
    beschreibung='Leitprogramm zur Dynamik in fünf Kapiteln — Kraft, Masse und Beschleunigung; '
                 'Gesamtkraft und Trägheitsgesetz; Gewichtskraft und Aufzug; zwei Körper an einem '
@@ -189,8 +189,8 @@ SEITEN = {
    themen=['Physik', 'Dynamik', 'Kraft', 'Grundgesetz', 'Trägheitsgesetz', 'Gewichtskraft',
            'Normalkraft', 'Zentripetalkraft', 'Leitprogramm']),
  'leitprogramme/leitprogramm-energie.html': dict(
-   # In Erprobung, unverlinkt bis nach /lp-pruefung (noindex; Suchindex: UNVERLINKT).
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   # Freigeschaltet am 06.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Energie — Arbeit, Energieerhaltung, Reibung und Motor, Leistung, Energiebilanz der Erde',
    beschreibung='Leitprogramm zur Energie in sechs Kapiteln — Energie und Arbeit; Lage- und '
                 'Bewegungsenergie; Energieerhaltung; Reibung und Motor; Leistung und Wirkungsgrad; '
@@ -199,8 +199,8 @@ SEITEN = {
    themen=['Physik', 'Energie', 'Arbeit', 'Energieerhaltung', 'Leistung', 'Wirkungsgrad',
            'Energiebilanz der Erde', 'Treibhauseffekt', 'Leitprogramm']),
  'leitprogramme/leitprogramm-statik.html': dict(
-   # In Erprobung, unverlinkt bis nach /lp-pruefung (noindex; Suchindex: UNVERLINKT).
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   # Freigeschaltet am 06.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Statik — Kraft als Vektor, Resultierende, Haftreibung, Drehmoment, Hebelgesetz, Auflagerkräfte',
    beschreibung='Leitprogramm zur Statik in sechs Kapiteln — Kraft als Vektor; die resultierende '
                 'Kraft; Kräfte am ruhenden Körper und schiefe Ebene; Drehmoment; Hebelgesetz; '
@@ -209,8 +209,8 @@ SEITEN = {
    themen=['Physik', 'Statik', 'Kraft', 'Vektor', 'Resultierende', 'Drehmoment', 'Hebelgesetz',
            'Auflagerkraft', 'schiefe Ebene', 'Leitprogramm']),
  'leitprogramme/leitprogramm-hydrostatik.html': dict(
-   # In Erprobung, unverlinkt bis nach /lp-pruefung (noindex; Suchindex: UNVERLINKT).
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   # Freigeschaltet am 06.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Hydrostatik — Druck, Schweredruck, Luftdruck, Pascal, Auftrieb, Schwimmen',
    beschreibung='Leitprogramm zur Hydrostatik in sechs Kapiteln — Druck und Druckeinheiten; '
                 'Schweredruck; Luftdruck; Pascal’sches Gesetz und hydraulische Presse; Auftrieb nach '
