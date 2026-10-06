@@ -263,9 +263,13 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   gerechnete Simulationen). Die drei früheren Elektrizitäts-Leitprogramme
   (`leitprogramm-schaltungen`, `-widerstand-leistung`, `-gefahren`) sind seit
   dem 06.10.2026 im Leitprogramm Elektrizität und auf der Themenseite 6.2
-  aufgegangen (TODO-E); an ihren Adressen stehen nur noch Weiterleitungen auf
-  die Themenseite (`noindex`, in `UNVERLINKT` von `build-suchindex.py`, nicht
-  in `build-seo.py`). Dazu als Sonderfall `uebungstest-waermelehre` — ein
+  aufgegangen (TODO-E). Sie stehen bis zur Löschung noch als **veraltet** im
+  Netz: roter Hinweis im Seitenkopf mit Links auf die Kapitel des neuen
+  Leitprogramms, eigener Abschnitt «Veraltet: wird entfernt» auf
+  `leitprogramme.html`, `noindex` in `build-seo.py`, in `UNVERLINKT` von
+  `build-suchindex.py`. Gelöscht werden sie auf Anweisung des Auftraggebers;
+  dann an ihre Adressen Weiterleitungen auf die Themenseite (Muster im
+  Git-Verlauf, Commit c0a56ec). Dazu als Sonderfall `uebungstest-waermelehre` — ein
   **Prüfungsbogen statt eines Stoffgebiets**: fünfzehn Aufgaben, je eine mit
   Aufgabentext, eigenem Erklärclip, Musterlösung und Fehlerkasten, dazu die
   Darstellungsregeln als roter Faden (16.09.2026). Alle zwölf starten ihre
@@ -314,8 +318,8 @@ Leitprogramm als Kurs und eine Themenseite als Nachschlagewerk.** Das Leitprogra
 genau die RLP-Kompetenzen des Teilgebiets; wichtige Inhalte darüber hinaus (Vertiefungen,
 weitere Modelle, zusätzliche Alltagsfälle) kommen auf die Themenseite, gekennzeichnet als
 «Weiterführend» — nicht in ein zusätzliches, thematisch überlappendes Leitprogramm und nicht
-in Vertiefungskapitel des Leitprogramms. Umgesetzt für 6.2 (drei Einzelprogramme aufgelöst,
-Weiterleitungen auf die Themenseite). Andere Teilgebiete werden nicht ohne gesonderte
+in Vertiefungskapitel des Leitprogramms. Umgesetzt für 6.2 (drei Einzelprogramme aufgelöst, bis zur
+Löschung als veraltet markiert). Andere Teilgebiete werden nicht ohne gesonderte
 Bestandsprüfung verändert; die Wärmelehre hat heute noch vier klassische Leitprogramme.
 
 ## Kompetenzblock: Wortlaut aus dem RLP, Ausformulierung in den Lernzielen

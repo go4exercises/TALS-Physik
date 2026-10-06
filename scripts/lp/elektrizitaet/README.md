@@ -77,5 +77,6 @@ einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (alle 3
   Verbindungspunkte zuschaltbar, Werte und Proben erst nach richtiger Einordnung.
 - **Gesamttest:** 25 Punkte wie bisher; G5 b) mit ungewohnt gezeichneter Schaltung (Schaltungsart begründen).
 - Die drei Einzelprogramme (Widerstand/Leistung, Schaltungen, Gefahren) sind aufgelöst: Weiterführendes steht
-  auf der Themenseite 6.2 (Kästen «Weiterführend», Anker unter «Nicht in diesem Leitprogramm»), an ihren
-  Adressen stehen Weiterleitungen.
+  auf der Themenseite 6.2 (Kästen «Weiterführend», Anker unter «Nicht in diesem Leitprogramm»), bis zur
+  Löschung stehen sie als veraltet markiert im Netz (Hinweis im Kopf, eigener Abschnitt auf
+  `leitprogramme.html`, `noindex`).

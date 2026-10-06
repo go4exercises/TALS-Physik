@@ -947,7 +947,7 @@ Gesamttest tragen mehr als eines mit zwei unverbundenen Hälften. Die Wärmelehr
 diesem Grund auf vier Leitprogramme verteilt (Wärmemenge, Heizen, Wärmeausdehnung,
 ideale Gase). Zeitrahmen und Kapitelmuster: `HOWTO-leitprogramme.md` §3–§4.
 
-**Ein Leitprogramm je RLP-Teilgebiet (Entscheid 06.10.2026).** Pro Teilgebiet gibt es ein Leitprogramm als Kurs und die Themenseite als Nachschlagewerk; Weiterführendes gehört auf die Themenseite, nicht in ein zweites, überlappendes Leitprogramm. Wird ein Leitprogramm aufgelöst, bleibt an seiner Adresse eine Weiterleitung (`meta refresh`, `canonical`, `noindex`) auf den passenden Abschnitt der Themenseite, und die Seite kommt in `UNVERLINKT`.
+**Ein Leitprogramm je RLP-Teilgebiet (Entscheid 06.10.2026).** Pro Teilgebiet gibt es ein Leitprogramm als Kurs und die Themenseite als Nachschlagewerk; Weiterführendes gehört auf die Themenseite, nicht in ein zweites, überlappendes Leitprogramm. Wird ein Leitprogramm aufgelöst, steht es zuerst als veraltet markiert im Netz (Hinweis im Seitenkopf, Abschnitt «Veraltet: wird entfernt» auf `leitprogramme.html`, `noindex`), damit angefangene Arbeiten abgeschlossen werden können; nach der Löschung bleibt an seiner Adresse eine Weiterleitung (`meta refresh`, `canonical`, `noindex`) auf den passenden Abschnitt der Themenseite, und die Seite kommt in `UNVERLINKT`.
 
 **Inhaltlich gebunden an RLP und Themenseite.** Ein Leitprogramm deckt die Kompetenzen
 genau eines Teilgebiets ab (RLP 7.5.4.1, Gruppe 1, Wortlaut wie im Kompetenzblock der

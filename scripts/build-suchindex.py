@@ -331,7 +331,7 @@ def seiten_aus_navjs(root):
 # §13). Sie stehen nicht im Index, bis sie freigeschaltet sind — dann hier streichen,
 # Karte in leitprogramme.html setzen und noindex in build-seo.py entfernen.
 UNVERLINKT = {'leitprogramme/leitprogramm-widerstand-leistung.html', 'leitprogramme/leitprogramm-schaltungen.html',
-              'leitprogramme/leitprogramm-gefahren.html'}   # seit 06.10.2026 nur Weiterleitungen auf die Themenseite 6.2 (TODO-E)
+              'leitprogramme/leitprogramm-gefahren.html'}   # seit 06.10.2026 veraltet, im Leitprogramm Elektrizität aufgegangen (TODO-E)
 # Dynamik, Energie, Statik, Hydrostatik freigeschaltet am 06.10.2026, Kinematik am 04.10.2026, Elektrizität am 03.10.2026
 
 

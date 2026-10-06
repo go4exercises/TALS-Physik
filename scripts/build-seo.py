@@ -159,6 +159,34 @@ SEITEN = {
                 'mit Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
    themen=['Physik', 'Elektrizität', 'Ladung', 'Stromstärke', 'Widerstand', 'Messen', 'Kennlinie',
            'Reihenschaltung', 'Parallelschaltung', 'FI-Schutzschalter', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 06.10.2026, wird entfernt
+   titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung (veraltet)',
+   beschreibung='Leitprogramm zur Elektrizität: ohmsches Gesetz und Kennlinien, richtig messen '
+                'mit Ampere- und Voltmeter, Widerstand eines Leiters, elektrische Leistung, '
+                'Energie und Kosten, Verlustleistung und Hochspannung — in sieben Schritten '
+                'mit Erklärclips, Simulationen, Vortest und Gesamttest.',
+   themen=['Physik', 'Elektrizität', 'Ohmsches Gesetz', 'Widerstand', 'Leistung',
+           'Energie', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-schaltungen.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 06.10.2026, wird entfernt
+   titel='Leitprogramm Schaltungen berechnen — Reihe, parallel, gemischt (veraltet)',
+   beschreibung='Leitprogramm zur Elektrizität: Knoten- und Maschenregel, Reihenschaltung, '
+                'Spannungsteiler, Parallelschaltung mit der Kehrwertformel, gemischte '
+                'Schaltungen von innen nach aussen und die Leistung einzelner Bauteile — '
+                'in sechs Schritten mit Erklärclip, Simulation, Vortest und Kapiteltest.',
+   themen=['Physik', 'Elektrizität', 'Reihenschaltung', 'Parallelschaltung',
+           'Spannungsteiler', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-gefahren.html': dict(
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 06.10.2026, wird entfernt
+   titel='Leitprogramm Gefahren und Schutzmassnahmen — FI, Schutzleiter, Sicherung (veraltet)',
+   beschreibung='Leitprogramm zur Elektrizität: warum die Erde zum Rückleiter wird '
+                '(der Neutralleiter ist am Transformator geerdet), '
+                'Wirkung auf den Menschen, FI-Schutzschalter als zusätzlicher Schutz, '
+                'Schutzleiter und Leitungsschutzschalter — in sechs Schritten mit '
+                'Erklärclips, Simulationen, Vortest und Gesamttest.',
+   themen=['Physik', 'Elektrizität', 'Elektrische Sicherheit', 'FI-Schutzschalter',
+           'Schutzleiter', 'Leitungsschutzschalter', 'Leitprogramm']),
  'leitprogramme/leitprogramm-kinematik.html': dict(
    # Freigeschaltet am 04.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
