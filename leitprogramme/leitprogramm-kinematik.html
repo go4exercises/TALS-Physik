@@ -1792,15 +1792,17 @@ svg.mini.breit{width:260px}
       var X = CX + R * c, Y = CY - R * s;
       el(svg, 'circle', { cx: CX, cy: CY, r: R, 'class': 'bahn-kreis' });
       el(svg, 'line', { x1: CX, y1: CY, x2: X, y2: Y, 'class': 'radius hilfslinie' });
-      el(svg, 'text', { x: CX + R * 0.5 * c + s * 9, y: CY - R * 0.5 * s + c * 9 + 4, 'text-anchor': 'middle', 'class': 'hilf-text hilfslinie' }, 'r');
+      el(svg, 'text', { x: CX + R * 0.5 * c - s * 9, y: CY - R * 0.5 * s - c * 9 + 4, 'text-anchor': 'middle', 'class': 'hilf-text hilfslinie' }, 'r');   // gegenüber der Beschriftung a_z
       el(svg, 'circle', { cx: CX, cy: CY, r: 3, 'class': 'knoten' });
       // Drehsinn gegen den Uhrzeigersinn: Tangente (−sin φ, cos φ)
       var lv = q.v * 8, la = q.az * 4;
       pfeil(svg, X, Y, X - s * lv, Y - c * lv, 'pf-v');
-      if (la > 1) pfeil(svg, X, Y, X - c * la, Y + s * la, 'pf-a', 7);
+      // a_z beginnt am Rand des Körpers (r = 5.5 px), sonst verdeckt er kurze Pfeile; die Länge bleibt proportional
+      if (la > 1){ var ea = Math.min(la + 6, R - 1); pfeil(svg, X - c * 6, Y + s * 6, X - c * ea, Y + s * ea, 'pf-a', 7); }   // nie über die Mitte
       el(svg, 'circle', { cx: X, cy: Y, r: 5.5, 'class': 'koerper' });
       marke(svg, X - s * (lv + 11), Y - c * (lv + 11) + 4, 'v', '', 'pf-text pf-v');
-      if (la > 10) marke(svg, X - c * la * 0.55 + s * 12, Y + s * la * 0.55 + c * 12 + 4, 'a', 'z', 'pf-text pf-a');
+      if (la > 16) marke(svg, X - c * (la * 0.55 + 6) + s * 12, Y + s * (la * 0.55 + 6) + c * 12 + 4, 'a', 'z', 'pf-text pf-a');
+      else if (la > 1) marke(svg, X - c * (la + 18), Y + s * (la + 18) + 4, 'a', 'z', 'pf-text pf-a');   // kurz: hinter der Spitze
       rolle(fig, 'formel').innerHTML =
         '<span>' + v('f') + ' = 1 / ' + v('T') + ' = 1 / ' + zahl(T) + NB + 's ' + ist(q.f, sig(q.f)) + sig(q.f) + NB + 'Hz</span>' +
         '<span>' + v('ω') + ' = 2π / ' + v('T') + ' = 2π / ' + zahl(T) + NB + 's ' + ist(q.w, sig(q.w)) + sig(q.w) + NB + 'rad/s</span>' +

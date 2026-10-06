@@ -570,9 +570,13 @@
       el(szene, 'path', { d: 'M' + (xr - 42) + ' ' + (ay - 6) + ' L' + (xr - 42) + ' ' + (ay - 18) + ' L' + (xr - 22) + ' ' + (ay - 20) + ' L' + (xr - 12) + ' ' + (ay - 32) + ' L' + (xr + 18) + ' ' + (ay - 32) + ' L' + (xr + 30) + ' ' + (ay - 20) + ' L' + (xr + 42) + ' ' + (ay - 18) + ' L' + (xr + 42) + ' ' + (ay - 6) + ' Z', 'class': 'auto' });
       el(szene, 'circle', { cx: xr - 26, cy: ay - 6, r: 6, 'class': 'rad' }); el(szene, 'circle', { cx: xr + 26, cy: ay - 6, r: 6, 'class': 'rad' });
       // Kräfte
+      // Pfeile nicht massstäblich: F₁ immer 34 px; F₂ wächst mit dem Logarithmus des Verhältnisses (Faktor 50 ergibt 80 px),
+      // F_G im selben Massstab wie F₂ — so ist «viel grösser» und «reicht / reicht nicht» sichtbar
+      var L2 = 34 + 46 * Math.min(1.2, Math.max(0, Math.log(w.F2 / w.F1) / Math.log(50))), LG = Math.max(12, L2 * w.FG / w.F2);
       pfeil(szene, xl, yl - 78, xl, yl - 44, 'pf-f', 8); marke(szene, xl + 6, yl - 62, 'F', '1', 'pf-text pf-f', 'start');
-      pfeil(szene, xr + 52, ay - 40, xr + 52, ay - 8, 'pf-g', 8); marke(szene, xr + 56, ay - 22, 'F', 'G', 'pf-text pf-g', 'start');
-      pfeil(szene, xr - br / 2 - 10, yr + 40, xr - br / 2 - 10, yr + 4, 'pf-f', 8); marke(szene, xr - br / 2 - 14, yr + 26, 'F', '2', 'pf-text pf-f', 'end');
+      pfeil(szene, xr + br / 2 + 12, ay - 8 - LG, xr + br / 2 + 12, ay - 8, 'pf-g', 8); marke(szene, xr + br / 2 + 16, ay - 8 - LG / 2 + 4, 'F', 'G', 'pf-text pf-g', 'start');
+      pfeil(szene, xr - br / 2 - 10, yr + 4 + L2, xr - br / 2 - 10, yr + 4, 'pf-f', 8); marke(szene, xr - br / 2 - 14, yr + 8 + L2 / 2, 'F', '2', 'pf-text pf-f', 'end');
+      el(szene, 'text', { x: 4, y: 18, 'class': 'bt-klein' }, 'Pfeile nicht massstäblich');
       el(szene, 'text', { x: 150, y: by + 16, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'p = ' + sig(w.p / 1e5) + ' bar überall in der Flüssigkeit');
       if (ende || t > 0) el(szene, 'text', { x: 296, y: 18, 'text-anchor': 'end', 'class': 'bt-meldung' }, w.hebt ? 'Das Auto hebt sich.' : (t > 0 ? 'F₂ zu klein: Das Auto bleibt stehen.' : ''));
       var z = '<span>' + v_('p') + ' = ' + F_('1') + ' / ' + v_('A') + '<sub>1</sub> = ' + zahl(w.F1) + NB + 'N / ' + zahl(w.A1 / 1e4) + NB + 'm² ' + ist(w.p, sig(w.p)) + sig(w.p) + NB + 'Pa ' + ist(w.p / 1e5, sig(w.p / 1e5)) + sig(w.p / 1e5) + NB + 'bar</span>';
@@ -640,7 +644,7 @@
       el(szene, 'text', { x: kx, y: oben + HK * PXCM / 2 + 4, 'text-anchor': 'middle', 'class': 'klotz-zahl' }, NAMEN[String(w.rk)]);
       // Kräfte am Körper: F_G nach unten (rechts), F_A nach oben (links), Massstab 6 px je N
       var k = 45 / w.FG;                                                     // Gewichtskraft immer 45 px, Auftrieb im selben Massstab
-      pfeil(szene, kx + 30, oben + 10, kx + 24, oben + 10 + w.FG * k, 'pf-g', 7); marke(szene, kx + 35, oben + 14 + w.FG * k / 2, 'F', 'G', 'pf-text pf-g', 'start');
+      pfeil(szene, kx + 30, oben + 10, kx + 30, oben + 10 + w.FG * k, 'pf-g', 7); marke(szene, kx + 35, oben + 14 + w.FG * k / 2, 'F', 'G', 'pf-text pf-g', 'start');
       if (fa * k > 3){ pfeil(szene, kx - 30, unten, kx - 30, unten - fa * k, 'pf-n', 7); marke(szene, kx - 35, unten - fa * k / 2, 'F', 'A', 'pf-text pf-n', 'end'); }
       if (he > 0.2) el(szene, 'text', { x: 228, y: WY + Math.min(he, 14) * PXCM / 2 + 4, 'class': 'bt-klein' }, 'eingetaucht ' + zahl(+he.toFixed(1)) + ' cm');
       // Diagramm: Anzeige über der Eintauchtiefe
@@ -715,7 +719,8 @@
       zustand: function(){ var w = werte(); w.lauf = lauf; w.laeufe = laeufe; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); los(); B.setze(o); zeichnen(); },
       aufraeumen: function(){ lauf = null; laeufe = []; ende = false; B.zuruecksetzen(); },
-      zeige: function(x){ uhr.stop(); var w = werte(); sofort(w); fertig(w); zeichnen(); }
+      // Testhaken: ohne Zahl der ganze Lauf, mit Zahl der Zustand nach x Sekunden (Bildfolgen der Clips)
+      zeige: function(x){ uhr.stop(); var w = werte(); if (x == null || x >= TMAX){ sofort(w); fertig(w); } else { los(); for (var t = 0; t < x - 1e-9; t += 0.005){ schritt(w, 0.005); if (Math.round(t / 0.005) % 6 === 0) spur.push([t, y]); } tz = x; } zeichnen(); }
     };
     fig.__sim = sim;
     function zeichnen(){
@@ -726,7 +731,8 @@
       el(szene, 'rect', { x: cx - A * PXCM / 2, y: ob, width: A * PXCM, height: A * PXCM, 'class': w.rk >= 2000 ? 'koerper' : 'koerper holz' });
       el(szene, 'line', { x1: 38, y1: WY, x2: 242, y2: WY, 'class': 'wasserlinie' });
       var Ve = Math.max(0, Math.min(y, A)) / A, FG = w.rk * 0.001 * G, FA = w.rf * 0.001 * Ve * G, k = 30 / FG;   // Würfel 1 l; F_G immer 30 px
-      pfeil(szene, cx + 10, ob + 20, cx + 10, ob + 20 + FG * k, 'pf-g', 7); marke(szene, cx + 15, ob + 24 + FG * k / 2, 'F', 'G', 'pf-text pf-g', 'start');
+      var gy = Math.min(ob + 20, WY + TIEF * PXCM - 2 - FG * k);                // am Boden: Pfeil endet über dem Gefässboden
+      pfeil(szene, cx + 10, gy, cx + 10, gy + FG * k, 'pf-g', 7); marke(szene, cx + 15, gy + 4 + FG * k / 2, 'F', 'G', 'pf-text pf-g', 'start');
       if (FA * k > 3){ pfeil(szene, cx - 10, unter - 2, cx - 10, unter - 2 - FA * k, 'pf-n', 7); marke(szene, cx - 15, unter - FA * k / 2, 'F', 'A', 'pf-text pf-n', 'end'); }
       if (ende && lauf){   // Meldung aus dem Zustand am Ende des Laufs, nicht nur aus den Dichten
         var msg = lauf.art === 'schwebt' ? 'Er schwebt.' : (lauf.art === 'schwimmt' ? (y < A - 0.05 ? 'Er schwimmt: ' + sig(100 * w.anteil) + ' % unter Wasser.' : 'Er steigt noch langsam auf.') : (y >= TIEF - 0.01 ? 'Er sinkt auf den Boden.' : 'Er sinkt langsam weiter.'));

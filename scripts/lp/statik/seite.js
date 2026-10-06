@@ -858,8 +858,8 @@
       var xs = zahl(+x.toFixed(2)) + NB + 'm; ';                              // wie in der Formelzeile
       etiketten(K, 300, 140, [
         { x: x, y: k.FA, f: function(q){ return lager(w, q).FA; }, cls: 'p-fn', text: '(' + xs + kn(k.FA) + NB + 'kN)' },
-        { x: x, y: k.FB, f: function(q){ return lager(w, q).FB; }, cls: 'p-fn', text: '(' + xs + kn(k.FB) + NB + 'kN)' }], [212, 2, 300, 16]);
-      stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende l-fn' }, '— F_A   - - F_B');
+        { x: x, y: k.FB, f: function(q){ return lager(w, q).FB; }, cls: 'p-fn', text: '(' + xs + kn(k.FB) + NB + 'kN)' }], [110, 2, 190, 16]);
+      stext(K.ebene, { x: 150, y: 12, 'text-anchor': 'middle', 'class': 'legende l-fn' }, '— F_A   - - F_B');   // Mitte: rechts oben reicht der Pfeil F_B hinein
       var z = '<span>Momente um A: ' + F_('B') + ' · ' + v_('L') + ' = ' + F_('L') + ' · ' + v_('x') + ' + ' + F_('E') + ' · ' + v_('L') + '/2' + '</span>';
       z += '<span>' + F_('B') + ' = (' + zahl(w.FL) + NB + 'kN · ' + zahl(+x.toFixed(2)) + NB + 'm + ' + zahl(w.FE) + NB + 'kN · 5' + NB + 'm) / 10' + NB + 'm ' + ist(k.FB, kn(k.FB)) + kn(k.FB) + NB + 'kN</span>';
       z += '<span>' + F_('A') + ' = ' + F_('L') + ' + ' + F_('E') + ' − ' + F_('B') + ' = ' + zahl(w.FL) + NB + 'kN + ' + zahl(w.FE) + NB + 'kN − ' + kn(k.FB) + NB + 'kN ' + ist(k.FA, kn(k.FA)) + kn(k.FA) + NB + 'kN</span>';

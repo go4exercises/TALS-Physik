@@ -1,5 +1,6 @@
 """Setzt "ein" jedes Elements mit "_anker" auf den Beginn dieses Texts im Sprechertext
-(Zeiten aus .claude/tools/sprechzeiten.py, nach der Vertonung). Aufruf: anker.py <clip> …"""
+(Zeiten aus .claude/tools/sprechzeiten.py, nach der Vertonung). "_versatz" (Sekunden) legt ein
+Element so viel später — für Bildfolgen und Ebenen innerhalb eines Satzes. Aufruf: anker.py <clip> …"""
 import os
 import json, re, subprocess, sys
 
@@ -50,6 +51,8 @@ for clip in sys.argv[1:]:
             assert i >= 0, (clip, s['name'], e['_anker'])
             alt = e.get('ein')
             e['ein'] = round(max(0.05 if e['typ'] in ('graf', 'bild') and i == 0 else 0.2, t_von(i) - 0.2), 1)
+            if e.get('_versatz'):                                             # Folge: so viele Sekunden nach dem Anker
+                e['ein'] = round(e['ein'] + e['_versatz'], 2)
             if s['name'] in frage_bei and e['typ'] not in ('graf', 'bild'):
                 e['ein'] = max(e['ein'], round(frage_bei[s['name']] + 0.5, 1))
             print(f"{clip:26s} {s['name']:18s} {e['_anker'][:26]:26s} {alt} -> {e['ein']}  ({len(chunks)}/{len(seg)})")

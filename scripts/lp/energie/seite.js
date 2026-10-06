@@ -573,8 +573,10 @@
     var sim = {
       zustand: function(){ var w = werte(); w.lauf = lauf; w.laeufe = laeufe; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); t = 0; B.setze(o); zeichnen(); },
-      aufraeumen: function(){ ziel = null; lauf = null; laeufe = []; B.zuruecksetzen(); }
+      aufraeumen: function(){ ziel = null; lauf = null; laeufe = []; B.zuruecksetzen(); },
+      zeige: function(x){ uhr.stop(); var w = werte(); t = Math.min(w.t, x); zeichnen(); }   // Testhaken für Clipbilder: Zustand nach x s
     };
+    fig.__sim = sim;
     function zeichnen(){
       var w = werte(), hn = w.h * t / w.t, f = t / w.t;
       B.anzeigen(); leeren(szene);
@@ -642,8 +644,11 @@
     var sim = {
       zustand: function(){ var w = werte(); w.T = T; w.lauf = lauf; w.laeufe = laeufe; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); B.setze(o); spur = [[0, T]]; zeichnen(); },
-      aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); }
+      aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); },
+      // Testhaken für Clipbilder: j Jahre laufen lassen (ab heute, wenn vonHeute), ohne Animation
+      zeige: function(j, vonHeute){ uhr.stop(); if (vonHeute) T = T0; spur = [[0, T]]; letzt = 0; for (var i = 1; i <= j; i++){ schritt(1); spur.push([i, T]); } if (j > 0){ var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq }; laeufe.push(lauf); } zeichnen(); }
     };
+    fig.__sim = sim;
     function band(x1, y1, x2, y2, breite, cls){ el(szene, 'line', { x1: x1, y1: y1, x2: x2, y2: y2, 'class': 'strahl ' + cls, 'stroke-width': breite.toFixed(1) }); var dx = x2 - x1, dy = y2 - y1, l = Math.hypot(dx, dy), ux = dx / l, uy = dy / l, s = breite / 2 + 6; el(szene, 'polygon', { points: (x2 + ux * 9) + ',' + (y2 + uy * 9) + ' ' + (x2 - uy * s) + ',' + (y2 + ux * s) + ' ' + (x2 + uy * s) + ',' + (y2 - ux * s), 'class': 'strahl-kopf ' + cls }); }
     function zeichnen(){
       var w = werte(), aus = w.f * SIG * Math.pow(T, 4), k = 0.07;               // 0.07 px Breite je W/m²
