@@ -3,7 +3,8 @@
 und legt nur das PDF neben die Quelle — Hilfsdateien entstehen in einem temporären Ordner.
 
   python3 scripts/build-lp-pdf.py                 # alle
-  python3 scripts/build-lp-pdf.py gesamttest      # nur Quellen, deren Pfad das Wort enthält
+  python3 scripts/build-lp-pdf.py gesamttest      # nur Quellen mit diesem Ordner- oder Dateinamen
+  python3 scripts/build-lp-pdf.py statik          # nur downloads/leitprogramme/statik/ (nicht hydrostatik)
 
 Gemeinsame Gestaltung: downloads/leitprogramme/lp-druck.sty. Braucht latexmk und pdfLaTeX
 (LuaLaTeX scheitert hier an der Schriftverwaltung: luaotfload-tool fehlt).
@@ -14,7 +15,10 @@ BASIS = os.path.join(WURZEL, "downloads", "leitprogramme")
 filter_ = sys.argv[1:]
 fehler = 0
 for tex in sorted(glob.glob(os.path.join(BASIS, "**", "*.tex"), recursive=True)):
-    if filter_ and not any(f in tex for f in filter_):
+    # Ordnername exakt oder Pfadteil: «statik» darf nicht «hydrostatik» treffen
+    teile = os.path.relpath(tex, BASIS).split(os.sep)
+    teile += [os.path.splitext(teile[-1])[0]]
+    if filter_ and not any(f in teile or (os.sep in f and f in tex) for f in filter_):
         continue
     ordner, name = os.path.split(tex)
     with tempfile.TemporaryDirectory() as tmp:
