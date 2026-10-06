@@ -207,7 +207,7 @@
      Rechnet wie Animation 1 der Themenseite s(t) = s0 + v·t, zeigt aber nur das
      s-t-Diagramm — dafür mit einer zweiten, gestrichelten Geraden für Einholen und
      Zielspiel und einem Steigungsdreieck (Hilfslinie): Die Steigung ist v.
-     Startwert = Clipbeispiel: Velofahrerin bei 20 m mit 5 m/s, nach 8 s bei 60 m. */
+     Startwerte (6 m/s, 15 m, 4 s) bewusst weder Clipbeispiel noch Leistenziel. */
   (function(){
     var fig = document.getElementById('sim1'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -236,7 +236,7 @@
         K.text(2.25, (a1 + a2) / 2 - 1.5, 'Δs = ' + zahl(v_) + NB + 'm', 'hilf-text hilfslinie', 'start');
       }
       K.kurve(function(x){ return s0 + v_ * x; }, 'kurve-s', 0);
-      K.punkt(t, s, 'p-s', '(' + zahl(t) + NB + 's; ' + sig(s) + NB + 'm)', t > 6 ? -9 : 9, s > 100 ? 18 : -9, t > 6 ? 'end' : 'start');
+      K.punkt(t, s, 'p-s', '(' + zahl(t) + NB + 's; ' + zahl(s) + NB + 'm)', t > 6 ? -9 : 9, s > 100 ? 18 : -9, t > 6 ? 'end' : 'start');   // gerundet wie die Formelzeile
       rolle(fig, 'formel').innerHTML =
         '<span>' + v('s') + ' = ' + v('s') + '₀ + ' + v('v') + ' · ' + v('t') + ' = ' + zahl(s0) + NB + 'm + ' + ew(v_, 'm/s') + ' · ' + zahl(t) + NB + 's = ' + zahl(s) + NB + 'm</span>' +
         '<span>' + v('v') + ' = ' + zahl(v_) + NB + 'm/s = ' + zahl(v_) + ' · 3.6' + NB + 'km/h = ' + zahl(+(v_ * 3.6).toFixed(6)) + NB + 'km/h</span>' +
@@ -246,10 +246,14 @@
     pruefen = Leiste(fig, [
       { text: 'Zieh an allen drei Reglern. Was bestimmt \\(v\\) an der Geraden, was \\(s_0\\)? Notiere deine Antwort.', ok: function(s){ return s.bewegt.v && s.bewegt.s0 && s.bewegt.t; },
         vergleich: 'Die Geschwindigkeit \\(v\\) ist die Steigung: Das Dreieck zeigt, wie viele Meter in einer Sekunde dazukommen. Der Startort \\(s_0\\) verschiebt die Gerade nur nach oben oder unten. Der Regler \\(t\\) bewegt bloss den Punkt auf der Geraden.' },
-      { text: 'Ein Jogger startet bei \\(0\\;\\text{m}\\) und läuft mit \\(3\\;\\text{m/s}\\). Stelle ein: Wo ist er nach \\(10\\;\\text{s}\\)?', ok: function(s){ return gl(s.v, 3) && gl(s.s0, 0) && gl(s.t, 10); } },
-      { text: 'Ein Tram fährt mit \\(36\\;\\text{km/h}\\). Stelle seine Geschwindigkeit in \\(\\text{m/s}\\) ein.', ok: function(s){ return gl(s.v, 10); } },
-      { text: 'Ein Wagen startet bei \\(50\\;\\text{m}\\) und rollt mit \\(2.5\\;\\text{m/s}\\) zurück zum Nullpunkt. Stelle ein.', ok: function(s){ return gl(s.v, -2.5) && gl(s.s0, 50); } },
-      { text: 'Einholen: B startet bei \\(20\\;\\text{m}\\) mit \\(3\\;\\text{m/s}\\) (gestrichelt). Du startest gleichzeitig bei \\(0\\;\\text{m}\\) mit \\(5\\;\\text{m/s}\\). Stelle Geschwindigkeit und Start ein und dann die Zeit, zu der du B einholst.', setup: function(S){ ziel = { s0: 20, v: 3, name: 'B' }; S.setze({ v: 2, s0: 0, t: 2 }); }, ok: function(s){ return gl(s.v, 5) && gl(s.s0, 0) && gl(s.t, 10); } },
+      { text: 'Ein Jogger startet bei \\(0\\;\\text{m}\\) und läuft mit \\(3\\;\\text{m/s}\\). Stelle ein: Wo ist er nach \\(10\\;\\text{s}\\)? Notiere die Rechnung mit Einheiten.', ok: function(s){ return gl(s.v, 3) && gl(s.s0, 0) && gl(s.t, 10); },
+        vergleich: '\\(s = s_0 + v \\cdot t = 0\\;\\text{m} + 3\\;\\text{m/s} \\cdot 10\\;\\text{s} = 30\\;\\text{m}\\). Ohne Startort geht die Gerade durch den Ursprung; der Punkt liegt bei \\((10\\;\\text{s};\\ 30\\;\\text{m})\\).' },
+      { text: 'Ein Bus fährt mit \\(27\\;\\text{km/h}\\). Stelle seine Geschwindigkeit in \\(\\text{m/s}\\) ein. Notiere die Umrechnung.', ok: function(s){ return gl(s.v, 7.5); },
+        vergleich: '\\(v = \\dfrac{27}{3.6}\\;\\text{m/s} = 7.5\\;\\text{m/s}\\). Von km/h in m/s teilt man durch \\(3.6\\): Die Zahl wird kleiner, weil ein Meter pro Sekunde mehr ist als ein Kilometer pro Stunde.' },
+      { text: 'Ein Wagen startet bei \\(50\\;\\text{m}\\) und rollt mit \\(2.5\\;\\text{m/s}\\) zurück zum Nullpunkt. Stelle ein. Begründe das Vorzeichen, und notiere, wann er beim Nullpunkt ist.', ok: function(s){ return gl(s.v, -2.5) && gl(s.s0, 50); },
+        vergleich: '\\(v = -2.5\\;\\text{m/s}\\): Der Ort wird kleiner, die Gerade fällt. Beim Nullpunkt ist \\(s = 0\\): \\(t = \\dfrac{50\\;\\text{m}}{2.5\\;\\text{m/s}} = 20\\;\\text{s}\\) — dort schneidet die Gerade die \\(t\\)-Achse.' },
+      { text: 'Einholen: B startet bei \\(20\\;\\text{m}\\) mit \\(3\\;\\text{m/s}\\) (gestrichelt). Du startest gleichzeitig bei \\(0\\;\\text{m}\\) mit \\(5\\;\\text{m/s}\\). Stelle Geschwindigkeit und Start ein und dann die Zeit, zu der du B einholst. Notiere den Ansatz.', setup: function(S){ ziel = { s0: 20, v: 3, name: 'B' }; S.setze({ v: 2, s0: 0, t: 2 }); }, ok: function(s){ return gl(s.v, 5) && gl(s.s0, 0) && gl(s.t, 10); },
+        vergleich: 'Beim Einholen sind beide am gleichen Ort: \\(5\\;\\text{m/s} \\cdot t = 20\\;\\text{m} + 3\\;\\text{m/s} \\cdot t\\), also \\(t = \\dfrac{20\\;\\text{m}}{2\\;\\text{m/s}} = 10\\;\\text{s}\\), bei \\(50\\;\\text{m}\\). Im Diagramm schneiden sich die beiden Geraden dort.' },
       { text: 'Triff die gestrichelte Gerade. Welche Bewegung stellt sie dar? Notiere.', setup: function(S){ ziel = { s0: 40, v: -3 }; S.setze({ v: 2, s0: 10 }); }, ok: function(s){ return gl(s.v, -3) && gl(s.s0, 40); },
         vergleich: 'Eine gleichförmige Bewegung zurück zum Nullpunkt: Start bei \\(40\\;\\text{m}\\), jede Sekunde \\(3\\;\\text{m}\\) näher, also \\(v = -3\\;\\text{m/s}\\). Nach rund \\(13.3\\;\\text{s}\\) wäre der Körper dort.' }
     ], sim);
@@ -260,7 +264,7 @@
      Rechnet wie Animation 2 der Themenseite v = v0 + a·t und s = v0·t + ½·a·t², zeigt
      aber nur das v-t-Diagramm und färbt die Fläche darunter: Sie ist der Weg.
      Unter der t-Achse (Rückwärtsfahrt) zählt die Fläche negativ und ist anders
-     gefärbt. Startwert = Clipbeispiel: aus dem Stand mit 2.5 m/s², nach 8 s 20 m/s und 80 m. */
+     gefärbt. Startwerte (5 m/s, 1 m/s², 7 s) bewusst weder Clipbeispiel noch Leistenziel. */
   (function(){
     var fig = document.getElementById('sim2'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -300,10 +304,10 @@
       // Auto nicht zurück — die Gerade zeigt dort nur, wie es mit derselben Beschleunigung weiterginge.
       K.kurve(function(x){ return v0 + a * x; }, 'kurve-v', 0, t);
       K.kurve(function(x){ return v0 + a * x; }, 'kurve-weiter', t);
-      if (!kreuzt && t >= 4 && Math.abs(v0 + vt) / 2 >= 6) K.text(t * 0.36, (v0 + vt) / 2 * 0.3, 's ' + ist(s, sig(s)) + sig(s) + NB + 'm', 'flaeche-text');
+      if (!kreuzt && t >= 4 && Math.abs(v0 + vt) / 2 >= 6) K.text(t * 0.36, (v0 + vt) / 2 * 0.3, 's = ' + zahl(+s.toFixed(6)) + NB + 'm', 'flaeche-text');   // wie die Formelzeile
       // Beschriftung (t; v) links vom Punkt: oberhalb, wenn die Gerade steigt, unterhalb, wenn sie fällt —
       // dort verläuft sie nicht. Steht der Körper beim Bremsen (|v| klein), nur der Punkt.
-      var lab = '(' + zahl(t) + NB + 's; ' + sig(vt) + NB + 'm/s)';
+      var lab = '(' + zahl(t) + NB + 's; ' + zahl(+vt.toFixed(6)) + NB + 'm/s)';   // gerundet wie die Formelzeile
       if (a >= 0) K.punkt(t, vt, 'p-v', lab, -9, vt > 28 ? 18 : -9, 'end');
       else K.punkt(t, vt, 'p-v', Math.abs(vt) < 4 ? '' : lab, -9, 18, 'end');
       rolle(fig, 'formel').innerHTML =
@@ -316,7 +320,8 @@
     pruefen = Leiste(fig, [
       { text: 'Zieh an allen drei Reglern. Was zeigt die Steigung der Geraden, was die gefärbte Fläche? Notiere deine Antwort mit Einheiten.', ok: function(s){ return s.bewegt.v0 && s.bewegt.a && s.bewegt.t; },
         vergleich: 'Die Steigung ist die Beschleunigung \\(a\\) in \\(\\text{m/s}^2\\): So viel kommt je Sekunde zur Geschwindigkeit dazu. Die Fläche unter der Geraden ist der Weg \\(s\\): Höhe in \\(\\text{m/s}\\) mal Breite in \\(\\text{s}\\) gibt \\(\\text{m}\\).' },
-      { text: 'Ein Velo fährt aus dem Stand los und beschleunigt mit \\(1.5\\;\\text{m/s}^2\\). Stelle ein: Wie schnell ist es nach \\(6\\;\\text{s}\\)?', ok: function(s){ return gl(s.v0, 0) && gl(s.a, 1.5) && gl(s.t, 6); } },
+      { text: 'Ein Roller fährt aus dem Stand los und beschleunigt mit \\(3.5\\;\\text{m/s}^2\\). Stelle ein: Wie schnell ist er nach \\(6\\;\\text{s}\\)? Notiere, um wie viel seine Geschwindigkeit in jeder Sekunde wächst.', ok: function(s){ return gl(s.v0, 0) && gl(s.a, 3.5) && gl(s.t, 6); },
+        vergleich: 'In jeder Sekunde \\(3.5\\;\\text{m/s}\\) mehr — das zeigt das Steigungsdreieck: \\(1\\;\\text{s}\\) nach rechts, \\(3.5\\;\\text{m/s}\\) nach oben. Nach \\(6\\;\\text{s}\\): \\(v = 0\\;\\text{m/s} + 3.5\\;\\text{m/s}^2 \\cdot 6\\;\\text{s} = 21\\;\\text{m/s}\\).' },
       { text: 'Ein Zug fährt mit \\(20\\;\\text{m/s}\\) und bremst mit \\(2\\;\\text{m/s}^2\\). Stelle den Zeitpunkt ein, an dem er steht, und lies den Bremsweg ab. Notiere ihn: In der nächsten Aufgabe vergleichst du.', ok: function(s){ return gl(s.v0, 20) && gl(s.a, -2) && gl(s.t, 10); },
         vergleich: 'Er steht nach \\(10\\;\\text{s}\\). Bremsweg = Dreiecksfläche unter der Geraden: \\(s = \\tfrac12 \\cdot 10\\;\\text{s} \\cdot 20\\;\\text{m/s} = 100\\;\\text{m}\\).' },
       { text: 'Gleiche Bremsung, aber nur \\(10\\;\\text{m/s}\\): Stelle wieder den Stillstand ein. Wie viel kürzer ist der Bremsweg? Notiere.', ok: function(s){ return gl(s.v0, 10) && gl(s.a, -2) && gl(s.t, 5); },
@@ -334,8 +339,8 @@
      dazu eine Abwurfhöhe h0 (für Fall und waagrechten Wurf, wie im Mini-Check der
      Themenseite). Statt eines laufenden Balls zeigt sie den Ort alle 0.25 s als Punkte
      und deren Projektion auf die Achsen (Hilfslinien): waagrecht gleiche, senkrecht
-     wachsende Abstände. x-y-Bahn im Massstab 1:1. Startwert = Clipbeispiel:
-     waagrecht mit 8 m/s aus 20 m Höhe, Landung nach 2.02 s bei 16.2 m. */
+     wachsende Abstände. x-y-Bahn im Massstab 1:1. Startwerte (6 m/s, 30°, 10 m) bewusst
+     weder Clipbeispiel noch Leistenziel. */
   (function(){
     var fig = document.getElementById('sim3'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -391,7 +396,8 @@
         else
           zeilen += '<span>' + v('t') + '<sub>F</sub> aus ' + v('h') + '₀ + ' + v('v') + '₀ · sin ' + v('α') + ' · ' + v('t') + '<sub>F</sub> − ½ · ' + v('g') + ' · ' + v('t') + '<sub>F</sub>² = 0, also ' + zahl(h0) + NB + 'm + ' + zahl(v0) + NB + 'm/s · sin' + wk(al) + ' · ' + v('t') + '<sub>F</sub> − ½ · 9.81' + NB + 'm/s² · ' + v('t') + '<sub>F</sub>² = 0: ' + v('t') + '<sub>F</sub> ' + ist(w.tF, sig(w.tF)) + sig(w.tF) + NB + 's</span>';
         if (Math.abs(al) === 90 && w.vy > 0) zeilen += '<span>' + v('t') + '<sub>S</sub> = ' + v('v') + '₀ / ' + v('g') + ' = ' + zahl(v0) + NB + 'm/s / 9.81' + NB + 'm/s² ' + ist(w.vy / G, sig(w.vy / G)) + sig(w.vy / G) + NB + 's (Steigzeit)</span>';
-        if (Math.abs(al) !== 90) zeilen += '<span>' + v('x') + '<sub>F</sub> = ' + v('v') + '₀ · cos ' + v('α') + ' · ' + v('t') + '<sub>F</sub> = ' + zahl(v0) + NB + 'm/s · cos' + wk(al) + ' · ' + sig(w.tF) + NB + 's ' + ist(w.xF, sig(w.xF)) + sig(w.xF) + NB + 'm</span>';
+        // Eingesetzt wird der angezeigte, gerundete Wert von t_F: dann «≈» schon vor den Zahlen
+        if (Math.abs(al) !== 90) zeilen += '<span>' + v('x') + '<sub>F</sub> = ' + v('v') + '₀ · cos ' + v('α') + ' · ' + v('t') + '<sub>F</sub> ' + ist(w.tF, sig(w.tF)) + zahl(v0) + NB + 'm/s · cos' + wk(al) + ' · ' + sig(w.tF) + NB + 's ' + (ist(w.tF, sig(w.tF)) === '≈ ' ? '≈ ' : ist(w.xF, sig(w.xF))) + sig(w.xF) + NB + 'm</span>';
         if (w.vy > 1e-9) zeilen += '<span>' + v('h') + '<sub>max</sub> = ' + v('h') + '₀ + (' + v('v') + '₀ · sin ' + v('α') + ')² / (2 · ' + v('g') + ') = ' + zahl(h0) + NB + 'm + (' + zahl(v0) + NB + 'm/s · sin' + wk(al) + ')² / (2 · 9.81' + NB + 'm/s²) ' + ist(w.hMax, sig(w.hMax)) + sig(w.hMax) + NB + 'm</span>';
         if (w.xF > 62 || w.hMax > 42) zeilen += '<span class="sim-notiz">Ein Teil der Bahn liegt ausserhalb des Bildes.</span>';
       }
@@ -401,17 +407,21 @@
     }
     pruefen = Leiste(fig, [
       { text: 'Zieh an allen drei Reglern. Die Punkte zeigen den Ball alle \\(0.25\\;\\text{s}\\). Was bleibt waagrecht gleich, was wächst senkrecht? Notiere deine Antwort.', ok: function(s){ return s.bewegt.v0 && s.bewegt.al && s.bewegt.h0; },
-        vergleich: 'Waagrecht liegen die Punkte immer gleich weit auseinander: Die waagrechte Bewegung ist gleichförmig, \\(x = v_0 \\cdot \\cos\\alpha \\cdot t\\). Senkrecht werden die Abstände nach unten immer grösser: Die senkrechte Bewegung ist gleichmässig beschleunigt mit \\(g\\).' },
-      { text: 'Freier Fall: Lass den Ball aus \\(30\\;\\text{m}\\) Höhe einfach fallen. Stelle ein und lies die Fallzeit ab.', ok: function(s){ return gl(s.v0, 0) && gl(s.h0, 30); } },
+        vergleich: 'Waagrecht liegen die Punkte immer gleich weit auseinander: Die waagrechte Bewegung ist gleichförmig, \\(x = v_0 \\cdot \\cos\\alpha \\cdot t\\). Senkrecht ändert sich der Abstand von Punkt zu Punkt in jeder Viertelsekunde um gleich viel: Beim Steigen werden die Abstände kleiner, im höchsten Punkt liegen die Punkte am dichtesten, beim Fallen werden sie immer grösser. Die senkrechte Bewegung ist gleichmässig beschleunigt mit \\(g\\) nach unten.' },
+      { text: 'Freier Fall: Lass den Ball aus \\(30\\;\\text{m}\\) Höhe einfach fallen. Stelle ein und lies die Fallzeit ab. Notiere, wie du sie ohne Simulation rechnest.', ok: function(s){ return gl(s.v0, 0) && gl(s.h0, 30); },
+        vergleich: 'Aus \\(h = \\tfrac12 \\cdot g \\cdot t^2\\): \\(t = \\sqrt{\\dfrac{2h}{g}} = \\sqrt{\\dfrac{2 \\cdot 30\\;\\text{m}}{9.81\\;\\text{m/s}^2}} \\approx 2.47\\;\\text{s}\\). Ohne Wurzel käme \\(6.12\\;\\text{s}\\) heraus — viel zu lang.' },
       { text: 'Gleiche Höhe, aber waagrecht mit \\(10\\;\\text{m/s}\\) geworfen: Stelle ein. Ändert sich die Fallzeit? Notiere.', ok: function(s){ return gl(s.v0, 10) && gl(s.al, 0) && gl(s.h0, 30); },
         vergleich: 'Nein: wieder rund \\(2.47\\;\\text{s}\\). Die senkrechte Bewegung hängt nur von der Höhe und von \\(g\\) ab; die waagrechte kommt dazu, ohne sie zu stören.' },
       { text: 'Senkrecht nach oben: Wirf den Ball vom Boden mit \\(15\\;\\text{m/s}\\) unter \\(\\alpha = 90^\\circ\\). Lies die Steighöhe ab. Wie lange steigt er, wie lange fällt er zurück? Notiere.', ok: function(s){ return gl(s.h0, 0) && gl(s.v0, 15) && gl(s.al, 90); },
         vergleich: 'Steighöhe \\(h_\\text{max} = \\dfrac{v_0^2}{2 \\cdot g} \\approx 11.5\\;\\text{m}\\). Er steigt \\(t_S = \\dfrac{v_0}{g} \\approx 1.53\\;\\text{s}\\) und fällt genau so lange zurück: Flugzeit \\(3.06\\;\\text{s}\\). Unten ist er wieder \\(15\\;\\text{m/s}\\) schnell, jetzt nach unten. Die Punkte oben liegen dichter: Dort ist er langsam.' },
-      { text: 'Senkrecht nach unten: Wirf den Ball aus \\(20\\;\\text{m}\\) Höhe mit \\(5\\;\\text{m/s}\\) unter \\(\\alpha = -90^\\circ\\). Vergleiche die Flugzeit mit dem freien Fall aus \\(20\\;\\text{m}\\).', ok: function(s){ return gl(s.h0, 20) && gl(s.v0, 5) && gl(s.al, -90); },
-        vergleich: 'Rund \\(1.57\\;\\text{s}\\) statt \\(2.02\\;\\text{s}\\): Er startet schon mit \\(5\\;\\text{m/s}\\) nach unten, und dazu kommt die Beschleunigung, \\(h = v_0 \\cdot t + \\tfrac12 \\cdot g \\cdot t^2\\).' },
-      { text: 'Wurf vom Boden mit \\(12\\;\\text{m/s}\\): Finde den Winkel mit der grössten Wurfweite.', setup: function(S){ S.setze({ h0: 0, v0: 12, al: 20 }); }, ok: function(s){ return gl(s.h0, 0) && gl(s.v0, 12) && gl(s.al, 45); } },
-      { text: 'Vom Boden mit \\(12\\;\\text{m/s}\\) unter \\(25^\\circ\\): Finde einen zweiten Winkel mit derselben Weite.', setup: function(S){ S.setze({ h0: 0, v0: 12, al: 25 }); }, ok: function(s){ return gl(s.h0, 0) && gl(s.v0, 12) && gl(s.al, 65); } },
-      { text: 'Triff das Ziel bei \\(x = 30\\;\\text{m}\\) — Abwurf vom Boden.', setup: function(S){ ziel = 30; S.setze({ h0: 0, v0: 10, al: 30 }); }, ok: function(s){ return gl(s.h0, 0) && Math.abs(s.xF - 30) < 0.6; } }
+      { text: 'Senkrecht nach unten: Wirf den Ball aus \\(25\\;\\text{m}\\) Höhe mit \\(5\\;\\text{m/s}\\) unter \\(\\alpha = -90^\\circ\\). Vergleiche die Flugzeit mit dem freien Fall aus \\(25\\;\\text{m}\\). Notiere den Unterschied und den Grund.', ok: function(s){ return gl(s.h0, 25) && gl(s.v0, 5) && gl(s.al, -90); },
+        vergleich: 'Rund \\(1.80\\;\\text{s}\\) statt \\(2.26\\;\\text{s}\\): Er startet schon mit \\(5\\;\\text{m/s}\\) nach unten, und dazu kommt die Beschleunigung, Fallweg \\(h = v_0 \\cdot t + \\tfrac12 \\cdot g \\cdot t^2\\).' },
+      { text: 'Abwurf aus \\(20\\;\\text{m}\\) Höhe mit \\(14\\;\\text{m/s}\\): Fliegt der Ball auch hier bei \\(45^\\circ\\) am weitesten? Suche den Winkel mit der grössten Weite (Schritte von \\(5^\\circ\\)) und notiere, was dir auffällt.', setup: function(S){ S.setze({ h0: 20, v0: 14, al: 0 }); }, ok: function(s){ return gl(s.h0, 20) && gl(s.v0, 14) && gl(s.al, 30); },
+        vergleich: 'Nein: Am weitesten fliegt er bei \\(30^\\circ\\), rund \\(34.6\\;\\text{m}\\); bei \\(45^\\circ\\) sind es nur \\(32.3\\;\\text{m}\\). Die \\(45^\\circ\\) gelten nur, wenn der Ball auf Abwurfhöhe landet. Von oben hat er beim Fallen ohnehin Zeit — da lohnt ein flacherer Winkel mit mehr waagrechter Geschwindigkeit \\(v_0 \\cdot \\cos\\alpha\\).' },
+      { text: 'Vom Boden mit \\(12\\;\\text{m/s}\\) unter \\(25^\\circ\\): Finde einen zweiten Winkel mit derselben Weite. Notiere, wie die beiden Winkel zusammenhängen.', setup: function(S){ S.setze({ h0: 0, v0: 12, al: 25 }); }, ok: function(s){ return gl(s.h0, 0) && gl(s.v0, 12) && gl(s.al, 65); },
+        vergleich: '\\(65^\\circ\\): Die beiden Winkel ergänzen sich zu \\(90^\\circ\\). In \\(s_x = \\dfrac{v_0^2 \\cdot \\sin(2\\alpha)}{g}\\) ist \\(\\sin 50^\\circ = \\sin 130^\\circ\\). Der steile Wurf fliegt länger, kommt aber waagrecht langsamer voran.' },
+      { text: 'Triff das Ziel bei \\(x = 30\\;\\text{m}\\) — Abwurf vom Boden. Notiere deine Einstellung und prüfe sie mit der Formel für die Wurfweite.', setup: function(S){ ziel = 30; S.setze({ h0: 0, v0: 10, al: 30 }); }, ok: function(s){ return gl(s.h0, 0) && Math.abs(s.xF - 30) < 0.6; },
+        vergleich: 'Es gibt mehrere Lösungen, zum Beispiel \\(17\\;\\text{m/s}\\) unter \\(45^\\circ\\): \\(s_x = \\dfrac{(17\\;\\text{m/s})^2 \\cdot \\sin 90^\\circ}{9.81\\;\\text{m/s}^2} \\approx 29.5\\;\\text{m}\\), oder \\(18.5\\;\\text{m/s}\\) unter \\(30^\\circ\\) oder \\(60^\\circ\\). Unter \\(17\\;\\text{m/s}\\) reicht kein Winkel.' }
     ], sim);
     zeichnen();
   })();
@@ -421,7 +431,8 @@
      gegen die Strömung gemessen, 90° = quer), zeigt aber keinen laufenden Schwimmer:
      die drei Pfeile am Start (v_S grün, v_F violett, v_Ufer rot, wie dort) und die
      Bahn bis zum Zielufer mit Landepunkt — Querzeit und Versatz stehen im Bild.
-     Draufsicht 1:1, Pfeile 1 m/s ≙ 8 m. Startwert = Clipbeispiel: 2 m/s quer, 1 m/s Strömung. */
+     Draufsicht 1:1, Pfeile 1 m/s ≙ 8 m. Startwerte (1.5 m/s quer, 0.75 m/s Strömung) bewusst
+     weder Clipbeispiel noch Leistenziel. Der Regler heisst «Boot»: bis 4 m/s schwimmt niemand. */
   (function(){
     var fig = document.getElementById('sim4'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -474,7 +485,8 @@
       marke(svg, px((sx + vF * KP) / 2) + 8, py(sy / 2) + 12, 'v', 'Ufer', 'pf-text pf-r', 'start');
       rolle(fig, 'formel').innerHTML =
         '<span>Querzeit: ' + v('t') + ' = ' + v('b') + ' / (' + v('v') + '<sub>S</sub> · sin ' + v('β') + ') = 40' + NB + 'm / (' + zahl(vS) + NB + 'm/s · sin ' + be + '°) ' + ist(r.t, sig(r.t)) + sig(r.t) + NB + 's</span>' +
-        '<span>Versatz: ' + v('d') + ' = (' + v('v') + '<sub>F</sub> + ' + v('v') + '<sub>S</sub> · cos ' + v('β') + ') · ' + v('t') + ' = (' + zahl(vF) + NB + 'm/s + ' + zahl(vS) + NB + 'm/s · cos ' + be + '°) · ' + sig(r.t) + NB + 's ' + ist(r.d, sig(r.d)) + minus(sig(r.d)) + NB + 'm</span>' +
+        // eingesetzt wird die angezeigte, gerundete Querzeit: dann «≈» schon vor den Zahlen
+        '<span>Versatz: ' + v('d') + ' = (' + v('v') + '<sub>F</sub> + ' + v('v') + '<sub>S</sub> · cos ' + v('β') + ') · ' + v('t') + ' ' + ist(r.t, sig(r.t)) + '(' + zahl(vF) + NB + 'm/s + ' + zahl(vS) + NB + 'm/s · cos ' + be + '°) · ' + sig(r.t) + NB + 's ' + (ist(r.t, sig(r.t)) === '≈ ' ? '≈ ' : ist(r.d, sig(r.d))) + minus(sig(r.d)) + NB + 'm</span>' +
         '<span>|' + v('v') + '<sub>Ufer</sub>| = √((' + v('v') + '<sub>F</sub> + ' + v('v') + '<sub>S</sub> · cos ' + v('β') + ')² + (' + v('v') + '<sub>S</sub> · sin ' + v('β') + ')²) ' + ist(r.vu, sig(r.vu)) + sig(r.vu) + NB + 'm/s</span>' +
         (tt < 1 ? '<span class="sim-notiz">Der Landepunkt liegt ausserhalb des Bildes.</span>' : '');
       pruefen();
@@ -482,11 +494,16 @@
     pruefen = Leiste(fig, [
       { text: 'Zieh an allen drei Reglern. Wovon hängt die Querzeit ab, wovon der Versatz? Notiere deine Antwort.', ok: function(s){ return s.bewegt.vS && s.bewegt.be && s.bewegt.vF; },
         vergleich: 'Die Querzeit hängt nur von der Quergeschwindigkeit \\(v_S \\cdot \\sin\\beta\\) ab — die Strömung ändert sie nicht. Der Versatz entsteht aus der Längsgeschwindigkeit \\(v_F + v_S \\cdot \\cos\\beta\\) während dieser Querzeit.' },
-      { text: 'Ein Boot fährt mit \\(2.5\\;\\text{m/s}\\) quer zum Ufer, die Strömung hat \\(1.5\\;\\text{m/s}\\). Stelle ein und lies den Versatz ab.', ok: function(s){ return gl(s.vS, 2.5) && gl(s.be, 90) && gl(s.vF, 1.5); } },
-      { text: 'Gleiches Boot, gleiche Strömung: Komm genau gegenüber an.', ok: function(s){ return gl(s.vS, 2.5) && gl(s.vF, 1.5) && Math.abs(s.d) < 0.5; } },
-      { text: 'Ein Schwimmer mit \\(2\\;\\text{m/s}\\) schwimmt quer. Stelle eine Strömung ein, bei der er unter \\(45^\\circ\\) abgetrieben wird.', ok: function(s){ return gl(s.vS, 2) && gl(s.be, 90) && gl(s.vF, 2); } },
-      { text: 'Strömung \\(1\\;\\text{m/s}\\): Die Überquerung soll \\(16\\;\\text{s}\\) dauern. Stelle ein.', ok: function(s){ return gl(s.vF, 1) && Math.abs(s.t - 16) < 0.05; } },
-      { text: 'Lande bei der Markierung, \\(30\\;\\text{m}\\) flussabwärts.', setup: function(S){ ziel = 30; S.setze({ vS: 2, be: 90, vF: 0.5 }); }, ok: function(s){ return Math.abs(s.d - 30) < 1; } }
+      { text: 'Ein Boot fährt mit \\(2.5\\;\\text{m/s}\\) quer zum Ufer, die Strömung hat \\(1.5\\;\\text{m/s}\\). Stelle ein und lies den Versatz ab. Notiere, wie du ihn ohne Simulation rechnest.', ok: function(s){ return gl(s.vS, 2.5) && gl(s.be, 90) && gl(s.vF, 1.5); },
+        vergleich: 'Zuerst die Querzeit, nur mit dem eigenen Anteil quer: \\(t = \\dfrac{40\\;\\text{m}}{2.5\\;\\text{m/s}} = 16\\;\\text{s}\\). In dieser Zeit trägt die Strömung das Boot \\(d = 1.5\\;\\text{m/s} \\cdot 16\\;\\text{s} = 24\\;\\text{m}\\) flussabwärts.' },
+      { text: 'Gleiches Boot, gleiche Strömung: Komm genau gegenüber an. Notiere die Bedingung für \\(\\beta\\) und wie sich die Querzeit ändert.', ok: function(s){ return gl(s.vS, 2.5) && gl(s.vF, 1.5) && Math.abs(s.d) < 0.5; },
+        vergleich: 'Der Anteil gegen die Strömung muss sie aufheben: \\(v_S \\cdot \\cos\\beta = -v_F\\), also \\(\\cos\\beta = -\\dfrac{1.5}{2.5} = -0.6\\) und \\(\\beta \\approx 127^\\circ\\). Quer bleibt nur noch \\(2.5\\;\\text{m/s} \\cdot \\sin 127^\\circ \\approx 2.0\\;\\text{m/s}\\): Die Überquerung dauert rund \\(20\\;\\text{s}\\) statt \\(16\\;\\text{s}\\).' },
+      { text: 'Ein Boot fährt mit \\(2\\;\\text{m/s}\\) quer. Stelle eine Strömung ein, bei der es unter \\(45^\\circ\\) gegenüber der Querrichtung abgetrieben wird. Begründe.', ok: function(s){ return gl(s.vS, 2) && gl(s.be, 90) && gl(s.vF, 2); },
+        vergleich: '\\(\\tan\\gamma = \\dfrac{v_F}{v_S} = 1\\) heisst \\(v_F = v_S = 2\\;\\text{m/s}\\): Beide Pfeile sind gleich lang, die Summe zeigt genau schräg. Der Versatz ist dann so gross wie die Flussbreite, \\(40\\;\\text{m}\\).' },
+      { text: 'Strömung \\(1\\;\\text{m/s}\\): Die Überquerung soll \\(25\\;\\text{s}\\) dauern. Stelle ein. Notiere, welcher Anteil der Geschwindigkeit die Querzeit festlegt.', ok: function(s){ return gl(s.vF, 1) && Math.abs(s.t - 25) < 0.05; },
+        vergleich: 'Nur der Anteil quer zum Ufer: \\(v_S \\cdot \\sin\\beta = \\dfrac{40\\;\\text{m}}{25\\;\\text{s}} = 1.6\\;\\text{m/s}\\). Das geht mit verschiedenen Einstellungen, etwa \\(2\\;\\text{m/s}\\) unter \\(53^\\circ\\) oder \\(127^\\circ\\). Die Strömung ändert die Querzeit nicht.' },
+      { text: 'Lande bei der Markierung, \\(30\\;\\text{m}\\) flussabwärts. Notiere deine Einstellung und prüfe sie mit \\(d = (v_F + v_S \\cdot \\cos\\beta) \\cdot t\\).', setup: function(S){ ziel = 30; S.setze({ vS: 2, be: 90, vF: 0.5 }); }, ok: function(s){ return Math.abs(s.d - 30) < 1; },
+        vergleich: 'Es gibt viele Lösungen. Quer zum Ufer (\\(\\beta = 90^\\circ\\)) muss \\(\\dfrac{v_F}{v_S} = \\dfrac{30\\;\\text{m}}{40\\;\\text{m}} = 0.75\\) sein, etwa \\(2\\;\\text{m/s}\\) und \\(1.5\\;\\text{m/s}\\): \\(t = 20\\;\\text{s}\\), \\(d = 1.5\\;\\text{m/s} \\cdot 20\\;\\text{s} = 30\\;\\text{m}\\).' }
     ], sim);
     zeichnen();
   })();
@@ -495,14 +512,15 @@
      Rechnet wie Animation 5 der Themenseite (v grün tangential, a_z rot zur Mitte),
      aber mit der Umlaufzeit T als Regler statt ω — f und ω werden daraus berechnet —
      und ohne laufenden Punkt: Der Ort auf der Bahn wird mit dem Winkel φ eingestellt.
-     Pfeile streng proportional: v 8 px je m/s, a_z 4 px je m/s² — mit T ≥ 3 s reicht a_z
-     nie über die Mitte, und Pfeil samt Beschriftung bleiben im Bild (vorab mit python3 geprüft).
-     Startwert = Clipbeispiel: r = 4 m, T = 4 s (v ≈ 6.28 m/s, a_z ≈ 9.87 m/s²); die Aufgaben
-     nehmen andere Werte. */
+     Pfeile streng proportional und am Rand des Körpers (5.5 px) beginnend, damit auch kurze
+     Pfeile sichtbar bleiben: v 8 px je m/s, a_z 3 px je m/s². Mit r ≥ 1 m und T ≥ 3 s reicht a_z
+     samt Versatz nie über die Mitte (6 + 3 · (2π/T)² · r ≤ 20 · r), und v samt Beschriftung bleibt
+     im Bild (Mitte 150|148, höchstens 141 px weit; vorab mit python3 geprüft).
+     Startwerte (r = 2.5 m, T = 7 s, φ = 60°) bewusst weder Clipbeispiel noch Leistenziel. */
   (function(){
     var fig = document.getElementById('sim5'); if (!fig) return;
     var svg = fig.querySelector('svg');
-    var CX = 150, CY = 140, S = 20, arten = {}, pruefen = function(){};
+    var CX = 150, CY = 148, S = 20, KV = 8, KA = 3, RK = 5.5, arten = {}, pruefen = function(){};
     var B = Bedienung(fig, zeichnen);
     hilfsschalter(fig);
     function rechne(r, T){ var w = 2 * Math.PI / T, vv = w * r; return { f: 1 / T, w: w, v: vv, az: w * w * r }; }
@@ -514,39 +532,43 @@
     function zeichnen(){
       var r = B.wert('r'), T = B.wert('T'), ph = B.wert('ph'), q = rechne(r, T);
       B.anzeigen(); leeren(svg);
-      if (Math.abs(q.v - Math.PI) < 0.01) arten[r + '|' + T] = true;
+      if (Math.abs(q.v - 2 * Math.PI / 3) < 0.01) arten[r + '|' + T] = true;   // v ≈ 2.09 m/s, Leistenaufgabe 6
       var R = r * S, c = Math.cos(ph * GRAD), s = Math.sin(ph * GRAD);
       var X = CX + R * c, Y = CY - R * s;
       el(svg, 'circle', { cx: CX, cy: CY, r: R, 'class': 'bahn-kreis' });
       el(svg, 'line', { x1: CX, y1: CY, x2: X, y2: Y, 'class': 'radius hilfslinie' });
-      el(svg, 'text', { x: CX + R * 0.5 * c - s * 9, y: CY - R * 0.5 * s - c * 9 + 4, 'text-anchor': 'middle', 'class': 'hilf-text hilfslinie' }, 'r');   // gegenüber der Beschriftung a_z
+      el(svg, 'text', { x: CX + R * 0.5 * c - s * 9, y: CY - R * 0.5 * s - c * 9 + 4, 'text-anchor': 'middle', 'class': 'hilf-text hilfslinie' }, 'r');   // auf der Seite von v, gegenüber der Beschriftung a_z
       el(svg, 'circle', { cx: CX, cy: CY, r: 3, 'class': 'knoten' });
-      // Drehsinn gegen den Uhrzeigersinn: Tangente (−sin φ, cos φ)
-      var lv = q.v * 8, la = q.az * 4;
-      pfeil(svg, X, Y, X - s * lv, Y - c * lv, 'pf-v');
-      // a_z beginnt am Rand des Körpers (r = 5.5 px), sonst verdeckt er kurze Pfeile; die Länge bleibt proportional
-      if (la > 1){ var ea = Math.min(la + 6, R - 1); pfeil(svg, X - c * 6, Y + s * 6, X - c * ea, Y + s * ea, 'pf-a', 7); }   // nie über die Mitte
-      el(svg, 'circle', { cx: X, cy: Y, r: 5.5, 'class': 'koerper' });
-      marke(svg, X - s * (lv + 11), Y - c * (lv + 11) + 4, 'v', '', 'pf-text pf-v');
-      if (la > 16) marke(svg, X - c * (la * 0.55 + 6) + s * 12, Y + s * (la * 0.55 + 6) + c * 12 + 4, 'a', 'z', 'pf-text pf-a');
-      else if (la > 1) marke(svg, X - c * (la + 18), Y + s * (la + 18) + 4, 'a', 'z', 'pf-text pf-a');   // kurz: hinter der Spitze
+      // Drehsinn gegen den Uhrzeigersinn: Tangente (−sin φ, cos φ). Beide Pfeile beginnen am Rand des Körpers
+      // (RK), die Länge ist streng proportional: v KV px je m/s, a_z KA px je m/s².
+      var lv = q.v * KV, la = q.az * KA;
+      pfeil(svg, X - s * RK, Y - c * RK, X - s * (RK + lv), Y - c * (RK + lv), 'pf-v');
+      if (la > 1) pfeil(svg, X - c * RK, Y + s * RK, X - c * (RK + la), Y + s * (RK + la), 'pf-a', Math.min(7, la * 0.8));
+      el(svg, 'circle', { cx: X, cy: Y, r: RK, 'class': 'koerper' });
+      marke(svg, X - s * (RK + lv + 10), Y - c * (RK + lv + 10) + 4, 'v', '', 'pf-text pf-v');
+      // a_z seitlich neben der Pfeilmitte, auf der von v abgewandten Seite: nicht auf der r-Linie, im Kreis
+      if (la > 1) marke(svg, X - c * (RK + la * 0.5) + s * 12, Y + s * (RK + la * 0.5) + c * 12 + 4, 'a', 'z', 'pf-text pf-a');
       rolle(fig, 'formel').innerHTML =
         '<span>' + v('f') + ' = 1 / ' + v('T') + ' = 1 / ' + zahl(T) + NB + 's ' + ist(q.f, sig(q.f)) + sig(q.f) + NB + 'Hz</span>' +
         '<span>' + v('ω') + ' = 2π / ' + v('T') + ' = 2π / ' + zahl(T) + NB + 's ' + ist(q.w, sig(q.w)) + sig(q.w) + NB + 'rad/s</span>' +
-        '<span>' + v('v') + ' = ' + v('ω') + ' · ' + v('r') + ' = ' + sig(q.w) + NB + 'rad/s · ' + zahl(r) + NB + 'm ' + ist(q.v, sig(q.v)) + sig(q.v) + NB + 'm/s</span>' +
-        '<span>' + v('a') + '<sub>z</sub> = ' + v('ω') + '² · ' + v('r') + ' = (' + sig(q.w) + NB + 'rad/s)² · ' + zahl(r) + NB + 'm ' + ist(q.az, sig(q.az)) + sig(q.az) + NB + 'm/s²</span>';
+        // v und a_z aus den Eingaben (r, T) gerechnet, nicht aus dem gerundeten ω
+        '<span>' + v('v') + ' = ' + v('ω') + ' · ' + v('r') + ' = 2π · ' + v('r') + ' / ' + v('T') + ' = 2π · ' + zahl(r) + NB + 'm / ' + zahl(T) + NB + 's ' + ist(q.v, sig(q.v)) + sig(q.v) + NB + 'm/s</span>' +
+        '<span>' + v('a') + '<sub>z</sub> = ' + v('ω') + '² · ' + v('r') + ' = (2π / ' + v('T') + ')² · ' + v('r') + ' = (2π / ' + zahl(T) + NB + 's)² · ' + zahl(r) + NB + 'm ' + ist(q.az, sig(q.az)) + sig(q.az) + NB + 'm/s²</span>';
       pruefen();
     }
     pruefen = Leiste(fig, [
       { text: 'Zieh am Winkel \\(\\varphi\\). Was bleibt am grünen Pfeil gleich, was ändert sich — und warum ist das eine Beschleunigung? Notiere deine Antwort.', ok: function(s){ return s.bewegt.ph; },
         vergleich: 'Die Länge des Pfeils \\(\\vec v\\) — der Betrag der Geschwindigkeit — bleibt gleich, seine Richtung ändert sich ständig: Er liegt immer tangential an der Bahn. Eine Änderung der Richtung ist eine Änderung des Vektors \\(\\vec v\\), also eine Beschleunigung. Sie zeigt zur Mitte: \\(\\vec a_z\\).' },
-      { text: 'Ein Kinderkarussell dreht sich einmal in \\(8\\;\\text{s}\\), das Kind sitzt \\(2\\;\\text{m}\\) vom Mittelpunkt. Stelle ein und lies \\(v\\) ab.', ok: function(s){ return gl(s.r, 2) && gl(s.T, 8); } },
-      { text: 'Stelle eine Rotationsfrequenz von \\(0.2\\;\\text{Hz}\\) ein.', ok: function(s){ return gl(s.T, 5); } },
-      { text: 'Bei \\(T = 6\\;\\text{s}\\): Verdopple den Radius von \\(2\\;\\text{m}\\) auf \\(4\\;\\text{m}\\). Was macht \\(a_z\\)? Notiere.', setup: function(S){ S.setze({ r: 2, T: 6 }); }, ok: function(s){ return gl(s.r, 4) && gl(s.T, 6); },
-        vergleich: '\\(a_z\\) verdoppelt sich, von \\(2.19\\) auf \\(4.39\\;\\text{m/s}^2\\): Bei gleichem \\(\\omega\\) ist \\(a_z = \\omega^2 \\cdot r\\) proportional zu \\(r\\).' },
-      { text: 'Jetzt bei \\(4\\;\\text{m}\\) die Umlaufzeit halbieren. Um welchen Faktor wächst \\(a_z\\)? Notiere.', ok: function(s){ return gl(s.r, 4) && gl(s.T, 3); },
-        vergleich: 'Vierfach, auf \\(17.5\\;\\text{m/s}^2\\): Halbe Umlaufzeit heisst doppeltes \\(\\omega\\), und \\(\\omega\\) steht in \\(a_z = \\omega^2 \\cdot r\\) im Quadrat.' },
-      { text: 'Stelle \\(v \\approx 3.14\\;\\text{m/s}\\) ein — auf zwei verschiedene Arten.', ok: function(s){ return s.arten >= 2; } }
+      { text: 'Ein Kinderkarussell dreht sich einmal in \\(8\\;\\text{s}\\), das Kind sitzt \\(2\\;\\text{m}\\) vom Mittelpunkt. Stelle ein und lies \\(v\\) ab. Notiere, welchen Weg das Kind in einem Umlauf zurücklegt.', ok: function(s){ return gl(s.r, 2) && gl(s.T, 8); },
+        vergleich: 'In einem Umlauf den Kreisumfang \\(2\\pi \\cdot 2\\;\\text{m} \\approx 12.6\\;\\text{m}\\), und das in \\(8\\;\\text{s}\\): \\(v = \\dfrac{2\\pi \\cdot r}{T} \\approx 1.57\\;\\text{m/s}\\).' },
+      { text: 'Stelle eine Rotationsfrequenz von \\(0.2\\;\\text{Hz}\\) ein. Notiere, warum du dafür den Regler \\(T\\) brauchst.', ok: function(s){ return gl(s.T, 5); },
+        vergleich: '\\(f = \\dfrac{1}{T}\\): \\(0.2\\) Umläufe pro Sekunde heisst ein Umlauf in \\(T = \\dfrac{1}{0.2\\;\\text{Hz}} = 5\\;\\text{s}\\). Der Radius spielt für \\(f\\) keine Rolle.' },
+      { text: 'Bei \\(T = 5\\;\\text{s}\\): Verdopple den Radius von \\(1.5\\;\\text{m}\\) auf \\(3\\;\\text{m}\\). Was macht \\(a_z\\)? Notiere.', setup: function(S){ S.setze({ r: 1.5, T: 5 }); }, ok: function(s){ return gl(s.r, 3) && gl(s.T, 5); },
+        vergleich: '\\(a_z\\) verdoppelt sich, von \\(2.37\\) auf \\(4.74\\;\\text{m/s}^2\\): Bei gleichem \\(\\omega\\) ist \\(a_z = \\omega^2 \\cdot r\\) proportional zu \\(r\\).' },
+      { text: 'Jetzt bei \\(3\\;\\text{m}\\) die Umlaufzeit verdoppeln. Um welchen Faktor ändert sich \\(a_z\\)? Notiere.', ok: function(s){ return gl(s.r, 3) && gl(s.T, 10); },
+        vergleich: 'Ein Viertel, nur noch \\(1.18\\;\\text{m/s}^2\\): Doppelte Umlaufzeit heisst halbes \\(\\omega\\), und \\(\\omega\\) steht in \\(a_z = \\omega^2 \\cdot r\\) im Quadrat.' },
+      { text: 'Stelle \\(v \\approx 2.09\\;\\text{m/s}\\) ein — auf zwei verschiedene Arten. Notiere, was die beiden Einstellungen gemeinsam haben.', ok: function(s){ return s.arten >= 2; },
+        vergleich: '\\(v = \\dfrac{2\\pi \\cdot r}{T}\\) bleibt gleich, solange \\(\\dfrac{r}{T}\\) gleich bleibt: zum Beispiel \\(1\\;\\text{m}\\) und \\(3\\;\\text{s}\\), \\(2\\;\\text{m}\\) und \\(6\\;\\text{s}\\) oder \\(4\\;\\text{m}\\) und \\(12\\;\\text{s}\\). Doppelter Radius braucht die doppelte Umlaufzeit. \\(a_z = \\dfrac{v^2}{r}\\) ist dabei verschieden.' }
     ], sim);
     zeichnen();
   })();
@@ -593,8 +615,7 @@
           do {
             s0 = zufall([0, 10, 25, 40, 120]); kh = Math.random() < 0.4;
             vk = kh ? zufall([18, 36, 54, 72, 90]) : zufall([2, 3.5, 4, 6, 8, 12]); vv = kh ? vk / 3.6 : vk; t = zufall([5, 8, 12, 15, 20, 30]);
-          } while ((s0 === 20 && vv === 5 && t === 8) || (s0 === 20 && vv === 15 && t === 4)   // Clip, Themenseite
-                   || (s0 === 10 && vv === 4 && t === 5)                            // Kontrollclip, Frage 3
+          } while ((s0 === 10 && vv === 4 && t === 5)                              // Kontrollclip, Frage 3
                    || (s0 && nah(s0 + vv / t, vv * t, 0.02)));                     // zwei Fehlermuster, eine Zahl
           return { s: s0 + vv * t, s0: s0, kh: kh, vk: vk, v: vv, t: t,
             text: (kh ? 'Ein Auto' : 'Ein Velo') + ' startet bei \\(s_0 = ' + ein(s0, 'm') + '\\) und fährt gleichförmig mit \\(v = ' + ein(vk, kh ? 'km/h' : 'm/s') + '\\) weiter. Wo ist es nach \\(t = ' + ein(t, 's') + '\\)?' }; },
@@ -641,13 +662,14 @@
       'einholen': { felder: ['t', 's'], muster: '<i>t</i> = {t} s; <i>s</i> = {s} m',
         neu: function(){
           var d, vB, vA;
-          do { d = zufall([10, 15, 24, 30, 45, 60]); vB = zufall([2, 3, 4, 5, 8]); vA = vB + zufall([1, 1.5, 2, 3, 4]); }
-          while ((d === 30 && vA === 6 && vB === 4) || (d === 20 && vA === 5 && vB === 3));   // Themenseite, Simulation 1
+          // Unterschied nie 1 m/s: sonst ist t = d auch als Zahl, und «Weg durch Zeit» trifft zufällig
+          do { d = zufall([10, 15, 24, 30, 45, 60]); vB = zufall([2, 3, 4, 5, 8]); vA = vB + zufall([1.5, 2, 3, 4]); }
+          while (d === 30 && vA === 6 && vB === 4);   // Mini-Check der Themenseite
           var t = d / (vA - vB);
           return { t: t, s: vA * t, d: d, vA: vA, vB: vB,
             text: 'A startet bei \\(0\\;\\text{m}\\) mit \\(' + ein(vA, 'm/s') + '\\). B startet gleichzeitig \\(' + ein(d, 'm') + '\\) weiter vorn mit \\(' + ein(vB, 'm/s') + '\\) in dieselbe Richtung. Wann holt A den B ein, und wo (gemessen ab dem Start von A)?' }; },
         pruefen: function(A, e){
-          if (nah(e.t, A.t) && nah(e.s, A.s)) return null;
+          if (nah(e.t, A.t) && (nah(e.s, A.s) || nah(e.s, A.vA * e.t))) return null;   // gerundeter Zwischenwert richtig weitergerechnet zählt
           var r = [];
           if (!nah(e.t, A.t)){
             if (nah(e.t, A.d / (A.vA + A.vB))) r.push('Beide fahren in dieselbe Richtung: A holt nur mit dem Unterschied der Geschwindigkeiten auf, \\(v_A - v_B\\).');
@@ -672,7 +694,8 @@
             if (kh){ v0 = zufall([0, 18, 36]); v1 = zufall([54, 72, 90, 108]); } else { v0 = zufall([0, 2, 5, 10]); v1 = zufall([12, 15, 20, 25, 30]); }
             if (br){ tmp = v0; v0 = v1; v1 = tmp; }
             dt = zufall([3, 4, 5, 6, 8, 10, 12]);
-          } while ((!kh && v0 === 10 && v1 === 30 && dt === 4) || (!kh && v0 === 0 && v1 === 20 && dt === 8) || (kh && v0 === 0 && v1 === 36 && dt === 12)
+          } while ((!kh && v0 === 10 && v1 === 30 && dt === 4) || (!kh && v0 === 0 && v1 === 20 && dt === 8) || (kh && v0 === 0 && v1 === 36 && dt === 12)   // Clip «Beschleunigung» der Themenseite, Einführungsclip, Aufgabe 2a
+                   || Math.abs((v1 - v0) * (kh ? 1 / 3.6 : 1) / dt) > 6                                        // mehr als 6 m/s² schafft kein Alltagsfahrzeug
                    || Math.abs(Math.abs((v1 - v0) * (kh ? 1 / 3.6 : 1) / dt) - 1) < 0.02                       // |a| = 1: Kehrwert gleich
                    || (v0 && nah(v1 * (kh ? 1 / 3.6 : 1) / dt, dt / ((v1 - v0) * (kh ? 1 / 3.6 : 1)), 0.02)));
           var f = kh ? 1 / 3.6 : 1, a = (v1 - v0) * f / dt;
@@ -699,8 +722,8 @@
           do {
             v0 = zufall([0, 2, 4, 5, 8, 10, 16, 20]); t = zufall([2, 4, 5, 6, 8, 10]);
             a = v0 >= 10 && Math.random() < 0.4 ? -zufall([1, 1.5, 2]) : zufall([0.5, 1.5, 2, 2.5, 3, 4]);
-          } while (v0 + a * t <= 0 || (v0 === 0 && a === 2 && t === 5) || (v0 === 4 && a === 2 && t === 6) || (v0 === 10 && a === 2 && t === 5) || (v0 === 0 && a === 2.5 && t === 8) || (v0 === 0 && a === 1.5 && t === 6)
-                   || (v0 === 3 && a === 1.5 && t === 6) || (v0 === 2 && a === 2 && t === 6) || (v0 === 0 && a === 2 && t === 10));   // Kontrollclip, Aufgabe 2b, Fehlerkasten; v = 0 aus Leiste 3 und 4 durch «<= 0»
+          } while (v0 + a * t <= 0 || (v0 === 4 && a === 2 && t === 6) || (v0 === 10 && a === 2 && t === 5) || (v0 === 0 && a === 2.5 && t === 8)
+                   || (v0 === 2 && a === 2 && t === 6) || (v0 === 0 && a === 2 && t === 10));   // Themenseite A1, Clip (Trapez, Dreieck), Aufgabe 2b, Fehlerkasten; v = 0 der Leistenaufgaben 3 und 4 durch «<= 0»
           return { v: v0 + a * t, s: v0 * t + 0.5 * a * t * t, v0: v0, a: a, t: t,
             text: 'Ein Körper hat \\(v_0 = ' + ein(v0, 'm/s') + '\\) und wird gleichmässig mit \\(a = ' + tz(a) + '\\;\\text{m/s}^2\\) ' + (a < 0 ? 'gebremst' : 'beschleunigt') + '. Geschwindigkeit und zurückgelegter Weg nach \\(t = ' + ein(t, 's') + '\\)?' }; },
         pruefen: function(A, e){
@@ -725,7 +748,7 @@
       'bremsweg': { felder: ['s'], muster: '<i>s</i> = {s} m',
         neu: function(){
           var vk, a;
-          do { vk = zufall([30, 50, 60, 80, 100, 120]); a = zufall([4, 5, 6, 7, 8]); } while ((vk === 50 && a === 5) || (vk === 90 && a === 6));   // Themenseite A3, Aufgabe 2c
+          do { vk = zufall([30, 50, 60, 80, 100, 120]); a = zufall([4, 5, 6, 7, 8]); } while (vk === 50 && a === 5);   // Themenseite A3
           var v0 = vk / 3.6;
           return { s: v0 * v0 / (2 * a), vk: vk, v0: v0, a: a,
             text: 'Ein Auto fährt mit \\(' + ein(vk, 'km/h') + '\\) und bremst gleichmässig mit \\(' + tz(a) + '\\;\\text{m/s}^2\\) bis zum Stillstand. Wie lang ist der Bremsweg?' }; },
@@ -743,13 +766,13 @@
       'fall': { felder: ['x', 'v'], muster: function(A){ return (A.art === 'h' ? '<i>t</i> = {x} s' : '<i>h</i> = {x} m') + '; <i>v</i> = {v} m/s'; },
         neu: function(){
           if (Math.random() < 0.5){
-            var h = zufall([5, 10, 15, 25, 35, 60, 80]), t = Math.sqrt(2 * h / G);   // nicht 20 (Clip), 30 (Simulation)
+            var h = zufall([10, 15, 25, 35, 60, 80]), t = Math.sqrt(2 * h / G);   // nicht 20 (Clip), 30 (Simulation), 45 (Fehlerkasten), 5 (t ≈ 1 s: t² ≈ t), 7 und 28 (Kontrollfrage)
             return { art: 'h', x: t, v: G * t, h: h, t: t, text: 'Ein Stein fällt aus \\(' + ein(h, 'm') + '\\) Höhe frei (ohne Luftwiderstand). Wie lange fällt er, und wie schnell ist er beim Aufprall?' };
           }
-          var t2 = zufall([0.8, 1.5, 2.5, 3.5, 4]);   // nicht 1 s (t² = t) und nicht 0.5 s (g·t² = ½·g·t)
+          var t2 = zufall([0.8, 1.5, 1.8, 3.5, 4]);   // nicht 1 s (t² = t), 0.5 s (g·t² = ½·g·t), 2.5 s (Kontrollfrage), 3 s (Clip, Mini-Check)
           return { art: 't', x: 0.5 * G * t2 * t2, v: G * t2, t: t2, h: 0.5 * G * t2 * t2, text: 'Ein Stein fällt \\(' + ein(t2, 's') + '\\) lang frei (ohne Luftwiderstand). Aus welcher Höhe fiel er, und wie schnell ist er dann?' }; },
         pruefen: function(A, e){
-          if (nah(e.x, A.x) && nah(e.v, A.v)) return null;
+          if (nah(e.x, A.x) && (nah(e.v, A.v) || (A.art === 'h' && nah(e.v, G * e.x)))) return null;   // gerundeter Zwischenwert richtig weitergerechnet zählt
           var r = [];
           if (A.art === 'h'){
             if (!nah(e.x, A.t)){
@@ -783,7 +806,7 @@
       'senkrecht': { felder: ['a', 'b'], muster: function(A){ return A.art === 'oben' ? '<i>t</i><sub>S</sub> = {a} s; <i>h</i><sub>max</sub> = {b} m' : '<i>v</i> = {a} m/s; <i>h</i> = {b} m'; },
         neu: function(){
           if (Math.random() < 0.5){
-            var v0 = zufall([6, 8, 14, 20, 25]);   // nicht 10 (Kontrollfrage), 12 (Clip), 15 (Simulation), 18 (Aufgabe 4b)
+            var v0 = zufall([6, 8, 16, 20, 25]);   // nicht 10 (Kontrollfrage), 12 (Clip), 14 (Leiste), 15 (Simulation), 18 (Aufgabe 4b)
             return { art: 'oben', a: v0 / G, b: v0 * v0 / (2 * G), v0: v0,
               text: 'Ein Ball wird mit \\(' + ein(v0, 'm/s') + '\\) senkrecht nach oben geworfen (ohne Luftwiderstand). Wie lange steigt er, und wie hoch kommt er über die Abwurfstelle?' };
           }
@@ -791,7 +814,7 @@
           return { art: 'unten', a: u0 + G * t, b: u0 * t + 0.5 * G * t * t, v0: u0, t: t,
             text: 'Ein Stein wird von einer Brücke mit \\(' + ein(u0, 'm/s') + '\\) senkrecht nach unten geworfen (ohne Luftwiderstand). Wie schnell ist er nach \\(' + ein(t, 's') + '\\), und wie weit ist er gefallen?' }; },
         pruefen: function(A, e){
-          if (nah(e.a, A.a) && nah(e.b, A.b)) return null;
+          if (nah(e.a, A.a) && (nah(e.b, A.b) || (A.art === 'oben' && nah(e.b, A.v0 * e.a - 0.5 * G * e.a * e.a)))) return null;   // gerundeter Zwischenwert richtig weitergerechnet zählt
           var r = [];
           if (A.art === 'oben'){
             if (!nah(e.a, A.a)){
@@ -824,12 +847,12 @@
       'waagrecht': { felder: ['t', 'x'], muster: '<i>t</i> = {t} s; <i>x</i> = {x} m',
         neu: function(){
           var h, v0;
-          do { h = zufall([1.2, 2, 3, 10, 20, 45]); v0 = zufall([2, 3, 5, 8, 12, 15]); } while ((h === 20 && v0 === 8) || (h === 45 && v0 === 12));   // Clip, Gesamttest
+          do { h = zufall([1.2, 2, 3, 10, 20, 45]); v0 = zufall([2, 3, 5, 8, 12, 15]); } while (h === 20 && v0 === 8);   // Clip
           var t = Math.sqrt(2 * h / G);
           return { t: t, x: v0 * t, h: h, v0: v0,
             text: 'Ein Ball wird aus \\(' + ein(h, 'm') + '\\) Höhe waagrecht mit \\(' + ein(v0, 'm/s') + '\\) abgeworfen. Wie lange fliegt er, und wie weit (waagrecht) landet er vom Abwurfpunkt?' }; },
         pruefen: function(A, e){
-          if (nah(e.t, A.t) && nah(e.x, A.x)) return null;
+          if (nah(e.t, A.t) && (nah(e.x, A.x) || nah(e.x, A.v0 * e.t))) return null;   // gerundeter Zwischenwert richtig weitergerechnet zählt
           var r = [];
           if (!nah(e.t, A.t)){
             if (nah(e.t, 2 * A.h / G)) r.push('Die Wurzel fehlt: \\(t = \\sqrt{\\dfrac{2h}{g}}\\).');
@@ -849,12 +872,12 @@
             var t = 2 * v0 * Math.sin(al * GRAD) / G, tr = 2 * v0 * Math.sin(al) / G, tc = 2 * v0 * Math.cos(al * GRAD) / G;
             var x = v0 * v0 * Math.sin(2 * al * GRAD) / G, xr = v0 * v0 * Math.sin(2 * al) / G, xs = v0 * v0 * Math.sin(al * GRAD) / G;
             ok = !nah(tr, t, 0.02) && !nah(tc, t, 0.02) && !nah(tr, t / 2, 0.02) && !nah(tc, t / 2, 0.02) && !nah(xr, x, 0.02) && !nah(xs, x, 0.02) && !nah(xr, xs, 0.02);
-          } while (!ok || (v0 === 15 && al === 45) || (v0 === 18 && al === 30) || (v0 === 14 && al === 50) || (v0 === 13 && al === 40));
+          } while (!ok || (v0 === 20 && al === 35));   // Clip (Problem); 45° (Clip) und 40° mit 16 m/s (Aufgabe 4d) kommen nicht vor
           var tF = 2 * v0 * Math.sin(al * GRAD) / G;
           return { t: tF, x: v0 * v0 * Math.sin(2 * al * GRAD) / G, v0: v0, al: al,
             text: 'Ein Ball wird vom Boden mit \\(' + ein(v0, 'm/s') + '\\) unter \\(' + al + '^\\circ\\) abgeworfen und landet wieder auf dem Boden. Flugzeit und Wurfweite? (ohne Luftwiderstand)' }; },
         pruefen: function(A, e){
-          if (nah(e.t, A.t) && nah(e.x, A.x)) return null;
+          if (nah(e.t, A.t) && (nah(e.x, A.x) || nah(e.x, A.v0 * Math.cos(A.al * GRAD) * e.t))) return null;   // gerundeter Zwischenwert richtig weitergerechnet zählt
           var r = [], s = Math.sin(A.al * GRAD), c = Math.cos(A.al * GRAD);
           if (nah(e.t, 2 * A.v0 * Math.sin(A.al) / G) || nah(e.x, A.v0 * A.v0 * Math.sin(2 * A.al) / G)) return 'Der Taschenrechner steht im Bogenmass (RAD). Stelle ihn auf Grad (DEG).';
           if (!nah(e.t, A.t)){
@@ -879,7 +902,7 @@
           do {
             K = zufall([['In einem Zug', 'des Zuges', [20, 25, 30, 40], [1, 1.5, 2]], ['Auf einem Schiff', 'des Schiffs', [5, 6, 8], [1, 2]], ['Auf einem Laufband', 'des Laufbands', [0.5, 0.8, 1, 1.2], [1, 1.5]]]);
             vT = zufall(K[2]); vP = zufall(K[3]); mit = Math.random() < 0.5;
-          } while (vT === vP || (vT === 30 && vP === 1.5) || (vT === 8 && vP === 2 && !mit) || (vT === 1.2 && vP === 1.5));   // Clip, Kontrollclip, Aufgabe 4a
+          } while (vT === vP || (vT === 30 && vP === 1.5) || (vT === 8 && vP === 2 && !mit) || (vT === 1.2 && vP === 1.5));   // Clip, Kontrollclip, Aufgabe 3a
           return { v: mit ? vT + vP : vT - vP, vT: vT, vP: vP, mit: mit,
             text: K[0] + ' (\\(' + ein(vT, 'm/s') + '\\) gegenüber dem Boden) geht jemand mit \\(' + ein(vP, 'm/s') + '\\) ' + (mit ? 'in' : 'gegen die') + ' Fahrtrichtung. Wie schnell bewegt sich die Person gegenüber dem Boden? (Fahrtrichtung ' + K[1] + ' positiv)' }; },
         pruefen: function(A, e){
@@ -895,9 +918,11 @@
         neu: function(){
           var vS, vF;
           do { vS = zufall([1, 1.5, 2, 3, 4, 5]); vF = zufall([0.5, 1, 1.5, 2, 3]); }
-          while (vS === vF || (vS === 2 && vF === 1) || (vS === 3 && vF === 4) || (vS === 3 && vF === 2) || (vS === 2.5 && vF === 1.5));
+          while (vS === vF || (vS === 2 && vF === 1) || (vS === 3 && vF === 2));   // Clip, Themenseite A6
+          // Schneller als 2 m/s schwimmt niemand: darüber fährt ein Boot
+          var wer = vS <= 2 ? ['Eine Schwimmerin schwimmt', 'ist sie', 'sie'] : ['Ein Boot fährt', 'ist es', 'es'];
           return { v: Math.hypot(vS, vF), g: Math.atan(vF / vS) / GRAD, vS: vS, vF: vF,
-            text: 'Eine Schwimmerin schwimmt mit \\(' + ein(vS, 'm/s') + '\\) quer zum Ufer, die Strömung hat \\(' + ein(vF, 'm/s') + '\\). Wie schnell ist sie gegenüber dem Ufer, und um welchen Winkel \\(\\gamma\\) wird sie gegenüber der Querrichtung abgetrieben?' }; },
+            text: wer[0] + ' mit \\(' + ein(vS, 'm/s') + '\\) quer zum Ufer, die Strömung hat \\(' + ein(vF, 'm/s') + '\\). Wie schnell ' + wer[1] + ' gegenüber dem Ufer, und um welchen Winkel \\(\\gamma\\) wird ' + wer[2] + ' gegenüber der Querrichtung abgetrieben?' }; },
         pruefen: function(A, e){
           if (nah(e.v, A.v) && nah(e.g, A.g)) return null;
           var r = [];
@@ -917,13 +942,15 @@
       'fluss': { felder: ['t', 'd'], muster: '<i>t</i> = {t} s; <i>d</i> = {d} m',
         neu: function(){
           var b, vS, vF;
-          do { b = zufall([20, 30, 40, 60, 80, 100]); vS = zufall([1, 1.5, 2, 2.5, 4]); vF = zufall([0.5, 1, 1.5, 2, 3]); }
-          while (vS === vF || (b === 40 && vS === 2 && vF === 1) || (b === 60 && vS === 3 && vF === 2) || (b === 30 && vS === 2 && vF === 1) || (b === 50 && vS === 2.5 && vF === 1.5));
+          // nie 1 m/s: bei v_S = 1 ist t = b, bei v_F = 1 ist d = t auch als Zahl — ein Fehler träfe zufällig.
+          // Damit fällt auch das Clipbeispiel (40 m, 2 m/s, 1 m/s) weg.
+          do { b = zufall([20, 30, 40, 60, 80, 100]); vS = zufall([1.5, 2, 2.5, 4]); vF = zufall([0.5, 1.5, 2, 3]); }
+          while (vS === vF || (b === 40 && vS === 2.5 && vF === 1.5));   // Leistenaufgabe 2 von Simulation 4
           var t = b / vS;
           return { t: t, d: vF * t, b: b, vS: vS, vF: vF,
             text: 'Ein Boot fährt mit \\(' + ein(vS, 'm/s') + '\\) quer über einen \\(' + ein(b, 'm') + '\\) breiten Fluss; die Strömung hat \\(' + ein(vF, 'm/s') + '\\). Wie lange dauert die Überquerung, und wie weit wird es flussabwärts versetzt?' }; },
         pruefen: function(A, e){
-          if (nah(e.t, A.t) && nah(e.d, A.d)) return null;
+          if (nah(e.t, A.t) && (nah(e.d, A.d) || nah(e.d, A.vF * e.t))) return null;   // gerundeter Zwischenwert richtig weitergerechnet zählt
           var r = [];
           if (!nah(e.t, A.t)){
             if (nah(e.t, A.b / Math.hypot(A.vS, A.vF))) r.push('Die Querzeit hängt nur von der Quergeschwindigkeit ab: \\(t = \\dfrac{b}{v_S}\\). Die Strömung trägt nichts zum Überqueren bei.');
@@ -943,13 +970,13 @@
       'umlauf': { felder: ['f', 'w'], muster: '<i>f</i> = {f} Hz; <i>ω</i> = {w} rad/s',
         neu: function(){
           if (Math.random() < 0.5){
-            var n = zufall([30, 45, 90, 240, 600, 900, 1500]);
+            var n = zufall([30, 45, 90, 240, 600, 900, 1500]);   // nicht 80 (Vortest), 120 (Mini-Check), 180 (Fehlerkasten), 720 (Clip), 1200 (Kontrollfrage)
             return { art: 'n', n: n, f: n / 60, w: PI2 * n / 60, text: 'Eine Welle macht \\(' + tz(n) + '\\) Umdrehungen pro Minute. Wie gross sind Rotationsfrequenz und Winkelgeschwindigkeit?' };
           }
-          var T = zufall([0.2, 0.5, 2.5, 4, 5, 20]);
+          var T = zufall([0.8, 1.6, 2.5, 6, 20]);   // nicht 0.25 (Kontrollfrage), 0.5 (Mini-Check), 4 (Clip), 5 (Leiste), 1/3 (Fehlerkasten)
           return { art: 'T', T: T, f: 1 / T, w: PI2 / T, text: 'Ein Rad dreht sich gleichförmig, eine Umdrehung dauert \\(T = ' + ein(T, 's') + '\\). Wie gross sind Rotationsfrequenz und Winkelgeschwindigkeit?' }; },
         pruefen: function(A, e){
-          if (nah(e.f, A.f) && nah(e.w, A.w)) return null;
+          if (nah(e.f, A.f) && (nah(e.w, A.w) || nah(e.w, PI2 * e.f))) return null;   // gerundeter Zwischenwert richtig weitergerechnet zählt
           var r = [];
           if (!nah(e.f, A.f)){
             if (A.art === 'n' && nah(e.f, A.n)) r.push('Umdrehungen pro <em>Minute</em> in pro Sekunde: durch \\(60\\).');
@@ -972,7 +999,7 @@
         neu: function(){
           var r, T, vv;
           do { r = zufall([0.3, 0.5, 1.2, 2.5, 6, 8]); T = zufall([0.5, 1.5, 3, 5, 10, 12]); vv = PI2 * r / T; }
-          while (Math.abs(vv - 1) < 0.05 || (r === 0.5 && T === 2) || vv * vv / r > 2000);
+          while (Math.abs(vv - 1) < 0.05 || vv * vv / r > 2000);
           return { v: vv, a: vv * vv / r, r: r, T: T,
             text: 'Ein Punkt läuft auf einem Kreis mit \\(r = ' + ein(r, 'm') + '\\) gleichförmig um; ein Umlauf dauert \\(T = ' + ein(T, 's') + '\\). Bahngeschwindigkeit und Zentripetalbeschleunigung?' }; },
         pruefen: function(A, e){
@@ -996,7 +1023,7 @@
       'zentripetal': { felder: ['a'], muster: '<i>a</i><sub>z</sub> = {a} m/s²',
         neu: function(){
           var vk, r;
-          do { vk = zufall([36, 54, 72, 90, 108]); r = zufall([25, 40, 60, 100, 150, 250]); } while ((vk === 54 && r === 50) || (vk / 3.6) * (vk / 3.6) / r > 7);   // höchstens 7 m/s², sonst schafft es kein Auto
+          do { vk = zufall([36, 54, 72, 90, 108]); r = zufall([25, 40, 60, 100, 150, 250]); } while ((vk / 3.6) * (vk / 3.6) / r > 7);   // höchstens 7 m/s², sonst schafft es kein Auto; Aufgabe 5c (r = 50 m) kommt nicht vor
           var v0 = vk / 3.6;
           return { a: v0 * v0 / r, vk: vk, v: v0, r: r,
             text: 'Ein Auto fährt mit \\(' + ein(vk, 'km/h') + '\\) durch eine Kurve mit \\(r = ' + ein(r, 'm') + '\\). Wie gross ist die Zentripetalbeschleunigung?' }; },

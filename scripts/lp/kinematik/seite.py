@@ -474,7 +474,7 @@ FUSS = '''<footer class="site-footer">
   <p>Leitprogramm · Kinematik</p>
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 4. Oktober 2026</p>
+  <p>Keine Cookies · Kein Tracking · Version 1.1 · Stand 6. Oktober 2026</p>
 </footer>
 
 <script src="../physiklib.js"></script>
@@ -611,8 +611,8 @@ k0 = '''
      r'<p>\(a = \dfrac{2s}{t^2}\), \(t = \sqrt{\dfrac{2s}{a}}\), \(\omega = \dfrac{v}{r}\).</p><p class="komm">Falsch? Der Clip oben und <a href="' + P01 + r'#umformen">Vorwissen 0.1, Gleichungen umstellen</a></p>', ''),
     ('0c', 2, r'Taschenrechner im Gradmodus: \(\sin 30^\circ\), \(\cos 60^\circ\) und \(\sqrt{3^2 + 4^2}\)?',
      r'<p>\(\sin 30^\circ = 0.5\), \(\cos 60^\circ = 0.5\), \(\sqrt{9 + 16} = 5\).</p><p class="komm">Kommt bei \(\sin 30\) etwas Negatives heraus, steht der Rechner im Bogenmass: <a href="' + P02 + r'#rechner">Vorwissen 0.2, DEG oder RAD</a></p>', ''),
-    ('0d', 2, r'Wie viele Radiant sind eine volle Umdrehung? Wie lange dauert eine Umdrehung bei \(120\) Umdrehungen pro Minute?',
-     r'<p>\(2\pi \approx 6.28\) rad. \(\dfrac{60\;\text{s}}{120} = 0.5\;\text{s}\).</p><p class="komm">Falsch? <a href="' + P01 + r'#kreiszahl">Vorwissen 0.1, Kreiszahl und Bogenmass</a></p>', ''),
+    ('0d', 2, r'Wie viele Radiant sind eine volle Umdrehung? Wie lange dauert eine Umdrehung bei \(80\) Umdrehungen pro Minute?',
+     r'<p>\(2\pi \approx 6.28\) rad. \(\dfrac{60\;\text{s}}{80} = 0.75\;\text{s}\).</p><p class="komm">Falsch? <a href="' + P01 + r'#kreiszahl">Vorwissen 0.1, Kreiszahl und Bogenmass</a></p>', ''),
 ]) + '''
       <p class="komm">Weniger als 7 von 10 Punkten: zuerst die verlinkten Stellen zu den falschen Aufgaben, dann Kapitel 1.</p>
     </section>'''
@@ -620,15 +620,15 @@ k0 = '''
 # ------------------------------------------------------------------ Kapitel 1: Ort und Geschwindigkeit
 sim1 = figur('sim1', 'Ort s über der Zeit t: Gerade mit der Geschwindigkeit v als Steigung und dem Startort als Achsenabschnitt', '-4 -4 308 268',
     '        <div class="reglerfeld">\n          '
-    + regler('s1', 'v', '<i>v</i> Geschw.', -5, 12, 0.5, 5, 'm/s', 1) + '\n          '
-    + regler('s1', 's0', '<i>s</i>₀ Start', 0, 60, 5, 20, 'm', 0) + '\n          '
-    + regler('s1', 't', '<i>t</i> Zeit', 0, 12, 0.5, 8, 's', 1) + '\n        </div>',
+    + regler('s1', 'v', '<i>v</i> Geschw.', -5, 12, 0.5, 6, 'm/s', 1) + '\n          '
+    + regler('s1', 's0', '<i>s</i>₀ Start', 0, 60, 5, 15, 'm', 0) + '\n          '
+    + regler('s1', 't', '<i>t</i> Zeit', 0, 12, 0.5, 4, 's', 1) + '\n        </div>',
     'Steigungsdreieck')
 fest1 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Bewegung beschreiben</div>
           <p><b>Schwerpunkt:</b> der Punkt, der sich so verhält, als wäre die ganze Masse des Körpers in ihm vereinigt. Für eine Verschiebung ohne Drehung genügt seine Bewegung. <b>Bahnkurve:</b> die Linie, die der Schwerpunkt im Lauf der Zeit durchläuft — gerade, kreisförmig oder gekrümmt.</p>
-          <p><b>Geschwindigkeit:</b> zurückgelegte Strecke pro Zeit. Die Durchschnittsgeschwindigkeit gilt für ein ganzes Zeitintervall, die Momentangeschwindigkeit für einen Zeitpunkt (das zeigt der Tacho). Auf einer Geraden zeigt das Vorzeichen von \(v\) die Richtung: negativ heisst zurück, zum Nullpunkt hin.</p>
+          <p><b>Geschwindigkeit:</b> Ortsänderung pro Zeit. Die Durchschnittsgeschwindigkeit gilt für ein ganzes Zeitintervall, die Momentangeschwindigkeit für einen Zeitpunkt (das zeigt der Tacho). Auf einer Geraden zeigt das Vorzeichen von \(v\) die Richtung: negativ heisst zurück, zum Nullpunkt hin.</p>
           <p>\[ \bar v = \frac{\Delta s}{\Delta t}, \qquad 1\;\text{m/s} = 3.6\;\text{km/h} \]</p>
           <p>Geradlinig gleichförmig heisst: \(v\) ist konstant. Dann gilt</p>
           <p>\[ s(t) = s_0 + v \cdot t \]</p>
@@ -636,7 +636,7 @@ fest1 = r'''      <div class="festhalten">
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>km/h nicht umgerechnet: \(72\;\text{km/h}\) während \(10\;\text{s}\) sind nicht \(720\;\text{m}\). Zuerst \(72\;\text{km/h} = 20\;\text{m/s}\), dann \(s = 20\;\text{m/s} \cdot 10\;\text{s} = 200\;\text{m}\).</p>
+          <p>km/h nicht umgerechnet: \(108\;\text{km/h}\) während \(10\;\text{s}\) sind nicht \(1080\;\text{m}\). Zuerst \(108\;\text{km/h} = \dfrac{108}{3.6}\;\text{m/s} = 30\;\text{m/s}\), dann \(s = 30\;\text{m/s} \cdot 10\;\text{s} = 300\;\text{m}\).</p>
           <p>Die Durchschnittsgeschwindigkeit ist nicht der Mittelwert zweier Tachowerte, sondern die ganze Strecke durch die ganze Zeit.</p>
         </div>
       </div>'''
@@ -653,8 +653,8 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 11, [
 ])
 k1 = kapitel(1, 'ort-und-geschwindigkeit', 'Ort, Bahn und Geschwindigkeit', 'K1 · K3', 40,
     r'Du erklärst Schwerpunkt, Bahnkurve und Geschwindigkeit, unterscheidest Durchschnitts- und Momentangeschwindigkeit und rechnest mit \(s = s_0 + v \cdot t\).',
-    ('p4-1-lp-gleichfoermig', 'Bewegung sehen: Ort, Bahn und Geschwindigkeit', '1:33'),
-    sim1, ('p4-1-lp-kontrolle-gleichfoermig', 'Kontrollfragen zu Ort und Geschwindigkeit', '0:35'),
+    ('p4-1-lp-gleichfoermig', 'Bewegung sehen: Ort, Bahn und Geschwindigkeit', '2:18'),
+    sim1, ('p4-1-lp-kontrolle-gleichfoermig', 'Kontrollfragen zu Ort und Geschwindigkeit', '0:38'),
     fest1, [uebung('ort', 'Ort bei konstanter Geschwindigkeit'), uebung('mittel', 'Durchschnittsgeschwindigkeit'),
             uebung('einholen', 'Einholen')],
     auf1, f'<a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a> · <a href="{TS}#darstellungen">Geradlinig gleichförmige Bewegung</a>')
@@ -662,9 +662,9 @@ k1 = kapitel(1, 'ort-und-geschwindigkeit', 'Ort, Bahn und Geschwindigkeit', 'K1 
 # ------------------------------------------------------------------ Kapitel 2: Beschleunigung
 sim2 = figur('sim2', 'Geschwindigkeit v über der Zeit t: Gerade mit der Beschleunigung a als Steigung, die Fläche darunter ist der Weg s', '-4 -4 308 268',
     '        <div class="reglerfeld">\n          '
-    + regler('s2', 'v0', '<i>v</i>₀ Start', 0, 30, 1, 0, 'm/s', 0) + '\n          '
-    + regler('s2', 'a', '<i>a</i>', -6, 4, 0.5, 2.5, 'm/s²', 1) + '\n          '
-    + regler('s2', 't', '<i>t</i> Zeit', 0, 10, 0.5, 8, 's', 1) + '\n        </div>',
+    + regler('s2', 'v0', '<i>v</i>₀ Start', 0, 30, 1, 5, 'm/s', 0) + '\n          '
+    + regler('s2', 'a', '<i>a</i>', -6, 4, 0.5, 1, 'm/s²', 1) + '\n          '
+    + regler('s2', 't', '<i>t</i> Zeit', 0, 10, 0.5, 7, 's', 1) + '\n        </div>',
     'Steigungsdreieck')
 fest2 = r'''      <div class="festhalten">
         <div class="merk">
@@ -694,8 +694,8 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 13, [
 ])
 k2 = kapitel(2, 'beschleunigung', 'Beschleunigung und Bremsweg', 'K1 · K3', 40,
     r'Du erklärst die Beschleunigung, liest \(v\)-\(t\)-Diagramme über Steigung und Fläche und löst Aufgaben mit den Bewegungsgleichungen für konstante Beschleunigung.',
-    ('p4-1-lp-beschleunigt', 'Bewegung sehen: Beschleunigung ist Steigung, Weg ist Fläche', '2:00'),
-    sim2, ('p4-1-lp-kontrolle-beschleunigt', 'Kontrollfragen zur Beschleunigung', '0:34'),
+    ('p4-1-lp-beschleunigt', 'Bewegung sehen: Beschleunigung ist Steigung, Weg ist Fläche', '2:51'),
+    sim2, ('p4-1-lp-kontrolle-beschleunigt', 'Kontrollfragen zur Beschleunigung', '0:35'),
     fest2, [uebung('beschl', 'Beschleunigung aus zwei Geschwindigkeiten'), uebung('endwerte', 'Geschwindigkeit und Weg nach der Zeit t'),
             uebung('bremsweg', 'Bremsweg')],
     auf2, f'<a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a> · <a href="{TS}#theorie">Gleichmässig beschleunigte Bewegung</a>')
@@ -704,11 +704,11 @@ k2 = kapitel(2, 'beschleunigung', 'Beschleunigung und Bremsweg', 'K1 · K3', 40,
 sim4 = f'''      <figure class="sim sim-gross" id="sim4">
         <div class="leiste" aria-live="polite"></div>
         <div class="sim-formel" data-rolle="formel" aria-live="polite"></div>
-        <svg viewBox="0 0 300 150" role="img" aria-label="Fluss von oben, 40 m breit: Geschwindigkeitspfeile des Schwimmers, der Strömung und ihre Summe, dazu die Bahn bis zum Zielufer"></svg>
+        <svg viewBox="0 0 300 150" role="img" aria-label="Fluss von oben, 40 m breit: Geschwindigkeitspfeile des Boots gegenüber dem Wasser, der Strömung und ihre Summe, dazu die Bahn bis zum Zielufer"></svg>
         <div class="reglerfeld">
-          {regler('s4', 'vS', '<i>v</i><sub>S</sub> Schwimmer', 0.5, 4, 0.25, 2, 'm/s', 2)}
+          {regler('s4', 'vS', '<i>v</i><sub>S</sub> Boot', 0.5, 4, 0.25, 1.5, 'm/s', 2)}
           {regler('s4', 'be', '<i>β</i> Richtung', 30, 150, 1, 90, '°', 0)}
-          {regler('s4', 'vF', '<i>v</i><sub>F</sub> Strömung', 0, 3, 0.25, 1, 'm/s', 2)}
+          {regler('s4', 'vF', '<i>v</i><sub>F</sub> Strömung', 0, 3, 0.25, 0.75, 'm/s', 2)}
         </div>
         <p class="sim-notiz">Draufsicht 1:1. Pfeile: \\(1\\;\\text{{m/s}}\\) entspricht \\(8\\;\\text{{m}}\\). \\(\\beta\\) wird von der Strömungsrichtung aus gemessen; \\(90^\\circ\\) heisst quer zum Ufer.</p>
       </figure>'''
@@ -717,12 +717,12 @@ fest4 = r'''      <div class="festhalten">
           <div class="titel">Geschwindigkeit als Vektor</div>
           <p>Eine Geschwindigkeit hat Betrag und Richtung: Sie ist ein Vektor, gezeichnet als Pfeil. Bewegt sich ein Körper gegenüber einem Träger, der sich selbst bewegt (Person im Zug, Schwimmer im Fluss), ist das seine <b>Relativbewegung</b>. Seine Bewegung gegenüber dem Boden oder dem Ufer — die <b>absolute Bewegung</b> — ist die Summe der Vektoren:</p>
           <p>\[ \vec v_\text{Ufer} = \vec v_S + \vec v_F \]</p>
-          <p>Auf einer Geraden genügen Vorzeichen: \(30\;\text{m/s} + 1.5\;\text{m/s}\) in Fahrtrichtung, \(30\;\text{m/s} - 1.5\;\text{m/s}\) dagegen. Stehen die Pfeile senkrecht aufeinander, gilt Pythagoras: \(|\vec v_\text{Ufer}| = \sqrt{v_S^2 + v_F^2}\), und für den Driftwinkel \(\tan\gamma = \dfrac{v_F}{v_S}\).</p>
+          <p>Auf einer Geraden genügen Vorzeichen: \(30\;\text{m/s} + 1.5\;\text{m/s}\) in Fahrtrichtung, \(30\;\text{m/s} - 1.5\;\text{m/s}\) dagegen. Stehen die Pfeile senkrecht aufeinander, gilt Pythagoras: \(|\vec v_\text{Ufer}| = \sqrt{v_S^2 + v_F^2}\), und für den Driftwinkel \(\gamma\) gegenüber der Querrichtung \(\tan\gamma = \dfrac{v_F}{v_S}\).</p>
           <p>Die Schwimmrichtung \(\beta\) wird von der Strömungsrichtung aus gemessen: \(\beta = 90^\circ\) heisst quer zum Ufer, \(\beta \gt 90^\circ\) schräg gegen die Strömung. Querzeit \(t = \dfrac{b}{v_S \cdot \sin\beta}\) — nur die Querkomponente bringt hinüber. Versatz \(d = (v_F + v_S \cdot \cos\beta) \cdot t\). Genau gegenüber kommt an, wer so schräg gegen die Strömung hält, dass \(v_S \cdot \cos\beta = -v_F\).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>Quer stehende Geschwindigkeiten als Zahlen addieren: \(3\;\text{m/s}\) quer und \(4\;\text{m/s}\) Strömung ergeben nicht \(7\;\text{m/s}\), sondern \(\sqrt{9 + 16}\;\text{m/s} = 5\;\text{m/s}\).</p>
+          <p>Quer stehende Geschwindigkeiten als Zahlen addieren: \(2.4\;\text{m/s}\) quer und \(0.7\;\text{m/s}\) Strömung ergeben nicht \(3.1\;\text{m/s}\), sondern \(\sqrt{(2.4\;\text{m/s})^2 + (0.7\;\text{m/s})^2} = 2.5\;\text{m/s}\).</p>
           <p>Die Querzeit mit dem Betrag \(|\vec v_\text{Ufer}|\) rechnen: Die Strömung trägt das Boot nur flussabwärts, nicht hinüber.</p>
         </div>
       </div>'''
@@ -731,15 +731,15 @@ auf4 = test('t4', 'Aufgaben · Kapitel 3', 12, [
      r'<p>In Laufrichtung: \(v = 1.2\;\text{m/s} + 1.5\;\text{m/s} = 2.7\;\text{m/s}\), \(t = \dfrac{54\;\text{m}}{2.7\;\text{m/s}} = 20\;\text{s}\).</p><p>Dagegen: \(v = 1.5\;\text{m/s} - 1.2\;\text{m/s} = 0.3\;\text{m/s}\), \(t = \dfrac{54\;\text{m}}{0.3\;\text{m/s}} = 180\;\text{s}\).</p><p class="komm">Gegenüber dem Band bist du in beiden Fällen gleich schnell (\(1.5\;\text{m/s}\)); gegenüber dem Boden nicht.</p>', ''),
     ('3b', 3, r'Ein Flugzeug fliegt mit \(70\;\text{m/s}\) gegenüber der Luft nach Norden; der Wind weht mit \(20\;\text{m/s}\) nach Osten. Zeichne die Pfeile. Wie schnell ist es über Grund, und um welchen Winkel wird es abgetrieben?',
      r'<p>Die Pfeile stehen senkrecht: \(|\vec v| = \sqrt{(70\;\text{m/s})^2 + (20\;\text{m/s})^2}\) \(\approx 72.8\;\text{m/s}\).</p><p>\(\tan\gamma = \dfrac{20\;\text{m/s}}{70\;\text{m/s}}\), also \(\gamma \approx 15.9^\circ\) nach Osten.</p><p class="komm">Skizze: Pfeil nach Norden (70), an seiner Spitze ein Pfeil nach Osten (20), Summe vom Anfang des ersten zur Spitze des zweiten.</p>', ''),
-    ('3c', 4, r'Eine Fähre überquert einen \(120\;\text{m}\) breiten Fluss mit \(4\;\text{m/s}\) gegenüber dem Wasser; die Strömung hat \(2\;\text{m/s}\). (a) Sie fährt quer zum Ufer: Wie lange dauert es, und wie weit wird sie versetzt? (b) Unter welchem Winkel \(\beta\) zur Strömung muss sie fahren, um genau gegenüber anzukommen, und wie lange dauert es dann?',
-     r'<p>(a) \(t = \dfrac{b}{v_S} = \dfrac{120\;\text{m}}{4\;\text{m/s}} = 30\;\text{s}\), \(d = v_F \cdot t = 2\;\text{m/s} \cdot 30\;\text{s} = 60\;\text{m}\).</p><p>(b) Die Längskomponente muss die Strömung aufheben: \(v_S \cdot \cos\beta = -v_F\), also \(\cos\beta = -\dfrac{2}{4} = -0.5\) und \(\beta = 120^\circ\) — \(30^\circ\) gegen die Strömung geneigt.</p><p>Quergeschwindigkeit \(v_S \cdot \sin\beta = 4\;\text{m/s} \cdot \sin 120^\circ \approx 3.46\;\text{m/s}\), also \(t = \dfrac{120\;\text{m}}{3.464\;\text{m/s}} \approx 34.6\;\text{s}\).</p>', ''),
+    ('3c', 4, r'Eine Fähre überquert einen \(120\;\text{m}\) breiten Fluss mit \(4\;\text{m/s}\) gegenüber dem Wasser; die Strömung hat \(3\;\text{m/s}\). (a) Sie fährt quer zum Ufer: Wie lange dauert es, und wie weit wird sie versetzt? (b) Unter welchem Winkel \(\beta\) zur Strömung muss sie fahren, um genau gegenüber anzukommen, und wie lange dauert es dann?',
+     r'<p>(a) \(t = \dfrac{b}{v_S} = \dfrac{120\;\text{m}}{4\;\text{m/s}} = 30\;\text{s}\), \(d = v_F \cdot t = 3\;\text{m/s} \cdot 30\;\text{s} = 90\;\text{m}\).</p><p>(b) Die Längskomponente muss die Strömung aufheben: \(v_S \cdot \cos\beta = -v_F\), also \(\cos\beta = -\dfrac{3\;\text{m/s}}{4\;\text{m/s}} = -0.75\) und \(\beta \approx 138.6^\circ\) — aus der Querrichtung um rund \(48.6^\circ\) gegen die Strömung gedreht.</p><p>Quergeschwindigkeit \(v_S \cdot \sin\beta = 4\;\text{m/s} \cdot \sin 138.6^\circ \approx 2.65\;\text{m/s}\), also \(t = \dfrac{120\;\text{m}}{2.646\;\text{m/s}} \approx 45.4\;\text{s}\).</p>', ''),
     ('3d', 2, r'Zwei Schwimmer queren denselben Fluss quer zum Ufer, A mit \(1\;\text{m/s}\), B mit \(2\;\text{m/s}\). Wird B halb so weit versetzt wie A? Begründe.',
      r'<p>Ja. Die Strömung hat keinen Anteil quer über den Fluss; hinüber bringt allein die eigene Geschwindigkeit. B braucht darum nur die halbe Querzeit \(t = \dfrac{b}{v_S}\). Der Versatz \(d = v_F \cdot t\) wächst mit der Zeit, in der die Strömung wirkt: halbe Zeit, halber Versatz.</p>', ''),
 ])
 k4 = kapitel(3, 'vektoren', 'Geschwindigkeit als Vektor', 'K2', 40,
     r'Du stellst Geschwindigkeiten als Pfeile dar und berechnest damit Relativbewegungen und Bewegungen gegenüber dem Boden — auf einer Geraden mit Vorzeichen, quer dazu mit Komponenten.',
-    ('p4-1-lp-vektor', 'Bewegung sehen: Geschwindigkeiten addieren sich als Pfeile', '1:25'),
-    sim4, ('p4-1-lp-kontrolle-vektor', 'Kontrollfragen zur Vektoraddition', '0:42'),
+    ('p4-1-lp-vektor', 'Bewegung sehen: Geschwindigkeiten addieren sich als Pfeile', '2:10'),
+    sim4, ('p4-1-lp-kontrolle-vektor', 'Kontrollfragen zur Vektoraddition', '0:43'),
     fest4, [uebung('eindim', 'Relativ und gegenüber dem Boden'), uebung('quer', 'Quer zur Strömung: Betrag und Winkel'),
             uebung('fluss', 'Querzeit und Versatz')],
     auf4, f'<a href="{TS}#relativbewegung">Themenseite 4.1, Vektoraddition — Relativbewegung</a>')
@@ -747,9 +747,9 @@ k4 = kapitel(3, 'vektoren', 'Geschwindigkeit als Vektor', 'K2', 40,
 # ------------------------------------------------------------------ Kapitel 4: Fall und Wurf (intern sim3, t3: der gespeicherte Fortschritt hängt an den Kennungen)
 sim3 = figur('sim3', 'Wurfbahn in der x-y-Ebene, Massstab 1:1: der Ort alle 0.25 s als Punkte, mit Abwurfhöhe, Abwurfgeschwindigkeit und Winkel', '-4 -4 308 220',
     '        <div class="reglerfeld">\n          '
-    + regler('s3', 'v0', '<i>v</i>₀ Abwurf', 0, 20, 0.5, 8, 'm/s', 1) + '\n          '
-    + regler('s3', 'al', '<i>α</i> Winkel', -90, 90, 5, 0, '°', 0) + '\n          '
-    + regler('s3', 'h0', '<i>h</i>₀ Höhe', 0, 30, 1, 20, 'm', 0) + '\n        </div>',
+    + regler('s3', 'v0', '<i>v</i>₀ Abwurf', 0, 20, 0.5, 6, 'm/s', 1) + '\n          '
+    + regler('s3', 'al', '<i>α</i> Winkel', -90, 90, 5, 30, '°', 0) + '\n          '
+    + regler('s3', 'h0', '<i>h</i>₀ Höhe', 0, 30, 1, 10, 'm', 0) + '\n        </div>',
     'Projektion auf die Achsen')
 sim3 = sim3.replace('      </figure>', '        <p class="sim-notiz">\\(\\alpha = 90^\\circ\\): senkrecht nach oben; negative Winkel: nach unten.</p>\n      </figure>')
 
@@ -776,18 +776,18 @@ def wurfbild():
 fest3 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Fall und Wurf</div>
-          <p><b>Freier Fall</b> (ohne Luftwiderstand): gleichmässig beschleunigt mit \(g = 9.81\;\text{m/s}^2\) nach unten, für alle Körper gleich, unabhängig von der Masse. Aus der Ruhe:</p>
+          <p><b>Freier Fall</b> (ohne Luftwiderstand): gleichmässig beschleunigt mit \(g = 9.81\;\text{m/s}^2\) nach unten, für alle Körper gleich, unabhängig von der Masse. Aus der Ruhe, mit dem Betrag \(v\) der Geschwindigkeit und dem Fallweg \(h\) (beide nach unten gemessen):</p>
           <p>\[ v = g \cdot t \qquad h = \tfrac12 \cdot g \cdot t^2 \qquad t = \sqrt{\frac{2h}{g}} \]</p>
-          <p><b>Wurf:</b> zwei Bewegungen, die sich nicht stören — waagrecht gleichförmig, senkrecht wie der freie Fall. Mit Abwurfgeschwindigkeit \(v_0\), Winkel \(\alpha\) und Abwurfhöhe \(h_0\):</p>
+          <p><b>Wurf:</b> zwei Bewegungen, die sich nicht stören — waagrecht gleichförmig, senkrecht wie der freie Fall. Mit Abwurfgeschwindigkeit \(v_0\), Winkel \(\alpha\) und Abwurfhöhe \(h_0\), die Höhe \(y\) nach oben gemessen:</p>
           <p>\[ x(t) = v_0 \cdot \cos\alpha \cdot t \qquad y(t) = h_0 + v_0 \cdot \sin\alpha \cdot t - \tfrac12 \cdot g \cdot t^2 \]</p>
-          <p><b>Senkrechter Wurf</b> (\(\alpha = \pm 90^\circ\)): Nach oben mit \(v_0\) wird der Körper jede Sekunde um \(9.81\;\text{m/s}\) langsamer, \(v = v_0 - g \cdot t\) und \(h = v_0 \cdot t - \tfrac12 \cdot g \cdot t^2\). Im höchsten Punkt ist \(v = 0\):</p>
+          <p><b>Senkrechter Wurf nach oben</b> (\(\alpha = 90^\circ\)): Der Körper wird jede Sekunde um \(9.81\;\text{m/s}\) langsamer, \(v = v_0 - g \cdot t\); seine Höhe über der Abwurfstelle ist \(h = v_0 \cdot t - \tfrac12 \cdot g \cdot t^2\). Im höchsten Punkt ist \(v = 0\):</p>
           <p>\[ t_S = \frac{v_0}{g} \qquad h_\text{max} = \frac{v_0^2}{2 \cdot g} \]</p>
-          <p>Zurück fällt er genau so lange und kommt mit demselben Betrag \(v_0\) wieder an. Nach unten geworfen kommt die Anfangsgeschwindigkeit dazu: \(v = v_0 + g \cdot t\) und \(h = v_0 \cdot t + \tfrac12 \cdot g \cdot t^2\).</p>
-          <p>Die Bahnkurve ist eine Parabel. Beim waagrechten Wurf ist \(\alpha = 0^\circ\): Die Flugzeit hängt nur von der Höhe ab, und senkrecht wird der Körper wie im freien Fall schneller, \(v_y = g \cdot t\). Landet der Körper auf Abwurfhöhe (\(h_0 = 0\)), gilt \(t_F = \dfrac{2 \cdot v_0 \cdot \sin\alpha}{g}\) und \(s_x = \dfrac{v_0^2 \cdot \sin(2\alpha)}{g}\) — am weitesten bei \(45^\circ\), gleich weit bei \(\alpha\) und \(90^\circ - \alpha\).</p>
+          <p>Zurück fällt er genau so lange und kommt mit demselben Betrag \(v_0\) wieder an. <b>Nach unten geworfen</b> (\(\alpha = -90^\circ\)) kommt die Anfangsgeschwindigkeit dazu, alles nach unten gemessen: \(v = v_0 + g \cdot t\) und Fallweg \(h = v_0 \cdot t + \tfrac12 \cdot g \cdot t^2\).</p>
+          <p>Die Bahnkurve ist eine Parabel. Beim waagrechten Wurf ist \(\alpha = 0^\circ\): Die Flugzeit hängt nur von der Höhe ab, und senkrecht wird der Körper wie im freien Fall schneller — nach \(t\) Sekunden mit \(g \cdot t\) nach unten (mit \(y\) nach oben gemessen: \(v_y = -g \cdot t\)). Landet der Körper auf Abwurfhöhe (\(h_0 = 0\)), gilt \(t_F = \dfrac{2 \cdot v_0 \cdot \sin\alpha}{g}\) und \(s_x = \dfrac{v_0^2 \cdot \sin(2\alpha)}{g}\) — am weitesten bei \(45^\circ\), gleich weit bei \(\alpha\) und \(90^\circ - \alpha\).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>Die Wurzel vergessen: Aus \(20\;\text{m}\) fällt ein Stein nicht \(\dfrac{2 \cdot 20}{9.81} \approx 4.1\;\text{s}\), sondern \(\sqrt{\dfrac{2 \cdot 20\;\text{m}}{9.81\;\text{m/s}^2}} \approx 2.02\;\text{s}\).</p>
+          <p>Die Wurzel vergessen: Aus \(45\;\text{m}\) fällt ein Stein nicht \(\dfrac{2 \cdot 45}{9.81} \approx 9.17\;\text{s}\), sondern \(\sqrt{\dfrac{2 \cdot 45\;\text{m}}{9.81\;\text{m/s}^2}} \approx 3.03\;\text{s}\).</p>
           <p>Taschenrechner im Bogenmass: \(\sin 30\) gibt dann \(-0.988\) statt \(0.5\). Für Winkel in Grad muss er auf DEG stehen.</p>
         </div>
       </div>'''
@@ -798,26 +798,26 @@ auf3 = test('t3', 'Aufgaben · Kapitel 4', 14, [
      r'<p>Oben ist \(v = 0\): \(t_S = \dfrac{v_0}{g} = \dfrac{18\;\text{m/s}}{9.81\;\text{m/s}^2} \approx 1.83\;\text{s}\).</p><p>\(h_\text{max} = \dfrac{v_0^2}{2 \cdot g} = \dfrac{(18\;\text{m/s})^2}{2 \cdot 9.81\;\text{m/s}^2} \approx 16.5\;\text{m}\).</p><p>Zurück fällt er genau so lange: wieder an der Abwurfstelle nach \(2 \cdot t_S \approx 3.67\;\text{s}\), mit \(18\;\text{m/s}\) nach unten.</p>', ''),
     ('4c', 3, r'Ein Wasserstrahl tritt \(1.25\;\text{m}\) über dem Boden waagrecht mit \(4\;\text{m/s}\) aus einem Rohr. Wie lange ist ein Tropfen unterwegs, und wie weit vom Rohr trifft er den Boden?',
      r'<p>Senkrecht wie im freien Fall: \(t = \sqrt{\dfrac{2h}{g}} = \sqrt{\dfrac{2 \cdot 1.25\;\text{m}}{9.81\;\text{m/s}^2}} \approx 0.505\;\text{s}\).</p><p>Waagrecht gleichförmig: \(x = v_0 \cdot t = 4\;\text{m/s} \cdot 0.505\;\text{s} \approx 2.02\;\text{m}\).</p>', ''),
-    ('4d', 3, r'Ein Fussball wird vom Boden mit \(18\;\text{m/s}\) unter \(30^\circ\) gekickt und landet wieder auf dem Boden. Wie lange fliegt er, und wie weit? (ohne Luftwiderstand)',
-     r'<p>Senkrecht: \(v_0 \cdot \sin\alpha = 18\;\text{m/s} \cdot \sin 30^\circ = 9\;\text{m/s}\); aus \(y(t_F) = 0\): \(t_F = \dfrac{2 \cdot 9\;\text{m/s}}{9.81\;\text{m/s}^2} \approx 1.83\;\text{s}\).</p><p>Waagrecht: \(v_0 \cdot \cos\alpha = 18\;\text{m/s} \cdot \cos 30^\circ \approx 15.6\;\text{m/s}\); \(s_x = 15.59\;\text{m/s} \cdot 1.835\;\text{s} \approx 28.6\;\text{m}\). Probe: \(s_x = \dfrac{v_0^2 \cdot \sin(2\alpha)}{g}\) \(= \dfrac{(18\;\text{m/s})^2 \cdot \sin 60^\circ}{9.81\;\text{m/s}^2}\) \(\approx 28.6\;\text{m}\).</p>', ''),
+    ('4d', 3, r'Ein Fussball wird vom Boden mit \(16\;\text{m/s}\) unter \(40^\circ\) gekickt und landet wieder auf dem Boden. Wie lange fliegt er, und wie weit? (ohne Luftwiderstand)',
+     r'<p>Senkrecht: \(v_0 \cdot \sin\alpha = 16\;\text{m/s} \cdot \sin 40^\circ \approx 10.3\;\text{m/s}\); aus \(y(t_F) = 0\): \(t_F = \dfrac{2 \cdot 10.28\;\text{m/s}}{9.81\;\text{m/s}^2} \approx 2.10\;\text{s}\).</p><p>Waagrecht: \(v_0 \cdot \cos\alpha = 16\;\text{m/s} \cdot \cos 40^\circ \approx 12.3\;\text{m/s}\); \(s_x = 12.26\;\text{m/s} \cdot 2.097\;\text{s} \approx 25.7\;\text{m}\). Probe: \(s_x = \dfrac{v_0^2 \cdot \sin(2\alpha)}{g}\) \(= \dfrac{(16\;\text{m/s})^2 \cdot \sin 80^\circ}{9.81\;\text{m/s}^2}\) \(\approx 25.7\;\text{m}\).</p>', ''),
     ('4e', 2, r'Das Bild zeigt einen waagrecht geworfenen Ball alle \(0.2\;\text{s}\). Woran erkennst du, dass die waagrechte Bewegung gleichförmig und die senkrechte beschleunigt ist?',
      r'<p>Waagrecht liegen die Punkte immer gleich weit auseinander (je \(0.8\;\text{m}\)): gleiche Wege in gleichen Zeiten, also gleichförmig. Senkrecht werden die Abstände von Punkt zu Punkt grösser (rund \(0.2\), \(0.6\), \(1.0\), \(1.4\), \(1.8\;\text{m}\)): Die Geschwindigkeit nach unten wächst, die Bewegung ist beschleunigt.</p>',
      '\n            <div class="mini-reihe">' + wurfbild() + '</div>'),
 ])
-k3 = kapitel(4, 'fall-und-wurf', 'Freier Fall und Wurf', 'K3', 50,
+k3 = kapitel(4, 'fall-und-wurf', 'Freier Fall und Wurf', 'K3', 55,
     r'Du löst Aufgaben zum freien Fall, zum senkrechten Wurf nach oben und unten und zum Wurf, indem du die Bewegung in eine waagrechte gleichförmige und eine senkrechte beschleunigte Bewegung zerlegst.',
-    ('p4-1-lp-wurf', 'Bewegung sehen: Fall und Wurf in zwei Richtungen', '2:01'),
+    ('p4-1-lp-wurf', 'Bewegung sehen: Fall und Wurf in zwei Richtungen', '3:03'),
     sim3, ('p4-1-lp-kontrolle-wurf', 'Kontrollfragen zu Fall und Wurf', '0:46'),
     fest3, [uebung('fall', 'Freier Fall'), uebung('senkrecht', 'Senkrechter Wurf'), uebung('waagrecht', 'Waagrechter Wurf'), uebung('schief', 'Schiefer Wurf vom Boden')],
     auf3, f'<a href="{TS}#freier-fall">Themenseite 4.1, Freier Fall</a> · <a href="{TS}#wurfparabel">Parabolische Bewegung</a>')
 
 # ------------------------------------------------------------------ Kapitel 5: Kreisbewegung
-sim5 = figur('sim5', 'Kreisbahn von oben: Körper mit Geschwindigkeitspfeil tangential und Zentripetalbeschleunigung zur Mitte', '0 0 300 280',
+sim5 = figur('sim5', 'Kreisbahn von oben: Körper mit Geschwindigkeitspfeil tangential und Zentripetalbeschleunigung zur Mitte', '0 0 300 296',
     '        <div class="reglerfeld">\n          '
-    + regler('s5', 'r', '<i>r</i> Radius', 0.5, 5, 0.5, 4, 'm', 1) + '\n          '
-    + regler('s5', 'T', '<i>T</i> Umlauf', 3, 12, 0.5, 4, 's', 1) + '\n          '
-    + regler('s5', 'ph', '<i>φ</i> Ort', 0, 345, 15, 45, '°', 0) + '\n        </div>\n'
-    + '        <p class="sim-notiz">Drehsinn gegen den Uhrzeigersinn. Pfeillängen proportional: \\(v\\) mit 8 px je m/s, \\(a_z\\) mit 4 px je m/s².</p>',
+    + regler('s5', 'r', '<i>r</i> Radius', 1, 5, 0.5, 2.5, 'm', 1) + '\n          '
+    + regler('s5', 'T', '<i>T</i> Umlauf', 3, 12, 0.5, 7, 's', 1) + '\n          '
+    + regler('s5', 'ph', '<i>φ</i> Ort', 0, 345, 15, 60, '°', 0) + '\n        </div>\n'
+    + '        <p class="sim-notiz">Drehsinn gegen den Uhrzeigersinn. Pfeillängen proportional, ab dem Rand des Körpers: \\(v\\) mit 8 px je m/s, \\(a_z\\) mit 3 px je m/s².</p>',
     'Radius')
 
 
@@ -848,11 +848,11 @@ fest5 = r'''      <div class="tabhuelle">
       </div>
       <div class="festhalten">
         <div class="merk"><div class="titel">Merke</div><p>Bei der gleichförmigen Kreisbewegung ist der Betrag \(|\vec v|\) der Geschwindigkeit konstant, aber die Richtung von \(\vec v\) ändert sich ständig: \(\vec v\) liegt tangential an der Bahn. Darum gibt es eine Beschleunigung, obwohl der Betrag gleich bleibt — die Zentripetalbeschleunigung \(\vec a_z\), die immer zur Kreismitte zeigt.</p></div>
-        <div class="warn"><div class="titel">Häufiger Fehler</div><p>Umdrehungen pro Minute als Frequenz nehmen: \(120\) Umdrehungen pro Minute sind \(f = \dfrac{120}{60\;\text{s}} = 2\;\text{Hz}\), nicht \(120\;\text{Hz}\). Und \(\omega\) braucht den Faktor \(2\pi\): \(\omega = 2\pi \cdot 2\;\text{Hz} \approx 12.6\;\text{rad/s}\).</p></div>
+        <div class="warn"><div class="titel">Häufiger Fehler</div><p>Umdrehungen pro Minute als Frequenz nehmen: \(180\) Umdrehungen pro Minute sind \(f = \dfrac{180}{60\;\text{s}} = 3\;\text{Hz}\), nicht \(180\;\text{Hz}\). Und \(\omega\) braucht den Faktor \(2\pi\): \(\omega = 2\pi \cdot 3\;\text{Hz} \approx 18.8\;\text{rad/s}\).</p></div>
       </div>'''
 auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5a', 3, r'Die Erde dreht sich in \(24\;\text{h}\) einmal um ihre Achse. Ein Punkt am Äquator ist \(6370\;\text{km}\) von der Achse entfernt. Berechne \(\omega\), \(v\) (in km/h) und \(a_z\).',
-     r'<p>\(T = 24 \cdot 3600\;\text{s} = 86\,400\;\text{s}\), \(\omega = \dfrac{2\pi}{T} = \dfrac{2\pi}{86\,400\;\text{s}} \approx 7.27 \cdot 10^{-5}\;\text{rad/s}\).</p><p>\(v = \omega \cdot r\) \(= 7.272 \cdot 10^{-5}\;\text{rad/s} \cdot 6.37 \cdot 10^{6}\;\text{m}\) \(\approx 463\;\text{m/s} \approx 1670\;\text{km/h}\).</p><p>\(a_z = \omega^2 \cdot r \approx 0.0337\;\text{m/s}^2\) — klein gegen \(g\).</p>', ''),
+     r'<p>\(T = 24 \cdot 3600\;\text{s} = 86\,400\;\text{s}\), \(\omega = \dfrac{2\pi}{T} = \dfrac{2\pi}{86\,400\;\text{s}} \approx 7.27 \cdot 10^{-5}\;\text{rad/s}\).</p><p>\(r = 6370\;\text{km}\) \(= 6370 \cdot 1000\;\text{m}\) \(= 6.37 \cdot 10^{6}\;\text{m}\).</p><p>\(v = \omega \cdot r\) \(= 7.272 \cdot 10^{-5}\;\text{rad/s} \cdot 6.37 \cdot 10^{6}\;\text{m}\) \(\approx 463\;\text{m/s}\), das sind \(463 \cdot 3.6\;\text{km/h} \approx 1670\;\text{km/h}\).</p><p>\(a_z = \omega^2 \cdot r \approx 0.0337\;\text{m/s}^2\) — klein gegen \(g\).</p>', ''),
     ('5b', 3, r'Eine CD dreht sich mit \(500\) Umdrehungen pro Minute. Wie gross sind Rotationsfrequenz, Winkelgeschwindigkeit und die Bahngeschwindigkeit am Rand (\(r = 6\;\text{cm}\))?',
      r'<p>\(f = \dfrac{500}{60\;\text{s}} \approx 8.33\;\text{Hz}\), \(\omega = 2\pi \cdot f \approx 52.4\;\text{rad/s}\).</p><p>\(v = \omega \cdot r\) \(= 52.36\;\text{rad/s} \cdot 0.06\;\text{m}\) \(\approx 3.14\;\text{m/s}\).</p>', ''),
     ('5c', 3, r'Ein Auto fährt mit \(54\;\text{km/h}\) durch eine Kurve mit \(r = 50\;\text{m}\). Wie gross ist die Zentripetalbeschleunigung? Wie viel Prozent von \(g\) ist das?',
@@ -863,8 +863,8 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
 ])
 k5 = kapitel(5, 'kreisbewegung', 'Gleichförmige Kreisbewegung', 'K4 · K1', 40,
     r'Du bestimmst Umlaufzeit, Rotationsfrequenz, Winkelgeschwindigkeit, Bahngeschwindigkeit und Zentripetalbeschleunigung und erklärst, warum eine gleichförmige Kreisbewegung beschleunigt ist.',
-    ('p4-1-lp-kreis', 'Bewegung sehen: gleichförmig auf der Kreisbahn', '1:30'),
-    sim5, ('p4-1-lp-kontrolle-kreis', 'Kontrollfragen zur Kreisbewegung', '0:39'),
+    ('p4-1-lp-kreis', 'Bewegung sehen: gleichförmig auf der Kreisbahn', '2:28'),
+    sim5, ('p4-1-lp-kontrolle-kreis', 'Kontrollfragen zur Kreisbewegung', '0:41'),
     fest5, [uebung('umlauf', 'Frequenz und Winkelgeschwindigkeit'), uebung('bahn', 'Bahngeschwindigkeit und Zentripetalbeschleunigung'),
             uebung('zentripetal', 'Kurvenfahrt')],
     auf5, f'<a href="{TS}#kreisbewegung">Themenseite 4.1, Gleichförmige Kreisbewegung</a>')
@@ -893,7 +893,7 @@ gt = f'''
             <tr><td>11 – 16 P</td><td>Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.</td></tr>
             <tr><td>0 – 10 P</td><td>Zurück zu Kapitel 1 und von dort der Reihe nach weiter.</td></tr>
           </table>
-          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a>, <a href="#k2">2</a>, <a href="#k5">5</a> → K1 · G2 → <a href="#k1">1</a>, <a href="#k2">2</a> → K1, K3 · G3 → <a href="#k3">3</a> → K2 · G4, G5 → <a href="#k4">4</a> → K3 · G6 → <a href="#k5">5</a> → K4, K1</p>
+          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a>, <a href="#k2">2</a>, <a href="#k4">4</a> → K1 · G2 → <a href="#k1">1</a>, <a href="#k2">2</a> → K3, K1 · G3 → <a href="#k3">3</a> → K2 · G4, G5 → <a href="#k4">4</a> → K3 · G6 → <a href="#k5">5</a> → K4, K1</p>
         </div>
       </div>
     </section>'''
@@ -903,14 +903,14 @@ weiter = f'''
       <h2 id="weiter-titel">Nicht in diesem Leitprogramm</h2>
       <ul>
         <li>Momentangeschwindigkeit als Grenzwert (Sekante wird Tangente) → <a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a></li>
-        <li>Herleitung der Bewegungsgleichungen aus der Fläche unter dem \\(v\\)-\\(t\\)-Diagramm → <a href="{TS}#theorie">Themenseite 4.1, Gleichmässig beschleunigte Bewegung</a></li>
+        <li>Herleitung der zeitlosen Gleichung \\(v^2 = v_0^2 + 2 \\cdot a \\cdot (s - s_0)\\) → <a href="{TS}#theorie">Themenseite 4.1, Gleichmässig beschleunigte Bewegung</a></li>
         <li>Die drei Diagramme \\(a\\)-\\(t\\), \\(v\\)-\\(t\\) und \\(s\\)-\\(t\\) nebeneinander → <a href="{TS}#anim-gleichmaessig-beschleunigte">Themenseite 4.1, Animation 2</a></li>
         <li>Warum sich etwas bewegt: Kräfte und die newtonschen Gesetze → <a href="../themen/p4-2-dynamik.html">Themenseite 4.2 Dynamik</a></li>
       </ul>
     </section>'''
 
 oben = '''<div id="nav-root"></div>
-<!-- Leitprogramm Kinematik, Version 1.0 (04.10.2026, nach /lp-pruefung freigeschaltet).
+<!-- Leitprogramm Kinematik, Version 1.1 (06.10.2026; Version 1.0 am 04.10.2026 nach /lp-pruefung freigeschaltet).
      Zweites Physik-Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4): je Kapitel
      ① Einführungsclip → ② Simulation mit Aufgabenleiste → ③ Kontrollclip mit Fragen → Festhalten →
      ④ Übungen mit Rückmeldung → ⑤ Aufgaben mit Lösungen. Gesamttest und Bewertungspaket nur als PDF
@@ -927,9 +927,9 @@ oben = '''<div id="nav-root"></div>
           durchführen
 
      Kompetenzmatrix (Hilfsmittel überall Taschenrechner und Formelsammlung):
-       K1 → Kap. 1, 2, 5 · Aufg. 1a 1b 1d 5d · G1 G2 G6
-       K2 → Kap. 4 · Aufg. 4a–4d · G5
-       K3 → Kap. 1, 2, 3 · Aufg. 1b 1c 2a–2d 3a–3d · G2 G3 G4
+       K1 → Kap. 1, 2, 4, 5 · Aufg. 1a 1b 1d 5d · G1 G2 G6
+       K2 → Kap. 3 · Aufg. 3a–3d · G3
+       K3 → Kap. 1, 2, 4 · Aufg. 1b 1c 2a–2d 4a–4e · G2 G4 G5
        K4 → Kap. 5 · Aufg. 5a–5c · G6
      Bewusst weggelassen (RLP verlangt es nicht): Grenzwert Δt → 0 formal, Herleitung der zeitlosen
      Gleichung, Wurf mit Luftwiderstand, Kräfte — Verweise unter «Nicht in diesem Leitprogramm».
@@ -937,7 +937,8 @@ oben = '''<div id="nav-root"></div>
      Strömung gemessen (90° = quer), γ = Driftwinkel mit tan γ = v_F / v_S. Die Themenseite nennt beim
      Vorhalten (Mini-Check Transfer) mit γ auch den Winkel gegen die Senkrechte; das Leitprogramm
      rechnet das Vorhalten darum allein mit β (v_S · cos β = −v_F).
-     Zeiten: K0 10 · K1 40 · K2 40 · K3 45 · K4 40 · K5 40 · Gesamttest 25 = 240 min ≈ 5.3 Lektionen. -->
+     Zeiten: K0 10 · K1 40 · K2 40 · K3 40 · K4 55 · K5 40 · Gesamttest 25 = 250 min ≈ 5.6 Lektionen
+     (Kapitel 4 mit Fall, senkrechtem, waagrechtem und schiefem Wurf ist das längste). -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>

@@ -1,4 +1,7 @@
-"""Erzeugt die zehn Drehbücher des Leitprogramms Kinematik (clips/p4-1-lp-*.json).
+"""ARCHIV — NICHT MEHR LAUFEN LASSEN. Hat am 04.10.2026 die zehn Drehbücher des Leitprogramms
+Kinematik (clips/p4-1-lp-*.json) erzeugt. Seither sind die JSONs die Quelle und weit über diesen
+Stand hinaus bearbeitet (Visualisierung, Problem-Szenen, neue Kontrollfragen, 06.10.2026): Ein
+Lauf mit --neu würde all das und die gemessenen Dauern überschreiben. Änderungen nur im JSON.
 
   python3 scripts/lp/kinematik/clips.py          # nur fehlende Drehbücher schreiben
   python3 scripts/lp/kinematik/clips.py --neu    # alle neu schreiben (überschreibt «dauer»!)

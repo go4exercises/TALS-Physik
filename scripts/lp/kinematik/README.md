@@ -11,7 +11,7 @@ sind wörtlich von dort; neu sind Kapitel, Simulationen, Übungstypen und Clips.
 | `seite.js` | Seitenskript: Simulationen sim1–sim5 (s-t, v-t mit Fläche, Wurfbahn 1:1, Fluss 1:1, Kreisbahn), 15 Übungstypen (`TYPEN`, je mit `fehler()`), Minigrafen mit Geraden `m` oder `m,q` | wird von `seite.py` eingesetzt |
 | `antworten.py` | trägt die Antwortbilder der fünf Kontrollclips in die Drehbücher ein (Kennung `"antwort": true`, wiederholbar) | bei Änderungen an einer Kontrollfrage, danach `build-clips.py` |
 | `anker.py` | legt `ein` jedes Elements mit `"_anker"` auf die Sprechzeit dieser Textstelle; `"_versatz"` legt es so viele Sekunden später (Bildfolgen), und in einer Frageszene erscheinen Text und Formeln erst nach der Frage — gilt für alle sechs Leitprogramme | nach jeder Neuvertonung eines Clips mit Ankern |
-| `clips.py` | Archiv: hat die zehn Drehbücher `clips/p4-1-lp-*.json` erzeugt | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern). Die Einblendezeiten sind danach im JSON auf die Sprechzeiten gelegt worden (`sprechzeiten.py`). |
+| `clips.py` | **Archiv, nicht mehr laufen lassen.** Hat am 04.10.2026 die zehn Drehbücher `clips/p4-1-lp-*.json` erzeugt; seither sind sie weit darüber hinaus bearbeitet (Visualisierung, Problem-Szenen, neue Kontrollfragen) | **nein, nie** — die JSONs sind die Quelle; `--neu` überschriebe alle späteren Änderungen und die gemessenen Dauern. Änderungen nur im JSON, danach `anker.py` und `build-clips.py`. |
 
 ## Ablauf bei einer Änderung
 
@@ -54,8 +54,13 @@ mit einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (al
   den Clips ungefärbt, statt eine Farbe mit anderer Bedeutung zu tragen.
 - **Vorhalten** nur mit β (v_S · cos β = −v_F): Die Themenseite benutzt γ für den Driftwinkel und
   im Mini-Check auch für den Winkel gegen die Senkrechte.
-- **Kreis-Simulation** mit T ≥ 3 s und festem Pfeilmassstab (v 8 px je m/s, a_z 4 px je m/s²): So
-  reicht a_z nie über die Mitte, und alle Pfeile bleiben im Bild (vorab mit python3 geprüft).
+- **Kreis-Simulation** mit r ≥ 1 m, T ≥ 3 s und festem Pfeilmassstab (v 8 px je m/s, a_z 3 px je m/s²),
+  beide Pfeile ab dem Rand des Körpers und streng proportional: So reicht a_z nie über die Mitte
+  (6 + 3 · (2π/T)² · r ≤ 20 · r), und alle Pfeile bleiben im Bild (vorab mit python3 geprüft). Bis
+  06.10.2026 war a_z mit 4 px je m/s² nur durch Abschneiden an der Mitte zu halten — nicht proportional.
+- **Startwerte der Simulationen** sind weder ein Clipbeispiel noch ein Leistenziel (sim1 6 m/s, 15 m,
+  4 s; sim2 5 m/s, 1 m/s², 7 s; sim3 6 m/s, 30°, 10 m; sim4 1.5 m/s, 90°, 0.75 m/s; sim5 2.5 m, 7 s,
+  60°). Die Clipbilder setzen ihre Werte in den Aufnahmeplänen ausdrücklich.
 - **Freigeschaltet am 04.10.2026** nach `/lp-pruefung` (Befunde behoben): Karte in
   `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt durcharbeiten?» auf Themenseite 4.1,
   im Suchindex und in der Sitemap.
@@ -78,3 +83,33 @@ mit einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (al
   (Dreieck, Trapez = Rechteck + Dreieck, Bremsweg, doppelte Geschwindigkeit) entwickeln sich im
   Diagramm statt als Simulationsbild.
 - **Antworten der Kontrollclips im Bild** (`antworten.py`).
+
+## Fassung 1.1 (06.10.2026) — nach der zweiten Prüfung
+
+- **Einführungsclips mit vorgerechnetem Problem** (HOWTO §4): je drei Szenen «Problem / Vorgehen /
+  Lösung» vor «Zum Mitnehmen», mit Strategiefrage «Dein Vorgehen» — Kreuzung (s₀ = −300 m), Hang
+  (1.25 m/s², 26 m), Steg (36 m Versatz → 0.6 m/s), Golfball (20 m/s, 35°, 38.3 m), Salatschleuder
+  (720 U/min, 682 m/s²). Clipkarten 2:10 bis 3:03.
+- **Kontrollfragen** mit neuen Beispielen (Kreis F2 0.25 s, F3 Δv-Skizze; Wurf F2 7 m → 28 m;
+  gleichförmig F5 12 m/s; beschleunigt F1 8 → 20 m/s), Antwortpunkte erst nach der Bewegung, F3 Wurf
+  ohne verratene Landung. Clipbilder: Ergebnisse erst, wenn gesagt; Massstab 1:1 bei Wurf und Fluss;
+  Steigungsdreiecke mit Einheiten; Farben nach den Entscheiden oben.
+- **Simulationen:** Startwerte weder Clip noch Leiste; Punktbeschriftung gerundet wie die Formelzeile;
+  Formelzeilen rechnen mit Eingaben oder schreiben «≈» vor gerundet eingesetzte Werte; sim5 mit
+  proportionalen Pfeilen ab dem Körperrand (a_z 3 px je m/s², r ≥ 1 m); sim4-Regler «Boot».
+- **Aufgabenleisten:** jede Aufgabe mit Denkauftrag und Vergleichsantwort; neue Werte, wo eine Aufgabe
+  einer Kontrollfrage, Kapitelaufgabe oder Themenseite glich (Bus 27 km/h, Roller 3.5 m/s², Wurf aus
+  25 m, Kreis T = 5 s / 10 s, v ≈ 2.09 m/s); statt «45° am weitesten» (sagt der Clip) der beste Winkel
+  von 20 m Höhe (30°).
+- **Übungen:** feste Beispiele ausgeschlossen, tote Ausschlüsse entfernt, Zusammenfälle (Δv = 1,
+  v = 1 m/s, h = 5 m) ausgeschlossen, Schwimmerin höchstens 2 m/s, |a| ≤ 6 m/s²; Weiterrechnen mit auf
+  drei Stellen gerundeten Zwischenwerten zählt (geprüft mit je 400 Fällen).
+- **Seite:** Festhalten Kap. 1 «Ortsänderung pro Zeit», Kap. 3 Driftwinkel gegenüber der Querrichtung,
+  Kap. 4 Fallweg und Höhe getrennt (nach unten / nach oben gemessen); Doppelungen entflochten
+  (Vortest 80 U/min, Fehlerkästen 108 km/h, 2.4/0.7 m/s, 45 m, 180 U/min; Aufgaben 3c mit 3 m/s
+  Strömung, 4d 16 m/s unter 40°); Kapitel 4 55 min; Zuordnung G1 → Kapitel 1, 2, 4.
+- **Gesamttest Fassung 4 / Bewertungspaket:** G1 ohne Tacho-Frage (= 1b), dafür Geschwindigkeit
+  definieren; G2 mit Sekunden-Nebengitter; G3 mit Richtung «flussaufwärts», c rückwärts (bis 2.0 m/s
+  Strömung), d Relativbewegung auf einer Geraden (0.4 m/s, 750 s); G5 senkrechter Wurf nach unten,
+  rückwärts (5.27 m/s, 17.0 m); G6 mit 2.8 m/s (T = 0.785 s). Raster: «ein Fehler, ein Abzug» auch über
+  Teilaufgaben, Folgewerte der typischen Fehler, mehr Zeilenabstand, Flattersatz.
