@@ -31,8 +31,19 @@ for clip in sys.argv[1:]:
         seg, text = zt[s['name']], s['sprecher']
         chunks = [c for c in re.split(r'(?<=[,.:;?!])\s+', text) if c.strip()]
 
+        # Satzstücke und Tonstücke nur dann eins zu eins zuordnen, wenn das Sprechtempo je Stück
+        # plausibel ist: Gleiche Anzahl kann Zufall sein (Piper macht nicht an jedem Komma eine
+        # Pause, dafür vor «oder»), dann lägen die Bilder Sekunden daneben (Kinematik, 06.10.2026).
+        def stimmig():
+            if len(chunks) != len(seg):
+                return False
+            tempo = [len(c) / max(0.2, b - a) for c, (a, b) in zip(chunks, seg)]
+            mittel = sum(len(c) for c in chunks) / sum(max(0.2, b - a) for a, b in seg)
+            return all(0.6 * mittel <= t <= 1.6 * mittel for t in tempo)
+        eins_zu_eins = stimmig()
+
         def t_von(i):
-            if len(chunks) == len(seg):
+            if eins_zu_eins:
                 pos = 0
                 for c, (a, b) in zip(chunks, seg):
                     if i < pos + len(c) + 1:

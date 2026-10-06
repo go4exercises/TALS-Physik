@@ -921,6 +921,15 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   (Druck unten > oben, Kabel hin und zurück, Verbindungspunkte) als Skizze. Text allein genügt bei
   Titeln, Vorgehenslisten, «Zum Mitnehmen», «Jetzt du».
 - **Zahlen im Clip = Zahlen der Simulation** darunter (Pascal: Clip 25 cm, Simulation 20 cm je Stoss).
+- **Bildfolgen: Reihenfolge im Drehbuch = Reihenfolge der Einblendung.** Ein später eingeblendetes
+  Bild, das im Drehbuch *vor* einem früheren steht, wird von ihm verdeckt (Energie, Achterbahn:
+  das Talbild war nie zu sehen). Elemente einer Folge nach `ein` ordnen.
+- **Gleicher Massstab in Vektor- und Winkelbildern:** Pixel je Einheit = (breite − 16)/x-Bereich =
+  (hoehe − 16)/y-Bereich. Sonst steht ein 60°-Pfeil bei 68° und gleich grosse Kräfte sind
+  verschieden lang (Statik «Komponenten», Kinematik «Schiefer Wurf»).
+- **Anker gegen das Sprechtempo prüfen:** Gleich viele Satz- und Tonstücke sind kein Beweis für
+  eine Eins-zu-eins-Zuordnung (Piper pausiert nicht an jedem Komma). `anker.py` prüft seit
+  06.10.2026 das Tempo je Stück; im Prüfbild trotzdem nachsehen.
 - **Unterstrich und Formelzeichen im SVG-Text:** `F_A` erscheint wörtlich; Wörter («Stütze A») oder
   Unicode-Tiefzahlen (`I₁`) nehmen.
 - Kontrollfragen bringen **neue** Beispiele: weder die Werte des Einführungsclips noch seine
@@ -934,6 +943,16 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
 **Animationen und Übungen**
 - Kein Ziel der Aufgabenleiste ist schon im Startzustand erfüllt; Ziele sind nicht die
   Beispiele aus dem Clip; Überspringen wird als Überspringen gezählt (`pruef-leiste`).
+- **Auch nicht nach den vorigen Aufgaben erfüllt:** Was eine Leiste sammelt (getroffene
+  Zeichnungen, Läufe, Temperatur), setzt `aufraeumen` bzw. das `setup` zurück. Sonst ist Aufgabe 6
+  beim Erscheinen gelöst (Elektrizität sim7) oder die Kurve startet beim Zustand der Vorgängeraufgabe
+  (Energie sim6). `pruef-leiste` setzt Zustände direkt und merkt das nicht — einmal alle Aufgaben
+  der Reihe nach lösen.
+- **Ziele mit Maus und Finger treffbar:** Ein Regler mit 2000 Schritten auf 300 px trifft keinen
+  genauen Wert (Hydrostatik: 522.5 hPa). Raster grob genug wählen, dass höchstens ein Schritt auf
+  ein Pixel kommt (bei 360 px), oder Knöpfe/Zahlenfeld.
+- **Vergleichsantwort gegen die Simulation rechnen:** «Arbeit klein = Hubarbeit» stimmt nur, wenn
+  F₂ = F_G; die Simulation zeigt etwas anderes (Hydrostatik sim4).
 - Zufallsübungen: nur lösbare, physikalisch sinnvolle Fälle (keine negativen Massen,
   keine Temperatur unter 0 K); Sonderwerte erzeugen keine falsche Diagnose; Randfälle
   des Stoffs mit üben; kein Zufallsfall gleich einer festen Aufgabe (`pruef-uebungen`
