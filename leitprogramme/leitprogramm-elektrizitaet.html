@@ -1339,7 +1339,37 @@ svg.mini.schaltbild{width:200px} svg.mini.schaltbild.breit{width:280px}
         el(ebene, 'circle', { cx: X(x), cy: Y(y), r: o.r || 4.5, 'class': cls });
         if (text) el(ebene, 'text', { x: X(x) + (dx == null ? 8 : dx), y: Y(y) + (dy == null ? -8 : dy), 'text-anchor': anker || 'start', 'class': 'p-text ' + cls }, text);
       },
-      text: function(x, y, s, cls, anker){ return el(ebene, 'text', { x: X(x), y: Y(y), 'text-anchor': anker || 'middle', 'class': cls }, s); }
+      text: function(x, y, s, cls, anker){ return el(ebene, 'text', { x: X(x), y: Y(y), 'text-anchor': anker || 'middle', 'class': cls }, s); },
+      /* Punkt mit Beschriftung «(x; y)» an der ersten freien Stelle: über links,
+         unter rechts, links, rechts, über rechts, höher, unter links. Frei heisst:
+         im Bild, nicht über den Achsen und ihren Namen, von keiner der Geraden in
+         «hindernisse» (Funktionen x -> y) gekreuzt. Breite geschätzt: 6.6 px je
+         Zeichen (11.5 px fett). Passt keine Stelle, die erste, die nur die
+         Hauptgerade frei lässt; sonst die erste, die ganz im Bild liegt. */
+      schild: function(x, y, cls, text, hindernisse){
+        if (x < x0 || x > x1 || y < y0 || y > y1) return;
+        var px = X(x), py = Y(y), w = text.length * 6.6, ya = Y(0), xa = X(0);
+        var lagen = [[-9, -9, 'end'], [9, 16, 'start'], [-14, 4, 'end'], [14, 4, 'start'], [9, -9, 'start'], [9, -18, 'start'], [-9, -18, 'end'], [-9, 16, 'end']];
+        function frei(l, alle){
+          var L = l[2] === 'end' ? px + l[0] - w : px + l[0], R = L + w, T = py + l[1] - 10, B = py + l[1] + 3;
+          if (L < -2 || R > W + 2 || T < -2 || B > H + 2) return false;   // viewBox hat 4 px Rand
+          if (alle == null) return true;
+          if (B > ya - 3 && T < ya + 14) return false;                 // x-Achse mit Zahlen
+          if (L < xa + 4 && R > xa - 22) return false;                 // y-Achse mit Zahlen
+          if (T < 16 && L < xa + 60) return false;                     // Name der y-Achse
+          if (B > ya - 20 && R > W - 45) return false;                 // Name der x-Achse
+          var fs = alle ? hindernisse : hindernisse.slice(0, 1);
+          for (var k = 0; k < fs.length; k++)
+            for (var s = 0; s <= 12; s++){ var qx = L + (R - L) * s / 12, qy = Y(fs[k](x0 + qx / W * (x1 - x0))); if (qy > T - 3 && qy < B + 3) return false; }
+          return true;
+        }
+        var wahl = null;
+        for (var a = 0; a < lagen.length && !wahl; a++) if (frei(lagen[a], true)) wahl = lagen[a];
+        for (var b = 0; b < lagen.length && !wahl; b++) if (frei(lagen[b], false)) wahl = lagen[b];
+        for (var c = 0; c < lagen.length && !wahl; c++) if (frei(lagen[c], null)) wahl = lagen[c];
+        wahl = wahl || lagen[0];
+        this.punkt(x, y, cls, text, wahl[0], wahl[1], wahl[2]);
+      }
     };
   }
 
@@ -1463,7 +1493,8 @@ svg.mini.schaltbild{width:200px} svg.mini.schaltbild.breit{width:280px}
       K.text(10.6, 12.2, '1 A', 'hilf-text hilfslinie', 'end');
       if (ziel != null) K.kurve(function(x){ return ziel * x; }, 'zielkurve', 0);
       K.kurve(function(x){ return I * x; }, 'kurve-i', 0);
-      K.punkt(t, Q, 'p-q', 'Q = ' + sig(Q) + NB + 'C', t > 7 ? -9 : 9, Q > 24 ? 16 : -9, t > 7 ? 'end' : 'start');
+      K.schild(t, Q, 'p-q', '(' + zahl(t) + NB + 's; ' + sig(Q) + NB + 'C)',
+        [function(x){ return I * x; }, function(x){ return x; }].concat(ziel != null ? [function(x){ return ziel * x; }] : []));
       var n = Q / E_LAD;
       rolle(fig, 'formel').innerHTML =
         '<span>' + v('Q') + ' = ' + v('I') + ' · ' + v('t') + ' = ' + zahl(I) + NB + 'A · ' + zahl(t) + NB + 's ' + ist(Q, sig(Q)) + sig(Q) + NB + 'C</span>' +
@@ -1473,11 +1504,15 @@ svg.mini.schaltbild{width:200px} svg.mini.schaltbild.breit{width:280px}
     pruefen = Leiste(fig, [
       { text: 'Zieh an beiden Reglern. Was legt die Steigung der Geraden fest? Notiere deine Antwort.', ok: function(s){ return s.bewegt.I && s.bewegt.t; },
         vergleich: 'Die Steigung ist die Stromstärke: \\(I = \\dfrac{Q}{t}\\) in \\(\\text{C}/\\text{s} = \\text{A}\\). Mehr Strom heisst steilere Gerade; die Zeit verschiebt nur den Punkt auf der Geraden.' },
-      { text: 'Bring in \\(4\\;\\text{s}\\) genau \\(6\\;\\text{C}\\) durch den Querschnitt.', ok: function(s){ return gl(s.t, 4) && gl(s.I, 1.5); } },
-      { text: 'Stelle \\(Q = 12\\;\\text{C}\\) ein — auf zwei verschiedene Arten.', ok: function(s){ return s.arten >= 2; } },
-      { text: 'Triff die gestrichelte Gerade.', setup: function(S){ ziel = 2.5; S.setze({ I: 1 }); }, ok: function(s){ return gl(s.I, 2.5); } },
+      { text: 'Bring in \\(4\\;\\text{s}\\) genau \\(6\\;\\text{C}\\) durch den Querschnitt. Welche Stromstärke braucht es? Notiere sie.', ok: function(s){ return gl(s.t, 4) && gl(s.I, 1.5); },
+        vergleich: '\\(I = \\dfrac{Q}{t} = \\dfrac{6\\;\\text{C}}{4\\;\\text{s}} = 1.5\\;\\text{A}\\): die Steigung der Geraden, die durch den Punkt \\((4\\;\\text{s};\\ 6\\;\\text{C})\\) geht.' },
+      { text: 'Stelle \\(Q = 12\\;\\text{C}\\) ein — auf zwei verschiedene Arten. Notiere beide Einstellungen: Was haben sie gemeinsam?', ok: function(s){ return s.arten >= 2; },
+        vergleich: 'Zum Beispiel \\(2\\;\\text{A} \\cdot 6\\;\\text{s}\\) und \\(3\\;\\text{A} \\cdot 4\\;\\text{s}\\): Das Produkt \\(I \\cdot t\\) ist beide Male \\(12\\;\\text{C}\\). Die Punkte liegen gleich hoch, aber auf verschieden steilen Geraden.' },
+      { text: 'Triff die gestrichelte Gerade. Welche Stromstärke stellt sie dar, und wie viel Ladung fliesst damit in \\(6\\;\\text{s}\\)?', setup: function(S){ ziel = 2.5; S.setze({ I: 1 }); }, ok: function(s){ return gl(s.I, 2.5); },
+        vergleich: 'Die Gerade steigt in jeder Sekunde um \\(2.5\\;\\text{C}\\): \\(I = 2.5\\;\\text{A}\\). In \\(6\\;\\text{s}\\) fliessen \\(Q = 2.5\\;\\text{A} \\cdot 6\\;\\text{s} = 15\\;\\text{C}\\).' },
       { text: 'Stelle \\(Q = 1\\;\\text{C}\\) ein und lies ab, wie viele Elektronen das sind.', setup: function(S){ S.setze({ I: 2, t: 5 }); }, ok: function(s){ return gl(s.Q, 1); } },
-      { text: 'In \\(10\\;\\text{s}\\) sollen rund \\(3.1 \\cdot 10^{19}\\) Elektronen durch den Querschnitt. Stelle ein.', ok: function(s){ return gl(s.t, 10) && gl(s.I, 0.5); } }
+      { text: 'In \\(10\\;\\text{s}\\) sollen rund \\(3.1 \\cdot 10^{19}\\) Elektronen durch den Querschnitt. Stelle ein. Wie gross sind Ladung und Stromstärke? Notiere beide.', ok: function(s){ return gl(s.t, 10) && gl(s.I, 0.5); },
+        vergleich: '\\(Q = n \\cdot e = 3.1 \\cdot 10^{19} \\cdot 1.602 \\cdot 10^{-19}\\;\\text{C} \\approx 5\\;\\text{C}\\), also \\(I = \\dfrac{5\\;\\text{C}}{10\\;\\text{s}} = 0.5\\;\\text{A}\\).' }
     ], sim);
     zeichnen();
   })();
@@ -1528,11 +1563,15 @@ svg.mini.schaltbild{width:200px} svg.mini.schaltbild.breit{width:280px}
     pruefen = Leiste(fig, [
       { text: 'Zieh an allen Reglern. Was zeigt die Fläche des Rechtecks? Notiere deine Antwort mit Einheit.', ok: function(s){ return s.bewegt.I && s.bewegt.t; },
         vergleich: 'Die Fläche ist die Energie: Höhe mal Breite, \\(E = P \\cdot t\\), in \\(\\text{kW} \\cdot \\text{h} = \\text{kWh}\\).' },
-      { text: 'Ein Bügeleisen am Netz hat \\(1600\\;\\text{W}\\). Stelle die Stromstärke ein.', setup: function(S){ S.setze({ U: 230, I: 4 }); }, ok: function(s){ return gl(s.U, 230) && nah(s.P, 1600, 0.01); } },
+      { text: 'Ein Bügeleisen am Netz hat \\(1600\\;\\text{W}\\). Stelle die Stromstärke ein und notiere sie.', setup: function(S){ S.setze({ U: 230, I: 4 }); }, ok: function(s){ return gl(s.U, 230) && nah(s.P, 1600, 0.01); },
+        vergleich: '\\(I = \\dfrac{P}{U} = \\dfrac{1600\\;\\text{W}}{230\\;\\text{V}} \\approx 6.96\\;\\text{A}\\). Der Regler geht in Schritten von \\(0.1\\;\\text{A}\\): \\(7.0\\;\\text{A}\\) gibt \\(1610\\;\\text{W}\\).' },
       { text: 'Es läuft \\(45\\;\\text{min}\\). Stelle die Zeit ein und lies die Energie ab.', ok: function(s){ return gl(s.t, 0.75) && nah(s.P, 1600, 0.01); } },
-      { text: 'Stelle \\(0.92\\;\\text{kWh}\\) in \\(2\\;\\text{h}\\) ein.', ok: function(s){ return gl(s.U, 230) && gl(s.t, 2) && Math.abs(s.E - 0.92) < 0.005; } },
-      { text: 'Autobatterie: \\(12\\;\\text{V}\\) und \\(5\\;\\text{A}\\). Welche Leistung? Stelle ein.', ok: function(s){ return gl(s.U, 12) && gl(s.I, 5); } },
-      { text: 'Triff das gestrichelte Rechteck.', setup: function(S){ ziel = { P: 1150, t: 2.5 }; S.setze({ U: 230, I: 2, t: 1 }); }, ok: function(s){ return gl(s.U, 230) && gl(s.I, 5) && gl(s.t, 2.5); } }
+      { text: 'Stelle \\(0.92\\;\\text{kWh}\\) in \\(2\\;\\text{h}\\) ein. Welche Leistung ist das? Vergleiche mit der Heizung aus dem Kontrollclip zu Kapitel 2.', ok: function(s){ return gl(s.U, 230) && gl(s.t, 2) && Math.abs(s.E - 0.92) < 0.005; },
+        vergleich: '\\(P = \\dfrac{E}{t} = \\dfrac{0.92\\;\\text{kWh}}{2\\;\\text{h}} = 0.46\\;\\text{kW} = 460\\;\\text{W}\\), bei \\(230\\;\\text{V}\\) also \\(2\\;\\text{A}\\) — genau die Heizung aus dem Kontrollclip.' },
+      { text: 'Autobatterie: \\(12\\;\\text{V}\\) und \\(5\\;\\text{A}\\). Welche Leistung? Stelle ein.', ok: function(s){ return gl(s.U, 12) && gl(s.I, 5); },
+        vergleich: '\\(P = U \\cdot I = 12\\;\\text{V} \\cdot 5\\;\\text{A} = 60\\;\\text{W}\\). Für dieselbe Leistung braucht das Netz mit \\(230\\;\\text{V}\\) nur rund \\(0.26\\;\\text{A}\\).' },
+      { text: 'Triff das gestrichelte Rechteck. Welche Energie stellt es dar? Notiere sie mit Einheit.', setup: function(S){ ziel = { P: 1150, t: 2.5 }; S.setze({ U: 230, I: 2, t: 1 }); }, ok: function(s){ return gl(s.U, 230) && gl(s.I, 5) && gl(s.t, 2.5); },
+        vergleich: 'Höhe mal Breite: \\(E = 1.15\\;\\text{kW} \\cdot 2.5\\;\\text{h} \\approx 2.88\\;\\text{kWh}\\), mit \\(I = \\dfrac{1150\\;\\text{W}}{230\\;\\text{V}} = 5\\;\\text{A}\\).' }
     ], sim);
     zeichnen();
   })();
@@ -1563,8 +1602,9 @@ svg.mini.schaltbild{width:200px} svg.mini.schaltbild.breit{width:280px}
       K.text(54, 0.017 * 54 + 0.22, 'Kupfer, 1 mm²', 'hilf-text hilfslinie', 'end');
       if (ziel != null) K.kurve(function(x){ return ziel * x; }, 'zielkurve', 0);
       K.kurve(function(x){ return rho / A * x; }, 'kurve-r', 0);
-      var lab = 'R = ' + sig(R) + NB + 'Ω';
-      if (R <= 5.5) K.punkt(l, R, 'p-r', lab, l > 35 ? -9 : 9, R > 4.6 ? 16 : -9, l > 35 ? 'end' : 'start');
+      var lab = '(' + l + NB + 'm; ' + sig(R) + NB + 'Ω)';
+      if (R <= 5.5) K.schild(l, R, 'p-r', lab,
+        [function(x){ return rho / A * x; }, function(x){ return 0.017 * x; }].concat(ziel != null ? [function(x){ return ziel * x; }] : []));
       rolle(fig, 'formel').innerHTML =
         '<span>' + v('R') + ' = ' + v('ρ') + ' · ' + v('l') + ' / ' + v('A') + ' = ' + RHO_TEXT[m] + NB + 'Ω·mm²/m · ' + l + NB + 'm / ' + zahl(A) + NB + 'mm² ' + ist(R, sig(R)) + sig(R) + NB + 'Ω</span>' +
         (R > 5.5 ? '<span class="sim-notiz">Der Punkt liegt über dem Bildrand.</span>' : '');
@@ -1574,10 +1614,14 @@ svg.mini.schaltbild{width:200px} svg.mini.schaltbild.breit{width:280px}
       { text: 'Probiere zwei Materialien und beide Regler. Was macht die Gerade steiler? Notiere deine Antwort.', ok: function(s){ return s.bewegt.l && s.bewegt.A && s.stoffe >= 2; },
         vergleich: 'Die Steigung ist \\(\\dfrac{\\rho}{A}\\): Ein Material mit grösserem \\(\\rho\\) oder ein kleinerer Querschnitt machen die Gerade steiler. Die Länge verschiebt nur den Punkt auf der Geraden.' },
       { text: 'Kupfer, \\(1\\;\\text{mm}^2\\): Mach den Widerstand doppelt so gross wie bei \\(10\\;\\text{m}\\) — nur mit der Länge.', setup: function(S){ S.setze({ m: 'Cu', l: 10, A: 1 }); }, ok: function(s){ return s.m === 'Cu' && gl(s.A, 1) && gl(s.l, 20); } },
-      { text: 'Und jetzt wieder so klein wie bei \\(10\\;\\text{m}\\) — nur mit dem Querschnitt.', ok: function(s){ return s.m === 'Cu' && gl(s.l, 20) && gl(s.A, 2); } },
-      { text: 'Aluminiumkabel, \\(20\\;\\text{m}\\) lang, zwei Adern zu \\(2.5\\;\\text{mm}^2\\). Stelle die ganze Leiterlänge ein.', ok: function(s){ return s.m === 'Al' && gl(s.l, 40) && gl(s.A, 2.5); } },
-      { text: 'Gleicher Widerstand mit Kupfer: Wie dünn darf es sein?', ok: function(s){ return s.m === 'Cu' && gl(s.l, 40) && nah(s.R, 0.028 * 40 / 2.5, 0.03); } },
-      { text: 'Triff die gestrichelte Gerade.', setup: function(S){ ziel = 0.2; S.setze({ m: 'Cu', A: 1 }); }, ok: function(s){ return gl(s.k, 0.2); } }
+      { text: 'Und jetzt wieder so klein wie bei \\(10\\;\\text{m}\\) — nur mit dem Querschnitt. Um welchen Faktor hast du ihn geändert, und warum genügt das?', ok: function(s){ return s.m === 'Cu' && gl(s.l, 20) && gl(s.A, 2); },
+        vergleich: 'Verdoppelt, auf \\(2\\;\\text{mm}^2\\). In \\(R = \\rho \\cdot \\dfrac{l}{A}\\) heben sich doppelte Länge und doppelter Querschnitt auf: Der Widerstand ist wieder \\(0.17\\;\\Omega\\).' },
+      { text: 'Aluminiumkabel, \\(20\\;\\text{m}\\) lang, zwei Adern zu \\(2.5\\;\\text{mm}^2\\). Stelle die ganze Leiterlänge ein und notiere den Widerstand der Leitung.', ok: function(s){ return s.m === 'Al' && gl(s.l, 40) && gl(s.A, 2.5); },
+        vergleich: 'Hin und zurück sind \\(40\\;\\text{m}\\) Leiter: \\(R = 0.028\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{40\\;\\text{m}}{2.5\\;\\text{mm}^2} \\approx 0.45\\;\\Omega\\).' },
+      { text: 'Gleicher Widerstand mit Kupfer: Wie dünn darf es sein?', ok: function(s){ return s.m === 'Cu' && gl(s.l, 40) && nah(s.R, 0.028 * 40 / 2.5, 0.03); },
+        vergleich: '\\(A = \\rho \\cdot \\dfrac{l}{R} = 0.017\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{40\\;\\text{m}}{0.448\\;\\Omega} \\approx 1.5\\;\\text{mm}^2\\): Kupfer leitet besser, darum genügt ein dünnerer Draht.' },
+      { text: 'Triff die gestrichelte Gerade. Welche Steigung hat sie, mit Einheit, und was bedeutet sie?', setup: function(S){ ziel = 0.2; S.setze({ m: 'Cu', A: 1 }); }, ok: function(s){ return gl(s.k, 0.2); },
+        vergleich: '\\(\\dfrac{\\rho}{A} = 0.2\\;\\Omega/\\text{m}\\): Jeder Meter Draht bringt \\(0.2\\;\\Omega\\). Mit den Reglern trifft sie nur Eisen mit \\(0.5\\;\\text{mm}^2\\): \\(\\dfrac{0.10}{0.5} = 0.2\\).' }
     ], sim);
     zeichnen();
   })();
@@ -1649,11 +1693,16 @@ svg.mini.schaltbild{width:200px} svg.mini.schaltbild.breit{width:280px}
     }
     pruefen = Leiste(fig, [
       { text: 'Schalte zwischen Reihe und parallel um und zieh an \\(R_1\\) und \\(R_2\\).', ok: function(s){ return s.arten >= 2 && (s.bewegt.R1 || s.bewegt.R2); } },
-      { text: 'In Reihe: Mach \\(R_\\text{ges} = 400\\;\\Omega\\).', setup: function(S){ S.setze({ art: 'reihe' }); }, ok: function(s){ return s.art === 'reihe' && gl(s.R1 + s.R2, 400); } },
-      { text: 'In Reihe: Über \\(R_1\\) sollen nur \\(2\\;\\text{V}\\) liegen.', ok: function(s){ return s.art === 'reihe' && gl(s.R2, 5 * s.R1); } },
-      { text: 'Parallel: Mach \\(R_\\text{ges} = 100\\;\\Omega\\) mit zwei gleichen Widerständen.', ok: function(s){ return s.art === 'parallel' && gl(s.R1, 200) && gl(s.R2, 200); } },
-      { text: 'Parallel: Durch \\(R_2\\) soll doppelt so viel Strom fliessen wie durch \\(R_1\\).', ok: function(s){ return s.art === 'parallel' && gl(s.R1, 2 * s.R2); } },
-      { text: 'Stelle \\(I = 60\\;\\text{mA}\\) ein — einmal in Reihe, einmal parallel.', ok: function(s){ return s.treffer.reihe && s.treffer.parallel; } }
+      { text: 'In Reihe: Mach \\(R_\\text{ges} = 400\\;\\Omega\\). Welcher Strom fliesst dann? Notiere ihn.', setup: function(S){ S.setze({ art: 'reihe' }); }, ok: function(s){ return s.art === 'reihe' && gl(s.R1 + s.R2, 400); },
+        vergleich: '\\(I = \\dfrac{12\\;\\text{V}}{400\\;\\Omega} = 30\\;\\text{mA}\\), ganz gleich, wie sich die \\(400\\;\\Omega\\) auf \\(R_1\\) und \\(R_2\\) verteilen.' },
+      { text: 'In Reihe: Über \\(R_1\\) sollen nur \\(2\\;\\text{V}\\) liegen. In welchem Verhältnis stehen \\(R_1\\) und \\(R_2\\)? Notiere es.', ok: function(s){ return s.art === 'reihe' && gl(s.R2, 5 * s.R1); },
+        vergleich: 'Über \\(R_2\\) liegen dann \\(10\\;\\text{V}\\). Die Spannungen teilen sich wie die Widerstände: \\(R_1 : R_2 = 2 : 10 = 1 : 5\\).' },
+      { text: 'Parallel: Mach \\(R_\\text{ges} = 100\\;\\Omega\\) mit zwei gleichen Widerständen. Wie gross ist jeder, und warum?', ok: function(s){ return s.art === 'parallel' && gl(s.R1, 200) && gl(s.R2, 200); },
+        vergleich: 'Je \\(200\\;\\Omega\\): Zwei gleiche Zweige halbieren den Widerstand, weil der Strom zwei gleich gute Wege hat. Durch jeden fliessen \\(60\\;\\text{mA}\\).' },
+      { text: 'Parallel: Durch \\(R_2\\) soll doppelt so viel Strom fliessen wie durch \\(R_1\\). Welcher Widerstand ist der grössere? Notiere deine Antwort.', ok: function(s){ return s.art === 'parallel' && gl(s.R1, 2 * s.R2); },
+        vergleich: '\\(R_1 = 2 \\cdot R_2\\): An beiden Zweigen liegen \\(12\\;\\text{V}\\), und der kleinere Widerstand lässt den grösseren Strom durch.' },
+      { text: 'Stelle \\(I = 60\\;\\text{mA}\\) ein — einmal in Reihe, einmal parallel. Was ist bei beiden Einstellungen gleich?', ok: function(s){ return s.treffer.reihe && s.treffer.parallel; },
+        vergleich: 'Beide Male ist \\(R_\\text{ges} = \\dfrac{12\\;\\text{V}}{60\\;\\text{mA}} = 200\\;\\Omega\\), zum Beispiel \\(100\\;\\Omega + 100\\;\\Omega\\) in Reihe und \\(400\\;\\Omega\\) parallel zu \\(400\\;\\Omega\\). Parallel braucht es grössere Widerstände, weil \\(R_\\text{ges}\\) kleiner ist als jeder einzelne.' }
     ], sim);
     zeichnen();
   })();
@@ -1747,11 +1796,14 @@ svg.mini.schaltbild{width:200px} svg.mini.schaltbild.breit{width:280px}
     }
     pruefen = Leiste(fig, [
       { text: 'Wähle jeden Fall einmal und vergleiche «Strom hin» mit «Strom zurück».', ok: function(s){ return s.faelle >= 4; } },
-      { text: 'Finde den Fall, in dem der FI auslöst, der Leitungsschutzschalter aber nicht.', setup: function(S){ S.setze({ fall: 'normal', RK: 1000 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi === 'ja' && !s.ls; } },
-      { text: 'Finde den Fall, in dem nur der Leitungsschutzschalter trennt.', ok: function(s){ return s.fall === 'kurz'; } },
+      { text: 'Finde den Fall, in dem der FI auslöst, der Leitungsschutzschalter aber nicht. Warum bemerkt der Leitungsschutzschalter nichts?', setup: function(S){ S.setze({ fall: 'normal', RK: 1000 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi === 'ja' && !s.ls; },
+        vergleich: 'Mensch am Gehäuse: Bei \\(R_\\text{K} = 1\\;\\text{k}\\Omega\\) fliessen durch den Körper \\(230\\;\\text{mA}\\), in der Leitung zusammen mit dem Gerät rund \\(8.9\\;\\text{A}\\) — weniger als die \\(13\\;\\text{A}\\) des B13. Der FI dagegen sieht die \\(230\\;\\text{mA}\\), die auf dem Rückweg fehlen.' },
+      { text: 'Finde den Fall, in dem nur der Leitungsschutzschalter trennt. Warum bleibt der FI ein?', ok: function(s){ return s.fall === 'kurz'; },
+        vergleich: 'Beim Kurzschluss zwischen L und N fliesst der riesige Strom auf N vollständig zurück: Hin und zurück sind gleich, die Differenz ist null. Der FI sieht nichts, der Leitungsschutzschalter trennt magnetisch.' },
       { text: 'Gedankenexperiment — so hohe Werte sind am Netz unrealistisch: Erhöhe \\(R_\\text{K}\\), bis der FI nicht mehr auslösen muss. Ist der Strom dann harmlos? Notiere deine Antwort.', setup: function(S){ S.setze({ fall: 'koerper', RK: 1000 }); }, ok: function(s){ return s.fall === 'koerper' && s.fi !== 'ja'; },
         vergleich: 'Nein. Über \\(7.7\\;\\text{k}\\Omega\\) fliessen weniger als \\(30\\;\\text{mA}\\), bei \\(10\\;\\text{k}\\Omega\\) noch \\(23\\;\\text{mA}\\) — genug, dass sich die Hand verkrampft. Der FI ist zusätzlicher Schutz, keine Grenze für ungefährlichen Strom. Und trockene Haut ist kein Schutz, auf den man sich verlassen kann.' },
-      { text: 'Zurück zum Modell: Trockene Haut am Netz, \\(R_\\text{K} = 1.6\\;\\text{k}\\Omega\\). Stelle ein und lies den Körperstrom ab.', ok: function(s){ return s.fall === 'koerper' && gl(s.RK, 1600); } },
+      { text: 'Zurück zum Modell: Trockene Haut am Netz, \\(R_\\text{K} = 1.6\\;\\text{k}\\Omega\\). Stelle ein und lies den Körperstrom ab. Wie schnell muss der FI trennen? Notiere beides.', ok: function(s){ return s.fall === 'koerper' && gl(s.RK, 1600); },
+        vergleich: '\\(I_\\text{K} = \\dfrac{230\\;\\text{V}}{1600\\;\\Omega} \\approx 144\\;\\text{mA}\\): mehr als das Doppelte, aber weniger als das Fünffache von \\(30\\;\\text{mA}\\). Der FI muss spätestens nach \\(150\\;\\text{ms}\\) trennen.' },
       { text: 'Wähle den Fall mit Schutzleiter. Welche Schalter sprechen an? Notiere deine Antwort.', ok: function(s){ return s.fall === 'pe'; },
         vergleich: 'Beide. \\(115\\;\\text{A}\\) sind mehr als das Fünffache der \\(13\\;\\text{A}\\): Der LS B13 löst magnetisch aus. Und die \\(115\\;\\text{A}\\) fehlen auf dem Neutralleiter: Auch der FI spricht an. Wer zuerst öffnet, zeigt das Modell nicht — nach dem Öffnen fliesst kein Fehlerstrom mehr.' }
     ], sim);

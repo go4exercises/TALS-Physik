@@ -211,6 +211,53 @@
     el(eltern, 'line', { x1: x1, y1: y1, x2: x2 - ux * s * 0.8, y2: y2 - uy * s * 0.8, 'class': 'pf-linie ' + cls });
     el(eltern, 'polygon', { points: x2 + ',' + y2 + ' ' + (x2 - ux * s - uy * s * 0.45) + ',' + (y2 - uy * s + ux * s * 0.45) + ' ' + (x2 - ux * s + uy * s * 0.45) + ',' + (y2 - uy * s - ux * s * 0.45), 'class': 'pf-kopf ' + cls });
   }
+  /* Bewegte Punkte im Diagramm vollständig beschriften: «(φ; F)» mit Einheiten (06.10.2026).
+     Rechts vom Punkt, wo die Spur noch nicht verläuft; reicht der Platz nicht, links davon —
+     oberhalb, wenn die Kurve von unten kommt, sonst unterhalb (oder auf Punkthöhe, wenn dort ein
+     anderer Punkt liegt). Liegen zwei Beschriftungen
+     zu nah, rücken sie auseinander; die Legende oben rechts bleibt frei. Zwei Punkte mit gleichem
+     Wert tragen eine Beschriftung «… beide». liste: [{ x, y, f (Kurve), text, cls }]. */
+  function etiketten(K, W, H, liste, legende){
+    var seiten = { start: [], end: [] }, y0 = K.Y(0), L = legende || [W, 0, W, 0];   // Legende: [x0, y0, x1, y1]
+    // Gleiche Beschriftung zweier Punkte (z. B. F_H = μ_H · F_N an der Grenze) nur einmal, mit «beide»
+    liste = liste.filter(function(q, k){
+      var zwilling = liste.slice(k + 1).filter(function(r){ return r.text === q.text; }).length > 0;
+      if (zwilling) return false;
+      if (liste.slice(0, k).some(function(r){ return r.text === q.text; })) q = (q.text += ' beide', q);
+      return true;
+    });
+    var pys = liste.map(function(q){ return K.Y(q.y); });
+    function frei(ly, ich){                                                // keine fremden Punkte, nicht auf Achse und Zahlen
+      if (ly > y0 - 4 && ly - 11 < y0 + 17) return false;
+      return pys.every(function(py, k){ return k === ich || py < ly - 15 || py > ly + 7; });
+    }
+    function inLegende(e){                                                 // Textkasten trifft die Legende
+      var a = e.anker === 'start' ? e.lx : e.lx - e.b, b = e.anker === 'start' ? e.lx + e.b : e.lx;
+      return a < L[2] && b > L[0] && e.ly - 11 < L[3] && e.ly + 3 > L[1];
+    }
+    liste.forEach(function(q, k){
+      var px = K.X(q.x), py = pys[k];
+      if (px < 0 || px > W || py < 0 || py > H) return;
+      var breite = q.text.length * 6.3, rechts = px + 9 + breite <= W - 2, ly = py + 4;
+      if (!rechts){                                                        // links: auf die Seite, von der die Kurve nicht kommt
+        var vor = K.Y(q.f(q.x - 18 / (K.X(1) - K.X(0)))), weg = vor > py ? py - 8 : py + 17;
+        if (frei(weg, k)) ly = weg;
+      }
+      if (ly > y0 - 4 && ly - 11 < y0 + 17) ly = ly < y0 + 6 ? y0 - 5 : y0 + 29;
+      seiten[rechts ? 'start' : 'end'].push({ q: q, lx: rechts ? px + 9 : px - 9, ly: ly, b: breite, anker: rechts ? 'start' : 'end' });
+    });
+    ['start', 'end'].forEach(function(a){
+      var s = seiten[a].sort(function(u, v){ return u.ly - v.ly; }), i;
+      for (i = 0; i < s.length; i++){
+        if (i > 0 && s[i].ly - s[i - 1].ly < 13) s[i].ly = s[i - 1].ly + 13;
+        if (inLegende(s[i])) s[i].ly = L[3] + 13;                          // unter die Legende
+        if (i > 0 && s[i].ly - s[i - 1].ly < 13) s[i].ly = s[i - 1].ly + 13;
+      }
+      for (i = s.length - 1; i >= 0; i--){ var max = H - 3 - 13 * (s.length - 1 - i); if (s[i].ly > max) s[i].ly = max; }
+      for (i = 0; i < s.length; i++){ var min = 11 + 13 * i; if (s[i].ly < min) s[i].ly = min; }
+      s.forEach(function(e){ el(K.ebene, 'text', { x: e.lx, y: e.ly, 'text-anchor': a, 'class': 'p-text ' + e.q.cls }, e.q.text); });
+    });
+  }
   function g_(eltern, attr){ return el(eltern, 'g', attr || {}); }
   function v_(s){ return '<i>' + s + '</i>'; }                     // Formelzeichen kursiv (v ist hier oft eine Zahl)
 
@@ -322,6 +369,9 @@
       stext(K.ebene, { x: 296, y: 27, 'text-anchor': 'end', 'class': 'legende l-fy' }, '- - F_y');
       var pr = Math.round(phi), gx = F * Math.cos(grd(pr)), gy = F * Math.sin(grd(pr));   // Zeile mit dem angezeigten ganzen Winkel
       if (Math.abs(gx) < 1e-9) gx = 0; if (Math.abs(gy) < 1e-9) gy = 0;
+      if (F > 0) etiketten(K, 300, 130, [
+        { x: phi, y: fx, f: function(p){ return F * Math.cos(grd(p)); }, cls: 'p-fx', text: '(' + wink(pr) + '; ' + sig(gx) + NB + 'N)' },
+        { x: phi, y: fy, f: function(p){ return F * Math.sin(grd(p)); }, cls: 'p-fy', text: '(' + wink(pr) + '; ' + sig(gy) + NB + 'N)' }], [262, 2, 300, 31]);
       var z = '<span>' + v_('F') + '<sub>x</sub> = ' + v_('F') + ' · cos ' + v_('φ') + ' = ' + zahl(F) + NB + 'N · cos ' + wink(pr) + ' ' + ist(gx, sig(gx)) + sig(gx) + NB + 'N</span>';
       z += '<span>' + v_('F') + '<sub>y</sub> = ' + v_('F') + ' · sin ' + v_('φ') + ' = ' + zahl(F) + NB + 'N · sin ' + wink(pr) + ' ' + ist(gy, sig(gy)) + sig(gy) + NB + 'N</span>';
       z += '<span class="sim-notiz">' + v_('φ') + ' wird von der positiven ' + v_('x') + '-Achse aus gegen den Uhrzeigersinn gemessen. Die Vorzeichen der Komponenten ergeben sich von selbst.</span>';
@@ -332,8 +382,10 @@
     pruefen = Leiste(fig, [
       { text: 'Lass eine Kraft von \\(150\\;\\text{N}\\) einmal ganz herum drehen (\\(\\varphi = 360^\\circ\\)). Bei welchen Winkeln ist \\(F_x\\) null, bei welchen \\(F_y\\)? Wo ist \\(F_x\\) negativ? Notiere deine Antwort.', ok: function(s){ return hat(s, 150, 360); },
         vergleich: '\\(F_x = 0\\) bei \\(90^\\circ\\) und \\(270^\\circ\\) (die Kraft zeigt senkrecht), \\(F_y = 0\\) bei \\(0^\\circ\\), \\(180^\\circ\\) und \\(360^\\circ\\) (waagrecht). \\(F_x\\) ist zwischen \\(90^\\circ\\) und \\(270^\\circ\\) negativ — dort zeigt die Kraft nach links. Keine Komponente wird grösser als \\(F\\): Beide bleiben zwischen \\(-150\\;\\text{N}\\) und \\(150\\;\\text{N}\\).' },
-      { text: 'Stelle eine Kraft ein, deren Komponenten \\(F_x = 0\\;\\text{N}\\) und \\(F_y = -120\\;\\text{N}\\) sind, und dreh sie dorthin.', ok: function(s){ return hat(s, 120, 270); } },
-      { text: 'Eine Kraft von \\(160\\;\\text{N}\\) soll nach rechts oben zeigen und eine waagrechte Komponente von genau \\(80\\;\\text{N}\\) haben. Welcher Winkel? Stelle ein und dreh.', ok: function(s){ return hat(s, 160, 60); } },
+      { text: 'Stelle eine Kraft ein, deren Komponenten \\(F_x = 0\\;\\text{N}\\) und \\(F_y = -120\\;\\text{N}\\) sind, und dreh sie dorthin. Notiere Betrag und Winkel und begründe beide.', ok: function(s){ return hat(s, 120, 270); },
+        vergleich: '\\(F_x = 0\\) heisst: Die Kraft steht senkrecht, \\(F_y < 0\\): Sie zeigt nach unten, also \\(\\varphi = 270^\\circ\\). Die ganze Kraft liegt in der \\(y\\)-Richtung, darum ist ihr Betrag \\(F = |F_y| = 120\\;\\text{N}\\).' },
+      { text: 'Eine Kraft von \\(160\\;\\text{N}\\) soll nach rechts oben zeigen und eine waagrechte Komponente von genau \\(80\\;\\text{N}\\) haben. Welcher Winkel? Notiere ihn samt Rechnung, stelle ein und dreh.', ok: function(s){ return hat(s, 160, 60); },
+        vergleich: '\\(\\cos\\varphi = \\dfrac{F_x}{F} = \\dfrac{80\\;\\text{N}}{160\\;\\text{N}} = 0.5\\), also \\(\\varphi = 60^\\circ\\). Die senkrechte Komponente ist dann \\(F_y = 160\\;\\text{N} \\cdot \\sin 60^\\circ \\approx 138.6\\;\\text{N}\\) — grösser als die waagrechte.' },
       { text: 'Gesucht ist eine Kraft nach links oben mit \\(F_x = -100\\;\\text{N}\\) und \\(F_y = 100\\;\\text{N}\\). Welcher Betrag, welcher Winkel? Stelle ein (Betrag auf \\(10\\;\\text{N}\\) genau) und dreh.', ok: function(s){ return hat(s, 140, 135); },
         vergleich: '\\(F = \\sqrt{F_x^2 + F_y^2} = \\sqrt{(100\\;\\text{N})^2 + (100\\;\\text{N})^2} \\approx 141\\;\\text{N}\\) — der Regler hat \\(140\\;\\text{N}\\). Gleich grosse Komponenten heissen \\(45^\\circ\\) zur Achse; nach links oben ist das \\(\\varphi = 180^\\circ - 45^\\circ = 135^\\circ\\).' },
       { text: 'Im Diagramm schneiden sich die Kurven von \\(F_x\\) und \\(F_y\\). Bei welchem Winkel zum ersten Mal? Dreh eine Kraft genau bis dorthin.', ok: function(s){ return s.lauf && s.lauf.F > 0 && s.lauf.phi === 45; },
@@ -432,9 +484,10 @@
         setup: function(S){ S.setze({ F1: 100, p1: 0, F2: 100, p2: 120, F3: 0, p3: 0 }); },
         ok: function(s){ var l = s.lauf; return l && l.F1 === 100 && l.p1 === 0 && l.F2 === 100 && l.p2 === 120 && l.R < 0.5; },
         vergleich: 'Die beiden ergeben \\(F_\\text{res} = 100\\;\\text{N}\\) bei \\(60^\\circ\\). Die dritte Kraft muss gleich gross und entgegengesetzt sein: \\(F_3 = 100\\;\\text{N}\\) bei \\(240^\\circ\\). Die drei Pfeile schliessen sich dann zu einem Dreieck.' },
-      { text: '\\(F_1 = 100\\;\\text{N}\\) bei \\(30^\\circ\\) ist eingestellt. Wähle \\(F_2\\) (Betrag und Richtung) so, dass die Resultierende genau \\(100\\;\\text{N}\\) senkrecht nach oben zeigt.',
+      { text: '\\(F_1 = 100\\;\\text{N}\\) bei \\(30^\\circ\\) ist eingestellt. Wähle \\(F_2\\) (Betrag und Richtung) so, dass die Resultierende genau \\(100\\;\\text{N}\\) senkrecht nach oben zeigt. Notiere, wie du \\(F_2\\) gefunden hast.',
         setup: function(S){ S.setze({ F1: 100, p1: 30, F2: 50, p2: 0, F3: 0, p3: 0 }); },
-        ok: function(s){ var l = s.lauf; return l && l.F1 === 100 && l.p1 === 30 && l.F3 === 0 && Math.abs(l.Rx) < 0.5 && Math.abs(l.Ry - 100) < 0.5; } },
+        ok: function(s){ var l = s.lauf; return l && l.F1 === 100 && l.p1 === 30 && l.F3 === 0 && Math.abs(l.Rx) < 0.5 && Math.abs(l.Ry - 100) < 0.5; },
+        vergleich: 'Über die Komponenten: \\(F_1\\) hat \\(F_{1,x} = 100\\;\\text{N} \\cdot \\cos 30^\\circ \\approx 86.6\\;\\text{N}\\) und \\(F_{1,y} = 50\\;\\text{N}\\). Für \\(F_\\text{res} = 100\\;\\text{N}\\) nach oben braucht \\(F_2\\) also \\(F_{2,x} = -86.6\\;\\text{N}\\) und \\(F_{2,y} = 50\\;\\text{N}\\): \\(F_2 = 100\\;\\text{N}\\) bei \\(150^\\circ\\) — das Spiegelbild von \\(F_1\\).' },
       { text: 'Kann die Resultierende aus \\(60\\;\\text{N}\\) und \\(80\\;\\text{N}\\) (\\(F_3 = 0\\)) \\(150\\;\\text{N}\\) betragen? Häng die beiden unter mindestens drei verschiedenen Winkeln aneinander. Begründe.',
         ok: function(s){ var n = {}; s.laeufe.forEach(function(l){ if (paar(l, 60, 80)) n[zwischen(l)] = true; }); return Object.keys(n).length >= 3; },
         vergleich: 'Nein. Die Resultierende liegt zwischen \\(80\\;\\text{N} - 60\\;\\text{N} = 20\\;\\text{N}\\) (entgegengesetzt) und \\(80\\;\\text{N} + 60\\;\\text{N} = 140\\;\\text{N}\\) (gleichgerichtet). Mehr als die Summe der Beträge geht nie.' }
@@ -528,6 +581,11 @@
         K.kurve(function(a){ return w.mu * w.FG * Math.cos(grd(a)); }, 'kurve-fr', 0, al);
       }
       K.punkt(al, FH, 'p-fh'); K.punkt(al, FN, 'p-fn'); K.punkt(al, Fmax, 'p-fr');
+      var aw = wink(+al.toFixed(1));                                          // wie in der Formelzeile
+      etiketten(K, 300, 140, [
+        { x: al, y: FN, f: function(a){ return w.FG * Math.cos(grd(a)); }, cls: 'p-fn', text: '(' + aw + '; ' + sig(FN) + NB + 'N)' },
+        { x: al, y: FH, f: function(a){ return w.FG * Math.sin(grd(a)); }, cls: 'p-fh', text: '(' + aw + '; ' + sig(FH) + NB + 'N)' },
+        { x: al, y: Fmax, f: function(a){ return w.mu * w.FG * Math.cos(grd(a)); }, cls: 'p-fr', text: '(' + aw + '; ' + sig(Fmax) + NB + 'N)' }], [228, 2, 300, 51]);
       if (gerutscht) el(K.ebene, 'line', { x1: K.X(w.ag), y1: K.Y(0), x2: K.X(w.ag), y2: K.Y(FH), 'class': 'hilfslinie' });
       stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende l-fn' }, '— F_N');
       stext(K.ebene, { x: 296, y: 24, 'text-anchor': 'end', 'class': 'legende l-fh' }, '— F_H');
@@ -637,11 +695,14 @@
     }
     function hat(s, F, l, a, Ml){ return s.lauf && s.lauf.F === F && s.lauf.l === l && s.lauf.a === a && s.lauf.Ml === Ml; }
     pruefen = Leiste(fig, [
-      { text: 'Die Schraube sitzt mit \\(90\\;\\text{Nm}\\) fest. Löse sie mit einem \\(0.30\\;\\text{m}\\) langen Schlüssel, senkrecht ziehend, mit der kleinsten Kraft, die reicht.', ok: function(s){ return hat(s, 300, 0.3, 90, 90) && s.lauf.geloest; } },
+      { text: 'Die Schraube sitzt mit \\(90\\;\\text{Nm}\\) fest. Löse sie mit einem \\(0.30\\;\\text{m}\\) langen Schlüssel, senkrecht ziehend, mit der kleinsten Kraft, die reicht. Notiere zuerst deine Rechnung.', ok: function(s){ return hat(s, 300, 0.3, 90, 90) && s.lauf.geloest; },
+        vergleich: '\\(F = \\dfrac{M}{r} = \\dfrac{90\\;\\text{Nm}}{0.30\\;\\text{m}} = 300\\;\\text{N}\\). Mit weniger Kraft bleibt das Drehmoment unter dem Losbrechmoment, und die Schraube hält.' },
       { text: 'Jetzt dieselben \\(300\\;\\text{N}\\) am selben Schlüssel, aber unter \\(30^\\circ\\) zum Schlüssel. Zieh. Warum löst sich die Schraube nicht? Wie viel Kraft bräuchte es?', ok: function(s){ return hat(s, 300, 0.3, 30, 90); },
         vergleich: 'Der wirksame Hebelarm ist nur \\(r = 0.30\\;\\text{m} \\cdot \\sin 30^\\circ = 0.15\\;\\text{m}\\), das Drehmoment \\(300\\;\\text{N} \\cdot 0.15\\;\\text{m} = 45\\;\\text{Nm}\\) — die Hälfte. Für \\(90\\;\\text{Nm}\\) bräuchte es \\(F = \\dfrac{90\\;\\text{Nm}}{0.15\\;\\text{m}} = 600\\;\\text{N}\\), mehr als der Regler hergibt.' },
-      { text: 'Die \\(60\\)-Nm-Schraube soll mit nur \\(150\\;\\text{N}\\) aufgehen, senkrecht gezogen. Wie lang muss der Schlüssel mindestens sein? Stelle ein und zieh.', ok: function(s){ return hat(s, 150, 0.4, 90, 60) && s.lauf.geloest; } },
-      { text: 'Mit \\(240\\;\\text{N}\\) am \\(0.25\\;\\text{m}\\) langen Schlüssel soll die \\(30\\)-Nm-Schraube aufgehen. Unter welchem kleinsten Winkel geht es gerade noch?', ok: function(s){ return hat(s, 240, 0.25, 30, 30) && s.lauf.geloest; } },
+      { text: 'Die \\(60\\)-Nm-Schraube soll mit nur \\(150\\;\\text{N}\\) aufgehen, senkrecht gezogen. Wie lang muss der Schlüssel mindestens sein? Notiere deine Rechnung, stelle ein und zieh.', ok: function(s){ return hat(s, 150, 0.4, 90, 60) && s.lauf.geloest; },
+        vergleich: '\\(r = \\dfrac{M}{F} = \\dfrac{60\\;\\text{Nm}}{150\\;\\text{N}} = 0.40\\;\\text{m}\\). Ein längerer Schlüssel geht auch, ein kürzerer nicht: Je kleiner die Kraft, desto länger muss der Hebelarm sein.' },
+      { text: 'Mit \\(240\\;\\text{N}\\) am \\(0.25\\;\\text{m}\\) langen Schlüssel soll die \\(30\\)-Nm-Schraube aufgehen. Unter welchem kleinsten Winkel geht es gerade noch? Notiere deine Rechnung, dann prüfe.', ok: function(s){ return hat(s, 240, 0.25, 30, 30) && s.lauf.geloest; },
+        vergleich: '\\(M = F \\cdot l \\cdot \\sin\\alpha\\), also \\(\\sin\\alpha = \\dfrac{30\\;\\text{Nm}}{240\\;\\text{N} \\cdot 0.25\\;\\text{m}} = 0.5\\) und \\(\\alpha = 30^\\circ\\). Senkrecht gezogen wären es \\(60\\;\\text{Nm}\\) — doppelt so viel wie nötig.' },
       { text: 'Zieh mit \\(400\\;\\text{N}\\) genau längs des Schlüssels (\\(\\alpha = 0^\\circ\\)). Warum dreht sich nichts, egal wie stark du ziehst? Begründe.', ok: function(s){ return s.lauf && s.lauf.F === 400 && s.lauf.a === 0; },
         vergleich: 'Die Wirkungslinie geht durch die Drehachse: Der wirksame Hebelarm ist \\(r = l \\cdot \\sin 0^\\circ = 0\\), also auch \\(M = F \\cdot r = 0\\). Eine Kraft, die auf die Achse zeigt, dreht nicht.' }
     ], sim);
@@ -727,8 +788,10 @@
     }
     function hat(s, m1, r1, m2, r2){ var l = s.lauf; return l && l.m1 === m1 && l.r1 === r1 && l.m2 === m2 && l.r2 === r2; }
     pruefen = Leiste(fig, [
-      { text: 'Links sitzt ein Kind mit \\(36\\;\\text{kg}\\) bei \\(1.0\\;\\text{m}\\). Wo muss rechts ein Kind mit \\(24\\;\\text{kg}\\) sitzen, damit die Wippe beim Loslassen waagrecht bleibt? Stelle ein und lass los.', ok: function(s){ return hat(s, 36, 1, 24, 1.5) && s.lauf.kippt === 0; } },
-      { text: 'Statt des Kindes setzt sich rechts ein Erwachsener mit \\(60\\;\\text{kg}\\) hin. Wo muss er sitzen?', ok: function(s){ return hat(s, 36, 1, 60, 0.6) && s.lauf.kippt === 0; } },
+      { text: 'Links sitzt ein Kind mit \\(36\\;\\text{kg}\\) bei \\(1.0\\;\\text{m}\\). Wo muss rechts ein Kind mit \\(24\\;\\text{kg}\\) sitzen, damit die Wippe beim Loslassen waagrecht bleibt? Notiere deine Rechnung, stelle ein und lass los.', ok: function(s){ return hat(s, 36, 1, 24, 1.5) && s.lauf.kippt === 0; },
+        vergleich: '\\(m_1 \\cdot r_1 = m_2 \\cdot r_2\\), also \\(r_2 = \\dfrac{36\\;\\text{kg} \\cdot 1.0\\;\\text{m}}{24\\;\\text{kg}} = 1.5\\;\\text{m}\\). Das leichtere Kind sitzt weiter aussen; \\(g\\) kürzt sich.' },
+      { text: 'Statt des Kindes setzt sich rechts ein Erwachsener mit \\(60\\;\\text{kg}\\) hin. Wo muss er sitzen? Notiere zuerst deine Rechnung.', ok: function(s){ return hat(s, 36, 1, 60, 0.6) && s.lauf.kippt === 0; },
+        vergleich: '\\(r_2 = \\dfrac{36\\;\\text{kg} \\cdot 1.0\\;\\text{m}}{60\\;\\text{kg}} = 0.6\\;\\text{m}\\). Der Erwachsene ist schwerer als das linke Kind und sitzt darum näher an der Achse.' },
       { text: 'Bring die Wippe dazu, nach rechts zu kippen, obwohl rechts das leichtere Kind sitzt. Begründe, warum das geht.', ok: function(s){ var l = s.lauf; return l && l.m2 < l.m1 && l.kippt > 0; },
         vergleich: 'Es zählt nicht die Kraft allein, sondern Kraft mal Hebelarm. Sitzt das leichtere Kind weit genug aussen, ist sein Drehmoment \\(m_2 \\cdot g \\cdot r_2\\) grösser als \\(m_1 \\cdot g \\cdot r_1\\).' },
       { text: 'Finde ein Gleichgewicht, bei dem ein Kind genau dreimal so schwer ist wie das andere. Lass los und prüfe.', ok: function(s){ var l = s.lauf; return l && l.kippt === 0 && (l.m1 === 3 * l.m2 || l.m2 === 3 * l.m1); },
@@ -752,6 +815,7 @@
     var x = 0, lauf = null, laeufe = [], pruefen = function(){};
     var L = 10, AX = 36, PX = 23.2, BY = 104;                                 // Stützweite 10 m, 23.2 px je m
     function werte(){ var FL = B.wert('FL'), FE = B.wert('FE'), xh = B.wert('x'); return { FL: FL, FE: FE, xh: xh }; }
+    function kn(v){ return zahl(+v.toFixed(2)); }                            // kN auf zwei Stellen: Beschriftung und Formelzeile gleich
     function lager(w, xx){ var FB = (w.FL * xx + w.FE * L / 2) / L; return { FB: FB, FA: w.FL + w.FE - FB }; }
     var uhr = Uhr(function(tt){
       var w = werte(); x = Math.min(tt * 2.5, w.xh); zeichnen();               // 2.5 m je Sekunde
@@ -791,10 +855,14 @@
       K.kurve(function(){ return w.FL + w.FE; }, 'vorher', 0, L);
       if (x > 0){ K.kurve(function(q){ return lager(w, q).FA; }, 'kurve-fa', 0, x); K.kurve(function(q){ return lager(w, q).FB; }, 'kurve-fb', 0, x); }
       K.punkt(x, k.FA, 'p-fn'); K.punkt(x, k.FB, 'p-fn');
+      var xs = zahl(+x.toFixed(2)) + NB + 'm; ';                              // wie in der Formelzeile
+      etiketten(K, 300, 140, [
+        { x: x, y: k.FA, f: function(q){ return lager(w, q).FA; }, cls: 'p-fn', text: '(' + xs + kn(k.FA) + NB + 'kN)' },
+        { x: x, y: k.FB, f: function(q){ return lager(w, q).FB; }, cls: 'p-fn', text: '(' + xs + kn(k.FB) + NB + 'kN)' }], [212, 2, 300, 16]);
       stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende l-fn' }, '— F_A   - - F_B');
       var z = '<span>Momente um A: ' + F_('B') + ' · ' + v_('L') + ' = ' + F_('L') + ' · ' + v_('x') + ' + ' + F_('E') + ' · ' + v_('L') + '/2' + '</span>';
-      z += '<span>' + F_('B') + ' = (' + zahl(w.FL) + NB + 'kN · ' + zahl(+x.toFixed(2)) + NB + 'm + ' + zahl(w.FE) + NB + 'kN · 5' + NB + 'm) / 10' + NB + 'm = ' + zahl(k.FB) + NB + 'kN</span>';
-      z += '<span>' + F_('A') + ' = ' + F_('L') + ' + ' + F_('E') + ' − ' + F_('B') + ' = ' + zahl(w.FL) + NB + 'kN + ' + zahl(w.FE) + NB + 'kN − ' + zahl(k.FB) + NB + 'kN ' + '= ' + zahl(k.FA) + NB + 'kN</span>';
+      z += '<span>' + F_('B') + ' = (' + zahl(w.FL) + NB + 'kN · ' + zahl(+x.toFixed(2)) + NB + 'm + ' + zahl(w.FE) + NB + 'kN · 5' + NB + 'm) / 10' + NB + 'm ' + ist(k.FB, kn(k.FB)) + kn(k.FB) + NB + 'kN</span>';
+      z += '<span>' + F_('A') + ' = ' + F_('L') + ' + ' + F_('E') + ' − ' + F_('B') + ' = ' + zahl(w.FL) + NB + 'kN + ' + zahl(w.FE) + NB + 'kN − ' + kn(k.FB) + NB + 'kN ' + ist(k.FA, kn(k.FA)) + kn(k.FA) + NB + 'kN</span>';
       z += '<span class="sim-notiz">Pfeillängen im Massstab der Gesamtlast.</span>';
       rolle(fig, 'formel').innerHTML = z;
       pruefen();
@@ -807,7 +875,8 @@
       { text: 'Ohne Eigengewicht: Wo muss der Wagen halten, damit Stütze B dreimal so viel trägt wie Stütze A? Begründe mit den Momenten.', ok: function(s){ return s.lauf && s.lauf.FE === 0 && s.lauf.x === 7.5; },
         vergleich: '\\(F_B = F_L \\cdot \\dfrac{x}{L}\\) und \\(F_A = F_L \\cdot \\dfrac{L - x}{L}\\). \\(F_B = 3 \\cdot F_A\\) heisst \\(x = 3 \\cdot (L - x)\\), also \\(x = 7.5\\;\\text{m}\\) — unabhängig von der Last.' },
       { text: 'Jetzt hat die Brücke ein Eigengewicht \\(F_E = 100\\;\\text{kN}\\) (in der Mitte). Ein Wagen mit \\(100\\;\\text{kN}\\) hält bei \\(4\\;\\text{m}\\). Wie gross ist \\(F_A\\)? Rechne, dann fahr hin.', ok: function(s){ return hat(s, 100, 100, 4); } },
-      { text: 'Stütze B darf höchstens \\(120\\;\\text{kN}\\) tragen. Brücke \\(F_E = 60\\;\\text{kN}\\), Wagen \\(150\\;\\text{kN}\\): Wie weit darf der Wagen höchstens fahren? Stelle ein und fahr.', ok: function(s){ return hat(s, 150, 60, 6); } }
+      { text: 'Stütze B darf höchstens \\(120\\;\\text{kN}\\) tragen. Brücke \\(F_E = 60\\;\\text{kN}\\), Wagen \\(150\\;\\text{kN}\\): Wie weit darf der Wagen höchstens fahren? Notiere deine Rechnung, stelle ein und fahr.', ok: function(s){ return hat(s, 150, 60, 6); },
+        vergleich: '\\(F_B = \\dfrac{F_L \\cdot x + F_E \\cdot \\tfrac{L}{2}}{L}\\): \\(120\\;\\text{kN} = \\dfrac{150\\;\\text{kN} \\cdot x + 60\\;\\text{kN} \\cdot 5\\;\\text{m}}{10\\;\\text{m}}\\) ergibt \\(x = 6\\;\\text{m}\\). Weiter rechts trägt B mehr als erlaubt.' }
     ], sim);
     zeichnen();
   })();

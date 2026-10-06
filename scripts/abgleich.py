@@ -171,6 +171,17 @@ OFFEN = [
              'klick: dort "eingabe" je Frage nachtragen, sonst bleiben sie ohne Zeigegeraet unloesbar. '
              'Danach die 14 Clips neu bauen und pruef-fragen laufen lassen. Diese Datei und '
              'build-clips.py aus Physik uebernehmen.'),
+    dict(quelle='Physik', was='build-clips.py: graf mit flaechen, strecken, texte und "achsen": false (06.10.2026)',
+         wie='Neu in graf_svg, alles statisch in Datenkoordinaten, ohne die Felder Byte fuer Byte wie vorher '
+             '(geprueft an vier Clips): "flaechen" (gefuelltes Vieleck unter allen Linien, "deckung", '
+             'Beschriftung mit Hof), "strecken" (Hilfs-, Mass- und Vektorlinien, "pfeil": true, '
+             '"gestrichelt", Beschriftung mit Hof), "texte" (freie Beschriftung) und "achsen": false '
+             '(nur die Zeichnung, ohne Karo/Achsen/Teilung) — als Pfeilbild oder als zweite Ebene, die '
+             'spaeter deckungsgleich ueber einem graf mit demselben Fenster erscheint. Anlass: Antworten '
+             'der Kontrollclips im Bild und Rechnungen, die sich im Diagramm entwickeln (Weg als Flaeche). '
+             'Fuer Mathe nuetzlich (Flaeche unter einer Kurve, Masslinien am Steigungsdreieck, Vektoren). '
+             'Doku: HOWTO-clips.md, Abschnitt «Flaechen, Strecken, Texte und Ebenen im graf». '
+             'build-clips.py und diese Datei aus Physik uebernehmen, danach KERN-Grundlinie pruefen.'),
 ]
 FACH = {
     'nav.js': 'Seitenbaum und Lerngebiete — je Fach ein anderer.',

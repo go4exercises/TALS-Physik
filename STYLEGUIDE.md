@@ -110,6 +110,14 @@ In LaTeX:
 \vec{v} = v_x \cdot \hat{e}_x + v_y \cdot \hat{e}_y
 ```
 
+**Geschwindigkeit und Tempo (Entscheid 06.10.2026, Stichwort «Stilcheck»).** «Tempo» ist das
+Alltagswort für den **Betrag** der Geschwindigkeit und steht so im Glossar. Es darf bleiben, wo
+genau der Betrag gemeint ist («konstantes Tempo auf der Kreisbahn»). Wo das Vorzeichen zählt
+(geradlinige Bewegung, Steigung im s-t-Diagramm, Regler für \(v\)) oder wo der Begriff
+eingeführt wird, steht **Geschwindigkeit**; wo Betrag und Richtung auseinandergehalten werden,
+**Betrag der Geschwindigkeit**. In den Leitprogrammen der Kinematik steht durchgehend
+Geschwindigkeit bzw. Betrag. «Tempomat» und «Animationstempo» (Abspieltempo) sind nicht gemeint.
+
 ### 2.3 Einheiten
 
 - **SI-Einheiten** als Standard. Üblicherweise zusätzlich angegebene Praxiseinheiten: km/h, kWh, °C, bar — immer mit Hinweis auf die Umrechnung.
@@ -755,6 +763,15 @@ Regeln:
   ihren Punkt, gemessen an den echten Rechtecken der festen Beschriftungen, Achsen
   und Skalenzahlen (Referenz: `wsMarke` in p6-2). Prüfen über **alle** Zustände, nicht
   an einem Bild.
+- **Bewegte Punkte vollständig beschriften (06.10.2026, Stichwort «Stilcheck»):** Ein Punkt,
+  der sich mit einem Regler durch ein Diagramm bewegt, trägt beide Koordinaten mit Einheit,
+  «(8 s; 60 m)», nicht nur «s = 60 m» — man liest sonst den Zeitpunkt an der Achse nach.
+  Trennzeichen ist der Strichpunkt (§2.6a).
+- **Steigungsdreiecke lesbar (06.10.2026, Stichwort «Stilcheck»):** Die Schenkel und ihre
+  Beschriftungen (Δt, Δv mit Einheit) liegen nicht unter der Punktbeschriftung, nicht auf der
+  Fortsetzung der Geraden und nicht auf der Flächenbeschriftung. Bewährt: das Dreieck **ab dem
+  Punkt nach rechts** ansetzen, Δ-Wert rechts neben dem senkrechten Schenkel (beim Fallen auf
+  Höhe der oberen Kante).
 - **Zeichnung und Rechnung trennen:** Die Rechnung bildet immer die reale Situation ab;
   ein Umschalter darf nur die Darstellung ändern (z. B. Schaltbild ↔ Ersatzschaltbild
   mit Innenwiderständen), nicht das Modell.
@@ -988,6 +1005,19 @@ Hier nur, was für beide Arten nicht verhandelbar ist.
   `robots.txt`** — die Datei ist öffentlich lesbar und würde die URL gerade
   bekanntmachen. Und es bleibt Unauffindbarkeit, keine Zugangskontrolle: Wer den Link
   hat, kommt hinein.
+- **Kontrollfragen zeigen die Antwort im Bild (06.10.2026).** Jede Antwortszene eines
+  Kontrollclips trägt neben Formel oder Notiz ein Bild, das die Antwort sichtbar macht
+  (Steigungsdreieck, Fläche, Pfeile, abgelesener Punkt, Vergleich) — nicht nur eine
+  Formelzeile. Steht in der Szene schon ein `graf` für eine klick-Frage, kommt die Antwort als
+  zweite Ebene (`"achsen": false`) darüber, sonst stünde sie schon während der Frage im Bild.
+- **Rechnungen im Einführungsclip entwickeln sich im Diagramm (06.10.2026).** Ein Weg als
+  Fläche, eine Beschleunigung als Steigung: Fläche, Masse (Breite, Höhe) und Ergebnis
+  erscheinen im Diagramm in dem Moment, in dem der Ton sie nennt — nicht ein fertiges
+  Simulationsbild neben der Formel.
+- **Jede Leistenaufgabe gibt etwas zu denken (06.10.2026).** Aufgaben, die nur «stelle ein» oder
+  «triff» verlangen, bekommen einen Auftrag zum Notieren, Deuten oder Vergleichen («Welche
+  Bewegungsart stellt der Graf dar?», «Notiere den Bremsweg — in der nächsten Aufgabe
+  vergleichst du») und eine Vergleichsantwort.
 - **Neue Leitprogramme werden vor der Freischaltung unabhängig geprüft**
   (`HOWTO-leitprogramme.md` §15, Skill `/lp-pruefung`); die bestehenden elf bleiben, wie
   sie sind.

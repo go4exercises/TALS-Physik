@@ -996,6 +996,19 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   das Bild am Ende zeigt («Er sinkt langsam weiter»), nicht, was nach der Dichte geschehen sollte — nahe der
   Schwebedichte reicht die Laufzeit nicht bis zur Ruhe.
 
+- **Antwort im Bild** (Kinematik 06.10.2026, Rückmeldung des Auftraggebers): Jede Antwortszene der
+  Kontrollclips zeigt die Antwort auch als Bild — Steigungsdreieck mit Δ-Werten und Einheiten, Fläche
+  unter der Kurve, Pfeile mit Namen und Betrag, abgelesener Punkt «(5 s; 30 m)». Bei klick-Fragen
+  als zweite Ebene `"achsen": false`, damit die Antwort nicht schon während der Frage steht.
+  Muster: `scripts/lp/kinematik/antworten.py`.
+- **Rechnungen im Diagramm entwickeln:** Im Einführungsclip erscheinen Fläche, Breite, Höhe und
+  Ergebnis im Diagramm, wenn der Ton sie nennt (Weg als Dreieck, Trapez = Rechteck + Dreieck);
+  Beschleunigung mit Steigungsdreieck und der Einheit als (m/s)/s.
+- **Denkauftrag in jeder Leistenaufgabe:** «Stelle ein» oder «Triff die Gerade» allein ist Fingerübung.
+  Dazu ein Auftrag zum Notieren, Deuten oder Vergleichen und eine Vergleichsantwort.
+- **Bewegte Punkte vollständig beschriften** «(t; s)» und Steigungsdreiecke so setzen, dass ihre
+  Beschriftung frei steht (STYLEGUIDE §5.10).
+
 **Gesamttest und Bewertungspaket**
 - Jedes Kapitelziel hat eine Aufgabe; kein Modell aus Selbsttest oder Übung wiederholt.
 - Raster mit (E) Ergebnis- und (A) Ablesepunkt, typische Fehler mit Restpunkten statt

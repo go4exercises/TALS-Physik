@@ -9,6 +9,8 @@ sind wörtlich von dort; neu sind Kapitel, Simulationen, Übungstypen und Clips.
 |---|---|---|
 | `seite.py` | baut `leitprogramme/leitprogramm-kinematik.html` — Kopf, CSS, Grundskript, alle Kapitel, die zwei Aufgabenbilder (Wurf, Kreis). Aus der bestehenden Seite übernimmt es nur den SEO-Block. | **ja** — für jede Änderung an Text, Aufgaben, Kapitelaufbau |
 | `seite.js` | Seitenskript: Simulationen sim1–sim5 (s-t, v-t mit Fläche, Wurfbahn 1:1, Fluss 1:1, Kreisbahn), 15 Übungstypen (`TYPEN`, je mit `fehler()`), Minigrafen mit Geraden `m` oder `m,q` | wird von `seite.py` eingesetzt |
+| `antworten.py` | trägt die Antwortbilder der fünf Kontrollclips in die Drehbücher ein (Kennung `"antwort": true`, wiederholbar) | bei Änderungen an einer Kontrollfrage, danach `build-clips.py` |
+| `anker.py` | legt `ein` jedes Elements mit `"_anker"` auf die Sprechzeit dieser Textstelle | nach jeder Neuvertonung eines Clips mit Ankern |
 | `clips.py` | Archiv: hat die zehn Drehbücher `clips/p4-1-lp-*.json` erzeugt | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern). Die Einblendezeiten sind danach im JSON auf die Sprechzeiten gelegt worden (`sprechzeiten.py`). |
 
 ## Ablauf bei einer Änderung
@@ -57,3 +59,22 @@ mit einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (al
 - **Freigeschaltet am 04.10.2026** nach `/lp-pruefung` (Befunde behoben): Karte in
   `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt durcharbeiten?» auf Themenseite 4.1,
   im Suchindex und in der Sitemap.
+
+## Rückmeldung des Auftraggebers (06.10.2026)
+
+- **Kapitel 3 und 4 getauscht:** zuerst die Überlagerung zweier gleichförmiger Bewegungen (Vektoren),
+  dann die mit einer beschleunigten (Fall und Wurf). Sichtbar sind Nummern, Anker `#k3`/`#k4`,
+  Aufgabenbezeichnungen und Reihenfolge geändert; **intern bleiben `sim3`, `s3-*`, `t3` beim Wurf und
+  `sim4`, `s4-*`, `t4` bei den Vektoren**, weil der gespeicherte Fortschritt (`KEY`) an den
+  Test-Kennungen hängt. Gesamttest: Teile in der neuen Folge, G3 Fähre, G4 Mauer, G5 Schuss.
+- **Senkrechter Wurf** nach oben und unten im Wurfkapitel: Clipszenen «Nach oben» (12 m/s, 1.22 s,
+  7.3 m) und «Nach unten» (aus 20 m mit 10 m/s, 1.24 s), Festhalten mit \(t_S\) und \(h_\text{max}\),
+  sim3 mit \(\alpha\) von −90° bis 90° (senkrecht: Auf- und Abweg nebeneinander gezeichnet, mit Notiz),
+  zwei Leistenaufgaben, Übungstyp `senkrecht`, Aufgabe 4b, Kontrollfrage 5, Gesamttest G5.
+- **«Tempo» → Geschwindigkeit bzw. Betrag** in Seite, Clips und PDFs (STYLEGUIDE §2.2).
+- **(t; s)** an den bewegten Punkten von sim1 und sim2; Steigungsdreieck in sim2 ab dem Punkt nach rechts.
+- **Denkaufträge** in den Leisten (sim1 6, sim2 3, 5, 6) mit Vergleichsantworten.
+- **Beschleunigungs-Clip:** Steigungsdreieck mit Δv und Δt im Diagramm, Einheit als (m/s)/s; die Wege
+  (Dreieck, Trapez = Rechteck + Dreieck, Bremsweg, doppelte Geschwindigkeit) entwickeln sich im
+  Diagramm statt als Simulationsbild.
+- **Antworten der Kontrollclips im Bild** (`antworten.py`).

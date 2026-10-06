@@ -257,6 +257,34 @@ Kurve an dieser Stelle verläuft — bei `y = x²` liegt die Kurve an `x = 1.35`
 ein Label bei `7.6` ist also frei. Vier Kollisionen sind auf diese Weise entstanden und
 erst im Bild aufgefallen, nicht in der Prüfung.
 
+### Flächen, Strecken, Texte und Ebenen im `graf` (Physik, 06.10.2026)
+
+Für Antwortbilder und für Rechnungen, die sich im Diagramm entwickeln. Alle statisch, in
+Datenkoordinaten; ohne die Felder baut jeder Clip Byte für Byte wie vorher.
+
+```json
+{"typ": "graf", "xbereich": [-1.4, 11], "ybereich": [-4, 34], "pfeile": true, "xname": "t [s]", "yname": "v [m/s]",
+ "flaechen": [{"punkte": [[0, 0], [8, 20], [8, 0]], "farbe": 1, "deckung": 0.28, "beschriftung": "80 m"}],
+ "strecken": [{"von": [8, 0], "bis": [8, 20], "farbe": 3, "gestrichelt": true,
+               "beschriftung": "Δv = 20 m/s", "beschriftung_bei": [8.25, 9]},
+              {"von": [0, 0], "bis": [3, 7.5], "farbe": 4, "pfeil": true}],
+ "texte": [{"bei": [0.4, 30], "text": "a = 2.5 m/s²", "farbe": 5, "groesse": 28, "anker": "start"}]}
+```
+
+- `flaechen` liegen unter allen Linien; `deckung` ist die Füllstärke (Standard 0.22).
+- `strecken` sind Hilfslinien, Masslinien, Vektoren und Kräfte; `"pfeil": true` setzt die Spitze
+  ans Ende. Beschriftung mit hellem Hof, Lage per `beschriftung_bei`, `anker`, `groesse`.
+- `texte` sind freie Beschriftungen (ebenfalls mit Hof).
+- **`"achsen": false`** zeichnet nur die Elemente, ohne Karo, Achsen und Teilung. Zwei Verwendungen:
+  ein Pfeilbild ohne Koordinaten (Kräfteplan, Draufsicht auf einen Fluss) und eine **Ebene**, die
+  später deckungsgleich über einem `graf` mit demselben Fenster erscheint (eigenes `ein`). So
+  entsteht eine Rechnung im Bild Schritt für Schritt — Fläche, dann Masse, dann Ergebnis —, und bei
+  einer klick-Frage erscheint die Antwort erst nach der Frage.
+- SVG-Text kennt kein LaTeX: «Δv = 20 m/s», «m/s²», «v₀» gehen, `\frac` und Indizes nicht.
+- Kreise: zwei `kurven` (obere und untere Halbkurve, `sqrt(abs(r*r-(x-a)*(x-a)))`).
+- Einblendzeiten nach der Vertonung an den Text legen: Element mit `"_anker": "<Textstelle>"`
+  versehen und `scripts/lp/kinematik/anker.py <clip>` laufen lassen.
+
 ### Theme `begreifbar-schlicht` — Standard für neue Clips (in Physik seit 03.10.2026)
 
 Wie `begreifbar`, aber **ohne Häuschenpapier und ohne roten Rand** (`karo: false`,

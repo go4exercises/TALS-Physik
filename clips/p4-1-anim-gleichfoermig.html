@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de-CH"><head><meta charset="utf-8"><title>Die Weg-Zeit-Gerade: Tempo als Steigung, Startort als Achsenabschnitt</title><style>
+<html lang="de-CH"><head><meta charset="utf-8"><title>Die Weg-Zeit-Gerade: Geschwindigkeit als Steigung, Startort als Achsenabschnitt</title><style>
 @import url("../schriften.css");
 :root{--papier:#f8f6f1;--tinte:#1c1a17;--blau:#8a4a0e;--rot:#9b1c1c;--gruen:#1f6b3a;--gold:#b85c00;--f1:#8a4a0e;--f1w:#fbecd2;--f2:#b85c00;--f2w:#fdefd8;--f3:#1f6b3a;--f3w:#d8f0e2;--f4:#9b1c1c;--f4w:#fde8e8}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -20,6 +20,21 @@ body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!impor
 #kopf .marke{font-weight:600;letter-spacing:.01em;color:var(--blau)}
 #kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
 #fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
+
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
 
 .l{position:absolute;will-change:opacity,transform}
 .l.flow{position:relative}
@@ -74,7 +89,7 @@ body.render #ui{display:none}
 <div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Mechanik · BM</span></div>
 <div id="fuss"><span>Raphael Arnold Kohler</span><span>27.09.2026</span></div>
 <div class="l" data-at="9.50" data-out="58.86" data-anim="fade" style="left:130px;top:296px;width:470px"><div class="step l flow" data-at="9.80" data-anim="rise" data-dim="9.50,23.27"><div class="num">1</div><div class="stxt">Steigung<br><span class="dim">\(\fa{v}\)</span></div></div><div class="step l flow" data-at="23.57" data-anim="rise" data-dim="23.27,33.78"><div class="num">2</div><div class="stxt">Fläche<br><span class="dim">\(\fd{s} - \fb{s_0}\)</span></div></div><div class="step l flow" data-at="34.08" data-anim="rise" data-dim="33.78,44.58"><div class="num">3</div><div class="stxt">Startort<br><span class="dim">verschiebt nur</span></div></div><div class="step l flow" data-at="44.88" data-anim="rise" data-dim="44.58,58.86"><div class="num">4</div><div class="stxt">Negatives \(\fa{v}\)<br><span class="dim">rückwärts</span></div></div></div>
-<div class="l hand mitte mitte" data-at="0.40" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:210px;font-size:88px;font-weight:600;color:var(--tinte)">Konstantes Tempo im Diagramm</div>
+<div class="l hand mitte mitte" data-at="0.40" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:210px;font-size:88px;font-weight:600;color:var(--tinte)">Konstante Geschwindigkeit im Diagramm</div>
 <div class="l sans mitte mitte" data-at="2.10" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:380px;font-size:44px;color:var(--blau)">Die Erkenntnisse zur Animation «Geradlinig gleichförmige Bewegung»</div>
 <div class="l m row mitte" data-at="3.80" data-out="9.50" data-anim="pop" style="left:130px;right:130px;text-align:center;top:570px;font-size:80px"><span>\(\fd{s}(t) = \fb{s_0} + \fa{v}\cdot t\)</span></div>
 <div class="l hand mitte" data-at="5.50" data-out="9.50" data-anim="rise" style="left:130px;right:130px;text-align:center;top:800px;font-size:54px;color:var(--rot)">Zwei Diagramme, eine Fahrt: Was steckt in der Geraden?</div>
@@ -93,7 +108,7 @@ body.render #ui{display:none}
 <div class="l m row" data-at="46.68" data-out="58.86" data-anim="rise" style="left:680px;top:605px;font-size:40px;width:1140px"><span>\(\fd{s} = \fb{s_0} + \fa{v}\cdot t = \fb{50\,\mathrm{m}} + (\fa{-10\,\mathrm{m/s}})\cdot 8.0\,\mathrm{s} = \fd{-30\,\mathrm{m}}\)</span></div>
 <div class="l m" data-at="48.38" data-out="58.86" data-anim="rise" style="left:680px;top:725px;font-size:44px;width:1140px">Negatives \(\fa{v}\): Die Gerade fällt, es geht rückwärts.</div>
 <div class="l hand" data-at="50.08" data-out="58.86" data-anim="rise" style="left:680px;top:835px;font-size:44px;color:var(--blau);width:1140px">Die Fläche liegt unter der Achse und zählt negativ: \(-80\,\mathrm{m}\).</div>
-<div class="l m mitte mitte" data-at="59.26" data-out="69.22" data-anim="pop" style="left:130px;right:130px;text-align:center;top:230px;font-size:64px;font-weight:600">Die Steigung ist das Tempo.</div>
+<div class="l m mitte mitte" data-at="59.26" data-out="69.22" data-anim="pop" style="left:130px;right:130px;text-align:center;top:230px;font-size:64px;font-weight:600">Die Steigung ist die Geschwindigkeit.</div>
 <div class="l m row mitte" data-at="60.96" data-out="69.22" data-anim="rise" style="left:130px;right:130px;text-align:center;top:405px;font-size:58px"><span>\(\fd{s}(t) = \fb{s_0} + \fa{v}\cdot t\)</span></div>
 <div class="l hand mitte" data-at="62.66" data-out="69.22" data-anim="rise" style="left:130px;right:130px;text-align:center;top:555px;font-size:50px;color:var(--rot)">\(\fb{s_0}\) verschiebt die Gerade; das Vorzeichen von \(\fa{v}\) gibt die Richtung.</div>
 </div></div>
@@ -185,7 +200,12 @@ if (!location.search.includes('render')) {
     if (ton) { if (playing) ton.play().catch(() => {}); else ton.pause(); }
   };
   pp.onclick = toggle;
+  // Tastenkuerzel nicht in Eingabefeldern; die Leertaste nicht auf Knoepfen —
+  // dort bestaetigt sie den Knopf (Antwort einer Frage, Play/Pause selbst).
   document.addEventListener('keydown', e => {
+    const ziel = e.target && e.target.closest ? e.target : null;
+    if (ziel && ziel.closest('input, select, textarea')) return;
+    if (e.code === 'Space' && ziel && ziel.closest('button, a, summary')) return;
     if (e.code === 'Space') { e.preventDefault(); toggle(); }
     if (e.code === 'ArrowRight') { t = Math.min(DUR, t + 5); tonAn(); }
     if (e.code === 'ArrowLeft') { t = Math.max(0, t - 5); tonAn(); }

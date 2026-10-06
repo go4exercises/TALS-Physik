@@ -364,8 +364,12 @@ def graf_svg(el, theme):
     xt = teilung("xteilung", x0, x1)
     yt = teilung("yteilung", y0, y1)
 
+    # "achsen": false (Physik 06.10.2026) — nur die Zeichnung, ohne Karo, Achsen und
+    # Teilung: eine Ebene, die zu einem spaeteren Zeitpunkt deckungsgleich ueber
+    # einem graf mit demselben Fenster erscheint (die Antwort nach der Frage).
+    ohne_achsen = el.get("achsen", True) is False
     # Karo
-    if el.get("raster", True):
+    if el.get("raster", True) and not ohne_achsen:
         for x, _ in xt:
             teile.append('<line x1="%.1f" y1="0" x2="%.1f" y2="%d" stroke="%s" '
                          'stroke-opacity=".13" stroke-width="1.5"/>' % (px(x), px(x), h, tinte))
@@ -373,51 +377,68 @@ def graf_svg(el, theme):
             teile.append('<line x1="0" y1="%.1f" x2="%d" y2="%.1f" stroke="%s" '
                          'stroke-opacity=".13" stroke-width="1.5"/>' % (py(y), b, py(y), tinte))
 
-    # Achsen mit Pfeil und Beschriftung
-    teile.append('<line x1="0" y1="%.1f" x2="%d" y2="%.1f" stroke="%s" stroke-width="3"/>'
-                 % (py(0), b, py(0), tinte))
-    teile.append('<line x1="%.1f" y1="%d" x2="%.1f" y2="0" stroke="%s" stroke-width="3"/>'
-                 % (px(0), h, px(0), tinte))
-    # "pfeile": Pfeilspitzen in positiver Richtung; "xname"/"yname": Achsenbeschriftung,
-    # bei Anwendungen mit Grösse und Einheit ("x [m]", "A [m²]"). Ohne Angabe bleibt das
-    # Bild wie bisher — bestehende Clips bauen Byte für Byte gleich.
     xname, yname = el.get("xname", "x"), el.get("yname", "y")
     achsnamen = []      # benannte Achsen kommen zuletzt, mit Hof — sonst liegt die Kurve darüber
-    if el.get("pfeile"):
-        teile.append('<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="%s"/>'
-                     % (b, py(0), b - 18, py(0) - 9, b - 18, py(0) + 9, tinte))
-        teile.append('<polygon points="%.1f,0 %.1f,18 %.1f,18" fill="%s"/>'
-                     % (px(0), px(0) - 9, px(0) + 9, tinte))
-    if xname == "x":
-        teile.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s">x</text>'
-                     % (b - 26, py(0) - 14, tinte))
-    else:
-        achsnamen.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s" '
-                         'stroke="%s" stroke-width="10" paint-order="stroke" text-anchor="end">%s</text>'
-                         % (b - 8, py(0) - 16, tinte, papier, entschaerfen(xname)))
-    if yname == "y":
-        teile.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s">y</text>'
-                     % (px(0) + 14, tinte))
-    else:
-        achsnamen.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s" '
-                         'stroke="%s" stroke-width="10" paint-order="stroke">%s</text>'
-                         % (px(0) + 14, tinte, papier, entschaerfen(yname)))
-    for x, mark in xt:
-        if abs(x) < 1e-9:
-            continue
-        teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
-                     % (px(x), py(0) - 7, px(x), py(0) + 7, tinte))
-        teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="middle" fill="%s" '
-                     'fill-opacity=".75">%s</text>'
-                     % (px(x), py(0) + 32, tinte, entschaerfen(mark)))
-    for y, mark in yt:
-        if abs(y) < 1e-9:
-            continue
-        teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
-                     % (px(0) - 7, py(y), px(0) + 7, py(y), tinte))
-        teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="end" fill="%s" '
-                     'fill-opacity=".75">%s</text>'
-                     % (px(0) - 13, py(y) + 8, tinte, entschaerfen(mark)))
+    if not ohne_achsen:
+        # Achsen mit Pfeil und Beschriftung
+        teile.append('<line x1="0" y1="%.1f" x2="%d" y2="%.1f" stroke="%s" stroke-width="3"/>'
+                     % (py(0), b, py(0), tinte))
+        teile.append('<line x1="%.1f" y1="%d" x2="%.1f" y2="0" stroke="%s" stroke-width="3"/>'
+                     % (px(0), h, px(0), tinte))
+        # "pfeile": Pfeilspitzen in positiver Richtung; "xname"/"yname": Achsenbeschriftung,
+        # bei Anwendungen mit Grösse und Einheit ("x [m]", "A [m²]"). Ohne Angabe bleibt das
+        # Bild wie bisher — bestehende Clips bauen Byte für Byte gleich.
+        if el.get("pfeile"):
+            teile.append('<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="%s"/>'
+                         % (b, py(0), b - 18, py(0) - 9, b - 18, py(0) + 9, tinte))
+            teile.append('<polygon points="%.1f,0 %.1f,18 %.1f,18" fill="%s"/>'
+                         % (px(0), px(0) - 9, px(0) + 9, tinte))
+        if xname == "x":
+            teile.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s">x</text>'
+                         % (b - 26, py(0) - 14, tinte))
+        else:
+            achsnamen.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s" '
+                             'stroke="%s" stroke-width="10" paint-order="stroke" text-anchor="end">%s</text>'
+                             % (b - 8, py(0) - 16, tinte, papier, entschaerfen(xname)))
+        if yname == "y":
+            teile.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s">y</text>'
+                         % (px(0) + 14, tinte))
+        else:
+            achsnamen.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s" '
+                             'stroke="%s" stroke-width="10" paint-order="stroke">%s</text>'
+                             % (px(0) + 14, tinte, papier, entschaerfen(yname)))
+        for x, mark in xt:
+            if abs(x) < 1e-9:
+                continue
+            teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
+                         % (px(x), py(0) - 7, px(x), py(0) + 7, tinte))
+            teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="middle" fill="%s" '
+                         'fill-opacity=".75">%s</text>'
+                         % (px(x), py(0) + 32, tinte, entschaerfen(mark)))
+        for y, mark in yt:
+            if abs(y) < 1e-9:
+                continue
+            teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
+                         % (px(0) - 7, py(y), px(0) + 7, py(y), tinte))
+            teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="end" fill="%s" '
+                         'fill-opacity=".75">%s</text>'
+                         % (px(0) - 13, py(y) + 8, tinte, entschaerfen(mark)))
+
+    # Flaechen: gefuellte Vielecke in Datenkoordinaten, unter allen Linien
+    # (Physik 06.10.2026). Gebraucht fuer den Weg als Flaeche unter der
+    # v-t-Geraden; "beschriftung" steht in der Mitte oder bei "beschriftung_bei".
+    for fl in el.get("flaechen", []):
+        farbe = fv[fl.get("farbe", 1) - 1]
+        teile.append('<polygon points="%s" fill="%s" fill-opacity="%s" stroke="none"/>'
+                     % (" ".join("%.1f,%.1f" % (px(x), py(y)) for x, y in fl["punkte"]),
+                        farbe, fl.get("deckung", 0.22)))
+        if fl.get("beschriftung"):
+            bx_, by_ = fl.get("beschriftung_bei") or (
+                sum(x for x, _ in fl["punkte"]) / len(fl["punkte"]),
+                sum(y for _, y in fl["punkte"]) / len(fl["punkte"]))
+            teile.append('<text x="%.1f" y="%.1f" font-size="29" font-weight="600" fill="%s" '
+                         'text-anchor="middle" stroke="%s" stroke-width="8" paint-order="stroke">%s</text>'
+                         % (px(bx_), py(by_) + 10, farbe, papier, entschaerfen(fl["beschriftung"])))
 
     # Geraden y = m x + q, am Fenster abgeschnitten
     for nr, g in enumerate(el.get("geraden", [])):
@@ -621,6 +642,51 @@ def graf_svg(el, theme):
                          'text-anchor="%s">%s</text>'
                          % (px(bx_), py(by_), farbe, kv.get("anker", "start"),
                             entschaerfen(kv["beschriftung"])))
+
+    # Strecken und Pfeile in Datenkoordinaten (Physik 06.10.2026): Hilfslinien
+    # zu einem Ablesewert, Vektoren, Kraftpfeile. "pfeil": true setzt eine
+    # Spitze am Ende; die Beschriftung steht bei "beschriftung_bei" oder rechts
+    # neben der Mitte. Gezeichnet ueber den Kurven, unter den Punkten.
+    for st in el.get("strecken", []):
+        farbe = fv[st.get("farbe", 5) - 1]
+        (ax, ay), (bx, by) = st["von"], st["bis"]
+        X1, Y1, X2, Y2 = px(ax), py(ay), px(bx), py(by)
+        dicke = st.get("dicke", 3 if st.get("gestrichelt") else 5)
+        if st.get("pfeil"):
+            lg = math.hypot(X2 - X1, Y2 - Y1) or 1
+            ux, uy = (X2 - X1) / lg, (Y2 - Y1) / lg
+            sp = st.get("spitze", 22)
+            X2s, Y2s = X2 - ux * sp * 0.8, Y2 - uy * sp * 0.8
+            teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="%s" '
+                         'stroke-linecap="round" %s/>'
+                         % (X1, Y1, X2s, Y2s, farbe, dicke,
+                            'stroke-dasharray="9 7"' if st.get("gestrichelt") else ""))
+            teile.append('<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="%s"/>'
+                         % (X2, Y2, X2 - ux * sp - uy * sp * 0.45, Y2 - uy * sp + ux * sp * 0.45,
+                            X2 - ux * sp + uy * sp * 0.45, Y2 - uy * sp - ux * sp * 0.45, farbe))
+        else:
+            teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="%s" '
+                         'stroke-linecap="round" %s/>'
+                         % (X1, Y1, X2, Y2, farbe, dicke,
+                            'stroke-dasharray="9 7"' if st.get("gestrichelt") else ""))
+        if st.get("beschriftung"):
+            if st.get("beschriftung_bei"):
+                tx, ty = px(st["beschriftung_bei"][0]), py(st["beschriftung_bei"][1])
+            else:
+                tx, ty = (X1 + X2) / 2 + 14, (Y1 + Y2) / 2 - 10
+            teile.append('<text x="%.1f" y="%.1f" font-size="%s" font-weight="600" fill="%s" '
+                         'text-anchor="%s" stroke="%s" stroke-width="8" paint-order="stroke">%s</text>'
+                         % (tx, ty, st.get("groesse", 27), farbe, st.get("anker", "start"), papier,
+                            entschaerfen(st["beschriftung"])))
+
+    # Freie Beschriftungen in Datenkoordinaten (Physik 06.10.2026)
+    for tx_ in el.get("texte", []):
+        farbe = fv[tx_.get("farbe", 5) - 1]
+        teile.append('<text x="%.1f" y="%.1f" font-size="%s" font-weight="%s" fill="%s" text-anchor="%s" '
+                     'stroke="%s" stroke-width="8" paint-order="stroke">%s</text>'
+                     % (px(tx_["bei"][0]), py(tx_["bei"][1]), tx_.get("groesse", 27),
+                        tx_.get("gewicht", 600), farbe, tx_.get("anker", "start"), papier,
+                        entschaerfen(tx_["text"])))
 
     # Punkte
     for pt in el.get("punkte", []):

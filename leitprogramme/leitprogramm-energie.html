@@ -40,7 +40,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-10-05",
+   "dateModified": "2026-10-06",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -1704,10 +1704,12 @@ svg.mini.breit{width:260px}
       { text: 'Zieh die Kiste dreimal mit derselben Kraft und demselben Weg, aber unter drei verschiedenen Winkeln. Wie hängt die Arbeit vom Winkel ab? Notiere deine Antwort.', ok: function(s){ var l = s.laeufe, n = {}; l.forEach(function(a){ if (a.F === l[l.length - 1].F && a.s === l[l.length - 1].s) n[a.a] = true; }); return l.length && Object.keys(n).length >= 3; },
         vergleich: 'Je grösser der Winkel, desto kleiner die Arbeit: Nur der Anteil \\(F_s = F \\cdot \\cos\\alpha\\) in Wegrichtung zählt, und \\(\\cos\\alpha\\) wird mit dem Winkel kleiner. Bei \\(90^\\circ\\) wäre er null — eine Kraft senkrecht zum Weg verrichtet keine Arbeit.' },
       { text: 'Zieh die Kiste waagrecht mit \\(250\\;\\text{N}\\) über \\(6\\;\\text{m}\\). Wie gross ist die Arbeit?', ok: function(s){ return hat(s, 250, 0, 6); } },
-      { text: 'Jetzt dieselbe Kraft, derselbe Weg, aber das Seil steigt unter \\(60^\\circ\\) an. Zieh und vergleiche.', ok: function(s){ return hat(s, 250, 60, 6); } },
+      { text: 'Jetzt dieselbe Kraft, derselbe Weg, aber das Seil steigt unter \\(60^\\circ\\) an. Zieh und vergleiche mit Aufgabe 2: Welcher Teil der Arbeit bleibt? Notiere deine Antwort.', ok: function(s){ return hat(s, 250, 60, 6); },
+        vergleich: 'Die Hälfte: \\(W = 250\\;\\text{N} \\cdot 6\\;\\text{m} \\cdot \\cos 60^\\circ = 750\\;\\text{J}\\) statt \\(1500\\;\\text{J}\\), weil \\(\\cos 60^\\circ = 0.5\\). Nur der Anteil in Wegrichtung, \\(F_s = 125\\;\\text{N}\\), verrichtet Arbeit.' },
       { text: 'Waagrecht gezogen sollen auf \\(4\\;\\text{m}\\) genau \\(600\\;\\text{J}\\) Arbeit verrichtet werden. Welche Kraft braucht es? Stelle ein und zieh.', ok: function(s){ return hat(s, 150, 0, 4); } },
       { text: 'Mit \\(300\\;\\text{N}\\) über \\(8\\;\\text{m}\\) sollen nur \\(1200\\;\\text{J}\\) Arbeit herauskommen. Unter welchem Winkel? Stelle ein und zieh.', ok: function(s){ return hat(s, 300, 60, 8); } },
-      { text: 'Triff die gestrichelte Fläche genau: Stelle Kraft, Winkel und Weg ein und zieh.', setup: function(S){ ziel = { s: 6, Fs: 160 }; S.setze({ F: 100, al: 20, s: 3 }); }, ok: function(s){ return s.lauf && s.lauf.s === 6 && Math.abs(s.lauf.Fs - 160) < 1e-6; } }
+      { text: 'Triff die gestrichelte Fläche genau: Stelle Kraft, Winkel und Weg ein und zieh. Wie viel Arbeit stellt die Fläche dar? Notiere deine Antwort.', setup: function(S){ ziel = { s: 6, Fs: 160 }; S.setze({ F: 100, al: 20, s: 3 }); }, ok: function(s){ return s.lauf && s.lauf.s === 6 && Math.abs(s.lauf.Fs - 160) < 1e-6; },
+        vergleich: 'Die Fläche ist \\(W = F_s \\cdot s = 160\\;\\text{N} \\cdot 6\\;\\text{m} = 960\\;\\text{J}\\). Getroffen hat jede Einstellung mit \\(F \\cdot \\cos\\alpha = 160\\;\\text{N}\\), etwa \\(160\\;\\text{N}\\) waagrecht oder \\(320\\;\\text{N}\\) unter \\(60^\\circ\\).' }
     ], sim);
     zeichnen();
   })();
@@ -1754,7 +1756,17 @@ svg.mini.breit{width:260px}
       // Diagramm: Parabel E_kin(v) in kJ, Punkt gleitet beim Bremsen hinunter
       if (vorher) K.kurve(function(u){ return 0.5 * vorher.m * u * u / 1000; }, 'vorher', 0, 26);
       K.kurve(function(u){ return 0.5 * w.m * u * u / 1000; }, 'kurve-ekin', 0, 26);
-      K.punkt(vn, En / 1000, 'p-v', 'Eₖᵢₙ = ' + sig(En / 1000, 4) + NB + 'kJ', vn > 15 ? -9 : 9, -9, vn > 15 ? 'end' : 'start');
+      // Punkt mit beiden Koordinaten. Die Parabel steigt nach rechts: Beschriftung rechts unter
+      // dem Punkt, wenn darunter Platz ist; sonst darüber, so weit links wie möglich (bis an die
+      // E-Achse) und gerade so hoch, dass sie die Kurve über ihrer ganzen Breite meidet.
+      var lab = '(' + sig(vn) + NB + 'm/s; ' + sig(En / 1000, 4) + NB + 'kJ)', lw = lab.length * 6.4,
+          px0 = K.X(vn), py0 = K.Y(En / 1000), ppu = K.X(1) - K.X(0), dx = 9, dy = 17;
+      if (py0 + dy > K.Y(0) - 5 || px0 + 9 + lw > 300 || (py0 + dy > K.Y(0) - 22 && px0 + 9 + lw > 245)){   // nicht auf Achse oder Achsnamen
+        dx = Math.max(K.X(0) + 6 - px0, -9 - lw);
+        var hoch = 0; for (var xp = px0 + dx; xp <= px0 + dx + lw; xp += 3){ var u = vn + (xp - px0) / ppu; hoch = Math.max(hoch, py0 - K.Y(0.5 * w.m * u * u / 1000)); }
+        dy = -9 - hoch;
+      }
+      K.punkt(vn, En / 1000, 'p-v', lab, dx, dy, 'start');
       var z = '<span>' + v_('E') + '<sub>kin</sub> = ½ · ' + v_('m') + ' · ' + v_('v') + '² = ½ · ' + zahl(w.m) + NB + 'kg · (' + zahl(w.v) + NB + 'm/s)² ' + ist(w.E, sig(w.E, 4)) + sig(w.E, 4) + NB + 'J</span>' +
               '<span>Bremsweg: ' + v_('F') + '<sub>B</sub> · ' + v_('s') + ' = ' + v_('E') + '<sub>kin</sub> → ' + v_('s') + ' = ' + v_('E') + '<sub>kin</sub> / ' + v_('F') + '<sub>B</sub> = ' + sig(w.E, 4) + NB + 'J / ' + zahl(w.F) + NB + 'N ' + ist(w.s, sig(w.s)) + sig(w.s) + NB + 'm</span>';
       if (vorher) z += '<span class="sim-notiz">Gestrichelt grau: die Parabel der vorigen Bremsung.</span>';
@@ -1769,7 +1781,8 @@ svg.mini.breit{width:260px}
       { text: 'Ein Kleinwagen mit \\(800\\;\\text{kg}\\) bremst aus \\(15\\;\\text{m/s}\\) mit \\(6000\\;\\text{N}\\). Wie lang wird der Bremsweg bei doppelter Masse, sonst gleich? Stelle ein und brems.', ok: function(s){ return hat(s, 1600, 15, 6000); } },
       { text: 'Welche Bremskraft hält ein Auto mit \\(1200\\;\\text{kg}\\) aus \\(20\\;\\text{m/s}\\) auf \\(40\\;\\text{m}\\) an? Stelle ein und brems.', ok: function(s){ return hat(s, 1200, 20, 6000); } },
       { text: 'Ein Auto mit \\(2000\\;\\text{kg}\\) hat \\(400\\;\\text{kJ}\\) Bewegungsenergie. Wie schnell fährt es? Stelle ein und brems.', ok: function(s){ return s.lauf && s.lauf.m === 2000 && s.lauf.v === 20; } },
-      { text: 'Bremse so, dass das Auto genau an der gestrichelten Linie steht.', setup: function(S){ ziel = 25; S.setze({ m: 1200, v: 8, F: 7000 }); }, ok: function(s){ return s.lauf && Math.abs(s.lauf.s - 25) < 1e-6; } }
+      { text: 'Bremse so, dass das Auto genau an der gestrichelten Linie steht. Warum gibt es mehrere Einstellungen, die das schaffen? Notiere deine Antwort.', setup: function(S){ ziel = 25; S.setze({ m: 1200, v: 8, F: 7000 }); }, ok: function(s){ return s.lauf && Math.abs(s.lauf.s - 25) < 1e-6; },
+        vergleich: 'Der Bremsweg ist \\(s = \\dfrac{E_\\text{kin}}{F_B}\\). Jede Einstellung, bei der die Bewegungsenergie genau \\(25\\;\\text{m}\\) mal die Bremskraft ist, trifft die Linie: etwa \\(1000\\;\\text{kg}\\), \\(20\\;\\text{m/s}\\) und \\(8000\\;\\text{N}\\) (\\(200\\;\\text{kJ}\\)) oder \\(2000\\;\\text{kg}\\), \\(10\\;\\text{m/s}\\) und \\(4000\\;\\text{N}\\) (\\(100\\;\\text{kJ}\\)).' }
     ], sim);
     zeichnen();
   })();
@@ -1935,7 +1948,8 @@ svg.mini.breit{width:260px}
       { text: 'Wagen \\(60\\;\\text{kg}\\), \\(15\\;\\text{m}\\) hinunter, ohne Reibung und Motor: Wie schnell ist er unten?', ok: function(s){ return hat(s, 60, 15, 0, 0); } },
       { text: 'Dieselbe Fahrt mit \\(80\\;\\text{N}\\) Reibung: Wie viel Energie wird zu Wärme, und wie schnell ist der Wagen unten?', ok: function(s){ return hat(s, 60, 15, 80, 0); } },
       { text: 'Bergauf: Das Ende liegt \\(5\\;\\text{m}\\) höher (\\(h = -5\\;\\text{m}\\)), Reibung \\(50\\;\\text{N}\\), Wagen \\(80\\;\\text{kg}\\). Mit welcher Motorkraft kommt er gerade noch oben an? Stelle ein und fahr.', ok: function(s){ return hat(s, 80, -5, 50, 150); } },
-      { text: 'Stelle eine Fahrt ein, bei der genau ein Viertel der zugeführten Energie zu Wärme wird.', ok: function(s){ return s.lauf && s.lauf.zu > 0 && Math.abs(s.lauf.W / s.lauf.zu - 0.25) < 0.01; } },
+      { text: 'Stelle eine Fahrt ein, bei der genau ein Viertel der zugeführten Energie zu Wärme wird. Wohin gehen die übrigen drei Viertel? Notiere deine Antwort.', ok: function(s){ return s.lauf && s.lauf.zu > 0 && Math.abs(s.lauf.W / s.lauf.zu - 0.25) < 0.01; },
+        vergleich: 'In die Bewegungsenergie am Ende — fährt der Wagen bergauf, zum Teil auch in Lageenergie. Zugeführt werden die Lageenergie beim Hinunterfahren und die Motorarbeit \\(F_M \\cdot s\\); ein Viertel davon macht die Reibung \\(F_R \\cdot s\\) zu Wärme. Die beiden Säulen bleiben gleich hoch.' },
       { text: 'Fahr mit Motor \\(10\\;\\text{m}\\) bergauf (\\(h = -10\\;\\text{m}\\)), ohne Reibung. Wohin ist die Motorarbeit gegangen? Notiere deine Antwort.', ok: function(s){ return s.lauf && s.lauf.h === -10 && s.lauf.FR === 0 && s.lauf.FM > 0; },
         vergleich: 'Zum grössten Teil in Lageenergie \\(m \\cdot g \\cdot h\\), der Rest in Bewegungsenergie: \\(F_M \\cdot s = m \\cdot g \\cdot h + E_\\text{kin}\\). Mit Reibung käme noch Wärme dazu.' }
     ], sim);
@@ -1999,7 +2013,8 @@ svg.mini.breit{width:260px}
       { text: 'Dieselbe Last in der halben Zeit: Wie gross ist die Nutzleistung jetzt?', ok: function(s){ return hat(s, 300, 15, 15); } },
       { text: 'Wieder \\(300\\;\\text{kg}\\), \\(15\\;\\text{m}\\), \\(30\\;\\text{s}\\), aber der Antrieb hat den Wirkungsgrad \\(0.75\\). Welche Leistung muss zugeführt werden?', ok: function(s){ return hat(s, 300, 15, 30, 0.75); } },
       { text: 'Der Motor nimmt höchstens \\(1500\\;\\text{W}\\) auf, \\(\\eta = 0.75\\). Last \\(300\\;\\text{kg}\\), Höhe \\(12\\;\\text{m}\\): Stelle die kürzeste mögliche Hubzeit in ganzen Sekunden ein und heb.', ok: function(s){ return hat(s, 300, 12, 32, 0.75); } },
-      { text: 'Stelle einen Hub ein, für den genau \\(2\\;\\text{kW}\\) zugeführt werden müssen, und heb.', ok: function(s){ return s.lauf && Math.abs(s.lauf.Pz - 2000) < 10; } }
+      { text: 'Stelle einen Hub ein, für den genau \\(2\\;\\text{kW}\\) zugeführt werden müssen, und heb. Wie viel davon hebt die Last, und wohin geht der Rest? Notiere deine Antwort.', ok: function(s){ return s.lauf && Math.abs(s.lauf.Pz - 2000) < 10; },
+        vergleich: 'Die Nutzleistung ist \\(P_\\text{nutz} = \\eta \\cdot 2\\;\\text{kW}\\), bei \\(\\eta = 0.75\\) also \\(1500\\;\\text{W}\\). Der Rest, \\((1 - \\eta) \\cdot 2\\;\\text{kW}\\), wird im Antrieb zu Wärme.' }
     ], sim);
     zeichnen();
   })();

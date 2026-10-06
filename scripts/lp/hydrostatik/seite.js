@@ -78,6 +78,13 @@
     var schilder = el(svg, 'g', {});
     stext(schilder, { x: W - 3, y: Y(0) - pf - 2, 'text-anchor': 'end', 'class': 'achsname' }, o.xname || 'x');
     stext(schilder, { x: X(0) + pf + 2, y: pf + 5, 'text-anchor': 'start', 'class': 'achsname' }, o.yname || 'y');
+    /* Belegte Flächen [links, oben, rechts, unten] in px: Achsennamen, Teilung, Punkte und
+       schon gesetzte Beschriftungen. etikett() sucht für die Beschriftung eines Punktes eine
+       freie Stelle, die weder diese Flächen noch die übergebenen Kurven berührt. */
+    var breite = function(s){ return String(s).replace(/_/g, '').length * 6.3; };
+    var schutz = [[W - 3 - breite(o.xname || 'x'), Y(0) - pf - 14, W, Y(0) - pf + 1],
+                  [X(0) + pf, 0, X(0) + pf + 4 + breite(o.yname || 'y'), pf + 8],
+                  [0, Y(0) + 2, W, Y(0) + 16], [0, 0, X(0) + 2, H]];
     return {
       X: X, Y: Y, ebene: ebene, clip: 'url(#' + id + ')',
       leeren: function(){ leeren(ebene); },
@@ -94,7 +101,43 @@
       punkt: function(x, y, cls, text, dx, dy, anker){
         if (x < x0 || x > x1 || y < y0 || y > y1) return;
         el(ebene, 'circle', { cx: X(x), cy: Y(y), r: o.r || 4.5, 'class': cls });
+        schutz.push([X(x) - 6, Y(y) - 6, X(x) + 6, Y(y) + 6]);
         if (text) el(ebene, 'text', { x: X(x) + (dx == null ? 8 : dx), y: Y(y) + (dy == null ? -8 : dy), 'text-anchor': anker || 'start', 'class': 'p-text ' + cls }, text);
+      },
+      /* Beschriftung «(x; y)» an einem Punkt: die erste freie von mehreren Stellen rund um
+         den Punkt. kurven: [[f, von, bis], …] in Datenkoordinaten; belegt: weitere Flächen
+         (Legende); wahl: eigene Reihenfolge der Stellen [dx, dy, Anker]. */
+      etikett: function(x, y, s, cls, op){
+        op = op || {};
+        if (x < x0 || x > x1 || y < y0 || y > y1) return;
+        var px = X(x), py = Y(y), bw = breite(s), bh = 11, alle = schutz.concat(op.belegt || []), ks = op.kurven || [];
+        var wahl = op.wahl || [[8, -8, 'start'], [8, 17, 'start'], [-8, -8, 'end'], [-8, 17, 'end'],
+                                [-8, -24, 'end'], [8, -24, 'start'], [-40, -8, 'end'], [-70, 2, 'end'],
+                                [-8, 34, 'end'], [8, 34, 'start'], [-8, 52, 'end']];
+        function frei(b){
+          if (b[0] < 1 || b[2] > W - 1 || b[1] < 1 || b[3] > H - 1) return false;
+          for (var i = 0; i < alle.length; i++){ var c = alle[i]; if (b[0] < c[2] && b[2] > c[0] && b[1] < c[3] && b[3] > c[1]) return false; }
+          for (var j = 0; j < ks.length; j++){
+            var vor = null;
+            for (var k = 0; k <= 30; k++){
+              var xx = x0 + (b[0] - 3 + (b[2] - b[0] + 6) * k / 30) / W * (x1 - x0);
+              if (xx < ks[j][1] || xx > ks[j][2]){ vor = null; continue; }
+              var yy = Y(ks[j][0](xx));
+              if (yy > b[1] - 3 && yy < b[3] + 3) return false;
+              if (vor != null && Math.min(vor, yy) < b[3] + 3 && Math.max(vor, yy) > b[1] - 3) return false;
+              vor = yy;
+            }
+          }
+          return true;
+        }
+        var gew = wahl[0];
+        for (var i = 0; i < wahl.length; i++){
+          var c = wahl[i], tx = px + c[0], ty = py + c[1], l = c[2] === 'end' ? tx - bw : tx;
+          if (frei([l, ty - bh + 1, l + bw, ty + 3])){ gew = c; break; }
+        }
+        var gx = px + gew[0], gy = py + gew[1], gl_ = gew[2] === 'end' ? gx - bw : gx;
+        schutz.push([gl_, gy - bh + 1, gl_ + bw, gy + 3]);
+        el(ebene, 'text', { x: gx, y: gy, 'text-anchor': gew[2], 'class': 'p-text ' + cls }, s);
       },
       text: function(x, y, s, cls, anker){ return el(ebene, 'text', { x: X(x), y: Y(y), 'text-anchor': anker || 'middle', 'class': cls }, s); }
     };
@@ -308,6 +351,8 @@
       K = Achsen(dia, { w: 300, h: 120, x0: -250, x1: 4300, y0: sk.y0, y1: sk.y1, sx: 500, sy: sk.sy, xm: [1000, 2000, 3000, 4000], ym: sk.ym, xname: 'A [cm²]', yname: 'p [kPa]' });
       K.kurve(function(a){ return w.m * G / (a / 1e4) / 1000; }, 'kurve-p', 100, 4000);
       K.punkt(w.A, w.p / 1000, 'p-p');
+      K.etikett(w.A, w.p / 1000, '(' + zahl(w.A) + NB + 'cm²; ' + sig(w.p / 1000) + NB + 'kPa)', 'p-p',
+                { kurven: [[function(a){ return w.m * G / (a / 1e4) / 1000; }, 100, 4000]] });
       var z = '<span>' + p_() + ' = ' + v_('F') + ' / ' + v_('A') + ' = ' + v_('m') + ' · ' + v_('g') + ' / ' + v_('A') + ' = ' + zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² / ' + zahl(w.A / 1e4) + NB + 'm² ' + ist(w.p, sig(w.p)) + sig(w.p) + NB + 'Pa</span>';
       z += '<span>' + p_() + ' ' + ist(w.p, sig(w.p)) + sig(w.p / 1000) + NB + 'kPa ' + ist(w.p / 100, sig(w.p / 100)) + sig(w.p / 100) + NB + 'hPa ' + ist(w.p / 1e5, sig(w.p / 1e5)) + sig(w.p / 1e5) + NB + 'bar</span>';
       z += '<span class="sim-notiz">' + zahl(w.A) + NB + 'cm² = ' + zahl(w.A / 1e4) + NB + 'm². Vereinfachtes Schneemodell: Je grösser der Druck, desto tiefer sinkt man ein.' + (vorher ? ' Grau: Tiefe beim vorigen Hinstehen.' : '') + '</span>';
@@ -380,6 +425,12 @@
       K.punkt(h, p / 1e5, 'p-p'); K.punkt(h, pS / 1e5, 'p-ps');
       stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende l-p' }, '— p = p_0 + p_S');
       stext(K.ebene, { x: 296, y: 24, 'text-anchor': 'end', 'class': 'legende l-ps' }, '- - p_S');
+      var kv = [[function(x){ return (P0 + w.rho * G * x) / 1e5; }, 0, h], [function(x){ return w.rho * G * x / 1e5; }, 0, h]];
+      var lg = [[214, 0, 300, 15], [250, 15, 300, 28]], hh = zahl(+h.toFixed(1));
+      K.etikett(h, p / 1e5, '(' + hh + NB + 'm; ' + (p / 1e5).toFixed(2) + NB + 'bar)', 'p-p',
+                { kurven: kv, belegt: lg, wahl: [[8, -8, 'start'], [-8, -8, 'end'], [-40, -8, 'end'], [-8, -24, 'end'], [-70, 2, 'end'], [-100, 2, 'end'], [8, -24, 'start']] });
+      K.etikett(h, pS / 1e5, '(' + hh + NB + 'm; ' + (pS / 1e5).toFixed(2) + NB + 'bar)', 'p-ps',
+                { kurven: kv, belegt: lg, wahl: [[8, 17, 'start'], [8, -8, 'start'], [-8, 17, 'end'], [-8, 34, 'end'], [-8, 52, 'end']] });
       var H = +h.toFixed(1);
       var z = '<span>' + p_('S') + ' = ' + v_('ρ') + ' · ' + v_('g') + ' · ' + v_('h') + ' = ' + zahl(w.rho) + NB + 'kg/m³ · 9.81' + NB + 'm/s² · ' + zahl(H) + NB + 'm = ' + zahl(Math.round(w.rho * G * H * 10) / 10) + NB + 'Pa</span>';
       var pSh = w.rho * G * H / 100;
@@ -600,6 +651,10 @@
       stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende l-waage' }, '— Anzeige der Waage');
       stext(K.ebene, { x: 296, y: 24, 'text-anchor': 'end', 'class': 'legende l-fa' }, '- - F_A');
       var Ve = V * 1e6 * Math.min(+he.toFixed(1), HK) / HK, fA = w.rf * Ve * 1e-6 * G;
+      // Punkte beschriftet wie die Formelzeilen: Anzeige auf 3, Auftrieb auf 4 Stellen
+      var kw = [[function(x){ return w.FG - FA(w, x); }, 0, he], [function(x){ return FA(w, x); }, 0, he]], lw = [[180, 0, 300, 15], [255, 15, 300, 28]], hz = zahl(+he.toFixed(1));
+      K.etikett(he, fw, '(' + hz + NB + 'cm; ' + sig(w.FG - fA) + NB + 'N)', 'p-waage', { kurven: kw, belegt: lw });
+      K.etikett(he, fa, '(' + hz + NB + 'cm; ' + sig(fA, 4) + NB + 'N)', 'p-fa', { kurven: kw, belegt: lw });
       var z = '<span>' + F_('A') + ' = ' + v_('ρ') + '<sub>Fl</sub> · ' + v_('V') + '<sub>e</sub> · ' + v_('g') + ' = ' + zahl(w.rf) + NB + 'kg/m³ · ' + zahl(+(Ve * 1e-6).toPrecision(4)) + NB + 'm³ · 9.81' + NB + 'm/s² ' + ist(fA, sig(fA, 4)) + sig(fA, 4) + NB + 'N</span>';
       z += '<span>Anzeige = ' + F_('G') + ' − ' + F_('A') + ' = ' + sig(w.FG, 4) + NB + 'N − ' + sig(fA, 4) + NB + 'N ' + ist(w.FG - fA, sig(w.FG - fA)) + sig(w.FG - fA) + NB + 'N</span>';   // Glieder auf 4 Stellen, Ergebnis auf 3: stimmt mit den gezeigten Zahlen
       z += '<span class="sim-notiz">' + v_('V') + '<sub>e</sub>: eingetauchtes Volumen (Körper: 200' + NB + 'cm³, 10' + NB + 'cm hoch; 1' + NB + 'cm³ = 10⁻⁶' + NB + 'm³). Pfeile im Massstab der Gewichtskraft. ' + F_('G') + ' = ' + v_('ρ') + '<sub>K</sub> · ' + v_('V') + ' · ' + v_('g') + ' = ' + zahl(w.rk) + NB + 'kg/m³ · 0.0002' + NB + 'm³ · 9.81' + NB + 'm/s² ' + ist(w.FG, sig(w.FG, 4)) + sig(w.FG, 4) + NB + 'N.</span>';
@@ -692,7 +747,7 @@
     pruefen = Leiste(fig, [
       { text: 'Ein Würfel aus Kiefernholz (\\(520\\;\\text{kg/m}^3\\)) in Süsswasser: Lass ihn los. Welcher Anteil taucht ein, und wie tief (Kante \\(10\\;\\text{cm}\\))? Notiere, dann vergleiche.', ok: function(s){ return hat(s, 520, 1000); },
         vergleich: 'Er schwimmt, \\(F_A = F_G\\): \\(\\dfrac{V_e}{V} = \\dfrac{\\rho_K}{\\rho_{Fl}} = \\dfrac{520}{1000} = 0.52\\). Er taucht \\(5.2\\;\\text{cm}\\) tief ein.' },
-      { text: 'Finde die Dichte, bei der der Würfel im Meerwasser schwebt, und lass ihn los.', ok: function(s){ return hat(s, 1025, 1025); },
+      { text: 'Finde die Dichte, bei der der Würfel im Meerwasser schwebt, und lass ihn los. Warum gerade diese Dichte? Begründe.', ok: function(s){ return hat(s, 1025, 1025); },
         vergleich: 'Bei \\(\\rho_K = \\rho_{Fl} = 1025\\;\\text{kg/m}^3\\): Ganz eingetaucht ist der Auftrieb genau so gross wie die Gewichtskraft — er bleibt in jeder Tiefe stehen.' },
       { text: 'Ein Eiswürfel (\\(920\\;\\text{kg/m}^3\\)): Lass ihn in Süsswasser und in Spiritus los. Was geschieht? Begründe.', ok: function(s){ var n = {}; s.laeufe.forEach(function(l){ if (l.rk === 920) n[l.rf] = true; }); return n[1000] && n[790]; },
         vergleich: 'In Wasser schwimmt er (\\(920 < 1000\\)), in Spiritus sinkt er (\\(920 > 790\\)). Ob ein Körper schwimmt, entscheidet der Vergleich seiner Dichte mit der Dichte der Flüssigkeit — nicht seine Masse.' },

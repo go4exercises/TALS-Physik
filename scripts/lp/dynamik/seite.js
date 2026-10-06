@@ -223,6 +223,20 @@
       laeuft: function(){ return id !== null; }
     };
   }
+  /* Bewegter Punkt im v-t-Diagramm, vollständig beschriftet «(t; v)». Die Beschriftung steht
+     auf der Seite, auf der die Gerade nicht verläuft: steigt sie, rechts unten oder links oben;
+     fällt sie, rechts oben oder links unten. Am Rand (oben, an der t-Achse) rückt sie neben den
+     Punkt. Links oder rechts je nach Lage, damit sie im Bild bleibt. */
+  function punktTV(K, w, t, v, steigung, tText, vText){
+    var X = K.X(t), Y = K.Y(v), Y0 = K.Y(0), rechts = X < w * 0.5, dx = rechts ? 9 : -9, dy;
+    if (steigung > 1e-9) dy = rechts ? 16 : -9;
+    else if (steigung < -1e-9) dy = rechts ? -9 : 16;
+    else dy = -9;
+    if (steigung === 'halt') dy = 24;                      // nach dem Halt: unter die t-Achse, die fallende Gerade liegt links darüber
+    else if (Y + dy - 10 < 0 || (dy > 0 && Y + dy > Y0 - 3)){ dx = rechts ? 14 : -14; dy = steigung === 0 && Y - 19 >= 0 ? -9 : 4; }
+    if (!rechts && dy < 0) dy = Math.min(dy, Y0 - 24 - Y);  // links oben: nie auf den Achsennamen «t [s]»
+    K.punkt(t, v, 'p-v', '(' + tText + NB + 's; ' + vText + NB + 'm/s)', dx, dy, rechts ? 'start' : 'end');
+  }
   function aktionen(fig, liste){
     var box = fig.querySelector('.sim-aktionen'), k = {};
     liste.forEach(function(a){ var b = document.createElement('button'); b.type = 'button'; b.className = 'aktion'; b.textContent = a[1]; b.addEventListener('click', a[2]); box.appendChild(b); k[a[0]] = b; });
@@ -275,7 +289,7 @@
       if (vorher) K.kurve(function(x){ return vorher.a * x; }, 'vorher', 0, vorher.te);
       if (spur.length > 1) el(K.ebene, 'polyline', { points: spur.map(function(p){ return K.X(p[0]).toFixed(1) + ',' + K.Y(p[1]).toFixed(1); }).join(' '), 'class': 'kurve-v', 'clip-path': K.clip });
       var tr = +t.toFixed(2), vr = +sig(w.a) * tr;           // angezeigt: v aus angezeigtem a und angezeigter Zeit, damit die Zeile nachrechenbar bleibt
-      if (t > 0) K.punkt(t, v, 'p-v', 'v = ' + sig(vr) + NB + 'm/s', t > 2.8 ? -9 : 9, v > 17 ? 16 : -9, t > 2.8 ? 'end' : 'start');
+      if (t > 0) punktTV(K, 300, t, v, w.a, zahl(tr), sig(vr));
       rolle(fig, 'formel').innerHTML =
         '<span>' + v_('a') + ' = ' + v_('F') + ' / ' + v_('m') + ' = ' + zahl(w.F) + NB + 'N / ' + zahl(w.m) + NB + 'kg ' + ist(w.a, sig(w.a)) + sig(w.a) + NB + 'm/s²</span>' +
         '<span>' + v_('v') + ' = ' + v_('a') + ' · ' + v_('t') + ' = ' + sig(w.a) + NB + 'm/s² · ' + zahl(tr) + NB + 's ' + ist(vr, sig(vr)) + sig(vr) + NB + 'm/s</span>' +
@@ -288,10 +302,12 @@
       { text: 'Starte mehrmals mit verschiedenen Kräften und Massen. Wie hängt die Steigung der v-t-Geraden von \\(F\\) und \\(m\\) ab? Notiere deine Antwort.', ok: function(s){ return s.bewegt.F && s.bewegt.m && s.laeufe >= 3; },
         vergleich: 'Die Steigung ist die Beschleunigung \\(a = \\dfrac{F}{m}\\). Doppelte Kraft gibt die doppelte Steigung, doppelte Masse die halbe. Ohne Kraft bleibt der Wagen stehen; die Kraft bestimmt, wie schnell sich die Geschwindigkeit ändert.' },
       { text: 'Ein Wagen von \\(4\\;\\text{kg}\\) soll mit \\(1.5\\;\\text{m/s}^2\\) anfahren. Stelle die nötige Kraft ein und lass ihn fahren.', ok: function(s){ return hat(s, 6, 4); } },
-      { text: 'Jetzt \\(8\\;\\text{kg}\\) mit derselben Beschleunigung: Welche Kraft braucht es? Stelle ein und lass fahren.', ok: function(s){ return hat(s, 12, 8); } },
+      { text: 'Jetzt \\(8\\;\\text{kg}\\) mit derselben Beschleunigung: Welche Kraft braucht es? Stelle ein und lass fahren. Vergleiche mit der vorigen Aufgabe: Was ist im Diagramm gleich geblieben?', ok: function(s){ return hat(s, 12, 8); },
+        vergleich: '\\(F = 8\\;\\text{kg} \\cdot 1.5\\;\\text{m/s}^2 = 12\\;\\text{N}\\): doppelte Masse, doppelte Kraft. Die v-t-Gerade ist gleich steil wie mit \\(4\\;\\text{kg}\\) und \\(6\\;\\text{N}\\), denn die Beschleunigung ist dieselbe.' },
       { text: 'Mit \\(10\\;\\text{N}\\): Welche Masse wird mit \\(2.5\\;\\text{m/s}^2\\) beschleunigt? Stelle ein und lass fahren.', ok: function(s){ return hat(s, 10, 4); } },
       { text: 'Ein Wagen von \\(3\\;\\text{kg}\\) soll nach \\(2\\;\\text{s}\\) genau \\(6\\;\\text{m/s}\\) schnell sein. Stelle die Kraft ein und lass fahren.', ok: function(s){ return hat(s, 9, 3); } },
-      { text: 'Triff die gestrichelte Gerade: Stelle Kraft und Masse ein und lass fahren.', setup: function(S){ ziel = 5; S.setze({ F: 4, m: 2 }); }, ok: function(s){ return s.lauf && gl(s.lauf.a, 5); } }
+      { text: 'Triff die gestrichelte Gerade: Stelle Kraft und Masse ein und lass fahren. Notiere, welche Beschleunigung die Gerade darstellt.', setup: function(S){ ziel = 5; S.setze({ F: 4, m: 2 }); }, ok: function(s){ return s.lauf && gl(s.lauf.a, 5); },
+        vergleich: 'Die Gerade steigt in \\(1\\;\\text{s}\\) um \\(5\\;\\text{m/s}\\): \\(a = 5\\;\\text{m/s}^2\\). Jede Einstellung mit \\(\\dfrac{F}{m} = 5\\;\\text{m/s}^2\\) trifft, zum Beispiel \\(10\\;\\text{N}\\) und \\(2\\;\\text{kg}\\) oder \\(20\\;\\text{N}\\) und \\(4\\;\\text{kg}\\).' }
     ], sim);
     zeichnen();
   })();
@@ -357,7 +373,7 @@
       if (ziel) K.kurve(function(x){ return ziel.v0 + ziel.a * x; }, 'zielkurve', 0, TE);
       if (vorher){ var pv = []; for (var k = 0; k <= 160; k++) pv.push(K.X(k / 20).toFixed(1) + ',' + K.Y(vt(vorher, k / 20)).toFixed(1)); el(K.ebene, 'polyline', { points: pv.join(' '), 'class': 'vorher', 'clip-path': K.clip }); }
       if (spur.length > 1) el(K.ebene, 'polyline', { points: spur.map(function(p){ return K.X(p[0]).toFixed(1) + ',' + K.Y(p[1]).toFixed(1); }).join(' '), 'class': 'kurve-v', 'clip-path': K.clip });
-      if (t > 0) K.punkt(t, v, 'p-v', 'v = ' + sig(v) + NB + 'm/s', t > 5 ? -9 : 9, v > 10 ? 16 : -9, t > 5 ? 'end' : 'start');
+      if (t > 0) punktTV(K, 300, t, v, v > 1e-9 ? w.a : w.v0 > 0 && w.a < 0 ? 'halt' : 0, zahl(+t.toFixed(2)), sig(v));
       rolle(fig, 'formel').innerHTML =
         '<span>' + v_('F') + '<sub>ges</sub> = ' + v_('F') + '<sub>A</sub> − ' + v_('F') + '<sub>W</sub> = ' + zahl(w.FA) + NB + 'N − ' + zahl(fw) + NB + 'N = ' + zahl(Fg) + NB + 'N</span>' +
         '<span>' + v_('a') + ' = ' + v_('F') + '<sub>ges</sub> / ' + v_('m') + ' = ' + ew(Fg, 'N') + ' / 80' + NB + 'kg ' + ist(a, sig(a)) + minus(sig(a)) + NB + 'm/s²</span>' +
@@ -371,10 +387,12 @@
       { text: 'Lass das Velo mit gleich grossem Antrieb und Widerstand fahren — einmal aus dem Stand, einmal mit Anfangstempo. Was geschieht? Notiere deine Antwort.', ok: function(s){ return lief(s, function(l){ return l.FA === l.FW && l.FA > 0 && l.v0 === 0; }) && lief(s, function(l){ return l.FA === l.FW && l.FA > 0 && l.v0 > 0; }); },
         vergleich: 'Aus dem Stand bleibt das Velo stehen, mit Anfangstempo fährt es mit genau diesem Tempo weiter. Beide Male ist die Gesamtkraft null, also auch die Beschleunigung: Der Bewegungszustand bleibt erhalten — das Trägheitsgesetz.' },
       { text: 'Antrieb \\(100\\;\\text{N}\\), Widerstand \\(30\\;\\text{N}\\), aus dem Stand: Stelle ein, lass fahren und lies die Beschleunigung ab.', ok: function(s){ return s.lauf && s.lauf.FA === 100 && s.lauf.FW === 30 && s.lauf.v0 === 0; } },
-      { text: 'Das Velo soll mit \\(6\\;\\text{m/s}\\) gleichmässig weiterrollen, der Widerstand beträgt \\(25\\;\\text{N}\\). Stelle ein und lass fahren.', ok: function(s){ return s.lauf && s.lauf.v0 === 6 && s.lauf.FW === 25 && s.lauf.FA === 25; } },
+      { text: 'Das Velo soll mit \\(6\\;\\text{m/s}\\) gleichmässig weiterrollen, der Widerstand beträgt \\(25\\;\\text{N}\\). Stelle ein und lass fahren. Notiere, warum es dafür einen Antrieb braucht, obwohl das Tempo gleich bleibt.', ok: function(s){ return s.lauf && s.lauf.v0 === 6 && s.lauf.FW === 25 && s.lauf.FA === 25; },
+        vergleich: 'Antrieb \\(25\\;\\text{N}\\), gleich gross wie der Widerstand: Die Gesamtkraft ist null, also \\(a = 0\\), und das Velo behält seine \\(6\\;\\text{m/s}\\). Ohne Antrieb bliebe nur der Widerstand, und das Velo würde langsamer.' },
       { text: 'Ohne Antrieb soll das Velo von \\(6\\;\\text{m/s}\\) in genau \\(8\\;\\text{s}\\) zum Stillstand kommen. Welcher Widerstand ist das? Stelle ein und lass fahren.', ok: function(s){ return s.lauf && s.lauf.v0 === 6 && s.lauf.FA === 0 && s.lauf.FW === 60; } },
       { text: 'Der Widerstand beträgt \\(20\\;\\text{N}\\). Welcher Antrieb beschleunigt aus dem Stand mit \\(1\\;\\text{m/s}^2\\)? Stelle ein und lass fahren.', ok: function(s){ return s.lauf && s.lauf.FW === 20 && s.lauf.FA === 100 && s.lauf.v0 === 0; } },
-      { text: 'Triff die gestrichelte Gerade: Stelle Anfangstempo und Kräfte ein und lass fahren.', setup: function(S){ ziel = { v0: 2, a: 0.5 }; S.setze({ v0: 0, FA: 60, FW: 20 }); }, ok: function(s){ return s.lauf && s.lauf.v0 === 2 && gl(s.lauf.a, 0.5); } }
+      { text: 'Triff die gestrichelte Gerade: Stelle Anfangstempo und Kräfte ein und lass fahren. Notiere, welche Gesamtkraft zur Steigung der Geraden gehört.', setup: function(S){ ziel = { v0: 2, a: 0.5 }; S.setze({ v0: 0, FA: 60, FW: 20 }); }, ok: function(s){ return s.lauf && s.lauf.v0 === 2 && gl(s.lauf.a, 0.5); },
+        vergleich: 'Die Gerade beginnt bei \\(2\\;\\text{m/s}\\) und steigt in \\(2\\;\\text{s}\\) um \\(1\\;\\text{m/s}\\): \\(a = 0.5\\;\\text{m/s}^2\\). Dazu gehört \\(F_\\text{ges} = 80\\;\\text{kg} \\cdot 0.5\\;\\text{m/s}^2 = 40\\;\\text{N}\\), etwa Antrieb \\(60\\;\\text{N}\\) und Widerstand \\(20\\;\\text{N}\\) — jede Differenz von \\(40\\;\\text{N}\\) trifft.' }
     ], sim);
     zeichnen();
   })();
@@ -455,10 +473,12 @@
         vergleich: 'Mehr, wenn die Beschleunigung nach oben zeigt (Anfahren aufwärts); weniger, wenn sie nach unten zeigt (Bremsen der Aufwärtsfahrt); gleich viel bei Ruhe und gleichmässiger Fahrt. Die Waage zeigt die Normalkraft \\(F_N = m \\cdot (g + a)\\), nicht die Masse.' },
       { text: 'Eine Person von \\(80\\;\\text{kg}\\) steht im ruhenden Aufzug. Stelle ein und lies die Normalkraft ab.', ok: function(s){ return gl(s.m, 80) && s.ph === 'ruhe'; } },
       { text: 'Beim Anfahren nach oben zeigt die Waage bei einer Person von \\(75\\;\\text{kg}\\) rund \\(90\\;\\text{kg}\\) an. Stelle die Beschleunigung ein.', ok: function(s){ return gl(s.m, 75) && s.ph === 'auf' && Math.abs(s.anz - 90) < 0.6; } },
-      { text: 'Die Aufwärtsfahrt wird mit \\(1.5\\;\\text{m/s}^2\\) gebremst, die Person hat \\(60\\;\\text{kg}\\). Stelle ein: Was zeigt die Waage?', ok: function(s){ return gl(s.m, 60) && s.ph === 'brems' && gl(s.b, 1.5); } },
+      { text: 'Die Aufwärtsfahrt wird mit \\(1.5\\;\\text{m/s}^2\\) gebremst, die Person hat \\(60\\;\\text{kg}\\). Stelle ein: Was zeigt die Waage? Notiere, warum es weniger ist als in Ruhe.', ok: function(s){ return gl(s.m, 60) && s.ph === 'brems' && gl(s.b, 1.5); },
+        vergleich: 'Wer eine Aufwärtsfahrt bremst, beschleunigt nach unten: \\(a = -1.5\\;\\text{m/s}^2\\). \\(F_N = m \\cdot (g + a) = 60\\;\\text{kg} \\cdot 8.31\\;\\text{m/s}^2 \\approx 499\\;\\text{N}\\), die Waage zeigt rund \\(50.8\\;\\text{kg}\\) statt \\(60\\;\\text{kg}\\).' },
       { text: 'Das Seil reisst: Wähle den freien Fall. Was zeigt die Waage — und warum? Notiere deine Antwort.', ok: function(s){ return s.ph === 'fall'; },
         vergleich: 'Null. Person und Waage fallen beide mit \\(g\\); die Waage muss die Person nicht mehr abstützen. Aus \\(F_N = m \\cdot (g + a)\\) mit \\(a = -g\\) folgt \\(F_N = 0\\): Die Person ist «schwerelos», obwohl ihre Gewichtskraft unverändert wirkt.' },
-      { text: 'Stelle eine Fahrt ein, bei der die Waage die Hälfte der Ruheanzeige zeigt.', ok: function(s){ return s.ph !== 'fall' && Math.abs(s.FN / s.FG - 0.5) < 0.006; } }
+      { text: 'Stelle eine Fahrt ein, bei der die Waage die Hälfte der Ruheanzeige zeigt. Notiere, welche Fahrt das ist und wie gross die Beschleunigung sein muss.', ok: function(s){ return s.ph !== 'fall' && Math.abs(s.FN / s.FG - 0.5) < 0.006; },
+        vergleich: 'Bremsen der Aufwärtsfahrt mit \\(4.9\\;\\text{m/s}^2\\), rund der halben Erdbeschleunigung. Die Beschleunigung zeigt nach unten, \\(a \\approx -\\dfrac{g}{2}\\): \\(F_N = m \\cdot (g + a) \\approx m \\cdot \\dfrac{g}{2}\\). Die Waage trägt nur noch die halbe Gewichtskraft.' }
     ], sim);
     neuStarten(); zeichnen();
   })();
@@ -513,7 +533,7 @@
       if (ziel != null) K.kurve(function(x){ return ziel * x; }, 'zielkurve', 0, TE);
       if (vorher) K.kurve(function(x){ return vorher.a * x; }, 'vorher', 0, vorher.te);
       if (spur.length > 1) el(K.ebene, 'polyline', { points: spur.map(function(p){ return K.X(p[0]).toFixed(1) + ',' + K.Y(p[1]).toFixed(1); }).join(' '), 'class': 'kurve-v', 'clip-path': K.clip });
-      if (t > 0) K.punkt(t, v, 'p-v', 'v = ' + sig(v) + NB + 'm/s', t > 1.6 ? -9 : 9, v > 5 ? 16 : -9, t > 1.6 ? 'end' : 'start');
+      if (t > 0) punktTV(K, 300, t, v, w.a, zahl(+t.toFixed(2)), sig(v));
       rolle(fig, 'formel').innerHTML =
         '<span>' + v_('a') + ' = ' + v_('m') + '₂ · ' + v_('g') + ' / (' + v_('m') + '₁ + ' + v_('m') + '₂) = ' + zahl(w.m2) + NB + 'kg · 9.81' + NB + 'm/s² / ' + zahl(+(w.m1 + w.m2).toFixed(2)) + NB + 'kg ' + ist(w.a, sig(w.a)) + sig(w.a) + NB + 'm/s²</span>' +
         '<span>' + v_('F') + '<sub>S</sub> = ' + v_('m') + '₁ · ' + v_('a') + ' = ' + zahl(w.m1) + NB + 'kg · ' + zahl(w.m2) + NB + 'kg · 9.81' + NB + 'm/s² / ' + zahl(+(w.m1 + w.m2).toFixed(2)) + NB + 'kg ' + ist(w.FS, sig(w.FS)) + sig(w.FS) + NB + 'N</span>' +
@@ -529,7 +549,8 @@
       { text: 'Gesamtmasse \\(3\\;\\text{kg}\\), aber \\(a \\approx 3.27\\;\\text{m/s}^2\\): Stelle ein und lass los.', ok: function(s){ return hat(s, 2, 1); } },
       { text: 'Bei \\(m_1 = 4\\;\\text{kg}\\) soll der Wagen mit einem Drittel der Erdbeschleunigung fahren. Wähle \\(m_2\\) und lass los.', ok: function(s){ return hat(s, 4, 2); } },
       { text: 'Die Fadenkraft soll bei \\(m_1 = 1\\;\\text{kg}\\) rund \\(4.9\\;\\text{N}\\) betragen. Wähle \\(m_2\\) und lass los.', ok: function(s){ return hat(s, 1, 1); } },
-      { text: 'Triff die gestrichelte Gerade: Wähle die Massen und lass los.', setup: function(S){ ziel = 0.3 * G; S.setze({ m1: 3, m2: 1 }); }, ok: function(s){ return s.lauf && Math.abs(s.lauf.a - 0.3 * G) < 1e-6; } }
+      { text: 'Triff die gestrichelte Gerade: Wähle die Massen und lass los. Notiere, welchen Anteil der Gesamtmasse der hängende Körper hat.', setup: function(S){ ziel = 0.3 * G; S.setze({ m1: 3, m2: 1 }); }, ok: function(s){ return s.lauf && Math.abs(s.lauf.a - 0.3 * G) < 1e-6; },
+        vergleich: 'Die Gerade hat die Steigung \\(0.3 \\cdot g \\approx 2.94\\;\\text{m/s}^2\\). Aus \\(a = \\dfrac{m_2}{m_1 + m_2} \\cdot g\\) folgt: Der hängende Körper macht \\(30\\;\\%\\) der Gesamtmasse aus, hier \\(m_1 = 3.5\\;\\text{kg}\\) und \\(m_2 = 1.5\\;\\text{kg}\\).' }
     ], sim);
     zeichnen();
   })();
@@ -599,7 +620,8 @@
         vergleich: 'Vierfach, von \\(4.5\\;\\text{N}\\) auf \\(18\\;\\text{N}\\): Die Geschwindigkeit steht in \\(F_z = \\dfrac{m \\cdot v^2}{r}\\) im Quadrat.' },
       { text: 'Die Schnur hält höchstens \\(20\\;\\text{N}\\). Kugel \\(2\\;\\text{kg}\\) auf \\(r = 1.6\\;\\text{m}\\): Stelle das höchste Tempo ein.', ok: function(s){ return gl(s.m, 2) && gl(s.r, 1.6) && gl(s.v, 4); } },
       { text: 'Mit \\(m = 2\\;\\text{kg}\\) und \\(r = 2\\;\\text{m}\\) soll \\(F_z = 25\\;\\text{N}\\) sein. Stelle das Tempo ein.', ok: function(s){ return gl(s.m, 2) && gl(s.r, 2) && gl(s.v, 5); } },
-      { text: 'Stelle \\(a_z = 8\\;\\text{m/s}^2\\) ein — auf zwei verschiedene Arten.', ok: function(s){ return s.arten >= 2; } }
+      { text: 'Stelle \\(a_z = 8\\;\\text{m/s}^2\\) ein — auf zwei verschiedene Arten. Notiere, was die beiden Einstellungen gemeinsam haben.', ok: function(s){ return s.arten >= 2; },
+        vergleich: '\\(a_z = \\dfrac{v^2}{r} = 8\\;\\text{m/s}^2\\) mit \\(v = 2\\;\\text{m/s}\\) und \\(r = 0.5\\;\\text{m}\\) oder mit \\(v = 4\\;\\text{m/s}\\) und \\(r = 2\\;\\text{m}\\): Doppeltes Tempo braucht den vierfachen Radius. Die Masse spielt für \\(a_z\\) keine Rolle, nur für \\(F_z\\).' }
     ], sim);
     zeichnen();
   })();

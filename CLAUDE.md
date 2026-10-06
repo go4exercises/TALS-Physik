@@ -422,6 +422,9 @@ Die Liste steht in `STYLEGUIDE.md` und wächst; aktuell:
 | 9 | **Eine Rechnung, eine Zeile:** Formelzeichen = Formel = Zahlen mit Einheiten = Ergebnis als eine Kette in **einer** `.fl-eq`, nicht Formel und Zahlengleichung auf zwei Zeilen. Fehlt der Platz, Umbruch nur vor einem `=` (Glieder als Inline-Formeln, `flTex` aus `physiklib.js`). Verschiedene Rechnungen bleiben getrennte Zeilen. | §2.8 |
 | 10 | **Werte und Bewegung in Animationen:** dieselbe Grösse überall mit derselben Rundung (Canvas, Live-Box, Formelzeile); Voreinstellungen und Geräteknöpfe treffen die Werte der Seite exakt (sonst Regler `step="any"`); kein Punkt, der ohne Anlass selbst durchs Diagramm wandert — Momentanwerte per Regler; Beschriftungen auf Kurven mit hellem Grund, bewegliche weichen festen aus. | §5.10 |
 
+| 11 | **Bewegte Punkte vollständig beschriften** «(8 s; 60 m)», nicht nur «s = 60 m»; **Steigungsdreiecke lesbar** — Schenkel und Δ-Werte mit Einheit nicht unter anderen Beschriftungen, bewährt: ab dem Punkt nach rechts. | §5.10 |
+| 12 | **Tempo = Betrag der Geschwindigkeit** (Alltagswort, im Glossar). Wo das Vorzeichen zählt (geradlinig, Steigung, Regler für \(v\)) oder der Begriff eingeführt wird: **Geschwindigkeit**; Betrag und Richtung getrennt: **Betrag der Geschwindigkeit**. In der Kinematik durchgehend Geschwindigkeit. | §2.2 |
+
 Neue Regeln, die der Auftraggeber ansagt, werden in STYLEGUIDE.md aufgenommen
 **und** hier in der Tabelle nachgeführt.
 

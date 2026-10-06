@@ -171,9 +171,9 @@ SEITEN = {
  'leitprogramme/leitprogramm-kinematik.html': dict(
    # Freigeschaltet am 04.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
-   titel='Leitprogramm Kinematik — Geschwindigkeit, Beschleunigung, Fall und Wurf, Vektoren, Kreisbewegung',
+   titel='Leitprogramm Kinematik — Geschwindigkeit, Beschleunigung, Vektoren, Fall und Wurf, Kreisbewegung',
    beschreibung='Leitprogramm zur Kinematik in fünf Kapiteln — Ort, Bahn und Geschwindigkeit; '
-                'Beschleunigung und Bremsweg; freier Fall und Wurf; Geschwindigkeit als Vektor; '
+                'Beschleunigung und Bremsweg; Geschwindigkeit als Vektor; freier Fall und Wurf; '
                 'gleichförmige Kreisbewegung — mit Erklärclips, Simulationen mit Aufgaben, '
                 'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
    themen=['Physik', 'Kinematik', 'Geschwindigkeit', 'Beschleunigung', 'freier Fall',
