@@ -283,7 +283,12 @@ Datenkoordinaten; ohne die Felder baut jeder Clip Byte für Byte wie vorher.
 - SVG-Text kennt kein LaTeX: «Δv = 20 m/s», «m/s²», «v₀» gehen, `\frac` und Indizes nicht.
 - Kreise: zwei `kurven` (obere und untere Halbkurve, `sqrt(abs(r*r-(x-a)*(x-a)))`).
 - Einblendzeiten nach der Vertonung an den Text legen: Element mit `"_anker": "<Textstelle>"`
-  versehen und `scripts/lp/kinematik/anker.py <clip>` laufen lassen.
+  versehen und `scripts/lp/kinematik/anker.py <clip>` laufen lassen. `"_versatz": 0.6` legt ein
+  Element so viele Sekunden nach seinem Anker — für Bildfolgen und Ebenen innerhalb eines Satzes.
+- **Bildfolge statt Endzustand:** Beschreibt der Sprecher eine Veränderung («steigt», «kippt»,
+  «sinkt»), mehrere Aufnahmen am selben Ort mit gestaffeltem `ein` zeigen (deckende JPGs
+  überdecken sich). Die Simulationen der Leitprogramme haben dafür Testhaken `__sim.zeige(…)`.
+  Ein `graf` über einem `bild` geht nicht — er ist durchsichtig; dann eine eigene Szene.
 
 ### Theme `begreifbar-schlicht` — Standard für neue Clips (in Physik seit 03.10.2026)
 
@@ -351,6 +356,9 @@ Begleiter der bewegten Geraden — alle aus derselben Zeit gerechnet, alle mit `
 | `"dreieck": {"x": -3, "dx": 2}` | mitlaufendes Steigungsdreieck ab \(x\), mit «Δx = …» und «Δy = …» |
 
 In `text` gibt es zusätzlich `{m}` und `{q}`.
+
+**`"ab"`/`"bis"` bei bewegten Parabeln** (Physik, 06.10.2026) begrenzen den gezeichneten Bogen —
+ein Wurf hat keine negative Zeit und keinen Teil unter dem Boden (`"ab": 0, "bis": 2.45`).
 
 **`"ab": x`** (seit 03.10.2026, Physik) lässt eine bewegte Gerade erst bei diesem \(x\)
 beginnen — eine \(Q\)-\(t\)- oder \(R\)-\(l\)-Gerade hat keinen Teil bei negativer Zeit

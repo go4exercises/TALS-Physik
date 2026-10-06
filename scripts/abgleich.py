@@ -185,7 +185,9 @@ OFFEN = [
              'Am selben Tag: Feld "kopf" je Frage ersetzt die Kopfzeile «Deine Vorhersage» (Physik: '
              '«Dein Vorgehen» bei Strategiefragen nach der Einfuehrung); ohne das Feld unveraendert. '
              'Und: pruef-fragen.mjs bricht bei einer Frage mitten im Clip ab (erwartet Frage 1 in den '
-             'ersten Sekunden) — in Mathe betrifft das g3-3-lp-verschieben, falls die erste Frage spaet kommt.'),
+             'ersten Sekunden) — in Mathe betrifft das g3-3-lp-verschieben, falls die erste Frage spaet kommt. '
+             'Ebenfalls 06.10.: bewegte Parabeln kennen "ab"/"bis" (data-ab/data-bis, BEWEGUNG_JS begrenzt '
+             'den Bogen); ohne die Felder Byte fuer Byte gleich.'),
 ]
 FACH = {
     'nav.js': 'Seitenbaum und Lerngebiete — je Fach ein anderer.',

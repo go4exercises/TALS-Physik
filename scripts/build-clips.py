@@ -539,10 +539,14 @@ def graf_svg(el, theme):
         if pa.get("bewegung"):
             farbe = fv[pa.get("farbe", 1) - 1]
             bid = "bew%d" % nr
-            teile.append('<path data-bew="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d" '
+            # "ab"/"bis" (Physik 06.10.2026): die Parabel nur zwischen diesen x zeichnen
+            # (Wurf: keine negative Zeit, nichts unter dem Boden); ohne die Felder wie bisher.
+            teile.append('<path data-bew="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d"%s%s '
                          'fill="none" stroke="%s" stroke-width="%s" stroke-linecap="round" '
                          'stroke-linejoin="round" %s/>'
                          % (entschaerfen(json.dumps(pa["bewegung"])), bid, x0, x1, y0, y1, b, h, rand,
+                            ' data-ab="%g"' % pa["ab"] if pa.get("ab") is not None else "",
+                            ' data-bis="%g"' % pa["bis"] if pa.get("bis") is not None else "",
                             farbe, pa.get("dicke", 5),
                             'stroke-dasharray="14 10"' if pa.get("gestrichelt") else ""))
             # Begleiter der bewegten Parabel, alle aus derselben Zeit gerechnet:
@@ -952,9 +956,11 @@ function bewegen(t) {
     // las bewegeGerade T.L.t0, bekam undefined, und jede Gerade stand im Endzustand.
     if (T.art === 'g') { T.t0 = L.t0; bewegeGerade(T, t, px, py, x0, x1, y0, y1); continue; }
     const [a, u, v] = bewZustand(T.k, t - L.t0);
+    const xa = T.p.dataset.ab !== undefined ? Math.max(x0, parseFloat(T.p.dataset.ab)) : x0;
+    const xb = T.p.dataset.bis !== undefined ? Math.min(x1, parseFloat(T.p.dataset.bis)) : x1;
     let d = '', zug = false;
     for (let i = 0; i <= 240; i++) {
-      const x = x0 + (x1 - x0) * i / 240, y = a * (x - u) * (x - u) + v;
+      const x = xa + (xb - xa) * i / 240, y = a * (x - u) * (x - u) + v;
       if (y >= y0 && y <= y1) { d += (zug ? 'L' : 'M') + px(x).toFixed(1) + ',' + py(y).toFixed(1); zug = true; }
       else zug = false;
     }
