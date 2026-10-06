@@ -1,9 +1,9 @@
 % Gesamttest «Hydrostatik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py hydrostatik).
 % Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (05.10.2026).
-% Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen und Leisten — G1 mit Bagger und
-% Velo und rückwärts (Fläche aus dem Höchstdruck), G2 rückwärts (Tiefe aus dem Tauchcomputer im
-% Bergsee), G3 Brunnen in Davos und Barometer rückwärts, G4 Baggerhydraulik mit Ölvolumen, G5 Auftrieb
-% in Luft (Ballon), G6 Rettungsboje mit mittlerer Dichte — HOWTO §9.
+% Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen und Leisten — G1 aus einem Diagramm
+% (ablesen und rückwärts), G2 rückwärts (Tiefe aus dem Tauchcomputer im Bergsee), G3 Pascals Fassversuch
+% (hydrostatisches Paradoxon), G4 Wagenheber rückwärts (Kolbenfläche aus der Handkraft), G5 Auftrieb in
+% Luft (Ballon), G6 Aräometer (Dichte aus der Eintauchtiefe) — HOWTO §9.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Hydrostatik}
@@ -27,15 +27,24 @@ Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem
 
 \lpteil{Teil A · Druck}{Kapitel 1 · 4 Punkte}
 
-\begin{lpaufgabe}{G1}{Bagger und Velo}{4 P}
-Ein Bagger (\(18\;\text{t}\)) steht auf zwei Raupen, jede liegt auf \(3.0\;\text{m} \times 0.6\;\text{m}\) auf. Ein Velo mit Fahrer (\(90\;\text{kg}\)) steht auf zwei Pneus, jeder berührt den Boden auf \(8\;\text{cm}^2\).
+\begin{lpaufgabe}{G1}{Raupenfahrzeug im Diagramm}{4 P}
+Das Diagramm zeigt, welchen Druck ein Raupenfahrzeug auf den Boden ausübt, je nachdem, wie gross seine Auflagefläche \(A\) ist (verschieden breite Raupen).\par\smallskip
+\begin{center}\begin{tikzpicture}[x=1.55cm,y=0.024cm,>=latex]
+\foreach \x in {0,0.5,...,8} \draw[lplinie!70,very thin] (\x,0) -- (\x,160);
+\foreach \y in {0,5,...,160} \draw[lplinie!70,very thin] (0,\y) -- (8,\y);
+\foreach \y in {0,20,...,160} {\draw[lplinie] (0,\y) -- (8,\y); \node[left] at (0,\y) {\small \y};}
+\foreach \x in {0,...,8} {\draw[lplinie] (\x,0) -- (\x,160); \node[below] at (\x,0) {\small \x};}
+\draw[->] (0,0) -- (8.4,0) node[below left,yshift=-12pt] {\small \(A\) in \(\text{m}^2\)};
+\draw[->] (0,0) -- (0,172) node[right] {\small \(p\) in kPa};
+\draw[very thick,lpbernstein] plot[domain=0.94:8,samples=120] (\x,{150/\x});
+\end{tikzpicture}\end{center}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wie gross ist der Druck des Baggers auf den Boden, in kPa?
-\item Wie gross ist der Druck der Pneus auf die Strasse, in bar?
-\item Erkläre, warum der Bagger einen viel kleineren Druck erzeugt, obwohl er rund 200-mal schwerer ist.
-\item Ein Raupenfahrzeug mit \(18\;\text{t}\) soll auf weichem Moorboden höchstens \(20\;\text{kPa}\) erzeugen. Wie gross muss seine Auflagefläche mindestens sein?
+\item Lies ab: Welchen Druck übt das Fahrzeug mit \(3\;\text{m}^2\) Auflagefläche aus?
+\item Berechne aus diesem Wertepaar die Gewichtskraft und die Masse des Fahrzeugs.
+\item Ein Moorboden trägt höchstens \(25\;\text{kPa}\). Lies ab, wie gross die Auflagefläche mindestens sein muss.
+\item Begründe, warum die Kurve nach rechts immer flacher wird und die Achse nie erreicht.
 \end{enumerate}
-\lpplatz{13}
+\lpplatz{8}
 \end{lpaufgabe}
 
 \lpteil{Teil B · Schweredruck und Luftdruck}{Kapitel 2 und 3 · 8 Punkte}
@@ -50,26 +59,24 @@ Eine Taucherin ist in einem Bergsee, an dessen Oberfläche der Luftdruck \(840\;
 \lpplatz{7}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G3}{Brunnen in Davos}{4 P}
-In Davos beträgt der Luftdruck \(841\;\text{hPa}\). Ein Brunnen hat seinen Wasserspiegel \(7.5\;\text{m}\) unter der Saugpumpe.
+\begin{lpaufgabe}{G3}{Pascals Fassversuch}{4 P}
+Blaise Pascal soll diesen Versuch gezeigt haben: Ein Holzfass ist \(1.6\;\text{m}\) hoch und randvoll mit Wasser. In den Deckel steckt er ein dünnes, \(8\;\text{m}\) langes Rohr und füllt es mit wenigen Litern Wasser. Das Fass platzt.
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wie hoch kann eine Saugpumpe in Davos Wasser höchstens ansaugen? Reicht das für diesen Brunnen?
-\item Auf welchen Druck muss die Pumpe die Luft im Rohr mindestens absenken, damit das Wasser oben ankommt?
-\item Auf dem Jungfraujoch (\(671\;\text{hPa}\)) ginge es mit demselben Brunnen nicht. Begründe.
-\item Wie hoch stünde in Davos die Säule eines Quecksilberbarometers (\(13\,600\;\text{kg/m}^3\))?
+\item Wie gross ist der Schweredruck am Fassboden, bevor das Rohr gefüllt ist?
+\item Wie gross ist er, wenn das Rohr bis oben gefüllt ist?
+\item Wenige Liter Wasser — und das Fass platzt. Begründe, warum die kleine Wassermenge im Rohr genügt.
 \end{enumerate}
 \lpplatz{7}
 \end{lpaufgabe}
 
 \lpteil{Teil C · Pascal und Archimedes}{Kapitel 4, 5 und 6 · 13 Punkte}
 
-\begin{lpaufgabe}{G4}{Baggerhydraulik}{4 P}
-Der Hydraulikzylinder eines Baggerarms hat einen Kolben von \(120\;\text{cm}^2\) und muss \(30\;\text{kN}\) aufbringen. Eine Pumpe drückt auf einen Kolben von \(2\;\text{cm}^2\).
+\begin{lpaufgabe}{G4}{Wagenheber}{4 P}
+Ein hydraulischer Wagenheber soll ein Auto (\(1200\;\text{kg}\)) heben; sein grosser Kolben hat \(400\;\text{cm}^2\). Mit der Hand kannst du am Pumpkolben bequem \(120\;\text{N}\) aufbringen.
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
 \item Welcher Druck herrscht im Öl, in bar?
-\item Mit welcher Kraft muss die Pumpe auf ihren Kolben drücken?
-\item Der Zylinder soll \(10\;\text{cm}\) ausfahren. Wie viel Öl (in Liter) muss dafür hineingepumpt werden, und welchen Gesamtweg macht der Pumpkolben?
-\item Begründe mit der Arbeit, dass die Hydraulik keine Energie gewinnt.
+\item Wie gross darf die Fläche des Pumpkolbens höchstens sein, in \(\text{cm}^2\)?
+\item Das Auto soll \(12\;\text{cm}\) gehoben werden. Wie viel Öl (in Liter) muss dafür hinübergepumpt werden, und welchen Weg legt der Pumpkolben insgesamt zurück (über alle Pumpstösse)?
 \end{enumerate}
 \lpplatz{7}
 \end{lpaufgabe}
@@ -81,21 +88,21 @@ Ein Kinderballon fasst \(12\;\text{l}\) Helium; Hülle und Gas haben zusammen \(
 \item Wie gross ist der Auftrieb in Luft?
 \item Wie gross ist die Gewichtskraft von Hülle und Gas?
 \item Welche Masse kann der Ballon zusätzlich tragen, ohne zu sinken?
-\item Derselbe Ballon wird unter Wasser festgebunden. Wie gross ist dort der Auftrieb, und warum ist er so viel grösser? Begründe.
+\item Derselbe Ballon wird unter Wasser festgebunden. Ist der Auftrieb dort grösser, gleich gross oder kleiner als in Luft? Begründe.
 \end{enumerate}
 \skizzenfeld{2.6cm}
 \lpplatz{5}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G6}{Rettungsboje}{4 P}
-Eine hohle Rettungsboje hat die Masse \(2.5\;\text{kg}\) und das Volumen \(20\;\text{l}\).
+\begin{lpaufgabe}{G6}{Aräometer}{4 P}
+Ein Aräometer ist ein Dichtemesser: ein beschwertes Glasröhrchen, das aufrecht in der Flüssigkeit schwimmt. Je nach Dichte taucht es verschieden tief ein. Betrachte es als schlanken Zylinder mit der Masse \(30\;\text{g}\) und dem Querschnitt \(2\;\text{cm}^2\).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wie gross ist ihre mittlere Dichte?
-\item Welcher Anteil ihres Volumens liegt im Meer (\(1025\;\text{kg/m}^3\)) unter der Oberfläche?
-\item Wie viel zusätzliche Masse kann sie in Süsswasser tragen, bis sie ganz untertaucht?
-\item Würde die Boje auch in Spiritus (\(790\;\text{kg/m}^3\)) schwimmen? Taucht sie dort tiefer oder weniger tief ein als im Wasser? Begründe.
+\item Wie tief taucht es in Wasser ein?
+\item Wie tief taucht es in Spiritus (\(790\;\text{kg/m}^3\)) ein?
+\item Auf der Skala des Aräometers stehen die grossen Dichten unten, die kleinen oben. Begründe.
+\item In einer unbekannten Flüssigkeit taucht es \(13.6\;\text{cm}\) tief ein. Welche Dichte hat sie?
 \end{enumerate}
-\lpplatz{6}
+\lpplatz{7}
 \end{lpaufgabe}
 
 \vfill

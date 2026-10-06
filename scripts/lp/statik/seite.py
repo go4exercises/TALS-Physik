@@ -419,7 +419,7 @@ BASIS = r'''<script>
   'use strict';
   // Relativ: die Clips kommen aus diesem Repo, eine Ebene höher.
   var BASIS = '../';
-  var KEY = 'leitprogramm-energie-v1';
+  var KEY = 'leitprogramm-statik-v1';
 
   /* ---- Theme ---- */
   var schalter = document.getElementById('themenschalter');
@@ -494,10 +494,10 @@ BASIS = r'''<script>
 
 FUSS = '''<footer class="site-footer">
   <p>Physik begreifbar · Lehrmittel für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
-  <p>Leitprogramm · Energie</p>
+  <p>Leitprogramm · Statik</p>
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 4. Oktober 2026</p>
+  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 5. Oktober 2026</p>
 </footer>
 
 <script src="../physiklib.js"></script>

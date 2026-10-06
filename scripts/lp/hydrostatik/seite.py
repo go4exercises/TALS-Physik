@@ -415,7 +415,7 @@ BASIS = r'''<script>
   'use strict';
   // Relativ: die Clips kommen aus diesem Repo, eine Ebene höher.
   var BASIS = '../';
-  var KEY = 'leitprogramm-energie-v1';
+  var KEY = 'leitprogramm-hydrostatik-v1';
 
   /* ---- Theme ---- */
   var schalter = document.getElementById('themenschalter');
@@ -490,10 +490,10 @@ BASIS = r'''<script>
 
 FUSS = '''<footer class="site-footer">
   <p>Physik begreifbar · Lehrmittel für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
-  <p>Leitprogramm · Energie</p>
+  <p>Leitprogramm · Hydrostatik</p>
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 4. Oktober 2026</p>
+  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 5. Oktober 2026</p>
 </footer>
 
 <script src="../physiklib.js"></script>
@@ -633,7 +633,7 @@ def figur(sid, label, svg_box, inhalt, hilfs=None):
       </figure>'''
 
 
-def linien_bild(punkte, x0, x1, y0, y1, xt, yt, label, xname, yname, cls='kurve-v', waagrecht=None, weitere=()):
+def linien_bild(punkte, x0, x1, y0, y1, xt, yt, label, xname, yname, cls='kurve-v', waagrecht=None, weitere=(), waagrecht_cls='vorher'):
     """Diagramm für Aufgaben: Streckenzug durch die Punkte, Gitter je xt und yt, Achsen mit Einheit."""
     w, h, ox, oy = 250, 150, 38, 126
     kx, ky = (w - ox - 16) / (x1 - x0), (oy - 18) / (y1 - y0)
@@ -652,7 +652,7 @@ def linien_bild(punkte, x0, x1, y0, y1, xt, yt, label, xname, yname, cls='kurve-
         y += yt
     t.append(f'<line x1="{ox}" y1="{oy}" x2="{X(x1) + 8:.1f}" y2="{oy}" class="achse"/><line x1="{ox}" y1="{oy}" x2="{ox}" y2="{Y(y1) - 8:.1f}" class="achse"/>')
     if waagrecht is not None:
-        t.append(f'<line x1="{ox}" y1="{Y(waagrecht):.1f}" x2="{X(x1):.1f}" y2="{Y(waagrecht):.1f}" class="vorher"/>')
+        t.append(f'<line x1="{ox}" y1="{Y(waagrecht):.1f}" x2="{X(x1):.1f}" y2="{Y(waagrecht):.1f}" class="{waagrecht_cls}"/>')
     for pk, ck in [(punkte, cls)] + list(weitere):     # weitere Kurven: [(punkte, klasse), …]
         t.append('<polyline points="' + ' '.join(f'{X(a):.1f},{Y(b):.1f}' for a, b in pk) + f'" class="kurve-mini {ck}"/>')
     t.append(f'<text x="{X(x1) + 8:.1f}" y="{oy - 6}" text-anchor="end" class="achsname">{tief(xname)}</text><text x="{ox + 6}" y="{Y(y1) - 2:.1f}" class="achsname">{tief(yname)}</text></svg>')
@@ -730,7 +730,7 @@ fest1 = r'''      <div class="festhalten">
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>Die Fläche in cm² eingesetzt: \(600\;\text{N}\) auf \(300\;\text{cm}^2\) sind \(\dfrac{600\;\text{N}}{0.03\;\text{m}^2} = 20\,000\;\text{Pa}\), nicht \(2\;\text{Pa}\). Erst in m² umrechnen: \(1\;\text{cm}^2 = 10^{-4}\;\text{m}^2\).</p>
+          <p>Die Fläche in cm² eingesetzt: \(450\;\text{N}\) auf \(150\;\text{cm}^2\) sind \(\dfrac{450\;\text{N}}{0.015\;\text{m}^2} = 30\,000\;\text{Pa}\), nicht \(3\;\text{Pa}\). Erst in m² umrechnen: \(1\;\text{cm}^2 = 10^{-4}\;\text{m}^2\).</p>
           <p>Die Masse statt der Kraft eingesetzt: Druck braucht Newton, also \(F = m \cdot g\).</p>
         </div>
       </div>'''
@@ -738,11 +738,11 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 12, [
     ('1a', 3, r'Ein Messer hat eine scharfe Schneide, ein Traktor breite Reifen. Erkläre beides mit dem Druck und begründe, warum sich ein stumpfes Messer schlecht zum Schneiden eignet.',
      r'<p>\(p = \dfrac{F}{A}\): Die scharfe Schneide hat eine winzige Fläche, schon eine kleine Kraft gibt einen sehr grossen Druck, der das Material trennt. Die breiten Reifen verteilen die grosse Gewichtskraft des Traktors auf eine grosse Fläche: kleiner Druck, er sinkt im Feld nicht ein.</p><p>Beim stumpfen Messer ist die Fläche grösser — für denselben Druck braucht es viel mehr Kraft.</p>', ''),
     ('1b', 3, r'Ein Ziegelstein (\(2.4\;\text{kg}\), \(24\;\text{cm} \times 11.5\;\text{cm} \times 7.1\;\text{cm}\)) liegt einmal auf der grössten, einmal auf der kleinsten Seite. Wie gross ist der Druck auf die Unterlage in beiden Fällen?',
-     r'<p>\(F = m \cdot g\) \(= 2.4\;\text{kg} \cdot 9.81\;\text{m/s}^2\) \(\approx 23.5\;\text{N}\).</p><p>Grösste Seite: \(A = 24\;\text{cm} \cdot 11.5\;\text{cm}\) \(= 276\;\text{cm}^2\) \(= 0.0276\;\text{m}^2\), \(p = \dfrac{23.5\;\text{N}}{0.0276\;\text{m}^2}\) \(\approx 853\;\text{Pa}\). Kleinste Seite: \(A = 11.5\;\text{cm} \cdot 7.1\;\text{cm} \approx 81.7\;\text{cm}^2\), \(p\) \(\approx 2880\;\text{Pa}\) — rund dreimal so viel bei gleicher Kraft.</p>', ''),
-    ('1c', 3, r'Das Diagramm zeigt den Druck, den eine Person auf den Boden ausübt, über der Auflagefläche. Lies den Druck bei \(300\;\text{cm}^2\) ab und bestimme daraus die Gewichtskraft und die Masse der Person. Bei welcher Fläche ist der Druck \(6\;\text{kPa}\)?',
-     r'<p>Bei \(300\;\text{cm}^2\) liest man \(20\;\text{kPa}\) ab. \(F = p \cdot A\) \(= 20\,000\;\text{Pa} \cdot 0.03\;\text{m}^2\) \(= 600\;\text{N}\), \(m = \dfrac{F}{g}\) \(\approx 61\;\text{kg}\).</p><p>\(6\;\text{kPa}\) bei \(A = \dfrac{600\;\text{N}}{6000\;\text{Pa}}\) \(= 0.1\;\text{m}^2 = 1000\;\text{cm}^2\) — auch im Diagramm ablesbar.</p>',
-     '\n            <div class="mini-reihe">' + linien_bild([(a, 600 / (a / 1e4) / 1000) for a in range(250, 2001, 25)], 0, 2000, 0, 25, 250, 5, 'Druck über der Fläche: fallende Kurve, 20 kPa bei 300 cm², 12 kPa bei 500 cm², 6 kPa bei 1000 cm², 3 kPa bei 2000 cm²', 'A [cm²]', 'p [kPa]', 'kurve-p') + '</div>'),
-    ('1d', 3, r'Der Wetterbericht meldet einen Luftdruck von \(985\;\text{hPa}\). Gib ihn in bar, kPa und Pa an. Ein Velopneu ist auf \(4.5\;\text{bar}\) Überdruck gepumpt — wie viele kPa sind das?',
+     r'<p>\(F = m \cdot g\) \(= 2.4\;\text{kg} \cdot 9.81\;\text{m/s}^2\) \(\approx 23.5\;\text{N}\).</p><p>Grösste Seite: \(A = 24\;\text{cm} \cdot 11.5\;\text{cm}\) \(= 276\;\text{cm}^2\) \(= 0.0276\;\text{m}^2\), \(p = \dfrac{23.5\;\text{N}}{0.0276\;\text{m}^2}\) \(\approx 853\;\text{Pa}\). Kleinste Seite: \(A = 11.5\;\text{cm} \cdot 7.1\;\text{cm} \approx 81.7\;\text{cm}^2\), \(p = \dfrac{23.5\;\text{N}}{0.00817\;\text{m}^2}\) \(\approx 2880\;\text{Pa}\) — rund 3.4-mal so viel bei gleicher Kraft.</p>', ''),
+    ('1c', 3, r'Das Diagramm zeigt den Druck, den eine Person auf den Boden ausübt, über der Auflagefläche. Lies den Druck bei \(250\;\text{cm}^2\) ab und bestimme daraus die Gewichtskraft und die Masse der Person. Bei welcher Fläche ist der Druck \(5\;\text{kPa}\)?',
+     r'<p>Bei \(250\;\text{cm}^2\) liest man \(20\;\text{kPa}\) ab. \(F = p \cdot A\) \(= 20\,000\;\text{Pa} \cdot 0.025\;\text{m}^2\) \(= 500\;\text{N}\), \(m = \dfrac{F}{g}\) \(\approx 51\;\text{kg}\).</p><p>\(5\;\text{kPa}\) bei \(A = \dfrac{500\;\text{N}}{5000\;\text{Pa}}\) \(= 0.1\;\text{m}^2 = 1000\;\text{cm}^2\) — auch im Diagramm ablesbar.</p>',
+     '\n            <div class="mini-reihe">' + linien_bild([(a, 500 / (a / 1e4) / 1000) for a in range(200, 2001, 25)], 0, 2000, 0, 25, 250, 5, 'Druck über der Fläche: fallende Kurve, 20 kPa bei 250 cm², 10 kPa bei 500 cm², 5 kPa bei 1000 cm², 2.5 kPa bei 2000 cm²', 'A [cm²]', 'p [kPa]', 'kurve-p') + '</div>'),
+    ('1d', 3, r'Der Wetterbericht meldet einen Luftdruck von \(985\;\text{hPa}\). Gib ihn in bar, kPa und Pa an. In einem Velopneu herrscht ein Druck von \(4.5\;\text{bar}\) — wie viele kPa sind das?',
      r'<p>\(985\;\text{hPa} = 0.985\;\text{bar}\) \(= 98.5\;\text{kPa}\) \(= 98\,500\;\text{Pa}\).</p><p>\(4.5\;\text{bar} = 450\,000\;\text{Pa} = 450\;\text{kPa}\).</p>', ''),
 ])
 k1 = kapitel(1, 'druck', 'Druck', 'K1 · K2', 40,
@@ -767,7 +767,7 @@ fest2 = r'''      <div class="festhalten">
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
-          <p>Schweredruck und Gesamtdruck verwechselt: In \(5\;\text{m}\) Wassertiefe ist \(p_S \approx 0.49\;\text{bar}\), der Druck auf die Ohren aber \(p \approx 1.50\;\text{bar}\).</p>
+          <p>Schweredruck und Gesamtdruck verwechselt: In \(7\;\text{m}\) Wassertiefe ist \(p_S \approx 0.69\;\text{bar}\), der Druck auf die Ohren aber \(p \approx 1.70\;\text{bar}\).</p>
           <p>Die Tiefe in cm eingesetzt: \(h\) in Meter, sonst wird der Druck hundertmal zu gross.</p>
         </div>
       </div>'''
@@ -777,10 +777,10 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2b', 3, r'Ein schmaler Messzylinder, eine breite Schüssel und ein Trichter sind alle \(30\;\text{cm}\) hoch mit Wasser gefüllt. Wie gross ist der Schweredruck am Boden jedes Gefässes? Begründe, warum er gleich ist, obwohl die Wassermengen verschieden sind.',
      r'<p>Überall \(p_S = 1000\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2 \cdot 0.30\;\text{m}\) \(\approx 2940\;\text{Pa}\).</p><p>In \(p_S = \rho \cdot g \cdot h\) kommen weder Fläche noch Menge vor: Mehr Wasser verteilt sich auf mehr Bodenfläche, und bei schrägen Wänden tragen die Wände einen Teil (hydrostatisches Paradoxon).</p>', ''),
     ('2c', 3, r'Das Diagramm zeigt den Schweredruck in einer unbekannten Flüssigkeit über der Tiefe. Lies einen Punkt ab und bestimme die Dichte. Um welche Flüssigkeit könnte es sich handeln?',
-     r'<p>Bei \(6\;\text{m}\) liest man \(50\;\text{kPa}\) ab. \(\rho = \dfrac{p_S}{g \cdot h}\) \(= \dfrac{50\,000\;\text{Pa}}{9.81\;\text{m/s}^2 \cdot 6\;\text{m}}\) \(\approx 850\;\text{kg/m}^3\) — zum Beispiel Speiseöl.</p>',
+     r'<p>Bei \(6\;\text{m}\) liest man \(50\;\text{kPa}\) ab. \(\rho = \dfrac{p_S}{g \cdot h}\) \(= \dfrac{50\,000\;\text{Pa}}{9.81\;\text{m/s}^2 \cdot 6\;\text{m}}\) \(\approx 850\;\text{kg/m}^3\) — zum Beispiel Heizöl.</p>',
      '\n            <div class="mini-reihe">' + linien_bild([(0, 0), (8, 400 / 6)], 0, 8, 0, 70, 1, 10, 'Schweredruck über der Tiefe: Gerade durch den Ursprung und den Punkt 6 m, 50 kPa', 'h [m]', 'p_S [kPa]', 'kurve-p') + '</div>'),
-    ('2d', 3, r'Ein Taucher ist im Meer (\(1025\;\text{kg/m}^3\)) in \(20\;\text{m}\) Tiefe. Wie gross ist der Gesamtdruck in bar? Mit welcher Kraft drückt der Schweredruck auf das Glas seiner Maske (\(120\;\text{cm}^2\))?',
-     r'<p>\(p_S = 1025\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2 \cdot 20\;\text{m}\) \(\approx 201\,000\;\text{Pa}\); \(p = p_0 + p_S\) \(\approx 1.013\;\text{bar} + 2.01\;\text{bar} \approx 3.02\;\text{bar}\).</p><p>\(F = p_S \cdot A\) \(\approx 201\,000\;\text{Pa} \cdot 0.012\;\text{m}^2\) \(\approx 2410\;\text{N}\) — der Luftdruck in der Maske gleicht \(p_0\) aus.</p>', ''),
+    ('2d', 3, r'Ein Taucher ist im Meer (\(1025\;\text{kg/m}^3\)) in \(20\;\text{m}\) Tiefe. Wie gross ist der Gesamtdruck in bar? Seine Kamera steckt in einem dichten Gehäuse, in dem die Luft den Druck \(p_0\) von der Oberfläche behält. Mit welcher Kraft drückt das Wasser zusätzlich auf das Frontglas (\(120\;\text{cm}^2\))?',
+     r'<p>\(p_S = 1025\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2 \cdot 20\;\text{m}\) \(\approx 201\,000\;\text{Pa}\); \(p = p_0 + p_S\) \(\approx 1.013\;\text{bar} + 2.01\;\text{bar} \approx 3.02\;\text{bar}\).</p><p>Innen drückt \(p_0\), aussen \(p_0 + p_S\): Es bleibt der Schweredruck. \(F = p_S \cdot A\) \(\approx 201\,000\;\text{Pa} \cdot 0.012\;\text{m}^2\) \(\approx 2410\;\text{N}\) — so viel wie die Gewichtskraft von rund \(250\;\text{kg}\). Darum braucht das Gehäuse dickes Glas.</p>', ''),
 ])
 k2 = kapitel(2, 'schweredruck', 'Schweredruck', 'K3', 40,
     r'Du berechnest den Druck in einer Flüssigkeit mit der hydrostatischen Grundgleichung \(p_S = \rho \cdot g \cdot h\), setzt ihn mit dem Luftdruck zum Gesamtdruck zusammen und erklärst das hydrostatische Paradoxon.',
@@ -825,7 +825,7 @@ k3 = kapitel(3, 'luftdruck', 'Luftdruck', 'K3', 40,
     ('p4-5-lp-luftdruck', 'Hydrostatik sehen: die Luft drückt mit'),
     sim3, ('p4-5-lp-kontrolle-luftdruck', 'Kontrollfragen zum Luftdruck'),
     fest3, [uebung('saughoehe', 'Wie hoch saugt eine Pumpe?'), uebung('unterdruck', 'Trinken mit dem Strohhalm'), uebung('barometer', 'Quecksilberbarometer')],
-    auf3, f'<a href="{TS}#einstieg">Themenseite 4.5, Luftdruck und Tauchen</a> · <a href="{LPV}#ls8">Überdruck und absoluter Druck</a>')
+    auf3, f'<a href="{TS}#definition">Themenseite 4.5, Schweredruck und Luftdruck \\(p = p_0 + p_S\\)</a> · <a href="{LPV}#ls8">Überdruck und absoluter Druck</a>')
 
 # ------------------------------------------------------------------ Kapitel 4
 sim4 = figur_anim('sim4', 'Hydraulische Hebebühne: Auf Knopfdruck pumpt der kleine Kolben fünfmal; reicht die Kraft am grossen Kolben, hebt sich das Auto', '-4 -4 308 290',
@@ -844,7 +844,7 @@ fest4 = r'''      <div class="festhalten">
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
           <p>«Die Kraft ist überall gleich.» Gleich ist der Druck. Die Kraft wächst mit der Fläche.</p>
-          <p>Flächen und Wege im gleichen Verhältnis: Der grosse Kolben bewegt sich <em>weniger</em> weit, nicht mehr.</p>
+          <p>Den Weg falsch herum gerechnet: Der grosse Kolben bewegt sich <em>weniger</em> weit als der kleine, \(s_2 = s_1 \cdot \dfrac{A_1}{A_2}\).</p>
         </div>
       </div>'''
 auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
@@ -856,7 +856,7 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
      r'<p>Die Steigung ist der Druck: \(p = \dfrac{F_2}{A_2}\) \(= \dfrac{6000\;\text{N}}{300\;\text{cm}^2}\) \(= 20\;\text{N/cm}^2 = 200\,000\;\text{Pa} = 2\;\text{bar}\).</p><p>\(F_1 = p \cdot A_1\) \(= 20\;\text{N/cm}^2 \cdot 4\;\text{cm}^2\) \(= 80\;\text{N}\).</p>',
      '\n            <div class="mini-reihe"><svg class="mini" data-geraden="20" data-namen="" data-farbe="kurve-p" data-fenster="400,8000" data-teilung="50,1000" data-punkte="100,2000;300,6000" data-xname="A₂ [cm²]" data-yname="F₂ [N]" aria-label="Kraft am grossen Kolben über dessen Fläche: Ursprungsgerade durch 100 cm², 2000 N und 300 cm², 6000 N"></svg></div>'),
     ('4d', 3, r'Eine Hebebühne hebt ein Auto (\(1400\;\text{kg}\)); \(A_2 = 600\;\text{cm}^2\), die Handpumpe hat \(A_1 = 3\;\text{cm}^2\) und einen Hub von \(15\;\text{cm}\). Welche Kraft braucht es an der Pumpe? Wie viele Pumpstösse braucht es, um das Auto \(30\;\text{cm}\) zu heben?',
-     r'<p>\(F_1 = m \cdot g \cdot \dfrac{A_1}{A_2}\) \(= 1400\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot \dfrac{3}{600}\) \(\approx 68.7\;\text{N}\).</p><p>Je Pumpstoss \(s_2 = 15\;\text{cm} \cdot \dfrac{3}{600}\) \(= 0.075\;\text{cm}\); für \(30\;\text{cm}\) braucht es \(\dfrac{30\;\text{cm}}{0.075\;\text{cm}} = 400\) Pumpstösse.</p>', ''),
+     r'<p>\(F_1 = m \cdot g \cdot \dfrac{A_1}{A_2}\) \(= 1400\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot \dfrac{3\;\text{cm}^2}{600\;\text{cm}^2}\) \(\approx 68.7\;\text{N}\).</p><p>Je Pumpstoss \(s_2 = 15\;\text{cm} \cdot \dfrac{3\;\text{cm}^2}{600\;\text{cm}^2}\) \(= 0.075\;\text{cm}\); für \(30\;\text{cm}\) braucht es \(\dfrac{30\;\text{cm}}{0.075\;\text{cm}} = 400\) Pumpstösse.</p>', ''),
 ])
 k4 = kapitel(4, 'pascal', "Das Pascal'sche Gesetz", 'K4', 40,
     r"Du wendest das Pascal'sche Gesetz an hydraulischen Anlagen an: gleicher Druck auf beide Kolben, \(F_2 = F_1 \cdot \dfrac{A_2}{A_1}\), und den Tausch von Kraft gegen Weg.",
@@ -877,6 +877,7 @@ fest5 = r'''      <div class="festhalten">
           <p>Ein Körper in einer Flüssigkeit erfährt eine <b>Auftriebskraft</b> nach oben. Sie ist so gross wie die Gewichtskraft der Flüssigkeit, die er verdrängt (<b>archimedisches Prinzip</b>):</p>
           <p>\[ F_A = \rho_{Fl} \cdot V_e \cdot g \]</p>
           <p>\(\rho_{Fl}\): Dichte der Flüssigkeit, \(V_e\): eingetauchtes Volumen. Der Auftrieb entsteht, weil der Druck unten am Körper grösser ist als oben. Ganz eingetaucht hängt er nicht mehr von der Tiefe ab. An einer Federwaage zeigt sich der Körper um \(F_A\) leichter: Anzeige \(= F_G - F_A\). Das Prinzip gilt auch in Gasen: Ein Ballon erfährt Auftrieb, weil er Luft verdrängt (\(\rho_\text{Luft} \approx 1.2\;\text{kg/m}^3\)).</p>
+          <p><b>Dichte mit der Federwaage:</b> Ganz eingetaucht verdrängt ein Körper sein eigenes Volumen, \(V = \dfrac{F_A}{\rho_{Fl} \cdot g}\). Mit \(F_G = \rho_K \cdot V \cdot g\) folgt \(\rho_K = \dfrac{F_G}{F_A} \cdot \rho_{Fl}\).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -889,8 +890,8 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
      r'<p>\(F_A = \rho_{Fl} \cdot V_e \cdot g\) \(= 1000\;\text{kg/m}^3 \cdot 0.0011\;\text{m}^3 \cdot 9.81\;\text{m/s}^2\) \(\approx 10.8\;\text{N}\).</p><p>\(F_G = 2.8\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 27.5\;\text{N}\); halten: \(27.5\;\text{N} - 10.8\;\text{N} \approx 16.7\;\text{N}\).</p>', ''),
     ('5b', 3, r'Erkläre mit dem Schweredruck, warum ein eingetauchter Würfel Auftrieb erfährt. Warum hängt der Auftrieb nicht davon ab, wie tief der Würfel ganz unter Wasser liegt? Begründe.',
      r'<p>Auf die Unterseite drückt das Wasser stärker nach oben als auf die Oberseite nach unten, denn unten ist es tiefer: \(p = \rho \cdot g \cdot h\). Der Unterschied der beiden Kräfte ist der Auftrieb; die Seitenkräfte heben sich auf.</p><p>Liegt der Würfel tiefer, wachsen beide Drücke um gleich viel — ihr Unterschied hängt nur von der Würfelhöhe ab, also vom Volumen.</p>', ''),
-    ('5c', 3, r'Ein Körper an einer Federwaage wird langsam in Wasser getaucht. Das Diagramm zeigt die Anzeige über der Eintauchtiefe. Wie gross ist der Auftrieb, wenn er ganz eingetaucht ist? Welches Volumen und welche Dichte hat er?',
-     r'<p>Anzeige an der Luft \(6\;\text{N}\), ganz eingetaucht \(4\;\text{N}\): \(F_A = 2\;\text{N}\).</p><p>\(V = \dfrac{F_A}{\rho_W \cdot g}\) \(= \dfrac{2\;\text{N}}{1000\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2}\) \(\approx 204\;\text{cm}^3\); \(\rho_K = \dfrac{F_G}{F_A} \cdot \rho_W\) \(= \dfrac{6\;\text{N}}{2\;\text{N}} \cdot 1000\;\text{kg/m}^3 = 3000\;\text{kg/m}^3\).</p>',
+    ('5c', 3, r'Ein Körper an einer Federwaage wird langsam in Wasser getaucht. Das Diagramm zeigt die Anzeige über der Eintauchtiefe. Wie gross ist der Auftrieb, wenn er ganz eingetaucht ist? Welches Volumen hat er? Was würde die Waage zeigen, wenn er ganz in Spiritus (\(790\;\text{kg/m}^3\)) taucht?',
+     r'<p>Anzeige an der Luft \(6\;\text{N}\), ganz eingetaucht \(4\;\text{N}\): \(F_A = 2\;\text{N}\).</p><p>\(V = \dfrac{F_A}{\rho_W \cdot g}\) \(= \dfrac{2\;\text{N}}{1000\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2}\) \(\approx 204\;\text{cm}^3\).</p><p>In Spiritus ist der Auftrieb im Verhältnis der Dichten kleiner: \(F_A = 2\;\text{N} \cdot \dfrac{790}{1000}\) \(= 1.58\;\text{N}\), die Waage zeigt \(6\;\text{N} - 1.58\;\text{N}\) \(= 4.42\;\text{N}\).</p>',
      '\n            <div class="mini-reihe">' + linien_bild([(0, 6), (8, 4), (12, 4)], 0, 12, 0, 7, 2, 1, 'Anzeige der Federwaage über der Eintauchtiefe: fällt von 6 N bei 0 cm geradlinig auf 4 N bei 8 cm und bleibt dann bei 4 N', 'h_e [cm]', 'F [N]', 'kurve-waage') + '</div>'),
     ('5d', 3, r'Archimedes sollte prüfen, ob eine Krone aus reinem Gold (\(19\,300\;\text{kg/m}^3\)) ist. An der Luft zeigt die Waage \(9.81\;\text{N}\), ganz in Wasser \(9.15\;\text{N}\). Ist die Krone aus reinem Gold? Begründe mit einer Rechnung.',
      r'<p>\(F_A = 9.81\;\text{N} - 9.15\;\text{N} = 0.66\;\text{N}\), \(V = \dfrac{F_A}{\rho_W \cdot g}\) \(\approx 67.3\;\text{cm}^3\).</p><p>\(\rho = \dfrac{F_G}{F_A} \cdot \rho_W\) \(\approx 14\,900\;\text{kg/m}^3\) — viel weniger als Gold. Die Krone ist mit einem leichteren Metall (zum Beispiel Silber) gestreckt.</p>', ''),
@@ -933,7 +934,7 @@ auf6 = test('t6', 'Aufgaben · Kapitel 6', 12, [
      r'<p>Weniger tief. Das Schiff schwimmt, also \(F_A = F_G\) — die Gewichtskraft bleibt gleich, also muss auch der Auftrieb gleich bleiben. Meerwasser ist dichter: Für denselben Auftrieb genügt ein kleineres verdrängtes Volumen.</p>', ''),
     ('6c', 3, r'Ein Quader (Höhe \(20\;\text{cm}\), Grundfläche \(100\;\text{cm}^2\)) wird aufrecht ins Wasser gesetzt. Das Diagramm zeigt den Auftrieb über der Eintauchtiefe und gestrichelt seine Gewichtskraft. Wie tief taucht er ein? Welche Dichte hat er?',
      r'<p>Er schwimmt dort, wo der Auftrieb die Gewichtskraft erreicht: beim Schnittpunkt, rund \(12\;\text{cm}\) (genau \(h_e = \dfrac{12\;\text{N}}{1000\;\text{kg/m}^3 \cdot 0.01\;\text{m}^2 \cdot 9.81\;\text{m/s}^2}\) \(\approx 0.122\;\text{m} = 12.2\;\text{cm}\)).</p><p>\(\rho_K = \rho_W \cdot \dfrac{h_e}{H}\) \(\approx 1000\;\text{kg/m}^3 \cdot \dfrac{12.2\;\text{cm}}{20\;\text{cm}}\) \(\approx 610\;\text{kg/m}^3\).</p>',
-     '\n            <div class="mini-reihe">' + linien_bild([(0, 0), (20, 1000 * 0.01 * 0.2 * 9.81), (24, 1000 * 0.01 * 0.2 * 9.81)], 0, 24, 0, 22, 4, 4, 'Auftrieb über der Eintauchtiefe: steigt geradlinig von 0 N auf rund 19.6 N bei 20 cm und bleibt dann gleich; gestrichelt die Gewichtskraft 12 N', 'h_e [cm]', 'F [N]', 'kurve-fa', 12) + '</div>'),
+     '\n            <div class="mini-reihe">' + linien_bild([(0, 0), (20, 1000 * 0.01 * 0.2 * 9.81), (24, 1000 * 0.01 * 0.2 * 9.81)], 0, 24, 0, 22, 4, 4, 'Auftrieb über der Eintauchtiefe: steigt geradlinig von 0 N auf rund 19.6 N bei 20 cm und bleibt dann gleich; gestrichelt die Gewichtskraft 12 N', 'h_e [cm]', 'F [N]', 'kurve-fa', 12, waagrecht_cls='kurve-mini kurve-fg') + '</div>'),
     ('6d', 3, r'Ein U-Boot kann abtauchen, in einer Tiefe schweben und wieder auftauchen. Es hat Tanks, die es mit Wasser fluten oder mit Druckluft leeren kann. Erkläre die drei Zustände mit der mittleren Dichte.',
      r'<p>Leere Tanks: Die mittlere Dichte ist kleiner als die des Wassers, es schwimmt an der Oberfläche. Geflutete Tanks: Die mittlere Dichte wird grösser, es sinkt. Genau so viel Wasser, dass die mittlere Dichte gleich der des Wassers ist: Es schwebt. Zum Auftauchen bläst Druckluft das Wasser aus den Tanks.</p>', ''),
 ])
@@ -968,7 +969,7 @@ gt = f'''
             <tr><td>11 – 16 P</td><td>Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.</td></tr>
             <tr><td>0 – 10 P</td><td>Zurück zu Kapitel 1 und von dort der Reihe nach weiter.</td></tr>
           </table>
-          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a> → K1, K2 · G2 → <a href="#k2">2</a>, <a href="#k3">3</a> → K3 · G3 → <a href="#k3">3</a> → K3 · G4 → <a href="#k4">4</a> → K4 · G5 → <a href="#k5">5</a> → K5 · G6 → <a href="#k6">6</a> → K5</p>
+          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a> → K1, K2 · G2 → <a href="#k2">2</a>, <a href="#k3">3</a> → K3 · G3 → <a href="#k2">2</a> → K3 · G4 → <a href="#k4">4</a> → K4 · G5 → <a href="#k5">5</a> → K5 · G6 → <a href="#k6">6</a> → K5</p>
         </div>
       </div>
     </section>'''
@@ -999,7 +1000,7 @@ oben = '''<div id="nav-root"></div>
        K5 das archimedische Prinzip definieren und in einfachen Aufgaben anwenden
 
      Kompetenzmatrix (Hilfsmittel überall Taschenrechner und Formelsammlung):
-       K1, K2 → Kap. 1 · Aufg. 1a–1d · G1      K3 → Kap. 2, 3 · Aufg. 2a–3d · G2 G3
+       K1, K2 → Kap. 1 · Aufg. 1a–1d · G1      K3 → Kap. 2, 3 · Aufg. 2a–3d · G2 G3 (G3: Paradoxon)
        K4 → Kap. 4 · Aufg. 4a–4d · G4          K5 → Kap. 5, 6 · Aufg. 5a–6d · G5 G6
      Bewusst weggelassen: U-Rohr mit zwei Flüssigkeiten (in keiner Kompetenz genannt, auf der Themenseite).
      Zeiten: K0 10 · K1–K6 je 40 · Gesamttest 30 = 280 min ≈ 6.2 Lektionen. -->

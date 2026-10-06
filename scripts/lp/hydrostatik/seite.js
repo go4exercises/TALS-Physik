@@ -259,7 +259,7 @@
      Eine Person steht auf einer Auflagefläche A im Schnee. Auf Knopfdruck stellt sie sich hin
      und sinkt ein; die Eindrucktiefe wächst mit dem Druck p = F / A (vereinfachtes Schneemodell
      d = 40 cm · p / (p + 10 kPa)). Darunter der Druck über der Fläche (Hyperbel) für die
-     eingestellte Masse. Gewichtskraft Bernstein. Clipbeispiel: 60 kg auf 300 cm² und 1800 cm²;
+     eingestellte Masse. Gewichtskraft Bernstein. Clipbeispiel: 55 kg auf 250 cm² und 1500 cm²;
      Startwerte 50 kg, 600 cm². */
   (function(){
     var fig = document.getElementById('sim1'); if (!fig) return;
@@ -324,7 +324,7 @@
         vergleich: '\\(A = \\dfrac{F}{p} = \\dfrac{60\\;\\text{kg} \\cdot 9.81\\;\\text{m/s}^2}{4000\\;\\text{Pa}} \\approx 0.147\\;\\text{m}^2 = 1470\\;\\text{cm}^2\\). Auf dem Regler reichen \\(1500\\;\\text{cm}^2\\); bei \\(1450\\;\\text{cm}^2\\) wären es schon rund \\(4.06\\;\\text{kPa}\\).' },
       { text: 'Eine Person mit \\(100\\;\\text{kg}\\) soll gleich tief einsinken wie eine mit \\(50\\;\\text{kg}\\) auf \\(600\\;\\text{cm}^2\\). Welche Fläche braucht sie? Stelle ein und stell dich hin.', ok: function(s){ return hat(s, 100, 1200); },
         vergleich: 'Gleich tief heisst gleicher Druck. Doppelte Kraft braucht dafür die doppelte Fläche: \\(1200\\;\\text{cm}^2\\).' },
-      { text: 'Bei \\(2500\\;\\text{cm}^2\\) soll der Druck \\(2.0\\;\\text{kPa}\\) betragen (auf \\(0.05\\;\\text{kPa}\\) genau). Welche Masse? Stelle ein und stell dich hin.', ok: function(s){ return s.lauf && s.lauf.A === 2500 && Math.abs(s.lauf.p - 2000) <= 50; },
+      { text: 'Bei \\(2500\\;\\text{cm}^2\\) soll der Druck \\(2.0\\;\\text{kPa}\\) betragen (auf \\(0.025\\;\\text{kPa}\\) genau). Welche Masse? Stelle ein und stell dich hin.', ok: function(s){ return s.lauf && s.lauf.A === 2500 && Math.abs(s.lauf.p - 2000) <= 25; },
         vergleich: '\\(F = p \\cdot A = 2000\\;\\text{Pa} \\cdot 0.25\\;\\text{m}^2 = 500\\;\\text{N}\\), \\(m = \\dfrac{F}{g} \\approx 51\\;\\text{kg}\\).' }
     ], sim);
     zeichnen();
@@ -334,7 +334,7 @@
      Eine Taucherin taucht auf Knopfdruck bis zur eingestellten Tiefe. Ein Manometer zeigt den
      Schweredruck p_S = ρ · g · h und den Gesamtdruck p = p_0 + p_S; im Diagramm wächst der
      Gesamtdruck als Gerade über h (gestrichelt: Schweredruck allein). p_0 = 1013 hPa.
-     Clipbeispiel: 6 m im Schwimmbecken; Startwerte 8 m, See. */
+     Clipbeispiel: 5 m im Sprungbecken; Startwerte 8 m, See. */
   (function(){
     var fig = document.getElementById('sim2'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -373,7 +373,7 @@
       for (var b = 0; b <= 6; b++){ var aa = Math.PI * (1.25 - 1.5 * b / 6); el(szene, 'line', { x1: mx + (R - 6) * Math.cos(aa), y1: my - (R - 6) * Math.sin(aa), x2: mx + R * Math.cos(aa), y2: my - R * Math.sin(aa), 'class': 'tick' }); el(szene, 'text', { x: mx + (R - 13) * Math.cos(aa), y: my - (R - 13) * Math.sin(aa) + 3, 'text-anchor': 'middle', 'class': 'skala klein' }, b); }
       var az = Math.PI * (1.25 - 1.5 * ww); el(szene, 'line', { x1: mx, y1: my, x2: mx + (R - 9) * Math.cos(az), y2: my - (R - 9) * Math.sin(az), 'class': 'zeiger' });
       el(szene, 'text', { x: mx, y: my + R + 13, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'p in bar (absolut)');
-      el(szene, 'text', { x: mx, y: my + R + 30, 'text-anchor': 'middle', 'class': 'bt-wert' }, sig(p / 1e5) + NB + 'bar');
+      el(szene, 'text', { x: mx, y: my + R + 30, 'text-anchor': 'middle', 'class': 'bt-wert' }, (p / 1e5).toFixed(2) + NB + 'bar');
       // Diagramm: Druck über der Tiefe bis zur aktuellen Tiefe
       K = Achsen(dia, { w: 300, h: 120, x0: -2.5, x1: 43, y0: -0.6, y1: 6.6, sx: 5, sy: 0.5, xm: [10, 20, 30, 40], ym: [1, 2, 3, 4, 5, 6], xname: 'h [m]', yname: 'p [bar]' });
       if (h > 0){ K.kurve(function(x){ return (P0 + w.rho * G * x) / 1e5; }, 'kurve-p', 0, h); K.kurve(function(x){ return w.rho * G * x / 1e5; }, 'kurve-ps', 0, h); }
@@ -381,7 +381,7 @@
       stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende l-p' }, '— p = p_0 + p_S');
       stext(K.ebene, { x: 296, y: 24, 'text-anchor': 'end', 'class': 'legende l-ps' }, '- - p_S');
       var H = +h.toFixed(1);
-      var z = '<span>' + p_('S') + ' = ' + v_('ρ') + ' · ' + v_('g') + ' · ' + v_('h') + ' = ' + zahl(w.rho) + NB + 'kg/m³ · 9.81' + NB + 'm/s² · ' + zahl(H) + NB + 'm ' + ist(w.rho * G * H, sig(w.rho * G * H)) + sig(w.rho * G * H) + NB + 'Pa</span>';
+      var z = '<span>' + p_('S') + ' = ' + v_('ρ') + ' · ' + v_('g') + ' · ' + v_('h') + ' = ' + zahl(w.rho) + NB + 'kg/m³ · 9.81' + NB + 'm/s² · ' + zahl(H) + NB + 'm = ' + zahl(Math.round(w.rho * G * H * 10) / 10) + NB + 'Pa</span>';
       var pSh = w.rho * G * H / 100;
       z += '<span>' + p_() + ' = ' + p_('0') + ' + ' + p_('S') + ' = 1013' + NB + 'hPa + ' + zahl(+pSh.toFixed(1)) + NB + 'hPa ' + ist(1013 + pSh, sig(1013 + pSh, 4)) + sig(1013 + pSh, 4) + NB + 'hPa</span>';
       z += '<span class="sim-notiz">' + p_('0') + ': Luftdruck an der Oberfläche (Meereshöhe). Das Manometer zeigt den absoluten Druck.</span>';
@@ -399,7 +399,7 @@
       { text: 'Tauche im See bis \\(30\\;\\text{m}\\). Lies im Diagramm ab, um wie viel der Druck je \\(10\\;\\text{m}\\) zunimmt. Warum beginnt die durchgezogene Gerade nicht bei null? Begründe.', ok: function(s){ return hat(s, 30, 1000); },
         vergleich: 'Je \\(10\\;\\text{m}\\) rund \\(1\\;\\text{bar}\\) (genauer \\(0.98\\;\\text{bar}\\)). Die Gerade beginnt beim Luftdruck \\(p_0 \\approx 1\\;\\text{bar}\\): Auf die Oberfläche drückt schon die Luft. Nur der Schweredruck (gestrichelt) beginnt bei null.' },
       { text: 'Im Toten Meer (\\(1240\\;\\text{kg/m}^3\\)): In welcher Tiefe herrscht derselbe Schweredruck wie in \\(31\\;\\text{m}\\) Tiefe im See? Rechne, dann tauche hin.', ok: function(s){ return hat(s, 25, 1240); },
-        vergleich: '\\(\\rho_1 \\cdot h_1 = \\rho_2 \\cdot h_2\\): \\(h = \\dfrac{1000\\;\\text{kg/m}^3 \\cdot 31\\;\\text{m}}{1240\\;\\text{kg/m}^3} = 25\\;\\text{m}\\).' }
+        vergleich: 'Gleicher Schweredruck heisst \\(1240\\;\\text{kg/m}^3 \\cdot g \\cdot h = 1000\\;\\text{kg/m}^3 \\cdot g \\cdot 31\\;\\text{m}\\); \\(g\\) kürzt sich: \\(h = \\dfrac{1000\\;\\text{kg/m}^3 \\cdot 31\\;\\text{m}}{1240\\;\\text{kg/m}^3} = 25\\;\\text{m}\\).' }
     ], sim);
     zeichnen();
   })();
@@ -408,7 +408,7 @@
      Ein oben geschlossenes Rohr steht in einem Becken. Auf Knopfdruck saugt eine Pumpe die Luft
      aus dem Rohr, der Innendruck sinkt auf p_i; der Luftdruck p_0 auf das Becken drückt die
      Flüssigkeit hoch, bis ρ · g · h = p_0 − p_i. Ort (Luftdruck) und Flüssigkeit wählbar.
-     Clipbeispiel: Trinkhalm, Torricelli 760 mm; Startwerte 800 hPa, Meereshöhe, Wasser. */
+     Clipbeispiel: 100 hPa Unterdruck heben Wasser rund 1 m; Startwerte 800 hPa, Meereshöhe, Wasser. */
   (function(){
     var fig = document.getElementById('sim3'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -437,18 +437,18 @@
       el(szene, 'rect', { x: 20, y: BY - 22, width: 200, height: 22, 'class': hg ? 'quecksilber' : 'wasser' });
       el(szene, 'path', { d: 'M18 ' + (BY - 30) + ' L18 ' + BY + ' L222 ' + BY + ' L222 ' + (BY - 30), 'class': 'gefaess' });
       // Rohr
-      var rx = 110, top = BY - 12 - HM * PXM;
+      var rx = 110, top = BY - 22 - HM * PXM;
       el(szene, 'rect', { x: rx - 8, y: top, width: 16, height: BY - 8 - top, 'class': 'rohr' });
-      el(szene, 'rect', { x: rx - 6, y: BY - 12 - h * PXM, width: 12, height: h * PXM + 4, 'class': hg ? 'quecksilber' : 'wasser' });
-      el(szene, 'rect', { x: rx - 14, y: top - 14, width: 28, height: 14, rx: 2, 'class': 'pumpe' });
+      el(szene, 'rect', { x: rx - 6, y: BY - 22 - h * PXM, width: 12, height: h * PXM + 14, 'class': hg ? 'quecksilber' : 'wasser' });   // Säule ab dem Beckenspiegel
+      el(szene, 'rect', { x: rx - 20, y: top - 14, width: 40, height: 14, rx: 2, 'class': 'pumpe' });
       el(szene, 'text', { x: rx, y: top - 4, 'text-anchor': 'middle', 'class': 'saeule-text' }, 'Pumpe');
       // Skala am Rohr
       var st = hg ? 0.2 : 2;
-      for (var m = 0; m <= HM + 1e-9; m += st){ var yy = BY - 12 - m * PXM; el(szene, 'line', { x1: rx + 8, y1: yy, x2: rx + 13, y2: yy, 'class': 'tick' }); el(szene, 'text', { x: rx + 16, y: yy + 3, 'class': 'skala' }, zahl(+m.toFixed(1)) + ' m'); }
+      for (var m = 0; m <= HM + 1e-9; m += st){ var yy = BY - 22 - m * PXM; el(szene, 'line', { x1: rx + 8, y1: yy, x2: rx + 13, y2: yy, 'class': 'tick' }); el(szene, 'text', { x: rx + 16, y: yy + 3, 'class': 'skala' }, zahl(+m.toFixed(1)) + ' m'); }
       // Luftdruck-Pfeile auf das Becken
       for (var ax = 40; ax <= 200; ax += 40) if (Math.abs(ax - rx) > 20) pfeil(szene, ax, BY - 52, ax, BY - 25, 'pf-luft', 6);
       el(szene, 'text', { x: 296, y: BY - 58, 'text-anchor': 'end', 'class': 'bt-klein' }, 'Luftdruck ' + zahl(w.p0) + ' hPa');
-      if (h * PXM > 14){ el(szene, 'line', { x1: rx - 22, y1: BY - 12, x2: rx - 22, y2: BY - 12 - h * PXM, 'class': 'hebelarm' }); el(szene, 'text', { x: rx - 26, y: BY - 12 - h * PXM / 2, 'text-anchor': 'end', 'class': 'pf-text pf-a' }, 'h = ' + sig(h) + ' m'); }
+      if (h * PXM > 14){ el(szene, 'line', { x1: rx - 22, y1: BY - 22, x2: rx - 22, y2: BY - 22 - h * PXM, 'class': 'hebelarm' }); el(szene, 'text', { x: rx - 26, y: BY - 22 - h * PXM / 2, 'text-anchor': 'end', 'class': 'pf-text pf-a' }, 'h = ' + sig(h) + ' m'); }
       el(szene, 'text', { x: 296, y: 30, 'text-anchor': 'end', 'class': 'bt-klein' }, ORTE[String(w.p0)]);
       el(szene, 'text', { x: 296, y: 46, 'text-anchor': 'end', 'class': 'bt-wert' }, 'innen ' + zahl(+p.toFixed(1)) + ' hPa');
       if (w.piz >= w.p0) el(szene, 'text', { x: 296, y: 62, 'text-anchor': 'end', 'class': 'bt-meldung' }, 'kein Unterdruck');
@@ -463,7 +463,8 @@
     pruefen = Leiste(fig, [
       { text: 'In Zürich: Sauge alle Luft aus dem Rohr (\\(p_i = 0\\)). Wie hoch steigt das Wasser höchstens? Notiere, dann vergleiche.', ok: function(s){ return hat(s, 965, 0, 1000); },
         vergleich: '\\(h = \\dfrac{p_0}{\\rho \\cdot g} = \\dfrac{96\\,500\\;\\text{Pa}}{1000\\;\\text{kg/m}^3 \\cdot 9.81\\;\\text{m/s}^2} \\approx 9.84\\;\\text{m}\\). Höher geht es nicht: Mehr als den ganzen Luftdruck kann die Luft draussen nicht aufbringen.' },
-      { text: 'Dasselbe auf dem Jungfraujoch. Wie hoch steigt das Wasser jetzt höchstens?', ok: function(s){ return hat(s, 671, 0, 1000); } },
+      { text: 'Dasselbe auf dem Jungfraujoch. Wie hoch steigt das Wasser jetzt höchstens?', ok: function(s){ return hat(s, 671, 0, 1000); },
+        vergleich: '\\(h = \\dfrac{67\\,100\\;\\text{Pa}}{1000\\;\\text{kg/m}^3 \\cdot 9.81\\;\\text{m/s}^2} \\approx 6.84\\;\\text{m}\\) — rund ein Drittel weniger als auf Meereshöhe, weil über dem Jungfraujoch weniger Luft liegt.' },
       { text: 'Fülle das Becken mit Quecksilber (\\(13\\,600\\;\\text{kg/m}^3\\)) und sauge auf Meereshöhe alles leer. Wie hoch steht die Säule? So funktioniert das Quecksilberbarometer.', ok: function(s){ return hat(s, 1013, 0, 13600); },
         vergleich: '\\(h = \\dfrac{101\\,300\\;\\text{Pa}}{13\\,600\\;\\text{kg/m}^3 \\cdot 9.81\\;\\text{m/s}^2} \\approx 0.759\\;\\text{m} \\approx 760\\;\\text{mm}\\). Steigt der Luftdruck, steigt die Säule — das Barometer zeigt den Luftdruck an.' },
       { text: 'Auf Meereshöhe soll das Wasser genau \\(5\\;\\text{m}\\) hoch stehen. Welcher Innendruck? Stelle ein und sauge ab.', ok: function(s){ return hat(s, 1013, 522.5, 1000); },
@@ -522,7 +523,7 @@
       pfeil(szene, xr + 52, ay - 40, xr + 52, ay - 8, 'pf-g', 8); marke(szene, xr + 56, ay - 22, 'F', 'G', 'pf-text pf-g', 'start');
       pfeil(szene, xr - br / 2 - 10, yr + 40, xr - br / 2 - 10, yr + 4, 'pf-f', 8); marke(szene, xr - br / 2 - 14, yr + 26, 'F', '2', 'pf-text pf-f', 'end');
       el(szene, 'text', { x: 150, y: by + 16, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'p = ' + sig(w.p / 1e5) + ' bar überall in der Flüssigkeit');
-      if (ende || t > 0) el(szene, 'text', { x: 296, y: 18, 'text-anchor': 'end', 'class': 'bt-meldung' }, w.hebt ? 'gehoben: ' + sig(zug) + ' cm' : (t > 0 ? 'F₂ zu klein: Das Auto bleibt stehen.' : ''));
+      if (ende || t > 0) el(szene, 'text', { x: 296, y: 18, 'text-anchor': 'end', 'class': 'bt-meldung' }, w.hebt ? 'Das Auto hebt sich.' : (t > 0 ? 'F₂ zu klein: Das Auto bleibt stehen.' : ''));
       var z = '<span>' + v_('p') + ' = ' + F_('1') + ' / ' + v_('A') + '<sub>1</sub> = ' + zahl(w.F1) + NB + 'N / ' + zahl(w.A1 / 1e4) + NB + 'm² ' + ist(w.p, sig(w.p)) + sig(w.p) + NB + 'Pa ' + ist(w.p / 1e5, sig(w.p / 1e5)) + sig(w.p / 1e5) + NB + 'bar</span>';
       z += '<span>' + F_('2') + ' = ' + F_('1') + ' · ' + v_('A') + '<sub>2</sub> / ' + v_('A') + '<sub>1</sub> = ' + zahl(w.F1) + NB + 'N · ' + zahl(w.A2) + NB + 'cm² / ' + zahl(w.A1) + NB + 'cm² ' + ist(w.F2, sig(w.F2)) + sig(w.F2) + NB + 'N; ' + F_('G') + ' = ' + zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² ' + ist(w.FG, sig(w.FG)) + sig(w.FG) + NB + 'N</span>';
       z += '<span>' + v_('s') + '<sub>2</sub> = ' + v_('s') + '<sub>1</sub> · ' + v_('A') + '<sub>1</sub> / ' + v_('A') + '<sub>2</sub> = 20' + NB + 'cm · ' + zahl(w.A1) + NB + 'cm² / ' + zahl(w.A2) + NB + 'cm² ' + ist(w.s2, sig(w.s2)) + sig(w.s2) + NB + 'cm je Pumpstoss</span>';
@@ -536,7 +537,7 @@
       { text: 'Gleiche Einstellung: Wie gross ist der Druck in bar, und wie hoch hebt sich das Auto nach den fünf Pumpstössen? Notiere, dann vergleiche.', ok: function(s){ return hat(s, 300, 5, 200, 1200) && s.lauf.hebt; },
         vergleich: '\\(p = \\dfrac{300\\;\\text{N}}{0.0005\\;\\text{m}^2} = 600\\,000\\;\\text{Pa} = 6\\;\\text{bar}\\). Je Pumpstoss \\(s_2 = 20\\;\\text{cm} \\cdot \\dfrac{5\\;\\text{cm}^2}{200\\;\\text{cm}^2} = 0.5\\;\\text{cm}\\), nach fünf Stössen \\(2.5\\;\\text{cm}\\).' },
       { text: 'Mit \\(A_1 = 4\\;\\text{cm}^2\\) und \\(A_2 = 800\\;\\text{cm}^2\\): Welche kleinste Kraft \\(F_1\\) hebt einen Lieferwagen mit \\(1500\\;\\text{kg}\\) (auf \\(10\\;\\text{N}\\) genau)?', ok: function(s){ return hat(s, 80, 4, 800, 1500) && s.lauf.hebt; },
-        vergleich: '\\(F_1 = F_2 \\cdot \\dfrac{A_1}{A_2} = 1500\\;\\text{kg} \\cdot 9.81\\;\\text{m/s}^2 \\cdot \\dfrac{4}{800} \\approx 73.6\\;\\text{N}\\) — auf dem Regler \\(80\\;\\text{N}\\); \\(70\\;\\text{N}\\) reichen nicht.' },
+        vergleich: '\\(F_1 = F_2 \\cdot \\dfrac{A_1}{A_2} = 1500\\;\\text{kg} \\cdot 9.81\\;\\text{m/s}^2 \\cdot \\dfrac{4\\;\\text{cm}^2}{800\\;\\text{cm}^2} \\approx 73.6\\;\\text{N}\\) — auf dem Regler \\(80\\;\\text{N}\\); \\(70\\;\\text{N}\\) reichen nicht.' },
       { text: 'Hebe irgendein Auto. Vergleiche die Arbeit am kleinen Kolben mit der Hubarbeit am Auto. Was bezahlt man für die grosse Kraft? Begründe.', ok: function(s){ return s.lauf && s.lauf.hebt; },
         vergleich: 'Den Weg: Der kleine Kolben geht \\(\\dfrac{A_2}{A_1}\\)-mal so weit wie der grosse. Die Arbeit \\(F_1 \\cdot s_1 = F_2 \\cdot s_2\\) ist auf beiden Seiten gleich (ohne Reibung) — Kraft wird gewonnen, Energie nicht.' }
     ], sim);
@@ -546,13 +547,13 @@
   /* ---------- Kapitel 5: Auftrieb an der Federwaage ----------
      Ein Zylinder (V = 200 cm³, Höhe 10 cm) hängt an einer Federwaage und wird auf Knopfdruck
      bis zur eingestellten Tiefe eingetaucht. Die Waage zeigt F_G − F_A mit F_A = ρ_Fl · V_e · g.
-     Im Diagramm die Anzeige über der Eintauchtiefe. Gewichtskraft Bernstein, Auftrieb Grün. Clipbeispiel: Messing in Wasser; Startwerte Aluminium, Wasser, 4 cm. */
+     Im Diagramm die Anzeige über der Eintauchtiefe. Gewichtskraft Bernstein, Auftrieb Grün. Clipbeispiel: Messing in Wasser; Startwerte Aluminium, Wasser, 4 cm. Stoff X ist Zinn. */
   (function(){
     var fig = document.getElementById('sim5'); if (!fig) return;
     var svg = fig.querySelector('svg');
     var szene = g_(svg), dia = g_(svg, { transform: 'translate(0,252)' }), K = null;
     var B = Bedienung(fig, function(){ uhr.stop(); he = 0; ende = false; zeichnen(); });
-    var he = 0, ende = false, lauf = null, laeufe = [], pruefen = function(){};
+    var he = 0, ende = false, lauf = null, laeufe = [], luftX = false, pruefen = function(){};
     var V = 200e-6, HK = 10, WY = 150, PXCM = 6;                              // Körper 10 cm hoch, Wasser bei y = 150
     function werte(){ var hz = B.wert('he'), rk = +B.wert('stoff'), rf = +B.wert('fl'); return { hz: hz, rk: rk, rf: rf, FG: rk * V * G }; }
     function FA(w, x){ return w.rf * V * Math.min(x, HK) / HK * G; }
@@ -561,15 +562,16 @@
     aktionen(fig, [['start', '▶ Eintauchen', function(){ ende = false; if (WENIGER){ var w = werte(); he = w.hz; fertig(w); zeichnen(); } else uhr.start(0); }],
                    ['zurueck', '↺ Herausziehen', function(){ uhr.stop(); he = 0; ende = false; zeichnen(); }]]);
     var sim = {
-      zustand: function(){ var w = werte(); w.lauf = lauf; w.laeufe = laeufe; return w; },
+      zustand: function(){ var w = werte(); w.lauf = lauf; w.laeufe = laeufe; w.luftX = luftX; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); he = 0; ende = false; B.setze(o); zeichnen(); },
-      aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); },
+      aufraeumen: function(){ lauf = null; laeufe = []; luftX = false; B.zuruecksetzen(); },
       zeige: function(x){ uhr.stop(); he = x; zeichnen(); }
     };
     fig.__sim = sim;
     var NAMEN = { '2700': 'Aluminium', '8500': 'Messing', '7870': 'Eisen', '7290': 'Stoff X' };
     function zeichnen(){
       var w = werte(), fa = FA(w, he), fw = w.FG - fa;
+      if (w.rk === 7290 && he === 0) luftX = true;                          // Stoff X an der Luft abgelesen
       B.anzeigen(); leeren(szene); leeren(dia);
       // Gefäss mit Flüssigkeit (Pegelanstieg vernachlässigt)
       el(szene, 'rect', { x: 60, y: WY, width: 160, height: 90, 'class': w.rf < 900 ? 'wasser spiritus' : 'wasser' });
@@ -583,12 +585,12 @@
       el(szene, 'path', { d: zz, 'class': 'feder' });
       el(szene, 'line', { x1: kx, y1: fo + dehn, x2: kx, y2: oben, 'class': 'faden' });
       el(szene, 'text', { x: kx + 14, y: fo - 14, 'class': 'bt-wert' }, 'Waage: ' + sig(fw) + NB + 'N');
-      el(szene, 'rect', { x: kx - 16, y: oben, width: 32, height: HK * PXCM, rx: 2, 'class': 'koerper' });
+      el(szene, 'rect', { x: kx - 22, y: oben, width: 44, height: HK * PXCM, rx: 2, 'class': 'koerper' });
       el(szene, 'text', { x: kx, y: oben + HK * PXCM / 2 + 4, 'text-anchor': 'middle', 'class': 'klotz-zahl' }, NAMEN[String(w.rk)]);
       // Kräfte am Körper: F_G nach unten (rechts), F_A nach oben (links), Massstab 6 px je N
       var k = 45 / w.FG;                                                     // Gewichtskraft immer 45 px, Auftrieb im selben Massstab
-      pfeil(szene, kx + 24, oben + 10, kx + 24, oben + 10 + w.FG * k, 'pf-g', 7); marke(szene, kx + 29, oben + 14 + w.FG * k / 2, 'F', 'G', 'pf-text pf-g', 'start');
-      if (fa * k > 3){ pfeil(szene, kx - 24, unten, kx - 24, unten - fa * k, 'pf-n', 7); marke(szene, kx - 29, unten - fa * k / 2, 'F', 'A', 'pf-text pf-n', 'end'); }
+      pfeil(szene, kx + 30, oben + 10, kx + 24, oben + 10 + w.FG * k, 'pf-g', 7); marke(szene, kx + 35, oben + 14 + w.FG * k / 2, 'F', 'G', 'pf-text pf-g', 'start');
+      if (fa * k > 3){ pfeil(szene, kx - 30, unten, kx - 30, unten - fa * k, 'pf-n', 7); marke(szene, kx - 35, unten - fa * k / 2, 'F', 'A', 'pf-text pf-n', 'end'); }
       if (he > 0.2) el(szene, 'text', { x: 228, y: WY + Math.min(he, 14) * PXCM / 2 + 4, 'class': 'bt-klein' }, 'eingetaucht ' + zahl(+he.toFixed(1)) + ' cm');
       // Diagramm: Anzeige über der Eintauchtiefe
       var sk = skala(w.FG * 1.15);
@@ -598,23 +600,23 @@
       stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende l-waage' }, '— Anzeige der Waage');
       stext(K.ebene, { x: 296, y: 24, 'text-anchor': 'end', 'class': 'legende l-fa' }, '- - F_A');
       var Ve = V * 1e6 * Math.min(+he.toFixed(1), HK) / HK, fA = w.rf * Ve * 1e-6 * G;
-      var z = '<span>' + F_('A') + ' = ' + v_('ρ') + '<sub>Fl</sub> · ' + v_('V') + '<sub>e</sub> · ' + v_('g') + ' = ' + zahl(w.rf) + NB + 'kg/m³ · ' + zahl(+Ve.toFixed(1)) + NB + 'cm³ · 9.81' + NB + 'm/s² ' + ist(fA, sig(fA)) + sig(fA) + NB + 'N</span>';
-      z += '<span>Anzeige = ' + F_('G') + ' − ' + F_('A') + ' = ' + sig(w.FG) + NB + 'N − ' + sig(fA) + NB + 'N ' + ist(w.FG - fA, sig(w.FG - fA)) + sig(w.FG - fA) + NB + 'N</span>';
-      z += '<span class="sim-notiz">' + v_('V') + '<sub>e</sub>: eingetauchtes Volumen (Körper: 200' + NB + 'cm³, 10' + NB + 'cm hoch; 1' + NB + 'cm³ = 10⁻⁶' + NB + 'm³). Pfeile im Massstab der Gewichtskraft. ' + F_('G') + ' = ' + v_('ρ') + '<sub>K</sub> · ' + v_('V') + ' · ' + v_('g') + ' ' + ist(w.FG, sig(w.FG)) + sig(w.FG) + NB + 'N.</span>';
+      var z = '<span>' + F_('A') + ' = ' + v_('ρ') + '<sub>Fl</sub> · ' + v_('V') + '<sub>e</sub> · ' + v_('g') + ' = ' + zahl(w.rf) + NB + 'kg/m³ · ' + zahl(+(Ve * 1e-6).toPrecision(4)) + NB + 'm³ · 9.81' + NB + 'm/s² ' + ist(fA, sig(fA, 4)) + sig(fA, 4) + NB + 'N</span>';
+      z += '<span>Anzeige = ' + F_('G') + ' − ' + F_('A') + ' = ' + sig(w.FG, 4) + NB + 'N − ' + sig(fA, 4) + NB + 'N ' + ist(w.FG - fA, sig(w.FG - fA)) + sig(w.FG - fA) + NB + 'N</span>';   // Glieder auf 4 Stellen, Ergebnis auf 3: stimmt mit den gezeigten Zahlen
+      z += '<span class="sim-notiz">' + v_('V') + '<sub>e</sub>: eingetauchtes Volumen (Körper: 200' + NB + 'cm³, 10' + NB + 'cm hoch; 1' + NB + 'cm³ = 10⁻⁶' + NB + 'm³). Pfeile im Massstab der Gewichtskraft. ' + F_('G') + ' = ' + v_('ρ') + '<sub>K</sub> · ' + v_('V') + ' · ' + v_('g') + ' = ' + zahl(w.rk) + NB + 'kg/m³ · 0.0002' + NB + 'm³ · 9.81' + NB + 'm/s² ' + ist(w.FG, sig(w.FG, 4)) + sig(w.FG, 4) + NB + 'N.</span>';
       rolle(fig, 'formel').innerHTML = z;
       pruefen();
     }
     function hat(s, h, rk, rf){ var l = s.lauf; return l && l.he === h && l.rk === rk && l.rf === rf; }
     pruefen = Leiste(fig, [
-      { text: 'Aluminium in Wasser: Tauche den Körper ganz ein (\\(10\\;\\text{cm}\\)). Wie gross ist der Auftrieb? Notiere, dann vergleiche mit der Anzeige.', ok: function(s){ return hat(s, 10, 2700, 1000); },
-        vergleich: '\\(F_A = \\rho_{Fl} \\cdot V_e \\cdot g = 1000\\;\\text{kg/m}^3 \\cdot 0.0002\\;\\text{m}^3 \\cdot 9.81\\;\\text{m/s}^2 \\approx 1.96\\;\\text{N}\\) — genau das Gewicht von \\(200\\;\\text{cm}^3\\) Wasser. Die Waage zeigt \\(5.30\\;\\text{N} - 1.96\\;\\text{N} \\approx 3.34\\;\\text{N}\\).' },
+      { text: 'Tauche den Aluminium- und den Eisenkörper je ganz in Wasser ein. Vergleiche Gewichtskraft, Auftrieb und Anzeige. Was ist gleich, was verschieden? Begründe.', ok: function(s){ var n = {}; s.laeufe.forEach(function(l){ if (l.he >= 10 && l.rf === 1000) n[l.rk] = true; }); return n[2700] && n[7870]; },
+        vergleich: 'Der Auftrieb ist gleich, rund \\(1.96\\;\\text{N}\\): Beide verdrängen \\(200\\;\\text{cm}^3\\) Wasser. Verschieden sind Gewichtskraft und Anzeige (Aluminium \\(5.30\\;\\text{N} - 1.96\\;\\text{N} \\approx 3.34\\;\\text{N}\\), Eisen \\(15.44\\;\\text{N} - 1.96\\;\\text{N} \\approx 13.5\\;\\text{N}\\)). Der Auftrieb hängt nicht vom Material des Körpers ab.' },
       { text: 'Tauche denselben Körper nur halb ein (\\(5\\;\\text{cm}\\)). Wie gross ist der Auftrieb jetzt? Begründe.', ok: function(s){ return hat(s, 5, 2700, 1000); },
         vergleich: 'Halb so gross, rund \\(0.98\\;\\text{N}\\): Der Auftrieb hängt am eingetauchten Volumen, und davon ist nur die Hälfte im Wasser.' },
       { text: 'Tauche den Körper \\(14\\;\\text{cm}\\) tief. Ab welcher Tiefe bleibt die Anzeige im Diagramm gleich? Warum wird der Auftrieb nicht noch grösser? Begründe.', ok: function(s){ return s.lauf && s.lauf.he === 14; },
         vergleich: 'Ab \\(10\\;\\text{cm}\\), wenn der Körper ganz unter Wasser ist. Danach ändert sich das verdrängte Volumen nicht mehr — die Tiefe spielt für den Auftrieb keine Rolle.' },
       { text: 'Tauche den Aluminiumkörper ganz in Wasser und ganz in Spiritus. Wo ist der Auftrieb kleiner, und warum? Begründe.', ok: function(s){ var n = {}; s.laeufe.forEach(function(l){ if (l.rk === 2700 && l.he >= 10) n[l.rf] = true; }); return n[1000] && n[790]; },
         vergleich: 'In Spiritus (\\(790\\;\\text{kg/m}^3\\)): Das verdrängte Volumen ist gleich, aber die verdrängte Flüssigkeit ist leichter. \\(F_A = \\rho_{Fl} \\cdot V_e \\cdot g\\) wird mit \\(\\rho_{Fl}\\) kleiner: \\(1.55\\;\\text{N}\\) statt \\(1.96\\;\\text{N}\\).' },
-      { text: 'Stoff X: Miss die Anzeige an der Luft und ganz in Wasser. Bestimme daraus die Dichte von Stoff X. Notiere, dann vergleiche.', ok: function(s){ var a = false, b = false; s.laeufe.forEach(function(l){ if (l.rk === 7290 && l.he === 0) a = true; if (l.rk === 7290 && l.he >= 10 && l.rf === 1000) b = true; }); return a && b; },
+      { text: 'Stoff X: Lies die Anzeige an der Luft ab, dann tauche ganz in Wasser ein. Bestimme daraus die Dichte von Stoff X. Notiere, dann vergleiche.', ok: function(s){ var b = false; s.laeufe.forEach(function(l){ if (l.rk === 7290 && l.he >= 10 && l.rf === 1000) b = true; }); return s.luftX && b; },
         vergleich: 'An der Luft \\(F_G \\approx 14.3\\;\\text{N}\\), in Wasser \\(\\approx 12.3\\;\\text{N}\\): \\(F_A \\approx 1.96\\;\\text{N}\\), also \\(V = \\dfrac{F_A}{\\rho_W \\cdot g} = 200\\;\\text{cm}^3\\). \\(\\rho = \\dfrac{F_G}{V \\cdot g} = \\dfrac{F_G}{F_A} \\cdot \\rho_W \\approx 7290\\;\\text{kg/m}^3\\) — das ist Zinn.' }
     ], sim);
     zeichnen();
@@ -624,7 +626,7 @@
      Ein Würfel (10 cm) wird auf Knopfdruck an der Oberfläche losgelassen. Gewichtskraft,
      Auftrieb (nach eingetauchtem Volumen) und eine Dämpfung bestimmen die Bewegung; er pendelt
      sich ein (schwimmt), bleibt stehen, wo er ist (schwebt), oder sinkt auf den Boden. Im
-     Diagramm die Eintauchtiefe über der Zeit. Clipbeispiel: Eis 917 in Wasser, Eisberg;
+     Diagramm die Eintauchtiefe über der Zeit. Clipbeispiel: Holz 600 schwimmt, Aluminium sinkt;
      Startwerte 400 kg/m³, Süsswasser. */
   (function(){
     var fig = document.getElementById('sim6'); if (!fig) return;
@@ -632,7 +634,7 @@
     var szene = g_(svg), dia = g_(svg, { transform: 'translate(0,206)' }), K = null;
     var B = Bedienung(fig, function(){ uhr.stop(); los(); zeichnen(); });
     var y = 0, vy = 0, spur = [], tz = 0, ende = false, lauf = null, laeufe = [], pruefen = function(){};
-    var A = 10, WY = 50, PXCM = 4, TIEF = 30, TMAX = 6;                     // Würfel 10 cm, Wasser 30 cm tief
+    var A = 10, WY = 50, PXCM = 4, TIEF = 30, TMAX = 10;                    // Würfel 10 cm, Wasser 30 cm tief, Lauf 10 s
     function werte(){ var rk = B.wert('rk'), rf = +B.wert('fl'); return { rk: rk, rf: rf, anteil: rk / rf }; }
     function los(){ y = 0; vy = 0; spur = []; tz = 0; ende = false; }
     function zustandEnde(w){ return w.rk < w.rf - 1e-9 ? 'schwimmt' : (Math.abs(w.rk - w.rf) < 1e-9 ? 'schwebt' : 'sinkt'); }
@@ -666,15 +668,18 @@
       wasser(szene, 40, WY, 200, TIEF * PXCM, w.rf > 1100 ? 'wasser salzig' : (w.rf < 900 ? 'wasser spiritus' : 'wasser'));
       el(szene, 'path', { d: 'M38 ' + (WY - 30) + ' L38 ' + (WY + TIEF * PXCM + 2) + ' L242 ' + (WY + TIEF * PXCM + 2) + ' L242 ' + (WY - 30), 'class': 'gefaess' });
       var cx = 140, unter = WY + y * PXCM, ob = unter - A * PXCM;
-      el(szene, 'rect', { x: cx - A * PXCM / 2, y: ob, width: A * PXCM, height: A * PXCM, 'class': 'koerper holz' });
+      el(szene, 'rect', { x: cx - A * PXCM / 2, y: ob, width: A * PXCM, height: A * PXCM, 'class': w.rk >= 2000 ? 'koerper' : 'koerper holz' });
       el(szene, 'line', { x1: 38, y1: WY, x2: 242, y2: WY, 'class': 'wasserlinie' });
       var Ve = Math.max(0, Math.min(y, A)) / A, FG = w.rk * 0.001 * G, FA = w.rf * 0.001 * Ve * G, k = 30 / FG;   // Würfel 1 l; F_G immer 30 px
       pfeil(szene, cx + 10, ob + 20, cx + 10, ob + 20 + FG * k, 'pf-g', 7); marke(szene, cx + 15, ob + 24 + FG * k / 2, 'F', 'G', 'pf-text pf-g', 'start');
       if (FA * k > 3){ pfeil(szene, cx - 10, unter - 2, cx - 10, unter - 2 - FA * k, 'pf-n', 7); marke(szene, cx - 15, unter - FA * k / 2, 'F', 'A', 'pf-text pf-n', 'end'); }
-      if (ende && lauf) el(szene, 'text', { x: 296, y: 16, 'text-anchor': 'end', 'class': 'bt-meldung' }, lauf.art === 'schwimmt' ? 'Er schwimmt: ' + sig(100 * w.anteil) + ' % unter Wasser.' : (lauf.art === 'schwebt' ? 'Er schwebt.' : 'Er sinkt auf den Boden.'));
+      if (ende && lauf){   // Meldung aus dem Zustand am Ende des Laufs, nicht nur aus den Dichten
+        var msg = lauf.art === 'schwebt' ? 'Er schwebt.' : (lauf.art === 'schwimmt' ? (y < A - 0.05 ? 'Er schwimmt: ' + sig(100 * w.anteil) + ' % unter Wasser.' : 'Er steigt noch langsam auf.') : (y >= TIEF - 0.01 ? 'Er sinkt auf den Boden.' : 'Er sinkt langsam weiter.'));
+        el(szene, 'text', { x: 296, y: 16, 'text-anchor': 'end', 'class': 'bt-meldung' }, msg);
+      }
       // Diagramm: Eintauchtiefe der Unterseite über der Zeit
-      K = Achsen(dia, { w: 300, h: 110, x0: -0.3, x1: 6.4, y0: -3, y1: 32, sx: 1, sy: 5, xm: [1, 2, 3, 4, 5, 6], ym: [10, 20, 30], xname: 't [s]', yname: 'Tiefe [cm]' });
-      K.kurve(function(){ return A; }, 'vorher', 0, 6.2);
+      K = Achsen(dia, { w: 300, h: 110, x0: -0.5, x1: 10.6, y0: -3, y1: 40, sx: 1, sy: 5, xm: [2, 4, 6, 8, 10], ym: [10, 20, 30], xname: 't [s]', yname: 'Tiefe [cm]' });
+      K.kurve(function(){ return A; }, 'vorher', 0, 10.2);
       if (spur.length > 1){ var d = ''; spur.forEach(function(q, i){ d += (i ? ' L' : 'M') + K.X(q[0]).toFixed(1) + ' ' + K.Y(Math.min(q[1], 31)).toFixed(1); }); el(K.ebene, 'path', { d: d, 'class': 'kurve-tiefe', 'clip-path': K.clip }); }
       stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende' }, '- - Würfel ganz eingetaucht (10 cm)');
       var z = '<span>Schwimmt: ' + v_('V') + '<sub>e</sub> / ' + v_('V') + ' = ' + v_('ρ') + '<sub>K</sub> / ' + v_('ρ') + '<sub>Fl</sub> = ' + zahl(w.rk) + NB + 'kg/m³ / ' + zahl(w.rf) + NB + 'kg/m³ ' + ist(w.anteil, sig(w.anteil)) + sig(w.anteil) + '</span>';
@@ -753,9 +758,9 @@
         loesung: function(A){ return 'p = \\dfrac{m \\cdot g}{A} = \\dfrac{' + ein(A.m, 'kg') + ' \\cdot 9.81\\;\\text{m/s}^2}{' + tz(A.A / 1e4) + '\\;\\text{m}^2} ' + erg(A.p * 1000, 'Pa') + ' ' + erg(A.p, 'kPa'); } },
       'flaeche': { felder: ['A'], muster: '<i>A</i> = {A} cm²',
         neu: function(){
-          var F, p;
-          do { F = zufall([150, 400, 650, 900, 2400]); p = zufall([2, 5, 8, 15, 40, 120]); } while (!verschieden([F / p * 10, F / p / 1e3, F * p, F / p * 1e4]));
-          var c = zufall(['Ein Schneeschuh soll', 'Die Füsse eines Gestells sollen', 'Ein Brett auf dem Eis soll']);
+          // Werte je Gegenstand: Schneeschuh 0.1 bis 0.3 m², Gestellfüsse einige cm², Brett auf dünnem Eis rund 0.1 m²
+          var c = zufall([['Ein Schneeschuh soll', [550, 700, 850], [3, 4, 5]], ['Die Füsse eines Gestells sollen', [400, 900, 1500], [40, 80, 120]], ['Ein Brett auf dünnem Eis soll', [700, 900], [5, 8]]]);
+          var F = zufall(c[1]), p = zufall(c[2]); c = c[0];
           return { A: F / (p * 1000) * 1e4, F: F, p: p,
             text: c + ' eine Kraft von \\(' + ein(F, 'N') + '\\) so verteilen, dass der Druck höchstens \\(' + ein(p, 'kPa') + '\\) beträgt. Wie gross muss die Fläche mindestens sein?' }; },
         pruefen: function(A, e){
@@ -784,7 +789,9 @@
       'schweredruck': { felder: ['p'], muster: '<i>p</i><sub>S</sub> = {p} kPa',
         neu: function(){
           var f, h, cm;
-          do { f = zufall(FL); cm = Math.random() < 0.4; h = cm ? zufall([35, 60, 85, 140]) : zufall([2.5, 4, 7, 12, 18, 35]); } while (!cm && f[1] === 1000 && h === 10);
+          f = zufall(FL); cm = Math.random() < 0.4;
+          if (f[1] < 1000) h = cm ? zufall([35, 60, 85, 140]) : zufall([1.8, 2.5, 3.5]);         // Öl und Spiritus: Tanks
+          else h = cm ? zufall([35, 60, 85, 140]) : zufall([2.5, 4, 7, 12, 18, 35]);
           var hm = cm ? h / 100 : h;
           return { p: f[1] * G * hm / 1000, rho: f[1], h: h, cm: cm, hm: hm,
             text: 'Wie gross ist der Schweredruck in \\(' + ein(h, cm ? 'cm' : 'm') + '\\) Tiefe in ' + f[0] + ' (\\(\\rho = ' + ein(f[1], 'kg/m^3').replace('\\text{kg/m^3}', '\\text{kg/m}^3') + '\\))?' }; },
@@ -800,7 +807,7 @@
       'tiefe': { felder: ['h'], muster: '<i>h</i> = {h} m',
         neu: function(){
           var f, p;
-          do { f = zufall(FL); p = zufall([25, 60, 150, 240, 500]); } while (f[1] === 1000 && p === 200);
+          f = zufall(FL); p = f[1] < 1000 ? zufall([6, 15, 24]) : zufall([25, 60, 150, 240, 500]);   // Öl und Spiritus: nur Tanktiefen
           return { h: p * 1000 / (f[1] * G), p: p, rho: f[1],
             text: 'In ' + f[0] + ' (\\(\\rho = ' + tz(f[1]) + '\\;\\text{kg/m}^3\\)) misst ein Sensor einen Schweredruck von \\(' + ein(p, 'kPa') + '\\). Wie tief ist er?' }; },
         pruefen: function(A, e){
@@ -813,7 +820,7 @@
       'gesamtdruck': { felder: ['p'], muster: '<i>p</i> = {p} bar',
         neu: function(){
           var f = zufall([['einem Bergsee', 1000, 841, 'Luftdruck dort \\(841\\;\\text{hPa}\\)'], ['einem See im Mittelland', 1000, 965, 'Luftdruck dort \\(965\\;\\text{hPa}\\)'], ['dem Meer', 1025, 1013, 'Luftdruck \\(1013\\;\\text{hPa}\\)']]);
-          var h; do { h = zufall([4, 8, 12, 22, 28, 42]); } while ((f[1] === 1000 && (h === 15 || h === 10)) || (f[1] === 1025 && h === 20));
+          var h = zufall([4, 8, 12, 22, 28, 42]);
           return { p: (f[2] * 100 + f[1] * G * h) / 1e5, p0: f[2], rho: f[1], h: h,
             text: 'Eine Taucherin ist in \\(' + ein(h, 'm') + '\\) Tiefe in ' + f[0] + ' (' + f[3] + ', \\(\\rho = ' + tz(f[1]) + '\\;\\text{kg/m}^3\\)). Wie gross ist der Gesamtdruck auf sie?' }; },
         pruefen: function(A, e){
@@ -846,10 +853,9 @@
         pruefen: function(A, e){
           if (nah(e.h, A.h)) return null;
           if (nah(e.h, A.pi * 100 / (1000 * G) * 100) || nah(e.h, A.p0 * 100 / (1000 * G) * 100)) return 'Es zählt der Unterschied zwischen aussen und innen: \\(p_0 - p_i\\).';
-          if (nah(e.h, A.h / 100)) return 'Das ist in Meter. Gefragt sind Zentimeter.';
-          if (nah(e.h, A.h / 100 / 100)) return 'Den Druckunterschied in Pascal einsetzen, das Ergebnis in cm.';
+          if (nah(e.h, A.h / 100) || nah(e.h, A.h / 1e4)) return 'Einheiten prüfen: den Druckunterschied in Pascal einsetzen (\\(1\\;\\text{hPa} = 100\\;\\text{Pa}\\)) und das Ergebnis in Zentimeter angeben.';
           return '\\(\\rho \\cdot g \\cdot h = p_0 - p_i\\).'; },
-        fehler: function(A){ return [[{ h: String(A.pi * 100 / (1000 * G) * 100) }, 'Unterschied'], [{ h: String(A.h / 100) }, 'Meter']]; },
+        fehler: function(A){ return [[{ h: String(A.pi * 100 / (1000 * G) * 100) }, 'Unterschied'], [{ h: String(A.h / 100) }, 'Einheiten']]; },
         loesung: function(A){ return 'h = \\dfrac{p_0 - p_i}{\\rho \\cdot g} = \\dfrac{' + tz(A.d * 100) + '\\;\\text{Pa}}{1000\\;\\text{kg/m}^3 \\cdot 9.81\\;\\text{m/s}^2} ' + erg(A.h / 100, 'm') + ' ' + erg(A.h, 'cm'); } },
       'barometer': { felder: ['p'], muster: '<i>p</i><sub>0</sub> = {p} hPa',
         neu: function(){
@@ -892,8 +898,8 @@
           if (nah(e.s, um)) return 'Umgekehrt: Das verdrängte Volumen ist gleich, \\(A_1 \\cdot s_1 = A_2 \\cdot s_2\\). Der grosse Kolben bewegt sich wenig.';
           return 'Gleiches Volumen auf beiden Seiten: \\(A_1 \\cdot s_1 = A_2 \\cdot s_2\\).'; },
         fehler: function(A){ return [[{ s: String(A.art === 2 ? A.s1 * A.A2 / A.A1 : A.s2 * A.A1 / A.A2) }, 'Umgekehrt']]; },
-        loesung: function(A){ return A.art === 2 ? 's_2 = s_1 \\cdot \\dfrac{A_1}{A_2} = ' + ein(A.s1, 'cm') + ' \\cdot \\dfrac{' + tz(A.A1) + '}{' + tz(A.A2) + '} ' + erg(A.s, 'cm')
-                                                 : 's_1 = s_2 \\cdot \\dfrac{A_2}{A_1} = ' + ein(A.s2, 'cm') + ' \\cdot \\dfrac{' + tz(A.A2) + '}{' + tz(A.A1) + '} ' + erg(A.s, 'cm'); } },
+        loesung: function(A){ return A.art === 2 ? 's_2 = s_1 \\cdot \\dfrac{A_1}{A_2} = ' + ein(A.s1, 'cm') + ' \\cdot \\dfrac{' + tz(A.A1) + '\\;\\text{cm}^2}{' + tz(A.A2) + '\\;\\text{cm}^2} ' + erg(A.s, 'cm')
+                                                 : 's_1 = s_2 \\cdot \\dfrac{A_2}{A_1} = ' + ein(A.s2, 'cm') + ' \\cdot \\dfrac{' + tz(A.A2) + '\\;\\text{cm}^2}{' + tz(A.A1) + '\\;\\text{cm}^2} ' + erg(A.s, 'cm'); } },
       'druck-presse': { felder: ['p'], muster: '<i>p</i> = {p} bar',
         neu: function(){
           var F1 = zufall([60, 150, 240, 450]), A1 = zufall([1.5, 2.5, 4, 8]);
@@ -910,7 +916,7 @@
       'auftrieb': { felder: ['F'], muster: '<i>F</i><sub>A</sub> = {F} N',
         neu: function(){
           var f = zufall(FL), K = zufall([['Ein Stein', 2600], ['Ein Eisenteil', 7870], ['Ein Aluminiumteil', 2700]]), V, l;
-          do { l = Math.random() < 0.5; V = l ? zufall([0.5, 1.5, 3, 4.5]) : zufall([80, 250, 600, 1200]); } while (l && V === 2 && f[1] === 1000);
+          do { l = Math.random() < 0.5; V = l ? zufall([0.5, 1.5, 3, 4.5]) : zufall([80, 250, 600, 1200]); } while (l && V === 0.5 && f[1] === 1000);   // Kontrollfrage Auftrieb 1
           var Vm = l ? V / 1000 : V / 1e6;
           return { F: f[1] * Vm * G, rf: f[1], rk: K[1], V: V, l: l, Vm: Vm,
             text: K[0] + ' (\\(\\rho_K = ' + tz(K[1]) + '\\;\\text{kg/m}^3\\)) mit dem Volumen \\(' + (l ? ein(V, 'l') : tz(V) + '\\;\\text{cm}^3') + '\\) liegt ganz in ' + f[0] + ' (\\(\\rho_{Fl} = ' + tz(f[1]) + '\\;\\text{kg/m}^3\\)). Wie gross ist die Auftriebskraft?' }; },
@@ -952,7 +958,7 @@
         neu: function(){
           var K, f;
           K = zufall([['Ein Holzbalken', 640], ['Ein Paraffinblock', 900], ['Ein Kunststoffschwimmer', 360], ['Eine Boje', 250]]); f = zufall([['Süsswasser', 1000], ['Meerwasser', 1025], ['Salzsole', 1200]]);
-          return { x: 100 * K[1] / f[1], rk: K[1], rf: f[1], text: K[0] + ' (\\(\\rho_K = ' + tz(K[1]) + '\\;\\text{kg/m}^3\\)) schwimmt in ' + f[0] + ' (\\(' + tz(f[1]) + '\\;\\text{kg/m}^3\\)). Wie viel Prozent seines Volumens liegen unter der Oberfläche?' }; },
+          return { x: 100 * K[1] / f[1], rk: K[1], rf: f[1], text: K[0] + ' (\\(\\rho_K = ' + tz(K[1]) + '\\;\\text{kg/m}^3\\)) schwimmt in ' + f[0] + ' (\\(' + tz(f[1]) + '\\;\\text{kg/m}^3\\)). Wie viel Prozent des Volumens liegen unter der Oberfläche?' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;
           if (nah(e.x, 100 - A.x)) return 'Das ist der Anteil über Wasser. Gefragt ist der Teil unter der Oberfläche.';
@@ -975,9 +981,9 @@
         loesung: function(A){ return 'h_e = H \\cdot \\dfrac{\\rho_K}{\\rho_{Fl}} = ' + ein(A.H, 'cm') + ' \\cdot \\dfrac{' + tz(A.rk) + '}{' + tz(A.rf) + '} ' + erg(A.h, 'cm'); } },
       'mittlere-dichte': { felder: ['r'], muster: '<i>ρ</i> = {r} kg/m³',
         neu: function(){
-          var c = zufall([['Ein verschlossener Kanister', [0.8, 1.6, 3.4], [5, 10, 20]], ['Ein Schwimmring', [0.4, 0.9], [12, 18]], ['Eine gefüllte Flasche', [1.1, 1.6], [1, 1.5]], ['Ein Tauchgewicht mit Luftkammer', [2.4, 3.2], [2, 2.5]]]);
+          var c = zufall([['Ein verschlossener Kanister', [0.8, 1.6, 3.4], [5, 10, 20]], ['Ein Schwimmring', [0.4, 0.9], [12, 18]], ['Eine gefüllte Glasflasche', [1.3, 1.6], [1, 1.2]], ['Ein Tauchgewicht', [2.4, 3.2], [1, 1.5]]]);
           var m = zufall(c[1]), V = zufall(c[2]);
-          return { r: m / (V / 1000), m: m, V: V, text: c[0] + ' hat die Masse \\(' + ein(m, 'kg') + '\\) und das Volumen \\(' + ein(V, 'l') + '\\). Wie gross ist seine mittlere Dichte? Schwimmt er in Wasser?' }; },
+          return { r: m / (V / 1000), m: m, V: V, text: c[0] + ' hat die Masse \\(' + ein(m, 'kg') + '\\) und das Volumen \\(' + ein(V, 'l') + '\\). Wie gross ist die mittlere Dichte? Schwimmt der Gegenstand in Wasser?' }; },
         pruefen: function(A, e){
           if (nah(e.r, A.r)) return null;
           if (nah(e.r, A.r / 1000)) return 'Das ist kg je Liter. In kg/m³: \\(1\\;\\text{l} = 10^{-3}\\;\\text{m}^3\\).';

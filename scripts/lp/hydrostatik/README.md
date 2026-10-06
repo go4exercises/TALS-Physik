@@ -42,7 +42,7 @@ node .claude/tools/pruef-fragen.mjs p4-5-lp-kontrolle-druck p4-5-lp-kontrolle-sc
 ```
 
 Lösbarkeit der Leisten mit einem Prüfskript (Fahrten über die Knöpfe, `reducedMotion: 'reduce'`):
-alle 28 ✓, keine schon im Startzustand erfüllt.
+alle Leisten lösbar, keine schon im Startzustand erfüllt (Stand nach der Behebung).
 
 ## Entscheide
 
@@ -62,3 +62,18 @@ alle 28 ✓, keine schon im Startzustand erfüllt.
   abgefragt wird nur der Druck.
 - **Würfel** (sim6): gedämpfte Bewegung aus Gewichtskraft und Auftrieb, Dämpfung \(6\;\text{s}^{-1}\), ohne
   mitbewegtes Wasser; abgefragt werden nur Endzustände.
+
+## Nach /lp-pruefung (05.10.2026)
+
+- **Clipbeispiele auf dem Reglerraster:** Der Druck-Clip rechnet mit \(55\;\text{kg}\) auf \(250\;\text{cm}^2\) und
+  Schneeschuhen von \(1500\;\text{cm}^2\) — Werte, die sim1 genau einstellt; die Bilder sind Aufnahmen davon.
+- **Kontrollfragen:** Jeder falsche Wert entsteht aus einem benannten Fehler, und die Rückmeldung nennt ihn.
+  Fragen, die ein Leistenziel oder einen Festhalten-Kasten vorwegnahmen, sind ersetzt (Heizöltank,
+  Meerwasser, Barometer steigt, Pascal'sche Kugel, Kraft am kleinen Kolben, Spiritus, Druck an der Unterseite,
+  Dichte aus dem Anteil).
+- **sim6** meldet den Endzustand des Laufs (nahe der Schwebedichte steigt oder sinkt der Würfel nach 10 s
+  noch), nicht das Ergebnis des Dichtevergleichs.
+- **Gesamttest:** G1 am Diagramm (ablesen, rückwärts, begründen), G3 Pascals Fassversuch für das
+  hydrostatische Paradoxon (Kapitel 2), G4 Wagenheber rückwärts, G6 Aräometer. Kapitel 3 steckt im Luftdruck
+  von G2. Raster: derselbe Fehler in mehreren Teilaufgaben kostet einen Punkt.
+- **Statik** trug Speicherschlüssel und Fusszeile von Energie; mit dieser Behebung korrigiert.

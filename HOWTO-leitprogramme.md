@@ -984,6 +984,17 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   Schlüssel von 2.7 m. Wertebereiche an den Gegenstand im Text binden.
 - **Querverweise «nicht hier»** dürfen nicht im Kreis zeigen (Statik verwies Gleitreibung an das
   Leitprogramm Dynamik, das sie seinerseits auslagert): auf die Stelle verweisen, die den Stoff wirklich hat.
+- **Kopierte Kennungen ersetzen** (Hydrostatik 05.10.2026): Wer das Gerüst eines Leitprogramms kopiert,
+  ersetzt Speicherschlüssel (`var KEY = 'leitprogramm-<name>-v1'`), Fusszeile, Titel und Stand. Statik trug
+  den Schlüssel von Energie — beide Seiten hätten denselben Lernstand gelesen und überschrieben.
+  Nach dem Kopieren `grep -n` auf den Namen der Vorlage.
+- **Jede falsche Antwort ist ein benannter Fehler:** Distraktoren einer Kontrollfrage entstehen aus einem
+  typischen Fehler (Einheit nicht umgerechnet, \(g\) vergessen, Verhältnis umgekehrt), und die Rückmeldung
+  nennt genau diesen. «8000 Pa» mit «Mal gerechnet?» passte zu keiner Rechnung; «rund 5 cm» war nicht das,
+  was die vergessene hPa-Umrechnung ergibt (0.51 cm).
+- **Meldungen aus dem Zustand, nicht aus der Absicht:** Der Text einer laufenden Simulation beschreibt, was
+  das Bild am Ende zeigt («Er sinkt langsam weiter»), nicht, was nach der Dichte geschehen sollte — nahe der
+  Schwebedichte reicht die Laufzeit nicht bis zur Ruhe.
 
 **Gesamttest und Bewertungspaket**
 - Jedes Kapitelziel hat eine Aufgabe; kein Modell aus Selbsttest oder Übung wiederholt.
@@ -998,6 +1009,10 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   Aufgabe «Begründe» sagt.
 - Ein Fehler, ein Abzug — auch über ähnliche Fälle gleich: Zwei Varianten desselben Fehlers (Eigengewicht
   vergessen, Eigengewicht am falschen Ort) kosten gleich viel, und die Folgewerte stehen bei beiden.
+- Derselbe Fehler in mehreren Teilaufgaben (dieselbe fehlende Umrechnung in a, b und d) kostet einen Punkt,
+  nicht drei — das steht im Raster *und* im Auftrag an die KI.
+- Jedes Kapitel hat seine Aufgabe auch im Gesamttest: Hydrostatik prüfte zuerst den Luftdruck doppelt und das
+  hydrostatische Paradoxon gar nicht. Zuordnung «Aufgabe → Kapitel» gegen die Kapitelziele lesen.
 - Datenschutz: kein Name, keine Standortdaten im Foto.
 
 **Zeit:** geschätzt aus den Teilen, nicht aus der Planung übernommen (§3).
