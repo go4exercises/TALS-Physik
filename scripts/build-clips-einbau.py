@@ -71,6 +71,7 @@ REIHEN = ["Lineare Gleichungen", "Ungleichungen", "Parametergleichung",
           "Quadratische Gleichungen", "Quadratische Ungleichungen",
           "Quadratische Parametergleichungen", "Quadratische Gleichungssysteme",
           "Bruchgleichungen", "Gleichungssysteme"]
+import clips_bibliothek   # Physik: REIHEN_VORN dort, nur fuer die Bibliothek
 
 
 def lektionsnummer(code):
@@ -518,7 +519,8 @@ def main():
         if not BIB.search(text):
             print(f"  [WARN] {BIBLIOTHEK} hat keine CLIPS-BIBLIOTHEK-Marker")
         else:
-            neu = BIB.sub(lambda _m: block_bibliothek(alle, seiten), text, count=1)
+            neu = BIB.sub(lambda _m: clips_bibliothek.block_bibliothek(alle, seiten, sys.modules[__name__]),
+                          text, count=1)
             if neu == text:
                 gleich += 1
             else:

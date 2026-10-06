@@ -44,6 +44,13 @@ STD = {
     "theme": "heft",
 }
 
+# "achsen": false laesst Achsen und Teilung weg. Ob das Karo bleibt, ist je Projekt
+# verschieden: In Physik ist eine Ebene ohne Achsen eine Zeichnung, die spaeter
+# deckungsgleich ueber einem graf mit demselben Fenster erscheint (die Antwort nach
+# der Frage) — ein zweites Karo verdunkelte das erste. In Mathe stehen Figuren der
+# Planimetrie im Karo. "raster" im Drehbuch geht in beiden Projekten vor.
+KARO_OHNE_ACHSEN = False
+
 
 # ---------------------------------------------------------------- Formelsatz
 # Formelsatz. Seit dem 31.08.2026 setzt MathJax alle Clips: eine Formel
@@ -364,12 +371,10 @@ def graf_svg(el, theme):
     xt = teilung("xteilung", x0, x1)
     yt = teilung("yteilung", y0, y1)
 
-    # "achsen": false (Physik 06.10.2026) — nur die Zeichnung, ohne Karo, Achsen und
-    # Teilung: eine Ebene, die zu einem spaeteren Zeitpunkt deckungsgleich ueber
-    # einem graf mit demselben Fenster erscheint (die Antwort nach der Frage).
-    ohne_achsen = el.get("achsen", True) is False
     # Karo
-    if el.get("raster", True) and not ohne_achsen:
+    # Was "achsen": false mit dem Karo macht, ist je Projekt verschieden (KARO_OHNE_ACHSEN
+    # oben); "raster" im Drehbuch entscheidet in beiden Projekten ausdruecklich.
+    if el.get("raster", KARO_OHNE_ACHSEN if el.get("achsen", True) is False else True):
         for x, _ in xt:
             teile.append('<line x1="%.1f" y1="0" x2="%.1f" y2="%d" stroke="%s" '
                          'stroke-opacity=".13" stroke-width="1.5"/>' % (px(x), px(x), h, tinte))
@@ -377,52 +382,57 @@ def graf_svg(el, theme):
             teile.append('<line x1="0" y1="%.1f" x2="%d" y2="%.1f" stroke="%s" '
                          'stroke-opacity=".13" stroke-width="1.5"/>' % (py(y), b, py(y), tinte))
 
+    # Achsen mit Pfeil und Beschriftung ("achsen": false lässt sie weg — für Figuren der
+    # Planimetrie, die im Karo stehen, aber kein Koordinatensystem brauchen; seit 06.10.2026)
+    vor_achsen = len(teile)
+    teile.append('<line x1="0" y1="%.1f" x2="%d" y2="%.1f" stroke="%s" stroke-width="3"/>'
+                 % (py(0), b, py(0), tinte))
+    teile.append('<line x1="%.1f" y1="%d" x2="%.1f" y2="0" stroke="%s" stroke-width="3"/>'
+                 % (px(0), h, px(0), tinte))
+    # "pfeile": Pfeilspitzen in positiver Richtung; "xname"/"yname": Achsenbeschriftung,
+    # bei Anwendungen mit Grösse und Einheit ("x [m]", "A [m²]"). Ohne Angabe bleibt das
+    # Bild wie bisher — bestehende Clips bauen Byte für Byte gleich.
     xname, yname = el.get("xname", "x"), el.get("yname", "y")
     achsnamen = []      # benannte Achsen kommen zuletzt, mit Hof — sonst liegt die Kurve darüber
-    if not ohne_achsen:
-        # Achsen mit Pfeil und Beschriftung
-        teile.append('<line x1="0" y1="%.1f" x2="%d" y2="%.1f" stroke="%s" stroke-width="3"/>'
-                     % (py(0), b, py(0), tinte))
-        teile.append('<line x1="%.1f" y1="%d" x2="%.1f" y2="0" stroke="%s" stroke-width="3"/>'
-                     % (px(0), h, px(0), tinte))
-        # "pfeile": Pfeilspitzen in positiver Richtung; "xname"/"yname": Achsenbeschriftung,
-        # bei Anwendungen mit Grösse und Einheit ("x [m]", "A [m²]"). Ohne Angabe bleibt das
-        # Bild wie bisher — bestehende Clips bauen Byte für Byte gleich.
-        if el.get("pfeile"):
-            teile.append('<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="%s"/>'
-                         % (b, py(0), b - 18, py(0) - 9, b - 18, py(0) + 9, tinte))
-            teile.append('<polygon points="%.1f,0 %.1f,18 %.1f,18" fill="%s"/>'
-                         % (px(0), px(0) - 9, px(0) + 9, tinte))
-        if xname == "x":
-            teile.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s">x</text>'
-                         % (b - 26, py(0) - 14, tinte))
-        else:
-            achsnamen.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s" '
-                             'stroke="%s" stroke-width="10" paint-order="stroke" text-anchor="end">%s</text>'
-                             % (b - 8, py(0) - 16, tinte, papier, entschaerfen(xname)))
-        if yname == "y":
-            teile.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s">y</text>'
-                         % (px(0) + 14, tinte))
-        else:
-            achsnamen.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s" '
-                             'stroke="%s" stroke-width="10" paint-order="stroke">%s</text>'
-                             % (px(0) + 14, tinte, papier, entschaerfen(yname)))
-        for x, mark in xt:
-            if abs(x) < 1e-9:
-                continue
-            teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
-                         % (px(x), py(0) - 7, px(x), py(0) + 7, tinte))
-            teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="middle" fill="%s" '
-                         'fill-opacity=".75">%s</text>'
-                         % (px(x), py(0) + 32, tinte, entschaerfen(mark)))
-        for y, mark in yt:
-            if abs(y) < 1e-9:
-                continue
-            teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
-                         % (px(0) - 7, py(y), px(0) + 7, py(y), tinte))
-            teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="end" fill="%s" '
-                         'fill-opacity=".75">%s</text>'
-                         % (px(0) - 13, py(y) + 8, tinte, entschaerfen(mark)))
+    if el.get("pfeile"):
+        teile.append('<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="%s"/>'
+                     % (b, py(0), b - 18, py(0) - 9, b - 18, py(0) + 9, tinte))
+        teile.append('<polygon points="%.1f,0 %.1f,18 %.1f,18" fill="%s"/>'
+                     % (px(0), px(0) - 9, px(0) + 9, tinte))
+    if xname == "x":
+        teile.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s">x</text>'
+                     % (b - 26, py(0) - 14, tinte))
+    else:
+        achsnamen.append('<text x="%.1f" y="%.1f" font-size="26" font-style="italic" fill="%s" '
+                         'stroke="%s" stroke-width="10" paint-order="stroke" text-anchor="end">%s</text>'
+                         % (b - 8, py(0) - 16, tinte, papier, entschaerfen(xname)))
+    if yname == "y":
+        teile.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s">y</text>'
+                     % (px(0) + 14, tinte))
+    else:
+        achsnamen.append('<text x="%.1f" y="26" font-size="26" font-style="italic" fill="%s" '
+                         'stroke="%s" stroke-width="10" paint-order="stroke">%s</text>'
+                         % (px(0) + 14, tinte, papier, entschaerfen(yname)))
+    for x, mark in xt:
+        if abs(x) < 1e-9:
+            continue
+        teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
+                     % (px(x), py(0) - 7, px(x), py(0) + 7, tinte))
+        teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="middle" fill="%s" '
+                     'fill-opacity=".75">%s</text>'
+                     % (px(x), py(0) + 32, tinte, entschaerfen(mark)))
+    for y, mark in yt:
+        if abs(y) < 1e-9:
+            continue
+        teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="2.5"/>'
+                     % (px(0) - 7, py(y), px(0) + 7, py(y), tinte))
+        teile.append('<text x="%.1f" y="%.1f" font-size="22" text-anchor="end" fill="%s" '
+                     'fill-opacity=".75">%s</text>'
+                     % (px(0) - 13, py(y) + 8, tinte, entschaerfen(mark)))
+
+    if el.get("achsen", True) is False:
+        del teile[vor_achsen:]
+        achsnamen = []
 
     # Flaechen: gefuellte Vielecke in Datenkoordinaten, unter allen Linien
     # (Physik 06.10.2026). Gebraucht fuer den Weg als Flaeche unter der
@@ -439,6 +449,78 @@ def graf_svg(el, theme):
             teile.append('<text x="%.1f" y="%.1f" font-size="29" font-weight="600" fill="%s" '
                          'text-anchor="middle" stroke="%s" stroke-width="8" paint-order="stroke">%s</text>'
                          % (px(bx_), py(by_) + 10, farbe, papier, entschaerfen(fl["beschriftung"])))
+
+    # "figuren" (seit 06.10.2026, Leitprogramm Planimetrie): Strecken, Vielecke, Kreise,
+    # Sektoren, Winkelbögen, Zeichen für den rechten Winkel und Texte in Fensterkoordinaten.
+    # Das Fenster muss dafür in x und y gleich geteilt sein (breite/hoehe passend zu den
+    # Bereichen), sonst wird ein Kreis zur Ellipse. Gezeichnet unter Geraden und Punkten.
+    skala = (b - 2 * rand) / (x1 - x0)
+    if el.get("figuren"):
+        import hashlib
+        cid = "fg" + hashlib.md5(repr(sorted(el.items(), key=lambda kv: kv[0])).encode()).hexdigest()[:8]
+        teile.append('<clipPath id="%s"><rect x="0" y="0" width="%d" height="%d"/></clipPath><g clip-path="url(#%s)">'
+                     % (cid, b, h, cid))
+    for fg in el.get("figuren", []):
+        art, nr_f = fg["art"], fg.get("farbe", 1)
+        f_ = tinte if nr_f == 5 else fv[(nr_f - 1) % len(fv)]
+        strich = ' stroke-dasharray="14 10"' if fg.get("gestrichelt") else ''
+        if fg.get("deckkraft") is not None:          # Deckkraft der Linie, z. B. ein dicker Kreis als Ring
+            strich += ' stroke-opacity="%g"' % fg["deckkraft"]
+        dicke = fg.get("dicke", 4)
+        fuell = fg.get("fuellung", 0)
+        if art == "strecke":
+            (xa, ya), (xb, yb) = fg["von"], fg["bis"]
+            teile.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="%g" '
+                         'stroke-linecap="round"%s/>' % (px(xa), py(ya), px(xb), py(yb), f_, dicke, strich))
+        elif art == "vieleck":
+            pts = " ".join("%.1f,%.1f" % (px(x), py(y)) for x, y in fg["punkte"])
+            teile.append('<polygon points="%s" fill="%s" fill-opacity="%g" stroke="%s" stroke-width="%g" '
+                         'stroke-linejoin="round"%s/>' % (pts, f_, fuell, f_, dicke, strich))
+        elif art == "kreis":
+            (mx, my), r = fg["m"], fg["r"]
+            teile.append('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="%s" fill-opacity="%g" stroke="%s" '
+                         'stroke-width="%g"%s/>' % (px(mx), py(my), r * skala, f_, fuell, f_, dicke, strich))
+        elif art in ("sektor", "bogen"):
+            # Winkel in Grad, gegen den Uhrzeigersinn ab der positiven x-Richtung
+            (mx, my), r, w0, w1 = fg["m"], fg["r"], fg["von"], fg["bis"]
+            ax, ay = px(mx + r * math.cos(math.radians(w0))), py(my + r * math.sin(math.radians(w0)))
+            bx, by = px(mx + r * math.cos(math.radians(w1))), py(my + r * math.sin(math.radians(w1)))
+            gross = 1 if (w1 - w0) % 360 > 180 else 0
+            bogen = 'A%.1f %.1f 0 %d 0 %.1f %.1f' % (r * skala, r * skala, gross, bx, by)
+            if art == "sektor":
+                d = 'M%.1f %.1f L%.1f %.1f %s Z' % (px(mx), py(my), ax, ay, bogen)
+            else:
+                d = 'M%.1f %.1f %s' % (ax, ay, bogen)
+            teile.append('<path d="%s" fill="%s" fill-opacity="%g" stroke="%s" stroke-width="%g"%s/>'
+                         % (d, f_ if art == "sektor" else "none", fuell, f_, dicke, strich))
+        elif art == "winkel":
+            # Winkelbogen mit festem Pixelradius an der Ecke "bei", von/bis in Grad
+            (mx, my), w0, w1, rp = fg["bei"], fg["von"], fg["bis"], fg.get("r_px", 38)
+            cx_, cy_ = px(mx), py(my)
+            ax, ay = cx_ + rp * math.cos(math.radians(w0)), cy_ - rp * math.sin(math.radians(w0))
+            bx, by = cx_ + rp * math.cos(math.radians(w1)), cy_ - rp * math.sin(math.radians(w1))
+            gross = 1 if (w1 - w0) % 360 > 180 else 0
+            teile.append('<path d="M%.1f %.1f L%.1f %.1f A%g %g 0 %d 0 %.1f %.1f Z" fill="%s" fill-opacity=".22" '
+                         'stroke="%s" stroke-width="2.5"/>' % (cx_, cy_, ax, ay, rp, rp, gross, bx, by, f_, f_))
+        elif art == "rechts":
+            # Zeichen für den rechten Winkel: Ecke "bei", Richtungen "r1"/"r2" (Grad), Seitenlänge in px
+            (mx, my), w0, w1, q = fg["bei"], fg["r1"], fg["r2"], fg.get("px", 22)
+            cx_, cy_ = px(mx), py(my)
+            u = (math.cos(math.radians(w0)) * q, -math.sin(math.radians(w0)) * q)
+            v = (math.cos(math.radians(w1)) * q, -math.sin(math.radians(w1)) * q)
+            teile.append('<path d="M%.1f %.1f L%.1f %.1f L%.1f %.1f" fill="none" stroke="%s" stroke-width="2.5"/>'
+                         % (cx_ + u[0], cy_ + u[1], cx_ + u[0] + v[0], cy_ + u[1] + v[1], cx_ + v[0], cy_ + v[1], f_))
+            teile.append('<circle cx="%.1f" cy="%.1f" r="3" fill="%s"/>' % (cx_ + (u[0] + v[0]) / 2, cy_ + (u[1] + v[1]) / 2, f_))
+        elif art == "text":
+            (tx, ty) = fg["bei"]
+            teile.append('<text x="%.1f" y="%.1f" font-size="%d" font-style="%s" fill="%s" text-anchor="%s" '
+                         'stroke="%s" stroke-width="8" paint-order="stroke">%s</text>'
+                         % (px(tx), py(ty), fg.get("groesse", 30), "italic" if fg.get("kursiv", True) else "normal",
+                            f_, fg.get("anker", "middle"), papier, entschaerfen(fg["text"])))
+        else:
+            raise SystemExit("figuren: unbekannte Art %r" % art)
+    if el.get("figuren"):
+        teile.append('</g>')
 
     # Geraden y = m x + q, am Fenster abgeschnitten
     for nr, g in enumerate(el.get("geraden", [])):
@@ -467,7 +549,7 @@ def graf_svg(el, theme):
                 t_ += ('<g class="bew-pt"><circle r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
                        '<circle r="5" fill="%s"/></g>' % (papier, f_, f_))
                 if text:
-                    t_ += '<text font-size="29" font-weight="600" fill="%s"></text>' % f_
+                    t_ += '<text font-size="29" font-weight="600" fill="%s" stroke="%s" stroke-width="5" paint-order="stroke" stroke-linejoin="round"></text>' % (f_, papier)
                 return t_ + '</g>'
             if g.get("yachse"):
                 teile.append(g_punkt("bew-gy", g["yachse"].get("farbe", 2),
@@ -562,7 +644,7 @@ def graf_svg(el, theme):
                 g += ('<g class="bew-pt"><circle r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
                       '<circle r="5" fill="%s"/></g>' % (papier, f_, f_))
                 if text:
-                    g += '<text font-size="29" font-weight="600" fill="%s"></text>' % f_
+                    g += '<text font-size="29" font-weight="600" fill="%s" stroke="%s" stroke-width="5" paint-order="stroke" stroke-linejoin="round"></text>' % (f_, papier)
                 return g + '</g>'
             if pa.get("scheitel"):
                 teile.append(punkt_g("bew-s", pa["scheitel"].get("farbe", 3)))
@@ -614,7 +696,106 @@ def graf_svg(el, theme):
     # mit freier Formel — und mit dem Zusatz, dass ein Stueck auch dann
     # abbricht, wenn f an einer Stelle gar nicht definiert ist. Genau daran
     # entstehen die Luecken der Tangenskurve an ihren Polstellen.
-    for kv in el.get("kurven", []):
+    for nr, kv in enumerate(el.get("kurven", [])):
+        # "bewegung": [[t, a, p, u, v], ...] fuer y = a*(x-u)^p + v — Potenz- und
+        # Wurzelkurven, die sich waehrend der Szene aendern (seit 03.10.2026).
+        # "stufen": true rundet p beim Ueberblenden auf ganze Zahlen; zwischen
+        # x^2 und x^3 gibt es auf ganz R nichts, und ein gebrochener Exponent
+        # loeschte den linken Ast mitten in der Bewegung.
+        if kv.get("bewegung"):
+            farbe = fv[kv.get("farbe", 1) - 1]
+            kid = "bewk%d" % nr
+            # "von"/"bis" schraenken die Kurve auf ein Stueck ein — gebraucht fuer die
+            # Umkehrbarkeit: y = x^2 ist erst auf x >= 0 umkehrbar.
+            # "exponential": true / "logarithmus": true (seit 04.10.2026) lesen die Stuetzpunkte
+            # als [t, c, a, v] fuer y = c*a^x + v bzw. y = c*log_a(x) + v; Begleiter wie unten
+            # (asymptoten, startpunkt = (0 | c + v) bzw. (1 | v), marken, spiegel).
+            # "betrag": true (seit 05.10.2026) liest die Stuetzpunkte als [t, a, u, v] fuer
+            # y = a*|x - u| + v; startpunkt = Knickpunkt (u | v), asymptoten = Symmetrieachse x = u.
+            # "trig": "sin" / "tan" (seit 05.10.2026) liest die Stuetzpunkte als [t, a, b, u, v]
+            # fuer y = a*sin(b(x-u)) + v bzw. a*tan(b(x-u)) + v. "asymptoten" zeichnet bei sin die
+            # Mittellinie y = v, bei tan die Polgeraden; "kreis" den Einheitskreis mit Laeufer
+            # (siehe unten). "art": "cos" zeigt statt der Höhe die waagrechte Koordinate von P.
+            # "polynom": true (seit 04.10.2026) liest die Stuetzpunkte als [t, a, x1, x2, …]
+            # fuer y = a*(x-x1)*(x-x2)*… — die Linearfaktordarstellung. Legt man zwei
+            # Nullstellen aufeinander, entsteht die doppelte Nullstelle von selbst.
+            teile.append('<path data-bewk="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d" '
+                         'data-stufen="%d" data-poly="%d" data-el="%s" data-von="%g" data-bis="%g" fill="none" stroke="%s" '
+                         'stroke-width="%s" stroke-linecap="round" stroke-linejoin="round" %s/>'
+                         % (entschaerfen(json.dumps(kv["bewegung"])), kid, x0, x1, y0, y1, b, h, rand,
+                            1 if kv.get("stufen") else 0, 1 if kv.get("polynom") else 0,
+                            "e" if kv.get("exponential") else "l" if kv.get("logarithmus") else
+                            ("v" if kv.get("betrag") else {"sin": "s", "tan": "t"}.get(kv.get("trig"), "")),
+                            kv.get("von", x0), kv.get("bis", x1),
+                            farbe, kv.get("dicke", 5),
+                            'stroke-dasharray="14 10"' if kv.get("gestrichelt") else ""))
+            # Begleiter: startpunkt (u | v), asymptoten (x = u und y = v),
+            # marken (Punkt an festem x mit Live-Wert) und spiegel (dieselbe
+            # Kurve an y = x gespiegelt — die Umkehrfunktion).
+            sp = kv.get("spiegel")
+            if sp:
+                teile.append('<path data-spiegel="%s" fill="none" stroke="%s" stroke-width="%s" '
+                             'stroke-linecap="round" stroke-linejoin="round" %s/>'
+                             % (kid, fv[sp.get("farbe", 3) - 1], sp.get("dicke", 5),
+                                'stroke-dasharray="14 10"' if sp.get("gestrichelt") else ""))
+            if kv.get("asymptoten"):
+                f_ = fv[kv["asymptoten"].get("farbe", 5) - 1]
+                teile.append('<g class="bew-ka" data-zu="%s">'
+                             '<path class="bew-ka-s" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="10 8"/>'
+                             '<path class="bew-ka-w" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="10 8"/>'
+                             '</g>' % (kid, f_, f_))
+
+            def k_punkt(klasse, farbe_, attr="", text=True):
+                f_ = fv[farbe_ - 1]
+                t_ = '<g class="%s" data-zu="%s"%s>' % (klasse, kid, attr)
+                t_ += ('<g class="bew-pt"><circle r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
+                       '<circle r="5" fill="%s"/></g>' % (papier, f_, f_))
+                if text:
+                    t_ += '<text font-size="29" font-weight="600" fill="%s" stroke="%s" stroke-width="5" paint-order="stroke" stroke-linejoin="round"></text>' % (f_, papier)
+                return t_ + '</g>'
+            # Nur bei "trig": der Einheitskreis links neben der Kurve. Mittelpunkt (mx | 0),
+            # Radius 1 in y-Einheiten (der Kreis bleibt rund, auch wenn die Achsen verschieden
+            # geteilt sind). "bahn": [[t, Winkel], …] fuehrt den Punkt P; eine waagrechte
+            # Strecke traegt seine Hoehe zur Kurve (bei tan: der Punkt auf der Tangente x = 1).
+            # "spur": true zeichnet die Kurve nur bis zum aktuellen Winkel — das Abrollen.
+            kk = kv.get("kreis")
+            if kv.get("trig") and kk:
+                f_ = fv[kk.get("farbe", 1) - 1]
+                teile.append(
+                    '<g class="bew-kk" data-zu="%s" data-mx="%g" data-bahn="%s" data-spur="%d" data-proj="%d" data-art="%s">'
+                    '<circle class="kk-kreis" fill="none" stroke="%s" stroke-width="3" stroke-opacity=".55"/>'
+                    '<path class="kk-bogen" fill="none" stroke="%s" stroke-width="7" stroke-opacity=".45" stroke-linecap="round"/>'
+                    '<line class="kk-tang" stroke="%s" stroke-width="3" stroke-opacity=".55"/>'
+                    '<line class="kk-radius" stroke="%s" stroke-width="3"/>'
+                    '<line class="kk-hoehe" stroke="%s" stroke-width="5"/>'
+                    '<line class="kk-proj" stroke="%s" stroke-width="3" stroke-dasharray="10 8"/>'
+                    '<circle class="kk-p" r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
+                    '<circle class="kk-q" r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
+                    '</g>' % (kid, kk.get("mx", -1.6), entschaerfen(json.dumps(kk["bahn"])),
+                              1 if kk.get("spur") else 0, 0 if kk.get("projektion") is False else 1,
+                              kk.get("art", "sin"),
+                              tinte, f_, tinte, tinte, f_, tinte,
+                              papier, f_, papier, f_))
+            if kv.get("startpunkt"):
+                teile.append(k_punkt("bew-ks", kv["startpunkt"].get("farbe", 3),
+                                     text=kv["startpunkt"].get("beschriftung", True) is not False))
+            # Nur bei "polynom": die Nullstellen (je Linearfaktor ein Punkt auf der
+            # x-Achse; zusammenfallende zeigen einen) und die Extrempunkte H und T,
+            # numerisch aus dem Vorzeichenwechsel der Steigung.
+            if kv.get("polynom") and kv.get("nullstellen"):
+                nst = kv["nullstellen"]
+                for i_ in range(len(kv["bewegung"][0]) - 2):
+                    teile.append(k_punkt("bew-kn", nst.get("farbe", 2), ' data-i="%d"' % i_,
+                                         text=nst.get("beschriftung", True) is not False))
+            if kv.get("polynom") and kv.get("extrema"):
+                ex_ = kv["extrema"]
+                for i_ in range(len(kv["bewegung"][0]) - 3):
+                    teile.append(k_punkt("bew-ke", ex_.get("farbe", 3), ' data-i="%d"' % i_,
+                                         text=ex_.get("beschriftung", True) is not False))
+            for mk in kv.get("marken", []):
+                teile.append(k_punkt("bew-km", mk.get("farbe", 5),
+                                     ' data-x="%g" data-text="%s"' % (mk["x"], entschaerfen(mk.get("text", "")))))
+            continue
         n = kv.get("n", 480)
         # Eine Kurve darf auch nur ein Stueck des Fensters belegen. Gebraucht
         # wird das fuer Hilfslinien wie die Mittellinie einer Schwingung: Ohne
@@ -712,6 +893,11 @@ def graf_svg(el, theme):
                          'text-anchor="%s">%s</text>'
                          % (tx, ty, farbe, pt.get("anker", "start"),
                             entschaerfen(pt["beschriftung"])))
+    # "tippbar": true (seit 05.10.2026) — ein leerer Pfad mit dem Fenster, damit eine Klickfrage
+    # das Bild auch dann findet, wenn es nur feste Kurven zeigt. Der Abspieler sucht fuer
+    # Klickfragen das sichtbare Bild mit [data-fenster]; bisher trugen das nur bewegte Kurven.
+    if el.get("tippbar"):
+        teile.append('<path data-fenster="%g,%g,%g,%g,%d,%d,%d" d="" fill="none"/>' % (x0, x1, y0, y1, b, h, rand))
     teile.extend(achsnamen)
     teile.append("</svg>")
     return "".join(teile)
@@ -867,9 +1053,12 @@ const RUHIG = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)'
 const BEW = [...document.querySelectorAll('[data-t0]')].map(L => ({
   t0: parseFloat(L.dataset.t0),
   teile: [...L.querySelectorAll('[data-bew]')].map(p => ({
-    art: 'p', p, L, k: JSON.parse(p.dataset.bew), f: p.dataset.fenster.split(',').map(Number) }))
+    art: 'p', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.bew), f: p.dataset.fenster.split(',').map(Number) }))
     .concat([...L.querySelectorAll('[data-bewg]')].map(p => ({
-      art: 'g', p, L, k: JSON.parse(p.dataset.bewg), f: p.dataset.fenster.split(',').map(Number) })))
+      art: 'g', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.bewg), f: p.dataset.fenster.split(',').map(Number) })))
+    .concat([...L.querySelectorAll('[data-bewk]')].map(p => ({
+      art: 'k', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.bewk), f: p.dataset.fenster.split(',').map(Number),
+      stufen: p.dataset.stufen === '1', poly: p.dataset.poly === '1', el: p.dataset.el || '' })))
 }));
 // Zwischen zwei Stuetzpunkten weich. Wie viele Zahlen ein Stuetzpunkt traegt, sagt er
 // selbst: [t, a, u, v] bei einer Parabel, [t, m, q] bei einer Geraden, [t, x] bei einer Bahn.
@@ -907,7 +1096,8 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
     const tx = g.querySelector(':scope > text'); if (!tx) return;
     const rechts = x > x1 - (x1 - x0) * 0.3;
     tx.setAttribute('x', px(x) + (rechts ? -18 : 18));
-    tx.setAttribute('y', py(y) + (m > 0 ? 44 : -18));          // auf die Seite, wo die Gerade nicht laeuft
+    const nahAchse = Math.abs(py(y) - py(0)) < 40;             // dort stehen die x-Marken
+    tx.setAttribute('y', py(y) + (nahAchse ? -18 : (m > 0 ? 44 : -18)));
     tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
     tx.textContent = text;
   };
@@ -947,14 +1137,322 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
     }
   }
 }
+// Eine bewegte Potenz- oder Wurzelkurve y = a*(x-u)^p + v, am Fenster abgeschnitten.
+// Wo es keinen Wert gibt (Pol, negative Basis mit gebrochenem Exponenten), bricht der
+// Streckenzug ab und beginnt danach neu — genau so entstehen Aeste und Definitionsluecken.
+function bewegeKurve(T, t, px, py, x0, x1, y0, y1) {
+  const Z = bewZustand(T.k, t - T.t0);
+  if (T.poly) return bewegePolynom(T, Z, px, py, x0, x1, y0, y1);
+  if (T.el === 's' || T.el === 't') return bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1);
+  if (T.el === 'v') return bewegeBetrag(T, Z, px, py, x0, x1, y0, y1);
+  if (T.el) return bewegeExpLog(T, Z, px, py, x0, x1, y0, y1);
+  const [a, p0, u, v] = Z;
+  const p = T.stufen ? Math.round(p0) : p0;
+  // Negative Basis: Math.pow(-8, 1/3) ist NaN, die dritte Wurzel aus -8 ist -2.
+  // Bei ungeradem Wurzelexponenten (1/p ganz und ungerade) gibt es den Wert, bei
+  // geradem nicht — genau dort endet die Definitionsmenge.
+  const pot = b => {
+    if (b >= 0 || Number.isInteger(p)) return Math.pow(b, p);
+    const q = Math.round(1 / p);
+    return (Math.abs(1 / p - q) < 1e-9 && q % 2 !== 0) ? -Math.pow(-b, p) : NaN;
+  };
+  const f = x => { const y = a * pot(x - u) + v;
+    return (isFinite(y) && !isNaN(y)) ? y : null; };
+  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
+  const zug = (abx, aby) => {           // abx/aby: wie der Punkt auf die Achsen faellt
+    let d = '', an = false;
+    if (a1 <= a0) return '';
+    for (let i = 0; i <= 600; i++) {
+      const x = a0 + (a1 - a0) * i / 600, y = f(x);
+      if (y === null) { an = false; continue; }
+      const sx = abx(x, y), sy = aby(x, y);
+      if (sx < -5 || sx > 1e5 || sy < -5 || sy > 1e5) { an = false; continue; }
+      if (!(abx === px ? (y >= y0 && y <= y1) : (y >= x0 && y <= x1 && x >= y0 && x <= y1))) { an = false; continue; }
+      d += (an ? 'L' : 'M') + sx.toFixed(1) + ',' + sy.toFixed(1); an = true;
+    }
+    return d;
+  };
+  T.p.setAttribute('d', zug(px, (x, y) => py(y)));
+  // Spiegelkurve an y = x: aus (x | y) wird (y | x) — die Umkehrfunktion.
+  const sp = T.L.querySelector('[data-spiegel="' + T.p.dataset.paar + '"]');
+  if (sp) sp.setAttribute('d', zug((x, y) => px(y), (x, y) => py(x)));
+  const innen = (x, y) => x >= x0 && x <= x1 && y >= y0 && y <= y1;
+  const setze = (g, x, y) => { g.style.display = innen(x, y) ? '' : 'none';
+    g.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); }); };
+  const beschrifte = (g, x, y, text) => {
+    const tx = g.querySelector(':scope > text'); if (!tx) return;
+    const rechts = x > x1 - (x1 - x0) * 0.3;
+    tx.setAttribute('x', px(x) + (rechts ? -18 : 18));
+    const nahAchse = Math.abs(py(y) - py(0)) < 40;             // dort stehen die x-Marken
+    tx.setAttribute('y', py(y) + (nahAchse ? -18 : (a > 0 ? 44 : -18)));
+    tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+    tx.textContent = text;
+  };
+  for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
+    if (g.classList.contains('bew-ks')) {
+      setze(g, u, v); beschrifte(g, u, v, '(' + bewZahl(u) + ' | ' + bewZahl(v) + ')');
+    } else if (g.classList.contains('bew-ka')) {
+      // Polgerade x = u und waagrechte Asymptote y = v
+      g.querySelector('.bew-ka-s').setAttribute('d',
+        (u >= x0 && u <= x1) ? 'M' + px(u) + ',' + py(y0) + 'L' + px(u) + ',' + py(y1) : '');
+      g.querySelector('.bew-ka-w').setAttribute('d',
+        (v >= y0 && v <= y1) ? 'M' + px(x0) + ',' + py(v) + 'L' + px(x1) + ',' + py(v) : '');
+    } else if (g.classList.contains('bew-km')) {
+      const x = parseFloat(g.dataset.x), y = f(x);
+      if (y === null) { g.style.display = 'none'; continue; }
+      setze(g, x, y);
+      beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
+    }
+  }
+}
+// Exponentialkurve y = c*a^x + v (el 'e') oder Logarithmuskurve y = c*log_a(x) + v (el 'l');
+// Z = [c, a, v]. Die Spiegelkurve an y = x ist die Umkehrfunktion.
+function bewegeExpLog(T, Z, px, py, x0, x1, y0, y1) {
+  const [c, a, v] = Z, ex = T.el === 'e';
+  const f = x => { if (ex) return c * Math.pow(a, x) + v;
+    if (x <= 0 || Math.abs(Math.log(a)) < 1e-9) return null; return c * Math.log(x) / Math.log(a) + v; };
+  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
+  const zug = (abx, aby, imBild) => {
+    let d = '', an = false;
+    for (let i = 0; i <= 800; i++) {
+      // Nahe x = 0 fein abtasten, sonst endet die Logarithmuskurve weit über der Asymptote.
+      const q = i / 800, x = a0 + (a1 - a0) * (T.el === 'l' ? q * q : q), y = f(x);
+      if (y === null || !isFinite(y) || !imBild(x, y)) { an = false; continue; }
+      d += (an ? 'L' : 'M') + abx(x, y).toFixed(1) + ',' + aby(x, y).toFixed(1); an = true;
+    }
+    return d;
+  };
+  const H = y1 - y0;
+  T.p.setAttribute('d', zug(px, (x, y) => py(y), (x, y) => y >= y0 - H && y <= y1 + H));
+  const sp = T.L.querySelector('[data-spiegel="' + T.p.dataset.paar + '"]');
+  if (sp) sp.setAttribute('d', zug((x, y) => px(y), (x, y) => py(x), (x, y) => y >= x0 - 1 && y <= x1 + 1 && x >= y0 - 1 && x <= y1 + 1));
+  const innen = (x, y) => x >= x0 && x <= x1 && y >= y0 && y <= y1;
+  const setze = (g, x, y) => { g.style.display = innen(x, y) ? '' : 'none';
+    g.querySelectorAll('circle').forEach(k => { k.setAttribute('cx', px(x)); k.setAttribute('cy', py(y)); }); };
+  // Beschriftung auf die Seite, auf der die Kurve nicht verläuft: rechts unter dem Punkt bei
+  // steigender, rechts über ihm bei fallender Kurve (sonst kreuzt die Kurve den Text).
+  const beschrifte = (g, x, y, text) => {
+    const tx = g.querySelector(':scope > text'); if (!tx) return;
+    const rechts = x > x1 - (x1 - x0) * 0.3;
+    const ya = f(x - 1e-3), yb = f(x + 1e-3), steigt = ya !== null && yb !== null && yb > ya;
+    tx.setAttribute('x', px(x) + (rechts ? -18 : 18));
+    tx.setAttribute('y', py(y) + ((steigt !== rechts) ? 44 : -18));
+    tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+    tx.textContent = text;
+  };
+  for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
+    if (g.classList.contains('bew-ka')) {
+      g.querySelector('.bew-ka-s').setAttribute('d', ex ? '' : 'M' + px(0) + ',' + py(y0) + 'L' + px(0) + ',' + py(y1));
+      g.querySelector('.bew-ka-w').setAttribute('d', ex && v >= y0 && v <= y1 ? 'M' + px(x0) + ',' + py(v) + 'L' + px(x1) + ',' + py(v) : '');
+    } else if (g.classList.contains('bew-ks')) {
+      const x = ex ? 0 : 1, y = f(x); setze(g, x, y); beschrifte(g, x, y, '(' + bewZahl(x) + ' | ' + bewZahl(y) + ')');
+    } else if (g.classList.contains('bew-km')) {
+      const x = parseFloat(g.dataset.x), y = f(x);
+      if (y === null) { g.style.display = 'none'; continue; }
+      setze(g, x, y); beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
+    }
+  }
+}
+// Betragskurve y = a*|x - u| + v (el 'v'); Z = [a, u, v]. Begleiter: Knickpunkt (startpunkt),
+// Symmetrieachse x = u (asymptoten), Marken.
+function bewegeBetrag(T, Z, px, py, x0, x1, y0, y1) {
+  const [a, u, v] = Z;
+  const f = x => a * Math.abs(x - u) + v;
+  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
+  // Drei Punkte genügen: linker Rand, Knick, rechter Rand — der Knick bleibt scharf.
+  const xs = [a0, Math.min(Math.max(u, a0), a1), a1];
+  T.p.setAttribute('d', a1 > a0 ? xs.map((x, i) => (i ? 'L' : 'M') + px(x).toFixed(1) + ',' + py(f(x)).toFixed(1)).join('') : '');
+  const innen = (x, y) => x >= x0 && x <= x1 && y >= y0 && y <= y1;
+  const setze = (g, x, y) => { g.style.display = innen(x, y) ? '' : 'none';
+    g.querySelectorAll('circle').forEach(k => { k.setAttribute('cx', px(x)); k.setAttribute('cy', py(y)); }); };
+  const beschrifte = (g, x, y, text) => {
+    const tx = g.querySelector(':scope > text'); if (!tx) return;
+    const rechts = x > x1 - (x1 - x0) * 0.3;
+    tx.setAttribute('x', px(x) + (rechts ? -18 : 18));
+    // Unter dem Knick eines V (a > 0) ist Platz, über dem Knick eines Dachs (a < 0).
+    tx.setAttribute('y', py(y) + (Math.abs(x - u) < 1e-9 ? (a > 0 ? 44 : -22) : (a > 0 ? -22 : 44)));
+    tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+    tx.textContent = text;
+  };
+  for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
+    if (g.classList.contains('bew-ka')) {
+      g.querySelector('.bew-ka-s').setAttribute('d', u >= x0 && u <= x1 ? 'M' + px(u) + ',' + py(y0) + 'L' + px(u) + ',' + py(y1) : '');
+      g.querySelector('.bew-ka-w').setAttribute('d', '');
+    } else if (g.classList.contains('bew-ks')) {
+      setze(g, u, v); beschrifte(g, u, v, '(' + bewZahl(u) + ' | ' + bewZahl(v) + ')');
+    } else if (g.classList.contains('bew-km')) {
+      const x = parseFloat(g.dataset.x), y = f(x);
+      setze(g, x, y); beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
+    }
+  }
+}
+// Sinus- oder Tangenskurve y = a*sin(b(x-u)) + v (el 's') bzw. a*tan(b(x-u)) + v (el 't');
+// Z = [a, b, u, v]. Begleiter: Mittellinie bzw. Pole, Marken, Einheitskreis mit Läufer.
+function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
+  const [a, b, u, v] = Z, tg = T.el === 't';
+  const f = x => { const w = b * (x - u);
+    if (tg) { if (Math.abs(Math.cos(w)) < 1e-4) return null; return a * Math.tan(w) + v; }
+    return a * Math.sin(w) + v; };
+  const kk = T.L.querySelector('.bew-kk[data-zu="' + T.p.dataset.paar + '"]');
+  let th = null;
+  if (kk) { const bahn = kk._bahn || (kk._bahn = JSON.parse(kk.dataset.bahn)); th = bewZustand(bahn, t - T.t0)[0]; }
+  const vx = parseFloat(T.p.dataset.von);
+  let bx = parseFloat(T.p.dataset.bis);
+  if (kk && kk.dataset.spur === '1') bx = Math.min(bx, th);
+  const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx), H = y1 - y0;
+  let d = '', an = false, yl = null;
+  for (let i = 0; i <= 900 && a1 > a0; i++) {
+    const x = a0 + (a1 - a0) * i / 900, y = f(x);
+    if (y === null || !isFinite(y) || y < y0 - H || y > y1 + H) { an = false; yl = null; continue; }
+    // Am Pol springt der Tangens von oben nach unten: dort neu ansetzen, nicht verbinden.
+    if (tg && yl !== null && Math.abs(y - yl) > H) an = false;
+    d += (an ? 'L' : 'M') + px(x).toFixed(1) + ',' + py(y).toFixed(1); an = true; yl = y;
+  }
+  T.p.setAttribute('d', d);
+  const innen = (x, y) => x >= x0 && x <= x1 && y >= y0 && y <= y1;
+  const setze = (g, x, y) => { g.style.display = innen(x, y) ? '' : 'none';
+    g.querySelectorAll('circle').forEach(k => { k.setAttribute('cx', px(x)); k.setAttribute('cy', py(y)); }); };
+  const beschrifte = (g, x, y, text) => {
+    const tx = g.querySelector(':scope > text'); if (!tx) return;
+    const rechts = x > x1 - (x1 - x0) * 0.25;
+    const ya = f(x - 1e-3), yb = f(x + 1e-3), steigt = ya !== null && yb !== null && yb > ya;
+    const oben = y > v + 1e-9 || (Math.abs(y - v) < 1e-9 && !steigt);
+    tx.setAttribute('x', px(x) + (rechts ? -18 : 18));
+    tx.setAttribute('y', py(y) + (oben ? -22 : 44));
+    tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+    tx.textContent = text;
+  };
+  for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
+    if (g.classList.contains('bew-ka')) {
+      let pole = '';
+      if (tg && Math.abs(b) > 1e-9) {
+        const per = Math.PI / Math.abs(b), start = u + per / 2;
+        for (let k = Math.ceil((x0 - start) / per); start + k * per <= x1; k++) {
+          const xp = start + k * per;
+          pole += 'M' + px(xp).toFixed(1) + ',' + py(y0) + 'L' + px(xp).toFixed(1) + ',' + py(y1);
+        }
+      }
+      g.querySelector('.bew-ka-s').setAttribute('d', pole);
+      g.querySelector('.bew-ka-w').setAttribute('d', !tg && Math.abs(v) > 1e-9 && v >= y0 && v <= y1
+        ? 'M' + px(x0) + ',' + py(v) + 'L' + px(x1) + ',' + py(v) : '');
+    } else if (g.classList.contains('bew-km')) {
+      const x = parseFloat(g.dataset.x), y = f(x);
+      if (y === null) { g.style.display = 'none'; continue; }
+      setze(g, x, y); beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
+    } else if (g.classList.contains('bew-kk')) {
+      // Einheitskreis: Pixelradius aus der y-Teilung, Mittelpunkt (mx | 0).
+      const r = Math.abs(py(1) - py(0)), cx = px(parseFloat(g.dataset.mx)), cy = py(0);
+      const P = [cx + r * Math.cos(th), cy - r * Math.sin(th)];
+      const k = g.querySelector('.kk-kreis'); k.setAttribute('cx', cx); k.setAttribute('cy', cy); k.setAttribute('r', r);
+      const lin = (c, xa, ya, xb, yb) => { const l = g.querySelector(c);
+        l.setAttribute('x1', xa); l.setAttribute('y1', ya); l.setAttribute('x2', xb); l.setAttribute('y2', yb); };
+      // "projektion": false — nur der Kreis, ohne Strecke zur Kurve (Winkel zeigen).
+      const yq = f(th), sichtbar = yq !== null && innen(th, yq) && g.dataset.proj !== '0';
+      if (tg) {
+        // Tangente x = 1 am Kreis; der Strahl durch P trifft sie in T = (1 | tan th).
+        const ty = Math.tan(th), T_ = [cx + r, cy - r * ty], ok = Math.abs(Math.cos(th)) > 1e-4 && ty >= y0 && ty <= y1;
+        lin('.kk-tang', cx + r, py(y0), cx + r, py(y1));
+        lin('.kk-radius', cx, cy, ok ? T_[0] : P[0], ok ? T_[1] : P[1]);
+        lin('.kk-hoehe', cx + r, cy, ok ? T_[0] : cx + r, ok ? T_[1] : cy);
+        lin('.kk-proj', ok ? T_[0] : 0, ok ? T_[1] : 0, ok && sichtbar ? px(th) : (ok ? T_[0] : 0), ok ? T_[1] : 0);
+        const q = g.querySelector('.kk-q'); q.style.display = ok && sichtbar ? '' : 'none';
+        q.setAttribute('cx', px(th)); q.setAttribute('cy', py(ty));
+      } else if (g.dataset.art === 'cos') {
+        // Cosinus: die waagrechte Koordinate von P als Strecke auf der Achse, ohne Projektion.
+        lin('.kk-tang', 0, 0, 0, 0);
+        lin('.kk-radius', cx, cy, P[0], P[1]);
+        lin('.kk-hoehe', cx, cy, P[0], cy);
+        lin('.kk-proj', P[0], P[1], P[0], cy);
+        const q = g.querySelector('.kk-q'); q.style.display = sichtbar ? '' : 'none';
+        q.setAttribute('cx', px(th)); q.setAttribute('cy', sichtbar ? py(yq) : 0);
+      } else {
+        lin('.kk-tang', 0, 0, 0, 0);
+        lin('.kk-radius', cx, cy, P[0], P[1]);
+        lin('.kk-hoehe', P[0], cy, P[0], P[1]);
+        lin('.kk-proj', P[0], P[1], sichtbar ? px(th) : P[0], P[1]);
+        const q = g.querySelector('.kk-q'); q.style.display = sichtbar ? '' : 'none';
+        q.setAttribute('cx', px(th)); q.setAttribute('cy', sichtbar ? py(yq) : 0);
+      }
+      // Der Bogen vom Start (1 | 0) bis P — seine Länge ist der Winkel im Bogenmass.
+      const gross = Math.abs(th) > Math.PI ? 1 : 0, dreh = th >= 0 ? 0 : 1;
+      g.querySelector('.kk-bogen').setAttribute('d', Math.abs(th) < 1e-6 ? '' :
+        Math.abs(th) >= 2 * Math.PI - 1e-6
+          ? 'M' + (cx + r) + ',' + cy + 'A' + r + ',' + r + ' 0 1 0 ' + (cx - r) + ',' + cy + 'A' + r + ',' + r + ' 0 1 0 ' + (cx + r) + ',' + cy
+          : 'M' + (cx + r) + ',' + cy + 'A' + r + ',' + r + ' 0 ' + gross + ' ' + dreh + ' ' + P[0].toFixed(1) + ',' + P[1].toFixed(1));
+      const pp = g.querySelector('.kk-p'); pp.setAttribute('cx', P[0]); pp.setAttribute('cy', P[1]);
+    }
+  }
+}
+// Polynom in Linearfaktordarstellung y = a*(x-x1)*(x-x2)*…; Z = [a, x1, x2, …].
+function bewegePolynom(T, Z, px, py, x0, x1, y0, y1) {
+  const a = Z[0], r = Z.slice(1);
+  const f = x => r.reduce((s, q) => s * (x - q), a);
+  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
+  let d = '', an = false;
+  for (let i = 0; i <= 600; i++) {
+    const x = a0 + (a1 - a0) * i / 600, y = f(x);
+    if (y < y0 - (y1 - y0) || y > y1 + (y1 - y0)) { an = false; continue; }
+    d += (an ? 'L' : 'M') + px(x).toFixed(1) + ',' + py(y).toFixed(1); an = true;
+  }
+  T.p.setAttribute('d', d);
+  // Extrempunkte: Vorzeichenwechsel der Steigung, verfeinert durch Halbieren.
+  const ex = [];
+  const df = x => (f(x + 1e-5) - f(x - 1e-5)) / 2e-5;
+  for (let i = 0; i < 800; i++) {
+    let p = a0 + (a1 - a0) * i / 800, q = a0 + (a1 - a0) * (i + 1) / 800;
+    const dp = df(p), dq = df(q);
+    // Faellt ein Gitterpunkt genau auf die Extremstelle, ist dort df = 0 — darum
+    // «bis einschliesslich null», sonst geht der Scheitel x = 3 von (x−1)(x−5) verloren.
+    if ((dp > 0 && dq <= 0) || (dp < 0 && dq >= 0)) {
+      const hoch = dp > 0;
+      for (let k = 0; k < 40; k++) { const m = (p + q) / 2; if ((df(m) > 0) === (df(p) > 0)) p = m; else q = m; }
+      ex.push([(p + q) / 2, hoch]);
+    }
+  }
+  const innen = (x, y) => x >= x0 && x <= x1 && y >= y0 && y <= y1;
+  const setze = (g, x, y) => { g.style.display = innen(x, y) ? '' : 'none';
+    g.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); }); };
+  const beschrifte = (g, x, y, text, unten) => {
+    const tx = g.querySelector(':scope > text'); if (!tx) return;
+    const rechts = x > x1 - (x1 - x0) * 0.3;
+    tx.setAttribute('x', px(x) + (rechts ? -18 : 18));
+    tx.setAttribute('y', py(y) + (unten ? 44 : -18));
+    tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+    tx.textContent = text;
+  };
+  for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
+    if (g.classList.contains('bew-kn')) {
+      const i = +g.dataset.i, x = r[i];
+      // Zusammenfallende Nullstellen zeigen nur einen Punkt — den ersten.
+      if (r.slice(0, i).some(q => Math.abs(q - x) < 0.05)) { g.style.display = 'none'; continue; }
+      setze(g, x, 0);
+      // Beschriftungen abwechselnd ueber und unter der x-Achse, nach der Lage von
+      // links nach rechts — sonst laufen zwei nahe Nullstellen ineinander.
+      const rang = [...new Set(r.map(q => Math.round(q * 20)))].sort((p, q) => p - q).indexOf(Math.round(x * 20));
+      beschrifte(g, x, 0, '(' + bewZahl(x) + ' | 0)', rang % 2 === 1);
+    } else if (g.classList.contains('bew-ke')) {
+      const e = ex[+g.dataset.i];
+      if (!e) { g.style.display = 'none'; continue; }
+      const y = f(e[0]); setze(g, e[0], y);
+      beschrifte(g, e[0], y, (e[1] ? 'H' : 'T') + '(' + bewZahl(e[0]) + ' | ' + bewZahl(y) + ')', !e[1]);
+    } else if (g.classList.contains('bew-km')) {
+      const x = parseFloat(g.dataset.x), y = f(x);
+      setze(g, x, y);
+      beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)), a < 0);
+    }
+  }
+}
 function bewegen(t) {
   for (const L of BEW) for (const T of L.teile) {
     const [x0, x1, y0, y1, b, h, rd] = T.f;
     const px = x => rd + (x - x0) / (x1 - x0) * (b - 2 * rd);
     const py = y => h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd);
-    // T.L ist das Element, die Startzeit der Szene steht an L (der Liste) — vorher
-    // las bewegeGerade T.L.t0, bekam undefined, und jede Gerade stand im Endzustand.
-    if (T.art === 'g') { T.t0 = L.t0; bewegeGerade(T, t, px, py, x0, x1, y0, y1); continue; }
+    if (T.art === 'g') { bewegeGerade(T, t, px, py, x0, x1, y0, y1); continue; }
+    if (T.art === 'k') { bewegeKurve(T, t, px, py, x0, x1, y0, y1); continue; }
     const [a, u, v] = bewZustand(T.k, t - L.t0);
     const xa = T.p.dataset.ab !== undefined ? Math.max(x0, parseFloat(T.p.dataset.ab)) : x0;
     const xb = T.p.dataset.bis !== undefined ? Math.min(x1, parseFloat(T.p.dataset.bis)) : x1;
@@ -1255,8 +1753,15 @@ def element_html(el, theme):
         inhalt = text_html(el["text"])
     elif typ == "notiz":
         klassen += ["hand"]
-        farbe = {"rot": "var(--rot)", "blau": "var(--blau)",
-                 "tinte": "var(--tinte)", "gruen": "var(--gruen)"}.get(el.get("farbe", "blau"))
+        # Ein unbekannter Name ergab frueher still color:None, das der Browser wegwirft —
+        # die Notiz stand dann schwarz statt farbig, ohne jede Meldung (03.10.2026).
+        FARBEN = {"rot": "var(--rot)", "blau": "var(--blau)", "tinte": "var(--tinte)",
+                  "gruen": "var(--gruen)", "gold": "var(--gold)", "orange": "var(--gold)"}
+        name = el.get("farbe", "blau")
+        if name not in FARBEN:
+            raise SystemExit("[FEHLER] Notizfarbe «%s» gibt es nicht. Erlaubt: %s"
+                             % (name, ", ".join(sorted(FARBEN))))
+        farbe = FARBEN[name]
         stil.append("font-size:%dpx;color:%s" % (el.get("groesse", 50), farbe))
         inhalt = text_html(el["text"])
     elif typ == "karte":
@@ -1532,7 +2037,8 @@ def bauen(quelle, eigenstaendig=False):
 
             attr = f' data-at="{ein:.2f}"'
             if el.get("typ") == "graf" and (any(pa.get("bewegung") for pa in el.get("parabeln", []))
-                                            or any(ge.get("bewegung") for ge in el.get("geraden", []))):
+                                            or any(ge.get("bewegung") for ge in el.get("geraden", []))
+                                            or any(kv.get("bewegung") for kv in el.get("kurven", []))):
                 attr += f' data-t0="{start:.2f}"'
             if aus is not None:
                 attr += f' data-out="{aus:.2f}"'
@@ -1632,7 +2138,7 @@ def bauen(quelle, eigenstaendig=False):
 
     # Nur Clips mit bewegten Bildern bekommen den Zusatz — alle anderen
     # bleiben Byte fuer Byte, wie sie waren.
-    if "data-bew=" in html or "data-bewg=" in html:
+    if "data-bew=" in html or "data-bewg=" in html or "data-bewk=" in html:
         html = html.replace("window.__seek = seek;", BEWEGUNG_JS + "window.__seek = seek;", 1)
     if dreh.get("fragen"):
         fr = []

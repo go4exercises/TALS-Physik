@@ -125,52 +125,6 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='build-clips.py: bewegte Geraden standen im Endzustand; neues Feld "ab" (03.10.2026)',
-         wie='(1) FEHLER in BEWEGUNG_JS, auch in Mathe (build-clips.py Z. 871, 904, 911): bewegeGerade '
-             'liest t - T.L.t0, T.L ist aber das Element, nicht der Listeneintrag mit t0. Ergebnis NaN, '
-             'bewZustand liefert den letzten Stuetzpunkt: Jede bewegte Gerade, jeder Laeufer und jedes '
-             'wandernde Steigungsdreieck steht sofort im Endzustand. In Mathe betrifft das die Clips '
-             'g3-2-lp-* (Gerade sehen und Kontrollclips) — dort steht die Antwort einer klick-Frage '
-             'womoeglich schon im Bild. Physik-Fix: T.L.t0 -> T.t0 und in bewegen() vor dem Aufruf '
-             'T.t0 = L.t0. Danach alle Clips mit "bewegung" an Geraden neu bauen und Pruefbilder bei '
-             '0.3 s jeder Fragenszene ansehen. (2) Neu: "ab" an einer bewegten Geraden — die Strecke '
-             'beginnt erst bei diesem x (Q-t- oder R-l-Gerade ohne negativen Teil); ohne das Feld bleibt '
-             'alles gleich. Diese Datei und build-clips.py aus Physik uebernehmen; danach build-clips.py '
-             'KERN wieder >= 0.98. (3) Neu in Physik und fuer Mathe nuetzlich: .claude/tools/'
-             'pruef-formelsatz.mjs setzt die Zufallsuebungen mit echtem MathJax (pruef-uebungen schaltet '
-             'es ab und sah darum ein «\\text{\\mu C}» nicht).'),
-    dict(quelle='Physik', was='TODO-schwesterprojekt.md abraeumen, Grundlinie build-clips.py (03.10.2026)',
-         wie='(1) In TODO-schwesterprojekt.md vier Eintraege loeschen, alle in Physik umgesetzt: '
-             '«Zwei Styleguide-Regeln uebernehmen» (30.09.; Physik STYLEGUIDE §2.6a und §5.5, '
-             'Ausnahme fuer p0-1, p0-2, p6-2 in §4.3 — p6-2-prototyp-layout gibt es nicht mehr), '
-             '«build-clips.py: bewegte Parabel und Fragen im Clip» (02.10.), «Drei Werkzeuge aus '
-             'dem Leitprogramm Quadratische Funktionen» (02.10.; ob Physiks HTML-Gesamttests auf '
-             'PDF umgestellt werden, entscheidet der Auftraggeber in Physik) und «Die '
-             'Leitprogramm-Erstellung als Ganzes» (03.10.; auch das Kapitelmuster steht jetzt: '
-             'scripts/lp/elektrizitaet/, erstes Physik-Leitprogramm danach, unverlinkt in Erprobung). '
-             'Danach meldet Physiks Pre-Flight kein todo-schwester mehr. '
-             'Nicht portieren: Physiks build-suchindex.py hat jetzt eine Menge UNVERLINKT fuer '
-             'Leitprogramme in Erprobung; Mathe loest dasselbe mit seiner Handliste (bewusst verschieden). '
-             '(2) Grundlinie build-clips.py auf 0.980 nachtragen (diese Datei uebernehmen). '
-             'Physiks Fassung ist Mathes vom 03.10.2026 plus die Physik-Eigenheiten '
-             '(Textbreite aus `breite`, `mitnehmen`, Bedingungsleisten-Pruefung vor den Elementen); '
-             'das Feld "werkzeug" im Index fehlt in Physik bewusst (keine Rechner-Clips).'),
-    dict(quelle='Physik', was='build-clips.py: Fragen im Clip per Tastatur, Toleranz je Achse, Eingabe statt Tippen (04.10.2026)',
-         wie='Aus der Pruefung des Leitprogramms Elektrizitaet. (1) FEHLER, auch in Mathe (build-clips.py '
-             'Z. 1835): Der Hauptabspieler faengt die Leertaste ueberall ab (preventDefault + toggle) — '
-             'ein fokussierter Antwortknopf laesst sich damit nicht bestaetigen, die Leertaste schaltet '
-             'stattdessen Play/Pause. Physik: Tastenkuerzel nicht in input/select/textarea, die Leertaste '
-             'nicht auf button/a/summary; dasselbe fuer «R» im FRAGEN_JS. (2) Fokus: zeigen() setzt ihn '
-             'nach display:block auf die erste Antwort (vorher geht focus() auf ein verstecktes Element '
-             'ins Leere), schliessen() gibt ihn an Play/Pause zurueck, auch wenn er mit dem gesperrten '
-             'Knopf schon auf <body> gefallen ist. (3) "toleranz" darf [dx, dy] sein (je Achse, statt '
-             'Math.hypot in Dateneinheiten, Mathe Z. 1150) — noetig, wenn die Achsen verschiedene '
-             'Groessen tragen; eine Zahl wirkt wie bisher. (4) Neues Feld "eingabe": ["t in s", "Q in C"] '
-             'an einer klick-Frage — zwei Zahlfelder und «Pruefen» als gleichwertiger Weg ohne Maus, '
-             'gleiche Auswertung (pruefePunkt) samt fallen. Mathe hat 70 Fragen in 14 Clips, 15 davon '
-             'klick: dort "eingabe" je Frage nachtragen, sonst bleiben sie ohne Zeigegeraet unloesbar. '
-             'Danach die 14 Clips neu bauen und pruef-fragen laufen lassen. Diese Datei und '
-             'build-clips.py aus Physik uebernehmen.'),
     dict(quelle='Physik', was='build-clips.py: graf mit flaechen, strecken, texte und "achsen": false (06.10.2026)',
          wie='Neu in graf_svg, alles statisch in Datenkoordinaten, ohne die Felder Byte fuer Byte wie vorher '
              '(geprueft an vier Clips): "flaechen" (gefuelltes Vieleck unter allen Linien, "deckung", '
@@ -188,8 +142,33 @@ OFFEN = [
              'ersten Sekunden) — in Mathe betrifft das g3-3-lp-verschieben, falls die erste Frage spaet kommt. '
              'Ebenfalls 06.10.: bewegte Parabeln kennen "ab"/"bis" (data-ab/data-bis, BEWEGUNG_JS begrenzt '
              'den Bogen); ohne die Felder Byte fuer Byte gleich.'),
+    dict(quelle='Physik', was='build-clips.py zusammengefuehrt, beide Richtungen (07.10.2026)',
+         wie='Mathes Eintrag «build-clips.py zusammenfuehren statt kopieren» ist in Physik abgearbeitet: '
+             'figuren (mit deckkraft/fuellung/dicke), bewegte Potenz/Wurzel/Polynom/Exponential/Logarithmus/'
+             'Sinus/Tangens/Betrag samt Begleitern und Einheitskreis, tippbar, Notizfarben gold/orange, '
+             'Hof um bewegte Punktbeschriftungen und die nahAchse-Regel — weitgehend wortgleich uebernommen. '
+             'Aehnlichkeit vorher 82.4 %, jetzt 96.8 %; der Rest sind Physiks Felder (flaechen, strecken, '
+             'texte, ab an Geraden, ab/bis an Parabeln, Textbreite aus `breite`, `mitnehmen`, Ton- und '
+             'Tastaturkommentare). Einzige gewollte Abweichung: Konstante KARO_OHNE_ACHSEN — Physik False '
+             '(69 Drehbuecher mit "achsen": false erwarten kein Karo), Mathe True (Planimetrie); ein '
+             'ausdrueckliches "raster" im Drehbuch geht in beiden vor. "werkzeug" im Index fehlt in Physik '
+             'weiter bewusst. In Mathe: build-clips.py aus Physik uebernehmen, KARO_OHNE_ACHSEN = True '
+             'setzen, alle Clips neu bauen und gegen den vorigen Bau vergleichen (in Physik: 284 von 302 '
+             'byte-gleich, Rest nur Hof und nahAchse), danach Grundlinie 0.98 erreicht. '
+             '.claude/tools/pruef-fragen.mjs (bisher in beiden Repos gleich, in keiner Liste dieser Datei): '
+             'prueft jetzt auch Fragen mitten im Clip (erste Frage spaeter als 2.5 s: jeder Fall springt per '
+             'Zeitleiste kurz davor, B/B2 entfallen) — Datei uebernehmen. '
+             'Ausserdem beide Eintraege vom 06.10.2026 in TODO-schwesterprojekt.md erledigt und zu loeschen: '
+             'Leitprogramme-Seite mit Kacheln (Physik: Titel des Leitprogramms als Kopf jeder Kachel, weil '
+             'sich mehrere Leitprogramme eine Themenseite teilen; «Veraltet» bleibt im alten Aufbau) und '
+             'clips.html in drei Spalten (scripts/clips_bibliothek.py, Physik-Fassung; der Uebungstest '
+             'Waermelehre steht in Spalte 2, sein «LP» zeigt auf die Aufgabe; REIHEN_VORN nur in der '
+             'Bibliothek). clips_bibliothek.py steht jetzt unter FACH — in Mathe ebenso eintragen '
+             '(diese Datei uebernehmen). build-seo.py: SEITENNAME und RLP als Konstanten aus Mathe uebernommen; '
+             'die Restdrift dort und in build-suchindex.py ist Seitentabelle bzw. Mathes Handliste.'),
 ]
 FACH = {
+    'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',
     'nav.js': 'Seitenbaum und Lerngebiete — je Fach ein anderer.',
     'style.css': 'Leitfarbe Bernstein gegen Blau, eigene Bausteine je Fach.',
     'index.html': 'Startseite je Fach.',

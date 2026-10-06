@@ -67,7 +67,7 @@ danach sitzt das Bild nicht auf der Sprache.
 | `theme` | `begreifbar-schlicht` für neue Clips (ohne Karo und Rand, seit 03.10.2026; siehe unten), `begreifbar` in den bestehenden, sonst `heft`, `tafel`, `papier` |
 | `stufe`, `schlagworte` | für Suche und Filter |
 | `nachlauf` | Standzeit nach der letzten Einblendung; in diesem Projekt `4.0` |
-| `probe: true` | baut den Clip, hält ihn aber aus `clips.json` heraus — für Versuche |
+| `probe: true` | baut den Clip, hält ihn aber aus `clips.json` heraus — für Versuche und für die eigenen Clips eines Leitprogramms (die der sichtbaren Leitprogramme zeigt `clips.html` in der Spalte «Leitprogramm») |
 | `voraussetzung` | Bedingungsleiste unter der Kopfzeile, siehe unten |
 
 `lektion` ist eine Liste, weil ein Clip mehreren Seiten gehören darf. Er wird
@@ -173,7 +173,7 @@ steht dort Dekoration.
 | `aussage` | der Merksatz der Schlussszene | 116 |
 | `formel` | Formelzeile — Ansatz, Zahlengleichung, Ergebnis | 56 |
 | `text` | Fliesstext, erklärt die Formel darüber | 50 |
-| `notiz` | Handnotiz; `farbe`: `blau`, `rot`, `gruen`, `tinte` | 52 |
+| `notiz` | Handnotiz; `farbe`: `blau`, `rot`, `gruen`, `tinte`, `gold` (= `orange`); ein anderer Name bricht den Bau ab | 52 |
 | `box` | gerahmtes Ergebnis, `farbe: gruen` für die Lösung | — |
 | `karte` | gerahmter Zwischenschritt | 42 |
 | `liste` | nummerierte Merkliste, braucht `punkte: [...]` | — |
@@ -275,7 +275,10 @@ Datenkoordinaten; ohne die Felder baut jeder Clip Byte für Byte wie vorher.
 - `strecken` sind Hilfslinien, Masslinien, Vektoren und Kräfte; `"pfeil": true` setzt die Spitze
   ans Ende. Beschriftung mit hellem Hof, Lage per `beschriftung_bei`, `anker`, `groesse`.
 - `texte` sind freie Beschriftungen (ebenfalls mit Hof).
-- **`"achsen": false`** zeichnet nur die Elemente, ohne Karo, Achsen und Teilung. Zwei Verwendungen:
+- **`"achsen": false`** zeichnet nur die Elemente, ohne Karo, Achsen und Teilung. (In Mathe bleibt
+  dabei das Karo stehen — dort stehen Figuren der Planimetrie im Karo. Der Unterschied steckt in
+  der Konstante `KARO_OHNE_ACHSEN` in `build-clips.py`; `"raster": true` oder `false` im
+  Drehbuch geht in beiden Projekten vor.) Zwei Verwendungen:
   ein Pfeilbild ohne Koordinaten (Kräfteplan, Draufsicht auf einen Fluss) und eine **Ebene**, die
   später deckungsgleich über einem `graf` mit demselben Fenster erscheint (eigenes `ein`). So
   entsteht eine Rechnung im Bild Schritt für Schritt — Fläche, dann Masse, dann Ergebnis —, und bei
@@ -289,6 +292,35 @@ Datenkoordinaten; ohne die Felder baut jeder Clip Byte für Byte wie vorher.
   «sinkt»), mehrere Aufnahmen am selben Ort mit gestaffeltem `ein` zeigen (deckende JPGs
   überdecken sich). Die Simulationen der Leitprogramme haben dafür Testhaken `__sim.zeige(…)`.
   Ein `graf` über einem `bild` geht nicht — er ist durchsichtig; dann eine eigene Szene.
+
+### Figuren im `graf`: `figuren` (aus Mathe, 07.10.2026)
+
+In Mathe für das Leitprogramm Planimetrie gebaut, hier verfügbar für Zeichnungen, die mehr als
+Strecken brauchen (Kreisbahn, Winkel am Hebel, Sektor). Gezeichnet unter Geraden und Punkten,
+in Fensterkoordinaten, am Bildrand abgeschnitten:
+
+```json
+{"typ": "graf", "xbereich": [-1, 9], "ybereich": [-1, 9], "breite": 760, "hoehe": 760, "achsen": false,
+ "figuren": [
+   {"art": "vieleck", "punkte": [[0,0],[8,0],[4,3]], "farbe": 1, "fuellung": 0.12},
+   {"art": "strecke", "von": [4,3], "bis": [4,0], "farbe": 2, "gestrichelt": true},
+   {"art": "rechts", "bei": [4,0], "r1": 0, "r2": 90},
+   {"art": "kreis", "m": [4,4], "r": 3, "farbe": 1},
+   {"art": "sektor", "m": [4,4], "r": 3, "von": 0, "bis": 60, "farbe": 3, "fuellung": 0.25},
+   {"art": "bogen", "m": [4,4], "r": 3, "von": 0, "bis": 60, "farbe": 2},
+   {"art": "winkel", "bei": [0,0], "von": 0, "bis": 37, "r_px": 40, "farbe": 2},
+   {"art": "text", "bei": [4,-0.6], "text": "r = 3.0 m", "farbe": 5, "kursiv": false}]}
+```
+
+Farben 1–4 wie sonst, 5 = Tinte; `dicke` (Standard 4), `gestrichelt`, `fuellung` (Deckkraft der
+Fläche), `deckkraft` (der Linie — ein Kreisring ist ein Kreis mit `dicke` = Ringbreite und
+`deckkraft` 0.3). Winkel in Grad gegen den Uhrzeigersinn ab der positiven \(x\)-Richtung;
+`winkel` hat einen festen Pixelradius `r_px`, `rechts` (Zeichen für den rechten Winkel) die
+Richtungen `r1`/`r2` und die Seitenlänge `px`. **Das Fenster gleich teilen** (Spanne x zu
+Spanne y wie Breite zu Höhe), sonst wird der Kreis zur Ellipse und der rechte Winkel schief.
+Eine unbekannte `art` bricht den Bau ab. Neben `figuren` bleiben `flaechen`, `strecken`
+(mit Pfeilspitze) und `texte` (mit Hof, nicht kursiv) die Physik-Werkzeuge für Diagramme in
+Datenkoordinaten; eine `figuren`-Strecke hat keine Spitze und keine Beschriftung.
 
 ### Theme `begreifbar-schlicht` — Standard für neue Clips (in Physik seit 03.10.2026)
 
@@ -370,7 +402,9 @@ Startzeit falsch und standen sofort im Endzustand — die Drehbücher waren rich
 Bilder nicht. Ein Bild bei 0.3 s jeder Fragenszene und eines mitten in jeder Bewegung zeigt
 so etwas sofort (`pruef-clip.mjs`, Zeiten aus `sprechzeiten.py`). Die Beschriftung setzt sich selbst auf die
 Seite, auf der die Gerade *nicht* verläuft (bei \(m \gt 0\) unter den Punkt, sonst darüber) —
-eine freie Stelle von Hand suchen muss man nur bei **festen** Punkten.
+ausser näher als 40 px an der \(x\)-Achse: Dort stehen die Teilungszahlen, darum steht sie
+darüber (seit 07.10.2026, aus Mathe). Sie trägt einen schmalen hellen Hof. Eine freie Stelle
+von Hand suchen muss man nur bei **festen** Punkten.
 
 Gezeichnet wird im Abspieler, **allein aus der Zeit**: `seek(t)` wird nur in Clips mit
 `bewegung` um `bewegen(t)` erweitert (`BEWEGUNG_JS` in `build-clips.py`). Darum stimmen
@@ -386,7 +420,55 @@ kurz eine Gerade — das ist gewollt und zeigt, was dabei passiert.
 
 Im Einsatz (in Mathe): die fünf Clips `g3-3-lp-*` («Parabel sehen», Leitprogramm
 Quadratische Funktionen) und die acht Clips `g3-2-lp-*` («Gerade sehen», Leitprogramm
-Lineare Funktionen). Noch nicht: bewegte freie Kurven, Live-Zahlen in Formelzeilen.
+Lineare Funktionen). Noch nicht: bewegte freie Kurven (`formel`), Live-Zahlen in Formelzeilen.
+
+### Bewegte Kurven im `graf`: Potenz, Polynom, Exponential, Sinus, Betrag (aus Mathe, 07.10.2026)
+
+In Mathe für die Leitprogramme des Schwerpunktfachs gebaut (03. bis 05.10.2026), mit der
+Zusammenführung des Generators am 07.10.2026 auch hier verfügbar. Noch nutzt kein
+Physik-Drehbuch sie; naheliegend sind Schwingungen (`trig`), Abkühlung und Zerfall
+(`exponential`) und das Abstandsgesetz (Potenz mit \(p = -2\)). Alle stehen in `kurven` mit
+einer `bewegung`; was die Stützpunkte bedeuten, sagt ein Schalter:
+
+| Schalter | Stützpunkt | Kurve |
+|---|---|---|
+| — | `[t, a, p, u, v]` | \(y = a\,(x-u)^p + v\) — Potenz, Hyperbel (\(p \lt 0\)), Wurzel (\(p = \tfrac1n\)) |
+| `"polynom": true` | `[t, a, x1, x2, …]` | \(y = a\,(x-x_1)(x-x_2)\cdots\) |
+| `"exponential": true` | `[t, c, a, v]` | \(y = c \cdot a^x + v\) |
+| `"logarithmus": true` | `[t, c, a, v]` | \(y = c \cdot \log_a x + v\) |
+| `"trig": "sin"` / `"tan"` | `[t, a, b, u, v]` | \(y = a \sin\big(b(x-u)\big) + v\), Tangens ebenso |
+| `"betrag": true` | `[t, a, u, v]` | \(y = a\,|x-u| + v\), Knick scharf |
+
+```json
+{"typ": "graf", "xbereich": [-2.6, 7.2], "ybereich": [-3, 3], "breite": 1640, "hoehe": 480, "kurven": [
+  {"bewegung": [[0, 1, 1, 0, 0], [6, 2, 1, 0, 0.5]], "trig": "sin", "farbe": 1, "von": 0,
+   "asymptoten": {"farbe": 5}, "marken": [{"x": 1.5708, "text": "({x} s; {y} cm)"}],
+   "kreis": {"mx": -1.6, "bahn": [[0, 0], [6, 6.0]], "spur": true}}]}
+```
+
+| Begleiter | zeigt |
+|---|---|
+| `"startpunkt": {}` | \((u \mid v)\) (Potenz, Betrag: Knick), \((0 \mid c + v)\) (Exponential), \((1 \mid v)\) (Logarithmus) |
+| `"asymptoten": {}` | gestrichelt: Polgerade und waagrechte Asymptote; beim Sinus die Mittellinie \(y = v\), beim Tangens alle Polgeraden, beim Betrag die Symmetrieachse |
+| `"marken": [{"x": 1, "text": "…{y}…"}]` | Punkt an festem \(x\) mit Live-Wert (`{x}`, `{y}`) |
+| `"spiegel": {}` | dieselbe Kurve an \(y = x\) gespiegelt — die Umkehrfunktion (Potenz, Exponential, Logarithmus) |
+| `"nullstellen": {"farbe": 2}`, `"extrema": {"farbe": 3}` | nur `polynom`: je Linearfaktor ein Punkt, Hoch- und Tiefpunkte numerisch |
+| `"kreis": {"mx": …, "bahn": [[t, Winkel], …]}` | nur `trig`: Einheitskreis links neben der Kurve, Radius 1 in \(y\)-Einheiten; `spur` zeichnet die Kurve nur bis zum aktuellen Winkel, `"projektion": false` lässt die Strecke zur Kurve weg, `"art": "cos"` zeigt die waagrechte Koordinate |
+| `"von"` / `"bis"` | schränken die Kurve auf ein Stück ein (bei `kreis` muss sie bei \(x = 0\) beginnen) |
+
+- `"stufen": true` rundet \(p\) beim Überblenden auf ganze Zahlen — sonst löscht ein
+  gebrochener Exponent zwischen \(x^2\) und \(x^3\) mitten in der Bewegung den linken Ast.
+- **Ein leerer Begleiter wirkt nicht:** `"nullstellen": {}` ist in Python falsch und zeichnet
+  nichts — mindestens eine Farbe angeben (`{"farbe": 2}`).
+- **Die selbst gesetzten Beschriftungen** von `startpunkt`, `nullstellen` und `extrema` sind
+  Mathes Schreibweise «(1 | 0)» ohne Einheiten (wie schon `scheitel` bei Parabeln). Für
+  Physik-Diagramme stattdessen `marken` mit eigenem `text` («({x} s; {y} m)», STYLEGUIDE §5.10)
+  oder `"beschriftung": false` am Begleiter.
+- Die Live-Zahlen runden auf eine Stelle; wo es auf mehr ankommt, die Marke mit festem Text.
+
+Vorbilder in Mathe (nur lesen): `scripts/lp/polynomfunktionen/clips.py`,
+`exp-log-funktionen/clips.py`, `trigonometrische-funktionen/clips.py`,
+`betragsfunktionen/clips.py`.
 **Formelzeile und Bewegung abstimmen:** Nennt die Formel links schon den Endwert, soll die
 Bewegung früh und kurz sein (unter 2 s) — sonst steht im Text etwas anderes als im Bild.
 
@@ -412,16 +494,17 @@ Voraussage (predict–observe–explain) wandert in den Clip selbst:
 - `bei` ist die Sekunde **ab Szenenbeginn** — vor `sprecher_bei` (0.4) legen, sonst
   bricht der Satz mitten im Wort ab.
 - `kopf` (optional) ersetzt die Kopfzeile «Deine Vorhersage». Eine Frage, die nach der
-  Einführung nach dem Vorgehen fragt, ist keine Vorhersage: Die Einführungsclips der
-  Elektrizität tragen `"kopf": "Dein Vorgehen"` (06.10.2026).
+  Einführung nach dem Vorgehen fragt, ist keine Vorhersage: Die Strategiefragen in den
+  Einführungsclips aller sechs Kapitelmuster-Leitprogramme (35 Clips) tragen
+  `"kopf": "Dein Vorgehen"` (06.10.2026).
 - **Nichts im Bild, was die Antwort zeigt, solange die Frage offen ist.** Text und
   Formeln der Frageszene erscheinen erst nach `bei` — `scripts/lp/kinematik/anker.py`
   setzt sie seit 06.10.2026 auf mindestens `bei + 0.5`; Schaltbilder und Graphen
   bleiben. Vorher stand in drei Clips die Vorgehensliste schon neben der Frage nach
   dem Vorgehen.
-- **Fragen mitten im Clip** prüft `pruef-fragen.mjs` nicht: Es erwartet die erste Frage
-  in den ersten Sekunden (Kontrollclips) und bricht sonst ab. Dort vor die Frage
-  springen, auf sie warten, richtig antworten und prüfen, dass der Clip weiterläuft.
+- **Fragen mitten im Clip** prüft `pruef-fragen.mjs` seit 07.10.2026 mit: Steht die
+  erste Frage später als 2.5 s, springt jeder Fall per Zeitleiste kurz vor sie (auch nach
+  «R»); die Fälle zum verspäteten Start (B, B2) entfallen dann.
 - **Richtig → der Clip rollt sofort weiter** (kurzes ✓, keine Ansage). Nur eine falsche
   Antwort zeigt die Erklärung, liest sie vor und wartet auf «Weiter». Darum werden die
   Rückmeldungen zu richtigen Antworten nicht vertont (`fragen_texte()` lässt sie aus).
@@ -429,7 +512,9 @@ Voraussage (predict–observe–explain) wandert in den Clip selbst:
   falschen Voraussage die Lösung nicht verraten, sondern aufs Hinschauen lenken — der
   Clip löst sie gleich danach auf.
 - `klick`: Tippen ins bewegte Bild der Szene (braucht ein `graf` mit `bewegung` —
-  Parabel oder Gerade —, denn dessen Fenster rechnet den Tipp in Koordinaten um). `fallen` sind typische falsche
+  Parabel, Gerade oder Kurve —, denn dessen Fenster rechnet den Tipp in Koordinaten um;
+  zeigt die Szene nur feste Kurven, wird die Frage **stumm übersprungen** — dann
+  `"tippbar": true` im `graf` setzen, aus Mathe seit 07.10.2026). `fallen` sind typische falsche
   Stellen mit eigener Rückmeldung; ein grüner Kreis zeigt danach die richtige Stelle.
   `toleranz` ist ein Abstand in Dateneinheiten — oder `[dx, dy]` je Achse, sobald die
   Achsen verschiedene Grössen tragen (`[0.4, 1.2]` bei \(t\) in s und \(Q\) in C: Sonst
@@ -919,14 +1004,59 @@ was nur dort funktioniert und nur dort gespeichert ist.
 
 ## Bibliotheksseite `clips.html`
 
-Gruppiert nach **Lerngebiet**, darin nach **Reihe**, darin nach `folge`. Anders
-als in Mathe gibt es keine Trennung in Grundlagen- und Schwerpunktfach. Die
-Lerngebiete sind beim Laden zugeklappt; die Kopfzeile nennt Anzahl und
-Gesamtdauer — gezählt werden **einzigartige Clips**, nicht Einbettungen.
+Gruppiert nach **Lerngebiet**, darin **je Themenseite drei Spalten** (seit
+07.10.2026, aus Mathe übernommen). Anders als in Mathe gibt es keine Trennung in
+Grundlagen- und Schwerpunktfach. Die Lerngebiete sind beim Laden zugeklappt; die
+Kopfzeile nennt Anzahl und Gesamtdauer — gezählt werden **einzigartige Clips**,
+nicht Einbettungen (die Leitprogramm-Clips zählen mit).
+
+Im Lerngebiet steht jede Themenseite mit Nummer und Titel als Zwischenüberschrift
+(Link zur Seite), darunter eine dreispaltige Tabelle:
+
+- **Animationen** — Clips mit `animation`, in Bernstein hinterlegt wie auf der
+  Themenseite (`.cl-anim` aus `style.css`), mit «Anim»; Reihenfolge = `folge` =
+  Lage der Animation auf der Seite.
+- **Leitprogramm** — die eigenen Clips (`"probe": true`) der *sichtbaren*
+  Leitprogramme, in der Reihenfolge des Leitprogramms; die Spaltenüberschrift
+  verlinkt es. Jede Zeile trägt vorn «LP» auf die Animation ihres Kapitels
+  (`leitprogramme/<name>.html#simN`, die `figure.sim` im selben `section.kap`;
+  ohne Simulation der Kapitelanfang). Kontrollclips stehen mit drin und zeigen auf
+  dieselbe Animation. Der Prüfungsbogen `uebungstest-waermelehre` zählt mit
+  (Entscheid des Auftraggebers): er hat keine Kapitel, sein «LP» zeigt auf die
+  Aufgabe (`#a1` … `#c5`, die letzte `<h2 id>` vor dem Clip). Hellerer
+  Bernsteinton (`#fdf8f0`) als die Animationen.
+- **Weitere Clips** — der Rest, weisse Zeilen, Nummer in Bernstein statt der
+  Reihen-Nuance.
+
+Ein Bibliotheksclip, den ein Leitprogramm mitbenutzt, bleibt in Spalte 1 oder 3.
+Eine leere Spalte zeigt «—»; unter 720 px stehen die Spalten untereinander. Ein
+Clip mit mehreren Lektionen steht im Lerngebiet unter seiner ersten eigenen
+Lektion; liegt er auch in einem anderen Lerngebiet, steht er dort noch einmal.
+
+**«Sichtbar»** heisst: `leitprogramme.html` verlinkt es vor `<h2 id="veraltet">` —
+die drei veralteten Elektrizitäts-Leitprogramme bleiben draussen, ebenso die zwölf
+Probe-Clips, die an keinem sichtbaren Leitprogramm hängen. Die acht klassischen
+Leitprogramme benutzen nur Bibliotheksclips; ihre Spalte bleibt leer.
+
+**Ordnung in Spalte 3:** Reihe, darin `folge`. Reihen, deren Folge dem Aufbau der
+Themenseite folgt statt dem Alphabet (0.1, 0.3, 5.2, 5.3, 6.1, 6.2), stehen in
+`REIHEN_VORN` in `scripts/clips_bibliothek.py` — anders als in Mathe **nur für die
+Bibliothek**: Die Clipblöcke der Themenseiten ordnen weiter nach `ordnung()` (Zweig,
+dann alphabetisch). Ob sie nachziehen, ist nicht entschieden; dafür in
+`build-clips-einbau.py` hinter `import clips_bibliothek` dieselbe Zeile wie in Mathe
+(`REIHEN = clips_bibliothek.REIHEN_VORN + REIHEN`) setzen und die sechs Seiten neu
+einbauen.
+
+**Technik:** Der Block kommt aus `scripts/clips_bibliothek.py` (Fachgut, je Repo
+eine eigene Fassung); `build-clips-einbau.py` ruft es nur auf und liefert Zeilenform
+(`zeile()`), Suchtext und Marken — so bleibt das geteilte Skript nahe an Mathe
+(`abgleich.py`, KERN). Die CSS-Regeln stehen im `<style>` von `clips.html`, nicht in
+`style.css`.
 
 Über der Liste steht eine **Sofortsuche**: Sie vergleicht die getippten Wörter
 mit `data-suche` an jeder Zeile — Titel, Reihe, Kurzbeschrieb, Schlagworte und
 Lektionsnummer, alles klein geschrieben, mehrere Wörter UND-verknüpft. Lerngebiete
-mit Treffern klappen dabei auf, leere verschwinden. Wer denselben Clip in zwei
-Lerngebieten sieht, erkennt das an der Zeile «↳ auch in 4.5 Hydrostatik»
-darunter; gebaut wird beides in `build-clips-einbau.py` (`suchtext`, `auch_in`).
+mit Treffern klappen dabei auf, leere verschwinden, ebenso Themenseiten ohne Treffer
+(der Strich «—» leerer Spalten ist während der Suche ausgeblendet). Wer denselben
+Clip auf mehreren Seiten sieht, erkennt das an der Zeile «↳ auch in 4.5 Hydrostatik»
+darunter (gezählt ab der Themenseite, unter der er steht); gebaut wird beides in `build-clips-einbau.py` (`suchtext`, `auch_in`).

@@ -429,7 +429,8 @@ Verbindlich:
   `downloads/leitprogramme/lp-druck.sty` (pdfLaTeX, Palatino über `mathpazo`, Diagramme mit
   pgfplots; Farbe Bernstein `#8A4A0E`, Fusszeile «physik.begreifbar.ch»). Bauen:
   `python3 scripts/build-lp-pdf.py [filter]` — übersetzt in einem temporären Ordner und
-  legt nur das PDF neben die Quelle. LuaLaTeX geht auf diesem Rechner nicht
+  legt nur das PDF neben die Quelle. Der Filter trifft einen Ordner- oder Dateinamen
+  **genau** (`statik` baut nicht mehr auch `hydrostatik`, `gesamttest` alle Gesamttests). LuaLaTeX geht auf diesem Rechner nicht
   (`luaotfload-tool` fehlt), darum pdfLaTeX. Im Leitprogramm steht nur ein Dreischritt mit
   den beiden Downloads und die Selbsteinschätzung.
   **Die acht bestehenden HTML-Gesamttests bleiben**, bis der Auftraggeber über eine
@@ -759,7 +760,7 @@ aufgebaut wird.
 
 | Datei | was |
 |---|---|
-| `leitprogramme.html` | Karte im Block zwischen den `LEITPROGRAMME`-Markern, unter dem passenden Lerngebiet |
+| `leitprogramme.html` | Kachel im Block zwischen den `LEITPROGRAMME`-Markern, unter dem passenden Lerngebiet, nach Nummer sortiert: Kopf mit dem Titel des Leitprogramms, je Themenseite eine Zeile mit Titel und Nummernpille (seit 07.10.2026; Vorlage: die Kacheln daneben) |
 | `scripts/build-seo.py` | Eintrag in `SEITEN` — sonst fehlen Beschreibung und Sitemap |
 | `scripts/build-suchindex.py` | nichts einzutragen: alles in `leitprogramme/` wird automatisch erfasst |
 | Themenseite / Vorwissenseite | `.block-tipp` «💡 Lieber geführt durcharbeiten?» mit Link aufs Leitprogramm und einem Satz, was nur auf der Seite steht |
@@ -815,7 +816,7 @@ grep 'name="robots"' leitprogramme/<name>.html                      # noindex, n
    node .claude/tools/scan-live.mjs leitprogramme/<name>.html             # Malpunkt als Trenner
    node .claude/tools/pruef-uebungen.mjs leitprogramme/<name>.html 1000   # Zufallsübungen
    node .claude/tools/pruef-leiste.mjs leitprogramme/<name>.html          # Aufgabenleisten
-   node .claude/tools/pruef-fragen.mjs <clip> …                           # Fragen in Kontrollclips
+   node .claude/tools/pruef-fragen.mjs <clip> …                           # Fragen in Kontroll- und Einführungsclips
    ```
    `pruef-uebungen`, `pruef-leiste` und `pruef-fragen` starten einen eigenen Server und
    enden mit Exit 1 bei einem Befund. `pruef-uebungen` braucht im Seitenskript die

@@ -43,8 +43,11 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASIS = 'https://physik.begreifbar.ch/'
+SEITENNAME = 'Physik begreifbar'
 AUTOR = 'Raphael Arnold Kohler'
 LIZENZ = 'https://creativecommons.org/licenses/by-nc/4.0/deed.de'
+RLP = ('Rahmenlehrplan für die Berufsmaturität RLP-BM 2030, '
+       'Gruppe Technik, Architektur, Life Sciences')
 STAND = '2026-08-01'
 
 # ── Seiten-Tabelle: hier wird gepflegt ───────────────────────────────
@@ -455,7 +458,7 @@ def jsonld(url, cfg, titel, komp, ist_thema):
         knoten['educationalAlignment'] = [{
             '@type': 'AlignmentObject',
             'alignmentType': 'teaches',
-            'educationalFramework': 'Rahmenlehrplan für die Berufsmaturität RLP-BM 2030, Gruppe Technik, Architektur, Life Sciences',
+            'educationalFramework': RLP,
             'targetName': f"{cfg['lg']} · {cfg['tg']}",
         }]
     graph = [knoten]
@@ -463,7 +466,7 @@ def jsonld(url, cfg, titel, komp, ist_thema):
     if cfg['datei'] == 'index.html':
         graph.append({
             '@type': 'WebSite', '@id': BASIS + '#website', 'url': BASIS,
-            'name': 'Physik begreifbar', 'inLanguage': 'de-CH', 'license': LIZENZ,
+            'name': SEITENNAME, 'inLanguage': 'de-CH', 'license': LIZENZ,
             'publisher': person,
             'potentialAction': {
                 '@type': 'SearchAction',
@@ -472,13 +475,13 @@ def jsonld(url, cfg, titel, komp, ist_thema):
             },
         })
     else:
-        graph.append({'@type': 'WebSite', '@id': BASIS + '#website', 'url': BASIS, 'name': 'Physik begreifbar'})
+        graph.append({'@type': 'WebSite', '@id': BASIS + '#website', 'url': BASIS, 'name': SEITENNAME})
 
     if ist_thema:
         graph.append({
             '@type': 'BreadcrumbList',
             'itemListElement': [
-                {'@type': 'ListItem', 'position': 1, 'name': 'Physik begreifbar', 'item': BASIS},
+                {'@type': 'ListItem', 'position': 1, 'name': SEITENNAME, 'item': BASIS},
                 {'@type': 'ListItem', 'position': 2, 'name': cfg['lg'] if cfg.get('lg') else 'Vorwissen'},
                 {'@type': 'ListItem', 'position': 3, 'name': cfg.get('tg', titel), 'item': url},
             ],
@@ -511,7 +514,7 @@ def block(datei, cfg, seite_html):
          f'<link rel="icon" href="{auf}favicon-32.png" sizes="32x32" type="image/png">',
          f'<link rel="apple-touch-icon" href="{auf}apple-touch-icon.png">',
          f'<meta property="og:type" content="{cfg.get("typ", "article")}">',
-         '<meta property="og:site_name" content="Physik begreifbar">',
+         f'<meta property="og:site_name" content="{SEITENNAME}">',
          '<meta property="og:locale" content="de_CH">',
          f'<meta property="og:title" content="{html.escape(titel, quote=True)}">',
          f'<meta property="og:description" content="{html.escape(b, quote=True)}">',
@@ -569,7 +572,7 @@ def sitemap():
     return '\n'.join(z) + '\n'
 
 
-ROBOTS = f"""# Physik begreifbar — alles darf indexiert werden.
+ROBOTS = f"""# {SEITENNAME} — alles darf indexiert werden.
 User-agent: *
 Allow: /
 

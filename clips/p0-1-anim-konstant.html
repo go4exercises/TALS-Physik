@@ -21,6 +21,21 @@ body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!impor
 #kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
 #fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
 
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
 .l{position:absolute;will-change:opacity,transform}
 .l.flow{position:relative}
 .m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
@@ -182,7 +197,12 @@ if (!location.search.includes('render')) {
     if (ton) { if (playing) ton.play().catch(() => {}); else ton.pause(); }
   };
   pp.onclick = toggle;
+  // Tastenkuerzel nicht in Eingabefeldern; die Leertaste nicht auf Knoepfen —
+  // dort bestaetigt sie den Knopf (Antwort einer Frage, Play/Pause selbst).
   document.addEventListener('keydown', e => {
+    const ziel = e.target && e.target.closest ? e.target : null;
+    if (ziel && ziel.closest('input, select, textarea')) return;
+    if (e.code === 'Space' && ziel && ziel.closest('button, a, summary')) return;
     if (e.code === 'Space') { e.preventDefault(); toggle(); }
     if (e.code === 'ArrowRight') { t = Math.min(DUR, t + 5); tonAn(); }
     if (e.code === 'ArrowLeft') { t = Math.max(0, t - 5); tonAn(); }

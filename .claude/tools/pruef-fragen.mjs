@@ -12,8 +12,11 @@
 //   E  Sprung kurz vor Frage 2: Frage 2 erscheint
 //   F  richtig beantwortet, sofort R: Frage 1 bleibt offen (altes Auto-Weiter schliesst sie nicht)
 //   H  ganzer Durchlauf nach R, Start verspätet: jede Frage genau einmal, an ihrer Stelle
+// Steht Frage 1 mitten im Clip (Strategiefrage nach einer Einführung, später als 2.5 s), springt
+// jeder Fall zuerst per Zeitleiste kurz vor sie, und nach R ebenso; B und B2 (verspäteter Start)
+// entfallen dann — sie prüfen den Clipanfang.
 // Ton wird abgeschaltet (play() abgelehnt). Startet einen eigenen Server. Exit 1 bei Fehlern.
-// Dauer: rund eine Minute je Clip (H spielt den ganzen Clip ab).
+// Dauer: rund eine Minute je Clip (H spielt den ganzen Clip ab, bei später Frage entsprechend länger).
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -73,9 +76,14 @@ for (const clip of clips) {
   let p = await neu();
   const ft = await p.evaluate(() => (typeof FRAGEN === 'undefined' ? null : FRAGEN.map(F => F.t)));
   if (!ft || !ft.length) { console.log(`[WARN]   ${clip}: keine Fragen im Clip`); await p.context().close(); continue; }
-  pruefe('A  normaler Start: Frage 1', await warte(p, 3000), await zustand(p));
+  const mitte = ft[0] > 2.5;
+  const vorFrage1 = async p => { if (mitte) { await p.waitForTimeout(300); await zeitleiste(p, ft[0] - 1.5); } };
+  const nachR = async p => { await p.keyboard.press('r'); await vorFrage1(p); };
+  await vorFrage1(p);
+  pruefe(mitte ? 'A  Sprung vor Frage 1: Frage 1' : 'A  normaler Start: Frage 1', await warte(p, 3000), await zustand(p));
   await p.context().close();
 
+  if (!mitte) {
   p = await neu(VERSPAETET(1500));
   { const ok = await warte(p, 3000), z = await zustand(p); pruefe('B  Start 1.5 s verspätet: Frage 1 an ihrer Stelle', ok && nah(z.t, ft[0]), z); }
   await p.context().close();
@@ -83,28 +91,29 @@ for (const clip of clips) {
   p = await neu(VERSPAETET(6000));
   { const ok = await warte(p, 8000), z = await zustand(p); pruefe('B2 Start 6 s verspätet: Frage 1', ok && nah(z.t, ft[0]), z); }
   await p.context().close();
+  }
 
-  p = await neu(); await warte(p); await antworte(p); await zu(p); await p.waitForTimeout(800); await p.keyboard.press('r');
+  p = await neu(); await vorFrage1(p); await warte(p); await antworte(p); await zu(p); await p.waitForTimeout(800); await nachR(p);
   pruefe('C  R nach Frage 1: Frage 1 wieder', await warte(p, 3000), await zustand(p));
   await p.context().close();
 
-  p = await neu(); await warte(p); await p.keyboard.press('r');
+  p = await neu(); await vorFrage1(p); await warte(p); await nachR(p);
   pruefe('C2 R bei offener Frage: Frage neu', await warte(p, 3000), await zustand(p));
   await p.context().close();
 
   if (ft.length > 1) {
-    p = await neu(); await warte(p); await antworte(p); await zu(p);
+    p = await neu(); await vorFrage1(p); await warte(p); await antworte(p); await zu(p);
     await zeitleiste(p, Math.min(ft[1] + 1.5, ft[2] !== undefined ? ft[2] - 0.5 : ft[1] + 1.5)); await p.waitForTimeout(600);
     { const z = await zustand(p); pruefe('D  gespult hinter Frage 2: keine Frage', !z.offen, z); }
     await p.context().close();
 
-    p = await neu(); await warte(p); await antworte(p); await zu(p);
+    p = await neu(); await vorFrage1(p); await warte(p); await antworte(p); await zu(p);
     await zeitleiste(p, ft[1] - 0.8);
     { const ok = await warte(p, 3000), z = await zustand(p); pruefe('E  Sprung kurz vor Frage 2: Frage 2', ok && nah(z.t, ft[1]), z); }
     await p.context().close();
   }
 
-  p = await neu(); await warte(p); await antworte(p); await p.waitForTimeout(100); await p.keyboard.press('r');
+  p = await neu(); await vorFrage1(p); await warte(p); await antworte(p); await p.waitForTimeout(100); await nachR(p);
   await warte(p, 2000); await p.waitForTimeout(1800);
   { const z = await zustand(p); pruefe('F  richtig, sofort R: Frage 1 bleibt offen', z.offen, z); }
   await p.context().close();
@@ -112,7 +121,7 @@ for (const clip of clips) {
   p = await neu(VERSPAETET(1500)); await p.keyboard.press('r');
   { const gesehen = [];
     for (let k = 0; k <= ft.length; k++) {
-      if (!(await warte(p, 20000))) break;
+      if (!(await warte(p, 20000 + 1000 * ((ft[k] ?? (ft[k - 1] || 0)) - (ft[k - 1] || 0))))) break;
       gesehen.push((await zustand(p)).t); await antworte(p); await zu(p);
     }
     pruefe('H  Durchlauf: jede Frage genau einmal', gesehen.length === ft.length && gesehen.every((t, i) => nah(t, ft[i])), { gesehen, soll: ft }); }

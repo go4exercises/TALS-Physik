@@ -217,6 +217,16 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Vorwissen. Anders als Mathe gruppiert die Bibliothek nur nach Lerngebiet
   (kein Grundlagen-/Schwerpunktfach), und sie zieht die Gruppen aus `nav.js`,
   nicht aus dem Freitextfeld `lerngebiet` im Drehbuch.
+  Seit 07.10.2026 (aus Mathe übernommen) steht im Lerngebiet **je Themenseite
+  eine dreispaltige Tabelle**: Animationen (116, mit «Anim») · Leitprogramm
+  (85: die eigenen `"probe": true`-Clips der sichtbaren Leitprogramme vor
+  `<h2 id="veraltet">` in `leitprogramme.html`, dazu die 15 des Prüfungsbogens
+  `uebungstest-waermelehre`; vorn «LP» auf `#simN` des Kapitels bzw. auf die
+  Aufgabe) · Weitere Clips; unter 720 px untereinander, leere Spalte «—».
+  Gebaut von `scripts/clips_bibliothek.py` (Fachgut, mit eigenem `REIHEN_VORN`,
+  das nur in der Bibliothek gilt); `build-clips-einbau.py` ruft es mit zwei
+  Zeilen auf. CSS im `<style>` von `clips.html`, nicht in `style.css`. Details:
+  `HOWTO-clips.md`, «Bibliotheksseite».
   Ein Clip liegt **einmal** und darf über die Liste `lektion` auf mehreren
   Seiten stehen; elf tun das — die Bibliothek zeigt das mit der Zeile
   «↳ auch in 4.5 Hydrostatik» unter dem Titel. Über der Liste steht eine
@@ -297,7 +307,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Seite aus einem Prüfungs-PDF zusätzlich `HOWTO-uebungspruefung.md` (PDF
   misstrauisch lesen, `probe: true` für die Clips, die `</head>`-Falle, und
   wie ein Prüfungsrahmen wegbleibt, ohne dass die Aufgaben leiden). Die
-  Bibliotheksseite trägt nur die Karten (`.lp-*` in `style.css`); jedes
+  Bibliotheksseite trägt nur die Kacheln — seit 07.10.2026 wie in Mathe eine je
+  Leitprogramm (Kopf: Titel des Leitprogramms, darunter je Themenseite eine Zeile mit
+  Nummernpille; CSS im `<style>` der Seite; die alten `.lp-*`-Karten in `style.css` nur noch
+  für «Veraltet: wird entfernt»); jedes
   Leitprogramm ist eine **eigenständige Seite mit eigenem Inhalts-CSS**; Aufbau
   und Ablauf sind auf das Leitprogramm zugeschnitten. Kopfnavigation und Suche
   gehören trotzdem dazu: vor `</body>` stehen `../physiklib.js`, `../nav.js`,

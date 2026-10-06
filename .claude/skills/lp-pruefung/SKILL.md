@@ -62,7 +62,7 @@ Aufträgen unten; `<…>` aus Schritt 1 einsetzen. Alle drei bekommen denselben 
 > `python3 .claude/tools/sprechzeiten.py <clip>`. Steht beim Erscheinen einer Frage die
 > Antwort schon im Bild? Sind die als richtig markierten Antworten richtig, die falschen
 > eindeutig falsch, die Rückmeldungen zutreffend und ohne die Lösung zu verraten, Text =
-> gesprochener Text? Lass `node .claude/tools/pruef-fragen.mjs <Kontrollclips>` laufen.
+> gesprochener Text? Lass `node .claude/tools/pruef-fragen.mjs <Kontrollclips und Einführungsclips mit Strategiefrage>` laufen.
 > Steht beim Fragebeginn (0.3 s der Szene) schon etwas im Bild, das die Antwort zeigt, und
 > bewegt sich jede `bewegung` wirklich (Bild mitten in der Bewegung)? Zeigen aufgenommene
 > Simulationsbilder den Zustand, den der Ton beschreibt?
