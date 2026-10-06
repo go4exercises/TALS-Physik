@@ -28,7 +28,9 @@ geändert) → `build-clip-fragen-ton.py` (Kontrollclips) → `build-clips.py` (
 `de_DE-thorsten-high`), danach `seite.py` (Laufzeiten). Die Bilder `clips/bilder/p4-2-lp-*.jpg`
 sind Aufnahmen der Simulationen (`.claude/tools/aufnahme-anim.mjs`, Selektor `#simN > svg`,
 Regler per `js`-Aktion, Start per `js`-Klick auf `.aktion`, danach so lange warten, bis die Fahrt
-zu Ende ist). Ändert sich eine Simulation: neu aufnehmen und jedes Bild ansehen.
+zu Ende ist). Ändert sich eine Simulation: neu aufnehmen und jedes Bild ansehen. Die Dynamik-Simulationen
+haben (noch) keinen Testhaken `zeige(…)`; Abläufe zeigen die Clips darum als `graf` (v-t-Geraden,
+Kräftepläne), nicht als Bildfolge.
 
 Gesamttest und Bewertungspaket: `downloads/leitprogramme/dynamik/*.tex`, bauen mit
 `python3 scripts/build-lp-pdf.py dynamik`. Das Bewertungspaket folgt der Kinematik-Fassung

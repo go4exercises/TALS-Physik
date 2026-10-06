@@ -25,8 +25,8 @@ bearbeiten, dann `build-clip-ton.py` → `build-clip-fragen-ton.py` (Kontrollcli
 `build-clips.py` (Stimme `de_DE-thorsten-high`), danach `seite.py`. Die Bilder
 `clips/bilder/p4-5-lp-*.jpg` sind Aufnahmen der Simulationen (`.claude/tools/aufnahme-anim.mjs`).
 Jede Simulation hat den Testhaken `document.getElementById('simN').__sim.zeige(x)`: sim1 Fortschritt 0 bis 1,
-sim2 Tiefe, sim3 Innendruck in hPa, sim4 Pumpstösse 0 bis 5, sim5 Eintauchtiefe in cm, sim6 rechnet den
-ganzen Lauf und zeigt den Endzustand.
+sim2 Tiefe, sim3 Innendruck in hPa, sim4 Pumpstösse 0 bis 5, sim5 Eintauchtiefe in cm, sim6 ohne Zahl den
+ganzen Lauf bis zum Endzustand, mit Zahl den Zustand nach so vielen Sekunden (Bildfolge Schwimmen/Sinken).
 
 Gesamttest und Bewertungspaket: `downloads/leitprogramme/hydrostatik/*.tex`, bauen mit
 `python3 scripts/build-lp-pdf.py hydrostatik`.

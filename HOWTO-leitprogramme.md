@@ -909,6 +909,20 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   Bild den Zustand, den der Ton beschreibt? (Elektrizität: Bilder mit 12 V statt 230 V und ein
   doppeltes Bild — die Mausklicks des Aufnahmewerkzeugs hatten nicht gegriffen. Knöpfe darum
   mit einer `js`-Aktion auslösen: `document.querySelector(…).click()`.)
+- **Veränderung zeigen, nicht den Endzustand** (Visualisierungsprüfung 06.10.2026, 35 Kapitelclips):
+  Sagt der Ton «steigt», «sinkt», «kippt», «wächst», zeigt das Bild den Ablauf — Bildfolge aus
+  mehreren Aufnahmen (`__sim.zeige(…)`), Läufer auf einer Kurve, Ebenen. Gefunden: Endbilder, die dem
+  Satz widersprachen («zuerst kommt mehr herein» bei schon ausgeglichener Bilanz), zwei byte-gleiche
+  Aufnahmen für zwei Aussagen, Bremsbilder nur bei null.
+- **Keine drehende Gerade für «wächst mit der Zeit»:** Eine Gerade, die von Steigung 0 auf ihren Wert
+  kippt, sieht aus wie wachsende Geschwindigkeit bzw. wachsender Strom. Stehende Gerade, Läufer darauf.
+- **Was der Ton anschaulich sagt, steht im Bild**, nicht nur als Formel: Vergleiche («doppelt»,
+  «ein Viertel») mit Bezugslinie oder Pfeilen im Verhältnis, Kräfte als Kräfteplan, Warum-Schritte
+  (Druck unten > oben, Kabel hin und zurück, Verbindungspunkte) als Skizze. Text allein genügt bei
+  Titeln, Vorgehenslisten, «Zum Mitnehmen», «Jetzt du».
+- **Zahlen im Clip = Zahlen der Simulation** darunter (Pascal: Clip 25 cm, Simulation 20 cm je Stoss).
+- **Unterstrich und Formelzeichen im SVG-Text:** `F_A` erscheint wörtlich; Wörter («Stütze A») oder
+  Unicode-Tiefzahlen (`I₁`) nehmen.
 - Kontrollfragen bringen **neue** Beispiele: weder die Werte des Einführungsclips noch seine
   Bilder, noch die Ziele der Aufgabenleiste. Auch nicht die Mini-Checks der Themenseite (Kinematik:
   «150 km in 2 h» und «schwere und leichte Kugel» standen dort wörtlich).

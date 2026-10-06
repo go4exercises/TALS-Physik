@@ -24,9 +24,10 @@ python3 .claude/skills/preflight/preflight.py leitprogramme/leitprogramm-energie
 bearbeiten, dann `build-clip-ton.py` → `build-clip-fragen-ton.py` (Kontrollclips) →
 `build-clips.py` (Stimme `de_DE-thorsten-high`), danach `seite.py`. Die Bilder
 `clips/bilder/p4-3-lp-*.jpg` sind Aufnahmen der Simulationen (`.claude/tools/aufnahme-anim.mjs`).
-Für Sim 3 gibt es den Testhaken `document.getElementById('sim3').__sim.zeige(x)`, der den Wagen
-an die Stelle \(x\) setzt (Tal \(x = 17\;\text{m}\), Kuppe \(x = 32\;\text{m}\)); die übrigen Bilder
-sind Endzustände der Läufe.
+Testhaken `document.getElementById('simN').__sim.zeige(…)`: sim3 setzt den Wagen an die Stelle
+\(x\) (Tal \(x = 17\;\text{m}\), Kuppe \(x = 32\;\text{m}\)), sim5 zeigt den Kran nach \(x\) Sekunden
+Hubzeit, sim6 lässt \(j\) Jahre laufen (`zeige(j, true)` ab heute, sonst ab der aktuellen Temperatur).
+Damit entstehen die Bildfolgen der Clips (seit 06.10.2026); die übrigen Bilder sind Endzustände.
 
 Gesamttest und Bewertungspaket: `downloads/leitprogramme/energie/*.tex`, bauen mit
 `python3 scripts/build-lp-pdf.py energie`.

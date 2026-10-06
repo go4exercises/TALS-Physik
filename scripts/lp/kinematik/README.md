@@ -10,7 +10,7 @@ sind wörtlich von dort; neu sind Kapitel, Simulationen, Übungstypen und Clips.
 | `seite.py` | baut `leitprogramme/leitprogramm-kinematik.html` — Kopf, CSS, Grundskript, alle Kapitel, die zwei Aufgabenbilder (Wurf, Kreis). Aus der bestehenden Seite übernimmt es nur den SEO-Block. | **ja** — für jede Änderung an Text, Aufgaben, Kapitelaufbau |
 | `seite.js` | Seitenskript: Simulationen sim1–sim5 (s-t, v-t mit Fläche, Wurfbahn 1:1, Fluss 1:1, Kreisbahn), 15 Übungstypen (`TYPEN`, je mit `fehler()`), Minigrafen mit Geraden `m` oder `m,q` | wird von `seite.py` eingesetzt |
 | `antworten.py` | trägt die Antwortbilder der fünf Kontrollclips in die Drehbücher ein (Kennung `"antwort": true`, wiederholbar) | bei Änderungen an einer Kontrollfrage, danach `build-clips.py` |
-| `anker.py` | legt `ein` jedes Elements mit `"_anker"` auf die Sprechzeit dieser Textstelle | nach jeder Neuvertonung eines Clips mit Ankern |
+| `anker.py` | legt `ein` jedes Elements mit `"_anker"` auf die Sprechzeit dieser Textstelle; `"_versatz"` legt es so viele Sekunden später (Bildfolgen), und in einer Frageszene erscheinen Text und Formeln erst nach der Frage — gilt für alle sechs Leitprogramme | nach jeder Neuvertonung eines Clips mit Ankern |
 | `clips.py` | Archiv: hat die zehn Drehbücher `clips/p4-1-lp-*.json` erzeugt | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern). Die Einblendezeiten sind danach im JSON auf die Sprechzeiten gelegt worden (`sprechzeiten.py`). |
 
 ## Ablauf bei einer Änderung

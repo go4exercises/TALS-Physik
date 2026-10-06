@@ -1,5 +1,7 @@
 """Leitprogramm Elektrizität, Clips nach TODO-E (06.10.2026): vorgerechnete Probleme mit Strategiefrage in den
-Einführungsclips der Kapitel 1, 2, 3, 5, 7 und vier neue Clips für die Kapitel 4 und 6. Wiederholbar: Szenen
+Einführungsclips der Kapitel 1, 2, 3, 5, 7 und vier neue Clips für die Kapitel 4 und 6.
+ARCHIV — nicht mehr laufen lassen: Seit der Visualisierung vom 06.10.2026 sind die Drehbücher die Quelle.
+Früher wiederholbar: Szenen
 mit Namen «Problem …», «Vorgehen …», «Lösung …» werden vor dem Einfügen entfernt. Elemente mit «_anker»
 bekommen nach der Vertonung ihr «ein» (scripts/lp/kinematik/anker.py)."""
 import json, math, os
