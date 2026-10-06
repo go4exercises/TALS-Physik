@@ -753,6 +753,9 @@
         el(rk, 'tspan', { dy: 3, 'font-size': '8.5' }, 'K');
         el(rk, 'tspan', { dy: -3 }, ' = ' + fest(RK / 1000, 1) + NB + 'kΩ');
         el(svg, 'text', { x: 236, y: 168, 'text-anchor': 'end', 'class': 'bt-text' }, 'Schutzleiter fehlt');
+        // Fehlerweg: Gehäuse → Arm → Körper → Füsse → Erde → geerdete Quelle
+        el(svg, 'polyline', { points: '286,98 274,134 258,146 258,170 266,190 8,190 8,84', 'class': 'fehlerweg' });
+        el(svg, 'text', { x: 150, y: 186, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'Fehlerstrom über Körper und Erde zur Quelle');
       }
       var zeilen = [
         ['Strom hin ' + v('I') + '<sub>L</sub>', strom(r.IL)],

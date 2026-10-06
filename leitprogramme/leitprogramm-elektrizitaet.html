@@ -430,6 +430,7 @@ text.p-text{font-family:var(--sans);font-size:11.5px;font-weight:700;stroke:var(
 .geraet{fill:var(--papier-2);stroke:var(--tinte);stroke-width:1.6}
 .geraet-fehler{stroke:var(--rot);stroke-width:2.4}
 .kurzschluss{fill:none;stroke:var(--rot);stroke-width:2.4}
+.fehlerweg{fill:none;stroke:var(--rot);stroke-width:2.6;stroke-dasharray:7 4}
 .mensch{fill:none;stroke:var(--tinte);stroke-width:2.4;stroke-linecap:round}
 svg.mini{width:190px;height:auto;background:var(--karte);border:1px solid var(--linie);border-radius:6px}
 .kurve-mini{fill:none;stroke:var(--tinte-2);stroke-width:2.2}
@@ -2279,6 +2280,9 @@ svg.mini.schaltbild{width:200px} svg.mini.schaltbild.breit{width:280px}
         el(rk, 'tspan', { dy: 3, 'font-size': '8.5' }, 'K');
         el(rk, 'tspan', { dy: -3 }, ' = ' + fest(RK / 1000, 1) + NB + 'kΩ');
         el(svg, 'text', { x: 236, y: 168, 'text-anchor': 'end', 'class': 'bt-text' }, 'Schutzleiter fehlt');
+        // Fehlerweg: Gehäuse → Arm → Körper → Füsse → Erde → geerdete Quelle
+        el(svg, 'polyline', { points: '286,98 274,134 258,146 258,170 266,190 8,190 8,84', 'class': 'fehlerweg' });
+        el(svg, 'text', { x: 150, y: 186, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'Fehlerstrom über Körper und Erde zur Quelle');
       }
       var zeilen = [
         ['Strom hin ' + v('I') + '<sub>L</sub>', strom(r.IL)],

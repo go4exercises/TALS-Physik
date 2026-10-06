@@ -350,6 +350,7 @@ text.p-text{font-family:var(--sans);font-size:11.5px;font-weight:700;stroke:var(
 .geraet{fill:var(--papier-2);stroke:var(--tinte);stroke-width:1.6}
 .geraet-fehler{stroke:var(--rot);stroke-width:2.4}
 .kurzschluss{fill:none;stroke:var(--rot);stroke-width:2.4}
+.fehlerweg{fill:none;stroke:var(--rot);stroke-width:2.6;stroke-dasharray:7 4}
 .mensch{fill:none;stroke:var(--tinte);stroke-width:2.4;stroke-linecap:round}
 svg.mini{width:190px;height:auto;background:var(--karte);border:1px solid var(--linie);border-radius:6px}
 .kurve-mini{fill:none;stroke:var(--tinte-2);stroke-width:2.2}
