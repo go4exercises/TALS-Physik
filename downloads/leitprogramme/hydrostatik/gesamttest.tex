@@ -1,9 +1,9 @@
 % Gesamttest «Hydrostatik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py hydrostatik).
 % Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (05.10.2026).
-% Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen und Leisten — G1 aus einem Diagramm
-% (ablesen und rückwärts), G2 rückwärts (Tiefe aus dem Tauchcomputer im Bergsee), G3 Pascals Fassversuch
-% (hydrostatisches Paradoxon), G4 Wagenheber rückwärts (Kolbenfläche aus der Handkraft), G5 Auftrieb in
-% Luft (Ballon), G6 Aräometer (Dichte aus der Eintauchtiefe) — HOWTO §9.
+% Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen, Leisten, Clipbeispiele und die Themenseite
+% (Fassung 1.1, 06.10.2026): G1 zwei Kurven am Diagramm (Vergleich, halber Druck), G2 Tiefe im Bergsee rückwärts und
+% Saughöhe dort (Kapitel 2 und 3), G3 Pascals Fassversuch (Paradoxon), G4 Wagenheber rückwärts mit Ölmenge und Arbeit,
+% G5 Auftrieb in Luft, Federwaage unter Wasser und Druckunterschied, G6 Aräometer mit Dichtevergleich — HOWTO \9.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Hydrostatik}
@@ -27,9 +27,9 @@ Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem
 
 \lpteil{Teil A · Druck}{Kapitel 1 · 4 Punkte}
 
-\begin{lpaufgabe}{G1}{Raupenfahrzeug im Diagramm}{4 P}
-Das Diagramm zeigt, welchen Druck ein Raupenfahrzeug auf den Boden ausübt, je nachdem, wie gross seine Auflagefläche \(A\) ist (verschieden breite Raupen).\par\smallskip
-\begin{center}\begin{tikzpicture}[x=1.55cm,y=0.024cm,>=latex]
+\begin{lpaufgabe}{G1}{Zwei Fahrzeuge im Moor}{4 P}
+Das Diagramm zeigt für zwei Fahrzeuge den Druck auf den Boden über der Auflagefläche \(A\): ein Raupenfahrzeug und einen Radlader. Jedes Fahrzeug kann mit verschieden breiten Raupen oder Reifen ausgerüstet werden.\par\smallskip
+\begin{center}\begin{tikzpicture}[x=1.55cm,y=0.019cm,>=latex]
 \foreach \x in {0,0.5,...,8} \draw[lplinie!70,very thin] (\x,0) -- (\x,160);
 \foreach \y in {0,5,...,160} \draw[lplinie!70,very thin] (0,\y) -- (8,\y);
 \foreach \y in {0,20,...,160} {\draw[lplinie] (0,\y) -- (8,\y); \node[left] at (0,\y) {\small \y};}
@@ -37,26 +37,29 @@ Das Diagramm zeigt, welchen Druck ein Raupenfahrzeug auf den Boden ausübt, je n
 \draw[->] (0,0) -- (8.4,0) node[below left,yshift=-12pt] {\small \(A\) in \(\text{m}^2\)};
 \draw[->] (0,0) -- (0,172) node[right] {\small \(p\) in kPa};
 \draw[very thick,lpbernstein] plot[domain=0.94:8,samples=120] (\x,{150/\x});
+\draw[very thick,lpgrau,dashed] plot[domain=0.57:8,samples=120] (\x,{90/\x});
+\node[lpbernstein,fill=white,inner sep=1pt,anchor=south west] at (3.1,52) {\small Raupenfahrzeug};
+\node[lpgrau,fill=white,inner sep=1pt,anchor=north east] at (2.75,26) {\small Radlader (gestrichelt)};
 \end{tikzpicture}\end{center}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Lies ab: Welchen Druck übt das Fahrzeug mit \(3\;\text{m}^2\) Auflagefläche aus?
-\item Berechne aus diesem Wertepaar die Gewichtskraft und die Masse des Fahrzeugs.
-\item Ein Moorboden trägt höchstens \(25\;\text{kPa}\). Lies ab, wie gross die Auflagefläche mindestens sein muss.
-\item Begründe, warum die Kurve nach rechts immer flacher wird und die Achse nie erreicht.
+\item Lies für beide Fahrzeuge den Druck bei \(A = 2\;\text{m}^2\) ab.
+\item Berechne aus deinem Ablesewert die Gewichtskraft des Radladers.
+\item Wie viel mal schwerer ist das Raupenfahrzeug als der Radlader? Begründe mit dem Diagramm.
+\item Auf welche Auflagefläche muss das Raupenfahrzeug, damit es nur halb so viel Druck ausübt wie bei \(2\;\text{m}^2\)? Begründe ohne Rechnung.
 \end{enumerate}
-\lpplatz{8}
+\lpplatz{6}
 \end{lpaufgabe}
 
 \lpteil{Teil B · Schweredruck und Luftdruck}{Kapitel 2 und 3 · 8 Punkte}
 
-\begin{lpaufgabe}{G2}{Tauchen im Bergsee}{4 P}
-Eine Taucherin ist in einem Bergsee, an dessen Oberfläche der Luftdruck \(840\;\text{hPa}\) beträgt. Ihr Tauchcomputer zeigt einen Gesamtdruck von \(2.30\;\text{bar}\).
+\begin{lpaufgabe}{G2}{Am Bergsee}{4 P}
+An der Oberfläche eines Bergsees beträgt der Luftdruck \(840\;\text{hPa}\).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wie tief ist sie?
-\item In welcher Tiefe zeigt derselbe Tauchcomputer \(2.30\;\text{bar}\) im Meer (\(1025\;\text{kg/m}^3\), Luftdruck \(1013\;\text{hPa}\))?
-\item Begründe, warum derselbe Gesamtdruck im Bergsee in grösserer Tiefe erreicht wird.
+\item Der Tauchcomputer einer Taucherin zeigt einen Gesamtdruck von \(2.30\;\text{bar}\). Wie tief ist sie?
+\item Am Ufer soll eine Saugpumpe Wasser aus dem See ansaugen. Wie hoch über dem Seespiegel darf sie höchstens stehen?
+\item Begründe, warum eine Saugpumpe am Bergsee weniger hoch ansaugen kann als am Meer.
 \end{enumerate}
-\lpplatz{7}
+\lpplatz{10}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G3}{Pascals Fassversuch}{4 P}
@@ -66,38 +69,38 @@ Blaise Pascal soll diesen Versuch gezeigt haben: Ein Holzfass ist \(1.6\;\text{m
 \item Wie gross ist er, wenn das Rohr bis oben gefüllt ist?
 \item Wenige Liter Wasser — und das Fass platzt. Begründe, warum die kleine Wassermenge im Rohr genügt.
 \end{enumerate}
-\lpplatz{7}
+\lpplatz{9}
 \end{lpaufgabe}
 
 \lpteil{Teil C · Pascal und Archimedes}{Kapitel 4, 5 und 6 · 13 Punkte}
 
 \begin{lpaufgabe}{G4}{Wagenheber}{4 P}
-Ein hydraulischer Wagenheber soll ein Auto (\(1200\;\text{kg}\)) heben; sein grosser Kolben hat \(400\;\text{cm}^2\). Mit der Hand kannst du am Pumpkolben bequem \(120\;\text{N}\) aufbringen.
+Ein hydraulischer Wagenheber soll ein Auto (\(1200\;\text{kg}\)) heben; sein grosser Kolben hat \(400\;\text{cm}^2\). Mit der Hand kannst du am Pumpkolben bequem \(120\;\text{N}\) aufbringen. Den Höhenunterschied der Kolben und die Reibung kannst du vernachlässigen.
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Welcher Druck herrscht im Öl, in bar?
+\item Welcher Druck herrscht im Öl, in bar (Überdruck, ohne Luftdruck)?
 \item Wie gross darf die Fläche des Pumpkolbens höchstens sein, in \(\text{cm}^2\)?
-\item Das Auto soll \(12\;\text{cm}\) gehoben werden. Wie viel Öl (in Liter) muss dafür hinübergepumpt werden, und welchen Weg legt der Pumpkolben insgesamt zurück (über alle Pumpstösse)?
+\item Das Auto soll \(12\;\text{cm}\) gehoben werden. Wie viel Öl (in Liter) muss dafür hinübergepumpt werden, und wie viel Arbeit verrichtest du dabei am Pumpkolben (über alle Pumpstösse)?
 \end{enumerate}
-\lpplatz{7}
+\lpplatz{19}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G5}{Ballon}{5 P}
 Ein Kinderballon fasst \(12\;\text{l}\) Helium; Hülle und Gas haben zusammen \(8\;\text{g}\). Das archimedische Prinzip gilt auch in Luft (\(\rho_\text{Luft} = 1.20\;\text{kg/m}^3\)).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Skizziere den Ballon mit den Kräften, die auf ihn wirken, mit Namen und Richtung.
+\item Skizziere den Ballon in Luft mit den Kräften, die auf ihn wirken, mit Namen und Richtung.
 \item Wie gross ist der Auftrieb in Luft?
-\item Wie gross ist die Gewichtskraft von Hülle und Gas?
 \item Welche Masse kann der Ballon zusätzlich tragen, ohne zu sinken?
-\item Derselbe Ballon wird unter Wasser festgebunden. Ist der Auftrieb dort grösser, gleich gross oder kleiner als in Luft? Begründe.
+\item Derselbe Ballon wird am Grund eines Beckens an einer Federwaage festgebunden und ist ganz unter Wasser; sein Volumen bleibt \(12\;\text{l}\). Was zeigt die Federwaage?
+\item Begründe mit dem Druck im Wasser, warum die Auftriebskraft nach oben zeigt.
 \end{enumerate}
 \skizzenfeld{2.6cm}
-\lpplatz{5}
+\lpplatz{6}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G6}{Aräometer}{4 P}
-Ein Aräometer ist ein Dichtemesser: ein beschwertes Glasröhrchen, das aufrecht in der Flüssigkeit schwimmt. Je nach Dichte taucht es verschieden tief ein. Betrachte es als schlanken Zylinder mit der Masse \(30\;\text{g}\) und dem Querschnitt \(2\;\text{cm}^2\).
+Ein Aräometer ist ein Dichtemesser: ein Glasröhrchen, unten mit Bleischrot beschwert, sonst mit Luft gefüllt, das aufrecht in der Flüssigkeit schwimmt. Je nach Dichte taucht es verschieden tief ein. Betrachte es als schlanken Zylinder mit der Masse \(30\;\text{g}\) und dem Querschnitt \(2\;\text{cm}^2\).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wie tief taucht es in Wasser ein?
+\item Glas (\(2500\;\text{kg/m}^3\)) und Blei sind viel dichter als Wasser. Begründe mit einem Dichtevergleich, warum das Aräometer trotzdem schwimmt.
 \item Wie tief taucht es in Spiritus (\(790\;\text{kg/m}^3\)) ein?
 \item Auf der Skala des Aräometers stehen die grossen Dichten unten, die kleinen oben. Begründe.
 \item In einer unbekannten Flüssigkeit taucht es \(13.6\;\text{cm}\) tief ein. Welche Dichte hat sie?

@@ -46,7 +46,7 @@ alle Leisten lösbar, keine schon im Startzustand erfüllt (Stand nach der Beheb
 
 ## Entscheide
 
-- **Umfang nach RLP:** fünf Kompetenzen, sechs Kapitel (280 min): K3 verlangt den Druck in der Flüssigkeit
+- **Umfang nach RLP:** fünf Kompetenzen, sechs Kapitel (370 min, je Kapitel 55 min): K3 verlangt den Druck in der Flüssigkeit
   *und* die Verbindung zum Luftdruck — Schweredruck (Kapitel 2) und Luftdruck mit Saugrohr und Barometer
   (Kapitel 3); K5 Auftrieb (Kapitel 5) und Schwimmen, Schweben, Sinken (Kapitel 6). Das U-Rohr mit zwei
   Flüssigkeiten steht in keiner Kompetenz und bleibt auf der Themenseite.
@@ -54,8 +54,18 @@ alle Leisten lösbar, keine schon im Startzustand erfüllt (Stand nach der Beheb
   Kapitel 1 verweisen dorthin, Kapitel 1 vertieft den Druck zwischen Festkörpern.
 - **Notation** wie Themenseite 4.5: \(p\), \(p_S\), \(p_0\), \(F_A\) (Auftrieb), \(V_e\), \(\rho_K\), \(\rho_{Fl}\),
   \(F_1, A_1, s_1\) und \(F_2, A_2, s_2\) an der Presse, \(p_i\) Innendruck im Saugrohr.
-- **Farben:** Gewichtskraft Bernstein wie in Statik und Dynamik (die Themenseite 4.5 zeichnet sie rot),
-  Auftrieb Grün wie auf der Themenseite, Kolbenkräfte Blau, Luftdruck Grau, Tiefen und Höhen Violett.
+- **Farben (Farbe = eine Bedeutung, Fassung 1.1):**
+
+  | Bedeutung | Leitprogramm (SVG) | Clips (Theme ohne Blau und Violett) |
+  |---|---|---|
+  | Gewichtskraft (sonst nichts in Bernstein) | Bernstein | 1 Bernstein |
+  | Auftrieb | Grün | 3 Grün |
+  | Druck und die Kräfte, die er an Kolben ausübt | Blau | 4 Rot |
+  | Anzeige der Federwaage | Tinte | 5 Tinte |
+  | Tiefen, Höhen, Wege | Violett | 2 Orange |
+  | Luftdruck, Gefässe, Flüssigkeiten, Körper (Holz hellgrau-beige, Metall grau) | Grau | 5 Tinte |
+
+  Die Themenseite 4.5 zeichnet die Gewichtskraft rot.
 - **Luftdruck der Orte:** Mittelwerte aus \(p = 1013\;\text{hPa} \cdot e^{-h/8400\;\text{m}}\): Zürich 965, Davos 841,
   Jungfraujoch 671 hPa.
 - **Schneemodell** (sim1): Eindrucktiefe \(d = 40\;\text{cm} \cdot \dfrac{p}{p + 10\;\text{kPa}}\), nur zur Anschauung;
@@ -79,3 +89,27 @@ alle Leisten lösbar, keine schon im Startzustand erfüllt (Stand nach der Beheb
 - **Statik** trug Speicherschlüssel und Fusszeile von Energie; mit dieser Behebung korrigiert.
 - **Freigeschaltet am 06.10.2026:** Karte in `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt
   durcharbeiten?» auf der Themenseite, im Suchindex und in der Sitemap.
+
+## Fassung 1.1 (06.10.2026)
+
+Behebung der Prüfbefunde (Version 1.1, Fusszeile «Stand 6. Oktober 2026»):
+
+- **Einführungsclips** mit vorgerechnetem Problem (Problem, Vorgehen mit Strategiefrage, Lösung mit Probe):
+  Kiste auf vier Füssen, Wasserturm, Brunnen in Chur, Holzspalter, Stein im Überlaufgefäss, Eichenbalken im Meer.
+  Dazu: Bilder ohne vorweggenommene Ergebnisse (Einsinken, Becken ohne Gesamtdruck, Waage und kleiner Kolben
+  erst ohne Wert), Taucherin, Luftsäulen und Druckpfeile ergänzt, Barometer im gemeinsamen Massstab,
+  Kolbenwege als Skizze mit s₁ und s₂, Gesamtdruck mit Steigungsdreieck in Einheiten, Text «sinkt ein Stück ein».
+- **Kontrollclips:** Luftdruck mit neuen Fällen (Saugnapf, Wasserbarometer auf dem Säntis, Höhenmesser,
+  Spiritus im Saugrohr); Diesel statt Heizöl; neues Auto an der Presse (11 000 N, 88 N); jeder Distraktor ein
+  benannter Fehler, Rückmeldungen ohne Rechenweg; «nicht massstäblich» an den Pressebildern.
+- **Simulationen:** sim3 Regler in 5 hPa, sim6 in 25 kg/m³ (alle Leistenziele auf dem Raster); sim2 neu skaliert,
+  Legende unter dem Diagramm; sim4 Gewichtskraftpfeil höchstens 110 px mit Bruchzeichen; sim5 Kräfte auf 0.01 N,
+  Etiketten bei tiefem Eintauchen nicht mehr abgeschnitten; sim6 Formelzeile nach dem Dichtevergleich.
+- **Leisten** mit Denkauftrag; Ziele, die Kapitelaufgaben wiederholten, ersetzt (sim1: 3000 cm², 2.5 kPa;
+  sim2: 24 m; sim3: mindestens 6 m; sim6: Fichte 450, Kerzenwachs 900).
+- **Übungen:** feste Beispiele über `FEST`/`istFest()` ausgeschlossen; Auftrieb in Luft (Ballon); mittlere Dichte
+  mit Auswahl «schwimmt/sinkt», Sandsack statt Tauchgewicht.
+- **Seite:** ρ_Fl statt ρ_W, Quaderhöhe H, Festhalten 2 und 4 präzisiert, Kleinigkeiten in 1b, 2b, 3b, 5a;
+  Kapitel 3 verweist auf den neuen Abschnitt «Luftdruck: Saugrohr und Barometer» der Themenseite.
+- **Gesamttest:** G1 zwei Kurven, G2 mit Saughöhe (Kapitel 3), G4c Ölmenge und Arbeit, G5 Auftrieb in Luft,
+  Federwaage unter Wasser und Druckunterschied, G6 mit Dichtevergleich; Raster mit Folgewerten, Zeilenabstand 1.5.

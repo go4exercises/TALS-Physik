@@ -1,15 +1,16 @@
 % Bewertungspaket zum Gesamttest «Hydrostatik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py hydrostatik).
 % Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (05.10.2026).
-% Aufbau, Auftrag an die KI und Punktarten (E, W, B, S) wie im Leitprogramm Statik.
+% Aufbau, Auftrag an die KI und Punktarten (E, W, B, S) wie im Leitprogramm Statik. Fassung 1.1 (06.10.2026):
+% G1, G2, G4, G5, G6 neu gestellt; Zeilenabstand im Raster 1.5, damit sich Brüche benachbarter Zeilen nicht berühren.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Hydrostatik}
 \renewcommand{\lpteilgebiet}{4.5}
 \renewcommand{\lpfuss}{Bewertungspaket}
 \newcolumntype{P}{>{\centering\arraybackslash}p{10mm}}
-\newenvironment{raster}{\par\smallskip\noindent\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P X@{}}\toprule
+\newenvironment{raster}{\par\smallskip\noindent\renewcommand{\arraystretch}{1.5}\setlength{\lineskiplimit}{4pt}\setlength{\lineskip}{8pt}\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P >{\raggedright\arraybackslash}X@{}}\toprule
   \small\textsc{Teilschritt} & \small\textsc{P} & \small\textsc{Musterlösung}\\\midrule}{\bottomrule\endtabularx\par}
-\newcommand{\fehler}[1]{\par\smallskip{\small\textcolor{lprot}{\bfseries Typische Fehler:} #1}}
+\newcommand{\fehler}[1]{\par\smallskip{\small\raggedright\textcolor{lprot}{\bfseries Typische Fehler:} #1\par}}
 \newcommand{\E}{\,{\footnotesize\bfseries\color{lpgruen}(E)}}
 \newcommand{\B}{\,{\footnotesize\bfseries(B)}}
 \newcommand{\W}{\,{\footnotesize\bfseries(W)}}
@@ -37,9 +38,9 @@ Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am E
 \item \textbf{Gezielt wiederholen} nach Abschnitt~4.
 \end{enumerate}
 
-\needspace{14\baselineskip}
+\needspace{8\baselineskip}
 \section*{2 · Auftrag an die KI}
-\begin{tcolorbox}[colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
+\begin{tcolorbox}[breakable,colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
 Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Hydrostatik» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
 Geh so vor:\par
 1. Schreib zu jeder Aufgabe G1 bis G6 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
@@ -50,7 +51,6 @@ Geh so vor:\par
 6. Fehlt ein Foto oder ist eine Aufgabe unlesbar, sag es, statt sie zu bewerten.
 \end{tcolorbox}
 
-\needspace{16\baselineskip}
 \section*{3 · Musterlösung und Punkteraster}
 \textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
 richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler), und derselbe Fehler in mehreren Teilaufgaben kostet nur einen Punkt — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
@@ -62,24 +62,24 @@ Aussage in eigenen Worten, eine Formel ist nicht nötig. \textbf{(S)}~= Skizzenp
 und richtiger Richtung. Folgewerte aus gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% abweichen.
 «Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
 
-\begin{lpaufgabe}{G1}{Raupenfahrzeug im Diagramm}{4 P}
+\begin{lpaufgabe}{G1}{Zwei Fahrzeuge im Moor}{4 P}
 \begin{raster}
-a) Ablesen & 1\A & \(p \approx 50\;\text{kPa}\) bei \(A = 3\;\text{m}^2\) (zählt: \(48\) bis \(52\;\text{kPa}\))\\
-b) Kraft, Masse & 1\E & \(F_G = p \cdot A = 50\,000\;\text{Pa} \cdot 3\;\text{m}^2 = 150\,000\;\text{N}\); \(m = \dfrac{F_G}{g} = \dfrac{150\,000\;\text{N}}{9.81\;\text{m/s}^2} \approx 15\,300\;\text{kg} = 15.3\;\text{t}\) (beides nötig; folgerichtig aus dem eigenen Ablesewert)\\
-c) Ablesen & 1\A & \(A \approx 6\;\text{m}^2\) bei \(25\;\text{kPa}\) (zählt: \(5.8\) bis \(6.2\;\text{m}^2\)); ebenso gerechnet \(A = \dfrac{F}{p} = \dfrac{150\,000\;\text{N}}{25\,000\;\text{Pa}} = 6\;\text{m}^2\)\\
-d) Kurve & 1\B & Die Kraft bleibt gleich, \(p = \dfrac{F}{A}\): doppelte Fläche, halber Druck. Der Druck nimmt darum immer langsamer ab und wird nie null, weil die Kraft immer auf eine endliche Fläche wirkt (umgekehrte Proportionalität, Hyperbel)\\
+a) Ablesen & 1\A & Raupenfahrzeug \(75\;\text{kPa}\), Radlader \(45\;\text{kPa}\) bei \(A = 2\;\text{m}^2\) (zählt: je \(\pm 2\;\text{kPa}\); beide Werte nötig)\\
+b) Gewichtskraft & 1\E & \(F_G = p \cdot A = 45\,000\;\text{Pa} \cdot 2\;\text{m}^2 = 90\,000\;\text{N}\) (folgerichtig aus dem eigenen Ablesewert)\\
+c) Vergleich & 1\E & Bei gleicher Fläche verhalten sich die Drücke wie die Kräfte: \(\dfrac{75\;\text{kPa}}{45\;\text{kPa}} \approx 1.67\), das Raupenfahrzeug ist rund \(1.67\)-mal so schwer (\(\tfrac{5}{3}\); folgerichtig aus a)\\
+d) Halber Druck & 1\B & \(4\;\text{m}^2\): Die Kraft bleibt gleich, \(p = \dfrac{F}{A}\) — doppelte Fläche, halber Druck (im Diagramm: \(37.5\;\text{kPa}\) bei \(4\;\text{m}^2\)). Nur «\(4\;\text{m}^2\)» ohne Begründung: 0\\
 \end{raster}
-\fehler{kPa nicht in Pa umgerechnet (\(F = 150\;\text{N}\), \(m \approx 15.3\;\text{kg}\)): b) 0 \(\to\) 3 von 4\,P. Masse ohne \(g\) gleich der Kraft gesetzt (\(150\;\text{t}\)): b) 0 \(\to\) 3 von 4\,P.}
+\fehler{kPa nicht in Pa umgerechnet (\(F_G = 90\;\text{N}\)): b) 0 \(\to\) 3 von 4\,P. Verhältnis umgekehrt (\(0.6\)): c) 0 \(\to\) 3 von 4\,P. Ablesefehler ausserhalb der Toleranz: a) 0, b) und c) folgerichtig \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G2}{Tauchen im Bergsee, \(p_0 = 840\;\text{hPa}\), \(p = 2.30\;\text{bar}\)}{4 P}
+\begin{lpaufgabe}{G2}{Am Bergsee, \(p_0 = 840\;\text{hPa}\)}{4 P}
 \begin{raster}
 Ansatz & 1\W & \(p = p_0 + \rho \cdot g \cdot h\), also \(h = \dfrac{p - p_0}{\rho \cdot g}\), Drücke in Pa\\
 a) Tiefe & 1\E & \(h = \dfrac{230\,000\;\text{Pa} - 84\,000\;\text{Pa}}{1000\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2} \approx 14.9\;\text{m}\)\\
-b) Meer & 1\E & \(h = \dfrac{230\,000\;\text{Pa} - 101\,300\;\text{Pa}}{1025\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2} \approx 12.8\;\text{m}\)\\
-c) Begründung & 1\B & Im Bergsee drückt weniger Luft auf die Oberfläche, und Süsswasser ist weniger dicht: Für denselben Gesamtdruck braucht es mehr Schweredruck aus einer längeren Wassersäule (beide Gründe oder einer mit klarer Begründung)\\
+b) Saughöhe & 1\E & Höchstens bis der ganze Luftdruck die Säule trägt: \(\rho \cdot g \cdot h = p_0\), \(h = \dfrac{84\,000\;\text{Pa}}{1000\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2} \approx 8.56\;\text{m}\)\\
+c) Begründung & 1\B & Die Pumpe senkt nur den Druck im Rohr; hochgedrückt wird das Wasser vom Luftdruck. Am Bergsee liegt weniger Luft darüber, der Luftdruck ist kleiner und trägt nur eine kürzere Wassersäule\\
 \end{raster}
-\fehler{Luftdruck vergessen (\(h \approx 23.4\;\text{m}\), im Meer \(\approx 22.9\;\text{m}\)): derselbe Fehler in a) und b), Ansatz 0, a) und b) folgerichtig \(\to\) 3 von 4\,P. Im Bergsee mit \(1013\;\text{hPa}\) gerechnet (\(13.1\;\text{m}\)): a) 0 \(\to\) 3 von 4\,P.}
+\fehler{Luftdruck vergessen (\(h \approx 23.4\;\text{m}\)): Ansatz 0, a) folgerichtig \(\to\) 3 von 4\,P. Mit \(1013\;\text{hPa}\) statt \(840\;\text{hPa}\) gerechnet (\(13.1\;\text{m}\) und \(10.3\;\text{m}\)): derselbe Fehler in a) und b), einmal abgezogen: a) 0, b) folgerichtig \(\to\) 3 von 4\,P. hPa nicht in Pa umgerechnet (\(0.0856\;\text{m}\)): b) 0 \(\to\) 3 von 4\,P. In c) «die Pumpe zieht schwächer»: c) 0.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G3}{Pascals Fassversuch, Fass \(1.6\;\text{m}\), Rohr \(8\;\text{m}\)}{4 P}
@@ -97,30 +97,30 @@ c) Begründung & 1\B & Der Schweredruck hängt nur von der Höhe der Wassersäul
 Ansatz & 1\W & Gleicher Druck an beiden Kolben: \(p = \dfrac{F_2}{A_2} = \dfrac{F_1}{A_1}\), mit \(F_2 = m \cdot g\)\\
 a) Druck & 1\E & \(F_2 = 1200\;\text{kg} \cdot 9.81\;\text{m/s}^2 = 11\,772\;\text{N}\); \(p = \dfrac{11\,772\;\text{N}}{0.04\;\text{m}^2} \approx 294\,000\;\text{Pa} \approx 2.94\;\text{bar}\)\\
 b) Pumpkolben & 1\E & \(A_1 = \dfrac{F_1}{p} = \dfrac{120\;\text{N}}{294\,300\;\text{Pa}} \approx 4.08 \cdot 10^{-4}\;\text{m}^2 = 4.08\;\text{cm}^2\) (höchstens; gleichwertig \(A_2 \cdot \dfrac{F_1}{F_2}\))\\
-c) Öl und Weg & 1\E & \(V = A_2 \cdot s_2 = 400\;\text{cm}^2 \cdot 12\;\text{cm} = 4800\;\text{cm}^3 = 4.8\;\text{l}\); \(s_1 = \dfrac{V}{A_1} = \dfrac{4800\;\text{cm}^3}{4.08\;\text{cm}^2} \approx 1180\;\text{cm} \approx 11.8\;\text{m}\) (beides nötig)\\
+c) Öl und Arbeit & 1\E & \(V = A_2 \cdot s_2 = 400\;\text{cm}^2 \cdot 12\;\text{cm} = 4800\;\text{cm}^3 = 4.8\;\text{l}\); \(W = F_2 \cdot s_2 = 11\,772\;\text{N} \cdot 0.12\;\text{m} \approx 1410\;\text{J}\), gleich \(F_1 \cdot s_1\) (ohne Reibung; beides nötig)\\
 \end{raster}
-\fehler{Masse statt Gewichtskraft (\(p = 0.3\;\text{bar}\), \(A_1 = 40\;\text{cm}^2\), \(s_1 = 1.2\;\text{m}\)): a) 0, b) und c) folgerichtig \(\to\) 3 von 4\,P. Flächenverhältnis umgekehrt (\(A_1 \approx 39\,200\;\text{cm}^2\)): b) 0, c) folgerichtig \(\to\) 3 von 4\,P.}
+\fehler{Masse statt Gewichtskraft (\(p = 0.3\;\text{bar}\), \(A_1 = 40\;\text{cm}^2\), \(W = 144\;\text{J}\)): derselbe Fehler, einmal abgezogen: a) 0, b) und c) folgerichtig \(\to\) 3 von 4\,P. Luftdruck addiert (\(p \approx 3.96\;\text{bar}\)): a) 0, b) folgerichtig (\(A_1 \approx 3.03\;\text{cm}^2\)) \(\to\) 3 von 4\,P. Flächenverhältnis umgekehrt (\(A_1 \approx 39\,200\;\text{cm}^2\)): b) 0 \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G5}{Ballon, \(12\;\text{l}\), \(8\;\text{g}\)}{5 P}
 \begin{raster}
 a) Skizze & 1\Sk & Auftrieb senkrecht nach oben, Gewichtskraft senkrecht nach unten, beide mit Namen (der Auftrieb länger gezeichnet schadet nicht)\\
 b) Auftrieb & 1\E & \(F_A = \rho_\text{Luft} \cdot V \cdot g = 1.20\;\text{kg/m}^3 \cdot 0.012\;\text{m}^3 \cdot 9.81\;\text{m/s}^2 \approx 0.141\;\text{N}\)\\
-c) Gewicht & 1\E & \(F_G = 0.008\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 0.0785\;\text{N}\)\\
-d) Zusatzlast & 1\E & \(\dfrac{F_A - F_G}{g} = \dfrac{0.0628\;\text{N}}{9.81\;\text{m/s}^2} \approx 0.0064\;\text{kg} = 6.4\;\text{g}\)\\
-e) unter Wasser & 1\B & Grösser: Der Ballon verdrängt dasselbe Volumen, aber Wasser ist rund \(800\)-mal dichter als Luft; der Auftrieb hängt an der Dichte des verdrängten Stoffs (eine Zahl ist nicht nötig; nebenbei \(\approx 118\;\text{N}\))\\
+c) Zusatzlast & 1\E & \(F_G = 0.008\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 0.0785\;\text{N}\); \(\Delta m = \dfrac{F_A - F_G}{g} = \dfrac{0.0628\;\text{N}}{9.81\;\text{m/s}^2} \approx 0.0064\;\text{kg} = 6.4\;\text{g}\) (gleichwertig \(\rho_\text{Luft} \cdot V - 8\;\text{g} = 14.4\;\text{g} - 8\;\text{g}\))\\
+d) Federwaage & 1\E & Unter Wasser: \(F_A = 1000\;\text{kg/m}^3 \cdot 0.012\;\text{m}^3 \cdot 9.81\;\text{m/s}^2 \approx 117.7\;\text{N}\); die Waage hält den Überschuss: \(F_A - F_G \approx 117.6\;\text{N}\) (auch \(118\;\text{N}\))\\
+e) Druck & 1\B & Unten am Ballon ist das Wasser tiefer, der Druck dort grösser als oben; von unten drückt das Wasser stärker nach oben als von oben nach unten. Die Seitenkräfte heben sich auf, es bleibt eine Kraft nach oben\\
 \end{raster}
-\fehler{Liter nicht in m³ umgerechnet (\(F_A = 141\;\text{N}\)): b) 0; d) folgerichtig zählt, auch wenn das Ergebnis unplausibel ist \(\to\) 4 von 5\,P. Gramm nicht in kg (\(F_G = 78.5\;\text{N}\)): c) 0; d) folgerichtig zählt \(\to\) 4 von 5\,P.}
+\fehler{Liter nicht in m³ umgerechnet (\(F_A = 141\;\text{N}\), unter Wasser \(117\,720\;\text{N}\)): derselbe Fehler in b) und d), einmal abgezogen: b) 0; c) und d) folgerichtig, auch wenn das Ergebnis unplausibel ist \(\to\) 4 von 5\,P. Gramm nicht in kg (\(F_G = 78.5\;\text{N}\), Zusatzlast \(-8.0\;\text{kg}\), Waage \(39.2\;\text{N}\)): c) 0; d) folgerichtig \(\to\) 4 von 5\,P. In d) Gewichtskraft addiert (\(117.8\;\text{N}\)): d) 0.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G6}{Aräometer, \(30\;\text{g}\), \(2\;\text{cm}^2\)}{4 P}
 \begin{raster}
-a) Wasser & 1\E & Schwimmen: \(F_A = F_G\), also \(\rho_{Fl} \cdot A \cdot h \cdot g = m \cdot g\) und \(h = \dfrac{m}{\rho_{Fl} \cdot A} = \dfrac{0.03\;\text{kg}}{1000\;\text{kg/m}^3 \cdot 0.0002\;\text{m}^2} = 0.15\;\text{m} = 15\;\text{cm}\)\\
-b) Spiritus & 1\E & \(h = \dfrac{0.03\;\text{kg}}{790\;\text{kg/m}^3 \cdot 0.0002\;\text{m}^2} \approx 0.190\;\text{m} = 19.0\;\text{cm}\)\\
+a) Dichtevergleich & 1\B & Es zählt die mittlere Dichte des ganzen Röhrchens (Glas, Schrot und die Luft darin). Sie ist kleiner als die Dichte der Flüssigkeit, darum schwimmt es (wie ein Schiff aus Stahl). Nur «Glas ist leicht»: 0\\
+b) Spiritus & 1\E & Schwimmen: \(F_A = F_G\), also \(\rho_{Fl} \cdot A \cdot h \cdot g = m \cdot g\) und \(h = \dfrac{m}{\rho_{Fl} \cdot A} = \dfrac{0.03\;\text{kg}}{790\;\text{kg/m}^3 \cdot 0.0002\;\text{m}^2} \approx 0.190\;\text{m} = 19.0\;\text{cm}\)\\
 c) Skala & 1\B & In einer dichteren Flüssigkeit genügt ein kleineres eingetauchtes Volumen für denselben Auftrieb; das Aräometer taucht weniger tief ein, die Flüssigkeitsoberfläche steht weiter unten am Röhrchen — dort steht darum die grosse Dichte\\
 d) Dichte & 1\E & \(\rho_{Fl} = \dfrac{m}{A \cdot h} = \dfrac{0.03\;\text{kg}}{0.0002\;\text{m}^2 \cdot 0.136\;\text{m}} \approx 1100\;\text{kg/m}^3\) (genauer \(1103\))\\
 \end{raster}
-\fehler{Gramm oder cm² nicht umgerechnet: derselbe Fehler in a), b) und d), einmal abgezogen \(\to\) 3 von 4\,P. Auftrieb mit \(g\), Gewicht ohne \(g\) gerechnet (\(h \approx 1.5\;\text{cm}\)): a) 0, b) und d) folgerichtig \(\to\) 3 von 4\,P.}
+\fehler{Gramm oder cm² nicht umgerechnet: derselbe Fehler in b) und d), einmal abgezogen: b) 0, d) folgerichtig \(\to\) 3 von 4\,P. Auftrieb mit \(g\), Gewicht ohne \(g\) gerechnet (\(h \approx 1.94\;\text{cm}\)): b) 0, d) folgerichtig \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
 \needspace{14\baselineskip}
@@ -130,6 +130,6 @@ d) Dichte & 1\E & \(\rho_{Fl} = \dfrac{m}{A \cdot h} = \dfrac{0.03\;\text{kg}}{0
 17 – 21 P & Den schwächsten Teil nochmals: Simulation und Übungen des Kapitels, in dem du die meisten Punkte verloren hast.\\
 11 – 16 P & Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.\\
 0 – 10 P & Zurück zu Kapitel 1 und von dort der Reihe nach weiter.\\\midrule
-\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche): G1 $\to$ Kapitel 1 (K1, K2) · G2 $\to$ Kapitel 2, 3 (K3) · G3 $\to$ Kapitel 2 (K3) · G4 $\to$ Kapitel 4 (K4) · G5 $\to$ Kapitel 5 (K5) · G6 $\to$ Kapitel 6 (K5)}\\\bottomrule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche): G1 $\to$ Kapitel 1 (K1, K2) · G2 $\to$ Kapitel 2 (a) und 3 (b, c) (K3) · G3 $\to$ Kapitel 2 (K3) · G4 $\to$ Kapitel 4 (K4) · G5 $\to$ Kapitel 5 (K5) · G6 $\to$ Kapitel 6 (K5)}\\\bottomrule
 \end{tabularx}
 \end{document}
