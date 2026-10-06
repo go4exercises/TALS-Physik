@@ -181,7 +181,11 @@ OFFEN = [
              'der Kontrollclips im Bild und Rechnungen, die sich im Diagramm entwickeln (Weg als Flaeche). '
              'Fuer Mathe nuetzlich (Flaeche unter einer Kurve, Masslinien am Steigungsdreieck, Vektoren). '
              'Doku: HOWTO-clips.md, Abschnitt «Flaechen, Strecken, Texte und Ebenen im graf». '
-             'build-clips.py und diese Datei aus Physik uebernehmen, danach KERN-Grundlinie pruefen.'),
+             'build-clips.py und diese Datei aus Physik uebernehmen, danach KERN-Grundlinie pruefen. '
+             'Am selben Tag: Feld "kopf" je Frage ersetzt die Kopfzeile «Deine Vorhersage» (Physik: '
+             '«Dein Vorgehen» bei Strategiefragen nach der Einfuehrung); ohne das Feld unveraendert. '
+             'Und: pruef-fragen.mjs bricht bei einer Frage mitten im Clip ab (erwartet Frage 1 in den '
+             'ersten Sekunden) — in Mathe betrifft das g3-3-lp-verschieben, falls die erste Frage spaet kommt.'),
 ]
 FACH = {
     'nav.js': 'Seitenbaum und Lerngebiete — je Fach ein anderer.',

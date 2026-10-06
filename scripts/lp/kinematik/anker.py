@@ -20,6 +20,9 @@ for clip in sys.argv[1:]:
     p = R + 'clips/' + clip + '.json'
     d = json.load(open(p))
     zt = zeiten(clip)
+    # Eine Frage in der Szene hält bei "bei" an: Text und Formeln dieser Szene erst danach,
+    # sonst steht die Antwort schon im Bild, während die Frage offen ist
+    frage_bei = {f['szene']: f.get('bei', 0) for f in d.get('fragen', []) if f.get('szene')}
     for s in d['szenen']:
         els = [e for e in s['elemente'] if e.get('_anker')]
         if not els:
@@ -47,6 +50,8 @@ for clip in sys.argv[1:]:
             assert i >= 0, (clip, s['name'], e['_anker'])
             alt = e.get('ein')
             e['ein'] = round(max(0.05 if e['typ'] in ('graf', 'bild') and i == 0 else 0.2, t_von(i) - 0.2), 1)
+            if s['name'] in frage_bei and e['typ'] not in ('graf', 'bild'):
+                e['ein'] = max(e['ein'], round(frage_bei[s['name']] + 0.5, 1))
             print(f"{clip:26s} {s['name']:18s} {e['_anker'][:26]:26s} {alt} -> {e['ein']}  ({len(chunks)}/{len(seg)})")
     with open(p, 'w', encoding='utf-8') as f:
         json.dump(d, f, ensure_ascii=False, indent=1)

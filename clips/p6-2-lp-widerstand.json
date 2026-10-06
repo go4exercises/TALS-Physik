@@ -16,7 +16,7 @@
  "probe": true,
  "titel": "Strom sehen: Länge, Querschnitt, Material",
  "dateiname": "p6-2-lp-widerstand",
- "kurzbeschrieb": "Widerstand als U durch I, ohmsch oder nicht, und wie Länge, Querschnitt und Material den Widerstand eines Drahts bestimmen.",
+ "kurzbeschrieb": "Widerstand als U durch I, Länge, Querschnitt und Material eines Leiters — und ein vorgerechnetes Problem: der Widerstand eines Kupferkabels mit Hin- und Rückleiter.",
  "schlagworte": [
   "Widerstand",
   "ohmsches Gesetz",
@@ -60,7 +60,7 @@
      "ein": 5.8
     }
    ],
-   "dauer": 11.44
+   "dauer": 11.27
   },
   {
    "name": "Länge",
@@ -184,7 +184,7 @@
      "yname": "R [Ω]"
     }
    ],
-   "dauer": 8.69
+   "dauer": 8.7
   },
   {
    "name": "Querschnitt",
@@ -306,7 +306,7 @@
      "yname": "R [Ω]"
     }
    ],
-   "dauer": 10.0
+   "dauer": 10.1
   },
   {
    "name": "Material",
@@ -421,32 +421,95 @@
      "yname": "R [Ω]"
     }
    ],
-   "dauer": 11.82
+   "dauer": 11.27
   },
   {
-   "name": "Zwei Adern",
+   "name": "Problem Kabel",
    "layout": "zentriert",
    "oben": 200,
-   "sprecher": "Vorsicht beim Kabel: Der Strom fliesst hin und zurück. Fünfundzwanzig Meter Kupferkabel mit eins Komma fünf Quadratmillimetern sind fünfzig Meter Leiter, rund null Komma fünf sieben Ohm.",
+   "sprecher": "Vorsicht beim Kabel: Der Strom fliesst hin und zurück. Jetzt ein ganzes Problem. Ein Verlängerungskabel aus Kupfer ist zwanzig Meter lang, mit zwei Adern zu je eins Komma fünf Quadratmillimetern. Welchen Widerstand hat die Leitung?",
    "elemente": [
     {
-     "typ": "formel",
-     "text": "\\fc{R} = 0.017\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{50\\;\\text{m}}{1.5\\;\\text{mm}^2} \\approx 0.57\\;\\Omega",
+     "typ": "notiz",
+     "text": "Kupferkabel, 20 m lang|2 Adern, je 1.5 mm²|ρ = 0.017 Ω·mm²/m",
      "x": 150,
      "y": 300,
      "breite": 820,
-     "groesse": 38,
-     "ein": 0.8
+     "groesse": 44,
+     "farbe": "tinte",
+     "ein": 4.8,
+     "_anker": "Ein Verlängerungskabel"
     },
     {
      "typ": "notiz",
-     "text": "25 m Kabel = 50 m Leiter:|hin und zurück",
+     "text": "gesucht: R der Leitung",
+     "x": 150,
+     "y": 520,
+     "breite": 820,
+     "groesse": 44,
+     "farbe": "tinte",
+     "ein": 10.6,
+     "_anker": "Welchen Widerstand"
+    }
+   ],
+   "dauer": 13.37
+  },
+  {
+   "name": "Vorgehen Kabel",
+   "layout": "zentriert",
+   "oben": 200,
+   "sprecher": "Der Strom fliesst durch die eine Ader hin und durch die andere zurück: Die Leiterlänge ist doppelt so gross wie das Kabel, vierzig Meter. Dann die Einheiten prüfen: rho in Ohm Quadratmillimeter pro Meter, l in Metern, A in Quadratmillimetern — sie passen zusammen.",
+   "elemente": [
+    {
+     "typ": "formel",
+     "text": "l = 2 \\cdot 20\\;\\text{m} = 40\\;\\text{m}",
+     "x": 150,
+     "y": 300,
+     "breite": 820,
+     "groesse": 48,
+     "ein": 3.8,
+     "_anker": "Die Leiterlänge"
+    },
+    {
+     "typ": "notiz",
+     "text": "Einheiten: Ω·mm²/m · m / mm² = Ω",
+     "x": 150,
+     "y": 450,
+     "breite": 820,
+     "groesse": 44,
+     "farbe": "tinte",
+     "ein": 7.3,
+     "_anker": "Dann die Einheiten"
+    }
+   ],
+   "dauer": 15.48
+  },
+  {
+   "name": "Lösung Kabel",
+   "layout": "zentriert",
+   "oben": 200,
+   "sprecher": "R gleich rho mal l durch A: null Komma null eins sieben mal vierzig durch eins Komma fünf, rund null Komma vier fünf drei Ohm. Probe mit dem Querschnitt: Mit drei Quadratmillimetern wäre der Widerstand halb so gross, null Komma zwei zwei sieben Ohm.",
+   "elemente": [
+    {
+     "typ": "formel",
+     "text": "\\fc{R} = \\rho \\cdot \\dfrac{l}{A} = 0.017\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{40\\;\\text{m}}{1.5\\;\\text{mm}^2} \\approx \\fc{0.453\\;\\Omega}",
+     "x": 150,
+     "y": 300,
+     "breite": 820,
+     "groesse": 31,
+     "ein": 0.5,
+     "_anker": "R gleich rho"
+    },
+    {
+     "typ": "notiz",
+     "text": "doppelter Querschnitt:|halber Widerstand, 0.227 Ω",
      "x": 150,
      "y": 460,
      "breite": 820,
-     "groesse": 46,
-     "farbe": "rot",
-     "ein": 1.4
+     "groesse": 44,
+     "farbe": "tinte",
+     "ein": 7.6,
+     "_anker": "Probe mit dem Querschnitt"
     },
     {
      "typ": "graf",
@@ -456,28 +519,15 @@
      "hoehe": 760,
      "abstand": 0,
      "anim": "fade",
-     "ein": 0.05,
-     "geraden": [
-      {
-       "bewegung": [
-        [
-         0,
-         0.011333333333333334,
-         0
-        ]
-       ],
-       "farbe": 3,
-       "ab": 0
-      }
-     ],
+     "ein": 0.5,
      "pfeile": true,
      "xbereich": [
-      -6.5,
-      64
+      -4,
+      54
      ],
      "ybereich": [
-      -0.6,
-      5.5
+      -0.08,
+      0.72
      ],
      "xteilung": [
       [
@@ -499,52 +549,117 @@
       [
        50,
        "50"
-      ],
-      [
-       60,
-       "60"
       ]
      ],
      "yteilung": [
       [
-       1,
-       "1"
+       0.2,
+       "0.2"
       ],
       [
-       2,
-       "2"
+       0.4,
+       "0.4"
       ],
       [
-       3,
-       "3"
-      ],
-      [
-       4,
-       "4"
-      ],
-      [
-       5,
-       "5"
+       0.6,
+       "0.6"
       ]
      ],
      "xname": "l [m]",
      "yname": "R [Ω]",
+     "geraden": [],
+     "strecken": [
+      {
+       "von": [
+        0,
+        0
+       ],
+       "bis": [
+        50,
+        0.5666666666666668
+       ],
+       "farbe": 3,
+       "dicke": 5
+      },
+      {
+       "von": [
+        0,
+        0
+       ],
+       "bis": [
+        50,
+        0.2833333333333334
+       ],
+       "farbe": 3,
+       "dicke": 3,
+       "gestrichelt": true
+      },
+      {
+       "von": [
+        40,
+        0
+       ],
+       "bis": [
+        40,
+        0.45333333333333337
+       ],
+       "farbe": 5,
+       "dicke": 3,
+       "gestrichelt": true
+      },
+      {
+       "von": [
+        0,
+        0.45333333333333337
+       ],
+       "bis": [
+        40,
+        0.45333333333333337
+       ],
+       "farbe": 5,
+       "dicke": 3,
+       "gestrichelt": true
+      }
+     ],
      "punkte": [
       {
-       "x": 50,
-       "y": 0.567,
-       "farbe": 5,
-       "beschriftung": "0.57 Ω",
+       "x": 40,
+       "y": 0.4533,
+       "farbe": 3,
+       "beschriftung": "(40 m; 0.453 Ω)",
        "beschriftung_bei": [
-        48,
-        1.1
+        38.5,
+        0.5
        ],
        "anker": "end"
       }
-     ]
+     ],
+     "texte": [
+      {
+       "bei": [
+        51,
+        0.25
+       ],
+       "text": "3 mm²",
+       "farbe": 3,
+       "groesse": 24,
+       "anker": "end"
+      },
+      {
+       "bei": [
+        48,
+        0.6
+       ],
+       "text": "1.5 mm²",
+       "farbe": 3,
+       "groesse": 24,
+       "anker": "end"
+      }
+     ],
+     "_anker": "R gleich rho"
     }
    ],
-   "dauer": 11.28
+   "dauer": 14.9
   },
   {
    "name": "Merke",
@@ -580,7 +695,7 @@
      "ein": 1.2
     }
    ],
-   "dauer": 9.43
+   "dauer": 9.42
   },
   {
    "name": "Jetzt du",
@@ -605,7 +720,31 @@
      "ein": 0.6
     }
    ],
-   "dauer": 6.15
+   "dauer": 6.19
+  }
+ ],
+ "fragen": [
+  {
+   "szene": "Vorgehen Kabel",
+   "bei": 0.3,
+   "typ": "wahl",
+   "text": "Welche Länge setzt du für l ein?",
+   "optionen": [
+    "20 m",
+    "40 m",
+    "10 m"
+   ],
+   "richtig": 1,
+   "rueck": {
+    "0": "Der Strom fliesst hin und zurück. Wie lang ist sein ganzer Weg im Kabel?",
+    "2": "Geteilt wird nichts: Beide Adern liegen im Stromweg."
+   },
+   "sprich": "Welche Länge setzt du für l ein?",
+   "rueck_sprich": {
+    "0": "Der Strom fliesst hin und zurück. Wie lang ist sein ganzer Weg im Kabel?",
+    "2": "Geteilt wird nichts. Beide Adern liegen im Stromweg."
+   },
+   "kopf": "Dein Vorgehen"
   }
  ]
 }

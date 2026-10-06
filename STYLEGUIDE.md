@@ -936,7 +936,7 @@ Gliederung:
 
 | | gegliedert nach | Beispiele (Stand 03.10.2026) | Anleitung |
 |---|---|---|---|
-| **Thema** | dem Stoff: Vortest, Kapitel bzw. Schritte, Gesamttest | `leitprogramm-waermemenge`, `leitprogramm-schaltungen`, `leitprogramm-ideale-gase` (zehn insgesamt) | `HOWTO-leitprogramme.md` |
+| **Thema** | dem Stoff: Vortest, Kapitel bzw. Schritte, Gesamttest | klassisch: `leitprogramm-waermemenge`, `leitprogramm-ideale-gase` (sieben); Kapitelmuster: `leitprogramm-elektrizitaet` und die fünf der Mechanik | `HOWTO-leitprogramme.md` |
 | **Übungsprüfung** | dem Prüfungsbogen: je Aufgabe ein Clip, Musterlösung, Fehlerkasten | `uebungstest-waermelehre` | `HOWTO-uebungspruefung.md` |
 
 **Umfang eines Themen-Leitprogramms:** rund **6 bis 11 Clips** und **8 bis 12 Minuten**
@@ -946,6 +946,8 @@ deutlich grösser, gehört es geteilt — zwei Programme mit je eigenem Vortest 
 Gesamttest tragen mehr als eines mit zwei unverbundenen Hälften. Die Wärmelehre ist aus
 diesem Grund auf vier Leitprogramme verteilt (Wärmemenge, Heizen, Wärmeausdehnung,
 ideale Gase). Zeitrahmen und Kapitelmuster: `HOWTO-leitprogramme.md` §3–§4.
+
+**Ein Leitprogramm je RLP-Teilgebiet (Entscheid 06.10.2026).** Pro Teilgebiet gibt es ein Leitprogramm als Kurs und die Themenseite als Nachschlagewerk; Weiterführendes gehört auf die Themenseite, nicht in ein zweites, überlappendes Leitprogramm. Wird ein Leitprogramm aufgelöst, bleibt an seiner Adresse eine Weiterleitung (`meta refresh`, `canonical`, `noindex`) auf den passenden Abschnitt der Themenseite, und die Seite kommt in `UNVERLINKT`.
 
 **Inhaltlich gebunden an RLP und Themenseite.** Ein Leitprogramm deckt die Kompetenzen
 genau eines Teilgebiets ab (RLP 7.5.4.1, Gruppe 1, Wortlaut wie im Kompetenzblock der

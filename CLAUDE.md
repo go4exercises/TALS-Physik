@@ -248,7 +248,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `begreifbar-schlicht` (ohne Karo und Rand). Eine bewegte Gerade kann mit
   `"ab"` erst bei einem \(x\) beginnen (keine negative Zeit); der Fehler,
   durch den bewegte Geraden im Endzustand standen, ist seit 03.10.2026 behoben.
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell zwölf (dazu unten die sechs nach dem Kapitelmuster: `leitprogramm-elektrizitaet`, `leitprogramm-kinematik`, `-dynamik`, `-energie`, `-statik`, `-hydrostatik`):
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell vierzehn: acht klassische (unten) und die sechs nach dem Kapitelmuster (`leitprogramm-elektrizitaet`, `leitprogramm-kinematik`, `-dynamik`, `-energie`, `-statik`, `-hydrostatik`):
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
   `leitprogramm-vorwissen` (Grössen, Messen, Druck — sieben Clips, fünf
@@ -260,17 +260,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   — sieben Clips, sechs Simulationen), `leitprogramm-ideale-gase` (acht
   Clips, fünf Simulationen) und `leitprogramm-experimente-waerme` (der Einstieg
   über sieben Schulversuche statt über die Formel — sechs Clips, sieben
-  gerechnete Simulationen) und `leitprogramm-schaltungen` (Knoten- und
-  Maschenregel, Reihe, Spannungsteiler, Parallel, gemischte Schaltungen,
-  Leistung — fünf Clips, vier Simulationen; das erste ausserhalb der
-  Thermodynamik; die Frage «40 W oder 60 W in Reihe?» bleibt von Schritt 2
-  bis 6 offen), `leitprogramm-widerstand-leistung` (ohmsches Gesetz,
-  Kennlinien, Messen, Leiterwiderstand, Leistung, Energie, Verlustleistung —
-  sechs Clips, sieben Simulationen) und `leitprogramm-gefahren` (Erde als
-  Rückleiter, Wirkung, FI, Schutzleiter, LS, Übersicht — zwei Clips, vier
-  Simulationen); die drei Elektrizitäts-Leitprogramme folgen
-  `Leitprogramme-Elektrizitaet-Architektur.md` (liegt neben dem Repo, nicht
-  darin), mit den am 27.09.2026 korrigierten Merksätzen. Dazu als Sonderfall `uebungstest-waermelehre` — ein
+  gerechnete Simulationen). Die drei früheren Elektrizitäts-Leitprogramme
+  (`leitprogramm-schaltungen`, `-widerstand-leistung`, `-gefahren`) sind seit
+  dem 06.10.2026 im Leitprogramm Elektrizität und auf der Themenseite 6.2
+  aufgegangen (TODO-E); an ihren Adressen stehen nur noch Weiterleitungen auf
+  die Themenseite (`noindex`, in `UNVERLINKT` von `build-suchindex.py`, nicht
+  in `build-seo.py`). Dazu als Sonderfall `uebungstest-waermelehre` — ein
   **Prüfungsbogen statt eines Stoffgebiets**: fünfzehn Aufgaben, je eine mit
   Aufgabentext, eigenem Erklärclip, Musterlösung und Fehlerkasten, dazu die
   Darstellungsregeln als roter Faden (16.09.2026). Alle zwölf starten ihre
@@ -311,6 +306,17 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (bewusst **kein** eigener Headerpunkt). Kontakt läuft ausschliesslich über
   `feedback.html` („Kontakt & Feedback") — es gibt keine veröffentlichte E-Mail-Adresse.
 - Pilot-/Referenzseite für jedes Skelett: `themen/p4-1-kinematik.html`.
+
+## Ein Leitprogramm und eine Themenseite je RLP-Teilgebiet
+
+Zielarchitektur (Entscheid des Auftraggebers, TODO-E, 06.10.2026): **je RLP-Teilgebiet ein
+Leitprogramm als Kurs und eine Themenseite als Nachschlagewerk.** Das Leitprogramm erarbeitet
+genau die RLP-Kompetenzen des Teilgebiets; wichtige Inhalte darüber hinaus (Vertiefungen,
+weitere Modelle, zusätzliche Alltagsfälle) kommen auf die Themenseite, gekennzeichnet als
+«Weiterführend» — nicht in ein zusätzliches, thematisch überlappendes Leitprogramm und nicht
+in Vertiefungskapitel des Leitprogramms. Umgesetzt für 6.2 (drei Einzelprogramme aufgelöst,
+Weiterleitungen auf die Themenseite). Andere Teilgebiete werden nicht ohne gesonderte
+Bestandsprüfung verändert; die Wärmelehre hat heute noch vier klassische Leitprogramme.
 
 ## Kompetenzblock: Wortlaut aus dem RLP, Ausformulierung in den Lernzielen
 

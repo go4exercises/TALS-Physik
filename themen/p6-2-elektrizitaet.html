@@ -235,7 +235,7 @@ MathJax = {
 
 <div class="block block-tipp">
   <div class="block-titel">💡 Lieber geführt durcharbeiten?</div>
-  <p>Die ganze Seite gibt es auch als Selbstlerneinheit: <a href="../leitprogramme/leitprogramm-elektrizitaet.html">Leitprogramm «Elektrizität»</a> — fünf Kapitel von der Ladung bis zum FI-Schutzschalter, je mit Clip, Simulation mit Aufgaben, Kontrollfragen im Clip und Übungen mit Rückmeldung, dazu Vortest und Gesamttest. Diese Seite bleibt das Nachschlagewerk; das Leitprogramm ist der Kurs.</p>
+  <p>Den Grundkurs dieser Seite gibt es als Selbstlerneinheit: <a href="../leitprogramme/leitprogramm-elektrizitaet.html">Leitprogramm «Elektrizität»</a> — Kapitel für Kapitel von der Ladung bis zu den Schutzmassnahmen, je mit Clip, Simulation, Kontrollfragen und Übungen mit Rückmeldung, dazu ein Gesamttest. Das Leitprogramm erarbeitet die fünf Kompetenzen des Rahmenlehrplans; es ist der Kurs. Diese Seite ist das Nachschlagewerk und enthält zusätzlich, was darüber hinausgeht, gekennzeichnet als «🔭 Weiterführend»: <a href="#kennlinien">nichtlineare Kennlinien</a>, <a href="#messfehler">den Einfluss des Messgeräts</a>, <a href="#gemischt">gemischte Schaltungen</a>, <a href="#spannungsteiler-belastet">den belasteten Spannungsteiler</a>, <a href="#knoten-maschen">Knoten- und Maschenregel allgemein</a>, <a href="#wirkungsgrad">den Wirkungsgrad</a> und <a href="#leitungsverluste">Leitungsverluste und Hochspannung</a>.</p>
 </div>
 
 
@@ -645,7 +645,7 @@ MathJax = {
 
 <div class="block block-tipp">
   <div class="block-titel">💡 Lieber geführt durcharbeiten?</div>
-  <p>Ohmsches Gesetz, Kennlinien, richtig messen, Widerstand eines Leiters, Leistung, Energie und Verlustleistung gibt es auch als Selbstlerneinheit: <a href="../leitprogramme/leitprogramm-widerstand-leistung.html">Leitprogramm «Widerstand, Leistung, Energie»</a> — sieben Schritte mit Vortest, Erklärclips, Simulationen, Selbstkontrolle nach jedem Schritt und Gesamttest. Diese Seite bleibt das Nachschlagewerk; das Leitprogramm ist der Kurs.</p>
+  <p>Widerstand und ohmsches Gesetz, Messen, Leiterwiderstand, Leistung und Energie erarbeitet das <a href="../leitprogramme/leitprogramm-elektrizitaet.html#k3">Leitprogramm «Elektrizität»</a> Schritt für Schritt. Was darüber hinausgeht, steht weiterführend auf dieser Seite: <a href="#kennlinien">Kennlinien, die keine Geraden sind</a>, <a href="#messfehler">wie stark ein Messgerät den Kreis verändert</a>, <a href="#wirkungsgrad">der Wirkungsgrad beim Wasserkochen</a> sowie <a href="#leitungsverluste">Spannungsfall, Leitungsverluste und Hochspannung</a>.</p>
 </div>
 
 <p>Bei einem ohmschen Widerstand sind Spannung und Stromstärke proportional. Stelle Spannung und Widerstand ein und beobachte, wie sich die Stromstärke ergibt.</p>
@@ -708,6 +708,93 @@ MathJax = {
       <canvas id="a1-cv"></canvas>
     </div>
 
+  </div>
+</div>
+
+<h3 id="kennlinien">Kennlinien, die keine Geraden sind</h3>
+
+<div class="block block-tipp">
+  <div class="block-titel">🔭 Weiterführend</div>
+  <p style="margin-bottom:0">Der Rahmenlehrplan verlangt den Widerstand als Grösse und seine Berechnung; nichtlineare Bauteile gehören nicht dazu. Sie zeigen aber, was das ohmsche Gesetz eigentlich behauptet — und dass \(R = U/I\) trotzdem in jedem Punkt gilt. Voraussetzung: der Abschnitt oben und das \(U\)-\(I\)-Diagramm aus <a class="anim-ref" href="#anim-spannung-strom-widerstand">Animation 2</a>.</p>
+</div>
+
+<p>Die <strong>Kennlinie</strong> eines Bauteils zeigt, welche Spannung zu welcher Stromstärke gehört. Für jeden Punkt der Kurve, den <strong>Arbeitspunkt</strong>, lässt sich \(R = U/I\) ausrechnen; im Diagramm ist das die Steigung der Verbindungslinie vom Ursprung zum Punkt. Ist die Kennlinie eine Gerade durch den Ursprung, haben alle Arbeitspunkte denselben Widerstand: Das Bauteil ist ohmsch. Ist sie gekrümmt, hat jeder Arbeitspunkt seinen eigenen Wert — meist, weil sich das Bauteil mit dem Strom erwärmt.</p>
+<ul>
+  <li><strong>Glühlampe</strong> (Metalldraht, ein Kaltleiter): Die Kurve wird nach oben steiler. Je grösser der Strom, desto heisser der Draht und desto grösser sein Widerstand; kalt hat die Lampe nur einen Bruchteil ihres Betriebswiderstands.</li>
+  <li><strong>Heissleiter</strong> (NTC, ein Halbleiter): Die Kurve flacht ab. Mit steigender Temperatur leitet das Material besser, der Widerstand sinkt. Heissleiter dienen zum Beispiel als Temperaturfühler.</li>
+</ul>
+
+<div class="cv-wrap">
+  <div class="cv-titel">📈 Drei Kennlinien im \(U\)-\(I\)-Diagramm (Modellkurven, keine Messwerte)</div>
+  <canvas id="kl-cv" height="260" role="img" aria-label="Spannungs-Stromstärke-Diagramm bis 12 Volt und gut 500 Milliampere mit drei Kennlinien: eine Gerade durch den Ursprung für einen ohmschen Widerstand von 50 Ohm, eine nach oben steiler werdende Kurve für eine Glühlampe (12 Volt, 0.5 Ampere) und eine abflachende Kurve für einen Heissleiter. Bei 6 Volt ist auf jeder Kurve der Arbeitspunkt markiert und gestrichelt mit dem Ursprung verbunden; die Steigung dieser Verbindung ist der Widerstand im Arbeitspunkt."></canvas>
+  <div class="canvas-legend">
+    <span class="cl-item"><span class="cl-line" style="background:#1a4f8a"></span>ohmscher Widerstand \(50\;\Omega\)</span>
+    <span class="cl-item"><span class="cl-line" style="background:#8a4a0e"></span>Glühlampe \(12\;\text{V}\), \(0.5\;\text{A}\)</span>
+    <span class="cl-item"><span class="cl-line" style="background:#1f6b3a"></span>Heissleiter (NTC)</span>
+    <span class="cl-item">gestrichelt: Ursprung bis Arbeitspunkt bei \(6\;\text{V}\), Steigung \(= R\)</span>
+  </div>
+</div>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Bauteil (Modell)</th><th>\(R\) bei \(3\;\text{V}\)</th><th>\(R\) bei \(6\;\text{V}\)</th><th>\(R\) bei \(12\;\text{V}\)</th></tr></thead>
+  <tbody>
+    <tr><td>ohmscher Widerstand</td><td>\(50\;\Omega\)</td><td>\(50\;\Omega\)</td><td>\(50\;\Omega\)</td></tr>
+    <tr><td>Glühlampe</td><td>\(13.8\;\Omega\)</td><td>\(18.2\;\Omega\)</td><td>\(24.0\;\Omega\)</td></tr>
+    <tr><td>Heissleiter</td><td>\(160\;\Omega\)</td><td>\(100\;\Omega\)</td><td>\(40\;\Omega\)</td></tr>
+  </tbody>
+</table>
+
+<div class="block block-fehler">
+  <div class="block-titel">🔴 Zuerst die Achsen lesen</div>
+  <p style="margin-bottom:0">Hier und in <a class="anim-ref" href="#anim-spannung-strom-widerstand">Animation 2</a> steht die Spannung nach oben, die Stromstärke nach rechts. Die Steigung ist dann \(U/I = R\): Ein grosser Widerstand gibt eine steile Gerade. Manche Bücher tragen es umgekehrt auf, die Stromstärke nach oben. Dann ist die Steigung \(I/U = 1/R\), und die Gerade eines grossen Widerstands ist flach.</p>
+</div>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel: eine Glühlampe in zwei Arbeitspunkten</div>
+  <p><em>Eine Glühlampe zieht bei \(2.0\;\text{V}\) einen Strom von \(0.20\;\text{A}\), bei \(12\;\text{V}\) einen von \(0.50\;\text{A}\). Wie gross ist ihr Widerstand in beiden Arbeitspunkten?</em></p>
+  <p>\[ R_1 = \frac{U_1}{I_1} = \frac{2.0\;\text{V}}{0.20\;\text{A}} = 10\;\Omega \qquad R_2 = \frac{U_2}{I_2} = \frac{12\;\text{V}}{0.50\;\text{A}} = 24\;\Omega \]</p>
+  <p style="margin-bottom:0">Sechsfache Spannung bringt nur den zweieinhalbfachen Strom: Der heissere Draht hat den grösseren Widerstand. \(R = U/I\) gilt in jedem Arbeitspunkt; das ohmsche Gesetz, ein konstantes \(R\), gilt für die Lampe nicht.</p>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z1</span><span class="aufg-titel-text">Ohmsch oder nicht?</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <p>An einem Bauteil werden gemessen: \(1\;\text{V}\) und \(100\;\text{mA}\); \(2\;\text{V}\) und \(160\;\text{mA}\); \(4\;\text{V}\) und \(240\;\text{mA}\); \(8\;\text{V}\) und \(350\;\text{mA}\).</p>
+  <ol class="aufg-liste">
+    <li>Berechne den Widerstand in jedem Arbeitspunkt.</li>
+    <li>Ist das Bauteil ohmsch? Um welche Art Bauteil könnte es sich handeln?</li>
+    <li>Zum Vergleich ein zweites Bauteil: \(2\;\text{V}\) und \(40\;\text{mA}\); \(4\;\text{V}\) und \(80\;\text{mA}\); \(6\;\text{V}\) und \(120\;\text{mA}\). Ohmsch?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz1')">▶ Lösung</button>
+  <div class="loesung-body" id="lz1">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(R = \dfrac{U}{I}\): \(\dfrac{1\;\text{V}}{0.100\;\text{A}} = 10\;\Omega\); \(\dfrac{2\;\text{V}}{0.160\;\text{A}} = 12.5\;\Omega\); \(\dfrac{4\;\text{V}}{0.240\;\text{A}} = 16.7\;\Omega\); \(\dfrac{8\;\text{V}}{0.350\;\text{A}} = 22.9\;\Omega\).</li>
+        <li>Nicht ohmsch: Der Widerstand wächst mit der Spannung, die Kennlinie wird nach oben steiler. So verhält sich eine Glühlampe — der Draht wird heisser, sein Widerstand grösser.</li>
+        <li>\(R = \dfrac{2\;\text{V}}{0.040\;\text{A}} = \dfrac{4\;\text{V}}{0.080\;\text{A}} = \dfrac{6\;\text{V}}{0.120\;\text{A}} = 50\;\Omega\) — überall gleich. Die Punkte liegen auf einer Ursprungsgeraden; das Bauteil ist ohmsch.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z2</span><span class="aufg-titel-text">Der Einschaltstrom einer Glühlampe</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <p>Eine \(12\text{-V}\)-Glühlampe hat im Betrieb \(24\;\Omega\), kalt ungefähr \(2.0\;\Omega\) (Modellwerte).</p>
+  <ol class="aufg-liste">
+    <li>Welcher Strom fliesst im Betrieb?</li>
+    <li>Welcher Strom fliesst im Augenblick des Einschaltens?</li>
+    <li>Glühlampen brennen auffällig oft beim Einschalten durch. Erkläre.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz2')">▶ Lösung</button>
+  <div class="loesung-body" id="lz2">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(I = \dfrac{U}{R} = \dfrac{12\;\text{V}}{24\;\Omega} = 0.50\;\text{A}\).</li>
+        <li>Im ersten Augenblick ist der Draht kalt: \(I = \dfrac{U}{R} = \dfrac{12\;\text{V}}{2.0\;\Omega} = 6.0\;\text{A}\) — zwölfmal so viel wie im Betrieb.</li>
+        <li>Für Bruchteile einer Sekunde fliesst ein sehr grosser Strom, der den Draht an seiner dünnsten Stelle schlagartig erhitzt. Dort reisst er. Im Betrieb ist der Draht heiss und hochohmig, der Strom klein.</li>
+      </ol>
+    </div>
   </div>
 </div>
 
@@ -927,6 +1014,46 @@ MathJax = {
   </div>
 </div>
 
+<h3 id="messfehler">Wie stark ein Messgerät den Kreis verändert</h3>
+
+<div class="block block-tipp">
+  <div class="block-titel">🔭 Weiterführend</div>
+  <p style="margin-bottom:0">Für den Rahmenlehrplan genügt das ideale Messgerät: Amperemeter in Serie, Voltmeter parallel, beide ohne Einfluss auf den Kreis. Hier wird nachgerechnet, wie gross der Einfluss eines realen Geräts ist. Voraussetzung sind die <a href="#reihe">Reihen</a>- und die <a href="#parallel">Parallelschaltung</a>; die Rechnung zum Voltmeter ist ein Fall der <a href="#gemischt">gemischten Schaltungen</a>.</p>
+</div>
+
+<p>Ein reales Messgerät ist selbst ein Widerstand. Das <strong>Amperemeter</strong> liegt in Serie: Sein Innenwiderstand \(R_\text{A}\) addiert sich zum Kreis, und der Strom sinkt von \(U/R\) auf \(U/(R + R_\text{A})\), also um den Anteil \(R_\text{A}/(R + R_\text{A})\). Bei \(60\;\Omega\) und \(0.1\;\Omega\) sind das \(0.17\;\%\) (Mini-Check am Ende dieses Abschnitts). Das <strong>Voltmeter</strong> liegt parallel zum Bauteil: Bauteil und Gerät bilden zusammen eine Parallelgruppe, die kleiner ist als das Bauteil allein. Liegt das Bauteil in Reihe mit anderen, verschiebt sich dadurch die Aufteilung der Spannung, und das Gerät zeigt zu wenig an.</p>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel: ein Voltmeter mit zu kleinem Innenwiderstand</div>
+  <p><em>Zwei Widerstände von je \(10\;\text{k}\Omega\) liegen in Reihe an \(12\;\text{V}\). Über dem unteren sollten \(6.0\;\text{V}\) liegen. Ein einfaches Voltmeter mit \(R_\text{V} = 10\;\text{k}\Omega\) zeigt dort aber nur \(4.0\;\text{V}\). Warum?</em></p>
+  <p>Gerät und unterer Widerstand liegen parallel:</p>
+  <p>\[ R_\text{p} = \frac{R_2 \cdot R_\text{V}}{R_2 + R_\text{V}} = \frac{10\;\text{k}\Omega \cdot 10\;\text{k}\Omega}{20\;\text{k}\Omega} = 5.0\;\text{k}\Omega \]</p>
+  <p>Diese Gruppe liegt in Reihe mit \(R_1\), und die Spannung teilt sich im Verhältnis der Widerstände:</p>
+  <p>\[ U_\text{p} = U \cdot \frac{R_\text{p}}{R_1 + R_\text{p}} = 12\;\text{V} \cdot \frac{5.0\;\text{k}\Omega}{15\;\text{k}\Omega} = 4.0\;\text{V} \]</p>
+  <p style="margin-bottom:0">Mit \(R_\text{V} = 1\;\text{M}\Omega\) zeigte das Gerät \(5.97\;\text{V}\), mit \(10\;\text{M}\Omega\) \(5.997\;\text{V}\). <strong>Faustregel:</strong> Der Innenwiderstand des Voltmeters soll viel grösser sein als die Widerstände, an denen gemessen wird, der des Amperemeters viel kleiner als der Widerstand des Kreises.</p>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z3</span><span class="aufg-titel-text">Beide Fehler zugleich</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <p>Jemand will Strom und Spannung einer Lampe (\(60\;\Omega\)) an einer \(12\text{-V}\)-Quelle messen und macht beide Anschlussfehler zugleich: Das Amperemeter (\(0.1\;\Omega\)) klemmt er parallel zur Lampe, das Voltmeter (\(1\;\text{M}\Omega\)) in die Zuleitung. Rechne mit idealer Quelle.</p>
+  <ol class="aufg-liste">
+    <li>Welcher Strom fliesst aus der Quelle?</li>
+    <li>Was zeigen die beiden Geräte? Leuchtet die Lampe, und brennt die Sicherung des Amperemeters durch?</li>
+    <li>Wie wäre es richtig?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz3')">▶ Lösung</button>
+  <div class="loesung-body" id="lz3">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Lampe und Amperemeter parallel haben zusammen knapp \(0.1\;\Omega\); in Reihe dazu liegt das Voltmeter. Neben \(1\;\text{M}\Omega\) zählen die \(0.1\;\Omega\) nicht: \(I = \dfrac{U}{R_\text{V} + R_\text{p}} \approx \dfrac{12\;\text{V}}{1\;\text{M}\Omega} = 12\;\mu\text{A}\).</li>
+        <li>Der winzige Strom fliesst fast ganz durch das Amperemeter, das die Lampe überbrückt: Es zeigt rund \(12\;\mu\text{A}\), praktisch null. Am Voltmeter fällt fast die ganze Quellenspannung ab, es zeigt rund \(12\;\text{V}\). Die Lampe bleibt dunkel, und die Sicherung brennt <strong>nicht</strong> durch — ausgerechnet das falsch angeschlossene Voltmeter begrenzt den Strom. Allein parallel angeschlossen hätte das Amperemeter einen Kurzschluss verursacht (Aufgabe A10).</li>
+        <li>Amperemeter in Serie, Voltmeter parallel zur Lampe. Dann zeigen sie rund \(200\;\text{mA}\) und \(12\;\text{V}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
 <details class="frage">
   <summary>❓ Warum braucht ein Amperemeter einen kleinen, ein Voltmeter einen grossen Innenwiderstand?</summary>
   <div class="frage-antwort">
@@ -1011,6 +1138,14 @@ MathJax = {
 </div>
 
 
+<div class="block block-fehler">
+  <div class="block-titel">🔴 Zwei Fallen beim Leiterwiderstand</div>
+  <ul style="margin-bottom:0">
+    <li><strong>Kabellänge statt Leiterlänge.</strong> In einem zweiadrigen Kabel fliesst der Strom hin und zurück: \(l\) ist doppelt so gross wie die Kabellänge.</li>
+    <li><strong>Durchmesser statt Querschnitt.</strong> In \(R = \rho\,l/A\) steht die Fläche \(A = \pi d^2/4\). Doppelter Durchmesser heisst vierfacher Querschnitt — der Widerstand sinkt auf einen Viertel, nicht auf die Hälfte.</li>
+  </ul>
+</div>
+
 <!-- ══════════════ 6. ANIMATION 3 — REIHENSCHALTUNG ══════════════ -->
 <details class="minicheck">
 <summary class="mc-kopf">✏️ Mini-Check</summary>
@@ -1024,7 +1159,7 @@ MathJax = {
 
 <div class="block block-tipp">
   <div class="block-titel">💡 Lieber geführt durcharbeiten?</div>
-  <p>Reihen-, Parallel- und gemischte Schaltungen gibt es auch als Selbstlerneinheit: <a href="../leitprogramme/leitprogramm-schaltungen.html">Leitprogramm «Schaltungen berechnen»</a> — sechs Schritte mit Vortest, Erklärclips, Simulationen, Selbstkontrolle nach jedem Schritt und Kapiteltest. Diese Seite bleibt das Nachschlagewerk; das Leitprogramm ist der Kurs.</p>
+  <p>Reihen- und Parallelschaltung erarbeitet das <a href="../leitprogramme/leitprogramm-elektrizitaet.html#k5">Leitprogramm «Elektrizität»</a> Schritt für Schritt, mit Proben über die Spannungs- und die Stromsumme. Was darüber hinausgeht, steht weiterführend auf dieser Seite: <a href="#gemischt">gemischte Schaltungen</a>, <a href="#spannungsteiler-belastet">der belastete Spannungsteiler</a>, <a href="#knoten-maschen">Knoten- und Maschenregel allgemein</a> und <a href="#leistung-schaltung">die Leistung einzelner Bauteile in Reihe und parallel</a>.</p>
 </div>
 
 <p>In der Reihenschaltung fliesst durch beide Widerstände derselbe Strom, die Spannung teilt sich auf, und die Widerstände addieren sich: \(R = R_1 + R_2\).</p>
@@ -1194,6 +1329,14 @@ MathJax = {
 </div>
 
 
+<div class="block block-fehler">
+  <div class="block-titel">🔴 Zwei Fehler bei der Parallelschaltung</div>
+  <ul style="margin-bottom:0">
+    <li><strong>Den Kehrwert vergessen.</strong> Die Summe \(\dfrac{1}{R_1} + \dfrac{1}{R_2}\) ist \(\dfrac{1}{R}\), nicht \(R\); sie hat die Einheit \(1/\Omega\). Wer dort aufhört, erhält für \(100\;\Omega\) parallel \(220\;\Omega\) die Zahl \(0.0145\) statt \(68.8\;\Omega\). Die Probe dagegen: Der Gesamtwiderstand liegt unter dem kleinsten Zweigwiderstand, bei zwei Zweigen aber nicht unter dessen Hälfte.</li>
+    <li><strong>«Der Strom nimmt den Weg des kleinsten Widerstands.»</strong> Er nimmt alle Wege, aufgeteilt umgekehrt zu ihren Widerständen: \(I_k = U/R_k\). In <a class="anim-ref" href="#anim-widerstaende-parallel">Animation 7</a> trägt der \(220\text{-}\Omega\)-Zweig bei \(12\;\text{V}\) noch \(54.5\;\text{mA}\) von \(174.5\;\text{mA}\), knapp einen Drittel. Nur ein Zweig mit fast null Ohm, ein Kurzschluss, zieht praktisch den ganzen Strom an sich.</li>
+  </ul>
+</div>
+
 <!-- ══════════════ 8. ANIMATION 5 — LEISTUNG & ENERGIE ══════════════ -->
 <details class="frage">
   <summary>❓ Was passiert mit dem Gesamtwiderstand, wenn du einen zweiten gleichen Widerstand parallel schaltest?</summary>
@@ -1214,13 +1357,19 @@ MathJax = {
 
 <p>In der Praxis steht selten eine reine Reihen- oder Parallelschaltung. Gemischte Schaltungen rechnet man <strong>von innen nach aussen</strong>: Zuerst die Gruppe zusammenfassen, die eindeutig in Reihe oder parallel liegt, dann mit dem Ersatzwiderstand weiterrechnen, bis ein einziger Widerstand übrig ist. Rückwärts geht es dann Schritt für Schritt zu den Teilspannungen und Teilströmen zurück.</p>
 
+<div class="block block-tipp">
+  <div class="block-titel">🔭 Weiterführend</div>
+  <p style="margin-bottom:0">Der Rahmenlehrplan verlangt Berechnungen in <em>einfachen</em> Reihen- oder Parallelschaltungen. Gemischte Schaltungen, der belastete Spannungsteiler und die allgemeine Form von Knoten- und Maschenregel gehen darüber hinaus. Sie brauchen nichts Neues, nur die beiden Abschnitte davor, nacheinander angewandt.</p>
+</div>
+
 <div class="block block-def">
   <div class="block-titel">🔵 Die drei Schritte</div>
   <ol class="aufg-liste">
-    <li><strong>Gruppen erkennen.</strong> Welche Widerstände teilen sich beide Anschlusspunkte? Die liegen parallel. Welche werden vom selben Strom durchflossen, ohne dass ein Knoten dazwischen liegt? Die liegen in Reihe.</li>
-    <li><strong>Zusammenfassen</strong>, innen beginnend: \(R_\text{p} = \dfrac{R_2 \cdot R_3}{R_2 + R_3}\) für die zwei parallelen, danach \(R_\text{ges} = R_1 + R_\text{p}\) für den Widerstand in Reihe zur zusammengefassten Gruppe.</li>
-    <li style="margin-bottom:0"><strong>Zurückrechnen.</strong> Aus \(I = U/R_\text{ges}\) folgt der Gesamtstrom; über jeder Gruppe liegt dann \(U = I \cdot R\), und innerhalb einer Parallelgruppe teilt sich der Strom auf.</li>
+    <li><strong>Gruppen erkennen.</strong> Welche Widerstände teilen sich beide Anschlusspunkte? Die liegen parallel. Welche werden vom selben Strom durchflossen, ohne dass ein Knoten dazwischen liegt? Die liegen in Reihe. Zuerst kommt die innerste solche Gruppe dran — das kann eine Parallel- oder eine Reihengruppe sein.</li>
+    <li><strong>Zusammenfassen</strong>, innen beginnend, und die Schaltung mit dem Ersatzwiderstand neu zeichnen; wiederholen, bis ein einziger Widerstand übrig ist. Für \(R_1 + (R_2 \parallel R_3)\) heisst das: \(R_\text{p} = \dfrac{R_2 \cdot R_3}{R_2 + R_3}\) für die zwei parallelen, danach \(R_\text{ges} = R_1 + R_\text{p}\).</li>
+    <li><strong>Zurückrechnen.</strong> Aus \(I = U/R_\text{ges}\) folgt der Gesamtstrom; über jeder Gruppe liegt dann \(U = I \cdot R\), und innerhalb einer Parallelgruppe teilt sich der Strom auf.</li>
   </ol>
+  <p style="margin-bottom:0"><strong>Kurzschreibweise:</strong> \(\parallel\) heisst «parallel zu», \(+\) heisst «in Reihe mit». Die Klammer sagt, was zuerst zusammengefasst wird: \(R_1 + (R_2 \parallel R_3)\) ist eine andere Schaltung als \((R_1 + R_2) \parallel R_3\).</p>
 </div>
 
 <div class="widget">
@@ -1323,6 +1472,103 @@ MathJax = {
   <p style="margin-bottom:0">Falsch gruppiert. Wer \(R_1\) und \(R_2\) zuerst addiert, weil sie im Schaltbild nebeneinanderstehen, rechnet an der Schaltung vorbei. Die Frage ist nicht, was nebeneinander <em>gezeichnet</em> ist, sondern was sich <em>dieselben zwei Anschlusspunkte</em> teilt. Im Zweifel die Knoten nummerieren und nachsehen, welche Widerstände zwischen denselben zwei Knoten hängen.</p>
 </div>
 
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z4</span><span class="aufg-titel-text">Hier liegt die Reihengruppe innen</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <p>\(R_1 = 100\;\Omega\) und \(R_2 = 200\;\Omega\) bilden zusammen einen Zweig, \(R_3 = 300\;\Omega\) den anderen; beide Zweige liegen an \(U = 12\;\text{V}\). Kurz: \((R_1 + R_2) \parallel R_3\).</p>
+  <ol class="aufg-liste">
+    <li>Nenne die Reihenfolge der Zusammenfassung, bevor du rechnest.</li>
+    <li>Berechne \(R_\text{s} = R_1 + R_2\) und \(R_\text{ges}\).</li>
+    <li>Berechne den Gesamtstrom, die beiden Zweigströme und die Teilspannungen \(U_1\) und \(U_2\).</li>
+    <li>Führe beide Proben durch.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz4')">▶ Lösung</button>
+  <div class="loesung-body" id="lz4">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Zuerst \(R_1 + R_2\): Die beiden werden vom selben Strom durchflossen, zwischen ihnen liegt kein Knoten. Erst dann liegt der zusammengefasste Zweig parallel zu \(R_3\). Innen ist hier die Reihengruppe.</li>
+        <li>\(R_\text{s} = R_1 + R_2 = 100\;\Omega + 200\;\Omega = 300\;\Omega\); \(R_\text{ges} = \dfrac{R_\text{s} \cdot R_3}{R_\text{s} + R_3} = \dfrac{300\;\Omega \cdot 300\;\Omega}{600\;\Omega} = 150\;\Omega\).</li>
+        <li>\(I = \dfrac{U}{R_\text{ges}} = \dfrac{12\;\text{V}}{150\;\Omega} = 80\;\text{mA}\). Über jedem Zweig liegen \(12\;\text{V}\): \(I_\text{s} = \dfrac{U}{R_\text{s}} = \dfrac{12\;\text{V}}{300\;\Omega} = 40\;\text{mA}\) und \(I_3 = \dfrac{U}{R_3} = \dfrac{12\;\text{V}}{300\;\Omega} = 40\;\text{mA}\). Im Reihenzweig: \(U_1 = R_1 \cdot I_\text{s} = 100\;\Omega \cdot 40\;\text{mA} = 4.0\;\text{V}\) und \(U_2 = R_2 \cdot I_\text{s} = 200\;\Omega \cdot 40\;\text{mA} = 8.0\;\text{V}\).</li>
+        <li>Spannungen im Reihenzweig: \(U_1 + U_2 = 4.0\;\text{V} + 8.0\;\text{V} = 12\;\text{V} = U\) ✓. Ströme am Knoten: \(I_\text{s} + I_3 = 40\;\text{mA} + 40\;\text{mA} = 80\;\text{mA} = I\) ✓.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<h3 id="spannungsteiler-belastet">Der belastete Spannungsteiler</h3>
+
+<p>Zwei Widerstände in Reihe teilen die Quellenspannung im Verhältnis ihrer Widerstände. Für die Spannung über \(R_2\), den <strong>Abgriff</strong>, folgt aus \(U_2 = R_2 \cdot I\) und \(I = U/(R_1 + R_2)\):</p>
+<p>\[ U_2 = U \cdot \frac{R_2}{R_1 + R_2} \]</p>
+<p>Das gilt <strong>unbelastet</strong>, solange am Abgriff nichts weiter angeschlossen ist (Aufgabe A11). Hängt dort ein Verbraucher \(R_\text{L}\), liegt er parallel zu \(R_2\): Der belastete Teiler ist die gemischte Schaltung \(R_1 + (R_2 \parallel R_\text{L})\). Die Gruppe ist kleiner als \(R_2\), und die Abgriffspannung sinkt. Ein Voltmeter am Abgriff ist genau so eine Last (<a href="#messfehler">Messgerät im Kreis</a>).</p>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel: eine Last am Abgriff</div>
+  <p><em>\(R_1 = 1000\;\Omega\) und \(R_2 = 500\;\Omega\) liegen an \(12\;\text{V}\). Am Abgriff wird ein Verbraucher mit \(R_\text{L} = 500\;\Omega\) angeschlossen. Welche Spannung liegt vorher und nachher an?</em></p>
+  <p><strong>Unbelastet:</strong></p>
+  <p>\[ U_2 = U \cdot \frac{R_2}{R_1 + R_2} = 12\;\text{V} \cdot \frac{500\;\Omega}{1500\;\Omega} = 4.0\;\text{V} \]</p>
+  <p><strong>Belastet:</strong> zuerst die Parallelgruppe, dann wieder die Teilerformel.</p>
+  <p>\[ R_\text{p} = \frac{R_2 \cdot R_\text{L}}{R_2 + R_\text{L}} = \frac{500\;\Omega \cdot 500\;\Omega}{1000\;\Omega} = 250\;\Omega \]</p>
+  <p>\[ U_2 = U \cdot \frac{R_\text{p}}{R_1 + R_\text{p}} = 12\;\text{V} \cdot \frac{250\;\Omega}{1250\;\Omega} = 2.4\;\text{V} \]</p>
+  <p style="margin-bottom:0">Statt \(4.0\;\text{V}\) liegen nur noch \(2.4\;\text{V}\) an, \(40\;\%\) weniger. Mit \(R_\text{L} = 50\;\text{k}\Omega\), dem Hundertfachen von \(R_2\), wären es \(3.97\;\text{V}\): Ein Teiler hält seine Spannung, solange die Last viel grösser ist als \(R_2\). Darum taugt er für Messzwecke und hochohmige Eingänge, nicht als Netzteil.</p>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z5</span><span class="aufg-titel-text">Niederohmig oder hochohmig?</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <p>Zwei Spannungsteiler machen aus \(12\;\text{V}\) je \(6.0\;\text{V}\): Teiler A besteht aus zwei Widerständen von \(100\;\Omega\), Teiler B aus zwei von \(100\;\text{k}\Omega\).</p>
+  <ol class="aufg-liste">
+    <li>Welcher Strom fliesst unbelastet dauernd durch jeden Teiler, und welche Leistung setzt er um?</li>
+    <li>An beide Abgriffe wird ein Verbraucher mit \(1.0\;\text{k}\Omega\) angeschlossen. Welche Spannung liegt jetzt an?</li>
+    <li>Welchen Teiler nimmst du wofür?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz5')">▶ Lösung</button>
+  <div class="loesung-body" id="lz5">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>A: \(I = \dfrac{U}{R_\text{ges}} = \dfrac{12\;\text{V}}{200\;\Omega} = 60\;\text{mA}\), \(P = U \cdot I = 12\;\text{V} \cdot 60\;\text{mA} = 0.72\;\text{W}\). B: \(I = \dfrac{12\;\text{V}}{200\;\text{k}\Omega} = 0.060\;\text{mA}\), \(P = 12\;\text{V} \cdot 0.060\;\text{mA} = 0.72\;\text{mW}\).</li>
+        <li>A: \(R_\text{p} = \dfrac{100\;\Omega \cdot 1000\;\Omega}{1100\;\Omega} = 90.9\;\Omega\), \(U_2 = 12\;\text{V} \cdot \dfrac{90.9\;\Omega}{190.9\;\Omega} = 5.71\;\text{V}\). B: \(R_\text{p} = \dfrac{100\;\text{k}\Omega \cdot 1\;\text{k}\Omega}{101\;\text{k}\Omega} = 990\;\Omega\), \(U_2 = 12\;\text{V} \cdot \dfrac{990\;\Omega}{100\,990\;\Omega} = 0.118\;\text{V}\) — der hochohmige Teiler bricht fast ganz ein.</li>
+        <li>Ein Kompromiss: Der niederohmige Teiler hält seine Spannung unter Last, verheizt aber dauernd Leistung. Der hochohmige ist sparsam, taugt aber nur für Lasten, die viel grösser sind als seine Widerstände — etwa ein Messeingang.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<h3 id="knoten-maschen">Knoten- und Maschenregel allgemein</h3>
+
+<p>Alle Regeln für Reihe und parallel folgen aus zwei Erhaltungssätzen. In den <a href="#definition">Grundbegriffen</a> stehen sie in der Form für einen einfachen Kreis; allgemein lauten sie so:</p>
+
+<div class="block block-def">
+  <div class="block-titel">📘 Die zwei Regeln</div>
+  <p><strong>Knotenregel</strong> (Ladungserhaltung): In jedem Verzweigungspunkt ist die Summe der zufliessenden Ströme gleich der Summe der abfliessenden. Ladung sammelt sich nirgends an und geht nirgends verloren.</p>
+  <p>\[ \sum I_\text{zu} = \sum I_\text{ab} \]</p>
+  <p><strong>Maschenregel</strong> (Energieerhaltung): Auf jedem geschlossenen Umlauf durch die Schaltung ist die Summe der Quellenspannungen gleich der Summe der Spannungen, die an den Bauteilen abfallen.</p>
+  <p>\[ \sum U_\text{Quelle} = \sum U_\text{Bauteil} \]</p>
+  <p style="margin-bottom:0">Ein Umlauf ohne Quelle, etwa durch zwei parallele Zweige hin und zurück, hat darum die Spannungssumme null, wenn man die Spannungen in Umlaufrichtung zählt: Über parallelen Zweigen liegt dieselbe Spannung.</p>
+</div>
+
+<p>Eine Quelle hält dabei, näherungsweise, ihre <strong>Spannung</strong> fest, nicht den Strom. Wie viel Strom fliesst, entscheidet die angeschlossene Schaltung über \(I = U/R_\text{ges}\): Kommt ein paralleler Zweig dazu, steigt der Strom der Quelle, ihre Spannung bleibt. Eine reale Quelle hat einen Innenwiderstand, an dem bei grossem Strom Spannung abfällt; das zeigt <a class="anim-ref" href="#anim-multimeter-richtig-anschliessen">Animation 3</a> beim Kurzschluss. Schaltungen, die sich nicht Schritt für Schritt zusammenfassen lassen, etwa mit Quellen in verschiedenen Zweigen, löst man mit denselben zwei Regeln als Gleichungssystem: eine Gleichung je Knoten und je Masche. Das geht über diese Seite hinaus.</p>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z6</span><span class="aufg-titel-text">Mit den zwei Regeln argumentieren</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <ol class="aufg-liste">
+    <li>In einem Kreis ohne Verzweigung wird an drei Stellen der Strom gemessen: \(120\;\text{mA}\), \(120\;\text{mA}\) und \(118\;\text{mA}\). Was folgt daraus?</li>
+    <li>An einer \(12\text{-V}\)-Quelle hängen zwei Widerstände in Reihe. Über dem ersten werden \(4.5\;\text{V}\) gemessen. Wie gross ist die Spannung über dem zweiten?</li>
+    <li>Jemand sagt: «In der Parallelschaltung teilt sich die Spannung auf die Zweige auf.» Korrigiere mit einer der beiden Regeln.</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz6')">▶ Lösung</button>
+  <div class="loesung-body" id="lz6">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Nach der Knotenregel ist der Strom ohne Verzweigung überall gleich. Die Abweichung von \(2\;\text{mA}\) liegt in der Messunsicherheit: Jedes Gerät hat eine Toleranz, und beim Umstecken ändern sich die Kontaktwiderstände. Physikalisch fliesst an allen drei Stellen derselbe Strom.</li>
+        <li>Maschenregel: \(U = U_1 + U_2\), also \(U_2 = U - U_1 = 12\;\text{V} - 4.5\;\text{V} = 7.5\;\text{V}\). Widerstände und Strom braucht man dafür nicht.</li>
+        <li>Parallel teilt sich der Strom, die Spannung ist über allen Zweigen gleich. Jeder Zweig bildet mit der Quelle eine eigene Masche; sitzt im Zweig nur ein Bauteil, liegt an ihm die ganze Quellenspannung.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
 <details class="frage">
   <summary>❓ Zwei Widerstände sind im Schaltbild direkt untereinander gezeichnet. Liegen sie deshalb parallel?</summary>
   <div class="frage-antwort">
@@ -1335,7 +1581,7 @@ MathJax = {
 <div class="mc-item"><span class="mc-typ">Multiple Choice</span><p class="mc-frage">\(R_1\) in Reihe zu \(R_2 \parallel R_3\). Womit beginnt die Rechnung?</p><ul class="mc-optionen"><li data-opt="A">mit \(R_1 + R_2\)</li><li data-opt="B">mit der Parallelgruppe \(R_2 \parallel R_3\)</li><li data-opt="C">mit \(U / R_1\)</li></ul><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort"><strong>B.</strong> Innen beginnen. Erst wenn die Parallelgruppe ein einzelner Widerstand ist, darf sie mit \(R_1\) addiert werden.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Lückentext</span><p class="mc-frage">Der Ersatzwiderstand einer Parallelgruppe ist immer <span class="mc-luecke"></span> als der kleinste Einzelwiderstand.</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">kleiner — jeder zusätzliche Zweig schafft dem Strom einen weiteren Weg.</div></details></div>
 <div class="mc-item"><span class="mc-typ">Kurze Rechnung</span><p class="mc-frage">\(R_1 = 100\;\Omega\) in Reihe zu \(R_2 = R_3 = 200\;\Omega\) parallel. Wie gross ist \(R_\text{ges}\)?</p><details class="mc-loesung"><summary>Lösung anzeigen</summary><div class="mc-antwort">Zwei gleiche parallel ergeben die Hälfte: \(R_\text{p} = \dfrac{R_2}{2} = \dfrac{200\;\Omega}{2} = 100\;\Omega\). Damit \(R_\text{ges} = R_1 + R_\text{p} = 100\;\Omega + 100\;\Omega = 200\;\Omega\).</div></details></div>
-<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">In der Schaltung oben wird \(R_3\) herausgenommen. Wird der Gesamtstrom grösser oder kleiner?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Kleiner. Ohne \(R_3\) fällt ein Strompfad weg, die Parallelgruppe wird zu \(R_2 = 220\;\Omega\), der Gesamtwiderstand steigt von \(232\;\Omega\) auf \(320\;\Omega\) — und der Strom sinkt von \(51.7\) auf \(37.5\,\text{mA}\).</div></details></div>
+<div class="mc-item"><span class="mc-typ">Transfer</span><p class="mc-frage">In der Schaltung aus dem Beispiel (\(R_1 = 100\;\Omega\), \(R_2 = 220\;\Omega\), \(R_3 = 330\;\Omega\) an \(12\;\text{V}\)) wird \(R_3\) herausgenommen. Wird der Gesamtstrom grösser oder kleiner?</p><details class="mc-loesung"><summary>Lösungsweg anzeigen</summary><div class="mc-antwort">Kleiner. Ohne \(R_3\) fällt ein Strompfad weg, die Parallelgruppe wird zu \(R_2 = 220\;\Omega\), der Gesamtwiderstand steigt von \(232\;\Omega\) auf \(320\;\Omega\) — und der Strom sinkt von \(51.7\) auf \(37.5\,\text{mA}\).</div></details></div>
 </details>
 
 <h2 id="leistung">Leistung und Energie</h2>
@@ -1348,6 +1594,15 @@ MathJax = {
   \[ P = U\cdot I = (R\cdot I)\cdot I = R\cdot I^2 \]
   \[ P = U\cdot I = U\cdot\frac{U}{R} = \frac{U^2}{R} \]
   <p style="margin-bottom:0">Welche Form passt, hängt davon ab, was gleich bleibt. Bei gleichem Strom (Reihenschaltung, Leitungsverluste) zeigt \(P = R\cdot I^2\): Der grössere Widerstand setzt mehr Leistung um. Bei gleicher Spannung (Parallelschaltung, Geräte am Netz) zeigt \(P = U^2/R\): Der kleinere Widerstand setzt mehr Leistung um.</p>
+</div>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel: was das Typenschild verrät</div>
+  <p><em>Ein Wasserkocher trägt die Angaben «230 V, 2200 W». Wie gross sind Strom und Widerstand im Betrieb, und welche Leistung setzt er an \(115\;\text{V}\) um?</em></p>
+  <p>\[ I = \frac{P}{U} = \frac{2200\;\text{W}}{230\;\text{V}} = 9.57\;\text{A} \]</p>
+  <p>\[ R = \frac{U^2}{P} = \frac{(230\;\text{V})^2}{2200\;\text{W}} = 24.05\;\Omega \]</p>
+  <p>\[ P' = \frac{U'^2}{R} = \frac{(115\;\text{V})^2}{24.05\;\Omega} = 550\;\text{W} \]</p>
+  <p style="margin-bottom:0">Halbe Spannung heisst halber Strom — und darum ein <strong>Viertel</strong> der Leistung, nicht die Hälfte. Gerechnet ist mit konstantem Widerstand. Für einen Heizdraht aus Chromnickel ist das eine gute Näherung, weil sich sein Widerstand mit der Temperatur nur wenig ändert; für eine Glühlampe wäre es keine (<a href="#kennlinien">Kennlinien</a>).</p>
 </div>
 
 <div class="widget">
@@ -1551,6 +1806,11 @@ MathJax = {
 
 <h3 id="leistung-schaltung">Leistung in Reihe und parallel</h3>
 
+<div class="block block-tipp">
+  <div class="block-titel">🔭 Weiterführend</div>
+  <p style="margin-bottom:0">Die Leistung einzelner Bauteile in einer Schaltung geht über den Rahmenlehrplan hinaus, der \(P = U\cdot I\) und \(E = P\cdot t\) verlangt. Voraussetzung sind <a href="#reihe">Reihen</a>- und <a href="#parallel">Parallelschaltung</a> und die <a href="#leistung">Leistung am Widerstand</a>.</p>
+</div>
+
 <p>Das Typenschild einer Glühlampe nennt die Leistung <em>bei Nennspannung</em>. Sobald zwei Lampen anders verschaltet werden, stimmt diese Zahl nicht mehr — und die Überraschung ist, in welche Richtung.</p>
 <p><strong>Modellannahme:</strong> Wir behandeln die Lampen als feste Widerstände mit dem Heisswiderstand, der sich aus den Nennwerten ergibt (\(R = U^2/P\)). Reale Glühlampen sind nicht ohmsch: Bei kleinerer Spannung kühlt der Glühdraht ab, und sein Widerstand sinkt. Die berechneten Leistungen sind deshalb eine Näherung: In Reihe liegt an jeder Lampe weniger als die Nennspannung, der Draht bleibt kühler, sein Widerstand kleiner — Strom und Leistungen sind in Wirklichkeit etwas höher als im Modell. Die Aussage, welche Lampe in Reihe heller leuchtet, bleibt richtig und wird sogar noch deutlicher.</p>
 
@@ -1642,6 +1902,151 @@ MathJax = {
   <p style="margin-bottom:0">Die <strong>40-W-Lampe leuchtet heller</strong> als die 60-W-Lampe — genau umgekehrt als auf dem Typenschild. Und zusammen setzen beide nur \(24\,\text{W}\) um statt \(100\,\text{W}\) (im Modell; real etwas mehr). Der Grund steht in \(P = R\,I^2\): Bei gleichem Strom gewinnt der grössere Widerstand.</p>
 </div>
 
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z7</span><span class="aufg-titel-text">Ein Bauteil, zwei Schaltungen</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <p>Zwei Widerstände \(R_1 = 100\;\Omega\) und \(R_2 = 400\;\Omega\) liegen an \(20\;\text{V}\), einmal in Reihe, einmal parallel.</p>
+  <ol class="aufg-liste">
+    <li>Welche Leistung setzt \(R_1\) in der Reihenschaltung um?</li>
+    <li>Welche Leistung setzt \(R_1\) in der Parallelschaltung um?</li>
+    <li>Um welchen Faktor unterscheiden sich die beiden Werte? Begründe.</li>
+    <li>Welcher der beiden Widerstände setzt in Reihe mehr um, welcher parallel?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz7')">▶ Lösung</button>
+  <div class="loesung-body" id="lz7">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(I = \dfrac{U}{R_1 + R_2} = \dfrac{20\;\text{V}}{500\;\Omega} = 40\;\text{mA}\) und \(P_1 = R_1 \cdot I^2 = 100\;\Omega \cdot (0.040\;\text{A})^2 = 0.16\;\text{W}\).</li>
+        <li>\(P_1 = \dfrac{U^2}{R_1} = \dfrac{(20\;\text{V})^2}{100\;\Omega} = 4.0\;\text{W}\).</li>
+        <li>Faktor \(25\). In Reihe liegt an \(R_1\) nur \(U_1 = R_1 \cdot I = 100\;\Omega \cdot 40\;\text{mA} = 4.0\;\text{V}\), ein Fünftel der Spannung. Bei festem Widerstand ist \(P = U^2/R\), also ein Fünftel der Spannung ein Fünfundzwanzigstel der Leistung.</li>
+        <li>In Reihe \(R_2\): \(P_2 = R_2 \cdot I^2 = 400\;\Omega \cdot (0.040\;\text{A})^2 = 0.64\;\text{W}\) — bei gleichem Strom gewinnt der grössere Widerstand. Parallel \(R_1\): \(4.0\;\text{W}\) gegen \(P_2 = \dfrac{(20\;\text{V})^2}{400\;\Omega} = 1.0\;\text{W}\) — bei gleicher Spannung gewinnt der kleinere.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<h3 id="wirkungsgrad">Wirkungsgrad: elektrische Energie wird Wärme</h3>
+
+<div class="block block-tipp">
+  <div class="block-titel">🔭 Weiterführend</div>
+  <p style="margin-bottom:0">Hier trifft die Elektrizität auf die Wärmelehre. Wärmemenge \(Q = m\,c\,\Delta T\) und Wirkungsgrad stehen in <a href="p5-2-waerme.html#waermemenge">5.2 Wärme</a> und <a href="p5-2-waerme.html#wirkungsgrad">5.2 Wirkungsgrad</a>; dieser Abschnitt zeigt nur, wie die elektrische Energie \(E = P\cdot t\) in die Rechnung kommt.</p>
+</div>
+
+<p>Kein Gerät gibt die ganze zugeführte Energie als Nutzen ab. Der <strong>Wirkungsgrad</strong> \(\eta = E_\text{nutz}/E_\text{zu}\) ist immer kleiner als 1. Beim Wasserkocher ist \(E_\text{zu} = P\cdot t\) die elektrische Energie und \(E_\text{nutz} = m\,c\,\Delta T\) die Wärme im Wasser; der Rest erwärmt Gehäuse und Luft.</p>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel: der Wirkungsgrad eines Wasserkochers</div>
+  <p><em>Ein Wasserkocher mit \(2000\;\text{W}\) bringt \(1.5\;\text{l}\) Wasser (\(1.5\;\text{kg}\)) in \(5.0\;\text{min}\) von \(20\;^\circ\text{C}\) auf \(100\;^\circ\text{C}\). Wie gross ist sein Wirkungsgrad? (\(c_\text{Wasser} = 4182\;\text{J/(kg}\cdot\text{K)}\))</em></p>
+  <p>\[ E_\text{nutz} = m \cdot c \cdot \Delta T = 1.5\;\text{kg} \cdot 4182\;\frac{\text{J}}{\text{kg}\cdot\text{K}} \cdot 80\;\text{K} = 502\;\text{kJ} \]</p>
+  <p>\[ E_\text{zu} = P \cdot t = 2000\;\text{W} \cdot 300\;\text{s} = 600\;\text{kJ} \]</p>
+  <p>\[ \eta = \frac{E_\text{nutz}}{E_\text{zu}} = \frac{502\;\text{kJ}}{600\;\text{kJ}} = 0.84 \]</p>
+  <p style="margin-bottom:0">Rund ein Sechstel der Energie erwärmt Gehäuse und Luft.</p>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z8</span><span class="aufg-titel-text">Wie lange braucht der Wasserkocher?</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <p>Ein Wasserkocher mit \(2200\;\text{W}\) erhitzt \(1.0\;\text{l}\) Wasser von \(20\;^\circ\text{C}\) auf \(100\;^\circ\text{C}\). Angenommen sind ein Wirkungsgrad von \(0.90\) und ein Beispieltarif von \(0.25\;\text{CHF/kWh}\).</p>
+  <ol class="aufg-liste">
+    <li>Wie viel Wärme braucht das Wasser?</li>
+    <li>Wie viel elektrische Energie muss zugeführt werden, und wie lange dauert das?</li>
+    <li>Wie viel ist das in kWh, und was kostet es?</li>
+    <li>Ein Gerät mit \(3000\;\text{W}\) und demselben Wirkungsgrad: schneller, billiger oder beides?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz8')">▶ Lösung</button>
+  <div class="loesung-body" id="lz8">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(E_\text{nutz} = m \cdot c \cdot \Delta T = 1.0\;\text{kg} \cdot 4182\;\dfrac{\text{J}}{\text{kg}\cdot\text{K}} \cdot 80\;\text{K} = 335\;\text{kJ}\).</li>
+        <li>\(E_\text{zu} = \dfrac{E_\text{nutz}}{\eta} = \dfrac{335\;\text{kJ}}{0.90} = 372\;\text{kJ}\) und \(t = \dfrac{E_\text{zu}}{P} = \dfrac{372\;\text{kJ}}{2200\;\text{W}} = 169\;\text{s} \approx 2.8\;\text{min}\).</li>
+        <li>\(E_\text{zu} = \dfrac{372\;\text{kJ}}{3600\;\text{kJ/kWh}} = 0.103\;\text{kWh}\); \(\text{Kosten} = E \cdot \text{Preis} = 0.103\;\text{kWh} \cdot 0.25\;\text{CHF/kWh} = 0.026\;\text{CHF}\), rund \(2.6\) Rappen.</li>
+        <li>Nur schneller: \(t = \dfrac{372\;\text{kJ}}{3000\;\text{W}} = 124\;\text{s}\). Die Energie und damit die Kosten bleiben gleich, denn das Wasser braucht dieselbe Wärme.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<h3 id="leitungsverluste">Spannungsfall, Leitungsverluste und Hochspannung</h3>
+
+<div class="block block-tipp">
+  <div class="block-titel">🔭 Weiterführend</div>
+  <p style="margin-bottom:0">Hier kommen der Leiterwiderstand und die Leistung zusammen; der Rahmenlehrplan verlangt beides einzeln, nicht die Leitungsverluste. Voraussetzung: <a href="#leiter">Widerstand eines Leiters</a> und <a href="#leistung">Leistung am Widerstand</a>.</p>
+</div>
+
+<p>Jede Zuleitung ist ein Widerstand \(R_\text{L} = \rho\,l/A\) in Reihe zum Gerät; \(l\) ist die Leiterlänge hin und zurück. Durch die Leitung fliesst der ganze Strom des Geräts. Über ihr fällt darum Spannung ab, der <strong>Spannungsfall</strong>, und in ihr wird Leistung zu Wärme, die <strong>Verlustleistung</strong>:</p>
+<p>\[ U_\text{V} = R_\text{L} \cdot I \qquad P_\text{V} = R_\text{L} \cdot I^2 \]</p>
+<p><strong>Modellannahmen:</strong> \(\rho\) gilt bei \(20\,^\circ\text{C}\), eine warme Leitung hat etwas mehr Widerstand. Der Strom wird aus der Leistung des Geräts mit \(I = P/U\) berechnet, als läge am Gerät die volle Spannung; das passt, solange \(U_\text{V}\) klein ist gegen \(U\).</p>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel: eine Kabelrolle</div>
+  <p><em>Eine Kabelrolle hat \(25\;\text{m}\) Kupferkabel mit \(1.5\;\text{mm}^2\) je Ader. Ein Heizlüfter zieht \(10\;\text{A}\). Wie gross sind Widerstand, Spannungsfall und Verlustleistung im Kabel?</em></p>
+  <p>Leiterlänge hin und zurück: \(l = 2 \cdot 25\;\text{m} = 50\;\text{m}\).</p>
+  <p>\[ R_\text{L} = \rho \cdot \frac{l}{A} = 0.017\;\frac{\Omega\,\text{mm}^2}{\text{m}} \cdot \frac{50\;\text{m}}{1.5\;\text{mm}^2} = 0.567\;\Omega \]</p>
+  <p>\[ U_\text{V} = R_\text{L} \cdot I = 0.567\;\Omega \cdot 10\;\text{A} = 5.7\;\text{V} \]</p>
+  <p>\[ P_\text{V} = R_\text{L} \cdot I^2 = 0.567\;\Omega \cdot (10\;\text{A})^2 = 57\;\text{W} \]</p>
+  <p style="margin-bottom:0">Knapp \(60\;\text{W}\) Wärme, über \(50\;\text{m}\) Leiter verteilt: abgerollt harmlos. Aufgerollt kann die Wärme kaum weg, und die Rolle wird heiss; darum steht auf Kabelrollen eine kleinere zulässige Leistung für den aufgerollten Zustand (<a href="#gefahr-alltag">Alltagsfälle</a>). Mit \(0.75\;\text{mm}^2\) je Ader verdoppeln sich Widerstand und Verlust auf \(1.13\;\Omega\) und \(113\;\text{W}\).</p>
+</div>
+
+<p><strong>Warum Hochspannung.</strong> Soll eine Leistung \(P\) übertragen werden, fliesst der Strom \(I = P/U\). Eingesetzt in die Verlustleistung:</p>
+<p>\[ P_\text{V} = R_\text{L} \cdot I^2 = R_\text{L} \cdot \left(\frac{P}{U}\right)^2 \]</p>
+<p>Zehnfache Spannung heisst ein Zehntel des Stroms und ein <strong>Hundertstel</strong> des Verlusts. Ein Modell: \(10\;\text{MW}\) über eine Leitung mit \(R_\text{L} = 2\;\Omega\).</p>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Übertragungsspannung \(U\)</th><th>Strom \(I = P/U\)</th><th>Verlust \(P_\text{V} = R_\text{L}\cdot I^2\)</th><th>Anteil an \(10\;\text{MW}\)</th></tr></thead>
+  <tbody>
+    <tr><td>\(10\;\text{kV}\)</td><td>\(1000\;\text{A}\)</td><td>\(2.0\;\text{MW}\)</td><td>\(20\;\%\)</td></tr>
+    <tr><td>\(100\;\text{kV}\)</td><td>\(100\;\text{A}\)</td><td>\(20\;\text{kW}\)</td><td>\(0.2\;\%\)</td></tr>
+    <tr><td>\(380\;\text{kV}\)</td><td>\(26.3\;\text{A}\)</td><td>\(1.39\;\text{kW}\)</td><td>\(0.014\;\%\)</td></tr>
+  </tbody>
+</table>
+
+<p>Herauf- und heruntersetzen lässt sich die Spannung mit dem <strong>Transformator</strong>, bei nahezu gleicher Leistung: vor der Leitung hinauf auf Hochspannung, im Unterwerk und in der Trafostation zurück bis auf die \(230\;\text{V}\) im Haus. Die \(10\;\text{MW}\) sind ein Modellwert; reale Höchstspannungsleitungen übertragen weit mehr. Im Kleinen zeigt dasselbe die Aufgabe A14 unter <a href="#aufgaben">Aufgaben</a> mit \(230\;\text{V}\) und \(400\;\text{V}\).</p>
+
+<div class="block block-fehler">
+  <div class="block-titel">🔴 Der typische Fehler: die falsche Spannung</div>
+  <p style="margin-bottom:0">Wer den Verlust mit \(P = U^2/R\) und der Übertragungsspannung rechnet, bekommt das Gegenteil: höhere Spannung, mehr Verlust. Die Übertragungsspannung liegt zwischen den Leitern und fällt beim Verbraucher ab, nicht in der Leitung. In die Formel gehört die Spannung über der Leitung selbst, \(U_\text{V} = R_\text{L}\cdot I\). Im Modell bei \(100\;\text{kV}\): \(U_\text{V} = 2\;\Omega \cdot 100\;\text{A} = 200\;\text{V}\) und \(P_\text{V} = U_\text{V}^2/R_\text{L} = (200\;\text{V})^2/2\;\Omega = 20\;\text{kW}\), dasselbe wie mit \(R_\text{L}\cdot I^2\). Mit \(100\;\text{kV}\) eingesetzt kämen \(5000\;\text{MW}\) heraus, das Fünfhundertfache der übertragenen Leistung.</p>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z9</span><span class="aufg-titel-text">Die Zuleitung einer Werkstatt</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <p>Eine Werkstatt braucht \(4.6\;\text{kW}\) an \(230\;\text{V}\). Ihre Zuleitung hat \(R_\text{L} = 0.60\;\Omega\) (hin und zurück).</p>
+  <ol class="aufg-liste">
+    <li>Wie gross sind Strom und Spannungsfall? Welche Spannung kommt an den Maschinen noch an?</li>
+    <li>Wie gross ist die Verlustleistung in der Leitung, und welcher Anteil der Leistung ist das?</li>
+    <li>Dieselbe Leistung wird mit \(400\;\text{V}\) übertragen. Wie gross ist der Verlust jetzt? (Vereinfacht wie eine einphasige Leitung gerechnet.)</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz9')">▶ Lösung</button>
+  <div class="loesung-body" id="lz9">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(I = \dfrac{P}{U} = \dfrac{4600\;\text{W}}{230\;\text{V}} = 20\;\text{A}\); \(U_\text{V} = R_\text{L} \cdot I = 0.60\;\Omega \cdot 20\;\text{A} = 12\;\text{V}\). An den Maschinen liegen nur noch rund \(230\;\text{V} - 12\;\text{V} = 218\;\text{V}\). Schaltet eine grosse Maschine ein, sinkt die Spannung kurz, und Lampen am selben Kreis flackern.</li>
+        <li>\(P_\text{V} = R_\text{L} \cdot I^2 = 0.60\;\Omega \cdot (20\;\text{A})^2 = 240\;\text{W}\), gut \(5\;\%\) von \(4.6\;\text{kW}\).</li>
+        <li>\(I = \dfrac{4600\;\text{W}}{400\;\text{V}} = 11.5\;\text{A}\), \(P_\text{V} = 0.60\;\Omega \cdot (11.5\;\text{A})^2 = 79\;\text{W}\) — rund ein Drittel, denn \((400/230)^2 = 3.0\). In der Schweiz sind \(400\;\text{V}\) die Spannung zwischen zwei Aussenleitern des Drehstromnetzes; dort gilt \(P = \sqrt{3}\cdot U\cdot I\). Am Befund \(P_\text{V} \sim 1/U^2\) ändert das nichts.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z10</span><span class="aufg-titel-text">Zehnfache Spannung</span><span class="aufg-vertiefung">Vertiefung</span></div>
+  <ol class="aufg-liste">
+    <li>\(20\;\text{kW}\) werden über eine Leitung mit \(0.50\;\Omega\) übertragen, einmal mit \(400\;\text{V}\), einmal mit \(4000\;\text{V}\) (vereinfacht einphasig). Berechne die Verlustleistung in beiden Fällen.</li>
+    <li>Ohne Rechnung: Die Übertragungsspannung wird verdreifacht, die Leistung bleibt gleich. Was geschieht mit Strom und Verlust?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz10')">▶ Lösung</button>
+  <div class="loesung-body" id="lz10">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(400\;\text{V}\): \(I = \dfrac{P}{U} = \dfrac{20\,000\;\text{W}}{400\;\text{V}} = 50\;\text{A}\), \(P_\text{V} = R_\text{L} \cdot I^2 = 0.50\;\Omega \cdot (50\;\text{A})^2 = 1250\;\text{W}\). \(4000\;\text{V}\): \(I = \dfrac{20\,000\;\text{W}}{4000\;\text{V}} = 5.0\;\text{A}\), \(P_\text{V} = 0.50\;\Omega \cdot (5.0\;\text{A})^2 = 12.5\;\text{W}\). Zehnfache Spannung, ein Hundertstel des Verlusts.</li>
+        <li>Der Strom fällt auf einen Drittel (\(I = P/U\)), der Verlust auf einen Neuntel (\(P_\text{V} \sim I^2\)).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
 <details class="frage">
   <summary>❓ Auf der Stromrechnung steht «Stromverbrauch». Was wird tatsächlich verbraucht?</summary>
   <div class="frage-antwort">
@@ -1660,8 +2065,26 @@ MathJax = {
 
 <div class="block block-tipp">
   <div class="block-titel">💡 Lieber geführt durcharbeiten?</div>
-  <p>Wirkung auf den Menschen, FI-Schutzschalter, Schutzleiter und Leitungsschutzschalter gibt es auch als Selbstlerneinheit: <a href="../leitprogramme/leitprogramm-gefahren.html">Leitprogramm «Gefahren und Schutzmassnahmen»</a> — sechs Schritte mit Vortest, Erklärclips, Simulationen, Selbstkontrolle nach jedem Schritt und Gesamttest. Diese Seite bleibt das Nachschlagewerk; das Leitprogramm ist der Kurs.</p>
+  <p>Stromwege, Wirkung auf den Menschen, FI-Schutzschalter, Schutzleiter und Leitungsschutzschalter erarbeitet das <a href="../leitprogramme/leitprogramm-elektrizitaet.html#k7">Leitprogramm «Elektrizität»</a> in seinem Kapitel zu Gefahren und Schutzmassnahmen, mit Fallbeurteilungen. Diese Seite ist das Nachschlagewerk dazu, mit weiteren Fällen: <a href="#gefahr-erde">der Rückweg über die Erde</a>, <a href="#gefahr-fi-grenzen">wo der FI nicht hilft</a>, <a href="#gefahr-alltag">Mehrfachsteckdose und Kabelrolle</a> und <a href="#gefahr-tabelle">wovor schützt was</a>.</p>
 </div>
+
+<h3 id="gefahr-erde">Der Rückweg über die Erde</h3>
+
+<p>Zu einem Stromkreis gehören zwei Anschlüsse, und trotzdem kann schon die Berührung eines einzigen Leiters gefährlich sein. Der Grund: Der Neutralleiter N ist beim Transformator, der das Quartier versorgt, mit der Erde verbunden. Damit liegt der Aussenleiter L nicht nur gegenüber N, sondern auch gegenüber der Erde auf \(230\;\text{V}\). Wer L berührt und zugleich Kontakt zur Erde hat — über die Füsse, eine Wand, einen Wasserhahn —, schliesst den Kreis mit dem eigenen Körper: von L durch den Körper in den Boden und durch die Erde zurück zum Transformator.</p>
+<p>Körper und Übergang zur Erde (Schuhe und Boden) liegen dabei in Reihe. Ihre Widerstände addieren sich, und durch beide fliesst derselbe Strom:</p>
+<p>\[ I = \frac{U}{R_\text{K} + R_\text{Ü}} \]</p>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Boden (Annahme)</th><th>Übergangswiderstand \(R_\text{Ü}\)</th><th>Strom bei \(230\;\text{V}\) und \(R_\text{K} = 2\;\text{k}\Omega\)</th></tr></thead>
+  <tbody>
+    <tr><td>isolierend: Gummisohlen auf trockenem Holz</td><td>\(1\;\text{M}\Omega\)</td><td>\(0.23\;\text{mA}\)</td></tr>
+    <tr><td>trocken: Schuhe auf trockenem Boden</td><td>\(10\;\text{k}\Omega\)</td><td>\(19\;\text{mA}\)</td></tr>
+    <tr><td>feucht: dünne Sohlen auf feuchtem Beton</td><td>\(500\;\Omega\)</td><td>\(92\;\text{mA}\)</td></tr>
+    <tr><td>nass: barfuss auf nassem Boden</td><td>vernachlässigbar</td><td>\(115\;\text{mA}\)</td></tr>
+  </tbody>
+</table>
+
+<p>Die Widerstände sind <strong>Annahmen</strong> für die Rechnung, keine Messwerte: Körper- und Übergangswiderstand hängen von Spannung, Feuchtigkeit, Kontaktfläche und Stromweg ab und streuen stark. Die Tabelle zeigt Grössenordnungen, keine Grenze, auf die man sich verlassen darf. Ein Vogel auf der Hochspannungsleitung berührt nur einen Leiter und hat keinen Kontakt zur Erde; zwischen seinen Füssen liegt praktisch keine Spannung. Gefährlich wird es, sobald er gleichzeitig einen zweiten Leiter oder den geerdeten Mast erreicht. Aus demselben Grund schützen Gummistiefel nur, solange der Weg über den Boden der einzige ist — nicht, wenn die andere Hand einen Heizkörper oder Wasserhahn berührt oder beide Leiter angefasst werden, und nicht, wenn die Stiefel nass oder beschädigt sind.</p>
 
 <h3 id="gefahr-mensch">Wirkung auf den Menschen</h3>
 
@@ -1734,6 +2157,55 @@ MathJax = {
   </div>
 </div>
 
+
+<div class="block block-def">
+  <div class="block-titel">📘 Wovon die Gefährdung abhängt</div>
+  <ul>
+    <li><strong>Stromstärke und Einwirkdauer</strong> zusammen, wie in <a class="anim-ref" href="#anim-wirkung-50-hz-wechselstrom">Animation 12</a>: Je länger der Strom einwirkt, desto kleiner darf er sein, um gefährlich zu werden.</li>
+    <li><strong>Der Stromweg.</strong> Am gefährlichsten ist der Weg über das Herz, von Hand zu Hand oder von Hand zu Fuss. Zwischen zwei Fingern derselben Hand bleibt der Strom in der Hand; er kann dort Verbrennungen und Verkrampfungen verursachen, erreicht das Herz aber nicht.</li>
+    <li><strong>Der Körperwiderstand</strong> und damit bei gegebener Spannung der Strom: gross bei trockener Haut und kleiner Spannung, viel kleiner bei nasser Haut, Wunden, grosser Kontaktfläche und hoher Spannung.</li>
+  </ul>
+  <table class="ftb-tabelle">
+    <thead><tr><th>Bereich</th><th>Strom bei langer Einwirkung (einige Sekunden)</th><th>Wirkung (50 Hz)</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>unter \(0.5\;\text{mA}\)</td><td>keine Reaktion</td></tr>
+      <tr><td>2</td><td>\(0.5\) bis \(10\;\text{mA}\)</td><td>wahrnehmbar, meist keine schädliche Wirkung</td></tr>
+      <tr><td>3</td><td>\(10\) bis rund \(40\;\text{mA}\)</td><td>starke Muskelverkrampfung, Atemnot, Herzrhythmusstörungen (meist reversibel)</td></tr>
+      <tr><td>4</td><td>über rund \(40\;\text{mA}\)</td><td>Herzkammerflimmern möglich, mit Strom und Zeit zunehmend — lebensgefährlich</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-bottom:0">Die Grenzen sind dieselben vereinfachten wie in der Animation, angelehnt an IEC 60479-1. Bei kurzer Einwirkung liegen sie höher. Die \(30\;\text{mA}\) des FI liegen in Bereich 3: Sie sind eine Auslöseschwelle, keine Grenze für ungefährlichen Strom.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Nach einem Stromunfall</div>
+  <ul style="margin-bottom:0">
+    <li><strong>Zuerst den Strom abschalten:</strong> Leitungsschutzschalter ausschalten, Stecker ziehen. Solange die Person am Strom hängt, nicht berühren — wer sie anfasst, wird selbst Teil des Stromkreises. Bei Hochspannung (Bahn, Freileitung) Abstand halten; abschalten können nur die Betreiber.</li>
+    <li><strong>Notruf 144</strong> alarmieren. Ist die Person bewusstlos oder atmet sie nicht normal, sofort mit der Herzdruckmassage beginnen.</li>
+    <li><strong>Immer ärztlich abklären lassen</strong>, auch ohne Beschwerden: Herzrhythmusstörungen können verzögert auftreten, und Verbrennungen im Körperinnern sieht man von aussen nicht.</li>
+  </ul>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z11</span><span class="aufg-titel-text">Kleinspannung: immer ungefährlich?</span></div>
+  <p>Eine Spannung von \(24\;\text{V}\) liegt einmal an trockener Haut (Annahme \(5000\;\Omega\)), einmal an nasser Haut (Annahme \(1000\;\Omega\)).</p>
+  <ol class="aufg-liste">
+    <li>Berechne beide Ströme und ihr Verhältnis.</li>
+    <li>Ordne beide Ströme mit der Tabelle oben ein (lange Einwirkung).</li>
+    <li>«Unter 25 Volt ist Strom ungefährlich.» Wann stimmt das ungefähr, und wann nicht? Begründe mit \(I = U/R\).</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz11')">▶ Lösung</button>
+  <div class="loesung-body" id="lz11">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(I_\text{trocken} = \dfrac{U}{R} = \dfrac{24\;\text{V}}{5000\;\Omega} = 4.8\;\text{mA}\) und \(I_\text{nass} = \dfrac{24\;\text{V}}{1000\;\Omega} = 24\;\text{mA}\). Fünfmal kleinerer Widerstand, fünfmal grösserer Strom.</li>
+        <li>\(4.8\;\text{mA}\) liegen in Bereich 2 (wahrnehmbar), \(24\;\text{mA}\) schon in Bereich 3: starke Verkrampfung, man kann unter Umständen nicht mehr loslassen.</li>
+        <li>Bei trockener, unverletzter Haut und kleiner Kontaktfläche ist der Körperwiderstand bei so kleiner Spannung gross, der Strom bleibt klein. Wird der Widerstand klein — nasse Haut, Wunden, grosse Kontaktfläche —, wächst bei derselben Spannung der Strom. Die Grenze hängt nicht an der Spannung allein, sondern am Strom, den sie im Körper erzeugt.</li>
+      </ol>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════ 10. GEFAHREN: WIRKUNG, MINI-CHECK ══════════════ -->
 <details class="frage">
@@ -1845,9 +2317,52 @@ MathJax = {
   </div>
 </div>
 
+<p>Technisch führt der FI Aussen- und Neutralleiter gemeinsam durch einen Ringkern, den <strong>Summenstromwandler</strong>. Hin- und Rückstrom heben sich darin auf, solange sie gleich gross sind; nur eine Differenz erzeugt ein Signal. Darum sieht der FI den Fehlerstrom, unabhängig davon, wie gross der Betriebsstrom des Geräts ist.</p>
+
+<div class="block block-bsp">
+  <div class="block-titel">🟢 Beispiel: ein Föhn mit Isolationsfehler</div>
+  <p><em>Ein Föhn mit \(1800\;\text{W}\) ohne Schutzleiter hat einen Isolationsfehler. Jemand berührt das Gehäuse und steht barfuss auf nassem Boden; angenommen sind \(R_\text{K} = 1500\;\Omega\) und ein vernachlässigbarer Übergangswiderstand. Was misst der FI?</em></p>
+  <p>Der Betriebsstrom fliesst über L hin und über N zurück:</p>
+  <p>\[ I_\text{N} = \frac{P}{U} = \frac{1800\;\text{W}}{230\;\text{V}} = 7.83\;\text{A} \]</p>
+  <p>Der Fehlerstrom fliesst zusätzlich über L hin, aber durch den Menschen in die Erde:</p>
+  <p>\[ I_\text{F} = \frac{U}{R_\text{K}} = \frac{230\;\text{V}}{1500\;\Omega} = 153\;\text{mA} \]</p>
+  <p>\[ \Delta I = I_\text{L} - I_\text{N} = (7.83\;\text{A} + 0.153\;\text{A}) - 7.83\;\text{A} = 153\;\text{mA} \]</p>
+  <p style="margin-bottom:0">\(153\;\text{mA}\) sind mehr als das Fünffache von \(30\;\text{mA}\): Der FI muss spätestens nach \(40\;\text{ms}\) abschalten.</p>
+</div>
+
+<div class="block block-fehler" id="gefahr-fi-grenzen">
+  <div class="block-titel">🔴 Wo der FI nicht hilft</div>
+  <p style="margin-bottom:0">Der FI merkt nur Strom, der den Kreis auf einem anderen Weg als über N verlässt. Steht jemand isoliert auf einer trockenen Holzleiter und fasst mit der einen Hand L, mit der anderen N, fliesst der Strom quer durch den Brustkorb von L nach N. Für den FI ist dieser Mensch ein gewöhnlicher Verbraucher: Die Differenz ist null, er bleibt ein. Dasselbe gilt beim Kurzschluss zwischen L und N. Der FI ist darum <em>zusätzlicher</em> Schutz; er ersetzt weder die Isolation der Geräte noch die Vorsicht.</p>
+</div>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z12</span><span class="aufg-titel-text">Was der FI sieht</span></div>
+  <p>Ein Gerät mit \(1500\;\text{W}\) ohne Schutzleiter hat einen Isolationsfehler; jemand berührt das Gehäuse (\(R_\text{K} = 2000\;\Omega\), Übergangswiderstand vernachlässigbar).</p>
+  <ol class="aufg-liste">
+    <li>Berechne \(I_\text{N}\), den Fehlerstrom, \(I_\text{L}\) und \(\Delta I\).</li>
+    <li>Wie schnell muss ein \(30\text{-mA}\)-FI spätestens abschalten?</li>
+    <li>Würde ein \(13\text{-A}\)-Leitungsschutzschalter etwas bemerken?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz12')">▶ Lösung</button>
+  <div class="loesung-body" id="lz12">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(I_\text{N} = \dfrac{P}{U} = \dfrac{1500\;\text{W}}{230\;\text{V}} = 6.52\;\text{A}\); \(I_\text{F} = \dfrac{U}{R_\text{K}} = \dfrac{230\;\text{V}}{2000\;\Omega} = 115\;\text{mA}\); \(I_\text{L} = I_\text{N} + I_\text{F} = 6.52\;\text{A} + 0.115\;\text{A} = 6.64\;\text{A}\); \(\Delta I = I_\text{L} - I_\text{N} = 115\;\text{mA}\).</li>
+        <li>\(115\;\text{mA}\) liegen über dem Doppelten (\(60\;\text{mA}\)), aber unter dem Fünffachen (\(150\;\text{mA}\)) des Nennfehlerstroms: spätestens nach \(150\;\text{ms}\).</li>
+        <li>Nein. Im Leiter fliessen \(6.64\;\text{A}\), weit unter \(13\;\text{A}\); dass \(115\;\text{mA}\) davon durch einen Menschen gehen, kann er nicht erkennen.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
 <h3 id="gefahr-pe">Der Schutzleiter — er macht den Fehler sichtbar</h3>
 
 <p>Der <strong>Schutzleiter</strong> (PE, gelb-grün) verbindet alle berührbaren Metallteile eines Geräts leitend mit der Erde. Er führt im Normalbetrieb keinen Strom. Bekommt das Gehäuse durch einen Isolationsfehler Kontakt zum Aussenleiter, stellt der Schutzleiter einen niederohmigen Weg für den Fehlerstrom bereit. Dadurch kann die vorgesehene Schutzeinrichtung automatisch abschalten; ein FI erkennt diesen Fehlerstrom als Differenz besonders empfindlich.</p>
+
+<p>Der Fehlerweg führt dabei nicht durchs Erdreich: In den üblichen Hausinstallationen ist der Schutzleiter mit dem geerdeten Neutralleiter verbunden, und der Fehlerstrom fliesst durch Metall zum Transformator zurück. Darum ist die Fehlerschleife so niederohmig. Mit angenommenen \(2\;\Omega\) für die ganze Schleife, wie in <a class="anim-ref" href="#anim-fi-stromvergleich">Animation 13</a>:</p>
+<p>\[ I_\text{F} = \frac{U}{R_\text{Schleife}} = \frac{230\;\text{V}}{2\;\Omega} = 115\;\text{A} \]</p>
+<p>Das ist das \(8.8\)-Fache des Nennstroms eines \(13\text{-A}\)-Leitungsschutzschalters. Bei Charakteristik B, die ab dem \(3\)- bis \(5\)-Fachen magnetisch auslöst, schaltet er praktisch sofort ab. Bis dahin liegt das Gehäuse unter Spannung, bei etwa gleichem Widerstand von Aussen- und Schutzleiter auf rund der halben Netzspannung; der Schutz liegt in der kurzen Zeit bis zur Abschaltung. Ist der Schutzleiter dagegen gerissen, fliesst nach dem Isolationsfehler gar kein Strom: Keine Schutzeinrichtung hat einen Grund abzuschalten, und das Gehäuse steht unbemerkt unter Spannung, bis es jemand berührt. Dann bleibt nur noch der FI.</p>
 
 <div class="block block-tipp">
   <div class="block-titel">💡 Warum die beiden zusammengehören</div>
@@ -1867,6 +2382,38 @@ MathJax = {
   <p style="margin-bottom:0">Ein Leitungsschutzschalter schützt <strong>keinen Menschen</strong>. Ein \(13\text{-A}\)-LS reagiert erst auf Ströme deutlich über \(13\,\text{A}\) — für den Körper ist bereits ein Hundertstel davon lebensgefährlich. Wer durch einen Defekt Strom abbekommt, zieht vielleicht \(50\,\text{mA}\); der LS bemerkt davon nichts und bleibt eingeschaltet. Umgekehrt schützt ein FI keine Leitung: Er misst nur die Differenz, und ein Kurzschluss zwischen Aussen- und Neutralleiter erzeugt keine Differenz, sondern nur einen sehr grossen Strom — den der LS abschaltet.</p>
 </div>
 
+<h3 id="gefahr-alltag">Alltagsfälle: Mehrfachsteckdose und Kabelrolle</h3>
+
+<p>Der Leitungsschutzschalter schützt die fest verlegte Leitung. Was dahinter eingesteckt wird, hat eigene Grenzen, die er nicht kennt:</p>
+<ul>
+  <li><strong>Stecker und Steckdose.</strong> Der übliche dreipolige Schweizer Stecker Typ 12 und die Steckdose Typ 13 (Norm SN 441011) sind für \(10\;\text{A}\) bemessen, bei \(230\;\text{V}\) also für rund \(2300\;\text{W}\). Das gilt auch für eine Mehrfachsteckdose oder Kabelrolle mit diesem Stecker, egal wie viele Geräte daran hängen — und auch dann, wenn der Stromkreis mit \(13\;\text{A}\) abgesichert ist.</li>
+  <li><strong>Die aufgerollte Kabelrolle.</strong> Aufgerollt kann die Wärme \(P_\text{V} = R_\text{L}\cdot I^2\) aus der Leitung (<a href="#leitungsverluste">Leitungsverluste</a>) kaum entweichen; die Rolle wird schon bei einem Strom heiss, den sie abgerollt problemlos führt. Darum sind auf Kabelrollen zwei zulässige Leistungen aufgedruckt, aufgerollt und abgerollt. Massgebend ist der Aufdruck der eigenen Rolle. Der LS misst nur den Strom, nicht die Temperatur, und merkt davon nichts.</li>
+  <li><strong>Häufiges Auslösen</strong> ist ein Hinweis auf Überlast oder einen Fehler. Den LS durch einen mit grösserem Nennstrom zu ersetzen, ist gefährlich: Sein Nennstrom ist auf die Leitung abgestimmt, die er schützt; mit einem grösseren könnte dauernd ein Strom fliessen, für den die Leitung nicht ausgelegt ist. Arbeiten an der Installation gehören in die Hand einer Fachperson.</li>
+</ul>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z13</span><span class="aufg-titel-text">Mehrfachsteckdose und Kabelrolle</span></div>
+  <p>Ein Stromkreis ist mit \(13\;\text{A}\) abgesichert. Die Geräte werden als ohmsch an \(230\;\text{V}\) gerechnet.</p>
+  <ol class="aufg-liste">
+    <li>Ein Wasserkocher (\(2000\;\text{W}\)) und ein Heizlüfter (\(2000\;\text{W}\)) laufen gleichzeitig an einer Mehrfachsteckdose mit Stecker Typ 12. Berechne den Strom.</li>
+    <li>Beurteile den Leitungsschutzschalter.</li>
+    <li>Beurteile die Mehrfachsteckdose.</li>
+    <li>Der Heizlüfter allein hängt an einer aufgerollten Kabelrolle mit dem Aufdruck «aufgerollt 1000 W, abgerollt 2300 W». Was geschieht, und was hilft?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz13')">▶ Lösung</button>
+  <div class="loesung-body" id="lz13">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>\(I = \dfrac{P}{U} = \dfrac{2000\;\text{W} + 2000\;\text{W}}{230\;\text{V}} = 17.4\;\text{A}\).</li>
+        <li>\(17.4\;\text{A}\) sind das \(1.34\)-Fache von \(13\;\text{A}\): über dem \(1.13\)-Fachen, unter dem \(1.45\)-Fachen. Ob und wann der LS abschaltet, ist nicht festgelegt, womöglich erst nach langer Zeit. Der Stromkreis ist überlastet; die Geräte gehören auf verschiedene Stromkreise.</li>
+        <li>Durch Stecker und Mehrfachsteckdose fliessen \(17.4\;\text{A}\), bemessen sind sie für \(10\;\text{A}\). Sie können heiss werden, bevor der LS etwas merkt.</li>
+        <li>\(I = \dfrac{2000\;\text{W}}{230\;\text{V}} = 8.7\;\text{A}\), unter \(13\;\text{A}\): Der LS bleibt eingeschaltet. Die aufgerollte Rolle ist aber mit \(2000\;\text{W}\) doppelt so stark belastet wie zulässig und kann überhitzen. Abhilfe: ganz abrollen — abgerollt liegen \(2000\;\text{W}\) unter den zulässigen \(2300\;\text{W}\).</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
 <h3 id="gefahr-tabelle">Wovor schützt was</h3>
 
 <table class="ftb-tabelle">
@@ -1876,12 +2423,46 @@ MathJax = {
   <tbody>
     <tr><td>FI / RCD</td><td><strong>Menschen</strong> (zusätzlich)</td><td>Differenz zwischen Hin- und Rückstrom</td><td>Nennfehlerstrom \(30\,\text{mA}\); je grösser der Fehlerstrom, desto schneller (höchstens \(300\,\text{ms}\) bei \(30\,\text{mA}\))</td></tr>
     <tr><td>Schutzleiter (PE)</td><td><strong>Menschen</strong></td><td>schaltet nicht — leitet ab</td><td>—</td></tr>
-    <tr><td>Leitungsschutzschalter</td><td><strong>die Leitung</strong></td><td>Strom in der Leitung</td><td>Strom über dem Nennstrom (typisch \(10\), \(13\) oder \(16\,\text{A}\)) nach Zeit-Strom-Kennlinie; Kurzschluss sofort</td></tr>
+    <tr><td>Leitungsschutzschalter</td><td><strong>die Leitung</strong>; mit dem Schutzleiter auch bei Gehäuseschluss</td><td>Strom in der Leitung</td><td>Strom über dem Nennstrom (typisch \(10\), \(13\) oder \(16\,\text{A}\)) nach Zeit-Strom-Kennlinie; Kurzschluss sofort</td></tr>
     <tr><td>Schutzklasse II</td><td><strong>Menschen</strong></td><td>schaltet nicht — isoliert doppelt</td><td>—</td></tr>
   </tbody>
 </table>
 
-<p>Die Spalte «misst / überwacht» ist der Schlüssel: <strong>Wer die Differenz misst, schützt Menschen. Wer den Strom selbst überwacht, schützt Material.</strong></p>
+<p>Die Spalte «misst / überwacht» ist der Schlüssel: <strong>Wer die Differenz misst, schützt Menschen. Wer den Strom selbst überwacht, schützt Material.</strong> Einen Menschen schützt der Leitungsschutzschalter nur über den Umweg Schutzleiter: Der macht aus einem Gehäuseschluss einen grossen Fehlerstrom, den der LS abschaltet, bevor jemand das Gehäuse berührt. Fliesst der Strom dagegen durch einen Menschen selbst, bleibt er für den LS unsichtbar klein.</p>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>statt</th><th>besser</th><th>warum</th></tr></thead>
+  <tbody>
+    <tr><td>«Der FI schützt vor Kurzschluss.»</td><td>«Der FI schützt zusätzlich Menschen, der LS schützt die Leitung.»</td><td>Beim Kurzschluss gibt es keine Differenz zwischen Hin- und Rückstrom.</td></tr>
+    <tr><td>«Die Sicherung schützt mich.»</td><td>«Der LS schützt die Leitung. Mich schützt er nur zusammen mit dem Schutzleiter, bei einem Gehäuseschluss.»</td><td>Er reagiert erst auf Ampere; ein lebensgefährlicher Körperstrom liegt bei Milliampere.</td></tr>
+    <tr><td>«Unter 30 mA passiert nichts.»</td><td>«Ab 30 mA muss der FI abschalten.»</td><td>Die Schwelle ist eine Auslösebedingung, keine Grenze für ungefährlichen Körperstrom.</td></tr>
+    <tr><td>«Spannung fliesst durch den Körper.»</td><td>«Spannung liegt an, Strom fliesst.»</td><td>Gefährlich ist der Strom; die Spannung bestimmt ihn zusammen mit dem Körperwiderstand.</td></tr>
+  </tbody>
+</table>
+
+<div class="block block-aufg">
+  <div class="block-titel">🟠 <span class="aufg-nr-tag">Z14</span><span class="aufg-titel-text">Welche Einrichtung reagiert?</span></div>
+  <ol class="aufg-liste">
+    <li>Jemand fasst das defekte Gehäuse eines Geräts ohne Schutzleiter an und steht auf dem Boden.</li>
+    <li>In einer Lampe berühren sich Aussen- und Neutralleiter.</li>
+    <li>An einer Mehrfachsteckdose mit Stecker Typ 12 hängen ein Wasserkocher (\(2000\;\text{W}\)), ein Föhn (\(1800\;\text{W}\)) und ein Heizlüfter (\(2000\;\text{W}\)) an einem \(13\text{-A}\)-Stromkreis.</li>
+    <li>Das Metallgehäuse einer Waschmaschine bekommt Kontakt zum Aussenleiter; der Schutzleiter ist intakt.</li>
+    <li>In einem Altbau gibt es Leitungsschutzschalter und Schutzleiter, aber keinen FI. Welcher Fehlerfall ist dort ungeschützt?</li>
+  </ol>
+  <button class="loesung-toggle" onclick="toggleL('lz14')">▶ Lösung</button>
+  <div class="loesung-body" id="lz14">
+    <div class="block block-bsp" style="margin:6px 0 0">
+      <div class="block-titel">🟢 Lösung</div>
+      <ol class="aufg-liste">
+        <li>Der FI: Der Strom durch den Menschen fliesst in die Erde und fehlt im Neutralleiter. Der LS bemerkt ihn nicht.</li>
+        <li>Der LS: Kurzschluss, sehr grosser Strom, aber keine Differenz. Der FI bleibt ein.</li>
+        <li>Der LS, nach seiner Kennlinie: \(I = \dfrac{P}{U} = \dfrac{5800\;\text{W}}{230\;\text{V}} = 25.2\;\text{A}\), das \(1.94\)-Fache von \(13\;\text{A}\) — über dem \(1.45\)-Fachen, unter dem Drei- bis Fünffachen: Er schaltet nach einiger Zeit ab, nicht sofort. Bis dahin ist die Mehrfachsteckdose mit dem \(2.5\)-Fachen ihrer \(10\;\text{A}\) überlastet und kann heiss werden.</li>
+        <li>Der Schutzleiter führt den Fehlerstrom ab; darauf schalten der FI und bei genügend grossem Strom auch der LS ab — bevor jemand das Gehäuse berührt.</li>
+        <li>Der Fall, in dem ein Mensch selbst zum Rückweg wird, ohne dass vorher ein grosser Fehlerstrom fliesst: ein Gerät der Schutzklasse II mit beschädigtem Gehäuse oder ein Gerät mit gerissenem Schutzleiter. Der Körperstrom liegt dann bei einigen zehn bis einigen hundert Milliampere — gefährlich für den Menschen, viel zu klein für einen LS von \(10\) bis \(16\;\text{A}\). Genau diese Lücke schliesst der FI.</li>
+      </ol>
+    </div>
+  </div>
+</div>
 
 <details class="minicheck">
 <summary class="mc-kopf">✏️ Mini-Check</summary>
@@ -3302,6 +3883,48 @@ document.getElementById('ein-cv').addEventListener('mousemove', function(ev){
 document.getElementById('ein-sw').addEventListener('click', einSchalten);
 document.getElementById('ein-U').addEventListener('input', ()=>{ if(!einLoop.running) einRender(); else einRender(); });
 
+
+// ══════════════════════════════════════════════════════════
+//  Kennlinien (Abschnitt «kennlinien»): statisches U(I)-Bild
+//  Modellkurven wie im früheren Leitprogramm «Widerstand, Leistung, Energie»:
+//  ohmsch 50 Ω; Glühlampe I = 0.5 A · (U / 12 V)^0.6 (Nennwert 12 V, 0.5 A);
+//  Heissleiter R = 200 Ω / (1 + U² / 36 V²), also 40 Ω bei 12 V.
+//  R in den Arbeitspunkten 3 / 6 / 12 V (Tabelle im Text): 50 / 50 / 50 Ω;
+//  13.8 / 18.2 / 24.0 Ω; 160 / 100 / 40 Ω — mit python3 nachgerechnet.
+// ══════════════════════════════════════════════════════════
+const KL_KURVEN = [
+  { f: U => U / 50 * 1000, farbe: '#1a4f8a' },                       // mA
+  { f: U => 500 * Math.pow(U / 12, 0.6), farbe: '#8a4a0e' },
+  { f: U => U * (1 + U * U / 36) / 200 * 1000, farbe: '#1f6b3a' }
+];
+function drawKL(){
+  const cv = initCanvas('kl-cv', 260, false);
+  const c = cv.ctx, W = cv.W, H = cv.H;
+  const IMAX = 520, UMAX = 12, U0 = 6;
+  const mL = 36, mR = 12, mT = 30, mB = 24;
+  const xMin = -IMAX * mL / (W - mL - mR), xMax = IMAX + IMAX * mR / (W - mL - mR);
+  const yMin = -UMAX * mB / (H - mB - mT),  yMax = UMAX + UMAX * mT / (H - mB - mT);
+  const g = drawGrid(c, W, H, xMin, xMax, yMin, yMax);
+  drawAxesUnits(c, W, H, g.cx, g.cy, 'I [mA]', 'U [V]');
+  // Hilfslinie U = 6 V
+  c.strokeStyle = '#9aa1ab'; c.lineWidth = 1; c.setLineDash([3, 3]);
+  c.beginPath(); c.moveTo(g.cx(0), g.cy(U0)); c.lineTo(g.cx(IMAX), g.cy(U0)); c.stroke();
+  // Verbindung Ursprung – Arbeitspunkt: ihre Steigung ist R
+  c.lineWidth = 1.4; c.setLineDash([5, 4]);
+  KL_KURVEN.forEach(k => { c.strokeStyle = k.farbe; c.beginPath();
+    c.moveTo(g.cx(0), g.cy(0)); c.lineTo(g.cx(k.f(U0)), g.cy(U0)); c.stroke(); });
+  c.setLineDash([]);
+  KL_KURVEN.forEach(k => { c.strokeStyle = k.farbe; c.lineWidth = 2.6; c.beginPath();
+    for (let i = 0; i <= 160; i++) { const U = UMAX * i / 160, x = g.cx(k.f(U)), y = g.cy(U);
+      if (i === 0) c.moveTo(x, y); else c.lineTo(x, y); }
+    c.stroke(); });
+  KL_KURVEN.forEach(k => drawDot(c, g.cx, g.cy, k.f(U0), U0, k.farbe, 5));
+  // Beschriftung der Hilfslinie rechts, wo keine Kurve ist (die Lampe liegt bei 6 V bei 330 mA)
+  const txt = 'U = 6 V'; c.font = '13px JetBrains Mono,monospace'; c.textAlign = 'right';
+  const tw = c.measureText(txt).width, tx = g.cx(IMAX) - 2, ty = g.cy(U0) - 6;
+  c.fillStyle = 'rgba(255,255,255,0.9)'; c.fillRect(tx - tw - 3, ty - 12, tw + 6, 16);
+  c.fillStyle = '#5a5040'; c.fillText(txt, tx, ty);
+}
 
 // ══════════════════════════════════════════════════════════
 //  AC/DC-Panel: statisches U(t)-Bild
@@ -5633,6 +6256,7 @@ function initAll(){
   gmInit(); gmRender();
   lpInit(); lpRender();
   drawACDC();
+  drawKL();
   drawCoulomb();
   drawA1();
   a2Buttons(); drawA2();
@@ -5661,7 +6285,7 @@ window.addEventListener('resize', ()=>{
   rzT=requestAnimationFrame(()=>{
     rzT=null;
     wmAnim.lesen(); if(!wmAnim.loop.running) wmAnim.render();
-    drawA1(); drawA2(); drawA5(); drawA6(); a3Read(); a4Read(); mmRender(); mbRender(); gmRender(); lpRender(); fiRender(); wsLesen();
+    drawA1(); drawA2(); drawA5(); drawA6(); drawKL(); a3Read(); a4Read(); mmRender(); mbRender(); gmRender(); lpRender(); fiRender(); wsLesen();
     wsRender();
     if(!einLoop.running) einRender();
     if(!a3Loop.running) a3Render();

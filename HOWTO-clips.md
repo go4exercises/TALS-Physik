@@ -403,6 +403,17 @@ Voraussage (predict–observe–explain) wandert in den Clip selbst:
 
 - `bei` ist die Sekunde **ab Szenenbeginn** — vor `sprecher_bei` (0.4) legen, sonst
   bricht der Satz mitten im Wort ab.
+- `kopf` (optional) ersetzt die Kopfzeile «Deine Vorhersage». Eine Frage, die nach der
+  Einführung nach dem Vorgehen fragt, ist keine Vorhersage: Die Einführungsclips der
+  Elektrizität tragen `"kopf": "Dein Vorgehen"` (06.10.2026).
+- **Nichts im Bild, was die Antwort zeigt, solange die Frage offen ist.** Text und
+  Formeln der Frageszene erscheinen erst nach `bei` — `scripts/lp/kinematik/anker.py`
+  setzt sie seit 06.10.2026 auf mindestens `bei + 0.5`; Schaltbilder und Graphen
+  bleiben. Vorher stand in drei Clips die Vorgehensliste schon neben der Frage nach
+  dem Vorgehen.
+- **Fragen mitten im Clip** prüft `pruef-fragen.mjs` nicht: Es erwartet die erste Frage
+  in den ersten Sekunden (Kontrollclips) und bricht sonst ab. Dort vor die Frage
+  springen, auf sie warten, richtig antworten und prüfen, dass der Clip weiterläuft.
 - **Richtig → der Clip rollt sofort weiter** (kurzes ✓, keine Ansage). Nur eine falsche
   Antwort zeigt die Erklärung, liest sie vor und wartet auf «Weiter». Darum werden die
   Rückmeldungen zu richtigen Antworten nicht vertont (`fragen_texte()` lässt sie aus).

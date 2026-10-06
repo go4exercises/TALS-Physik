@@ -31,7 +31,7 @@ und `lineare-funktionen.html`. Ein neues Leitprogramm beginnt mit einer Kopie vo
 
 | | gegliedert nach | Beispiele | Anleitung |
 |---|---|---|---|
-| **Thema** | dem Stoff: Vorwissen, Kapitel (bzw. Schritte), Gesamttest | Kapitelmuster: `leitprogramm-elektrizitaet`; klassisch: `leitprogramm-waermemenge`, `leitprogramm-schaltungen` | diese Datei |
+| **Thema** | dem Stoff: Vorwissen, Kapitel (bzw. Schritte), Gesamttest | Kapitelmuster: `leitprogramm-elektrizitaet`; klassisch: `leitprogramm-waermemenge`, `leitprogramm-heizen` | diese Datei |
 | **Übungsprüfung** | dem Prüfungsbogen: je Aufgabe Clip, Musterlösung, Fehlerkasten | `uebungstest-waermelehre` | `HOWTO-uebungspruefung.md` |
 
 Layout, Kopf, Fuss, Farbtokens und Clip-Bühne sind bei beiden dieselben (§11–§12 gelten
@@ -167,7 +167,7 @@ unterbringen lässt.
   Spezialfälle, zweite Methoden → «Vertiefung» oder Themenseite.
 
 ⟂ Entscheid: Die klassischen Physik-Leitprogramme haben vier bis sieben Schritte
-(`leitprogramm-widerstand-leistung` sieben); das bleibt. Für das Kapitelmuster gilt **4–5**.
+(`leitprogramm-widerstand-leistung` hatte sieben, bis es am 06.10.2026 im Leitprogramm Elektrizität aufging); das bleibt. Für das Kapitelmuster gilt **4–5**, ausnahmsweise mehr, wenn ein Teilgebiet es braucht (Elektrizität: sieben Fachkapitel nach TODO-E).
 
 ---
 
@@ -203,7 +203,12 @@ Phasen (`<p class="phase">`) über den Abschnitten — **kein** Fahrplan unter d
 
 1. **① Clip.** Ein Einführungsclip zeigt **alles**, was das Kapitel bringt — in Bewegung —
    und endet mit dem allgemeinen Auftrag: «Erkunde diese Zusammenhänge in der nachfolgenden
-   Animation und löse die Aufgaben.»
+   Animation und löse die Aufgaben.» Seit dem 06.10.2026 (TODO-E, zuerst in Elektrizität) **löst
+   jeder Einführungsclip ein Problem vollständig vor**: Einführung → Problem (Situation, Angaben,
+   gesucht) → Strategiefrage → Vorrechnen mit Umformungen und Einheiten → Probe. Die
+   Strategiefrage fragt nach dem nächsten Schritt oder bietet ganze Reihenfolgen zur Wahl
+   (`wahl`, keine Pflicht zum Ziehen); sie setzt nur Eingeführtes voraus, und eine richtige Antwort
+   überspringt die Lösung nicht. **Nie eine Vorhersage vor der Einführung** des Zusammenhangs.
 2. **② Tüfteln.** Die Simulation (§8) trägt ihre Aufgaben **selbst**. Reihenfolge: zuerst
    **Erkunden** (frei an allen Reglern ziehen), dann **konkrete Situationen zum Nachstellen**
    — nicht die Beispiele aus dem Clip —, dann Zielspiele. Hilfslinien (gestrichelte
@@ -984,6 +989,9 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   Schlüssel von 2.7 m. Wertebereiche an den Gegenstand im Text binden.
 - **Querverweise «nicht hier»** dürfen nicht im Kreis zeigen (Statik verwies Gleitreibung an das
   Leitprogramm Dynamik, das sie seinerseits auslagert): auf die Stelle verweisen, die den Stoff wirklich hat.
+- **Vorgerechnetes Problem im Einführungsclip** (TODO-E, 06.10.2026): vollständiger Lösungsweg mit
+  Probe; die Strategiefrage steht danach und verlangt nichts, was noch nicht eingeführt ist; ihre
+  Zahlen weichen von Aufgaben, Kontrollfragen und Leisten ab.
 - **Kopierte Kennungen ersetzen** (Hydrostatik 05.10.2026): Wer das Gerüst eines Leitprogramms kopiert,
   ersetzt Speicherschlüssel (`var KEY = 'leitprogramm-<name>-v1'`), Fusszeile, Titel und Stand. Statik trug
   den Schlüssel von Energie — beide Seiten hätten denselben Lernstand gelesen und überschrieben.
@@ -1041,7 +1049,9 @@ und `leitprogramm-vorwissen` fürs Vorwissen; `leitprogramm-waermemenge`, `leitp
 `leitprogramm-widerstand-leistung` und `leitprogramm-gefahren` für die Elektrizität; dazu die
 Übungsprüfung `uebungstest-waermelehre`. Der erste Übertrag (`leitprogramm-ideale-gase`,
 31.08.2026) brachte §12, die folgenden die Punkte unten. Jeder stand für ein Problem, das
-tatsächlich aufgetreten ist.
+tatsächlich aufgetreten ist. Seit dem 06.10.2026 sind die drei Elektrizitäts-Programme im
+Leitprogramm Elektrizität und auf der Themenseite 6.2 aufgegangen (ein Leitprogramm je Teilgebiet);
+ihre Erfahrungen unten bleiben gültig.
 
 - **Der `render-check` (1280 und 360 px) gehört dazu.** In zwei von drei neu geschriebenen
   Dateien (07.09.2026) und wieder in `leitprogramm-experimente-waerme` (08.09.2026) wurden

@@ -1076,8 +1076,9 @@ FRAGEN_JS = r'''
   }
   function zeigen(i, F) {
     offen = { i, t: F.t }; pause(); delete box.dataset.fertig;
-    box.innerHTML = '<div class="fr-kopf">Deine Vorhersage</div><div class="fr-text"></div>'
+    box.innerHTML = '<div class="fr-kopf"></div><div class="fr-text"></div>'
       + '<div class="fr-knoepfe"></div><div class="fr-rueck"></div>';
+    box.querySelector('.fr-kopf').textContent = F.kopf || 'Deine Vorhersage';  // "kopf": z. B. «Dein Vorgehen»
     box.querySelector('.fr-text').textContent = F.text;
     const kn = box.querySelector('.fr-knoepfe');
     if (F.typ === 'wahl') {

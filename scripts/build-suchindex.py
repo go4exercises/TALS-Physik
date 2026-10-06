@@ -330,7 +330,9 @@ def seiten_aus_navjs(root):
 # Leitprogramme in der Erprobung: veroeffentlicht, aber unverlinkt (HOWTO-leitprogramme
 # §13). Sie stehen nicht im Index, bis sie freigeschaltet sind — dann hier streichen,
 # Karte in leitprogramme.html setzen und noindex in build-seo.py entfernen.
-UNVERLINKT = set()   # Dynamik, Energie, Statik, Hydrostatik freigeschaltet am 06.10.2026, Kinematik am 04.10.2026, Elektrizität am 03.10.2026
+UNVERLINKT = {'leitprogramme/leitprogramm-widerstand-leistung.html', 'leitprogramme/leitprogramm-schaltungen.html',
+              'leitprogramme/leitprogramm-gefahren.html'}   # seit 06.10.2026 nur Weiterleitungen auf die Themenseite 6.2 (TODO-E)
+# Dynamik, Energie, Statik, Hydrostatik freigeschaltet am 06.10.2026, Kinematik am 04.10.2026, Elektrizität am 03.10.2026
 
 
 def clip_eintraege(root):

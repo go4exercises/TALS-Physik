@@ -6,7 +6,9 @@ dem Mathe-Vorbild `tals-mathe/scripts/lp/quadratische-funktionen/`.
 | Datei | Zweck | laufen lassen? |
 |---|---|---|
 | `seite.py` | baut `leitprogramme/leitprogramm-elektrizitaet.html` — Kopf, CSS, Grundskript, alle Kapitel. Aus der bestehenden Seite übernimmt es nur den SEO-Block. | **ja** — für jede Änderung an Text, Aufgaben, Kapitelaufbau |
-| `seite.js` | Seitenskript: Koordinatensystem `Achsen()`, Bedienung (Regler und Knöpfe), Aufgabenleiste `Leiste()`, Simulationen sim1–sim5, Übungen mit Rückmeldung (`TYPEN`), Minigrafen | wird von `seite.py` eingesetzt |
+| `seite.js` | Seitenskript: Koordinatensystem `Achsen()`, Bedienung (Regler und Knöpfe), Aufgabenleiste `Leiste()`, Simulationen sim1–sim7, Übungen mit Rückmeldung (`TYPEN`), Minigrafen | wird von `seite.py` eingesetzt |
+| `clips_todo_e.py` | hat am 06.10.2026 die vorgerechneten Probleme samt Strategiefrage in die Einführungsclips der Kapitel 1, 2, 3, 5, 7 gesetzt und die vier Clips der Kapitel 4 und 6 erzeugt (mit Antwortbildern) | nur zum Nachvollziehen; danach `scripts/lp/kinematik/anker.py` für die Einblendzeiten |
+| `antworten.py` | Antwortbilder der fünf älteren Kontrollclips | bei Änderungen an diesen Kontrollfragen |
 | `clips.py` | Archiv: hat die zehn Drehbücher `clips/p6-2-lp-*.json` erzeugt; die Kontrollclips in Fassung 2 (nach der Prüfung vom 03.10.2026) | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern; mit Clipnamen dahinter nur diese). Spätere Korrekturen an den Einführungsclips stehen nur in den JSONs, ebenso seit Fassung 1.1 (04.10.2026) die der Kontrollclips (Antwortpositionen, Eingabe der Klickfrage, Heizung statt «Gerät»). |
 
 ## Ablauf bei einer Änderung
@@ -56,3 +58,24 @@ einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (alle 3
   werden neu gewürfelt.
 - Freigeschaltet am 03.10.2026 nach `/lp-pruefung`: Karte in `leitprogramme.html`, Kasten
   «Lieber geführt durcharbeiten?» oben auf der Themenseite 6.2, im Suchindex und in der Sitemap.
+
+## Fassung 2.0 (06.10.2026, TODO-E)
+
+- **Sieben Fachkapitel:** 1 Ladung und Strom, 2 Spannung, Leistung und Energie, 3 Widerstand,
+  **4 Messen und Kennlinien (neu: sim6, Test `tm`)**, 5 Reihe und parallel (sim4, Test `t4`),
+  **6 Schaltungen erkennen, begründen und prüfen (neu: sim7, Test `te`)**, 7 Gefahren und Schutz
+  (sim5, Test `t5`). Die Kennungen der alten Kapitel bleiben, damit der gespeicherte Fortschritt stimmt;
+  sichtbar sind Nummern, Anker `#k1`…`#k7` und Aufgabenbezeichnungen neu.
+- **Vorgerechnetes Problem in jedem Einführungsclip**, danach eine Strategiefrage (`wahl`, nächster Schritt
+  oder Reihenfolge); Kapitel 0 hat ein vorgerechnetes Beispiel auf der Seite. Zahlen bewusst anders als
+  in Aufgaben, Kontrollfragen und Leisten (Kapitel 1: +3.2 nC statt der −4.8 nC aus Aufgabe 1a; Kapitel 5:
+  270 Ω + 330 Ω statt der 300 Ω des Kontrollclips).
+- **sim6:** idealer Kleinspannungskreis, Messgeräte richtig oder falsch anschliessbar, Messpunkte in eine
+  U-I-Kennlinie (A 150 Ω, B 470 Ω, Lämpchen als qualitatives Modell \(U = 50\;\Omega \cdot I + 41\,667\;\Omega/\text{A}^2 \cdot I^3\)).
+  Startet mit beiden Geräten falsch angeschlossen (Aufgabe 1).
+- **sim7:** dieselben zwei Widerstände (150 Ω, 300 Ω an 6 V) in vier Zeichnungen, Färbung der
+  Verbindungspunkte zuschaltbar, Werte und Proben erst nach richtiger Einordnung.
+- **Gesamttest:** 25 Punkte wie bisher; G5 b) mit ungewohnt gezeichneter Schaltung (Schaltungsart begründen).
+- Die drei Einzelprogramme (Widerstand/Leistung, Schaltungen, Gefahren) sind aufgelöst: Weiterführendes steht
+  auf der Themenseite 6.2 (Kästen «Weiterführend», Anker unter «Nicht in diesem Leitprogramm»), an ihren
+  Adressen stehen Weiterleitungen.

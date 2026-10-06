@@ -148,25 +148,16 @@ SEITEN = {
                 'Grenzen des Modells, Vortest und Kapiteltest zur Selbstkontrolle.',
    themen=['Ideale Gase', 'Gasgesetze', 'Allgemeine Gasgleichung', 'Boyle-Mariotte',
            'Gay-Lussac', 'Amontons', 'Thermodynamik']),
- 'leitprogramme/leitprogramm-schaltungen.html': dict(
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
-   titel='Leitprogramm Schaltungen berechnen — Reihe, parallel, gemischt',
-   beschreibung='Leitprogramm zur Elektrizität: Knoten- und Maschenregel, Reihenschaltung, '
-                'Spannungsteiler, Parallelschaltung mit der Kehrwertformel, gemischte '
-                'Schaltungen von innen nach aussen und die Leistung einzelner Bauteile — '
-                'in sechs Schritten mit Erklärclip, Simulation, Vortest und Kapiteltest.',
-   themen=['Physik', 'Elektrizität', 'Reihenschaltung', 'Parallelschaltung',
-           'Spannungsteiler', 'Leitprogramm']),
  'leitprogramme/leitprogramm-elektrizitaet.html': dict(
    # Freigeschaltet am 03.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
-   titel='Leitprogramm Elektrizität — Ladung, Spannung, Widerstand, Schaltungen, Gefahren',
-   beschreibung='Leitprogramm zur Elektrizität in fünf Kapiteln — Ladung und Stromstärke; '
-                'Spannung, Leistung und Energie; Widerstand eines Leiters; Reihen- und '
-                'Parallelschaltung; Gefahren und Schutzmassnahmen — mit Erklärclips, '
-                'Simulationen mit Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung '
-                'und Gesamttest als PDF.',
-   themen=['Physik', 'Elektrizität', 'Ladung', 'Stromstärke', 'Widerstand',
+   titel='Leitprogramm Elektrizität — Ladung, Spannung, Widerstand, Messen, Schaltungen, Gefahren',
+   beschreibung='Leitprogramm zur Elektrizität in sieben Kapiteln — Ladung und Stromstärke; '
+                'Spannung, Leistung und Energie; Widerstand eines Leiters; Messen und Kennlinien; '
+                'Reihen- und Parallelschaltung; Schaltungen erkennen und prüfen; Gefahren und '
+                'Schutzmassnahmen — mit vorgerechneten Problemen in den Erklärclips, Simulationen '
+                'mit Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Elektrizität', 'Ladung', 'Stromstärke', 'Widerstand', 'Messen', 'Kennlinie',
            'Reihenschaltung', 'Parallelschaltung', 'FI-Schutzschalter', 'Leitprogramm']),
  'leitprogramme/leitprogramm-kinematik.html': dict(
    # Freigeschaltet am 04.10.2026 (nach /lp-pruefung).
@@ -218,25 +209,6 @@ SEITEN = {
                 'Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
    themen=['Physik', 'Hydrostatik', 'Druck', 'Schweredruck', 'Luftdruck', 'Pascal', 'Hydraulik',
            'Auftrieb', 'Archimedes', 'Schwimmen', 'Leitprogramm']),
- 'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
-   titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung',
-   beschreibung='Leitprogramm zur Elektrizität: ohmsches Gesetz und Kennlinien, richtig messen '
-                'mit Ampere- und Voltmeter, Widerstand eines Leiters, elektrische Leistung, '
-                'Energie und Kosten, Verlustleistung und Hochspannung — in sieben Schritten '
-                'mit Erklärclips, Simulationen, Vortest und Gesamttest.',
-   themen=['Physik', 'Elektrizität', 'Ohmsches Gesetz', 'Widerstand', 'Leistung',
-           'Energie', 'Leitprogramm']),
- 'leitprogramme/leitprogramm-gefahren.html': dict(
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
-   titel='Leitprogramm Gefahren und Schutzmassnahmen — FI, Schutzleiter, Sicherung',
-   beschreibung='Leitprogramm zur Elektrizität: warum die Erde zum Rückleiter wird '
-                '(der Neutralleiter ist am Transformator geerdet), '
-                'Wirkung auf den Menschen, FI-Schutzschalter als zusätzlicher Schutz, '
-                'Schutzleiter und Leitungsschutzschalter — in sechs Schritten mit '
-                'Erklärclips, Simulationen, Vortest und Gesamttest.',
-   themen=['Physik', 'Elektrizität', 'Elektrische Sicherheit', 'FI-Schutzschalter',
-           'Schutzleiter', 'Leitungsschutzschalter', 'Leitprogramm']),
  'leitprogramme/uebungstest-waermelehre.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit', 'Übungsaufgaben'],
    titel='Leitprogramm Übungstest Wärmelehre — fünfzehn Aufgaben mit Erklärclip',

@@ -2,6 +2,7 @@
 % Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (03.10.2026).
 % Jede Aufgabe fragt in eine andere Richtung als die Aufgaben und Übungen der Seite
 % (HOWTO-leitprogramme §9: kein Gesamttest wiederholt einen Selbsttest).
+% Fassung 2.0 (06.10.2026, TODO-E): sieben Kapitel; G5 mit Messwert und ungewohnt gezeichneter Schaltung in b).
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Elektrizität}
@@ -41,7 +42,7 @@ Auf der Rechnung steht «Stromverbrauch». Was wird tatsächlich verbraucht?
 \lpplatz{9}
 \end{lpaufgabe}
 
-\lpteil{Teil B · Widerstand und Schaltungen}{Kapitel 3 und 4 · 9 Punkte}
+\lpteil{Teil B · Widerstand, Messen und Schaltungen}{Kapitel 3 bis 6 · 9 Punkte}
 
 \begin{lpaufgabe}{G4}{Kabel für den Rasenmäher}{4 P}
 Ein Rasenmäher zieht $8\;\text{A}$. Sein Kupferkabel ($\rho = 0.017\;\Omega\,\text{mm}^2/\text{m}$) ist $30\;\text{m}$ lang und hat zwei Adern;
@@ -54,12 +55,20 @@ Welcher Querschnitt ist mindestens nötig? Wähle aus $0.75\;\text{mm}^2$, $1.5\
 $R_1 = 40\;\Omega$ liegt in Reihe mit einem unbekannten Widerstand $R_2$ an $U = 12\;\text{V}$. Gemessen werden $I = 0.2\;\text{A}$.
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
 \item Berechne $R_\text{ges}$, $R_2$ und die Teilspannungen $U_1$ und $U_2$.
-\item Nun werden dieselben zwei Widerstände parallel an die $12\;\text{V}$ geschaltet. Berechne $R_\text{ges}$ und den Gesamtstrom.
+\item Nun werden dieselben zwei Widerstände so an die $12\;\text{V}$ angeschlossen wie im Bild. Wie sind sie geschaltet? Begründe mit den Verbindungen. Berechne $R_\text{ges}$ und den Gesamtstrom.
+
+\begin{center}\begin{tikzpicture}[x=0.8cm,y=0.8cm,thick]
+\draw (0,0) -- (0,1.8); \draw[line width=2.4pt] (-0.2,1.8) -- (0.2,1.8); \draw (-0.4,2.2) -- (0.4,2.2); \draw (0,2.2) -- (0,4);
+\node[left] at (-0.45,2.0) {$12\;\text{V}$};
+\draw (0,4) -- (2,4); \draw (2,3.8) rectangle (3.4,4.2); \node[above] at (2.7,4.2) {$R_1 = 40\;\Omega$}; \draw (3.4,4) -- (7,4) -- (7,0) -- (0,0);
+\draw (1,4) -- (1,2.8) -- (5,2.8) -- (5,2.2); \draw (4.8,1.0) rectangle (5.2,2.2); \node[left] at (4.8,1.6) {$R_2$}; \draw (5,1.0) -- (5,0);
+\fill (1,4) circle (2.2pt); \fill (5,0) circle (2.2pt);
+\end{tikzpicture}\end{center}
 \end{enumerate}
 \lpplatz{10}
 \end{lpaufgabe}
 
-\lpteil{Teil C · Gefahren und Schutz}{Kapitel 5 · 5 Punkte}
+\lpteil{Teil C · Gefahren und Schutz}{Kapitel 7 · 5 Punkte}
 
 \begin{lpaufgabe}{G6}{Waschmaschine mit Isolationsfehler}{5 P}
 Im Metallgehäuse einer Waschmaschine ($230\;\text{V}$) berührt der Aussenleiter das Gehäuse. Der Stromkreis hat einen
