@@ -297,8 +297,8 @@
   }
   function wink(x){ return zahl(x) + '°'; }
   // Kraftebene, die mit den Kräften mitwächst: Fenster ±gr (Vielfaches von 25 N), Beschriftung je 2 Gitterlinien
-  function ebeneZu(ext){
-    var gr = Math.max(50, Math.ceil(ext * 1.12 / 25) * 25), t = gr <= 100 ? 25 : (gr <= 250 ? 50 : 100), m = [];
+  function ebeneZu(ext, luft){
+    var gr = Math.max(50, Math.ceil(ext * (luft || 1.12) / 25) * 25), t = gr <= 100 ? 25 : (gr <= 250 ? 50 : 100), m = [];
     for (var v = 2 * t; v < gr - 1e-9; v += 2 * t){ m.push(v); m.unshift(-v); }
     if (!m.length){ m = [-t, t]; }
     return { gr: gr, t: t, m: m };
@@ -325,7 +325,7 @@
     var svg = fig.querySelector('svg');
     var ebene = g_(svg), dia = g_(svg, { transform: 'translate(0,238)' }), P = null, K = null, fenster = 0;
     function achsen(F){                                                    // nur neu bauen, wenn sich das Fenster ändert
-      var e = ebeneZu(F); if (e.gr === fenster) { P.leeren(); K.leeren(); return; }
+      var e = ebeneZu(F, 1.3); if (e.gr === fenster) { P.leeren(); K.leeren(); return; }   // Luft über der Spitze: F, F_y und Achsenname getrennt
       fenster = e.gr; leeren(ebene); leeren(dia);
       P = Achsen(ebene, { w: 300, h: 220, x0: -e.gr * 300 / 220, x1: e.gr * 300 / 220, y0: -e.gr, y1: e.gr, sx: e.t, sy: e.t, xm: e.m, ym: e.m, xname: 'F_x [N]', yname: 'F_y [N]' });
       K = Achsen(dia, { w: 300, h: 130, x0: -30, x1: 380, y0: -e.gr, y1: e.gr, sx: 45, sy: e.t, xm: [90, 180, 270, 360], ym: e.m.length ? [-e.m[e.m.length - 1], e.m[e.m.length - 1]] : [], xname: 'φ [°]', yname: 'F [N]' });
@@ -353,7 +353,9 @@
       // Komponenten (Violett) längs der Achsen, gestrichelt zur Spitze ergänzt
       if (Math.abs(fx) > 3 && Math.abs(fy) > 3){ el(P.ebene, 'line', { x1: x0, y1: ye, x2: xe, y2: ye, 'class': 'hilfslinie' }); el(P.ebene, 'line', { x1: xe, y1: y0, x2: xe, y2: ye, 'class': 'hilfslinie' }); }
       if (Math.abs(fx) > 3){ pfeil(P.ebene, x0, y0, xe, y0, 'pf-a', 7); marke(P.ebene, (x0 + xe) / 2, y0 + (fy >= 0 ? 15 : -7), 'F', 'x', 'pf-text pf-a'); }
-      if (Math.abs(fy) > 3){ pfeil(P.ebene, x0, y0, x0, ye, 'pf-a', 7); marke(P.ebene, x0 + (fx >= 0 ? -6 : 6), ye + (fy >= 0 ? 14 : -6), 'F', 'y', 'pf-text pf-a', fx >= 0 ? 'end' : 'start'); }   // nahe der Spitze: weg vom Winkelbogen
+      if (Math.abs(fy) > 3){ pfeil(P.ebene, x0, y0, x0, ye, 'pf-a', 7);   // nahe der Spitze: weg vom Winkelbogen; fast senkrecht (F deckt F_y) auf halber Höhe, weg von F
+        var steil = Math.abs(fx) < 0.2 * F;
+        marke(P.ebene, x0 + (fx >= 0 ? -6 : 6), steil ? (y0 + ye) / 2 + 4 : (fy >= 0 ? (fx >= 0 ? ye + 14 : ye - 2) : ye - 6), 'F', 'y', 'pf-text pf-a', fx >= 0 ? 'end' : 'start'); }   // links oben: über die Spitze, der Winkelbogen liegt rechts
       if (F > 0){ pfeil(P.ebene, x0, y0, xe, ye, 'pf-f', 9); marke(P.ebene, xe + 8 * c + (c >= 0 ? 2 : -2), ye - 8 * s + 4, 'F', '', 'pf-text pf-f', c >= 0 ? 'start' : 'end'); }
       var rb = Math.min(24, 0.45 * Math.hypot(xe - x0, ye - y0));
       bogen(P.ebene, x0, y0, rb, 0, phi, 'winkelbogen');
@@ -386,6 +388,8 @@
         vergleich: '\\(F_x = 0\\) heisst: Die Kraft steht senkrecht, \\(F_y < 0\\): Sie zeigt nach unten, also \\(\\varphi = 270^\\circ\\). Die ganze Kraft liegt in der \\(y\\)-Richtung, darum ist ihr Betrag \\(F = |F_y| = 120\\;\\text{N}\\).' },
       { text: 'Eine Kraft von \\(160\\;\\text{N}\\) soll nach rechts oben zeigen und eine waagrechte Komponente von genau \\(80\\;\\text{N}\\) haben. Welcher Winkel? Notiere ihn samt Rechnung, stelle ein und dreh.', ok: function(s){ return hat(s, 160, 60); },
         vergleich: '\\(\\cos\\varphi = \\dfrac{F_x}{F} = \\dfrac{80\\;\\text{N}}{160\\;\\text{N}} = 0.5\\), also \\(\\varphi = 60^\\circ\\). Die senkrechte Komponente ist dann \\(F_y = 160\\;\\text{N} \\cdot \\sin 60^\\circ \\approx 138.6\\;\\text{N}\\) — grösser als die waagrechte.' },
+      { text: 'Eine Kraft von \\(120\\;\\text{N}\\) hat die senkrechte Komponente \\(F_y = -60\\;\\text{N}\\). In welche zwei Richtungen kann sie zeigen? Notiere beide Winkel und dreh die Kraft zu beiden.', ok: function(s){ var n = {}; s.laeufe.forEach(function(l){ if (l.F === 120) n[l.phi] = true; }); return n[210] && n[330]; },
+        vergleich: '\\(\\sin\\varphi = \\dfrac{F_y}{F} = \\dfrac{-60\\;\\text{N}}{120\\;\\text{N}} = -0.5\\). Nach unten zeigt die Kraft sicher, aber nach links oder nach rechts? Beides passt: \\(\\varphi = 210^\\circ\\) (links unten, \\(F_x \\approx -103.9\\;\\text{N}\\)) oder \\(\\varphi = 330^\\circ\\) (rechts unten, \\(F_x \\approx +103.9\\;\\text{N}\\)). Kennt man nur den Betrag und eine Komponente, gibt es zwei Richtungen; erst eine Skizze oder eine weitere Angabe entscheidet.' },
       { text: 'Gesucht ist eine Kraft nach links oben mit \\(F_x = -100\\;\\text{N}\\) und \\(F_y = 100\\;\\text{N}\\). Welcher Betrag, welcher Winkel? Stelle ein (Betrag auf \\(10\\;\\text{N}\\) genau) und dreh.', ok: function(s){ return hat(s, 140, 135); },
         vergleich: '\\(F = \\sqrt{F_x^2 + F_y^2} = \\sqrt{(100\\;\\text{N})^2 + (100\\;\\text{N})^2} \\approx 141\\;\\text{N}\\) — der Regler hat \\(140\\;\\text{N}\\). Gleich grosse Komponenten heissen \\(45^\\circ\\) zur Achse; nach links oben ist das \\(\\varphi = 180^\\circ - 45^\\circ = 135^\\circ\\).' },
       { text: 'Im Diagramm schneiden sich die Kurven von \\(F_x\\) und \\(F_y\\). Bei welchem Winkel zum ersten Mal? Dreh eine Kraft genau bis dorthin.', ok: function(s){ return s.lauf && s.lauf.F > 0 && s.lauf.phi === 45; },
@@ -501,7 +505,7 @@
      (Bernstein), Normalkraft (Grün) und Haftreibung (Türkis) passen sich laufend an; die
      Komponenten der Gewichtskraft sind violett. Im Diagramm wachsen F_H, F_N und die Grenze
      μ_H · F_N über α mit. Wird tan α grösser als μ_H, rutscht die Kiste. Clipbeispiel:
-     m = 12 kg, μ_H = 0.65; Startwerte m = 10 kg, μ_H = 0.40, bis 15°. */
+     m = 12 kg, μ_H = 0.65; Startwerte m = 10 kg, μ_H = 0.30, bis 15°. */
   (function(){
     var fig = document.getElementById('sim3'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -534,8 +538,12 @@
       zustand: function(){ var w = werte(); w.lauf = lauf; w.laeufe = laeufe; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); los(); B.setze(o); zeichnen(); },
       aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); },
-      zeige: function(a){ uhr.stop(); los(); al = a; zeichnen(); }
+      // Testhaken für Clipbilder: zeige(α) — o.ohneGrenze blendet μ_H · F_N aus (bevor der Clip sie
+      // einführt), o.grenze zeigt den Augenblick an der Grenze (α = arctan μ_H, die Kiste rutscht los)
+      zeige: function(a, o){ uhr.stop(); los(); o = o || {}; ohneGrenze = !!o.ohneGrenze;
+        grenzBild = !!o.grenze; al = grenzBild ? werte().ag : a; zeichnen(); ohneGrenze = grenzBild = false; }
     };
+    var ohneGrenze = false, grenzBild = false;
     fig.__sim = sim;
     function zeichnen(){
       var w = werte(), r = grd(al), c = Math.cos(r), s = Math.sin(r);
@@ -550,7 +558,7 @@
       el(szene, 'line', { x1: HX, y1: HY, x2: HX + LB * ux, y2: HY + LB * uy, 'class': 'brett' });
       el(szene, 'line', { x1: HX + 6 * ux - 0 * nx, y1: HY + 6 * uy, x2: HX + 6 * ux + 12 * nx, y2: HY + 6 * uy + 12 * ny, 'class': 'anschlag' });
       bogen(szene, HX, HY, 46, 0, al, 'winkelbogen');
-      if (al > 4) el(szene, 'text', { x: HX + 54 * Math.cos(r / 2) + 2, y: HY - 54 * Math.sin(r / 2) + 4, 'class': 'bt-klein' }, 'α = ' + sig(al) + '°');
+      if (al > 4) el(szene, 'text', { x: HX + 54 * Math.cos(r / 2) + 2, y: HY - 54 * Math.sin(r / 2) + 4, 'class': 'bt-klein' }, 'α ' + (gl(al, +al.toFixed(1)) ? '= ' : '≈ ') + fest(al, 1) + '°');
       // Kiste: Mitte 1.7 m vom Gelenk, rutscht um «rutsch» m hinunter
       var d = (1.7 - rutsch) * PXM, bw = 40, bh = 30;
       var mx = HX + d * ux + bh / 2 * nx, my = HY + d * uy + bh / 2 * ny;     // Mittelpunkt der Kiste
@@ -572,26 +580,27 @@
     }
     function zeichneDia(){
       var w = werte(), r = grd(al), FH = w.FG * Math.sin(r), FN = w.FG * Math.cos(r), Fmax = w.mu * FN;
-      if (gerutscht) stext(szene, { x: 296, y: 22, 'text-anchor': 'end', 'class': 'bt-meldung' }, 'tan α > μ_H: Die Kiste rutscht.');
+      // Die Rampe hält bei α = arctan μ_H an: Dort ist tan α = μ_H erreicht, und die Kiste rutscht los
+      if (gerutscht || grenzBild) stext(szene, { x: 296, y: 22, 'text-anchor': 'end', 'class': 'bt-meldung' }, 'Grenze tan α = μ_H erreicht: Die Kiste rutscht' + (grenzBild ? ' los.' : '.'));
       // Diagramm: Kräfte über dem Winkel bis zum aktuellen Winkel
       K.kurve(function(a){ return w.FG; }, 'vorher', 0, 45);
       if (al > 0){
         K.kurve(function(a){ return w.FG * Math.sin(grd(a)); }, 'kurve-fh', 0, al);
         K.kurve(function(a){ return w.FG * Math.cos(grd(a)); }, 'kurve-fn', 0, al);
-        K.kurve(function(a){ return w.mu * w.FG * Math.cos(grd(a)); }, 'kurve-fr', 0, al);
+        if (!ohneGrenze) K.kurve(function(a){ return w.mu * w.FG * Math.cos(grd(a)); }, 'kurve-fr', 0, al);
       }
-      K.punkt(al, FH, 'p-fh'); K.punkt(al, FN, 'p-fn'); K.punkt(al, Fmax, 'p-fr');
-      var aw = wink(+al.toFixed(1));                                          // wie in der Formelzeile
+      K.punkt(al, FH, 'p-fh'); K.punkt(al, FN, 'p-fn'); if (!ohneGrenze) K.punkt(al, Fmax, 'p-fr');
+      var aw = wink(+al.toFixed(2));                                          // wie in der Formelzeile (an der Grenze 33.02°, nicht 33°)
       etiketten(K, 300, 140, [
         { x: al, y: FN, f: function(a){ return w.FG * Math.cos(grd(a)); }, cls: 'p-fn', text: '(' + aw + '; ' + sig(FN) + NB + 'N)' },
-        { x: al, y: FH, f: function(a){ return w.FG * Math.sin(grd(a)); }, cls: 'p-fh', text: '(' + aw + '; ' + sig(FH) + NB + 'N)' },
-        { x: al, y: Fmax, f: function(a){ return w.mu * w.FG * Math.cos(grd(a)); }, cls: 'p-fr', text: '(' + aw + '; ' + sig(Fmax) + NB + 'N)' }], [228, 2, 300, 51]);
-      if (gerutscht) el(K.ebene, 'line', { x1: K.X(w.ag), y1: K.Y(0), x2: K.X(w.ag), y2: K.Y(FH), 'class': 'hilfslinie' });
+        { x: al, y: FH, f: function(a){ return w.FG * Math.sin(grd(a)); }, cls: 'p-fh', text: '(' + aw + '; ' + sig(FH) + NB + 'N)' }].concat(ohneGrenze ? [] : [
+        { x: al, y: Fmax, f: function(a){ return w.mu * w.FG * Math.cos(grd(a)); }, cls: 'p-fr', text: '(' + aw + '; ' + sig(Fmax) + NB + 'N)' }]), [228, 2, 300, 51]);
+      if (gerutscht || grenzBild) el(K.ebene, 'line', { x1: K.X(w.ag), y1: K.Y(0), x2: K.X(w.ag), y2: K.Y(FH), 'class': 'hilfslinie' });
       stext(K.ebene, { x: 296, y: 12, 'text-anchor': 'end', 'class': 'legende l-fn' }, '— F_N');
       stext(K.ebene, { x: 296, y: 24, 'text-anchor': 'end', 'class': 'legende l-fh' }, '— F_H');
-      stext(K.ebene, { x: 296, y: 36, 'text-anchor': 'end', 'class': 'legende l-fr' }, '- - μ_H · F_N');
-      stext(K.ebene, { x: 296, y: 48, 'text-anchor': 'end', 'class': 'legende' }, '- - F_G');
-      var A = wink(+al.toFixed(1));
+      if (!ohneGrenze) stext(K.ebene, { x: 296, y: 36, 'text-anchor': 'end', 'class': 'legende l-fr' }, '- - μ_H · F_N');
+      stext(K.ebene, { x: 296, y: ohneGrenze ? 36 : 48, 'text-anchor': 'end', 'class': 'legende' }, '- - F_G');
+      var A = wink(+al.toFixed(2));
       var z = '<span>' + F_('H') + ' = ' + v_('m') + ' · ' + v_('g') + ' · sin ' + v_('α') + ' = ' + zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² · sin ' + A + ' ' + ist(FH, sig(FH)) + sig(FH) + NB + 'N</span>';
       z += '<span>' + F_('N') + ' = ' + v_('m') + ' · ' + v_('g') + ' · cos ' + v_('α') + ' = ' + zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² · cos ' + A + ' ' + ist(FN, sig(FN)) + sig(FN) + NB + 'N</span>';
       z += '<span>' + F_('R,max') + ' = ' + v_('μ') + '<sub>H</sub> · ' + v_('m') + ' · ' + v_('g') + ' · cos ' + v_('α') + ' = ' + zahl(w.mu) + ' · ' + zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² · cos ' + A + ' ' + ist(Fmax, sig(Fmax)) + sig(Fmax) + NB + 'N</span>';
@@ -688,7 +697,9 @@
       [0, 40, 80].forEach(function(m){ el(dia, 'text', { x: X(m), y: 64, 'text-anchor': 'middle', 'class': 'skala' }, m); });
       el(dia, 'text', { x: 296, y: 64, 'text-anchor': 'end', 'class': 'achsname' }, '120 Nm');
       var z = '<span>' + v_('r') + ' = ' + v_('l') + ' · sin ' + v_('α') + ' = ' + zahl(w.l) + NB + 'm · sin ' + wink(w.a) + ' ' + ist(w.r, sig(w.r)) + sig(w.r) + NB + 'm</span>';
-      z += '<span>' + v_('M') + ' = ' + v_('F') + ' · ' + v_('l') + ' · sin ' + v_('α') + ' = ' + sig(Fj) + NB + 'N · ' + zahl(w.l) + NB + 'm · sin ' + wink(w.a) + ' ' + ist(M, sig(M)) + sig(M) + NB + 'Nm</span>';
+      // «=» nur, wenn die gezeigten Faktoren genau das gezeigte Ergebnis geben: beim Lösen ist F = M_l / r krumm (231 N)
+      var Fz = parseFloat(sig(Fj).replace('−', '-')), Mz = Fz * w.l * Math.sin(grd(w.a));
+      z += '<span>' + v_('M') + ' = ' + v_('F') + ' · ' + v_('l') + ' · sin ' + v_('α') + ' = ' + sig(Fj) + NB + 'N · ' + zahl(w.l) + NB + 'm · sin ' + wink(w.a) + ' ' + (gl(Fz, Fj) ? ist(M, sig(M)) : ist(Mz, sig(M))) + sig(M) + NB + 'Nm</span>';
       z += '<span class="sim-notiz">Beim Ziehen wächst die Kraft von 0 bis ' + zahl(w.F) + NB + 'N; die Zeile zeigt die momentane Kraft. ' + v_('α') + ': Winkel zwischen Schlüssel und Kraft. ' + v_('r') + ': senkrechter Abstand der Wirkungslinie von der Drehachse D (wirksamer Hebelarm).</span>';
       rolle(fig, 'formel').innerHTML = z;
       pruefen();
@@ -703,8 +714,8 @@
         vergleich: '\\(r = \\dfrac{M}{F} = \\dfrac{60\\;\\text{Nm}}{150\\;\\text{N}} = 0.40\\;\\text{m}\\). Ein längerer Schlüssel geht auch, ein kürzerer nicht: Je kleiner die Kraft, desto länger muss der Hebelarm sein.' },
       { text: 'Mit \\(240\\;\\text{N}\\) am \\(0.25\\;\\text{m}\\) langen Schlüssel soll die \\(30\\)-Nm-Schraube aufgehen. Unter welchem kleinsten Winkel geht es gerade noch? Notiere deine Rechnung, dann prüfe.', ok: function(s){ return hat(s, 240, 0.25, 30, 30) && s.lauf.geloest; },
         vergleich: '\\(M = F \\cdot l \\cdot \\sin\\alpha\\), also \\(\\sin\\alpha = \\dfrac{30\\;\\text{Nm}}{240\\;\\text{N} \\cdot 0.25\\;\\text{m}} = 0.5\\) und \\(\\alpha = 30^\\circ\\). Senkrecht gezogen wären es \\(60\\;\\text{Nm}\\) — doppelt so viel wie nötig.' },
-      { text: 'Zieh mit \\(400\\;\\text{N}\\) genau längs des Schlüssels (\\(\\alpha = 0^\\circ\\)). Warum dreht sich nichts, egal wie stark du ziehst? Begründe.', ok: function(s){ return s.lauf && s.lauf.F === 400 && s.lauf.a === 0; },
-        vergleich: 'Die Wirkungslinie geht durch die Drehachse: Der wirksame Hebelarm ist \\(r = l \\cdot \\sin 0^\\circ = 0\\), also auch \\(M = F \\cdot r = 0\\). Eine Kraft, die auf die Achse zeigt, dreht nicht.' }
+      { text: 'Ein \\(0.40\\;\\text{m}\\) langer Schlüssel, unter \\(30^\\circ\\) gezogen, wirkt wie ein kürzerer, senkrecht gezogen. Wie kurz? Notiere deine Rechnung und prüfe mit \\(200\\;\\text{N}\\): einmal schräg am langen, einmal senkrecht am kurzen Schlüssel.', ok: function(s){ var schraeg = false, senkrecht = false; s.laeufe.forEach(function(l){ if (l.F === 200 && l.l === 0.4 && l.a === 30) schraeg = true; if (l.F === 200 && l.l === 0.2 && l.a === 90) senkrecht = true; }); return schraeg && senkrecht; },
+        vergleich: 'Es zählt nur der wirksame Hebelarm: \\(r = l \\cdot \\sin\\alpha = 0.40\\;\\text{m} \\cdot \\sin 30^\\circ = 0.20\\;\\text{m}\\). Beide Einstellungen geben \\(M = 200\\;\\text{N} \\cdot 0.20\\;\\text{m} = 40\\;\\text{Nm}\\) — der Balken steht beide Male gleich hoch. Die Hälfte des langen Schlüssels ist beim Schrägziehen verschenkt.' }
     ], sim);
     zeichnen();
   })();
@@ -742,8 +753,9 @@
       zustand: function(){ var w = werte(); w.lauf = lauf; w.laeufe = laeufe; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); th = 0; om = 0; ende = null; B.setze(o); zeichnen(); },
       aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); },
-      zeige: function(x){ uhr.stop(); th = x; om = 0; zeichnen(); }
+      zeige: function(x){ uhr.stop(); th = x; om = 0; bild = true; zeichnen(); bild = false; }   // Testhaken für Clipbilder: ohne Bedienhinweis
     };
+    var bild = false;
     fig.__sim = sim;
     function zeichnen(){
       var w = werte(), c = Math.cos(th), s = Math.sin(th);
@@ -755,7 +767,7 @@
       var a = P(-HALB, 0), b = P(HALB, 0);
       el(szene, 'line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], 'class': 'brett' });
       for (var x = -2; x <= 2.01; x += 0.5){ var q = P(x, 0.0), q2 = P(x, 0.09); el(szene, 'line', { x1: q[0], y1: q[1], x2: q2[0], y2: q2[1], 'class': 'tick' }); }
-      if (ende === null && !uhr.laeuft()) el(szene, 'text', { x: 150, y: boden + 16, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'gehalten — «Loslassen» gibt die Wippe frei');
+      if (ende === null && !uhr.laeuft() && !bild) el(szene, 'text', { x: 150, y: 18, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'gehalten — «Loslassen» gibt die Wippe frei');   // oben, wo nach dem Lauf die Meldung steht: nicht auf den Hebelarmen
       // Personen als Klötze, Grösse nach Masse
       [[-w.r1, w.m1, '1'], [w.r2, w.m2, '2']].forEach(function(p){
         var gr = 10 + p[1] * 0.32, m = P(p[0], -gr / PX / 2);
@@ -834,6 +846,8 @@
       var w = werte(), k = lager(w, x), s = 50 / (w.FL + w.FE);               // Gesamtlast 50 px
       B.anzeigen(); leeren(szene); leeren(dia);
       var sk = skala(w.FL + w.FE);
+      // Luft über der Gesamtlast: Die gestrichelte Linie bleibt unter der Legende (bei 370 kN lag sie darauf)
+      sk.y1 = Math.max(sk.y1, sk.y0 + (w.FL + w.FE - sk.y0) / 0.8);
       K = Achsen(dia, { w: 300, h: 140, x0: -0.6, x1: 11, y0: sk.y0, y1: sk.y1, sx: 1, sy: sk.sy, xm: [2, 4, 6, 8, 10], ym: sk.ym, xname: 'x [m]', yname: 'F [kN]' });
       var X = function(m){ return AX + m * PX; };
       // Stützen, Brücke, Bemassung
@@ -869,12 +883,14 @@
     }
     function hat(s, FL, FE, xx){ var l = s.lauf; return l && l.FL === FL && l.FE === FE && l.x === xx; }
     pruefen = Leiste(fig, [
-      { text: 'Ein Wagen mit \\(F_L = 80\\;\\text{kN}\\) fährt auf eine Brücke ohne Eigengewicht und hält bei \\(x = 2.5\\;\\text{m}\\). Rechne zuerst \\(F_A\\) und \\(F_B\\), dann fahr hin und vergleiche.', ok: function(s){ return hat(s, 80, 0, 2.5); } },
-      { text: 'Fahr den Wagen ganz über die Brücke (bis \\(10\\;\\text{m}\\)). Wie verlaufen \\(F_A\\) und \\(F_B\\) im Diagramm? Was bleibt dabei gleich? Notiere deine Antwort.', ok: function(s){ return s.lauf && s.lauf.x === 10; },
-        vergleich: 'Beide verlaufen geradlinig: \\(F_A\\) nimmt ab, \\(F_B\\) nimmt im gleichen Mass zu. Ihre Summe bleibt die Gesamtlast (gestrichelt) — das verlangt \\(\\sum F_y = 0\\). Über der Stütze A trägt A alles, über B trägt B alles.' },
+      { text: 'Ein Wagen mit \\(F_L = 80\\;\\text{kN}\\) fährt auf eine Brücke ohne Eigengewicht und hält bei \\(x = 2.5\\;\\text{m}\\). Notiere zuerst deine Rechnung für \\(F_A\\) und \\(F_B\\), dann fahr hin und vergleiche.', ok: function(s){ return hat(s, 80, 0, 2.5); },
+        vergleich: 'Momente um A: \\(F_B \\cdot 10\\;\\text{m} = 80\\;\\text{kN} \\cdot 2.5\\;\\text{m}\\), also \\(F_B = 20\\;\\text{kN}\\). Kräfte: \\(F_A = 80\\;\\text{kN} - 20\\;\\text{kN} = 60\\;\\text{kN}\\). Der Wagen steht näher bei A, darum trägt A drei Viertel.' },
+      { text: 'Fahr den Wagen auf der Brücke ohne Eigengewicht (\\(F_E = 0\\)) ganz hinüber (bis \\(10\\;\\text{m}\\)). Wie verlaufen \\(F_A\\) und \\(F_B\\) im Diagramm? Was bleibt dabei gleich? Notiere deine Antwort.', ok: function(s){ return s.lauf && s.lauf.x === 10 && s.lauf.FE === 0; },
+        vergleich: 'Beide verlaufen geradlinig: \\(F_A\\) nimmt ab, \\(F_B\\) nimmt im gleichen Mass zu. Ihre Summe bleibt die Gesamtlast (gestrichelt) — das verlangt \\(\\sum F_y = 0\\). Ohne Eigengewicht trägt über der Stütze A die Stütze A alles, über B die Stütze B.' },
       { text: 'Ohne Eigengewicht: Wo muss der Wagen halten, damit Stütze B dreimal so viel trägt wie Stütze A? Begründe mit den Momenten.', ok: function(s){ return s.lauf && s.lauf.FE === 0 && s.lauf.x === 7.5; },
         vergleich: '\\(F_B = F_L \\cdot \\dfrac{x}{L}\\) und \\(F_A = F_L \\cdot \\dfrac{L - x}{L}\\). \\(F_B = 3 \\cdot F_A\\) heisst \\(x = 3 \\cdot (L - x)\\), also \\(x = 7.5\\;\\text{m}\\) — unabhängig von der Last.' },
-      { text: 'Jetzt hat die Brücke ein Eigengewicht \\(F_E = 100\\;\\text{kN}\\) (in der Mitte). Ein Wagen mit \\(100\\;\\text{kN}\\) hält bei \\(4\\;\\text{m}\\). Wie gross ist \\(F_A\\)? Rechne, dann fahr hin.', ok: function(s){ return hat(s, 100, 100, 4); } },
+      { text: 'Jetzt hat die Brücke ein Eigengewicht \\(F_E = 100\\;\\text{kN}\\) (in der Mitte). Ein Wagen mit \\(100\\;\\text{kN}\\) hält bei \\(4\\;\\text{m}\\). Wie gross ist \\(F_A\\)? Notiere deine Rechnung, dann fahr hin.', ok: function(s){ return hat(s, 100, 100, 4); },
+        vergleich: 'Momente um A: \\(F_B \\cdot 10\\;\\text{m} = 100\\;\\text{kN} \\cdot 4\\;\\text{m} + 100\\;\\text{kN} \\cdot 5\\;\\text{m}\\), also \\(F_B = 90\\;\\text{kN}\\). Dann \\(F_A = 100\\;\\text{kN} + 100\\;\\text{kN} - 90\\;\\text{kN} = 110\\;\\text{kN}\\). Das Eigengewicht teilt sich je zur Hälfte auf, der Wagen nach den Abständen.' },
       { text: 'Stütze B darf höchstens \\(120\\;\\text{kN}\\) tragen. Brücke \\(F_E = 60\\;\\text{kN}\\), Wagen \\(150\\;\\text{kN}\\): Wie weit darf der Wagen höchstens fahren? Notiere deine Rechnung, stelle ein und fahr.', ok: function(s){ return hat(s, 150, 60, 6); },
         vergleich: '\\(F_B = \\dfrac{F_L \\cdot x + F_E \\cdot \\tfrac{L}{2}}{L}\\): \\(120\\;\\text{kN} = \\dfrac{150\\;\\text{kN} \\cdot x + 60\\;\\text{kN} \\cdot 5\\;\\text{m}}{10\\;\\text{m}}\\) ergibt \\(x = 6\\;\\text{m}\\). Weiter rechts trägt B mehr als erlaubt.' }
     ], sim);
@@ -907,6 +923,8 @@
     function erg(x, u){ var r = +(+x).toPrecision(3); return (Math.abs(r - x) < 1e-9 * Math.max(1, Math.abs(x)) ? '= ' : '\\approx ') + (u === 'Ω' ? tz(r) + '\\;\\Omega' : ein(r, u)); }
     // Feste Aufgaben der Seite und des Gesamttests: Zufallsübungen dürfen sie nicht treffen
     function fest_(a){ return a.join('|'); }
+    function w1(x){ var r = (+x).toFixed(1); return (Math.abs(+r - x) < 1e-9 ? '= ' : '\\approx ') + r.replace(/^-/, '-') + '^\\circ'; }   // Winkel auf ein Zehntelgrad, wie in der Rechnung
+    function r3(x){ return +(+x).toPrecision(3); }                                // Zwischenwert, auf drei Stellen gerundet weiterverwendet
     function vors(v){ return v === 'µ' ? '\\mu' : '\\text{' + v + '}'; }   // µ steht in LaTeX ausserhalb von \\text
 
 
@@ -942,7 +960,7 @@
         neu: function(){
           var a, b;
           do { a = zufall([30, 45, 60, 90, 120, 150, 200]) * zufall([1, -1]); b = zufall([20, 40, 50, 75, 110, 160]) * zufall([1, -1]); }
-          while ((Math.abs(a) === 120 && Math.abs(b) === 50) || (Math.abs(a) === 30 && Math.abs(b) === 40) || (Math.abs(a) === 90 && Math.abs(b) === 40));   // Aufgabe 2a, Festhalten Kapitel 1 und 2
+          while ((Math.abs(a) === 120 && Math.abs(b) === 50) || (Math.abs(a) === 30 && Math.abs(b) === 40) || (Math.abs(a) === 90 && Math.abs(b) === 40) || (Math.abs(a) === 30 && Math.abs(b) === 20));   // Aufgabe 2a, Festhalten Kapitel 1 und 2, Aufgabe 1c
           return { F: Math.hypot(a, b), a: a, b: b,
             text: 'Eine Kraft hat die Komponenten \\(F_x = ' + ein(a, 'N') + '\\) und \\(F_y = ' + ein(b, 'N') + '\\). Wie gross ist ihr Betrag?' }; },
         pruefen: function(A, e){
@@ -976,14 +994,17 @@
         fehler: function(A){ var roh = Math.atan(A.b / A.a) * 180 / Math.PI, g = Math.abs(roh);
           return (A.a > 0 && A.b > 0) ? [[{ p: String(90 - g) }, 'Gegenkathete'], [{ p: String(roh + 180) }, 'rechts oben']] : [[{ p: String(roh) }, 'Taschenrechner'], [{ p: String(90 - g) }, 'Gegenkathete']]; },
         loesung: function(A){ var roh = Math.atan(A.b / A.a) * 180 / Math.PI;
-          return '\\arctan\\dfrac{' + ein(A.b, 'N') + '}{' + ein(A.a, 'N') + '} ' + erg(roh, '°').replace('\\;\\text{°}', '^\\circ') + (A.a < 0 ? ',\\quad \\varphi = ' + tz(+roh.toPrecision(4)) + '^\\circ + 180^\\circ ' : (A.b < 0 ? ',\\quad \\varphi = ' + tz(+roh.toPrecision(4)) + '^\\circ + 360^\\circ ' : ',\\quad \\varphi ')) + erg(A.p, '°').replace('\\;\\text{°}', '^\\circ'); } },
+          return '\\arctan\\dfrac{' + ein(A.b, 'N') + '}{' + ein(A.a, 'N') + '} ' + w1(roh) + (A.a < 0 ? ',\\quad \\varphi = ' + roh.toFixed(1) + '^\\circ + 180^\\circ ' : (A.b < 0 ? ',\\quad \\varphi = ' + roh.toFixed(1) + '^\\circ + 360^\\circ ' : ',\\quad \\varphi ')) + w1(A.p); } },
 
       /* ----- Kapitel 2: Resultierende Kraft ----- */
       'res-recht': { felder: ['F'], muster: '<i>F</i><sub>res</sub> = {F} N',
         neu: function(){
           var a, b;
-          do { a = zufall([25, 40, 70, 90, 140, 210, 300]); b = zufall([20, 35, 50, 80, 110, 160, 240]); } while (a === b);
-          var ctx = zufall([['Zwei Kinder ziehen an einem Schlitten', 'nach vorn', 'zur Seite'], ['Zwei Seile halten einen Ballon', 'waagrecht', 'senkrecht nach unten'], ['Strömung und Motor wirken auf ein Boot', 'quer zum Fluss', 'flussabwärts']]);
+          // Werte je Situation: Kinder ziehen mit höchstens rund 150 N, ein Bootsmotor schafft mehr
+          var ctx = zufall([['Zwei Kinder ziehen an einem Schlitten', 'nach vorn', 'zur Seite', [25, 40, 70, 90, 140], [20, 50, 80, 110]],
+                            ['Zwei Seile halten einen Ballon', 'waagrecht', 'senkrecht nach unten', [40, 70, 90, 140, 210], [20, 50, 80, 110, 160]],
+                            ['Strömung und Motor wirken auf ein Boot', 'quer zum Fluss', 'flussabwärts', [140, 210, 300], [80, 110, 160, 240]]]);
+          do { a = zufall(ctx[3]); b = zufall(ctx[4]); } while (a === b);   // nicht 35 und 120 (Kontrollfrage), 120 und 50 (Aufgabe 2a): kommen nicht vor
           return { F: Math.hypot(a, b), a: a, b: b,
             text: ctx[0] + ': \\(' + ein(a, 'N') + '\\) ' + ctx[1] + ' und \\(' + ein(b, 'N') + '\\) ' + ctx[2] + ', im rechten Winkel zueinander. Wie gross ist die Resultierende?' }; },
         pruefen: function(A, e){
@@ -1049,11 +1070,11 @@
       'grenzwinkel': { felder: ['x'], muster: function(A){ return A.art === 'a' ? '<i>α</i> = {x} °' : '<i>μ</i><sub>H</sub> = {x}'; },
         neu: function(){
           if (Math.random() < 0.5){
-            var st = zufall([['Holz auf Holz', 0.45], ['Gummi auf nassem Asphalt', 0.55], ['Gummi auf Beton', 0.8], ['Gummi auf rauem Fels', 0.9]]);   // nicht 0.25, 0.35, 0.4, 0.5, 0.6, 0.65, 0.7: Kontrollfrage, Gesamttest, Aufgabe 3c, Themenseite, Clip, Leiste; nicht unter 0.3: dort liegt arcsin zu nah an arctan
+            var st = zufall([['Holz auf Holz', 0.45], ['Gummi auf nassem Asphalt', 0.55], ['Gummi auf Beton', 0.8], ['Gummi auf rauem Fels', 0.9]]);   // nicht 0.25, 0.35, 0.4, 0.42, 0.5, 0.6, 0.65, 0.7: Kontrollfragen, Aufgabe 3c, Clipproblem (Sofa), Themenseite, Clip, Leiste; nicht unter 0.3: dort liegt arcsin zu nah an arctan
             return { art: 'a', x: Math.atan(st[1]) * 180 / Math.PI, mu: st[1],
               text: 'Haftreibungszahl für ' + st[0] + ': \\(\\mu_H = ' + tz(st[1]) + '\\). Bis zu welchem Neigungswinkel bleibt ein Körper darauf von selbst liegen?' };
           }
-          var a = zufall([10, 18, 24, 28, 36, 38, 42]);   // nicht 12, 14, 22, 31, 33, 35: Aufgabe 3b, Kontrollfrage, Aufgabe 3c, Themenseite, Clip, Leiste
+          var a = zufall([10, 18, 24, 28, 36, 38, 42]);   // nicht 12, 14, 22, 25, 26, 31, 33, 35: Aufgabe 3b, Kontrollfragen, Aufgabe 3c, Gesamttest G4, Themenseite, Clip, Leiste
           return { art: 'm', x: Math.tan(grad(a)), a: a,
             text: 'Ein Klotz beginnt auf einer schiefen Ebene bei \\(\\alpha = ' + a + '^\\circ\\) gerade zu rutschen. Wie gross ist die Haftreibungszahl \\(\\mu_H\\)?' }; },
         pruefen: function(A, e){
@@ -1068,7 +1089,7 @@
           return 'An der Grenze gilt \\(\\mu_H = \\tan\\alpha\\).'; },
         fehler: function(A){ return A.art === 'a' ? [[{ x: String(Math.asin(A.mu) * 180 / Math.PI) }, 'tan'], [{ x: String(Math.atan(A.mu)) }, 'Bogenmass']] : [[{ x: String(Math.sin(grad(A.a))) }, 'Grenze'], [{ x: String(Math.tan(A.a)) }, 'Bogenmass']]; },
         loesung: function(A){ return A.art === 'a' ? '\\tan\\alpha = \\mu_H,\\quad \\alpha = \\arctan ' + tz(A.mu) + ' ' + erg(A.x, '°').replace('\\;\\text{°}', '^\\circ')
-                                                   : '\\mu_H = \\tan\\alpha = \\tan ' + A.a + '^\\circ ' + erg(A.x, '').replace('\\;\\text{}', ''); } },
+                                                   : '\\mu_H = \\tan\\alpha = \\tan ' + A.a + '^\\circ \\approx ' + A.x.toPrecision(3); } },
       'haftgrenze': { felder: ['x'], muster: '<i>F</i><sub>R</sub> = {x} N',
         neu: function(){
           var m, mu;
@@ -1113,12 +1134,15 @@
         neu: function(){
           // Werte je Gegenstand (plausibel: Handkraft bis rund 450 N, Hebel passend zum Werkzeug)
           var ctx = zufall([
-            { was: 'Eine Radmutter', tun: 'zum Lösen', am: 'am Radkreuz', M: [90, 120, 140], r: [0.3, 0.35, 0.4], F: [250, 300, 350] },
-            { was: 'Eine Schraube am Velo', tun: 'zum Lösen', am: 'am Schraubenschlüssel', M: [5, 8, 12], r: [0.1, 0.12, 0.15], F: [40, 60, 80] },
-            { was: 'Das Handrad eines Ventils', tun: 'zum Öffnen', am: 'am Rand des Handrads', M: [8, 12, 20], r: [0.1, 0.15, 0.2], F: [60, 80, 120] }]);
-          var M, r, F;
-          do { M = zufall(ctx.M); r = zufall(ctx.r); F = zufall(ctx.F); } while (F === 10 * M);   // sonst r · 100 = F / M: zwei Fehler, eine Zahl
-          if (Math.random() < 0.5) return { art: 'F', x: M / r, M: M, r: r,
+            { was: 'Eine Radmutter', tun: 'zum Lösen', am: 'am Radkreuz', M: [90, 120, 140], r: [0.3, 0.35, 0.4], F: [250, 300, 350], rmax: 0.45, Fmax: 450 },
+            { was: 'Eine Schraube am Velo', tun: 'zum Lösen', am: 'am Schraubenschlüssel', M: [5, 8, 12], r: [0.1, 0.12, 0.15], F: [40, 60, 80], rmax: 0.2, Fmax: 150 },
+            { was: 'Das Handrad eines Ventils', tun: 'zum Öffnen', am: 'am Rand des Handrads', M: [8, 12, 20], r: [0.1, 0.15, 0.2], F: [60, 80, 120], rmax: 0.25, Fmax: 200 }]);
+          var M, r, F, art = Math.random() < 0.5 ? 'F' : 'r';
+          // F = 10 · M: sonst r · 100 = F / M (zwei Fehler, eine Zahl); gesuchte Grösse plausibel (Radkreuz höchstens 0.45 m,
+          // Handkraft höchstens 450 N); nicht 90 Nm mit 0.30 m bzw. 300 N (Leiste Kapitel 4, Aufgabe 1)
+          do { M = zufall(ctx.M); r = zufall(ctx.r); F = zufall(ctx.F); }
+          while (F === 10 * M || (art === 'F' ? M / r > ctx.Fmax || (M === 90 && r === 0.3) : M / F > ctx.rmax || (M === 90 && F === 300)));
+          if (art === 'F') return { art: 'F', x: M / r, M: M, r: r,
             text: ctx.was + ' braucht ' + ctx.tun + ' \\(M = ' + ein(M, 'Nm') + '\\). Man zieht senkrecht ' + ctx.am + ', \\(' + ein(r, 'm') + '\\) von der Drehachse. Welche Kraft braucht es mindestens?' };
           return { art: 'r', x: M / F, M: M, F: F,
             text: ctx.was + ' braucht ' + ctx.tun + ' \\(M = ' + ein(M, 'Nm') + '\\). Du ziehst senkrecht ' + ctx.am + ' mit \\(' + ein(F, 'N') + '\\). Wie weit von der Drehachse musst du mindestens greifen?' }; },
@@ -1134,7 +1158,8 @@
       'losbrechen': { felder: ['F'], muster: '<i>F</i> = {F} N',
         neu: function(){
           var M, l, a;
-          M = zufall([20, 35, 50, 80]); l = zufall([0.25, 0.3, 0.4]); a = zufall([40, 55, 65, 75]);   // höchstens rund 500 N
+          do { M = zufall([20, 35, 50, 80]); l = zufall([0.25, 0.3, 0.4]); a = zufall([40, 55, 65, 75]); }
+          while (M / (l * Math.sin(grad(a))) > 450);   // Handkraft höchstens 450 N
           return { F: M / (l * Math.sin(grad(a))), M: M, l: l, a: a,
             text: 'Eine Schraube löst sich bei \\(M = ' + ein(M, 'Nm') + '\\). Der Schlüssel ist \\(' + ein(l, 'm') + '\\) lang, man kann nur unter \\(\\alpha = ' + a + '^\\circ\\) zum Schlüssel ziehen. Welche Kraft braucht es?' }; },
         pruefen: function(A, e){
@@ -1151,7 +1176,7 @@
         neu: function(){
           var m1, r1, m2, r2;
           do { m1 = zufall([18, 22, 27, 32, 45, 54]); r1 = zufall([0.8, 1.2, 1.4, 1.6, 1.8]); m2 = zufall([20, 30, 36, 40, 48]); r2 = zufall([0.9, 1.1, 1.5, 2]); }
-          while (m1 === m2 || (m1 * r1) / m2 > 2.2 || (m1 * r1) / r2 > 90 || (m1 * r1) / r2 < 15);   // gesuchte Masse 15 bis 90 kg
+          while (m1 === m2 || (m1 * r1) / m2 > 2.2 || (m1 * r1) / r2 > 90 || (m1 * r1) / r2 < 15 || (m1 === 45 && r1 === 0.8 && m2 === 30));   // gesuchte Masse 15 bis 90 kg; nicht 45 kg bei 0.8 m gegen 30 kg (Häufiger Fehler Kapitel 5)
           if (Math.random() < 0.5) return { art: 'r', x: m1 * r1 / m2, m1: m1, r1: r1, m2: m2,
             text: 'Auf einer Wippe sitzt links ein Kind mit \\(' + ein(m1, 'kg') + '\\), \\(' + ein(r1, 'm') + '\\) von der Drehachse. Wie weit von der Achse muss rechts ein Kind mit \\(' + ein(m2, 'kg') + '\\) sitzen, damit Gleichgewicht herrscht?' };
           return { art: 'm', x: m1 * r1 / r2, m1: m1, r1: r1, r2: r2,
@@ -1205,16 +1230,17 @@
           while (x >= L || (L === 8 && F === 40 && x === 2) || !verschieden([F * x / L, F * (L - x) / L, F * x, F * (L - x), F / 2]));   // Aufgabe 6b
           var art = Math.random() < 0.5 ? 'A' : 'B';
           return { art: art, x: art === 'B' ? F * x / L : F * (L - x) / L, L: L, F: F, xx: x,
-            text: 'Ein Balken ohne Eigengewicht liegt auf zwei Stützen A und B im Abstand \\(L = ' + ein(L, 'm') + '\\). Eine Last von \\(' + ein(F, 'kN') + '\\) steht \\(' + ein(x, 'm') + '\\) von A entfernt. Wie gross ist die Auflagerkraft \\(F_' + art + '\\)?' }; },
+            text: 'Ein Balken ohne Eigengewicht liegt auf zwei Stützen A und B im Abstand \\(L = ' + ein(L, 'm') + '\\). Eine Last \\(F_L = ' + ein(F, 'kN') + '\\) steht \\(' + ein(x, 'm') + '\\) von A entfernt. Wie gross ist die Auflagerkraft \\(F_' + art + '\\)?' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;
+          if (A.art === 'A' && nah(e.x, A.F - r3(A.F * A.xx / A.L))) return null;   // mit F_B auf drei Stellen weitergerechnet
           if (nah(e.x, A.F - A.x)) return 'Das ist die andere Stütze. Die nähere Stütze trägt mehr.';
           if (nah(e.x, A.F * A.xx) || nah(e.x, A.F * (A.L - A.xx))) return 'Das ist ein Drehmoment. Momente um ' + (A.art === 'B' ? 'A' : 'B') + ': \\(F_' + A.art + ' \\cdot L = \\ldots\\), dann durch \\(L\\) teilen.';
           if (nah(e.x, A.F / 2)) return 'Halb und halb gilt nur in der Mitte.';
-          return 'Drehachse dort, wo die andere Auflagerkraft angreift: \\(F_B \\cdot L = F \\cdot x\\), dann \\(F_A = F - F_B\\).'; },
+          return 'Drehachse dort, wo die andere Auflagerkraft angreift: \\(F_B \\cdot L = F_L \\cdot x\\), dann \\(F_A = F_L - F_B\\).'; },
         fehler: function(A){ return [[{ x: String(A.F - A.x) }, 'andere'], [{ x: String(A.art === 'B' ? A.F * A.xx : A.F * (A.L - A.xx)) }, 'Drehmoment'], [{ x: String(A.F / 2) }, 'Mitte']]; },
         loesung: function(A){ var B = A.F * A.xx / A.L;
-          return '\\sum M_A = 0:\\; F_B \\cdot L = F \\cdot x,\\quad F_B = \\dfrac{' + ein(A.F, 'kN') + ' \\cdot ' + ein(A.xx, 'm') + '}{' + ein(A.L, 'm') + '} ' + erg(B, 'kN') + (A.art === 'A' ? ',\\quad F_A = F - F_B ' + erg(A.x, 'kN') : ''); } },
+          return '\\sum M_A = 0:\\; F_B \\cdot L = F_L \\cdot x,\\quad F_B = \\dfrac{' + ein(A.F, 'kN') + ' \\cdot ' + ein(A.xx, 'm') + '}{' + ein(A.L, 'm') + '} ' + erg(B, 'kN') + (A.art === 'A' ? ',\\quad F_A = F_L - F_B ' + erg(A.x, 'kN') : ''); } },
       'auflager-e': { felder: ['x'], muster: function(A){ return '<i>F</i><sub>' + A.art + '</sub> = {x} kN'; },
         neu: function(){
           var L, FE, FL, x;
@@ -1226,6 +1252,7 @@
             text: 'Eine Brücke (Stützweite \\(L = ' + ein(L, 'm') + '\\), Eigengewicht \\(F_E = ' + ein(FE, 'kN') + '\\) in der Mitte) liegt auf den Stützen A und B. Ein Wagen mit \\(F_L = ' + ein(FL, 'kN') + '\\) steht \\(' + ein(x, 'm') + '\\) von A entfernt. Wie gross ist \\(F_' + art + '\\)?' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;
+          if (A.art === 'A' && nah(e.x, A.FL + A.FE - r3(A.FB))) return null;   // mit F_B auf drei Stellen weitergerechnet
           var ohne = A.art === 'B' ? A.FL * A.xx / A.L : A.FL * (A.L - A.xx) / A.L;
           if (nah(e.x, ohne)) return 'Das Eigengewicht fehlt: Es greift in der Mitte an, jede Stütze trägt die Hälfte davon.';
           if (nah(e.x, ohne + A.FE)) return 'Das Eigengewicht greift in der Mitte an: Jede Stütze trägt nur die Hälfte davon.';
@@ -1243,12 +1270,13 @@
             text: 'Ein Brett ohne Eigengewicht liegt auf zwei Böcken A und B im Abstand \\(' + ein(L, 'm') + '\\). Darauf stehen \\(' + ein(F1, 'N') + '\\) bei \\(' + ein(x1, 'm') + '\\) und \\(' + ein(F2, 'N') + '\\) bei \\(' + ein(x2, 'm') + '\\), beide von A aus gemessen. Wie gross ist \\(F_A\\)?' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;
+          if (nah(e.x, A.F1 + A.F2 - r3(A.FB))) return null;   // mit F_B auf drei Stellen weitergerechnet
           if (nah(e.x, A.FB)) return 'Das ist \\(F_B\\). Gesucht ist \\(F_A = F_1 + F_2 - F_B\\).';
           if (nah(e.x, A.F1 * (A.L - A.x1) / A.L) || nah(e.x, A.F2 * (A.L - A.x2) / A.L)) return 'Beide Lasten zählen: jede mit ihrem Hebelarm.';
           if (nah(e.x, (A.F1 + A.F2) / 2)) return 'Halb und halb gilt nur, wenn die Lasten symmetrisch stehen.';
           return 'Momente um A: \\(F_B \\cdot L = F_1 \\cdot x_1 + F_2 \\cdot x_2\\), dann \\(F_A = F_1 + F_2 - F_B\\).'; },
         fehler: function(A){ return [[{ x: String(A.FB) }, 'Das ist'], [{ x: String(A.F1 * (A.L - A.x1) / A.L) }, 'Beide'], [{ x: String((A.F1 + A.F2) / 2) }, 'symmetrisch']]; },
-        loesung: function(A){ return 'F_B = \\dfrac{' + ein(A.F1, 'N') + ' \\cdot ' + ein(A.x1, 'm') + ' + ' + ein(A.F2, 'N') + ' \\cdot ' + ein(A.x2, 'm') + '}{' + ein(A.L, 'm') + '} ' + erg(A.FB, 'N') + ',\\quad F_A = F_1 + F_2 - F_B ' + erg(A.x, 'N'); } }
+        loesung: function(A){ return '\\sum M_A = 0:\\; F_B \\cdot L = F_1 \\cdot x_1 + F_2 \\cdot x_2,\\quad F_B = \\dfrac{' + ein(A.F1, 'N') + ' \\cdot ' + ein(A.x1, 'm') + ' + ' + ein(A.F2, 'N') + ' \\cdot ' + ein(A.x2, 'm') + '}{' + ein(A.L, 'm') + '} ' + erg(A.FB, 'N') + ',\\quad F_A = F_1 + F_2 - F_B ' + erg(A.x, 'N'); } }
     };
     ALLE.forEach(function(box){
       var T = TYPEN[box.dataset.typ]; if (!T) return;

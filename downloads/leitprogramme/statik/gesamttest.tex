@@ -1,10 +1,10 @@
 % Gesamttest «Statik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py statik).
-% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (05.10.2026).
-% Fassung 2 nach /lp-pruefung (05.10.2026): Jede Aufgabe fragt anders als Aufgaben, Übungen,
-% Kontrollfragen und Leisten — G1 rückwärts (aus Betrag und einer Komponente), G2 alle Kräfte an
-% einem gezogenen Schlitten mit Resultierender, G3 Lenkrad mit zwei Händen (Momente addieren) und
-% Anwendungen, G4 Haftreibung unterhalb der Grenze, G5 überstehendes Brett mit Kippen, G6 als
-% Erklärung und Schubkarre rückwärts (Lastarm aus der höchsten Kraft) — HOWTO §9.
+% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (06.10.2026).
+% Fassung 3 nach der zweiten Prüfung (06.10.2026): Keine Aufgabe wiederholt den Aufbau einer
+% Kapitelaufgabe, Leiste, Kontrollfrage oder eines Beispiels der Themenseite — G2 mit Krafteck und
+% rückwärts (Zugkraft für F_res,x = 0), G3 mit Definition des Drehmoments, G4 rückwärts (μ_H aus der
+% Grenzneigung), G5 Brett mit Überstand auf beiden Seiten und Höchstlast am Ende (geübt in 6d),
+% G6 Definition und Kran (Hebelgesetz, Kapitel 5 mit mehr Gewicht) — HOWTO §9 und §15.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Statik}
@@ -19,14 +19,15 @@
   \end{tabularx}}
 
 \begin{lpinfo}{Anleitung}
-\textbf{Zeit:} rund 30 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
+\textbf{Zeit:} rund 40 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
+\textbf{Taschenrechner auf Grad (DEG)} stellen, nicht auf Bogenmass (RAD).
 Schreib zu jeder Aufgabe zuerst die Formel, dann die Werte \textbf{mit Einheiten}. Punkte gibt es für den Weg,
 für das Ergebnis mit Einheit, für Skizzen und für Begründungen in eigenen Worten. Rechne mit $g = 9.81\;\text{m/s}^2$;
 Winkel \(\varphi\) zählen von der positiven \(x\)-Achse aus gegen den Uhrzeigersinn.
 Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem \emph{Bewertungspaket} bewerten lassen.
 \end{lpinfo}
 
-\lpteil{Teil A · Kräfte}{Kapitel 1, 2 und 3 · 8 Punkte}
+\lpteil{Teil A · Kräfte}{Kapitel 1 und 2 · 8 Punkte}
 
 \begin{lpaufgabe}{G1}{Kraft als Vektor}{4 P}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
@@ -35,19 +36,19 @@ Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem
 \item Eine andere Kraft hat den Betrag \(2.6\;\text{kN}\) und die waagrechte Komponente \(F_x = 1.0\;\text{kN}\). Wie gross ist ihre senkrechte Komponente?
 \item Zu c): Die Kraft kann in zwei Richtungen zeigen. Gib beide Winkel \(\varphi\) an und begründe, warum es zwei sind.
 \end{enumerate}
-\lpplatz{11}
+\lpplatz{15}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G2}{Schlitten}{4 P}
-Ein Schlitten (\(F_G = 400\;\text{N}\)) liegt auf waagrechtem Schnee. Ein Kind zieht am Seil mit \(150\;\text{N}\) unter \(30^\circ\) zur Waagrechten nach vorn oben. Der Schnee drückt mit der Normalkraft \(325\;\text{N}\), die Reibung bremst mit \(100\;\text{N}\).
+Ein Schlitten (\(F_G = 400\;\text{N}\)) gleitet über waagrechten Schnee. Ein Kind zieht am Seil mit \(150\;\text{N}\) unter \(30^\circ\) zur Waagrechten nach vorn oben. Der Schnee drückt mit der Normalkraft \(325\;\text{N}\) nach oben, die Gleitreibung bremst mit \(100\;\text{N}\) nach hinten. (Die Gleitreibung ist gegeben; wie man sie berechnet, ist hier nicht verlangt.)
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
 \item Skizziere den Schlitten mit allen vier Kräften als Pfeile, mit Namen.
 \item Berechne die Komponenten der Resultierenden, \(F_{\text{res},x}\) (vorwärts positiv) und \(F_{\text{res},y}\) (nach oben positiv).
-\item Wie gross ist die Resultierende, und wohin zeigt sie?
-\item Begründe, warum die Normalkraft kleiner ist als die Gewichtskraft.
+\item Zeichne die vier Kräfte Spitze an Fuss (Massstab \(1\;\text{cm} \;\widehat{=}\; 50\;\text{N}\)) und zeichne die Resultierende ein. Passt die Zeichnung zu b)?
+\item Mit welcher Zugkraft (gleicher Winkel) wäre die waagrechte Komponente der Resultierenden null?
 \end{enumerate}
-\skizzenfeld{3.2cm}
-\lpplatz{5}
+\skizzenfeld{6.2cm}
+\lpplatz{16}
 \end{lpaufgabe}
 
 \lpteil{Teil B · Drehmoment}{Kapitel 4 · 4 Punkte}
@@ -55,54 +56,63 @@ Ein Schlitten (\(F_G = 400\;\text{N}\)) liegt auf waagrechtem Schnee. Ein Kind z
 \begin{lpaufgabe}{G3}{Lenkrad}{4 P}
 Ein Lenkrad hat den Radius \(0.19\;\text{m}\).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Nenne zwei weitere Anwendungen, bei denen man ein Drehmoment nutzt, und erkläre an einer davon, wie Kraft und Hebelarm zusammenwirken.
+\item Definiere das Drehmoment einer Kraft: Was wird womit multipliziert, und was ist der wirksame Hebelarm? Nenne eine Anwendung ausser dem Lenkrad.
 \item Beim Einparken zieht die linke Hand am Rand mit \(20\;\text{N}\) nach unten, die rechte drückt am gegenüberliegenden Rand mit \(20\;\text{N}\) nach oben, beide senkrecht zum Radius. Wie gross ist das gesamte Drehmoment?
 \item Die rechte Hand lässt los. Welche Kraft braucht die linke allein, senkrecht zum Radius, für dasselbe Drehmoment?
 \item Die linke Hand kann nur unter \(40^\circ\) zum Radius ziehen. Welche Kraft braucht sie jetzt?
 \end{enumerate}
-\lpplatz{7}
+\lpplatz{24}
 \end{lpaufgabe}
 
 \lpteil{Teil C · Ruhe und Gleichgewicht}{Kapitel 3, 5 und 6 · 13 Punkte}
 
-\begin{lpaufgabe}{G4}{Auto auf Schnee}{5 P}
-Ein Auto (\(1200\;\text{kg}\)) steht mit blockierten Rädern an einer verschneiten Strasse mit \(13^\circ\) Neigung. Die Haftreibungszahl zwischen Reifen und Schnee ist \(\mu_H = 0.35\).
+\begin{lpaufgabe}{G4}{Paketrutsche}{4 P}
+Ein Paket (\(8\;\text{kg}\)) liegt auf einer schrägen Paketrutsche aus Blech. Ist die Rutsche steiler als \(26^\circ\), rutscht das Paket von selbst los; bei \(26^\circ\) haftet es gerade noch.
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Skizziere das Auto an der Steigung mit allen Kräften, die auf das Auto wirken, mit Namen und Richtung.
-\item Wie gross sind die Normalkraft und die Haftreibung, die das Auto hält?
-\item Bis zu welcher Neigung bleibt das Auto stehen?
-\item Begründe, warum die Haftreibung in b) nicht \(\mu_H \cdot F_N\) ist.
+\item Skizziere das Paket auf der Rutsche mit allen Kräften, die auf das Paket wirken, mit Namen und Richtung.
+\item Wie gross ist die Haftreibungszahl \(\mu_H\) zwischen Paket und Blech?
+\item Wie gross sind Normalkraft und Haftreibung bei \(26^\circ\)?
+\item Ein Paket mit \(20\;\text{kg}\) im gleichen Karton liegt auf derselben Rutsche. Rutscht es schon bei einer kleineren Neigung los? Begründe.
 \end{enumerate}
-\skizzenfeld{3.2cm}
-\lpplatz{12}
+\skizzenfeld{3.6cm}
+\lpplatz{9}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G5}{Überstehendes Brett}{5 P}
-Ein \(4\;\text{m}\) langes Brett (\(200\;\text{N}\), Schwerpunkt in der Mitte) liegt auf zwei Stützen A bei \(0\;\text{m}\) und B bei \(3\;\text{m}\); der letzte Meter ragt über B hinaus. Ein Kind (\(300\;\text{N}\)) geht von A aus über das Brett.\par\smallskip
-\begin{center}\begin{tikzpicture}[x=2.6cm,y=1cm,>=latex]
-\fill[lplinie!60] (0,0) rectangle (4,0.18); \draw (0,0) rectangle (4,0.18);
-\fill[lpgrau] (0,0) -- (-0.07,-0.45) -- (0.07,-0.45) -- cycle; \fill[lpgrau] (3,0) -- (2.93,-0.45) -- (3.07,-0.45) -- cycle;
-\node[below] at (0,-0.45) {A}; \node[below] at (3,-0.45) {B};
-\draw[->,thick,dashed] (2,0.9) -- (2,0.22) node[pos=0,above] {\small \(200\;\text{N}\)};
-\draw[->,very thick] (1,1.3) -- (1,0.22) node[pos=0,above] {\small Kind \(300\;\text{N}\)};
-\draw[|<->|] (0,-1.1) -- (3,-1.1) node[midway,fill=white] {\small \(3\;\text{m}\)};
-\draw[|<->|] (3,-1.1) -- (4,-1.1) node[midway,fill=white] {\small \(1\;\text{m}\)};
+\begin{lpaufgabe}{G5}{Brett mit Überstand}{5 P}
+Ein \(5\;\text{m}\) langes Brett (\(250\;\text{N}\), Schwerpunkt in der Mitte) liegt auf zwei Stützen: A bei \(1\;\text{m}\), B bei \(4\;\text{m}\), von seinem linken Ende aus gemessen. Auf beiden Seiten ragt es \(1\;\text{m}\) über.\par\smallskip
+\begin{center}\begin{tikzpicture}[x=2.3cm,y=1cm,>=latex]
+\fill[lplinie!60] (0,0) rectangle (5,0.18); \draw (0,0) rectangle (5,0.18);
+\fill[lpgrau] (1,0) -- (0.93,-0.45) -- (1.07,-0.45) -- cycle; \fill[lpgrau] (4,0) -- (3.93,-0.45) -- (4.07,-0.45) -- cycle;
+\node[below] at (1,-0.45) {A}; \node[below] at (4,-0.45) {B};
+\draw[->,thick,dashed] (2.5,0.9) -- (2.5,0.22) node[pos=0,above] {\small \(250\;\text{N}\)};
+\draw[->,very thick] (2,1.3) -- (2,0.22) node[pos=0,above] {\small Kind \(300\;\text{N}\)};
+\draw[|<->|] (0,-1.15) -- (1,-1.15) node[midway,fill=white] {\small \(1\;\text{m}\)};
+\draw[|<->|] (1,-1.15) -- (4,-1.15) node[midway,fill=white] {\small \(3\;\text{m}\)};
+\draw[|<->|] (4,-1.15) -- (5,-1.15) node[midway,fill=white] {\small \(1\;\text{m}\)};
 \end{tikzpicture}\end{center}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Das Kind steht bei \(1\;\text{m}\). Berechne die Auflagerkräfte \(F_A\) und \(F_B\).
-\item Das Kind geht weiter nach rechts. Ab welcher Stelle kippt das Brett um B?
-\item Ein zweites Kind (\(300\;\text{N}\)) stellt sich genau über A. Begründe mit den Drehmomenten um B, dass das erste Kind jetzt bis ans Ende des Bretts gehen kann.
+\item Das Kind steht bei \(2\;\text{m}\) (\(1\;\text{m}\) rechts von A). Berechne die Auflagerkräfte \(F_A\) und \(F_B\).
+\item Wie schwer darf eine Person höchstens sein, die bis ans rechte Ende des Bretts gehen will, ohne dass es um B kippt? Rechne mit den Drehmomenten.
 \end{enumerate}
-\lpplatz{6}
+\lpplatz{14}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G6}{Gleichgewicht und Hebel}{3 P}
+\begin{lpaufgabe}{G6}{Gleichgewicht und Kran}{4 P}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
 \item Erkläre, was statisches Gleichgewicht heisst, mit beiden Bedingungen.
-\item Ein Stab liegt auf einer glatten Eisfläche (ohne Reibung). Am einen Ende zieht jemand mit \(15\;\text{N}\) nach Norden, am anderen Ende jemand mit \(15\;\text{N}\) nach Süden, beide quer zum Stab. Bleibt der Stab in Ruhe? Begründe mit beiden Bedingungen.
-\item Du kannst an den Griffen einer Schubkarre (\(1.4\;\text{m}\) von der Radachse) höchstens \(200\;\text{N}\) senkrecht nach oben aufbringen. Wie weit von der Radachse darf eine Last von \(700\;\text{N}\) höchstens liegen?
-\end{enumerate}
-\lpplatz{5}
+\item Am Ausleger eines Baukrans hängt eine Last von \(12\;\text{kN}\), \(15\;\text{m}\) vom Turm entfernt. Auf der anderen Seite sitzt das Gegengewicht, \(5\;\text{m}\) vom Turm. Wie schwer muss es sein, damit sich die Drehmomente um den Turm ausgleichen? (Das Gewicht des Auslegers selbst bleibt weg.)
+\item Mit diesem Gegengewicht fährt die Laufkatze auf \(10\;\text{m}\) vom Turm herein. Welche Last darf sie dort für Gleichgewicht tragen?
+\end{enumerate}\par\smallskip
+\begin{center}\begin{tikzpicture}[x=0.42cm,y=0.42cm,>=latex]
+\fill[lplinie!60] (-0.3,-6) rectangle (0.3,3); \draw (-0.3,-6) rectangle (0.3,3);
+\draw[very thick] (-6,3) -- (16,3);
+\fill[lpgrau] (-5.8,1.6) rectangle (-4.2,3); \node[left] at (-5.8,2.3) {\small Gegengewicht};
+\draw[thick] (15,3) -- (15,0.8); \fill[lpgrau] (14.3,-0.2) rectangle (15.7,0.8); \node[right] at (15.7,0.3) {\small \(12\;\text{kN}\)};
+\draw[|<->|] (-5,4.2) -- (0,4.2) node[midway,fill=white] {\small \(5\;\text{m}\)};
+\draw[|<->|] (0,4.2) -- (15,4.2) node[midway,fill=white] {\small \(15\;\text{m}\)};
+\node[below] at (0,-6) {\small Turm};
+\end{tikzpicture}\end{center}
+\lpplatz{11}
 \end{lpaufgabe}
 
 \vfill

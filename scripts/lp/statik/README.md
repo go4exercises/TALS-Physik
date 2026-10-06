@@ -42,14 +42,21 @@ node .claude/tools/pruef-fragen.mjs p4-4-lp-kontrolle-vektor p4-4-lp-kontrolle-r
 ```
 
 Lösbarkeit der Leisten mit einem Prüfskript (Fahrten über die Knöpfe, `reducedMotion: 'reduce'`):
-alle 28 ✓, keine schon im Startzustand erfüllt.
+alle 29 ✓, keine schon im Startzustand erfüllt (die drei neuen Ziele der Fassung 1.1 einzeln nachgefahren).
 
 ## Entscheide
 
-- **Umfang nach RLP:** fünf Kompetenzen, sechs Kapitel (285 min): K5 verlangt das Gleichgewicht
+- **Umfang nach RLP:** fünf Kompetenzen, sechs Kapitel: K5 verlangt das Gleichgewicht
   «auf der horizontalen und schiefen Ebene» — die schiefe Ebene steht mit den Kräften am ruhenden
   Körper in Kapitel 3, das Momentengleichgewicht in Kapitel 5 (Hebel) und 6 (beide Bedingungen,
   Auflagerkräfte). Die allgemeinen Seilkraft-Formeln bei ungleichen Winkeln bleiben auf der Themenseite.
+- **Zeit (Fassung 1.1):** je Kapitel rund 50 min — zwei Clips mit vorgerechnetem Problem (zusammen gut 3 min),
+  Tüfteln 10, drei Übungen 10, vier Aufgaben auf Papier 20, Festhalten und Lesen 5. Mit Vorwissen (15) und
+  Gesamttest (40) sind es 355 min ≈ 7.9 Lektionen, ohne beides 6.7 — über der Zielgrösse von HOWTO §3
+  (Kapitelmuster bis 5 Lektionen). Bewusst nicht geteilt: Die sechs Kapitel bauen aufeinander auf
+  (Komponenten → Resultierende → Kräfte am Körper; Drehmoment → Hebel → beide Bedingungen), und K5 braucht
+  Kraft- *und* Momentengleichgewicht; ein zweites Leitprogramm «Drehmoment und Gleichgewicht» hätte keinen eigenen
+  RLP-Teilgebietsbezug. Die frühere Angabe (40 min je Kapitel, 30 min Gesamttest) war geschätzt, nicht gemessen.
 - **Winkelfunktionen:** stehen in keiner Vorwissensseite (der Link der Themenseite «Winkelfunktionen
   samt Bogenmass» zeigt auf 0.1 `#kreiszahl`, dort nur Bogenmass). Kapitel 0 bringt sie in einem Kasten.
 - **Notation:** Resultierende \(F_\text{res}\) (Themenseite auch \(F_R\)), weil \(F_R\) hier die Reibung ist
@@ -68,7 +75,12 @@ alle 28 ✓, keine schon im Startzustand erfüllt.
 - **Schraube lösen:** Schlüssel nach links, Kraft nach unten — er dreht gegen den Uhrzeigersinn, so löst
   man ein Rechtsgewinde.
 - **Zufallswerte je Gegenstand** (Radmutter, Veloschraube, Handrad; Brechstange, Schubkarre, Kistenheber):
-  Handkraft höchstens rund 450 N.
+  Handkraft höchstens 450 N, Radkreuz höchstens 0.45 m — die Grenzen stehen im Generator (`rmax`, `Fmax`).
+- **Clipfarben:** Das Theme `begreifbar-schlicht` hat nur fünf Farben (1 Bernstein, 2 Orange, 3 Grün, 4 Rot,
+  5 Tinte); Blau, Violett und Türkis der Seite fehlen. In den gezeichneten Bildern gilt darum: Gewichtskraft
+  Bernstein, Zug-, Hand- und Einzelkräfte sowie Haftreibung Orange, Normal- und Auflagerkraft Grün, Resultierende
+  und «nötig»/Grenze Rot, Komponenten (auch der Hangabtrieb) und Hebelarme Tinte gestrichelt. Die Aufnahmen der
+  Simulationen behalten die Seitenfarben.
 - **Nach /lp-pruefung (05.10.2026)** behoben: Bezug im Ruhe-Clip (Hangabtrieb und grösste Haftreibung),
   Brechstange nicht mehr als einarmig genannt, Sim 3 setzt nach Reglerbewegung alles zurück, Sim 4 löst
   gegen den Uhrzeigersinn, Sim 6 rechnet ungerundet weiter, Rückmeldungen der Übungen «Winkel» und
@@ -77,3 +89,33 @@ alle 28 ✓, keine schon im Startzustand erfüllt.
   Rechnung, Gesamttest G2 bis G6 neu (Fassung 2).
 - **Freigeschaltet am 06.10.2026:** Karte in `leitprogramme.html` (Lerngebiet 4), Kasten «Lieber geführt
   durcharbeiten?» auf der Themenseite, im Suchindex und in der Sitemap.
+
+## Fassung 1.1 (06.10.2026)
+
+Zweite Prüfung umgesetzt (Version 1.1, Fusszeile «Stand 6. Oktober 2026»):
+
+- **Vorgerechnete Probleme** in allen sechs Einführungsclips (HOWTO §4, TODO-E), je «Problem / Vorgehen / Lösung»
+  mit Strategiefrage «Dein Vorgehen»: Drachenschnur (−50 N; 70 N → 86.0 N, 125.5°), zwei Pferde (600 N und
+  400 N unter 50° → 910 N, 19.7°), Sofa auf der Rampe (55 kg, 18°, μ_H = 0.42 → haftet, 166.7 N), Brandschutztür
+  (40 N schräg unter 50°, 0.9 m → 27.6 Nm < 30 Nm), Schubkarre (90 kg, 0.35 m / 1.4 m → 220.7 N), Fussgängerbrücke
+  (12 m, 30 kN, 24 kN bei 3 m → 33 kN und 21 kN).
+- **Clips:** gleicher Massstab in Vektorbildern; Ergebnisse und Grenzen erst mit dem Ton; Bildfolge statt
+  Endzustand (Gleichgewicht am Ring, Haftreibung); «Länger» neu gedacht (dieselben 120 N am doppelten Schlüssel
+  geben die nötigen 60 Nm); Pfeile im Hebelbild im Verhältnis; Kontrollfragen ohne Unterstriche, mit neuen Werten
+  (nicht Clip, Leiste, Mini-Check), jede falsche Antwort ein benannter Fehler, Ansatz in jeder Formelzeile;
+  Last heisst überall F_L.
+- **Simulationen:** sim1 mit mehr Luft über der Spitze (F, F_y, Achsenname getrennt); sim3 zeigt α mit einer
+  Nachkommastelle und an der Grenze «tan α = μ_H erreicht», Testhaken `zeige(α, {ohneGrenze, grenze})`; sim4
+  rechnet die Formelzeile mit den gezeigten Faktoren («≈» bei 231 N); sim5 ohne Bedienhinweis im Testbild und mit
+  dem Hinweis oben statt auf den Hebelarmen; sim6 hält die Gesamtlast unter der Legende.
+- **Leisten:** neue Aufgabe «zwei mögliche Richtungen» (sim1), «schräg am langen = senkrecht am kurzen Schlüssel»
+  statt «α = 0°» (das zeigt der Clip, sim4), Vergleichsantworten in sim6, «ohne Eigengewicht» wo nötig.
+- **Übungen:** Weiterrechnen mit F_B auf drei Stellen gilt (Auflager, Eigengewicht, zwei Lasten); Wertebereiche je
+  Gegenstand; Leisten-, Fehlerkasten- und Aufgabenwerte ausgeschlossen; Lösungen mit symbolischem Ansatz und
+  gleicher Rundung.
+- **Seite:** Festhalten mit «zwei mögliche Richtungen», «Last an zwei Seilen» (2 · F_S · sin α = m · g) und
+  «Schwerkraft» = Gewichtskraft; Vortest ohne noch unbekannte Formelzeichen; 1b, 1c, 2c (Skizze), 4b, 5b
+  (zweiarmig), 5c (Gitterpunkte, Bernstein), 5d (Nussknacker statt der Leistenfrage), 6d (bis wohin darf der
+  Maler?); Zeiten 50 min je Kapitel, Gesamttest 40 min.
+- **Gesamttest Fassung 3** und Bewertungspaket: siehe Kopf von `gesamttest.tex`; «derselbe Fehler kostet nur
+  einmal» und 2 % Rundung in Raster und Auftrag an die KI, Folgewerte vollständig, Raster mit Zeilenabstand.

@@ -327,7 +327,7 @@ text.pf-a{fill:var(--lila)} text.pf-f{fill:var(--blau)} text.pf-g{fill:var(--ber
 svg.mini{width:190px;height:auto;background:var(--karte);border:1px solid var(--linie);border-radius:6px}
 .kurve-mini{fill:none;stroke:var(--tinte-2);stroke-width:2.2}
 .kurve-mini.kurve-fx,.kurve-mini.kurve-fh{stroke:var(--lila)} .kurve-mini.kurve-fn{stroke:var(--gruen)} .kurve-mini.kurve-fr{stroke:var(--teal);stroke-dasharray:6 4}
-.kurve-mini.kurve-m{stroke:var(--blau)} .kurve-mini.kurve-fb{stroke:var(--gruen);stroke-dasharray:6 4}
+.kurve-mini.kurve-m{stroke:var(--blau)} .kurve-mini.kurve-fg{stroke:var(--bernstein)} .kurve-mini.kurve-fb{stroke:var(--gruen);stroke-dasharray:6 4}
 svg.mini.breit{width:260px}
 .mini-name{fill:var(--tinte);font-family:var(--sans);font-size:12px;font-weight:700}
 .p-mini{fill:var(--tinte)}
@@ -497,7 +497,7 @@ FUSS = '''<footer class="site-footer">
   <p>Leitprogramm · Statik</p>
   <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
   <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 5. Oktober 2026</p>
+  <p>Keine Cookies · Kein Tracking · Version 1.1 · Stand 6. Oktober 2026</p>
 </footer>
 
 <script src="../physiklib.js"></script>
@@ -715,8 +715,8 @@ k0 = '''
      r'<p>\(F_G = m \cdot g\) \(= 15\;\text{kg} \cdot 9.81\;\text{m/s}^2\) \(\approx 147\;\text{N}\).</p><p class="komm">Falsch? <a href="leitprogramm-dynamik.html#k3">Leitprogramm Dynamik, Kapitel 3</a></p>', ''),
     ('0b', 3, r'Ein rechtwinkliges Dreieck hat die Hypotenuse \(10\;\text{cm}\) und den Winkel \(\alpha = 35^\circ\). Wie lang sind die Ankathete und die Gegenkathete von \(\alpha\)?',
      r'<p>Ankathete: \(10\;\text{cm} \cdot \cos 35^\circ\) \(\approx 8.19\;\text{cm}\). Gegenkathete: \(10\;\text{cm} \cdot \sin 35^\circ\) \(\approx 5.74\;\text{cm}\).</p><p class="komm">Falsch? Taschenrechner auf DEG? Sonst den Kasten oben nochmals lesen.</p>', ''),
-    ('0c', 3, r'Stelle \(M = F \cdot r\) nach \(r\) um, \(F_B \cdot L = F \cdot x\) nach \(x\) und \(\tan\alpha = \mu_H\) nach \(\alpha\).',
-     r'<p>\(r = \dfrac{M}{F}\), \(x = \dfrac{F_B \cdot L}{F}\), \(\alpha = \arctan \mu_H\).</p><p class="komm">Falsch? <a href="' + P01 + r'#umformen">Vorwissen 0.1, Gleichungen umstellen</a></p>', ''),
+    ('0c', 3, r'Stelle \(a = b \cdot c\) nach \(c\) um, \(p \cdot L = q \cdot x\) nach \(x\) und \(\tan\alpha = k\) nach \(\alpha\).',
+     r'<p>\(c = \dfrac{a}{b}\), \(x = \dfrac{p \cdot L}{q}\), \(\alpha = \arctan k\).</p><p class="komm">Falsch? <a href="' + P01 + r'#umformen">Vorwissen 0.1, Gleichungen umstellen</a></p>', ''),
     ('0d', 2, r'Rechne um: \(18\;\text{cm}\) in Meter und \(2.5\;\text{kN}\) in Newton.',
      r'<p>\(18\;\text{cm} = 0.18\;\text{m}\), \(2.5\;\text{kN} = 2500\;\text{N}\).</p><p class="komm">Falsch? <a href="' + P02 + r'#praefixe">Vorwissen 0.2, Vorsilben</a> · <a href="../themen/p0-4-einheitentrainer.html">Einheitentrainer</a></p>', ''),
 ]) + '''
@@ -735,6 +735,7 @@ fest1 = r'''      <div class="festhalten">
           <p>Mit dem Winkel \(\varphi\) zur positiven \(x\)-Achse (gegen den Uhrzeigersinn) zerlegt man sie in <b>Komponenten</b>; rückwärts gibt Pythagoras den Betrag:</p>
           <p>\[ F_x = F \cdot \cos\varphi \qquad F_y = F \cdot \sin\varphi \qquad F = \sqrt{F_x^2 + F_y^2} \]</p>
           <p>Die Vorzeichen ergeben sich von selbst: nach links \(F_x < 0\), nach unten \(F_y < 0\). Den Winkel liefert \(\tan\varphi = \dfrac{F_y}{F_x}\) — der Taschenrechner gibt aber nur Winkel zwischen \(-90^\circ\) und \(90^\circ\). Darum zuerst skizzieren: Zeigt die Kraft nach links, zählt man \(180^\circ\) dazu, zeigt sie nach rechts unten, \(360^\circ\).</p>
+          <p>Kennt man nur den Betrag und <em>eine</em> Komponente, liefert Pythagoras die andere nur bis aufs Vorzeichen, etwa \(F_y = \pm\sqrt{F^2 - F_x^2}\): Es gibt <b>zwei mögliche Richtungen</b>, spiegelbildlich zur Achse. Erst eine Skizze oder eine weitere Angabe entscheidet.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -746,14 +747,14 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 12, [
     ('1a', 3, r'Was ist eine Kraft? Nenne ihre zwei Wirkungen und die drei Angaben, die eine Kraft festlegen. Begründe am Beispiel eines Fussballs, warum der Betrag allein nicht genügt.',
      r'<p>Eine Kraft verformt einen Körper oder ändert seinen Bewegungszustand (schneller, langsamer, andere Richtung). Festgelegt ist sie durch Betrag, Richtung und Angriffspunkt.</p><p>Fussball: Derselbe kräftige Stoss schickt den Ball nach vorn oder zur Seite, je nach Richtung. Trifft er den Ball mittig, fliegt er gerade; trifft er ihn seitlich, dreht er sich zusätzlich — Richtung und Angriffspunkt entscheiden mit.</p>', ''),
     ('1b', 3, r'Ein Kind zieht einen Schlitten an einer Schnur mit \(90\;\text{N}\); die Schnur steigt unter \(25^\circ\) zur Waagrechten an. Wie gross sind die waagrechte und die senkrechte Komponente? Was bewirkt jede?',
-     r'<p>\(F_x = F \cdot \cos\varphi\) \(= 90\;\text{N} \cdot \cos 25^\circ\) \(\approx 81.6\;\text{N}\), \(F_y = F \cdot \sin\varphi\) \(= 90\;\text{N} \cdot \sin 25^\circ\) \(\approx 38.0\;\text{N}\).</p><p>Die waagrechte Komponente zieht den Schlitten vorwärts, die senkrechte hebt ihn ein wenig an und entlastet den Boden.</p>', ''),
+     r'<p>\(F_x = F \cdot \cos\varphi\) \(= 90\;\text{N} \cdot \cos 25^\circ\) \(\approx 81.6\;\text{N}\), \(F_y = F \cdot \sin\varphi\) \(= 90\;\text{N} \cdot \sin 25^\circ\) \(\approx 38.0\;\text{N}\).</p><p>Die waagrechte Komponente zieht den Schlitten vorwärts. Die senkrechte zieht ihn nach oben und entlastet den Boden: Die Normalkraft wird kleiner.</p>', ''),
     ('1c', 3, r'Das Bild zeigt eine Kraft im Gitter (ein Feld \(10\;\text{N}\)). Lies ihre Komponenten ab und berechne Betrag und Richtungswinkel \(\varphi\).',
-     r'<p>Abgelesen: \(F_x = -40\;\text{N}\), \(F_y = 30\;\text{N}\). \(F = \sqrt{F_x^2 + F_y^2}\) \(= \sqrt{(40\;\text{N})^2 + (30\;\text{N})^2}\) \(= 50\;\text{N}\).</p><p>\(\arctan\dfrac{30}{-40} \approx -36.9^\circ\); die Kraft zeigt nach links oben, also \(\varphi = -36.9^\circ + 180^\circ\) \(\approx 143.1^\circ\).</p>',
-     '\n            <div class="mini-reihe">' + vek_bild([(-40, 30)], 50, 10, 'Kraftpfeil im Gitter vom Ursprung nach links oben, Spitze bei Fx gleich minus 40 N und Fy gleich 30 N', ['F']) + '</div>'),
+     r'<p>Abgelesen: \(F_x = -30\;\text{N}\), \(F_y = 20\;\text{N}\). \(F = \sqrt{F_x^2 + F_y^2}\) \(= \sqrt{(-30\;\text{N})^2 + (20\;\text{N})^2}\) \(\approx 36.1\;\text{N}\).</p><p>\(\arctan\dfrac{20\;\text{N}}{-30\;\text{N}} \approx -33.7^\circ\); die Kraft zeigt nach links oben, also \(\varphi = -33.7^\circ + 180^\circ\) \(\approx 146.3^\circ\).</p>',
+     '\n            <div class="mini-reihe">' + vek_bild([(-30, 20)], 50, 10, 'Kraftpfeil im Gitter vom Ursprung nach links oben, Spitze bei Fx gleich minus 30 N und Fy gleich 20 N', ['F']) + '</div>'),
     ('1d', 3, r'Ein Spannseil zieht an einem Zeltpfahl mit den Komponenten \(F_x = 240\;\text{N}\) und \(F_y = -70\;\text{N}\). Wie gross ist die Seilkraft, und in welche Richtung zieht sie (Winkel \(\varphi\) zwischen \(0^\circ\) und \(360^\circ\))?',
      r'<p>\(F = \sqrt{F_x^2 + F_y^2}\) \(= \sqrt{(240\;\text{N})^2 + (70\;\text{N})^2}\) \(= 250\;\text{N}\).</p><p>\(\arctan\dfrac{-70}{240} \approx -16.3^\circ\); nach rechts unten heisst das \(\varphi \approx 343.7^\circ\).</p>', ''),
 ])
-k1 = kapitel(1, 'kraft-vektor', 'Kraft als Vektor', 'K1', 40,
+k1 = kapitel(1, 'kraft-vektor', 'Kraft als Vektor', 'K1', 50,
     r'Du definierst die Kraft, stellst sie als Pfeil mit Betrag, Richtung und Angriffspunkt dar und zerlegst sie in die Komponenten \(F_x = F \cdot \cos\varphi\) und \(F_y = F \cdot \sin\varphi\).',
     ('p4-4-lp-vektor', 'Statik sehen: die Kraft als Pfeil'),
     sim1, ('p4-4-lp-kontrolle-vektor', 'Kontrollfragen zur Kraft als Vektor'),
@@ -776,6 +777,9 @@ fest2 = r'''      <div class="festhalten">
           <p>\[ \vec{F}_\text{res} = \vec{F}_1 + \vec{F}_2 + \ldots \qquad F_{\text{res},x} = \sum F_x \qquad F_{\text{res},y} = \sum F_y \]</p>
           <p><b>Grafisch:</b> die Pfeile Spitze an Fuss aneinanderhängen; der Pfeil vom ersten Fuss zur letzten Spitze ist \(\vec{F}_\text{res}\). Bei zwei Kräften gibt das Kräfteparallelogramm dasselbe. <b>Rechnerisch:</b> Komponenten addieren, dann \(F_\text{res} = \sqrt{F_{\text{res},x}^2 + F_{\text{res},y}^2}\).</p>
           <p>Nur gleichgerichtete Beträge darf man addieren, entgegengesetzte subtrahieren. Ist \(\vec{F}_\text{res} = \vec{0}\), schliessen sich die Pfeile zu einem Krafteck: Ein ruhender Körper bleibt in Ruhe — das <b>Kräftegleichgewicht</b>.</p>
+          <p><b>Last an zwei Seilen:</b> Hängt eine Last in der Mitte zweier gleich langer Seile, die beide unter \(\alpha\) zur Waagrechten ansteigen, heben sich die waagrechten Komponenten der Seilkräfte auf, die senkrechten tragen zusammen die Gewichtskraft:</p>
+          <p>\[ 2 \cdot F_S \cdot \sin\alpha = m \cdot g \]</p>
+          <p>Je flacher die Seile, desto kleiner \(\sin\alpha\) — und desto grösser die Seilkraft \(F_S\).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -789,12 +793,12 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2b', 3, r'Drei Kräfte greifen an einem Punkt an (Bild, ein Feld \(10\;\text{N}\)). Lies die Komponenten ab und bestimme die Resultierende nach Betrag und Richtung.',
      r'<p>\(F_1 = (30\;\text{N};\, 20\;\text{N})\), \(F_2 = (-10\;\text{N};\, 30\;\text{N})\), \(F_3 = (20\;\text{N};\, -30\;\text{N})\). \(F_{\text{res},x} = 30\;\text{N} - 10\;\text{N} + 20\;\text{N}\) \(= 40\;\text{N}\), \(F_{\text{res},y} = 20\;\text{N} + 30\;\text{N} - 30\;\text{N}\) \(= 20\;\text{N}\).</p><p>\(F_\text{res} = \sqrt{(40\;\text{N})^2 + (20\;\text{N})^2}\) \(\approx 44.7\;\text{N}\), \(\varphi = \arctan\dfrac{20}{40}\) \(\approx 26.6^\circ\).</p>',
      '\n            <div class="mini-reihe">' + vek_bild([(30, 20), (-10, 30), (20, -30)], 50, 10, 'Drei Kraftpfeile vom Ursprung: F1 nach rechts oben bei 30 und 20, F2 nach links oben bei minus 10 und 30, F3 nach rechts unten bei 20 und minus 30', ['F₁', 'F₂', 'F₃']) + '</div>'),
-    ('2c', 3, r'Eine Hängelampe (\(6\;\text{kg}\)) hängt in der Mitte zweier gleich langer Seile, die beide unter \(30^\circ\) zur Waagrechten ansteigen. Wie gross ist die Kraft in jedem Seil? Begründe, warum sie gleich gross ist wie die Gewichtskraft der Lampe.',
-     r'<p>Am Knoten herrscht Gleichgewicht. Die waagrechten Komponenten der Seile heben sich auf, die senkrechten tragen die Lampe: \(2 \cdot F_S \cdot \sin 30^\circ = m \cdot g\).</p><p>\(F_S = \dfrac{6\;\text{kg} \cdot 9.81\;\text{m/s}^2}{2 \cdot \sin 30^\circ}\) \(\approx 58.9\;\text{N}\). Weil \(2 \cdot \sin 30^\circ = 1\) ist, trägt jedes Seil senkrecht nur die Hälfte, muss dafür aber mit der ganzen Gewichtskraft ziehen.</p>', ''),
+    ('2c', 3, r'Eine Hängelampe (\(6\;\text{kg}\)) hängt in der Mitte zweier gleich langer Seile, die beide unter \(30^\circ\) zur Waagrechten ansteigen. Skizziere den Knoten mit allen Kräften, die an ihm angreifen, als Pfeile. Wie gross ist die Kraft in jedem Seil? Begründe, warum sie gleich gross ist wie die Gewichtskraft der Lampe.',
+     r'<p>Skizze: am Knoten die Gewichtskraft der Lampe senkrecht nach unten und die beiden Seilkräfte längs der Seile schräg nach links oben und rechts oben, gleich lang. Am Knoten herrscht Gleichgewicht. Die waagrechten Komponenten der Seile heben sich auf, die senkrechten tragen die Lampe: \(2 \cdot F_S \cdot \sin 30^\circ = m \cdot g\).</p><p>\(F_S = \dfrac{6\;\text{kg} \cdot 9.81\;\text{m/s}^2}{2 \cdot \sin 30^\circ}\) \(\approx 58.9\;\text{N}\). Weil \(2 \cdot \sin 30^\circ = 1\) ist, trägt jedes Seil senkrecht nur die Hälfte, muss dafür aber mit der ganzen Gewichtskraft ziehen.</p>', ''),
     ('2d', 3, r'Ein Schiff wird von zwei Schleppern gezogen, je \(40\;\text{kN}\), unter \(20^\circ\) links und \(20^\circ\) rechts der Fahrtrichtung. Wie gross ist die Resultierende? Begründe, warum die Schlepper den Winkel möglichst klein halten.',
      r'<p>Die Querkomponenten heben sich auf, die Längskomponenten addieren sich: \(F_\text{res} = 2 \cdot 40\;\text{kN} \cdot \cos 20^\circ\) \(\approx 75.2\;\text{kN}\).</p><p>Je grösser der Winkel, desto kleiner \(\cos\) des Winkels: Bei \(40^\circ\) wären es nur \(\approx 61.3\;\text{kN}\). Die Querkomponenten heben sich nur auf, sie bringen das Schiff nicht vorwärts.</p>', ''),
 ])
-k2 = kapitel(2, 'resultierende', 'Die resultierende Kraft', 'K4', 40,
+k2 = kapitel(2, 'resultierende', 'Die resultierende Kraft', 'K4', 50,
     r'Du stellst alle Kräfte auf einen Körper als Pfeile dar, setzt sie grafisch (Spitze an Fuss) und rechnerisch (Komponenten) zur Resultierenden zusammen und erkennst das Kräftegleichgewicht \(\vec{F}_\text{res} = \vec{0}\).',
     ('p4-4-lp-resultierende', 'Statik sehen: Kräfte aneinanderhängen'),
     sim2, ('p4-4-lp-kontrolle-resultierende', 'Kontrollfragen zur resultierenden Kraft'),
@@ -805,15 +809,15 @@ k2 = kapitel(2, 'resultierende', 'Die resultierende Kraft', 'K4', 40,
 sim3 = figur_anim('sim3', 'Kiste auf einer Rampe, die sich auf Knopfdruck neigt; Gewichtskraft, Normalkraft, Haftreibung und die Komponenten der Gewichtskraft; darunter die Kräfte über dem Neigungswinkel', '-4 -4 308 368',
     '        <div class="reglerfeld">\n          '
     + regler('s3', 'm', '<i>m</i> Masse', 5, 40, 1, 10, 'kg', 0) + '\n          '
-    + regler('s3', 'mu', '<i>μ</i><sub>H</sub> Haftreibung', 0.1, 1, 0.05, 0.4, '', 2) + '\n          '
+    + regler('s3', 'mu', '<i>μ</i><sub>H</sub> Haftreibung', 0.1, 1, 0.05, 0.3, '', 2) + '\n          '
     + regler('s3', 'ae', '<i>α</i> neigen bis', 0, 45, 1, 15, '°', 0) + '\n        </div>')
 fest3 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Kräfte an einem ruhenden Körper</div>
           <ul>
-            <li><b>Gewichtskraft</b> \(\vec{F}_G\): senkrecht nach unten, greift im Schwerpunkt an, \(F_G = m \cdot g\).</li>
+            <li><b>Gewichtskraft</b> \(\vec{F}_G\) (im Lehrplan «Schwerkraft»): Die Erde zieht den Körper an, senkrecht nach unten, greift im Schwerpunkt an, \(F_G = m \cdot g\).</li>
             <li><b>Normalkraft</b> (Auflagerkraft) \(\vec{F}_N\): senkrecht zur Auflagefläche, von ihr weg. Sie ist so gross, dass der Körper nicht in die Unterlage einsinkt.</li>
-            <li><b>Haftreibung</b> \(\vec{F}_R\): längs der Fläche, der drohenden Bewegung entgegen. Sie ist nur so gross wie nötig, höchstens \(F_R \le \mu_H \cdot F_N\) (\(\mu_H\): Haftreibungszahl, ohne Einheit).</li>
+            <li><b>Haftreibung</b> \(\vec{F}_R\) (eine Reibungskraft): längs der Fläche, der drohenden Bewegung entgegen. Sie ist nur so gross wie nötig, höchstens \(F_R \le \mu_H \cdot F_N\) (\(\mu_H\): Haftreibungszahl, ohne Einheit).</li>
           </ul>
           <p>Auf der <b>schiefen Ebene</b> zerlegt man die Gewichtskraft längs und senkrecht zur Ebene:</p>
           <p>\[ F_H = F_G \cdot \sin\alpha \qquad F_N = F_G \cdot \cos\alpha \]</p>
@@ -836,7 +840,7 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
     ('3d', 3, r'Eine Kiste (\(50\;\text{kg}\)) steht auf waagrechtem Boden, \(\mu_H = 0.45\). Du schiebst waagrecht mit \(120\;\text{N}\), sie bewegt sich nicht. Wie gross ist die Reibungskraft? Ab welcher Schubkraft rutscht sie? Begründe, warum die Reibung nicht immer \(\mu_H \cdot F_N\) ist.',
      r'<p>Die Kiste ruht, also \(\sum F_x = 0\): Die Haftreibung ist \(120\;\text{N}\), so gross wie deine Kraft.</p><p>Höchstens \(\mu_H \cdot F_N = 0.45 \cdot 50\;\text{kg} \cdot 9.81\;\text{m/s}^2\) \(\approx 221\;\text{N}\); erst darüber rutscht sie. \(\mu_H \cdot F_N\) ist die Grenze, keine feste Kraft — die Haftreibung passt sich an, bis die Grenze erreicht ist.</p>', ''),
 ])
-k3 = kapitel(3, 'ruhender-koerper', 'Kräfte am ruhenden Körper', 'K3 · K5', 40,
+k3 = kapitel(3, 'ruhender-koerper', 'Kräfte am ruhenden Körper', 'K3 · K5', 50,
     r'Du zählst die Kräfte an einem ruhenden Körper auf — Gewichtskraft, Normalkraft, Haftreibung —, charakterisierst sie und zeigst das Gleichgewicht auf der waagrechten und der schiefen Ebene mit \(F_H = F_G \cdot \sin\alpha\), \(F_N = F_G \cdot \cos\alpha\) und \(\tan\alpha \le \mu_H\).',
     ('p4-4-lp-ruhe', 'Statik sehen: Gewicht, Normalkraft und Haftreibung'),
     sim3, ('p4-4-lp-kontrolle-ruhe', 'Kontrollfragen zu den Kräften am ruhenden Körper'),
@@ -868,14 +872,14 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
     ('4a', 3, r'Nenne drei Anwendungen des Drehmoments aus dem Alltag. Erkläre bei einer davon, wie man mit kleiner Kraft ein grosses Drehmoment erreicht, und begründe mit \(M = F \cdot r\).',
      r'<p>Zum Beispiel Radkreuz, Türgriff, Lenkrad, Velokurbel, Wippe, Flaschenöffner.</p><p>Radkreuz: Die Radmutter braucht ein festes Drehmoment. Mit langem Arm ist \(r\) gross, also genügt nach \(F = \dfrac{M}{r}\) eine kleine Kraft. Ein doppelt so langer Arm halbiert die nötige Kraft.</p>', ''),
     ('4b', 3, r'Eine Velofahrerin drückt mit \(400\;\text{N}\) senkrecht nach unten auf das Pedal; die Kurbel ist \(17\;\text{cm}\) lang. Wie gross ist das Drehmoment, wenn die Kurbel waagrecht steht? Und wenn sie \(60^\circ\) unter der Waagrechten steht? Warum tritt man ganz unten ins Leere?',
-     r'<p>Waagrecht steht die Kraft senkrecht zur Kurbel: \(M = F \cdot l\) \(= 400\;\text{N} \cdot 0.17\;\text{m}\) \(= 68\;\text{Nm}\).</p><p>\(60^\circ\) unter der Waagrechten liegen zwischen Kurbel und Kraft nur noch \(30^\circ\): \(M = 400\;\text{N} \cdot 0.17\;\text{m} \cdot \sin 30^\circ\) \(= 34\;\text{Nm}\). Ganz unten zeigt die Kraft längs der Kurbel auf die Achse: \(\sin 0^\circ = 0\), kein Drehmoment.</p>', ''),
+     r'<p>Waagrecht steht die Kraft senkrecht zur Kurbel: \(M = F \cdot l\) \(= 400\;\text{N} \cdot 0.17\;\text{m}\) \(= 68\;\text{Nm}\).</p><p>\(60^\circ\) unter der Waagrechten liegen zwischen Kurbel und Kraft nur noch \(30^\circ\): \(M = 400\;\text{N} \cdot 0.17\;\text{m} \cdot \sin 30^\circ\) \(= 34\;\text{Nm}\). Ganz unten steht die Kurbel senkrecht, die Kraft zeigt längs der Kurbel: Ihre Wirkungslinie geht durch die Achse, \(\sin 0^\circ = 0\), kein Drehmoment.</p>', ''),
     ('4c', 3, r'Das Diagramm zeigt das Drehmoment einer Kraft an einem \(0.25\;\text{m}\) langen Schlüssel über dem Winkel \(\alpha\) zwischen Schlüssel und Kraft. Lies das grösste Drehmoment ab und bestimme daraus die Kraft. Bei welchen Winkeln ist das Drehmoment halb so gross?',
      r'<p>Das grösste Drehmoment ist \(50\;\text{Nm}\) bei \(\alpha = 90^\circ\). Dort ist \(r = l\): \(F = \dfrac{M}{l}\) \(= \dfrac{50\;\text{Nm}}{0.25\;\text{m}}\) \(= 200\;\text{N}\).</p><p>Halb so gross, \(25\;\text{Nm}\), bei \(\sin\alpha = 0.5\): \(\alpha = 30^\circ\) und \(\alpha = 150^\circ\).</p>',
      '\n            <div class="mini-reihe">' + linien_bild([(a, 50 * math.sin(a * 3.14159265 / 180)) for a in range(0, 181, 5)], 0, 180, 0, 60, 30, 10, 'Drehmoment über dem Winkel: Bogen von 0 Nm bei 0 Grad auf 50 Nm bei 90 Grad und zurück auf 0 Nm bei 180 Grad', 'α [°]', 'M [Nm]', 'kurve-m') + '</div>'),
     ('4d', 3, r'Radmuttern sollen mit \(110\;\text{Nm}\) angezogen werden. Du drückst mit \(250\;\text{N}\) senkrecht auf den Schlüssel. Wie weit von der Mutter musst du drücken? Was ändert sich, wenn du schräg drückst?',
      r'<p>\(r = \dfrac{M}{F}\) \(= \dfrac{110\;\text{Nm}}{250\;\text{N}}\) \(= 0.44\;\text{m}\).</p><p>Schräg ist der wirksame Hebelarm nur \(l \cdot \sin\alpha\), kleiner als \(l\): Man muss weiter aussen greifen oder stärker drücken.</p>', ''),
 ])
-k4 = kapitel(4, 'drehmoment', 'Das Drehmoment', 'K2', 40,
+k4 = kapitel(4, 'drehmoment', 'Das Drehmoment', 'K2', 50,
     r'Du definierst das Drehmoment \(M = F \cdot r = F \cdot l \cdot \sin\alpha\) als Kraft mal wirksamen Hebelarm, rechnest damit und nennst Anwendungen.',
     ('p4-4-lp-drehmoment', 'Statik sehen: Kraft mal Hebelarm'),
     sim4, ('p4-4-lp-kontrolle-drehmoment', 'Kontrollfragen zum Drehmoment'),
@@ -894,7 +898,7 @@ fest5 = r'''      <div class="festhalten">
           <div class="titel">Hebelgesetz</div>
           <p>Ein Hebel ist im Gleichgewicht, wenn sich die Drehmomente aufheben: Das Moment, das links herum dreht, ist so gross wie das Moment, das rechts herum dreht. Für zwei Kräfte ist das das <b>Hebelgesetz</b>:</p>
           <p>\[ F_1 \cdot r_1 = F_2 \cdot r_2 \]</p>
-          <p>Am <b>zweiarmigen</b> Hebel (Wippe, Balkenwaage) liegen die Kräfte auf verschiedenen Seiten der Drehachse, am <b>einarmigen</b> (Schubkarre, Brechstange mit dem Drehpunkt am Ende) auf derselben Seite. Kraft mal Kraftarm gleich Last mal Lastarm: Ein langer Kraftarm spart Kraft. Bei mehreren Kräften zählt die Summe: \(\sum M = 0\).</p>
+          <p>Am <b>zweiarmigen</b> Hebel (Wippe, Balkenwaage) liegen die Kräfte auf verschiedenen Seiten der Drehachse, am <b>einarmigen</b> (Schubkarre, Nussknacker) auf derselben Seite. Kraft mal Kraftarm gleich Last mal Lastarm: Ein langer Kraftarm spart Kraft. Bei mehreren Kräften zählt die Summe: \(\sum M = 0\).</p>
           <p>Hängt an jeder Seite eine Masse, kürzt sich \(g\): \(m_1 \cdot r_1 = m_2 \cdot r_2\).</p>
         </div>
         <div class="warn">
@@ -906,15 +910,15 @@ fest5 = r'''      <div class="festhalten">
 auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5a', 3, r'Ein Vater (\(80\;\text{kg}\)) und seine Tochter (\(20\;\text{kg}\)) wollen wippen. Die Tochter sitzt ganz aussen, \(2.2\;\text{m}\) von der Achse. Wo muss der Vater sitzen? Begründe, warum er so nah an die Achse muss.',
      r'<p>\(m_1 \cdot r_1 = m_2 \cdot r_2\): \(r_\text{Vater} = \dfrac{20\;\text{kg} \cdot 2.2\;\text{m}}{80\;\text{kg}}\) \(= 0.55\;\text{m}\).</p><p>Er ist viermal so schwer; damit sein Drehmoment nicht grösser wird, braucht er einen viermal kleineren Hebelarm.</p>', ''),
-    ('5b', 3, r'Mit einer \(1.2\;\text{m}\) langen Brechstange hebt man einen Stein (\(900\;\text{N}\)). Der Drehpunkt liegt \(0.15\;\text{m}\) vom Stein entfernt, man drückt am anderen Ende senkrecht zur Stange. Welche Kraft braucht es?',
+    ('5b', 3, r'Mit einer \(1.2\;\text{m}\) langen Brechstange hebt man einen Stein (\(900\;\text{N}\)). Sie wirkt als <b>zweiarmiger</b> Hebel: Der Drehpunkt (ein untergelegter Klotz) liegt zwischen Stein und Hand, \(0.15\;\text{m}\) vom Stein entfernt; man drückt am anderen Ende senkrecht zur Stange. Welche Kraft braucht es?',
      r'<p>Lastarm \(0.15\;\text{m}\), Kraftarm \(1.2\;\text{m} - 0.15\;\text{m} = 1.05\;\text{m}\).</p><p>\(F \cdot r_K = F_L \cdot r_L\): \(F = \dfrac{900\;\text{N} \cdot 0.15\;\text{m}}{1.05\;\text{m}}\) \(\approx 129\;\text{N}\) — rund ein Siebtel der Last.</p>', ''),
-    ('5c', 3, r'Das Diagramm zeigt für eine Wippe, welche Kraft \(F_2\) rechts im Abstand \(r_2\) ein linkes Drehmoment ausgleicht. Wie gross ist das linke Drehmoment? Welche Kraft braucht es bei \(1.2\;\text{m}\)? Wo genügen \(240\;\text{N}\)?',
-     r'<p>Jeder Punkt der Kurve hat dasselbe Produkt, zum Beispiel \(F_2 \cdot r_2 = 720\;\text{N} \cdot 0.5\;\text{m} = 360\;\text{Nm}\) — das ist das linke Drehmoment.</p><p>Bei \(1.2\;\text{m}\): \(F_2 = \dfrac{360\;\text{Nm}}{1.2\;\text{m}} = 300\;\text{N}\). \(240\;\text{N}\) genügen bei \(r_2 = \dfrac{360\;\text{Nm}}{240\;\text{N}} = 1.5\;\text{m}\).</p>',
-     '\n            <div class="mini-reihe">' + linien_bild([(r / 20, 360 / (r / 20)) for r in range(10, 41)], 0, 2, 0, 800, 0.5, 100, 'Kraft über dem Abstand: fallende Kurve von 720 N bei 0.5 m über 360 N bei 1 m auf 180 N bei 2 m', 'r₂ [m]', 'F₂ [N]', 'kurve-m') + '</div>'),
-    ('5d', 3, r'Ein Kind behauptet: «Auf der Wippe sinkt immer die Seite des Schwereren nach unten.» Widerlege das mit einem Zahlenbeispiel und begründe.',
-     r'<p>Zum Beispiel \(40\;\text{kg}\) bei \(0.8\;\text{m}\) gegen \(25\;\text{kg}\) bei \(2.0\;\text{m}\): links \(40\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 0.8\;\text{m} \approx 314\;\text{Nm}\), rechts \(25\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot 2.0\;\text{m} \approx 491\;\text{Nm}\). Die Seite des Leichteren sinkt.</p><p>Es entscheidet das Drehmoment, Kraft mal Hebelarm, nicht die Kraft allein.</p>', ''),
+    ('5c', 3, r'Das Diagramm zeigt für eine Wippe, welche Kraft \(F_2\) rechts im Abstand \(r_2\) ein linkes Drehmoment ausgleicht. Wie gross ist das linke Drehmoment? Welche Kraft braucht es bei \(1.2\;\text{m}\)? Wo genügen \(200\;\text{N}\)?',
+     r'<p>Jeder Punkt der Kurve hat dasselbe Produkt, zum Beispiel \(F_2 \cdot r_2 = 600\;\text{N} \cdot 0.5\;\text{m} = 300\;\text{Nm}\) — das ist das linke Drehmoment.</p><p>Bei \(1.2\;\text{m}\): \(F_2 = \dfrac{300\;\text{Nm}}{1.2\;\text{m}} = 250\;\text{N}\). \(200\;\text{N}\) genügen bei \(r_2 = \dfrac{300\;\text{Nm}}{200\;\text{N}} = 1.5\;\text{m}\).</p>',
+     '\n            <div class="mini-reihe">' + linien_bild([(r / 20, 300 / (r / 20)) for r in range(10, 41)], 0, 2, 0, 700, 0.5, 100, 'Kraft über dem Abstand: fallende Kurve von 600 N bei 0.5 m über 300 N bei 1 m auf 150 N bei 2 m', 'r₂ [m]', 'F₂ [N]', 'kurve-fg') + '</div>'),
+    ('5d', 3, r'Bei einem Nussknacker liegt das Gelenk am Ende. Die Hand drückt \(18\;\text{cm}\) vom Gelenk, die Nuss liegt \(2.5\;\text{cm}\) davon und knackt bei \(300\;\text{N}\). Ist das ein ein- oder ein zweiarmiger Hebel? Welche Handkraft braucht es? Begründe, warum man die Nuss möglichst nah ans Gelenk legt.',
+     r'<p>Einarmig: Hand und Nuss liegen auf derselben Seite des Gelenks. \(F \cdot r_K = F_L \cdot r_L\): \(F = \dfrac{300\;\text{N} \cdot 0.025\;\text{m}}{0.18\;\text{m}}\) \(\approx 41.7\;\text{N}\).</p><p>Nah am Gelenk ist der Lastarm kurz. Bei gleichem Kraftarm genügt dann für dasselbe Drehmoment eine kleinere Handkraft.</p>', ''),
 ])
-k5 = kapitel(5, 'hebelgesetz', 'Das Hebelgesetz', 'K5 · K2', 40,
+k5 = kapitel(5, 'hebelgesetz', 'Das Hebelgesetz', 'K5 · K2', 50,
     r'Du wendest das Gleichgewicht der Drehmomente \(F_1 \cdot r_1 = F_2 \cdot r_2\) an Wippe, Brechstange und Schubkarre an und erklärst, warum ein langer Hebelarm Kraft spart.',
     ('p4-4-lp-hebel', 'Statik sehen: das Hebelgesetz'),
     sim5, ('p4-4-lp-kontrolle-hebel', 'Kontrollfragen zum Hebelgesetz'),
@@ -934,7 +938,7 @@ fest6 = r'''      <div class="festhalten">
           <p>Ein Körper ist im <b>statischen Gleichgewicht</b>, wenn er in Ruhe bleibt: Er verschiebt sich nicht und beginnt sich nicht zu drehen. Dafür müssen zwei Bedingungen zugleich gelten:</p>
           <p>\[ \sum \vec{F} = \vec{0} \qquad \text{und} \qquad \sum M = 0 \]</p>
           <p>Die Kräftebedingung zerfällt in \(\sum F_x = 0\) und \(\sum F_y = 0\). Die Drehachse für die Momente darf man frei wählen — geschickt dort, wo eine unbekannte Kraft angreift, dann fällt sie heraus.</p>
-          <p><b>Balken auf zwei Stützen</b> (Stützweite \(L\), Last \(F\) im Abstand \(x\) von A): Momente um A geben \(F_B \cdot L = F \cdot x\), die Kräfte \(F_A = F - F_B\). Das Eigengewicht eines gleichmässigen Balkens greift in seiner Mitte an. Die nähere Stütze trägt mehr; zusammen tragen beide immer die ganze Last. Eine Stütze kann nur drücken: Ergibt die Rechnung eine negative Auflagerkraft, müsste die Stütze ziehen — ohne Befestigung kippt der Balken.</p>
+          <p><b>Balken auf zwei Stützen</b> (Stützweite \(L\), Last \(F_L\) im Abstand \(x\) von A): Momente um A geben \(F_B \cdot L = F_L \cdot x\), die Kräfte \(F_A = F_L - F_B\). Das Eigengewicht eines gleichmässigen Balkens greift in seiner Mitte an. Die nähere Stütze trägt mehr; zusammen tragen beide immer die ganze Last. Eine Stütze kann nur drücken: Ergibt die Rechnung eine negative Auflagerkraft, müsste die Stütze ziehen — ohne Befestigung kippt der Balken.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -950,10 +954,10 @@ auf6 = test('t6', 'Aufgaben · Kapitel 6', 12, [
      '\n            <div class="mini-reihe">' + linien_bild([(0, 0), (8, 40)], 0, 8, 0, 50, 1, 10, 'Auflagerkraft F B über x: Gerade von 0 kN bei 0 m auf 40 kN bei 8 m', 'x [m]', 'F_B [kN]', 'kurve-fb') + '</div>'),
     ('6c', 3, r'Ein Regalbrett liegt auf zwei Konsolen. Wohin stellst du die schweren Bücher, damit die linke Konsole möglichst wenig trägt? Ändert sich dabei die Summe der beiden Konsolenkräfte? Begründe mit den beiden Gleichgewichtsbedingungen.',
      r'<p>Möglichst nahe an die rechte Konsole: Momente um die rechte Konsole zeigen, dass die linke nur den Anteil \(F \cdot \dfrac{\text{Abstand zur rechten}}{L}\) trägt.</p><p>Die Summe bleibt gleich: \(\sum F_y = 0\) verlangt, dass beide zusammen immer die ganze Last tragen. Verteilt wird sie nach den Momenten.</p>', ''),
-    ('6d', 3, r'Ein \(4\;\text{m}\) langes Brett (ohne Eigengewicht) liegt auf Stützen bei \(0\;\text{m}\) (A) und \(3\;\text{m}\) (B). Ein Maler (\(750\;\text{N}\)) stellt sich ans überstehende Ende bei \(4\;\text{m}\). Berechne \(F_A\) und \(F_B\). Was bedeutet das Vorzeichen von \(F_A\)?',
-     r'<p>\(\sum M_A = 0\): \(F_B \cdot 3\;\text{m} = 750\;\text{N} \cdot 4\;\text{m}\), \(F_B = 1000\;\text{N}\). \(\sum F_y = 0\): \(F_A = 750\;\text{N} - 1000\;\text{N}\) \(= -250\;\text{N}\).</p><p>Negativ heisst: A müsste nach <em>unten</em> ziehen. Eine Stütze kann nur drücken — ohne Befestigung kippt das Brett um B, und der Maler fällt.</p>', ''),
+    ('6d', 3, r'Ein \(4\;\text{m}\) langes Brett (Eigengewicht \(300\;\text{N}\) in der Mitte) liegt auf Stützen bei \(0\;\text{m}\) (A) und \(3\;\text{m}\) (B). Ein Maler (\(750\;\text{N}\)) stellt sich ans überstehende Ende bei \(4\;\text{m}\). Berechne \(F_A\) und \(F_B\); was bedeutet das Vorzeichen von \(F_A\)? Bis wohin darf er gehen, ohne dass das Brett kippt?',
+     r'<p>\(\sum M_A = 0\): \(F_B \cdot 3\;\text{m} = 300\;\text{N} \cdot 2\;\text{m} + 750\;\text{N} \cdot 4\;\text{m}\), \(F_B = \dfrac{3600\;\text{Nm}}{3\;\text{m}} = 1200\;\text{N}\). \(\sum F_y = 0\): \(F_A = 300\;\text{N} + 750\;\text{N} - 1200\;\text{N}\) \(= -150\;\text{N}\). Negativ heisst: A müsste nach <em>unten</em> ziehen. Eine Stütze kann nur drücken — ohne Befestigung kippt das Brett um B.</p><p>An der Kippgrenze ist \(F_A = 0\). Momente um B: Das Brett (\(1\;\text{m}\) links von B) hält gegen den Maler: \(300\;\text{N} \cdot 1\;\text{m} = 750\;\text{N} \cdot (x - 3\;\text{m})\), also \(x = 3.4\;\text{m}\). Weiter als \(0.4\;\text{m}\) über B hinaus darf er nicht.</p>', ''),
 ])
-k6 = kapitel(6, 'auflagerkraefte', 'Statisches Gleichgewicht: Auflagerkräfte', 'K5', 40,
+k6 = kapitel(6, 'auflagerkraefte', 'Statisches Gleichgewicht: Auflagerkräfte', 'K5', 50,
     r'Du definierst das statische Gleichgewicht mit \(\sum \vec{F} = \vec{0}\) und \(\sum M = 0\) und bestimmst damit die Auflagerkräfte eines Balkens auf zwei Stützen, auch mit Eigengewicht.',
     ('p4-4-lp-auflager', 'Statik sehen: zwei Stützen teilen sich die Last'),
     sim6, ('p4-4-lp-kontrolle-auflager', 'Kontrollfragen zum statischen Gleichgewicht'),
@@ -966,7 +970,7 @@ gt = f'''
     <section class="kap" id="gesamttest">
       <div class="gesamt">
         <div class="gesamt-kopf">
-          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">4.4 · K1 bis K5</span><span class="zeit">≈ 30 min · 25 Punkte</span></div>
+          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">4.4 · K1 bis K5</span><span class="zeit">≈ 40 min · 25 Punkte</span></div>
           <h2 id="gesamttest-titel">Gesamttest</h2>
           <div class="pdf-weg">
             <div class="pdf-schritt"><span class="nr">1</span><div><b>Lösen</b> — auf Papier, mit Rechenweg und Skizzen. Erlaubt sind Taschenrechner und Formelsammlung.<br>
@@ -984,7 +988,7 @@ gt = f'''
             <tr><td>11 – 16 P</td><td>Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.</td></tr>
             <tr><td>0 – 10 P</td><td>Zurück zu Kapitel 1 und von dort der Reihe nach weiter.</td></tr>
           </table>
-          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a> → K1 · G2 → <a href="#k2">2</a>, <a href="#k3">3</a> → K4, K3 · G3 → <a href="#k4">4</a> → K2 · G4 → <a href="#k3">3</a> → K3, K5 · G5 → <a href="#k6">6</a> → K5 · G6 → <a href="#k5">5</a>, <a href="#k6">6</a> → K5, K2</p>
+          <p>Aufgabe → Kapitel → Kompetenz: G1 → <a href="#k1">1</a> → K1 · G2 → <a href="#k2">2</a>, <a href="#k3">3</a> → K4, K3 · G3 → <a href="#k4">4</a> → K2 · G4 → <a href="#k3">3</a> → K3, K5 · G5 → <a href="#k6">6</a> → K5 · G6 → <a href="#k6">6</a>, <a href="#k5">5</a> → K5, K2</p>
         </div>
       </div>
     </section>'''
@@ -999,7 +1003,8 @@ weiter = rf'''
     </section>'''
 
 oben = '''<div id="nav-root"></div>
-<!-- Leitprogramm Statik, Version 1.0 (05.10.2026, nach /lp-pruefung am 06.10.2026 freigeschaltet).
+<!-- Leitprogramm Statik, Version 1.1 (06.10.2026). Version 1.0 vom 05.10.2026, nach /lp-pruefung am
+     06.10.2026 freigeschaltet; 1.1 setzt die Befunde der zweiten Prüfung um (README, «Fassung 1.1»).
      Fünftes Physik-Leitprogramm nach dem Kapitelmuster (HOWTO-leitprogramme.md §4): je Kapitel
      ① Einführungsclip → ② laufende Simulation mit Aufgabenleiste → ③ Kontrollclip mit Fragen →
      Festhalten → ④ Übungen mit Rückmeldung → ⑤ Aufgaben mit Lösungen. Gesamttest und
@@ -1016,18 +1021,19 @@ oben = '''<div id="nav-root"></div>
           Kräfte) und anhand verschiedener Beispiele auf der horizontalen und schiefen Ebene aufzeigen
 
      Kompetenzmatrix (Hilfsmittel überall Taschenrechner und Formelsammlung):
-       K1 → Kap. 1 · Aufg. 1a–1d · G1     K2 → Kap. 4, 5 · Aufg. 4a–4d · G3 G6
+       K1 → Kap. 1 · Aufg. 1a–1d · G1     K2 → Kap. 4, 5 · Aufg. 4a–4d, 5a–5d · G3 G6
        K3 → Kap. 3 · Aufg. 3a–3d · G2 G4  K4 → Kap. 2 · Aufg. 2a–2d · G2
        K5 → Kap. 2 (Punkt), 3 (schiefe Ebene), 5, 6 · Aufg. 2c, 3b, 5a–6d · G4 G5 G6
      Winkelfunktionen stehen in keiner Vorwissensseite; Kapitel 0 bringt sie in einem Kasten.
      Resultierende heisst hier F_res (Themenseite auch F_R), weil F_R die Reibung ist.
-     Zeiten: K0 15 · K1–K6 je 40 · Gesamttest 30 = 285 min ≈ 6.3 Lektionen. -->
+     Zeiten: K0 15 · K1–K6 je 50 · Gesamttest 40 = 355 min ≈ 7.9 Lektionen (über der Zielgrösse von
+     HOWTO \3; Begründung im README, «Umfang nach RLP»). -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
       <p class="marke">Physik begreifbar · Leitprogramm</p>
       <h1>Statik</h1>
-      <p class="unter">Kräfte als Pfeile, die resultierende Kraft, Gewicht, Normalkraft und Haftreibung, Drehmoment, Hebelgesetz und Auflagerkräfte — mit laufenden Simulationen. Sechs Kapitel zu je rund einer Lektion, dazu Vorwissen und Gesamttest.</p>
+      <p class="unter">Kräfte als Pfeile, die resultierende Kraft, Gewicht, Normalkraft und Haftreibung, Drehmoment, Hebelgesetz und Auflagerkräfte — mit laufenden Simulationen. Sechs Kapitel zu je gut einer Lektion, dazu Vorwissen und Gesamttest.</p>
     </div>
     <div class="kopf-rechts">
       <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>

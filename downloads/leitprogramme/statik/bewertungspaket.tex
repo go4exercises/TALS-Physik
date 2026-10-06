@@ -1,21 +1,23 @@
 % Bewertungspaket zum Gesamttest «Statik» — Quelle des PDFs (python3 scripts/build-lp-pdf.py statik).
-% Fassung 2 nach /lp-pruefung (05.10.2026): neue Aufgaben G2 bis G6, (B) nur bei «Erkläre/Begründe».
-% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (05.10.2026).
-% Aufbau, Auftrag an die KI und Punktarten wie im Leitprogramm Energie, dazu (S) für die Kräfteskizze.
+% Fassung 3 nach der zweiten Prüfung (06.10.2026): neue Aufgaben G2 bis G6 (siehe gesamttest.tex),
+% «derselbe Fehler kostet nur einmal» in Raster und Auftrag an die KI, Folgewerte für die typischen
+% Fehler vollständig, Rasterzeilen mit Abstand (arraystretch), Lösungsspalte im Flattersatz.
+% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (06.10.2026).
+% Aufbau, Auftrag an die KI und Punktarten wie im Leitprogramm Energie, dazu (S) für Skizze und Krafteck.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Statik}
 \renewcommand{\lpteilgebiet}{4.4}
 \renewcommand{\lpfuss}{Bewertungspaket}
 \newcolumntype{P}{>{\centering\arraybackslash}p{10mm}}
-\newenvironment{raster}{\par\smallskip\noindent\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P X@{}}\toprule
+% Zeilen mit Brüchen brauchen Abstand, sonst berühren sich die Brüche benachbarter Zeilen
+\newenvironment{raster}{\par\smallskip\noindent\renewcommand{\arraystretch}{1.5}\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{36mm}P >{\raggedright\arraybackslash}X@{}}\toprule
   \small\textsc{Teilschritt} & \small\textsc{P} & \small\textsc{Musterlösung}\\\midrule}{\bottomrule\endtabularx\par}
-\newcommand{\fehler}[1]{\par\smallskip{\small\textcolor{lprot}{\bfseries Typische Fehler:} #1}}
+\newcommand{\fehler}[1]{\par\smallskip{\small\raggedright\textcolor{lprot}{\bfseries Typische Fehler:} #1\par}}
 \newcommand{\E}{\,{\footnotesize\bfseries\color{lpgruen}(E)}}
 \newcommand{\B}{\,{\footnotesize\bfseries(B)}}
 \newcommand{\W}{\,{\footnotesize\bfseries(W)}}
 \newcommand{\Sk}{\,{\footnotesize\bfseries(S)}}
-\newcommand{\A}{\,{\footnotesize\bfseries\color{lpgruen}(A)}}
 \begin{document}
 \lpkopf{Bewertungspaket zum Gesamttest}{}
 
@@ -38,30 +40,30 @@ Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am E
 \item \textbf{Gezielt wiederholen} nach Abschnitt~4.
 \end{enumerate}
 
-\needspace{14\baselineskip}
 \section*{2 · Auftrag an die KI}
-\begin{tcolorbox}[colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
+\begin{tcolorbox}[breakable,colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
 Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Statik» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
 Geh so vor:\par
-1. Schreib zu jeder Aufgabe G1 bis G6 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
-2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
-3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Einheit oder Vorsilbe ($2.5\;\text{kN} = 2500\;\text{N}$; $0.24\;\text{m} = 24\;\text{cm}$; $\text{Nm}$ oder $\text{N} \cdot \text{m}$), Winkel gleichwertig mit $360^\circ$ mehr oder weniger ($292.6^\circ$ oder $-67.4^\circ$), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen). Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll. Zeilen mit (S) sind Skizzenpunkte: Es zählt, dass die verlangten Kräfte als Pfeile mit Namen und richtiger Richtung eingezeichnet sind; Länge und Schönheit zählen nicht. Werte aus sinnvoll gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% vom Raster abweichen.\par
+1. Schreib zu jeder Aufgabe G1 bis G6 zuerst ab, was du in meiner Lösung liest — Rechenweg, Ergebnis und Skizzen. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
+2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (zum Beispiel Taschenrechner im Bogenmass, Sinus und Kosinus vertauscht, dieselbe fehlende Umrechnung) kostet nur beim ersten Vorkommen einen Punkt; die anderen Teilaufgaben werden folgerichtig bewertet. Gleichartige Fehler werden gleich bewertet: ein Fehler, ein Abzug. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
+3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Einheit oder Vorsilbe ($2.5\;\text{kN} = 2500\;\text{N}$; $0.24\;\text{m} = 24\;\text{cm}$; $\text{Nm}$ oder $\text{N} \cdot \text{m}$), Winkel gleichwertig mit $360^\circ$ mehr oder weniger ($292.6^\circ$ oder $-67.4^\circ$), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen). Werte, die mit sinnvoll gerundeten Zwischenergebnissen gerechnet sind, zählen, wenn sie höchstens rund 2\,\% vom Raster abweichen. Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll. Zeilen mit (S) sind Skizzen- und Zeichenpunkte: Es zählt, dass die verlangten Kräfte als Pfeile mit Namen und richtiger Richtung eingezeichnet sind (beim Krafteck: Spitze an Fuss, im angegebenen Massstab); Schönheit zählt nicht.\par
 4. Begründe jeden Abzug in einem Satz und nenne die Fehlerart (zum Beispiel «Sinus statt Kosinus»). Schreib die Musterlösung nicht ab — zeig mir, wo mein Fehler liegt.\par
 5. Gib zum Schluss eine Tabelle «Aufgabe | Punkte | Begründung», die Gesamtpunktzahl (von 25) und — nach der Selbsteinschätzung in Abschnitt 4 — welches Kapitel des Leitprogramms ich wiederholen soll. Keine Note.\par
 6. Fehlt ein Foto oder ist eine Aufgabe unlesbar, sag es, statt sie zu bewerten.
 \end{tcolorbox}
 
-\needspace{16\baselineskip}
 \section*{3 · Musterlösung und Punkteraster}
 \textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
 richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler) — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
-Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Gleichwertige Wege und Schreibweisen zählen voll.
+Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. Taschenrechner im
+Bogenmass, Sinus und Kosinus vertauscht, dieselbe fehlende Umrechnung) kostet nur beim ersten Vorkommen einen Punkt; die anderen
+Teilaufgaben werden folgerichtig bewertet. Gleichwertige Wege und Schreibweisen zählen voll; Werte aus sinnvoll gerundeten
+Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% abweichen.
 In der Spalte P: \textbf{(E)}~= Ergebnispunkt — es zählt das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit
 falscher Einheit gibt es ihn nicht. \textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten);
 steht in einer Weg-Zeile ein Zahlenwert, braucht auch er die Einheit. \textbf{(B)}~= Begründungspunkt — es zählt die fachliche
-Aussage in eigenen Worten, eine Formel ist nicht nötig. \textbf{(S)}~= Skizzenpunkt — die verlangten Kräfte als Pfeile mit Namen
-und richtiger Richtung. Folgewerte aus gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% abweichen.
-«Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
+Aussage in eigenen Worten, eine Formel ist nicht nötig. \textbf{(S)}~= Skizzen- und Zeichenpunkt — die verlangten Kräfte als Pfeile
+mit Namen und richtiger Richtung. «Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
 
 \begin{lpaufgabe}{G1}{Kraft als Vektor}{4 P}
 \begin{raster}
@@ -70,63 +72,72 @@ b) Komponenten & 1\E & \(F_x = F \cdot \cos\varphi = 5.0\;\text{kN} \cdot \cos 2
 c) \(F_y\) & 1\E & \(F_y = \sqrt{F^2 - F_x^2} = \sqrt{(2.6\;\text{kN})^2 - (1.0\;\text{kN})^2} = 2.4\;\text{kN}\) (auch \(\pm 2.4\;\text{kN}\))\\
 d) zwei Richtungen & 1\B & nach rechts oben, \(\varphi \approx 67.4^\circ\), oder nach rechts unten, \(\varphi \approx 292.6^\circ\); \(F_y\) kann positiv oder negativ sein, denn im Quadrat \(F_y^2\) fällt das Vorzeichen weg (beide Winkel und Grund nötig)\\
 \end{raster}
-\fehler{b) Sinus und Kosinus vertauscht oder ohne Minus: b) 0 \(\to\) 3 von 4\,P. Taschenrechner im Bogenmass (\(4.98\;\text{kN}\), \(0.44\;\text{kN}\)): b) 0 \(\to\) 3 von 4\,P.
+\fehler{b) Sinus und Kosinus vertauscht (\(F_x \approx -3.21\;\text{kN}\), \(F_y \approx -3.83\;\text{kN}\)) oder ohne Minus: b) 0 \(\to\) 3 von 4\,P.
+Taschenrechner im Bogenmass (\(4.98\;\text{kN}\), \(0.44\;\text{kN}\)): b) 0; kommt derselbe Fehler in d) wieder (Winkel im Bogenmass, \(1.18\) und \(5.11\)), zählt d) folgerichtig \(\to\) 3 von 4\,P.
 c) \(2.6\;\text{kN} - 1.0\;\text{kN} = 1.6\;\text{kN}\): c) 0; d) folgerichtig (\(58.0^\circ\) und \(302.0^\circ\)) zählt \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G2}{Schlitten, \(F_G = 400\;\text{N}\)}{4 P}
 \begin{raster}
-a) Skizze & 1\Sk & Gewichtskraft senkrecht nach unten, Normalkraft senkrecht nach oben, Zugkraft schräg nach vorn oben, Reibung nach hinten; alle vier mit Namen\\
+a) Skizze & 1\Sk & Gewichtskraft senkrecht nach unten, Normalkraft senkrecht nach oben, Zugkraft schräg nach vorn oben, Gleitreibung nach hinten; alle vier mit Namen\\
 b) Komponenten & 1\E & \(F_{\text{res},x} = 150\;\text{N} \cdot \cos 30^\circ - 100\;\text{N} \approx 29.9\;\text{N}\), \(F_{\text{res},y} = 150\;\text{N} \cdot \sin 30^\circ + 325\;\text{N} - 400\;\text{N} = 0\;\text{N}\) (beide nötig)\\
-c) Resultierende & 1\E & \(F_\text{res} \approx 29.9\;\text{N}\), waagrecht nach vorn (in Zugrichtung längs des Bodens)\\
-d) Normalkraft & 1\B & Das Seil zieht den Schlitten mit \(150\;\text{N} \cdot \sin 30^\circ = 75\;\text{N}\) zugleich nach oben; der Boden muss nur noch den Rest der Gewichtskraft tragen, \(400\;\text{N} - 75\;\text{N} = 325\;\text{N}\)\\
+c) Krafteck & 1\Sk & Pfeile Spitze an Fuss im Massstab: Zugkraft \(3\;\text{cm}\) unter \(30^\circ\), Normalkraft \(6.5\;\text{cm}\) nach oben, Gewichtskraft \(8\;\text{cm}\) nach unten, Reibung \(2\;\text{cm}\) nach hinten (Reihenfolge beliebig). Das Krafteck schliesst sich fast: Die Resultierende vom ersten Fuss zur letzten Spitze ist rund \(0.6\;\text{cm}\) lang, waagrecht nach vorn, also rund \(30\;\text{N}\) — passt zu b)\\
+d) Zugkraft & 1\E & \(F_{\text{res},x} = F \cdot \cos 30^\circ - 100\;\text{N} = 0\): \(F = \dfrac{100\;\text{N}}{\cos 30^\circ} \approx 115\;\text{N}\)\\[5pt]
 \end{raster}
-\fehler{Sinus und Kosinus vertauscht (\(F_{\text{res},x} = -25\;\text{N}\)): b) 0; c) folgerichtig (\(25\;\text{N}\) nach hinten) zählt \(\to\) 3 von 4\,P. Reibung addiert statt abgezogen (\(230\;\text{N}\)): b) 0; c) folgerichtig zählt \(\to\) 3 von 4\,P.}
+\fehler{Sinus und Kosinus vertauscht (\(F_{\text{res},x} = -25\;\text{N}\), \(F_{\text{res},y} \approx 54.9\;\text{N}\)): b) 0; derselbe Fehler in d) zählt folgerichtig (\(F = 100\;\text{N} / \sin 30^\circ = 200\;\text{N}\)) \(\to\) 3 von 4\,P. Die Zeichnung in c) zählt, wenn sie stimmt; dass sie dann b) widerspricht, kostet nichts zusätzlich.
+Gleitreibung addiert statt abgezogen (\(F_{\text{res},x} \approx 230\;\text{N}\)): b) 0; c) zählt, wenn die Zeichnung stimmt \(\to\) 3 von 4\,P.
+Normalkraft vergessen (\(F_{\text{res},y} = -325\;\text{N}\)): b) 0 \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G3}{Lenkrad, \(r = 0.19\;\text{m}\)}{4 P}
 \begin{raster}
-a) Anwendungen & 1\B & zwei Anwendungen ausser dem Lenkrad (z.\,B. Schraubenschlüssel, Radkreuz, Türgriff, Velokurbel, Wippe, Kran, Flaschenöffner) und für eine die Erklärung: \(M = F \cdot r\) — ein grosser Hebelarm gibt mit kleiner Kraft ein grosses Drehmoment\\
+a) Definition & 1\B & Drehmoment = Kraft mal wirksamer Hebelarm, \(M = F \cdot r\); der wirksame Hebelarm ist der senkrechte Abstand der Wirkungslinie von der Drehachse (\(r = l \cdot \sin\alpha\)). Dazu eine Anwendung ausser dem Lenkrad (z.\,B. Schraubenschlüssel, Radkreuz, Türgriff, Velokurbel, Wippe, Kran) — alles nötig\\
 b) zwei Hände & 1\E & Beide drehen in dieselbe Richtung, die Momente addieren sich: \(M = 2 \cdot 20\;\text{N} \cdot 0.19\;\text{m} = 7.6\;\text{Nm}\)\\
-c) eine Hand & 1\E & \(F = \dfrac{M}{r} = \dfrac{7.6\;\text{Nm}}{0.19\;\text{m}} = 40\;\text{N}\)\\
-d) schräg & 1\E & \(F = \dfrac{M}{r \cdot \sin\alpha} = \dfrac{7.6\;\text{Nm}}{0.19\;\text{m} \cdot \sin 40^\circ} \approx 62.2\;\text{N}\)\\
+c) eine Hand & 1\E & \(F = \dfrac{M}{r} = \dfrac{7.6\;\text{Nm}}{0.19\;\text{m}} = 40\;\text{N}\)\\[5pt]
+d) schräg & 1\E & \(F = \dfrac{M}{r \cdot \sin\alpha} = \dfrac{7.6\;\text{Nm}}{0.19\;\text{m} \cdot \sin 40^\circ} \approx 62.2\;\text{N}\)\\[5pt]
 \end{raster}
-\fehler{b) nur eine Hand (\(3.8\;\text{Nm}\)) oder Momente abgezogen (\(0\)): b) 0; c) und d) folgerichtig zählen \(\to\) 3 von 4\,P. d) Kosinus statt Sinus (\(52.2\;\text{N}\)): d) 0 \(\to\) 3 von 4\,P.}
+\fehler{b) nur eine Hand gezählt (\(3.8\;\text{Nm}\)): b) 0; c) und d) folgerichtig (\(20\;\text{N}\), \(31.1\;\text{N}\)) zählen \(\to\) 3 von 4\,P.
+b) Momente abgezogen (\(0\;\text{Nm}\)): b) 0; c) und d) folgerichtig (\(0\;\text{N}\) und \(0\;\text{N}\), mit Weg \(F = M / r\)) zählen \(\to\) 3 von 4\,P.
+d) Kosinus statt Sinus (\(52.2\;\text{N}\)) oder Taschenrechner im Bogenmass (\(53.7\;\text{N}\)): d) 0 \(\to\) 3 von 4\,P.
+a) nur «Kraft mal Länge» ohne den senkrechten Abstand: a) 0 \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G4}{Auto, \(1200\;\text{kg}\), \(13^\circ\), \(\mu_H = 0.35\)}{5 P}
+\begin{lpaufgabe}{G4}{Paketrutsche, \(8\;\text{kg}\), Grenze \(26^\circ\)}{4 P}
 \begin{raster}
-a) Skizze & 1\Sk & Gewichtskraft senkrecht nach unten (im Schwerpunkt), Normalkraft senkrecht zur Strasse weg von ihr, Haftreibung längs der Strasse hangaufwärts; alle drei mit Namen. Eine eingezeichnete Zerlegung der Gewichtskraft schadet nicht\\
-b) Normalkraft & 1\E & \(F_N = m \cdot g \cdot \cos\alpha = 1200\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot \cos 13^\circ \approx 11.5\;\text{kN}\)\\
-b) Haftreibung & 1\E & Das Auto ruht: \(F_R = F_H = m \cdot g \cdot \sin\alpha \approx 2.65\;\text{kN}\)\\
-c) Grenze & 1\E & \(\tan\alpha = \mu_H\): \(\alpha = \arctan 0.35 \approx 19.3^\circ\)\\
-d) Begründung & 1\B & Die Haftreibung ist nur so gross wie nötig, um den Hangabtrieb auszugleichen; \(\mu_H \cdot F_N \approx 4.01\;\text{kN}\) ist ihr Höchstwert, erst bei grösserer Neigung erreicht\\
+a) Skizze & 1\Sk & Gewichtskraft senkrecht nach unten (im Schwerpunkt), Normalkraft senkrecht zur Rutsche weg von ihr, Haftreibung längs der Rutsche hangaufwärts; alle drei mit Namen. Eine eingezeichnete Zerlegung der Gewichtskraft schadet nicht\\
+b) \(\mu_H\) & 1\E & An der Grenze ist \(F_H = \mu_H \cdot F_N\), also \(\tan\alpha = \mu_H\): \(\mu_H = \tan 26^\circ \approx 0.488\) (ohne Einheit)\\
+c) Kräfte & 1\E & \(F_N = m \cdot g \cdot \cos\alpha = 8\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot \cos 26^\circ \approx 70.5\;\text{N}\), \(F_R = F_H = m \cdot g \cdot \sin\alpha \approx 34.4\;\text{N}\) (beide nötig)\\
+d) Masse & 1\B & Nein: Hangabtrieb und grösste Haftreibung wachsen beide proportional zur Masse; setzt man sie gleich, kürzt sich \(m \cdot g\), und die Grenze \(\tan\alpha = \mu_H\) bleibt dieselbe\\
 \end{raster}
-\fehler{a) Normalkraft senkrecht nach oben statt senkrecht zur Strasse, oder Reibung hangabwärts: a) 0 \(\to\) 4 von 5\,P.
-b) \(F_R = \mu_H \cdot F_N \approx 4.01\;\text{kN}\): b) Haftreibung 0, und d) ohne die richtige Aussage 0 \(\to\) 3 von 5\,P. \(F_N = F_G \approx 11.8\;\text{kN}\): b) Normalkraft 0 \(\to\) 4 von 5\,P.
-c) \(\arcsin 0.35 \approx 20.5^\circ\): c) 0 \(\to\) 4 von 5\,P.}
+\fehler{a) Normalkraft senkrecht nach oben statt senkrecht zur Rutsche, oder Reibung hangabwärts: a) 0 \(\to\) 3 von 4\,P.
+b) \(\sin 26^\circ \approx 0.438\) statt \(\tan\): b) 0 \(\to\) 3 von 4\,P.
+c) Sinus und Kosinus vertauscht (\(F_N \approx 34.4\;\text{N}\), \(F_R \approx 70.5\;\text{N}\)) oder \(F_N = F_G = 78.5\;\text{N}\): c) 0 \(\to\) 3 von 4\,P.
+d) «Ja, das schwere rutscht früher»: d) 0 \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G5}{Überstehendes Brett, \(4\;\text{m}\)}{5 P}
+\begin{lpaufgabe}{G5}{Brett mit Überstand, \(5\;\text{m}\), Stützen bei \(1\;\text{m}\) und \(4\;\text{m}\)}{5 P}
 \begin{raster}
-Ansatz & 1\W & Momente um A (\(F_A\) fällt heraus): \(F_B \cdot 3\;\text{m} = 200\;\text{N} \cdot 2\;\text{m} + 300\;\text{N} \cdot 1\;\text{m}\)\\
-a) \(F_B\) & 1\E & \(F_B = \dfrac{700\;\text{Nm}}{3\;\text{m}} \approx 233\;\text{N}\)\\
-a) \(F_A\) & 1\E & \(F_A = 200\;\text{N} + 300\;\text{N} - F_B \approx 267\;\text{N}\) (gleichwertig: Momente um B)\\
-b) Kippen & 1\E & Das Brett kippt, sobald \(F_A\) null würde: \(F_B = 500\;\text{N}\), also \(500\;\text{N} \cdot 3\;\text{m} = 400\;\text{Nm} + 300\;\text{N} \cdot x\), \(x \approx 3.67\;\text{m}\) von A (gleichwertig: Momente um B, \(200\;\text{N} \cdot 1\;\text{m} = 300\;\text{N} \cdot (x - 3\;\text{m})\))\\
-c) zweites Kind & 1\B & Um B dreht das zweite Kind (Hebelarm \(3\;\text{m}\)) gleich herum wie das Brett, gegen das erste Kind: \(300\;\text{N} \cdot 3\;\text{m} + 200\;\text{N} \cdot 1\;\text{m} = 1100\;\text{Nm}\) ist mehr als \(300\;\text{N} \cdot 1\;\text{m} = 300\;\text{Nm}\) des ersten am Ende. Das Brett kippt nicht (gleichwertig: \(F_A \approx 267\;\text{N} > 0\) mit dem ersten Kind bei \(4\;\text{m}\))\\
+Ansatz & 1\W & Momente um A (\(F_A\) fällt heraus): \(F_B \cdot 3\;\text{m} = 250\;\text{N} \cdot 1.5\;\text{m} + 300\;\text{N} \cdot 1\;\text{m}\)\\
+a) \(F_B\) & 1\E & \(F_B = \dfrac{675\;\text{Nm}}{3\;\text{m}} = 225\;\text{N}\)\\[5pt]
+a) \(F_A\) & 1\E & \(F_A = 250\;\text{N} + 300\;\text{N} - F_B = 325\;\text{N}\) (gleichwertig: Momente um B)\\
+b) Ansatz & 1\W & An der Kippgrenze ist \(F_A = 0\). Momente um B: Das Brett (Schwerpunkt \(1.5\;\text{m}\) links von B) hält gegen die Person am Ende (\(1\;\text{m}\) rechts von B): \(250\;\text{N} \cdot 1.5\;\text{m} = G \cdot 1\;\text{m}\)\\
+b) Höchstlast & 1\E & \(G = 375\;\text{N}\); wer schwerer ist, bringt das Brett am Ende zum Kippen\\
 \end{raster}
-\fehler{Eigengewicht vergessen: Ansatz 0; Folgewerte zählen (\(F_B = 100\;\text{N}\), \(F_A = 200\;\text{N}\), Kippen bei \(x = 3\;\text{m}\)) \(\to\) 4 von 5\,P.
-Eigengewicht bei B statt in der Mitte: Ansatz 0; Folgewerte zählen \(\to\) 4 von 5\,P.
-b) «kippt, sobald das Kind über B hinausgeht» ohne Rechnung: b) 0 \(\to\) 4 von 5\,P.}
+\fehler{Eigengewicht vergessen: Ansatz 0; Folgewerte \(F_B = 100\;\text{N}\), \(F_A = 200\;\text{N}\) zählen; derselbe Fehler in b) (folgerichtig «ohne Eigengewicht kippt das Brett bei jeder Last am Ende») zählt \(\to\) 4 von 5\,P.
+Abstände vom linken Brettende statt von A gemessen (\(F_B \cdot 4\;\text{m} = 250\;\text{N} \cdot 2.5\;\text{m} + 300\;\text{N} \cdot 2\;\text{m}\), \(F_B \approx 306\;\text{N}\), \(F_A \approx 244\;\text{N}\)): Ansatz 0; Folgewerte zählen \(\to\) 4 von 5\,P.
+b) Momente um A statt um B (ohne \(F_A = 0\)): b) Ansatz 0, Ergebnis nur, wenn es \(375\;\text{N}\) ist \(\to\) 3 von 5\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G6}{Gleichgewicht und Hebel}{3 P}
+\begin{lpaufgabe}{G6}{Gleichgewicht und Kran}{4 P}
 \begin{raster}
 a) Gleichgewicht & 1\B & Der Körper bleibt in Ruhe: Die Summe aller Kräfte ist null (\(\sum \vec{F} = \vec{0}\), er verschiebt sich nicht) \emph{und} die Summe aller Drehmomente ist null (\(\sum M = 0\), er beginnt nicht zu drehen) — beide nötig\\
-b) Stab & 1\B & Nein: Die Kräfte heben sich auf (\(\sum \vec{F} = \vec{0}\)), aber sie greifen an verschiedenen Enden an und drehen beide gleich herum: \(\sum M \ne 0\), der Stab beginnt sich zu drehen\\
-c) Schubkarre & 1\E & \(F \cdot r_K = F_L \cdot r_L\): \(r_L = \dfrac{200\;\text{N} \cdot 1.4\;\text{m}}{700\;\text{N}} = 0.4\;\text{m}\)\\
+b) Ansatz & 1\W & Hebelgesetz um den Turm: \(G \cdot 5\;\text{m} = 12\;\text{kN} \cdot 15\;\text{m}\)\\
+b) Gegengewicht & 1\E & \(G = \dfrac{180\;\text{kNm}}{5\;\text{m}} = 36\;\text{kN}\)\\[5pt]
+c) Last bei \(10\;\text{m}\) & 1\E & \(F \cdot 10\;\text{m} = 36\;\text{kN} \cdot 5\;\text{m}\): \(F = 18\;\text{kN}\)\\
 \end{raster}
-\fehler{b) «Ja, die Kräfte heben sich auf» ohne Momente: b) 0 \(\to\) 2 von 3\,P. c) umgekehrt (\(4.9\;\text{m}\)): c) 0 \(\to\) 2 von 3\,P.}
+\fehler{b) umgekehrt (\(12\;\text{kN} \cdot 5\;\text{m} / 15\;\text{m} = 4\;\text{kN}\)): b) Ansatz und Ergebnis 0; c) folgerichtig (\(2\;\text{kN}\)) zählt \(\to\) 2 von 4\,P.
+c) mit der alten Last statt dem Gegengewicht gerechnet (\(12\;\text{kN} \cdot 15\;\text{m} / 10\;\text{m} = 18\;\text{kN}\)): gleiches Ergebnis, gleichwertiger Weg, zählt.
+a) nur eine Bedingung: a) 0 \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
 \needspace{14\baselineskip}
@@ -136,6 +147,7 @@ c) Schubkarre & 1\E & \(F \cdot r_K = F_L \cdot r_L\): \(r_L = \dfrac{200\;\text
 17 – 21 P & Den schwächsten Teil nochmals: Simulation und Übungen des Kapitels, in dem du die meisten Punkte verloren hast.\\
 11 – 16 P & Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.\\
 0 – 10 P & Zurück zu Kapitel 1 und von dort der Reihe nach weiter.\\\midrule
-\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche): G1 $\to$ Kapitel 1 (K1) · G2 $\to$ Kapitel 2, 3 (K4, K3) · G3 $\to$ Kapitel 4 (K2) · G4 $\to$ Kapitel 3 (K3, K5) · G5 $\to$ Kapitel 6 (K5) · G6 $\to$ Kapitel 5, 6 (K5, K2)}\\\bottomrule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\raggedright\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche): G1 $\to$ Kapitel 1 (K1) · G2 $\to$ Kapitel 2, 3 (K4, K3) · G3 $\to$ Kapitel 4 (K2) · G4 $\to$ Kapitel 3 (K3, K5) · G5 $\to$ Kapitel 6 (K5) · G6 $\to$ Kapitel 6, 5 (K5, K2)}\\
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\raggedright\textbf{K1 bis K5} sind die fünf Kompetenzen des Rahmenlehrplans zu 4.4 (im Leitprogramm unter «Kompetenzen nach Lehrplan»): K1 Kraft als Vektor, K2 Drehmoment und Anwendungen, K3 Kräfte am Körper im Gleichgewicht, K4 resultierende Kraft, K5 statisches Gleichgewicht.}\\\bottomrule
 \end{tabularx}
 \end{document}
