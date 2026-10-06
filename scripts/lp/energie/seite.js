@@ -248,7 +248,8 @@
      Szene: Eine Kiste wird mit der Kraft F unter dem Winkel α gezogen; nur der Anteil
      F_s = F · cos α in Wegrichtung verrichtet Arbeit. Während der Fahrt füllt sich die Fläche
      unter F_s im Diagramm. Kraft Blau, Anteil in Wegrichtung Violett (Komponente, STYLEGUIDE
-     §5.2). Startwert = Clipbeispiel: F = 200 N, α = 0°, s = 5 m: W = 1000 J. */
+     §5.2). Startwerte F = 100 N, α = 20°, s = 3 m: weder Clipbeispiel (200 N, 0° und 60°, 5 m)
+     noch Leistenziel; die Clipbilder setzen ihre Werte selbst. */
   (function(){
     var fig = document.getElementById('sim1'); if (!fig) return;
     var svg = fig.querySelector('svg'), X0 = 20, PX = 30;              // 30 px je m, Bahn 8 m
@@ -299,11 +300,14 @@
     pruefen = Leiste(fig, [
       { text: 'Zieh die Kiste dreimal mit derselben Kraft und demselben Weg, aber unter drei verschiedenen Winkeln. Wie hängt die Arbeit vom Winkel ab? Notiere deine Antwort.', ok: function(s){ var l = s.laeufe, n = {}; l.forEach(function(a){ if (a.F === l[l.length - 1].F && a.s === l[l.length - 1].s) n[a.a] = true; }); return l.length && Object.keys(n).length >= 3; },
         vergleich: 'Je grösser der Winkel, desto kleiner die Arbeit: Nur der Anteil \\(F_s = F \\cdot \\cos\\alpha\\) in Wegrichtung zählt, und \\(\\cos\\alpha\\) wird mit dem Winkel kleiner. Bei \\(90^\\circ\\) wäre er null — eine Kraft senkrecht zum Weg verrichtet keine Arbeit.' },
-      { text: 'Zieh die Kiste waagrecht mit \\(250\\;\\text{N}\\) über \\(6\\;\\text{m}\\). Wie gross ist die Arbeit?', ok: function(s){ return hat(s, 250, 0, 6); } },
+      { text: 'Zieh die Kiste waagrecht mit \\(250\\;\\text{N}\\) über \\(6\\;\\text{m}\\). Notiere die Arbeit und wie gross die Fläche im Diagramm ist.', ok: function(s){ return hat(s, 250, 0, 6); },
+        vergleich: '\\(W = F \\cdot s = 250\\;\\text{N} \\cdot 6\\;\\text{m} = 1500\\;\\text{J}\\). Die Fläche ist ein Rechteck, \\(250\\;\\text{N}\\) hoch und \\(6\\;\\text{m}\\) breit — dieselbe Zahl.' },
       { text: 'Jetzt dieselbe Kraft, derselbe Weg, aber das Seil steigt unter \\(60^\\circ\\) an. Zieh und vergleiche mit Aufgabe 2: Welcher Teil der Arbeit bleibt? Notiere deine Antwort.', ok: function(s){ return hat(s, 250, 60, 6); },
         vergleich: 'Die Hälfte: \\(W = 250\\;\\text{N} \\cdot 6\\;\\text{m} \\cdot \\cos 60^\\circ = 750\\;\\text{J}\\) statt \\(1500\\;\\text{J}\\), weil \\(\\cos 60^\\circ = 0.5\\). Nur der Anteil in Wegrichtung, \\(F_s = 125\\;\\text{N}\\), verrichtet Arbeit.' },
-      { text: 'Waagrecht gezogen sollen auf \\(4\\;\\text{m}\\) genau \\(600\\;\\text{J}\\) Arbeit verrichtet werden. Welche Kraft braucht es? Stelle ein und zieh.', ok: function(s){ return hat(s, 150, 0, 4); } },
-      { text: 'Mit \\(300\\;\\text{N}\\) über \\(8\\;\\text{m}\\) sollen nur \\(1200\\;\\text{J}\\) Arbeit herauskommen. Unter welchem Winkel? Stelle ein und zieh.', ok: function(s){ return hat(s, 300, 60, 8); } },
+      { text: 'Waagrecht gezogen sollen auf \\(4\\;\\text{m}\\) genau \\(600\\;\\text{J}\\) Arbeit verrichtet werden. Welche Kraft braucht es? Notiere deine Rechnung, stelle ein und zieh.', ok: function(s){ return hat(s, 150, 0, 4); },
+        vergleich: '\\(W = F \\cdot s\\) nach \\(F\\) umgestellt: \\(F = \\dfrac{W}{s} = \\dfrac{600\\;\\text{J}}{4\\;\\text{m}} = 150\\;\\text{N}\\).' },
+      { text: 'Mit \\(300\\;\\text{N}\\) über \\(8\\;\\text{m}\\) sollen nur \\(1200\\;\\text{J}\\) Arbeit herauskommen. Unter welchem Winkel? Notiere deine Rechnung, stelle ein und zieh.', ok: function(s){ return hat(s, 300, 60, 8); },
+        vergleich: '\\(\\cos\\alpha = \\dfrac{W}{F \\cdot s} = \\dfrac{1200\\;\\text{J}}{300\\;\\text{N} \\cdot 8\\;\\text{m}} = 0.5\\), also \\(\\alpha = 60^\\circ\\) (Taste \\(\\cos^{-1}\\), Rechner in Grad).' },
       { text: 'Triff die gestrichelte Fläche genau: Stelle Kraft, Winkel und Weg ein und zieh. Wie viel Arbeit stellt die Fläche dar? Notiere deine Antwort.', setup: function(S){ ziel = { s: 6, Fs: 160 }; S.setze({ F: 100, al: 20, s: 3 }); }, ok: function(s){ return s.lauf && s.lauf.s === 6 && Math.abs(s.lauf.Fs - 160) < 1e-6; },
         vergleich: 'Die Fläche ist \\(W = F_s \\cdot s = 160\\;\\text{N} \\cdot 6\\;\\text{m} = 960\\;\\text{J}\\). Getroffen hat jede Einstellung mit \\(F \\cdot \\cos\\alpha = 160\\;\\text{N}\\), etwa \\(160\\;\\text{N}\\) waagrecht oder \\(320\\;\\text{N}\\) unter \\(60^\\circ\\).' }
     ], sim);
@@ -314,8 +318,8 @@
      Nimmt Animation 2 der Themenseite (Energie-Parabel E_kin(v)) als Bremsung: Ein Auto
      bremst mit konstanter Kraft F_B; die Bremsarbeit F_B · s nimmt ihm die ganze
      Bewegungsenergie. Während der Bremsung gleitet der Punkt die Parabel hinunter. Doppeltes
-     Tempo: vierfache Energie, vierfacher Bremsweg. Startwert = Clipbeispiel: 1000 kg, 10 m/s,
-     F_B = 5000 N: E_kin = 50 kJ, s = 10 m. */
+     Tempo: vierfache Energie, vierfacher Bremsweg. Startwerte 1200 kg, 8 m/s, 7000 N: weder
+     Clipbeispiel (1000 kg, 10 und 20 m/s, 5000 N) noch Leistenziel. */
   (function(){
     var fig = document.getElementById('sim2'); if (!fig) return;
     var svg = fig.querySelector('svg'), X0 = 18, PX = 1.65;              // 1.65 px je m, Strasse 160 m
@@ -371,12 +375,16 @@
     }
     function hat(s, m, v, F){ return s.lauf && s.lauf.m === m && s.lauf.v === v && s.lauf.F === F; }
     pruefen = Leiste(fig, [
-      { text: 'Bremse dasselbe Auto mit derselben Bremskraft einmal aus \\(10\\;\\text{m/s}\\) und einmal aus \\(20\\;\\text{m/s}\\). Wie verändert sich der Bremsweg? Notiere deine Antwort.', ok: function(s){ return s.laeufe.some(function(a){ return a.v === 10 && s.laeufe.some(function(b){ return b.v === 20 && b.m === a.m && b.F === a.F; }); }); },
+      { text: 'Bremse dasselbe Auto mit derselben Bremskraft einmal aus \\(12\\;\\text{m/s}\\) und einmal aus \\(24\\;\\text{m/s}\\). Wie verändert sich der Bremsweg? Notiere deine Antwort.', ok: function(s){ return s.laeufe.some(function(a){ return a.v === 12 && s.laeufe.some(function(b){ return b.v === 24 && b.m === a.m && b.F === a.F; }); }); },
         vergleich: 'Er wird viermal so lang. Doppeltes Tempo heisst vierfache Bewegungsenergie, \\(E_\\text{kin} = \\tfrac12 \\cdot m \\cdot v^2\\), und die Bremse muss sie mit derselben Kraft abbauen: \\(F_B \\cdot s = E_\\text{kin}\\).' },
-      { text: 'Ein Auto mit \\(1500\\;\\text{kg}\\) fährt \\(12\\;\\text{m/s}\\) und bremst mit \\(6000\\;\\text{N}\\). Stelle ein, brems und lies Energie und Bremsweg ab.', ok: function(s){ return hat(s, 1500, 12, 6000); } },
-      { text: 'Ein Kleinwagen mit \\(800\\;\\text{kg}\\) bremst aus \\(15\\;\\text{m/s}\\) mit \\(6000\\;\\text{N}\\). Wie lang wird der Bremsweg bei doppelter Masse, sonst gleich? Stelle ein und brems.', ok: function(s){ return hat(s, 1600, 15, 6000); } },
-      { text: 'Welche Bremskraft hält ein Auto mit \\(1200\\;\\text{kg}\\) aus \\(20\\;\\text{m/s}\\) auf \\(40\\;\\text{m}\\) an? Stelle ein und brems.', ok: function(s){ return hat(s, 1200, 20, 6000); } },
-      { text: 'Ein Auto mit \\(2000\\;\\text{kg}\\) hat \\(400\\;\\text{kJ}\\) Bewegungsenergie. Wie schnell fährt es? Stelle ein und brems.', ok: function(s){ return s.lauf && s.lauf.m === 2000 && s.lauf.v === 20; } },
+      { text: 'Ein Auto mit \\(1500\\;\\text{kg}\\) fährt \\(12\\;\\text{m/s}\\) und bremst mit \\(6000\\;\\text{N}\\). Stelle ein, brems und notiere Energie und Bremsweg.', ok: function(s){ return hat(s, 1500, 12, 6000); },
+        vergleich: '\\(E_\\text{kin} = \\tfrac12 \\cdot 1500\\;\\text{kg} \\cdot (12\\;\\text{m/s})^2 = 108\\;\\text{kJ}\\), \\(s = \\dfrac{E_\\text{kin}}{F_B} = \\dfrac{108\\,000\\;\\text{J}}{6000\\;\\text{N}} = 18\\;\\text{m}\\).' },
+      { text: 'Ein Kleinwagen mit \\(800\\;\\text{kg}\\) bremst aus \\(15\\;\\text{m/s}\\) mit \\(6000\\;\\text{N}\\). Wie lang wird der Bremsweg bei doppelter Masse, sonst gleich? Notiere deine Vermutung, stelle ein und brems.', ok: function(s){ return hat(s, 1600, 15, 6000); },
+        vergleich: 'Doppelt so lang, \\(30\\;\\text{m}\\) statt \\(15\\;\\text{m}\\): Die Masse steht in \\(E_\\text{kin} = \\tfrac12 \\cdot m \\cdot v^2\\) einfach, nicht im Quadrat.' },
+      { text: 'Welche Bremskraft hält ein Auto mit \\(1200\\;\\text{kg}\\) aus \\(20\\;\\text{m/s}\\) auf \\(40\\;\\text{m}\\) an? Notiere deine Rechnung, stelle ein und brems.', ok: function(s){ return hat(s, 1200, 20, 6000); },
+        vergleich: '\\(F_B = \\dfrac{E_\\text{kin}}{s} = \\dfrac{\\tfrac12 \\cdot 1200\\;\\text{kg} \\cdot (20\\;\\text{m/s})^2}{40\\;\\text{m}} = \\dfrac{240\\,000\\;\\text{J}}{40\\;\\text{m}} = 6000\\;\\text{N}\\).' },
+      { text: 'Ein Auto mit \\(2000\\;\\text{kg}\\) hat \\(400\\;\\text{kJ}\\) Bewegungsenergie. Wie schnell fährt es? Notiere deine Rechnung, stelle ein und brems.', ok: function(s){ return s.lauf && s.lauf.m === 2000 && s.lauf.v === 20; },
+        vergleich: '\\(v = \\sqrt{\\dfrac{2 \\cdot E_\\text{kin}}{m}} = \\sqrt{\\dfrac{2 \\cdot 400\\,000\\;\\text{J}}{2000\\;\\text{kg}}} = 20\\;\\text{m/s}\\).' },
       { text: 'Bremse so, dass das Auto genau an der gestrichelten Linie steht. Warum gibt es mehrere Einstellungen, die das schaffen? Notiere deine Antwort.', setup: function(S){ ziel = 25; S.setze({ m: 1200, v: 8, F: 7000 }); }, ok: function(s){ return s.lauf && Math.abs(s.lauf.s - 25) < 1e-6; },
         vergleich: 'Der Bremsweg ist \\(s = \\dfrac{E_\\text{kin}}{F_B}\\). Jede Einstellung, bei der die Bewegungsenergie genau \\(25\\;\\text{m}\\) mal die Bremskraft ist, trifft die Linie: etwa \\(1000\\;\\text{kg}\\), \\(20\\;\\text{m/s}\\) und \\(8000\\;\\text{N}\\) (\\(200\\;\\text{kJ}\\)) oder \\(2000\\;\\text{kg}\\), \\(10\\;\\text{m/s}\\) und \\(4000\\;\\text{N}\\) (\\(100\\;\\text{kJ}\\)).' }
     ], sim);
@@ -387,8 +395,9 @@
      Nimmt Animation 3 der Themenseite (Pendel mit Energiebalken) als Achterbahn ohne Reibung:
      Der Wagen startet auf der Höhe h₀, fährt durchs Tal und über einen zweiten Hügel h₂.
      Lage- und Bewegungsenergie wechseln, ihre Summe bleibt (Säulen). Reicht die Energie
-     nicht, kehrt der Wagen um. Massstab 4.6 px je m in beiden Richtungen. Startwert =
-     Clipbeispiel: h₀ = 20 m, h₂ = 12 m, v₀ = 0, m = 300 kg. */
+     nicht, kehrt der Wagen um. Massstab 4.6 px je m in beiden Richtungen. Startwerte
+     h₀ = 15 m, h₂ = 8 m, v₀ = 0, m = 300 kg: weder Clipbeispiel (h₀ = 20 m, h₂ = 12 m) noch
+     Leistenziel; die Clipbilder setzen ihre Werte selbst. */
   (function(){
     var fig = document.getElementById('sim3'); if (!fig) return;
     var svg = fig.querySelector('svg'), S = 4.6, XL = 10, YB = 162;
@@ -467,11 +476,14 @@
     pruefen = Leiste(fig, [
       { text: 'Lass den Wagen mit zwei verschiedenen Massen fahren, sonst gleich. Ist er im Tal verschieden schnell? Notiere deine Antwort.', ok: function(s){ return s.laeufe.some(function(a){ return s.laeufe.some(function(b){ return b.m !== a.m && b.h0 === a.h0 && b.v0 === a.v0; }); }); },
         vergleich: 'Nein. In \\(m \\cdot g \\cdot h_0 = \\tfrac12 \\cdot m \\cdot v^2\\) steht die Masse auf beiden Seiten und kürzt sich: \\(v = \\sqrt{2 \\cdot g \\cdot h_0}\\). Der schwerere Wagen hat mehr Energie, braucht aber auch mehr für dasselbe Tempo.' },
-      { text: 'Start aus der Ruhe auf \\(25\\;\\text{m}\\) Höhe: Wie schnell ist der Wagen im Tal? Stelle ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 25 && s.lauf.v0 === 0; } },
-      { text: 'Gleicher Start, der zweite Hügel ist \\(15\\;\\text{m}\\) hoch. Wie schnell ist der Wagen oben auf diesem Hügel?', ok: function(s){ return s.lauf && s.lauf.h0 === 25 && s.lauf.v0 === 0 && s.lauf.h2 === 15 && s.lauf.oben; } },
-      { text: 'Hügel 2 ist \\(18\\;\\text{m}\\) hoch, der Start \\(15\\;\\text{m}\\). Mit welchem Anfangstempo schafft der Wagen den Hügel gerade noch? Stelle auf \\(0.1\\;\\text{m/s}\\) genau ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 15 && s.lauf.h2 === 18 && s.lauf.oben && s.lauf.v0 <= 7.75; },
+      { text: 'Start aus der Ruhe auf \\(25\\;\\text{m}\\) Höhe: Wie schnell ist der Wagen im Tal? Rechne zuerst, notiere das Ergebnis, dann stelle ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 25 && s.lauf.v0 === 0; },
+        vergleich: '\\(v = \\sqrt{2 \\cdot g \\cdot h_0} = \\sqrt{2 \\cdot 9.81\\;\\text{m/s}^2 \\cdot 25\\;\\text{m}} \\approx 22.1\\;\\text{m/s}\\), für jede Masse.' },
+      { text: 'Gleicher Start, der zweite Hügel ist \\(15\\;\\text{m}\\) hoch. Wie schnell ist der Wagen oben auf diesem Hügel? Notiere deine Rechnung.', ok: function(s){ return s.lauf && s.lauf.h0 === 25 && s.lauf.v0 === 0 && s.lauf.h2 === 15 && s.lauf.oben; },
+        vergleich: 'Für die Bewegung bleiben \\(10\\;\\text{m}\\) Höhenunterschied: \\(v = \\sqrt{2 \\cdot g \\cdot (h_0 - h_2)} = \\sqrt{2 \\cdot 9.81\\;\\text{m/s}^2 \\cdot 10\\;\\text{m}} \\approx 14.0\\;\\text{m/s}\\).' },
+      { text: 'Hügel 2 ist \\(18\\;\\text{m}\\) hoch, der Start \\(15\\;\\text{m}\\). Mit welchem Anfangstempo schafft der Wagen den Hügel gerade noch? Notiere deine Rechnung, stelle auf \\(0.1\\;\\text{m/s}\\) genau ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 15 && s.lauf.h2 === 18 && s.lauf.oben && s.lauf.v0 <= 7.75; },
         vergleich: 'Gerechnet: \\(v_0 = \\sqrt{2 \\cdot g \\cdot (h_2 - h_0)} = \\sqrt{2 \\cdot 9.81\\;\\text{m/s}^2 \\cdot 3\\;\\text{m}} \\approx 7.67\\;\\text{m/s}\\). Auf dem Regler reicht \\(7.6\\;\\text{m/s}\\) knapp nicht, \\(7.7\\;\\text{m/s}\\) gerade.' },
-      { text: 'Start aus der Ruhe auf \\(25\\;\\text{m}\\): Wie hoch darf Hügel 2 sein, damit der Wagen oben noch \\(10\\;\\text{m/s}\\) hat? Stelle ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 25 && s.lauf.v0 === 0 && s.lauf.oben && Math.abs(s.lauf.vTop - 10) < 0.05; } },
+      { text: 'Start aus der Ruhe auf \\(25\\;\\text{m}\\): Wie hoch darf Hügel 2 sein, damit der Wagen oben noch \\(10\\;\\text{m/s}\\) hat? Notiere deine Rechnung, stelle ein und lass los.', ok: function(s){ return s.lauf && s.lauf.h0 === 25 && s.lauf.v0 === 0 && s.lauf.oben && Math.abs(s.lauf.vTop - 10) < 0.05; },
+        vergleich: 'Oben bleibt die Bewegungsenergie für \\(10\\;\\text{m/s}\\): \\(h_2 = h_0 - \\dfrac{v^2}{2 \\cdot g} = 25\\;\\text{m} - \\dfrac{(10\\;\\text{m/s})^2}{2 \\cdot 9.81\\;\\text{m/s}^2} \\approx 19.9\\;\\text{m}\\).' },
       { text: 'Stelle eine Fahrt ein, bei der der Wagen an Hügel 2 umkehrt. Wie hoch kommt er? Notiere deine Antwort.', ok: function(s){ return s.lauf && s.lauf.umkehr; },
         vergleich: 'Ohne Reibung genau bis zur Höhe, bei der seine ganze Energie wieder Lageenergie ist: \\(h = h_0 + \\dfrac{v_0^2}{2 \\cdot g}\\), aus der Ruhe also genau auf die Starthöhe. Dann rollt er zurück.' }
     ], sim);
@@ -483,7 +495,9 @@
      von 40 m: zugeführt werden die abgegebene Lageenergie und die Motorarbeit F_M · s, daraus
      werden Bewegungsenergie, Wärme durch Reibung F_R · s und — bergauf — Lageenergie. Die
      beiden Säulen sind in jedem Moment gleich hoch: der Energieerhaltungssatz mit Motor und
-     Reibung. Startwert = Clipbeispiel: 80 kg, 10 m hinunter, ohne Reibung und Motor. */
+     Reibung. Startwerte 100 kg, 5 m hinunter, ohne Reibung und Motor: weder Clipbeispiel
+     (80 kg, 10 m, 100 N) noch Leistenziel. Konvention wie im Clip: h ist der Höhenunterschied
+     hinunter, bergauf negativ (der Clip nennt den Höhengewinn Δh = −h). */
   (function(){
     var fig = document.getElementById('sim4'); if (!fig) return;
     var svg = fig.querySelector('svg'), L = 40, S = 5.5;                 // Rampe 40 m, 5.5 px je m
@@ -531,7 +545,7 @@
         el(unten, 'text', { x: sp[1] + 25, y: 314, 'text-anchor': 'middle', 'class': 'bt-klein' }, sp[2]);
       });
       var z = '<span>Bilanz (Lage hinunter positiv): ' + v_('m') + ' · ' + v_('g') + ' · ' + v_('h') + ' + ' + v_('F') + '<sub>M</sub> · ' + v_('s') + ' = ' + v_('E') + '<sub>kin</sub> + ' + v_('F') + '<sub>R</sub> · ' + v_('s') + '</span>';
-      if (!w.faehrt) z += '<span>Der Wagen fährt nicht los: ' + (w.h < 0 ? 'Der Motor überwindet ' + (w.FR > 0 ? 'Hangabtrieb und Reibung' : 'den Hangabtrieb') + ' nicht.' : w.h === 0 && w.FM === 0 ? 'Auf ebener Strecke ohne Motor wirkt keine antreibende Kraft.' : (w.FM > 0 ? 'Hangabtrieb und Motor' : 'Der Hangabtrieb') + ' ' + (w.FM > 0 ? 'überwinden' : 'überwindet') + ' die Reibung nicht.') + '</span>';
+      if (!w.faehrt) z += '<span>Der Wagen fährt nicht los: ' + (w.h < 0 ? (w.FM === 0 ? 'Ohne Motor rollt er nicht bergauf, der Hangabtrieb zieht ihn zurück.' : 'Der Motor überwindet ' + (w.FR > 0 ? 'Hangabtrieb und Reibung' : 'den Hangabtrieb') + ' nicht.') : w.h === 0 && w.FM === 0 ? 'Auf ebener Strecke ohne Motor wirkt keine antreibende Kraft.' : (w.FM > 0 ? 'Hangabtrieb und Motor' : 'Der Hangabtrieb') + ' ' + (w.FM > 0 ? 'überwinden' : 'überwindet') + ' die Reibung nicht.') + '</span>';
       else z += '<span>' + v_('E') + '<sub>kin</sub> = ' + zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² · ' + ew(w.h, 'm') + ' + ' + zahl(w.FM) + NB + 'N · 40' + NB + 'm − ' + zahl(w.FR) + NB + 'N · 40' + NB + 'm ' + ist(w.Ek, sig(w.Ek, 4)) + sig(w.Ek, 4) + NB + 'J</span>' +
                 '<span>' + v_('v') + ' = √(2 · ' + v_('E') + '<sub>kin</sub> / ' + v_('m') + ') = √(2 · ' + sig(w.Ek, 4) + NB + 'J / ' + zahl(w.m) + NB + 'kg) ' + ist(wurzel(2 * w.Ek / w.m), sig(wurzel(2 * w.Ek / w.m))) + sig(wurzel(2 * w.Ek / w.m)) + NB + 'm/s</span>';
       rolle(fig, 'formel').innerHTML = z;
@@ -541,13 +555,16 @@
     pruefen = Leiste(fig, [
       { text: 'Fahr zuerst ohne Reibung und ohne Motor hinunter, dann mit Reibung. Wohin geht die Energie, die unten als Bewegungsenergie fehlt? Notiere deine Antwort.', ok: function(s){ return s.laeufe.some(function(a){ return a.FR === 0 && a.FM === 0 && a.h > 0; }) && s.laeufe.some(function(a){ return a.FR > 0 && a.FM === 0 && a.h > 0; }); },
         vergleich: 'In Wärme: Die Reibung verrichtet die Arbeit \\(F_R \\cdot s\\), Räder, Lager und Boden werden etwas wärmer. Die Summe bleibt — die rechte Säule ist gleich hoch wie die linke, nur ein Teil ist jetzt Wärme statt Bewegungsenergie.' },
-      { text: 'Wagen \\(60\\;\\text{kg}\\), \\(15\\;\\text{m}\\) hinunter, ohne Reibung und Motor: Wie schnell ist er unten?', ok: function(s){ return hat(s, 60, 15, 0, 0); } },
-      { text: 'Dieselbe Fahrt mit \\(80\\;\\text{N}\\) Reibung: Wie viel Energie wird zu Wärme, und wie schnell ist der Wagen unten?', ok: function(s){ return hat(s, 60, 15, 80, 0); } },
-      { text: 'Bergauf: Das Ende liegt \\(5\\;\\text{m}\\) höher (\\(h = -5\\;\\text{m}\\)), Reibung \\(50\\;\\text{N}\\), Wagen \\(80\\;\\text{kg}\\). Mit welcher Motorkraft kommt er gerade noch oben an? Stelle ein und fahr.', ok: function(s){ return hat(s, 80, -5, 50, 150); } },
+      { text: 'Wagen \\(60\\;\\text{kg}\\), \\(15\\;\\text{m}\\) hinunter, ohne Reibung und Motor: Wie schnell ist er unten? Notiere deine Rechnung, dann stelle ein und fahr.', ok: function(s){ return hat(s, 60, 15, 0, 0); },
+        vergleich: 'Die ganze Lageenergie wird Bewegungsenergie: \\(v = \\sqrt{2 \\cdot g \\cdot h} = \\sqrt{2 \\cdot 9.81\\;\\text{m/s}^2 \\cdot 15\\;\\text{m}} \\approx 17.2\\;\\text{m/s}\\).' },
+      { text: 'Dieselbe Fahrt mit \\(80\\;\\text{N}\\) Reibung: Wie viel Energie wird zu Wärme, und wie schnell ist der Wagen unten? Notiere beides.', ok: function(s){ return hat(s, 60, 15, 80, 0); },
+        vergleich: 'Wärme: \\(F_R \\cdot s = 80\\;\\text{N} \\cdot 40\\;\\text{m} = 3200\\;\\text{J}\\). Es bleiben \\(E_\\text{kin} = 8829\\;\\text{J} - 3200\\;\\text{J} = 5629\\;\\text{J}\\), also \\(v = \\sqrt{\\dfrac{2 \\cdot 5629\\;\\text{J}}{60\\;\\text{kg}}} \\approx 13.7\\;\\text{m/s}\\).' },
+      { text: 'Bergauf: Das Ende liegt \\(5\\;\\text{m}\\) höher (\\(h = -5\\;\\text{m}\\)), Reibung \\(50\\;\\text{N}\\), Wagen \\(80\\;\\text{kg}\\). Mit welcher Motorkraft kommt er gerade noch oben an? Rechne und notiere sie, stelle auf \\(10\\;\\text{N}\\) genau ein (die nächste Stufe darüber) und fahr.', ok: function(s){ return hat(s, 80, -5, 50, 150); },
+        vergleich: 'Der Motor muss Lageenergie und Wärme liefern: \\(F_M \\cdot s = m \\cdot g \\cdot \\Delta h + F_R \\cdot s\\), also \\(F_M = \\dfrac{80\\;\\text{kg} \\cdot 9.81\\;\\text{m/s}^2 \\cdot 5\\;\\text{m} + 50\\;\\text{N} \\cdot 40\\;\\text{m}}{40\\;\\text{m}} \\approx 148\\;\\text{N}\\). Mit \\(140\\;\\text{N}\\) fährt er nicht los, mit \\(150\\;\\text{N}\\) kommt er oben an, mit etwas Bewegungsenergie übrig.' },
       { text: 'Stelle eine Fahrt ein, bei der genau ein Viertel der zugeführten Energie zu Wärme wird. Wohin gehen die übrigen drei Viertel? Notiere deine Antwort.', ok: function(s){ return s.lauf && s.lauf.zu > 0 && Math.abs(s.lauf.W / s.lauf.zu - 0.25) < 0.01; },
         vergleich: 'In die Bewegungsenergie am Ende — fährt der Wagen bergauf, zum Teil auch in Lageenergie. Zugeführt werden die Lageenergie beim Hinunterfahren und die Motorarbeit \\(F_M \\cdot s\\); ein Viertel davon macht die Reibung \\(F_R \\cdot s\\) zu Wärme. Die beiden Säulen bleiben gleich hoch.' },
       { text: 'Fahr mit Motor \\(10\\;\\text{m}\\) bergauf (\\(h = -10\\;\\text{m}\\)), ohne Reibung. Wohin ist die Motorarbeit gegangen? Notiere deine Antwort.', ok: function(s){ return s.lauf && s.lauf.h === -10 && s.lauf.FR === 0 && s.lauf.FM > 0; },
-        vergleich: 'Zum grössten Teil in Lageenergie \\(m \\cdot g \\cdot h\\), der Rest in Bewegungsenergie: \\(F_M \\cdot s = m \\cdot g \\cdot h + E_\\text{kin}\\). Mit Reibung käme noch Wärme dazu.' }
+        vergleich: 'Ein Teil in Lageenergie \\(m \\cdot g \\cdot \\Delta h\\), der Rest in Bewegungsenergie: \\(F_M \\cdot s = m \\cdot g \\cdot \\Delta h + E_\\text{kin}\\) mit dem Höhengewinn \\(\\Delta h = 10\\;\\text{m}\\). Wie gross welcher Teil ist, hängt von der Motorkraft ab. Mit Reibung käme noch Wärme dazu.' }
     ], sim);
     zeichnen();
   })();
@@ -556,7 +573,8 @@
      Nimmt Animation 5 der Themenseite (Hubleistung beim Heben) als Kran: Die Last steigt in
      der Hubzeit t gleichmässig auf die Höhe h. Die Säulen wachsen mit: zugeführt (Blau) teilt
      sich in Nutzen (Lageenergie, Bernstein) und Verlust (Wärme, Rot) — Verhältnis η.
-     Startwert = Clipbeispiel: 200 kg, 10 m, 20 s, η = 0.8: P = 981 W, P_zu ≈ 1226 W. */
+     Startwerte 100 kg, 5 m, 10 s, η = 0.9: weder Clipbeispiel (200 kg, 10 m, 20 s, η = 0.8;
+     vorgerechnetes Problem 250 kg, 12 m, 20 s, η = 0.7) noch Leistenziel. */
   (function(){
     var fig = document.getElementById('sim5'); if (!fig) return;
     var svg = fig.querySelector('svg'), S = 11, YB = 280;               // 11 px je m
@@ -607,10 +625,14 @@
     pruefen = Leiste(fig, [
       { text: 'Heb dieselbe Last gleich hoch, einmal in der doppelten Zeit. Was ändert sich: die Arbeit oder die Leistung? Notiere deine Antwort.', ok: function(s){ return s.laeufe.some(function(a){ return s.laeufe.some(function(b){ return b.m === a.m && b.h === a.h && b.t === 2 * a.t; }); }); },
         vergleich: 'Die Arbeit \\(m \\cdot g \\cdot h\\) bleibt gleich, die Leistung halbiert sich: \\(P = \\dfrac{W}{t}\\). Leistung sagt, wie schnell Energie umgesetzt wird.' },
-      { text: 'Der Kran hebt \\(300\\;\\text{kg}\\) in \\(30\\;\\text{s}\\) auf \\(15\\;\\text{m}\\). Wie gross ist die Nutzleistung?', ok: function(s){ return hat(s, 300, 15, 30); } },
-      { text: 'Dieselbe Last in der halben Zeit: Wie gross ist die Nutzleistung jetzt?', ok: function(s){ return hat(s, 300, 15, 15); } },
-      { text: 'Wieder \\(300\\;\\text{kg}\\), \\(15\\;\\text{m}\\), \\(30\\;\\text{s}\\), aber der Antrieb hat den Wirkungsgrad \\(0.75\\). Welche Leistung muss zugeführt werden?', ok: function(s){ return hat(s, 300, 15, 30, 0.75); } },
-      { text: 'Der Motor nimmt höchstens \\(1500\\;\\text{W}\\) auf, \\(\\eta = 0.75\\). Last \\(300\\;\\text{kg}\\), Höhe \\(12\\;\\text{m}\\): Stelle die kürzeste mögliche Hubzeit in ganzen Sekunden ein und heb.', ok: function(s){ return hat(s, 300, 12, 32, 0.75); } },
+      { text: 'Der Kran hebt \\(300\\;\\text{kg}\\) in \\(30\\;\\text{s}\\) auf \\(15\\;\\text{m}\\). Wie gross ist die Nutzleistung? Notiere deine Rechnung, dann stelle ein und heb.', ok: function(s){ return hat(s, 300, 15, 30); },
+        vergleich: '\\(P_\\text{nutz} = \\dfrac{m \\cdot g \\cdot h}{t} = \\dfrac{300\\;\\text{kg} \\cdot 9.81\\;\\text{m/s}^2 \\cdot 15\\;\\text{m}}{30\\;\\text{s}} \\approx 1472\\;\\text{W}\\).' },
+      { text: 'Dieselbe Last in der halben Zeit: Wie gross ist die Nutzleistung jetzt? Notiere deine Vermutung, bevor du hebst.', ok: function(s){ return hat(s, 300, 15, 15); },
+        vergleich: 'Doppelt so gross, rund \\(2943\\;\\text{W}\\): dieselbe Arbeit in der halben Zeit.' },
+      { text: 'Wieder \\(300\\;\\text{kg}\\), \\(15\\;\\text{m}\\), \\(30\\;\\text{s}\\), aber der Antrieb hat den Wirkungsgrad \\(0.75\\). Welche Leistung muss zugeführt werden? Notiere deine Rechnung.', ok: function(s){ return hat(s, 300, 15, 30, 0.75); },
+        vergleich: '\\(P_\\text{zu} = \\dfrac{P_\\text{nutz}}{\\eta} = \\dfrac{1472\\;\\text{W}}{0.75} \\approx 1962\\;\\text{W}\\) — mehr als die Nutzleistung, der Rest wird Wärme.' },
+      { text: 'Der Motor nimmt höchstens \\(1500\\;\\text{W}\\) auf, \\(\\eta = 0.75\\). Last \\(300\\;\\text{kg}\\), Höhe \\(12\\;\\text{m}\\): Notiere die kürzeste mögliche Hubzeit, stelle sie in ganzen Sekunden ein und heb.', ok: function(s){ return hat(s, 300, 12, 32, 0.75); },
+        vergleich: '\\(t = \\dfrac{m \\cdot g \\cdot h}{\\eta \\cdot P_\\text{zu}} = \\dfrac{300\\;\\text{kg} \\cdot 9.81\\;\\text{m/s}^2 \\cdot 12\\;\\text{m}}{0.75 \\cdot 1500\\;\\text{W}} \\approx 31.4\\;\\text{s}\\). In ganzen Sekunden reicht erst \\(32\\;\\text{s}\\): Mit \\(31\\;\\text{s}\\) bräuchte der Motor mehr als \\(1500\\;\\text{W}\\).' },
       { text: 'Stelle einen Hub ein, für den genau \\(2\\;\\text{kW}\\) zugeführt werden müssen, und heb. Wie viel davon hebt die Last, und wohin geht der Rest? Notiere deine Antwort.', ok: function(s){ return s.lauf && Math.abs(s.lauf.Pz - 2000) < 10; },
         vergleich: 'Die Nutzleistung ist \\(P_\\text{nutz} = \\eta \\cdot 2\\;\\text{kW}\\), bei \\(\\eta = 0.75\\) also \\(1500\\;\\text{W}\\). Der Rest, \\((1 - \\eta) \\cdot 2\\;\\text{kW}\\), wird im Antrieb zu Wärme.' }
     ], sim);
@@ -622,31 +644,36 @@
      aufgenommen (1 − a) · S/4, abgestrahlt ins Weltall f · σ · T⁴, wobei f der Anteil der
      Wärmestrahlung der Oberfläche ist, der ins All gelangt (mehr Treibhausgas, kleineres f).
      Ist die Bilanz nicht ausgeglichen, ändert sich die Temperatur: C · dT/dt = Ein − Aus mit
-     C = 4.2 · 10⁸ J/(m²·K) (rund 100 m Ozean). 30 Jahre laufen in 6 s. Startwert:
-     a = 0.30, f = 0.61, T = 288 K (Themenseite: 238 W/m² hinein und hinaus). */
+     C = 4.2 · 10⁸ J/(m²·K) (rund 100 m Ozean). 30 Jahre laufen in 6 s. «auf heute»
+     setzt T = 288 K, das Gleichgewicht von a = 0.30, f = 0.61 (Themenseite: 238 W/m² hinein und
+     hinaus). Startwerte a = 0.32, f = 0.63 im eigenen Gleichgewicht (rund 284 K): kein Leistenziel.
+     Ausgeglichen heisst in Formelzeile und Leiste dasselbe: |Ein − Aus| < 0.1 W/m² (entspricht
+     rund 0.03 K); nach 30 Jahren bleiben höchstens 0.07 W/m² (mit python3 nachgerechnet). */
   (function(){
     var fig = document.getElementById('sim6'); if (!fig) return;
-    var svg = fig.querySelector('svg'), SOL = 1361, SIG = 5.67e-8, C = 4.2e8, JAHR = 3.156e7;
+    var svg = fig.querySelector('svg'), SOL = 1361, SIG = 5.67e-8, C = 4.2e8, JAHR = 3.156e7, AUSGEGLICHEN = 0.1;   // W/m²
     var szene = g_(svg), dia = g_(svg, { transform: 'translate(0,176)' });
     var K = Achsen(dia, { w: 300, h: 140, x0: -2.5, x1: 31, y0: 240, y1: 314, sx: 5, sy: 10, xm: [5, 10, 15, 20, 25, 30], ym: [250, 260, 270, 280, 290, 300, 310], xname: 't [Jahre]', yname: 'T [K]' });
     var B = Bedienung(fig, function(){ uhr.stop(); spur = [[0, T]]; zeichnen(); });
-    var T0 = Math.pow(0.7 * SOL / 4 / (0.61 * SIG), 0.25), T = T0, spur = [[0, T0]],   // Start im Gleichgewicht von heute (a = 0.30, f = 0.61)
+    var T0 = Math.pow(0.7 * SOL / 4 / (0.61 * SIG), 0.25),                               // Gleichgewicht von heute (a = 0.30, f = 0.61)
+        T = Math.pow((1 - B.wert('al')) * SOL / 4 / (B.wert('f') * SIG), 0.25), spur = [[0, T]],   // Start im Gleichgewicht der Startwerte
          lauf = null, laeufe = [], pruefen = function(){}, letzt = 0;
     function werte(){ var a = B.wert('al'), f = B.wert('f'), ein = (1 - a) * SOL / 4; return { a: a, f: f, ein: ein, aus: f * SIG * Math.pow(T, 4), Teq: Math.pow(ein / (f * SIG), 0.25) }; }
     function schritt(jahre){ var w = werte(), n = Math.ceil(jahre / 0.05), dt = jahre / n * JAHR; for (var i = 0; i < n; i++){ T += ((1 - w.a) * SOL / 4 - w.f * SIG * Math.pow(T, 4)) / C * dt; } }
     var uhr = Uhr(function(tt){
       var j = Math.min(30, tt * 5), w;
       schritt(j - letzt); letzt = j; spur.push([j, T]); zeichnen();
-      if (j >= 30){ w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq }; laeufe.push(lauf); zeichnen(); return false; }
+      if (j >= 30){ w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq, diff: w.ein - w.f * SIG * Math.pow(T, 4) }; laeufe.push(lauf); zeichnen(); return false; }
     });
-    aktionen(fig, [['start', '▶ 30 Jahre laufen lassen', function(){ spur = [[0, T]]; letzt = 0; if (WENIGER){ for (var j = 1; j <= 30; j++){ schritt(1); spur.push([j, T]); } var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq }; laeufe.push(lauf); zeichnen(); } else uhr.start(0); }],
+    aktionen(fig, [['start', '▶ 30 Jahre laufen lassen', function(){ spur = [[0, T]]; letzt = 0; if (WENIGER){ for (var j = 1; j <= 30; j++){ schritt(1); spur.push([j, T]); } var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq, diff: w.ein - w.f * SIG * Math.pow(T, 4) }; laeufe.push(lauf); zeichnen(); } else uhr.start(0); }],
                    ['zurueck', '↺ auf heute', function(){ uhr.stop(); T = T0; spur = [[0, T]]; zeichnen(); }]]);
     var sim = {
       zustand: function(){ var w = werte(); w.T = T; w.lauf = lauf; w.laeufe = laeufe; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); B.setze(o); spur = [[0, T]]; zeichnen(); },
       aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); },
+      heute: function(){ uhr.stop(); T = T0; spur = [[0, T]]; zeichnen(); },
       // Testhaken für Clipbilder: j Jahre laufen lassen (ab heute, wenn vonHeute), ohne Animation
-      zeige: function(j, vonHeute){ uhr.stop(); if (vonHeute) T = T0; spur = [[0, T]]; letzt = 0; for (var i = 1; i <= j; i++){ schritt(1); spur.push([i, T]); } if (j > 0){ var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq }; laeufe.push(lauf); } zeichnen(); }
+      zeige: function(j, vonHeute){ uhr.stop(); if (vonHeute) T = T0; spur = [[0, T]]; letzt = 0; for (var i = 1; i <= j; i++){ schritt(1); spur.push([i, T]); } if (j > 0){ var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq, diff: w.ein - w.f * SIG * Math.pow(T, 4) }; laeufe.push(lauf); } zeichnen(); }
     };
     fig.__sim = sim;
     function band(x1, y1, x2, y2, breite, cls){ el(szene, 'line', { x1: x1, y1: y1, x2: x2, y2: y2, 'class': 'strahl ' + cls, 'stroke-width': breite.toFixed(1) }); var dx = x2 - x1, dy = y2 - y1, l = Math.hypot(dx, dy), ux = dx / l, uy = dy / l, s = breite / 2 + 6; el(szene, 'polygon', { points: (x2 + ux * 9) + ',' + (y2 + uy * 9) + ' ' + (x2 - uy * s) + ',' + (y2 + ux * s) + ' ' + (x2 + uy * s) + ',' + (y2 - ux * s), 'class': 'strahl-kopf ' + cls }); }
@@ -671,19 +698,21 @@
       rolle(fig, 'formel').innerHTML =
         '<span>Aufgenommen: (1 − ' + v_('a') + ') · ' + v_('S') + ' / 4 = (1 − ' + zahl(w.a) + ') · 1361' + NB + 'W/m² / 4 ' + ist(w.ein, sig(w.ein)) + sig(w.ein) + NB + 'W/m²</span>' +
         '<span>Ins All: ' + v_('f') + ' · ' + v_('σ') + ' · ' + v_('T') + '⁴ = ' + zahl(w.f) + ' · 5.67·10⁻⁸' + NB + 'W/(m²·K⁴) · (' + fest(T, 1) + NB + 'K)⁴ ≈ ' + sig(aus) + NB + 'W/m²</span>' +
-        '<span>' + (Math.abs(diff) < 0.05 ? 'Bilanz ausgeglichen: Die Temperatur bleibt.' : (diff > 0 ? 'Es kommt ' + sig(diff) + NB + 'W/m² mehr herein als hinaus: Die Erde erwärmt sich.' : 'Es geht ' + sig(-diff) + NB + 'W/m² mehr hinaus als herein: Die Erde kühlt ab.')) + '</span>';
+        '<span>' + (Math.abs(diff) < AUSGEGLICHEN ? 'Bilanz ausgeglichen: Die Temperatur bleibt.' : (diff > 0 ? 'Es kommt ' + sig(diff) + NB + 'W/m² mehr herein als hinaus: Die Erde erwärmt sich.' : 'Es geht ' + sig(-diff) + NB + 'W/m² mehr hinaus als herein: Die Erde kühlt ab.')) + '</span>';
       pruefen();
     }
-    function fertig(s, a, f){ return s.lauf && gl(s.lauf.a, a) && gl(s.lauf.f, f) && Math.abs(s.lauf.T - s.lauf.Teq) < 0.5; }
+    function fertig(s, a, f){ return s.lauf && gl(s.lauf.a, a) && gl(s.lauf.f, f) && Math.abs(s.lauf.diff) < AUSGEGLICHEN; }
     pruefen = Leiste(fig, [
-      { text: 'Ohne Treibhausgase gelangt alle Wärmestrahlung ins All (\\(f = 1\\)); dazu weniger Wolken, Albedo \\(0.25\\). Stelle ein und lass laufen. Welche Temperatur stellt sich ein?', ok: function(s){ return fertig(s, 0.25, 1); } },
-      { text: 'Stelle den heutigen Zustand ein (\\(a = 0.30\\), \\(f = 0.61\\)) und lass laufen. Bleibt die Temperatur gleich, obwohl die Erde ständig abstrahlt? Notiere deine Antwort.', ok: function(s){ return fertig(s, 0.3, 0.61); },
+      { text: 'Ohne Treibhausgase gelangt alle Wärmestrahlung ins All (\\(f = 1\\)); dazu weniger Wolken, Albedo \\(0.25\\). Stelle ein und lass laufen. Notiere, welche Temperatur sich einstellt und warum sie nicht weiter fällt.', ok: function(s){ return fertig(s, 0.25, 1); },
+        vergleich: 'Rund \\(259\\;\\text{K}\\), etwa \\(-14\\;^\\circ\\text{C}\\). Zuerst geht mehr hinaus als herein, die Erde kühlt ab. Mit der Temperatur sinkt die Abstrahlung \\(\\sigma \\cdot T^4\\), bis sie wieder gleich der Aufnahme ist.' },
+      { text: 'Die Erde ist auf heute zurückgesetzt (\\(288\\;\\text{K}\\)). Stelle den heutigen Zustand ein (\\(a = 0.30\\), \\(f = 0.61\\)) und lass laufen. Bleibt die Temperatur gleich, obwohl die Erde ständig abstrahlt? Notiere deine Antwort.', setup: function(S){ S.heute(); }, ok: function(s){ return fertig(s, 0.3, 0.61); },
         vergleich: 'Rund \\(238\\;\\text{W/m}^2\\) hinein und \\(238\\;\\text{W/m}^2\\) hinaus. Die Erde strahlt dauernd ab, aber genauso viel Sonnenstrahlung fliesst nach. Kühlt sie ab, strahlt sie nach \\(\\sigma \\cdot T^4\\) sofort weniger ab — die Bilanz stellt sich von selbst wieder ein.' },
-      { text: 'Mehr Treibhausgas: \\(f\\) sinkt von \\(0.61\\) auf \\(0.60\\). Lass vom heutigen Zustand aus laufen. Um wie viel steigt die Temperatur, und warum hört sie wieder auf zu steigen? Notiere deine Antwort.', ok: function(s){ return fertig(s, 0.3, 0.6); },
-        vergleich: 'Um rund \\(1.2\\;\\text{K}\\) auf etwa \\(289\\;\\text{K}\\). Zuerst geht weniger hinaus als herein, die Erde erwärmt sich. Mit der Temperatur steigt die Abstrahlung, bis sie wieder gleich der Aufnahme ist — der Energieerhaltungssatz gilt, nur bei höherer Temperatur.' },
-      { text: 'Meereis schmilzt, die Albedo sinkt auf \\(0.28\\) (\\(f = 0.61\\)). Lass laufen: Was geschieht? Notiere deine Antwort.', ok: function(s){ return fertig(s, 0.28, 0.61); },
+      { text: 'Mehr Treibhausgas: \\(f\\) sinkt von \\(0.61\\) auf \\(0.60\\). Die Erde startet wieder bei heute. Um wie viel steigt die Temperatur, und warum hört sie wieder auf zu steigen? Notiere deine Antwort.', setup: function(S){ S.heute(); }, ok: function(s){ return fertig(s, 0.3, 0.6); },
+        vergleich: 'Um rund \\(1.2\\;\\text{K}\\) auf etwa \\(289\\;\\text{K}\\). Zuerst geht weniger hinaus als herein, die Erde erwärmt sich. Mit der Temperatur steigt die Abstrahlung, bis sie wieder gleich der Aufnahme ist — dann ist die Bilanz wieder ausgeglichen, nur bei höherer Temperatur.' },
+      { text: 'Meereis schmilzt, die Albedo sinkt auf \\(0.28\\) (\\(f = 0.61\\)). Die Erde startet bei heute. Lass laufen: Was geschieht? Notiere deine Antwort.', setup: function(S){ S.heute(); }, ok: function(s){ return fertig(s, 0.28, 0.61); },
         vergleich: 'Die Erde nimmt mehr auf, \\((1 - a) \\cdot S/4\\) wird grösser, und sie erwärmt sich auf rund \\(290\\;\\text{K}\\). In Wirklichkeit schmilzt dadurch noch mehr Eis — eine Rückkopplung, die die Erwärmung verstärkt.' },
-      { text: 'Bei \\(f = 0.58\\): Welche Albedo bräuchte es, damit die Erde wieder rund \\(288\\;\\text{K}\\) hat? Stelle ein und lass laufen.', ok: function(s){ return s.lauf && gl(s.lauf.f, 0.58) && Math.abs(s.lauf.T - s.lauf.Teq) < 0.5 && Math.abs(s.lauf.Teq - 288) < 1; } }
+      { text: 'Bei \\(f = 0.58\\): Welche Albedo bräuchte es, damit die Erde wieder rund \\(288\\;\\text{K}\\) hat? Notiere deine Überlegung, stelle ein und lass laufen.', ok: function(s){ return s.lauf && gl(s.lauf.f, 0.58) && Math.abs(s.lauf.diff) < AUSGEGLICHEN && Math.abs(s.lauf.Teq - 288) < 1; },
+        vergleich: 'Weniger Abstrahlung ins All muss eine kleinere Aufnahme ausgleichen: Bei \\(288\\;\\text{K}\\) gehen \\(0.58 \\cdot \\sigma \\cdot T^4 \\approx 226\\;\\text{W/m}^2\\) hinaus, also \\((1 - a) \\cdot 340\\;\\text{W/m}^2 \\approx 226\\;\\text{W/m}^2\\) und \\(a \\approx 0.33\\) bis \\(0.34\\) — eine grössere Albedo als heute.' }
     ], sim);
     zeichnen();
   })();
@@ -711,6 +740,7 @@
     }
     // Typische Fehler als Faktoren: welcher Faktor trennt die Eingabe von der Lösung?
     function faktor(e, x, f){ return nah(e, x * f, 0.006); }
+    function r3(x){ return +(+x).toPrecision(3); }      // Zwischenwert auf drei signifikante Stellen
     function erg(x, u){ var r = +(+x).toPrecision(3); return (Math.abs(r - x) < 1e-9 * Math.max(1, Math.abs(x)) ? '= ' : '\\approx ') + (u === 'Ω' ? tz(r) + '\\;\\Omega' : ein(r, u)); }
     // Feste Aufgaben der Seite und des Gesamttests: Zufallsübungen dürfen sie nicht treffen
     function fest_(a){ return a.join('|'); }
@@ -732,7 +762,7 @@
         neu: function(){
           var F, s, a;
           do { F = zufall([40, 60, 80, 120, 150, 250, 400]); s = zufall([3, 4, 5, 8, 12, 20, 50]); a = zufall([0, 20, 30, 45, 60]); }
-          while ((F === 250 && s === 6) || (F === 80 && s === 50 && a === 30) || F === s);   // Simulation 1, Aufgabe 1b
+          while ((F === 80 && s === 50 && a === 30) || (F === 40 && s === 5 && a === 0));   // Aufgabe 1b, Mini-Check der Themenseite
           return { W: F * s * Math.cos(grad(a)), F: F, s: s, a: a,
             text: 'Eine Kraft von \\(' + ein(F, 'N') + '\\) zieht einen Körper \\(' + ein(s, 'm') + '\\) weit' + (a ? '; sie wirkt unter \\(' + a + '^\\circ\\) zur Bewegungsrichtung' : ', genau in Bewegungsrichtung') + '. Wie gross ist die Arbeit?' }; },
         pruefen: function(A, e){
@@ -761,11 +791,15 @@
         fehler: function(A){ return A.art === 'W' ? [[{ x: String(A.m * A.h) }, 'Gewichtskraft'], [{ x: String(A.m * G) }, 'nur']] : [[{ x: String(A.W / A.m) }, 'Gewichtskraft']]; },
         loesung: function(A){ return A.art === 'W' ? 'W = m \\cdot g \\cdot h = ' + ein(A.m, 'kg') + ' \\cdot 9.81\\;\\text{m/s}^2 \\cdot ' + ein(A.h, 'm') + ' ' + erg(A.x, 'J')
                                                    : 'h = \\dfrac{W}{m \\cdot g} = \\dfrac{' + ein(+A.W.toPrecision(4), 'J') + '}{' + ein(A.m, 'kg') + ' \\cdot 9.81\\;\\text{m/s}^2} ' + erg(A.x, 'm'); } },
-      'kwh': { felder: ['x'], muster: function(A){ return A.art === 'MJ' ? '<i>E</i> = {x} MJ' : '<i>E</i> = {x} kWh'; },
+      'kwh': { felder: ['x'], muster: function(A){ return A.art === 'MJ' ? '<i>E</i> = {x} MJ' : A.art === 'J' ? '<i>E</i> = {x} J' : '<i>E</i> = {x} kWh'; },
+        // Kapitel 1: nur Umrechnen zwischen J, kJ, MJ und kWh (1 kWh = 3.6 · 10⁶ J steht im Festhalten).
+        // E = P · t kommt erst in Kapitel 5 (Typ 'pt'). Nicht 180 J (Aufgabe 1c).
         neu: function(){
-          if (Math.random() < 0.5){ var k = zufall([0.5, 2, 3.5, 12, 40, 75]); return { art: 'MJ', x: k * 3.6, k: k, text: 'Ein Gerät setzt \\(' + ein(k, 'kWh') + '\\) Energie um. Wie viele Megajoule sind das?' }; }
-          var P, t; do { P = zufall([60, 800, 1500, 2000, 9]); t = zufall([0.5, 2, 3, 8, 24]); } while (P * t === 1000 || P === t);
-          return { art: 'kWh', x: P * t / 1000, P: P, t: t, text: 'Ein Gerät mit \\(' + ein(P, 'W') + '\\) läuft \\(' + ein(t, 'h') + '\\). Wie viel Energie setzt es um, in Kilowattstunden?' }; },
+          var r = Math.random(), k, Q;
+          if (r < 0.3){ k = zufall([0.5, 2, 3.5, 12, 40, 75]); return { art: 'MJ', x: k * 3.6, k: k, text: 'Ein Gerät setzt \\(' + ein(k, 'kWh') + '\\) Energie um. Wie viele Megajoule sind das?' }; }
+          if (r < 0.55){ k = zufall([0.2, 1.5, 4, 25]); return { art: 'J', x: k * 3.6e6, k: k, text: 'Ein Akku speichert \\(' + ein(k, 'kWh') + '\\). Wie viele Joule sind das? (Zehnerpotenz eingeben, etwa <code>7.2e6</code>)' }; }
+          if (r < 0.8){ Q = zufall([900, 5400, 18000, 270]); return { art: 'kJ', x: Q / 3600, Q: Q, text: 'Ein Wasserkocher setzt beim Aufheizen \\(' + ein(Q, 'kJ') + '\\) um. Wie viele Kilowattstunden sind das?' }; }
+          Q = zufall([9, 54, 180, 1.8]); return { art: 'MJ2', x: Q / 3.6, Q: Q, text: 'Eine Heizung gibt an einem Tag \\(' + ein(Q, 'MJ') + '\\) Wärme ab. Wie viele Kilowattstunden sind das?' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;
           if (A.art === 'MJ'){
@@ -773,12 +807,31 @@
             if (nah(e.x, A.k * 3600) || nah(e.x, A.k * 3.6e6) || nah(e.x, A.k * 3600 * 1000)) return 'Gefragt sind Megajoule: \\(1\\;\\text{kWh} = 3.6\\;\\text{MJ}\\).';
             return '\\(1\\;\\text{kWh} = 3.6\\;\\text{MJ}\\).';
           }
-          if (nah(e.x, A.P * A.t)) return 'Das sind Wattstunden. In Kilowattstunden: durch \\(1000\\).';
-          if (nah(e.x, A.P * A.t * 3600)) return 'Das sind Joule. Gefragt sind Kilowattstunden: \\(E = P \\cdot t\\) mit \\(P\\) in kW und \\(t\\) in h.';
-          return '\\(E = P \\cdot t\\) mit \\(P\\) in kW und \\(t\\) in h.'; },
-        fehler: function(A){ return A.art === 'MJ' ? [[{ x: String(A.k / 3.6) }, 'Umgekehrt'], [{ x: String(A.k * 3600) }, 'Megajoule']] : [[{ x: String(A.P * A.t) }, 'Wattstunden'], [{ x: String(A.P * A.t * 3600) }, 'Joule']]; },
-        loesung: function(A){ return A.art === 'MJ' ? 'E = ' + ein(A.k, 'kWh') + ' = ' + tz(A.k) + ' \\cdot 3.6\\;\\text{MJ} ' + erg(A.x, 'MJ')
-                                                    : 'E = P \\cdot t = ' + ein(A.P / 1000, 'kW') + ' \\cdot ' + ein(A.t, 'h') + ' ' + erg(A.x, 'kWh'); } },
+          if (A.art === 'J'){
+            if (nah(e.x, A.k * 3.6)) return 'Das sind Megajoule. In Joule: \\(1\\;\\text{MJ} = 10^6\\;\\text{J}\\).';
+            if (nah(e.x, A.k * 3600)) return 'Das sind Kilojoule. \\(1\\;\\text{kWh} = 1000\\;\\text{W} \\cdot 3600\\;\\text{s} = 3.6 \\cdot 10^6\\;\\text{J}\\).';
+            if (nah(e.x, A.k / 3.6e6)) return 'Umgekehrt: Joule sind die kleinere Einheit, also wird die Zahl grösser.';
+            return '\\(1\\;\\text{kWh} = 3.6 \\cdot 10^6\\;\\text{J}\\).';
+          }
+          if (A.art === 'kJ'){
+            if (nah(e.x, A.Q * 3600)) return 'Umgekehrt: Kilowattstunden sind die grössere Einheit, also wird die Zahl kleiner — teilen.';
+            if (nah(e.x, A.Q / 3.6)) return 'Das sind Wattstunden (\\(1\\;\\text{Wh} = 3.6\\;\\text{kJ}\\)). In Kilowattstunden noch durch \\(1000\\).';
+            if (nah(e.x, A.Q / 3.6e6)) return 'Gegeben sind Kilojoule, nicht Joule: \\(1\\;\\text{kWh} = 3600\\;\\text{kJ}\\).';
+            return '\\(1\\;\\text{kWh} = 3600\\;\\text{kJ}\\).';
+          }
+          if (nah(e.x, A.Q * 3.6)) return 'Umgekehrt: \\(1\\;\\text{kWh} = 3.6\\;\\text{MJ}\\), also durch \\(3.6\\) teilen.';
+          if (nah(e.x, A.Q / 3600)) return '\\(1\\;\\text{kWh} = 3.6\\;\\text{MJ}\\), nicht \\(3600\\;\\text{MJ}\\).';
+          return '\\(1\\;\\text{kWh} = 3.6\\;\\text{MJ}\\).'; },
+        fehler: function(A){
+          if (A.art === 'MJ') return [[{ x: String(A.k / 3.6) }, 'Umgekehrt'], [{ x: String(A.k * 3600) }, 'Megajoule']];
+          if (A.art === 'J') return [[{ x: String(A.k * 3.6) }, 'Megajoule'], [{ x: String(A.k * 3600) }, 'Kilojoule']];
+          if (A.art === 'kJ') return [[{ x: String(A.Q * 3600) }, 'Umgekehrt'], [{ x: String(A.Q / 3.6) }, 'Wattstunden']];
+          return [[{ x: String(A.Q * 3.6) }, 'Umgekehrt'], [{ x: String(A.Q / 3600) }, 'nicht']]; },
+        loesung: function(A){
+          if (A.art === 'MJ') return 'E = ' + ein(A.k, 'kWh') + ' = ' + tz(A.k) + ' \\cdot 3.6\\;\\text{MJ} ' + erg(A.x, 'MJ');
+          if (A.art === 'J') return 'E = ' + ein(A.k, 'kWh') + ' = ' + tz(A.k) + ' \\cdot 3.6 \\cdot 10^6\\;\\text{J} = ' + zp(A.x) + '\\;\\text{J}';
+          if (A.art === 'kJ') return 'E = \\dfrac{' + ein(A.Q, 'kJ') + '}{3600\\;\\text{kJ/kWh}} ' + erg(A.x, 'kWh');
+          return 'E = \\dfrac{' + ein(A.Q, 'MJ') + '}{3.6\\;\\text{MJ/kWh}} ' + erg(A.x, 'kWh'); } },
 
       /* ----- Kapitel 2: Bewegungs- und Lageenergie ----- */
       'ekin': { felder: ['E'], muster: '<i>E</i><sub>kin</sub> = {E} J',
@@ -812,7 +865,7 @@
       'bremsweg': { felder: ['s'], muster: '<i>s</i> = {s} m',
         neu: function(){
           var m, v, F;
-          do { m = zufall([900, 1200, 1500, 1800]); v = zufall([12, 15, 20, 25, 30]); F = zufall([4500, 6000, 7500, 9000]); } while (F / m > 8 || F / m < 3 || (m === 1200 && v === 20 && F === 6000));   // plausibel; Simulation 2
+          do { m = zufall([900, 1200, 1500, 1800]); v = zufall([12, 15, 20, 25, 30]); F = zufall([4500, 6000, 7500, 9000]); } while (F / m > 8 || F / m < 3 || (m === 1200 && v === 20 && F === 6000) || (m === 1500 && v === 12 && F === 6000));   // plausibel; Leiste Simulation 2 (Aufgaben 2 und 4)
           return { s: 0.5 * m * v * v / F, m: m, v: v, F: F, text: 'Ein Auto (\\(m = ' + ein(m, 'kg') + '\\)) fährt mit \\(' + ein(v, 'm/s') + '\\) und bremst mit der konstanten Kraft \\(' + ein(F, 'N') + '\\). Wie lang ist der Bremsweg?' }; },
         pruefen: function(A, e){
           if (nah(e.s, A.s)) return null;
@@ -826,7 +879,7 @@
       'fall': { felder: ['v'], muster: '<i>v</i> = {v} m/s',
         neu: function(){
           var h, m;
-          h = zufall([1.25, 3, 7, 10, 20, 80]); m = zufall([0.2, 0.5, 3, 70]);   // nicht 45 m (Mini-Check der Themenseite), nicht 5 m (Kontrollfrage)
+          h = zufall([1.25, 3, 7, 10, 12, 80]); m = zufall([0.2, 0.5, 3, 70]);   // nicht 45 m (Mini-Check der Themenseite), nicht 5 m (Kontrollfrage), nicht 20 m (Clip)
           return { v: Math.sqrt(2 * G * h), h: h, m: m, text: 'Ein Körper (\\(m = ' + ein(m, 'kg') + '\\)) fällt aus \\(' + ein(h, 'm') + '\\) Höhe aus der Ruhe, ohne Luftwiderstand. Wie schnell ist er unten?' }; },
         pruefen: function(A, e){
           if (nah(e.v, A.v)) return null;
@@ -850,7 +903,7 @@
         neu: function(){
           var h0, h2, v0;
           do { h0 = zufall([15, 18, 30, 40]); h2 = zufall([5, 8, 14, 25]); v0 = zufall([0, 3, 4, 6]); }
-          while (h2 >= h0 || (h0 - h2 === 5 && v0 === 3) || Math.abs(v0 + Math.sqrt(2 * G * (h0 - h2)) - Math.sqrt(v0 * v0 + 2 * G * h0)) < 0.02 * Math.sqrt(v0 * v0 + 2 * G * h0));   // Clip, Simulation 3; Fehlermuster unterscheidbar
+          while (h2 >= h0 || (h0 - h2 === 5 && v0 === 3) || (h0 - h2 === 10 && v0 === 4) || Math.abs(v0 + Math.sqrt(2 * G * (h0 - h2)) - Math.sqrt(v0 * v0 + 2 * G * h0)) < 0.02 * Math.sqrt(v0 * v0 + 2 * G * h0));   // Häufiger Fehler im Festhalten (3 m/s, 5 m), Kontrollfrage 4 (4 m/s, 10 m); Fehlermuster unterscheidbar
           return { v: Math.sqrt(v0 * v0 + 2 * G * (h0 - h2)), h0: h0, h2: h2, v0: v0,
             text: 'Ein Wagen fährt reibungsfrei mit \\(' + ein(v0, 'm/s') + '\\) auf \\(' + ein(h0, 'm') + '\\) Höhe los. Wie schnell ist er oben auf einem Hügel von \\(' + ein(h2, 'm') + '\\) Höhe?' }; },
         pruefen: function(A, e){
@@ -871,7 +924,8 @@
           return { v: Math.sqrt(2 * E / m), m: m, h: h, s: s, F: F, E: E,
             text: 'Ein Schlitten mit Kind (\\(m = ' + ein(m, 'kg') + '\\)) fährt aus der Ruhe einen \\(' + ein(s, 'm') + '\\) langen Hang hinunter, \\(' + ein(h, 'm') + '\\) Höhenunterschied. Die Reibung beträgt \\(' + ein(F, 'N') + '\\). Wie schnell ist er unten?' }; },
         pruefen: function(A, e){
-          if (nah(e.v, A.v)) return null;
+          // mit auf drei Stellen gerundeter Lageenergie weitergerechnet: auch richtig
+          if (nah(e.v, A.v) || nah(e.v, Math.sqrt(2 * (r3(A.m * G * A.h) - A.F * A.s) / A.m))) return null;
           if (nah(e.v, Math.sqrt(2 * G * A.h))) return 'Ohne Reibung wäre das richtig. Die Reibung macht aus \\(F_R \\cdot s\\) Wärme: \\(\\tfrac12 \\cdot m \\cdot v^2 = m \\cdot g \\cdot h - F_R \\cdot s\\).';
           if (nah(e.v, Math.sqrt(2 * (A.m * G * A.h + A.F * A.s) / A.m))) return 'Die Reibung liefert keine Energie, sie nimmt welche weg: abziehen.';
           if (nah(e.v, 2 * A.E / A.m)) return 'Das ist \\(v^2\\). Noch die Wurzel ziehen.';
@@ -885,7 +939,8 @@
           return { W: m * G * h - 0.5 * m * v * v, m: m, h: h, v: v,
             text: 'Eine Skifahrerin (\\(m = ' + ein(m, 'kg') + '\\)) fährt aus der Ruhe \\(' + ein(h, 'm') + '\\) hinunter und ist unten \\(' + ein(v, 'm/s') + '\\) schnell. Wie viel Energie wurde durch Reibung und Luftwiderstand zu Wärme?' }; },
         pruefen: function(A, e){
-          if (nah(e.W, A.W)) return null;
+          // Differenz zweier Energien: auch richtig, wer beide auf drei Stellen gerundet abzieht
+          if (nah(e.W, A.W) || nah(e.W, r3(A.m * G * A.h) - r3(0.5 * A.m * A.v * A.v))) return null;
           if (nah(e.W, 0.5 * A.m * A.v * A.v)) return 'Das ist die Bewegungsenergie unten. Zu Wärme wurde, was davon an der Lageenergie fehlt.';
           if (nah(e.W, A.m * G * A.h)) return 'Das ist die ganze Lageenergie. Ein Teil davon steckt unten in der Bewegung.';
           if (nah(e.W, A.m * G * A.h - A.m * A.v * A.v)) return 'Der Faktor \\(\\tfrac12\\) in \\(E_\\text{kin}\\) fehlt.';
@@ -896,7 +951,7 @@
         neu: function(){
           var O, h, s, F;
           do { O = zufall([['Ein E-Bike mit Fahrer', 100], ['Ein Kleinwagen', 900], ['Eine Standseilbahn-Kabine', 3000]]); h = zufall([20, 50, 80, 120]); s = zufall([400, 600, 1000, 1500]); F = zufall([20, 60, 300, 900]); }
-          while (s / h < 6 || F > 0.05 * O[1] * G || F < 0.01 * O[1] * G);
+          while (s / h < (O[1] < 3000 ? 10 : 3) || F > 0.05 * O[1] * G || F < 0.01 * O[1] * G);   // Strassen höchstens 10 % steil, Standseilbahn steiler
           return { W: O[1] * G * h + F * s, m: O[1], h: h, s: s, F: F,
             text: O[0] + ' (\\(m = ' + ein(O[1], 'kg') + '\\)) fährt mit konstantem Tempo eine \\(' + ein(s, 'm') + '\\) lange Strecke hinauf, \\(' + ein(h, 'm') + '\\) Höhenunterschied. Die Reibung beträgt \\(' + ein(F, 'N') + '\\). Wie viel Arbeit muss der Motor verrichten?' }; },
         pruefen: function(A, e){
@@ -956,10 +1011,28 @@
         loesung: function(A){ return A.art === 'eta' ? '\\eta = \\dfrac{P_\\text{nutz}}{P_\\text{zu}} = \\dfrac{' + ein(+A.Pn.toPrecision(4), 'W') + '}{' + ein(A.Pz, 'W') + '} = ' + tz(A.x)
                                                      : 'P_\\text{verl} = (1 - \\eta) \\cdot P_\\text{zu} = (1 - ' + tz(A.e) + ') \\cdot ' + ein(A.Pz, 'W') + ' ' + erg(A.x, 'W'); } },
 
+      'pt': { felder: ['x'], muster: '<i>E</i> = {x} kWh',
+        // Kapitel 5: E = P · t in Kilowattstunden (vorher Teil von 'kwh' in Kapitel 1).
+        // Nicht 2 kW während 0.5 h (Kontrollfrage) und nicht die Lampen aus Aufgabe 5d.
+        neu: function(){
+          var P, t, min;
+          do { P = zufall([60, 800, 1500, 2000, 9, 450]); t = zufall([0.5, 2, 3, 8, 24, 0.25]); } while (P * t === 1000 || P * t / 1000 < 0.01);
+          min = t < 1 && Math.random() < 0.6;
+          return { x: P * t / 1000, P: P, t: t, min: min, text: 'Ein Gerät mit \\(' + ein(P, 'W') + '\\) läuft \\(' + (min ? ein(t * 60, 'min') : ein(t, 'h')) + '\\). Wie viel Energie setzt es um, in Kilowattstunden?' }; },
+        pruefen: function(A, e){
+          if (nah(e.x, A.x)) return null;
+          if (A.min && nah(e.x, A.P * A.t * 60 / 1000)) return 'Die Zeit gehört in Stunden: \\(' + ein(A.t * 60, 'min') + ' = ' + ein(A.t, 'h') + '\\).';
+          if (nah(e.x, A.P * A.t)) return 'Das sind Wattstunden. In Kilowattstunden: durch \\(1000\\).';
+          if (nah(e.x, A.P * A.t * 3600)) return 'Das sind Joule. Gefragt sind Kilowattstunden: \\(E = P \\cdot t\\) mit \\(P\\) in kW und \\(t\\) in h.';
+          if (nah(e.x, A.P / A.t / 1000)) return 'Energie ist Leistung <em>mal</em> Zeit: \\(E = P \\cdot t\\).';
+          return '\\(E = P \\cdot t\\) mit \\(P\\) in kW und \\(t\\) in h.'; },
+        fehler: function(A){ var l = [[{ x: String(A.P * A.t) }, 'Wattstunden'], [{ x: String(A.P * A.t * 3600) }, 'Joule']]; if (A.min) l.push([{ x: String(A.P * A.t * 60 / 1000) }, 'Stunden']); return l; },
+        loesung: function(A){ return 'E = P \\cdot t = ' + ein(A.P / 1000, 'kW') + ' \\cdot ' + ein(A.t, 'h') + ' ' + erg(A.x, 'kWh'); } },
+
       /* ----- Kapitel 6: Energiebilanz der Erde ----- */
       'albedo': { felder: ['P'], muster: '<i>P</i>/<i>A</i> = {P} W/m²',
         neu: function(){
-          var O = zufall([['die Erde', 1361, [0.25, 0.32, 0.35], true], ['den Merkur', 9116, [0.07], false], ['den Jupiter', 50.5, [0.34], true], ['den Mond', 1361, [0.12], false]]), a = zufall(O[2]);   // nicht 0.28 (Simulation 6)
+          var O = zufall([['die Erde', 1361, [0.26, 0.32, 0.34], true], ['den Merkur', 9116, [0.07], false], ['den Jupiter', 50.5, [0.34], true], ['den Mond', 1361, [0.12], false]]), a = zufall(O[2]);   // nicht 0.25 und 0.28 (Leiste Simulation 6), nicht 0.30 (heute), nicht 0.35 (Kontrollfrage 1)
           return { P: (1 - a) * O[1] / 4, S: O[1], a: a, name: O[0], text: 'Auf ' + O[0] + ' treffen' + (O[3] ? ' ausserhalb der Atmosphäre' : '') + ' \\(S = ' + ein(O[1], 'W/m^2').replace('\\text{W/m^2}', '\\text{W/m}^2') + '\\), die Albedo ist \\(' + tz(a) + '\\). Wie viel Leistung je Quadratmeter nimmt der Himmelskörper im Mittel auf?' }; },
         pruefen: function(A, e){
           if (nah(e.P, A.P)) return null;
@@ -971,7 +1044,7 @@
         loesung: function(A){ return '\\dfrac{P}{A} = (1 - a) \\cdot \\dfrac{S}{4} = (1 - ' + tz(A.a) + ') \\cdot \\dfrac{' + tz(A.S) + '\\;\\text{W/m}^2}{4} ' + erg(A.P, 'W/m^2').replace('\\text{W/m^2}', '\\text{W/m}^2'); } },
       'strahlung': { felder: ['P'], muster: '<i>P</i>/<i>A</i> = {P} W/m²',
         neu: function(){
-          var c = Math.random() < 0.5, T = c ? zufall([-18, 0, 27, 40, 10]) : zufall([200, 255, 300, 320, 330]);   // nicht 15 °C (Mini-Check der Themenseite)
+          var c = Math.random() < 0.5, T = c ? zufall([-18, 0, 27, 40, 10]) : zufall([200, 255, 230, 320, 330]);   // nicht 15 °C (Mini-Check der Themenseite), nicht 250 und 300 K (Kontrollfrage 5), nicht 310 K (Aufgabe 6c)
           var K = c ? T + 273.15 : T;
           return { P: SIG * Math.pow(K, 4), T: T, K: K, c: c, text: 'Eine Fläche hat die Temperatur \\(' + (c ? tz(T) + '\\;^\\circ\\text{C}' : ein(T, 'K')) + '\\). Wie viel Leistung je Quadratmeter strahlt sie ab? (\\(\\sigma = 5.67 \\cdot 10^{-8}\\;\\text{W/(m}^2\\text{K}^4)\\))' }; },
         pruefen: function(A, e){

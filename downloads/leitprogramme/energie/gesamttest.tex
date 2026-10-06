@@ -1,9 +1,10 @@
 % Gesamttest «Energie» — Quelle des PDFs (python3 scripts/build-lp-pdf.py energie).
-% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (05.10.2026).
-% Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen und Mini-Checks: G2 an einem
-% Diagramm mit fallender Kraft, G3 als Wurf vom Turm (Richtung egal), G4 rückwärts mit Motor
-% (Reibung aus der Motorarbeit), G5 als Leistungskette bis MWh, G6 an der Venus samt Gründen der
-% Erderwärmung; G1 als Erklärung — HOWTO §9. Fassung 2 nach /lp-pruefung (05.10.2026).
+% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (06.10.2026).
+% Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen, Clipbeispiele und Mini-Checks:
+% G1 als Erklärung, G2 an einem Trapez im Kraft-Weg-Diagramm und rückwärts nach dem Winkel,
+% G3 verbindet Erhaltung (Kapitel 3) mit dem Bremsweg (Kapitel 2), G4 rückwärts am Skilift
+% (Reibung aus der Seilarbeit), G5 als Leistungskette bis MWh, G6 an der Venus und an zwei
+% konkreten Änderungen der Erdbilanz — HOWTO §9. Fassung 3 (06.10.2026), nach den Prüfbefunden.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Energie}
@@ -23,52 +24,56 @@ für das Ergebnis mit Einheit und für Begründungen in eigenen Worten. Rechne m
 Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem \emph{Bewertungspaket} bewerten lassen.
 \end{lpinfo}
 
-\lpteil{Teil A · Energie und Arbeit}{Kapitel 1 und 5 · 8 Punkte}
+\lpteil{Teil A · Energie und Arbeit}{Kapitel 1 und 5 · 7 Punkte}
 
 \begin{lpaufgabe}{G1}{Begriffe}{4 P}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
 \item Erkläre, was Energie ist, und nenne drei Energieformen.
 \item Erkläre den Unterschied zwischen Energie und Leistung an einem Beispiel aus dem Alltag.
 \item Erkläre, was «Energieeffizienz» heisst, und gib ein Beispiel aus der Technik.
-\item Eine Velofahrerin bremst vor einer Ampel bis zum Stillstand. Welche Energieform nimmt ab, welche zu? Begründe.
-\end{enumerate}
-\lpplatz{12}
-\end{lpaufgabe}
-
-\begin{lpaufgabe}{G2}{Paket}{4 P}
-Ein Paket (\(40\;\text{kg}\)) wird über den Boden geschoben. Das Diagramm zeigt den Anteil der Kraft in Wegrichtung; er nimmt gleichmässig ab.\par\smallskip
-\begin{center}\begin{tikzpicture}
-\begin{axis}[width=10cm,height=5cm,xmin=0,xmax=10.5,ymin=0,ymax=145,axis lines=left,
-  xtick={0,1,...,8},ytick={0,20,...,140},grid=both,grid style={lplinie!70},xticklabel style={font=\small},
-  xlabel={$s$ [m]},ylabel={$F_s$ [N]},xlabel style={at={(1,0)},anchor=north east},ylabel style={rotate=-90,at={(0,1)},anchor=south east}]
-\addplot[very thick,lplila] coordinates {(0,120) (8,0)};
-\end{axis}
-\end{tikzpicture}\end{center}
-\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Lies ab, wie gross die Kraft am Anfang ist. Wie viel Arbeit wird auf den \(8\;\text{m}\) verrichtet?
-\item Danach zieht jemand das Paket an einem Seil mit \(80\;\text{N}\) unter \(30^\circ\) zum Boden \(5\;\text{m}\) weit. Wie gross ist diese Arbeit?
-\item Am Ziel wird das Paket auf eine \(1.2\;\text{m}\) hohe Ladefläche gehoben. Wie gross ist die Hubarbeit?
+\item Ein Skifahrer fährt mit konstantem Tempo einen Hang hinunter. Welche Energieform nimmt ab, welche bleibt gleich, welche nimmt zu? Begründe.
 \end{enumerate}
 \lpplatz{8}
 \end{lpaufgabe}
 
-\lpteil{Teil B · Erhaltung, Reibung und Motor}{Kapitel 3, 4 und 5 · 9 Punkte}
-
-\begin{lpaufgabe}{G3}{Wurf vom Turm}{5 P}
-Von einem \(15\;\text{m}\) hohen Turm wird ein Ball mit \(10\;\text{m/s}\) schräg nach oben geworfen. Luftwiderstand vernachlässigt.
+\begin{lpaufgabe}{G2}{Paket}{3 P}
+Ein Paket wird über den Boden geschoben. Das Diagramm zeigt den Anteil der Kraft in Wegrichtung; er nimmt gleichmässig ab, nach \(8\;\text{m}\) lässt die Schiebende los.\par\smallskip
+\begin{center}\begin{tikzpicture}
+\begin{axis}[width=9cm,height=4.2cm,xmin=0,xmax=10.5,ymin=0,ymax=145,axis lines=left,
+  xtick={0,1,...,8},ytick={0,20,...,140},grid=both,grid style={lplinie!70},xticklabel style={font=\small},
+  xlabel={$s$ [m]},ylabel={$F_s$ [N]},xlabel style={at={(1,0)},anchor=north east},ylabel style={rotate=-90,at={(0,1)},anchor=south east}]
+\addplot[very thick,lplila] coordinates {(0,120) (8,40)};
+\addplot[thick,dashed,lplila] coordinates {(8,40) (8,0)};
+\end{axis}
+\end{tikzpicture}\end{center}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wie schnell trifft er unten auf dem Boden auf?
-\item Wie hoch über dem Boden käme er, wenn man ihn mit \(10\;\text{m/s}\) senkrecht nach oben würfe?
-\item Hängt das Tempo beim Aufprall vom Abwurfwinkel ab? Begründe.
-\item Mit Luftwiderstand: Ist der Ball beim Aufprall schneller oder langsamer? Begründe.
+\item Lies ab, wie gross die Kraft am Anfang und am Ende ist. Wie viel Arbeit wird auf den \(8\;\text{m}\) verrichtet?
+\item Danach zieht jemand das Paket an einem Seil \(12\;\text{m}\) weit. Das Seil zieht mit \(50\;\text{N}\) und verrichtet dabei \(480\;\text{J}\) Arbeit. Unter welchem Winkel zum Boden zieht es?
 \end{enumerate}
-\lpplatz{10}
+\lpplatz{15}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G4}{E-Bike bergauf}{4 P}
-Eine Fahrerin (\(90\;\text{kg}\) mit E-Bike) fährt mit konstantem Tempo eine \(400\;\text{m}\) lange Strasse hinauf, \(20\;\text{m}\) Höhenunterschied, und braucht dafür \(80\;\text{s}\). Fahrerin und Motor verrichten zusammen \(30\;\text{kJ}\) Arbeit.
-Wie gross ist die mittlere Kraft von Reibung und Luftwiderstand zusammen? Mit welcher mittleren Leistung wird gefahren? Wohin ist die Arbeit gegangen? Begründe mit dem Energieerhaltungssatz.
+\lpteil{Teil B · Mechanische Energie, Reibung und Motor}{Kapitel 1 bis 4 · 9 Punkte}
+
+\begin{lpaufgabe}{G3}{Rollen und Bremsen}{5 P}
+Eine Velofahrerin (\(80\;\text{kg}\) mit Velo) fährt oben mit \(6\;\text{m/s}\) los und rollt ohne zu treten eine Strasse hinunter, \(8\;\text{m}\) Höhenunterschied. Reibung und Luftwiderstand vernachlässigt.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Wie schnell ist sie unten?
+\item Unten bremst sie auf ebener Strasse mit der konstanten Kraft \(400\;\text{N}\) bis zum Stillstand. Wie lang ist der Bremsweg?
+\item Wie lang wäre der Bremsweg mit derselben Bremskraft, wenn sie unten doppelt so schnell wäre? Begründe ohne neue Rechnung.
+\item Hängt ihr Tempo unten davon ab, ob die Strasse gerade oder kurvig, steil oder flach ist? Begründe.
+\end{enumerate}
 \lpplatz{9}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G4}{Skilift}{4 P}
+Ein Schlepplift zieht eine Skifahrerin (\(70\;\text{kg}\)) mit konstantem Tempo eine \(500\;\text{m}\) lange Spur hinauf, \(120\;\text{m}\) Höhenunterschied. Das Seil zieht sie mit der konstanten Kraft \(200\;\text{N}\) längs der Spur.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Wie viel Arbeit verrichtet das Seil an ihr?
+\item Wie gross ist die Reibungskraft zwischen Ski und Schnee? Begründe mit dem Energieerhaltungssatz.
+\item Wohin ist die Arbeit des Seils gegangen? Nenne die Energieformen mit ihren Beträgen.
+\end{enumerate}
+\lpplatz{7}
 \end{lpaufgabe}
 
 \lpteil{Teil C · Leistung und Wirkungsgrad}{Kapitel 5 · 4 Punkte}
@@ -76,20 +81,21 @@ Wie gross ist die mittlere Kraft von Reibung und Luftwiderstand zusammen? Mit we
 \begin{lpaufgabe}{G5}{Speicherkraftwerk}{4 P}
 In einem Speicherkraftwerk fliessen jede Sekunde \(2000\;\text{kg}\) Wasser \(300\;\text{m}\) tief durch die Turbinen. Turbine und Generator wandeln zusammen \(85\;\%\) der Lageenergie in elektrische Energie um.
 Welche Leistung gibt das Wasser ab? Welche elektrische Leistung liefert das Kraftwerk? Wie viel elektrische Energie liefert es in \(2\;\text{h}\), in Megawattstunden?
-\lpplatz{9}
+\lpplatz{7}
 \end{lpaufgabe}
 
-\lpteil{Teil D · Energiebilanz}{Kapitel 6 · 4 Punkte}
+\lpteil{Teil D · Energiebilanz}{Kapitel 6 · 5 Punkte}
 
-\begin{lpaufgabe}{G6}{Venus und Erde}{4 P}
+\begin{lpaufgabe}{G6}{Venus und Erde}{5 P}
 Auf die Venus treffen \(S = 2601\;\text{W/m}^2\), ihre Albedo ist \(0.77\).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
 \item Wie viel nimmt sie im Mittel je Quadratmeter auf?
 \item Welche Temperatur hätte sie, wenn alle Wärmestrahlung ungehindert ins All gelangte?
 \item Gemessen werden an der Oberfläche rund \(737\;\text{K}\). Erkläre den Unterschied mit der Energiebilanz.
-\item Nenne zwei Gründe der heutigen Erderwärmung und begründe für jeden mit der Energiebilanz, warum die Erde wärmer wird.
+\item Auf der Erde ändern sich zwei Dinge: (1)~Eis schmilzt, die Albedo sinkt von \(0.30\) auf \(0.29\). (2)~Mehr \(\text{CO}_2\): Der Anteil der Wärmestrahlung der Oberfläche, der ins All gelangt, sinkt von \(61\;\%\) auf \(60\;\%\).
+Ordne jede Änderung der Aufnahme \((1 - a) \cdot \tfrac{S}{4}\) oder der Abstrahlung ins All zu und gib an, ob die Erde wärmer oder kälter wird. Begründe.
 \end{enumerate}
-\lpplatz{9}
+\lpplatz{10}
 \end{lpaufgabe}
 
 \vfill
