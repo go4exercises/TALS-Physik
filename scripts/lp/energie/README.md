@@ -26,7 +26,9 @@ bearbeiten, dann `build-clip-ton.py` → `build-clip-fragen-ton.py` (Kontrollcli
 `clips/bilder/p4-3-lp-*.jpg` sind Aufnahmen der Simulationen (`.claude/tools/aufnahme-anim.mjs`).
 Testhaken `document.getElementById('simN').__sim.zeige(…)`: sim3 setzt den Wagen an die Stelle
 \(x\) (Tal \(x = 17\;\text{m}\), Kuppe \(x = 32\;\text{m}\)), sim5 zeigt den Kran nach \(x\) Sekunden
-Hubzeit, sim6 lässt \(j\) Jahre laufen (`zeige(j, true)` ab heute, sonst ab der aktuellen Temperatur).
+Hubzeit, sim6 lässt \(j\) Jahre laufen (`zeige(j, true)` ab heute, sonst ab der aktuellen Temperatur;
+drittes Argument `[Tmin, Tmax, Schritt]` für eine engere T-Achse), sim4 setzt den Wagen nach \(x\) Metern,
+sim3 nimmt als zweites Argument die Energie, die die Säulenskala festlegt.
 Damit entstehen die Bildfolgen der Clips (seit 06.10.2026); die übrigen Bilder sind Endzustände.
 
 Gesamttest und Bewertungspaket: `downloads/leitprogramme/energie/*.tex`, bauen mit
@@ -94,3 +96,15 @@ prüfen (Umkehr bei 7.6 m/s ohne ✓, Kuppe bei 7.7 m/s mit ✓, Halt nach dem Z
     bewertet, Zeilenabstand 1.5 in den Rastern.
   - Vortest-Clip: «Masse und Gewicht» (p0-3) statt der Hubarbeit-Animation.
 
+## Clips nach der zweiten Visualisierungsprüfung (07.10.2026)
+
+Gesagtes und Notiertes stehen jetzt zur selben Zeit im Bild, Veränderungen laufen als Bildfolge oder Läufer,
+Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entscheide:
+- Testhaken erweitert: sim4 `zeige(x)` (Wagen nach x m, bisher ohne Haken), sim3 `zeige(x, E)` (feste
+  Säulenskala für den ganzen Clip — die 600-kg-Säule ist doppelt so hoch wie die 300-kg-Säule), sim6
+  `zeige(j, vonHeute, [Tmin, Tmax, Schritt])` (engere T-Achse für die Erwärmung). Die sichtbare Seite ändert
+  sich dadurch nicht.
+- `Achsen()` nimmt `ya`, die Höhe der x-Achse; sim6 legt sie an den unteren Fensterrand. Vorher lag sie bei
+  T = 0 K ausserhalb des Bildes — die Zeitachse samt «t [Jahre]» fehlte seit der Freischaltung. Clipbilder
+  `p4-3-lp-erde-*` neu aufgenommen.
+- reibung: erstes Bild der Folge bei 4 m statt 0 m (bei 0 m ist das Etikett \(F_R\) am Rand abgeschnitten).

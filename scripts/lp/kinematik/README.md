@@ -113,3 +113,14 @@ mit einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (al
   Strömung), d Relativbewegung auf einer Geraden (0.4 m/s, 750 s); G5 senkrechter Wurf nach unten,
   rückwärts (5.27 m/s, 17.0 m); G6 mit 2.8 m/s (T = 0.785 s). Raster: «ein Fehler, ein Abzug» auch über
   Teilaufgaben, Folgewerte der typischen Fehler, mehr Zeilenabstand, Flattersatz.
+
+## Clips nach der zweiten Visualisierungsprüfung (07.10.2026)
+
+Gesagtes und Notiertes stehen jetzt zur selben Zeit im Bild, Veränderungen laufen als Bildfolge oder Läufer,
+Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entscheide:
+- kreis: Umlauf als Bildfolge in Echtzeit (`p4-1-lp-kreis-o000` … `o315` ohne Pfeile, `v045` … `v315` nur mit v);
+  die Pfeile entfernt nur der Aufnahmeplan per JS, `seite.js` ist unverändert. `p4-1-lp-kreis-1.jpg` gelöscht
+  (doppelt mit `w045`); `clips.py` nennt den Namen noch — Archiv.
+- vektor, Szene 4: β-Bogen bewusst klein (r ≈ 20 px), sonst schneidet er die Beschriftung «v_Ufer» der Simulation.
+- Zwei Zeitpunkte der Befundliste waren falsch zugeordnet (vektor «β: von der Strömung aus», wurf «45°: 22.9 m»)
+  und blieben; korrigiert wurde stattdessen die Formel für \(s_x\).

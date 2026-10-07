@@ -104,3 +104,14 @@ Nach der zweiten Prüfung (Querschnitt aller Leitprogramme und Befundliste Dynam
 - **Gesamttest (Fassung 3):** G1d, G2 bis G6 neu (keine Wiederholung von Kapitel-, Leisten- oder Übungsaufgaben),
   G4 5 P, G6 4 P; Raster «ein Fehler, ein Abzug», Rundung 2 %, (B) nur bei Begründen/Erklären/Formulieren,
   `arraystretch` 1.5, Gesamttest auf drei Seiten.
+
+## Clips nach der zweiten Visualisierungsprüfung (07.10.2026)
+
+Gesagtes und Notiertes stehen jetzt zur selben Zeit im Bild, Veränderungen laufen als Bildfolge oder Läufer,
+Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entscheide:
+- Antrieb im Clip ungefärbt: Das Clip-Theme kennt kein Blau. Die Simulationsbilder mit blauem \(F_A\)
+  (`p4-2-lp-gesamtkraft-2/-3.jpg`, `grundgesetz-1.jpg`) sind durch gezeichnete Kräftepläne und v-t-Diagramme
+  ersetzt und gelöscht.
+- faden, Szenen 0/1: Ausschnitte `faden-1o.jpg`, `faden-2o.jpg` (oberer Teil der Simulation, v-t weg).
+- Läufer springen in ganzen Sekunden, damit das Wertepaar auf der Geraden liegt (Grundgesetz, Trottinett,
+  Gesamtkraft «Ausrollen» von 3 s bis 9 s — bei 12 s kreuzte die Gerade die Beschriftung).

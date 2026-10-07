@@ -931,6 +931,17 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
 - **Anker gegen das Sprechtempo prüfen:** Gleich viele Satz- und Tonstücke sind kein Beweis für
   eine Eins-zu-eins-Zuordnung (Piper pausiert nicht an jedem Komma). `anker.py` prüft seit
   06.10.2026 das Tempo je Stück; im Prüfbild trotzdem nachsehen.
+- **Ungleich viele Satz- und Tonstücke:** Meldet `anker.py` z. B. «(8/7)», schätzt es die Zeit anteilig und
+  liegt bis 1.5 s daneben (Statik, 07.10.2026). Mit `sprechzeiten.py` nachsehen und mit `_versatz` oder
+  einem näheren Anker korrigieren.
+- **Ergebnis mit dem gesprochenen Ergebnis:** Eine Formelzeile, die mit dem Ergebnis endet, an die
+  Ergebniszahl im Ton ankern, nicht an den Satzbeginn (Auflager «Lösung Steg»: 21 kN stand 2 s zu früh).
+- **Läufer in ganzen Schritten:** Ein stetig fahrender Läufer zeigt gerundete Wertepaare, die nicht auf
+  der Geraden liegen («(6.9 s; 2.5 m/s)» statt 2.55). Die `bahn` mit Zeitpaaren in ganzen Sekunden
+  springen lassen. Im rechten Drittel des Fensters steht die Beschriftung links über dem Punkt — bei
+  einer fallenden Geraden kreuzt sie dort die Linie; den Läufer vorher anhalten.
+- **Fenster ohne y = 0:** Die x-Achse an den unteren Fensterrand legen. In Energie sim6 lag sie bei
+  T = 0 K, ausserhalb des Bildes — die Zeitachse fehlte auf der Seite und in den Clips.
 - **Unterstrich und Formelzeichen im SVG-Text:** `F_A` erscheint wörtlich; Wörter («Stütze A») oder
   Unicode-Tiefzahlen (`I₁`) nehmen.
 - Kontrollfragen bringen **neue** Beispiele: weder die Werte des Einführungsclips noch seine

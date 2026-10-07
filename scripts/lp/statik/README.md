@@ -119,3 +119,15 @@ Zweite Prüfung umgesetzt (Version 1.1, Fusszeile «Stand 6. Oktober 2026»):
   Maler?); Zeiten 50 min je Kapitel, Gesamttest 40 min.
 - **Gesamttest Fassung 3** und Bewertungspaket: siehe Kopf von `gesamttest.tex`; «derselbe Fehler kostet nur
   einmal» und 2 % Rundung in Raster und Auftrag an die KI, Folgewerte vollständig, Raster mit Zeilenabstand.
+
+## Clips nach der zweiten Visualisierungsprüfung (07.10.2026)
+
+Gesagtes und Notiertes stehen jetzt zur selben Zeit im Bild, Veränderungen laufen als Bildfolge oder Läufer,
+Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entscheide:
+- drehmoment, Szene 2: gezeichnet statt aufgenommen — der Längenregler reicht bis 0.4 m, ein 0.5-m-Schlüssel
+  läge links ausserhalb der Simulation.
+- auflager, Szene 4: Die Beschriftung des Läufers von B steht bis 2 m über der Geraden, weil er dort auf einer
+  `parabel` mit winzigem negativem a fährt (Abweichung höchstens 0.00025 kN) — Kunstgriff, solange der
+  Generator keine Lage der Läuferbeschriftung kennt.
+- vektor S1, drehmoment S2, auflager S2: `ein` von Hand nach `sprechzeiten.py`; `anker.py` lag bis 1.5 s daneben.
+- auflager, Szene 7: F_B, F_A und Probe erscheinen mit dem gesprochenen Ergebnis.

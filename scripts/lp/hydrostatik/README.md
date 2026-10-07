@@ -113,3 +113,15 @@ Behebung der Prüfbefunde (Version 1.1, Fusszeile «Stand 6. Oktober 2026»):
   Kapitel 3 verweist auf den neuen Abschnitt «Luftdruck: Saugrohr und Barometer» der Themenseite.
 - **Gesamttest:** G1 zwei Kurven, G2 mit Saughöhe (Kapitel 3), G4c Ölmenge und Arbeit, G5 Auftrieb in Luft,
   Federwaage unter Wasser und Druckunterschied, G6 mit Dichtevergleich; Raster mit Folgewerten, Zeilenabstand 1.5.
+
+## Clips nach der zweiten Visualisierungsprüfung (07.10.2026)
+
+Gesagtes und Notiertes stehen jetzt zur selben Zeit im Bild, Veränderungen laufen als Bildfolge oder Läufer,
+Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entscheide:
+- Der Generator kann nichts ausblenden; darum stehen Skizze und Diagramm nebeneinander oder übereinander
+  (druck S7, luftdruck S6, schwimmen S0) statt nacheinander.
+- Zwei Sätze geändert und neu vertont: schweredruck S1 «In fünf Metern Tiefe ist …», luftdruck S1 «Saugt man
+  oben an einem Rohr, wie an einem Strohhalm, …» (passt zum Bild mit Rohr und Pumpe). Danach alle fest
+  getimten Elemente dieser zwei Clips auf Textanker gelegt.
+- `p4-5-lp-schweredruck-sd-0/-2.jpg` durch die `-ps`-Fassungen ersetzt und gelöscht; `luftdruck-hg.jpg` war
+  schon vorher unbenutzt.

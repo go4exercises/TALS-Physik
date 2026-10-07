@@ -105,3 +105,13 @@ einem Prüfskript gelöst, das jede Aufgabe mit den Zielwerten einstellt (alle 3
 - **Gesamttest:** sieben Aufgaben, jedes Kapitel geprüft (G5 Kennlinie, G6 ungewohnt gezeichnete Reihe mit
   Probe, G7 rückwärts und Schutzklasse II); Bewertungspaket mit «ein Fehler, ein Abzug», 2 % Rundung,
   Ablesepunkten und Zeilenabstand in den Rastern.
+
+## Clips nach der zweiten Visualisierungsprüfung (07.10.2026)
+
+Gesagtes und Notiertes stehen jetzt zur selben Zeit im Bild, Veränderungen laufen als Bildfolge oder Läufer,
+Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entscheide:
+- «≙» kommt in Clipbildern nicht vor (Schrift unsicher); Zuordnungen mit «→» («2800 W → 12.2 A»).
+- `p6-2-lp-leistung-3.jpg` ohne die gestrichelte Vergleichskurve neu aufgenommen.
+- erkennen, Szene 1: die drei Punkte der Reihe in drei Farben (Bernstein, Orange, Tinte); sim7 zeigt den
+  dritten gepunktet in Bernstein — bewusste Abweichung, der Clip zählt Verbindungen.
+- gefahren, Szene 0: Formelzeile mit 230 mA erst bei «zweihundertdreissig Milliampere».
