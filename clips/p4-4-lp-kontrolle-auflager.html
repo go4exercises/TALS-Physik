@@ -119,6 +119,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -132,6 +140,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Ein Balken (5 m, ohne Eigengewicht) liegt auf den Stützen A und B. Eine Last von 400 N steht 2 m von A. Wie viel trägt Stütze A?", "optionen": ["160 N", "200 N", "240 N"], "richtig": 2, "rueck": {"0": "Das trägt Stütze B. Welche Stütze ist der Last näher?", "1": "Halb und halb gilt nur in der Mitte."}, "t": 0.3, "ton": {"frage": "ton/p4-4-lp-kontrolle-auflager-f0-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-auflager-f0-r0.mp3", "r1": "ton/p4-4-lp-kontrolle-auflager-f0-r1.mp3"}}, {"typ": "wahl", "text": "Warum legt man die Drehachse für die Momente in eine der beiden Stützen?", "optionen": ["Dort ist das Drehmoment am grössten.", "Dann fällt die unbekannte Kraft dieser Stütze heraus.", "Diese Stütze trägt immer am meisten."], "richtig": 1, "rueck": {"0": "Welchen Hebelarm hat eine Kraft, die genau in der Drehachse angreift?", "2": "Trägt die gewählte Stütze wirklich immer mehr? Was geschieht mit ihrer Kraft in der Momentengleichung?"}, "t": 12.66, "ton": {"frage": "ton/p4-4-lp-kontrolle-auflager-f1-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-auflager-f1-r0.mp3", "r2": "ton/p4-4-lp-kontrolle-auflager-f1-r2.mp3"}}, {"typ": "wahl", "text": "Eine Last steht genau über der Stütze B. Wie viel trägt Stütze A?", "optionen": ["null", "die halbe Last", "die ganze Last"], "richtig": 0, "rueck": {"1": "Halb und halb gilt in der Mitte. Wo steht die Last?", "2": "Über welcher Stütze steht die Last?"}, "t": 23.4, "ton": {"frage": "ton/p4-4-lp-kontrolle-auflager-f2-frage.mp3", "r1": "ton/p4-4-lp-kontrolle-auflager-f2-r1.mp3", "r2": "ton/p4-4-lp-kontrolle-auflager-f2-r2.mp3"}}, {"typ": "wahl", "text": "Ein Balken ohne Eigengewicht trägt eine Last von 900 N. Stütze A trägt 600 N. Wie viel trägt Stütze B?", "optionen": ["300 N", "1500 N", "600 N"], "richtig": 0, "rueck": {"1": "Die Stützen tragen zusammen die Last, nicht mehr.", "2": "Das ist der Anteil von A. Was bleibt für B übrig?"}, "t": 29.12, "ton": {"frage": "ton/p4-4-lp-kontrolle-auflager-f3-frage.mp3", "r1": "ton/p4-4-lp-kontrolle-auflager-f3-r1.mp3", "r2": "ton/p4-4-lp-kontrolle-auflager-f3-r2.mp3"}}, {"typ": "wahl", "text": "Eine Brücke (Eigengewicht 36 kN, in der Mitte) liegt auf den Stützen A und B. Ein Wagen mit 12 kN steht genau über A. Wie viel trägt B?", "optionen": ["24 kN", "18 kN", "0 kN"], "richtig": 1, "rueck": {"0": "Halb und halb gilt nur für Lasten in der Mitte. Wo steht der Wagen?", "2": "Der Wagen belastet B nicht — aber die Brücke selbst?"}, "t": 35.41, "ton": {"frage": "ton/p4-4-lp-kontrolle-auflager-f4-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-auflager-f4-r0.mp3", "r2": "ton/p4-4-lp-kontrolle-auflager-f4-r2.mp3"}}];
 (() => {
@@ -324,7 +338,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

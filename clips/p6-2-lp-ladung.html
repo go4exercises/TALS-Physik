@@ -145,6 +145,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -158,6 +166,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 
 const RUHIG = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -170,7 +184,90 @@ const BEW = [...document.querySelectorAll('[data-t0]')].map(L => ({
     .concat([...L.querySelectorAll('[data-bewk]')].map(p => ({
       art: 'k', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.bewk), f: p.dataset.fenster.split(',').map(Number),
       stufen: p.dataset.stufen === '1', poly: p.dataset.poly === '1', el: p.dataset.el || '' })))
+    .concat([...L.querySelectorAll('[data-fkl]')].map(p => ({
+      art: 'f', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.fkl), f: p.dataset.fenster.split(',').map(Number),
+      tab: JSON.parse(p.dataset.tab), ab: parseFloat(p.dataset.ab), bis: parseFloat(p.dataset.bis) })))
+    .concat([...L.querySelectorAll('[data-fp]')].map(p => {
+      const namen = p.dataset.namen.split(',');
+      return { art: 'fp', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.fp), f: p.dataset.fenster.split(',').map(Number),
+        fn: new Function('x', ...namen, 'return ' + p.dataset.js), namen };
+    }))
 }));
+// Formelkurve mit Parametern ("parameter", seit 07.10.2026): die Formel kommt als JavaScript aus
+// dem Bauer (formel_js), die Buchstaben aus der Zeit. Luecken (NaN, Pole) brechen den Zug ab.
+function bewegeFormel(T, t, px, py, x0, x1, y0, y1) {
+  const P = bewZustand(T.k, t - T.t0);
+  const f = x => { const y = T.fn(x, ...P); return isFinite(y) ? y : null; };
+  const a0 = Math.max(x0, parseFloat(T.p.dataset.von)), a1 = Math.min(x1, parseFloat(T.p.dataset.bis));
+  let d = '', an = false;
+  for (let i = 0; i <= 600; i++) {
+    const x = a0 + (a1 - a0) * i / 600, y = f(x);
+    if (y === null || y < y0 || y > y1) { an = false; continue; }
+    d += (an ? 'L' : 'M') + px(x).toFixed(1) + ',' + py(y).toFixed(1); an = true;
+  }
+  T.p.setAttribute('d', d);
+  for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
+    const fx = g._fx || (g._fx = new Function(...T.namen, 'return ' + g.dataset.xjs));
+    const x = fx(...P), y = f(x);
+    const ok = y !== null && x >= x0 && x <= x1 && y >= y0 && y <= y1;
+    g.style.display = ok ? '' : 'none';
+    if (!ok) continue;
+    g.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); });
+    const tx = g.querySelector(':scope > text'); if (!tx) continue;
+    const rechts = x > x1 - (x1 - x0) * 0.3;
+    tx.setAttribute('x', px(x) + (rechts ? -18 : 18)); tx.setAttribute('y', py(y) < 60 ? py(y) + 44 : py(y) - 22);
+    tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+    tx.textContent = g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y));
+  }
+}
+// Zuletzt die Beschriftungen der mitfahrenden Punkte (seit 07.10.2026): "lage" setzt sie fest
+// (oben, unten, links, rechts, auch zwei davon), und keine ragt ueber den Rand des Bildes.
+function beschriftungenRichten() {
+  for (const L of document.querySelectorAll('[data-t0]'))
+    for (const g of L.querySelectorAll('[data-zu], .fk-l')) {
+      if (g.style.display === 'none') continue;
+      const tx = g.querySelector(':scope > text'), c = g.querySelector('.bew-pt circle');
+      if (!tx || !c || !tx.textContent) continue;
+      const X = parseFloat(c.getAttribute('cx')), Y = parseFloat(c.getAttribute('cy'));
+      if (g.dataset.lage) {
+        const w = g.dataset.lage.split(/\s+/), li = w.includes('links'), re = w.includes('rechts');
+        const ob = w.includes('oben'), un = w.includes('unten');
+        tx.setAttribute('x', X + (li ? -18 : re ? 18 : 0));
+        tx.setAttribute('y', ob ? Y - 22 : un ? Y + 44 : Y + 10);
+        tx.setAttribute('text-anchor', li ? 'end' : re ? 'start' : 'middle');
+      }
+      let w;
+      try { w = tx.getComputedTextLength(); } catch (e) { continue; }
+      const svg = tx.ownerSVGElement; if (!w || !svg) continue;
+      const B = svg.viewBox.baseVal && svg.viewBox.baseVal.width || svg.width.baseVal.value;
+      const x = parseFloat(tx.getAttribute('x')), an = tx.getAttribute('text-anchor') || 'start';
+      const l = an === 'start' ? x : an === 'end' ? x - w : x - w / 2;
+      // Seitlich stehende Beschriftung auf die andere Seite des Punkts klappen, mittige schieben
+      if (l + w > B - 4) {
+        if (an === 'start' && X - 18 - w >= 4) { tx.setAttribute('x', X - 18); tx.setAttribute('text-anchor', 'end'); }
+        else tx.setAttribute('x', x - (l + w - (B - 4)));
+      } else if (l < 4) {
+        if (an === 'end' && X + 18 + w <= B - 4) { tx.setAttribute('x', X + 18); tx.setAttribute('text-anchor', 'start'); }
+        else tx.setAttribute('x', x + (4 - l));
+      }
+    }
+}
+// Laeufer auf einer festen Formelkurve: x aus der Bahn, y linear aus der Wertetabelle.
+function laufeFest(T, t, px, py, x0, x1, y0, y1) {
+  const x = bewZustand(T.k, t - T.t0)[0], n = T.tab.length - 1;
+  const q = (x - T.ab) / (T.bis - T.ab) * n, i = Math.min(n - 1, Math.max(0, Math.floor(q)));
+  const ya = T.tab[i], yb = T.tab[i + 1];
+  const y = ya === null || yb === null ? null : ya + (yb - ya) * (q - i);
+  const ok = y !== null && q >= 0 && q <= n && x >= x0 && x <= x1 && y >= y0 && y <= y1;
+  T.p.style.display = ok ? '' : 'none';
+  if (!ok) return;
+  T.p.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); });
+  const tx = T.p.querySelector(':scope > text'); if (!tx) return;
+  const rechts = x > x1 - (x1 - x0) * 0.25;
+  tx.setAttribute('x', px(x) + (rechts ? -18 : 18)); tx.setAttribute('y', py(y) < 60 ? py(y) + 44 : py(y) - 22);
+  tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+  tx.textContent = T.p.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y));
+}
 // Zwischen zwei Stuetzpunkten weich. Wie viele Zahlen ein Stuetzpunkt traegt, sagt er
 // selbst: [t, a, u, v] bei einer Parabel, [t, m, q] bei einer Geraden, [t, x] bei einer Bahn.
 function bewZustand(k, t) {
@@ -187,7 +284,14 @@ function bewZustand(k, t) {
   }
   return k[k.length - 1].slice(1);
 }
-const bewZahl = x => { const r = Math.round(x * 10) / 10; return (r < 0 ? '−' : '') + Math.abs(r); };
+// Eine Nachkommastelle — ausser der Wert hat genau zwei (−0.75, −1.25): dann beide, sonst
+// stuende an einem ruhenden Punkt eine falsch gerundete Zahl (seit 07.10.2026). Waehrend einer
+// Bewegung sind die Werte krumm und bleiben bei einer Stelle.
+const bewZahl = x => {
+  const z = Math.round(x * 100);
+  const r = Math.abs(x * 100 - z) < 1e-6 && z % 10 !== 0 ? z / 100 : Math.round(x * 10) / 10;
+  return (r < 0 ? '−' : '') + Math.abs(r);
+};
 // Eine bewegte Gerade y = m x + q: am Fenster abgeschnitten, dazu ihre Begleiter.
 function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
   const [m, q] = bewZustand(T.k, t - T.t0);
@@ -227,6 +331,31 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
       const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn));
       const x = bewZustand(bahn, t - T.t0)[0];
       setze(g, x, f(x)); beschrifte(g, x, f(x), fuell(g.dataset.text, x, f(x)));
+    } else if (g.classList.contains('bew-gs-tab')) {
+      // Schnittpunkte mit einer festen Kurve (Tabelle): Vorzeichenwechsel von Kurve − Gerade,
+      // dazu Beruehrstellen (|Differenz| lokal minimal und fast null).
+      const tab = g._tab || (g._tab = JSON.parse(g.dataset.tab));
+      const ab = parseFloat(g.dataset.ab), bis = parseFloat(g.dataset.bis), n = tab.length - 1;
+      const X = i => ab + (bis - ab) * i / n, d = i => tab[i] === null ? null : tab[i] - f(X(i));
+      const eps = (y1 - y0) * 2e-3, sn = [];
+      for (let i = 0; i < n; i++) {
+        const da = d(i), db = d(i + 1);
+        if (da === null || db === null) continue;
+        if (da === 0) sn.push(X(i));
+        else if (da * db < 0) sn.push(X(i) + (X(i + 1) - X(i)) * da / (da - db));
+        else if (i > 0 && d(i - 1) !== null && Math.abs(da) < eps && Math.abs(da) <= Math.abs(d(i - 1)) && Math.abs(da) <= Math.abs(db)) sn.push(X(i));
+      }
+      const gs = [];
+      for (const x of sn) if (!gs.length || x - gs[gs.length - 1] > (bis - ab) / n * 1.5) gs.push(x);
+      T._gs = gs;
+    } else if (g.classList.contains('bew-gs')) {
+      const x = (T._gs || [])[parseInt(g.dataset.i)];
+      if (x === undefined) { g.style.display = 'none'; continue; }
+      setze(g, x, f(x)); beschrifte(g, x, f(x), '(' + bewZahl(x) + ' | ' + bewZahl(f(x)) + ')');
+      // abwechselnd ueber und unter der Geraden, sonst stossen nahe Beschriftungen zusammen
+      const tx = g.querySelector(':scope > text');
+      if (tx) { tx.setAttribute('y', py(f(x)) + (parseInt(g.dataset.i) % 2 ? 44 : -18));
+        tx.setAttribute('text-anchor', 'middle'); tx.setAttribute('x', px(x)); }
     } else if (g.classList.contains('bew-gd')) {
       // Steigungsdreieck: von (x | f(x)) nach rechts, dann senkrecht auf die Gerade.
       let xa, dx;
@@ -235,7 +364,8 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
         [xa, dx] = bewZustand(bahn, t - T.t0);
       } else { xa = parseFloat(g.dataset.x); dx = parseFloat(g.dataset.dx); }
       const xb = xa + dx;
-      const ya = f(xa), yb = f(xb), sichtbar = innen(xa, ya) && innen(xb, yb);
+      // dx = 0: kein Dreieck, auch keine Beschriftung «Δx = 0» (es waechst erst noch)
+      const ya = f(xa), yb = f(xb), sichtbar = Math.abs(dx) > 1e-9 && innen(xa, ya) && innen(xb, yb);
       g.style.display = sichtbar ? '' : 'none';
       if (!sichtbar) continue;
       g.querySelector('.bew-gd-w').setAttribute('d', 'M' + px(xa) + ',' + py(ya) + 'L' + px(xb) + ',' + py(ya));
@@ -243,7 +373,10 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
       const tx = g.querySelector('.bew-gd-tx'), ty = g.querySelector('.bew-gd-ty');
       tx.setAttribute('x', px((xa + xb) / 2)); tx.setAttribute('y', py(ya) + (m > 0 ? 36 : -14));
       tx.textContent = 'Δx = ' + bewZahl(dx);
-      ty.setAttribute('x', px(xb) + 12); ty.setAttribute('y', py((ya + yb) / 2) + 10);
+      // dx < 0: die senkrechte Kathete steht links, ihre Beschriftung auch (sonst liegt sie
+      // auf der Geraden oder der y-Achse)
+      ty.setAttribute('x', px(xb) + (dx < 0 ? -12 : 12)); ty.setAttribute('y', py((ya + yb) / 2) + 10);
+      ty.setAttribute('text-anchor', dx < 0 ? 'end' : 'start');
       ty.textContent = 'Δy = ' + bewZahl(yb - ya);
     }
   }
@@ -251,7 +384,21 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
 // Eine bewegte Potenz- oder Wurzelkurve y = a*(x-u)^p + v, am Fenster abgeschnitten.
 // Wo es keinen Wert gibt (Pol, negative Basis mit gebrochenem Exponenten), bricht der
 // Streckenzug ab und beginnt danach neu — genau so entstehen Aeste und Definitionsluecken.
+// x einer Marke an einer bewegten Kurve: fest (data-x) oder aus einer Bahn [[t, x], …] (Laeufer).
+function kmX(g, T) {
+  if (!g.dataset.bahn) return parseFloat(g.dataset.x);
+  const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn));
+  return bewZustand(bahn, T._t - T.t0)[0];
+}
+// Definitionsbereich einer bewegten Kurve: fest (data-von/data-bis) oder mitwandernd
+// ("grenzen": [[t, von, bis], …], seit 07.10.2026 — Einschraenken, ein Intervall zieht sich zu).
+function kGrenzen(T) {
+  if (!T.p.dataset.grenzen) return [parseFloat(T.p.dataset.von), parseFloat(T.p.dataset.bis)];
+  const gr = T._gr || (T._gr = JSON.parse(T.p.dataset.grenzen));
+  return bewZustand(gr, T._t - T.t0);
+}
 function bewegeKurve(T, t, px, py, x0, x1, y0, y1) {
+  T._t = t;
   const Z = bewZustand(T.k, t - T.t0);
   if (T.poly) return bewegePolynom(T, Z, px, py, x0, x1, y0, y1);
   if (T.el === 's' || T.el === 't') return bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1);
@@ -269,7 +416,7 @@ function bewegeKurve(T, t, px, py, x0, x1, y0, y1) {
   };
   const f = x => { const y = a * pot(x - u) + v;
     return (isFinite(y) && !isNaN(y)) ? y : null; };
-  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const [vx, bx] = kGrenzen(T);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
   const zug = (abx, aby) => {           // abx/aby: wie der Punkt auf die Achsen faellt
     let d = '', an = false;
@@ -310,7 +457,7 @@ function bewegeKurve(T, t, px, py, x0, x1, y0, y1) {
       g.querySelector('.bew-ka-w').setAttribute('d',
         (v >= y0 && v <= y1) ? 'M' + px(x0) + ',' + py(v) + 'L' + px(x1) + ',' + py(v) : '');
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       if (y === null) { g.style.display = 'none'; continue; }
       setze(g, x, y);
       beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
@@ -323,7 +470,7 @@ function bewegeExpLog(T, Z, px, py, x0, x1, y0, y1) {
   const [c, a, v] = Z, ex = T.el === 'e';
   const f = x => { if (ex) return c * Math.pow(a, x) + v;
     if (x <= 0 || Math.abs(Math.log(a)) < 1e-9) return null; return c * Math.log(x) / Math.log(a) + v; };
-  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const [vx, bx] = kGrenzen(T);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
   const zug = (abx, aby, imBild) => {
     let d = '', an = false;
@@ -360,7 +507,7 @@ function bewegeExpLog(T, Z, px, py, x0, x1, y0, y1) {
     } else if (g.classList.contains('bew-ks')) {
       const x = ex ? 0 : 1, y = f(x); setze(g, x, y); beschrifte(g, x, y, '(' + bewZahl(x) + ' | ' + bewZahl(y) + ')');
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       if (y === null) { g.style.display = 'none'; continue; }
       setze(g, x, y); beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
     }
@@ -371,7 +518,7 @@ function bewegeExpLog(T, Z, px, py, x0, x1, y0, y1) {
 function bewegeBetrag(T, Z, px, py, x0, x1, y0, y1) {
   const [a, u, v] = Z;
   const f = x => a * Math.abs(x - u) + v;
-  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const [vx, bx] = kGrenzen(T);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
   // Drei Punkte genügen: linker Rand, Knick, rechter Rand — der Knick bleibt scharf.
   const xs = [a0, Math.min(Math.max(u, a0), a1), a1];
@@ -395,7 +542,7 @@ function bewegeBetrag(T, Z, px, py, x0, x1, y0, y1) {
     } else if (g.classList.contains('bew-ks')) {
       setze(g, u, v); beschrifte(g, u, v, '(' + bewZahl(u) + ' | ' + bewZahl(v) + ')');
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       setze(g, x, y); beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
     }
   }
@@ -410,8 +557,8 @@ function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
   const kk = T.L.querySelector('.bew-kk[data-zu="' + T.p.dataset.paar + '"]');
   let th = null;
   if (kk) { const bahn = kk._bahn || (kk._bahn = JSON.parse(kk.dataset.bahn)); th = bewZustand(bahn, t - T.t0)[0]; }
-  const vx = parseFloat(T.p.dataset.von);
-  let bx = parseFloat(T.p.dataset.bis);
+  const kg_ = kGrenzen(T), vx = kg_[0];
+  let bx = kg_[1];
   if (kk && kk.dataset.spur === '1') bx = Math.min(bx, th);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx), H = y1 - y0;
   let d = '', an = false, yl = null;
@@ -450,7 +597,7 @@ function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
       g.querySelector('.bew-ka-w').setAttribute('d', !tg && Math.abs(v) > 1e-9 && v >= y0 && v <= y1
         ? 'M' + px(x0) + ',' + py(v) + 'L' + px(x1) + ',' + py(v) : '');
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       if (y === null) { g.style.display = 'none'; continue; }
       setze(g, x, y); beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
     } else if (g.classList.contains('bew-kk')) {
@@ -464,12 +611,20 @@ function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
       const yq = f(th), sichtbar = yq !== null && innen(th, yq) && g.dataset.proj !== '0';
       if (tg) {
         // Tangente x = 1 am Kreis; der Strahl durch P trifft sie in T = (1 | tan th).
-        const ty = Math.tan(th), T_ = [cx + r, cy - r * ty], ok = Math.abs(Math.cos(th)) > 1e-4 && ty >= y0 && ty <= y1;
+        // Ueber den Fensterrand hinaus: die Strecke am Rand abschneiden (seit 07.10.2026), nicht
+        // ausblenden — «waechst ueber alle Grenzen» soll man sehen. Die Projektion faellt dann weg.
+        const ty0 = Math.tan(th), drin = ty0 >= y0 && ty0 <= y1, ty = Math.min(y1, Math.max(y0, ty0));
+        const T_ = [cx + r, cy - r * ty], ok = Math.abs(Math.cos(th)) > 1e-4;
         lin('.kk-tang', cx + r, py(y0), cx + r, py(y1));
-        lin('.kk-radius', cx, cy, ok ? T_[0] : P[0], ok ? T_[1] : P[1]);
+        // P links der y-Achse (2. und 3. Quadrant): der Strahl geht von P durch M zur Tangente,
+        // sonst haengt P neben der Linie.
+        const vonP = ok && Math.cos(th) < 0;
+        // abgeschnitten: der Strahl endet am Fensterrand, auf seiner eigenen Richtung
+        const R_ = drin ? T_ : [cx + r * ty / ty0, cy - r * ty];
+        lin('.kk-radius', vonP ? P[0] : cx, vonP ? P[1] : cy, ok ? R_[0] : P[0], ok ? R_[1] : P[1]);
         lin('.kk-hoehe', cx + r, cy, ok ? T_[0] : cx + r, ok ? T_[1] : cy);
-        lin('.kk-proj', ok ? T_[0] : 0, ok ? T_[1] : 0, ok && sichtbar ? px(th) : (ok ? T_[0] : 0), ok ? T_[1] : 0);
-        const q = g.querySelector('.kk-q'); q.style.display = ok && sichtbar ? '' : 'none';
+        lin('.kk-proj', ok ? T_[0] : 0, ok ? T_[1] : 0, ok && drin && sichtbar ? px(th) : (ok ? T_[0] : 0), ok ? T_[1] : 0);
+        const q = g.querySelector('.kk-q'); q.style.display = ok && drin && sichtbar ? '' : 'none';
         q.setAttribute('cx', px(th)); q.setAttribute('cy', py(ty));
       } else if (g.dataset.art === 'cos') {
         // Cosinus: die waagrechte Koordinate von P als Strecke auf der Achse, ohne Projektion.
@@ -501,7 +656,7 @@ function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
 function bewegePolynom(T, Z, px, py, x0, x1, y0, y1) {
   const a = Z[0], r = Z.slice(1);
   const f = x => r.reduce((s, q) => s * (x - q), a);
-  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const [vx, bx] = kGrenzen(T);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
   let d = '', an = false;
   for (let i = 0; i <= 600; i++) {
@@ -551,7 +706,7 @@ function bewegePolynom(T, Z, px, py, x0, x1, y0, y1) {
       const y = f(e[0]); setze(g, e[0], y);
       beschrifte(g, e[0], y, (e[1] ? 'H' : 'T') + '(' + bewZahl(e[0]) + ' | ' + bewZahl(y) + ')', !e[1]);
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       setze(g, x, y);
       beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)), a < 0);
     }
@@ -564,17 +719,24 @@ function bewegen(t) {
     const py = y => h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd);
     if (T.art === 'g') { bewegeGerade(T, t, px, py, x0, x1, y0, y1); continue; }
     if (T.art === 'k') { bewegeKurve(T, t, px, py, x0, x1, y0, y1); continue; }
-    const [a, u, v] = bewZustand(T.k, t - L.t0);
+    if (T.art === 'f') { laufeFest(T, t, px, py, x0, x1, y0, y1); continue; }
+    if (T.art === 'fp') { bewegeFormel(T, t, px, py, x0, x1, y0, y1); continue; }
+    // Scheitelform [a, u, v] oder Normalform [a, b, c] (data-normal); f ist die Kurve,
+    // u und v der Scheitel (bei a = 0 keiner: NaN).
+    const Z = bewZustand(T.k, t - L.t0), normal = T.p.dataset.normal === '1';
+    const a = Z[0];
+    const f = normal ? (x => a * x * x + Z[1] * x + Z[2]) : (x => a * (x - Z[1]) * (x - Z[1]) + Z[2]);
+    const u = normal ? (Math.abs(a) > 1e-9 ? -Z[1] / (2 * a) : NaN) : Z[1];
+    const v = normal ? f(u) : Z[2];
     const xa = T.p.dataset.ab !== undefined ? Math.max(x0, parseFloat(T.p.dataset.ab)) : x0;
     const xb = T.p.dataset.bis !== undefined ? Math.min(x1, parseFloat(T.p.dataset.bis)) : x1;
     let d = '', zug = false;
     for (let i = 0; i <= 240; i++) {
-      const x = xa + (xb - xa) * i / 240, y = a * (x - u) * (x - u) + v;
+      const x = xa + (xb - xa) * i / 240, y = f(x);
       if (y >= y0 && y <= y1) { d += (zug ? 'L' : 'M') + px(x).toFixed(1) + ',' + py(y).toFixed(1); zug = true; }
       else zug = false;
     }
     T.p.setAttribute('d', d);
-    const f = x => a * (x - u) * (x - u) + v;
     const innen = (x, y) => x >= x0 && x <= x1 && y >= y0 && y <= y1;
     const setze = (g, x, y) => { g.style.display = innen(x, y) ? '' : 'none';
       g.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); }); };
@@ -588,15 +750,26 @@ function bewegen(t) {
     };
     const fuell = (vorlage, x, y) => vorlage.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y));
     for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
-      if (g.classList.contains('bew-s')) {
+      if (g.classList.contains('bew-a')) {
+        g.style.display = isNaN(u) || u < x0 || u > x1 ? 'none' : '';
+        g.querySelector('path').setAttribute('d', 'M' + px(u) + ',' + py(y0) + 'L' + px(u) + ',' + py(y1));
+      } else if (g.classList.contains('bew-s')) {
+        if (isNaN(u)) { g.style.display = 'none'; continue; }
         setze(g, u, v); beschrifte(g, u, v, 'S(' + bewZahl(u) + ' | ' + bewZahl(v) + ')', a > 0);
       } else if (g.classList.contains('bew-n')) {
-        const q = a !== 0 ? -v / a : -1, w = q >= 0 ? Math.sqrt(q) : NaN;
-        if (isNaN(w)) { g.style.display = 'none'; continue; }
-        const xn = g.classList.contains('bew-n1') ? u - w : u + w;
+        let xn;
+        if (isNaN(u)) {
+          // a = 0 (nur Normalform): eine Gerade b x + c, hoechstens eine Nullstelle (als n1)
+          if (g.classList.contains('bew-n2') || Math.abs(Z[1]) < 1e-9) { g.style.display = 'none'; continue; }
+          xn = -Z[2] / Z[1];
+        } else {
+          const q = a !== 0 ? -v / a : -1, w = q >= 0 ? Math.sqrt(q) : NaN;
+          if (isNaN(w)) { g.style.display = 'none'; continue; }
+          xn = g.classList.contains('bew-n1') ? u - w : u + w;
+        }
         setze(g, xn, 0);
         if (g.querySelector(':scope > text')) {
-          const tx = g.querySelector(':scope > text'), links = g.classList.contains('bew-n1') && w > 1e-9;
+          const tx = g.querySelector(':scope > text'), links = g.classList.contains('bew-n1') && !isNaN(u) && Math.abs(xn - u) > 1e-9;
           tx.setAttribute('x', px(xn) + (links ? -16 : 16)); tx.setAttribute('y', py(0) + (a > 0 ? -18 : 44));
           tx.setAttribute('text-anchor', links ? 'end' : 'start'); tx.textContent = '(' + bewZahl(xn) + ' | 0)';
         }
@@ -611,7 +784,7 @@ function bewegen(t) {
         setze(g.querySelector('.bew-pt'), x, y);
         g.style.display = innen(x, y) ? '' : 'none';
         const gs = g.querySelector('.bew-geist');
-        if (gs) { const xs = 2 * u - x; gs.style.display = Math.abs(xs - x) > 0.05 && innen(xs, f(xs)) ? '' : 'none';
+        if (gs) { const xs = 2 * u - x; gs.style.display = !isNaN(u) && Math.abs(xs - x) > 0.05 && innen(xs, f(xs)) ? '' : 'none';
           gs.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(xs)); c.setAttribute('cy', py(f(xs))); }); }
         beschrifte(g, x, y, fuell(g.dataset.text, x, y), a > 0 && Math.abs(x - u) < (x1 - x0) * 0.15);
       }
@@ -619,7 +792,7 @@ function bewegen(t) {
   }
 }
 const seekOhneBewegung = seek;
-seek = function (t) { seekOhneBewegung(t); bewegen(t); };
+seek = function (t) { seekOhneBewegung(t); bewegen(t); beschriftungenRichten(); };
 const FRAGEN = [{"typ": "wahl", "text": "Der Stab trägt +3.2 nC. Womit beginnst du?", "optionen": ["3.2 mit 1.602 multiplizieren", "mit dem Vorzeichen: Was heisst «plus»?", "die Ladung durch eine Zeit teilen"], "richtig": 1, "rueck": {"0": "Die Frage hat zwei Teile. Welcher lässt sich ohne Rechnung beantworten?", "2": "Hier fliesst kein Strom: Gefragt ist die Ladung, die auf dem Stab sitzt."}, "kopf": "Dein Vorgehen", "t": 73.5, "ton": {"frage": "ton/p6-2-lp-ladung-f0-frage.mp3", "r0": "ton/p6-2-lp-ladung-f0-r0.mp3", "r2": "ton/p6-2-lp-ladung-f0-r2.mp3"}}];
 (() => {
   if (location.search.includes('render')) return;
@@ -811,7 +984,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

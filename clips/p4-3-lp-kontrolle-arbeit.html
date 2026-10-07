@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Eine Kraft von 50 N schiebt einen Wagen 8 m weit, genau in Bewegungsrichtung. Wie gross ist die Arbeit?", "optionen": ["400 J", "6.25 J", "58 J"], "richtig": 0, "rueck": {"1": "Geteilt? Arbeit ist Kraft mal Weg.", "2": "Addiert? Arbeit ist Kraft mal Weg."}, "t": 0.3, "ton": {"frage": "ton/p4-3-lp-kontrolle-arbeit-f0-frage.mp3", "r1": "ton/p4-3-lp-kontrolle-arbeit-f0-r1.mp3", "r2": "ton/p4-3-lp-kontrolle-arbeit-f0-r2.mp3"}}, {"typ": "wahl", "text": "Eine Kraft von 150 N zieht unter 50° zum Weg einen Körper 6 m weit. Wie gross ist die Arbeit?", "optionen": ["900 J", "689 J", "579 J"], "richtig": 2, "rueck": {"0": "Nur der Anteil der Kraft in Wegrichtung zählt.", "1": "Das ist mit dem Sinus. Der Winkel liegt zwischen Kraft und Weg: Welche Funktion gehört zum anliegenden Anteil?"}, "t": 5.68, "ton": {"frage": "ton/p4-3-lp-kontrolle-arbeit-f1-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-arbeit-f1-r0.mp3", "r1": "ton/p4-3-lp-kontrolle-arbeit-f1-r1.mp3"}}, {"typ": "wahl", "text": "Ein Gewichtheber hält eine Hantel drei Sekunden lang still über dem Kopf. Wie viel Arbeit verrichtet er dabei an der Hantel?", "optionen": ["viel, er wird ja müde", "keine", "so viel wie beim Hochstemmen"], "richtig": 1, "rueck": {"0": "Müde werden ist keine Arbeit im Sinn der Physik. Wie weit bewegt sich die Hantel?", "2": "Beim Hochstemmen bewegt sich die Hantel. Und jetzt?"}, "t": 15.01, "ton": {"frage": "ton/p4-3-lp-kontrolle-arbeit-f2-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-arbeit-f2-r0.mp3", "r2": "ton/p4-3-lp-kontrolle-arbeit-f2-r2.mp3"}}, {"typ": "wahl", "text": "Welche Umwandlung findet in einem Föhn statt?", "optionen": ["elektrische Energie in Wärme und Bewegungsenergie", "Wärme in elektrische Energie", "chemische Energie in elektrische Energie"], "richtig": 0, "rueck": {"1": "Das wäre ein Kraftwerk. Was nimmt der Föhn aus der Steckdose auf?", "2": "Woher bekommt der Föhn seine Energie?"}, "t": 23.28, "ton": {"frage": "ton/p4-3-lp-kontrolle-arbeit-f3-frage.mp3", "r1": "ton/p4-3-lp-kontrolle-arbeit-f3-r1.mp3", "r2": "ton/p4-3-lp-kontrolle-arbeit-f3-r2.mp3"}}, {"typ": "wahl", "text": "Ein Rucksack (8 kg) wird 1.5 m hoch in ein Gepäckfach gehoben. Wie gross ist die Hubarbeit?", "optionen": ["12 J", "118 J", "78.5 J"], "richtig": 1, "rueck": {"0": "Die Kraft zum Heben ist die Gewichtskraft m · g.", "2": "Das ist nur die Gewichtskraft in Newton. Noch mal die Höhe."}, "t": 29.67, "ton": {"frage": "ton/p4-3-lp-kontrolle-arbeit-f4-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-arbeit-f4-r0.mp3", "r2": "ton/p4-3-lp-kontrolle-arbeit-f4-r2.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

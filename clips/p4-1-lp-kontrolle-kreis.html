@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Eine Waschtrommel macht 1200 Umdrehungen pro Minute. Wie gross ist die Rotationsfrequenz?", "optionen": ["1200 Hz", "20 Hz", "0.05 Hz"], "richtig": 1, "rueck": {"0": "Pro Minute, nicht pro Sekunde.", "2": "Das ist die Umlaufzeit in Sekunden. Gesucht ist ihr Kehrwert."}, "t": 0.3, "ton": {"frage": "ton/p4-1-lp-kontrolle-kreis-f0-frage.mp3", "r0": "ton/p4-1-lp-kontrolle-kreis-f0-r0.mp3", "r2": "ton/p4-1-lp-kontrolle-kreis-f0-r2.mp3"}}, {"typ": "wahl", "text": "Ein Umlauf dauert 0.25 s. Wie gross ist die Winkelgeschwindigkeit?", "optionen": ["4 rad/s", "1.57 rad/s", "25.1 rad/s"], "richtig": 2, "rueck": {"0": "Das ist die Rotationsfrequenz. Wie viel Winkel ist ein ganzer Umlauf?", "1": "Kürzere Umlaufzeit heisst schnellere Drehung. Steht T im Zähler oder im Nenner?"}, "t": 8.14, "ton": {"frage": "ton/p4-1-lp-kontrolle-kreis-f1-frage.mp3", "r0": "ton/p4-1-lp-kontrolle-kreis-f1-r0.mp3", "r1": "ton/p4-1-lp-kontrolle-kreis-f1-r1.mp3"}}, {"typ": "wahl", "text": "Ein Körper läuft gleichförmig im Kreis. Wohin zeigt die Änderung Δv seines Geschwindigkeitspfeils zwischen zwei nahen Orten?", "optionen": ["zur Kreismitte", "in Bewegungsrichtung", "nach aussen"], "richtig": 0, "rueck": {"1": "Der Betrag bleibt gleich. Was ändert sich am Geschwindigkeitspfeil?", "2": "Zeichne die beiden Pfeile vom selben Punkt aus: Wohin zeigt der Pfeil von der ersten zur zweiten Spitze?"}, "t": 16.7, "ton": {"frage": "ton/p4-1-lp-kontrolle-kreis-f2-frage.mp3", "r1": "ton/p4-1-lp-kontrolle-kreis-f2-r1.mp3", "r2": "ton/p4-1-lp-kontrolle-kreis-f2-r2.mp3"}}, {"typ": "wahl", "text": "Ein Punkt kreist mit 4 m/s auf r = 0.8 m. Wie gross ist die Zentripetalbeschleunigung?", "optionen": ["5 m/s²", "20 m/s²", "3.2 m/s²"], "richtig": 1, "rueck": {"0": "Hier fehlt ein Quadrat.", "2": "Mal r? Prüf, ob der Radius im Zähler oder im Nenner steht."}, "t": 24.97, "ton": {"frage": "ton/p4-1-lp-kontrolle-kreis-f3-frage.mp3", "r0": "ton/p4-1-lp-kontrolle-kreis-f3-r0.mp3", "r2": "ton/p4-1-lp-kontrolle-kreis-f3-r2.mp3"}}, {"typ": "wahl", "text": "Bleibt die Geschwindigkeit bei der gleichförmigen Kreisbewegung konstant?", "optionen": ["nur ihr Betrag, nicht ihre Richtung", "ja, ganz", "nein, ihr Betrag ändert sich"], "richtig": 0, "rueck": {"1": "Zeigt der Pfeil immer in dieselbe Richtung?", "2": "Gleichförmig heisst: gleicher Betrag der Geschwindigkeit."}, "t": 32.01, "ton": {"frage": "ton/p4-1-lp-kontrolle-kreis-f4-frage.mp3", "r1": "ton/p4-1-lp-kontrolle-kreis-f4-r1.mp3", "r2": "ton/p4-1-lp-kontrolle-kreis-f4-r2.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

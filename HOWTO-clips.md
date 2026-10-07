@@ -472,6 +472,94 @@ Vorbilder in Mathe (nur lesen): `scripts/lp/polynomfunktionen/clips.py`,
 **Formelzeile und Bewegung abstimmen:** Nennt die Formel links schon den Endwert, soll die
 Bewegung früh und kurz sein (unter 2 s) — sonst steht im Text etwas anderes als im Bild.
 
+### Später einblenden, bewegen, mitlaufen (aus Mathe, 07.10.2026)
+
+In Mathe entstanden, in Physik am 07.10.2026 mit der ganzen Datei `build-clips.py` übernommen. Ohne die
+neuen Felder baut jeder Clip wie vorher: alle 302 Physik-Clips neu gebaut, keine JS-Fehler, im Bild nur
+zwei Änderungen — Läufer liegen über festen Linien und Texten, und Live-Zahlen mit genau zwei
+Nachkommastellen zeigen beide («R = 0.68 Ω» statt «0.7 Ω»).
+
+**`ein`/`aus` an einem Teil.** Jeder Punkt, jede Kurve, Gerade, Parabel, Figur, Strecke, Fläche und
+jeder Text im `graf` darf ein eigenes `ein` und `aus` tragen — Sekunden ab Szenenbeginn, wie beim
+Element. Der Teil blendet weich ein und aus. Das ersetzt das frühere Deckblatt (zweiter `graf`
+mit `"achsen": false, "raster": false` darüber); bestehende Deckblätter bleiben gültig.
+
+```json
+"punkte": [{"x": 5, "y": 0, "farbe": 3, "beschriftung": "(5 | 0)", "ein": 3.4},
+           {"x": 0, "y": 0, "farbe": 4, "beschriftung": "verloren", "ein": 4.3, "aus": 9}]
+```
+
+**Läufer auf Kurven.** `"laeufer": {"bahn": [[t, x], …], "text": "({x} | {y})", "farbe": 3}` — an
+bewegten `kurven` jeder Art (Potenz, Exponential, Logarithmus, Betrag, Sinus/Tangens, Polynom) und
+an festen Formelkurven (`"formel"`; der Abspieler liest dort aus einer Wertetabelle, `n` Stellen).
+
+**Zahlen in Live-Beschriftungen** (`{x}`, `{y}`, Nullstellen, Scheitel): eine Nachkommastelle, ausser
+der Wert hat genau zwei — dann beide (−0.75, −1.25 statt −0.8, −1.2). Während einer Bewegung sind
+die Werte krumm und bleiben bei einer Stelle.
+
+**Parabel in Normalform.** `"normalform": true` an einer bewegten Parabel liest die Stützpunkte als
+`[t, a, b, c]` für \(y = ax^2 + bx + c\). So läuft \(a\) stetig durch 0 (Parabel → Gerade → Parabel);
+bei \(a = 0\) zeigen `nullstellen` die eine Nullstelle der Geraden, `scheitel` verschwindet.
+**`"achse": true`** (oder `{"farbe": n}`) zeichnet die Symmetrieachse \(x = u\) gestrichelt mit, in beiden Formen.
+
+**Mitlaufende Schnittpunkte.** An einer bewegten Geraden:
+`"schnitte": {"kurve": 0, "farbe": 2, "beschriftung": true, "anzahl": 6}` — die Schnittpunkte mit
+der festen Formelkurve `kurven[0]`, auch Berührstellen (Knick auf der Waagrechten). Beschriftungen
+stehen abwechselnd über und unter der Geraden; bei vielen Punkten `"beschriftung": false` und die
+Werte als Notiz.
+
+**Bewegte Figuren.** `"bewegung": [[t, {Felder}], …]` an einer Figur: Jeder Stützpunkt überschreibt
+Felder (`punkte`, `von`, `bis`, `m`, `r`, `bei`, `text` …), dazwischen werden alle Zahlen weich
+übergeblendet. Vor dem ersten Stützpunkt steht die Figur, wie sie definiert ist; `{}` als erster
+Stützpunkt heisst «so bleiben bis t». Gerechnet wird in Python mit 20 Bildern je Sekunde — eine
+Bewegung von 3 s kostet rund 60 Bilder der Figur, also nur bewegen, was sich bewegen soll.
+
+```json
+{"art": "vieleck", "punkte": [[0,0],[8,0],[2,5]], "farbe": 1, "fuellung": 0.12,
+ "bewegung": [[1, {}], [4, {"punkte": [[0,0],[8,0],[6,5]]}]]}
+```
+
+**Bereich, der wandert.** `"grenzen": [[t, von, bis], …]` an einer bewegten Kurve statt festem
+`von`/`bis` — Einschränken auf einen umkehrbaren Teil, ein Intervall, das sich zusammenzieht.
+
+**Tangens am Einheitskreis** läuft über den Fensterrand: Die Strecke wird am Rand abgeschnitten
+statt ausgeblendet, der Strahl endet dort auf seiner Richtung; liegt P links der y-Achse, geht der
+Strahl von P durch den Mittelpunkt.
+
+**Nachgetragen beim Einbau (07.10.2026):** `ein`/`aus` auch direkt an einem `laeufer` (jeder Art) und
+am `dreieck` einer bewegten Geraden — keine zweite, deckungsgleiche Kurve mehr nötig. Bei Figuren
+mit `bewegung` wird Feld für Feld übergeblendet (bis zur Korrektur sprang die Figur in der Mitte
+zwischen zwei Stützpunkten); `farbe` wird umgeschaltet, nicht gemischt. Gleiche Nachbarbilder
+(Pausen mit `{}`) fasst der Bauer zu einem zusammen. Beim Steigungsdreieck mit Δx < 0 steht «Δy»
+links der Kathete.
+
+**Zweite Runde (07.10.2026), die kleinen Wünsche der Bearbeiter:**
+
+| Feld | wo | was |
+|---|---|---|
+| `"drehung": w`, `"um": [x, y]` | Figur, auch als Feld in ihrer `bewegung` | dreht die Figur um `um` (Grad, gegen den Uhrzeigersinn). In der `bewegung` wird der Winkel übergeblendet: `[[1.9, {"drehung": 0}], [3.3, {"drehung": 180}]]` — die Figur bleibt gleich gross, keine dichten Stützpunkte mehr. Texte drehen ihre Lage mit, nicht die Schrift. |
+| `"parameter": [[t, {"q": -4}], …]` | feste Formelkurve | Buchstaben in der `formel`, die sich während der Szene ändern; der Abspieler zeichnet die Kurve selbst. Der erste Stützpunkt nennt alle Buchstaben. Erlaubt ist, was `kurven`-Formeln können (`abs`, `sqrt`, `sin`, `pi`, `**` …). |
+| `"punkte": [{"x": "pi/(6*b)", "text": "({x} \| {y})"}]` | Formelkurve mit `parameter` | Punkte, die auf der Kurve mitfahren; ihr `x` ist eine Zahl oder eine Formel in den Parametern (der Punkt, der beim Stauchen wandert); `ein`/`aus` je Punkt. |
+| `"betrag_von": "x**2+q"` | Formelkurve | kurz für `"formel": "abs(x**2+q)"` — die umgeklappte Kurve in einem Stück, mit `parameter` auch bewegt (statt dreier Stücke mit dicht nachgeführten Grenzen). |
+| `"lage": "oben"` | `laeufer` (jeder Art), `marken`, Punkt einer Formelkurve | wo die Beschriftung steht: `oben`, `unten`, `links`, `rechts` oder zwei davon (`"oben links"`). Ohne Angabe wie bisher. |
+
+Ausserdem ohne neues Feld: Läufer liegen jetzt **über** festen Punkten (sie werden zuletzt gezeichnet
+und nehmen das `ein`/`aus` ihrer Kurve mit), und keine Beschriftung eines mitfahrenden Punkts ragt
+mehr über den Bildrand — sie klappt auf die andere Seite des Punkts oder wird hereingeschoben.
+
+**Noch nicht:** ein bewegtes Fenster (Zoom) und eine senkrechte bewegte Gerade. Behelf für den Zoom:
+mehrere `graf` nacheinander mit wachsendem Fenster.
+
+**In Physik eingesetzt (07.10.2026).** Statik «Auflager», Szene 4: Zwei Geraden kreuzen sich; nahe dem
+Schnittpunkt kollidiert jede Lage der Beschriftung mit der anderen Geraden. Je Gerade darum vier
+deckungsgleiche Kopien (`"dicke": 0.01`) mit demselben Läufer und eigenem `ein`/`aus`: ohne Text
+bis 1.5 m (am linken Rand würde die Beschriftung auf die Linie geschoben), mit Text und `lage` bis
+3.5 m, ohne Text um den Schnittpunkt, mit Text ab 6.5 m; die Läufer gehen aus, wenn die
+Eigengewicht-Ebene erscheint. Dynamik «Kurve», Szene 2: `"lage": "unten rechts"` an der Parabel, der
+letzte Wert als eigener Läufer mit `"oben links"`, weil am rechten Rand das Umklappen die
+Beschriftung auf die Kurve legte. Die Grenze bleibt: `ein`/`aus` gilt für **Teile im `graf`**, nicht
+für ganze Elemente (`bild`, `formel`, `notiz`) — die bleiben bis zum Szenenende stehen.
+
 ### Fragen im Clip: `fragen` (Prototyp 02.10.2026)
 
 Ein Clip kann **anhalten und fragen**, bevor der Sprecher die Auflösung nennt — die

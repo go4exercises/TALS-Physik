@@ -53,6 +53,7 @@ import json
 import os
 import re
 import sys
+from html import unescape
 from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -322,7 +323,12 @@ def seiten_aus_navjs(root):
     if os.path.isdir(lp):
         for datei in sorted(os.listdir(lp)):
             if datei.endswith('.html') and 'leitprogramme/' + datei not in UNVERLINKT:
-                seiten.append({'nr': 'LP', 'titel': 'Leitprogramm',
+                # Titel aus <title> («Leitprogramm Kinematik»), sonst stehen in der
+                # Trefferliste alle gleich da (Befund aus Mathe, 07.10.2026)
+                with open(os.path.join(lp, datei), encoding='utf-8') as f:
+                    m = re.search(r'<title>([^<]+)</title>', f.read())
+                titel = unescape(m.group(1)).strip() if m else 'Leitprogramm'
+                seiten.append({'nr': 'LP', 'titel': titel,
                                'url': f'leitprogramme/{datei}', 'mode': 'thema'})
     return seiten
 

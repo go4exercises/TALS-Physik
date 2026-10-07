@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Ein Saugnapf hält an einer glatten Wand. Was hält ihn dort?", "optionen": ["der Napf saugt die Wand an", "der Luftdruck draussen ist grösser als im Napf", "der Gummi klebt an der Wand"], "richtig": 1, "rueck": {"0": "Kann ein Unterdruck ziehen — oder fehlt im Napf nur Druck?", "2": "Warum fällt er ab, sobald Luft unter den Rand kommt?"}, "t": 0.3, "ton": {"frage": "ton/p4-5-lp-kontrolle-luftdruck-f0-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-luftdruck-f0-r0.mp3", "r2": "ton/p4-5-lp-kontrolle-luftdruck-f0-r2.mp3"}}, {"typ": "wahl", "text": "Auf dem Säntis (Luftdruck 750 hPa) baust du ein Barometer mit Wasser. Wie hoch steht die Wassersäule?", "optionen": ["rund 7.6 m", "rund 10.3 m", "rund 0.56 m"], "richtig": 0, "rueck": {"1": "Welcher Luftdruck herrscht auf dem Säntis?", "2": "Welche Flüssigkeit steht im Rohr?"}, "t": 6.54, "ton": {"frage": "ton/p4-5-lp-kontrolle-luftdruck-f1-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-luftdruck-f1-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-luftdruck-f1-r2.mp3"}}, {"typ": "wahl", "text": "Du senkst den Druck im Strohhalm um 50 hPa. Wie hoch steigt Wasser höchstens?", "optionen": ["rund 0.51 cm", "rund 51 cm", "rund 5.1 m"], "richtig": 1, "rueck": {"0": "Hektopascal in Pascal: mal hundert.", "2": "Wie viele Pascal sind ein Hektopascal?"}, "t": 16.83, "ton": {"frage": "ton/p4-5-lp-kontrolle-luftdruck-f2-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-luftdruck-f2-r0.mp3", "r2": "ton/p4-5-lp-kontrolle-luftdruck-f2-r2.mp3"}}, {"typ": "wahl", "text": "Ein Höhenmesser im Flugzeug misst den Luftdruck. Er zeigt weniger Druck an als vorher. Was schliesst er daraus?", "optionen": ["das Flugzeug ist gestiegen", "das Flugzeug ist gesunken", "nichts: Der Luftdruck hängt nicht von der Höhe ab"], "richtig": 0, "rueck": {"1": "Liegt über dir mehr oder weniger Luft, wenn du tiefer bist?", "2": "Ist die Luftsäule über dir in jeder Höhe gleich schwer?"}, "t": 25.38, "ton": {"frage": "ton/p4-5-lp-kontrolle-luftdruck-f3-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-luftdruck-f3-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-luftdruck-f3-r2.mp3"}}, {"typ": "wahl", "text": "Ein Saugrohr steht in Spiritus (790 kg/m³). Draussen herrschen 1000 hPa, im Rohr 600 hPa. Wie hoch steigt der Spiritus?", "optionen": ["rund 4.1 m", "rund 7.7 m", "rund 5.2 m"], "richtig": 2, "rueck": {"0": "Mit welcher Dichte hast du gerechnet?", "1": "Was trägt die Säule: der Druck im Rohr oder der Unterschied zu draussen?"}, "t": 33.89, "ton": {"frage": "ton/p4-5-lp-kontrolle-luftdruck-f4-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-luftdruck-f4-r0.mp3", "r1": "ton/p4-5-lp-kontrolle-luftdruck-f4-r1.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

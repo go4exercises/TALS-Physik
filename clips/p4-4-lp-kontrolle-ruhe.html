@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Eine Kiste liegt auf waagrechtem Boden. Welche Kraft hält sie gegen die Gewichtskraft?", "optionen": ["die Haftreibung", "die Normalkraft des Bodens", "keine, sie liegt einfach"], "richtig": 1, "rueck": {"0": "Die Haftreibung wirkt längs der Fläche, nicht senkrecht.", "2": "Ohne Gegenkraft würde die Gewichtskraft sie beschleunigen."}, "t": 0.3, "ton": {"frage": "ton/p4-4-lp-kontrolle-ruhe-f0-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-ruhe-f0-r0.mp3", "r2": "ton/p4-4-lp-kontrolle-ruhe-f0-r2.mp3"}}, {"typ": "wahl", "text": "Kiste, 50 kg, auf einer Rampe mit α = 10°. Wie gross ist die Hangabtriebskraft?", "optionen": ["85.2 N", "483 N", "490.5 N"], "richtig": 0, "rueck": {"1": "Das ist die Komponente senkrecht zur Rampe, mit dem Kosinus.", "2": "Das ist die ganze Gewichtskraft."}, "t": 7.68, "ton": {"frage": "ton/p4-4-lp-kontrolle-ruhe-f1-frage.mp3", "r1": "ton/p4-4-lp-kontrolle-ruhe-f1-r1.mp3", "r2": "ton/p4-4-lp-kontrolle-ruhe-f1-r2.mp3"}}, {"typ": "wahl", "text": "Eine Kiste ruht auf einer Rampe. Der Hangabtrieb ist 40 N, die grösste mögliche Haftreibung 70 N. Wie gross ist die Haftreibung?", "optionen": ["70 N", "40 N", "110 N"], "richtig": 1, "rueck": {"0": "Das ist nur ihr Höchstwert. Wie viel braucht es, damit die Kiste ruht?", "2": "Die Reibung hält gegen den Hangabtrieb. Wie viel braucht es?"}, "t": 16.64, "ton": {"frage": "ton/p4-4-lp-kontrolle-ruhe-f2-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-ruhe-f2-r0.mp3", "r2": "ton/p4-4-lp-kontrolle-ruhe-f2-r2.mp3"}}, {"typ": "wahl", "text": "Die Haftreibungszahl ist 0.25. Bis zu welchem Neigungswinkel haftet ein Körper?", "optionen": ["14.5°", "75.5°", "14.0°"], "richtig": 2, "rueck": {"0": "Das ist mit dem Arcussinus. An der Grenze gilt: tan α gleich Haftreibungszahl.", "1": "Das ist mit dem Arcuskosinus. An der Grenze gilt: tan α gleich Haftreibungszahl."}, "t": 25.82, "ton": {"frage": "ton/p4-4-lp-kontrolle-ruhe-f3-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-ruhe-f3-r0.mp3", "r1": "ton/p4-4-lp-kontrolle-ruhe-f3-r1.mp3"}}, {"typ": "wahl", "text": "Ein Brett mit einem Holzklotz wird auf α = 25° geneigt, die Haftreibungszahl ist 0.35. Bleibt der Klotz liegen?", "optionen": ["nein, er rutscht", "ja, er haftet", "das hängt von seiner Masse ab"], "richtig": 0, "rueck": {"1": "Vergleiche tan α mit der Haftreibungszahl.", "2": "Die Masse kürzt sich heraus. Vergleiche tan α mit der Haftreibungszahl."}, "t": 33.24, "ton": {"frage": "ton/p4-4-lp-kontrolle-ruhe-f4-frage.mp3", "r1": "ton/p4-4-lp-kontrolle-ruhe-f4-r1.mp3", "r2": "ton/p4-4-lp-kontrolle-ruhe-f4-r2.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

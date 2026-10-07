@@ -126,8 +126,8 @@ Gesagtes und Notiertes stehen jetzt zur selben Zeit im Bild, Veränderungen lauf
 Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entscheide:
 - drehmoment, Szene 2: gezeichnet statt aufgenommen — der Längenregler reicht bis 0.4 m, ein 0.5-m-Schlüssel
   läge links ausserhalb der Simulation.
-- auflager, Szene 4: Die Beschriftung des Läufers von B steht bis 2 m über der Geraden, weil er dort auf einer
-  `parabel` mit winzigem negativem a fährt (Abweichung höchstens 0.00025 kN) — Kunstgriff, solange der
-  Generator keine Lage der Läuferbeschriftung kennt.
+- auflager, Szene 4: Läuferbeschriftungen mit `lage` und `ein`/`aus` (Generator aus Mathe, 07.10.2026): ohne Text
+  bis 1.5 m und um den Schnittpunkt (3.5 bis 6.5 m), Fahrt bis 7 m, aus mit der Eigengewicht-Ebene; die Namen
+  «Stütze A/B» stehen am rechten Ende der Geraden. Der frühere Parabel-Kunstgriff ist entfallen.
 - vektor S1, drehmoment S2, auflager S2: `ein` von Hand nach `sprechzeiten.py`; `anker.py` lag bis 1.5 s daneben.
 - auflager, Szene 7: F_B, F_A und Probe erscheinen mit dem gesprochenen Ergebnis.

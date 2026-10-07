@@ -119,6 +119,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -132,6 +140,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Eine Heizung an 230 V zieht 2 A. Welche Leistung setzt sie um?", "optionen": ["115 W", "232 W", "460 W"], "richtig": 2, "rueck": {"0": "Geteilt? Prüf, wie Spannung und Stromstärke in der Formel für die Leistung verknüpft sind.", "1": "Volt und Ampere werden nicht addiert."}, "t": 0.3, "ton": {"frage": "ton/p6-2-lp-kontrolle-leistung-f0-frage.mp3", "r0": "ton/p6-2-lp-kontrolle-leistung-f0-r0.mp3", "r1": "ton/p6-2-lp-kontrolle-leistung-f0-r1.mp3"}}, {"typ": "wahl", "text": "Ein Gerät mit 2 kW läuft 30 min. Wie viel Energie setzt es um?", "optionen": ["60 kWh", "1 kWh", "60 000 kWh"], "richtig": 1, "rueck": {"0": "In Kilowattstunden muss die Zeit in Stunden stehen.", "2": "Erst in Kilowatt und Stunden umrechnen, dann multiplizieren."}, "t": 6.86, "ton": {"frage": "ton/p6-2-lp-kontrolle-leistung-f1-frage.mp3", "r0": "ton/p6-2-lp-kontrolle-leistung-f1-r0.mp3", "r2": "ton/p6-2-lp-kontrolle-leistung-f1-r2.mp3"}}, {"typ": "wahl", "text": "Eine 12-V-Batterie schiebt 5 C durch den Kreis. Welche Arbeit verrichtet sie?", "optionen": ["60 J", "2.4 J", "17 J"], "richtig": 0, "rueck": {"1": "Spannung ist Energie je Coulomb. Wie viele Coulomb sind es?", "2": "Volt und Coulomb werden nicht addiert."}, "t": 13.86, "ton": {"frage": "ton/p6-2-lp-kontrolle-leistung-f2-frage.mp3", "r1": "ton/p6-2-lp-kontrolle-leistung-f2-r1.mp3", "r2": "ton/p6-2-lp-kontrolle-leistung-f2-r2.mp3"}}, {"typ": "wahl", "text": "Ein Föhn (1800 W) läuft 20 min, ein Fernseher (120 W) läuft 4 h. Wer setzt mehr Energie um?", "optionen": ["der Fernseher", "beide gleich viel", "der Föhn"], "richtig": 2, "rueck": {"0": "Länger heisst nicht mehr. Rechne für beide Leistung mal Zeit aus.", "1": "Rechne für beide Leistung mal Zeit in Kilowattstunden aus."}, "t": 18.88, "ton": {"frage": "ton/p6-2-lp-kontrolle-leistung-f3-frage.mp3", "r0": "ton/p6-2-lp-kontrolle-leistung-f3-r0.mp3", "r1": "ton/p6-2-lp-kontrolle-leistung-f3-r1.mp3"}}, {"typ": "wahl", "text": "Was zählt der Stromzähler zu Hause?", "optionen": ["die Ladung in C", "die Energie in kWh", "die Stromstärke in A"], "richtig": 1, "rueck": {"0": "Die Ladung fliesst zurück. Was wird im Gerät umgesetzt?", "2": "Strom wird nicht verbraucht. Was wird im Gerät umgesetzt?"}, "t": 31.4, "ton": {"frage": "ton/p6-2-lp-kontrolle-leistung-f4-frage.mp3", "r0": "ton/p6-2-lp-kontrolle-leistung-f4-r0.mp3", "r2": "ton/p6-2-lp-kontrolle-leistung-f4-r2.mp3"}}];
 (() => {
@@ -324,7 +338,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

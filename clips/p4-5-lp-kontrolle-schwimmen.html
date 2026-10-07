@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Ein Körper hat die Dichte 1200 kg/m³. Was geschieht in Wasser?", "optionen": ["er schwimmt", "er sinkt", "er schwebt"], "richtig": 1, "rueck": {"0": "Vergleiche seine Dichte mit der von Wasser.", "2": "Schweben heisst: genau gleiche Dichte."}, "t": 0.3, "ton": {"frage": "ton/p4-5-lp-kontrolle-schwimmen-f0-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-schwimmen-f0-r0.mp3", "r2": "ton/p4-5-lp-kontrolle-schwimmen-f0-r2.mp3"}}, {"typ": "wahl", "text": "Ein Holzbalken (750 kg/m³) schwimmt in Wasser. Welcher Anteil liegt unter der Oberfläche?", "optionen": ["25 %", "75 %", "133 %"], "richtig": 1, "rueck": {"0": "Das ist der Teil über Wasser.", "2": "Umgekehrt: Dichte Körper durch Dichte Flüssigkeit, immer kleiner als 1."}, "t": 5.28, "ton": {"frage": "ton/p4-5-lp-kontrolle-schwimmen-f1-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-schwimmen-f1-r0.mp3", "r2": "ton/p4-5-lp-kontrolle-schwimmen-f1-r2.mp3"}}, {"typ": "wahl", "text": "Ein Brett schwimmt in Wasser und taucht zu 30 % ein. Welche Dichte hat es?", "optionen": ["300 kg/m³", "700 kg/m³", "3333 kg/m³"], "richtig": 0, "rueck": {"1": "Das passt zum Teil über Wasser.", "2": "Umgekehrt gerechnet? Ein schwimmender Körper ist weniger dicht als Wasser."}, "t": 13.24, "ton": {"frage": "ton/p4-5-lp-kontrolle-schwimmen-f2-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-schwimmen-f2-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-schwimmen-f2-r2.mp3"}}, {"typ": "wahl", "text": "Ein Ball (150 kg/m³) wird ganz unter Wasser gedrückt und losgelassen. Warum steigt er?", "optionen": ["der Auftrieb ist grösser als die Gewichtskraft", "Luft zieht ihn nach oben", "der Druck unten ist kleiner"], "richtig": 0, "rueck": {"1": "Welche Kräfte wirken unter Wasser auf ihn?", "2": "Ist der Druck unten kleiner oder grösser als oben?"}, "t": 21.57, "ton": {"frage": "ton/p4-5-lp-kontrolle-schwimmen-f3-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-schwimmen-f3-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-schwimmen-f3-r2.mp3"}}, {"typ": "wahl", "text": "Zwei gleich grosse Holzwürfel, 500 kg/m³ und 900 kg/m³, schwimmen in Wasser. Welcher ragt weiter heraus?", "optionen": ["der aus 900 kg/m³", "beide gleich", "der aus 500 kg/m³"], "richtig": 2, "rueck": {"0": "Welcher taucht zu einem grösseren Anteil ein?", "1": "Der eingetauchte Anteil hängt von der Dichte ab."}, "t": 28.88, "ton": {"frage": "ton/p4-5-lp-kontrolle-schwimmen-f4-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-schwimmen-f4-r0.mp3", "r1": "ton/p4-5-lp-kontrolle-schwimmen-f4-r1.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

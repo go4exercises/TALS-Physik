@@ -35,6 +35,7 @@
 #           Faellt die Aehnlichkeit darunter, ist neue Drift entstanden.
 #           Die Grundlinie darf nur steigen — wer zwei Fassungen angleicht,
 #           traegt den neuen, hoeheren Wert ein.
+#           Projektdaten darin (Seitenlisten) laesst DATEN beim Messen weg.
 #  FACH     Bewusst verschieden, mit Begruendung. Wird nicht verglichen;
 #           die Liste ist die Stelle, an der die Begruendung steht.
 #
@@ -84,11 +85,11 @@ GRUNDLINIE = {
     'downloads/print.css': 0.900,
     'feedback.html': 0.977,
     'LICENSE': 0.955,
-    'scripts/build-suchindex.py': 0.962,
-    'scripts/build-clips.py': 0.980,
+    'scripts/build-suchindex.py': 0.957,   # ohne DATEN gemessen; 0.963 -> 0.957: Physik liest LP-Titel aus <title> (07.10.2026, auf Mathes Vorschlag)
+    'scripts/build-clips.py': 0.998,   # gemeinsamer Bauer, drei Projektwerte (07.10.2026)
     'scripts/build-clips-einbau.py': 0.830,
     'scripts/build-clip-ton.py': 1.000,
-    'scripts/build-seo.py': 0.533,
+    'scripts/build-seo.py': 0.898,         # ohne DATEN gemessen (07.10.2026; mit Daten 0.533)
     'scripts/schriften-lokal.py': 0.961,
     'scripts/mathjax-lokal.py': 0.853,
     'scripts/verify_mathjax.js': 0.941,
@@ -104,13 +105,24 @@ GRUNDLINIE = {
     '.claude/settings.json': 0.509,
 }
 
+# Projektdaten in KERN-Dateien: Diese Python-Zuweisungen auf oberster Ebene
+# werden auf BEIDEN Seiten weggelassen, bevor gemessen wird (seit 07.10.2026).
+# Sie wachsen mit jeder neuen Seite und liessen die Aehnlichkeit sinken, ohne
+# dass am Werkzeug etwas auseinanderlief — ein Fehlalarm, der jeden echten
+# uebertoent. Fehlt ein Name auf einer Seite, wird dort nichts weggelassen.
+# --diff zeigt weiterhin die ganze Datei.
+DATEN = {
+    'scripts/build-seo.py': ('SEITEN', 'LG_G', 'LG_S'),
+    'scripts/build-suchindex.py': ('ZUSATZSEITEN', 'UNVERLINKT'),
+}
+
 # Was tief unter seiner Grundlinie liegt, ist kein Naturgesetz, sondern eine
 # offene Baustelle. Hier steht, was daran zu tun waere.
 BAUSTELLE = {
     'scripts/build-seo.py':
-        'Grosse Teile sind Projektdatei (SEITEN, Lerngebiete). Die Logik ist seit '
-        'dem 13.09.2026 gleich (argparse, --dry-run, einsetzen, main). Trennen '
-        'waere der naechste Schritt.',
+        'Die Projektdaten (SEITEN, Lerngebiete) misst DATEN seit dem 07.10.2026 nicht '
+        'mehr mit. Was bleibt, ist bewusst: Mathe leitet Fach und Lerngebiet aus dem '
+        'Dateinamen ab (fach_lg) und hat darum eine Brotkrume mehr.',
     '.claude/skills/preflight/preflight.py':
         'Alle Pruefungen geteilt (check_html_in_math seit 13.09.2026, '
         'check_clips seit 26.09.2026 in beiden). Verschieden bleiben Ordner und '
@@ -125,47 +137,19 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='build-clips.py: graf mit flaechen, strecken, texte und "achsen": false (06.10.2026)',
-         wie='Neu in graf_svg, alles statisch in Datenkoordinaten, ohne die Felder Byte fuer Byte wie vorher '
-             '(geprueft an vier Clips): "flaechen" (gefuelltes Vieleck unter allen Linien, "deckung", '
-             'Beschriftung mit Hof), "strecken" (Hilfs-, Mass- und Vektorlinien, "pfeil": true, '
-             '"gestrichelt", Beschriftung mit Hof), "texte" (freie Beschriftung) und "achsen": false '
-             '(nur die Zeichnung, ohne Karo/Achsen/Teilung) — als Pfeilbild oder als zweite Ebene, die '
-             'spaeter deckungsgleich ueber einem graf mit demselben Fenster erscheint. Anlass: Antworten '
-             'der Kontrollclips im Bild und Rechnungen, die sich im Diagramm entwickeln (Weg als Flaeche). '
-             'Fuer Mathe nuetzlich (Flaeche unter einer Kurve, Masslinien am Steigungsdreieck, Vektoren). '
-             'Doku: HOWTO-clips.md, Abschnitt «Flaechen, Strecken, Texte und Ebenen im graf». '
-             'build-clips.py und diese Datei aus Physik uebernehmen, danach KERN-Grundlinie pruefen. '
-             'Am selben Tag: Feld "kopf" je Frage ersetzt die Kopfzeile «Deine Vorhersage» (Physik: '
-             '«Dein Vorgehen» bei Strategiefragen nach der Einfuehrung); ohne das Feld unveraendert. '
-             'Und: pruef-fragen.mjs bricht bei einer Frage mitten im Clip ab (erwartet Frage 1 in den '
-             'ersten Sekunden) — in Mathe betrifft das g3-3-lp-verschieben, falls die erste Frage spaet kommt. '
-             'Ebenfalls 06.10.: bewegte Parabeln kennen "ab"/"bis" (data-ab/data-bis, BEWEGUNG_JS begrenzt '
-             'den Bogen); ohne die Felder Byte fuer Byte gleich.'),
-    dict(quelle='Physik', was='build-clips.py zusammengefuehrt, beide Richtungen (07.10.2026)',
-         wie='Mathes Eintrag «build-clips.py zusammenfuehren statt kopieren» ist in Physik abgearbeitet: '
-             'figuren (mit deckkraft/fuellung/dicke), bewegte Potenz/Wurzel/Polynom/Exponential/Logarithmus/'
-             'Sinus/Tangens/Betrag samt Begleitern und Einheitskreis, tippbar, Notizfarben gold/orange, '
-             'Hof um bewegte Punktbeschriftungen und die nahAchse-Regel — weitgehend wortgleich uebernommen. '
-             'Aehnlichkeit vorher 82.4 %, jetzt 96.8 %; der Rest sind Physiks Felder (flaechen, strecken, '
-             'texte, ab an Geraden, ab/bis an Parabeln, Textbreite aus `breite`, `mitnehmen`, Ton- und '
-             'Tastaturkommentare). Einzige gewollte Abweichung: Konstante KARO_OHNE_ACHSEN — Physik False '
-             '(69 Drehbuecher mit "achsen": false erwarten kein Karo), Mathe True (Planimetrie); ein '
-             'ausdrueckliches "raster" im Drehbuch geht in beiden vor. "werkzeug" im Index fehlt in Physik '
-             'weiter bewusst. In Mathe: build-clips.py aus Physik uebernehmen, KARO_OHNE_ACHSEN = True '
-             'setzen, alle Clips neu bauen und gegen den vorigen Bau vergleichen (in Physik: 284 von 302 '
-             'byte-gleich, Rest nur Hof und nahAchse), danach Grundlinie 0.98 erreicht. '
-             '.claude/tools/pruef-fragen.mjs (bisher in beiden Repos gleich, in keiner Liste dieser Datei): '
-             'prueft jetzt auch Fragen mitten im Clip (erste Frage spaeter als 2.5 s: jeder Fall springt per '
-             'Zeitleiste kurz davor, B/B2 entfallen) — Datei uebernehmen. '
-             'Ausserdem beide Eintraege vom 06.10.2026 in TODO-schwesterprojekt.md erledigt und zu loeschen: '
-             'Leitprogramme-Seite mit Kacheln (Physik: Titel des Leitprogramms als Kopf jeder Kachel, weil '
-             'sich mehrere Leitprogramme eine Themenseite teilen; «Veraltet» bleibt im alten Aufbau) und '
-             'clips.html in drei Spalten (scripts/clips_bibliothek.py, Physik-Fassung; der Uebungstest '
-             'Waermelehre steht in Spalte 2, sein «LP» zeigt auf die Aufgabe; REIHEN_VORN nur in der '
-             'Bibliothek). clips_bibliothek.py steht jetzt unter FACH — in Mathe ebenso eintragen '
-             '(diese Datei uebernehmen). build-seo.py: SEITENNAME und RLP als Konstanten aus Mathe uebernommen; '
-             'die Restdrift dort und in build-suchindex.py ist Seitentabelle bzw. Mathes Handliste.'),
+    dict(quelle='Physik', was='Mathes zwei Eintraege vom 07.10.2026 abgearbeitet; LP-Titel in der Suche',
+         wie='build-clips.py aus Mathe uebernommen, KARO_OHNE_ACHSEN = False, TEXTBREITE_BEGRENZEN = True, '
+             '"werkzeug" im Index weiter weggelassen; Aehnlichkeit 99.8 %, Grundlinie 0.990 -> 0.998. '
+             'Alle 302 Physik-Clips neu gebaut: keine JS-Fehler (Browser, je 13 Zeitpunkte); im Bild nur '
+             'Laeufer ueber festen Teilen und zwei Nachkommastellen (R = 0.68 statt 0.7 Ohm). Durchgesehen: '
+             '18 Clips mit bewegten Teilen, 57 abweichende Bilder, alle in Ordnung. Zwei alte Kollisionen '
+             'mit "lage" und "ein"/"aus" an Laeufern behoben (Statik auflager, Dynamik kurve). Doku: '
+             'Abschnitt «Spaeter einblenden, bewegen, mitlaufen» in HOWTO-clips.md uebernommen, mit Physiks '
+             'Einsatz und der Grenze (ein/aus nur fuer Teile im graf, nicht fuer bild/formel/notiz). '
+             'abgleich.py mit DATEN uebernommen. Befund build-suchindex.py umgesetzt: Physik liest den Titel '
+             'jedes Leitprogramms aus <title> («Leitprogramm Kinematik»). Der Block steht nur in Physiks '
+             'Auto-Erkennung (Mathe: Handliste) — darum Grundlinie bewusst 0.963 -> 0.957. In Mathe ist '
+             'nichts zu tun als diese Datei zu uebernehmen.'),
 ]
 FACH = {
     'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',
@@ -211,7 +195,24 @@ def geschwister(root, vorgabe=None):
     return None
 
 
-def aehnlichkeit(a, b):
+def ohne_daten(zeilen, namen):
+    """Zeilen ohne die Zuweisungen auf oberster Ebene an `namen` (DATEN)."""
+    if not namen:
+        return zeilen
+    import ast
+    try:
+        baum = ast.parse('\n'.join(zeilen))
+    except SyntaxError:
+        return zeilen
+    weg = set()
+    for k in baum.body:
+        ziele = k.targets if isinstance(k, ast.Assign) else [k.target] if isinstance(k, ast.AnnAssign) else []
+        if any(isinstance(z, ast.Name) and z.id in namen for z in ziele):
+            weg.update(range(k.lineno - 1, k.end_lineno))
+    return [z for i, z in enumerate(zeilen) if i not in weg]
+
+
+def aehnlichkeit(a, b, daten=()):
     """Zeilenweise. Binaerdateien: gleich oder nicht.
 
     Die Reihenfolge der beiden Seiten wird festgelegt, bevor gemessen wird:
@@ -226,6 +227,7 @@ def aehnlichkeit(a, b):
         tb = open(b, encoding='utf-8').read().splitlines()
     except (UnicodeDecodeError, ValueError):
         return 1.0 if open(a, 'rb').read() == open(b, 'rb').read() else 0.0
+    ta, tb = ohne_daten(ta, daten), ohne_daten(tb, daten)
     if ta == tb:
         return 1.0
     return difflib.SequenceMatcher(None, ta, tb, autojunk=False).ratio()
@@ -319,7 +321,7 @@ def main(argv):
             print(f'   [DRIFT] {f:48s} fehlt {wo}')
             befunde.append(f)
             continue
-        ist, soll = aehnlichkeit(p, q), GRUNDLINIE[f]
+        ist, soll = aehnlichkeit(p, q, DATEN.get(f, ())), GRUNDLINIE[f]
         if ist + 0.005 < soll:
             print(f'   [DRIFT] {f:48s} {ist*100:5.1f} %  (Grundlinie {soll*100:.0f} %)')
             befunde.append(f)

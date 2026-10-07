@@ -115,3 +115,5 @@ Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entsc
 - faden, Szenen 0/1: Ausschnitte `faden-1o.jpg`, `faden-2o.jpg` (oberer Teil der Simulation, v-t weg).
 - Läufer springen in ganzen Sekunden, damit das Wertepaar auf der Geraden liegt (Grundgesetz, Trottinett,
   Gesamtkraft «Ausrollen» von 3 s bis 9 s — bei 12 s kreuzte die Gerade die Beschriftung).
+- kurve, Szene 2: Beschriftung des Läufers `"lage": "unten rechts"`, der Wert bei 6 m/s als eigener Läufer
+  `"oben links"` (am rechten Rand legte das Umklappen die Beschriftung auf die Kurve) — Generator aus Mathe, 07.10.2026.

@@ -119,6 +119,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -132,6 +140,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Auf einem Schiff (8 m/s) geht jemand mit 2 m/s nach hinten. Wie schnell ist er gegenüber dem Ufer?", "optionen": ["10 m/s", "6 m/s", "2 m/s"], "richtig": 1, "rueck": {"0": "Nach hinten zeigt sein Pfeil gegen den Pfeil des Schiffs.", "2": "Das ist seine Geschwindigkeit gegenüber dem Schiff."}, "t": 0.3, "ton": {"frage": "ton/p4-1-lp-kontrolle-vektor-f0-frage.mp3", "r0": "ton/p4-1-lp-kontrolle-vektor-f0-r0.mp3", "r2": "ton/p4-1-lp-kontrolle-vektor-f0-r2.mp3"}}, {"typ": "wahl", "text": "Ein Kran hebt eine Last mit 0.5 m/s, gleichzeitig fährt die Laufkatze mit 1.2 m/s waagrecht. Wie schnell bewegt sich die Last gegenüber dem Boden?", "optionen": ["1.7 m/s", "0.7 m/s", "1.3 m/s"], "richtig": 2, "rueck": {"0": "Die beiden Pfeile stehen senkrecht aufeinander. Darf man da einfach addieren?", "1": "Abziehen? Die beiden Bewegungen stehen senkrecht aufeinander."}, "t": 7.1, "ton": {"frage": "ton/p4-1-lp-kontrolle-vektor-f1-frage.mp3", "r0": "ton/p4-1-lp-kontrolle-vektor-f1-r0.mp3", "r1": "ton/p4-1-lp-kontrolle-vektor-f1-r1.mp3"}}, {"typ": "wahl", "text": "Ein Boot fährt quer zum Ufer über den Fluss. Die Strömung wird stärker. Was geschieht mit der Querzeit?", "optionen": ["sie wird länger", "sie bleibt gleich", "sie wird kürzer"], "richtig": 1, "rueck": {"0": "Hat die Strömung einen Anteil quer über den Fluss?", "2": "Hat die Strömung einen Anteil quer über den Fluss?"}, "t": 16.71, "ton": {"frage": "ton/p4-1-lp-kontrolle-vektor-f2-frage.mp3", "r0": "ton/p4-1-lp-kontrolle-vektor-f2-r0.mp3", "r2": "ton/p4-1-lp-kontrolle-vektor-f2-r2.mp3"}}, {"typ": "wahl", "text": "Fluss 45 m breit, Boot quer mit 3 m/s, Strömung 0.5 m/s. Wie weit wird es versetzt?", "optionen": ["15 m", "45 m", "7.5 m"], "richtig": 2, "rueck": {"0": "Das ist die Querzeit in Sekunden, kein Versatz.", "1": "Das ist die Flussbreite. Wie lange dauert die Überquerung?"}, "t": 24.97, "ton": {"frage": "ton/p4-1-lp-kontrolle-vektor-f3-frage.mp3", "r0": "ton/p4-1-lp-kontrolle-vektor-f3-r0.mp3", "r1": "ton/p4-1-lp-kontrolle-vektor-f3-r1.mp3"}}, {"typ": "wahl", "text": "Die Strömung ist schneller als eine Schwimmerin. Kann sie genau gegenüber ankommen?", "optionen": ["nein", "ja, wenn sie schräg genug schwimmt", "ja, wenn sie quer schwimmt"], "richtig": 0, "rueck": {"1": "Ihr Anteil gegen die Strömung müsste die Strömung aufheben. Wie gross kann dieser Anteil höchstens werden?", "2": "Quer zum Ufer hat sie gar keinen Anteil gegen die Strömung."}, "t": 35.11, "ton": {"frage": "ton/p4-1-lp-kontrolle-vektor-f4-frage.mp3", "r1": "ton/p4-1-lp-kontrolle-vektor-f4-r1.mp3", "r2": "ton/p4-1-lp-kontrolle-vektor-f4-r2.mp3"}}];
 (() => {
@@ -324,7 +338,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

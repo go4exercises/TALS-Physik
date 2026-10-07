@@ -119,6 +119,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -132,6 +140,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Ein Stein fällt aus 5 m Höhe, ohne Luftwiderstand. Wie schnell ist er unten?", "optionen": ["9.9 m/s", "98.1 m/s", "7.0 m/s"], "richtig": 0, "rueck": {"1": "Das ist v². Noch die Wurzel ziehen.", "2": "Der Faktor 2 fehlt: v = √(2 · g · h)."}, "t": 0.3, "ton": {"frage": "ton/p4-3-lp-kontrolle-erhaltung-f0-frage.mp3", "r1": "ton/p4-3-lp-kontrolle-erhaltung-f0-r1.mp3", "r2": "ton/p4-3-lp-kontrolle-erhaltung-f0-r2.mp3"}}, {"typ": "wahl", "text": "Ein Achterbahnwagen rollt reibungsfrei durch ein Tal und bleibt auf der anderen Seite auf 12 m Höhe kurz stehen. Aus welcher Höhe ist er aus der Ruhe gestartet?", "optionen": ["12 m", "24 m", "6 m"], "richtig": 0, "rueck": {"1": "Aus 24 m käme er auch wieder auf 24 m. Wo müsste die Energie geblieben sein?", "2": "Woher sollte die zusätzliche Energie kommen, um höher zu steigen als gestartet?"}, "t": 8.73, "ton": {"frage": "ton/p4-3-lp-kontrolle-erhaltung-f1-frage.mp3", "r1": "ton/p4-3-lp-kontrolle-erhaltung-f1-r1.mp3", "r2": "ton/p4-3-lp-kontrolle-erhaltung-f1-r2.mp3"}}, {"typ": "wahl", "text": "Ein Ball wird mit 6 m/s senkrecht hochgeworfen. Wie hoch steigt er, ohne Luftwiderstand?", "optionen": ["3.67 m", "1.83 m", "0.31 m"], "richtig": 1, "rueck": {"0": "Der Faktor 2 fehlt: h = v² / (2 · g).", "2": "Die Geschwindigkeit steht im Quadrat."}, "t": 15.39, "ton": {"frage": "ton/p4-3-lp-kontrolle-erhaltung-f2-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-erhaltung-f2-r0.mp3", "r2": "ton/p4-3-lp-kontrolle-erhaltung-f2-r2.mp3"}}, {"typ": "wahl", "text": "Ein Wagen fährt reibungsfrei mit 4 m/s auf 10 m Höhe los. Wie schnell ist er im Tal?", "optionen": ["18.0 m/s", "14.0 m/s", "14.6 m/s"], "richtig": 2, "rueck": {"0": "Geschwindigkeiten addieren sich nicht — die Energien.", "1": "Das Anfangstempo bringt Bewegungsenergie mit."}, "t": 23.07, "ton": {"frage": "ton/p4-3-lp-kontrolle-erhaltung-f3-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-erhaltung-f3-r0.mp3", "r1": "ton/p4-3-lp-kontrolle-erhaltung-f3-r1.mp3"}}, {"typ": "wahl", "text": "Ein Wagen startet reibungsfrei aus der Ruhe auf 15 m Höhe. Kommt er über einen 16 m hohen Hügel?", "optionen": ["ja, mit genug Schwung", "nein, er kehrt um", "nur, wenn er schwer genug ist"], "richtig": 1, "rueck": {"0": "Woher sollte die Energie für den zusätzlichen Meter kommen?", "2": "Die Masse kürzt sich. Woher sollte die Energie kommen?"}, "t": 32.51, "ton": {"frage": "ton/p4-3-lp-kontrolle-erhaltung-f4-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-erhaltung-f4-r0.mp3", "r2": "ton/p4-3-lp-kontrolle-erhaltung-f4-r2.mp3"}}];
 (() => {
@@ -324,7 +338,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

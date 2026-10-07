@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Zwei Kräfte von 30 N und 40 N ziehen in dieselbe Richtung. Wie gross ist die Resultierende?", "optionen": ["50 N", "70 N", "10 N"], "richtig": 1, "rueck": {"0": "Pythagoras gilt nur im rechten Winkel.", "2": "Subtrahieren nur bei entgegengesetzter Richtung."}, "t": 0.3, "ton": {"frage": "ton/p4-4-lp-kontrolle-resultierende-f0-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-resultierende-f0-r0.mp3", "r2": "ton/p4-4-lp-kontrolle-resultierende-f0-r2.mp3"}}, {"typ": "wahl", "text": "Rechtwinklig zueinander: 35 N und 120 N. Wie gross ist die Resultierende?", "optionen": ["155 N", "85 N", "125 N"], "richtig": 2, "rueck": {"0": "Addieren nur bei gleicher Richtung.", "1": "Subtrahieren nur bei entgegengesetzter Richtung."}, "t": 6.13, "ton": {"frage": "ton/p4-4-lp-kontrolle-resultierende-f1-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-resultierende-f1-r0.mp3", "r1": "ton/p4-4-lp-kontrolle-resultierende-f1-r1.mp3"}}, {"typ": "wahl", "text": "Drei Kraftpfeile, Spitze an Fuss gehängt, bilden ein geschlossenes Dreieck. Wie gross ist die Resultierende?", "optionen": ["null", "so gross wie die grösste Kraft", "die Summe der drei Beträge"], "richtig": 0, "rueck": {"1": "Wo endet der letzte Pfeil, wenn sich das Dreieck schliesst?", "2": "Wo endet der letzte Pfeil, wenn sich das Dreieck schliesst?"}, "t": 14.89, "ton": {"frage": "ton/p4-4-lp-kontrolle-resultierende-f2-frage.mp3", "r1": "ton/p4-4-lp-kontrolle-resultierende-f2-r1.mp3", "r2": "ton/p4-4-lp-kontrolle-resultierende-f2-r2.mp3"}}, {"typ": "wahl", "text": "Kann die Resultierende zweier Kräfte kleiner sein als jede der beiden?", "optionen": ["nein, nie", "ja, wenn sie fast entgegengesetzt ziehen", "nur bei drei Kräften"], "richtig": 1, "rueck": {"0": "Was geschieht, wenn zwei Kräfte gegeneinander ziehen?", "2": "Schon zwei Kräfte genügen. Welche Richtung?"}, "t": 21.23, "ton": {"frage": "ton/p4-4-lp-kontrolle-resultierende-f3-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-resultierende-f3-r0.mp3", "r2": "ton/p4-4-lp-kontrolle-resultierende-f3-r2.mp3"}}, {"typ": "wahl", "text": "Am Ring ziehen 60 N nach rechts, 60 N nach links und 25 N nach oben. Wie gross ist die Resultierende?", "optionen": ["145 N", "25 N nach oben", "null"], "richtig": 1, "rueck": {"0": "Entgegengesetzte Kräfte darf man nicht addieren.", "2": "Heben sich wirklich alle drei auf? Welche Kraft hat keinen Gegenspieler?"}, "t": 28.19, "ton": {"frage": "ton/p4-4-lp-kontrolle-resultierende-f4-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-resultierende-f4-r0.mp3", "r2": "ton/p4-4-lp-kontrolle-resultierende-f4-r2.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

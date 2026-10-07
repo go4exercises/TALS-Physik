@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Wie gross ist der Schweredruck in 3 m Wassertiefe?", "optionen": ["3 kPa", "29.4 kPa", "130.7 kPa"], "richtig": 1, "rueck": {"0": "Wo ist g geblieben?", "2": "Gefragt ist nur der Schweredruck, ohne Luftdruck."}, "t": 0.3, "ton": {"frage": "ton/p4-5-lp-kontrolle-schweredruck-f0-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-schweredruck-f0-r0.mp3", "r2": "ton/p4-5-lp-kontrolle-schweredruck-f0-r2.mp3"}}, {"typ": "wahl", "text": "Eine Taucherin hält eine kleine Platte in 4 m Tiefe einmal waagrecht, einmal senkrecht. Wo drückt das Wasser stärker?", "optionen": ["waagrecht", "senkrecht", "gleich stark"], "richtig": 2, "rueck": {"0": "Wirkt der Druck nur von oben?", "1": "Wirkt der Druck nur von der Seite?"}, "t": 8.27, "ton": {"frage": "ton/p4-5-lp-kontrolle-schweredruck-f1-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-schweredruck-f1-r0.mp3", "r1": "ton/p4-5-lp-kontrolle-schweredruck-f1-r1.mp3"}}, {"typ": "wahl", "text": "Ein Dieseltank ist 3.5 m hoch gefüllt (Diesel: 830 kg/m³). Wie gross ist der Schweredruck am Boden?", "optionen": ["28.5 kPa", "34.3 kPa", "2.91 kPa"], "richtig": 0, "rueck": {"1": "Mit welcher Dichte hast du gerechnet?", "2": "Wo ist g geblieben?"}, "t": 12.52, "ton": {"frage": "ton/p4-5-lp-kontrolle-schweredruck-f2-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-schweredruck-f2-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-schweredruck-f2-r2.mp3"}}, {"typ": "wahl", "text": "Wie gross ist der Gesamtdruck in 40 m Wassertiefe (Luftdruck 1013 hPa)?", "optionen": ["3.9 bar", "40 bar", "4.9 bar"], "richtig": 2, "rueck": {"0": "Das ist nur der Schweredruck. Was drückt noch auf die Oberfläche?", "1": "Je zehn Meter kommt etwa ein Bar dazu, nicht zehn."}, "t": 22.31, "ton": {"frage": "ton/p4-5-lp-kontrolle-schweredruck-f3-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-schweredruck-f3-r0.mp3", "r1": "ton/p4-5-lp-kontrolle-schweredruck-f3-r1.mp3"}}, {"typ": "wahl", "text": "In welcher Tiefe beträgt der Schweredruck in Meerwasser (1025 kg/m³) 120 kPa?", "optionen": ["rund 11.9 m", "rund 0.012 m", "rund 117 m"], "richtig": 0, "rueck": {"1": "Kilopascal in Pascal umrechnen: Wie viele Pascal sind ein Kilopascal?", "2": "Im Nenner fehlt eine Grösse. Welche?"}, "t": 29.49, "ton": {"frage": "ton/p4-5-lp-kontrolle-schweredruck-f4-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-schweredruck-f4-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-schweredruck-f4-r2.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

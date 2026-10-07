@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Welche Gewichtskraft erfährt ein Körper von 3 kg auf der Erde?", "optionen": ["3 N", "29.4 N", "0.31 N"], "richtig": 1, "rueck": {"0": "Das ist die Zahl der Masse. Gefragt ist die Kraft in Newton: m · g.", "2": "Geteilt? Die Gewichtskraft ist Masse mal g."}, "t": 0.3, "ton": {"frage": "ton/p4-2-lp-kontrolle-aufzug-f0-frage.mp3", "r0": "ton/p4-2-lp-kontrolle-aufzug-f0-r0.mp3", "r2": "ton/p4-2-lp-kontrolle-aufzug-f0-r2.mp3"}}, {"typ": "wahl", "text": "Ein Aufzug fährt nach oben an. Was zeigt die Personenwaage darin?", "optionen": ["mehr als in Ruhe", "weniger als in Ruhe", "gleich viel wie in Ruhe"], "richtig": 0, "rueck": {"1": "Wohin zeigt die Beschleunigung beim Anfahren nach oben?", "2": "Wird die Person beim Anfahren schneller? Was verlangt das Grundgesetz dann von den Kräften auf sie?"}, "t": 6.6, "ton": {"frage": "ton/p4-2-lp-kontrolle-aufzug-f1-frage.mp3", "r1": "ton/p4-2-lp-kontrolle-aufzug-f1-r1.mp3", "r2": "ton/p4-2-lp-kontrolle-aufzug-f1-r2.mp3"}}, {"typ": "wahl", "text": "Ein Aufzug fährt mit konstantem Tempo nach unten. Was zeigt die Waage?", "optionen": ["weniger als in Ruhe", "mehr als in Ruhe", "gleich viel wie in Ruhe"], "richtig": 2, "rueck": {"0": "Wie gross ist die Beschleunigung bei konstantem Tempo?", "1": "Wie gross ist die Beschleunigung bei konstantem Tempo?"}, "t": 14.41, "ton": {"frage": "ton/p4-2-lp-kontrolle-aufzug-f2-frage.mp3", "r0": "ton/p4-2-lp-kontrolle-aufzug-f2-r0.mp3", "r1": "ton/p4-2-lp-kontrolle-aufzug-f2-r1.mp3"}}, {"typ": "wahl", "text": "Eine Person (70 kg) fährt im Aufzug nach unten. Der Aufzug bremst mit 1.5 m/s². Welche Normalkraft misst die Waage?", "optionen": ["582 N", "792 N", "105 N"], "richtig": 1, "rueck": {"0": "Richtung prüfen: Wer eine Abwärtsfahrt bremst, beschleunigt nach oben.", "2": "Das ist nur m · a. Die Waage trägt auch die Gewichtskraft."}, "t": 20.7, "ton": {"frage": "ton/p4-2-lp-kontrolle-aufzug-f3-frage.mp3", "r0": "ton/p4-2-lp-kontrolle-aufzug-f3-r0.mp3", "r2": "ton/p4-2-lp-kontrolle-aufzug-f3-r2.mp3"}}, {"typ": "wahl", "text": "Das Seil des Aufzugs reisst, die Kabine fällt frei. Was zeigt die Waage unter der Person?", "optionen": ["ihre Masse, wie in Ruhe", "doppelt so viel", "null"], "richtig": 2, "rueck": {"0": "In Ruhe drückt die Waage gegen die Gewichtskraft. Muss sie das im freien Fall auch?", "1": "Die Beschleunigung zeigt nach unten. Zeigt die Waage dann mehr oder weniger?"}, "t": 31.48, "ton": {"frage": "ton/p4-2-lp-kontrolle-aufzug-f4-frage.mp3", "r0": "ton/p4-2-lp-kontrolle-aufzug-f4-r0.mp3", "r1": "ton/p4-2-lp-kontrolle-aufzug-f4-r1.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

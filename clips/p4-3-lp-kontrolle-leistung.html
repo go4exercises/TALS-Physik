@@ -120,6 +120,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -133,6 +141,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Eine Pumpe hebt in 60 s 300 kg Wasser 4 m hoch. Wie gross ist ihre Hubleistung?", "optionen": ["196 W", "11.8 kJ", "20 W"], "richtig": 0, "rueck": {"1": "Das ist die Arbeit. Leistung ist Arbeit pro Zeit.", "2": "Die Hubarbeit ist m · g · h — g fehlt."}, "t": 0.3, "ton": {"frage": "ton/p4-3-lp-kontrolle-leistung-f0-frage.mp3", "r1": "ton/p4-3-lp-kontrolle-leistung-f0-r1.mp3", "r2": "ton/p4-3-lp-kontrolle-leistung-f0-r2.mp3"}}, {"typ": "wahl", "text": "Ein Motor nimmt 500 W auf und gibt 400 W nutzbar ab. Wie gross ist sein Wirkungsgrad?", "optionen": ["1.25", "0.8", "100 W"], "richtig": 1, "rueck": {"0": "Umgekehrt: Nutzen durch Aufwand. Mehr als 1 geht nie.", "2": "Das ist die Verlustleistung, nicht der Wirkungsgrad."}, "t": 8.32, "ton": {"frage": "ton/p4-3-lp-kontrolle-leistung-f1-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-leistung-f1-r0.mp3", "r2": "ton/p4-3-lp-kontrolle-leistung-f1-r2.mp3"}}, {"typ": "wahl", "text": "Ein Gerät mit 2 kW läuft 30 Minuten. Wie viel Energie setzt es um?", "optionen": ["60 kWh", "4 kWh", "1 kWh"], "richtig": 2, "rueck": {"0": "Die Zeit gehört in Stunden, nicht in Minuten.", "1": "Geteilt? Energie ist Leistung mal Zeit."}, "t": 13.39, "ton": {"frage": "ton/p4-3-lp-kontrolle-leistung-f2-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-leistung-f2-r0.mp3", "r1": "ton/p4-3-lp-kontrolle-leistung-f2-r1.mp3"}}, {"typ": "wahl", "text": "Ein Velofahrer fährt konstant mit 5 m/s, Reibung und Luftwiderstand betragen zusammen 30 N. Welche Leistung braucht er dafür?", "optionen": ["150 W", "6 W", "35 W"], "richtig": 0, "rueck": {"1": "Geteilt? Leistung ist Kraft mal Geschwindigkeit.", "2": "Addiert? Leistung ist Kraft mal Geschwindigkeit."}, "t": 19.16, "ton": {"frage": "ton/p4-3-lp-kontrolle-leistung-f3-frage.mp3", "r1": "ton/p4-3-lp-kontrolle-leistung-f3-r1.mp3", "r2": "ton/p4-3-lp-kontrolle-leistung-f3-r2.mp3"}}, {"typ": "wahl", "text": "Kran A hebt 400 kg in 25 s auf 15 m. Kran B hebt 200 kg in 8 s auf dieselbe Höhe. Welcher hat die grössere Hubleistung?", "optionen": ["Kran A, er hebt mehr", "Kran B", "beide gleich"], "richtig": 1, "rueck": {"0": "A verrichtet mehr Arbeit. Aber in welcher Zeit? Leistung ist Arbeit pro Zeit.", "2": "Rechne für beide die Arbeit durch die Zeit aus."}, "t": 25.45, "ton": {"frage": "ton/p4-3-lp-kontrolle-leistung-f4-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-leistung-f4-r0.mp3", "r2": "ton/p4-3-lp-kontrolle-leistung-f4-r2.mp3"}}];
 (() => {
@@ -325,7 +339,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

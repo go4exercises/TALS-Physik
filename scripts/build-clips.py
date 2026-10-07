@@ -50,6 +50,12 @@ STD = {
 # der Frage) — ein zweites Karo verdunkelte das erste. In Mathe stehen Figuren der
 # Planimetrie im Karo. "raster" im Drehbuch geht in beiden Projekten vor.
 KARO_OHNE_ACHSEN = False
+# Textbreite begrenzen (Physik 07.10.2026): zentrierte Zeilen mit Rand (130 px je Seite),
+# links gesetzte Texte ohne eigenes "breite" auf die Spaltenbreite des Layouts. Physik True.
+# Mathe False: Die 514 Mathe-Clips sind auf die volle Bühnenbreite gesetzt; mit True brechen
+# 62 Elemente in 56 Clips neu um (gemessen 07.10.2026). Je Projekt eine Einstellung, der
+# Code bleibt gemeinsam.
+TEXTBREITE_BEGRENZEN = True
 
 
 # ---------------------------------------------------------------- Formelsatz
@@ -329,13 +335,39 @@ def kurve_wert(formel, x):
         return None
 
 
+def formel_js(formel):
+    """Eine Drehbuch-Formel als JavaScript-Ausdruck, voll geklammert.
+
+    Fuer Formelkurven mit "parameter" (seit 07.10.2026): Der Abspieler zeichnet sie selbst.
+    Uebersetzt wird ueber den Python-Syntaxbaum, nicht mit Textersetzung — sonst waere
+    -x**2 in JavaScript ein Syntaxfehler und x^2 etwas anderes als gemeint.
+    """
+    import ast
+    ops = {ast.Add: "+", ast.Sub: "-", ast.Mult: "*", ast.Div: "/", ast.Pow: "**", ast.Mod: "%"}
+    def js(n):
+        if isinstance(n, ast.Expression):
+            return js(n.body)
+        if isinstance(n, ast.BinOp) and type(n.op) in ops:
+            return "(%s%s%s)" % (js(n.left), ops[type(n.op)], js(n.right))
+        if isinstance(n, ast.UnaryOp) and isinstance(n.op, (ast.USub, ast.UAdd)):
+            return "(%s%s)" % ("-" if isinstance(n.op, ast.USub) else "+", js(n.operand))
+        if isinstance(n, ast.Constant) and isinstance(n.value, (int, float)):
+            return repr(n.value)
+        if isinstance(n, ast.Name):
+            return {"pi": "Math.PI", "e": "Math.E"}.get(n.id, n.id)
+        if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id in _KURVE_NS:
+            return "Math.%s(%s)" % (n.func.id, ",".join(js(a) for a in n.args))
+        raise SystemExit("Formel %r: %s geht im Abspieler nicht" % (formel, type(n).__name__))
+    return js(ast.parse(formel, mode="eval"))
+
+
 def graf_svg(el, theme):
     """Kleines Koordinatensystem mit Geraden und Punkten, als SVG.
 
     Nur so viel, wie ein Clip braucht: Achsen mit Teilung, Geraden ueber
     Steigung und Achsenabschnitt (oder zwei Punkte) und markierte Punkte
     mit Beschriftung. Kein Diagrammwerkzeug — wer mehr will, zeichnet die
-    Figur wie auf den Themenseiten in physiklib.js.
+    Figur wie auf den Themenseiten in physiklib.js bzw. mathlib.js.
 
     Die Geraden werden am Fenster abgeschnitten, nicht an ihren Endpunkten:
     eine Gerade, die aus dem Bild laeuft, soll am Rand aufhoeren und nicht
@@ -356,6 +388,35 @@ def graf_svg(el, theme):
         return h - rand - (y - y0) / (y1 - y0) * (h - 2 * rand)
 
     teile = ['<svg width="%d" height="%d" viewBox="0 0 %d %d">' % (b, h, b, h)]
+    # Laeufer kommen zuletzt ins Bild, ueber feste Punkte (seit 07.10.2026). Was ihr Teil an
+    # "ein"/"aus" traegt, nehmen sie mit (zeitlich() wickelt nur, was in "teile" steht).
+    zuoberst = []
+    def nach_oben(teil, lf, html):
+        zuoberst.append(mit_zeit(teil, mit_zeit(lf, html)))
+    # "lage" am Laeufer: "oben", "unten", "links", "rechts" oder zwei davon ("oben links") —
+    # wo seine Beschriftung steht. Ohne Angabe sucht der Abspieler wie bisher selbst.
+    def lage(lf):
+        return ' data-lage="%s"' % entschaerfen(lf["lage"]) if lf.get("lage") else ""
+
+    # "ein"/"aus" an einem einzelnen Teil (Punkt, Kurve, Gerade, Parabel, Figur, Strecke,
+    # Flaeche, Text; seit 07.10.2026): Sekunden ab Szenenbeginn wie beim Element. Was der
+    # Teil in seinem Durchgang zeichnet, kommt in eine Gruppe, die der Abspieler ein- und
+    # ausblendet; bauen() rechnet die Zeiten auf den Clip um. Ohne die Felder bleibt alles
+    # Byte fuer Byte wie vorher.
+    def mit_zeit(it, html):
+        """Ein Begleiter (laeufer, dreieck) mit eigenem "ein"/"aus" — wie zeitlich(), fuer ein Stueck."""
+        if not isinstance(it, dict) or (it.get("ein") is None and it.get("aus") is None):
+            return html
+        a = "".join(' data-%s-rel="%g"' % (k, it[k]) for k in ("ein", "aus") if it.get(k) is not None)
+        return '<g class="zt"%s>%s</g>' % (a, html)
+
+    def zeitlich(teile_liste):
+        for it in teile_liste:
+            n = len(teile)
+            yield it
+            if isinstance(it, dict) and (it.get("ein") is not None or it.get("aus") is not None):
+                a = "".join(' data-%s-rel="%g"' % (k, it[k]) for k in ("ein", "aus") if it.get(k) is not None)
+                teile[n:] = ['<g class="zt"%s>' % a] + teile[n:] + ['</g>']
 
     # Wo die Achse geteilt wird. Ganze Zahlen sind der Normalfall; wo die
     # x-Achse ein Winkel ist, taugen sie nicht — eine Sinuskurve gehoert bei
@@ -437,7 +498,7 @@ def graf_svg(el, theme):
     # Flaechen: gefuellte Vielecke in Datenkoordinaten, unter allen Linien
     # (Physik 06.10.2026). Gebraucht fuer den Weg als Flaeche unter der
     # v-t-Geraden; "beschriftung" steht in der Mitte oder bei "beschriftung_bei".
-    for fl in el.get("flaechen", []):
+    for fl in zeitlich(el.get("flaechen", [])):
         farbe = fv[fl.get("farbe", 1) - 1]
         teile.append('<polygon points="%s" fill="%s" fill-opacity="%s" stroke="none"/>'
                      % (" ".join("%.1f,%.1f" % (px(x), py(y)) for x, y in fl["punkte"]),
@@ -460,7 +521,37 @@ def graf_svg(el, theme):
         cid = "fg" + hashlib.md5(repr(sorted(el.items(), key=lambda kv: kv[0])).encode()).hexdigest()[:8]
         teile.append('<clipPath id="%s"><rect x="0" y="0" width="%d" height="%d"/></clipPath><g clip-path="url(#%s)">'
                      % (cid, b, h, cid))
-    for fg in el.get("figuren", []):
+    # "drehung" (Grad, gegen den Uhrzeigersinn) um "um" [x, y] (seit 07.10.2026): dreht die Figur,
+    # bevor sie gezeichnet wird. In einer "bewegung" wird der Winkel uebergeblendet, nicht die Ecken —
+    # die Figur bleibt unterwegs gleich gross. Texte drehen ihre Lage mit, nicht die Schrift.
+    def gedreht(fg):
+        w = math.radians(fg.get("drehung") or 0)
+        if not w:
+            return fg
+        mx, my = fg.get("um", [0, 0])
+        def d(p):
+            x, y = p[0] - mx, p[1] - my
+            return [mx + x * math.cos(w) - y * math.sin(w), my + x * math.sin(w) + y * math.cos(w)]
+        g = dict(fg)
+        art, grad = g["art"], math.degrees(w)
+        if art == "strecke":
+            g["von"], g["bis"] = d(g["von"]), d(g["bis"])
+        elif art == "vieleck":
+            g["punkte"] = [d(p) for p in g["punkte"]]
+        elif art == "kreis":
+            g["m"] = d(g["m"])
+        elif art in ("sektor", "bogen"):
+            g["m"], g["von"], g["bis"] = d(g["m"]), g["von"] + grad, g["bis"] + grad
+        elif art == "winkel":
+            g["bei"], g["von"], g["bis"] = d(g["bei"]), g["von"] + grad, g["bis"] + grad
+        elif art == "rechts":
+            g["bei"], g["r1"], g["r2"] = d(g["bei"]), g["r1"] + grad, g["r2"] + grad
+        elif art == "text":
+            g["bei"] = d(g["bei"])
+        return g
+
+    def zeichne_figur(fg):
+        fg = gedreht(fg)
         art, nr_f = fg["art"], fg.get("farbe", 1)
         f_ = tinte if nr_f == 5 else fv[(nr_f - 1) % len(fv)]
         strich = ' stroke-dasharray="14 10"' if fg.get("gestrichelt") else ''
@@ -519,11 +610,58 @@ def graf_svg(el, theme):
                             f_, fg.get("anker", "middle"), papier, entschaerfen(fg["text"])))
         else:
             raise SystemExit("figuren: unbekannte Art %r" % art)
+
+    # "bewegung" an einer Figur (seit 07.10.2026): [[t, {Felder}], …] mit t ab Szenenbeginn.
+    # Jeder Stuetzpunkt ueberschreibt Felder der Figur ("punkte", "von", "bis", "m", "r", "bei", …);
+    # dazwischen werden alle Zahlen weich uebergeblendet (wie bewZustand). Gezeichnet wird in
+    # Python, 20 Bilder je Sekunde; der Abspieler zeigt das passende (g.fb). So bewegt sich jede
+    # Figurart, ohne dass ihre Zeichnung in JavaScript ein zweites Mal steht.
+    def mischen(a, b, q):
+        if isinstance(a, dict) and isinstance(b, dict):
+            # Feld fuer Feld; "farbe" ist eine Nummer und wird umgeschaltet, nicht gemischt
+            return {k: (v if q < 0.5 else b.get(k, v)) if k == "farbe" else mischen(v, b.get(k, v), q)
+                    for k, v in a.items()}
+        if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+            return a + (b - a) * q
+        if isinstance(a, list) and isinstance(b, list) and len(a) == len(b):
+            return [mischen(u, v, q) for u, v in zip(a, b)]
+        return a if q < 0.5 else b
+    for fg in zeitlich(el.get("figuren", [])):
+        bew = fg.get("bewegung")
+        if not bew:
+            zeichne_figur(fg)
+            continue
+        basis = {k: v for k, v in fg.items() if k not in ("bewegung", "ein", "aus")}
+        zust = []
+        for t_, felder in bew:
+            z = dict(zust[-1][1] if zust else basis)
+            z.update(felder)
+            zust.append((t_, z))
+        bilder = [[None, zust[0][0], zust[0][1]]]
+        for (ta, za), (tb, zb) in zip(zust, zust[1:]):
+            schritte = max(1, int(round((tb - ta) * 20)))
+            for k in range(schritte):
+                q = (k + 0.5) / schritte
+                q = q * q * (3 - 2 * q)
+                bilder.append([ta + (tb - ta) * k / schritte, ta + (tb - ta) * (k + 1) / schritte, mischen(za, zb, q)])
+        bilder.append([zust[-1][0], None, zust[-1][1]])
+        # Gleiche Nachbarbilder (eine Pause, {} als Stuetzpunkt) zu einem zusammenfassen
+        knapp = [bilder[0]]
+        for bi in bilder[1:]:
+            if json.dumps(bi[2], sort_keys=True) == json.dumps(knapp[-1][2], sort_keys=True):
+                knapp[-1][1] = bi[1]
+            else:
+                knapp.append(bi)
+        for von, bis, z in knapp:
+            n = len(teile)
+            zeichne_figur(z)
+            a = (' data-fvon-rel="%g"' % von if von is not None else "") + (' data-fbis-rel="%g"' % bis if bis is not None else "")
+            teile[n:] = ['<g class="fb"%s>' % a] + teile[n:] + ["</g>"]
     if el.get("figuren"):
         teile.append('</g>')
 
     # Geraden y = m x + q, am Fenster abgeschnitten
-    for nr, g in enumerate(el.get("geraden", [])):
+    for nr, g in enumerate(zeitlich(el.get("geraden", []))):
         # "bewegung": [[t, m, q], ...] — eine Gerade, die sich waehrend der Szene
         # bewegt (t ab Szenenbeginn, seit 03.10.2026). Wie bei den Parabeln wird
         # sie erst im Abspieler gezeichnet, aus der Zeit allein; siehe BEWEGUNG_JS.
@@ -559,31 +697,49 @@ def graf_svg(el, theme):
                                      text=g["nullstelle"].get("beschriftung", True) is not False))
             for mk in g.get("marken", []):
                 teile.append(g_punkt("bew-gm", mk.get("farbe", 5),
-                                     ' data-x="%g" data-text="%s"' % (mk["x"], entschaerfen(mk.get("text", "")))))
+                                     ' data-x="%g" data-text="%s"%s' % (mk["x"], entschaerfen(mk.get("text", "")), lage(mk))))
+            # "schnitte" (seit 07.10.2026): {"kurve": i, "farbe": 2, "beschriftung": true} — die
+            # Schnittpunkte mit der festen Formelkurve el["kurven"][i], mitlaufend. Der Abspieler
+            # bekommt die Kurve als Wertetabelle und sucht Vorzeichenwechsel und Beruehrstellen
+            # (bis zu "anzahl" Punkte, Standard 6).
+            sch = g.get("schnitte")
+            if sch:
+                kv_ = el["kurven"][sch["kurve"]]
+                if "formel" not in kv_:
+                    raise SystemExit("schnitte: kurve %d hat keine formel" % sch["kurve"])
+                n_ = sch.get("n", 800)
+                a_, e_ = kv_.get("von", x0), kv_.get("bis", x1)
+                tab = [kurve_wert(kv_["formel"], a_ + (e_ - a_) * i / n_) for i in range(n_ + 1)]
+                tab = [None if y is None else round(y, 5) for y in tab]
+                teile.append('<g class="bew-gs-tab" data-zu="%s" data-tab="%s" data-ab="%g" data-bis="%g"></g>'
+                             % (gid, json.dumps(tab).replace(" ", ""), a_, e_))
+                for i_ in range(sch.get("anzahl", 6)):
+                    teile.append(g_punkt("bew-gs", sch.get("farbe", 2), ' data-i="%d"' % i_,
+                                         text=bool(sch.get("beschriftung"))))
             lf = g.get("laeufer")
             if lf:
-                teile.append(g_punkt("bew-gl", lf.get("farbe", 5),
-                                     ' data-bahn="%s" data-text="%s"'
-                                     % (entschaerfen(json.dumps(lf["bahn"])), entschaerfen(lf.get("text", "")))))
+                nach_oben(g, lf, g_punkt("bew-gl", lf.get("farbe", 5),
+                                     ' data-bahn="%s" data-text="%s"%s'
+                                     % (entschaerfen(json.dumps(lf["bahn"])), entschaerfen(lf.get("text", "")), lage(lf))))
             dr = g.get("dreieck")
             if dr:
                 f_ = fv[dr.get("farbe", 5) - 1]
                 # Feste Stelle und Breite — oder "bahn": [[t, x, dx], ...], dann wandert
                 # und waechst das Dreieck waehrend der Szene mit.
                 if dr.get("bahn"):
-                    teile.append('<g class="bew-gd" data-zu="%s" data-bahn="%s">'
+                    teile.append(mit_zeit(dr, '<g class="bew-gd" data-zu="%s" data-bahn="%s">'
                                  '<path class="bew-gd-w" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="9 7"/>'
                                  '<path class="bew-gd-s" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="9 7"/>'
                                  '<text class="bew-gd-tx" font-size="27" font-weight="600" fill="%s" text-anchor="middle"></text>'
                                  '<text class="bew-gd-ty" font-size="27" font-weight="600" fill="%s"></text>'
-                                 '</g>' % (gid, entschaerfen(json.dumps(dr["bahn"])), f_, f_, f_, f_))
+                                 '</g>' % (gid, entschaerfen(json.dumps(dr["bahn"])), f_, f_, f_, f_)))
                     continue
-                teile.append('<g class="bew-gd" data-zu="%s" data-x="%g" data-dx="%g">'
+                teile.append(mit_zeit(dr, '<g class="bew-gd" data-zu="%s" data-x="%g" data-dx="%g">'
                              '<path class="bew-gd-w" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="9 7"/>'
                              '<path class="bew-gd-s" fill="none" stroke="%s" stroke-width="3" stroke-dasharray="9 7"/>'
                              '<text class="bew-gd-tx" font-size="27" font-weight="600" fill="%s" text-anchor="middle"></text>'
                              '<text class="bew-gd-ty" font-size="27" font-weight="600" fill="%s"></text>'
-                             '</g>' % (gid, dr["x"], dr["dx"], f_, f_, f_, f_))
+                             '</g>' % (gid, dr["x"], dr["dx"], f_, f_, f_, f_)))
             continue
         m, q = g["m"], g["q"]
         punkte = []
@@ -613,7 +769,7 @@ def graf_svg(el, theme):
                             entschaerfen(g["beschriftung"])))
 
     # Parabeln y = a x^2 + b x + c, als Streckenzug im Fenster
-    for nr, pa in enumerate(el.get("parabeln", [])):
+    for nr, pa in enumerate(zeitlich(el.get("parabeln", []))):
         # "bewegung": [[t, a, u, v], ...] — eine Parabel in Scheitelform, die
         # sich waehrend der Szene bewegt (t ab Szenenbeginn). Gezeichnet wird
         # sie erst im Abspieler, aus der Zeit allein: Pause, Spulen und die
@@ -623,12 +779,16 @@ def graf_svg(el, theme):
             bid = "bew%d" % nr
             # "ab"/"bis" (Physik 06.10.2026): die Parabel nur zwischen diesen x zeichnen
             # (Wurf: keine negative Zeit, nichts unter dem Boden); ohne die Felder wie bisher.
-            teile.append('<path data-bew="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d"%s%s '
+            # "normalform": true (seit 07.10.2026) liest die Stuetzpunkte als [t, a, b, c] fuer
+            # y = a x^2 + b x + c. Nur so kann a stetig durch 0 laufen (Parabel → Gerade →
+            # Parabel); Scheitelform und Linearfaktoren laufen dort davon.
+            teile.append('<path data-bew="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d"%s%s%s '
                          'fill="none" stroke="%s" stroke-width="%s" stroke-linecap="round" '
                          'stroke-linejoin="round" %s/>'
                          % (entschaerfen(json.dumps(pa["bewegung"])), bid, x0, x1, y0, y1, b, h, rand,
                             ' data-ab="%g"' % pa["ab"] if pa.get("ab") is not None else "",
                             ' data-bis="%g"' % pa["bis"] if pa.get("bis") is not None else "",
+                            ' data-normal="1"' if pa.get("normalform") else "",
                             farbe, pa.get("dicke", 5),
                             'stroke-dasharray="14 10"' if pa.get("gestrichelt") else ""))
             # Begleiter der bewegten Parabel, alle aus derselben Zeit gerechnet:
@@ -646,6 +806,11 @@ def graf_svg(el, theme):
                 if text:
                     g += '<text font-size="29" font-weight="600" fill="%s" stroke="%s" stroke-width="5" paint-order="stroke" stroke-linejoin="round"></text>' % (f_, papier)
                 return g + '</g>'
+            # "achse" (seit 07.10.2026): die Symmetrieachse x = u, gestrichelt, wandert mit
+            if pa.get("achse") not in (None, False):          # true oder {"farbe": n}
+                fa_ = pa["achse"].get("farbe", 5) if isinstance(pa["achse"], dict) else 5
+                teile.append('<g class="bew-a" data-zu="%s"><path fill="none" stroke="%s" stroke-width="3" '
+                             'stroke-dasharray="10 8"/></g>' % (bid, tinte if fa_ == 5 else fv[fa_ - 1]))
             if pa.get("scheitel"):
                 teile.append(punkt_g("bew-s", pa["scheitel"].get("farbe", 3)))
             if pa.get("nullstellen"):
@@ -657,12 +822,12 @@ def graf_svg(el, theme):
                 teile.append(punkt_g("bew-y", pa["yachse"].get("farbe", 1)))
             for m in pa.get("marken", []):
                 teile.append(punkt_g("bew-m", m.get("farbe", 4),
-                                     ' data-x="%g" data-text="%s"' % (m["x"], entschaerfen(m.get("text", "")))))
+                                     ' data-x="%g" data-text="%s"%s' % (m["x"], entschaerfen(m.get("text", "")), lage(m))))
             lf = pa.get("laeufer")
             if lf:
-                teile.append(punkt_g("bew-l", lf.get("farbe", 2),
-                                     ' data-bahn="%s" data-text="%s"' % (entschaerfen(json.dumps(lf["bahn"])),
-                                                                         entschaerfen(lf.get("text", ""))),
+                nach_oben(pa, lf, punkt_g("bew-l", lf.get("farbe", 2),
+                                     ' data-bahn="%s" data-text="%s"%s' % (entschaerfen(json.dumps(lf["bahn"])),
+                                                                           entschaerfen(lf.get("text", "")), lage(lf)),
                                      geist=bool(lf.get("spiegel"))))
             continue
         a_, b_, c_ = pa["a"], pa.get("b", 0), pa.get("c", 0)
@@ -696,7 +861,7 @@ def graf_svg(el, theme):
     # mit freier Formel — und mit dem Zusatz, dass ein Stueck auch dann
     # abbricht, wenn f an einer Stelle gar nicht definiert ist. Genau daran
     # entstehen die Luecken der Tangenskurve an ihren Polstellen.
-    for nr, kv in enumerate(el.get("kurven", [])):
+    for nr, kv in enumerate(zeitlich(el.get("kurven", []))):
         # "bewegung": [[t, a, p, u, v], ...] fuer y = a*(x-u)^p + v — Potenz- und
         # Wurzelkurven, die sich waehrend der Szene aendern (seit 03.10.2026).
         # "stufen": true rundet p beim Ueberblenden auf ganze Zahlen; zwischen
@@ -720,13 +885,15 @@ def graf_svg(el, theme):
             # fuer y = a*(x-x1)*(x-x2)*… — die Linearfaktordarstellung. Legt man zwei
             # Nullstellen aufeinander, entsteht die doppelte Nullstelle von selbst.
             teile.append('<path data-bewk="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d" '
-                         'data-stufen="%d" data-poly="%d" data-el="%s" data-von="%g" data-bis="%g" fill="none" stroke="%s" '
+                         'data-stufen="%d" data-poly="%d" data-el="%s" data-von="%g" data-bis="%g"%s fill="none" stroke="%s" '
                          'stroke-width="%s" stroke-linecap="round" stroke-linejoin="round" %s/>'
                          % (entschaerfen(json.dumps(kv["bewegung"])), kid, x0, x1, y0, y1, b, h, rand,
                             1 if kv.get("stufen") else 0, 1 if kv.get("polynom") else 0,
                             "e" if kv.get("exponential") else "l" if kv.get("logarithmus") else
                             ("v" if kv.get("betrag") else {"sin": "s", "tan": "t"}.get(kv.get("trig"), "")),
                             kv.get("von", x0), kv.get("bis", x1),
+                            # "grenzen": [[t, von, bis], …] — der Bereich wandert (seit 07.10.2026)
+                            ' data-grenzen="%s"' % entschaerfen(json.dumps(kv["grenzen"])) if kv.get("grenzen") else "",
                             farbe, kv.get("dicke", 5),
                             'stroke-dasharray="14 10"' if kv.get("gestrichelt") else ""))
             # Begleiter: startpunkt (u | v), asymptoten (x = u und y = v),
@@ -794,7 +961,57 @@ def graf_svg(el, theme):
                                          text=ex_.get("beschriftung", True) is not False))
             for mk in kv.get("marken", []):
                 teile.append(k_punkt("bew-km", mk.get("farbe", 5),
-                                     ' data-x="%g" data-text="%s"' % (mk["x"], entschaerfen(mk.get("text", "")))))
+                                     ' data-x="%g" data-text="%s"%s' % (mk["x"], entschaerfen(mk.get("text", "")), lage(mk))))
+            # "laeufer" (seit 07.10.2026): {"bahn": [[t, x], …], "text": "({x} | {y})", "farbe": 3} —
+            # ein Punkt, der auf der Kurve faehrt, wie bei Parabel und Gerade. Technisch eine
+            # Marke, deren x aus der Bahn kommt; darum fuer alle Kurvenarten.
+            lf = kv.get("laeufer")
+            if lf:
+                nach_oben(kv, lf, k_punkt("bew-km", lf.get("farbe", 3),
+                                     ' data-x="0" data-bahn="%s" data-text="%s"%s'
+                                     % (entschaerfen(json.dumps(lf["bahn"])), entschaerfen(lf.get("text", "")), lage(lf)),
+                                     text=bool(lf.get("text"))))
+            continue
+        # "betrag_von": "x**2+q" (seit 07.10.2026) ist kurz fuer "formel": "abs(x**2+q)" — die
+        # umgeklappte Kurve |f| in einem Stueck, auch wenn sie sich bewegt.
+        if kv.get("betrag_von"):
+            kv = dict(kv, formel="abs(%s)" % kv["betrag_von"])
+        # "parameter": [[t, {"q": -4}], [t, {"q": -1}], …] (seit 07.10.2026) — eine Formelkurve mit
+        # Buchstaben, die sich waehrend der Szene aendern. Gezeichnet im Abspieler (formel_js);
+        # "punkte": [{"x": "pi/(6*b)", "text": "({x} | {y})", "farbe": 2}] fahren mit, ihr x
+        # ist selbst eine Formel in den Parametern (oder eine Zahl).
+        if kv.get("parameter"):
+            namen = []
+            for _, felder in kv["parameter"]:
+                namen += [k for k in felder if k not in namen]
+            stand, zeilen = {}, []
+            for t_, felder in kv["parameter"]:
+                stand.update(felder)
+                if len(stand) < len(namen):
+                    raise SystemExit("parameter: der erste Stuetzpunkt braucht alle Buchstaben %s" % namen)
+                zeilen.append([t_] + [stand[k] for k in namen])
+            for k in namen:
+                if k in _KURVE_NS or k == "x":
+                    raise SystemExit("parameter: %r ist schon vergeben" % k)
+            fid = "fp%d" % nr
+            farbe = fv[kv.get("farbe", 1) - 1]
+            teile.append('<path data-fp="%s" data-paar="%s" data-namen="%s" data-js="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d" '
+                         'data-von="%g" data-bis="%g" fill="none" stroke="%s" stroke-width="%s" stroke-linecap="round" '
+                         'stroke-linejoin="round" %s/>'
+                         % (entschaerfen(json.dumps(zeilen)), fid, ",".join(namen), entschaerfen(formel_js(kv["formel"])),
+                            x0, x1, y0, y1, b, h, rand, kv.get("von", x0), kv.get("bis", x1),
+                            farbe, kv.get("dicke", 5), 'stroke-dasharray="14 10"' if kv.get("gestrichelt") else ""))
+            for pt_ in kv.get("punkte", []):
+                f_ = fv[pt_.get("farbe", 2) - 1]
+                # eigenes "ein"/"aus" je Punkt (mit_zeit), wie beim Laeufer
+                teile.append(mit_zeit(pt_, '<g class="fp-p" data-zu="%s" data-xjs="%s" data-text="%s"%s>'
+                             '<g class="bew-pt"><circle r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
+                             '<circle r="5" fill="%s"/></g>%s</g>'
+                             % (fid, entschaerfen(formel_js(str(pt_["x"]))), entschaerfen(pt_.get("text", "")), lage(pt_),
+                                papier, f_, f_,
+                                ('<text font-size="29" font-weight="600" fill="%s" stroke="%s" stroke-width="5" '
+                                 'paint-order="stroke" stroke-linejoin="round"></text>' % (f_, papier))
+                                if pt_.get("text") else "")))
             continue
         n = kv.get("n", 480)
         # Eine Kurve darf auch nur ein Stueck des Fensters belegen. Gebraucht
@@ -814,6 +1031,25 @@ def graf_svg(el, theme):
         if lauf:
             stuecke.append(lauf)
         farbe = fv[kv.get("farbe", 1) - 1]
+        # "laeufer" an einer festen Formelkurve (seit 07.10.2026): Der Abspieler kennt die
+        # Formel nicht; er bekommt die Werte als Tabelle (n + 1 Stellen von "von" bis "bis")
+        # und liest dazwischen linear ab. Bahn, Text und Farbe wie bei den bewegten Kurven.
+        lf = kv.get("laeufer")
+        if lf:
+            tab = []
+            for i in range(n + 1):
+                y = kurve_wert(kv["formel"], a_ + (e_ - a_) * i / n)
+                tab.append(None if y is None else round(y, 5))
+            f_ = fv[lf.get("farbe", 3) - 1]
+            nach_oben(kv, lf, '<g class="fk-l" data-fkl="%s" data-tab="%s" data-ab="%g" data-bis="%g" data-text="%s"%s '
+                         'data-fenster="%g,%g,%g,%g,%d,%d,%d">'
+                         '<g class="bew-pt"><circle r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
+                         '<circle r="5" fill="%s"/></g>%s</g>'
+                         % (entschaerfen(json.dumps(lf["bahn"])), json.dumps(tab).replace(" ", ""), a_, e_,
+                            entschaerfen(lf.get("text", "")), lage(lf), x0, x1, y0, y1, b, h, rand, papier, f_, f_,
+                            ('<text font-size="29" font-weight="600" fill="%s" stroke="%s" stroke-width="5" '
+                             'paint-order="stroke" stroke-linejoin="round"></text>' % (f_, papier))
+                            if lf.get("text") else ""))
         for st in stuecke:
             if len(st) > 1:
                 teile.append('<polyline points="%s" fill="none" stroke="%s" '
@@ -832,7 +1068,7 @@ def graf_svg(el, theme):
     # zu einem Ablesewert, Vektoren, Kraftpfeile. "pfeil": true setzt eine
     # Spitze am Ende; die Beschriftung steht bei "beschriftung_bei" oder rechts
     # neben der Mitte. Gezeichnet ueber den Kurven, unter den Punkten.
-    for st in el.get("strecken", []):
+    for st in zeitlich(el.get("strecken", [])):
         farbe = fv[st.get("farbe", 5) - 1]
         (ax, ay), (bx, by) = st["von"], st["bis"]
         X1, Y1, X2, Y2 = px(ax), py(ay), px(bx), py(by)
@@ -865,7 +1101,7 @@ def graf_svg(el, theme):
                             entschaerfen(st["beschriftung"])))
 
     # Freie Beschriftungen in Datenkoordinaten (Physik 06.10.2026)
-    for tx_ in el.get("texte", []):
+    for tx_ in zeitlich(el.get("texte", [])):
         farbe = fv[tx_.get("farbe", 5) - 1]
         teile.append('<text x="%.1f" y="%.1f" font-size="%s" font-weight="%s" fill="%s" text-anchor="%s" '
                      'stroke="%s" stroke-width="8" paint-order="stroke">%s</text>'
@@ -874,7 +1110,7 @@ def graf_svg(el, theme):
                         entschaerfen(tx_["text"])))
 
     # Punkte
-    for pt in el.get("punkte", []):
+    for pt in zeitlich(el.get("punkte", [])):
         farbe = fv[pt.get("farbe", 3) - 1]
         teile.append('<circle cx="%.1f" cy="%.1f" r="11" fill="%s" stroke="%s" stroke-width="3.5"/>'
                      % (px(pt["x"]), py(pt["y"]), papier, farbe))
@@ -896,6 +1132,7 @@ def graf_svg(el, theme):
     # "tippbar": true (seit 05.10.2026) — ein leerer Pfad mit dem Fenster, damit eine Klickfrage
     # das Bild auch dann findet, wenn es nur feste Kurven zeigt. Der Abspieler sucht fuer
     # Klickfragen das sichtbare Bild mit [data-fenster]; bisher trugen das nur bewegte Kurven.
+    teile.extend(zuoberst)
     if el.get("tippbar"):
         teile.append('<path data-fenster="%g,%g,%g,%g,%d,%d,%d" d="" fill="none"/>' % (x0, x1, y0, y1, b, h, rand))
     teile.extend(achsnamen)
@@ -1059,7 +1296,90 @@ const BEW = [...document.querySelectorAll('[data-t0]')].map(L => ({
     .concat([...L.querySelectorAll('[data-bewk]')].map(p => ({
       art: 'k', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.bewk), f: p.dataset.fenster.split(',').map(Number),
       stufen: p.dataset.stufen === '1', poly: p.dataset.poly === '1', el: p.dataset.el || '' })))
+    .concat([...L.querySelectorAll('[data-fkl]')].map(p => ({
+      art: 'f', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.fkl), f: p.dataset.fenster.split(',').map(Number),
+      tab: JSON.parse(p.dataset.tab), ab: parseFloat(p.dataset.ab), bis: parseFloat(p.dataset.bis) })))
+    .concat([...L.querySelectorAll('[data-fp]')].map(p => {
+      const namen = p.dataset.namen.split(',');
+      return { art: 'fp', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.fp), f: p.dataset.fenster.split(',').map(Number),
+        fn: new Function('x', ...namen, 'return ' + p.dataset.js), namen };
+    }))
 }));
+// Formelkurve mit Parametern ("parameter", seit 07.10.2026): die Formel kommt als JavaScript aus
+// dem Bauer (formel_js), die Buchstaben aus der Zeit. Luecken (NaN, Pole) brechen den Zug ab.
+function bewegeFormel(T, t, px, py, x0, x1, y0, y1) {
+  const P = bewZustand(T.k, t - T.t0);
+  const f = x => { const y = T.fn(x, ...P); return isFinite(y) ? y : null; };
+  const a0 = Math.max(x0, parseFloat(T.p.dataset.von)), a1 = Math.min(x1, parseFloat(T.p.dataset.bis));
+  let d = '', an = false;
+  for (let i = 0; i <= 600; i++) {
+    const x = a0 + (a1 - a0) * i / 600, y = f(x);
+    if (y === null || y < y0 || y > y1) { an = false; continue; }
+    d += (an ? 'L' : 'M') + px(x).toFixed(1) + ',' + py(y).toFixed(1); an = true;
+  }
+  T.p.setAttribute('d', d);
+  for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
+    const fx = g._fx || (g._fx = new Function(...T.namen, 'return ' + g.dataset.xjs));
+    const x = fx(...P), y = f(x);
+    const ok = y !== null && x >= x0 && x <= x1 && y >= y0 && y <= y1;
+    g.style.display = ok ? '' : 'none';
+    if (!ok) continue;
+    g.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); });
+    const tx = g.querySelector(':scope > text'); if (!tx) continue;
+    const rechts = x > x1 - (x1 - x0) * 0.3;
+    tx.setAttribute('x', px(x) + (rechts ? -18 : 18)); tx.setAttribute('y', py(y) < 60 ? py(y) + 44 : py(y) - 22);
+    tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+    tx.textContent = g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y));
+  }
+}
+// Zuletzt die Beschriftungen der mitfahrenden Punkte (seit 07.10.2026): "lage" setzt sie fest
+// (oben, unten, links, rechts, auch zwei davon), und keine ragt ueber den Rand des Bildes.
+function beschriftungenRichten() {
+  for (const L of document.querySelectorAll('[data-t0]'))
+    for (const g of L.querySelectorAll('[data-zu], .fk-l')) {
+      if (g.style.display === 'none') continue;
+      const tx = g.querySelector(':scope > text'), c = g.querySelector('.bew-pt circle');
+      if (!tx || !c || !tx.textContent) continue;
+      const X = parseFloat(c.getAttribute('cx')), Y = parseFloat(c.getAttribute('cy'));
+      if (g.dataset.lage) {
+        const w = g.dataset.lage.split(/\s+/), li = w.includes('links'), re = w.includes('rechts');
+        const ob = w.includes('oben'), un = w.includes('unten');
+        tx.setAttribute('x', X + (li ? -18 : re ? 18 : 0));
+        tx.setAttribute('y', ob ? Y - 22 : un ? Y + 44 : Y + 10);
+        tx.setAttribute('text-anchor', li ? 'end' : re ? 'start' : 'middle');
+      }
+      let w;
+      try { w = tx.getComputedTextLength(); } catch (e) { continue; }
+      const svg = tx.ownerSVGElement; if (!w || !svg) continue;
+      const B = svg.viewBox.baseVal && svg.viewBox.baseVal.width || svg.width.baseVal.value;
+      const x = parseFloat(tx.getAttribute('x')), an = tx.getAttribute('text-anchor') || 'start';
+      const l = an === 'start' ? x : an === 'end' ? x - w : x - w / 2;
+      // Seitlich stehende Beschriftung auf die andere Seite des Punkts klappen, mittige schieben
+      if (l + w > B - 4) {
+        if (an === 'start' && X - 18 - w >= 4) { tx.setAttribute('x', X - 18); tx.setAttribute('text-anchor', 'end'); }
+        else tx.setAttribute('x', x - (l + w - (B - 4)));
+      } else if (l < 4) {
+        if (an === 'end' && X + 18 + w <= B - 4) { tx.setAttribute('x', X + 18); tx.setAttribute('text-anchor', 'start'); }
+        else tx.setAttribute('x', x + (4 - l));
+      }
+    }
+}
+// Laeufer auf einer festen Formelkurve: x aus der Bahn, y linear aus der Wertetabelle.
+function laufeFest(T, t, px, py, x0, x1, y0, y1) {
+  const x = bewZustand(T.k, t - T.t0)[0], n = T.tab.length - 1;
+  const q = (x - T.ab) / (T.bis - T.ab) * n, i = Math.min(n - 1, Math.max(0, Math.floor(q)));
+  const ya = T.tab[i], yb = T.tab[i + 1];
+  const y = ya === null || yb === null ? null : ya + (yb - ya) * (q - i);
+  const ok = y !== null && q >= 0 && q <= n && x >= x0 && x <= x1 && y >= y0 && y <= y1;
+  T.p.style.display = ok ? '' : 'none';
+  if (!ok) return;
+  T.p.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); });
+  const tx = T.p.querySelector(':scope > text'); if (!tx) return;
+  const rechts = x > x1 - (x1 - x0) * 0.25;
+  tx.setAttribute('x', px(x) + (rechts ? -18 : 18)); tx.setAttribute('y', py(y) < 60 ? py(y) + 44 : py(y) - 22);
+  tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
+  tx.textContent = T.p.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y));
+}
 // Zwischen zwei Stuetzpunkten weich. Wie viele Zahlen ein Stuetzpunkt traegt, sagt er
 // selbst: [t, a, u, v] bei einer Parabel, [t, m, q] bei einer Geraden, [t, x] bei einer Bahn.
 function bewZustand(k, t) {
@@ -1076,7 +1396,14 @@ function bewZustand(k, t) {
   }
   return k[k.length - 1].slice(1);
 }
-const bewZahl = x => { const r = Math.round(x * 10) / 10; return (r < 0 ? '−' : '') + Math.abs(r); };
+// Eine Nachkommastelle — ausser der Wert hat genau zwei (−0.75, −1.25): dann beide, sonst
+// stuende an einem ruhenden Punkt eine falsch gerundete Zahl (seit 07.10.2026). Waehrend einer
+// Bewegung sind die Werte krumm und bleiben bei einer Stelle.
+const bewZahl = x => {
+  const z = Math.round(x * 100);
+  const r = Math.abs(x * 100 - z) < 1e-6 && z % 10 !== 0 ? z / 100 : Math.round(x * 10) / 10;
+  return (r < 0 ? '−' : '') + Math.abs(r);
+};
 // Eine bewegte Gerade y = m x + q: am Fenster abgeschnitten, dazu ihre Begleiter.
 function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
   const [m, q] = bewZustand(T.k, t - T.t0);
@@ -1116,6 +1443,31 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
       const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn));
       const x = bewZustand(bahn, t - T.t0)[0];
       setze(g, x, f(x)); beschrifte(g, x, f(x), fuell(g.dataset.text, x, f(x)));
+    } else if (g.classList.contains('bew-gs-tab')) {
+      // Schnittpunkte mit einer festen Kurve (Tabelle): Vorzeichenwechsel von Kurve − Gerade,
+      // dazu Beruehrstellen (|Differenz| lokal minimal und fast null).
+      const tab = g._tab || (g._tab = JSON.parse(g.dataset.tab));
+      const ab = parseFloat(g.dataset.ab), bis = parseFloat(g.dataset.bis), n = tab.length - 1;
+      const X = i => ab + (bis - ab) * i / n, d = i => tab[i] === null ? null : tab[i] - f(X(i));
+      const eps = (y1 - y0) * 2e-3, sn = [];
+      for (let i = 0; i < n; i++) {
+        const da = d(i), db = d(i + 1);
+        if (da === null || db === null) continue;
+        if (da === 0) sn.push(X(i));
+        else if (da * db < 0) sn.push(X(i) + (X(i + 1) - X(i)) * da / (da - db));
+        else if (i > 0 && d(i - 1) !== null && Math.abs(da) < eps && Math.abs(da) <= Math.abs(d(i - 1)) && Math.abs(da) <= Math.abs(db)) sn.push(X(i));
+      }
+      const gs = [];
+      for (const x of sn) if (!gs.length || x - gs[gs.length - 1] > (bis - ab) / n * 1.5) gs.push(x);
+      T._gs = gs;
+    } else if (g.classList.contains('bew-gs')) {
+      const x = (T._gs || [])[parseInt(g.dataset.i)];
+      if (x === undefined) { g.style.display = 'none'; continue; }
+      setze(g, x, f(x)); beschrifte(g, x, f(x), '(' + bewZahl(x) + ' | ' + bewZahl(f(x)) + ')');
+      // abwechselnd ueber und unter der Geraden, sonst stossen nahe Beschriftungen zusammen
+      const tx = g.querySelector(':scope > text');
+      if (tx) { tx.setAttribute('y', py(f(x)) + (parseInt(g.dataset.i) % 2 ? 44 : -18));
+        tx.setAttribute('text-anchor', 'middle'); tx.setAttribute('x', px(x)); }
     } else if (g.classList.contains('bew-gd')) {
       // Steigungsdreieck: von (x | f(x)) nach rechts, dann senkrecht auf die Gerade.
       let xa, dx;
@@ -1124,7 +1476,8 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
         [xa, dx] = bewZustand(bahn, t - T.t0);
       } else { xa = parseFloat(g.dataset.x); dx = parseFloat(g.dataset.dx); }
       const xb = xa + dx;
-      const ya = f(xa), yb = f(xb), sichtbar = innen(xa, ya) && innen(xb, yb);
+      // dx = 0: kein Dreieck, auch keine Beschriftung «Δx = 0» (es waechst erst noch)
+      const ya = f(xa), yb = f(xb), sichtbar = Math.abs(dx) > 1e-9 && innen(xa, ya) && innen(xb, yb);
       g.style.display = sichtbar ? '' : 'none';
       if (!sichtbar) continue;
       g.querySelector('.bew-gd-w').setAttribute('d', 'M' + px(xa) + ',' + py(ya) + 'L' + px(xb) + ',' + py(ya));
@@ -1132,7 +1485,10 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
       const tx = g.querySelector('.bew-gd-tx'), ty = g.querySelector('.bew-gd-ty');
       tx.setAttribute('x', px((xa + xb) / 2)); tx.setAttribute('y', py(ya) + (m > 0 ? 36 : -14));
       tx.textContent = 'Δx = ' + bewZahl(dx);
-      ty.setAttribute('x', px(xb) + 12); ty.setAttribute('y', py((ya + yb) / 2) + 10);
+      // dx < 0: die senkrechte Kathete steht links, ihre Beschriftung auch (sonst liegt sie
+      // auf der Geraden oder der y-Achse)
+      ty.setAttribute('x', px(xb) + (dx < 0 ? -12 : 12)); ty.setAttribute('y', py((ya + yb) / 2) + 10);
+      ty.setAttribute('text-anchor', dx < 0 ? 'end' : 'start');
       ty.textContent = 'Δy = ' + bewZahl(yb - ya);
     }
   }
@@ -1140,7 +1496,21 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
 // Eine bewegte Potenz- oder Wurzelkurve y = a*(x-u)^p + v, am Fenster abgeschnitten.
 // Wo es keinen Wert gibt (Pol, negative Basis mit gebrochenem Exponenten), bricht der
 // Streckenzug ab und beginnt danach neu — genau so entstehen Aeste und Definitionsluecken.
+// x einer Marke an einer bewegten Kurve: fest (data-x) oder aus einer Bahn [[t, x], …] (Laeufer).
+function kmX(g, T) {
+  if (!g.dataset.bahn) return parseFloat(g.dataset.x);
+  const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn));
+  return bewZustand(bahn, T._t - T.t0)[0];
+}
+// Definitionsbereich einer bewegten Kurve: fest (data-von/data-bis) oder mitwandernd
+// ("grenzen": [[t, von, bis], …], seit 07.10.2026 — Einschraenken, ein Intervall zieht sich zu).
+function kGrenzen(T) {
+  if (!T.p.dataset.grenzen) return [parseFloat(T.p.dataset.von), parseFloat(T.p.dataset.bis)];
+  const gr = T._gr || (T._gr = JSON.parse(T.p.dataset.grenzen));
+  return bewZustand(gr, T._t - T.t0);
+}
 function bewegeKurve(T, t, px, py, x0, x1, y0, y1) {
+  T._t = t;
   const Z = bewZustand(T.k, t - T.t0);
   if (T.poly) return bewegePolynom(T, Z, px, py, x0, x1, y0, y1);
   if (T.el === 's' || T.el === 't') return bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1);
@@ -1158,7 +1528,7 @@ function bewegeKurve(T, t, px, py, x0, x1, y0, y1) {
   };
   const f = x => { const y = a * pot(x - u) + v;
     return (isFinite(y) && !isNaN(y)) ? y : null; };
-  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const [vx, bx] = kGrenzen(T);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
   const zug = (abx, aby) => {           // abx/aby: wie der Punkt auf die Achsen faellt
     let d = '', an = false;
@@ -1199,7 +1569,7 @@ function bewegeKurve(T, t, px, py, x0, x1, y0, y1) {
       g.querySelector('.bew-ka-w').setAttribute('d',
         (v >= y0 && v <= y1) ? 'M' + px(x0) + ',' + py(v) + 'L' + px(x1) + ',' + py(v) : '');
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       if (y === null) { g.style.display = 'none'; continue; }
       setze(g, x, y);
       beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
@@ -1212,7 +1582,7 @@ function bewegeExpLog(T, Z, px, py, x0, x1, y0, y1) {
   const [c, a, v] = Z, ex = T.el === 'e';
   const f = x => { if (ex) return c * Math.pow(a, x) + v;
     if (x <= 0 || Math.abs(Math.log(a)) < 1e-9) return null; return c * Math.log(x) / Math.log(a) + v; };
-  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const [vx, bx] = kGrenzen(T);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
   const zug = (abx, aby, imBild) => {
     let d = '', an = false;
@@ -1249,7 +1619,7 @@ function bewegeExpLog(T, Z, px, py, x0, x1, y0, y1) {
     } else if (g.classList.contains('bew-ks')) {
       const x = ex ? 0 : 1, y = f(x); setze(g, x, y); beschrifte(g, x, y, '(' + bewZahl(x) + ' | ' + bewZahl(y) + ')');
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       if (y === null) { g.style.display = 'none'; continue; }
       setze(g, x, y); beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
     }
@@ -1260,7 +1630,7 @@ function bewegeExpLog(T, Z, px, py, x0, x1, y0, y1) {
 function bewegeBetrag(T, Z, px, py, x0, x1, y0, y1) {
   const [a, u, v] = Z;
   const f = x => a * Math.abs(x - u) + v;
-  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const [vx, bx] = kGrenzen(T);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
   // Drei Punkte genügen: linker Rand, Knick, rechter Rand — der Knick bleibt scharf.
   const xs = [a0, Math.min(Math.max(u, a0), a1), a1];
@@ -1284,7 +1654,7 @@ function bewegeBetrag(T, Z, px, py, x0, x1, y0, y1) {
     } else if (g.classList.contains('bew-ks')) {
       setze(g, u, v); beschrifte(g, u, v, '(' + bewZahl(u) + ' | ' + bewZahl(v) + ')');
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       setze(g, x, y); beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
     }
   }
@@ -1299,8 +1669,8 @@ function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
   const kk = T.L.querySelector('.bew-kk[data-zu="' + T.p.dataset.paar + '"]');
   let th = null;
   if (kk) { const bahn = kk._bahn || (kk._bahn = JSON.parse(kk.dataset.bahn)); th = bewZustand(bahn, t - T.t0)[0]; }
-  const vx = parseFloat(T.p.dataset.von);
-  let bx = parseFloat(T.p.dataset.bis);
+  const kg_ = kGrenzen(T), vx = kg_[0];
+  let bx = kg_[1];
   if (kk && kk.dataset.spur === '1') bx = Math.min(bx, th);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx), H = y1 - y0;
   let d = '', an = false, yl = null;
@@ -1339,7 +1709,7 @@ function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
       g.querySelector('.bew-ka-w').setAttribute('d', !tg && Math.abs(v) > 1e-9 && v >= y0 && v <= y1
         ? 'M' + px(x0) + ',' + py(v) + 'L' + px(x1) + ',' + py(v) : '');
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       if (y === null) { g.style.display = 'none'; continue; }
       setze(g, x, y); beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)));
     } else if (g.classList.contains('bew-kk')) {
@@ -1353,12 +1723,20 @@ function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
       const yq = f(th), sichtbar = yq !== null && innen(th, yq) && g.dataset.proj !== '0';
       if (tg) {
         // Tangente x = 1 am Kreis; der Strahl durch P trifft sie in T = (1 | tan th).
-        const ty = Math.tan(th), T_ = [cx + r, cy - r * ty], ok = Math.abs(Math.cos(th)) > 1e-4 && ty >= y0 && ty <= y1;
+        // Ueber den Fensterrand hinaus: die Strecke am Rand abschneiden (seit 07.10.2026), nicht
+        // ausblenden — «waechst ueber alle Grenzen» soll man sehen. Die Projektion faellt dann weg.
+        const ty0 = Math.tan(th), drin = ty0 >= y0 && ty0 <= y1, ty = Math.min(y1, Math.max(y0, ty0));
+        const T_ = [cx + r, cy - r * ty], ok = Math.abs(Math.cos(th)) > 1e-4;
         lin('.kk-tang', cx + r, py(y0), cx + r, py(y1));
-        lin('.kk-radius', cx, cy, ok ? T_[0] : P[0], ok ? T_[1] : P[1]);
+        // P links der y-Achse (2. und 3. Quadrant): der Strahl geht von P durch M zur Tangente,
+        // sonst haengt P neben der Linie.
+        const vonP = ok && Math.cos(th) < 0;
+        // abgeschnitten: der Strahl endet am Fensterrand, auf seiner eigenen Richtung
+        const R_ = drin ? T_ : [cx + r * ty / ty0, cy - r * ty];
+        lin('.kk-radius', vonP ? P[0] : cx, vonP ? P[1] : cy, ok ? R_[0] : P[0], ok ? R_[1] : P[1]);
         lin('.kk-hoehe', cx + r, cy, ok ? T_[0] : cx + r, ok ? T_[1] : cy);
-        lin('.kk-proj', ok ? T_[0] : 0, ok ? T_[1] : 0, ok && sichtbar ? px(th) : (ok ? T_[0] : 0), ok ? T_[1] : 0);
-        const q = g.querySelector('.kk-q'); q.style.display = ok && sichtbar ? '' : 'none';
+        lin('.kk-proj', ok ? T_[0] : 0, ok ? T_[1] : 0, ok && drin && sichtbar ? px(th) : (ok ? T_[0] : 0), ok ? T_[1] : 0);
+        const q = g.querySelector('.kk-q'); q.style.display = ok && drin && sichtbar ? '' : 'none';
         q.setAttribute('cx', px(th)); q.setAttribute('cy', py(ty));
       } else if (g.dataset.art === 'cos') {
         // Cosinus: die waagrechte Koordinate von P als Strecke auf der Achse, ohne Projektion.
@@ -1390,7 +1768,7 @@ function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
 function bewegePolynom(T, Z, px, py, x0, x1, y0, y1) {
   const a = Z[0], r = Z.slice(1);
   const f = x => r.reduce((s, q) => s * (x - q), a);
-  const vx = parseFloat(T.p.dataset.von), bx = parseFloat(T.p.dataset.bis);
+  const [vx, bx] = kGrenzen(T);
   const a0 = Math.max(x0, vx), a1 = Math.min(x1, bx);
   let d = '', an = false;
   for (let i = 0; i <= 600; i++) {
@@ -1440,7 +1818,7 @@ function bewegePolynom(T, Z, px, py, x0, x1, y0, y1) {
       const y = f(e[0]); setze(g, e[0], y);
       beschrifte(g, e[0], y, (e[1] ? 'H' : 'T') + '(' + bewZahl(e[0]) + ' | ' + bewZahl(y) + ')', !e[1]);
     } else if (g.classList.contains('bew-km')) {
-      const x = parseFloat(g.dataset.x), y = f(x);
+      const x = kmX(g, T), y = f(x);
       setze(g, x, y);
       beschrifte(g, x, y, g.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y)), a < 0);
     }
@@ -1453,17 +1831,24 @@ function bewegen(t) {
     const py = y => h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd);
     if (T.art === 'g') { bewegeGerade(T, t, px, py, x0, x1, y0, y1); continue; }
     if (T.art === 'k') { bewegeKurve(T, t, px, py, x0, x1, y0, y1); continue; }
-    const [a, u, v] = bewZustand(T.k, t - L.t0);
+    if (T.art === 'f') { laufeFest(T, t, px, py, x0, x1, y0, y1); continue; }
+    if (T.art === 'fp') { bewegeFormel(T, t, px, py, x0, x1, y0, y1); continue; }
+    // Scheitelform [a, u, v] oder Normalform [a, b, c] (data-normal); f ist die Kurve,
+    // u und v der Scheitel (bei a = 0 keiner: NaN).
+    const Z = bewZustand(T.k, t - L.t0), normal = T.p.dataset.normal === '1';
+    const a = Z[0];
+    const f = normal ? (x => a * x * x + Z[1] * x + Z[2]) : (x => a * (x - Z[1]) * (x - Z[1]) + Z[2]);
+    const u = normal ? (Math.abs(a) > 1e-9 ? -Z[1] / (2 * a) : NaN) : Z[1];
+    const v = normal ? f(u) : Z[2];
     const xa = T.p.dataset.ab !== undefined ? Math.max(x0, parseFloat(T.p.dataset.ab)) : x0;
     const xb = T.p.dataset.bis !== undefined ? Math.min(x1, parseFloat(T.p.dataset.bis)) : x1;
     let d = '', zug = false;
     for (let i = 0; i <= 240; i++) {
-      const x = xa + (xb - xa) * i / 240, y = a * (x - u) * (x - u) + v;
+      const x = xa + (xb - xa) * i / 240, y = f(x);
       if (y >= y0 && y <= y1) { d += (zug ? 'L' : 'M') + px(x).toFixed(1) + ',' + py(y).toFixed(1); zug = true; }
       else zug = false;
     }
     T.p.setAttribute('d', d);
-    const f = x => a * (x - u) * (x - u) + v;
     const innen = (x, y) => x >= x0 && x <= x1 && y >= y0 && y <= y1;
     const setze = (g, x, y) => { g.style.display = innen(x, y) ? '' : 'none';
       g.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(x)); c.setAttribute('cy', py(y)); }); };
@@ -1477,15 +1862,26 @@ function bewegen(t) {
     };
     const fuell = (vorlage, x, y) => vorlage.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y));
     for (const g of T.L.querySelectorAll('[data-zu="' + T.p.dataset.paar + '"]')) {
-      if (g.classList.contains('bew-s')) {
+      if (g.classList.contains('bew-a')) {
+        g.style.display = isNaN(u) || u < x0 || u > x1 ? 'none' : '';
+        g.querySelector('path').setAttribute('d', 'M' + px(u) + ',' + py(y0) + 'L' + px(u) + ',' + py(y1));
+      } else if (g.classList.contains('bew-s')) {
+        if (isNaN(u)) { g.style.display = 'none'; continue; }
         setze(g, u, v); beschrifte(g, u, v, 'S(' + bewZahl(u) + ' | ' + bewZahl(v) + ')', a > 0);
       } else if (g.classList.contains('bew-n')) {
-        const q = a !== 0 ? -v / a : -1, w = q >= 0 ? Math.sqrt(q) : NaN;
-        if (isNaN(w)) { g.style.display = 'none'; continue; }
-        const xn = g.classList.contains('bew-n1') ? u - w : u + w;
+        let xn;
+        if (isNaN(u)) {
+          // a = 0 (nur Normalform): eine Gerade b x + c, hoechstens eine Nullstelle (als n1)
+          if (g.classList.contains('bew-n2') || Math.abs(Z[1]) < 1e-9) { g.style.display = 'none'; continue; }
+          xn = -Z[2] / Z[1];
+        } else {
+          const q = a !== 0 ? -v / a : -1, w = q >= 0 ? Math.sqrt(q) : NaN;
+          if (isNaN(w)) { g.style.display = 'none'; continue; }
+          xn = g.classList.contains('bew-n1') ? u - w : u + w;
+        }
         setze(g, xn, 0);
         if (g.querySelector(':scope > text')) {
-          const tx = g.querySelector(':scope > text'), links = g.classList.contains('bew-n1') && w > 1e-9;
+          const tx = g.querySelector(':scope > text'), links = g.classList.contains('bew-n1') && !isNaN(u) && Math.abs(xn - u) > 1e-9;
           tx.setAttribute('x', px(xn) + (links ? -16 : 16)); tx.setAttribute('y', py(0) + (a > 0 ? -18 : 44));
           tx.setAttribute('text-anchor', links ? 'end' : 'start'); tx.textContent = '(' + bewZahl(xn) + ' | 0)';
         }
@@ -1500,7 +1896,7 @@ function bewegen(t) {
         setze(g.querySelector('.bew-pt'), x, y);
         g.style.display = innen(x, y) ? '' : 'none';
         const gs = g.querySelector('.bew-geist');
-        if (gs) { const xs = 2 * u - x; gs.style.display = Math.abs(xs - x) > 0.05 && innen(xs, f(xs)) ? '' : 'none';
+        if (gs) { const xs = 2 * u - x; gs.style.display = !isNaN(u) && Math.abs(xs - x) > 0.05 && innen(xs, f(xs)) ? '' : 'none';
           gs.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', px(xs)); c.setAttribute('cy', py(f(xs))); }); }
         beschrifte(g, x, y, fuell(g.dataset.text, x, y), a > 0 && Math.abs(x - u) < (x1 - x0) * 0.15);
       }
@@ -1508,7 +1904,7 @@ function bewegen(t) {
   }
 }
 const seekOhneBewegung = seek;
-seek = function (t) { seekOhneBewegung(t); bewegen(t); };
+seek = function (t) { seekOhneBewegung(t); bewegen(t); beschriftungenRichten(); };
 '''
 
 
@@ -2024,11 +2420,12 @@ def bauen(quelle, eigenstaendig=False):
             # volle Breite ohne Rand. `breite` war bisher totes Kapital.
             if mitte and "x" not in el:
                 klassen.append("mitte")
-                rand = (1920 - breite) // 2
+                rand = (1920 - breite) // 2 if TEXTBREITE_BEGRENZEN else 0
                 stil.insert(0, "left:%dpx;right:%dpx;text-align:center" % (rand, rand))
             else:
                 stil.insert(0, "left:%dpx" % el.get("x", links))
-                if "breite" not in el and el.get("typ") not in ("graf", "bild", "strich"):
+                if (TEXTBREITE_BEGRENZEN and "breite" not in el
+                        and el.get("typ") not in ("graf", "bild", "strich")):
                     stil.append("width:%dpx" % breite)
             stil.insert(1, "top:%dpx" % el.get("y", y))
 
@@ -2038,11 +2435,15 @@ def bauen(quelle, eigenstaendig=False):
             attr = f' data-at="{ein:.2f}"'
             if el.get("typ") == "graf" and (any(pa.get("bewegung") for pa in el.get("parabeln", []))
                                             or any(ge.get("bewegung") for ge in el.get("geraden", []))
-                                            or any(kv.get("bewegung") for kv in el.get("kurven", []))):
+                                            or any(kv.get("bewegung") or kv.get("laeufer") or kv.get("parameter")
+                                                   for kv in el.get("kurven", []))):
                 attr += f' data-t0="{start:.2f}"'
             if aus is not None:
                 attr += f' data-out="{aus:.2f}"'
             attr += f' data-anim="{anim}"'
+            if "-rel=" in inhalt:
+                inhalt = re.sub(r'data-(ein|aus|fvon|fbis)-rel="([-\d.e]+)"',
+                                lambda m: 'data-%s="%.2f"' % (m.group(1), start + float(m.group(2))), inhalt)
             teile.append(f'<div class="{" ".join(klassen)}"{attr} '
                          f'style="{";".join(stil)}">{inhalt}</div>')
 
@@ -2138,7 +2539,8 @@ def bauen(quelle, eigenstaendig=False):
 
     # Nur Clips mit bewegten Bildern bekommen den Zusatz — alle anderen
     # bleiben Byte fuer Byte, wie sie waren.
-    if "data-bew=" in html or "data-bewg=" in html or "data-bewk=" in html:
+    if "data-bew=" in html or "data-bewg=" in html or "data-bewk=" in html or "data-fkl=" in html \
+            or "data-fp=" in html:
         html = html.replace("window.__seek = seek;", BEWEGUNG_JS + "window.__seek = seek;", 1)
     if dreh.get("fragen"):
         fr = []
@@ -2293,6 +2695,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({{
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }}));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({{
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }}));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({{
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }}));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {{
@@ -2306,6 +2716,12 @@ function seek(t)  {{
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }}
+  for (const Z of zteile) {{
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }}
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }}
 window.__seek = seek;
 window.__dauer = DUR;
@@ -2321,7 +2737,7 @@ if (!location.search.includes('render')) {{
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

@@ -258,6 +258,11 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `begreifbar-schlicht` (ohne Karo und Rand). Eine bewegte Gerade kann mit
   `"ab"` erst bei einem \(x\) beginnen (keine negative Zeit); der Fehler,
   durch den bewegte Geraden im Endzustand standen, ist seit 03.10.2026 behoben.
+  Seit 07.10.2026 ist `build-clips.py` wieder dieselbe Datei wie in Mathe (nur
+  `KARO_OHNE_ACHSEN`, `TEXTBREITE_BEGRENZEN` und der Seitenname sind Projektwerte): Teile im
+  `graf` tragen eigenes `ein`/`aus`, Läufer fahren auch auf Kurven und kennen `lage`
+  (HOWTO-clips, «Später einblenden, bewegen, mitlaufen»). Ganze Elemente (`bild`, `formel`)
+  lassen sich weiterhin nicht ausblenden.
 - `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell vierzehn: acht klassische (unten) und die sechs nach dem Kapitelmuster (`leitprogramm-elektrizitaet`, `leitprogramm-kinematik`, `-dynamik`, `-energie`, `-statik`, `-hydrostatik`):
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),

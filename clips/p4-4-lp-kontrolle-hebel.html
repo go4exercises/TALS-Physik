@@ -119,6 +119,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -132,6 +140,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Ein Kind (20 kg) sitzt 2 m von der Achse. Wo muss eine Person mit 50 kg sitzen?", "optionen": ["5 m", "0.8 m", "1.25 m"], "richtig": 1, "rueck": {"0": "Umgekehrt: Die schwerere Person sitzt näher an der Achse.", "2": "Beim Umstellen ist der Bruch verrutscht. Links steht m₁ · r₁, rechts m₂ · r: Was gehört in den Zähler?"}, "t": 0.3, "ton": {"frage": "ton/p4-4-lp-kontrolle-hebel-f0-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-hebel-f0-r0.mp3", "r2": "ton/p4-4-lp-kontrolle-hebel-f0-r2.mp3"}}, {"typ": "wahl", "text": "Zwei gleich schwere Kinder sitzen auf einer Wippe, eines weiter aussen. Was geschieht?", "optionen": ["Die Wippe bleibt waagrecht.", "Sie kippt zum Kind weiter innen.", "Sie kippt zum Kind weiter aussen."], "richtig": 2, "rueck": {"0": "Gleiche Kraft — aber gleicher Hebelarm?", "1": "Welches Kind hat den grösseren Hebelarm?"}, "t": 7.21, "ton": {"frage": "ton/p4-4-lp-kontrolle-hebel-f1-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-hebel-f1-r0.mp3", "r1": "ton/p4-4-lp-kontrolle-hebel-f1-r1.mp3"}}, {"typ": "wahl", "text": "An einer Brechstange ist der Kraftarm fünfmal so lang wie der Lastarm. Welche Kraft braucht es?", "optionen": ["ein Fünftel der Last", "die Last", "fünfmal die Last"], "richtig": 0, "rueck": {"1": "Wozu dann die Stange? Kraft mal Kraftarm gleich Last mal Lastarm.", "2": "Umgekehrt: Der lange Arm spart Kraft."}, "t": 13.83, "ton": {"frage": "ton/p4-4-lp-kontrolle-hebel-f2-frage.mp3", "r1": "ton/p4-4-lp-kontrolle-hebel-f2-r1.mp3", "r2": "ton/p4-4-lp-kontrolle-hebel-f2-r2.mp3"}}, {"typ": "wahl", "text": "Du lädst die Last einer Schubkarre näher an die Radachse. Was geschieht mit der Kraft an den Griffen?", "optionen": ["sie wird grösser", "sie bleibt gleich", "sie wird kleiner"], "richtig": 2, "rueck": {"0": "Welcher Arm wird kürzer: Kraftarm oder Lastarm?", "1": "Last mal Lastarm — was ändert sich daran?"}, "t": 18.03, "ton": {"frage": "ton/p4-4-lp-kontrolle-hebel-f3-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-hebel-f3-r0.mp3", "r1": "ton/p4-4-lp-kontrolle-hebel-f3-r1.mp3"}}, {"typ": "wahl", "text": "Links sitzen 20 kg bei 1 m und 10 kg bei 2 m. Wo muss rechts eine Person mit 40 kg sitzen?", "optionen": ["0.5 m", "1 m", "1.125 m"], "richtig": 1, "rueck": {"0": "Das zweite Kind links dreht auch mit.", "2": "Jedes Kind zählt mit seinem eigenen Abstand."}, "t": 25.99, "ton": {"frage": "ton/p4-4-lp-kontrolle-hebel-f4-frage.mp3", "r0": "ton/p4-4-lp-kontrolle-hebel-f4-r0.mp3", "r2": "ton/p4-4-lp-kontrolle-hebel-f4-r2.mp3"}}];
 (() => {
@@ -324,7 +338,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Du willst die Spannung an einer Lampe messen. Wo schliesst du das Voltmeter an?", "optionen": ["in den Stromweg vor der Lampe", "an die beiden Anschlüsse der Lampe", "zwischen Schalter und Batterie"], "richtig": 1, "rueck": {"0": "Spannung liegt zwischen zwei Punkten. Zwischen welchen?", "2": "Dort liegt es im Stromweg. Was misst man zwischen zwei Punkten?"}, "t": 0.3, "ton": {"frage": "ton/p6-2-lp-kontrolle-messen-f0-frage.mp3", "r0": "ton/p6-2-lp-kontrolle-messen-f0-r0.mp3", "r2": "ton/p6-2-lp-kontrolle-messen-f0-r2.mp3"}}, {"typ": "wahl", "text": "Wohin gehört das Amperemeter, um den Strom durch die Lampe zu messen?", "optionen": ["parallel zur Lampe", "an die Pole der Batterie", "in den Stromweg zur Lampe"], "richtig": 2, "rueck": {"0": "Ein ideales Amperemeter hat keinen Widerstand. Was geschieht parallel zur Lampe?", "1": "Muss der Strom durch das Messgerät fliessen — oder daran vorbei?"}, "t": 7.08, "ton": {"frage": "ton/p6-2-lp-kontrolle-messen-f1-frage.mp3", "r0": "ton/p6-2-lp-kontrolle-messen-f1-r0.mp3", "r1": "ton/p6-2-lp-kontrolle-messen-f1-r1.mp3"}}, {"typ": "wahl", "text": "Gemessen: 5.0 V und 25 mA. Wie gross ist der Widerstand?", "optionen": ["0.2 Ω", "200 Ω", "125 Ω"], "richtig": 1, "rueck": {"0": "Milliampere in Ampere umgerechnet?", "2": "Geteilt oder mal?"}, "t": 14.4, "ton": {"frage": "ton/p6-2-lp-kontrolle-messen-f2-frage.mp3", "r0": "ton/p6-2-lp-kontrolle-messen-f2-r0.mp3", "r2": "ton/p6-2-lp-kontrolle-messen-f2-r2.mp3"}}, {"typ": "wahl", "text": "In einer U-I-Kennlinie (I nach rechts, U nach oben) liegt ein Messpunkt bei (40 mA; 18 V). Welcher Widerstand?", "optionen": ["450 Ω", "0.45 Ω", "0.0022 Ω"], "richtig": 0, "rueck": {"1": "Milliampere in Ampere umgerechnet?", "2": "Umgekehrt? R = U / I."}, "t": 19.2, "ton": {"frage": "ton/p6-2-lp-kontrolle-messen-f3-frage.mp3", "r1": "ton/p6-2-lp-kontrolle-messen-f3-r1.mp3", "r2": "ton/p6-2-lp-kontrolle-messen-f3-r2.mp3"}}, {"typ": "wahl", "text": "Die Messpunkte eines Bauteils liegen auf einer Geraden durch den Ursprung. Was heisst das?", "optionen": ["Der Widerstand wächst mit der Spannung.", "Es fliesst kein Strom.", "Der Widerstand ist konstant: Das Bauteil ist ohmsch."], "richtig": 2, "rueck": {"0": "Wie ändert sich U / I entlang einer Ursprungsgeraden?", "1": "Die Punkte liegen bei Strömen grösser null."}, "t": 24.66, "ton": {"frage": "ton/p6-2-lp-kontrolle-messen-f4-frage.mp3", "r0": "ton/p6-2-lp-kontrolle-messen-f4-r0.mp3", "r1": "ton/p6-2-lp-kontrolle-messen-f4-r1.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

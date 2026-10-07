@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Ein Körper mit 0.5 l Volumen liegt ganz unter Wasser. Wie gross ist der Auftrieb?", "optionen": ["0.5 N", "4.9 N", "4905 N"], "richtig": 1, "rueck": {"0": "Das ist die verdrängte Masse in kg. Die Kraft: mal g.", "2": "Liter in m³ umrechnen: 0.5 l = 0.0005 m³."}, "t": 0.3, "ton": {"frage": "ton/p4-5-lp-kontrolle-auftrieb-f0-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-auftrieb-f0-r0.mp3", "r2": "ton/p4-5-lp-kontrolle-auftrieb-f0-r2.mp3"}}, {"typ": "wahl", "text": "Ein Körper mit 300 cm³ liegt ganz in Spiritus (790 kg/m³). Wie gross ist der Auftrieb?", "optionen": ["2.32 N", "2.94 N", "2325 N"], "richtig": 0, "rueck": {"1": "Welche Flüssigkeit wird verdrängt?", "2": "Kubikzentimeter in Kubikmeter: 300 cm³ = 0.0003 m³."}, "t": 6.42, "ton": {"frage": "ton/p4-5-lp-kontrolle-auftrieb-f1-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-auftrieb-f1-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-auftrieb-f1-r2.mp3"}}, {"typ": "wahl", "text": "Ein Würfel hängt ganz unter Wasser. Wo drückt das Wasser am stärksten auf ihn?", "optionen": ["auf die Oberseite", "auf die Unterseite", "überall gleich stark"], "richtig": 1, "rueck": {"0": "Wo ist das Wasser tiefer?", "2": "Ist der Druck in jeder Tiefe gleich?"}, "t": 15.64, "ton": {"frage": "ton/p4-5-lp-kontrolle-auftrieb-f2-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-auftrieb-f2-r0.mp3", "r2": "ton/p4-5-lp-kontrolle-auftrieb-f2-r2.mp3"}}, {"typ": "wahl", "text": "Eine Federwaage zeigt an der Luft 12 N. Ganz eingetaucht beträgt der Auftrieb 3 N. Was zeigt sie dann?", "optionen": ["15 N", "9 N", "3 N"], "richtig": 1, "rueck": {"0": "Der Auftrieb zeigt nach oben: Er entlastet die Waage.", "2": "Das ist nur der Auftrieb."}, "t": 21.61, "ton": {"frage": "ton/p4-5-lp-kontrolle-auftrieb-f3-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-auftrieb-f3-r0.mp3", "r2": "ton/p4-5-lp-kontrolle-auftrieb-f3-r2.mp3"}}, {"typ": "wahl", "text": "Derselbe Körper wird einmal in Süsswasser, einmal in Salzwasser ganz eingetaucht. Wo ist der Auftrieb grösser?", "optionen": ["im Salzwasser", "im Süsswasser", "gleich"], "richtig": 0, "rueck": {"1": "Welche Flüssigkeit ist dichter?", "2": "Gleiches Volumen — aber gleich schweres Wasser?"}, "t": 27.66, "ton": {"frage": "ton/p4-5-lp-kontrolle-auftrieb-f4-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-auftrieb-f4-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-auftrieb-f4-r2.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

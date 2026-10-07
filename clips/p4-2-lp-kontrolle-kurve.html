@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Eine Kugel (0.5 kg) kreist mit 4 m/s auf r = 2 m. Wie gross ist die Zentripetalkraft?", "optionen": ["1 N", "4 N", "8 N"], "richtig": 1, "rueck": {"0": "Hier fehlt ein Quadrat.", "2": "Das ist die Zentripetalbeschleunigung in m/s². Die Masse fehlt."}, "t": 0.3, "ton": {"frage": "ton/p4-2-lp-kontrolle-kurve-f0-frage.mp3", "r0": "ton/p4-2-lp-kontrolle-kurve-f0-r0.mp3", "r2": "ton/p4-2-lp-kontrolle-kurve-f0-r2.mp3"}}, {"typ": "wahl", "text": "Das Tempo auf der Kreisbahn verdreifacht sich, der Radius bleibt. Die nötige Kraft …", "optionen": ["verdreifacht sich", "verneunfacht sich", "bleibt gleich"], "richtig": 1, "rueck": {"0": "Wie steht v in der Formel? Einfach oder im Quadrat?", "2": "Schnellere Kreisbewegung, gleiche Kraft? Schau, wie v in der Formel steht."}, "t": 6.61, "ton": {"frage": "ton/p4-2-lp-kontrolle-kurve-f1-frage.mp3", "r0": "ton/p4-2-lp-kontrolle-kurve-f1-r0.mp3", "r2": "ton/p4-2-lp-kontrolle-kurve-f1-r2.mp3"}}, {"typ": "wahl", "text": "Welche Kraft hält den Mond auf seiner Bahn um die Erde?", "optionen": ["die Gravitation der Erde", "eine Kraft nach aussen", "keine, er fliegt von selbst im Kreis"], "richtig": 0, "rueck": {"1": "Eine Kraft nach aussen würde ihn von der Bahn wegziehen. Wohin muss die Kraft zeigen?", "2": "Ohne Kraft flöge er geradeaus weiter."}, "t": 11.58, "ton": {"frage": "ton/p4-2-lp-kontrolle-kurve-f2-frage.mp3", "r1": "ton/p4-2-lp-kontrolle-kurve-f2-r1.mp3", "r2": "ton/p4-2-lp-kontrolle-kurve-f2-r2.mp3"}}, {"typ": "wahl", "text": "Eine Kugel kreist an einer Schnur. Die Schnur reisst. In welche Richtung fliegt die Kugel weg?", "optionen": ["nach aussen, von der Mitte weg", "zur Mitte hin", "geradeaus, tangential zur Bahn"], "richtig": 2, "rueck": {"0": "Es gibt keine Kraft, die sie nach aussen zieht. Was sagt das Trägheitsgesetz?", "1": "Zur Mitte zog sie die Schnur, und die ist weg."}, "t": 18.24, "ton": {"frage": "ton/p4-2-lp-kontrolle-kurve-f3-frage.mp3", "r0": "ton/p4-2-lp-kontrolle-kurve-f3-r0.mp3", "r1": "ton/p4-2-lp-kontrolle-kurve-f3-r1.mp3"}}, {"typ": "wahl", "text": "Ein Zug fährt durch eine Kurve. Was liefert die Kraft zur Kurvenmitte?", "optionen": ["die Schienen, die seitlich gegen die Räder drücken", "die Fliehkraft nach aussen", "die Lokomotive, die in Fahrtrichtung zieht"], "richtig": 0, "rueck": {"1": "Eine Kraft nach aussen würde den Zug aus der Kurve tragen. In welche Richtung muss die gesuchte Kraft zeigen?", "2": "Die Lok zieht längs der Bahn. Ändert eine Kraft in Fahrtrichtung die Richtung der Bewegung?"}, "t": 24.93, "ton": {"frage": "ton/p4-2-lp-kontrolle-kurve-f4-frage.mp3", "r1": "ton/p4-2-lp-kontrolle-kurve-f4-r1.mp3", "r2": "ton/p4-2-lp-kontrolle-kurve-f4-r2.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

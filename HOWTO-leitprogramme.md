@@ -947,8 +947,10 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
 - Kontrollfragen bringen **neue** Beispiele: weder die Werte des Einführungsclips noch seine
   Bilder, noch die Ziele der Aufgabenleiste. Auch nicht die Mini-Checks der Themenseite (Kinematik:
   «150 km in 2 h» und «schwere und leichte Kugel» standen dort wörtlich).
-- **Ein Bild je Aussage**: Der Clip-Generator kann ein Element nicht ausblenden. Braucht eine Szene zwei
-  Zustände (r = 2 m, dann r = 4 m bei T = 8 s), die Szene teilen — sonst steht eine Zahl neben dem falschen Bild.
+- **Ein Bild je Aussage**: Ein ganzes Element (`bild`, `formel`, `notiz`) lässt sich nicht ausblenden. Braucht
+  eine Szene zwei Zustände (r = 2 m, dann r = 4 m bei T = 8 s), die Szene teilen — sonst steht eine Zahl neben
+  dem falschen Bild. Teile **innerhalb** eines `graf` können seit 07.10.2026 `ein`/`aus` tragen
+  (HOWTO-clips, «Später einblenden, bewegen, mitlaufen»).
 - **Marken bei Klickfragen**: Eine `marke` an der gefragten Stelle zeigt beim Fragebeginn einen Wert
   (\(s = 0\;\text{m}\)) genau dort, wo getippt werden soll — bei Klickfragen weglassen.
 

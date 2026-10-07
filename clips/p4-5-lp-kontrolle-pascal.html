@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Eine Kugel mit vielen gleich grossen Löchern ist mit Wasser gefüllt. Du drückst den Kolben hinein. Wie spritzt das Wasser?", "optionen": ["aus allen Löchern gleich stark", "vor allem aus den Löchern gegenüber dem Kolben", "nur aus den Löchern unten"], "richtig": 0, "rueck": {"1": "Breitet sich der Druck nur in Stossrichtung aus?", "2": "Ist der Druck nur unten erhöht?"}, "t": 0.3, "ton": {"frage": "ton/p4-5-lp-kontrolle-pascal-f0-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-pascal-f0-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-pascal-f0-r2.mp3"}}, {"typ": "wahl", "text": "Am kleinen Kolben drücken 60 N. Der grosse Kolben hat die 25-fache Fläche. Welche Kraft entsteht dort?", "optionen": ["2.4 N", "1500 N", "85 N"], "richtig": 1, "rueck": {"0": "Umgekehrt: Die grosse Fläche bekommt die grosse Kraft.", "2": "Addiert? Die Kraft wächst im Verhältnis der Flächen."}, "t": 8.64, "ton": {"frage": "ton/p4-5-lp-kontrolle-pascal-f1-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-pascal-f1-r0.mp3", "r2": "ton/p4-5-lp-kontrolle-pascal-f1-r2.mp3"}}, {"typ": "wahl", "text": "Der kleine Kolben wird 40 cm hineingedrückt, der grosse hat die 20-fache Fläche. Um wie viel hebt er sich?", "optionen": ["800 cm", "20 cm", "2 cm"], "richtig": 2, "rueck": {"0": "Der grosse Kolben bewegt sich weniger, nicht mehr.", "1": "Subtrahiert? Das Volumen verteilt sich auf die zwanzigfache Fläche."}, "t": 15.31, "ton": {"frage": "ton/p4-5-lp-kontrolle-pascal-f2-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-pascal-f2-r0.mp3", "r1": "ton/p4-5-lp-kontrolle-pascal-f2-r1.mp3"}}, {"typ": "wahl", "text": "Ein Auto drückt mit 11 000 N auf den grossen Kolben (500 cm²). Der kleine Kolben hat 4 cm². Welche Kraft braucht es dort?", "optionen": ["88 N", "1 375 000 N", "22 N"], "richtig": 0, "rueck": {"1": "Am kleinen Kolben braucht es die kleine Kraft.", "2": "Das ist der Druck in N/cm². Welche Fläche gehört zur gesuchten Kraft?"}, "t": 23.16, "ton": {"frage": "ton/p4-5-lp-kontrolle-pascal-f3-frage.mp3", "r1": "ton/p4-5-lp-kontrolle-pascal-f3-r1.mp3", "r2": "ton/p4-5-lp-kontrolle-pascal-f3-r2.mp3"}}, {"typ": "wahl", "text": "Du drückst mit 50 N auf einen Kolben mit 2 cm². Wie gross ist der Druck in der Flüssigkeit?", "optionen": ["25 bar", "0.25 bar", "2.5 bar"], "richtig": 2, "rueck": {"0": "Wie viele Pascal sind ein Bar?", "1": "Wie viele Quadratzentimeter hat ein Quadratmeter?"}, "t": 30.36, "ton": {"frage": "ton/p4-5-lp-kontrolle-pascal-f4-frage.mp3", "r0": "ton/p4-5-lp-kontrolle-pascal-f4-r0.mp3", "r1": "ton/p4-5-lp-kontrolle-pascal-f4-r1.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.

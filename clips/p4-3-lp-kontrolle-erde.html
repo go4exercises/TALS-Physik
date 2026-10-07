@@ -118,6 +118,14 @@ const layers = [...document.querySelectorAll('.l')].map(el => ({
   dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
 }));
 const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
 const ease = p => 1 - Math.pow(1 - p, 3);
 const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
 function seek(t)  {
@@ -131,6 +139,12 @@ function seek(t)  {
     if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
     L.el.style.transform = tr; L.el.style.opacity = o;
   }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
 }
 const FRAGEN = [{"typ": "wahl", "text": "Mehr Wolken: Die Albedo der Erde steigt von 0.30 auf 0.35. Was geschieht mit der Sonnenstrahlung, die die Erde aufnimmt?", "optionen": ["Sie nimmt zu.", "Sie nimmt ab.", "Sie bleibt gleich."], "richtig": 1, "rueck": {"0": "Eine grössere Albedo heisst: mehr wird zurückgeworfen.", "2": "Die Albedo ist der zurückgeworfene Anteil. Ändert er sich?"}, "t": 0.3, "ton": {"frage": "ton/p4-3-lp-kontrolle-erde-f0-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-erde-f0-r0.mp3", "r2": "ton/p4-3-lp-kontrolle-erde-f0-r2.mp3"}}, {"typ": "wahl", "text": "Was geschieht mit der Abstrahlung der Erde ins All, wenn sie wärmer wird?", "optionen": ["sie nimmt zu", "sie nimmt ab", "sie bleibt gleich"], "richtig": 0, "rueck": {"1": "Strahlt ein heisser Ofen weniger ab als ein kalter?", "2": "Hängt die Abstrahlung von der Temperatur ab?"}, "t": 8.71, "ton": {"frage": "ton/p4-3-lp-kontrolle-erde-f1-frage.mp3", "r1": "ton/p4-3-lp-kontrolle-erde-f1-r1.mp3", "r2": "ton/p4-3-lp-kontrolle-erde-f1-r2.mp3"}}, {"typ": "wahl", "text": "Was bewirkt mehr CO₂ in der Atmosphäre?", "optionen": ["Es erzeugt Wärme.", "Es wirft mehr Sonnenlicht zurück.", "Es lässt weniger Wärmestrahlung ins All."], "richtig": 2, "rueck": {"0": "Woher sollte das Gas die Energie nehmen?", "1": "Das wäre eine grössere Albedo — die würde kühlen."}, "t": 15.01, "ton": {"frage": "ton/p4-3-lp-kontrolle-erde-f2-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-erde-f2-r0.mp3", "r1": "ton/p4-3-lp-kontrolle-erde-f2-r1.mp3"}}, {"typ": "wahl", "text": "Die Erde nimmt 1 W/m² mehr auf, als sie ins All abstrahlt. Was geschieht?", "optionen": ["Sie erwärmt sich ohne Ende.", "Nichts, 1 W/m² ist zu wenig.", "Sie erwärmt sich, bis die Abstrahlung passt."], "richtig": 2, "rueck": {"0": "Was geschieht mit der Abstrahlung, wenn die Erde wärmer wird?", "1": "Auch ein kleiner Überschuss wirkt ununterbrochen. Was macht er mit der Temperatur?"}, "t": 22.14, "ton": {"frage": "ton/p4-3-lp-kontrolle-erde-f3-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-erde-f3-r0.mp3", "r1": "ton/p4-3-lp-kontrolle-erde-f3-r1.mp3"}}, {"typ": "wahl", "text": "Eine Fläche erwärmt sich von 250 K auf 300 K, also um 20 %. Wie ändert sich ihre Abstrahlung?", "optionen": ["rund 1.2-mal so viel", "rund 1.44-mal so viel", "rund 2.07-mal so viel"], "richtig": 2, "rueck": {"0": "Die Temperatur steht nicht einfach in der Formel.", "1": "Nicht im Quadrat. In welcher Potenz steht T?"}, "t": 30.26, "ton": {"frage": "ton/p4-3-lp-kontrolle-erde-f4-frage.mp3", "r0": "ton/p4-3-lp-kontrolle-erde-f4-r0.mp3", "r1": "ton/p4-3-lp-kontrolle-erde-f4-r1.mp3"}}];
 (() => {
@@ -323,7 +337,7 @@ if (!location.search.includes('render')) {
   // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
   // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
   // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
-  // physiklib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
   // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
   // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
   // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.
