@@ -1834,7 +1834,7 @@ svg.mini.breit{width:260px}
       return p;
     }
     function ort(b, s){ var i = 0, j = b.length - 1; while (j - i > 1){ var k = (i + j) >> 1; if (b[k][2] <= s) i = k; else j = k; } var a = b[i], c = b[j], f = (s - a[2]) / Math.max(1e-9, c[2] - a[2]); return [a[0] + (c[0] - a[0]) * f, a[1] + (c[1] - a[1]) * f]; }
-    var letzt = 0, rek = null;
+    var letzt = 0, rek = null, skalaE = null;                // skalaE: feste Säulenskala, nur über den Testhaken
     var uhr = Uhr(function(tt){
       var w = werte(), dt = Math.min(0.05, tt - letzt); letzt = tt;
       if (!bahn) bahn = bauen(w);
@@ -1862,8 +1862,9 @@ svg.mini.breit{width:260px}
       zustand: function(){ var w = werte(); w.lauf = lauf; w.laeufe = laeufe; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); B.setze(o); bahn = null; pos = 0; zeichnen(); },
       aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); },
-      // Testhaken für Clipbilder (.claude/tools/aufnahme-anim.mjs): Wagen an die Stelle x [m] setzen
-      zeige: function(xz){ uhr.stop(); var w = werte(); bahn = bauen(w); var i = 0; while (i < bahn.length - 2 && bahn[i + 1][0] <= xz) i++; var A = bahn[i], C = bahn[i + 1]; pos = A[2] + (C[2] - A[2]) * Math.max(0, Math.min(1, (xz - A[0]) / (C[0] - A[0]))); zeichnen(); }
+      // Testhaken für Clipbilder (.claude/tools/aufnahme-anim.mjs): Wagen an die Stelle x [m] setzen;
+      // E (optional) legt die Säulenskala fest, damit zwei Bilder im gleichen Massstab stehen
+      zeige: function(xz, E){ skalaE = E || null; uhr.stop(); var w = werte(); bahn = bauen(w); var i = 0; while (i < bahn.length - 2 && bahn[i + 1][0] <= xz) i++; var A = bahn[i], C = bahn[i + 1]; pos = A[2] + (C[2] - A[2]) * Math.max(0, Math.min(1, (xz - A[0]) / (C[0] - A[0]))); zeichnen(); }
     };
     fig.__sim = sim;
     function zeichnen(){
@@ -1879,7 +1880,7 @@ svg.mini.breit{width:260px}
       el(szene, 'circle', { cx: wx, cy: wy - 6, r: 6, 'class': 'kugel' });
       if (pos > 2 && v > 0.3) el(szene, 'text', { x: wx, y: wy - 16, 'text-anchor': 'middle', 'class': 'bt-wert' }, 'v = ' + sig(v) + NB + 'm/s');
       // Säulen: Lage, Bewegung, Summe — gleicher Massstab, die Summe bleibt
-      var Ep = w.m * G * h, Ek = 0.5 * w.m * v * v, sk = 110 / Math.max(1, w.E);
+      var Ep = w.m * G * h, Ek = 0.5 * w.m * v * v, sk = 110 / Math.max(1, skalaE || w.E);
       saeulen(unten, 50, 300, 46, 34, [{ name: 'Eₚₒₜ', wert: Ep, cls: 'e-pot' }, { name: 'Eₖᵢₙ', wert: Ek, cls: 'e-kin' }, { name: 'Summe', wert: Ep + Ek, cls: 'e-ges' }], sk, 1000);
       var z = '<span>Ohne Reibung bleibt die Summe: ' + v_('m') + ' · ' + v_('g') + ' · ' + v_('h') + '₀ + ½ · ' + v_('m') + ' · ' + v_('v') + '₀² = ' + v_('m') + ' · ' + v_('g') + ' · ' + v_('h') + ' + ½ · ' + v_('m') + ' · ' + v_('v') + '²</span>' +
               '<span>Im Tal: ' + v_('v') + ' = √(' + v_('v') + '₀² + 2 · ' + v_('g') + ' · ' + v_('h') + '₀) = √((' + zahl(w.v0) + NB + 'm/s)² + 2 · 9.81' + NB + 'm/s² · ' + zahl(w.h0) + NB + 'm) ' + ist(wurzel(w.v0 * w.v0 + 2 * G * w.h0), sig(wurzel(w.v0 * w.v0 + 2 * G * w.h0))) + sig(wurzel(w.v0 * w.v0 + 2 * G * w.h0)) + NB + 'm/s</span>';
@@ -1934,8 +1935,10 @@ svg.mini.breit{width:260px}
     var sim = {
       zustand: function(){ var w = werte(); w.lauf = lauf; w.laeufe = laeufe; return w; },
       zeichnen: function(){ zeichnen(); }, setze: function(o){ uhr.stop(); x = 0; B.setze(o); zeichnen(); },
-      aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); }
+      aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); },
+      zeige: function(xz){ uhr.stop(); x = Math.max(0, Math.min(L, xz)); zeichnen(); }   // Testhaken für Clipbilder: Wagen nach xz m auf der Rampe
     };
+    fig.__sim = sim;
     function zeichnen(){
       var w = werte(), d = Math.sqrt(L * L - w.h * w.h), yA = 140 - Math.max(w.h, 0) * S, yB = 140 + Math.min(w.h, 0) * S;
       var Ax = 30, Bx = 30 + d * S, f = x / L, px = Ax + (Bx - Ax) * f, py = yA + (yB - yA) * f, ang = Math.atan2(yB - yA, Bx - Ax);
@@ -2073,7 +2076,7 @@ svg.mini.breit{width:260px}
     var B = Bedienung(fig, function(){ uhr.stop(); spur = [[0, T]]; zeichnen(); });
     var T0 = Math.pow(0.7 * SOL / 4 / (0.61 * SIG), 0.25),                               // Gleichgewicht von heute (a = 0.30, f = 0.61)
         T = Math.pow((1 - B.wert('al')) * SOL / 4 / (B.wert('f') * SIG), 0.25), spur = [[0, T]],   // Start im Gleichgewicht der Startwerte
-         lauf = null, laeufe = [], pruefen = function(){}, letzt = 0;
+         lauf = null, laeufe = [], pruefen = function(){}, letzt = 0, tl = [306, -5, 2];   // tl: Lage der Gleichgewichtsbeschriftung (Testhaken passt sie an)
     function werte(){ var a = B.wert('al'), f = B.wert('f'), ein = (1 - a) * SOL / 4; return { a: a, f: f, ein: ein, aus: f * SIG * Math.pow(T, 4), Teq: Math.pow(ein / (f * SIG), 0.25) }; }
     function schritt(jahre){ var w = werte(), n = Math.ceil(jahre / 0.05), dt = jahre / n * JAHR; for (var i = 0; i < n; i++){ T += ((1 - w.a) * SOL / 4 - w.f * SIG * Math.pow(T, 4)) / C * dt; } }
     var uhr = Uhr(function(tt){
@@ -2089,7 +2092,8 @@ svg.mini.breit{width:260px}
       aufraeumen: function(){ lauf = null; laeufe = []; B.zuruecksetzen(); },
       heute: function(){ uhr.stop(); T = T0; spur = [[0, T]]; zeichnen(); },
       // Testhaken für Clipbilder: j Jahre laufen lassen (ab heute, wenn vonHeute), ohne Animation
-      zeige: function(j, vonHeute){ uhr.stop(); if (vonHeute) T = T0; spur = [[0, T]]; letzt = 0; for (var i = 1; i <= j; i++){ schritt(1); spur.push([i, T]); } if (j > 0){ var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq, diff: w.ein - w.f * SIG * Math.pow(T, 4) }; laeufe.push(lauf); } zeichnen(); }
+      // tb = [T0, T1, Schritt] (optional): engere T-Achse, damit eine kleine Erwärmung im Bild steigt
+      zeige: function(j, vonHeute, tb){ if (tb){ var r = (tb[1] - tb[0]) / 74; tl = [tb[1] - 8 * r, -5 * r, 2 * r]; leeren(dia); var ym = []; for (var q = tb[0] + tb[2]; q <= tb[1] + 1e-9; q += tb[2]) ym.push(q); K = Achsen(dia, { w: 300, h: 140, x0: -2.5, x1: 31, y0: tb[0], y1: tb[1], sx: 5, sy: tb[2], xm: [5, 10, 15, 20, 25, 30], ym: ym, xname: 't [Jahre]', yname: 'T [K]' }); } uhr.stop(); if (vonHeute) T = T0; spur = [[0, T]]; letzt = 0; for (var i = 1; i <= j; i++){ schritt(1); spur.push([i, T]); } if (j > 0){ var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq, diff: w.ein - w.f * SIG * Math.pow(T, 4) }; laeufe.push(lauf); } zeichnen(); }
     };
     fig.__sim = sim;
     function band(x1, y1, x2, y2, breite, cls){ el(szene, 'line', { x1: x1, y1: y1, x2: x2, y2: y2, 'class': 'strahl ' + cls, 'stroke-width': breite.toFixed(1) }); var dx = x2 - x1, dy = y2 - y1, l = Math.hypot(dx, dy), ux = dx / l, uy = dy / l, s = breite / 2 + 6; el(szene, 'polygon', { points: (x2 + ux * 9) + ',' + (y2 + uy * 9) + ' ' + (x2 - uy * s) + ',' + (y2 + ux * s) + ' ' + (x2 + uy * s) + ',' + (y2 - ux * s), 'class': 'strahl-kopf ' + cls }); }
@@ -2108,7 +2112,7 @@ svg.mini.breit{width:260px}
       el(szene, 'text', { x: 170, y: 86, 'text-anchor': 'middle', 'class': 'erde-text' }, fest(T, 1) + NB + 'K');
       el(szene, 'text', { x: 170, y: 152, 'text-anchor': 'middle', 'class': 'bt-klein' }, 'Treibhausgase (Hülle): Anteil ins All f = ' + zahl(w.f));
       K.kurve(function(){ return w.Teq; }, 'gleichgewicht', 0, 30);
-      K.text(30, w.Teq + (w.Teq > 306 ? -5 : 2), 'Gleichgewicht ' + fest(w.Teq, 1) + NB + 'K', 'gleichgewicht-text', 'end');
+      K.text(30, w.Teq + (w.Teq > tl[0] ? tl[1] : tl[2]), 'Gleichgewicht ' + fest(w.Teq, 1) + NB + 'K', 'gleichgewicht-text', 'end');
       if (spur.length > 1) el(K.ebene, 'polyline', { points: spur.map(function(p){ return K.X(p[0]).toFixed(1) + ',' + K.Y(p[1]).toFixed(1); }).join(' '), 'class': 'kurve-t', 'clip-path': K.clip });
       var diff = w.ein - aus;
       rolle(fig, 'formel').innerHTML =
