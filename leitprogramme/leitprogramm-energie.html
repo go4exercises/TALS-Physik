@@ -40,7 +40,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-10-06",
+   "dateModified": "2026-10-07",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -1470,19 +1470,19 @@ svg.mini.breit{width:260px}
     function Y(y){ return H - (y - y0) / (y1 - y0) * H; }
     var g = el(svg, 'g', {});
     var cp = el(g, 'clipPath', { id: id }); el(cp, 'rect', { x: 0, y: 0, width: W, height: H });
-    var sx = o.sx || 1, sy = o.sy || 1, i;
+    var sx = o.sx || 1, sy = o.sy || 1, i, ya = o.ya == null ? 0 : o.ya;   // ya: Höhe der x-Achse (Fenster ohne y = 0)
     for (i = Math.ceil(x0 / sx) * sx; i <= x1 + 1e-9; i += sx) el(g, 'line', { x1: X(i), y1: 0, x2: X(i), y2: H, 'class': 'gitter' });
     for (i = Math.ceil(y0 / sy) * sy; i <= y1 + 1e-9; i += sy) el(g, 'line', { x1: 0, y1: Y(i), x2: W, y2: Y(i), 'class': 'gitter' });
-    el(g, 'line', { x1: 0, y1: Y(0), x2: W, y2: Y(0), 'class': 'achse' });
+    el(g, 'line', { x1: 0, y1: Y(ya), x2: W, y2: Y(ya), 'class': 'achse' });
     el(g, 'line', { x1: X(0), y1: 0, x2: X(0), y2: H, 'class': 'achse' });
     var pf = o.pfeil || 7;
-    el(g, 'polygon', { points: W + ',' + Y(0) + ' ' + (W - pf) + ',' + (Y(0) - pf / 2) + ' ' + (W - pf) + ',' + (Y(0) + pf / 2), 'class': 'pfeil' });
+    el(g, 'polygon', { points: W + ',' + Y(ya) + ' ' + (W - pf) + ',' + (Y(ya) - pf / 2) + ' ' + (W - pf) + ',' + (Y(ya) + pf / 2), 'class': 'pfeil' });
     el(g, 'polygon', { points: X(0) + ',0 ' + (X(0) - pf / 2) + ',' + pf + ' ' + (X(0) + pf / 2) + ',' + pf, 'class': 'pfeil' });
-    (o.xm || []).forEach(function(t){ el(g, 'text', { x: X(t), y: Y(0) + 13, 'text-anchor': 'middle', 'class': 'skala' }, minus(t)); });
+    (o.xm || []).forEach(function(t){ el(g, 'text', { x: X(t), y: Y(ya) + 13, 'text-anchor': 'middle', 'class': 'skala' }, minus(t)); });
     (o.ym || []).forEach(function(t){ el(g, 'text', { x: X(0) - 5, y: Y(t) + 4, 'text-anchor': 'end', 'class': 'skala' }, minus(t)); });
     var ebene = el(svg, 'g', {});
     var schilder = el(svg, 'g', {});
-    el(schilder, 'text', { x: W - 3, y: Y(0) - pf - 2, 'text-anchor': 'end', 'class': 'achsname' }, o.xname || 'x');
+    el(schilder, 'text', { x: W - 3, y: Y(ya) - pf - 2, 'text-anchor': 'end', 'class': 'achsname' }, o.xname || 'x');
     el(schilder, 'text', { x: X(0) + pf + 2, y: pf + 5, 'text-anchor': 'start', 'class': 'achsname' }, o.yname || 'y');
     return {
       X: X, Y: Y, ebene: ebene, clip: 'url(#' + id + ')',
@@ -2072,7 +2072,7 @@ svg.mini.breit{width:260px}
     var fig = document.getElementById('sim6'); if (!fig) return;
     var svg = fig.querySelector('svg'), SOL = 1361, SIG = 5.67e-8, C = 4.2e8, JAHR = 3.156e7, AUSGEGLICHEN = 0.1;   // W/m²
     var szene = g_(svg), dia = g_(svg, { transform: 'translate(0,176)' });
-    var K = Achsen(dia, { w: 300, h: 140, x0: -2.5, x1: 31, y0: 240, y1: 314, sx: 5, sy: 10, xm: [5, 10, 15, 20, 25, 30], ym: [250, 260, 270, 280, 290, 300, 310], xname: 't [Jahre]', yname: 'T [K]' });
+    var K = Achsen(dia, { w: 300, h: 140, x0: -2.5, x1: 31, y0: 240, y1: 314, ya: 240, sx: 5, sy: 10, xm: [5, 10, 15, 20, 25, 30], ym: [250, 260, 270, 280, 290, 300, 310], xname: 't [Jahre]', yname: 'T [K]' });
     var B = Bedienung(fig, function(){ uhr.stop(); spur = [[0, T]]; zeichnen(); });
     var T0 = Math.pow(0.7 * SOL / 4 / (0.61 * SIG), 0.25),                               // Gleichgewicht von heute (a = 0.30, f = 0.61)
         T = Math.pow((1 - B.wert('al')) * SOL / 4 / (B.wert('f') * SIG), 0.25), spur = [[0, T]],   // Start im Gleichgewicht der Startwerte
@@ -2093,7 +2093,7 @@ svg.mini.breit{width:260px}
       heute: function(){ uhr.stop(); T = T0; spur = [[0, T]]; zeichnen(); },
       // Testhaken für Clipbilder: j Jahre laufen lassen (ab heute, wenn vonHeute), ohne Animation
       // tb = [T0, T1, Schritt] (optional): engere T-Achse, damit eine kleine Erwärmung im Bild steigt
-      zeige: function(j, vonHeute, tb){ if (tb){ var r = (tb[1] - tb[0]) / 74; tl = [tb[1] - 8 * r, -5 * r, 2 * r]; leeren(dia); var ym = []; for (var q = tb[0] + tb[2]; q <= tb[1] + 1e-9; q += tb[2]) ym.push(q); K = Achsen(dia, { w: 300, h: 140, x0: -2.5, x1: 31, y0: tb[0], y1: tb[1], sx: 5, sy: tb[2], xm: [5, 10, 15, 20, 25, 30], ym: ym, xname: 't [Jahre]', yname: 'T [K]' }); } uhr.stop(); if (vonHeute) T = T0; spur = [[0, T]]; letzt = 0; for (var i = 1; i <= j; i++){ schritt(1); spur.push([i, T]); } if (j > 0){ var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq, diff: w.ein - w.f * SIG * Math.pow(T, 4) }; laeufe.push(lauf); } zeichnen(); }
+      zeige: function(j, vonHeute, tb){ if (tb){ var r = (tb[1] - tb[0]) / 74; tl = [tb[1] - 8 * r, -5 * r, 2 * r]; leeren(dia); var ym = []; for (var q = tb[0] + tb[2]; q <= tb[1] + 1e-9; q += tb[2]) ym.push(q); K = Achsen(dia, { w: 300, h: 140, x0: -2.5, x1: 31, y0: tb[0], y1: tb[1], ya: tb[0], sx: 5, sy: tb[2], xm: [5, 10, 15, 20, 25, 30], ym: ym, xname: 't [Jahre]', yname: 'T [K]' }); } uhr.stop(); if (vonHeute) T = T0; spur = [[0, T]]; letzt = 0; for (var i = 1; i <= j; i++){ schritt(1); spur.push([i, T]); } if (j > 0){ var w = werte(); lauf = { a: w.a, f: w.f, T: T, Teq: w.Teq, diff: w.ein - w.f * SIG * Math.pow(T, 4) }; laeufe.push(lauf); } zeichnen(); }
     };
     fig.__sim = sim;
     function band(x1, y1, x2, y2, breite, cls){ el(szene, 'line', { x1: x1, y1: y1, x2: x2, y2: y2, 'class': 'strahl ' + cls, 'stroke-width': breite.toFixed(1) }); var dx = x2 - x1, dy = y2 - y1, l = Math.hypot(dx, dy), ux = dx / l, uy = dy / l, s = breite / 2 + 6; el(szene, 'polygon', { points: (x2 + ux * 9) + ',' + (y2 + uy * 9) + ' ' + (x2 - uy * s) + ',' + (y2 + ux * s) + ' ' + (x2 + uy * s) + ',' + (y2 - ux * s), 'class': 'strahl-kopf ' + cls }); }
