@@ -240,6 +240,35 @@ SEITEN = {
                 'Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
    themen=['Physik', 'Hydrostatik', 'Druck', 'Schweredruck', 'Luftdruck', 'Pascal', 'Hydraulik',
            'Auftrieb', 'Archimedes', 'Schwimmen', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-temperatur.html': dict(
+   # Freigeschaltet am 08.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Temperatur — Teilchenbewegung, Aggregatzustände, Celsius und Kelvin',
+   beschreibung='Leitprogramm zur Temperatur — Temperatur und Teilchenbewegung; Aggregatzustände; '
+                'Celsius- und Kelvin-Skala und das Umrechnen — mit Erklärclips, laufenden Simulationen '
+                'mit Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Wärmelehre', 'Temperatur', 'Teilchenmodell', 'Aggregatzustand', 'Celsius',
+           'Kelvin', 'absoluter Nullpunkt', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-waerme.html': dict(
+   # Erprobung seit 07.10.2026, unverlinkt bis nach /lp-pruefung.
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   titel='Leitprogramm Wärme — Wärmemenge, Wärmebilanz, latente Wärme, Heizwert, Energiesysteme, Wärmetransport, Treibhauseffekt',
+   beschreibung='Leitprogramm zur Wärme — Wärme und Temperatur; Wärmemenge und Wärmebilanz; '
+                'latente Wärme und Heizkurve; Heizwert und Wirkungsgrad; erneuerbare und andere '
+                'Energiesysteme; Wärmetransport; Treibhauseffekt — mit Erklärclips, laufenden '
+                'Simulationen mit Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Wärmelehre', 'Wärme', 'Wärmemenge', 'Wärmebilanz', 'latente Wärme', 'Heizwert',
+           'Wirkungsgrad', 'erneuerbare Energien', 'Wärmetransport', 'Treibhauseffekt', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-ausdehnung.html': dict(
+   # Erprobung seit 07.10.2026, unverlinkt bis nach /lp-pruefung.
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   titel='Leitprogramm Wärmeausdehnung und Gase — Längen- und Volumenausdehnung, ideales Gas',
+   beschreibung='Leitprogramm zur Wärmeausdehnung — Längenausdehnung; Volumenausdehnung von '
+                'Festkörpern und Flüssigkeiten; Anomalie des Wassers und Meeresspiegel; ideales Gas '
+                'bei Druck-, Volumen- und Temperaturänderungen — mit Erklärclips, laufenden Simulationen '
+                'mit Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Wärmelehre', 'Wärmeausdehnung', 'Längenausdehnung', 'Volumenausdehnung',
+           'Anomalie des Wassers', 'ideales Gas', 'Boyle-Mariotte', 'Gay-Lussac', 'Leitprogramm']),
  'leitprogramme/uebungstest-waermelehre.html': dict(
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit', 'Übungsaufgaben'],
    titel='Leitprogramm Übungstest Wärmelehre — fünfzehn Aufgaben mit Erklärclip',

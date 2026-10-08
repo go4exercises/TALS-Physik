@@ -1,0 +1,128 @@
+% Gesamttest «Temperatur», Fassung 1.2 — Quelle des PDFs (python3 scripts/build-lp-pdf.py temperatur).
+% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (08.10.2026, Fassung 1.2 nach der zweiten /lp-pruefung).
+% Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen, Leisten, Clipbeispiele und die Themenseite:
+% G1 zwei Spuren am Bild deuten und die Temperatur als Mittelwert erklären (Kapitel 1), G2 Stoff aus Schmelz- und
+% Siedepunkten rückwärts bestimmen, Kräfte gegen Bewegung, Verdunsten (Kapitel 2), G3 eigene Messreihe eintragen und
+% verlängern, d) mit den Messwerten prüfen, zu welcher Skala der Druck proportional ist (Kapitel 3; anders als
+% Aufgabe 3d, die Anwendungen aufzählen lässt), G4 vier Aussagen beurteilen, eine davon richtig (Kapitel 3),
+% G5 Satellit in beiden Skalen (Kapitel 4), G6 Verdoppeln der Bewegungsenergie rückwärts (Kapitel 4, 3).
+% Bekannte Nähe: G3 a–c hat den Aufbau von Aufgabe 3b und der Übung «nullpunkt» (dort ohne Zeichnen); bewusst belassen,
+% weil das Verlängern einer eigenen Messreihe der Kern von K2 «Ursprung» ist.
+% Die Spuren in G1 sind schematische Zufallswege (python3 random.Random, Spur 1: Seed 8, Schritt 0.26 cm;
+% Spur 2: Seed 123, Schritt 0.42 cm; je 22 Schritte; Faktor 1.6 statt 2.5, siehe Prüfung 07.10.2026).
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Temperatur}
+\renewcommand{\lpteilgebiet}{5.1}
+\renewcommand{\lpfuss}{Gesamttest · 25 Punkte}
+\begin{document}
+\lpkopf{Gesamttest}{%
+  \vspace{4pt}\noindent\begin{tabularx}{\linewidth}{@{}X X@{}}
+  Code (kein Name): \hrulefill & Punkte: \hrulefill\ / 25
+  \end{tabularx}}
+
+\begin{lpinfo}{Anleitung}
+\textbf{Zeit:} rund 30 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
+Schreib zu jeder Rechnung zuerst die Formel, dann die Werte \textbf{mit Einheiten}. Punkte gibt es für den Weg,
+für das Ergebnis mit Einheit, für das Ablesen und Zeichnen im Diagramm und für Begründungen in eigenen Worten.
+Umrechnen: $T\,[\text{K}] = \vartheta\,[^\circ\text{C}] + 273.15$.
+Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem \emph{Bewertungspaket} bewerten lassen.
+\end{lpinfo}
+
+\lpteil{Teil A · Temperatur und Aggregatzustände}{Kapitel 1 und 2 · 8 Punkte}
+
+\begin{lpaufgabe}{G1}{Zwei Spuren unter dem Mikroskop}{3 P}
+Eine Schülerin filmt dasselbe Fetttröpfchen in Wasser zweimal je eine Minute lang: einmal bei $10\,^\circ\text{C}$, einmal bei $50\,^\circ\text{C}$. Das Bild zeigt die beiden Wege des Tröpfchens schematisch im gleichen Massstab.\par\smallskip
+\begin{center}\begin{tikzpicture}[line join=round]
+\draw[lplinie] (-2.6,-1.9) rectangle (2.6,1.9); \draw[lplinie] (3.2,-1.9) rectangle (8.4,1.9);
+\draw[thick] (-0.48,-0.88) -- (-0.44,-0.63) -- (-0.19,-0.69) -- (-0.00,-0.50) -- (-0.08,-0.75) -- (0.15,-0.62) -- (0.15,-0.36) -- (0.41,-0.36) -- (0.48,-0.11) -- (0.31,-0.31) -- (0.06,-0.25) -- (-0.19,-0.17) -- (-0.45,-0.16) -- (-0.35,0.08) -- (-0.23,-0.15) -- (-0.01,-0.01) -- (0.02,0.25) -- (0.28,0.28) -- (0.25,0.54) -- (0.03,0.68) -- (0.24,0.53) -- (0.05,0.71) -- (0.25,0.88);
+\begin{scope}[shift={(5.8,0)}]\draw[thick] (-0.74,-1.49) -- (-0.35,-1.35) -- (0.01,-1.13) -- (-0.34,-0.90) -- (-0.01,-0.64) -- (0.33,-0.88) -- (0.74,-0.78) -- (0.33,-0.88) -- (0.12,-0.51) -- (0.37,-0.85) -- (0.60,-0.50) -- (0.38,-0.14) -- (0.17,0.23) -- (0.18,0.64) -- (0.60,0.65) -- (0.22,0.81) -- (0.57,1.03) -- (0.23,0.79) -- (0.61,0.97) -- (0.44,1.35) -- (0.04,1.49) -- (0.39,1.25) -- (0.74,1.48);\end{scope}
+\node at (0,-2.25) {\small Spur 1}; \node at (5.8,-2.25) {\small Spur 2};
+\end{tikzpicture}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Welche Spur entstand bei $50\,^\circ\text{C}$?
+\item Woran erkennst du es im Bild? Erkläre mit dem Teilchenmodell, warum die Spur bei höherer Temperatur so aussieht.
+\item Wofür ist die Temperatur des Wassers ein Mass? Erkläre damit, warum ein einzelnes Wasserteilchen keine Temperatur hat.
+\end{enumerate}
+\lpplatz{6}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Welcher Stoff?}{5 P}
+Schmelz- und Siedepunkte bei Normaldruck:\par\smallskip
+\begin{center}\begin{tabular}{lrrrrr}\toprule
+ & Wasser & Ethanol & Quecksilber & Brom & Essigsäure\\\midrule
+Schmelzpunkt & $0\,^\circ\text{C}$ & $-114\,^\circ\text{C}$ & $-39\,^\circ\text{C}$ & $-7\,^\circ\text{C}$ & $17\,^\circ\text{C}$\\
+Siedepunkt & $100\,^\circ\text{C}$ & $78\,^\circ\text{C}$ & $357\,^\circ\text{C}$ & $59\,^\circ\text{C}$ & $118\,^\circ\text{C}$\\\bottomrule
+\end{tabular}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Welcher Stoff ist bei $-20\,^\circ\text{C}$ fest und bei $70\,^\circ\text{C}$ gasförmig?
+\item In welchem Temperaturbereich sind Quecksilber und Ethanol flüssig, Wasser aber fest?
+\item Der Stoff aus a) wird von $-20\,^\circ\text{C}$ auf $70\,^\circ\text{C}$ erwärmt. Nenne die beiden Übergänge mit ihrer Temperatur. Begründe mit dem Teilchenmodell, warum der Stoff bei $-20\,^\circ\text{C}$ fest und bei $70\,^\circ\text{C}$ gasförmig ist.
+\item Ethanol steht bei Zimmertemperatur in einem offenen Schälchen. Nach einem Tag ist es verschwunden, obwohl es erst bei $78\,^\circ\text{C}$ siedet. Begründe mit dem Teilchenmodell.
+\end{enumerate}
+\lpplatz{9}
+\end{lpaufgabe}
+
+\clearpage
+\lpteil{Teil B · Celsius und Kelvin}{Kapitel 3 · 9 Punkte}
+
+\begin{lpaufgabe}{G3}{Eine eigene Messreihe}{5 P}
+Ein Gasthermometer (Glaskolben mit Luft, Volumen fest) wird in drei Bäder gestellt:\par\smallskip
+\begin{center}\begin{tabular}{lrrr}\toprule
+Bad $\vartheta$ & $-20\,^\circ\text{C}$ & $40\,^\circ\text{C}$ & $90\,^\circ\text{C}$\\
+Druck $p$ & $834\;\text{hPa}$ & $1032\;\text{hPa}$ & $1196\;\text{hPa}$\\\bottomrule
+\end{tabular}\end{center}
+\begin{center}\begin{tikzpicture}[x=0.032cm,y=0.0075cm]
+\foreach \x in {-300,-275,...,100} \draw[lplinie!70,very thin] (\x,0) -- (\x,1400);
+\foreach \y in {0,50,...,1400} \draw[lplinie!70,very thin] (-300,\y) -- (100,\y);
+\foreach \x in {-300,-200,...,100} {\draw[lplinie] (\x,0) -- (\x,1400); \node[below] at (\x,0) {\small $\x$};}
+\foreach \y in {200,400,...,1400} {\draw[lplinie] (-300,\y) -- (100,\y); \node[left] at (-300,\y) {\small \y};}
+\node[left] at (-300,0) {\small 0};
+\draw[->] (-300,0) -- (112,0) node[above left] {\small $\vartheta$ in $^\circ$C};
+\draw[->] (-300,0) -- (-300,1460) node[right] {\small $p$ in hPa};
+\end{tikzpicture}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Trage die drei Messpunkte ins Diagramm ein und zeichne die Gerade bis zum Druck null.
+\item Lies ab, bei welcher Temperatur deine Gerade den Druck null erreicht.
+\item Berechne diese Temperatur aus den Messpunkten bei $40\,^\circ\text{C}$ und $90\,^\circ\text{C}$.
+\item Prüfe mit den Messpunkten bei $40\,^\circ\text{C}$ und $90\,^\circ\text{C}$: Ist der Druck proportional zur Celsius-Temperatur oder zur Kelvin-Temperatur? Was folgt daraus, wann man in Kelvin rechnen muss und wann Celsius genügt?
+\end{enumerate}
+\lpplatz{6}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G4}{Stimmt das?}{4 P}
+Beurteile jede Aussage mit richtig oder falsch, und begründe in einem Satz.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item «Am Morgen waren es $5\,^\circ\text{C}$, am Mittag $10\,^\circ\text{C}$: Die Luftteilchen haben jetzt die doppelte mittlere Bewegungsenergie.»
+\item «Eis schmilzt bei $0\,^\circ\text{C}$, Wasser siedet bei $100\,^\circ\text{C}$. Darum siedet Wasser auch auf dem Jungfraujoch bei $100\,^\circ\text{C}$.»
+\item «Ein Thermometer im Labor zeigt $-5\;\text{K}$.»
+\item «Wird Wasser um $15\;\text{K}$ erwärmt, ist das eine Erwärmung um $15\,^\circ\text{C}$.»
+\end{enumerate}
+\lpplatz{7}
+\end{lpaufgabe}
+
+\lpteil{Teil C · Umrechnen}{Kapitel 4 · 8 Punkte}
+
+\begin{lpaufgabe}{G5}{Ein Satellit}{4 P}
+Ein Satellit hat auf der Sonnenseite eine Oberflächentemperatur von $120\,^\circ\text{C}$, auf der Schattenseite $-160\,^\circ\text{C}$.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Gib beide Temperaturen in Kelvin an.
+\item Wie gross ist der Temperaturunterschied zwischen den beiden Seiten in Kelvin?
+\item Ein Sensor im Innern muss auf $40\;\text{K}$ gekühlt werden. Wie viel Grad Celsius sind das?
+\end{enumerate}
+\lpplatz{7}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G6}{Doppelt so viel Bewegungsenergie}{4 P}
+Luft in einer verschlossenen Stahlflasche (Volumen fest) hat $20\,^\circ\text{C}$.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Auf welche Temperatur in Grad Celsius muss man die Flasche erwärmen, damit die mittlere Bewegungsenergie der Luftteilchen doppelt so gross wird?
+\item Um welchen Faktor steigt dabei der Druck in der Flasche? Begründe.
+\item Um wie viel Kelvin hat sich die Temperatur in a) erhöht?
+\end{enumerate}
+\lpplatz{7}
+\end{lpaufgabe}
+
+\vfill
+{\small\color{lpgrau}Bewerten: mit dem Bewertungspaket (Musterlösung, Punkteraster, Auftrag an eine KI) — erst nach dem Lösen öffnen.}
+\end{document}

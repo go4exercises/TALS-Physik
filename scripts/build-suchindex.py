@@ -337,8 +337,10 @@ def seiten_aus_navjs(root):
 # §13). Sie stehen nicht im Index, bis sie freigeschaltet sind — dann hier streichen,
 # Karte in leitprogramme.html setzen und noindex in build-seo.py entfernen.
 UNVERLINKT = {'leitprogramme/leitprogramm-widerstand-leistung.html', 'leitprogramme/leitprogramm-schaltungen.html',
-              'leitprogramme/leitprogramm-gefahren.html'}   # seit 06.10.2026 veraltet, im Leitprogramm Elektrizität aufgegangen (TODO-E)
-# Dynamik, Energie, Statik, Hydrostatik freigeschaltet am 06.10.2026, Kinematik am 04.10.2026, Elektrizität am 03.10.2026
+              'leitprogramme/leitprogramm-gefahren.html',   # seit 06.10.2026 veraltet, im Leitprogramm Elektrizität aufgegangen (TODO-E)
+              'leitprogramme/leitprogramm-waerme.html',
+              'leitprogramme/leitprogramm-ausdehnung.html'}   # Erprobung seit 07.10.2026 (Wärmelehre 5.2 und 5.3)
+# Temperatur freigeschaltet am 08.10.2026; Dynamik, Energie, Statik, Hydrostatik freigeschaltet am 06.10.2026, Kinematik am 04.10.2026, Elektrizität am 03.10.2026
 
 
 def clip_eintraege(root):

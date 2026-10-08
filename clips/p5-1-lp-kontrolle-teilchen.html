@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="de-CH"><head><meta charset="utf-8"><title>Temperatur sehen: Kontrollfragen zur Temperatur</title><style>
+@import url("../schriften.css");
+:root{--papier:#f8f6f1;--tinte:#1c1a17;--blau:#8a4a0e;--rot:#9b1c1c;--gruen:#1f6b3a;--gold:#b85c00;--f1:#8a4a0e;--f1w:#fbecd2;--f2:#b85c00;--f2w:#fdefd8;--f3:#1f6b3a;--f3w:#d8f0e2;--f4:#9b1c1c;--f4w:#fde8e8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0d1418;overflow:hidden}
+#wrap{position:absolute;left:0;right:0;top:0;bottom:60px;overflow:hidden}
+:fullscreen #wrap{bottom:0} :fullscreen #ui{display:none}
+#stage{width:1920px;height:1080px;position:absolute;left:50%;top:50%;overflow:hidden;
+ background:var(--papier);color:var(--tinte);font-family:'Source Serif 4',Georgia,serif;transform-origin:center center}
+body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!important}
+#stage::before{content:"";position:absolute;inset:0;pointer-events:none;}
+#stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(120% 100% at 50% 40%,rgba(255,255,255,0) 55%,rgba(90,80,64,.09) 100%)}
+#rand{position:absolute;left:76px;top:0;bottom:0;width:3px}
+
+#kopf,#fuss{position:absolute;left:130px;right:100px;display:flex;justify-content:space-between;
+ align-items:baseline;font-family:'Source Sans 3',sans-serif;z-index:5}
+#kopf{top:46px;font-size:27px}
+#kopf .marke{font-weight:600;letter-spacing:.01em;color:var(--blau)}
+#kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
+#fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
+
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
+.l{position:absolute;will-change:opacity,transform}
+.l.flow{position:relative}
+.m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
+.hand{font-family:'Caveat',cursive;line-height:1.24}
+.sans{font-family:'Source Sans 3',system-ui,sans-serif}
+.huelle{display:flex;justify-content:flex-start}
+.mitte.huelle{justify-content:center}
+.huelle>span{white-space:nowrap}
+.f1,.f2,.f3,.f4{border-radius:7px;padding:0 .14em;margin:0 .02em}
+.f1{color:var(--f1);background:var(--f1w)}
+.f2{color:var(--f2);background:var(--f2w)}
+.f3{color:var(--f3);background:var(--f3w)}
+.f4{color:var(--f4);background:var(--f4w)}
+.dim{opacity:.62}
+.graf{line-height:0}
+.graf svg{display:inline-block;vertical-align:top}
+.ov{display:inline-block;line-height:1;padding-top:.07em;margin-top:.12em;border-top:3.5px solid currentColor}
+.row{display:flex;align-items:center;line-height:1.06;white-space:nowrap;gap:.26em}
+.mitte.row{justify-content:center}
+.fr{position:relative;z-index:1;display:inline-flex;flex-direction:column;align-items:center;
+ line-height:1.08;margin:0 .12em;vertical-align:middle}
+.fr>span:first-child{padding:0 .32em .07em}
+.fr>span:last-child{padding:.20em .32em 0;border-top:3.5px solid currentColor}
+.box{border:3.5px solid var(--tinte);border-radius:14px;padding:12px 30px;background:rgba(255,255,255,.62)}
+.boxg{border-color:var(--gruen);color:var(--gruen)}
+.karte{background:rgba(255,255,255,.70);border:2.5px solid rgba(128,128,128,.28);border-radius:16px;padding:14px 26px}
+.strich{height:5px;background:var(--rot);border-radius:3px;transform-origin:left center}
+.lz{display:flex;align-items:baseline;gap:22px;margin-bottom:26px}
+.ln{color:var(--blau);font-weight:600;min-width:34px}
+.step{display:flex;align-items:flex-start;gap:18px;margin-bottom:34px}
+.num{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:var(--blau);color:var(--papier);
+ font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:31px;display:grid;place-items:center}
+.stxt{font-family:'Source Sans 3',sans-serif;font-size:31px;line-height:1.24;padding-top:7px}
+
+#ui{position:absolute;left:0;right:0;bottom:0;height:60px;display:flex;align-items:center;gap:18px;
+ padding:0 26px;background:rgba(13,20,24,.85);color:#e8eef2;font-family:system-ui,sans-serif;font-size:14px;z-index:99}
+body.render #ui{display:none}
+#bar{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden;cursor:pointer}
+#barf{height:100%;width:0;background:var(--gold)}
+#ui button{background:rgba(255,255,255,.12);color:#e8eef2;border:0;border-radius:7px;padding:7px 14px;
+ font-size:14px;cursor:pointer;white-space:nowrap}
+#tt{white-space:nowrap;font-variant-numeric:tabular-nums}
+#tip{opacity:.6;white-space:nowrap}
+/* Auf dem Telefon gibt es weder Leertaste noch Pfeiltasten — der Hinweis
+   waere dort nur Text, der die 60px hohe Leiste sprengt. */
+@media (max-width:700px){#ui{gap:11px;padding:0 12px} #tip{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[],macros:{fa:['\\bbox[##fbecd2,3px]{\\textcolor{##8a4a0e}{#1}}',1],fb:['\\bbox[##fdefd8,3px]{\\textcolor{##b85c00}{#1}}',1],fc:['\\bbox[##d8f0e2,3px]{\\textcolor{##1f6b3a}{#1}}',1],fd:['\\bbox[##fde8e8,3px]{\\textcolor{##9b1c1c}{#1}}',1]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script><script src="../vendor/mathjax/tex-svg.js"></script></head><body>
+<div id="wrap"><div id="stage">
+
+<div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Thermodynamik · BM</span></div>
+<div id="fuss"><span>Raphael Arnold Kohler</span><span>07.10.2026</span></div>
+<div class="l hand" data-at="1.00" data-out="9.52" data-anim="rise" style="left:150px;top:300px;font-size:44px;color:var(--tinte)">ständig und ungeordnet —<br>auch im ruhigen Glas</div>
+<div class="l graf" data-at="1.00" data-out="9.52" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="119.6,692.5 640.4,692.5 640.4,231.2 119.6,231.2" fill="#1c1a17" fill-opacity="0.1" stroke="none"/><clipPath id="fg8f8b4c54"><rect x="0" y="0" width="760" height="760"/></clipPath><g clip-path="url(#fg8f8b4c54)"><circle cx="274.7" cy="446.7" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="430.5" cy="610.5" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="283.3" cy="552.8" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="515.2" cy="469.9" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="434.2" cy="335.9" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="448.9" cy="611.0" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="300.2" cy="622.3" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="467.9" cy="332.2" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="337.8" cy="358.9" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="532.2" cy="599.6" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="567.0" cy="483.7" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="382.9" cy="500.9" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="413.8" cy="323.5" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="523.2" cy="293.8" r="16.4" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/></g><line x1="119.6" y1="112.2" x2="119.6" y2="692.5" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="119.6" y1="692.5" x2="640.4" y2="692.5" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="640.4" y1="692.5" x2="640.4" y2="112.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="119.6" y1="231.2" x2="640.4" y2="231.2" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="274.7" y1="446.7" x2="239.8" y2="409.5" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="227.7,396.6 250.0,405.9 235.6,419.5" fill="#1c1a17"/><line x1="430.5" y1="610.5" x2="493.5" y2="605.3" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="511.0,603.9 489.9,615.5 488.3,595.8" fill="#1c1a17"/><line x1="283.3" y1="552.8" x2="327.4" y2="554.0" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="345.0,554.5 322.7,563.7 323.3,544.0" fill="#1c1a17"/><line x1="515.2" y1="469.9" x2="497.6" y2="491.0" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="486.3,504.5 492.8,481.2 508.0,494.0" fill="#1c1a17"/><line x1="434.2" y1="335.9" x2="376.6" y2="344.3" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="359.2,346.9 379.5,333.9 382.4,353.5" fill="#1c1a17"/><line x1="448.9" y1="611.0" x2="451.5" y2="661.4" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="452.4,678.9 441.4,657.5 461.1,656.5" fill="#1c1a17"/><line x1="300.2" y1="622.3" x2="329.5" y2="655.4" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="341.2,668.6 319.2,658.7 334.0,645.6" fill="#1c1a17"/><line x1="467.9" y1="332.2" x2="452.8" y2="398.1" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="448.9,415.2 444.1,391.6 463.4,396.0" fill="#1c1a17"/><line x1="337.8" y1="358.9" x2="273.6" y2="335.6" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="257.0,329.6 281.1,327.8 274.3,346.4" fill="#1c1a17"/><line x1="532.2" y1="599.6" x2="552.5" y2="576.3" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="564.1,563.0 557.1,586.1 542.2,573.1" fill="#1c1a17"/><line x1="567.0" y1="483.7" x2="542.3" y2="508.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="530.0,521.5 538.3,498.8 552.5,512.7" fill="#1c1a17"/><line x1="382.9" y1="500.9" x2="353.2" y2="460.6" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="342.8,446.4 363.8,458.2 347.9,470.0" fill="#1c1a17"/><line x1="413.9" y1="323.5" x2="385.7" y2="385.4" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="378.4,401.4 378.5,377.3 396.5,385.5" fill="#1c1a17"/><line x1="523.2" y1="293.8" x2="509.9" y2="318.5" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="501.5,334.0 503.2,310.0 520.7,319.4" fill="#1c1a17"/><text x="380.0" y="60.1" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">ruhiges Glas, 18 °C:</text><text x="380.0" y="112.2" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Teilchen ständig in Bewegung</text></svg></div>
+<div class="l hand" data-at="10.52" data-out="18.72" data-anim="rise" style="left:150px;top:300px;font-size:44px;color:var(--tinte)">Temperatur gehört<br>zum Mittelwert</div>
+<div class="l graf" data-at="10.52" data-out="18.72" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="82.4" y1="112.2" x2="158.5" y2="112.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><polygon points="176.1,112.2 154.1,122.1 154.1,102.3" fill="#1c1a17"/><line x1="82.4" y1="182.8" x2="210.6" y2="182.8" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><polygon points="228.2,182.8 206.2,192.7 206.2,172.9" fill="#1c1a17"/><line x1="82.4" y1="253.5" x2="241.9" y2="253.5" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><polygon points="259.5,253.5 237.5,263.4 237.5,243.6" fill="#1c1a17"/><line x1="82.4" y1="324.2" x2="273.1" y2="324.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><polygon points="290.7,324.2 268.7,334.1 268.7,314.3" fill="#1c1a17"/><line x1="82.4" y1="394.9" x2="304.4" y2="394.9" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><polygon points="322.0,394.9 300.0,404.8 300.0,385.0" fill="#1c1a17"/><line x1="82.4" y1="465.6" x2="335.6" y2="465.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><polygon points="353.2,465.6 331.2,475.5 331.2,455.7" fill="#1c1a17"/><line x1="82.4" y1="536.2" x2="481.4" y2="536.2" stroke="#b85c00" stroke-width="5" stroke-linecap="round" /><polygon points="499.0,536.2 477.0,546.1 477.0,526.3" fill="#b85c00"/><line x1="82.4" y1="606.9" x2="179.4" y2="606.9" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><polygon points="197.0,606.9 175.0,616.8 175.0,597.0" fill="#1c1a17"/><line x1="290.7" y1="707.4" x2="290.7" y2="67.5" stroke="#1f6b3a" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 7"/><text x="305.6" y="714.8" font-size="24" font-weight="600" fill="#1f6b3a" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Mittelwert → Temperatur</text><text x="513.9" y="517.6" font-size="24" font-weight="600" fill="#b85c00" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">doppelt so schnell</text></svg></div>
+<div class="l m row" data-at="19.72" data-out="31.08" data-anim="rise" style="left:150px;top:280px;font-size:42px"><span>\(35\,^\circ\text{C}: \;483\;\text{m/s}\)</span></div>
+<div class="l m row" data-at="19.72" data-out="31.08" data-anim="rise" style="left:150px;top:380px;font-size:42px"><span>\(70\,^\circ\text{C}: \;509\;\text{m/s}\)</span></div>
+<div class="l hand" data-at="19.72" data-out="31.08" data-anim="rise" style="left:150px;top:500px;font-size:44px;color:var(--tinte)">Stickstoff: nur rund 5 % schneller</div>
+<div class="l graf" data-at="19.72" data-out="31.08" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="90.7" y1="0" x2="90.7" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="256.0" y1="0" x2="256.0" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="338.7" y1="0" x2="338.7" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="421.3" y1="0" x2="421.3" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="504.0" y1="0" x2="504.0" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="586.7" y1="0" x2="586.7" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="669.3" y1="0" x2="669.3" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="595.4" x2="760" y2="595.4" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="497.5" x2="760" y2="497.5" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="399.6" x2="760" y2="399.6" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="301.7" x2="760" y2="301.7" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="203.8" x2="760" y2="203.8" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="105.9" x2="760" y2="105.9" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="693.3" x2="760" y2="693.3" stroke="#1c1a17" stroke-width="3"/><line x1="173.3" y1="760" x2="173.3" y2="0" stroke="#1c1a17" stroke-width="3"/><polygon points="760.0,693.3 742.0,684.3 742.0,702.3" fill="#1c1a17"/><polygon points="173.3,0 164.3,18 182.3,18" fill="#1c1a17"/><line x1="90.7" y1="686.3" x2="90.7" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="90.7" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">−20</text><line x1="256.0" y1="686.3" x2="256.0" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="256.0" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">20</text><line x1="338.7" y1="686.3" x2="338.7" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="338.7" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">40</text><line x1="421.3" y1="686.3" x2="421.3" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="421.3" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">60</text><line x1="504.0" y1="686.3" x2="504.0" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="504.0" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">80</text><line x1="586.7" y1="686.3" x2="586.7" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="586.7" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">100</text><line x1="669.3" y1="686.3" x2="669.3" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="669.3" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">120</text><line x1="166.3" y1="595.4" x2="180.3" y2="595.4" stroke="#1c1a17" stroke-width="2.5"/><text x="160.3" y="603.4" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">100</text><line x1="166.3" y1="497.5" x2="180.3" y2="497.5" stroke="#1c1a17" stroke-width="2.5"/><text x="160.3" y="505.5" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">200</text><line x1="166.3" y1="399.6" x2="180.3" y2="399.6" stroke="#1c1a17" stroke-width="2.5"/><text x="160.3" y="407.6" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">300</text><line x1="166.3" y1="301.7" x2="180.3" y2="301.7" stroke="#1c1a17" stroke-width="2.5"/><text x="160.3" y="309.7" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">400</text><line x1="166.3" y1="203.8" x2="180.3" y2="203.8" stroke="#1c1a17" stroke-width="2.5"/><text x="160.3" y="211.8" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">500</text><line x1="166.3" y1="105.9" x2="180.3" y2="105.9" stroke="#1c1a17" stroke-width="2.5"/><text x="160.3" y="113.9" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">600</text><polyline points="8.0,282.2 10.5,281.7 13.0,281.2 15.4,280.6 17.9,280.1 20.4,279.6 22.9,279.1 25.4,278.5 27.8,278.0 30.3,277.5 32.8,277.0 35.3,276.5 37.8,275.9 40.2,275.4 42.7,274.9 45.2,274.4 47.7,273.9 50.2,273.3 52.6,272.8 55.1,272.3 57.6,271.8 60.1,271.3 62.6,270.8 65.0,270.2 67.5,269.7 70.0,269.2 72.5,268.7 75.0,268.2 77.4,267.7 79.9,267.2 82.4,266.7 84.9,266.2 87.4,265.6 89.8,265.1 92.3,264.6 94.8,264.1 97.3,263.6 99.8,263.1 102.2,262.6 104.7,262.1 107.2,261.6 109.7,261.1 112.2,260.6 114.6,260.1 117.1,259.6 119.6,259.1 122.1,258.6 124.6,258.1 127.0,257.6 129.5,257.1 132.0,256.6 134.5,256.1 137.0,255.6 139.4,255.1 141.9,254.6 144.4,254.1 146.9,253.6 149.4,253.1 151.8,252.6 154.3,252.1 156.8,251.6 159.3,251.1 161.8,250.7 164.2,250.2 166.7,249.7 169.2,249.2 171.7,248.7 174.2,248.2 176.6,247.7 179.1,247.2 181.6,246.7 184.1,246.3 186.6,245.8 189.0,245.3 191.5,244.8 194.0,244.3 196.5,243.8 199.0,243.3 201.4,242.9 203.9,242.4 206.4,241.9 208.9,241.4 211.4,240.9 213.8,240.5 216.3,240.0 218.8,239.5 221.3,239.0 223.8,238.5 226.2,238.1 228.7,237.6 231.2,237.1 233.7,236.6 236.2,236.2 238.6,235.7 241.1,235.2 243.6,234.7 246.1,234.3 248.6,233.8 251.0,233.3 253.5,232.8 256.0,232.4 258.5,231.9 261.0,231.4 263.4,231.0 265.9,230.5 268.4,230.0 270.9,229.5 273.4,229.1 275.8,228.6 278.3,228.1 280.8,227.7 283.3,227.2 285.8,226.7 288.2,226.3 290.7,225.8 293.2,225.3 295.7,224.9 298.2,224.4 300.6,224.0 303.1,223.5 305.6,223.0 308.1,222.6 310.6,222.1 313.0,221.6 315.5,221.2 318.0,220.7 320.5,220.3 323.0,219.8 325.4,219.3 327.9,218.9 330.4,218.4 332.9,218.0 335.4,217.5 337.8,217.1 340.3,216.6 342.8,216.1 345.3,215.7 347.8,215.2 350.2,214.8 352.7,214.3 355.2,213.9 357.7,213.4 360.2,213.0 362.6,212.5 365.1,212.1 367.6,211.6 370.1,211.2 372.6,210.7 375.0,210.3 377.5,209.8 380.0,209.4 382.5,208.9 385.0,208.5 387.4,208.0 389.9,207.6 392.4,207.1 394.9,206.7 397.4,206.2 399.8,205.8 402.3,205.3 404.8,204.9 407.3,204.4 409.8,204.0 412.2,203.6 414.7,203.1 417.2,202.7 419.7,202.2 422.2,201.8 424.6,201.3 427.1,200.9 429.6,200.5 432.1,200.0 434.6,199.6 437.0,199.1 439.5,198.7 442.0,198.3 444.5,197.8 447.0,197.4 449.4,196.9 451.9,196.5 454.4,196.1 456.9,195.6 459.4,195.2 461.8,194.8 464.3,194.3 466.8,193.9 469.3,193.5 471.8,193.0 474.2,192.6 476.7,192.1 479.2,191.7 481.7,191.3 484.2,190.8 486.6,190.4 489.1,190.0 491.6,189.6 494.1,189.1 496.6,188.7 499.0,188.3 501.5,187.8 504.0,187.4 506.5,187.0 509.0,186.5 511.4,186.1 513.9,185.7 516.4,185.3 518.9,184.8 521.4,184.4 523.8,184.0 526.3,183.5 528.8,183.1 531.3,182.7 533.8,182.3 536.2,181.8 538.7,181.4 541.2,181.0 543.7,180.6 546.2,180.1 548.6,179.7 551.1,179.3 553.6,178.9 556.1,178.5 558.6,178.0 561.0,177.6 563.5,177.2 566.0,176.8 568.5,176.3 571.0,175.9 573.4,175.5 575.9,175.1 578.4,174.7 580.9,174.2 583.4,173.8 585.8,173.4 588.3,173.0 590.8,172.6 593.3,172.2 595.8,171.7 598.2,171.3 600.7,170.9 603.2,170.5 605.7,170.1 608.2,169.7 610.6,169.2 613.1,168.8 615.6,168.4 618.1,168.0 620.6,167.6 623.0,167.2 625.5,166.8 628.0,166.3 630.5,165.9 633.0,165.5 635.4,165.1 637.9,164.7 640.4,164.3 642.9,163.9 645.4,163.5 647.8,163.1 650.3,162.6 652.8,162.2 655.3,161.8 657.8,161.4 660.2,161.0 662.7,160.6 665.2,160.2 667.7,159.8 670.2,159.4 672.6,159.0 675.1,158.6 677.6,158.2 680.1,157.8 682.6,157.3 685.0,156.9 687.5,156.5 690.0,156.1 692.5,155.7 695.0,155.3 697.4,154.9 699.9,154.5 702.4,154.1 704.9,153.7 707.4,153.3 709.8,152.9 712.3,152.5 714.8,152.1 717.3,151.7 719.8,151.3 722.2,150.9 724.7,150.5 727.2,150.1 729.7,149.7 732.2,149.3 734.6,148.9 737.1,148.5 739.6,148.1 742.1,147.7 744.6,147.3 747.0,146.9 749.5,146.5 752.0,146.1" fill="none" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="318.0" cy="220.7" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="318.0" cy="220.7" r="5" fill="#8a4a0e"/><text x="330.4" y="340.8" font-size="29" font-weight="600" fill="#8a4a0e" text-anchor="start">(35 °C; 483 m/s)</text><circle cx="462.7" cy="194.6" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="462.7" cy="194.6" r="5" fill="#8a4a0e"/><text x="446.1" y="105.9" font-size="29" font-weight="600" fill="#8a4a0e" text-anchor="end">(70 °C; 509 m/s)</text><text x="752.0" y="677.3" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke" text-anchor="end">ϑ [°C]</text><text x="187.3" y="26" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke">Tempo [m/s]</text></svg></div>
+<div class="l hand" data-at="32.08" data-out="39.58" data-anim="rise" style="left:150px;top:300px;font-size:44px;color:var(--tinte)">wärmer: heftigere Bewegung,<br>Duft verteilt sich schneller</div>
+<div class="l graf" data-at="32.08" data-out="39.58" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><clipPath id="fg3eae066b"><rect x="0" y="0" width="760" height="760"/></clipPath><g clip-path="url(#fg3eae066b)"><circle cx="201.4" cy="666.4" r="22.3" fill="#1c1a17" fill-opacity="0.6" stroke="#1c1a17" stroke-width="2"/><circle cx="172.6" cy="616.0" r="11.9" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="226.1" cy="581.9" r="11.9" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="207.3" cy="547.9" r="11.9" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="129.1" cy="513.9" r="11.9" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="125.7" cy="479.9" r="11.9" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="131.0" cy="445.9" r="11.9" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="189.1" cy="411.9" r="11.9" fill="#1c1a17" fill-opacity="0.9" stroke="#1c1a17" stroke-width="2"/><circle cx="558.6" cy="666.4" r="22.3" fill="#1c1a17" fill-opacity="0.6" stroke="#1c1a17" stroke-width="2"/><circle cx="529.7" cy="603.2" r="11.9" fill="#b85c00" fill-opacity="0.9" stroke="#b85c00" stroke-width="2"/><circle cx="583.3" cy="543.7" r="11.9" fill="#b85c00" fill-opacity="0.9" stroke="#b85c00" stroke-width="2"/><circle cx="564.4" cy="484.2" r="11.9" fill="#b85c00" fill-opacity="0.9" stroke="#b85c00" stroke-width="2"/><circle cx="486.2" cy="424.6" r="11.9" fill="#b85c00" fill-opacity="0.9" stroke="#b85c00" stroke-width="2"/><circle cx="482.9" cy="365.1" r="11.9" fill="#b85c00" fill-opacity="0.9" stroke="#b85c00" stroke-width="2"/><circle cx="488.2" cy="305.6" r="11.9" fill="#b85c00" fill-opacity="0.9" stroke="#b85c00" stroke-width="2"/><circle cx="546.2" cy="246.1" r="11.9" fill="#b85c00" fill-opacity="0.9" stroke="#b85c00" stroke-width="2"/></g><line x1="82.4" y1="692.5" x2="82.4" y2="171.7" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="320.5" y1="692.5" x2="320.5" y2="171.7" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="82.4" y1="692.5" x2="320.5" y2="692.5" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="71.2" y1="164.2" x2="331.6" y2="164.2" stroke="#1c1a17" stroke-width="8" stroke-linecap="round" /><line x1="172.6" y1="616.0" x2="186.2" y2="597.0" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="196.5,582.7 191.7,606.4 175.6,594.8" fill="#1c1a17"/><line x1="226.1" y1="581.9" x2="247.1" y2="571.7" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="262.9,564.0 247.5,582.5 238.8,564.7" fill="#1c1a17"/><line x1="207.3" y1="547.9" x2="191.8" y2="530.5" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="180.1,517.4 202.1,527.2 187.3,540.4" fill="#1c1a17"/><line x1="129.1" y1="513.9" x2="105.8" y2="515.0" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="88.2,515.8 109.7,504.9 110.7,524.7" fill="#1c1a17"/><line x1="125.7" y1="479.9" x2="104.4" y2="470.5" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="88.3,463.3 112.4,463.2 104.4,481.3" fill="#1c1a17"/><line x1="131.0" y1="445.9" x2="150.7" y2="433.3" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="165.5,423.8 152.3,444.0 141.6,427.4" fill="#1c1a17"/><line x1="189.1" y1="411.9" x2="199.9" y2="432.5" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><polygon points="208.1,448.1 189.1,433.2 206.6,424.0" fill="#1c1a17"/><line x1="439.5" y1="692.5" x2="439.5" y2="171.7" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="677.6" y1="692.5" x2="677.6" y2="171.7" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="439.5" y1="692.5" x2="677.6" y2="692.5" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="428.4" y1="164.2" x2="688.8" y2="164.2" stroke="#1c1a17" stroke-width="8" stroke-linecap="round" /><line x1="529.7" y1="603.2" x2="569.4" y2="548.0" stroke="#b85c00" stroke-width="3" stroke-linecap="round" /><polygon points="579.6,533.7 574.8,557.4 558.8,545.8" fill="#b85c00"/><line x1="583.3" y1="543.7" x2="644.3" y2="513.8" stroke="#b85c00" stroke-width="3" stroke-linecap="round" /><polygon points="660.1,506.1 644.7,524.6 636.0,506.8" fill="#b85c00"/><line x1="564.4" y1="484.2" x2="519.3" y2="433.4" stroke="#b85c00" stroke-width="3" stroke-linecap="round" /><polygon points="507.6,420.2 529.6,430.1 514.8,443.2" fill="#b85c00"/><line x1="486.2" y1="424.6" x2="418.3" y2="427.8" stroke="#b85c00" stroke-width="3" stroke-linecap="round" /><polygon points="400.8,428.6 422.3,417.7 423.2,437.5" fill="#b85c00"/><line x1="482.9" y1="365.1" x2="420.7" y2="337.6" stroke="#b85c00" stroke-width="3" stroke-linecap="round" /><polygon points="404.6,330.5 428.8,330.3 420.7,348.4" fill="#b85c00"/><line x1="488.2" y1="305.6" x2="545.4" y2="268.9" stroke="#b85c00" stroke-width="3" stroke-linecap="round" /><polygon points="560.2,259.4 547.0,279.6 536.3,263.0" fill="#b85c00"/><line x1="546.2" y1="246.1" x2="577.8" y2="306.3" stroke="#b85c00" stroke-width="3" stroke-linecap="round" /><polygon points="585.9,321.9 566.9,307.0 584.5,297.8" fill="#b85c00"/><text x="201.4" y="104.7" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">10 °C</text><text x="558.6" y="104.7" font-size="26" font-weight="600" fill="#b85c00" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">30 °C</text><text x="558.6" y="737.1" font-size="24" font-weight="600" fill="#b85c00" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Duft schneller oben</text></svg></div>
+<div class="l hand" data-at="40.58" data-out="52.95" data-anim="rise" style="left:150px;top:300px;font-size:44px;color:var(--gruen)">absoluter Nullpunkt:<br>−273.15 °C</div>
+<div class="l graf" data-at="40.58" data-out="52.95" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="173.3" y1="0" x2="173.3" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="338.7" y1="0" x2="338.7" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="669.3" y1="0" x2="669.3" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="497.5" x2="760" y2="497.5" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="301.7" x2="760" y2="301.7" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="105.9" x2="760" y2="105.9" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="693.3" x2="760" y2="693.3" stroke="#1c1a17" stroke-width="3"/><line x1="504.0" y1="760" x2="504.0" y2="0" stroke="#1c1a17" stroke-width="3"/><polygon points="760.0,693.3 742.0,684.3 742.0,702.3" fill="#1c1a17"/><polygon points="504.0,0 495.0,18 513.0,18" fill="#1c1a17"/><line x1="173.3" y1="686.3" x2="173.3" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="173.3" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">−200</text><line x1="338.7" y1="686.3" x2="338.7" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="338.7" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">−100</text><line x1="669.3" y1="686.3" x2="669.3" y2="700.3" stroke="#1c1a17" stroke-width="2.5"/><text x="669.3" y="725.3" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">100</text><line x1="497.0" y1="497.5" x2="511.0" y2="497.5" stroke="#1c1a17" stroke-width="2.5"/><text x="491.0" y="505.5" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">200</text><line x1="497.0" y1="301.7" x2="511.0" y2="301.7" stroke="#1c1a17" stroke-width="2.5"/><text x="491.0" y="309.7" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">400</text><line x1="497.0" y1="105.9" x2="511.0" y2="105.9" stroke="#1c1a17" stroke-width="2.5"/><text x="491.0" y="113.9" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">600</text><polyline points="256.0,394.5 257.7,393.3 259.3,392.1 261.0,390.9 262.6,389.7 264.3,388.5 265.9,387.3 267.6,386.2 269.2,385.0 270.9,383.8 272.5,382.6 274.2,381.5 275.8,380.3 277.5,379.2 279.1,378.0 280.8,376.9 282.5,375.7 284.1,374.6 285.8,373.5 287.4,372.3 289.1,371.2 290.7,370.1 292.4,369.0 294.0,367.8 295.7,366.7 297.3,365.6 299.0,364.5 300.6,363.4 302.3,362.3 303.9,361.2 305.6,360.1 307.3,359.0 308.9,358.0 310.6,356.9 312.2,355.8 313.9,354.7 315.5,353.7 317.2,352.6 318.8,351.5 320.5,350.5 322.1,349.4 323.8,348.4 325.4,347.3 327.1,346.3 328.7,345.2 330.4,344.2 332.1,343.2 333.7,342.1 335.4,341.1 337.0,340.1 338.7,339.0 340.3,338.0 342.0,337.0 343.6,336.0 345.3,335.0 346.9,334.0 348.6,333.0 350.2,332.0 351.9,331.0 353.5,330.0 355.2,329.0 356.9,328.0 358.5,327.0 360.2,326.0 361.8,325.0 363.5,324.0 365.1,323.0 366.8,322.1 368.4,321.1 370.1,320.1 371.7,319.2 373.4,318.2 375.0,317.2 376.7,316.3 378.3,315.3 380.0,314.3 381.7,313.4 383.3,312.4 385.0,311.5 386.6,310.5 388.3,309.6 389.9,308.6 391.6,307.7 393.2,306.8 394.9,305.8 396.5,304.9 398.2,304.0 399.8,303.0 401.5,302.1 403.1,301.2 404.8,300.3 406.5,299.3 408.1,298.4 409.8,297.5 411.4,296.6 413.1,295.7 414.7,294.8 416.4,293.9 418.0,293.0 419.7,292.0 421.3,291.1 423.0,290.2 424.6,289.3 426.3,288.5 427.9,287.6 429.6,286.7 431.3,285.8 432.9,284.9 434.6,284.0 436.2,283.1 437.9,282.2 439.5,281.4 441.2,280.5 442.8,279.6 444.5,278.7 446.1,277.8 447.8,277.0 449.4,276.1 451.1,275.2 452.7,274.4 454.4,273.5 456.1,272.6 457.7,271.8 459.4,270.9 461.0,270.1 462.7,269.2 464.3,268.4 466.0,267.5 467.6,266.7 469.3,265.8 470.9,265.0 472.6,264.1 474.2,263.3 475.9,262.4 477.5,261.6 479.2,260.8 480.9,259.9 482.5,259.1 484.2,258.3 485.8,257.4 487.5,256.6 489.1,255.8 490.8,254.9 492.4,254.1 494.1,253.3 495.7,252.5 497.4,251.6 499.0,250.8 500.7,250.0 502.3,249.2 504.0,248.4 505.7,247.6 507.3,246.7 509.0,245.9 510.6,245.1 512.3,244.3 513.9,243.5 515.6,242.7 517.2,241.9 518.9,241.1 520.5,240.3 522.2,239.5 523.8,238.7 525.5,237.9 527.1,237.1 528.8,236.3 530.5,235.5 532.1,234.7 533.8,233.9 535.4,233.2 537.1,232.4 538.7,231.6 540.4,230.8 542.0,230.0 543.7,229.2 545.3,228.5 547.0,227.7 548.6,226.9 550.3,226.1 551.9,225.3 553.6,224.6 555.3,223.8 556.9,223.0 558.6,222.3 560.2,221.5 561.9,220.7 563.5,220.0 565.2,219.2 566.8,218.4 568.5,217.7 570.1,216.9 571.8,216.1 573.4,215.4 575.1,214.6 576.7,213.9 578.4,213.1 580.1,212.4 581.7,211.6 583.4,210.9 585.0,210.1 586.7,209.4 588.3,208.6 590.0,207.9 591.6,207.1 593.3,206.4 594.9,205.6 596.6,204.9 598.2,204.1 599.9,203.4 601.5,202.7 603.2,201.9 604.9,201.2 606.5,200.5 608.2,199.7 609.8,199.0 611.5,198.3 613.1,197.5 614.8,196.8 616.4,196.1 618.1,195.3 619.7,194.6 621.4,193.9 623.0,193.2 624.7,192.4 626.3,191.7 628.0,191.0 629.7,190.3 631.3,189.6 633.0,188.8 634.6,188.1 636.3,187.4 637.9,186.7 639.6,186.0 641.2,185.3 642.9,184.5 644.5,183.8 646.2,183.1 647.8,182.4 649.5,181.7 651.1,181.0 652.8,180.3 654.5,179.6 656.1,178.9 657.8,178.2 659.4,177.5 661.1,176.8 662.7,176.1 664.4,175.4 666.0,174.7 667.7,174.0 669.3,173.3 671.0,172.6 672.6,171.9 674.3,171.2 675.9,170.5 677.6,169.8 679.3,169.1 680.9,168.4 682.6,167.7 684.2,167.0 685.9,166.3 687.5,165.7 689.2,165.0 690.8,164.3 692.5,163.6 694.1,162.9 695.8,162.2 697.4,161.6 699.1,160.9 700.7,160.2 702.4,159.5 704.1,158.8 705.7,158.2 707.4,157.5 709.0,156.8 710.7,156.1 712.3,155.5 714.0,154.8 715.6,154.1 717.3,153.4 718.9,152.8 720.6,152.1 722.2,151.4 723.9,150.8 725.5,150.1 727.2,149.4 728.9,148.8 730.5,148.1 732.2,147.4 733.8,146.8 735.5,146.1 737.1,145.4 738.8,144.8 740.4,144.1 742.1,143.5 743.7,142.8 745.4,142.2 747.0,141.5 748.7,140.8 750.3,140.2 752.0,139.5" fill="none" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><polyline points="82.4,578.6 83.0,577.5 83.6,576.4 84.1,575.3 84.7,574.2 85.3,573.2 85.9,572.1 86.5,571.1 87.0,570.1 87.6,569.0 88.2,568.0 88.8,567.0 89.3,566.0 89.9,565.0 90.5,564.0 91.1,563.0 91.7,562.1 92.2,561.1 92.8,560.2 93.4,559.2 94.0,558.3 94.6,557.3 95.1,556.4 95.7,555.5 96.3,554.6 96.9,553.6 97.4,552.7 98.0,551.8 98.6,550.9 99.2,550.1 99.8,549.2 100.3,548.3 100.9,547.4 101.5,546.6 102.1,545.7 102.7,544.8 103.2,544.0 103.8,543.1 104.4,542.3 105.0,541.5 105.5,540.6 106.1,539.8 106.7,539.0 107.3,538.2 107.9,537.3 108.4,536.5 109.0,535.7 109.6,534.9 110.2,534.1 110.8,533.3 111.3,532.5 111.9,531.8 112.5,531.0 113.1,530.2 113.6,529.4 114.2,528.6 114.8,527.9 115.4,527.1 116.0,526.3 116.5,525.6 117.1,524.8 117.7,524.1 118.3,523.3 118.9,522.6 119.4,521.8 120.0,521.1 120.6,520.4 121.2,519.6 121.7,518.9 122.3,518.2 122.9,517.5 123.5,516.7 124.1,516.0 124.6,515.3 125.2,514.6 125.8,513.9 126.4,513.2 127.0,512.5 127.5,511.8 128.1,511.1 128.7,510.4 129.3,509.7 129.9,509.0 130.4,508.3 131.0,507.6 131.6,507.0 132.2,506.3 132.7,505.6 133.3,504.9 133.9,504.3 134.5,503.6 135.1,502.9 135.6,502.3 136.2,501.6 136.8,500.9 137.4,500.3 138.0,499.6 138.5,499.0 139.1,498.3 139.7,497.7 140.3,497.0 140.8,496.4 141.4,495.7 142.0,495.1 142.6,494.4 143.2,493.8 143.7,493.2 144.3,492.5 144.9,491.9 145.5,491.3 146.1,490.7 146.6,490.0 147.2,489.4 147.8,488.8 148.4,488.2 148.9,487.6 149.5,486.9 150.1,486.3 150.7,485.7 151.3,485.1 151.8,484.5 152.4,483.9 153.0,483.3 153.6,482.7 154.2,482.1 154.7,481.5 155.3,480.9 155.9,480.3 156.5,479.7 157.0,479.1 157.6,478.5 158.2,477.9 158.8,477.3 159.4,476.7 159.9,476.2 160.5,475.6 161.1,475.0 161.7,474.4 162.3,473.8 162.8,473.3 163.4,472.7 164.0,472.1 164.6,471.5 165.1,471.0 165.7,470.4 166.3,469.8 166.9,469.3 167.5,468.7 168.0,468.1 168.6,467.6 169.2,467.0 169.8,466.4 170.4,465.9 170.9,465.3 171.5,464.8 172.1,464.2 172.7,463.7 173.3,463.1 173.8,462.6 174.4,462.0 175.0,461.5 175.6,460.9 176.1,460.4 176.7,459.8 177.3,459.3 177.9,458.7 178.5,458.2 179.0,457.7 179.6,457.1 180.2,456.6 180.8,456.1 181.4,455.5 181.9,455.0 182.5,454.5 183.1,453.9 183.7,453.4 184.2,452.9 184.8,452.3 185.4,451.8 186.0,451.3 186.6,450.8 187.1,450.2 187.7,449.7 188.3,449.2 188.9,448.7 189.5,448.2 190.0,447.7 190.6,447.1 191.2,446.6 191.8,446.1 192.3,445.6 192.9,445.1 193.5,444.6 194.1,444.1 194.7,443.6 195.2,443.0 195.8,442.5 196.4,442.0 197.0,441.5 197.6,441.0 198.1,440.5 198.7,440.0 199.3,439.5 199.9,439.0 200.4,438.5 201.0,438.0 201.6,437.5 202.2,437.0 202.8,436.5 203.3,436.1 203.9,435.6 204.5,435.1 205.1,434.6 205.7,434.1 206.2,433.6 206.8,433.1 207.4,432.6 208.0,432.1 208.5,431.7 209.1,431.2 209.7,430.7 210.3,430.2 210.9,429.7 211.4,429.2 212.0,428.8 212.6,428.3 213.2,427.8 213.8,427.3 214.3,426.8 214.9,426.4 215.5,425.9 216.1,425.4 216.7,425.0 217.2,424.5 217.8,424.0 218.4,423.5 219.0,423.1 219.5,422.6 220.1,422.1 220.7,421.7 221.3,421.2 221.9,420.7 222.4,420.3 223.0,419.8 223.6,419.3 224.2,418.9 224.8,418.4 225.3,418.0 225.9,417.5 226.5,417.0 227.1,416.6 227.6,416.1 228.2,415.7 228.8,415.2 229.4,414.7 230.0,414.3 230.5,413.8 231.1,413.4 231.7,412.9 232.3,412.5 232.9,412.0 233.4,411.6 234.0,411.1 234.6,410.7 235.2,410.2 235.7,409.8 236.3,409.3 236.9,408.9 237.5,408.4 238.1,408.0 238.6,407.6 239.2,407.1 239.8,406.7 240.4,406.2 241.0,405.8 241.5,405.3 242.1,404.9 242.7,404.5 243.3,404.0 243.8,403.6 244.4,403.2 245.0,402.7 245.6,402.3 246.2,401.8 246.7,401.4 247.3,401.0 247.9,400.5 248.5,400.1 249.1,399.7 249.6,399.2 250.2,398.8 250.8,398.4 251.4,398.0 251.9,397.5 252.5,397.1 253.1,396.7 253.7,396.2 254.3,395.8 254.8,395.4 255.4,395.0 256.0,394.5" fill="none" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 10"/><line x1="52.4" y1="732.4" x2="52.4" y2="66.7" stroke="#1f6b3a" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 7"/><text x="64.2" y="105.9" font-size="24" font-weight="600" fill="#1f6b3a" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">absoluter Nullpunkt:</text><text x="64.2" y="159.7" font-size="24" font-weight="600" fill="#1f6b3a" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Bewegung minimal</text><text x="752.0" y="677.3" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke" text-anchor="end">ϑ [°C]</text><text x="518.0" y="26" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke">Tempo [m/s]</text></svg></div>
+</div></div>
+<audio id="ton" preload="auto" src="ton/p5-1-lp-kontrolle-teilchen.mp3"></audio>
+<div id="ui">
+  <button id="pp">Pause</button>
+  <button id="ts" hidden>🔇 Ton an</button>
+  <div id="bar"><div id="barf"></div></div>
+  <span id="tt">0.0 s</span>
+  <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
+</div>
+<script>
+const DUR = 52.95;
+const SPRECHER = [{"bei": 0.4, "text": "Die Teilchen bewegen sich ständig und ungeordnet, auch wenn das Wasser von aussen ruht. Bei achtzehn Grad Celsius ist ihre Bewegung weit vom Minimum entfernt."}, {"bei": 9.92, "text": "Ein einzelnes Teilchen hat keine Temperatur. Die Temperatur gehört zum Mittelwert über sehr viele Teilchen; einzelne sind immer schneller oder langsamer."}, {"bei": 19.12, "text": "Schneller, aber nur um rund fünf Prozent: Die Stickstoffteilchen fliegen im Mittel statt mit rund vierhundertdreiundachtzig mit rund fünfhundertneun Metern pro Sekunde. Doppelte Celsius-Zahl heisst nicht doppeltes Tempo."}, {"bei": 31.48, "text": "Im warmen Glas bewegen sich die Teilchen heftiger. Die Duftteilchen werden schneller durch das ganze Glas gestossen und sind früher oben am Deckel."}, {"bei": 39.98, "text": "Die Teilchen werden immer langsamer. Bei minus zweihundertdreiundsiebzig Komma eins fünf Grad Celsius, dem absoluten Nullpunkt, ist die Bewegung minimal; kälter geht es nicht. Null Grad Celsius ist nur der Schmelzpunkt des Wassers."}];
+const stage = document.getElementById('stage');
+const layers = [...document.querySelectorAll('.l')].map(el => ({
+  el, at: parseFloat(el.dataset.at || '0'),
+  out: el.dataset.out ? parseFloat(el.dataset.out) : Infinity,
+  anim: el.dataset.anim || 'fade',
+  dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
+}));
+const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
+const ease = p => 1 - Math.pow(1 - p, 3);
+const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
+function seek(t)  {
+  for (const L of layers) {
+    const pi = ease(cl((t - L.at) / IN));
+    const po = L.out === Infinity ? 0 : ease(cl((t - L.out) / OUT));
+    let o = pi * (1 - po), tr = '';
+    if (L.anim === 'rise') tr = 'translateY(' + ((1 - pi) * 26) + 'px)';
+    else if (L.anim === 'pop') tr = 'scale(' + (0.90 + 0.10 * pi) + ')';
+    else if (L.anim === 'wipe') { tr = 'scaleX(' + pi + ')'; o = (t >= L.at ? 1 : 0) * (1 - po); }
+    if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
+    L.el.style.transform = tr; L.el.style.opacity = o;
+  }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
+}
+const FRAGEN = [{"typ": "wahl", "text": "Ein Glas Wasser steht seit Stunden ruhig auf dem Tisch, bei 18 °C. Was tun seine Teilchen?", "optionen": ["Sie ruhen, weil das Wasser ruht", "Sie bewegen sich ständig und ungeordnet", "Nur die Teilchen an der Oberfläche bewegen sich"], "richtig": 1, "rueck": {"0": "Kann man die Bewegung der Teilchen von aussen sehen? Denk an das zitternde Tröpfchen.", "2": "Wovon hängt die Bewegung ab: von der Lage im Glas oder von der Temperatur?"}, "t": 0.3, "ton": {"frage": "ton/p5-1-lp-kontrolle-teilchen-f0-frage.mp3", "r0": "ton/p5-1-lp-kontrolle-teilchen-f0-r0.mp3", "r2": "ton/p5-1-lp-kontrolle-teilchen-f0-r2.mp3"}}, {"typ": "wahl", "text": "In der Luft fliegt ein Teilchen gerade doppelt so schnell wie der Durchschnitt. Was folgt daraus für die Temperatur?", "optionen": ["Dieses Teilchen ist doppelt so heiss", "Die Luft wird gerade wärmer", "Nichts: Die Temperatur gehört zum Mittelwert"], "richtig": 2, "rueck": {"0": "Hat ein einzelnes Teilchen eine Temperatur?", "1": "Ändert ein einzelnes schnelles Teilchen den Mittelwert von Milliarden?"}, "t": 9.82, "ton": {"frage": "ton/p5-1-lp-kontrolle-teilchen-f1-frage.mp3", "r0": "ton/p5-1-lp-kontrolle-teilchen-f1-r0.mp3", "r1": "ton/p5-1-lp-kontrolle-teilchen-f1-r1.mp3"}}, {"typ": "wahl", "text": "Luft in einem Auto in der Sonne: am Morgen 35 °C, am Mittag 70 °C. Fliegen die Stickstoffteilchen der Luft am Mittag doppelt so schnell?", "optionen": ["Nein: schneller, aber viel weniger als doppelt", "Ja: doppelte Temperatur, doppeltes Tempo", "Nein: gleich schnell"], "richtig": 0, "rueck": {"1": "Geht die Kurve des mittleren Tempos durch den Nullpunkt der Celsius-Skala?", "2": "Was geschieht mit der Bewegung, wenn es wärmer wird?"}, "t": 19.02, "ton": {"frage": "ton/p5-1-lp-kontrolle-teilchen-f2-frage.mp3", "r1": "ton/p5-1-lp-kontrolle-teilchen-f2-r1.mp3", "r2": "ton/p5-1-lp-kontrolle-teilchen-f2-r2.mp3"}}, {"typ": "wahl", "text": "Zwei gleiche, verschlossene Gläser, unten je ein Tropfen Parfüm: eines bei 10 °C, eines bei 30 °C. In welchem riecht man den Duft oben am Deckel zuerst?", "optionen": ["Im kalten: Kalte Luft trägt Duft besser", "Gleich schnell: Die Gläser sind gleich gross", "Im warmen: Die Teilchen bewegen sich heftiger"], "richtig": 2, "rueck": {"0": "Wovon hängt ab, wie heftig sich die Teilchen bewegen?", "1": "Spielt die Temperatur für die Bewegung der Teilchen keine Rolle?"}, "t": 31.38, "ton": {"frage": "ton/p5-1-lp-kontrolle-teilchen-f3-frage.mp3", "r0": "ton/p5-1-lp-kontrolle-teilchen-f3-r0.mp3", "r1": "ton/p5-1-lp-kontrolle-teilchen-f3-r1.mp3"}}, {"typ": "wahl", "text": "Man kühlt ein Gas immer weiter ab. Was geschieht mit seinen Teilchen?", "optionen": ["Bei 0 °C stehen sie still", "Sie werden langsamer, bis die Bewegung bei −273.15 °C minimal ist", "Sie werden langsamer, und man kann beliebig weit abkühlen"], "richtig": 1, "rueck": {"0": "Null Grad Celsius ist der Schmelzpunkt des Wassers. Bewegen sich Teilchen dort noch?", "2": "Kann eine Bewegung kleiner werden als minimal?"}, "t": 39.88, "ton": {"frage": "ton/p5-1-lp-kontrolle-teilchen-f4-frage.mp3", "r0": "ton/p5-1-lp-kontrolle-teilchen-f4-r0.mp3", "r2": "ton/p5-1-lp-kontrolle-teilchen-f4-r2.mp3"}}];
+(() => {
+  if (location.search.includes('render')) return;
+  const pp = document.getElementById('pp');
+  const css = document.createElement('style');
+  css.textContent = `
+    #frage{position:absolute;left:110px;top:560px;width:820px;z-index:50;display:none;
+      background:rgba(255,255,255,.97);border:3px solid var(--f2);border-radius:22px;
+      padding:28px 34px;box-shadow:0 10px 40px rgba(0,0,0,.18);font-family:inherit;color:inherit}
+    #frage .fr-kopf{font-size:26px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--f2);margin-bottom:10px}
+    #frage .fr-text{font-size:38px;line-height:1.3;margin-bottom:22px}
+    #frage .fr-knoepfe{display:flex;flex-wrap:wrap;gap:14px}
+    #frage button{font:inherit;font-size:32px;padding:10px 26px;border-radius:999px;cursor:pointer;
+      border:2.5px solid var(--f2);background:var(--f2w);color:inherit}
+    #frage button.ok{border-color:var(--f3);background:var(--f3w)}
+    #frage button.nein{border-color:var(--f4);background:var(--f4w)}
+    #frage .fr-rueck{font-size:32px;line-height:1.35;margin-top:20px}
+    #frage .fr-weiter{margin-top:20px}
+    #frage .fr-eingabe{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:30px;margin-top:14px;width:100%}
+    #frage .fr-eingabe input{font:inherit;font-size:30px;width:4.2em;padding:4px 10px;border:2.5px solid var(--f2);border-radius:12px}
+    .fr-tippbar, .fr-tippbar svg{pointer-events:auto !important;cursor:crosshair}`;
+  document.head.appendChild(css);
+  const box = document.createElement('div'); box.id = 'frage'; stage.appendChild(box);
+  let letzt = 0, offen = null, tippen = null, stimme = null, sprung = false;
+  // Vorlesen mit derselben Stimme wie der Clip — nur wenn dessen Ton an ist.
+  const hauptton = document.getElementById('ton');
+  const vorlesen = src => {
+    if (stimme) { stimme.pause(); stimme = null; }
+    if (!src || !hauptton || hauptton.muted) return;
+    stimme = new Audio(src); stimme.play().catch(() => {});
+  };
+  const erledigt = new Set();     // beantwortete Fragen
+  const pause = () => { if (pp.textContent === 'Pause') pp.click(); };
+  const weiter = () => { if (pp.textContent === 'Play') pp.click(); };
+  function schliessen() {
+    vorlesen(null);
+    // Fokus zurueck auf Play/Pause — auch wenn er mit dem gesperrten Antwortknopf
+    // schon auf <body> gefallen ist
+    const fo = document.activeElement;
+    if (!fo || fo === document.body || box.contains(fo)) pp.focus({ preventScroll: true });
+    box.style.display = 'none'; box.innerHTML = '';
+    document.querySelectorAll('.fr-marke').forEach(m => m.remove());
+    document.querySelectorAll('.fr-tippbar').forEach(l => l.classList.remove('fr-tippbar'));
+    if (tippen) { stage.removeEventListener('click', tippen); tippen = null; }
+    offen = null;
+  }
+  function antwort(F, ok, text, schl) {
+    const o = offen; erledigt.add(o.i);
+    box.dataset.fertig = '1';
+    vorlesen((F.ton || {})[schl]);
+    if (F.typ === 'klick') box.querySelector('.fr-knoepfe').innerHTML = '';
+    const r = box.querySelector('.fr-rueck');
+    r.innerHTML = (ok ? '✓ ' : '') + text;
+    r.style.color = ok ? 'var(--f3)' : '';
+    if (ok) {                      // richtig: kurz bestaetigen, dann von selbst weiter
+      setTimeout(() => { if (offen === o) { schliessen(); weiter(); } }, 1300);
+      return;
+    }
+    const w = document.createElement('button'); w.className = 'fr-weiter'; w.textContent = 'Weiter ▶';
+    w.onclick = () => { schliessen(); weiter(); };
+    box.appendChild(w); w.focus();
+  }
+  function zeigen(i, F) {
+    offen = { i, t: F.t }; pause(); delete box.dataset.fertig;
+    box.innerHTML = '<div class="fr-kopf"></div><div class="fr-text"></div>'
+      + '<div class="fr-knoepfe"></div><div class="fr-rueck"></div>';
+    box.querySelector('.fr-kopf').textContent = F.kopf || 'Deine Vorhersage';  // "kopf": z. B. «Dein Vorgehen»
+    box.querySelector('.fr-text').textContent = F.text;
+    const kn = box.querySelector('.fr-knoepfe');
+    if (F.typ === 'wahl') {
+      F.optionen.forEach((o, j) => {
+        const b = document.createElement('button'); b.textContent = o;
+        b.onclick = () => {
+          kn.querySelectorAll('button').forEach(x => x.disabled = true);
+          b.classList.add(j === F.richtig ? 'ok' : 'nein');
+          antwort(F, j === F.richtig, (F.rueck || {})[j] || (j === F.richtig ? 'Richtig.' : 'Schau, was der Clip zeigt.'), 'r' + j);
+        };
+        kn.appendChild(b);
+      });
+    } else if (F.typ === 'klick') {
+      const L = [...document.querySelectorAll('.l')].find(l => +l.style.opacity > 0.5 && l.querySelector('[data-fenster]'));
+      if (!L) { schliessen(); weiter(); return; }
+      const svg = L.querySelector('svg'), fe = L.querySelector('[data-fenster]').dataset.fenster.split(',').map(Number);
+      const [x0, x1, y0, y1, b, h, rd] = fe;
+      L.classList.add('fr-tippbar');
+      // Toleranz: eine Zahl (Abstand in Dateneinheiten) oder [dx, dy] je Achse —
+      // Letzteres, wenn die Achsen verschiedene Grössen tragen (s und C).
+      const tol = F.toleranz || 0.5;
+      const nah = (x, y, z) => Array.isArray(tol) ? Math.abs(x - z[0]) <= tol[0] && Math.abs(y - z[1]) <= tol[1]
+                                                  : Math.hypot(x - z[0], y - z[1]) <= tol;
+      const px = (x, y) => [rd + (x - x0) / (x1 - x0) * (b - 2 * rd), h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd)];
+      const mk = (cx, cy, farbe) => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', 16); c.setAttribute('class', 'fr-marke');
+        c.setAttribute('fill', 'none'); c.setAttribute('stroke', farbe); c.setAttribute('stroke-width', 6); svg.appendChild(c); };
+      const pruefePunkt = (x, y) => {
+        mk(...px(x, y), 'var(--f2)');
+        if (nah(x, y, F.ziel)) return antwort(F, true, F.richtig_text || 'Getroffen.', 'ok');
+        mk(...px(F.ziel[0], F.ziel[1]), 'var(--f3)');
+        const fk = (F.fallen || []).findIndex(f => nah(x, y, f.bei));
+        antwort(F, false, fk >= 0 ? F.fallen[fk].text : (F.falsch_text || 'Nicht ganz — der grüne Kreis zeigt die Stelle.'),
+                fk >= 0 ? 'fall' + fk : 'falsch');
+      };
+      // Am Stage horchen, nicht am Layer: unsichtbare spaetere Layer (Deckkraft 0)
+      // liegen obenauf und wuerden den Tipp abfangen.
+      tippen = ev => {
+        if (!offen || box.dataset.fertig || box.contains(ev.target)) return;
+        const r = svg.getBoundingClientRect();
+        if (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom) return;
+        const sx = (ev.clientX - r.left) / r.width * b, sy = (ev.clientY - r.top) / r.height * h;
+        pruefePunkt(x0 + (sx - rd) / (b - 2 * rd) * (x1 - x0), y0 + (h - rd - sy) / (h - 2 * rd) * (y1 - y0));
+      };
+      stage.addEventListener('click', tippen);
+      kn.innerHTML = '<span style="font-size:30px;color:var(--f2)">👉 Tipp ins Bild rechts.</span>';
+      // Ohne Zeigegeraet: dieselbe Antwort als zwei Zahlen ("eingabe": [Name x, Name y])
+      if (F.eingabe) {
+        const f = document.createElement('form'); f.className = 'fr-eingabe';
+        f.innerHTML = '<span>oder eingeben:</span>' + F.eingabe.map((n, k) =>
+          '<label>' + n + ' <input inputmode="decimal" autocomplete="off" data-k="' + k + '"></label>').join('')
+          + '<button type="submit">Prüfen</button>';
+        f.onsubmit = ev => {
+          ev.preventDefault();
+          if (box.dataset.fertig) return;
+          const w = [...f.querySelectorAll('input')].map(i => parseFloat(i.value.replace(',', '.')));
+          if (w.some(isNaN)) { f.querySelector('input').focus(); return; }
+          pruefePunkt(w[0], w[1]);
+        };
+        kn.appendChild(f);
+      }
+    }
+    box.style.display = 'block';
+    // Fokus auf die erste Antwort: Tab, Enter und Leertaste reichen dann
+    const erst = box.querySelector('.fr-knoepfe button, .fr-eingabe input');
+    if (erst) erst.focus({ preventScroll: true });
+    vorlesen((F.ton || {}).frage);
+  }
+  // Spulen wird ausdruecklich erkannt: Pfeiltasten und ein Klick auf die
+  // Zeitleiste setzen ein Zeichen, das das naechste Bild auswertet. Ein
+  // spaetes Bild (langsames Laden, Hintergrund-Tab) ist kein Spulen.
+  // Neustart (R) und ein Sprung vor die erste Frage stellen alle Fragen neu;
+  // nach R laeuft der Clip ab 0 wie beim ersten Abspielen.
+  document.addEventListener('keydown', e => {
+    if (e.target && e.target.closest && e.target.closest('input, select, textarea')) return;
+    if ((e.key || '').toLowerCase() === 'r') { schliessen(); erledigt.clear(); letzt = 0; }
+    if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') sprung = true;
+  });
+  const bar = document.getElementById('bar');
+  bar.addEventListener('click', () => { sprung = true; });
+  // Die Abspielzeit ist im Abspieler lokal; zurueckgestellt wird sie ueber
+  // dessen Zeitleiste.
+  const zurueck = s => {
+    const r = bar.getBoundingClientRect();
+    if (r.width > 0 && bar.onclick) bar.onclick({ currentTarget: bar, clientX: r.left + s / DUR * r.width });
+  };
+  const vorFragen = seek;
+  seek = function (t) {
+    vorFragen(t);
+    if (sprung) {
+      // gespult: eine uebersprungene Frage wird nicht gestellt, eine
+      // beantwortete kommt nicht wieder — ausser zurueck an den Anfang
+      sprung = false;
+      if (FRAGEN.length && t < Math.min(...FRAGEN.map(F => F.t))) { schliessen(); erledigt.clear(); }
+    } else if (!offen && pp.textContent === 'Pause') {
+      // gewoehnliches Abspielen, auch wenn ein Bild weit springt: die erste
+      // ueberschrittene Frage wird gestellt, der Clip geht an ihre Stelle zurueck
+      let i = -1;
+      FRAGEN.forEach((F, j) => {
+        if (!erledigt.has(j) && letzt < F.t && t >= F.t && (i < 0 || F.t < FRAGEN[i].t)) i = j;
+      });
+      if (i >= 0) {
+        zeigen(i, FRAGEN[i]);
+        if (offen && t - offen.t > 0.1) { t = offen.t; zurueck(t); vorFragen(t); }
+      }
+    }
+    if (offen && Math.abs(t - offen.t) > 1.0) schliessen();
+    letzt = t;
+  };
+})();
+window.__seek = seek;
+window.__dauer = DUR;
+if (!location.search.includes('render')) {
+  let t0 = performance.now(), playing = true, t = 0;
+  const barf = document.getElementById('barf'), tt = document.getElementById('tt'),
+        pp = document.getElementById('pp'), wrap = document.getElementById('wrap');
+  const fit = () => { stage.style.transform = 'translate(-50%,-50%) scale('
+      + Math.min(wrap.clientWidth / 1920, wrap.clientHeight / 1080) + ')'; };
+  window.addEventListener('resize', fit);
+  document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
+  fit();
+  // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
+  // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
+  // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
+  // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
+  // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.
+  const ton = document.getElementById('ton'), ts = document.getElementById('ts');
+  const tonBeschriften = () => {
+    if (ts) ts.textContent = (!ton || ton.muted) ? '🔇 Ton an' : '🔊 Ton aus';
+  };
+  if (ton) {
+    ts.hidden = false;
+    ton.muted = false;
+    ton.play().then(tonBeschriften).catch(() => {
+      ton.muted = true;
+      tonBeschriften();
+      ton.play().catch(() => {});
+    });
+    tonBeschriften();
+    ts.onclick = () => {
+      ton.muted = !ton.muted;
+      tonBeschriften();
+      if (!ton.muted) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); }
+    };
+  }
+  const tonLaeuft = () => ton && !ton.paused && !ton.ended;
+  function loop(now) {
+    if (playing) {
+      if (tonLaeuft()) t = ton.currentTime;
+      else { t += (now - t0) / 1000; if (t > DUR) t = DUR; }
+    }
+    t0 = now; seek(t);
+    barf.style.width = (t / DUR * 100) + '%'; tt.textContent = t.toFixed(1) + ' s';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  const tonAn = () => { if (ton) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); } };
+  const toggle = () => {
+    playing = !playing;
+    pp.textContent = playing ? 'Pause' : 'Play';
+    if (ton) { if (playing) ton.play().catch(() => {}); else ton.pause(); }
+  };
+  pp.onclick = toggle;
+  // Tastenkuerzel nicht in Eingabefeldern; die Leertaste nicht auf Knoepfen —
+  // dort bestaetigt sie den Knopf (Antwort einer Frage, Play/Pause selbst).
+  document.addEventListener('keydown', e => {
+    const ziel = e.target && e.target.closest ? e.target : null;
+    if (ziel && ziel.closest('input, select, textarea')) return;
+    if (e.code === 'Space' && ziel && ziel.closest('button, a, summary')) return;
+    if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    if (e.code === 'ArrowRight') { t = Math.min(DUR, t + 5); tonAn(); }
+    if (e.code === 'ArrowLeft') { t = Math.max(0, t - 5); tonAn(); }
+    const k = e.key.toLowerCase();
+    if (k === 'r') { t = 0; playing = true; pp.textContent = 'Pause'; tonAn(); }
+    if (k === 'f') document.documentElement.requestFullscreen?.();
+  });
+  document.getElementById('bar').onclick = e => {
+    const r = e.currentTarget.getBoundingClientRect();
+    t = (e.clientX - r.left) / r.width * DUR; tonAn();
+  };
+} else { document.body.classList.add('render'); seek(0); }
+</script></body></html>

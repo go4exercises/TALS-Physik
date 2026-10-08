@@ -1,0 +1,134 @@
+% Bewertungspaket zum Gesamttest «Temperatur», Fassung 1.2 — Quelle des PDFs (python3 scripts/build-lp-pdf.py temperatur).
+% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (07.10.2026, nach /lp-pruefung).
+% Aufbau, Auftrag an die KI und Punktarten (E, A, W, B, S) wie im Leitprogramm Hydrostatik; (B)-Zeilen mit Pflicht / genügt nicht / gleichwertig.
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Temperatur}
+\renewcommand{\lpteilgebiet}{5.1}
+\renewcommand{\lpfuss}{Bewertungspaket}
+\newcolumntype{P}{>{\centering\arraybackslash}p{10mm}}
+\newenvironment{raster}{\par\smallskip\noindent\renewcommand{\arraystretch}{1.5}\setlength{\lineskiplimit}{4pt}\setlength{\lineskip}{8pt}\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P >{\raggedright\arraybackslash}X@{}}\toprule
+  \small\textsc{Teilschritt} & \small\textsc{P} & \small\textsc{Musterlösung}\\\midrule}{\bottomrule\endtabularx\par}
+\newcommand{\fehler}[1]{\par\smallskip{\small\raggedright\textcolor{lprot}{\bfseries Typische Fehler:} #1\par}}
+\newcommand{\E}{\,{\footnotesize\bfseries\color{lpgruen}(E)}}
+\newcommand{\B}{\,{\footnotesize\bfseries(B)}}
+\newcommand{\W}{\,{\footnotesize\bfseries(W)}}
+\newcommand{\Sk}{\,{\footnotesize\bfseries(S)}}
+\newcommand{\A}{\,{\footnotesize\bfseries\color{lpgruen}(A)}}
+\begin{document}
+\lpkopf{Bewertungspaket zum Gesamttest}{}
+
+\begin{lpachtung}{Erst lösen, dann öffnen}
+Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am Ende nur, wie gut das Abschreiben gelingt.
+\end{lpachtung}
+
+\section*{1 · So gehst du vor}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Gesamttest lösen} — vollständig, mit Rechenweg, ohne dieses Paket.
+\item \textbf{Fotografieren oder scannen}, gut lesbar, eine Seite pro Bild. \textbf{Kein Name} auf den Bildern.
+  Handyfotos tragen oft unsichtbar Standort, Zeit und Gerät mit (Metadaten). Lade darum lieber einen Scan oder ein
+  Bildschirmfoto des Fotos hoch, oder entferne vorher die Standortangaben.
+\item \textbf{Bewerten lassen.} Ob du dafür eine KI nutzt und welche, entscheidest du selbst und in eigener Verantwortung —
+  je nachdem, was dir aufgrund deines Alters und deiner persönlichen Situation erlaubt ist (Altersgrenzen und
+  Nutzungsbedingungen des Anbieters, allenfalls Einverständnis deiner Eltern). Lade nur deine Lösung und dieses PDF hoch,
+  keine persönlichen Daten, und füge den Auftrag aus Abschnitt~2 ein. Ohne KI kannst du dich mit Abschnitt~3 selbst bewerten.
+\item \textbf{Rückmeldung prüfen.} Stimmt, was die KI aus deiner Handschrift gelesen hat? Eine KI kann sich irren —
+  im Zweifel gilt das Raster in Abschnitt~3.
+\item \textbf{Gezielt wiederholen} nach Abschnitt~4.
+\end{enumerate}
+
+\needspace{8\baselineskip}
+\section*{2 · Auftrag an die KI}
+\begin{tcolorbox}[breakable,colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
+Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Temperatur» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
+Geh so vor:\par
+1. Schreib zu jeder Aufgabe G1 bis G6 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
+2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Rechen- oder Umrechnungsfehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte, und derselbe Rechen- oder Umrechnungsfehler (etwa dieselbe vergessene Umrechnung) in mehreren Teilaufgaben kostet nur einen Punkt — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. \textbf{Ausnahme Begriffsfehler:} Prüft eine Aufgabe ausdrücklich einen Begriff (zum Beispiel, dass Verhältnisse von Temperaturen nur in Kelvin gelten — G4a, G6a und G6b), dann zählt der Fehler in \emph{jeder} dieser Aufgaben nach ihrem Raster und ist nicht auf einen Punkt gedeckelt. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
+3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, $273$ statt $273.15$ (Ergebnis auf ganze Kelvin oder Grad), $T = \vartheta + 273.15$ ohne eckige Klammern, Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte. Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg (Ausnahme: wo die Zeile «nur mit Rechnung» sagt); ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Ist das Ergebnis eine Zuordnung oder ein Stoffname (G1a, G2a), braucht es keine Einheit; es zählt die richtige Wahl. Eine Temperaturdifferenz in $^\circ\text{C}$ statt in $\text{K}$ zählt, wenn der Zahlenwert stimmt (der Schritt ist gleich gross). Zeilen mit (A) sind Ablesepunkte: Es zählt der abgelesene Wert mit Einheit, innerhalb der angegebenen Ablesetoleranz. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); eine Zahlenwertgleichung wie $T\,[\text{K}] = \vartheta\,[^\circ\text{C}] + 273.15 = 20 + 273.15$ zählt als Weg mit Einheiten, weil die Klammern die Einheiten nennen. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig. Bei jeder (B)-Zeile steht, welche Aussage \emph{Pflicht} ist, was \emph{nicht genügt} und was \emph{gleichwertig} zählt — halte dich daran. Zeilen mit (S) sind Zeichenpunkte: Es zählt, dass die Messpunkte innerhalb der Toleranz eingetragen sind und die Gerade bis zum Druck null verlängert ist; Schönheit zählt nicht. Toleranz für Werte aus gerundeten Zwischenergebnissen: bei Temperaturen $\pm 2\;\text{K}$ (oder $\pm 2\,^\circ\text{C}$), bei allen anderen Grössen rund $2\,\%$.\par
+4. Begründe jeden Abzug in einem Satz und nenne die Fehlerart (zum Beispiel «Celsius-Zahlen ins Verhältnis gesetzt»). Schreib die Musterlösung nicht ab — zeig mir, wo mein Fehler liegt.\par
+5. Gib zum Schluss eine Tabelle «Aufgabe | Punkte | Begründung», die Gesamtpunktzahl (von 25) und — nach der Selbsteinschätzung in Abschnitt 4 — welches Kapitel des Leitprogramms ich wiederholen soll. Keine Note.\par
+6. Fehlt ein Foto oder ist eine Aufgabe unlesbar, sag es, statt sie zu bewerten.
+\end{tcolorbox}
+
+\section*{3 · Musterlösung und Punkteraster}
+\textbf{Allgemein:} Ganze Punkte je Zeile. Ein Rechen- oder Umrechnungsfehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
+richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler), und derselbe Rechen- oder Umrechnungsfehler in mehreren Teilaufgaben kostet nur einen Punkt — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
+Plausibilitätsprobe kostet keinen zusätzlichen Punkt. \textbf{Begriffsfehler} sind ausgenommen: Prüft eine Aufgabe ausdrücklich einen Begriff (Verhältnisse von Temperaturen nur in Kelvin: G4a, G6a, G6b), zählt der Fehler dort nach dem Raster der Aufgabe.
+Gleichwertige Wege und Schreibweisen zählen voll ($273$ statt $273.15$).
+In der Spalte P: \textbf{(E)}~= Ergebnispunkt — es zählt das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg (ausser die Zeile sagt «nur mit Rechnung»); bei Zuordnungen und Stoffnamen (G1a, G2a) zählt die richtige Wahl ohne Einheit; eine Temperaturdifferenz in $^\circ\text{C}$ statt $\text{K}$ zählt. \textbf{(A)}~= Ablesepunkt — der abgelesene Wert mit Einheit, innerhalb der angegebenen Toleranz. \textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten; eine Zahlenwertgleichung mit $[\text{K}]$ und $[^\circ\text{C}]$ zählt).
+\textbf{(B)}~= Begründungspunkt — es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; je Zeile steht, was Pflicht ist, was nicht genügt und was gleichwertig zählt. \textbf{(S)}~= Zeichenpunkt — Messpunkte innerhalb der Toleranz, Gerade bis zum Druck null verlängert.
+Toleranz für Folgewerte aus gerundeten Zwischenergebnissen: Temperaturen $\pm 2\;\text{K}$, andere Grössen rund $2\,\%$.
+«Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
+
+\begin{lpaufgabe}{G1}{Zwei Spuren unter dem Mikroskop}{3 P}
+\begin{raster}
+a) Zuordnung & 1\E & Spur 2 (die weiteren Schritte) entstand bei $50\,^\circ\text{C}$\\
+b) Bild und Teilchenmodell & 1\B & \textbf{Pflicht:} am Bild: Spur 2 hat längere Schritte und kommt in derselben Zeit weiter; dazu das Teilchenbild: Die \emph{Wasserteilchen} stossen von allen Seiten an das Tröpfchen; bei $50\,^\circ\text{C}$ bewegen sie sich im Mittel schneller und stossen heftiger, darum wird es weiter herumgestossen. Beide Teile nötig; «Zickzack» allein ist kein Unterschied (beide Spuren sind Zickzack). \textbf{Genügt nicht:} «Das Tröpfchen hat mehr Energie», «die Teilchen des Tröpfchens sind schneller» oder «es stösst mit anderen Tröpfchen zusammen» — ohne die Stösse der Wasserteilchen. \textbf{Gleichwertig:} «Die Wassermoleküle sind schneller und schubsen es stärker an»\\
+c) Temperatur & 1\B & \textbf{Pflicht:} Die Temperatur ist ein Mass für die mittlere Bewegungsenergie (gleichwertig: die mittlere ungeordnete Bewegung) der Teilchen, also ein Mittelwert über sehr viele Teilchen; ein einzelnes Teilchen hat nur seine eigene Geschwindigkeit, die sich bei jedem Stoss ändert — einen Mittelwert gibt es dafür nicht. Beide Teile nötig. \textbf{Genügt nicht:} «Temperatur sagt, wie warm etwas ist», «das Teilchen ist zu klein zum Messen». \textbf{Gleichwertig:} «Durchschnitt der Bewegung vieler Teilchen; ein einzelnes ist mal schnell, mal langsam»\\
+\end{raster}
+\fehler{Spur 1 gewählt: a) 0; b) 0, denn die Deutung des Bildes passt nicht (die weiteren Schritte gehören zu den heftigeren Stössen) \(\to\) höchstens 1 von 3\,P. In c) nur «Mass für die Teilchenbewegung» ohne Mittelwert: c) 0 \(\to\) 2 von 3\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Welcher Stoff?}{5 P}
+\begin{raster}
+a) Stoff & 1\E & Brom: $-20\,^\circ\text{C}$ liegt unter $-7\,^\circ\text{C}$ (fest), $70\,^\circ\text{C}$ über $59\,^\circ\text{C}$ (gasförmig). Bei allen anderen Stoffen passt mindestens eine der beiden Angaben nicht\\
+b) Bereich & 1\E & Zwischen $-39\,^\circ\text{C}$ und $0\,^\circ\text{C}$ (Quecksilber erst ab $-39\,^\circ\text{C}$ flüssig, Wasser unter $0\,^\circ\text{C}$ fest; Ethanol im ganzen Bereich flüssig)\\
+c) Übergänge & 1\E & Schmelzen bei $-7\,^\circ\text{C}$, sieden bei $59\,^\circ\text{C}$ (beide nötig; «verdampfen» gleichwertig zu «sieden», «verdunsten» nicht; folgerichtig zum Stoff aus a)\\
+c) Begründung & 1\B & \textbf{Pflicht:} beide Zustände, und das Gegenspiel von Anziehung und Bewegung: Bei $-20\,^\circ\text{C}$ ist die Bewegung so schwach, dass die Anziehungskräfte die Teilchen auf festen Plätzen halten (sie schwingen nur); bei $70\,^\circ\text{C}$ ist sie so heftig, dass die Kräfte sie nicht mehr zusammenhalten — sie fliegen frei. \textbf{Genügt nicht:} nur die Anordnung beschreiben («fest: geordnet, Gas: weit auseinander») ohne Kräfte gegen Bewegung; «weil es kalt ist». \textbf{Gleichwertig:} «Zusammenhalt», «Bindungen», «Kräfte zwischen den Teilchen» für die Anziehungskräfte\\
+d) Verdunsten & 1\B & \textbf{Pflicht:} Die Teilchen sind verschieden schnell; auch unter dem Siedepunkt sind einzelne an der Oberfläche schnell genug, um sich von den anderen loszureissen und in die Luft zu entweichen. Im offenen Schälchen kommen sie nicht zurück, so verschwindet nach und nach alles. \textbf{Genügt nicht:} «Es ist verdunstet» ohne Teilchenbild; «es hat gesiedet»; «die Luft hat es aufgesaugt». \textbf{Gleichwertig:} «die schnellsten Teilchen überwinden die Anziehung und fliegen weg»\\
+\end{raster}
+\fehler{In a) einen anderen Stoff gewählt: a) 0, c) folgerichtig mit dessen Werten \(\to\) 4 von 5\,P. In b) Vorzeichen verwechselt (zum Beispiel «zwischen $0\,^\circ\text{C}$ und $39\,^\circ\text{C}$»): b) 0 \(\to\) 4 von 5\,P. Übergänge verwechselt (sieden bei $-7\,^\circ\text{C}$): c) Übergänge 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G3}{Eine eigene Messreihe}{5 P}
+\begin{raster}
+a) Zeichnen & 1\Sk & Drei Punkte $(-20\,^\circ\text{C};\,834\;\text{hPa})$, $(40\,^\circ\text{C};\,1032\;\text{hPa})$, $(90\,^\circ\text{C};\,1196\;\text{hPa})$, je höchstens ein halbes Kästchen daneben ($\pm 25\;\text{hPa}$, $\pm 12.5\,^\circ\text{C}$); Gerade durch sie, bis zum Druck null verlängert\\
+b) Ablesen & 1\A & Rund $-275\,^\circ\text{C}$ (Ausgleichsgerade $-273.5\,^\circ\text{C}$). Zählt folgerichtig: der Schnitt der \emph{eigenen} Geraden mit der Achse $p = 0$, auf $\pm 12.5\,^\circ\text{C}$ (ein halbes Kästchen) genau abgelesen. Ist die eigene Gerade nicht erkennbar: $-295\,^\circ\text{C}$ bis $-255\,^\circ\text{C}$\\
+c) Ansatz & 1\W & Steigung $\dfrac{\Delta p}{\Delta\vartheta} = \dfrac{1196\;\text{hPa} - 1032\;\text{hPa}}{90\,^\circ\text{C} - 40\,^\circ\text{C}} = 3.28\;\tfrac{\text{hPa}}{^\circ\text{C}}$ (gleichwertig der Kehrwert $0.305\;\tfrac{^\circ\text{C}}{\text{hPa}}$, richtig verwendet: $1032\;\text{hPa} \cdot 0.305\;\tfrac{^\circ\text{C}}{\text{hPa}} = 315\,^\circ\text{C}$)\\
+c) Ergebnis & 1\E & \emph{nur mit Rechnung:} $\vartheta_0 = 40\,^\circ\text{C} - \dfrac{1032\;\text{hPa}}{3.28\;\text{hPa}/^\circ\text{C}} \approx 40\,^\circ\text{C} - 315\,^\circ\text{C} \approx -275\,^\circ\text{C}$ (genauer $-274.6\,^\circ\text{C}$; gleichwertig vom Punkt bei $90\,^\circ\text{C}$ aus; Literaturwert $-273.15\,^\circ\text{C}$). Aus b) abgeschrieben ohne Rechnung: 0\\
+d) Proportional zu? & 1\B & \textbf{Pflicht:} die Prüfung mit den Messwerten, $\dfrac{1032\;\text{hPa}}{40\,^\circ\text{C}} = 25.8\;\tfrac{\text{hPa}}{^\circ\text{C}}$ gegen $\dfrac{1196\;\text{hPa}}{90\,^\circ\text{C}} \approx 13.3\;\tfrac{\text{hPa}}{^\circ\text{C}}$ (nicht gleich), aber $\dfrac{1032\;\text{hPa}}{313.15\;\text{K}} \approx 3.30\;\tfrac{\text{hPa}}{\text{K}}$ und $\dfrac{1196\;\text{hPa}}{363.15\;\text{K}} \approx 3.29\;\tfrac{\text{hPa}}{\text{K}}$ (bis auf $0.1\,\%$ gleich: Messgenauigkeit): proportional zur Kelvin-Temperatur; \emph{und} die Folge: Wo eine Grösse proportional zur Temperatur ist oder Temperaturen ein Verhältnis bilden (Druck, Bewegungsenergie), rechnet man in Kelvin; für Angaben im Alltag und für Temperaturdifferenzen genügt Celsius. \textbf{Gleichwertig:} statt der Quotienten das Verhältnis $\tfrac{1196}{1032} \approx 1.16$ mit $\tfrac{363.15}{313.15} \approx 1.16$ (passt) und $\tfrac{90}{40} = 2.25$ (passt nicht) vergleichen; oder «die Gerade trifft $p = 0$ bei $-273\,^\circ\text{C}$, nicht bei $0\,^\circ\text{C}$» mit Verweis auf b). \textbf{Genügt nicht:} «Kelvin, weil das die SI-Einheit ist» oder «Kelvin ist genauer» ohne Prüfung; nur «Kelvin» ohne Folge\\
+\end{raster}
+\fehler{$315\,^\circ\text{C}$ von $0\,^\circ\text{C}$ statt von $40\,^\circ\text{C}$ aus abgetragen ($\vartheta_0 \approx -315\,^\circ\text{C}$): c) Ergebnis 0 \(\to\) 4 von 5\,P. Durch den Kehrwert geteilt ($1032\;\text{hPa} / 0.305\;\tfrac{^\circ\text{C}}{\text{hPa}}$, $\vartheta_0 \approx -3345\,^\circ\text{C}$): c) Ansatz zählt (Steigung richtig), Ergebnis 0 \(\to\) 4 von 5\,P. Gerade nur zwischen den Punkten gezeichnet: a) 0, b) 0 (ein Wert aus der Rechnung ist kein Ablesen) \(\to\) 3 von 5\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G4}{Stimmt das?}{4 P}
+\begin{raster}
+a) & 1\B & Falsch. \textbf{Pflicht:} Die mittlere Bewegungsenergie ist proportional zur Kelvin-Temperatur; $\dfrac{283.15\;\text{K}}{278.15\;\text{K}} \approx 1.02$ — nur rund $2\,\%$ mehr. \textbf{Gleichwertig:} ohne Zahl «Der Celsius-Nullpunkt ist willkürlich, verdoppeln muss man ab dem absoluten Nullpunkt». \textbf{Genügt nicht:} «falsch, weil es nur $5\,^\circ\text{C}$ mehr sind»\\
+b) & 1\B & Falsch. \textbf{Pflicht:} Die Temperaturen der Fixpunkte gelten bei Normaldruck; auf dem Jungfraujoch ist der Luftdruck kleiner, Wasser siedet dort unter $100\,^\circ\text{C}$. \textbf{Gleichwertig:} «Der Siedepunkt hängt vom Luftdruck ab; oben ist der Druck tiefer». \textbf{Genügt nicht:} «falsch, es ist kälter dort oben»; «falsch, die Celsius-Skala ist heute über das Kelvin festgelegt» (stimmt, erklärt aber den Siedepunkt nicht)\\
+c) & 1\B & Falsch (unmöglich). \textbf{Pflicht:} $0\;\text{K}$ ist der absolute Nullpunkt, tiefer geht es nicht; negative Kelvin-Werte gibt es nicht. \textbf{Gleichwertig:} «Kälter als minimale Teilchenbewegung geht nicht». \textbf{Genügt nicht:} «falsch, das Thermometer ist kaputt»; «falsch, man schreibt $-5\,^\circ\text{C}$» ohne den Grund\\
+d) & 1\B & Richtig. \textbf{Pflicht:} Ein Kelvin und ein Grad Celsius sind gleich grosse Schritte; die Skalen sind nur um $273.15$ verschoben, und bei einer Differenz fällt die Verschiebung weg. \textbf{Gleichwertig:} ein Zahlenbeispiel, etwa $20\,^\circ\text{C} \to 35\,^\circ\text{C}$ ist $293.15\;\text{K} \to 308.15\;\text{K}$, beide Male $15$. \textbf{Genügt nicht:} «richtig, Kelvin ist die SI-Einheit»; «falsch, man muss $273.15$ dazuzählen»\\
+\end{raster}
+\fehler{Nur «richtig/falsch» ohne Begründung: je 0. In a) «richtig, $10$ ist das Doppelte von $5$»: a) 0 (Begriffsfehler; zählt zusätzlich zu G6).}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G5}{Ein Satellit}{4 P}
+\begin{raster}
+a) Sonnenseite & 1\E & $T\,[\text{K}] = \vartheta\,[^\circ\text{C}] + 273.15 = 120 + 273.15 = 393.15$, also $393.15\;\text{K}$\\
+a) Schattenseite & 1\E & $T\,[\text{K}] = -160 + 273.15 = 113.15$, also $113.15\;\text{K}$\\
+b) Unterschied & 1\E & $\Delta T = 393.15\;\text{K} - 113.15\;\text{K} = 280\;\text{K}$ (gleich $120\,^\circ\text{C} - (-160\,^\circ\text{C})$; «$280\,^\circ\text{C}$» als Differenz zählt)\\
+c) Sensor & 1\E & $\vartheta\,[^\circ\text{C}] = T\,[\text{K}] - 273.15 = 40 - 273.15 = -233.15$, also $-233.15\,^\circ\text{C}$\\
+\end{raster}
+\fehler{Minus vergessen ($433.15\;\text{K}$ für die Schattenseite): a) zweite Zeile 0; b) folgerichtig ($40\;\text{K}$, auch $-40\;\text{K}$) \(\to\) 3 von 4\,P. Bei b) $273.15$ dazugezählt ($553.15\;\text{K}$): b) 0. In c) dazugezählt statt abgezogen ($313.15\,^\circ\text{C}$): c) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G6}{Doppelt so viel Bewegungsenergie}{4 P}
+\begin{raster}
+a) Ansatz & 1\W & Die mittlere Bewegungsenergie ist proportional zur Kelvin-Temperatur: $T_1\,[\text{K}] = 20 + 273.15 = 293.15$, doppelt: $T_2 = 2 \cdot 293.15\;\text{K} = 586.3\;\text{K}$\\
+a) Ergebnis & 1\E & $\vartheta_2\,[^\circ\text{C}] = 586.3 - 273.15 = 313.15$, also rund $313\,^\circ\text{C}$\\
+b) Druck & 1\B & Faktor $2$. \textbf{Pflicht:} Bei festem Volumen ist der Druck proportional zur Kelvin-Temperatur (gleichwertig: zur mittleren Bewegungsenergie der Teilchen — sie stossen heftiger an die Wand); die Kelvin-Temperatur hat sich verdoppelt. \textbf{Genügt nicht:} «Faktor 2, weil die Temperatur doppelt so gross ist» ohne Kelvin oder Bewegungsenergie. \textbf{Folgerichtig:} wer in a) $40\,^\circ\text{C}$ hat und richtig $\dfrac{313.15\;\text{K}}{293.15\;\text{K}} \approx 1.07$ begründet, bekommt b)\\
+c) Erwärmung & 1\E & $\Delta T = 586.3\;\text{K} - 293.15\;\text{K} = 293.15\;\text{K}$ (gleich $313.15\,^\circ\text{C} - 20\,^\circ\text{C}$)\\
+\end{raster}
+\fehler{Celsius verdoppelt ($40\,^\circ\text{C}$, Begriffsfehler, zählt zusätzlich zu G4a): a) beide 0; b) meist 0 («Faktor 2, Temperatur doppelt»); c) folgerichtig ($20\;\text{K}$) \(\to\) 1 von 4\,P (2 von 4, wenn b) folgerichtig mit Kelvin begründet ist). Kelvin richtig verdoppelt, aber nicht zurückgerechnet ($586.3\,^\circ\text{C}$): a) Ergebnis 0 \(\to\) 3 von 4\,P.}
+\end{lpaufgabe}
+
+\needspace{16\baselineskip}
+\section*{4 · Selbsteinschätzung}
+\begin{tabularx}{\linewidth}{@{}l X@{}}\toprule
+22 – 25 P & Die geprüften Teile sitzen. Wo du Punkte verloren hast: das Kapitel dieser Aufgabe nochmals (Zuordnung unten).\\
+17 – 21 P & Den schwächsten Teil nochmals: Simulation und Übungen des Kapitels, in dem du die meisten Punkte verloren hast.\\
+11 – 16 P & Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.\\
+0 – 10 P & Zurück zu Kapitel 1 und von dort der Reihe nach weiter.\\\midrule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche): G1 $\to$ Kapitel 1 (K1) · G2 $\to$ Kapitel 2 (K1) · G3 $\to$ Kapitel 3 (K2) · G4 $\to$ Kapitel 3 (K2), a) auch Kapitel 1, d) auch Kapitel 4 · G5 $\to$ Kapitel 4 (K3) · G6 $\to$ Kapitel 4 (K3), b) und das Verhältnis in Kelvin auch Kapitel 3}\\
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{K1 bis K3} sind die drei Kompetenzen des Rahmenlehrplans zu 5.1 Temperatur: K1 die Temperatur, mit Bezug auf die Teilchenbewegung, definieren und einen Zusammenhang mit den Aggregatzuständen herstellen; K2 den Ursprung und die Anwendungen der Celsius- und der Kelvin-Temperaturskala erklären; K3 Grad Celsius in Grad Kelvin umrechnen und umgekehrt.}\\\bottomrule
+\end{tabularx}
+\end{document}
