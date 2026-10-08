@@ -1,0 +1,134 @@
+% Bewertungspaket zum Gesamttest «Wärmeausdehnung und Gase» — Quelle des PDFs (python3 scripts/build-lp-pdf.py ausdehnung).
+% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (07.10.2026).
+% Aufbau, Auftrag an die KI und Punktarten (E, A, W, B) wie im Leitprogramm Hydrostatik; Zeilenabstand im
+% Raster 1.5, «ein Fehler, ein Abzug» auch über Teilaufgaben, Rundung 2 %. Überarbeitet nach /lp-pruefung (07.10.2026):
+% neue Teilaufgaben (G1c Ablesen, G2c Glas mit 3 · α, G3c Dichte, G4d Temperatur, G5b Volumen bei −100 °C,
+% G5d Manometer), Gleichwertigkeiten auch in Abschnitt 3, Zeilenabstand je Zelle (\lineskip in der X-Spalte).
+% Runde 2 (08.10.2026): G2 Messkolben, G3 1750/750 m bei 2 K, G1c mit l = l0 + Δl, Celsius-Fehler in G4 nur einmal
+% abgezogen (auch über d), c) folgerichtig aus dem eigenen b), Kelvin als T [K] = ϑ [°C] + 273.15, \addlinespace 6 pt.
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Wärmeausdehnung und Gase}
+\renewcommand{\lpteilgebiet}{5.3}
+\renewcommand{\lpfuss}{Bewertungspaket}
+\newcolumntype{P}{>{\centering\arraybackslash}p{10mm}}
+\newenvironment{raster}{\par\smallskip\noindent\renewcommand{\arraystretch}{1.5}\setlength{\lineskiplimit}{4pt}\setlength{\lineskip}{8pt}\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P >{\raggedright\arraybackslash\setlength{\lineskiplimit}{3pt}\setlength{\lineskip}{7pt}}X@{}}\toprule
+  \small\textsc{Teilschritt} & \small\textsc{P} & \small\textsc{Musterlösung}\\\midrule}{\bottomrule\endtabularx\par}
+\newcommand{\fehler}[1]{\par\smallskip{\small\raggedright\textcolor{lprot}{\bfseries Typische Fehler:} #1\par}}
+\newcommand{\E}{\,{\footnotesize\bfseries\color{lpgruen}(E)}}
+\newcommand{\B}{\,{\footnotesize\bfseries(B)}}
+\newcommand{\W}{\,{\footnotesize\bfseries(W)}}
+\newcommand{\A}{\,{\footnotesize\bfseries\color{lpgruen}(A)}}
+\newcommand{\pK}{\;\tfrac{1}{\text{K}}}
+\begin{document}
+\lpkopf{Bewertungspaket zum Gesamttest}{}
+
+\begin{lpachtung}{Erst lösen, dann öffnen}
+Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am Ende nur, wie gut das Abschreiben gelingt.
+\end{lpachtung}
+
+\section*{1 · So gehst du vor}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Gesamttest lösen} — vollständig, mit Rechenweg, ohne dieses Paket.
+\item \textbf{Fotografieren oder scannen}, gut lesbar, eine Seite pro Bild. \textbf{Kein Name} auf den Bildern.
+  Handyfotos tragen oft unsichtbar Standort, Zeit und Gerät mit (Metadaten). Lade darum lieber einen Scan oder ein
+  Bildschirmfoto des Fotos hoch, oder entferne vorher die Standortangaben.
+\item \textbf{Bewerten lassen.} Ob du dafür eine KI nutzt und welche, entscheidest du selbst und in eigener Verantwortung —
+  je nachdem, was dir aufgrund deines Alters und deiner persönlichen Situation erlaubt ist (Altersgrenzen und
+  Nutzungsbedingungen des Anbieters, allenfalls Einverständnis deiner Eltern). Lade nur deine Lösung und dieses PDF hoch,
+  keine persönlichen Daten, und füge den Auftrag aus Abschnitt~2 ein. Ohne KI kannst du dich mit Abschnitt~3 selbst bewerten.
+\item \textbf{Rückmeldung prüfen.} Stimmt, was die KI aus deiner Handschrift gelesen hat? Eine KI kann sich irren —
+  im Zweifel gilt das Raster in Abschnitt~3.
+\item \textbf{Gezielt wiederholen} nach Abschnitt~4.
+\end{enumerate}
+
+\needspace{8\baselineskip}
+\section*{2 · Auftrag an die KI}
+\begin{tcolorbox}[breakable,colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
+Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Wärmeausdehnung und Gase» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
+Geh so vor:\par
+1. Schreib zu jeder Aufgabe G1 bis G5 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
+2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte, und derselbe Fehler (etwa dieselbe fehlende Umrechnung) in mehreren Teilaufgaben kostet nur einen Punkt — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
+3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Einheit oder Vorsilbe ($45\;\text{mm} = 0.045\;\text{m}$; $1.1\;\text{cm}^3 = 1100\;\text{mm}^3$; $1.26\;\text{l} = 1260\;\text{cm}^3$; $l_0 = 125\,000\;\text{mm}$ statt $125\;\text{m}$; $h_0$ aus cm-Werten in cm gerechnet und richtig in m umgewandelt; $1/\text{K} = \text{K}^{-1}$), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen), in $T\;[\text{K}] = \vartheta\;[^\circ\text{C}] + 273.15$ auch $+ 273$ statt $+ 273.15$. Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (A) sind Ablesepunkte: Es zählt der abgelesene Wert mit Einheit, innerhalb der angegebenen Ablesetoleranz. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll. Werte aus sinnvoll gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% vom Raster abweichen.\par
+4. Begründe jeden Abzug in einem Satz und nenne die Fehlerart (zum Beispiel «Temperatur in Grad Celsius statt in Kelvin»). Schreib die Musterlösung nicht ab — zeig mir, wo mein Fehler liegt.\par
+5. Gib zum Schluss eine Tabelle «Aufgabe | Punkte | Begründung», die Gesamtpunktzahl (von 25) und — nach der Selbsteinschätzung in Abschnitt 4 — welches Kapitel des Leitprogramms ich wiederholen soll. Keine Note.\par
+6. Fehlt ein Foto oder ist eine Aufgabe unlesbar, sag es, statt sie zu bewerten.
+\end{tcolorbox}
+
+\section*{3 · Musterlösung und Punkteraster}
+\textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
+richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler), und derselbe Fehler in mehreren Teilaufgaben kostet nur einen Punkt — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
+Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Gleichwertige Wege und Schreibweisen zählen voll: Dezimalpunkt oder
+Dezimalkomma, andere Einheit oder Vorsilbe (\(45\;\text{mm} = 0.045\;\text{m}\); \(l_0 = 125\,000\;\text{mm}\) ist richtig,
+falsch ist nur \(125\,000\;\text{m}\)), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte, in \(T\;[\text{K}] = \vartheta\;[^\circ\text{C}] + 273.15\) auch \(+ 273\) statt \(+ 273.15\).
+In der Spalte P: \textbf{(E)}~= Ergebnispunkt — es zählt das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit
+falscher Einheit gibt es ihn nicht. \textbf{(A)}~= Ablesepunkt — der abgelesene Wert mit Einheit, innerhalb der angegebenen Toleranz. \textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten);
+steht in einer Weg-Zeile ein Zahlenwert, braucht auch er die Einheit. \textbf{(B)}~= Begründungspunkt — es zählt die fachliche
+Aussage in eigenen Worten, eine Formel ist nicht nötig. Folgewerte aus gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% abweichen.
+«Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
+
+\begin{lpaufgabe}{G1}{Eine Brücke über das Jahr}{5 P}
+\begin{raster}
+a) Ablesen & 1\A & Einbau bei \(10\;^\circ\text{C}\) (dort ist \(\Delta l = 0\)); bei \(40\;^\circ\text{C}\) ist sie \(45\;\text{mm}\) länger (zählt: \(\pm 1\;^\circ\text{C}\) und \(\pm 2\;\text{mm}\); beide Werte nötig)\\\addlinespace[6pt]
+b) Ansatz & 1\W & \(\Delta l = \alpha \cdot l_0 \cdot \Delta T\), also \(l_0 = \dfrac{\Delta l}{\alpha \cdot \Delta T}\) mit \(\Delta T = 40\;^\circ\text{C} - 10\;^\circ\text{C} = 30\;\text{K}\)\\\addlinespace[6pt]
+b) Länge & 1\E & \(l_0 = \dfrac{0.045\;\text{m}}{12 \cdot 10^{-6}\pK \cdot 30\;\text{K}} = 125\;\text{m}\) (folgerichtig aus den eigenen Ablesewerten; \(125\,000\;\text{mm}\) zählt)\\\addlinespace[6pt]
+c) Temperatur, Länge & 1\E & \(\Delta l = -30\;\text{mm}\) bei \(-10\;^\circ\text{C}\) (zählt: \(\pm 1\;^\circ\text{C}\)); \(l = l_0 + \Delta l = 125\;\text{m} - 0.030\;\text{m} = 124.97\;\text{m}\) bzw. \(124\,970\;\text{mm}\) (folgerichtig aus b). \(125\;\text{m}\) zählt hier nicht (Ausnahme von der Rundungsregel). Beides nötig\\\addlinespace[6pt]
+d) Aluminium & 1\B & Steiler, rund doppelt so steil, weil \(\alpha\) knapp doppelt so gross ist; ebenfalls durch \(\Delta l = 0\) bei \(10\;^\circ\text{C}\) (bei \(40\;^\circ\text{C}\) rund \(89\;\text{mm}\)). Nötig ist «steiler» mit Begründung über \(\alpha\); der Punkt bei \(10\;^\circ\text{C}\) ist erwünscht, aber nicht nötig. Nur «steiler» ohne \(\alpha\): 0\\\addlinespace[6pt]
+\end{raster}
+\fehler{Temperatur statt Differenz (\(\Delta T = 40\;\text{K}\), \(l_0 \approx 93.8\;\text{m}\)): b) Ansatz 0, Länge folgerichtig \(\to\) 4 von 5\,P. mm nicht in m umgerechnet (\(l_0 = 125\,000\;\text{m}\)): b) Länge 0 \(\to\) 4 von 5\,P. In c) \(+30\;^\circ\text{C}\) (länger statt kürzer gelesen): c) 0 \(\to\) 4 von 5\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Der Messkolben}{5 P}
+\begin{raster}
+a) Ansatz & 1\W & \(\Delta V = \gamma \cdot V_0 \cdot \Delta T\) mit \(\Delta T = 24\;^\circ\text{C} - 20\;^\circ\text{C} = 4\;\text{K}\) (Flüssigkeit: \(\gamma\) aus der Angabe, kein Faktor 3)\\\addlinespace[6pt]
+a) Volumen & 1\E & \(\Delta V = 1.10 \cdot 10^{-3}\pK \cdot 250\;\text{cm}^3 \cdot 4\;\text{K} = 1.1\;\text{cm}^3\) (\(= 1100\;\text{mm}^3\))\\\addlinespace[6pt]
+b) Pegel & 1\E & Säule mit \(V = A \cdot h\): \(h = \dfrac{\Delta V}{A} = \dfrac{1.1\;\text{cm}^3}{0.80\;\text{cm}^2} \approx 1.4\;\text{cm} = 14\;\text{mm}\) (folgerichtig aus a; \(13.75\;\text{mm}\) zählt)\\\addlinespace[6pt]
+c) Glas & 1\E & Festkörper: \(\gamma_\text{Glas} \approx 3 \cdot \alpha_\text{Glas} = 24.3 \cdot 10^{-6}\pK\); \(\Delta V_\text{Glas} = 24.3 \cdot 10^{-6}\pK \cdot 250\;\text{cm}^3 \cdot 4\;\text{K} \approx 0.024\;\text{cm}^3\) (\(= 24\;\text{mm}^3\))\\\addlinespace[6pt]
+d) mehr/weniger & 1\B & Etwas weniger: Der Innenraum wird auch grösser; rund \(0.024\;\text{cm}^3\) des Zuwachses bleiben im Kolben, nur der Rest (rund \(1.08\;\text{cm}^3\)) steigt in den Hals (rund \(13.4\;\text{mm}\)). Der Unterschied ist klein (rund \(2\,\%\)). «Weniger» mit Begründung nötig\\\addlinespace[6pt]
+\end{raster}
+\fehler{Mit \(3 \cdot \gamma\) beim Ethanol gerechnet (\(3.3\;\text{cm}^3\)): a) Volumen 0, b) folgerichtig (\(41\;\text{mm}\)) \(\to\) 4 von 5\,P. cm nicht in mm umgerechnet und \(1.375\;\text{mm}\) angegeben: b) 0 \(\to\) 4 von 5\,P. In c) \(\alpha\) statt \(3 \cdot \alpha\) (\(0.0081\;\text{cm}^3\)): c) 0 \(\to\) 4 von 5\,P; d) zählt weiter. In d) «mehr, weil das Glas mitdrückt»: d) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G3}{Zwei Annahmen für ein Meer}{5 P}
+\begin{raster}
+a) Ablesen & 1\A & A: \(73.5\;\text{cm}\), B: \(31.5\;\text{cm}\) bei \(\Delta T = 2\;\text{K}\) (zählt: je \(\pm 2\;\text{cm}\); beide Werte nötig)\\\addlinespace[6pt]
+b) Ansatz & 1\W & \(\Delta h = \gamma \cdot h_0 \cdot \Delta T\), also \(h_0 = \dfrac{\Delta h}{\gamma \cdot \Delta T}\)\\\addlinespace[6pt]
+b) Schichtdicken & 1\E & A: \(h_0 = \dfrac{0.735\;\text{m}}{0.21 \cdot 10^{-3}\pK \cdot 2\;\text{K}} = 1750\;\text{m}\); B: \(h_0 = \dfrac{0.315\;\text{m}}{0.21 \cdot 10^{-3}\pK \cdot 2\;\text{K}} = 750\;\text{m}\) (beide nötig; folgerichtig aus den Ablesewerten; in cm gerechnet und \(175\,000\;\text{cm}\) usw. angegeben zählt)\\\addlinespace[6pt]
+c) Dichte & 1\B & \(\rho = \dfrac{m}{V}\): Die Masse bleibt gleich, das Volumen wächst beim Erwärmen, also sinkt die Dichte. Das wärmere, weniger dichte Wasser schwimmt auf dem dichteren, kälteren (Auftrieb). Beide Teile nötig\\\addlinespace[6pt]
+d) Wasserthermometer & 1\B & Wasser zieht sich von \(0\;^\circ\text{C}\) bis \(4\;^\circ\text{C}\) beim Erwärmen zusammen und dehnt sich danach wieder aus. Derselbe Fadenstand gehört dann zu zwei Temperaturen (etwa \(0\;^\circ\text{C}\) und \(8\;^\circ\text{C}\)) — die Anzeige ist nicht eindeutig\\\addlinespace[6pt]
+\end{raster}
+\fehler{cm nicht in m umgerechnet (\(h_0 = 175\,000\;\text{m}\) und \(75\,000\;\text{m}\)): derselbe Fehler bei A und B, einmal abgezogen: b) Schichtdicken 0 \(\to\) 4 von 5\,P. Mit \(\Delta T = 1\;\text{K}\) statt \(2\;\text{K}\) (\(3500\;\text{m}\) und \(1500\;\text{m}\)): b) Schichtdicken 0 \(\to\) 4 von 5\,P. In c) «warmes Wasser ist leichter» ohne Volumen oder Dichte: c) 0. Hinweis zu c): Wer ergänzt, dass Meerwasser (mit Salz) keine Anomalie bei \(4\;^\circ\text{C}\) hat, liegt richtig; die Frage verlangt es nicht.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G4}{Die PET-Flasche vom Pass}{5 P}
+\begin{raster}
+a) Ansatz & 1\W & \(\dfrac{p_1 \cdot V_1}{T_1} = \dfrac{p_2 \cdot V_2}{T_2}\), also \(V_2 = \dfrac{p_1 \cdot V_1 \cdot T_2}{T_1 \cdot p_2}\), Temperaturen in Kelvin\\\addlinespace[6pt]
+a) Volumen & 1\E & \(V_2 = \dfrac{0.75\;\text{bar} \cdot 1.5\;\text{l} \cdot 298.15\;\text{K}}{278.15\;\text{K} \cdot 0.96\;\text{bar}} \approx 1.26\;\text{l}\)\\\addlinespace[6pt]
+b) starr & 1\E & Volumen gleich: \(p_2 = p_1 \cdot \dfrac{T_2}{T_1} = 0.75\;\text{bar} \cdot \dfrac{298.15\;\text{K}}{278.15\;\text{K}} \approx 0.80\;\text{bar}\)\\\addlinespace[6pt]
+c) Begründung & 1\B & Innen wären es nur rund \(0.80\;\text{bar}\), aussen drücken \(0.96\;\text{bar}\): Der grössere Aussendruck drückt die weiche Flasche ein, bis innen und aussen gleich viel Druck herrscht (bei rund \(1.26\;\text{l}\)). Nach einem Folgefehler in b) zählt c) folgerichtig: Es zählt der richtige Vergleich des eigenen Werts aus b) mit dem Aussendruck, auch wenn er dann nicht «eingedrückt» ergibt\\\addlinespace[6pt]
+d) Temperatur & 1\E & \(T_2 = \dfrac{p_2 \cdot V_2 \cdot T_1}{p_1 \cdot V_1} = \dfrac{0.96\;\text{bar} \cdot 1.5\;\text{l} \cdot 278.15\;\text{K}}{0.75\;\text{bar} \cdot 1.5\;\text{l}} \approx 356\;\text{K}\), also rund \(83\;^\circ\text{C}\) (nur in Kelvin angegeben: 0)\\\addlinespace[6pt]
+\end{raster}
+\fehler{Drücke vertauscht (\(V_2 \approx 2.06\;\text{l}\)): a) Volumen 0 \(\to\) 4 von 5\,P. Durchgehend in Grad Celsius gerechnet (\(V_2 \approx 5.9\;\text{l}\), \(p \approx 3.75\;\text{bar}\), in d) \(6.4\;^\circ\text{C}\)): derselbe Fehler, nur einmal abgezogen: a) Ansatz 0; a) Volumen, b), c) (Regel oben) und d) folgerichtig \(\to\) 4 von 5\,P. Nur in d) in Grad Celsius gerechnet, a) und b) richtig: d) 0 \(\to\) 4 von 5\,P. In c) nur «weil es wärmer wird»: c) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G5}{Eine Gerade in Grad Celsius}{5 P}
+\begin{raster}
+a) Ablesen & 1\A & \(2.0\;\text{l}\) bei \(0\;^\circ\text{C}\), \(3.1\;\text{l}\) bei \(150\;^\circ\text{C}\) (zählt: je \(\pm 0.05\;\text{l}\); beide nötig)\\\addlinespace[6pt]
+b) Ansatz & 1\W & Isobar: \(\dfrac{V_1}{T_1} = \dfrac{V_2}{T_2}\) mit \(T_1 = 273.15\;\text{K}\), \(T_2\;[\text{K}] = -100 + 273.15 = 173.15\)\\\addlinespace[6pt]
+b) Volumen & 1\E & \(V_2 = V_1 \cdot \dfrac{T_2}{T_1} = 2.0\;\text{l} \cdot \dfrac{173.15\;\text{K}}{273.15\;\text{K}} \approx 1.27\;\text{l}\) (folgerichtig aus dem eigenen Ablesewert; vom Punkt bei \(150\;^\circ\text{C}\) aus gleichwertig)\\\addlinespace[6pt]
+c) Grenze & 1\B & Ein Grund genügt: Das Gas wird vorher flüssig oder fest, dann gilt das Modell des idealen Gases nicht mehr; die Teilchen haben ein Eigenvolumen; \(0\;\text{K}\) (\(-273.15\;^\circ\text{C}\)) ist nicht erreichbar\\\addlinespace[6pt]
+d) Manometer & 1\E & Vorher absolut \(p_1 = 1.0\;\text{bar}\) (Manometer \(0\;\text{bar}\) + Luftdruck). Isotherm: \(p_2 = \dfrac{p_1 \cdot V_1}{V_2} = \dfrac{1.0\;\text{bar} \cdot 2.0\;\text{l}}{1.6\;\text{l}} = 1.25\;\text{bar}\) absolut; das Manometer zeigt \(1.25\;\text{bar} - 1.0\;\text{bar} = 0.25\;\text{bar}\) (folgerichtig mit dem eigenen Ablesewert bei \(0\;^\circ\text{C}\))\\\addlinespace[6pt]
+\end{raster}
+\fehler{In b) mit Grad Celsius gerechnet (vom Punkt bei \(150\;^\circ\text{C}\) aus \(V \approx -2.07\;\text{l}\)): b) Ansatz 0, Volumen folgerichtig \(\to\) 4 von 5\,P. In d) \(1.25\;\text{bar}\) als Anzeige des Manometers: d) 0 \(\to\) 4 von 5\,P. In d) mit \(p_1 = 0\;\text{bar}\) gerechnet: d) 0. Druck proportional statt umgekehrt (\(0.8\;\text{bar}\) absolut): d) 0.}
+\end{lpaufgabe}
+
+\needspace{10\baselineskip}
+\section*{4 · Selbsteinschätzung}
+\begin{tabularx}{\linewidth}{@{}l X@{}}\toprule
+22 – 25 P & Die geprüften Teile sitzen. Wo du Punkte verloren hast: das Kapitel dieser Aufgabe nochmals (Zuordnung unten).\\
+17 – 21 P & Den schwächsten Teil nochmals: Simulation und Übungen des Kapitels, in dem du die meisten Punkte verloren hast.\\
+11 – 16 P & Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.\\
+0 – 10 P & Zurück zu Kapitel 1 und von dort der Reihe nach weiter.\\\midrule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche): G1 $\to$ Kapitel 1 (K1) · G2 $\to$ Kapitel 2 (K1) · G3 $\to$ Kapitel 3 (K1) · G4 $\to$ Kapitel 4 (K2) · G5 $\to$ Kapitel 5 (K2), G5d (Manometer, absoluter Druck) auch Kapitel 4}\\\bottomrule
+\end{tabularx}
+\end{document}

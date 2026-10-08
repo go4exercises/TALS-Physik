@@ -1,0 +1,123 @@
+% Gesamttest «Wärmeausdehnung und Gase» — Quelle des PDFs (python3 scripts/build-lp-pdf.py ausdehnung).
+% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (07.10.2026).
+% Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen, Leisten, Clipbeispiele und die Themenseite:
+% G1 Brücke am Diagramm (ablesen, l0 rückwärts, Temperatur und Länge l = l0 + Δl zu einer Verkürzung, Aluminium
+% begründen), G2 Messkolben (ΔV, Pegelanstieg h = ΔV/A, Glas mit γ ≈ 3 · α, mehr oder weniger), G3 zwei Annahmen für
+% das Meer (Schichtdicken 1750 m / 750 m, abgelesen bei 2 K auf 3.5-cm-Linien, Dichte, Wasserthermometer), G4 PET-Flasche vom Pass ins Tal
+% (allgemeine Gasgleichung, starr, eingedrückt, Temperatur aus der Gasgleichung), G5 isobare Gerade in °C
+% (Ablesen, Volumen bei −100 °C, Grenze des Modells, isotherm mit Manometer) — HOWTO §9.
+% Überarbeitet nach /lp-pruefung (07.10.2026): Kapitelziele absoluter Druck, γ ≈ 3 · α, Dichte und
+% Temperatur aus der Gasgleichung geprüft; neue Schichtdicken in G3; kein Nullpunkt-Extrapolieren mehr in G5.
+% Runde 2 (08.10.2026): G2 als Messkolben statt Thermometer (anderer Kontext als Aufgabe 2a), G3 mit Werten, die
+% in keiner Kontrollfrage und keiner Leiste stehen, G1c mit l = l0 + Δl, Kelvin als T [K] = ϑ [°C] + 273.15.
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Wärmeausdehnung und Gase}
+\renewcommand{\lpteilgebiet}{5.3}
+\renewcommand{\lpfuss}{Gesamttest · 25 Punkte}
+\begin{document}
+\lpkopf{Gesamttest}{%
+  \vspace{4pt}\noindent\begin{tabularx}{\linewidth}{@{}X X@{}}
+  Code (kein Name): \hrulefill & Punkte: \hrulefill\ / 25
+  \end{tabularx}}
+
+\begin{lpinfo}{Anleitung}
+\textbf{Zeit:} rund 30 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
+Schreib zu jeder Aufgabe zuerst die Formel, dann die Werte \textbf{mit Einheiten}. Punkte gibt es für den Weg,
+für das Ergebnis mit Einheit, für abgelesene Werte und für Begründungen in eigenen Worten. Rechne mit
+\(T\;[\text{K}] = \vartheta\;[^\circ\text{C}] + 273.15\), Luftdruck \(1.0\;\text{bar}\) und den Werten in den Aufgaben.
+Danach: Lösung scannen oder fotografieren (ohne Namen und Standort) und mit dem \emph{Bewertungspaket} bewerten lassen.
+\end{lpinfo}
+
+\lpteil{Teil A · Wärmeausdehnung}{Kapitel 1 bis 3 · 15 Punkte}
+
+\begin{lpaufgabe}{G1}{Eine Brücke über das Jahr}{5 P}
+Das Diagramm zeigt, um wie viel die Stahlfahrbahn einer Brücke (\(\alpha = 12 \cdot 10^{-6}\;\tfrac{1}{\text{K}}\)) länger oder kürzer ist als beim Einbau, aufgetragen über der Temperatur \(\vartheta\).\par\smallskip
+\begin{center}\begin{tikzpicture}[x=0.17cm,y=0.025cm,>=latex]
+\foreach \x in {-20,-15,...,40} \draw[lplinie!70,very thin] (\x,-60) -- (\x,60);
+\foreach \y in {-60,-55,...,60} \draw[lplinie!70,very thin] (-20,\y) -- (40,\y);
+\foreach \x in {-20,-10,...,40} {\draw[lplinie] (\x,-60) -- (\x,60); \node[below,yshift=-2pt] at (\x,-60) {\small $\x$};}
+\foreach \y in {-60,-40,...,60} {\draw[lplinie] (-20,\y) -- (40,\y); \node[left,xshift=-2pt] at (-20,\y) {\small $\y$};}
+\draw[->] (-20,0) -- (43,0) node[right] {\small \(\vartheta\) in °C};
+\draw[->] (0,-60) -- (0,66) node[above] {\small \(\Delta l\) in mm};
+\draw[very thick,lpbernstein] (-20,-45) -- (40,45);
+\end{tikzpicture}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Lies ab: Bei welcher Temperatur wurde die Fahrbahn eingebaut? Um wie viel ist sie bei \(40\;^\circ\text{C}\) länger?
+\item Bestimme aus deinen Ablesewerten die Länge \(l_0\) der Fahrbahn.
+\item Lies ab: Bei welcher Temperatur ist die Fahrbahn \(30\;\text{mm}\) kürzer als beim Einbau? Wie lang ist sie dann?
+\item Eine gleich lange Fahrbahn aus Aluminium (\(\alpha = 23.8 \cdot 10^{-6}\;\tfrac{1}{\text{K}}\)), eingebaut bei derselben Temperatur, würde im selben Diagramm anders verlaufen. Begründe, wie.
+\end{enumerate}
+\lpplatz{8}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Der Messkolben}{5 P}
+Ein Messkolben aus Glas ist bei \(20\;^\circ\text{C}\) bis zur Marke im schmalen Hals mit \(250\;\text{cm}^3\) Ethanol (\(\gamma = 1.10 \cdot 10^{-3}\;\tfrac{1}{\text{K}}\)) gefüllt. Der Hals hat den Querschnitt \(A = 0.80\;\text{cm}^2\). Im Labor wird es \(24\;^\circ\text{C}\) warm.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Um wie viel wächst das Volumen des Ethanols?
+\item Um wie viele Millimeter steigt der Pegel im Hals über die Marke?
+\item Auch das Glas dehnt sich aus (\(\alpha_\text{Glas} = 8.1 \cdot 10^{-6}\;\tfrac{1}{\text{K}}\)). Um wie viel wächst der Innenraum des Kolbens (\(250\;\text{cm}^3\)) bei derselben Erwärmung?
+\item Steigt der Pegel darum etwas mehr oder etwas weniger als in b) gerechnet? Begründe.
+\end{enumerate}
+\lpplatz{21}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G3}{Zwei Annahmen für ein Meer}{5 P}
+Das Diagramm zeigt für zwei Annahmen A und B, wie stark der Meeresspiegel allein durch die Ausdehnung des Wassers steigt, wenn sich die oberste Schicht um \(\Delta T\) erwärmt. Rechne mit \(\gamma = 0.21 \cdot 10^{-3}\;\tfrac{1}{\text{K}}\) (Wasser bei \(20\;^\circ\text{C}\)).\par\smallskip
+\begin{center}\begin{tikzpicture}[x=3.5cm,y=0.05cm,>=latex]
+\foreach \x in {0,0.25,...,2.5} \draw[lplinie!70,very thin] (\x,0) -- (\x,91);
+\foreach \y in {0,3.5,...,91} \draw[lplinie!70,very thin] (0,\y) -- (2.5,\y);
+\foreach \x in {0,0.5,1,1.5,2,2.5} {\draw[lplinie] (\x,0) -- (\x,91); \node[below] at (\x,0) {\small $\x$};}
+\foreach \y in {0,14,...,84} {\draw[lplinie] (0,\y) -- (2.5,\y); \node[left] at (0,\y) {\small $\y$};}
+\draw[->] (0,0) -- (2.62,0) node[right] {\small \(\Delta T\) in K};
+\draw[->] (0,0) -- (0,96) node[above] {\small \(\Delta h\) in cm};
+\draw[very thick,lpbernstein] (0,0) -- (2.4,88.2) node[above left] {\small A};
+\draw[very thick,lpgrau,dashed] (0,0) -- (2.5,39.375) node[above left] {\small B (gestrichelt)};
+\end{tikzpicture}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Lies für A und für B ab, um wie viel der Meeresspiegel bei \(\Delta T = 2\;\text{K}\) steigt.
+\item Bestimme für beide Annahmen die Dicke \(h_0\) der erwärmten Schicht.
+\item Erkläre, warum die Dichte des Wassers beim Erwärmen über \(4\;^\circ\text{C}\) sinkt und warum die erwärmte Schicht darum oben liegen bleibt.
+\item Ein Thermometer mit Wasser statt Ethanol wäre zwischen \(0\;^\circ\text{C}\) und \(8\;^\circ\text{C}\) unbrauchbar. Begründe mit der Anomalie des Wassers.
+\end{enumerate}
+\lpplatz{14}
+\end{lpaufgabe}
+
+\lpteil{Teil B · Ideales Gas}{Kapitel 4 und 5 · 10 Punkte}
+
+\begin{lpaufgabe}{G4}{Die PET-Flasche vom Pass}{5 P}
+Auf einer Passhöhe (Luftdruck \(0.75\;\text{bar}\), \(5\;^\circ\text{C}\)) wird eine leere PET-Flasche (\(1.5\;\text{l}\) Luft) fest zugedreht. Im Tal herrschen \(0.96\;\text{bar}\) und \(25\;^\circ\text{C}\). Die Flasche ist weich: Der Druck innen gleicht sich dem Druck aussen an.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Welches Volumen hat die eingeschlossene Luft im Tal?
+\item Welcher Druck herrschte im Tal in der Flasche, wenn sie starr wäre und ihre \(1.5\;\text{l}\) behielte?
+\item Begründe mit b), warum die Flasche im Tal eingedrückt wird.
+\item Wie warm müsste die Luft im Tal (\(0.96\;\text{bar}\)) sein, damit die Flasche wieder ihre \(1.5\;\text{l}\) hat? Gib das Ergebnis in Grad Celsius an.
+\end{enumerate}
+\lpplatz{20}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G5}{Eine Gerade in Grad Celsius}{5 P}
+Ein Gas wird bei gleichbleibendem Druck erwärmt. Das Diagramm zeigt sein Volumen über der Temperatur in Grad Celsius.\par\smallskip
+\begin{center}\begin{tikzpicture}[x=0.024cm,y=1.4cm,>=latex]
+\foreach \x in {-300,-275,...,200} \draw[lplinie!70,very thin] (\x,0) -- (\x,3.5);
+\foreach \y in {0,0.1,...,3.5} \draw[lplinie!70,very thin] (-300,\y) -- (200,\y);
+\foreach \x in {-300,-200,...,200} {\draw[lplinie] (\x,0) -- (\x,3.5); \node[below] at (\x,0) {\small $\x$};}
+\draw[lplinie] (-300,0) -- (200,0);
+\foreach \y in {0.5,1,1.5,2,2.5,3,3.5} {\draw[lplinie] (-300,\y) -- (200,\y); \node[left] at (-300,\y) {\small $\y$};}
+\draw[->] (-300,0) -- (215,0) node[right] {\small \(\vartheta\) in °C};
+\draw[->] (0,0) -- (0,3.75) node[above] {\small \(V\) in l};
+\draw[very thick,lpbernstein] (0,2.0) -- (150,3.0983);
+\fill[lpbernstein] (0,2.0) circle (2.2pt) (150,3.0983) circle (2.2pt);
+\end{tikzpicture}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Lies das Volumen bei \(0\;^\circ\text{C}\) und bei \(150\;^\circ\text{C}\) ab.
+\item Berechne das Volumen bei \(-100\;^\circ\text{C}\) (gleicher Druck).
+\item Verlängert man die Gerade nach links, erreicht sie bei rund \(-273\;^\circ\text{C}\) das Volumen null. Nenne einen Grund, warum ein echtes Gas dieses Volumen nie erreicht.
+\item Dieselbe Gasmenge wird bei \(0\;^\circ\text{C}\) langsam auf \(1.6\;\text{l}\) zusammengedrückt. Vorher zeigt ein Manometer am Gefäss \(0\;\text{bar}\). Was zeigt es danach?
+\end{enumerate}
+\lpplatz{13}
+\end{lpaufgabe}
+
+\vfill
+{\small\color{lpgrau}Bewerten: mit dem Bewertungspaket (Musterlösung, Punkteraster, Auftrag an eine KI) — erst nach dem Lösen öffnen.}
+\end{document}

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="de-CH"><head><meta charset="utf-8"><title>Ausdehnung sehen: Kontrollfragen zur Volumenausdehnung</title><style>
+@import url("../schriften.css");
+:root{--papier:#f8f6f1;--tinte:#1c1a17;--blau:#8a4a0e;--rot:#9b1c1c;--gruen:#1f6b3a;--gold:#b85c00;--f1:#8a4a0e;--f1w:#fbecd2;--f2:#b85c00;--f2w:#fdefd8;--f3:#1f6b3a;--f3w:#d8f0e2;--f4:#9b1c1c;--f4w:#fde8e8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0d1418;overflow:hidden}
+#wrap{position:absolute;left:0;right:0;top:0;bottom:60px;overflow:hidden}
+:fullscreen #wrap{bottom:0} :fullscreen #ui{display:none}
+#stage{width:1920px;height:1080px;position:absolute;left:50%;top:50%;overflow:hidden;
+ background:var(--papier);color:var(--tinte);font-family:'Source Serif 4',Georgia,serif;transform-origin:center center}
+body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!important}
+#stage::before{content:"";position:absolute;inset:0;pointer-events:none;}
+#stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(120% 100% at 50% 40%,rgba(255,255,255,0) 55%,rgba(90,80,64,.09) 100%)}
+#rand{position:absolute;left:76px;top:0;bottom:0;width:3px}
+
+#kopf,#fuss{position:absolute;left:130px;right:100px;display:flex;justify-content:space-between;
+ align-items:baseline;font-family:'Source Sans 3',sans-serif;z-index:5}
+#kopf{top:46px;font-size:27px}
+#kopf .marke{font-weight:600;letter-spacing:.01em;color:var(--blau)}
+#kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
+#fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
+
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
+.l{position:absolute;will-change:opacity,transform}
+.l.flow{position:relative}
+.m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
+.hand{font-family:'Caveat',cursive;line-height:1.24}
+.sans{font-family:'Source Sans 3',system-ui,sans-serif}
+.huelle{display:flex;justify-content:flex-start}
+.mitte.huelle{justify-content:center}
+.huelle>span{white-space:nowrap}
+.f1,.f2,.f3,.f4{border-radius:7px;padding:0 .14em;margin:0 .02em}
+.f1{color:var(--f1);background:var(--f1w)}
+.f2{color:var(--f2);background:var(--f2w)}
+.f3{color:var(--f3);background:var(--f3w)}
+.f4{color:var(--f4);background:var(--f4w)}
+.dim{opacity:.62}
+.graf{line-height:0}
+.graf svg{display:inline-block;vertical-align:top}
+.ov{display:inline-block;line-height:1;padding-top:.07em;margin-top:.12em;border-top:3.5px solid currentColor}
+.row{display:flex;align-items:center;line-height:1.06;white-space:nowrap;gap:.26em}
+.mitte.row{justify-content:center}
+.fr{position:relative;z-index:1;display:inline-flex;flex-direction:column;align-items:center;
+ line-height:1.08;margin:0 .12em;vertical-align:middle}
+.fr>span:first-child{padding:0 .32em .07em}
+.fr>span:last-child{padding:.20em .32em 0;border-top:3.5px solid currentColor}
+.box{border:3.5px solid var(--tinte);border-radius:14px;padding:12px 30px;background:rgba(255,255,255,.62)}
+.boxg{border-color:var(--gruen);color:var(--gruen)}
+.karte{background:rgba(255,255,255,.70);border:2.5px solid rgba(128,128,128,.28);border-radius:16px;padding:14px 26px}
+.strich{height:5px;background:var(--rot);border-radius:3px;transform-origin:left center}
+.lz{display:flex;align-items:baseline;gap:22px;margin-bottom:26px}
+.ln{color:var(--blau);font-weight:600;min-width:34px}
+.step{display:flex;align-items:flex-start;gap:18px;margin-bottom:34px}
+.num{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:var(--blau);color:var(--papier);
+ font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:31px;display:grid;place-items:center}
+.stxt{font-family:'Source Sans 3',sans-serif;font-size:31px;line-height:1.24;padding-top:7px}
+
+#ui{position:absolute;left:0;right:0;bottom:0;height:60px;display:flex;align-items:center;gap:18px;
+ padding:0 26px;background:rgba(13,20,24,.85);color:#e8eef2;font-family:system-ui,sans-serif;font-size:14px;z-index:99}
+body.render #ui{display:none}
+#bar{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden;cursor:pointer}
+#barf{height:100%;width:0;background:var(--gold)}
+#ui button{background:rgba(255,255,255,.12);color:#e8eef2;border:0;border-radius:7px;padding:7px 14px;
+ font-size:14px;cursor:pointer;white-space:nowrap}
+#tt{white-space:nowrap;font-variant-numeric:tabular-nums}
+#tip{opacity:.6;white-space:nowrap}
+/* Auf dem Telefon gibt es weder Leertaste noch Pfeiltasten — der Hinweis
+   waere dort nur Text, der die 60px hohe Leiste sprengt. */
+@media (max-width:700px){#ui{gap:11px;padding:0 12px} #tip{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[],macros:{fa:['\\bbox[##fbecd2,3px]{\\textcolor{##8a4a0e}{#1}}',1],fb:['\\bbox[##fdefd8,3px]{\\textcolor{##b85c00}{#1}}',1],fc:['\\bbox[##d8f0e2,3px]{\\textcolor{##1f6b3a}{#1}}',1],fd:['\\bbox[##fde8e8,3px]{\\textcolor{##9b1c1c}{#1}}',1]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script><script src="../vendor/mathjax/tex-svg.js"></script></head><body>
+<div id="wrap"><div id="stage">
+
+<div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Thermodynamik · BM</span></div>
+<div id="fuss"><span>Raphael Arnold Kohler</span><span>07.10.2026</span></div>
+<div class="l m row" data-at="1.00" data-out="10.82" data-anim="rise" style="left:150px;top:300px;font-size:30px"><span>\(\Delta V = 3 \cdot 18.4 \cdot 10^{-6}\;\tfrac{1}{\text{K}} \cdot 500\;\text{cm}^3 \cdot 100\;\text{K} = 2.76\;\text{cm}^3\)</span></div>
+<div class="l graf" data-at="1.00" data-out="10.82" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="75918367415.7" y1="0" x2="75918367415.7" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="483.3" x2="760" y2="483.3" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="276.7" x2="760" y2="276.7" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="70.0" x2="760" y2="70.0" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="690.0" x2="760" y2="690.0" stroke="#1c1a17" stroke-width="3"/><line x1="68.7" y1="760" x2="68.7" y2="0" stroke="#1c1a17" stroke-width="3"/><polygon points="760.0,690.0 742.0,681.0 742.0,699.0" fill="#1c1a17"/><polygon points="68.7,0 59.7,18 77.7,18" fill="#1c1a17"/><line x1="75918367415.7" y1="683.0" x2="75918367415.7" y2="697.0" stroke="#1c1a17" stroke-width="2.5"/><text x="75918367415.7" y="722.0" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75"></text><line x1="61.7" y1="483.3" x2="75.7" y2="483.3" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="491.3" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">1</text><line x1="61.7" y1="276.7" x2="75.7" y2="276.7" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="284.7" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">2</text><line x1="61.7" y1="70.0" x2="75.7" y2="70.0" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="78.0" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">3</text><polygon points="220.6,690.0 410.4,690.0 410.4,499.9 220.6,499.9" fill="#8a4a0e" fill-opacity="0.25" stroke="none"/><polygon points="220.6,499.9 410.4,499.9 410.4,309.7 220.6,309.7" fill="#8a4a0e" fill-opacity="0.4" stroke="none"/><polygon points="220.6,309.7 410.4,309.7 410.4,119.6 220.6,119.6" fill="#8a4a0e" fill-opacity="0.55" stroke="none"/><line x1="220.6" y1="499.9" x2="410.4" y2="499.9" stroke="#8a4a0e" stroke-width="3" stroke-linecap="round" /><line x1="220.6" y1="309.7" x2="410.4" y2="309.7" stroke="#8a4a0e" stroke-width="3" stroke-linecap="round" /><text x="315.5" y="611.5" font-size="24" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Länge</text><text x="315.5" y="421.3" font-size="24" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Breite</text><text x="315.5" y="231.2" font-size="24" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Höhe</text><text x="448.3" y="594.9" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">α allein: 0.92 cm³</text><text x="448.3" y="136.1" font-size="28" font-weight="600" fill="#8a4a0e" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">3 · α: 2.76 cm³</text><text x="752.0" y="674.0" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke" text-anchor="end"></text><text x="82.7" y="26" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke">ΔV [cm³]</text></svg></div>
+<div class="l hand" data-at="11.82" data-out="20.07" data-anim="rise" style="left:150px;top:300px;font-size:42px;color:var(--tinte)">Es läuft über:<br>\(\Delta V_\text{Fl} - \Delta V_\text{Gef}\)</div>
+<div class="l graf" data-at="11.82" data-out="20.07" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="75918367415.7" y1="0" x2="75918367415.7" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="556.2" x2="760" y2="556.2" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="425.7" x2="760" y2="425.7" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="295.2" x2="760" y2="295.2" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="164.6" x2="760" y2="164.6" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="34.1" x2="760" y2="34.1" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="686.7" x2="760" y2="686.7" stroke="#1c1a17" stroke-width="3"/><line x1="68.7" y1="760" x2="68.7" y2="0" stroke="#1c1a17" stroke-width="3"/><polygon points="760.0,686.7 742.0,677.7 742.0,695.7" fill="#1c1a17"/><polygon points="68.7,0 59.7,18 77.7,18" fill="#1c1a17"/><line x1="75918367415.7" y1="679.7" x2="75918367415.7" y2="693.7" stroke="#1c1a17" stroke-width="2.5"/><text x="75918367415.7" y="718.7" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75"></text><line x1="61.7" y1="556.2" x2="75.7" y2="556.2" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="564.2" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">5</text><line x1="61.7" y1="425.7" x2="75.7" y2="425.7" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="433.7" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">10</text><line x1="61.7" y1="295.2" x2="75.7" y2="295.2" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="303.2" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">15</text><line x1="61.7" y1="164.6" x2="75.7" y2="164.6" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="172.6" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">20</text><line x1="61.7" y1="34.1" x2="75.7" y2="34.1" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="42.1" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">25</text><polygon points="159.8,686.7 326.9,686.7 326.9,112.4 159.8,112.4" fill="#8a4a0e" fill-opacity="0.45" stroke="none"/><polygon points="448.3,686.7 615.3,686.7 615.3,667.9 448.3,667.9" fill="#1c1a17" fill-opacity="0.4" stroke="none"/><line x1="326.9" y1="667.9" x2="448.3" y2="667.9" stroke="#1c1a17" stroke-width="2" stroke-linecap="round" stroke-dasharray="9 7"/><line x1="387.6" y1="667.9" x2="387.6" y2="130.0" stroke="#8a4a0e" stroke-width="5" stroke-linecap="round" /><polygon points="387.6,112.4 397.5,134.4 377.7,134.4" fill="#8a4a0e"/><text x="243.3" y="91.5" font-size="26" font-weight="600" fill="#8a4a0e" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Ethanol 22 ml</text><text x="531.8" y="636.6" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Stahl 0.72 ml</text><text x="410.4" y="360.4" font-size="28" font-weight="600" fill="#8a4a0e" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">läuft über</text><text x="752.0" y="670.7" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke" text-anchor="end"></text><text x="82.7" y="26" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke">ΔV [ml] je l, 20 K</text></svg></div>
+<div class="l m row" data-at="21.07" data-out="28.51" data-anim="rise" style="left:150px;top:300px;font-size:32px"><span>\(\Delta V = 1.10 \cdot 10^{-3}\;\tfrac{1}{\text{K}} \cdot 1000\;\text{l} \cdot 25\;\text{K} = 27.5\;\text{l}\)</span></div>
+<div class="l graf" data-at="21.07" data-out="28.51" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="181.3" y1="0" x2="181.3" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="283.2" y1="0" x2="283.2" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="385.1" y1="0" x2="385.1" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="487.0" y1="0" x2="487.0" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="588.9" y1="0" x2="588.9" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="690.8" y1="0" x2="690.8" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="497.7" x2="760" y2="497.7" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="309.4" x2="760" y2="309.4" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="121.0" x2="760" y2="121.0" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="686.1" x2="760" y2="686.1" stroke="#1c1a17" stroke-width="3"/><line x1="79.3" y1="760" x2="79.3" y2="0" stroke="#1c1a17" stroke-width="3"/><polygon points="760.0,686.1 742.0,677.1 742.0,695.1" fill="#1c1a17"/><polygon points="79.3,0 70.3,18 88.3,18" fill="#1c1a17"/><line x1="181.3" y1="679.1" x2="181.3" y2="693.1" stroke="#1c1a17" stroke-width="2.5"/><text x="181.3" y="718.1" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">5</text><line x1="283.2" y1="679.1" x2="283.2" y2="693.1" stroke="#1c1a17" stroke-width="2.5"/><text x="283.2" y="718.1" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">10</text><line x1="385.1" y1="679.1" x2="385.1" y2="693.1" stroke="#1c1a17" stroke-width="2.5"/><text x="385.1" y="718.1" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">15</text><line x1="487.0" y1="679.1" x2="487.0" y2="693.1" stroke="#1c1a17" stroke-width="2.5"/><text x="487.0" y="718.1" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">20</text><line x1="588.9" y1="679.1" x2="588.9" y2="693.1" stroke="#1c1a17" stroke-width="2.5"/><text x="588.9" y="718.1" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">25</text><line x1="690.8" y1="679.1" x2="690.8" y2="693.1" stroke="#1c1a17" stroke-width="2.5"/><text x="690.8" y="718.1" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">30</text><line x1="72.3" y1="497.7" x2="86.3" y2="497.7" stroke="#1c1a17" stroke-width="2.5"/><text x="66.3" y="505.7" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">10</text><line x1="72.3" y1="309.4" x2="86.3" y2="309.4" stroke="#1c1a17" stroke-width="2.5"/><text x="66.3" y="317.4" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">20</text><line x1="72.3" y1="121.0" x2="86.3" y2="121.0" stroke="#1c1a17" stroke-width="2.5"/><text x="66.3" y="129.0" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">30</text><line x1="79.3" y1="686.1" x2="690.8" y2="64.5" stroke="#8a4a0e" stroke-width="5" stroke-linecap="round" /><line x1="588.9" y1="686.1" x2="588.9" y2="168.1" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 7"/><line x1="79.3" y1="168.1" x2="588.9" y2="168.1" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 7"/><circle cx="588.9" cy="168.1" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="588.9" cy="168.1" r="5" fill="#8a4a0e"/><text x="364.7" y="111.6" font-size="29" font-weight="600" fill="#8a4a0e" text-anchor="middle">(25 K; 27.5 l)</text><text x="752.0" y="670.1" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke" text-anchor="end">ΔT [K]</text><text x="93.3" y="26" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke">ΔV [l]</text></svg></div>
+<div class="l m row" data-at="29.51" data-out="38.57" data-anim="rise" style="left:150px;top:300px;font-size:40px"><span>\(\Delta V = 66\;\text{ml} \cdot 3 \cdot 2 = 396\;\text{ml}\)</span></div>
+<div class="l graf" data-at="29.51" data-out="38.57" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="82.4,640.4 246.1,640.4 246.1,476.7 82.4,476.7" fill="#8a4a0e" fill-opacity="0.3" stroke="none"/><polygon points="82.4,447.0 246.1,447.0 246.1,283.3 82.4,283.3" fill="#8a4a0e" fill-opacity="0.4" stroke="none"/><polygon points="275.8,640.4 439.5,640.4 439.5,476.7 275.8,476.7" fill="#8a4a0e" fill-opacity="0.3" stroke="none"/><polygon points="275.8,447.0 439.5,447.0 439.5,283.3 275.8,283.3" fill="#8a4a0e" fill-opacity="0.4" stroke="none"/><polygon points="469.3,640.4 633.0,640.4 633.0,476.7 469.3,476.7" fill="#8a4a0e" fill-opacity="0.3" stroke="none"/><polygon points="469.3,447.0 633.0,447.0 633.0,283.3 469.3,283.3" fill="#8a4a0e" fill-opacity="0.4" stroke="none"/><text x="164.2" y="573.4" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">66 ml</text><text x="164.2" y="380.0" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">66 ml</text><text x="357.7" y="573.4" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">66 ml</text><text x="357.7" y="380.0" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">66 ml</text><text x="551.1" y="573.4" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">66 ml</text><text x="551.1" y="380.0" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">66 ml</text><text x="372.6" y="699.9" font-size="26" font-weight="600" fill="#1f6b3a" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">× 3: dreifaches Volumen</text><text x="372.6" y="201.4" font-size="26" font-weight="600" fill="#b85c00" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">× 2: doppelte Erwärmung</text><text x="372.6" y="112.2" font-size="32" font-weight="600" fill="#8a4a0e" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">6 · 66 ml = 396 ml</text></svg></div>
+</div></div>
+<audio id="ton" preload="auto" src="ton/p5-3-lp-kontrolle-volumen.mp3"></audio>
+<div id="ui">
+  <button id="pp">Pause</button>
+  <button id="ts" hidden>🔇 Ton an</button>
+  <div id="bar"><div id="barf"></div></div>
+  <span id="tt">0.0 s</span>
+  <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
+</div>
+<script>
+const DUR = 38.57;
+const SPRECHER = [{"bei": 0.4, "text": "Gamma ist drei mal alpha, fünfundfünfzig Komma zwei Millionstel pro Kelvin. Mal fünfhundert Kubikzentimeter mal hundert Kelvin: zwei Komma sieben sechs Kubikzentimeter."}, {"bei": 11.22, "text": "Auch der Behälter wächst, aber Stahl hat ein rund dreissigmal kleineres Gamma als Ethanol. Das Ethanol wächst viel stärker; der Unterschied läuft über."}, {"bei": 20.47, "text": "Eins Komma eins null Tausendstel mal tausend Liter mal fünfundzwanzig Kelvin: Siebenundzwanzig Komma fünf Liter müssen frei bleiben."}, {"bei": 28.91, "text": "Dreifaches Volumen gibt dreimal so viel, doppelte Erwärmung noch einmal doppelt so viel: sechsundsechzig mal drei mal zwei, dreihundertsechsundneunzig Milliliter."}];
+const stage = document.getElementById('stage');
+const layers = [...document.querySelectorAll('.l')].map(el => ({
+  el, at: parseFloat(el.dataset.at || '0'),
+  out: el.dataset.out ? parseFloat(el.dataset.out) : Infinity,
+  anim: el.dataset.anim || 'fade',
+  dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
+}));
+const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
+const ease = p => 1 - Math.pow(1 - p, 3);
+const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
+function seek(t)  {
+  for (const L of layers) {
+    const pi = ease(cl((t - L.at) / IN));
+    const po = L.out === Infinity ? 0 : ease(cl((t - L.out) / OUT));
+    let o = pi * (1 - po), tr = '';
+    if (L.anim === 'rise') tr = 'translateY(' + ((1 - pi) * 26) + 'px)';
+    else if (L.anim === 'pop') tr = 'scale(' + (0.90 + 0.10 * pi) + ')';
+    else if (L.anim === 'wipe') { tr = 'scaleX(' + pi + ')'; o = (t >= L.at ? 1 : 0) * (1 - po); }
+    if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
+    L.el.style.transform = tr; L.el.style.opacity = o;
+  }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
+}
+const FRAGEN = [{"typ": "wahl", "text": "Ein Messingwürfel (α = 18.4·10⁻⁶ 1/K) hat 500 cm³. Um wie viel wächst sein Volumen bei 100 K Erwärmung?", "optionen": ["0.92 cm³", "1.84 cm³", "2.76 cm³"], "richtig": 2, "rueck": {"0": "Hast du α direkt eingesetzt? Für das Volumen braucht es γ.", "1": "In wie viele Richtungen wächst ein Würfel?"}, "t": 0.3, "ton": {"frage": "ton/p5-3-lp-kontrolle-volumen-f0-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-volumen-f0-r0.mp3", "r1": "ton/p5-3-lp-kontrolle-volumen-f0-r1.mp3"}}, {"typ": "wahl", "text": "Ein randvoller Behälter aus Stahl mit Ethanol wird erwärmt. Läuft etwas über?", "optionen": ["nein, der Behälter wächst mit", "ja, das Ethanol wächst viel stärker", "nein, Ethanol zieht sich zusammen"], "richtig": 1, "rueck": {"0": "Vergleiche γ von Ethanol und von Stahl.", "2": "Was tun die meisten Stoffe beim Erwärmen?"}, "t": 11.12, "ton": {"frage": "ton/p5-3-lp-kontrolle-volumen-f1-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-volumen-f1-r0.mp3", "r2": "ton/p5-3-lp-kontrolle-volumen-f1-r2.mp3"}}, {"typ": "wahl", "text": "Ein Tank mit 1000 l Ethanol kann sich um 25 K erwärmen. Wie viel Platz muss frei bleiben?", "optionen": ["27.5 l", "0.0275 l", "5.25 l"], "richtig": 0, "rueck": {"1": "Welche Zehnerpotenz hat γ von Ethanol?", "2": "Mit welchem Stoffwert hast du gerechnet?"}, "t": 20.37, "ton": {"frage": "ton/p5-3-lp-kontrolle-volumen-f2-frage.mp3", "r1": "ton/p5-3-lp-kontrolle-volumen-f2-r1.mp3", "r2": "ton/p5-3-lp-kontrolle-volumen-f2-r2.mp3"}}, {"typ": "wahl", "text": "6 l Ethanol wachsen bei 10 K Erwärmung um 66 ml. Um wie viel wachsen 18 l bei 20 K?", "optionen": ["198 ml", "396 ml", "132 ml"], "richtig": 1, "rueck": {"0": "Hast du auch die doppelte Erwärmung berücksichtigt?", "2": "Hast du auch das dreifache Volumen berücksichtigt?"}, "t": 28.81, "ton": {"frage": "ton/p5-3-lp-kontrolle-volumen-f3-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-volumen-f3-r0.mp3", "r2": "ton/p5-3-lp-kontrolle-volumen-f3-r2.mp3"}}];
+(() => {
+  if (location.search.includes('render')) return;
+  const pp = document.getElementById('pp');
+  const css = document.createElement('style');
+  css.textContent = `
+    #frage{position:absolute;left:110px;top:560px;width:820px;z-index:50;display:none;
+      background:rgba(255,255,255,.97);border:3px solid var(--f2);border-radius:22px;
+      padding:28px 34px;box-shadow:0 10px 40px rgba(0,0,0,.18);font-family:inherit;color:inherit}
+    #frage .fr-kopf{font-size:26px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--f2);margin-bottom:10px}
+    #frage .fr-text{font-size:38px;line-height:1.3;margin-bottom:22px}
+    #frage .fr-knoepfe{display:flex;flex-wrap:wrap;gap:14px}
+    #frage button{font:inherit;font-size:32px;padding:10px 26px;border-radius:999px;cursor:pointer;
+      border:2.5px solid var(--f2);background:var(--f2w);color:inherit}
+    #frage button.ok{border-color:var(--f3);background:var(--f3w)}
+    #frage button.nein{border-color:var(--f4);background:var(--f4w)}
+    #frage .fr-rueck{font-size:32px;line-height:1.35;margin-top:20px}
+    #frage .fr-weiter{margin-top:20px}
+    #frage .fr-eingabe{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:30px;margin-top:14px;width:100%}
+    #frage .fr-eingabe input{font:inherit;font-size:30px;width:4.2em;padding:4px 10px;border:2.5px solid var(--f2);border-radius:12px}
+    .fr-tippbar, .fr-tippbar svg{pointer-events:auto !important;cursor:crosshair}`;
+  document.head.appendChild(css);
+  const box = document.createElement('div'); box.id = 'frage'; stage.appendChild(box);
+  let letzt = 0, offen = null, tippen = null, stimme = null, sprung = false;
+  // Vorlesen mit derselben Stimme wie der Clip — nur wenn dessen Ton an ist.
+  const hauptton = document.getElementById('ton');
+  const vorlesen = src => {
+    if (stimme) { stimme.pause(); stimme = null; }
+    if (!src || !hauptton || hauptton.muted) return;
+    stimme = new Audio(src); stimme.play().catch(() => {});
+  };
+  const erledigt = new Set();     // beantwortete Fragen
+  const pause = () => { if (pp.textContent === 'Pause') pp.click(); };
+  const weiter = () => { if (pp.textContent === 'Play') pp.click(); };
+  function schliessen() {
+    vorlesen(null);
+    // Fokus zurueck auf Play/Pause — auch wenn er mit dem gesperrten Antwortknopf
+    // schon auf <body> gefallen ist
+    const fo = document.activeElement;
+    if (!fo || fo === document.body || box.contains(fo)) pp.focus({ preventScroll: true });
+    box.style.display = 'none'; box.innerHTML = '';
+    document.querySelectorAll('.fr-marke').forEach(m => m.remove());
+    document.querySelectorAll('.fr-tippbar').forEach(l => l.classList.remove('fr-tippbar'));
+    if (tippen) { stage.removeEventListener('click', tippen); tippen = null; }
+    offen = null;
+  }
+  function antwort(F, ok, text, schl) {
+    const o = offen; erledigt.add(o.i);
+    box.dataset.fertig = '1';
+    vorlesen((F.ton || {})[schl]);
+    if (F.typ === 'klick') box.querySelector('.fr-knoepfe').innerHTML = '';
+    const r = box.querySelector('.fr-rueck');
+    r.innerHTML = (ok ? '✓ ' : '') + text;
+    r.style.color = ok ? 'var(--f3)' : '';
+    if (ok) {                      // richtig: kurz bestaetigen, dann von selbst weiter
+      setTimeout(() => { if (offen === o) { schliessen(); weiter(); } }, 1300);
+      return;
+    }
+    const w = document.createElement('button'); w.className = 'fr-weiter'; w.textContent = 'Weiter ▶';
+    w.onclick = () => { schliessen(); weiter(); };
+    box.appendChild(w); w.focus();
+  }
+  function zeigen(i, F) {
+    offen = { i, t: F.t }; pause(); delete box.dataset.fertig;
+    box.innerHTML = '<div class="fr-kopf"></div><div class="fr-text"></div>'
+      + '<div class="fr-knoepfe"></div><div class="fr-rueck"></div>';
+    box.querySelector('.fr-kopf').textContent = F.kopf || 'Deine Vorhersage';  // "kopf": z. B. «Dein Vorgehen»
+    box.querySelector('.fr-text').textContent = F.text;
+    const kn = box.querySelector('.fr-knoepfe');
+    if (F.typ === 'wahl') {
+      F.optionen.forEach((o, j) => {
+        const b = document.createElement('button'); b.textContent = o;
+        b.onclick = () => {
+          kn.querySelectorAll('button').forEach(x => x.disabled = true);
+          b.classList.add(j === F.richtig ? 'ok' : 'nein');
+          antwort(F, j === F.richtig, (F.rueck || {})[j] || (j === F.richtig ? 'Richtig.' : 'Schau, was der Clip zeigt.'), 'r' + j);
+        };
+        kn.appendChild(b);
+      });
+    } else if (F.typ === 'klick') {
+      const L = [...document.querySelectorAll('.l')].find(l => +l.style.opacity > 0.5 && l.querySelector('[data-fenster]'));
+      if (!L) { schliessen(); weiter(); return; }
+      const svg = L.querySelector('svg'), fe = L.querySelector('[data-fenster]').dataset.fenster.split(',').map(Number);
+      const [x0, x1, y0, y1, b, h, rd] = fe;
+      L.classList.add('fr-tippbar');
+      // Toleranz: eine Zahl (Abstand in Dateneinheiten) oder [dx, dy] je Achse —
+      // Letzteres, wenn die Achsen verschiedene Grössen tragen (s und C).
+      const tol = F.toleranz || 0.5;
+      const nah = (x, y, z) => Array.isArray(tol) ? Math.abs(x - z[0]) <= tol[0] && Math.abs(y - z[1]) <= tol[1]
+                                                  : Math.hypot(x - z[0], y - z[1]) <= tol;
+      const px = (x, y) => [rd + (x - x0) / (x1 - x0) * (b - 2 * rd), h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd)];
+      const mk = (cx, cy, farbe) => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', 16); c.setAttribute('class', 'fr-marke');
+        c.setAttribute('fill', 'none'); c.setAttribute('stroke', farbe); c.setAttribute('stroke-width', 6); svg.appendChild(c); };
+      const pruefePunkt = (x, y) => {
+        mk(...px(x, y), 'var(--f2)');
+        if (nah(x, y, F.ziel)) return antwort(F, true, F.richtig_text || 'Getroffen.', 'ok');
+        mk(...px(F.ziel[0], F.ziel[1]), 'var(--f3)');
+        const fk = (F.fallen || []).findIndex(f => nah(x, y, f.bei));
+        antwort(F, false, fk >= 0 ? F.fallen[fk].text : (F.falsch_text || 'Nicht ganz — der grüne Kreis zeigt die Stelle.'),
+                fk >= 0 ? 'fall' + fk : 'falsch');
+      };
+      // Am Stage horchen, nicht am Layer: unsichtbare spaetere Layer (Deckkraft 0)
+      // liegen obenauf und wuerden den Tipp abfangen.
+      tippen = ev => {
+        if (!offen || box.dataset.fertig || box.contains(ev.target)) return;
+        const r = svg.getBoundingClientRect();
+        if (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom) return;
+        const sx = (ev.clientX - r.left) / r.width * b, sy = (ev.clientY - r.top) / r.height * h;
+        pruefePunkt(x0 + (sx - rd) / (b - 2 * rd) * (x1 - x0), y0 + (h - rd - sy) / (h - 2 * rd) * (y1 - y0));
+      };
+      stage.addEventListener('click', tippen);
+      kn.innerHTML = '<span style="font-size:30px;color:var(--f2)">👉 Tipp ins Bild rechts.</span>';
+      // Ohne Zeigegeraet: dieselbe Antwort als zwei Zahlen ("eingabe": [Name x, Name y])
+      if (F.eingabe) {
+        const f = document.createElement('form'); f.className = 'fr-eingabe';
+        f.innerHTML = '<span>oder eingeben:</span>' + F.eingabe.map((n, k) =>
+          '<label>' + n + ' <input inputmode="decimal" autocomplete="off" data-k="' + k + '"></label>').join('')
+          + '<button type="submit">Prüfen</button>';
+        f.onsubmit = ev => {
+          ev.preventDefault();
+          if (box.dataset.fertig) return;
+          const w = [...f.querySelectorAll('input')].map(i => parseFloat(i.value.replace(',', '.')));
+          if (w.some(isNaN)) { f.querySelector('input').focus(); return; }
+          pruefePunkt(w[0], w[1]);
+        };
+        kn.appendChild(f);
+      }
+    }
+    box.style.display = 'block';
+    // Fokus auf die erste Antwort: Tab, Enter und Leertaste reichen dann
+    const erst = box.querySelector('.fr-knoepfe button, .fr-eingabe input');
+    if (erst) erst.focus({ preventScroll: true });
+    vorlesen((F.ton || {}).frage);
+  }
+  // Spulen wird ausdruecklich erkannt: Pfeiltasten und ein Klick auf die
+  // Zeitleiste setzen ein Zeichen, das das naechste Bild auswertet. Ein
+  // spaetes Bild (langsames Laden, Hintergrund-Tab) ist kein Spulen.
+  // Neustart (R) und ein Sprung vor die erste Frage stellen alle Fragen neu;
+  // nach R laeuft der Clip ab 0 wie beim ersten Abspielen.
+  document.addEventListener('keydown', e => {
+    if (e.target && e.target.closest && e.target.closest('input, select, textarea')) return;
+    if ((e.key || '').toLowerCase() === 'r') { schliessen(); erledigt.clear(); letzt = 0; }
+    if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') sprung = true;
+  });
+  const bar = document.getElementById('bar');
+  bar.addEventListener('click', () => { sprung = true; });
+  // Die Abspielzeit ist im Abspieler lokal; zurueckgestellt wird sie ueber
+  // dessen Zeitleiste.
+  const zurueck = s => {
+    const r = bar.getBoundingClientRect();
+    if (r.width > 0 && bar.onclick) bar.onclick({ currentTarget: bar, clientX: r.left + s / DUR * r.width });
+  };
+  const vorFragen = seek;
+  seek = function (t) {
+    vorFragen(t);
+    if (sprung) {
+      // gespult: eine uebersprungene Frage wird nicht gestellt, eine
+      // beantwortete kommt nicht wieder — ausser zurueck an den Anfang
+      sprung = false;
+      if (FRAGEN.length && t < Math.min(...FRAGEN.map(F => F.t))) { schliessen(); erledigt.clear(); }
+    } else if (!offen && pp.textContent === 'Pause') {
+      // gewoehnliches Abspielen, auch wenn ein Bild weit springt: die erste
+      // ueberschrittene Frage wird gestellt, der Clip geht an ihre Stelle zurueck
+      let i = -1;
+      FRAGEN.forEach((F, j) => {
+        if (!erledigt.has(j) && letzt < F.t && t >= F.t && (i < 0 || F.t < FRAGEN[i].t)) i = j;
+      });
+      if (i >= 0) {
+        zeigen(i, FRAGEN[i]);
+        if (offen && t - offen.t > 0.1) { t = offen.t; zurueck(t); vorFragen(t); }
+      }
+    }
+    if (offen && Math.abs(t - offen.t) > 1.0) schliessen();
+    letzt = t;
+  };
+})();
+window.__seek = seek;
+window.__dauer = DUR;
+if (!location.search.includes('render')) {
+  let t0 = performance.now(), playing = true, t = 0;
+  const barf = document.getElementById('barf'), tt = document.getElementById('tt'),
+        pp = document.getElementById('pp'), wrap = document.getElementById('wrap');
+  const fit = () => { stage.style.transform = 'translate(-50%,-50%) scale('
+      + Math.min(wrap.clientWidth / 1920, wrap.clientHeight / 1080) + ')'; };
+  window.addEventListener('resize', fit);
+  document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
+  fit();
+  // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
+  // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
+  // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
+  // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
+  // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.
+  const ton = document.getElementById('ton'), ts = document.getElementById('ts');
+  const tonBeschriften = () => {
+    if (ts) ts.textContent = (!ton || ton.muted) ? '🔇 Ton an' : '🔊 Ton aus';
+  };
+  if (ton) {
+    ts.hidden = false;
+    ton.muted = false;
+    ton.play().then(tonBeschriften).catch(() => {
+      ton.muted = true;
+      tonBeschriften();
+      ton.play().catch(() => {});
+    });
+    tonBeschriften();
+    ts.onclick = () => {
+      ton.muted = !ton.muted;
+      tonBeschriften();
+      if (!ton.muted) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); }
+    };
+  }
+  const tonLaeuft = () => ton && !ton.paused && !ton.ended;
+  function loop(now) {
+    if (playing) {
+      if (tonLaeuft()) t = ton.currentTime;
+      else { t += (now - t0) / 1000; if (t > DUR) t = DUR; }
+    }
+    t0 = now; seek(t);
+    barf.style.width = (t / DUR * 100) + '%'; tt.textContent = t.toFixed(1) + ' s';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  const tonAn = () => { if (ton) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); } };
+  const toggle = () => {
+    playing = !playing;
+    pp.textContent = playing ? 'Pause' : 'Play';
+    if (ton) { if (playing) ton.play().catch(() => {}); else ton.pause(); }
+  };
+  pp.onclick = toggle;
+  // Tastenkuerzel nicht in Eingabefeldern; die Leertaste nicht auf Knoepfen —
+  // dort bestaetigt sie den Knopf (Antwort einer Frage, Play/Pause selbst).
+  document.addEventListener('keydown', e => {
+    const ziel = e.target && e.target.closest ? e.target : null;
+    if (ziel && ziel.closest('input, select, textarea')) return;
+    if (e.code === 'Space' && ziel && ziel.closest('button, a, summary')) return;
+    if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    if (e.code === 'ArrowRight') { t = Math.min(DUR, t + 5); tonAn(); }
+    if (e.code === 'ArrowLeft') { t = Math.max(0, t - 5); tonAn(); }
+    const k = e.key.toLowerCase();
+    if (k === 'r') { t = 0; playing = true; pp.textContent = 'Pause'; tonAn(); }
+    if (k === 'f') document.documentElement.requestFullscreen?.();
+  });
+  document.getElementById('bar').onclick = e => {
+    const r = e.currentTarget.getBoundingClientRect();
+    t = (e.clientX - r.left) / r.width * DUR; tonAn();
+  };
+} else { document.body.classList.add('render'); seek(0); }
+</script></body></html>

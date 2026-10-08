@@ -982,7 +982,7 @@ weiter = rf'''
       <ul>
         <li>Das U-Rohr mit zwei Flüssigkeiten, \(\rho_1 \cdot h_1 = \rho_2 \cdot h_2\), und die Schlauchwaage → <a href="{TS}#u-rohr">Themenseite 4.5, U-Rohr</a></li>
         <li>Überdruck und absoluter Druck in Reifen und Flaschen → <a href="{LPV}#ls8">Leitprogramm Grössen, Messen, Druck</a></li>
-        <li>Wie sich ein Gas zusammendrücken lässt (Boyle-Mariotte) → <a href="leitprogramm-ideale-gase.html">Leitprogramm Ideale Gase</a></li>
+        <li>Wie sich ein Gas zusammendrücken lässt (Boyle-Mariotte) → <a href="leitprogramm-ausdehnung.html#spezialfaelle">Leitprogramm Wärmeausdehnung und Gase</a></li>
       </ul>
     </section>'''
 

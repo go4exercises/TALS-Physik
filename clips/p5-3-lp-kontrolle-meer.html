@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="de-CH"><head><meta charset="utf-8"><title>Ausdehnung sehen: Kontrollfragen zu Wasser und Meeresspiegel</title><style>
+@import url("../schriften.css");
+:root{--papier:#f8f6f1;--tinte:#1c1a17;--blau:#8a4a0e;--rot:#9b1c1c;--gruen:#1f6b3a;--gold:#b85c00;--f1:#8a4a0e;--f1w:#fbecd2;--f2:#b85c00;--f2w:#fdefd8;--f3:#1f6b3a;--f3w:#d8f0e2;--f4:#9b1c1c;--f4w:#fde8e8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0d1418;overflow:hidden}
+#wrap{position:absolute;left:0;right:0;top:0;bottom:60px;overflow:hidden}
+:fullscreen #wrap{bottom:0} :fullscreen #ui{display:none}
+#stage{width:1920px;height:1080px;position:absolute;left:50%;top:50%;overflow:hidden;
+ background:var(--papier);color:var(--tinte);font-family:'Source Serif 4',Georgia,serif;transform-origin:center center}
+body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!important}
+#stage::before{content:"";position:absolute;inset:0;pointer-events:none;}
+#stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(120% 100% at 50% 40%,rgba(255,255,255,0) 55%,rgba(90,80,64,.09) 100%)}
+#rand{position:absolute;left:76px;top:0;bottom:0;width:3px}
+
+#kopf,#fuss{position:absolute;left:130px;right:100px;display:flex;justify-content:space-between;
+ align-items:baseline;font-family:'Source Sans 3',sans-serif;z-index:5}
+#kopf{top:46px;font-size:27px}
+#kopf .marke{font-weight:600;letter-spacing:.01em;color:var(--blau)}
+#kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
+#fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
+
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
+.l{position:absolute;will-change:opacity,transform}
+.l.flow{position:relative}
+.m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
+.hand{font-family:'Caveat',cursive;line-height:1.24}
+.sans{font-family:'Source Sans 3',system-ui,sans-serif}
+.huelle{display:flex;justify-content:flex-start}
+.mitte.huelle{justify-content:center}
+.huelle>span{white-space:nowrap}
+.f1,.f2,.f3,.f4{border-radius:7px;padding:0 .14em;margin:0 .02em}
+.f1{color:var(--f1);background:var(--f1w)}
+.f2{color:var(--f2);background:var(--f2w)}
+.f3{color:var(--f3);background:var(--f3w)}
+.f4{color:var(--f4);background:var(--f4w)}
+.dim{opacity:.62}
+.graf{line-height:0}
+.graf svg{display:inline-block;vertical-align:top}
+.ov{display:inline-block;line-height:1;padding-top:.07em;margin-top:.12em;border-top:3.5px solid currentColor}
+.row{display:flex;align-items:center;line-height:1.06;white-space:nowrap;gap:.26em}
+.mitte.row{justify-content:center}
+.fr{position:relative;z-index:1;display:inline-flex;flex-direction:column;align-items:center;
+ line-height:1.08;margin:0 .12em;vertical-align:middle}
+.fr>span:first-child{padding:0 .32em .07em}
+.fr>span:last-child{padding:.20em .32em 0;border-top:3.5px solid currentColor}
+.box{border:3.5px solid var(--tinte);border-radius:14px;padding:12px 30px;background:rgba(255,255,255,.62)}
+.boxg{border-color:var(--gruen);color:var(--gruen)}
+.karte{background:rgba(255,255,255,.70);border:2.5px solid rgba(128,128,128,.28);border-radius:16px;padding:14px 26px}
+.strich{height:5px;background:var(--rot);border-radius:3px;transform-origin:left center}
+.lz{display:flex;align-items:baseline;gap:22px;margin-bottom:26px}
+.ln{color:var(--blau);font-weight:600;min-width:34px}
+.step{display:flex;align-items:flex-start;gap:18px;margin-bottom:34px}
+.num{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:var(--blau);color:var(--papier);
+ font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:31px;display:grid;place-items:center}
+.stxt{font-family:'Source Sans 3',sans-serif;font-size:31px;line-height:1.24;padding-top:7px}
+
+#ui{position:absolute;left:0;right:0;bottom:0;height:60px;display:flex;align-items:center;gap:18px;
+ padding:0 26px;background:rgba(13,20,24,.85);color:#e8eef2;font-family:system-ui,sans-serif;font-size:14px;z-index:99}
+body.render #ui{display:none}
+#bar{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden;cursor:pointer}
+#barf{height:100%;width:0;background:var(--gold)}
+#ui button{background:rgba(255,255,255,.12);color:#e8eef2;border:0;border-radius:7px;padding:7px 14px;
+ font-size:14px;cursor:pointer;white-space:nowrap}
+#tt{white-space:nowrap;font-variant-numeric:tabular-nums}
+#tip{opacity:.6;white-space:nowrap}
+/* Auf dem Telefon gibt es weder Leertaste noch Pfeiltasten — der Hinweis
+   waere dort nur Text, der die 60px hohe Leiste sprengt. */
+@media (max-width:700px){#ui{gap:11px;padding:0 12px} #tip{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[],macros:{fa:['\\bbox[##fbecd2,3px]{\\textcolor{##8a4a0e}{#1}}',1],fb:['\\bbox[##fdefd8,3px]{\\textcolor{##b85c00}{#1}}',1],fc:['\\bbox[##d8f0e2,3px]{\\textcolor{##1f6b3a}{#1}}',1],fd:['\\bbox[##fde8e8,3px]{\\textcolor{##9b1c1c}{#1}}',1]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script><script src="../vendor/mathjax/tex-svg.js"></script></head><body>
+<div id="wrap"><div id="stage">
+
+<div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Thermodynamik · BM</span></div>
+<div id="fuss"><span>Raphael Arnold Kohler</span><span>07.10.2026</span></div>
+<div class="l m row" data-at="1.00" data-out="10.24" data-anim="rise" style="left:150px;top:300px;font-size:32px"><span>\(\rho = \dfrac{789\;\text{kg/m}^3}{1 + 1.10 \cdot 10^{-3}\;\tfrac{1}{\text{K}} \cdot 30\;\text{K}} \approx 764\;\text{kg/m}^3\)</span></div>
+<div class="l graf" data-at="1.00" data-out="10.24" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="82.4,603.2 305.6,603.2 305.6,380.0 82.4,380.0" fill="#1c1a17" fill-opacity="0.25" stroke="none"/><polygon points="409.8,603.2 647.8,603.2 647.8,365.1 409.8,365.1" fill="#8a4a0e" fill-opacity="0.15" stroke="none"/><line x1="82.4" y1="603.2" x2="305.6" y2="603.2" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="305.6" y1="603.2" x2="305.6" y2="380.0" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="305.6" y1="380.0" x2="82.4" y2="380.0" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="82.4" y1="380.0" x2="82.4" y2="603.2" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="409.8" y1="603.2" x2="647.8" y2="603.2" stroke="#8a4a0e" stroke-width="5" stroke-linecap="round" /><line x1="647.8" y1="603.2" x2="647.8" y2="365.1" stroke="#8a4a0e" stroke-width="5" stroke-linecap="round" /><line x1="647.8" y1="365.1" x2="409.8" y2="365.1" stroke="#8a4a0e" stroke-width="5" stroke-linecap="round" /><line x1="409.8" y1="365.1" x2="409.8" y2="603.2" stroke="#8a4a0e" stroke-width="5" stroke-linecap="round" /><text x="194.0" y="491.6" font-size="34" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">m</text><text x="528.8" y="484.2" font-size="34" font-weight="600" fill="#8a4a0e" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">m</text><text x="194.0" y="662.7" font-size="24" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">20 °C: 789 kg/m³</text><text x="528.8" y="662.7" font-size="24" font-weight="600" fill="#8a4a0e" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">50 °C: 764 kg/m³</text><text x="380.0" y="261.0" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">gleiche Masse, grösseres Volumen</text><text x="380.0" y="186.6" font-size="30" font-weight="600" fill="#8a4a0e" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">kleinere Dichte</text></svg></div>
+<div class="l hand" data-at="11.24" data-out="17.95" data-anim="rise" style="left:150px;top:300px;font-size:42px;color:var(--tinte)">kleinstes Volumen:<br>grösste Dichte, 4 °C</div>
+<div class="l graf" data-at="11.24" data-out="17.95" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="188.7" y1="0" x2="188.7" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="295.0" y1="0" x2="295.0" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="401.3" y1="0" x2="401.3" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="507.5" y1="0" x2="507.5" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="613.8" y1="0" x2="613.8" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="720.1" y1="0" x2="720.1" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="671.6" x2="760" y2="671.6" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="571.0" x2="760" y2="571.0" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="470.5" x2="760" y2="470.5" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="369.9" x2="760" y2="369.9" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="269.4" x2="760" y2="269.4" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="168.9" x2="760" y2="168.9" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="68.3" x2="760" y2="68.3" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="671.6" x2="760" y2="671.6" stroke="#1c1a17" stroke-width="3"/><line x1="82.4" y1="760" x2="82.4" y2="0" stroke="#1c1a17" stroke-width="3"/><polygon points="760.0,671.6 742.0,662.6 742.0,680.6" fill="#1c1a17"/><polygon points="82.4,0 73.4,18 91.4,18" fill="#1c1a17"/><line x1="188.7" y1="664.6" x2="188.7" y2="678.6" stroke="#1c1a17" stroke-width="2.5"/><text x="188.7" y="703.6" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">2</text><line x1="295.0" y1="664.6" x2="295.0" y2="678.6" stroke="#1c1a17" stroke-width="2.5"/><text x="295.0" y="703.6" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">4</text><line x1="401.3" y1="664.6" x2="401.3" y2="678.6" stroke="#1c1a17" stroke-width="2.5"/><text x="401.3" y="703.6" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">6</text><line x1="507.5" y1="664.6" x2="507.5" y2="678.6" stroke="#1c1a17" stroke-width="2.5"/><text x="507.5" y="703.6" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">8</text><line x1="613.8" y1="664.6" x2="613.8" y2="678.6" stroke="#1c1a17" stroke-width="2.5"/><text x="613.8" y="703.6" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">10</text><line x1="720.1" y1="664.6" x2="720.1" y2="678.6" stroke="#1c1a17" stroke-width="2.5"/><text x="720.1" y="703.6" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">12</text><line x1="75.4" y1="571.0" x2="89.4" y2="571.0" stroke="#1c1a17" stroke-width="2.5"/><text x="69.4" y="579.0" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">999.5</text><line x1="75.4" y1="470.5" x2="89.4" y2="470.5" stroke="#1c1a17" stroke-width="2.5"/><text x="69.4" y="478.5" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">999.6</text><line x1="75.4" y1="369.9" x2="89.4" y2="369.9" stroke="#1c1a17" stroke-width="2.5"/><text x="69.4" y="377.9" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">999.7</text><line x1="75.4" y1="269.4" x2="89.4" y2="269.4" stroke="#1c1a17" stroke-width="2.5"/><text x="69.4" y="277.4" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">999.8</text><line x1="75.4" y1="168.9" x2="89.4" y2="168.9" stroke="#1c1a17" stroke-width="2.5"/><text x="69.4" y="176.9" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">999.9</text><line x1="75.4" y1="68.3" x2="89.4" y2="68.3" stroke="#1c1a17" stroke-width="2.5"/><text x="69.4" y="76.3" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">1000</text><polyline points="82.4,229.7 85.6,225.6 88.8,221.6 92.0,217.7 95.2,213.8 98.3,210.0 101.5,206.2 104.7,202.6 107.9,198.9 111.1,195.4 114.3,191.9 117.5,188.5 120.7,185.1 123.9,181.9 127.0,178.6 130.2,175.5 133.4,172.4 136.6,169.3 139.8,166.4 143.0,163.5 146.2,160.6 149.4,157.9 152.5,155.1 155.7,152.5 158.9,149.9 162.1,147.4 165.3,144.9 168.5,142.5 171.7,140.2 174.9,137.9 178.1,135.7 181.2,133.5 184.4,131.5 187.6,129.4 190.8,127.5 194.0,125.6 197.2,123.7 200.4,121.9 203.6,120.2 206.8,118.6 209.9,117.0 213.1,115.4 216.3,114.0 219.5,112.5 222.7,111.2 225.9,109.9 229.1,108.7 232.3,107.5 235.5,106.4 238.6,105.3 241.8,104.3 245.0,103.4 248.2,102.5 251.4,101.7 254.6,101.0 257.8,100.3 261.0,99.6 264.1,99.0 267.3,98.5 270.5,98.1 273.7,97.7 276.9,97.3 280.1,97.0 283.3,96.8 286.5,96.6 289.7,96.5 292.8,96.5 296.0,96.5 299.2,96.6 302.4,96.7 305.6,96.9 308.8,97.1 312.0,97.4 315.2,97.7 318.4,98.1 321.5,98.6 324.7,99.1 327.9,99.7 331.1,100.4 334.3,101.0 337.5,101.8 340.7,102.6 343.9,103.5 347.1,104.4 350.2,105.4 353.4,106.4 356.6,107.5 359.8,108.6 363.0,109.8 366.2,111.1 369.4,112.4 372.6,113.7 375.7,115.2 378.9,116.6 382.1,118.2 385.3,119.7 388.5,121.4 391.7,123.1 394.9,124.8 398.1,126.6 401.3,128.5 404.4,130.4 407.6,132.4 410.8,134.4 414.0,136.5 417.2,138.6 420.4,140.8 423.6,143.0 426.8,145.3 430.0,147.6 433.1,150.0 436.3,152.5 439.5,155.0 442.7,157.5 445.9,160.1 449.1,162.8 452.3,165.5 455.5,168.3 458.7,171.1 461.8,174.0 465.0,176.9 468.2,179.9 471.4,182.9 474.6,186.0 477.8,189.1 481.0,192.3 484.2,195.6 487.3,198.9 490.5,202.2 493.7,205.6 496.9,209.0 500.1,212.5 503.3,216.1 506.5,219.7 509.7,223.3 512.9,227.1 516.0,230.8 519.2,234.6 522.4,238.5 525.6,242.4 528.8,246.3 532.0,250.3 535.2,254.4 538.4,258.5 541.6,262.7 544.7,266.9 547.9,271.1 551.1,275.5 554.3,279.8 557.5,284.2 560.7,288.7 563.9,293.2 567.1,297.8 570.3,302.4 573.4,307.0 576.6,311.7 579.8,316.5 583.0,321.3 586.2,326.2 589.4,331.1 592.6,336.0 595.8,341.0 598.9,346.1 602.1,351.2 605.3,356.3 608.5,361.5 611.7,366.8 614.9,372.1 618.1,377.4 621.3,382.8 624.5,388.3 627.6,393.8 630.8,399.3 634.0,404.9 637.2,410.5 640.4,416.2 643.6,421.9 646.8,427.7 650.0,433.5 653.2,439.4 656.3,445.3 659.5,451.3 662.7,457.3 665.9,463.4 669.1,469.5 672.3,475.6 675.5,481.8 678.7,488.1 681.9,494.4 685.0,500.7 688.2,507.1 691.4,513.6 694.6,520.1 697.8,526.6 701.0,533.2 704.2,539.8 707.4,546.5 710.5,553.2 713.7,559.9 716.9,566.8 720.1,573.6" fill="none" stroke="#8a4a0e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><line x1="63.8" y1="646.4" x2="101.0" y2="616.3" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="63.8" y1="616.3" x2="101.0" y2="586.1" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><text x="103.7" y="621.3" font-size="22" font-weight="600" fill="#1c1a17" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Achse beginnt bei 999.4 kg/m³</text><circle cx="507.5" cy="220.9" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="507.5" cy="220.9" r="5" fill="#1c1a17"/><text x="523.5" y="180.7" font-size="29" font-weight="600" fill="#1c1a17" text-anchor="start">8 °C</text><circle cx="82.4" cy="229.7" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="82.4" cy="229.7" r="5" fill="#1c1a17"/><text x="98.3" y="290.0" font-size="29" font-weight="600" fill="#1c1a17" text-anchor="start">0 °C</text><circle cx="295.0" cy="96.5" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="295.0" cy="96.5" r="5" fill="#8a4a0e"/><text x="326.9" y="51.2" font-size="29" font-weight="600" fill="#8a4a0e" text-anchor="start">4 °C: grösste Dichte</text><text x="752.0" y="655.6" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke" text-anchor="end">ϑ [°C]</text><text x="96.4" y="26" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke">ρ [kg/m³]</text></svg></div>
+<div class="l m row" data-at="18.95" data-out="29.04" data-anim="rise" style="left:150px;top:300px;font-size:32px"><span>\(\Delta h = 0.21 \cdot 10^{-3}\;\tfrac{1}{\text{K}} \cdot 700\;\text{m} \cdot 1\;\text{K} = 0.147\;\text{m}\)</span></div>
+<div class="l graf" data-at="18.95" data-out="29.04" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="156.8,677.6 677.6,677.6 677.6,156.8 156.8,156.8" fill="#1c1a17" fill-opacity="0.12" stroke="none"/><polygon points="156.8,216.3 677.6,216.3 677.6,156.8 156.8,156.8" fill="#b85c00" fill-opacity="0.35" stroke="none"/><line x1="156.8" y1="156.8" x2="677.6" y2="156.8" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 7"/><line x1="156.8" y1="127.0" x2="677.6" y2="127.0" stroke="#8a4a0e" stroke-width="4" stroke-linecap="round" /><line x1="112.2" y1="156.8" x2="112.2" y2="144.6" stroke="#8a4a0e" stroke-width="4" stroke-linecap="round" /><polygon points="112.2,127.0 122.1,149.0 102.3,149.0" fill="#8a4a0e"/><line x1="156.8" y1="677.6" x2="677.6" y2="677.6" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><text x="417.2" y="201.4" font-size="24" font-weight="600" fill="#b85c00" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">obere 700 m: +1 K</text><text x="417.2" y="417.2" font-size="24" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">4200 m tief: Tiefenwasser bleibt</text><text x="417.2" y="82.4" font-size="28" font-weight="600" fill="#8a4a0e" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Δh = 14.7 cm (übertrieben)</text></svg></div>
+<div class="l m row" data-at="30.04" data-out="40.39" data-anim="rise" style="left:150px;top:300px;font-size:30px"><span>\(\Delta T = \dfrac{\Delta h}{\gamma \cdot h_0} = \dfrac{0.06\;\text{m}}{0.21 \cdot 10^{-3}\;\tfrac{1}{\text{K}} \cdot 400\;\text{m}} \approx 0.71\;\text{K}\)</span></div>
+<div class="l graf" data-at="30.04" data-out="40.39" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="211.5" y1="0" x2="211.5" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="338.7" y1="0" x2="338.7" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="465.8" y1="0" x2="465.8" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="593.0" y1="0" x2="593.0" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="720.2" y1="0" x2="720.2" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="546.5" x2="760" y2="546.5" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="404.8" x2="760" y2="404.8" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="263.1" x2="760" y2="263.1" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="121.4" x2="760" y2="121.4" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="688.2" x2="760" y2="688.2" stroke="#1c1a17" stroke-width="3"/><line x1="84.3" y1="760" x2="84.3" y2="0" stroke="#1c1a17" stroke-width="3"/><polygon points="760.0,688.2 742.0,679.2 742.0,697.2" fill="#1c1a17"/><polygon points="84.3,0 75.3,18 93.3,18" fill="#1c1a17"/><line x1="211.5" y1="681.2" x2="211.5" y2="695.2" stroke="#1c1a17" stroke-width="2.5"/><text x="211.5" y="720.2" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">0.2</text><line x1="338.7" y1="681.2" x2="338.7" y2="695.2" stroke="#1c1a17" stroke-width="2.5"/><text x="338.7" y="720.2" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">0.4</text><line x1="465.8" y1="681.2" x2="465.8" y2="695.2" stroke="#1c1a17" stroke-width="2.5"/><text x="465.8" y="720.2" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">0.6</text><line x1="593.0" y1="681.2" x2="593.0" y2="695.2" stroke="#1c1a17" stroke-width="2.5"/><text x="593.0" y="720.2" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">0.8</text><line x1="720.2" y1="681.2" x2="720.2" y2="695.2" stroke="#1c1a17" stroke-width="2.5"/><text x="720.2" y="720.2" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75">1</text><line x1="77.3" y1="546.5" x2="91.3" y2="546.5" stroke="#1c1a17" stroke-width="2.5"/><text x="71.3" y="554.5" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">2</text><line x1="77.3" y1="404.8" x2="91.3" y2="404.8" stroke="#1c1a17" stroke-width="2.5"/><text x="71.3" y="412.8" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">4</text><line x1="77.3" y1="263.1" x2="91.3" y2="263.1" stroke="#1c1a17" stroke-width="2.5"/><text x="71.3" y="271.1" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">6</text><line x1="77.3" y1="121.4" x2="91.3" y2="121.4" stroke="#1c1a17" stroke-width="2.5"/><text x="71.3" y="129.4" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">8</text><line x1="84.3" y1="688.2" x2="720.2" y2="93.0" stroke="#8a4a0e" stroke-width="5" stroke-linecap="round" /><line x1="538.5" y1="688.2" x2="538.5" y2="263.1" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 7"/><line x1="84.3" y1="263.1" x2="538.5" y2="263.1" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 7"/><text x="465.8" y="50.5" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">h₀ = 400 m</text><circle cx="538.5" cy="263.1" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="538.5" cy="263.1" r="5" fill="#8a4a0e"/><text x="370.5" y="213.5" font-size="29" font-weight="600" fill="#8a4a0e" text-anchor="middle">(0.71 K; 6 cm)</text><text x="752.0" y="672.2" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke" text-anchor="end">ΔT [K]</text><text x="98.3" y="26" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke">Δh [cm]</text></svg></div>
+</div></div>
+<audio id="ton" preload="auto" src="ton/p5-3-lp-kontrolle-meer.mp3"></audio>
+<div id="ui">
+  <button id="pp">Pause</button>
+  <button id="ts" hidden>🔇 Ton an</button>
+  <div id="bar"><div id="barf"></div></div>
+  <span id="tt">0.0 s</span>
+  <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
+</div>
+<script>
+const DUR = 40.39;
+const SPRECHER = [{"bei": 0.4, "text": "Rho null durch eins plus gamma mal Delta T: siebenhundertneunundachtzig durch eins Komma null drei drei, rund siebenhundertvierundsechzig Kilogramm pro Kubikmeter."}, {"bei": 10.64, "text": "Kleinstes Volumen heisst grösste Dichte, und die hat Wasser bei vier Grad. Kühlt es weiter ab, dehnt es sich wieder aus."}, {"bei": 18.35, "text": "Nur die erwärmte Schicht zählt: null Komma zwei eins Tausendstel mal siebenhundert Meter mal ein Kelvin, das sind null Komma eins vier sieben Meter, also vierzehn Komma sieben Zentimeter."}, {"bei": 29.44, "text": "Delta T ist Delta h durch gamma mal h null: null Komma null sechs Meter durch null Komma zwei eins Tausendstel mal vierhundert Meter, rund null Komma sieben eins Kelvin."}];
+const stage = document.getElementById('stage');
+const layers = [...document.querySelectorAll('.l')].map(el => ({
+  el, at: parseFloat(el.dataset.at || '0'),
+  out: el.dataset.out ? parseFloat(el.dataset.out) : Infinity,
+  anim: el.dataset.anim || 'fade',
+  dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
+}));
+const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
+const ease = p => 1 - Math.pow(1 - p, 3);
+const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
+function seek(t)  {
+  for (const L of layers) {
+    const pi = ease(cl((t - L.at) / IN));
+    const po = L.out === Infinity ? 0 : ease(cl((t - L.out) / OUT));
+    let o = pi * (1 - po), tr = '';
+    if (L.anim === 'rise') tr = 'translateY(' + ((1 - pi) * 26) + 'px)';
+    else if (L.anim === 'pop') tr = 'scale(' + (0.90 + 0.10 * pi) + ')';
+    else if (L.anim === 'wipe') { tr = 'scaleX(' + pi + ')'; o = (t >= L.at ? 1 : 0) * (1 - po); }
+    if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
+    L.el.style.transform = tr; L.el.style.opacity = o;
+  }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
+}
+const FRAGEN = [{"typ": "wahl", "text": "Ethanol hat bei 20 °C eine Dichte von 789 kg/m³. Wie gross ist sie bei 50 °C?", "optionen": ["815 kg/m³", "789 kg/m³", "764 kg/m³"], "richtig": 2, "rueck": {"0": "Das Volumen wächst, die Masse bleibt. Wird die Dichte dann grösser?", "1": "Bleibt das Volumen beim Erwärmen gleich?"}, "t": 0.3, "ton": {"frage": "ton/p5-3-lp-kontrolle-meer-f0-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-meer-f0-r0.mp3", "r1": "ton/p5-3-lp-kontrolle-meer-f0-r1.mp3"}}, {"typ": "wahl", "text": "Wasser kühlt von 8 °C auf 0 °C ab. Bei welcher Temperatur hat es das kleinste Volumen?", "optionen": ["bei 0 °C", "bei 4 °C", "bei 8 °C"], "richtig": 1, "rueck": {"0": "Wo hat Wasser seine grösste Dichte?", "2": "Zieht sich Wasser beim Abkühlen über 4 °C zusammen oder dehnt es sich aus?"}, "t": 10.54, "ton": {"frage": "ton/p5-3-lp-kontrolle-meer-f1-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-meer-f1-r0.mp3", "r2": "ton/p5-3-lp-kontrolle-meer-f1-r2.mp3"}}, {"typ": "wahl", "text": "Das Meer ist hier 4200 m tief. Die obersten 700 m erwärmen sich um 1 K. Um wie viel steigt der Meeresspiegel?", "optionen": ["14.7 cm", "0.88 m", "0.147 mm"], "richtig": 0, "rueck": {"1": "Dehnt sich auch das Tiefenwasser aus, das nicht wärmer wird?", "2": "Welche Zehnerpotenz hat γ von Wasser?"}, "t": 18.25, "ton": {"frage": "ton/p5-3-lp-kontrolle-meer-f2-frage.mp3", "r1": "ton/p5-3-lp-kontrolle-meer-f2-r1.mp3", "r2": "ton/p5-3-lp-kontrolle-meer-f2-r2.mp3"}}, {"typ": "wahl", "text": "Wie stark muss sich eine 400 m dicke Schicht erwärmen, damit das Meer um 6 cm steigt?", "optionen": ["1.4 K", "71 K", "0.71 K"], "richtig": 2, "rueck": {"0": "Steht Δh im Zähler oder im Nenner?", "1": "In welcher Einheit hast du Δh eingesetzt?"}, "t": 29.34, "ton": {"frage": "ton/p5-3-lp-kontrolle-meer-f3-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-meer-f3-r0.mp3", "r1": "ton/p5-3-lp-kontrolle-meer-f3-r1.mp3"}}];
+(() => {
+  if (location.search.includes('render')) return;
+  const pp = document.getElementById('pp');
+  const css = document.createElement('style');
+  css.textContent = `
+    #frage{position:absolute;left:110px;top:560px;width:820px;z-index:50;display:none;
+      background:rgba(255,255,255,.97);border:3px solid var(--f2);border-radius:22px;
+      padding:28px 34px;box-shadow:0 10px 40px rgba(0,0,0,.18);font-family:inherit;color:inherit}
+    #frage .fr-kopf{font-size:26px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--f2);margin-bottom:10px}
+    #frage .fr-text{font-size:38px;line-height:1.3;margin-bottom:22px}
+    #frage .fr-knoepfe{display:flex;flex-wrap:wrap;gap:14px}
+    #frage button{font:inherit;font-size:32px;padding:10px 26px;border-radius:999px;cursor:pointer;
+      border:2.5px solid var(--f2);background:var(--f2w);color:inherit}
+    #frage button.ok{border-color:var(--f3);background:var(--f3w)}
+    #frage button.nein{border-color:var(--f4);background:var(--f4w)}
+    #frage .fr-rueck{font-size:32px;line-height:1.35;margin-top:20px}
+    #frage .fr-weiter{margin-top:20px}
+    #frage .fr-eingabe{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:30px;margin-top:14px;width:100%}
+    #frage .fr-eingabe input{font:inherit;font-size:30px;width:4.2em;padding:4px 10px;border:2.5px solid var(--f2);border-radius:12px}
+    .fr-tippbar, .fr-tippbar svg{pointer-events:auto !important;cursor:crosshair}`;
+  document.head.appendChild(css);
+  const box = document.createElement('div'); box.id = 'frage'; stage.appendChild(box);
+  let letzt = 0, offen = null, tippen = null, stimme = null, sprung = false;
+  // Vorlesen mit derselben Stimme wie der Clip — nur wenn dessen Ton an ist.
+  const hauptton = document.getElementById('ton');
+  const vorlesen = src => {
+    if (stimme) { stimme.pause(); stimme = null; }
+    if (!src || !hauptton || hauptton.muted) return;
+    stimme = new Audio(src); stimme.play().catch(() => {});
+  };
+  const erledigt = new Set();     // beantwortete Fragen
+  const pause = () => { if (pp.textContent === 'Pause') pp.click(); };
+  const weiter = () => { if (pp.textContent === 'Play') pp.click(); };
+  function schliessen() {
+    vorlesen(null);
+    // Fokus zurueck auf Play/Pause — auch wenn er mit dem gesperrten Antwortknopf
+    // schon auf <body> gefallen ist
+    const fo = document.activeElement;
+    if (!fo || fo === document.body || box.contains(fo)) pp.focus({ preventScroll: true });
+    box.style.display = 'none'; box.innerHTML = '';
+    document.querySelectorAll('.fr-marke').forEach(m => m.remove());
+    document.querySelectorAll('.fr-tippbar').forEach(l => l.classList.remove('fr-tippbar'));
+    if (tippen) { stage.removeEventListener('click', tippen); tippen = null; }
+    offen = null;
+  }
+  function antwort(F, ok, text, schl) {
+    const o = offen; erledigt.add(o.i);
+    box.dataset.fertig = '1';
+    vorlesen((F.ton || {})[schl]);
+    if (F.typ === 'klick') box.querySelector('.fr-knoepfe').innerHTML = '';
+    const r = box.querySelector('.fr-rueck');
+    r.innerHTML = (ok ? '✓ ' : '') + text;
+    r.style.color = ok ? 'var(--f3)' : '';
+    if (ok) {                      // richtig: kurz bestaetigen, dann von selbst weiter
+      setTimeout(() => { if (offen === o) { schliessen(); weiter(); } }, 1300);
+      return;
+    }
+    const w = document.createElement('button'); w.className = 'fr-weiter'; w.textContent = 'Weiter ▶';
+    w.onclick = () => { schliessen(); weiter(); };
+    box.appendChild(w); w.focus();
+  }
+  function zeigen(i, F) {
+    offen = { i, t: F.t }; pause(); delete box.dataset.fertig;
+    box.innerHTML = '<div class="fr-kopf"></div><div class="fr-text"></div>'
+      + '<div class="fr-knoepfe"></div><div class="fr-rueck"></div>';
+    box.querySelector('.fr-kopf').textContent = F.kopf || 'Deine Vorhersage';  // "kopf": z. B. «Dein Vorgehen»
+    box.querySelector('.fr-text').textContent = F.text;
+    const kn = box.querySelector('.fr-knoepfe');
+    if (F.typ === 'wahl') {
+      F.optionen.forEach((o, j) => {
+        const b = document.createElement('button'); b.textContent = o;
+        b.onclick = () => {
+          kn.querySelectorAll('button').forEach(x => x.disabled = true);
+          b.classList.add(j === F.richtig ? 'ok' : 'nein');
+          antwort(F, j === F.richtig, (F.rueck || {})[j] || (j === F.richtig ? 'Richtig.' : 'Schau, was der Clip zeigt.'), 'r' + j);
+        };
+        kn.appendChild(b);
+      });
+    } else if (F.typ === 'klick') {
+      const L = [...document.querySelectorAll('.l')].find(l => +l.style.opacity > 0.5 && l.querySelector('[data-fenster]'));
+      if (!L) { schliessen(); weiter(); return; }
+      const svg = L.querySelector('svg'), fe = L.querySelector('[data-fenster]').dataset.fenster.split(',').map(Number);
+      const [x0, x1, y0, y1, b, h, rd] = fe;
+      L.classList.add('fr-tippbar');
+      // Toleranz: eine Zahl (Abstand in Dateneinheiten) oder [dx, dy] je Achse —
+      // Letzteres, wenn die Achsen verschiedene Grössen tragen (s und C).
+      const tol = F.toleranz || 0.5;
+      const nah = (x, y, z) => Array.isArray(tol) ? Math.abs(x - z[0]) <= tol[0] && Math.abs(y - z[1]) <= tol[1]
+                                                  : Math.hypot(x - z[0], y - z[1]) <= tol;
+      const px = (x, y) => [rd + (x - x0) / (x1 - x0) * (b - 2 * rd), h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd)];
+      const mk = (cx, cy, farbe) => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', 16); c.setAttribute('class', 'fr-marke');
+        c.setAttribute('fill', 'none'); c.setAttribute('stroke', farbe); c.setAttribute('stroke-width', 6); svg.appendChild(c); };
+      const pruefePunkt = (x, y) => {
+        mk(...px(x, y), 'var(--f2)');
+        if (nah(x, y, F.ziel)) return antwort(F, true, F.richtig_text || 'Getroffen.', 'ok');
+        mk(...px(F.ziel[0], F.ziel[1]), 'var(--f3)');
+        const fk = (F.fallen || []).findIndex(f => nah(x, y, f.bei));
+        antwort(F, false, fk >= 0 ? F.fallen[fk].text : (F.falsch_text || 'Nicht ganz — der grüne Kreis zeigt die Stelle.'),
+                fk >= 0 ? 'fall' + fk : 'falsch');
+      };
+      // Am Stage horchen, nicht am Layer: unsichtbare spaetere Layer (Deckkraft 0)
+      // liegen obenauf und wuerden den Tipp abfangen.
+      tippen = ev => {
+        if (!offen || box.dataset.fertig || box.contains(ev.target)) return;
+        const r = svg.getBoundingClientRect();
+        if (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom) return;
+        const sx = (ev.clientX - r.left) / r.width * b, sy = (ev.clientY - r.top) / r.height * h;
+        pruefePunkt(x0 + (sx - rd) / (b - 2 * rd) * (x1 - x0), y0 + (h - rd - sy) / (h - 2 * rd) * (y1 - y0));
+      };
+      stage.addEventListener('click', tippen);
+      kn.innerHTML = '<span style="font-size:30px;color:var(--f2)">👉 Tipp ins Bild rechts.</span>';
+      // Ohne Zeigegeraet: dieselbe Antwort als zwei Zahlen ("eingabe": [Name x, Name y])
+      if (F.eingabe) {
+        const f = document.createElement('form'); f.className = 'fr-eingabe';
+        f.innerHTML = '<span>oder eingeben:</span>' + F.eingabe.map((n, k) =>
+          '<label>' + n + ' <input inputmode="decimal" autocomplete="off" data-k="' + k + '"></label>').join('')
+          + '<button type="submit">Prüfen</button>';
+        f.onsubmit = ev => {
+          ev.preventDefault();
+          if (box.dataset.fertig) return;
+          const w = [...f.querySelectorAll('input')].map(i => parseFloat(i.value.replace(',', '.')));
+          if (w.some(isNaN)) { f.querySelector('input').focus(); return; }
+          pruefePunkt(w[0], w[1]);
+        };
+        kn.appendChild(f);
+      }
+    }
+    box.style.display = 'block';
+    // Fokus auf die erste Antwort: Tab, Enter und Leertaste reichen dann
+    const erst = box.querySelector('.fr-knoepfe button, .fr-eingabe input');
+    if (erst) erst.focus({ preventScroll: true });
+    vorlesen((F.ton || {}).frage);
+  }
+  // Spulen wird ausdruecklich erkannt: Pfeiltasten und ein Klick auf die
+  // Zeitleiste setzen ein Zeichen, das das naechste Bild auswertet. Ein
+  // spaetes Bild (langsames Laden, Hintergrund-Tab) ist kein Spulen.
+  // Neustart (R) und ein Sprung vor die erste Frage stellen alle Fragen neu;
+  // nach R laeuft der Clip ab 0 wie beim ersten Abspielen.
+  document.addEventListener('keydown', e => {
+    if (e.target && e.target.closest && e.target.closest('input, select, textarea')) return;
+    if ((e.key || '').toLowerCase() === 'r') { schliessen(); erledigt.clear(); letzt = 0; }
+    if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') sprung = true;
+  });
+  const bar = document.getElementById('bar');
+  bar.addEventListener('click', () => { sprung = true; });
+  // Die Abspielzeit ist im Abspieler lokal; zurueckgestellt wird sie ueber
+  // dessen Zeitleiste.
+  const zurueck = s => {
+    const r = bar.getBoundingClientRect();
+    if (r.width > 0 && bar.onclick) bar.onclick({ currentTarget: bar, clientX: r.left + s / DUR * r.width });
+  };
+  const vorFragen = seek;
+  seek = function (t) {
+    vorFragen(t);
+    if (sprung) {
+      // gespult: eine uebersprungene Frage wird nicht gestellt, eine
+      // beantwortete kommt nicht wieder — ausser zurueck an den Anfang
+      sprung = false;
+      if (FRAGEN.length && t < Math.min(...FRAGEN.map(F => F.t))) { schliessen(); erledigt.clear(); }
+    } else if (!offen && pp.textContent === 'Pause') {
+      // gewoehnliches Abspielen, auch wenn ein Bild weit springt: die erste
+      // ueberschrittene Frage wird gestellt, der Clip geht an ihre Stelle zurueck
+      let i = -1;
+      FRAGEN.forEach((F, j) => {
+        if (!erledigt.has(j) && letzt < F.t && t >= F.t && (i < 0 || F.t < FRAGEN[i].t)) i = j;
+      });
+      if (i >= 0) {
+        zeigen(i, FRAGEN[i]);
+        if (offen && t - offen.t > 0.1) { t = offen.t; zurueck(t); vorFragen(t); }
+      }
+    }
+    if (offen && Math.abs(t - offen.t) > 1.0) schliessen();
+    letzt = t;
+  };
+})();
+window.__seek = seek;
+window.__dauer = DUR;
+if (!location.search.includes('render')) {
+  let t0 = performance.now(), playing = true, t = 0;
+  const barf = document.getElementById('barf'), tt = document.getElementById('tt'),
+        pp = document.getElementById('pp'), wrap = document.getElementById('wrap');
+  const fit = () => { stage.style.transform = 'translate(-50%,-50%) scale('
+      + Math.min(wrap.clientWidth / 1920, wrap.clientHeight / 1080) + ')'; };
+  window.addEventListener('resize', fit);
+  document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
+  fit();
+  // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
+  // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
+  // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
+  // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
+  // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.
+  const ton = document.getElementById('ton'), ts = document.getElementById('ts');
+  const tonBeschriften = () => {
+    if (ts) ts.textContent = (!ton || ton.muted) ? '🔇 Ton an' : '🔊 Ton aus';
+  };
+  if (ton) {
+    ts.hidden = false;
+    ton.muted = false;
+    ton.play().then(tonBeschriften).catch(() => {
+      ton.muted = true;
+      tonBeschriften();
+      ton.play().catch(() => {});
+    });
+    tonBeschriften();
+    ts.onclick = () => {
+      ton.muted = !ton.muted;
+      tonBeschriften();
+      if (!ton.muted) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); }
+    };
+  }
+  const tonLaeuft = () => ton && !ton.paused && !ton.ended;
+  function loop(now) {
+    if (playing) {
+      if (tonLaeuft()) t = ton.currentTime;
+      else { t += (now - t0) / 1000; if (t > DUR) t = DUR; }
+    }
+    t0 = now; seek(t);
+    barf.style.width = (t / DUR * 100) + '%'; tt.textContent = t.toFixed(1) + ' s';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  const tonAn = () => { if (ton) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); } };
+  const toggle = () => {
+    playing = !playing;
+    pp.textContent = playing ? 'Pause' : 'Play';
+    if (ton) { if (playing) ton.play().catch(() => {}); else ton.pause(); }
+  };
+  pp.onclick = toggle;
+  // Tastenkuerzel nicht in Eingabefeldern; die Leertaste nicht auf Knoepfen —
+  // dort bestaetigt sie den Knopf (Antwort einer Frage, Play/Pause selbst).
+  document.addEventListener('keydown', e => {
+    const ziel = e.target && e.target.closest ? e.target : null;
+    if (ziel && ziel.closest('input, select, textarea')) return;
+    if (e.code === 'Space' && ziel && ziel.closest('button, a, summary')) return;
+    if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    if (e.code === 'ArrowRight') { t = Math.min(DUR, t + 5); tonAn(); }
+    if (e.code === 'ArrowLeft') { t = Math.max(0, t - 5); tonAn(); }
+    const k = e.key.toLowerCase();
+    if (k === 'r') { t = 0; playing = true; pp.textContent = 'Pause'; tonAn(); }
+    if (k === 'f') document.documentElement.requestFullscreen?.();
+  });
+  document.getElementById('bar').onclick = e => {
+    const r = e.currentTarget.getBoundingClientRect();
+    t = (e.clientX - r.left) / r.width * DUR; tonAn();
+  };
+} else { document.body.classList.add('render'); seek(0); }
+</script></body></html>

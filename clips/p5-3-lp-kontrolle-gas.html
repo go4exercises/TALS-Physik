@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="de-CH"><head><meta charset="utf-8"><title>Ausdehnung sehen: Kontrollfragen zur Gasgleichung</title><style>
+@import url("../schriften.css");
+:root{--papier:#f8f6f1;--tinte:#1c1a17;--blau:#8a4a0e;--rot:#9b1c1c;--gruen:#1f6b3a;--gold:#b85c00;--f1:#8a4a0e;--f1w:#fbecd2;--f2:#b85c00;--f2w:#fdefd8;--f3:#1f6b3a;--f3w:#d8f0e2;--f4:#9b1c1c;--f4w:#fde8e8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0d1418;overflow:hidden}
+#wrap{position:absolute;left:0;right:0;top:0;bottom:60px;overflow:hidden}
+:fullscreen #wrap{bottom:0} :fullscreen #ui{display:none}
+#stage{width:1920px;height:1080px;position:absolute;left:50%;top:50%;overflow:hidden;
+ background:var(--papier);color:var(--tinte);font-family:'Source Serif 4',Georgia,serif;transform-origin:center center}
+body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!important}
+#stage::before{content:"";position:absolute;inset:0;pointer-events:none;}
+#stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(120% 100% at 50% 40%,rgba(255,255,255,0) 55%,rgba(90,80,64,.09) 100%)}
+#rand{position:absolute;left:76px;top:0;bottom:0;width:3px}
+
+#kopf,#fuss{position:absolute;left:130px;right:100px;display:flex;justify-content:space-between;
+ align-items:baseline;font-family:'Source Sans 3',sans-serif;z-index:5}
+#kopf{top:46px;font-size:27px}
+#kopf .marke{font-weight:600;letter-spacing:.01em;color:var(--blau)}
+#kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
+#fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
+
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
+.l{position:absolute;will-change:opacity,transform}
+.l.flow{position:relative}
+.m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
+.hand{font-family:'Caveat',cursive;line-height:1.24}
+.sans{font-family:'Source Sans 3',system-ui,sans-serif}
+.huelle{display:flex;justify-content:flex-start}
+.mitte.huelle{justify-content:center}
+.huelle>span{white-space:nowrap}
+.f1,.f2,.f3,.f4{border-radius:7px;padding:0 .14em;margin:0 .02em}
+.f1{color:var(--f1);background:var(--f1w)}
+.f2{color:var(--f2);background:var(--f2w)}
+.f3{color:var(--f3);background:var(--f3w)}
+.f4{color:var(--f4);background:var(--f4w)}
+.dim{opacity:.62}
+.graf{line-height:0}
+.graf svg{display:inline-block;vertical-align:top}
+.ov{display:inline-block;line-height:1;padding-top:.07em;margin-top:.12em;border-top:3.5px solid currentColor}
+.row{display:flex;align-items:center;line-height:1.06;white-space:nowrap;gap:.26em}
+.mitte.row{justify-content:center}
+.fr{position:relative;z-index:1;display:inline-flex;flex-direction:column;align-items:center;
+ line-height:1.08;margin:0 .12em;vertical-align:middle}
+.fr>span:first-child{padding:0 .32em .07em}
+.fr>span:last-child{padding:.20em .32em 0;border-top:3.5px solid currentColor}
+.box{border:3.5px solid var(--tinte);border-radius:14px;padding:12px 30px;background:rgba(255,255,255,.62)}
+.boxg{border-color:var(--gruen);color:var(--gruen)}
+.karte{background:rgba(255,255,255,.70);border:2.5px solid rgba(128,128,128,.28);border-radius:16px;padding:14px 26px}
+.strich{height:5px;background:var(--rot);border-radius:3px;transform-origin:left center}
+.lz{display:flex;align-items:baseline;gap:22px;margin-bottom:26px}
+.ln{color:var(--blau);font-weight:600;min-width:34px}
+.step{display:flex;align-items:flex-start;gap:18px;margin-bottom:34px}
+.num{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:var(--blau);color:var(--papier);
+ font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:31px;display:grid;place-items:center}
+.stxt{font-family:'Source Sans 3',sans-serif;font-size:31px;line-height:1.24;padding-top:7px}
+
+#ui{position:absolute;left:0;right:0;bottom:0;height:60px;display:flex;align-items:center;gap:18px;
+ padding:0 26px;background:rgba(13,20,24,.85);color:#e8eef2;font-family:system-ui,sans-serif;font-size:14px;z-index:99}
+body.render #ui{display:none}
+#bar{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden;cursor:pointer}
+#barf{height:100%;width:0;background:var(--gold)}
+#ui button{background:rgba(255,255,255,.12);color:#e8eef2;border:0;border-radius:7px;padding:7px 14px;
+ font-size:14px;cursor:pointer;white-space:nowrap}
+#tt{white-space:nowrap;font-variant-numeric:tabular-nums}
+#tip{opacity:.6;white-space:nowrap}
+/* Auf dem Telefon gibt es weder Leertaste noch Pfeiltasten — der Hinweis
+   waere dort nur Text, der die 60px hohe Leiste sprengt. */
+@media (max-width:700px){#ui{gap:11px;padding:0 12px} #tip{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[],macros:{fa:['\\bbox[##fbecd2,3px]{\\textcolor{##8a4a0e}{#1}}',1],fb:['\\bbox[##fdefd8,3px]{\\textcolor{##b85c00}{#1}}',1],fc:['\\bbox[##d8f0e2,3px]{\\textcolor{##1f6b3a}{#1}}',1],fd:['\\bbox[##fde8e8,3px]{\\textcolor{##9b1c1c}{#1}}',1]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script><script src="../vendor/mathjax/tex-svg.js"></script></head><body>
+<div id="wrap"><div id="stage">
+
+<div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Thermodynamik · BM</span></div>
+<div id="fuss"><span>Raphael Arnold Kohler</span><span>07.10.2026</span></div>
+<div class="l m row" data-at="1.00" data-out="15.42" data-anim="rise" style="left:150px;top:300px;font-size:38px"><span>\(p_2 = 1.2\;\text{bar} \cdot \dfrac{303.15\;\text{K}}{283.15\;\text{K}} \approx 1.28\;\text{bar}\)</span></div>
+<div class="l graf" data-at="1.00" data-out="15.42" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="75918367415.7" y1="0" x2="75918367415.7" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="497.7" x2="760" y2="497.7" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="309.4" x2="760" y2="309.4" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="121.0" x2="760" y2="121.0" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="686.1" x2="760" y2="686.1" stroke="#1c1a17" stroke-width="3"/><line x1="68.7" y1="760" x2="68.7" y2="0" stroke="#1c1a17" stroke-width="3"/><polygon points="760.0,686.1 742.0,677.1 742.0,695.1" fill="#1c1a17"/><polygon points="68.7,0 59.7,18 77.7,18" fill="#1c1a17"/><line x1="75918367415.7" y1="679.1" x2="75918367415.7" y2="693.1" stroke="#1c1a17" stroke-width="2.5"/><text x="75918367415.7" y="718.1" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75"></text><line x1="61.7" y1="497.7" x2="75.7" y2="497.7" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="505.7" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">100</text><line x1="61.7" y1="309.4" x2="75.7" y2="309.4" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="317.4" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">200</text><line x1="61.7" y1="121.0" x2="75.7" y2="121.0" stroke="#1c1a17" stroke-width="2.5"/><text x="55.7" y="129.0" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">300</text><polygon points="182.6,686.1 334.4,686.1 334.4,152.8 182.6,152.8" fill="#1c1a17" fill-opacity="0.3" stroke="none"/><polygon points="448.3,686.1 600.2,686.1 600.2,115.1 448.3,115.1" fill="#b85c00" fill-opacity="0.4" stroke="none"/><text x="258.5" y="121.0" font-size="24" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">10 °C = 283 K</text><text x="524.2" y="83.3" font-size="24" font-weight="600" fill="#b85c00" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">30 °C = 303 K</text><text x="395.2" y="403.5" font-size="34" font-weight="600" fill="#b85c00" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">+7 %</text><text x="395.2" y="36.3" font-size="26" font-weight="600" fill="#9b1c1c" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">p: 1.2 bar → 1.28 bar</text><text x="752.0" y="670.1" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke" text-anchor="end"></text><text x="82.7" y="26" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke">T [K]</text></svg></div>
+<div class="l m row" data-at="16.42" data-out="28.78" data-anim="rise" style="left:150px;top:300px;font-size:38px"><span>\(p_2 = 2.6\;\text{bar} \cdot \dfrac{308.15\;\text{K}}{278.15\;\text{K}} \approx 2.88\;\text{bar}\)</span></div>
+<div class="l hand" data-at="16.42" data-out="28.78" data-anim="rise" style="left:150px;top:440px;font-size:38px;color:var(--tinte)">\(p_\text{ü} = 2.88\;\text{bar} - 1.0\;\text{bar} = 1.88\;\text{bar}\)</div>
+<div class="l graf" data-at="16.42" data-out="28.78" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="74400000082.4" y1="0" x2="74400000082.4" y2="760" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="490.6" x2="760" y2="490.6" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="289.5" x2="760" y2="289.5" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="88.4" x2="760" y2="88.4" stroke="#1c1a17" stroke-opacity=".13" stroke-width="1.5"/><line x1="0" y1="691.7" x2="760" y2="691.7" stroke="#1c1a17" stroke-width="3"/><line x1="82.4" y1="760" x2="82.4" y2="0" stroke="#1c1a17" stroke-width="3"/><polygon points="760.0,691.7 742.0,682.7 742.0,700.7" fill="#1c1a17"/><polygon points="82.4,0 73.4,18 91.4,18" fill="#1c1a17"/><line x1="74400000082.4" y1="684.7" x2="74400000082.4" y2="698.7" stroke="#1c1a17" stroke-width="2.5"/><text x="74400000082.4" y="723.7" font-size="22" text-anchor="middle" fill="#1c1a17" fill-opacity=".75"></text><line x1="75.4" y1="490.6" x2="89.4" y2="490.6" stroke="#1c1a17" stroke-width="2.5"/><text x="69.4" y="498.6" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">1</text><line x1="75.4" y1="289.5" x2="89.4" y2="289.5" stroke="#1c1a17" stroke-width="2.5"/><text x="69.4" y="297.5" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">2</text><line x1="75.4" y1="88.4" x2="89.4" y2="88.4" stroke="#1c1a17" stroke-width="2.5"/><text x="69.4" y="96.4" font-size="22" text-anchor="end" fill="#1c1a17" fill-opacity=".75">3</text><polygon points="179.1,691.7 283.3,691.7 283.3,490.6 179.1,490.6" fill="#1c1a17" fill-opacity="0.25" stroke="none"/><polygon points="179.1,490.6 283.3,490.6 283.3,168.9 179.1,168.9" fill="#9b1c1c" fill-opacity="0.4" stroke="none"/><polygon points="476.7,691.7 580.9,691.7 580.9,490.6 476.7,490.6" fill="#1c1a17" fill-opacity="0.25" stroke="none"/><polygon points="476.7,490.6 580.9,490.6 580.9,112.5 476.7,112.5" fill="#9b1c1c" fill-opacity="0.4" stroke="none"/><line x1="603.2" y1="490.6" x2="603.2" y2="130.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /><polygon points="603.2,112.5 613.1,134.5 593.3,134.5" fill="#9b1c1c"/><line x1="603.2" y1="112.5" x2="603.2" y2="473.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /><polygon points="603.2,490.6 593.3,468.6 613.1,468.6" fill="#9b1c1c"/><text x="231.2" y="591.1" font-size="22" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Luftdruck</text><text x="528.8" y="591.1" font-size="22" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Luftdruck</text><text x="231.2" y="128.6" font-size="24" font-weight="600" fill="#9b1c1c" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">5 °C: 2.6 bar</text><text x="528.8" y="72.3" font-size="24" font-weight="600" fill="#9b1c1c" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">35 °C: 2.88 bar</text><text x="621.8" y="309.6" font-size="22" font-weight="600" fill="#9b1c1c" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Manometer:</text><text x="621.8" y="369.9" font-size="26" font-weight="600" fill="#9b1c1c" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">1.88 bar</text><text x="752.0" y="675.7" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke" text-anchor="end"></text><text x="96.4" y="26" font-size="26" font-style="italic" fill="#1c1a17" stroke="#f8f6f1" stroke-width="10" paint-order="stroke">p [bar]</text></svg></div>
+<div class="l hand" data-at="29.78" data-out="37.32" data-anim="rise" style="left:150px;top:300px;font-size:42px;color:var(--tinte)">nur für eine feste Gasmenge</div>
+<div class="l graf" data-at="29.78" data-out="37.32" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><line x1="89.8" y1="551.1" x2="350.2" y2="551.1" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="350.2" y1="551.1" x2="350.2" y2="208.9" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="350.2" y1="208.9" x2="89.8" y2="208.9" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="89.8" y1="208.9" x2="89.8" y2="551.1" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="424.6" y1="551.1" x2="685.0" y2="551.1" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="685.0" y1="551.1" x2="685.0" y2="208.9" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="685.0" y1="208.9" x2="424.6" y2="208.9" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="424.6" y1="208.9" x2="424.6" y2="551.1" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><text x="220.0" y="610.6" font-size="28" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Abend</text><text x="554.8" y="610.6" font-size="28" font-weight="600" fill="#8a4a0e" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Morgen</text><text x="380.0" y="127.0" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">weniger Gas: Gleichung gilt nicht</text><circle cx="246.6" cy="308.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="246.6" cy="308.0" r="5" fill="#1c1a17"/><circle cx="283.7" cy="248.3" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="283.7" cy="248.3" r="5" fill="#1c1a17"/><circle cx="271.8" cy="254.3" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="271.8" cy="254.3" r="5" fill="#1c1a17"/><circle cx="118.4" cy="390.2" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="118.4" cy="390.2" r="5" fill="#1c1a17"/><circle cx="315.7" cy="335.7" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="315.7" cy="335.7" r="5" fill="#1c1a17"/><circle cx="306.5" cy="495.1" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="306.5" cy="495.1" r="5" fill="#1c1a17"/><circle cx="213.4" cy="455.4" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="213.4" cy="455.4" r="5" fill="#1c1a17"/><circle cx="229.5" cy="358.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="229.5" cy="358.0" r="5" fill="#1c1a17"/><circle cx="115.0" cy="464.3" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="115.0" cy="464.3" r="5" fill="#1c1a17"/><circle cx="172.5" cy="256.1" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="172.5" cy="256.1" r="5" fill="#1c1a17"/><circle cx="277.4" cy="481.3" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="277.4" cy="481.3" r="5" fill="#1c1a17"/><circle cx="284.2" cy="487.5" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="284.2" cy="487.5" r="5" fill="#1c1a17"/><circle cx="245.4" cy="491.1" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="245.4" cy="491.1" r="5" fill="#1c1a17"/><circle cx="112.5" cy="269.5" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="112.5" cy="269.5" r="5" fill="#1c1a17"/><circle cx="157.4" cy="464.7" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="157.4" cy="464.7" r="5" fill="#1c1a17"/><circle cx="324.1" cy="269.2" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="324.1" cy="269.2" r="5" fill="#1c1a17"/><circle cx="174.6" cy="242.7" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="174.6" cy="242.7" r="5" fill="#1c1a17"/><circle cx="228.5" cy="327.1" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="228.5" cy="327.1" r="5" fill="#1c1a17"/><circle cx="156.3" cy="248.8" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="156.3" cy="248.8" r="5" fill="#1c1a17"/><circle cx="261.2" cy="241.1" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="261.2" cy="241.1" r="5" fill="#1c1a17"/><circle cx="305.0" cy="439.9" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="305.0" cy="439.9" r="5" fill="#1c1a17"/><circle cx="190.1" cy="479.4" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="190.1" cy="479.4" r="5" fill="#1c1a17"/><circle cx="143.6" cy="509.4" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="143.6" cy="509.4" r="5" fill="#1c1a17"/><circle cx="177.2" cy="349.3" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="177.2" cy="349.3" r="5" fill="#1c1a17"/><circle cx="112.9" cy="327.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="112.9" cy="327.0" r="5" fill="#1c1a17"/><circle cx="185.1" cy="436.6" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="185.1" cy="436.6" r="5" fill="#1c1a17"/><circle cx="623.6" cy="385.7" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="623.6" cy="385.7" r="5" fill="#8a4a0e"/><circle cx="515.1" cy="385.6" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="515.1" cy="385.6" r="5" fill="#8a4a0e"/><circle cx="599.0" cy="511.8" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="599.0" cy="511.8" r="5" fill="#8a4a0e"/><circle cx="657.3" cy="522.0" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="657.3" cy="522.0" r="5" fill="#8a4a0e"/><circle cx="608.7" cy="277.4" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="608.7" cy="277.4" r="5" fill="#8a4a0e"/><circle cx="450.9" cy="294.4" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="450.9" cy="294.4" r="5" fill="#8a4a0e"/><circle cx="526.0" cy="356.6" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="526.0" cy="356.6" r="5" fill="#8a4a0e"/><circle cx="448.9" cy="514.9" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="448.9" cy="514.9" r="5" fill="#8a4a0e"/><circle cx="486.0" cy="244.5" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="486.0" cy="244.5" r="5" fill="#8a4a0e"/><circle cx="489.4" cy="303.9" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="489.4" cy="303.9" r="5" fill="#8a4a0e"/><circle cx="647.5" cy="248.4" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="647.5" cy="248.4" r="5" fill="#8a4a0e"/><circle cx="521.3" cy="423.2" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="521.3" cy="423.2" r="5" fill="#8a4a0e"/><circle cx="560.2" cy="298.0" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="560.2" cy="298.0" r="5" fill="#8a4a0e"/><circle cx="470.3" cy="306.1" r="11" fill="#f8f6f1" stroke="#8a4a0e" stroke-width="3.5"/><circle cx="470.3" cy="306.1" r="5" fill="#8a4a0e"/></svg></div>
+<div class="l m row" data-at="38.32" data-out="54.05" data-anim="rise" style="left:150px;top:300px;font-size:32px"><span>\(V_2 = \dfrac{3.0\;\text{bar} \cdot 6\;\text{cm}^3 \cdot 289.15\;\text{K}}{281.15\;\text{K} \cdot 1.0\;\text{bar}} \approx 18.5\;\text{cm}^3\)</span></div>
+<div class="l graf" data-at="38.32" data-out="54.05" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polyline points="127.0,417.2 127.8,406.7 128.5,402.4 129.3,399.1 130.0,396.4 130.8,394.0 131.5,391.8 132.2,389.9 133.0,388.0 133.7,386.4 134.5,384.8 135.2,383.3 136.0,381.9 136.7,380.5 137.5,379.2 138.2,378.0 138.9,376.8 139.7,375.7 140.4,374.6 141.2,373.6 141.9,372.6 142.7,371.6 143.4,370.6 144.2,369.7 144.9,368.8 145.6,368.0 146.4,367.2 147.1,366.4 147.9,365.6 148.6,364.8 149.4,364.1 150.1,363.3 150.8,362.6 151.6,362.0 152.3,361.3 153.1,360.7 153.8,360.0 154.6,359.4 155.3,358.8 156.1,358.2 156.8,357.7 157.5,357.1 158.3,356.6 159.0,356.1 159.8,355.6 160.5,355.1 161.3,354.6 162.0,354.1 162.8,353.7 163.5,353.2 164.2,352.8 165.0,352.3 165.7,351.9 166.5,351.5 167.2,351.1 168.0,350.8 168.7,350.4 169.4,350.0 170.2,349.7 170.9,349.3 171.7,349.0 172.4,348.7 173.2,348.4 173.9,348.1 174.7,347.8 175.4,347.5 176.1,347.2 176.9,347.0 177.6,346.7 178.4,346.5 179.1,346.2 179.9,346.0 180.6,345.8 181.4,345.6 182.1,345.4 182.8,345.2 183.6,345.0 184.3,344.8 185.1,344.6 185.8,344.5 186.6,344.3 187.3,344.2 188.0,344.0 188.8,343.9 189.5,343.8 190.3,343.6 191.0,343.5 191.8,343.4 192.5,343.3 193.3,343.3 194.0,343.2 194.7,343.1 195.5,343.0 196.2,343.0 197.0,342.9 197.7,342.9 198.5,342.9 199.2,342.8 200.0,342.8 200.7,342.8 201.4,342.8 202.2,342.8 202.9,342.8 203.7,342.8 204.4,342.9 205.2,342.9 205.9,342.9 206.6,343.0 207.4,343.0 208.1,343.1 208.9,343.2 209.6,343.3 210.4,343.3 211.1,343.4 211.9,343.5 212.6,343.6 213.3,343.8 214.1,343.9 214.8,344.0 215.6,344.2 216.3,344.3 217.1,344.5 217.8,344.6 218.6,344.8 219.3,345.0 220.0,345.2 220.8,345.4 221.5,345.6 222.3,345.8 223.0,346.0 223.8,346.2 224.5,346.5 225.2,346.7 226.0,347.0 226.7,347.2 227.5,347.5 228.2,347.8 229.0,348.1 229.7,348.4 230.5,348.7 231.2,349.0 231.9,349.3 232.7,349.7 233.4,350.0 234.2,350.4 234.9,350.8 235.7,351.1 236.4,351.5 237.2,351.9 237.9,352.3 238.6,352.8 239.4,353.2 240.1,353.7 240.9,354.1 241.6,354.6 242.4,355.1 243.1,355.6 243.8,356.1 244.6,356.6 245.3,357.1 246.1,357.7 246.8,358.2 247.6,358.8 248.3,359.4 249.1,360.0 249.8,360.7 250.5,361.3 251.3,362.0 252.0,362.6 252.8,363.3 253.5,364.1 254.3,364.8 255.0,365.6 255.8,366.4 256.5,367.2 257.2,368.0 258.0,368.8 258.7,369.7 259.5,370.6 260.2,371.6 261.0,372.6 261.7,373.6 262.4,374.6 263.2,375.7 263.9,376.8 264.7,378.0 265.4,379.2 266.2,380.5 266.9,381.9 267.7,383.3 268.4,384.8 269.1,386.4 269.9,388.0 270.6,389.9 271.4,391.8 272.1,394.0 272.9,396.4 273.6,399.1 274.4,402.4 275.1,406.7 275.8,417.2" fill="none" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /><polyline points="127.0,417.2 127.8,427.7 128.5,432.0 129.3,435.3 130.0,438.0 130.8,440.4 131.5,442.6 132.2,444.5 133.0,446.4 133.7,448.0 134.5,449.6 135.2,451.1 136.0,452.5 136.7,453.9 137.5,455.2 138.2,456.4 138.9,457.6 139.7,458.7 140.4,459.8 141.2,460.8 141.9,461.8 142.7,462.8 143.4,463.8 144.2,464.7 144.9,465.6 145.6,466.4 146.4,467.2 147.1,468.0 147.9,468.8 148.6,469.6 149.4,470.3 150.1,471.1 150.8,471.8 151.6,472.4 152.3,473.1 153.1,473.7 153.8,474.4 154.6,475.0 155.3,475.6 156.1,476.2 156.8,476.7 157.5,477.3 158.3,477.8 159.0,478.3 159.8,478.8 160.5,479.3 161.3,479.8 162.0,480.3 162.8,480.7 163.5,481.2 164.2,481.6 165.0,482.1 165.7,482.5 166.5,482.9 167.2,483.3 168.0,483.6 168.7,484.0 169.4,484.4 170.2,484.7 170.9,485.1 171.7,485.4 172.4,485.7 173.2,486.0 173.9,486.3 174.7,486.6 175.4,486.9 176.1,487.2 176.9,487.4 177.6,487.7 178.4,487.9 179.1,488.2 179.9,488.4 180.6,488.6 181.4,488.8 182.1,489.0 182.8,489.2 183.6,489.4 184.3,489.6 185.1,489.8 185.8,489.9 186.6,490.1 187.3,490.2 188.0,490.4 188.8,490.5 189.5,490.6 190.3,490.8 191.0,490.9 191.8,491.0 192.5,491.1 193.3,491.1 194.0,491.2 194.7,491.3 195.5,491.4 196.2,491.4 197.0,491.5 197.7,491.5 198.5,491.5 199.2,491.6 200.0,491.6 200.7,491.6 201.4,491.6 202.2,491.6 202.9,491.6 203.7,491.6 204.4,491.5 205.2,491.5 205.9,491.5 206.6,491.4 207.4,491.4 208.1,491.3 208.9,491.2 209.6,491.1 210.4,491.1 211.1,491.0 211.9,490.9 212.6,490.8 213.3,490.6 214.1,490.5 214.8,490.4 215.6,490.2 216.3,490.1 217.1,489.9 217.8,489.8 218.6,489.6 219.3,489.4 220.0,489.2 220.8,489.0 221.5,488.8 222.3,488.6 223.0,488.4 223.8,488.2 224.5,487.9 225.2,487.7 226.0,487.4 226.7,487.2 227.5,486.9 228.2,486.6 229.0,486.3 229.7,486.0 230.5,485.7 231.2,485.4 231.9,485.1 232.7,484.7 233.4,484.4 234.2,484.0 234.9,483.6 235.7,483.3 236.4,482.9 237.2,482.5 237.9,482.1 238.6,481.6 239.4,481.2 240.1,480.7 240.9,480.3 241.6,479.8 242.4,479.3 243.1,478.8 243.8,478.3 244.6,477.8 245.3,477.3 246.1,476.7 246.8,476.2 247.6,475.6 248.3,475.0 249.1,474.4 249.8,473.7 250.5,473.1 251.3,472.4 252.0,471.8 252.8,471.1 253.5,470.3 254.3,469.6 255.0,468.8 255.8,468.0 256.5,467.2 257.2,466.4 258.0,465.6 258.7,464.7 259.5,463.8 260.2,462.8 261.0,461.8 261.7,460.8 262.4,459.8 263.2,458.7 263.9,457.6 264.7,456.4 265.4,455.2 266.2,453.9 266.9,452.5 267.7,451.1 268.4,449.6 269.1,448.0 269.9,446.4 270.6,444.5 271.4,442.6 272.1,440.4 272.9,438.0 273.6,435.3 274.4,432.0 275.1,427.7 275.8,417.2" fill="none" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /><polyline points="405.6,417.1 406.7,401.9 407.8,395.6 408.9,390.9 409.9,386.9 411.0,383.4 412.1,380.2 413.2,377.4 414.3,374.8 415.4,372.3 416.4,370.0 417.5,367.8 418.6,365.8 419.7,363.8 420.8,361.9 421.9,360.1 422.9,358.4 424.0,356.8 425.1,355.2 426.2,353.7 427.3,352.2 428.4,350.8 429.4,349.4 430.5,348.1 431.6,346.8 432.7,345.6 433.8,344.3 434.9,343.2 435.9,342.0 437.0,340.9 438.1,339.8 439.2,338.8 440.3,337.8 441.4,336.8 442.4,335.8 443.5,334.9 444.6,334.0 445.7,333.1 446.8,332.2 447.8,331.4 448.9,330.6 450.0,329.7 451.1,329.0 452.2,328.2 453.3,327.5 454.3,326.7 455.4,326.0 456.5,325.4 457.6,324.7 458.7,324.0 459.8,323.4 460.8,322.8 461.9,322.2 463.0,321.6 464.1,321.0 465.2,320.5 466.3,319.9 467.3,319.4 468.4,318.9 469.5,318.4 470.6,317.9 471.7,317.5 472.8,317.0 473.8,316.6 474.9,316.2 476.0,315.7 477.1,315.3 478.2,315.0 479.3,314.6 480.3,314.2 481.4,313.9 482.5,313.5 483.6,313.2 484.7,312.9 485.8,312.6 486.8,312.3 487.9,312.1 489.0,311.8 490.1,311.5 491.2,311.3 492.3,311.1 493.3,310.9 494.4,310.7 495.5,310.5 496.6,310.3 497.7,310.1 498.8,310.0 499.8,309.8 500.9,309.7 502.0,309.5 503.1,309.4 504.2,309.3 505.3,309.2 506.3,309.2 507.4,309.1 508.5,309.0 509.6,309.0 510.7,308.9 511.8,308.9 512.8,308.9 513.9,308.9 515.0,308.9 516.1,308.9 517.2,308.9 518.3,309.0 519.3,309.0 520.4,309.1 521.5,309.2 522.6,309.2 523.7,309.3 524.8,309.4 525.8,309.5 526.9,309.7 528.0,309.8 529.1,310.0 530.2,310.1 531.2,310.3 532.3,310.5 533.4,310.7 534.5,310.9 535.6,311.1 536.7,311.3 537.7,311.5 538.8,311.8 539.9,312.1 541.0,312.3 542.1,312.6 543.2,312.9 544.2,313.2 545.3,313.5 546.4,313.9 547.5,314.2 548.6,314.6 549.7,315.0 550.7,315.3 551.8,315.7 552.9,316.2 554.0,316.6 555.1,317.0 556.2,317.5 557.2,317.9 558.3,318.4 559.4,318.9 560.5,319.4 561.6,319.9 562.7,320.5 563.7,321.0 564.8,321.6 565.9,322.2 567.0,322.8 568.1,323.4 569.2,324.0 570.2,324.7 571.3,325.4 572.4,326.0 573.5,326.7 574.6,327.5 575.7,328.2 576.7,329.0 577.8,329.7 578.9,330.6 580.0,331.4 581.1,332.2 582.2,333.1 583.2,334.0 584.3,334.9 585.4,335.8 586.5,336.8 587.6,337.8 588.7,338.8 589.7,339.8 590.8,340.9 591.9,342.0 593.0,343.2 594.1,344.3 595.2,345.6 596.2,346.8 597.3,348.1 598.4,349.4 599.5,350.8 600.6,352.2 601.7,353.7 602.7,355.2 603.8,356.8 604.9,358.4 606.0,360.1 607.1,361.9 608.2,363.8 609.2,365.8 610.3,367.8 611.4,370.0 612.5,372.3 613.6,374.8 614.6,377.4 615.7,380.2 616.8,383.4 617.9,386.9 619.0,390.9 620.1,395.6 621.1,401.9 622.2,417.1" fill="none" stroke="#1f6b3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><polyline points="405.6,417.3 406.7,432.5 407.8,438.8 408.9,443.5 409.9,447.5 411.0,451.0 412.1,454.2 413.2,457.0 414.3,459.6 415.4,462.1 416.4,464.4 417.5,466.6 418.6,468.6 419.7,470.6 420.8,472.5 421.9,474.3 422.9,476.0 424.0,477.6 425.1,479.2 426.2,480.7 427.3,482.2 428.4,483.6 429.4,485.0 430.5,486.3 431.6,487.6 432.7,488.8 433.8,490.1 434.9,491.2 435.9,492.4 437.0,493.5 438.1,494.6 439.2,495.6 440.3,496.6 441.4,497.6 442.4,498.6 443.5,499.5 444.6,500.4 445.7,501.3 446.8,502.2 447.8,503.0 448.9,503.8 450.0,504.7 451.1,505.4 452.2,506.2 453.3,506.9 454.3,507.7 455.4,508.4 456.5,509.0 457.6,509.7 458.7,510.4 459.8,511.0 460.8,511.6 461.9,512.2 463.0,512.8 464.1,513.4 465.2,513.9 466.3,514.5 467.3,515.0 468.4,515.5 469.5,516.0 470.6,516.5 471.7,516.9 472.8,517.4 473.8,517.8 474.9,518.2 476.0,518.7 477.1,519.1 478.2,519.4 479.3,519.8 480.3,520.2 481.4,520.5 482.5,520.9 483.6,521.2 484.7,521.5 485.8,521.8 486.8,522.1 487.9,522.3 489.0,522.6 490.1,522.9 491.2,523.1 492.3,523.3 493.3,523.5 494.4,523.7 495.5,523.9 496.6,524.1 497.7,524.3 498.8,524.4 499.8,524.6 500.9,524.7 502.0,524.9 503.1,525.0 504.2,525.1 505.3,525.2 506.3,525.2 507.4,525.3 508.5,525.4 509.6,525.4 510.7,525.5 511.8,525.5 512.8,525.5 513.9,525.5 515.0,525.5 516.1,525.5 517.2,525.5 518.3,525.4 519.3,525.4 520.4,525.3 521.5,525.2 522.6,525.2 523.7,525.1 524.8,525.0 525.8,524.9 526.9,524.7 528.0,524.6 529.1,524.4 530.2,524.3 531.2,524.1 532.3,523.9 533.4,523.7 534.5,523.5 535.6,523.3 536.7,523.1 537.7,522.9 538.8,522.6 539.9,522.3 541.0,522.1 542.1,521.8 543.2,521.5 544.2,521.2 545.3,520.9 546.4,520.5 547.5,520.2 548.6,519.8 549.7,519.4 550.7,519.1 551.8,518.7 552.9,518.2 554.0,517.8 555.1,517.4 556.2,516.9 557.2,516.5 558.3,516.0 559.4,515.5 560.5,515.0 561.6,514.5 562.7,513.9 563.7,513.4 564.8,512.8 565.9,512.2 567.0,511.6 568.1,511.0 569.2,510.4 570.2,509.7 571.3,509.0 572.4,508.4 573.5,507.7 574.6,506.9 575.7,506.2 576.7,505.4 577.8,504.7 578.9,503.8 580.0,503.0 581.1,502.2 582.2,501.3 583.2,500.4 584.3,499.5 585.4,498.6 586.5,497.6 587.6,496.6 588.7,495.6 589.7,494.6 590.8,493.5 591.9,492.4 593.0,491.2 594.1,490.1 595.2,488.8 596.2,487.6 597.3,486.3 598.4,485.0 599.5,483.6 600.6,482.2 601.7,480.7 602.7,479.2 603.8,477.6 604.9,476.0 606.0,474.3 607.1,472.5 608.2,470.6 609.2,468.6 610.3,466.6 611.4,464.4 612.5,462.1 613.6,459.6 614.6,457.0 615.7,454.2 616.8,451.0 617.9,447.5 619.0,443.5 620.1,438.8 621.1,432.5 622.2,417.3" fill="none" stroke="#1f6b3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /><text x="201.4" y="558.6" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Tiefe: 6 cm³</text><text x="201.4" y="618.1" font-size="22" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">3.0 bar; 8 °C</text><text x="513.9" y="588.3" font-size="28" font-weight="600" fill="#1f6b3a" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">oben: 18.5 cm³</text><text x="513.9" y="647.8" font-size="22" font-weight="600" fill="#1f6b3a" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">1.0 bar; 16 °C</text><text x="380.0" y="127.0" font-size="30" font-weight="600" fill="#1f6b3a" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Volumen ×3.1</text></svg></div>
+</div></div>
+<audio id="ton" preload="auto" src="ton/p5-3-lp-kontrolle-gas.mp3"></audio>
+<div id="ui">
+  <button id="pp">Pause</button>
+  <button id="ts" hidden>🔇 Ton an</button>
+  <div id="bar"><div id="barf"></div></div>
+  <span id="tt">0.0 s</span>
+  <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
+</div>
+<script>
+const DUR = 54.05;
+const SPRECHER = [{"bei": 0.4, "text": "V eins gleich V zwei kürzt sich. In Kelvin: zweihundertdreiundachtzig Komma eins fünf und dreihundertdrei Komma eins fünf. Eins Komma zwei Bar mal dreihundertdrei Komma eins fünf durch zweihundertdreiundachtzig Komma eins fünf, rund eins Komma zwei acht Bar."}, {"bei": 15.82, "text": "Absolut sind es zwei Komma sechs Bar. Mal dreihundertacht Komma eins fünf durch zweihundertachtundsiebzig Komma eins fünf: zwei Komma acht acht Bar absolut. Das Manometer zeigt den Überdruck, eins Komma acht acht Bar."}, {"bei": 29.18, "text": "Das Modell des idealen Gases vergleicht zwei Zustände derselben Gasmenge. Strömt Gas hinaus, stimmt die Gasgleichung nicht mehr."}, {"bei": 37.72, "text": "V zwei gleich p eins mal V eins mal T zwei durch T eins mal p zwei: drei Bar mal sechs Kubikzentimeter mal zweihundertneunundachtzig Komma eins fünf Kelvin, durch zweihunderteinundachtzig Komma eins fünf Kelvin mal ein Bar. Das sind rund achtzehn Komma fünf Kubikzentimeter."}];
+const stage = document.getElementById('stage');
+const layers = [...document.querySelectorAll('.l')].map(el => ({
+  el, at: parseFloat(el.dataset.at || '0'),
+  out: el.dataset.out ? parseFloat(el.dataset.out) : Infinity,
+  anim: el.dataset.anim || 'fade',
+  dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
+}));
+const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
+const ease = p => 1 - Math.pow(1 - p, 3);
+const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
+function seek(t)  {
+  for (const L of layers) {
+    const pi = ease(cl((t - L.at) / IN));
+    const po = L.out === Infinity ? 0 : ease(cl((t - L.out) / OUT));
+    let o = pi * (1 - po), tr = '';
+    if (L.anim === 'rise') tr = 'translateY(' + ((1 - pi) * 26) + 'px)';
+    else if (L.anim === 'pop') tr = 'scale(' + (0.90 + 0.10 * pi) + ')';
+    else if (L.anim === 'wipe') { tr = 'scaleX(' + pi + ')'; o = (t >= L.at ? 1 : 0) * (1 - po); }
+    if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
+    L.el.style.transform = tr; L.el.style.opacity = o;
+  }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
+}
+const FRAGEN = [{"typ": "wahl", "text": "Luft in einer starren Flasche hat 1.2 bar (absolut) bei 10 °C. Sie wird auf 30 °C erwärmt. Wie gross ist der Druck jetzt?", "optionen": ["3.6 bar", "1.28 bar", "1.12 bar"], "richtig": 1, "rueck": {"0": "Mit welcher Temperaturskala hast du gerechnet?", "2": "Wird der Druck beim Erwärmen kleiner?"}, "t": 0.3, "ton": {"frage": "ton/p5-3-lp-kontrolle-gas-f0-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-gas-f0-r0.mp3", "r2": "ton/p5-3-lp-kontrolle-gas-f0-r2.mp3"}}, {"typ": "wahl", "text": "Ein Drucksprühgerät für den Garten (starrer Tank) zeigt bei 5 °C einen Überdruck von 1.6 bar. Bei 35 °C: Was zeigt das Manometer?", "optionen": ["1.77 bar", "2.88 bar", "1.88 bar"], "richtig": 2, "rueck": {"0": "Mit welchem Druck hast du gerechnet: mit dem Überdruck oder mit dem absoluten?", "1": "Was zeigt ein Manometer an: den absoluten Druck oder den Überdruck?"}, "t": 15.72, "ton": {"frage": "ton/p5-3-lp-kontrolle-gas-f1-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-gas-f1-r0.mp3", "r1": "ton/p5-3-lp-kontrolle-gas-f1-r1.mp3"}}, {"typ": "wahl", "text": "Ein Ballon verliert über Nacht Gas durch die Hülle. Darf man die Gasgleichung zwischen Abend und Morgen anwenden?", "optionen": ["ja, wenn T in Kelvin steht", "nein, die Gasmenge ändert sich", "ja, immer"], "richtig": 1, "rueck": {"0": "Kelvin ist nötig. Aber was muss sonst noch gleich bleiben?", "2": "Gilt die Gleichung auch, wenn Gas hinausströmt?"}, "t": 29.08, "ton": {"frage": "ton/p5-3-lp-kontrolle-gas-f2-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-gas-f2-r0.mp3", "r2": "ton/p5-3-lp-kontrolle-gas-f2-r2.mp3"}}, {"typ": "wahl", "text": "Eine Luftblase hat in der Tiefe 6 cm³ bei 3.0 bar und 8 °C. An der Oberfläche herrschen 1.0 bar und 16 °C. Welches Volumen hat sie dort?", "optionen": ["2.06 cm³", "18.5 cm³", "36 cm³"], "richtig": 1, "rueck": {"0": "Der Druck nimmt ab. Wird die Blase grösser oder kleiner?", "2": "Mit welcher Temperaturskala hast du gerechnet?"}, "t": 37.62, "ton": {"frage": "ton/p5-3-lp-kontrolle-gas-f3-frage.mp3", "r0": "ton/p5-3-lp-kontrolle-gas-f3-r0.mp3", "r2": "ton/p5-3-lp-kontrolle-gas-f3-r2.mp3"}}];
+(() => {
+  if (location.search.includes('render')) return;
+  const pp = document.getElementById('pp');
+  const css = document.createElement('style');
+  css.textContent = `
+    #frage{position:absolute;left:110px;top:560px;width:820px;z-index:50;display:none;
+      background:rgba(255,255,255,.97);border:3px solid var(--f2);border-radius:22px;
+      padding:28px 34px;box-shadow:0 10px 40px rgba(0,0,0,.18);font-family:inherit;color:inherit}
+    #frage .fr-kopf{font-size:26px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--f2);margin-bottom:10px}
+    #frage .fr-text{font-size:38px;line-height:1.3;margin-bottom:22px}
+    #frage .fr-knoepfe{display:flex;flex-wrap:wrap;gap:14px}
+    #frage button{font:inherit;font-size:32px;padding:10px 26px;border-radius:999px;cursor:pointer;
+      border:2.5px solid var(--f2);background:var(--f2w);color:inherit}
+    #frage button.ok{border-color:var(--f3);background:var(--f3w)}
+    #frage button.nein{border-color:var(--f4);background:var(--f4w)}
+    #frage .fr-rueck{font-size:32px;line-height:1.35;margin-top:20px}
+    #frage .fr-weiter{margin-top:20px}
+    #frage .fr-eingabe{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:30px;margin-top:14px;width:100%}
+    #frage .fr-eingabe input{font:inherit;font-size:30px;width:4.2em;padding:4px 10px;border:2.5px solid var(--f2);border-radius:12px}
+    .fr-tippbar, .fr-tippbar svg{pointer-events:auto !important;cursor:crosshair}`;
+  document.head.appendChild(css);
+  const box = document.createElement('div'); box.id = 'frage'; stage.appendChild(box);
+  let letzt = 0, offen = null, tippen = null, stimme = null, sprung = false;
+  // Vorlesen mit derselben Stimme wie der Clip — nur wenn dessen Ton an ist.
+  const hauptton = document.getElementById('ton');
+  const vorlesen = src => {
+    if (stimme) { stimme.pause(); stimme = null; }
+    if (!src || !hauptton || hauptton.muted) return;
+    stimme = new Audio(src); stimme.play().catch(() => {});
+  };
+  const erledigt = new Set();     // beantwortete Fragen
+  const pause = () => { if (pp.textContent === 'Pause') pp.click(); };
+  const weiter = () => { if (pp.textContent === 'Play') pp.click(); };
+  function schliessen() {
+    vorlesen(null);
+    // Fokus zurueck auf Play/Pause — auch wenn er mit dem gesperrten Antwortknopf
+    // schon auf <body> gefallen ist
+    const fo = document.activeElement;
+    if (!fo || fo === document.body || box.contains(fo)) pp.focus({ preventScroll: true });
+    box.style.display = 'none'; box.innerHTML = '';
+    document.querySelectorAll('.fr-marke').forEach(m => m.remove());
+    document.querySelectorAll('.fr-tippbar').forEach(l => l.classList.remove('fr-tippbar'));
+    if (tippen) { stage.removeEventListener('click', tippen); tippen = null; }
+    offen = null;
+  }
+  function antwort(F, ok, text, schl) {
+    const o = offen; erledigt.add(o.i);
+    box.dataset.fertig = '1';
+    vorlesen((F.ton || {})[schl]);
+    if (F.typ === 'klick') box.querySelector('.fr-knoepfe').innerHTML = '';
+    const r = box.querySelector('.fr-rueck');
+    r.innerHTML = (ok ? '✓ ' : '') + text;
+    r.style.color = ok ? 'var(--f3)' : '';
+    if (ok) {                      // richtig: kurz bestaetigen, dann von selbst weiter
+      setTimeout(() => { if (offen === o) { schliessen(); weiter(); } }, 1300);
+      return;
+    }
+    const w = document.createElement('button'); w.className = 'fr-weiter'; w.textContent = 'Weiter ▶';
+    w.onclick = () => { schliessen(); weiter(); };
+    box.appendChild(w); w.focus();
+  }
+  function zeigen(i, F) {
+    offen = { i, t: F.t }; pause(); delete box.dataset.fertig;
+    box.innerHTML = '<div class="fr-kopf"></div><div class="fr-text"></div>'
+      + '<div class="fr-knoepfe"></div><div class="fr-rueck"></div>';
+    box.querySelector('.fr-kopf').textContent = F.kopf || 'Deine Vorhersage';  // "kopf": z. B. «Dein Vorgehen»
+    box.querySelector('.fr-text').textContent = F.text;
+    const kn = box.querySelector('.fr-knoepfe');
+    if (F.typ === 'wahl') {
+      F.optionen.forEach((o, j) => {
+        const b = document.createElement('button'); b.textContent = o;
+        b.onclick = () => {
+          kn.querySelectorAll('button').forEach(x => x.disabled = true);
+          b.classList.add(j === F.richtig ? 'ok' : 'nein');
+          antwort(F, j === F.richtig, (F.rueck || {})[j] || (j === F.richtig ? 'Richtig.' : 'Schau, was der Clip zeigt.'), 'r' + j);
+        };
+        kn.appendChild(b);
+      });
+    } else if (F.typ === 'klick') {
+      const L = [...document.querySelectorAll('.l')].find(l => +l.style.opacity > 0.5 && l.querySelector('[data-fenster]'));
+      if (!L) { schliessen(); weiter(); return; }
+      const svg = L.querySelector('svg'), fe = L.querySelector('[data-fenster]').dataset.fenster.split(',').map(Number);
+      const [x0, x1, y0, y1, b, h, rd] = fe;
+      L.classList.add('fr-tippbar');
+      // Toleranz: eine Zahl (Abstand in Dateneinheiten) oder [dx, dy] je Achse —
+      // Letzteres, wenn die Achsen verschiedene Grössen tragen (s und C).
+      const tol = F.toleranz || 0.5;
+      const nah = (x, y, z) => Array.isArray(tol) ? Math.abs(x - z[0]) <= tol[0] && Math.abs(y - z[1]) <= tol[1]
+                                                  : Math.hypot(x - z[0], y - z[1]) <= tol;
+      const px = (x, y) => [rd + (x - x0) / (x1 - x0) * (b - 2 * rd), h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd)];
+      const mk = (cx, cy, farbe) => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', 16); c.setAttribute('class', 'fr-marke');
+        c.setAttribute('fill', 'none'); c.setAttribute('stroke', farbe); c.setAttribute('stroke-width', 6); svg.appendChild(c); };
+      const pruefePunkt = (x, y) => {
+        mk(...px(x, y), 'var(--f2)');
+        if (nah(x, y, F.ziel)) return antwort(F, true, F.richtig_text || 'Getroffen.', 'ok');
+        mk(...px(F.ziel[0], F.ziel[1]), 'var(--f3)');
+        const fk = (F.fallen || []).findIndex(f => nah(x, y, f.bei));
+        antwort(F, false, fk >= 0 ? F.fallen[fk].text : (F.falsch_text || 'Nicht ganz — der grüne Kreis zeigt die Stelle.'),
+                fk >= 0 ? 'fall' + fk : 'falsch');
+      };
+      // Am Stage horchen, nicht am Layer: unsichtbare spaetere Layer (Deckkraft 0)
+      // liegen obenauf und wuerden den Tipp abfangen.
+      tippen = ev => {
+        if (!offen || box.dataset.fertig || box.contains(ev.target)) return;
+        const r = svg.getBoundingClientRect();
+        if (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom) return;
+        const sx = (ev.clientX - r.left) / r.width * b, sy = (ev.clientY - r.top) / r.height * h;
+        pruefePunkt(x0 + (sx - rd) / (b - 2 * rd) * (x1 - x0), y0 + (h - rd - sy) / (h - 2 * rd) * (y1 - y0));
+      };
+      stage.addEventListener('click', tippen);
+      kn.innerHTML = '<span style="font-size:30px;color:var(--f2)">👉 Tipp ins Bild rechts.</span>';
+      // Ohne Zeigegeraet: dieselbe Antwort als zwei Zahlen ("eingabe": [Name x, Name y])
+      if (F.eingabe) {
+        const f = document.createElement('form'); f.className = 'fr-eingabe';
+        f.innerHTML = '<span>oder eingeben:</span>' + F.eingabe.map((n, k) =>
+          '<label>' + n + ' <input inputmode="decimal" autocomplete="off" data-k="' + k + '"></label>').join('')
+          + '<button type="submit">Prüfen</button>';
+        f.onsubmit = ev => {
+          ev.preventDefault();
+          if (box.dataset.fertig) return;
+          const w = [...f.querySelectorAll('input')].map(i => parseFloat(i.value.replace(',', '.')));
+          if (w.some(isNaN)) { f.querySelector('input').focus(); return; }
+          pruefePunkt(w[0], w[1]);
+        };
+        kn.appendChild(f);
+      }
+    }
+    box.style.display = 'block';
+    // Fokus auf die erste Antwort: Tab, Enter und Leertaste reichen dann
+    const erst = box.querySelector('.fr-knoepfe button, .fr-eingabe input');
+    if (erst) erst.focus({ preventScroll: true });
+    vorlesen((F.ton || {}).frage);
+  }
+  // Spulen wird ausdruecklich erkannt: Pfeiltasten und ein Klick auf die
+  // Zeitleiste setzen ein Zeichen, das das naechste Bild auswertet. Ein
+  // spaetes Bild (langsames Laden, Hintergrund-Tab) ist kein Spulen.
+  // Neustart (R) und ein Sprung vor die erste Frage stellen alle Fragen neu;
+  // nach R laeuft der Clip ab 0 wie beim ersten Abspielen.
+  document.addEventListener('keydown', e => {
+    if (e.target && e.target.closest && e.target.closest('input, select, textarea')) return;
+    if ((e.key || '').toLowerCase() === 'r') { schliessen(); erledigt.clear(); letzt = 0; }
+    if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') sprung = true;
+  });
+  const bar = document.getElementById('bar');
+  bar.addEventListener('click', () => { sprung = true; });
+  // Die Abspielzeit ist im Abspieler lokal; zurueckgestellt wird sie ueber
+  // dessen Zeitleiste.
+  const zurueck = s => {
+    const r = bar.getBoundingClientRect();
+    if (r.width > 0 && bar.onclick) bar.onclick({ currentTarget: bar, clientX: r.left + s / DUR * r.width });
+  };
+  const vorFragen = seek;
+  seek = function (t) {
+    vorFragen(t);
+    if (sprung) {
+      // gespult: eine uebersprungene Frage wird nicht gestellt, eine
+      // beantwortete kommt nicht wieder — ausser zurueck an den Anfang
+      sprung = false;
+      if (FRAGEN.length && t < Math.min(...FRAGEN.map(F => F.t))) { schliessen(); erledigt.clear(); }
+    } else if (!offen && pp.textContent === 'Pause') {
+      // gewoehnliches Abspielen, auch wenn ein Bild weit springt: die erste
+      // ueberschrittene Frage wird gestellt, der Clip geht an ihre Stelle zurueck
+      let i = -1;
+      FRAGEN.forEach((F, j) => {
+        if (!erledigt.has(j) && letzt < F.t && t >= F.t && (i < 0 || F.t < FRAGEN[i].t)) i = j;
+      });
+      if (i >= 0) {
+        zeigen(i, FRAGEN[i]);
+        if (offen && t - offen.t > 0.1) { t = offen.t; zurueck(t); vorFragen(t); }
+      }
+    }
+    if (offen && Math.abs(t - offen.t) > 1.0) schliessen();
+    letzt = t;
+  };
+})();
+window.__seek = seek;
+window.__dauer = DUR;
+if (!location.search.includes('render')) {
+  let t0 = performance.now(), playing = true, t = 0;
+  const barf = document.getElementById('barf'), tt = document.getElementById('tt'),
+        pp = document.getElementById('pp'), wrap = document.getElementById('wrap');
+  const fit = () => { stage.style.transform = 'translate(-50%,-50%) scale('
+      + Math.min(wrap.clientWidth / 1920, wrap.clientHeight / 1080) + ')'; };
+  window.addEventListener('resize', fit);
+  document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
+  fit();
+  // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
+  // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
+  // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
+  // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
+  // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.
+  const ton = document.getElementById('ton'), ts = document.getElementById('ts');
+  const tonBeschriften = () => {
+    if (ts) ts.textContent = (!ton || ton.muted) ? '🔇 Ton an' : '🔊 Ton aus';
+  };
+  if (ton) {
+    ts.hidden = false;
+    ton.muted = false;
+    ton.play().then(tonBeschriften).catch(() => {
+      ton.muted = true;
+      tonBeschriften();
+      ton.play().catch(() => {});
+    });
+    tonBeschriften();
+    ts.onclick = () => {
+      ton.muted = !ton.muted;
+      tonBeschriften();
+      if (!ton.muted) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); }
+    };
+  }
+  const tonLaeuft = () => ton && !ton.paused && !ton.ended;
+  function loop(now) {
+    if (playing) {
+      if (tonLaeuft()) t = ton.currentTime;
+      else { t += (now - t0) / 1000; if (t > DUR) t = DUR; }
+    }
+    t0 = now; seek(t);
+    barf.style.width = (t / DUR * 100) + '%'; tt.textContent = t.toFixed(1) + ' s';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  const tonAn = () => { if (ton) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); } };
+  const toggle = () => {
+    playing = !playing;
+    pp.textContent = playing ? 'Pause' : 'Play';
+    if (ton) { if (playing) ton.play().catch(() => {}); else ton.pause(); }
+  };
+  pp.onclick = toggle;
+  // Tastenkuerzel nicht in Eingabefeldern; die Leertaste nicht auf Knoepfen —
+  // dort bestaetigt sie den Knopf (Antwort einer Frage, Play/Pause selbst).
+  document.addEventListener('keydown', e => {
+    const ziel = e.target && e.target.closest ? e.target : null;
+    if (ziel && ziel.closest('input, select, textarea')) return;
+    if (e.code === 'Space' && ziel && ziel.closest('button, a, summary')) return;
+    if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    if (e.code === 'ArrowRight') { t = Math.min(DUR, t + 5); tonAn(); }
+    if (e.code === 'ArrowLeft') { t = Math.max(0, t - 5); tonAn(); }
+    const k = e.key.toLowerCase();
+    if (k === 'r') { t = 0; playing = true; pp.textContent = 'Pause'; tonAn(); }
+    if (k === 'f') document.documentElement.requestFullscreen?.();
+  });
+  document.getElementById('bar').onclick = e => {
+    const r = e.currentTarget.getBoundingClientRect();
+    t = (e.clientX - r.left) / r.width * DUR; tonAn();
+  };
+} else { document.body.classList.add('render'); seek(0); }
+</script></body></html>

@@ -131,8 +131,8 @@ SEITEN = {
            'Mischtemperatur', 'Latente Wärme', 'Heizkurve', 'Wirkungsgrad',
            'Heizwert', 'Temperatur', 'Kelvin']),
  'leitprogramme/leitprogramm-waermeausdehnung.html': dict(
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
-   titel='Leitprogramm Wärmeausdehnung — Feststoffe und Flüssigkeiten',
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 08.10.2026, wird entfernt
+   titel='Leitprogramm Wärmeausdehnung — Feststoffe und Flüssigkeiten (veraltet)',
    beschreibung='Leitprogramm zur Wärmeausdehnung: Längen-, Flächen- und '
                 'Volumenausdehnung fester Körper, warum der Volumenkoeffizient '
                 'rund dreimal so gross ist wie der Längenkoeffizient, die '
@@ -144,8 +144,8 @@ SEITEN = {
            'Ausdehnungskoeffizient', 'Scheinbare Ausdehnung', 'Dichte',
            'Anomalie des Wassers', 'Bimetall']),
  'leitprogramme/leitprogramm-ideale-gase.html': dict(
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
-   titel='Leitprogramm Ideale Gase — Gasgesetze selbst erarbeiten',
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 08.10.2026, wird entfernt
+   titel='Leitprogramm Ideale Gase — Gasgesetze selbst erarbeiten (veraltet)',
    beschreibung='Leitprogramm zu den idealen Gasen: Boyle-Mariotte, Amontons und Gay-Lussac '
                 'in acht Schritten zur allgemeinen Gasgleichung, mit Normbedingungen, den '
                 'Grenzen des Modells, Vortest und Kapiteltest zur Selbstkontrolle.',
@@ -260,8 +260,8 @@ SEITEN = {
    themen=['Physik', 'Wärmelehre', 'Wärme', 'Wärmemenge', 'Wärmebilanz', 'latente Wärme', 'Heizwert',
            'Wirkungsgrad', 'erneuerbare Energien', 'Wärmetransport', 'Treibhauseffekt', 'Leitprogramm']),
  'leitprogramme/leitprogramm-ausdehnung.html': dict(
-   # Erprobung seit 07.10.2026, unverlinkt bis nach /lp-pruefung.
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   # Freigeschaltet am 08.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Wärmeausdehnung und Gase — Längen- und Volumenausdehnung, ideales Gas',
    beschreibung='Leitprogramm zur Wärmeausdehnung — Längenausdehnung; Volumenausdehnung von '
                 'Festkörpern und Flüssigkeiten; Anomalie des Wassers und Meeresspiegel; ideales Gas '
