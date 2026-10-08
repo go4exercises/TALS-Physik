@@ -547,6 +547,41 @@ Ausserdem ohne neues Feld: Läufer liegen jetzt **über** festen Punkten (sie we
 und nehmen das `ein`/`aus` ihrer Kurve mit), und keine Beschriftung eines mitfahrenden Punkts ragt
 mehr über den Bildrand — sie klappt auf die andere Seite des Punkts oder wird hereingeschoben.
 
+**Dritte Runde (aus Mathe, 08.10.2026; dort aus den LPs 5.3–5.5).** Ohne die Felder baut jeder Clip Byte für
+Byte wie vorher (in Mathe alle 543 neu gebaut; in Physik eine Stichprobe von 22, die zehn ohne Fragen byte-gleich);
+neuer Abspielcode kommt nur in Clips, die das Feld benutzen. Einzige Ausnahme ist die nächstgelegene Falle unten —
+sie ändert den Abspielcode aller Clips mit Fragen (in Physik 102; noch nicht alle neu gebaut, das geschieht beim
+nächsten Bau des jeweiligen Clips).
+
+| Feld | wo | was |
+|---|---|---|
+| `"aus": 6.5` | jedes Element, auch ein ganzer `graf` | blendet das Element mitten in der Szene aus (Sekunden ab Szenenbeginn, wie `ein`); geht vor `halten`. Kein `aus` mehr an jede Figur einzeln. |
+| `"parameter": [[t, {"w": 0}], [t, {"w": 150}]]` | Figur | Buchstaben, die weich laufen; Lage- und Massfelder dürfen Formeln darin sein. `sind`, `cosd`, `tand` rechnen in Grad. So fährt ein Punkt **auf dem Kreisbogen** statt quer durch den Kreis: `{"art": "kreis", "m": ["cosd(w)", "sind(w)"], "r": 0.04, "fuellung": 1, "parameter": …}`; Radius `"bis": ["cosd(w)", "sind(w)"]`, Dreieck `"punkte": [[0, 0], ["cosd(w)", 0], ["cosd(w)", "sind(w)"]]` mit derselben Liste. Ersetzt die dichten Stützpunkte (in Mathe `Lauf` in `scripts/lp/einheitskreis/clips.py`). Nicht zusammen mit `bewegung`. |
+| `"folgt": 1`, `"versatz": [dx, dy]` oder `"radial": 0.17` | Figur, meist `text` | hängt an Figur 1 derselben Liste und fährt Bild für Bild mit: an `m` (Kreis, Sektor, Bogen), `bei` (Text, Winkel, Zeichen) oder der Ecke `"ecke"` (Strecke 0/1, Vieleck: Index; ohne Angabe die letzte). `radial` setzt den Text um seine Mitte, so weit von `"mitte"` (Standard [0, 0]) weg nach aussen — der Name am Punkt P. |
+| `"name": "P"`, `"name_abstand": 30` | `kreis`-Begleiter einer Sinus-/Tangenskurve | beschriftet den laufenden Punkt, radial nach aussen (px). |
+| `"zahlen_neben_kreis": true` (oder Radius) | `graf` | die Zahlen ±1 stehen neben bzw. über/unter dem Kreis um den Ursprung statt auf der Kreislinie. |
+| `"grad": true` | bewegte Kurve mit `"trig"` | x-Achse in Grad: Stützpunkte `[t, a, b, u, v]` mit `u` in Grad, \(y = a\sin\big(b(x-u)\big)+v\) mit dem Argument in Grad; `von`/`bis`, `grenzen`, `marken`, `laeufer` und beim `kreis` `mx` und die `bahn` ebenfalls in Grad. `{x}` zeigt Grad. Kein `xteilung`-Behelf mit Bogenmass mehr; eine Klickfrage mit `eingabe` verlangt dann Grad. |
+| `"farbwechsel": [[2, 2], [3.5, 3]]` | bewegte Kurve, Gerade, Parabel | ab t (ab Szenenbeginn) trägt die Linie diese Farbe (1–5); vorher ihre eigene. Umgeschaltet, nicht gemischt. Begleiter behalten ihre Farbe. |
+| `"strich": "4 9"` oder `"voll"`, `"dicke": 2` | `asymptoten` einer bewegten Kurve | eigene Strichart (SVG-Strichmuster) und Dicke; Standard bleibt `"10 8"`, 3 px. Pole und Mittellinie tragen dieselbe. |
+| `"ausweichen": true` | `graf` | Beschriftungen von Punkten — feste und mitfahrende — weichen einander und fremden Punkten aus: Eine Beschriftung bleibt, solange sie frei ist, sonst nimmt sie die erste freie von acht Lagen um ihren Punkt. Kurven und Linien sind kein Hindernis. Ohne das Feld wie bisher (bewusst als Option: Es hätte sonst in allen bewegten Clips Beschriftungen verschoben). |
+| `"ziel": [[0, 0], [4, 3]]` | Klickfrage, auch `fallen[].bei` | **Strecke** statt Punkt: Es zählt der Abstand zur Strecke (bei `toleranz` `[dx, dy]` in Toleranz-Einheiten). Ein Fehltipp zieht die Strecke grün nach. Für «Tipp die Hypotenuse an». |
+
+**Nächste Falle gewinnt** (ohne neues Feld, 08.10.2026): Liegt ein Tipp in mehreren `fallen`, kommt die
+Rückmeldung der nächstgelegenen, nicht mehr die der ersten in der Liste; bei Gleichstand die erste. In Mathe betroffen
+waren vier Kontrollclips mit überlappenden Fallen (`g3-2-lp-kontrolle-typen`, `g3-3-lp-kontrolle-extremwert`,
+`g5-3-lp-kontrolle-seiten`, `g5-4-lp-kontrolle-periode-umkehr`) — dort sagte ein Tipp bei \(x = 2.3\) bisher
+«3 ist der halbe Abstand» statt «Bei x = 2 …». In Physik überlappen keine Fallen (fünf Klickfragen, gezählt 08.10.2026).
+`pruef-fragen.mjs` tippt bei einer Strecke ihre Mitte an.
+
+```json
+{"typ": "graf", "aus": 6.5, "zahlen_neben_kreis": true, "xteilung": [[-1, "−1"], [1, "1"]], "yteilung": [[-1, "−1"], [1, "1"]],
+ "figuren": [
+   {"art": "kreis", "m": [0, 0], "r": 1, "farbe": 5, "dicke": 3},
+   {"art": "kreis", "m": ["cosd(w)", "sind(w)"], "r": 0.04, "farbe": 5, "fuellung": 1,
+    "parameter": [[0.5, {"w": 0}], [3.5, {"w": 150}]]},
+   {"art": "text", "text": "P", "folgt": 1, "radial": 0.17, "farbe": 5, "groesse": 34}]}
+```
+
 **Noch nicht:** ein bewegtes Fenster (Zoom) und eine senkrechte bewegte Gerade. Behelf für den Zoom:
 mehrere `graf` nacheinander mit wachsendem Fenster.
 
@@ -557,8 +592,8 @@ bis 1.5 m (am linken Rand würde die Beschriftung auf die Linie geschoben), mit 
 3.5 m, ohne Text um den Schnittpunkt, mit Text ab 6.5 m; die Läufer gehen aus, wenn die
 Eigengewicht-Ebene erscheint. Dynamik «Kurve», Szene 2: `"lage": "unten rechts"` an der Parabel, der
 letzte Wert als eigener Läufer mit `"oben links"`, weil am rechten Rand das Umklappen die
-Beschriftung auf die Kurve legte. Die Grenze bleibt: `ein`/`aus` gilt für **Teile im `graf`**, nicht
-für ganze Elemente (`bild`, `formel`, `notiz`) — die bleiben bis zum Szenenende stehen.
+Beschriftung auf die Kurve legte. Bis zum 08.10.2026 galt `ein`/`aus` nur für **Teile im `graf`**;
+seit der dritten Runde (oben) trägt jedes Element ein `aus` — auch `bild`, `formel` und `notiz`.
 
 ### Fragen im Clip: `fragen` (Prototyp 02.10.2026)
 
@@ -603,7 +638,8 @@ Voraussage (predict–observe–explain) wandert in den Clip selbst:
   Parabel, Gerade oder Kurve —, denn dessen Fenster rechnet den Tipp in Koordinaten um;
   zeigt die Szene nur feste Kurven, wird die Frage **stumm übersprungen** — dann
   `"tippbar": true` im `graf` setzen, aus Mathe seit 07.10.2026). `fallen` sind typische falsche
-  Stellen mit eigener Rückmeldung; ein grüner Kreis zeigt danach die richtige Stelle.
+  Stellen mit eigener Rückmeldung (liegt ein Tipp in mehreren, gewinnt die nächste; Ziel und Fallen
+  auch als Strecke — «Dritte Runde» oben); ein grüner Kreis zeigt danach die richtige Stelle.
   `toleranz` ist ein Abstand in Dateneinheiten — oder `[dx, dy]` je Achse, sobald die
   Achsen verschiedene Grössen tragen (`[0.4, 1.2]` bei \(t\) in s und \(Q\) in C: Sonst
   zählt ein Klick eine Sekunde daneben noch als Treffer). Mit `"eingabe": ["t in s", "Q in C"]`
@@ -635,6 +671,10 @@ Voraussage (predict–observe–explain) wandert in den Clip selbst:
   python3 scripts/build-clip-fragen-ton.py <clip>   # je Text clips/ton/<clip>-f<i>-<schluessel>.mp3
   python3 scripts/build-clips.py <clip>             # danach: der Clip nimmt nur vorhandene Dateien auf
   ```
+  Einzelne Fragen neu: `--fragen 2,5:r1` spricht alle Töne von Frage 2 und nur `r1` von
+  Frage 5 (Fragen ab 1 wie in der Ausgabe; die Dateien zählen ab 0, also `-f1-*` und
+  `-f4-r1`). Alle anderen Fragetöne bleiben unberührt. Ohne den Schalter löscht das Skript
+  alle Fragetöne des Clips und spricht sie neu.
   Gesprochen wird der Wortlaut aus `sprich`, `rueck_sprich` (je Option), `richtig_sprich`,
   `falsch_sprich` und `fallen[].sprich` — wie beim Sprechertext ausgeschrieben («x minus
   zwei», nicht «x − 2»). Fehlt er, liest die Stimme den angezeigten Text. Welche Texte es
@@ -832,6 +872,23 @@ referenziert die Datei extern (`src="ton/<name>.mp3"`); nur `--eigenstaendig`
 giesst sie als base64 hinein. Das ist mit Absicht so: Eine Seite, die eine
 Minute Ton als Datei-URI mitschleppt, wächst um rund 300 kB, die vor dem ersten
 Buchstaben geladen werden.
+
+**Nur einzelne Szenen neu (seit 08.10.2026).** Piper klingt bei jedem Lauf etwas anders.
+Nach einer Korrektur an einer Szene sollen die übrigen so bleiben, wie sie abgenommen wurden:
+
+```bash
+python3 scripts/build-clip-ton.py <clip> --szenen 2,5   # Nummern ab 1, wie die Ausgabe zählt
+```
+
+Gesprochen werden nur die Szenen 2 und 5; ihre `dauer` wird neu gemessen. Alle anderen
+Szenen behalten `dauer` und Ton: Das Skript schneidet sie samt Stille aus der bisherigen
+`ton/<clip>.mp3` (Lage nach den Dauern im Drehbuch) und setzt sie an ihren neuen Start.
+Kopfraum 0.95 bekommen nur die neuen Stücke, die alte Spur hat ihn schon — der Pegel bleibt
+gleich. Die übernommenen Szenen werden ein zweites Mal als MP3 kodiert (gemessen rund 3–4 %
+RMS-Abweichung, nicht hörbar). Passt die Spur nicht mehr zum Drehbuch (Länge weicht über
+0.05 s ab, etwa weil eine Szene dazukam oder eine `dauer` von Hand geändert wurde), bricht
+das Skript ab — dann ganz vertonen. **Wer den Text einer Szene ändert, muss sie nennen:**
+Das Skript merkt nicht, dass eine nicht genannte Szene neuen Text hat.
 
 **Der Ton startet hörbar — und das hängt an zwei Stellen.** Der Clip setzt beim
 Laden `muted = false` und ruft `play()`. Erlaubt ist das nur, weil der Klick auf

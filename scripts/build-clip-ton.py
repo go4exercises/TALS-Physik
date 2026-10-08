@@ -20,6 +20,13 @@ sitzt an `Szenenstart + vorlauf`, dazwischen ist Stille.
 Der zweite Aufruf ist noetig: Dieses Skript aendert nur das Drehbuch und
 legt die Tonspur ab, gebaut wird der Clip weiterhin von build-clips.py.
 
+Teilvertonung: `--szenen 2,5` spricht nur diese Szenen neu (Nummern ab 1,
+wie die Ausgabe sie zaehlt). Die uebrigen behalten ihren Ton aus der
+bisherigen Spur ton/<clip>.mp3 und ihre `dauer` — Piper klingt bei jedem
+Lauf etwas anders, so bleibt Gehoertes gehoert. Voraussetzung: Die Spur
+passt noch zum Drehbuch (keine Szene eingefuegt, keine `dauer` von Hand
+geaendert); sonst bricht das Skript ab. Ohne den Schalter alles wie bisher.
+
 Voraussetzungen (nicht im Repo, bewusst):
   pip install piper-tts soundfile
   Stimme: rhasspy/piper-voices, de/de_DE/thorsten/high  (Datensatz CC0)
@@ -210,6 +217,32 @@ def sprich(piper, modell, text, ziel):
         os.unlink(quelle)
 
 
+def alte_spur(dreh, bc, angabe, sf):
+    """Fuer --szenen: Auswahl pruefen und die bisherige Spur laden, samt dem
+    Szenenplan, nach dem sie gebaut wurde (die Dauern im Drehbuch)."""
+    n = len(dreh["szenen"])
+    try:
+        neu = {int(t) - 1 for t in angabe.split(",") if t.strip()}
+    except ValueError:
+        sys.exit(f"--szenen erwartet Nummern wie 2,5, nicht «{angabe}».")
+    if not neu or min(neu) < 0 or max(neu) >= n:
+        sys.exit(f"--szenen: Nummern von 1 bis {n}.")
+    ohne = [i + 1 for i, sz in enumerate(dreh["szenen"]) if i not in neu and "dauer" not in sz]
+    if ohne:
+        sys.exit(f"--szenen: Szene {ohne} hat keine dauer — erst ganz vertonen.")
+    mp3 = os.path.join(TON, dreh["dateiname"] + ".mp3")
+    if not os.path.exists(mp3):
+        sys.exit(f"--szenen: keine bisherige Spur {os.path.relpath(mp3, WURZEL)}.")
+    spur, rate = sf.read(mp3, dtype="float32")
+    if spur.ndim > 1:
+        spur = spur.mean(1)
+    plan, gesamt = bc.szenen_planen(dreh)
+    if abs(len(spur) / rate - gesamt) > 0.05:
+        sys.exit(f"--szenen: Spur {len(spur) / rate:.2f} s, Drehbuch {gesamt:.2f} s — "
+                 "passt nicht mehr zusammen, erst ganz vertonen.")
+    return {"neu": neu, "spur": spur, "rate": rate, "plan": plan}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("clip", help="Drehbuch ohne .json")
@@ -219,6 +252,9 @@ def main():
                     help="Aufruf von piper (oder Umgebung PIPER_CMD)")
     ap.add_argument("--qualitaet", type=float, default=0.5,
                     help="MP3-Kompression 0.0 (gross) bis 1.0 (klein)")
+    ap.add_argument("--szenen", default="",
+                    help="nur diese Szenen neu sprechen, z. B. 2,5 (ab 1); die "
+                         "uebrigen behalten Ton und dauer aus der bisherigen Spur")
     a = ap.parse_args()
 
     if not a.modell or not os.path.exists(a.modell):
@@ -235,13 +271,14 @@ def main():
     dreh = json.load(open(pfad, encoding="utf-8"), object_pairs_hook=OrderedDict)
     bc = lade_generator()
     piper = a.piper.split()
+    alt = alte_spur(dreh, bc, a.szenen, sf) if a.szenen else None
 
     # ---- Schritt 1: sprechen und messen ------------------------------
     stuecke = {}
     with tempfile.TemporaryDirectory() as tmp:
         for i, sz in enumerate(dreh["szenen"]):
             text = (sz.get("sprecher") or "").strip()
-            if not text:
+            if not text or (alt and i not in alt["neu"]):
                 continue
             w = os.path.join(tmp, f"{i}.wav")
             sprich(piper, a.modell, aussprache(text), w)
@@ -249,15 +286,30 @@ def main():
             stuecke[i] = (daten, sr)
             print(f"  Szene {i+1}: {len(daten)/sr:6.2f} s   {text[:52]}")
 
-        if not stuecke:
+        if alt:
+            rate = alt["rate"]
+            if any(sr != rate for _, sr in stuecke.values()):
+                sys.exit("Abtastrate der neuen Stuecke passt nicht zur alten Spur.")
+            # Kopfraum wie unten, aber nur fuer die neuen Stuecke: Die alte
+            # Spur hat ihren schon, ein zweites Absenken machte sie leiser.
+            # Piper liefert jeden Satz mit Spitze 1.0, der Faktor ist also
+            # derselbe wie beim ganzen Lauf.
+            spitze = max([float(np.abs(d).max()) for d, _ in stuecke.values()] or [0.0])
+            if spitze > 0.95:
+                for d, _ in stuecke.values():
+                    d *= 0.95 / spitze
+        elif not stuecke:
             sys.exit("Keine sprecher-Texte im Drehbuch.")
-        rate = stuecke[next(iter(stuecke))][1]
+        else:
+            rate = stuecke[next(iter(stuecke))][1]
 
         # ---- Schritt 2: gemessene Dauer ins Drehbuch ------------------
         vorlauf = bc.STD["vorlauf"]
         takt = dreh.get("takt", bc.STD["takt"])
         nachlauf = dreh.get("nachlauf", bc.STD["nachlauf"])
         for i, sz in enumerate(dreh["szenen"]):
+            if alt and i not in alt["neu"]:
+                continue                  # dauer bleibt, Ton kommt aus der alten Spur
             letzte = max([el.get("ein", vorlauf + k * takt)
                           for k, el in enumerate(sz.get("elemente", []))] or [0.0])
             noetig = letzte + nachlauf
@@ -272,6 +324,13 @@ def main():
         plan, gesamt = bc.szenen_planen(dreh)
         spur = np.zeros(int(round(gesamt * rate)) + rate, dtype="float32")
         for i, p in enumerate(plan):
+            if alt and i not in alt["neu"]:
+                # ganze alte Szene samt Stille, Lage aus dem alten Plan
+                a0 = int(round(alt["plan"][i]["start"] * rate))
+                stueck = alt["spur"][a0:a0 + int(round(p["dauer"] * rate))]
+                ab = int(round(p["start"] * rate))
+                spur[ab:ab + len(stueck)] += stueck
+                continue
             if i not in stuecke:
                 continue
             daten, _ = stuecke[i]
@@ -280,8 +339,9 @@ def main():
 
         # Kopfraum: Piper steuert einzelne Saetze bis an die Grenze aus,
         # und der MP3-Encoder ueberschwingt leicht. Ohne das zerrt es.
+        # (Bei --szenen schon oben, nur fuer die neuen Stuecke.)
         spitze = float(np.abs(spur).max())
-        if spitze > 0.95:
+        if spitze > 0.95 and not alt:
             spur *= 0.95 / spitze
 
         os.makedirs(TON, exist_ok=True)

@@ -153,7 +153,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 - `scripts/build-clip-ton.py` — **Vertonung** eines Clips, lokal und offline mit
   Piper. Erzeugt **eine** MP3 je Clip (`clips/ton/<name>.mp3`) und schreibt die
   gemessene Sprechdauer je Szene als `dauer` ins Drehbuch zurück — danach sitzt
-  Bild auf Sprache. Danach den Clip mit `build-clips.py` neu bauen.
+  Bild auf Sprache. Danach den Clip mit `build-clips.py` neu bauen. Nach einer
+  Textkorrektur nur die geänderten Szenen neu sprechen: `--szenen 2,5` (die übrigen
+  behalten Ton und `dauer`); für Fragetöne `build-clip-fragen-ton.py --fragen 2,5:r1`
+  (seit 08.10.2026, aus Mathe).
 
   **Keine Zweitstimme.** Mathe hatte zeitweise `--zweitstimme` samt
   Umschalter im Player — gebaut für das persönliche Modell, das hier nicht
@@ -261,8 +264,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Seit 07.10.2026 ist `build-clips.py` wieder dieselbe Datei wie in Mathe (nur
   `KARO_OHNE_ACHSEN`, `TEXTBREITE_BEGRENZEN` und der Seitenname sind Projektwerte): Teile im
   `graf` tragen eigenes `ein`/`aus`, Läufer fahren auch auf Kurven und kennen `lage`
-  (HOWTO-clips, «Später einblenden, bewegen, mitlaufen»). Ganze Elemente (`bild`, `formel`)
-  lassen sich weiterhin nicht ausblenden.
+  (HOWTO-clips, «Später einblenden, bewegen, mitlaufen»). Seit 08.10.2026 (dritte Runde aus Mathe)
+  trägt jedes Element ein `aus`, auch `bild` und `formel`; dazu Kreisbewegung über einen Winkel,
+  Grad-Kurven, Strecken als Klickziel u. a. (HOWTO-clips, «Dritte Runde»). Klickfragen: Liegt ein
+  Tipp in mehreren Fallen, gewinnt die nächste.
 - `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell dreizehn: neun nach dem Kapitelmuster (`leitprogramm-elektrizitaet`, `leitprogramm-kinematik`, `-dynamik`, `-energie`, `-statik`, `-hydrostatik`, `-temperatur`, `-waerme`, `-ausdehnung`) und vier klassische (unten):
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),

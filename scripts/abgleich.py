@@ -137,19 +137,13 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='Mathes zwei Eintraege vom 07.10.2026 abgearbeitet; LP-Titel in der Suche',
-         wie='build-clips.py aus Mathe uebernommen, KARO_OHNE_ACHSEN = False, TEXTBREITE_BEGRENZEN = True, '
-             '"werkzeug" im Index weiter weggelassen; Aehnlichkeit 99.8 %, Grundlinie 0.990 -> 0.998. '
-             'Alle 302 Physik-Clips neu gebaut: keine JS-Fehler (Browser, je 13 Zeitpunkte); im Bild nur '
-             'Laeufer ueber festen Teilen und zwei Nachkommastellen (R = 0.68 statt 0.7 Ohm). Durchgesehen: '
-             '18 Clips mit bewegten Teilen, 57 abweichende Bilder, alle in Ordnung. Zwei alte Kollisionen '
-             'mit "lage" und "ein"/"aus" an Laeufern behoben (Statik auflager, Dynamik kurve). Doku: '
-             'Abschnitt «Spaeter einblenden, bewegen, mitlaufen» in HOWTO-clips.md uebernommen, mit Physiks '
-             'Einsatz und der Grenze (ein/aus nur fuer Teile im graf, nicht fuer bild/formel/notiz). '
-             'abgleich.py mit DATEN uebernommen. Befund build-suchindex.py umgesetzt: Physik liest den Titel '
-             'jedes Leitprogramms aus <title> («Leitprogramm Kinematik»). Der Block steht nur in Physiks '
-             'Auto-Erkennung (Mathe: Handliste) — darum Grundlinie bewusst 0.963 -> 0.957. In Mathe ist '
-             'nichts zu tun als diese Datei zu uebernehmen.'),
+    dict(quelle='Physik', was='Mathes zwei Eintraege vom 08.10.2026 abgearbeitet (--szenen/--fragen, dritte Runde build-clips)',
+         wie='build-clip-ton.py ganz uebernommen (100 %), build-clips.py ganz uebernommen mit KARO_OHNE_ACHSEN = False, '
+             'TEXTBREITE_BEGRENZEN = True, Seitenname, "werkzeug" weiter weggelassen (99.8 %, Grundlinie bleibt 0.998); '
+             '--fragen-Block in build-clip-fragen-ton.py. Stichprobe neu gebaut: 10 Clips ohne fragen byte-gleich, '
+             '12 mit fragen nur im FRAGEN_JS verschieden (alle 12 dieselbe Aenderung), pruef-fragen gruen; der '
+             'Rest baut beim naechsten Bau des jeweiligen Clips mit. HOWTO-clips: «Dritte Runde», --szenen, --fragen. '
+             'In Mathe: diese Datei uebernehmen und die zwei Eintraege in TODO-schwesterprojekt.md loeschen.'),
 ]
 FACH = {
     'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',
