@@ -161,13 +161,19 @@ unterbringen lässt.
 - **Clips:** rund 6–11 Clips, 8–12 Minuten Clipzeit (STYLEGUIDE §6.5).
 - **Über der Zielgrösse (klassisch mehr als 4, Kapitelmuster mehr als 5 Lektionen ohne
   Gesamttest) oder deutlich mehr als 11 Clips → teilen**, jedes Teil mit eigenem
-  Vorwissen und Gesamttest. Physik hat das früh so gehalten: Wärmemenge, Heizen,
-  Wärmeausdehnung und ideale Gase sind vier Leitprogramme, nicht eines.
+  Vorwissen und Gesamttest. **Ausnahme seit TODO-E (06.10.2026): ein Leitprogramm je
+  RLP-Teilgebiet.** Geteilt wird dann nicht mehr in zwei Leitprogramme zum selben
+  Teilgebiet; gekürzt wird, was über die Kompetenzen hinausgeht (→ Themenseite,
+  «Weiterführend»). Bringt das Teilgebiet selbst so viele Kompetenzen mit, dass es
+  länger wird, steht das im Kopf ehrlich da: `leitprogramm-waerme` (5.2, sieben Kapitel,
+  14 Clips, 440 min ≈ zehn Lektionen) deckt sieben RLP-Kompetenzen in sieben
+  Kapiteln ab. Früher galt hier das Gegenteil (Wärmemenge, Heizen, Wärmeausdehnung und
+  ideale Gase als vier Leitprogramme); sie sind seit dem 08.10.2026 veraltet.
 - Der Kern ist, was ohne Leitprogramm in der Prüfung fehlen würde. Parameter,
   Spezialfälle, zweite Methoden → «Vertiefung» oder Themenseite.
 
 ⟂ Entscheid: Die klassischen Physik-Leitprogramme haben vier bis sieben Schritte
-(`leitprogramm-widerstand-leistung` hatte sieben, bis es am 06.10.2026 im Leitprogramm Elektrizität aufging); das bleibt. Für das Kapitelmuster gilt **4–5**, ausnahmsweise mehr, wenn ein Teilgebiet es braucht (Elektrizität: sieben Fachkapitel nach TODO-E).
+(`leitprogramm-widerstand-leistung` hatte sieben, bis es am 06.10.2026 im Leitprogramm Elektrizität aufging); das bleibt. Für das Kapitelmuster gilt **4–5**, ausnahmsweise mehr, wenn ein Teilgebiet es braucht (Elektrizität: sieben Fachkapitel nach TODO-E; Wärme 5.2: sieben Kapitel).
 
 ---
 
@@ -1083,6 +1089,29 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   hydrostatische Paradoxon gar nicht. Zuordnung «Aufgabe → Kapitel» gegen die Kapitelziele lesen.
 - Datenschutz: kein Name, keine Standortdaten im Foto.
 
+**Aus den Leitprogrammen Temperatur, Wärme, Wärmeausdehnung und Gase (08.10.2026)**
+- **Ein Zufallsgenerator, der einen Fall nie würfelt, fällt keiner Prüfung auf.** Die Übung
+  «eiswuerfel» (Wärme) kam durch einen Rechenfehler nie bei «alles schmilzt» an; `pruef-uebungen`
+  war grün, weil jede gewürfelte Aufgabe für sich stimmte. Abhilfe: im Prüfskript die Fälle
+  zählen und mit Exit 1 enden, wenn einer fehlt (`scripts/lp/waerme/pruef_fest.py`, Liste `FAELLE`).
+- **Ein Fall, den die Übung verlangt, muss im Festhalten stehen.** «Eis bleibt übrig» kam in
+  der Übung vor, aber nirgends im Text; ebenso «fühlt sich kälter an» und das Rückwärtsrechnen
+  mit σT⁴. Für jeden Übungstyp nachsehen, wo sein Verfahren eingeführt wird.
+- **Zahlenzufälle:** Dieselbe Zahl zweimal mit verschiedener Bedeutung (0.050 kg geschmolzen,
+  0.050 kg übrig) lässt eine falsche Rechnung richtig aussehen. Werte so wählen, dass jede
+  Zwischengrösse eine eigene Zahl hat.
+- **Behebungen schaffen neue Doppelungen.** Wer eine Testaufgabe ändert, sucht danach die
+  neuen Zahlen in Leisten, Übungen, Clips und Kontrollfragen (in allen drei Leitprogrammen der
+  Runde 2 aufgetreten).
+- **Zeitanker an der Sprache messen, nicht nach Zeichen verteilen.** Die Verteilung nach
+  Zeichenzahl legte Ergebnisse bis 1.6 s vor ihr Wort, ebenso Probe-Notizen. Die Wortzeit an
+  einer Neusynthese des Satzanfangs messen (`scripts/lp/waerme/teilanker.py`) und jedes
+  Ergebnis, jeden gegebenen Wert auf sein Wort legen. Ein Ankerskript, das nach dem Bau nicht
+  mehr läuft, oder ein Anker, der an Gross-/Kleinschreibung scheitert, hinterlässt die alten
+  Zeiten ohne Meldung — das Skript muss bei einem nicht gefundenen Wort abbrechen.
+- **Ein Simulationsbild im Clip darf nichts vorwegnehmen,** was der Ton erst später sagt (sim7
+  zeigte 390 und 150 W/m², bevor die Gegenstrahlung erklärt war). Dann eine Skizze ohne Zahlen.
+
 **Zeit:** geschätzt aus den Teilen, nicht aus der Planung übernommen (§3).
 
 ---
@@ -1097,8 +1126,9 @@ und `leitprogramm-vorwissen` fürs Vorwissen; `leitprogramm-waermemenge`, `leitp
 Übungsprüfung `uebungstest-waermelehre`. Der erste Übertrag (`leitprogramm-ideale-gase`,
 31.08.2026) brachte §12, die folgenden die Punkte unten. Jeder stand für ein Problem, das
 tatsächlich aufgetreten ist. Seit dem 06.10.2026 sind die drei Elektrizitäts-Programme im
-Leitprogramm Elektrizität und auf der Themenseite 6.2 aufgegangen (ein Leitprogramm je Teilgebiet);
-ihre Erfahrungen unten bleiben gültig.
+Leitprogramm Elektrizität und auf der Themenseite 6.2 aufgegangen (ein Leitprogramm je Teilgebiet),
+seit dem 08.10.2026 Wärmemenge, Heizen, Wärmeausdehnung und ideale Gase in den Leitprogrammen
+Temperatur, Wärme und Wärmeausdehnung und Gase; ihre Erfahrungen unten bleiben gültig.
 
 - **Der `render-check` (1280 und 360 px) gehört dazu.** In zwei von drei neu geschriebenen
   Dateien (07.09.2026) und wieder in `leitprogramm-experimente-waerme` (08.09.2026) wurden

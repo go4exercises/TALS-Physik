@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="de-CH"><head><meta charset="utf-8"><title>Wärme sehen: drei Wege der Wärme</title><style>
+@import url("../schriften.css");
+:root{--papier:#f8f6f1;--tinte:#1c1a17;--blau:#8a4a0e;--rot:#9b1c1c;--gruen:#1f6b3a;--gold:#b85c00;--f1:#8a4a0e;--f1w:#fbecd2;--f2:#b85c00;--f2w:#fdefd8;--f3:#1f6b3a;--f3w:#d8f0e2;--f4:#9b1c1c;--f4w:#fde8e8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0d1418;overflow:hidden}
+#wrap{position:absolute;left:0;right:0;top:0;bottom:60px;overflow:hidden}
+:fullscreen #wrap{bottom:0} :fullscreen #ui{display:none}
+#stage{width:1920px;height:1080px;position:absolute;left:50%;top:50%;overflow:hidden;
+ background:var(--papier);color:var(--tinte);font-family:'Source Serif 4',Georgia,serif;transform-origin:center center}
+body.render #wrap{bottom:0} body.render #stage{left:0;top:0;transform:none!important}
+#stage::before{content:"";position:absolute;inset:0;pointer-events:none;}
+#stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(120% 100% at 50% 40%,rgba(255,255,255,0) 55%,rgba(90,80,64,.09) 100%)}
+#rand{position:absolute;left:76px;top:0;bottom:0;width:3px}
+
+#kopf,#fuss{position:absolute;left:130px;right:100px;display:flex;justify-content:space-between;
+ align-items:baseline;font-family:'Source Sans 3',sans-serif;z-index:5}
+#kopf{top:46px;font-size:27px}
+#kopf .marke{font-weight:600;letter-spacing:.01em;color:var(--blau)}
+#kopf .bereich{color:var(--tinte);opacity:.55;letter-spacing:.07em;text-transform:uppercase;font-size:22px}
+#fuss{bottom:44px;font-size:21px;color:var(--tinte);opacity:.42}
+
+/* Bedingungsleiste: die Voraussetzung, auf der die Rechnung steht.
+   Sie liegt ausserhalb des Szenenflusses — darum kostet sie keine Zeile
+   und kann trotzdem stehen bleiben, solange sie gilt. Unterhalb des
+   Inhalts, oberhalb der Fusszeile. */
+#vorleiste{position:absolute;left:130px;right:100px;top:96px;
+ display:flex;justify-content:center;gap:14px;z-index:5;pointer-events:none}
+.vor{display:inline-flex;align-items:center;gap:.58em;
+ background:var(--f1w);border:1.5px solid var(--f1);border-radius:10px;
+ padding:7px 19px 8px;color:var(--tinte);font-size:30px;line-height:1.14;
+ box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.vor .vor-tag{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;color:var(--f1);opacity:.95;
+ white-space:nowrap;align-self:center}
+.vor .vor-txt{white-space:nowrap}
+
+.l{position:absolute;will-change:opacity,transform}
+.l.flow{position:relative}
+.m{font-family:'Source Serif 4',Georgia,serif} .m i,i{font-style:italic}
+.hand{font-family:'Caveat',cursive;line-height:1.24}
+.sans{font-family:'Source Sans 3',system-ui,sans-serif}
+.huelle{display:flex;justify-content:flex-start}
+.mitte.huelle{justify-content:center}
+.huelle>span{white-space:nowrap}
+.f1,.f2,.f3,.f4{border-radius:7px;padding:0 .14em;margin:0 .02em}
+.f1{color:var(--f1);background:var(--f1w)}
+.f2{color:var(--f2);background:var(--f2w)}
+.f3{color:var(--f3);background:var(--f3w)}
+.f4{color:var(--f4);background:var(--f4w)}
+.dim{opacity:.62}
+.graf{line-height:0}
+.graf svg{display:inline-block;vertical-align:top}
+.ov{display:inline-block;line-height:1;padding-top:.07em;margin-top:.12em;border-top:3.5px solid currentColor}
+.row{display:flex;align-items:center;line-height:1.06;white-space:nowrap;gap:.26em}
+.mitte.row{justify-content:center}
+.fr{position:relative;z-index:1;display:inline-flex;flex-direction:column;align-items:center;
+ line-height:1.08;margin:0 .12em;vertical-align:middle}
+.fr>span:first-child{padding:0 .32em .07em}
+.fr>span:last-child{padding:.20em .32em 0;border-top:3.5px solid currentColor}
+.box{border:3.5px solid var(--tinte);border-radius:14px;padding:12px 30px;background:rgba(255,255,255,.62)}
+.boxg{border-color:var(--gruen);color:var(--gruen)}
+.karte{background:rgba(255,255,255,.70);border:2.5px solid rgba(128,128,128,.28);border-radius:16px;padding:14px 26px}
+.strich{height:5px;background:var(--rot);border-radius:3px;transform-origin:left center}
+.lz{display:flex;align-items:baseline;gap:22px;margin-bottom:26px}
+.ln{color:var(--blau);font-weight:600;min-width:34px}
+.step{display:flex;align-items:flex-start;gap:18px;margin-bottom:34px}
+.num{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:var(--blau);color:var(--papier);
+ font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:31px;display:grid;place-items:center}
+.stxt{font-family:'Source Sans 3',sans-serif;font-size:31px;line-height:1.24;padding-top:7px}
+
+#ui{position:absolute;left:0;right:0;bottom:0;height:60px;display:flex;align-items:center;gap:18px;
+ padding:0 26px;background:rgba(13,20,24,.85);color:#e8eef2;font-family:system-ui,sans-serif;font-size:14px;z-index:99}
+body.render #ui{display:none}
+#bar{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden;cursor:pointer}
+#barf{height:100%;width:0;background:var(--gold)}
+#ui button{background:rgba(255,255,255,.12);color:#e8eef2;border:0;border-radius:7px;padding:7px 14px;
+ font-size:14px;cursor:pointer;white-space:nowrap}
+#tt{white-space:nowrap;font-variant-numeric:tabular-nums}
+#tip{opacity:.6;white-space:nowrap}
+/* Auf dem Telefon gibt es weder Leertaste noch Pfeiltasten — der Hinweis
+   waere dort nur Text, der die 60px hohe Leiste sprengt. */
+@media (max-width:700px){#ui{gap:11px;padding:0 12px} #tip{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[],macros:{fa:['\\bbox[##fbecd2,3px]{\\textcolor{##8a4a0e}{#1}}',1],fb:['\\bbox[##fdefd8,3px]{\\textcolor{##b85c00}{#1}}',1],fc:['\\bbox[##d8f0e2,3px]{\\textcolor{##1f6b3a}{#1}}',1],fd:['\\bbox[##fde8e8,3px]{\\textcolor{##9b1c1c}{#1}}',1]}},svg:{fontCache:'global'},options:{enableMenu:false}};</script><script src="../vendor/mathjax/tex-svg.js"></script></head><body>
+<div id="wrap"><div id="stage">
+
+<div id="kopf"><span class="marke">begreifbar.ch</span><span class="bereich">Thermodynamik · BM</span></div>
+<div id="fuss"><span>Raphael Arnold Kohler</span><span>07.10.2026</span></div>
+<div class="l hand mitte" data-at="0.40" data-out="7.18" data-anim="rise" style="left:150px;top:300px;font-size:66px;font-weight:600;color:var(--tinte)">Drei Wege der Wärme</div>
+<div class="l hand" data-at="2.62" data-out="7.18" data-anim="rise" style="left:150px;top:460px;font-size:42px;color:var(--tinte)">vom Heizwasser<br>bis zur Hand</div>
+<div class="l graf" data-at="0.05" data-out="7.18" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="52.6,603.2 171.7,603.2 171.7,305.6 52.6,305.6" fill="#9b1c1c" fill-opacity="0.18" stroke="none"/><polygon points="573.4,558.6 647.8,558.6 647.8,424.6 618.1,387.4 573.4,409.8" fill="#1c1a17" fill-opacity="0.3" stroke="none"/><line x1="52.6" y1="603.2" x2="171.7" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="603.2" x2="171.7" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="305.6" x2="52.6" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="52.6" y1="305.6" x2="52.6" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="82.4" y1="580.9" x2="82.4" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="112.2" y1="580.9" x2="112.2" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="141.9" y1="580.9" x2="141.9" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="30.3" y1="662.7" x2="729.7" y2="662.7" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="30.3" y1="662.7" x2="30.3" y2="52.6" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><text x="112.2" y="261.0" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Heizkörper</text><text x="610.6" y="603.2" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Hand</text><text x="380.0" y="82.4" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Zimmer</text></svg></div>
+<div class="l hand" data-at="7.74" data-out="16.75" data-anim="rise" style="left:150px;top:300px;font-size:42px;color:var(--tinte)">Leitung: Energie wandert<br>von Teilchen zu Teilchen</div>
+<div class="l hand" data-at="13.50" data-out="16.75" data-anim="rise" style="left:150px;top:470px;font-size:42px;color:var(--tinte)">Metalle leiten gut;<br>Holz und Luft schlecht</div>
+<div class="l graf" data-at="7.23" data-out="16.75" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="52.6,424.6 707.4,424.6 707.4,313.0 52.6,313.0" fill="#1c1a17" fill-opacity="0.08" stroke="none"/><g class="zt" data-ein="9.00"><line x1="93.6" y1="357.7" x2="135.5" y2="357.7" stroke="#9b1c1c" stroke-width="5" stroke-linecap="round" /><polygon points="153.1,357.7 131.1,367.6 131.1,347.8" fill="#9b1c1c"/></g><g class="zt" data-ein="9.45"><line x1="175.4" y1="357.7" x2="217.3" y2="357.7" stroke="#9b1c1c" stroke-width="5" stroke-linecap="round" /><polygon points="234.9,357.7 212.9,367.6 212.9,347.8" fill="#9b1c1c"/></g><g class="zt" data-ein="9.90"><line x1="257.2" y1="357.7" x2="299.2" y2="357.7" stroke="#9b1c1c" stroke-width="5" stroke-linecap="round" /><polygon points="316.8,357.7 294.8,367.6 294.8,347.8" fill="#9b1c1c"/></g><g class="zt" data-ein="10.35"><line x1="339.1" y1="357.7" x2="381.0" y2="357.7" stroke="#9b1c1c" stroke-width="5" stroke-linecap="round" /><polygon points="398.6,357.7 376.6,367.6 376.6,347.8" fill="#9b1c1c"/></g><g class="zt" data-ein="10.80"><line x1="420.9" y1="357.7" x2="462.8" y2="357.7" stroke="#9b1c1c" stroke-width="5" stroke-linecap="round" /><polygon points="480.4,357.7 458.4,367.6 458.4,347.8" fill="#9b1c1c"/></g><g class="zt" data-ein="11.25"><line x1="502.8" y1="357.7" x2="544.7" y2="357.7" stroke="#9b1c1c" stroke-width="5" stroke-linecap="round" /><polygon points="562.3,357.7 540.3,367.6 540.3,347.8" fill="#9b1c1c"/></g><g class="zt" data-ein="11.70"><line x1="584.6" y1="357.7" x2="626.5" y2="357.7" stroke="#9b1c1c" stroke-width="5" stroke-linecap="round" /><polygon points="644.1,357.7 622.1,367.6 622.1,347.8" fill="#9b1c1c"/></g><line x1="52.6" y1="424.6" x2="707.4" y2="424.6" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="52.6" y1="313.0" x2="707.4" y2="313.0" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><text x="52.6" y="261.0" font-size="26" font-weight="600" fill="#9b1c1c" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">heiss</text><text x="707.4" y="261.0" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="end" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">kalt</text><g class="zt" data-ein="12.20"><text x="380.0" y="186.6" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Teilchen bleiben am Ort</text></g><circle cx="82.4" cy="380.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="82.4" cy="380.0" r="5" fill="#1c1a17"/><circle cx="164.2" cy="380.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="164.2" cy="380.0" r="5" fill="#1c1a17"/><circle cx="246.1" cy="380.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="246.1" cy="380.0" r="5" fill="#1c1a17"/><circle cx="327.9" cy="380.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="327.9" cy="380.0" r="5" fill="#1c1a17"/><circle cx="409.8" cy="380.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="409.8" cy="380.0" r="5" fill="#1c1a17"/><circle cx="491.6" cy="380.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="491.6" cy="380.0" r="5" fill="#1c1a17"/><circle cx="573.4" cy="380.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="573.4" cy="380.0" r="5" fill="#1c1a17"/><circle cx="655.3" cy="380.0" r="11" fill="#f8f6f1" stroke="#1c1a17" stroke-width="3.5"/><circle cx="655.3" cy="380.0" r="5" fill="#1c1a17"/></svg></div>
+<div class="l hand" data-at="17.31" data-out="31.45" data-anim="rise" style="left:150px;top:300px;font-size:42px;color:var(--tinte)">Konvektion: der Stoff<br>strömt selbst</div>
+<div class="l hand" data-at="28.39" data-out="31.45" data-anim="rise" style="left:150px;top:470px;font-size:42px;color:var(--tinte)">nur in Flüssigkeiten<br>und Gasen</div>
+<div class="l graf" data-at="16.80" data-out="31.45" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="52.6,603.2 171.7,603.2 171.7,305.6 52.6,305.6" fill="#9b1c1c" fill-opacity="0.18" stroke="none"/><line x1="52.6" y1="603.2" x2="171.7" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="603.2" x2="171.7" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="305.6" x2="52.6" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="52.6" y1="305.6" x2="52.6" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="82.4" y1="580.9" x2="82.4" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="112.2" y1="580.9" x2="112.2" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="141.9" y1="580.9" x2="141.9" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="30.3" y1="662.7" x2="729.7" y2="662.7" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><line x1="30.3" y1="52.6" x2="729.7" y2="52.6" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><g class="zt" data-ein="21.19"><line x1="112.2" y1="275.8" x2="112.2" y2="129.8" stroke="#9b1c1c" stroke-width="6" stroke-linecap="round" /><polygon points="112.2,112.2 122.1,134.2 102.3,134.2" fill="#9b1c1c"/></g><g class="zt" data-ein="22.05"><line x1="156.8" y1="89.8" x2="615.4" y2="89.8" stroke="#9b1c1c" stroke-width="6" stroke-linecap="round" /><polygon points="633.0,89.8 611.0,99.7 611.0,79.9" fill="#9b1c1c"/></g><g class="zt" data-ein="23.35"><line x1="670.2" y1="127.0" x2="670.2" y2="570.7" stroke="#1c1a17" stroke-width="6" stroke-linecap="round" /><polygon points="670.2,588.3 660.3,566.3 680.1,566.3" fill="#1c1a17"/></g><g class="zt" data-ein="25.87"><line x1="633.0" y1="633.0" x2="219.0" y2="633.0" stroke="#1c1a17" stroke-width="6" stroke-linecap="round" /><polygon points="201.4,633.0 223.4,623.1 223.4,642.9" fill="#1c1a17"/></g></svg></div>
+<div class="l hand" data-at="31.99" data-out="40.90" data-anim="rise" style="left:150px;top:300px;font-size:42px;color:var(--tinte)">Strahlung: Infrarot,<br>wie Licht, nur langwelliger</div>
+<div class="l hand" data-at="37.11" data-out="40.90" data-anim="rise" style="left:150px;top:470px;font-size:42px;color:var(--tinte)">braucht keinen Stoff</div>
+<div class="l graf" data-at="31.50" data-out="40.90" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="52.6,603.2 171.7,603.2 171.7,305.6 52.6,305.6" fill="#9b1c1c" fill-opacity="0.18" stroke="none"/><polygon points="573.4,558.6 647.8,558.6 647.8,424.6 618.1,387.4 573.4,409.8" fill="#1c1a17" fill-opacity="0.3" stroke="none"/><line x1="52.6" y1="603.2" x2="171.7" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="603.2" x2="171.7" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="305.6" x2="52.6" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="52.6" y1="305.6" x2="52.6" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="82.4" y1="580.9" x2="82.4" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="112.2" y1="580.9" x2="112.2" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="141.9" y1="580.9" x2="141.9" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><g class="zt" data-ein="31.99"><line x1="186.6" y1="528.8" x2="195.9" y2="516.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="195.9" y1="516.8" x2="205.2" y2="514.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="205.2" y1="514.6" x2="214.5" y2="524.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="214.5" y1="524.2" x2="223.8" y2="537.5" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="223.8" y1="537.5" x2="233.1" y2="543.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="233.1" y1="543.7" x2="242.4" y2="537.5" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="242.4" y1="537.5" x2="251.7" y2="524.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="251.7" y1="524.2" x2="261.0" y2="514.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="261.0" y1="514.6" x2="270.3" y2="516.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="270.3" y1="516.8" x2="279.6" y2="528.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="279.6" y1="528.8" x2="288.9" y2="540.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="288.9" y1="540.8" x2="298.2" y2="543.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="298.2" y1="543.0" x2="307.5" y2="533.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="307.5" y1="533.4" x2="316.8" y2="520.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="316.8" y1="520.1" x2="326.1" y2="513.9" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="326.1" y1="513.9" x2="335.4" y2="520.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="335.4" y1="520.1" x2="344.7" y2="533.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="344.7" y1="533.4" x2="354.0" y2="543.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="354.0" y1="543.0" x2="363.3" y2="540.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="363.3" y1="540.8" x2="372.6" y2="528.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="372.6" y1="528.8" x2="381.9" y2="516.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="381.9" y1="516.8" x2="391.2" y2="514.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="391.2" y1="514.6" x2="400.5" y2="524.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="400.5" y1="524.2" x2="409.8" y2="537.5" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="409.8" y1="537.5" x2="419.1" y2="543.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="419.1" y1="543.7" x2="428.4" y2="537.5" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="428.4" y1="537.5" x2="437.7" y2="524.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="437.7" y1="524.2" x2="447.0" y2="514.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="447.0" y1="514.6" x2="456.3" y2="516.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="456.3" y1="516.8" x2="465.6" y2="528.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="465.6" y1="528.8" x2="474.9" y2="540.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="474.9" y1="540.8" x2="484.2" y2="543.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="484.2" y1="543.0" x2="493.5" y2="533.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="493.5" y1="533.4" x2="502.8" y2="520.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="502.8" y1="520.1" x2="512.1" y2="513.9" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="512.1" y1="513.9" x2="521.4" y2="520.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="521.4" y1="520.1" x2="530.7" y2="533.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="530.7" y1="533.4" x2="540.0" y2="543.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="540.0" y1="543.0" x2="549.3" y2="540.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="31.99"><line x1="549.3" y1="540.8" x2="558.6" y2="528.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="186.6" y1="454.4" x2="195.9" y2="442.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="195.9" y1="442.4" x2="205.2" y2="440.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="205.2" y1="440.2" x2="214.5" y2="449.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="214.5" y1="449.8" x2="223.8" y2="463.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="223.8" y1="463.1" x2="233.1" y2="469.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="233.1" y1="469.3" x2="242.4" y2="463.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="242.4" y1="463.1" x2="251.7" y2="449.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="251.7" y1="449.8" x2="261.0" y2="440.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="261.0" y1="440.2" x2="270.3" y2="442.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="270.3" y1="442.4" x2="279.6" y2="454.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="279.6" y1="454.4" x2="288.9" y2="466.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="288.9" y1="466.4" x2="298.2" y2="468.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="298.2" y1="468.6" x2="307.5" y2="459.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="307.5" y1="459.0" x2="316.8" y2="445.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="316.8" y1="445.7" x2="326.1" y2="439.5" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="326.1" y1="439.5" x2="335.4" y2="445.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="335.4" y1="445.7" x2="344.7" y2="459.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="344.7" y1="459.0" x2="354.0" y2="468.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="354.0" y1="468.6" x2="363.3" y2="466.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="363.3" y1="466.4" x2="372.6" y2="454.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="372.6" y1="454.4" x2="381.9" y2="442.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="381.9" y1="442.4" x2="391.2" y2="440.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="391.2" y1="440.2" x2="400.5" y2="449.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="400.5" y1="449.8" x2="409.8" y2="463.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="409.8" y1="463.1" x2="419.1" y2="469.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="419.1" y1="469.3" x2="428.4" y2="463.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="428.4" y1="463.1" x2="437.7" y2="449.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="437.7" y1="449.8" x2="447.0" y2="440.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="447.0" y1="440.2" x2="456.3" y2="442.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="456.3" y1="442.4" x2="465.6" y2="454.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="465.6" y1="454.4" x2="474.9" y2="466.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="474.9" y1="466.4" x2="484.2" y2="468.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="484.2" y1="468.6" x2="493.5" y2="459.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="493.5" y1="459.0" x2="502.8" y2="445.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="502.8" y1="445.7" x2="512.1" y2="439.5" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="512.1" y1="439.5" x2="521.4" y2="445.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="521.4" y1="445.7" x2="530.7" y2="459.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="530.7" y1="459.0" x2="540.0" y2="468.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="540.0" y1="468.6" x2="549.3" y2="466.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.29"><line x1="549.3" y1="466.4" x2="558.6" y2="454.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="186.6" y1="380.0" x2="195.9" y2="368.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="195.9" y1="368.0" x2="205.2" y2="365.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="205.2" y1="365.8" x2="214.5" y2="375.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="214.5" y1="375.4" x2="223.8" y2="388.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="223.8" y1="388.7" x2="233.1" y2="394.9" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="233.1" y1="394.9" x2="242.4" y2="388.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="242.4" y1="388.7" x2="251.7" y2="375.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="251.7" y1="375.4" x2="261.0" y2="365.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="261.0" y1="365.8" x2="270.3" y2="368.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="270.3" y1="368.0" x2="279.6" y2="380.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="279.6" y1="380.0" x2="288.9" y2="392.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="288.9" y1="392.0" x2="298.2" y2="394.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="298.2" y1="394.2" x2="307.5" y2="384.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="307.5" y1="384.6" x2="316.8" y2="371.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="316.8" y1="371.3" x2="326.1" y2="365.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="326.1" y1="365.1" x2="335.4" y2="371.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="335.4" y1="371.3" x2="344.7" y2="384.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="344.7" y1="384.6" x2="354.0" y2="394.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="354.0" y1="394.2" x2="363.3" y2="392.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="363.3" y1="392.0" x2="372.6" y2="380.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="372.6" y1="380.0" x2="381.9" y2="368.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="381.9" y1="368.0" x2="391.2" y2="365.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="391.2" y1="365.8" x2="400.5" y2="375.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="400.5" y1="375.4" x2="409.8" y2="388.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="409.8" y1="388.7" x2="419.1" y2="394.9" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="419.1" y1="394.9" x2="428.4" y2="388.7" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="428.4" y1="388.7" x2="437.7" y2="375.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="437.7" y1="375.4" x2="447.0" y2="365.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="447.0" y1="365.8" x2="456.3" y2="368.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="456.3" y1="368.0" x2="465.6" y2="380.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="465.6" y1="380.0" x2="474.9" y2="392.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="474.9" y1="392.0" x2="484.2" y2="394.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="484.2" y1="394.2" x2="493.5" y2="384.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="493.5" y1="384.6" x2="502.8" y2="371.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="502.8" y1="371.3" x2="512.1" y2="365.1" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="512.1" y1="365.1" x2="521.4" y2="371.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="521.4" y1="371.3" x2="530.7" y2="384.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="530.7" y1="384.6" x2="540.0" y2="394.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="540.0" y1="394.2" x2="549.3" y2="392.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="32.59"><line x1="549.3" y1="392.0" x2="558.6" y2="380.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><text x="380.0" y="305.6" font-size="28" font-weight="600" fill="#9b1c1c" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Infrarot</text><text x="610.6" y="603.2" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Hand</text></svg></div>
+<div class="l hand" data-at="44.16" data-out="50.74" data-anim="rise" style="left:150px;top:300px;font-size:42px;color:var(--tinte)">Hand: 2 m neben dem Heizkörper</div>
+<div class="l hand" data-at="45.84" data-out="50.74" data-anim="rise" style="left:150px;top:450px;font-size:42px;color:var(--rot)">gesucht: alle Wege der Wärme</div>
+<div class="l graf" data-at="40.95" data-out="50.74" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="52.6,603.2 171.7,603.2 171.7,305.6 52.6,305.6" fill="#9b1c1c" fill-opacity="0.18" stroke="none"/><polygon points="573.4,558.6 647.8,558.6 647.8,424.6 618.1,387.4 573.4,409.8" fill="#1c1a17" fill-opacity="0.3" stroke="none"/><line x1="52.6" y1="603.2" x2="171.7" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="603.2" x2="171.7" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="305.6" x2="52.6" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="52.6" y1="305.6" x2="52.6" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="82.4" y1="580.9" x2="82.4" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="112.2" y1="580.9" x2="112.2" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="141.9" y1="580.9" x2="141.9" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="30.3" y1="662.7" x2="729.7" y2="662.7" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><g class="zt" data-ein="44.16"><line x1="186.6" y1="484.2" x2="558.6" y2="484.2" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 7"/></g><g class="zt" data-ein="44.16"><text x="372.6" y="528.8" font-size="28" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">2 m</text></g><text x="112.2" y="261.0" font-size="24" font-weight="600" fill="#1c1a17" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Heizkörper mit heissem Wasser</text><text x="610.6" y="603.2" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Hand</text></svg></div>
+<div class="l hand" data-at="52.44" data-out="62.98" data-anim="rise" style="left:150px;top:300px;font-size:42px;color:var(--tinte)">Stück 1: durch die Metallwand</div>
+<div class="l hand" data-at="55.10" data-out="62.98" data-anim="rise" style="left:150px;top:360px;font-size:42px;color:var(--tinte)">Stück 2: durch die Luft zur Hand</div>
+<div class="l hand" data-at="57.18" data-out="62.98" data-anim="rise" style="left:150px;top:480px;font-size:42px;color:var(--tinte)">Energie wandert? Stoff strömt?<br>Strahlung?</div>
+<div class="l graf" data-at="50.79" data-out="62.98" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="52.6,603.2 171.7,603.2 171.7,305.6 52.6,305.6" fill="#9b1c1c" fill-opacity="0.18" stroke="none"/><polygon points="573.4,558.6 647.8,558.6 647.8,424.6 618.1,387.4 573.4,409.8" fill="#1c1a17" fill-opacity="0.3" stroke="none"/><g class="zt" data-ein="52.44"><polygon points="156.8,603.2 186.6,603.2 186.6,305.6 156.8,305.6" fill="#b85c00" fill-opacity="0.5" stroke="none"/></g><g class="zt" data-ein="55.10"><polygon points="201.4,603.2 558.6,603.2 558.6,305.6 201.4,305.6" fill="#b85c00" fill-opacity="0.15" stroke="none"/></g><line x1="52.6" y1="603.2" x2="171.7" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="603.2" x2="171.7" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="305.6" x2="52.6" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="52.6" y1="305.6" x2="52.6" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="82.4" y1="580.9" x2="82.4" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="112.2" y1="580.9" x2="112.2" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="141.9" y1="580.9" x2="141.9" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="30.3" y1="662.7" x2="729.7" y2="662.7" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><g class="zt" data-ein="52.44"><text x="171.7" y="268.4" font-size="32" font-weight="600" fill="#b85c00" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">1</text></g><g class="zt" data-ein="55.10"><text x="380.0" y="268.4" font-size="32" font-weight="600" fill="#b85c00" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">2</text></g><text x="610.6" y="603.2" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Hand</text></svg></div>
+<div class="l hand" data-at="63.76" data-out="82.83" data-anim="rise" style="left:150px;top:290px;font-size:42px;color:var(--rot)">1 Metallwand: Leitung</div>
+<div class="l hand" data-at="69.64" data-out="82.83" data-anim="rise" style="left:150px;top:390px;font-size:42px;color:var(--rot)">2 Luft: Konvektion</div>
+<div class="l hand" data-at="74.44" data-out="82.83" data-anim="rise" style="left:150px;top:490px;font-size:42px;color:var(--rot)">2 direkt: Strahlung</div>
+<div class="l hand" data-at="75.04" data-out="82.83" data-anim="rise" style="left:150px;top:620px;font-size:36px;color:var(--tinte)">Probe: über dem Heizkörper warm,<br>seitlich Strahlung im Gesicht</div>
+<div class="l graf" data-at="63.03" data-out="82.83" data-anim="fade" style="left:1010px;top:175px"><svg width="760" height="760" viewBox="0 0 760 760"><polygon points="52.6,603.2 171.7,603.2 171.7,305.6 52.6,305.6" fill="#9b1c1c" fill-opacity="0.18" stroke="none"/><polygon points="573.4,558.6 647.8,558.6 647.8,424.6 618.1,387.4 573.4,409.8" fill="#1c1a17" fill-opacity="0.3" stroke="none"/><line x1="52.6" y1="603.2" x2="171.7" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="603.2" x2="171.7" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="171.7" y1="305.6" x2="52.6" y2="305.6" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="52.6" y1="305.6" x2="52.6" y2="603.2" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" /><line x1="82.4" y1="580.9" x2="82.4" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="112.2" y1="580.9" x2="112.2" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="141.9" y1="580.9" x2="141.9" y2="327.9" stroke="#1c1a17" stroke-width="3" stroke-linecap="round" /><line x1="30.3" y1="662.7" x2="729.7" y2="662.7" stroke="#1c1a17" stroke-width="4" stroke-linecap="round" /><g class="zt" data-ein="63.76"><line x1="82.4" y1="454.4" x2="183.8" y2="454.4" stroke="#9b1c1c" stroke-width="5" stroke-linecap="round" /><polygon points="201.4,454.4 179.4,464.3 179.4,444.5" fill="#9b1c1c"/></g><g class="zt" data-ein="67.62"><line x1="112.2" y1="275.8" x2="112.2" y2="144.6" stroke="#9b1c1c" stroke-width="6" stroke-linecap="round" /><polygon points="112.2,127.0 122.1,149.0 102.3,149.0" fill="#9b1c1c"/></g><g class="zt" data-ein="68.36"><line x1="156.8" y1="104.7" x2="555.8" y2="104.7" stroke="#9b1c1c" stroke-width="6" stroke-linecap="round" /><polygon points="573.4,104.7 551.4,114.6 551.4,94.8" fill="#9b1c1c"/></g><g class="zt" data-ein="70.62"><line x1="201.4" y1="484.2" x2="210.4" y2="473.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="210.4" y1="473.3" x2="219.3" y2="471.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="219.3" y1="471.4" x2="228.2" y2="480.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="228.2" y1="480.0" x2="237.2" y2="492.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="237.2" y1="492.0" x2="246.1" y2="497.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="246.1" y1="497.6" x2="255.0" y2="492.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="255.0" y1="492.0" x2="263.9" y2="480.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="263.9" y1="480.0" x2="272.9" y2="471.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="272.9" y1="471.4" x2="281.8" y2="473.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="281.8" y1="473.3" x2="290.7" y2="484.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="290.7" y1="484.2" x2="299.6" y2="495.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="299.6" y1="495.0" x2="308.6" y2="496.9" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="308.6" y1="496.9" x2="317.5" y2="488.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="317.5" y1="488.3" x2="326.4" y2="476.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="326.4" y1="476.3" x2="335.4" y2="470.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="335.4" y1="470.8" x2="344.3" y2="476.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="344.3" y1="476.3" x2="353.2" y2="488.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="353.2" y1="488.3" x2="362.1" y2="496.9" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="362.1" y1="496.9" x2="371.1" y2="495.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="371.1" y1="495.0" x2="380.0" y2="484.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="380.0" y1="484.2" x2="388.9" y2="473.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="388.9" y1="473.3" x2="397.9" y2="471.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="397.9" y1="471.4" x2="406.8" y2="480.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="406.8" y1="480.0" x2="415.7" y2="492.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="415.7" y1="492.0" x2="424.6" y2="497.6" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="424.6" y1="497.6" x2="433.6" y2="492.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="433.6" y1="492.0" x2="442.5" y2="480.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="442.5" y1="480.0" x2="451.4" y2="471.4" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="451.4" y1="471.4" x2="460.4" y2="473.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="460.4" y1="473.3" x2="469.3" y2="484.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="469.3" y1="484.2" x2="478.2" y2="495.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="478.2" y1="495.0" x2="487.1" y2="496.9" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="487.1" y1="496.9" x2="496.1" y2="488.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="496.1" y1="488.3" x2="505.0" y2="476.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="505.0" y1="476.3" x2="513.9" y2="470.8" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="513.9" y1="470.8" x2="522.8" y2="476.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="522.8" y1="476.3" x2="531.8" y2="488.3" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="531.8" y1="488.3" x2="540.7" y2="496.9" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="540.7" y1="496.9" x2="549.6" y2="495.0" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="70.62"><line x1="549.6" y1="495.0" x2="558.6" y2="484.2" stroke="#9b1c1c" stroke-width="4" stroke-linecap="round" /></g><g class="zt" data-ein="63.76"><text x="223.8" y="409.8" font-size="24" font-weight="600" fill="#9b1c1c" text-anchor="start" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Leitung</text></g><g class="zt" data-ein="69.64"><text x="365.1" y="67.5" font-size="24" font-weight="600" fill="#9b1c1c" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Konvektion</text></g><g class="zt" data-ein="74.44"><text x="380.0" y="558.6" font-size="24" font-weight="600" fill="#9b1c1c" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Strahlung</text></g><text x="610.6" y="603.2" font-size="26" font-weight="600" fill="#1c1a17" text-anchor="middle" stroke="#f8f6f1" stroke-width="8" paint-order="stroke">Hand</text></svg></div>
+<div class="l hand mitte" data-at="83.23" data-out="90.64" data-anim="rise" style="left:150px;top:260px;font-size:76px;font-weight:600;color:var(--tinte)">Zum Mitnehmen</div>
+<div class="l m row" data-at="83.23" data-out="90.64" data-anim="rise" style="left:150px;top:420px;font-size:46px"><span>\(\text{Leitung; Konvektion; Strahlung}\)</span></div>
+<div class="l hand" data-at="84.03" data-out="90.64" data-anim="rise" style="left:150px;top:570px;font-size:42px;color:var(--tinte)">Leitung: Stoff, keine Strömung<br>Konvektion: strömender Stoff<br>Strahlung: kein Stoff</div>
+<div class="l hand mitte" data-at="91.04" data-out="96.68" data-anim="rise" style="left:150px;top:280px;font-size:86px;font-weight:600;color:var(--tinte);width:1660px">Jetzt du</div>
+<div class="l hand" data-at="91.24" data-out="96.68" data-anim="rise" style="left:150px;top:430px;font-size:50px;color:var(--blau);width:1660px">Erkunde diese Zusammenhänge<br>in der Animation unter dem Clip<br>und löse die Aufgaben.</div>
+</div></div>
+<audio id="ton" preload="auto" src="ton/p5-2-lp-transport.mp3"></audio>
+<div id="ui">
+  <button id="pp">Pause</button>
+  <button id="ts" hidden>🔇 Ton an</button>
+  <div id="bar"><div id="barf"></div></div>
+  <span id="tt">0.0 s</span>
+  <span id="tip">Leertaste = Pause &middot; &larr; &rarr; = 5 s &middot; R = Neustart &middot; F = Vollbild</span>
+</div>
+<script>
+const DUR = 96.68;
+const SPRECHER = [{"bei": 0.4, "text": "Ein Heizkörper wärmt das ganze Zimmer. Wie kommt die Wärme vom heissen Wasser in ihm bis zu dir? Es gibt drei Wege."}, {"bei": 7.58, "text": "Bei der Wärmeleitung geben die Teilchen ihre Bewegungsenergie an die Nachbarn weiter, ohne selbst zu wandern. Metalle leiten gut, Holz und Luft schlecht."}, {"bei": 17.15, "text": "Bei der Konvektion strömt der Stoff selbst: Die warme Luft über dem Heizkörper steigt auf, kühlt an der Decke ab und sinkt an der anderen Seite wieder nach unten. So verteilt sie die Wärme im ganzen Zimmer. Das geht nur in Flüssigkeiten und Gasen."}, {"bei": 31.85, "text": "Bei der Wärmestrahlung trägt Infrarotstrahlung die Energie, wie Licht, nur langwelliger. Sie braucht keinen Stoff dazwischen, so wie das Licht der Sonne."}, {"bei": 41.3, "text": "Jetzt ein ganzes Problem. Deine Hand ist zwei Meter neben einem Heizkörper. Auf welchen Wegen kommt die Wärme vom heissen Wasser im Heizkörper bis zu deiner Hand?"}, {"bei": 51.14, "text": "Geh den Weg Stück für Stück: zuerst durch die Metallwand des Heizkörpers, dann von seiner Oberfläche durch die Luft zur Hand. Für jedes Stück fragst du: Wandert nur Energie, strömt Stoff, oder kommt Strahlung ohne Stoff?"}, {"bei": 63.38, "text": "Durch die Metallwand: Wärmeleitung. Von der Oberfläche wird die Luft warm, steigt auf und verteilt sich im Zimmer: Konvektion. Gleichzeitig strahlt die warme Fläche Infrarot ab, das die Hand direkt trifft: Strahlung. Probe: Über dem Heizkörper ist die Luft viel wärmer als daneben, und seitlich spürt man die Strahlung im Gesicht, auch wenn die Luft noch kühl ist."}, {"bei": 83.23, "text": "Zum Mitnehmen: Leitung braucht Stoff, aber keine Strömung. Konvektion braucht strömenden Stoff. Strahlung braucht gar nichts."}, {"bei": 91.04, "text": "Jetzt du: Erkunde diese Zusammenhänge in der nachfolgenden Animation und löse die Aufgaben."}];
+const stage = document.getElementById('stage');
+const layers = [...document.querySelectorAll('.l')].map(el => ({
+  el, at: parseFloat(el.dataset.at || '0'),
+  out: el.dataset.out ? parseFloat(el.dataset.out) : Infinity,
+  anim: el.dataset.anim || 'fade',
+  dim: el.dataset.dim ? el.dataset.dim.split(',').map(Number) : null
+}));
+const IN = 0.5, OUT = 0.4;
+// Teile eines Bildes mit eigenem "ein"/"aus" (g.zt): blenden fuer sich ein und aus.
+// Bewegte Figuren (g.fb): vorgerechnete Bilder, je eines zwischen data-fvon und data-fbis.
+const fbilder = [...document.querySelectorAll('g.fb')].map(el => ({
+  el, von: el.dataset.fvon ? parseFloat(el.dataset.fvon) : -Infinity,
+  bis: el.dataset.fbis ? parseFloat(el.dataset.fbis) : Infinity }));
+const zteile = [...document.querySelectorAll('g.zt')].map(el => ({
+  el, at: el.dataset.ein ? parseFloat(el.dataset.ein) : -Infinity,
+  out: el.dataset.aus ? parseFloat(el.dataset.aus) : Infinity }));
+const ease = p => 1 - Math.pow(1 - p, 3);
+const cl = p => p < 0 ? 0 : p > 1 ? 1 : p;
+function seek(t)  {
+  for (const L of layers) {
+    const pi = ease(cl((t - L.at) / IN));
+    const po = L.out === Infinity ? 0 : ease(cl((t - L.out) / OUT));
+    let o = pi * (1 - po), tr = '';
+    if (L.anim === 'rise') tr = 'translateY(' + ((1 - pi) * 26) + 'px)';
+    else if (L.anim === 'pop') tr = 'scale(' + (0.90 + 0.10 * pi) + ')';
+    else if (L.anim === 'wipe') { tr = 'scaleX(' + pi + ')'; o = (t >= L.at ? 1 : 0) * (1 - po); }
+    if (L.dim && !(t >= L.dim[0] && t < L.dim[1])) o *= 0.34;
+    L.el.style.transform = tr; L.el.style.opacity = o;
+  }
+  for (const Z of zteile) {
+    const pi = Z.at === -Infinity ? 1 : ease(cl((t - Z.at) / IN));
+    const po = Z.out === Infinity ? 0 : ease(cl((t - Z.out) / OUT));
+    Z.el.style.opacity = pi * (1 - po);
+  }
+  for (const F of fbilder) F.el.style.display = t >= F.von && t < F.bis ? '' : 'none';
+}
+const FRAGEN = [{"typ": "wahl", "text": "Welcher Weg bringt die Wärme durch die Metallwand des Heizkörpers?", "optionen": ["Konvektion", "Leitung", "Strahlung"], "richtig": 1, "rueck": {"0": "Strömt die Metallwand?", "2": "Liegt zwischen Wasser und Wand leerer Raum, oder berühren sie sich?"}, "kopf": "Dein Vorgehen", "t": 51.04, "ton": {"frage": "ton/p5-2-lp-transport-f0-frage.mp3", "r0": "ton/p5-2-lp-transport-f0-r0.mp3", "r2": "ton/p5-2-lp-transport-f0-r2.mp3"}}];
+(() => {
+  if (location.search.includes('render')) return;
+  const pp = document.getElementById('pp');
+  const css = document.createElement('style');
+  css.textContent = `
+    #frage{position:absolute;left:110px;top:560px;width:820px;z-index:50;display:none;
+      background:rgba(255,255,255,.97);border:3px solid var(--f2);border-radius:22px;
+      padding:28px 34px;box-shadow:0 10px 40px rgba(0,0,0,.18);font-family:inherit;color:inherit}
+    #frage .fr-kopf{font-size:26px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--f2);margin-bottom:10px}
+    #frage .fr-text{font-size:38px;line-height:1.3;margin-bottom:22px}
+    #frage .fr-knoepfe{display:flex;flex-wrap:wrap;gap:14px}
+    #frage button{font:inherit;font-size:32px;padding:10px 26px;border-radius:999px;cursor:pointer;
+      border:2.5px solid var(--f2);background:var(--f2w);color:inherit}
+    #frage button.ok{border-color:var(--f3);background:var(--f3w)}
+    #frage button.nein{border-color:var(--f4);background:var(--f4w)}
+    #frage .fr-rueck{font-size:32px;line-height:1.35;margin-top:20px}
+    #frage .fr-weiter{margin-top:20px}
+    #frage .fr-eingabe{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:30px;margin-top:14px;width:100%}
+    #frage .fr-eingabe input{font:inherit;font-size:30px;width:4.2em;padding:4px 10px;border:2.5px solid var(--f2);border-radius:12px}
+    .fr-tippbar, .fr-tippbar svg{pointer-events:auto !important;cursor:crosshair}`;
+  document.head.appendChild(css);
+  const box = document.createElement('div'); box.id = 'frage'; stage.appendChild(box);
+  let letzt = 0, offen = null, tippen = null, stimme = null, sprung = false;
+  // Vorlesen mit derselben Stimme wie der Clip — nur wenn dessen Ton an ist.
+  const hauptton = document.getElementById('ton');
+  const vorlesen = src => {
+    if (stimme) { stimme.pause(); stimme = null; }
+    if (!src || !hauptton || hauptton.muted) return;
+    stimme = new Audio(src); stimme.play().catch(() => {});
+  };
+  const erledigt = new Set();     // beantwortete Fragen
+  const pause = () => { if (pp.textContent === 'Pause') pp.click(); };
+  const weiter = () => { if (pp.textContent === 'Play') pp.click(); };
+  function schliessen() {
+    vorlesen(null);
+    // Fokus zurueck auf Play/Pause — auch wenn er mit dem gesperrten Antwortknopf
+    // schon auf <body> gefallen ist
+    const fo = document.activeElement;
+    if (!fo || fo === document.body || box.contains(fo)) pp.focus({ preventScroll: true });
+    box.style.display = 'none'; box.innerHTML = '';
+    document.querySelectorAll('.fr-marke').forEach(m => m.remove());
+    document.querySelectorAll('.fr-tippbar').forEach(l => l.classList.remove('fr-tippbar'));
+    if (tippen) { stage.removeEventListener('click', tippen); tippen = null; }
+    offen = null;
+  }
+  function antwort(F, ok, text, schl) {
+    const o = offen; erledigt.add(o.i);
+    box.dataset.fertig = '1';
+    vorlesen((F.ton || {})[schl]);
+    if (F.typ === 'klick') box.querySelector('.fr-knoepfe').innerHTML = '';
+    const r = box.querySelector('.fr-rueck');
+    r.innerHTML = (ok ? '✓ ' : '') + text;
+    r.style.color = ok ? 'var(--f3)' : '';
+    if (ok) {                      // richtig: kurz bestaetigen, dann von selbst weiter
+      setTimeout(() => { if (offen === o) { schliessen(); weiter(); } }, 1300);
+      return;
+    }
+    const w = document.createElement('button'); w.className = 'fr-weiter'; w.textContent = 'Weiter ▶';
+    w.onclick = () => { schliessen(); weiter(); };
+    box.appendChild(w); w.focus();
+  }
+  function zeigen(i, F) {
+    offen = { i, t: F.t }; pause(); delete box.dataset.fertig;
+    box.innerHTML = '<div class="fr-kopf"></div><div class="fr-text"></div>'
+      + '<div class="fr-knoepfe"></div><div class="fr-rueck"></div>';
+    box.querySelector('.fr-kopf').textContent = F.kopf || 'Deine Vorhersage';  // "kopf": z. B. «Dein Vorgehen»
+    box.querySelector('.fr-text').textContent = F.text;
+    const kn = box.querySelector('.fr-knoepfe');
+    if (F.typ === 'wahl') {
+      F.optionen.forEach((o, j) => {
+        const b = document.createElement('button'); b.textContent = o;
+        b.onclick = () => {
+          kn.querySelectorAll('button').forEach(x => x.disabled = true);
+          b.classList.add(j === F.richtig ? 'ok' : 'nein');
+          antwort(F, j === F.richtig, (F.rueck || {})[j] || (j === F.richtig ? 'Richtig.' : 'Schau, was der Clip zeigt.'), 'r' + j);
+        };
+        kn.appendChild(b);
+      });
+    } else if (F.typ === 'klick') {
+      const L = [...document.querySelectorAll('.l')].find(l => +l.style.opacity > 0.5 && l.querySelector('[data-fenster]'));
+      if (!L) { schliessen(); weiter(); return; }
+      const svg = L.querySelector('svg'), fe = L.querySelector('[data-fenster]').dataset.fenster.split(',').map(Number);
+      const [x0, x1, y0, y1, b, h, rd] = fe;
+      L.classList.add('fr-tippbar');
+      // Toleranz: eine Zahl (Abstand in Dateneinheiten) oder [dx, dy] je Achse —
+      // Letzteres, wenn die Achsen verschiedene Grössen tragen (s und C).
+      const tol = F.toleranz || 0.5;
+      const nah = (x, y, z) => Array.isArray(tol) ? Math.abs(x - z[0]) <= tol[0] && Math.abs(y - z[1]) <= tol[1]
+                                                  : Math.hypot(x - z[0], y - z[1]) <= tol;
+      const px = (x, y) => [rd + (x - x0) / (x1 - x0) * (b - 2 * rd), h - rd - (y - y0) / (y1 - y0) * (h - 2 * rd)];
+      const mk = (cx, cy, farbe) => { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', 16); c.setAttribute('class', 'fr-marke');
+        c.setAttribute('fill', 'none'); c.setAttribute('stroke', farbe); c.setAttribute('stroke-width', 6); svg.appendChild(c); };
+      const pruefePunkt = (x, y) => {
+        mk(...px(x, y), 'var(--f2)');
+        if (nah(x, y, F.ziel)) return antwort(F, true, F.richtig_text || 'Getroffen.', 'ok');
+        mk(...px(F.ziel[0], F.ziel[1]), 'var(--f3)');
+        const fk = (F.fallen || []).findIndex(f => nah(x, y, f.bei));
+        antwort(F, false, fk >= 0 ? F.fallen[fk].text : (F.falsch_text || 'Nicht ganz — der grüne Kreis zeigt die Stelle.'),
+                fk >= 0 ? 'fall' + fk : 'falsch');
+      };
+      // Am Stage horchen, nicht am Layer: unsichtbare spaetere Layer (Deckkraft 0)
+      // liegen obenauf und wuerden den Tipp abfangen.
+      tippen = ev => {
+        if (!offen || box.dataset.fertig || box.contains(ev.target)) return;
+        const r = svg.getBoundingClientRect();
+        if (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom) return;
+        const sx = (ev.clientX - r.left) / r.width * b, sy = (ev.clientY - r.top) / r.height * h;
+        pruefePunkt(x0 + (sx - rd) / (b - 2 * rd) * (x1 - x0), y0 + (h - rd - sy) / (h - 2 * rd) * (y1 - y0));
+      };
+      stage.addEventListener('click', tippen);
+      kn.innerHTML = '<span style="font-size:30px;color:var(--f2)">👉 Tipp ins Bild rechts.</span>';
+      // Ohne Zeigegeraet: dieselbe Antwort als zwei Zahlen ("eingabe": [Name x, Name y])
+      if (F.eingabe) {
+        const f = document.createElement('form'); f.className = 'fr-eingabe';
+        f.innerHTML = '<span>oder eingeben:</span>' + F.eingabe.map((n, k) =>
+          '<label>' + n + ' <input inputmode="decimal" autocomplete="off" data-k="' + k + '"></label>').join('')
+          + '<button type="submit">Prüfen</button>';
+        f.onsubmit = ev => {
+          ev.preventDefault();
+          if (box.dataset.fertig) return;
+          const w = [...f.querySelectorAll('input')].map(i => parseFloat(i.value.replace(',', '.')));
+          if (w.some(isNaN)) { f.querySelector('input').focus(); return; }
+          pruefePunkt(w[0], w[1]);
+        };
+        kn.appendChild(f);
+      }
+    }
+    box.style.display = 'block';
+    // Fokus auf die erste Antwort: Tab, Enter und Leertaste reichen dann
+    const erst = box.querySelector('.fr-knoepfe button, .fr-eingabe input');
+    if (erst) erst.focus({ preventScroll: true });
+    vorlesen((F.ton || {}).frage);
+  }
+  // Spulen wird ausdruecklich erkannt: Pfeiltasten und ein Klick auf die
+  // Zeitleiste setzen ein Zeichen, das das naechste Bild auswertet. Ein
+  // spaetes Bild (langsames Laden, Hintergrund-Tab) ist kein Spulen.
+  // Neustart (R) und ein Sprung vor die erste Frage stellen alle Fragen neu;
+  // nach R laeuft der Clip ab 0 wie beim ersten Abspielen.
+  document.addEventListener('keydown', e => {
+    if (e.target && e.target.closest && e.target.closest('input, select, textarea')) return;
+    if ((e.key || '').toLowerCase() === 'r') { schliessen(); erledigt.clear(); letzt = 0; }
+    if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') sprung = true;
+  });
+  const bar = document.getElementById('bar');
+  bar.addEventListener('click', () => { sprung = true; });
+  // Die Abspielzeit ist im Abspieler lokal; zurueckgestellt wird sie ueber
+  // dessen Zeitleiste.
+  const zurueck = s => {
+    const r = bar.getBoundingClientRect();
+    if (r.width > 0 && bar.onclick) bar.onclick({ currentTarget: bar, clientX: r.left + s / DUR * r.width });
+  };
+  const vorFragen = seek;
+  seek = function (t) {
+    vorFragen(t);
+    if (sprung) {
+      // gespult: eine uebersprungene Frage wird nicht gestellt, eine
+      // beantwortete kommt nicht wieder — ausser zurueck an den Anfang
+      sprung = false;
+      if (FRAGEN.length && t < Math.min(...FRAGEN.map(F => F.t))) { schliessen(); erledigt.clear(); }
+    } else if (!offen && pp.textContent === 'Pause') {
+      // gewoehnliches Abspielen, auch wenn ein Bild weit springt: die erste
+      // ueberschrittene Frage wird gestellt, der Clip geht an ihre Stelle zurueck
+      let i = -1;
+      FRAGEN.forEach((F, j) => {
+        if (!erledigt.has(j) && letzt < F.t && t >= F.t && (i < 0 || F.t < FRAGEN[i].t)) i = j;
+      });
+      if (i >= 0) {
+        zeigen(i, FRAGEN[i]);
+        if (offen && t - offen.t > 0.1) { t = offen.t; zurueck(t); vorFragen(t); }
+      }
+    }
+    if (offen && Math.abs(t - offen.t) > 1.0) schliessen();
+    letzt = t;
+  };
+})();
+window.__seek = seek;
+window.__dauer = DUR;
+if (!location.search.includes('render')) {
+  let t0 = performance.now(), playing = true, t = 0;
+  const barf = document.getElementById('barf'), tt = document.getElementById('tt'),
+        pp = document.getElementById('pp'), wrap = document.getElementById('wrap');
+  const fit = () => { stage.style.transform = 'translate(-50%,-50%) scale('
+      + Math.min(wrap.clientWidth / 1920, wrap.clientHeight / 1080) + ')'; };
+  window.addEventListener('resize', fit);
+  document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
+  fit();
+  // Der Ton laeuft von selbst und hoerbar los. Erlaubt ist das, weil der
+  // Klick auf die Clipkarte die noetige Nutzergeste war und das <iframe>
+  // sie ueber `allow="autoplay"` weitergereicht bekommt (clipRahmen in
+  // physiklib.js bzw. mathlib.js). Verweigert der Browser trotzdem — etwa wenn jemand die
+  // Clipdatei direkt aufruft, ohne vorher zu klicken —, faellt der Clip auf
+  // stumm zurueck und der Knopf «Ton an» holt ihn hervor. Sobald der Ton
+  // laeuft, fuehrt er die Uhr: Tondrift faellt auf, Bilddrift nicht.
+  const ton = document.getElementById('ton'), ts = document.getElementById('ts');
+  const tonBeschriften = () => {
+    if (ts) ts.textContent = (!ton || ton.muted) ? '🔇 Ton an' : '🔊 Ton aus';
+  };
+  if (ton) {
+    ts.hidden = false;
+    ton.muted = false;
+    ton.play().then(tonBeschriften).catch(() => {
+      ton.muted = true;
+      tonBeschriften();
+      ton.play().catch(() => {});
+    });
+    tonBeschriften();
+    ts.onclick = () => {
+      ton.muted = !ton.muted;
+      tonBeschriften();
+      if (!ton.muted) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); }
+    };
+  }
+  const tonLaeuft = () => ton && !ton.paused && !ton.ended;
+  function loop(now) {
+    if (playing) {
+      if (tonLaeuft()) t = ton.currentTime;
+      else { t += (now - t0) / 1000; if (t > DUR) t = DUR; }
+    }
+    t0 = now; seek(t);
+    barf.style.width = (t / DUR * 100) + '%'; tt.textContent = t.toFixed(1) + ' s';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  const tonAn = () => { if (ton) { ton.currentTime = t; if (playing) ton.play().catch(() => {}); } };
+  const toggle = () => {
+    playing = !playing;
+    pp.textContent = playing ? 'Pause' : 'Play';
+    if (ton) { if (playing) ton.play().catch(() => {}); else ton.pause(); }
+  };
+  pp.onclick = toggle;
+  // Tastenkuerzel nicht in Eingabefeldern; die Leertaste nicht auf Knoepfen —
+  // dort bestaetigt sie den Knopf (Antwort einer Frage, Play/Pause selbst).
+  document.addEventListener('keydown', e => {
+    const ziel = e.target && e.target.closest ? e.target : null;
+    if (ziel && ziel.closest('input, select, textarea')) return;
+    if (e.code === 'Space' && ziel && ziel.closest('button, a, summary')) return;
+    if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    if (e.code === 'ArrowRight') { t = Math.min(DUR, t + 5); tonAn(); }
+    if (e.code === 'ArrowLeft') { t = Math.max(0, t - 5); tonAn(); }
+    const k = e.key.toLowerCase();
+    if (k === 'r') { t = 0; playing = true; pp.textContent = 'Pause'; tonAn(); }
+    if (k === 'f') document.documentElement.requestFullscreen?.();
+  });
+  document.getElementById('bar').onclick = e => {
+    const r = e.currentTarget.getBoundingClientRect();
+    t = (e.clientX - r.left) / r.width * DUR; tonAn();
+  };
+} else { document.body.classList.add('render'); seek(0); }
+</script></body></html>

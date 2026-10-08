@@ -1,0 +1,141 @@
+% Bewertungspaket zum Gesamttest «Wärme» — Quelle des PDFs (python3 scripts/build-lp-pdf.py waerme).
+% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (08.10.2026).
+% Aufbau, Auftrag an die KI und Punktarten (E, W, B, A, S) wie in den Leitprogrammen Statik und Hydrostatik;
+% (S) hier: Zeichenpunkt für die weitergezeichnete Heizkurve in G3. Fassung 1.3 nach der dritten Prüfung (G4 2.0 l / 12 °C / 30 g, G6 b Holzgriff); Fassung 1.2 nach der zweiten Prüfung (G1 b Mischtemperatur, G2 0.25 kg, G3 0.40 kg, G4 Campingkocher, G7 c Einschichtmodell 23 %).
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Wärme}
+\renewcommand{\lpteilgebiet}{5.2}
+\renewcommand{\lpfuss}{Bewertungspaket}
+\newcolumntype{P}{>{\centering\arraybackslash}p{10mm}}
+\newenvironment{raster}{\par\smallskip\noindent\renewcommand{\arraystretch}{1.5}\setlength{\lineskiplimit}{4pt}\setlength{\lineskip}{8pt}\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P >{\raggedright\arraybackslash}X@{}}\toprule
+  \small\textsc{Teilschritt} & \small\textsc{P} & \small\textsc{Musterlösung}\\\midrule}{\bottomrule\endtabularx\par}
+\newcommand{\fehler}[1]{\par\smallskip{\small\raggedright\textcolor{lprot}{\bfseries Typische Fehler:} #1\par}}
+\newcommand{\E}{\,{\footnotesize\bfseries\color{lpgruen}(E)}}
+\newcommand{\B}{\,{\footnotesize\bfseries(B)}}
+\newcommand{\W}{\,{\footnotesize\bfseries(W)}}
+\newcommand{\Sk}{\,{\footnotesize\bfseries(S)}}
+\newcommand{\A}{\,{\footnotesize\bfseries\color{lpgruen}(A)}}
+\begin{document}
+\lpkopf{Bewertungspaket zum Gesamttest}{}
+
+\begin{lpachtung}{Erst lösen, dann öffnen}
+Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am Ende nur, wie gut das Abschreiben gelingt.
+\end{lpachtung}
+
+\section*{1 · So gehst du vor}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Gesamttest lösen} — vollständig, mit Rechenweg, ohne dieses Paket.
+\item \textbf{Fotografieren oder scannen}, gut lesbar, eine Seite pro Bild. \textbf{Kein Name} auf den Bildern.
+  Handyfotos tragen oft unsichtbar Standort, Zeit und Gerät mit (Metadaten). Lade darum lieber einen Scan oder ein
+  Bildschirmfoto des Fotos hoch, oder entferne vorher die Standortangaben.
+\item \textbf{Bewerten lassen.} Ob du dafür eine KI nutzt und welche, entscheidest du selbst und in eigener Verantwortung —
+  je nachdem, was dir aufgrund deines Alters und deiner persönlichen Situation erlaubt ist (Altersgrenzen und
+  Nutzungsbedingungen des Anbieters, allenfalls Einverständnis deiner Eltern). Lade nur deine Lösung und dieses PDF hoch,
+  keine persönlichen Daten, und füge den Auftrag aus Abschnitt~2 ein. Ohne KI kannst du dich mit Abschnitt~3 selbst bewerten.
+\item \textbf{Rückmeldung prüfen.} Stimmt, was die KI aus deiner Handschrift gelesen hat? Eine KI kann sich irren —
+  im Zweifel gilt das Raster in Abschnitt~3.
+\item \textbf{Gezielt wiederholen} nach Abschnitt~4.
+\end{enumerate}
+
+\needspace{8\baselineskip}
+\section*{2 · Auftrag an die KI}
+\begin{tcolorbox}[breakable,colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
+Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Wärme» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
+Geh so vor:\par
+1. Schreib zu jeder Aufgabe G1 bis G7 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
+2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte, und derselbe Fehler (etwa dieselbe fehlende Umrechnung) in mehreren Teilaufgaben kostet nur einen Punkt — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
+3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Einheit oder Vorsilbe ($20.9\;\text{kJ} = 20\,900\;\text{J}$; $558\;\text{W} = 0.558\;\text{kW}$; $0.037\;\text{kg} = 37\;\text{g}$; $335\;\text{kJ/kg} = 335\,000\;\text{J/kg}$; $0.54 = 54\;\%$; Kelvin oder Grad Celsius bei Temperaturdifferenzen), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen). Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (A) sind Ablesepunkte: Es zählt der abgelesene Wert mit Einheit, innerhalb der angegebenen Ablesetoleranz. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll; was in der Rasterzeile «nötig» heisst, muss vorkommen. Zeilen mit (S) sind Zeichenpunkte: Es zählt der verlangte Verlauf an der richtigen Stelle im Diagramm, nicht die Schönheit. Verlangt eine Teilaufgabe eine bestimmte Einheit (G4 c: kW; G7 b: Grad Celsius), gibt es den Ergebnispunkt nur in dieser Einheit. Werte aus sinnvoll gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% vom Raster abweichen.\par
+4. Begründe jeden Abzug in einem Satz und nenne die Fehlerart (zum Beispiel «Minuten nicht in Sekunden umgerechnet»). Schreib die Musterlösung nicht ab — zeig mir, wo mein Fehler liegt.\par
+5. Gib zum Schluss eine Tabelle «Aufgabe | Punkte | Begründung», die Gesamtpunktzahl (von 25) und — nach der Selbsteinschätzung in Abschnitt 4 — welches Kapitel des Leitprogramms ich wiederholen soll. Keine Note.\par
+6. Fehlt ein Foto oder ist eine Aufgabe unlesbar, sag es, statt sie zu bewerten.
+\end{tcolorbox}
+
+\section*{3 · Musterlösung und Punkteraster}
+\textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
+richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler), und derselbe Fehler in mehreren Teilaufgaben kostet nur einen Punkt — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
+Plausibilitätsprobe kostet keinen zusätzlichen Punkt, ausser die Aufgabe verlangt die Prüfung ausdrücklich (G2 b). Gleichwertige Wege und Schreibweisen zählen voll.
+In der Spalte P: \textbf{(E)}~= Ergebnispunkt — es zählt das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit
+falscher Einheit gibt es ihn nicht. \textbf{(A)}~= Ablesepunkt — der abgelesene Wert mit Einheit, innerhalb der angegebenen Toleranz. \textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten);
+steht in einer Weg-Zeile ein Zahlenwert, braucht auch er die Einheit. \textbf{(B)}~= Begründungspunkt — es zählt die fachliche
+Aussage in eigenen Worten, eine Formel ist nicht nötig; was die Zeile «nötig» nennt, muss vorkommen. \textbf{(S)}~= Zeichenpunkt — der verlangte Verlauf an der richtigen Stelle im Diagramm.
+Folgewerte aus gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% abweichen.
+«Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
+
+\begin{lpaufgabe}{G1}{Ethanol im Wasserbad, \(0.35\;\text{kg}\) bei \(60\;^\circ\text{C}\) in \(0.50\;\text{kg}\) Wasser bei \(18\;^\circ\text{C}\)}{3 P}
+\begin{raster}
+a) Begriffe & 1\B & Nötig sind beide Aussagen: (1) Übertragen wird nicht Temperatur, sondern Energie — die Wärme, die wegen des Temperaturunterschieds fliesst. (2) Die Temperatur ist ein Zustand: wie heftig sich die Teilchen im Mittel bewegen. Wie die Energie übergeht (Teilchenstösse), ist nicht nötig. Nur «Wärme ist nicht dasselbe wie Temperatur»: 0\\
+b) Ansatz & 1\W & \(Q_\text{ab} = Q_\text{auf}\): \(m_\text{E} \cdot c_\text{E} \cdot (60\;^\circ\text{C} - \vartheta_\text{m}) = m_\text{W} \cdot c_\text{W} \cdot (\vartheta_\text{m} - 18\;^\circ\text{C})\), oder gleich die gewichtete Mitte \(\vartheta_\text{m} = \dfrac{m_\text{E} c_\text{E} \vartheta_\text{E} + m_\text{W} c_\text{W} \vartheta_\text{W}}{m_\text{E} c_\text{E} + m_\text{W} c_\text{W}}\)\\[3pt]
+b) Endtemperatur & 1\E & \(m_\text{E} c_\text{E} = 850.5\;\text{J/K}\), \(m_\text{W} c_\text{W} = 2091\;\text{J/K}\):\par\vspace{5pt}\(\vartheta_\text{m} = \dfrac{850.5\;\text{J/K} \cdot 60\;^\circ\text{C} + 2091\;\text{J/K} \cdot 18\;^\circ\text{C}}{2941.5\;\text{J/K}} \approx 30.1\;^\circ\text{C}\)\\[3pt]
+\end{raster}
+\fehler{Einfacher Mittelwert (\(39\;^\circ\text{C}\)) oder nur mit den Massen gewichtet (\(35.3\;^\circ\text{C}\)): Ansatz 0, Endtemperatur 0 \(\to\) 1 von 3\,P. In a) «Wärme und Temperatur sind dasselbe, nur in anderen Einheiten»: a) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Eis in der Limonade, \(0.25\;\text{kg}\) bei \(20\;^\circ\text{C}\), \(0.10\;\text{kg}\) Eis}{4 P}
+\begin{raster}
+Ansatz & 1\W & Für die Limonade bis \(0\;^\circ\text{C}\): \(Q = m \cdot c \cdot \Delta T\) mit \(\Delta T = 20\;\text{K}\)\\
+a) bis 0 °C & 1\E & \(Q = 0.25\;\text{kg} \cdot 4182\;\tfrac{\text{J}}{\text{kg·K}} \cdot 20\;\text{K} \approx 20\,900\;\text{J} = 20.9\;\text{kJ}\)\\
+b) schmilzt alles? & 1\E & \(Q_\text{schmelz} = m \cdot L_\text{f} = 0.10\;\text{kg} \cdot 334\;\text{kJ/kg} = 33.4\;\text{kJ}\); das ist mehr als \(20.9\;\text{kJ}\): Nein, nicht alles Eis schmilzt (Rechnung und Aussage nötig)\\
+c) Ende & 1\E & Die Mischung bleibt bei \(0\;^\circ\text{C}\); geschmolzen sind \(m = \dfrac{20.9\;\text{kJ}}{334\;\text{kJ/kg}} \approx 0.063\;\text{kg}\), übrig bleiben rund \(0.10\;\text{kg} - 0.063\;\text{kg} \approx 0.037\;\text{kg} = 37\;\text{g}\) Eis (Temperatur und übrige Masse nötig)\\[3pt]
+\end{raster}
+\fehler{Ohne Prüfung gleich die Bilanz \(m_\text{L} c (20\;^\circ\text{C} - \vartheta_\text{m}) = m_\text{E} L_\text{f} + m_\text{E} c\, \vartheta_\text{m}\) gerechnet (\(\vartheta_\text{m} \approx -8.5\;^\circ\text{C}\)): Ansatz und a) zählen, wenn \(m \cdot c \cdot 20\;\text{K}\) für die Limonade bzw. \(20.9\;\text{kJ}\) als Zwischenwert dasteht; b) 0; c) zählt nur, wenn die Lösung danach erkennt, dass unter \(0\;^\circ\text{C}\) unmöglich ist, und auf \(0\;^\circ\text{C}\) mit übrigem Eis schliesst \(\to\) 2 bzw. 3 von 4\,P. Geschmolzene statt übrige Masse angegeben (\(0.063\;\text{kg}\) «übrig»): c) 0 \(\to\) 3 von 4\,P. kJ und J gemischt: derselbe Fehler, einmal abgezogen.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G3}{Eis auf der Kochplatte, \(0.40\;\text{kg}\)}{5 P}
+\begin{raster}
+a) Ablesen & 1\A & Schmelzen \(4\;\text{min}\) (Plateau von \(0\) bis \(4\;\text{min}\)); danach \(100\;\text{K}\) in \(5\;\text{min}\) (von \(4\) bis \(9\;\text{min}\)); zählt je \(\pm 0.2\;\text{min}\)\\
+a) Leistung & 1\E & \(P = \dfrac{m \cdot c \cdot \Delta T}{t} = \dfrac{0.40\;\text{kg} \cdot 4182\;\tfrac{\text{J}}{\text{kg·K}} \cdot 100\;\text{K}}{300\;\text{s}} \approx 558\;\text{W}\)\par\vspace{5pt}(folgerichtig aus den eigenen Ablesewerten)\\[6pt]
+b) Schmelzwärme & 1\E & \(Q = P \cdot t \approx 558\;\text{W} \cdot 240\;\text{s} \approx 133\,800\;\text{J}\); \(L_\text{f} = Q/m \approx 335\,000\;\text{J/kg} = 335\;\text{kJ/kg}\), passt zum Tabellenwert \(334\;\text{kJ/kg}\) (folgerichtig aus a)\\
+c) Rechnung & 1\E & \(t = \dfrac{m \cdot L_\text{v}}{P} = \dfrac{0.40\;\text{kg} \cdot 2\,256\,000\;\text{J/kg}}{558\;\text{W}} \approx 1620\;\text{s} \approx 27\;\text{min}\)\par\vspace{5pt}(folgerichtig aus a). Für diese Zeile zählt die Dauer von \(27\;\text{min}\); wann die Kurve endet, bewertet die Zeichnung\\[5pt]
+c) Zeichnung & 1\Sk & Das Sieden beginnt bei \(9\;\text{min}\) und dauert \(27\;\text{min}\): Waagrechte bei \(100\;^\circ\text{C}\) von \(12\;\text{min}\) bis rund \(36\;\text{min}\) (\(\pm 1\;\text{min}\) oder folgerichtig aus der eigenen Dauer), dort Ende der Kurve. Eine Kurve, die über \(100\;^\circ\text{C}\) steigt: 0\\
+\end{raster}
+\fehler{Minuten nicht in Sekunden umgerechnet (\(P \approx 33\,500\), Einheit «W»): a) Leistung 0; b) und c) folgerichtig, wenn mit Minuten weitergerechnet wird \(\to\) 4 von 5\,P. In c) Schmelzwärme statt Verdampfungswärme (\(\approx 4.0\;\text{min}\)): c) Rechnung 0, Zeichnung folgerichtig \(\to\) 4 von 5\,P. Die \(27\;\text{min}\) ab Minute 0 (Ende bei \(27\;\text{min}\)) oder ab dem Abbruch bei Minute 12 (Ende bei \(39\;\text{min}\)) eingezeichnet: c) Rechnung zählt, c) Zeichnung 0 \(\to\) 4 von 5\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G4}{Campingkocher, \(2.0\;\text{l}\) Wasser \(12\;^\circ\text{C} \to 100\;^\circ\text{C}\) in \(8.0\;\text{min}\), \(30\;\text{g}\) Butan}{4 P}
+\begin{raster}
+a) Nutzwärme & 1\E & \(2.0\;\text{l}\) Wasser haben \(2.0\;\text{kg}\): \(Q_\text{nutz} = m \cdot c \cdot \Delta T = 2.0\;\text{kg} \cdot 4182\;\tfrac{\text{J}}{\text{kg·K}} \cdot 88\;\text{K} \approx 736\,000\;\text{J} = 736\;\text{kJ}\)\\[4pt]
+b) Wirkungsgrad & 1\E & \(Q_\text{zu} = m \cdot H = 0.030\;\text{kg} \cdot 45.7\;\tfrac{\text{MJ}}{\text{kg}} \approx 1.37\;\text{MJ} = 1371\;\text{kJ}\);\par\vspace{5pt}\(\eta = \dfrac{Q_\text{nutz}}{Q_\text{zu}} = \dfrac{736\;\text{kJ}}{1371\;\text{kJ}} \approx 0.54 = 54\;\%\) (ohne Einheit)\rule[-10pt]{0pt}{0pt}\\[4pt]
+c) Leistung & 1\E & \rule{0pt}{18pt}\(P = \dfrac{Q_\text{zu}}{t} = \dfrac{1\,371\,000\;\text{J}}{480\;\text{s}} \approx 2860\;\text{W} = 2.86\;\text{kW}\) (in kW verlangt)\rule[-10pt]{0pt}{0pt}\\[4pt]
+d) Rest & 1\B & Die übrigen rund \(46\;\%\) gehen als Wärme an die Umgebung: mit dem heissen Abgas, an die Luft um den Topf, an Topf und Kocher. Energie verschwindet nicht, sie wird nur nicht genutzt (beides nötig)\\
+\end{raster}
+\fehler{Gramm nicht in Kilogramm umgerechnet (\(Q_\text{zu} = 1371\;\text{MJ}\)): b) 0; c) folgerichtig mit diesem Wert \(\to\) 3 von 4\,P. In c) Minuten nicht in Sekunden umgerechnet (\(\approx 171\;\text{kW}\)) oder mit der Nutzwärme gerechnet (\(\approx 1.53\;\text{kW}\)): c) 0 \(\to\) 3 von 4\,P. Wirkungsgrad umgekehrt (\(1.86\)): b) 0. In d) «Sie geht verloren» ohne wohin: d) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G5}{Biogas, \(60\,000\;\text{m}^3\) zu \(6.0\;\text{kWh}\), Strom \(35\;\%\), Wärme \(55\;\%\)}{3 P}
+\begin{raster}
+a) Strom und Wärme & 1\E & \(E_\text{zu} = 60\,000\;\text{m}^3 \cdot 6.0\;\text{kWh/m}^3 = 360\,000\;\text{kWh}\); Strom \(0.35 \cdot 360\,000\;\text{kWh} = 126\,000\;\text{kWh}\), Nutzwärme \(0.55 \cdot 360\,000\;\text{kWh} = 198\,000\;\text{kWh}\) (beides nötig)\\
+b) Quelle oder Technik & 1\B & Nötig: Die Wärme-Kraft-Kopplung selbst ist keine Quelle, sondern eine Technik (nutzt den Brennstoff besser: Strom und Wärme zugleich); erneuerbar ist hier das Biogas. «Die WKK selbst nicht, aber das Biogas ist erneuerbar»: 1. «Ja, weil sie mit Biogas läuft»: 0. Nur «nein»: 0\\
+c) Vorteil & 1\B & Biogas lässt sich speichern: Die Anlage liefert auf Abruf, auch nachts und im Winter, wenn Photovoltaik wenig liefert. Andere richtige Vorteile mit Begründung zählen (zum Beispiel: liefert zusätzlich Nutzwärme, verwertet Hofdünger)\\
+\end{raster}
+\fehler{Anteile vertauscht oder nur eine Grösse berechnet: a) 0 \(\to\) 2 von 3\,P. In b) «ja, weil sie wenig Brennstoff braucht»: b) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G6}{Solarkocher und Holzgriff}{3 P}
+\begin{raster}
+a) Trichter und Topf & 1\B & Strahlung: Der Spiegel lenkt das Sonnenlicht auf den Topf; die schwarze Fläche nimmt es auf und wird warm (nötig: das Wort Strahlung bzw. Sonnenlicht, dazu mindestens eines von beidem — der Spiegel lenkt es auf den Topf, oder die schwarze Fläche nimmt es auf)\\
+a) Sack und Brett & 1\B & Der Plastiksack hält die warme Luft um den Topf fest: Er bremst die Konvektion (nötig). Das Holzbrett leitet schlecht: Es bremst die Leitung in den Boden (nötig). Beide Teile mit dem richtigen Weg nötig\\
+b) Holzgriff & 1\B & Nötig: (1) Holz leitet die Wärme rund \(330\)-mal schlechter als Stahl (\(50 / 0.15 \approx 330\); «viel schlechter» mit den Werten genügt); (2) darum fliesst durch den Griff nur wenig Wärme von der Pfanne zur Hand, das Griffende bleibt kühl (oder: die Hand bekommt beim Anfassen nur wenig Wärme). Nur «Holz ist ein Isolator» ohne Bezug auf die Werte oder den Wärmefluss: 0. «Holz wird nicht heiss»: 0\\
+\end{raster}
+\fehler{Plastiksack als «hält die Strahlung drin» ohne Konvektion: a) Sack und Brett 0 \(\to\) 2 von 3\,P. In b) «Holz hält die Kälte»: b) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G7}{Strahlung am Boden}{3 P}
+\begin{raster}
+a) Durchlässigkeit & 1\B & Nötig sind: (1) Das Sonnenlicht kommt weitgehend durch; (2) die langwellige Wärmestrahlung (Infrarot) des Bodens nehmen Treibhausgase (Wasserdampf, Kohlendioxid) auf; (3) sie strahlen sie in alle Richtungen wieder ab, auch zurück zum Boden. Nur «hält die Wärme zurück»: 0\\
+b) Temperatur & 1\E & \(T = \sqrt[4]{\dfrac{P/A}{\sigma}} = \sqrt[4]{\dfrac{400\;\text{W/m}^2}{5.67 \cdot 10^{-8}\;\text{W/(m}^2\text{K}^4)}} \approx 290\;\text{K}\), also rund \(17\;^\circ\text{C}\) (\(16.7\)); in Grad Celsius verlangt\\[5pt]
+c) Wirklichkeit & 1\B & Im Modell gleicht der Boden mit Strahlung allein aus: \(240 + 150 = 390\;\text{W/m}^2\). In Wirklichkeit gibt er nicht nur Strahlung ab, sondern auch Wärme durch Verdunstung und aufsteigende Luft (Konvektion), und es erreicht ihn weniger Sonnenlicht, weil die Atmosphäre einen Teil aufnimmt. Darum steht die grössere Gegenstrahlung nicht im Widerspruch (Verdunstung oder Konvektion nötig)\\
+\end{raster}
+\fehler{In b) Kelvin nicht in °C umgerechnet (\(290\;^\circ\text{C}\) oder nur \(290\;\text{K}\)): b) 0 \(\to\) 2 von 3\,P. In a) «Treibhausgase spiegeln die Strahlung»: a) 0; Punkt (3) fehlt: a) 0.}
+\end{lpaufgabe}
+
+\needspace{10\baselineskip}
+\section*{4 · Selbsteinschätzung}
+\begin{tabularx}{\linewidth}{@{}l X@{}}\toprule
+22 – 25 P & Die geprüften Teile sitzen. Wo du Punkte verloren hast: das Kapitel dieser Aufgabe nochmals (Zuordnung unten).\\
+17 – 21 P & Den schwächsten Teil nochmals: Simulation und Übungen des Kapitels, in dem du die meisten Punkte verloren hast.\\
+11 – 16 P & Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.\\
+0 – 10 P & Zurück zu Kapitel 1 und von dort der Reihe nach weiter.\\\midrule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (gilt für alle Bereiche; K1 bis K7 sind die Kompetenzen des Rahmenlehrplans, aufgezählt im Leitprogramm): G1 $\to$ Kapitel 1 und 2 (K1, K2 ohne Zustandsänderung) · G2 $\to$ Kapitel 3 (K2 mit Zustandsänderung) · G3 $\to$ Kapitel 3 (K2, K3) · G4 $\to$ Kapitel 4 (K2, K4) · G5 $\to$ Kapitel 5 (K5) · G6 $\to$ Kapitel 6 (K6) · G7 $\to$ Kapitel 7 (K7)}\\\bottomrule
+\end{tabularx}
+\end{document}

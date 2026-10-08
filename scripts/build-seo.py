@@ -91,8 +91,8 @@ SEITEN = {
            'Zehnerpotenzen', 'Bogenmass', 'Kreiszahl', 'Plausibilität',
            'Grössenordnung', 'Einheitenprobe']),
  'leitprogramme/leitprogramm-heizen.html': dict(
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
-   titel='Leitprogramm Heizen, Dämmen, Umwandeln — Wirkungsgrad, Heizwert, Wärmetransport',
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 08.10.2026, wird entfernt
+   titel='Leitprogramm Heizen, Dämmen, Umwandeln — Wirkungsgrad, Heizwert, Wärmetransport (veraltet)',
    beschreibung='Leitprogramm zur Energienutzung: Energieerhaltung und '
                 'Entwertung, Wirkungsgrad und Wirkungsgrade in Serie, '
                 'Heizwert und Brennstoffmenge, Wärmepumpe und Leistungszahl, '
@@ -118,8 +118,8 @@ SEITEN = {
            'Spezifische Wärmekapazität', 'Wärmebilanz', 'Mischtemperatur',
            'Wirkungsgrad', 'Experiment', 'Wärmeeindringzahl']),
  'leitprogramme/leitprogramm-waermemenge.html': dict(
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
-   titel='Leitprogramm Wärmemenge und Wärmebilanz — Temperatur, Wärme, Heizkurve',
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 08.10.2026, wird entfernt
+   titel='Leitprogramm Wärmemenge und Wärmebilanz — Temperatur, Wärme, Heizkurve (veraltet)',
    beschreibung='Leitprogramm zur Wärmelehre: Temperatur als Teilchenbewegung, '
                 'Celsius und Kelvin, Wärme als übertragene Energie, die '
                 'Wärmemenge Q = m · c · ΔT, Wärmebilanz und Mischtemperatur, '
@@ -250,8 +250,8 @@ SEITEN = {
    themen=['Physik', 'Wärmelehre', 'Temperatur', 'Teilchenmodell', 'Aggregatzustand', 'Celsius',
            'Kelvin', 'absoluter Nullpunkt', 'Leitprogramm']),
  'leitprogramme/leitprogramm-waerme.html': dict(
-   # Erprobung seit 07.10.2026, unverlinkt bis nach /lp-pruefung.
-   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,
+   # Freigeschaltet am 08.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Wärme — Wärmemenge, Wärmebilanz, latente Wärme, Heizwert, Energiesysteme, Wärmetransport, Treibhauseffekt',
    beschreibung='Leitprogramm zur Wärme — Wärme und Temperatur; Wärmemenge und Wärmebilanz; '
                 'latente Wärme und Heizkurve; Heizwert und Wirkungsgrad; erneuerbare und andere '

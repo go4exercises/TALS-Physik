@@ -936,7 +936,7 @@ k6 = kapitel(6, 'energiebilanz-erde', 'Die Energiebilanz der Erde', 'K5', 40,
     ('p4-3-lp-erde', 'Energie sehen: die Bilanz der Erde'),
     sim6, ('p4-3-lp-kontrolle-erde', 'Kontrollfragen zur Energiebilanz der Erde'),
     fest6, [uebung('albedo', 'Was der Planet aufnimmt'), uebung('strahlung', 'Was eine Fläche abstrahlt'), uebung('gleichgewicht', 'Temperatur im Gleichgewicht')],
-    auf6, f'<a href="{TS}#strahlungsbilanz">Themenseite 4.3, Energiebilanz der Erde</a> · <a href="leitprogramm-heizen.html">Leitprogramm Heizen (Treibhauseffekt)</a>')
+    auf6, f'<a href="{TS}#strahlungsbilanz">Themenseite 4.3, Energiebilanz der Erde</a> · <a href="leitprogramm-waerme.html#treibhauseffekt">Leitprogramm Wärme, Kapitel 7: Treibhauseffekt</a>')
 
 # ------------------------------------------------------------------ Gesamttest
 PDF = '../downloads/leitprogramme/energie/'
@@ -972,7 +972,7 @@ weiter = rf'''
       <h2 id="weiter-titel">Nicht in diesem Leitprogramm</h2>
       <ul>
         <li>Spannenergie einer Feder, \(E = \tfrac12 \cdot D \cdot s^2\) → <a href="{TS}#elastisch">Themenseite 4.3, Elastische Energie</a></li>
-        <li>Wirkungsgrade in Serie und Energieflussdiagramme ganzer Anlagen → <a href="{TS}#wirkungsgrad">Themenseite 4.3, Wirkungsgrad</a>; Heizen und Wärmepumpe → <a href="leitprogramm-heizen.html">Leitprogramm Heizen</a></li>
+        <li>Wirkungsgrade in Serie und Energieflussdiagramme ganzer Anlagen → <a href="{TS}#wirkungsgrad">Themenseite 4.3, Wirkungsgrad</a>; Heizen und Wärmepumpe → <a href="leitprogramm-waerme.html#energiesysteme">Leitprogramm Wärme, Kapitel 5</a></li>
         <li>Wie der Treibhauseffekt im Einzelnen abläuft (Strahlung, Absorption) → <a href="../themen/p5-2-waerme.html#treibhaus">Themenseite 5.2, Treibhauseffekt</a> · <a href="../themen/p6-1-wellen.html#absorption">Themenseite 6.1, Absorption</a></li>
       </ul>
     </section>'''

@@ -1,0 +1,121 @@
+% Gesamttest «Wärme» — Quelle des PDFs (python3 scripts/build-lp-pdf.py waerme).
+% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (08.10.2026).
+% Fassung 1.1 nach /lp-pruefung: G2 Bilanz mit Zustandsänderung (Eis in Limonade, nicht alles schmilzt),
+% G3 Heizkurve lesen und weiterzeichnen (K3), G4 Leistung rückwärts statt Nachbau der Übung «heizwert»,
+% G6 Solarkocher statt Heizkörper-Problem des Clips, G7 rückwärts und ehrlich zum Einschichtmodell.
+% Fassung 1.2 nach der zweiten Prüfung: G1 b Mischtemperatur (Kapitel 2, Bilanz ohne Zustandsänderung),
+% G2 mit 0.25 kg Limonade (geschmolzen 0.063 kg, übrig 0.037 kg — nicht mehr zufällig gleich), G3 mit 0.40 kg
+% (nicht wie Leiste sim3 A1), G4 Campingkocher mit Wirkungsgrad aus der Messung (nicht wie Übung «heizwert»),
+% G7 c im Einschichtmodell mit der einen Einstellung (390, 240, 150 W/m²). Fassung 1.3 (dritte Prüfung): G4 mit 2.0 l
+% von 12 °C und 30 g Butan (nicht wie das Clip-Problem «Topf»), G6 b Holzgriff statt «fühlt sich kälter an» (wie Aufgabe 6a).
+% Keine Aufgabe aus uebungstest-waermelehre; geprüft auch mit scripts/lp/waerme/pruef_fest.py.
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Wärme}
+\renewcommand{\lpteilgebiet}{5.2}
+\renewcommand{\lpfuss}{Gesamttest · 25 Punkte}
+\begin{document}
+\lpkopf{Gesamttest}{%
+  \vspace{4pt}\noindent\begin{tabularx}{\linewidth}{@{}X X@{}}
+  Code (kein Name): \hrulefill & Punkte: \hrulefill\ / 25
+  \end{tabularx}}
+
+\begin{lpinfo}{Anleitung}
+\textbf{Zeit:} rund 40 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
+Schreib zu jeder Aufgabe zuerst die Formel, dann die Werte \textbf{mit Einheiten}. Punkte gibt es für den Weg,
+für das Ergebnis mit Einheit, fürs Ablesen und Zeichnen und für Begründungen in eigenen Worten. Rechne mit
+\mbox{$c_\text{Wasser} = 4182\;\text{J/(kg·K)}$}, \mbox{$L_\text{v} = 2256\;\text{kJ/kg}$} (Wasser),
+\mbox{$1\;\text{kWh} = 3.6\;\text{MJ}$} und \mbox{$\sigma = 5.67 \cdot 10^{-8}\;\text{W/(m}^2\text{K}^4)$}.
+Danach mit dem \emph{Bewertungspaket} bewerten (Scan ohne Namen und Standort).
+\end{lpinfo}
+
+\lpteil{Teil A · Wärme, Bilanz und Phasenwechsel}{Kapitel 1, 2 und 3 · 12 Punkte}
+
+\begin{lpaufgabe}{G1}{Ethanol im Wasserbad}{3 P}
+Eine dünnwandige Flasche mit \(0.35\;\text{kg}\) Ethanol (\(c = 2430\;\text{J/(kg·K)}\)) von \(60\;^\circ\text{C}\) steht in \(0.50\;\text{kg}\) Wasser von \(18\;^\circ\text{C}\). Flasche, Gefäss und Umgebung nehmen nichts auf.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Jemand sagt: «Das heisse Ethanol gibt dem Wasser so lange Temperatur ab, bis beide gleich warm sind.» Was ist an dem Satz falsch? Erkläre den Unterschied zwischen Temperatur und Wärme.
+\item Welche Temperatur haben Ethanol und Wasser am Ende?
+\end{enumerate}
+\lpplatz{6}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Eis in der Limonade}{4 P}
+In \(0.25\;\text{kg}\) Limonade von \(20\;^\circ\text{C}\) (Stoffwerte wie Wasser) kommen \(0.10\;\text{kg}\) Eis von \(0\;^\circ\text{C}\) (\mbox{\(L_\text{f} = 334\;\text{kJ/kg}\)}). Rechne ohne Verluste.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Wie viel Wärme kann die Limonade höchstens abgeben, bis sie \(0\;^\circ\text{C}\) hat?
+\item Reicht das, um alles Eis zu schmelzen? Begründe mit einer Rechnung.
+\item Welche Temperatur hat das Glas am Ende, und wie viel Eis schwimmt dann noch darin?
+\end{enumerate}
+\lpplatz{5}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G3}{Eis auf der Kochplatte}{5 P}
+\(0.40\;\text{kg}\) Eis von \(0\;^\circ\text{C}\) liegen in einem Topf auf einer Kochplatte, die dem Inhalt gleichmässig Energie zuführt. Das Diagramm zeigt die gemessene Temperatur; nach \(12\;\text{min}\) wurde die Messung abgebrochen.\par\smallskip
+\begin{center}\begin{tikzpicture}[x=0.38cm,y=0.042cm,>=latex]
+\foreach \x in {0,1,...,40} \draw[lplinie!70,very thin] (\x,-10) -- (\x,110);
+\foreach \y in {-10,0,...,110} \draw[lplinie!70,very thin] (0,\y) -- (40,\y);
+\foreach \y in {0,20,...,100} {\draw[lplinie] (0,\y) -- (40,\y); \node[left] at (0,\y) {\small \y};}
+\foreach \x in {5,10,...,40} {\draw[lplinie] (\x,-10) -- (\x,110); \node[below] at (\x,-10) {\small \x};}
+\draw[->] (0,0) -- (41.5,0);
+\draw (0,-10) -- (0,0);
+\draw[->] (0,-10) -- (0,118) node[right] {\small \(\vartheta\) in \(^\circ\)C};
+\node[above left] at (41.5,0) {\small \(t\) in min};
+\draw[very thick,lpbernstein] (0,0) -- (4,0) -- (9,100) -- (12,100);
+\fill[lpbernstein] (12,100) circle (1.6pt);
+\node[lpbernstein,anchor=south west,font=\small] at (12.3,101) {Messung abgebrochen};
+\end{tikzpicture}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Lies ab, wie lange das Schmelzen dauert und wie schnell danach das Wasser wärmer wird. Berechne daraus, wie viel Leistung die Platte dem Inhalt zuführt.
+\item Prüfe mit dem Diagramm und deinem Ergebnis aus a) die spezifische Schmelzwärme von Eis nach.
+\item Berechne, wann alles Wasser verdampft ist, und zeichne die Kurve im Diagramm bis zu diesem Zeitpunkt kräftig weiter.
+\end{enumerate}
+\lpplatz{11}
+\end{lpaufgabe}
+
+\lpteil{Teil B · Brennstoffe und Energiesysteme}{Kapitel 4 und 5 · 7 Punkte}
+
+\begin{lpaufgabe}{G4}{Der Campingkocher}{4 P}
+Ein Campingkocher bringt \(2.0\;\text{l}\) Wasser in \(8.0\;\text{min}\) von \(12\;^\circ\text{C}\) zum Sieden (\(100\;^\circ\text{C}\)). Dabei verbrennt er \(30\;\text{g}\) Butan (Heizwert \(H = 45.7\;\text{MJ/kg}\)).
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Wie viel Wärme nimmt das Wasser auf?
+\item Wie gross ist der Wirkungsgrad des Kochers?
+\item Welche Leistung führt die Flamme zu, in Kilowatt?
+\item Wohin geht der Rest der Energie? Begründe, warum er nicht verschwunden ist.
+\end{enumerate}
+\lpplatz{10}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G5}{Biogas auf dem Bauernhof}{3 P}
+Ein Bauernhof gewinnt aus Gülle und Mist im Jahr \(60\,000\;\text{m}^3\) Biogas mit je \(6.0\;\text{kWh}\) Energie. Ein Blockheizkraftwerk (Wärme-Kraft-Kopplung) macht daraus \(35\;\%\) Strom und \(55\;\%\) Nutzwärme.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Wie viel Strom und wie viel Nutzwärme liefert die Anlage im Jahr?
+\item Ist die Wärme-Kraft-Kopplung eine erneuerbare Energiequelle? Begründe.
+\item Nenne einen Vorteil der Biogasanlage gegenüber einer Photovoltaikanlage, die im Jahr gleich viel Strom liefert. Begründe.
+\end{enumerate}
+\lpplatz{8}
+\end{lpaufgabe}
+
+\lpteil{Teil C · Wärmetransport und Treibhauseffekt}{Kapitel 6 und 7 · 6 Punkte}
+
+\begin{lpaufgabe}{G6}{Der Solarkocher}{3 P}
+Ein einfacher Solarkocher besteht aus einem spiegelnden Trichter, einem schwarzen Topf und einem durchsichtigen Plastiksack, der um den Topf gebunden ist. Der Topf steht auf einem Holzbrett.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Erkläre für jeden der drei Teile (Trichter mit schwarzem Topf, Plastiksack, Holzbrett), welchen Weg der Wärme er nutzt oder bremst. Begründe.
+\item Eine Bratpfanne hat einen Griff aus Holz statt aus Stahl. Begründe mit den Wärmeleitfähigkeiten (Stahl rund \(50\;\text{W/(m·K)}\), Holz rund \(0.15\;\text{W/(m·K)}\)), warum man den Griff auch bei heisser Pfanne anfassen kann.
+\end{enumerate}
+\lpplatz{9}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G7}{Strahlung am Boden}{3 P}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Erkläre, warum die Atmosphäre das Sonnenlicht anders behandelt als die Strahlung, die der Boden abgibt, und was die Treibhausgase mit der aufgenommenen Strahlung tun.
+\item Ein Boden strahlt \(400\;\text{W/m}^2\) Wärmestrahlung ab (idealer Strahler). Welche Temperatur hat er, in Grad Celsius?
+\item Im Einschichtmodell des Leitprogramms strahlt der Boden \(390\;\text{W/m}^2\) ab und bekommt \(240\;\text{W/m}^2\) Sonnenlicht und \(150\;\text{W/m}^2\) Gegenstrahlung. Gemessen ist die Gegenstrahlung aber rund \(340\;\text{W/m}^2\). Begründe, warum der Boden trotzdem nicht wärmer wird.
+\end{enumerate}
+\lpplatz{8}
+\end{lpaufgabe}
+
+\vfill
+{\small\color{lpgrau}Bewerten: mit dem Bewertungspaket (Musterlösung, Punkteraster, Auftrag an eine KI) — erst nach dem Lösen öffnen.}
+\end{document}
