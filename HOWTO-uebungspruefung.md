@@ -307,8 +307,9 @@ ansehen** — der Prüfer sieht Überlappung und Überlauf, nicht Gestaltung.
 ## Schritt 5 — Die Seite
 
 Kopf, `<style>`-Block, Fortschritts- und Clipkarten-Skript **wörtlich** aus
-einem bestehenden Leitprogramm übernehmen (`leitprogramm-heizen.html` ist eine
-kurze klassische Vorlage; `leitprogramm-schaltungen.html` gibt es seit dem 06.10.2026 nicht mehr). Neu geschrieben wird nur der Inhalt.
+einem bestehenden Leitprogramm übernehmen (`leitprogramm-experimente-waerme.html` ist eine
+klassische Vorlage; `leitprogramm-schaltungen.html` ist seit dem 06.10.2026, `leitprogramm-heizen.html`
+seit dem 08.10.2026 veraltet). Neu geschrieben wird nur der Inhalt.
 
 ### Die Falle, die diesen Durchgang gekostet hat: `</head>`
 

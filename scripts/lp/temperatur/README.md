@@ -5,8 +5,8 @@ als Kopie von `scripts/lp/hydrostatik/` entstanden (07.10.2026). Kopf, CSS-Gerü
 und das Gerüst von `seite.js` (Achsen, Bedienung, Aufgabenleiste mit Vergleichsantwort, Uhr, Übungsrahmen)
 sind von dort; `Achsen()` hat zusätzlich `ya` (wie Energie) und schützt die Teilungszahlen einzeln, `etikett()`
 nimmt bei lauter belegten Lagen die mit den wenigsten Konflikten. Neu sind vier Kapitel, vier Simulationen,
-zehn Übungstypen, acht Clips und der Gesamttest. **Erprobung: unverlinkt** (`noindex` in `build-seo.py`,
-`UNVERLINKT` in `build-suchindex.py`, keine Karte, kein Kasten auf der Themenseite) bis nach `/lp-pruefung`.
+zehn Übungstypen, acht Clips und der Gesamttest. **Freigeschaltet am 08.10.2026** nach drei
+Prüfrunden (`/lp-pruefung`): Kachel in `leitprogramme.html`, Kasten «Lieber geführt» auf p5-1, im Suchindex und in der Sitemap.
 
 | Datei | Zweck | laufen lassen? |
 |---|---|---|

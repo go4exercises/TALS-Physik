@@ -934,9 +934,9 @@ selbstständigen Durcharbeiten. Es ist **keine Themenseite** und folgt darum nic
 Skelett aus §6.1. Es gibt zwei Arten, mit **identischem Layout** und verschiedener
 Gliederung:
 
-| | gegliedert nach | Beispiele (Stand 03.10.2026) | Anleitung |
+| | gegliedert nach | Beispiele (Stand 08.10.2026) | Anleitung |
 |---|---|---|---|
-| **Thema** | dem Stoff: Vortest, Kapitel bzw. Schritte, Gesamttest | klassisch: `leitprogramm-waermemenge`, `leitprogramm-ideale-gase` (sieben); Kapitelmuster: `leitprogramm-elektrizitaet` und die fünf der Mechanik | `HOWTO-leitprogramme.md` |
+| **Thema** | dem Stoff: Vortest, Kapitel bzw. Schritte, Gesamttest | klassisch: `leitprogramm-rechnen`, `leitprogramm-experimente-waerme` (drei aktive, dazu sieben veraltete); Kapitelmuster: `leitprogramm-elektrizitaet`, die fünf der Mechanik und die drei der Thermodynamik | `HOWTO-leitprogramme.md` |
 | **Übungsprüfung** | dem Prüfungsbogen: je Aufgabe ein Clip, Musterlösung, Fehlerkasten | `uebungstest-waermelehre` | `HOWTO-uebungspruefung.md` |
 
 **Umfang eines Themen-Leitprogramms:** rund **6 bis 11 Clips** und **8 bis 12 Minuten**

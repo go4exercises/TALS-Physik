@@ -1,6 +1,6 @@
 ---
 name: lp-pruefung
-description: Unabhängige fachliche und didaktische Prüfung eines Leitprogramms vor der Freischaltung (HOWTO-leitprogramme §15). Startet drei frische Agenten parallel — Seite, Clips, PDFs —, die nur lesen, jede Zahl mit python3 nachrechnen und gegen die Prüfliste in §15 prüfen. Die Befunde werden nachgeprüft und dem Auftraggeber berichtet (keine Datei im Repo). Aufruf mit dem Pfad der Seite, z. B. /lp-pruefung leitprogramme/leitprogramm-waermemenge.html. Ändert nichts am Leitprogramm.
+description: Unabhängige fachliche und didaktische Prüfung eines Leitprogramms vor der Freischaltung (HOWTO-leitprogramme §15). Startet drei frische Agenten parallel — Seite, Clips, PDFs —, die nur lesen, jede Zahl mit python3 nachrechnen und gegen die Prüfliste in §15 prüfen. Die Befunde werden nachgeprüft und dem Auftraggeber berichtet (keine Datei im Repo). Aufruf mit dem Pfad der Seite, z. B. /lp-pruefung leitprogramme/leitprogramm-waerme.html. Ändert nichts am Leitprogramm.
 ---
 
 # Prüfung eines Leitprogramms

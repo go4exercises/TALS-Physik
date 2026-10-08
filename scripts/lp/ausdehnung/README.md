@@ -3,8 +3,9 @@
 Physik-Leitprogramm nach dem Kapitelmuster (`HOWTO-leitprogramme.md` §4) zur Themenseite 5.3, als Kopie von
 `scripts/lp/hydrostatik/` entstanden (07.10.2026). Kopf, CSS-Gerüst, Grundskript, Bausteine und das Gerüst von
 `seite.js` (Achsen, Bedienung, Aufgabenleiste, Uhr, Übungsrahmen, Minigrafen) sind wörtlich von dort; neu sind
-fünf Kapitel, fünf laufende Simulationen, 15 Übungstypen, zehn Clips und der Gesamttest. Erprobung: unverlinkt
-(`noindex` in `build-seo.py`, `UNVERLINKT` in `build-suchindex.py`), noch nicht `/lp-pruefung`.
+fünf Kapitel, fünf laufende Simulationen, 15 Übungstypen, zehn Clips und der Gesamttest. **Freigeschaltet am 08.10.2026**
+nach drei Prüfrunden (`/lp-pruefung`): Kachel in `leitprogramme.html`, Kasten «Lieber geführt» auf p5-3, im
+Suchindex und in der Sitemap. Die alten Leitprogramme Wärmeausdehnung und Ideale Gase sind seither veraltet.
 
 | Datei | Zweck | laufen lassen? |
 |---|---|---|

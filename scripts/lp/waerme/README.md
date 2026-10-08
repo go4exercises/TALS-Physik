@@ -4,8 +4,9 @@ Leitprogramm nach dem Kapitelmuster (`HOWTO-leitprogramme.md` §4) zur Themensei
 als Kopie des Gerüsts von `scripts/lp/hydrostatik/` (Kopf, CSS-Gerüst, Grundskript, Achsen, Bedienung,
 Aufgabenleiste, Uhr, Übungsrahmen). Neu: sieben Fachkapitel und Kapitel 0, sieben laufende Simulationen,
 22 Übungstypen, 14 Clips (sieben Einführungs-, sieben Kontrollclips), Gesamttest als PDF.
-Status: **Erprobung, unverlinkt** — alle Clips mit `"probe": true`; Eintrag in `leitprogramme.html`,
-`build-seo.py`, `build-suchindex.py` und Clip-Einbau macht die Koordination.
+Status: **freigeschaltet am 08.10.2026** nach drei Prüfrunden (`/lp-pruefung`) — Kachel in `leitprogramme.html`,
+Kasten «Lieber geführt» auf p5-2, im Suchindex und in der Sitemap; alle Clips mit `"probe": true` (Spalte
+«Leitprogramm» der Clip-Bibliothek). Die alten Leitprogramme Wärmemenge und Heizen sind seither veraltet.
 
 | Datei | Zweck | laufen lassen? |
 |---|---|---|

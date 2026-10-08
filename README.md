@@ -74,14 +74,16 @@ Bauanleitung, Stolpersteine und die didaktische Prüfliste stehen in
 
 ## Leitprogramme
 
-Zwölf **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
-`leitprogramme.html`: Rechnen und Schliessen, Vorwissen (Grössen, Messen,
-Druck), Wärmemenge und Wärmebilanz, Heizen, Dämmen, Umwandeln, Wärmeausdehnung,
-Ideale Gase, Wärme im Experiment, Schaltungen berechnen, Widerstand, Leistung,
-Energie, Gefahren und Schutzmassnahmen, Elektrizität und der Übungstest
-Wärmelehre. Die meisten bestehen aus Vortest, Lernschritten mit
-Clip, Simulation und Selbstkontrolle sowie einem Kapiteltest unter
-Prüfungsbedingungen; der Fortschritt bleibt auf dem Gerät gespeichert.
+Dreizehn **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
+`leitprogramme.html` — je RLP-Teilgebiet eines: Kinematik, Dynamik, Energie, Statik,
+Hydrostatik, Temperatur, Wärme, Wärmeausdehnung und Gase sowie Elektrizität (alle nach dem
+Kapitelmuster, unten), dazu Rechnen und Schliessen, Vorwissen (Grössen, Messen,
+Druck), Wärme im Experiment und der Übungstest Wärmelehre. Die meisten bestehen aus
+Vortest, Lernschritten mit Clip, Simulation und Selbstkontrolle sowie einem Gesamttest;
+der Fortschritt bleibt auf dem Gerät gespeichert. Sieben ältere Leitprogramme
+(Schaltungen berechnen; Widerstand, Leistung, Energie; Gefahren und Schutzmassnahmen;
+Wärmemenge und Wärmebilanz; Heizen, Dämmen, Umwandeln; Wärmeausdehnung; Ideale Gase)
+sind in den neuen aufgegangen und stehen bis zur Löschung als veraltet im Netz.
 
 «Wärme im Experiment» fällt aus der Reihe: Es geht nicht von der Formel aus,
 sondern vom **Versuch**. Sieben einfache Schulexperimente zu Wärme und
@@ -89,7 +91,7 @@ Wärmekapazität, jedes mit Vorhersage, Clip, gerechneter Simulation und
 Auswertung — vom Metallgeländer, das sich kälter anfühlt, bis zum Wasserballon
 über der Kerzenflamme.
 
-«Schaltungen berechnen» ist das erste ausserhalb der Thermodynamik: Es führt in
+«Schaltungen berechnen» (seit dem 6. Oktober 2026 veraltet) war das erste ausserhalb der Thermodynamik: Es führt in
 sechs Schritten von der Knoten- und Maschenregel über Reihenschaltung und
 Spannungsteiler zur Parallelschaltung und zu gemischten Netzen, die von innen
 nach aussen zusammengefasst werden — und endet bei der Frage, warum in Reihe die
@@ -101,7 +103,9 @@ Zuschauen, eine Simulation, die ihre Aufgaben selbst stellt und ✓ zeigt, ein C
 der anhält und fragt, Übungen mit sofortiger Rückmeldung zu typischen Fehlern und
 Aufgaben auf Papier. Der Gesamttest kommt als PDF, mit einem Bewertungspaket, das
 man selbst oder mit einer KI anwenden kann. Die Seite entsteht aus einem Bauskript
-(`scripts/lp/elektrizitaet/`).
+(`scripts/lp/elektrizitaet/`). Nach demselben Muster folgten die fünf der Mechanik
+(4.1 bis 4.5) und die drei der Thermodynamik (5.1 bis 5.3), jedes mit eigenen
+Clips und eigenem Bauskript unter `scripts/lp/`.
 
 Der «Übungstest Wärmelehre» ist der Sonderfall unter ihnen: Seine Gliederung
 kommt nicht aus dem Stoff, sondern aus einem Prüfungsbogen. Fünfzehn Aufgaben,
@@ -215,6 +219,10 @@ zehn Aufgaben bekommen, dazu das achte Leitprogramm «Schaltungen berechnen».
 
 Am 3. Oktober 2026 kam mit «Elektrizität» das erste Leitprogramm nach dem
 Kapitelmuster dazu, samt zehn eigenen Clips, die sich bewegen und Fragen stellen.
+Bis zum 6. Oktober 2026 folgten Kinematik, Dynamik, Energie, Statik und Hydrostatik,
+am 8. Oktober 2026 Temperatur, Wärme sowie Wärmeausdehnung und Gase. Damit hat jedes
+Teilgebiet der Mechanik und der Thermodynamik sein Leitprogramm; die älteren
+Einzelprogramme zur Elektrizität und zur Wärmelehre sind als veraltet markiert.
 
 Am 14. September 2026 wurde aus «TALS Physik» **«Physik begreifbar»** — der letzte
 Schritt des Umzugs auf die eigene Adresse `physik.begreifbar.ch`, die seit dem

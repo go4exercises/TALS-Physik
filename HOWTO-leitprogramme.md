@@ -31,7 +31,7 @@ und `lineare-funktionen.html`. Ein neues Leitprogramm beginnt mit einer Kopie vo
 
 | | gegliedert nach | Beispiele | Anleitung |
 |---|---|---|---|
-| **Thema** | dem Stoff: Vorwissen, Kapitel (bzw. Schritte), Gesamttest | Kapitelmuster: `leitprogramm-elektrizitaet`; klassisch: `leitprogramm-waermemenge`, `leitprogramm-heizen` | diese Datei |
+| **Thema** | dem Stoff: Vorwissen, Kapitel (bzw. Schritte), Gesamttest | Kapitelmuster: `leitprogramm-elektrizitaet`, `leitprogramm-waerme` (neun, Stand 08.10.2026); klassisch: `leitprogramm-rechnen`, `leitprogramm-experimente-waerme` | diese Datei |
 | **Übungsprüfung** | dem Prüfungsbogen: je Aufgabe Clip, Musterlösung, Fehlerkasten | `uebungstest-waermelehre` | `HOWTO-uebungspruefung.md` |
 
 Layout, Kopf, Fuss, Farbtokens und Clip-Bühne sind bei beiden dieselben (§11–§12 gelten
@@ -250,7 +250,10 @@ Zeit: 35–45 Minuten je Kapitel (zwei Clips à ~1 min, Tüfteln ~8–10, Übung
 
 **Der Normalfall ist: eine bestehende Leitprogramm-Seite kopieren** und nur den Inhalt
 ersetzen — Kopf, `<style>`-Block, Fortschritts- und Clipkarten-Skript **wörtlich** (bewährt:
-aus `leitprogramm-waermemenge`), neu geschrieben werden nur Inhalt und Simulations-Skript.
+aus `leitprogramm-waermemenge`, seit dem 08.10.2026 veraltet; heute `leitprogramm-experimente-waerme`),
+neu geschrieben werden nur Inhalt und Simulations-Skript. Für das Kapitelmuster entspricht dem
+das Kopieren eines Bauskripts (`scripts/lp/<name>/`; Temperatur, Wärme und Wärmeausdehnung
+entstanden aus `scripts/lp/hydrostatik/`).
 Dann stehen Dokumentrahmen, Hosts, Stylesheets, Tokens, Dunkelmodus und Skripte schon richtig
 (§11), und die Dateien bleiben beieinander. **Nicht vergessen:** den `localStorage`-Schlüssel
 (`var KEY = 'leitprogramm-<name>-v1'`), sonst teilen zwei Leitprogramme einen
