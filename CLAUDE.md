@@ -268,7 +268,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   trägt jedes Element ein `aus`, auch `bild` und `formel`; dazu Kreisbewegung über einen Winkel,
   Grad-Kurven, Strecken als Klickziel u. a. (HOWTO-clips, «Dritte Runde»). Klickfragen: Liegt ein
   Tipp in mehreren Fallen, gewinnt die nächste. Bewegte Kurven mit `"gleichmaessig": true` laufen linear statt weich
-  (laufende Wellen, seit 08.10.2026 aus Physik, Übertrag nach Mathe in `abgleich.py`).
+  (laufende Wellen, seit 08.10.2026 aus Physik, von Mathe übernommen).
 - `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell vierzehn: zehn nach dem Kapitelmuster (`leitprogramm-elektrizitaet`, `leitprogramm-kinematik`, `-dynamik`, `-energie`, `-statik`, `-hydrostatik`, `-temperatur`, `-waerme`, `-ausdehnung`, `-wellen`) und vier klassische (unten):
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),

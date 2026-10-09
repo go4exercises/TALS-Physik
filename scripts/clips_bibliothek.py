@@ -87,11 +87,11 @@ def ziele(text):
             if not m:
                 continue
             sim = re.search(r'<figure class="sim[^"]*" id="([^"]+)"', teil)
-            for st in re.findall(r'clips/([a-z0-9-]+)\.html', teil):
+            for st in re.findall(r'clips/([A-Za-z0-9-]+)\.html', teil):
                 ziel.setdefault(st, sim.group(1) if sim else m.group(1))
         return ziel
     anker = [(m.start(), m.group(1)) for m in re.finditer(r'<h2\b[^>]*\bid="([^"]+)"', text)]
-    for m in re.finditer(r'clips/([a-z0-9-]+)\.html', text):
+    for m in re.finditer(r'clips/([A-Za-z0-9-]+)\.html', text):
         vor = [a for pos, a in anker if pos < m.start()]
         if vor:
             ziel.setdefault(m.group(1), vor[-1])
@@ -109,7 +109,7 @@ def lp_clips(wurzel, clipsdir):
         platz_lp = 0
         text = open(pfad, encoding="utf-8").read()
         ziel = ziele(text)
-        for stamm in re.findall(r'clips/([a-z0-9-]+)\.html', text):
+        for stamm in re.findall(r'clips/([A-Za-z0-9-]+)\.html', text):
             if stamm in gesehen:
                 continue
             dreh_pfad = os.path.join(clipsdir, stamm + ".json")
