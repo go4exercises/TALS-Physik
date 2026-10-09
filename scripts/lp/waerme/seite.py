@@ -1166,6 +1166,7 @@ weiter = rf'''
         <li>Die obere Grenze der Leistungszahl, \(\text{{COP}}_\text{{max}} = \dfrac{{T_\text{{warm}}}}{{T_\text{{warm}} - T_\text{{kalt}}}}\) → <a href="{TS}#waermepumpe">Themenseite 5.2, Wärmepumpe</a></li>
         <li>Die Messreihen der Treibhausgase (Kohlendioxid über 800 000 Jahre, Methan, Lachgas) → <a href="{TS}#treibhaus">Themenseite 5.2, Treibhauseffekt</a></li>
         <li>Die Energiebilanz der ganzen Erde mit Albedo und ihr zeitlicher Verlauf → <a href="{LPE}#k6">Leitprogramm Energie, Kapitel 6</a></li>
+        <li>Warum die Gase gerade das Infrarot aufnehmen und das Sonnenlicht durchlassen (Absorption nach Wellenlänge, Ozon) → <a href="leitprogramm-wellen.html#treibhauseffekt">Leitprogramm Wellen, Kapitel 6</a></li>
         <li>Temperatur, Teilchenbewegung und die Celsius- und Kelvin-Skala → <a href="{P51}">Themenseite 5.1 Temperatur</a></li>
         <li>Wirkungsgrade einer ganzen Energiekette → <a href="../themen/p4-3-energie.html#wirkungsgrad">Themenseite 4.3, Wirkungsgrad</a></li>
       </ul>

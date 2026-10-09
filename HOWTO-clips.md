@@ -5,7 +5,7 @@ Gedankengang in rund einer Minute aufbaut: animierte Zeilen auf einer Bühne von
 1920 × 1080, dazu eine gesprochene Tonspur. Gebaut wird er nicht von Hand,
 sondern aus einem **Drehbuch** — einer JSON-Datei daneben.
 
-Stand 30.09.2026: **205 Clips, 222:51 min, in 25 Reihen.** Zwei Sorten:
+Stand 09.10.2026: **205 Clips, 222:52 min, in 25 Reihen.** Zwei Sorten:
 **89 Clips zum Stoff** (83:14 min) — jede Themenseite der Lerngebiete 4 bis 6
 hat ihre Reihe, dazu das Vorwissen; 50 bis 67 s, Mittel 56 s — und **116 Clips
 zu je einer Animation** (139:37 min, Reihe «Animationen erklärt») — jede
@@ -895,7 +895,10 @@ Kopfraum 0.95 bekommen nur die neuen Stücke, die alte Spur hat ihn schon — de
 gleich. Die übernommenen Szenen werden ein zweites Mal als MP3 kodiert (gemessen rund 3–4 %
 RMS-Abweichung, nicht hörbar). Passt die Spur nicht mehr zum Drehbuch (Länge weicht über
 0.05 s ab, etwa weil eine Szene dazukam oder eine `dauer` von Hand geändert wurde), bricht
-das Skript ab — dann ganz vertonen. **Wer den Text einer Szene ändert, muss sie nennen:**
+das Skript ab — dann ganz vertonen. Häufigste Ursache (Leitprogramm Wellen, 08.10.2026): Ein
+Drehbuchgenerator wie `scripts/lp/<name>/clips.py` schreibt das JSON neu und setzt dabei die
+gemessenen `dauer` zurück. Dann die alten Dauern übernehmen, bevor man neu spricht
+(`scripts/lp/wellen/clips.py --behalte`). **Wer den Text einer Szene ändert, muss sie nennen:**
 Das Skript merkt nicht, dass eine nicht genannte Szene neuen Text hat.
 
 **Der Ton startet hörbar — und das hängt an zwei Stellen.** Der Clip setzt beim

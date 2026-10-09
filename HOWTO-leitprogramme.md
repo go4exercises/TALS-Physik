@@ -173,7 +173,7 @@ unterbringen lässt.
   Spezialfälle, zweite Methoden → «Vertiefung» oder Themenseite.
 
 ⟂ Entscheid: Die klassischen Physik-Leitprogramme haben vier bis sieben Schritte
-(`leitprogramm-widerstand-leistung` hatte sieben, bis es am 06.10.2026 im Leitprogramm Elektrizität aufging); das bleibt. Für das Kapitelmuster gilt **4–5**, ausnahmsweise mehr, wenn ein Teilgebiet es braucht (Elektrizität: sieben Fachkapitel nach TODO-E; Wärme 5.2: sieben Kapitel).
+(`leitprogramm-widerstand-leistung` hatte sieben, bis es am 06.10.2026 im Leitprogramm Elektrizität aufging); das bleibt. Für das Kapitelmuster gilt **4–5**, ausnahmsweise mehr, wenn ein Teilgebiet es braucht (Elektrizität: sieben Fachkapitel nach TODO-E; Wärme 5.2: sieben Kapitel; Wellen 6.1: sechs Kapitel).
 
 ---
 
