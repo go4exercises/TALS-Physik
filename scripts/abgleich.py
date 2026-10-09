@@ -144,6 +144,13 @@ OFFEN = [
              '12 mit fragen nur im FRAGEN_JS verschieden (alle 12 dieselbe Aenderung), pruef-fragen gruen; der '
              'Rest baut beim naechsten Bau des jeweiligen Clips mit. HOWTO-clips: «Dritte Runde», --szenen, --fragen. '
              'In Mathe: diese Datei uebernehmen und die zwei Eintraege in TODO-schwesterprojekt.md loeschen.'),
+    dict(quelle='Physik', was='build-clips.py: "gleichmaessig": true an bewegten Kurven (08.10.2026)',
+         wie='Stuetzpunkte und "grenzen" einer bewegten Kurve linear statt mit Smoothstep ueberblenden (laufende '
+             'Welle mit konstanter Geschwindigkeit, Leitprogramm Wellen 6.1). Neun Stellen: data-gleich im '
+             'Kurven-Pfad, lin im Teil-Objekt, bewZustand(k, t, lin), kGrenzen, bewegeKurve, kmX (Laeufer/Marken '
+             'mit bahn) und die Kreisbahn in bewegeTrig reichen T.lin durch. Ohne das Feld baut jeder Clip byte-gleich (geprueft an vier Clips mit bewegung). '
+             'HOWTO-clips: Absatz «Gleichmaessig statt weich» nach «Bereich, der wandert». In Mathe: die Stellen '
+             'aus python3 scripts/abgleich.py --diff scripts/build-clips.py uebernehmen, Grundlinie bleibt.'),
 ]
 FACH = {
     'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',

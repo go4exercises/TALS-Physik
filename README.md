@@ -74,9 +74,9 @@ Bauanleitung, Stolpersteine und die didaktische Prüfliste stehen in
 
 ## Leitprogramme
 
-Dreizehn **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
+Vierzehn **Selbstlerneinheiten** zum eigenständigen Durcharbeiten, erreichbar über
 `leitprogramme.html` — je RLP-Teilgebiet eines: Kinematik, Dynamik, Energie, Statik,
-Hydrostatik, Temperatur, Wärme, Wärmeausdehnung und Gase sowie Elektrizität (alle nach dem
+Hydrostatik, Temperatur, Wärme, Wärmeausdehnung und Gase, Wellen sowie Elektrizität (alle nach dem
 Kapitelmuster, unten), dazu Rechnen und Schliessen, Vorwissen (Grössen, Messen,
 Druck), Wärme im Experiment und der Übungstest Wärmelehre. Die meisten bestehen aus
 Vortest, Lernschritten mit Clip, Simulation und Selbstkontrolle sowie einem Gesamttest;
@@ -104,7 +104,7 @@ der anhält und fragt, Übungen mit sofortiger Rückmeldung zu typischen Fehlern
 Aufgaben auf Papier. Der Gesamttest kommt als PDF, mit einem Bewertungspaket, das
 man selbst oder mit einer KI anwenden kann. Die Seite entsteht aus einem Bauskript
 (`scripts/lp/elektrizitaet/`). Nach demselben Muster folgten die fünf der Mechanik
-(4.1 bis 4.5) und die drei der Thermodynamik (5.1 bis 5.3), jedes mit eigenen
+(4.1 bis 4.5), die drei der Thermodynamik (5.1 bis 5.3) und Wellen (6.1), jedes mit eigenen
 Clips und eigenem Bauskript unter `scripts/lp/`.
 
 Der «Übungstest Wärmelehre» ist der Sonderfall unter ihnen: Seine Gliederung
@@ -223,6 +223,8 @@ Bis zum 6. Oktober 2026 folgten Kinematik, Dynamik, Energie, Statik und Hydrosta
 am 8. Oktober 2026 Temperatur, Wärme sowie Wärmeausdehnung und Gase. Damit hat jedes
 Teilgebiet der Mechanik und der Thermodynamik sein Leitprogramm; die älteren
 Einzelprogramme zur Elektrizität und zur Wärmelehre sind als veraltet markiert.
+Am 9. Oktober 2026 kam «Wellen» (6.1) dazu; seither hat jedes Teilgebiet der
+Lerngebiete 4 bis 6 sein Leitprogramm.
 
 Am 14. September 2026 wurde aus «TALS Physik» **«Physik begreifbar»** — der letzte
 Schritt des Umzugs auf die eigene Adresse `physik.begreifbar.ch`, die seit dem

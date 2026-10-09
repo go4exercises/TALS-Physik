@@ -1039,7 +1039,7 @@ def graf_svg(el, theme):
             # fuer y = a*(x-x1)*(x-x2)*… — die Linearfaktordarstellung. Legt man zwei
             # Nullstellen aufeinander, entsteht die doppelte Nullstelle von selbst.
             teile.append('<path data-bewk="%s" data-paar="%s" data-fenster="%g,%g,%g,%g,%d,%d,%d" '
-                         'data-stufen="%d" data-poly="%d" data-el="%s" data-von="%g" data-bis="%g"%s fill="none" stroke="%s" '
+                         'data-stufen="%d" data-poly="%d" data-el="%s" data-von="%g" data-bis="%g"%s%s fill="none" stroke="%s" '
                          'stroke-width="%s" stroke-linecap="round" stroke-linejoin="round" %s/>'
                          % (entschaerfen(json.dumps(kv["bewegung"])), kid, x0, x1, y0, y1, b, h, rand,
                             1 if kv.get("stufen") else 0, 1 if kv.get("polynom") else 0,
@@ -1047,7 +1047,10 @@ def graf_svg(el, theme):
                             ("v" if kv.get("betrag") else {"sin": "s", "tan": "t"}.get(kv.get("trig"), "")),
                             kv.get("von", x0), kv.get("bis", x1),
                             # "grenzen": [[t, von, bis], …] — der Bereich wandert (seit 07.10.2026)
-                            (' data-grenzen="%s"' % entschaerfen(json.dumps(kv["grenzen"])) if kv.get("grenzen") else "")
+                            (' data-grenzen="%s"' % entschaerfen(json.dumps(kv["grenzen"])) if kv.get("grenzen") else ""),
+                            # "gleichmaessig": true (seit 08.10.2026, aus Physik) — Stuetzpunkte, "grenzen" und die
+                            # Bahn ihrer Laeufer und Marken linear statt weich: eine Welle mit konstanter Geschwindigkeit.
+                            (' data-gleich="1"' if kv.get("gleichmaessig") else "")
                             + (' data-grad="1"' if kv.get("grad") else "") + farbwechsel(kv),
                             farbe, kv.get("dicke", 5),
                             'stroke-dasharray="14 10"' if kv.get("gestrichelt") else ""))
@@ -1462,7 +1465,7 @@ const BEW = [...document.querySelectorAll('[data-t0]')].map(L => ({
       art: 'g', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.bewg), f: p.dataset.fenster.split(',').map(Number) })))
     .concat([...L.querySelectorAll('[data-bewk]')].map(p => ({
       art: 'k', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.bewk), f: p.dataset.fenster.split(',').map(Number),
-      stufen: p.dataset.stufen === '1', poly: p.dataset.poly === '1', el: p.dataset.el || '' })))
+      stufen: p.dataset.stufen === '1', poly: p.dataset.poly === '1', el: p.dataset.el || '', lin: p.dataset.gleich === '1' })))
     .concat([...L.querySelectorAll('[data-fkl]')].map(p => ({
       art: 'f', p, L, t0: parseFloat(L.dataset.t0), k: JSON.parse(p.dataset.fkl), f: p.dataset.fenster.split(',').map(Number),
       tab: JSON.parse(p.dataset.tab), ab: parseFloat(p.dataset.ab), bis: parseFloat(p.dataset.bis) })))
@@ -1547,15 +1550,15 @@ function laufeFest(T, t, px, py, x0, x1, y0, y1) {
   tx.setAttribute('text-anchor', rechts ? 'end' : 'start');
   tx.textContent = T.p.dataset.text.replace('{x}', bewZahl(x)).replace('{y}', bewZahl(y));
 }
-// Zwischen zwei Stuetzpunkten weich. Wie viele Zahlen ein Stuetzpunkt traegt, sagt er
+// Zwischen zwei Stuetzpunkten weich (lin: gleichmaessig). Wie viele Zahlen ein Stuetzpunkt traegt, sagt er
 // selbst: [t, a, u, v] bei einer Parabel, [t, m, q] bei einer Geraden, [t, x] bei einer Bahn.
-function bewZustand(k, t) {
+function bewZustand(k, t, lin) {
   const n = k[0].length - 1;
   if (t <= k[0][0]) return k[0].slice(1);
   for (let i = 0; i < k.length - 1; i++) {
     if (t < k[i + 1][0]) {
       let q = (t - k[i][0]) / (k[i + 1][0] - k[i][0]);
-      q = RUHIG ? 0 : q * q * (3 - 2 * q);
+      q = RUHIG ? 0 : lin ? q : q * q * (3 - 2 * q);
       const aus = [];
       for (let j = 1; j <= n; j++) aus.push(k[i][j] + (k[i + 1][j] - k[i][j]) * q);
       return aus;
@@ -1667,18 +1670,18 @@ function bewegeGerade(T, t, px, py, x0, x1, y0, y1) {
 function kmX(g, T) {
   if (!g.dataset.bahn) return parseFloat(g.dataset.x);
   const bahn = g._bahn || (g._bahn = JSON.parse(g.dataset.bahn));
-  return bewZustand(bahn, T._t - T.t0)[0];
+  return bewZustand(bahn, T._t - T.t0, T.lin)[0];
 }
 // Definitionsbereich einer bewegten Kurve: fest (data-von/data-bis) oder mitwandernd
 // ("grenzen": [[t, von, bis], …], seit 07.10.2026 — Einschraenken, ein Intervall zieht sich zu).
 function kGrenzen(T) {
   if (!T.p.dataset.grenzen) return [parseFloat(T.p.dataset.von), parseFloat(T.p.dataset.bis)];
   const gr = T._gr || (T._gr = JSON.parse(T.p.dataset.grenzen));
-  return bewZustand(gr, T._t - T.t0);
+  return bewZustand(gr, T._t - T.t0, T.lin);
 }
 function bewegeKurve(T, t, px, py, x0, x1, y0, y1) {
   T._t = t;
-  const Z = bewZustand(T.k, t - T.t0);
+  const Z = bewZustand(T.k, t - T.t0, T.lin);
   if (T.poly) return bewegePolynom(T, Z, px, py, x0, x1, y0, y1);
   if (T.el === 's' || T.el === 't') return bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1);
   if (T.el === 'v') return bewegeBetrag(T, Z, px, py, x0, x1, y0, y1);
@@ -1835,7 +1838,7 @@ function bewegeTrig(T, Z, t, px, py, x0, x1, y0, y1) {
     return a * Math.sin(w) + v; };
   const kk = T.L.querySelector('.bew-kk[data-zu="' + T.p.dataset.paar + '"]');
   let th = null;
-  if (kk) { const bahn = kk._bahn || (kk._bahn = JSON.parse(kk.dataset.bahn)); th = bewZustand(bahn, t - T.t0)[0]; }
+  if (kk) { const bahn = kk._bahn || (kk._bahn = JSON.parse(kk.dataset.bahn)); th = bewZustand(bahn, t - T.t0, T.lin)[0]; }
   const kg_ = kGrenzen(T), vx = kg_[0];
   let bx = kg_[1];
   if (kk && kk.dataset.spur === '1') bx = Math.min(bx, th);

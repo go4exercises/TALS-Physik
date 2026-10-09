@@ -522,6 +522,14 @@ Bewegung von 3 s kostet rund 60 Bilder der Figur, also nur bewegen, was sich bew
 **Bereich, der wandert.** `"grenzen": [[t, von, bis], …]` an einer bewegten Kurve statt festem
 `von`/`bis` — Einschränken auf einen umkehrbaren Teil, ein Intervall, das sich zusammenzieht.
 
+**Gleichmässig statt weich (seit 08.10.2026, aus Physik).** Zwischen zwei Stützpunkten blendet der
+Abspieler weich über: Er fährt langsam an, ist in der Mitte 1.5-mal so schnell wie im Mittel und
+bremst wieder ab. Für eine laufende Welle ist das falsch — sie zeigt gerade eine konstante
+Geschwindigkeit \(c = \lambda/T\). `"gleichmaessig": true` an einer bewegten Kurve blendet ihre
+Stützpunkte, ihre `"grenzen"` und die `bahn` ihrer Läufer, Marken und ihres Einheitskreises linear über
+— sonst schwebt ein Läufer vor dem Kurvenende oder rutscht vom Wellenberg. Mehr Stützpunkte helfen nicht: Jedes Stück fährt
+wieder an und bremst.
+
 **Tangens am Einheitskreis** läuft über den Fensterrand: Die Strecke wird am Rand abgeschnitten
 statt ausgeblendet, der Strahl endet dort auf seiner Richtung; liegt P links der y-Achse, geht der
 Strahl von P durch den Mittelpunkt.

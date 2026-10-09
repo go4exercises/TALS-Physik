@@ -222,7 +222,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   nicht aus dem Freitextfeld `lerngebiet` im Drehbuch.
   Seit 07.10.2026 (aus Mathe übernommen) steht im Lerngebiet **je Themenseite
   eine dreispaltige Tabelle**: Animationen (116, mit «Anim») · Leitprogramm
-  (117: die eigenen `"probe": true`-Clips der sichtbaren Leitprogramme vor
+  (129: die eigenen `"probe": true`-Clips der sichtbaren Leitprogramme vor
   `<h2 id="veraltet">` in `leitprogramme.html`, dazu die 15 des Prüfungsbogens
   `uebungstest-waermelehre`; vorn «LP» auf `#simN` des Kapitels bzw. auf die
   Aufgabe) · Weitere Clips; unter 720 px untereinander, leere Spalte «—».
@@ -267,8 +267,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (HOWTO-clips, «Später einblenden, bewegen, mitlaufen»). Seit 08.10.2026 (dritte Runde aus Mathe)
   trägt jedes Element ein `aus`, auch `bild` und `formel`; dazu Kreisbewegung über einen Winkel,
   Grad-Kurven, Strecken als Klickziel u. a. (HOWTO-clips, «Dritte Runde»). Klickfragen: Liegt ein
-  Tipp in mehreren Fallen, gewinnt die nächste.
-- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell dreizehn: neun nach dem Kapitelmuster (`leitprogramm-elektrizitaet`, `leitprogramm-kinematik`, `-dynamik`, `-energie`, `-statik`, `-hydrostatik`, `-temperatur`, `-waerme`, `-ausdehnung`) und vier klassische (unten):
+  Tipp in mehreren Fallen, gewinnt die nächste. Bewegte Kurven mit `"gleichmaessig": true` laufen linear statt weich
+  (laufende Wellen, seit 08.10.2026 aus Physik, Übertrag nach Mathe in `abgleich.py`).
+- `leitprogramme.html` + `leitprogramme/` — **Selbstlerneinheiten**, aktuell vierzehn: zehn nach dem Kapitelmuster (`leitprogramm-elektrizitaet`, `leitprogramm-kinematik`, `-dynamik`, `-energie`, `-statik`, `-hydrostatik`, `-temperatur`, `-waerme`, `-ausdehnung`, `-wellen`) und vier klassische (unten):
   `leitprogramm-rechnen` (Proportionalität, Dreisatz, Umstellen,
   Zehnerpotenzen, Bogenmass, Plausibilität — sechs Clips, fünf Simulationen),
   `leitprogramm-vorwissen` (Grössen, Messen, Druck — sieben Clips, fünf
@@ -311,7 +312,8 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   freigeschaltet am 04.10.2026), dann Dynamik, Energie, Statik und Hydrostatik
   (4.2 bis 4.5, `scripts/lp/<name>/`, freigeschaltet am 06.10.2026), zuletzt Temperatur,
   Wärme und Wärmeausdehnung und Gase (5.1 bis 5.3, `scripts/lp/temperatur/`, `waerme/`,
-  `ausdehnung/`, freigeschaltet am 08.10.2026) (eine Erprobung läuft unverlinkt: `noindex` in `build-seo.py`,
+  `ausdehnung/`, freigeschaltet am 08.10.2026), dann Wellen (6.1, `scripts/lp/wellen/`,
+  freigeschaltet am 09.10.2026 nach fünf Prüfrunden) (eine Erprobung läuft unverlinkt: `noindex` in `build-seo.py`,
   Menge `UNVERLINKT` in `build-suchindex.py`, keine Karte). Für eine
   Seite aus einem Prüfungs-PDF zusätzlich `HOWTO-uebungspruefung.md` (PDF
   misstrauisch lesen, `probe: true` für die Clips, die `</head>`-Falle, und

@@ -1,0 +1,122 @@
+% Gesamttest «Wellen» — Quelle des PDFs (python3 scripts/build-lp-pdf.py wellen).
+% Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (09.10.2026):
+% G1 T = 2.4 s, A = 10 cm, λ = 3.75 m/s · 2.4 s = 9.0 m (Tiefwasser: 1.56 · 2.4² ≈ 9.0 m; Wellenhöhe 0.2 m ≪ λ/7),
+%    60 s / 2.4 s = 25 Berge pro Minute; G2 t = 102 m / 340 m/s = 0.30 s, λ = 340/170 = 2.0 m, λ_W = 1500/170 ≈ 8.8 m
+%    (Gegenweg 1500/8.8 ≈ 170 Hz); G3 c = 1.4 m · 2.0 Hz = 2.8 m/s, t = 8.4/2.8 = 3.0 s; G4 λ = 340/50 000 = 6.8 mm,
+%    λ = 3.00e8/2.4e10 = 1.25 cm; G5 f = 3.00e8/455e-9 ≈ 6.59e14 Hz, 637/455 = 1.4, 637 nm/0.4 ≈ 1590 nm;
+%    G6 λ = 3.00e8/2.5e13 = 12 µm.
+% Fassung 1.5 nach der Schlussprüfung: G2 Schall geht aus der Luft ins Wasser, Wellenlänge mit zwei Unterwassermikrofonen
+%    gemessen; G1 «Sturmwellen» auf dem See.
+% Fassung 1.4 nach der vierten Prüfung: G2 prüft die Wellenlänge im anderen Medium (statt s/λ), G4 mit 50 kHz.
+% Fassung 1.3 nach der dritten Prüfung: jede Teilaufgabe gegen Kapitelaufgaben, Kontrollfragen, Clipprobleme,
+% Leistenaufgaben und Übungen abgeglichen (Tabelle in scripts/lp/wellen/README.md, «Prüfung Runde 3»).
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Wellen}
+\renewcommand{\lpteilgebiet}{6.1}
+\renewcommand{\lpfuss}{Gesamttest · 25 Punkte}
+\begin{document}
+\lpkopf{Gesamttest}{%
+  \vspace{4pt}\noindent\begin{tabularx}{\linewidth}{@{}X X@{}}
+  Code (kein Name): \hrulefill & Punkte: \hrulefill\ / 25
+  \end{tabularx}}
+
+\begin{lpinfo}{Anleitung}
+\textbf{Zeit:} rund 40 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
+Schreib zu jeder Aufgabe zuerst die Formel, dann die Werte \textbf{mit Einheiten}. Punkte gibt es für den Weg,
+für das Ergebnis mit Einheit, fürs Ablesen und Zeichnen und für Begründungen in eigenen Worten. Rechne mit
+\mbox{$c = 3.00 \cdot 10^{8}\;\text{m/s}$} (Licht und alle elektromagnetischen Wellen) und
+\mbox{$c_\text{Luft} = 340\;\text{m/s}$} (Schall).
+Danach mit dem \emph{Bewertungspaket} bewerten (Scan ohne Namen und Standort).
+\end{lpinfo}
+
+\lpteil{Teil A · Wellen beschreiben und berechnen}{Kapitel 1, 2 und 3 · 14 Punkte}
+
+\begin{lpaufgabe}{G1}{Sturmwellen am Badefloss}{5 P}
+Draussen auf dem See schaukelt ein Badefloss auf den Wellen eines Sturms; das Diagramm links zeigt seine Höhe über der Zeit. Die Wellen laufen mit \(3.75\;\text{m/s}\).\par\smallskip
+\begin{center}\begin{tikzpicture}[x=0.95cm,y=0.085cm,>=latex]
+\foreach \x in {0,0.2,...,6.01} \draw[lplinie!70,very thin] (\x,-15) -- (\x,15);
+\foreach \y in {-15,-10,...,15} \draw[lplinie!70,very thin] (0,\y) -- (6,\y);
+\foreach \x in {1,2,...,6} {\draw[lplinie] (\x,-15) -- (\x,15); \node[below] at (\x,-15) {\small \x};}
+\foreach \y in {-10,10} {\draw[lplinie] (0,\y) -- (6,\y); \node[left] at (0,\y) {\small $\y$};}
+\node[left] at (0,0) {\small 0};
+\draw[->] (0,0) -- (6.15,0) node[right] {\small \(t\) in s};
+\draw[->] (0,-15) -- (0,18) node[right] {\small \(y\) in cm};
+\draw[very thick,lpbernstein,domain=0:6,samples=241] plot (\x,{10*sin(150*\x)});
+\end{tikzpicture}\hspace{3mm}\begin{tikzpicture}[x=0.28cm,y=0.085cm,>=latex]
+\foreach \x in {0,1,...,20} \draw[lplinie!70,very thin] (\x,-15) -- (\x,15);
+\foreach \y in {-15,-10,...,15} \draw[lplinie!70,very thin] (0,\y) -- (20,\y);
+\foreach \x in {5,10,15,20} {\draw[lplinie] (\x,-15) -- (\x,15); \node[below] at (\x,-15) {\small \x};}
+\foreach \y in {-10,10} {\draw[lplinie] (0,\y) -- (20,\y); \node[left] at (0,\y) {\small $\y$};}
+\node[left] at (0,0) {\small 0};
+\draw[->] (0,0) -- (20.5,0) node[right] {\small \(s\) in m};
+\draw[->] (0,-15) -- (0,18) node[right] {\small \(y\) in cm};
+\end{tikzpicture}\end{center}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Lies im Diagramm links die Amplitude und die Periode ab.
+\item Berechne die Wellenlänge.
+\item Zeichne im Raster rechts das Momentbild der Wasseroberfläche von \(s = 0\) bis \(s = 20\;\text{m}\), zu einem Zeitpunkt, an dem bei \(s = 0\) ein Wellenberg ist.
+\item Wie viele Wellenberge treffen in einer Minute auf das Floss?
+\end{enumerate}
+\lpplatz{8}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Konzert am See}{5 P}
+Mia steht \(102\;\text{m}\) von der Bühne eines Konzerts am Seeufer entfernt. Gerade spielt die Band einen Ton von \(170\;\text{Hz}\). Ein kleiner Teil des Schalls dringt ins Wasser des Sees ein (Schall in Wasser: \(1500\;\text{m/s}\)).
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Wie lange braucht der Ton von der Bühne zu Mia?
+\item Wie lang ist die Welle dieses Tons in der Luft?
+\item Zwei Unterwassermikrofone im See werden in Laufrichtung des Schalls auseinandergeschoben. Für diesen Ton schwingen ihre Signale bei einem Abstand von \(8.8\;\text{m}\) erstmals wieder im gleichen Takt. Prüfe mit einer Rechnung, ob \(8.8\;\text{m}\) die Wellenlänge im Wasser sein kann.
+\item Ein Taucher sagt: «Weil die Welle im Wasser länger ist, höre ich hier unten einen tieferen Ton.» Beurteile die Aussage.
+\end{enumerate}
+\lpplatz{8}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G3}{Die Schraubenfeder}{4 P}
+Eine lange Schraubenfeder liegt gestreckt auf dem Boden. Du bewegst ihr Ende hin und her.
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Einmal bewegst du das Ende seitlich, einmal in Richtung der Feder. Welche Wellenart entsteht jeweils? Begründe.
+\item Jan sagt: «Deine Hand bewegt alle Windungen direkt mit; darum bewegen sich alle Windungen im selben Augenblick.» Beurteile die Aussage und erkläre, wie die Bewegung tatsächlich weitergegeben wird.
+\item In der Mitte der Feder klebt ein Punkt. Wo ist er, nachdem die Störung vorbeigelaufen ist? Begründe damit, was die Störung transportiert.
+\item Du bewegst das Ende mit \(2.0\;\text{Hz}\); die Wellen auf der Feder sind \(1.4\;\text{m}\) lang. Wie lange braucht ein Wellenberg bis ans Ende der \(8.4\;\text{m}\) langen Feder?
+\end{enumerate}
+\lpplatz{8}
+\end{lpaufgabe}
+
+\lpteil{Teil B · Elektromagnetische Wellen}{Kapitel 4 und 5 · 8 Punkte}
+
+\begin{lpaufgabe}{G4}{Saugroboter und Schiebetür}{4 P}
+Ein Saugroboter misst Abstände mit Ultraschall von \(50\;\text{kHz}\). Der Radarsensor einer Schiebetür sendet elektromagnetische Wellen mit \(24\;\text{GHz}\).
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Berechne beide Wellenlängen in Luft. In welchem Bereich des Spektrums liegen die Wellen des Radarsensors?
+\item Die Frequenz des Radars ist 480\,000-mal so gross wie die des Ultraschalls. Erkläre, warum seine Welle trotzdem länger ist.
+\item Erkläre, was bei der Radarwelle schwingt, und warum der Radarsensor darum auch durch ein Vakuum hindurch arbeiten könnte, der Ultraschall des Roboters aber nicht.
+\end{enumerate}
+\lpplatz{9}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G5}{Zwei Farben aus einem Gas}{4 P}
+Ein Gas aus gleichen Atomen leuchtet nur in zwei Farben: blau mit \(455\;\text{nm}\) und rot mit \(637\;\text{nm}\). Beim roten Licht springt ein Elektron von \(E_2\) auf \(E_1\), beim blauen von \(E_3\) auf \(E_1\).
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Welche Frequenz hat das blaue Licht?
+\item Wie viel Mal grösser ist die Stufe \(E_3 - E_1\) als die Stufe \(E_2 - E_1\)? Rechne mit \(E = h \cdot f\).
+\item Ein Elektron sitzt auf \(E_2\). Welche Wellenlänge muss ein Photon haben, das es genau auf \(E_3\) hebt? In welchem Bereich liegt es?
+\item Aus solchen Atomen wird ein roter Laser gebaut. Erkläre, wie dort aus einem Photon viele gleiche werden, und wozu der Laser das Pumpen und die zwei Spiegel braucht.
+\end{enumerate}
+\lpplatz{9}
+\end{lpaufgabe}
+
+\lpteil{Teil C · Treibhauseffekt}{Kapitel 6 · 3 Punkte}
+
+\begin{lpaufgabe}{G6}{Gase in der Atmosphäre}{3 P}
+\begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Gib für Stickstoff, Wasserdampf und Ozon an, welche Strahlung jedes Gas aufnimmt: keine nennenswerte, das Ultraviolett der Sonne, die Wärmestrahlung des Bodens — auch mehreres ist möglich.
+\item Begründe, warum mehr Kohlendioxid in der Luft den Boden im Mittel wärmer macht.
+\item Welche Wellenlänge hat Infrarot mit \(2.5 \cdot 10^{13}\;\text{Hz}\)? Liegt sie im «Fenster» der Atmosphäre?
+\end{enumerate}
+\lpplatz{10}
+\end{lpaufgabe}
+
+\vfill
+{\small\color{lpgrau}Bewerten: mit dem Bewertungspaket (Musterlösung, Punkteraster, Auftrag an eine KI) — erst nach dem Lösen öffnen.}
+\end{document}

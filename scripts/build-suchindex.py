@@ -341,7 +341,7 @@ UNVERLINKT = {'leitprogramme/leitprogramm-widerstand-leistung.html', 'leitprogra
               'leitprogramme/leitprogramm-waermeausdehnung.html', 'leitprogramme/leitprogramm-ideale-gase.html',   # seit 08.10.2026 veraltet, im Leitprogramm Wärmeausdehnung und Gase aufgegangen
               'leitprogramme/leitprogramm-waermemenge.html', 'leitprogramme/leitprogramm-heizen.html',   # seit 08.10.2026 veraltet, in den Leitprogrammen Temperatur und Wärme aufgegangen
               }
-# Temperatur, Wärme, Wärmeausdehnung und Gase freigeschaltet am 08.10.2026; Dynamik, Energie, Statik, Hydrostatik freigeschaltet am 06.10.2026, Kinematik am 04.10.2026, Elektrizität am 03.10.2026
+# Wellen freigeschaltet am 09.10.2026; Temperatur, Wärme, Wärmeausdehnung und Gase am 08.10.2026; Dynamik, Energie, Statik, Hydrostatik freigeschaltet am 06.10.2026, Kinematik am 04.10.2026, Elektrizität am 03.10.2026
 
 
 def clip_eintraege(root):

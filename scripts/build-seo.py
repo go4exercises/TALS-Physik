@@ -259,6 +259,17 @@ SEITEN = {
                 'Simulationen mit Aufgaben, Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
    themen=['Physik', 'Wärmelehre', 'Wärme', 'Wärmemenge', 'Wärmebilanz', 'latente Wärme', 'Heizwert',
            'Wirkungsgrad', 'erneuerbare Energien', 'Wärmetransport', 'Treibhauseffekt', 'Leitprogramm']),
+ 'leitprogramme/leitprogramm-wellen.html': dict(
+   # Freigeschaltet am 09.10.2026 (nach /lp-pruefung).
+   typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
+   titel='Leitprogramm Wellen — Schwingung und Welle, Wellengleichung, Wellentypen, Schall, elektromagnetisches Spektrum, Treibhauseffekt',
+   beschreibung='Leitprogramm zu den Wellen — Schwingung und Welle; Frequenz, Periode, Wellenlänge '
+                'und Wellengleichung; mechanische Wellen, Schall und elektromagnetische Wellen; '
+                'Spektrum, atomare Emission und Laser; wellenlängenabhängige Absorption und '
+                'Treibhauseffekt — mit Erklärclips, laufenden Simulationen mit Aufgaben, '
+                'Kontrollfragen im Clip, Übungen mit Rückmeldung und Gesamttest als PDF.',
+   themen=['Physik', 'Wellen', 'Schwingung', 'Frequenz', 'Wellenlänge', 'Wellengleichung',
+           'Schall', 'elektromagnetisches Spektrum', 'Laser', 'Treibhauseffekt', 'Leitprogramm']),
  'leitprogramme/leitprogramm-ausdehnung.html': dict(
    # Freigeschaltet am 08.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],

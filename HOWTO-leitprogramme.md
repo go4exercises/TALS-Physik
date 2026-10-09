@@ -31,7 +31,7 @@ und `lineare-funktionen.html`. Ein neues Leitprogramm beginnt mit einer Kopie vo
 
 | | gegliedert nach | Beispiele | Anleitung |
 |---|---|---|---|
-| **Thema** | dem Stoff: Vorwissen, Kapitel (bzw. Schritte), Gesamttest | Kapitelmuster: `leitprogramm-elektrizitaet`, `leitprogramm-waerme` (neun, Stand 08.10.2026); klassisch: `leitprogramm-rechnen`, `leitprogramm-experimente-waerme` | diese Datei |
+| **Thema** | dem Stoff: Vorwissen, Kapitel (bzw. Schritte), Gesamttest | Kapitelmuster: `leitprogramm-elektrizitaet`, `leitprogramm-waerme` (zehn, Stand 09.10.2026); klassisch: `leitprogramm-rechnen`, `leitprogramm-experimente-waerme` | diese Datei |
 | **Übungsprüfung** | dem Prüfungsbogen: je Aufgabe Clip, Musterlösung, Fehlerkasten | `uebungstest-waermelehre` | `HOWTO-uebungspruefung.md` |
 
 Layout, Kopf, Fuss, Farbtokens und Clip-Bühne sind bei beiden dieselben (§11–§12 gelten
@@ -1114,6 +1114,37 @@ Wer baut, geht sie vor §15 selbst durch; wer prüft, prüft gegen sie und darü
   Zeiten ohne Meldung — das Skript muss bei einem nicht gefundenen Wort abbrechen.
 - **Ein Simulationsbild im Clip darf nichts vorwegnehmen,** was der Ton erst später sagt (sim7
   zeigte 390 und 150 W/m², bevor die Gegenstrahlung erklärt war). Dann eine Skizze ohne Zahlen.
+
+**Aus dem Leitprogramm Wellen (09.10.2026, fünf Prüfrunden)**
+- **Der Gesamttest wird gegen alle Pflichtteile abgeglichen, nicht nur gegen die Kapitelaufgaben:**
+  auch gegen Leistenaufgaben der Simulationen, Clipprobleme, Kontrollfragen, Übungen und die
+  freiwilligen Vertiefungen. Viermal hintereinander fand die Prüfung eine Testaufgabe mit dem Aufbau
+  einer Kursaufgabe — zuletzt das Modellatom der Leiste mit allen Wellenlängen ×1.05. Andere Zahlen
+  genügen nicht; der Aufbau muss neu sein (anderes Verhältnis, rückwärts, Schüleraussage beurteilen).
+  Die Abgleichstabelle steht im README und nennt je Teilaufgabe den Unterschied.
+- **Rasterzeilen und Fehlerzeilen rechnen gegeneinander nach.** Verlangt die Ansatzzeile «beide
+  richtigen Geschwindigkeiten», kostet ein falsches \(c\) Ansatz *und* Ergebnis — die Zeile
+  «typische Fehler» sagte aber 3 von 4. Bedingungen gehören in genau eine Zeile; derselbe Fehlertyp
+  (Formel umgekehrt) wird in allen Aufgaben gleich bewertet.
+- **Musterantworten sind fachlich unanfechtbar, auch wenn das Kursmodell vereinfacht.** Das
+  Bandmodell der Simulation liess Ozon im Infrarot weg; daraus wurde im Test «Ozon verstärkt den
+  Treibhauseffekt kaum» — falsch (Band um 9.6 µm). Ebenso «kaltes Wasserstoffgas nimmt die
+  Balmer-Linien auf» (diese Stufe ist bei Raumtemperatur leer) und «Photonen laufen im Laser von
+  selbst gerichtet». Was der Test fragt, an der Physik prüfen, nicht am eigenen Modell.
+- **Physikalische Plausibilität der Situation nachrechnen**, nicht nur die Formel: Wasserwellen
+  folgen der Dispersion (\(\lambda \le g T^2/2\pi\), Höhe deutlich unter \(\lambda/7\)); ein Paar
+  \(\lambda\), \(T\) aus einer Übung kann unmöglich sein, obwohl \(c = \lambda/T\) stimmt.
+- **Werte nicht an Bereichsgrenzen.** Ein Gerät, eine Einordnung, und jeder Wert eine Dekade oder
+  mehr von jeder Grenze weg (Schwarzlicht 370 nm lag 10 nm unter Violett).
+- **Ein Anker auf einem Wort, das zweimal im Satz steht, trifft das erste Vorkommen** («in Wasser»
+  im Satz «In Luft und in Wasser …» — der Balken stand 6 s zu früh). Anker eindeutig wählen
+  («in Wasser rund»).
+- **Was der Ton als gleichmässig beschreibt, muss gleichmässig laufen.** Der Generator blendet
+  Stützpunkte weich über; eine laufende Welle braucht `"gleichmaessig": true` (HOWTO-clips) — und
+  ihre Läufer laufen erst seit der Nachführung mit. Bei ¼, ½, ¾ der Laufzeit nachmessen.
+- **Ein `//`-Kommentar am Ende einer einzeiligen Schleife verschluckt den Rest der Zeile** (zweimal
+  passiert: einmal fehlte die schliessende Klammer, einmal die Berechnung von λ — Übungen zeigten
+  «NaN m»). In einzeiligem Code nur `/* … */`.
 
 **Zeit:** geschätzt aus den Teilen, nicht aus der Planung übernommen (§3).
 

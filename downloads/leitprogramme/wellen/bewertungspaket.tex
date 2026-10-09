@@ -1,0 +1,134 @@
+% Bewertungspaket zum Gesamttest «Wellen» — Quelle des PDFs (python3 scripts/build-lp-pdf.py wellen).
+% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (09.10.2026). Fassung 1.5 nach der Schlussprüfung: G2 Schall aus der Luft ins Wasser, c) mit Gegenweg; G5 c) 0 bei umgekehrtem Verhältnis; Kapitelzuordnung G2/G3 wie auf der Seite. Fassung 1.4: Ansatzzeilen einheitlich (umgekehrter Ansatz: Ansatz 0, Ergebnis folgerichtig), G2 und G4 neu.
+% Aufbau, Auftrag an die KI und Punktarten (E, W, B, A, S) wie in den Leitprogrammen Statik, Hydrostatik und Wärme;
+% (S) hier: Zeichenpunkt für das Momentbild in G1 c.
+\documentclass[11pt]{article}
+\usepackage{../lp-druck}
+\renewcommand{\lpname}{Wellen}
+\renewcommand{\lpteilgebiet}{6.1}
+\renewcommand{\lpfuss}{Bewertungspaket}
+\newcolumntype{P}{>{\centering\arraybackslash}p{10mm}}
+\newenvironment{raster}{\par\smallskip\noindent\renewcommand{\arraystretch}{1.5}\setlength{\lineskiplimit}{4pt}\setlength{\lineskip}{8pt}\tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm}P >{\raggedright\arraybackslash}X@{}}\toprule
+  \small\textsc{Teilschritt} & \small\textsc{P} & \small\textsc{Musterlösung}\\\midrule}{\bottomrule\endtabularx\par}
+\newcommand{\fehler}[1]{\par\smallskip{\small\raggedright\textcolor{lprot}{\bfseries Typische Fehler:} #1\par}}
+\newcommand{\E}{\,{\footnotesize\bfseries\color{lpgruen}(E)}}
+\newcommand{\B}{\,{\footnotesize\bfseries(B)}}
+\newcommand{\W}{\,{\footnotesize\bfseries(W)}}
+\newcommand{\Sk}{\,{\footnotesize\bfseries(S)}}
+\newcommand{\A}{\,{\footnotesize\bfseries\color{lpgruen}(A)}}
+\begin{document}
+\lpkopf{Bewertungspaket zum Gesamttest}{}
+
+\begin{lpachtung}{Erst lösen, dann öffnen}
+Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am Ende nur, wie gut das Abschreiben gelingt.
+\end{lpachtung}
+
+\section*{1 · So gehst du vor}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Gesamttest lösen} — vollständig, mit Rechenweg, ohne dieses Paket.
+\item \textbf{Fotografieren oder scannen}, gut lesbar, eine Seite pro Bild. \textbf{Kein Name} auf den Bildern.
+  Handyfotos tragen oft unsichtbar Standort, Zeit und Gerät mit (Metadaten). Lade darum lieber einen Scan oder ein
+  Bildschirmfoto des Fotos hoch, oder entferne vorher die Standortangaben.
+\item \textbf{Bewerten lassen.} Ob du dafür eine KI nutzt und welche, entscheidest du selbst und in eigener Verantwortung —
+  je nachdem, was dir aufgrund deines Alters und deiner persönlichen Situation erlaubt ist (Altersgrenzen und
+  Nutzungsbedingungen des Anbieters, allenfalls Einverständnis deiner Eltern). Lade nur deine Lösung und dieses PDF hoch,
+  keine persönlichen Daten, und füge den Auftrag aus Abschnitt~2 ein. Ohne KI kannst du dich mit Abschnitt~3 selbst bewerten.
+\item \textbf{Rückmeldung prüfen.} Stimmt, was die KI aus deiner Handschrift gelesen hat? Eine KI kann sich irren —
+  im Zweifel gilt das Raster in Abschnitt~3.
+\item \textbf{Gezielt wiederholen} nach Abschnitt~4.
+\end{enumerate}
+
+\needspace{8\baselineskip}
+\section*{2 · Auftrag an die KI}
+\begin{tcolorbox}[breakable,colback=lplinie!25,colframe=lplinie,boxrule=0.5pt,arc=1mm,fontupper=\small]
+Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Wellen» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
+Geh so vor:\par
+1. Schreib zu jeder Aufgabe G1 bis G6 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
+2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte, und derselbe Fehler (etwa dieselbe fehlende Umrechnung) in mehreren Teilaufgaben kostet nur einen Punkt — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
+3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Einheit oder Vorsilbe ($1.25\;\text{cm} = 0.0125\;\text{m}$; $6.8\;\text{mm} = 0.0068\;\text{m}$; $455\;\text{nm} = 4.55 \cdot 10^{-7}\;\text{m}$; $12\;\mu\text{m} = 1.2 \cdot 10^{-5}\;\text{m}$; $\text{Hz} = 1/\text{s}$), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen). Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (A) sind Ablesepunkte: Es zählt der abgelesene Wert mit Einheit, innerhalb der angegebenen Ablesetoleranz. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll; was in der Rasterzeile «nötig» heisst, muss vorkommen. Zeilen mit (S) sind Zeichenpunkte: Es zählt der verlangte Verlauf an der richtigen Stelle im Diagramm, nicht die Schönheit. Werte aus sinnvoll gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% vom Raster abweichen.\par
+4. Begründe jeden Abzug in einem Satz und nenne die Fehlerart (zum Beispiel «Gigahertz nicht in Hertz umgerechnet»). Schreib die Musterlösung nicht ab — zeig mir, wo mein Fehler liegt.\par
+5. Gib zum Schluss eine Tabelle «Aufgabe | Punkte | Begründung», die Gesamtpunktzahl (von 25) und — nach der Selbsteinschätzung in Abschnitt 4 — welches Kapitel des Leitprogramms ich wiederholen soll. Keine Note.\par
+6. Fehlt ein Foto oder ist eine Aufgabe unlesbar, sag es, statt sie zu bewerten.
+\end{tcolorbox}
+
+\section*{3 · Musterlösung und Punkteraster}
+\textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
+richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler), und derselbe Fehler in mehreren Teilaufgaben kostet nur einen Punkt — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
+Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Gleichwertige Wege und Schreibweisen zählen voll.
+In der Spalte P: \textbf{(E)}~= Ergebnispunkt — es zählt das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit
+falscher Einheit gibt es ihn nicht. \textbf{(A)}~= Ablesepunkt — der abgelesene Wert mit Einheit, innerhalb der angegebenen Toleranz. \textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten);
+steht in einer Weg-Zeile ein Zahlenwert, braucht auch er die Einheit. \textbf{(B)}~= Begründungspunkt — es zählt die fachliche
+Aussage in eigenen Worten, eine Formel ist nicht nötig; was die Zeile «nötig» nennt, muss vorkommen. \textbf{(S)}~= Zeichenpunkt — der verlangte Verlauf an der richtigen Stelle im Diagramm.
+Folgewerte aus gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% abweichen.
+«Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
+
+\begin{lpaufgabe}{G1}{Sturmwellen am Badefloss, \(c = 3.75\;\text{m/s}\)}{5 P}
+\begin{raster}
+a) Ablesen & 1\A & Amplitude \(A = 10\;\text{cm}\) (\(\pm 2\;\text{cm}\)); Periode \(T = 2.4\;\text{s}\), Abstand zweier Maxima (etwa \(0.6\;\text{s}\) bis \(3.0\;\text{s}\)), \(\pm 0.07\;\text{s}\) (ein Drittel Kästchen); beide Werte mit Einheit nötig\\
+b) Ansatz & 1\W & Ansatz mit Werten und Einheiten: In einer Periode rückt die Welle um eine Wellenlänge weiter, \(\lambda = c \cdot T\). Ein umgekehrter Ansatz (\(\lambda = c / T\)) gibt hier 0\\[4pt]
+b) Wellenlänge & 1\E & \(\lambda = 3.75\;\text{m/s} \cdot 2.4\;\text{s} = 9.0\;\text{m}\) (folgerichtig aus a und aus dem eigenen Ansatz)\\[4pt]
+c) Momentbild & 1\Sk & Sinusform mit Berg bei \(s = 0\), weitere Berge bei \(9\) und \(18\;\text{m}\), Täler bei \(4.5\) und \(13.5\;\text{m}\) (\(\pm 0.5\;\text{m}\); folgerichtig aus der eigenen Wellenlänge), Amplitude \(10\;\text{cm}\) (\(\pm 2\;\text{cm}\); folgerichtig aus der eigenen Ablesung in a). Berge im Abstand der Periode (\(2.4\)): 0\\
+d) Berge pro Minute & 1\E & \(n = \dfrac{t}{T} = \dfrac{60\;\text{s}}{2.4\;\text{s}} = 25\) (eine Anzahl hat keine Einheit; folgerichtig aus a), oder \(f \cdot t\) mit \(f \approx 0.42\;\text{Hz}\))\\[8pt]
+\end{raster}
+\fehler{\(\lambda = c / T\) gerechnet (\(1.56\;\text{m}\)): b) Ansatz 0; b) Wellenlänge und c) folgerichtig \(\to\) 4 von 5\,P. Halbe Periode abgelesen (\(1.2\;\text{s}\)): a) 0; b) (\(4.5\;\text{m}\)), c) und d) (\(50\)) folgerichtig \(\to\) 4 von 5\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G2}{Konzert am See, \(102\;\text{m}\), \(170\;\text{Hz}\)}{5 P}
+\begin{raster}
+a) Laufzeit & 1\E & \(t = \dfrac{s}{c} = \dfrac{102\;\text{m}}{340\;\text{m/s}} = 0.30\;\text{s}\)\\[6pt]
+b) Luft & 1\E & \(\lambda = \dfrac{c}{f} = \dfrac{340\;\text{m/s}}{170\;\text{Hz}} = 2.0\;\text{m}\)\\[6pt]
+c) Ansatz & 1\W & Die Frequenz bleibt \(170\;\text{Hz}\) (sie kommt vom Sender); Ansatz mit Werten und Einheiten: \(\lambda_\text{W} = \dfrac{c_\text{W}}{f}\) mit \(1500\;\text{m/s}\), oder der Gegenweg \(f = \dfrac{c_\text{W}}{\lambda_\text{W}}\) mit \(8.8\;\text{m}\)\rule[-12pt]{0pt}{0pt}\\[8pt]
+c) Ergebnis & 1\E & \(\lambda_\text{W} = \dfrac{1500\;\text{m/s}}{170\;\text{Hz}} \approx 8.8\;\text{m}\) oder \(f = \dfrac{1500\;\text{m/s}}{8.8\;\text{m}} \approx 170\;\text{Hz}\)\rule[-12pt]{0pt}{0pt}\par\vspace{4pt}Die Messung kann stimmen (Wert und Aussage nötig)\\[8pt]
+d) Taucher & 1\B & Nötig: (1) Die Aussage ist falsch. (2) Die Tonhöhe hängt an der Frequenz, und die bleibt beim Übergang aus der Luft ins Wasser gleich (sie kommt vom Sender). Beispiel einer vollständigen Antwort: «Die Welle ist im Wasser länger, weil der Schall dort schneller ist; der Takt und damit die Tonhöhe bleiben.»\\
+\end{raster}
+\fehler{Formel umgekehrt (\(\lambda = f / c\)) in b) und c): derselbe Fehler, einmal abgezogen — b) 0, c) folgerichtig \(\to\) 4 von 5\,P. In c) mit \(340\;\text{m/s}\) gerechnet (\(2.0\;\text{m}\), «die Messung stimmt nicht») oder angenommen, im Wasser ändere sich die Frequenz: c) Ansatz 0, Ergebnis folgerichtig \(\to\) 4 von 5\,P. In d) «stimmt»: d) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G3}{Schraubenfeder, \(2.0\;\text{Hz}\), \(\lambda = 1.4\;\text{m}\), \(8.4\;\text{m}\)}{4 P}
+\begin{raster}
+a) Wellenarten & 1\B & Seitlich: Querwelle, die Windungen schwingen quer zur Ausbreitung. In Richtung der Feder: Längswelle, die Windungen schwingen in Ausbreitungsrichtung. Beide Fälle mit Begründung nötig\\
+b) Weitergeben & 1\B & Nötig: (1) Die Aussage ist falsch. (2) Die Windungen sind gekoppelt: Jede zieht oder stösst ihre Nachbarin mit. (3) Die Nachbarin macht dieselbe Bewegung etwas später (verzögert); darum läuft die Störung erst nach und nach bis ans Ende\\
+c) Klebepunkt & 1\B & Nötig: Der Punkt ist wieder an seinem alten Platz, er hat nur geschwungen; transportiert wird Energie, keine Materie\\[8pt]
+d) Laufzeit & 1\E & \(c = \lambda \cdot f = 1.4\;\text{m} \cdot 2.0\;\text{Hz} = 2.8\;\text{m/s}\); \(t = \dfrac{s}{c} = \dfrac{8.4\;\text{m}}{2.8\;\text{m/s}} = 3.0\;\text{s}\)\\[8pt]
+\end{raster}
+\fehler{In b) nur «falsch, die Welle braucht Zeit» ohne Kopplung: b) 0. In d) \(c = \lambda / f\) (\(0.7\;\text{m/s}\), \(12\;\text{s}\)): d) 0 \(\to\) 3 von 4\,P.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G4}{Ultraschall \(50\;\text{kHz}\), Radar \(24\;\text{GHz}\)}{4 P}
+\begin{raster}
+a) Ansatz & 1\W & Ansatz mit Werten und Einheiten: \(\lambda = \dfrac{c}{f}\) für beide Wellen\\[4pt]
+a) Ergebnisse & 1\E & Mit der richtigen Geschwindigkeit je Welle und Frequenzen in Hertz:\par\vspace{6pt}Ultraschall: \(\lambda = \dfrac{340\;\text{m/s}}{50\,000\;\text{Hz}} = 0.0068\;\text{m} = 6.8\;\text{mm}\)\par\vspace{6pt}Radar: \(\lambda = \dfrac{3.00 \cdot 10^{8}\;\text{m/s}}{2.4 \cdot 10^{10}\;\text{Hz}} = 0.0125\;\text{m} = 1.25\;\text{cm}\)\par\vspace{6pt}Bereich: Mikrowellen (alle drei Angaben nötig)\\[4pt]
+b) Länger & 1\B & Nötig, sinngemäss: Die Radarwelle ist viel schneller (rund \(880\,000\)-mal: \(3.00 \cdot 10^{8}\) gegen \(340\;\text{m/s}\)); die Wellenlänge ist Geschwindigkeit durch Frequenz, und der Geschwindigkeitsunterschied ist grösser als der Frequenzunterschied (\(480\,000\)-mal)\\
+c) Felder, Medium & 1\B & Nötig: (1) Beim Radar schwingen ein elektrisches und ein magnetisches Feld, keine Teilchen; darum braucht es kein Medium. (2) Ultraschall ist Schall, Druckschwankungen eines Mediums; im Vakuum gibt es ihn nicht\\
+\end{raster}
+\fehler{Für das Radar mit \(10^{6}\) statt \(10^{9}\) gerechnet (\(12.5\;\text{m}\), «Radiowellen») oder für den Ultraschall mit \(3.00 \cdot 10^{8}\;\text{m/s}\): a) Ergebnisse 0 \(\to\) 3 von 4\,P. In c) «Luftteilchen schwingen beim Radar»: c) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G5}{Gas mit \(455\;\text{nm}\) und \(637\;\text{nm}\)}{4 P}
+\begin{raster}
+a) Frequenz & 1\E & \(f = \dfrac{c}{\lambda} = \dfrac{3.00 \cdot 10^{8}\;\text{m/s}}{455 \cdot 10^{-9}\;\text{m}} \approx 6.59 \cdot 10^{14}\;\text{Hz}\)\rule[-10pt]{0pt}{0pt}\\[8pt]
+b) Verhältnis & 1\E & \(E = h \cdot f = \dfrac{h \cdot c}{\lambda}\), also umgekehrt proportional zur Wellenlänge:\par\vspace{6pt}\(\dfrac{E_3 - E_1}{E_2 - E_1} = \dfrac{637\;\text{nm}}{455\;\text{nm}} = 1.4\) (ein Verhältnis hat keine Einheit)\\[7pt]
+c) Von \(E_2\) auf \(E_3\) & 1\E & \(E_3 - E_2 = 0.4 \cdot (E_2 - E_1)\), also \(\lambda = \dfrac{637\;\text{nm}}{0.4} \approx 1590\;\text{nm}\) (oder über die Frequenzen: \(6.59 \cdot 10^{14}\;\text{Hz} - 4.71 \cdot 10^{14}\;\text{Hz} = 1.88 \cdot 10^{14}\;\text{Hz}\)); Infrarot (Wert und Bereich nötig; folgerichtig aus b)\\[4pt]
+d) Laser & 1\B & Nötig, sinngemäss (das Fachwort ist nicht nötig): (1) Pumpen: Energie von aussen hält viele Atome angeregt. (2) Ein Photon trifft ein angeregtes Atom und löst ein zweites, gleiches Photon aus. (3) Die Spiegel schicken die Photonen hin und her, so werden es immer mehr; durch den teildurchlässigen Spiegel tritt der Strahl aus\\
+\end{raster}
+\fehler{Nanometer nicht umgerechnet (\(6.59 \cdot 10^{5}\;\text{Hz}\)): a) 0. In b) Verhältnis umgekehrt (\(0.71\)): b) 0 und c) 0 (\(E_3\) läge unter \(E_2\)). In c) die Wellenlängen subtrahiert (\(182\;\text{nm}\)): c) 0. In d) nur «die Spiegel bündeln das Licht»: d) 0.}
+\end{lpaufgabe}
+
+\begin{lpaufgabe}{G6}{Gase in der Atmosphäre}{3 P}
+\begin{raster}
+a) Drei Gase & 1\E & Stickstoff: keine nennenswerte. Wasserdampf: Wärmestrahlung des Bodens. Ozon: Ultraviolett der Sonne und Wärmestrahlung des Bodens (um \(9.6\;\mu\text{m}\)). Alle drei richtig nötig (eine Angabe, keine Einheit)\\
+b) Mehr CO\(_2\) & 1\B & Nötig: (1) Kohlendioxid nimmt Wärmestrahlung des Bodens auf; mit mehr Gas wird mehr davon aufgenommen. (2) Das Gas strahlt in alle Richtungen ab, ein Teil zurück zum Boden; der Boden bekommt mehr Energie und wird wärmer. Für (1) zählt auch: «der Bereich um \(15\;\mu\text{m}\) wird breiter». «Spiegelt zurück» oder «Ozonloch»: 0\\
+c) Wellenlänge & 1\E & \(\lambda = \dfrac{c}{f} = \dfrac{3.00 \cdot 10^{8}\;\text{m/s}}{2.5 \cdot 10^{13}\;\text{Hz}} = 1.2 \cdot 10^{-5}\;\text{m} = 12\;\mu\text{m}\); ja, im Fenster zwischen rund \(8\) und \(13\;\mu\text{m}\) (Wert und Aussage nötig)\\[4pt]
+\end{raster}
+\fehler{In a) Ozon nur «Ultraviolett»: a) 0. In b) «weil Kohlendioxid das Sonnenlicht aufnimmt»: b) 0. In c) \(\lambda = f / c\) gerechnet: c) 0 \(\to\) 2 von 3\,P.}
+\end{lpaufgabe}
+
+\section*{4 · Selbsteinschätzung}
+\begin{tabularx}{\linewidth}{@{}l X@{}}\toprule
+22 – 25 P & Die geprüften Teile sitzen. Wo du Punkte verloren hast: das Kapitel dieser Aufgabe nochmals (Zuordnung unten).\\
+17 – 21 P & Den schwächsten Teil nochmals: Simulation und Übungen des Kapitels, in dem du die meisten Punkte verloren hast.\\
+11 – 16 P & Zurück zu den Kapiteln aller Aufgaben, in denen du Punkte verloren hast.\\
+0 – 10 P & Zurück zu Kapitel 1 und von dort der Reihe nach weiter.\\\midrule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\small\textbf{Aufgabe $\to$ Kapitel} (K1 bis K5 sind die Kompetenzen des Rahmenlehrplans, aufgezählt im Leitprogramm): G1 $\to$ Kapitel 2 (K1) · G2 $\to$ Kapitel 3 (K1, K2) · G3 $\to$ Kapitel 1, d) Kapitel 3 (K1, K2, K3) · G4 $\to$ Kapitel 3 und 4 (K2, K4) · G5 $\to$ Kapitel 5 (K4) · G6 $\to$ Kapitel 6 (K5)}\\\bottomrule
+\end{tabularx}
+\end{document}
