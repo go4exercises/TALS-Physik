@@ -365,8 +365,10 @@ def run_deep(file_args, rep):
     seo = scripts / "build-seo.py"
     if seo.is_file():
         r = subprocess.run(["python3", str(seo), "--check"], capture_output=True, text=True)
-        if r.returncode != 0:
-            rep.warn("seo", "Metadaten/sitemap veraltet — `python3 scripts/build-seo.py`")
+        if r.returncode == 2:
+            rep.err("seo", (r.stdout or "").strip() or "Footer ausserhalb der FUSS-Marken")
+        elif r.returncode != 0:
+            rep.warn("seo", "Metadaten/Footer/sitemap veraltet — `python3 scripts/build-seo.py`")
 
     ba = scripts / "build-animationen.py"
     if ba.is_file():

@@ -231,10 +231,8 @@ MathJax = {{
 <aside class="toc-wrap"><div id="toc"></div></aside>
 </div>
 
-<footer class="site-footer">
-  <p><strong>Physik begreifbar</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
-  <p>Physik · {title_full}</p>
-</footer>
+<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<!-- FUSS:ENDE -->
 
 <script src="../nav.js"></script>
 <script src="../physiklib.js"></script>

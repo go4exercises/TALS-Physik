@@ -34,7 +34,7 @@ Werkzeug, auch wenn sich dabei etwas bewegt.
 ## 3 · Seitenaufbau
 
 **Vorlage:** Das Skelett einer Themenseite (`themen/p4-1-kinematik.html`: `#nav-root`,
-`.page-wrap`, `main.content`, `aside.toc-wrap`, `footer.site-footer`) — ohne Kompetenzblock,
+`.page-wrap`, `main.content`, `aside.toc-wrap`, leere FUSS-Marken — den Footer schreibt `build-seo.py`) — ohne Kompetenzblock,
 Aufgaben, Zusammenfassung und Ressourcen. Die bestehende Seite
 `simulationen/sonnenfinsternis-12-08-2026.html` hat einen eigenen Aufbau (Ereignisseite) und ist
 **keine** Vorlage für neue Simulationen.
@@ -87,7 +87,8 @@ An drei Stellen, sonst fehlt die Seite in Übersicht, Suche oder Sitemap:
 
    Je Themenseite, die auf die Simulation verweist, eine Zeile mit Pille.
 2. **`scripts/build-seo.py`**, Tabelle `SEITEN`: Schlüssel `'simulationen/bungee-sprung.html'`,
-   `typ='article', lrt='Simulation'`, Beschreibung 140–165 Zeichen, `themen=[…]`. Dann
+   `typ='article', lrt='Simulation'`, Beschreibung 140–165 Zeichen, `themen=[…]`,
+   `ort='Simulationen · ⟪Name⟫'` (Footer-Ortszeile). Dann
    `python3 scripts/build-seo.py` — zweimal, der zweite Lauf nach dem Commit (Git-Datum,
    Kopfkommentar des Skripts).
 3. **Suchindex:** nichts einzutragen — `build-suchindex.py` liest `simulationen/` von selbst

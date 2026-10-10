@@ -112,7 +112,7 @@ GRUNDLINIE = {
 # uebertoent. Fehlt ein Name auf einer Seite, wird dort nichts weggelassen.
 # --diff zeigt weiterhin die ganze Datei.
 DATEN = {
-    'scripts/build-seo.py': ('SEITEN', 'LG_G', 'LG_S'),
+    'scripts/build-seo.py': ('SEITEN', 'LG_G', 'LG_S', 'FUSS_UNTERTITEL'),   # Untertitel im Footer je Fach
     'scripts/build-suchindex.py': ('ZUSATZSEITEN', 'UNVERLINKT'),
 }
 

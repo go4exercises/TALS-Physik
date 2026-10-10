@@ -505,7 +505,7 @@ Steht in jeder kopierten Vorlage schon richtig; bei einer Datei von aussen §12.
 - **`../style.css` vor dem eigenen `<style>`** — der eigene gewinnt bei gleichem Gewicht.
 - **Tokens erben:** im eigenen `:root` nur Übersetzungen (`--karte:var(--weiss)`) und
   der Dunkelmodus; dieser setzt `--weiss` mit und behandelt `.site-footer` eigens.
-- **Kopf und Fuss der Site:** `<div id="nav-root">`, `.site-footer` nach STYLEGUIDE §6.1a,
+- **Kopf und Fuss der Site:** `<div id="nav-root">`, leere FUSS-Marken (den Footer schreibt `build-seo.py`, STYLEGUIDE §6.1a),
   am Schluss `../physiklib.js`, `../nav.js`, `../suche.js` und
   `buildNav({ id: 'leitprogramme' })`. **Ohne `physiklib.js` läuft jede Clipkarte ins
   Leere**, weil `clipBuehne` von dort kommt (so bei `leitprogramm-schaltungen` vom 13.09.
@@ -612,7 +612,8 @@ Dazu im Körper:
 <body>
 <div id="nav-root"></div>
 …
-<footer class="site-footer"> … </footer>
+<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<!-- FUSS:ENDE -->
 <script src="../physiklib.js"></script>
 <script src="../nav.js"></script>
 <script src="../suche.js"></script>
@@ -770,13 +771,16 @@ aufgebaut wird.
 | Datei | was |
 |---|---|
 | `leitprogramme.html` | Kachel im Block zwischen den `LEITPROGRAMME`-Markern, unter dem passenden Lerngebiet, nach Nummer sortiert: Kopf mit dem Titel des Leitprogramms, je Themenseite eine Zeile mit Titel und Nummernpille (seit 07.10.2026; Vorlage: die Kacheln daneben) |
-| `scripts/build-seo.py` | Eintrag in `SEITEN` — sonst fehlen Beschreibung und Sitemap |
+| `scripts/build-seo.py` | Eintrag in `SEITEN` — sonst fehlen Beschreibung, Sitemap und Footer-Ortszeile (`ort='Leitprogramm · …'`) |
 | `scripts/build-suchindex.py` | nichts einzutragen: alles in `leitprogramme/` wird automatisch erfasst |
 | Themenseite / Vorwissenseite | `.block-tipp` «💡 Lieber geführt durcharbeiten?» mit Link aufs Leitprogramm und einem Satz, was nur auf der Seite steht |
 | `nav.js` | nur beim **ersten** Leitprogramm nötig, der Menüeintrag steht schon |
 
 Danach `python3 scripts/build-seo.py` und `python3 scripts/build-suchindex.py` (beide
 schreiben ohne Schalter).
+
+**Nach jedem Bau mit `scripts/lp/<name>/seite.py` erneut `python3 scripts/build-seo.py`:** Das Bauskript gibt
+seit 10.10.2026 nur leere FUSS-Marken aus, den Footer (eine Version für das ganze Lehrmittel) schreibt `build-seo.py`.
 
 Im Leitprogramm selbst: «Ausführlich»-Link je Kapitel (§4) — in den Auswertungstabellen
 als dritte Spalte «ausführlich nachlesen» mit Anker auf die Themenseite —, Vorwissen

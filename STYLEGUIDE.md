@@ -862,7 +862,8 @@ eingetragen werden.
     <div id="toc"></div>       <!-- Wird von buildToC befüllt -->
   </aside>
 </div>
-<footer class="site-footer">...</footer>   <!-- 5 Zeilen, siehe §6.1a -->
+<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<!-- FUSS:ENDE -->   <!-- Footer: erzeugt von scripts/build-seo.py, siehe §6.1a -->
 <script src="../nav.js"></script>
 <script src="../suche.js"></script>
 <script src="../physiklib.js"></script>
@@ -875,18 +876,24 @@ eingetragen werden.
 
 ### 6.1a Footer
 
-Auf jeder Seite identisch, nur die zweite Zeile ist seitenspezifisch. Relative Pfade
-auf Themenseiten mit `../`, auf Root-Seiten ohne:
+Der Footer wird **erzeugt, nicht kopiert** (seit 10.10.2026): `scripts/build-seo.py` schreibt ihn
+zwischen `<!-- FUSS:ANFANG … -->` und `<!-- FUSS:ENDE -->`, genau wie den SEO-Kopf. Eine neue Seite
+bekommt nur die leeren Marken (nach `</div>` von `.page-wrap`, vor den `<script>`-Einbindungen), dann
+`python3 scripts/build-seo.py`. Ein `site-footer` ausserhalb der Marken ist ein Pre-Flight-Fehler.
 
-```html
-<footer class="site-footer">
-  <p><strong>Physik begreifbar</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences</p>
-  <p>Physik · 4.2 Dynamik</p>                          <!-- seitenspezifisch -->
-  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
-  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 1.0 · Stand 1. August 2026</p>
-</footer>
-```
+| Zeile | Inhalt | Quelle |
+|---|---|---|
+| 1 | «**Physik begreifbar** — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030» | `SEITENNAME`, `FUSS_UNTERTITEL` |
+| 2 | Ortszeile, z.B. «Physik · 4.2 Dynamik», «Leitprogramm · Kinematik», «Nachschlagen · Glossar», «Werkzeuge · Einheitentrainer» — fehlt auf `index.html` | Feld `ort=` in `SEITEN` |
+| 3 | © und Lizenz | fest |
+| 4 | Kontakt & Feedback · Rechtliches; unter `leitprogramme/` zusätzlich «Alle Leitprogramme · Clips» | fest |
+| 5 | «Keine Cookies · Kein Tracking · Version ⟪VERSION⟫ · Stand ⟪VERSION_STAND⟫» | Konstanten im Skript |
+
+**Eine Version für das ganze Lehrmittel:** Alle Seiten tragen dieselbe Versionszeile, auch Leitprogramme,
+Simulationen und Werkzeuge, und dieselbe wie Mathe begreifbar. Neue Nummer (2.1, 2.2 …) bei einer Gruppe
+neuer Leitprogramme, Simulationen oder Werkzeuge; Korrekturen ändern nur das Datum. Eigene Versionen
+einzelner Leitprogramme stehen im HTML-Kommentar der Seite, im README des Bauskripts und in Git, nicht im
+Footer. Seiten ohne Footer (`feedback.html`, `loesungen/…`) tragen `fuss=False` mit Begründung.
 
 **Kein GitHub-Link im Footer** — er steht bewusst nur einmal, im Über-Panel unter
 „Lizenz". „GitHub" ist für die Lernenden Fachjargon. Seit dem Umzug auf
@@ -968,7 +975,7 @@ Hier nur, was für beide Arten nicht verhandelbar ist.
 - **Vollständiger Dokumentrahmen.** `<!DOCTYPE html>`, `<html lang="de-CH">`,
   `<meta charset="UTF-8">` in den ersten 1024 Bytes, Viewport. Ohne Zeichensatz rät der
   Browser falsch, und die Umlaute zerfallen — sichtbar erst im Browser, in keiner Prüfung.
-- **Kopf und Fuss der Site gehören dazu.** `<div id="nav-root">`, ein `.site-footer` nach
+- **Kopf und Fuss der Site gehören dazu.** `<div id="nav-root">`, die FUSS-Marken nach
   §6.1a und vor `</body>` `../physiklib.js`, `../nav.js`, `../suche.js` und
   `buildNav({ id: 'leitprogramme' })`. Ohne Kopf und Fuss ist die Seite eine Sackgasse;
   ohne `physiklib.js` läuft jede Clipkarte ins Leere, weil `clipBuehne` von dort kommt.
@@ -1161,7 +1168,7 @@ Bevor eine Themenseite live geht, prüfe:
 - [ ] Anker-IDs direkt am `<h2 id="…">` — keine `<section>`-Wrapper
 - [ ] `<script src="../nav.js">` direkt vor dem `buildNav()`-Inline-Script
 - [ ] `../style.css`, `../suche.js` und `../physiklib.js` verlinkt
-- [ ] Footer nach §6.1a (fünf Zeilen, kapitelspezifische Zeile angepasst)
+- [ ] Footer: FUSS-Marken gesetzt, `ort=` in `SEITEN`, `build-seo.py` gelaufen (§6.1a)
 - [ ] Pre-Flight-Bash-Check ausgeführt: Tag-Balance (`div`/`ol`/`li`), Skelett-Marker, `bad=0`, JS-Syntax via `node --check`
 
 **Druckseiten (`downloads/.../*.html`)**

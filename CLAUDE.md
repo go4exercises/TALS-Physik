@@ -54,7 +54,12 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 - `minicheck.js` — Akkordeon-Logik der Mini-Checks. `anim-hinweise.js` — Hinweis-Logik.
 - `nav.js` — Navigation (`buildNav`) inkl. Suchfeld im Header rechts. `style.css` — gesamtes Design.
 - `scripts/build-seo.py` — erzeugt Seiten-Metadaten (Beschreibung, canonical, Open
-  Graph, JSON-LD nach schema.org/LearningResource), `sitemap.xml` und `robots.txt`.
+  Graph, JSON-LD nach schema.org/LearningResource), `sitemap.xml`, `robots.txt` und den
+  **Footer** jeder Seite (zwischen `<!-- FUSS:ANFANG -->` und `<!-- FUSS:ENDE -->`; Ortszeile
+  über `ort=` in `SEITEN`, Version über `VERSION`/`VERSION_STAND` — eine für das ganze
+  Lehrmittel und dieselbe wie in Mathe; seit 10.10.2026). Die Bauskripte `scripts/lp/*/seite.py`
+  geben nur die leeren Marken aus — nach jedem Bau `build-seo.py` laufen lassen. Ein
+  `site-footer` ausserhalb der Marken ist im Pre-Flight ein `[FEHLER]`.
   Der Kopfblock zwischen `<!-- SEO:ANFANG -->` und `<!-- SEO:ENDE -->` ist
   **generiert** — gepflegt wird die Tabelle `SEITEN` im Skript. Neue Seite = dort
   eintragen, sonst fehlen ihr Beschreibung und Sitemap-Eintrag. `--check` prüft
@@ -417,7 +422,8 @@ umbenennt, führt beides nach; die Anker sind Teil der Verabredung.
 
 - Neue Seite / neuer Block: Skelett aus `themen/p4-1-kinematik.html`
   **1:1 kopieren**, nur Inhalt anpassen (die frühere `TEMPLATE.html` ist am
-  31.07.2026 entfallen — die Pilotseite ist die Vorlage). CSS und `nav.js` sind auf die *exakten*
+  31.07.2026 entfallen — die Pilotseite ist die Vorlage). Den Footer **nicht**
+  mitkopieren: nur die leeren FUSS-Marken setzen, `ort=` in `SEITEN` eintragen. CSS und `nav.js` sind auf die *exakten*
   Klassennamen ausgerichtet.
 - **Niemals eigene Klassennamen, Container-Hierarchien oder API-Signaturen erfinden.**
   „Klingt vernünftig" reicht nicht — erfundene Klassen fallen still auf Block-Default

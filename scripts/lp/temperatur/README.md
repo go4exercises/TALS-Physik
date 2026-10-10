@@ -25,6 +25,7 @@ Testhaken: `document.getElementById('sim1').__sim.zeige(ϑ, t)` (Teilchenlage al
 
 ```sh
 python3 scripts/lp/temperatur/seite.py
+python3 scripts/build-seo.py                    # Footer und SEO-Kopf, nach jedem Bau
 python3 .claude/skills/preflight/preflight.py leitprogramme/leitprogramm-temperatur.html
 # Clip: JSON bearbeiten, dann (Sprechertext geändert) build-clip-ton.py → build-clip-fragen-ton.py →
 # scripts/lp/kinematik/anker.py <clip> → (skalen) zeiten.py → build-clips.py <clip>; danach seite.py

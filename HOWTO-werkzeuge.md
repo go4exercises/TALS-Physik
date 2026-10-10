@@ -36,7 +36,7 @@ Werkzeug.
 ## 3 · Seitenaufbau
 
 **Vorlage:** `werkzeuge/einheitentrainer.html` — Skelett einer Themenseite (`#nav-root`,
-`.page-wrap`, `main.content`, `aside.toc-wrap`, `footer.site-footer`) mit Kopf, Werkzeug,
+`.page-wrap`, `main.content`, `aside.toc-wrap`, leere FUSS-Marken — den Footer schreibt `build-seo.py`) mit Kopf, Werkzeug,
 Erklärungsverweisen, Tabellen, häufigen Fehlern und Zusammenfassung; ohne Aufgaben und
 Ressourcen.
 
@@ -94,7 +94,8 @@ An drei Stellen, sonst fehlt die Seite in Übersicht, Suche oder Sitemap:
 
    Je Themenseite, die auf das Werkzeug verweist, eine Zeile mit Pille.
 2. **`scripts/build-seo.py`**, Tabelle `SEITEN`: Schlüssel `'werkzeuge/<name>.html'`,
-   `typ='article', lrt='Werkzeug'`, Beschreibung 140–165 Zeichen, `themen=[…]`. Dann
+   `typ='article', lrt='Werkzeug'`, Beschreibung 140–165 Zeichen, `themen=[…]`,
+   `ort='Werkzeuge · Einheitentrainer'` (Footer-Ortszeile). Dann
    `python3 scripts/build-seo.py` — zweimal, der zweite Lauf nach dem Commit (Git-Datum,
    Kopfkommentar des Skripts).
 3. **Suchindex:** nichts einzutragen — `build-suchindex.py` liest `werkzeuge/` von selbst

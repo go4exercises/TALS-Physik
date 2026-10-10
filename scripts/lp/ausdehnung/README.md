@@ -22,6 +22,7 @@ sim4 und sim5 Anteil des Wegs vom Zustand 1 zum eingestellten Zustand 2 (0 bis 1
 
 ```sh
 python3 scripts/lp/ausdehnung/seite.py
+python3 scripts/build-seo.py                    # Footer und SEO-Kopf, nach jedem Bau
 python3 .claude/skills/preflight/preflight.py leitprogramme/leitprogramm-ausdehnung.html
 python3 scripts/build-lp-pdf.py ausdehnung          # Gesamttest und Bewertungspaket
 ```

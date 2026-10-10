@@ -50,10 +50,19 @@ RLP = ('Rahmenlehrplan für die Berufsmaturität RLP-BM 2030, '
        'Gruppe Technik, Architektur, Life Sciences')
 STAND = '2026-08-01'
 
+# Footer jeder Seite (seit 10.10.2026 erzeugt wie der SEO-Kopf). Eine Version fuer das
+# ganze Lehrmittel; Korrekturen aendern nur VERSION_STAND, eine Gruppe neuer
+# Leitprogramme/Simulationen/Werkzeuge die Nummer (2.1, 2.2 …).
+VERSION = '1.0'
+VERSION_STAND = '1. August 2026'          # Anzeigeform, nicht ISO
+FUSS_UNTERTITEL = 'Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030'
+
 # ── Seiten-Tabelle: hier wird gepflegt ───────────────────────────────
 # beschreibung: 140–165 Zeichen, eigenstaendig lesbar, mit den Suchbegriffen,
 #               die jemand tatsaechlich eingibt.
 # themen:       Stichworte fuer schema.org/about
+# ort:          zweite Footerzeile («Physik · 4.1 Kinematik des Schwerpunkts»); fehlt sie, entfaellt die Zeile.
+# fuss:         False fuer Seiten ohne Footer (mit Kommentar warum).
 SEITEN = {
  'index.html': dict(
    typ='website',
@@ -61,16 +70,19 @@ SEITEN = {
    beschreibung='Kostenloses interaktives Physik-Lehrmittel für die Berufsmaturität TALS nach RLP-BM 2030: Mechanik, Thermodynamik, Wellen und Elektrizität mit Animationen.',
    themen=['Physik', 'Berufsmaturität', 'RLP-BM 2030', 'Lehrmittel', 'Mechanik', 'Thermodynamik']),
  'glossar.html': dict(
+   ort='Nachschlagen · Glossar',
    typ='article', lrt='Glossar',
    titel='Glossar — physikalische Begriffe von A bis Z',
    beschreibung='Physik-Glossar der Berufsmaturität: die zentralen Begriffe von Absolutem Nullpunkt bis Zentripetalbeschleunigung, kurz erklärt und mit Formel.',
    themen=['Physik', 'Glossar', 'Fachbegriffe']),
  'formelsammlung.html': dict(
+   ort='Nachschlagen · Formelsammlung',
    typ='article', lrt='Formelsammlung',
    titel='Formelsammlung Physik — alle Formeln nach Lerngebieten',
    beschreibung='Alle Physik-Formeln der Berufsmaturität auf einer Seite: Mechanik, Thermodynamik, Wellen und Elektrizität, geordnet nach den Lerngebieten des RLP-BM 2030.',
    themen=['Physik', 'Formelsammlung', 'Formeln', 'Berufsmaturität']),
  'leitprogramme.html': dict(
+   ort='Nachschlagen · Leitprogramme',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramme — Physik im eigenen Tempo erarbeiten',
    beschreibung='Selbstlerneinheiten der Physik-Berufsmaturität: Vortest, Erklärung, '
@@ -78,6 +90,7 @@ SEITEN = {
                 'Zum Vertiefen, Nachholen und für den Fernunterricht.',
    themen=['Physik', 'Leitprogramm', 'Selbststudium', 'Berufsmaturität']),
  'leitprogramme/leitprogramm-rechnen.html': dict(
+   ort='Leitprogramm · Rechnen und Schliessen',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Rechnen und Schliessen — Dreisatz, Umstellen, Zehnerpotenzen',
    beschreibung='Leitprogramm zum Rechnen in der Physik: Variablen und '
@@ -91,6 +104,7 @@ SEITEN = {
            'Zehnerpotenzen', 'Bogenmass', 'Kreiszahl', 'Plausibilität',
            'Grössenordnung', 'Einheitenprobe']),
  'leitprogramme/leitprogramm-heizen.html': dict(
+   ort='Leitprogramm · Heizen, Dämmen, Umwandeln',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 08.10.2026, wird entfernt
    titel='Leitprogramm Heizen, Dämmen, Umwandeln — Wirkungsgrad, Heizwert, Wärmetransport (veraltet)',
    beschreibung='Leitprogramm zur Energienutzung: Energieerhaltung und '
@@ -104,6 +118,7 @@ SEITEN = {
            'Energiequellen', 'Wärmeleitung', 'Konvektion', 'Wärmestrahlung',
            'Treibhauseffekt', 'Dämmung']),
  'leitprogramme/leitprogramm-experimente-waerme.html': dict(
+   ort='Leitprogramm · Wärme im Experiment',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Wärme im Experiment — Einstieg und Wärmekapazität',
    beschreibung='Sieben einfache Schulversuche zur Wärmelehre, gerechnet und '
@@ -118,6 +133,7 @@ SEITEN = {
            'Spezifische Wärmekapazität', 'Wärmebilanz', 'Mischtemperatur',
            'Wirkungsgrad', 'Experiment', 'Wärmeeindringzahl']),
  'leitprogramme/leitprogramm-waermemenge.html': dict(
+   ort='Leitprogramm · Wärmemenge und Wärmebilanz',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 08.10.2026, wird entfernt
    titel='Leitprogramm Wärmemenge und Wärmebilanz — Temperatur, Wärme, Heizkurve (veraltet)',
    beschreibung='Leitprogramm zur Wärmelehre: Temperatur als Teilchenbewegung, '
@@ -131,6 +147,7 @@ SEITEN = {
            'Mischtemperatur', 'Latente Wärme', 'Heizkurve', 'Wirkungsgrad',
            'Heizwert', 'Temperatur', 'Kelvin']),
  'leitprogramme/leitprogramm-waermeausdehnung.html': dict(
+   ort='Leitprogramm · Wärmeausdehnung',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 08.10.2026, wird entfernt
    titel='Leitprogramm Wärmeausdehnung — Feststoffe und Flüssigkeiten (veraltet)',
    beschreibung='Leitprogramm zur Wärmeausdehnung: Längen-, Flächen- und '
@@ -144,6 +161,7 @@ SEITEN = {
            'Ausdehnungskoeffizient', 'Scheinbare Ausdehnung', 'Dichte',
            'Anomalie des Wassers', 'Bimetall']),
  'leitprogramme/leitprogramm-ideale-gase.html': dict(
+   ort='Leitprogramm · Ideale Gase',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 08.10.2026, wird entfernt
    titel='Leitprogramm Ideale Gase — Gasgesetze selbst erarbeiten (veraltet)',
    beschreibung='Leitprogramm zu den idealen Gasen: Boyle-Mariotte, Amontons und Gay-Lussac '
@@ -152,6 +170,7 @@ SEITEN = {
    themen=['Ideale Gase', 'Gasgesetze', 'Allgemeine Gasgleichung', 'Boyle-Mariotte',
            'Gay-Lussac', 'Amontons', 'Thermodynamik']),
  'leitprogramme/leitprogramm-elektrizitaet.html': dict(
+   ort='Leitprogramm · Elektrizität',
    # Freigeschaltet am 03.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Elektrizität — Ladung, Spannung, Widerstand, Messen, Schaltungen, Gefahren',
@@ -163,6 +182,7 @@ SEITEN = {
    themen=['Physik', 'Elektrizität', 'Ladung', 'Stromstärke', 'Widerstand', 'Messen', 'Kennlinie',
            'Reihenschaltung', 'Parallelschaltung', 'FI-Schutzschalter', 'Leitprogramm']),
  'leitprogramme/leitprogramm-widerstand-leistung.html': dict(
+   ort='Leitprogramm · Widerstand, Leistung, Energie',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 06.10.2026, wird entfernt
    titel='Leitprogramm Widerstand, Leistung, Energie — ohmsches Gesetz bis Hochspannung (veraltet)',
    beschreibung='Leitprogramm zur Elektrizität: ohmsches Gesetz und Kennlinien, richtig messen '
@@ -172,6 +192,7 @@ SEITEN = {
    themen=['Physik', 'Elektrizität', 'Ohmsches Gesetz', 'Widerstand', 'Leistung',
            'Energie', 'Leitprogramm']),
  'leitprogramme/leitprogramm-schaltungen.html': dict(
+   ort='Leitprogramm · Schaltungen berechnen',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 06.10.2026, wird entfernt
    titel='Leitprogramm Schaltungen berechnen — Reihe, parallel, gemischt (veraltet)',
    beschreibung='Leitprogramm zur Elektrizität: Knoten- und Maschenregel, Reihenschaltung, '
@@ -181,6 +202,7 @@ SEITEN = {
    themen=['Physik', 'Elektrizität', 'Reihenschaltung', 'Parallelschaltung',
            'Spannungsteiler', 'Leitprogramm']),
  'leitprogramme/leitprogramm-gefahren.html': dict(
+   ort='Leitprogramm · Gefahren und Schutzmassnahmen',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'], noindex=True,  # veraltet seit 06.10.2026, wird entfernt
    titel='Leitprogramm Gefahren und Schutzmassnahmen — FI, Schutzleiter, Sicherung (veraltet)',
    beschreibung='Leitprogramm zur Elektrizität: warum die Erde zum Rückleiter wird '
@@ -191,6 +213,7 @@ SEITEN = {
    themen=['Physik', 'Elektrizität', 'Elektrische Sicherheit', 'FI-Schutzschalter',
            'Schutzleiter', 'Leitungsschutzschalter', 'Leitprogramm']),
  'leitprogramme/leitprogramm-kinematik.html': dict(
+   ort='Leitprogramm · Kinematik',
    # Freigeschaltet am 04.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Kinematik — Geschwindigkeit, Beschleunigung, Vektoren, Fall und Wurf, Kreisbewegung',
@@ -201,6 +224,7 @@ SEITEN = {
    themen=['Physik', 'Kinematik', 'Geschwindigkeit', 'Beschleunigung', 'freier Fall',
            'Wurf', 'Relativbewegung', 'Kreisbewegung', 'Leitprogramm']),
  'leitprogramme/leitprogramm-dynamik.html': dict(
+   ort='Leitprogramm · Dynamik',
    # Freigeschaltet am 06.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Dynamik — Kraft, Masse, Beschleunigung, Aufzug, Faden, Kreisbahn',
@@ -211,6 +235,7 @@ SEITEN = {
    themen=['Physik', 'Dynamik', 'Kraft', 'Grundgesetz', 'Trägheitsgesetz', 'Gewichtskraft',
            'Normalkraft', 'Zentripetalkraft', 'Leitprogramm']),
  'leitprogramme/leitprogramm-energie.html': dict(
+   ort='Leitprogramm · Energie',
    # Freigeschaltet am 06.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Energie — Arbeit, Energieerhaltung, Reibung und Motor, Leistung, Energiebilanz der Erde',
@@ -221,6 +246,7 @@ SEITEN = {
    themen=['Physik', 'Energie', 'Arbeit', 'Energieerhaltung', 'Leistung', 'Wirkungsgrad',
            'Energiebilanz der Erde', 'Treibhauseffekt', 'Leitprogramm']),
  'leitprogramme/leitprogramm-statik.html': dict(
+   ort='Leitprogramm · Statik',
    # Freigeschaltet am 06.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Statik — Kraft als Vektor, Resultierende, Haftreibung, Drehmoment, Hebelgesetz, Auflagerkräfte',
@@ -231,6 +257,7 @@ SEITEN = {
    themen=['Physik', 'Statik', 'Kraft', 'Vektor', 'Resultierende', 'Drehmoment', 'Hebelgesetz',
            'Auflagerkraft', 'schiefe Ebene', 'Leitprogramm']),
  'leitprogramme/leitprogramm-hydrostatik.html': dict(
+   ort='Leitprogramm · Hydrostatik',
    # Freigeschaltet am 06.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Hydrostatik — Druck, Schweredruck, Luftdruck, Pascal, Auftrieb, Schwimmen',
@@ -241,6 +268,7 @@ SEITEN = {
    themen=['Physik', 'Hydrostatik', 'Druck', 'Schweredruck', 'Luftdruck', 'Pascal', 'Hydraulik',
            'Auftrieb', 'Archimedes', 'Schwimmen', 'Leitprogramm']),
  'leitprogramme/leitprogramm-temperatur.html': dict(
+   ort='Leitprogramm · Temperatur',
    # Freigeschaltet am 08.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Temperatur — Teilchenbewegung, Aggregatzustände, Celsius und Kelvin',
@@ -250,6 +278,7 @@ SEITEN = {
    themen=['Physik', 'Wärmelehre', 'Temperatur', 'Teilchenmodell', 'Aggregatzustand', 'Celsius',
            'Kelvin', 'absoluter Nullpunkt', 'Leitprogramm']),
  'leitprogramme/leitprogramm-waerme.html': dict(
+   ort='Leitprogramm · Wärme',
    # Freigeschaltet am 08.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Wärme — Wärmemenge, Wärmebilanz, latente Wärme, Heizwert, Energiesysteme, Wärmetransport, Treibhauseffekt',
@@ -260,6 +289,7 @@ SEITEN = {
    themen=['Physik', 'Wärmelehre', 'Wärme', 'Wärmemenge', 'Wärmebilanz', 'latente Wärme', 'Heizwert',
            'Wirkungsgrad', 'erneuerbare Energien', 'Wärmetransport', 'Treibhauseffekt', 'Leitprogramm']),
  'leitprogramme/leitprogramm-wellen.html': dict(
+   ort='Leitprogramm · Wellen',
    # Freigeschaltet am 09.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Wellen — Schwingung und Welle, Wellengleichung, Wellentypen, Schall, elektromagnetisches Spektrum, Treibhauseffekt',
@@ -271,6 +301,7 @@ SEITEN = {
    themen=['Physik', 'Wellen', 'Schwingung', 'Frequenz', 'Wellenlänge', 'Wellengleichung',
            'Schall', 'elektromagnetisches Spektrum', 'Laser', 'Treibhauseffekt', 'Leitprogramm']),
  'leitprogramme/leitprogramm-ausdehnung.html': dict(
+   ort='Leitprogramm · Wärmeausdehnung und Gase',
    # Freigeschaltet am 08.10.2026 (nach /lp-pruefung).
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Wärmeausdehnung und Gase — Längen- und Volumenausdehnung, ideales Gas',
@@ -281,6 +312,7 @@ SEITEN = {
    themen=['Physik', 'Wärmelehre', 'Wärmeausdehnung', 'Längenausdehnung', 'Volumenausdehnung',
            'Anomalie des Wassers', 'ideales Gas', 'Boyle-Mariotte', 'Gay-Lussac', 'Leitprogramm']),
  'leitprogramme/uebungstest-waermelehre.html': dict(
+   ort='Leitprogramm · Übungstest Wärmelehre',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit', 'Übungsaufgaben'],
    titel='Leitprogramm Übungstest Wärmelehre — fünfzehn Aufgaben mit Erklärclip',
    beschreibung='Ein vollständiger Übungsbogen zur Wärmelehre, Aufgabe für Aufgabe '
@@ -292,6 +324,7 @@ SEITEN = {
    themen=['Wärmelehre', 'Wärmeausdehnung', 'Ideales Gas', 'Wärmebilanz',
            'Heizkurve', 'Dichte', 'Übungsaufgaben', 'Leitprogramm']),
  'leitprogramme/leitprogramm-vorwissen.html': dict(
+   ort='Leitprogramm · Grössen, Messen, Druck',
    typ='article', lrt=['Leitprogramm', 'Selbstlerneinheit'],
    titel='Leitprogramm Grössen, Messen, Druck — das Vorwissen selbst erarbeiten',
    beschreibung='Leitprogramm zum physikalischen Vorwissen: Zahlenwert und Einheit, '
@@ -302,6 +335,7 @@ SEITEN = {
    themen=['Vorwissen', 'Grössen und Einheiten', 'Vorsilben', 'Signifikante Stellen',
            'Dichte', 'Druck', 'Überdruck', 'Gewichtskraft']),
  'clips.html': dict(
+   ort='Nachschlagen · Clips',
    typ='article', lrt=['Lernvideo', 'Animation'],
    titel='Clips — kurze Animationen zu den Rechenwegen',
    beschreibung='Kurze Animationen der Physik-Berufsmaturität: Ein Clip baut einen '
@@ -313,6 +347,7 @@ SEITEN = {
  # Eintrag hier, damit Beschreibung, canonical und die Robots-Marke gesetzt
  # sind und die Seite beim naechsten Abgleich nicht vergessen wird.
  'loesungen/gravitation-und-elektronen-im-feld.html': dict(
+   fuss=False,  # eigenstaendige Seite ohne style.css, eigener Abschluss; unverlinkt (noindex)
    typ='article', lrt=['Lösungsblatt', 'Übungsaufgaben'], noindex=True,
    titel='Lösungen: Gravitation und Elektronen im Feld',
    beschreibung='Zwei Aufgabenblätter Schritt für Schritt gelöst: Gravitationsfeldstärke '
@@ -321,91 +356,113 @@ SEITEN = {
                 'Geschwindigkeitsfilter und Kreisbahn. Mit Erklärclips und Simulationen.',
    themen=['Physik', 'Gravitation', 'Plattenkondensator', 'Lorentzkraft', 'Lösungen']),
  'rechtliches.html': dict(
+   ort='Nachschlagen · Rechtliches &amp; Datenschutz',
    typ='website', noindex=False,
    titel='Rechtliches & Datenschutz',
    beschreibung='Verantwortlichkeit, Haftung, Lizenz und Datenschutz von Physik begreifbar — ohne Cookies, ohne Tracking.',
    themen=['Impressum', 'Datenschutz']),
  'feedback.html': dict(
+   fuss=False,  # eigener kleiner Fuss in der Formularkarte; Datei mit Mathe geteilt (KERN)
    typ='website',
    titel='Kontakt & Feedback',
    beschreibung='Fehler melden, Verbesserungen vorschlagen oder Rückmeldung geben zu Physik begreifbar — ohne Anmeldung, Name und E-Mail freiwillig.',
    themen=['Kontakt', 'Feedback']),
  'simulationen.html': dict(
+   ort='Nachschlagen · Simulationen',
    typ='article', lrt='Simulation',
    titel='Simulationen — Physik zum Beobachten und Verändern',
    beschreibung='Simulationen der Physik-Berufsmaturität auf eigenen Seiten: Vorgänge beobachten, Grössen verändern und die Wirkung sehen — je verlinkt aus dem passenden Abschnitt.',
    themen=['Physik', 'Simulation', 'Interaktiv', 'Berufsmaturität']),
  'werkzeuge.html': dict(
+   ort='Nachschlagen · Werkzeuge',
    typ='article', lrt='Werkzeug',
    titel='Werkzeuge — Trainer und Rechner für die Physik',
    beschreibung='Werkzeuge der Physik-Berufsmaturität: Trainer und Rechner für eigene Aufgaben und Messwerte — zum Üben mit Rückmeldung, je verlinkt aus dem passenden Abschnitt.',
    themen=['Physik', 'Übungsgenerator', 'Trainer', 'Berufsmaturität']),
  'werkzeuge/einheitentrainer.html': dict(
+   ort='Werkzeuge · Einheitentrainer',
    typ='article', lrt='Werkzeug',
    beschreibung='Einheiten umrechnen üben: Übungsgenerator für Länge, Fläche, Volumen, Masse, Zeit, Tempo, Kraft, Druck, Energie, Leistung, Dichte und Temperatur.',
    themen=['Einheiten umrechnen', 'Übungsgenerator', 'Einheitenpräfixe', 'Zehnerpotenzen', 'SI-Einheiten']),
  'simulationen/sonnenfinsternis-12-08-2026.html': dict(
+   ort='Simulationen · Sonnenfinsternis vom 12. August 2026',
    typ='article', lrt='Simulation',
    titel='Sonnenfinsternis vom 12. August 2026 über Thun',
    beschreibung='Partielle Sonnenfinsternis am 12. August 2026 über Thun: Sicherheitsregeln zum Filter, Simulation der Netzhautschädigung und der Verlauf des Abends zum Selberbewegen.',
    themen=['Sonnenfinsternis', 'Astronomie', 'Optik', 'Thun']),
 
  'themen/p0-0-vorwissen-kompakt.html': dict(
+   ort='Physik · 0.0 Vorwissen — die Alltagstour',
    beschreibung='Vorwissen Physik im Alltag: sieben Situationen vom Rucksack bis zum Wasserkocher zeigen, welche Werkzeuge aus der Sek I in der Berufsmaturität gebraucht werden.',
    themen=['Vorwissen', 'Alltagsphysik', 'Grössen', 'Einheiten']),
  'themen/p0-1-vorwissen-mathematik.html': dict(
+   ort='Physik · 0.1 Rechnen und Schliessen',
    beschreibung='Rechnen und Schliessen für die Physik: Proportionalität, Formeln umstellen, Zehnerpotenzen, Runden und signifikante Stellen — mit interaktiven Übungen.',
    themen=['Proportionalität', 'Formel umstellen', 'Zehnerpotenzen', 'Signifikante Stellen', 'Dreisatz']),
  'themen/p0-2-vorwissen-physik.html': dict(
+   ort='Physik · 0.2 Grössen, Einheiten und Messen',
    beschreibung='Grössen, Einheiten und Messen: von der Grösse zur SI-Einheit, Dichte, Kraft und Energie, Präfixe, Umrechnen und Abschätzen — mit Animationen.',
    themen=['SI-Einheiten', 'Grössen', 'Dichte', 'Einheitenpräfixe', 'Messen']),
  'themen/p0-3-messen-waagen-dichte.html': dict(
+   ort='Physik · 0.3 Messen — Waagen, Dichte, Einheiten',
    beschreibung='Messen in der Physik: Masse und Gewichtskraft, Balkenwaage gegen Küchen- und Federwaage, direktes und indirektes Messen, Dichte bestimmen und Einheiten umrechnen.',
    themen=['Masse', 'Gewichtskraft', 'Waage', 'Dichte', 'Verdrängungsmethode', 'Dichte-Einheiten']),
  'themen/p0-5-si-einheiten.html': dict(
+   ort='Physik · 0.5 Die sieben SI-Basiseinheiten',
    beschreibung='Die sieben SI-Basiseinheiten: Herkunft und heutige Definition von Sekunde, Meter, Kilogramm, Ampere, Kelvin, Mol und Candela — mit Simulationen.',
    themen=['SI-Basiseinheiten', 'Naturkonstanten', 'Meter', 'Kilogramm', 'Sekunde', 'Einheitenvorsilben']),
  'themen/p4-1-kinematik.html': dict(
+   ort='Physik · 4.1 Kinematik des Schwerpunkts',
    beschreibung='Kinematik: Weg, Geschwindigkeit und Beschleunigung im v-t-Diagramm, gleichförmige und beschleunigte Bewegung, freier Fall, Wurf und Kreisbewegung.',
    themen=['Kinematik', 'Geschwindigkeit', 'Beschleunigung', 'v-t-Diagramm', 'Freier Fall', 'Kreisbewegung'],
    lg='Lerngebiet 4 Mechanik', tg='4.1 Kinematik des Schwerpunkts'),
  'themen/p4-2-dynamik.html': dict(
+   ort='Physik · 4.2 Dynamik',
    beschreibung='Dynamik: die drei Newtonschen Gesetze, Kraft und Masse, Federkraft nach Hooke, Haft- und Gleitreibung sowie Kräfte an der schiefen Ebene.',
    themen=['Newtonsche Gesetze', 'Kraft', 'Reibung', 'Hookesches Gesetz', 'Schiefe Ebene'],
    lg='Lerngebiet 4 Mechanik', tg='4.2 Dynamik'),
  'themen/p4-3-energie.html': dict(
+   ort='Physik · 4.3 Energie',
    beschreibung='Energie, Arbeit und Leistung: Energieformen, Energieerhaltung, Wirkungsgrad und der Zusammenhang W = F·s — mit interaktiven Diagrammen.',
    themen=['Energie', 'Arbeit', 'Leistung', 'Energieerhaltung', 'Wirkungsgrad'],
    lg='Lerngebiet 4 Mechanik', tg='4.3 Energie'),
  'themen/p4-4-statik.html': dict(
+   ort='Physik · 4.4 Statik von Festkörpern',
    beschreibung='Statik: Kräfteaddition und -zerlegung, Drehmoment und Hebelgesetz, Schwerpunkt und Auflagerkräfte — von der Wippe bis zum Kran.',
    themen=['Statik', 'Drehmoment', 'Hebelgesetz', 'Kräftezerlegung', 'Schwerpunkt'],
    lg='Lerngebiet 4 Mechanik', tg='4.4 Statik von Festkörpern'),
  'themen/p4-5-hydrostatik.html': dict(
+   ort='Physik · 4.5 Hydrostatik',
    beschreibung='Hydrostatik: Schweredruck, Pascalsches Prinzip, hydraulische Presse und Auftrieb nach Archimedes — von der Tauchbrille bis zum Frachtschiff.',
    themen=['Hydrostatik', 'Druck', 'Auftrieb', 'Archimedisches Prinzip', 'Hydraulik'],
    lg='Lerngebiet 4 Mechanik', tg='4.5 Hydrostatik'),
  'themen/p5-1-temperatur.html': dict(
+   ort='Physik · 5.1 Temperatur',
    beschreibung='Temperatur: was sie auf Teilchenebene misst, Celsius- und Kelvin-Skala, absoluter Nullpunkt, Aggregatzustände und das Gasgesetz.',
    themen=['Temperatur', 'Kelvin', 'Absoluter Nullpunkt', 'Teilchenmodell', 'Gasgesetz'],
    lg='Lerngebiet 5 Thermodynamik', tg='5.1 Temperatur'),
  'themen/p5-2-waerme.html': dict(
+   ort='Physik · 5.2 Wärme',
    beschreibung='Wärme als übertragene Energie: Wärmemenge Q = m·c·ΔT, spezifische Wärmekapazität, Mischungen, Phasenübergänge, Wärmetransport und Wirkungsgrad.',
    themen=['Wärme', 'Wärmemenge', 'Wärmekapazität', 'Phasenübergang', 'Wärmetransport'],
    lg='Lerngebiet 5 Thermodynamik', tg='5.2 Wärme'),
  'themen/p5-3-waermeausdehnung.html': dict(
+   ort='Physik · 5.3 Wärmeausdehnung',
    beschreibung='Wärmeausdehnung von Festkörpern, Flüssigkeiten und Gasen: Längen- und Volumenausdehnung, Anomalie des Wassers und die Dehnungsfuge im Bauwesen.',
    themen=['Wärmeausdehnung', 'Längenausdehnung', 'Volumenausdehnung', 'Anomalie des Wassers'],
    lg='Lerngebiet 5 Thermodynamik', tg='5.3 Wärmeausdehnung'),
  'themen/p6-1-wellen.html': dict(
+   ort='Physik · 6.1 Wellen',
    beschreibung='Wellen: von der Schwingung zur Welle, Wellenlänge, Frequenz und c = λ·f, Schall, stehende Wellen und das elektromagnetische Spektrum.',
    themen=['Wellen', 'Schwingung', 'Wellenlänge', 'Frequenz', 'Schall', 'Elektromagnetisches Spektrum'],
    lg='Lerngebiet 6 Einführung in andere Bereiche der Physik', tg='6.1 Wellen'),
  'themen/p6-1a-wellenexperimente.html': dict(
+   ort='Physik · 6.1a Wellenexperimente',
    beschreibung='Sieben Wellenexperimente am Seil und an der Feder: Transversal- und Longitudinalwellen, Reflexion, Überlagerung und stehende Wellen zum Selbstprobieren.',
    themen=['Wellenexperimente', 'Transversalwelle', 'Longitudinalwelle', 'Reflexion', 'Stehende Welle'],
    lg='Lerngebiet 6 Einführung in andere Bereiche der Physik', tg='6.1a Wellenexperimente'),
  'themen/p6-2-elektrizitaet.html': dict(
+   ort='Physik · 6.2 Elektrizität',
    beschreibung='Elektrizität: Ladung, Strom, Spannung und Widerstand, Ohmsches Gesetz, Reihen- und Parallelschaltung, elektrische Leistung und Stromgefahren.',
    themen=['Elektrizität', 'Ohmsches Gesetz', 'Stromstärke', 'Spannung', 'Widerstand', 'Reihenschaltung', 'Parallelschaltung'],
    lg='Lerngebiet 6 Einführung in andere Bereiche der Physik', tg='6.2 Elektrizität'),
@@ -413,6 +470,8 @@ SEITEN = {
 
 MARKE_AUF = '<!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->'
 MARKE_ZU = '<!-- SEO:ENDE -->'
+FUSS_AUF = '<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->'
+FUSS_ZU = '<!-- FUSS:ENDE -->'
 
 
 MAKROS = {'cdot': '·', 'Delta': 'Δ', 'delta': 'δ', 'lambda': 'λ', 'alpha': 'α',
@@ -579,6 +638,34 @@ def block(datei, cfg, seite_html):
     return '\n'.join(z)
 
 
+def fuss(datei, cfg):
+    """Footer der Seite, samt Marken. Fachneutral: was je Fach anders ist, steht in
+    SEITENNAME, FUSS_UNTERTITEL und in SEITEN (ort)."""
+    auf = '../' * datei.count('/')
+    z = [FUSS_AUF, '<footer class="site-footer">',
+         f'  <p><strong>{SEITENNAME}</strong> — {FUSS_UNTERTITEL}</p>']
+    if cfg.get('ort'):
+        z.append(f"  <p>{cfg['ort']}</p>")
+    z.append('  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" '
+             'target="_blank" rel="noopener">CC BY-NC 4.0</a></p>')
+    extra = (f'<a href="{auf}leitprogramme.html">Alle Leitprogramme</a> · <a href="{auf}clips.html">Clips</a> · '
+             if datei.startswith('leitprogramme/') else '')
+    z.append(f'  <p>{extra}<a href="{auf}feedback.html">Kontakt &amp; Feedback</a> · '
+             f'<a href="{auf}rechtliches.html">Rechtliches &amp; Datenschutz</a></p>')
+    z.append(f'  <p>Keine Cookies · Kein Tracking · Version {VERSION} · Stand {VERSION_STAND}</p>')
+    z += ['</footer>', FUSS_ZU]
+    return '\n'.join(z)
+
+
+FUSS_MARKEN = re.compile(re.escape(FUSS_AUF) + r'.*?' + re.escape(FUSS_ZU), re.S)
+FUSS_ALT = re.compile(r'<footer class="site-footer">.*?</footer>', re.S)
+
+
+def fuss_ausserhalb(s):
+    """site-footer, der nicht zwischen den FUSS-Marken steht (fuer --check)."""
+    return bool(FUSS_ALT.search(FUSS_MARKEN.sub('', s)))
+
+
 def einsetzen(datei, cfg):
     """Gibt (alter Stand, neuer Stand) zurueck. Beide, weil der Trockenlauf
     sie vergleichen will — und ein zweites Lesen der Datei sich so spart."""
@@ -591,6 +678,12 @@ def einsetzen(datei, cfg):
         m = re.search(r'</title>\n?', s)
         assert m, f'{datei}: kein <title>'
         s2 = s[:m.end()] + neu + '\n' + s[m.end():]
+    if cfg.get('fuss', True):
+        f = fuss(datei, cfg)
+        if FUSS_AUF in s2:
+            s2 = FUSS_MARKEN.sub(lambda _: f, s2, count=1)
+        elif FUSS_ALT.search(s2):                       # einmalige Umstellung
+            s2 = FUSS_ALT.sub(lambda _: f, s2, count=1)
     return s, s2
 
 
@@ -634,13 +727,14 @@ Sitemap: {BASIS}sitemap.xml
 def main(argv):
     ap = argparse.ArgumentParser(
         prog='build-seo.py',
-        description='Setzt die generierten Kopfbloecke in die Seiten und schreibt '
+        description='Setzt die generierten Kopfbloecke und Footer in die Seiten und schreibt '
                     'sitemap.xml und robots.txt. Gepflegt wird die Tabelle SEITEN '
                     'im Skript, nie der Block in der Seite.',
         epilog='Ohne Schalter wird geschrieben.')
     modus = ap.add_mutually_exclusive_group()
     modus.add_argument('--check', action='store_true',
-                       help='nur pruefen, nichts schreiben; Exit 1, wenn etwas veraltet ist '
+                       help='nur pruefen, nichts schreiben; Exit 1, wenn etwas veraltet ist, '
+                            'Exit 2 bei einem Footer ausserhalb der FUSS-Marken '
                             '(so ruft der Pre-Flight das Skript auf)')
     modus.add_argument('--dry-run', action='store_true',
                        help='Trockenlauf: zeigt, was sich aendern wuerde, und schreibt nichts')
@@ -670,9 +764,15 @@ def main(argv):
 
     namen = [n for n, _, _ in aenderungen]
 
+    ausserhalb = [d for d, c in SEITEN.items() if c.get('fuss', True)
+                  and fuss_ausserhalb(open(os.path.join(ROOT, d), encoding='utf-8').read())]
+    if a.check and ausserhalb:
+        print('FEHLER: site-footer ausserhalb der FUSS-Marken:', ', '.join(ausserhalb))
+        return 2                           # Pre-Flight: Fehler, nicht nur Warnung
+
     if a.check:
         if aenderungen:
-            print('SEO-Metadaten VERALTET:', ', '.join(namen))
+            print('SEO-Metadaten/Footer VERALTET:', ', '.join(namen))
             return 1
         print(f'SEO-Metadaten aktuell ({len(SEITEN)} Seiten).')
         return 0

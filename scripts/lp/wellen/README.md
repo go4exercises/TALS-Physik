@@ -22,6 +22,7 @@ Kasten «Lieber geführt» auf p6-1, im Suchindex und in der Sitemap; alle Clips
 
 ```sh
 python3 scripts/lp/wellen/seite.py
+python3 scripts/build-seo.py                    # Footer und SEO-Kopf, nach jedem Bau
 python3 .claude/skills/preflight/preflight.py leitprogramme/leitprogramm-wellen.html
 python3 scripts/build-lp-pdf.py wellen          # Gesamttest und Bewertungspaket
 ```

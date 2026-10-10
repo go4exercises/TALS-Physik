@@ -478,13 +478,9 @@ BASIS = r'''<script>
 </script>
 '''
 
-FUSS = '''<footer class="site-footer">
-  <p>Physik begreifbar · Lehrmittel für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
-  <p>Leitprogramm · Dynamik</p>
-  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
-  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
-  <p>Keine Cookies · Kein Tracking · Version 1.1 · Stand 6. Oktober 2026</p>
-</footer>
+# Footer: nur die Marken. Den Inhalt setzt scripts/build-seo.py — nach jedem Bau laufen lassen.
+FUSS = '''<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<!-- FUSS:ENDE -->
 
 <script src="../physiklib.js"></script>
 <script src="../nav.js"></script>

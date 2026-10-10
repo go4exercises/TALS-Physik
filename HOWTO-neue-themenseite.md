@@ -90,7 +90,8 @@ Mindestens muss vorhanden sein:
     </main>
     <aside class="toc-wrap"><div id="toc"></div></aside>
   </div>
-  <footer class="site-footer">…</footer>
+  <!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+  <!-- FUSS:ENDE -->
   <script src="../nav.js"></script>
   <script src="../suche.js"></script>
   <script src="../physiklib.js"></script>
@@ -298,12 +299,12 @@ Vor dem Pre-Flight laufen bei Bedarf die Generatoren:
 ```bash
 python3 scripts/build-animationen.py   # Animationsnummern aus der Dokumentreihenfolge
 python3 scripts/build-suchindex.py     # Volltextindex; suchindex.js gehört in den Commit
-python3 scripts/build-seo.py           # Metadaten, sitemap.xml, robots.txt
+python3 scripts/build-seo.py           # Metadaten, Footer, sitemap.xml, robots.txt
 ```
 
 Neue Seite? Dann zusätzlich: Eintrag in `nav.js` (SITE und GROUPS), Karte in
 `index.html`, `prev`/`next` der Nachbarseiten und die Tabelle `SEITEN` in
-`scripts/build-seo.py`.
+`scripts/build-seo.py` (mit `ort='Physik · ⟪Nr⟫ ⟪Titel⟫'`, der Ortszeile im Footer).
 
 ---
 
