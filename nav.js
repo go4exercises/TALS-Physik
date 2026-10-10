@@ -87,12 +87,12 @@ function buildNav(cfg) {
   const refItems = [
     { href:`${prefix}glossar.html`,         nr:'A–Z', tit:'Glossar',                     cur:(cfg.id==='glossar') },
     { href:`${prefix}formelsammlung.html`,  nr:'∑',   tit:'Formelsammlung',               cur:(cfg.id==='formeln') },
-    { href:`${prefix}leitprogramme.html`,   nr:'LP',  tit:'Leitprogramme — Selbstlerneinheiten', cur:(cfg.id==='leitprogramme') },
+    { href:`${prefix}clips.html`,           nr:'▶',   tit:'Clips',                        cur:(cfg.id==='clips') },
+    { href:`${prefix}leitprogramme.html`,   nr:'LP',  tit:'Leitprogramme',                cur:(cfg.id==='leitprogramme') },
     // Simulationen und Werkzeuge: eigene Seiten in simulationen/ und werkzeuge/,
     // verlinkt aus dem Abschnitt der Themenseite (HOWTO-simulationen.md, HOWTO-werkzeuge.md)
     { href:`${prefix}simulationen.html`,    nr:'SIM', tit:'Simulationen',                 cur:(cfg.id==='simulationen') },
     { href:`${prefix}werkzeuge.html`,       nr:'WZ',  tit:'Werkzeuge',                    cur:(cfg.id==='werkzeuge') },
-    { href:`${prefix}clips.html`,           nr:'▶',   tit:'Clips — kurze Animationen',    cur:(cfg.id==='clips') },
     { href:`${prefix}TALS-Physik-Formelsammlung.pdf`, nr:'PDF',
       tit:'Formelsammlung illustriert — zum Herunterladen und Drucken', extern:true },
   ];
