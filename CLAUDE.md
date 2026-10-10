@@ -57,11 +57,15 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (`szene(id, seed)`, `muster()`, `mass()` prüft, ob Pfeile samt Etikett im Bild liegen).
   Kein `localStorage`.
 - `werkzeuge/schaltungen-zusammenfassen.html` — Trainer Schaltungen zusammenfassen (6.2, seit
-  10.10.2026), drei Aufgabenarten per Umschalter: (1) zusammenfassen und zurückrechnen, (2) Kurzformel
+  10.10.2026), drei Aufgabenarten als Reiter: (1, Voreinstellung) Kurzformel
   aus Knöpfen setzen (Parser ohne Vorrang: + und ∥ auf einer Ebene brauchen eine Klammer; Vergleich
-  über eine kanonische Form, Diagnose der innersten Gruppe, die es so nicht gibt), (3) Teilströme
+  über eine kanonische Form, Diagnose der innersten Gruppe, die es so nicht gibt), (2) zusammenfassen
+  und zurückrechnen, links das Original, rechts der jeweilige Zwischenstand bis zum Ersatzschema, (3) Teilströme
   und Teilspannungen aller Widerstände bei gegebenem R_ges und I, Probe mit Kirchhoff
-  (Knoten- und Maschenregel als Summe = 0). In (1): zwei Widerstände antippen, «in Reihe» oder «parallel» wählen, Ersatzwiderstand
+  (Knoten- und Maschenregel als Summe = 0), rechts das gefundene Ersatzschema. Jedes Bild trägt den
+  Spannungspfeil der Quelle, der Gesamtstrom steht auf der Zuleitung, sobald er bekannt ist. Knoten sind
+  von Anfang an gefärbt; rechts in denselben Farben wie links (`szKnotenZuordnung`, über Bau und Potential;
+  ein Knoten, den es links nicht gibt, bekommt eine eigene Farbe). In (2): zwei Widerstände antippen, «in Reihe» oder «parallel» wählen, Ersatzwiderstand
   eingeben, bis \(R_\text{ges}\) übrig ist; danach zurückrechnen bis zu einem Zielwiderstand, mit
   Proben. Knopf «Knoten färben». Stufe 1 = reine Reihe/parallel (RLP), Stufen 2 und 3 gemischt
   (weiterführend). Schaltungen als Baum in `SZ_VORLAGEN` (16 Bauformen), daraus Schaltbild,
