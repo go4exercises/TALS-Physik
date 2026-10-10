@@ -89,7 +89,7 @@ GRUNDLINIE = {
     'scripts/build-clips.py': 0.998,   # gemeinsamer Bauer, drei Projektwerte (07.10.2026)
     'scripts/build-clips-einbau.py': 0.830,
     'scripts/build-clip-ton.py': 1.000,
-    'scripts/build-seo.py': 0.898,         # ohne DATEN gemessen (07.10.2026; mit Daten 0.533)
+    'scripts/build-seo.py': 0.909,   # ohne DATEN; 0.898 -> 0.909 (10.10.2026): Footer-Code aus Mathe, VERSION/VERSION_STAND gleich
     'scripts/schriften-lokal.py': 1.000,
     'scripts/mathjax-lokal.py': 0.870,
     'scripts/verify_mathjax.js': 0.941,
@@ -137,6 +137,10 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
+    dict(quelle='Physik', was='Footer aus einer Quelle und Version 2.0 uebernommen (10.10.2026); beide Mathe-Eintraege abgearbeitet',
+         wie='Physik: fuss(), FUSS-Marken, --check Exit 2 und preflight.py wortgleich aus Mathe; VERSION 2.0, VERSION_STAND 10. Oktober 2026; '
+             'feedback.html mit derselben Zeile; build-clip-ton.py (Runde 6) war schon uebernommen. Grundlinie build-seo.py 0.898 -> 0.909. '
+             'In Mathe: diese Datei uebernehmen (OFFEN danach leer) und diesen Eintrag streichen.'),
 ]
 FACH = {
     'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',

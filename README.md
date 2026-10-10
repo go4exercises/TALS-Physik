@@ -201,33 +201,29 @@ keine Cookies, kein Tracking. Der Pre-Flight meldet einen Fremdhost als Fehler.
 
 ## Version
 
-**Version 1.0 · Stand 1. August 2026** — alle zehn Themenseiten inhaltlich fertig, dazu Vorwissen, Glossar, Formelsammlung, Volltextsuche und die Seite Rechtliches & Datenschutz. Die Versionszeile steht zusätzlich im Footer jeder Seite.
+**Version 2.0 · Stand 10. Oktober 2026** — gleichzeitig mit Mathe begreifbar, das dieselbe
+Nummer trägt. Die Versionszeile steht im Footer jeder Seite; `scripts/build-seo.py` erzeugt ihn,
+eine Version für das ganze Lehrmittel, auch für Leitprogramme, Simulationen und Werkzeuge.
 
-Seither hinzugekommen, ohne dass die Versionszeile angehoben wurde: die Vorwissenseiten
-0.3, 0.4 und 0.5 sowie die Extras-Seite zur Sonnenfinsternis vom 12. August 2026 (beide seit
-10. Oktober 2026 als Werkzeug bzw. Simulation in eigenen Ordnern). Am
-30. August 2026 sind Schriften und MathJax von den Fremdhosts auf lokale Auslieferung
-umgestellt worden. Ende August und Anfang September 2026 kamen die ersten drei
-Leitprogramme dazu, im September die Erklärclips — am 7. September 2026 auf 86
-Clips ausgebaut, sodass jede der zehn Themenseiten eine Reihe hat und alle 44
-RLP-Kompetenzen von mindestens einem Clip getragen werden.
+Was Version 2.0 gegenüber 1.0 (1. August 2026: zehn Themenseiten, Vorwissen, Glossar,
+Formelsammlung, Volltextsuche, Rechtliches & Datenschutz) dazubringt:
 
-Ebenfalls am 7. September 2026: drei weitere Leitprogramme (Wärmemenge und
-Wärmebilanz, Heizen/Dämmen/Umwandeln, Rechnen und Schliessen), die Sofortsuche in
-`clips.html`, jeder Clip als eigener Treffer in der Volltextsuche und die
-Querverweise zwischen den Vorwissenseiten, den Leitprogrammen und den Lerngebieten.
-
-Am 13. September 2026 hat die Themenseite 6.2 Elektrizität vier neue Abschnitte und
-zehn Aufgaben bekommen, dazu das achte Leitprogramm «Schaltungen berechnen».
-
-Am 3. Oktober 2026 kam mit «Elektrizität» das erste Leitprogramm nach dem
-Kapitelmuster dazu, samt zehn eigenen Clips, die sich bewegen und Fragen stellen.
-Bis zum 6. Oktober 2026 folgten Kinematik, Dynamik, Energie, Statik und Hydrostatik,
-am 8. Oktober 2026 Temperatur, Wärme sowie Wärmeausdehnung und Gase. Damit hat jedes
-Teilgebiet der Mechanik und der Thermodynamik sein Leitprogramm; die älteren
-Einzelprogramme zur Elektrizität und zur Wärmelehre sind als veraltet markiert.
-Am 9. Oktober 2026 kam «Wellen» (6.1) dazu; seither hat jedes Teilgebiet der
-Lerngebiete 4 bis 6 sein Leitprogramm.
+- **14 Leitprogramme** (sichtbar unter *Nachschlagen → Leitprogramme*): je eines nach dem
+  Kapitelmuster für jedes Teilgebiet der Lerngebiete 4 bis 6 — Kinematik, Dynamik, Energie,
+  Statik, Hydrostatik, Temperatur, Wärme, Wärmeausdehnung und Gase, Wellen, Elektrizität —,
+  dazu Rechnen und Schliessen, Grössen/Messen/Druck, Wärme im Experiment und der Übungstest
+  Wärmelehre. Die älteren Einzelprogramme zur Elektrizität und zur Wärmelehre stehen bis zur
+  Löschung als veraltet markiert.
+- **Vertonte Clips:** 205 in der Bibliothek (jede Themenseite mit eigener Reihe, jede Animation
+  mit ihrem Clip), dazu 129 Clips der Leitprogramme und des Übungstests — alle mit Tonspur, die
+  Aussprache nach Hörproben abgestimmt.
+- **Simulationen und Werkzeuge** als eigene Rubriken mit Übersicht: die Sonnenfinsternis vom
+  12. August 2026 und der Einheitentrainer (bis 10. Oktober 2026 Vorwissenseite 0.4; die alten
+  Adressen leiten weiter). Dazu die Vorwissenseiten 0.3 und 0.5.
+- **Keine fremden Hosts:** Schriften und MathJax werden seit 30. August 2026 lokal ausgeliefert.
+- **Suche** über Themenseiten, Clips, Leitprogramme, Glossar und Formelsammlung.
+- **Eine Version für das ganze Lehrmittel:** Der Footer jeder Seite wird erzeugt und trägt
+  dieselbe Versionszeile.
 
 Am 14. September 2026 wurde aus «TALS Physik» **«Physik begreifbar»** — der letzte
 Schritt des Umzugs auf die eigene Adresse `physik.begreifbar.ch`, die seit dem

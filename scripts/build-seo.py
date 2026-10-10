@@ -53,8 +53,8 @@ STAND = '2026-08-01'
 # Footer jeder Seite (seit 10.10.2026 erzeugt wie der SEO-Kopf). Eine Version fuer das
 # ganze Lehrmittel; Korrekturen aendern nur VERSION_STAND, eine Gruppe neuer
 # Leitprogramme/Simulationen/Werkzeuge die Nummer (2.1, 2.2 …).
-VERSION = '1.0'
-VERSION_STAND = '1. August 2026'          # Anzeigeform, nicht ISO
+VERSION = '2.0'
+VERSION_STAND = '10. Oktober 2026'          # Anzeigeform, nicht ISO
 FUSS_UNTERTITEL = 'Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030'
 
 # ── Seiten-Tabelle: hier wird gepflegt ───────────────────────────────
