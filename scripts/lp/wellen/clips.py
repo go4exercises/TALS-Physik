@@ -892,7 +892,7 @@ DREH.append(dict(KOPF, titel='Wellen sehen: der Treibhauseffekt', dateiname='p6-
                        + [P((4.5, 6.0), (4.5 + dx, 6.0 + dy), ROT, dicke=5, _ein='in alle Richtungen') for dx, dy in [(0, 2.6), (1.9, 1.9), (2.6, 0), (1.9, -1.9), (-1.9, 1.9), (-2.6, 0)]]
                        + [P((7.5, 4.9), (7.5, 1.5), ROT, dicke=8, _ein='also auch zurück')],
                        texte=[T(1.9, 8.8, 'Licht', ORA, 26, 'start'), T(4.8, 3.0, 'Bodenstrahlung', ROT, 24, 'start'), T(7.8, 3.0, 'zurück', ROT, 24, 'start', _ein='also auch zurück')])),
-        sz('Mehr Kohlendioxid', 'Vor der Industrialisierung enthielt die Luft rund zweihundertachtzig ppm Kohlendioxid, heute rund vierhundertdreissig. Mehr Gas nimmt auch an den Rändern seines Bereichs auf: Der Bereich wird breiter, mehr Bodenstrahlung bleibt in der Atmosphäre. Der Treibhauseffekt wird stärker. Am Sonnenlicht ändert das fast nichts. Wie viel wärmer es dadurch wird, rechnet das Leitprogramm Wärme.',
+        sz('Mehr Kohlendioxid', 'Vor der Industrialisierung enthielt die Luft rund zweihundertachtzig ppm, parts per million, Kohlendioxid, heute rund vierhundertdreissig. Mehr Gas nimmt auch an den Rändern seines Bereichs auf: Der Bereich wird breiter, mehr Bodenstrahlung bleibt in der Atmosphäre. Der Treibhauseffekt wird stärker. Am Sonnenlicht ändert das fast nichts. Wie viel wärmer es dadurch wird, rechnet das Leitprogramm Wärme.',
            notiz('280 ppm → 430 ppm', y=270, a='Vor der Industrialisierung'),
            notiz('Bereich wird breiter|→ verstärkter Treibhauseffekt', y=380, a='Der Bereich wird breiter'),
            notiz('Sonnenlicht: fast unverändert', y=540, a='Am Sonnenlicht'),

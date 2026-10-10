@@ -1058,7 +1058,7 @@ DREH.append(dict(KOPF, titel='Wärme sehen: Licht hinein, Wärmestrahlung hinaus
                           F(rechteck(3.1, 0, 4.0, 150), ROT, 0.3, _ein='hundertfünfzig Watt')],
                 texte=[T(0.95, 260, '240', ORA, 26), T(2.25, 410, '390', ROT, 26, _ein='rund dreihundertneunzig'), T(3.55, 170, '150', ROT, 26, _ein='hundertfünfzig Watt'),
                        T(0.95, -28, 'Licht', TIN, 22), T(2.25, -28, 'Boden', TIN, 22, _ein='rund dreihundertneunzig'), T(3.55, -28, 'zurück', TIN, 22, _ein='hundertfünfzig Watt')])),
-        sz('Mehr Kohlendioxid', 'Vor der Industrialisierung enthielt die Luft rund zweihundertachtzig ppm Kohlendioxid, heute rund vierhundertdreissig. Mehr Treibhausgas hält mehr Wärmestrahlung zurück. Im Einschichtmodell gingen vorher fünfundzwanzig Prozent der Wärmestrahlung direkt hinaus, heute dreiundzwanzig. Der Boden wird dadurch von rund dreizehn Komma sieben auf rund vierzehn Komma neun Grad wärmer, um gut ein Grad. Das ist etwa so viel, wie sich die Erde seither erwärmt hat.',
+        sz('Mehr Kohlendioxid', 'Vor der Industrialisierung enthielt die Luft rund zweihundertachtzig ppm, parts per million, Kohlendioxid, heute rund vierhundertdreissig. Mehr Treibhausgas hält mehr Wärmestrahlung zurück. Im Einschichtmodell gingen vorher fünfundzwanzig Prozent der Wärmestrahlung direkt hinaus, heute dreiundzwanzig. Der Boden wird dadurch von rund dreizehn Komma sieben auf rund vierzehn Komma neun Grad wärmer, um gut ein Grad. Das ist etwa so viel, wie sich die Erde seither erwärmt hat.',
            notiz('Kohlendioxid vorher: 280 ppm', y=280, a='zweihundertachtzig'),
            notiz('heute: 430 ppm', y=340, a='vierhundertdreissig'),
            notiz('Modell vorher: 25 % hinaus', y=420, a='gingen vorher'),

@@ -137,12 +137,12 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='TODO 08.10.2026 «clips_bibliothek.py: Clipnamen mit Grossbuchstaben» erledigt; zwei Grundlinien angehoben (09.10.2026)',
-         wie='Physik scripts/clips_bibliothek.py: alle drei Muster clips/([a-z0-9-]+) auf [A-Za-z0-9-] (Zeilen 90, 94, 112); '
-             'build-clips-einbau.py: 0 Seiten zu aktualisieren (Physik hat keinen Clip mit Grossbuchstaben). '
-             'abgleich.py: Mathes Fassung uebernommen (OFFEN war leer), Grundlinien nach «[besser]» nachgetragen: '
-             'schriften-lokal.py 0.961 -> 1.000, mathjax-lokal.py 0.853 -> 0.870. '
-             'In Mathe: diese Datei uebernehmen, diesen Eintrag streichen und den Eintrag in TODO-schwesterprojekt.md loeschen.'),
+    dict(quelle='Physik', was='Mathes Aussprache-Eintraege vom 10.10.2026 uebernommen und vertont; geschwister() waehlt das Repo mit gleichem Namensanfang (10.10.2026)',
+         wie='Physik: build-clip-ton.py uebernommen; neu vertont 12 Clips (Szenen) und 2 Fragen, darunter p5-2-lp-kontrolle-heizwert Frage 1 '
+             '(«Kachelofen» — die Regel trifft Zusammensetzungen, stand nicht in der Liste); «ppm, parts per million,» in drei Clips. '
+             'abgleich.py: geschwister() nahm das erste Nachbarverzeichnis mit mathlib.js — neben tals-mathe liegt jetzt sek1-mathe, '
+             'alphabetisch davor, und das Skript brach mit FileNotFoundError ab. Jetzt bevorzugt es den gleichen Namensanfang (tals-). '
+             'In Mathe: diese Datei uebernehmen (dort greift dieselbe Falle nicht, schadet aber nicht) und diesen Eintrag streichen.'),
 ]
 FACH = {
     'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',
@@ -180,12 +180,13 @@ def geschwister(root, vorgabe=None):
     hier = 'physiklib.js' if os.path.exists(os.path.join(root, 'physiklib.js')) else 'mathlib.js'
     dort = 'mathlib.js' if hier == 'physiklib.js' else 'physiklib.js'
     neben = os.path.dirname(root)
-    for name in sorted(os.listdir(neben)):
-        kandidat = os.path.join(neben, name)
-        if kandidat != root and os.path.isdir(kandidat) \
-                and os.path.exists(os.path.join(kandidat, dort)):
-            return kandidat
-    return None
+    treffer = [os.path.join(neben, name) for name in sorted(os.listdir(neben))
+               if os.path.join(neben, name) != root
+               and os.path.exists(os.path.join(neben, name, dort))]
+    # Gleicher Namensanfang zuerst (tals-): sek1-mathe hat auch eine mathlib.js
+    vorn = os.path.basename(root).split('-')[0] + '-'
+    treffer.sort(key=lambda k: not os.path.basename(k).startswith(vorn))
+    return treffer[0] if treffer else None
 
 
 def ohne_daten(zeilen, namen):
