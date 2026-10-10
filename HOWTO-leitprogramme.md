@@ -236,7 +236,10 @@ Phasen (`<p class="phase">`) über den Abschnitten — **kein** Fahrplan unter d
 
 **Text aufs Nötigste.** Clip-Karten nur mit Titel und Dauer (keine Unterzeile). Lernziel ein
 Satz, keine Einleitungsabsätze, keine Hinweise, die der Clip schon gibt; «Mehr dazu» als eine
-Zeile mit Link.
+Zeile mit Link. Gibt es zum Stoff des Kapitels ein Werkzeug in `werkzeuge/`, gehört der Verweis
+darauf in diese Zeile — je Aufgabenart des Werkzeugs höchstens einmal im ganzen Leitprogramm, im
+Kapitel, zu dem sie passt (Regel des Auftraggebers, `HOWTO-werkzeuge.md` §5; Vorbild Leitprogramm
+Elektrizität, Kapitel 4 bis 6).
 
 Am Ende des Leitprogramms: **Gesamttest und Bewertungspaket als PDF** (§9).
 
