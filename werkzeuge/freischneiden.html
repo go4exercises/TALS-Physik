@@ -935,9 +935,7 @@ function fsV(ctx, x, y, w, len, text) {               // Geschwindigkeit: grau, 
   ctx.fillText(text || 'v', x2 + 6 * Math.cos(fsRad(w)) - 4, y2 - 8 * Math.sin(fsRad(w)) + 4);
 }
 
-/* Szenerie. Liefert den Schwerpunkt des Körpers {bx, by, r} und die echten Angriffspunkte
-   an = {N, R: Berührpunkt mit der Unterlage; S: [je Seil der Befestigungspunkt]; F: Feder}.
-   Gespiegelt wird über X(). */
+/* Szenerie. Liefert den Schwerpunkt des Körpers {bx, by, r}. Gespiegelt wird über X(). */
 function fsSzenerie(ctx, W, H, A) {
   const sp = !!A.sp, X = x => sp ? W - x : x, p = A.p;
   ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
@@ -952,7 +950,7 @@ function fsSzenerie(ctx, W, H, A) {
       fsV(ctx, X(bx - w / 2 - 14 * k), by - h / 2 - 22 * k, fsSpiegel(0, sp), 46 * k);
     }
     fsKasten(ctx, X(bx), by, w, h, 0, A.bild === 'gezogen' && p.phi ? '#e8eef5' : null);
-    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 8, an:{ N:[X(bx), yB], R:[X(bx), yB], T:[1, 0], d:0.3 * w, S:[[X(bx + w / 2), by]] } };
+    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 8 };
   }
   if (A.bild === 'lampe') {
     const by = H * 0.62, bx = W / 2, r = 26 * k;
@@ -967,7 +965,7 @@ function fsSzenerie(ctx, W, H, A) {
     });
     fsFlaeche(ctx, [[bx - r, by + r * 0.4], [bx + r, by + r * 0.4], [bx + r * 0.45, by - r * 0.6], [bx - r * 0.45, by - r * 0.6]], '#f3e3c8', '#8A4A0E');
     ctx.beginPath(); ctx.arc(bx, by + r * 0.55, r * 0.35, 0, Math.PI); ctx.fillStyle = '#ffe9a8'; ctx.fill();
-    return { bx, by, r:r + 10, an:{ S:(p.seile || [90]).map(() => [bx, by - r * 0.6]) } };
+    return { bx, by, r:r + 10 };
   }
   if (A.bild === 'feder') {
     const yD = 22, by = H * 0.68, bx = W / 2, w = 60 * k, h = 44 * k, top = by - h / 2;
@@ -977,7 +975,7 @@ function fsSzenerie(ctx, W, H, A) {
     pts.push([bx, top - 10], [bx, top]);
     fsLinie(ctx, pts, '#555', 2);
     fsKasten(ctx, bx, by, w, h, 0);
-    return { bx, by, r:Math.max(w, h) / 2 + 8, an:{ F:[bx, top] } };
+    return { bx, by, r:Math.max(w, h) / 2 + 8 };
   }
   if (A.bild === 'wurf') {
     const yB = H * 0.88, x0 = W * 0.16, bx = W * 0.5, by = H * 0.48, r = 13 * k;
@@ -988,7 +986,7 @@ function fsSzenerie(ctx, W, H, A) {
     const t = 0.42, bxB = x0 + W * 0.7 * t, byB = yB - 20 - (yB - 20 - H * 0.3) * 4 * t * (1 - t);
     ctx.beginPath(); ctx.arc(X(bxB), byB, r, 0, 2 * Math.PI); ctx.fillStyle = '#f3e3c8'; ctx.fill(); ctx.strokeStyle = '#8A4A0E'; ctx.lineWidth = 1.5; ctx.stroke();
     fsV(ctx, X(bxB), byB, fsSpiegel(20, sp), 70 * k);
-    return { bx:X(bxB), by:byB, r:r + 9, an:{} };
+    return { bx:X(bxB), by:byB, r:r + 9 };
   }
   if (A.bild === 'rampe') {
     const al = p.al, s = Math.sin(fsRad(al)), c = Math.cos(fsRad(al));
@@ -1011,7 +1009,7 @@ function fsSzenerie(ctx, W, H, A) {
       const d = h / 2 + 46 * k, vx = bx - s * d - c * 22 * k * p.bewegt, vy = by - c * d + s * 22 * k * p.bewegt;
       fsV(ctx, X(vx), vy, fsSpiegel(p.bewegt > 0 ? al : 180 + al, sp), 44 * k);
     }
-    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 8, an:{ N:[X(sx), sy], R:[X(sx), sy], T:[sp ? -c : c, -s], d:0.3 * w, S:[[X(bx + c * w / 2), by - s * w / 2]] } };
+    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 8 };
   }
   if (A.bild === 'wagen') {
     const yB = H * 0.8, rr = 15 * k, by0 = yB - 2 * rr - 4;       // Ladefläche
@@ -1025,7 +1023,7 @@ function fsSzenerie(ctx, W, H, A) {
     fsV(ctx, X(xR + 46 * k), by0 - 80 * k, fsSpiegel(0, sp), 48 * k);
     ctx.font = '12px "Source Sans 3", sans-serif'; ctx.fillStyle = '#7a7a7a';
     ctx.fillText(A.zustand === 'wird schneller' ? 'fährt an' : 'bremst', X(xR + 46 * k) - (sp ? 60 : 0), by0 - 92 * k);
-    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 8, an:{ N:[X(bx), by0], R:[X(bx), by0], T:[1, 0], d:0.3 * w } };
+    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 8 };
   }
   if (A.bild === 'karussell') {
     const th = p.th, yB = H * 0.94, xA = W * 0.24, yTop = H * 0.12, arm = W * 0.2, Lk = H * 0.34;
@@ -1042,9 +1040,9 @@ function fsSzenerie(ctx, W, H, A) {
     ctx.beginPath(); ctx.arc(X(bx), by - h / 2 - 9 * k, 8 * k, 0, 2 * Math.PI); ctx.fillStyle = '#f3e3c8'; ctx.fill(); ctx.strokeStyle = '#8A4A0E'; ctx.stroke();
     // Bahn als flache Ellipse
     ctx.beginPath(); ctx.ellipse(X(xA), by + 6, bx - xA, 14 * k, 0, 0, 2 * Math.PI); ctx.strokeStyle = '#c9c9c9'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
-    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 12, an:{ S:[[X(bx - h / 2 * Math.tan(fsRad(th))), by - h / 2]] } };
+    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 12 };
   }
-  return { bx:W / 2, by:H / 2, r:30, an:{} };
+  return { bx:W / 2, by:H / 2, r:30 };
 }
 
 function fsZeichne(loesung) {
@@ -1147,19 +1145,13 @@ function fsLoesung(nurZeigen) {
     '<div class="formel-live"><div class="fl-label">Beträge der Kräfte</div>' + zeilen + '</div>' +
     '<p class="fs-bedienhinweis">Das Bild oben zeigt jetzt die Musterlösung, die Pfeillängen im selben Massstab.</p></div>' +
     '<div><div class="fs-plan-titel">Kräfteplan: Spitze an Fuss</div><div class="cv-wrap"><canvas id="fs-plan"></canvas></div>' +
-    '<p class="fs-bedienhinweis">' + (A.res.F ? 'Der Plan schliesst sich nicht: Die gestrichelte Lücke ist die resultierende Kraft.' : 'Der Plan schliesst sich: Die Kräfte heben sich auf.') + '</p></div></div>' +
-    (A.kraefte.length > 1 ? '<div class="fs-plan-titel" style="margin-top:14px">Dieselben Kräfte mit Angriffspunkt an der Berührstelle</div>' +
-    '<div class="cv-wrap"><canvas id="fs-angriff"></canvas></div>' +
-    '<p class="fs-bedienhinweis">So zeichnen viele Lehrbücher: Eine Druckkraft wie \\(F_N\\) endet mit der Spitze an der Berührfläche, ' +
-    'Seil- und Reibungskraft beginnen dort, wo Seil oder Unterlage den Körper berühren, die Gewichtskraft im Schwerpunkt. ' +
-    'Richtung und Betrag sind dieselben wie oben. Im Modell Massenpunkt schiebt man alle Pfeile in den Schwerpunkt; ' +
-    'für Drehungen zählt der echte Angriffspunkt (<a href="../themen/p4-4-statik.html#drehmoment">4.4 Drehmoment</a>).</p>' : '');
+    '<p class="fs-bedienhinweis">' + (A.res.F ? 'Der Plan schliesst sich nicht: Die gestrichelte Lücke ist die resultierende Kraft.' : 'Der Plan schliesst sich: Die Kräfte heben sich auf.') + '</p></div></div>';
   const L = $('fs-loesung');
   if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([L]).then(() => {
     // jedes Glied als inline-block, damit umgebrochene Zeilen die Höhe der Brüche behalten (wie flTex)
     L.querySelectorAll('.fl-eq mjx-container').forEach(c => { c.style.display = 'inline-block'; c.style.margin = '2px 0'; });
   }).catch(() => {});
-  fsZeichne(true); fsPlan(); fsAngriff();
+  fsZeichne(true); fsPlan();
 }
 
 function fsPlan() {
@@ -1186,46 +1178,6 @@ function fsPlan() {
     fsLinie(ctx, [[x1, y1], [x2, y2]], '#1a1a1a', 2, [6, 4]); drawArrow(ctx, x1 + (x2 - x1) * 0.9, y1 + (y2 - y1) * 0.9, x2, y2, '#1a1a1a', 2, 10);
     fsEtikett(ctx, (x1 + x2) / 2 - 18, (y1 + y2) / 2 + 16, 'F', 'res', '#1a1a1a');
   }
-}
-
-/* Lösung zum zweiten: Pfeile an den echten Angriffspunkten, Druckkraft mit der Spitze an der Fläche */
-function fsAngriff() {
-  const A = zustand.A, el = $('fs-angriff'); if (!el) return;
-  const { ctx, W, H } = initCanvas('fs-angriff', geo ? geo.H : 320);
-  const k = fsSzenerie(ctx, W, H, A), an = k.an || {};
-  const Fmax = Math.max(...A.kraefte.map(x => x.F));
-  let iS = 0;
-  const lage = A.kraefte.map(x => {                       // Anfang und Ende je Pfeil (Länge 1)
-    const u = [Math.cos(fsRad(x.w)), -Math.sin(fsRad(x.w))], rel = Math.max(0.2, x.F / Fmax);
-    if (x.typ === 'N' && an.N) {                          // drückt: Spitze an der Fläche
-      // Die Normalkraft wirkt über die ganze Berührfläche; die Spitze sitzt etwas seitlich,
-      // auf der Seite ohne Reibungspfeil, damit sie F_G (lotrecht durch den Schwerpunkt) nicht verdeckt
-      const R = A.kraefte.find(y => y.typ === 'R'), T = an.T || [1, 0];
-      const proj = R ? Math.cos(fsRad(R.w)) * T[0] - Math.sin(fsRad(R.w)) * T[1] : -1;
-      // Schräge Normalkraft (Rampe): Spitze auf die Seite, zu der ihr Fuss hinausläuft, sonst kreuzt sie F_G
-      const sg = Math.abs(u[0]) > 0.05 ? (Math.sign(-u[0]) === Math.sign(T[0]) ? 1 : -1) : (proj > 0 ? -1 : 1), d = an.d || 0;
-      return { x, u, rel, ende:[an.N[0] + sg * d * T[0], an.N[1] + sg * d * T[1]], seite:[sg * T[0], sg * T[1]] };
-    }
-    const p = x.typ === 'S' && an.S ? an.S[Math.min(iS++, an.S.length - 1)] : (an[x.typ] || [k.bx, k.by]);
-    return { x, u, rel, start:p };
-  });
-  // gemeinsamer Massstab: so lang wie möglich, alles samt Etikett im Bild
-  const passt = L => lage.every(l => { const a = l.ende ? [l.ende[0] - l.u[0] * L * l.rel, l.ende[1] - l.u[1] * L * l.rel] : l.start;
-    const e = l.ende ? l.ende : [l.start[0] + l.u[0] * L * l.rel, l.start[1] + l.u[1] * L * l.rel];
-    return [a, [e[0] + 18 * l.u[0], e[1] + 18 * l.u[1]], [a[0] - 18 * l.u[0], a[1] - 18 * l.u[1]]].every(([px, py]) => px > 14 && px < W - 14 && py > 10 && py < H - 10); });
-  let L = Math.min(W, H) * 0.34; while (L > 30 && !passt(L)) L -= 4;
-  ctx.beginPath(); ctx.arc(k.bx, k.by, 4, 0, 2 * Math.PI); ctx.fillStyle = '#1a1a1a'; ctx.fill();
-  lage.forEach(l => {
-    const K = FS_KRAEFTE[l.x.typ], len = L * l.rel, nm = l.x.name || [K.sym, K.sub];
-    const a = l.ende ? [l.ende[0] - l.u[0] * len, l.ende[1] - l.u[1] * len] : l.start;
-    const e = l.ende ? l.ende : [a[0] + l.u[0] * len, a[1] + l.u[1] * len];
-    drawArrow(ctx, a[0], a[1], e[0], e[1], K.farbe, 3, 11);
-    ctx.beginPath(); ctx.arc(l.ende ? e[0] : a[0], l.ende ? e[1] : a[1], 3, 0, 2 * Math.PI); ctx.fillStyle = K.farbe; ctx.fill();
-    // F_N seitlich neben die Pfeilmitte (weg von F_G), sonst hinter die Spitze
-    const [tx, ty] = l.seite ? [(a[0] + e[0]) / 2 + 20 * l.seite[0], (a[1] + e[1]) / 2 + 20 * l.seite[1]]
-                             : [e[0] + 16 * l.u[0], e[1] + 16 * l.u[1]];
-    fsEtikett(ctx, tx, ty, nm[0], nm[1], K.farbe);
-  });
 }
 
 function fsStand() {
@@ -1287,7 +1239,7 @@ $('fs-pruefen').addEventListener('click', fsPruefen);
 $('fs-tipp').addEventListener('click', fsTipp);
 $('fs-zeigen').addEventListener('click', () => fsLoesung(true));
 $('fs-neu').addEventListener('click', fsNeueAufgabe);
-let fsRz; window.addEventListener('resize', () => { clearTimeout(fsRz); fsRz = setTimeout(() => { fsZeichne(zustand.phase === 'loesung'); if (zustand.phase === 'loesung') { fsPlan(); fsAngriff(); } }, 150); });
+let fsRz; window.addEventListener('resize', () => { clearTimeout(fsRz); fsRz = setTimeout(() => { fsZeichne(zustand.phase === 'loesung'); if (zustand.phase === 'loesung') fsPlan(); }, 150); });
 
 /* Testhaken für Prüfskripte (.claude/tools): eine bestimmte Szene zeigen, Musterlösung einsetzen */
 window.__fs = {
