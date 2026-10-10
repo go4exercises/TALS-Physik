@@ -45,6 +45,17 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `rechtliches.html` das ausdrücklich fest. Einheiten und Faktoren stehen dort in
   **einer** Datenstruktur (`ET_GRUPPEN`), aus der Aufgaben, Diagnosen und die
   Umrechnungstabellen zugleich entstehen; Faktoren nie an zweiter Stelle notieren.
+- `werkzeuge/freischneiden.html` — Trainer Freischneiden (4.2/4.4, seit 10.10.2026): Kräfte
+  selbst einzeichnen (Palette mit echten Kräften **und Fallen**: Bewegungs-, Hangabtriebs-,
+  Zentrifugalkraft, Kraft auf die Unterlage), Richtung im 15°-Raster, Diagnose je Fehlerbild,
+  danach die Frage nach der Resultierenden und die Lösung mit Rechenweg und Kräfteplan.
+  14 Szenen in drei Stufen. Alles in drei Strukturen: `FS_KRAEFTE`, `FS_DIAGNOSE`,
+  `FS_SZENEN` (jede Szene baut aus Zufallswerten ihre Musterlösung). Selbsttest
+  `fsSelbsttest` über `scripts/verify_freischneiden.js` im Pre-Flight: Musterlösung richtig,
+  Gleichgewicht bzw. Resultierende passt zur Antwort, \(F_G = m g\), \(F_R = \mu F_N\),
+  \(F_R = m a\), jeder typische Fehler bekommt seine Diagnose. Testhaken `window.__fs`
+  (`szene(id, seed)`, `muster()`, `mass()` prüft, ob Pfeile samt Etikett im Bild liegen).
+  Kein `localStorage`.
 - `themen/` — 10 Themenseiten: `p4-1`…`p4-5` (Mechanik), `p5-1`…`p5-3` (Thermo),
   `p6-1`,`p6-2` (Wellen/Elektrizität). Alle inhaltlich fertig und auditiert.
   Dazu `p6-1a-wellenexperimente.html` — Vertiefung zu 6.1, im RLP nicht als

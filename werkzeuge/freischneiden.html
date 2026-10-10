@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freischneiden — Physik begreifbar</title>
+<!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<meta name="description" content="Freischneiden üben: Kräfte auf Kiste, Rampe, Seil und Karussell selbst einzeichnen, mit Rückmeldung zu typischen Fehlern und Frage nach der resultierenden Kraft.">
+<meta name="author" content="Raphael Arnold Kohler">
+<link rel="canonical" href="https://physik.begreifbar.ch/werkzeuge/freischneiden.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Physik begreifbar">
+<meta property="og:locale" content="de_CH">
+<meta property="og:title" content="Freischneiden — Physik begreifbar">
+<meta property="og:description" content="Freischneiden üben: Kräfte auf Kiste, Rampe, Seil und Karussell selbst einzeichnen, mit Rückmeldung zu typischen Fehlern und Frage nach der resultierenden Kraft.">
+<meta property="og:url" content="https://physik.begreifbar.ch/werkzeuge/freischneiden.html">
+<meta property="og:image" content="https://physik.begreifbar.ch/og-bild.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://physik.begreifbar.ch/werkzeuge/freischneiden.html#inhalt",
+   "url": "https://physik.begreifbar.ch/werkzeuge/freischneiden.html",
+   "name": "Freischneiden — Physik begreifbar",
+   "description": "Freischneiden üben: Kräfte auf Kiste, Rampe, Seil und Karussell selbst einzeichnen, mit Rückmeldung zu typischen Fehlern und Frage nach der resultierenden Kraft.",
+   "inLanguage": "de-CH",
+   "isAccessibleForFree": true,
+   "license": "https://creativecommons.org/licenses/by-nc/4.0/deed.de",
+   "creator": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "publisher": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "dateModified": "2026-08-01",
+   "isPartOf": {
+    "@id": "https://physik.begreifbar.ch/#website"
+   },
+   "about": [
+    {
+     "@type": "DefinedTerm",
+     "name": "Freischneiden"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Kräfte"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Normalkraft"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Reibungskraft"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Resultierende Kraft"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Schiefe Ebene"
+    }
+   ],
+   "keywords": "Freischneiden, Kräfte, Normalkraft, Reibungskraft, Resultierende Kraft, Schiefe Ebene",
+   "learningResourceType": "Werkzeug",
+   "educationalLevel": "Sekundarstufe II — Berufsmaturität (Schweiz)",
+   "typicalAgeRange": "16-20",
+   "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": [
+     "student",
+     "teacher"
+    ]
+   },
+   "interactivityType": "active"
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://physik.begreifbar.ch/#website",
+   "url": "https://physik.begreifbar.ch/",
+   "name": "Physik begreifbar"
+  }
+ ]
+}
+</script>
+<!-- SEO:ENDE -->
+<link rel="stylesheet" href="../schriften.css">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']] },
+  svg: { fontCache:'global', scale:1.05 },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="../vendor/mathjax/tex-svg.js"></script>
+
+<style>
+/* ── Seitenspezifisch nur der Trainer ──
+   Palette der Kräfte, Liste der gezeichneten Kräfte, Aufgabenkopf, Rückmeldung
+   und Lösungsteil. Bild und Bedienung stehen in .anim-layout (STYLEGUIDE §5.11). */
+.fs-aufgabe { background:var(--papier); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein);
+  border-radius:8px; padding:10px 14px; margin-bottom:12px; }
+.fs-aufgabe-kopf { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin-bottom:4px; }
+.fs-aufgabe-titel { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); }
+.fs-zustand { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
+  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
+.fs-aufgabe p { margin:0; font-size:0.9rem; }
+.fs-feld-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--bernstein); margin:2px 0 6px; }
+.fs-palette { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:12px; }
+.fs-pal { font-family:var(--sans); font-size:0.78rem; padding:5px 10px; border-radius:16px; cursor:pointer;
+  border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
+.fs-pal:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
+.fs-pal:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.fs-liste { display:flex; flex-direction:column; gap:5px; margin-bottom:8px; }
+.fs-leer { font-size:0.78rem; color:var(--tinte-2); font-style:italic; }
+.fs-zeile { display:flex; align-items:center; gap:6px; padding:4px 6px 4px 8px; border:1.5px solid var(--linie);
+  border-radius:7px; background:var(--weiss); }
+.fs-zeile.gewaehlt { border-color:var(--bernstein); background:var(--bernstein-hell); }
+.fs-zeile .fs-name { flex:1; min-width:0; font-size:0.82rem; cursor:pointer; background:none; border:none; text-align:left;
+  font-family:var(--sans); color:var(--tinte); padding:3px 0; }
+.fs-farbe { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+.fs-winkel { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); min-width:34px; text-align:right; }
+.fs-mini { font-family:var(--mono); font-size:0.8rem; width:30px; height:30px; border-radius:6px; cursor:pointer;
+  border:1px solid var(--linie); background:var(--papier); color:var(--tinte); padding:0; }
+.fs-mini:hover { border-color:var(--bernstein-rand); }
+.fs-bedienhinweis { font-size:0.74rem; color:var(--tinte-2); line-height:1.4; margin:4px 0 0; }
+.fs-rueck { margin-top:12px; }
+.fs-rueck .block { margin:0 0 8px; }
+.fs-rueck ul { margin:4px 0 0; padding-left:20px; }
+.fs-rueck li { margin:3px 0; }
+.fs-res-wahl { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.fs-res-wahl button { text-align:left; font-family:var(--sans); font-size:0.86rem; padding:8px 12px; border-radius:7px;
+  border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); cursor:pointer; }
+.fs-res-wahl button:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
+.fs-res-wahl button.richtig { border-color:var(--gruen); background:var(--gruen-hell); }
+.fs-res-wahl button.falsch { border-color:var(--rot); background:var(--rot-hell); }
+.fs-res-wahl button:disabled { cursor:default; }
+.fs-loesung-raster { display:grid; grid-template-columns:minmax(0,1fr) 240px; gap:14px; align-items:start; margin-top:10px; }
+.fs-plan-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--tinte-2); margin-bottom:4px; }
+.fs-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
+#fs-cv { touch-action:none; cursor:crosshair; }
+@media (max-width: 700px) {
+  .fs-loesung-raster { grid-template-columns:minmax(0,1fr); }
+  .fs-loesung-raster .formel-live { padding:12px 8px; }   /* breitestes Glied (Bruch) passt ab 360 px */
+}
+@media (max-width: 359px) {
+  .fs-loesung-raster .formel-live .fl-eq { font-size:0.88rem; }   /* und bei 320 px mit etwas kleinerem Satz */
+}
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ TITEL ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">WZ · Werkzeuge</div>
+  <h1 class="pt-h1">Freischneiden</h1>
+  <p class="pt-untertitel">Jede Rechnung mit Kräften beginnt mit einem Bild: Welche Kräfte wirken auf genau diesen Körper, und wohin zeigen sie? Hier zeichnest du sie selbst ein, bekommst Rückmeldung zu typischen Fehlern und schliesst aus den Kräften auf die Bewegung. Erklärt werden die Kräfte auf den Themenseiten <a href="../themen/p4-4-statik.html#resultierende">4.4 Resultierende mehrerer Kräfte</a> und <a href="../themen/p4-2-dynamik.html#schiefe-ebene">4.2 Schiefe Ebene</a>.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">🧭 Übungsseite zu den Lerngebieten 4.2 und 4.4 — geübt werden diese Kompetenzen aus dem RLP-BM 2030</div>
+  <ul>
+    <li>die wesentlichen Kräfte, die auf einen Festkörper im Gleichgewicht wirken, aufzählen und charakterisieren (Schwerkraft, Auflagerkraft, Reibung)</li>
+    <li>die Gesamtheit der auf einen Körper wirkenden Kräfte darstellen und daraus die resultierende Kraft bestimmen</li>
+    <li>das zweite Newton’sche Gesetz in einfachen Fällen (gleichmässig beschleunigte geradlinige Bewegung und gleichförmige Kreisbewegung) anwenden</li>
+  </ul>
+</div>
+
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+  <ul>
+    <li>Ich kann einen Körper gedanklich aus seiner Umgebung herauslösen und alle Kräfte einzeichnen, die <em>auf ihn</em> wirken — nicht mehr und nicht weniger.</li>
+    <li>Ich kann zu jeder Kraft sagen, welcher andere Körper sie ausübt.</li>
+    <li>Ich kann die Richtung von Gewichtskraft, Normalkraft, Reibungskraft, Seilkraft und Federkraft begründen, auch auf der schiefen Ebene.</li>
+    <li>Ich kann aus dem Bewegungszustand schliessen, ob die resultierende Kraft null ist und wohin sie sonst zeigt.</li>
+    <li>Ich erkenne Kräfte, die es nicht gibt: «Bewegungskraft», Hangabtriebskraft als zusätzliche Kraft, Zentrifugalkraft von aussen gesehen.</li>
+  </ul>
+  </div>
+</details>
+
+<div class="block block-tipp">
+  <div class="block-titel">💡 Lieber geführt durcharbeiten?</div>
+  <p>Die Kräfte selbst, ihre Zerlegung und das Gleichgewicht erarbeiten die Leitprogramme <a href="../leitprogramme/leitprogramm-statik.html">«Statik»</a> und <a href="../leitprogramme/leitprogramm-dynamik.html">«Dynamik»</a>. Dieser Trainer übt den ersten Schritt jeder Aufgabe dort: das Freischneiden.</p>
+</div>
+
+<div class="block block-merksatz">
+  <div class="block-titel">📘 Freischneiden in vier Schritten</div>
+  <ol>
+    <li><strong>Körper wählen.</strong> Nur er zählt. Kräfte, die er selbst auf andere ausübt, gehören nicht ins Bild.</li>
+    <li><strong>Gewichtskraft.</strong> Die Erde zieht immer, aus der Ferne, senkrecht nach unten.</li>
+    <li><strong>Jede Berührung prüfen.</strong> Eine Unterlage drückt senkrecht zu ihrer Fläche (Normalkraft) und reibt entlang der Fläche, wenn der Körper darauf rutscht oder rutschen würde. Ein Seil zieht entlang des Seils. Eine Feder zieht oder drückt entlang ihrer Achse. Ohne Berührung keine weitere Kraft.</li>
+    <li><strong>Bewegung prüfen.</strong> Ruht der Körper oder bewegt er sich geradlinig mit konstanter Geschwindigkeit, ist die resultierende Kraft null. Wird er schneller, langsamer oder fährt er im Kreis, zeigt sie in Richtung der Beschleunigung: \(\vec{F}_{\text{res}} = m \cdot \vec{a}\).</li>
+  </ol>
+  <p>Alle Kräfte setzen wir hier im Schwerpunkt an (Modell Massenpunkt). Wo der Angriffspunkt zählt, weil sich ein Körper drehen könnte, geht es um Drehmomente: <a href="../themen/p4-4-statik.html#drehmoment">4.4 Drehmoment einer Kraft</a>.</p>
+</div>
+
+
+<!-- ══════════════ TRAINER ══════════════ -->
+<h2 id="trainer">Der Trainer</h2>
+
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+      <h3 id="freischneiden-trainer">Kräfte einzeichnen, prüfen, auf die Bewegung schliessen</h3>
+      <div class="anim-hinweis links">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zum Trainer Freischneiden">💡 Worauf achten?</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Worauf achten?</span>
+          <div class="ah-text"><ul><li>Zähle vor dem Zeichnen, was den Körper berührt. Jede Berührung ist ein Kandidat für eine Kraft, sonst gibt es nur noch die Gewichtskraft.</li><li>Nicht jede Kraft in der Auswahl gibt es wirklich. Frage bei jeder: Welcher Körper übt sie aus?</li><li>Die Länge der Pfeile wird nicht bewertet, nur Art und Richtung. Die massstäblichen Längen zeigt die Lösung.</li></ul></div>
+        </div>
+      </div>
+      <div class="anim-hinweis rechts">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zum Trainer Freischneiden">✓ Erkenntnis</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Erkenntnis</span>
+          <div class="ah-text"><ul><li>Jede Kraft hat einen Verursacher. Eine Kraft ohne Verursacher, etwa eine «Bewegungskraft», gibt es nicht.</li><li>Für Bewegung braucht es keine Kraft, nur für eine Änderung der Bewegung: Bei konstanter Geschwindigkeit heben sich die Kräfte auf.</li><li>Die Normalkraft steht senkrecht zur Unterlage, die Gewichtskraft immer lotrecht. Auf der schiefen Ebene sind das zwei verschiedene Richtungen.</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="widget-body">
+
+    <div class="typ-btns" id="fs-stufen" role="group" aria-label="Stufe wählen">
+      <button class="typ-btn aktiv" data-stufe="1">Stufe 1: Einstieg</button>
+      <button class="typ-btn" data-stufe="2">Stufe 2: Unterlage und Reibung</button>
+      <button class="typ-btn" data-stufe="3">Stufe 3: Seile, Fahrzeuge, Kreis</button>
+      <button class="typ-btn" data-stufe="0">Gemischt</button>
+    </div>
+
+    <div class="fs-aufgabe" id="fs-aufgabe" aria-live="polite"></div>
+
+    <div class="anim-layout">
+      <div class="anim-layout-bild">
+        <div class="cv-wrap"><canvas id="fs-cv" tabindex="0" aria-label="Bild der Aufgabe mit dem freigeschnittenen Körper und den eingezeichneten Kräften"></canvas></div>
+        <p class="fs-bedienhinweis">Richtung setzen: Kraft in der Liste antippen, dann im Bild dorthin tippen, wohin sie zeigen soll, oder die Pfeilspitze ziehen. Die Richtung rastet in Schritten von 15° ein.</p>
+      </div>
+      <div class="anim-layout-bedienung">
+        <div class="fs-feld-titel">Kraft hinzufügen</div>
+        <div class="fs-palette" id="fs-palette"></div>
+        <div class="fs-feld-titel">Eingezeichnete Kräfte</div>
+        <div class="fs-liste" id="fs-liste"></div>
+      </div>
+    </div>
+
+    <div class="fs-rueck" id="fs-rueck" aria-live="polite"></div>
+    <div id="fs-res"></div>
+    <div id="fs-loesung"></div>
+
+  </div>
+  <div class="btn-row">
+    <button class="play-btn" id="fs-pruefen">Prüfen</button>
+    <button class="typ-btn" id="fs-tipp">Tipp</button>
+    <button class="typ-btn" id="fs-zeigen">Lösung zeigen</button>
+    <button class="typ-btn" id="fs-neu">Neue Aufgabe</button>
+    <span class="fs-stand" id="fs-stand"></span>
+  </div>
+</div>
+
+
+<!-- ══════════════ KRÄFTE ══════════════ -->
+<h2 id="kraefte">Die Kräfte im Freischnitt</h2>
+
+<p>Jede Kraft, die in einem Freischnitt steht, wird von einem anderen Körper ausgeübt. Die Gewichtskraft ist die einzige Fernkraft in diesen Aufgaben; alle anderen brauchen eine Berührung.</p>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Kraft</th><th>Zeichen</th><th>ausgeübt von</th><th>Richtung</th></tr></thead>
+  <tbody>
+    <tr><td>Gewichtskraft</td><td>\(F_G\)</td><td>Erde (aus der Ferne)</td><td>lotrecht nach unten, auch auf der schiefen Ebene</td></tr>
+    <tr><td>Normalkraft</td><td>\(F_N\)</td><td>Unterlage</td><td>senkrecht zur Unterlage; sie drückt den Körper von der Unterlage weg</td></tr>
+    <tr><td>Reibungskraft</td><td>\(F_R\)</td><td>Unterlage</td><td>entlang der Unterlage, gegen die Bewegung relativ zur Unterlage oder gegen die Bewegung, die ohne sie einsetzen würde</td></tr>
+    <tr><td>Seilkraft</td><td>\(S\), \(S_1\), \(S_2\)</td><td>Seil, Kette, Schnur</td><td>entlang des Seils, vom Körper weg (ein Seil kann nur ziehen)</td></tr>
+    <tr><td>Federkraft</td><td>\(F_F\)</td><td>Feder</td><td>entlang der Feder, zurück in Richtung Ruhelänge</td></tr>
+  </tbody>
+</table>
+
+<p>Die Normalkraft auf einer Unterlage ist die Auflagerkraft, die der Rahmenlehrplan nennt. Auf der Themenseite 4.4 heissen die Auflagerkräfte eines Balkens \(F_A\) und \(F_B\).</p>
+
+
+<!-- ══════════════ FEHLER ══════════════ -->
+<h2 id="fehler">Kräfte, die es nicht gibt</h2>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ «Bewegungskraft» in Bewegungsrichtung</div>
+  <p>Ein Körper braucht keine Kraft, um sich zu bewegen, nur eine, um seine Bewegung zu <em>ändern</em> (Trägheitsgesetz). Der geworfene Ball fliegt weiter, weil er schon schnell ist, nicht weil ihn etwas schiebt. Nach dem Abwurf wirkt auf ihn nur noch die Gewichtskraft.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Hangabtriebskraft zusätzlich zur Gewichtskraft</div>
+  <p>Die Hangabtriebskraft \(F_H = F_G \cdot \sin\alpha\) ist keine eigene Kraft, sondern ein Teil der Gewichtskraft, ihre Komponente entlang der Ebene. Wer \(F_G\) und \(F_H\) einzeichnet, zählt das Gewicht doppelt. Ins Bild gehört entweder \(F_G\) oder seine zwei Komponenten, nie beides.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Zentrifugalkraft auf dem Karussell</div>
+  <p>Wer mitfährt, fühlt sich nach aussen gedrückt. Von aussen betrachtet wirkt auf den Sitz aber nur die Kette und die Gewichtskraft; zusammen ergeben sie eine Kraft <em>zur Mitte hin</em>, die den Sitz auf der Kreisbahn hält. Eine Kraft nach aussen hat keinen Verursacher.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Die Kraft des Körpers auf die Unterlage</div>
+  <p>Die Kiste drückt auf den Boden, und der Boden drückt auf die Kiste zurück (Wechselwirkungsgesetz). Ins Bild der Kiste gehört nur die zweite Kraft. Die erste wirkt auf den Boden und erscheint erst, wenn man den Boden freischneidet.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Normalkraft lotrecht nach oben auf der schiefen Ebene</div>
+  <p>Die Normalkraft steht senkrecht zur <em>Unterlage</em>, nicht senkrecht zum Erdboden. Auf einer Rampe mit dem Winkel \(\alpha\) ist sie um \(\alpha\) gegen die Lotrechte geneigt. Darum ist sie dort kleiner als die Gewichtskraft: \(F_N = F_G \cdot \cos\alpha\).</p>
+</div>
+
+
+<!-- ══════════════ ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<ul class="kernpunkte">
+  <li>Freischneiden heisst: einen Körper wählen und alle Kräfte einzeichnen, die andere Körper auf ihn ausüben.</li>
+  <li>Die Gewichtskraft wirkt immer. Jede weitere Kraft braucht eine Berührung: Unterlage, Seil, Feder.</li>
+  <li>Normalkraft senkrecht zur Unterlage, Reibung entlang der Unterlage, Seilkraft entlang des Seils vom Körper weg.</li>
+  <li>Reibung wirkt gegen die Bewegung relativ zur Unterlage. Darum zeigt sie beim anfahrenden Lieferwagen auf die Kiste in Fahrtrichtung.</li>
+  <li>Ruhe oder konstante Geschwindigkeit: \(F_{\text{res}} = 0\). Sonst zeigt \(F_{\text{res}} = m \cdot a\) in Richtung der Beschleunigung, nicht unbedingt in Richtung der Bewegung.</li>
+</ul>
+
+<div class="merksatz">
+  Keine Kraft ohne Verursacher: Zu jedem Pfeil im Freischnitt gehört ein anderer Körper, der ihn ausübt. Was keinen Verursacher hat, gehört nicht ins Bild.
+</div>
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<footer class="site-footer">
+  <p><strong>Physik begreifbar</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
+  <p>Werkzeuge · Freischneiden</p>
+  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
+  <p>Keine Cookies · Kein Tracking · Version 2.0 · Stand 10. Oktober 2026</p>
+</footer>
+<!-- FUSS:ENDE -->
+
+<script src="../nav.js"></script>
+<script src="../suche.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script>
+buildNav({ id:'werkzeuge' });
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   Trainer Freischneiden.
+   Alles, was den Trainer ausmacht, steht in drei Strukturen:
+     FS_KRAEFTE   — die Kräfte der Palette (echte und Fallen)
+     FS_DIAGNOSE  — die Rückmeldetexte je Fehlerbild
+     FS_SZENEN    — die Aufgaben; jede baut aus Zufallswerten ihre
+                    Musterlösung (Art, Richtung, Betrag, Rechenweg)
+   Aufgaben, Prüfung, Lösung und Selbsttest (fsSelbsttest) entstehen
+   daraus. Winkel in Grad, mathematisch: 0° = rechts, 90° = oben.
+   ═══════════════════════════════════════════════════════════════════ */
+(function () {
+'use strict';
+
+const FS_G = 9.81;                 // m/s², wie auf den Themenseiten
+const FS_RASTER = 15;              // Richtungen rasten in 15°-Schritten ein
+const FS_FALLE_FARBE = '#6b6b6b';
+
+const FS_KRAEFTE = {
+  B: { name:'Bewegungskraft',           falle:true, kurz:'Bewegung' },
+  F: { name:'Federkraft',               sym:'F', sub:'F', farbe:'#b85a00' },
+  G: { name:'Gewichtskraft',            sym:'F', sub:'G', farbe:'#b3261e' },
+  H: { name:'Hangabtriebskraft',        falle:true, kurz:'Hangabtrieb' },
+  U: { name:'Kraft auf die Unterlage',  falle:true, kurz:'auf Unterlage' },
+  N: { name:'Normalkraft',              sym:'F', sub:'N', farbe:'#1f5fa8' },
+  R: { name:'Reibungskraft',            sym:'F', sub:'R', farbe:'#2e7d32' },
+  S: { name:'Seilkraft',                sym:'S', sub:'',  farbe:'#6a3d9a' },
+  Z: { name:'Zentrifugalkraft',         falle:true, kurz:'Zentrifugal' },
+};
+const FS_PALETTE = ['B', 'F', 'G', 'H', 'U', 'N', 'R', 'S', 'Z'];   // nach Namen geordnet, Fallen nicht abgesetzt
+
+/* Rückmeldungen. Eine Szene kann einen Text in A.texte überschreiben. */
+const FS_DIAGNOSE = {
+  G_fehlt:      'Die Gewichtskraft fehlt. Die Erde zieht jeden Körper an, aus der Ferne und ohne Berührung. Sie gehört in jeden Freischnitt.',
+  G_richtung:   'Die Gewichtskraft zeigt immer lotrecht nach unten, zum Erdmittelpunkt.',
+  G_ebene:      'Die Gewichtskraft zeigt lotrecht nach unten, nicht senkrecht zur Rampe. Senkrecht zur Rampe steht die Normalkraft.',
+  N_fehlt:      'Die Normalkraft fehlt. Die Unterlage hält den Körper: Sie drückt ihn senkrecht zu ihrer Fläche zurück.',
+  N_ohne:       'Hier gibt es keine Normalkraft: Keine Unterlage berührt den Körper.',
+  N_lotrecht:   'Die Normalkraft steht senkrecht zur Unterlage, nicht lotrecht. Auf der Rampe ist sie um den Neigungswinkel gegen die Lotrechte geneigt.',
+  N_richtung:   'Die Normalkraft steht senkrecht zur Unterlage und drückt den Körper von ihr weg. Eine Unterlage kann drücken, aber nicht ziehen.',
+  R_fehlt:      'Die Reibungskraft fehlt.',
+  R_extra:      'Hier wirkt keine Reibungskraft.',
+  R_gegen:      'Die Reibungskraft zeigt in die falsche Richtung. Sie wirkt gegen die Bewegung des Körpers relativ zur Unterlage oder gegen die Bewegung, die ohne sie einsetzen würde.',
+  R_parallel:   'Die Reibungskraft wirkt entlang der Unterlage, parallel zur Berührfläche.',
+  S_fehlt:      'Eine Seilkraft fehlt. Jedes Seil, das am Körper hängt, zieht mit seiner eigenen Kraft.',
+  S_extra:      'Zu viele Seilkräfte: Jedes Seil am Körper gibt genau eine Seilkraft.',
+  S_ohne:       'Hier hängt kein Seil am Körper, also gibt es keine Seilkraft.',
+  S_druck:      'Ein Seil kann nur ziehen, nicht schieben: Die Seilkraft zeigt entlang des Seils vom Körper weg.',
+  S_richtung:   'Die Seilkraft zeigt genau entlang des Seils, vom Körper weg zum Aufhängepunkt.',
+  F_fehlt:      'Die Federkraft fehlt: Die gedehnte Feder zieht den Körper.',
+  F_ohne:       'Hier ist keine Feder am Körper, also gibt es keine Federkraft.',
+  F_richtung:   'Die gedehnte Feder zieht den Körper entlang ihrer Achse zu sich hin, hier nach oben.',
+  doppelt:      'Eine Kraft ist doppelt eingezeichnet. Jede Berührung liefert jede Kraftart nur einmal.',
+  B:            'Eine «Bewegungskraft» gibt es nicht. Wer ist ihr Verursacher? Ein Körper braucht keine Kraft, um sich zu bewegen, nur eine, um seine Bewegung zu ändern (Trägheitsgesetz).',
+  H:            'Die Hangabtriebskraft ist keine eigene Kraft, sondern ein Teil der Gewichtskraft, ihre Komponente entlang der Ebene. Wer \\(F_G\\) und \\(F_H\\) zeichnet, zählt das Gewicht doppelt.',
+  U:            'Diese Kraft wirkt auf die Unterlage, nicht auf den Körper. Im Freischnitt stehen nur Kräfte, die andere Körper auf den markierten Körper ausüben (Wechselwirkungsgesetz).',
+  Z:            'Eine Zentrifugalkraft hat keinen Verursacher. Von aussen gesehen wirkt nach aussen nichts; man spürt sie nur, wenn man mitfährt.',
+};
+
+/* Antworten auf die Frage nach der resultierenden Kraft */
+const FS_RES_TEXT = {
+  null:      'null: Die Kräfte heben sich auf',
+  unten:     'senkrecht nach unten',
+  oben:      'senkrecht nach oben',
+  bewegung:  'in Bewegungsrichtung',
+  gegen:     'gegen die Bewegungsrichtung',
+  hangab:    'hangabwärts, parallel zur Rampe',
+  hangauf:   'hangaufwärts, parallel zur Rampe',
+  vorn:      'nach vorn, in Fahrtrichtung',
+  hinten:    'nach hinten, gegen die Fahrtrichtung',
+  mitte:     'waagrecht zur Drehachse hin',
+  aussen:    'waagrecht von der Drehachse weg',
+};
+
+/* ── Zahlen ───────────────────────────────────────────────────────── */
+function fsZahl(x) {                         // drei geltende Ziffern, Dezimalpunkt
+  const a = Math.abs(x);
+  if (a >= 100) return x.toFixed(0);
+  if (a >= 10) return x.toFixed(1);
+  return x.toFixed(2);
+}
+const fsR = x => Number(fsZahl(x));          // mit dem angezeigten Wert weiterrechnen
+const fsN = x => fsZahl(x) + '\\;\\text{N}';
+const fsGrad = w => w + '^\\circ';
+const fsNorm = w => ((Math.round(w) % 360) + 360) % 360;
+const fsRad = w => w * Math.PI / 180;
+function fsSpiegel(w, sp) { return sp ? fsNorm(180 - w) : fsNorm(w); }
+function fsWahl(r, liste) { return liste[Math.floor(r() * liste.length) % liste.length]; }
+
+/* Gewichtskraft als erste Zeile jedes Rechenwegs */
+function fsGZeile(m) {
+  const G = fsR(m * FS_G);
+  return { G, tex:'F_G = m \\cdot g = ' + m + '\\;\\text{kg} \\cdot 9.81\\;\\tfrac{\\text{m}}{\\text{s}^2} = ' + fsN(G) };
+}
+
+/* ── Szenen ───────────────────────────────────────────────────────── */
+/* bau(r) liefert die Aufgabe A:
+     titel, text, zustand, kontakte, kraefte [{typ, w, F, tex, name}],
+     res {F, w|null, tex}, resKey, resWahl, bild (Zeichenart), p (Bildwerte),
+     ohneN/ohneR/ohneS/ohneF (Begründung, wenn diese Kraft fehlt), texte {} */
+const FS_SZENEN = [
+  { id:'kiste-boden', stufe:1, bau(r) {
+      const m = fsWahl(r, [5, 10, 20, 30]); const g = fsGZeile(m);
+      return { werte:{ m }, satz:'Die Kiste ruht.', titel:'Kiste auf dem Boden', zustand:'ruht',
+        text:'Eine Kiste mit der Masse ' + m + ' kg steht auf dem waagrechten Boden.',
+        kontakte:['den Boden'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'N', w:90,  F:g.G, tex:'F_N = F_G = ' + fsN(g.G) } ],
+        res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'unten', 'oben'],
+        bild:'boden', p:{},
+        texte:{ R_extra:'Hier wirkt keine Reibungskraft: Nichts zieht oder schiebt die Kiste seitlich, also will sie auch nicht rutschen.' } };
+  } },
+  { id:'lampe-seil', stufe:1, bau(r) {
+      const m = fsWahl(r, [1, 2, 3, 4]); const g = fsGZeile(m);
+      return { werte:{ m }, satz:'Die Lampe ruht.', titel:'Lampe an einem Seil', zustand:'ruht',
+        text:'Eine Lampe mit der Masse ' + m + ' kg hängt ruhig an einem senkrechten Seil an der Decke.',
+        kontakte:['das Seil'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'S', w:90,  F:g.G, tex:'S = F_G = ' + fsN(g.G) } ],
+        res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'unten', 'oben'],
+        bild:'lampe', p:{ seile:[90] } };
+  } },
+  { id:'feder', stufe:1, bau(r) {
+      const m = fsWahl(r, [0.5, 1, 1.5, 2]); const g = fsGZeile(m);
+      return { werte:{ m }, satz:'Der Körper ruht.', titel:'Körper an einer Feder', zustand:'ruht',
+        text:'Ein Körper mit der Masse ' + m + ' kg hängt ruhig an einer gedehnten Feder.',
+        kontakte:['die Feder'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'F', w:90,  F:g.G, tex:'F_F = F_G = ' + fsN(g.G) } ],
+        res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'unten', 'oben'],
+        bild:'feder', p:{} };
+  } },
+  { id:'ball-wurf', stufe:1, bau(r) {
+      const m = fsWahl(r, [0.2, 0.4, 0.6]); const g = fsGZeile(m); const sp = r() < 0.5;
+      return { werte:{ m }, satz:'Der Ball fliegt schräg nach oben.', titel:'Geworfener Ball', zustand:'fliegt schräg nach oben', sp,
+        text:'Ein Ball mit der Masse ' + m + ' kg ist eben abgeworfen worden und fliegt schräg nach oben. Den Luftwiderstand vernachlässigen wir.',
+        kontakte:[],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex } ],
+        res:{ F:g.G, w:270, tex:'F_{\\text{res}} = F_G = ' + fsN(g.G) }, resKey:'unten', resWahl:['unten', 'bewegung', 'null'],
+        bild:'wurf', p:{},
+        texte:{ B:'Eine «Bewegungskraft» oder «Wurfkraft» gibt es nicht. Die Hand schiebt nur, solange sie den Ball berührt. Danach fliegt er weiter, weil er schon schnell ist (Trägheit). Auf ihn wirkt nur noch die Gewichtskraft.' } };
+  } },
+  { id:'kiste-gezogen', stufe:2, bau(r) {
+      const m = fsWahl(r, [10, 20, 30]); const mu = fsWahl(r, [0.20, 0.25, 0.30]); const sp = r() < 0.5;
+      const g = fsGZeile(m); const R = fsR(mu * g.G);
+      return { werte:{ m, mu }, satz:'Die Kiste bewegt sich geradlinig mit konstanter Geschwindigkeit.', titel:'Kiste an einem waagrechten Seil', zustand:'konstante Geschwindigkeit', sp,
+        text:'Du ziehst eine Kiste (' + m + ' kg) an einem waagrechten Seil mit konstanter Geschwindigkeit über den Boden. Gleitreibungszahl \\(\\mu_G = ' + mu.toFixed(2) + '\\).',
+        kontakte:['den Boden', 'das Seil'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'N', w:90,  F:g.G, tex:'F_N = F_G = ' + fsN(g.G) },
+                  { typ:'R', w:fsSpiegel(180, sp), F:R, tex:'F_R = \\mu_G \\cdot F_N = ' + mu.toFixed(2) + ' \\cdot ' + fsN(g.G) + ' = ' + fsN(R) },
+                  { typ:'S', w:fsSpiegel(0, sp),   F:R, tex:'S = F_R = ' + fsN(R) } ],
+        res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'bewegung', 'gegen'],
+        bild:'gezogen', p:{ phi:0 },
+        texte:{ R_fehlt:'Die Reibungskraft fehlt: Die Kiste gleitet über den Boden, und der Boden bremst sie mit der Gleitreibung.' } };
+  } },
+  { id:'schlitten-schraeg', stufe:2, bau(r) {
+      const m = fsWahl(r, [10, 20, 30]); const mu = fsWahl(r, [0.10, 0.15, 0.20]); const phi = fsWahl(r, [15, 30]); const sp = r() < 0.5;
+      const g = fsGZeile(m);
+      const c = Math.cos(fsRad(phi)), s = Math.sin(fsRad(phi));
+      const S = fsR(mu * g.G / (c + mu * s)); const N = fsR(g.G - S * s); const R = fsR(mu * N);
+      return { werte:{ m, mu }, satz:'Der Schlitten bewegt sich geradlinig mit konstanter Geschwindigkeit.', titel:'Schlitten an einer schrägen Schnur', zustand:'konstante Geschwindigkeit', sp,
+        text:'Ein Schlitten (' + m + ' kg) wird an einer Schnur, die ' + phi + '° schräg nach oben zeigt, mit konstanter Geschwindigkeit über den Schnee gezogen. Gleitreibungszahl \\(\\mu_G = ' + mu.toFixed(2) + '\\).',
+        kontakte:['den Schnee', 'die Schnur'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'S', w:fsSpiegel(phi, sp), F:S, tex:'S = \\frac{\\mu_G \\cdot F_G}{\\cos ' + fsGrad(phi) + ' + \\mu_G \\cdot \\sin ' + fsGrad(phi) + '} = \\frac{' + mu.toFixed(2) + ' \\cdot ' + fsN(g.G) + '}{\\cos ' + fsGrad(phi) + ' + ' + mu.toFixed(2) + ' \\cdot \\sin ' + fsGrad(phi) + '} = ' + fsN(S) },
+                  { typ:'N', w:90, F:N, tex:'F_N = F_G - S \\cdot \\sin ' + fsGrad(phi) + ' = ' + fsN(g.G) + ' - ' + fsN(S) + ' \\cdot \\sin ' + fsGrad(phi) + ' = ' + fsN(N) },
+                  { typ:'R', w:fsSpiegel(180, sp), F:R, tex:'F_R = \\mu_G \\cdot F_N = ' + mu.toFixed(2) + ' \\cdot ' + fsN(N) + ' = ' + fsN(R) } ],
+        res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'bewegung', 'gegen'],
+        bild:'gezogen', p:{ phi },
+        texte:{ R_fehlt:'Die Reibungskraft fehlt: Der Schlitten gleitet über den Schnee und wird dabei gebremst.',
+                S_richtung:'Die Seilkraft zeigt entlang der Schnur, also ' + phi + '° schräg nach oben, nicht waagrecht.' } };
+  } },
+  { id:'ebene-ruht', stufe:2, bau(r) {
+      const m = fsWahl(r, [5, 10, 20]); const al = fsWahl(r, [15, 30]); const sp = r() < 0.5;
+      const g = fsGZeile(m); const N = fsR(g.G * Math.cos(fsRad(al))); const R = fsR(g.G * Math.sin(fsRad(al)));
+      return { werte:{ m }, satz:'Die Kiste ruht.', titel:'Kiste auf einer Rampe', zustand:'ruht', sp,
+        text:'Eine Kiste (' + m + ' kg) liegt auf einer Rampe mit dem Neigungswinkel ' + al + '°. Die Haftreibung hält sie fest; sie rutscht nicht.',
+        kontakte:['die Rampe'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'N', w:fsSpiegel(90 + al, sp), F:N, tex:'F_N = F_G \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(N) },
+                  { typ:'R', w:fsSpiegel(al, sp), F:R, tex:'F_R = F_G \\cdot \\sin ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\sin ' + fsGrad(al) + ' = ' + fsN(R) } ],
+        res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'hangab', 'unten'],
+        bild:'rampe', p:{ al },
+        texte:{ R_fehlt:'Die Reibungskraft fehlt. Ohne sie würde die Kiste hinunterrutschen: Die Haftreibung hält sie fest und zeigt darum hangaufwärts.',
+                R_gegen:'Die Haftreibung zeigt hangaufwärts: Ohne sie würde die Kiste hinunterrutschen, und Reibung wirkt gegen diese Bewegung.' } };
+  } },
+  { id:'ebene-rutscht', stufe:2, bau(r) {
+      const m = fsWahl(r, [5, 10, 20]); const al = fsWahl(r, [30, 45]); const mu = fsWahl(r, [0.20, 0.30]); const sp = r() < 0.5;
+      const g = fsGZeile(m); const N = fsR(g.G * Math.cos(fsRad(al))); const R = fsR(mu * N);
+      const Fres = fsR(g.G * Math.sin(fsRad(al)) - R);
+      return { werte:{ m, mu }, satz:'Die Kiste wird schneller.', titel:'Kiste rutscht die Rampe hinunter', zustand:'wird schneller', sp,
+        text:'Eine Kiste (' + m + ' kg) rutscht eine Rampe mit dem Neigungswinkel ' + al + '° hinunter und wird dabei schneller. Gleitreibungszahl \\(\\mu_G = ' + mu.toFixed(2) + '\\).',
+        kontakte:['die Rampe'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'N', w:fsSpiegel(90 + al, sp), F:N, tex:'F_N = F_G \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(N) },
+                  { typ:'R', w:fsSpiegel(al, sp), F:R, tex:'F_R = \\mu_G \\cdot F_N = ' + mu.toFixed(2) + ' \\cdot ' + fsN(N) + ' = ' + fsN(R) } ],
+        res:{ F:Fres, w:fsSpiegel(180 + al, sp), tex:'F_{\\text{res}} = F_G \\cdot \\sin ' + fsGrad(al) + ' - F_R = ' + fsN(g.G) + ' \\cdot \\sin ' + fsGrad(al) + ' - ' + fsN(R) + ' = ' + fsN(Fres) },
+        resKey:'hangab', resWahl:['hangab', 'null', 'unten'],
+        bild:'rampe', p:{ al, bewegt:-1 },
+        texte:{ R_fehlt:'Die Reibungskraft fehlt: Die Kiste gleitet über die Rampe, und die Gleitreibung bremst sie.',
+                R_gegen:'Die Gleitreibung zeigt hangaufwärts, gegen die Bewegung der Kiste.' } };
+  } },
+  { id:'ebene-glatt', stufe:2, bau(r) {
+      const m = fsWahl(r, [5, 10, 20]); const al = fsWahl(r, [15, 30, 45]); const sp = r() < 0.5;
+      const g = fsGZeile(m); const N = fsR(g.G * Math.cos(fsRad(al))); const Fres = fsR(g.G * Math.sin(fsRad(al)));
+      return { werte:{ m }, satz:'Der Schlitten wird schneller.', titel:'Schlitten auf vereister Rampe', zustand:'wird schneller', sp,
+        text:'Ein Schlitten (' + m + ' kg) gleitet eine vereiste Rampe mit dem Neigungswinkel ' + al + '° hinunter. Die Reibung ist so klein, dass wir sie vernachlässigen.',
+        kontakte:['die Rampe'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'N', w:fsSpiegel(90 + al, sp), F:N, tex:'F_N = F_G \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(N) } ],
+        res:{ F:Fres, w:fsSpiegel(180 + al, sp), tex:'F_{\\text{res}} = F_G \\cdot \\sin ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\sin ' + fsGrad(al) + ' = ' + fsN(Fres) },
+        resKey:'hangab', resWahl:['hangab', 'null', 'unten'],
+        bild:'rampe', p:{ al, bewegt:-1, glatt:true },
+        texte:{ R_extra:'Hier wirkt keine Reibungskraft: Die Rampe ist vereist, die Reibung vernachlässigen wir ausdrücklich.' } };
+  } },
+  { id:'zwei-seile', stufe:3, bau(r) {
+      const m = fsWahl(r, [2, 4, 6]); const al = fsWahl(r, [30, 45, 60]); const be = fsWahl(r, [30, 45, 60]);
+      const g = fsGZeile(m); const nen = Math.sin(fsRad(al + be));
+      const S1 = fsR(g.G * Math.cos(fsRad(be)) / nen); const S2 = fsR(g.G * Math.cos(fsRad(al)) / nen);
+      return { werte:{ m }, satz:'Die Lampe ruht.', titel:'Lampe an zwei Seilen', zustand:'ruht',
+        text:'Eine Lampe (' + m + ' kg) hängt an zwei Seilen. Das linke Seil steigt unter \\(\\alpha = ' + al + '^\\circ\\), das rechte unter \\(\\beta = ' + be + '^\\circ\\) gegen die Waagrechte an.',
+        kontakte:['das linke Seil', 'das rechte Seil'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'S', w:180 - al, F:S1, name:['S', '1'], tex:'S_1 = F_G \\cdot \\frac{\\cos \\beta}{\\sin(\\alpha + \\beta)} = ' + fsN(g.G) + ' \\cdot \\frac{\\cos ' + fsGrad(be) + '}{\\sin(' + fsGrad(al) + ' + ' + fsGrad(be) + ')} = ' + fsN(S1) },
+                  { typ:'S', w:be, F:S2, name:['S', '2'], tex:'S_2 = F_G \\cdot \\frac{\\cos \\alpha}{\\sin(\\alpha + \\beta)} = ' + fsN(g.G) + ' \\cdot \\frac{\\cos ' + fsGrad(al) + '}{\\sin(' + fsGrad(al) + ' + ' + fsGrad(be) + ')} = ' + fsN(S2) } ],
+        res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'unten', 'oben'],
+        bild:'lampe', p:{ seile:[180 - al, be] } };
+  } },
+  { id:'lieferwagen-anfahren', stufe:3, bau(r) {
+      const m = fsWahl(r, [10, 20, 30]); const a = fsWahl(r, [1.5, 2.0, 2.5]); const sp = r() < 0.5;
+      const g = fsGZeile(m); const R = fsR(m * a);
+      return { werte:{ m, a }, satz:'Die Kiste wird mit dem Wagen schneller.', titel:'Kiste auf dem anfahrenden Lieferwagen', zustand:'wird schneller', sp,
+        text:'Ein Lieferwagen fährt an und wird gleichmässig schneller, \\(a = ' + a.toFixed(1) + '\\;\\tfrac{\\text{m}}{\\text{s}^2}\\). Die Kiste (' + m + ' kg) auf der Ladefläche rutscht nicht. Schneide die Kiste frei.',
+        kontakte:['die Ladefläche'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'N', w:90, F:g.G, tex:'F_N = F_G = ' + fsN(g.G) },
+                  { typ:'R', w:fsSpiegel(0, sp), F:R, tex:'F_R = m \\cdot a = ' + m + '\\;\\text{kg} \\cdot ' + a.toFixed(1) + '\\;\\tfrac{\\text{m}}{\\text{s}^2} = ' + fsN(R) } ],
+        res:{ F:R, w:fsSpiegel(0, sp), tex:'F_{\\text{res}} = F_R = ' + fsN(R) }, resKey:'vorn', resWahl:['vorn', 'null', 'hinten'],
+        bild:'wagen', p:{},
+        texte:{ R_fehlt:'Die Reibungskraft fehlt. Die Kiste wird mit dem Wagen schneller; die einzige waagrechte Kraft, die das bewirken kann, ist die Haftreibung der Ladefläche.',
+                R_gegen:'Die Haftreibung zeigt hier in Fahrtrichtung. Ohne sie bliebe die Kiste zurück und würde relativ zur Ladefläche nach hinten rutschen; Reibung wirkt gegen diese Relativbewegung.' } };
+  } },
+  { id:'lieferwagen-bremst', stufe:3, bau(r) {
+      const m = fsWahl(r, [10, 20, 30]); const a = fsWahl(r, [2.0, 3.0, 4.0]); const sp = r() < 0.5;
+      const g = fsGZeile(m); const R = fsR(m * a);
+      return { werte:{ m, a }, satz:'Die Kiste wird mit dem Wagen langsamer.', titel:'Kiste auf dem bremsenden Lieferwagen', zustand:'wird langsamer', sp,
+        text:'Ein Lieferwagen bremst gleichmässig, Verzögerung \\(' + a.toFixed(1) + '\\;\\tfrac{\\text{m}}{\\text{s}^2}\\). Die Kiste (' + m + ' kg) auf der Ladefläche rutscht nicht. Schneide die Kiste frei.',
+        kontakte:['die Ladefläche'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'N', w:90, F:g.G, tex:'F_N = F_G = ' + fsN(g.G) },
+                  { typ:'R', w:fsSpiegel(180, sp), F:R, tex:'F_R = m \\cdot a = ' + m + '\\;\\text{kg} \\cdot ' + a.toFixed(1) + '\\;\\tfrac{\\text{m}}{\\text{s}^2} = ' + fsN(R) } ],
+        res:{ F:R, w:fsSpiegel(180, sp), tex:'F_{\\text{res}} = F_R = ' + fsN(R) }, resKey:'hinten', resWahl:['hinten', 'vorn', 'null'],
+        bild:'wagen', p:{},
+        texte:{ R_fehlt:'Die Reibungskraft fehlt. Die Kiste wird mit dem Wagen langsamer; das bewirkt die Haftreibung der Ladefläche.',
+                R_gegen:'Die Haftreibung zeigt hier nach hinten. Ohne sie würde die Kiste weiterfahren und relativ zur Ladefläche nach vorn rutschen; Reibung wirkt gegen diese Relativbewegung.' } };
+  } },
+  { id:'karussell', stufe:3, bau(r) {
+      const m = fsWahl(r, [50, 60, 70, 80]); const th = fsWahl(r, [15, 30, 45]); const sp = r() < 0.5;
+      const g = fsGZeile(m); const S = fsR(g.G / Math.cos(fsRad(th))); const Fres = fsR(g.G * Math.tan(fsRad(th)));
+      return { werte:{ m }, satz:'Der Sitz fährt im Kreis, der Betrag der Geschwindigkeit bleibt gleich, ihre Richtung ändert sich laufend.', titel:'Sitz am Kettenkarussell', zustand:'Kreisbahn, konstanter Betrag der Geschwindigkeit', sp,
+        text:'Ein Sitz mit Person (zusammen ' + m + ' kg) fährt am Kettenkarussell auf einer waagrechten Kreisbahn. Die Kette steht ' + th + '° schräg gegen die Lotrechte. Schneide Sitz und Person zusammen frei.',
+        kontakte:['die Kette'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'S', w:fsSpiegel(90 + th, sp), F:S, tex:'S = \\frac{F_G}{\\cos ' + fsGrad(th) + '} = \\frac{' + fsN(g.G) + '}{\\cos ' + fsGrad(th) + '} = ' + fsN(S) } ],
+        res:{ F:Fres, w:fsSpiegel(180, sp), tex:'F_{\\text{res}} = F_G \\cdot \\tan ' + fsGrad(th) + ' = ' + fsN(g.G) + ' \\cdot \\tan ' + fsGrad(th) + ' = ' + fsN(Fres) },
+        resKey:'mitte', resWahl:['mitte', 'aussen', 'null'],
+        bild:'karussell', p:{ th },
+        texte:{ S_richtung:'Die Seilkraft zeigt entlang der Kette, also ' + th + '° gegen die Lotrechte geneigt, zur Drehachse hin.' } };
+  } },
+  { id:'ebene-hochgezogen', stufe:3, bau(r) {
+      const m = fsWahl(r, [10, 20, 30]); const al = fsWahl(r, [15, 30]); const mu = fsWahl(r, [0.20, 0.30]); const sp = r() < 0.5;
+      const g = fsGZeile(m); const N = fsR(g.G * Math.cos(fsRad(al))); const R = fsR(mu * N);
+      const S = fsR(g.G * Math.sin(fsRad(al)) + R);
+      return { werte:{ m, mu }, satz:'Die Kiste bewegt sich geradlinig mit konstanter Geschwindigkeit.', titel:'Kiste wird die Rampe hinaufgezogen', zustand:'konstante Geschwindigkeit', sp,
+        text:'Eine Kiste (' + m + ' kg) wird an einem Seil parallel zur Rampe (Neigungswinkel ' + al + '°) mit konstanter Geschwindigkeit hinaufgezogen. Gleitreibungszahl \\(\\mu_G = ' + mu.toFixed(2) + '\\).',
+        kontakte:['die Rampe', 'das Seil'],
+        kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
+                  { typ:'N', w:fsSpiegel(90 + al, sp), F:N, tex:'F_N = F_G \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(N) },
+                  { typ:'R', w:fsSpiegel(180 + al, sp), F:R, tex:'F_R = \\mu_G \\cdot F_N = ' + mu.toFixed(2) + ' \\cdot ' + fsN(N) + ' = ' + fsN(R) },
+                  { typ:'S', w:fsSpiegel(al, sp), F:S, tex:'S = F_G \\cdot \\sin ' + fsGrad(al) + ' + F_R = ' + fsN(g.G) + ' \\cdot \\sin ' + fsGrad(al) + ' + ' + fsN(R) + ' = ' + fsN(S) } ],
+        res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'hangauf', 'hangab'],
+        bild:'rampe', p:{ al, bewegt:1, seil:true },
+        texte:{ R_fehlt:'Die Reibungskraft fehlt: Die Kiste gleitet über die Rampe, die Gleitreibung bremst sie.',
+                R_gegen:'Die Kiste gleitet hinauf, also zeigt die Gleitreibung hangabwärts, gegen die Bewegung.' } };
+  } },
+];
+
+/* ── Prüfen ───────────────────────────────────────────────────────── */
+function fsDiff(a, b) { const d = Math.abs(fsNorm(a) - fsNorm(b)) % 360; return Math.min(d, 360 - d); }
+
+/* Paart gezeichnete Kräfte einer Art mit den richtigen (bei zwei Seilen beide Zuordnungen) */
+function fsPaare(gez, soll) {
+  if (gez.length !== soll.length) return null;
+  const perm = gez.length === 2 ? [[0, 1], [1, 0]] : [gez.map((_, i) => i)];
+  let best = null, bestSumme = Infinity;
+  perm.forEach(p => {
+    const s = p.reduce((acc, j, i) => acc + fsDiff(gez[i].w, soll[j].w), 0);
+    if (s < bestSumme) { bestSumme = s; best = p.map((j, i) => [gez[i], soll[j]]); }
+  });
+  return best;
+}
+
+function fsText(A, code) { return (A.texte && A.texte[code]) || FS_DIAGNOSE[code]; }
+
+/* Liefert {ok, befunde:[{code, text}]}; die Reihenfolge ist die Wichtigkeit */
+function fsBewerte(A, gez) {
+  const befunde = [], dazu = c => befunde.push({ code:c, text:fsText(A, c) });
+  ['B', 'H', 'Z', 'U'].forEach(t => { if (gez.some(k => k.typ === t)) dazu(t); });
+  const nach = t => gez.filter(k => k.typ === t), soll = t => A.kraefte.filter(k => k.typ === t);
+  const rampe = A.bild === 'rampe';
+  // Anzahl je echter Kraft
+  const richtungen = [];
+  ['G', 'N', 'R', 'S', 'F'].forEach(t => {
+    const g = nach(t), s = soll(t);
+    if (g.length < s.length) {
+      if (t === 'S' && g.length > 0) dazu('S_fehlt'); else dazu(t + '_fehlt');
+    } else if (g.length > s.length) {
+      if (s.length === 0) dazu(t === 'G' ? 'doppelt' : (t === 'R' ? 'R_extra' : t + '_ohne'));
+      else dazu(t === 'S' ? 'S_extra' : 'doppelt');
+    } else if (g.length) {
+      fsPaare(g, s).forEach(([a, b]) => { if (fsDiff(a.w, b.w) > FS_RASTER / 2) richtungen.push([t, a, b]); });
+    }
+  });
+  // Richtungen
+  richtungen.forEach(([t, a, b]) => {
+    const d = fsDiff(a.w, b.w);
+    if (t === 'G') dazu(rampe && fsDiff(a.w, fsN90(A) + 180) < FS_RASTER / 2 ? 'G_ebene' : 'G_richtung');
+    else if (t === 'N') dazu(d > 180 - FS_RASTER / 2 ? 'N_richtung' : (rampe && fsDiff(a.w, 90) < FS_RASTER / 2 ? 'N_lotrecht' : 'N_richtung'));
+    else if (t === 'R') dazu(d > 180 - FS_RASTER / 2 ? 'R_gegen' : 'R_parallel');
+    else if (t === 'S') dazu(soll('S').some(s => fsDiff(a.w, s.w + 180) < FS_RASTER / 2) ? 'S_druck' : 'S_richtung');
+    else if (t === 'F') dazu('F_richtung');
+  });
+  // dieselbe Meldung nur einmal
+  const gesehen = new Set();
+  const eindeutig = befunde.filter(b => !gesehen.has(b.code) && gesehen.add(b.code));
+  return { ok:eindeutig.length === 0, befunde:eindeutig };
+}
+/* Richtung der Normalkraft der Aufgabe (für die Meldung «G senkrecht zur Rampe») */
+function fsN90(A) { const n = A.kraefte.find(k => k.typ === 'N'); return n ? n.w : 90; }
+
+/* Resultierende aus den Musterkräften (exakt, für den Selbsttest und den Kräfteplan) */
+function fsSumme(kraefte) {
+  return kraefte.reduce((s, k) => ({ x:s.x + k.F * Math.cos(fsRad(k.w)), y:s.y + k.F * Math.sin(fsRad(k.w)) }), { x:0, y:0 });
+}
+
+/* Rückmeldung zur Frage nach der Resultierenden */
+function fsResRueck(A, wahl) {
+  if (wahl === A.resKey) {
+    if (A.resKey === 'null') return 'Richtig. ' + A.satz + ' Der Bewegungszustand ändert sich nicht, also heben sich alle Kräfte auf: \\(F_{\\text{res}} = 0\\).';
+    return 'Richtig. ' + A.satz + ' Die Bewegung ändert sich; dafür braucht es eine resultierende Kraft in Richtung der Beschleunigung: \\(F_{\\text{res}} = m \\cdot a\\).';
+  }
+  if (A.resKey === 'null') {
+    if (wahl === 'bewegung') return 'Nein. Bei konstanter Geschwindigkeit ändert sich die Bewegung nicht. Dafür braucht es keine Kraft: Die Kräfte heben sich auf (Trägheitsgesetz).';
+    return 'Nein. ' + A.satz + ' Der Bewegungszustand ändert sich nicht, also ist die resultierende Kraft null.';
+  }
+  if (wahl === 'null') return 'Nein. ' + A.satz + ' Die Bewegung ändert sich, also kann die resultierende Kraft nicht null sein (\\(F_{\\text{res}} = m \\cdot a\\)).';
+  if (wahl === 'bewegung') return 'Nein. Die resultierende Kraft zeigt in Richtung der Beschleunigung, nicht der Geschwindigkeit. Beim Ball zeigt die Geschwindigkeit schräg nach oben, die Beschleunigung nach unten: Er wird langsamer und fällt.';
+  if (wahl === 'aussen') return 'Nein. Für eine Kreisbahn braucht es eine Kraft zur Mitte hin. Nach aussen zeigt keine Kraft; die «Fliehkraft» spürt nur, wer mitfährt.';
+  if (wahl === 'unten' && A.resKey === 'hangab') return 'Nein. Senkrecht zur Rampe heben sich Normalkraft und der Teil der Gewichtskraft auf; übrig bleibt nur der Teil entlang der Rampe.';
+  if (wahl === 'vorn' || wahl === 'hinten') return 'Nein. Die resultierende Kraft zeigt in Richtung der Beschleunigung: Beim ' + (A.resKey === 'vorn' ? 'Anfahren nach vorn' : 'Bremsen nach hinten') + '.';
+  return 'Nein. Die resultierende Kraft zeigt in Richtung der Beschleunigung. Überlege: Wohin ändert sich die Geschwindigkeit?';
+}
+
+/* Richtung, in die die Antwort zeigt (für den Selbsttest) */
+function fsResWinkel(A, key) {
+  const sp = !!A.sp, al = A.p.al || 0;
+  return { null:null, unten:270, oben:90, hangab:fsSpiegel(180 + al, sp), hangauf:fsSpiegel(al, sp),
+           vorn:fsSpiegel(0, sp), hinten:fsSpiegel(180, sp), mitte:fsSpiegel(180, sp), aussen:fsSpiegel(0, sp),
+           bewegung:A.bild === 'wurf' ? fsSpiegel(45, sp) : fsSpiegel(0, sp), gegen:fsSpiegel(180, sp) }[key];
+}
+
+/* Startrichtung einer neuen Kraft: nie schon richtig */
+function fsStartwinkel(A, typ) {
+  const falsch = A.kraefte.filter(k => k.typ === typ).map(k => k.w);
+  for (const w of [45, 135, 315, 225, 15, 165, 345, 195]) if (falsch.every(f => fsDiff(f, w) > 1)) return w;
+  return 0;
+}
+
+/* ── Selbsttest ───────────────────────────────────────────────────── */
+function fsZufall(seed) {               // reproduzierbar (mulberry32)
+  let a = seed >>> 0;
+  return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+function fsSelbsttest(n) {
+  n = n || 40;
+  const fehler = []; let faelle = 0;
+  const f = (sz, txt) => fehler.push(sz + ': ' + txt);
+  const kopie = A => A.kraefte.map(k => ({ typ:k.typ, w:k.w }));
+  const erwarte = (sz, A, gez, code, was) => {
+    faelle++;
+    const e = fsBewerte(A, gez);
+    if (e.ok || !e.befunde.some(b => b.code === code)) f(sz, was + ' → erwartet «' + code + '», erhalten ' + (e.ok ? 'ok' : e.befunde.map(b => b.code).join(', ')));
+  };
+  FS_SZENEN.forEach((S, si) => {
+    for (let i = 0; i < n; i++) {
+      const A = S.bau(fsZufall(1000 * si + i + 1));
+      const sz = S.id + '#' + i;
+      // Daten
+      A.kraefte.forEach(k => {
+        if (!FS_KRAEFTE[k.typ] || FS_KRAEFTE[k.typ].falle) f(sz, 'unbekannte Kraft ' + k.typ);
+        if (k.w % FS_RASTER !== 0 || k.w < 0 || k.w >= 360) f(sz, 'Richtung ' + k.w + '° nicht im Raster');
+        if (!(k.F > 0) || !isFinite(k.F)) f(sz, 'Betrag ' + k.F);
+        if (!k.tex || /NaN|undefined|Infinity/.test(k.tex)) f(sz, 'Rechenweg fehlt oder kaputt: ' + k.tex);
+        if (/\d,\d/.test(k.tex)) f(sz, 'Dezimalkomma im Rechenweg');
+      });
+      if (!A.kraefte.some(k => k.typ === 'G')) f(sz, 'ohne Gewichtskraft');
+      // Unabhängig vom Gleichgewicht: Gewicht, Reibungsgesetz, Grundgesetz (gerundet angezeigt: 0.6 %)
+      const nahe = (x, y) => Math.abs(x - y) <= 0.006 * Math.abs(y) + 0.006;
+      const kr = t => A.kraefte.find(k => k.typ === t);
+      faelle++;
+      if (!nahe(kr('G').F, A.werte.m * FS_G)) f(sz, 'F_G ' + kr('G').F + ' statt m·g');
+      if (A.werte.mu) { faelle++; if (!nahe(kr('R').F, A.werte.mu * kr('N').F)) f(sz, 'F_R ' + kr('R').F + ' statt µ·F_N'); }
+      if (A.werte.a)  { faelle++; if (!nahe(kr('R').F, A.werte.m * A.werte.a)) f(sz, 'F_R ' + kr('R').F + ' statt m·a'); }
+      if (A.resWahl.indexOf(A.resKey) < 0) f(sz, 'richtige Antwort nicht in der Auswahl');
+      A.resWahl.forEach(k => { if (!FS_RES_TEXT[k]) f(sz, 'Antwort ohne Text: ' + k); });
+      // Musterlösung ist richtig
+      faelle++;
+      const ok = fsBewerte(A, kopie(A));
+      if (!ok.ok) f(sz, 'Musterlösung gilt als falsch: ' + ok.befunde.map(b => b.code).join(', '));
+      // Gleichgewicht bzw. Resultierende passt zur Antwort (exakte Rechnung, unabhängig von der Anzeige)
+      faelle++;
+      const s = fsSumme(A.kraefte), Fs = Math.hypot(s.x, s.y), Fmax = Math.max(...A.kraefte.map(k => k.F));
+      const wSoll = fsResWinkel(A, A.resKey);
+      if (wSoll === null) { if (Fs > 0.01 * Fmax) f(sz, 'Resultierende ' + Fs.toFixed(3) + ' N statt 0'); }
+      else {
+        const wIst = fsNorm(Math.atan2(s.y, s.x) * 180 / Math.PI);
+        if (Fs < 0.01 * Fmax || fsDiff(wIst, wSoll) > 0.5) f(sz, 'Resultierende zeigt nach ' + wIst + '°, Antwort meint ' + wSoll + '°');
+        if (Math.abs(Fs - A.res.F) > 0.02 * Fs + 0.05) f(sz, 'Betrag der Resultierenden ' + A.res.F + ' statt ' + Fs.toFixed(2));
+        if (fsDiff(A.res.w, wSoll) > 0.5) f(sz, 'Richtung der Resultierenden im Datensatz falsch');
+      }
+      // Jede falsche Antwort hat eine Rückmeldung, die mit «Nein» beginnt
+      A.resWahl.forEach(k => { faelle++; const t = fsResRueck(A, k);
+        if (k === A.resKey ? !/^Richtig/.test(t) : !/^Nein/.test(t)) f(sz, 'Rückmeldung zu «' + k + '» passt nicht'); });
+      // Startrichtung ist nie richtig
+      A.kraefte.forEach(k => { faelle++; if (A.kraefte.filter(x => x.typ === k.typ).some(x => fsDiff(x.w, fsStartwinkel(A, k.typ)) < 1)) f(sz, 'Startrichtung von ' + k.typ + ' ist schon richtig'); });
+      // Typische Fehler werden erkannt
+      erwarte(sz, A, kopie(A).filter(k => k.typ !== 'G'), 'G_fehlt', 'ohne Gewichtskraft');
+      ['B', 'H', 'Z', 'U'].forEach(t => erwarte(sz, A, kopie(A).concat([{ typ:t, w:90 }]), t, 'mit Falle ' + t));
+      erwarte(sz, A, kopie(A).map(k => k.typ === 'G' ? { typ:'G', w:90 } : k), 'G_richtung', 'Gewicht nach oben');
+      if (A.kraefte.some(k => k.typ === 'N')) {
+        erwarte(sz, A, kopie(A).filter(k => k.typ !== 'N'), 'N_fehlt', 'ohne Normalkraft');
+        erwarte(sz, A, kopie(A).map(k => k.typ === 'N' ? { typ:'N', w:fsNorm(k.w + 180) } : k), 'N_richtung', 'Normalkraft umgekehrt');
+        if (A.bild === 'rampe') {
+          erwarte(sz, A, kopie(A).map(k => k.typ === 'N' ? { typ:'N', w:90 } : k), 'N_lotrecht', 'Normalkraft lotrecht auf der Rampe');
+          erwarte(sz, A, kopie(A).map(k => k.typ === 'G' ? { typ:'G', w:fsNorm(fsN90(A) + 180) } : k), 'G_ebene', 'Gewicht senkrecht zur Rampe');
+        }
+      } else erwarte(sz, A, kopie(A).concat([{ typ:'N', w:90 }]), 'N_ohne', 'Normalkraft ohne Unterlage');
+      if (A.kraefte.some(k => k.typ === 'R')) {
+        erwarte(sz, A, kopie(A).filter(k => k.typ !== 'R'), 'R_fehlt', 'ohne Reibung');
+        erwarte(sz, A, kopie(A).map(k => k.typ === 'R' ? { typ:'R', w:fsNorm(k.w + 180) } : k), 'R_gegen', 'Reibung umgekehrt');
+        erwarte(sz, A, kopie(A).map(k => k.typ === 'R' ? { typ:'R', w:fsNorm(k.w + 90) } : k), 'R_parallel', 'Reibung quer');
+      } else erwarte(sz, A, kopie(A).concat([{ typ:'R', w:0 }]), 'R_extra', 'Reibung ohne Grund');
+      if (A.kraefte.some(k => k.typ === 'S')) {
+        erwarte(sz, A, kopie(A).map(k => k.typ === 'S' ? { typ:'S', w:fsNorm(k.w + 180) } : k), 'S_druck', 'Seil schiebt');
+        erwarte(sz, A, kopie(A).map(k => k.typ === 'S' ? { typ:'S', w:fsNorm(k.w + 15) } : k), 'S_richtung', 'Seil schief');
+        erwarte(sz, A, kopie(A).concat([{ typ:'S', w:90 }]), 'S_extra', 'Seil zu viel');
+      } else erwarte(sz, A, kopie(A).concat([{ typ:'S', w:90 }]), 'S_ohne', 'Seil ohne Seil');
+      if (A.kraefte.filter(k => k.typ === 'S').length === 2)
+        erwarte(sz, A, kopie(A).filter((k, j) => j !== A.kraefte.findIndex(x => x.typ === 'S')), 'S_fehlt', 'nur ein Seil');
+      if (A.kraefte.some(k => k.typ === 'F')) {
+        erwarte(sz, A, kopie(A).filter(k => k.typ !== 'F'), 'F_fehlt', 'ohne Federkraft');
+        erwarte(sz, A, kopie(A).map(k => k.typ === 'F' ? { typ:'F', w:270 } : k), 'F_richtung', 'Feder drückt');
+      } else erwarte(sz, A, kopie(A).concat([{ typ:'F', w:90 }]), 'F_ohne', 'Feder ohne Feder');
+    }
+  });
+  // Jede Rückmeldung wird gebraucht und hat Text
+  Object.keys(FS_DIAGNOSE).forEach(c => { if (!FS_DIAGNOSE[c]) fehler.push('Diagnose ohne Text: ' + c); });
+  return { szenen:FS_SZENEN.length, faelle, fehler };
+}
+window.fsSelbsttest = fsSelbsttest;
+
+if (window.FS_TEST) return;            // im Selbsttest keine Oberfläche
+
+/* ═══════════════════ Oberfläche ═══════════════════ */
+const $ = id => document.getElementById(id);
+const cv = $('fs-cv');
+const zustand = { stufe:1, A:null, szId:null, gez:[], wahl:-1, phase:'zeichnen', versuche:0,
+                  geloest:0, ersteRichtig:0, tipp:0, ziehen:false };
+let geo = null;                         // Bildmasse der aktuellen Zeichnung
+
+function fsEsc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+function fsTypeset(el) { if (typeof mjTypeset === 'function') mjTypeset([el]); }
+
+function fsNeueAufgabe() {
+  const pool = FS_SZENEN.filter(s => zustand.stufe === 0 || s.stufe === zustand.stufe);
+  let S; do { S = fsWahl(Math.random, pool); } while (pool.length > 1 && S.id === zustand.szId);
+  zustand.szId = S.id; zustand.A = S.bau(Math.random);
+  zustand.gez = []; zustand.wahl = -1; zustand.phase = 'zeichnen'; zustand.versuche = 0; zustand.tipp = 0;
+  const A = zustand.A;
+  const auf = $('fs-aufgabe');
+  auf.innerHTML = '<div class="fs-aufgabe-kopf"><span class="fs-aufgabe-titel">' + fsEsc(A.titel) + '</span>' +
+    '<span class="fs-zustand">' + fsEsc(A.zustand) + '</span></div><p>' + A.text +
+    ' Zeichne alle Kräfte ein, die auf den markierten Körper wirken.</p>';
+  fsTypeset(auf);
+  $('fs-rueck').innerHTML = ''; $('fs-res').innerHTML = ''; $('fs-loesung').innerHTML = '';
+  $('fs-pruefen').disabled = false; $('fs-zeigen').disabled = false; $('fs-tipp').disabled = false;
+  fsListe(); fsZeichne();
+}
+
+function fsHinzu(typ) {
+  if (zustand.phase !== 'zeichnen') return;
+  zustand.gez.push({ typ, w:fsStartwinkel(zustand.A, typ), L:0.62 });
+  zustand.wahl = zustand.gez.length - 1;
+  fsListe(); fsZeichne();
+}
+
+function fsEtikettText(k, i) {
+  const K = FS_KRAEFTE[k.typ];
+  if (K.falle) return [K.kurz, ''];
+  if (k.typ === 'S') { const n = zustand.gez.filter(x => x.typ === 'S'); return n.length > 1 ? ['S', String(n.indexOf(k) + 1)] : ['S', '']; }
+  return [K.sym, K.sub];
+}
+
+function fsListe() {
+  const L = $('fs-liste');
+  if (!zustand.gez.length) { L.innerHTML = '<div class="fs-leer">Noch keine Kraft. Wähle oben die erste.</div>'; return; }
+  L.innerHTML = zustand.gez.map((k, i) => {
+    const K = FS_KRAEFTE[k.typ];
+    return '<div class="fs-zeile' + (i === zustand.wahl ? ' gewaehlt' : '') + '">' +
+      '<span class="fs-farbe" style="background:' + (K.falle ? FS_FALLE_FARBE : K.farbe) + '"></span>' +
+      '<button class="fs-name" data-i="' + i + '" aria-pressed="' + (i === zustand.wahl) + '">' + fsEsc(K.name) + '</button>' +
+      '<span class="fs-winkel">' + k.w + '°</span>' +
+      '<button class="fs-mini" data-dreh="' + i + '" data-d="15" aria-label="' + K.name + ' 15° gegen den Uhrzeigersinn drehen">⟲</button>' +
+      '<button class="fs-mini" data-dreh="' + i + '" data-d="-15" aria-label="' + K.name + ' 15° im Uhrzeigersinn drehen">⟳</button>' +
+      '<button class="fs-mini" data-weg="' + i + '" aria-label="' + K.name + ' entfernen">✕</button></div>';
+  }).join('');
+}
+
+/* ── Zeichnen ─────────────────────────────────────────────────────── */
+function fsLinie(ctx, pts, farbe, lw, dash) {
+  ctx.strokeStyle = farbe; ctx.lineWidth = lw || 2; ctx.setLineDash(dash || []);
+  ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke(); ctx.setLineDash([]);
+}
+function fsFlaeche(ctx, pts, fuell, rand) {
+  ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath();
+  ctx.fillStyle = fuell; ctx.fill(); if (rand) { ctx.strokeStyle = rand; ctx.lineWidth = 1.5; ctx.stroke(); }
+}
+function fsSchraffur(ctx, x1, y1, x2, y2, oben) {   // Boden/Decke mit Strichen
+  fsLinie(ctx, [[x1, y1], [x2, y2]], '#5a4a3a', 2);
+  const n = Math.max(2, Math.floor(Math.hypot(x2 - x1, y2 - y1) / 12));
+  for (let i = 0; i <= n; i++) { const x = x1 + (x2 - x1) * i / n, y = y1 + (y2 - y1) * i / n;
+    fsLinie(ctx, [[x, y], [x - 7, y + (oben ? -8 : 8)]], '#8a7a6a', 1); }
+}
+function fsKasten(ctx, cx, cy, w, h, rot, fuell) {    // rot in Grad, gegen den Uhrzeigersinn
+  const c = Math.cos(fsRad(rot)), s = Math.sin(fsRad(rot));
+  const P = [[-w / 2, -h / 2], [w / 2, -h / 2], [w / 2, h / 2], [-w / 2, h / 2]].map(([x, y]) => [cx + x * c + y * s, cy - x * s + y * c]);
+  fsFlaeche(ctx, P, fuell || '#f3e3c8', '#8A4A0E');
+}
+function fsEtikett(ctx, x, y, sym, sub, farbe) {
+  ctx.font = 'italic 600 15px "Source Serif 4", serif';
+  const w1 = ctx.measureText(sym).width;
+  ctx.font = '600 11px "Source Sans 3", sans-serif';
+  const w2 = sub ? ctx.measureText(sub).width + 1 : 0;
+  const W = w1 + w2 + 8, H = 20, x0 = x - W / 2, y0 = y - H / 2;
+  ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fillRect(x0, y0, W, H);
+  ctx.fillStyle = farbe; ctx.textBaseline = 'alphabetic';
+  ctx.font = (sub || sym.length < 3 ? 'italic 600 15px "Source Serif 4", serif' : '600 12px "Source Sans 3", sans-serif');
+  ctx.fillText(sym, x0 + 4, y0 + 15);
+  if (sub) { ctx.font = '600 11px "Source Sans 3", sans-serif'; ctx.fillText(sub, x0 + 4 + w1 + 1, y0 + 18); }
+}
+function fsPfeil(ctx, x, y, w, len, farbe, lw, dash) {
+  const x2 = x + len * Math.cos(fsRad(w)), y2 = y - len * Math.sin(fsRad(w));
+  if (dash) { fsLinie(ctx, [[x, y], [x2, y2]], farbe, lw, dash); drawArrow(ctx, x2 - 0.01 * Math.cos(fsRad(w)), y2 + 0.01 * Math.sin(fsRad(w)), x2, y2, farbe, lw, 11); }
+  else drawArrow(ctx, x, y, x2, y2, farbe, lw, 11);
+  return [x2, y2];
+}
+function fsV(ctx, x, y, w, len, text) {               // Geschwindigkeit: grau, gestrichelt, ausdrücklich keine Kraft
+  const [x2, y2] = fsPfeil(ctx, x, y, w, len, '#9a9a9a', 2, [5, 4]);
+  ctx.font = 'italic 600 14px "Source Serif 4", serif'; ctx.fillStyle = '#7a7a7a';
+  ctx.fillText(text || 'v', x2 + 6 * Math.cos(fsRad(w)) - 4, y2 - 8 * Math.sin(fsRad(w)) + 4);
+}
+
+/* Szenerie. Liefert den Schwerpunkt des Körpers {bx, by, r}. Gespiegelt wird über X(). */
+function fsSzenerie(ctx, W, H, A) {
+  const sp = !!A.sp, X = x => sp ? W - x : x, p = A.p;
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+  const k = Math.min(W / 560, H / 380, 1.2);              // Massstab der Gegenstände
+  if (A.bild === 'boden' || A.bild === 'gezogen') {
+    const yB = H * 0.68, w = 96 * k, h = 62 * k, bx = W / 2, by = yB - h / 2;
+    fsSchraffur(ctx, 10, yB, W - 10, yB, false);
+    if (A.bild === 'gezogen') {
+      const phi = p.phi || 0, L = 150 * k;
+      const ax = bx + w / 2, ay = by + (phi ? 0 : 0);
+      fsLinie(ctx, [[X(ax), ay], [X(ax + L * Math.cos(fsRad(phi))), ay - L * Math.sin(fsRad(phi))]], '#5a3d7a', 2.5);
+      fsV(ctx, X(bx - w / 2 - 14 * k), by - h / 2 - 22 * k, fsSpiegel(0, sp), 46 * k);
+    }
+    fsKasten(ctx, X(bx), by, w, h, 0, A.bild === 'gezogen' && p.phi ? '#e8eef5' : null);
+    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 8 };
+  }
+  if (A.bild === 'lampe') {
+    const by = H * 0.62, bx = W / 2, r = 26 * k;
+    // Decke so tief, dass jeder Aufhängepunkt im Bild liegt (flache Seile brauchen viel Breite)
+    let yD = 22;
+    (p.seile || [90]).forEach(w => { if (w % 180 !== 90) { const dx = (Math.cos(fsRad(w)) < 0 ? bx : W - bx) - 40;
+      yD = Math.max(yD, by - dx * Math.abs(Math.tan(fsRad(w)))); } });
+    (p.seile || [90]).forEach(w => {
+      const t = (by - yD) / Math.sin(fsRad(w)), ex = bx + t * Math.cos(fsRad(w));
+      fsLinie(ctx, [[bx, by], [ex, yD]], '#5a3d7a', 2.5);
+      fsSchraffur(ctx, ex - 34, yD, ex + 34, yD, true);
+    });
+    fsFlaeche(ctx, [[bx - r, by + r * 0.4], [bx + r, by + r * 0.4], [bx + r * 0.45, by - r * 0.6], [bx - r * 0.45, by - r * 0.6]], '#f3e3c8', '#8A4A0E');
+    ctx.beginPath(); ctx.arc(bx, by + r * 0.55, r * 0.35, 0, Math.PI); ctx.fillStyle = '#ffe9a8'; ctx.fill();
+    return { bx, by, r:r + 10 };
+  }
+  if (A.bild === 'feder') {
+    const yD = 22, by = H * 0.68, bx = W / 2, w = 60 * k, h = 44 * k, top = by - h / 2;
+    fsSchraffur(ctx, bx - 40, yD, bx + 40, yD, true);
+    const n = 9, pts = [[bx, yD], [bx, yD + 10]];
+    for (let i = 1; i <= n; i++) pts.push([bx + (i % 2 ? 12 : -12), yD + 10 + (top - yD - 20) * i / (n + 1)]);
+    pts.push([bx, top - 10], [bx, top]);
+    fsLinie(ctx, pts, '#555', 2);
+    fsKasten(ctx, bx, by, w, h, 0);
+    return { bx, by, r:Math.max(w, h) / 2 + 8 };
+  }
+  if (A.bild === 'wurf') {
+    const yB = H * 0.88, x0 = W * 0.16, bx = W * 0.5, by = H * 0.48, r = 13 * k;
+    fsSchraffur(ctx, 10, yB, W - 10, yB, false);
+    const pts = []; for (let i = 0; i <= 30; i++) { const t = i / 30, x = x0 + (W * 0.7) * t, y = yB - 20 - (yB - 20 - H * 0.3) * 4 * t * (1 - t); pts.push([X(x), y]); }
+    fsLinie(ctx, pts, '#bdbdbd', 1.5, [4, 4]);
+    // Ball auf der Bahn bei t = 0.42
+    const t = 0.42, bxB = x0 + W * 0.7 * t, byB = yB - 20 - (yB - 20 - H * 0.3) * 4 * t * (1 - t);
+    ctx.beginPath(); ctx.arc(X(bxB), byB, r, 0, 2 * Math.PI); ctx.fillStyle = '#f3e3c8'; ctx.fill(); ctx.strokeStyle = '#8A4A0E'; ctx.lineWidth = 1.5; ctx.stroke();
+    fsV(ctx, X(bxB), byB, fsSpiegel(20, sp), 70 * k);
+    return { bx:X(bxB), by:byB, r:r + 9 };
+  }
+  if (A.bild === 'rampe') {
+    const al = p.al, s = Math.sin(fsRad(al)), c = Math.cos(fsRad(al));
+    const L = Math.min(W * 0.84, (H * 0.72) / s), xF = (W - L * c) / 2;
+    const w = 70 * k, h = 46 * k, f = 0.52, rr = Math.max(w, h) / 2 + 8;
+    // Rampe so hoch, dass unter dem Körper Platz für F_G samt Beschriftung bleibt
+    const yB = Math.min(H * 0.9, H - (rr + 70) + L * s * f + c * h / 2);
+    const xT = xF + L * c, yT = yB - L * s;
+    fsFlaeche(ctx, [[X(xF), yB], [X(xT), yB], [X(xT), yT]], p.glatt ? '#e3f0fa' : '#efe7da', '#5a4a3a');
+    // Winkel
+    ctx.strokeStyle = '#5a4a3a'; ctx.lineWidth = 1; ctx.beginPath();
+    if (sp) ctx.arc(X(xF), yB, 34, Math.PI, Math.PI + fsRad(al)); else ctx.arc(xF, yB, 34, -fsRad(al), 0);
+    ctx.stroke(); ctx.font = '13px "Source Sans 3", sans-serif'; ctx.fillStyle = '#5a4a3a';
+    ctx.fillText(al + '°', X(xF + 40) - (sp ? 24 : 0), yB - 6);
+    const sx = xF + L * c * f, sy = yB - L * s * f;           // Punkt auf der Fläche
+    const bx = sx - s * h / 2, by = sy - c * h / 2;           // Schwerpunkt: Normale nach oben-links
+    if (p.seil) { const L2 = 120 * k; fsLinie(ctx, [[X(bx + c * w / 2), by - s * w / 2], [X(bx + c * (w / 2 + L2)), by - s * (w / 2 + L2)]], '#5a3d7a', 2.5); }
+    fsKasten(ctx, X(bx), by, w, h, sp ? -al : al, p.glatt ? '#e8eef5' : null);
+    if (p.bewegt) {                                           // v parallel zur Rampe, über dem Körper
+      const d = h / 2 + 46 * k, vx = bx - s * d - c * 22 * k * p.bewegt, vy = by - c * d + s * 22 * k * p.bewegt;
+      fsV(ctx, X(vx), vy, fsSpiegel(p.bewegt > 0 ? al : 180 + al, sp), 44 * k);
+    }
+    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 8 };
+  }
+  if (A.bild === 'wagen') {
+    const yB = H * 0.8, rr = 15 * k, by0 = yB - 2 * rr - 4;       // Ladefläche
+    const xL = W * 0.18, xR = W * 0.68;
+    fsSchraffur(ctx, 10, yB, W - 10, yB, false);
+    fsFlaeche(ctx, [[X(xL), by0], [X(xR), by0], [X(xR), by0 + 22 * k], [X(xL), by0 + 22 * k]], '#dfe6ee', '#4a5a6a');
+    fsFlaeche(ctx, [[X(xR), by0 + 22 * k], [X(xR), by0 - 58 * k], [X(xR + 70 * k), by0 - 58 * k], [X(xR + 92 * k), by0 - 20 * k], [X(xR + 92 * k), by0 + 22 * k]], '#dfe6ee', '#4a5a6a');
+    [xL + 40 * k, xR + 50 * k].forEach(x => { ctx.beginPath(); ctx.arc(X(x), yB - rr, rr, 0, 2 * Math.PI); ctx.fillStyle = '#444'; ctx.fill(); });
+    const w = 74 * k, h = 50 * k, bx = (xL + xR) / 2, by = by0 - h / 2;
+    fsKasten(ctx, X(bx), by, w, h, 0);
+    fsV(ctx, X(xR + 46 * k), by0 - 80 * k, fsSpiegel(0, sp), 48 * k);
+    ctx.font = '12px "Source Sans 3", sans-serif'; ctx.fillStyle = '#7a7a7a';
+    ctx.fillText(A.zustand === 'wird schneller' ? 'fährt an' : 'bremst', X(xR + 46 * k) - (sp ? 60 : 0), by0 - 92 * k);
+    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 8 };
+  }
+  if (A.bild === 'karussell') {
+    const th = p.th, yB = H * 0.94, xA = W * 0.24, yTop = H * 0.12, arm = W * 0.2, Lk = H * 0.34;
+    fsSchraffur(ctx, 10, yB, W - 10, yB, false);
+    fsLinie(ctx, [[X(xA), yB], [X(xA), yTop]], '#4a4a4a', 5);
+    ctx.font = '12px "Source Sans 3", sans-serif'; ctx.fillStyle = '#7a7a7a';
+    fsLinie(ctx, [[X(xA), yTop - 10], [X(xA), yB]], '#9a9a9a', 1, [3, 5]);
+    ctx.fillText('Drehachse', X(xA) + (sp ? -64 : 6), yTop - 2);
+    fsLinie(ctx, [[X(xA), yTop + 8], [X(xA + arm), yTop + 8]], '#4a4a4a', 4);
+    const px = xA + arm, py = yTop + 8, bx = px + Lk * Math.sin(fsRad(th)), by = py + Lk * Math.cos(fsRad(th));
+    fsLinie(ctx, [[X(px), py], [X(bx), by]], '#5a3d7a', 2.5);
+    const w = 40 * k, h = 34 * k;
+    fsKasten(ctx, X(bx), by, w, h, 0);
+    ctx.beginPath(); ctx.arc(X(bx), by - h / 2 - 9 * k, 8 * k, 0, 2 * Math.PI); ctx.fillStyle = '#f3e3c8'; ctx.fill(); ctx.strokeStyle = '#8A4A0E'; ctx.stroke();
+    // Bahn als flache Ellipse
+    ctx.beginPath(); ctx.ellipse(X(xA), by + 6, bx - xA, 14 * k, 0, 0, 2 * Math.PI); ctx.strokeStyle = '#c9c9c9'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+    return { bx:X(bx), by, r:Math.max(w, h) / 2 + 12 };
+  }
+  return { bx:W / 2, by:H / 2, r:30 };
+}
+
+function fsZeichne(loesung) {
+  if (!cv || !cv.getContext) return;
+  const H0 = cv.parentElement.offsetWidth < 520 ? 320 : 380;
+  const { ctx, W, H } = initCanvas('fs-cv', H0);
+  const A = zustand.A; if (!A) return;
+  const k = fsSzenerie(ctx, W, H, A);
+  // Pfeile samt Beschriftung bleiben im Bild: Länge durch den Platz rund um den Körper begrenzt
+  const Rplatz = Math.min(Math.min(W, H) * 0.34, H - k.by - 36, k.by - 36, k.bx - 42, W - k.bx - 42);
+  geo = { W, H, bx:k.bx, by:k.by, Rmin:k.r + 14, Rmax:Math.max(k.r + 30, Rplatz) };
+  // Schnittlinie um den Körper
+  ctx.beginPath(); ctx.arc(k.bx, k.by, k.r, 0, 2 * Math.PI); ctx.strokeStyle = '#8A4A0E'; ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]); ctx.stroke(); ctx.setLineDash([]);
+  ctx.beginPath(); ctx.arc(k.bx, k.by, 4, 0, 2 * Math.PI); ctx.fillStyle = '#1a1a1a'; ctx.fill();
+  if (loesung) {
+    const Fmax = Math.max(...A.kraefte.map(x => x.F));
+    A.kraefte.forEach(x => {
+      const K = FS_KRAEFTE[x.typ], len = Math.max(26, geo.Rmax * x.F / Fmax);
+      const [x2, y2] = fsPfeil(ctx, k.bx, k.by, x.w, len, K.farbe, 3);
+      const nm = x.name || [K.sym, K.sub];
+      fsEtikett(ctx, x2 + 16 * Math.cos(fsRad(x.w)), y2 - 16 * Math.sin(fsRad(x.w)), nm[0], nm[1], K.farbe);
+    });
+    return;
+  }
+  zustand.gez.forEach((x, i) => {
+    const K = FS_KRAEFTE[x.typ], farbe = K.falle ? FS_FALLE_FARBE : K.farbe;
+    const len = geo.Rmin + (geo.Rmax - geo.Rmin) * x.L;
+    if (i === zustand.wahl) { ctx.globalAlpha = 0.25; fsPfeil(ctx, k.bx, k.by, x.w, len, farbe, 9); ctx.globalAlpha = 1; }
+    const [x2, y2] = fsPfeil(ctx, k.bx, k.by, x.w, len, farbe, i === zustand.wahl ? 3.5 : 2.6);
+    const [s, u] = fsEtikettText(x, i);
+    fsEtikett(ctx, x2 + 17 * Math.cos(fsRad(x.w)), y2 - 17 * Math.sin(fsRad(x.w)), s, u, farbe);
+  });
+}
+
+/* ── Prüfen, Tipp, Lösung ─────────────────────────────────────────── */
+function fsPruefen() {
+  const A = zustand.A; if (!A || zustand.phase !== 'zeichnen') return;
+  zustand.versuche++;
+  const e = fsBewerte(A, zustand.gez);
+  const R = $('fs-rueck');
+  if (e.ok) {
+    if (zustand.versuche === 1) zustand.ersteRichtig++;
+    R.innerHTML = '<div class="block block-bsp"><div class="block-titel">✓ Freischnitt vollständig</div><p>Alle Kräfte sind da, und sie zeigen in die richtige Richtung. Jetzt der zweite Schritt.</p></div>';
+    fsResFrage();
+  } else {
+    const zeig = e.befunde.slice(0, 2);
+    R.innerHTML = '<div class="block block-fehler"><div class="block-titel">✗ Noch nicht ganz</div><ul>' +
+      zeig.map(b => '<li>' + b.text + '</li>').join('') + '</ul>' +
+      (e.befunde.length > 2 ? '<p>Dazu kommt noch mindestens ein weiterer Punkt. Verbessere zuerst diese.</p>' : '') + '</div>';
+  }
+  fsTypeset(R); fsStand();
+}
+
+function fsTipp() {
+  const A = zustand.A; if (!A) return;
+  zustand.tipp++;
+  const was = A.kontakte.length ? 'Den Körper berühren: ' + A.kontakte.join(' und ') + '.' : 'Den Körper berührt nichts.';
+  const t = zustand.tipp === 1
+    ? was + ' Dazu kommt die Erde, die aus der Ferne zieht. Mehr Verursacher gibt es nicht.'
+    : was + ' Eine Unterlage gibt die Normalkraft und, wenn etwas rutscht oder rutschen würde, die Reibungskraft. Ein Seil gibt eine Seilkraft, eine Feder eine Federkraft. Die Erde gibt die Gewichtskraft. Insgesamt sind es ' + A.kraefte.length + ' Kräfte.';
+  $('fs-rueck').innerHTML = '<div class="block block-tipp"><div class="block-titel">💡 Tipp ' + Math.min(zustand.tipp, 2) + '</div><p>' + t + '</p></div>';
+}
+
+function fsResFrage() {
+  const A = zustand.A; zustand.phase = 'resultierende';
+  $('fs-pruefen').disabled = true; $('fs-tipp').disabled = true;
+  const reihe = A.resWahl.slice().sort(() => Math.random() - 0.5);
+  const box = $('fs-res');
+  box.innerHTML = '<div class="fs-feld-titel">Schritt 2: die resultierende Kraft</div>' +
+    '<p>' + A.satz + ' Wie gross ist die Summe aller Kräfte, und wohin zeigt sie?</p>' +
+    '<div class="fs-res-wahl">' + reihe.map(k => '<button data-res="' + k + '">' + FS_RES_TEXT[k] + '</button>').join('') + '</div><div id="fs-res-rueck"></div>';
+}
+
+function fsResAntwort(k, knopf) {
+  const A = zustand.A, rr = $('fs-res-rueck');
+  const richtig = k === A.resKey;
+  knopf.classList.add(richtig ? 'richtig' : 'falsch');
+  rr.innerHTML = '<div class="block ' + (richtig ? 'block-bsp' : 'block-fehler') + '" style="margin-top:8px"><p>' + fsResRueck(A, k) + '</p></div>';
+  fsTypeset(rr);
+  if (richtig) {
+    document.querySelectorAll('.fs-res-wahl button').forEach(b => { b.disabled = true; });
+    zustand.geloest++; fsLoesung(); fsStand();
+  }
+}
+
+function fsLoesung(nurZeigen) {
+  const A = zustand.A; zustand.phase = 'loesung';
+  $('fs-pruefen').disabled = true; $('fs-tipp').disabled = true; $('fs-zeigen').disabled = true;
+  if (nurZeigen) {
+    $('fs-rueck').innerHTML = '<div class="block block-tipp"><div class="block-titel">Lösung</div><p>Vergleiche mit deinem Freischnitt. Danach mit «Neue Aufgabe» weiter.</p></div>';
+    $('fs-res').innerHTML = '<div class="block block-merksatz" style="margin-top:8px"><p><strong>Resultierende Kraft:</strong> ' + FS_RES_TEXT[A.resKey] + '. ' + fsResRueck(A, A.resKey).replace(/^Richtig\. /, '') + '</p></div>';
+    fsTypeset($('fs-res'));
+  }
+  // Eine Rechnung, eine Zeile (STYLEGUIDE §2.8); schmal bricht sie nur vor einem «=» um (flHtml)
+  const glieder = tex => tex.split(' = ').map((g, i) => i ? '= ' + g : g);
+  const zeilen = A.kraefte.map(x => '<div class="fl-eq">' + flHtml(glieder(x.tex)) + '</div>').join('') +
+    '<div class="fl-eq">' + flHtml(glieder(A.res.F ? A.res.tex : 'F_{\\text{res}} = 0')) + '</div>';
+  $('fs-loesung').innerHTML = '<div class="fs-loesung-raster"><div>' +
+    '<div class="formel-live"><div class="fl-label">Beträge der Kräfte</div>' + zeilen + '</div>' +
+    '<p class="fs-bedienhinweis">Das Bild oben zeigt jetzt die Musterlösung, die Pfeillängen im selben Massstab.</p></div>' +
+    '<div><div class="fs-plan-titel">Kräfteplan: Spitze an Fuss</div><div class="cv-wrap"><canvas id="fs-plan"></canvas></div>' +
+    '<p class="fs-bedienhinweis">' + (A.res.F ? 'Der Plan schliesst sich nicht: Die gestrichelte Lücke ist die resultierende Kraft.' : 'Der Plan schliesst sich: Die Kräfte heben sich auf.') + '</p></div></div>';
+  const L = $('fs-loesung');
+  if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([L]).then(() => {
+    // jedes Glied als inline-block, damit umgebrochene Zeilen die Höhe der Brüche behalten (wie flTex)
+    L.querySelectorAll('.fl-eq mjx-container').forEach(c => { c.style.display = 'inline-block'; c.style.margin = '2px 0'; });
+  }).catch(() => {});
+  fsZeichne(true); fsPlan();
+}
+
+function fsPlan() {
+  const A = zustand.A; const el = $('fs-plan'); if (!el) return;
+  const { ctx, W, H } = initCanvas('fs-plan', 220);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+  // Kette berechnen
+  let x = 0, y = 0; const pts = [[0, 0]];
+  A.kraefte.forEach(k => { x += k.F * Math.cos(fsRad(k.w)); y += k.F * Math.sin(fsRad(k.w)); pts.push([x, y]); });
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  const xmin = Math.min(...xs), xmax = Math.max(...xs), ymin = Math.min(...ys), ymax = Math.max(...ys);
+  const m = Math.min((W - 60) / Math.max(xmax - xmin, 1e-9), (H - 50) / Math.max(ymax - ymin, 1e-9));
+  const ox = (W - (xmax - xmin) * m) / 2 - xmin * m, oy = (H + (ymax - ymin) * m) / 2 + ymin * m;
+  const P = ([a, b]) => [ox + a * m, oy - b * m];
+  A.kraefte.forEach((k, i) => {
+    const K = FS_KRAEFTE[k.typ], [x1, y1] = P(pts[i]), [x2, y2] = P(pts[i + 1]);
+    drawArrow(ctx, x1, y1, x2, y2, K.farbe, 2.5, 10);
+    const nm = k.name || [K.sym, K.sub], mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    const nx = -(y2 - y1), ny = x2 - x1, nl = Math.hypot(nx, ny) || 1;
+    fsEtikett(ctx, mx + 14 * nx / nl, my + 14 * ny / nl, nm[0], nm[1], K.farbe);
+  });
+  if (A.res.F) {
+    const [x1, y1] = P(pts[0]), [x2, y2] = P(pts[pts.length - 1]);
+    fsLinie(ctx, [[x1, y1], [x2, y2]], '#1a1a1a', 2, [6, 4]); drawArrow(ctx, x1 + (x2 - x1) * 0.9, y1 + (y2 - y1) * 0.9, x2, y2, '#1a1a1a', 2, 10);
+    fsEtikett(ctx, (x1 + x2) / 2 - 18, (y1 + y2) / 2 + 16, 'F', 'res', '#1a1a1a');
+  }
+}
+
+function fsStand() {
+  $('fs-stand').textContent = 'gelöst: ' + zustand.geloest + '; beim ersten Prüfen richtig: ' + zustand.ersteRichtig;
+}
+
+/* ── Bedienung ────────────────────────────────────────────────────── */
+function fsPunkt(ev) { const r = cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; }
+function fsZiel(px, py) {
+  const i = zustand.wahl; if (i < 0 || !geo) return;
+  const dx = px - geo.bx, dy = geo.by - py, d = Math.hypot(dx, dy); if (d < 6) return;
+  const k = zustand.gez[i];
+  k.w = fsNorm(Math.round(Math.atan2(dy, dx) * 180 / Math.PI / FS_RASTER) * FS_RASTER);
+  k.L = Math.max(0, Math.min(1, (d - geo.Rmin) / (geo.Rmax - geo.Rmin)));
+  fsListe(); fsZeichne();
+}
+cv.addEventListener('pointerdown', ev => {
+  if (zustand.phase !== 'zeichnen' || !geo) return;
+  const [px, py] = fsPunkt(ev);
+  // Spitze getroffen?
+  let best = -1, bd = 24;
+  zustand.gez.forEach((k, i) => {
+    const len = geo.Rmin + (geo.Rmax - geo.Rmin) * k.L;
+    const d = Math.hypot(px - (geo.bx + len * Math.cos(fsRad(k.w))), py - (geo.by - len * Math.sin(fsRad(k.w))));
+    if (d < bd) { bd = d; best = i; }
+  });
+  if (best >= 0) { zustand.wahl = best; fsListe(); fsZeichne(); }
+  if (zustand.wahl < 0) {
+    $('fs-rueck').innerHTML = '<div class="block block-tipp"><p>Wähle zuerst rechts eine Kraft aus der Auswahl oder in der Liste.</p></div>';
+    return;
+  }
+  zustand.ziehen = true; cv.setPointerCapture(ev.pointerId); fsZiel(px, py); ev.preventDefault();
+});
+cv.addEventListener('pointermove', ev => { if (zustand.ziehen) { const [px, py] = fsPunkt(ev); fsZiel(px, py); } });
+['pointerup', 'pointercancel'].forEach(t => cv.addEventListener(t, () => { zustand.ziehen = false; }));
+cv.addEventListener('keydown', ev => {
+  const i = zustand.wahl; if (i < 0 || zustand.phase !== 'zeichnen') return;
+  const d = { ArrowLeft:15, ArrowUp:15, ArrowRight:-15, ArrowDown:-15 }[ev.key];
+  if (d) { zustand.gez[i].w = fsNorm(zustand.gez[i].w + d); fsListe(); fsZeichne(); ev.preventDefault(); }
+});
+
+$('fs-palette').innerHTML = FS_PALETTE.map(t => '<button class="fs-pal" data-typ="' + t + '">+ ' + FS_KRAEFTE[t].name + '</button>').join('');
+$('fs-palette').addEventListener('click', ev => { const b = ev.target.closest('[data-typ]'); if (b) fsHinzu(b.dataset.typ); });
+$('fs-liste').addEventListener('click', ev => {
+  if (zustand.phase !== 'zeichnen') return;
+  const b = ev.target.closest('button'); if (!b) return;
+  if (b.dataset.i !== undefined) zustand.wahl = +b.dataset.i;
+  else if (b.dataset.dreh !== undefined) { const i = +b.dataset.dreh; zustand.wahl = i; zustand.gez[i].w = fsNorm(zustand.gez[i].w + Number(b.dataset.d)); }
+  else if (b.dataset.weg !== undefined) { zustand.gez.splice(+b.dataset.weg, 1); zustand.wahl = zustand.gez.length ? Math.min(zustand.wahl, zustand.gez.length - 1) : -1; }
+  fsListe(); fsZeichne();
+});
+$('fs-stufen').addEventListener('click', ev => {
+  const b = ev.target.closest('[data-stufe]'); if (!b) return;
+  document.querySelectorAll('#fs-stufen .typ-btn').forEach(x => x.classList.toggle('aktiv', x === b));
+  zustand.stufe = +b.dataset.stufe; fsNeueAufgabe();
+});
+$('fs-res').addEventListener('click', ev => { const b = ev.target.closest('[data-res]'); if (b && !b.disabled) fsResAntwort(b.dataset.res, b); });
+$('fs-pruefen').addEventListener('click', fsPruefen);
+$('fs-tipp').addEventListener('click', fsTipp);
+$('fs-zeigen').addEventListener('click', () => fsLoesung(true));
+$('fs-neu').addEventListener('click', fsNeueAufgabe);
+let fsRz; window.addEventListener('resize', () => { clearTimeout(fsRz); fsRz = setTimeout(() => { fsZeichne(zustand.phase === 'loesung'); if (zustand.phase === 'loesung') fsPlan(); }, 150); });
+
+/* Testhaken für Prüfskripte (.claude/tools): eine bestimmte Szene zeigen, Musterlösung einsetzen */
+window.__fs = {
+  szene(id, seed) { const S = FS_SZENEN.find(s => s.id === id); zustand.szId = id;
+    zustand.A = S.bau(seed ? fsZufall(seed) : Math.random); zustand.gez = []; zustand.wahl = -1; zustand.phase = 'zeichnen';
+    zustand.versuche = 0; $('fs-rueck').innerHTML = ''; $('fs-res').innerHTML = ''; $('fs-loesung').innerHTML = '';
+    ['fs-pruefen', 'fs-zeigen', 'fs-tipp'].forEach(i => { $(i).disabled = false; });
+    const auf = $('fs-aufgabe'); auf.innerHTML = '<div class="fs-aufgabe-kopf"><span class="fs-aufgabe-titel">' + fsEsc(zustand.A.titel) +
+      '</span><span class="fs-zustand">' + fsEsc(zustand.A.zustand) + '</span></div><p>' + zustand.A.text + '</p>'; fsTypeset(auf);
+    fsListe(); fsZeichne(); return zustand.A; },
+  muster() { zustand.gez = zustand.A.kraefte.map(k => ({ typ:k.typ, w:k.w, L:0.62 })); zustand.wahl = -1; fsListe(); fsZeichne(); },
+  setze(liste) { zustand.gez = liste.map(k => ({ typ:k.typ, w:k.w, L:0.62 })); fsListe(); fsZeichne(); },
+  mass() {                              // Kräfte bei grösster Länge: Spitze und Etikett im Bild?
+    const raus = [];
+    zustand.A.kraefte.forEach(k => { const ux = Math.cos(fsRad(k.w)), uy = -Math.sin(fsRad(k.w));
+      const ex = geo.bx + (geo.Rmax + 17) * ux, ey = geo.by + (geo.Rmax + 17) * uy;
+      if (ex - 16 < 0 || ex + 16 > geo.W || ey - 10 < 0 || ey + 10 > geo.H) raus.push(k.typ + '@' + k.w); });
+    return raus; },
+  geo() { return geo; },
+  ids: FS_SZENEN.map(s => s.id), zustand,
+};
+
+fsNeueAufgabe(); fsStand();
+})();
+</script>
+</body>
+</html>

@@ -9,7 +9,7 @@ Zwei Stufen:
 2. Orchestrierung der vorhandenen, autoritativen Repo-Skripte in scripts/:
    - verify_mathjax.js     (echte MathJax-Render-Prüfung; braucht node_modules/mathjax-full)
    - verify_js_runtime.js  (JS-Laufzeit in jsdom; braucht node_modules/jsdom)
-   - verify_einheitentrainer.js (Selbsttest des Einheitentrainers; braucht jsdom)
+   - verify_einheitentrainer.js, verify_freischneiden.js (Selbsttests der Werkzeuge; brauchen jsdom)
    - check_identifier_collisions.py (falls vorhanden; ohne npm)
    - check_clips (Clip-Ablage gegen clips/clips.json und nav.js)
    - check_sim_wz (simulationen/ und werkzeuge/: Uebersicht, Verweise, Ruecklink-Anker)
@@ -344,17 +344,20 @@ def run_deep(file_args, rep):
             elif not m:
                 rep.warn("verify_js_runtime.js", "Summenzeile nicht erkannt")
 
-    et = scripts / "verify_einheitentrainer.js"
-    if et.is_file():
+    # Selbsttests der Werkzeuge (werkzeuge/*.html), je ein scripts/verify_<name>.js
+    for name in ("einheitentrainer", "freischneiden"):
+        et = scripts / f"verify_{name}.js"
+        if not et.is_file():
+            continue
         if not _dep_present("jsdom"):
-            rep.warn("verify_einheitentrainer.js", "node_modules/jsdom fehlt — `npm install jsdom`")
+            rep.warn(f"verify_{name}.js", "node_modules/jsdom fehlt — `npm install jsdom`")
         else:
             r = _run_node(str(et), [], env)
             out = (r.stdout or "") + (r.stderr or "")
-            print("---- verify_einheitentrainer.js ----")
+            print(f"---- verify_{name}.js ----")
             print(out.rstrip())
             if r.returncode != 0:
-                rep.err("verify_einheitentrainer.js", "Einheitentrainer-Tests fehlgeschlagen (siehe oben)")
+                rep.err(f"verify_{name}.js", f"Selbsttest {name} fehlgeschlagen (siehe oben)")
 
     si = scripts / "build-suchindex.py"
     if si.is_file():

@@ -384,6 +384,11 @@ SEITEN = {
    typ='article', lrt='Werkzeug',
    beschreibung='Einheiten umrechnen üben: Übungsgenerator für Länge, Fläche, Volumen, Masse, Zeit, Tempo, Kraft, Druck, Energie, Leistung, Dichte und Temperatur.',
    themen=['Einheiten umrechnen', 'Übungsgenerator', 'Einheitenpräfixe', 'Zehnerpotenzen', 'SI-Einheiten']),
+ 'werkzeuge/freischneiden.html': dict(
+   ort='Werkzeuge · Freischneiden',
+   typ='article', lrt='Werkzeug',
+   beschreibung='Freischneiden üben: Kräfte auf Kiste, Rampe, Seil und Karussell selbst einzeichnen, mit Rückmeldung zu typischen Fehlern und Frage nach der resultierenden Kraft.',
+   themen=['Freischneiden', 'Kräfte', 'Normalkraft', 'Reibungskraft', 'Resultierende Kraft', 'Schiefe Ebene']),
  'simulationen/sonnenfinsternis-12-08-2026.html': dict(
    ort='Simulationen · Sonnenfinsternis vom 12. August 2026',
    typ='article', lrt='Simulation',
