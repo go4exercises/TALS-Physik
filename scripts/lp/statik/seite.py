@@ -841,7 +841,7 @@ k3 = kapitel(3, 'ruhender-koerper', 'Kräfte am ruhenden Körper', 'K3 · K5', 5
     ('p4-4-lp-ruhe', 'Statik sehen: Gewicht, Normalkraft und Haftreibung'),
     sim3, ('p4-4-lp-kontrolle-ruhe', 'Kontrollfragen zu den Kräften am ruhenden Körper'),
     fest3, [uebung('zerlegen', 'Kräfte auf der schiefen Ebene'), uebung('grenzwinkel', 'Grenzwinkel und Haftreibungszahl'), uebung('haftgrenze', 'Haftreibung auf waagrechtem Boden')],
-    auf3, f'<a href="{TS}#definition">Themenseite 4.4, Die wesentlichen Kräfte</a> · <a href="{TS}#schiefe-ebene">Schiefe Ebene</a>')
+    auf3, f'<a href="{TS}#definition">Themenseite 4.4, Die wesentlichen Kräfte</a> · <a href="{TS}#schiefe-ebene">Schiefe Ebene</a> · Werkzeug: <a href="../werkzeuge/freischneiden.html">Freischneiden, Kräfte selbst einzeichnen</a>')
 
 # ------------------------------------------------------------------ Kapitel 4
 sim4 = figur_anim('sim4', 'Schraubenschlüssel an einer festsitzenden Schraube; die Zugkraft wächst auf Knopfdruck, der wirksame Hebelarm ist gestrichelt; darunter ein Balken mit dem Drehmoment gegen das Moment, das die Schraube braucht', '-4 -4 308 300',

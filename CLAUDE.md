@@ -45,6 +45,8 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `rechtliches.html` das ausdrücklich fest. Einheiten und Faktoren stehen dort in
   **einer** Datenstruktur (`ET_GRUPPEN`), aus der Aufgaben, Diagnosen und die
   Umrechnungstabellen zugleich entstehen; Faktoren nie an zweiter Stelle notieren.
+  Verweise (eine Aufgabenart, also je Seite einmal): Themenseiten 0.2, 0.5 und 4.3, Leitprogramme
+  Vorwissen (Schluss), Rechnen, Energie und Statik (je in einer Lösung).
 - `werkzeuge/freischneiden.html` — Trainer Freischneiden (4.2/4.4, seit 10.10.2026): Kräfte
   selbst einzeichnen (Palette mit echten Kräften **und Fallen**: Bewegungs-, Hangabtriebs-,
   Zentrifugalkraft, Kraft auf die Unterlage), Richtung im 15°-Raster, Diagnose je Fehlerbild,
@@ -55,7 +57,8 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Gleichgewicht bzw. Resultierende passt zur Antwort, \(F_G = m g\), \(F_R = \mu F_N\),
   \(F_R = m a\), jeder typische Fehler bekommt seine Diagnose. Testhaken `window.__fs`
   (`szene(id, seed)`, `muster()`, `mass()` prüft, ob Pfeile samt Etikett im Bild liegen).
-  Kein `localStorage`.
+  Kein `localStorage`. Verweise (eine Aufgabenart, also je Seite einmal): Themenseiten 4.2 und 4.4,
+  Leitprogramm Dynamik Kapitel 2, Statik Kapitel 3.
 - `werkzeuge/schaltungen-zusammenfassen.html` — Trainer Schaltungen zusammenfassen (6.2, seit
   10.10.2026), drei Aufgabenarten als Reiter: (1, Voreinstellung) Kurzformel
   aus Knöpfen setzen (Parser ohne Vorrang: + und ∥ auf einer Ebene brauchen eine Klammer; Vergleich
