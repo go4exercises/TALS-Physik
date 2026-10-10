@@ -119,6 +119,17 @@ An drei Stellen, sonst fehlt die Seite in Übersicht, Suche oder Sitemap:
 - Ein Verweis im Fliesstext (`übt der <a href="../werkzeuge/…">Einheitentrainer</a>`) ist
   zusätzlich erlaubt; der Baustein steht trotzdem dort, wo das Werkzeug inhaltlich hingehört.
 - Ein Leitprogramm darf im passenden Schritt auf das Werkzeug verweisen.
+- **Regel (Auftraggeber, 10.10.2026): Aus dem Leitprogramm und aus der Themenseite wird auf ein
+  Werkzeug verwiesen, und zwar jeweils dort, wo es thematisch passt — je Aufgabenart des Werkzeugs
+  höchstens einmal pro Seite.** Hat ein Werkzeug mehrere Aufgabenarten, kann eine Seite also
+  mehrere Verweise tragen, aber an verschiedenen Stellen und nie zweimal auf dieselbe Aufgabe.
+  Hat es nur eine, gibt es pro Seite genau einen Verweis. Im Leitprogramm steht der Verweis in der
+  Zeile «Mehr dazu» am Kapitelende (Bauskript `scripts/lp/<name>/seite.py`, danach neu bauen).
+- Ein Verweis auf eine bestimmte Aufgabenart öffnet sie direkt: Der Anker heisst
+  `#aufgabe-<art>` und ist die `id` des Reiters, das Werkzeug liest ihn beim Laden und bei
+  `hashchange` (Vorbild `werkzeuge/schaltungen-zusammenfassen.html`, `szAusAdresse`). Keine
+  Query-Parameter (`?aufgabe=…`): `check_sim_wz` liest den Dateinamen bis `"` oder `#` und hielte
+  `datei.html?aufgabe=x` für eine fehlende Datei.
 
 ## 6 · Prüfen
 

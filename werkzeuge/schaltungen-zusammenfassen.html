@@ -125,6 +125,7 @@ MathJax = {
   border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; }
 .sz-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
 .sz-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
+.sz-reiter-knopf { scroll-margin-top:66px; }
 .sz-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
 .sz-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
 .sz-reiter-knopf.aktiv .sz-reiter-nr { color:var(--bernstein); }
@@ -276,10 +277,10 @@ MathJax = {
   <div class="widget-body">
 
     <div class="sz-reiter" id="sz-arten" role="group" aria-label="Aufgabenart wählen">
-      <button class="sz-reiter-knopf aktiv" data-art="formel" aria-pressed="true"><span class="sz-reiter-nr">Aufgabe 1</span><span class="sz-reiter-name">Kurzformel</span><span class="sz-reiter-text">Die Schaltung als Formel schreiben, etwa \(R_1 + (R_2 \parallel R_3)\).</span></button>
-      <button class="sz-reiter-knopf" data-art="kette" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 2</span><span class="sz-reiter-name">Zusammenfassen und zurückrechnen</span><span class="sz-reiter-text">Schritt für Schritt bis \(R_\text{ges}\), dann zurück bis zu einem Widerstand.</span></button>
-      <button class="sz-reiter-knopf" data-art="tabelle" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 3</span><span class="sz-reiter-name">Teilströme und Teilspannungen</span><span class="sz-reiter-text">\(R_\text{ges}\) und \(I\) sind gegeben; Strom und Spannung an jedem Widerstand berechnen.</span></button>
-      <button class="sz-reiter-knopf" data-art="messen" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 4</span><span class="sz-reiter-name">Messen</span><span class="sz-reiter-text">Voltmeter und Amperemeter richtig in die Schaltung setzen.</span></button>
+      <button class="sz-reiter-knopf aktiv" id="aufgabe-formel" data-art="formel" aria-pressed="true"><span class="sz-reiter-nr">Aufgabe 1</span><span class="sz-reiter-name">Kurzformel</span><span class="sz-reiter-text">Die Schaltung als Formel schreiben, etwa \(R_1 + (R_2 \parallel R_3)\).</span></button>
+      <button class="sz-reiter-knopf" id="aufgabe-kette" data-art="kette" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 2</span><span class="sz-reiter-name">Zusammenfassen und zurückrechnen</span><span class="sz-reiter-text">Schritt für Schritt bis \(R_\text{ges}\), dann zurück bis zu einem Widerstand.</span></button>
+      <button class="sz-reiter-knopf" id="aufgabe-tabelle" data-art="tabelle" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 3</span><span class="sz-reiter-name">Teilströme und Teilspannungen</span><span class="sz-reiter-text">\(R_\text{ges}\) und \(I\) sind gegeben; Strom und Spannung an jedem Widerstand berechnen.</span></button>
+      <button class="sz-reiter-knopf" id="aufgabe-messen" data-art="messen" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 4</span><span class="sz-reiter-name">Messen</span><span class="sz-reiter-text">Voltmeter und Amperemeter richtig in die Schaltung setzen.</span></button>
     </div>
 
     <div class="typ-btns" id="sz-stufen" role="group" aria-label="Stufe wählen">
@@ -2045,7 +2046,15 @@ window.__sz = {
   ids: SZ_VORLAGEN.map(v => v.id), zustand,
 };
 
-szKnotenKnopf(); szNeueAufgabe(); szFehlerBilder();
+// Verweise aus Themenseite und Leitprogramm öffnen eine bestimmte Aufgabe: …/schaltungen-zusammenfassen.html#aufgabe-messen
+function szAusAdresse() {
+  const m = location.hash.match(/^#aufgabe-(formel|kette|tabelle|messen)$/); if (!m) return false;
+  zustand.art = m[1];
+  document.querySelectorAll('#sz-arten [data-art]').forEach(x => { x.classList.toggle('aktiv', x.dataset.art === m[1]); x.setAttribute('aria-pressed', String(x.dataset.art === m[1])); });
+  return true;
+}
+window.addEventListener('hashchange', () => { if (szAusAdresse()) szNeueAufgabe(); });
+szAusAdresse(); szKnotenKnopf(); szNeueAufgabe(); szFehlerBilder();
 })();
 </script>
 </body>

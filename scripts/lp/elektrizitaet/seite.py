@@ -834,7 +834,7 @@ kM = kapitel(4, 'messen-und-kennlinien', 'Messen und Kennlinien', 'K2 · K3', 40
     ('p6-2-lp-messen', 'Strom sehen: messen und Kennlinien'),
     sim6, ('p6-2-lp-kontrolle-messen', 'Kontrollfragen zum Messen und zu Kennlinien'),
     fest6, [uebung('messwert', 'Widerstand aus Messwerten'), uebung('kennlinie', 'Kennlinie nutzen'), uebung('anschluss', 'Messgerät anschliessen')],
-    aufM, f'<a href="{TS}#messen">Themenseite 6.2, Messen im Stromkreis</a> · <a href="{TS}#ohm">Das ohmsche Gesetz</a>')
+    aufM, f'<a href="{TS}#messen">Themenseite 6.2, Messen im Stromkreis</a> · <a href="{TS}#ohm">Das ohmsche Gesetz</a> · Werkzeug: <a href="../werkzeuge/schaltungen-zusammenfassen.html#aufgabe-messen">Voltmeter und Amperemeter einsetzen</a>')
 
 # ------------------------------------------------------------------ Kapitel 5: Reihe und parallel (bis 06.10.2026 Kapitel 4; Test t4)
 sim4 = f'''      <figure class="sim sim-gross" id="sim4">
@@ -902,7 +902,7 @@ k4 = kapitel(5, 'reihe-und-parallel', 'Reihen- und Parallelschaltung', 'K4', 45,
     ('p6-2-lp-schaltungen', 'Strom sehen: Reihe teilt die Spannung, parallel den Strom'),
     sim4, ('p6-2-lp-kontrolle-schaltungen', 'Kontrollfragen zu Reihe und parallel'),
     fest4, [uebung('reihe', 'Reihenschaltung'), uebung('parallel', 'Parallelschaltung'), uebung('teiler', 'Spannungsteiler')],
-    auf4, f'<a href="{TS}#reihe">Themenseite 6.2, Reihenschaltung</a> · <a href="{TS}#parallel">Parallelschaltung</a> · weiterführend: <a href="{TS}#gemischt">Gemischte Schaltungen</a>')
+    auf4, f'<a href="{TS}#reihe">Themenseite 6.2, Reihenschaltung</a> · <a href="{TS}#parallel">Parallelschaltung</a> · weiterführend: <a href="{TS}#gemischt">Gemischte Schaltungen</a> · Werkzeug, Stufe 1: <a href="../werkzeuge/schaltungen-zusammenfassen.html#aufgabe-kette">zusammenfassen und zurückrechnen</a>, <a href="../werkzeuge/schaltungen-zusammenfassen.html#aufgabe-tabelle">Teilströme und Teilspannungen</a>')
 
 
 # ------------------------------------------------------------------ Kapitel 6: Schaltungen erkennen, begründen und prüfen (neu 06.10.2026, Test te)
@@ -959,7 +959,7 @@ kE = kapitel(6, 'schaltungen-erkennen', 'Schaltungen erkennen, begründen und pr
     ('p6-2-lp-erkennen', 'Strom sehen: Verbindungen zählen, nicht die Lage'),
     sim7, ('p6-2-lp-kontrolle-erkennen', 'Kontrollfragen zum Erkennen und Prüfen'),
     fest7, [uebung('erkennen', 'Reihe oder parallel?'), uebung('knoten', 'Ströme an der Verzweigung'), uebung('masche', 'Spannungen in der Schaltung')],
-    aufE, f'<a href="{TS}#reihe">Themenseite 6.2, Reihenschaltung</a> · <a href="{TS}#parallel">Parallelschaltung</a> · weiterführend: <a href="{TS}#gemischt">Gemischte Schaltungen</a>')
+    aufE, f'<a href="{TS}#reihe">Themenseite 6.2, Reihenschaltung</a> · <a href="{TS}#parallel">Parallelschaltung</a> · weiterführend: <a href="{TS}#gemischt">Gemischte Schaltungen</a> · Werkzeug: <a href="../werkzeuge/schaltungen-zusammenfassen.html#aufgabe-formel">Kurzformel einer Schaltung schreiben</a>')
 
 # ------------------------------------------------------------------ Kapitel 7: Gefahren und Schutz (bis 06.10.2026 Kapitel 5; Test t5)
 sim5 = f'''      <figure class="sim sim-gross" id="sim5">
