@@ -62,7 +62,11 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   über eine kanonische Form, Diagnose der innersten Gruppe, die es so nicht gibt), (2) zusammenfassen
   und zurückrechnen, links das Original, rechts der jeweilige Zwischenstand bis zum Ersatzschema, (3) Teilströme
   und Teilspannungen aller Widerstände bei gegebenem R_ges und I, Probe mit Kirchhoff
-  (Knoten- und Maschenregel als Summe = 0), rechts das gefundene Ersatzschema. Jedes Bild trägt den
+  (Knoten- und Maschenregel als Summe = 0), rechts das gefundene Ersatzschema, (4) Messen: Gerät
+  (Voltmeter/Amperemeter) und Anschluss (in Reihe an einer Einsetzstelle `L.stellen` / parallel an zwei
+  angetippten Knoten) wählen; Diagnosen Kurzschluss, Voltmeter im Stromweg, falsches Gerät, falsche Knoten,
+  falscher Zweig. Welchen Strom eine Einsetzstelle misst, sagt `L.klasse` (in Reihe derselbe Strom wie die
+  Gruppe darüber); der Selbsttest gleicht jede Stelle mit der Knotenrechnung ab. Verweis zusätzlich aus 6.2 `#messen`. Jedes Bild trägt den
   Spannungspfeil der Quelle, der Gesamtstrom steht auf der Zuleitung, sobald er bekannt ist. Knoten sind
   von Anfang an gefärbt; rechts in denselben Farben wie links (`szKnotenZuordnung`, über Bau und Potential;
   ein Knoten, den es links nicht gibt, bekommt eine eigene Farbe). In (2): zwei Widerstände antippen, «in Reihe» oder «parallel» wählen, Ersatzwiderstand

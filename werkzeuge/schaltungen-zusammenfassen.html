@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Schaltungen zusammenfassen — Physik begreifbar</title>
 <!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
-<meta name="description" content="Widerstandsschaltungen zusammenfassen üben: Reihe und parallel erkennen, Ersatzwiderstand rechnen, zurück zu Strom und Spannung, mit Rückmeldung zu Fehlern.">
+<meta name="description" content="Widerstandsschaltungen üben: Kurzformel, Ersatzwiderstand, Teilströme und Teilspannungen, Voltmeter und Amperemeter richtig einsetzen, mit Rückmeldung.">
 <meta name="author" content="Raphael Arnold Kohler">
 <link rel="canonical" href="https://physik.begreifbar.ch/werkzeuge/schaltungen-zusammenfassen.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Physik begreifbar">
 <meta property="og:locale" content="de_CH">
 <meta property="og:title" content="Schaltungen zusammenfassen — Physik begreifbar">
-<meta property="og:description" content="Widerstandsschaltungen zusammenfassen üben: Reihe und parallel erkennen, Ersatzwiderstand rechnen, zurück zu Strom und Spannung, mit Rückmeldung zu Fehlern.">
+<meta property="og:description" content="Widerstandsschaltungen üben: Kurzformel, Ersatzwiderstand, Teilströme und Teilspannungen, Voltmeter und Amperemeter richtig einsetzen, mit Rückmeldung.">
 <meta property="og:url" content="https://physik.begreifbar.ch/werkzeuge/schaltungen-zusammenfassen.html">
 <meta property="og:image" content="https://physik.begreifbar.ch/og-bild.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -28,7 +28,7 @@
    "@id": "https://physik.begreifbar.ch/werkzeuge/schaltungen-zusammenfassen.html#inhalt",
    "url": "https://physik.begreifbar.ch/werkzeuge/schaltungen-zusammenfassen.html",
    "name": "Schaltungen zusammenfassen — Physik begreifbar",
-   "description": "Widerstandsschaltungen zusammenfassen üben: Reihe und parallel erkennen, Ersatzwiderstand rechnen, zurück zu Strom und Spannung, mit Rückmeldung zu Fehlern.",
+   "description": "Widerstandsschaltungen üben: Kurzformel, Ersatzwiderstand, Teilströme und Teilspannungen, Voltmeter und Amperemeter richtig einsetzen, mit Rückmeldung.",
    "inLanguage": "de-CH",
    "isAccessibleForFree": true,
    "license": "https://creativecommons.org/licenses/by-nc/4.0/deed.de",
@@ -64,9 +64,17 @@
     {
      "@type": "DefinedTerm",
      "name": "Ohmsches Gesetz"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Voltmeter"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Amperemeter"
     }
    ],
-   "keywords": "Reihenschaltung, Parallelschaltung, Ersatzwiderstand, Gemischte Schaltung, Ohmsches Gesetz",
+   "keywords": "Reihenschaltung, Parallelschaltung, Ersatzwiderstand, Gemischte Schaltung, Ohmsches Gesetz, Voltmeter, Amperemeter",
    "learningResourceType": "Werkzeug",
    "educationalLevel": "Sekundarstufe II — Berufsmaturität (Schweiz)",
    "typicalAgeRange": "16-20",
@@ -112,7 +120,7 @@ MathJax = {
 .sz-phase { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
   border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
 .sz-aufgabe p { margin:0; font-size:0.9rem; }
-.sz-reiter { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+.sz-reiter { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
 .sz-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
   border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; }
 .sz-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
@@ -126,6 +134,9 @@ MathJax = {
 .sz-bilder.zwei { grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start; }
 .sz-bild-titel { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 4px 2px; }
 #sz-cv, #sz-cv2 { cursor:pointer; touch-action:manipulation; }
+.sz-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); color:var(--bernstein); font-weight:700; }
+.sz-mess-zeile { margin-top:6px; }
+.sz-mess-label { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); min-width:7.5em; }
 .sz-leiste { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:8px 0 4px; }
 .sz-chip { font-family:var(--mono); font-size:0.82rem; padding:5px 11px; border-radius:16px; cursor:pointer;
   border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
@@ -163,6 +174,9 @@ MathJax = {
 .sz-bild { margin:10px 0 6px; }
 .sz-pruefen { white-space:nowrap; }
 .sz-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
+@media (max-width: 1100px) {
+  .sz-reiter { grid-template-columns:repeat(2, minmax(0,1fr)); }
+}
 @media (max-width: 900px) {
   .sz-bilder.zwei { grid-template-columns:minmax(0,1fr); }
 }
@@ -170,6 +184,7 @@ MathJax = {
   .sz-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
   .sz-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
   .sz-reiter-text { display:none; }
+  .sz-mess-label { flex-basis:100%; }
   .sz-weg { padding:12px 8px; }
   .sz-tab { grid-template-columns:auto minmax(0,1fr); }
   .sz-tab-kopf { display:none; }
@@ -191,7 +206,7 @@ MathJax = {
 <div class="page-titel">
   <div class="pt-bereich">WZ · Werkzeuge</div>
   <h1 class="pt-h1">Schaltungen zusammenfassen</h1>
-  <p class="pt-untertitel">Ein Netz aus Widerständen wird Schritt für Schritt zu einem einzigen Widerstand: Du erkennst, welche zwei in Reihe oder parallel liegen, rechnest ihren Ersatzwiderstand aus und rechnest danach zurück bis zu Strom und Spannung an einem einzelnen Widerstand. Erklärt wird das auf der Themenseite <a href="../themen/p6-2-elektrizitaet.html#gemischt">6.2 Gemischte Schaltungen</a>.</p>
+  <p class="pt-untertitel">Ein Netz aus Widerständen wird Schritt für Schritt zu einem einzigen Widerstand: Du erkennst, welche zwei in Reihe oder parallel liegen, rechnest ihren Ersatzwiderstand aus und rechnest danach zurück bis zu Strom und Spannung an einem einzelnen Widerstand. Zum Schluss setzt du Voltmeter und Amperemeter selbst in die Schaltung. Erklärt wird das auf der Themenseite unter <a href="../themen/p6-2-elektrizitaet.html#gemischt">6.2 Gemischte Schaltungen</a> und <a href="../themen/p6-2-elektrizitaet.html#messen">6.2 Messen im Stromkreis</a>.</p>
 </div>
 
 <div class="rlp-kompetenzen">
@@ -199,6 +214,7 @@ MathJax = {
   <ul>
     <li>Berechnungen in einfachen seriellen oder parallelen Schaltkreisen von Widerständen durchführen (RLP-BM 2030)</li>
     <li>Berechnungen in einfachen gemischten Schaltkreisen von Widerständen durchführen (weiterführend, über den RLP hinaus)</li>
+    <li>Spannung und Stromstärke in einem Schaltkreis messen (zur RLP-Zeile «die wichtigsten physikalischen Grössen definieren und charakterisieren»)</li>
   </ul>
 </div>
 
@@ -212,6 +228,7 @@ MathJax = {
     <li>Ich kann die Kurzformel einer Schaltung schreiben.</li>
     <li>Ich kann aus Gesamtwiderstand und Gesamtstrom die Teilströme und Teilspannungen berechnen.</li>
     <li>Ich kann eine Rechnung mit den Regeln von Kirchhoff prüfen.</li>
+    <li>Ich kann Voltmeter und Amperemeter richtig in eine Schaltung einsetzen.</li>
   </ul>
   </div>
 </details>
@@ -228,6 +245,7 @@ MathJax = {
     <li><strong>Zusammenfassen</strong>, innen beginnend: in Reihe \(R = R_1 + R_2\), parallel \(R = \dfrac{R_1 \cdot R_2}{R_1 + R_2}\). Wiederholen, bis ein einziger Widerstand \(R_\text{ges}\) übrig ist.</li>
     <li><strong>Zurückrechnen</strong>, aussen beginnend: \(I = U/R_\text{ges}\). In Reihe fliesst derselbe Strom, die Spannung teilt sich: \(U_x = I \cdot R_x\). Parallel liegt dieselbe Spannung, der Strom teilt sich: \(I_x = U/R_x\).</li>
   </ol>
+  <p><strong>Messen:</strong> Das Voltmeter kommt parallel, seine zwei Anschlüsse an die zwei Enden des Bauteils. Das Amperemeter kommt in Reihe in den Stromweg, sodass der gesuchte Strom ganz durch das Gerät fliesst.</p>
   <p>Ein <strong>Knoten</strong> ist ein Stück Leitung samt allem, was ohne Bauteil dazwischen damit verbunden ist. Im Trainer hat jeder Knoten seine eigene Farbe: Parallele Widerstände haben an beiden Enden dieselben zwei Farben. Der Knopf «Knoten färben» schaltet die Farben aus und wieder ein.</p>
 </div>
 
@@ -238,12 +256,12 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
     <div class="widget-titelzeile">
-      <h3 id="schaltungen-trainer">Zusammenfassen, Ersatzwiderstand rechnen, zurückrechnen</h3>
+      <h3 id="schaltungen-trainer">Kurzformel, zusammenfassen, zurückrechnen, messen</h3>
       <div class="anim-hinweis links">
         <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zum Trainer Schaltungen zusammenfassen">💡 Worauf achten?</span>
         <div class="ah-pop" role="tooltip">
           <span class="ah-titel">Worauf achten?</span>
-          <div class="ah-text"><ul><li>Frage nicht, was nebeneinander gezeichnet ist, sondern womit jeder Widerstand an seinen beiden Enden verbunden ist.</li><li>Prüfe jeden Ersatzwiderstand mit einer Schätzung: In Reihe ist er grösser als der grösste, parallel kleiner als der kleinste Einzelwiderstand.</li><li>Beim Zurückrechnen: Welche Grösse bleibt in diesem Schritt gleich, Strom oder Spannung?</li></ul></div>
+          <div class="ah-text"><ul><li>Frage nicht, was nebeneinander gezeichnet ist, sondern womit jeder Widerstand an seinen beiden Enden verbunden ist.</li><li>Prüfe jeden Ersatzwiderstand mit einer Schätzung: In Reihe ist er grösser als der grösste, parallel kleiner als der kleinste Einzelwiderstand.</li><li>Beim Zurückrechnen: Welche Grösse bleibt in diesem Schritt gleich, Strom oder Spannung?</li><li>Beim Messen: Zwischen welchen zwei Knoten liegt die gesuchte Spannung? Durch welche Leitung fliesst genau der gesuchte Strom?</li></ul></div>
         </div>
       </div>
       <div class="anim-hinweis rechts">
@@ -261,6 +279,7 @@ MathJax = {
       <button class="sz-reiter-knopf aktiv" data-art="formel" aria-pressed="true"><span class="sz-reiter-nr">Aufgabe 1</span><span class="sz-reiter-name">Kurzformel</span><span class="sz-reiter-text">Die Schaltung als Formel schreiben, etwa \(R_1 + (R_2 \parallel R_3)\).</span></button>
       <button class="sz-reiter-knopf" data-art="kette" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 2</span><span class="sz-reiter-name">Zusammenfassen und zurückrechnen</span><span class="sz-reiter-text">Schritt für Schritt bis \(R_\text{ges}\), dann zurück bis zu einem Widerstand.</span></button>
       <button class="sz-reiter-knopf" data-art="tabelle" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 3</span><span class="sz-reiter-name">Teilströme und Teilspannungen</span><span class="sz-reiter-text">\(R_\text{ges}\) und \(I\) sind gegeben; Strom und Spannung an jedem Widerstand berechnen.</span></button>
+      <button class="sz-reiter-knopf" data-art="messen" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 4</span><span class="sz-reiter-name">Messen</span><span class="sz-reiter-text">Voltmeter und Amperemeter richtig in die Schaltung setzen.</span></button>
     </div>
 
     <div class="typ-btns" id="sz-stufen" role="group" aria-label="Stufe wählen">
@@ -365,6 +384,7 @@ MathJax = {
   <li>In Reihe \(R = R_1 + R_2\), grösser als der grösste; parallel \(R = \dfrac{R_1 \cdot R_2}{R_1 + R_2}\), kleiner als der kleinste.</li>
   <li>Zusammenfassen von innen nach aussen, bis \(R_\text{ges}\) übrig ist; dann \(I = U/R_\text{ges}\).</li>
   <li>Zurückrechnen von aussen nach innen: In Reihe bleibt der Strom, parallel die Spannung.</li>
+  <li>Voltmeter parallel an die zwei Enden des Bauteils, Amperemeter in Reihe in den Stromweg. Ein Amperemeter parallel ist ein Kurzschluss.</li>
   <li>Kirchhoff: Die Summe aller Ströme in einem Knoten ist null, \(\sum I = 0\) (zufliessend positiv, abfliessend negativ). Die Summe aller Spannungen in einer Masche ist null, \(\sum U = 0\) (in Umlaufrichtung gezählt).</li>
 </ul>
 
@@ -477,6 +497,17 @@ const SZ_DIAGNOSE = {
     ? `${c.teile} liegen nicht in Reihe: Durch sie fliesst nicht derselbe Strom. Prüfe an den Knoten, welche Widerstände zusammengehören.`
     : `${c.teile} liegen nicht parallel: Sie hängen nicht an denselben zwei Knoten. Prüfe an den Knoten, welche Widerstände zusammengehören.`,
   K_falsch:     c => 'Die Formel beschreibt eine andere Schaltung. Beginne innen: Welche zwei Widerstände gehören direkt zusammen?',
+  // Messen
+  M_leer:     c => 'Wähle das Messgerät und die Art des Anschlusses, dann setze es im Bild.',
+  M_gleich:   c => 'Beide Anschlüsse hängen am selben Knoten, sie haben dieselbe Farbe. Dazwischen liegt keine Spannung, und durch das Gerät fliesst kein Strom: Es zeigt null.',
+  A_parallel: c => c.quelle
+    ? 'Kurzschluss der Quelle: Das Amperemeter hat fast keinen Widerstand und liegt direkt zwischen Plus- und Minuspol. Es fliesst ein sehr grosser Strom, die Sicherung im Messgerät brennt durch. Ein Amperemeter kommt in den Stromweg, in Reihe.'
+    : 'Kurzschluss: Das Amperemeter hat fast keinen Widerstand. Parallel angeschlossen fliesst der Strom durch das Gerät statt durch die Widerstände zwischen diesen zwei Knoten, und der Strom der ganzen Schaltung steigt. Ein Amperemeter kommt in den Stromweg, in Reihe.',
+  V_reihe:    c => 'Das Voltmeter steckt im Stromweg. Es hat einen sehr grossen Widerstand und unterbricht den Strom in diesem Zweig fast ganz. Ein Voltmeter kommt parallel: seine zwei Anschlüsse an die zwei Enden des Bauteils.',
+  A_statt_V:  c => `Gesucht ist die Spannung \\(${c.ziel}\\). Ein Amperemeter misst den Strom, nicht die Spannung. Die Spannung misst das Voltmeter, parallel zum Bauteil.`,
+  V_statt_A:  c => `Gesucht ist der Strom \\(${c.ziel}\\). Ein Voltmeter misst die Spannung zwischen zwei Knoten, nicht den Strom. Den Strom misst das Amperemeter, in Reihe im Stromweg.`,
+  V_knoten:   c => `Zwischen diesen zwei Knoten liegt \\(${c.wert}\\), das ist nicht \\(${c.ziel}\\). Die Anschlüsse gehören an die zwei Enden ${c.enden}, also an die zwei Knoten, zwischen denen ${c.wer} liegt.`,
+  A_zweig:    c => `An dieser Stelle fliesst ${c.mess}. Gesucht ist \\(${c.ziel}\\): Setze das Amperemeter in den Stromweg, durch den genau dieser Strom fliesst.`,
   // allgemein
   leer:       c => 'Gib zuerst eine Zahl ein.',
   falsch:     c => 'Noch nicht richtig. Rechne nochmals nach; der Tipp zeigt, welche Formel hier gilt.',
@@ -866,10 +897,12 @@ function szLayout(baum, W, U) {
   const M = new Map(), mr = szMasse(baum, M), rand = 0.32;
   const ux = Math.min(100, (W - 10) / (mr.w + 2 * rand)), uy = 58;
   const ox = (W - mr.w * ux) / 2, oy = 16 + mr.up * uy;
-  const L = { W, ux, uy, bw:Math.min(0.62 * ux, 46), bh:16, teile:[], draehte:[], punkte:[], gruppen:new Map(), netz:[], nK:2 };
+  const L = { W, ux, uy, bw:Math.min(0.62 * ux, 46), bh:16, teile:[], draehte:[], punkte:[], gruppen:new Map(), klasse:new Map(), netz:[], nK:2 };
   const draht = (x1, y1, x2, y2, k) => L.draehte.push({ x1, y1, x2, y2, k });
-  (function setze(n, x, y, a, b) {
+  // klasse: die Gruppe, deren Strom auch durch n fliesst (in Reihe derselbe Strom, an einer Verzweigung ein eigener)
+  (function setze(n, x, y, a, b, kl) {
     const m = M.get(n);
+    L.klasse.set(n, kl);
     L.gruppen.set(n, { x, y0:y - m.up * uy, w:m.w * ux, h:(m.up + m.dn) * uy, a, b });
     if (n.t === 'R') {
       const cx = x + ux / 2;
@@ -879,7 +912,7 @@ function szLayout(baum, W, U) {
     }
     if (n.t === 'S') {
       let cx = x, ka = a;
-      n.k.forEach((c, i) => { const kb = i === n.k.length - 1 ? b : L.nK++; setze(c, cx, y, ka, kb); cx += M.get(c).w * ux; ka = kb; });
+      n.k.forEach((c, i) => { const kb = i === n.k.length - 1 ? b : L.nK++; setze(c, cx, y, ka, kb, kl); cx += M.get(c).w * ux; ka = kb; });
       return;
     }
     const xl = x + SZ_SCHIENE * ux, xr = x + (m.w - SZ_SCHIENE) * ux;
@@ -888,12 +921,12 @@ function szLayout(baum, W, U) {
     n.k.forEach((c, i) => {
       const mc = M.get(c);
       if (i) yi += (M.get(n.k[i - 1]).dn + mc.up) * uy;
-      setze(c, xl, yi, a, b);
+      setze(c, xl, yi, a, b, c);
       if (xl + mc.w * ux < xr - 0.5) draht(xl + mc.w * ux, yi, xr, yi, b);
       if (i < n.k.length - 1) L.punkte.push({ x:xl, y:yi, k:a }, { x:xr, y:yi, k:b });
     });
     draht(xl, y, xl, yi, a); draht(xr, y, xr, yi, b);
-  })(baum, ox, oy, 0, 1);
+  })(baum, ox, oy, 0, 1, baum);
   // Zuleitungen und Quelle: Knoten 0 am Pluspol, Knoten 1 am Minuspol. Die Zuleitung unten links
   // ist mindestens so lang, dass der Strompfeil samt Wert darauf Platz hat (auch beim Ersatzschema).
   const xm = W / 2, halb = Math.min(W / 2 - 4, Math.max(mr.w * ux / 2 + rand * ux * 0.7, 130));
@@ -903,6 +936,9 @@ function szLayout(baum, W, U) {
   draht(xL, yq, xm - 4, yq, 0); draht(xm + 4, yq, xR, yq, 1);
   L.quelle = { x:xm, y:yq, wert:szZahl(U) };
   L.strom = { x:(xL + xm - 4) / 2, y:yq };
+  // Einsetzstellen für ein Messgerät im Stromweg: vor jedem Widerstand und in der Zuleitung
+  L.stellen = L.teile.map(t => ({ x:t.cx - ux / 4 - L.bw / 4, y:t.cy, n:t.n, klasse:L.klasse.get(t.n) }))
+    .concat([{ x:L.strom.x, y:yq, n:baum, klasse:baum }]);
   L.H = Math.ceil(yq + 42);
   // Beschriftungen: Name über, Wert unter dem Widerstand; Rechtecke für die Prüfung
   const S = SZ_SCHRIFT, z = S.zeichen;
@@ -975,6 +1011,61 @@ function szKnotenZuordnung(orig, baum, U) {
   return zu;
 }
 
+/* ── Messen: Voltmeter parallel an zwei Knoten, Amperemeter in Reihe an einer Einsetzstelle ──
+   m = { geraet:'V'|'A', anschluss:'knoten'|'reihe', knoten:[k1, k2], stelle:Index in L.stellen } */
+function szMessZiele(A) {
+  const L0 = szLayout(A.baum, 600, A.U), klassen = new Set(L0.stellen.map(x => x.klasse));
+  const name = (gr, N) => N === A.baum ? gr : gr + '_{' + szIds(N).join('') + '}';
+  const ort = (N, art) => N.t === 'R' ? '\\(' + szTexR(N) + '\\)' : art + ' Gruppe \\(' + szTexBaum(N) + '\\)';
+  const zu = N => ({ enden:N.t === 'R' ? 'von ' + ort(N) : ort(N, 'der'), wer:ort(N, 'die') });
+  const alle = szInnere(A.baum).concat(szBlaetter(A.baum));
+  return {
+    U: alle.filter(N => N !== A.baum).map(N => Object.assign(zu(N), { gr:'U', n:N, name:name('U', N),
+      text:'Miss die Spannung \\(' + name('U', N) + '\\) an ' + ort(N, 'der') + '.' })),
+    I: alle.filter(N => klassen.has(L0.klasse.get(N))).map(N => Object.assign(zu(N), { gr:'I', n:N, name:name('I', N),
+      text:N === A.baum ? 'Miss den Gesamtstrom \\(I\\), den die Quelle liefert.' : 'Miss den Strom \\(' + name('I', N) + '\\) durch ' + ort(N, 'die') + '.' })),
+  };
+}
+function szMessZiel(A, r) {                   // halb Spannung, halb Strom; Spannungen direkt an der Quelle nur, wenn es keine andere gibt
+  const Z = szMessZiele(A), L0 = szLayout(A.baum, 600, A.U);
+  if (r() >= 0.5) return szWahl(r, Z.I);
+  const innen = Z.U.filter(z => { const g = L0.gruppen.get(z.n); return !(g.a === 0 && g.b === 1); });
+  return szWahl(r, innen.length ? innen : Z.U);
+}
+function szMessWert(A, ziel) { const w = szWerte(A).get(ziel.n); return ziel.gr === 'U' ? szV(w.U) : szMA(w.I); }
+function szMessLoesung(A, ziel) {
+  const L0 = szLayout(A.baum, 600, A.U);
+  if (ziel.gr === 'U') { const g = L0.gruppen.get(ziel.n); return { geraet:'V', anschluss:'knoten', knoten:[g.a, g.b], stelle:null }; }
+  const kl = L0.klasse.get(ziel.n);
+  let i = L0.stellen.findIndex(x => x.n === ziel.n);              // direkt vor dem Widerstand, wenn es einer ist
+  if (i < 0 || L0.stellen[i].klasse !== kl) i = L0.stellen.findIndex(x => x.klasse === kl);
+  return { geraet:'A', anschluss:'reihe', knoten:[], stelle:i };
+}
+function szMessBewerten(A, ziel, m) {
+  const L0 = szLayout(A.baum, 600, A.U), c = { ziel:ziel.name, enden:ziel.enden, wer:ziel.wer };
+  const e = code => ({ code, text:SZ_DIAGNOSE[code](c) });
+  const fertig = m.geraet && (m.anschluss === 'reihe' ? m.stelle != null : m.anschluss === 'knoten' && m.knoten.length === 2);
+  if (!fertig) return e('M_leer');
+  if (m.anschluss === 'knoten') {
+    const [p, q] = m.knoten;
+    if (p === q) return e('M_gleich');
+    if (m.geraet === 'A') { c.quelle = (p === 0 && q === 1) || (p === 1 && q === 0); return e('A_parallel'); }
+    if (ziel.gr === 'I') return e('V_statt_A');
+    const g = L0.gruppen.get(ziel.n);
+    if ((p === g.a && q === g.b) || (p === g.b && q === g.a)) return null;
+    const K = szKnotenrechnung(L0.netz, L0.nK, A.U, x => x.exakt);
+    c.wert = szV(Math.abs(K.pot(p) - K.pot(q)));
+    return e('V_knoten');
+  }
+  if (m.geraet === 'V') return e('V_reihe');
+  if (ziel.gr === 'U') return e('A_statt_V');
+  const kl = L0.stellen[m.stelle].klasse;
+  if (kl === L0.klasse.get(ziel.n)) return null;
+  const w = szMA(szWerte(A).get(kl).I);
+  c.mess = kl === A.baum ? 'der Gesamtstrom \\(I = ' + w + '\\)' : 'der Strom \\(I_{' + szIds(kl).join('') + '} = ' + w + '\\)';
+  return e('A_zweig');
+}
+
 /* ── Selbsttest ───────────────────────────────────────────────────── */
 function szSelbsttest(n) {
   n = n || 30;
@@ -997,6 +1088,11 @@ function szSelbsttest(n) {
       });
       L.teile.forEach((t, i) => L.teile.forEach((s, j) => { if (j > i) F(Math.abs(t.cx - s.cx) >= L.bw + 6 || Math.abs(t.cy - s.cy) >= L.bh + 20, wo + ': Widerstände zu nah'); }));
       F(L.ux >= 44, wo + ' W=' + W + ': Raster zu eng (' + L.ux.toFixed(1) + ' px)');
+      L.stellen.forEach((x, i) => {
+        F(L.draehte.some(d => Math.abs(d.y1 - d.y2) < 0.01 && Math.abs(d.y1 - x.y) < 0.01 && x.x > Math.min(d.x1, d.x2) && x.x < Math.max(d.x1, d.x2)),
+          wo + ' W=' + W + ': Einsetzstelle nicht auf einer Leitung');
+        L.stellen.forEach((y, j) => { if (j > i) F(Math.hypot(x.x - y.x, x.y - y.y) >= 24, wo + ' W=' + W + ': Einsetzstellen zu nah'); });
+      });
       // Knoten: Leitungsstücke, die sich berühren, gehören zum selben Knoten
       const auf = (x, y, d) => x >= Math.min(d.x1, d.x2) - 0.01 && x <= Math.max(d.x1, d.x2) + 0.01 &&
                                y >= Math.min(d.y1, d.y2) - 0.01 && y <= Math.max(d.y1, d.y2) + 0.01;
@@ -1062,6 +1158,35 @@ function szSelbsttest(n) {
           F(st.tipp && st.formel.join('').indexOf('undefined') < 0, wo + ': Zelle ' + st.name + ' ohne Tipp');
           const w2 = Wt.get(z.blatt); F(st.soll === (st.gr === 'U' ? w2.U : w2.I), wo + ': Zelle und Werte verschieden');
         });
+      });
+      // Messen: jede Einsetzstelle misst den Strom ihrer Klasse; jede richtige Lösung gilt, jeder Fehler hat seine Diagnose
+      const Z = szMessZiele(A);
+      F(Z.I.some(z => z.n === A.baum) && bl.every(x => Z.I.some(z => z.n === x)) && Z.U.length === szInnere(A.baum).length - 1 + bl.length,
+        wo + ': Messziele fehlen');
+      L0.stellen.forEach(x => { const e = x.n === A.baum ? null : L0.netz.find(y => y.n === x.n);
+        F(szNah(Wt.get(x.klasse).Ix, e ? K0.strom(e) * 1000 : K0.I * 1000, 1e-9), wo + ': Einsetzstelle misst einen anderen Strom'); });
+      const zm = szMessZiel(A, szZufall(900 + s)); F(zm && zm.text, wo + ': kein Messziel');
+      Z.U.concat(Z.I).forEach(z => {
+        const b = m => szMessBewerten(A, z, Object.assign({ knoten:[], stelle:null }, m)), ok = szMessLoesung(A, z);
+        const code = (m, soll) => { const r = b(m); F(r && r.code === soll && r.text.indexOf('undefined') < 0 && r.text.indexOf('NaN') < 0,
+                                                       wo + ': ' + z.name + ' ' + soll + ' nicht erkannt (' + (r && r.code) + ')'); };
+        F(!b(ok), wo + ': richtige Messung ' + z.name + ' abgelehnt');
+        F(z.text.indexOf('undefined') < 0, wo + ': Messziel ohne Text');
+        code({}, 'M_leer'); code({ geraet:'V', anschluss:'knoten', knoten:[0] }, 'M_leer');
+        code({ geraet:'V', anschluss:'knoten', knoten:[0, 0] }, 'M_gleich');
+        code({ geraet:'A', anschluss:'knoten', knoten:[0, 1] }, 'A_parallel');
+        code({ geraet:'V', anschluss:'reihe', stelle:0 }, 'V_reihe');
+        if (z.gr === 'U') {
+          const g = L0.gruppen.get(z.n);
+          F(!b({ geraet:'V', anschluss:'knoten', knoten:[g.b, g.a] }), wo + ': vertauschte Anschlüsse abgelehnt');
+          code({ geraet:'A', anschluss:'knoten', knoten:[g.a, g.b] }, 'A_parallel');
+          code({ geraet:'A', anschluss:'reihe', stelle:L0.stellen.length - 1 }, 'A_statt_V');
+          for (let k = 0; k < L0.nK; k++) if (k !== g.a && k !== g.b) code({ geraet:'V', anschluss:'knoten', knoten:[g.a, k] }, 'V_knoten');
+        } else {
+          code({ geraet:'V', anschluss:'knoten', knoten:[0, 1] }, 'V_statt_A');
+          L0.stellen.forEach((x, i) => { if (x.klasse === L0.klasse.get(z.n)) F(!b({ geraet:'A', anschluss:'reihe', stelle:i }), wo + ': Einsetzstelle abgelehnt');
+                                         else code({ geraet:'A', anschluss:'reihe', stelle:i }, 'A_zweig'); });
+        }
       });
       // Kurzformel: richtige Schreibweisen gelten, Fehler bekommen ihre Diagnose
       const rf = szZufall(500 + s), tokS = szTokens(A.baum), op = A.baum.t === 'S' ? '+' : 'P';
@@ -1157,14 +1282,16 @@ if (window.SZ_TEST) return;            // im Selbsttest keine Oberfläche
 const $ = id => document.getElementById(id);
 const cv = $('sz-cv'), cv2 = $('sz-cv2');
 const SZ_KNOTENFARBEN = ['#b3261e', '#1f5fa8', '#2e7d32', '#6a3d9a', '#b85a00', '#00838f', '#ad1457', '#5d4037'];
+const SZ_FARBNAMEN = ['Rot', 'Blau', 'Grün', 'Violett', 'Orange', 'Türkis', 'Pink', 'Braun'];
 const SZ_ARTEN = {
   kette:   'Fasse die Schaltung Schritt für Schritt zu einem einzigen Widerstand zusammen. Danach rechnest du zurück bis zu ZIEL: Welcher Strom fliesst durch ihn, welche Spannung liegt an ihm?',
   formel:  'Schreibe die Kurzformel dieser Schaltung: \\(+\\) heisst in Reihe, \\(\\parallel\\) parallel, und die Klammer sagt, was zuerst zusammengefasst wird.',
+  messen:  'ZIEL Wähle das Messgerät und wie es angeschlossen wird, dann setze es im Bild.',
   tabelle: 'Gesamtwiderstand und Gesamtstrom sind schon berechnet: Das Ersatzschema zeigt sie, der Rechenweg steht unter «Gegeben». Berechne für jeden Widerstand die Spannung an ihm und den Strom durch ihn.',
 };
 const zustand = { stufe:1, art:'formel', A:null, vId:null, baum:null, wahl:[], phase:'gruppe', schritt:null, k:0,
                   fehlversuch:false, gezeigt:false, tipp:0, tippZelle:null, knoten:true, neu:null, weg:[], gegeben:[], ersatz:null,
-                  tok:[], zellen:null, geloest:0, schritte:0, ersteRichtig:0 };
+                  tok:[], zellen:null, mess:null, geloest:0, schritte:0, ersteRichtig:0 };
 let L = null, L2 = null;                     // Layouts links (Original) und rechts
 
 function szSetze(el) { if (typeof mjTypeset === 'function') mjTypeset([el]); }
@@ -1188,8 +1315,10 @@ function szText(ctx, x, y, haupt, sub, rest, farbe, gross) {   // «R₂₃», �
 function szMale(id, baum, U, o) {
   const el = $(id); if (!el || !el.getContext) return null;
   el.style.width = '';
-  const Lx = szLayout(baum, el.offsetWidth || 600, U);
-  const { ctx } = initCanvas(id, Lx.H);
+  const Lx = szLayout(baum, el.offsetWidth || 600, U), oben = o.oben || 0;
+  const { ctx } = initCanvas(id, Lx.H + oben);
+  ctx.translate(0, oben); Lx.oben = oben;                  // Platz über der Schaltung für das Voltmeter
+  const M = o.mess, gewaehlt = M && M.anschluss === 'knoten' ? M.taps.map(t => t.k) : [];
   const farbe = k => o.knoten ? SZ_KNOTENFARBEN[(o.farben ? o.farben.get(k) : k) % SZ_KNOTENFARBEN.length] : '#2b2b2b';
   if (o.rahmen) {
     const g = Lx.gruppen.get(o.rahmen);
@@ -1198,7 +1327,7 @@ function szMale(id, baum, U, o) {
   }
   ctx.lineCap = 'round';
   Lx.draehte.forEach(d => { ctx.beginPath(); ctx.moveTo(d.x1, d.y1); ctx.lineTo(d.x2, d.y2);
-    ctx.strokeStyle = farbe(d.k); ctx.lineWidth = o.knoten ? 2.6 : 1.7; ctx.stroke(); });
+    ctx.strokeStyle = farbe(d.k); ctx.lineWidth = gewaehlt.includes(d.k) ? 5 : o.knoten ? 2.6 : 1.7; ctx.stroke(); });
   Lx.punkte.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 3.4, 0, 2 * Math.PI); ctx.fillStyle = farbe(p.k); ctx.fill(); });
   Lx.teile.forEach(t => {
     const k = szSchl(t.n), gew = (o.wahl || []).includes(k), ziel = o.ziel === k, neu = o.neu === k, stark = gew || (ziel && o.fokus === t.n);
@@ -1239,13 +1368,49 @@ function szMale(id, baum, U, o) {
     ctx.beginPath(); ctx.moveTo(x2, y); ctx.lineTo(x2 - 8, y - 4); ctx.lineTo(x2 - 8, y + 4); ctx.closePath(); ctx.fill();
     szText(ctx, (x1 + x2) / 2, y + 16, 'U', p.sub, p.text, '#8A4A0E', 12);
   });
+  if (M) szMaleMessung(ctx, Lx, M);
   el.setAttribute('aria-label', 'Schaltbild: ' + szTextBaum(baum) + ', an der Spannung ' + szZahl(U) + ' V' + (o.strom ? ', Gesamtstrom ' + o.strom : ''));
   return Lx;
+}
+// Messgerät: Kreis mit V oder A. In Reihe sitzt es an der Einsetzstelle, parallel über der Schaltung,
+// mit zwei Messleitungen zu den angetippten Stellen; die Anzeige steht neben dem Voltmeter.
+const SZ_MESS_OBEN = 46;
+function szMaleMessung(ctx, Lx, M) {
+  const bern = '#8A4A0E';
+  const geraet = (x, y) => {
+    ctx.beginPath(); ctx.arc(x, y, 10, 0, 2 * Math.PI); ctx.fillStyle = '#ffffff'; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = '#1a1a1a'; ctx.stroke();
+    ctx.fillStyle = '#1a1a1a'; ctx.font = szMono(12, 700); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(M.geraet || '?', x, y + 0.5); ctx.textBaseline = 'alphabetic';
+  };
+  if (M.anschluss === 'reihe') {
+    Lx.stellen.forEach((st, i) => {
+      if (i === M.stelle || zustand.phase !== 'messen') return;     // nach dem Lösen nur noch das Gerät
+      ctx.beginPath(); ctx.arc(st.x, st.y, 5.5, 0, 2 * Math.PI); ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.lineWidth = 1.8; ctx.strokeStyle = bern; ctx.stroke();
+    });
+    if (M.stelle != null) geraet(Lx.stellen[M.stelle].x, Lx.stellen[M.stelle].y);
+  } else if (M.anschluss === 'knoten') {
+    const P = M.taps.map(t => { const d = Lx.draehte[t.d]; return { x:d.x1 + t.t * (d.x2 - d.x1), y:d.y1 + t.t * (d.y2 - d.y1) }; });
+    if (P.length === 2) {
+      const vx = Math.min(Lx.W - 16, Math.max(16, (P[0].x + P[1].x) / 2)), vy = -SZ_MESS_OBEN + 20;
+      ctx.save(); ctx.setLineDash([5, 4]); ctx.strokeStyle = bern; ctx.lineWidth = 1.6;
+      P.forEach(p => { ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(vx, vy); ctx.stroke(); });
+      ctx.restore();
+      geraet(vx, vy);
+      if (M.anzeige) {
+        ctx.font = szMono(12, 700); ctx.fillStyle = bern; const w = ctx.measureText(M.anzeige).width;
+        const rechts = vx + 16 + w < Lx.W - 4;
+        ctx.textAlign = rechts ? 'left' : 'right'; ctx.fillText(M.anzeige, rechts ? vx + 16 : vx - 16, vy + 4);
+      }
+    }
+    P.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, 2 * Math.PI); ctx.fillStyle = bern; ctx.fill(); });
+  }
 }
 function szZeichne() {
   if (!zustand.A) return;
   const ph = zustand.phase, art = zustand.art, A = zustand.A, kn = zustand.knoten;
-  const zwei = art !== 'formel', fertig = ph === 'fertig';
+  const zwei = art === 'kette' || art === 'tabelle', fertig = ph === 'fertig';
   $('sz-bilder').classList.toggle('zwei', zwei); $('sz-spalte-2').hidden = !zwei;
   const strom = szZahl(A.kette[0].soll) + ' mA';             // I = U / R_ges, wie im Rechenweg
   const o1 = { knoten:kn }, o2 = { knoten:kn };
@@ -1263,6 +1428,8 @@ function szZeichne() {
       // der Gesamtstrom erscheint, sobald er gerechnet ist; vorher fragt das Ersatzschema danach
       if (fertig || zustand.k > 0) o1.strom = o2.strom = strom; else o2.strom = '?';
     }
+  } else if (art === 'messen') {
+    o1.mess = zustand.mess; o1.oben = SZ_MESS_OBEN;
   } else if (art === 'tabelle') {
     rechts = zustand.ersatz; t2 = 'Gefundenes Ersatzschema'; o1.strom = o2.strom = strom;
   }
@@ -1278,10 +1445,11 @@ function szNeueAufgabe(V, seed) {
     do { V = szWahl(Math.random, pool); } while (pool.length > 1 && V.id === zustand.vId);
   }
   zustand.vId = V.id;
-  const A = zustand.A = szAufgabe(V, seed ? szZufall(seed) : Math.random);
+  const rnd = seed ? szZufall(seed) : Math.random, A = zustand.A = szAufgabe(V, rnd);
   Object.assign(zustand, { baum:szKopie(A.baum), wahl:[], schritt:null, k:0, fehlversuch:false, gezeigt:false, tipp:0, tippZelle:null,
-                           neu:null, weg:[], gegeben:[], ersatz:null, tok:[], zellen:null });
-  zustand.phase = { kette:'gruppe', formel:'formel', tabelle:'tabelle' }[zustand.art];
+                           neu:null, weg:[], gegeben:[], ersatz:null, tok:[], zellen:null, mess:null });
+  zustand.phase = { kette:'gruppe', formel:'formel', tabelle:'tabelle', messen:'messen' }[zustand.art];
+  if (zustand.art === 'messen') zustand.mess = { ziel:szMessZiel(A, rnd), geraet:null, anschluss:null, taps:[], stelle:null, anzeige:null };
   if (zustand.art === 'tabelle') {
     let b = szKopie(A.baum);
     while (b.t !== 'R') { const [ka, kb] = szPaare(b)[0], st = szSchritt(b, ka, kb); b = szAnwenden(b, st); zustand.gegeben.push(szWertZeile(st)); }
@@ -1291,7 +1459,7 @@ function szNeueAufgabe(V, seed) {
   }
   const titel = A.n + ' Widerstände an \\(U = ' + szV(A.U) + '\\)';
   $('sz-aufgabe').innerHTML = '<div class="sz-aufgabe-kopf"><span class="sz-aufgabe-titel">' + titel +
-    '</span><span class="sz-phase" id="sz-phase"></span></div><p>' + SZ_ARTEN[zustand.art].replace('ZIEL', '\\(R_{' + A.ziel + '}\\)') + '</p>';
+    '</span><span class="sz-phase" id="sz-phase"></span></div><p>' + SZ_ARTEN[zustand.art].replace('ZIEL', zustand.art === 'messen' ? zustand.mess.ziel.text : '\\(R_{' + A.ziel + '}\\)') + '</p>';
   szSetze($('sz-aufgabe'));
   $('sz-rueck').innerHTML = ''; $('sz-ende').innerHTML = ''; $('sz-frage').dataset.aufgabe = '';
   szWeg(); szAlles();
@@ -1301,7 +1469,7 @@ function szAlles() { szPhaseText(); szChips(); szFrage(); szZeichne(); szStand()
 function szPhaseText() {
   const p = $('sz-phase'); if (!p) return;
   const ph = zustand.phase;
-  p.textContent = ph === 'fertig' ? 'fertig' : zustand.art === 'formel' ? 'Kurzformel' : zustand.art === 'tabelle' ? 'Teilströme und Teilspannungen'
+  p.textContent = ph === 'fertig' ? 'fertig' : zustand.art === 'formel' ? 'Kurzformel' : zustand.art === 'messen' ? 'Messen' : zustand.art === 'tabelle' ? 'Teilströme und Teilspannungen'
     : ph === 'zurueck' ? 'Teil 2: zurückrechnen' : 'Teil 1: zusammenfassen';
 }
 
@@ -1315,7 +1483,10 @@ function szChips() {
   const ph = zustand.phase;
   $('sz-hinweis').textContent = ph === 'gruppe' ? 'Tippe zwei Widerstände an, im Bild oder hier in der Leiste. Dann entscheide, wie sie liegen.'
     : ph === 'zurueck' ? 'In der ursprünglichen Schaltung ist die Gruppe umrahmt, um die es gerade geht.'
-    : ph === 'formel' ? 'Ein Antippen im Bild setzt den Widerstand in die Formel ein.' : '';
+    : ph === 'formel' ? 'Ein Antippen im Bild setzt den Widerstand in die Formel ein.'
+    : ph !== 'messen' ? '' : !zustand.mess.anschluss ? 'Wähle unten das Messgerät und die Art des Anschlusses.'
+    : zustand.mess.anschluss === 'reihe' ? 'Tippe im Bild eine Einsetzstelle ○ an: Dort wird die Leitung aufgetrennt und das Gerät eingesetzt.'
+    : 'Tippe im Bild zwei Leitungen an. Jede Farbe ist ein Knoten; das Gerät wird zwischen diesen zwei Knoten angeschlossen.';
 }
 function szWaehle(k) {
   if (zustand.phase === 'formel') { szZeichen('R' + k.split('.')[0]); return; }
@@ -1360,6 +1531,14 @@ function szFrage() {
       '<button class="sz-chip" data-tok="(">(</button><button class="sz-chip" data-tok=")">)</button>' +
       '<button class="sz-chip" data-tok="weg" aria-label="letztes Zeichen löschen">⌫</button><button class="sz-chip" data-tok="leer">Löschen</button></div>' +
       '<div class="sz-zeile" style="margin-top:10px"><button class="play-btn sz-pruefen">Prüfen</button></div>';
+  } else if (ph === 'messen') {
+    const M = zustand.mess, kn = (feld, wert, text) => '<button class="sz-knopf' + (M[feld] === wert ? ' aktiv' : '') + '" data-' + feld + '="' + wert +
+      '" aria-pressed="' + (M[feld] === wert) + '">' + text + '</button>';
+    F.innerHTML = '<p>' + M.ziel.text + '</p>' +
+      '<div class="sz-zeile sz-mess-zeile"><span class="sz-mess-label">Gerät</span>' + kn('geraet', 'V', 'Voltmeter') + kn('geraet', 'A', 'Amperemeter') + '</div>' +
+      '<div class="sz-zeile sz-mess-zeile"><span class="sz-mess-label">Anschluss</span>' + kn('anschluss', 'reihe', 'in die Leitung (in Reihe)') +
+      kn('anschluss', 'knoten', 'an zwei Knoten (parallel)') + '</div>' +
+      '<div class="sz-zeile" style="margin-top:10px"><button class="play-btn sz-pruefen">Prüfen</button></div>';
   } else if (ph === 'tabelle') {
     F.innerHTML = '<div class="sz-tab"><div class="sz-tab-kopf"></div><div class="sz-tab-kopf">Spannung in V</div><div class="sz-tab-kopf">Strom in mA</div>' +
       zustand.zellen.map((z, i) => '<div class="sz-tab-r">\\(' + szTexR(z.blatt) + ' = ' + szO(z.blatt.wert) + '\\)</div>' +
@@ -1397,6 +1576,7 @@ function szPruefen() {
   const ph = zustand.phase;
   if (ph === 'formel') { szFormelPruefen(); return; }
   if (ph === 'tabelle') { szTabPruefen(); return; }
+  if (ph === 'messen') { szMessPruefen(); return; }
   const ein = $('sz-ein'); if (!ein) return;
   const x = szLies(ein.value);
   if (ph === 'wert') {
@@ -1527,6 +1707,30 @@ function szTabStand(fehl) {
   szStand();
 }
 
+/* ── Art 4: Messen ────────────────────────────────────────────────── */
+function szMessWahl(geraet, anschluss) {
+  const M = zustand.mess; if (zustand.phase !== 'messen') return;
+  if (geraet) M.geraet = geraet;
+  if (anschluss && anschluss !== M.anschluss) { M.anschluss = anschluss; M.taps = []; M.stelle = null; }
+  szRueck('', '', ''); szAlles();
+}
+function szMessPruefen() {
+  const M = zustand.mess, A = zustand.A, z = M.ziel;
+  const e = szMessBewerten(A, z, { geraet:M.geraet, anschluss:M.anschluss, knoten:M.taps.map(t => t.k), stelle:M.stelle });
+  if (e) { if (e.code !== 'M_leer') zustand.fehlversuch = true; szRueck('block-fehler', '✗ Noch nicht', e.text); return; }
+  szStatSchritt(); zustand.phase = 'fertig'; zustand.geloest++; szRueck('', '', '');
+  const w = szWerte(A).get(z.n), wert = z.gr === 'U' ? szV(w.U) : szMA(w.I);
+  M.anzeige = z.gr === 'U' ? szZahl(w.U) + ' V' : szZahl(w.I) + ' mA';
+  const kl = L.stellen[M.stelle != null ? M.stelle : 0].klasse, gleich = L.stellen.filter(st => st.klasse === kl).length;
+  const text = z.gr === 'U'
+    ? 'Das Voltmeter liegt parallel: Seine zwei Anschlüsse hängen an den zwei Enden ' + z.enden + '. Es zeigt \\(' + z.name + ' = ' + wert + '\\).'
+    : 'Das Amperemeter liegt in Reihe im Stromweg: Der ganze Strom \\(' + z.name + '\\) fliesst durch das Gerät. Es zeigt \\(' + z.name + ' = ' + wert + '\\).' +
+      (gleich > 1 ? ' An jeder Einsetzstelle in diesem Stromweg zeigt es dasselbe, denn in Reihe ist der Strom überall gleich.' : '');
+  $('sz-ende').innerHTML = '<div class="block block-bsp"><div class="block-titel">✓ Richtig gemessen</div><p>' + text +
+    ' Das ist der Wert, den die Rechnung in den Aufgaben 2 und 3 ergibt.</p><p style="margin-bottom:0">Weiter mit «Neue Aufgabe».</p></div>';
+  szSetze($('sz-ende')); szAlles();
+}
+
 /* ── Tipp und Schritt zeigen ──────────────────────────────────────── */
 function szTipp() {
   const ph = zustand.phase, A = zustand.A;
@@ -1558,6 +1762,18 @@ function szTipp() {
     if (zustand.tippZelle !== c) { zustand.tippZelle = c; zustand.tipp = 1; }
     t = '\\(' + c.st.name + '\\): ' + (zustand.tipp === 1 ? c.st.tipp + ' Die Werte der Gruppen stehen unter «Gegeben» oder folgen aus anderen Feldern.'
                                                         : 'Eingesetzt: \\(' + c.st.formel.slice(0, -1).join(' ') + '\\).');
+  } else if (ph === 'messen') {
+    const z = zustand.mess.ziel, ok = szMessLoesung(A, z);
+    if (zustand.tipp === 1) t = z.gr === 'U'
+      ? 'Eine Spannung misst das Voltmeter. Es kommt parallel: seine zwei Anschlüsse an die zwei Enden ' + z.enden + ', also an die zwei Knoten, zwischen denen ' + z.wer + ' liegt.'
+      : 'Einen Strom misst das Amperemeter. Es kommt in Reihe in den Stromweg: Der Strom, den es messen soll, muss ganz durch das Gerät fliessen.';
+    else if (z.gr === 'U') {
+      t = 'Die zwei Knoten haben im Bild die Farben ' + ok.knoten.map(k => SZ_FARBNAMEN[k % SZ_FARBNAMEN.length]).join(' und ') + '.';
+      if (!zustand.knoten) { zustand.knoten = true; szKnotenKnopf(); szZeichne(); t += ' Die Farben sind jetzt wieder eingeschaltet.'; }
+    } else {
+      const st = L.stellen[ok.stelle];
+      t = 'Eine passende Einsetzstelle liegt ' + (st.n === A.baum ? 'in der Zuleitung unten links, neben der Quelle.' : 'direkt vor \\(' + szTexR(st.n) + '\\).');
+    }
   } else t = 'Die Aufgabe ist gelöst. Weiter mit «Neue Aufgabe».';
   szRueck('block-tipp', '💡 Tipp', t);
 }
@@ -1571,6 +1787,7 @@ function szZeigen() {
   } else if (ph === 'wert') szZusammenfassen();
   else if (ph === 'zurueck') szWeiter();
   else if (ph === 'formel') { zustand.tok = szTokens(zustand.A.baum); szFormelZeigen(); szFormelPruefen(); }
+  else if (ph === 'messen') { szMessSetzen(szMessLoesung(zustand.A, zustand.mess.ziel)); szMessPruefen(); }
   else if (ph === 'tabelle') {
     const c = szZellenListe().find(x => !x.s.ok);
     szZelleOk(c, true);
@@ -1580,6 +1797,12 @@ function szZeigen() {
   zustand.gezeigt = false;
 }
 
+function szMessSetzen(m) {                    // eine Messung von aussen setzen (Schritt zeigen, Testhaken)
+  const M = zustand.mess;
+  M.geraet = m.geraet; M.anschluss = m.anschluss; M.stelle = m.stelle != null ? m.stelle : null;
+  M.taps = (m.knoten || []).map(k => ({ d:L.draehte.findIndex(d => d.k === k), t:0.5, k }));
+  szAlles();
+}
 function szStand() {
   $('sz-stand').textContent = 'gelöst: ' + zustand.geloest + '; Schritte beim ersten Versuch richtig: ' + zustand.ersteRichtig + ' von ' + zustand.schritte;
 }
@@ -1613,7 +1836,32 @@ function szTreffer(ev, el, Lx) {                // der Widerstand unter dem Fing
   });
   return best && best.n;
 }
+function szDrahtTreffer(Lx, px, py) {          // die Leitung unter dem Finger: Index, Stelle darauf, Knoten
+  let best = null, bd = 14;
+  Lx.draehte.forEach((d, i) => {
+    const dx = d.x2 - d.x1, dy = d.y2 - d.y1, l2 = dx * dx + dy * dy;
+    const t = l2 ? Math.max(0, Math.min(1, ((px - d.x1) * dx + (py - d.y1) * dy) / l2)) : 0;
+    const ab = Math.hypot(px - d.x1 - t * dx, py - d.y1 - t * dy);
+    if (ab < bd) { bd = ab; best = { d:i, t, k:d.k }; }
+  });
+  return best;
+}
+function szMessTippen(ev) {
+  const M = zustand.mess; if (!L || !M.anschluss) return;
+  const r = cv.getBoundingClientRect(), px = ev.clientX - r.left, py = ev.clientY - r.top - L.oben;
+  if (M.anschluss === 'reihe') {
+    let best = null, bd = 20;
+    L.stellen.forEach((st, i) => { const ab = Math.hypot(px - st.x, py - st.y); if (ab < bd) { bd = ab; best = i; } });
+    if (best === null) return;
+    M.stelle = best;
+  } else {
+    const t = szDrahtTreffer(L, px, py); if (!t) return;
+    M.taps.push(t); if (M.taps.length > 2) M.taps.shift();
+  }
+  szRueck('', '', ''); szZeichne();
+}
 cv.addEventListener('pointerdown', ev => {
+  if (zustand.phase === 'messen') { szMessTippen(ev); return; }
   const ph = zustand.phase, n = (ph === 'gruppe' || ph === 'formel') && szTreffer(ev, cv, L);
   if (!n) return;
   if (ph === 'formel') { szWaehle(szSchl(n)); return; }
@@ -1628,6 +1876,7 @@ cv2.addEventListener('pointerdown', ev => {
 $('sz-chips').addEventListener('click', ev => { const b = ev.target.closest('[data-k]'); if (b) szWaehle(b.dataset.k); });
 $('sz-frage').addEventListener('click', ev => {
   const b = ev.target.closest('button'); if (!b || b.disabled) return;
+  if (b.dataset.geraet || b.dataset.anschluss) { szMessWahl(b.dataset.geraet, b.dataset.anschluss); return; }
   if (b.dataset.art) szArt(b.dataset.art); else if (b.dataset.tok) szZeichen(b.dataset.tok); else if (b.classList.contains('sz-pruefen')) szPruefen();
 });
 $('sz-knoten').addEventListener('click', () => { zustand.knoten = !zustand.knoten; szKnotenKnopf(); szZeichne(); });
@@ -1655,7 +1904,8 @@ window.__sz = {
   eingabe(x) { $('sz-ein').value = x; szPruefen(); },
   zeichen(liste) { liste.forEach(szZeichen); }, pruefen() { szPruefen(); },
   zelle(i, g, x) { document.querySelector('[data-z="' + i + ':' + g + '"]').value = x; },
-  layout() { return L; }, layout2() { return L2; }, paare() { return szPaare(zustand.baum); }, tokens() { return szTokens(zustand.A.baum); },
+  layout() { return L; }, layout2() { return L2; },
+  messen(m) { szMessSetzen(Object.assign({ knoten:[], stelle:null }, m)); }, messziel() { return zustand.mess && zustand.mess.ziel; }, paare() { return szPaare(zustand.baum); }, tokens() { return szTokens(zustand.A.baum); },
   ids: SZ_VORLAGEN.map(v => v.id), zustand,
 };
 
