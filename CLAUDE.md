@@ -78,7 +78,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Selbsttest `szSelbsttest` über `scripts/verify_schaltungen.js` im Pre-Flight: rechnet jede
   Schaltung unabhängig mit Knotenpotentialen nach (R_ges, jeder Rückwegschritt), «in Reihe» ⇔
   gleicher Strom und «parallel» ⇔ gleiche Knoten für jedes Paar in jedem Zwischenstand, jedes
-  Fehlerbild bekommt seine Diagnose, Beschriftungen ohne Überlappung bei 300/380/1000 px,
+  Fehlerbild bekommt seine Diagnose, Beschriftungen ohne Überlappung bei 280/300/380/1000 px,
   berührende Leitungen im selben Knoten. Testhaken `window.__sz`. Kein `localStorage`.
 - `themen/` — 10 Themenseiten: `p4-1`…`p4-5` (Mechanik), `p5-1`…`p5-3` (Thermo),
   `p6-1`,`p6-2` (Wellen/Elektrizität). Alle inhaltlich fertig und auditiert.

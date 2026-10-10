@@ -20,13 +20,26 @@
        ganze Spannung, Gesamtstrom, Stromteilung vertauscht, mA/A, mV/V)
        bekommt seine Diagnose
      - Proben gehen auf, Zusammenfassen in beliebiger Reihenfolge ergibt R_ges
-     - Schaltbild bei 300, 380 und 1000 px: Beschriftungen im Bild, ohne
-       Ueberlappung untereinander, mit Leitungen oder Widerstaenden
+     - Schaltbild bei 280, 300, 380 und 1000 px: Beschriftungen (auch Strom,
+       Quellenspannung, Pole) im Bild, ohne Ueberlappung untereinander, mit
+       Leitungen oder Widerstaenden; Einsetzstellen auf einer Leitung, mit
+       Abstand, nicht auf Beschriftungen, auf Schienen nicht am Knotenpunkt
+     - Knotenfarben im Zwischenstand (Aufgabenart 2, rechtes Bild): jeder
+       Knoten rechts mit eigener Farbe, gleiche Farbe nur bei gleichem
+       Potential wie links, Pole unveraendert
      - alle Spannungen und Stroeme (Aufgabenart 3) gegen die Knotenrechnung,
        Kirchhoff an jeder Gruppe, Fehlerbilder der Tabellenfelder
      - Kurzformel: richtige Schreibweisen (andere Reihenfolge, Zusatzklammer)
        gelten; fehlende Klammer, Syntax, doppelter/fehlender Widerstand,
        vertauschtes Zeichen und zufaellige andere Schaltungen werden erkannt
+     - Messen (Aufgabenart 4): jede Einsetzstelle misst den Strom ihrer
+       Gruppe bzw. auf der Schiene die Summe der Zweige darunter (Zweige aus
+       der Zeichnung, Strom aus der Knotenrechnung); jede richtige Messung
+       gilt und zeigt den gerechneten Wert; Kurzschluss, Voltmeter im
+       Stromweg, falsches Geraet, falsche Knoten, falscher Zweig und gleicher
+       Knoten bekommen ihre Diagnose; Anzeige falsch angeschlossener Geraete
+       (Voltmeter in Reihe = Leerlaufspannung an der Trennstelle, Amperemeter
+       parallel endlich, an der Quelle OL)
      - Eingabeformate (Punkt, Komma, Einheit, Tausender-Apostroph)
 
    Aufruf vom Repo-Root:
