@@ -697,7 +697,7 @@ k0 = '''
     ('0c', 3, r'Stelle \(E = \tfrac12 \cdot m \cdot v^2\) nach \(v\) um, \(P = \dfrac{W}{t}\) nach \(t\) und \(W = F \cdot s\) nach \(s\).',
      r'<p>\(v = \sqrt{\dfrac{2 \cdot E}{m}}\), \(t = \dfrac{W}{P}\), \(s = \dfrac{W}{F}\).</p><p class="komm">Falsch? <a href="' + P01 + r'#umformen">Vorwissen 0.1, Gleichungen umstellen</a></p>', ''),
     ('0d', 2, r'Rechne um: \(2.5\;\text{kW}\) in Watt und \(3\;\text{h}\) in Sekunden.',
-     r'<p>\(2.5\;\text{kW} = 2500\;\text{W}\), \(3\;\text{h} = 3 \cdot 3600\;\text{s}\) \(= 10\,800\;\text{s}\).</p><p class="komm">Falsch? <a href="' + P02 + r'#praefixe">Vorwissen 0.2, Vorsilben</a> · <a href="../themen/p0-4-einheitentrainer.html">Einheitentrainer</a></p>', ''),
+     r'<p>\(2.5\;\text{kW} = 2500\;\text{W}\), \(3\;\text{h} = 3 \cdot 3600\;\text{s}\) \(= 10\,800\;\text{s}\).</p><p class="komm">Falsch? <a href="' + P02 + r'#praefixe">Vorwissen 0.2, Vorsilben</a> · <a href="../werkzeuge/einheitentrainer.html">Einheitentrainer</a></p>', ''),
 ]) + '''
       <p class="komm">Weniger als 7 von 10 Punkten: zuerst die verlinkten Stellen zu den falschen Aufgaben, dann Kapitel 1.</p>
     </section>'''

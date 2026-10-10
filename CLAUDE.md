@@ -20,21 +20,35 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
 
 ## Projektstruktur
 
-- `themen/` — Vorwissen (6 Seiten): `p0-0` (Alltagstour), `p0-1` (Rechnen und
+- `themen/` — Vorwissen (5 Seiten): `p0-0` (Alltagstour), `p0-1` (Rechnen und
   Schliessen), `p0-2` (Grössen, Einheiten und Messen), `p0-3` (Messen — Waagen,
-  Dichte, Einheiten), `p0-4` (Einheitentrainer), `p0-5` (Die sieben SI-Basiseinheiten). Auf `p0-1`/`p0-2` tragen die aus
+  Dichte, Einheiten), `p0-5` (Die sieben SI-Basiseinheiten). Die Nummer 0.4 ist frei,
+  seit der Einheitentrainer am 10.10.2026 nach `werkzeuge/` umgezogen ist; 0.5 behält
+  Nummer und Adresse. Auf `p0-1`/`p0-2` tragen die aus
   den früheren Seiten 0.3/0.4 übernommenen Widgets den ID-Präfix `b` statt `a`; ihr
   Skript steht gekapselt in einer IIFE am Dateiende.
-- `themen/p0-4-einheitentrainer.html` — Übungsseite mit drei Modi (Freies Üben,
-  Lernmodus, Prüfungsmodus). Einziger Ort im Repo, der `localStorage` nutzt (Key
-  `tals-physik-p0-4-lernstand-v1`, Lernstand mit Rücksetzknopf) — deshalb hält
+- `simulationen/` und `werkzeuge/` — eigene Seiten neben den Themenseiten, je mit
+  Übersicht im Root (`simulationen.html`, `werkzeuge.html`, Menü «Nachschlagen»).
+  **Simulation:** man beobachtet einen Vorgang und verändert Grössen
+  (`simulationen/sonnenfinsternis-12-08-2026.html`). **Werkzeug:** man gibt eigene
+  Aufgaben oder Messwerte ein oder übt (`werkzeuge/einheitentrainer.html`). Verlinkt
+  wird aus dem **Abschnitt** der Themenseite, in den der Inhalt gehört (Baustein
+  `.block-tipp` «🧪 Simulation: …» / «🛠 Werkzeug: …») — nicht am Seitenanfang, nicht
+  auf den Kacheln von `index.html`. Die Seite verweist im Kopf per Anker zurück.
+  Anleitung: `HOWTO-simulationen.md`, `HOWTO-werkzeuge.md`; der Pre-Flight prüft die
+  Verknüpfung (`check_sim_wz`). Umgezogene Adressen leitet `404.html` weiter
+  (Tabelle `WEITERLEITUNGEN`) — keine Hilfsseiten an der alten Stelle.
+- `werkzeuge/einheitentrainer.html` — Übungsseite mit drei Modi (Freies Üben,
+  Lernmodus, Prüfungsmodus), bis 10.10.2026 Themenseite 0.4. Einziger Ort im Repo, der
+  `localStorage` nutzt (Key `tals-physik-p0-4-lernstand-v1` — der alte Name bleibt,
+  damit der Lernstand beim Umzug nicht verloren geht —, Lernstand mit Rücksetzknopf) — deshalb hält
   `rechtliches.html` das ausdrücklich fest. Einheiten und Faktoren stehen dort in
   **einer** Datenstruktur (`ET_GRUPPEN`), aus der Aufgaben, Diagnosen und die
   Umrechnungstabellen zugleich entstehen; Faktoren nie an zweiter Stelle notieren.
 - `themen/` — 10 Themenseiten: `p4-1`…`p4-5` (Mechanik), `p5-1`…`p5-3` (Thermo),
   `p6-1`,`p6-2` (Wellen/Elektrizität). Alle inhaltlich fertig und auditiert.
   Dazu `p6-1a-wellenexperimente.html` — Vertiefung zu 6.1, im RLP nicht als
-  eigenes Teilgebiet geführt (macht zusammen 17 Dateien in `themen/`).
+  eigenes Teilgebiet geführt (macht zusammen 16 Dateien in `themen/`).
 - `physiklib.js` — Canvas-Bibliothek + globale Helfer (`toggleL`, `fmt`, `initCanvas`,
   `drawGrid`, `drawAxesUnits`, `drawArrow`, `drawVector`, `drawDot`, …).
 - `minicheck.js` — Akkordeon-Logik der Mini-Checks. `anim-hinweise.js` — Hinweis-Logik.
@@ -48,7 +62,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `--dry-run` zeigt, welche Dateien sich ändern würden, `--dry-run --diff`
   zusätzlich die Zeilen selbst.
 - `scripts/verify_einheitentrainer.js` — Selbsttest des Einheitentrainers: lädt
-  `p0-4` in jsdom und ruft dort `etSelbsttest(n)` auf (jedes angebotene
+  `werkzeuge/einheitentrainer.html` in jsdom und ruft dort `etSelbsttest(n)` auf (jedes angebotene
   Einheitenpaar hin und zurück, Referenzwerte, Grenzfälle, Generator, Toleranz,
   Eingabeformate, Diagnosekategorien). Standard 5 Zufallsaufgaben je Paar,
   `--gross` fährt 200 je Paar (über 50 000). Läuft im Pre-Flight mit.
@@ -145,7 +159,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Bauanleitung (`README-Build.md`). Punkt-Ordner, damit GitHub Pages ihn nicht
   ausliefert. Das fertige PDF steht als `TALS-Physik-Formelsammlung.pdf` im Root;
   nach einem Neubau (`latexmk -pdf formelsammlung.tex`) dorthin kopieren. Der
-  **Dateiname bleibt** trotz neuer Marke — Menü, Sitemap und p0-4 zeigen darauf.
+  **Dateiname bleibt** trotz neuer Marke — Menü, Sitemap und der Einheitentrainer zeigen darauf.
   LaTeX (TeX Live 2025) ist lokal installiert, der Neubau braucht keinen Chat
   mehr. Zwei Fallen, beide in `README-Build.md`: mindestens zwei Läufe (die
   laufende Kopfzeile liest ihre Marken aus der `.aux`), und babel heisst
@@ -427,10 +441,10 @@ LaTeX-Ausdrucks**, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Ma
 Slot-Limits und **keine Fremdhosts** (`fonts.googleapis.com`, `fonts.gstatic.com`,
 `cdn.jsdelivr.net`); (2) Aufruf der vorhandenen Repo-Skripte `verify_mathjax.js` (echte
 Render-Prüfung), `verify_js_runtime.js` (JS-Laufzeit) und `verify_einheitentrainer.js`
-(Selbsttest von p0-4), dazu `check_clips` — die Clip-Ablage gegen `clips/clips.json`:
+(Selbsttest des Einheitentrainers), dazu `check_clips` — die Clip-Ablage gegen `clips/clips.json`:
 Clip ohne Eintrag, Eintrag ohne Datei, `lektion`-Code, den `nav.js` nicht kennt
 (alle `[FEHLER]`), fehlender Sprechertext (`[WARN]`); Drehbücher mit `probe: true`
-sind ausgenommen. Aus tals-mathe übernommen (26.09.2026). Dazu `check_todo_schwester` — offene Einträge in `../tals-mathe/TODO-schwesterprojekt.md` als `[WARN]`. `verify_js_runtime.js` bekommt nur `themen/`-Seiten zu sehen —
+sind ausgenommen. Aus tals-mathe übernommen (26.09.2026). Dazu `check_sim_wz` — Seiten in `simulationen/` und `werkzeuge/` gegen ihre Übersicht, die Verweise aus den Themenseiten und die Rücklink-Anker (seit 10.10.2026). Dazu `check_todo_schwester` — offene Einträge in `../tals-mathe/TODO-schwesterprojekt.md` als `[WARN]`. `verify_js_runtime.js` bekommt nur `themen/`-Seiten zu sehen —
 es ersetzt Einbindungen der Form `src="../nav.js"` und meldet auf Wurzelseiten sonst
 einen Fehler, der keiner ist. Stufe 2 braucht einmalig `npm install mathjax-full jsdom` im
 Repo-Root; fehlen die Module, werden diese Checks als `[WARN]` übersprungen.

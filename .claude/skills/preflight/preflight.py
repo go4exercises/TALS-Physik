@@ -12,6 +12,7 @@ Zwei Stufen:
    - verify_einheitentrainer.js (Selbsttest des Einheitentrainers; braucht jsdom)
    - check_identifier_collisions.py (falls vorhanden; ohne npm)
    - check_clips (Clip-Ablage gegen clips/clips.json und nav.js)
+   - check_sim_wz (simulationen/ und werkzeuge/: Uebersicht, Verweise, Ruecklink-Anker)
    - check_todo_schwester (offene Eintraege in TODO-schwesterprojekt.md des
      Schwesterrepos; nur gelesen, WARN)
    Fehlt ein npm-Modul, wird der Tiefen-Check sauber als WARN übersprungen.
@@ -316,9 +317,14 @@ def run_deep(file_args, rep):
     # es rechnet also mit Seiten genau eine Ebene tief. Wurzelseiten
     # (index, glossar, formelsammlung, rechtliches, feedback) wuerden dort
     # einen falschen [FEHLER] erzeugen, darum bekommt es nur Themenseiten
-    # zu sehen.
+    # zu sehen — und die Simulationen und Werkzeuge, die ebenso eine Ebene
+    # tief liegen, sofern sie die Bibliothek einbinden. Ohne sie hat eine Seite
+    # einen eigenen Aufbau (die Sonnenfinsternis), und das Skript meldete
+    # «libs=FEHLEN», ohne dass etwas fehlt.
     themenseiten = [f for f in file_args
-                    if f.replace("\\", "/").split("/")[0] == "themen"]
+                    if f.replace("\\", "/").split("/")[0] == "themen"
+                    or (f.replace("\\", "/").split("/")[0] in ("simulationen", "werkzeuge")
+                        and f'src="../{LIB}"' in Path(f).read_text(encoding="utf-8"))]
     if js.is_file() and not themenseiten:
         print("---- verify_js_runtime.js ----")
         print("keine Themenseiten uebergeben — uebersprungen")
@@ -374,6 +380,7 @@ def run_deep(file_args, rep):
 
 
     check_clips(scripts.parent, rep)
+    check_sim_wz(scripts.parent, rep)
 
     ab = scripts / "abgleich.py"
     if ab.is_file():
@@ -392,6 +399,62 @@ def run_deep(file_args, rep):
         print(out.rstrip())
         if r.returncode != 0:
             rep.err("check_identifier_collisions.py", "blockierende Symbol-Kollision (siehe oben)")
+
+
+def check_sim_wz(wurzel, rep):
+    """Simulationen und Werkzeuge: eigene Seiten in simulationen/ und werkzeuge/.
+
+    Sie haengen an drei Stellen zusammen, und keine faellt von selbst auf, wenn
+    sie fehlt: die Kachel in der Uebersicht (simulationen.html / werkzeuge.html),
+    der Verweis aus dem Abschnitt einer Themenseite und der Ruecklink der Seite
+    auf diesen Abschnitt. Geprueft wird nur der href, nicht der Baustein darum.
+      [FEHLER] Seite fehlt in ihrer Uebersicht
+      [FEHLER] Ruecklink-Anker (../<themenordner>/x.html#a) zeigt ins Leere
+      [FEHLER] Themenseite verlinkt eine Simulation/ein Werkzeug, das es nicht gibt
+      [WARN]   keine Themenseite verlinkt die Seite — ausser die Uebersicht fuehrt
+               sie unter <h2 id="ausserhalb">
+    HOWTO-simulationen.md, HOWTO-werkzeuge.md.
+    """
+    wurzel = Path(wurzel)
+    themenordner = [d for d in ("themen", "grundlagen", "schwerpunkt") if (wurzel / d).is_dir()]
+    themen = {f"{d}/{f.name}": f.read_text(encoding="utf-8")
+              for d in themenordner for f in sorted((wurzel / d).glob("*.html"))}
+    ids_cache = {}
+
+    def hat_id(rel, anker):
+        if rel not in ids_cache:
+            pfad = wurzel / rel
+            ids_cache[rel] = (set(re.findall(r'\bid="([^"]+)"', pfad.read_text(encoding="utf-8")))
+                              if pfad.is_file() else None)
+        return ids_cache[rel] is not None and anker in ids_cache[rel]
+
+    for art in ("simulationen", "werkzeuge"):
+        ordner = wurzel / art
+        uebersicht = wurzel / f"{art}.html"
+        seiten = sorted(ordner.glob("*.html")) if ordner.is_dir() else []
+        for rel_t, text in themen.items():
+            for ziel in re.findall(rf'href="\.\./{art}/([^"#]+)', text):
+                if not (ordner / ziel).is_file():
+                    rep.err(rel_t, f"verlinkt {art}/{ziel}, die Datei gibt es nicht")
+        if not seiten:
+            continue
+        ue = uebersicht.read_text(encoding="utf-8") if uebersicht.is_file() else ""
+        if not ue:
+            rep.err(f"{art}.html", f"Uebersicht fehlt, aber {art}/ enthaelt {len(seiten)} Seite(n)")
+        m = re.search(r'<h2 id="ausserhalb".*?(?=<h2 |<!-- [A-Z]+:ENDE|\Z)', ue, re.S)
+        ausserhalb = m.group(0) if m else ""
+        for f in seiten:
+            rel = f"{art}/{f.name}"
+            if f'href="{rel}"' not in ue:
+                rep.err(rel, f"nicht in {art}.html verlinkt (Kachel fehlt)")
+            verlinkt = any(re.search(rf'href="\.\./{re.escape(rel)}["#]', t) for t in themen.values())
+            if not verlinkt and f'href="{rel}"' not in ausserhalb:
+                rep.warn(rel, "keine Themenseite verlinkt darauf — Baustein im passenden "
+                              "Abschnitt setzen oder in der Uebersicht unter «Ausserhalb der Lerngebiete» fuehren")
+            text = f.read_text(encoding="utf-8")
+            for d, datei, anker in re.findall(r'href="\.\./([a-z]+)/([^"#]+\.html)#([^"]+)"', text):
+                if d in themenordner and not hat_id(f"{d}/{datei}", anker):
+                    rep.err(rel, f"Ruecklink {d}/{datei}#{anker}: Anker gibt es nicht")
 
 
 def check_todo_schwester(wurzel, rep):

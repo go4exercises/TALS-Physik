@@ -312,24 +312,31 @@ def seiten_aus_navjs(root):
     for url, nr, titel, mode in [('glossar.html', 'A–Z', 'Glossar', 'glossar'),
                                  ('formelsammlung.html', '∑', 'Formelsammlung', 'formeln'),
                                  ('leitprogramme.html', 'LP', 'Leitprogramme', 'thema'),
+                                 ('simulationen.html', 'SIM', 'Simulationen', 'thema'),
+                                 ('werkzeuge.html', 'WZ', 'Werkzeuge', 'thema'),
                                  ('clips.html', '▶', 'Clips', 'thema')]:
         if os.path.exists(os.path.join(root, url)):
             seiten.append({'nr': nr, 'titel': titel, 'url': url, 'mode': mode})
 
     # Die Leitprogramme selbst: sie tragen den eigentlichen Lehrtext, die
     # Bibliotheksseite nur die Karten. Wer «Gay-Lussac» sucht, soll im
-    # Leitprogramm landen und nicht bloss in der Uebersicht.
-    lp = os.path.join(root, 'leitprogramme')
-    if os.path.isdir(lp):
+    # Leitprogramm landen und nicht bloss in der Uebersicht. Ebenso die
+    # Simulationen und Werkzeuge (eigene Ordner seit 10.10.2026).
+    for ordner, nr in (('leitprogramme', 'LP'), ('simulationen', 'SIM'), ('werkzeuge', 'WZ')):
+        lp = os.path.join(root, ordner)
+        if not os.path.isdir(lp):
+            continue
         for datei in sorted(os.listdir(lp)):
-            if datei.endswith('.html') and 'leitprogramme/' + datei not in UNVERLINKT:
+            if datei.endswith('.html') and ordner + '/' + datei not in UNVERLINKT:
                 # Titel aus <title> («Leitprogramm Kinematik»), sonst stehen in der
-                # Trefferliste alle gleich da (Befund aus Mathe, 07.10.2026)
+                # Trefferliste alle gleich da (Befund aus Mathe, 07.10.2026);
+                # der Zusatz « — Physik begreifbar» faellt weg
                 with open(os.path.join(lp, datei), encoding='utf-8') as f:
                     m = re.search(r'<title>([^<]+)</title>', f.read())
                 titel = unescape(m.group(1)).strip() if m else 'Leitprogramm'
-                seiten.append({'nr': 'LP', 'titel': titel,
-                               'url': f'leitprogramme/{datei}', 'mode': 'thema'})
+                titel = re.sub(r'\s+—\s+\S+ begreifbar$', '', titel)
+                seiten.append({'nr': nr, 'titel': titel,
+                               'url': f'{ordner}/{datei}', 'mode': 'thema'})
     return seiten
 
 

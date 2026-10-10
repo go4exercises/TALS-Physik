@@ -48,5 +48,7 @@ for(const f of process.argv.slice(2)){
     +'  libs='+(sane?'ok':'FEHLEN')+'  nav='+(navRendered?'ok':'nein')+'  toc='+(tocRendered?'ok':'nein'));
   real.slice(0,4).forEach(e=>console.log('     '+String(e).slice(0,140)));
   if(real.length||!sane||!navRendered) bad++;
+  // Timer der Seite beenden — ein setInterval hielte node sonst ewig am Leben (10.10.2026)
+  w.close();
 }
 console.log('\nProblematische Seiten: '+bad);

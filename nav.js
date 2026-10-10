@@ -18,7 +18,6 @@ const SITE = {
     { id:'p0-1', nr:'0.1', titel:'Rechnen und Schliessen',         url:'themen/p0-1-vorwissen-mathematik.html' },
     { id:'p0-2', nr:'0.2', titel:'Grössen, Einheiten und Messen', url:'themen/p0-2-vorwissen-physik.html' },
     { id:'p0-3', nr:'0.3', titel:'Messen — Waagen, Dichte, Einheiten', url:'themen/p0-3-messen-waagen-dichte.html' },
-    { id:'p0-4', nr:'0.4', titel:'Einheitentrainer',                url:'themen/p0-4-einheitentrainer.html' },
     { id:'p0-5', nr:'0.5', titel:'Die sieben SI-Basiseinheiten',    url:'themen/p0-5-si-einheiten.html' },
     { id:'p4-1', nr:'4.1', titel:'Kinematik des Schwerpunkts',     url:'themen/p4-1-kinematik.html' },
     { id:'p4-2', nr:'4.2', titel:'Dynamik',                        url:'themen/p4-2-dynamik.html' },
@@ -31,19 +30,15 @@ const SITE = {
     { id:'p6-1', nr:'6.1', titel:'Wellen',                         url:'themen/p6-1-wellen.html' },
     { id:'p6-1a', nr:'6.1a', titel:'Wellenexperimente',            url:'themen/p6-1a-wellenexperimente.html' },
     { id:'p6-2', nr:'6.2', titel:'Elektrizität',                   url:'themen/p6-2-elektrizitaet.html' },
-    // Extras liegen im Wurzelverzeichnis, nicht unter themen/ — sie folgen dem
-    // Themenseiten-Skelett nicht und gehören zu keinem RLP-Lerngebiet.
-    { id:'sofi', nr:'99.1', titel:'Sonnenfinsternis vom 12. August 2026', url:'sonnenfinsternis-12-08-2026.html' },
   ]
 };
 
 // Lerngebiet-Gruppen für die Dropdown-Anzeige
 const GROUPS = [
-  { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-0','p0-1','p0-2','p0-3','p0-4','p0-5'] },
+  { nr:'0', titel:'Vorwissen (kein RLP-Lerngebiet)',     ids:['p0-0','p0-1','p0-2','p0-3','p0-5'] },
   { nr:'4', titel:'Mechanik',                            lek:100, ids:['p4-1','p4-2','p4-3','p4-4','p4-5'] },
   { nr:'5', titel:'Thermodynamik',                       lek:30,  ids:['p5-1','p5-2','p5-3'] },
-  { nr:'6', titel:'Einführung in andere Bereiche der Physik', lek:30, ids:['p6-1','p6-1a','p6-2'] },
-  { nr:'99', titel:'Extras (kein RLP-Lerngebiet)',       ids:['sofi'] }
+  { nr:'6', titel:'Einführung in andere Bereiche der Physik', lek:30, ids:['p6-1','p6-1a','p6-2'] }
 ];
 
 function buildNav(cfg) {
@@ -93,12 +88,16 @@ function buildNav(cfg) {
     { href:`${prefix}glossar.html`,         nr:'A–Z', tit:'Glossar',                     cur:(cfg.id==='glossar') },
     { href:`${prefix}formelsammlung.html`,  nr:'∑',   tit:'Formelsammlung',               cur:(cfg.id==='formeln') },
     { href:`${prefix}leitprogramme.html`,   nr:'LP',  tit:'Leitprogramme — Selbstlerneinheiten', cur:(cfg.id==='leitprogramme') },
+    // Simulationen und Werkzeuge: eigene Seiten in simulationen/ und werkzeuge/,
+    // verlinkt aus dem Abschnitt der Themenseite (HOWTO-simulationen.md, HOWTO-werkzeuge.md)
+    { href:`${prefix}simulationen.html`,    nr:'SIM', tit:'Simulationen',                 cur:(cfg.id==='simulationen') },
+    { href:`${prefix}werkzeuge.html`,       nr:'WZ',  tit:'Werkzeuge',                    cur:(cfg.id==='werkzeuge') },
     { href:`${prefix}clips.html`,           nr:'▶',   tit:'Clips — kurze Animationen',    cur:(cfg.id==='clips') },
     { href:`${prefix}TALS-Physik-Formelsammlung.pdf`, nr:'PDF',
       tit:'Formelsammlung illustriert — zum Herunterladen und Drucken', extern:true },
   ];
   // Auf den Nachschlagen-Seiten startet im Mobilmenü «Nachschlagen» offen statt «Themen».
-  const refAktiv = ['glossar', 'formeln', 'leitprogramme', 'clips'].includes(cfg.id);
+  const refAktiv = ['glossar', 'formeln', 'leitprogramme', 'simulationen', 'werkzeuge', 'clips'].includes(cfg.id);
   function renderRefDropdown() {
     const intern = refItems.map(r =>
       `<a href="${r.href}" class="${r.cur?'dd-aktiv':''}"${r.extern?' target="_blank" rel="noopener"':''}>
@@ -136,7 +135,8 @@ function buildNav(cfg) {
     <div class="meta-sub">Erstellt</div>
     <ul>
       <li>Alle 10 Teilgebiete vollständig (Lerngebiete 4 Mechanik, 5 Thermodynamik, 6 Wellen und Elektrizität)</li>
-      <li>Kapitel 0 Vorwissen (6 Seiten: Alltagstour, Rechnen, Grössen, Messen, Einheitentrainer, SI-Basiseinheiten)</li>
+      <li>Kapitel 0 Vorwissen (5 Seiten: Alltagstour, Rechnen, Grössen, Messen, SI-Basiseinheiten)</li>
+      <li>Werkzeuge (Einheitentrainer) und Simulationen (Sonnenfinsternis) als eigene Seiten</li>
       <li>Je Themenseite: interaktive Animationen, Aufgaben, Zusammenfassung, Druckseiten/Materialien und externe Ressourcen</li>
       <li>Schwesterprojekt: <a href="https://mathe.begreifbar.ch/" target="_blank" rel="noopener" class="meta-link">Mathe begreifbar</a> — gleicher Aufbau für das Fach Mathematik</li>
     </ul>

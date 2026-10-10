@@ -330,8 +330,22 @@ SEITEN = {
    titel='Kontakt & Feedback',
    beschreibung='Fehler melden, Verbesserungen vorschlagen oder Rückmeldung geben zu Physik begreifbar — ohne Anmeldung, Name und E-Mail freiwillig.',
    themen=['Kontakt', 'Feedback']),
- 'sonnenfinsternis-12-08-2026.html': dict(
-   typ='article', lrt='Extras',
+ 'simulationen.html': dict(
+   typ='article', lrt='Simulation',
+   titel='Simulationen — Physik zum Beobachten und Verändern',
+   beschreibung='Simulationen der Physik-Berufsmaturität auf eigenen Seiten: Vorgänge beobachten, Grössen verändern und die Wirkung sehen — je verlinkt aus dem passenden Abschnitt.',
+   themen=['Physik', 'Simulation', 'Interaktiv', 'Berufsmaturität']),
+ 'werkzeuge.html': dict(
+   typ='article', lrt='Werkzeug',
+   titel='Werkzeuge — Trainer und Rechner für die Physik',
+   beschreibung='Werkzeuge der Physik-Berufsmaturität: Trainer und Rechner für eigene Aufgaben und Messwerte — zum Üben mit Rückmeldung, je verlinkt aus dem passenden Abschnitt.',
+   themen=['Physik', 'Übungsgenerator', 'Trainer', 'Berufsmaturität']),
+ 'werkzeuge/einheitentrainer.html': dict(
+   typ='article', lrt='Werkzeug',
+   beschreibung='Einheiten umrechnen üben: Übungsgenerator für Länge, Fläche, Volumen, Masse, Zeit, Tempo, Kraft, Druck, Energie, Leistung, Dichte und Temperatur.',
+   themen=['Einheiten umrechnen', 'Übungsgenerator', 'Einheitenpräfixe', 'Zehnerpotenzen', 'SI-Einheiten']),
+ 'simulationen/sonnenfinsternis-12-08-2026.html': dict(
+   typ='article', lrt='Simulation',
    titel='Sonnenfinsternis vom 12. August 2026 über Thun',
    beschreibung='Partielle Sonnenfinsternis am 12. August 2026 über Thun: Sicherheitsregeln zum Filter, Simulation der Netzhautschädigung und der Verlauf des Abends zum Selberbewegen.',
    themen=['Sonnenfinsternis', 'Astronomie', 'Optik', 'Thun']),
@@ -348,9 +362,6 @@ SEITEN = {
  'themen/p0-3-messen-waagen-dichte.html': dict(
    beschreibung='Messen in der Physik: Masse und Gewichtskraft, Balkenwaage gegen Küchen- und Federwaage, direktes und indirektes Messen, Dichte bestimmen und Einheiten umrechnen.',
    themen=['Masse', 'Gewichtskraft', 'Waage', 'Dichte', 'Verdrängungsmethode', 'Dichte-Einheiten']),
- 'themen/p0-4-einheitentrainer.html': dict(
-   beschreibung='Einheiten umrechnen üben: Übungsgenerator für Länge, Fläche, Volumen, Masse, Zeit, Tempo, Kraft, Druck, Energie, Leistung, Dichte und Temperatur.',
-   themen=['Einheiten umrechnen', 'Übungsgenerator', 'Einheitenpräfixe', 'Zehnerpotenzen', 'SI-Einheiten']),
  'themen/p0-5-si-einheiten.html': dict(
    beschreibung='Die sieben SI-Basiseinheiten: Herkunft und heutige Definition von Sekunde, Meter, Kilogramm, Ampere, Kelvin, Mol und Candela — mit Simulationen.',
    themen=['SI-Basiseinheiten', 'Naturkonstanten', 'Meter', 'Kilogramm', 'Sekunde', 'Einheitenvorsilben']),

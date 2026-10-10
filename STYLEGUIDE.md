@@ -133,7 +133,7 @@ Geschwindigkeit bzw. Betrag. «Tempomat» und «Animationstempo» (Abspieltempo)
   Geschwindigkeit. Entsprechend heisst es nie „die Grundgrössen Weg, Zeit, Masse und
   Volumen" (p0-2, korrigiert am 17.08.2026) und nie „Basiseinheit m²".
   Braucht eine Darstellung eine Bezugseinheit, auf die andere umgerechnet werden
-  (Einheitentrainer p0-4, Umrechnungstabellen), heisst sie **Referenzeinheit**.
+  (Einheitentrainer, Umrechnungstabellen), heisst sie **Referenzeinheit**.
 - **Liter mit kleinem l** (verbindlich seit 13.08.2026): `l`, `ml`, `dl`, `cl`, `kg/l`, `g/l`, `t/m³`,
   `l/min` — nie `L`, `mL`, `kg/L`. Das gilt für LaTeX (`1\;\text{l}`), Fliesstext (`150 l`),
   Tabellen, Live-Anzeigen und Canvas-Beschriftungen gleichermassen. Das Wort «Liter» bleibt
@@ -1036,6 +1036,26 @@ Hier nur, was für beide Arten nicht verhandelbar ist.
   nicht in die Bibliothek und nicht auf eine Lektionsseite.
 - **Das Prüfungs-PDF misstrauisch lesen**; der Prüfungsrahmen bleibt weg, ohne dass die
   Aufgaben leiden. Einzelheiten: `HOWTO-uebungspruefung.md`.
+
+### 6.6 Simulationen und Werkzeuge (verbindlich seit 10.10.2026)
+
+- **Drei Formen, eine Regel.** Eine *Animation* steht in der Themenseite. Eine eigene Seite
+  bekommt ein Inhalt nur, wenn er mehr als einen Bildschirm braucht, eine eigene Abfolge hat
+  oder auch ohne die Themenseite benutzt wird. Dann ist er eine **Simulation**
+  (`simulationen/`: Vorgang beobachten, Grössen verändern) oder ein **Werkzeug**
+  (`werkzeuge/`: eigene Aufgaben oder Messwerte eingeben, üben). Gibt man eigene Daten ein,
+  ist es ein Werkzeug.
+- **Verlinkt wird im Abschnitt**, in den der Inhalt gehört — nicht am Seitenanfang wie das
+  Leitprogramm, nicht auf den Kacheln von `index.html`. Baustein, wörtlich:
+  `<div class="block block-tipp"><div class="block-titel">🧪 Simulation: Titel</div><p>Ein Satz,
+  was man dort tut. <a href="../simulationen/x.html">Zur Simulation →</a></p></div>` bzw.
+  «🛠 Werkzeug: Titel» … «Zum Werkzeug →» mit `../werkzeuge/`.
+- **Rücklink** als Satz am Ende von `pt-untertitel`, per Anker auf den Abschnitt
+  (`../themen/x.html#anker`). Kopf: `pt-bereich` «SIM · Simulationen» bzw. «WZ · Werkzeuge».
+- **Übersicht** `simulationen.html` / `werkzeuge.html` nach Lerngebiet, Seiten ohne
+  Lerngebiet unter `<h2 id="ausserhalb">`. `buildNav({ id:'simulationen' })` bzw.
+  `'werkzeuge'`, ohne `kapitelNr`, `prev`, `next`.
+- Alles Weitere: `HOWTO-simulationen.md`, `HOWTO-werkzeuge.md`.
 
 ---
 

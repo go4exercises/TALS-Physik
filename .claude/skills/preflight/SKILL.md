@@ -34,14 +34,19 @@ und Slot-Limit (≤4 Links je Sektion).
   **Quelltext**, nicht den DOM — ein `&lt;` in einer Formel meldet es darum als
   Fehler; richtig sind `\lt` und `\gt`.
 - **verify_js_runtime.js** — führt den Seiten-JS in jsdom aus, findet Laufzeitfehler.
-  Braucht `node_modules/jsdom`. Bekommt nur `themen/`-Seiten zu sehen.
-- **verify_einheitentrainer.js** — Selbsttest von `p0-4` (Einheitenpaare hin und
+  Braucht `node_modules/jsdom`. Bekommt nur Seiten eine Ebene tief zu sehen
+  (`themen/`, `simulationen/`, `werkzeuge/`).
+- **verify_einheitentrainer.js** — Selbsttest von `werkzeuge/einheitentrainer.html` (Einheitenpaare hin und
   zurück, Referenzwerte, Grenzfälle). Braucht `node_modules/jsdom`.
 - **build-animationen.py --check** — Animationsnummern und Textverweise; Abweichung
   ist ein **[FEHLER]**.
 - **build-suchindex.py --check** und **build-seo.py --check** — veralteter Index
   beziehungsweise veraltete Metadaten sind ein `[WARN]`; neu bauen mit demselben
   Skript ohne `--check`.
+- **check_sim_wz** — Seiten in `simulationen/` und `werkzeuge/`: fehlt die Kachel in
+  der Übersicht, zeigt ein Rücklink-Anker ins Leere oder verlinkt eine Themenseite
+  eine Datei, die es nicht gibt, ist das ein **[FEHLER]**; verlinkt keine Themenseite
+  auf die Seite (und steht sie nicht unter «Ausserhalb der Lerngebiete»), ein `[WARN]`.
 - **check_identifier_collisions.py** — falls im Repo vorhanden; ohne npm.
 - **check_todo_schwester** — liest `TODO-schwesterprojekt.md` im Schwesterrepo
   (Physik liest Mathes; Physik führt keine solche Datei, in Mathe schweigt der

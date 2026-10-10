@@ -718,7 +718,7 @@ k0 = '''
     ('0c', 3, r'Stelle \(a = b \cdot c\) nach \(c\) um, \(p \cdot L = q \cdot x\) nach \(x\) und \(\tan\alpha = k\) nach \(\alpha\).',
      r'<p>\(c = \dfrac{a}{b}\), \(x = \dfrac{p \cdot L}{q}\), \(\alpha = \arctan k\).</p><p class="komm">Falsch? <a href="' + P01 + r'#umformen">Vorwissen 0.1, Gleichungen umstellen</a></p>', ''),
     ('0d', 2, r'Rechne um: \(18\;\text{cm}\) in Meter und \(2.5\;\text{kN}\) in Newton.',
-     r'<p>\(18\;\text{cm} = 0.18\;\text{m}\), \(2.5\;\text{kN} = 2500\;\text{N}\).</p><p class="komm">Falsch? <a href="' + P02 + r'#praefixe">Vorwissen 0.2, Vorsilben</a> · <a href="../themen/p0-4-einheitentrainer.html">Einheitentrainer</a></p>', ''),
+     r'<p>\(18\;\text{cm} = 0.18\;\text{m}\), \(2.5\;\text{kN} = 2500\;\text{N}\).</p><p class="komm">Falsch? <a href="' + P02 + r'#praefixe">Vorwissen 0.2, Vorsilben</a> · <a href="../werkzeuge/einheitentrainer.html">Einheitentrainer</a></p>', ''),
 ]) + '''
       <p class="komm">Weniger als 7 von 10 Punkten: zuerst die verlinkten Stellen zu den falschen Aufgaben, dann Kapitel 1.</p>
     </section>'''

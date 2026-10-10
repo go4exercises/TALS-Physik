@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seite nicht gefunden — Physik begreifbar</title>
+<!-- GitHub Pages liefert diese Datei fuer jede Adresse aus, die es nicht gibt — in jeder
+     Ordnertiefe. Darum stehen alle Bezuege absolut (/style.css), und nav.js bleibt draussen
+     (es rechnet mit einer festen Tiefe).
+
+     Zugleich die Weiterleitung umgezogener Seiten: Statt an der alten Stelle eine Hilfsseite
+     liegen zu lassen (die dann in jedem themen/*.html-Glob der Pruefskripte auftaucht),
+     steht die alte Adresse hier in WEITERLEITUNGEN. Wer eine Seite verschiebt, traegt sie
+     ein (HOWTO-simulationen.md / HOWTO-werkzeuge.md, «Verschieben»). Nicht in
+     scripts/build-seo.py — die Seite ist absichtlich ohne canonical und noindex. -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/schriften.css">
+<link rel="stylesheet" href="/style.css">
+<script>
+const WEITERLEITUNGEN = {
+  // seit 10.10.2026: Extras aufgeloest in simulationen/ und werkzeuge/
+  '/sonnenfinsternis-12-08-2026.html': '/simulationen/sonnenfinsternis-12-08-2026.html',
+  '/themen/p0-4-einheitentrainer.html': '/werkzeuge/einheitentrainer.html',
+};
+(function () {
+  const ziel = WEITERLEITUNGEN[location.pathname];
+  if (ziel) location.replace(ziel + location.search + location.hash);
+})();
+</script>
+</head>
+<body>
+<div class="page-wrap">
+  <main class="content">
+    <div class="page-titel">
+      <div class="pt-bereich">404</div>
+      <h1 class="pt-h1">Seite nicht gefunden</h1>
+      <p class="pt-untertitel">Unter dieser Adresse gibt es keine Seite (mehr). Alle Themen,
+        Leitprogramme, Simulationen und Werkzeuge stehen auf der
+        <a href="/">Startseite von Physik begreifbar</a>.</p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

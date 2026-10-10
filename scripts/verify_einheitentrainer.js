@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* ─────────────────────────────────────────────────────────────
-   Automatische Tests fuer den Einheitentrainer (themen/p0-4).
+   Automatische Tests fuer den Einheitentrainer (werkzeuge/einheitentrainer.html).
 
    Laedt die Seite in jsdom und ruft die dort definierte Funktion
    etSelbsttest() auf. Diese prueft:
@@ -31,7 +31,7 @@ try {
   process.exit(0);
 }
 
-const datei = path.join(__dirname, '..', 'themen', 'p0-4-einheitentrainer.html');
+const datei = path.join(__dirname, '..', 'werkzeuge', 'einheitentrainer.html');
 if (!fs.existsSync(datei)) {
   console.error('[FEHLER] ' + datei + ' nicht gefunden');
   process.exit(1);
