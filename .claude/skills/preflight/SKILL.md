@@ -36,7 +36,7 @@ und Slot-Limit (≤4 Links je Sektion).
 - **verify_js_runtime.js** — führt den Seiten-JS in jsdom aus, findet Laufzeitfehler.
   Braucht `node_modules/jsdom`. Bekommt nur Seiten eine Ebene tief zu sehen
   (`themen/`, `simulationen/`, `werkzeuge/`).
-- **verify_einheitentrainer.js**, **verify_freischneiden.js**, **verify_schaltungen.js** — Selbsttests
+- **verify_einheitentrainer.js**, **verify_freischneiden.js**, **verify_schaltungen.js** u. a. — Selbsttests
   der Werkzeuge in `werkzeuge/`. Braucht `node_modules/jsdom`.
 - **build-animationen.py --check** — Animationsnummern und Textverweise; Abweichung
   ist ein **[FEHLER]**.

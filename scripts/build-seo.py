@@ -384,6 +384,11 @@ SEITEN = {
    typ='article', lrt='Werkzeug',
    beschreibung='Einheiten umrechnen üben: Übungsgenerator für Länge, Fläche, Volumen, Masse, Zeit, Tempo, Kraft, Druck, Energie, Leistung, Dichte und Temperatur.',
    themen=['Einheiten umrechnen', 'Übungsgenerator', 'Einheitenpräfixe', 'Zehnerpotenzen', 'SI-Einheiten']),
+ 'werkzeuge/bewegungsdiagramme.html': dict(
+   ort='Werkzeuge · Bewegungsdiagramme',
+   typ='article', lrt='Werkzeug',
+   beschreibung='Bewegungsdiagramme üben: s-t-, v-t- und a-t-Diagramm zuordnen, Steigung und Fläche ablesen, Bewegungen aus Worten erkennen, mit Rückmeldung.',
+   themen=['Bewegungsdiagramm', 's-t-Diagramm', 'v-t-Diagramm', 'Geschwindigkeit', 'Beschleunigung', 'Kinematik']),
  'werkzeuge/freischneiden.html': dict(
    ort='Werkzeuge · Freischneiden',
    typ='article', lrt='Werkzeug',

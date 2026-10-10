@@ -653,7 +653,7 @@ k1 = kapitel(1, 'ort-und-geschwindigkeit', 'Ort, Bahn und Geschwindigkeit', 'K1 
     sim1, ('p4-1-lp-kontrolle-gleichfoermig', 'Kontrollfragen zu Ort und Geschwindigkeit', '0:38'),
     fest1, [uebung('ort', 'Ort bei konstanter Geschwindigkeit'), uebung('mittel', 'Durchschnittsgeschwindigkeit'),
             uebung('einholen', 'Einholen')],
-    auf1, f'<a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a> · <a href="{TS}#darstellungen">Geradlinig gleichförmige Bewegung</a>')
+    auf1, f'<a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a> · <a href="{TS}#darstellungen">Geradlinig gleichförmige Bewegung</a> · Werkzeug: <a href="../werkzeuge/bewegungsdiagramme.html#aufgabe-zuordnen">s-t- und v-t-Diagramm zuordnen</a>, <a href="../werkzeuge/bewegungsdiagramme.html#aufgabe-worte">Bewegung in Worten als Diagramm</a>')
 
 # ------------------------------------------------------------------ Kapitel 2: Beschleunigung
 sim2 = figur('sim2', 'Geschwindigkeit v über der Zeit t: Gerade mit der Beschleunigung a als Steigung, die Fläche darunter ist der Weg s', '-4 -4 308 268',
@@ -694,7 +694,7 @@ k2 = kapitel(2, 'beschleunigung', 'Beschleunigung und Bremsweg', 'K1 · K3', 40,
     sim2, ('p4-1-lp-kontrolle-beschleunigt', 'Kontrollfragen zur Beschleunigung', '0:35'),
     fest2, [uebung('beschl', 'Beschleunigung aus zwei Geschwindigkeiten'), uebung('endwerte', 'Geschwindigkeit und Weg nach der Zeit t'),
             uebung('bremsweg', 'Bremsweg')],
-    auf2, f'<a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a> · <a href="{TS}#theorie">Gleichmässig beschleunigte Bewegung</a>')
+    auf2, f'<a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a> · <a href="{TS}#theorie">Gleichmässig beschleunigte Bewegung</a> · Werkzeug: <a href="../werkzeuge/bewegungsdiagramme.html#aufgabe-ablesen">Steigung und Fläche ablesen</a>')
 
 # ------------------------------------------------------------------ Kapitel 3: Geschwindigkeit als Vektor (intern sim4, t4)
 sim4 = f'''      <figure class="sim sim-gross" id="sim4">

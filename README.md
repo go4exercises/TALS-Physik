@@ -14,7 +14,7 @@ Schwesterprojekt zu [Mathe begreifbar](https://mathe.begreifbar.ch) (Repo [`tals
 
 Davor steht die **Vorwissen-Reihe** (Themenkreis 0, kein RLP-Lerngebiet, 5 Seiten): 0.0 Alltagstour, 0.1 Rechnen und Schliessen, 0.2 Grössen, Einheiten und Messen, 0.3 Messen — Waagen, Dichte, Einheiten, 0.5 Die sieben SI-Basiseinheiten. Diese Seiten folgen dem 13-Punkte-Schema nur sinngemäss.
 
-Neben den Themenseiten stehen **Simulationen** (`simulationen/`, Übersicht `simulationen.html`) und **Werkzeuge** (`werkzeuge/`, Übersicht `werkzeuge.html`) als eigene Seiten — zurzeit die Sonnenfinsternis vom 12. August 2026, der Einheitentrainer mit Freiem Üben, Lernmodus und Prüfungsmodus und zwei Trainer mit Rückmeldung zu typischen Fehlern: Freischneiden mit Kräfteplan (4.2, 4.4) und Schaltungen zusammenfassen (6.2, mit Kurzformel, Teilströmen und Messen). Anleitung: `HOWTO-simulationen.md`, `HOWTO-werkzeuge.md`. Sie sind zum **Nachschlagen** gebaut; wer denselben Stoff als Kurs durcharbeiten will, nimmt die beiden Vorwissen-Leitprogramme «Rechnen und Schliessen» und «Grössen, Messen, Druck». Kästen auf beiden Seiten verweisen aufeinander.
+Neben den Themenseiten stehen **Simulationen** (`simulationen/`, Übersicht `simulationen.html`) und **Werkzeuge** (`werkzeuge/`, Übersicht `werkzeuge.html`) als eigene Seiten — zurzeit die Sonnenfinsternis vom 12. August 2026, der Einheitentrainer mit Freiem Üben, Lernmodus und Prüfungsmodus und Trainer mit Rückmeldung zu typischen Fehlern: Bewegungsdiagramme (4.1), Freischneiden mit Kräfteplan (4.2, 4.4) und Schaltungen zusammenfassen (6.2, mit Kurzformel, Teilströmen und Messen). Anleitung: `HOWTO-simulationen.md`, `HOWTO-werkzeuge.md`. Sie sind zum **Nachschlagen** gebaut; wer denselben Stoff als Kurs durcharbeiten will, nimmt die beiden Vorwissen-Leitprogramme «Rechnen und Schliessen» und «Grössen, Messen, Druck». Kästen auf beiden Seiten verweisen aufeinander.
 
 | Nr | Teilgebiet | Lektionen | Status |
 |----|------------|----------:|--------|
@@ -219,7 +219,7 @@ Formelsammlung, Volltextsuche, Rechtliches & Datenschutz) dazubringt:
   Aussprache nach Hörproben abgestimmt.
 - **Simulationen und Werkzeuge** als eigene Rubriken mit Übersicht: die Sonnenfinsternis vom
   12. August 2026, der Einheitentrainer (bis 10. Oktober 2026 Vorwissenseite 0.4; die alten
-  Adressen leiten weiter) und die Trainer Freischneiden und Schaltungen zusammenfassen, beide mit
+  Adressen leiten weiter) und die Trainer Bewegungsdiagramme, Freischneiden und Schaltungen zusammenfassen, alle mit
   eingebautem Selbsttest. Verlinkt aus Themenseite und Leitprogramm, je Aufgabenart einmal pro Seite.
   Dazu die Vorwissenseiten 0.3 und 0.5.
 - **Keine fremden Hosts:** Schriften und MathJax werden seit 30. August 2026 lokal ausgeliefert.

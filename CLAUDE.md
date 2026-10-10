@@ -65,6 +65,17 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   F_G statt). Szenen mit Beträgen unter einem Kästchen tragen `ohnePlan` (Schlitten, Lieferwagen).
   Verweise je Aufgabenart: Themenseiten 4.2 (`#schiefe-ebene`) und 4.4 (`#resultierende`), Leitprogramm
   Dynamik Kapitel 2 (beide), Statik Kapitel 2 (Kräfteplan) und 3 (Freischneiden).
+- `werkzeuge/bewegungsdiagramme.html` — Trainer Bewegungsdiagramme (4.1, seit 11.10.2026), drei
+  Aufgabenarten als Reiter (Anker `#aufgabe-zuordnen`, `#aufgabe-ablesen`, `#aufgabe-worte`): s-t ↔ v-t
+  und v-t → a-t zuordnen (vier Diagramme, die falschen je aus einem Fehlbild: Form übernommen, Vorzeichen,
+  Ruhe im falschen Diagramm, Gerade statt Parabel, Krümmung, Betrag), Steigung und Fläche ablesen (Diagnosen:
+  Wert statt Steigung, Kehrwert, Vorzeichen, Rechteck statt Trapez, nur Dreieck) und eine Beschreibung in
+  Worten als Diagramm erkennen (dazu Reihenfolge, Stillstand). Eine Bewegung ist eine Kette von Abschnitten
+  {d, v, a} in `BD_VORLAGEN` (13 Vorlagen, drei Stufen); daraus Diagramme, Text, Fragen und Fehlbilder.
+  Eigenes Raster je Achse (`bdRaster`: alle Eckwerte auf Linien). Selbsttest `bdSelbsttest` über
+  `scripts/verify_bewegungsdiagramme.js` im Pre-Flight (Ableitungen und Fläche numerisch nachgerechnet,
+  Fehlbilder sichtbar verschieden, jede Diagnose). Verweise je Aufgabenart: Themenseite 4.1 `#darstellungen`
+  (Zuordnen, In Worten) und `#theorie` (Ablesen), Leitprogramm Kinematik Kapitel 1 und 2. Kein `localStorage`.
 - `werkzeuge/schaltungen-zusammenfassen.html` — Trainer Schaltungen zusammenfassen (6.2, seit
   10.10.2026), drei Aufgabenarten als Reiter: (1, Voreinstellung) Kurzformel
   aus Knöpfen setzen (Parser ohne Vorrang: + und ∥ auf einer Ebene brauchen eine Klammer; Vergleich

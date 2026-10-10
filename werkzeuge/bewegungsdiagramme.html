@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bewegungsdiagramme — Physik begreifbar</title>
+<!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<meta name="description" content="Bewegungsdiagramme üben: s-t-, v-t- und a-t-Diagramm zuordnen, Steigung und Fläche ablesen, Bewegungen aus Worten erkennen, mit Rückmeldung.">
+<meta name="author" content="Raphael Arnold Kohler">
+<link rel="canonical" href="https://physik.begreifbar.ch/werkzeuge/bewegungsdiagramme.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Physik begreifbar">
+<meta property="og:locale" content="de_CH">
+<meta property="og:title" content="Bewegungsdiagramme — Physik begreifbar">
+<meta property="og:description" content="Bewegungsdiagramme üben: s-t-, v-t- und a-t-Diagramm zuordnen, Steigung und Fläche ablesen, Bewegungen aus Worten erkennen, mit Rückmeldung.">
+<meta property="og:url" content="https://physik.begreifbar.ch/werkzeuge/bewegungsdiagramme.html">
+<meta property="og:image" content="https://physik.begreifbar.ch/og-bild.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://physik.begreifbar.ch/werkzeuge/bewegungsdiagramme.html#inhalt",
+   "url": "https://physik.begreifbar.ch/werkzeuge/bewegungsdiagramme.html",
+   "name": "Bewegungsdiagramme — Physik begreifbar",
+   "description": "Bewegungsdiagramme üben: s-t-, v-t- und a-t-Diagramm zuordnen, Steigung und Fläche ablesen, Bewegungen aus Worten erkennen, mit Rückmeldung.",
+   "inLanguage": "de-CH",
+   "isAccessibleForFree": true,
+   "license": "https://creativecommons.org/licenses/by-nc/4.0/deed.de",
+   "creator": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "publisher": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "dateModified": "2026-08-01",
+   "isPartOf": {
+    "@id": "https://physik.begreifbar.ch/#website"
+   },
+   "about": [
+    {
+     "@type": "DefinedTerm",
+     "name": "Bewegungsdiagramm"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "s-t-Diagramm"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "v-t-Diagramm"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Geschwindigkeit"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Beschleunigung"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Kinematik"
+    }
+   ],
+   "keywords": "Bewegungsdiagramm, s-t-Diagramm, v-t-Diagramm, Geschwindigkeit, Beschleunigung, Kinematik",
+   "learningResourceType": "Werkzeug",
+   "educationalLevel": "Sekundarstufe II — Berufsmaturität (Schweiz)",
+   "typicalAgeRange": "16-20",
+   "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": [
+     "student",
+     "teacher"
+    ]
+   },
+   "interactivityType": "active"
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://physik.begreifbar.ch/#website",
+   "url": "https://physik.begreifbar.ch/",
+   "name": "Physik begreifbar"
+  }
+ ]
+}
+</script>
+<!-- SEO:ENDE -->
+<link rel="stylesheet" href="../schriften.css">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']] },
+  svg: { fontCache:'global', scale:1.05 },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="../vendor/mathjax/tex-svg.js"></script>
+
+<style>
+/* ── Seitenspezifisch nur der Trainer ──
+   Reiter der Aufgabenarten, Aufgabenkopf, Diagramm, vier Auswahlkarten,
+   Eingabe, Rückmeldung und Rechenweg. */
+.bd-reiter { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+.bd-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
+  border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; scroll-margin-top:66px; }
+.bd-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
+.bd-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
+.bd-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.bd-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.bd-reiter-knopf.aktiv .bd-reiter-nr { color:var(--bernstein); }
+.bd-reiter-name { font-family:var(--serif); font-size:0.98rem; font-weight:700; line-height:1.25; }
+.bd-reiter-text { font-size:0.76rem; color:var(--tinte-2); line-height:1.35; }
+.bd-aufgabe { background:var(--papier); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein);
+  border-radius:8px; padding:10px 14px; margin-bottom:12px; }
+.bd-aufgabe-kopf { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin-bottom:4px; }
+.bd-aufgabe-titel { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); }
+.bd-pille { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
+  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
+.bd-aufgabe p { margin:0; font-size:0.9rem; }
+.bd-text { font-size:0.95rem; line-height:1.55; background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin:0 0 12px; }
+.bd-titel { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 4px 2px; }
+.bd-karten { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; margin-top:12px; }
+.bd-karte { position:relative; display:block; width:100%; padding:6px; border-radius:9px; cursor:pointer; text-align:left;
+  border:1.5px solid var(--linie); background:var(--weiss); }
+.bd-karte:hover { border-color:var(--bernstein-rand); }
+.bd-karte:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.bd-karte.richtig { border-color:var(--gruen); background:var(--gruen-hell); }
+.bd-karte.falsch { border-color:var(--rot); background:var(--rot-hell); }
+.bd-karte canvas { display:block; width:100%; }
+.bd-buchst { position:absolute; top:6px; right:10px; font-family:var(--mono); font-size:0.8rem; font-weight:700; color:var(--tinte-2); }
+.bd-frage { background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin-top:12px; }
+.bd-frage p { margin:0 0 8px; font-size:0.9rem; }
+.bd-zeile { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.bd-eingabe { font-family:var(--mono); font-size:0.95rem; width:7.5em; padding:6px 8px; border-radius:6px;
+  border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
+.bd-eingabe:focus { outline:2px solid var(--bernstein); outline-offset:0; }
+.bd-einheit { font-family:var(--mono); font-size:0.9rem; }
+.bd-rueck { margin-top:12px; }
+.bd-rueck .block { margin:0 0 8px; }
+.bd-weg .fl-eq { font-size:0.95rem; }
+.bd-abschnitt { font-family:var(--mono); font-size:0.66rem; font-weight:700; color:var(--tinte-2); margin-right:8px; vertical-align:middle; white-space:nowrap; }
+.bd-nw { white-space:nowrap; }
+.bd-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
+@media (max-width: 700px) {
+  .bd-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
+  .bd-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
+  .bd-reiter-text { display:none; }
+  .bd-karten { gap:8px; }
+  .bd-karte { padding:4px; }
+  .bd-weg { padding:12px 8px; }
+}
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ TITEL ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">WZ · Werkzeuge</div>
+  <h1 class="pt-h1">Bewegungsdiagramme</h1>
+  <p class="pt-untertitel">Ein Bewegungsablauf lässt sich auf drei Arten zeichnen: als Ort, als Geschwindigkeit und als Beschleunigung über der Zeit. Hier übst du, von einem Diagramm aufs andere zu schliessen, Steigung und Fläche abzulesen und eine Beschreibung in Worten in ein Diagramm zu übersetzen. Erklärt wird das auf der Themenseite unter <a href="../themen/p4-1-kinematik.html#darstellungen">4.1 Geradlinig gleichförmige Bewegung</a> und <a href="../themen/p4-1-kinematik.html#theorie">4.1 Gleichmässig beschleunigte Bewegung</a>.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">🧭 Übungsseite zum Lerngebiet 4.1 — geübt werden diese Kompetenzen aus dem RLP-BM 2030</div>
+  <ul>
+    <li>die Begriffe «Schwerpunkt», «Bahnkurve», «Geschwindigkeit» und «Beschleunigung» definieren</li>
+    <li>Aufgabenstellungen zu folgenden Bewegungsarten lösen: Geradlinig gleichförmige Bewegung, gleichmässig beschleunigte Bewegung, freier Fall, parabolische Bewegung</li>
+  </ul>
+</div>
+
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+  <ul>
+    <li>Ich kann zu einem \(s\)-\(t\)-Diagramm das passende \(v\)-\(t\)-Diagramm finden und umgekehrt.</li>
+    <li>Ich kann zu einem \(v\)-\(t\)-Diagramm das passende \(a\)-\(t\)-Diagramm finden.</li>
+    <li>Ich kann die Geschwindigkeit als Steigung im \(s\)-\(t\)-Diagramm und die Beschleunigung als Steigung im \(v\)-\(t\)-Diagramm ablesen.</li>
+    <li>Ich kann die zurückgelegte Strecke als Fläche unter dem \(v\)-\(t\)-Graphen bestimmen.</li>
+    <li>Ich kann eine Bewegung, die in Worten beschrieben ist, als Diagramm erkennen.</li>
+  </ul>
+  </div>
+</details>
+
+<div class="block block-tipp">
+  <div class="block-titel">💡 Lieber geführt durcharbeiten?</div>
+  <p>Ort, Geschwindigkeit und Beschleunigung erarbeitet das Leitprogramm <a href="../leitprogramme/leitprogramm-kinematik.html#ort-und-geschwindigkeit">«Kinematik»</a> in den Kapiteln 1 und 2. Dort wird vor allem gerechnet; dieser Trainer übt das Lesen und Zuordnen der Diagramme.</p>
+</div>
+
+<div class="block block-merksatz">
+  <div class="block-titel">📘 Drei Diagramme, zwei Regeln</div>
+  <ol>
+    <li><strong>Steigung, nach unten:</strong> Die Steigung im \(s\)-\(t\)-Diagramm ist die Geschwindigkeit, \(v = \dfrac{\Delta s}{\Delta t}\). Die Steigung im \(v\)-\(t\)-Diagramm ist die Beschleunigung, \(a = \dfrac{\Delta v}{\Delta t}\).</li>
+    <li><strong>Fläche, nach oben:</strong> Die Fläche unter dem \(v\)-\(t\)-Graphen ist die Strecke \(\Delta s\). Die Fläche unter dem \(a\)-\(t\)-Graphen ist die Änderung der Geschwindigkeit \(\Delta v\).</li>
+  </ol>
+  <p>Fläche unterhalb der Zeitachse zählt negativ: Dort fährt der Körper zurück, oder seine Geschwindigkeit nimmt ab.</p>
+</div>
+
+
+<!-- ══════════════ TRAINER ══════════════ -->
+<h2 id="trainer">Der Trainer</h2>
+
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+      <h3 id="bewegungsdiagramme-trainer">Zuordnen, ablesen, in Worten</h3>
+      <div class="anim-hinweis links">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zum Trainer Bewegungsdiagramme">💡 Worauf achten?</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Worauf achten?</span>
+          <div class="ah-text"><ul><li>Zuerst die Achsen lesen: Steht dort \(s\), \(v\) oder \(a\)?</li><li>Gehe Abschnitt für Abschnitt vor: Steigt, fällt oder bleibt der Graph waagrecht? Was heisst das im anderen Diagramm?</li><li>Eine Steigung ist eine Änderung geteilt durch eine Zeitspanne, nie ein einzelner abgelesener Wert.</li></ul></div>
+        </div>
+      </div>
+      <div class="anim-hinweis rechts">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zum Trainer Bewegungsdiagramme">✓ Erkenntnis</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Erkenntnis</span>
+          <div class="ah-text"><ul><li>Waagrecht heisst in jedem Diagramm etwas anderes: im \(s\)-\(t\)-Diagramm Stillstand, im \(v\)-\(t\)-Diagramm konstante Geschwindigkeit.</li><li>Gleichmässig beschleunigt: \(a\) waagrecht, \(v\) eine Gerade, \(s\) eine Parabel.</li><li>Wo der Körper steht, sagt das \(s\)-\(t\)-Diagramm direkt; aus dem \(v\)-\(t\)-Diagramm folgt nur, wie weit er sich bewegt.</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="widget-body">
+
+    <div class="bd-reiter" id="bd-arten" role="group" aria-label="Aufgabenart wählen">
+      <button class="bd-reiter-knopf aktiv" id="aufgabe-zuordnen" data-art="zuordnen" aria-pressed="true"><span class="bd-reiter-nr">Aufgabe 1</span><span class="bd-reiter-name">Zuordnen</span><span class="bd-reiter-text">Zum gegebenen Diagramm das passende andere finden: \(s\) zu \(v\), \(v\) zu \(s\), \(v\) zu \(a\).</span></button>
+      <button class="bd-reiter-knopf" id="aufgabe-ablesen" data-art="ablesen" aria-pressed="false"><span class="bd-reiter-nr">Aufgabe 2</span><span class="bd-reiter-name">Ablesen</span><span class="bd-reiter-text">Geschwindigkeit und Beschleunigung als Steigung, Strecke als Fläche.</span></button>
+      <button class="bd-reiter-knopf" id="aufgabe-worte" data-art="worte" aria-pressed="false"><span class="bd-reiter-nr">Aufgabe 3</span><span class="bd-reiter-name">In Worten</span><span class="bd-reiter-text">Eine Bewegung ist beschrieben. Welches Diagramm gehört dazu?</span></button>
+    </div>
+
+    <div class="typ-btns" id="bd-stufen" role="group" aria-label="Stufe wählen">
+      <button class="typ-btn aktiv" data-stufe="1">Stufe 1: Gleichförmig</button>
+      <button class="typ-btn" data-stufe="2">Stufe 2: Beschleunigt</button>
+      <button class="typ-btn" data-stufe="3">Stufe 3: Mit Umkehr</button>
+      <button class="typ-btn" data-stufe="0">Alle Stufen</button>
+    </div>
+
+    <div class="bd-aufgabe" id="bd-aufgabe" aria-live="polite"></div>
+
+    <div id="bd-haupt">
+      <div class="bd-titel" id="bd-haupt-titel"></div>
+      <div class="cv-wrap"><canvas id="bd-cv" aria-label="Diagramm der Aufgabe"></canvas></div>
+    </div>
+    <p class="bd-text" id="bd-text" hidden></p>
+
+    <div class="bd-karten" id="bd-karten" role="group" aria-label="Diagramme zur Auswahl"></div>
+    <div class="bd-frage" id="bd-frage" hidden></div>
+    <div class="bd-rueck" id="bd-rueck" aria-live="polite"></div>
+    <div class="formel-live bd-weg" id="bd-weg" hidden></div>
+
+  </div>
+  <div class="btn-row">
+    <button class="typ-btn" id="bd-tipp">Tipp</button>
+    <button class="typ-btn" id="bd-zeigen">Lösung zeigen</button>
+    <button class="typ-btn" id="bd-neu">Neue Aufgabe</button>
+    <span class="bd-stand" id="bd-stand"></span>
+  </div>
+</div>
+
+
+<!-- ══════════════ LESEN ══════════════ -->
+<h2 id="lesen">Eine Bewegung, drei Diagramme</h2>
+
+<p>Dieselbe Bewegung sieht in den drei Diagrammen verschieden aus. Die Tabelle zeigt, wie man die häufigsten Abschnitte erkennt.</p>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Bewegung</th><th>\(s\)-\(t\)-Diagramm</th><th>\(v\)-\(t\)-Diagramm</th><th>\(a\)-\(t\)-Diagramm</th></tr></thead>
+  <tbody>
+    <tr><td>Stillstand</td><td>waagrecht</td><td>auf der Zeitachse, \(v = 0\)</td><td>\(a = 0\)</td></tr>
+    <tr><td>gleichförmig vorwärts</td><td>steigende Gerade</td><td>waagrecht über der Achse</td><td>\(a = 0\)</td></tr>
+    <tr><td>gleichförmig zurück</td><td>fallende Gerade</td><td>waagrecht unter der Achse</td><td>\(a = 0\)</td></tr>
+    <tr><td>vorwärts, immer schneller</td><td>Parabel, immer steiler</td><td>steigende Gerade</td><td>waagrecht über der Achse</td></tr>
+    <tr><td>vorwärts, immer langsamer</td><td>Parabel, immer flacher</td><td>fallende Gerade bis zur Achse</td><td>waagrecht unter der Achse</td></tr>
+  </tbody>
+</table>
+
+
+<!-- ══════════════ FEHLER ══════════════ -->
+<h2 id="fehler">Häufige Fehler</h2>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Den Wert abgelesen statt der Steigung</div>
+  <p>Wer das \(s\)-\(t\)-Diagramm einfach als \(v\)-\(t\)-Diagramm abzeichnet, verwechselt den Ort mit seiner Änderung. Ein Körper kann weit weg sein und stillstehen: Dann ist \(s\) gross und \(v = 0\). Die Geschwindigkeit ist die Steigung, \(v = \dfrac{\Delta s}{\Delta t}\).</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Waagrecht heisst nicht immer Stillstand</div>
+  <p>Im \(s\)-\(t\)-Diagramm bedeutet eine waagrechte Linie Stillstand. Im \(v\)-\(t\)-Diagramm bedeutet sie konstante Geschwindigkeit: Der Körper fährt weiter. Stillstand ist dort nur die Linie <em>auf</em> der Zeitachse.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Gerade statt Parabel</div>
+  <p>Bei gleichmässiger Beschleunigung wächst die Geschwindigkeit linear, der Ort aber quadratisch: \(s = s_0 + v_0 \cdot t + \tfrac{1}{2} \cdot a \cdot t^2\). Im \(s\)-\(t\)-Diagramm ist das eine Parabel, keine Gerade. Wird der Körper schneller, wird sie immer steiler; bremst er, immer flacher.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Die Fläche als Rechteck gerechnet</div>
+  <p>Steigt die Geschwindigkeit von \(v_0\) auf \(v_1\), ist die Fläche unter dem Graphen ein Trapez, kein Rechteck: \(\Delta s = \dfrac{v_0 + v_1}{2} \cdot \Delta t\). Wer \(v_1 \cdot \Delta t\) rechnet, nimmt die Endgeschwindigkeit für die ganze Zeit und bekommt zu viel.</p>
+</div>
+
+
+<!-- ══════════════ ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<ul class="kernpunkte">
+  <li>Steigung im \(s\)-\(t\)-Diagramm ist \(v\), Steigung im \(v\)-\(t\)-Diagramm ist \(a\).</li>
+  <li>Fläche unter dem \(v\)-\(t\)-Graphen ist die Strecke \(\Delta s\), Fläche unter dem \(a\)-\(t\)-Graphen ist \(\Delta v\).</li>
+  <li>Waagrecht im \(s\)-\(t\)-Diagramm: Stillstand. Waagrecht im \(v\)-\(t\)-Diagramm: konstante Geschwindigkeit.</li>
+  <li>Gleichmässig beschleunigt: \(a\) konstant, \(v\) eine Gerade, \(s\) eine Parabel.</li>
+  <li>Unter der Zeitachse: Der Körper fährt zurück (\(v \lt 0\)) bzw. wird in Fahrtrichtung langsamer (\(a \lt 0\), solange \(v \gt 0\)).</li>
+</ul>
+
+<div class="merksatz">
+  Erst die Achsen lesen, dann Abschnitt für Abschnitt fragen: Steigt der Graph, fällt er, bleibt er waagrecht? Steigung führt von \(s\) zu \(v\) zu \(a\), Fläche zurück.
+</div>
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<footer class="site-footer">
+  <p><strong>Physik begreifbar</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
+  <p>Werkzeuge · Bewegungsdiagramme</p>
+  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
+  <p>Keine Cookies · Kein Tracking · Version 2.0 · Stand 10. Oktober 2026</p>
+</footer>
+<!-- FUSS:ENDE -->
+
+<script src="../nav.js"></script>
+<script src="../suche.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script>
+buildNav({ id:'werkzeuge' });
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   Trainer Bewegungsdiagramme.
+   Eine Bewegung ist eine Kette von Abschnitten mit konstanter
+   Beschleunigung {d, v, a} (Dauer, Anfangsgeschwindigkeit, Beschleunigung).
+   Daraus entstehen alle drei Diagramme, die Beschreibung in Worten, die
+   Fragen zum Ablesen und die falschen Diagramme der Auswahl (je mit dem
+   Fehlerbild, aus dem sie entstehen). BD_VORLAGEN baut die Bewegungen aus
+   Zufallswerten, BD_DIAGNOSE hält die Rückmeldungen. Selbsttest:
+   bdSelbsttest, über scripts/verify_bewegungsdiagramme.js im Pre-Flight.
+   ═══════════════════════════════════════════════════════════════════ */
+(function () {
+'use strict';
+
+const BD_TOL = 0.02;                          // richtig: auf 2 % (ablesen)
+const BD_ART = {
+  s:{ achse:'s [m]',    tex:'s', einheit:'m',   etex:'\\text{m}',     name:'Ort' },
+  v:{ achse:'v [m/s]',  tex:'v', einheit:'m/s', etex:'\\text{m/s}',   name:'Geschwindigkeit' },
+  a:{ achse:'a [m/s²]', tex:'a', einheit:'m/s²', etex:'\\text{m/s}^2', name:'Beschleunigung' },
+};
+const BD_OBJEKTE = ['Ein Velo', 'Ein Spielzeugauto', 'Ein Wagen', 'Ein Roller', 'Ein Zug auf einer Modellbahn'];
+
+/* Rückmeldungen zu den falschen Diagrammen; c = { von, nach } (Diagrammart) */
+const BD_DIAGNOSE = {
+  form:       c => c.nach === 'v' ? 'Das ist die Form des \\(s\\)-\\(t\\)-Diagramms. Im \\(v\\)-\\(t\\)-Diagramm steht nicht der Ort, sondern wie schnell er sich ändert: die Steigung des \\(s\\)-\\(t\\)-Graphen.'
+              : c.nach === 's' ? 'Das ist die Form des \\(v\\)-\\(t\\)-Diagramms. Der Ort folgt aus der Fläche unter dem \\(v\\)-\\(t\\)-Graphen: Wo \\(v\\) konstant ist, steigt \\(s\\) gleichmässig an.'
+              : 'Das ist die Form des \\(v\\)-\\(t\\)-Diagramms. Die Beschleunigung ist die Steigung des \\(v\\)-\\(t\\)-Graphen, nicht sein Wert: Wo \\(v\\) gleichmässig steigt, ist \\(a\\) konstant.',
+  vorzeichen: c => c.nach === 'a' ? 'Das Vorzeichen stimmt nicht: Wird \\(v\\) grösser, ist \\(a\\) positiv; wird \\(v\\) kleiner, ist \\(a\\) negativ.'
+              : 'Die Richtung ist vertauscht: Steigt der \\(s\\)-\\(t\\)-Graph, fährt der Körper vorwärts und \\(v\\) ist positiv; fällt er, fährt er zurück und \\(v\\) ist negativ.',
+  ruhe_sv:    c => 'Eine waagrechte Linie im \\(s\\)-\\(t\\)-Diagramm heisst: Der Ort ändert sich nicht, der Körper steht. Dort ist \\(v = 0\\), die Linie liegt auf der Zeitachse.',
+  ruhe_vs:    c => 'Eine waagrechte Linie im \\(v\\)-\\(t\\)-Diagramm heisst konstante Geschwindigkeit, nicht Stillstand. Der Körper fährt weiter, \\(s\\) steigt gleichmässig.',
+  betrag:     c => c.nach === 's' ? 'Die Form stimmt, die Werte nicht. Die Strecke in einem Abschnitt ist die Fläche unter dem \\(v\\)-\\(t\\)-Graphen.'
+              : c.nach === 'v' ? (c.von === 'worte' ? 'Die Form stimmt, die Werte nicht: Lies die Geschwindigkeiten in der Beschreibung nach.' : 'Die Form stimmt, die Werte nicht. Rechne die Steigung aus: \\(v = \\frac{\\Delta s}{\\Delta t}\\).')
+              : 'Die Form stimmt, die Werte nicht. Rechne die Steigung aus: \\(a = \\frac{\\Delta v}{\\Delta t}\\).',
+  gerade:     c => 'Bei gleichmässiger Beschleunigung wächst der Ort quadratisch mit der Zeit. Im \\(s\\)-\\(t\\)-Diagramm ist das eine Parabel, keine Gerade.',
+  kruemmung:  c => 'Die Krümmung ist verkehrt: Wird der Körper schneller, wird der \\(s\\)-\\(t\\)-Graph immer steiler. Bremst er, wird er immer flacher.',
+  reihenfolge:c => 'Die Abschnitte stehen in der falschen Reihenfolge. Lies die Beschreibung von vorn: Was geschieht zuerst, was danach?',
+  stillstand: c => 'Wo der Körper stillsteht, ist \\(v = 0\\): Der Graph liegt dort auf der Zeitachse, nicht waagrecht darüber.',
+  werte:      c => 'Die Werte passen nicht. Prüfe Abschnitt für Abschnitt, welche Werte an Anfang und Ende gelten.',
+};
+
+/* Rückmeldungen beim Ablesen; c = { name } */
+const BD_ABLESEN = {
+  leer:          c => 'Gib zuerst eine Zahl ein.',
+  wert_s:        c => 'Das ist ein Ort, abgelesen an einem Punkt, nicht die Geschwindigkeit. Die Geschwindigkeit ist die Steigung: \\(v = \\frac{\\Delta s}{\\Delta t}\\).',
+  delta_s:       c => 'Das ist die Strecke \\(\\Delta s\\). Die Geschwindigkeit ist \\(\\Delta s\\) geteilt durch die Zeitspanne \\(\\Delta t\\).',
+  kehrwert:      c => 'Das ist der Kehrwert. Steigung heisst: Änderung nach oben geteilt durch die Zeitspanne nach rechts.',
+  vorzeichen_v:  c => 'Der Betrag stimmt, das Vorzeichen nicht: Der Graph fällt, der Körper fährt zurück, also ist \\(v\\) negativ.',
+  vorzeichen_a:  c => 'Der Betrag stimmt, das Vorzeichen nicht: \\(v\\) nimmt hier ab, also ist \\(a\\) negativ.',
+  mittel:        c => 'Das ist der Ort geteilt durch die ganze Zeit seit dem Start. Gefragt ist nur dieser Abschnitt: Änderung des Orts in diesem Abschnitt geteilt durch seine Dauer.',
+  wert_v:        c => 'Das ist eine Geschwindigkeit, abgelesen an einem Punkt, nicht die Beschleunigung. Die Beschleunigung ist die Steigung: \\(a = \\frac{\\Delta v}{\\Delta t}\\).',
+  delta_v:       c => 'Das ist die Änderung \\(\\Delta v\\). Die Beschleunigung ist \\(\\Delta v\\) geteilt durch die Zeitspanne \\(\\Delta t\\).',
+  rechteck_ende: c => 'Das ist die Endgeschwindigkeit mal \\(\\Delta t\\), ein zu grosses Rechteck. Die Fläche unter dem Graphen ist ein Trapez: \\(\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t\\).',
+  rechteck_anf:  c => 'Das ist die Anfangsgeschwindigkeit mal \\(\\Delta t\\), ein zu kleines Rechteck. Die Fläche unter dem Graphen ist ein Trapez: \\(\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t\\).',
+  dreieck:       c => 'Das ist nur das Dreieck. Unter ihm liegt noch das Rechteck mit der Anfangsgeschwindigkeit: \\(v_0 \\cdot \\Delta t\\).',
+  wert_weg:      c => 'Das ist eine Geschwindigkeit, keine Strecke. Die Strecke ist die Fläche unter dem \\(v\\)-\\(t\\)-Graphen.',
+  falsch:        c => 'Noch nicht richtig. Der Tipp zeigt, was hier abzulesen ist.',
+};
+
+/* ── Zahlen ───────────────────────────────────────────────────────── */
+function bdZahl(x) {                          // 4, 2.5, 0.75, -3
+  const r = Math.round(x * 100) / 100;
+  return String(Object.is(r, -0) ? 0 : r);
+}
+function bdLies(s) {                          // «2,5», «2.5 m/s» → Zahl
+  const t = String(s).trim().replace(/[a-zA-Z\/²\s]+$/, '').replace(',', '.').replace(/[−–]/g, '-').replace(/['\s]/g, '');
+  return t === '' ? NaN : Number(t);
+}
+function bdZufall(seed) {                     // reproduzierbar (mulberry32)
+  let a = seed >>> 0;
+  return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+function bdWahl(r, liste) { return liste[Math.floor(r() * liste.length) % liste.length]; }
+const bdGanz = x => Math.abs(x - Math.round(x)) < 1e-9;
+function bdMisch(r, liste) { const l = liste.slice(); for (let i = l.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [l[i], l[j]] = [l[j], l[i]]; } return l; }
+
+/* ── Bewegung ─────────────────────────────────────────────────────── */
+function bdBau(objekt, s0, teile) {           // teile: [{d, v, a}] → Abschnitte mit Anfangs- und Endwerten
+  let t = 0, s = s0; const ab = [];
+  teile.forEach(p => {
+    const v1 = p.v + p.a * p.d, s1 = s + p.v * p.d + 0.5 * p.a * p.d * p.d;
+    ab.push({ t0:t, t1:t + p.d, d:p.d, s0:s, s1, v0:p.v, v1, a:p.a });
+    t += p.d; s = s1;
+  });
+  return { objekt, s0, ab, T:t };
+}
+function bdKette(r, teile) {                  // Anfangsgeschwindigkeit jedes Abschnitts = Ende des vorigen
+  let v = teile[0].v; return teile.map(p => { const q = { d:p.d, v, a:p.a }; v = v + p.a * p.d; return q; });
+}
+function bdDauer(r, a, maxV, v0) {            // Dauer, nach der v wieder ganzzahlig ist
+  const l = [2, 3, 4, 5, 6, 8].filter(d => bdGanz(a * d) && Math.abs((v0 || 0) + a * d) <= maxV);
+  return l.length ? bdWahl(r, l) : null;
+}
+
+/* Vorlagen: bau(r) liefert die Teile; bdAufgabe prüft die Werte und wiederholt bei Bedarf */
+const BD_VORLAGEN = [
+  // Stufe 1: gleichförmig, die Geschwindigkeit springt zwischen Abschnitten
+  { id:'gleichfoermig', stufe:1, bau(r) { const v = bdWahl(r, [1, 2, 3, 4, 5]) * (r() < 0.75 ? 1 : -1), d = bdWahl(r, [4, 5, 6, 8]);
+      return { s0:v > 0 ? bdWahl(r, [0, 2, 4, 5, 10]) : -v * d + bdWahl(r, [0, 2, 4]), teile:[{ d, v, a:0 }] }; } },
+  { id:'halt', stufe:1, bau(r) {
+      return { s0:bdWahl(r, [0, 2, 4, 6]), teile:[{ d:bdWahl(r, [2, 3, 4, 5]), v:bdWahl(r, [1, 2, 3, 4, 5]), a:0 }, { d:bdWahl(r, [2, 3, 4]), v:0, a:0 }] }; } },
+  { id:'hin-zurueck', stufe:1, bau(r) { const v1 = bdWahl(r, [2, 3, 4, 5]), d1 = bdWahl(r, [2, 3, 4, 5]), v2 = -bdWahl(r, [1, 2, 3, 4]), d2 = bdWahl(r, [2, 3, 4, 5]);
+      return { s0:Math.max(0, -v2 * d2 - v1 * d1) + bdWahl(r, [0, 2, 4]), teile:[{ d:d1, v:v1, a:0 }, { d:d2, v:v2, a:0 }] }; } },
+  { id:'drei-abschnitte', stufe:1, bau(r) { const v1 = bdWahl(r, [1, 2, 3, 4]), d1 = bdWahl(r, [2, 3, 4]), d2 = bdWahl(r, [2, 3]), v3 = bdWahl(r, [1, 2, 3, 5]) * (r() < 0.5 ? 1 : -1), d3 = bdWahl(r, [2, 3, 4]);
+      return { s0:Math.max(0, -v3 * d3 - v1 * d1) + bdWahl(r, [0, 2]), teile:[{ d:d1, v:v1, a:0 }, { d:d2, v:0, a:0 }, { d:d3, v:v3, a:0 }] }; } },
+  // Stufe 2: beschleunigt, die Geschwindigkeit ändert sich stetig
+  { id:'anfahren', stufe:2, bau(r) { const a = bdWahl(r, [0.5, 1, 1.5, 2, 3]);
+      return { s0:bdWahl(r, [0, 0, 5]), teile:[{ d:bdDauer(r, a, 12), v:0, a }] }; } },
+  { id:'anfahren-konstant', stufe:2, bau(r) { const a = bdWahl(r, [1, 1.5, 2, 3]);
+      return { s0:0, teile:bdKette(r, [{ d:bdDauer(r, a, 10), v:0, a }, { d:bdWahl(r, [2, 3, 4, 5]), a:0 }]) }; } },
+  { id:'konstant-bremsen', stufe:2, bau(r) { const v = bdWahl(r, [4, 6, 8, 10, 12]), d2 = bdWahl(r, [2, 3, 4, 5, 6, 8].filter(d => bdGanz(2 * v / d)));
+      return { s0:bdWahl(r, [0, 5, 10]), teile:bdKette(r, [{ d:bdWahl(r, [2, 3, 4]), v, a:0 }, { d:d2, a:-v / d2 }]) }; } },
+  { id:'drei-phasen', stufe:2, bau(r) { const a = bdWahl(r, [1, 2, 3]), d1 = bdDauer(r, a, 9), v = a * d1, d3 = bdWahl(r, [2, 3, 4, 6].filter(d => bdGanz(2 * v / d)));
+      return { s0:0, teile:bdKette(r, [{ d:d1, v:0, a }, { d:bdWahl(r, [2, 3, 4]), a:0 }, { d:d3, a:-v / d3 }]) }; } },
+  { id:'schneller', stufe:2, bau(r) { const v0 = bdWahl(r, [2, 3, 4, 5, 6]), a = bdWahl(r, [0.5, 1, 2]);
+      return { s0:bdWahl(r, [0, 5, 10]), teile:[{ d:bdDauer(r, a, 12, v0), v:v0, a }] }; } },
+  // Stufe 3: die Geschwindigkeit wechselt das Vorzeichen, oder zwei Beschleunigungen folgen sich
+  { id:'umkehr', stufe:3, bau(r) { const a = -bdWahl(r, [1, 2]), v0 = bdWahl(r, [2, 3, 4, 6].filter(v => bdGanz(v / a)));
+      return { s0:bdWahl(r, [0, 2, 5]), teile:[{ d:2 * v0 / -a, v:v0, a }] }; } },
+  { id:'bremsen-zurueck', stufe:3, bau(r) { const v1 = bdWahl(r, [2, 3, 4]), a = -bdWahl(r, [1, 2]), ve = -bdWahl(r, [1, 2, 3, 4]), d2 = (ve - v1) / a;
+      return { s0:bdWahl(r, [0, 5]), teile:bdKette(r, [{ d:bdWahl(r, [2, 3]), v:v1, a:0 }, { d:d2, a }]) }; } },
+  { id:'halt-zurueck', stufe:3, bau(r) { const a = -bdWahl(r, [1, 2]), d2 = bdWahl(r, [2, 3, 4].filter(d => -a * d <= 6));
+      return { s0:bdWahl(r, [20, 25, 30]), teile:bdKette(r, [{ d:bdWahl(r, [2, 3]), v:0, a:0 }, { d:d2, a }, { d:bdWahl(r, [2, 3, 4]), a:0 }]) }; } },
+  { id:'zwei-beschleunigungen', stufe:3, bau(r) { const a1 = bdWahl(r, [2, 3]), d1 = bdWahl(r, [2, 3]), a2 = bdWahl(r, [-1, 0.5, 1]), v1 = a1 * d1;
+      return { s0:0, teile:bdKette(r, [{ d:d1, v:0, a:a1 }, { d:bdDauer(r, a2, 12, v1), a:a2 }]) }; } },
+];
+
+/* Raster einer Achse: die kleinste Weite, auf der alle Eckwerte liegen und höchstens 20 Linien entstehen */
+function bdRaster(werte) {
+  const lo = Math.min(0, ...werte), hi = Math.max(0, ...werte), span = Math.max(hi - lo, 1e-9);
+  for (const st of [1, 2, 5, 10, 20, 0.5]) if (span / st <= 20 && werte.every(w => bdGanz(w / st))) return st;
+  return null;
+}
+function bdEckwerte(B, art) {
+  return B.ab.flatMap(g => art === 's' ? [g.s0, g.s1] : art === 'v' ? [g.v0, g.v1] : [g.a]);
+}
+function bdAufgabe(V, r) {
+  for (let versuch = 0; versuch < 300; versuch++) {
+    const roh = V.bau(r);
+    if (roh.teile.some(p => !p.d || !bdGanz(p.d))) continue;
+    const B = bdBau(bdWahl(r, BD_OBJEKTE), roh.s0, roh.teile);
+    B.id = V.id; B.stufe = V.stufe;
+    if (B.T > 16 || B.ab.some(g => Math.abs(g.v0) > 12 || Math.abs(g.v1) > 12)) continue;
+    if (B.ab.some(g => !bdGanz(g.v0) || !bdGanz(g.v1) || !bdGanz(2 * g.s1) || !bdGanz(2 * g.a))) continue;
+    const S = bdEckwerte(B, 's'); if (Math.max(...S) - Math.min(0, ...S) > 80 || Math.min(...S) < -1e-9) continue;
+    if (V.stufe === 1 && !bdRaster(S)) continue;
+    if (!bdRaster(bdEckwerte(B, 'v')) || !bdRaster(bdEckwerte(B, 'a'))) continue;
+    return B;
+  }
+  throw new Error('keine Bewegung für ' + V.id);
+}
+
+/* ── Kurven ───────────────────────────────────────────────────────────
+   Eine Kurve ist eine Liste von Stücken {t0, t1, f}; an den Grenzen darf sie springen. */
+function bdKurve(B, art) {
+  return B.ab.map(g => ({ t0:g.t0, t1:g.t1, f:t => { const dt = t - g.t0;
+    return art === 's' ? g.s0 + g.v0 * dt + 0.5 * g.a * dt * dt : art === 'v' ? g.v0 + g.a * dt : g.a; } }));
+}
+function bdBei(k, t) { const g = k.find(x => t >= x.t0 - 1e-12 && t <= x.t1 + 1e-12) || k[k.length - 1]; return g.f(t); }
+const bdMap = (k, h) => k.map(g => ({ t0:g.t0, t1:g.t1, f:t => h(g.f(t), t) }));
+function bdProben(k) {                         // Stützstellen innerhalb der Stücke
+  const T = k[k.length - 1].t1, p = [];
+  for (let t = 0.1; t < T; t += 0.2) p.push(t);
+  return p;
+}
+function bdAbstand(k1, k2) { return Math.max(...bdProben(k1).map(t => Math.abs(bdBei(k1, t) - bdBei(k2, t)))); }
+function bdSpanne(k) { const w = bdProben(k).map(t => bdBei(k, t)).concat([0]); return Math.max(...w) - Math.min(...w); }
+
+/* Abgewandelte Bewegungen */
+function bdTeile(B) { return B.ab.map(g => ({ d:g.d, v:g.v0, a:g.a })); }
+function bdUmgekehrt(B) {                     // dieselben Abschnitte rückwärts in der Zeit
+  return bdBau(B.objekt, B.s0, B.ab.slice().reverse().map(g => ({ d:g.d, v:g.v1, a:-g.a })));
+}
+function bdGespiegelt(B) { return bdBau(B.objekt, B.s0, bdTeile(B).map(p => ({ d:p.d, v:-p.v, a:-p.a }))); }
+
+/* Die vier Diagramme der Auswahl: das richtige und drei Fehlbilder, je mit Code.
+   von: 's' | 'v' | 'worte' (gegeben), nach: Art des gesuchten Diagramms */
+function bdOptionen(B, von, nach, r) {
+  const richtig = bdKurve(B, nach), kand = [];
+  const quelle = von === 'worte' ? (nach === 'v' ? 's' : 'v') : von;
+  const formAus = art => { const k = bdKurve(B, art), b = art === 's' ? B.s0 : 0, m = Math.max(...bdProben(k).map(t => Math.abs(bdBei(k, t) - b)));
+    const ziel = Math.max(...bdProben(richtig).map(t => Math.abs(bdBei(richtig, t) - (nach === 's' ? B.s0 : 0))));
+    return m > 1e-9 && ziel > 1e-9 ? bdMap(k, x => (nach === 's' ? B.s0 : 0) + (x - b) * ziel / m) : null; };
+  const spiegeln = () => nach === 's' ? bdMap(richtig, x => 2 * B.s0 - x) : bdMap(richtig, x => -x);
+  const doppelt = f => nach === 's' ? bdMap(richtig, x => B.s0 + f * (x - B.s0)) : bdMap(richtig, x => f * x);
+  const beschleunigt = B.ab.some(g => g.a !== 0);
+  if (von === 'worte') {
+    kand.push(['reihenfolge', bdKurve(bdUmgekehrt(B), nach)]);
+    kand.push(['vorzeichen', bdKurve(bdGespiegelt(B), nach)]);
+  }
+  if (nach !== 's' || von === 'worte') kand.push(['form', formAus(quelle)]);
+  if (von !== 'worte' || nach === 's') kand.push(['vorzeichen', spiegeln()]);
+  if (nach === 'v' && B.ab.some(g => g.v0 === 0 && g.a === 0)) {      // Stillstand als Fahrt
+    const k = richtig.map((g, i) => { const h = B.ab[i];
+      if (h.v0 !== 0 || h.a !== 0) return g; const nb = B.ab[i - 1] || B.ab[i + 1]; const w = nb.a === 0 ? nb.v0 : (i ? nb.v1 : nb.v0);
+      return { t0:g.t0, t1:g.t1, f:() => w }; });
+    kand.push([von === 'worte' ? 'stillstand' : 'ruhe_sv', k]);
+  }
+  if (nach === 's' && B.ab.some(g => g.a === 0 && g.v0 !== 0)) {      // konstante Fahrt als Stillstand
+    kand.push(['ruhe_vs', bdKurve(bdBau(B.objekt, B.s0, bdTeile(B).map(p => p.a === 0 ? { d:p.d, v:0, a:0 } : p)), 's')]);
+  }
+  if (nach === 's' && beschleunigt) {
+    kand.push(['gerade', B.ab.map(g => ({ t0:g.t0, t1:g.t1, f:t => g.s0 + (g.s1 - g.s0) * (t - g.t0) / g.d }))]);
+    kand.push(['kruemmung', B.ab.map(g => ({ t0:g.t0, t1:g.t1, f:t => { const dt = t - g.t0, lin = g.s0 + (g.s1 - g.s0) * dt / g.d;
+      return 2 * lin - (g.s0 + g.v0 * dt + 0.5 * g.a * dt * dt); } }))]);
+  }
+  if (nach === 's' && von !== 'worte') kand.push(['form', formAus('v')]);
+  kand.push(['betrag', doppelt(2)], ['betrag', doppelt(0.5)], ['werte', doppelt(-0.5)], ['werte', doppelt(1.5)], ['werte', doppelt(-2)]);
+  // drei Fehlbilder, die sich sichtbar vom richtigen und voneinander unterscheiden
+  const tol = 0.15 * Math.max(bdSpanne(richtig), 1), gewaehlt = [];
+  kand.forEach(([code, k]) => {
+    if (!k || gewaehlt.length >= 3) return;
+    if (bdAbstand(k, richtig) <= tol || gewaehlt.some(o => bdAbstand(o.k, k) <= tol || (o.code === code && code !== 'werte'))) return;
+    gewaehlt.push({ code, k });
+  });
+  return bdMisch(r, [{ code:null, k:richtig }].concat(gewaehlt));
+}
+
+/* Die Beschreibung in Worten, Abschnitt für Abschnitt */
+function bdSatz(g) {
+  const v = Math.abs(g.v0), v1 = Math.abs(g.v1), dauer = g.d + ' s';
+  if (g.a === 0) return g.v0 === 0 ? 'steht ' + dauer + ' lang still'
+    : 'fährt ' + dauer + ' lang mit konstant ' + bdZahl(v) + ' m/s ' + (g.v0 > 0 ? 'vorwärts' : 'zurück');
+  if (g.v0 === 0) return 'fährt ' + (g.a > 0 ? 'vorwärts' : 'rückwärts') + ' an und wird in ' + dauer + ' gleichmässig schneller bis ' + bdZahl(v1) + ' m/s';
+  if (g.v0 * g.v1 < 0) return 'wird in Fahrtrichtung langsamer, kehrt um und fährt immer schneller zurück, bis es nach ' + dauer + ' mit ' + bdZahl(v1) + ' m/s ' + (g.v1 > 0 ? 'vorwärts' : 'zurück') + ' fährt';
+  if (g.v1 === 0) return 'bremst in ' + dauer + ' gleichmässig von ' + bdZahl(v) + ' m/s bis zum Stillstand';
+  const schneller = Math.abs(g.v1) > Math.abs(g.v0);
+  return 'wird in ' + dauer + ' gleichmässig ' + (schneller ? 'schneller' : 'langsamer') + ', von ' + bdZahl(v) + ' auf ' + bdZahl(v1) + ' m/s ' + (g.v0 > 0 ? 'vorwärts' : 'zurück');
+}
+function bdText(B) {
+  const teile = B.ab.map(bdSatz), ort = B.s0 ? ' Es startet bei \\(s = ' + bdZahl(B.s0) + '\\;\\text{m}\\).' : ' Es startet bei \\(s = 0\\).';
+  const kette = teile.length === 1 ? teile[0] : teile.slice(0, -1).join(', dann ') + ' und danach ' + teile[teile.length - 1];
+  return B.objekt + ' ' + kette + '.' + ort;
+}
+
+/* Fragen zum Ablesen. quelle: 's' (Steigung) oder 'v' (Steigung oder Fläche) */
+function bdSieben(soll, liste) {
+  const nah = (a, b) => Math.abs(a - b) <= BD_TOL * Math.max(Math.abs(b), 0.5);
+  const raus = [];
+  liste.forEach(([code, w]) => { if (w === null || !isFinite(w) || nah(w, soll) || nah(soll, w)) return;
+    if (raus.some(([, x]) => nah(w, x))) return; raus.push([code, w]); });
+  return raus;
+}
+const bdE = (x, e) => bdZahl(x) + '\\;' + e;
+function bdFragen(B, quelle) {
+  const F = [];
+  B.ab.forEach((g, i) => {
+    const zeit = 'von \\(t = ' + bdZahl(g.t0) + '\\;\\text{s}\\) bis \\(t = ' + bdZahl(g.t1) + '\\;\\text{s}\\)';
+    if (quelle === 's' && g.a === 0) {
+      const ds = g.s1 - g.s0, v = ds / g.d;
+      F.push({ art:'v', i, t0:g.t0, t1:g.t1, gr:'v', einheit:'m/s', soll:v,
+        frage:'Wie gross ist die Geschwindigkeit ' + zeit + '?',
+        fehler:bdSieben(v, [['wert_s', g.s1], ['delta_s', ds], ['kehrwert', ds ? g.d / ds : null], ['vorzeichen_v', v < 0 ? -v : null],
+                            ['mittel', g.t1 ? g.s1 / g.t1 : null]]),
+        tipp:'Die Geschwindigkeit ist die Steigung: Lies \\(s\\) am Anfang und am Ende des Abschnitts ab, dann \\(v = \\frac{\\Delta s}{\\Delta t}\\).',
+        formel:['v = \\frac{\\Delta s}{\\Delta t}', '= \\frac{' + bdE(g.s1, '\\text{m}') + ' - ' + bdE(g.s0, '\\text{m}').replace(/^-/, '(-') + (g.s0 < 0 ? ')' : '') + '}{' + bdE(g.d, '\\text{s}') + '}', '= ' + bdE(v, '\\text{m/s}')] });
+    }
+    if (quelle === 'v' && g.a !== 0) {
+      const dv = g.v1 - g.v0, a = dv / g.d;
+      F.push({ art:'a', i, t0:g.t0, t1:g.t1, gr:'a', einheit:'m/s²', soll:a,
+        frage:'Wie gross ist die Beschleunigung ' + zeit + '?',
+        fehler:bdSieben(a, [['wert_v', g.v1], ['delta_v', dv], ['kehrwert', g.d / dv], ['vorzeichen_a', a < 0 ? -a : null]]),
+        tipp:'Die Beschleunigung ist die Steigung: Lies \\(v\\) am Anfang und am Ende des Abschnitts ab, dann \\(a = \\frac{\\Delta v}{\\Delta t}\\).',
+        formel:['a = \\frac{\\Delta v}{\\Delta t}', '= \\frac{' + bdE(g.v1, '\\text{m/s}') + ' - ' + (g.v0 < 0 ? '(' + bdE(g.v0, '\\text{m/s}') + ')' : bdE(g.v0, '\\text{m/s}')) + '}{' + bdE(g.d, '\\text{s}') + '}', '= ' + bdE(a, '\\text{m/s}^2')] });
+    }
+    if (quelle === 'v' && g.v0 * g.v1 >= 0 && (g.v0 !== 0 || g.v1 !== 0)) {
+      const ds = (g.v0 + g.v1) / 2 * g.d, rueck = g.v0 + g.v1 < 0;
+      const formel = g.a === 0 ? ['\\Delta s = v \\cdot \\Delta t', '= ' + bdE(g.v0, '\\text{m/s}') + ' \\cdot ' + bdE(g.d, '\\text{s}'), '= ' + bdE(ds, '\\text{m}')]
+        : ['\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t', '= \\frac{' + bdE(g.v0, '\\text{m/s}') + ' + ' + (g.v1 < 0 ? '(' + bdE(g.v1, '\\text{m/s}') + ')' : bdE(g.v1, '\\text{m/s}')) + '}{2} \\cdot ' + bdE(g.d, '\\text{s}'), '= ' + bdE(ds, '\\text{m}')];
+      F.push({ art:'s', i, t0:g.t0, t1:g.t1, gr:'\\Delta s', einheit:'m', soll:ds,
+        frage:'Um wie viel ändert sich der Ort ' + zeit + '?' + (rueck ? ' (Zurück zählt negativ.)' : ''),
+        fehler:bdSieben(ds, [['rechteck_ende', g.a ? g.v1 * g.d : null], ['rechteck_anf', g.a && g.v0 ? g.v0 * g.d : null],
+                             ['dreieck', g.a && g.v0 ? (g.v1 - g.v0) / 2 * g.d : null], ['wert_weg', g.v1], ['vorzeichen_v', rueck ? -ds : null]]),
+        tipp:'Die Änderung des Orts ist die Fläche unter dem \\(v\\)-\\(t\\)-Graphen in diesem Abschnitt' + (g.a ? ': ein Trapez, \\(\\frac{v_0 + v_1}{2} \\cdot \\Delta t\\).' : ': ein Rechteck, \\(v \\cdot \\Delta t\\).'),
+        formel });
+    }
+  });
+  return F;
+}
+function bdBewerte(q, x) {
+  const e = code => ({ code, text:BD_ABLESEN[code](q) });
+  if (!isFinite(x)) return e('leer');
+  if (Math.abs(x - q.soll) <= BD_TOL * Math.max(Math.abs(q.soll), 0.5)) return null;
+  const f = q.fehler.find(([, w]) => Math.abs(x - w) <= BD_TOL * Math.max(Math.abs(w), 0.5));
+  return e(f ? f[0] : 'falsch');
+}
+
+/* Welche Diagramme in Aufgabe 1 einander zugeordnet werden */
+function bdPaare(B) { return B.stufe === 1 ? [['s', 'v'], ['v', 's']] : [['s', 'v'], ['v', 's'], ['v', 'a']]; }
+
+/* Rechenweg Abschnitt für Abschnitt, von einem Diagramm zum anderen */
+function bdErklaerung(B, von, nach) {
+  const vt = v => v < 0 ? '(' + bdE(v, '\\text{m/s}') + ')' : bdE(v, '\\text{m/s}');
+  return B.ab.map(g => {
+    const lab = bdZahl(g.t0) + '–' + bdZahl(g.t1) + ' s';
+    if (nach === 'v' && g.a !== 0) return { lab, text:'\\(v\\) ändert sich gleichmässig von \\(' + bdE(g.v0, '\\text{m/s}') + '\\) auf \\(' + bdE(g.v1, '\\text{m/s}') + '\\): Der \\(s\\)-\\(t\\)-Graph ist hier ein Parabelstück.' };
+    if (nach === 'v') return { lab, tex:['v = \\frac{\\Delta s}{\\Delta t}', '= \\frac{' + bdE(g.s1 - g.s0, '\\text{m}') + '}{' + bdE(g.d, '\\text{s}') + '}', '= ' + bdE(g.v0, '\\text{m/s}')] };
+    if (nach === 'a') return { lab, tex:['a = \\frac{\\Delta v}{\\Delta t}', '= \\frac{' + bdE(g.v1 - g.v0, '\\text{m/s}') + '}{' + bdE(g.d, '\\text{s}') + '}', '= ' + bdE(g.a, '\\text{m/s}^2')] };
+    const tex = g.a === 0 ? ['\\Delta s = v \\cdot \\Delta t', '= ' + vt(g.v0) + ' \\cdot ' + bdE(g.d, '\\text{s}'), '= ' + bdE(g.s1 - g.s0, '\\text{m}')]
+      : ['\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t', '= \\frac{' + vt(g.v0) + ' + ' + vt(g.v1) + '}{2} \\cdot ' + bdE(g.d, '\\text{s}'), '= ' + bdE(g.s1 - g.s0, '\\text{m}')];
+    return { lab, tex, nach:'Ort danach: ' + bdZahl(g.s1) + ' m' };
+  });
+}
+
+/* ── Selbsttest ───────────────────────────────────────────────────── */
+function bdSelbsttest(n) {
+  n = n || 30;
+  const fehler = []; let faelle = 0;
+  const F = (ok, was) => { faelle++; if (!ok) fehler.push(was); };
+  const nah = (a, b, rel) => Math.abs(a - b) <= (rel || 1e-6) * Math.max(1, Math.abs(b));
+  BD_VORLAGEN.forEach((V, vi) => {
+    for (let s = 0; s < n; s++) {
+      const r = bdZufall(1000 * vi + s + 1), wo = V.id + '#' + s;
+      let B; try { B = bdAufgabe(V, r); } catch (e) { F(false, wo + ': ' + e.message); continue; }
+      // Stetigkeit: Ort immer, Geschwindigkeit ab Stufe 2
+      B.ab.forEach((g, i) => { if (!i) return; const h = B.ab[i - 1];
+        F(nah(g.s0, h.s1), wo + ': Ort springt'); if (B.stufe > 1) F(nah(g.v0, h.v1), wo + ': Geschwindigkeit springt'); });
+      // unabhängig: Ableitungen numerisch, Fläche unter v mit vielen Streifen
+      const ks = bdKurve(B, 's'), kv = bdKurve(B, 'v'), ka = bdKurve(B, 'a'), h = 1e-4;
+      B.ab.forEach(g => { [0.3, 0.5, 0.7].forEach(q => { const t = g.t0 + q * g.d;
+        F(nah((bdBei(ks, t + h) - bdBei(ks, t - h)) / (2 * h), bdBei(kv, t), 1e-4), wo + ': v ist nicht die Steigung von s');
+        F(nah((bdBei(kv, t + h) - bdBei(kv, t - h)) / (2 * h), bdBei(ka, t), 1e-4), wo + ': a ist nicht die Steigung von v'); }); });
+      let flaeche = 0; const N = 1000 * B.T; for (let j = 0; j < N; j++) flaeche += bdBei(kv, (j + 0.5) * B.T / N) * B.T / N;
+      F(nah(flaeche, B.ab[B.ab.length - 1].s1 - B.s0, 1e-4), wo + ': Fläche unter v ≠ Δs');
+      // Raster: jede Achse mit Eckwerten auf Linien
+      ['s', 'v', 'a'].forEach(art => { if (art === 's' && B.stufe > 1) return; F(bdRaster(bdEckwerte(B, art)), wo + ': kein Raster für ' + art); });
+      // Auswahl: vier Diagramme, genau eines richtig, Fehlbilder sichtbar verschieden, jedes mit Text
+      const paare = bdPaare(B).concat([['worte', 'v'], ['worte', 's']]);
+      paare.forEach(([von, nach]) => {
+        const O = bdOptionen(B, von, nach, bdZufall(77 + s)), richtig = bdKurve(B, nach), tol = 0.15 * Math.max(bdSpanne(richtig), 1);
+        F(O.length === 4, wo + ' ' + von + '→' + nach + ': nur ' + O.length + ' Diagramme');
+        F(O.filter(o => o.code === null).length === 1 && bdAbstand(O.find(o => o.code === null).k, richtig) < 1e-9, wo + ': richtiges Diagramm fehlt');
+        O.forEach((o, i) => { if (o.code === null) return;
+          F(bdAbstand(o.k, richtig) > tol, wo + ' ' + von + '→' + nach + ': Fehlbild ' + o.code + ' zu nah am richtigen');
+          O.forEach((p, j) => { if (j > i) F(bdAbstand(o.k, p.k) > tol, wo + ': zwei gleiche Diagramme'); });
+          const t = BD_DIAGNOSE[o.code] && BD_DIAGNOSE[o.code]({ von, nach });
+          F(t && t.indexOf('undefined') < 0, wo + ': Fehlbild ' + o.code + ' ohne Text');
+          o.k.forEach(g => F(isFinite(g.f((g.t0 + g.t1) / 2)), wo + ': Fehlbild ' + o.code + ' nicht endlich'));
+        });
+      });
+      // Beschreibung: jeder Abschnitt mit Dauer und Geschwindigkeit, keine Kommazahl mit Komma
+      const text = bdText(B);
+      F(text.indexOf('undefined') < 0 && text.indexOf('NaN') < 0 && !/\d,\d/.test(text), wo + ': Text kaputt');
+      B.ab.forEach(g => { F(text.indexOf(g.d + ' s') >= 0, wo + ': Dauer ' + g.d + ' s fehlt im Text');
+        const v = g.a === 0 ? Math.abs(g.v0) : Math.abs(g.v1); if (v) F(text.indexOf(bdZahl(v) + ' m/s') >= 0, wo + ': ' + v + ' m/s fehlt im Text'); });
+      // Ablesen: Soll gegen die Kurven, richtige Antwort gilt, jedes Fehlbild bekommt seine Diagnose
+      ['s', 'v'].forEach(q => {
+        if (q === 's' && B.stufe > 1) return;
+        bdFragen(B, q).forEach(fr => {
+          const g = B.ab[fr.i], e = 1e-6;
+          const ist = fr.art === 'v' ? (bdBei(ks, g.t1 - e) - bdBei(ks, g.t0 + e)) / (g.d - 2 * e)
+                    : fr.art === 'a' ? (bdBei(kv, g.t1 - e) - bdBei(kv, g.t0 + e)) / (g.d - 2 * e)
+                    : (() => { let A = 0; for (let j = 0; j < 400; j++) A += bdBei(kv, g.t0 + (j + 0.5) * g.d / 400) * g.d / 400; return A; })();
+          F(nah(fr.soll, ist, 1e-4), wo + ': Ablesen ' + fr.art + ' Soll ' + fr.soll + ' ≠ ' + ist);
+          F(!bdBewerte(fr, fr.soll) && !bdBewerte(fr, fr.soll * 1.01 + (fr.soll ? 0 : 0.005)), wo + ': richtige Antwort abgelehnt');
+          F(bdBewerte(fr, NaN).code === 'leer', wo + ': leere Eingabe');
+          fr.fehler.forEach(([code, w]) => { const b = bdBewerte(fr, w); F(b && b.code === code && b.text.indexOf('undefined') < 0, wo + ': ' + code + ' nicht erkannt'); });
+          const b2 = bdBewerte(fr, fr.soll * 1.5 + 3.3); F(b2 && b2.text, wo + ': keine Rückmeldung');
+          F(fr.formel.join('').indexOf('NaN') < 0 && !/\d,\d/.test(fr.formel.join('')), wo + ': Rechenweg kaputt');
+        });
+      });
+      F(bdFragen(B, B.stufe === 1 ? 's' : 'v').length > 0, wo + ': keine Frage zum Ablesen');
+      bdErklaerung(B, 's', 'v').concat(bdErklaerung(B, 'v', 'a'), bdErklaerung(B, 'v', 's')).forEach(z =>
+        F(((z.tex || []).join('') + (z.text || '')).search(/NaN|undefined/) < 0 && (z.tex || z.text), wo + ': Erklärung kaputt'));
+    }
+  });
+  // Eingabeformate und Zahlformat
+  [['2.5', 2.5], ['2,5', 2.5], [' -3 m/s', -3], ['−1.5', -1.5], ['', NaN], ['abc', NaN]].forEach(([t, w]) => {
+    const x = bdLies(t); F(Number.isNaN(w) ? Number.isNaN(x) : x === w, 'Eingabe «' + t + '» gelesen als ' + x); });
+  [[4, '4'], [2.5, '2.5'], [0.75, '0.75'], [-3, '-3'], [-0.0001, '0']].forEach(([x, t]) => F(bdZahl(x) === t, 'Zahlformat ' + x));
+  return { vorlagen:BD_VORLAGEN.length, faelle, fehler };
+}
+window.bdSelbsttest = bdSelbsttest;
+
+if (window.BD_TEST) return;            // im Selbsttest keine Oberfläche
+
+/* ═══════════════════ Oberfläche ═══════════════════ */
+const $ = id => document.getElementById(id);
+const BD_FARBE = { s:'#1f5fa8', v:'#b3261e', a:'#2e7d32' };
+const zustand = { art:'zuordnen', stufe:1, B:null, vId:null, von:'s', nach:'v', O:null, frage:null,
+                  fertig:false, fehlversuch:false, tipp:0, geloest:0, ersteRichtig:0, versuche:0 };
+function bdSetze(el) { if (typeof mjTypeset === 'function') mjTypeset([el]); }
+
+/* Diagramm mit eigenem Raster: t in ganzen Sekunden, Werte auf bdRaster, Beschriftung nur so dicht wie lesbar */
+function bdDiagramm(id, B, art, kurven, o) {
+  const el = $(id); if (!el || !el.getContext) return;
+  el.style.width = '';
+  const hoehe = o.hoehe || 230, klein = !!o.klein, bdNachher = [];
+  const { ctx, W, H } = initCanvas(id, hoehe);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+  const werte = (o.werte || []).concat(...kurven.map(k => bdProben(k.k).map(t => bdBei(k.k, t))), ...kurven.map(k => k.k.flatMap(g => [g.f(g.t0), g.f(g.t1)])));
+  const st = bdRaster(bdEckwerte(B, art)) || 1;
+  let lo = Math.min(0, ...werte), hi = Math.max(0, ...werte);
+  lo = Math.floor(lo / st + 1e-9) * st; hi = Math.ceil(hi / st - 1e-9) * st + (hi > 0 ? st : 0);
+  if (hi - lo < 4 * st) hi = lo + 4 * st;
+  const L = klein ? 30 : 42, R = klein ? 12 : 30, O = klein ? 16 : 22, U = klein ? 16 : 22;
+  const T = B.T, px = t => L + t / T * (W - L - R), py = y => O + (hi - y) / (hi - lo) * (H - O - U);
+  // Gitter
+  ctx.lineWidth = 1;
+  for (let t = 0; t <= T + 1e-9; t += 1) { ctx.strokeStyle = '#eceef2'; ctx.beginPath(); ctx.moveTo(px(t) + 0.5, O); ctx.lineTo(px(t) + 0.5, H - U); ctx.stroke(); }
+  for (let y = lo; y <= hi + 1e-9; y += st) { ctx.strokeStyle = '#eceef2'; ctx.beginPath(); ctx.moveTo(L, py(y) + 0.5); ctx.lineTo(W - R, py(y) + 0.5); ctx.stroke(); }
+  // Band: der gefragte Abschnitt
+  if (o.band) { ctx.fillStyle = 'rgba(251,236,210,0.7)'; ctx.fillRect(px(o.band[0]), O, px(o.band[1]) - px(o.band[0]), H - O - U); }
+  // Achsen: die Zeitachse durch v = 0, ganz unten, wenn 0 nicht im Bereich
+  const y0 = py(Math.max(lo, Math.min(hi, 0)));
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(L, y0); ctx.lineTo(W - 4, y0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(L, H - U + 2); ctx.lineTo(L, 4); ctx.stroke();
+  ctx.fillStyle = '#374151';
+  ctx.beginPath(); ctx.moveTo(W - 4, y0); ctx.lineTo(W - 11, y0 - 4); ctx.lineTo(W - 11, y0 + 4); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(L, 4); ctx.lineTo(L - 4, 11); ctx.lineTo(L + 4, 11); ctx.fill();
+  // Beschriftung
+  const fs = klein ? 10 : 12;
+  ctx.font = fs + 'px "JetBrains Mono", monospace'; ctx.fillStyle = '#6b7280';
+  const tSchritt = [1, 2, 5, 10].find(k => (px(k) - px(0)) >= (klein ? 22 : 28)) || 10;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let t = tSchritt; t <= T + 1e-9; t += tSchritt) if (px(t) < W - R - 8) ctx.fillText(String(t), px(t), Math.min(y0 + 3, H - U + 3));
+  const ySchritt = [1, 2, 4, 5, 10, 20].map(m => m * st).find(k => (py(0) - py(k)) >= (klein ? 13 : 16)) || st * 10;
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (let y = Math.ceil(lo / ySchritt) * ySchritt; y <= hi + 1e-9; y += ySchritt) ctx.fillText(bdZahl(y), L - 4, py(y));
+  ctx.font = 'bold ' + fs + 'px "JetBrains Mono", monospace'; ctx.fillStyle = '#374151';
+  // Achsentitel mit hellem Grund, damit eine Kurve sie nicht durchstreicht
+  const titel = (text, x, y, rechts) => { const w = ctx.measureText(text).width; ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.fillRect(rechts ? x - w - 2 : x - 2, y - fs, w + 4, fs + 3); ctx.fillStyle = '#374151'; ctx.textAlign = rechts ? 'right' : 'left'; ctx.fillText(text, x, y); };
+  ctx.textBaseline = 'alphabetic';
+  bdNachher.push(() => { ctx.font = 'bold ' + fs + 'px "JetBrains Mono", monospace'; ctx.textBaseline = 'alphabetic';
+    titel(BD_ART[art].achse, L + 8, klein ? 12 : 15, false); titel('t [s]', W - 4, y0 - 7 > O + fs ? y0 - 7 : y0 + 16, true); });
+  // Kurven: jedes Stück für sich, Sprünge bleiben offen; die Achsentitel kommen danach obendrauf
+  kurven.forEach(kv => {
+    ctx.strokeStyle = kv.farbe; ctx.lineWidth = kv.breite || 2.6; ctx.lineCap = 'round';
+    kv.k.forEach(g => { ctx.beginPath(); const n = 40;
+      for (let j = 0; j <= n; j++) { const t = g.t0 + (g.t1 - g.t0) * j / n; const x = px(t), y = py(g.f(t)); j ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      ctx.stroke(); });
+    if (kv.punkte) { ctx.fillStyle = kv.farbe; kv.k.forEach(g => [g.t0, g.t1].forEach(t => { ctx.beginPath(); ctx.arc(px(t), py(g.f(t)), 3, 0, 2 * Math.PI); ctx.fill(); })); }
+  });
+  bdNachher.forEach(f => f());
+  el.setAttribute('aria-label', (o.label || BD_ART[art].name + ' über der Zeit') + ', Zeitachse bis ' + T + ' s');
+}
+
+function bdNeueAufgabe(V, seed) {
+  if (!V) {
+    const pool = BD_VORLAGEN.filter(v => zustand.stufe === 0 || v.stufe === zustand.stufe);
+    do { V = bdWahl(Math.random, pool); } while (pool.length > 1 && V.id === zustand.vId);
+  }
+  const r = seed ? bdZufall(seed) : Math.random;
+  zustand.vId = V.id;
+  const B = zustand.B = bdAufgabe(V, r);
+  Object.assign(zustand, { fertig:false, fehlversuch:false, tipp:0, versuche:0, frage:null, O:null });
+  const art = zustand.art;
+  let titel, pille, text;
+  if (art === 'zuordnen') {
+    [zustand.von, zustand.nach] = bdWahl(r, bdPaare(B));
+    zustand.O = bdOptionen(B, zustand.von, zustand.nach, r);
+    titel = 'Vom ' + zustand.von + '-t- zum ' + zustand.nach + '-t-Diagramm'; pille = 'Zuordnen';
+    text = 'Das Diagramm zeigt die Bewegung als ' + BD_ART[zustand.von].name + ' über der Zeit. Welches <span class="bd-nw">\\(' + zustand.nach + '\\)-\\(t\\)-Diagramm</span> gehört zur selben Bewegung? Tippe es an.';
+  } else if (art === 'worte') {
+    zustand.von = 'worte'; zustand.nach = B.stufe === 1 ? bdWahl(r, ['s', 'v']) : bdWahl(r, ['v', 'v', 's']);
+    zustand.O = bdOptionen(B, 'worte', zustand.nach, r);
+    titel = 'Beschreibung in Worten'; pille = 'In Worten';
+    text = 'Welches <span class="bd-nw">\\(' + zustand.nach + '\\)-\\(t\\)-Diagramm</span> passt zu dieser Bewegung? Tippe es an.';
+  } else {
+    zustand.von = B.stufe === 1 && r() < 0.7 ? 's' : 'v';
+    zustand.frage = bdWahl(r, bdFragen(B, zustand.von));
+    titel = zustand.frage.art === 's' ? 'Strecke als Fläche' : zustand.frage.art === 'v' ? 'Geschwindigkeit als Steigung' : 'Beschleunigung als Steigung'; pille = 'Ablesen';
+    text = 'Lies die Antwort im ' + zustand.von + '-t-Diagramm ab. Der gefragte Abschnitt ist hinterlegt.';
+  }
+  $('bd-aufgabe').innerHTML = '<div class="bd-aufgabe-kopf"><span class="bd-aufgabe-titel">' + titel + '</span><span class="bd-pille">' + pille +
+    '</span></div><p>' + text + '</p>';
+  bdSetze($('bd-aufgabe'));
+  $('bd-text').hidden = art !== 'worte';
+  if (art === 'worte') { $('bd-text').innerHTML = bdText(B); bdSetze($('bd-text')); }
+  $('bd-haupt').hidden = art === 'worte';
+  $('bd-rueck').innerHTML = ''; $('bd-weg').hidden = true; $('bd-weg').innerHTML = '';
+  bdKarten(); bdFrage(); bdZeichne(); bdStand();
+}
+
+function bdZeichne() {
+  const B = zustand.B; if (!B) return;
+  if (zustand.art !== 'worte') {
+    const von = zustand.von, k = bdKurve(B, von);
+    $('bd-haupt-titel').textContent = von + '-t-Diagramm' + (zustand.art === 'zuordnen' ? ' (gegeben)' : '');
+    bdDiagramm('bd-cv', B, von, [{ k, farbe:BD_FARBE[von], punkte:true }],
+      { hoehe:240, band:zustand.frage ? [zustand.frage.t0, zustand.frage.t1] : null });
+  }
+  if (zustand.O) {
+    const alle = zustand.O.flatMap(o => bdProben(o.k).map(t => bdBei(o.k, t)));
+    zustand.O.forEach((o, i) => bdDiagramm('bd-opt-' + i, B, zustand.nach, [{ k:o.k, farbe:BD_FARBE[zustand.nach] }],
+      { hoehe:150, klein:true, werte:alle, label:'Auswahl ' + 'ABCD'[i] + ': ' + BD_ART[zustand.nach].name + ' über der Zeit' }));
+  }
+}
+
+function bdKarten() {
+  const K = $('bd-karten');
+  K.hidden = !zustand.O;
+  K.innerHTML = zustand.O ? zustand.O.map((o, i) => '<button class="bd-karte" data-i="' + i + '" aria-label="Diagramm ' + 'ABCD'[i] +
+    '"><span class="bd-buchst">' + 'ABCD'[i] + '</span><canvas id="bd-opt-' + i + '"></canvas></button>').join('') : '';
+}
+function bdFrage() {
+  const F = $('bd-frage'), q = zustand.frage;
+  F.hidden = !q;
+  if (!q) { F.innerHTML = ''; return; }
+  F.innerHTML = '<p>' + q.frage + '</p><div class="bd-zeile"><label for="bd-ein">\\(' + q.gr + ' = \\)</label>' +
+    '<input class="bd-eingabe" id="bd-ein" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">' +
+    '<span class="bd-einheit">' + q.einheit + '</span><button class="play-btn" id="bd-pruefen">Prüfen</button></div>';
+  bdSetze(F);
+  $('bd-ein').addEventListener('keydown', ev => { if (ev.key === 'Enter') bdPruefen(); });
+}
+function bdRueck(art, titel, text) {
+  $('bd-rueck').innerHTML = text ? '<div class="block ' + art + '"><div class="block-titel">' + titel + '</div><p style="margin-bottom:0">' + text + '</p></div>' : '';
+  bdSetze($('bd-rueck'));
+}
+function bdWeg(zeilen, label) {
+  const W = $('bd-weg');
+  W.innerHTML = '<div class="fl-label">' + label + '</div>' + zeilen.map(z => '<div class="fl-eq">' +
+    (z.lab ? '<span class="bd-abschnitt">' + z.lab + '</span>' : '') + (z.tex ? flHtml(z.tex) : '<span style="font-size:0.9rem">' + z.text + '</span>') +
+    (z.nach ? '<span class="bd-abschnitt" style="margin-left:8px">' + z.nach + '</span>' : '') + '</div>').join('');
+  W.hidden = false; bdSetze(W);
+}
+function bdGeloest(gezeigt) {
+  zustand.fertig = true; zustand.geloest++;
+  if (!zustand.fehlversuch && !gezeigt) zustand.ersteRichtig++;
+  bdStand();
+}
+
+/* Auswahl antippen: sofort beurteilen */
+function bdWaehle(i) {
+  if (zustand.fertig || !zustand.O) return;
+  const o = zustand.O[i], karte = document.querySelector('.bd-karte[data-i="' + i + '"]');
+  if (o.code) {
+    zustand.fehlversuch = true; if (karte) karte.classList.add('falsch');
+    bdRueck('block-fehler', '✗ Diagramm ' + 'ABCD'[i] + ' passt nicht', BD_DIAGNOSE[o.code]({ von:zustand.von, nach:zustand.nach }));
+    return;
+  }
+  if (karte) karte.classList.add('richtig');
+  bdLoesung(false, i);
+}
+function bdLoesung(gezeigt, i) {
+  const B = zustand.B;
+  if (zustand.O) {
+    if (i === undefined) { i = zustand.O.findIndex(o => o.code === null); const k = document.querySelector('.bd-karte[data-i="' + i + '"]'); if (k) k.classList.add('richtig'); }
+    const von = zustand.von, nach = zustand.nach;
+    bdRueck('block-bsp', gezeigt ? 'Lösung: Diagramm ' + 'ABCD'[i] : '✓ Richtig: Diagramm ' + 'ABCD'[i],
+      (von === 'worte' ? 'Abschnitt für Abschnitt: ' + B.ab.map(g => bdZahl(g.t0) + '–' + bdZahl(g.t1) + ' s: ' + bdSatz(g)).join('; ') + '.'
+        : nach === 'a' ? 'Die Beschleunigung ist die Steigung des \\(v\\)-\\(t\\)-Graphen, Abschnitt für Abschnitt:'
+        : nach === 'v' ? 'Die Geschwindigkeit ist die Steigung des \\(s\\)-\\(t\\)-Graphen, Abschnitt für Abschnitt:'
+        : 'Der Ort ändert sich um die Fläche unter dem \\(v\\)-\\(t\\)-Graphen, Abschnitt für Abschnitt:') + (von === 'worte' ? '' : ' siehe unten.') + ' Weiter mit «Neue Aufgabe».');
+    if (von !== 'worte') bdWeg(bdErklaerung(B, von, nach), 'Abschnitt für Abschnitt');
+  } else {
+    const q = zustand.frage;
+    if (gezeigt) { const e = $('bd-ein'); if (e) e.value = bdZahl(q.soll); }
+    bdRueck('block-bsp', gezeigt ? 'Lösung' : '✓ Richtig', '\\(' + q.gr + ' = ' + bdE(q.soll, BD_ART[q.art === 's' ? 's' : q.art].etex) + '\\). Weiter mit «Neue Aufgabe».');
+    bdWeg([{ tex:q.formel }], 'Rechenweg');
+  }
+  bdGeloest(gezeigt);
+}
+function bdPruefen() {
+  const q = zustand.frage; if (!q || zustand.fertig) return;
+  const e = bdBewerte(q, bdLies($('bd-ein').value));
+  if (e) { if (e.code !== 'leer') zustand.fehlversuch = true; bdRueck('block-fehler', '✗ Noch nicht', e.text); return; }
+  bdLoesung(false);
+}
+function bdTipp() {
+  if (zustand.fertig) { bdRueck('block-tipp', '💡 Tipp', 'Die Aufgabe ist gelöst. Weiter mit «Neue Aufgabe».'); return; }
+  zustand.tipp++;
+  const B = zustand.B, g = B.ab[0];
+  let t;
+  if (zustand.frage) t = zustand.tipp === 1 ? zustand.frage.tipp : 'Eingesetzt: \\(' + zustand.frage.formel.slice(0, 2).join(' ') + '\\).';
+  else if (zustand.von === 'worte') t = zustand.tipp === 1 ? 'Zerlege die Beschreibung in Abschnitte und prüfe sie der Reihe nach: Steht der Körper, fährt er gleichmässig, wird er schneller oder langsamer, vorwärts oder zurück?'
+    : 'Der erste Abschnitt: ' + B.objekt.replace(/^Ein /, 'das ').replace(/^das Zug/, 'der Zug') + ' ' + bdSatz(g) + '. Im \\(' + zustand.nach + '\\)-\\(t\\)-Diagramm heisst das: ' + bdTippForm(g, zustand.nach) + '.';
+  else t = zustand.tipp === 1 ? (zustand.nach === 's' ? 'Die Fläche unter dem \\(v\\)-\\(t\\)-Graphen sagt, um wie viel sich der Ort ändert. Wo \\(v\\) positiv ist, steigt \\(s\\); wo \\(v = 0\\) ist, bleibt \\(s\\) gleich.'
+    : 'Lies im gegebenen Diagramm die Steigung ab, Abschnitt für Abschnitt: Steigt der Graph, ist der gesuchte Wert positiv; ist er waagrecht, ist er null.')
+    : (() => { const z = bdErklaerung(B, zustand.von, zustand.nach)[0]; return 'Der erste Abschnitt, \\(0\\) bis \\(' + bdZahl(g.t1) + '\\;\\text{s}\\): ' + (z.tex ? '\\(' + z.tex.join(' ') + '\\).' : z.text); })();
+  bdRueck('block-tipp', '💡 Tipp', t);
+}
+function bdTippForm(g, nach) {
+  if (nach === 'v') return g.a === 0 ? (g.v0 === 0 ? 'eine Linie auf der Zeitachse' : 'eine waagrechte Linie bei ' + bdZahl(g.v0) + ' m/s') : 'eine Gerade von ' + bdZahl(g.v0) + ' auf ' + bdZahl(g.v1) + ' m/s';
+  return g.a === 0 ? (g.v0 === 0 ? 'eine waagrechte Linie' : 'eine ' + (g.v0 > 0 ? 'steigende' : 'fallende') + ' Gerade') : 'ein Parabelstück, das immer ' + (Math.abs(g.v1) > Math.abs(g.v0) ? 'steiler' : 'flacher') + ' wird';
+}
+function bdStand() {
+  $('bd-stand').textContent = 'gelöst: ' + zustand.geloest + '; beim ersten Versuch richtig: ' + zustand.ersteRichtig;
+}
+
+/* ── Bedienung ────────────────────────────────────────────────────── */
+$('bd-karten').addEventListener('click', ev => { const b = ev.target.closest('[data-i]'); if (b) bdWaehle(+b.dataset.i); });
+$('bd-frage').addEventListener('click', ev => { if (ev.target.closest('#bd-pruefen')) bdPruefen(); });
+$('bd-tipp').addEventListener('click', bdTipp);
+$('bd-zeigen').addEventListener('click', () => { if (!zustand.fertig) bdLoesung(true); });
+$('bd-neu').addEventListener('click', () => bdNeueAufgabe());
+$('bd-stufen').addEventListener('click', ev => {
+  const b = ev.target.closest('[data-stufe]'); if (!b) return;
+  document.querySelectorAll('#bd-stufen .typ-btn').forEach(x => x.classList.toggle('aktiv', x === b));
+  zustand.stufe = +b.dataset.stufe; bdNeueAufgabe();
+});
+function bdArt(art) {
+  zustand.art = art;
+  document.querySelectorAll('#bd-arten [data-art]').forEach(x => { x.classList.toggle('aktiv', x.dataset.art === art); x.setAttribute('aria-pressed', String(x.dataset.art === art)); });
+}
+$('bd-arten').addEventListener('click', ev => { const b = ev.target.closest('[data-art]'); if (b) { bdArt(b.dataset.art); bdNeueAufgabe(); } });
+// Verweise aus Themenseite und Leitprogramm öffnen eine Aufgabe direkt: #aufgabe-zuordnen, #aufgabe-ablesen, #aufgabe-worte
+function bdAusAdresse() { const m = location.hash.match(/^#aufgabe-(zuordnen|ablesen|worte)$/); if (!m) return false; bdArt(m[1]); return true; }
+window.addEventListener('hashchange', () => { if (bdAusAdresse()) bdNeueAufgabe(); });
+let bdRz; window.addEventListener('resize', () => { clearTimeout(bdRz); bdRz = setTimeout(bdZeichne, 150); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(bdZeichne);
+
+/* Testhaken für Prüfskripte (.claude/tools) */
+window.__bd = {
+  art(a) { bdArt(a); bdNeueAufgabe(); },
+  aufgabe(id, seed) { bdNeueAufgabe(BD_VORLAGEN.find(v => v.id === id), seed || 1); return zustand.B; },
+  optionen() { return zustand.O && zustand.O.map(o => o.code); }, waehle(i) { bdWaehle(i); },
+  eingabe(x) { $('bd-ein').value = x; bdPruefen(); }, tipp() { bdTipp(); }, zeigen() { $('bd-zeigen').click(); },
+  ids:BD_VORLAGEN.map(v => v.id), zustand,
+};
+
+bdAusAdresse(); bdNeueAufgabe();
+})();
+</script>
+</body>
+</html>
