@@ -76,6 +76,16 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `scripts/verify_bewegungsdiagramme.js` im Pre-Flight (Ableitungen und Fläche numerisch nachgerechnet,
   Fehlbilder sichtbar verschieden, jede Diagnose). Verweise je Aufgabenart: Themenseite 4.1 `#darstellungen`
   (Zuordnen, In Worten) und `#theorie` (Ablesen), Leitprogramm Kinematik Kapitel 1 und 2. Kein `localStorage`.
+- `werkzeuge/formeln-umstellen.html` — Trainer Formeln umstellen (alle Lerngebiete, seit 11.10.2026), zwei
+  Aufgabenarten (Anker `#aufgabe-schritte`, `#aufgabe-einsetzen`): Schritt für Schritt mit dem Waage-Prinzip
+  (je Schritt die richtige Operation und falsche mit Diagnose: durch eine Summe geteilt, Nenner geteilt, Faktor
+  abgezogen, Wurzel zu früh, Quadrat halbiert) und umstellen und einsetzen (vier Umstellungen, die falschen aus
+  Kehrwert, Wurzel vergessen, Faktor, Teil, Summe; danach mit Zahlen, Diagnose über den Zahlenwert). Ein kleiner
+  Algebra-Kern stellt jede Formel nach jeder Grösse um, die nur einmal vorkommt (Produkte mit Exponenten ±1, ±2,
+  ±½, eine Summe); Formeln in `FU_FORMELN` (41, ~90 Aufgaben, drei Stufen), Grössen mit Einheit und Dimension in
+  `FU_GR`. Selbsttest `fuSelbsttest` über `scripts/verify_formeln.js` im Pre-Flight (Einheiten jeder Formel,
+  Lösung und jeder Zwischenstand mit Zufallszahlen in der Ausgangsformel, Einheitenprobe, Diagnosen).
+  Verweise: Themenseite 0.1 `#umformen`, Leitprogramm Rechnen Schritt 4. Kein `localStorage`.
 - `werkzeuge/schaltungen-zusammenfassen.html` — Trainer Schaltungen zusammenfassen (6.2, seit
   10.10.2026), drei Aufgabenarten als Reiter: (1, Voreinstellung) Kurzformel
   aus Knöpfen setzen (Parser ohne Vorrang: + und ∥ auf einer Ebene brauchen eine Klammer; Vergleich

@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formeln umstellen — Physik begreifbar</title>
+<!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<meta name="description" content="Formeln umstellen üben: rund 40 Physikformeln Schritt für Schritt nach jeder Grösse auflösen oder umstellen und einsetzen, mit Rückmeldung.">
+<meta name="author" content="Raphael Arnold Kohler">
+<link rel="canonical" href="https://physik.begreifbar.ch/werkzeuge/formeln-umstellen.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Physik begreifbar">
+<meta property="og:locale" content="de_CH">
+<meta property="og:title" content="Formeln umstellen — Physik begreifbar">
+<meta property="og:description" content="Formeln umstellen üben: rund 40 Physikformeln Schritt für Schritt nach jeder Grösse auflösen oder umstellen und einsetzen, mit Rückmeldung.">
+<meta property="og:url" content="https://physik.begreifbar.ch/werkzeuge/formeln-umstellen.html">
+<meta property="og:image" content="https://physik.begreifbar.ch/og-bild.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://physik.begreifbar.ch/werkzeuge/formeln-umstellen.html#inhalt",
+   "url": "https://physik.begreifbar.ch/werkzeuge/formeln-umstellen.html",
+   "name": "Formeln umstellen — Physik begreifbar",
+   "description": "Formeln umstellen üben: rund 40 Physikformeln Schritt für Schritt nach jeder Grösse auflösen oder umstellen und einsetzen, mit Rückmeldung.",
+   "inLanguage": "de-CH",
+   "isAccessibleForFree": true,
+   "license": "https://creativecommons.org/licenses/by-nc/4.0/deed.de",
+   "creator": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "publisher": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "dateModified": "2026-08-01",
+   "isPartOf": {
+    "@id": "https://physik.begreifbar.ch/#website"
+   },
+   "about": [
+    {
+     "@type": "DefinedTerm",
+     "name": "Formeln umstellen"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Gleichungen umstellen"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Waage-Prinzip"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Einheitenprobe"
+    }
+   ],
+   "keywords": "Formeln umstellen, Gleichungen umstellen, Waage-Prinzip, Einheitenprobe",
+   "learningResourceType": "Werkzeug",
+   "educationalLevel": "Sekundarstufe II — Berufsmaturität (Schweiz)",
+   "typicalAgeRange": "16-20",
+   "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": [
+     "student",
+     "teacher"
+    ]
+   },
+   "interactivityType": "active"
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://physik.begreifbar.ch/#website",
+   "url": "https://physik.begreifbar.ch/",
+   "name": "Physik begreifbar"
+  }
+ ]
+}
+</script>
+<!-- SEO:ENDE -->
+<link rel="stylesheet" href="../schriften.css">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']] },
+  svg: { fontCache:'global', scale:1.05 },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="../vendor/mathjax/tex-svg.js"></script>
+
+<style>
+/* ── Seitenspezifisch nur der Trainer ──
+   Reiter, Filter, Formel, Schrittknöpfe, Auswahl der umgestellten Formel,
+   Eingabe, Rückmeldung und Rechenweg. */
+.fu-reiter { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+.fu-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
+  border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; scroll-margin-top:66px; }
+.fu-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
+.fu-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
+.fu-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.fu-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.fu-reiter-knopf.aktiv .fu-reiter-nr { color:var(--bernstein); }
+.fu-reiter-name { font-family:var(--serif); font-size:0.98rem; font-weight:700; line-height:1.25; }
+.fu-reiter-text { font-size:0.76rem; color:var(--tinte-2); line-height:1.35; }
+.fu-aufgabe { background:var(--papier); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein);
+  border-radius:8px; padding:10px 14px; margin-bottom:12px; }
+.fu-aufgabe-kopf { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin-bottom:4px; }
+.fu-aufgabe-titel { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); }
+.fu-pille { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
+  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
+.fu-aufgabe p { margin:0; font-size:0.9rem; }
+.fu-formel { font-size:1.15rem; text-align:center; background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px;
+  padding:12px 10px; margin:0 0 12px; overflow-x:auto; }
+.fu-weg .fl-eq { font-size:1rem; }
+.fu-knoepfe { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.fu-knopf { font-family:var(--sans); font-size:0.9rem; padding:7px 14px; border-radius:7px; cursor:pointer; min-height:40px;
+  border:1.5px solid var(--linie); background:var(--papier); color:var(--tinte); }
+.fu-knopf:hover:not(:disabled) { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
+.fu-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.fu-knopf.falsch { border-color:var(--rot); background:var(--rot-hell); }
+.fu-knopf.richtig { border-color:var(--gruen); background:var(--gruen-hell); }
+.fu-wahl { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; margin-top:10px; }
+.fu-wahl .fu-knopf { font-size:1rem; padding:10px; overflow-x:auto; }
+.fu-frage { background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin-top:12px; }
+.fu-frage p { margin:0 0 8px; font-size:0.9rem; }
+.fu-zeile { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.fu-eingabe { font-family:var(--mono); font-size:0.95rem; width:9em; padding:6px 8px; border-radius:6px;
+  border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
+.fu-eingabe:focus { outline:2px solid var(--bernstein); outline-offset:0; }
+.fu-rueck { margin-top:12px; }
+.fu-rueck .block { margin:0 0 8px; }
+.fu-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
+.fu-filter-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 4px 2px; }
+@media (max-width: 700px) {
+  .fu-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
+  .fu-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
+  .fu-reiter-text { display:none; }
+  .fu-wahl { grid-template-columns:minmax(0,1fr); }
+  .fu-weg { padding:12px 8px; }
+}
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ TITEL ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">WZ · Werkzeuge</div>
+  <h1 class="pt-h1">Formeln umstellen</h1>
+  <p class="pt-untertitel">Fast jede Physikaufgabe verlangt irgendwann, eine Formel nach der gesuchten Grösse aufzulösen. Hier übst du das an den Formeln aller Lerngebiete: Schritt für Schritt mit dem Waage-Prinzip oder als schnelle Wahl der richtigen Umstellung, zur Kontrolle mit eingesetzten Zahlen. Erklärt wird das Umstellen auf der Themenseite unter <a href="../themen/p0-1-vorwissen-mathematik.html#umformen">0.1 Gleichungen umstellen</a>.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">🧭 Übungsseite zum Vorwissen — geübt wird das Werkzeug für alle Lerngebiete</div>
+  <ul>
+    <li>Formeln nach einer gesuchten Grösse auflösen und mit eingesetzten Zahlen prüfen (Grundlage für die Berechnungen in den Lerngebieten 4 bis 6)</li>
+  </ul>
+</div>
+
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+  <ul>
+    <li>Ich kann eine Formel mit dem Waage-Prinzip nach jeder Grösse auflösen: auf beiden Seiten dieselbe Operation.</li>
+    <li>Ich kann die Reihenfolge begründen: zuerst Summanden weg, dann Nenner hoch, dann Faktoren teilen, Wurzel oder Quadrat zuletzt.</li>
+    <li>Ich kann eine umgestellte Formel mit der Einheitenprobe und mit eingesetzten Zahlen kontrollieren.</li>
+    <li>Ich erkenne typische Fehler: Kehrwert, vergessene Wurzel, durch eine Summe geteilt.</li>
+  </ul>
+  </div>
+</details>
+
+<div class="block block-tipp">
+  <div class="block-titel">💡 Lieber geführt durcharbeiten?</div>
+  <p>Das Umstellen erarbeitet das Leitprogramm <a href="../leitprogramme/leitprogramm-rechnen.html#ls4">«Rechnen und Schliessen»</a> in Schritt 4 an drei Formeln. Dieser Trainer übt dasselbe in grosser Menge, an den Formeln, die in den Lerngebieten 4 bis 6 vorkommen.</p>
+</div>
+
+<div class="block block-merksatz">
+  <div class="block-titel">📘 Umstellen in vier Schritten</div>
+  <ol>
+    <li><strong>Summanden weg:</strong> Steht die gesuchte Grösse in einer Summe, zuerst die anderen Summanden auf beiden Seiten abziehen.</li>
+    <li><strong>Nenner hoch:</strong> Steht etwas im Nenner, beide Seiten damit multiplizieren.</li>
+    <li><strong>Faktoren teilen:</strong> Alle anderen Faktoren, auch Zahlen wie \(2\) oder \(\pi\), auf beiden Seiten wegteilen.</li>
+    <li><strong>Potenz zuletzt:</strong> Steht die Grösse im Quadrat, zum Schluss die Wurzel ziehen; steht sie unter einer Wurzel, quadrieren.</li>
+  </ol>
+  <p>Kontrolle: Die Einheiten der rechten Seite müssen die Einheit der gesuchten Grösse ergeben, und mit eingesetzten Zahlen muss die Ausgangsformel stimmen.</p>
+</div>
+
+
+<!-- ══════════════ TRAINER ══════════════ -->
+<h2 id="trainer">Der Trainer</h2>
+
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+      <h3 id="formeln-umstellen-trainer">Schritt für Schritt oder auf einen Blick</h3>
+      <div class="anim-hinweis links">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zum Trainer Formeln umstellen">💡 Worauf achten?</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Worauf achten?</span>
+          <div class="ah-text"><ul><li>Frage bei jedem Schritt: Was steht der gesuchten Grösse am weitesten aussen im Weg?</li><li>Ein Faktor geht durch Teilen weg, ein Nenner durch Multiplizieren, ein Summand durch Abziehen.</li><li>Die Wurzel kommt erst, wenn das Quadrat allein steht.</li></ul></div>
+        </div>
+      </div>
+      <div class="anim-hinweis rechts">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zum Trainer Formeln umstellen">✓ Erkenntnis</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Erkenntnis</span>
+          <div class="ah-text"><ul><li>Jede Formel lässt sich mit denselben vier Schritten nach jeder Grösse auflösen, die nur einmal vorkommt.</li><li>Die Einheitenprobe findet die meisten Fehler, ohne dass man etwas ausrechnet.</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="widget-body">
+
+    <div class="fu-reiter" id="fu-arten" role="group" aria-label="Aufgabenart wählen">
+      <button class="fu-reiter-knopf aktiv" id="aufgabe-schritte" data-art="schritte" aria-pressed="true"><span class="fu-reiter-nr">Aufgabe 1</span><span class="fu-reiter-name">Schritt für Schritt</span><span class="fu-reiter-text">Mit dem Waage-Prinzip umstellen: Welche Operation kommt als Nächstes, auf beiden Seiten?</span></button>
+      <button class="fu-reiter-knopf" id="aufgabe-einsetzen" data-art="einsetzen" aria-pressed="false"><span class="fu-reiter-nr">Aufgabe 2</span><span class="fu-reiter-name">Umstellen und einsetzen</span><span class="fu-reiter-text">Die richtige Umstellung wählen und mit Zahlen ausrechnen.</span></button>
+    </div>
+
+    <div class="typ-btns" id="fu-stufen" role="group" aria-label="Stufe wählen">
+      <button class="typ-btn aktiv" data-stufe="1">Stufe 1: Mal und durch</button>
+      <button class="typ-btn" data-stufe="2">Stufe 2: Mit Quadrat und Wurzel</button>
+      <button class="typ-btn" data-stufe="3">Stufe 3: Mit Summen</button>
+      <button class="typ-btn" data-stufe="0">Alle Stufen</button>
+    </div>
+    <div class="fu-filter-titel">Formeln aus</div>
+    <div class="typ-btns" id="fu-gebiete" role="group" aria-label="Lerngebiet wählen">
+      <button class="typ-btn aktiv" data-gebiet="alle">allen Lerngebieten</button>
+      <button class="typ-btn" data-gebiet="0">0 Vorwissen</button>
+      <button class="typ-btn" data-gebiet="4">4 Mechanik</button>
+      <button class="typ-btn" data-gebiet="5">5 Wärmelehre</button>
+      <button class="typ-btn" data-gebiet="6">6 Wellen und Elektrizität</button>
+    </div>
+
+    <div class="fu-aufgabe" id="fu-aufgabe" aria-live="polite"></div>
+    <div class="formel-live fu-weg" id="fu-weg"></div>
+    <div id="fu-bedienung"></div>
+    <div class="fu-rueck" id="fu-rueck" aria-live="polite"></div>
+
+  </div>
+  <div class="btn-row">
+    <button class="typ-btn" id="fu-tipp">Tipp</button>
+    <button class="typ-btn" id="fu-zeigen">Schritt zeigen</button>
+    <button class="typ-btn" id="fu-neu">Neue Aufgabe</button>
+    <span class="fu-stand" id="fu-stand"></span>
+  </div>
+</div>
+
+
+<!-- ══════════════ FEHLER ══════════════ -->
+<h2 id="fehler">Häufige Fehler</h2>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Durch eine Summe geteilt</div>
+  <p>In \(s = s_0 + v \cdot t\) steht \(t\) in einer Summe. Wer zuerst durch \(v\) teilt, muss auch \(s_0\) teilen: \(\dfrac{s}{v} = \dfrac{s_0}{v} + t\). Einfacher ist es, zuerst \(s_0\) abzuziehen: \(s - s_0 = v \cdot t\), dann \(t = \dfrac{s - s_0}{v}\). Falsch ist \(t = \dfrac{s}{v} - s_0\): Dort wird \(s_0\) nicht geteilt.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Die Wurzel vergessen oder zu früh gezogen</div>
+  <p>Aus \(E_{\text{kin}} = \tfrac{1}{2} \cdot m \cdot v^2\) folgt zuerst \(v^2 = \dfrac{2 \cdot E_{\text{kin}}}{m}\) und erst dann \(v = \sqrt{\dfrac{2 \cdot E_{\text{kin}}}{m}}\). Ohne Wurzel kommt \(v^2\) heraus, in \(\text{m}^2/\text{s}^2\). Zieht man die Wurzel, bevor \(v^2\) allein steht, muss sie über das ganze Produkt gehen; das macht nur Arbeit.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Der Kehrwert</div>
+  <p>Aus \(v = \dfrac{s}{t}\) wird \(t = \dfrac{s}{v}\), nicht \(t = \dfrac{v}{s}\). Die Einheitenprobe zeigt es sofort: \(\dfrac{\text{m}}{\text{m/s}} = \text{s}\), aber \(\dfrac{\text{m/s}}{\text{m}} = \dfrac{1}{\text{s}}\).</p>
+</div>
+
+
+<!-- ══════════════ ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<ul class="kernpunkte">
+  <li>Waage-Prinzip: Auf beiden Seiten dieselbe Operation, dann bleibt die Gleichung richtig.</li>
+  <li>Reihenfolge: Summanden abziehen, Nenner hochmultiplizieren, Faktoren wegteilen, zuletzt Wurzel ziehen oder quadrieren.</li>
+  <li>Erst symbolisch umstellen, dann Zahlen einsetzen.</li>
+  <li>Kontrolle mit der Einheitenprobe und mit eingesetzten Zahlen in der Ausgangsformel.</li>
+</ul>
+
+<div class="merksatz">
+  Was der gesuchten Grösse am weitesten aussen im Weg steht, kommt zuerst weg, und zwar mit der Umkehroperation, auf beiden Seiten.
+</div>
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<footer class="site-footer">
+  <p><strong>Physik begreifbar</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
+  <p>Werkzeuge · Formeln umstellen</p>
+  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
+  <p>Keine Cookies · Kein Tracking · Version 2.0 · Stand 10. Oktober 2026</p>
+</footer>
+<!-- FUSS:ENDE -->
+
+<script src="../nav.js"></script>
+<script src="../suche.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script>
+buildNav({ id:'werkzeuge' });
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   Trainer Formeln umstellen.
+   FU_GR     — die Grössen: Zeichen, Einheit, Dimension (m, kg, s, A, K)
+   FU_FORMELN — die Formeln: linke und rechte Seite als Summen von Produkten
+                ([Grösse, Exponent]; '#2' ist die Zahl 2, '#pi' die Zahl π),
+                Zahlenwerte zum Einsetzen, gesuchte Grössen
+   Ein kleiner Algebra-Kern stellt jede Formel nach jeder Grösse um, die nur
+   einmal vorkommt: Summanden abziehen, Nenner hoch, Faktoren teilen,
+   Wurzel oder Quadrat. Daraus entstehen der Weg mit den falschen
+   Schritten (Aufgabe 1), die falschen Umstellungen (Aufgabe 2) und die
+   Diagnosen. Selbsttest: fuSelbsttest, über scripts/verify_formeln.js.
+   ═══════════════════════════════════════════════════════════════════ */
+(function () {
+'use strict';
+
+const FU_TOL = 0.02;
+/* Grösse: [Zeichen, Einheit, Dimension [m, kg, s, A, K]] */
+const N = [1, 1, -2, 0, 0], J = [2, 1, -2, 0, 0], W_ = [2, 1, -3, 0, 0], PA = [-1, 1, -2, 0, 0];
+const FU_GR = {
+  s:['s', '\\text{m}', [1, 0, 0, 0, 0]], s0:['s_0', '\\text{m}', [1, 0, 0, 0, 0]], t:['t', '\\text{s}', [0, 0, 1, 0, 0]],
+  v:['v', '\\text{m/s}', [1, 0, -1, 0, 0]], v0:['v_0', '\\text{m/s}', [1, 0, -1, 0, 0]], a:['a', '\\text{m/s}^2', [1, 0, -2, 0, 0]],
+  az:['a_z', '\\text{m/s}^2', [1, 0, -2, 0, 0]], r:['r', '\\text{m}', [1, 0, 0, 0, 0]], T:['T', '\\text{s}', [0, 0, 1, 0, 0]],
+  f:['f', '\\text{Hz}', [0, 0, -1, 0, 0]], om:['\\omega', '\\text{1/s}', [0, 0, -1, 0, 0]], m:['m', '\\text{kg}', [0, 1, 0, 0, 0]],
+  F:['F', '\\text{N}', N], FG:['F_G', '\\text{N}', N], FR:['F_R', '\\text{N}', N], FN:['F_N', '\\text{N}', N], Fz:['F_z', '\\text{N}', N],
+  FA:['F_A', '\\text{N}', N], F1:['F_1', '\\text{N}', N], F2:['F_2', '\\text{N}', N], r1:['r_1', '\\text{m}', [1, 0, 0, 0, 0]], r2:['r_2', '\\text{m}', [1, 0, 0, 0, 0]],
+  D:['D', '\\text{N/m}', [0, 1, -2, 0, 0]], mu:['\\mu', '', [0, 0, 0, 0, 0]], g:['g', '\\text{m/s}^2', [1, 0, -2, 0, 0]], h:['h', '\\text{m}', [1, 0, 0, 0, 0]],
+  Epot:['E_{\\text{pot}}', '\\text{J}', J], Ekin:['E_{\\text{kin}}', '\\text{J}', J], W:['W', '\\text{J}', J], P:['P', '\\text{W}', W_], M:['M', '\\text{Nm}', J],
+  p:['p', '\\text{Pa}', PA], pS:['p_S', '\\text{Pa}', PA], A:['A', '\\text{m}^2', [2, 0, 0, 0, 0]], V:['V', '\\text{m}^3', [3, 0, 0, 0, 0]],
+  rho:['\\rho', '\\text{kg/m}^3', [-3, 1, 0, 0, 0]], rhoFl:['\\rho_{\\text{Fl}}', '\\text{kg/m}^3', [-3, 1, 0, 0, 0]], Ve:['V_e', '\\text{m}^3', [3, 0, 0, 0, 0]],
+  mg:['m', '\\text{g}', [0, 1, 0, 0, 0]], Vcm:['V', '\\text{cm}^3', [3, 0, 0, 0, 0]], rhog:['\\rho', '\\text{g/cm}^3', [-3, 1, 0, 0, 0]],
+  Q:['Q', '\\text{J}', J], c:['c', '\\text{J/(kg·K)}', [2, 0, -2, 0, -1]], dT:['\\Delta T', '\\text{K}', [0, 0, 0, 0, 1]], Lf:['L_{\\text{f}}', '\\text{J/kg}', [2, 0, -2, 0, 0]],
+  dl:['\\Delta l', '\\text{m}', [1, 0, 0, 0, 0]], l0:['l_0', '\\text{m}', [1, 0, 0, 0, 0]], alpha:['\\alpha', '\\text{1/K}', [0, 0, 0, 0, -1]],
+  p1:['p_1', '\\text{bar}', PA], V1:['V_1', '\\text{l}', [3, 0, 0, 0, 0]], T1:['T_1', '\\text{K}', [0, 0, 0, 0, 1]],
+  p2:['p_2', '\\text{bar}', PA], V2:['V_2', '\\text{l}', [3, 0, 0, 0, 0]], T2:['T_2', '\\text{K}', [0, 0, 0, 0, 1]],
+  cw:['c', '\\text{m/s}', [1, 0, -1, 0, 0]], lam:['\\lambda', '\\text{m}', [1, 0, 0, 0, 0]],
+  U:['U', '\\text{V}', [2, 1, -3, -1, 0]], R:['R', '\\Omega', [2, 1, -3, -2, 0]], I:['I', '\\text{A}', [0, 0, 0, 1, 0]],
+  Us:['U_{\\text{s}}', '\\text{V}', [2, 1, -3, -1, 0]], Ueff:['U_{\\text{eff}}', '\\text{V}', [2, 1, -3, -1, 0]],
+  Pel:['P', '\\text{W}', W_], E:['E', '\\text{J}', J], rhoel:['\\rho', '\\Omega \\cdot \\text{mm}^2/\\text{m}', [3, 1, -3, -2, 0]],
+  l:['l', '\\text{m}', [1, 0, 0, 0, 0]], Ael:['A', '\\text{mm}^2', [2, 0, 0, 0, 0]], Ql:['Q', '\\text{C}', [0, 0, 1, 1, 0]],
+};
+
+/* Formeln. L und R: Liste von Summanden, jeder ein Produkt [[Grösse, Exponent], …].
+   werte: Zahlen zum Einsetzen; dep: Grössen, die aus den übrigen berechnet werden (die erste, die nicht gesucht ist). */
+const FU_FORMELN = [
+  { id:'dichte', gebiet:0, titel:'Dichte', L:[[['rhog', 1]]], R:[[['mg', 1], ['Vcm', -1]]], ziele:['mg', 'Vcm'], dep:['rhog', 'mg'],
+    werte:{ mg:[54, 108, 270, 445], Vcm:[20, 40, 50, 100] } },
+  { id:'kreis', gebiet:0, titel:'Kreisfläche', L:[[['A', 1]]], R:[[['#pi', 1], ['r', 2]]], ziele:['r'], dep:['A'], werte:{ r:[0.2, 0.5, 1.5, 3] } },
+  { id:'zylinder', gebiet:0, titel:'Volumen eines Zylinders', L:[[['V', 1]]], R:[[['#pi', 1], ['r', 2], ['h', 1]]], ziele:['r', 'h'], dep:['V'],
+    werte:{ r:[0.1, 0.2, 0.5], h:[0.5, 1, 2] } },
+  { id:'geschwindigkeit', gebiet:4, titel:'Geschwindigkeit', L:[[['v', 1]]], R:[[['s', 1], ['t', -1]]], ziele:['s', 't'], dep:['v', 's'],
+    werte:{ s:[120, 240, 450, 1500], t:[8, 20, 30, 60] } },
+  { id:'ort', gebiet:4, titel:'Ort bei konstanter Geschwindigkeit', L:[[['s', 1]]], R:[[['s0', 1]], [['v', 1], ['t', 1]]], ziele:['s0', 'v', 't'], dep:['s'],
+    werte:{ s0:[10, 20, 50], v:[2, 5, 12], t:[4, 10, 20] } },
+  { id:'geschwindigkeit-a', gebiet:4, titel:'Geschwindigkeit bei konstanter Beschleunigung', L:[[['v', 1]]], R:[[['v0', 1]], [['a', 1], ['t', 1]]], ziele:['v0', 'a', 't'], dep:['v'],
+    werte:{ v0:[2, 3, 8], a:[0.5, 1.5, 2.5], t:[4, 6, 10] } },
+  { id:'weg-a', gebiet:4, titel:'Weg aus dem Stand', L:[[['s', 1]]], R:[[['#2', -1], ['a', 1], ['t', 2]]], ziele:['a', 't'], dep:['s'],
+    werte:{ a:[0.5, 1.5, 2, 4], t:[4, 6, 10] } },
+  { id:'zeitlos', gebiet:4, titel:'Zeitlose Bewegungsgleichung aus dem Stand', L:[[['v', 2]]], R:[[['#2', 1], ['a', 1], ['s', 1]]], ziele:['v', 'a', 's'], dep:['v', 'a'],
+    werte:{ v:[6, 10, 20], a:[1.5, 2, 4, 6], s:[12, 25, 50] } },
+  { id:'zeitlos-v0', gebiet:4, titel:'Zeitlose Bewegungsgleichung', L:[[['v', 2]]], R:[[['v0', 2]], [['#2', 1], ['a', 1], ['s', 1]]], ziele:['a', 's', 'v0'], dep:['v'],
+    werte:{ v0:[3, 5, 8], a:[1.5, 2, 4], s:[10, 25, 40] } },
+  { id:'kreisbahn', gebiet:4, titel:'Bahngeschwindigkeit aus der Umlaufzeit', L:[[['v', 1]]], R:[[['#2', 1], ['#pi', 1], ['r', 1], ['T', -1]]], ziele:['r', 'T'], dep:['v'],
+    werte:{ r:[0.5, 2, 10, 50], T:[2, 5, 30, 60] } },
+  { id:'zentripetal', gebiet:4, titel:'Zentripetalbeschleunigung', L:[[['az', 1]]], R:[[['v', 2], ['r', -1]]], ziele:['v', 'r'], dep:['az'],
+    werte:{ v:[4, 10, 20], r:[5, 20, 50] } },
+  { id:'winkelgeschwindigkeit', gebiet:4, titel:'Winkelgeschwindigkeit', L:[[['om', 1]]], R:[[['#2', 1], ['#pi', 1], ['f', 1]]], ziele:['f'], dep:['om'],
+    werte:{ f:[0.5, 2, 50] } },
+  { id:'bahngeschwindigkeit', gebiet:4, titel:'Bahngeschwindigkeit', L:[[['v', 1]]], R:[[['om', 1], ['r', 1]]], ziele:['om', 'r'], dep:['v'],
+    werte:{ om:[2, 5, 12], r:[0.3, 1.5, 4] } },
+  { id:'grundgesetz', gebiet:4, titel:'Grundgesetz der Mechanik', L:[[['F', 1]]], R:[[['m', 1], ['a', 1]]], ziele:['m', 'a'], dep:['F'],
+    werte:{ m:[2, 70, 1200], a:[0.5, 2.5, 4] } },
+  { id:'gewichtskraft', gebiet:4, titel:'Gewichtskraft', L:[[['FG', 1]]], R:[[['m', 1], ['g', 1]]], ziele:['m'], dep:['FG'],
+    werte:{ m:[0.5, 12, 75], g:[9.81] } },
+  { id:'reibung', gebiet:4, titel:'Reibungskraft', L:[[['FR', 1]]], R:[[['mu', 1], ['FN', 1]]], ziele:['mu', 'FN'], dep:['FR'],
+    werte:{ mu:[0.2, 0.35, 0.6], FN:[150, 400, 980] } },
+  { id:'zentripetalkraft', gebiet:4, titel:'Zentripetalkraft', L:[[['Fz', 1]]], R:[[['m', 1], ['v', 2], ['r', -1]]], ziele:['m', 'v', 'r'], dep:['Fz'],
+    werte:{ m:[0.5, 60, 1200], v:[5, 12, 25], r:[2, 20, 80] } },
+  { id:'feder', gebiet:4, titel:'Federkraft', L:[[['F', 1]]], R:[[['D', 1], ['s', 1]]], ziele:['D', 's'], dep:['F'],
+    werte:{ D:[50, 200, 800], s:[0.02, 0.05, 0.15] } },
+  { id:'lageenergie', gebiet:4, titel:'Lageenergie', L:[[['Epot', 1]]], R:[[['m', 1], ['g', 1], ['h', 1]]], ziele:['m', 'h'], dep:['Epot'],
+    werte:{ m:[0.5, 12, 70], g:[9.81], h:[1.5, 4, 25] } },
+  { id:'bewegungsenergie', gebiet:4, titel:'Bewegungsenergie', L:[[['Ekin', 1]]], R:[[['#2', -1], ['m', 1], ['v', 2]]], ziele:['m', 'v'], dep:['Ekin'],
+    werte:{ m:[0.2, 70, 1200], v:[3, 8, 25] } },
+  { id:'fallgeschwindigkeit', gebiet:4, titel:'Geschwindigkeit nach der Fallhöhe', L:[[['v', 1]]], R:[[['#2', 0.5], ['g', 0.5], ['h', 0.5]]], ziele:['h'], dep:['v'],
+    werte:{ g:[9.81], h:[1.5, 2.4, 5, 20] } },
+  { id:'arbeit', gebiet:4, titel:'Arbeit', L:[[['W', 1]]], R:[[['F', 1], ['s', 1]]], ziele:['F', 's'], dep:['W'],
+    werte:{ F:[20, 150, 800], s:[0.5, 3, 12] } },
+  { id:'leistung', gebiet:4, titel:'Leistung', L:[[['P', 1]]], R:[[['W', 1], ['t', -1]]], ziele:['W', 't'], dep:['P', 'W'],
+    werte:{ W:[600, 2400, 36000], t:[5, 30, 120] } },
+  { id:'drehmoment', gebiet:4, titel:'Drehmoment', L:[[['M', 1]]], R:[[['F', 1], ['r', 1]]], ziele:['F', 'r'], dep:['M'],
+    werte:{ F:[25, 120, 400], r:[0.15, 0.3, 1.2] } },
+  { id:'hebel', gebiet:4, titel:'Hebelgesetz', L:[[['F1', 1], ['r1', 1]]], R:[[['F2', 1], ['r2', 1]]], ziele:['F1', 'r1', 'F2', 'r2'], dep:['F2', 'F1'],
+    werte:{ F1:[40, 120, 300], r1:[0.2, 0.5, 1.5], F2:[60, 200, 450], r2:[0.25, 0.8, 2] } },
+  { id:'druck', gebiet:4, titel:'Druck', L:[[['p', 1]]], R:[[['F', 1], ['A', -1]]], ziele:['F', 'A'], dep:['p', 'F'],
+    werte:{ F:[200, 589, 1500], A:[0.0008, 0.03, 0.25] } },
+  { id:'schweredruck', gebiet:4, titel:'Schweredruck', L:[[['pS', 1]]], R:[[['rho', 1], ['g', 1], ['h', 1]]], ziele:['rho', 'h'], dep:['pS'],
+    werte:{ rho:[1000, 1030, 13600], g:[9.81], h:[0.3, 2, 10] } },
+  { id:'auftrieb', gebiet:4, titel:'Auftriebskraft', L:[[['FA', 1]]], R:[[['rhoFl', 1], ['Ve', 1], ['g', 1]]], ziele:['rhoFl', 'Ve'], dep:['FA'],
+    werte:{ rhoFl:[1000, 800, 1030], Ve:[0.002, 0.05, 0.4], g:[9.81] } },
+  { id:'waermemenge', gebiet:5, titel:'Wärmemenge', L:[[['Q', 1]]], R:[[['m', 1], ['c', 1], ['dT', 1]]], ziele:['m', 'c', 'dT'], dep:['Q'],
+    werte:{ m:[0.5, 2, 150], c:[4182, 897, 450], dT:[5, 20, 60] } },
+  { id:'schmelzen', gebiet:5, titel:'Schmelzwärme', L:[[['Q', 1]]], R:[[['m', 1], ['Lf', 1]]], ziele:['m', 'Lf'], dep:['Q'],
+    werte:{ m:[0.2, 1.5, 5], Lf:[334000, 205000] } },
+  { id:'laengenausdehnung', gebiet:5, titel:'Längenausdehnung', L:[[['dl', 1]]], R:[[['alpha', 1], ['l0', 1], ['dT', 1]]], ziele:['alpha', 'l0', 'dT'], dep:['dl'],
+    werte:{ alpha:[0.000012, 0.0000235, 0.000017], l0:[2, 50, 300], dT:[20, 40, 60] } },
+  { id:'gasgesetz', gebiet:5, titel:'Allgemeines Gasgesetz', L:[[['p1', 1], ['V1', 1], ['T1', -1]]], R:[[['p2', 1], ['V2', 1], ['T2', -1]]], ziele:['V2', 'p2', 'T2', 'T1'], dep:['V2', 'V1'],
+    werte:{ p1:[1, 2, 4], V1:[3, 10, 50], T1:[273, 293, 300], p2:[1.5, 3, 6], V2:[2, 8, 40], T2:[283, 323, 350] } },
+  { id:'welle', gebiet:6, titel:'Wellengleichung', L:[[['cw', 1]]], R:[[['lam', 1], ['f', 1]]], ziele:['lam', 'f'], dep:['cw'],
+    werte:{ lam:[0.5, 1.7, 680], f:[0.5, 200, 440] } },
+  { id:'frequenz', gebiet:6, titel:'Frequenz und Periode', L:[[['f', 1]]], R:[[['T', -1]]], ziele:['T'], dep:['f'], werte:{ T:[0.02, 0.5, 4] } },
+  { id:'ohm', gebiet:6, titel:'Ohm’sches Gesetz', L:[[['U', 1]]], R:[[['R', 1], ['I', 1]]], ziele:['R', 'I'], dep:['U'],
+    werte:{ R:[10, 220, 1000], I:[0.02, 0.5, 2] } },
+  { id:'el-leistung', gebiet:6, titel:'Elektrische Leistung', L:[[['Pel', 1]]], R:[[['U', 1], ['I', 1]]], ziele:['U', 'I'], dep:['Pel'],
+    werte:{ U:[12, 24, 230], I:[0.5, 2, 8] } },
+  { id:'leiterwiderstand', gebiet:6, titel:'Widerstand eines Leiters', L:[[['R', 1]]], R:[[['rhoel', 1], ['l', 1], ['Ael', -1]]], ziele:['rhoel', 'l', 'Ael'], dep:['R'],
+    werte:{ rhoel:[0.017, 0.028, 0.5], l:[2, 50, 3000], Ael:[0.196, 1.5, 2.5] } },
+  { id:'ladung', gebiet:6, titel:'Ladung und Stromstärke', L:[[['Ql', 1]]], R:[[['I', 1], ['t', 1]]], ziele:['I', 't'], dep:['Ql'],
+    werte:{ I:[0.2, 2, 15], t:[10, 60, 3600] } },
+  { id:'el-energie', gebiet:6, titel:'Elektrische Energie', L:[[['E', 1]]], R:[[['Pel', 1], ['t', 1]]], ziele:['Pel', 't'], dep:['E'],
+    werte:{ Pel:[60, 1200, 2000], t:[60, 600, 3600] } },
+  { id:'scheitelwert', gebiet:6, titel:'Scheitelwert und Effektivwert', L:[[['Us', 1]]], R:[[['#2', 0.5], ['Ueff', 1]]], ziele:['Ueff'], dep:['Us'],
+    werte:{ Ueff:[6, 12, 230] } },
+  { id:'leistung-ri', gebiet:6, titel:'Leistung am Widerstand', L:[[['Pel', 1]]], R:[[['R', 1], ['I', 2]]], ziele:['R', 'I'], dep:['Pel'],
+    werte:{ R:[10, 100, 1000], I:[0.05, 0.5, 2] } },
+];
+
+/* Rückmeldungen. c: x (gesuchte Grösse), f (Faktor oder Grösse der Operation), S (Summand) */
+const FU_DIAGNOSE = {
+  // falsche Schritte
+  summe_zuerst:     c => `Solange \\(${c.S}\\) dazugezählt wird, steckt \\(${c.x}\\) in einer Summe. Wer jetzt teilt, muss auch \\(${c.S}\\) teilen. Zuerst den Summanden \\(${c.S}\\) auf beiden Seiten abziehen.`,
+  summand_weg:      c => `\\(${c.x}\\) ist selbst ein Summand. Zuerst die anderen Summanden auf beiden Seiten abziehen; Teilen hilft hier nicht.`,
+  faktor_summand:   c => `\\(${c.f}\\) ist ein Faktor, kein Summand. Abziehen hebt ein Produkt nicht auf.`,
+  nenner_teilen:    c => `\\(${c.f}\\) steht im Nenner. Teilen bringt es noch einmal in den Nenner; multiplizieren holt es heraus.`,
+  faktor_mal:       c => `\\(${c.f}\\) ist ein Faktor. Multiplizieren macht daraus ein Quadrat; teilen hebt den Faktor auf.`,
+  wurzel_zu_frueh:  c => `Die Wurzel kommt zuletzt, wenn das Quadrat von \\(${c.x}\\) allein steht. Jetzt müsste sie über das ganze Produkt gezogen werden.`,
+  quadrat_halbieren:c => `Ein Quadrat hebt man mit der Wurzel auf, nicht durch Teilen durch 2: \\(\\sqrt{${c.x}^2} = ${c.x}\\), aber \\(${c.x}^2 : 2 \\ne ${c.x}\\).`,
+  falsche_richtung: c => c.f === 'w' ? `Quadrieren macht aus \\(${c.x}^2\\) eine vierte Potenz. Ein Quadrat hebt man mit der Wurzel auf.`
+                                     : `Die Wurzel aus \\(\\sqrt{${c.x}}\\) gibt eine vierte Wurzel. Eine Wurzel hebt man durch Quadrieren auf.`,
+  wurzel_mal2:      c => 'Eine Wurzel hebt man durch Quadrieren auf, nicht durch Multiplizieren mit 2.',
+  // falsche Umstellungen (Aufgabe 2)
+  kehrwert:         c => 'Das ist der Kehrwert: Zähler und Nenner sind vertauscht. Die Einheitenprobe zeigt es: Es kommt nicht die Einheit der gesuchten Grösse heraus.',
+  wurzel_vergessen: c => `Hier fehlt die Wurzel. Diese Formel liefert \\(${c.x}^2\\), nicht \\(${c.x}\\).`,
+  quadrat_vergessen:c => `\\(${c.x}\\) stand unter einer Wurzel. Um sie aufzuheben, muss man quadrieren.`,
+  faktor:           c => 'Der Zahlenfaktor steht auf der falschen Seite des Bruchstrichs. Was auf der einen Seite multipliziert, wird auf der anderen geteilt.',
+  teil:             c => `\\(${c.f}\\) steht auf der falschen Seite des Bruchstrichs. Was mit \\(${c.x}\\) multipliziert war, wird beim Umstellen zum Nenner, und umgekehrt.`,
+  summe:            c => 'Hier wurde geteilt, bevor der Summand weg war: Er steht ungeteilt da. Zuerst abziehen, dann teilen.',
+  vorzeichen:       c => 'Die Subtraktion ist vertauscht. Abgezogen wird der Summand von der anderen Seite, nicht umgekehrt.',
+  wurzel_summe:     c => 'Die Wurzel aus einer Differenz ist nicht die Differenz der Wurzeln: \\(\\sqrt{a - b} \\ne \\sqrt{a} - \\sqrt{b}\\).',
+  potenz:           c => 'Eine Potenz stimmt nicht. Prüfe mit der Einheitenprobe.',
+  faktor2:          c => 'Ein Faktor 2 ist zu viel oder fehlt.',
+  // Zahl
+  leer:             c => 'Gib zuerst eine Zahl ein.',
+  falsch:           c => 'Noch nicht richtig. Setze die Zahlen mit ihren Einheiten in die umgestellte Formel ein und rechne nochmals.',
+};
+
+/* ── Algebra-Kern ─────────────────────────────────────────────────── */
+const FU_ZAHL = { '#2':2, '#pi':Math.PI };
+const fuIstZahl = x => x[0] === '#';
+function fuNorm(M) { const m = new Map(); M.forEach(([x, e]) => m.set(x, (m.get(x) || 0) + e)); return [...m].filter(([, e]) => Math.abs(e) > 1e-12); }
+const fuHoch = (M, k) => M.map(([x, e]) => [x, e * k]);
+const fuHat = (M, x) => M.some(([y]) => y === x);
+const fuExp = (M, x) => (M.find(([y]) => y === x) || [x, 0])[1];
+/* Seite: (Summe der Summanden g)^h · Faktor f; ein Summand {s: ±1, M} */
+const fuSeite = terme => ({ g:terme.map(M => ({ s:1, M:fuNorm(M) })), f:[], h:1 });
+const fuEinzeln = S => S.g.length === 1 && S.h === 1 && S.g[0].s === 1;
+function fuMalSeite(S, G) {
+  if (fuEinzeln(S)) return { g:[{ s:1, M:fuNorm(S.g[0].M.concat(S.f, G)) }], f:[], h:1 };
+  return { g:S.g, f:fuNorm(S.f.concat(G)), h:S.h };
+}
+function fuHochSeite(S, k) {
+  if (fuEinzeln(S)) return { g:[{ s:1, M:fuHoch(fuNorm(S.g[0].M.concat(S.f)), k) }], f:[], h:1 };
+  return { g:S.g, f:fuHoch(S.f, k), h:S.h * k };
+}
+const fuWertMono = (M, w) => M.reduce((p, [x, e]) => p * Math.pow(fuIstZahl(x) ? FU_ZAHL[x] : w[x], e), 1);
+const fuWertSeite = (S, w) => Math.pow(S.g.reduce((t, q) => t + q.s * fuWertMono(q.M, w), 0), S.h) * fuWertMono(S.f, w);
+const fuDimMono = M => M.reduce((d, [x, e]) => fuIstZahl(x) ? d : d.map((v, i) => v + e * FU_GR[x][2][i]), [0, 0, 0, 0, 0]);
+const fuDimSeite = S => fuDimMono(S.g[0].M).map((v, i) => v * S.h + fuDimMono(S.f)[i]);
+const fuVars = F => [...new Set(F.L.concat(F.R).flat().map(([x]) => x).filter(x => !fuIstZahl(x)))];
+
+/* ── TeX ──────────────────────────────────────────────────────────── */
+function fuTexFaktor(x, e, einheit) {        // e > 0, ganzzahlig
+  if (x === '#2') return String(Math.pow(2, e));
+  if (x === '#pi') return e === 1 ? '\\pi' : '\\pi^{' + e + '}';
+  let t = einheit ? FU_GR[x][1] : FU_GR[x][0];
+  if (einheit && !t) return '';
+  if (e === 1) return t;
+  if (/^\\Delta/.test(t) || (einheit && /[\/·]|\\cdot|\^/.test(t))) t = '(' + t + ')';
+  return t + '^{' + e + '}';
+}
+function fuTexProdukt(L, einheit) {
+  const zahl = einheit ? 1 : L.filter(([x]) => x === '#2').reduce((p, [, e]) => p * Math.pow(2, e), 1);
+  const pi = einheit ? null : L.find(([x]) => x === '#pi');
+  const rest = L.filter(([x]) => !fuIstZahl(x)).map(([x, e]) => fuTexFaktor(x, e, einheit)).filter(Boolean);
+  const vorn = (zahl !== 1 ? String(zahl) : '') + (pi ? fuTexFaktor('#pi', pi[1]) : '');
+  const teile = (vorn ? [vorn] : []).concat(rest);
+  return teile.length ? teile.join(' \\cdot ') : '1';
+}
+function fuTexBruch(M, einheit) {
+  const z = M.filter(([, e]) => e > 0), n = M.filter(([, e]) => e < 0).map(([x, e]) => [x, -e]);
+  const nt = n.length ? fuTexProdukt(n, einheit) : '1';
+  // ½ · m · v² wie auf den Themenseiten, wenn im Nenner nur die Zahl steht
+  if (!einheit && z.length && n.length && n.every(([x]) => x === '#2')) return '\\tfrac{1}{' + nt + '} \\cdot ' + fuTexProdukt(z);
+  return nt !== '1' ? '\\dfrac{' + fuTexProdukt(z, einheit) + '}{' + nt + '}' : fuTexProdukt(z, einheit);
+}
+function fuTexMono(M, einheit) {
+  const ganz = [], halb = [];
+  M.forEach(([x, e]) => { const ip = Math.trunc(e + (e > 0 ? 1e-9 : -1e-9)), h = e - ip;
+    if (ip) ganz.push([x, ip]); if (Math.abs(h) > 1e-9) halb.push([x, Math.round(2 * h)]); });
+  let t = ganz.length ? fuTexBruch(ganz, einheit) : '';
+  if (halb.length) { const w = '\\sqrt{' + fuTexBruch(halb, einheit) + '}'; t = t && t !== '1' ? t + ' \\cdot ' + w : w; }
+  return t || '1';
+}
+function fuTexSeite(S, einheit) {
+  if (fuEinzeln(S)) return fuTexMono(fuNorm(S.g[0].M.concat(S.f)), einheit);
+  const g = einheit ? [S.g[0]] : S.g;
+  const summe = g.map((q, i) => (q.s < 0 ? (i ? ' - ' : '-') : (i ? ' + ' : '')) + fuTexMono(q.M, einheit)).join('');
+  const viele = g.length > 1, hb = Math.abs(S.h);
+  const z = S.f.filter(([, e]) => e > 0), n = S.f.filter(([, e]) => e < 0).map(([x, e]) => [x, -e]);
+  const zt = z.length ? fuTexMono(z, einheit) : '', nt = n.length ? fuTexMono(n, einheit) : '';
+  let basis = hb === 1 ? summe : hb === 0.5 ? '\\sqrt{' + summe + '}' : '(' + summe + ')^{' + hb + '}';
+  const geklammert = viele && hb === 1 ? '(' + summe + ')' : basis;
+  if (S.h > 0) {
+    const oben = zt && zt !== '1' ? geklammert + ' \\cdot ' + zt : basis;
+    return nt && nt !== '1' ? '\\dfrac{' + oben + '}{' + nt + '}' : oben;
+  }
+  return '\\dfrac{' + (zt || '1') + '}{' + (nt && nt !== '1' ? nt + ' \\cdot ' + geklammert : basis) + '}';
+}
+const fuTexGleichung = st => fuTexSeite(st.L) + ' = ' + fuTexSeite(st.R);
+function fuTexOp(op) {
+  if (op.art === 'mal') return '\\cdot\\, ' + fuTexMono(op.G);
+  if (op.art === 'durch') return ':\\, ' + fuTexMono(op.G);
+  if (op.art === 'minus') return '-\\, ' + fuTexMono(op.M);
+  return op.art === 'wurzel' ? '\\sqrt{\\phantom{x}}' : '(\\ldots)^2';
+}
+function fuOpText(op) {
+  return op.art === 'wurzel' ? 'Wurzel ziehen' : op.art === 'quadrat' ? 'quadrieren' : 'beide Seiten \\(' + fuTexOp(op) + '\\)';
+}
+
+/* ── Der Weg: Schritt für Schritt nach x ──────────────────────────────
+   Summanden abziehen; steht x im Nenner, mit x multiplizieren; Nenner hoch; Faktoren teilen
+   (Zahlen und π in einem Schritt); bei einer Wurzel zuerst die ganzzahligen Faktoren, dann quadrieren;
+   ein Quadrat zuletzt mit der Wurzel. Jeder Schritt bringt seine falschen Alternativen mit. */
+function fuAnwenden(st, op, A) {
+  const B = A === 'L' ? 'R' : 'L', neu = { L:st.L, R:st.R };
+  if (op.art === 'minus') {
+    neu[A] = { g:st[A].g.filter(q => q !== op.term), f:st[A].f, h:st[A].h };
+    neu[B] = { g:st[B].g.concat([{ s:-op.term.s, M:op.term.M }]), f:st[B].f, h:st[B].h };
+    if (st[B].h !== 1 || st[B].f.length) throw new Error('Abziehen von einer zusammengesetzten Seite');
+  } else if (op.art === 'mal' || op.art === 'durch') {
+    const G = op.art === 'mal' ? op.G : fuHoch(op.G, -1);
+    neu.L = fuMalSeite(st.L, G); neu.R = fuMalSeite(st.R, G);
+  } else { const k = op.art === 'wurzel' ? 0.5 : 2; neu.L = fuHochSeite(st.L, k); neu.R = fuHochSeite(st.R, k); }
+  return neu;
+}
+function fuGruppe(liste) { const z = liste.filter(([y]) => fuIstZahl(y)); return z.length ? z : [liste[0]]; }
+function fuWeg(F, x) {
+  let st = { L:fuSeite(F.L), R:fuSeite(F.R) };
+  let A = st.L.g.some(q => fuHat(q.M, x)) ? 'L' : 'R';
+  const schritte = [], c0 = { x:FU_GR[x][0] };
+  for (let n = 0; n < 12; n++) {
+    const S = st[A];
+    let op, falsch = [];
+    if (S.g.length > 1) {
+      const T = S.g.find(q => !fuHat(q.M, x)), Tx = S.g.find(q => fuHat(q.M, x)), andere = Tx.M.filter(([y]) => y !== x);
+      op = { art:'minus', term:T, M:T.M };
+      const c = Object.assign({ S:fuTexMono(T.M) }, c0);
+      if (andere.length) { const G = fuGruppe(andere); falsch.push([{ art:'durch', G }, 'summe_zuerst', c]);
+        if (!fuIstZahl(G[0][0])) falsch.push([{ art:'minus', M:G, term:null }, 'faktor_summand', Object.assign({ f:fuTexMono(G) }, c)]); }
+      const Tv = T.M.filter(([y]) => !fuIstZahl(y));
+      if (Tv.length && T.M.length > 1) falsch.push([{ art:'durch', G:[Tv[0]] }, 'summand_weg', c]);
+      if (falsch.length < 2 && Tv.length) falsch.push([{ art:'durch', G:[Tv[Tv.length - 1]] }, 'summand_weg', c]);
+    } else {
+      if (!fuEinzeln(S)) throw new Error('x steht nicht allein in einem Produkt');
+      const M = S.g[0].M, e = fuExp(M, x), andere = M.filter(([y]) => y !== x);
+      const kand = Number.isInteger(e) ? andere : andere.filter(([, k]) => Number.isInteger(k));
+      if (e < 0) {
+        op = { art:'mal', G:[[x, -e]] };
+        const c = Object.assign({ f:fuTexMono([[x, -e]]) }, c0);
+        falsch.push([{ art:'durch', G:[[x, -e]] }, 'nenner_teilen', c], [{ art:'minus', M:[[x, -e]], term:null }, 'faktor_summand', c]);
+      } else if (kand.length) {
+        const nenner = kand.filter(([, k]) => k < 0), zaehler = kand.filter(([, k]) => k > 0);
+        if (nenner.length) {
+          const G = fuHoch(fuGruppe(nenner), -1), c = Object.assign({ f:fuTexMono(G) }, c0);
+          op = { art:'mal', G };
+          falsch.push([{ art:'durch', G }, 'nenner_teilen', c]);
+          if (!fuIstZahl(G[0][0])) falsch.push([{ art:'minus', M:G, term:null }, 'faktor_summand', c]);
+        } else {
+          const G = fuGruppe(zaehler), c = Object.assign({ f:fuTexMono(G) }, c0);
+          op = { art:'durch', G };
+          falsch.push([{ art:'mal', G }, 'faktor_mal', c]);
+          if (!fuIstZahl(G[0][0])) falsch.push([{ art:'minus', M:G, term:null }, 'faktor_summand', c]);
+        }
+        if (e === 2) falsch.push([{ art:'wurzel' }, 'wurzel_zu_frueh', c0]);
+      } else if (e === 2) {
+        op = { art:'wurzel' };
+        falsch.push([{ art:'durch', G:[['#2', 1]] }, 'quadrat_halbieren', c0], [{ art:'quadrat' }, 'falsche_richtung', Object.assign({ f:'w' }, c0)]);
+      } else if (e === 0.5) {
+        op = { art:'quadrat' };
+        falsch.push([{ art:'mal', G:[['#2', 1]] }, 'wurzel_mal2', c0], [{ art:'wurzel' }, 'falsche_richtung', Object.assign({ f:'q' }, c0)]);
+      } else break;                                     // x steht allein
+    }
+    const vorher = st;
+    st = fuAnwenden(st, op, A);
+    // gleiche Beschriftung nur einmal, nie gleich der richtigen
+    const gesehen = new Set([fuOpText(op)]);
+    falsch = falsch.filter(([o]) => { const t = fuOpText(o); if (gesehen.has(t)) return false; gesehen.add(t); return true; });
+    schritte.push({ op, vorher, nachher:st, A, falsch:falsch.map(([o, code, c]) => ({ op:o, code, c })) });
+    if (op.art === 'mal' && fuExp(op.G, x) > 0) A = A === 'L' ? 'R' : 'L';   // x hat die Seite gewechselt
+  }
+  const B = A === 'L' ? 'R' : 'L';
+  return { schritte, ende:st, A, loesung:st[B] };
+}
+function fuStufe(F, x) {
+  const w = fuWeg(F, x);
+  if (w.schritte.some(s => s.op.art === 'minus')) return 3;
+  if (w.schritte.some(s => s.op.art === 'wurzel' || s.op.art === 'quadrat')) return 2;
+  return 1;
+}
+
+/* ── Falsche Umstellungen (Aufgabe 2) ─────────────────────────────── */
+function fuVarianten(F, x, sol) {
+  const V = [], e0 = (() => { const S = fuSeite(F.L).g.concat(fuSeite(F.R).g).find(q => fuHat(q.M, x)); return fuExp(S.M, x); })();
+  if (fuEinzeln(sol)) {
+    const M = fuNorm(sol.g[0].M.concat(sol.f)), als = M2 => ({ g:[{ s:1, M:M2 }], f:[], h:1 });
+    V.push(['kehrwert', als(fuHoch(M, -1)), {}]);
+    if (Math.abs(e0) === 2) V.push(['wurzel_vergessen', als(fuHoch(M, 2)), {}]);
+    if (Math.abs(e0) === 0.5) V.push(['quadrat_vergessen', als(fuHoch(M, 0.5)), {}]);
+    if (M.some(([y]) => fuIstZahl(y))) V.push(['faktor', als(M.map(([y, e]) => fuIstZahl(y) ? [y, -e] : [y, e])), {}]);
+    M.filter(([y]) => !fuIstZahl(y)).forEach(([y]) => V.push(['teil', als(M.map(([z, e]) => z === y ? [z, -e] : [z, e])), { f:FU_GR[y][0] }]));
+    V.push(['potenz', als(fuHoch(M, 2)), {}], ['faktor2', als(M.concat([['#2', 1]])), {}], ['faktor2', als(M.concat([['#2', -1]])), {}]);
+  } else {
+    const [O, ...rest] = sol.g;
+    if (sol.h === 1) {
+      V.push(['summe', { g:[{ s:O.s, M:fuNorm(O.M.concat(sol.f)) }].concat(rest), f:[], h:1 }, {}]);
+      V.push(['vorzeichen', { g:sol.g.map(q => ({ s:-q.s, M:q.M })), f:sol.f, h:1 }, {}]);
+    }
+    if (sol.h === 0.5) { V.push(['wurzel_vergessen', { g:sol.g, f:fuHoch(sol.f, 2), h:1 }, {}]);
+      V.push(['wurzel_summe', { g:sol.g.map(q => ({ s:q.s, M:fuHoch(q.M, 0.5) })), f:sol.f, h:1 }, {}]); }
+    V.push(['kehrwert', { g:sol.g, f:fuHoch(sol.f, -1), h:-sol.h }, {}]);
+    sol.f.filter(([y]) => !fuIstZahl(y)).forEach(([y]) => V.push(['teil', { g:sol.g, f:sol.f.map(([z, e]) => z === y ? [z, -e] : [z, e]), h:sol.h }, { f:FU_GR[y][0] }]));
+    if (sol.f.some(([y]) => fuIstZahl(y))) V.push(['faktor', { g:sol.g, f:sol.f.map(([y, e]) => fuIstZahl(y) ? [y, -e] : [y, e]), h:sol.h }, {}]);
+    V.push(['faktor2', { g:sol.g, f:fuNorm(sol.f.concat([['#2', 1]])), h:sol.h }, {}]);
+  }
+  return V.map(([code, S, c]) => ({ code, S, c:Object.assign({ x:FU_GR[x][0] }, c) }));
+}
+
+/* ── Aufgabe: Formel, gesuchte Grösse, Zahlen ─────────────────────── */
+function fuZufall(seed) {                     // reproduzierbar (mulberry32)
+  let a = seed >>> 0;
+  return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+const fuWahl = (r, l) => l[Math.floor(r() * l.length) % l.length];
+function fuMisch(r, liste) { const l = liste.slice(); for (let i = l.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [l[i], l[j]] = [l[j], l[i]]; } return l; }
+const fuDrei = x => Number(x.toPrecision(3));
+function fuAufgaben() {                       // alle Paare Formel × gesuchte Grösse mit Stufe
+  return FU_FORMELN.flatMap(F => F.ziele.map(x => ({ F, x, stufe:fuStufe(F, x) })));
+}
+function fuZahlen(F, x, r) {                  // Werte der übrigen Grössen, die abhängige gerechnet und auf drei Ziffern gerundet
+  const dep = F.dep.find(d => d !== x), w = {};
+  fuVars(F).forEach(y => { if (y !== dep) w[y] = fuWahl(r, F.werte[y]); });
+  w[dep] = fuDrei(fuWertSeite(fuWeg(F, dep).loesung, w));
+  const gegeben = fuVars(F).filter(y => y !== x);
+  const g = {}; gegeben.forEach(y => { g[y] = w[y]; });
+  return { gegeben:g, soll:fuWertSeite(fuWeg(F, x).loesung, g), dep };
+}
+function fuAufgabe(P, r) {
+  const W = fuWeg(P.F, P.x), Z = fuZahlen(P.F, P.x, r);
+  const sol = W.loesung, soll = Z.soll, tol = 0.05 * Math.abs(soll);
+  const varianten = [];
+  fuVarianten(P.F, P.x, sol).forEach(v => {
+    const w = fuWertSeite(v.S, Z.gegeben);
+    if (!isFinite(w) || Math.abs(w - soll) <= tol || varianten.some(u => Math.abs(u.wert - w) <= 0.05 * Math.abs(w))) return;
+    if (varianten.some(u => fuTexSeite(u.S) === fuTexSeite(v.S))) return;
+    varianten.push(Object.assign(v, { wert:w }));
+  });
+  return Object.assign({}, P, { W, Z, sol, soll, varianten, wahl:fuMisch(r, [{ code:null, S:sol }].concat(varianten.slice(0, 3))) });
+}
+
+/* Zahlen schreiben und lesen */
+function fuTexZahl(x) {
+  if (x === 0) return '0';
+  const e = Math.floor(Math.log10(Math.abs(x)) + 1e-12);
+  if (e < -3 || e >= 6) { const m = Number((x / Math.pow(10, e)).toPrecision(3)); return String(m) + ' \\cdot 10^{' + e + '}'; }
+  let t = String(Number(x.toPrecision(Math.max(3, e + 1))));
+  if (Math.abs(x) >= 10000) t = t.replace(/^(-?\d+)(\d{3})(\.|$)/, (m, a, b, c) => a.replace(/\B(?=(\d{3})+$)/g, '\\,') + '\\,' + b + c);
+  return t;
+}
+function fuLies(s) {                          // «2,5», «1.2e-5», «12·10^-6», «12 * 10^(-6)», «2.5 m/s»
+  let t = String(s).trim().replace(/,/g, '.').replace(/[−–]/g, '-').replace(/['\s]/g, '');
+  t = t.replace(/(\d)(?:·|\*|x|×)10\^\(?(-?\d+)\)?/i, '$1e$2');
+  t = t.replace(/^(-?[\d.]+(?:e-?\d+)?).*$/i, '$1');
+  return t === '' || !/^-?[\d.]+(e-?\d+)?$/i.test(t) ? NaN : Number(t);
+}
+function fuBewerte(A, x) {
+  const e = (code, c) => ({ code, text:FU_DIAGNOSE[code](Object.assign({ x:FU_GR[A.x][0] }, c || {})) });
+  if (!isFinite(x)) return e('leer');
+  if (Math.abs(x - A.soll) <= FU_TOL * Math.abs(A.soll)) return null;
+  const v = A.varianten.find(u => Math.abs(x - u.wert) <= FU_TOL * Math.abs(u.wert));
+  return v ? e(v.code, v.c) : e('falsch');
+}
+
+/* ── Selbsttest ───────────────────────────────────────────────────── */
+function fuSelbsttest(n) {
+  n = n || 20;
+  const fehler = []; let faelle = 0;
+  const F_ = (ok, was) => { faelle++; if (!ok) fehler.push(was); };
+  const nah = (a, b, rel) => Math.abs(a - b) <= (rel || 1e-9) * Math.max(1e-12, Math.abs(b));
+  const klammern = t => { let k = 0; for (const ch of t) { if (ch === '{') k++; if (ch === '}') k--; if (k < 0) return false; } return k === 0; };
+  FU_FORMELN.forEach(F => {
+    // Einheiten der Formel selbst: links = jeder Summand rechts
+    const dL = fuDimSeite(fuSeite(F.L));
+    F.L.concat(F.R).forEach(T => F_(fuDimMono(T).every((v, i) => Math.abs(v - dL[i]) < 1e-9), F.id + ': Einheiten passen nicht'));
+    fuVars(F).forEach(y => F_(FU_GR[y] && F.werte[y] || F.dep.includes(y), F.id + ': ' + y + ' ohne Werte'));
+    F.ziele.forEach(x => {
+      const wo = F.id + '→' + x, dep = F.dep.find(d => d !== x);
+      fuVars(F).forEach(y => F_(y === dep || F.werte[y], wo + ': ' + y + ' ohne Werte zum Einsetzen'));
+      F_(F.L.concat(F.R).filter(T => fuHat(T, x)).length === 1, wo + ': kommt nicht genau einmal vor');
+      let W; try { W = fuWeg(F, x); } catch (e) { F_(false, wo + ': ' + e.message); return; }
+      const fin = W.ende[W.A];
+      F_(fuEinzeln(fin) && fin.g[0].M.length === 1 && fin.g[0].M[0][0] === x && Math.abs(fin.g[0].M[0][1] - 1) < 1e-9, wo + ': steht am Ende nicht allein');
+      F_(W.schritte.length >= 1 && W.schritte.length <= 6, wo + ': ' + W.schritte.length + ' Schritte');
+      F_(fuDimSeite(W.loesung).every((v, i) => Math.abs(v - FU_GR[x][2][i]) < 1e-9), wo + ': Einheitenprobe der Lösung stimmt nicht');
+      const tex = fuTexSeite(W.loesung), texE = fuTexSeite(W.loesung, true);
+      F_(klammern(tex) && klammern(texE) && !/undefined|NaN/.test(tex + texE), wo + ': TeX kaputt ' + tex);
+      W.schritte.forEach((sch, i) => {
+        F_(sch.falsch.length >= 1 && sch.falsch.length <= 3, wo + ' Schritt ' + i + ': ' + sch.falsch.length + ' falsche Alternativen');
+        sch.falsch.forEach(fa => { const t = FU_DIAGNOSE[fa.code](fa.c); F_(t && !/undefined/.test(t), wo + ': Diagnose ' + fa.code + ' ohne Text');
+          F_(fuOpText(fa.op) !== fuOpText(sch.op), wo + ': falscher Schritt sieht aus wie der richtige'); });
+        F_(klammern(fuTexGleichung(sch.nachher)) && klammern(fuOpText(sch.op)), wo + ': TeX im Weg kaputt');
+      });
+      // unabhängig: Zahlen einsetzen, die Ausgangsgleichung muss mit dem Ergebnis aufgehen; jeder Zwischenstand auch
+      for (let s = 0; s < n; s++) {
+        const r = fuZufall(s * 7919 + F.id.length * 31 + x.length), w = {};
+        fuVars(F).forEach(y => { w[y] = (F.werte[y] ? fuWahl(r, F.werte[y]) : 1) * (0.5 + r()); });
+        w[x] = fuWertSeite(W.loesung, w);
+        const links = fuWertSeite(fuSeite(F.L), w), rechts = fuWertSeite(fuSeite(F.R), w);
+        if (!isFinite(w[x])) continue;
+        F_(nah(links, rechts, 1e-9), wo + ': Lösung erfüllt die Formel nicht (' + links + ' ≠ ' + rechts + ')');
+        W.schritte.forEach((sch, i) => F_(nah(fuWertSeite(sch.nachher.L, w), fuWertSeite(sch.nachher.R, w), 1e-9), wo + ' Schritt ' + i + ': Gleichung nicht mehr wahr'));
+        // Aufgabe 2: drei falsche Umstellungen, sichtbar und zahlenmässig verschieden, jede mit Diagnose
+        const A = fuAufgabe({ F, x, stufe:fuStufe(F, x) }, fuZufall(1000 + s * 13 + x.length));
+        F_(A.wahl.length === 4, wo + ': nur ' + A.wahl.length + ' Umstellungen zur Auswahl');
+        F_(isFinite(A.soll) && A.soll > 0, wo + ': Soll ' + A.soll);
+        // das Soll aus den angezeigten Zahlen erfüllt die Formel
+        const g = Object.assign({}, A.Z.gegeben, { [x]:A.soll });
+        F_(nah(fuWertSeite(fuSeite(F.L), g), fuWertSeite(fuSeite(F.R), g), 1e-9), wo + ': Soll erfüllt die Formel nicht');
+        F_(Object.values(A.Z.gegeben).every(v => isFinite(v) && v > 0), wo + ': gegebener Wert nicht positiv');
+        F_(!fuBewerte(A, A.soll) && !fuBewerte(A, Number(A.soll.toPrecision(3))) && fuBewerte(A, NaN).code === 'leer', wo + ': Soll abgelehnt');
+        A.varianten.slice(0, 3).forEach(v => { const b = fuBewerte(A, v.wert); F_(b && b.code === v.code && !/undefined/.test(b.text), wo + ': Diagnose ' + v.code + ' nicht erkannt');
+          F_(klammern(fuTexSeite(v.S)), wo + ': TeX der Variante kaputt'); });
+        F_(fuBewerte(A, A.soll * 1.37 + 0.01).code !== undefined, wo + ': keine Rückmeldung');
+        F_(new Set(A.wahl.map(o => fuTexSeite(o.S))).size === 4, wo + ': zwei gleiche Umstellungen');
+        if (fuEinzeln(A.sol) && Math.abs(A.soll * A.soll - 1) > 0.1) F_(A.wahl.some(o => o.code === 'kehrwert'), wo + ': Kehrwert fehlt in der Auswahl');
+      }
+    });
+  });
+  F_(fuAufgaben().length >= 70, 'nur ' + fuAufgaben().length + ' Aufgaben');
+  [1, 2, 3].forEach(st => F_(fuAufgaben().filter(a => a.stufe === st).length >= 5, 'Stufe ' + st + ' zu klein'));
+  [['2.5', 2.5], ['2,5', 2.5], ['1.2e-5', 1.2e-5], ['12·10^-6', 12e-6], ['12*10^(-6)', 12e-6], ['2.5 m/s', 2.5], ['', NaN], ['abc', NaN]]
+    .forEach(([t, w]) => { const x = fuLies(t); F_(Number.isNaN(w) ? Number.isNaN(x) : Math.abs(x - w) < 1e-15, 'Eingabe «' + t + '» gelesen als ' + x); });
+  [[0.000012, '1.2 \\cdot 10^{-5}'], [334000, '334\\,000'], [9.81, '9.81'], [4182, '4182'], [2.5, '2.5']].forEach(([x, t]) => F_(fuTexZahl(x) === t, 'Zahlformat ' + x + ' → ' + fuTexZahl(x)));
+  return { formeln:FU_FORMELN.length, aufgaben:fuAufgaben().length, faelle, fehler };
+}
+window.fuSelbsttest = fuSelbsttest;
+
+if (window.FU_TEST) return;            // im Selbsttest keine Oberfläche
+
+/* ═══════════════════ Oberfläche ═══════════════════ */
+const $ = id => document.getElementById(id);
+const zustand = { art:'schritte', stufe:1, gebiet:'alle', A:null, letzte:null, k:0, phase:'schritt', fehlversuch:false, tipp:0, geloest:0, ersteRichtig:0, opt:null };
+function fuSetze(el) { if (typeof mjTypeset === 'function') mjTypeset([el]); }
+const fuGegeben = A => Object.entries(A.Z.gegeben).map(([y, v]) => '\\(' + FU_GR[y][0] + ' = ' + fuTexZahl(v) + (FU_GR[y][1] ? '\\;' + FU_GR[y][1] : '') + '\\)').join(', ');
+
+function fuNeueAufgabe(P, seed) {
+  if (!P) {
+    const pool = fuAufgaben().filter(a => (zustand.stufe === 0 || a.stufe === zustand.stufe) && (zustand.gebiet === 'alle' || String(a.F.gebiet) === zustand.gebiet));
+    if (!pool.length) { $('fu-aufgabe').innerHTML = '<p>Für diese Auswahl gibt es keine Aufgabe. Wähle eine andere Stufe oder alle Lerngebiete.</p>'; return; }
+    do { P = fuWahl(Math.random, pool); } while (pool.length > 1 && zustand.letzte === P.F.id + P.x);
+  }
+  zustand.letzte = P.F.id + P.x;
+  const A = zustand.A = fuAufgabe(P, seed ? fuZufall(seed) : Math.random);
+  Object.assign(zustand, { k:0, phase:zustand.art === 'schritte' ? 'schritt' : 'wahl', fehlversuch:false, tipp:0 });
+  const x = FU_GR[A.x][0];
+  $('fu-aufgabe').innerHTML = '<div class="fu-aufgabe-kopf"><span class="fu-aufgabe-titel">' + A.F.titel + '</span><span class="fu-pille">' +
+    (A.F.gebiet ? 'Lerngebiet ' + A.F.gebiet : 'Vorwissen') + '</span><span class="fu-pille">Stufe ' + A.stufe + '</span></div>' +
+    '<p>Löse \\(' + fuTexGleichung({ L:fuSeite(A.F.L), R:fuSeite(A.F.R) }) + '\\) nach \\(' + x + '\\) auf' +
+    (zustand.art === 'schritte' ? ': Wähle für jeden Schritt die Operation, die auf beiden Seiten ausgeführt wird.' : ', und rechne \\(' + x + '\\) mit diesen Zahlen aus: ' + fuGegeben(A) + '.') + '</p>';
+  fuSetze($('fu-aufgabe'));
+  $('fu-rueck').innerHTML = '';
+  $('fu-zeigen').textContent = zustand.art === 'schritte' ? 'Schritt zeigen' : 'Lösung zeigen';
+  fuWegZeigen(); fuBedienung();
+}
+
+function fuWegZeigen() {
+  const A = zustand.A, W = $('fu-weg');
+  if (zustand.art !== 'schritte') { W.hidden = true; W.innerHTML = ''; return; }
+  const zeilen = [];
+  for (let i = 0; i <= zustand.k; i++) {
+    const st = i ? A.W.schritte[i - 1].nachher : A.W.schritte[0].vorher, nach = i < zustand.k ? A.W.schritte[i].op : null;
+    zeilen.push('\\(' + fuTexGleichung(st) + (nach ? '\\quad\\big|\\; ' + fuTexOp(nach) : '') + '\\)');
+  }
+  W.hidden = false;
+  W.innerHTML = '<div class="fl-label">Umformung</div>' + zeilen.map(z => '<div class="fl-eq">' + z + '</div>').join('');
+  fuSetze(W);
+}
+
+function fuBedienung() {
+  const A = zustand.A, B = $('fu-bedienung');
+  if (zustand.art === 'schritte') {
+    if (zustand.phase === 'fertig') { B.innerHTML = ''; return; }
+    const sch = A.W.schritte[zustand.k];
+    zustand.opt = fuMisch(Math.random, [{ op:sch.op, code:null }].concat(sch.falsch));
+    B.innerHTML = '<div class="fu-frage"><p>Schritt ' + (zustand.k + 1) + ': Welche Operation bringt \\(' + FU_GR[A.x][0] + '\\) näher ans Alleinstehen?</p><div class="fu-knoepfe">' +
+      zustand.opt.map((o, i) => '<button class="fu-knopf" data-o="' + i + '">' + fuOpText(o.op) + '</button>').join('') + '</div></div>';
+  } else if (zustand.phase === 'wahl') {
+    B.innerHTML = '<div class="fu-frage"><p>Welche Umstellung ist richtig?</p><div class="fu-wahl">' +
+      A.wahl.map((o, i) => '<button class="fu-knopf" data-w="' + i + '">\\(' + FU_GR[A.x][0] + ' = ' + fuTexSeite(o.S) + '\\)</button>').join('') + '</div></div>';
+  } else if (zustand.phase === 'zahl') {
+    B.innerHTML = '<div class="fu-frage"><p>Richtig umgestellt. Setze jetzt ein: ' + fuGegeben(A) + '.</p><div class="fu-zeile"><label for="fu-ein">\\(' +
+      FU_GR[A.x][0] + ' = \\)</label><input class="fu-eingabe" id="fu-ein" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">' +
+      '<span>' + (FU_GR[A.x][1] ? '\\(' + FU_GR[A.x][1] + '\\)' : '') + '</span><button class="play-btn" id="fu-pruefen">Prüfen</button></div>' +
+      '<p class="fu-filter-titel" style="margin-top:8px">Zehnerpotenzen als 1.2e-5 oder 1.2·10^-5</p></div>';
+  } else B.innerHTML = '';
+  fuSetze(B);
+  const ein = $('fu-ein'); if (ein) ein.addEventListener('keydown', ev => { if (ev.key === 'Enter') fuPruefen(); });
+}
+function fuRueck(art, titel, text) {
+  $('fu-rueck').innerHTML = text ? '<div class="block ' + art + '"><div class="block-titel">' + titel + '</div><p style="margin-bottom:0">' + text + '</p></div>' : '';
+  fuSetze($('fu-rueck'));
+}
+function fuEinheitenprobe(A) {
+  const e = FU_GR[A.x][1];
+  return '\\([' + FU_GR[A.x][0] + '] = ' + fuTexSeite(A.sol, true) + ' = ' + (e || '1') + '\\)';
+}
+function fuFertig(gezeigt, text) {
+  zustand.phase = 'fertig'; zustand.geloest++;
+  if (!zustand.fehlversuch && !gezeigt) zustand.ersteRichtig++;
+  fuRueck('block-bsp', gezeigt ? 'Lösung' : '✓ Richtig', text + ' Weiter mit «Neue Aufgabe».');
+  fuBedienung(); fuStand();
+}
+
+/* Aufgabe 1: ein Schritt */
+function fuSchritt(i, gezeigt) {
+  const A = zustand.A, o = zustand.opt[i];
+  if (o.code) {
+    zustand.fehlversuch = true;
+    const b = document.querySelector('[data-o="' + i + '"]'); if (b) b.classList.add('falsch');
+    fuRueck('block-fehler', '✗ Nicht dieser Schritt', FU_DIAGNOSE[o.code](o.c));
+    return;
+  }
+  zustand.k++; zustand.tipp = 0;
+  fuWegZeigen();
+  if (zustand.k >= A.W.schritte.length) {
+    fuFertig(gezeigt, '\\(' + FU_GR[A.x][0] + ' = ' + fuTexSeite(A.sol) + '\\). Einheitenprobe: ' + fuEinheitenprobe(A) + '.');
+  } else { fuRueck('', '', ''); fuBedienung(); }
+}
+/* Aufgabe 2: Umstellung wählen, dann rechnen */
+function fuWahl2(i) {
+  const A = zustand.A, o = A.wahl[i], b = document.querySelector('[data-w="' + i + '"]');
+  if (o.code) { zustand.fehlversuch = true; if (b) b.classList.add('falsch'); fuRueck('block-fehler', '✗ Nicht diese', FU_DIAGNOSE[o.code](o.c)); return; }
+  zustand.phase = 'zahl'; fuRueck('', '', ''); fuBedienung();
+  const e = $('fu-ein'); if (e) e.focus({ preventScroll:true });
+}
+function fuPruefen() {
+  const A = zustand.A; if (zustand.phase !== 'zahl') return;
+  const e = fuBewerte(A, fuLies($('fu-ein').value));
+  if (e) { if (e.code !== 'leer') zustand.fehlversuch = true; fuRueck('block-fehler', '✗ Noch nicht', e.text); return; }
+  fuFertig(false, fuErgebnis(A));
+}
+function fuErgebnis(A) {
+  const x = FU_GR[A.x][0], einh = FU_GR[A.x][1] ? '\\;' + FU_GR[A.x][1] : '';
+  return '\\(' + x + ' = ' + fuTexSeite(A.sol) + '\\), eingesetzt \\(' + x + ' = ' + fuTexZahl(fuDrei(A.soll)) + einh + '\\). Einheitenprobe: ' + fuEinheitenprobe(A) + '.';
+}
+function fuTipp() {
+  const A = zustand.A; if (!A) return;
+  if (zustand.phase === 'fertig') { fuRueck('block-tipp', '💡 Tipp', 'Die Aufgabe ist gelöst. Weiter mit «Neue Aufgabe».'); return; }
+  zustand.tipp++;
+  const x = FU_GR[A.x][0];
+  let t;
+  if (zustand.art === 'schritte') {
+    const sch = A.W.schritte[zustand.k], o = sch.op;
+    t = zustand.tipp === 1 ? 'Was steht \\(' + x + '\\) am weitesten aussen im Weg? ' + ({ minus:'Ein Summand.', mal:'Etwas im Nenner.', durch:'Ein Faktor.', wurzel:'Nur noch das Quadrat.', quadrat:'Nur noch die Wurzel.' })[o.art]
+      : 'Die passende Umkehroperation: ' + fuOpText(o) + '.';
+  } else if (zustand.phase === 'wahl') t = zustand.tipp === 1 ? 'Mache die Einheitenprobe bei jeder Auswahl: Welche ergibt die Einheit von \\(' + x + '\\)' + (FU_GR[A.x][1] ? ', also \\(' + FU_GR[A.x][1] + '\\)' : '') + '?'
+    : 'Der Weg: ' + A.W.schritte.map(s => fuOpText(s.op)).join(', dann ') + '.';
+  else t = zustand.tipp === 1 ? 'Setze die Zahlen in \\(' + x + ' = ' + fuTexSeite(A.sol) + '\\) ein. Rechne mit den Einheiten, wie sie gegeben sind.'
+    : 'Ergebnis auf drei Ziffern: \\(' + fuTexZahl(fuDrei(A.soll)) + '\\).';
+  fuRueck('block-tipp', '💡 Tipp', t);
+}
+function fuZeigen() {
+  const A = zustand.A; if (!A || zustand.phase === 'fertig') return;
+  zustand.fehlversuch = true;
+  if (zustand.art === 'schritte') { fuSchritt(zustand.opt.findIndex(o => !o.code), true); return; }
+  zustand.phase = 'fertig'; zustand.geloest++;
+  fuRueck('block-bsp', 'Lösung', fuErgebnis(A) + ' Weiter mit «Neue Aufgabe».'); fuBedienung(); fuStand();
+}
+function fuStand() { $('fu-stand').textContent = 'gelöst: ' + zustand.geloest + '; ohne Fehler: ' + zustand.ersteRichtig; }
+
+/* ── Bedienung ────────────────────────────────────────────────────── */
+$('fu-bedienung').addEventListener('click', ev => {
+  const b = ev.target.closest('button'); if (!b || b.disabled) return;
+  if (b.dataset.o !== undefined) fuSchritt(+b.dataset.o);
+  else if (b.dataset.w !== undefined) fuWahl2(+b.dataset.w);
+  else if (b.id === 'fu-pruefen') fuPruefen();
+});
+$('fu-tipp').addEventListener('click', fuTipp);
+$('fu-zeigen').addEventListener('click', fuZeigen);
+$('fu-neu').addEventListener('click', () => fuNeueAufgabe());
+function fuUmschalter(id, feld, wert) {
+  $(id).addEventListener('click', ev => {
+    const b = ev.target.closest('[' + feld + ']'); if (!b) return;
+    document.querySelectorAll('#' + id + ' [' + feld + ']').forEach(x => x.classList.toggle('aktiv', x === b));
+    wert(b.getAttribute(feld)); fuNeueAufgabe();
+  });
+}
+fuUmschalter('fu-stufen', 'data-stufe', v => { zustand.stufe = +v; });
+fuUmschalter('fu-gebiete', 'data-gebiet', v => { zustand.gebiet = v; });
+function fuArt(art) {
+  zustand.art = art;
+  document.querySelectorAll('#fu-arten [data-art]').forEach(x => { x.classList.toggle('aktiv', x.dataset.art === art); x.setAttribute('aria-pressed', String(x.dataset.art === art)); });
+}
+$('fu-arten').addEventListener('click', ev => { const b = ev.target.closest('[data-art]'); if (b) { fuArt(b.dataset.art); fuNeueAufgabe(); } });
+// Verweise öffnen eine Aufgabe direkt: #aufgabe-schritte, #aufgabe-einsetzen
+function fuAusAdresse() { const m = location.hash.match(/^#aufgabe-(schritte|einsetzen)$/); if (!m) return false; fuArt(m[1]); return true; }
+window.addEventListener('hashchange', () => { if (fuAusAdresse()) fuNeueAufgabe(); });
+
+/* Testhaken für Prüfskripte (.claude/tools) */
+window.__fu = {
+  art(a) { fuArt(a); fuNeueAufgabe(); },
+  aufgabe(id, x, seed) { const F = FU_FORMELN.find(f => f.id === id); fuNeueAufgabe({ F, x, stufe:fuStufe(F, x) }, seed || 1); return zustand.A; },
+  optionen() { return zustand.opt && zustand.opt.map(o => o.code); }, schritt(i) { fuSchritt(i); },
+  wahl() { return zustand.A.wahl.map(o => o.code); }, waehle(i) { fuWahl2(i); },
+  eingabe(x) { $('fu-ein').value = x; fuPruefen(); }, tipp() { fuTipp(); }, zeigen() { fuZeigen(); },
+  alleTex() { return fuAufgaben().map(P => { const A = fuAufgabe(P, fuZufall(3)); return [fuTexGleichung({ L:fuSeite(P.F.L), R:fuSeite(P.F.R) }), fuTexSeite(A.sol), fuTexSeite(A.sol, true)]
+    .concat(A.W.schritte.flatMap(s => [fuTexGleichung(s.nachher), fuTexOp(s.op)].concat(s.falsch.map(f => fuTexOp(f.op)))), A.varianten.map(v => fuTexSeite(v.S)), Object.keys(A.Z.gegeben).map(y => fuTexZahl(A.Z.gegeben[y]))); }); },
+  zustand,
+};
+
+fuAusAdresse(); fuNeueAufgabe(); fuStand();
+})();
+</script>
+</body>
+</html>

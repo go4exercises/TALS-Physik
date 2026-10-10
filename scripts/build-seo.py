@@ -389,6 +389,11 @@ SEITEN = {
    typ='article', lrt='Werkzeug',
    beschreibung='Bewegungsdiagramme üben: s-t-, v-t- und a-t-Diagramm zuordnen, Steigung und Fläche ablesen, Bewegungen aus Worten erkennen, mit Rückmeldung.',
    themen=['Bewegungsdiagramm', 's-t-Diagramm', 'v-t-Diagramm', 'Geschwindigkeit', 'Beschleunigung', 'Kinematik']),
+ 'werkzeuge/formeln-umstellen.html': dict(
+   ort='Werkzeuge · Formeln umstellen',
+   typ='article', lrt='Werkzeug',
+   beschreibung='Formeln umstellen üben: rund 40 Physikformeln Schritt für Schritt nach jeder Grösse auflösen oder umstellen und einsetzen, mit Rückmeldung.',
+   themen=['Formeln umstellen', 'Gleichungen umstellen', 'Waage-Prinzip', 'Einheitenprobe']),
  'werkzeuge/freischneiden.html': dict(
    ort='Werkzeuge · Freischneiden',
    typ='article', lrt='Werkzeug',
