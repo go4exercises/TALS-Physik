@@ -16,6 +16,12 @@
 #  auch, wenn eine Seite lokal per file:// geoeffnet wird (fetch() auf JSON
 #  scheitert dort an CORS).
 #
+#  ABWEICHUNG ZUR MATHE-FASSUNG (bewusst): Leitprogramme, Simulationen und
+#  Werkzeuge werden hier aus ihren Ordnern gelesen (Kuerzel LP/SIM/WZ, Titel
+#  aus <title> ohne « — Physik begreifbar»), nicht aus einer Handliste
+#  ZUSATZSEITEN. Versteckt wird eine Seite ueber UNVERLINKT. Beim naechsten
+#  Abgleich mit Mathe nicht wegportieren.
+#
 #  Aufruf (immer vom Repo-Root):
 #      python3 scripts/build-suchindex.py              # neu bauen
 #      python3 scripts/build-suchindex.py --check      # Gatter: Exit 1 = veraltet

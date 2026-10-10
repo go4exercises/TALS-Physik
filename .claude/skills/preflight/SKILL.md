@@ -43,14 +43,14 @@ und Slot-Limit (≤4 Links je Sektion).
 - **build-suchindex.py --check** und **build-seo.py --check** — veralteter Index
   beziehungsweise veraltete Metadaten sind ein `[WARN]`; neu bauen mit demselben
   Skript ohne `--check`.
+- **check_identifier_collisions.py** — Inline-Symbole vs. physiklib/nav. Ohne npm.
+- **check_todo_schwester** — liest `TODO-schwesterprojekt.md` im Schwesterrepo
+  (Physik liest Mathes; Physik führt keine solche Datei, in Mathe schweigt der
+  Check) und meldet offene Einträge unter «## Offen» als `[WARN]`. Schreibt nie.
 - **check_sim_wz** — Seiten in `simulationen/` und `werkzeuge/`: fehlt die Kachel in
   der Übersicht, zeigt ein Rücklink-Anker ins Leere oder verlinkt eine Themenseite
   eine Datei, die es nicht gibt, ist das ein **[FEHLER]**; verlinkt keine Themenseite
   auf die Seite (und steht sie nicht unter «Ausserhalb der Lerngebiete»), ein `[WARN]`.
-- **check_identifier_collisions.py** — falls im Repo vorhanden; ohne npm.
-- **check_todo_schwester** — liest `TODO-schwesterprojekt.md` im Schwesterrepo
-  (Physik liest Mathes; Physik führt keine solche Datei, in Mathe schweigt der
-  Check) und meldet offene Einträge unter «## Offen» als `[WARN]`. Schreibt nie.
 
 Was der Pre-Flight **nicht** sieht: das Layout. Dafür `.claude/tools/render-check.mjs`
 (1280 und 360 px, findet abgeschnittene Formeln und Tabellen) und

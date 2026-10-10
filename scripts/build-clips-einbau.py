@@ -129,7 +129,7 @@ def lerngebiete():
 
     Physik hat, anders als Mathe, keine zwei Faecher: GROUPS ist eine flache
     Liste von Lerngebieten (0 Vorwissen, 4 Mechanik, 5 Thermodynamik,
-    6 andere Bereiche, 99 Extras).
+    6 andere Bereiche).
 
     Rueckgabe: Liste von (nr, titel, [lektions-ids]) in der Reihenfolge,
     in der sie auch auf der Startseite stehen.

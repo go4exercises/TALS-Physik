@@ -100,8 +100,8 @@ GRUNDLINIE = {
     '.claude/tools/scan-live.mjs': 0.761,
     '.claude/tools/render-check.mjs': 0.968,
     '.claude/tools/build-bilder.mjs': 0.753,
-    '.claude/skills/preflight/preflight.py': 0.849,
-    '.claude/skills/preflight/SKILL.md': 0.680,
+    '.claude/skills/preflight/preflight.py': 0.870,   # 0.849 -> 0.870 nach check_sim_wz in beiden Repos (10.10.2026)
+    '.claude/skills/preflight/SKILL.md': 0.710,   # 0.680 -> 0.710: Physik ordnet die Stufe-2-Liste wie Mathe (10.10.2026)
     '.claude/settings.json': 0.509,
 }
 
@@ -143,6 +143,12 @@ OFFEN = [
              'abgleich.py: geschwister() nahm das erste Nachbarverzeichnis mit mathlib.js — neben tals-mathe liegt jetzt sek1-mathe, '
              'alphabetisch davor, und das Skript brach mit FileNotFoundError ab. Jetzt bevorzugt es den gleichen Namensanfang (tals-). '
              'In Mathe: diese Datei uebernehmen (dort greift dieselbe Falle nicht, schadet aber nicht) und diesen Eintrag streichen.'),
+    dict(quelle='Physik', was='build-suchindex.py unter Grundlinie (0.957 -> 0.947): Seitenliste bewusst verschieden, Grundlinie gemeinsam festlegen (10.10.2026)',
+         wie='Physik liest leitprogramme/, simulationen/ und werkzeuge/ im Ordner-Durchlauf (LP/SIM/WZ, Titel aus <title>, versteckt ueber UNVERLINKT); '
+             'Mathe fuehrt dieselben Seiten bewusst in ZUSATZSEITEN (Kopfkommentar «ABWEICHUNG ZUR PHYSIK-FASSUNG»). Physik hat das gespiegelt '
+             '(Kopfkommentar «ABWEICHUNG ZUR MATHE-FASSUNG») und laesst es so. In Mathe: entscheiden, ob es dabei bleibt; wenn ja, '
+             'die Grundlinie fuer build-suchindex.py auf den gemessenen Wert setzen und in der Begruendung beide Kommentare nennen, '
+             'sonst die Physik-Variante uebernehmen. Danach diesen Eintrag streichen und die Datei zurueckgeben.'),
 ]
 FACH = {
     'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',

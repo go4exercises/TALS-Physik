@@ -183,7 +183,7 @@ function buildNav(cfg) {
       </div>
     </div>
     <div class="dropdown">
-      <button class="nav-btn${(cfg.id==='glossar'||cfg.id==='formeln') ? ' aktiv':''}" onclick="toggleDD('dd-ref')">
+      <button class="nav-btn${refAktiv ? ' aktiv':''}" onclick="toggleDD('dd-ref')">
         Nachschlagen ▾
       </button>
       <div class="dd-menu" id="dd-ref">
