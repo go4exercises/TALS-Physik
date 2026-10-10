@@ -19,6 +19,16 @@
        Kraft auf die Unterlage), Normalkraft fehlt, umgekehrt, lotrecht auf
        der Rampe, ohne Unterlage; Reibung fehlt, umgekehrt, quer, ohne Grund;
        Seil schiebt, schief, zu viel, fehlt; Feder fehlt, drueckt, ohne Feder
+     - Kraefteplan (Aufgabe 2): bei denselben Zufallswerten immer oder nie
+       ein Plan; ein bis zwei unbekannte Betraege, jeder mindestens ein
+       Kaestchen lang; Massstab so, dass die groesste Kraft 4 bis 10
+       Kaestchen misst; die gerasterte Musterloesung gilt und schliesst den
+       Plan, jede Laenge um ein Kaestchen daneben wird erkannt (zu lang/kurz,
+       offen); Ablesen: exakter und gerasterter Wert gelten, Kaestchen statt
+       N, sin/cos vertauscht, F_G statt der gesuchten Kraft und ein Kaestchen
+       daneben bekommen ihre Diagnose; Karopapier bei 260/300/420 px mit
+       Kaestchen ab 12 px, hoechstens 350 px hoch, Plan ganz im Bild
+     - Eingabeformate (Punkt, Komma, Einheit)
 
    Aufruf vom Repo-Root:
      node scripts/verify_freischneiden.js           # 40 Aufgaben je Szene

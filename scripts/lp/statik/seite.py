@@ -799,7 +799,7 @@ k2 = kapitel(2, 'resultierende', 'Die resultierende Kraft', 'K4', 50,
     ('p4-4-lp-resultierende', 'Statik sehen: Kräfte aneinanderhängen'),
     sim2, ('p4-4-lp-kontrolle-resultierende', 'Kontrollfragen zur resultierenden Kraft'),
     fest2, [uebung('res-recht', 'Zwei Kräfte im rechten Winkel'), uebung('res-zwei', 'Zwei Kräfte unter einem Winkel'), uebung('seil', 'Last an zwei Seilen')],
-    auf2, f'<a href="{TS}#resultierende">Themenseite 4.4, Resultierende</a> · <a href="{TS}#punkt">Kräftegleichgewicht am Punkt</a>')
+    auf2, f'<a href="{TS}#resultierende">Themenseite 4.4, Resultierende</a> · <a href="{TS}#punkt">Kräftegleichgewicht am Punkt</a> · Werkzeug: <a href="../werkzeuge/freischneiden.html#aufgabe-kraefteplan">Kräfteplan im Massstab zeichnen</a>')
 
 # ------------------------------------------------------------------ Kapitel 3
 sim3 = figur_anim('sim3', 'Kiste auf einer Rampe, die sich auf Knopfdruck neigt; Gewichtskraft, Normalkraft, Haftreibung und die Komponenten der Gewichtskraft; darunter die Kräfte über dem Neigungswinkel', '-4 -4 308 368',
@@ -841,7 +841,7 @@ k3 = kapitel(3, 'ruhender-koerper', 'Kräfte am ruhenden Körper', 'K3 · K5', 5
     ('p4-4-lp-ruhe', 'Statik sehen: Gewicht, Normalkraft und Haftreibung'),
     sim3, ('p4-4-lp-kontrolle-ruhe', 'Kontrollfragen zu den Kräften am ruhenden Körper'),
     fest3, [uebung('zerlegen', 'Kräfte auf der schiefen Ebene'), uebung('grenzwinkel', 'Grenzwinkel und Haftreibungszahl'), uebung('haftgrenze', 'Haftreibung auf waagrechtem Boden')],
-    auf3, f'<a href="{TS}#definition">Themenseite 4.4, Die wesentlichen Kräfte</a> · <a href="{TS}#schiefe-ebene">Schiefe Ebene</a> · Werkzeug: <a href="../werkzeuge/freischneiden.html">Freischneiden, Kräfte selbst einzeichnen</a>')
+    auf3, f'<a href="{TS}#definition">Themenseite 4.4, Die wesentlichen Kräfte</a> · <a href="{TS}#schiefe-ebene">Schiefe Ebene</a> · Werkzeug: <a href="../werkzeuge/freischneiden.html#aufgabe-freischneiden">Freischneiden, Kräfte selbst einzeichnen</a>')
 
 # ------------------------------------------------------------------ Kapitel 4
 sim4 = figur_anim('sim4', 'Schraubenschlüssel an einer festsitzenden Schraube; die Zugkraft wächst auf Knopfdruck, der wirksame Hebelarm ist gestrichelt; darunter ein Balken mit dem Drehmoment gegen das Moment, das die Schraube braucht', '-4 -4 308 300',

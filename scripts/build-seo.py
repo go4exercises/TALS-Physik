@@ -387,8 +387,8 @@ SEITEN = {
  'werkzeuge/freischneiden.html': dict(
    ort='Werkzeuge · Freischneiden',
    typ='article', lrt='Werkzeug',
-   beschreibung='Freischneiden üben: Kräfte auf Kiste, Rampe, Seil und Karussell selbst einzeichnen, mit Rückmeldung zu typischen Fehlern und Frage nach der resultierenden Kraft.',
-   themen=['Freischneiden', 'Kräfte', 'Normalkraft', 'Reibungskraft', 'Resultierende Kraft', 'Schiefe Ebene']),
+   beschreibung='Freischneiden und Kräfteplan üben: Kräfte auf Kiste, Rampe, Seil und Karussell einzeichnen, im Massstab Spitze an Fuss setzen und Beträge ablesen.',
+   themen=['Freischneiden', 'Kräfteplan', 'Kräfte', 'Normalkraft', 'Reibungskraft', 'Resultierende Kraft', 'Schiefe Ebene']),
  'werkzeuge/schaltungen-zusammenfassen.html': dict(
    ort='Werkzeuge · Schaltungen zusammenfassen',
    typ='article', lrt='Werkzeug',

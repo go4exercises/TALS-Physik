@@ -57,8 +57,14 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Gleichgewicht bzw. Resultierende passt zur Antwort, \(F_G = m g\), \(F_R = \mu F_N\),
   \(F_R = m a\), jeder typische Fehler bekommt seine Diagnose. Testhaken `window.__fs`
   (`szene(id, seed)`, `muster()`, `mass()` prüft, ob Pfeile samt Etikett im Bild liegen).
-  Kein `localStorage`. Verweise (eine Aufgabenart, also je Seite einmal): Themenseiten 4.2 und 4.4,
-  Leitprogramm Dynamik Kapitel 2, Statik Kapitel 3.
+  Kein `localStorage`. Seit 10.10.2026 zwei Aufgabenarten als Reiter (Anker `#aufgabe-freischneiden`,
+  `#aufgabe-kraefteplan`): (2) **Kräfteplan** — Art und Richtung gegeben, bekannt sind \(F_G\) und
+  `gegeben`; die übrigen Längen zieht man auf Karopapier (¼ Kästchen), Massstab so, dass die grösste
+  Kraft 4–10 Kästchen misst; geschlossen bei Gleichgewicht, sonst zeigt der Schlusspfeil in Richtung der
+  Beschleunigung; danach Ablesen mit Diagnosen (Kästchen statt N, sin/cos vertauscht über `vertauscht`,
+  F_G statt). Szenen mit Beträgen unter einem Kästchen tragen `ohnePlan` (Schlitten, Lieferwagen).
+  Verweise je Aufgabenart: Themenseiten 4.2 (`#schiefe-ebene`) und 4.4 (`#resultierende`), Leitprogramm
+  Dynamik Kapitel 2 (beide), Statik Kapitel 2 (Kräfteplan) und 3 (Freischneiden).
 - `werkzeuge/schaltungen-zusammenfassen.html` — Trainer Schaltungen zusammenfassen (6.2, seit
   10.10.2026), drei Aufgabenarten als Reiter: (1, Voreinstellung) Kurzformel
   aus Knöpfen setzen (Parser ohne Vorrang: + und ∥ auf einer Ebene brauchen eine Klammer; Vergleich

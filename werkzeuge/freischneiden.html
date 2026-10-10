@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Freischneiden — Physik begreifbar</title>
 <!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
-<meta name="description" content="Freischneiden üben: Kräfte auf Kiste, Rampe, Seil und Karussell selbst einzeichnen, mit Rückmeldung zu typischen Fehlern und Frage nach der resultierenden Kraft.">
+<meta name="description" content="Freischneiden und Kräfteplan üben: Kräfte auf Kiste, Rampe, Seil und Karussell einzeichnen, im Massstab Spitze an Fuss setzen und Beträge ablesen.">
 <meta name="author" content="Raphael Arnold Kohler">
 <link rel="canonical" href="https://physik.begreifbar.ch/werkzeuge/freischneiden.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Physik begreifbar">
 <meta property="og:locale" content="de_CH">
 <meta property="og:title" content="Freischneiden — Physik begreifbar">
-<meta property="og:description" content="Freischneiden üben: Kräfte auf Kiste, Rampe, Seil und Karussell selbst einzeichnen, mit Rückmeldung zu typischen Fehlern und Frage nach der resultierenden Kraft.">
+<meta property="og:description" content="Freischneiden und Kräfteplan üben: Kräfte auf Kiste, Rampe, Seil und Karussell einzeichnen, im Massstab Spitze an Fuss setzen und Beträge ablesen.">
 <meta property="og:url" content="https://physik.begreifbar.ch/werkzeuge/freischneiden.html">
 <meta property="og:image" content="https://physik.begreifbar.ch/og-bild.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -28,7 +28,7 @@
    "@id": "https://physik.begreifbar.ch/werkzeuge/freischneiden.html#inhalt",
    "url": "https://physik.begreifbar.ch/werkzeuge/freischneiden.html",
    "name": "Freischneiden — Physik begreifbar",
-   "description": "Freischneiden üben: Kräfte auf Kiste, Rampe, Seil und Karussell selbst einzeichnen, mit Rückmeldung zu typischen Fehlern und Frage nach der resultierenden Kraft.",
+   "description": "Freischneiden und Kräfteplan üben: Kräfte auf Kiste, Rampe, Seil und Karussell einzeichnen, im Massstab Spitze an Fuss setzen und Beträge ablesen.",
    "inLanguage": "de-CH",
    "isAccessibleForFree": true,
    "license": "https://creativecommons.org/licenses/by-nc/4.0/deed.de",
@@ -51,6 +51,10 @@
     },
     {
      "@type": "DefinedTerm",
+     "name": "Kräfteplan"
+    },
+    {
+     "@type": "DefinedTerm",
      "name": "Kräfte"
     },
     {
@@ -70,7 +74,7 @@
      "name": "Schiefe Ebene"
     }
    ],
-   "keywords": "Freischneiden, Kräfte, Normalkraft, Reibungskraft, Resultierende Kraft, Schiefe Ebene",
+   "keywords": "Freischneiden, Kräfteplan, Kräfte, Normalkraft, Reibungskraft, Resultierende Kraft, Schiefe Ebene",
    "learningResourceType": "Werkzeug",
    "educationalLevel": "Sekundarstufe II — Berufsmaturität (Schweiz)",
    "typicalAgeRange": "16-20",
@@ -152,8 +156,31 @@ MathJax = {
   color:var(--tinte-2); margin-bottom:4px; }
 .fs-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
 #fs-cv { touch-action:none; cursor:crosshair; }
+.fs-reiter { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+.fs-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
+  border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; scroll-margin-top:66px; }
+.fs-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
+.fs-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
+.fs-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.fs-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.fs-reiter-knopf.aktiv .fs-reiter-nr { color:var(--bernstein); }
+.fs-reiter-name { font-family:var(--serif); font-size:0.98rem; font-weight:700; line-height:1.25; }
+.fs-reiter-text { font-size:0.76rem; color:var(--tinte-2); line-height:1.35; }
+#fs-kp { touch-action:none; cursor:grab; }
+.fs-kp-massstab { font-family:var(--mono); font-size:0.74rem; color:var(--tinte); margin:0 0 6px; }
+.fs-kp-wert { font-family:var(--mono); font-size:0.72rem; color:var(--tinte-2); white-space:nowrap; }
+.fs-ab-zeile { display:flex; align-items:center; gap:6px; margin:6px 0; }
+.fs-ab-zeile label { min-width:4.2em; }
+.fs-ab-ein { font-family:var(--mono); font-size:0.92rem; width:6.5em; padding:5px 8px; border-radius:6px;
+  border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
+.fs-ab-ein:focus { outline:2px solid var(--bernstein); outline-offset:0; }
+.fs-ab-ein.ok { border-color:var(--gruen-rand); background:var(--gruen-hell); }
+.fs-ab-ein.falsch { border-color:var(--rot); background:var(--rot-hell); }
 #fs-meinplan-text { font-size:0.74rem; color:var(--tinte-2); line-height:1.4; margin:4px 0 0; }
 @media (max-width: 700px) {
+  .fs-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
+  .fs-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
+  .fs-reiter-text { display:none; }
   .fs-loesung-raster { grid-template-columns:minmax(0,1fr); }
   .fs-loesung-raster .formel-live { padding:12px 8px; }   /* breitestes Glied (Bruch) passt ab 360 px */
 }
@@ -173,7 +200,7 @@ MathJax = {
 <div class="page-titel">
   <div class="pt-bereich">WZ · Werkzeuge</div>
   <h1 class="pt-h1">Freischneiden</h1>
-  <p class="pt-untertitel">Jede Rechnung mit Kräften beginnt mit einem Bild: Welche Kräfte wirken auf genau diesen Körper, und wohin zeigen sie? Hier zeichnest du sie selbst ein, bekommst Rückmeldung zu typischen Fehlern und schliesst aus den Kräften auf die Bewegung. Erklärt werden die Kräfte auf den Themenseiten <a href="../themen/p4-4-statik.html#resultierende">4.4 Resultierende mehrerer Kräfte</a> und <a href="../themen/p4-2-dynamik.html#schiefe-ebene">4.2 Schiefe Ebene</a>.</p>
+  <p class="pt-untertitel">Jede Rechnung mit Kräften beginnt mit einem Bild: Welche Kräfte wirken auf genau diesen Körper, und wohin zeigen sie? Hier zeichnest du sie selbst ein, bekommst Rückmeldung zu typischen Fehlern und schliesst aus den Kräften auf die Bewegung. In Aufgabe 2 bestimmst du die Beträge mit einem Kräfteplan im Massstab. Erklärt werden die Kräfte auf den Themenseiten <a href="../themen/p4-4-statik.html#resultierende">4.4 Resultierende mehrerer Kräfte</a> und <a href="../themen/p4-2-dynamik.html#schiefe-ebene">4.2 Schiefe Ebene</a>.</p>
 </div>
 
 <div class="rlp-kompetenzen">
@@ -181,6 +208,7 @@ MathJax = {
   <ul>
     <li>die wesentlichen Kräfte, die auf einen Festkörper im Gleichgewicht wirken, aufzählen und charakterisieren (Schwerkraft, Auflagerkraft, Reibung)</li>
     <li>die Gesamtheit der auf einen Körper wirkenden Kräfte darstellen und daraus die resultierende Kraft bestimmen</li>
+    <li>das statische Gleichgewicht eines Körpers definieren (Gleichgewicht der Momente und der Kräfte) und anhand verschiedener Beispiele auf der horizontalen und schiefen Ebene aufzeigen</li>
     <li>das zweite Newton’sche Gesetz in einfachen Fällen (gleichmässig beschleunigte geradlinige Bewegung und gleichförmige Kreisbewegung) anwenden</li>
   </ul>
 </div>
@@ -194,6 +222,7 @@ MathJax = {
     <li>Ich kann die Richtung von Gewichtskraft, Normalkraft, Reibungskraft, Seilkraft und Federkraft begründen, auch auf der schiefen Ebene.</li>
     <li>Ich kann aus dem Bewegungszustand schliessen, ob die resultierende Kraft null ist und wohin sie sonst zeigt.</li>
     <li>Ich erkenne Kräfte, die es nicht gibt: «Bewegungskraft», Hangabtriebskraft als zusätzliche Kraft, Zentrifugalkraft von aussen gesehen.</li>
+    <li>Ich kann einen Kräfteplan im Massstab zeichnen und daraus unbekannte Kräfte und die resultierende Kraft ablesen.</li>
   </ul>
   </div>
 </details>
@@ -222,12 +251,12 @@ MathJax = {
 <div class="widget">
   <div class="widget-header">
     <div class="widget-titelzeile">
-      <h3 id="freischneiden-trainer">Kräfte einzeichnen, prüfen, auf die Bewegung schliessen</h3>
+      <h3 id="freischneiden-trainer">Kräfte einzeichnen, Kräfteplan zeichnen, auf die Bewegung schliessen</h3>
       <div class="anim-hinweis links">
         <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zum Trainer Freischneiden">💡 Worauf achten?</span>
         <div class="ah-pop" role="tooltip">
           <span class="ah-titel">Worauf achten?</span>
-          <div class="ah-text"><ul><li>Zähle vor dem Zeichnen, was den Körper berührt. Jede Berührung ist ein Kandidat für eine Kraft, sonst gibt es nur noch die Gewichtskraft.</li><li>Nicht jede Kraft in der Auswahl gibt es wirklich. Frage bei jeder: Welcher Körper übt sie aus?</li><li>Die Länge der Pfeile wird nicht bewertet, nur Art und Richtung. Die massstäblichen Längen zeigt die Lösung.</li></ul></div>
+          <div class="ah-text"><ul><li>Zähle vor dem Zeichnen, was den Körper berührt. Jede Berührung ist ein Kandidat für eine Kraft, sonst gibt es nur noch die Gewichtskraft.</li><li>Nicht jede Kraft in der Auswahl gibt es wirklich. Frage bei jeder: Welcher Körper übt sie aus?</li><li>In Aufgabe 1 wird die Länge der Pfeile nicht bewertet, nur Art und Richtung. In Aufgabe 2 zählt die Länge: Ein Kästchen steht für einen festen Betrag in N.</li><li>Kräfteplan: Ruht der Körper oder bewegt er sich gleichförmig, muss sich der Plan schliessen. Sonst zeigt der Schlusspfeil in Richtung der Beschleunigung.</li></ul></div>
         </div>
       </div>
       <div class="anim-hinweis rechts">
@@ -241,6 +270,11 @@ MathJax = {
   </div>
   <div class="widget-body">
 
+    <div class="fs-reiter" id="fs-arten" role="group" aria-label="Aufgabenart wählen">
+      <button class="fs-reiter-knopf aktiv" id="aufgabe-freischneiden" data-art="frei" aria-pressed="true"><span class="fs-reiter-nr">Aufgabe 1</span><span class="fs-reiter-name">Freischneiden</span><span class="fs-reiter-text">Welche Kräfte wirken, und wohin zeigen sie? Danach die resultierende Kraft.</span></button>
+      <button class="fs-reiter-knopf" id="aufgabe-kraefteplan" data-art="plan" aria-pressed="false"><span class="fs-reiter-nr">Aufgabe 2</span><span class="fs-reiter-name">Kräfteplan</span><span class="fs-reiter-text">Wie gross sind die Kräfte? Spitze an Fuss im Massstab zeichnen und die Beträge ablesen.</span></button>
+    </div>
+
     <div class="typ-btns" id="fs-stufen" role="group" aria-label="Stufe wählen">
       <button class="typ-btn aktiv" data-stufe="1">Stufe 1: Einstieg</button>
       <button class="typ-btn" data-stufe="2">Stufe 2: Unterlage und Reibung</button>
@@ -253,9 +287,10 @@ MathJax = {
     <div class="anim-layout">
       <div class="anim-layout-bild">
         <div class="cv-wrap"><canvas id="fs-cv" tabindex="0" aria-label="Bild der Aufgabe mit dem freigeschnittenen Körper und den eingezeichneten Kräften"></canvas></div>
-        <p class="fs-bedienhinweis">Richtung setzen: Kraft in der Liste antippen, dann im Bild dorthin tippen, wohin sie zeigen soll; die Richtung rastet in Schritten von 15° ein. Länge ändern: die Pfeilspitze ziehen. Bewertet werden Art und Richtung; die Längen gehen in deinen Kräfteplan ein.</p>
+        <p class="fs-bedienhinweis" id="fs-bildhinweis"></p>
       </div>
       <div class="anim-layout-bedienung">
+       <div id="fs-feld-1">
         <div class="fs-feld-titel">Kraft hinzufügen</div>
         <div class="fs-palette" id="fs-palette"></div>
         <div class="fs-feld-titel">Eingezeichnete Kräfte</div>
@@ -263,6 +298,15 @@ MathJax = {
         <div class="fs-feld-titel" style="margin-top:12px">Dein Kräfteplan</div>
         <div class="cv-wrap"><canvas id="fs-meinplan" aria-label="Kräfteplan aus den eingezeichneten Pfeilen mit ihrer Summe"></canvas></div>
         <p class="fs-bedienhinweis" id="fs-meinplan-text"></p>
+       </div>
+       <div id="fs-feld-2" hidden>
+        <div class="fs-feld-titel">Dein Kräfteplan im Massstab</div>
+        <p class="fs-kp-massstab" id="fs-kp-massstab"></p>
+        <div class="cv-wrap"><canvas id="fs-kp" tabindex="0" aria-label="Kräfteplan auf Karopapier: die Kräfte Spitze an Fuss, die Längen der unbekannten Kräfte lassen sich ziehen"></canvas></div>
+        <p class="fs-bedienhinweis" id="fs-kp-text"></p>
+        <div class="fs-liste" id="fs-kp-liste" style="margin-top:8px"></div>
+        <div id="fs-ablesen"></div>
+       </div>
       </div>
     </div>
 
@@ -329,6 +373,27 @@ MathJax = {
 </div>
 
 
+<!-- ══════════════ KRÄFTEPLAN ══════════════ -->
+<h2 id="kraefteplan">Der Kräfteplan</h2>
+
+<p>Der Freischnitt sagt, welche Kräfte wirken und wohin. Wie gross sie sind, zeigt der Kräfteplan: Man setzt die Pfeile im Massstab Spitze an Fuss aneinander, zuerst die bekannten, dann die unbekannten mit ihrer bekannten Richtung.</p>
+<ol>
+  <li><strong>Massstab wählen,</strong> zum Beispiel 1 Kästchen \(= 10\;\text{N}\), und die bekannten Kräfte zeichnen, meist zuerst \(F_G\).</li>
+  <li><strong>Unbekannte Kräfte anhängen:</strong> Ihre Richtung kennt man aus dem Freischnitt, ihre Länge ergibt sich. Ruht der Körper oder bewegt er sich gleichförmig, muss sich der Plan <em>schliessen</em>. Sonst zeigt der Pfeil vom Anfang zum Ende, die resultierende Kraft, in Richtung der Beschleunigung.</li>
+  <li><strong>Ablesen:</strong> Länge in Kästchen mal Massstab.</li>
+</ol>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Kästchen statt Newton</div>
+  <p>Die Länge im Plan ist noch kein Betrag. Wer «4.5» abliest, hat 4.5 Kästchen; mit 1 Kästchen \(= 10\;\text{N}\) sind das \(45\;\text{N}\).</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Sinus und Kosinus vertauscht</div>
+  <p>Auf der Rampe ist \(F_N = F_G \cdot \cos\alpha\), nicht \(F_G \cdot \sin\alpha\): Im Kräfteplan liegt \(F_N\) am Winkel \(\alpha\) an, ist also die Ankathete. Der Plan zeigt es ohne Rechnung, denn bei kleinem Winkel ist \(F_N\) fast so lang wie \(F_G\).</p>
+</div>
+
+
 <!-- ══════════════ ZUSAMMENFASSUNG ══════════════ -->
 <h2 id="zusammenfassung">Zusammenfassung</h2>
 
@@ -337,6 +402,7 @@ MathJax = {
   <li>Die Gewichtskraft wirkt immer. Jede weitere Kraft braucht eine Berührung: Unterlage, Seil, Feder.</li>
   <li>Normalkraft senkrecht zur Unterlage, Reibung entlang der Unterlage, Seilkraft entlang des Seils vom Körper weg.</li>
   <li>Reibung wirkt gegen die Bewegung relativ zur Unterlage. Darum zeigt sie beim anfahrenden Lieferwagen auf die Kiste in Fahrtrichtung.</li>
+  <li>Kräfteplan: Pfeile im Massstab Spitze an Fuss. Bei Gleichgewicht schliesst er sich; sonst ist der Schlusspfeil die resultierende Kraft. Abgelesen wird Länge mal Massstab.</li>
   <li>Ruhe oder konstante Geschwindigkeit: \(F_{\text{res}} = 0\). Sonst zeigt \(F_{\text{res}} = m \cdot a\) in Richtung der Beschleunigung, nicht unbedingt in Richtung der Bewegung.</li>
 </ul>
 
@@ -464,7 +530,12 @@ function fsGZeile(m) {
 /* bau(r) liefert die Aufgabe A:
      titel, text, zustand, kontakte, kraefte [{typ, w, F, tex, name}],
      res {F, w|null, tex}, resKey, resWahl, bild (Zeichenart), p (Bildwerte),
-     ohneN/ohneR/ohneS/ohneF (Begründung, wenn diese Kraft fehlt), texte {} */
+     ohneN/ohneR/ohneS/ohneF (Begründung, wenn diese Kraft fehlt), texte {}
+   Für Aufgabe 2 (Kräfteplan): gegeben (Kraftarten, deren Betrag ausser F_G bekannt ist),
+     vertauscht {Index der Kraft | res: Wert mit vertauschtem sin und cos}; ohnePlan, wenn ein
+     gesuchter Betrag kürzer als ein Kästchen würde und sich nicht ablesen liesse (Schlitten,
+     Lieferwagen: die waagrechten Kräfte sind klein gegen F_G). Ohne unbekannten Betrag (Ball) entfällt
+     der Plan von selbst. */
 const FS_SZENEN = [
   { id:'kiste-boden', stufe:1, bau(r) {
       const m = fsWahl(r, [5, 10, 20, 30]); const g = fsGZeile(m);
@@ -512,7 +583,7 @@ const FS_SZENEN = [
       const g = fsGZeile(m); const R = fsR(mu * g.G);
       return { werte:{ m, mu }, satz:'Die Kiste bewegt sich geradlinig mit konstanter Geschwindigkeit.', titel:'Kiste an einem waagrechten Seil', zustand:'konstante Geschwindigkeit', sp,
         text:'Du ziehst eine Kiste (' + m + ' kg) an einem waagrechten Seil mit konstanter Geschwindigkeit über den Boden. Gleitreibungszahl \\(\\mu_G = ' + mu.toFixed(2) + '\\).',
-        kontakte:['den Boden', 'das Seil'],
+        kontakte:['den Boden', 'das Seil'], gegeben:['R'],
         kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
                   { typ:'N', w:90,  F:g.G, tex:'F_N = F_G = ' + fsN(g.G) },
                   { typ:'R', w:fsSpiegel(180, sp), F:R, tex:'F_R = \\mu_G \\cdot F_N = ' + mu.toFixed(2) + ' \\cdot ' + fsN(g.G) + ' = ' + fsN(R) },
@@ -528,7 +599,7 @@ const FS_SZENEN = [
       const S = fsR(mu * g.G / (c + mu * s)); const N = fsR(g.G - S * s); const R = fsR(mu * N);
       return { werte:{ m, mu }, satz:'Der Schlitten bewegt sich geradlinig mit konstanter Geschwindigkeit.', titel:'Schlitten an einer schrägen Schnur', zustand:'konstante Geschwindigkeit', sp,
         text:'Ein Schlitten (' + m + ' kg) wird an einer Schnur, die ' + phi + '° schräg nach oben zeigt, mit konstanter Geschwindigkeit über den Schnee gezogen. Gleitreibungszahl \\(\\mu_G = ' + mu.toFixed(2) + '\\).',
-        kontakte:['den Schnee', 'die Schnur'],
+        kontakte:['den Schnee', 'die Schnur'], ohnePlan:true,
         kraefte:[ { typ:'G', w:270, F:g.G, tex:g.tex },
                   { typ:'S', w:fsSpiegel(phi, sp), F:S, tex:'S = \\frac{\\mu_G \\cdot F_G}{\\cos ' + fsGrad(phi) + ' + \\mu_G \\cdot \\sin ' + fsGrad(phi) + '} = \\frac{' + mu.toFixed(2) + ' \\cdot ' + fsN(g.G) + '}{\\cos ' + fsGrad(phi) + ' + ' + mu.toFixed(2) + ' \\cdot \\sin ' + fsGrad(phi) + '} = ' + fsN(S) },
                   { typ:'N', w:90, F:N, tex:'F_N = F_G - S \\cdot \\sin ' + fsGrad(phi) + ' = ' + fsN(g.G) + ' - ' + fsN(S) + ' \\cdot \\sin ' + fsGrad(phi) + ' = ' + fsN(N) },
@@ -548,7 +619,7 @@ const FS_SZENEN = [
                   { typ:'N', w:fsSpiegel(90 + al, sp), F:N, tex:'F_N = F_G \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(N) },
                   { typ:'R', w:fsSpiegel(al, sp), F:R, tex:'F_R = F_G \\cdot \\sin ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\sin ' + fsGrad(al) + ' = ' + fsN(R) } ],
         res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'hangab', 'unten'],
-        bild:'rampe', p:{ al },
+        bild:'rampe', p:{ al }, vertauscht:{ 1:fsR(g.G * Math.sin(fsRad(al))), 2:fsR(g.G * Math.cos(fsRad(al))) },
         texte:{ R_fehlt:'Die Reibungskraft fehlt. Ohne sie würde die Kiste hinunterrutschen: Die Haftreibung hält sie fest und zeigt darum hangaufwärts.',
                 R_gegen:'Die Haftreibung zeigt hangaufwärts: Ohne sie würde die Kiste hinunterrutschen, und Reibung wirkt gegen diese Bewegung.' } };
   } },
@@ -564,7 +635,7 @@ const FS_SZENEN = [
                   { typ:'R', w:fsSpiegel(al, sp), F:R, tex:'F_R = \\mu_G \\cdot F_N = ' + mu.toFixed(2) + ' \\cdot ' + fsN(N) + ' = ' + fsN(R) } ],
         res:{ F:Fres, w:fsSpiegel(180 + al, sp), tex:'F_{\\text{res}} = F_G \\cdot \\sin ' + fsGrad(al) + ' - F_R = ' + fsN(g.G) + ' \\cdot \\sin ' + fsGrad(al) + ' - ' + fsN(R) + ' = ' + fsN(Fres) },
         resKey:'hangab', resWahl:['hangab', 'null', 'unten'],
-        bild:'rampe', p:{ al, bewegt:-1 },
+        bild:'rampe', p:{ al, bewegt:-1 }, gegeben:['R'], vertauscht:{ 1:fsR(g.G * Math.sin(fsRad(al))), res:fsR(g.G * Math.cos(fsRad(al)) - R) },
         texte:{ R_fehlt:'Die Reibungskraft fehlt: Die Kiste gleitet über die Rampe, und die Gleitreibung bremst sie.',
                 R_gegen:'Die Gleitreibung zeigt hangaufwärts, gegen die Bewegung der Kiste.' } };
   } },
@@ -578,7 +649,7 @@ const FS_SZENEN = [
                   { typ:'N', w:fsSpiegel(90 + al, sp), F:N, tex:'F_N = F_G \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\cos ' + fsGrad(al) + ' = ' + fsN(N) } ],
         res:{ F:Fres, w:fsSpiegel(180 + al, sp), tex:'F_{\\text{res}} = F_G \\cdot \\sin ' + fsGrad(al) + ' = ' + fsN(g.G) + ' \\cdot \\sin ' + fsGrad(al) + ' = ' + fsN(Fres) },
         resKey:'hangab', resWahl:['hangab', 'null', 'unten'],
-        bild:'rampe', p:{ al, bewegt:-1, glatt:true },
+        bild:'rampe', p:{ al, bewegt:-1, glatt:true }, vertauscht:{ 1:fsR(g.G * Math.sin(fsRad(al))), res:fsR(g.G * Math.cos(fsRad(al))) },
         texte:{ R_extra:'Hier wirkt keine Reibungskraft: Die Rampe ist vereist, die Reibung vernachlässigen wir ausdrücklich.' } };
   } },
   { id:'zwei-seile', stufe:3, bau(r) {
@@ -592,7 +663,7 @@ const FS_SZENEN = [
                   { typ:'S', w:180 - al, F:S1, name:['S', '1'], tex:'S_1 = F_G \\cdot \\frac{\\cos \\beta}{\\sin(\\alpha + \\beta)} = ' + fsN(g.G) + ' \\cdot \\frac{\\cos ' + fsGrad(be) + '}{\\sin(' + fsGrad(al) + ' + ' + fsGrad(be) + ')} = ' + fsN(S1) },
                   { typ:'S', w:be, F:S2, name:['S', '2'], tex:'S_2 = F_G \\cdot \\frac{\\cos \\alpha}{\\sin(\\alpha + \\beta)} = ' + fsN(g.G) + ' \\cdot \\frac{\\cos ' + fsGrad(al) + '}{\\sin(' + fsGrad(al) + ' + ' + fsGrad(be) + ')} = ' + fsN(S2) } ],
         res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'unten', 'oben'],
-        bild:'lampe', p:{ seile:[180 - al, be] } };
+        bild:'lampe', p:{ seile:[180 - al, be] }, vertauscht:{ 1:fsR(g.G * Math.sin(fsRad(be)) / nen), 2:fsR(g.G * Math.sin(fsRad(al)) / nen) } };
   } },
   { id:'lieferwagen-anfahren', stufe:3, bau(r) {
       const m = fsWahl(r, [10, 20, 30]); const a = fsWahl(r, [1.5, 2.0, 2.5]); const sp = r() < 0.5;
@@ -604,7 +675,7 @@ const FS_SZENEN = [
                   { typ:'N', w:90, F:g.G, tex:'F_N = F_G = ' + fsN(g.G) },
                   { typ:'R', w:fsSpiegel(0, sp), F:R, tex:'F_R = m \\cdot a = ' + m + '\\;\\text{kg} \\cdot ' + a.toFixed(1) + '\\;\\tfrac{\\text{m}}{\\text{s}^2} = ' + fsN(R) } ],
         res:{ F:R, w:fsSpiegel(0, sp), tex:'F_{\\text{res}} = F_R = ' + fsN(R) }, resKey:'vorn', resWahl:['vorn', 'null', 'hinten'],
-        bild:'wagen', p:{},
+        bild:'wagen', p:{}, ohnePlan:true,
         texte:{ R_fehlt:'Die Reibungskraft fehlt. Die Kiste wird mit dem Wagen schneller; die einzige waagrechte Kraft, die das bewirken kann, ist die Haftreibung der Ladefläche.',
                 R_gegen:'Die Haftreibung zeigt hier in Fahrtrichtung. Ohne sie bliebe die Kiste zurück und würde relativ zur Ladefläche nach hinten rutschen; Reibung wirkt gegen diese Relativbewegung.' } };
   } },
@@ -618,7 +689,7 @@ const FS_SZENEN = [
                   { typ:'N', w:90, F:g.G, tex:'F_N = F_G = ' + fsN(g.G) },
                   { typ:'R', w:fsSpiegel(180, sp), F:R, tex:'F_R = m \\cdot a = ' + m + '\\;\\text{kg} \\cdot ' + a.toFixed(1) + '\\;\\tfrac{\\text{m}}{\\text{s}^2} = ' + fsN(R) } ],
         res:{ F:R, w:fsSpiegel(180, sp), tex:'F_{\\text{res}} = F_R = ' + fsN(R) }, resKey:'hinten', resWahl:['hinten', 'vorn', 'null'],
-        bild:'wagen', p:{},
+        bild:'wagen', p:{}, ohnePlan:true,
         texte:{ R_fehlt:'Die Reibungskraft fehlt. Die Kiste wird mit dem Wagen langsamer; das bewirkt die Haftreibung der Ladefläche.',
                 R_gegen:'Die Haftreibung zeigt hier nach hinten. Ohne sie würde die Kiste weiterfahren und relativ zur Ladefläche nach vorn rutschen; Reibung wirkt gegen diese Relativbewegung.' } };
   } },
@@ -632,7 +703,7 @@ const FS_SZENEN = [
                   { typ:'S', w:fsSpiegel(90 + th, sp), F:S, tex:'S = \\frac{F_G}{\\cos ' + fsGrad(th) + '} = \\frac{' + fsN(g.G) + '}{\\cos ' + fsGrad(th) + '} = ' + fsN(S) } ],
         res:{ F:Fres, w:fsSpiegel(180, sp), tex:'F_{\\text{res}} = F_G \\cdot \\tan ' + fsGrad(th) + ' = ' + fsN(g.G) + ' \\cdot \\tan ' + fsGrad(th) + ' = ' + fsN(Fres) },
         resKey:'mitte', resWahl:['mitte', 'aussen', 'null'],
-        bild:'karussell', p:{ th },
+        bild:'karussell', p:{ th }, vertauscht:{ 1:fsR(g.G / Math.sin(fsRad(th))), res:fsR(g.G / Math.tan(fsRad(th))) },
         texte:{ S_richtung:'Die Seilkraft zeigt entlang der Kette, also ' + th + '° gegen die Lotrechte geneigt, zur Drehachse hin.' } };
   } },
   { id:'ebene-hochgezogen', stufe:3, bau(r) {
@@ -647,7 +718,7 @@ const FS_SZENEN = [
                   { typ:'R', w:fsSpiegel(180 + al, sp), F:R, tex:'F_R = \\mu_G \\cdot F_N = ' + mu.toFixed(2) + ' \\cdot ' + fsN(N) + ' = ' + fsN(R) },
                   { typ:'S', w:fsSpiegel(al, sp), F:S, tex:'S = F_G \\cdot \\sin ' + fsGrad(al) + ' + F_R = ' + fsN(g.G) + ' \\cdot \\sin ' + fsGrad(al) + ' + ' + fsN(R) + ' = ' + fsN(S) } ],
         res:{ F:0, w:null }, resKey:'null', resWahl:['null', 'hangauf', 'hangab'],
-        bild:'rampe', p:{ al, bewegt:1, seil:true },
+        bild:'rampe', p:{ al, bewegt:1, seil:true }, gegeben:['R'], vertauscht:{ 1:fsR(g.G * Math.sin(fsRad(al))), 3:fsR(g.G * Math.cos(fsRad(al)) + R) },
         texte:{ R_fehlt:'Die Reibungskraft fehlt: Die Kiste gleitet über die Rampe, die Gleitreibung bremst sie.',
                 R_gegen:'Die Kiste gleitet hinauf, also zeigt die Gleitreibung hangabwärts, gegen die Bewegung.' } };
   } },
@@ -744,6 +815,77 @@ function fsStartwinkel(A, typ) {
   return 0;
 }
 
+/* ── Aufgabe 2: Kräfteplan ────────────────────────────────────────────
+   Art und Richtung der Kräfte sind bekannt (die Musterlösung von Aufgabe 1), der Betrag von F_G
+   und den Kräften in A.gegeben auch. Die übrigen Beträge findet man im Kräfteplan: Pfeile Spitze
+   an Fuss im Massstab. Ruht der Körper oder bewegt er sich gleichförmig, schliesst sich der Plan;
+   sonst zeigt die Summe in Richtung der Beschleunigung. Längen in N, gerastert auf ¼ Kästchen. */
+const FS_MASSSTAEBE = [0.5, 1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500];    // N je Kästchen
+const FS_PLAN_DIAGNOSE = {
+  leer:      c => 'Gib den Betrag in N ein.',
+  kaestchen: c => `Das ist die Länge in Kästchen. Mit dem Massstab umrechnen: 1 Kästchen \\(= ${c.s}\;\\text{N}\\), also Länge mal ${c.s} N.`,
+  sincos:    c => 'Das ergibt sich mit vertauschtem Sinus und Kosinus. Die Komponente, die am Winkel anliegt, ist die Ankathete: mal \\(\\cos\\). Der Plan zeigt, welcher Wert stimmt.',
+  gleichG:   c => `Das ist der Betrag der Gewichtskraft. \\(${c.name}\\) hat im Plan eine eigene Länge: Zähle ihre Kästchen.`,
+  falsch:    c => `Noch nicht. Zähle die Kästchen entlang des Pfeils \\(${c.name}\\) und multipliziere mit dem Massstab, 1 Kästchen \\(= ${c.s}\;\\text{N}\\).`,
+};
+function fsTexName(nm) { return nm[1] ? nm[0] + '_{' + (nm[1] === 'res' ? '\\text{res}' : nm[1]) + '}' : nm[0]; }
+function fsPlanAufgabe(A) {                   // null, wenn ausser F_G nichts unbekannt ist
+  if (A.ohnePlan) return null;
+  const geg = new Set(['G'].concat(A.gegeben || []));
+  const kr = A.kraefte.map((k, i) => Object.assign({}, k, { i, nm:k.name || [FS_KRAEFTE[k.typ].sym, FS_KRAEFTE[k.typ].sub], bekannt:geg.has(k.typ) }));
+  const unbekannt = kr.filter(k => !k.bekannt);
+  if (!unbekannt.length) return null;
+  const Fmax = Math.max(A.res.F || 0, ...kr.map(k => k.F));
+  const s = FS_MASSSTAEBE.find(m => Fmax / m <= 10) || FS_MASSSTAEBE[FS_MASSSTAEBE.length - 1];
+  const vt = A.vertauscht || {};
+  const ziele = unbekannt.map(k => ({ k, F:k.F, name:fsTexName(k.nm), alt:vt[k.i], tex:k.tex }));
+  if (A.res.F) ziele.push({ k:null, F:A.res.F, name:'F_{\\text{res}}', alt:vt.res, tex:A.res.tex });
+  return { s, schritt:s / 4, reihe:kr.filter(k => k.bekannt).concat(unbekannt), unbekannt, ziele, G:kr.find(k => k.typ === 'G').F };
+}
+const fsRaster = (F, P) => Math.max(0, Math.round(F / P.schritt) * P.schritt);
+function fsPlanSumme(P, L) {                  // L[i]: gezeichneter Betrag der unbekannten Kraft i, in N
+  return P.reihe.reduce((t, k) => { const F = k.bekannt ? k.F : L[k.i];
+    return { x:t.x + F * Math.cos(fsRad(k.w)), y:t.y + F * Math.sin(fsRad(k.w)) }; }, { x:0, y:0 });
+}
+/* Richtig, wenn jede gezeichnete Länge auf 0.3 Kästchen stimmt. «offen»: Der Plan schliesst sich
+   nicht (Gleichgewicht) bzw. die Summe zeigt nicht in Richtung der Beschleunigung. */
+function fsPlanBewerte(A, P, L) {
+  const falsch = P.unbekannt.filter(k => !(Math.abs(L[k.i] - k.F) <= 0.3 * P.s))
+    .map(k => ({ name:fsTexName(k.nm), zu:L[k.i] > k.F ? 'lang' : 'kurz' }));
+  const S = fsPlanSumme(P, L);
+  let offen;
+  if (!A.res.F) offen = Math.hypot(S.x, S.y) > 0.6 * P.s;
+  else { const ux = Math.cos(fsRad(A.res.w)), uy = Math.sin(fsRad(A.res.w));
+         offen = Math.abs(S.x * uy - S.y * ux) > 0.6 * P.s || S.x * ux + S.y * uy <= 0; }
+  return { ok:!falsch.length, falsch, offen };
+}
+function fsLies(t) {                          // «98,1», «98.1 N» → Zahl
+  const u = String(t).trim().replace(/\s*N$/i, '').replace(',', '.').replace(/['\s]/g, '');
+  return u === '' ? NaN : Number(u);
+}
+/* Abgelesener Betrag: richtig auf 0.35 Kästchen; sonst die passende Diagnose */
+function fsAblesenBewerte(P, z, x) {
+  const c = { s:String(P.s), name:z.name }, e = code => ({ code, text:FS_PLAN_DIAGNOSE[code](c) });
+  if (!isFinite(x)) return e('leer');
+  const nahe = (a, b) => Math.abs(a - b) <= 0.35 * P.s;
+  if (nahe(x, z.F)) return null;
+  if (P.s !== 1 && Math.abs(x - z.F / P.s) <= 0.2) return e('kaestchen');
+  if (z.alt !== undefined && nahe(x, z.alt)) return e('sincos');
+  if (z.k && nahe(x, P.G)) return e('gleichG');
+  return e('falsch');
+}
+/* Karopapier: Grösse eines Kästchens und Lage des Angriffspunkts, so dass der richtige Plan
+   samt 1.5 Kästchen Rand ins Bild passt */
+function fsKpLayout(A, P, W) {
+  let x = 0, y = 0; const pts = [[0, 0]];
+  P.reihe.forEach(k => { x += k.F / P.s * Math.cos(fsRad(k.w)); y += k.F / P.s * Math.sin(fsRad(k.w)); pts.push([x, y]); });
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]), rand = 1.5;
+  const x0 = Math.min(...xs) - rand, x1 = Math.max(...xs) + rand, y0 = Math.min(...ys) - rand, y1 = Math.max(...ys) + rand;
+  const kp = Math.min(34, (W - 16) / (x1 - x0), 330 / (y1 - y0));
+  const ox = Math.round((W - (x1 - x0) * kp) / 2 - x0 * kp), oy = Math.round(8 + y1 * kp);
+  return { kp, ox, oy, W, H:Math.ceil((y1 - y0) * kp + 16), pts };
+}
+
 /* ── Selbsttest ───────────────────────────────────────────────────── */
 function fsZufall(seed) {               // reproduzierbar (mulberry32)
   let a = seed >>> 0;
@@ -830,8 +972,55 @@ function fsSelbsttest(n) {
         erwarte(sz, A, kopie(A).filter(k => k.typ !== 'F'), 'F_fehlt', 'ohne Federkraft');
         erwarte(sz, A, kopie(A).map(k => k.typ === 'F' ? { typ:'F', w:270 } : k), 'F_richtung', 'Feder drückt');
       } else erwarte(sz, A, kopie(A).concat([{ typ:'F', w:90 }]), 'F_ohne', 'Feder ohne Feder');
+      // Aufgabe 2: Kräfteplan
+      const P = fsPlanAufgabe(A);
+      faelle++;
+      if (!P !== !fsPlanAufgabe(S.bau(fsZufall(7)))) f(sz, 'Kräfteplan nur bei manchen Zufallswerten');
+      if (P) {
+        (A.gegeben || []).forEach(t => { if (!A.kraefte.some(k => k.typ === t)) f(sz, 'gegebene Kraft ' + t + ' fehlt'); });
+        faelle++; if (P.unbekannt.length < 1 || P.unbekannt.length > 2) f(sz, P.unbekannt.length + ' unbekannte Beträge');
+        if (!A.res.F && P.unbekannt.length !== 2 && P.unbekannt.some(k => fsDiff(k.w, 90) > 0.5 && fsDiff(k.w, 270) > 0.5) && A.kraefte.length > 2) f(sz, 'Plan nicht bestimmt');
+        const Fmax = Math.max(A.res.F || 0, ...A.kraefte.map(k => k.F));
+        faelle++; if (Fmax / P.s > 10 || Fmax / P.s < 4) f(sz, 'Massstab ' + P.s + ' N für ' + Fmax + ' N');
+        P.ziele.forEach(z => { faelle++; if (z.F / P.s < 1) f(sz, z.name + ' nur ' + (z.F / P.s).toFixed(2) + ' Kästchen lang'); });
+        // die gerasterte Musterlösung gilt und schliesst den Plan; jede Länge um ein Kästchen daneben nicht
+        const Lex = {}; P.unbekannt.forEach(k => { Lex[k.i] = fsRaster(k.F, P); });
+        const e0 = fsPlanBewerte(A, P, Lex); faelle++;
+        if (!e0.ok || e0.offen) f(sz, 'gerasterte Musterlösung abgelehnt' + (e0.offen ? ' (offen)' : ''));
+        P.unbekannt.forEach(k => [1, -1].forEach(d => {
+          const L2 = Object.assign({}, Lex); L2[k.i] = Lex[k.i] + d * P.s; if (L2[k.i] < 0) return;
+          const e2 = fsPlanBewerte(A, P, L2); faelle++;
+          if (e2.ok || !e2.offen || !e2.falsch.some(x => x.zu === (d > 0 ? 'lang' : 'kurz'))) f(sz, 'Länge ' + k.typ + (d > 0 ? ' +1' : ' −1') + ' Kästchen nicht erkannt');
+        }));
+        // Ablesen: richtige Werte gelten (auch die gezeichnete Länge mal Massstab), Fehler bekommen ihre Diagnose
+        P.ziele.forEach(z => {
+          const code = x => { const e = fsAblesenBewerte(P, z, x); return e ? e.code : 'ok'; };
+          const soll = (x, c, was) => { faelle++; if (code(x) !== c) f(sz, z.name + ' ' + was + ' → ' + code(x) + ' statt ' + c); };
+          const L = z.k ? Lex[z.k.i] : null;
+          soll(z.F, 'ok', 'exakt'); if (L !== null) soll(L, 'ok', 'gerastert');
+          soll(Number(z.F.toPrecision(2)), Math.abs(Number(z.F.toPrecision(2)) - z.F) <= 0.35 * P.s ? 'ok' : code(Number(z.F.toPrecision(2))), 'zwei Ziffern');
+          soll(NaN, 'leer', 'leer');
+          const weit = (a, b) => Math.abs(a - b) > 0.7 * P.s;
+          if (P.s !== 1 && weit(z.F / P.s, z.F)) soll(z.F / P.s, 'kaestchen', 'in Kästchen');
+          if (z.alt !== undefined && weit(z.alt, z.F) && Math.abs(z.alt - z.F / P.s) > 0.2) soll(z.alt, 'sincos', 'sin/cos vertauscht');
+          if (z.k && weit(P.G, z.F) && Math.abs(P.G - z.F / P.s) > 0.2 && (z.alt === undefined || weit(P.G, z.alt))) soll(P.G, 'gleichG', 'F_G statt');
+          const daneben = z.F + P.s; if (Math.abs(daneben - z.F / P.s) > 0.2 && (z.alt === undefined || weit(daneben, z.alt)) && weit(daneben, P.G)) soll(daneben, 'falsch', 'ein Kästchen daneben');
+          ['leer', 'kaestchen', 'sincos', 'gleichG', 'falsch'].forEach(c => { const t = FS_PLAN_DIAGNOSE[c]({ s:String(P.s), name:z.name });
+            if (/undefined|NaN/.test(t)) f(sz, 'Diagnose ' + c + ' kaputt'); });
+          if (!z.tex || /NaN|undefined/.test(z.tex)) f(sz, 'Rechenweg zu ' + z.name + ' fehlt');
+        });
+        // Karopapier: Kästchen gross genug, nicht zu hoch, der richtige Plan im Bild
+        [260, 300, 420].forEach(W => { const K = fsKpLayout(A, P, W); faelle++;
+          if (K.kp < 12) f(sz, 'Kästchen bei ' + W + ' px nur ' + K.kp.toFixed(1) + ' px');
+          if (K.H > 350) f(sz, 'Karopapier ' + K.H + ' px hoch');
+          K.pts.forEach(([a, b]) => { const px = K.ox + a * K.kp, py = K.oy - b * K.kp; if (px < 8 || px > W - 8 || py < 8 || py > K.H - 8) f(sz, 'Plan ragt bei ' + W + ' px hinaus'); });
+        });
+      }
     }
   });
+  // Eingabeformate
+  [['98.1', 98.1], ['98,1', 98.1], [' 98.1 N', 98.1], ['', NaN], ['abc', NaN]].forEach(([t, w]) => {
+    faelle++; const x = fsLies(t); if (Number.isNaN(w) ? !Number.isNaN(x) : x !== w) fehler.push('Eingabe «' + t + '» gelesen als ' + x); });
   // Jede Rückmeldung wird gebraucht und hat Text
   Object.keys(FS_DIAGNOSE).forEach(c => { if (!FS_DIAGNOSE[c]) fehler.push('Diagnose ohne Text: ' + c); });
   return { szenen:FS_SZENEN.length, faelle, fehler };
@@ -843,27 +1032,47 @@ if (window.FS_TEST) return;            // im Selbsttest keine Oberfläche
 /* ═══════════════════ Oberfläche ═══════════════════ */
 const $ = id => document.getElementById(id);
 const cv = $('fs-cv');
-const zustand = { stufe:1, A:null, szId:null, gez:[], wahl:-1, phase:'zeichnen', versuche:0,
-                  geloest:0, ersteRichtig:0, tipp:0, ziehen:false };
+const zustand = { art:'frei', stufe:1, A:null, szId:null, gez:[], wahl:-1, phase:'zeichnen', versuche:0,
+                  geloest:0, ersteRichtig:0, tipp:0, ziehen:false, plan:null, planL:{}, kpWahl:-1, kpZiehen:null };
 let geo = null;                         // Bildmasse der aktuellen Zeichnung
+let kpLage = null;                      // Karopapier des Kräfteplans (Aufgabe 2)
+const FS_MIT_PLAN = new Set(FS_SZENEN.filter(S => fsPlanAufgabe(S.bau(fsZufall(7)))).map(S => S.id));
+const FS_HINWEIS = {
+  frei:'Richtung setzen: Kraft in der Liste antippen, dann im Bild dorthin tippen, wohin sie zeigen soll; die Richtung rastet in Schritten von 15° ein. Länge ändern: die Pfeilspitze ziehen. Bewertet werden Art und Richtung; die Längen gehen in deinen Kräfteplan ein.',
+  plan:'Das Bild zeigt Art und Richtung der Kräfte; ihre Längen sagen hier nichts. Die Beträge findest du im Kräfteplan.',
+};
 
 function fsEsc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
 function fsTypeset(el) { if (typeof mjTypeset === 'function') mjTypeset([el]); }
 
-function fsNeueAufgabe() {
-  const pool = FS_SZENEN.filter(s => zustand.stufe === 0 || s.stufe === zustand.stufe);
-  let S; do { S = fsWahl(Math.random, pool); } while (pool.length > 1 && S.id === zustand.szId);
-  zustand.szId = S.id; zustand.A = S.bau(Math.random);
-  zustand.gez = []; zustand.wahl = -1; zustand.phase = 'zeichnen'; zustand.versuche = 0; zustand.tipp = 0;
+function fsNeueAufgabe(S, r) {
+  const plan = zustand.art === 'plan';
+  if (!S) {
+    const pool = FS_SZENEN.filter(x => (zustand.stufe === 0 || x.stufe === zustand.stufe) && (!plan || FS_MIT_PLAN.has(x.id)));
+    do { S = fsWahl(Math.random, pool); } while (pool.length > 1 && S.id === zustand.szId);
+  }
+  zustand.szId = S.id; zustand.A = S.bau(r || Math.random);
+  Object.assign(zustand, { gez:[], wahl:-1, phase:plan ? 'plan' : 'zeichnen', versuche:0, tipp:0, plan:null, planL:{}, kpWahl:-1, kpZiehen:null });
   const A = zustand.A;
+  $('fs-feld-1').hidden = plan; $('fs-feld-2').hidden = !plan;
+  $('fs-bildhinweis').textContent = FS_HINWEIS[zustand.art];
+  let auftrag = ' Zeichne alle Kräfte ein, die auf den markierten Körper wirken.';
+  if (plan) {
+    const P = zustand.plan = fsPlanAufgabe(A);
+    // Startlängen ganze Kästchen, sicher daneben
+    P.unbekannt.forEach(k => { let L = P.s; while (Math.abs(L - k.F) <= 0.6 * P.s) L += P.s; zustand.planL[k.i] = L; });
+    zustand.kpWahl = P.unbekannt[0].i;
+    auftrag = ' Gegeben: ' + P.reihe.filter(k => k.bekannt).map(k => '\\(' + fsTexName(k.nm) + ' = ' + fsN(k.F) + '\\)').join(', ') +
+      '. Art und Richtung der Kräfte zeigt das Bild. Zeichne den Kräfteplan im Massstab und lies die übrigen Beträge ab' +
+      (A.res.F ? ', dazu den Betrag der resultierenden Kraft.' : '.');
+  }
   const auf = $('fs-aufgabe');
   auf.innerHTML = '<div class="fs-aufgabe-kopf"><span class="fs-aufgabe-titel">' + fsEsc(A.titel) + '</span>' +
-    '<span class="fs-zustand">' + fsEsc(A.zustand) + '</span></div><p>' + A.text +
-    ' Zeichne alle Kräfte ein, die auf den markierten Körper wirken.</p>';
+    '<span class="fs-zustand">' + fsEsc(A.zustand) + '</span></div><p>' + A.text + auftrag + '</p>';
   fsTypeset(auf);
-  $('fs-rueck').innerHTML = ''; $('fs-res').innerHTML = ''; $('fs-loesung').innerHTML = '';
+  $('fs-rueck').innerHTML = ''; $('fs-res').innerHTML = ''; $('fs-loesung').innerHTML = ''; $('fs-ablesen').innerHTML = '';
   $('fs-pruefen').disabled = false; $('fs-zeigen').disabled = false; $('fs-tipp').disabled = false;
-  fsListe(); fsZeichne();
+  if (plan) { fsKpListe(); fsZeichne('richtung'); fsKpZeichne(); } else { fsListe(); fsZeichne(); }
 }
 
 function fsHinzu(typ) {
@@ -1062,6 +1271,14 @@ function fsZeichne(loesung) {
   ctx.beginPath(); ctx.arc(k.bx, k.by, k.r, 0, 2 * Math.PI); ctx.strokeStyle = '#8A4A0E'; ctx.lineWidth = 1.5;
   ctx.setLineDash([6, 4]); ctx.stroke(); ctx.setLineDash([]);
   ctx.beginPath(); ctx.arc(k.bx, k.by, 4, 0, 2 * Math.PI); ctx.fillStyle = '#1a1a1a'; ctx.fill();
+  if (loesung === 'richtung') {                            // Aufgabe 2: nur Art und Richtung, alle gleich lang
+    const len = geo.Rmin + (geo.Rmax - geo.Rmin) * 0.55;
+    A.kraefte.forEach(x => {
+      const K = FS_KRAEFTE[x.typ], [x2, y2] = fsPfeil(ctx, k.bx, k.by, x.w, len, K.farbe, 2.6), nm = x.name || [K.sym, K.sub];
+      fsEtikett(ctx, x2 + 16 * Math.cos(fsRad(x.w)), y2 - 16 * Math.sin(fsRad(x.w)), nm[0], nm[1], K.farbe);
+    });
+    return;
+  }
   if (loesung) {
     const Fmax = Math.max(...A.kraefte.map(x => x.F));
     A.kraefte.forEach(x => {
@@ -1138,7 +1355,8 @@ function fsLoesung(nurZeigen) {
   const A = zustand.A; zustand.phase = 'loesung';
   $('fs-pruefen').disabled = true; $('fs-tipp').disabled = true; $('fs-zeigen').disabled = true;
   if (nurZeigen) {
-    $('fs-rueck').innerHTML = '<div class="block block-tipp"><div class="block-titel">Lösung</div><p>Vergleiche mit deinem Freischnitt. Danach mit «Neue Aufgabe» weiter.</p></div>';
+    $('fs-rueck').innerHTML = '<div class="block block-tipp"><div class="block-titel">Lösung</div><p>' + (zustand.art === 'plan'
+      ? 'Der Kräfteplan zeigt die richtigen Längen, die Felder die Beträge; darunter die Rechnung.' : 'Vergleiche mit deinem Freischnitt.') + ' Danach mit «Neue Aufgabe» weiter.</p></div>';
     $('fs-res').innerHTML = '<div class="block block-merksatz" style="margin-top:8px"><p><strong>Resultierende Kraft:</strong> ' + FS_RES_TEXT[A.resKey] + '. ' + fsResRueck(A, A.resKey).replace(/^Richtig\. /, '') + '</p></div>';
     fsTypeset($('fs-res'));
   }
@@ -1156,7 +1374,7 @@ function fsLoesung(nurZeigen) {
     // jedes Glied als inline-block, damit umgebrochene Zeilen die Höhe der Brüche behalten (wie flTex)
     L.querySelectorAll('.fl-eq mjx-container').forEach(c => { c.style.display = 'inline-block'; c.style.margin = '2px 0'; });
   }).catch(() => {});
-  fsZeichne(true); fsPlan();
+  fsZeichne(true); fsPlan(); if (zustand.art === 'plan') { fsKpListe(); fsKpZeichne(); }
 }
 
 /* Kräfteplan: Pfeile Spitze an Fuss, Start am Angriffspunkt (●), die Summe als schwarzer
@@ -1260,6 +1478,160 @@ function fsMeinPlan() {
          : 'Der schwarze Pfeil ist die Summe deiner Kräfte. Ändere die Längen durch Ziehen der Pfeilspitzen: Ruht der Körper oder bewegt er sich gleichförmig, muss sich der Plan schliessen.';
 }
 
+/* ── Aufgabe 2: Kräfteplan auf Karopapier ─────────────────────────── */
+function fsKpListe() {
+  const P = zustand.plan; if (!P) return;
+  const offen = zustand.phase === 'plan';
+  $('fs-kp-massstab').textContent = 'Massstab: 1 Kästchen = ' + P.s + ' N';
+  $('fs-kp-liste').innerHTML = P.reihe.map(k => {
+    const K = FS_KRAEFTE[k.typ], nm = fsEsc(K.name) + (k.name ? ' ' + k.name.join('') : '');
+    if (k.bekannt) return '<div class="fs-zeile"><span class="fs-farbe" style="background:' + K.farbe + '"></span><span class="fs-name">' + nm +
+      '</span><span class="fs-kp-wert">' + fsZahl(k.F) + ' N, gegeben</span></div>';
+    const L = zustand.planL[k.i] / P.s;
+    return '<div class="fs-zeile' + (k.i === zustand.kpWahl && offen ? ' gewaehlt' : '') + '"><span class="fs-farbe" style="background:' + K.farbe + '"></span>' +
+      '<button class="fs-name" data-kp="' + k.i + '" aria-pressed="' + (k.i === zustand.kpWahl) + '">' + nm + '</button>' +
+      '<span class="fs-kp-wert">' + L.toFixed(2) + ' Kästchen</span>' +
+      '<button class="fs-mini" data-kp-d="-1" data-kp-i="' + k.i + '"' + (offen ? '' : ' disabled') + ' aria-label="' + K.name + ' um ein Viertel Kästchen kürzer">−</button>' +
+      '<button class="fs-mini" data-kp-d="1" data-kp-i="' + k.i + '"' + (offen ? '' : ' disabled') + ' aria-label="' + K.name + ' um ein Viertel Kästchen länger">+</button></div>';
+  }).join('');
+}
+function fsKpZeichne() {
+  const A = zustand.A, P = zustand.plan, el = $('fs-kp'); if (!P || !el || !el.getContext) return;
+  el.style.width = '';
+  const K = kpLage = fsKpLayout(A, P, el.offsetWidth || 300);
+  const { ctx, W, H } = initCanvas('fs-kp', K.H);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = '#ece3d3'; ctx.lineWidth = 1;
+  for (let x = K.ox % K.kp; x <= W; x += K.kp) { ctx.beginPath(); ctx.moveTo(Math.round(x) + 0.5, 0); ctx.lineTo(Math.round(x) + 0.5, H); ctx.stroke(); }
+  for (let y = K.oy % K.kp; y <= H; y += K.kp) { ctx.beginPath(); ctx.moveTo(0, Math.round(y) + 0.5); ctx.lineTo(W, Math.round(y) + 0.5); ctx.stroke(); }
+  const L = zustand.planL, offen = zustand.phase === 'plan';
+  // Beschriftungen nach aussen: weg von der Mitte des richtigen Plans
+  const cx = K.ox + K.pts.reduce((t, q) => t + q[0], 0) / K.pts.length * K.kp, cy = K.oy - K.pts.reduce((t, q) => t + q[1], 0) / K.pts.length * K.kp;
+  let x = K.ox, y = K.oy; const etik = []; K.spitzen = [];
+  P.reihe.forEach(k => {
+    const F = k.bekannt ? k.F : L[k.i], len = F / P.s * K.kp, c = Math.cos(fsRad(k.w)), sn = Math.sin(fsRad(k.w));
+    const x2 = x + len * c, y2 = y - len * sn, farbe = FS_KRAEFTE[k.typ].farbe;
+    if (len > 2) drawArrow(ctx, x, y, x2, y2, farbe, k.i === zustand.kpWahl && offen ? 3.4 : 2.6, 10);
+    const mx = (x + x2) / 2, my = (y + y2) / 2, sd = (mx - cx) * sn + (my - cy) * c >= 0 ? 1 : -1;
+    etik.push([mx, my, sn, c, sd, k.nm, farbe]);
+    if (!k.bekannt) K.spitzen.push({ i:k.i, sx:x, sy:y, x:x2, y:y2, c, sn });
+    x = x2; y = y2;
+  });
+  const Sm = fsPlanSumme(P, L);
+  if (Math.hypot(Sm.x, Sm.y) > 0.08 * P.s) {               // der Schlusspfeil: die Summe, vom Anfang zum Ende
+    drawArrow(ctx, K.ox, K.oy, x, y, '#1a1a1a', 2.2, 10);
+    const l = Math.hypot(x - K.ox, y - K.oy) || 1, nx = -(y - K.oy) / l, ny = (x - K.ox) / l, mx = (K.ox + x) / 2, my = (K.oy + y) / 2;
+    const sd = (mx - cx) * nx + (my - cy) * ny >= 0 ? 1 : -1;
+    etik.push([mx, my, nx, ny, sd, ['F', 'res'], '#1a1a1a']);
+  }
+  // Beschriftung neben die Pfeilmitte, bevorzugt nach aussen; liegt dort schon eine, weiter weg oder auf die andere Seite
+  const gesetzt = [];
+  etik.forEach(([mx, my, nx, ny, sd, nm, f]) => {
+    const kand = [15, -15, 28, -28, 41, -41].map(d => [mx + d * sd * nx, my + d * sd * ny]);
+    const [ex, ey] = kand.find(([a, b]) => a > 14 && a < K.W - 14 && b > 10 && b < K.H - 10 &&
+      gesetzt.every(([u, v]) => Math.abs(u - a) > 30 || Math.abs(v - b) > 20)) || kand[0];
+    gesetzt.push([ex, ey]); fsEtikett(ctx, ex, ey, nm[0], nm[1], f);
+  });
+  if (offen) K.spitzen.forEach(sp => {
+    ctx.beginPath(); ctx.arc(sp.x, sp.y, 7, 0, 2 * Math.PI); ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fill();
+    ctx.lineWidth = sp.i === zustand.kpWahl ? 2.6 : 1.6; ctx.strokeStyle = '#8A4A0E'; ctx.stroke();
+  });
+  ctx.beginPath(); ctx.arc(K.ox, K.oy, 4.5, 0, 2 * Math.PI); ctx.fillStyle = '#1a1a1a'; ctx.fill();
+  $('fs-kp-text').textContent = !offen ? 'Der Plan ist fertig. Die Längen der Pfeile mal Massstab ergeben die Beträge.'
+    : 'Ziehe die Spitzen (○) der unbekannten Kräfte, bis ' + (A.res.F ? 'der schwarze Summenpfeil ' + FS_RES_TEXT[A.resKey] + ' zeigt.'
+      : 'sich der Plan schliesst und das Ende den Anfang (●) trifft.') + ' Die Länge rastet auf ¼ Kästchen ein; fein geht es mit − und +.';
+}
+function fsKpSetze(i, F) {                    // Betrag setzen, gerastert, Spitze bleibt im Bild
+  const P = zustand.plan, sp = kpLage && kpLage.spitzen.find(x => x.i === i);
+  let tmax = Infinity;
+  if (sp) {
+    const kp = kpLage.kp, W = kpLage.W, H = kpLage.H;
+    if (sp.c > 1e-9) tmax = Math.min(tmax, (W - 6 - sp.sx) / (kp * sp.c)); if (sp.c < -1e-9) tmax = Math.min(tmax, (6 - sp.sx) / (kp * sp.c));
+    if (sp.sn > 1e-9) tmax = Math.min(tmax, (sp.sy - 6) / (kp * sp.sn)); if (sp.sn < -1e-9) tmax = Math.min(tmax, (sp.sy - (H - 6)) / (kp * sp.sn));
+  }
+  zustand.planL[i] = Math.min(fsRaster(F, P), Math.floor(Math.max(0, tmax) * 4) / 4 * P.s);
+  fsKpListe(); fsKpZeichne();
+}
+function fsKpZiehen(px, py) {
+  const sp = kpLage && kpLage.spitzen.find(x => x.i === zustand.kpZiehen); if (!sp) return;
+  fsKpSetze(sp.i, ((px - sp.sx) * sp.c - (py - sp.sy) * sp.sn) / kpLage.kp * zustand.plan.s);
+}
+function fsKpPruefen() {
+  const A = zustand.A, P = zustand.plan, R = $('fs-rueck');
+  zustand.versuche++;
+  const e = fsPlanBewerte(A, P, zustand.planL);
+  if (e.ok) {
+    if (zustand.versuche === 1) zustand.ersteRichtig++;
+    zustand.phase = 'ablesen';
+    R.innerHTML = '<div class="block block-bsp"><div class="block-titel">✓ Der Kräfteplan stimmt</div><p>' + (A.res.F
+      ? 'Die Summe zeigt ' + FS_RES_TEXT[A.resKey] + ': Das ist die resultierende Kraft, \\(F_{\\text{res}} = m \\cdot a\\).'
+      : 'Der Plan schliesst sich: Die Kräfte heben sich auf, der Körper ist im Gleichgewicht.') +
+      ' Lies jetzt die Beträge ab: Länge in Kästchen mal Massstab.</p></div>';
+    fsKpListe(); fsKpZeichne(); fsAblesenFrage();
+  } else {
+    const kopf = e.offen
+      ? (A.res.F ? 'Die Summe deiner Kräfte (schwarzer Pfeil) zeigt noch nicht ' + FS_RES_TEXT[A.resKey] + '. ' + A.satz + ' Die resultierende Kraft zeigt in Richtung der Beschleunigung.'
+                 : 'Der Plan ist noch offen: Das Ende des letzten Pfeils trifft den Anfang (●) nicht. ' + A.satz + ' Also ist die Summe aller Kräfte null, und der Plan muss sich schliessen.')
+      : 'Fast: Der Plan ' + (A.res.F ? 'zeigt in die richtige Richtung' : 'schliesst sich beinahe') + ', aber noch nicht genau. Prüfe die Längen auf ¼ Kästchen genau.';
+    R.innerHTML = '<div class="block block-fehler"><div class="block-titel">✗ Noch nicht</div><p>' + kopf + '</p>' +
+      (zustand.versuche >= 2 ? '<ul>' + e.falsch.map(x => '<li>\\(' + x.name + '\\) ist zu ' + x.zu + '.</li>').join('') + '</ul>' : '') + '</div>';
+  }
+  fsTypeset(R); fsStand();
+}
+function fsAblesenFrage() {
+  const P = zustand.plan, box = $('fs-ablesen');
+  box.innerHTML = '<div class="fs-feld-titel" style="margin-top:12px">Beträge ablesen</div>' + P.ziele.map((z, j) =>
+    '<div class="fs-ab-zeile"><label for="fs-ab-' + j + '">\\(' + z.name + ' =\\)</label><input class="fs-ab-ein" id="fs-ab-' + j +
+    '" type="text" inputmode="decimal" autocomplete="off" spellcheck="false"><span class="fs-kp-wert">N</span></div>').join('');
+  fsTypeset(box);
+  box.querySelectorAll('input').forEach(i => i.addEventListener('keydown', ev => { if (ev.key === 'Enter') fsPruefenKnopf(); }));
+}
+function fsAbPruefen() {
+  const P = zustand.plan, fehl = []; let alle = true;
+  P.ziele.forEach((z, j) => {
+    const el = $('fs-ab-' + j); if (!el || el.classList.contains('ok')) return;
+    const e = fsAblesenBewerte(P, z, fsLies(el.value));
+    if (!e) { el.classList.add('ok'); el.classList.remove('falsch'); el.readOnly = true; }
+    else { alle = false; el.classList.toggle('falsch', e.code !== 'leer'); fehl.push('\\(' + z.name + '\\): ' + e.text); }
+  });
+  const R = $('fs-rueck');
+  if (alle) {
+    zustand.geloest++;
+    R.innerHTML = '<div class="block block-bsp"><div class="block-titel">✓ Alle Beträge stimmen</div><p>Darunter die Rechnung zur Kontrolle: Der Kräfteplan bestätigt sie, auf etwa ein Viertel Kästchen genau.</p></div>';
+    fsTypeset(R); fsLoesung();
+  } else { R.innerHTML = '<div class="block block-fehler"><div class="block-titel">✗ Noch nicht</div><ul>' + fehl.map(t => '<li>' + t + '</li>').join('') + '</ul></div>'; fsTypeset(R); }
+  fsStand();
+}
+function fsKpTipp() {
+  const A = zustand.A, P = zustand.plan; zustand.tipp++;
+  let t;
+  if (zustand.phase === 'plan') {
+    if (zustand.tipp === 1) t = 'Spitze an Fuss: Jeder Pfeil beginnt dort, wo der vorige endet; Richtung und Länge bleiben. ' + (A.res.F
+      ? A.satz + ' Darum zeigt die Summe, der Pfeil vom Anfang zum Ende, in Richtung der Beschleunigung: ' + FS_RES_TEXT[A.resKey] + '.'
+      : A.satz + ' Darum ist die Summe null: Das Ende des letzten Pfeils muss genau auf den Anfang treffen.');
+    else { const e = fsPlanBewerte(A, P, zustand.planL);
+      t = e.ok ? 'Die Längen stimmen. Drücke «Prüfen».' : e.falsch.map(x => '\\(' + x.name + '\\) ist zu ' + x.zu).join(', ') + '.'; }
+  } else if (zustand.phase === 'ablesen') {
+    const j = P.ziele.findIndex((z, n) => !$('fs-ab-' + n).classList.contains('ok')), z = P.ziele[j];
+    t = zustand.tipp % 2 ? 'Lies \\(' + z.name + '\\) ab: Die Liste nennt die Länge in Kästchen, ein Kästchen ist ' + P.s + ' N.' + (z.k ? '' : ' \\(F_{\\text{res}}\\) ist der schwarze Pfeil; zähle seine Kästchen.')
+                         : 'Gerechnet: \\(' + z.tex + '\\).';
+  } else t = 'Die Aufgabe ist gelöst. Weiter mit «Neue Aufgabe».';
+  $('fs-rueck').innerHTML = '<div class="block block-tipp"><div class="block-titel">💡 Tipp</div><p>' + t + '</p></div>';
+  fsTypeset($('fs-rueck'));
+}
+function fsKpZeigen() {
+  const P = zustand.plan;
+  P.unbekannt.forEach(k => { zustand.planL[k.i] = fsRaster(k.F, P); });
+  if (zustand.phase === 'plan') { zustand.phase = 'ablesen'; fsAblesenFrage(); }
+  P.ziele.forEach((z, j) => { const el = $('fs-ab-' + j); if (el && !el.classList.contains('ok')) { el.value = fsZahl(z.F); el.classList.add('ok'); el.classList.remove('falsch'); el.readOnly = true; } });
+  fsLoesung(true);
+}
+function fsPruefenKnopf() {
+  if (zustand.art !== 'plan') fsPruefen();
+  else if (zustand.phase === 'plan') fsKpPruefen();
+  else if (zustand.phase === 'ablesen') fsAbPruefen();
+}
+
 function fsStand() {
   $('fs-stand').textContent = 'gelöst: ' + zustand.geloest + '; beim ersten Prüfen richtig: ' + zustand.ersteRichtig;
 }
@@ -1317,21 +1689,60 @@ $('fs-stufen').addEventListener('click', ev => {
   zustand.stufe = +b.dataset.stufe; fsNeueAufgabe();
 });
 $('fs-res').addEventListener('click', ev => { const b = ev.target.closest('[data-res]'); if (b && !b.disabled) fsResAntwort(b.dataset.res, b); });
-$('fs-pruefen').addEventListener('click', fsPruefen);
-$('fs-tipp').addEventListener('click', fsTipp);
-$('fs-zeigen').addEventListener('click', () => fsLoesung(true));
-$('fs-neu').addEventListener('click', fsNeueAufgabe);
-let fsRz; window.addEventListener('resize', () => { clearTimeout(fsRz); fsRz = setTimeout(() => { fsZeichne(zustand.phase === 'loesung'); if (zustand.phase === 'loesung') { fsPlan(); fsMeinPlan(); } }, 150); });
+$('fs-pruefen').addEventListener('click', fsPruefenKnopf);
+$('fs-tipp').addEventListener('click', () => { if (zustand.art === 'plan') fsKpTipp(); else fsTipp(); });
+$('fs-zeigen').addEventListener('click', () => { if (zustand.art === 'plan') fsKpZeigen(); else fsLoesung(true); });
+$('fs-neu').addEventListener('click', () => fsNeueAufgabe());
+// Kräfteplan: Spitze ziehen, Liste, Tastatur
+const kpc = $('fs-kp');
+function fsKpPunkt(ev) { const r = kpc.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; }
+kpc.addEventListener('pointerdown', ev => {
+  if (zustand.phase !== 'plan' || !kpLage) return;
+  const [px, py] = fsKpPunkt(ev);
+  let best = null, bd = 30;
+  kpLage.spitzen.forEach(sp => { const d = Math.hypot(px - sp.x, py - sp.y); if (d < bd) { bd = d; best = sp; } });
+  if (!best) best = kpLage.spitzen.find(sp => sp.i === zustand.kpWahl);
+  if (!best) return;
+  zustand.kpWahl = zustand.kpZiehen = best.i;
+  kpc.setPointerCapture(ev.pointerId); fsKpZiehen(px, py); ev.preventDefault();
+});
+kpc.addEventListener('pointermove', ev => { if (zustand.kpZiehen !== null) { const [px, py] = fsKpPunkt(ev); fsKpZiehen(px, py); } });
+['pointerup', 'pointercancel'].forEach(t => kpc.addEventListener(t, () => { zustand.kpZiehen = null; }));
+kpc.addEventListener('keydown', ev => {
+  if (zustand.phase !== 'plan' || zustand.kpWahl < 0) return;
+  const d = { ArrowUp:1, ArrowRight:1, ArrowDown:-1, ArrowLeft:-1 }[ev.key]; if (!d) return;
+  fsKpSetze(zustand.kpWahl, zustand.planL[zustand.kpWahl] + d * zustand.plan.schritt); ev.preventDefault();
+});
+$('fs-kp-liste').addEventListener('click', ev => {
+  if (zustand.phase !== 'plan') return;
+  const b = ev.target.closest('button'); if (!b || b.disabled) return;
+  if (b.dataset.kp !== undefined) { zustand.kpWahl = +b.dataset.kp; fsKpListe(); fsKpZeichne(); }
+  else if (b.dataset.kpI !== undefined) { const i = +b.dataset.kpI; zustand.kpWahl = i; fsKpSetze(i, zustand.planL[i] + Number(b.dataset.kpD) * zustand.plan.schritt); }
+});
+// Aufgabenart; ein Anker #aufgabe-freischneiden oder #aufgabe-kraefteplan öffnet sie direkt
+function fsArt(art) {
+  zustand.art = art;
+  document.querySelectorAll('#fs-arten [data-art]').forEach(x => { x.classList.toggle('aktiv', x.dataset.art === art); x.setAttribute('aria-pressed', String(x.dataset.art === art)); });
+}
+$('fs-arten').addEventListener('click', ev => { const b = ev.target.closest('[data-art]'); if (b) { fsArt(b.dataset.art); fsNeueAufgabe(); } });
+function fsAusAdresse() {
+  const m = { '#aufgabe-freischneiden':'frei', '#aufgabe-kraefteplan':'plan' }[location.hash]; if (!m) return false;
+  fsArt(m); return true;
+}
+window.addEventListener('hashchange', () => { if (fsAusAdresse()) fsNeueAufgabe(); });
+let fsRz; window.addEventListener('resize', () => { clearTimeout(fsRz); fsRz = setTimeout(() => {
+  fsZeichne(zustand.phase === 'loesung' ? true : zustand.art === 'plan' ? 'richtung' : false);
+  if (zustand.phase === 'loesung') fsPlan();
+  if (zustand.art === 'plan') fsKpZeichne(); else if (zustand.phase === 'loesung') fsMeinPlan(); }, 150); });
 
 /* Testhaken für Prüfskripte (.claude/tools): eine bestimmte Szene zeigen, Musterlösung einsetzen */
 window.__fs = {
-  szene(id, seed) { const S = FS_SZENEN.find(s => s.id === id); zustand.szId = id;
-    zustand.A = S.bau(seed ? fsZufall(seed) : Math.random); zustand.gez = []; zustand.wahl = -1; zustand.phase = 'zeichnen';
-    zustand.versuche = 0; $('fs-rueck').innerHTML = ''; $('fs-res').innerHTML = ''; $('fs-loesung').innerHTML = '';
-    ['fs-pruefen', 'fs-zeigen', 'fs-tipp'].forEach(i => { $(i).disabled = false; });
-    const auf = $('fs-aufgabe'); auf.innerHTML = '<div class="fs-aufgabe-kopf"><span class="fs-aufgabe-titel">' + fsEsc(zustand.A.titel) +
-      '</span><span class="fs-zustand">' + fsEsc(zustand.A.zustand) + '</span></div><p>' + zustand.A.text + '</p>'; fsTypeset(auf);
-    fsListe(); fsZeichne(); return zustand.A; },
+  szene(id, seed) { fsNeueAufgabe(FS_SZENEN.find(s => s.id === id), seed ? fsZufall(seed) : null); return zustand.A; },
+  art(a) { fsArt(a); fsNeueAufgabe(); },
+  plan() { return zustand.plan; }, kp() { return kpLage; },
+  laengen(L) { Object.assign(zustand.planL, L); fsKpListe(); fsKpZeichne(); },
+  ablesen(werte) { werte.forEach((w, j) => { const el = $('fs-ab-' + j); if (el && !el.readOnly) el.value = w; }); },
+  pruefen() { fsPruefenKnopf(); }, tipp() { $('fs-tipp').click(); }, zeigen() { $('fs-zeigen').click(); },
   muster() { zustand.gez = zustand.A.kraefte.map(k => ({ typ:k.typ, w:k.w, L:0.62 })); zustand.wahl = -1; fsListe(); fsZeichne(); },
   setze(liste) { zustand.gez = liste.map(k => ({ typ:k.typ, w:k.w, L:0.62 })); fsListe(); fsZeichne(); },
   mass() {                              // Kräfte bei grösster Länge: Spitze und Etikett im Bild?
@@ -1344,7 +1755,7 @@ window.__fs = {
   ids: FS_SZENEN.map(s => s.id), zustand,
 };
 
-fsNeueAufgabe(); fsStand();
+fsAusAdresse(); fsNeueAufgabe(); fsStand();
 })();
 </script>
 </body>

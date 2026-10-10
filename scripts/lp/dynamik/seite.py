@@ -736,7 +736,7 @@ k2 = kapitel(2, 'gesamtkraft-traegheit', 'Gesamtkraft und Trägheit', 'K1 · K2'
     ('p4-2-lp-gesamtkraft', 'Kraft sehen: Antrieb gegen Widerstand', None),
     sim2, ('p4-2-lp-kontrolle-gesamtkraft', 'Kontrollfragen zu Gesamtkraft und Trägheit', None),
     fest2, [uebung('gesamt', 'Gesamtkraft und Beschleunigung'), uebung('konstant', 'Antriebskraft'), uebung('bremsen', 'Ausrollen bis zum Stillstand')],
-    auf2, f'<a href="{TS}#traegheit">Themenseite 4.2, Das Trägheitsgesetz</a> · <a href="{TS}#grundgesetz">Das Grundgesetz</a> · Werkzeug: <a href="../werkzeuge/freischneiden.html">Freischneiden, Kräfte selbst einzeichnen</a>')
+    auf2, f'<a href="{TS}#traegheit">Themenseite 4.2, Das Trägheitsgesetz</a> · <a href="{TS}#grundgesetz">Das Grundgesetz</a> · Werkzeug: <a href="../werkzeuge/freischneiden.html#aufgabe-freischneiden">Freischneiden, Kräfte selbst einzeichnen</a>, <a href="../werkzeuge/freischneiden.html#aufgabe-kraefteplan">Kräfteplan mit resultierender Kraft</a>')
 
 # ------------------------------------------------------------------ Kapitel 3
 sim3 = figur_anim('sim3', 'Aufzugkabine im Schacht mit Person auf einer Waage; Gewichtskraft, Normalkraft und Beschleunigung als Pfeile, die Waage zeigt live an', '0 0 300 262',
