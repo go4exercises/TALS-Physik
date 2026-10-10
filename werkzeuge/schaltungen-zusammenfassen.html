@@ -501,7 +501,7 @@ const SZ_DIAGNOSE = {
   M_leer:     c => 'Wähle das Messgerät und die Art des Anschlusses, dann setze es im Bild.',
   M_gleich:   c => 'Beide Anschlüsse hängen am selben Knoten, sie haben dieselbe Farbe. Dazwischen liegt keine Spannung, und durch das Gerät fliesst kein Strom: Es zeigt null.',
   A_parallel: c => c.quelle
-    ? 'Kurzschluss der Quelle: Das Amperemeter hat fast keinen Widerstand und liegt direkt zwischen Plus- und Minuspol. Es fliesst ein sehr grosser Strom, die Sicherung im Messgerät brennt durch. Ein Amperemeter kommt in den Stromweg, in Reihe.'
+    ? 'Kurzschluss der Quelle: Das Amperemeter hat fast keinen Widerstand und liegt direkt zwischen Plus- und Minuspol. Es fliesst ein sehr grosser Strom: Die Anzeige springt auf «OL» (Überlauf), und die Sicherung im Messgerät brennt durch. Ein Amperemeter kommt in den Stromweg, in Reihe.'
     : 'Kurzschluss: Das Amperemeter hat fast keinen Widerstand. Parallel angeschlossen fliesst der Strom durch das Gerät statt durch die Widerstände zwischen diesen zwei Knoten, und der Strom der ganzen Schaltung steigt. Ein Amperemeter kommt in den Stromweg, in Reihe.',
   V_reihe:    c => 'Das Voltmeter steckt im Stromweg. Es hat einen sehr grossen Widerstand und unterbricht den Strom in diesem Zweig fast ganz. Ein Voltmeter kommt parallel: seine zwei Anschlüsse an die zwei Enden des Bauteils.',
   A_statt_V:  c => `Gesucht ist die Spannung \\(${c.ziel}\\). Ein Amperemeter misst den Strom, nicht die Spannung. Die Spannung misst das Voltmeter, parallel zum Bauteil.`,
@@ -931,7 +931,7 @@ function szLayout(baum, W, U) {
     // Die Stelle liegt mitten in der Lücke zwischen den zwei Zweigen, nicht neben einem tiefer gezeichneten Teil.
     for (let i = 0; i < n.k.length - 1; i++) {
       const summe = n.k.slice(i + 1), ym = (ys[i] + M.get(n.k[i]).dn * uy + ys[i + 1] - M.get(n.k[i + 1]).up * uy) / 2;
-      L.schienen.push({ x:xl, y:ym, p:n, summe }, { x:xr, y:ym, p:n, summe });
+      L.schienen.push({ x:xl, y:ym, p:n, seite:'a', summe }, { x:xr, y:ym, p:n, seite:'b', summe });
     }
   })(baum, ox, oy, 0, 1, baum);
   // Zuleitungen und Quelle: Knoten 0 am Pluspol, Knoten 1 am Minuspol. Die Zuleitung unten links
@@ -1041,6 +1041,41 @@ function szMessZiel(A, r) {                   // halb Spannung, halb Strom; Span
   const innen = Z.U.filter(z => { const g = L0.gruppen.get(z.n); return !(g.a === 0 && g.b === 1); });
   return szWahl(r, innen.length ? innen : Z.U);
 }
+// Was das Gerät anzeigt, auch falsch angeschlossen. Modell wie auf der Themenseite: Voltmeter mit
+// 10 MΩ Innenwiderstand, Amperemeter mit 0.1 Ω. In die Leitung gesetzt, trennt das Voltmeter sie an der
+// Stelle auf und verbindet die zwei Enden über seinen Innenwiderstand; das Amperemeter in der Leitung
+// gilt als ideal (es zeigt den Strom der Stelle). Ein noch kleinerer Widerstand rechnete den Strom aus
+// einer winzigen Spannungsdifferenz und würde numerisch ungenau.
+const SZ_R_V = 1e7, SZ_R_A = 0.1;
+function szMessAnzeige(A, m) {                // { wert, einheit } oder { ol:true }
+  const L0 = szLayout(A.baum, 600, A.U), netz = L0.netz.map(e => ({ n:e.n, a:e.a, b:e.b }));
+  let nK = L0.nK;
+  const rechne = () => szKnotenrechnung(netz, nK, A.U, x => x.exakt), einheit = m.geraet === 'V' ? 'V' : 'mA';
+  if (m.anschluss === 'knoten') {
+    const [p, q] = m.knoten;
+    if (p === q) return { wert:0, einheit };
+    if (m.geraet === 'V') { const K = rechne(); return { wert:Math.abs(K.pot(p) - K.pot(q)), einheit }; }
+    if (p + q === 1) return { ol:true };                        // Plus- und Minuspol überbrückt
+    const g = { n:{ exakt:SZ_R_A }, a:p, b:q }; netz.push(g);
+    return { wert:Math.abs(rechne().strom(g)) * 1000, einheit };
+  }
+  const st = L0.stellen[m.stelle];
+  if (m.geraet === 'A') { const W = szWerte(A); return { wert:st.summe.reduce((t, c) => t + W.get(c).Ix, 0), einheit }; }
+  let alt, betroffen;
+  if (st.n === A.baum) { alt = 0; betroffen = netz.filter(e => e.a === 0 || e.b === 0); }
+  else if (st.n) { const e = netz.find(x => x.n === st.n); alt = e.a; betroffen = [e]; }
+  else {
+    alt = L0.gruppen.get(st.p)[st.seite];
+    const unten = new Set(st.summe.flatMap(szBlaetter));
+    betroffen = netz.filter(e => unten.has(e.n) && (e.a === alt || e.b === alt));
+  }
+  const neu = nK++;
+  betroffen.forEach(e => { if (e.a === alt) e.a = neu; if (e.b === alt) e.b = neu; });
+  netz.push({ n:{ exakt:SZ_R_V }, a:alt, b:neu });
+  const K = rechne();
+  return { wert:Math.abs(K.pot(alt) - K.pot(neu)), einheit };
+}
+const szAnzeigeText = z => z.ol ? 'OL' : szZahl(szR(z.wert)) + ' ' + z.einheit;
 function szMessWert(A, ziel) { const w = szWerte(A).get(ziel.n); return ziel.gr === 'U' ? szV(w.U) : szMA(w.I); }
 function szMessLoesung(A, ziel) {
   const L0 = szLayout(A.baum, 600, A.U);
@@ -1197,6 +1232,8 @@ function szSelbsttest(n) {
         const code = (m, soll) => { const r = b(m); F(r && r.code === soll && r.text.indexOf('undefined') < 0 && r.text.indexOf('NaN') < 0,
                                                        wo + ': ' + z.name + ' ' + soll + ' nicht erkannt (' + (r && r.code) + ')'); };
         F(!b(ok), wo + ': richtige Messung ' + z.name + ' abgelehnt');
+        const wz = Wt.get(z.n), an = szMessAnzeige(A, ok);
+        F(szNah(an.wert, z.gr === 'U' ? wz.Ux : wz.Ix, 1e-6), wo + ': Anzeige der richtigen Messung ' + z.name + ' ≠ Rechnung');
         F(z.text.indexOf('undefined') < 0, wo + ': Messziel ohne Text');
         code({}, 'M_leer'); code({ geraet:'V', anschluss:'knoten', knoten:[0] }, 'M_leer');
         code({ geraet:'V', anschluss:'knoten', knoten:[0, 0] }, 'M_gleich');
@@ -1214,6 +1251,27 @@ function szSelbsttest(n) {
                                          else code({ geraet:'A', anschluss:'reihe', stelle:i }, 'A_zweig'); });
         }
       });
+      // Anzeige falsch angeschlossener Geräte
+      L0.stellen.forEach((x, i) => {
+        const a = szMessAnzeige(A, { geraet:'A', anschluss:'reihe', stelle:i }), v = szMessAnzeige(A, { geraet:'V', anschluss:'reihe', stelle:i });
+        F(szNah(a.wert, x.summe.reduce((t, c) => t + Wt.get(c).Ix, 0), 1e-4), wo + ': Amperemeter in Reihe zeigt falsch');
+        // Voltmeter in der Leitung: fast die Leerlaufspannung an der Trennstelle; nachgerechnet ohne die abgetrennten Zweige
+        let leer;
+        if (x.n === A.baum) leer = A.U;
+        else {
+          const weg = new Set(x.n ? [x.n] : x.summe.flatMap(szBlaetter)), rest = L0.netz.filter(e => !weg.has(e.n));
+          const nr = new Map([[0, 0], [1, 1]]); rest.forEach(e => [e.a, e.b].forEach(k => { if (!nr.has(k)) nr.set(k, nr.size); }));
+          const K = szKnotenrechnung(rest.map(e => ({ n:e.n, a:nr.get(e.a), b:nr.get(e.b) })), nr.size, A.U, y => y.exakt);
+          const g = x.n ? L0.gruppen.get(x.n) : L0.gruppen.get(x.p), pot = k => K.pot(nr.get(k));
+          leer = pot(g.a) - pot(g.b);
+        }
+        F(szNah(v.wert, leer, 2e-3) && v.wert <= A.U * (1 + 1e-9), wo + ': Voltmeter in Reihe zeigt ' + v.wert + ' statt ' + leer);
+      });
+      for (let p = 0; p < L0.nK; p++) for (let q = p + 1; q < L0.nK; q++) {
+        const a = szMessAnzeige(A, { geraet:'A', anschluss:'knoten', knoten:[p, q] });
+        F(p + q === 1 ? a.ol : a.wert >= 0 && isFinite(a.wert), wo + ': Amperemeter parallel zeigt ' + JSON.stringify(a));   // 0 bei einer abgeglichenen Brücke
+      }
+      F(szMessAnzeige(A, { geraet:'V', anschluss:'knoten', knoten:[2 % L0.nK, 2 % L0.nK] }).wert === 0, wo + ': gleicher Knoten zeigt nicht null');
       // Kurzformel: richtige Schreibweisen gelten, Fehler bekommen ihre Diagnose
       const rf = szZufall(500 + s), tokS = szTokens(A.baum), op = A.baum.t === 'S' ? '+' : 'P';
       F(!szFormelBewerten(A, tokS) && !szFormelBewerten(A, szTokens(A.baum, null, rf)) && !szFormelBewerten(A, ['('].concat(tokS, [')'])),
@@ -1426,9 +1484,9 @@ function szMaleMessung(ctx, Lx, M) {
           ctx.save(); ctx.setLineDash([2, 3]); ctx.strokeStyle = bern; ctx.lineWidth = 1.2;
           ctx.beginPath(); ctx.moveTo(ax, ay + 9); ctx.lineTo(st.x, st.y - 10); ctx.stroke(); ctx.restore();
         }
-        ctx.fillStyle = '#fbecd2'; ctx.strokeStyle = bern; ctx.lineWidth = 1.4;
+        ctx.fillStyle = M.fehler ? '#fbe3e1' : '#fbecd2'; ctx.strokeStyle = M.fehler ? rand : bern; ctx.lineWidth = 1.4;
         ctx.beginPath(); ctx.rect(ax - w / 2, ay - 9, w, 18); ctx.fill(); ctx.stroke();
-        ctx.fillStyle = bern; ctx.textAlign = 'center'; ctx.fillText(M.anzeige, ax, ay + 4);
+        ctx.fillStyle = M.fehler ? rand : bern; ctx.textAlign = 'center'; ctx.fillText(M.anzeige, ax, ay + 4);
       }
       geraet(st.x, st.y);
     }
@@ -1441,7 +1499,7 @@ function szMaleMessung(ctx, Lx, M) {
       ctx.restore();
       geraet(vx, vy);
       if (M.anzeige) {
-        ctx.font = szMono(12, 700); ctx.fillStyle = bern; const w = ctx.measureText(M.anzeige).width;
+        ctx.font = szMono(12, 700); ctx.fillStyle = M.fehler ? rand : bern; const w = ctx.measureText(M.anzeige).width;
         const rechts = vx + 16 + w < Lx.W - 4;
         ctx.textAlign = rechts ? 'left' : 'right'; ctx.fillText(M.anzeige, rechts ? vx + 16 : vx - 16, vy + 4);
       }
@@ -1762,7 +1820,13 @@ function szMessPruefen() {
   const e = szMessBewerten(A, z, { geraet:M.geraet, anschluss:M.anschluss, knoten:M.taps.map(t => t.k), stelle:M.stelle });
   M.fehler = !!e && e.code !== 'M_leer';
   if (e) {
-    if (M.fehler) { zustand.fehlversuch = true; szRueck('block-fehler', '✗ So misst das Gerät nicht', e.text); } else szRueck('', '', '');
+    M.anzeige = null;
+    if (M.fehler) {
+      zustand.fehlversuch = true;
+      M.anzeige = szAnzeigeText(szMessAnzeige(A, { geraet:M.geraet, anschluss:M.anschluss, knoten:M.taps.map(t => t.k), stelle:M.stelle }));
+      const nennt = e.code === 'V_knoten' || e.code === 'A_zweig';     // diese Texte nennen den Wert schon
+      szRueck('block-fehler', '✗ So misst das Gerät nicht', (nennt ? '' : 'Das ' + (M.geraet === 'V' ? 'Voltmeter' : 'Amperemeter') + ' zeigt «' + M.anzeige + '». ') + e.text);
+    } else szRueck('', '', '');
     szZeichne(); return;
   }
   szStatSchritt(); zustand.phase = 'fertig'; zustand.geloest++; szRueck('', '', '');

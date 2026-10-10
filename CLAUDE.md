@@ -64,7 +64,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   und Teilspannungen aller Widerstände bei gegebenem R_ges und I, Probe mit Kirchhoff
   (Knoten- und Maschenregel als Summe = 0), rechts das gefundene Ersatzschema, (4) Messen: Gerät
   (Voltmeter/Amperemeter) und Anschluss (in Reihe an einer Einsetzstelle `L.stellen` / parallel an zwei
-  angetippten Knoten) wählen, ohne Prüfknopf: Steht alles fest, zeigt das Gerät seinen Wert oder steht rot im Bild; Diagnosen Kurzschluss, Voltmeter im Stromweg, falsches Gerät, falsche Knoten,
+  angetippten Knoten) wählen, ohne Prüfknopf: Steht alles fest, zeigt das Gerät seinen Wert, bei einem Fehler rot mit dem Wert, den es falsch angeschlossen zeigen würde (`szMessAnzeige`: Voltmeter 10 MΩ in der aufgetrennten Leitung, Amperemeter parallel mit 0.1 Ω; Kurzschluss der Quelle «OL»); Diagnosen Kurzschluss, Voltmeter im Stromweg, falsches Gerät, falsche Knoten,
   falscher Zweig. Welchen Strom eine Einsetzstelle misst, sagt `L.klasse` (in Reihe derselbe Strom wie die
   Gruppe darüber), auf den Schienen `summe` (Teilsumme der Zweige darunter, etwa \(I_2 + I_3\)); der Selbsttest gleicht jede Stelle mit der Knotenrechnung ab. Verweis zusätzlich aus 6.2 `#messen`. Jedes Bild trägt den
   Spannungspfeil der Quelle, der Gesamtstrom steht auf der Zuleitung, sobald er bekannt ist. Knoten sind
