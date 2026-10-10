@@ -22,6 +22,11 @@
      - Proben gehen auf, Zusammenfassen in beliebiger Reihenfolge ergibt R_ges
      - Schaltbild bei 300, 380 und 1000 px: Beschriftungen im Bild, ohne
        Ueberlappung untereinander, mit Leitungen oder Widerstaenden
+     - alle Spannungen und Stroeme (Aufgabenart 3) gegen die Knotenrechnung,
+       Kirchhoff an jeder Gruppe, Fehlerbilder der Tabellenfelder
+     - Kurzformel: richtige Schreibweisen (andere Reihenfolge, Zusatzklammer)
+       gelten; fehlende Klammer, Syntax, doppelter/fehlender Widerstand,
+       vertauschtes Zeichen und zufaellige andere Schaltungen werden erkannt
      - Eingabeformate (Punkt, Komma, Einheit, Tausender-Apostroph)
 
    Aufruf vom Repo-Root:

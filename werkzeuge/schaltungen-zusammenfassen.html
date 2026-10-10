@@ -135,9 +135,26 @@ MathJax = {
 .sz-rueck { margin-top:10px; }
 .sz-rueck .block { margin:0 0 8px; }
 .sz-weg .fl-eq { font-size:0.95rem; }
+.sz-formel { font-size:1.05rem; min-height:2.6em; line-height:2.4em; white-space:nowrap; text-align:center;
+  background:var(--papier); border:1.5px solid var(--linie); border-radius:7px; padding:6px 10px; margin-bottom:10px; overflow-x:auto; }
+.sz-tasten .sz-chip { min-width:42px; }
+.sz-tab { display:grid; grid-template-columns:auto minmax(0,1fr) minmax(0,1fr); gap:8px 10px; align-items:center; }
+.sz-tab-kopf { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.sz-tab-r { font-size:0.88rem; white-space:nowrap; }
+.sz-tab-zelle { display:flex; align-items:center; gap:5px; min-width:0; }
+.sz-tab-zelle .sz-eingabe { width:100%; max-width:7em; min-width:0; }
+.sz-eingabe.ok { border-color:var(--gruen-rand); background:var(--gruen-hell); }
+.sz-eingabe.falsch { border-color:var(--rot); background:var(--rot-hell); }
+.sz-regel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  color:var(--tinte-2); margin-right:8px; vertical-align:middle; }
+.sz-bild { margin:10px 0 6px; }
+.sz-pruefen { white-space:nowrap; }
 .sz-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
 @media (max-width: 700px) {
   .sz-weg { padding:12px 8px; }
+  .sz-tab { grid-template-columns:auto minmax(0,1fr); }
+  .sz-tab-kopf { display:none; }
+  .sz-tab-r { grid-column:1 / -1; margin-top:4px; }
 }
 @media (max-width: 359px) {
   .sz-weg .fl-eq { font-size:0.86rem; }
@@ -159,9 +176,10 @@ MathJax = {
 </div>
 
 <div class="rlp-kompetenzen">
-  <div class="rlp-titel">🧭 Übungsseite zum Lerngebiet 6.2 — geübt wird diese Kompetenz aus dem RLP-BM 2030</div>
+  <div class="rlp-titel">🧭 Übungsseite zum Lerngebiet 6.2 — geübt werden diese Kompetenzen</div>
   <ul>
-    <li>Berechnungen in einfachen seriellen oder parallelen Schaltkreisen von Widerständen durchführen</li>
+    <li>Berechnungen in einfachen seriellen oder parallelen Schaltkreisen von Widerständen durchführen (RLP-BM 2030)</li>
+    <li>Berechnungen in einfachen gemischten Schaltkreisen von Widerständen durchführen (weiterführend, über den RLP hinaus)</li>
   </ul>
 </div>
 
@@ -169,11 +187,12 @@ MathJax = {
   <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
   <div class="lz-body">
   <ul>
-    <li>Ich kann an den Verbindungen erkennen, ob zwei Widerstände in Reihe oder parallel liegen, auch wenn das Schaltbild etwas anderes nahelegt.</li>
-    <li>Ich kann den Ersatzwiderstand berechnen: in Reihe \(R = R_1 + R_2\), parallel \(R = \dfrac{R_1 \cdot R_2}{R_1 + R_2}\).</li>
-    <li>Ich kann eine Schaltung von innen nach aussen zu einem einzigen Widerstand zusammenfassen und das als Kurzformel schreiben, etwa \(R_1 + (R_2 \parallel R_3)\).</li>
-    <li>Ich kann vom Gesamtstrom aus zurückrechnen: In Reihe bleibt der Strom gleich und die Spannung teilt sich, parallel bleibt die Spannung gleich und der Strom teilt sich.</li>
-    <li>Ich prüfe eine Rechnung mit den zwei Proben: Teilspannungen ergeben die Spannung, Teilströme den Strom.</li>
+    <li>Ich kann erkennen, ob zwei Widerstände in Reihe oder parallel liegen.</li>
+    <li>Ich kann den Ersatzwiderstand von Widerständen in Reihe und parallel berechnen.</li>
+    <li>Ich kann eine einfache gemischte Schaltung Schritt für Schritt zum Gesamtwiderstand zusammenfassen.</li>
+    <li>Ich kann die Kurzformel einer Schaltung schreiben.</li>
+    <li>Ich kann aus Gesamtwiderstand und Gesamtstrom die Teilströme und Teilspannungen berechnen.</li>
+    <li>Ich kann eine Rechnung mit den Regeln von Kirchhoff prüfen.</li>
   </ul>
   </div>
 </details>
@@ -226,6 +245,12 @@ MathJax = {
       <button class="typ-btn" data-stufe="0">Alle Stufen</button>
     </div>
 
+    <div class="typ-btns" id="sz-arten" role="group" aria-label="Aufgabenart wählen">
+      <button class="typ-btn aktiv" data-art="kette">Zusammenfassen und zurückrechnen</button>
+      <button class="typ-btn" data-art="formel">Kurzformel</button>
+      <button class="typ-btn" data-art="tabelle">Teilströme und Teilspannungen</button>
+    </div>
+
     <div class="sz-aufgabe" id="sz-aufgabe" aria-live="polite"></div>
 
     <div class="cv-wrap"><canvas id="sz-cv" aria-label="Schaltbild der Aufgabe"></canvas></div>
@@ -276,6 +301,8 @@ MathJax = {
 <div class="block block-fehler">
   <div class="block-titel">⚠ Nebeneinander gezeichnet, also in Reihe</div>
   <p>In \(R_1 + (R_2 \parallel R_3)\) steht \(R_2\) oft auf derselben Linie wie \(R_1\). Trotzdem fliesst durch \(R_2\) nur ein Teil des Stroms, der durch \(R_1\) fliesst: Dazwischen liegt ein Knoten, an dem sich der Strom aufteilt. In Reihe liegt \(R_1\) erst mit der ganzen Gruppe \(R_2 \parallel R_3\).</p>
+  <div class="cv-wrap sz-bild"><canvas id="sz-bild-reihe" aria-label="Schaltbild R1 in Reihe zu R2 parallel R3, Knoten gefärbt"></canvas></div>
+  <p class="sz-hinweis" style="margin-bottom:0">\(R_1\) und \(R_2\) stehen auf einer Linie. Der grüne Knoten zwischen ihnen hat aber einen Abzweig zu \(R_3\): Dort teilt sich der Strom. In Reihe läge \(R_2\) nur, wenn an diesem Knoten nichts anderes hinge.</p>
 </div>
 
 <div class="block block-fehler">
@@ -291,11 +318,14 @@ MathJax = {
 <div class="block block-fehler">
   <div class="block-titel">⚠ Mit der ganzen Spannung oder dem ganzen Strom weitergerechnet</div>
   <p>Die Quellenspannung \(U\) liegt nur an der ganzen Schaltung, der Gesamtstrom \(I\) fliesst nur durch die Zuleitung. Wer \(I_3 = U/R_3\) rechnet, obwohl \(R_3\) in einer Gruppe hinter \(R_1\) liegt, übergeht die Spannung, die schon an \(R_1\) abfällt. Richtig ist \(I_3 = U_{23}/R_3\) mit der Spannung der Gruppe.</p>
+  <div class="cv-wrap sz-bild"><canvas id="sz-bild-spannung" aria-label="Schaltbild R1 in Reihe zu R2 parallel R3 mit den Spannungen U1 und U23"></canvas></div>
+  <p class="sz-hinweis" style="margin-bottom:0">Von den \(12\;\text{V}\) fallen \(5.17\;\text{V}\) schon an \(R_1\) ab. An der Gruppe liegen nur \(U_{23} = 6.83\;\text{V}\): \(I_3 = \frac{U_{23}}{R_3} = \frac{6.83\;\text{V}}{330\;\Omega} = 20.7\;\text{mA}\), nicht \(\frac{U}{R_3} = \frac{12\;\text{V}}{330\;\Omega} = 36.4\;\text{mA}\). Ebenso fliesst durch \(R_3\) nicht der ganze Strom \(I = 51.7\;\text{mA}\), sondern nur ein Teil davon.</p>
 </div>
 
 <div class="block block-fehler">
   <div class="block-titel">⚠ Milliampere und Ampere</div>
   <p>\(\dfrac{12\;\text{V}}{232\;\Omega} = 0.0517\;\text{A} = 51.7\;\text{mA}\). Umgekehrt gibt \(51.7\;\text{mA} \cdot 100\;\Omega\) Millivolt, nicht Volt: \(5170\;\text{mV} = 5.17\;\text{V}\). Am sichersten rechnet man in A und rechnet erst das Ergebnis um.</p>
+  <p style="margin-bottom:0"><strong>Mit der EE-Taste</strong> fällt das Umrechnen weg: Die Vorsilbe wird als Zehnerpotenz eingegeben, «milli» als \(10^{-3}\). Die Eingabe \(51.7\,\text{EE}\,{-}3 \times 100\) rechnet mit \(51.7\;\text{mA} = 51.7 \cdot 10^{-3}\;\text{A}\) und zeigt \(5.17\), also \(5.17\;\text{V}\). Umgekehrt gibt \(12 \div 232\) den Strom in A, \(0.0517\); in der technischen Anzeige (ENG) erscheint er als \(51.7 \cdot 10^{-3}\), also \(51.7\;\text{mA}\).</p>
 </div>
 
 
@@ -307,7 +337,7 @@ MathJax = {
   <li>In Reihe \(R = R_1 + R_2\), grösser als der grösste; parallel \(R = \dfrac{R_1 \cdot R_2}{R_1 + R_2}\), kleiner als der kleinste.</li>
   <li>Zusammenfassen von innen nach aussen, bis \(R_\text{ges}\) übrig ist; dann \(I = U/R_\text{ges}\).</li>
   <li>Zurückrechnen von aussen nach innen: In Reihe bleibt der Strom, parallel die Spannung.</li>
-  <li>Zwei Proben: Die Teilspannungen ergeben die Spannung der Gruppe, die Teilströme den Strom.</li>
+  <li>Kirchhoff: Die Summe aller Ströme in einem Knoten ist null, \(\sum I = 0\) (zufliessend positiv, abfliessend negativ). Die Summe aller Spannungen in einer Masche ist null, \(\sum U = 0\) (in Umlaufrichtung gezählt).</li>
 </ul>
 
 <div class="merksatz">
@@ -401,18 +431,33 @@ const SZ_DIAGNOSE = {
   einheit_V:  c => `Die Ziffern stimmen, die Einheit nicht: Gefragt ist die Spannung in V. Strom in mA mal Widerstand in \\(\\Omega\\) ergibt mV.`,
   U_ganz:     c => `Das ist die ganze Spannung \\(${c.un}\\). In Reihe teilt sie sich auf: Über \\(${c.rc}\\) liegt nur ein Teil davon.`,
   I_gesamt:   c => `Mit dem Gesamtstrom \\(I\\) gerechnet. Durch \\(${c.rc}\\) fliesst aber nur der Strom dieses Zweigs, \\(${c.in}\\).`,
-  U_gesamt:   c => `Mit der Quellenspannung \\(U\\) gerechnet. An \\(${c.rc}\\) liegt nur die Spannung der Gruppe, \\(${c.un}\\).`,
+  U_gesamt:   c => c.un === 'U'
+    ? `Mit der ganzen Quellenspannung \\(U\\) gerechnet. In Reihe liegt an \\(${c.rc}\\) nur ein Teil davon.`
+    : `Mit der Quellenspannung \\(U\\) gerechnet. An \\(${c.rc}\\) liegt nur die Spannung der Gruppe, \\(${c.un}\\).`,
+  U_quelle:   c => `Das ist die Quellenspannung \\(U\\). An \\(${c.rc}\\) liegt nur die Spannung seiner Gruppe, \\(${c.un}\\).`,
   I_ganz:     c => `Das ist der ganze Strom \\(${c.in}\\). Am Knoten teilt er sich auf die Zweige auf; durch \\(${c.rc}\\) fliesst nur ein Teil davon.`,
   teiler:     c => `Die Stromteilung ist vertauscht: Durch den kleineren Widerstand fliesst der grössere Strom. Einfacher und sicherer ist \\(${c.ic} = \\frac{${c.un}}{${c.rc}}\\).`,
+  // Kurzformel
+  K_leer:       c => 'Setze die Kurzformel mit den Knöpfen zusammen.',
+  K_syntax:     c => 'Die Formel ist unvollständig: Zwischen zwei Widerständen steht \\(+\\) oder \\(\\parallel\\), und auf ein Zeichen folgt ein Widerstand oder eine Klammer.',
+  K_klammer:    c => 'Die Klammern gehen nicht auf: Zu jeder öffnenden gehört eine schliessende.',
+  K_mix:        c => 'Hier stehen \\(+\\) und \\(\\parallel\\) ohne Klammer nebeneinander. Die Klammer sagt, was zuerst zusammengefasst wird: \\(R_1 + (R_2 \\parallel R_3)\\) ist eine andere Schaltung als \\((R_1 + R_2) \\parallel R_3\\).',
+  K_fehlt:      c => `Es fehlt ${c.liste}. Jeder Widerstand steht genau einmal in der Kurzformel.`,
+  K_doppelt:    c => `${c.liste} steht mehrfach da. Jeder Widerstand steht genau einmal in der Kurzformel.`,
+  K_vertauscht: c => `Die Gruppe aus ${c.liste} stimmt, aber sie liegt ${c.soll === 'P' ? 'parallel: \\(\\parallel\\) statt \\(+\\)' : 'in Reihe: \\(+\\) statt \\(\\parallel\\)'}.`,
+  K_gruppe:     c => c.t === 'S'
+    ? `${c.teile} liegen nicht in Reihe: Durch sie fliesst nicht derselbe Strom. Prüfe an den Knoten, welche Widerstände zusammengehören.`
+    : `${c.teile} liegen nicht parallel: Sie hängen nicht an denselben zwei Knoten. Prüfe an den Knoten, welche Widerstände zusammengehören.`,
+  K_falsch:     c => 'Die Formel beschreibt eine andere Schaltung. Beginne innen: Welche zwei Widerstände gehören direkt zusammen?',
   // allgemein
   leer:       c => 'Gib zuerst eine Zahl ein.',
   falsch:     c => 'Noch nicht richtig. Rechne nochmals nach; der Tipp zeigt, welche Formel hier gilt.',
 };
 
 /* ── Zahlen ───────────────────────────────────────────────────────── */
-function szZahl(x) {                          // wie auf der Themenseite: 132, 68.8, 5.17, 0.517; ganze Werte ohne Stellen (22 Ω, 12 V)
+function szZahl(x) {                          // wie auf der Themenseite: 132, 68.8, 5.17, 0.517
   const a = Math.abs(x);
-  if (Number.isInteger(x)) return String(x);
+  if (SZ_WERTE.R.includes(x) || SZ_WERTE.U.includes(x)) return String(x);   // gegebene Werte ohne Stellen: 22 Ω, 12 V
   if (a >= 100) return String(Math.round(x));
   if (a >= 10) return x.toFixed(1);
   if (a >= 1) return x.toFixed(2);
@@ -571,8 +616,8 @@ function szSieben(soll, liste) {
    Von der Wurzel zum Zielwiderstand: zuerst I = U/R_ges, dann je Ebene
    in Reihe U_C = I_N · R_C, parallel I_C = U_N / R_C. Weitergerechnet wird
    mit den angezeigten Werten, wie auf Papier. */
-function szKette(A) {
-  const pfad = szPfad(A.baum, String(A.ziel)), K = [];
+function szKette(A, ziel) {
+  const pfad = szPfad(A.baum, String(ziel == null ? A.ziel : ziel)), K = [];
   const Rg = szR(szExakt(A.baum)), alle = szBlaetter(A.baum).reduce((s, x) => s + x.wert, 0);
   let I = szR(A.U / Rg * 1000), U = A.U, iN = 'I', uN = 'U';
   let Ix = A.U / szExakt(A.baum) * 1000, Ux = A.U;         // derselbe Weg ohne Rundung
@@ -588,6 +633,7 @@ function szKette(A) {
     const wer = blatt ? '\\(' + rc + '\\)' : (C.t === 'P' ? 'die Gruppe aus ' : 'den Zweig aus ') + szNamenListe(szBlaetter(C));
     const wert = blatt ? '' : ' (\\(' + rc + ' = ' + szO(RC) + '\\))';
     const c = { rc, un:uN, in:iN };
+    K.vor = { uN, iN };                                    // Namen der Gruppe vor diesem Schritt
     if (N.t === 'S') {
       const UC = szR(I / 1000 * RC), name = 'U_{' + sub + '}';
       c.uc = name; Ux = Ix / 1000 * szExakt(C);
@@ -625,22 +671,122 @@ function szKetteBewerten(schritt, x) {        // richtig: nahe am gerundeten ode
   for (const [code, w] of schritt.fehler) if (szNah(x, w)) return { code, text:SZ_DIAGNOSE[code](schritt.c) };
   return { code:'falsch', text:SZ_DIAGNOSE.falsch() };
 }
-/* Proben entlang des Wegs: in Reihe die Teilspannungen, parallel die Teilströme */
-function szProben(A, K) {
-  const aus = [];
-  let I = K[0].soll, U = A.U, iN = 'I', uN = 'U';
-  K.pfad.slice(0, -1).forEach((N, d) => {
-    const C = K.pfad[d + 1], s = K[d + 1];
-    const teile = N.k.map(k => { const R = szR(szExakt(k)), sub = szIds(k).join('');
-      return N.t === 'S' ? { n:'U_{' + sub + '}', w:k === C ? s.soll : szR(I / 1000 * R) }
-                         : { n:'I_{' + sub + '}', w:k === C ? s.soll : szR(U / R * 1000) }; });
-    const summe = teile.reduce((t, x) => t + x.w, 0), f = N.t === 'S' ? szV : szMA, soll = N.t === 'S' ? U : I;
-    const gleich = szZahl(summe) === szZahl(soll) ? ' = ' : ' \\approx ';
-    aus.push({ art:N.t, zeile:[teile.map(x => x.n).join(' + '), '= ' + teile.map(x => f(x.w)).join(' + '),
-                               '= ' + f(summe) + gleich + (N.t === 'S' ? uN : iN)], summe, soll });
-    if (N.t === 'S') { U = s.soll; uN = s.name; } else { I = s.soll; iN = s.name; }
+/* Alle Spannungen und Ströme, von der Wurzel nach unten, gerundet wie auf Papier:
+   dieselben Zahlen wie im Rückweg (szKette). Dazu die Namen U_{23}, I_{23}. */
+function szWerte(A) {
+  const W = new Map();
+  (function ab(n, U, I, Ux, Ix, uN, iN) {
+    W.set(n, { U, I, Ux, Ix, uN, iN });
+    if (n.t === 'R') return;
+    n.k.forEach(c => {
+      const RC = szR(szExakt(c)), sub = szIds(c).join('');
+      if (n.t === 'S') ab(c, szR(I / 1000 * RC), I, Ix / 1000 * szExakt(c), Ix, 'U_{' + sub + '}', iN);
+      else ab(c, U, szR(U / RC * 1000), Ux, Ux / szExakt(c) * 1000, uN, 'I_{' + sub + '}');
+    });
+  })(A.baum, A.U, szR(A.U / szR(szExakt(A.baum)) * 1000), A.U, A.U / szExakt(A.baum) * 1000, 'U', 'I');
+  return W;
+}
+/* Kirchhoff: in einer Reihe (Masche) U_N - U_1 - U_2 = 0, an einer Parallelgruppe (Knoten) I_N - I_1 - I_2 = 0 */
+function szKirchhoff(A, W, knoten) {
+  return knoten.filter(N => N.t !== 'R').map(N => {
+    const w = W.get(N), kw = N.k.map(c => W.get(c)), S = N.t === 'S', f = S ? szV : szMA;
+    const gesamt = S ? w.U : w.I, teile = kw.map(x => S ? x.U : x.I), summe = teile.reduce((t, x) => t + x, 0);
+    return { art:N.t, rest:gesamt - summe, gesamt,                 // Umbruch auch vor jedem Minus (schmale Bildschirme)
+      zeile:[(S ? w.uN : w.iN) + ' - ' + kw.map(x => S ? x.uN : x.iN).join(' - '), '= ' + f(gesamt)]
+        .concat(teile.map(t => '{} - ' + f(t)), [(szZahl(summe) === szZahl(gesamt) ? '= ' : '\\approx ') + '0']) };
   });
-  return aus;
+}
+function szInnere(n) { return n.t === 'R' ? [] : [n].concat(n.k.flatMap(szInnere)); }
+
+/* Teilströme und Teilspannungen aller Widerstände (Aufgabenart 3). Eine Grösse
+   kommt aus dem letzten Schritt des Rückwegs, die andere ist die der Gruppe. */
+function szZellen(A) {
+  const W = szWerte(A), Iges = W.get(A.baum).I;
+  return szBlaetter(A.baum).slice().sort((x, y) => x.ids[0] - y.ids[0]).map(z => {
+    const K = szKette(A, z.ids[0]), last = K[K.length - 1], v = K.vor, k = z.ids[0], w = W.get(z);
+    const rk = 'R_{' + k + '}', c = { rc:rk, un:v.uN, in:v.iN };
+    let U, I;
+    if (last.gr === 'U') {
+      U = last;
+      I = { gr:'I', name:'I_{' + k + '}', einheit:'mA', soll:w.I, exakt:w.Ix, c,
+        tipp:'\\(' + rk + '\\) liegt in Reihe: Durch ihn fliesst derselbe Strom wie durch ' + (v.iN === 'I' ? 'die ganze Schaltung' : 'seinen Zweig') + ', \\(' + v.iN + '\\).',
+        formel:['I_{' + k + '} = ' + v.iN, '= ' + szMA(w.I)],
+        fehler:szSieben(w.I, [['U_gesamt', A.U / z.wert * 1000], ['I_gesamt', v.iN !== 'I' ? Iges : null],
+                              ['einheit_mA', w.I / 1000], ['einheit_mA', w.I * 1000]]) };
+    } else {
+      I = last;
+      U = { gr:'U', name:'U_{' + k + '}', einheit:'V', soll:w.U, exakt:w.Ux, c,
+        tipp:'\\(' + rk + '\\) liegt parallel: An ihm liegt dieselbe Spannung wie an ' + (v.uN === 'U' ? 'der Quelle' : 'seiner Gruppe') + ', \\(' + v.uN + '\\).',
+        formel:['U_{' + k + '} = ' + v.uN, '= ' + szV(w.U)],
+        fehler:szSieben(w.U, [['U_quelle', v.uN !== 'U' ? A.U : null], ['einheit_V', w.U * 1000], ['einheit_V', w.U / 1000]]) };
+    }
+    return { blatt:z, U, I };
+  });
+}
+
+/* ── Kurzformel (Aufgabenart 2) ───────────────────────────────────────
+   Zeichen: 'R3', '+' (in Reihe), 'P' (parallel), '(', ')'. Ohne Vorrang:
+   + und ∥ auf derselben Ebene brauchen eine Klammer. */
+const SZ_ZEICHEN_TEX = { '+':'+', P:'\\parallel', '(':'(', ')':')' };
+const szZeichenTex = t => SZ_ZEICHEN_TEX[t] || 'R_{' + t.slice(1) + '}';
+function szLiesFormel(tok) {
+  let i = 0;
+  function primaer() {
+    const t = tok[i];
+    if (t === '(') { i++; const e = ausdruck(); if (tok[i] !== ')') throw tok[i] === undefined ? 'K_klammer' : 'K_syntax'; i++; return e; }
+    if (/^R\d+$/.test(t || '')) { i++; return { t:'R', ids:[Number(t.slice(1))] }; }
+    throw 'K_syntax';
+  }
+  function ausdruck() {
+    const k = [primaer()]; let op = null;
+    while (tok[i] === '+' || tok[i] === 'P') {
+      const o = tok[i] === '+' ? 'S' : 'P';
+      if (op && o !== op) throw 'K_mix';
+      op = o; i++; k.push(primaer());
+    }
+    return k.length === 1 ? k[0] : { t:op, k };
+  }
+  const e = ausdruck();
+  if (i < tok.length) throw tok[i] === ')' ? 'K_klammer' : 'K_syntax';
+  return e;
+}
+function szFlach(n) {                         // (R1 + R2) + R3 wird R1 + R2 + R3
+  if (n.t === 'R') return n;
+  const k = [];
+  n.k.map(szFlach).forEach(c => { if (c.t === n.t) k.push(...c.k); else k.push(c); });
+  return { t:n.t, k };
+}
+const szSatz = n => szIds(n).join('.');
+function szKanon(n) { return n.t === 'R' ? 'R' + n.ids[0] : n.t + '(' + n.k.map(szKanon).sort().join(',') + ')'; }
+function szTokens(n, oben, r) {               // Kurzformel als Zeichenfolge, Reihenfolge der Glieder wahlweise gemischt
+  if (n.t === 'R') return ['R' + n.ids[0]];
+  const k = r ? szMisch(r, n.k) : n.k, aus = [];
+  k.forEach((c, i) => { if (i) aus.push(n.t === 'S' ? '+' : 'P'); aus.push(...szTokens(c, n.t, r)); });
+  return oben && oben !== n.t ? ['('].concat(aus, [')']) : aus;
+}
+function szFormelBewerten(A, tok) {
+  if (!tok.length) return { code:'K_leer', text:SZ_DIAGNOSE.K_leer() };
+  let f;
+  try { f = szFlach(szLiesFormel(tok)); } catch (code) { return { code, text:SZ_DIAGNOSE[code]() }; }
+  const ist = szIds(f), soll = szIds(A.baum), nm = k => '\\(R_{' + k + '}\\)';
+  const liste = ks => ks.length === 1 ? ks[0] : ks.slice(0, -1).join(', ') + ' und ' + ks[ks.length - 1];
+  const fehlt = soll.filter(k => !ist.includes(k)), doppelt = [...new Set(ist.filter((k, i) => ist.indexOf(k) !== i))];
+  if (doppelt.length) return { code:'K_doppelt', text:SZ_DIAGNOSE.K_doppelt({ liste:liste(doppelt.map(nm)) }) };
+  if (fehlt.length) return { code:'K_fehlt', text:SZ_DIAGNOSE.K_fehlt({ liste:liste(fehlt.map(nm)) }) };
+  if (szKanon(f) === szKanon(A.baum)) return null;
+  // die innerste Gruppe suchen, die es in der Schaltung so nicht gibt
+  const innen = szInnere(A.baum);
+  const gibt = N => innen.some(M => M.t === N.t && N.k.every(c => M.k.some(m => szSatz(m) === szSatz(c))));
+  let befund = null;
+  (function lauf(N) {
+    if (befund || N.t === 'R') return;
+    N.k.forEach(lauf);
+    if (befund || gibt(N)) return;
+    const gleich = innen.find(M => szSatz(M) === szSatz(N) && M.t !== N.t);
+    if (gleich) befund = { code:'K_vertauscht', text:SZ_DIAGNOSE.K_vertauscht({ liste:szNamenListe(szBlaetter(N)), soll:gleich.t }) };
+    else befund = { code:'K_gruppe', text:SZ_DIAGNOSE.K_gruppe({ t:N.t, teile:liste(N.k.map(c => '\\(' + szTexBaum(c, N.t) + '\\)')) }) };
+  })(f);
+  return befund || { code:'K_falsch', text:SZ_DIAGNOSE.K_falsch() };
 }
 
 /* ── Aufgabe würfeln ──────────────────────────────────────────────── */
@@ -661,6 +807,7 @@ function szAufgabe(vorlage, r) {
     A.kette = szKette(A);
     if (A.kette[0].soll < 2 || A.kette[0].soll > 600) continue;
     if (A.kette.some(s => s.gr === 'I' ? s.soll < 0.5 : s.soll < 0.05)) continue;
+    if (szZellen(A).some(z => z.I.soll < 0.5 || z.U.soll < 0.05)) continue;
     A.tex = szTexBaum(baum);
     return A;
   }
@@ -834,7 +981,59 @@ function szSelbsttest(n) {
       });
       const erg = A.kette.ergebnis, zl = L0.netz.find(e => e.n.ids[0] === A.ziel);
       F(szNah(erg.U, K0.pot(zl.a) - K0.pot(zl.b), 0.025) && szNah(erg.I, K0.strom(zl) * 1000, 0.025), wo + ': Ergebnis am Ziel falsch');
-      szProben(A, A.kette).forEach(p => F(szNah(p.summe, p.soll, 0.015), wo + ': Probe geht nicht auf ' + p.summe + ' / ' + p.soll));
+      // alle Knotenwerte gegen die Knotenrechnung; Kirchhoff an jeder Gruppe
+      const Wt = szWerte(A);
+      szInnere(A.baum).concat(bl).forEach(N => {
+        const g = L0.gruppen.get(N), dU = K0.pot(g.a) - K0.pot(g.b), w = Wt.get(N);
+        F(szNah(w.Ux, dU, 1e-9) && szNah(w.Ix, dU / szExakt(N) * 1000, 1e-9), wo + ': Werte exakt ≠ Knotenrechnung');
+        F(szNah(w.U, dU, 0.025) && szNah(w.I, dU / szExakt(N) * 1000, 0.025), wo + ': Werte gerundet ≠ Knotenrechnung');
+      });
+      szKirchhoff(A, Wt, szInnere(A.baum)).forEach(k => {
+        F(Math.abs(k.rest) <= 0.015 * k.gesamt, wo + ': Kirchhoff geht nicht auf ' + k.rest);
+        F(k.zeile.join('').indexOf('undefined') < 0 && k.zeile.join('').indexOf('NaN') < 0, wo + ': Kirchhoff-Zeile kaputt');
+      });
+      // Teilströme und Teilspannungen
+      szZellen(A).forEach(z => {
+        const e = L0.netz.find(x => x.n.ids[0] === z.blatt.ids[0]), dU = K0.pot(e.a) - K0.pot(e.b), dI = K0.strom(e) * 1000;
+        [[z.U, dU], [z.I, dI]].forEach(([st, ist]) => {
+          F(szNah(st.exakt, ist, 1e-9) && szNah(st.soll, ist, 0.025), wo + ': Zelle ' + st.name + ' ≠ Knotenrechnung');
+          F(!szKetteBewerten(st, ist) && !szKetteBewerten(st, st.soll) && !szKetteBewerten(st, Number(st.soll.toPrecision(3))), wo + ': Zelle ' + st.name + ' abgelehnt');
+          st.fehler.forEach(([code, w]) => { const r = szKetteBewerten(st, w); F(r && r.code === code && r.text.indexOf('undefined') < 0, wo + ': Zelle ' + st.name + ' ' + code + ' nicht erkannt'); });
+          F(st.tipp && st.formel.join('').indexOf('undefined') < 0, wo + ': Zelle ' + st.name + ' ohne Tipp');
+          const w2 = Wt.get(z.blatt); F(st.soll === (st.gr === 'U' ? w2.U : w2.I), wo + ': Zelle und Werte verschieden');
+        });
+      });
+      // Kurzformel: richtige Schreibweisen gelten, Fehler bekommen ihre Diagnose
+      const rf = szZufall(500 + s), tokS = szTokens(A.baum), op = A.baum.t === 'S' ? '+' : 'P';
+      F(!szFormelBewerten(A, tokS) && !szFormelBewerten(A, szTokens(A.baum, null, rf)) && !szFormelBewerten(A, ['('].concat(tokS, [')'])),
+        wo + ': richtige Kurzformel abgelehnt');
+      F(szFormelBewerten(A, []).code === 'K_leer' && szFormelBewerten(A, tokS.concat([op])).code === 'K_syntax' &&
+        szFormelBewerten(A, ['('].concat(tokS)).code === 'K_klammer', wo + ': Syntaxfehler nicht erkannt');
+      F(szFormelBewerten(A, tokS.concat([op, tokS.find(t => t[0] === 'R')])).code === 'K_doppelt', wo + ': doppelter Widerstand nicht erkannt');
+      const ohne = tokS.slice(); const iR = ohne.lastIndexOf(ohne.filter(t => t[0] === 'R').pop());
+      if (ohne[iR - 1] === '+' || ohne[iR - 1] === 'P') ohne.splice(iR - 1, 2);
+      F(szFormelBewerten(A, ohne).code === 'K_fehlt' || A.n === 2, wo + ': fehlender Widerstand nicht erkannt');
+      if (tokS.includes('(')) {
+        const ok = tokS.filter(t => t !== '(' && t !== ')');
+        F(szFormelBewerten(A, ok).code === 'K_mix', wo + ': fehlende Klammer nicht erkannt');
+      }
+      szInnere(A.baum).forEach(N => {                 // eine Gruppe mit vertauschtem Zeichen
+        const kopie = szKopie(A.baum), M = szInnere(kopie)[szInnere(A.baum).indexOf(N)];
+        M.t = M.t === 'S' ? 'P' : 'S';
+        const e = szFormelBewerten(A, szTokens(kopie));
+        F(e && (e.code === 'K_vertauscht' || e.code === 'K_gruppe' || e.code === 'K_mix'), wo + ': vertauschtes Zeichen nicht erkannt ' + (e && e.code));
+      });
+      for (let t = 0; t < 12; t++) {                  // zufällige andere Schaltungen aus denselben Widerständen
+        const ids = szMisch(rf, bl.map(x => x.ids[0]));
+        const bau = (liste, typ) => {
+          if (liste.length === 1) return { t:'R', ids:[liste[0]] };
+          const teil = 1 + Math.floor(rf() * (liste.length - 1)), anders = typ === 'S' ? 'P' : 'S';
+          return { t:typ, k:[bau(liste.slice(0, teil), rf() < 0.5 ? typ : anders), bau(liste.slice(teil), rf() < 0.5 ? typ : anders)] };
+        };
+        const B = szFlach(bau(ids, rf() < 0.5 ? 'S' : 'P')), e = szFormelBewerten(A, szTokens(B, null, rf));
+        F(!e === (szKanon(B) === szKanon(A.baum)), wo + ': Kurzformel falsch beurteilt ' + szKanon(B));
+        F(!e || (e.text && e.text.indexOf('undefined') < 0), wo + ': Kurzformel ohne Text');
+      }
       geometrie(A.baum, A.U, wo);
       // Zusammenfassen in zufälliger Reihenfolge; jede Paarwahl mit der Knotenrechnung abgleichen
       let baum = szKopie(A.baum);
@@ -878,7 +1077,7 @@ function szSelbsttest(n) {
   [['51.7', 51.7], ['51,7', 51.7], [' 51.7 mA', 51.7], ["1'230", 1230], ['1 230', 1230], ['.5', 0.5], ['', NaN], ['abc', NaN]]
     .forEach(([e, w]) => { const x = szLies(e); F(Number.isNaN(w) ? Number.isNaN(x) : x === w, 'Eingabe «' + e + '» gelesen als ' + x); });
   // Zahlenformat
-  [[132, '132'], [22, '22'], [12, '12'], [68.75, '68.8'], [5.172, '5.17'], [0.5172, '0.517'], [1234.4, '1234']]
+  [[132, '132'], [22, '22'], [12, '12'], [17, '17.0'], [68.75, '68.8'], [5.172, '5.17'], [0.5172, '0.517'], [1234.4, '1234']]
     .forEach(([x, t]) => F(szZahl(x) === t, 'Zahlformat ' + x));
   return { vorlagen:SZ_VORLAGEN.length, faelle, fehler };
 }
@@ -890,16 +1089,92 @@ if (window.SZ_TEST) return;            // im Selbsttest keine Oberfläche
 const $ = id => document.getElementById(id);
 const cv = $('sz-cv');
 const SZ_KNOTENFARBEN = ['#b3261e', '#1f5fa8', '#2e7d32', '#6a3d9a', '#b85a00', '#00838f', '#ad1457', '#5d4037'];
-const zustand = { stufe:1, A:null, vId:null, baum:null, wahl:[], phase:'gruppe', schritt:null, k:0,
-                  fehlversuch:false, gezeigt:false, tipp:0, knoten:false, neu:null, weg:[],
-                  geloest:0, schritte:0, ersteRichtig:0 };
+const SZ_ARTEN = {
+  kette:   'Fasse die Schaltung Schritt für Schritt zu einem einzigen Widerstand zusammen. Danach rechnest du zurück bis zu ZIEL: Welcher Strom fliesst durch ihn, welche Spannung liegt an ihm?',
+  formel:  'Schreibe die Kurzformel dieser Schaltung: \\(+\\) heisst in Reihe, \\(\\parallel\\) parallel, und die Klammer sagt, was zuerst zusammengefasst wird.',
+  tabelle: 'Gesamtwiderstand und Gesamtstrom sind schon berechnet, siehe «Gegeben» unten. Berechne für jeden Widerstand die Spannung an ihm und den Strom durch ihn.',
+};
+const zustand = { stufe:1, art:'kette', A:null, vId:null, baum:null, wahl:[], phase:'gruppe', schritt:null, k:0,
+                  fehlversuch:false, gezeigt:false, tipp:0, tippZelle:null, knoten:false, neu:null, weg:[], gegeben:[],
+                  tok:[], zellen:null, geloest:0, schritte:0, ersteRichtig:0 };
 let L = null;
 
-function szEsc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
 function szSetze(el) { if (typeof mjTypeset === 'function') mjTypeset([el]); }
 const szUni = s => s.replace(/\d/g, d => '₀₁₂₃₄₅₆₇₈₉'[d]);
 const szChipName = n => n.ges ? 'R_ges' : 'R' + szUni(szIds(n).join(''));
+const szMono = (g, b) => (b || '') + ' ' + g + 'px "JetBrains Mono", monospace';
 
+/* ── Zeichnen: Schaltbild in eine Leinwand ────────────────────────────
+   o: knoten (färben), wahl (Schlüssel), neu, ziel, fokus, rahmen (Gruppe),
+      pfeile [{ knoten, sub, text }] (Spannungspfeile unter einer Gruppe) */
+function szText(ctx, x, y, haupt, sub, rest, farbe, gross) {   // «R₂₃», «U₁ = 5.17 V», zentriert
+  ctx.font = szMono(gross, 700); const wH = ctx.measureText(haupt).width;
+  ctx.font = szMono(gross * 0.73, 600); const wS = ctx.measureText(sub).width;
+  ctx.font = szMono(gross * 0.92, 600); const wR = rest ? ctx.measureText(rest).width : 0;
+  let x0 = x - (wH + wS + wR) / 2;
+  ctx.fillStyle = farbe; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  ctx.font = szMono(gross, 700); ctx.fillText(haupt, x0, y); x0 += wH;
+  ctx.font = szMono(gross * 0.73, 600); ctx.fillText(sub, x0, y + 3); x0 += wS;
+  if (rest) { ctx.font = szMono(gross * 0.92, 600); ctx.fillText(rest, x0, y); }
+}
+function szMale(id, baum, U, o) {
+  const el = $(id); if (!el || !el.getContext) return null;
+  el.style.width = '';
+  const Lx = szLayout(baum, el.offsetWidth || 600, U);
+  const { ctx } = initCanvas(id, Lx.H);
+  const farbe = k => o.knoten ? SZ_KNOTENFARBEN[k % SZ_KNOTENFARBEN.length] : '#2b2b2b';
+  if (o.rahmen) {
+    const g = Lx.gruppen.get(o.rahmen);
+    ctx.save(); ctx.setLineDash([6, 4]); ctx.strokeStyle = '#8A4A0E'; ctx.lineWidth = 1.6; ctx.fillStyle = 'rgba(251,236,210,0.45)';
+    ctx.beginPath(); ctx.rect(g.x + 2, g.y0 + 2, g.w - 4, g.h - 4); ctx.fill(); ctx.stroke(); ctx.restore();
+  }
+  ctx.lineCap = 'round';
+  Lx.draehte.forEach(d => { ctx.beginPath(); ctx.moveTo(d.x1, d.y1); ctx.lineTo(d.x2, d.y2);
+    ctx.strokeStyle = farbe(d.k); ctx.lineWidth = o.knoten ? 2.6 : 1.7; ctx.stroke(); });
+  Lx.punkte.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 3.4, 0, 2 * Math.PI); ctx.fillStyle = farbe(p.k); ctx.fill(); });
+  Lx.teile.forEach(t => {
+    const k = szSchl(t.n), gew = (o.wahl || []).includes(k), ziel = o.ziel === k, neu = o.neu === k, stark = gew || (ziel && o.fokus === t.n);
+    ctx.fillStyle = gew || ziel ? '#fbecd2' : neu ? '#d8f0e2' : '#ffffff';
+    ctx.strokeStyle = stark ? '#8A4A0E' : '#2b2b2b'; ctx.lineWidth = stark ? 2.8 : 1.7;
+    ctx.beginPath(); ctx.rect(t.cx - Lx.bw / 2, t.cy - Lx.bh / 2, Lx.bw, Lx.bh); ctx.fill(); ctx.stroke();
+    szText(ctx, t.name.x, t.name.y, 'R', t.name.sub, '', gew || ziel ? '#8A4A0E' : '#1a1a1a', SZ_SCHRIFT.name);
+    ctx.font = szMono(SZ_SCHRIFT.wert); ctx.textAlign = 'center'; ctx.fillStyle = '#5a5040';
+    ctx.fillText(t.wert.text, t.wert.x, t.wert.y);
+  });
+  // Quelle: langer Strich am Pluspol (links), kurzer am Minuspol
+  const q = Lx.quelle;
+  ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(q.x - 4, q.y - 13); ctx.lineTo(q.x - 4, q.y + 13); ctx.stroke();
+  ctx.lineWidth = 4.5; ctx.beginPath(); ctx.moveTo(q.x + 4, q.y - 7); ctx.lineTo(q.x + 4, q.y + 7); ctx.stroke();
+  ctx.fillStyle = '#1a1a1a'; ctx.font = szMono(11, 600); ctx.textAlign = 'center';
+  ctx.fillText('+', q.x - 13, q.y - 6); ctx.fillText('−', q.x + 13, q.y - 6);
+  ctx.font = szMono(SZ_SCHRIFT.quelle, 600); ctx.fillText(q.text, q.x, q.y + 26);
+  // Spannungspfeile, vom Plus- zum Minuspol hin
+  (o.pfeile || []).forEach(p => {
+    const g = Lx.gruppen.get(p.knoten), y = g.y0 + g.h + 6, x1 = g.x + 10, x2 = g.x + g.w - 10;
+    ctx.strokeStyle = ctx.fillStyle = '#8A4A0E'; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2 - 6, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x2, y); ctx.lineTo(x2 - 8, y - 4); ctx.lineTo(x2 - 8, y + 4); ctx.closePath(); ctx.fill();
+    szText(ctx, (x1 + x2) / 2, y + 16, 'U', p.sub, p.text, '#8A4A0E', 12);
+  });
+  el.setAttribute('aria-label', 'Schaltbild: ' + szTextBaum(baum) + ', an der Spannung ' + szZahl(U) + ' V');
+  return Lx;
+}
+function szZeichne() {
+  if (!zustand.A) return;
+  const ph = zustand.phase, art = zustand.art, A = zustand.A;
+  const o = { knoten:zustand.knoten };
+  let baum = A.baum;
+  if (art === 'kette' && (ph === 'gruppe' || ph === 'wert')) {
+    baum = zustand.baum; o.wahl = zustand.wahl; if (ph === 'gruppe') o.neu = zustand.neu;
+  } else if (art === 'kette') {
+    o.ziel = String(A.ziel);
+    if (ph === 'zurueck') { const C = A.kette[zustand.k].knoten; o.fokus = C; if (C !== A.baum && C.t !== 'R') o.rahmen = C; }
+  }
+  L = szMale('sz-cv', baum, A.U, o);
+}
+
+/* ── Neue Aufgabe ─────────────────────────────────────────────────── */
 function szNeueAufgabe(V, seed) {
   if (!V) {
     const pool = SZ_VORLAGEN.filter(v => zustand.stufe === 0 || v.stufe === zustand.stufe);
@@ -907,22 +1182,29 @@ function szNeueAufgabe(V, seed) {
   }
   zustand.vId = V.id;
   const A = zustand.A = szAufgabe(V, seed ? szZufall(seed) : Math.random);
-  zustand.baum = szKopie(A.baum);
-  Object.assign(zustand, { wahl:[], phase:'gruppe', schritt:null, k:0, fehlversuch:false, gezeigt:false, tipp:0, neu:null, weg:[] });
-  const zielName = '\\(R_{' + A.ziel + '}\\)';
-  $('sz-aufgabe').innerHTML = '<div class="sz-aufgabe-kopf"><span class="sz-aufgabe-titel">' + A.n + ' Widerstände an \\(U = ' + szV(A.U) +
-    '\\)</span><span class="sz-phase" id="sz-phase"></span></div><p>Fasse die Schaltung Schritt für Schritt zu einem einzigen Widerstand zusammen. ' +
-    'Danach rechnest du zurück bis zu ' + zielName + ': Welcher Strom fliesst durch ihn, welche Spannung liegt an ihm?</p>';
+  Object.assign(zustand, { baum:szKopie(A.baum), wahl:[], schritt:null, k:0, fehlversuch:false, gezeigt:false, tipp:0, tippZelle:null,
+                           neu:null, weg:[], gegeben:[], tok:[], zellen:null });
+  zustand.phase = { kette:'gruppe', formel:'formel', tabelle:'tabelle' }[zustand.art];
+  if (zustand.art === 'tabelle') {
+    let b = szKopie(A.baum);
+    while (b.t !== 'R') { const [ka, kb] = szPaare(b)[0], st = szSchritt(b, ka, kb); b = szAnwenden(b, st); zustand.gegeben.push(szWertZeile(st)); }
+    zustand.gegeben.push(A.kette[0].formel);
+    zustand.zellen = szZellen(A).map(z => Object.assign(z, { st:{ U:{}, I:{} } }));
+  }
+  const titel = A.n + ' Widerstände an \\(U = ' + szV(A.U) + '\\)';
+  $('sz-aufgabe').innerHTML = '<div class="sz-aufgabe-kopf"><span class="sz-aufgabe-titel">' + titel +
+    '</span><span class="sz-phase" id="sz-phase"></span></div><p>' + SZ_ARTEN[zustand.art].replace('ZIEL', '\\(R_{' + A.ziel + '}\\)') + '</p>';
   szSetze($('sz-aufgabe'));
-  $('sz-rueck').innerHTML = ''; $('sz-ende').innerHTML = '';
+  $('sz-rueck').innerHTML = ''; $('sz-ende').innerHTML = ''; $('sz-frage').dataset.aufgabe = '';
   szWeg(); szAlles();
 }
 
 function szAlles() { szPhaseText(); szChips(); szFrage(); szZeichne(); szStand(); }
 function szPhaseText() {
   const p = $('sz-phase'); if (!p) return;
-  p.textContent = zustand.phase === 'gruppe' || zustand.phase === 'wert' ? 'Teil 1: zusammenfassen'
-    : zustand.phase === 'zurueck' ? 'Teil 2: zurückrechnen' : 'fertig';
+  const ph = zustand.phase;
+  p.textContent = ph === 'fertig' ? 'fertig' : zustand.art === 'formel' ? 'Kurzformel' : zustand.art === 'tabelle' ? 'Teilströme und Teilspannungen'
+    : ph === 'zurueck' ? 'Teil 2: zurückrechnen' : 'Teil 1: zusammenfassen';
 }
 
 /* ── Leiste mit den Widerständen ─────────────────────────────────── */
@@ -932,11 +1214,13 @@ function szChips() {
     const g = zustand.wahl.includes(szSchl(x));
     return '<button class="sz-chip' + (g ? ' gewaehlt' : '') + '" data-k="' + szSchl(x) + '" aria-pressed="' + g + '">' + szChipName(x) + '</button>';
   }).join('') : '';
-  $('sz-hinweis').textContent = aktiv
-    ? 'Tippe zwei Widerstände an, im Bild oder hier in der Leiste. Dann entscheide, wie sie liegen.'
-    : zustand.phase !== 'zurueck' ? '' : 'Das Bild zeigt wieder die ganze Schaltung; die Gruppe, um die es gerade geht, ist umrahmt.';
+  const ph = zustand.phase;
+  $('sz-hinweis').textContent = ph === 'gruppe' ? 'Tippe zwei Widerstände an, im Bild oder hier in der Leiste. Dann entscheide, wie sie liegen.'
+    : ph === 'zurueck' ? 'Das Bild zeigt wieder die ganze Schaltung; die Gruppe, um die es gerade geht, ist umrahmt.'
+    : ph === 'formel' ? 'Ein Antippen im Bild setzt den Widerstand in die Formel ein.' : '';
 }
 function szWaehle(k) {
+  if (zustand.phase === 'formel') { szZeichen('R' + k.split('.')[0]); return; }
   if (zustand.phase !== 'gruppe') return;
   const i = zustand.wahl.indexOf(k);
   if (i >= 0) zustand.wahl.splice(i, 1);
@@ -945,14 +1229,16 @@ function szWaehle(k) {
   szChips(); szFrage(); szZeichne();
 }
 
-/* ── Frage: Paar beurteilen, Wert eingeben, zurückrechnen ─────────── */
+/* ── Frage je Aufgabenart ─────────────────────────────────────────── */
 function szEingabe(label, einheit) {
   return '<div class="sz-zeile"><label for="sz-ein">' + label + '</label>' +
     '<input class="sz-eingabe" id="sz-ein" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">' +
-    '<span class="sz-einheit">' + einheit + '</span><button class="play-btn" id="sz-pruefen">Prüfen</button></div>';
+    '<span class="sz-einheit">' + einheit + '</span><button class="play-btn sz-pruefen">Prüfen</button></div>';
 }
 function szFrage() {
-  const F = $('sz-frage'), ph = zustand.phase;
+  const F = $('sz-frage'), ph = zustand.phase, A = zustand.A;
+  if (ph === 'tabelle' && F.dataset.aufgabe === 'tabelle') return;      // Tabelle bleibt stehen, Eingaben bleiben erhalten
+  F.dataset.aufgabe = ph;
   if (ph === 'gruppe') {
     const [ka, kb] = zustand.wahl, zwei = zustand.wahl.length === 2;
     const nm = k => '\\(' + szTexR(szPfad(zustand.baum, k).pop()) + '\\)';
@@ -965,12 +1251,28 @@ function szFrage() {
     F.innerHTML = '<p>Richtig, \\(' + st.c.a + '\\) und \\(' + st.c.b + '\\) liegen ' + (st.art === 'S' ? 'in Reihe' : 'parallel') +
       '. Wie gross ist ihr Ersatzwiderstand?</p>' + szEingabe('\\(' + st.c.r + ' = \\)', 'Ω');
   } else if (ph === 'zurueck') {
-    const st = zustand.A.kette[zustand.k];
+    const st = A.kette[zustand.k];
     F.innerHTML = '<p>' + st.frage + '</p>' + szEingabe('\\(' + st.name + ' = \\)', st.einheit);
+  } else if (ph === 'formel') {
+    const R = szBlaetter(A.baum).map(x => x.ids[0]).sort((a, b) => a - b);
+    F.innerHTML = '<div class="sz-formel" id="sz-formel"></div>' +
+      '<div class="sz-zeile sz-tasten" role="group" aria-label="Kurzformel eingeben">' +
+      R.map(k => '<button class="sz-chip" data-tok="R' + k + '">R' + szUni(String(k)) + '</button>').join('') +
+      '<button class="sz-chip" data-tok="+" aria-label="in Reihe">+</button><button class="sz-chip" data-tok="P" aria-label="parallel">∥</button>' +
+      '<button class="sz-chip" data-tok="(">(</button><button class="sz-chip" data-tok=")">)</button>' +
+      '<button class="sz-chip" data-tok="weg" aria-label="letztes Zeichen löschen">⌫</button><button class="sz-chip" data-tok="leer">Löschen</button></div>' +
+      '<div class="sz-zeile" style="margin-top:10px"><button class="play-btn sz-pruefen">Prüfen</button></div>';
+  } else if (ph === 'tabelle') {
+    F.innerHTML = '<div class="sz-tab"><div class="sz-tab-kopf"></div><div class="sz-tab-kopf">Spannung in V</div><div class="sz-tab-kopf">Strom in mA</div>' +
+      zustand.zellen.map((z, i) => '<div class="sz-tab-r">\\(' + szTexR(z.blatt) + ' = ' + szO(z.blatt.wert) + '\\)</div>' +
+        ['U', 'I'].map(g => '<label class="sz-tab-zelle"><span>\\(' + z[g].name + '\\)</span><input class="sz-eingabe" data-z="' + i + ':' + g +
+          '" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-label="' + (g === 'U' ? 'Spannung an R' : 'Strom durch R') + z.blatt.ids[0] + '"></label>').join('')).join('') +
+      '</div><div class="sz-zeile" style="margin-top:10px"><button class="play-btn sz-pruefen">Prüfen</button></div>';
   } else F.innerHTML = '';
   F.style.display = F.innerHTML ? '' : 'none';
-  szSetze(F);
-  const ein = $('sz-ein'); if (ein) { ein.addEventListener('keydown', ev => { if (ev.key === 'Enter') szPruefen(); }); }
+  if (ph === 'formel') szFormelZeigen(); else szSetze(F);
+  const ein = $('sz-ein'); if (ein) ein.addEventListener('keydown', ev => { if (ev.key === 'Enter') szPruefen(); });
+  F.querySelectorAll('[data-z]').forEach(e => e.addEventListener('keydown', ev => { if (ev.key === 'Enter') szPruefen(); }));
 }
 function szRueck(art, titel, text) {
   const R = $('sz-rueck');
@@ -983,6 +1285,7 @@ function szStatSchritt() {
   zustand.fehlversuch = false; zustand.gezeigt = false; zustand.tipp = 0;
 }
 
+/* ── Art 1: zusammenfassen und zurückrechnen ─────────────────────── */
 function szArt(art) {
   if (zustand.phase !== 'gruppe' || zustand.wahl.length !== 2) return;
   const [ka, kb] = zustand.wahl, e = szGruppeBewerten(zustand.baum, ka, kb, art);
@@ -993,13 +1296,16 @@ function szArt(art) {
   const ein = $('sz-ein'); if (ein) ein.focus();
 }
 function szPruefen() {
+  const ph = zustand.phase;
+  if (ph === 'formel') { szFormelPruefen(); return; }
+  if (ph === 'tabelle') { szTabPruefen(); return; }
   const ein = $('sz-ein'); if (!ein) return;
   const x = szLies(ein.value);
-  if (zustand.phase === 'wert') {
+  if (ph === 'wert') {
     const e = szWertBewerten(zustand.schritt, x);
     if (e) { if (e.code !== 'leer') zustand.fehlversuch = true; szRueck('block-fehler', '✗ Noch nicht', e.text); return; }
     szZusammenfassen();
-  } else if (zustand.phase === 'zurueck') {
+  } else if (ph === 'zurueck') {
     const st = zustand.A.kette[zustand.k], e = szKetteBewerten(st, x);
     if (e) { if (e.code !== 'leer') zustand.fehlversuch = true; szRueck('block-fehler', '✗ Noch nicht', e.text); return; }
     szWeiter();
@@ -1026,42 +1332,110 @@ function szWeiter() {
   zustand.weg.push(st.formel);
   szStatSchritt();
   zustand.k++;
-  if (zustand.k < K.length) {
-    szRueck('block-bsp', '✓ Richtig', '\\(' + st.name + ' = ' + (st.einheit === 'V' ? szV(st.soll) : szMA(st.soll)) + '\\).');
-  } else { zustand.phase = 'fertig'; zustand.geloest++; szRueck('', '', ''); szEnde(); }
+  if (zustand.k < K.length) szRueck('block-bsp', '✓ Richtig', '\\(' + st.name + ' = ' + (st.einheit === 'V' ? szV(st.soll) : szMA(st.soll)) + '\\).');
+  else { zustand.phase = 'fertig'; zustand.geloest++; szRueck('', '', ''); szEnde(); }
   szWeg(); szAlles();
 }
 function szWeg() {
-  const W = $('sz-weg');
-  if (!zustand.weg.length) { W.style.display = 'none'; W.innerHTML = ''; return; }
-  W.style.display = '';
-  const i1 = zustand.A.n - 1;                 // so viele Zusammenfassungen gibt es
-  const z = zustand.weg.map((t, i) => (i === i1 ? '<div class="fl-label" style="margin-top:10px">Zurückrechnen</div>' : '') +
-    '<div class="fl-eq">' + flHtml(t) + '</div>');
-  W.innerHTML = '<div class="fl-label">Zusammenfassen</div>' + z.join('');
+  const W = $('sz-weg'), A = zustand.A;
+  const zeile = t => '<div class="fl-eq">' + flHtml(t) + '</div>';
+  let h = '';
+  if (zustand.art === 'tabelle') h = '<div class="fl-label">Gegeben</div>' + zustand.gegeben.map(zeile).join('');
+  else if (zustand.art === 'kette' && zustand.weg.length) {
+    const i1 = A.n - 1;                       // so viele Zusammenfassungen gibt es
+    h = '<div class="fl-label">Zusammenfassen</div>' + zustand.weg.map((t, i) =>
+      (i === i1 ? '<div class="fl-label" style="margin-top:10px">Zurückrechnen</div>' : '') + zeile(t)).join('');
+  }
+  W.style.display = h ? '' : 'none'; W.innerHTML = h;
   szSetze(W);
 }
+const SZ_KIRCHHOFF = 'Kirchhoff: Die Summe aller Ströme in einem Knoten ist null (zufliessend positiv, abfliessend negativ), ' +
+  'die Summe aller Spannungen in einer Masche ist null (in Umlaufrichtung gezählt).';
+function szKirchhoffHtml(liste) {
+  return '<div class="formel-live sz-weg">' + liste.map(p => '<div class="fl-eq"><span class="sz-regel">' + (p.art === 'S' ? 'Masche' : 'Knoten') +
+    '</span>' + flHtml(p.zeile) + '</div>').join('') + '</div>';
+}
 function szEnde() {
-  const A = zustand.A, erg = A.kette.ergebnis, P = szProben(A, A.kette);
-  const z = A.kette.pfad[A.kette.pfad.length - 1];
+  const A = zustand.A, erg = A.kette.ergebnis, z = A.kette.pfad[A.kette.pfad.length - 1];
+  const P = szKirchhoff(A, szWerte(A), A.kette.pfad.slice(0, -1));
   const strom = erg.iN === 'I_{' + A.ziel + '}' ? '' : ' (derselbe Strom wie \\(' + erg.iN + '\\))';
   const spann = erg.uN === 'U_{' + A.ziel + '}' ? '' : ' (dieselbe Spannung wie \\(' + erg.uN + '\\))';
   $('sz-ende').innerHTML = '<div class="block block-bsp"><div class="block-titel">✓ Fertig gerechnet</div>' +
     '<p>An \\(' + szTexR(z) + ' = ' + szO(z.wert) + '\\) liegt die Spannung \\(U_{' + A.ziel + '} = ' + szV(erg.U) + '\\)' + spann +
     ', und es fliesst der Strom \\(I_{' + A.ziel + '} = ' + szMA(erg.I) + '\\)' + strom + '.</p>' +
-    '<p>' + (P.length > 1 ? 'Die Proben' : 'Die Probe') + ' entlang des Wegs: In Reihe ergeben die Teilspannungen die Spannung, parallel die Teilströme den Strom.</p>' +
-    '<div class="formel-live sz-weg">' + P.map(p => '<div class="fl-eq">' + flHtml(p.zeile) + '</div>').join('') + '</div>' +
+    '<p>Probe mit ' + SZ_KIRCHHOFF + ' Entlang des Wegs:</p>' + szKirchhoffHtml(P) +
     '<p style="margin-bottom:0">Weiter mit «Neue Aufgabe».</p></div>';
   szSetze($('sz-ende'));
 }
 
+/* ── Art 2: Kurzformel ────────────────────────────────────────────── */
+function szFormelZeigen() {
+  // Sofort und ohne Warteschlange setzen (tex2svg): Die Vorschau wird beim schnellen Tippen und beim
+  // Wechsel der Aufgabe ersetzt; ein angereihter Satz träfe sonst ein Element, das nicht mehr im Bild ist.
+  const F = $('sz-formel'); if (!F) return;
+  const tex = 'R_\\text{ges} = ' + (zustand.tok.length ? zustand.tok.map(szZeichenTex).join(' ') : '\\;?');
+  const MJ = window.MathJax;
+  if (MJ && MJ.tex2svg && MJ.startup && MJ.startup.document) { F.innerHTML = ''; F.appendChild(MJ.tex2svg(tex, { display:false })); F.scrollLeft = F.scrollWidth; }
+  else { F.textContent = 'R_ges = ' + zustand.tok.map(t => t === 'P' ? '∥' : t).join(' ');
+         if (MJ && MJ.startup && MJ.startup.promise) MJ.startup.promise.then(szFormelZeigen); }
+}
+function szZeichen(t) {
+  if (zustand.phase !== 'formel') return;
+  if (t === 'weg') zustand.tok.pop(); else if (t === 'leer') zustand.tok = []; else zustand.tok.push(t);
+  szFormelZeigen();
+}
+function szFormelPruefen() {
+  const e = szFormelBewerten(zustand.A, zustand.tok);
+  if (e) { if (e.code !== 'K_leer') zustand.fehlversuch = true; szRueck('block-fehler', '✗ Noch nicht', e.text); return; }
+  szStatSchritt(); zustand.phase = 'fertig'; zustand.geloest++;
+  szRueck('', '', '');
+  $('sz-ende').innerHTML = '<div class="block block-bsp"><div class="block-titel">✓ Richtig</div><p>\\(R_\\text{ges} = ' + zustand.A.tex +
+    '\\). Die Reihenfolge innerhalb einer Reihe oder einer Parallelgruppe spielt keine Rolle, die Klammern schon.</p>' +
+    '<p style="margin-bottom:0">Weiter mit «Neue Aufgabe».</p></div>';
+  szSetze($('sz-ende')); szAlles();
+}
+
+/* ── Art 3: Teilströme und Teilspannungen ─────────────────────────── */
+function szZellenListe() { return zustand.zellen.flatMap((z, i) => ['U', 'I'].map(g => ({ z, g, i, s:z.st[g], st:z[g] }))); }
+function szZelleFeld(c) { return document.querySelector('[data-z="' + c.i + ':' + c.g + '"]'); }
+function szZelleOk(c, gezeigt) {
+  c.s.ok = true; if (gezeigt) c.s.gezeigt = true;
+  zustand.schritte++; if (!c.s.fehl && !c.s.gezeigt) zustand.ersteRichtig++;
+  const el = szZelleFeld(c); if (el) { el.classList.add('ok'); el.classList.remove('falsch'); el.readOnly = true; if (gezeigt) el.value = szZahl(c.st.soll); }
+}
+function szTabPruefen() {
+  const fehl = [];
+  szZellenListe().forEach(c => {
+    if (c.s.ok) return;
+    const el = szZelleFeld(c); if (!el || el.value.trim() === '') return;
+    const e = szKetteBewerten(c.st, szLies(el.value));
+    if (!e) szZelleOk(c);
+    else { c.s.fehl = true; el.classList.add('falsch'); fehl.push('\\(' + c.st.name + '\\): ' + e.text); }
+  });
+  szTabStand(fehl);
+}
+function szTabStand(fehl) {
+  const alle = szZellenListe(), offen = alle.filter(c => !c.s.ok).length;
+  if (!offen) {
+    zustand.phase = 'fertig'; zustand.geloest++; szRueck('', '', '');
+    const P = szKirchhoff(zustand.A, szWerte(zustand.A), szInnere(zustand.A.baum));
+    $('sz-ende').innerHTML = '<div class="block block-bsp"><div class="block-titel">✓ Alle Werte stimmen</div>' +
+      '<p>Probe mit ' + SZ_KIRCHHOFF + ' An jeder Gruppe der Schaltung:</p>' + szKirchhoffHtml(P) +
+      '<p style="margin-bottom:0">Weiter mit «Neue Aufgabe».</p></div>';
+    szSetze($('sz-ende')); szPhaseText(); szStand();
+    $('sz-frage').querySelector('.sz-pruefen').disabled = true;
+  } else if (fehl && fehl.length) szRueck('block-fehler', '✗ Noch nicht', fehl.slice(0, 2).join('<br>') + (fehl.length > 2 ? '<br>Dazu kommen weitere Felder; verbessere zuerst diese.' : ''));
+  else szRueck('block-tipp', 'Zwischenstand', (alle.length - offen) + ' von ' + alle.length + ' Feldern stimmen. Fülle die übrigen aus.');
+  szStand();
+}
+
 /* ── Tipp und Schritt zeigen ──────────────────────────────────────── */
 function szTipp() {
+  const ph = zustand.phase, A = zustand.A;
   zustand.tipp++;
-  const ph = zustand.phase;
   let t = '';
   if (ph === 'gruppe') {
-    const paare = szPaare(zustand.baum), [ka, kb, art] = paare[0];
+    const [ka, kb, art] = szPaare(zustand.baum)[0];
     const nm = k => '\\(' + szTexR(szPfad(zustand.baum, k).pop()) + '\\)';
     if (zustand.tipp === 1) {
       t = 'Suche zwei Widerstände, die an denselben zwei Knoten hängen (parallel) oder durch die derselbe Strom fliesst, ohne sich dazwischen aufzuteilen (in Reihe). Mit «Knoten färben» siehst du die Knoten.';
@@ -1070,12 +1444,22 @@ function szTipp() {
     else t = nm(ka) + ' und ' + nm(kb) + ' liegen ' + (art === 'S' ? 'in Reihe: Durch beide fliesst derselbe Strom.' : 'parallel: Beide hängen an denselben zwei Knoten.');
   } else if (ph === 'wert') {
     const st = zustand.schritt, f = szWertZeile(st);
-    t = zustand.tipp === 1
-      ? (st.art === 'S' ? 'In Reihe addieren sich die Widerstände: ' : 'Parallel: Produkt durch Summe, ') + '\\(' + f[0] + '\\).'
-      : 'Eingesetzt: \\(' + f[0] + ' ' + f[1] + '\\).';
+    t = zustand.tipp === 1 ? (st.art === 'S' ? 'In Reihe addieren sich die Widerstände: ' : 'Parallel: Produkt durch Summe, ') + '\\(' + f[0] + '\\).'
+                           : 'Eingesetzt: \\(' + f[0] + ' ' + f[1] + '\\).';
   } else if (ph === 'zurueck') {
-    const st = zustand.A.kette[zustand.k];
+    const st = A.kette[zustand.k];
     t = zustand.tipp === 1 ? st.tipp : 'Eingesetzt: \\(' + st.formel[0] + ' ' + st.formel[1] + '\\).';
+  } else if (ph === 'formel') {
+    const [ka, kb, art] = szPaare(A.baum)[0], nm = k => 'R_{' + k.split('.')[0] + '}';
+    if (zustand.tipp === 1) t = 'Beginne innen: Welche zwei Widerstände gehören direkt zusammen, in Reihe oder parallel? Diese Gruppe kommt in eine Klammer, wenn sie mit dem anderen Zeichen weiterverbunden wird.';
+    else if (zustand.tipp === 2) t = 'Eine innerste Gruppe ist \\(' + nm(ka) + (art === 'S' ? ' + ' : ' \\parallel ') + nm(kb) + '\\).';
+    else t = 'Zuoberst ist die Schaltung ' + (A.baum.t === 'S' ? 'eine Reihe' : 'eine Parallelschaltung') + ' aus ' + A.baum.k.length + ' Teilen: ' +
+      A.baum.k.map(c => '\\(' + szTexBaum(c, A.baum.t) + '\\)').join(', ') + '.';
+  } else if (ph === 'tabelle') {
+    const c = szZellenListe().find(x => !x.s.ok);
+    if (zustand.tippZelle !== c) { zustand.tippZelle = c; zustand.tipp = 1; }
+    t = '\\(' + c.st.name + '\\): ' + (zustand.tipp === 1 ? c.st.tipp + ' Die Werte der Gruppen stehen unter «Gegeben» oder folgen aus anderen Feldern.'
+                                                        : 'Eingesetzt: \\(' + c.st.formel.slice(0, -1).join(' ') + '\\).');
   } else t = 'Die Aufgabe ist gelöst. Weiter mit «Neue Aufgabe».';
   szRueck('block-tipp', '💡 Tipp', t);
 }
@@ -1088,60 +1472,14 @@ function szZeigen() {
     szZusammenfassen();
   } else if (ph === 'wert') szZusammenfassen();
   else if (ph === 'zurueck') szWeiter();
-}
-
-/* ── Zeichnen ─────────────────────────────────────────────────────── */
-function szZeichne() {
-  if (!cv || !cv.getContext || !zustand.A) return;
-  const ph = zustand.phase, zurueck = ph === 'zurueck' || ph === 'fertig';
-  const baum = zurueck ? zustand.A.baum : zustand.baum;
-  cv.style.width = '';
-  L = szLayout(baum, cv.offsetWidth || 600, zustand.A.U);
-  const { ctx, W } = initCanvas('sz-cv', L.H);
-  const farbe = k => zustand.knoten ? SZ_KNOTENFARBEN[k % SZ_KNOTENFARBEN.length] : '#2b2b2b';
-  // Rahmen um die Gruppe, um die es beim Zurückrechnen geht
-  if (ph === 'zurueck') {
-    const C = zustand.A.kette[zustand.k].knoten;
-    if (C !== zustand.A.baum && C.t !== 'R') {
-      const g = L.gruppen.get(C);
-      ctx.save(); ctx.setLineDash([6, 4]); ctx.strokeStyle = '#8A4A0E'; ctx.lineWidth = 1.6;
-      ctx.fillStyle = 'rgba(251,236,210,0.45)';
-      ctx.beginPath(); ctx.rect(g.x + 2, g.y0 + 2, g.w - 4, g.h - 4); ctx.fill(); ctx.stroke(); ctx.restore();
-    }
+  else if (ph === 'formel') { zustand.tok = szTokens(zustand.A.baum); szFormelZeigen(); szFormelPruefen(); }
+  else if (ph === 'tabelle') {
+    const c = szZellenListe().find(x => !x.s.ok);
+    szZelleOk(c, true);
+    szTabStand();
+    if (zustand.phase !== 'fertig') szRueck('block-tipp', 'Gezeigt', flHtml(c.st.formel));
   }
-  ctx.lineCap = 'round';
-  L.draehte.forEach(d => { ctx.beginPath(); ctx.moveTo(d.x1, d.y1); ctx.lineTo(d.x2, d.y2);
-    ctx.strokeStyle = farbe(d.k); ctx.lineWidth = zustand.knoten ? 2.6 : 1.7; ctx.stroke(); });
-  L.punkte.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 3.4, 0, 2 * Math.PI); ctx.fillStyle = farbe(p.k); ctx.fill(); });
-  // Widerstände
-  const zielSchl = String(zustand.A.ziel), fokus = ph === 'zurueck' ? zustand.A.kette[zustand.k].knoten : null;
-  L.teile.forEach(t => {
-    const k = szSchl(t.n), gew = zustand.wahl.includes(k) && ph !== 'zurueck' && ph !== 'fertig';
-    const ziel = zurueck && k === zielSchl, neu = zustand.neu === k && ph === 'gruppe';
-    ctx.fillStyle = gew ? '#fbecd2' : ziel ? '#fbecd2' : neu ? '#d8f0e2' : '#ffffff';
-    ctx.strokeStyle = gew || (ziel && fokus === t.n) ? '#8A4A0E' : '#2b2b2b';
-    ctx.lineWidth = gew || (ziel && fokus === t.n) ? 2.8 : 1.7;
-    ctx.beginPath(); ctx.rect(t.cx - L.bw / 2, t.cy - L.bh / 2, L.bw, L.bh); ctx.fill(); ctx.stroke();
-    // Name: R mit tiefgestelltem Index
-    const S = SZ_SCHRIFT;
-    ctx.fillStyle = gew || ziel ? '#8A4A0E' : '#1a1a1a'; ctx.textBaseline = 'alphabetic';
-    ctx.font = '700 ' + S.name + 'px "JetBrains Mono", monospace'; const wR = ctx.measureText('R').width;
-    ctx.font = '600 ' + S.sub + 'px "JetBrains Mono", monospace'; const wS = ctx.measureText(t.name.sub).width;
-    const x0 = t.name.x - (wR + wS) / 2;
-    ctx.font = '700 ' + S.name + 'px "JetBrains Mono", monospace'; ctx.textAlign = 'left'; ctx.fillText('R', x0, t.name.y);
-    ctx.font = '600 ' + S.sub + 'px "JetBrains Mono", monospace'; ctx.fillText(t.name.sub, x0 + wR, t.name.y + 3);
-    ctx.font = S.wert + 'px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.fillStyle = '#5a5040';
-    ctx.fillText(t.wert.text, t.wert.x, t.wert.y);
-  });
-  // Quelle: langer Strich am Pluspol (links), kurzer am Minuspol
-  const q = L.quelle;
-  ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(q.x - 4, q.y - 13); ctx.lineTo(q.x - 4, q.y + 13); ctx.stroke();
-  ctx.lineWidth = 4.5; ctx.beginPath(); ctx.moveTo(q.x + 4, q.y - 7); ctx.lineTo(q.x + 4, q.y + 7); ctx.stroke();
-  ctx.fillStyle = '#1a1a1a'; ctx.font = '600 11px "JetBrains Mono", monospace'; ctx.textAlign = 'center';
-  ctx.fillText('+', q.x - 13, q.y - 6); ctx.fillText('−', q.x + 13, q.y - 6);
-  ctx.font = '600 ' + SZ_SCHRIFT.quelle + 'px "JetBrains Mono", monospace'; ctx.fillText(q.text, q.x, q.y + 26);
-  cv.setAttribute('aria-label', 'Schaltbild: ' + szTextBaum(baum) + ', an der Spannung ' + szZahl(zustand.A.U) + ' V');
+  zustand.gezeigt = false;
 }
 
 function szStand() {
@@ -1151,9 +1489,24 @@ function szKnotenKnopf() {
   const b = $('sz-knoten'); b.classList.toggle('aktiv', zustand.knoten); b.setAttribute('aria-pressed', String(zustand.knoten));
 }
 
+/* ── Bilder in den Fehlerkästen: R1 + (R2 ∥ R3) wie im Beispiel der Themenseite ── */
+function szBeispiel() {
+  const b = (id, R) => ({ t:'R', ids:[id], exakt:R, wert:R });
+  const r1 = b(1, 100), p = { t:'P', k:[b(2, 220), b(3, 330)] };
+  return { baum:{ t:'S', k:[r1, p] }, r1, p };
+}
+function szFehlerBilder() {
+  const e1 = szBeispiel();
+  szMale('sz-bild-reihe', e1.baum, 12, { knoten:true, wahl:['1', '2'] });
+  const e2 = szBeispiel(), A = { baum:e2.baum, U:12 }, W = szWerte(A);
+  szMale('sz-bild-spannung', e2.baum, 12, { pfeile:[
+    { knoten:e2.r1, sub:'1', text:' = ' + szZahl(W.get(e2.r1).Ux) + ' V' },          // exakt gerundet, wie im Text: 5.17 V und 6.83 V
+    { knoten:e2.p, sub:'23', text:' = ' + szZahl(W.get(e2.p).Ux) + ' V' }] });
+}
+
 /* ── Bedienung ────────────────────────────────────────────────────── */
 cv.addEventListener('pointerdown', ev => {
-  if (zustand.phase !== 'gruppe' || !L) return;
+  if ((zustand.phase !== 'gruppe' && zustand.phase !== 'formel') || !L) return;
   const r = cv.getBoundingClientRect(), px = ev.clientX - r.left, py = ev.clientY - r.top;
   let best = null, bd = Infinity;
   L.teile.forEach(t => {
@@ -1165,30 +1518,37 @@ cv.addEventListener('pointerdown', ev => {
 $('sz-chips').addEventListener('click', ev => { const b = ev.target.closest('[data-k]'); if (b) szWaehle(b.dataset.k); });
 $('sz-frage').addEventListener('click', ev => {
   const b = ev.target.closest('button'); if (!b || b.disabled) return;
-  if (b.dataset.art) szArt(b.dataset.art); else if (b.id === 'sz-pruefen') szPruefen();
+  if (b.dataset.art) szArt(b.dataset.art); else if (b.dataset.tok) szZeichen(b.dataset.tok); else if (b.classList.contains('sz-pruefen')) szPruefen();
 });
 $('sz-knoten').addEventListener('click', () => { zustand.knoten = !zustand.knoten; szKnotenKnopf(); szZeichne(); });
-$('sz-stufen').addEventListener('click', ev => {
-  const b = ev.target.closest('[data-stufe]'); if (!b) return;
-  document.querySelectorAll('#sz-stufen .typ-btn').forEach(x => x.classList.toggle('aktiv', x === b));
-  zustand.stufe = +b.dataset.stufe; szNeueAufgabe();
-});
+function szUmschalter(id, feld, wert) {
+  $(id).addEventListener('click', ev => {
+    const b = ev.target.closest('[' + feld + ']'); if (!b) return;
+    document.querySelectorAll('#' + id + ' .typ-btn').forEach(x => x.classList.toggle('aktiv', x === b));
+    wert(b.getAttribute(feld)); szNeueAufgabe();
+  });
+}
+szUmschalter('sz-stufen', 'data-stufe', v => { zustand.stufe = +v; });
+szUmschalter('sz-arten', 'data-art', v => { zustand.art = v; });
 $('sz-tipp').addEventListener('click', szTipp);
 $('sz-zeigen').addEventListener('click', szZeigen);
 $('sz-neu').addEventListener('click', () => szNeueAufgabe());
-let szRz; window.addEventListener('resize', () => { clearTimeout(szRz); szRz = setTimeout(szZeichne, 150); });
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(szZeichne);
+let szRz; window.addEventListener('resize', () => { clearTimeout(szRz); szRz = setTimeout(() => { szZeichne(); szFehlerBilder(); }, 150); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { szZeichne(); szFehlerBilder(); });
 
 /* Testhaken für Prüfskripte (.claude/tools): bestimmte Aufgabe zeigen, Schritte ausführen */
 window.__sz = {
+  art(a) { document.querySelector('#sz-arten [data-art="' + a + '"]').click(); },
   aufgabe(id, seed) { szNeueAufgabe(SZ_VORLAGEN.find(v => v.id === id), seed || 1); return zustand.A; },
-  waehle(k) { szWaehle(k); }, art(a) { szArt(a); }, zeigen() { szZeigen(); },
+  waehle(k) { szWaehle(k); }, lage(a) { szArt(a); }, zeigen() { szZeigen(); }, tipp() { szTipp(); },
   eingabe(x) { $('sz-ein').value = x; szPruefen(); },
-  layout() { return L; }, paare() { return szPaare(zustand.baum); },
+  zeichen(liste) { liste.forEach(szZeichen); }, pruefen() { szPruefen(); },
+  zelle(i, g, x) { document.querySelector('[data-z="' + i + ':' + g + '"]').value = x; },
+  layout() { return L; }, paare() { return szPaare(zustand.baum); }, tokens() { return szTokens(zustand.A.baum); },
   ids: SZ_VORLAGEN.map(v => v.id), zustand,
 };
 
-szKnotenKnopf(); szNeueAufgabe();
+szKnotenKnopf(); szNeueAufgabe(); szFehlerBilder();
 })();
 </script>
 </body>

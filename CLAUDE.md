@@ -57,7 +57,11 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (`szene(id, seed)`, `muster()`, `mass()` prüft, ob Pfeile samt Etikett im Bild liegen).
   Kein `localStorage`.
 - `werkzeuge/schaltungen-zusammenfassen.html` — Trainer Schaltungen zusammenfassen (6.2, seit
-  10.10.2026): zwei Widerstände antippen, «in Reihe» oder «parallel» wählen, Ersatzwiderstand
+  10.10.2026), drei Aufgabenarten per Umschalter: (1) zusammenfassen und zurückrechnen, (2) Kurzformel
+  aus Knöpfen setzen (Parser ohne Vorrang: + und ∥ auf einer Ebene brauchen eine Klammer; Vergleich
+  über eine kanonische Form, Diagnose der innersten Gruppe, die es so nicht gibt), (3) Teilströme
+  und Teilspannungen aller Widerstände bei gegebenem R_ges und I, Probe mit Kirchhoff
+  (Knoten- und Maschenregel als Summe = 0). In (1): zwei Widerstände antippen, «in Reihe» oder «parallel» wählen, Ersatzwiderstand
   eingeben, bis \(R_\text{ges}\) übrig ist; danach zurückrechnen bis zu einem Zielwiderstand, mit
   Proben. Knopf «Knoten färben». Stufe 1 = reine Reihe/parallel (RLP), Stufen 2 und 3 gemischt
   (weiterführend). Schaltungen als Baum in `SZ_VORLAGEN` (16 Bauformen), daraus Schaltbild,
