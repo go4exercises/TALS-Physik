@@ -187,6 +187,9 @@ TAUSCH = [
     ("Tabellendichte", "Tabellen-dichte"),     # bisher «Tabellen-digge»
     ("Normdichte", "Norm-dichte"),
     ("Kommastelle", "Komma-stelle"),           # auch «…stellen»; «Nachkommastelle» steht oben
+    # Nach Hoerprobe 10.10.2026: Betonung auf dem zweiten Teil hoerbar machen
+    ("Korrekturglied", "Korrektur-Glied"),     # bisher «-tur» verschluckt
+    ("Arkussinus", "Arkus-Sinus"),             # bisher «Sinus» verschluckt; Arkustangens bleibt (Tabelle oben)
 ]
 VORSILBEN = r"(?:milli|mikro|nano|zenti|dezi|hekto|kilo|mega|giga)?"
 

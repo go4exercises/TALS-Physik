@@ -85,7 +85,7 @@ GRUNDLINIE = {
     'downloads/print.css': 0.900,
     'feedback.html': 0.977,
     'LICENSE': 0.955,
-    'scripts/build-suchindex.py': 0.957,   # ohne DATEN gemessen; 0.963 -> 0.957: Physik liest LP-Titel aus <title> (07.10.2026, auf Mathes Vorschlag)
+    'scripts/build-suchindex.py': 0.947,   # ohne DATEN; 0.957 -> 0.947 (10.10.2026): Seitenliste bewusst verschieden — Kopfkommentare «ABWEICHUNG ZUR PHYSIK-FASSUNG» (Mathe) und «ABWEICHUNG ZUR MATHE-FASSUNG» (Physik)
     'scripts/build-clips.py': 0.998,   # gemeinsamer Bauer, drei Projektwerte (07.10.2026)
     'scripts/build-clips-einbau.py': 0.830,
     'scripts/build-clip-ton.py': 1.000,
@@ -137,18 +137,6 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='Mathes Aussprache-Eintraege vom 10.10.2026 uebernommen und vertont; geschwister() waehlt das Repo mit gleichem Namensanfang (10.10.2026)',
-         wie='Physik: build-clip-ton.py uebernommen; neu vertont 12 Clips (Szenen) und 2 Fragen, darunter p5-2-lp-kontrolle-heizwert Frage 1 '
-             '(«Kachelofen» — die Regel trifft Zusammensetzungen, stand nicht in der Liste); «ppm, parts per million,» in drei Clips. '
-             'abgleich.py: geschwister() nahm das erste Nachbarverzeichnis mit mathlib.js — neben tals-mathe liegt jetzt sek1-mathe, '
-             'alphabetisch davor, und das Skript brach mit FileNotFoundError ab. Jetzt bevorzugt es den gleichen Namensanfang (tals-). '
-             'In Mathe: diese Datei uebernehmen (dort greift dieselbe Falle nicht, schadet aber nicht) und diesen Eintrag streichen.'),
-    dict(quelle='Physik', was='build-suchindex.py unter Grundlinie (0.957 -> 0.947): Seitenliste bewusst verschieden, Grundlinie gemeinsam festlegen (10.10.2026)',
-         wie='Physik liest leitprogramme/, simulationen/ und werkzeuge/ im Ordner-Durchlauf (LP/SIM/WZ, Titel aus <title>, versteckt ueber UNVERLINKT); '
-             'Mathe fuehrt dieselben Seiten bewusst in ZUSATZSEITEN (Kopfkommentar «ABWEICHUNG ZUR PHYSIK-FASSUNG»). Physik hat das gespiegelt '
-             '(Kopfkommentar «ABWEICHUNG ZUR MATHE-FASSUNG») und laesst es so. In Mathe: entscheiden, ob es dabei bleibt; wenn ja, '
-             'die Grundlinie fuer build-suchindex.py auf den gemessenen Wert setzen und in der Begruendung beide Kommentare nennen, '
-             'sonst die Physik-Variante uebernehmen. Danach diesen Eintrag streichen und die Datei zurueckgeben.'),
 ]
 FACH = {
     'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',
