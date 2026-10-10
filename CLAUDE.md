@@ -56,6 +56,18 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   \(F_R = m a\), jeder typische Fehler bekommt seine Diagnose. Testhaken `window.__fs`
   (`szene(id, seed)`, `muster()`, `mass()` prüft, ob Pfeile samt Etikett im Bild liegen).
   Kein `localStorage`.
+- `werkzeuge/schaltungen-zusammenfassen.html` — Trainer Schaltungen zusammenfassen (6.2, seit
+  10.10.2026): zwei Widerstände antippen, «in Reihe» oder «parallel» wählen, Ersatzwiderstand
+  eingeben, bis \(R_\text{ges}\) übrig ist; danach zurückrechnen bis zu einem Zielwiderstand, mit
+  Proben. Knopf «Knoten färben». Stufe 1 = reine Reihe/parallel (RLP), Stufen 2 und 3 gemischt
+  (weiterführend). Schaltungen als Baum in `SZ_VORLAGEN` (16 Bauformen), daraus Schaltbild,
+  Knoten, erlaubte Schritte, Rückweg; Texte in `SZ_DIAGNOSE`. Richtig ist eine Eingabe auf 2 %
+  am gerundeten **oder** am exakten Weg (Rundung über fünf Schritte summiert sich sonst über 1 %).
+  Selbsttest `szSelbsttest` über `scripts/verify_schaltungen.js` im Pre-Flight: rechnet jede
+  Schaltung unabhängig mit Knotenpotentialen nach (R_ges, jeder Rückwegschritt), «in Reihe» ⇔
+  gleicher Strom und «parallel» ⇔ gleiche Knoten für jedes Paar in jedem Zwischenstand, jedes
+  Fehlerbild bekommt seine Diagnose, Beschriftungen ohne Überlappung bei 300/380/1000 px,
+  berührende Leitungen im selben Knoten. Testhaken `window.__sz`. Kein `localStorage`.
 - `themen/` — 10 Themenseiten: `p4-1`…`p4-5` (Mechanik), `p5-1`…`p5-3` (Thermo),
   `p6-1`,`p6-2` (Wellen/Elektrizität). Alle inhaltlich fertig und auditiert.
   Dazu `p6-1a-wellenexperimente.html` — Vertiefung zu 6.1, im RLP nicht als

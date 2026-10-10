@@ -9,7 +9,7 @@ Zwei Stufen:
 2. Orchestrierung der vorhandenen, autoritativen Repo-Skripte in scripts/:
    - verify_mathjax.js     (echte MathJax-Render-Prüfung; braucht node_modules/mathjax-full)
    - verify_js_runtime.js  (JS-Laufzeit in jsdom; braucht node_modules/jsdom)
-   - verify_einheitentrainer.js, verify_freischneiden.js (Selbsttests der Werkzeuge; brauchen jsdom)
+   - verify_einheitentrainer.js, verify_freischneiden.js, verify_schaltungen.js (Selbsttests der Werkzeuge; brauchen jsdom)
    - check_identifier_collisions.py (falls vorhanden; ohne npm)
    - check_clips (Clip-Ablage gegen clips/clips.json und nav.js)
    - check_sim_wz (simulationen/ und werkzeuge/: Uebersicht, Verweise, Ruecklink-Anker)
@@ -345,7 +345,7 @@ def run_deep(file_args, rep):
                 rep.warn("verify_js_runtime.js", "Summenzeile nicht erkannt")
 
     # Selbsttests der Werkzeuge (werkzeuge/*.html), je ein scripts/verify_<name>.js
-    for name in ("einheitentrainer", "freischneiden"):
+    for name in ("einheitentrainer", "freischneiden", "schaltungen"):
         et = scripts / f"verify_{name}.js"
         if not et.is_file():
             continue

@@ -389,6 +389,11 @@ SEITEN = {
    typ='article', lrt='Werkzeug',
    beschreibung='Freischneiden üben: Kräfte auf Kiste, Rampe, Seil und Karussell selbst einzeichnen, mit Rückmeldung zu typischen Fehlern und Frage nach der resultierenden Kraft.',
    themen=['Freischneiden', 'Kräfte', 'Normalkraft', 'Reibungskraft', 'Resultierende Kraft', 'Schiefe Ebene']),
+ 'werkzeuge/schaltungen-zusammenfassen.html': dict(
+   ort='Werkzeuge · Schaltungen zusammenfassen',
+   typ='article', lrt='Werkzeug',
+   beschreibung='Widerstandsschaltungen zusammenfassen üben: Reihe und parallel erkennen, Ersatzwiderstand rechnen, zurück zu Strom und Spannung, mit Rückmeldung zu Fehlern.',
+   themen=['Reihenschaltung', 'Parallelschaltung', 'Ersatzwiderstand', 'Gemischte Schaltung', 'Ohmsches Gesetz']),
  'simulationen/sonnenfinsternis-12-08-2026.html': dict(
    ort='Simulationen · Sonnenfinsternis vom 12. August 2026',
    typ='article', lrt='Simulation',
