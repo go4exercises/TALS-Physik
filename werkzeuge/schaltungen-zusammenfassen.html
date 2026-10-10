@@ -375,6 +375,22 @@ MathJax = {
   <p style="margin-bottom:0"><strong>Mit der EE-Taste</strong> fällt das Umrechnen weg: Die Vorsilbe wird als Zehnerpotenz eingegeben, «milli» als \(10^{-3}\). Die Eingabe \(51.7\,\text{EE}\,{-}3 \times 100\) rechnet mit \(51.7\;\text{mA} = 51.7 \cdot 10^{-3}\;\text{A}\) und zeigt \(5.17\), also \(5.17\;\text{V}\). Umgekehrt gibt \(12 \div 232\) den Strom in A, \(0.0517\); in der technischen Anzeige (ENG) erscheint er als \(51.7 \cdot 10^{-3}\), also \(51.7\;\text{mA}\).</p>
 </div>
 
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Voltmeter und Amperemeter vertauscht</div>
+  <p>Das Amperemeter hat fast keinen Widerstand, das Voltmeter einen sehr grossen. Darum gehört das Amperemeter in den Stromweg, in Reihe, und das Voltmeter parallel an die zwei Enden des Bauteils. Vertauscht messen beide nicht nur falsch, sie verändern auch die Schaltung. Beide Bilder zeigen \(R_1 + (R_2 \parallel R_3)\) an \(12\;\text{V}\), richtig angeschlossen fliessen \(I = 51.7\;\text{mA}\) und \(I_3 = 20.7\;\text{mA}\).</p>
+  <div class="sz-bilder zwei">
+    <div class="sz-bildspalte">
+      <div class="sz-bild-titel">Amperemeter parallel zu R₁</div>
+      <div class="cv-wrap"><canvas id="sz-bild-messen-a" aria-label="Amperemeter parallel zu R1 angeschlossen, es zeigt 90.7 mA"></canvas></div>
+    </div>
+    <div class="sz-bildspalte">
+      <div class="sz-bild-titel">Voltmeter im Stromweg von R₃</div>
+      <div class="cv-wrap"><canvas id="sz-bild-messen-v" aria-label="Voltmeter in Reihe vor R3, es zeigt 8.25 V"></canvas></div>
+    </div>
+  </div>
+  <p class="sz-hinweis" style="margin-bottom:0"><strong>Amperemeter parallel:</strong> Es überbrückt \(R_1\), ein Kurzschluss. Fast der ganze Strom fliesst durch das Gerät, es zeigt \(90.7\;\text{mA}\), und der Gesamtstrom steigt von \(51.7\;\text{mA}\) auf \(90.8\;\text{mA}\). Läge es direkt an der Quelle, brennte die Sicherung durch. <strong>Voltmeter im Stromweg:</strong> Es unterbricht den Zweig von \(R_3\). Durch \(R_3\) fliesst praktisch kein Strom mehr, statt \(I_3\) zeigt das Gerät die Spannung an der Trennstelle, \(8.25\;\text{V}\).</p>
+</div>
+
 
 <!-- ══════════════ ZUSAMMENFASSUNG ══════════════ -->
 <h2 id="zusammenfassung">Zusammenfassung</h2>
@@ -1470,7 +1486,7 @@ function szMaleMessung(ctx, Lx, M) {
   };
   if (M.anschluss === 'reihe') {
     Lx.stellen.forEach((st, i) => {
-      if (i === M.stelle || zustand.phase !== 'messen') return;     // nach dem Lösen nur noch das Gerät
+      if (i === M.stelle || !M.wahl) return;     // nur solange gewählt wird; danach nur noch das Gerät
       ctx.beginPath(); ctx.arc(st.x, st.y, 5.5, 0, 2 * Math.PI); ctx.fillStyle = '#ffffff'; ctx.fill();
       ctx.lineWidth = 1.8; ctx.strokeStyle = bern; ctx.stroke();
     });
@@ -1529,7 +1545,7 @@ function szZeichne() {
       if (fertig || zustand.k > 0) o1.strom = o2.strom = strom; else o2.strom = '?';
     }
   } else if (art === 'messen') {
-    o1.mess = zustand.mess; o1.oben = SZ_MESS_OBEN;
+    o1.mess = Object.assign({}, zustand.mess, { wahl:ph === 'messen' }); o1.oben = SZ_MESS_OBEN;
   } else if (art === 'tabelle') {
     rechts = zustand.ersatz; t2 = 'Gefundenes Ersatzschema'; o1.strom = o2.strom = strom;
   }
@@ -1929,6 +1945,14 @@ function szBeispiel() {
   return { baum:{ t:'S', k:[r1, p] }, r1, p };
 }
 function szFehlerBilder() {
+  // Messgeräte falsch angeschlossen; die Anzeige rechnet szMessAnzeige wie im Trainer
+  [['sz-bild-messen-a', { geraet:'A', anschluss:'knoten', knoten:[0, 2] }], ['sz-bild-messen-v', { geraet:'V', anschluss:'reihe' }]].forEach(([id, m]) => {
+    const e = szBeispiel(), A = { baum:e.baum, U:12 }, Lb = szLayout(e.baum, 600, 12);
+    if (m.anschluss === 'reihe') m.stelle = Lb.stellen.findIndex(x => x.n && x.n.ids[0] === 3);
+    const k = m.knoten || [];
+    szMale(id, e.baum, 12, { oben:SZ_MESS_OBEN, mess:Object.assign({}, m, { fehler:true, wahl:false,
+      taps:k.map(j => ({ d:Lb.draehte.findIndex(d => d.k === j), t:0.5, k:j })), anzeige:szAnzeigeText(szMessAnzeige(A, m)) }) });
+  });
   const e1 = szBeispiel();
   szMale('sz-bild-reihe', e1.baum, 12, { knoten:true, wahl:['1', '2'] });
   const e2 = szBeispiel(), A = { baum:e2.baum, U:12 }, W = szWerte(A);
