@@ -1377,10 +1377,11 @@ function szMale(id, baum, U, o) {
 const SZ_MESS_OBEN = 46;
 function szMaleMessung(ctx, Lx, M) {
   const bern = '#8A4A0E';
+  const rand = M.fehler ? '#b3261e' : '#1a1a1a';
   const geraet = (x, y) => {
-    ctx.beginPath(); ctx.arc(x, y, 10, 0, 2 * Math.PI); ctx.fillStyle = '#ffffff'; ctx.fill();
-    ctx.lineWidth = 2; ctx.strokeStyle = '#1a1a1a'; ctx.stroke();
-    ctx.fillStyle = '#1a1a1a'; ctx.font = szMono(12, 700); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.beginPath(); ctx.arc(x, y, 10, 0, 2 * Math.PI); ctx.fillStyle = M.fehler ? '#fbe3e1' : '#ffffff'; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = rand; ctx.stroke();
+    ctx.fillStyle = rand; ctx.font = szMono(12, 700); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText(M.geraet || '?', x, y + 0.5); ctx.textBaseline = 'alphabetic';
   };
   if (M.anschluss === 'reihe') {
@@ -1389,7 +1390,22 @@ function szMaleMessung(ctx, Lx, M) {
       ctx.beginPath(); ctx.arc(st.x, st.y, 5.5, 0, 2 * Math.PI); ctx.fillStyle = '#ffffff'; ctx.fill();
       ctx.lineWidth = 1.8; ctx.strokeStyle = bern; ctx.stroke();
     });
-    if (M.stelle != null) geraet(Lx.stellen[M.stelle].x, Lx.stellen[M.stelle].y);
+    if (M.stelle != null) {
+      const st = Lx.stellen[M.stelle];
+      if (M.anzeige) {                       // Anzeige: in der Zuleitung direkt darüber, sonst über der Schaltung mit Zeigelinie
+        const zuleitung = st.y === Lx.strom.y, ay = zuleitung ? st.y - 24 : -SZ_MESS_OBEN + 20;
+        ctx.font = szMono(12, 700); const w = ctx.measureText(M.anzeige).width + 14;
+        const ax = Math.min(Lx.W - 4 - w / 2, Math.max(4 + w / 2, st.x));
+        if (!zuleitung) {
+          ctx.save(); ctx.setLineDash([2, 3]); ctx.strokeStyle = bern; ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.moveTo(ax, ay + 9); ctx.lineTo(st.x, st.y - 10); ctx.stroke(); ctx.restore();
+        }
+        ctx.fillStyle = '#fbecd2'; ctx.strokeStyle = bern; ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.rect(ax - w / 2, ay - 9, w, 18); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = bern; ctx.textAlign = 'center'; ctx.fillText(M.anzeige, ax, ay + 4);
+      }
+      geraet(st.x, st.y);
+    }
   } else if (M.anschluss === 'knoten') {
     const P = M.taps.map(t => { const d = Lx.draehte[t.d]; return { x:d.x1 + t.t * (d.x2 - d.x1), y:d.y1 + t.t * (d.y2 - d.y1) }; });
     if (P.length === 2) {
@@ -1537,8 +1553,7 @@ function szFrage() {
     F.innerHTML = '<p>' + M.ziel.text + '</p>' +
       '<div class="sz-zeile sz-mess-zeile"><span class="sz-mess-label">Gerät</span>' + kn('geraet', 'V', 'Voltmeter') + kn('geraet', 'A', 'Amperemeter') + '</div>' +
       '<div class="sz-zeile sz-mess-zeile"><span class="sz-mess-label">Anschluss</span>' + kn('anschluss', 'reihe', 'in die Leitung (in Reihe)') +
-      kn('anschluss', 'knoten', 'an zwei Knoten (parallel)') + '</div>' +
-      '<div class="sz-zeile" style="margin-top:10px"><button class="play-btn sz-pruefen">Prüfen</button></div>';
+      kn('anschluss', 'knoten', 'an zwei Knoten (parallel)') + '</div>';
   } else if (ph === 'tabelle') {
     F.innerHTML = '<div class="sz-tab"><div class="sz-tab-kopf"></div><div class="sz-tab-kopf">Spannung in V</div><div class="sz-tab-kopf">Strom in mA</div>' +
       zustand.zellen.map((z, i) => '<div class="sz-tab-r">\\(' + szTexR(z.blatt) + ' = ' + szO(z.blatt.wert) + '\\)</div>' +
@@ -1712,12 +1727,18 @@ function szMessWahl(geraet, anschluss) {
   const M = zustand.mess; if (zustand.phase !== 'messen') return;
   if (geraet) M.geraet = geraet;
   if (anschluss && anschluss !== M.anschluss) { M.anschluss = anschluss; M.taps = []; M.stelle = null; }
-  szRueck('', '', ''); szAlles();
+  szAlles(); szMessPruefen();
 }
 function szMessPruefen() {
   const M = zustand.mess, A = zustand.A, z = M.ziel;
+  // ohne Prüfknopf: Sobald Gerät, Anschluss und Stelle feststehen, wird beurteilt; das Gerät
+  // zeigt dann seinen Wert oder steht rot im Bild, und die Rückmeldung nennt den Fehler
   const e = szMessBewerten(A, z, { geraet:M.geraet, anschluss:M.anschluss, knoten:M.taps.map(t => t.k), stelle:M.stelle });
-  if (e) { if (e.code !== 'M_leer') zustand.fehlversuch = true; szRueck('block-fehler', '✗ Noch nicht', e.text); return; }
+  M.fehler = !!e && e.code !== 'M_leer';
+  if (e) {
+    if (M.fehler) { zustand.fehlversuch = true; szRueck('block-fehler', '✗ So misst das Gerät nicht', e.text); } else szRueck('', '', '');
+    szZeichne(); return;
+  }
   szStatSchritt(); zustand.phase = 'fertig'; zustand.geloest++; szRueck('', '', '');
   const w = szWerte(A).get(z.n), wert = z.gr === 'U' ? szV(w.U) : szMA(w.I);
   M.anzeige = z.gr === 'U' ? szZahl(w.U) + ' V' : szZahl(w.I) + ' mA';
@@ -1787,7 +1808,7 @@ function szZeigen() {
   } else if (ph === 'wert') szZusammenfassen();
   else if (ph === 'zurueck') szWeiter();
   else if (ph === 'formel') { zustand.tok = szTokens(zustand.A.baum); szFormelZeigen(); szFormelPruefen(); }
-  else if (ph === 'messen') { szMessSetzen(szMessLoesung(zustand.A, zustand.mess.ziel)); szMessPruefen(); }
+  else if (ph === 'messen') szMessSetzen(szMessLoesung(zustand.A, zustand.mess.ziel));
   else if (ph === 'tabelle') {
     const c = szZellenListe().find(x => !x.s.ok);
     szZelleOk(c, true);
@@ -1801,7 +1822,7 @@ function szMessSetzen(m) {                    // eine Messung von aussen setzen 
   const M = zustand.mess;
   M.geraet = m.geraet; M.anschluss = m.anschluss; M.stelle = m.stelle != null ? m.stelle : null;
   M.taps = (m.knoten || []).map(k => ({ d:L.draehte.findIndex(d => d.k === k), t:0.5, k }));
-  szAlles();
+  szAlles(); szMessPruefen();
 }
 function szStand() {
   $('sz-stand').textContent = 'gelöst: ' + zustand.geloest + '; Schritte beim ersten Versuch richtig: ' + zustand.ersteRichtig + ' von ' + zustand.schritte;
@@ -1858,7 +1879,7 @@ function szMessTippen(ev) {
     const t = szDrahtTreffer(L, px, py); if (!t) return;
     M.taps.push(t); if (M.taps.length > 2) M.taps.shift();
   }
-  szRueck('', '', ''); szZeichne();
+  szMessPruefen();
 }
 cv.addEventListener('pointerdown', ev => {
   if (zustand.phase === 'messen') { szMessTippen(ev); return; }
