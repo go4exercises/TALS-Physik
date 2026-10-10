@@ -66,7 +66,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (Voltmeter/Amperemeter) und Anschluss (in Reihe an einer Einsetzstelle `L.stellen` / parallel an zwei
   angetippten Knoten) wählen, ohne Prüfknopf: Steht alles fest, zeigt das Gerät seinen Wert oder steht rot im Bild; Diagnosen Kurzschluss, Voltmeter im Stromweg, falsches Gerät, falsche Knoten,
   falscher Zweig. Welchen Strom eine Einsetzstelle misst, sagt `L.klasse` (in Reihe derselbe Strom wie die
-  Gruppe darüber); der Selbsttest gleicht jede Stelle mit der Knotenrechnung ab. Verweis zusätzlich aus 6.2 `#messen`. Jedes Bild trägt den
+  Gruppe darüber), auf den Schienen `summe` (Teilsumme der Zweige darunter, etwa \(I_2 + I_3\)); der Selbsttest gleicht jede Stelle mit der Knotenrechnung ab. Verweis zusätzlich aus 6.2 `#messen`. Jedes Bild trägt den
   Spannungspfeil der Quelle, der Gesamtstrom steht auf der Zuleitung, sobald er bekannt ist. Knoten sind
   von Anfang an gefärbt; rechts in denselben Farben wie links (`szKnotenZuordnung`, über Bau und Potential;
   ein Knoten, den es links nicht gibt, bekommt eine eigene Farbe). In (2): zwei Widerstände antippen, «in Reihe» oder «parallel» wählen, Ersatzwiderstand

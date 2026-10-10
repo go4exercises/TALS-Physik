@@ -897,13 +897,13 @@ function szLayout(baum, W, U) {
   const M = new Map(), mr = szMasse(baum, M), rand = 0.32;
   const ux = Math.min(100, (W - 10) / (mr.w + 2 * rand)), uy = 58;
   const ox = (W - mr.w * ux) / 2, oy = 16 + mr.up * uy;
-  const L = { W, ux, uy, bw:Math.min(0.62 * ux, 46), bh:16, teile:[], draehte:[], punkte:[], gruppen:new Map(), klasse:new Map(), netz:[], nK:2 };
+  const L = { W, ux, uy, bw:Math.min(0.62 * ux, 46), bh:16, teile:[], draehte:[], punkte:[], gruppen:new Map(), klasse:new Map(), schienen:[], netz:[], nK:2 };
   const draht = (x1, y1, x2, y2, k) => L.draehte.push({ x1, y1, x2, y2, k });
   // klasse: die Gruppe, deren Strom auch durch n fliesst (in Reihe derselbe Strom, an einer Verzweigung ein eigener)
   (function setze(n, x, y, a, b, kl) {
     const m = M.get(n);
     L.klasse.set(n, kl);
-    L.gruppen.set(n, { x, y0:y - m.up * uy, w:m.w * ux, h:(m.up + m.dn) * uy, a, b });
+    L.gruppen.set(n, { x, y, y0:y - m.up * uy, w:m.w * ux, h:(m.up + m.dn) * uy, a, b });
     if (n.t === 'R') {
       const cx = x + ux / 2;
       draht(x, y, cx - L.bw / 2, y, a); draht(cx + L.bw / 2, y, x + ux, y, b);
@@ -917,15 +917,22 @@ function szLayout(baum, W, U) {
     }
     const xl = x + SZ_SCHIENE * ux, xr = x + (m.w - SZ_SCHIENE) * ux;
     draht(x, y, xl, y, a); draht(xr, y, x + m.w * ux, y, b);
-    let yi = y;
+    let yi = y; const ys = [];
     n.k.forEach((c, i) => {
       const mc = M.get(c);
       if (i) yi += (M.get(n.k[i - 1]).dn + mc.up) * uy;
+      ys.push(yi);
       setze(c, xl, yi, a, b, c);
       if (xl + mc.w * ux < xr - 0.5) draht(xl + mc.w * ux, yi, xr, yi, b);
       if (i < n.k.length - 1) L.punkte.push({ x:xl, y:yi, k:a }, { x:xr, y:yi, k:b });
     });
     draht(xl, y, xl, yi, a); draht(xr, y, xr, yi, b);
+    // Schienen: Zwischen Zweig i und i + 1 fliessen die Ströme aller Zweige darunter (links hinunter, rechts hinauf).
+    // Die Stelle liegt mitten in der Lücke zwischen den zwei Zweigen, nicht neben einem tiefer gezeichneten Teil.
+    for (let i = 0; i < n.k.length - 1; i++) {
+      const summe = n.k.slice(i + 1), ym = (ys[i] + M.get(n.k[i]).dn * uy + ys[i + 1] - M.get(n.k[i + 1]).up * uy) / 2;
+      L.schienen.push({ x:xl, y:ym, p:n, summe }, { x:xr, y:ym, p:n, summe });
+    }
   })(baum, ox, oy, 0, 1, baum);
   // Zuleitungen und Quelle: Knoten 0 am Pluspol, Knoten 1 am Minuspol. Die Zuleitung unten links
   // ist mindestens so lang, dass der Strompfeil samt Wert darauf Platz hat (auch beim Ersatzschema).
@@ -936,9 +943,11 @@ function szLayout(baum, W, U) {
   draht(xL, yq, xm - 4, yq, 0); draht(xm + 4, yq, xR, yq, 1);
   L.quelle = { x:xm, y:yq, wert:szZahl(U) };
   L.strom = { x:(xL + xm - 4) / 2, y:yq };
-  // Einsetzstellen für ein Messgerät im Stromweg: vor jedem Widerstand und in der Zuleitung
-  L.stellen = L.teile.map(t => ({ x:t.cx - ux / 4 - L.bw / 4, y:t.cy, n:t.n, klasse:L.klasse.get(t.n) }))
-    .concat([{ x:L.strom.x, y:yq, n:baum, klasse:baum }]);
+  // Einsetzstellen für ein Messgerät im Stromweg: vor jedem Widerstand, in der Zuleitung und auf den Schienen
+  // summe: die Gruppen, deren Ströme hier zusammen fliessen; klasse nur, wenn es eine einzige ist
+  L.stellen = L.teile.map(t => ({ x:t.cx - ux / 4 - L.bw / 4, y:t.cy, n:t.n, klasse:L.klasse.get(t.n), summe:[L.klasse.get(t.n)] }))
+    .concat([{ x:L.strom.x, y:yq, n:baum, klasse:baum, summe:[baum] }],
+            L.schienen.map(x => Object.assign(x, { n:null, klasse:x.summe.length === 1 ? x.summe[0] : null })));
   L.H = Math.ceil(yq + 42);
   // Beschriftungen: Name über, Wert unter dem Widerstand; Rechtecke für die Prüfung
   const S = SZ_SCHRIFT, z = S.zeichen;
@@ -1061,8 +1070,11 @@ function szMessBewerten(A, ziel, m) {
   if (ziel.gr === 'U') return e('A_statt_V');
   const kl = L0.stellen[m.stelle].klasse;
   if (kl === L0.klasse.get(ziel.n)) return null;
-  const w = szMA(szWerte(A).get(kl).I);
-  c.mess = kl === A.baum ? 'der Gesamtstrom \\(I = ' + w + '\\)' : 'der Strom \\(I_{' + szIds(kl).join('') + '} = ' + w + '\\)';
+  const W = szWerte(A), summe = L0.stellen[m.stelle].summe, w = szMA(szR(summe.reduce((t, x) => t + W.get(x).Ix, 0)));
+  const nm = x => 'I_{' + szIds(x).join('') + '}';
+  c.mess = kl === A.baum ? 'der Gesamtstrom \\(I = ' + w + '\\)'
+    : summe.length > 1 ? 'die Summe der Ströme darunter, \\(' + summe.map(nm).join(' + ') + ' = ' + w + '\\)'
+    : 'der Strom \\(' + nm(kl) + ' = ' + w + '\\)';
   return e('A_zweig');
 }
 
@@ -1089,9 +1101,13 @@ function szSelbsttest(n) {
       L.teile.forEach((t, i) => L.teile.forEach((s, j) => { if (j > i) F(Math.abs(t.cx - s.cx) >= L.bw + 6 || Math.abs(t.cy - s.cy) >= L.bh + 20, wo + ': Widerstände zu nah'); }));
       F(L.ux >= 44, wo + ' W=' + W + ': Raster zu eng (' + L.ux.toFixed(1) + ' px)');
       L.stellen.forEach((x, i) => {
-        F(L.draehte.some(d => Math.abs(d.y1 - d.y2) < 0.01 && Math.abs(d.y1 - x.y) < 0.01 && x.x > Math.min(d.x1, d.x2) && x.x < Math.max(d.x1, d.x2)),
+        F(L.draehte.some(d => (Math.abs(d.y1 - d.y2) < 0.01 && Math.abs(d.y1 - x.y) < 0.01 && x.x > Math.min(d.x1, d.x2) && x.x < Math.max(d.x1, d.x2)) ||
+                              (Math.abs(d.x1 - d.x2) < 0.01 && Math.abs(d.x1 - x.x) < 0.01 && x.y > Math.min(d.y1, d.y2) && x.y < Math.max(d.y1, d.y2))),
           wo + ' W=' + W + ': Einsetzstelle nicht auf einer Leitung');
-        L.stellen.forEach((y, j) => { if (j > i) F(Math.hypot(x.x - y.x, x.y - y.y) >= 24, wo + ' W=' + W + ': Einsetzstellen zu nah'); });
+        const kr = { x1:x.x - 6, x2:x.x + 6, y1:x.y - 6, y2:x.y + 6 };
+        L.etiketten.forEach(e => { if (e.was !== 'strom') F(!rechteck(kr, e), wo + ' W=' + W + ': Einsetzstelle auf Beschriftung ' + e.was); });
+        if (!x.n) L.punkte.forEach(p => F(Math.hypot(p.x - x.x, p.y - x.y) >= 10, wo + ' W=' + W + ': Einsetzstelle auf Schiene am Knotenpunkt'));
+        L.stellen.forEach((y, j) => { if (j > i) F(Math.hypot(x.x - y.x, x.y - y.y) >= 24, wo + ' W=' + W + ': Einsetzstellen zu nah (' + [x, y].map(q => (q.n ? 'vor R' + szIds(q.n).join('') : 'Schiene') + ' ' + q.x.toFixed(0) + '/' + q.y.toFixed(0)).join(', ') + ')'); });
       });
       // Knoten: Leitungsstücke, die sich berühren, gehören zum selben Knoten
       const auf = (x, y, d) => x >= Math.min(d.x1, d.x2) - 0.01 && x <= Math.max(d.x1, d.x2) + 0.01 &&
@@ -1163,8 +1179,18 @@ function szSelbsttest(n) {
       const Z = szMessZiele(A);
       F(Z.I.some(z => z.n === A.baum) && bl.every(x => Z.I.some(z => z.n === x)) && Z.U.length === szInnere(A.baum).length - 1 + bl.length,
         wo + ': Messziele fehlen');
-      L0.stellen.forEach(x => { const e = x.n === A.baum ? null : L0.netz.find(y => y.n === x.n);
-        F(szNah(Wt.get(x.klasse).Ix, e ? K0.strom(e) * 1000 : K0.I * 1000, 1e-9), wo + ': Einsetzstelle misst einen anderen Strom'); });
+      const strom = N => { const g = L0.gruppen.get(N); return (K0.pot(g.a) - K0.pot(g.b)) / szExakt(N) * 1000; };
+      L0.stellen.forEach(x => {
+        let ist;
+        if (x.n) { const e = x.n === A.baum ? null : L0.netz.find(y => y.n === x.n); ist = e ? K0.strom(e) * 1000 : K0.I * 1000; }
+        else {                                       // Schiene: die Zweige, deren Leitung tiefer liegt als die Stelle
+          const tiefer = x.p.k.filter(c => L0.gruppen.get(c).y > x.y);
+          F(tiefer.length === x.summe.length && tiefer.every(c => x.summe.includes(c)), wo + ': Schiene mit falschen Zweigen');
+          ist = tiefer.reduce((t, c) => t + strom(c), 0);
+        }
+        F(szNah(x.summe.reduce((t, c) => t + Wt.get(c).Ix, 0), ist, 1e-9), wo + ': Einsetzstelle misst einen anderen Strom');
+        F((x.summe.length === 1) === (x.klasse === x.summe[0]), wo + ': Klasse der Einsetzstelle');
+      });
       const zm = szMessZiel(A, szZufall(900 + s)); F(zm && zm.text, wo + ': kein Messziel');
       Z.U.concat(Z.I).forEach(z => {
         const b = m => szMessBewerten(A, z, Object.assign({ knoten:[], stelle:null }, m)), ok = szMessLoesung(A, z);
@@ -1793,7 +1819,8 @@ function szTipp() {
       if (!zustand.knoten) { zustand.knoten = true; szKnotenKnopf(); szZeichne(); t += ' Die Farben sind jetzt wieder eingeschaltet.'; }
     } else {
       const st = L.stellen[ok.stelle];
-      t = 'Eine passende Einsetzstelle liegt ' + (st.n === A.baum ? 'in der Zuleitung unten links, neben der Quelle.' : 'direkt vor \\(' + szTexR(st.n) + '\\).');
+      t = 'Eine passende Einsetzstelle liegt ' + (st.n === A.baum ? 'in der Zuleitung unten links, neben der Quelle.'
+        : st.n ? 'direkt vor \\(' + szTexR(st.n) + '\\).' : 'auf der Schiene über dem untersten Zweig: Dort fliesst nur noch dessen Strom.');
     }
   } else t = 'Die Aufgabe ist gelöst. Weiter mit «Neue Aufgabe».';
   szRueck('block-tipp', '💡 Tipp', t);
