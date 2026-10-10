@@ -152,6 +152,7 @@ MathJax = {
   color:var(--tinte-2); margin-bottom:4px; }
 .fs-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
 #fs-cv { touch-action:none; cursor:crosshair; }
+#fs-meinplan-text { font-size:0.74rem; color:var(--tinte-2); line-height:1.4; margin:4px 0 0; }
 @media (max-width: 700px) {
   .fs-loesung-raster { grid-template-columns:minmax(0,1fr); }
   .fs-loesung-raster .formel-live { padding:12px 8px; }   /* breitestes Glied (Bruch) passt ab 360 px */
@@ -252,13 +253,16 @@ MathJax = {
     <div class="anim-layout">
       <div class="anim-layout-bild">
         <div class="cv-wrap"><canvas id="fs-cv" tabindex="0" aria-label="Bild der Aufgabe mit dem freigeschnittenen Körper und den eingezeichneten Kräften"></canvas></div>
-        <p class="fs-bedienhinweis">Richtung setzen: Kraft in der Liste antippen, dann im Bild dorthin tippen, wohin sie zeigen soll, oder die Pfeilspitze ziehen. Die Richtung rastet in Schritten von 15° ein.</p>
+        <p class="fs-bedienhinweis">Richtung setzen: Kraft in der Liste antippen, dann im Bild dorthin tippen, wohin sie zeigen soll; die Richtung rastet in Schritten von 15° ein. Länge ändern: die Pfeilspitze ziehen. Bewertet werden Art und Richtung; die Längen gehen in deinen Kräfteplan ein.</p>
       </div>
       <div class="anim-layout-bedienung">
         <div class="fs-feld-titel">Kraft hinzufügen</div>
         <div class="fs-palette" id="fs-palette"></div>
         <div class="fs-feld-titel">Eingezeichnete Kräfte</div>
         <div class="fs-liste" id="fs-liste"></div>
+        <div class="fs-feld-titel" style="margin-top:12px">Dein Kräfteplan</div>
+        <div class="cv-wrap"><canvas id="fs-meinplan" aria-label="Kräfteplan aus den eingezeichneten Pfeilen mit ihrer Summe"></canvas></div>
+        <p class="fs-bedienhinweis" id="fs-meinplan-text"></p>
       </div>
     </div>
 
@@ -1076,6 +1080,7 @@ function fsZeichne(loesung) {
     const [s, u] = fsEtikettText(x, i);
     fsEtikett(ctx, x2 + 17 * Math.cos(fsRad(x.w)), y2 - 17 * Math.sin(fsRad(x.w)), s, u, farbe);
   });
+  fsMeinPlan();
 }
 
 /* ── Prüfen, Tipp, Lösung ─────────────────────────────────────────── */
@@ -1145,7 +1150,7 @@ function fsLoesung(nurZeigen) {
     '<div class="formel-live"><div class="fl-label">Beträge der Kräfte</div>' + zeilen + '</div>' +
     '<p class="fs-bedienhinweis">Das Bild oben zeigt jetzt die Musterlösung, die Pfeillängen im selben Massstab.</p></div>' +
     '<div><div class="fs-plan-titel">Kräfteplan: Spitze an Fuss</div><div class="cv-wrap"><canvas id="fs-plan"></canvas></div>' +
-    '<p class="fs-bedienhinweis">' + (A.res.F ? 'Der Plan schliesst sich nicht: Die gestrichelte Lücke ist die resultierende Kraft.' : 'Der Plan schliesst sich: Die Kräfte heben sich auf.') + '</p></div></div>';
+    '<p class="fs-bedienhinweis">' + (A.res.F ? 'Der Plan schliesst sich nicht: Der schwarze Pfeil vom Angriffspunkt (●) zum Ende ist die resultierende Kraft.' : 'Der Plan schliesst sich: Die Kräfte heben sich auf.') + ' Vergleiche mit deinem Plan oben.</p></div></div>';
   const L = $('fs-loesung');
   if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([L]).then(() => {
     // jedes Glied als inline-block, damit umgebrochene Zeilen die Höhe der Brüche behalten (wie flTex)
@@ -1154,30 +1159,105 @@ function fsLoesung(nurZeigen) {
   fsZeichne(true); fsPlan();
 }
 
-function fsPlan() {
-  const A = zustand.A; const el = $('fs-plan'); if (!el) return;
-  const { ctx, W, H } = initCanvas('fs-plan', 220);
+/* Kräfteplan: Pfeile Spitze an Fuss, Start am Angriffspunkt (●), die Summe als schwarzer
+   Pfeil F_res vom Angriffspunkt zum Ende der Kette. vek: [{w, F, farbe, nm:[sym, sub]}].
+   Liefert true, wenn sich der Plan (bis auf tol · Summe der Beträge) schliesst. */
+function fsKette(id, H0, vek, tol, mMax) {
+  const el = $(id); if (!el) return null;
+  const { ctx, W, H } = initCanvas(id, H0);
   ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
-  // Kette berechnen
+  if (!vek.length) return null;
   let x = 0, y = 0; const pts = [[0, 0]];
-  A.kraefte.forEach(k => { x += k.F * Math.cos(fsRad(k.w)); y += k.F * Math.sin(fsRad(k.w)); pts.push([x, y]); });
+  vek.forEach(v => { x += v.F * Math.cos(fsRad(v.w)); y += v.F * Math.sin(fsRad(v.w)); pts.push([x, y]); });
+  const summe = vek.reduce((s, v) => s + v.F, 0), zu = Math.hypot(x, y) <= tol * summe;
   const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
   const xmin = Math.min(...xs), xmax = Math.max(...xs), ymin = Math.min(...ys), ymax = Math.max(...ys);
-  const m = Math.min((W - 60) / Math.max(xmax - xmin, 1e-9), (H - 50) / Math.max(ymax - ymin, 1e-9));
+  const m = Math.min((W - 70) / Math.max(xmax - xmin, 1e-9), (H - 56) / Math.max(ymax - ymin, 1e-9), mMax || Infinity);
   const ox = (W - (xmax - xmin) * m) / 2 - xmin * m, oy = (H + (ymax - ymin) * m) / 2 + ymin * m;
   const P = ([a, b]) => [ox + a * m, oy - b * m];
-  A.kraefte.forEach((k, i) => {
-    const K = FS_KRAEFTE[k.typ], [x1, y1] = P(pts[i]), [x2, y2] = P(pts[i + 1]);
-    drawArrow(ctx, x1, y1, x2, y2, K.farbe, 2.5, 10);
-    const nm = k.name || [K.sym, K.sub], mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
-    const nx = -(y2 - y1), ny = x2 - x1, nl = Math.hypot(nx, ny) || 1;
-    fsEtikett(ctx, mx + 14 * nx / nl, my + 14 * ny / nl, nm[0], nm[1], K.farbe);
+  // Liegt ein Pfeil auf einem schon gezeichneten (kollinear, überlappend), wird er seitlich
+  // versetzt, wie man es von Hand macht; sonst verschwände z. B. F_N genau auf F_G.
+  const gezeichnet = [];
+  const versatz = (x1, y1, x2, y2) => {
+    const L = Math.hypot(x2 - x1, y2 - y1) || 1, ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+    let n = 0;
+    gezeichnet.forEach(([a1, b1, a2, b2]) => {
+      const L2 = Math.hypot(a2 - a1, b2 - b1) || 1, vx = (a2 - a1) / L2, vy = (b2 - b1) / L2;
+      if (Math.abs(ux * vy - uy * vx) > 0.05) return;                     // nicht parallel
+      if (Math.abs((a1 - x1) * uy - (b1 - y1) * ux) > 4) return;          // nicht auf derselben Linie
+      const t1 = (a1 - x1) * ux + (b1 - y1) * uy, t2 = (a2 - x1) * ux + (b2 - y1) * uy;
+      if (Math.max(t1, t2) > 2 && Math.min(t1, t2) < L - 2) n++;          // überlappt
+    });
+    const d = 7 * n;
+    gezeichnet.push([x1, y1, x2, y2]);
+    return [x1 - uy * d, y1 + ux * d, x2 - uy * d, y2 + ux * d];
+  };
+  // Beschriftungen auf die Aussenseite des Plans (weg vom Schwerpunkt der Eckpunkte)
+  const ecken = pts.map(P), cx = ecken.reduce((s, e) => s + e[0], 0) / ecken.length, cy = ecken.reduce((s, e) => s + e[1], 0) / ecken.length;
+  // Beschriftungen erst nach allen Pfeilen setzen; jede auf ihre bevorzugte Seite, sonst auf die andere,
+  // wenn dort schon eine Beschriftung oder ein Pfeil (Mittelpunkt) liegt
+  const etiketten = [], mitten = [];
+  const abst = (x, y, [x1, y1, x2, y2]) => { const dx = x2 - x1, dy = y2 - y1, l2 = dx * dx + dy * dy || 1;
+    const t = Math.max(0, Math.min(1, ((x - x1) * dx + (y - y1) * dy) / l2)); return Math.hypot(x - x1 - t * dx, y - y1 - t * dy); };
+  const pfeilfrei = (x, y, b) => [-b / 2 + 6, 0, b / 2 - 6].every(o => gezeichnet.every(s => abst(x + o, y, s) > 10));
+  const frei = (x, y, b = 30) => pfeilfrei(x, y, b) && x > b / 2 + 2 && x < W - 16 && y > 10 && y < H - 10 &&
+    etiketten.every(e => Math.abs(e.x - x) > (e.b + 30) / 2 || Math.abs(e.y - y) > 18) &&
+    mitten.every(([mx, my]) => Math.hypot(mx - x, my - y) > 11);
+  const setze = (kand, nm, farbe) => { const k = kand.find(([x, y]) => frei(x, y)) || kand[0];
+    etiketten.push({ x:k[0], y:k[1], nm, farbe, b:30 }); };
+  const spaeter = [];
+  vek.forEach((v, i) => {
+    const [p1, q1] = P(pts[i]), [p2, q2] = P(pts[i + 1]);
+    if (Math.hypot(p2 - p1, q2 - q1) < 1) return;
+    const [x1, y1, x2, y2] = versatz(p1, q1, p2, q2);
+    drawArrow(ctx, x1, y1, x2, y2, v.farbe, 2.5, 10);
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, nl = Math.hypot(x2 - x1, y2 - y1) || 1, nx = -(y2 - y1) / nl, ny = (x2 - x1) / nl;
+    const sd = (mx - cx) * nx + (my - cy) * ny, s = Math.abs(sd) > 2 ? Math.sign(sd) : -1;   // auf der Linie: Gegenseite des Versatzes
+    mitten.push([mx, my]);
+    spaeter.push(() => setze([15, -15, 27, -27, 39, -39].map(d => [mx + d * s * nx, my + d * s * ny]), v.nm, v.farbe));
   });
-  if (A.res.F) {
-    const [x1, y1] = P(pts[0]), [x2, y2] = P(pts[pts.length - 1]);
-    fsLinie(ctx, [[x1, y1], [x2, y2]], '#1a1a1a', 2, [6, 4]); drawArrow(ctx, x1 + (x2 - x1) * 0.9, y1 + (y2 - y1) * 0.9, x2, y2, '#1a1a1a', 2, 10);
-    fsEtikett(ctx, (x1 + x2) / 2 - 18, (y1 + y2) / 2 + 16, 'F', 'res', '#1a1a1a');
+  const [ax, ay] = P(pts[0]), [ex0, ey0] = P(pts[pts.length - 1]);
+  if (!zu) {
+    const [, , ex, ey] = versatz(ax, ay, ex0, ey0);
+    const [sx, sy] = [ex - (ex0 - ax), ey - (ey0 - ay)];
+    drawArrow(ctx, sx, sy, ex, ey, '#1a1a1a', 2.5, 11);
+    if (Math.hypot(sx - ax, sy - ay) > 1) fsLinie(ctx, [[ax, ay], [sx, sy]], '#1a1a1a', 1, [2, 2]);
+    const nl = Math.hypot(ex - sx, ey - sy) || 1, nx = -(ey - sy) / nl, ny = (ex - sx) / nl;
+    const ver = (sx - ax) * nx + (sy - ay) * ny;            // > 0: versetzt; Beschriftung auf dieselbe Seite
+    const sd = ver > 1 ? 1 : (((sx + ex) / 2 - cx) * nx + ((sy + ey) / 2 - cy) * ny < 0 ? -1 : 1);
+    const rx = (sx + ex) / 2, ry = (sy + ey) / 2; mitten.push([rx, ry]);
+    spaeter.unshift(() => setze([17, -17, 29, -29, 41, -41].map(d => [rx + d * sd * nx, ry + d * sd * ny]), ['F', 'res'], '#1a1a1a'));
   }
+  spaeter.forEach(f => f());
+  // «F_res = 0» als breite Beschriftung neben den Angriffspunkt, wo Platz ist
+  if (zu) { const b = 54, k = [[ax + 34, ay - 14], [ax - 34, ay - 14], [ax + 34, ay + 16], [ax - 34, ay + 16], [ax + 40, ay], [ax - 40, ay]]
+      .find(([x, y]) => frei(x, y, b) && etiketten.every(e => Math.abs(e.x - x) > (e.b + b) / 2 || Math.abs(e.y - y) > 18)) || [ax + 34, ay - 14];
+    etiketten.push({ x:k[0], y:k[1], null0:true, b }); }
+  etiketten.forEach(e => { if (!e.null0) { fsEtikett(ctx, e.x, e.y, e.nm[0], e.nm[1], e.farbe); return; }
+    ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fillRect(e.x - 26, e.y - 10, 52, 20);
+    ctx.fillStyle = '#1a1a1a'; ctx.font = 'italic 600 14px "Source Serif 4", serif'; ctx.fillText('F', e.x - 23, e.y + 5);
+    ctx.font = '600 9px "Source Sans 3", sans-serif'; ctx.fillText('res', e.x - 14, e.y + 8);
+    ctx.font = '600 13px "Source Sans 3", sans-serif'; ctx.fillText('= 0', e.x + 2, e.y + 5); });
+  ctx.beginPath(); ctx.arc(ax, ay, 4.5, 0, 2 * Math.PI); ctx.fillStyle = '#1a1a1a'; ctx.fill();
+  return zu;
+}
+
+function fsPlan() {
+  const A = zustand.A;
+  fsKette('fs-plan', 220, A.kraefte.map(k => { const K = FS_KRAEFTE[k.typ];
+    return { w:k.w, F:k.F, farbe:K.farbe, nm:k.name || [K.sym, K.sub] }; }), 0.005);
+}
+
+/* Live: der Kräfteplan aus den eigenen Pfeilen, die gezeichneten Längen als Beträge */
+function fsMeinPlan() {
+  if (!geo) return;
+  const vek = zustand.gez.map((k, i) => { const K = FS_KRAEFTE[k.typ], nm = fsEtikettText(k, i);
+    return { w:k.w, F:geo.Rmin + (geo.Rmax - geo.Rmin) * k.L, farbe:K.falle ? FS_FALLE_FARBE : K.farbe, nm }; });
+  const zu = fsKette('fs-meinplan', 190, vek, 0.04, 2.5);
+  $('fs-meinplan-text').textContent = !vek.length
+    ? 'Er entsteht aus deinen Pfeilen: Spitze an Fuss, Start am Angriffspunkt (●). Der schwarze Pfeil ist die Summe, die resultierende Kraft.'
+    : zu ? 'Dein Plan schliesst sich: Die Summe deiner Kräfte ist null.'
+         : 'Der schwarze Pfeil ist die Summe deiner Kräfte. Ändere die Längen durch Ziehen der Pfeilspitzen: Ruht der Körper oder bewegt er sich gleichförmig, muss sich der Plan schliessen.';
 }
 
 function fsStand() {
@@ -1186,12 +1266,12 @@ function fsStand() {
 
 /* ── Bedienung ────────────────────────────────────────────────────── */
 function fsPunkt(ev) { const r = cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; }
-function fsZiel(px, py) {
+function fsZiel(px, py, mitLaenge) {
   const i = zustand.wahl; if (i < 0 || !geo) return;
   const dx = px - geo.bx, dy = geo.by - py, d = Math.hypot(dx, dy); if (d < 6) return;
   const k = zustand.gez[i];
   k.w = fsNorm(Math.round(Math.atan2(dy, dx) * 180 / Math.PI / FS_RASTER) * FS_RASTER);
-  k.L = Math.max(0, Math.min(1, (d - geo.Rmin) / (geo.Rmax - geo.Rmin)));
+  if (mitLaenge) k.L = Math.max(0, Math.min(1, (d - geo.Rmin) / (geo.Rmax - geo.Rmin)));
   fsListe(); fsZeichne();
 }
 cv.addEventListener('pointerdown', ev => {
@@ -1209,9 +1289,11 @@ cv.addEventListener('pointerdown', ev => {
     $('fs-rueck').innerHTML = '<div class="block block-tipp"><p>Wähle zuerst rechts eine Kraft aus der Auswahl oder in der Liste.</p></div>';
     return;
   }
-  zustand.ziehen = true; cv.setPointerCapture(ev.pointerId); fsZiel(px, py); ev.preventDefault();
+  // Spitze gepackt: Richtung und Länge; sonst nur die Richtung (die Länge bleibt)
+  zustand.ziehen = best >= 0 ? 'spitze' : 'richtung';
+  cv.setPointerCapture(ev.pointerId); fsZiel(px, py, zustand.ziehen === 'spitze'); ev.preventDefault();
 });
-cv.addEventListener('pointermove', ev => { if (zustand.ziehen) { const [px, py] = fsPunkt(ev); fsZiel(px, py); } });
+cv.addEventListener('pointermove', ev => { if (zustand.ziehen) { const [px, py] = fsPunkt(ev); fsZiel(px, py, zustand.ziehen === 'spitze'); } });
 ['pointerup', 'pointercancel'].forEach(t => cv.addEventListener(t, () => { zustand.ziehen = false; }));
 cv.addEventListener('keydown', ev => {
   const i = zustand.wahl; if (i < 0 || zustand.phase !== 'zeichnen') return;
@@ -1239,7 +1321,7 @@ $('fs-pruefen').addEventListener('click', fsPruefen);
 $('fs-tipp').addEventListener('click', fsTipp);
 $('fs-zeigen').addEventListener('click', () => fsLoesung(true));
 $('fs-neu').addEventListener('click', fsNeueAufgabe);
-let fsRz; window.addEventListener('resize', () => { clearTimeout(fsRz); fsRz = setTimeout(() => { fsZeichne(zustand.phase === 'loesung'); if (zustand.phase === 'loesung') fsPlan(); }, 150); });
+let fsRz; window.addEventListener('resize', () => { clearTimeout(fsRz); fsRz = setTimeout(() => { fsZeichne(zustand.phase === 'loesung'); if (zustand.phase === 'loesung') { fsPlan(); fsMeinPlan(); } }, 150); });
 
 /* Testhaken für Prüfskripte (.claude/tools): eine bestimmte Szene zeigen, Musterlösung einsetzen */
 window.__fs = {
