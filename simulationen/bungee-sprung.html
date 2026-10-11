@@ -40,7 +40,7 @@
     "@type": "Person",
     "name": "Raphael Arnold Kohler"
    },
-   "dateModified": "2026-08-01",
+   "dateModified": "2026-10-11",
    "isPartOf": {
     "@id": "https://physik.begreifbar.ch/#website"
    },
@@ -282,9 +282,9 @@ MathJax = {
           <input type="range" id="bj-d" min="30" max="150" step="5" value="60">
           <div class="bj-erkl">Je grösser \(D\), desto stärker wächst die Seilkraft bei gleicher Dehnung.</div></div>
         <div class="bj-gruppe-titel" style="margin-top:12px">Weiterführend <span class="bj-weiter">(über den Rahmenlehrplan hinaus)</span></div>
-        <div class="bj-param"><label for="bj-c">Dämpfung \(c =\) <span class="bj-wert" id="bj-c-w">0</span> kg/s</label>
-          <input type="range" id="bj-c" min="0" max="60" step="5" value="0">
-          <div class="bj-erkl">Mit Dämpfung kommt zur Seilkraft der Anteil \(c \cdot v\) dazu: Das Seil wandelt mechanische Energie in Wärme um, die Schwingung klingt ab.</div></div>
+        <div class="bj-param"><label for="bj-c">Dämpfung \(c =\) <span class="bj-wert" id="bj-c-w">15</span> kg/s</label>
+          <input type="range" id="bj-c" min="0" max="60" step="5" value="15">
+          <div class="bj-erkl">Mit Dämpfung kommt zur Seilkraft der Anteil \(c \cdot v\) dazu: Das Seil wandelt mechanische Energie in Wärme um, die Schwingung klingt ab. Voreingestellt sind 15 kg/s: Der Springer pendelt sich nach drei bis vier deutlichen Ausschlägen ein, ähnlich wie bei einem echten Sprung. Mit \(c = 0\) bleibt die mechanische Energie erhalten.</div></div>
         <div class="bj-param"><label for="bj-modell">Seilmodell</label>
           <select id="bj-modell">
             <option value="hooke" selected>Ideal: linear wie eine Feder, F = D · (s − L₀)</option>
@@ -308,7 +308,7 @@ MathJax = {
 <!-- ══════════════ VERSTÄNDNISFRAGEN ══════════════ -->
 <h2 id="fragen">Verständnisfragen zur Simulation</h2>
 
-<p>Die Fragen 1 bis 9 kommen mit der Grundeinstellung aus (lineares Seil, ohne Dämpfung). Die Fragen 10 bis 14 brauchen die weiterführenden Einstellungen.</p>
+<p>Die Fragen 1 bis 9 kommen mit dem linearen Seil aus; wo es um die Energieerhaltung geht, stelle die Dämpfung auf \(c = 0\). Die Fragen 10 bis 14 brauchen die weiterführenden Einstellungen.</p>
 
 <details class="frage">
   <summary>❓ Warum ist die Beschleunigung zu Beginn konstant?</summary>
@@ -332,7 +332,7 @@ MathJax = {
 </details>
 <details class="frage">
   <summary>❓ Wie folgt der tiefste Punkt aus der Energieerhaltung?</summary>
-  <div class="frage-antwort"><p>Am Start und am tiefsten Punkt ist \(v = 0\). Die ganze Lageenergie der Fallhöhe \(s_\text{max}\) steckt dann als elastische Energie im Seil:</p><p>\(m \cdot g \cdot s_\text{max} = \tfrac{1}{2} \cdot D \cdot (s_\text{max} - L_0)^2\). Mit \(m = 75\;\text{kg}\), \(L_0 = 20\;\text{m}\) und \(D = 60\;\text{N/m}\) ergibt das \(s_\text{max} \approx 57.6\;\text{m}\), wie in der Simulation ohne Dämpfung.</p></div>
+  <div class="frage-antwort"><p>Am Start und am tiefsten Punkt ist \(v = 0\). Die ganze Lageenergie der Fallhöhe \(s_\text{max}\) steckt dann als elastische Energie im Seil:</p><p>\(m \cdot g \cdot s_\text{max} = \tfrac{1}{2} \cdot D \cdot (s_\text{max} - L_0)^2\). Mit \(m = 75\;\text{kg}\), \(L_0 = 20\;\text{m}\) und \(D = 60\;\text{N/m}\) ergibt das \(s_\text{max} \approx 57.6\;\text{m}\), wie in der Simulation mit \(c = 0\). Mit der voreingestellten Dämpfung von 15 kg/s liegt der tiefste Punkt höher, bei etwa 51.5 m: Ein Teil der Energie wird schon beim ersten Abbremsen in Wärme umgewandelt.</p></div>
 </details>
 <details class="frage">
   <summary>❓ Wie verändert eine grössere Masse \(m\) den Sprung?</summary>
@@ -403,7 +403,7 @@ buildNav({ id:'simulationen' });
 const g = 9.81;
 const DT = 0.002, TMAX = 28;
 const GENT = { AG:578.2, Jm:27.5 };   // angenommene Materialwerte: ε_max = 2, F_max = 3·m·g bei 75 kg
-const P = { m:75, L0:20, D:60, c:0, modell:'hooke' };
+const P = { m:75, L0:20, D:60, c:15, modell:'hooke' };   // c = 15 kg/s: Dämpfungsgrad etwa 0.11, praxisnah
 
 /* ── Modell ───────────────────────────────────────────────────────── */
 function bjFel(x, p) {                     // elastische Seilkraft in N, x = s − L0

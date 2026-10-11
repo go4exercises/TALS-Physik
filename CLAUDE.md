@@ -44,7 +44,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Bewegungsvektoren, s-t-, v-t-, a-t- und Energie-Diagramm (\(E_\text{pot}\) = 0 am tiefsten Punkt, \(E_\text{diss}\)),
   Seilkennlinie in Vielfachen von \(F_G\). Regler \(m\), \(L_0\), \(D\); weiterführend Dämpfung \(c\) (nur bei gespanntem
   Seil) und Latexseil (Gent-Modell, angenommene Kennwerte ε = 2 und 3 · \(F_G\) bei 75 kg — **nicht** dem Artikel von
-  Kockelman/Hubbard zugeschrieben, dort nicht verifiziert). Grundeinstellung linear, ohne Dämpfung. RK4 mit Δt = 2 ms.
+  Kockelman/Hubbard zugeschrieben, dort nicht verifiziert). Grundeinstellung linear mit Dämpfung 15 kg/s (Praxiswert, Dämpfungsgrad etwa 0.11; Entscheid des Auftraggebers 11.10.2026), \(c = 0\) für die Energieerhaltung. RK4 mit Δt = 2 ms.
   Selbsttest `bjSelbsttest` über `scripts/verify_bungee.js` im Pre-Flight (s_max und v_max gegen die Energiebilanz,
   Energie auf 0.5 %, Gent-Eichung, E_diss monoton, Seil drückt nie). Testhaken `window.__bj`. Verweise: Themenseiten
   4.2 `#grundgesetz`, 4.3 `#elastisch`; kein Leitprogramm (Federkraft und Spannenergie stehen dort unter «nicht in
