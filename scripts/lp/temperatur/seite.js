@@ -382,10 +382,10 @@
         vergleich: 'Bei rund \\(57\\,^\\circ\\text{C}\\): Der Regler zeigt bei \\(55\\,^\\circ\\text{C}\\) \\(498\\;\\text{m/s}\\) und bei \\(60\\,^\\circ\\text{C}\\) \\(502\\;\\text{m/s}\\).' },
       { text: 'Lies das mittlere Tempo bei \\(300\\,^\\circ\\text{C}\\) ab. Bei welcher Temperatur ist es nur halb so gross? Notiere deine Schätzung aus der Kurve, dann stelle ein.',
         ok: function(s){ return s.besucht[300] && Math.abs(s.v - vMittel(300) / 2) <= 0.02 * vMittel(300) / 2; },
-        vergleich: 'Bei \\(300\\,^\\circ\\text{C}\\) rund \\(658\\;\\text{m/s}\\), die Hälfte sind \\(329\\;\\text{m/s}\\): Die Kurve erreicht sie bei rund \\(-130\\,^\\circ\\text{C}\\). Halbes Tempo heisst nicht halbe Celsius-Zahl (\\(150\\,^\\circ\\text{C}\\)) — die Kurve geht nicht durch den Nullpunkt der Celsius-Skala. Auch in Kelvin halbiert sich nicht einfach die Zahl: Halbes Tempo gehört zu einem Viertel der Kelvin-Temperatur (\\(573\\;\\text{K}\\) → \\(143\\;\\text{K}\\)), denn die mittlere Bewegungsenergie ist proportional zur Kelvin-Temperatur, das Tempo wächst langsamer.' },
+        vergleich: 'Bei \\(300\\,^\\circ\\text{C}\\) rund \\(658\\;\\text{m/s}\\), die Hälfte sind \\(329\\;\\text{m/s}\\): Die Kurve erreicht sie bei rund \\(-130\\,^\\circ\\text{C}\\). Halbes Tempo heisst nicht halbe Celsius-Zahl (\\(150\\,^\\circ\\text{C}\\)) — die Kurve geht nicht durch den Nullpunkt der Celsius-Skala.' },
       { text: 'Kühle so weit ab, wie die Simulation erlaubt. Was geschieht mit der Bewegung, wenn man noch weiter abkühlen könnte? Begründe mit der Kurve.',
         ok: function(s){ return bei(s, -150); },
-        vergleich: 'Bei \\(-150\\,^\\circ\\text{C}\\) noch \\(305\\;\\text{m/s}\\). Je kälter, desto langsamer, und die Kurve fällt immer steiler. Es gibt eine tiefste Temperatur, bei der die Teilchenbewegung minimal ist: den absoluten Nullpunkt, \\(-273.15\\,^\\circ\\text{C}\\) (Kapitel 3). Die Simulation endet bei \\(-150\\,^\\circ\\text{C}\\), weil Stickstoff bei \\(-196\\,^\\circ\\text{C}\\) flüssig wird.' }
+        vergleich: 'Bei \\(-150\\,^\\circ\\text{C}\\) noch \\(305\\;\\text{m/s}\\). Je kälter, desto langsamer, und die Kurve fällt immer steiler. Es gibt eine tiefste Temperatur, bei der die Teilchenbewegung minimal ist: den absoluten Nullpunkt, \\(-273.15\\,^\\circ\\text{C}\\) (Kapitel 3). Die Simulation endet bei \\(-150\\,^\\circ\\text{C}\\), mit Abstand vor \\(-196\\,^\\circ\\text{C}\\): Dort wird Stickstoff flüssig, und die Kurve gilt nur für das Gas.' }
     ], sim);
     zeichnen();
   })();

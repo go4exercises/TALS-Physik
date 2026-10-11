@@ -63,9 +63,10 @@ erklären · K3 Grad Celsius in Grad Kelvin umrechnen und umgekehrt.
 | K3 Umrechnen | 4 | umrechnen, differenz, faktor | Kontrolle Umrechnen 1–5 | 4a–4d | G5, G6 |
 
 **Kapitel** (ein Kapitel = eine Idee; K1 trägt zwei Ideen und bekommt zwei Kapitel): 0 Vorwissen 10 min ·
-1 Temperatur und Teilchenbewegung 45 · 2 Aggregatzustände im Teilchenbild 45 · 3 Celsius und Kelvin: Ursprung und
-Anwendungen 45 · 4 Umrechnen und Temperaturdifferenz 45 · Gesamttest 30 = 220 min ≈ 4.9 Lektionen. Das Teilgebiet
-ist klein; vier Kapitel statt fünf, jedes knapp eine Lektion.
+1 Temperatur und Teilchenbewegung 60 · 2 Aggregatzustände im Teilchenbild 55 · 3 Celsius und Kelvin: Ursprung und
+Anwendungen 55 · 4 Umrechnen und Temperaturdifferenz 55 · Gesamttest 30 = 265 min ≈ 5.9 Lektionen (Schätzung nach der
+Prüfung vom 11.10.2026; vorher je 45 min, für Kapitel 1 mit Diagramm auf Papier zu knapp). Das Teilgebiet ist klein;
+vier Kapitel statt fünf, jedes gut eine Lektion.
 
 **Roter Faden:** «Doppelt so viele Grad Celsius, doppelt so schnell?» stellt Kapitel 1 (Föhn, 20 → 80 °C: nur
 rund 10 % schneller) und lässt es offen; Kapitel 3 beantwortet es mit dem willkürlichen Celsius-Nullpunkt und der
@@ -109,7 +110,7 @@ absoluter Nullpunkt Grün (3), Temperaturdifferenz Orange (2), Druck Rot (4), Te
 | `p5-1-lp-kontrolle-teilchen` | 0:53 | ruhiges Glas, schnelles Einzelteilchen, Auto 35/70 °C, zwei verschlossene Gläser 10/30 °C, Abkühlen |
 | `p5-1-lp-aggregat` | 2:30 | Eis, Wasser, Dampf als Bildfolge aus sim2; Übergänge, Sieden und Verdunsten; Anziehungskräfte; Schmelz- und Siedepunkte (Wasser, Ethanol, Glycerin) als Schienen; Problem Thermometerflüssigkeit Davos (Ethanol) / Backofen (Glycerin) |
 | `p5-1-lp-kontrolle-aggregat` | 0:46 | Sauerstoff −200 °C, Zinn schmilzt, Gas zusammendrücken, Kerzenwachs, Blei und Eisen bei 1600 °C |
-| `p5-1-lp-skalen` | 3:06 | Thermometer mit wanderndem Faden, Fixpunkte (Celsius 1742 umgekehrt, später gedreht), willkürlicher Nullpunkt; Gasthermometer aus sim3, Gerade bis −273.15 °C (ideales Gas); Kelvin; Anwendungen mit Säulen 150/300 K; Problem Messreihe (≈ −273 °C) |
+| `p5-1-lp-skalen` | 3:07 | Thermometer mit wanderndem Faden, Fixpunkte (Celsius 1742 umgekehrt, später gedreht), willkürlicher Nullpunkt; Gasthermometer aus sim3, Gerade bis −273.15 °C (ideales Gas); Kelvin; Anwendungen mit Säulen 150/300 K; Problem Messreihe (≈ −273 °C) |
 | `p5-1-lp-kontrolle-skalen` | 0:51 | Eis als Fixpunkt, selbst gebautes Thermometer, zwei Gasthermometer, −20 K, 100 → 200 K |
 | `p5-1-lp-umrechnen` | 2:17 | Doppelter Zahlenstrahl, 82 °C, 500 K, −12 °C, Differenz 15 → 65 °C, wann umrechnen; Problem Impfstoff 279.6 K |
 | `p5-1-lp-kontrolle-umrechnen` | 0:48 | −25 °C, 93 K, Suppe 85 → 45 °C, wann umrechnen, Faktor −73 → 127 °C |
@@ -191,3 +192,18 @@ beheben. Was geändert wurde:
   gesprochen, F3 Beschriftung −273.15 °C links oben, frei von den Geraden. Neu vertont: alle ausser
   kontrolle-aggregat. Zeitmessung der Anker zusätzlich mit Piper (Sprechertext bis zum Anker), Abweichung
   höchstens rund 0.5 s.
+
+## Prüfung 11.10.2026 (Zweitprüfung): Befunde und Behebung
+
+- **Wurzelgesetz nicht vorwegnehmen:** Leiste sim1 Aufgabe 4 ohne Kelvin-Viertel (nur «halbe Celsius-Zahl ≠ halbes
+  Tempo»); Fehlerkasten Kapitel 1 vergleicht nur noch Celsius-Zahl und Tempo (10 → 20 °C: knapp 2 %); die 41 % in
+  Festhalten 3 und im Clip skalen «Anwendungen» als Ausblick mit Verweis auf die Themenseite (`#teilchen`).
+- **Aufgabe 2e:** «tendenziell höhere Schmelz- und Siedepunkte», dazu Modellgrenze (Kristallanordnung; Quecksilber
+  −39/357 °C). **1e:** Krümmung beschrieben, Begründung über die Mitte weg. **3d:** Temperaturdifferenzen nicht mehr
+  als Kelvin-Anwendung (Celsius taugt gleich, Übung «skala»). Kelvin seit 2019 und Celsius über Kelvin in zwei Sätzen,
+  ohne Jahreszahl für Letzteres. sim1 Aufgabe 5: Ende bei −150 °C «mit Abstand vor −196 °C».
+- **Clips:** skalen «Vorgehen Messreihe»: Steigungsdreieck erst nach der Frage (Anker «wie viel Druck je Grad»,
+  ein 1.6 s; Frage bei 0.3 s); skalen «Anwendungen» neu vertont (übrige Anker der Szene von Hand auf den alten,
+  geprüften Zeiten belassen). kontrolle-skalen F2: Rückmeldung zu 30.4 °C nennt beide Fehlerquellen, Frageton r2 neu.
+- **Bewertungspaket G2:** Folgefall «anderer Stoff» ausdrücklich geregelt (Stoffe mit einem oder keinem Übergang).
+- **Zeiten** (Schätzung der Prüfung übernommen): Kapitel 1 60, Kapitel 2 bis 4 je 55 min, zusammen 265 min.

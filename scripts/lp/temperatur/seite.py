@@ -720,7 +720,7 @@ fest1 = r'''      <div class="festhalten">
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
           <p>«Bei \(0\,^\circ\text{C}\) bewegen sich die Teilchen nicht mehr.» Bei \(0\,^\circ\text{C}\) gefriert nur das Wasser; die Teilchen bewegen sich weiter. Minimal ist die Bewegung erst am absoluten Nullpunkt.</p>
-          <p>«Doppelte Temperatur, doppelt so schnell.» Von \(10\,^\circ\text{C}\) auf \(20\,^\circ\text{C}\) werden Stickstoffteilchen (der Hauptteil der Luft) im Mittel nur von \(463\;\text{m/s}\) auf \(471\;\text{m/s}\) schneller. Die Celsius-Zahl verdoppelt sich, die Bewegung nicht: Der Nullpunkt der Celsius-Skala ist willkürlich (Kapitel 3), und das Tempo wächst langsamer als die Temperatur.</p>
+          <p>«Doppelt so viele Grad Celsius, doppelt so schnell.» Von \(10\,^\circ\text{C}\) auf \(20\,^\circ\text{C}\) werden Stickstoffteilchen (der Hauptteil der Luft) im Mittel nur von \(463\;\text{m/s}\) auf \(471\;\text{m/s}\) schneller, um knapp \(2\,\%\). Die Celsius-Zahl verdoppelt sich, das Tempo bei Weitem nicht: Der Nullpunkt der Celsius-Skala ist willkürlich (Kapitel 3).</p>
         </div>
       </div>'''
 kurve_v = [(c, vmit(c)) for c in range(-190, 301, 10)]      # Stickstoff ist unter −196 °C flüssig
@@ -735,10 +735,10 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 15, [
     ('1d', 3, r'Begründe, warum es eine tiefste Temperatur gibt, aber keine höchste.',
      r'<p>Die Temperatur misst die Bewegung der Teilchen. Weniger als die kleinstmögliche Bewegung gibt es nicht: Dort liegt die tiefste Temperatur, der absolute Nullpunkt (\(-273.15\,^\circ\text{C}\)). Nach oben gibt es keine solche Grenze — die Teilchen können sich immer noch heftiger bewegen.</p>', ''),
     ('1e', 3, r'Für Stickstoff gibt eine Tabelle das mittlere Tempo der Teilchen an: \(-150\,^\circ\text{C}\): \(305\;\text{m/s}\); \(-50\,^\circ\text{C}\): \(411\;\text{m/s}\); \(50\,^\circ\text{C}\): \(494\;\text{m/s}\); \(150\,^\circ\text{C}\): \(566\;\text{m/s}\); \(250\,^\circ\text{C}\): \(629\;\text{m/s}\). Zeichne auf Papier ein Diagramm (Temperatur von \(-200\,^\circ\text{C}\) bis \(300\,^\circ\text{C}\), \(1\;\text{cm}\) für \(50\,^\circ\text{C}\); Tempo von \(0\) bis \(700\;\text{m/s}\), \(1\;\text{cm}\) für \(100\;\text{m/s}\)), trage die fünf Punkte ein und verbinde sie mit einer glatten Kurve. Lies das Tempo bei \(100\,^\circ\text{C}\) an deiner Kurve ab.',
-     r'<p>Die Punkte liegen auf einer steigenden, leicht gebogenen Kurve (Bild). Jeden Punkt so eintragen: auf der Temperaturachse den Wert suchen, senkrecht hinauf bis zur Höhe des Tempos — bei \(411\;\text{m/s}\) knapp über der Linie \(400\).</p><p>Bei \(100\,^\circ\text{C}\) abgelesen: rund \(530\;\text{m/s}\) (genauer \(531\;\text{m/s}\); zählt: \(520\) bis \(540\;\text{m/s}\)). Der Wert liegt zwischen den Nachbarpunkten \(494\;\text{m/s}\) und \(566\;\text{m/s}\), knapp über ihrer Mitte (\(530\;\text{m/s}\)), weil die Kurve nach oben gewölbt ist und flacher wird.</p>'
+     r'<p>Die Punkte liegen auf einer steigenden, leicht gebogenen Kurve (Bild). Jeden Punkt so eintragen: auf der Temperaturachse den Wert suchen, senkrecht hinauf bis zur Höhe des Tempos — bei \(411\;\text{m/s}\) knapp über der Linie \(400\).</p><p>Bei \(100\,^\circ\text{C}\) abgelesen: rund \(530\;\text{m/s}\) (genauer \(531\;\text{m/s}\); zählt: \(520\) bis \(540\;\text{m/s}\)). Der Wert liegt zwischen den Nachbarpunkten \(494\;\text{m/s}\) und \(566\;\text{m/s}\). Die Kurve steigt nach rechts immer weniger steil an; zwischen zwei benachbarten Punkten ist sie fast gerade.</p>'
      + '<div class="mini-reihe">' + diagramm(-200, 300, 0, 700, 50, 100, 100, 100, 'ϑ [°C]', 'Tempo [m/s]', 'Lösungsbild: fünf eingetragene Punkte des mittleren Tempos von Stickstoff bei −150, −50, 50, 150 und 250 °C, verbunden durch eine steigende, leicht gebogene Kurve von −150 °C bis 250 °C; bei 100 °C rund 531 m/s', [([(c, vmit(c)) for c in range(-150, 251, 10)], '')], [(c, vmit(c), 'p-mini') for c in (-150, -50, 50, 150, 250)]) + '</div>', ''),
 ])
-k1 = kapitel(1, 'teilchen', 'Temperatur und Teilchenbewegung', 'K1', 45,
+k1 = kapitel(1, 'teilchen', 'Temperatur und Teilchenbewegung', 'K1', 60,
     r'Du definierst die Temperatur über die Bewegung der Teilchen und begründest, warum sie ein Mittelwert ist und eine untere Grenze hat.',
     ('p5-1-lp-teilchen', 'Temperatur sehen: was sich bewegt, wenn es wärmer wird'),
     sim1, ('p5-1-lp-kontrolle-teilchen', 'Kontrollfragen zur Temperatur'),
@@ -785,9 +785,9 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 15, [
     ('2d', 3, r'Beim Kochen von Nudeln beschlägt der kalte Deckel innen mit Tropfen. Wie heisst dieser Übergang? Beschreibe, was die Wasserteilchen dabei tun.',
      r'<p>Kondensieren (gasförmig → flüssig). Die Teilchen des Wasserdampfs treffen auf den kalten Deckel und werden langsamer. Sie rücken zusammen, bleiben aneinander und am Deckel haften und bilden Tropfen.</p>', ''),
     ('2e', 3, r'Bei \(-50\,^\circ\text{C}\) ist Ethanol flüssig, Wasser aber fest — obwohl die Teilchen beider Stoffe bei derselben Temperatur dieselbe mittlere Bewegungsenergie haben. Begründe mit den Kräften zwischen den Teilchen. Was folgt daraus für die Schmelzpunkte?',
-     r'<p>Zwischen Wasserteilchen wirken stärkere Anziehungskräfte als zwischen Ethanolteilchen. Bei \(-50\,^\circ\text{C}\) ist die Bewegung zu schwach, um die Wasserteilchen von ihren festen Plätzen zu lösen: Wasser ist fest. Die schwächeren Kräfte zwischen den Ethanolteilchen halten sie bei derselben Bewegung nicht mehr auf festen Plätzen; sie bleiben beieinander, lassen sich aber gegeneinander verschieben: Ethanol ist flüssig.</p><p>Daraus folgt: Je stärker die Anziehungskräfte, desto heftiger muss die Bewegung sein, bis der Stoff schmilzt — desto höher liegt der Schmelzpunkt (Wasser \(0\,^\circ\text{C}\), Ethanol \(-114\,^\circ\text{C}\)).</p>', ''),
+     r'<p>Zwischen Wasserteilchen wirken stärkere Anziehungskräfte als zwischen Ethanolteilchen. Bei \(-50\,^\circ\text{C}\) ist die Bewegung zu schwach, um die Wasserteilchen von ihren festen Plätzen zu lösen: Wasser ist fest. Die schwächeren Kräfte zwischen den Ethanolteilchen halten sie bei derselben Bewegung nicht mehr auf festen Plätzen; sie bleiben beieinander, lassen sich aber gegeneinander verschieben: Ethanol ist flüssig.</p><p>Daraus folgt: Je stärker die Anziehungskräfte, desto heftiger muss die Bewegung sein, bis sie die Teilchen nicht mehr zusammenhalten. Stoffe mit starken Kräften haben darum tendenziell höhere Schmelz- und Siedepunkte (Wasser \(0\,^\circ\text{C}\) und \(100\,^\circ\text{C}\), Ethanol \(-114\,^\circ\text{C}\) und \(78\,^\circ\text{C}\)).</p><p>Das Modell hat Grenzen: Der Schmelzpunkt hängt auch davon ab, wie die Teilchen im Kristall angeordnet sind. Quecksilber siedet erst bei \(357\,^\circ\text{C}\), schmilzt aber schon bei \(-39\,^\circ\text{C}\).</p>', ''),
 ])
-k2 = kapitel(2, 'aggregat', 'Aggregatzustände im Teilchenbild', 'K1', 45,
+k2 = kapitel(2, 'aggregat', 'Aggregatzustände im Teilchenbild', 'K1', 55,
     r'Du beschreibst fest, flüssig und gasförmig im Teilchenbild, benennst die Übergänge und bestimmst mit Schmelz- und Siedepunkt, in welchem Zustand ein Stoff bei einer bestimmten Temperatur ist.',
     ('p5-1-lp-aggregat', 'Temperatur sehen: fest, flüssig, gasförmig'),
     sim2, ('p5-1-lp-kontrolle-aggregat', 'Kontrollfragen zu den Aggregatzuständen'),
@@ -807,10 +807,10 @@ fest3 = r'''      <div class="festhalten">
           <p>Praktisch, weil Wasser überall verfügbar ist — aber an einen Stoff gebunden und darum <b>willkürlich</b>: Bei \(0\,^\circ\text{C}\) hört keine Bewegung auf, und es gibt negative Celsius-Temperaturen.</p>
           <div class="titel" style="margin-top:14px">Absoluter Nullpunkt und Kelvin-Skala</div>
           <p>Bei festem Volumen nimmt der Druck eines Gases beim Abkühlen gleichmässig ab. Verlängert man die Gerade bis zum Druck null, trifft sie die Temperaturachse bei \(-273.15\,^\circ\text{C}\) — für jedes Gas und jede Gasmenge. Das gilt im Modell des idealen Gases, solange das Gas nicht flüssig wird; gemessen wird darum bei Temperaturen, bei denen es gasförmig bleibt, und die Gerade verlängert. Kälter geht es nicht: Dort liegt der <b>absolute Nullpunkt</b>, die Teilchenbewegung ist minimal. Ganz erreichen lässt er sich nie.</p>
-          <p>William Thomson (Lord Kelvin) legte den Nullpunkt seiner <b>absoluten Temperaturskala</b> dorthin, mit derselben Schrittweite wie Celsius. Die Einheit ist das <b>Kelvin</b> (\(\text{K}\), ohne «Grad»), die SI-Basiseinheit der Temperatur; das Formelzeichen ist \(T\). Negative Kelvin-Temperaturen gibt es nicht. Bei festem Volumen ist der Druck eines Gases proportional zur Kelvin-Temperatur. Seit 2019 ist das Kelvin über die Boltzmann-Konstante festgelegt (\(k = 1.380649 \cdot 10^{-23}\;\text{J/K}\), ein fester Zahlenwert), und das Grad Celsius wird über das Kelvin definiert.</p>
+          <p>William Thomson (Lord Kelvin) legte den Nullpunkt seiner <b>absoluten Temperaturskala</b> dorthin, mit derselben Schrittweite wie Celsius. Die Einheit ist das <b>Kelvin</b> (\(\text{K}\), ohne «Grad»), die SI-Basiseinheit der Temperatur; das Formelzeichen ist \(T\). Negative Kelvin-Temperaturen gibt es nicht. Bei festem Volumen ist der Druck eines Gases proportional zur Kelvin-Temperatur. Seit 2019 ist das Kelvin über die Boltzmann-Konstante festgelegt (\(k = 1.380649 \cdot 10^{-23}\;\text{J/K}\), ein fester Zahlenwert). Die Celsius-Skala ist schon länger über das Kelvin definiert: \(\vartheta\,[^\circ\text{C}] = T\,[\text{K}] - 273.15\).</p>
           <p>\[ 0\;\text{K} = -273.15\,^\circ\text{C} \qquad 273.15\;\text{K} = 0\,^\circ\text{C} \]</p>
           <div class="titel" style="margin-top:14px">Anwendungen</div>
-          <p><b>Celsius</b> im Alltag: Wetter, Fieber, Kochen, Heizung. <b>Kelvin</b> in Wissenschaft und Technik: wo eine Temperatur selbst als Faktor oder in einem Verhältnis steht — die mittlere Bewegungsenergie der Teilchen ist proportional zur Kelvin-Temperatur, doppelte Kelvin-Temperatur heisst doppelte mittlere Bewegungsenergie; das Tempo der Teilchen wächst dabei nur um rund \(41\,\%\) —, in den Gasgesetzen und bei sehr tiefen Temperaturen (flüssiger Stickstoff siedet bei \(77\;\text{K}\)).</p>
+          <p><b>Celsius</b> im Alltag: Wetter, Fieber, Kochen, Heizung. <b>Kelvin</b> in Wissenschaft und Technik: wo eine Temperatur selbst als Faktor oder in einem Verhältnis steht — die mittlere Bewegungsenergie der Teilchen ist proportional zur Kelvin-Temperatur, doppelte Kelvin-Temperatur heisst doppelte mittlere Bewegungsenergie (Ausblick: Das Tempo der Teilchen wächst dabei nur um rund \(41\,\%\); warum, zeigt die <a href="''' + TS + r'''#teilchen">Themenseite 5.1</a>) —, in den Gasgesetzen und bei sehr tiefen Temperaturen (flüssiger Stickstoff siedet bei \(77\;\text{K}\)).</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -829,9 +829,9 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
     ('3c', 3, r'Warum beginnt die Kelvin-Skala genau bei \(-273.15\,^\circ\text{C}\)? Warum gibt es keine negativen Kelvin-Temperaturen? Was haben Celsius- und Kelvin-Skala gemeinsam?',
      r'<p>Bei \(-273.15\,^\circ\text{C}\) liegt der absolute Nullpunkt: Dort würde der Druck eines Gases null, die Teilchenbewegung ist minimal. Tiefer geht es nicht; Kelvin legte den Nullpunkt seiner Skala genau dorthin.</p><p>Weil keine Temperatur unter dem absoluten Nullpunkt liegt, gibt es keine negativen Kelvin-Werte.</p><p>Gemeinsam ist die Schrittweite: \(1\;\text{K}\) ist genau so gross wie \(1\,^\circ\text{C}\). Die Skalen sind nur gegeneinander verschoben.</p>', ''),
     ('3d', 3, r'Nenne je zwei Anwendungen, in denen man üblicherweise mit Grad Celsius und mit Kelvin misst oder rechnet. Begründe bei einer Kelvin-Anwendung, warum Celsius dort nicht taugt.',
-     r'<p>Celsius: Wetterbericht, Fiebermessen, Kochen, Raumtemperatur.</p><p>Kelvin: Verhältnisse wie die mittlere Bewegungsenergie der Teilchen, Gasgesetze, Tieftemperaturphysik (flüssiger Stickstoff \(77\;\text{K}\)), Temperaturdifferenzen in Technik und Wissenschaft.</p><p>Begründung, zum Beispiel: Die mittlere Bewegungsenergie ist proportional zur Temperatur ab dem absoluten Nullpunkt. Mit Celsius-Zahlen stimmt das Verhältnis nicht, weil deren Nullpunkt willkürlich ist.</p>', ''),
+     r'<p>Celsius: Wetterbericht, Fiebermessen, Kochen, Raumtemperatur.</p><p>Kelvin: Verhältnisse wie die mittlere Bewegungsenergie der Teilchen, Gasgesetze, Tieftemperaturphysik (flüssiger Stickstoff \(77\;\text{K}\)).</p><p>Begründung, zum Beispiel: Die mittlere Bewegungsenergie ist proportional zur Temperatur ab dem absoluten Nullpunkt. Mit Celsius-Zahlen stimmt das Verhältnis nicht, weil deren Nullpunkt willkürlich ist.</p>', ''),
 ])
-k3 = kapitel(3, 'skalen', 'Celsius und Kelvin: Ursprung und Anwendungen', 'K2', 45,
+k3 = kapitel(3, 'skalen', 'Celsius und Kelvin: Ursprung und Anwendungen', 'K2', 55,
     r'Du erklärst, wie die Celsius-Skala aus zwei Fixpunkten des Wassers entsteht, wie man den absoluten Nullpunkt findet und warum die Kelvin-Skala dort beginnt — und wo man welche Skala braucht.',
     ('p5-1-lp-skalen', 'Temperatur sehen: zwei Skalen, zwei Nullpunkte'),
     sim3, ('p5-1-lp-kontrolle-skalen', 'Kontrollfragen zu Celsius und Kelvin'),
@@ -875,7 +875,7 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
     ('4d', 3, r'Luft in einer verschlossenen Flasche wird von \(15\,^\circ\text{C}\) auf \(90\,^\circ\text{C}\) erwärmt. Um welchen Faktor wächst die mittlere Bewegungsenergie der Luftteilchen? Warum ist \(\dfrac{90}{15} = 6\) falsch?',
      r'<p>In Kelvin: \(T_1 = 15 + 273.15 = 288.15\), \(T_2 = 90 + 273.15 = 363.15\) (in K). Faktor \(\dfrac{T_2}{T_1} = \dfrac{363.15\;\text{K}}{288.15\;\text{K}} \approx 1.26\).</p><p>Die mittlere Bewegungsenergie ist proportional zur Temperatur ab dem absoluten Nullpunkt. Der Nullpunkt der Celsius-Skala ist willkürlich; ein Verhältnis von Celsius-Zahlen hat darum keine Bedeutung.</p>', ''),
 ])
-k4 = kapitel(4, 'umrechnen', 'Umrechnen und Temperaturdifferenz', 'K3', 45,
+k4 = kapitel(4, 'umrechnen', 'Umrechnen und Temperaturdifferenz', 'K3', 55,
     r'Du rechnest Grad Celsius in Kelvin um und umgekehrt, bestimmst Temperaturdifferenzen und entscheidest, wann umgerechnet werden muss.',
     ('p5-1-lp-umrechnen', 'Temperatur sehen: von Celsius zu Kelvin und zurück'),
     sim4, ('p5-1-lp-kontrolle-umrechnen', 'Kontrollfragen zum Umrechnen'),
@@ -941,17 +941,17 @@ oben = '''<div id="nav-root"></div>
        K3 → Kap. 4 (Umrechnen, Differenz, wann umrechnen) · Aufg. 4a–4d · G5, G6
      Planung: K1 enthält zwei Ideen (Temperatur als Mass der Teilchenbewegung; Aggregatzustände) und
      bekommt zwei Kapitel; K2 und K3 je eines. Ein Kapitel = eine Idee; das Teilgebiet ist klein,
-     darum vier Kapitel zu je knapp einer Lektion.
+     darum vier Kapitel zu je gut einer Lektion.
      Bewusst weggelassen (Themenseite oder spätere Teilgebiete): latente Wärme und Heizkurve (5.2),
      Wärme gegen Temperatur (5.2), Gasgesetze (5.3), Wurzelgesetz des Tempos (Themenseite 5.1),
      Fahrenheit (nicht im RLP).
-     Zeiten: K0 10 · K1 45 · K2 45 · K3 45 · K4 45 · Gesamttest 30 = 220 min ≈ 4.9 Lektionen. -->
+     Zeiten (Schätzung nach der Prüfung vom 11.10.2026): K0 10 · K1 60 · K2 55 · K3 55 · K4 55 · Gesamttest 30 = 265 min ≈ 5.9 Lektionen. -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
       <p class="marke">Physik begreifbar · Leitprogramm</p>
       <h1>Temperatur</h1>
-      <p class="unter">Teilchenbewegung, Aggregatzustände, Celsius und Kelvin, Umrechnen — mit laufenden Simulationen. Vier Kapitel zu je knapp einer Lektion, dazu Vorwissen und Gesamttest.</p>
+      <p class="unter">Teilchenbewegung, Aggregatzustände, Celsius und Kelvin, Umrechnen — mit laufenden Simulationen. Vier Kapitel zu je gut einer Lektion, dazu Vorwissen und Gesamttest.</p>
     </div>
     <div class="kopf-rechts">
       <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>
