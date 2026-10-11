@@ -409,6 +409,11 @@ SEITEN = {
    typ='article', lrt='Werkzeug',
    beschreibung='Widerstandsschaltungen üben: Kurzformel, Ersatzwiderstand, Teilströme und Teilspannungen, Voltmeter und Amperemeter richtig einsetzen, mit Rückmeldung.',
    themen=['Reihenschaltung', 'Parallelschaltung', 'Ersatzwiderstand', 'Gemischte Schaltung', 'Ohmsches Gesetz', 'Voltmeter', 'Amperemeter']),
+ 'simulationen/bungee-sprung.html': dict(
+   ort='Simulationen · Bungee-Sprung',
+   typ='article', lrt='Simulation',
+   beschreibung='Bungee-Sprung simulieren: Gewichtskraft, Seilkraft, Geschwindigkeit, Beschleunigung und Energien am elastischen Seil verfolgen, Masse und Seil verändern.',
+   themen=['Bungee-Sprung', 'Federkraft', 'Hookesches Gesetz', 'Grundgesetz der Mechanik', 'Energieerhaltung', 'Elastische Energie']),
  'simulationen/sonnenfinsternis-12-08-2026.html': dict(
    ort='Simulationen · Sonnenfinsternis vom 12. August 2026',
    typ='article', lrt='Simulation',

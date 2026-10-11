@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bungee-Sprung — Physik begreifbar</title>
+<!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<meta name="description" content="Bungee-Sprung simulieren: Gewichtskraft, Seilkraft, Geschwindigkeit, Beschleunigung und Energien am elastischen Seil verfolgen, Masse und Seil verändern.">
+<meta name="author" content="Raphael Arnold Kohler">
+<link rel="canonical" href="https://physik.begreifbar.ch/simulationen/bungee-sprung.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Physik begreifbar">
+<meta property="og:locale" content="de_CH">
+<meta property="og:title" content="Bungee-Sprung — Physik begreifbar">
+<meta property="og:description" content="Bungee-Sprung simulieren: Gewichtskraft, Seilkraft, Geschwindigkeit, Beschleunigung und Energien am elastischen Seil verfolgen, Masse und Seil verändern.">
+<meta property="og:url" content="https://physik.begreifbar.ch/simulationen/bungee-sprung.html">
+<meta property="og:image" content="https://physik.begreifbar.ch/og-bild.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://physik.begreifbar.ch/simulationen/bungee-sprung.html#inhalt",
+   "url": "https://physik.begreifbar.ch/simulationen/bungee-sprung.html",
+   "name": "Bungee-Sprung — Physik begreifbar",
+   "description": "Bungee-Sprung simulieren: Gewichtskraft, Seilkraft, Geschwindigkeit, Beschleunigung und Energien am elastischen Seil verfolgen, Masse und Seil verändern.",
+   "inLanguage": "de-CH",
+   "isAccessibleForFree": true,
+   "license": "https://creativecommons.org/licenses/by-nc/4.0/deed.de",
+   "creator": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "publisher": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "dateModified": "2026-08-01",
+   "isPartOf": {
+    "@id": "https://physik.begreifbar.ch/#website"
+   },
+   "about": [
+    {
+     "@type": "DefinedTerm",
+     "name": "Bungee-Sprung"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Federkraft"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Hookesches Gesetz"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Grundgesetz der Mechanik"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Energieerhaltung"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Elastische Energie"
+    }
+   ],
+   "keywords": "Bungee-Sprung, Federkraft, Hookesches Gesetz, Grundgesetz der Mechanik, Energieerhaltung, Elastische Energie",
+   "learningResourceType": "Simulation",
+   "educationalLevel": "Sekundarstufe II — Berufsmaturität (Schweiz)",
+   "typicalAgeRange": "16-20",
+   "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": [
+     "student",
+     "teacher"
+    ]
+   },
+   "interactivityType": "active"
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://physik.begreifbar.ch/#website",
+   "url": "https://physik.begreifbar.ch/",
+   "name": "Physik begreifbar"
+  }
+ ]
+}
+</script>
+<!-- SEO:ENDE -->
+<link rel="stylesheet" href="../schriften.css">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']] },
+  svg: { fontCache:'global', scale:1.05 },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="../vendor/mathjax/tex-svg.js"></script>
+
+<style>
+/* ── Seitenspezifisch nur die Simulation ──
+   Phasenkasten, Bild des Sprungs (SVG), Wertanzeige, Steuerung, vier Diagramme,
+   Parameter und Seilkennlinie. Breite über eine Container-Abfrage (.bj-rahmen). */
+.bj-rahmen { container-type:inline-size; }
+.bj-phase { display:grid; grid-template-columns:minmax(150px, 24%) minmax(0, 1fr) minmax(0, 30%); gap:2px 14px; align-items:center;
+  border:1.5px solid var(--linie); border-left:5px solid var(--bernstein); border-radius:8px; padding:6px 12px; margin-bottom:10px;
+  background:var(--papier); min-height:84px; }
+.bj-phase-nr { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.bj-phase-titel { font-family:var(--serif); font-size:0.95rem; font-weight:700; color:var(--tinte); line-height:1.2; }
+.bj-phase-text { font-size:0.84rem; line-height:1.35; color:var(--tinte); }
+.bj-phase-formel { font-size:0.85rem; justify-self:end; text-align:right; line-height:1.6; }
+.bj-raster { display:grid; grid-template-columns:minmax(0, 44%) minmax(0, 1fr); gap:12px; }
+.bj-links, .bj-rechts { min-width:0; }
+.bj-chips { display:flex; flex-wrap:wrap; gap:4px; margin:0 0 6px; }
+.bj-chip { font-family:var(--sans); font-size:0.78rem; font-weight:700; padding:2px 9px; border-radius:14px; cursor:pointer;
+  border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
+.bj-chip.aus { border-style:dashed; opacity:0.5; }
+.bj-chip:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.bj-chip.bj-schalter { margin-left:auto; font-family:var(--mono); font-size:0.66rem; color:var(--tinte-2); }
+#bj-bild { display:block; width:100%; height:420px; border:1px solid var(--linie); border-radius:8px; background:var(--weiss); touch-action:none; }
+.bj-rahmen .live-box { margin:8px 0 6px; padding:6px 10px; }
+.bj-rahmen .live-box .lb-val { font-size:0.88rem; }
+.bj-richtung { font-family:var(--mono); font-size:0.66rem; color:var(--tinte-2); min-height:1.2em; }
+.bj-steuer { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:6px; }
+.bj-steuer select { font-family:var(--mono); font-size:0.72rem; padding:3px 6px; border-radius:6px; border:1.5px solid var(--linie); background:var(--weiss); }
+.bj-zeit { font-family:var(--mono); font-size:0.78rem; font-weight:700; margin-left:auto; }
+.bj-regler { width:100%; margin-top:6px; accent-color:var(--bernstein); }
+.bj-dias { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px; }
+.bj-dia { min-width:0; }
+.bj-dia-titel { font-size:0.8rem; font-weight:700; margin:0 0 2px 2px; }
+.bj-dia > svg { display:block; width:100%; height:180px; border:1px solid var(--linie); border-radius:8px; background:var(--weiss); cursor:crosshair; touch-action:none; }
+.bj-dia .bj-chips { margin:0 0 3px; }
+.bj-dia .bj-chip { font-size:0.7rem; padding:1px 7px; }
+.bj-hinweis { font-size:0.75rem; color:var(--tinte-2); margin-top:4px; }
+.bj-unten { display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:14px; margin-top:14px; padding-top:12px; border-top:1px solid var(--linie); }
+.bj-gruppe-titel { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 6px; }
+.bj-gruppe-titel .bj-weiter { color:var(--lila); }
+.bj-param { margin-bottom:8px; }
+.bj-param label { display:block; font-size:0.82rem; font-weight:600; }
+.bj-param input[type=range] { width:100%; accent-color:var(--bernstein); }
+.bj-param select { width:100%; font-size:0.8rem; padding:4px 6px; border-radius:6px; border:1.5px solid var(--linie); background:var(--weiss); }
+.bj-wert { font-family:var(--mono); font-weight:700; }
+.bj-param.inaktiv { opacity:0.4; }
+.bj-erkl { font-size:0.74rem; color:var(--tinte-2); line-height:1.3; margin-top:1px; }
+.bj-kenn .fl-eq { font-size:0.9rem; font-family:var(--sans); font-weight:400; }
+#bj-kennlinie { display:block; width:100%; height:190px; border:1px solid var(--linie); border-radius:8px; background:var(--weiss); }
+@container (max-width: 760px) {
+  .bj-raster, .bj-unten { grid-template-columns:minmax(0, 1fr); }
+  .bj-phase { grid-template-columns:minmax(0, 1fr); min-height:0; }
+  .bj-phase-formel { justify-self:start; text-align:left; }
+  #bj-bild { height:380px; }
+}
+@container (max-width: 420px) {
+  .bj-dias { grid-template-columns:minmax(0, 1fr); }
+  .bj-dia > svg { height:160px; }
+}
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ TITEL ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">SIM · Simulationen</div>
+  <h1 class="pt-h1">Bungee-Sprung</h1>
+  <p class="pt-untertitel">Ein Springer fällt am elastischen Seil: Hier verfolgst du Kräfte, Geschwindigkeit, Beschleunigung und Energien während des Sprungs und veränderst Masse, Seillänge und Federkonstante. Erklärt wird das auf den Themenseiten <a href="../themen/p4-2-dynamik.html#grundgesetz">4.2 Das Grundgesetz</a> und <a href="../themen/p4-3-energie.html#elastisch">4.3 Elastische Energie</a>.</p>
+</div>
+
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+  <ul>
+    <li>Ich kann für jede Phase des Sprungs angeben, welche Kräfte wirken und wohin die resultierende Kraft und die Beschleunigung zeigen.</li>
+    <li>Ich kann begründen, warum die Geschwindigkeit nicht am tiefsten Punkt am grössten ist, sondern dort, wo \(F_\text{res} = 0\) gilt.</li>
+    <li>Ich kann die Umwandlung von Lageenergie in Bewegungsenergie und elastische Energie verfolgen und mit der Energieerhaltung den tiefsten Punkt bestimmen.</li>
+  </ul>
+  </div>
+</details>
+
+<div class="block block-merksatz">
+  <div class="block-titel">📘 Das Modell</div>
+  <p>Gemessen wird die Falltiefe \(s\) ab der Absprungplattform, <strong>positiv nach unten</strong>; ebenso \(v\), \(a\) und die Kräfte. Der Springer ist ein Massenpunkt, der Luftwiderstand ist vernachlässigt. Bis zur Falltiefe \(L_0\) (ungedehnte Seillänge) ist das Seil schlaff, danach zieht es nach oben wie eine Feder:</p>
+  \[ F_\text{Seil} = D \cdot (s - L_0) \qquad F_\text{res} = F_G - F_\text{Seil} = m \cdot a \]
+  <p>Ohne Dämpfung bleibt die mechanische Energie erhalten:</p>
+  \[ E_\text{mech} = E_\text{pot} + E_\text{kin} + E_\text{el} \qquad E_\text{el} = \tfrac{1}{2} \cdot D \cdot (s - L_0)^2 \]
+</div>
+
+
+<!-- ══════════════ SIMULATION ══════════════ -->
+<h2 id="simulation">Die Simulation</h2>
+
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+      <h3 id="bungee-simulation">Sprung am elastischen Seil</h3>
+      <div class="anim-hinweis links">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zur Simulation Bungee-Sprung">💡 Worauf achten?</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Worauf achten?</span>
+          <div class="ah-text"><ul><li>Ab welcher Falltiefe zieht das Seil? Was ändert sich dann im \(a\)-\(t\)-Diagramm?</li><li>Wo ist die Geschwindigkeit am grössten, und was gilt dort für \(F_\text{res}\)?</li><li>Wohin zeigt der Beschleunigungspfeil am tiefsten Punkt, wo \(v = 0\) ist?</li></ul></div>
+        </div>
+      </div>
+      <div class="anim-hinweis rechts">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zur Simulation Bungee-Sprung">✓ Erkenntnis</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Erkenntnis</span>
+          <div class="ah-text"><ul><li>Am grössten ist \(v\), wo Seilkraft und Gewichtskraft gleich gross sind: \(F_\text{res} = 0\), \(a = 0\).</li><li>Am tiefsten Punkt ist \(v = 0\), die Beschleunigung zeigt aber nach oben; ohne Dämpfung ist sie dort grösser als \(g\).</li><li>Ohne Dämpfung bleibt \(E_\text{mech}\) gleich: Lageenergie wird zu Bewegungsenergie und dann zu elastischer Energie im Seil.</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="widget-body bj-rahmen">
+
+    <div class="bj-phase" id="bj-phase" aria-live="polite">
+      <div><div class="bj-phase-nr" id="bj-phase-nr"></div><div class="bj-phase-titel" id="bj-phase-titel"></div></div>
+      <div class="bj-phase-text" id="bj-phase-text"></div>
+      <div class="bj-phase-formel" id="bj-phase-formel"></div>
+    </div>
+
+    <div class="bj-raster">
+      <div class="bj-links">
+        <div class="bj-chips" id="bj-pfeile" role="group" aria-label="Pfeile ein- oder ausblenden"></div>
+        <svg id="bj-bild" role="img" aria-label="Bild des Sprungs mit Kraft-, Geschwindigkeits- und Beschleunigungspfeilen"></svg>
+        <div class="live-box" id="bj-werte">
+          <div class="lb-item"><span class="lb-lab">Falltiefe \(s\)</span><span class="lb-val" id="bj-w-s"></span></div>
+          <div class="lb-item"><span class="lb-lab">Geschwindigkeit \(v\)</span><span class="lb-val" id="bj-w-v"></span></div>
+          <div class="lb-item"><span class="lb-lab">Beschleunigung \(a\)</span><span class="lb-val" id="bj-w-a"></span></div>
+          <div class="lb-item"><span class="lb-lab">Gewichtskraft \(F_G\)</span><span class="lb-val" id="bj-w-fg"></span></div>
+          <div class="lb-item"><span class="lb-lab">Seilkraft \(F_\text{Seil}\)</span><span class="lb-val" id="bj-w-fs"></span></div>
+          <div class="lb-item"><span class="lb-lab">Resultierende \(F_\text{res}\)</span><span class="lb-val" id="bj-w-fr"></span></div>
+        </div>
+        <div class="bj-richtung" id="bj-richtung"></div>
+        <div class="bj-steuer">
+          <button class="play-btn" id="bj-play">▶ Abspielen</button>
+          <button class="typ-btn" id="bj-reset">⟲ Zurück</button>
+          <select id="bj-tempo" aria-label="Abspielgeschwindigkeit">
+            <option value="0.1">Zeitlupe 0.1×</option>
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>Echtzeit 1×</option>
+            <option value="2">2×</option>
+          </select>
+          <span class="bj-zeit" id="bj-zeit">t = 0.00 s</span>
+        </div>
+        <input type="range" id="bj-t" class="bj-regler" min="0" max="28" step="0.01" value="0" aria-label="Zeitregler">
+        <div class="bj-hinweis">Zeitregler ziehen oder in ein Diagramm tippen und ziehen, um die Zeit zu durchfahren.</div>
+      </div>
+
+      <div class="bj-rechts">
+        <div class="bj-dias">
+          <div class="bj-dia"><div class="bj-dia-titel">Falltiefe \(s\) in m</div><svg id="bj-d-s" role="img" aria-label="s-t-Diagramm"></svg></div>
+          <div class="bj-dia"><div class="bj-dia-titel">Geschwindigkeit \(v\) in m/s</div><svg id="bj-d-v" role="img" aria-label="v-t-Diagramm"></svg></div>
+          <div class="bj-dia"><div class="bj-dia-titel">Beschleunigung \(a\) in \(\text{m/s}^2\)</div><svg id="bj-d-a" role="img" aria-label="a-t-Diagramm"></svg></div>
+          <div class="bj-dia"><div class="bj-dia-titel">Energie \(E\) in kJ <span style="font-weight:400">(\(E_\text{pot} = 0\) am tiefsten Punkt)</span></div>
+            <div class="bj-chips" id="bj-energien" role="group" aria-label="Energiekurven ein- oder ausblenden"></div>
+            <svg id="bj-d-e" role="img" aria-label="Energie-t-Diagramm"></svg></div>
+        </div>
+        <div class="bj-hinweis">Hintergrund: die Phasen 1 bis 5. Die \(s\)-Achse zeigt nach unten wie die Bewegung. Die senkrechte Linie zeigt den gewählten Zeitpunkt.</div>
+      </div>
+    </div>
+
+    <div class="bj-unten">
+      <div>
+        <div class="bj-gruppe-titel">Parameter</div>
+        <div class="bj-param"><label for="bj-m">Masse \(m =\) <span class="bj-wert" id="bj-m-w">75</span> kg</label>
+          <input type="range" id="bj-m" min="50" max="110" step="1" value="75"></div>
+        <div class="bj-param"><label for="bj-l">Ungedehnte Seillänge \(L_0 =\) <span class="bj-wert" id="bj-l-w">20</span> m</label>
+          <input type="range" id="bj-l" min="10" max="30" step="1" value="20"></div>
+        <div class="bj-param" id="bj-d-wrap"><label for="bj-d">Federkonstante \(D =\) <span class="bj-wert" id="bj-d-w">60</span> N/m</label>
+          <input type="range" id="bj-d" min="30" max="150" step="5" value="60">
+          <div class="bj-erkl">Je grösser \(D\), desto stärker wächst die Seilkraft bei gleicher Dehnung.</div></div>
+        <div class="bj-gruppe-titel" style="margin-top:12px">Weiterführend <span class="bj-weiter">(über den Rahmenlehrplan hinaus)</span></div>
+        <div class="bj-param"><label for="bj-c">Dämpfung \(c =\) <span class="bj-wert" id="bj-c-w">0</span> kg/s</label>
+          <input type="range" id="bj-c" min="0" max="60" step="5" value="0">
+          <div class="bj-erkl">Mit Dämpfung kommt zur Seilkraft der Anteil \(c \cdot v\) dazu: Das Seil wandelt mechanische Energie in Wärme um, die Schwingung klingt ab.</div></div>
+        <div class="bj-param"><label for="bj-modell">Seilmodell</label>
+          <select id="bj-modell">
+            <option value="hooke" selected>Ideal: linear wie eine Feder, F = D · (s − L₀)</option>
+            <option value="gent">Real: Latexseil, nichtlinear (Gent-Modell)</option>
+          </select>
+          <div class="bj-erkl" id="bj-modell-erkl">Ein echtes Latexseil ist nicht linear: Es wird bei grosser Dehnung steifer. Das Gent-Modell beschreibt das mit festen Materialwerten; angenommen sind typische Werte, bei denen ein 75-kg-Springer das Seil auf das Dreifache dehnt (\(\varepsilon_\text{max} = 2\)) und die Seilkraft höchstens das Dreifache der Gewichtskraft erreicht. Der Regler für \(D\) wirkt dann nicht. Vorbild für solche Modelle: J. W. Kockelman, M. Hubbard, «Bungee jumping cord design using a simple model», Sports Engineering 7, S. 89–96.</div></div>
+      </div>
+      <div class="bj-kenn">
+        <div class="bj-gruppe-titel">Berechnete Kennwerte</div>
+        <div class="formel-live" id="bj-kennwerte"></div>
+        <div class="bj-gruppe-titel" style="margin-top:12px">Seilkennlinie: elastische Seilkraft über der Dehnung</div>
+        <svg id="bj-kennlinie" role="img" aria-label="Elastische Seilkraft in Vielfachen der Gewichtskraft über der Dehnung"></svg>
+        <div class="bj-hinweis">Dehnung \(\varepsilon = \frac{s - L_0}{L_0}\). Der Punkt zeigt den gewählten Zeitpunkt.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ VERSTÄNDNISFRAGEN ══════════════ -->
+<h2 id="fragen">Verständnisfragen zur Simulation</h2>
+
+<p>Die Fragen 1 bis 9 kommen mit der Grundeinstellung aus (lineares Seil, ohne Dämpfung). Die Fragen 10 bis 14 brauchen die weiterführenden Einstellungen.</p>
+
+<details class="frage">
+  <summary>❓ Warum ist die Beschleunigung zu Beginn konstant?</summary>
+  <div class="frage-antwort"><p>Zu Beginn ist das Seil schlaff, und den Luftwiderstand vernachlässigt das Modell. Es wirkt nur die Gewichtskraft \(F_G = m \cdot g\).</p><p>Damit gilt \(F_\text{res} = F_G\) und \(a = \frac{F_\text{res}}{m} = g\): konstant und nach unten gerichtet, wie beim freien Fall.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Ab wann zieht das Seil?</summary>
+  <div class="frage-antwort"><p>Erst wenn die Falltiefe grösser ist als die ungedehnte Seillänge, also bei \(s > L_0\). Vorher ist das Seil entspannt und übt keine Kraft auf den Springer aus.</p><p>Die Zeit dafür folgt aus dem freien Fall: \(t_1 = \sqrt{\frac{2 \cdot L_0}{g}}\), bei \(L_0 = 20\;\text{m}\) also etwa \(2.02\;\text{s}\).</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Warum ist die Geschwindigkeit nicht am tiefsten Punkt am grössten?</summary>
+  <div class="frage-antwort"><p>Am tiefsten Punkt ist die Geschwindigkeit null, dort kehrt die Bewegung um.</p><p>Am grössten ist sie früher: dort, wo die Beschleunigung von positiv nach negativ wechselt, also wo die resultierende Kraft null ist und die Seilkraft gerade so gross ist wie die Gewichtskraft.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Weshalb ist \(a = 0\) nicht dasselbe wie \(v = 0\)?</summary>
+  <div class="frage-antwort"><p>\(a = 0\) heisst, dass sich die Geschwindigkeit in diesem Moment nicht ändert. \(v = 0\) heisst nur, dass der Springer gerade stillsteht.</p><p>Am tiefsten Punkt gilt \(v = 0\), die Beschleunigung ist dort aber gross und zeigt nach oben: Sie sorgt dafür, dass der Springer wieder hinaufschwingt.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Was zeigt die Gleichgewichtslage \(s_G\) an?</summary>
+  <div class="frage-antwort"><p>In der Gleichgewichtslage sind Gewichtskraft und Seilkraft gleich gross: \(D \cdot (s_G - L_0) = m \cdot g\), also \(s_G = L_0 + \frac{m \cdot g}{D}\).</p><p>Ruhte der Springer dort, bliebe er dort. Beim Sprung schwingt er um diese Lage.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Wie folgt der tiefste Punkt aus der Energieerhaltung?</summary>
+  <div class="frage-antwort"><p>Am Start und am tiefsten Punkt ist \(v = 0\). Die ganze Lageenergie der Fallhöhe \(s_\text{max}\) steckt dann als elastische Energie im Seil:</p><p>\(m \cdot g \cdot s_\text{max} = \tfrac{1}{2} \cdot D \cdot (s_\text{max} - L_0)^2\). Mit \(m = 75\;\text{kg}\), \(L_0 = 20\;\text{m}\) und \(D = 60\;\text{N/m}\) ergibt das \(s_\text{max} \approx 57.6\;\text{m}\), wie in der Simulation ohne Dämpfung.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Wie verändert eine grössere Masse \(m\) den Sprung?</summary>
+  <div class="frage-antwort"><p>Mit grösserer Masse wird die Gewichtskraft \(F_G = m \cdot g\) grösser. Der Springer dehnt das Seil weiter, Falltiefe, Gleichgewichtslage und Energien nehmen zu.</p><p>Die Beschleunigung im freien Fall bleibt \(g\): Sie hängt nicht von der Masse ab.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Welche Wirkung hat eine grössere Federkonstante \(D\)?</summary>
+  <div class="frage-antwort"><p>Ein grösseres \(D\) bedeutet ein steiferes Seil: Schon bei kleiner Dehnung ist die Seilkraft gross.</p><p>Der Springer wird früher und kräftiger abgebremst. Die Falltiefe wird kleiner, die grösste Beschleunigung nach oben grösser.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Weshalb ist \(E_\text{pot}\) am tiefsten Punkt null gesetzt?</summary>
+  <div class="frage-antwort"><p>Das Nullniveau der Lageenergie ist frei gewählt. Für die Physik zählt nur die Änderung der Lageenergie, nicht ihr Wert an einer Stelle.</p><p>Mit dem tiefsten Punkt als Nullniveau beginnen alle Energiekurven bei positiven Werten, und man sieht die Umwandlung besonders gut.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Warum nimmt \(E_\text{mech}\) mit Dämpfung ab?</summary>
+  <div class="frage-antwort"><p>\(E_\text{mech}\) umfasst nur Lageenergie, Bewegungsenergie und elastische Energie.</p><p>Die Dämpfung wandelt einen Teil davon in Wärme um, also in innere Energie des Seils. Darum sinkt \(E_\text{mech}\) mit der Zeit; die Gesamtenergie bleibt erhalten.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Was bedeutet die Kurve \(E_\text{diss}\)?</summary>
+  <div class="frage-antwort"><p>\(E_\text{diss}\) ist die Energie, die die Dämpfung bis zu diesem Zeitpunkt in Wärme umgewandelt hat: \(E_\text{diss} = E_\text{mech}(0) - E_\text{mech}(t)\).</p><p>Je stärker die Dämpfung und je länger die Bewegung, desto grösser wird \(E_\text{diss}\). Ohne Dämpfung bleibt sie null.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Warum ist \(F_\text{res}\) mit Dämpfung nicht genau in der Gleichgewichtslage null?</summary>
+  <div class="frage-antwort"><p>Mit Dämpfung enthält die Seilkraft zusätzlich den Anteil \(c \cdot v\). Damit hängt \(F_\text{res}\) nicht nur von der Lage, sondern auch von der Geschwindigkeit ab.</p><p>Deshalb kann \(F_\text{res} = 0\) oberhalb oder unterhalb von \(s_G\) auftreten. Erst im Ruhezustand fallen \(F_\text{res} = 0\), \(v = 0\) und \(s = s_G\) zusammen.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Warum kann \(F_\text{Seil}\) bei gleicher Falltiefe verschieden gross sein?</summary>
+  <div class="frage-antwort"><p>Mit Dämpfung hängt die Seilkraft auch von der Geschwindigkeit ab.</p><p>Bewegt sich der Springer an derselben Stelle einmal nach unten und einmal nach oben, ist \(c \cdot v\) einmal positiv und einmal negativ: Die Seilkraft ist beim Hinunterfallen grösser als beim Hinaufschwingen.</p></div>
+</details>
+<details class="frage">
+  <summary>❓ Worin unterscheiden sich das lineare Modell und das Gent-Modell?</summary>
+  <div class="frage-antwort"><p>Im linearen Modell ist die Seilkraft proportional zur Dehnung, wie bei einer Feder: Die Kennlinie ist eine Gerade.</p><p>Das Gent-Modell beschreibt ein Latexseil: Die Kennlinie ist gekrümmt, das Seil wird bei grosser Dehnung immer steifer.</p></div>
+</details>
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<footer class="site-footer">
+  <p><strong>Physik begreifbar</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
+  <p>Simulationen · Bungee-Sprung</p>
+  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
+  <p>Keine Cookies · Kein Tracking · Version 2.0 · Stand 10. Oktober 2026</p>
+</footer>
+<!-- FUSS:ENDE -->
+
+<script src="../nav.js"></script>
+<script src="../suche.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script>
+buildNav({ id:'simulationen' });
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   Simulation Bungee-Sprung.
+   Modell: Massenpunkt am Seil, positive Richtung nach unten, s ab der
+   Plattform. Seil schlaff bis s = L0, danach elastische Kraft (linear D·x
+   oder Gent-Modell für Latex) plus Dämpfung c·v; das Seil zieht nur
+   (Kraft ≥ 0). Integration mit Runge-Kutta 4. Ordnung, dt = 2 ms.
+   Selbsttest: bjSelbsttest, über scripts/verify_bungee.js im Pre-Flight.
+   ═══════════════════════════════════════════════════════════════════ */
+(function () {
+'use strict';
+
+const g = 9.81;
+const DT = 0.002, TMAX = 28;
+const GENT = { AG:578.2, Jm:27.5 };   // angenommene Materialwerte: ε_max = 2, F_max = 3·m·g bei 75 kg
+const P = { m:75, L0:20, D:60, c:0, modell:'hooke' };
+
+/* ── Modell ───────────────────────────────────────────────────────── */
+function bjFel(x, p) {                     // elastische Seilkraft in N, x = s − L0
+  if (x <= 0) return 0;
+  if (p.modell === 'gent') {
+    const lam = 1 + x / p.L0, I1 = lam * lam + 2 / lam;
+    const d = Math.max(0.02, 1 - (I1 - 3) / GENT.Jm);
+    return GENT.AG * (lam - 1 / (lam * lam)) / d;
+  }
+  return p.D * x;
+}
+function bjEnergieTabelle(p) {              // ∫ F_el dx für das Gent-Modell
+  const xMax = 4.6 * p.L0, N = 3000, dx = xMax / N, tab = new Float64Array(N + 1);
+  for (let i = 1; i <= N; i++) tab[i] = tab[i - 1] + bjFel((i - 0.5) * dx, p) * dx;
+  return { tab, dx };
+}
+function bjEel(x, p, T) {                  // elastische Energie in J
+  if (x <= 0) return 0;
+  if (p.modell === 'hooke') return 0.5 * p.D * x * x;
+  const f = Math.min(T.tab.length - 1.001, x / T.dx), i = Math.floor(f);
+  return T.tab[i] + (f - i) * (T.tab[i + 1] - T.tab[i]);
+}
+function bjFseil(s, v, p) {                // Seilkraft nach oben, nie negativ
+  if (s <= p.L0) return 0;
+  return Math.max(0, bjFel(s - p.L0, p) + p.c * v);
+}
+const bjA = (s, v, p) => g - bjFseil(s, v, p) / p.m;
+
+function bjSimuliere(p) {
+  const T = bjEnergieTabelle(p), N = Math.round(TMAX / DT) + 1;
+  const t = new Float64Array(N), s = new Float64Array(N), v = new Float64Array(N), a = new Float64Array(N), Fs = new Float64Array(N);
+  let si = 0, vi = 0, t1 = null, t2 = null, t3 = null, sMax = 0, aMin = 0, vMax = 0;
+  for (let i = 0; i < N; i++) {
+    const ti = i * DT;
+    t[i] = ti; s[i] = si; v[i] = vi; Fs[i] = bjFseil(si, vi, p); a[i] = g - Fs[i] / p.m;
+    if (t1 === null && si >= p.L0) t1 = ti;
+    if (t1 !== null && t2 === null && Fs[i] >= p.m * g) t2 = ti;
+    if (t1 !== null && t3 === null && vi <= 0 && ti > t1) t3 = ti;
+    if (t3 === null && si > sMax) sMax = si;
+    aMin = Math.min(aMin, a[i]); vMax = Math.max(vMax, Math.abs(vi));
+    const k1v = bjA(si, vi, p), k1s = vi;
+    const k2v = bjA(si + k1s * DT / 2, vi + k1v * DT / 2, p), k2s = vi + k1v * DT / 2;
+    const k3v = bjA(si + k2s * DT / 2, vi + k2v * DT / 2, p), k3s = vi + k2v * DT / 2;
+    const k4v = bjA(si + k3s * DT, vi + k3v * DT, p), k4s = vi + k3v * DT;
+    si += DT / 6 * (k1s + 2 * k2s + 2 * k3s + k4s);
+    vi += DT / 6 * (k1v + 2 * k2v + 2 * k3v + k4v);
+  }
+  if (t1 === null) t1 = TMAX; if (t2 === null) t2 = TMAX; if (t3 === null) t3 = TMAX;
+  let lo = 0, hi = 4.5 * p.L0;                // Gleichgewicht: F_el(x) = m·g
+  for (let it = 0; it < 60; it++) { const mid = (lo + hi) / 2; if (bjFel(mid, p) < p.m * g) lo = mid; else hi = mid; }
+  const xG = lo, sG = p.L0 + xG, h = 0.01, Deff = (bjFel(xG + h, p) - bjFel(xG - h, p)) / (2 * h);
+  // Energien in kJ, E_pot = 0 am tiefsten Punkt
+  const Ek = new Float64Array(N), Ep = new Float64Array(N), Ee = new Float64Array(N), Em = new Float64Array(N), Ed = new Float64Array(N);
+  for (let i = 0; i < N; i++) {
+    Ek[i] = 0.5 * p.m * v[i] * v[i] / 1000;
+    Ep[i] = p.m * g * (sMax - s[i]) / 1000;
+    Ee[i] = bjEel(s[i] - p.L0, p, T) / 1000;
+    Em[i] = Ek[i] + Ep[i] + Ee[i];
+  }
+  for (let i = 0; i < N; i++) Ed[i] = Math.max(0, Em[0] - Em[i]);
+  return { t, s, v, a, Fs, N, t1, t2, t3, sMax, sG, Deff, vMax, aMin, Ek, Ep, Ee, Em, Ed, Fmax:Math.max(...Fs) };
+}
+
+/* ── Zahlen ───────────────────────────────────────────────────────── */
+function bjZahl(x, d) {                    // Dezimalpunkt, echtes Minuszeichen, keine «−0»
+  let s = Number(x).toFixed(d);
+  if (/^-0(\.0+)?$/.test(s)) s = s.slice(1);
+  return s.replace('-', '−');
+}
+
+/* ── Phasen ───────────────────────────────────────────────────────── */
+const BJ_PHASEN = [
+  { titel:'Freier Fall', farbe:'#2a6db0',
+    text:() => 'Das Seil ist schlaff. Es wirkt nur die Gewichtskraft: Die Geschwindigkeit nimmt gleichmässig zu, die Falltiefe wächst quadratisch mit der Zeit.',
+    formel:() => '\\(F_\\text{res} = F_G \\qquad a = g\\)' },
+  { titel:'Das Seil zieht, der Springer wird noch schneller', farbe:'#c98028',
+    text:p => 'Das Seil ist gespannt und zieht nach oben, aber schwächer als die Gewichtskraft. Die resultierende Kraft zeigt noch nach unten.' + (p.c > 0 ? ' Mit Dämpfung zählt dabei die ganze Seilkraft, samt dem Anteil \\(c \\cdot v\\).' : ''),
+    formel:() => '\\(0 < F_\\text{Seil} < F_G \\qquad a > 0\\)' },
+  { titel:'Abwärts, aber gebremst', farbe:'#b3261e',
+    text:() => 'Die Seilkraft ist jetzt grösser als die Gewichtskraft. Der Springer fällt noch, aber die Beschleunigung zeigt schon nach oben: Er wird langsamer.',
+    formel:() => '\\(F_\\text{Seil} > F_G \\qquad v > 0 \\qquad a < 0\\)' },
+  { titel:'Tiefster Punkt', farbe:'#8a1c1c',
+    text:p => 'Hier ist die Geschwindigkeit einen Augenblick null, die Beschleunigung aber nicht: Sie zeigt nach oben' + (p.c > 0 ? '. Weil \\(v = 0\\) ist, wirkt hier nur die elastische Seilkraft.' : ' und ist grösser als \\(g\\).'),
+    formel:() => '\\(v = 0 \\qquad F_\\text{res} = F_G - F_\\text{Seil} < 0\\)' },
+  { titel:'Schwingung um die Gleichgewichtslage', farbe:'#1f6b3a',
+    text:p => 'Der Springer schwingt um die Gleichgewichtslage \\(s_G\\), wo Gewichtskraft und elastische Seilkraft gleich gross sind. ' +
+      (p.c > 0 ? 'Die Dämpfung wandelt mechanische Energie in Wärme um: Die Schwingung klingt ab.'
+               : 'Ohne Dämpfung bleibt die mechanische Energie erhalten: Der Springer kehrt immer wieder bis zur Plattform zurück.'),
+    formel:p => '\\(F_\\text{el}(s_G - L_0) = F_G\\)<br>\\(E_\\text{mech}\\) ' + (p.c > 0 ? 'nimmt ab' : 'bleibt gleich') },
+];
+function bjPhase(S, t) {
+  if (t > S.t3 + 0.12) return 4;
+  if (Math.abs(t - S.t3) <= 0.12) return 3;
+  if (t >= S.t2) return 2;
+  if (t >= S.t1) return 1;
+  return 0;
+}
+
+/* ── Selbsttest ───────────────────────────────────────────────────── */
+function bjSelbsttest() {
+  const fehler = []; let faelle = 0;
+  const F = (ok, was) => { faelle++; if (!ok) fehler.push(was); };
+  const rel = (a, b) => Math.abs(a - b) / Math.max(1e-9, Math.abs(b));
+  // 1. Lineares Seil ohne Dämpfung gegen die Analytik
+  for (const m of [50, 75, 110]) for (const L0 of [10, 20, 30]) for (const D of [30, 60, 150]) {
+    const p = { m, L0, D, c:0, modell:'hooke' }, S = bjSimuliere(p), w = `m=${m} L0=${L0} D=${D}`, mg = m * g;
+    const x = (mg + Math.sqrt(mg * mg + 2 * D * mg * L0)) / D;
+    F(rel(S.sMax, L0 + x) < 1e-3, w + ': s_max ' + S.sMax + ' statt ' + (L0 + x));
+    const vMax = Math.sqrt(2 * g * (L0 + mg / D) - D / m * (mg / D) * (mg / D));
+    F(rel(S.vMax, vMax) < 1e-3, w + ': v_max ' + S.vMax + ' statt ' + vMax);
+    F(rel(S.sG, L0 + mg / D) < 1e-6, w + ': s_G falsch');
+    F(Math.abs(S.t1 - Math.sqrt(2 * L0 / g)) <= 2 * DT, w + ': t1 ≠ √(2 L0/g)');
+    F(S.t1 < S.t2 && S.t2 < S.t3, w + ': Phasen nicht in der Reihenfolge');
+    const E0 = S.Em[0]; let dev = 0; for (let i = 0; i < S.N; i++) dev = Math.max(dev, Math.abs(S.Em[i] - E0));
+    F(dev < 0.005 * E0, w + ': Energie nicht erhalten (' + (dev / E0 * 100).toFixed(3) + ' %)');
+    F(Math.abs(S.Ep[0] - m * g * S.sMax / 1000) < 1e-9 && S.Ee[0] === 0 && S.Ek[0] === 0, w + ': Startenergie falsch');
+    // a am tiefsten Punkt: D·(s_max − L0)/m − g, nach oben
+    const iU = Math.round(S.t3 / DT); F(rel(-S.a[iU], D * (S.sMax - L0) / m - g) < 5e-3, w + ': a am tiefsten Punkt falsch');
+    F(-S.a[iU] > g, w + ': a am tiefsten Punkt nicht grösser als g (Phasentext)');
+  }
+  // 2. Latexseil: Energie erhalten, Eichung bei 75 kg
+  for (const m of [50, 75, 110]) {
+    const p = { m, L0:20, D:60, c:0, modell:'gent' }, S = bjSimuliere(p);
+    let dev = 0; for (let i = 0; i < S.N; i++) dev = Math.max(dev, Math.abs(S.Em[i] - S.Em[0]));
+    F(dev < 0.005 * S.Em[0], 'Gent m=' + m + ': Energie nicht erhalten');
+    F(Math.abs(bjFel(S.sG - p.L0, p) - m * g) < 1e-6 * m * g, 'Gent m=' + m + ': s_G erfüllt F_el = m g nicht');
+    if (m === 75) {
+      F(Math.abs((S.sMax - 20) / 20 - 2) < 0.02, 'Gent 75 kg: ε_max ' + ((S.sMax - 20) / 20) + ' statt 2');
+      F(Math.abs(S.Fmax / (m * g) - 3) < 0.03, 'Gent 75 kg: F_max ' + (S.Fmax / (m * g)) + ' m g statt 3');
+    }
+  }
+  // 3. Dämpfung: E_diss ≥ 0, wächst nie (bis auf Rechenrauschen), E_mech sinkt
+  for (const c of [15, 60]) for (const modell of ['hooke', 'gent']) {
+    const S = bjSimuliere({ m:75, L0:20, D:60, c, modell }), w = modell + ' c=' + c;
+    let mono = true; for (let i = 1; i < S.N; i++) if (S.Ed[i] < S.Ed[i - 1] - 1e-4) { mono = false; break; }
+    F(mono && S.Ed.every(x => x >= 0), w + ': E_diss nimmt ab oder ist negativ');
+    F(S.Em[S.N - 1] < 0.9 * S.Em[0], w + ': E_mech nimmt nicht ab');
+    F(S.Fs.every(x => x >= 0), w + ': Seil drückt');
+  }
+  // 4. Zahlen und Texte
+  [[1.25, 1, '1.3'], [-0.04, 1, '0.0'], [-12.5, 1, '−12.5'], [736.0, 0, '736']].forEach(([x, d, s]) => F(bjZahl(x, d) === s, 'Zahlformat ' + x + ' → ' + bjZahl(x, d)));
+  for (const c of [0, 15]) BJ_PHASEN.forEach((ph, i) => { const t = ph.text({ c }) + ph.formel({ c });
+    F(!/\d,\d/.test(t) && t.indexOf('$') < 0, 'Phase ' + (i + 1) + ': Komma oder $');
+    if (i === 3) F(c > 0 ? !/grösser als/.test(t) : /grösser als/.test(t), 'Phase 4 c=' + c + ': Aussage «grösser als g» falsch');
+    if (i === 4) F(c > 0 ? /nimmt ab/.test(t) && /Wärme/.test(t) : /bleibt/.test(t) && !/Wärme|klingt/.test(t), 'Phase 5 c=' + c + ': Aussage zur Energie falsch'); });
+  return { faelle, fehler };
+}
+window.bjSelbsttest = bjSelbsttest;
+
+if (window.BJ_TEST) return;            // im Selbsttest keine Oberfläche
+
+/* ═══════════════════ Oberfläche ═══════════════════ */
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const FARBE = { s:'#8a4a0e', v:'#1f6b3a', a:'#5b2d8e', fg:'#b3261e', fs:'#b85a00', fr:'#1a4f8a', tinte:'#1c1a17', grau:'#6b7280', linie:'#e3ddd2', gitter:'#efeae1',
+  ep:'#b3261e', ek:'#1f6b3a', ee:'#b85a00', em:'#1c1a17', ed:'#6b7280',
+  phase:['#e8f0f8', '#fbecd2', '#f8e1de', '#f3dad6', '#e3f1e6'] };
+let S = null, tNow = 0, laeuft = false, tempo = 1, beschriftung = true;
+const PFEILE = [
+  { id:'fg', tex:'F_G', name:'Gewichtskraft', an:true },
+  { id:'fs', tex:'F_\\text{Seil}', name:'Seilkraft', an:true },
+  { id:'fr', tex:'F_\\text{res}', name:'Resultierende Kraft', an:true },
+  { id:'v', tex:'v', name:'Geschwindigkeit', an:true },
+  { id:'a', tex:'a', name:'Beschleunigung', an:true },
+];
+const ENERGIEN = [
+  { id:'ep', tex:'E_\\text{pot}', name:'Lageenergie', arr:() => S.Ep, an:true },
+  { id:'ek', tex:'E_\\text{kin}', name:'Bewegungsenergie', arr:() => S.Ek, an:true },
+  { id:'ee', tex:'E_\\text{el}', name:'Elastische Energie', arr:() => S.Ee, an:true },
+  { id:'em', tex:'E_\\text{mech}', name:'Mechanische Energie', arr:() => S.Em, an:true },
+  { id:'ed', tex:'E_\\text{diss}', name:'In Wärme umgewandelt', arr:() => S.Ed, an:true, gestrichelt:true },
+];
+
+function el(tag, attrs, parent, inhalt) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, String(v));
+  if (inhalt !== undefined && inhalt !== null) e.textContent = inhalt;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function linie(r, x1, y1, x2, y2, farbe, b, strich) { return el('line', Object.assign({ x1, y1, x2, y2, stroke:farbe, 'stroke-width':b || 1 }, strich ? { 'stroke-dasharray':strich } : {}), r); }
+function text(r, x, y, str, o) {
+  o = o || {};
+  return el('text', { x, y, fill:o.farbe || '#4a463f', 'font-size':o.gr || 11, 'font-family':o.mono ? 'JetBrains Mono, monospace' : 'Source Sans 3, sans-serif',
+    'font-weight':o.fett || 500, 'text-anchor':o.anker || 'start', 'dominant-baseline':'middle' }, r, str);
+}
+function formel(r, x, y, teile, o) {      // Text mit tiefgestellten Indizes, ohne MathJax im SVG
+  const e = text(r, x, y, '', o);
+  for (const t of teile) {
+    if (typeof t === 'string') el('tspan', {}, e, t);
+    else if (t.kursiv) el('tspan', { 'font-style':'italic' }, e, t.kursiv);
+    else el('tspan', { 'font-size':'75%', 'baseline-shift':'sub' }, e, t.sub);
+  }
+  return e;
+}
+let belegt = [];                          // Kästen fester und schon gesetzter Beschriftungen
+function kasten(e) { try { const b = e.getBBox(); return { x:b.x - 2, y:b.y - 1, w:b.width + 4, h:b.height + 2 }; } catch (_) { return null; } }
+const schneidet = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+function frei(e) {                        // bewegliche Beschriftung weicht festen aus (STYLEGUIDE §5.10)
+  const y0 = +e.getAttribute('y');
+  for (const dy of [0, 14, -14, 28, -28, 42, -42]) {
+    e.setAttribute('y', y0 + dy); const k = kasten(e);
+    if (!k || !belegt.some(b => schneidet(k, b))) { if (k) belegt.push(k); return e; }
+  }
+  e.setAttribute('y', y0); const k = kasten(e); if (k) belegt.push(k); return e;
+}
+function pfeil(r, x, y0, y1, farbe, etikett, anker) {
+  const len = y1 - y0; if (Math.abs(len) < 3) return;
+  const dir = Math.sign(len);
+  linie(r, x, y0, x, y1 - dir * 6, farbe, 3);
+  el('path', { d:`M ${x} ${y1} l -5 ${-dir * 9} l 10 0 Z`, fill:farbe }, r);
+  if (beschriftung && etikett) frei(formel(r, x + (anker === 'end' ? -8 : 8), y1 - dir * 6, etikett, { farbe, gr:11, anker, fett:700 }));
+}
+
+/* Bild des Sprungs */
+function bjBild() {
+  const r = $('bj-bild'), box = r.getBoundingClientRect();
+  const w = Math.max(280, box.width || 420), h = Math.max(260, box.height || 420);
+  r.setAttribute('viewBox', `0 0 ${w} ${h}`); r.replaceChildren(); belegt = [];
+  const p = P, i = idx(tNow), s = S.s[i], v = S.v[i], a = S.a[i], Fg = p.m * g, Fs = S.Fs[i], Fr = Fg - Fs;
+  const oben = -3, pad = 10, nutz = h - 2 * pad, unten = S.sMax + Math.max(6, S.sMax * 0.2);
+  const Y = m => pad + (m - oben) / (unten - oben) * nutz;
+  const xJ = Math.max(120, Math.min(w * 0.5, w - 130));
+  const schritt = Y(1) - Y(0) < 6 ? 5 : 1;
+  for (let m = 0; m <= unten; m += schritt) linie(r, 46, Y(m), w, Y(m), FARBE.gitter);
+  for (let m = 0; m <= unten; m += 10) { text(r, 4, Y(m), m + ' m', { gr:10, mono:true }); linie(r, 40, Y(m), 46, Y(m), FARBE.grau); }
+  const marke = (m, farbe, teile) => { linie(r, 48, Y(m), w - 4, Y(m), farbe, 1.3, '6 5'); const k = kasten(formel(r, w - 6, Y(m) - 9, teile, { farbe, gr:10.5, anker:'end', fett:600 })); if (k) belegt.push(k); };
+  marke(p.L0, FARBE.grau, ['Seil entspannt: ', { kursiv:'s' }, ' = ', { kursiv:'L' }, { sub:'0' }]);
+  marke(S.sG, FARBE.v, ['Gleichgewichtslage: ', { kursiv:'s' }, { sub:'G' }]);
+  marke(S.sMax, FARBE.fg, ['Tiefster Punkt: ', { kursiv:'s' }, { sub:'max' }]);
+  el('rect', { x:xJ - 50, y:Y(0) - 7, width:100, height:7, rx:1, fill:'#a8a196' }, r);
+  { const k = kasten(text(r, Math.min(xJ + 56, w - 6), Y(0) - 14, 'Plattform: s = 0', { gr:10.5, fett:600, anker:xJ + 56 < w - 110 ? 'start' : 'end' })); if (k) belegt.push(k); }
+  const straff = s >= p.L0 - 1e-9, y0 = Y(0), yJ = Y(s);
+  const seil = straff ? `M ${xJ} ${y0} L ${xJ} ${yJ}` : `M ${xJ} ${y0} Q ${xJ - Math.min(70, 8 + (p.L0 - s) * (Y(1) - Y(0)) * 0.45)} ${(y0 + yJ) / 2} ${xJ} ${yJ}`;
+  el('path', { d:seil, fill:'none', stroke:straff ? FARBE.fs : '#c9c2b6', 'stroke-width':straff ? 2.6 : 2 }, r);
+  el('circle', { cx:xJ, cy:yJ, r:8, fill:FARBE.tinte }, r); belegt.push({ x:xJ - 9, y:yJ - 9, w:18, h:18 });
+  text(r, xJ, yJ + 0.5, 'm', { farbe:'#fff', gr:9, fett:700, anker:'middle' });
+  const an = id => PFEILE.find(q => q.id === id).an;
+  const fSk = 55 / Fg, vSk = 60 / Math.max(5, S.vMax), aSk = 55 / Math.max(g, Math.abs(S.aMin));
+  if (an('fg')) pfeil(r, xJ - 22, yJ, yJ + Fg * fSk, FARBE.fg, [{ kursiv:'F' }, { sub:'G' }, ' = ' + bjZahl(Fg, 0) + ' N'], 'end');
+  if (an('fs') && Fs > 1) pfeil(r, xJ + 16, yJ, yJ - Fs * fSk, FARBE.fs, [{ kursiv:'F' }, { sub:'Seil' }, ' = ' + bjZahl(Fs, 0) + ' N'], 'start');
+  if (an('fr')) {
+    if (Math.abs(Fr) > 1) {
+      const ySp = yJ + Fr * fSk;
+      pfeil(r, xJ, yJ, ySp, FARBE.fr, null);
+      if (beschriftung) frei(formel(r, xJ - 12, ySp + (Fr > 0 ? 12 : -12), [{ kursiv:'F' }, { sub:'res' }], { farbe:FARBE.fr, gr:11, anker:'middle', fett:700 }));
+    } else if (beschriftung) frei(formel(r, xJ - 14, yJ, [{ kursiv:'F' }, { sub:'res' }, ' ≈ 0'], { farbe:FARBE.fr, gr:11, anker:'end', fett:700 }));
+  }
+  if (an('v') && Math.abs(v) > 0.05) pfeil(r, xJ + 52, yJ, yJ + v * vSk, FARBE.v, [{ kursiv:'v' }, ' = ' + bjZahl(v, 1) + ' m/s'], 'start');
+  if (an('a') && Math.abs(a) > 0.05) pfeil(r, xJ - 52, yJ, yJ + a * aSk, FARBE.a, [{ kursiv:'a' }, ' = ' + bjZahl(a, 1) + ' m/s²'], 'end');
+}
+
+/* Diagramme über der Zeit */
+function bjSchritt(span, n) { const roh = span / n, p = Math.pow(10, Math.floor(Math.log10(roh))); return [1, 2, 5, 10].map(f => f * p).find(s => span / s <= n) || 10 * p; }
+function bjDiagramm(id, reihen, nachUnten) {
+  const svg = $(id);
+  const zeichne = () => {
+    const box = svg.getBoundingClientRect(), w = Math.max(220, box.width || 300), h = Math.max(130, box.height || 180);
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`); svg.replaceChildren();
+    const R = reihen(); let mn = 0, mx = 0;
+    for (const r of R) for (let i = 0; i < S.N; i++) { mn = Math.min(mn, r.arr[i]); mx = Math.max(mx, r.arr[i]); }
+    if (mx - mn < 1e-9) mx = mn + 1;
+    const st = bjSchritt(mx - mn, 4), lo = Math.floor(mn / st + 1e-3) * st, hi = Math.ceil(mx / st - 1e-3) * st;
+    const pT = 10, pB = 20, pL = 34, pR = 22;
+    const X = t => pL + t / TMAX * (w - pL - pR);
+    const Y = val => nachUnten ? pT + (val - lo) / (hi - lo) * (h - pT - pB) : pT + (hi - val) / (hi - lo) * (h - pT - pB);
+    svg._x = { pL, pR, w };
+    [[0, S.t1, 0], [S.t1, S.t2, 1], [S.t2, S.t3, 2], [S.t3, TMAX, 4]].forEach(([a, b, k]) =>
+      el('rect', { x:X(a), y:pT, width:Math.max(0, X(b) - X(a)), height:h - pT - pB, fill:FARBE.phase[k] }, svg));
+    for (let y = lo; y <= hi + 1e-9; y += st) { linie(svg, pL, Y(y), w - pR, Y(y), Math.abs(y) < 1e-9 ? '#9a948a' : FARBE.linie, 1, Math.abs(y) < 1e-9 ? '4 3' : '');
+      text(svg, pL - 4, Y(y), bjZahl(y, st < 1 ? 1 : 0), { gr:9.5, mono:true, anker:'end' }); }
+    for (let t = 0; t <= TMAX; t += 5) text(svg, X(t), h - 8, String(t), { gr:9.5, mono:true, anker:'middle' });
+    text(svg, w - 2, h - 8, 't [s]', { gr:9.5, mono:true, anker:'end' });
+    linie(svg, X(S.t3), pT, X(S.t3), h - pB, '#8a1c1c', 1, '3 3');
+    const schritt = Math.max(1, Math.floor(S.N / Math.max(200, w * 1.3)));
+    for (const r of R) {
+      let d = ''; for (let i = 0; i < S.N; i += schritt) d += (d ? ' L ' : 'M ') + X(S.t[i]).toFixed(1) + ' ' + Y(r.arr[i]).toFixed(1);
+      el('path', Object.assign({ d, fill:'none', stroke:r.farbe, 'stroke-width':2 }, r.gestrichelt ? { 'stroke-dasharray':'5 4' } : {}), svg);
+    }
+    const ic = idx(tNow);
+    linie(svg, X(tNow), pT, X(tNow), h - pB, FARBE.tinte, 1.2);
+    for (const r of R) el('circle', { cx:X(tNow), cy:Y(r.arr[ic]), r:3.8, fill:r.farbe, stroke:'#fff', 'stroke-width':1.2 }, svg);
+  };
+  let unten = false;
+  const zieh = e => { const b = svg.getBoundingClientRect(), q = svg._x; if (!q || !b.width) return;
+    const x = (e.clientX - b.left) * q.w / b.width; setzeZeit((x - q.pL) / Math.max(1, q.w - q.pL - q.pR) * TMAX); };
+  svg.addEventListener('pointerdown', e => { unten = true; svg.setPointerCapture(e.pointerId); halt(); zieh(e); });
+  svg.addEventListener('pointermove', e => { if (unten) zieh(e); });
+  svg.addEventListener('pointerup', () => { unten = false; });
+  svg.addEventListener('pointercancel', () => { unten = false; });
+  return zeichne;
+}
+const DIAS = [
+  bjDiagramm('bj-d-s', () => [{ arr:S.s, farbe:FARBE.s }], true),
+  bjDiagramm('bj-d-v', () => [{ arr:S.v, farbe:FARBE.v }], false),
+  bjDiagramm('bj-d-a', () => [{ arr:S.a, farbe:FARBE.a }], false),
+  bjDiagramm('bj-d-e', () => ENERGIEN.filter(e => e.an).map(e => ({ arr:e.arr(), farbe:FARBE[e.id], gestrichelt:e.gestrichelt })), false),
+];
+
+/* Seilkennlinie */
+function bjKennlinie() {
+  const svg = $('bj-kennlinie'), box = svg.getBoundingClientRect(), w = Math.max(230, box.width || 400), h = Math.max(140, box.height || 190);
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`); svg.replaceChildren();
+  const p = P, mg = p.m * g, eMax = 2.8, fMax = 4.5, pT = 10, pB = 22, pL = 44, pR = 12;
+  const X = e => pL + e / eMax * (w - pL - pR), Y = f => pT + (fMax - f) / fMax * (h - pT - pB);
+  for (let f = 0; f <= 4; f++) { linie(svg, pL, Y(f), w - pR, Y(f), FARBE.linie); formel(svg, pL - 5, Y(f), f ? [f + ' ', { kursiv:'F' }, { sub:'G' }] : ['0'], { gr:9.5, anker:'end' }); }
+  for (let e = 0; e <= eMax + 1e-9; e += 0.5) text(svg, X(e), h - 9, bjZahl(e, 1), { gr:9.5, mono:true, anker:'middle' });
+  text(svg, w - 2, h - 9, 'ε', { gr:10, anker:'end', fett:700 });
+  linie(svg, pL, Y(1), w - pR, Y(1), FARBE.v, 1.2, '5 4');
+  formel(svg, w - pR - 2, Y(1) - 8, [{ kursiv:'F' }, { sub:'G' }], { farbe:FARBE.v, gr:10, anker:'end', fett:600 });
+  const kurve = (modell, farbe, strich) => {
+    const q = Object.assign({}, p, { modell }); let d = '';
+    for (let i = 0; i <= 220; i++) { const e = i / 220 * eMax, f = bjFel(e * p.L0, q) / mg; if (f > fMax) break; d += (i ? ' L ' : 'M ') + X(e).toFixed(1) + ' ' + Y(f).toFixed(1); }
+    el('path', Object.assign({ d, fill:'none', stroke:farbe, 'stroke-width':strich ? 1.6 : 2.4 }, strich ? { 'stroke-dasharray':'6 5' } : {}), svg);
+  };
+  const andere = p.modell === 'gent' ? 'hooke' : 'gent';
+  kurve(andere, '#a8a196', true); kurve(p.modell, FARBE.fs, false);
+  text(svg, pL + 6, pT + 8, p.modell === 'gent' ? 'Latexseil (Gent)' : 'linear (Feder)', { farbe:FARBE.fs, gr:10, fett:700 });
+  text(svg, pL + 6, pT + 21, andere === 'gent' ? 'Latexseil (Gent)' : 'linear (Feder)', { farbe:'#8a8378', gr:10 });
+  const i = idx(tNow), eps = Math.max(0, (S.s[i] - p.L0) / p.L0), f = bjFel(eps * p.L0, p) / mg;
+  if (eps > 0 && eps <= eMax && f <= fMax) el('circle', { cx:X(eps), cy:Y(f), r:4.5, fill:FARBE.fr, stroke:'#fff', 'stroke-width':1.2 }, svg);
+}
+
+/* Wertanzeige und Phase */
+const idx = t => Math.max(0, Math.min(S.N - 1, Math.round(t / DT)));
+function bjWerte() {
+  const i = idx(tNow), Fg = P.m * g, Fs = S.Fs[i];
+  $('bj-w-s').textContent = bjZahl(S.s[i], 1) + ' m';
+  $('bj-w-v').textContent = bjZahl(S.v[i], 1) + ' m/s';
+  $('bj-w-a').textContent = bjZahl(S.a[i], 1) + ' m/s²';
+  $('bj-w-fg').textContent = bjZahl(Fg, 0) + ' N';
+  $('bj-w-fs').textContent = bjZahl(Fs, 0) + ' N';
+  $('bj-w-fr').textContent = bjZahl(Fg - Fs, 0) + ' N';
+  const v = S.v[i], a = S.a[i];
+  $('bj-richtung').textContent = 'Positiv heisst nach unten. Bewegung: ' + (Math.abs(v) < 0.05 ? 'einen Augenblick in Ruhe' : v > 0 ? 'abwärts' : 'aufwärts') +
+    '; Beschleunigung: ' + (Math.abs(a) < 0.05 ? 'null' : a > 0 ? 'nach unten' : 'nach oben');
+  $('bj-zeit').textContent = 't = ' + bjZahl(tNow, 2) + ' s';
+  $('bj-t').value = tNow;
+}
+let letztePhase = null;
+function bjPhaseZeigen() {
+  const k = bjPhase(S, tNow), schl = k + '|' + P.c;
+  if (schl === letztePhase) return;
+  letztePhase = schl;
+  const ph = BJ_PHASEN[k];
+  $('bj-phase-nr').textContent = 'Phase ' + (k + 1) + ' von 5';
+  $('bj-phase-titel').textContent = ph.titel;
+  $('bj-phase-text').innerHTML = ph.text(P);
+  $('bj-phase-formel').innerHTML = ph.formel(P);
+  $('bj-phase').style.borderLeftColor = ph.farbe;
+  if (typeof mjTypeset === 'function') mjTypeset([$('bj-phase-text'), $('bj-phase-formel')]);
+}
+function bjKennwerte() {
+  const hooke = P.modell === 'hooke', z = [];
+  z.push(hooke ? '\\(s_G = L_0 + \\frac{m \\cdot g}{D} = ' + bjZahl(P.L0, 0) + '\\;\\text{m} + \\frac{' + P.m + '\\;\\text{kg} \\cdot 9.81\\;\\text{m/s}^2}{' + P.D + '\\;\\text{N/m}} \\approx ' + bjZahl(S.sG, 1) + '\\;\\text{m}\\)'
+               : '\\(s_G\\) aus \\(F_\\text{el}(s_G - L_0) = m \\cdot g\\), numerisch: \\(s_G \\approx ' + bjZahl(S.sG, 1) + '\\;\\text{m}\\)');
+  z.push('Tiefster Punkt (aus der Simulation): \\(s_\\text{max} \\approx ' + bjZahl(S.sMax, 1) + '\\;\\text{m}\\)');
+  z.push('Grösste Beschleunigung: \\(|a|_\\text{max} \\approx ' + bjZahl(Math.max(g, -S.aMin) / g, 1) + ' \\cdot g\\)');
+  z.push('Schwingungsdauer kleiner Schwingungen um \\(s_G\\) (ohne Dämpfung, Seil gespannt): \\(T = 2\\pi \\cdot \\sqrt{\\frac{m}{' + (hooke ? 'D' : 'D_\\text{eff}') + '}} \\approx ' + bjZahl(2 * Math.PI * Math.sqrt(P.m / S.Deff), 1) + '\\;\\text{s}\\)' +
+    (hooke ? '' : ', mit \\(D_\\text{eff}\\) als Steigung der Kennlinie bei \\(s_G\\)'));
+  $('bj-kennwerte').innerHTML = z.map(x => '<div class="fl-eq">' + x + '</div>').join('');
+  if (typeof mjTypeset === 'function') mjTypeset([$('bj-kennwerte')]);
+}
+
+function zeichneAlles() { bjBild(); DIAS.forEach(d => d()); bjKennlinie(); bjWerte(); bjPhaseZeigen(); }
+
+/* Steuerung */
+function setzeZeit(t) { tNow = Math.max(0, Math.min(TMAX, t)); zeichneAlles(); }
+function halt() { laeuft = false; $('bj-play').textContent = '▶ Abspielen'; }
+$('bj-play').addEventListener('click', () => {
+  if (!laeuft && tNow >= TMAX - 0.01) tNow = 0;
+  laeuft = !laeuft; $('bj-play').textContent = laeuft ? '❚❚ Pause' : '▶ Abspielen';
+});
+$('bj-reset').addEventListener('click', () => { halt(); setzeZeit(0); });
+$('bj-tempo').addEventListener('change', e => { tempo = parseFloat(e.target.value); });
+$('bj-t').addEventListener('input', e => { halt(); setzeZeit(parseFloat(e.target.value)); });
+[['bj-m', 'm'], ['bj-l', 'L0'], ['bj-d', 'D'], ['bj-c', 'c']].forEach(([id, k]) => $(id).addEventListener('input', () => {
+  P[k] = parseFloat($(id).value); $(id + '-w').textContent = $(id).value; neu(); }));
+$('bj-modell').addEventListener('change', e => {
+  P.modell = e.target.value; const real = P.modell === 'gent';
+  $('bj-d').disabled = real; $('bj-d-wrap').classList.toggle('inaktiv', real); neu(); });
+
+function chips(wurzel, liste, nachher) {
+  const W = $(wurzel);
+  liste.forEach(q => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'bj-chip'; b.title = q.name + ' ein- oder ausblenden';
+    b.setAttribute('aria-pressed', 'true'); b.setAttribute('aria-label', q.name);
+    b.style.color = FARBE[q.id]; b.innerHTML = '\\(' + q.tex + '\\)';
+    b.addEventListener('click', () => { q.an = !q.an; b.classList.toggle('aus', !q.an); b.setAttribute('aria-pressed', String(q.an)); nachher(); });
+    W.appendChild(b);
+  });
+}
+chips('bj-pfeile', PFEILE, zeichneAlles);
+const bs = document.createElement('button');
+bs.type = 'button'; bs.className = 'bj-chip bj-schalter'; bs.textContent = 'Beschriftung: an'; bs.setAttribute('aria-pressed', 'true');
+bs.addEventListener('click', () => { beschriftung = !beschriftung; bs.textContent = 'Beschriftung: ' + (beschriftung ? 'an' : 'aus'); bs.setAttribute('aria-pressed', String(beschriftung)); zeichneAlles(); });
+$('bj-pfeile').appendChild(bs);
+chips('bj-energien', ENERGIEN, zeichneAlles);
+
+function neu() { S = bjSimuliere(P); letztePhase = null; bjKennwerte(); zeichneAlles(); }
+
+let tVorher = null;
+function schleife(ts) {
+  if (tVorher !== null && laeuft) {
+    tNow += (ts - tVorher) / 1000 * tempo;
+    if (tNow >= TMAX) { tNow = TMAX; halt(); }
+    zeichneAlles();
+  }
+  tVorher = ts;
+  requestAnimationFrame(schleife);
+}
+let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(zeichneAlles, 120); });
+
+/* Testhaken für Prüfskripte (.claude/tools) */
+window.__bj = {
+  sim:() => S,
+  setzeParameter(o) { Object.assign(P, o); ['m', 'L0', 'D', 'c'].forEach(k => { const id = { m:'bj-m', L0:'bj-l', D:'bj-d', c:'bj-c' }[k]; $(id).value = P[k]; $(id + '-w').textContent = P[k]; });
+    $('bj-modell').value = P.modell; $('bj-d').disabled = P.modell === 'gent'; $('bj-d-wrap').classList.toggle('inaktiv', P.modell === 'gent'); neu(); return S; },
+  zeit(t) { halt(); setzeZeit(t); },
+  phase:() => bjPhase(S, tNow),
+};
+
+neu();
+if (typeof mjTypeset === 'function') { mjTypeset([$('bj-pfeile'), $('bj-energien')]); }
+requestAnimationFrame(schleife);
+})();
+</script>
+</body>
+</html>
