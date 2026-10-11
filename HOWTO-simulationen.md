@@ -35,7 +35,10 @@ Werkzeug, auch wenn sich dabei etwas bewegt.
 
 **Vorlage:** Das Skelett einer Themenseite (`themen/p4-1-kinematik.html`: `#nav-root`,
 `.page-wrap`, `main.content`, `aside.toc-wrap`, leere FUSS-Marken — den Footer schreibt `build-seo.py`) — ohne Kompetenzblock,
-Aufgaben, Zusammenfassung und Ressourcen. Die bestehende Seite
+Aufgaben, Zusammenfassung und Ressourcen.
+Die SEO- und FUSS-Marken **wörtlich** aus der Vorlage kopieren, samt «— generiert von scripts/build-seo.py, nicht von
+Hand ändern»: Ein nacktes `<!-- SEO:ANFANG -->` erkennt das Skript nicht und setzt einen zweiten Kopf davor, nackte
+FUSS-Marken bleiben leer. Die bestehende Seite
 `simulationen/sonnenfinsternis-12-08-2026.html` hat einen eigenen Aufbau (Ereignisseite) und ist
 **keine** Vorlage für neue Simulationen. Auch `simulationen/bungee-sprung.html` hat einen eigenen Aufbau (Fassung des
 Auftraggebers, kompakte Vollbildansicht); übernehmen lässt sich von dort der Selbsttest von aussen

@@ -137,14 +137,8 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='Kacheln kompakt uebernommen (11.10.2026); Mathe-Eintrag abgearbeitet',
-         wie='Physik: werkzeuge.html (6 Kacheln, 9 Pillen) und simulationen.html mit .lp-satz in einer Zeile und .lp-pillen; '
-             'HOWTO-werkzeuge.md und HOWTO-simulationen.md nachgefuehrt. NICHT uebertragen (Entscheid des Auftraggebers): '
-             'die neue Anordnung der Bedienfelder in Physiks Trainern (Steuerspalte rechts, Aufgabe in einer Karte) ist '
-             'physikspezifisch. Ebenfalls erledigt: TODO-schwesterprojekt.md 11.10.2026 «Selbsttest prueft auch Rueckmeldung» '
-             '(Fachpruefung aller sechs Physik-Trainer, jeder mit eigenem verify_*.js und Fall-Pruefung der Texte, Commits '
-             'f5aed26 bis bf3ca88) und 10.10.2026 «Footer aus einer Quelle». In Mathe: diese Datei uebernehmen, die drei '
-             'Eintraege in TODO-schwesterprojekt.md loeschen und diesen Eintrag streichen.'),
+    dict(quelle='Physik', was='SEO- und FUSS-Marken woertlich: in HOWTO-simulationen.md und HOWTO-werkzeuge.md (Abschnitt 3) nachgefuehrt (11.10.2026); Mathe-Eintrag abgearbeitet',
+         wie='Physiks build-seo.py sucht dieselben vollen Marken (MARKE_AUF, FUSS_AUF). In Mathe: diese Datei uebernehmen und diesen Eintrag streichen.'),
 ]
 FACH = {
     'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',

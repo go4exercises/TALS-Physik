@@ -39,6 +39,9 @@ Werkzeug.
 `.page-wrap`, `main.content`, `aside.toc-wrap`, leere FUSS-Marken — den Footer schreibt `build-seo.py`) mit Kopf, Werkzeug,
 Erklärungsverweisen, Tabellen, häufigen Fehlern und Zusammenfassung; ohne Aufgaben und
 Ressourcen.
+Die SEO- und FUSS-Marken **wörtlich** aus der Vorlage kopieren, samt «— generiert von scripts/build-seo.py, nicht von
+Hand ändern»: Ein nacktes `<!-- SEO:ANFANG -->` erkennt das Skript nicht und setzt einen zweiten Kopf davor, nackte
+FUSS-Marken bleiben leer.
 
 Einbindungen, alle relativ eine Ebene hoch — **kein fremder Host**:
 
