@@ -574,8 +574,8 @@
         vergleich: '\\(\\Delta T = \\dfrac{\\Delta h}{\\gamma \\cdot h_0} = \\dfrac{0.10\\;\\text{m}}{0.21 \\cdot 10^{-3}\\;\\tfrac{1}{\\text{K}} \\cdot 800\\;\\text{m}} \\approx 0.60\\;\\text{K}\\) (\\(\\Delta h \\approx 10.1\\;\\text{cm}\\)).' },
       { text: 'Bei \\(1\\;\\text{K}\\) Erwärmung steigt der Meeresspiegel um \\(42\\;\\text{cm}\\). Wie dick ist die erwärmte Schicht? Notiere deine Rechnung, dann stelle ein und prüfe.', ok: function(s){ return hat(s, 2000, 1); },
         vergleich: '\\(h_0 = \\dfrac{\\Delta h}{\\gamma \\cdot \\Delta T} = \\dfrac{0.42\\;\\text{m}}{0.21 \\cdot 10^{-3}\\;\\tfrac{1}{\\text{K}} \\cdot 1\\;\\text{K}} = 2000\\;\\text{m}\\).' },
-      { text: 'Stelle das Grösste ein: \\(2000\\;\\text{m}\\) und \\(3\\;\\text{K}\\). Notiere \\(\\Delta h\\). Nenne zwei Gründe, warum der wirkliche Anstieg durch Erwärmung anders ausfällt als im Modell.', ok: function(s){ return hat(s, 2000, 3); },
-        vergleich: '\\(\\Delta h = 0.21 \\cdot 10^{-3}\\;\\tfrac{1}{\\text{K}} \\cdot 2000\\;\\text{m} \\cdot 3\\;\\text{K} = 1.26\\;\\text{m}\\). Gründe: \\(\\gamma\\) hängt von Temperatur und Salzgehalt ab (kaltes Wasser dehnt sich viel weniger aus); die Erwärmung nimmt mit der Tiefe ab, statt in einer Schicht gleich zu sein. Dazu kommt Schmelzwasser von Gletschern, das hier fehlt.' }
+      { text: 'Stelle das Grösste ein: \\(2000\\;\\text{m}\\) und \\(3\\;\\text{K}\\). Notiere \\(\\Delta h\\). Nenne zwei Gründe, warum das Modell den Anstieg durch Erwärmung hier überschätzt.', ok: function(s){ return hat(s, 2000, 3); },
+        vergleich: '\\(\\Delta h = 0.21 \\cdot 10^{-3}\\;\\tfrac{1}{\\text{K}} \\cdot 2000\\;\\text{m} \\cdot 3\\;\\text{K} = 1.26\\;\\text{m}\\). Gründe: \\(\\gamma\\) hängt von Temperatur und Salzgehalt ab — kaltes Meerwasser dehnt sich viel weniger aus als Wasser bei \\(20\\;^\\circ\\text{C}\\); die Erwärmung nimmt mit der Tiefe ab, statt in einer Schicht gleich zu sein. Beides macht den wirklichen Anstieg kleiner. Dazu kommt Schmelzwasser von Gletschern, das hier fehlt.' }
     ], sim);
     zeichnen();
   })();

@@ -52,14 +52,14 @@ um Druck-, Temperatur- und Volumenänderungen von Gasen zu berechnen, bei gleich
 | Kap. | Lernziel | Clip (vorgerechnetes Problem) | Simulation | Häufiger Fehler | min |
 |---|---|---|---|---|---|
 | 0 | Vortest: Zehnerpotenzen, Einheiten, Kelvin, Umstellen | — | — | — | 10 |
-| 1 | Δl = α · l₀ · ΔT, Abkühlen, l = l₀ + Δl | Fernwärmeleitung 120 m, 10 → 90 °C: 115 mm | Stab, drei Werkstoffe | Temperatur statt Differenz; 10⁻⁶ | 45 |
-| 2 | ΔV = γ · V₀ · ΔT, γ ≈ 3α, Flüssigkeiten | Kanister 20 l Ethanol, 8 → 38 °C: 0.66 l | Steigrohr / Würfel, vier Stoffe | α statt 3α; 10⁻³/10⁻⁶ | 45 |
-| 3 | ρ = ρ₀/(1 + γΔT), Anomalie, Δh = γ · h₀ · ΔT | Ozean, obere 500 m +1.5 K: 15.8 cm | Meeresschicht mit Pegel | ganze Tiefe statt Schicht | 45 |
-| 4 | p₁V₁/T₁ = p₂V₂/T₂, Kelvin, absoluter Druck | Fussball 0.9 bar Ü, 5.4 → 5.5 l, 12 → 42 °C: 1.06 bar Ü | Gas im Zylinder, p-V | Celsius; Überdruck | 45 |
-| 5 | isotherm/isobar/isochor als Kürzung, Diagramme | Druckluftbehälter 6.0 bar, 15 → 55 °C: 6.83 bar < 7 bar | drei Fälle mit Diagramm | umgekehrt/direkt; 0 °C ≠ 0 K | 45 |
-| ✓ | Gesamttest (PDF) | | | | 30 |
+| 1 | Δl = α · l₀ · ΔT, Abkühlen, l = l₀ + Δl | Fernwärmeleitung 120 m, 10 → 90 °C: 115 mm | Stab, drei Werkstoffe | Temperatur statt Differenz; 10⁻⁶ | 60 |
+| 2 | ΔV = γ · V₀ · ΔT, γ ≈ 3α, Flüssigkeiten | Kanister 20 l Ethanol, 8 → 38 °C: 0.66 l | Steigrohr / Würfel, vier Stoffe | α statt 3α; 10⁻³/10⁻⁶ | 60 |
+| 3 | ρ = ρ₀/(1 + γΔT), Anomalie, Δh = γ · h₀ · ΔT | Ozean, obere 500 m +1.5 K: 15.8 cm | Meeresschicht mit Pegel | ganze Tiefe statt Schicht | 60 |
+| 4 | p₁V₁/T₁ = p₂V₂/T₂, Kelvin, absoluter Druck | Fussball 0.9 bar Ü, 5.4 → 5.5 l, 12 → 42 °C: 1.06 bar Ü | Gas im Zylinder, p-V | Celsius; Überdruck | 60 |
+| 5 | isotherm/isobar/isochor als Kürzung, Diagramme | Druckluftbehälter 6.0 bar, 15 → 55 °C: 6.83 bar < 7 bar | drei Fälle mit Diagramm | umgekehrt/direkt; 0 °C ≠ 0 K | 60 |
+| ✓ | Gesamttest (PDF) | | | | 45 |
 
-Summe 265 min ≈ 5.9 Lektionen. Clips: zehn, zusammen rund 13:20 min (Einführungsclips 1:47 bis 2:00 mit
+Summe 355 min ≈ 7.9 Lektionen (Zeitschätzung der Zweitprüfung vom 11.10.2026: je Kapitel 60 statt 45 min, eher 60 bis 75; Gesamttest 45 statt 30 min). Clips: zehn, zusammen rund 13:20 min (Einführungsclips 1:47 bis 2:00 mit
 vorgerechnetem Problem, Kontrollclips 0:35 bis 0:55 ohne die Wartezeit der Fragen) — etwas über der Zielgrösse
 8 bis 12 min, wie die übrigen Kapitelmuster-Leitprogramme.
 
@@ -212,3 +212,22 @@ kontrolle-spezialfaelle; fragen-ton für alle zehn, anker für die fünf Einfüh
 - **K1:** Sim 3: Etikett «h₀ = … m; +… K» in dunkler Schrift; Lupenlinie über den Tiefenmarken geführt (Bilder neu).
   **K2:** Sim 5 zeigt V wie Etikett und Formelzeile (isotherm eine Nachkommastelle); volumen «Vergleich» 2.86 ml wie im
   Bild; 2d durchgehend 41.3 ml. **K3:** Sim 5 isotherm: x-Achse bis 7.1, «V [l]» bleibt bei 6 l frei.
+
+### Zweitprüfung (11.10.2026)
+
+- **Zeit:** Kapitel je 60 min, Gesamttest 45 min (Seite und PDF), zusammen 355 min ≈ 7.9 Lektionen; Kopf der Seite
+  «Fünf Kapitel zu je rund 60 Minuten … rund acht Lektionen».
+- **4a:** «bei gleicher Temperatur zusammendrücken» in Frage und Lösung (4b zeigt, dass schnelles Zusammendrücken
+  erwärmt); «wo im Modell die Teilchenbewegung aufhört».
+- **Festhalten 4:** neuer Absatz «Woher die Form kommt» — p ∝ T bei gleichem V, p ∝ 1/V bei gleichem T, Proportionalität
+  zu T nur in Kelvin, Verweis auf die Geraden in Kapitel 5. Der Clip `gas` (Szene «Gesetz») bleibt unverändert.
+- **2a:** Lösung nennt «Glas vernachlässigt; mit dem Glas rund 13 % weniger, also etwa 4.7 mm» (γ_Glas = 3 · 8.1 · 10⁻⁶ 1/K).
+- **Sim 3, Leiste 5:** «warum das Modell den Anstieg … überschätzt» (kaltes Meerwasser hat ein kleineres γ, Erwärmung
+  nimmt mit der Tiefe ab).
+- **Clip `laenge`:** Problem nennt den Dehnungsbogen («… nimmt seine Längenänderung auf»), Lösung endet mit «So viel
+  muss der Dehnungsbogen aufnehmen.»; Szenen 4 und 6 neu vertont, Notizen «im Betrieb» 10.7 s, «gesucht» 13.5 s.
+- **Clip-Titel:** Reihe heisst «Ausdehnung und Gase sehen»; die vier Gas-Clips «Gase sehen: …» (Ausdehnung ohne
+  Ausdehnung bei isochor wäre schief).
+- **PDF:** G3 auf 10-cm-Teilung mit 2-cm-Hilfslinien, 1600 m / 800 m bei 2.5 K (84 / 42 cm). Mit γ = 0.21 · 10⁻³ 1/K
+  sind Werte auf 5-cm-Linien nur mit krummen Schichtdicken möglich (70 cm bei 2 K wären 1667 m). G2 «Messkolben aus
+  Normalglas» (Borosilikat hätte rund 3.3 · 10⁻⁶ 1/K).

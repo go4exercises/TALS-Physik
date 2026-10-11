@@ -3,13 +3,15 @@
 % Jede Aufgabe fragt anders als Aufgaben, Übungen, Kontrollfragen, Leisten, Clipbeispiele und die Themenseite:
 % G1 Brücke am Diagramm (ablesen, l0 rückwärts, Temperatur und Länge l = l0 + Δl zu einer Verkürzung, Aluminium
 % begründen), G2 Messkolben (ΔV, Pegelanstieg h = ΔV/A, Glas mit γ ≈ 3 · α, mehr oder weniger), G3 zwei Annahmen für
-% das Meer (Schichtdicken 1750 m / 750 m, abgelesen bei 2 K auf 3.5-cm-Linien, Dichte, Wasserthermometer), G4 PET-Flasche vom Pass ins Tal
+% das Meer (Schichtdicken 1600 m / 800 m, abgelesen bei 2.5 K auf 2-cm-Linien, Dichte, Wasserthermometer), G4 PET-Flasche vom Pass ins Tal
 % (allgemeine Gasgleichung, starr, eingedrückt, Temperatur aus der Gasgleichung), G5 isobare Gerade in °C
 % (Ablesen, Volumen bei −100 °C, Grenze des Modells, isotherm mit Manometer) — HOWTO §9.
 % Überarbeitet nach /lp-pruefung (07.10.2026): Kapitelziele absoluter Druck, γ ≈ 3 · α, Dichte und
 % Temperatur aus der Gasgleichung geprüft; neue Schichtdicken in G3; kein Nullpunkt-Extrapolieren mehr in G5.
 % Runde 2 (08.10.2026): G2 als Messkolben statt Thermometer (anderer Kontext als Aufgabe 2a), G3 mit Werten, die
 % in keiner Kontrollfrage und keiner Leiste stehen, G1c mit l = l0 + Δl, Kelvin als T [K] = ϑ [°C] + 273.15.
+% Zweitprüfung (11.10.2026): Zeit 45 min; G3 auf 10-cm-Teilung mit 2-cm-Hilfslinien (1600 m / 800 m bei 2.5 K:
+% 84 / 42 cm), G2 Messkolben aus Normalglas (α = 8.1 · 10⁻⁶ 1/K; Borosilikat hätte rund 3.3 · 10⁻⁶ 1/K).
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Wärmeausdehnung und Gase}
@@ -22,7 +24,7 @@
   \end{tabularx}}
 
 \begin{lpinfo}{Anleitung}
-\textbf{Zeit:} rund 30 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
+\textbf{Zeit:} rund 45 Minuten. \textbf{Hilfsmittel:} Taschenrechner und Formelsammlung, in allen Teilen.
 Schreib zu jeder Aufgabe zuerst die Formel, dann die Werte \textbf{mit Einheiten}. Punkte gibt es für den Weg,
 für das Ergebnis mit Einheit, für abgelesene Werte und für Begründungen in eigenen Worten. Rechne mit
 \(T\;[\text{K}] = \vartheta\;[^\circ\text{C}] + 273.15\), Luftdruck \(1.0\;\text{bar}\) und den Werten in den Aufgaben.
@@ -52,7 +54,7 @@ Das Diagramm zeigt, um wie viel die Stahlfahrbahn einer Brücke (\(\alpha = 12 \
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G2}{Der Messkolben}{5 P}
-Ein Messkolben aus Glas ist bei \(20\;^\circ\text{C}\) bis zur Marke im schmalen Hals mit \(250\;\text{cm}^3\) Ethanol (\(\gamma = 1.10 \cdot 10^{-3}\;\tfrac{1}{\text{K}}\)) gefüllt. Der Hals hat den Querschnitt \(A = 0.80\;\text{cm}^2\). Im Labor wird es \(24\;^\circ\text{C}\) warm.
+Ein Messkolben aus Normalglas ist bei \(20\;^\circ\text{C}\) bis zur Marke im schmalen Hals mit \(250\;\text{cm}^3\) Ethanol (\(\gamma = 1.10 \cdot 10^{-3}\;\tfrac{1}{\text{K}}\)) gefüllt. Der Hals hat den Querschnitt \(A = 0.80\;\text{cm}^2\). Im Labor wird es \(24\;^\circ\text{C}\) warm.
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
 \item Um wie viel wächst das Volumen des Ethanols?
 \item Um wie viele Millimeter steigt der Pegel im Hals über die Marke?
@@ -64,18 +66,18 @@ Ein Messkolben aus Glas ist bei \(20\;^\circ\text{C}\) bis zur Marke im schmalen
 
 \begin{lpaufgabe}{G3}{Zwei Annahmen für ein Meer}{5 P}
 Das Diagramm zeigt für zwei Annahmen A und B, wie stark der Meeresspiegel allein durch die Ausdehnung des Wassers steigt, wenn sich die oberste Schicht um \(\Delta T\) erwärmt. Rechne mit \(\gamma = 0.21 \cdot 10^{-3}\;\tfrac{1}{\text{K}}\) (Wasser bei \(20\;^\circ\text{C}\)).\par\smallskip
-\begin{center}\begin{tikzpicture}[x=3.5cm,y=0.05cm,>=latex]
-\foreach \x in {0,0.25,...,2.5} \draw[lplinie!70,very thin] (\x,0) -- (\x,91);
-\foreach \y in {0,3.5,...,91} \draw[lplinie!70,very thin] (0,\y) -- (2.5,\y);
-\foreach \x in {0,0.5,1,1.5,2,2.5} {\draw[lplinie] (\x,0) -- (\x,91); \node[below] at (\x,0) {\small $\x$};}
-\foreach \y in {0,14,...,84} {\draw[lplinie] (0,\y) -- (2.5,\y); \node[left] at (0,\y) {\small $\y$};}
-\draw[->] (0,0) -- (2.62,0) node[right] {\small \(\Delta T\) in K};
-\draw[->] (0,0) -- (0,96) node[above] {\small \(\Delta h\) in cm};
-\draw[very thick,lpbernstein] (0,0) -- (2.4,88.2) node[above left] {\small A};
-\draw[very thick,lpgrau,dashed] (0,0) -- (2.5,39.375) node[above left] {\small B (gestrichelt)};
+\begin{center}\begin{tikzpicture}[x=3cm,y=0.055cm,>=latex]
+\foreach \x in {0,0.25,...,3} \draw[lplinie!70,very thin] (\x,0) -- (\x,100);
+\foreach \y in {0,2,...,100} \draw[lplinie!70,very thin] (0,\y) -- (3,\y);
+\foreach \x in {0,0.5,1,1.5,2,2.5,3} {\draw[lplinie] (\x,0) -- (\x,100); \node[below] at (\x,0) {\small $\x$};}
+\foreach \y in {0,10,...,100} {\draw[lplinie] (0,\y) -- (3,\y); \node[left] at (0,\y) {\small $\y$};}
+\draw[->] (0,0) -- (3.12,0) node[right] {\small \(\Delta T\) in K};
+\draw[->] (0,0) -- (0,106) node[above] {\small \(\Delta h\) in cm};
+\draw[very thick,lpbernstein] (0,0) -- (2.8,94.08) node[above left] {\small A};
+\draw[very thick,lpgrau,dashed] (0,0) -- (3,50.4) node[above left] {\small B (gestrichelt)};
 \end{tikzpicture}\end{center}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Lies für A und für B ab, um wie viel der Meeresspiegel bei \(\Delta T = 2\;\text{K}\) steigt.
+\item Lies für A und für B ab, um wie viel der Meeresspiegel bei \(\Delta T = 2.5\;\text{K}\) steigt.
 \item Bestimme für beide Annahmen die Dicke \(h_0\) der erwärmten Schicht.
 \item Erkläre, warum die Dichte des Wassers beim Erwärmen über \(4\;^\circ\text{C}\) sinkt und warum die erwärmte Schicht darum oben liegen bleibt.
 \item Ein Thermometer mit Wasser statt Ethanol wäre zwischen \(0\;^\circ\text{C}\) und \(8\;^\circ\text{C}\) unbrauchbar. Begründe mit der Anomalie des Wassers.

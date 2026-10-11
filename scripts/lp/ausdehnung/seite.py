@@ -729,7 +729,7 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 12, [
     ('1d', 3, r'Ein Stahlring hat bei \(20\;^\circ\text{C}\) einen Innendurchmesser von \(49.95\;\text{mm}\). Er soll auf eine Welle mit \(50.00\;\text{mm}\) Durchmesser geschoben werden. Auf welche Temperatur muss man den Ring mindestens erwärmen? Begründe, warum dabei auch das Loch grösser wird.',
      r'<p>Der Ring dehnt sich in alle Richtungen um denselben Anteil aus; das Loch wächst wie das Material darum herum. Der Innendurchmesser ist eine Länge: \(\Delta l = 0.05\;\text{mm}\), \(l_0 = 49.95\;\text{mm}\).</p><p>\(\Delta T = \dfrac{\Delta l}{\alpha \cdot l_0}\) \(= \dfrac{0.05\;\text{mm}}{12 \cdot 10^{-6}\;\tfrac{1}{\text{K}} \cdot 49.95\;\text{mm}}\) \(\approx 83\;\text{K}\), also auf rund \(20\;^\circ\text{C} + 83\;\text{K} \approx 103\;^\circ\text{C}\). Erkaltet sitzt der Ring fest (Schrumpfverbindung).</p>', ''),
 ])
-k1 = kapitel(1, 'laenge', 'Längenausdehnung', 'K1', 45,
+k1 = kapitel(1, 'laenge', 'Längenausdehnung', 'K1', 60,
     r'Du berechnest mit \(\Delta l = \alpha \cdot l_0 \cdot \Delta T\), um wie viel ein fester Körper beim Erwärmen länger und beim Abkühlen kürzer wird, und bestimmst daraus die neue Länge \(l = l_0 + \Delta l\).',
     ('p5-3-lp-laenge', 'Ausdehnung sehen: der Stab wird länger'),
     sim1, ('p5-3-lp-kontrolle-laenge', 'Kontrollfragen zur Längenausdehnung'),
@@ -757,7 +757,7 @@ fest2 = r'''      <div class="festhalten">
       </div>'''
 auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2a', 3, r'Erkläre mit den Teilchen, warum sich Flüssigkeiten beim Erwärmen viel stärker ausdehnen als Festkörper. Warum hat ein Flüssigkeitsthermometer unten ein grosses Vorratsgefäss und darüber eine sehr dünne Kapillare? Rechne für \(0.30\;\text{cm}^3\) Quecksilber und eine Kapillare mit \(A = 0.010\;\text{mm}^2\): Um wie viel steigt der Faden je Kelvin (Säule: \(V = A \cdot h\))?',
-     r'<p>In einem Festkörper sitzen die Teilchen an festen Plätzen; starke Bindungen lassen den Abstand nur wenig wachsen. In einer Flüssigkeit sind sie beweglich und schwächer gebunden — stärkere Bewegung vergrössert ihren Abstand viel mehr (\(\gamma\) rund \(10^{-3}\;\tfrac{1}{\text{K}}\) statt rund \(10^{-5}\;\tfrac{1}{\text{K}}\)).</p><p>\(\Delta V\) wächst mit \(V_0\): Viel Flüssigkeit gibt ein messbares \(\Delta V\). In der dünnen Kapillare wird dieses kleine Volumen zu einer langen Säule — die Anzeige wird gut ablesbar.</p><p>\(\Delta V = \gamma \cdot V_0 \cdot \Delta T\) \(= 0.18 \cdot 10^{-3}\;\tfrac{1}{\text{K}} \cdot 300\;\text{mm}^3 \cdot 1\;\text{K}\) \(= 0.054\;\text{mm}^3\) (\(1\;\text{cm}^3 = 1000\;\text{mm}^3\)); \(h = \dfrac{\Delta V}{A}\) \(= \dfrac{0.054\;\text{mm}^3}{0.010\;\text{mm}^2}\) \(= 5.4\;\text{mm}\) je Kelvin.</p>', ''),
+     r'<p>In einem Festkörper sitzen die Teilchen an festen Plätzen; starke Bindungen lassen den Abstand nur wenig wachsen. In einer Flüssigkeit sind sie beweglich und schwächer gebunden — stärkere Bewegung vergrössert ihren Abstand viel mehr (\(\gamma\) rund \(10^{-3}\;\tfrac{1}{\text{K}}\) statt rund \(10^{-5}\;\tfrac{1}{\text{K}}\)).</p><p>\(\Delta V\) wächst mit \(V_0\): Viel Flüssigkeit gibt ein messbares \(\Delta V\). In der dünnen Kapillare wird dieses kleine Volumen zu einer langen Säule — die Anzeige wird gut ablesbar.</p><p>\(\Delta V = \gamma \cdot V_0 \cdot \Delta T\) \(= 0.18 \cdot 10^{-3}\;\tfrac{1}{\text{K}} \cdot 300\;\text{mm}^3 \cdot 1\;\text{K}\) \(= 0.054\;\text{mm}^3\) (\(1\;\text{cm}^3 = 1000\;\text{mm}^3\)); \(h = \dfrac{\Delta V}{A}\) \(= \dfrac{0.054\;\text{mm}^3}{0.010\;\text{mm}^2}\) \(= 5.4\;\text{mm}\) je Kelvin (Glas vernachlässigt; mit dem Glas rund \(13\;\%\) weniger, also etwa \(4.7\;\text{mm}\)).</p>', ''),
     ('2b', 3, r'Ein Kolben aus Aluminium hat bei \(20\;^\circ\text{C}\) das Volumen \(350\;\text{cm}^3\). Im Motor wird er \(220\;^\circ\text{C}\) heiss. Um wie viel wächst sein Volumen? Gib die Zunahme auch in Prozent an.',
      r'<p>\(\gamma \approx 3 \cdot \alpha\) \(= 3 \cdot 23.8 \cdot 10^{-6}\;\tfrac{1}{\text{K}}\) \(= 71.4 \cdot 10^{-6}\;\tfrac{1}{\text{K}}\); \(\Delta T = 200\;\text{K}\).</p><p>\(\Delta V = \gamma \cdot V_0 \cdot \Delta T\) \(= 71.4 \cdot 10^{-6}\;\tfrac{1}{\text{K}} \cdot 350\;\text{cm}^3 \cdot 200\;\text{K}\) \(\approx 5.0\;\text{cm}^3\). Das sind \(\gamma \cdot \Delta T \approx 1.4\;\%\) des Volumens.</p>', ''),
     ('2c', 3, r'Für \(4.0\;\text{l}\) einer Flüssigkeit zeigt das Diagramm die Volumenzunahme über der Erwärmung. Lies einen Punkt ab, bestimme \(\gamma\) und entscheide: Wasser (\(0.21\), Wert bei \(20\;^\circ\text{C}\)), Quecksilber (\(0.18\)) oder Ethanol (\(1.10\), je \(10^{-3}\;\tfrac{1}{\text{K}}\))?',
@@ -766,7 +766,7 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2d', 3, r'Eine Aluminiumflasche (Innenvolumen \(1.5\;\text{l}\)) wird bei \(15\;^\circ\text{C}\) randvoll mit Ethanol gefüllt und auf \(40\;^\circ\text{C}\) erwärmt. Wie viel liefe über, wenn die Flasche starr wäre? Wie viel läuft wirklich über?',
      r'<p>Starre Flasche: \(\Delta V_\text{Fl} = \gamma \cdot V_0 \cdot \Delta T\) \(= 1.10 \cdot 10^{-3}\;\tfrac{1}{\text{K}} \cdot 1.5\;\text{l} \cdot 25\;\text{K}\) \(\approx 0.0413\;\text{l} = 41.3\;\text{ml}\).</p><p>Der Innenraum wächst wie Aluminium: \(\Delta V_\text{Gef} = 71.4 \cdot 10^{-6}\;\tfrac{1}{\text{K}} \cdot 1.5\;\text{l} \cdot 25\;\text{K}\) \(\approx 0.0027\;\text{l} = 2.7\;\text{ml}\). Es läuft \(41.3\;\text{ml} - 2.7\;\text{ml} \approx 38.6\;\text{ml}\) über.</p>', ''),
 ])
-k2 = kapitel(2, 'volumen', 'Volumenausdehnung', 'K1', 45,
+k2 = kapitel(2, 'volumen', 'Volumenausdehnung', 'K1', 60,
     r'Du berechnest die Volumenänderung \(\Delta V = \gamma \cdot V_0 \cdot \Delta T\) von Festkörpern (mit \(\gamma \approx 3 \cdot \alpha\)) und von Flüssigkeiten und begründest, warum sich Flüssigkeiten viel stärker ausdehnen.',
     ('p5-3-lp-volumen', 'Ausdehnung sehen: in drei Richtungen'),
     sim2, ('p5-3-lp-kontrolle-volumen', 'Kontrollfragen zur Volumenausdehnung'),
@@ -806,7 +806,7 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
     ('3d', 3, r'In einem Boiler hat das Wasser unten \(20\;^\circ\text{C}\) (\(998\;\text{kg/m}^3\)) und oben \(60\;^\circ\text{C}\). Berechne die Dichte bei \(60\;^\circ\text{C}\) mit \(\gamma = 0.21 \cdot 10^{-3}\;\tfrac{1}{\text{K}}\). Gemessen sind \(983\;\text{kg/m}^3\). Begründe, warum die Rechnung abweicht.',
      r'<p>\(\rho = \dfrac{\rho_0}{1 + \gamma \cdot \Delta T}\) \(= \dfrac{998\;\text{kg/m}^3}{1 + 0.21 \cdot 10^{-3}\;\tfrac{1}{\text{K}} \cdot 40\;\text{K}}\) \(\approx 990\;\text{kg/m}^3\).</p><p>\(0.21 \cdot 10^{-3}\;\tfrac{1}{\text{K}}\) gilt nur um \(20\;^\circ\text{C}\). Bei Wasser wächst \(\gamma\) mit der Temperatur stark (unter \(4\;^\circ\text{C}\) ist es wegen der Anomalie sogar negativ); mit konstantem \(\gamma\) unterschätzt man die Ausdehnung bei \(60\;^\circ\text{C}\). Das warme Wasser ist trotzdem weniger dicht und liegt oben.</p>', ''),
 ])
-k3 = kapitel(3, 'wasser', 'Wasser: Dichte, Anomalie und Meeresspiegel', 'K1', 45,
+k3 = kapitel(3, 'wasser', 'Wasser: Dichte, Anomalie und Meeresspiegel', 'K1', 60,
     r'Du berechnest, wie stark der Meeresspiegel steigt, wenn sich das Meerwasser erwärmt (\(\Delta h = \gamma \cdot h_0 \cdot \Delta T\)), erklärst, warum die Dichte beim Erwärmen sinkt, und ordnest die Anomalie des Wassers ein.',
     ('p5-3-lp-meer', 'Ausdehnung sehen: Wasser und Meeresspiegel'),
     sim3, ('p5-3-lp-kontrolle-meer', 'Kontrollfragen zu Wasser und Meeresspiegel'),
@@ -823,6 +823,7 @@ fest4 = r'''      <div class="festhalten">
           <div class="titel">Ideales Gas: allgemeine Gasgleichung</div>
           <p>Der Zustand einer festen Gasmenge ist durch drei Grössen bestimmt: Druck \(p\), Volumen \(V\) und Temperatur \(T\). Im Modell des idealen Gases sind die Teilchen punktförmig, ziehen sich nicht an und stossen elastisch; der Druck entsteht durch ihre Stösse auf die Wand.</p>
           <p>\[ \frac{p_1 \cdot V_1}{T_1} = \frac{p_2 \cdot V_2}{T_2} \]</p>
+          <p>Woher die Form kommt: Bei gleichem Volumen ist der Druck proportional zur Temperatur, bei gleicher Temperatur umgekehrt proportional zum Volumen — zusammen bleibt \(\dfrac{p \cdot V}{T}\) gleich. Proportional zur Temperatur ist der Druck aber nur in Kelvin: Die Geraden in Kapitel 5 gehen nur in Kelvin durch den Ursprung.</p>
           <p>Gilt, solange die <b>Gasmenge gleich</b> bleibt (nichts strömt hinein oder hinaus), für Gase weit weg vom Flüssigwerden und bei nicht zu hohem Druck. Zwei Regeln: <b>Temperatur in Kelvin</b>, \(T\;[\text{K}] = \vartheta\;[^\circ\text{C}] + 273.15\). <b>Druck absolut</b>: Ein Manometer zeigt meist den Überdruck, \(p = p_\text{ü} + p_\text{L}\) mit dem Luftdruck \(p_\text{L} \approx 1.0\;\text{bar}\). Druck und Volumen dürfen in beliebigen Einheiten stehen, aber auf beiden Seiten in denselben.</p>
         </div>
         <div class="warn">
@@ -833,8 +834,8 @@ fest4 = r'''      <div class="festhalten">
       </div>'''
 P4C = [(v / 20, 3 / (v / 20)) for v in range(15, 85)]
 auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
-    ('4a', 3, r'Erkläre mit dem Teilchenmodell, warum der Druck in einer verschlossenen Flasche steigt, wenn man sie erwärmt, und warum er steigt, wenn man ein Gas zusammendrückt. Warum gehört die Temperatur in Kelvin in die Gasgleichung?',
-     r'<p>Wärmer heisst schnellere Teilchen: Sie stossen öfter und heftiger gegen die Wand, der Druck steigt. Beim Zusammendrücken bleiben die Teilchen gleich schnell, haben aber weniger Platz und treffen öfter auf die Wand — auch das gibt mehr Druck.</p><p>Die Kelvin-Skala beginnt beim absoluten Nullpunkt, wo die Teilchenbewegung aufhört. Nur von dort aus gemessen sagt ein Verhältnis wie \(\dfrac{T_2}{T_1}\) etwas über die Bewegung der Teilchen; in Grad Celsius wäre \(20\;^\circ\text{C}\) «doppelt so warm» wie \(10\;^\circ\text{C}\).</p>', ''),
+    ('4a', 3, r'Erkläre mit dem Teilchenmodell, warum der Druck in einer verschlossenen Flasche steigt, wenn man sie erwärmt, und warum er steigt, wenn man ein Gas bei gleicher Temperatur zusammendrückt. Warum gehört die Temperatur in Kelvin in die Gasgleichung?',
+     r'<p>Wärmer heisst schnellere Teilchen: Sie stossen öfter und heftiger gegen die Wand, der Druck steigt. Drückt man das Gas bei gleicher Temperatur zusammen, bleiben die Teilchen gleich schnell, haben aber weniger Platz und treffen öfter auf die Wand — auch das gibt mehr Druck.</p><p>Die Kelvin-Skala beginnt beim absoluten Nullpunkt, wo im Modell die Teilchenbewegung aufhört. Nur von dort aus gemessen sagt ein Verhältnis wie \(\dfrac{T_2}{T_1}\) etwas über die Bewegung der Teilchen; in Grad Celsius wäre \(20\;^\circ\text{C}\) «doppelt so warm» wie \(10\;^\circ\text{C}\).</p>', ''),
     ('4b', 3, r'In einem Kompressor werden \(3.0\;\text{l}\) Luft (\(1.0\;\text{bar}\), \(20\;^\circ\text{C}\)) auf \(0.50\;\text{l}\) zusammengedrückt; dabei erwärmt sich die Luft auf \(140\;^\circ\text{C}\). Wie gross ist der Druck jetzt? Wie gross wäre er ohne Erwärmung?',
      r'<p>\(T_1 = 293.15\;\text{K}\), \(T_2 = 413.15\;\text{K}\).</p><p>\(p_2 = \dfrac{p_1 \cdot V_1 \cdot T_2}{T_1 \cdot V_2}\) \(= \dfrac{1.0\;\text{bar} \cdot 3.0\;\text{l} \cdot 413.15\;\text{K}}{293.15\;\text{K} \cdot 0.50\;\text{l}}\) \(\approx 8.5\;\text{bar}\).</p><p>Ohne Erwärmung (\(T_2 = T_1\)): \(p_2 = \dfrac{1.0\;\text{bar} \cdot 3.0\;\text{l}}{0.50\;\text{l}} = 6.0\;\text{bar}\) — die Erwärmung bringt rund \(2.5\;\text{bar}\) dazu.</p>', ''),
     ('4c', 3, r'Das Diagramm zeigt zwei Zustände 1 und 2 derselben Gasmenge, dazu gestrichelt alle Zustände mit derselben Temperatur wie Zustand 1 (\(T_1 = 300\;\text{K}\)). Lies \(p\) und \(V\) ab und berechne \(T_2\). Begründe am Diagramm, ob das Gas in Zustand 2 wärmer oder kälter ist als in Zustand 1.',
@@ -843,9 +844,9 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
     ('4d', 3, r'Entscheide und begründe, ob die Gasgleichung hier brauchbare Ergebnisse liefert: (a) Die Luft in einem Fussball wird in der Sonne wärmer. (b) Ein Feuerzeug, in dem das Butan zum grössten Teil flüssig ist, wird erwärmt. (c) Mit einer Velopumpe wird Luft in einen Reifen gepumpt; man vergleicht die Luft im Reifen vorher und nachher.',
      r'<p>(a) Ja: Luft bei Zimmertemperatur und mässigem Druck verhält sich fast wie ein ideales Gas, und die Gasmenge im Ball bleibt gleich.</p><p>(b) Nein: Ein grossteils flüssiges Gas ist kein ideales Gas; beim Erwärmen verdampft Flüssigkeit, die Gasmenge ändert sich.</p><p>(c) Nein: Beim Pumpen kommt Luft dazu — die Gasmenge im Reifen bleibt nicht gleich.</p>', ''),
 ])
-k4 = kapitel(4, 'gasgleichung', 'Ideales Gas: die allgemeine Gasgleichung', 'K2', 45,
+k4 = kapitel(4, 'gasgleichung', 'Ideales Gas: die allgemeine Gasgleichung', 'K2', 60,
     r'Du beschreibst den Zustand einer festen Gasmenge mit Druck, Volumen und Temperatur, setzt den absoluten Druck und die Temperatur in Kelvin ein und berechnest mit \(\dfrac{p_1 \cdot V_1}{T_1} = \dfrac{p_2 \cdot V_2}{T_2}\) die fehlende Grösse.',
-    ('p5-3-lp-gas', 'Ausdehnung sehen: ein Gas, drei Grössen'),
+    ('p5-3-lp-gas', 'Gase sehen: ein Gas, drei Grössen'),
     sim4, ('p5-3-lp-kontrolle-gas', 'Kontrollfragen zur Gasgleichung'),
     fest4, [uebung('gas-p', 'Druck nach der Zustandsänderung'), uebung('gas-v', 'Volumen der Luftblase'), uebung('reifen', 'Was zeigt das Manometer?')],
     auf4, f'<a href="{TS}#gasgesetz">Themenseite 5.3, Das ideale Gasgesetz im Kolben</a>')
@@ -885,9 +886,9 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5d', 3, r'Ein Gas (\(4.0\;\text{l}\), \(1.0\;\text{bar}\), \(20\;^\circ\text{C}\)) wird zuerst isotherm auf \(2.0\;\text{l}\) zusammengedrückt und dann im festen Volumen auf \(80\;^\circ\text{C}\) erwärmt. Berechne den Druck nach jedem Schritt und prüfe das Ergebnis mit der allgemeinen Gasgleichung.',
      r'<p>Schritt 1, isotherm, bis zum Zwischendruck \(p_\text{Z}\): \(p_\text{Z} = \dfrac{p_1 \cdot V_1}{V_2} = \dfrac{1.0\;\text{bar} \cdot 4.0\;\text{l}}{2.0\;\text{l}} = 2.0\;\text{bar}\).</p><p>Schritt 2, isochor: \(p_2 = p_\text{Z} \cdot \dfrac{T_2}{T_1} = 2.0\;\text{bar} \cdot \dfrac{353.15\;\text{K}}{293.15\;\text{K}}\) \(\approx 2.41\;\text{bar}\).</p><p>Probe: \(p_2 = \dfrac{p_1 \cdot V_1 \cdot T_2}{T_1 \cdot V_2}\) \(= \dfrac{1.0\;\text{bar} \cdot 4.0\;\text{l} \cdot 353.15\;\text{K}}{293.15\;\text{K} \cdot 2.0\;\text{l}}\) \(\approx 2.41\;\text{bar}\) — dasselbe: Die allgemeine Gasgleichung fasst die beiden Schritte zusammen.</p>', ''),
 ])
-k5 = kapitel(5, 'spezialfaelle', 'Isotherm, isobar, isochor', 'K2', 45,
+k5 = kapitel(5, 'spezialfaelle', 'Isotherm, isobar, isochor', 'K2', 60,
     r'Du erkennst, welche Grösse bei einer Zustandsänderung konstant bleibt, kürzt die allgemeine Gasgleichung zum Gesetz von Boyle-Mariotte, Gay-Lussac oder Amontons und liest die Zusammenhänge in den Diagrammen ab.',
-    ('p5-3-lp-spezialfaelle', 'Ausdehnung sehen: eine Grösse hält still'),
+    ('p5-3-lp-spezialfaelle', 'Gase sehen: eine Grösse hält still'),
     sim5, ('p5-3-lp-kontrolle-spezialfaelle', 'Kontrollfragen zu den Spezialfällen'),
     fest5, [uebung('isotherm', 'Isotherm: Druck oder Volumen'), uebung('isobar', 'Isobar: Volumen'), uebung('fall', 'Welcher Fall — und wie viel?')],
     auf5, f'<a href="{TS}#diagramme">Themenseite 5.3, Die beiden Spezialfälle grafisch</a> · <a href="{TS}#gasgesetz">Das ideale Gasgesetz</a>')
@@ -898,7 +899,7 @@ gt = f'''
     <section class="kap" id="gesamttest">
       <div class="gesamt">
         <div class="gesamt-kopf">
-          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">5.3 · K1 und K2</span><span class="zeit">≈ 30 min · 25 Punkte</span></div>
+          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">5.3 · K1 und K2</span><span class="zeit">≈ 45 min · 25 Punkte</span></div>
           <h2 id="gesamttest-titel">Gesamttest</h2>
           <div class="pdf-weg">
             <div class="pdf-schritt"><span class="nr">1</span><div><b>Lösen</b> — auf Papier, mit Rechenweg. Erlaubt sind Taschenrechner und Formelsammlung.<br>
@@ -956,13 +957,13 @@ oben = '''<div id="nav-root"></div>
        K2 Spezialfälle → Kap. 5 · Übungen isotherm, isobar, fall · Aufg. 5a–5d · Kontrollclip spezialfaelle · G5
      Bewusst weggelassen (auf der Themenseite): Bimetall, Eisberg und Schwimmen von Eis, Normbedingungen und
      Masse einer Gasfüllung (die Teilchenmenge bleibt im RLP gleich).
-     Zeiten: K0 10 · K1–K5 je 45 · Gesamttest 30 = 265 min ≈ 5.9 Lektionen. -->
+     Zeiten: K0 10 · K1–K5 je 60 · Gesamttest 45 = 355 min ≈ 7.9 Lektionen. -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
       <p class="marke">Physik begreifbar · Leitprogramm</p>
       <h1>Wärmeausdehnung und Gase</h1>
-      <p class="unter">Länge und Volumen fester Körper und Flüssigkeiten, Wasser und der Meeresspiegel, das ideale Gas und seine drei Spezialfälle — mit laufenden Simulationen. Fünf Kapitel zu je einer Lektion, dazu Vorwissen und Gesamttest.</p>
+      <p class="unter">Länge und Volumen fester Körper und Flüssigkeiten, Wasser und der Meeresspiegel, das ideale Gas und seine drei Spezialfälle — mit laufenden Simulationen. Fünf Kapitel zu je rund 60 Minuten, dazu Vorwissen und Gesamttest — zusammen rund acht Lektionen.</p>
     </div>
     <div class="kopf-rechts">
       <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>
