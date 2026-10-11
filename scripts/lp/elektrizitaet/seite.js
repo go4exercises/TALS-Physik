@@ -316,7 +316,7 @@
       { text: 'Ein Bügeleisen am Netz hat \\(1600\\;\\text{W}\\). Stelle die Stromstärke ein und notiere sie.', setup: function(S){ S.setze({ U: 230, I: 4 }); }, ok: function(s){ return gl(s.U, 230) && nah(s.P, 1600, 0.01); },
         vergleich: '\\(I = \\dfrac{P}{U} = \\dfrac{1600\\;\\text{W}}{230\\;\\text{V}} \\approx 6.96\\;\\text{A}\\). Der Regler geht in Schritten von \\(0.1\\;\\text{A}\\): \\(7\\;\\text{A}\\) gibt \\(1610\\;\\text{W}\\).' },
       { text: 'Es läuft \\(45\\;\\text{min}\\). Stelle die Zeit ein und lies die Energie ab. Notiere sie: Welche Zeit in Stunden hast du eingestellt?', ok: function(s){ return gl(s.t, 0.75) && nah(s.P, 1600, 0.01); },
-        vergleich: '\\(45\\;\\text{min} = 0.75\\;\\text{h}\\), nicht \\(0.45\\;\\text{h}\\). \\(E = P \\cdot t \\approx 1.6\\;\\text{kW} \\cdot 0.75\\;\\text{h} \\approx 1.2\\;\\text{kWh}\\) (mit \\(7\\;\\text{A}\\) genau \\(1.21\\;\\text{kWh}\\)).' },
+        vergleich: '\\(45\\;\\text{min} = 0.75\\;\\text{h}\\), nicht \\(0.45\\;\\text{h}\\). \\(E = P \\cdot t \\approx 1.6\\;\\text{kW} \\cdot 0.75\\;\\text{h} \\approx 1.2\\;\\text{kWh}\\) (mit \\(7\\;\\text{A}\\): \\(1.61\\;\\text{kW} \\cdot 0.75\\;\\text{h} \\approx 1.21\\;\\text{kWh}\\)).' },
       { text: 'Stelle \\(1.38\\;\\text{kWh}\\) in \\(2\\;\\text{h}\\) ein. Welche Leistung ist das, und welcher Strom fliesst? Notiere beides.', ok: function(s){ return gl(s.U, 230) && gl(s.t, 2) && Math.abs(s.E - 1.38) < 0.005; },
         vergleich: '\\(P = \\dfrac{E}{t} = \\dfrac{1.38\\;\\text{kWh}}{2\\;\\text{h}} = 0.69\\;\\text{kW} = 690\\;\\text{W}\\), bei \\(230\\;\\text{V}\\) also \\(I = \\dfrac{690\\;\\text{W}}{230\\;\\text{V}} = 3\\;\\text{A}\\).' },
       { text: 'Autobatterie: \\(12\\;\\text{V}\\) und \\(5\\;\\text{A}\\). Welche Leistung? Stelle ein.', ok: function(s){ return gl(s.U, 12) && gl(s.I, 5); },
@@ -371,8 +371,8 @@
         vergleich: 'Verdoppelt, auf \\(2\\;\\text{mm}^2\\). In \\(R = \\rho \\cdot \\dfrac{l}{A}\\) heben sich doppelte Länge und doppelter Querschnitt auf: Der Widerstand ist wieder \\(0.17\\;\\Omega\\).' },
       { text: 'Aluminiumkabel, \\(15\\;\\text{m}\\) lang, zwei Adern zu \\(2.5\\;\\text{mm}^2\\). Stelle die ganze Leiterlänge ein und notiere den Widerstand der Leitung.', ok: function(s){ return s.m === 'Al' && gl(s.l, 30) && gl(s.A, 2.5); },
         vergleich: 'Hin und zurück sind \\(30\\;\\text{m}\\) Leiter: \\(R = 0.028\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{30\\;\\text{m}}{2.5\\;\\text{mm}^2} \\approx 0.336\\;\\Omega\\).' },
-      { text: 'Gleicher Widerstand, gleiche Länge, aber Kupfer: Wie dünn darf der Leiter sein? Notiere den Querschnitt und warum er kleiner ist.', ok: function(s){ return s.m === 'Cu' && gl(s.l, 30) && nah(s.R, 0.028 * 30 / 2.5, 0.03); },
-        vergleich: '\\(A = \\rho \\cdot \\dfrac{l}{R} = 0.017\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{30\\;\\text{m}}{0.336\\;\\Omega} \\approx 1.5\\;\\text{mm}^2\\): Kupfer leitet besser, darum genügt ein dünnerer Draht.' },
+      { text: 'Gleiche Länge, aber Kupfer: Welcher Querschnitt gibt denselben Widerstand? Stelle ihn so genau ein, wie der Regler es erlaubt. Notiere den Querschnitt und warum er kleiner ist.', ok: function(s){ return s.m === 'Cu' && gl(s.l, 30) && nah(s.R, 0.028 * 30 / 2.5, 0.03); },
+        vergleich: '\\(A = \\rho \\cdot \\dfrac{l}{R} = 0.017\\;\\dfrac{\\Omega\\,\\text{mm}^2}{\\text{m}} \\cdot \\dfrac{30\\;\\text{m}}{0.336\\;\\Omega} \\approx 1.52\\;\\text{mm}^2\\). Am Regler am nächsten: \\(1.5\\;\\text{mm}^2\\) mit \\(0.34\\;\\Omega\\), knapp mehr. Kupfer leitet besser, darum genügt ein dünnerer Draht.' },
       { text: 'Triff die gestrichelte Gerade. Welche Steigung hat sie, mit Einheit, und was bedeutet sie?', setup: function(S){ ziel = 0.2; S.setze({ m: 'Cu', A: 1 }); }, ok: function(s){ return gl(s.k, 0.2); },
         vergleich: '\\(\\dfrac{\\rho}{A} = 0.2\\;\\Omega/\\text{m}\\): Jeder Meter Draht bringt \\(0.2\\;\\Omega\\). Mit den Reglern trifft sie nur Eisen mit \\(0.5\\;\\text{mm}^2\\): \\(\\dfrac{0.10}{0.5} = 0.2\\).' }
     ], sim);
@@ -959,11 +959,11 @@
             return { art: 'Wh', x: Ua * Qa, U: Ua, Q: Qa, text: 'Ein Akku ist mit \\(' + ein(Ua, 'V') + '\\) und \\(' + ein(Qa, 'Ah') + '\\) beschriftet. Wie viel Energie speichert er — in Wattstunden?' };
           }
           if (r < 0.67){
-            var U = zufall([1.5, 3.7, 9, 12, 230]), Q = zufall([0.5, 2, 4, 10, 25, 60]);
+            var U = zufall([1.5, 3.7, 9, 12]), Q = zufall([0.5, 2, 4, 10, 25, 60]);   // keine 230 V: Am Wechselstromnetz «schiebt» die Quelle keine Ladung durch den Kreis
             return { art: 'W', x: U * Q, U: U, Q: Q, text: 'Eine Quelle mit \\(U = ' + ein(U, 'V') + '\\) schiebt \\(Q = ' + ein(Q, 'C') + '\\) durch den Kreis. Welche Arbeit verrichtet sie an dieser Ladung?' };
           }
           var Q2, U2;
-          do { Q2 = zufall([0.2, 0.5, 2, 4, 5]); U2 = zufall([1.5, 4.5, 6, 9, 12, 24]); } while (Q2 === 0.2 && U2 === 12);   // Aufgabe 2a
+          do { Q2 = zufall([0.2, 0.5, 2, 4, 5]); U2 = zufall([1.5, 4.5, 6, 9, 12, 24]); } while (Q2 === 0.2 && U2 === 12);   // Aufgabe 2b
           return { art: 'U', x: U2, W: U2 * Q2, Q: Q2, text: 'Beim Durchlaufen eines Bauteils wird an \\(Q = ' + ein(Q2, 'C') + '\\) die Arbeit \\(W = ' + ein(+(U2 * Q2).toPrecision(6), 'J') + '\\) verrichtet. Wie gross ist die Spannung über dem Bauteil?' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;
@@ -1251,9 +1251,12 @@
           // 5·IΔn 150 ms, darüber 40 ms). Keiner trifft eine Grenze genau.
           // Werte nicht wie Clip (1 kΩ), Kontrollfrage (1.2 kΩ), Simulation (1.4 kΩ, 1.6 kΩ),
           // Aufgabe 7a (1.5 kΩ), Gesamttest (1.8 kΩ) und
-          // Themenseite (1 kΩ, 2 kΩ). Bis 2 kΩ: Körper (Festhalten), darüber mit Schuhen und Boden.
-          var F = zufall([[1100, 'nasser Haut'], [1300, 'feuchter Haut'], [1700, 'trockener Haut'], [1900, 'trockener Haut'],
-                          [3000, 'Schuhen auf trockenem Boden'], [4500, 'Schuhen auf trockenem Boden'], [6000, 'Gummisohlen auf trockenem Boden']]);
+          // Themenseite (1 kΩ, 2 kΩ, 2.5 kΩ). Bis 2 kΩ: Körper allein, barfuss auf nassem Boden kommt fast
+          // nichts dazu (Festhalten); darüber mit Sohlen und feuchtem Boden. Trockene Schuhe oder Gummisohlen
+          // (Themenseite: 10 kΩ bis 1 MΩ dazu) gäben unter 30 mA und passen nicht zu dieser Frage.
+          var F = zufall([[1100, 'nasser Haut, barfuss auf nassem Boden'], [1300, 'feuchter Haut, barfuss auf nassem Boden'],
+                          [1700, 'trockener Haut, barfuss auf nassem Boden'], [1900, 'trockener Haut, barfuss auf nassem Boden'],
+                          [3000, 'dünnen Sohlen auf feuchtem Beton'], [4500, 'Schuhen auf feuchtem Boden']]);
           var I = 230 / F[0] * 1000;
           var fak = I / 30;
           return { I: I, U: 230, R: F[0], zeit: fak >= 5 ? '40 ms' : fak >= 2 ? '150 ms' : '300 ms',

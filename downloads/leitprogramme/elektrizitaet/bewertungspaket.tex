@@ -2,6 +2,7 @@
 % Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (06.10.2026).
 % Fassung 2.0, zweiter Durchgang (06.10.2026): sieben Aufgaben, Ablesepunkte (A), Regel «ein Fehler, ein Abzug»
 % auch über Teilaufgaben, Rundungstoleranz 2 %, Zeilenabstand in den Rastern (Brüche berühren sich nicht).
+% Nach der Zweitprüfung vom 11.10.2026: G6 Reihe und parallel (5 P), G3 ohne Kostenfrage (2 P); Summe 25 P.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Elektrizität}
@@ -83,14 +84,13 @@ Ladung in C mit $\cdot 60$ statt $\cdot 3600$ ($300\;\text{C}$): Ladung in C 0 $
 $t = W \cdot P = 1000$: Versorgungsdauer 0 $\to$ 2 von 3\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G3}{Elektroboiler, $6\;\text{kWh}$ in $2.5\;\text{h}$}{3 P}
+\begin{lpaufgabe}{G3}{Elektroboiler, $6\;\text{kWh}$ in $2.5\;\text{h}$}{2 P}
 \begin{raster}
 Leistung & 1\E & $P = \dfrac{E}{t} = \dfrac{6\;\text{kWh}}{2.5\;\text{h}} = 2.4\;\text{kW}$\\\addlinespace[5pt]
 Strom & 1\E & $I = \dfrac{P}{U} = \dfrac{2400\;\text{W}}{230\;\text{V}} \approx 10.4\;\text{A}$\\\addlinespace[5pt]
-Kosten & 1\E & $\text{Kosten} = E \cdot \text{Preis} = 6\;\text{kWh} \cdot 0.27\;\text{CHF/kWh} \approx 1.62\;\text{CHF}$\\\addlinespace[5pt]
 \end{raster}
-\fehler{$P = E \cdot t = 15\;\text{kW}$: Leistung 0; Strom folgerichtig ($65.2\;\text{A}$) zählt; Kosten unabhängig $\to$ 2 von 3\,P.
-$I = \frac{2.4}{230}$ ohne Umrechnung in W ($0.0104\;\text{A}$): Strom 0 $\to$ 2 von 3\,P.}
+\fehler{$P = E \cdot t = 15\;\text{kW}$: Leistung 0; Strom folgerichtig ($65.2\;\text{A}$) zählt $\to$ 1 von 2\,P.
+$I = \frac{2.4}{230}$ ohne Umrechnung in W ($0.0104\;\text{A}$): Strom 0 $\to$ 1 von 2\,P.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G4}{Kabel für den Rasenmäher}{4 P}
@@ -114,15 +114,19 @@ Ohmsch? & 1\B & Nein: $R = U/I$ ist nicht konstant, er wächst mit dem Strom (de
 $R = I/U$ ($0.025$ und $0.017$): Widerstände 0; «nicht ohmsch, das Verhältnis ändert sich» zählt $\to$ 2 von 3\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G6}{$R_1 = 60\;\Omega$, $R_2$ unbekannt, $9\;\text{V}$, $60\;\text{mA}$}{4 P}
+\begin{lpaufgabe}{G6}{$R_1 = 60\;\Omega$, $R_2$ unbekannt, $9\;\text{V}$: in Reihe, dann parallel}{5 P}
 \begin{raster}
 a) Schaltungsart & 1\B & In Reihe: $R_1$ und $R_2$ teilen sich nur den Draht rechts, an dem sonst nichts hängt; das andere Ende von $R_1$ führt zum Pluspol, das von $R_2$ zum Minuspol. Dass sie übereinander gezeichnet sind, spielt keine Rolle.\\\addlinespace[5pt]
 b) $R_2$ & 1\E & $R_\text{ges} = \dfrac{U}{I} = \dfrac{9\;\text{V}}{0.060\;\text{A}} = 150\;\Omega$, $R_2 = R_\text{ges} - R_1 = 90\;\Omega$\\\addlinespace[5pt]
-b) $U_1$, $U_2$ & 1\E & $U_1 = I \cdot R_1 = 0.060\;\text{A} \cdot 60\;\Omega = 3.6\;\text{V}$, $U_2 = I \cdot R_2 = 0.060\;\text{A} \cdot 90\;\Omega = 5.4\;\text{V}$ (beide nötig)\\\addlinespace[5pt]
-c) Probe & 1\B & $U_1 + U_2 = 3.6\;\text{V} + 5.4\;\text{V} = 9\;\text{V}$, die Quellenspannung. Energiebilanz: Die Quelle gibt jedem Coulomb $9\;\text{J}$ mit, die beiden Widerstände geben zusammen genau so viel ab. (Auch: $U_1 : U_2 = R_1 : R_2 = 2 : 3$, weil durch beide derselbe Strom fliesst.)\\\addlinespace[5pt]
+c) Ersatzwiderstand & 1\E & $\dfrac{1}{R_\text{ges}} = \dfrac{1}{R_1} + \dfrac{1}{R_2} = \dfrac{1}{60\;\Omega} + \dfrac{1}{90\;\Omega}$, also $R_\text{ges} = 36\;\Omega$\par\vspace{3pt}(auch $R_\text{ges} = \dfrac{R_1 \cdot R_2}{R_1 + R_2}$)\\\addlinespace[5pt]
+c) Strom & 1\E & $I = \dfrac{U}{R_\text{ges}} = \dfrac{9\;\text{V}}{36\;\Omega} = 0.25\;\text{A} = 250\;\text{mA}$\\\addlinespace[5pt]
+d) Probe & 1\B & An beiden liegen die ganzen $9\;\text{V}$: $I_1 = \dfrac{9\;\text{V}}{60\;\Omega} = 0.15\;\text{A}$, $I_2 = \dfrac{9\;\text{V}}{90\;\Omega} = 0.10\;\text{A}$, zusammen $0.25\;\text{A}$. Begründung: An der Verzweigung geht keine Ladung verloren und keine entsteht; was aus der Quelle kommt, teilt sich auf die beiden Zweige auf. (Beides nötig.)\\\addlinespace[5pt]
 \end{raster}
-\fehler{Milliampere nicht umgerechnet ($R_\text{ges} = 0.15\;\Omega$): b)~$R_2$ 0 (kein positiver Widerstand); $U_1$, $U_2$ und die Probe mit $0.060\;\text{A}$ zählen $\to$ 3 von 4\,P.
-Für parallel gehalten und folgerichtig parallel gerechnet: a)~0; $R_2$ lässt sich so nicht bestimmen ($\frac{1}{R_2} = \frac{1}{150\;\Omega} - \frac{1}{60\;\Omega} < 0$): b)~$R_2$ 0; «$U_1 = U_2 = 9\;\text{V}$» ist folgerichtig und zählt für b)~$U_1$, $U_2$; c)~zählt, wenn mit «parallel liegt an beiden die ganze Spannung» begründet $\to$ 2 von 4\,P. Trotz «parallel» richtig in Reihe gerechnet: nur a)~0 $\to$ 3 von 4\,P.}
+\fehler{Kehrwert vergessen ($R_\text{ges} \approx 0.0278\;\Omega$): c)~Ersatzwiderstand 0; Strom folgerichtig ($324\;\text{A}$) zählt, d)~zählt, wenn die Teilströme richtig sind und begründet $\to$ 4 von 5\,P.
+Reihenformel $R_1 + R_2 = 150\;\Omega$ auch parallel: c)~Ersatzwiderstand 0; Strom folgerichtig ($60\;\text{mA}$) zählt, d)~wie im Raster $\to$ 4 von 5\,P.
+Teilstrom statt Gesamtstrom ($\frac{9\;\text{V}}{60\;\Omega} = 150\;\text{mA}$ als Anzeige): c)~Strom 0 $\to$ 4 von 5\,P.
+Milliampere nicht umgerechnet ($R_\text{ges} = 0.15\;\Omega$): b)~$R_2$ 0 (kein positiver Widerstand); c) und d) zählen, wenn die Parallelschaltung mit dem eigenen Wert folgerichtig gerechnet ist $\to$ 4 von 5\,P.
+In a) für parallel gehalten: a)~0; $R_2$ lässt sich so nicht bestimmen ($\frac{1}{R_2} = \frac{1}{150\;\Omega} - \frac{1}{60\;\Omega} < 0$): b)~0; c) und d) zählen, wenn mit einem eigenen Wert für $R_2$ richtig parallel gerechnet $\to$ 3 von 5\,P. Trotz «parallel» in a) richtig in Reihe gerechnet: nur a)~0 $\to$ 4 von 5\,P.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G7}{Kühlschrank mit Isolationsfehler}{5 P}

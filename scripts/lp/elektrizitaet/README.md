@@ -115,3 +115,20 @@ Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entsc
 - erkennen, Szene 1: die drei Punkte der Reihe in drei Farben (Bernstein, Orange, Tinte); sim7 zeigt den
   dritten gepunktet in Bernstein — bewusste Abweichung, der Clip zählt Verbindungen.
 - gefahren, Szene 0: Formelzeile mit 230 mA erst bei «zweihundertdreissig Milliampere».
+
+## Nach der Zweitprüfung (11.10.2026)
+
+- **Zeiten:** je Kapitel 60 min statt 40/45 (die Prüfung mass 55 bis 70 min); Kopf «zu je rund 60 Minuten …
+  zusammen rund zehn Lektionen» (K0 15 · K1–K7 je 60 · Gesamttest 25 = 460 min). Nach einer Erprobung nochmals prüfen.
+- **Gesamttest:** G6 prüft Reihe **und** parallel (K4): a) b) wie bisher in Reihe (Schaltungsart, \(R_2 = 90\;\Omega\)),
+  c) d) dieselben Widerstände parallel (\(R_\text{ges} = 36\;\Omega\), \(250\;\text{mA}\), Probe mit den Teilströmen
+  \(150\;\text{mA} + 100\;\text{mA}\)); G6 5 P, G3 ohne Kostenfrage 2 P, Summe 25 P. Raster mit Kehrwertfehler,
+  Reihenformel und Teilstrom statt Gesamtstrom.
+- **Kapitel 7:** Hochspannung im Merkkasten «Gefahr» (Fahrleitung, Freileitung, Überschlag ohne Berührung, Abstand
+  halten), neue Aufgabe 7g (Drachen in der Fahrleitung, Kapitel 7 jetzt 17 P); Körper- und Bodenwiderstand im
+  Merkkasten und in der Übung «Körperstrom» angeglichen (keine Gummisohlen mit \(6\;\text{k}\Omega\) mehr).
+  Der Clip `p6-2-lp-gefahren` ist unverändert (Hochspannung käme nur mit neuer Szene hinein).
+- **Kleinkorrekturen:** Aufgabe 2a in 2a/2b geteilt (Folgenummern 2c–2e), 3d «für 12 V gebaut», Festhalten Kapitel 1
+  «Strom ist bewegte Ladung; die Stromstärke ist Ladung pro Zeit», sim2 A3 «≈ 1.21 kWh», sim3 A5 «welcher Querschnitt
+  gibt denselben Widerstand» (≈ 1.52 mm², am Regler 1.5 mm²), Übung «arbeit» ohne 230 V; Kontrollclip Messen, Frage 2:
+  Rückmeldung zu «an die Pole der Batterie» nennt den Kurzschluss (Frageton f1-r1 neu).
