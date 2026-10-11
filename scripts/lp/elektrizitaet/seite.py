@@ -1116,19 +1116,19 @@ oben = '''<div id="nav-root"></div>
     <h2 id="ablauf">Ablauf</h2>
     <p class="lekt">Vorbereitung</p>
     <ol><li><a href="#k0"><span class="nr">0</span><span>Vorwissen</span></a></li></ol>
-    <p class="lekt">Lektion 1</p>
+    <p class="lekt">Kapitel 1</p>
     <ol><li><a href="#k1"><span class="nr">1</span><span>Ladung und Strom</span></a></li></ol>
-    <p class="lekt">Lektion 2</p>
+    <p class="lekt">Kapitel 2</p>
     <ol><li><a href="#k2"><span class="nr">2</span><span>Leistung und Energie</span></a></li></ol>
-    <p class="lekt">Lektion 3</p>
+    <p class="lekt">Kapitel 3</p>
     <ol><li><a href="#k3"><span class="nr">3</span><span>Widerstand</span></a></li></ol>
-    <p class="lekt">Lektion 4</p>
+    <p class="lekt">Kapitel 4</p>
     <ol><li><a href="#k4"><span class="nr">4</span><span>Messen und Kennlinien</span></a></li></ol>
-    <p class="lekt">Lektion 5</p>
+    <p class="lekt">Kapitel 5</p>
     <ol><li><a href="#k5"><span class="nr">5</span><span>Reihe und parallel</span></a></li></ol>
-    <p class="lekt">Lektion 6</p>
+    <p class="lekt">Kapitel 6</p>
     <ol><li><a href="#k6"><span class="nr">6</span><span>Schaltungen erkennen</span></a></li></ol>
-    <p class="lekt">Lektion 7</p>
+    <p class="lekt">Kapitel 7</p>
     <ol><li><a href="#k7"><span class="nr">7</span><span>Gefahren und Schutz</span></a></li></ol>
     <p class="lekt">Abschluss</p>
     <ol><li><a href="#gesamttest"><span class="nr">✓</span><span>Gesamttest</span></a></li></ol>
@@ -1179,7 +1179,7 @@ unten = '''
 
 
 def band(n, t):
-    return f'\n    <div class="band"><span>{n if isinstance(n, str) else "Lektion " + str(n)}</span><span class="strich"></span><span>{t}</span></div>\n'
+    return f'\n    <div class="band"><span>{n if isinstance(n, str) else "Kapitel " + str(n)}</span><span class="strich"></span><span>{t}</span></div>\n'
 
 
 body = (oben + band('Vorbereitung', 'Vorwissen') + k0 + band(1, 'Ladung') + k1 + band(2, 'Energie') + k2 + band(3, 'Widerstand') + k3

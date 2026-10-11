@@ -128,8 +128,8 @@ Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entsc
 ## Fassung 1.2 (11.10.2026) — nach der dritten Prüfung
 
 - **Zeit** aus den Teilen geschätzt: K0 15 · K1 50 · K2 55 · K3 50 · K4 75 · K5 50 · Gesamttest 35 = 330 min,
-  gut sieben Lektionen (Kopf, Kapitelköpfe, Gesamttest auf Seite und PDF). Die Bänder «Lektion 1 … 5» bleiben
-  Gliederung (je ein Kapitel), wie in den übrigen Leitprogrammen.
+  gut sieben Lektionen (Kopf, Kapitelköpfe, Gesamttest auf Seite und PDF). Die Bänder heissen seither «Kapitel 1 … 5»
+  statt «Lektion …», wie in allen Leitprogrammen: Ein Kapitel ist länger als eine Lektion.
 - **Bezeichnungen im Fallkapitel:** \(h\) ist immer der Fallweg (nach unten gemessen, wie \(h = \tfrac12 g t^2\) auf
   der Themenseite), \(y\) die Höhe (nach oben gemessen), \(h_0\) die Abwurfhöhe über dem Boden, \(h_\text{max}\) die
   Steighöhe über der Abwurfstelle; sim3 zeigt den höchsten Punkt über dem Boden als \(y_\text{max}\). Wo die positive

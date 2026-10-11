@@ -188,7 +188,7 @@ unterbringen lässt.
 
 ```
 Kopf          Titel · Standfirst · Lerngebiet + Teilgebiet (RLP) · Lektionen
-Ablauf        Kapitelliste nach Lektionen, Fortschrittszähler      (Schiene links)
+Ablauf        Kapitelliste, Fortschrittszähler          (Schiene links)
 So arbeitest  ① Erfahren → ② Clip → ③ Verallgemeinern → ④ Üben (ohne Lösung) → abhaken
 Kompetenzen   RLP-Liste des Teilgebiets, K1…Kn; Abgrenzung
 Kapitel 0     Vorwissen: kurze Klärung + Vortest (Verweis auf Vorwissens-LP/Vorwissenseite)

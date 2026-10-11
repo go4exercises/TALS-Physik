@@ -58,7 +58,7 @@ in s, sim2 und sim6 Einstellungen, sim4 Phase des Feldbilds (0 bis 1), sim5 ein 
 | 6 | Treibhauseffekt: wellenlängenabhängige Aufnahme, Wiederabstrahlung, mehr CO₂ | K5 | sim6 Durchlässigkeit nach Wellenlänge (λ · B_λ über log λ, flächentreu; Gasbänder) | treibhaus 2:38, Kontrolle 0:50 | 55 |
 | — | Gesamttest (25 P, PDF) | K1–K5 | — | — | 40 |
 
-Zeiten seit der Zweitprüfung vom 11.10.2026: je Fachkapitel 55 min (vorher 40 bis 45), zusammen 15 + 6 · 55 + 40 = 385 min ≈ 8.6 Lektionen (Kopf der Seite: «rund achteinhalb Lektionen»). Die Lektionsbänder «Lektion 1» bis «Lektion 6» bleiben als Kapitelnamen stehen.
+Zeiten seit der Zweitprüfung vom 11.10.2026: je Fachkapitel 55 min (vorher 40 bis 45), zusammen 15 + 6 · 55 + 40 = 385 min ≈ 8.6 Lektionen (Kopf der Seite: «rund achteinhalb Lektionen»). Die Bänder heissen seither «Kapitel 1» bis «Kapitel 6» statt «Lektion …», wie in allen Leitprogrammen.
 
 Summe 310 min ≈ 6.9 Lektionen (ohne freiwillige Vertiefungsaufgaben d). LG 6 hat 30 Lektionen für 6.1 und 6.2;
 das Leitprogramm Elektrizität (6.2) plant 330 min ≈ 7.3 Lektionen; zusammen rund 14 von 30 Lektionen, Platz für Themenseiten, Versuche und Prüfungen. Clips zusammen 18:39 min.

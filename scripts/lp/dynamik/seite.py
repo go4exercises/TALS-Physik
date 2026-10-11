@@ -940,15 +940,15 @@ oben = '''<div id="nav-root"></div>
     <h2 id="ablauf">Ablauf</h2>
     <p class="lekt">Vorbereitung</p>
     <ol><li><a href="#k0"><span class="nr">0</span><span>Vorwissen</span></a></li></ol>
-    <p class="lekt">Lektion 1</p>
+    <p class="lekt">Kapitel 1</p>
     <ol><li><a href="#k1"><span class="nr">1</span><span>Kraft, Masse, Beschleunigung</span></a></li></ol>
-    <p class="lekt">Lektion 2</p>
+    <p class="lekt">Kapitel 2</p>
     <ol><li><a href="#k2"><span class="nr">2</span><span>Gesamtkraft und Trägheit</span></a></li></ol>
-    <p class="lekt">Lektion 3</p>
+    <p class="lekt">Kapitel 3</p>
     <ol><li><a href="#k3"><span class="nr">3</span><span>Gewichtskraft, Fall und Aufzug</span></a></li></ol>
-    <p class="lekt">Lektion 4</p>
+    <p class="lekt">Kapitel 4</p>
     <ol><li><a href="#k4"><span class="nr">4</span><span>Zwei Körper, ein Faden</span></a></li></ol>
-    <p class="lekt">Lektion 5</p>
+    <p class="lekt">Kapitel 5</p>
     <ol><li><a href="#k5"><span class="nr">5</span><span>Die Kraft zur Mitte</span></a></li></ol>
     <p class="lekt">Abschluss</p>
     <ol><li><a href="#gesamttest"><span class="nr">✓</span><span>Gesamttest</span></a></li></ol>
@@ -996,7 +996,7 @@ unten = '''
 
 
 def band(n, t):
-    return f'\n    <div class="band"><span>{n if isinstance(n, str) else "Lektion " + str(n)}</span><span class="strich"></span><span>{t}</span></div>\n'
+    return f'\n    <div class="band"><span>{n if isinstance(n, str) else "Kapitel " + str(n)}</span><span class="strich"></span><span>{t}</span></div>\n'
 
 
 body = (oben + band('Vorbereitung', 'Vorwissen') + k0 + band(1, 'Grundgesetz') + k1 + band(2, 'Gesamtkraft') + k2 + band(3, 'Aufzug') + k3
