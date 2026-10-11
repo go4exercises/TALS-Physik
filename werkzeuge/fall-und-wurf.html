@@ -113,26 +113,29 @@ MathJax = {
 /* ── Seitenspezifisch nur der Trainer ──
    Reiter der Aufgabenarten, Szene mit Skizze, Diagramm, vier Auswahlkarten,
    Knöpfe für «nirgends»/«überall gleich», Eingabe, Rückmeldung und Rechenweg. */
-.fw-reiter { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
-.fw-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
+.fw-rahmen { container-type:inline-size; }
+.fw-raster { display:grid; grid-template-columns:minmax(0,1fr) 168px; grid-template-areas:"haupt steuer" "haupt aktion";
+  grid-template-rows:auto 1fr; gap:0 14px; }
+.fw-spalte { grid-area:haupt; min-width:0; }
+.fw-steuer { grid-area:steuer; display:flex; flex-direction:column; gap:12px; }
+.fw-gruppe { display:flex; flex-direction:column; gap:4px; }
+.fw-gruppe-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 1px 2px; }
+.fw-gruppe .typ-btn { text-align:left; padding:4px 10px; }
+.fw-reiter-knopf { display:flex; align-items:baseline; gap:7px; text-align:left; padding:5px 10px; border-radius:7px; cursor:pointer;
   border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; scroll-margin-top:66px; }
 .fw-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
-.fw-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
+.fw-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 3px 0 0 var(--bernstein); }
 .fw-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
-.fw-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.fw-reiter-nr { font-family:var(--mono); font-size:0.66rem; font-weight:700; color:var(--tinte-2); }
 .fw-reiter-knopf.aktiv .fw-reiter-nr { color:var(--bernstein); }
-.fw-reiter-name { font-family:var(--serif); font-size:0.98rem; font-weight:700; line-height:1.25; }
-.fw-reiter-text { font-size:0.76rem; color:var(--tinte-2); line-height:1.35; }
-.fw-aufgabe { background:var(--papier); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein);
-  border-radius:8px; padding:10px 14px; margin-bottom:12px; }
-.fw-aufgabe-kopf { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin-bottom:4px; }
-.fw-aufgabe-titel { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); }
-.fw-pille { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
-  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
-.fw-aufgabe p { margin:0; font-size:0.9rem; }
-.fw-szene { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,270px); gap:6px 14px; align-items:center;
-  background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:8px 12px; margin:0 0 12px; }
-.fw-szene p { margin:0; font-size:0.95rem; line-height:1.55; }
+.fw-reiter-name { font-size:0.84rem; font-weight:700; line-height:1.25; }
+.fw-aktionen { grid-area:aktion; align-self:start; display:flex; flex-direction:column; gap:6px; margin-top:14px; padding-top:12px; border-top:1px solid var(--linie); }
+.fw-pille { font-family:var(--mono); font-size:0.64rem; font-weight:700; letter-spacing:0.5px; padding:1px 7px; margin-right:4px; white-space:nowrap;
+  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); vertical-align:1px; }
+.fw-szene { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,250px); gap:6px 14px; align-items:center;
+  background:var(--weiss); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein); border-radius:8px; padding:8px 12px; margin:0 0 10px; }
+.fw-szene p { margin:0; font-size:0.93rem; line-height:1.5; }
+.fw-szene .fw-auftrag { margin-top:6px; font-weight:700; }
 .fw-szene canvas { display:block; width:100%; }
 .fw-titel { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 4px 2px; }
 .fw-haupt canvas { cursor:default; }
@@ -151,8 +154,8 @@ MathJax = {
 .fw-karte.falsch { border-color:var(--rot); background:var(--rot-hell); }
 .fw-karte canvas { display:block; width:100%; }
 .fw-buchst { position:absolute; top:6px; right:10px; font-family:var(--mono); font-size:0.8rem; font-weight:700; color:var(--tinte-2); }
-.fw-frage { background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin-top:12px; }
-.fw-frage p { margin:0 0 8px; font-size:0.9rem; }
+.fw-frage { margin-top:8px; }
+.fw-frage[hidden] { display:none; }
 .fw-zeile { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
 .fw-eingabe { font-family:var(--mono); font-size:0.95rem; width:7.5em; padding:6px 8px; border-radius:6px;
   border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
@@ -163,12 +166,18 @@ MathJax = {
 .fw-weg .fl-eq { font-size:0.95rem; }
 .fw-marke { font-family:var(--mono); font-size:0.66rem; font-weight:700; color:var(--tinte-2); margin-right:8px; vertical-align:middle; white-space:nowrap; }
 .fw-nw { white-space:nowrap; }
-.fw-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
-@media (max-width: 700px) {
-  .fw-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
-  .fw-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
-  .fw-reiter-text { display:none; }
+.fw-stand { font-family:var(--mono); font-size:0.66rem; line-height:1.4; color:var(--tinte-2); margin-top:4px; }
+@container (max-width: 640px) {      /* schmal: Steuerung oben, Knöpfe unten */
+  .fw-raster { grid-template-columns:minmax(0,1fr); grid-template-areas:"steuer" "haupt" "aktion"; grid-template-rows:auto; }
+  .fw-steuer { gap:6px; margin-bottom:10px; }
+  .fw-gruppe { flex-direction:row; flex-wrap:wrap; align-items:center; gap:5px; }
+  .fw-gruppe-titel { width:100%; margin:0 0 0 2px; }
+  .fw-gruppe .typ-btn { padding:4px 10px; }
+  .fw-aktionen { flex-direction:row; flex-wrap:wrap; align-items:center; margin-top:10px; padding-top:10px; }
+  .fw-stand { width:100%; margin-top:0; }
   .fw-szene { grid-template-columns:minmax(0,1fr); }
+}
+@media (max-width: 700px) {
   .fw-karten { gap:8px; }
   .fw-karte { padding:4px; }
   .fw-weg { padding:12px 8px; }
@@ -217,7 +226,7 @@ MathJax = {
 
 <div class="block block-merksatz">
   <div class="block-titel">📘 Ein Wurf, zwei Bewegungen</div>
-  <p>Ohne Luftwiderstand wirkt nach dem Abwurf nur die Schwerkraft. Waagrecht bleibt die Geschwindigkeit darum gleich, senkrecht nimmt sie in jeder Sekunde um \(9.81\;\text{m/s}\) ab. Mit Abwurfhöhe \(h_0\), Abwurfgeschwindigkeit \(v_0\) und Winkel \(\alpha\), die Höhe \(y\) nach oben gemessen:</p>
+  <p>Ohne Luftwiderstand, in den Skizzen \(F_W = 0\), wirkt nach dem Abwurf nur die Schwerkraft. Waagrecht bleibt die Geschwindigkeit darum gleich, senkrecht nimmt sie in jeder Sekunde um \(9.81\;\text{m/s}\) ab. Mit Abwurfhöhe \(h_0\), Abwurfgeschwindigkeit \(v_0\) und Winkel \(\alpha\), die Höhe \(y\) nach oben gemessen:</p>
   \[ x = v_x \cdot t \qquad v_x = v_0 \cdot \cos\alpha \]
   \[ y = h_0 + v_{0y} \cdot t - \tfrac{1}{2} \cdot g \cdot t^2 \qquad v_y = v_{0y} - g \cdot t \qquad a_y = -g \]
   <p>mit \(v_{0y} = v_0 \cdot \sin\alpha\) und \(g = 9.81\;\text{m/s}^2\). Die fünf Fälle sind Sonderfälle davon: freier Fall \(v_0 = 0\), senkrecht nach oben \(\alpha = 90^\circ\), senkrecht nach unten \(\alpha = -90^\circ\), waagrecht \(\alpha = 0^\circ\). Schräg nach unten ist \(\alpha\) negativ, dann ist auch \(v_{0y}\) negativ.</p>
@@ -248,51 +257,60 @@ MathJax = {
       </div>
     </div>
   </div>
-  <div class="widget-body">
+  <div class="widget-body fw-rahmen">
+   <div class="fw-raster">
 
-    <div class="fw-reiter" id="fw-arten" role="group" aria-label="Aufgabenart wählen">
-      <button class="fw-reiter-knopf aktiv" id="aufgabe-zuordnen" data-art="zuordnen" aria-pressed="true"><span class="fw-reiter-nr">Aufgabe 1</span><span class="fw-reiter-name">Zuordnen</span><span class="fw-reiter-text">Zum beschriebenen Wurf das passende Diagramm oder die passende Bahnkurve finden.</span></button>
-      <button class="fw-reiter-knopf" id="aufgabe-stellen" data-art="stellen" aria-pressed="false"><span class="fw-reiter-nr">Aufgabe 2</span><span class="fw-reiter-name">Stellen finden</span><span class="fw-reiter-text">Im Diagramm antippen, wo der Körper am höchsten, am schnellsten oder ohne Beschleunigung ist.</span></button>
-      <button class="fw-reiter-knopf" id="aufgabe-ablesen" data-art="ablesen" aria-pressed="false"><span class="fw-reiter-nr">Aufgabe 3</span><span class="fw-reiter-name">Ablesen und rechnen</span><span class="fw-reiter-text">Steigzeit, Steighöhe, Fallhöhe, Aufprallgeschwindigkeit und \(v_x\) aus dem Diagramm bestimmen.</span></button>
-    </div>
-
-    <div class="typ-btns" id="fw-wuerfe" role="group" aria-label="Bewegung wählen">
-      <button class="typ-btn aktiv" data-wurf="fall">Freier Fall</button>
-      <button class="typ-btn" data-wurf="hoch">Senkrecht nach oben</button>
-      <button class="typ-btn" data-wurf="runter">Senkrecht nach unten</button>
-      <button class="typ-btn" data-wurf="waagrecht">Waagrechter Wurf</button>
-      <button class="typ-btn" data-wurf="schief">Schiefer Wurf</button>
-      <button class="typ-btn" data-wurf="alle">Gemischt</button>
-    </div>
-
-    <div class="fw-aufgabe" id="fw-aufgabe" aria-live="polite"></div>
-
-    <div class="fw-szene" id="fw-szene">
-      <p id="fw-text"></p>
-      <canvas id="fw-skizze" aria-label="Skizze des Abwurfs"></canvas>
-    </div>
-
-    <div class="fw-haupt" id="fw-haupt">
-      <div class="fw-titel" id="fw-haupt-titel"></div>
-      <div class="cv-wrap"><canvas id="fw-cv" aria-label="Diagramm der Aufgabe"></canvas></div>
-      <div class="fw-knoepfe" id="fw-knoepfe" hidden>
-        <button class="typ-btn" data-wahl="nirgends">Nirgends</button>
-        <button class="typ-btn" data-wahl="ueberall">Überall gleich</button>
-        <span class="fw-hinweis">Tippe ins Diagramm, oder wähle einen Knopf. Tastatur: Pfeiltasten, dann Eingabetaste.</span>
+    <div class="fw-steuer">
+      <div class="fw-gruppe" id="fw-arten" role="group" aria-label="Aufgabe wählen">
+        <span class="fw-gruppe-titel">Aufgabe</span>
+        <button class="fw-reiter-knopf aktiv" id="aufgabe-zuordnen" data-art="zuordnen" aria-pressed="true" title="Zum beschriebenen Wurf das passende Diagramm oder die passende Bahnkurve finden"><span class="fw-reiter-nr">1</span><span class="fw-reiter-name">Zuordnen</span></button>
+        <button class="fw-reiter-knopf" id="aufgabe-stellen" data-art="stellen" aria-pressed="false" title="Im Diagramm antippen, wo der Körper am höchsten, am schnellsten oder ohne Beschleunigung ist"><span class="fw-reiter-nr">2</span><span class="fw-reiter-name">Stellen finden</span></button>
+        <button class="fw-reiter-knopf" id="aufgabe-ablesen" data-art="ablesen" aria-pressed="false" title="Steigzeit, Steighöhe, Fallhöhe, Aufprallgeschwindigkeit und v_x aus dem Diagramm bestimmen"><span class="fw-reiter-nr">3</span><span class="fw-reiter-name">Ablesen und rechnen</span></button>
+      </div>
+      <div class="fw-gruppe" id="fw-wuerfe" role="group" aria-label="Bewegung wählen">
+        <span class="fw-gruppe-titel">Bewegung</span>
+        <button class="typ-btn aktiv" data-wurf="fall">Freier Fall</button>
+        <button class="typ-btn" data-wurf="hoch">Senkrecht nach oben</button>
+        <button class="typ-btn" data-wurf="runter">Senkrecht nach unten</button>
+        <button class="typ-btn" data-wurf="waagrecht">Waagrechter Wurf</button>
+        <button class="typ-btn" data-wurf="schief">Schiefer Wurf</button>
+        <button class="typ-btn" data-wurf="alle">Gemischt</button>
       </div>
     </div>
 
-    <div class="fw-karten" id="fw-karten" role="group" aria-label="Diagramme zur Auswahl"></div>
-    <div class="fw-frage" id="fw-frage" hidden></div>
-    <div class="fw-rueck" id="fw-rueck" aria-live="polite"></div>
-    <div class="formel-live fw-weg" id="fw-weg" hidden></div>
+    <div class="fw-spalte">
+      <div class="fw-szene" id="fw-szene" aria-live="polite">
+        <div class="fw-szene-text">
+          <p id="fw-text"></p>
+          <p class="fw-auftrag" id="fw-aufgabe"></p>
+          <div class="fw-frage" id="fw-frage" hidden></div>
+        </div>
+        <canvas id="fw-skizze" aria-label="Skizze des Abwurfs"></canvas>
+      </div>
 
-  </div>
-  <div class="btn-row">
-    <button class="typ-btn" id="fw-tipp">Tipp</button>
-    <button class="typ-btn" id="fw-zeigen">Lösung zeigen</button>
-    <button class="typ-btn" id="fw-neu">Neue Aufgabe</button>
-    <span class="fw-stand" id="fw-stand"></span>
+      <div class="fw-haupt" id="fw-haupt">
+        <div class="fw-titel" id="fw-haupt-titel"></div>
+        <div class="cv-wrap"><canvas id="fw-cv" aria-label="Diagramm der Aufgabe"></canvas></div>
+        <div class="fw-knoepfe" id="fw-knoepfe" hidden>
+          <button class="typ-btn" data-wahl="nirgends">Nirgends</button>
+          <button class="typ-btn" data-wahl="ueberall">Überall gleich</button>
+          <span class="fw-hinweis">Tippe ins Diagramm, oder wähle einen Knopf. Tastatur: Pfeiltasten, dann Eingabetaste.</span>
+        </div>
+      </div>
+
+      <div class="fw-karten" id="fw-karten" role="group" aria-label="Diagramme zur Auswahl"></div>
+      <div class="fw-rueck" id="fw-rueck" aria-live="polite"></div>
+      <div class="formel-live fw-weg" id="fw-weg" hidden></div>
+    </div>
+
+    <div class="fw-aktionen">
+      <button class="play-btn" id="fw-neu">Neue Aufgabe</button>
+      <button class="typ-btn" id="fw-tipp">Tipp</button>
+      <button class="typ-btn" id="fw-zeigen">Lösung zeigen</button>
+      <span class="fw-stand" id="fw-stand"></span>
+    </div>
+
+   </div>
   </div>
 </div>
 
@@ -474,14 +492,14 @@ function fwText(W, verdeckt) {
   const a = '\\(\\alpha = ' + W.alpha + '^\\circ\\)';
   let s;
   if (W.wurf === 'fall') s = W.objekt + ' wird in der Höhe ' + h + ' losgelassen und fällt frei zu Boden.';
-  else if (W.wurf === 'hoch' && W.hand) s = W.objekt + ' wird mit ' + v + ' senkrecht nach oben geworfen und auf Abwurfhöhe wieder aufgefangen. \\(y\\) zählt ab der Abwurfstelle.';
+  else if (W.wurf === 'hoch' && W.hand) s = W.objekt + ' wird mit ' + v + ' senkrecht nach oben geworfen und auf Abwurfhöhe wieder aufgefangen.';
   else if (W.wurf === 'hoch') s = 'Von einem Balkon in der Höhe ' + h + ' wird ein Ball mit ' + v + ' senkrecht nach oben geworfen. Er fliegt am Balkon vorbei und fällt auf den Boden.';
   else if (W.wurf === 'runter') s = 'Von einer Brücke in der Höhe ' + h + ' wird ein Stein mit ' + v + ' senkrecht nach unten geworfen.';
   else if (W.wurf === 'waagrecht') s = 'Ein Ball wird ' + (W.h0 <= 5 ? 'von einer Mauer' : W.h0 <= 12 ? 'aus einem Fenster' : 'von einem Turm') + ' in der Höhe ' + h + ' mit ' + v + ' waagrecht geworfen.';
   else s = W.hand ? 'Ein Ball wird vom Boden aus mit ' + v + ' unter dem Winkel ' + a + ' schräg nach oben geworfen.'
                   : W.alpha < 0 ? 'Von einem Turm in der Höhe ' + h + ' wird ein Ball mit ' + v + ' schräg nach unten geworfen, ' + (-W.alpha) + '° unter der Waagrechten: ' + a + '.'
                   : 'Von einem Turm in der Höhe ' + h + ' wird ein Ball mit ' + v + ' unter dem Winkel ' + a + ' schräg nach oben geworfen.';
-  return s + ' Ohne Luftwiderstand, \\(y\\) nach oben gemessen.';
+  return s;
 }
 
 /* ── Kurven ───────────────────────────────────────────────────────────
@@ -1179,8 +1197,9 @@ function fwSkizze(id, W, verdeckt) {
   fwPfeil(ctx, ox, oy, ox + 28, oy, '#374151', 1.4); fwPfeil(ctx, ox, oy, ox, oy - 28, '#374151', 1.4);
   ctx.fillStyle = '#374151'; ctx.font = fs + 'px "JetBrains Mono", monospace'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
   ctx.fillText('x', ox + 31, oy); ctx.fillText('y', ox + 6, oy - 26);
+  ctx.fillStyle = '#6b7280'; fwSubText(ctx, [['F', false], ['W', true], [' = 0', false]], ox - 2, oy + 15, 10, false);   // ohne Luftwiderstand
   ctx.textBaseline = 'alphabetic';
-  el.setAttribute('aria-label', 'Skizze, nicht massstäblich: ' + FW_WUERFE[W.wurf] + (W.h0 > 0 ? ' aus der Höhe h0' : '') + (W.v0 > 0 ? ', Abwurfgeschwindigkeit v0' : ', aus der Ruhe'));
+  el.setAttribute('aria-label', 'Skizze, nicht massstäblich: ' + FW_WUERFE[W.wurf] + (W.h0 > 0 ? ' aus der Höhe h0' : '') + (W.v0 > 0 ? ', Abwurfgeschwindigkeit v0' : ', aus der Ruhe') + '; y nach oben, ohne Luftwiderstand');
 }
 
 /* ── Aufgaben ─────────────────────────────────────────────────────── */
@@ -1189,26 +1208,23 @@ function fwNeueAufgabe(wurf, seed, wahl) {
   wurf = wurf || (zustand.wurf === 'alle' ? fwWahl(r, Object.keys(FW_WUERFE)) : zustand.wurf);
   const W = zustand.W = fwSzene(wurf, r);
   Object.assign(zustand, { fertig:false, fehlversuch:false, tipp:0, O:null, stelle:null, frage:null, marken:[], cursor:null, d:null });
-  const art = zustand.art; let titel, pille, text, verdeckt = [];
+  const art = zustand.art; let text, verdeckt = [];
   // nicht zweimal hintereinander dieselbe Frage
   const waehle = (liste, schluessel) => { const andere = liste.filter(x => schluessel(x) !== zustand.letzte); const x = wahl !== undefined ? liste.find(y => schluessel(y) === wahl) || liste[0] : fwWahl(r, andere.length ? andere : liste); zustand.letzte = schluessel(x); return x; };
   if (art === 'zuordnen') {
     zustand.d = waehle(fwDias(W), d => d);
     zustand.O = fwOptionen(W, zustand.d, r);
-    titel = zustand.d === 'bahn' ? 'Welche Bahnkurve?' : 'Welches Diagramm?'; pille = FW_WUERFE[wurf];
-    text = 'Welche' + (zustand.d === 'bahn' ? ' Bahnkurve' : 's ' + fwDiaName(zustand.d)) + ' gehört zu dieser Bewegung? Tippe ' + (zustand.d === 'bahn' ? 'sie' : 'es') + ' an.';
+    text = 'Welche' + (zustand.d === 'bahn' ? ' Bahnkurve' : 's ' + fwDiaName(zustand.d)) + ' gehört dazu? Tippe ' + (zustand.d === 'bahn' ? 'sie' : 'es') + ' an.';
   } else if (art === 'stellen') {
     const q = zustand.stelle = waehle(fwStellen(W), x => x.id); q.W = W; zustand.d = q.d;
     zustand.cursor = null;
-    titel = 'Stelle finden'; pille = FW_WUERFE[wurf];
-    text = q.frage + ' Tippe die Stelle ' + (q.d === 'bahn' ? 'auf der Bahn' : 'im Diagramm') + ' an, oder wähle «Nirgends» bzw. «Überall gleich».';
+    text = q.frage;
   } else {
     const q = zustand.frage = waehle(fwFragen(W), x => x.id); q.W = W; zustand.d = q.d; verdeckt = q.verdeckt || [];
-    titel = 'Ablesen und rechnen'; pille = FW_WUERFE[wurf];
-    text = 'Bestimme die gesuchte Grösse aus ' + (q.d === 'bahn' ? 'der Bahnkurve' : 'dem ' + fwDiaName(q.d)) + '. Das feine Raster hilft beim Ablesen.';
+    text = q.frage;
   }
-  $('fw-aufgabe').innerHTML = '<div class="fw-aufgabe-kopf"><span class="fw-aufgabe-titel">' + titel + '</span><span class="fw-pille">' + pille + '</span></div><p>' + text + '</p>';
-  $('fw-text').innerHTML = fwText(W, verdeckt);
+  $('fw-aufgabe').innerHTML = text;
+  $('fw-text').innerHTML = '<span class="fw-pille">' + FW_WUERFE[wurf] + '</span> ' + fwText(W, verdeckt);
   zustand.verdeckt = verdeckt;
   fwSetze($('fw-aufgabe')); fwSetze($('fw-text'));
   $('fw-haupt').hidden = art === 'zuordnen';
@@ -1252,7 +1268,7 @@ function fwFrage() {
   const F = $('fw-frage'), q = zustand.frage;
   F.hidden = !q;
   if (!q) { F.innerHTML = ''; return; }
-  F.innerHTML = '<p>' + q.frage + '</p><div class="fw-zeile"><label for="fw-ein">\\(' + q.gr + ' = \\)</label>' +
+  F.innerHTML = '<div class="fw-zeile"><label for="fw-ein">\\(' + q.gr + ' = \\)</label>' +
     '<input class="fw-eingabe" id="fw-ein" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">' +
     '<span class="fw-einheit">' + q.einheit + '</span><button class="play-btn" id="fw-pruefen">Prüfen</button></div>';
   fwSetze(F);

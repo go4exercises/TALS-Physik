@@ -81,6 +81,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   \(\alpha < 0\), vom Turm) nach unten (Filter je Bewegung, «Gemischt»). Objekte ohne nennenswerten Luftwiderstand (Golfball
   statt Tennisball).
   \(y\) zeigt immer nach oben, auch beim freien Fall (Hinweis auf der Seite: die Themenseite misst dort nach unten).
+  Platzsparend (ganzer Trainer auf einem Bildschirm): Aufgabe, Bewegung und Knöpfe in einer schmalen Spalte rechts
+  (unter 640 px Breite des Trainers oben bzw. unten, Container-Abfrage); Szene, Auftrag und Eingabe in einer Karte neben der
+  Skizze. Bezugssystem und Luftwiderstand stehen nicht im Aufgabentext, sondern am Achsenkreuz der Skizze (\(x\), \(y\), \(F_W = 0\)).
   Drei Aufgabenarten (Anker `#aufgabe-zuordnen`, `#aufgabe-stellen`, `#aufgabe-ablesen`): (1) zur beschriebenen
   Szene mit Skizze das passende \(y\)-\(t\)-, \(v_y\)-\(t\)-, \(a_y\)-\(t\)-, \(x\)-\(t\)-, \(v_x\)-\(t\)-Diagramm
   oder die Bahnkurve (1:1) wählen, die falschen je aus einer Fehlvorstellung (oben Halt, Betrag statt \(v_y\),
