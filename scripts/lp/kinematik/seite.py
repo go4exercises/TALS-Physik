@@ -805,7 +805,7 @@ k3 = kapitel(4, 'fall-und-wurf', 'Freier Fall und Wurf', 'K3', 55,
     ('p4-1-lp-wurf', 'Bewegung sehen: Fall und Wurf in zwei Richtungen', '3:03'),
     sim3, ('p4-1-lp-kontrolle-wurf', 'Kontrollfragen zu Fall und Wurf', '0:46'),
     fest3, [uebung('fall', 'Freier Fall'), uebung('senkrecht', 'Senkrechter Wurf'), uebung('waagrecht', 'Waagrechter Wurf'), uebung('schief', 'Schiefer Wurf vom Boden')],
-    auf3, f'<a href="{TS}#freier-fall">Themenseite 4.1, Freier Fall</a> · <a href="{TS}#wurfparabel">Parabolische Bewegung</a>')
+    auf3, f'<a href="{TS}#freier-fall">Themenseite 4.1, Freier Fall</a> · <a href="{TS}#wurfparabel">Parabolische Bewegung</a> · Werkzeug: <a href="../werkzeuge/fall-und-wurf.html#aufgabe-zuordnen">Diagramme zu Fall und Wurf zuordnen</a>, <a href="../werkzeuge/fall-und-wurf.html#aufgabe-stellen">Scheitel und Aufprall finden</a>, <a href="../werkzeuge/fall-und-wurf.html#aufgabe-ablesen">Werte ablesen und rechnen</a>')
 
 # ------------------------------------------------------------------ Kapitel 5: Kreisbewegung
 sim5 = figur('sim5', 'Kreisbahn von oben: Körper mit Geschwindigkeitspfeil tangential und Zentripetalbeschleunigung zur Mitte', '0 0 300 296',

@@ -389,6 +389,11 @@ SEITEN = {
    typ='article', lrt='Werkzeug',
    beschreibung='Bewegungsdiagramme üben: s-t-, v-t- und a-t-Diagramm zuordnen, Steigung und Fläche ablesen, Bewegungen aus Worten erkennen, mit Rückmeldung.',
    themen=['Bewegungsdiagramm', 's-t-Diagramm', 'v-t-Diagramm', 'Geschwindigkeit', 'Beschleunigung', 'Kinematik']),
+ 'werkzeuge/fall-und-wurf.html': dict(
+   ort='Werkzeuge · Fall und Wurf',
+   typ='article', lrt='Werkzeug',
+   beschreibung='Fall und Wurf üben: Diagramme zu freiem Fall, senkrechtem, waagrechtem und schiefem Wurf zuordnen, Scheitel und Aufprall finden, Werte ablesen, mit Rückmeldung.',
+   themen=['freier Fall', 'senkrechter Wurf', 'waagrechter Wurf', 'schiefer Wurf', 'Bahnkurve', 'Bewegungsdiagramm', 'Kinematik']),
  'werkzeuge/formeln-umstellen.html': dict(
    ort='Werkzeuge · Formeln umstellen',
    typ='article', lrt='Werkzeug',

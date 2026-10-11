@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fall und Wurf — Physik begreifbar</title>
+<!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<meta name="description" content="Fall und Wurf üben: Diagramme zu freiem Fall, senkrechtem, waagrechtem und schiefem Wurf zuordnen, Scheitel und Aufprall finden, Werte ablesen, mit Rückmeldung.">
+<meta name="author" content="Raphael Arnold Kohler">
+<link rel="canonical" href="https://physik.begreifbar.ch/werkzeuge/fall-und-wurf.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Physik begreifbar">
+<meta property="og:locale" content="de_CH">
+<meta property="og:title" content="Fall und Wurf — Physik begreifbar">
+<meta property="og:description" content="Fall und Wurf üben: Diagramme zu freiem Fall, senkrechtem, waagrechtem und schiefem Wurf zuordnen, Scheitel und Aufprall finden, Werte ablesen, mit Rückmeldung.">
+<meta property="og:url" content="https://physik.begreifbar.ch/werkzeuge/fall-und-wurf.html">
+<meta property="og:image" content="https://physik.begreifbar.ch/og-bild.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://physik.begreifbar.ch/werkzeuge/fall-und-wurf.html#inhalt",
+   "url": "https://physik.begreifbar.ch/werkzeuge/fall-und-wurf.html",
+   "name": "Fall und Wurf — Physik begreifbar",
+   "description": "Fall und Wurf üben: Diagramme zu freiem Fall, senkrechtem, waagrechtem und schiefem Wurf zuordnen, Scheitel und Aufprall finden, Werte ablesen, mit Rückmeldung.",
+   "inLanguage": "de-CH",
+   "isAccessibleForFree": true,
+   "license": "https://creativecommons.org/licenses/by-nc/4.0/deed.de",
+   "creator": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "publisher": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "dateModified": "2026-08-01",
+   "isPartOf": {
+    "@id": "https://physik.begreifbar.ch/#website"
+   },
+   "about": [
+    {
+     "@type": "DefinedTerm",
+     "name": "freier Fall"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "senkrechter Wurf"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "waagrechter Wurf"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "schiefer Wurf"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Bahnkurve"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Bewegungsdiagramm"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Kinematik"
+    }
+   ],
+   "keywords": "freier Fall, senkrechter Wurf, waagrechter Wurf, schiefer Wurf, Bahnkurve, Bewegungsdiagramm, Kinematik",
+   "learningResourceType": "Werkzeug",
+   "educationalLevel": "Sekundarstufe II — Berufsmaturität (Schweiz)",
+   "typicalAgeRange": "16-20",
+   "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": [
+     "student",
+     "teacher"
+    ]
+   },
+   "interactivityType": "active"
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://physik.begreifbar.ch/#website",
+   "url": "https://physik.begreifbar.ch/",
+   "name": "Physik begreifbar"
+  }
+ ]
+}
+</script>
+<!-- SEO:ENDE -->
+<link rel="stylesheet" href="../schriften.css">
+<link rel="stylesheet" href="../style.css">
+
+<script>
+MathJax = {
+  tex: { inlineMath:[['\\(','\\)']], displayMath:[['\\[','\\]']] },
+  svg: { fontCache:'global', scale:1.05 },
+  options: { skipHtmlTags:['script','noscript','style','textarea'] }
+};
+</script>
+<script src="../vendor/mathjax/tex-svg.js"></script>
+
+<style>
+/* ── Seitenspezifisch nur der Trainer ──
+   Reiter der Aufgabenarten, Szene mit Skizze, Diagramm, vier Auswahlkarten,
+   Knöpfe für «nirgends»/«überall gleich», Eingabe, Rückmeldung und Rechenweg. */
+.fw-reiter { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+.fw-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
+  border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; scroll-margin-top:66px; }
+.fw-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
+.fw-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
+.fw-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.fw-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.fw-reiter-knopf.aktiv .fw-reiter-nr { color:var(--bernstein); }
+.fw-reiter-name { font-family:var(--serif); font-size:0.98rem; font-weight:700; line-height:1.25; }
+.fw-reiter-text { font-size:0.76rem; color:var(--tinte-2); line-height:1.35; }
+.fw-aufgabe { background:var(--papier); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein);
+  border-radius:8px; padding:10px 14px; margin-bottom:12px; }
+.fw-aufgabe-kopf { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin-bottom:4px; }
+.fw-aufgabe-titel { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); }
+.fw-pille { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
+  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
+.fw-aufgabe p { margin:0; font-size:0.9rem; }
+.fw-szene { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,270px); gap:6px 14px; align-items:center;
+  background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:8px 12px; margin:0 0 12px; }
+.fw-szene p { margin:0; font-size:0.95rem; line-height:1.55; }
+.fw-szene canvas { display:block; width:100%; }
+.fw-titel { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 4px 2px; }
+.fw-haupt canvas { cursor:default; }
+.fw-haupt.tippbar canvas { cursor:crosshair; }
+.fw-haupt canvas:focus-visible { outline:2px solid var(--bernstein); outline-offset:2px; }
+.fw-knoepfe { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:8px; }
+.fw-knoepfe[hidden], .fw-karten[hidden] { display:none; }
+.fw-weg .fw-satz { font-family:var(--sans); font-size:0.92rem; font-weight:400; }
+.fw-knoepfe .fw-hinweis { font-size:0.78rem; color:var(--tinte-2); }
+.fw-karten { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; margin-top:12px; }
+.fw-karte { position:relative; display:block; width:100%; padding:6px; border-radius:9px; cursor:pointer; text-align:left;
+  border:1.5px solid var(--linie); background:var(--weiss); }
+.fw-karte:hover { border-color:var(--bernstein-rand); }
+.fw-karte:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
+.fw-karte.richtig { border-color:var(--gruen); background:var(--gruen-hell); }
+.fw-karte.falsch { border-color:var(--rot); background:var(--rot-hell); }
+.fw-karte canvas { display:block; width:100%; }
+.fw-buchst { position:absolute; top:6px; right:10px; font-family:var(--mono); font-size:0.8rem; font-weight:700; color:var(--tinte-2); }
+.fw-frage { background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin-top:12px; }
+.fw-frage p { margin:0 0 8px; font-size:0.9rem; }
+.fw-zeile { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.fw-eingabe { font-family:var(--mono); font-size:0.95rem; width:7.5em; padding:6px 8px; border-radius:6px;
+  border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
+.fw-eingabe:focus { outline:2px solid var(--bernstein); outline-offset:0; }
+.fw-einheit { font-family:var(--mono); font-size:0.9rem; }
+.fw-rueck { margin-top:12px; }
+.fw-rueck .block { margin:0 0 8px; }
+.fw-weg .fl-eq { font-size:0.95rem; }
+.fw-marke { font-family:var(--mono); font-size:0.66rem; font-weight:700; color:var(--tinte-2); margin-right:8px; vertical-align:middle; white-space:nowrap; }
+.fw-nw { white-space:nowrap; }
+.fw-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
+@media (max-width: 700px) {
+  .fw-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
+  .fw-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
+  .fw-reiter-text { display:none; }
+  .fw-szene { grid-template-columns:minmax(0,1fr); }
+  .fw-karten { gap:8px; }
+  .fw-karte { padding:4px; }
+  .fw-weg { padding:12px 8px; }
+}
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="page-wrap">
+<main class="content">
+
+<!-- ══════════════ TITEL ══════════════ -->
+<div class="page-titel">
+  <div class="pt-bereich">WZ · Werkzeuge</div>
+  <h1 class="pt-h1">Fall und Wurf</h1>
+  <p class="pt-untertitel">Freier Fall, senkrechter Wurf nach oben und nach unten, waagrechter und schiefer Wurf: Hier übst du, die Bewegung in Diagrammen zu erkennen, besondere Stellen wie den Scheitel zu finden und Werte abzulesen. Erklärt wird das auf der Themenseite unter <a href="../themen/p4-1-kinematik.html#freier-fall">4.1 Freier Fall</a> und <a href="../themen/p4-1-kinematik.html#wurfparabel">4.1 Parabolische Bewegung</a>.</p>
+</div>
+
+<div class="rlp-kompetenzen">
+  <div class="rlp-titel">🧭 Übungsseite zum Lerngebiet 4.1 — geübt werden diese Kompetenzen aus dem RLP-BM 2030</div>
+  <ul>
+    <li>die Begriffe «Schwerpunkt», «Bahnkurve», «Geschwindigkeit» und «Beschleunigung» definieren</li>
+    <li>Aufgabenstellungen zu folgenden Bewegungsarten lösen: Geradlinig gleichförmige Bewegung, gleichmässig beschleunigte Bewegung, freier Fall, parabolische Bewegung</li>
+  </ul>
+</div>
+
+<details class="lernziele">
+  <summary>🎯 Lernziele — das kann ich nach dieser Seite</summary>
+  <div class="lz-body">
+  <ul>
+    <li>Ich kann zu einem Fall oder Wurf das \(y\)-\(t\)-, das \(v_y\)-\(t\)- und das \(a_y\)-\(t\)-Diagramm erkennen, beim waagrechten und schiefen Wurf auch das \(x\)-\(t\)- und das \(v_x\)-\(t\)-Diagramm und die Bahnkurve.</li>
+    <li>Ich kann begründen, warum \(a_y = -9.81\;\text{m/s}^2\) während des ganzen Flugs gilt, auch im höchsten Punkt.</li>
+    <li>Ich kann in einem Diagramm den Scheitel, den Aufprall und die Stelle mit dem grössten Betrag der Geschwindigkeit finden.</li>
+    <li>Ich kann Steigzeit, Steighöhe, Fallhöhe, Aufprallgeschwindigkeit und \(v_x\) aus einem Diagramm ablesen oder als Steigung und Fläche bestimmen.</li>
+    <li>Ich kann einen Wurf in eine waagrechte gleichförmige und eine senkrechte beschleunigte Bewegung zerlegen.</li>
+  </ul>
+  </div>
+</details>
+
+<div class="block block-tipp">
+  <div class="block-titel">💡 Lieber geführt durcharbeiten?</div>
+  <p>Fall und Wurf erarbeitet das Leitprogramm <a href="../leitprogramme/leitprogramm-kinematik.html#fall-und-wurf">«Kinematik»</a> in Kapitel 4. Dort wird vor allem gerechnet; dieser Trainer übt, die Bewegung in den Diagrammen zu sehen. Wie man Steigung und Fläche allgemein abliest, übt der Trainer <a href="bewegungsdiagramme.html">Bewegungsdiagramme</a>.</p>
+</div>
+
+<div class="block block-merksatz">
+  <div class="block-titel">📘 Ein Wurf, zwei Bewegungen</div>
+  <p>Ohne Luftwiderstand wirkt nach dem Abwurf nur die Schwerkraft. Waagrecht bleibt die Geschwindigkeit darum gleich, senkrecht nimmt sie in jeder Sekunde um \(9.81\;\text{m/s}\) ab. Mit Abwurfhöhe \(h_0\), Abwurfgeschwindigkeit \(v_0\) und Winkel \(\alpha\), die Höhe \(y\) nach oben gemessen:</p>
+  \[ x = v_x \cdot t \qquad v_x = v_0 \cdot \cos\alpha \]
+  \[ y = h_0 + v_{0y} \cdot t - \tfrac{1}{2} \cdot g \cdot t^2 \qquad v_y = v_{0y} - g \cdot t \qquad a_y = -g \]
+  <p>mit \(v_{0y} = v_0 \cdot \sin\alpha\) und \(g = 9.81\;\text{m/s}^2\). Die fünf Fälle sind Sonderfälle davon: freier Fall \(v_0 = 0\), senkrecht nach oben \(\alpha = 90^\circ\), senkrecht nach unten \(\alpha = -90^\circ\), waagrecht \(\alpha = 0^\circ\).</p>
+  <p>In diesem Trainer zeigt \(y\) immer nach oben, auch beim freien Fall: Fällt der Körper, ist \(v_y\) negativ. Die Themenseite misst beim freien Fall den Fallweg nach unten, \(h = \tfrac{1}{2} \cdot g \cdot t^2\); die Beträge sind dieselben.</p>
+</div>
+
+
+<!-- ══════════════ TRAINER ══════════════ -->
+<h2 id="trainer">Der Trainer</h2>
+
+<div class="widget">
+  <div class="widget-header">
+    <div class="widget-titelzeile">
+      <h3 id="fall-und-wurf-trainer">Zuordnen, Stellen finden, ablesen</h3>
+      <div class="anim-hinweis links">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zum Trainer Fall und Wurf">💡 Worauf achten?</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Worauf achten?</span>
+          <div class="ah-text"><ul><li>Zuerst die Achsen lesen: Steht dort \(y\), \(v_y\), \(a_y\), \(x\) oder \(v_x\)?</li><li>Senkrecht und waagrecht getrennt denken: senkrecht wie beim freien Fall, waagrecht gleichförmig.</li><li>Am Anfang fragen: Bei welchem Wert beginnt der Graph? Steigt der Körper zuerst, oder fällt er sofort?</li></ul></div>
+        </div>
+      </div>
+      <div class="anim-hinweis rechts">
+        <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zum Trainer Fall und Wurf">✓ Erkenntnis</span>
+        <div class="ah-pop" role="tooltip">
+          <span class="ah-titel">Erkenntnis</span>
+          <div class="ah-text"><ul><li>Bei jedem Wurf ist das \(v_y\)-\(t\)-Diagramm eine Gerade mit der Steigung \(-9.81\;\text{m/s}^2\), ohne Knick und ohne Halt.</li><li>Im Scheitel ist \(v_y = 0\), aber \(a_y\) nicht. Beim schiefen Wurf ist dort auch \(v\) nicht null, sondern \(v_x\).</li><li>Die Flugzeit kommt allein aus der senkrechten Bewegung.</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="widget-body">
+
+    <div class="fw-reiter" id="fw-arten" role="group" aria-label="Aufgabenart wählen">
+      <button class="fw-reiter-knopf aktiv" id="aufgabe-zuordnen" data-art="zuordnen" aria-pressed="true"><span class="fw-reiter-nr">Aufgabe 1</span><span class="fw-reiter-name">Zuordnen</span><span class="fw-reiter-text">Zum beschriebenen Wurf das passende Diagramm oder die passende Bahnkurve finden.</span></button>
+      <button class="fw-reiter-knopf" id="aufgabe-stellen" data-art="stellen" aria-pressed="false"><span class="fw-reiter-nr">Aufgabe 2</span><span class="fw-reiter-name">Stellen finden</span><span class="fw-reiter-text">Im Diagramm antippen, wo der Körper am höchsten, am schnellsten oder ohne Beschleunigung ist.</span></button>
+      <button class="fw-reiter-knopf" id="aufgabe-ablesen" data-art="ablesen" aria-pressed="false"><span class="fw-reiter-nr">Aufgabe 3</span><span class="fw-reiter-name">Ablesen und rechnen</span><span class="fw-reiter-text">Steigzeit, Steighöhe, Fallhöhe, Aufprallgeschwindigkeit und \(v_x\) aus dem Diagramm bestimmen.</span></button>
+    </div>
+
+    <div class="typ-btns" id="fw-wuerfe" role="group" aria-label="Bewegung wählen">
+      <button class="typ-btn aktiv" data-wurf="fall">Freier Fall</button>
+      <button class="typ-btn" data-wurf="hoch">Senkrecht nach oben</button>
+      <button class="typ-btn" data-wurf="runter">Senkrecht nach unten</button>
+      <button class="typ-btn" data-wurf="waagrecht">Waagrechter Wurf</button>
+      <button class="typ-btn" data-wurf="schief">Schiefer Wurf</button>
+      <button class="typ-btn" data-wurf="alle">Gemischt</button>
+    </div>
+
+    <div class="fw-aufgabe" id="fw-aufgabe" aria-live="polite"></div>
+
+    <div class="fw-szene" id="fw-szene">
+      <p id="fw-text"></p>
+      <canvas id="fw-skizze" aria-label="Skizze des Abwurfs"></canvas>
+    </div>
+
+    <div class="fw-haupt" id="fw-haupt">
+      <div class="fw-titel" id="fw-haupt-titel"></div>
+      <div class="cv-wrap"><canvas id="fw-cv" aria-label="Diagramm der Aufgabe"></canvas></div>
+      <div class="fw-knoepfe" id="fw-knoepfe" hidden>
+        <button class="typ-btn" data-wahl="nirgends">Nirgends</button>
+        <button class="typ-btn" data-wahl="ueberall">Überall gleich</button>
+        <span class="fw-hinweis">Tippe ins Diagramm, oder wähle einen Knopf. Tastatur: Pfeiltasten, dann Eingabetaste.</span>
+      </div>
+    </div>
+
+    <div class="fw-karten" id="fw-karten" role="group" aria-label="Diagramme zur Auswahl"></div>
+    <div class="fw-frage" id="fw-frage" hidden></div>
+    <div class="fw-rueck" id="fw-rueck" aria-live="polite"></div>
+    <div class="formel-live fw-weg" id="fw-weg" hidden></div>
+
+  </div>
+  <div class="btn-row">
+    <button class="typ-btn" id="fw-tipp">Tipp</button>
+    <button class="typ-btn" id="fw-zeigen">Lösung zeigen</button>
+    <button class="typ-btn" id="fw-neu">Neue Aufgabe</button>
+    <span class="fw-stand" id="fw-stand"></span>
+  </div>
+</div>
+
+
+<!-- ══════════════ ÜBERBLICK ══════════════ -->
+<h2 id="ueberblick">Fünf Bewegungen, ihre Diagramme</h2>
+
+<p>Die Tabelle zeigt, woran man die fünf Bewegungen in den Diagrammen erkennt. Das \(a_y\)-\(t\)-Diagramm ist bei allen fünf dasselbe: eine waagrechte Linie bei \(-9.81\;\text{m/s}^2\), vom Abwurf bis zum Aufprall.</p>
+
+<table class="ftb-tabelle">
+  <thead><tr><th>Bewegung</th><th>\(y\)-\(t\)-Diagramm</th><th>\(v_y\)-\(t\)-Diagramm</th><th>\(v_x\)-\(t\)-Diagramm</th><th>Bahnkurve</th></tr></thead>
+  <tbody>
+    <tr><td>freier Fall</td><td>Parabelast von \(h_0\) nach unten, am Anfang waagrecht</td><td>fallende Gerade ab \(0\)</td><td>\(v_x = 0\)</td><td>senkrechte Strecke</td></tr>
+    <tr><td>senkrecht nach oben</td><td>Parabel mit Scheitel bei \(t_S\)</td><td>fallende Gerade ab \(+v_0\), durch die Zeitachse bei \(t_S\)</td><td>\(v_x = 0\)</td><td>senkrechte Strecke, hinauf und wieder hinunter</td></tr>
+    <tr><td>senkrecht nach unten</td><td>Parabelast, von Anfang an fallend</td><td>fallende Gerade ab \(-v_0\)</td><td>\(v_x = 0\)</td><td>senkrechte Strecke</td></tr>
+    <tr><td>waagrechter Wurf</td><td>wie beim freien Fall</td><td>wie beim freien Fall</td><td>waagrecht bei \(v_0\)</td><td>Parabelast, am Abwurf waagrecht</td></tr>
+    <tr><td>schiefer Wurf</td><td>Parabel mit Scheitel bei \(t_S\)</td><td>fallende Gerade ab \(v_0 \cdot \sin\alpha\)</td><td>waagrecht bei \(v_0 \cdot \cos\alpha\)</td><td>Parabel</td></tr>
+  </tbody>
+</table>
+
+<p>Beim senkrechten Wurf ist die Bahn eine senkrechte Strecke, das \(y\)-\(t\)-Diagramm aber eine Parabel: Ein Zeitdiagramm ist kein Bild der Bahn. Gleich aussehen beide nur beim waagrechten Wurf, weil dort \(x\) gleichmässig mit der Zeit wächst.</p>
+
+
+<!-- ══════════════ FEHLER ══════════════ -->
+<h2 id="fehler">Häufige Fehler</h2>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Im höchsten Punkt ist die Beschleunigung null</div>
+  <p>Im Scheitel ist \(v_y = 0\), aber nur einen Augenblick: Gleich danach fällt der Körper. \(v_y\) ändert sich also auch dort, um \(9.81\;\text{m/s}\) pro Sekunde. Die Beschleunigung ist die Steigung des \(v_y\)-\(t\)-Graphen, und diese Gerade hat überall dieselbe Steigung: \(a_y = -9.81\;\text{m/s}^2\), auch im Scheitel.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Die Beschleunigung zeigt in Bewegungsrichtung</div>
+  <p>Beim Steigen ist \(a_y\) nicht positiv: Der Körper wird langsamer, \(v_y\) nimmt ab. Die Erdbeschleunigung zeigt immer nach unten, beim Steigen wie beim Fallen. Ebenso wenig macht ein Wurf nach unten die Beschleunigung grösser; er ändert nur die Anfangsgeschwindigkeit.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Ein Knick oder ein Halt im \(v_y\)-\(t\)-Diagramm</div>
+  <p>Wer den Betrag der Geschwindigkeit aufträgt, bekommt ein V, das oben die Zeitachse berührt. \(v_y\) hat aber ein Vorzeichen: Beim Steigen ist es positiv, beim Fallen negativ, und die Gerade geht ohne Knick durch die Zeitachse. Auch ein waagrechtes Stück auf der Achse ist falsch: Der Körper bleibt oben nicht stehen.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Waagrecht wird der Körper langsamer</div>
+  <p>Ohne Luftwiderstand wirkt waagrecht keine Kraft: \(v_x\) bleibt vom Abwurf bis zum Aufprall gleich, und \(x\) wächst gleichmässig. Darum ist der schief geworfene Ball im Scheitel nicht in Ruhe: \(v_y = 0\), aber \(v = v_x\). Und darum ist die Bahn von Anfang an gekrümmt — der Ball fliegt nicht erst geradeaus und fällt dann.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Halbe Zeit, halbe Höhe</div>
+  <p>Der Fallweg wächst mit \(t^2\): Nach der halben Fallzeit ist erst ein Viertel der Höhe durchfallen, für die halbe Höhe braucht es \(\frac{t_F}{\sqrt{2}} \approx 0.71 \cdot t_F\). Waagrecht dagegen ist der Körper nach der halben Flugzeit bei der halben Weite. Und weil die Flugzeit nur aus der senkrechten Bewegung kommt, fällt ein waagrecht geworfener Ball genau so lange wie ein fallen gelassener.</p>
+</div>
+
+
+<!-- ══════════════ ZUSAMMENFASSUNG ══════════════ -->
+<h2 id="zusammenfassung">Zusammenfassung</h2>
+
+<ul class="kernpunkte">
+  <li>Nach dem Abwurf gilt bei allen fünf Bewegungen \(a_y = -9.81\;\text{m/s}^2\) und \(a_x = 0\), ohne Ausnahme im Scheitel.</li>
+  <li>\(v_y\)-\(t\)-Diagramm: eine Gerade mit der Steigung \(-9.81\;\text{m/s}^2\). Wo sie beginnt, sagt die Abwurfrichtung: bei \(0\), \(+v_{0y}\) oder \(-v_0\).</li>
+  <li>\(y\)-\(t\)-Diagramm: eine nach unten geöffnete Parabel; im Scheitel waagrecht, beim Aufprall am steilsten.</li>
+  <li>\(v_x\)-\(t\)-Diagramm: waagrecht. Bahnkurve: eine Parabel, von Anfang an gekrümmt.</li>
+  <li>Steighöhe und Fallhöhe sind Flächen unter dem \(v_y\)-\(t\)-Graphen, die Beschleunigung ist seine Steigung.</li>
+</ul>
+
+<div class="merksatz">
+  Senkrecht wie beim freien Fall, waagrecht gleichförmig — und beide vom ersten Augenblick an. Die Flugzeit kommt aus der senkrechten Bewegung, die Weite aus \(v_x \cdot t_F\).
+</div>
+
+</main>
+<aside class="toc-wrap"><div id="toc"></div></aside>
+</div>
+
+<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<footer class="site-footer">
+  <p><strong>Physik begreifbar</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
+  <p>Werkzeuge · Fall und Wurf</p>
+  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
+  <p>Keine Cookies · Kein Tracking · Version 2.0 · Stand 10. Oktober 2026</p>
+</footer>
+<!-- FUSS:ENDE -->
+
+<script src="../nav.js"></script>
+<script src="../suche.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script>
+buildNav({ id:'werkzeuge' });
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   Trainer Fall und Wurf.
+   Eine Szene ist ein Wurf mit Abwurfhöhe h0, Abwurfgeschwindigkeit v0 und
+   Winkel alpha (freier Fall: v0 = 0). Daraus entstehen die Diagramme
+   y, vy, ay, x, vx und die Bahnkurve, die falschen Diagramme der Auswahl
+   (je mit dem Fehlbild, aus dem sie entstehen), die Fragen nach besonderen
+   Stellen und die Fragen zum Ablesen. y zeigt immer nach oben.
+   FW_SZENEN baut die Würfe aus Zufallswerten; FW_DIAGNOSE, FW_STELLE und
+   FW_ABLESEN halten die Rückmeldungen. Selbsttest: fwSelbsttest, über
+   scripts/verify_fall_und_wurf.js im Pre-Flight.
+   ═══════════════════════════════════════════════════════════════════ */
+(function () {
+'use strict';
+
+const FW_G = 9.81;
+const FW_WUERFE = { fall:'Freier Fall', hoch:'Senkrecht nach oben', runter:'Senkrecht nach unten', waagrecht:'Waagrechter Wurf', schief:'Schiefer Wurf' };
+const FW_DIA = {
+  y:   { b:'y', s:'',  e:'m',    tex:'y',   etex:'\\text{m}',     name:'Höhe' },
+  vy:  { b:'v', s:'y', e:'m/s',  tex:'v_y', etex:'\\text{m/s}',   name:'senkrechte Geschwindigkeit' },
+  ay:  { b:'a', s:'y', e:'m/s²', tex:'a_y', etex:'\\text{m/s}^2', name:'senkrechte Beschleunigung' },
+  x:   { b:'x', s:'',  e:'m',    tex:'x',   etex:'\\text{m}',     name:'waagrechter Ort' },
+  vx:  { b:'v', s:'x', e:'m/s',  tex:'v_x', etex:'\\text{m/s}',   name:'waagrechte Geschwindigkeit' },
+  bahn:{ name:'Bahnkurve' },
+};
+const fwDiaName = d => d === 'bahn' ? 'Bahnkurve' : '<span class="fw-nw">\\(' + FW_DIA[d].tex + '\\)-\\(t\\)-Diagramm</span>';
+
+/* ── Zahlen ───────────────────────────────────────────────────────── */
+function fwZahl(x, st) {                      // drei geltende Ziffern: 1.53, 11.5, 9.81, 20
+  if (!isFinite(x)) return String(x);
+  if (Math.abs(x) < 1e-4) return '0';             // Rechenrauschen, kein Messwert
+  st = st || 3;
+  const d = Math.max(0, st - 1 - Math.floor(Math.log10(Math.abs(x)) + 1e-12));
+  let s = (Math.round(x * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d);
+  if (s.indexOf('.') >= 0) s = s.replace(/0+$/, '').replace(/\.$/, '');
+  return s === '-0' ? '0' : s;
+}
+function fwLies(s) {                          // «1,5», «-9.81 m/s²», «−3» → Zahl
+  const t = String(s).trim().replace(/[a-zA-Z\/²\s]+$/, '').replace(',', '.').replace(/[−–]/g, '-').replace(/['\s]/g, '');
+  return t === '' || t === '-' ? NaN : Number(t);
+}
+function fwZufall(seed) {                     // reproduzierbar (mulberry32)
+  let a = seed >>> 0;
+  return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+function fwWahl(r, liste) { return liste[Math.floor(r() * liste.length) % liste.length]; }
+function fwMisch(r, liste) { const l = liste.slice(); for (let i = l.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [l[i], l[j]] = [l[j], l[i]]; } return l; }
+const fwE = (x, e) => fwZahl(x) + '\\;' + e;
+const fwEk = (x, e) => x < 0 ? '(' + fwE(x, e) + ')' : fwE(x, e);      // negativ in Klammern
+const FW_GTEX = '9.81\\;\\text{m/s}^2';
+
+/* ── Szenen ───────────────────────────────────────────────────────── */
+const FW_SZENEN = {
+  fall:      r => ({ h0:fwWahl(r, [5, 10, 15, 20, 30, 45]), v0:0, alpha:-90, objekt:fwWahl(r, ['Ein Stein', 'Ein Schlüsselbund', 'Ein Tennisball', 'Eine Kastanie']) }),
+  hoch:      r => r() < 0.6 ? { h0:0, v0:fwWahl(r, [6, 8, 10, 12, 15, 18, 20]), alpha:90, objekt:fwWahl(r, ['Ein Ball', 'Ein Tennisball', 'Ein Jonglierball']) }
+                            : { h0:fwWahl(r, [5, 10, 15, 20]), v0:fwWahl(r, [5, 8, 10, 12]), alpha:90, objekt:'ein Ball' },
+  runter:    r => ({ h0:fwWahl(r, [10, 15, 20, 30, 45]), v0:fwWahl(r, [3, 5, 8, 10]), alpha:-90, objekt:'ein Stein' }),
+  waagrecht: r => ({ h0:fwWahl(r, [2, 5, 10, 20, 45]), v0:fwWahl(r, [2, 4, 5, 8, 10, 15]), alpha:0, objekt:'Ein Ball' }),
+  schief:    r => ({ h0:fwWahl(r, [0, 0, 0, 5, 10, 20]), v0:fwWahl(r, [8, 10, 12, 15, 20]), alpha:fwWahl(r, [30, 40, 45, 50, 60]), objekt:'ein Ball' }),
+};
+function fwBau(wurf, p) {
+  const g = FW_G, a = p.alpha * Math.PI / 180;
+  const vx = wurf === 'schief' ? p.v0 * Math.cos(a) : wurf === 'waagrecht' ? p.v0 : 0;
+  const vy0 = wurf === 'hoch' ? p.v0 : wurf === 'runter' ? -p.v0 : wurf === 'schief' ? p.v0 * Math.sin(a) : 0;
+  const tF = (vy0 + Math.sqrt(vy0 * vy0 + 2 * g * p.h0)) / g;
+  const tS = vy0 > 0 ? vy0 / g : null;
+  return { wurf, h0:p.h0, v0:p.v0, alpha:p.alpha, objekt:p.objekt, vx, vy0, tF, tS, steigt:!!tS, hand:p.h0 === 0,
+           yMax:p.h0 + (tS ? vy0 * vy0 / (2 * g) : 0), xF:vx * tF, vyF:vy0 - g * tF };
+}
+function fwPasst(W) {
+  if (W.tF > 6.5 || W.tF < 0.5) return false;
+  if (W.vx) { const q = W.xF / W.yMax; if (q < 0.35 || q > 7) return false; }
+  return true;
+}
+function fwSzene(wurf, r) {
+  for (let i = 0; i < 300; i++) { const W = fwBau(wurf, FW_SZENEN[wurf](r)); if (fwPasst(W)) return W; }
+  throw new Error('keine Szene für ' + wurf);
+}
+const fwY = (W, t) => W.h0 + W.vy0 * t - 0.5 * FW_G * t * t;
+const fwVy = (W, t) => W.vy0 - FW_G * t;
+const fwDias = W => W.vx ? ['y', 'vy', 'ay', 'x', 'vx', 'bahn'] : ['y', 'vy', 'ay'];
+
+/* Beschreibung; verdeckt: Grössen, die die Aufgabe abfragt ('h0', 'v0') */
+function fwText(W, verdeckt) {
+  verdeckt = verdeckt || [];
+  const h = verdeckt.indexOf('h0') >= 0 ? '\\(h_0\\)' : '\\(h_0 = ' + fwE(W.h0, '\\text{m}') + '\\)';
+  const v = verdeckt.indexOf('v0') >= 0 ? '\\(v_0\\)' : '\\(v_0 = ' + fwE(W.v0, '\\text{m/s}') + '\\)';
+  const a = '\\(\\alpha = ' + W.alpha + '^\\circ\\)';
+  let s;
+  if (W.wurf === 'fall') s = W.objekt + ' wird in der Höhe ' + h + ' losgelassen und fällt frei zu Boden.';
+  else if (W.wurf === 'hoch' && W.hand) s = W.objekt + ' wird mit ' + v + ' senkrecht nach oben geworfen und auf Abwurfhöhe wieder aufgefangen. \\(y\\) zählt ab der Abwurfstelle.';
+  else if (W.wurf === 'hoch') s = 'Von einem Balkon in der Höhe ' + h + ' wird ein Ball mit ' + v + ' senkrecht nach oben geworfen. Er fliegt am Balkon vorbei und fällt auf den Boden.';
+  else if (W.wurf === 'runter') s = 'Von einer Brücke in der Höhe ' + h + ' wird ein Stein mit ' + v + ' senkrecht nach unten geworfen.';
+  else if (W.wurf === 'waagrecht') s = 'Ein Ball wird ' + (W.h0 <= 5 ? 'von einer Mauer' : W.h0 <= 12 ? 'aus einem Fenster' : 'von einem Turm') + ' in der Höhe ' + h + ' mit ' + v + ' waagrecht geworfen.';
+  else s = W.hand ? 'Ein Ball wird vom Boden aus mit ' + v + ' unter dem Winkel ' + a + ' schräg nach oben geworfen.'
+                  : 'Von einem Turm in der Höhe ' + h + ' wird ein Ball mit ' + v + ' unter dem Winkel ' + a + ' schräg nach oben geworfen.';
+  return s + ' Ohne Luftwiderstand, \\(y\\) nach oben gemessen.';
+}
+
+/* ── Kurven ───────────────────────────────────────────────────────────
+   Eine Kurve ist eine Liste von Stücken {t0, t1, f}; bei der Bahnkurve gibt f [x, y]. */
+const fwStueck = (t0, t1, f) => ({ t0, t1, f });
+function fwKurve(W, d) {
+  const T = W.tF;
+  if (d === 'y')  return [fwStueck(0, T, t => fwY(W, t))];
+  if (d === 'vy') return [fwStueck(0, T, t => fwVy(W, t))];
+  if (d === 'ay') return [fwStueck(0, T, () => -FW_G)];
+  if (d === 'x')  return [fwStueck(0, T, t => W.vx * t)];
+  if (d === 'vx') return [fwStueck(0, T, () => W.vx)];
+  return [fwStueck(0, T, t => [W.vx * t, fwY(W, t)])];
+}
+const fwEnde = k => k[k.length - 1].t1;
+function fwBei(k, t) {
+  t = Math.max(k[0].t0, Math.min(fwEnde(k), t));
+  const g = k.find(x => t >= x.t0 - 1e-12 && t <= x.t1 + 1e-12) || k[k.length - 1];
+  return g.f(t);
+}
+function fwProben(k, n) { n = n || 120; const T = fwEnde(k), p = []; for (let i = 0; i <= n; i++) p.push(i / n * T); return p; }
+function fwSpanne(k) { const w = fwProben(k).map(t => fwBei(k, t)).concat([0]); return Math.max(...w) - Math.min(...w); }
+/* Sichtbar verschieden: Zeitkurven um mehr als 15 % der Spanne, Bahnkurven je Achse */
+function fwVerschieden(k1, k2, bahn, ref) {
+  if (bahn) {
+    const P = fwProben(ref).map(t => fwBei(ref, t)), sx = Math.max(...P.map(p => p[0]), 1e-9), sy = Math.max(...P.map(p => p[1]), 1e-9);
+    const T1 = fwEnde(k1), T2 = fwEnde(k2); let m = 0;
+    for (let i = 0; i <= 60; i++) { const p = fwBei(k1, i / 60 * T1), q = fwBei(k2, i / 60 * T2);
+      m = Math.max(m, Math.abs(p[0] - q[0]) / sx, Math.abs(p[1] - q[1]) / sy); }
+    return m > 0.15;
+  }
+  const T = Math.max(fwEnde(k1), fwEnde(k2)); let m = 0;
+  for (let i = 0; i <= 80; i++) { const t = i / 80 * T; m = Math.max(m, Math.abs(fwBei(k1, t) - fwBei(k2, t))); }
+  return m > 0.15 * Math.max(fwSpanne(ref), 1);
+}
+
+/* Die vier Diagramme der Auswahl: das richtige und drei Fehlbilder, je mit Code */
+function fwOptionen(W, d, r) {
+  const g = FW_G, T = W.tF, K = fwKurve(W, d), f = (h, T2) => [fwStueck(0, T2 || T, h)], kand = [];
+  const Y = t => fwY(W, t), V = t => fwVy(W, t);
+  const halt = W.steigt ? 0.35 * W.tS : 0;
+  const mitHalt = h => [fwStueck(0, W.tS, h), fwStueck(W.tS, W.tS + halt, () => h(W.tS)), fwStueck(W.tS + halt, T + halt, t => h(t - halt))];
+  if (d === 'y') {
+    const sehne = W.steigt ? t => t <= W.tS ? W.h0 + (W.yMax - W.h0) * t / W.tS : W.yMax * (T - t) / (T - W.tS) : t => W.h0 * (1 - t / T);
+    kand.push(['gerade', W.steigt ? [fwStueck(0, W.tS, sehne), fwStueck(W.tS, T, sehne)] : f(sehne)]);
+    kand.push(['kruemmung', W.steigt ? [fwStueck(0, W.tS, t => 2 * sehne(t) - Y(t)), fwStueck(W.tS, T, t => 2 * sehne(t) - Y(t))] : f(t => 2 * sehne(t) - Y(t))]);
+    if (W.steigt) kand.push(['oben_halt', mitHalt(Y)]);
+    if (W.vy0 <= 0) kand.push(['richtung', f(t => W.h0 - Y(t))]);
+    if (W.wurf === 'runter') kand.push(['wie_fall', f(t => W.h0 - 0.5 * g * t * t, Math.sqrt(2 * W.h0 / g))]);
+    if (W.wurf === 'waagrecht') kand.push(['laenger', f(t => Y(t / 1.5), 1.5 * T)]);
+    const vlo = Math.min(...fwProben(K).map(V)), vhi = Math.max(...fwProben(K).map(V));
+    if (vhi - vlo > 1e-9) kand.push(['form_y', f(t => (V(t) - vlo) / (vhi - vlo) * W.yMax)]);
+  } else if (d === 'vy') {
+    kand.push(['richtung', f(t => -V(t))]);
+    if (W.steigt) kand.push(['betrag_v', f(t => Math.abs(V(t)))], ['oben_halt', mitHalt(V)]);
+    if (W.wurf === 'waagrecht') kand.push(['start_waagrecht', f(t => -W.vx - g * t)]);
+    if (W.wurf === 'hoch' || W.wurf === 'runter') kand.push(['start_null', f(t => -g * t)]);
+    if (W.wurf === 'schief') kand.push(['komponente', f(t => W.v0 - g * t)]);
+    kand.push(['steigung', f(t => W.vy0 - g * t / 2)]);
+    const vlo = Math.min(0, W.vyF), vhi = Math.max(0, W.vy0);
+    kand.push(['form_v', f(t => vlo + Y(t) / W.yMax * (vhi - vlo))]);
+    kand.push(['steigung', f(t => W.vy0 - 2 * g * t)]);
+  } else if (d === 'ay') {
+    kand.push(['vorzeichen_a', f(() => g)], ['a_null', f(() => 0)]);
+    if (W.steigt) kand.push(['a_bewegung', [fwStueck(0, W.tS, () => g), fwStueck(W.tS, T, () => -g)]]);
+    if (W.wurf !== 'fall') kand.push(['a_wurf', f(() => -1.6 * g)]);
+    const m = Math.max(Math.abs(W.vy0), Math.abs(W.vyF));
+    kand.push(['form_a', f(t => V(t) / m * g)]);
+  } else if (d === 'vx') {
+    kand.push(['vx_abnehmend', f(t => W.vx * (1 - t / T))], ['betrag_vx', f(t => Math.hypot(W.vx, V(t)))], ['vx_wie_vy', f(t => W.vx - g * t)]);
+    if (W.wurf === 'schief') kand.push(['vx_v0', f(() => W.v0)]);
+  } else if (d === 'x') {
+    kand.push(['x_parabel', f(t => W.xF * (t / T) * (t / T))], ['x_flach', f(t => W.xF * (1 - (1 - t / T) * (1 - t / T)))]);
+    if (W.wurf === 'schief') kand.push(['x_v0', f(t => W.v0 * t)]);
+  } else {
+    const B = fy => f(t => [W.xF * t / T, fy(t / T)]);
+    if (W.wurf === 'waagrecht') {
+      kand.push(['bahn_ecke', B(u => u < 0.45 ? W.h0 : W.h0 * (1 - Math.pow((u - 0.45) / 0.55, 2)))]);
+      kand.push(['bahn_gerade', B(u => W.h0 * (1 - u))]);
+      kand.push(['bahn_kruemmung', B(u => W.h0 * (1 - u) * (1 - u))]);
+    } else {
+      const tan = Math.tan(W.alpha * Math.PI / 180), xS = W.vx * W.tS;
+      const y1 = Math.min(W.h0 + 0.45 * W.xF * tan, W.h0 + 1.3 * (W.yMax - W.h0) + 0.15 * W.yMax), x1 = (y1 - W.h0) / tan, xE = Math.max(0.8 * W.xF, x1 + 0.2 * W.xF);
+      kand.push(['bahn_impetus', f(t => { const x = t / T * xE; return [x, x < x1 ? W.h0 + x * tan : y1 * (1 - Math.pow((x - x1) / (xE - x1), 2))]; })]);
+      kand.push(['bahn_gerade', B(u => { const x = u * W.xF; return x < xS ? W.h0 + (W.yMax - W.h0) * x / xS : W.yMax * (W.xF - x) / (W.xF - xS); })]);
+      if (W.hand) kand.push(['bahn_asym', B(u => u < 0.7 ? W.yMax * (1 - Math.pow((u - 0.7) / 0.7, 2)) : W.yMax * (1 - Math.pow((u - 0.7) / 0.3, 2)))]);
+    }
+  }
+  // Fehlbilder in zufälliger Reihenfolge, die Wertefehler zuletzt als Reserve
+  const reserve = d === 'bahn' ? [['bahn_weite', f(t => [1.5 * W.vx * t, Y(t)])], ['bahn_weite', f(t => [0.6 * W.vx * t, Y(t)])]]
+    : [['werte', K.map(s => fwStueck(s.t0, s.t1, t => 1.6 * s.f(t)))], ['werte', K.map(s => fwStueck(s.t0, s.t1, t => 0.55 * s.f(t)))]];
+  const liste = fwMisch(r, kand).concat(reserve), gewaehlt = [], bahn = d === 'bahn';
+  liste.forEach(([code, k]) => {
+    if (gewaehlt.length >= 3 || !fwVerschieden(k, K, bahn, K)) return;
+    if (gewaehlt.some(o => !fwVerschieden(o.k, k, bahn, K) || (o.code === code && code !== 'werte' && code !== 'bahn_weite'))) return;
+    gewaehlt.push({ code, k });
+  });
+  return fwMisch(r, [{ code:null, k:K }].concat(gewaehlt));
+}
+
+/* Rückmeldungen zu den falschen Diagrammen; c = { W, d } */
+const FW_DIAGNOSE = {
+  gerade:          c => 'Der Graph ist keine Gerade: Die Geschwindigkeit ändert sich dauernd. Im \\(y\\)-\\(t\\)-Diagramm ist das eine Parabel' + (c.W.steigt ? ', im Scheitel waagrecht (dort ist \\(v_y = 0\\)) und danach immer steiler.' : ', die immer steiler wird, weil der Körper immer schneller fällt.'),
+  kruemmung:       c => 'Die Krümmung ist verkehrt. Die Steigung des \\(y\\)-\\(t\\)-Graphen ist \\(v_y\\), und \\(v_y\\) nimmt dauernd ab: Der Graph biegt sich nach unten, er wird beim Fallen immer steiler, nicht flacher.',
+  oben_halt:       c => 'Der Körper bleibt oben nicht stehen. \\(v_y\\) ist dort nur einen Augenblick null und nimmt sofort weiter ab: Die Erdbeschleunigung wirkt auch im höchsten Punkt.',
+  richtung:        c => c.d === 'y' ? 'Das ist der Fallweg, nach unten gemessen. Hier zeigt \\(y\\) nach oben: Die Höhe nimmt beim Fallen ab, von \\(h_0\\) bis \\(0\\).'
+                                    : 'Das Vorzeichen ist vertauscht: \\(y\\) zeigt nach oben, also ist \\(v_y\\) beim Steigen positiv und beim Fallen negativ.',
+  wie_fall:        c => 'So fiele der Stein, wenn man ihn nur loslässt. Nach unten geworfen hat er schon am Anfang die Geschwindigkeit \\(v_0\\) und ist früher unten.',
+  laenger:         c => 'Die Flugzeit hängt nur von der Höhe ab, nicht von \\(v_0\\): Waagrecht geworfen ist der Ball genau so schnell unten wie ein fallen gelassener.',
+  form_y:          c => 'Das ist die Form des \\(v_y\\)-\\(t\\)-Diagramms. Die Höhe ändert sich nicht gleichmässig, weil sich \\(v_y\\) dauernd ändert: Das \\(y\\)-\\(t\\)-Diagramm ist eine Parabel.',
+  betrag_v:        c => 'Das ist der Betrag der Geschwindigkeit, ohne Richtung. \\(v_y\\) hat ein Vorzeichen: Beim Fallen ist es negativ, und die Gerade geht ohne Knick durch die Zeitachse.',
+  start_waagrecht: c => 'Waagrecht geworfen hat der Ball am Anfang keine senkrechte Geschwindigkeit: \\(v_y\\) beginnt bei \\(0\\). Die ganze Abwurfgeschwindigkeit steckt in \\(v_x\\).',
+  start_null:      c => 'Der Körper hat schon beim Abwurf die Geschwindigkeit \\(v_0\\): \\(v_y\\) beginnt bei ' + (c.W.vy0 > 0 ? '\\(+v_0\\) (nach oben)' : '\\(-v_0\\) (nach unten)') + ', nicht bei null.',
+  komponente:      c => 'Senkrecht zählt nur die Komponente \\(v_{0y} = v_0 \\cdot \\sin\\alpha\\), nicht die ganze Abwurfgeschwindigkeit.',
+  steigung:        c => 'Die Steigung stimmt nicht: \\(v_y\\) ändert sich in jeder Sekunde um \\(9.81\\;\\text{m/s}\\). Die Steigung des \\(v_y\\)-\\(t\\)-Graphen ist \\(a_y = -' + FW_GTEX + '\\).',
+  form_v:          c => 'Das ist die Form des \\(y\\)-\\(t\\)-Diagramms. \\(v_y\\) ist seine Steigung, und die ändert sich gleichmässig: eine Gerade.',
+  vorzeichen_a:    c => '\\(y\\) zeigt nach oben, die Erdbeschleunigung nach unten: \\(a_y = -' + FW_GTEX + '\\), negativ.',
+  a_null:          c => '\\(a_y = 0\\) hiesse: \\(v_y\\) bleibt konstant. Der Körper wird aber senkrecht dauernd schneller nach unten — das ist die Erdbeschleunigung.',
+  a_bewegung:      c => 'Die Beschleunigung zeigt nicht in Bewegungsrichtung. Auch beim Steigen nimmt \\(v_y\\) ab: \\(a_y = -' + FW_GTEX + '\\) die ganze Zeit, im Scheitel ohne Sprung.',
+  a_wurf:          c => 'Der Wurf gibt nur die Anfangsgeschwindigkeit. Sobald der Körper die Hand verlassen hat, wirkt nur noch die Schwerkraft: \\(a_y = -' + FW_GTEX + '\\), wie beim freien Fall.',
+  form_a:          c => 'Das ist die Form des \\(v_y\\)-\\(t\\)-Diagramms. \\(a_y\\) ist seine Steigung, und die ist überall gleich: eine waagrechte Linie.',
+  vx_abnehmend:    c => 'Waagrecht wirkt keine Kraft (ohne Luftwiderstand): \\(v_x\\) bleibt während des ganzen Flugs gleich.',
+  betrag_vx:       c => 'Das ist der Betrag der ganzen Geschwindigkeit. Er wächst, weil der Körper senkrecht schneller wird; die waagrechte Komponente \\(v_x\\) allein bleibt gleich.',
+  vx_wie_vy:       c => 'So verhält sich die senkrechte Komponente. Die Erdbeschleunigung zeigt senkrecht nach unten und ändert \\(v_x\\) nicht.',
+  vx_v0:           c => 'Das ist die ganze Abwurfgeschwindigkeit \\(v_0\\). Waagrecht zählt nur die Komponente \\(v_x = v_0 \\cdot \\cos\\alpha\\).',
+  x_parabel:       c => 'Waagrecht kommt der Körper in gleichen Zeiten gleich weit: \\(x = v_x \\cdot t\\) ist eine Gerade, keine Parabel.',
+  x_flach:         c => 'Waagrecht wird der Körper nicht langsamer: \\(x\\) wächst gleichmässig, das \\(x\\)-\\(t\\)-Diagramm ist eine Gerade.',
+  x_v0:            c => 'Diese Gerade steigt mit \\(v_0\\). Waagrecht zählt nur die Komponente \\(v_x = v_0 \\cdot \\cos\\alpha\\).',
+  bahn_ecke:       c => 'Der Ball fliegt nicht erst geradeaus und fällt dann. Die Erdbeschleunigung wirkt vom ersten Augenblick an: Die Bahn biegt sich sofort nach unten.',
+  bahn_impetus:    c => 'Die Schwerkraft wirkt nicht erst, wenn der «Schwung» aufgebraucht ist, sondern von Anfang an. Die Bahn hat kein gerades Stück, sie ist von Anfang an gekrümmt.',
+  bahn_gerade:     c => 'Die Bahn hat keine geraden Stücke: Senkrecht ändert sich die Geschwindigkeit dauernd, waagrecht nicht. Zusammen ergibt das eine Parabel.',
+  bahn_kruemmung:  c => 'Die Krümmung ist verkehrt. Am Anfang fällt der Ball langsam, dann immer schneller: Die Bahn beginnt waagrecht und wird immer steiler.',
+  bahn_asym:       c => 'Ohne Luftwiderstand ist die Bahn symmetrisch zum Scheitel: Der Ball sinkt so, wie er gestiegen ist.',
+  bahn_weite:      c => 'Die Form stimmt, die Weite nicht: \\(x_F = v_x \\cdot t_F\\), mit der Flugzeit aus der senkrechten Bewegung.',
+  werte:           c => 'Die Form stimmt, die Werte nicht. Prüfe den Anfangswert und den Wert beim Aufprall mit den Angaben der Aufgabe.',
+};
+
+/* Kennwerte und Rechenweg zu einem Diagramm: Zeilen {lab, tex} oder {lab, text} */
+function fwKenn(W, d) {
+  const z = [], g = FW_GTEX, vy0 = W.vy0;
+  const komp = () => { if (W.wurf !== 'schief') return;
+    z.push({ lab:'senkrecht', tex:['v_{0y} = v_0 \\cdot \\sin\\alpha', '= ' + fwE(W.v0, '\\text{m/s}') + ' \\cdot \\sin ' + W.alpha + '^\\circ', '{}\\approx ' + fwE(vy0, '\\text{m/s}')] }); };
+  const kompX = () => { if (W.wurf !== 'schief') return;
+    z.push({ lab:'waagrecht', tex:['v_x = v_0 \\cdot \\cos\\alpha', '= ' + fwE(W.v0, '\\text{m/s}') + ' \\cdot \\cos ' + W.alpha + '^\\circ', '{}\\approx ' + fwE(W.vx, '\\text{m/s}')] }); };
+  const steig = () => { if (!W.steigt) return;
+    z.push({ lab:'Scheitel', tex:['t_S = \\frac{v_{0y}}{g}', '= \\frac{' + fwE(vy0, '\\text{m/s}') + '}{' + g + '}', '{}\\approx ' + fwE(W.tS, '\\text{s}')] }); };
+  const hoehe = () => { if (!W.steigt) return;
+    z.push({ lab:'Scheitel', tex:W.hand ? ['y_\\text{max} = \\frac{v_{0y}^2}{2 \\cdot g}', '= \\frac{(' + fwE(vy0, '\\text{m/s}') + ')^2}{2 \\cdot ' + g + '}', '{}\\approx ' + fwE(W.yMax, '\\text{m}')]
+      : ['y_\\text{max} = h_0 + \\frac{v_{0y}^2}{2 \\cdot g}', '= ' + fwE(W.h0, '\\text{m}') + ' + \\frac{(' + fwE(vy0, '\\text{m/s}') + ')^2}{2 \\cdot ' + g + '}', '{}\\approx ' + fwE(W.yMax, '\\text{m}')] }); };
+  const flug = () => {
+    if (!vy0) z.push({ lab:'Aufprall', tex:['t_F = \\sqrt{\\frac{2 \\cdot h_0}{g}}', '= \\sqrt{\\frac{2 \\cdot ' + fwE(W.h0, '\\text{m}') + '}{' + g + '}}', '{}\\approx ' + fwE(W.tF, '\\text{s}')] });
+    else if (W.hand) z.push({ lab:'Aufprall', tex:['t_F = \\frac{2 \\cdot v_{0y}}{g}', '= \\frac{2 \\cdot ' + fwE(vy0, '\\text{m/s}') + '}{' + g + '}', '{}\\approx ' + fwE(W.tF, '\\text{s}')] });
+    else z.push({ lab:'Aufprall', text:'aus \\(y(t_F) = 0\\), einer quadratischen Gleichung für \\(t_F\\): \\(t_F \\approx ' + fwE(W.tF, '\\text{s}') + '\\)' });
+  };
+  if (d === 'y') { komp(); steig(); hoehe(); flug();
+    z.push({ lab:'Form', text:W.steigt ? 'Parabel: steigt, im Scheitel waagrecht, fällt immer steiler bis \\(y = 0\\).' : 'Parabelast: ' + (vy0 ? 'fällt von Anfang an' : 'am Anfang waagrecht') + ', immer steiler bis \\(y = 0\\).' }); }
+  else if (d === 'vy') { komp();
+    z.push({ lab:'Gerade', tex:['v_y = v_{0y} - g \\cdot t', '= ' + fwE(vy0, '\\text{m/s}') + ' - ' + g + ' \\cdot t'] });
+    steig(); flug();
+    z.push({ lab:'Aufprall', tex:['v_y = v_{0y} - g \\cdot t_F', '= ' + fwE(vy0, '\\text{m/s}') + ' - ' + g + ' \\cdot ' + fwE(W.tF, '\\text{s}'), '{}\\approx ' + fwE(W.vyF, '\\text{m/s}')] }); }
+  else if (d === 'ay') z.push({ lab:'konstant', text:'Nach dem Abwurf wirkt nur die Schwerkraft: \\(a_y = -g = -' + g + '\\), vom Abwurf bis zum Aufprall, auch im Scheitel.' });
+  else if (d === 'vx') { kompX(); z.push({ lab:'konstant', text:'Waagrecht wirkt keine Kraft: \\(v_x\\) bleibt gleich, eine waagrechte Linie bis zum Aufprall.' }); flug(); }
+  else { kompX(); komp(); if (d === 'bahn') hoehe(); flug();
+    z.push({ lab:'Weite', tex:['x_F = v_x \\cdot t_F', '= ' + fwE(W.vx, '\\text{m/s}') + ' \\cdot ' + fwE(W.tF, '\\text{s}'), '{}\\approx ' + fwE(W.xF, '\\text{m}')] });
+    if (d === 'x') z.push({ lab:'Form', text:'Gerade: in gleichen Zeiten gleich weit.' }); }
+  return z;
+}
+const FW_TIPP = {
+  y:   'Wo beginnt der Graph, wo endet er? Steigt der Körper zuerst, oder fällt er sofort? Wo \\(v_y = 0\\) ist, ist der Graph waagrecht.',
+  vy:  'Bei welchem Wert beginnt \\(v_y\\)? Danach nimmt \\(v_y\\) in jeder Sekunde um \\(9.81\\;\\text{m/s}\\) ab: eine Gerade.',
+  ay:  'Nach dem Abwurf wirkt nur noch die Schwerkraft. Was heisst das für \\(a_y\\), vom Abwurf bis zum Aufprall?',
+  x:   'Waagrecht wirkt keine Kraft. Wie wächst \\(x\\) dann mit der Zeit?',
+  vx:  'Waagrecht wirkt keine Kraft. Was heisst das für \\(v_x\\)?',
+  bahn:'Die Bahn setzt sich aus zwei Bewegungen zusammen: waagrecht gleichförmig, senkrecht wie beim freien Fall — beide vom ersten Augenblick an.',
+};
+
+/* ── Stellen finden ───────────────────────────────────────────────────
+   q.loes: Zeitpunkte (Liste), 'nirgends' oder 'ueberall'; q.punkte: [t, Code] für
+   typische falsche Stellen. Getippt wird ein Zeitpunkt (Zeitdiagramm oder Bahn). */
+function fwStellen(W) {
+  const T = W.tF, Q = [], tol = 0.06 * T, tS = W.tS, s2 = Math.SQRT2;
+  const q = o => { o.tol = tol; o.punkte = (o.punkte || []).filter(([t]) => Array.isArray(o.loes) ? o.loes.every(s => Math.abs(s - t) > 2 * tol) : true); Q.push(o); };
+  const Ez = x => fwE(x, '\\text{s}');
+  q({ id:'a_null', d:'vy', frage:'Wann ist die Beschleunigung \\(a_y = 0\\)?', loes:'nirgends',
+      punkte:W.steigt ? [[tS, 'a_null_oben']] : !W.vy0 ? [[0, 'a_null_start']] : [],
+      tipp:'Die Beschleunigung ist die Steigung des \\(v_y\\)-\\(t\\)-Graphen. Wo ist diese Steigung null?',
+      knopf:'«Überall gleich» stimmt für die Beschleunigung, aber sie ist überall \\(-' + FW_GTEX + '\\). Gefragt ist, wo sie null ist.',
+      erkl:'Die Gerade hat überall dieselbe Steigung, \\(a_y = -' + FW_GTEX + '\\). Die Beschleunigung ist nie null, auch dort nicht, wo \\(v_y = 0\\) ist.' });
+  if (W.steigt) q({ id:'oben_vy', d:'vy', frage:'Wann ist der Körper am höchsten?', loes:[tS], punkte:[[0, 'max_v'], [T, 'ende_v']],
+      tipp:'Solange \\(v_y\\) positiv ist, steigt der Körper. Wann hört er auf zu steigen?',
+      erkl:'Am höchsten ist er, wenn er nicht mehr steigt und noch nicht fällt: bei \\(v_y = 0\\), nach \\(t_S \\approx ' + Ez(tS) + '\\).' });
+  if (W.vy0 >= 0) q({ id:'vy_null_y', d:'y', frage:'Wann ist \\(v_y = 0\\)?', loes:[W.steigt ? tS : 0], punkte:W.hand ? [[0, 'y_null'], [T, 'y_null']] : [[T, 'y_null']],
+      tipp:'\\(v_y\\) ist die Steigung des \\(y\\)-\\(t\\)-Graphen. Wo verläuft er waagrecht?',
+      erkl:(W.steigt ? 'Im Scheitel, bei \\(t_S \\approx ' + Ez(tS) + '\\),' : 'Beim Loslassen, bei \\(t = 0\\),') + ' ist der Graph waagrecht: Steigung null, also \\(v_y = 0\\). Wo \\(y = 0\\) ist, ist der Körper unten, aber nicht in Ruhe.' });
+  q({ id:'schnell_y', d:'y', frage:'Wann ist der Körper am schnellsten (grösster Betrag der Geschwindigkeit)?', loes:W.hand ? [0, T] : [T],
+      punkte:(W.steigt ? [[tS, 'hoch_statt_schnell']] : []).concat(W.vy0 <= 0 ? [[0, 'hoch_statt_schnell']] : []),
+      tipp:'Wie schnell, zeigt die Steigung des \\(y\\)-\\(t\\)-Graphen, nicht seine Höhe. Wo ist er am steilsten?',
+      erkl:'Am steilsten ist der Graph beim Aufprall, nach \\(t_F \\approx ' + Ez(T) + '\\): Dort ist der Betrag der Geschwindigkeit am grössten.' + (W.hand ? ' Beim Abwurf ist er gleich gross, nur nach oben.' : '') });
+  if (W.vy0 <= 0) q({ id:'schnell_vy', d:'vy', frage:'Wann ist der Körper am schnellsten?', loes:[T], punkte:[[0, 'vy_wert']],
+      tipp:'Wie schnell, sagt der Betrag: Wo ist der Graph am weitesten von der Zeitachse entfernt?',
+      erkl:'Beim Aufprall ist \\(v_y \\approx ' + fwE(W.vyF, '\\text{m/s}') + '\\): der grösste Betrag. Das Minuszeichen sagt nur, dass der Körper nach unten fliegt.' });
+  if (W.steigt && !W.hand && T - 2 * tS > 3 * tol) q({ id:'abwurfhoehe', d:'vy', frage:'Wann ist der Körper wieder auf Abwurfhöhe?', loes:[2 * tS], punkte:[[tS, 'scheitel'], [T, 'boden']],
+      tipp:'Die Fläche unter dem \\(v_y\\)-\\(t\\)-Graphen ist die Änderung der Höhe. Wann ist sie insgesamt null?',
+      erkl:'Bei \\(t = 2 \\cdot t_S \\approx ' + Ez(2 * tS) + '\\) ist die Fläche unter der Zeitachse so gross wie die darüber: \\(\\Delta y = 0\\). Dort ist \\(v_y = -v_{0y}\\), gleich schnell wie beim Abwurf, nur nach unten.' });
+  if (W.wurf === 'fall') q({ id:'halbe_hoehe', d:'vy', frage:'Wann hat der Körper die halbe Höhe durchfallen?', loes:[T / s2], punkte:[[T / 2, 'halbe_zeit']],
+      tipp:'Der Fallweg ist die Fläche zwischen dem \\(v_y\\)-\\(t\\)-Graphen und der Zeitachse, ein Dreieck. Wann ist sie halb so gross wie die ganze?',
+      erkl:'Die Fläche wächst mit \\(t^2\\): Die halbe Fläche ist bei \\(t = \\frac{t_F}{\\sqrt{2}} \\approx ' + Ez(T / s2) + '\\) erreicht. Nach der halben Zeit ist erst ein Viertel der Höhe durchfallen.' });
+  if (W.wurf === 'waagrecht') q({ id:'halbe_zeit_bahn', d:'bahn', frage:'Die Punkte zeigen den Ball in gleichen Zeitabständen. Wo ist er nach der halben Flugzeit?', loes:[T / 2], punkte:[[T / s2, 'halbe_hoehe']],
+      tipp:'Waagrecht kommt der Ball gleichmässig voran. Wo ist er also nach der halben Zeit, waagrecht gesehen?',
+      erkl:'Nach der halben Zeit ist er bei der halben Weite, \\(x \\approx ' + fwE(W.xF / 2, '\\text{m}') + '\\). Senkrecht hat er erst ein Viertel der Höhe hinter sich, weil der Fallweg mit \\(t^2\\) wächst.' });
+  if (W.wurf === 'schief') q({ id:'langsam_bahn', d:'bahn', frage:'Die Punkte zeigen den Ball in gleichen Zeitabständen. Wo ist er am langsamsten?', loes:[tS], punkte:[[T, 'boden_langsam']].concat(W.hand ? [] : [[0, 'boden_langsam']]),
+      tipp:'Wo der Ball langsam ist, kommt er in gleicher Zeit wenig weit: Wo liegen die Punkte am dichtesten?',
+      erkl:'Im Scheitel liegen die Punkte am dichtesten. Dort ist \\(v_y = 0\\), aber nicht \\(v\\): Der Ball fliegt waagrecht weiter mit \\(v_x \\approx ' + fwE(W.vx, '\\text{m/s}') + '\\).' });
+  if (W.vx) q({ id:'schnell_bahn', d:'bahn', frage:'Die Punkte zeigen den Ball in gleichen Zeitabständen. Wo ist er am schnellsten?', loes:W.hand ? [0, T] : [T],
+      punkte:W.steigt ? [[tS, 'hoch_statt_schnell']] : [[0, 'hoch_statt_schnell']],
+      tipp:'Wo der Ball schnell ist, kommt er in gleicher Zeit weit: Wo liegen die Punkte am weitesten auseinander?',
+      erkl:'Beim Aufprall liegen die Punkte am weitesten auseinander: Dort legt der Ball in gleicher Zeit den längsten Weg zurück.' + (W.hand ? ' Beim Abwurf ist er gleich schnell.' : '') });
+  if (W.vx) q({ id:'vx_bahn', d:'bahn', frage:'Die Punkte zeigen den Ball in gleichen Zeitabständen. Wo ist seine waagrechte Geschwindigkeit \\(v_x\\) am grössten?', loes:'ueberall',
+      punkte:[[T, 'vx_ende'], [0, 'vx_ende']],
+      tipp:'Vergleiche nur die waagrechten Abstände der Punkte.',
+      knopf:'Es gibt keine einzelne Stelle, aber \\(v_x\\) ist auch nicht null: Die Punkte liegen waagrecht überall gleich weit auseinander.',
+      erkl:'Waagrecht liegen die Punkte überall gleich weit auseinander: \\(v_x\\) bleibt gleich, weil waagrecht keine Kraft wirkt. Grösser werden nur die senkrechten Abstände.' });
+  q({ id:'a_gross', d:'y', frage:'Wann ist der Betrag der Beschleunigung am grössten?', loes:'ueberall',
+      punkte:[[T, 'a_ende']].concat(W.steigt ? [[tS, 'a_oben']] : []),
+      tipp:'Die Beschleunigung sagt, wie schnell sich die Geschwindigkeit ändert. Ändert sich das während des Flugs?',
+      knopf:'Eine Beschleunigung gibt es: Der Körper wird senkrecht dauernd schneller nach unten.',
+      erkl:'Die Geschwindigkeit ändert sich in jeder Sekunde um \\(9.81\\;\\text{m/s}\\), vom Abwurf bis zum Aufprall: \\(a_y = -' + FW_GTEX + '\\) überall. Darum ist das \\(y\\)-\\(t\\)-Diagramm überall gleich stark gekrümmt.' });
+  return Q;
+}
+const FW_STELLE = {
+  a_null_oben:       q => 'Hier ist \\(v_y = 0\\), aber nur einen Augenblick: Die Gerade geht ohne Knick durch die Zeitachse. Ihre Steigung, \\(a_y = -' + FW_GTEX + '\\), ist auch hier nicht null.',
+  a_null_start:      q => 'Hier ist \\(v_y = 0\\), aber der Graph bleibt nicht auf der Achse — er fällt sofort. Seine Steigung, die Beschleunigung, ist schon im ersten Augenblick \\(-' + FW_GTEX + '\\).',
+  max_v:             q => 'Hier ist \\(v_y\\) am grössten: Der Körper steigt am schnellsten. Am höchsten ist er erst, wenn er nicht mehr steigt, bei \\(v_y = 0\\).',
+  ende_v:            q => 'Hier endet der Flug, der Körper ist unten. Am höchsten ist er, wenn er nicht mehr steigt: bei \\(v_y = 0\\).',
+  y_null:            q => 'Hier ist die Höhe \\(y = 0\\), nicht die Geschwindigkeit. \\(v_y\\) ist die Steigung des Graphen, und die ist hier nicht null.',
+  hoch_statt_schnell:q => q.d === 'bahn' ? 'Hier ist der Ball am höchsten, nicht am schnellsten. Die Punkte liegen hier am dichtesten: In gleicher Zeit kommt er am wenigsten weit.'
+                                         : 'Hier ist der Körper am höchsten, nicht am schnellsten. Wie schnell er ist, zeigt die Steigung, und die ist hier am kleinsten.',
+  vy_wert:           q => q.W.vy0 ? 'Hier hat \\(v_y\\) den grössten Wert, aber negativ heisst nur «nach unten». Wie schnell, sagt der Betrag: Er ist dort am grössten, wo der Graph am weitesten unter der Zeitachse liegt.'
+                                  : 'Hier ist \\(v_y = 0\\): Der Körper ist noch in Ruhe, also am langsamsten. Am schnellsten ist er, wo der Graph am weitesten unter der Zeitachse liegt.',
+  scheitel:          q => 'Hier ist der Körper am höchsten. Auf Abwurfhöhe ist er erst wieder, wenn die Fläche unter der Zeitachse so gross ist wie die darüber.',
+  boden:             q => 'Hier schlägt er auf dem Boden auf, unter der Abwurfhöhe. Am Abwurfort vorbei fliegt er früher: wenn die Fläche unter der Zeitachse so gross ist wie die darüber.',
+  halbe_zeit:        q => 'Das ist die halbe Zeit. Die Fläche bis hier ist aber erst ein Viertel der ganzen: Ein Dreieck mit halber Grundseite und halber Höhe hat ein Viertel der Fläche.',
+  halbe_hoehe:       q => 'Hier hat der Ball die halbe Höhe hinter sich. Dafür braucht er mehr als die halbe Zeit, weil er senkrecht immer schneller fällt. Waagrecht kommt er gleichmässig voran: Nach der halben Zeit ist er bei der halben Weite.',
+  boden_langsam:     q => 'Hier liegen die Punkte weit auseinander: Der Ball kommt in gleicher Zeit weit, er ist schnell. Langsam ist er, wo die Punkte dicht liegen.',
+  vx_ende:           q => 'Waagrecht liegen die Punkte hier nicht weiter auseinander als anderswo. Grösser werden nur die senkrechten Abstände: \\(v_x\\) ist überall gleich.',
+  a_ende:            q => 'Hier ist der Körper am schnellsten, aber nicht am stärksten beschleunigt. Die Beschleunigung ist die Änderung der Geschwindigkeit je Sekunde, und die ist überall \\(9.81\\;\\text{m/s}\\) pro Sekunde.',
+  a_oben:            q => 'Hier ist \\(v_y = 0\\), aber die Beschleunigung ist hier nicht anders als sonst: überall \\(9.81\\;\\text{m/s}^2\\) nach unten. Der Graph ist überall gleich stark gekrümmt.',
+  gibt_es:           q => 'Doch, eine solche Stelle gibt es. ' + q.tipp,
+  knopf:             q => q.knopf,
+  daneben:           q => 'An dieser Stelle nicht. ' + q.tipp,
+  keine_stelle:      q => 'An dieser Stelle ist nichts Besonderes. ' + q.tipp,
+};
+function fwStelleBewerte(q, wahl) {
+  const e = code => ({ code, text:FW_STELLE[code](q) });
+  if (wahl === 'nirgends' || wahl === 'ueberall') return q.loes === wahl ? null : e(Array.isArray(q.loes) ? 'gibt_es' : 'knopf');
+  if (!isFinite(wahl)) return e('daneben');
+  if (Array.isArray(q.loes) && q.loes.some(s => Math.abs(wahl - s) <= q.tol)) return null;
+  const p = q.punkte.find(([s]) => Math.abs(wahl - s) <= q.tol);
+  return e(p ? p[1] : Array.isArray(q.loes) ? 'daneben' : 'keine_stelle');
+}
+
+/* ── Raster: dieselbe Rechnung fürs Zeichnen und für die Ablese-Toleranz ── */
+function fwAchse(lo, hi, n) {
+  lo = Math.min(lo, 0); hi = Math.max(hi, 0);
+  const span = Math.max(hi - lo, 1e-6);
+  const st = [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100].find(s => span / s <= n) || 100;
+  const man = st / Math.pow(10, Math.floor(Math.log10(st) + 1e-9));
+  return { lo:Math.floor((lo - (lo < 0 ? 0.03 * span : 0)) / st + 1e-9) * st, hi:Math.ceil((hi + (hi > 0 ? 0.03 * span : 0)) / st - 1e-9) * st,
+           st, m:st / (Math.abs(man - 2) < 1e-9 ? 4 : 5) };
+}
+function fwRasterAus(kurven, T, werte, n) {
+  const Tend = T || Math.max(...kurven.map(fwEnde));
+  const w = (werte || []).concat(...kurven.map(k => fwProben(k).map(t => fwBei(k, t))));
+  return { t:fwAchse(0, Tend, n), w:fwAchse(Math.min(...w), Math.max(...w), n) };
+}
+function fwBahnRaster(kurven, n) {
+  const P = [].concat(...kurven.map(k => fwProben(k).map(t => fwBei(k, t))));
+  const xm = Math.max(...P.map(p => p[0]), 1e-6), ym = Math.max(...P.map(p => p[1]), 1e-6), A = fwAchse(0, Math.max(xm, ym), n);
+  return { st:A.st, m:A.m, xhi:Math.ceil(xm * 1.03 / A.st - 1e-9) * A.st, yhi:Math.max(A.st, Math.ceil(ym * 1.06 / A.st - 1e-9) * A.st) };
+}
+function fwBlitz(T) { return [0.1, 0.2, 0.25, 0.5].find(dt => T / dt <= 16) || 0.5; }   // Zeitabstand der Punkte auf der Bahn
+
+/* ── Ablesen und rechnen ──────────────────────────────────────────── */
+function fwSieben(soll, tol, liste) {
+  const raus = [];
+  liste.forEach(([code, w]) => { if (w === null || w === undefined || !isFinite(w) || Math.abs(w - soll) <= 2 * tol) return;
+    if (raus.some(([, x]) => Math.abs(w - x) <= tol)) return; raus.push([code, w]); });
+  return raus;
+}
+function fwFragen(W) {
+  const F = [], g = FW_G, T = W.tF, Rv = fwRasterAus([fwKurve(W, 'vy')], T, [], 8), Ry = fwRasterAus([fwKurve(W, 'y')], T, [], 8);
+  const mt = Rv.t.m, mv = Rv.w.m, Gt = FW_GTEX;
+  const neu = o => { if (Math.abs(o.soll) < 5 * o.tol) return;        // im Raster zu klein, um es abzulesen
+    o.fehler = fwSieben(o.soll, o.tol, o.fehler); F.push(o); };
+  if (W.steigt) {
+    neu({ id:'steigzeit', d:'vy', frage:'Wie lange steigt der Körper? Lies es im Diagramm ab.', gr:'t_S', einheit:'s', etex:'\\text{s}', soll:W.tS, tol:0.6 * mt,
+      fehler:[['ganze_zeit', T], ['wert_v_zeit', W.vy0]],
+      tipp:'Er steigt, solange \\(v_y\\) positiv ist. Lies ab, wo der Graph die Zeitachse schneidet.',
+      formel:[['t_S = \\frac{v_{0y}}{g}', '= \\frac{' + fwE(W.vy0, '\\text{m/s}') + '}{' + Gt + '}', '{}\\approx ' + fwE(W.tS, '\\text{s}')]],
+      weg:'Abgelesen: Der Graph schneidet die Zeitachse bei \\(t_S \\approx ' + fwE(W.tS, '\\text{s}') + '\\). Probe mit der Formel:' });
+    const h = W.vy0 * W.vy0 / (2 * g);
+    neu({ id:'steighoehe', d:'vy', frage:'Wie hoch steigt der Körper über die Abwurfstelle? Bestimme es als Fläche unter dem Graphen.', gr:'\\Delta y', einheit:'m', etex:'\\text{m}', soll:h,
+      tol:0.5 * (0.6 * mv * W.tS + W.vy0 * 0.6 * mt) + 0.01 * h,
+      fehler:[['rechteck', W.vy0 * W.tS], ['ganze_flaeche', -W.h0], ['mit_h0', W.h0 ? W.h0 + h : null]],
+      tipp:'Die Änderung der Höhe ist die Fläche zwischen Graph und Zeitachse. Bis zum Scheitel ist sie ein Dreieck mit den Seiten \\(v_{0y}\\) und \\(t_S\\).',
+      formel:[['\\Delta y = \\tfrac{1}{2} \\cdot v_{0y} \\cdot t_S', '= \\tfrac{1}{2} \\cdot ' + fwE(W.vy0, '\\text{m/s}') + ' \\cdot ' + fwE(W.tS, '\\text{s}'), '{}\\approx ' + fwE(h, '\\text{m}')],
+              ['\\Delta y = \\frac{v_{0y}^2}{2 \\cdot g}', '= \\frac{(' + fwE(W.vy0, '\\text{m/s}') + ')^2}{2 \\cdot ' + Gt + '}', '{}\\approx ' + fwE(h, '\\text{m}')]],
+      weg:'Fläche des Dreiecks bis zum Scheitel, darunter die Probe mit der Formel:' });
+  }
+  neu({ id:'beschleunigung', d:'vy', frage:'Wie gross ist die Beschleunigung \\(a_y\\)? Bestimme sie als Steigung.', gr:'a_y', einheit:'m/s²', etex:'\\text{m/s}^2', soll:-g,
+    tol:0.6 * mv / T * 2 + 0.02 * g,
+    fehler:[['vorzeichen_a', g], ['wert_v', W.vy0 || null], ['wert_v', W.vyF], ['delta_v', W.vyF - W.vy0], ['kehrwert', T / (W.vyF - W.vy0)]],
+    tipp:'Die Beschleunigung ist die Steigung: Lies \\(v_y\\) am Anfang und am Ende ab, dann \\(a_y = \\frac{\\Delta v_y}{\\Delta t}\\).',
+    formel:[['a_y = \\frac{\\Delta v_y}{\\Delta t}', '= \\frac{' + fwE(W.vyF, '\\text{m/s}') + ' - ' + fwEk(W.vy0, '\\text{m/s}') + '}{' + fwE(T, '\\text{s}') + '}', '{}\\approx -' + Gt]],
+    weg:'Steigung über den ganzen Flug, vom Abwurf bis zum Aufprall:' });
+  if (!W.hand) neu({ id:'aufprall', d:'vy', frage:'Wie gross ist \\(v_y\\) beim Aufprall?', gr:'v_y', einheit:'m/s', etex:'\\text{m/s}', soll:W.vyF, tol:0.6 * mv + 0.01 * Math.abs(W.vyF),
+    fehler:[['vorzeichen_v', -W.vyF], ['wert_v0', W.vy0 || null]],
+    tipp:'Lies den Wert am Ende des Graphen ab, beim Aufprall. Achte auf das Vorzeichen: \\(y\\) zeigt nach oben.',
+    formel:[['v_y = v_{0y} - g \\cdot t_F', '= ' + fwE(W.vy0, '\\text{m/s}') + ' - ' + Gt + ' \\cdot ' + fwE(T, '\\text{s}'), '{}\\approx ' + fwE(W.vyF, '\\text{m/s}')]],
+    weg:'Abgelesen am Ende des Graphen; Probe mit der Formel:' });
+  if (W.vy0 <= 0) {
+    const v0 = -W.vy0, vF = -W.vyF;
+    neu({ id:'fallhoehe', d:'vy', verdeckt:['h0'], frage:'Aus welcher Höhe \\(h_0\\) fällt der Körper? Bestimme sie als Fläche zwischen Graph und Zeitachse.', gr:'h_0', einheit:'m', etex:'\\text{m}', soll:W.h0,
+      tol:0.6 * mv * T + (v0 + vF) / 2 * 0.6 * mt + 0.01 * W.h0,
+      fehler:[['rechteck_aufprall', vF * T], ['dreieck', v0 ? (vF - v0) / 2 * T : null], ['vorzeichen_h', -W.h0]],
+      tipp:'Die Fläche zwischen Graph und Zeitachse ist der Fallweg. ' + (v0 ? 'Sie ist ein Trapez: \\(\\frac{v_0 + |v_{yF}|}{2} \\cdot t_F\\).' : 'Sie ist ein Dreieck: \\(\\tfrac{1}{2} \\cdot |v_{yF}| \\cdot t_F\\).'),
+      formel:[v0 ? ['h_0 = \\frac{v_0 + |v_{yF}|}{2} \\cdot t_F', '= \\frac{' + fwE(v0, '\\text{m/s}') + ' + ' + fwE(vF, '\\text{m/s}') + '}{2} \\cdot ' + fwE(T, '\\text{s}'), '{}\\approx ' + fwE(W.h0, '\\text{m}')]
+                  : ['h_0 = \\tfrac{1}{2} \\cdot |v_{yF}| \\cdot t_F', '= \\tfrac{1}{2} \\cdot ' + fwE(vF, '\\text{m/s}') + ' \\cdot ' + fwE(T, '\\text{s}'), '{}\\approx ' + fwE(W.h0, '\\text{m}')]],
+      weg:'Abgelesen: Aufprall nach \\(t_F \\approx ' + fwE(T, '\\text{s}') + '\\) mit \\(v_{yF} \\approx ' + fwE(W.vyF, '\\text{m/s}') + '\\). Die Fläche liegt unter der Achse; der Fallweg ist ihr Betrag:' });
+  }
+  neu({ id:'flugzeit', d:'y', frage:'Wie lange dauert der Flug bis zum Aufprall?', gr:'t_F', einheit:'s', etex:'\\text{s}', soll:T, tol:0.6 * Ry.t.m,
+    fehler:[['nur_steigen', W.tS], ['wert_y', W.yMax]],
+    tipp:'Der Flug endet, wo der Graph die Zeitachse erreicht: bei \\(y = 0\\).',
+    formel:fwKenn(W, 'y').filter(z => z.lab === 'Aufprall' && z.tex).map(z => z.tex),
+    weg:'Abgelesen: \\(y = 0\\) bei \\(t_F \\approx ' + fwE(T, '\\text{s}') + '\\).' + (fwKenn(W, 'y').some(z => z.lab === 'Aufprall' && z.tex) ? ' Probe mit der Formel:' : '') });
+  if (W.vx) {
+    const dt = fwBlitz(T), N = Math.floor(T / dt + 1e-9), Rb = fwBahnRaster([fwKurve(W, 'bahn')], 8), xN = W.vx * N * dt;
+    neu({ id:'vx', d:'bahn', blitz:dt, verdeckt:['v0'], frage:'Die Punkte zeigen den Ball alle \\(' + fwE(dt, '\\text{s}') + '\\). Wie gross ist seine waagrechte Geschwindigkeit \\(v_x\\)?', gr:'v_x', einheit:'m/s', etex:'\\text{m/s}', soll:W.vx,
+      tol:0.6 * Rb.m / (N * dt) + 0.02 * W.vx,
+      fehler:[['delta_x', W.vx * dt], ['kehrwert_x', 1 / W.vx], ['vx_v0', W.wurf === 'schief' ? W.v0 : null]],
+      tipp:'Waagrecht kommt der Ball in jedem Zeitabschnitt gleich weit. Miss über möglichst viele Abschnitte: \\(x\\) beim letzten Punkt vor dem Aufprall, geteilt durch seine Zeit.',
+      formel:[['v_x = \\frac{\\Delta x}{\\Delta t}', '= \\frac{' + fwE(xN, '\\text{m}') + '}{' + N + ' \\cdot ' + fwE(dt, '\\text{s}') + '}', '{}\\approx ' + fwE(W.vx, '\\text{m/s}')]],
+      weg:'Der letzte Punkt vor dem Aufprall ist Punkt ' + N + ' nach dem Abwurf, bei \\(x \\approx ' + fwE(xN, '\\text{m}') + '\\):' });
+    if (W.wurf === 'schief') neu({ id:'scheitel_v', d:'bahn', blitz:dt, verdeckt:['v0'], frage:'Die Punkte zeigen den Ball alle \\(' + fwE(dt, '\\text{s}') + '\\). Wie gross ist der Betrag seiner Geschwindigkeit im höchsten Punkt?', gr:'v', einheit:'m/s', etex:'\\text{m/s}', soll:W.vx,
+      tol:0.6 * Rb.m / (N * dt) + 0.02 * W.vx,
+      fehler:[['scheitel_null', 0], ['delta_x', W.vx * dt], ['kehrwert_x', 1 / W.vx]],
+      tipp:'Im höchsten Punkt ist \\(v_y = 0\\). Was bleibt übrig? Die waagrechte Geschwindigkeit liest du an den waagrechten Abständen der Punkte ab.',
+      formel:[['v = v_x', '= \\frac{\\Delta x}{\\Delta t}', '= \\frac{' + fwE(xN, '\\text{m}') + '}{' + N + ' \\cdot ' + fwE(dt, '\\text{s}') + '}', '{}\\approx ' + fwE(W.vx, '\\text{m/s}')]],
+      weg:'Im Scheitel ist \\(v_y = 0\\), es bleibt die waagrechte Geschwindigkeit. Abgelesen über ' + N + ' Abschnitte:' });
+  }
+  return F;
+}
+const FW_ABLESEN = {
+  leer:              q => 'Gib zuerst eine Zahl ein.',
+  ganze_zeit:        q => 'Das ist die ganze Flugzeit. Steigen tut der Körper nur, solange \\(v_y\\) positiv ist: bis der Graph die Zeitachse schneidet.',
+  wert_v_zeit:       q => 'Das ist eine Geschwindigkeit, keine Zeit. Lies auf der Zeitachse ab, wo \\(v_y = 0\\) ist.',
+  rechteck:          q => 'Das ist das ganze Rechteck \\(v_{0y} \\cdot t_S\\). Die Fläche unter dem Graphen ist ein Dreieck, halb so gross: \\(\\Delta y = \\tfrac{1}{2} \\cdot v_{0y} \\cdot t_S\\).',
+  ganze_flaeche:     q => 'Das ist die Fläche über den ganzen Flug, oben positiv und unten negativ: die Änderung der Höhe vom Abwurf bis zum Aufprall. Gefragt ist nur das Steigen, bis \\(v_y = 0\\).',
+  mit_h0:            q => 'Das ist die Höhe über dem Boden. Gefragt ist, wie hoch der Körper über die Abwurfstelle steigt: ohne \\(h_0\\).',
+  vorzeichen_a:      q => 'Der Betrag stimmt, das Vorzeichen nicht: Der Graph fällt, \\(v_y\\) nimmt ab. Also ist \\(a_y\\) negativ.',
+  wert_v:            q => 'Das ist eine Geschwindigkeit, abgelesen an einem Punkt, nicht die Beschleunigung. Die Beschleunigung ist die Steigung: \\(a_y = \\frac{\\Delta v_y}{\\Delta t}\\).',
+  delta_v:           q => 'Das ist die Änderung \\(\\Delta v_y\\) über den ganzen Flug. Die Beschleunigung ist diese Änderung geteilt durch die Zeitspanne \\(\\Delta t\\).',
+  kehrwert:          q => 'Das ist der Kehrwert. Steigung heisst: Änderung nach oben geteilt durch die Zeitspanne nach rechts.',
+  vorzeichen_v:      q => 'Der Betrag stimmt, das Vorzeichen nicht: Beim Aufprall fliegt der Körper nach unten, und \\(y\\) zeigt nach oben. Also ist \\(v_y\\) negativ.',
+  wert_v0:           q => 'Das ist die Geschwindigkeit beim Abwurf. Gefragt ist der Wert am Ende des Graphen, beim Aufprall.',
+  rechteck_aufprall: q => 'Das ist das Rechteck mit der Aufprallgeschwindigkeit, zu gross. Die Fläche zwischen Graph und Zeitachse ist ' + (q.W.vy0 ? 'ein Trapez: \\(h_0 = \\frac{v_0 + |v_{yF}|}{2} \\cdot t_F\\).' : 'ein Dreieck: \\(h_0 = \\tfrac{1}{2} \\cdot |v_{yF}| \\cdot t_F\\).'),
+  dreieck:           q => 'Das ist nur das Dreieck. Darunter liegt noch das Rechteck mit der Abwurfgeschwindigkeit, \\(v_0 \\cdot t_F\\).',
+  vorzeichen_h:      q => 'Die Fläche liegt unter der Zeitachse und zählt darum negativ: Die Höhe nimmt ab. Gefragt ist die Fallhöhe, ihr Betrag.',
+  nur_steigen:       q => 'Das ist nur die Zeit bis zum höchsten Punkt. Der Flug dauert, bis der Graph die Zeitachse erreicht: \\(y = 0\\).',
+  wert_y:            q => 'Das ist eine Höhe, keine Zeit. Lies auf der Zeitachse ab, wo der Graph \\(y = 0\\) erreicht.',
+  delta_x:           q => 'Das ist der Weg zwischen zwei Punkten, \\(\\Delta x\\). Die Geschwindigkeit ist dieser Weg geteilt durch die Zeit dazwischen, \\(\\Delta t\\).',
+  kehrwert_x:        q => 'Das ist der Kehrwert, Zeit durch Weg. Die Geschwindigkeit ist Weg durch Zeit: \\(v_x = \\frac{\\Delta x}{\\Delta t}\\).',
+  vx_v0:             q => 'Das ist die ganze Abwurfgeschwindigkeit \\(v_0\\). Waagrecht zählt nur ihre Komponente \\(v_x\\), die du an den waagrechten Abständen der Punkte abliest.',
+  scheitel_null:     q => 'Im höchsten Punkt ist nur \\(v_y = 0\\). Waagrecht fliegt der Ball weiter mit \\(v_x\\): Dort ist er am langsamsten, aber nicht in Ruhe.',
+  falsch:            q => 'Noch nicht richtig. Der Tipp zeigt, wie du vorgehen kannst.',
+};
+function fwBewerte(q, x) {
+  const e = code => ({ code, text:FW_ABLESEN[code](q) });
+  if (!isFinite(x)) return e('leer');
+  if (Math.abs(x - q.soll) <= q.tol) return null;
+  let best = null;
+  q.fehler.forEach(([code, w]) => { const d = Math.abs(x - w); if (d <= q.tol && (!best || d < best.d)) best = { code, d }; });
+  return e(best ? best.code : 'falsch');
+}
+
+/* ── Selbsttest ───────────────────────────────────────────────────── */
+function fwSelbsttest(n) {
+  n = n || 30;
+  const fehler = []; let faelle = 0;
+  const F = (ok, was) => { faelle++; if (!ok) fehler.push(was); };
+  const nah = (a, b, rel) => Math.abs(a - b) <= (rel || 1e-6) * Math.max(1, Math.abs(b));
+  const sauber = s => typeof s === 'string' && s.search(/NaN|undefined|Infinity/) < 0 && !/\d,\d/.test(s);
+  Object.keys(FW_WUERFE).forEach((wurf, wi) => {
+    for (let s = 0; s < n; s++) {
+      const r = fwZufall(1000 * wi + s + 1), wo = wurf + '#' + s;
+      let W; try { W = fwSzene(wurf, r); } catch (e) { F(false, wo + ': ' + e.message); continue; }
+      const T = W.tF, h = 1e-5;
+      // unabhängig nachgerechnet: Start, Aufprall, Ableitungen, Energie, Fläche
+      F(nah(fwY(W, 0), W.h0) && Math.abs(fwY(W, T)) < 1e-9, wo + ': Start oder Aufprall falsch');
+      for (let i = 1; i < 50; i++) F(fwY(W, i / 50 * T) > -1e-9, wo + ': unter dem Boden vor dem Aufprall');
+      [0.2, 0.5, 0.8].forEach(u => { const t = u * T;
+        F(nah((fwY(W, t + h) - fwY(W, t - h)) / (2 * h), fwVy(W, t), 1e-5), wo + ': v_y ist nicht die Steigung von y');
+        F(nah((fwVy(W, t + h) - fwVy(W, t - h)) / (2 * h), -FW_G, 1e-6), wo + ': a_y ≠ −g');
+        const P = fwKurve(W, 'bahn'); F(nah(fwBei(P, t)[0], W.vx * t) && nah(fwBei(P, t)[1], fwY(W, t)), wo + ': Bahn passt nicht zu x und y'); });
+      F(nah(W.vx * W.vx + W.vyF * W.vyF, W.v0 * W.v0 + 2 * FW_G * W.h0, 1e-9), wo + ': Energie stimmt nicht');
+      let A = 0; const N = 4000; for (let j = 0; j < N; j++) A += fwVy(W, (j + 0.5) * T / N) * T / N;
+      F(nah(A, -W.h0, 1e-6), wo + ': Fläche unter v_y ≠ −h0');
+      if (W.steigt) { F(Math.abs(fwVy(W, W.tS)) < 1e-9, wo + ': v_y im Scheitel ≠ 0');
+        const ym = Math.max(...Array.from({ length:2001 }, (_, i) => fwY(W, i / 2000 * T))); F(nah(W.yMax, ym, 1e-6), wo + ': Steighöhe falsch'); }
+      if (W.hand && W.steigt) F(nah(T, 2 * W.tS), wo + ': Flugzeit ≠ 2 t_S');
+      if (wurf === 'schief' && W.hand) F(nah(W.xF, W.v0 * W.v0 * Math.sin(2 * W.alpha * Math.PI / 180) / FW_G, 1e-9), wo + ': Wurfweite ≠ v0² sin 2α / g');
+      if (wurf === 'waagrecht') F(nah(T, Math.sqrt(2 * W.h0 / FW_G)), wo + ': waagrecht: Flugzeit ≠ Fallzeit');
+      const text = fwText(W) + fwText(W, ['h0', 'v0']);
+      F(sauber(text) && text.indexOf(fwZahl(W.h0 || W.v0)) >= 0, wo + ': Text kaputt');
+      // Auswahl: vier Diagramme, genau eines richtig, Fehlbilder sichtbar verschieden, jedes mit Text
+      fwDias(W).forEach(d => {
+        const O = fwOptionen(W, d, fwZufall(77 + s)), K = fwKurve(W, d), bahn = d === 'bahn';
+        F(O.length === 4, wo + ' ' + d + ': nur ' + O.length + ' Diagramme');
+        F(O.filter(o => o.code === null).length === 1 && !fwVerschieden(O.find(o => o.code === null).k, K, bahn, K), wo + ' ' + d + ': richtiges Diagramm fehlt');
+        O.forEach((o, i) => { if (o.code === null) return;
+          F(fwVerschieden(o.k, K, bahn, K), wo + ' ' + d + ': Fehlbild ' + o.code + ' zu nah am richtigen');
+          O.forEach((p, j) => { if (j > i) F(fwVerschieden(o.k, p.k, bahn, K), wo + ' ' + d + ': zwei gleiche Diagramme'); });
+          F(FW_DIAGNOSE[o.code] && sauber(FW_DIAGNOSE[o.code]({ W, d })), wo + ': Fehlbild ' + o.code + ' ohne Text');
+          fwProben(o.k, 20).forEach(t => { const v = fwBei(o.k, t); F(bahn ? isFinite(v[0]) && isFinite(v[1]) : isFinite(v), wo + ': Fehlbild ' + o.code + ' nicht endlich'); });
+        });
+        fwKenn(W, d).forEach(z => F(sauber((z.tex || []).join('') + (z.text || '')), wo + ' ' + d + ': Rechenweg kaputt'));
+      });
+      // Stellen: Lösung erfüllt ihre Eigenschaft, jede typische falsche Stelle bekommt ihre Diagnose
+      const betrag = t => Math.hypot(W.vx, fwVy(W, t)), proben = Array.from({ length:401 }, (_, i) => i / 400 * T);
+      const pruef = {
+        oben_vy:t => nah(fwY(W, t), W.yMax), vy_null_y:t => Math.abs(fwVy(W, t)) < 1e-9,
+        schnell_y:t => nah(betrag(t), Math.max(...proben.map(betrag))), schnell_vy:t => nah(betrag(t), Math.max(...proben.map(betrag))),
+        schnell_bahn:t => nah(betrag(t), Math.max(...proben.map(betrag))), langsam_bahn:t => betrag(t) <= Math.min(...proben.map(betrag)) + 1e-9,
+        abwurfhoehe:t => t > 0 && nah(fwY(W, t), W.h0), halbe_hoehe:t => nah(fwY(W, t), W.h0 / 2), halbe_zeit_bahn:t => nah(W.vx * t, W.xF / 2),
+      };
+      fwStellen(W).forEach(q => {
+        const w2 = wo + ' Stelle ' + q.id; q.W = W;
+        F(sauber(q.frage + q.tipp + q.erkl + (q.knopf || '')), w2 + ': Text kaputt');
+        if (Array.isArray(q.loes)) {
+          q.loes.forEach(t => { F(t >= -1e-9 && t <= T + 1e-9, w2 + ': Lösung ausserhalb des Flugs');
+            F(pruef[q.id] && pruef[q.id](t), w2 + ': Lösung erfüllt die Frage nicht');
+            F(fwStelleBewerte(q, t) === null && fwStelleBewerte(q, Math.min(T, t + 0.9 * q.tol)) === null, w2 + ': richtige Stelle abgelehnt'); });
+          ['nirgends', 'ueberall'].forEach(k => { const b = fwStelleBewerte(q, k); F(b && b.code === 'gibt_es' && sauber(b.text), w2 + ': Knopf ' + k + ' nicht abgelehnt'); });
+        } else {
+          F(fwStelleBewerte(q, q.loes) === null, w2 + ': richtiger Knopf abgelehnt');
+          const b = fwStelleBewerte(q, q.loes === 'nirgends' ? 'ueberall' : 'nirgends'); F(b && b.code === 'knopf' && sauber(b.text), w2 + ': falscher Knopf nicht erkannt');
+          if (q.id === 'a_null' || q.id === 'a_gross') F(proben.every(t => nah((fwVy(W, Math.min(T, t + h)) - fwVy(W, Math.max(0, t - h))) / (Math.min(T, t + h) - Math.max(0, t - h)), -FW_G, 1e-6)), w2 + ': a_y nicht konstant');
+          if (q.id === 'vx_bahn') F(proben.every(t => nah(fwBei(fwKurve(W, 'bahn'), t)[0], W.vx * t)), w2 + ': x nicht gleichförmig');
+        }
+        q.punkte.forEach(([t, code]) => { const b = fwStelleBewerte(q, t); F(b && b.code === code && sauber(b.text), w2 + ': ' + code + ' nicht erkannt'); });
+      });
+      // Ablesen: Soll unabhängig nachgerechnet, richtige Antwort und Ablesefehler bis 0.9 · Toleranz gelten, jedes Fehlbild bekommt seine Diagnose
+      fwFragen(W).forEach(q => {
+        const w2 = wo + ' Ablesen ' + q.id; q.W = W;
+        let ist;
+        if (q.id === 'steigzeit') ist = Math.abs(fwVy(W, q.soll)) < 1e-9;
+        else if (q.id === 'steighoehe') { let a = 0; for (let j = 0; j < 2000; j++) a += fwVy(W, (j + 0.5) * W.tS / 2000) * W.tS / 2000; ist = nah(a, q.soll, 1e-6); }
+        else if (q.id === 'beschleunigung') ist = nah((fwVy(W, T) - fwVy(W, 0)) / T, q.soll);
+        else if (q.id === 'aufprall') ist = nah(Math.hypot(q.soll, W.vx), Math.sqrt(W.v0 * W.v0 + 2 * FW_G * W.h0));
+        else if (q.id === 'fallhoehe') ist = nah(-A, q.soll, 1e-6);
+        else if (q.id === 'flugzeit') ist = Math.abs(fwY(W, q.soll)) < 1e-9 && q.soll > 0;
+        else if (q.id === 'vx' || q.id === 'scheitel_v') { const P = fwKurve(W, 'bahn'), t1 = 0.3 * T, t2 = 0.7 * T;
+          ist = nah((fwBei(P, t2)[0] - fwBei(P, t1)[0]) / (t2 - t1), q.soll) && (q.id === 'vx' || nah(Math.hypot(W.vx, fwVy(W, W.tS)), q.soll)); }
+        F(ist, w2 + ': Soll ' + q.soll + ' stimmt nicht');
+        const pflicht = { steigzeit:'ganze_zeit', steighoehe:'rechteck', beschleunigung:'vorzeichen_a', aufprall:'vorzeichen_v',
+                          fallhoehe:'rechteck_aufprall', vx:'delta_x', scheitel_v:'scheitel_null' }[q.id];
+        if (pflicht) F(q.fehler.some(([c]) => c === pflicht), w2 + ': Diagnose ' + pflicht + ' fehlt');
+        F(q.tol > 0 && q.tol < 0.25 * Math.max(Math.abs(q.soll), 1), w2 + ': Toleranz ' + q.tol + ' unpassend');
+        F(!fwBewerte(q, q.soll) && !fwBewerte(q, q.soll + 0.9 * q.tol) && !fwBewerte(q, q.soll - 0.9 * q.tol) && !fwBewerte(q, fwLies(fwZahl(q.soll))), w2 + ': richtige Antwort abgelehnt');
+        F(fwBewerte(q, NaN).code === 'leer', w2 + ': leere Eingabe');
+        q.fehler.forEach(([code, w]) => { const b = fwBewerte(q, w); F(b && b.code === code && sauber(b.text), w2 + ': ' + code + ' nicht erkannt');
+          F(Math.abs(w - q.soll) > 2 * q.tol, w2 + ': Fehlbild ' + code + ' zu nah am Soll'); });
+        F(fwBewerte(q, q.soll * 3 + 7.7).text, w2 + ': keine Rückmeldung');
+        F(sauber(q.frage + q.tipp + q.weg + q.formel.map(z => z.join('')).join('')), w2 + ': Text oder Rechenweg kaputt');
+        if (q.verdeckt) F(fwText(W, q.verdeckt).indexOf(q.verdeckt[0] === 'h0' ? 'h_0 =' : 'v_0 =') < 0, w2 + ': gesuchte Grösse steht im Text');
+      });
+      F(fwStellen(W).length >= 3 && fwFragen(W).length >= 3, wo + ': zu wenig Aufgaben');
+    }
+  });
+  // Eingabeformate und Zahlformat
+  [['2.5', 2.5], ['2,5', 2.5], [' -9.81 m/s²', -9.81], ['−1.5', -1.5], ['', NaN], ['-', NaN], ['abc', NaN]].forEach(([t, w]) => {
+    const x = fwLies(t); F(Number.isNaN(w) ? Number.isNaN(x) : x === w, 'Eingabe «' + t + '» gelesen als ' + x); });
+  [[20, '20'], [1.529, '1.53'], [9.81, '9.81'], [-19.81, '-19.8'], [0.7071, '0.707'], [114.7, '115'], [9.996, '10'], [-0.00001, '0']].forEach(([x, t]) => F(fwZahl(x) === t, 'Zahlformat ' + x + ' → ' + fwZahl(x)));
+  return { wuerfe:Object.keys(FW_WUERFE).length, faelle, fehler };
+}
+window.fwSelbsttest = fwSelbsttest;
+
+if (window.FW_TEST) return;            // im Selbsttest keine Oberfläche
+
+/* ═══════════════════ Oberfläche ═══════════════════ */
+const $ = id => document.getElementById(id);
+const FW_FARBE = { y:'#1f5fa8', vy:'#b3261e', ay:'#2e7d32', x:'#6d28d9', vx:'#b45309', bahn:'#1f5fa8' };
+const zustand = { art:'zuordnen', wurf:'fall', W:null, d:null, O:null, stelle:null, frage:null, marken:[], cursor:null,
+                  fertig:false, fehlversuch:false, tipp:0, geloest:0, ersteRichtig:0, letzte:null };
+function fwSetze(el) { if (typeof mjTypeset === 'function') mjTypeset([el]); }
+
+/* Text mit tiefgestelltem Zeichen: teile = [[text, tief?], …] */
+function fwSubText(ctx, teile, x, y, fs, rechts) {
+  const breite = teile.reduce((s, [t, tief]) => { ctx.font = (tief ? Math.round(fs * 0.75) : fs) + 'px "JetBrains Mono", monospace'; return s + ctx.measureText(t).width; }, 0);
+  let cx = rechts ? x - breite : x;
+  ctx.textAlign = 'left';
+  teile.forEach(([t, tief]) => { ctx.font = (tief ? Math.round(fs * 0.75) : fs) + 'px "JetBrains Mono", monospace';
+    ctx.fillText(t, cx, tief ? y + fs * 0.3 : y); cx += ctx.measureText(t).width; });
+  return breite;
+}
+function fwTitel(ctx, teile, x, y, fs, rechts) {       // Achsentitel mit hellem Grund
+  ctx.save(); ctx.globalAlpha = 0; const w = fwSubText(ctx, teile, x, y, fs, rechts); ctx.restore();
+  ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fillRect(rechts ? x - w - 3 : x - 3, y - fs, w + 6, fs * 1.45);
+  ctx.fillStyle = '#374151'; fwSubText(ctx, teile, x, y, fs, rechts);
+}
+/* Erste Lage aus kand ({x, y, rechts}), deren Kasten keine Kurve berührt und im Bild liegt */
+function fwFreieLage(ctx, teile, fs, kand, punkte, B, H) {
+  ctx.save(); ctx.globalAlpha = 0; const w = fwSubText(ctx, teile, 0, -100, fs, false); ctx.restore();
+  const box = c => ({ x0:c.rechts ? c.x - w - 4 : c.x - 4, x1:c.rechts ? c.x + 4 : c.x + w + 4, y0:c.y - fs - 3, y1:c.y + fs * 0.5 + 3 });
+  const frei = c => { const b = box(c); return b.x0 >= 0 && b.x1 <= B && b.y0 >= 0 && b.y1 <= H && !punkte.some(([x, y]) => x >= b.x0 && x <= b.x1 && y >= b.y0 && y <= b.y1); };
+  const c = kand.find(frei) || kand[0];
+  return Object.assign({ w, box:box(c) }, c);
+}
+const fwAchsTeile = d => d === 'bahn' ? null : [[FW_DIA[d].b, false]].concat(FW_DIA[d].s ? [[FW_DIA[d].s, true]] : []).concat([[' [' + FW_DIA[d].e + ']', false]]);
+function fwPfeil(ctx, x1, y1, x2, y2, farbe, breite) {
+  const a = Math.atan2(y2 - y1, x2 - x1), k = 8;
+  ctx.strokeStyle = farbe; ctx.fillStyle = farbe; ctx.lineWidth = breite || 2;
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2 - 0.6 * k * Math.cos(a), y2 - 0.6 * k * Math.sin(a)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x2, y2); ctx.lineTo(x2 - k * Math.cos(a - 0.4), y2 - k * Math.sin(a - 0.4)); ctx.lineTo(x2 - k * Math.cos(a + 0.4), y2 - k * Math.sin(a + 0.4)); ctx.fill();
+}
+
+/* Zeitdiagramm: Raster aus fwRasterAus, feines Raster zum Ablesen, Marken für getippte Stellen */
+function fwDiagramm(id, o) {
+  const el = $(id); if (!el || !el.getContext) return;
+  if (o.d === 'bahn') return fwBahnDiagramm(id, o);
+  const klein = !!o.klein, { ctx, W, H } = initCanvas(id, o.hoehe || 240);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+  const R = fwRasterAus(o.kurven.map(k => k.k), o.T, o.werte, klein ? 6 : 8), tx = R.t, wy = R.w;
+  const L = klein ? 34 : 46, Rr = klein ? 10 : 16, O = klein ? 18 : 24, U = klein ? 16 : 22;
+  const px = t => L + t / tx.hi * (W - L - Rr), py = v => O + (wy.hi - v) / (wy.hi - wy.lo) * (H - O - U);
+  const linie = (x1, y1, x2, y2) => { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); };
+  ctx.lineWidth = 1;
+  if (o.fein) { ctx.strokeStyle = '#f2f3f6';
+    for (let t = 0; t <= tx.hi + 1e-9; t += tx.m) linie(Math.round(px(t)) + 0.5, O, Math.round(px(t)) + 0.5, H - U);
+    for (let v = wy.lo; v <= wy.hi + 1e-9; v += wy.m) linie(L, Math.round(py(v)) + 0.5, W - Rr, Math.round(py(v)) + 0.5); }
+  ctx.strokeStyle = o.fein ? '#dde1e7' : '#eceef2';
+  for (let t = 0; t <= tx.hi + 1e-9; t += tx.st) linie(Math.round(px(t)) + 0.5, O, Math.round(px(t)) + 0.5, H - U);
+  for (let v = wy.lo; v <= wy.hi + 1e-9; v += wy.st) linie(L, Math.round(py(v)) + 0.5, W - Rr, Math.round(py(v)) + 0.5);
+  // Achsen: die Zeitachse durch 0
+  const y0 = py(0);
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.5; linie(L, y0, W - 4, y0); linie(L, H - U + 2, L, 4);
+  ctx.fillStyle = '#374151';
+  ctx.beginPath(); ctx.moveTo(W - 4, y0); ctx.lineTo(W - 11, y0 - 4); ctx.lineTo(W - 11, y0 + 4); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(L, 4); ctx.lineTo(L - 4, 11); ctx.lineTo(L + 4, 11); ctx.fill();
+  // Kurvenpunkte in Pixeln, damit der Zeittitel keiner Kurve im Weg steht
+  const fs = klein ? 10 : 12, punkte = [];
+  o.kurven.forEach(kv2 => { if (kv2.farbe.indexOf('rgba(0,0,0,0)') < 0) kv2.k.forEach(g => { for (let j = 0; j <= 60; j++) { const t = g.t0 + (g.t1 - g.t0) * j / 60; punkte.push([px(t), py(g.f(t))]); } }); });
+  const tTitel = fwFreieLage(ctx, [['t [s]', false]], fs, [{ x:W - 4, y:y0 - 7, rechts:true }, { x:W - 4, y:y0 + 17, rechts:true }, { x:W - 4, y:O + fs, rechts:true }, { x:W - 4, y:H - 4, rechts:true }], punkte, W, H);
+  // Beschriftung, so dicht wie lesbar
+  ctx.font = fs + 'px "JetBrains Mono", monospace'; ctx.fillStyle = '#6b7280';
+  const kt = [1, 2, 4, 5, 10].find(k => px(k * tx.st) - px(0) >= (klein ? 24 : 30)) || 10;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let i = kt; i * tx.st <= tx.hi + 1e-9; i += kt) { const x = px(i * tx.st), y = Math.min(y0 + 3, H - fs - 1), b = tTitel.box;
+    if (x < W - Rr - 10 && !(x + 14 > b.x0 && y + fs > b.y0 && y < b.y1)) ctx.fillText(fwZahl(i * tx.st), x, y); }
+  const kv = [1, 2, 4, 5, 10].find(k => py(0) - py(k * wy.st) >= (klein ? 13 : 16)) || 10;
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (let i = Math.ceil(wy.lo / wy.st / kv - 1e-9) * kv; i * wy.st <= wy.hi + 1e-9; i += kv) ctx.fillText(fwZahl(i * wy.st), L - 4, py(i * wy.st));
+  ctx.textBaseline = 'alphabetic';
+  // Kurven, Stück für Stück
+  o.kurven.forEach(kv2 => {
+    ctx.strokeStyle = kv2.farbe; ctx.lineWidth = kv2.breite || 2.6; ctx.lineCap = 'round';
+    kv2.k.forEach(g => { ctx.beginPath(); const n = 60;
+      for (let j = 0; j <= n; j++) { const t = g.t0 + (g.t1 - g.t0) * j / n, x = px(t), y = py(g.f(t)); j ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      ctx.stroke(); });
+  });
+  // Marken: getippte Stellen und Tastatur-Cursor
+  const k0 = o.kurven[0] && o.kurven[0].k;
+  (o.marken || []).concat(o.cursor !== null && o.cursor !== undefined ? [{ t:o.cursor, farbe:'#6b7280', cursor:true }] : []).forEach(m => {
+    const x = px(m.t); ctx.setLineDash([4, 4]); ctx.strokeStyle = m.farbe; ctx.lineWidth = 1.5; linie(x, O, x, H - U); ctx.setLineDash([]);
+    if (k0) { ctx.fillStyle = m.farbe; ctx.beginPath(); ctx.arc(x, py(fwBei(k0, m.t)), m.cursor ? 4 : 5.5, 0, 2 * Math.PI); ctx.fill();
+      if (!m.cursor) { ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke(); } }
+  });
+  // Achsentitel zuletzt, mit hellem Grund
+  fwTitel(ctx, fwAchsTeile(o.d), L + 8, klein ? 13 : 16, fs, false);
+  fwTitel(ctx, [['t [s]', false]], tTitel.x, tTitel.y, fs, true);
+  el._fw = { bahn:false, zuT:x => (x - L) / (W - L - Rr) * tx.hi };
+  el.setAttribute('aria-label', (o.label || FW_DIA[o.d].name + ' über der Zeit') + ', Zeitachse bis ' + fwZahl(tx.hi) + ' s');
+}
+
+/* Bahnkurve im Massstab 1:1, auf Wunsch mit den Orten in gleichen Zeitabständen */
+function fwBahnDiagramm(id, o) {
+  const el = $(id), klein = !!o.klein, { ctx, W, H } = initCanvas(id, o.hoehe || 240);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+  const R = fwBahnRaster(o.kurven.map(k => k.k), klein ? 6 : 8);
+  const L = klein ? 30 : 40, Rr = klein ? 12 : 22, O = klein ? 18 : 24, U = klein ? 18 : 24;
+  const s = Math.min((W - L - Rr) / R.xhi, (H - O - U) / R.yhi);
+  const X = x => L + x * s, Y = y => H - U - y * s;
+  const linie = (x1, y1, x2, y2) => { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); };
+  ctx.lineWidth = 1;
+  if (o.fein) { ctx.strokeStyle = '#f2f3f6';
+    for (let x = 0; x <= R.xhi + 1e-9; x += R.m) linie(Math.round(X(x)) + 0.5, Y(0), Math.round(X(x)) + 0.5, Y(R.yhi));
+    for (let y = 0; y <= R.yhi + 1e-9; y += R.m) linie(X(0), Math.round(Y(y)) + 0.5, X(R.xhi), Math.round(Y(y)) + 0.5); }
+  ctx.strokeStyle = o.fein ? '#dde1e7' : '#eceef2';
+  for (let x = 0; x <= R.xhi + 1e-9; x += R.st) linie(Math.round(X(x)) + 0.5, Y(0), Math.round(X(x)) + 0.5, Y(R.yhi));
+  for (let y = 0; y <= R.yhi + 1e-9; y += R.st) linie(X(0), Math.round(Y(y)) + 0.5, X(R.xhi), Math.round(Y(y)) + 0.5);
+  // Boden mit Schraffur, Achsen
+  ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 1;
+  for (let x = X(0); x < X(R.xhi); x += 7) linie(x, Y(0) + 1, x - 5, Y(0) + 6);
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.5; linie(X(0), Y(0), X(R.xhi) + 10, Y(0)); linie(X(0), Y(0), X(0), Y(R.yhi) - 10);
+  ctx.fillStyle = '#374151';
+  ctx.beginPath(); ctx.moveTo(X(R.xhi) + 14, Y(0)); ctx.lineTo(X(R.xhi) + 7, Y(0) - 4); ctx.lineTo(X(R.xhi) + 7, Y(0) + 4); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(X(0), Y(R.yhi) - 14); ctx.lineTo(X(0) - 4, Y(R.yhi) - 7); ctx.lineTo(X(0) + 4, Y(R.yhi) - 7); ctx.fill();
+  const fs = klein ? 10 : 12, punkte = [];
+  o.kurven.forEach(kv => { if (kv.farbe.indexOf('rgba(0,0,0,0)') < 0) kv.k.forEach(g => { for (let j = 0; j <= 80; j++) { const p = g.f(g.t0 + (g.t1 - g.t0) * j / 80); punkte.push([X(p[0]), Y(p[1])]); } }); });
+  const xTitel = fwFreieLage(ctx, [['x [m]', false]], fs, [{ x:X(R.xhi) + 18, y:Y(0) + 4, rechts:false }, { x:W - 4, y:Y(0) - 7, rechts:true }, { x:W - 4, y:O + fs, rechts:true }], punkte, W, H);
+  ctx.font = fs + 'px "JetBrains Mono", monospace'; ctx.fillStyle = '#6b7280';
+  const k = [1, 2, 4, 5, 10].find(k2 => k2 * R.st * s >= (klein ? 22 : 28)) || 10;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let i = k; i * R.st <= R.xhi + 1e-9; i += k) ctx.fillText(fwZahl(i * R.st), X(i * R.st), Y(0) + 7);
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (let i = 0; i * R.st <= R.yhi + 1e-9; i += k) ctx.fillText(fwZahl(i * R.st), X(0) - 4, Y(i * R.st));
+  ctx.textBaseline = 'alphabetic';
+  // Kurven
+  o.kurven.forEach(kv => { ctx.strokeStyle = kv.farbe; ctx.lineWidth = kv.breite || 2.4; ctx.lineCap = 'round';
+    kv.k.forEach(g => { ctx.beginPath(); const n = 80;
+      for (let j = 0; j <= n; j++) { const p = g.f(g.t0 + (g.t1 - g.t0) * j / n); j ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])); }
+      ctx.stroke(); }); });
+  const k0 = o.kurven[0].k;
+  if (o.blitz) { ctx.fillStyle = '#111827';
+    for (let t = 0; t <= fwEnde(k0) + 1e-9; t += o.blitz) { const p = fwBei(k0, t); ctx.beginPath(); ctx.arc(X(p[0]), Y(p[1]), klein ? 2.5 : 3.4, 0, 2 * Math.PI); ctx.fill(); } }
+  (o.marken || []).concat(o.cursor !== null && o.cursor !== undefined ? [{ t:o.cursor, farbe:'#6b7280', cursor:true }] : []).forEach(m => {
+    const p = fwBei(k0, m.t); ctx.strokeStyle = m.farbe; ctx.lineWidth = m.cursor ? 1.5 : 2.5;
+    ctx.beginPath(); ctx.arc(X(p[0]), Y(p[1]), m.cursor ? 7 : 9, 0, 2 * Math.PI); ctx.stroke(); });
+  fwTitel(ctx, [['y [m]', false]], X(0) + 8, klein ? 13 : 16, fs, false);
+  fwTitel(ctx, [['x [m]', false]], xTitel.x, xTitel.y, fs, xTitel.rechts);
+  el._fw = { bahn:true, proben:fwProben(k0, 300).map(t => { const p = fwBei(k0, t); return { t, X:X(p[0]), Y:Y(p[1]) }; }) };
+  el.setAttribute('aria-label', (o.label || 'Bahnkurve, Höhe y über dem waagrechten Ort x') + ', Massstab 1:1' + (o.blitz ? ', Punkte alle ' + fwZahl(o.blitz) + ' s' : ''));
+}
+
+/* Skizze des Abwurfs, nicht massstäblich */
+function fwSkizze(id, W, verdeckt) {
+  const el = $(id); if (!el || !el.getContext) return;
+  const { ctx, W:B, H } = initCanvas(id, 160);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, B, H);
+  const fs = 11, boden = H - 22, xa = Math.min(118, B * 0.45), hoch = W.h0 > 0 ? 82 : 0, ya = boden - hoch;
+  const linie = (x1, y1, x2, y2) => { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); };
+  ctx.lineWidth = 1.5;
+  if (W.h0 > 0) {
+    ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 1; for (let x = 8; x < B - 8; x += 7) linie(x, boden + 1, x - 5, boden + 6);
+    ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.5; linie(4, boden, B - 4, boden);
+    ctx.fillStyle = '#ece6da'; ctx.fillRect(xa - 30, ya, 30, hoch); ctx.strokeRect(xa - 30, ya, 30, hoch);
+    // Höhenpfeil h0
+    const xh = xa - 40; ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 1;
+    linie(xh, ya + 1, xh, boden - 1); [[ya, 1], [boden, -1]].forEach(([y, r]) => { ctx.beginPath(); ctx.moveTo(xh, y); ctx.lineTo(xh - 3, y + 6 * r); ctx.lineTo(xh + 3, y + 6 * r); ctx.fillStyle = '#6b7280'; ctx.fill(); });
+    ctx.fillStyle = '#374151'; ctx.textBaseline = 'middle';
+    fwSubText(ctx, [['h', false], ['0', true], [verdeckt.indexOf('h0') >= 0 ? ' = ?' : ' = ' + fwZahl(W.h0) + ' m', false]], xh - 5, (ya + boden) / 2, fs, true);
+  } else {
+    ctx.strokeStyle = '#6b7280'; ctx.setLineDash([5, 4]); linie(4, boden, B - 4, boden); ctx.setLineDash([]);
+    ctx.fillStyle = '#6b7280'; ctx.textBaseline = 'top'; ctx.font = '10px "JetBrains Mono", monospace'; ctx.textAlign = 'left';
+    ctx.fillText(W.wurf === 'hoch' ? 'Abwurfhöhe, y = 0' : 'Boden, y = 0', 6, boden + 4);
+  }
+  // Körper und Abwurfgeschwindigkeit
+  const bx = W.wurf === 'runter' || W.wurf === 'fall' ? xa + 9 : xa, by = W.wurf === 'runter' || W.wurf === 'fall' ? ya + 8 : ya - 7;
+  ctx.fillStyle = '#8A4A0E'; ctx.beginPath(); ctx.arc(bx, by, 6, 0, 2 * Math.PI); ctx.fill();
+  ctx.textBaseline = 'middle'; ctx.fillStyle = '#b3261e';
+  const vText = [['v', false], ['0', true], [verdeckt.indexOf('v0') >= 0 ? ' = ?' : ' = ' + fwZahl(W.v0) + ' m/s', false]];
+  if (W.v0 > 0) {
+    const a = W.alpha * Math.PI / 180, len = 46, tx = bx + len * Math.cos(a), ty = by - len * Math.sin(a);
+    fwPfeil(ctx, bx, by, tx, ty, '#b3261e', 2.2);
+    ctx.fillStyle = '#b3261e';
+    if (W.wurf === 'hoch') fwSubText(ctx, vText, tx + 8, ty + 4, fs, false);
+    else if (W.wurf === 'runter') fwSubText(ctx, vText, tx + 8, ty - 6, fs, false);
+    else fwSubText(ctx, vText, tx + 4, ty - 10, fs, false);
+    if (W.wurf === 'schief') {
+      ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); linie(bx, by, bx + 52, by); ctx.setLineDash([]);
+      ctx.strokeStyle = '#374151'; ctx.beginPath(); ctx.arc(bx, by, 24, -a, 0); ctx.stroke();
+      ctx.fillStyle = '#374151'; ctx.font = fs + 'px "JetBrains Mono", monospace'; ctx.textAlign = 'left';
+      ctx.fillText('α = ' + W.alpha + '°', bx + 30, by - 8);
+    }
+  } else { ctx.fillStyle = '#b3261e'; fwSubText(ctx, [['v', false], ['0', true], [' = 0', false]], bx + 12, by, fs, false); }
+  // Achsenkreuz oben rechts
+  const ox = 12, oy = 40;
+  fwPfeil(ctx, ox, oy, ox + 28, oy, '#374151', 1.4); fwPfeil(ctx, ox, oy, ox, oy - 28, '#374151', 1.4);
+  ctx.fillStyle = '#374151'; ctx.font = fs + 'px "JetBrains Mono", monospace'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  ctx.fillText('x', ox + 31, oy); ctx.fillText('y', ox + 6, oy - 26);
+  ctx.textBaseline = 'alphabetic';
+  el.setAttribute('aria-label', 'Skizze, nicht massstäblich: ' + FW_WUERFE[W.wurf] + (W.h0 > 0 ? ' aus der Höhe h0' : '') + (W.v0 > 0 ? ', Abwurfgeschwindigkeit v0' : ', aus der Ruhe'));
+}
+
+/* ── Aufgaben ─────────────────────────────────────────────────────── */
+function fwNeueAufgabe(wurf, seed, wahl) {
+  const r = seed ? fwZufall(seed) : Math.random;
+  wurf = wurf || (zustand.wurf === 'alle' ? fwWahl(r, Object.keys(FW_WUERFE)) : zustand.wurf);
+  const W = zustand.W = fwSzene(wurf, r);
+  Object.assign(zustand, { fertig:false, fehlversuch:false, tipp:0, O:null, stelle:null, frage:null, marken:[], cursor:null, d:null });
+  const art = zustand.art; let titel, pille, text, verdeckt = [];
+  // nicht zweimal hintereinander dieselbe Frage
+  const waehle = (liste, schluessel) => { const andere = liste.filter(x => schluessel(x) !== zustand.letzte); const x = wahl !== undefined ? liste.find(y => schluessel(y) === wahl) || liste[0] : fwWahl(r, andere.length ? andere : liste); zustand.letzte = schluessel(x); return x; };
+  if (art === 'zuordnen') {
+    zustand.d = waehle(fwDias(W), d => d);
+    zustand.O = fwOptionen(W, zustand.d, r);
+    titel = zustand.d === 'bahn' ? 'Welche Bahnkurve?' : 'Welches Diagramm?'; pille = FW_WUERFE[wurf];
+    text = 'Welche' + (zustand.d === 'bahn' ? ' Bahnkurve' : 's ' + fwDiaName(zustand.d)) + ' gehört zu dieser Bewegung? Tippe ' + (zustand.d === 'bahn' ? 'sie' : 'es') + ' an.';
+  } else if (art === 'stellen') {
+    const q = zustand.stelle = waehle(fwStellen(W), x => x.id); q.W = W; zustand.d = q.d;
+    zustand.cursor = null;
+    titel = 'Stelle finden'; pille = FW_WUERFE[wurf];
+    text = q.frage + ' Tippe die Stelle ' + (q.d === 'bahn' ? 'auf der Bahn' : 'im Diagramm') + ' an, oder wähle «Nirgends» bzw. «Überall gleich».';
+  } else {
+    const q = zustand.frage = waehle(fwFragen(W), x => x.id); q.W = W; zustand.d = q.d; verdeckt = q.verdeckt || [];
+    titel = 'Ablesen und rechnen'; pille = FW_WUERFE[wurf];
+    text = 'Bestimme die gesuchte Grösse aus ' + (q.d === 'bahn' ? 'der Bahnkurve' : 'dem ' + fwDiaName(q.d)) + '. Das feine Raster hilft beim Ablesen.';
+  }
+  $('fw-aufgabe').innerHTML = '<div class="fw-aufgabe-kopf"><span class="fw-aufgabe-titel">' + titel + '</span><span class="fw-pille">' + pille + '</span></div><p>' + text + '</p>';
+  $('fw-text').innerHTML = fwText(W, verdeckt);
+  zustand.verdeckt = verdeckt;
+  fwSetze($('fw-aufgabe')); fwSetze($('fw-text'));
+  $('fw-haupt').hidden = art === 'zuordnen';
+  $('fw-haupt').classList.toggle('tippbar', art === 'stellen');
+  $('fw-knoepfe').hidden = art !== 'stellen';
+  document.querySelectorAll('#fw-knoepfe [data-wahl]').forEach(b => b.classList.remove('aktiv'));
+  const cv = $('fw-cv'); if (art === 'stellen') cv.setAttribute('tabindex', '0'); else cv.removeAttribute('tabindex');
+  $('fw-rueck').innerHTML = ''; $('fw-weg').hidden = true; $('fw-weg').innerHTML = '';
+  fwKarten(); fwFrage(); fwZeichne(); fwStand();
+}
+
+function fwZeichne() {
+  const W = zustand.W; if (!W) return;
+  fwSkizze('fw-skizze', W, zustand.verdeckt || []);
+  if (zustand.art !== 'zuordnen') {
+    const d = zustand.d, q = zustand.stelle || zustand.frage;
+    $('fw-haupt-titel').textContent = d === 'bahn' ? 'Bahnkurve, Massstab 1:1' + (q.blitz || zustand.stelle ? ', Punkte alle ' + fwZahl(q.blitz || fwBlitz(W.tF)) + ' s' : '')
+      : FW_DIA[d].name + ' über der Zeit';
+    fwDiagramm('fw-cv', { d, kurven:[{ k:fwKurve(W, d), farbe:FW_FARBE[d] }], hoehe:d === 'bahn' ? 260 : 240, fein:zustand.art === 'ablesen',
+      blitz:d === 'bahn' ? (q.blitz || fwBlitz(W.tF)) : 0, marken:zustand.marken, cursor:zustand.cursor });
+  }
+  if (zustand.O) {
+    const d = zustand.d, Tmax = Math.max(...zustand.O.map(o => fwEnde(o.k)));
+    const werte = d === 'bahn' ? null : [].concat(...zustand.O.map(o => fwProben(o.k).map(t => fwBei(o.k, t))));
+    const alle = zustand.O.map(o => ({ k:o.k, farbe:FW_FARBE[d] }));
+    zustand.O.forEach((o, i) => {
+      if (d === 'bahn') {      // gemeinsamer Massstab: die anderen Bahnen unsichtbar mitzeichnen
+        fwDiagramm('fw-opt-' + i, { d, kurven:[{ k:o.k, farbe:FW_FARBE[d] }].concat(alle.filter((_, j) => j !== i).map(a => ({ k:a.k, farbe:'rgba(0,0,0,0)' }))),
+          hoehe:150, klein:true, label:'Auswahl ' + 'ABCD'[i] + ': Bahnkurve' });
+      } else fwDiagramm('fw-opt-' + i, { d, kurven:[{ k:o.k, farbe:FW_FARBE[d] }], T:Tmax, werte, hoehe:150, klein:true, label:'Auswahl ' + 'ABCD'[i] + ': ' + FW_DIA[d].name + ' über der Zeit' });
+    });
+  }
+}
+function fwKarten() {
+  const K = $('fw-karten');
+  K.hidden = !zustand.O;
+  K.innerHTML = zustand.O ? zustand.O.map((o, i) => '<button class="fw-karte" data-i="' + i + '" aria-label="Diagramm ' + 'ABCD'[i] +
+    '"><span class="fw-buchst">' + 'ABCD'[i] + '</span><canvas id="fw-opt-' + i + '"></canvas></button>').join('') : '';
+}
+function fwFrage() {
+  const F = $('fw-frage'), q = zustand.frage;
+  F.hidden = !q;
+  if (!q) { F.innerHTML = ''; return; }
+  F.innerHTML = '<p>' + q.frage + '</p><div class="fw-zeile"><label for="fw-ein">\\(' + q.gr + ' = \\)</label>' +
+    '<input class="fw-eingabe" id="fw-ein" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">' +
+    '<span class="fw-einheit">' + q.einheit + '</span><button class="play-btn" id="fw-pruefen">Prüfen</button></div>';
+  fwSetze(F);
+  $('fw-ein').addEventListener('keydown', ev => { if (ev.key === 'Enter') fwPruefen(); });
+}
+function fwRueck(art, titel, text) {
+  $('fw-rueck').innerHTML = text ? '<div class="block ' + art + '"><div class="block-titel">' + titel + '</div><p style="margin-bottom:0">' + text + '</p></div>' : '';
+  fwSetze($('fw-rueck'));
+}
+function fwWeg(zeilen, label) {
+  const W = $('fw-weg');
+  W.innerHTML = '<div class="fl-label">' + label + '</div>' + zeilen.map(z => '<div class="fl-eq">' +
+    (z.lab ? '<span class="fw-marke">' + z.lab + '</span>' : '') + (z.tex ? flHtml(z.tex) : '<span class="fw-satz">' + z.text + '</span>') + '</div>').join('');
+  W.hidden = false; fwSetze(W);
+}
+function fwGeloest(gezeigt) {
+  zustand.fertig = true; zustand.geloest++;
+  if (!zustand.fehlversuch && !gezeigt) zustand.ersteRichtig++;
+  fwStand();
+}
+
+/* Aufgabe 1: Auswahl antippen, sofort beurteilen */
+function fwWaehle(i) {
+  if (zustand.fertig || !zustand.O) return;
+  const o = zustand.O[i], karte = document.querySelector('.fw-karte[data-i="' + i + '"]');
+  if (o.code) {
+    zustand.fehlversuch = true; if (karte) karte.classList.add('falsch');
+    fwRueck('block-fehler', '✗ ' + (zustand.d === 'bahn' ? 'Bahn ' : 'Diagramm ') + 'ABCD'[i] + ' passt nicht', FW_DIAGNOSE[o.code]({ W:zustand.W, d:zustand.d }));
+    return;
+  }
+  if (karte) karte.classList.add('richtig');
+  fwLoesung(false, i);
+}
+/* Aufgabe 2: eine Stelle oder ein Knopf */
+function fwTippen(wahl) {
+  const q = zustand.stelle; if (!q || zustand.fertig) return;
+  const e = fwStelleBewerte(q, wahl);
+  if (typeof wahl === 'number') zustand.marken.push({ t:wahl, farbe:e ? '#b3261e' : '#2e7d32' });
+  else document.querySelectorAll('#fw-knoepfe [data-wahl]').forEach(b => b.classList.toggle('aktiv', b.dataset.wahl === wahl));
+  zustand.cursor = null; fwZeichne();
+  if (e) { zustand.fehlversuch = true; fwRueck('block-fehler', '✗ Noch nicht', e.text); return; }
+  fwLoesung(false);
+}
+function fwLoesung(gezeigt, i) {
+  const W = zustand.W;
+  if (zustand.art === 'zuordnen') {
+    if (i === undefined) { i = zustand.O.findIndex(o => o.code === null); const k = document.querySelector('.fw-karte[data-i="' + i + '"]'); if (k) k.classList.add('richtig'); }
+    fwRueck('block-bsp', (gezeigt ? 'Lösung: ' : '✓ Richtig: ') + (zustand.d === 'bahn' ? 'Bahn ' : 'Diagramm ') + 'ABCD'[i], 'Die Kennwerte stehen unten. Weiter mit «Neue Aufgabe».');
+    fwWeg(fwKenn(W, zustand.d), 'So sieht man es');
+  } else if (zustand.art === 'stellen') {
+    const q = zustand.stelle;
+    if (gezeigt) { if (Array.isArray(q.loes)) q.loes.forEach(t => zustand.marken.push({ t, farbe:'#2e7d32' }));
+      else document.querySelectorAll('#fw-knoepfe [data-wahl]').forEach(b => b.classList.toggle('aktiv', b.dataset.wahl === q.loes));
+      fwZeichne(); }
+    fwRueck('block-bsp', gezeigt ? 'Lösung' + (Array.isArray(q.loes) ? '' : ': ' + (q.loes === 'nirgends' ? 'nirgends' : 'überall gleich')) : '✓ Richtig', q.erkl + ' Weiter mit «Neue Aufgabe».');
+  } else {
+    const q = zustand.frage;
+    if (gezeigt) { const e = $('fw-ein'); if (e) e.value = fwZahl(q.soll); }
+    fwRueck('block-bsp', gezeigt ? 'Lösung' : '✓ Richtig', '\\(' + q.gr + ' \\approx ' + fwE(q.soll, q.etex) + '\\). ' + q.weg);
+    if (q.formel.length) fwWeg(q.formel.map(tex => ({ tex })), 'Rechenweg'); else { $('fw-weg').hidden = true; }
+  }
+  fwGeloest(gezeigt);
+}
+function fwPruefen() {
+  const q = zustand.frage; if (!q || zustand.fertig) return;
+  const e = fwBewerte(q, fwLies($('fw-ein').value));
+  if (e) { if (e.code !== 'leer') zustand.fehlversuch = true; fwRueck('block-fehler', '✗ Noch nicht', e.text); return; }
+  fwLoesung(false);
+}
+function fwTipp() {
+  if (zustand.fertig) { fwRueck('block-tipp', '💡 Tipp', 'Die Aufgabe ist gelöst. Weiter mit «Neue Aufgabe».'); return; }
+  zustand.tipp++;
+  const W = zustand.W; let t;
+  if (zustand.art === 'zuordnen') {
+    const z = fwKenn(W, zustand.d).filter(x => x.tex)[0];
+    t = zustand.tipp === 1 || !z ? FW_TIPP[zustand.d] : 'Rechne einen Kennwert aus und vergleiche: \\(' + z.tex.join(' ') + '\\).';
+  } else if (zustand.art === 'stellen') t = zustand.stelle.tipp;
+  else t = zustand.tipp === 1 || !zustand.frage.formel.length ? zustand.frage.tipp : 'Zur Kontrolle mit der Formel: \\(' + zustand.frage.formel[0].slice(0, 2).join(' ') + '\\).';
+  fwRueck('block-tipp', '💡 Tipp', t);
+}
+function fwStand() { $('fw-stand').textContent = 'gelöst: ' + zustand.geloest + '; beim ersten Versuch richtig: ' + zustand.ersteRichtig; }
+
+/* Tippen ins Diagramm: Zeitdiagramm über x, Bahn über den nächsten Punkt der Kurve */
+function fwZeitAus(ev) {
+  const el = $('fw-cv'), info = el._fw; if (!info) return null;
+  const r = el.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top, T = zustand.W.tF;
+  if (!info.bahn) { const t = info.zuT(x); return t < -0.05 * T || t > 1.08 * T ? null : Math.max(0, Math.min(T, t)); }
+  let best = null; info.proben.forEach(p => { const d = Math.hypot(p.X - x, p.Y - y); if (!best || d < best.d) best = { d, t:p.t }; });
+  return best && best.d <= 36 ? best.t : null;
+}
+
+/* ── Bedienung ────────────────────────────────────────────────────── */
+$('fw-karten').addEventListener('click', ev => { const b = ev.target.closest('[data-i]'); if (b) fwWaehle(+b.dataset.i); });
+$('fw-frage').addEventListener('click', ev => { if (ev.target.closest('#fw-pruefen')) fwPruefen(); });
+$('fw-cv').addEventListener('click', ev => {
+  if (zustand.art !== 'stellen' || zustand.fertig) return;
+  const t = fwZeitAus(ev);
+  if (t === null) { fwRueck('block-tipp', '💡 Daneben', zustand.d === 'bahn' ? 'Tippe auf die Bahn.' : 'Tippe innerhalb des Flugs, zwischen Abwurf und Aufprall.'); return; }
+  fwTippen(t);
+});
+$('fw-cv').addEventListener('keydown', ev => {
+  if (zustand.art !== 'stellen' || zustand.fertig) return;
+  const T = zustand.W.tF;
+  if (ev.key === 'ArrowRight' || ev.key === 'ArrowLeft') { ev.preventDefault();
+    const c = zustand.cursor === null ? 0 : zustand.cursor + (ev.key === 'ArrowRight' ? 1 : -1) * T / 40;
+    zustand.cursor = Math.max(0, Math.min(T, c)); fwZeichne(); }
+  else if ((ev.key === 'Enter' || ev.key === ' ') && zustand.cursor !== null) { ev.preventDefault(); fwTippen(zustand.cursor); }
+});
+$('fw-knoepfe').addEventListener('click', ev => { const b = ev.target.closest('[data-wahl]'); if (b) fwTippen(b.dataset.wahl); });
+$('fw-tipp').addEventListener('click', fwTipp);
+$('fw-zeigen').addEventListener('click', () => { if (!zustand.fertig) fwLoesung(true); });
+$('fw-neu').addEventListener('click', () => fwNeueAufgabe());
+$('fw-wuerfe').addEventListener('click', ev => {
+  const b = ev.target.closest('[data-wurf]'); if (!b) return;
+  document.querySelectorAll('#fw-wuerfe .typ-btn').forEach(x => x.classList.toggle('aktiv', x === b));
+  zustand.wurf = b.dataset.wurf; fwNeueAufgabe();
+});
+function fwArt(art) {
+  zustand.art = art; zustand.letzte = null;
+  document.querySelectorAll('#fw-arten [data-art]').forEach(x => { x.classList.toggle('aktiv', x.dataset.art === art); x.setAttribute('aria-pressed', String(x.dataset.art === art)); });
+}
+$('fw-arten').addEventListener('click', ev => { const b = ev.target.closest('[data-art]'); if (b) { fwArt(b.dataset.art); fwNeueAufgabe(); } });
+// Verweise aus Themenseite und Leitprogramm öffnen eine Aufgabe direkt: #aufgabe-zuordnen, #aufgabe-stellen, #aufgabe-ablesen
+function fwAusAdresse() { const m = location.hash.match(/^#aufgabe-(zuordnen|stellen|ablesen)$/); if (!m) return false; fwArt(m[1]); return true; }
+window.addEventListener('hashchange', () => { if (fwAusAdresse()) fwNeueAufgabe(); });
+let fwRz; window.addEventListener('resize', () => { clearTimeout(fwRz); fwRz = setTimeout(fwZeichne, 150); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fwZeichne);
+
+/* Testhaken für Prüfskripte (.claude/tools) */
+window.__fw = {
+  art(a) { fwArt(a); fwNeueAufgabe(); },
+  aufgabe(wurf, seed, wahl) { fwNeueAufgabe(wurf, seed || 1, wahl); return zustand; },
+  optionen() { return zustand.O && zustand.O.map(o => o.code); }, waehle(i) { fwWaehle(i); },
+  tippen(w) { fwTippen(w); }, eingabe(x) { $('fw-ein').value = x; fwPruefen(); }, tipp() { fwTipp(); }, zeigen() { $('fw-zeigen').click(); },
+  stellen:fwStellen, fragen:fwFragen, dias:fwDias, zustand,
+  alleTexte(n) {                       // jeder Text mit Formeln, den die Seite erzeugen kann (MathJax-Prüfung)
+    const aus = [];
+    Object.keys(FW_WUERFE).forEach(w => { for (let s = 1; s <= n; s++) {
+      const W = fwSzene(w, fwZufall(s)); aus.push(fwText(W), fwText(W, ['h0', 'v0']));
+      fwDias(W).forEach(d => { fwOptionen(W, d, fwZufall(s)).forEach(o => { if (o.code) aus.push(FW_DIAGNOSE[o.code]({ W, d })); });
+        fwKenn(W, d).forEach(z => aus.push(z.tex ? '\\(' + z.tex.join(' ') + '\\)' : z.text)); });
+      fwStellen(W).forEach(q => { q.W = W; aus.push(q.frage, q.tipp, q.erkl, q.knopf || '', FW_STELLE.gibt_es(q));
+        q.punkte.forEach(([, c]) => aus.push(FW_STELLE[c](q))); });
+      fwFragen(W).forEach(q => { q.W = W; aus.push(q.frage, q.tipp, q.weg, '\\(' + q.gr + ' \\approx ' + fwE(q.soll, q.etex) + '\\)');
+        q.formel.forEach(f => aus.push('\\(' + f.join(' ') + '\\)')); q.fehler.forEach(([c]) => aus.push(FW_ABLESEN[c](q))); });
+    } });
+    return [...new Set(aus)];
+  },
+};
+
+fwAusAdresse(); fwNeueAufgabe();
+})();
+</script>
+</body>
+</html>

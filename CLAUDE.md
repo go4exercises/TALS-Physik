@@ -76,6 +76,25 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   `scripts/verify_bewegungsdiagramme.js` im Pre-Flight (Ableitungen und Fläche numerisch nachgerechnet,
   Fehlbilder sichtbar verschieden, jede Diagnose). Verweise je Aufgabenart: Themenseite 4.1 `#darstellungen`
   (Zuordnen, In Worten) und `#theorie` (Ablesen), Leitprogramm Kinematik Kapitel 1 und 2. Kein `localStorage`.
+- `werkzeuge/fall-und-wurf.html` — Trainer Fall und Wurf (4.1, seit 11.10.2026): freier Fall, senkrecht nach
+  oben (aus der Hand oder vom Balkon) und nach unten, waagrechter und schiefer Wurf (Filter je Bewegung, «Gemischt»).
+  \(y\) zeigt immer nach oben, auch beim freien Fall (Hinweis auf der Seite: die Themenseite misst dort nach unten).
+  Drei Aufgabenarten (Anker `#aufgabe-zuordnen`, `#aufgabe-stellen`, `#aufgabe-ablesen`): (1) zur beschriebenen
+  Szene mit Skizze das passende \(y\)-\(t\)-, \(v_y\)-\(t\)-, \(a_y\)-\(t\)-, \(x\)-\(t\)-, \(v_x\)-\(t\)-Diagramm
+  oder die Bahnkurve (1:1) wählen, die falschen je aus einer Fehlvorstellung (oben Halt, Betrag statt \(v_y\),
+  \(a\) in Bewegungsrichtung, \(a = 0\), Wurf vergrössert \(a\), \(v_x\) nimmt ab, erst geradeaus und dann fallen,
+  waagrecht länger in der Luft, Komponente vergessen, Fallweg statt Höhe …; Reserve: Wertefehler); (2) die Stelle
+  im Diagramm oder auf der Bahn mit Punkten in gleichen Zeitabständen antippen (Scheitel, \(v_y = 0\), am
+  schnellsten/langsamsten, wieder auf Abwurfhöhe, halbe Fallhöhe, halbe Flugzeit) oder «Nirgends»/«Überall gleich»
+  wählen (\(a_y = 0\)? \(v_x\) am grössten?), Diagnose je typischer falscher Stelle; Tastatur: Pfeile, Eingabe;
+  (3) Steigzeit, Steighöhe (Fläche), \(a_y\) (Steigung), \(v_y\) beim Aufprall, Fallhöhe (Fläche, \(h_0\) im Text
+  verdeckt), Flugzeit, \(v_x\) und \(v\) im Scheitel aus den Punktabständen ablesen; Toleranz aus dem feinen Raster
+  (`fwAchse`, dieselbe Rechnung wie beim Zeichnen), zu kleine Werte werden nicht gefragt. Szenen in `FW_SZENEN`,
+  Rückmeldungen in `FW_DIAGNOSE`, `FW_STELLE`, `FW_ABLESEN`. Selbsttest `fwSelbsttest` über
+  `scripts/verify_fall_und_wurf.js` im Pre-Flight (Ableitungen, Energie, Fläche unter \(v_y\) = \(-h_0\), Scheitel,
+  Wurfweite, jede Lösung erfüllt ihre Frage, jede Diagnose greift, Pflichtdiagnosen je Ablesefrage). Testhaken
+  `window.__fw` (u. a. `alleTexte(n)` für die MathJax-Prüfung). Verweise je Aufgabenart: Themenseite 4.1 `#freier-fall`
+  (Zuordnen) und `#wurfparabel` (Stellen, Ablesen), Leitprogramm Kinematik Kapitel 4 (alle drei). Kein `localStorage`.
 - `werkzeuge/formeln-umstellen.html` — Trainer Formeln umstellen (alle Lerngebiete, seit 11.10.2026), zwei
   Aufgabenarten (Anker `#aufgabe-schritte`, `#aufgabe-einsetzen`): Schritt für Schritt mit dem Waage-Prinzip
   (je Schritt die richtige Operation und falsche mit Diagnose: durch eine Summe geteilt, Nenner geteilt, Faktor
