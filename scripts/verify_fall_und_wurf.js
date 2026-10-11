@@ -12,6 +12,10 @@
        a_y = -g; Energie v_x^2 + v_yF^2 = v0^2 + 2 g h0; Flaeche unter v_y
        (4000 Streifen) = -h0; Scheitel = groesstes y; Wurfweite vom Boden
        = v0^2 sin(2 alpha) / g; waagrecht: Flugzeit = Fallzeit
+     - jede Rueckmeldung passt zum Fall: alle Texte einer Szene gegen Aussagen
+       geprueft, die dort falsch waeren (Ruhe bei v_x > 0, Steigung als ganze
+       Geschwindigkeit, «Aufprall» beim Fangen, «Loslassen» bei einem Wurf …)
+     - feste Seitentexte ohne die am 11.10.2026 gefundenen Fehlaussagen
      - Zuordnen: vier Diagramme, genau eines richtig, jedes Fehlbild
        sichtbar verschieden vom richtigen und von den anderen, jedes mit
        Rueckmeldung; Rechenweg ohne NaN und Dezimalkomma
@@ -66,6 +70,15 @@ try {
   process.exit(1);
 }
 
+// Feste Texte der Seite: Aussagen, die fachlich falsch waeren (Pruefung vom 11.10.2026)
+const seite = [...dom.window.document.querySelectorAll('main p, main li, main td')].map(e => e.textContent).join('\n');
+const falscheSaetze = [
+  [/nur beim waagrechten Wurf/, 'Bahn und y-t-Diagramm gleichen sich auch beim schiefen Wurf'],
+  [/Bahnkurve: eine Parabel/, 'Bahnkurve ist beim Fall und beim senkrechten Wurf eine Strecke'],
+  [/senkrecht nimmt sie in jeder Sekunde/, 'beim Fallen nimmt nicht die Geschwindigkeit ab, sondern v_y'],
+];
+const statisch = falscheSaetze.filter(([r]) => r.test(seite)).map(([, was]) => 'Seitentext: ' + was);
+
 const gross = process.argv.indexOf('--gross') !== -1;
 const proWurf = gross ? 400 : 30;
 const t0 = Date.now();
@@ -73,6 +86,7 @@ const ergebnis = dom.window.eval('fwSelbsttest(' + proWurf + ')');
 console.log('Fall und Wurf: ' + ergebnis.wuerfe + ' Bewegungen, ' + proWurf + ' Szenen je Bewegung, ' +
             ergebnis.faelle + ' Pruefungen in ' + ((Date.now() - t0) / 1000).toFixed(1) + ' s');
 
+ergebnis.fehler.push(...statisch);
 if (ergebnis.fehler.length) {
   console.error('[FEHLER] ' + ergebnis.fehler.length + ' Testfaelle fehlgeschlagen:');
   ergebnis.fehler.slice(0, 25).forEach(f => console.error('   - ' + f));
