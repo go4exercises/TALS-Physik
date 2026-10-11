@@ -731,7 +731,7 @@ const idx = t => Math.max(0, Math.min(S.N - 1, Math.round(t / DT)));
 function bjWerte() {
   const i = idx(tNow), Fg = P.m * g, Fs = S.Fs[i];
   // Momentanwerte: Grösse zum gewählten Zeitpunkt, s(3.60 s) = 52.2 m
-  const zt = '(' + bjZahl(S.t[i], 2) + '\u00a0s) = ', mw = (id, sym, wert, einheit) => { $(id).innerHTML = sym + zt + wert + '\u00a0' + einheit; };
+  const zt = '(' + bjZahl(S.t[i], 2) + '\u00a0s) = ', mw = (id, sym, wert, einheit) => { const e = $(id); e.innerHTML = sym + zt + wert + '\u00a0' + einheit; e.style.color = FARBE[id.slice(5)]; };   // Farbe wie Pfeil und Kurve
   mw('bj-w-s', '<i>s</i>', bjZahl(S.s[i], 1), 'm');
   mw('bj-w-v', '<i>v</i>', bjZahl(S.v[i], 1), 'm/s');
   mw('bj-w-a', '<i>a</i>', bjZahl(S.a[i], 1), 'm/s²');
