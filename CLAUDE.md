@@ -51,7 +51,8 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   selbst einzeichnen (Palette mit echten Kräften **und Fallen**: Bewegungs-, Hangabtriebs-,
   Zentrifugalkraft, Kraft auf die Unterlage), Richtung im 15°-Raster, Diagnose je Fehlerbild,
   danach die Frage nach der Resultierenden und die Lösung mit Rechenweg und Kräfteplan.
-  14 Szenen in drei Stufen. Alles in drei Strukturen: `FS_KRAEFTE`, `FS_DIAGNOSE`,
+  17 Szenen in drei Stufen (seit 11.10.2026 dazu: schneller gezogen, Aufzug, Kiste gleitet die Rampe hinauf).
+  Fallen-Texte je Szene (keine «Ebene» ohne Ebene); Haftreibung mit \(\mu_H\) («nur so gross wie nötig»). Alles in drei Strukturen: `FS_KRAEFTE`, `FS_DIAGNOSE`,
   `FS_SZENEN` (jede Szene baut aus Zufallswerten ihre Musterlösung). Selbsttest
   `fsSelbsttest` über `scripts/verify_freischneiden.js` im Pre-Flight: Musterlösung richtig,
   Gleichgewicht bzw. Resultierende passt zur Antwort, \(F_G = m g\), \(F_R = \mu F_N\),
@@ -59,15 +60,15 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   (`szene(id, seed)`, `muster()`, `mass()` prüft, ob Pfeile samt Etikett im Bild liegen).
   Kein `localStorage`. Seit 10.10.2026 zwei Aufgabenarten als Reiter (Anker `#aufgabe-freischneiden`,
   `#aufgabe-kraefteplan`): (2) **Kräfteplan** — Art und Richtung gegeben, bekannt sind \(F_G\) und
-  `gegeben`; die übrigen Längen zieht man auf Karopapier (¼ Kästchen), Massstab so, dass die grösste
-  Kraft 4–10 Kästchen misst; geschlossen bei Gleichgewicht, sonst zeigt der Schlusspfeil in Richtung der
-  Beschleunigung; danach Ablesen mit Diagnosen (Kästchen statt N, sin/cos vertauscht über `vertauscht`,
+  `gegeben`; die übrigen Längen zieht man auf Karopapier (¼ Kästchen), Massstab der feinste, bei dem die grösste
+  Kraft höchstens 12 Kästchen misst, jeder gesuchte Pfeil mindestens 2 Kästchen; die Liste nennt auch die Länge des Summenpfeils; geschlossen bei Gleichgewicht, sonst zeigt der Schlusspfeil in Richtung der
+  Beschleunigung; danach Ablesen mit Diagnosen (Kästchen statt N, sin/cos vertauscht über `vertauscht` — je Kraft Wert und eigener Text —,
   F_G statt). Szenen mit Beträgen unter einem Kästchen tragen `ohnePlan` (Schlitten, Lieferwagen).
   Verweise je Aufgabenart: Themenseiten 4.2 (`#schiefe-ebene`) und 4.4 (`#resultierende`), Leitprogramm
   Dynamik Kapitel 2 (beide), Statik Kapitel 2 (Kräfteplan) und 3 (Freischneiden).
 - `werkzeuge/bewegungsdiagramme.html` — Trainer Bewegungsdiagramme (4.1, seit 11.10.2026), drei
   Aufgabenarten als Reiter (Anker `#aufgabe-zuordnen`, `#aufgabe-ablesen`, `#aufgabe-worte`): s-t ↔ v-t
-  und v-t → a-t zuordnen (vier Diagramme, die falschen je aus einem Fehlbild: Form übernommen, Vorzeichen,
+  und v-t → a-t, ab Stufe 2 auch a-t → v-t und s-t → a-t zuordnen (vier Diagramme, die falschen je aus einem Fehlbild: Form übernommen, Vorzeichen,
   Ruhe im falschen Diagramm, Gerade statt Parabel, Krümmung, Betrag), Steigung und Fläche ablesen (Diagnosen:
   Wert statt Steigung, Kehrwert, Vorzeichen, Rechteck statt Trapez, nur Dreieck) und eine Beschreibung in
   Worten als Diagramm erkennen (dazu Reihenfolge, Stillstand). Eine Bewegung ist eine Kette von Abschnitten
@@ -98,8 +99,10 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Rückmeldungen in `FW_DIAGNOSE`, `FW_STELLE`, `FW_ABLESEN`. Selbsttest `fwSelbsttest` über
   `scripts/verify_fall_und_wurf.js` im Pre-Flight (Ableitungen, Energie, Fläche unter \(v_y\) = \(-h_0\), Scheitel,
   Wurfweite, jede Lösung erfüllt ihre Frage, jede Diagnose greift, Pflichtdiagnosen je Ablesefrage). Testhaken
-  `window.__fw` (u. a. `alleTexte(n)` für die MathJax-Prüfung). Verweise je Aufgabenart: Themenseite 4.1 `#freier-fall`
-  (Zuordnen) und `#wurfparabel` (Stellen, Ablesen), Leitprogramm Kinematik Kapitel 4 (alle drei). Kein `localStorage`.
+  `window.__fw` (u. a. `alleTexte(n)` für die MathJax-Prüfung). Ablesen auch Wurfweite und Betrag der
+  Aufprallgeschwindigkeit. Anker mit Bewegung: `#aufgabe-<art>-<bewegung>` (z. B. `#aufgabe-stellen-schief`) setzt Aufgabe
+  und Bewegung. Verweise je Aufgabenart: Themenseite 4.1 `#freier-fall`
+  (Zuordnen) und `#wurfparabel` (Stellen, Ablesen, je mit `-schief`), Leitprogramm Kinematik Kapitel 4 (alle drei). Kein `localStorage`.
 - `werkzeuge/formeln-umstellen.html` — Trainer Formeln umstellen (alle Lerngebiete, seit 11.10.2026), zwei
   Aufgabenarten (Anker `#aufgabe-schritte`, `#aufgabe-einsetzen`): Schritt für Schritt mit dem Waage-Prinzip
   (je Schritt die richtige Operation und falsche mit Diagnose: durch eine Summe geteilt, Nenner geteilt, Faktor
@@ -109,8 +112,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   ±½, eine Summe); Formeln in `FU_FORMELN` (41, ~90 Aufgaben, drei Stufen), Grössen mit Einheit und Dimension in
   `FU_GR`. Selbsttest `fuSelbsttest` über `scripts/verify_formeln.js` im Pre-Flight (Einheiten jeder Formel,
   Lösung und jeder Zwischenstand mit Zufallszahlen in der Ausgangsformel, Einheitenprobe, Diagnosen).
-  Die Umformung endet immer mit der gesuchten Grösse allein links (sonst letzter Schritt «Seiten tauschen», Fehlbilder
-  «so stehen lassen», Kehrwert), damit die Zahlengleichung direkt anschliesst; die Einheitenprobe steht im selben Kasten
+  Die Umformung endet immer mit der gesuchten Grösse allein links (sonst tauscht der Trainer die Seiten selbst als
+  letzte Zeile, ohne Frage — Entscheid des Auftraggebers 11.10.2026; erlaubte Umwege wie «:2» in einer Summe oder Wurzel
+  zu früh gelten als gültig, ohne Fehlversuch, gelb «Erlaubt, aber ein Umweg»), damit die Zahlengleichung direkt anschliesst; die Einheitenprobe steht im selben Kasten
   rechts neben dem Ergebnis. Einsetzen: eine Kette x = Term = Zahlen mit Einheiten ≈ Ergebnis.
   Verweise: Themenseite 0.1 `#umformen`, Leitprogramm Rechnen Schritt 4. Kein `localStorage`.
 - `werkzeuge/schaltungen-zusammenfassen.html` — Trainer Schaltungen zusammenfassen (6.2, seit
@@ -125,7 +129,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   falscher Zweig. Welchen Strom eine Einsetzstelle misst, sagt `L.klasse` (in Reihe derselbe Strom wie die
   Gruppe darüber), auf den Schienen `summe` (Teilsumme der Zweige darunter, etwa \(I_2 + I_3\)); der Selbsttest gleicht jede Stelle mit der Knotenrechnung ab. Verweise je Aufgabenart einmal (Anker `#aufgabe-<art>` öffnet die Aufgabe): Themenseite 6.2 `#gemischt` (1–3) und `#messen` (4), Leitprogramm Elektrizität Kapitel 4 (Messen), 5 (zusammenfassen, Teilströme) und 6 (Kurzformel); Regel in `HOWTO-werkzeuge.md` §5. Jedes Bild trägt den
   Spannungspfeil der Quelle, der Gesamtstrom steht auf der Zuleitung, sobald er bekannt ist. Knoten sind
-  von Anfang an gefärbt; rechts in denselben Farben wie links (`szKnotenZuordnung`, über Bau und Potential;
+  von Anfang an gefärbt und tragen Buchstaben A, B, C … (`szKnotenMarken`, für Farbschwache); rechts in denselben Farben wie links (`szKnotenZuordnung`, über Bau und Potential;
   ein Knoten, den es links nicht gibt, bekommt eine eigene Farbe). In (2): zwei Widerstände antippen, «in Reihe» oder «parallel» wählen, Ersatzwiderstand
   eingeben, bis \(R_\text{ges}\) übrig ist; danach zurückrechnen bis zu einem Zielwiderstand, mit
   Proben. Knopf «Knoten färben». Stufe 1 = reine Reihe/parallel (RLP), Stufen 2 und 3 gemischt

@@ -143,6 +143,11 @@ An drei Stellen, sonst fehlt die Seite in Übersicht, Suche oder Sitemap:
   `hashchange` (Vorbild `werkzeuge/schaltungen-zusammenfassen.html`, `szAusAdresse`). Keine
   Query-Parameter (`?aufgabe=…`): `check_sim_wz` liest den Dateinamen bis `"` oder `#` und hielte
   `datei.html?aufgabe=x` für eine fehlende Datei.
+  Ein Werkzeug mit Auswahl (Bewegung, Stufe) darf zusätzlich `#aufgabe-<art>-<auswahl>` lesen (Vorbild
+  `werkzeuge/fall-und-wurf.html`, `#aufgabe-stellen-schief`).
+- **Fokus nach dem Anker lösen** (Auftraggeber, 11.10.2026): Chrome setzt den Fokus auf den angesprungenen
+  Reiterknopf und zeigt den Fokusrahmen. Nach dem Laden und bei `hashchange` den Fokus wieder lösen (`blur`), ausser
+  die Bedienung lief schon über die Tastatur; mit Tab erscheint der Rahmen wie gewohnt.
 
 ## 6 · Prüfen
 
