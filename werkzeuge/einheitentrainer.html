@@ -216,7 +216,7 @@ MathJax = {
   <div class="rlp-titel">🧭 Übungsseite — kein RLP-Lerngebiet</div>
   <ul>
     <li>Einheiten innerhalb einer Grösse sicher umrechnen: Länge, Fläche, Volumen, Masse, Zeit, Geschwindigkeit, Kraft, Druck, Energie, Leistung, Dichte, Temperatur</li>
-    <li>Einheitenvorsätze als Zehnerpotenzen lesen und anwenden (µ, m, c, d, h, k, M)</li>
+    <li>Einheitenvorsätze als Zehnerpotenzen lesen und anwenden (n, µ, m, c, d, h, k, M)</li>
     <li>erkennen, dass bei Flächen der Längenfaktor quadriert und bei Volumen kubiert wird</li>
     <li>die Sonderfälle beherrschen: Zeit mit min, h und d, \(\text{km/h} \leftrightarrow \text{m/s}\), \(\text{kWh} \leftrightarrow \text{J}\) und \(^\circ\text{C} \leftrightarrow \text{K}\)</li>
     <li>ein Resultat auf die richtige Grössenordnung prüfen, bevor man es hinschreibt</li>
@@ -233,11 +233,11 @@ MathJax = {
 <div class="block block-tipp">
   <div class="block-titel">💡 Die drei Modi</div>
   <ul>
-    <li><strong>Freies Üben</strong> — du stellst alles selbst ein: Gruppen, einzelne Einheiten, Anzahl, Dezimalstellen, Zahlengrösse und Einheiten-Abstand. Eine Liste von Aufgaben, sofortige Rückmeldung.</li>
+    <li><strong>Freies Üben</strong> — du stellst alles selbst ein: Gruppen, einzelne Einheiten, Anzahl, Dezimalstellen, Zahlengrösse und Einheiten-Abstand. Eine Liste von Aufgaben; die Rückmeldung kommt mit <kbd>Enter</kbd> oder «Alle prüfen».</li>
     <li><strong>Lernmodus</strong> — Themen anklicken, starten. Der Trainer wählt die Aufgaben selbst, steigert die Schwierigkeit und fragt Fehler später mit anderen Zahlen erneut ab. Bei einer falschen Antwort kommt zuerst ein Hinweis, dann die Umrechnungsbeziehung, dann der Lösungsweg.</li>
     <li><strong>Prüfungsmodus</strong> — Themen, Anzahl, Schwierigkeit und wahlweise ein Zeitlimit einstellen. Während der Prüfung gibt es keinerlei Rückmeldung; die Auswertung kommt am Schluss.</li>
   </ul>
-  <p>In diesem Lehrmittel wird mit <strong>Dezimalpunkt</strong> geschrieben: \(2.5\), nicht \(2{,}5\). Ein Dezimalkomma wird beim Eintippen ebenfalls akzeptiert — der Trainer rechnet es intern in dieselbe Zahl um und weist dich einmal auf die Schreibweise hin. Auch \(3.6 \cdot 10^{6}\) darfst du eintippen — als <code>3.6e6</code> oder als <code>3.6*10^6</code>. Mit <kbd>Enter</kbd> prüfst du, mit einem zweiten <kbd>Enter</kbd> geht es weiter.</p>
+  <p>In diesem Lehrmittel wird mit <strong>Dezimalpunkt</strong> geschrieben: \(2.5\), nicht \(2{,}5\). Ein Dezimalkomma wird beim Eintippen ebenfalls akzeptiert — der Trainer rechnet es intern in dieselbe Zahl um und weist dich einmal auf die Schreibweise hin. Auch \(3.6 \cdot 10^{6}\) darfst du eintippen — als <code>3.6e6</code> oder als <code>3.6*10^6</code>; das Zeichen <code>^</code> gehört dazu. Die Einheit hinter der Zahl darfst du weglassen oder mittippen. Mit <kbd>Enter</kbd> prüfst du, mit einem zweiten <kbd>Enter</kbd> geht es weiter.</p>
 </div>
 
 
@@ -700,42 +700,54 @@ buildNav({ id:'werkzeuge' });
    ═══════════════════════════════════════════════════════════════════ */
 const ET_GRUPPEN = [
   { id:'laenge', name:'Länge', basis:'m', erkl:'../themen/p0-2-vorwissen-physik.html#grundgroessen', erklT:'0.2 Grössen und Einheiten',
+    erkl2:'../themen/p0-5-si-einheiten.html#vorsilben', erklT2:'0.5 Vorsilben', erklW2:'nano',
     eh:[ {e:'nm',f:1e-9}, {e:'µm',f:1e-6}, {e:'mm',f:1e-3,an:1}, {e:'cm',f:1e-2,an:1},
          {e:'dm',f:0.1}, {e:'m',f:1,an:1}, {e:'km',f:1000,an:1} ] },
   { id:'flaeche', name:'Fläche', basis:'m²', potenz:2, erkl:'../themen/p0-2-vorwissen-physik.html#umrechnen', erklT:'0.2 Umrechnen',
     eh:[ {e:'mm²',f:1e-6}, {e:'cm²',f:1e-4,an:1}, {e:'dm²',f:1e-2}, {e:'m²',f:1,an:1},
          {e:'a',f:100}, {e:'ha',f:1e4,an:1}, {e:'km²',f:1e6,an:1} ] },
   { id:'volumen', name:'Volumen', basis:'m³', potenz:3, erkl:'../themen/p0-1-vorwissen-mathematik.html#geometrie', erklT:'0.1 Flächen und Volumen',
-    eh:[ {e:'mm³',f:1e-9}, {e:'cm³',f:1e-6,an:1}, {e:'ml',f:1e-6,an:1}, {e:'cl',f:1e-5},
-         {e:'dl',f:1e-4}, {e:'l',f:1e-3,an:1}, {e:'dm³',f:1e-3}, {e:'m³',f:1,an:1} ] },
+    ident:'1 l = 1 dm³ und 1 ml = 1 cm³',
+    eh:[ {e:'mm³',f:1e-9}, {e:'cm³',f:1e-6,an:1}, {e:'ml',f:1e-6,an:1,fam:'l'}, {e:'cl',f:1e-5,fam:'l'},
+         {e:'dl',f:1e-4,fam:'l'}, {e:'l',f:1e-3,an:1,fam:'l'}, {e:'dm³',f:1e-3}, {e:'m³',f:1,an:1} ] },
   { id:'masse', name:'Masse', basis:'kg', erkl:'../themen/p0-3-messen-waagen-dichte.html#masse-kraft', erklT:'0.3 Masse und Gewichtskraft',
     eh:[ {e:'mg',f:1e-6}, {e:'g',f:1e-3,an:1}, {e:'kg',f:1,an:1}, {e:'t',f:1000,an:1} ] },
   { id:'zeit', name:'Zeit', basis:'s', erkl:'../themen/p0-2-vorwissen-physik.html#grundgroessen', erklT:'0.2 Grössen und Einheiten',
-    eh:[ {e:'ms',f:1e-3}, {e:'s',f:1,an:1}, {e:'min',f:60,an:1}, {e:'h',f:3600,an:1}, {e:'d',f:86400} ] },
+    eh:[ {e:'ms',f:1e-3}, {e:'s',f:1,an:1,alltag:1}, {e:'min',f:60,an:1,alltag:1}, {e:'h',f:3600,an:1,alltag:1}, {e:'d',f:86400,alltag:1} ] },
   { id:'tempo', name:'Geschwindigkeit', basis:'m/s', erkl:'../themen/p0-2-vorwissen-physik.html#umrechnen', erklT:'0.2 km/h ↔ m/s',
     eh:[ {e:'mm/s',f:1e-3,von:1,bis:900}, {e:'cm/s',f:1e-2,von:1,bis:500},
-         {e:'m/s',f:1,an:1,von:0.5,bis:120}, {e:'km/h',f:1/3.6,an:1,von:1,bis:300,fTex:'\\tfrac{1}{3.6}'},
+         {e:'m/s',f:1,an:1,von:0.5,bis:120,alltag:1}, {e:'km/h',f:1/3.6,an:1,von:1,bis:300,fTex:'\\tfrac{1}{3.6}',alltag:1},
          {e:'km/s',f:1000,von:1,bis:30} ] },
   { id:'kraft', name:'Kraft', basis:'N', erkl:'../themen/p4-2-dynamik.html#definition', erklT:'4.2 Grundbegriffe',
     eh:[ {e:'mN',f:1e-3}, {e:'N',f:1,an:1}, {e:'kN',f:1000,an:1}, {e:'MN',f:1e6} ] },
   { id:'druck', name:'Druck', basis:'Pa', erkl:'../themen/p4-5-hydrostatik.html#definition', erklT:'4.5 Grundbegriffe',
+    ident:'1 hPa = 1 mbar und 1 bar = 1000 hPa',
     eh:[ {e:'Pa',f:1,an:1}, {e:'hPa',f:100,an:1}, {e:'kPa',f:1000,an:1}, {e:'MPa',f:1e6},
-         {e:'mbar',f:100}, {e:'bar',f:1e5,an:1}, {e:'N/cm²',f:1e4} ] },
+         {e:'mbar',f:100,fam:'bar'}, {e:'bar',f:1e5,an:1,fam:'bar'}, {e:'N/cm²',f:1e4} ] },
   { id:'energie', name:'Energie', basis:'J', erkl:'../themen/p4-3-energie.html#arbeit', erklT:'4.3 Arbeit',
-    eh:[ {e:'mJ',f:1e-3}, {e:'J',f:1,an:1}, {e:'kJ',f:1000,an:1}, {e:'MJ',f:1e6},
-         {e:'Wh',f:3600}, {e:'kWh',f:3.6e6,an:1,fTex:'3.6 \\cdot 10^{6}'} ] },
+    eh:[ {e:'mJ',f:1e-3}, {e:'J',f:1,an:1,alltag:1}, {e:'kJ',f:1000,an:1,alltag:1}, {e:'MJ',f:1e6,alltag:1},
+         {e:'Wh',f:3600,alltag:1}, {e:'kWh',f:3.6e6,an:1,fTex:'3.6 \\cdot 10^{6}',alltag:1} ] },
   { id:'leistung', name:'Leistung', basis:'W', erkl:'../themen/p4-3-energie.html#leistung', erklT:'4.3 Leistung',
     eh:[ {e:'mW',f:1e-3}, {e:'W',f:1,an:1}, {e:'kW',f:1000,an:1}, {e:'MW',f:1e6} ] },
   { id:'dichte', name:'Dichte', basis:'kg/m³', erkl:'../themen/p0-3-messen-waagen-dichte.html#einheiten', erklT:'0.3 Dichte-Einheiten',
-    eh:[ {e:'kg/m³',f:1,an:1,von:1,bis:20000}, {e:'g/l',f:1,von:1,bis:2000},
-         {e:'g/cm³',f:1000,an:1,von:0.02,bis:22}, {e:'kg/l',f:1000,von:0.02,bis:22},
-         {e:'t/m³',f:1000,von:0.02,bis:22} ] },
+    ident:'1 g/cm³ = 1 kg/l = 1 t/m³ und 1 kg/m³ = 1 g/l',
+    eh:[ {e:'kg/m³',f:1,an:1,von:1,bis:20000}, {e:'g/l',f:1,von:1,bis:2000,fam:'l'},
+         {e:'g/cm³',f:1000,an:1,von:0.02,bis:22}, {e:'kg/l',f:1000,von:0.02,bis:22,fam:'l'},
+         {e:'t/m³',f:1000,von:0.02,bis:22,fam:'t'} ] },
   { id:'temperatur', name:'Temperatur', basis:'K', offset:true, erkl:'../themen/p5-1-temperatur.html#skalen', erklT:'5.1 Celsius und Kelvin',
     warn:'Bei °C → K wird zum Zahlenwert 273.15 addiert.',
     eh:[ {e:'°C',f:1,o:273.15,an:1,von:-50,bis:150}, {e:'K',f:1,o:0,an:1,von:230,bis:420} ] }
 ];
 const ET_GID = {};
-ET_GRUPPEN.forEach(g => { ET_GID[g.id] = g; g.eh.forEach(u => { u.an = !!u.an; }); });
+// u.an wechselt im freien Üben mit jedem Klick; u.kern hält die Voreinstellung
+// fest und bestimmt, welche Paare «Basis» sind (Prüfungsmodus).
+ET_GRUPPEN.forEach(g => { ET_GID[g.id] = g; g.eh.forEach(u => { u.an = !!u.an; u.kern = u.an; }); });
+// Trägt eine Einheit eine Potenz (cm², m³)? Liter und Are tun es nicht, auch
+// wenn sie zur Gruppe Volumen bzw. Fläche gehören.
+function etHatPotenz(u) { return /[²³]/.test(u.e); }
+function etPaarPotenz(u1, u2) { return etHatPotenz(u1) || etHatPotenz(u2); }
+// Brauchen die beiden Einheiten eine Identität als Brücke (ml → dm³, mbar → kPa)?
+function etBruecke(a) { return !!a.g.ident && (a.u1.fam || '') !== (a.u2.fam || ''); }
 
 /* ═══════════════════════════════════════════════════════════════════
    2. UMRECHNUNG UND SCHWIERIGKEITSSTUFE
@@ -756,7 +768,7 @@ function etStufe(g, u1, u2) {
   if (g.offset) return 4;                                  // °C ↔ K
   const q = etVerhaeltnis(u1, u2);
   if (!etIstZehner(q)) return 4;                           // Zeit, km/h, Wh, kWh
-  if (g.potenz || g.id === 'dichte') return 3;             // Fläche, Volumen, Dichte
+  if (etPaarPotenz(u1, u2) || g.id === 'dichte') return 3;  // cm², m³, Dichte (nicht l ↔ ml)
   const stufen = Math.abs(Math.round(Math.log10(q)));
   return stufen <= 3 ? 1 : 2;                              // kleiner oder grosser Sprung
 }
@@ -771,13 +783,35 @@ function etZahl(x) {
   const a = Math.abs(x);
   if (a < 1e-4 || a >= 1e9) {
     const m = x.toExponential(4).split('e');
-    return (+m[0]).toString() + ' · 10^' + (+m[1]);
+    if (Math.abs(+m[0]) === 1) return (+m[0] < 0 ? '-' : '') + '10' + etHoch(+m[1]);   // 10⁹ statt 1 · 10⁹
+    return (+m[0]).toString() + ' · 10' + etHoch(+m[1]);
   }
   const gerundet = +x.toPrecision(10);
   let s = gerundet.toFixed(Math.max(0, Math.min(10, 10 - Math.floor(Math.log10(a)) - 1)));
   if (s.indexOf('.') !== -1) s = s.replace(/0+$/, '').replace(/\.$/, '');
   return s;
 }
+// Hochzahl hochgestellt: 10⁻⁵ statt 10^-5. etLies liest beide Formen.
+const ET_HOCH = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+function etHoch(n) { return String(n).replace('-', '⁻').replace(/\d/g, z => ET_HOCH[+z]); }
+function etTief(h) { return h.replace('⁻', '-').replace('⁺', '+').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, z => String(ET_HOCH.indexOf(z))); }
+// Zum Lesen in Lösungsweg und Hinweisen: Tausendergruppen ab fünf Stellen
+// (10 000), mit schmalem geschütztem Leerzeichen. Nie in ein Eingabefeld.
+function etZahlLesbar(x) {
+  const s = etZahl(x);
+  if (s.indexOf('·') !== -1) return s;
+  const m = s.match(/^(-?)(\d+)(\.\d+)?$/);
+  if (!m || m[2].length < 5) return s;
+  return m[1] + m[2].replace(/\B(?=(\d{3})+$)/g, '\u202F') + (m[3] || '');
+}
+// Anzahl geltender Ziffern eines (bereits auf 12 Stellen bereinigten) Werts
+function etStellen(x) {
+  if (x === 0) return 1;
+  for (let k = 1; k < 12; k++) if (!etKrumm(x, k)) return k;
+  return 12;
+}
+// «Schöner» Faktor: höchstens sechs geltende Ziffern (3.6, 0.0036, 3 600 000)
+function etSchoen(x) { return isFinite(x) && x !== 0 && etStellen(+x.toPrecision(12)) <= 6; }
 function etGanz(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
 function etMisch(arr) {
   for (let i = arr.length - 1; i > 0; i--) { const j = etGanz(0, i); const t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
@@ -786,14 +820,26 @@ function etMisch(arr) {
 function etNah(a, b) { return isFinite(a) && isFinite(b) && Math.abs(a - b) <= Math.max(Math.abs(b) * 1e-6, 1e-9); }
 
 // Eingabe lesen: Dezimalpunkt oder -komma, Schweizer Tausender-Apostroph,
-// e-Notation und die Schreibweisen 3.6*10^6 / 3.6·10^6 / 3.6x10^6.
-function etLies(roh) {
+// e-Notation und die Schreibweisen 3.6*10^6 / 3.6·10^6 / 3.6x10^6 / 3.6·10⁶.
+// Das ^ ist Pflicht: «5*100» ist keine Zehnerpotenz, sondern ungültig — sonst
+// läse der Trainer daraus stillschweigend 5. Mit einheit wird diese Einheit am
+// Schluss abgestreift (auch m2 / m^2 für m², u für µ); eine andere Einheit
+// bleibt stehen und macht die Eingabe ungültig.
+function etEinheitMuster(e) {
+  const q = e.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&')
+             .replace('²', '(?:²|\\^?2)').replace('³', '(?:³|\\^?3)').replace('µ', '[µu]');
+  return new RegExp('\\s*' + q + '\\s*$');
+}
+function etLies(roh, einheit) {
   const komma = roh.indexOf(',') !== -1;
   let s = roh.trim().replace(/['’]/g, '');
+  if (einheit) s = s.replace(etEinheitMuster(einheit), '');
+  // Hochgestellte Hochzahl (10⁻⁵, 10³) in die Schreibweise mit ^ übersetzen
+  s = s.replace(/10\s*([⁺⁻]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g, (m, h) => '10^' + etTief(h));
   // Zuerst die Zehnerpotenz-Schreibweisen normalisieren (auch mit Leerzeichen,
-  // denn genau so zeigt der Trainer sehr kleine Werte an: 2.15 · 10^-5)
-  s = s.replace(/\s*(?:·|\*|x|×)\s*10\s*\^?\s*([+-]?\d+)/i, 'e$1');
-  s = s.replace(/^10\s*\^\s*([+-]?\d+)$/i, '1e$1');
+  // denn genau so zeigt der Trainer sehr kleine Werte an: 2.15 · 10⁻⁵)
+  s = s.replace(/\s*(?:·|\*|x|×)\s*10\s*\^\s*\(?\s*([+-]?\d+)\s*\)?/i, 'e$1');
+  s = s.replace(/^10\s*\^\s*\(?\s*([+-]?\d+)\s*\)?$/i, '1e$1');
   // Danach gilt: Leerzeichen nur als Tausendertrennung (1 250.5) — «5 5» ist
   // ein Tippfehler und darf nicht stillschweigend zu 55 werden.
   if (/\s/.test(s)) {
@@ -806,17 +852,23 @@ function etLies(roh) {
   return { wert: isFinite(w) ? w : NaN, komma: komma };
 }
 
-// Richtig ist auch ein sauber gerundetes Resultat (2 bis 10 signifikante
-// Stellen) — sonst wäre 2.78 für 2.7777… m/s falsch. Nie mit === vergleichen.
+// Richtig ist der exakte Wert. Nur wenn sich das Resultat nicht kurz schreiben
+// lässt (mehr als sechs geltende Ziffern, etwa 2.7777… m/s), gilt auch ein
+// sauber gerundeter Wert ab drei geltenden Ziffern: 2.78, nicht 2.8. Wer bei
+// 2.75 m → 275 cm «280» schreibt, hat nicht umgerechnet, sondern gerundet.
+// Gerundet wird symmetrisch (−12.25… → −12.3 wie 12.25… → 12.3).
+// Nie mit === vergleichen.
 function etPasst(x, soll) {
   if (!isFinite(x)) return false;
   const tol = Math.max(Math.abs(soll) * 1e-9, 1e-12);
   if (Math.abs(x - soll) <= tol) return true;
   if (soll === 0) return Math.abs(x) <= 1e-12;
+  if (etStellen(+soll.toPrecision(12)) <= 6) return false;
   const ord = Math.floor(Math.log10(Math.abs(soll)));
-  for (let k = 2; k <= 10; k++) {
+  for (let k = 3; k <= 10; k++) {
     const p = Math.pow(10, k - 1 - ord);
-    if (Math.abs(x - Math.round(soll * p) / p) <= tol) return true;
+    const r = Math.sign(soll) * Math.round(Math.abs(soll) * p) / p;
+    if (Math.abs(x - r) <= tol) return true;
   }
   return false;
 }
@@ -842,6 +894,9 @@ function etDiagnose(x, a) {
 
   // Temperatur: Verschiebung vergessen, falsch herum verrechnet, Vorzeichen
   if (g.offset) {
+    if (Math.abs(Math.abs(x - a.soll) - 0.15) < 1e-9)
+      return { art:'temp-273', klasse:'fehler', kurz:'273 statt 273.15',
+               text:'Die Verschiebung beträgt 273.15, nicht 273. Rechne mit T [K] = ϑ [°C] + 273.15.' };
     if (etNah(x, a.wert))
       return { art:'temp-offset', klasse:'fehler',
                text:'Der Zahlenwert ist unverändert geblieben. Beim Wechsel zwischen °C und K werden 273.15 addiert oder subtrahiert.' };
@@ -858,6 +913,32 @@ function etDiagnose(x, a) {
   if (etPasst(x, rueck) && !etNah(rueck, a.soll))
     return { art:'richtung', klasse:'fehler',
              text:'Du hast in die andere Richtung umgerechnet — von ' + a.u2.e + ' nach ' + a.u1.e + ' statt umgekehrt.' };
+
+  // Typische Fehlbilder der Sonderumrechnungen, vor der allgemeinen Prüfung
+  if (!etIstZehner(etVerhaeltnis(a.u1, a.u2))) {
+    if (g.id === 'tempo' && (etPasst(x, a.soll * 3.6 / 10) || etPasst(x, a.soll * 10 / 3.6)))
+      return { art:'tempo-10', klasse:'fehler', kurz:'mit 10 statt 3.6',
+               text:'Du hast mit 10 statt mit 3.6 umgerechnet. Es gilt 1 m/s = 3.6 km/h, weil 1 km/h = 1000 m : 3600 s.' };
+    if (g.id === 'zeit') {
+      for (let k = 1; k <= 3; k++) {
+        const f = Math.pow(100 / 60, k);
+        if (etPasst(x, a.soll * f) || etPasst(x, a.soll / f))
+          return { art:'zeit-100', klasse:'fehler', kurz:'mit 100 statt 60',
+                   text:'Eine Stunde hat 60 Minuten und eine Minute 60 Sekunden. Du hast mit 100 gerechnet.' };
+      }
+      // 90 min = 1.30 h: die Nachkommastellen als Minuten gelesen
+      if ((a.u2.e === 'h' || a.u2.e === 'min') && a.u1.f < a.u2.f) {
+        const ganz = Math.trunc(a.soll), rest = a.soll - ganz;
+        const y = ganz + rest * 0.6;
+        if (rest > 1e-9 && Math.abs(x - y) < 0.005 + 1e-9 && !etNah(x, a.soll)) {
+          const gross = a.u2.e === 'h' ? ['Stunde', 'Minuten', '1 h 30 min = 1.5 h, nicht 1.30 h']
+                                       : ['Minute', 'Sekunden', '1 min 30 s = 1.5 min, nicht 1.30 min'];
+          return { art:'zeit-komma', klasse:'fehler', kurz:'Minuten als Nachkommastellen',
+                   text:'Die Stellen nach dem Dezimalpunkt sind Bruchteile einer ' + gross[0] + ', keine ' + gross[1] + ': ' + gross[2] + '.' };
+        }
+      }
+    }
+  }
 
   // Sonderfaktoren nur dort, wo das konkrete Einheitenpaar selbst keine reine
   // Zehnerpotenz ist. 1 kJ = 1000 J ist eine Vorsatzumrechnung — eine
@@ -886,9 +967,11 @@ function etDiagnose(x, a) {
       const fak = Math.abs(n) <= 4 ? etZahl(betrag) : '10^' + Math.abs(n);
       let t = 'Dein Ergebnis unterscheidet sich um den Faktor ' + fak + ' von der richtigen Lösung. ';
       const kurz = 'Faktor ' + fak + ' daneben';
-      t += g.potenz
+      t += etPaarPotenz(a.u1, a.u2)
         ? 'Prüfe Vorsatz, Umrechnungsrichtung und die Potenz der Einheit — bei ' +
-          (g.potenz === 2 ? 'Flächen wird der Längenfaktor quadriert.' : 'Volumen wird der Längenfaktor kubiert.')
+          (g.potenz === 2 ? 'Flächen wird der Längenfaktor quadriert.' : 'Volumen wird der Längenfaktor kubiert.') +
+          (etBruecke(a) ? ' Dazu gilt: ' + g.ident + '.' : '')
+        : etBruecke(a) ? 'Prüfe Vorsatz und Umrechnungsrichtung. Es gilt: ' + g.ident + '.'
         : (g.id === 'dichte'
             ? 'Prüfe beide Umrechnungen: eine im Zähler (Masse) und eine im Nenner (Volumen).'
             : 'Prüfe Vorsatz und Umrechnungsrichtung.');
@@ -902,16 +985,41 @@ function etDiagnose(x, a) {
 function etHinweis1(a) {
   const g = a.g;
   if (g.offset) return 'Hier hilft keine Multiplikation: Zwischen °C und K liegt eine Addition.';
-  if (g.potenz) return 'Beachte, dass die Einheit ' + (g.potenz === 2 ? 'quadriert' : 'kubiert') + ' wird.';
+  if (etBruecke(a) && !etPaarPotenz(a.u1, a.u2)) return 'Eine Brücke hilft: ' + g.ident + '.';
+  if (etPaarPotenz(a.u1, a.u2)) return 'Beachte, dass die Einheit ' + (g.potenz === 2 ? 'quadriert' : 'kubiert') + ' wird.' +
+                                       (etBruecke(a) ? ' Als Brücke: ' + g.ident + '.' : '');
   if (g.id === 'dichte') return 'Die Dichte trägt zwei Umrechnungen zugleich — eine im Zähler und eine im Nenner.';
   if (!etIstZehner(etVerhaeltnis(a.u1, a.u2))) return 'Hier handelt es sich nicht um eine reine Zehnerpotenz.';
   return 'Wird der Zahlenwert beim Wechsel in diese Einheit grösser oder kleiner?';
 }
+// Wie rechnet man direkt von u1 nach u2? Mit einem kurzen Faktor mal (1 km = 1000 m)
+// oder durch (1 m/s = 3.6 km/h, also durch 3.6) — nie mit 0.2777777778.
+function etBeziehung(a) {
+  const q = etVerhaeltnis(a.u1, a.u2);
+  if (q >= 1 && etSchoen(q)) return { mal:+q.toPrecision(12) };
+  if (q < 1 && etSchoen(1 / q)) return { durch:+(1 / q).toPrecision(12) };
+  if (etSchoen(q)) return { mal:+q.toPrecision(12) };
+  if (etSchoen(1 / q)) return { durch:+(1 / q).toPrecision(12) };
+  return null;
+}
 function etHinweis2(a) {
   if (a.g.offset) return a.u1.e === '°C' ? 'T [K] = ϑ [°C] + 273.15' : 'ϑ [°C] = T [K] − 273.15';
-  const q = etVerhaeltnis(a.u1, a.u2);
-  return q >= 1 ? '1 ' + a.u1.e + ' = ' + etZahl(q) + ' ' + a.u2.e
-                : '1 ' + a.u2.e + ' = ' + etZahl(1 / q) + ' ' + a.u1.e;
+  const b = etBeziehung(a);
+  if (b && b.mal) return '1 ' + a.u1.e + ' = ' + etZahlLesbar(b.mal) + ' ' + a.u2.e;
+  if (b) return '1 ' + a.u2.e + ' = ' + etZahlLesbar(b.durch) + ' ' + a.u1.e;
+  return '1 ' + a.u1.e + ' = ' + etZahlLesbar(a.u1.f) + ' ' + a.g.basis + ' und 1 ' + a.u2.e + ' = ' + etZahlLesbar(a.u2.f) + ' ' + a.g.basis;
+}
+// Bei cm² ↔ m² und cm³ ↔ m³ zeigt der Weg, woher der Faktor kommt: aus dem
+// quadrierten bzw. kubierten Längenfaktor.
+function etPotenzHerkunft(a) {
+  const p1 = (a.u1.e.match(/[²³]/) || [''])[0], p2 = (a.u2.e.match(/[²³]/) || [''])[0];
+  if (!p1 || p1 !== p2) return '';
+  const n = p1 === '²' ? 2 : 3, q = etVerhaeltnis(a.u1, a.u2);
+  const [gross, klein] = q >= 1 ? [a.u1, a.u2] : [a.u2, a.u1];
+  const Q = q >= 1 ? q : 1 / q, L = +Math.pow(Q, 1 / n).toPrecision(12);
+  const lg = gross.e.replace(p1, ''), lk = klein.e.replace(p1, '');
+  return '1 ' + lg + ' = ' + etZahlLesbar(L) + ' ' + lk + ', also 1 ' + gross.e + ' = ' + etZahlLesbar(L) + p1 + ' ' + klein.e +
+         ' = ' + etZahlLesbar(+Q.toPrecision(12)) + ' ' + klein.e + '.';
 }
 function etLoesungsweg(a) {
   if (a.g.offset) {
@@ -919,9 +1027,21 @@ function etLoesungsweg(a) {
       ? etZahl(a.wert) + ' °C + 273.15 = ' + etZahl(a.soll) + ' K'
       : etZahl(a.wert) + ' K − 273.15 = ' + etZahl(a.soll) + ' °C';
   }
-  const basis = a.wert * a.u1.f;
-  return etZahl(a.wert) + ' ' + a.u1.e + ' · ' + etZahl(a.u1.f) + ' = ' + etZahl(basis) + ' ' + a.g.basis + '<br>' +
-         etZahl(basis) + ' ' + a.g.basis + ' : ' + etZahl(a.u2.f) + ' = ' + etZahl(a.soll) + ' ' + a.u2.e;
+  const w = etZahlLesbar(a.wert), z = etZahlLesbar(a.soll);
+  const zeilen = [];
+  if (etBruecke(a)) zeilen.push('Brücke: ' + a.g.ident + '.');
+  const herkunft = etPotenzHerkunft(a);
+  zeilen.push(herkunft ? 'Es gilt ' + herkunft : 'Es gilt ' + etHinweis2(a) + '.');
+  const b = etBeziehung(a);
+  if (b && b.mal) zeilen.push(w + ' ' + a.u1.e + ' = ' + w + ' · ' + etZahlLesbar(b.mal) + ' ' + a.u2.e + ' = ' + z + ' ' + a.u2.e);
+  else if (b) zeilen.push(w + ' ' + a.u1.e + ' = (' + w + ' : ' + etZahlLesbar(b.durch) + ') ' + a.u2.e + ' = ' + z + ' ' + a.u2.e);
+  else {
+    // Kein kurzer Faktor: über die Referenzeinheit, Schritte mit Faktor 1 entfallen
+    const basis = +(a.wert * a.u1.f).toPrecision(12);
+    if (a.u1.f !== 1) zeilen.push(w + ' ' + a.u1.e + ' = ' + w + ' · ' + etZahlLesbar(a.u1.f) + ' ' + a.g.basis + ' = ' + etZahlLesbar(basis) + ' ' + a.g.basis);
+    if (a.u2.f !== 1) zeilen.push(etZahlLesbar(basis) + ' ' + a.g.basis + ' = (' + etZahlLesbar(basis) + ' : ' + etZahlLesbar(a.u2.f) + ') ' + a.u2.e + ' = ' + z + ' ' + a.u2.e);
+  }
+  return zeilen.join('<br>');
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -1067,15 +1187,20 @@ function etBaue(g, u1, u2, opt) {
 
 // Alle Paare einer Gruppe, optional auf Stufen eingeschränkt.
 // Sprünge über mehr als neun Zehnerpotenzen (km → nm, km² → mm²) bleiben
-// aussen vor: rechnerisch korrekt, als Schulaufgabe aber ohne Wert. Im freien
-// Üben sind sie weiterhin möglich, wenn man beide Einheiten selbst anklickt.
-function etPaare(g, stufen, nurAktive) {
+// aussen vor: rechnerisch korrekt, als Schulaufgabe aber ohne Wert. Ebenso
+// Sonderumrechnungen mit einer Einheit, die dafür nicht gebräuchlich ist
+// (d → ms, mJ → Wh, mm/s → km/h): Bei 3.6, 60 und 3600 zählen nur die
+// Alltagseinheiten (alltag in ET_GRUPPEN). Im freien Üben sind alle diese
+// Paare weiterhin möglich, wenn man beide Einheiten selbst anklickt; der
+// Selbsttest prüft sie mit mitExotisch.
+function etPaare(g, stufen, nurAktive, mitExotisch) {
   const eh = nurAktive ? g.eh.filter(u => u.an) : g.eh;
   const out = [];
   for (const u1 of eh) for (const u2 of eh) {
     if (u1.e === u2.e) continue;
     if (!g.offset && etNah(u1.f, u2.f)) continue;       // z.B. ml und cm³
     if (!g.offset && Math.abs(Math.log10(etVerhaeltnis(u1, u2))) > 9) continue;
+    if (!mitExotisch && !g.offset && !etIstZehner(etVerhaeltnis(u1, u2)) && !(u1.alltag && u2.alltag)) continue;
     if (!etPaarMoeglich(u1, u2)) continue;
     const s = etStufe(g, u1, u2);
     if (stufen && stufen.indexOf(s) === -1) continue;
@@ -1223,7 +1348,7 @@ function etZeichne() {
     z.id = 'et-z' + i;
     z.innerHTML =
       '<span class="et-nr">' + (i + 1) + '.</span>' +
-      '<span class="et-frage">' + etZahl(a.wert) + ' ' + a.u1.e + ' =</span>' +
+      '<span class="et-frage">' + etZahlLesbar(a.wert) + ' ' + a.u1.e + ' =</span>' +
       '<input type="text" inputmode="decimal" autocomplete="off" id="et-e' + i + '" ' +
       'aria-label="Aufgabe ' + (i + 1) + ': ' + etZahl(a.wert) + ' ' + a.u1.e + ' in ' + a.u2.e + '">' +
       '<span class="et-ziel">' + a.u2.e + '</span>' +
@@ -1243,6 +1368,13 @@ function etZeichne() {
   });
 }
 
+// Der Hinweis auf den Dezimalpunkt kommt einmal je Besuch, nicht bei jeder Eingabe
+let ET_KOMMA_GEZEIGT = false;
+function etKommaHinweis(komma, text) {
+  if (!komma || ET_KOMMA_GEZEIGT) return '';
+  ET_KOMMA_GEZEIGT = true;
+  return text;
+}
 function etPruefeZeile(i, hart) {
   const a = ET_AUFGABEN[i];
   const feld = document.getElementById('et-e' + i);
@@ -1250,8 +1382,11 @@ function etPruefeZeile(i, hart) {
   const marke = document.getElementById('et-m' + i);
   const roh = feld.value.trim();
   zeile.classList.remove('ok', 'zehn', 'falsch');
-  if (roh === '') { a.stand = ''; marke.textContent = ''; etZaehle(); return; }
-  const g = etLies(roh);
+  // Beim Tippen keine Bewertung: Eine Live-Diagnose verriete die Grössenordnung
+  // («Faktor 100 daneben»), man könnte Nullen anhängen, bis es passt. Geprüft
+  // wird mit Enter oder «Alle prüfen».
+  if (roh === '' || !hart) { a.stand = ''; marke.textContent = ''; etZaehle(); return; }
+  const g = etLies(roh, a.u2.e);
   if (isNaN(g.wert)) {
     a.stand = hart ? 'falsch' : '';
     marke.textContent = hart ? '✗ keine gültige Zahl' : '';
@@ -1259,20 +1394,19 @@ function etPruefeZeile(i, hart) {
     etZaehle();
     return;
   }
-  const komma = g.komma ? ' (bitte Dezimalpunkt)' : '';
+  const komma = etKommaHinweis(g.komma, ' (bitte Dezimalpunkt)');
   const d = etDiagnose(g.wert, a);
   if (d.art === 'ok') {
     a.stand = 'ok'; zeile.classList.add('ok'); marke.textContent = '✓ richtig' + komma;
   } else if (d.klasse === 'warn') {
     a.stand = 'zehn'; zeile.classList.add('zehn');
     // In der Liste die Kurzform, den vollen Diagnosetext gibt es im Lernmodus
-    marke.textContent = hart ? '⚠ ' + (d.kurz || 'Faktor 10ⁿ daneben') + ' — richtig: ' + etZahl(a.soll) + ' ' + a.u2.e
-                             : '⚠ ' + (d.kurz || 'Faktor 10ⁿ daneben');
+    marke.textContent = '⚠ ' + (d.kurz || 'Faktor 10ⁿ daneben') + ' — richtig: ' + etZahlLesbar(a.soll) + ' ' + a.u2.e + komma;
   } else {
     a.stand = 'falsch';
     if (hart) {
       zeile.classList.add('falsch');
-      marke.textContent = '✗ falsch — richtig: ' + etZahl(a.soll) + ' ' + a.u2.e;
+      marke.textContent = '✗ ' + (d.kurz || 'falsch') + ' — richtig: ' + etZahlLesbar(a.soll) + ' ' + a.u2.e + komma;
     } else {
       marke.textContent = '';
     }
@@ -1414,7 +1548,7 @@ function etLernNaechste() {
   document.getElementById('et-lern-zaehler').textContent = 'Aufgabe ' + ET_LERN.zaehler;
   document.getElementById('et-lern-stufe').textContent = 'Stufe ' + a.stufe;
   document.getElementById('et-lern-thema').textContent = a.g.name;
-  document.getElementById('et-lern-frage').textContent = etZahl(a.wert) + ' ' + a.u1.e + ' =';
+  document.getElementById('et-lern-frage').textContent = etZahlLesbar(a.wert) + ' ' + a.u1.e + ' =';
   document.getElementById('et-lern-ziel').textContent = a.u2.e;
   const feld = document.getElementById('et-lern-eingabe');
   feld.value = '';
@@ -1431,7 +1565,7 @@ function etLernPruefe() {
   const roh = document.getElementById('et-lern-eingabe').value.trim();
   const fb = document.getElementById('et-lern-fb');
   if (roh === '') return;
-  const g = etLies(roh);
+  const g = etLies(roh, a.u2.e);
   fb.style.display = 'block';
   if (isNaN(g.wert)) {
     fb.className = 'et-fb fehler';
@@ -1439,7 +1573,7 @@ function etLernPruefe() {
     return;
   }
   const d = etDiagnose(g.wert, a);
-  const komma = g.komma ? ' Schreibe künftig mit Dezimalpunkt: ' + etZahl(g.wert) + '.' : '';
+  const komma = etKommaHinweis(g.komma, ' Schreibe künftig mit Dezimalpunkt: ' + etZahl(g.wert) + '.');
 
   if (d.art === 'ok') {
     ET_LERN.geprueft = true;
@@ -1521,8 +1655,8 @@ function etLernFortschritt() {
   ziel.innerHTML = h;
   const heute = ET_STAND.heute;
   document.getElementById('et-lern-heute').textContent =
-    'Heute: ' + heute.n + ' Aufgaben · ' + heute.ok + ' richtig' +
-    (heute.n ? ' · ' + Math.round(heute.ok / heute.n * 100) + ' %' : '');
+    'Heute: ' + heute.n + ' Aufgaben; ' + heute.ok + ' richtig' +
+    (heute.n ? '; ' + Math.round(heute.ok / heute.n * 100) + ' %' : '');
 
   const schwach = ET_GRUPPEN
     .map(g => { const st = etKatStand(g); return { g:g, s:st.score, n:st.geuebt }; })
@@ -1538,29 +1672,26 @@ function etLernFortschritt() {
    9. PRÜFUNGSMODUS — keine Rückmeldung bis zum Schluss
    ═══════════════════════════════════════════════════════════════════ */
 const ET_PR = { themen:[], aufgaben:[], i:0, antworten:[], start:0, limit:0, uhr:null, laeuft:false };
-// Der Schwierigkeitsgrad wirkt INNERHALB eines Themas, nicht absolut über alle
-// Themen hinweg. Absolute Stufen hatten einen unschönen Nebeneffekt: Länge,
-// Masse, Kraft, Druck und Leistung kennen nur die Stufen 1 und 2, also hätte
-// «anspruchsvoll» (3 und 4) sie vollständig ausgeschlossen — und die Warnung
-// hätte ausgerechnet «anspruchsvoll» empfohlen. Jetzt heisst «anspruchsvoll»
-// bei Länge «grosse Sprünge» und bei Fläche «Flächenumrechnung»; kein
-// gewähltes Thema fällt mehr stillschweigend weg.
-function etStufenFuer(g, grad) {
-  const vorhanden = [];
-  etPaare(g, null, false).forEach(p => { if (vorhanden.indexOf(p.stufe) === -1) vorhanden.push(p.stufe); });
-  vorhanden.sort();
-  if (!vorhanden.length) return [];
-  if (grad === 'gemischt' || vorhanden.length === 1) return vorhanden;
-  if (grad === 'basis') return vorhanden.slice(0, Math.max(1, Math.floor(vorhanden.length / 2)));
-  if (grad === 'hoch')  return vorhanden.slice(Math.floor(vorhanden.length / 2));
-  return vorhanden;                                     // standard: alles, was das Thema hergibt
+// Der Schwierigkeitsgrad wirkt INNERHALB eines Themas. «Basis» sind die Paare
+// aus den gebräuchlichen Einheiten (kern, die Voreinstellung in ET_GRUPPEN):
+// km/h ↔ m/s, h ↔ min, m² ↔ cm², l ↔ ml. «Anspruchsvoll» sind die Paare mit
+// mindestens einer selteneren Einheit (µm, dl, MPa, Wh …). Hat ein Thema
+// keine solchen Paare (Temperatur), bekommt es alle — kein gewähltes Thema
+// fällt stillschweigend weg.
+function etPaareFuer(g, grad) {
+  const alle = etPaare(g, null, false);
+  // Basis: gebräuchliche Einheiten und höchstens sechs Zehnerpotenzen (km² ↔ m² ja, cm² ↔ ha nicht)
+  const kern = alle.filter(p => p.u1.kern && p.u2.kern && (g.offset || Math.abs(Math.log10(etVerhaeltnis(p.u1, p.u2))) <= 6 + 1e-9));
+  if (grad === 'basis') return kern.length ? kern : alle;
+  if (grad === 'hoch') { const rest = alle.filter(p => !(p.u1.kern && p.u2.kern)); return rest.length ? rest : alle; }
+  return alle;                                           // standard und gemischt: alles
 }
 
 // Sicherheitsnetz: Ein Thema ohne Aufgaben darf es nicht stillschweigend geben.
 function etPruefungAusgeschlossen() {
   const grad = document.getElementById('et-pr-grad').value;
   return ET_PR.themen.map(id => ET_GID[id])
-    .filter(g => g && etPaare(g, etStufenFuer(g, grad), false).length === 0);
+    .filter(g => g && etPaareFuer(g, grad).length === 0);
 }
 function etPruefungHinweis() {
   const ziel = document.getElementById('et-pr-warnung');
@@ -1595,7 +1726,7 @@ function etPruefungStart() {
   while (aufgaben.length < n && schutz < n * 60) {
     schutz++;
     const g = gruppen[(aufgaben.length + runde) % gruppen.length];
-    const paare = etPaare(g, etStufenFuer(g, grad), false);
+    const paare = etPaareFuer(g, grad);
     if (!paare.length) { runde++; continue; }
     const p = paare[etGanz(0, paare.length - 1)];
     const a = etBaue(g, p.u1, p.u2, { groesse:1, dez:1 });
@@ -1648,7 +1779,7 @@ function etPruefungZeige() {
   const a = ET_PR.aufgaben[ET_PR.i];
   document.getElementById('et-pr-zaehler').textContent = 'Aufgabe ' + (ET_PR.i + 1) + ' von ' + ET_PR.aufgaben.length;
   document.getElementById('et-pr-thema').textContent = a.g.name;
-  document.getElementById('et-pr-frage').textContent = etZahl(a.wert) + ' ' + a.u1.e + ' =';
+  document.getElementById('et-pr-frage').textContent = etZahlLesbar(a.wert) + ' ' + a.u1.e + ' =';
   document.getElementById('et-pr-ziel').textContent = a.u2.e;
   const feld = document.getElementById('et-pr-eingabe');
   feld.value = ET_PR.antworten[ET_PR.i] || '';
@@ -1726,7 +1857,7 @@ function etPruefungEnde(zeitAus) {
       fehler.push({ a:a, eingabe:'', offen:true, d:{ text:'Aufgabe wurde nicht beantwortet.' } });
       return;                                   // kein Eintrag im Lernstand
     }
-    const g = etLies(roh);
+    const g = etLies(roh, a.u2.e);
     const richtig = !isNaN(g.wert) && etPasst(g.wert, a.soll);
     if (richtig) { ok++; t.ok++; }
     else fehler.push({ a:a, eingabe:roh, offen:false,
@@ -1768,11 +1899,11 @@ function etPruefungEnde(zeitAus) {
     h += '<h4>Aufgaben zum Nacharbeiten</h4><div class="et-fehlerliste">';
     fehler.forEach(f => {
       h += '<div class="et-fk' + (f.offen ? ' offen' : '') + '">' +
-           '<div class="et-fk-kopf">' + etZahl(f.a.wert) + ' ' + f.a.u1.e + ' → ' + f.a.u2.e + '</div>' +
+           '<div class="et-fk-kopf">' + etZahlLesbar(f.a.wert) + ' ' + f.a.u1.e + ' → ' + f.a.u2.e + '</div>' +
            '<div class="et-fk-zeile"><span>deine Antwort</span><b>' +
              (f.offen ? 'keine Antwort' : f.eingabe + ' ' + f.a.u2.e) + '</b></div>' +
-           '<div class="et-fk-zeile"><span>richtig</span><b>' + etZahl(f.a.soll) + ' ' + f.a.u2.e + '</b></div>' +
-           '<div class="et-fk-hinweis">' + f.d.text + (f.offen ? '' : ' ') + 'Es gilt: ' + etHinweis2(f.a) + '</div>' +
+           '<div class="et-fk-zeile"><span>richtig</span><b>' + etZahlLesbar(f.a.soll) + ' ' + f.a.u2.e + '</b></div>' +
+           '<div class="et-fk-hinweis">' + f.d.text + ' Es gilt: ' + etHinweis2(f.a) + '</div>' +
            '</div>';
     });
     h += '</div>';
@@ -1865,7 +1996,8 @@ function etGruppenZeichnen() {
            '" aria-label="Einheit ' + u.e + ' ' + (u.an ? 'abwählen' : 'auswählen') + '">' + u.e + '</span>';
     });
     h += '</div><div class="et-hinweis">' + (g.warn ? '⚠ ' + g.warn + ' ' : '') +
-         'Erklärt in <a href="' + g.erkl + '">' + g.erklT + '</a></div>';
+         'Erklärt in <a href="' + g.erkl + '">' + g.erklT + '</a>' +
+         (g.erkl2 ? ', ' + g.erklW2 + ' in <a href="' + g.erkl2 + '">' + g.erklT2 + '</a>' : '') + '</div>';
     k.innerHTML = h;
     ziel.appendChild(k);
   });
@@ -1924,7 +2056,7 @@ function etSelbsttest(proPaar) {
   const runden = Math.max(1, proPaar || 1);      // Zufallsaufgaben je Paar
   let paare = 0, faelle = 0, aufgaben = 0;
   ET_GRUPPEN.forEach(g => {
-    etPaare(g, null, false).forEach(p => {
+    etPaare(g, null, false, true).forEach(p => {
       paare++;
       const proben = g.offset ? [-20, 0, 25, 100] : werte;
       proben.forEach(v0 => {
@@ -2139,26 +2271,128 @@ function etSelbsttest(proPaar) {
   ET_STAND = JSON.parse(sicherung);
   ET_LERN.themen = lernSicherung.themen; ET_LERN.wiedervorlage = lernSicherung.wv; ET_LERN.zaehler = lernSicherung.z;
 
-  // Schwierigkeitsgrad: kein gewaehltes Thema darf leer ausgehen. Frueher
-  // schloss «anspruchsvoll» Laenge, Masse, Kraft, Druck und Leistung komplett
-  // aus, weil deren Paare nur auf Stufe 1 und 2 liegen.
+  // Schwierigkeitsgrad: kein gewaehltes Thema darf leer ausgehen, «Basis»
+  // enthaelt die Kernfaelle, «anspruchsvoll» die selteneren Einheiten.
   ['basis', 'standard', 'hoch', 'gemischt'].forEach(grad => {
     ET_GRUPPEN.forEach(g => {
-      const stufen = etStufenFuer(g, grad);
-      if (!stufen.length || !etPaare(g, stufen, false).length) {
-        fehler.push('Schwierigkeitsgrad «' + grad + '» laesst ' + g.name + ' ohne Aufgaben');
-      }
+      if (!etPaareFuer(g, grad).length) fehler.push('Schwierigkeitsgrad «' + grad + '» laesst ' + g.name + ' ohne Aufgaben');
     });
   });
-  // «anspruchsvoll» muss innerhalb eines mehrstufigen Themas wirklich hoeher
-  // liegen als «Basis»
-  ['laenge', 'masse', 'zeit', 'volumen'].forEach(id => {
-    const g = ET_GID[id];
-    const b = etStufenFuer(g, 'basis'), h = etStufenFuer(g, 'hoch');
-    if (b.length && h.length && Math.max.apply(null, h) < Math.max.apply(null, b)) {
-      fehler.push('Schwierigkeitsgrad verdreht bei ' + g.name);
-    }
+  const hatPaar = (liste, e1, e2) => liste.some(p => p.u1.e === e1 && p.u2.e === e2);
+  [['tempo', 'km/h', 'm/s'], ['tempo', 'm/s', 'km/h'], ['zeit', 'h', 'min'], ['zeit', 'min', 's'],
+   ['flaeche', 'm²', 'cm²'], ['volumen', 'l', 'ml'], ['laenge', 'km', 'm']].forEach(x => {
+    if (!hatPaar(etPaareFuer(ET_GID[x[0]], 'basis'), x[1], x[2])) fehler.push('«Basis» ohne Kernfall ' + x[1] + ' → ' + x[2]);
   });
+  if (hatPaar(etPaareFuer(ET_GID['laenge'], 'basis'), 'µm', 'mm')) fehler.push('«Basis» enthaelt seltene Einheit µm');
+  if (hatPaar(etPaareFuer(ET_GID['flaeche'], 'basis'), 'cm²', 'ha')) fehler.push('«Basis» enthaelt den Sprung cm² → ha');
+  if (!etPaareFuer(ET_GID['laenge'], 'hoch').some(p => p.u1.e === 'µm' || p.u2.e === 'µm' || p.u1.e === 'nm' || p.u2.e === 'nm'))
+    fehler.push('«anspruchsvoll» ohne seltene Einheit bei Länge');
+  // ET-C1: keine exotischen Sonderumrechnungen in Lern- und Pruefungsmodus
+  [['zeit', 'ms', 'h'], ['zeit', 'd', 'ms'], ['energie', 'mJ', 'Wh'], ['energie', 'kWh', 'mJ'],
+   ['tempo', 'mm/s', 'km/h'], ['tempo', 'km/h', 'cm/s'], ['tempo', 'km/s', 'km/h']].forEach(x => {
+    if (hatPaar(etPaare(ET_GID[x[0]], null, false), x[1], x[2])) fehler.push('exotisches Paar im Lernmodus: ' + x[1] + ' → ' + x[2]);
+  });
+  [['zeit', 'ms', 'h'], ['energie', 'mJ', 'Wh'], ['tempo', 'mm/s', 'km/h']].forEach(x => {
+    if (!hatPaar(etPaare(ET_GID[x[0]], null, false, true), x[1], x[2])) fehler.push('exotisches Paar fehlt im Selbsttest: ' + x[1] + ' → ' + x[2]);
+  });
+  [['zeit', 'd', 'h'], ['energie', 'kWh', 'MJ'], ['energie', 'Wh', 'J']].forEach(x => {
+    if (!hatPaar(etPaare(ET_GID[x[0]], null, false), x[1], x[2])) fehler.push('Alltagspaar fehlt: ' + x[1] + ' → ' + x[2]);
+  });
+
+  // ET-B1: Toleranz — exakt, wenn kurz schreibbar; sonst ab drei Ziffern, symmetrisch
+  [[280, 275, false], [1200, 1234.5, false], [290, 293.15, false], [293, 293.15, false],
+   [275, 275, true], [1234.5, 1234.5, true], [-12.25, -12.25, true], [-12.2, -12.25, false], [-12.3, -12.25, false],
+   [2.78, 2.77777777778, true], [2.8, 2.77777777778, false], [2.7778, 2.77777777778, true],
+   [-12.3, -12.2534567, true], [-12.2, -12.2534567, false], [12.3, 12.2534567, true]].forEach(t => {
+    if (etPasst(t[0], t[1]) !== t[2]) fehler.push('Toleranz: ' + t[0] + ' zu ' + t[1] + ' ergibt ' + !t[2]);
+  });
+  // ET-B2: Eingabe — ^ ist Pflicht, Hochzahlen und Einheiten werden gelesen
+  [['5*100', '', NaN], ['2·1000', '', NaN], ['3x105', '', NaN], ['3.34e+5', '', 334000], ['1.2·10^+5', '', 1.2e5],
+   ['2.5 · 10⁻⁵', '', 2.5e-5], ['10³', '', 1000], ['1.2·10⁵', '', 1.2e5], ['1.2*10^(-3)', '', 1.2e-3],
+   ['2500 m', 'm', 2500], ['2500m', 'm', 2500], ['3 m2', 'm²', 3], ['3 m^2', 'm²', 3], ['3 m²', 'm²', 3],
+   ['4 um', 'µm', 4], ['20 km/h', 'km/h', 20], ['2500 cm', 'm', NaN], ['293.15 K', 'K', 293.15], ['5 m', 'km', NaN]].forEach(t => {
+    const w = etLies(t[0], t[1] || undefined).wert;
+    const ok = isNaN(t[2]) ? isNaN(w) : Math.abs(w - t[2]) < 1e-9 * Math.max(1, Math.abs(t[2]));
+    if (!ok) fehler.push('Eingabe «' + t[0] + '»' + (t[1] ? ' (Einheit ' + t[1] + ')' : '') + ' ergibt ' + w);
+  });
+  // ET-B3/B4/D4: Loesungsweg und Hinweis ohne lange Dezimalzahlen, ohne Faktor 1,
+  // km/h mit 3.6, Liter ohne Umweg ueber m³, Ergebnis mit Einheit am Schluss
+  const zuAufgabe = (gid, e1, e2, wert) => {
+    const g = ET_GID[gid], u1 = g.eh.filter(u => u.e === e1)[0], u2 = g.eh.filter(u => u.e === e2)[0];
+    return { g:g, u1:u1, u2:u2, wert:wert, soll:+etRechne(u1, u2, wert).toPrecision(12), key:'t', versuche:0, stufe:etStufe(g, u1, u2) };
+  };
+  ET_GRUPPEN.forEach(g => {
+    etPaare(g, null, false, true).forEach(p => {
+      const a = zuAufgabe(g.id, p.u1.e, p.u2.e, 7);
+      const weg = etLoesungsweg(a), h2 = etHinweis2(a);
+      const ohneErgebnis = weg.slice(0, weg.lastIndexOf(etZahlLesbar(a.soll)));     // die Probe rechnet mit 7, das Ergebnis darf lang sein
+      if (/\d\.\d{6,}/.test(ohneErgebnis + ' ' + h2)) fehler.push('lange Dezimalzahl in Loesungsweg/Hinweis: ' + a.u1.e + ' → ' + a.u2.e + ': ' + weg);
+      const letzte = weg.split('<br>').pop();
+      if (/[·:] 1[ )]/.test(letzte) || /[·:] 1 · 10/.test(weg)) fehler.push('Schritt mit Faktor 1: ' + a.u1.e + ' → ' + a.u2.e + ': ' + weg);
+      if (weg.slice(-(etZahlLesbar(a.soll) + ' ' + a.u2.e).length) !== etZahlLesbar(a.soll) + ' ' + a.u2.e)
+        fehler.push('Loesungsweg endet nicht mit dem Ergebnis: ' + a.u1.e + ' → ' + a.u2.e + ': ' + weg);
+      // der gezeigte Faktor rechnet wirklich von u1 nach u2
+      const b = g.offset ? null : etBeziehung(a);
+      if (b && !etNah(b.mal ? a.wert * b.mal : a.wert / b.durch, a.soll)) fehler.push('Faktor im Loesungsweg falsch: ' + weg);
+      if (b && letzte.indexOf(etZahlLesbar(b.mal || b.durch)) === -1) fehler.push('Faktor fehlt im Loesungsweg: ' + weg);
+    });
+  });
+  const wegKmh = etLoesungsweg(zuAufgabe('tempo', 'km/h', 'm/s', 115.2));
+  if (wegKmh.indexOf(': 3.6)') === -1 || wegKmh.indexOf('0.27') !== -1) fehler.push('km/h → m/s nicht mit 3.6: ' + wegKmh);
+  const wegMl = etLoesungsweg(zuAufgabe('volumen', 'ml', 'l', 250));
+  if (wegMl.indexOf('m³') !== -1 || wegMl.indexOf(': 1000)') === -1) fehler.push('ml → l ueber m³: ' + wegMl);
+  if (etHinweis2(zuAufgabe('energie', 'MJ', 'Wh', 2)) !== '1 Wh = 0.0036 MJ') fehler.push('Hinweis MJ → Wh: ' + etHinweis2(zuAufgabe('energie', 'MJ', 'Wh', 2)));
+  if (etLoesungsweg(zuAufgabe('flaeche', 'm²', 'cm²', 3)).indexOf('100² cm²') === -1) fehler.push('m² → cm² ohne quadrierten Laengenfaktor');
+  // ET-B5: Liter- und Are-Paare sind Vorsatzumrechnungen, keine Potenz
+  [['volumen', 'l', 'ml'], ['volumen', 'dl', 'cl'], ['flaeche', 'a', 'ha']].forEach(x => {
+    const a = zuAufgabe(x[0], x[1], x[2], 3);
+    if (a.stufe === 3) fehler.push('Stufe 3 fuer Vorsatzumrechnung ' + x[1] + ' → ' + x[2]);
+    if (/kubiert|quadriert/.test(etHinweis1(a) + etDiagnose(a.soll * 10, a).text)) fehler.push('Potenz-Hinweis bei ' + x[1] + ' → ' + x[2]);
+  });
+  [['volumen', 'm³', 'cm³'], ['flaeche', 'cm²', 'm²'], ['volumen', 'l', 'm³']].forEach(x => {
+    const a = zuAufgabe(x[0], x[1], x[2], 3);
+    if (a.stufe !== 3) fehler.push('keine Stufe 3 bei ' + x[1] + ' → ' + x[2]);
+    if (!/kubiert|quadriert/.test(etHinweis1(a))) fehler.push('Potenz-Hinweis fehlt bei ' + x[1] + ' → ' + x[2]);
+  });
+  // ET-C3: Identitaet als Bruecke im Loesungsweg
+  if (etLoesungsweg(zuAufgabe('volumen', 'ml', 'dm³', 250)).indexOf('1 ml = 1 cm³') === -1) fehler.push('ml → dm³ ohne Bruecke 1 ml = 1 cm³');
+  if (etLoesungsweg(zuAufgabe('druck', 'mbar', 'kPa', 950)).indexOf('1 hPa = 1 mbar') === -1) fehler.push('mbar → kPa ohne Bruecke');
+  if (etLoesungsweg(zuAufgabe('volumen', 'cm³', 'm³', 5)).indexOf('Brücke') !== -1) fehler.push('Bruecke ohne Anlass bei cm³ → m³');
+  // ET-C4: typische Fehlbilder der Sonderumrechnungen
+  [[zuAufgabe('zeit', 'h', 'min', 2), 200, 'zeit-100'], [zuAufgabe('zeit', 'h', 's', 2), 20000, 'zeit-100'],
+   [zuAufgabe('zeit', 'min', 'h', 90), 1.3, 'zeit-komma'], [zuAufgabe('zeit', 's', 'min', 135), 2.15, 'zeit-komma'],
+   [zuAufgabe('tempo', 'km/h', 'm/s', 72), 7.2, 'tempo-10'], [zuAufgabe('tempo', 'm/s', 'km/h', 20), 200, 'tempo-10'],
+   [zuAufgabe('temperatur', '°C', 'K', 20), 293, 'temp-273'], [zuAufgabe('temperatur', 'K', '°C', 300), 27, 'temp-273'],
+   [zuAufgabe('zeit', 'min', 'h', 90), 1.5, 'ok'], [zuAufgabe('temperatur', '°C', 'K', 20), 293.15, 'ok']].forEach(t => {
+    const art = etDiagnose(t[1], t[0]).art;
+    if (art !== t[2]) fehler.push('Diagnose ' + t[0].wert + ' ' + t[0].u1.e + ' → ' + t[0].u2.e + ' mit ' + t[1] + ': ' + art + ' statt ' + t[2]);
+  });
+  // ET-D6: Zehnerpotenzen hochgestellt, wieder einlesbar
+  if (etZahl(2.5e-5) !== '2.5 · 10⁻⁵' || etLies(etZahl(2.5e-5)).wert !== 2.5e-5) fehler.push('Zehnerpotenz nicht hochgestellt: ' + etZahl(2.5e-5));
+  if (etZahlLesbar(25200000) !== '25\u202F200\u202F000' || etZahlLesbar(1234) !== '1234') fehler.push('Tausendergruppen: ' + etZahlLesbar(25200000));
+  // ET-B6, ET-D2: Oberflaeche (nur mit Seiten-DOM)
+  if (typeof document !== 'undefined' && document.getElementById('et-liste') && document.getElementById('et-lern-heute')) {
+    const alt = ET_AUFGABEN, altKomma = ET_KOMMA_GEZEIGT;
+    ET_AUFGABEN = [zuAufgabe('laenge', 'km', 'm', 2.5)];
+    ET_AUFGABEN[0].stand = '';
+    etZeichne();
+    document.getElementById('et-e0').value = '25';
+    etPruefeZeile(0, false);
+    if (document.getElementById('et-m0').textContent !== '' || ET_AUFGABEN[0].stand !== '') fehler.push('Freies Ueben verraet beim Tippen die Diagnose');
+    etPruefeZeile(0, true);
+    if (ET_AUFGABEN[0].stand !== 'zehn') fehler.push('Freies Ueben: Enter prueft nicht');
+    ET_KOMMA_GEZEIGT = false;
+    document.getElementById('et-e0').value = '2500,0';
+    etPruefeZeile(0, true);
+    const m1 = document.getElementById('et-m0').textContent;
+    etPruefeZeile(0, true);
+    const m2 = document.getElementById('et-m0').textContent;
+    if (m1.indexOf('Dezimalpunkt') === -1 || m2.indexOf('Dezimalpunkt') !== -1) fehler.push('Komma-Hinweis nicht genau einmal');
+    ET_AUFGABEN = alt; ET_KOMMA_GEZEIGT = altKomma;
+    etZeichne();
+    etLernFortschritt();
+    if (document.getElementById('et-lern-heute').textContent.indexOf('·') !== -1) fehler.push('Malpunkt als Trennzeichen in «Heute»');
+  }
 
   // P15/P16 — ausgewogene Pruefungsmischung ohne unmittelbare Wiederholung
   const themen5 = ['laenge', 'flaeche', 'volumen', 'masse', 'zeit'];
