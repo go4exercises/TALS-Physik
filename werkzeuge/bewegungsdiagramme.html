@@ -197,9 +197,9 @@ MathJax = {
   <div class="lz-body">
   <ul>
     <li>Ich kann zu einem \(s\)-\(t\)-Diagramm das passende \(v\)-\(t\)-Diagramm finden und umgekehrt.</li>
-    <li>Ich kann zu einem \(v\)-\(t\)-Diagramm das passende \(a\)-\(t\)-Diagramm finden.</li>
+    <li>Ich kann zu einem \(v\)-\(t\)-Diagramm das passende \(a\)-\(t\)-Diagramm finden, aus einem \(a\)-\(t\)-Diagramm und der Anfangsgeschwindigkeit das \(v\)-\(t\)-Diagramm und aus einem \(s\)-\(t\)-Diagramm das \(a\)-\(t\)-Diagramm.</li>
     <li>Ich kann die Geschwindigkeit als Steigung im \(s\)-\(t\)-Diagramm und die Beschleunigung als Steigung im \(v\)-\(t\)-Diagramm ablesen.</li>
-    <li>Ich kann die zurückgelegte Strecke als Fläche unter dem \(v\)-\(t\)-Graphen bestimmen.</li>
+    <li>Ich kann die Ortsänderung \(\Delta s\) und den zurückgelegten Weg als Fläche unter dem \(v\)-\(t\)-Graphen bestimmen.</li>
     <li>Ich kann eine Bewegung, die in Worten beschrieben ist, als Diagramm erkennen.</li>
   </ul>
   </div>
@@ -214,9 +214,9 @@ MathJax = {
   <div class="block-titel">📘 Drei Diagramme, zwei Regeln</div>
   <ol>
     <li><strong>Steigung, nach unten:</strong> Die Steigung im \(s\)-\(t\)-Diagramm ist die Geschwindigkeit, \(v = \dfrac{\Delta s}{\Delta t}\). Die Steigung im \(v\)-\(t\)-Diagramm ist die Beschleunigung, \(a = \dfrac{\Delta v}{\Delta t}\).</li>
-    <li><strong>Fläche, nach oben:</strong> Die Fläche unter dem \(v\)-\(t\)-Graphen ist die Strecke \(\Delta s\). Die Fläche unter dem \(a\)-\(t\)-Graphen ist die Änderung der Geschwindigkeit \(\Delta v\).</li>
+    <li><strong>Fläche, nach oben:</strong> Die Fläche unter dem \(v\)-\(t\)-Graphen ist die Ortsänderung \(\Delta s\). Die Fläche unter dem \(a\)-\(t\)-Graphen ist die Änderung der Geschwindigkeit \(\Delta v\).</li>
   </ol>
-  <p>Fläche unterhalb der Zeitachse zählt negativ: Dort fährt der Körper zurück, oder seine Geschwindigkeit nimmt ab.</p>
+  <p>Fläche unterhalb der Zeitachse zählt negativ: Dort fährt der Körper zurück, oder seine Geschwindigkeit nimmt ab. Für den zurückgelegten Weg zählen dagegen beide Teile positiv: Auch auf der Rückfahrt legt der Körper Weg zurück.</p>
 </div>
 
 
@@ -249,15 +249,15 @@ MathJax = {
     <div class="bd-steuer">
       <div class="bd-gruppe" id="bd-arten" role="group" aria-label="Aufgabe wählen">
         <span class="bd-gruppe-titel">Aufgabe</span>
-        <button class="bd-reiter-knopf aktiv" id="aufgabe-zuordnen" data-art="zuordnen" aria-pressed="true" title="Zum gegebenen Diagramm das passende andere finden: s zu v, v zu s, v zu a"><span class="bd-reiter-nr">1</span><span class="bd-reiter-name">Zuordnen</span></button>
-        <button class="bd-reiter-knopf" id="aufgabe-ablesen" data-art="ablesen" aria-pressed="false" title="Geschwindigkeit und Beschleunigung als Steigung, Strecke als Fläche"><span class="bd-reiter-nr">2</span><span class="bd-reiter-name">Ablesen</span></button>
+        <button class="bd-reiter-knopf aktiv" id="aufgabe-zuordnen" data-art="zuordnen" aria-pressed="true" title="Zum gegebenen Diagramm das passende andere finden: s zu v, v zu s, v zu a, a zu v, s zu a"><span class="bd-reiter-nr">1</span><span class="bd-reiter-name">Zuordnen</span></button>
+        <button class="bd-reiter-knopf" id="aufgabe-ablesen" data-art="ablesen" aria-pressed="false" title="Geschwindigkeit und Beschleunigung als Steigung, Ortsänderung und Weg als Fläche"><span class="bd-reiter-nr">2</span><span class="bd-reiter-name">Ablesen</span></button>
         <button class="bd-reiter-knopf" id="aufgabe-worte" data-art="worte" aria-pressed="false" title="Eine Bewegung ist beschrieben. Welches Diagramm gehört dazu?"><span class="bd-reiter-nr">3</span><span class="bd-reiter-name">In Worten</span></button>
       </div>
       <div class="bd-gruppe" id="bd-stufen" role="group" aria-label="Stufe wählen">
         <span class="bd-gruppe-titel">Stufe</span>
         <button class="typ-btn aktiv" data-stufe="1">1: Gleichförmig</button>
         <button class="typ-btn" data-stufe="2">2: Beschleunigt</button>
-        <button class="typ-btn" data-stufe="3">3: Mit Umkehr</button>
+        <button class="typ-btn" data-stufe="3">3: Rückwärts und gemischt</button>
         <button class="typ-btn" data-stufe="0">Alle Stufen</button>
       </div>
     </div>
@@ -328,7 +328,12 @@ MathJax = {
 
 <div class="block block-fehler">
   <div class="block-titel">⚠ Die Fläche als Rechteck gerechnet</div>
-  <p>Steigt die Geschwindigkeit von \(v_0\) auf \(v_1\), ist die Fläche unter dem Graphen ein Trapez, kein Rechteck: \(\Delta s = \dfrac{v_0 + v_1}{2} \cdot \Delta t\). Wer \(v_1 \cdot \Delta t\) rechnet, nimmt die Endgeschwindigkeit für die ganze Zeit und bekommt zu viel.</p>
+  <p>Ändert sich die Geschwindigkeit gleichmässig von \(v_0\) auf \(v_1\), ist die Fläche unter dem Graphen ein Trapez, kein Rechteck: \(\Delta s = \dfrac{v_0 + v_1}{2} \cdot \Delta t\). Wer \(v_1 \cdot \Delta t\) rechnet, nimmt die Endgeschwindigkeit für die ganze Zeit: Wird der Körper schneller, bekommt er zu viel, bremst er, zu wenig.</p>
+</div>
+
+<div class="block block-fehler">
+  <div class="block-titel">⚠ Im Umkehrpunkt ist die Beschleunigung null</div>
+  <p>Wo der Körper umkehrt, ist \(v = 0\), aber nur einen Augenblick: Gleich danach fährt er zurück. \(v\) ändert sich also auch dort, der \(v\)-\(t\)-Graph geht ohne Knick durch die Zeitachse. Seine Steigung, die Beschleunigung, ist im Umkehrpunkt dieselbe wie davor und danach.</p>
 </div>
 
 
@@ -337,7 +342,7 @@ MathJax = {
 
 <ul class="kernpunkte">
   <li>Steigung im \(s\)-\(t\)-Diagramm ist \(v\), Steigung im \(v\)-\(t\)-Diagramm ist \(a\).</li>
-  <li>Fläche unter dem \(v\)-\(t\)-Graphen ist die Strecke \(\Delta s\), Fläche unter dem \(a\)-\(t\)-Graphen ist \(\Delta v\).</li>
+  <li>Fläche unter dem \(v\)-\(t\)-Graphen ist die Ortsänderung \(\Delta s\) (für den Weg zählen auch die Teile unter der Achse positiv), Fläche unter dem \(a\)-\(t\)-Graphen ist \(\Delta v\).</li>
   <li>Waagrecht im \(s\)-\(t\)-Diagramm: Stillstand. Waagrecht im \(v\)-\(t\)-Diagramm: konstante Geschwindigkeit.</li>
   <li>Gleichmässig beschleunigt: \(a\) konstant, \(v\) eine Gerade, \(s\) eine Parabel.</li>
   <li>Unter der Zeitachse: Der Körper fährt zurück (\(v \lt 0\)) bzw. wird in Fahrtrichtung langsamer (\(a \lt 0\), solange \(v \gt 0\)).</li>
@@ -389,42 +394,75 @@ const BD_ART = {
   a:{ achse:'a [m/s²]', tex:'a', einheit:'m/s²', etex:'\\text{m/s}^2', name:'Beschleunigung' },
 };
 const BD_OBJEKTE = ['Ein Velo', 'Ein Spielzeugauto', 'Ein Wagen', 'Ein Roller', 'Ein Zug auf einer Modellbahn'];
+const bdPron = o => /Wagen|Roller|Zug/.test(o) ? 'er' : 'es';                  // Pronomen zum Objekt
+const bdDer = o => o.replace(/^Ein /, bdPron(o) === 'er' ? 'der ' : 'das ');    // «der Wagen», «das Velo»
+const bdGross = w => w.charAt(0).toUpperCase() + w.slice(1);
+const bdVonArt = c => c.von === 'worte' ? (c.nach === 'v' ? 's' : 'v') : c.von;   // aus welchem Diagramm die Form stammt
+const BD_DT = x => '\\(' + x + '\\)-\\(t\\)';
 
-/* Rückmeldungen zu den falschen Diagrammen; c = { von, nach } (Diagrammart) */
+/* Rückmeldungen zu den falschen Diagrammen; c = { von, nach, B } (Diagrammart, Bewegung) */
 const BD_DIAGNOSE = {
-  form:       c => c.nach === 'v' ? 'Das ist die Form des \\(s\\)-\\(t\\)-Diagramms. Im \\(v\\)-\\(t\\)-Diagramm steht nicht der Ort, sondern wie schnell er sich ändert: die Steigung des \\(s\\)-\\(t\\)-Graphen.'
-              : c.nach === 's' ? 'Das ist die Form des \\(v\\)-\\(t\\)-Diagramms. Der Ort folgt aus der Fläche unter dem \\(v\\)-\\(t\\)-Graphen: Wo \\(v\\) konstant ist, steigt \\(s\\) gleichmässig an.'
-              : 'Das ist die Form des \\(v\\)-\\(t\\)-Diagramms. Die Beschleunigung ist die Steigung des \\(v\\)-\\(t\\)-Graphen, nicht sein Wert: Wo \\(v\\) gleichmässig steigt, ist \\(a\\) konstant.',
-  vorzeichen: c => c.nach === 'a' ? 'Das Vorzeichen stimmt nicht: Wird \\(v\\) grösser, ist \\(a\\) positiv; wird \\(v\\) kleiner, ist \\(a\\) negativ.'
-              : 'Die Richtung ist vertauscht: Steigt der \\(s\\)-\\(t\\)-Graph, fährt der Körper vorwärts und \\(v\\) ist positiv; fällt er, fährt er zurück und \\(v\\) ist negativ.',
-  ruhe_sv:    c => 'Eine waagrechte Linie im \\(s\\)-\\(t\\)-Diagramm heisst: Der Ort ändert sich nicht, der Körper steht. Dort ist \\(v = 0\\), die Linie liegt auf der Zeitachse.',
-  ruhe_vs:    c => 'Eine waagrechte Linie im \\(v\\)-\\(t\\)-Diagramm heisst konstante Geschwindigkeit, nicht Stillstand. Der Körper fährt weiter, \\(s\\) steigt gleichmässig.',
-  betrag:     c => c.nach === 's' ? 'Die Form stimmt, die Werte nicht. Die Strecke in einem Abschnitt ist die Fläche unter dem \\(v\\)-\\(t\\)-Graphen.'
-              : c.nach === 'v' ? (c.von === 'worte' ? 'Die Form stimmt, die Werte nicht: Lies die Geschwindigkeiten in der Beschreibung nach.' : 'Die Form stimmt, die Werte nicht. Rechne die Steigung aus: \\(v = \\frac{\\Delta s}{\\Delta t}\\).')
+  form:       c => { const q = bdVonArt(c), w = c.von === 'worte';
+    if (q === 's' && c.nach === 'v') return (w ? 'Das wäre das ' + BD_DT('s') + '-Diagramm dieser Bewegung.' : 'Das ist die Form des ' + BD_DT('s') + '-Diagramms.') +
+      ' Im ' + BD_DT('v') + '-Diagramm steht nicht der Ort, sondern wie schnell er sich ändert: die Steigung des ' + BD_DT('s') + '-Graphen.';
+    if (q === 'v' && c.nach === 's') return (w ? 'Das wäre das ' + BD_DT('v') + '-Diagramm dieser Bewegung.' : 'Das ist die Form des ' + BD_DT('v') + '-Diagramms.') +
+      ' Der Ort folgt aus der Fläche unter dem ' + BD_DT('v') + '-Graphen: Wo \\(v\\) konstant ist, ändert sich \\(s\\) gleichmässig.';
+    if (q === 'a' && c.nach === 'v') return 'Das ist die Form des ' + BD_DT('a') + '-Diagramms. \\(v\\) ändert sich um die Fläche unter dem ' + BD_DT('a') + '-Graphen: Wo \\(a\\) konstant ist, ist der ' + BD_DT('v') + '-Graph eine Gerade.';
+    if (q === 's' && c.nach === 'a') return 'Das ist die Form des ' + BD_DT('s') + '-Diagramms. Die Beschleunigung zeigt, wie sich die Steigung des ' + BD_DT('s') + '-Graphen ändert: Wo er gerade ist, ist \\(a = 0\\).';
+    return 'Das ist die Form des ' + BD_DT('v') + '-Diagramms. Die Beschleunigung ist die Steigung des ' + BD_DT('v') + '-Graphen, nicht sein Wert: Wo \\(v\\) gleichmässig steigt, ist \\(a\\) konstant.'; },
+  v_statt_a:  c => 'Das ist die Form des ' + BD_DT('v') + '-Diagramms, also die Steigung des ' + BD_DT('s') + '-Graphen. Die Beschleunigung ist erst die Änderung dieser Steigung: Wo \\(v\\) gleichmässig zunimmt, ist \\(a\\) konstant.',
+  vorzeichen: c => { const q = bdVonArt(c);
+    if (c.nach === 'a' && c.von === 's') return 'Das Vorzeichen stimmt nicht: Ist der ' + BD_DT('s') + '-Graph nach oben gekrümmt (die Steigung nimmt zu), ist \\(a\\) positiv; ist er nach unten gekrümmt, ist \\(a\\) negativ.';
+    if (c.nach === 'a') return 'Das Vorzeichen stimmt nicht: Wird \\(v\\) grösser, ist \\(a\\) positiv; wird \\(v\\) kleiner, ist \\(a\\) negativ.';
+    if (c.von === 'a') return 'Das Vorzeichen der Beschleunigung ist vertauscht: Wo \\(a\\) positiv ist, nimmt \\(v\\) zu; wo \\(a\\) negativ ist, nimmt \\(v\\) ab.';
+    if (c.von === 'worte') return c.nach === 'v' ? 'Die Richtung ist vertauscht: Vorwärts heisst \\(v > 0\\), der Graph liegt über der Zeitachse; zurück heisst \\(v < 0\\), er liegt darunter.'
+      : 'Die Richtung ist vertauscht: Fährt der Körper vorwärts, nimmt \\(s\\) zu; fährt er zurück, nimmt \\(s\\) ab.';
+    if (c.von === 'v') return 'Die Richtung ist vertauscht: Liegt der ' + BD_DT('v') + '-Graph über der Zeitachse, nimmt \\(s\\) zu; liegt er darunter, nimmt \\(s\\) ab.';
+    return 'Die Richtung ist vertauscht: Steigt der ' + BD_DT('s') + '-Graph, fährt der Körper vorwärts und \\(v\\) ist positiv; fällt er, fährt er zurück und \\(v\\) ist negativ.'; },
+  ruhe_sv:    c => 'Eine waagrechte Linie im ' + BD_DT('s') + '-Diagramm heisst: Der Ort ändert sich nicht, der Körper steht. Dort ist \\(v = 0\\), die Linie liegt auf der Zeitachse.',
+  ruhe_vs:    c => c.von === 'worte' ? 'Hier stünde der Körper still. Er fährt aber mit konstanter Geschwindigkeit weiter: \\(s\\) ändert sich gleichmässig, der Graph ist eine schräge Gerade.'
+              : 'Eine waagrechte Linie im ' + BD_DT('v') + '-Diagramm heisst konstante Geschwindigkeit, nicht Stillstand. Der Körper fährt weiter, \\(s\\) ändert sich gleichmässig.',
+  betrag:     c => c.nach === 's' ? 'Die Form stimmt, die Werte nicht. Die Ortsänderung in einem Abschnitt ist die Fläche unter dem ' + BD_DT('v') + '-Graphen.'
+              : c.nach === 'v' && c.von === 'worte' ? 'Die Form stimmt, die Werte nicht: Lies die Geschwindigkeiten in der Beschreibung nach.'
+              : c.nach === 'v' && c.von === 'a' ? 'Die Form stimmt, die Werte nicht: \\(v\\) ändert sich um die Fläche unter dem ' + BD_DT('a') + '-Graphen, \\(\\Delta v = a \\cdot \\Delta t\\).'
+              : c.nach === 'v' && c.B && c.B.ab.some(g => g.a !== 0) ? 'Die Form stimmt, die Werte nicht. Wo der ' + BD_DT('s') + '-Graph gerade ist, ist \\(v = \\frac{\\Delta s}{\\Delta t}\\). Wo er gekrümmt ist, ist \\(\\frac{\\Delta s}{\\Delta t} = \\frac{v_0 + v_1}{2}\\) nur die mittlere Geschwindigkeit des Abschnitts; daraus folgt \\(v_1 = 2 \\cdot \\frac{\\Delta s}{\\Delta t} - v_0\\).'
+              : c.nach === 'v' ? 'Die Form stimmt, die Werte nicht. Rechne die Steigung aus: \\(v = \\frac{\\Delta s}{\\Delta t}\\).'
+              : c.von === 's' ? 'Die Form stimmt, die Werte nicht. Bestimme \\(v\\) am Anfang und am Ende jedes Abschnitts, dann \\(a = \\frac{\\Delta v}{\\Delta t}\\).'
               : 'Die Form stimmt, die Werte nicht. Rechne die Steigung aus: \\(a = \\frac{\\Delta v}{\\Delta t}\\).',
-  gerade:     c => 'Bei gleichmässiger Beschleunigung wächst der Ort quadratisch mit der Zeit. Im \\(s\\)-\\(t\\)-Diagramm ist das eine Parabel, keine Gerade.',
-  kruemmung:  c => 'Die Krümmung ist verkehrt: Wird der Körper schneller, wird der \\(s\\)-\\(t\\)-Graph immer steiler. Bremst er, wird er immer flacher.',
+  anfang:     c => 'Die Fläche unter dem ' + BD_DT('a') + '-Graphen gibt nur die Änderung \\(\\Delta v\\). Der Graph beginnt bei der Anfangsgeschwindigkeit, nicht bei null.',
+  a_umkehr:   c => 'Im Umkehrpunkt ist \\(v = 0\\), aber nur einen Augenblick: \\(v\\) ändert sich dort weiter, die Steigung des ' + BD_DT('v') + '-Graphen bleibt gleich. Die Beschleunigung ist dort nicht null.',
+  gerade:     c => 'Bei gleichmässiger Beschleunigung wächst der Ort quadratisch mit der Zeit. Im ' + BD_DT('s') + '-Diagramm ist das eine Parabel, keine Gerade.',
+  kruemmung:  c => 'Die Krümmung ist verkehrt: Wird der Körper schneller, wird der ' + BD_DT('s') + '-Graph immer steiler. Bremst er, wird er immer flacher.',
   reihenfolge:c => 'Die Abschnitte stehen in der falschen Reihenfolge. Lies die Beschreibung von vorn: Was geschieht zuerst, was danach?',
   stillstand: c => 'Wo der Körper stillsteht, ist \\(v = 0\\): Der Graph liegt dort auf der Zeitachse, nicht waagrecht darüber.',
+  vorzeichen_werte: c => 'Hier stimmt zweierlei nicht: Das Vorzeichen ist vertauscht, und die Werte passen auch nicht. Prüfe zuerst die Richtung, dann die Werte Abschnitt für Abschnitt.',
   werte:      c => 'Die Werte passen nicht. Prüfe Abschnitt für Abschnitt, welche Werte an Anfang und Ende gelten.',
 };
 
-/* Rückmeldungen beim Ablesen; c = { name } */
+/* Rückmeldungen beim Ablesen; q = Frage, w = die getroffene Fehlantwort */
+const bdGroesser = (q, w) => Math.abs(w) > Math.abs(q.soll);
 const BD_ABLESEN = {
-  leer:          c => 'Gib zuerst eine Zahl ein.',
-  wert_s:        c => 'Das ist ein Ort, abgelesen an einem Punkt, nicht die Geschwindigkeit. Die Geschwindigkeit ist die Steigung: \\(v = \\frac{\\Delta s}{\\Delta t}\\).',
-  delta_s:       c => 'Das ist die Strecke \\(\\Delta s\\). Die Geschwindigkeit ist \\(\\Delta s\\) geteilt durch die Zeitspanne \\(\\Delta t\\).',
-  kehrwert:      c => 'Das ist der Kehrwert. Steigung heisst: Änderung nach oben geteilt durch die Zeitspanne nach rechts.',
-  vorzeichen_v:  c => 'Der Betrag stimmt, das Vorzeichen nicht: Der Graph fällt, der Körper fährt zurück, also ist \\(v\\) negativ.',
-  vorzeichen_a:  c => 'Der Betrag stimmt, das Vorzeichen nicht: \\(v\\) nimmt hier ab, also ist \\(a\\) negativ.',
-  mittel:        c => 'Das ist der Ort geteilt durch die ganze Zeit seit dem Start. Gefragt ist nur dieser Abschnitt: Änderung des Orts in diesem Abschnitt geteilt durch seine Dauer.',
-  wert_v:        c => 'Das ist eine Geschwindigkeit, abgelesen an einem Punkt, nicht die Beschleunigung. Die Beschleunigung ist die Steigung: \\(a = \\frac{\\Delta v}{\\Delta t}\\).',
-  delta_v:       c => 'Das ist die Änderung \\(\\Delta v\\). Die Beschleunigung ist \\(\\Delta v\\) geteilt durch die Zeitspanne \\(\\Delta t\\).',
-  rechteck_ende: c => 'Das ist die Endgeschwindigkeit mal \\(\\Delta t\\), ein zu grosses Rechteck. Die Fläche unter dem Graphen ist ein Trapez: \\(\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t\\).',
-  rechteck_anf:  c => 'Das ist die Anfangsgeschwindigkeit mal \\(\\Delta t\\), ein zu kleines Rechteck. Die Fläche unter dem Graphen ist ein Trapez: \\(\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t\\).',
-  dreieck:       c => 'Das ist nur das Dreieck. Unter ihm liegt noch das Rechteck mit der Anfangsgeschwindigkeit: \\(v_0 \\cdot \\Delta t\\).',
-  wert_weg:      c => 'Das ist eine Geschwindigkeit, keine Strecke. Die Strecke ist die Fläche unter dem \\(v\\)-\\(t\\)-Graphen.',
-  falsch:        c => 'Noch nicht richtig. Der Tipp zeigt, was hier abzulesen ist.',
+  leer:          q => 'Gib zuerst eine Zahl ein.',
+  unlesbar:      q => 'Diese Eingabe kann ich nicht lesen. Gib eine Zahl ein, etwa 2.5 oder -3; die Einheit darf dahinter stehen.',
+  wert_s:        q => 'Das ist ein Ort, abgelesen an einem Punkt, nicht die Geschwindigkeit. Die Geschwindigkeit ist die Steigung: \\(v = \\frac{\\Delta s}{\\Delta t}\\).',
+  delta_s:       q => 'Das ist die Ortsänderung \\(\\Delta s\\). Die Geschwindigkeit ist \\(\\Delta s\\) geteilt durch die Zeitspanne \\(\\Delta t\\).',
+  kehrwert:      q => 'Das ist der Kehrwert. Steigung heisst: Änderung nach oben geteilt durch die Zeitspanne nach rechts.',
+  vorzeichen_v:  q => 'Der Betrag stimmt, das Vorzeichen nicht: Der Graph fällt, der Körper fährt zurück, also ist \\(v\\) negativ.',
+  vorzeichen_s:  q => 'Der Betrag stimmt, das Vorzeichen nicht: Der Graph liegt unter der Zeitachse, der Körper fährt zurück. Diese Fläche zählt negativ, \\(\\Delta s < 0\\).',
+  vorzeichen_a:  q => 'Der Betrag stimmt, das Vorzeichen nicht: \\(v\\) nimmt hier ab, also ist \\(a\\) negativ.',
+  mittel:        q => 'Das ist der Ort geteilt durch die ganze Zeit seit dem Start. Gefragt ist nur dieser Abschnitt: Änderung des Orts in diesem Abschnitt geteilt durch seine Dauer.',
+  wert_v:        q => 'Das ist eine Geschwindigkeit, abgelesen an einem Punkt, nicht die Beschleunigung. Die Beschleunigung ist die Steigung: \\(a = \\frac{\\Delta v}{\\Delta t}\\).',
+  delta_v:       q => 'Das ist die Änderung \\(\\Delta v\\). Die Beschleunigung ist \\(\\Delta v\\) geteilt durch die Zeitspanne \\(\\Delta t\\).',
+  rechteck_ende: (q, w) => 'Das ist die Endgeschwindigkeit mal \\(\\Delta t\\), ein zu ' + (bdGroesser(q, w) ? 'grosses' : 'kleines') + ' Rechteck. Die Fläche unter dem Graphen ist ein Trapez: \\(\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t\\).',
+  rechteck_anf:  (q, w) => 'Das ist die Anfangsgeschwindigkeit mal \\(\\Delta t\\), ein zu ' + (bdGroesser(q, w) ? 'grosses' : 'kleines') + ' Rechteck. Die Fläche unter dem Graphen ist ein Trapez: \\(\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t\\).',
+  dreieck:       q => q.schneller ? 'Das ist nur das Dreieck. Unter ihm liegt noch das Rechteck mit der Anfangsgeschwindigkeit: \\(v_0 \\cdot \\Delta t\\).'
+                                  : 'Das ist nur das Dreieck. Es liegt auf dem Rechteck mit der Endgeschwindigkeit, \\(v_1 \\cdot \\Delta t\\); das gehört zur Fläche dazu.',
+  wert_weg:      q => 'Das ist eine Geschwindigkeit, keine Ortsänderung. Die Ortsänderung ist die Fläche unter dem ' + BD_DT('v') + '-Graphen.',
+  weg_statt_ort: q => 'Das ist der zurückgelegte Weg, beide Teile positiv gezählt. Gefragt ist die Ortsänderung: Die Fläche unter der Zeitachse zählt negativ.',
+  ort_statt_weg: q => 'Das ist die Ortsänderung: Die Fläche unter der Zeitachse ist abgezogen. Für den Weg zählen beide Teile positiv, denn auch auf der Rückfahrt legt der Körper Weg zurück.',
+  nur_vor:       q => 'Das ist nur die Fläche bis zur Umkehr. Danach fährt der Körper zurück; diese Fläche gehört auch dazu.',
+  nur_rueck:     q => 'Das ist nur die Fläche nach der Umkehr. Die Fläche davor gehört auch dazu.',
+  falsch:        q => 'Noch nicht richtig. Der Tipp zeigt, was hier abzulesen ist.',
 };
 
 /* ── Zahlen ───────────────────────────────────────────────────────── */
@@ -432,9 +470,9 @@ function bdZahl(x) {                          // 4, 2.5, 0.75, -3
   const r = Math.round(x * 100) / 100;
   return String(Object.is(r, -0) ? 0 : r);
 }
-function bdLies(s) {                          // «2,5», «2.5 m/s» → Zahl
-  const t = String(s).trim().replace(/[a-zA-Z\/²\s]+$/, '').replace(',', '.').replace(/[−–]/g, '-').replace(/['\s]/g, '');
-  return t === '' ? NaN : Number(t);
+function bdLies(s) {                          // «2,5», «2.5 m/s», «-1.5 m/s^2», «1,5 m/s2» → Zahl
+  const t = String(s).trim().replace(/[−–]/g, '-').replace(/\s*(m\/s\s*(\^\s*2|²|2)|m\/s|m|s)\s*$/i, '').replace(',', '.').replace(/['\s]/g, '');
+  return t === '' || !/^[+-]?(\d+\.?\d*|\.\d+)(e[+-]?\d+)?$/i.test(t) ? NaN : Number(t);
 }
 function bdZufall(seed) {                     // reproduzierbar (mulberry32)
   let a = seed >>> 0;
@@ -502,6 +540,11 @@ function bdRaster(werte) {
   for (const st of [1, 2, 5, 10, 20, 0.5]) if (span / st <= 20 && werte.every(w => bdGanz(w / st))) return st;
   return null;
 }
+/* Ersatz fürs Zeichnen: liegen die Eckwerte auf keinem Raster, wenigstens gut lesbare Linien (höchstens 20) */
+function bdRasterGrob(werte) {
+  const span = Math.max(Math.max(0, ...werte) - Math.min(0, ...werte), 1e-9);
+  return [1, 2, 5, 10, 20, 50].find(st => span / st <= 20) || 50;
+}
 function bdEckwerte(B, art) {
   return B.ab.flatMap(g => art === 's' ? [g.s0, g.s1] : art === 'v' ? [g.v0, g.v1] : [g.a]);
 }
@@ -548,7 +591,7 @@ function bdGespiegelt(B) { return bdBau(B.objekt, B.s0, bdTeile(B).map(p => ({ d
    von: 's' | 'v' | 'worte' (gegeben), nach: Art des gesuchten Diagramms */
 function bdOptionen(B, von, nach, r) {
   const richtig = bdKurve(B, nach), kand = [];
-  const quelle = von === 'worte' ? (nach === 'v' ? 's' : 'v') : von;
+  const quelle = bdVonArt({ von, nach });
   const formAus = art => { const k = bdKurve(B, art), b = art === 's' ? B.s0 : 0, m = Math.max(...bdProben(k).map(t => Math.abs(bdBei(k, t) - b)));
     const ziel = Math.max(...bdProben(richtig).map(t => Math.abs(bdBei(richtig, t) - (nach === 's' ? B.s0 : 0))));
     return m > 1e-9 && ziel > 1e-9 ? bdMap(k, x => (nach === 's' ? B.s0 : 0) + (x - b) * ziel / m) : null; };
@@ -560,7 +603,18 @@ function bdOptionen(B, von, nach, r) {
     kand.push(['vorzeichen', bdKurve(bdGespiegelt(B), nach)]);
   }
   if (nach !== 's' || von === 'worte') kand.push(['form', formAus(quelle)]);
-  if (von !== 'worte' || nach === 's') kand.push(['vorzeichen', spiegeln()]);
+  if (von === 'a') {                                                   // a → v: Vorzeichen von a vertauscht, v0 vergessen
+    kand.push(['vorzeichen', bdKurve(bdBau(B.objekt, B.s0, bdKette(null, bdTeile(B).map(p => ({ d:p.d, v:p.v, a:-p.a })))), 'v')]);
+    if (B.ab[0].v0 !== 0) kand.push(['anfang', bdMap(richtig, x => x - B.ab[0].v0)]);
+  } else if (von !== 'worte' || nach === 's') kand.push(['vorzeichen', spiegeln()]);
+  if (von === 's' && nach === 'a') kand.push(['v_statt_a', formAus('v')]);
+  if (nach === 'a' && B.ab.some(g => g.v0 * g.v1 < 0)) {               // a = 0 im Umkehrpunkt
+    const k = []; richtig.forEach((g, i) => { const h = B.ab[i];
+      if (h.v0 * h.v1 >= 0) { k.push(g); return; }
+      const tu = h.t0 - h.v0 / h.a, b = Math.max(0.3, 0.1 * h.d), u0 = Math.max(h.t0, tu - b), u1 = Math.min(h.t1, tu + b);
+      if (u0 > h.t0) k.push({ t0:h.t0, t1:u0, f:g.f }); k.push({ t0:u0, t1:u1, f:() => 0 }); if (u1 < h.t1) k.push({ t0:u1, t1:h.t1, f:g.f }); });
+    kand.push(['a_umkehr', k]);
+  }
   if (nach === 'v' && B.ab.some(g => g.v0 === 0 && g.a === 0)) {      // Stillstand als Fahrt
     const k = richtig.map((g, i) => { const h = B.ab[i];
       if (h.v0 !== 0 || h.a !== 0) return g; const nb = B.ab[i - 1] || B.ab[i + 1]; const w = nb.a === 0 ? nb.v0 : (i ? nb.v1 : nb.v0);
@@ -576,7 +630,7 @@ function bdOptionen(B, von, nach, r) {
       return 2 * lin - (g.s0 + g.v0 * dt + 0.5 * g.a * dt * dt); } }))]);
   }
   if (nach === 's' && von !== 'worte') kand.push(['form', formAus('v')]);
-  kand.push(['betrag', doppelt(2)], ['betrag', doppelt(0.5)], ['werte', doppelt(-0.5)], ['werte', doppelt(1.5)], ['werte', doppelt(-2)]);
+  kand.push(['betrag', doppelt(2)], ['betrag', doppelt(0.5)], ['vorzeichen_werte', doppelt(-0.5)], ['werte', doppelt(1.5)], ['vorzeichen_werte', doppelt(-2)]);
   // drei Fehlbilder, die sich sichtbar vom richtigen und voneinander unterscheiden
   const tol = 0.15 * Math.max(bdSpanne(richtig), 1), gewaehlt = [];
   kand.forEach(([code, k]) => {
@@ -588,20 +642,22 @@ function bdOptionen(B, von, nach, r) {
 }
 
 /* Die Beschreibung in Worten, Abschnitt für Abschnitt */
-function bdSatz(g) {
-  const v = Math.abs(g.v0), v1 = Math.abs(g.v1), dauer = g.d + ' s';
+function bdSatz(g, pron) {
+  const v = Math.abs(g.v0), v1 = Math.abs(g.v1), dauer = g.d + '\u00a0s';
   if (g.a === 0) return g.v0 === 0 ? 'steht ' + dauer + ' lang still'
-    : 'fährt ' + dauer + ' lang mit konstant ' + bdZahl(v) + ' m/s ' + (g.v0 > 0 ? 'vorwärts' : 'zurück');
-  if (g.v0 === 0) return 'fährt ' + (g.a > 0 ? 'vorwärts' : 'rückwärts') + ' an und wird in ' + dauer + ' gleichmässig schneller bis ' + bdZahl(v1) + ' m/s';
-  if (g.v0 * g.v1 < 0) return 'wird in Fahrtrichtung langsamer, kehrt um und fährt immer schneller zurück, bis es nach ' + dauer + ' mit ' + bdZahl(v1) + ' m/s ' + (g.v1 > 0 ? 'vorwärts' : 'zurück') + ' fährt';
-  if (g.v1 === 0) return 'bremst in ' + dauer + ' gleichmässig von ' + bdZahl(v) + ' m/s bis zum Stillstand';
+    : 'fährt ' + dauer + ' lang mit konstant ' + bdZahl(v) + '\u00a0m/s ' + (g.v0 > 0 ? 'vorwärts' : 'zurück');
+  if (g.v0 === 0) return 'fährt ' + (g.a > 0 ? 'vorwärts' : 'rückwärts') + ' an und wird in ' + dauer + ' gleichmässig schneller bis ' + bdZahl(v1) + '\u00a0m/s';
+  if (g.v0 * g.v1 < 0) return 'bremst aus ' + bdZahl(v) + '\u00a0m/s ' + (g.v0 > 0 ? 'vorwärts' : 'zurück') + ' gleichmässig ab, kehrt um und fährt immer schneller ' + (g.v1 > 0 ? 'vorwärts' : 'zurück') +
+    ', bis ' + (pron || 'er') + ' nach ' + dauer + ' mit ' + bdZahl(v1) + '\u00a0m/s ' + (g.v1 > 0 ? 'vorwärtsfährt' : 'zurückfährt');
+  if (g.v1 === 0) return 'bremst in ' + dauer + ' gleichmässig von ' + bdZahl(v) + '\u00a0m/s bis zum Stillstand';
   const schneller = Math.abs(g.v1) > Math.abs(g.v0);
-  return 'wird in ' + dauer + ' gleichmässig ' + (schneller ? 'schneller' : 'langsamer') + ', von ' + bdZahl(v) + ' auf ' + bdZahl(v1) + ' m/s ' + (g.v0 > 0 ? 'vorwärts' : 'zurück');
+  return 'wird in ' + dauer + ' gleichmässig ' + (schneller ? 'schneller' : 'langsamer') + ', von ' + bdZahl(v) + '\u00a0m/s auf ' + bdZahl(v1) + '\u00a0m/s ' + (g.v0 > 0 ? 'vorwärts' : 'zurück');
 }
 function bdText(B) {
-  const teile = B.ab.map(bdSatz), ort = B.s0 ? ' Es startet bei \\(s = ' + bdZahl(B.s0) + '\\;\\text{m}\\).' : ' Es startet bei \\(s = 0\\).';
-  const kette = teile.length === 1 ? teile[0] : teile.slice(0, -1).join(', dann ') + ' und danach ' + teile[teile.length - 1];
-  return B.objekt + ' ' + kette + '.' + ort;
+  const p = bdPron(B.objekt), teile = B.ab.map(g => bdSatz(g, p));
+  const mitSubjekt = t => t.replace(/^(\S+)/, '$1 ' + p);                 // «dann steht es …», «und danach fährt er …»
+  const kette = teile.length === 1 ? teile[0] : [teile[0]].concat(teile.slice(1, -1).map(mitSubjekt)).join(', dann ') + ' und danach ' + mitSubjekt(teile[teile.length - 1]);
+  return B.objekt + ' ' + kette + '. ' + bdGross(p) + ' startet bei \\(s = ' + bdZahl(B.s0) + '\\;\\text{m}\\).';
 }
 
 /* Fragen zum Ablesen. quelle: 's' (Steigung) oder 'v' (Steigung oder Fläche) */
@@ -635,42 +691,68 @@ function bdFragen(B, quelle) {
         formel:['a = \\frac{\\Delta v}{\\Delta t}', '= \\frac{' + bdE(g.v1, '\\text{m/s}') + ' - ' + (g.v0 < 0 ? '(' + bdE(g.v0, '\\text{m/s}') + ')' : bdE(g.v0, '\\text{m/s}')) + '}{' + bdE(g.d, '\\text{s}') + '}', '= ' + bdE(a, '\\text{m/s}^2')] });
     }
     if (quelle === 'v' && g.v0 * g.v1 >= 0 && (g.v0 !== 0 || g.v1 !== 0)) {
-      const ds = (g.v0 + g.v1) / 2 * g.d, rueck = g.v0 + g.v1 < 0;
+      const ds = (g.v0 + g.v1) / 2 * g.d, rueck = g.v0 + g.v1 < 0, schneller = Math.abs(g.v1) > Math.abs(g.v0);
+      const dreieck = g.a && g.v0 && g.v1 ? Math.sign(ds) * Math.abs(g.v1 - g.v0) / 2 * g.d : null;   // nur das Dreieck, ohne das Rechteck darunter
       const formel = g.a === 0 ? ['\\Delta s = v \\cdot \\Delta t', '= ' + bdE(g.v0, '\\text{m/s}') + ' \\cdot ' + bdE(g.d, '\\text{s}'), '= ' + bdE(ds, '\\text{m}')]
         : ['\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t', '= \\frac{' + bdE(g.v0, '\\text{m/s}') + ' + ' + (g.v1 < 0 ? '(' + bdE(g.v1, '\\text{m/s}') + ')' : bdE(g.v1, '\\text{m/s}')) + '}{2} \\cdot ' + bdE(g.d, '\\text{s}'), '= ' + bdE(ds, '\\text{m}')];
-      F.push({ art:'s', i, t0:g.t0, t1:g.t1, gr:'\\Delta s', einheit:'m', soll:ds,
+      F.push({ art:'s', i, t0:g.t0, t1:g.t1, gr:'\\Delta s', einheit:'m', soll:ds, schneller,
         frage:'Um wie viel ändert sich der Ort ' + zeit + '?' + (rueck ? ' (Zurück zählt negativ.)' : ''),
         fehler:bdSieben(ds, [['rechteck_ende', g.a ? g.v1 * g.d : null], ['rechteck_anf', g.a && g.v0 ? g.v0 * g.d : null],
-                             ['dreieck', g.a && g.v0 ? (g.v1 - g.v0) / 2 * g.d : null], ['wert_weg', g.v1], ['vorzeichen_v', rueck ? -ds : null]]),
+                             ['dreieck', dreieck], ['wert_weg', g.v1], ['vorzeichen_s', rueck ? -ds : null]]),
         tipp:'Die Änderung des Orts ist die Fläche unter dem \\(v\\)-\\(t\\)-Graphen in diesem Abschnitt' + (g.a ? ': ein Trapez, \\(\\frac{v_0 + v_1}{2} \\cdot \\Delta t\\).' : ': ein Rechteck, \\(v \\cdot \\Delta t\\).'),
         formel });
+    }
+    if (quelle === 'v' && g.v0 * g.v1 < 0) {                          // über eine Umkehr: Ortsänderung und Weg
+      const vt = v => v < 0 ? '(' + bdE(v, '\\text{m/s}') + ')' : bdE(v, '\\text{m/s}');
+      const tu = -g.v0 / g.a, A1 = g.v0 * tu / 2, A2 = g.v1 * (g.d - tu) / 2, ort = A1 + A2, weg = Math.abs(A1) + Math.abs(A2);
+      const zt = ' von \\(t = ' + bdZahl(g.t0) + '\\;\\text{s}\\) bis \\(t = ' + bdZahl(g.t1) + '\\;\\text{s}\\)';
+      const tipp = 'Der Graph schneidet die Zeitachse bei \\(t = ' + bdZahl(g.t0 + tu) + '\\;\\text{s}\\): Dort kehrt der Körper um. Teile die Fläche dort in zwei Dreiecke, \\(\\Delta t_1\\) davor und \\(\\Delta t_2\\) danach.';
+      F.push({ art:'s', umkehr:true, i, t0:g.t0, t1:g.t1, gr:'\\Delta s', einheit:'m', soll:ort,
+        frage:'Um wie viel ändert sich der Ort' + zt + '? (Zurück zählt negativ.)',
+        fehler:bdSieben(ort, [['weg_statt_ort', weg], ['nur_vor', A1], ['nur_rueck', A2], ['wert_weg', g.v1]]),
+        tipp:tipp + ' Das Dreieck unter der Zeitachse zählt negativ.',
+        formel:['\\Delta s = \\tfrac{1}{2} \\cdot v_0 \\cdot \\Delta t_1 + \\tfrac{1}{2} \\cdot v_1 \\cdot \\Delta t_2',
+                '= \\tfrac{1}{2} \\cdot ' + vt(g.v0) + ' \\cdot ' + bdE(tu, '\\text{s}') + ' + \\tfrac{1}{2} \\cdot ' + vt(g.v1) + ' \\cdot ' + bdE(g.d - tu, '\\text{s}'), '= ' + bdE(ort, '\\text{m}')] });
+      F.push({ art:'w', umkehr:true, i, t0:g.t0, t1:g.t1, gr:'\\text{Weg}', einheit:'m', soll:weg,
+        frage:'Welchen Weg legt der Körper' + zt + ' zurück? (Hin und zurück zählen beide.)',
+        fehler:bdSieben(weg, [['ort_statt_weg', ort], ['nur_vor', Math.abs(A1)], ['nur_rueck', Math.abs(A2)]]),
+        tipp:tipp + ' Für den Weg zählen beide Dreiecke positiv.',
+        formel:['\\text{Weg} = \\tfrac{1}{2} \\cdot |v_0| \\cdot \\Delta t_1 + \\tfrac{1}{2} \\cdot |v_1| \\cdot \\Delta t_2',
+                '= \\tfrac{1}{2} \\cdot ' + bdE(Math.abs(g.v0), '\\text{m/s}') + ' \\cdot ' + bdE(tu, '\\text{s}') + ' + \\tfrac{1}{2} \\cdot ' + bdE(Math.abs(g.v1), '\\text{m/s}') + ' \\cdot ' + bdE(g.d - tu, '\\text{s}'), '= ' + bdE(weg, '\\text{m}')] });
     }
   });
   return F;
 }
-function bdBewerte(q, x) {
-  const e = code => ({ code, text:BD_ABLESEN[code](q) });
-  if (!isFinite(x)) return e('leer');
+function bdBewerte(q, x, roh) {
+  const e = (code, w) => ({ code, text:BD_ABLESEN[code](q, w) });
+  if (!isFinite(x)) return e(roh !== undefined && String(roh).trim() !== '' ? 'unlesbar' : 'leer');
   if (Math.abs(x - q.soll) <= BD_TOL * Math.max(Math.abs(q.soll), 0.5)) return null;
   const f = q.fehler.find(([, w]) => Math.abs(x - w) <= BD_TOL * Math.max(Math.abs(w), 0.5));
-  return e(f ? f[0] : 'falsch');
+  return f ? e(f[0], f[1]) : e('falsch');
 }
 
 /* Welche Diagramme in Aufgabe 1 einander zugeordnet werden */
-function bdPaare(B) { return B.stufe === 1 ? [['s', 'v'], ['v', 's']] : [['s', 'v'], ['v', 's'], ['v', 'a']]; }
+function bdPaare(B) { return B.stufe === 1 ? [['s', 'v'], ['v', 's']] : [['s', 'v'], ['v', 's'], ['v', 'a'], ['a', 'v'], ['s', 'a']]; }
 
 /* Rechenweg Abschnitt für Abschnitt, von einem Diagramm zum anderen */
 function bdErklaerung(B, von, nach) {
   const vt = v => v < 0 ? '(' + bdE(v, '\\text{m/s}') + ')' : bdE(v, '\\text{m/s}');
-  return B.ab.map(g => {
+  const start = von === 'a' && nach === 'v' ? [{ lab:'Start', text:'Anfangsgeschwindigkeit \\(v_0 = ' + bdE(B.ab[0].v0, '\\text{m/s}') + '\\)' }] : [];
+  return start.concat(B.ab.map(g => {
     const lab = bdZahl(g.t0) + '–' + bdZahl(g.t1) + ' s';
-    if (nach === 'v' && g.a !== 0) return { lab, text:'\\(v\\) ändert sich gleichmässig von \\(' + bdE(g.v0, '\\text{m/s}') + '\\) auf \\(' + bdE(g.v1, '\\text{m/s}') + '\\): Der \\(s\\)-\\(t\\)-Graph ist hier ein Parabelstück.' };
+    if (nach === 'v' && von === 'a') return { lab, tex:['\\Delta v = a \\cdot \\Delta t', '= ' + (g.a < 0 ? '(' + bdE(g.a, '\\text{m/s}^2') + ')' : bdE(g.a, '\\text{m/s}^2')) + ' \\cdot ' + bdE(g.d, '\\text{s}'), '= ' + bdE(g.v1 - g.v0, '\\text{m/s}')],
+      nach:'danach v = ' + bdZahl(g.v1) + ' m/s' };
+    if (nach === 'v' && g.a !== 0) return { lab, tex:['v_1 = 2 \\cdot \\frac{\\Delta s}{\\Delta t} - v_0', '= 2 \\cdot \\frac{' + bdE(g.s1 - g.s0, '\\text{m}') + '}{' + bdE(g.d, '\\text{s}') + '} - ' + vt(g.v0), '= ' + bdE(g.v1, '\\text{m/s}')],
+      nach:'Parabelstück: v ändert sich gleichmässig' };
+    if (nach === 'a' && von === 's' && g.a === 0) return { lab, text:'Der \\(s\\)-\\(t\\)-Graph ist hier gerade: \\(v\\) bleibt gleich, also \\(a = 0\\).' };
+    if (nach === 'a' && von === 's') return { lab, tex:['a = \\frac{\\Delta v}{\\Delta t}', '= \\frac{' + vt(g.v1) + ' - ' + vt(g.v0) + '}{' + bdE(g.d, '\\text{s}') + '}', '= ' + bdE(g.a, '\\text{m/s}^2')],
+      nach:'v am Rand aus der Steigung' };
     if (nach === 'v') return { lab, tex:['v = \\frac{\\Delta s}{\\Delta t}', '= \\frac{' + bdE(g.s1 - g.s0, '\\text{m}') + '}{' + bdE(g.d, '\\text{s}') + '}', '= ' + bdE(g.v0, '\\text{m/s}')] };
     if (nach === 'a') return { lab, tex:['a = \\frac{\\Delta v}{\\Delta t}', '= \\frac{' + bdE(g.v1 - g.v0, '\\text{m/s}') + '}{' + bdE(g.d, '\\text{s}') + '}', '= ' + bdE(g.a, '\\text{m/s}^2')] };
     const tex = g.a === 0 ? ['\\Delta s = v \\cdot \\Delta t', '= ' + vt(g.v0) + ' \\cdot ' + bdE(g.d, '\\text{s}'), '= ' + bdE(g.s1 - g.s0, '\\text{m}')]
       : ['\\Delta s = \\frac{v_0 + v_1}{2} \\cdot \\Delta t', '= \\frac{' + vt(g.v0) + ' + ' + vt(g.v1) + '}{2} \\cdot ' + bdE(g.d, '\\text{s}'), '= ' + bdE(g.s1 - g.s0, '\\text{m}')];
     return { lab, tex, nach:'Ort danach: ' + bdZahl(g.s1) + ' m' };
-  });
+  }));
 }
 
 /* ── Selbsttest ───────────────────────────────────────────────────── */
@@ -695,6 +777,7 @@ function bdSelbsttest(n) {
       F(nah(flaeche, B.ab[B.ab.length - 1].s1 - B.s0, 1e-4), wo + ': Fläche unter v ≠ Δs');
       // Raster: jede Achse mit Eckwerten auf Linien
       ['s', 'v', 'a'].forEach(art => { if (art === 's' && B.stufe > 1) return; F(bdRaster(bdEckwerte(B, art)), wo + ': kein Raster für ' + art); });
+      { const S = bdEckwerte(B, 's'), st = bdRaster(S) || bdRasterGrob(S); F((Math.max(0, ...S) - Math.min(0, ...S)) / st <= 20, wo + ': Ortsachse mit mehr als 20 Linien'); }
       // Auswahl: vier Diagramme, genau eines richtig, Fehlbilder sichtbar verschieden, jedes mit Text
       const paare = bdPaare(B).concat([['worte', 'v'], ['worte', 's']]);
       paare.forEach(([von, nach]) => {
@@ -704,24 +787,49 @@ function bdSelbsttest(n) {
         O.forEach((o, i) => { if (o.code === null) return;
           F(bdAbstand(o.k, richtig) > tol, wo + ' ' + von + '→' + nach + ': Fehlbild ' + o.code + ' zu nah am richtigen');
           O.forEach((p, j) => { if (j > i) F(bdAbstand(o.k, p.k) > tol, wo + ': zwei gleiche Diagramme'); });
-          const t = BD_DIAGNOSE[o.code] && BD_DIAGNOSE[o.code]({ von, nach });
+          const t = BD_DIAGNOSE[o.code] && BD_DIAGNOSE[o.code]({ von, nach, B });
           F(t && t.indexOf('undefined') < 0, wo + ': Fehlbild ' + o.code + ' ohne Text');
+          if (!t) return;
+          // die Rückmeldung passt zum Fall: nichts über ein Diagramm, das nicht angezeigt wird, keine falsche Richtung
+          if (von === 'worte') ['gegeben', 'Das ist die Form', 'Steigt der \\(s\\)', 'im \\(v\\)-\\(t\\)-Diagramm heisst'].forEach(w =>
+            F(t.indexOf(w) < 0, wo + ' worte→' + nach + ': ' + o.code + ' spricht von einem Diagramm, das nicht angezeigt wird («' + w + '»)'));
+          if (nach === 's' && B.ab.some(g => g.v0 < 0 || g.v1 < 0)) F(t.indexOf('steigt gleichmässig') < 0, wo + ': ' + o.code + ' sagt «s steigt» bei Rückfahrt');
+          if (o.code === 'form' || o.code === 'vorzeichen') { const q = bdVonArt({ von, nach });
+            F(von === 'worte' || t.indexOf('\\(' + q + '\\)-\\(t\\)') >= 0 || (o.code === 'vorzeichen' && t.indexOf('\\(' + q + '\\)') >= 0), wo + ' ' + von + '→' + nach + ': ' + o.code + ' nennt das gegebene Diagramm nicht'); }
+          if (o.code === 'betrag' && von === 's' && nach === 'v' && B.ab.some(g => g.a !== 0)) F(t.indexOf('mittlere') >= 0, wo + ': betrag s→v ohne Hinweis auf die mittlere Geschwindigkeit');
           o.k.forEach(g => F(isFinite(g.f((g.t0 + g.t1) / 2)), wo + ': Fehlbild ' + o.code + ' nicht endlich'));
         });
       });
       // Beschreibung: jeder Abschnitt mit Dauer und Geschwindigkeit, keine Kommazahl mit Komma
       const text = bdText(B);
       F(text.indexOf('undefined') < 0 && text.indexOf('NaN') < 0 && !/\d,\d/.test(text), wo + ': Text kaputt');
-      B.ab.forEach(g => { F(text.indexOf(g.d + ' s') >= 0, wo + ': Dauer ' + g.d + ' s fehlt im Text');
-        const v = g.a === 0 ? Math.abs(g.v0) : Math.abs(g.v1); if (v) F(text.indexOf(bdZahl(v) + ' m/s') >= 0, wo + ': ' + v + ' m/s fehlt im Text'); });
+      B.ab.forEach(g => { F(text.indexOf(g.d + '\u00a0s') >= 0, wo + ': Dauer ' + g.d + ' s fehlt im Text');
+        const v = g.a === 0 ? Math.abs(g.v0) : Math.abs(g.v1); if (v) F(text.indexOf(bdZahl(v) + '\u00a0m/s') >= 0, wo + ': ' + v + ' m/s fehlt im Text');
+        // jeder beschleunigte Abschnitt nennt Anfangs- und Endgeschwindigkeit, sonst passt der Text zu vielen Geraden
+        const satz = bdSatz(g, bdPron(B.objekt));
+        if (g.a !== 0 && g.v0 !== 0) F(satz.indexOf(bdZahl(Math.abs(g.v0)) + '\u00a0m/s') >= 0, wo + ': Anfangsgeschwindigkeit fehlt in «' + satz + '»');
+        if (g.a !== 0 && g.v1 !== 0) F(satz.indexOf(bdZahl(Math.abs(g.v1)) + '\u00a0m/s') >= 0, wo + ': Endgeschwindigkeit fehlt in «' + satz + '»'); });
+      { const pr = bdPron(B.objekt), n = B.ab.length;
+        const dann = (text.match(new RegExp(', dann \\S+ ' + pr + ' ', 'g')) || []).length, danach = (text.match(new RegExp(' und danach \\S+ ' + pr + ' ', 'g')) || []).length;
+        F(dann === Math.max(0, n - 2) && danach === (n > 1 ? 1 : 0), wo + ': Subjekt fehlt nach «dann»/«und danach»: ' + text);
+        F(text.indexOf(bdGross(pr) + ' startet bei') >= 0 && !/zurück fährt|vorwärts fährt\b(?! \d)/.test(text.replace(/ mit konstant [^,.]*/g, '')), wo + ': Pronomen oder Schreibweise: ' + text); }
       // Ablesen: Soll gegen die Kurven, richtige Antwort gilt, jedes Fehlbild bekommt seine Diagnose
       ['s', 'v'].forEach(q => {
         if (q === 's' && B.stufe > 1) return;
         bdFragen(B, q).forEach(fr => {
           const g = B.ab[fr.i], e = 1e-6;
+          const flaeche = h => { let A = 0; for (let j = 0; j < 4000; j++) A += h(bdBei(kv, g.t0 + (j + 0.5) * g.d / 4000)) * g.d / 4000; return A; };
           const ist = fr.art === 'v' ? (bdBei(ks, g.t1 - e) - bdBei(ks, g.t0 + e)) / (g.d - 2 * e)
                     : fr.art === 'a' ? (bdBei(kv, g.t1 - e) - bdBei(kv, g.t0 + e)) / (g.d - 2 * e)
-                    : (() => { let A = 0; for (let j = 0; j < 400; j++) A += bdBei(kv, g.t0 + (j + 0.5) * g.d / 400) * g.d / 400; return A; })();
+                    : fr.art === 'w' ? flaeche(Math.abs) : flaeche(x => x);
+          // Diagnosen passen zur Lage: zu gross/zu klein, Dreieck kleiner als die Fläche, Vorzeichen je Grösse
+          fr.fehler.forEach(([code, w]) => { const tx = BD_ABLESEN[code](fr, w);
+            if (code === 'rechteck_ende' || code === 'rechteck_anf') F((tx.indexOf('zu grosses') >= 0) === (Math.abs(w) > Math.abs(fr.soll)), wo + ': ' + code + ' sagt falsch «zu gross/zu klein» (' + w + ' gegen ' + fr.soll + ')');
+            if (code === 'dreieck') F(Math.abs(w) < Math.abs(fr.soll) && w * fr.soll > 0, wo + ': «nur Dreieck» ist kein Teil der Fläche (' + w + ' gegen ' + fr.soll + ')');
+            if (code === 'vorzeichen_v') F(fr.art === 'v', wo + ': vorzeichen_v bei einer Frage nach ' + fr.art);
+            if (code === 'vorzeichen_s') F(fr.art === 's', wo + ': vorzeichen_s bei einer Frage nach ' + fr.art); });
+          if (fr.art === 's' && fr.soll < 0 && !fr.umkehr) F(fr.fehler.some(([c]) => c === 'vorzeichen_s'), wo + ': Rückfahrt ohne Diagnose vorzeichen_s');
+          if (fr.umkehr) F(fr.fehler.some(([c]) => c === (fr.art === 'w' ? 'ort_statt_weg' : 'weg_statt_ort')), wo + ': Umkehr ohne Diagnose Weg/Ortsänderung');
           F(nah(fr.soll, ist, 1e-4), wo + ': Ablesen ' + fr.art + ' Soll ' + fr.soll + ' ≠ ' + ist);
           F(!bdBewerte(fr, fr.soll) && !bdBewerte(fr, fr.soll * 1.01 + (fr.soll ? 0 : 0.005)), wo + ': richtige Antwort abgelehnt');
           F(bdBewerte(fr, NaN).code === 'leer', wo + ': leere Eingabe');
@@ -731,13 +839,19 @@ function bdSelbsttest(n) {
         });
       });
       F(bdFragen(B, B.stufe === 1 ? 's' : 'v').length > 0, wo + ': keine Frage zum Ablesen');
-      bdErklaerung(B, 's', 'v').concat(bdErklaerung(B, 'v', 'a'), bdErklaerung(B, 'v', 's')).forEach(z =>
-        F(((z.tex || []).join('') + (z.text || '')).search(/NaN|undefined/) < 0 && (z.tex || z.text), wo + ': Erklärung kaputt'));
+      if (B.ab.some(g => g.v0 * g.v1 < 0)) F(bdFragen(B, 'v').some(fr => fr.art === 'w'), wo + ': Umkehr ohne Frage nach dem Weg');
+      bdPaare(B).concat([['v', 's']]).forEach(([von, nach]) => bdErklaerung(B, von, nach).forEach(z =>
+        F(((z.tex || []).join('') + (z.text || '')).search(/NaN|undefined/) < 0 && (z.tex || z.text), wo + ': Erklärung ' + von + '→' + nach + ' kaputt')));
+      // s→v bei Parabelstücken: die Lösung zeigt, woher v1 kommt; die Formel stimmt
+      bdErklaerung(B, 's', 'v').forEach((z, i) => { const g = B.ab[i]; if (g.a === 0) return;
+        F(z.tex && nah(2 * (g.s1 - g.s0) / g.d - g.v0, g.v1), wo + ': s→v Parabelstück ohne Herleitung von v1'); });
     }
   });
   // Eingabeformate und Zahlformat
-  [['2.5', 2.5], ['2,5', 2.5], [' -3 m/s', -3], ['−1.5', -1.5], ['', NaN], ['abc', NaN]].forEach(([t, w]) => {
+  [['2.5', 2.5], ['2,5', 2.5], [' -3 m/s', -3], ['−1.5', -1.5], ['', NaN], ['abc', NaN], ['2 m/s^2', 2], ['1.5 m/s2', 1.5], ['-3 m/s²', -3],
+   ['4 m', 4], ['2,5m/s', 2.5], ['1e2', 100], ['3.', 3], ['2 kg', NaN], ['1.2.3', NaN]].forEach(([t, w]) => {
     const x = bdLies(t); F(Number.isNaN(w) ? Number.isNaN(x) : x === w, 'Eingabe «' + t + '» gelesen als ' + x); });
+  { const q = { soll:2, fehler:[] }; F(bdBewerte(q, NaN, 'abc').code === 'unlesbar' && bdBewerte(q, NaN, '  ').code === 'leer', 'unlesbare Eingabe nicht erkannt'); }
   [[4, '4'], [2.5, '2.5'], [0.75, '0.75'], [-3, '-3'], [-0.0001, '0']].forEach(([x, t]) => F(bdZahl(x) === t, 'Zahlformat ' + x));
   return { vorlagen:BD_VORLAGEN.length, faelle, fehler };
 }
@@ -760,7 +874,7 @@ function bdDiagramm(id, B, art, kurven, o) {
   const { ctx, W, H } = initCanvas(id, hoehe);
   ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
   const werte = (o.werte || []).concat(...kurven.map(k => bdProben(k.k).map(t => bdBei(k.k, t))), ...kurven.map(k => k.k.flatMap(g => [g.f(g.t0), g.f(g.t1)])));
-  const st = bdRaster(bdEckwerte(B, art)) || 1;
+  const st = bdRaster(bdEckwerte(B, art)) || bdRasterGrob(werte);
   let lo = Math.min(0, ...werte), hi = Math.max(0, ...werte);
   lo = Math.floor(lo / st + 1e-9) * st; hi = Math.ceil(hi / st - 1e-9) * st + (hi > 0 ? st : 0);
   if (hi - lo < 4 * st) hi = lo + 4 * st;
@@ -785,7 +899,9 @@ function bdDiagramm(id, B, art, kurven, o) {
   ctx.font = fs + 'px "JetBrains Mono", monospace'; ctx.fillStyle = '#6b7280';
   const tSchritt = [1, 2, 5, 10].find(k => (px(k) - px(0)) >= (klein ? 22 : 28)) || 10;
   ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-  for (let t = tSchritt; t <= T + 1e-9; t += tSchritt) if (px(t) < W - R - 8) ctx.fillText(String(t), px(t), Math.min(y0 + 3, H - U + 3));
+  let tLetzt = 0;
+  for (let t = tSchritt; t <= T + 1e-9; t += tSchritt) { ctx.fillText(String(t), px(t), Math.min(y0 + 3, H - U + 3)); tLetzt = t; }
+  if (T - tLetzt > 1e-9 && px(T) - px(tLetzt) >= (klein ? 16 : 20)) ctx.fillText(bdZahl(T), px(T), Math.min(y0 + 3, H - U + 3));   // Ende der Bewegung immer beschriftet
   const ySchritt = [1, 2, 4, 5, 10, 20].map(m => m * st).find(k => (py(0) - py(k)) >= (klein ? 13 : 16)) || st * 10;
   ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
   for (let y = Math.ceil(lo / ySchritt) * ySchritt; y <= hi + 1e-9; y += ySchritt) ctx.fillText(bdZahl(y), L - 4, py(y));
@@ -822,7 +938,8 @@ function bdNeueAufgabe(V, seed) {
   if (art === 'zuordnen') {
     [zustand.von, zustand.nach] = bdWahl(r, bdPaare(B));
     zustand.O = bdOptionen(B, zustand.von, zustand.nach, r);
-    text = 'Welches <span class="bd-nw">\\(' + zustand.nach + '\\)-\\(t\\)-Diagramm</span> gehört zur selben Bewegung wie das gegebene <span class="bd-nw">\\(' + zustand.von + '\\)-\\(t\\)-Diagramm</span>? Tippe es an.';
+    text = 'Welches <span class="bd-nw">\\(' + zustand.nach + '\\)-\\(t\\)-Diagramm</span> gehört zur selben Bewegung wie das gegebene <span class="bd-nw">\\(' + zustand.von + '\\)-\\(t\\)-Diagramm</span>?' +
+      (zustand.von === 'a' ? ' Zu Beginn ist \\(v = ' + bdE(B.ab[0].v0, '\\text{m/s}') + '\\).' : '') + ' Tippe es an.';
   } else if (art === 'worte') {
     zustand.von = 'worte'; zustand.nach = B.stufe === 1 ? bdWahl(r, ['s', 'v']) : bdWahl(r, ['v', 'v', 's']);
     zustand.O = bdOptionen(B, 'worte', zustand.nach, r);
@@ -830,7 +947,7 @@ function bdNeueAufgabe(V, seed) {
   } else {
     zustand.von = B.stufe === 1 && r() < 0.7 ? 's' : 'v';
     zustand.frage = bdWahl(r, bdFragen(B, zustand.von));
-    text = '<span class="bd-pille">' + (zustand.frage.art === 's' ? 'Strecke als Fläche' : zustand.frage.art === 'v' ? 'Geschwindigkeit als Steigung' : 'Beschleunigung als Steigung') + '</span>' +
+    text = '<span class="bd-pille">' + ({ s:'Ortsänderung als Fläche', w:'Weg als Fläche', v:'Geschwindigkeit als Steigung', a:'Beschleunigung als Steigung' })[zustand.frage.art] + '</span>' +
       zustand.frage.frage + ' Der Abschnitt ist hinterlegt.';
   }
   $('bd-aufgabe').innerHTML = text;
@@ -896,7 +1013,7 @@ function bdWaehle(i) {
   const o = zustand.O[i], karte = document.querySelector('.bd-karte[data-i="' + i + '"]');
   if (o.code) {
     zustand.fehlversuch = true; if (karte) karte.classList.add('falsch');
-    bdRueck('block-fehler', '✗ Diagramm ' + 'ABCD'[i] + ' passt nicht', BD_DIAGNOSE[o.code]({ von:zustand.von, nach:zustand.nach }));
+    bdRueck('block-fehler', '✗ Diagramm ' + 'ABCD'[i] + ' passt nicht', BD_DIAGNOSE[o.code]({ von:zustand.von, nach:zustand.nach, B:zustand.B }));
     return;
   }
   if (karte) karte.classList.add('richtig');
@@ -908,7 +1025,9 @@ function bdLoesung(gezeigt, i) {
     if (i === undefined) { i = zustand.O.findIndex(o => o.code === null); const k = document.querySelector('.bd-karte[data-i="' + i + '"]'); if (k) k.classList.add('richtig'); }
     const von = zustand.von, nach = zustand.nach;
     bdRueck('block-bsp', gezeigt ? 'Lösung: Diagramm ' + 'ABCD'[i] : '✓ Richtig: Diagramm ' + 'ABCD'[i],
-      (von === 'worte' ? 'Abschnitt für Abschnitt: ' + B.ab.map(g => bdZahl(g.t0) + '–' + bdZahl(g.t1) + ' s: ' + bdSatz(g)).join('; ') + '.'
+      (von === 'worte' ? 'Abschnitt für Abschnitt: ' + B.ab.map(g => bdZahl(g.t0) + '–' + bdZahl(g.t1) + ' s: ' + bdSatz(g, bdPron(B.objekt))).join('; ') + '.'
+        : nach === 'a' && von === 's' ? 'Die Beschleunigung sagt, wie sich die Steigung des \\(s\\)-\\(t\\)-Graphen ändert. Wo er gerade ist, ist \\(a = 0\\); wo er gekrümmt ist, \\(a = \\frac{\\Delta v}{\\Delta t}\\), Abschnitt für Abschnitt:'
+        : nach === 'v' && von === 'a' ? 'Die Geschwindigkeit ändert sich um die Fläche unter dem \\(a\\)-\\(t\\)-Graphen, ausgehend von der Anfangsgeschwindigkeit, Abschnitt für Abschnitt:'
         : nach === 'a' ? 'Die Beschleunigung ist die Steigung des \\(v\\)-\\(t\\)-Graphen, Abschnitt für Abschnitt:'
         : nach === 'v' ? 'Die Geschwindigkeit ist die Steigung des \\(s\\)-\\(t\\)-Graphen, Abschnitt für Abschnitt:'
         : 'Der Ort ändert sich um die Fläche unter dem \\(v\\)-\\(t\\)-Graphen, Abschnitt für Abschnitt:') + (von === 'worte' ? '' : ' siehe unten.') + ' Weiter mit «Neue Aufgabe».');
@@ -916,14 +1035,14 @@ function bdLoesung(gezeigt, i) {
   } else {
     const q = zustand.frage;
     if (gezeigt) { const e = $('bd-ein'); if (e) e.value = bdZahl(q.soll); }
-    bdRueck('block-bsp', gezeigt ? 'Lösung' : '✓ Richtig', '\\(' + q.gr + ' = ' + bdE(q.soll, BD_ART[q.art === 's' ? 's' : q.art].etex) + '\\). Weiter mit «Neue Aufgabe».');
+    bdRueck('block-bsp', gezeigt ? 'Lösung' : '✓ Richtig', '\\(' + q.gr + ' = ' + bdE(q.soll, BD_ART[q.art === 'w' ? 's' : q.art].etex) + '\\). Weiter mit «Neue Aufgabe».');
     bdWeg([{ tex:q.formel }], 'Rechenweg');
   }
   bdGeloest(gezeigt);
 }
 function bdPruefen() {
   const q = zustand.frage; if (!q || zustand.fertig) return;
-  const e = bdBewerte(q, bdLies($('bd-ein').value));
+  const roh = $('bd-ein').value, e = bdBewerte(q, bdLies(roh), roh);
   if (e) { if (e.code !== 'leer') zustand.fehlversuch = true; bdRueck('block-fehler', '✗ Noch nicht', e.text); return; }
   bdLoesung(false);
 }
@@ -934,8 +1053,10 @@ function bdTipp() {
   let t;
   if (zustand.frage) t = zustand.tipp === 1 ? zustand.frage.tipp : 'Eingesetzt: \\(' + zustand.frage.formel.slice(0, 2).join(' ') + '\\).';
   else if (zustand.von === 'worte') t = zustand.tipp === 1 ? 'Zerlege die Beschreibung in Abschnitte und prüfe sie der Reihe nach: Steht der Körper, fährt er gleichmässig, wird er schneller oder langsamer, vorwärts oder zurück?'
-    : 'Der erste Abschnitt: ' + B.objekt.replace(/^Ein /, 'das ').replace(/^das Zug/, 'der Zug') + ' ' + bdSatz(g) + '. Im \\(' + zustand.nach + '\\)-\\(t\\)-Diagramm heisst das: ' + bdTippForm(g, zustand.nach) + '.';
-  else t = zustand.tipp === 1 ? (zustand.nach === 's' ? 'Die Fläche unter dem \\(v\\)-\\(t\\)-Graphen sagt, um wie viel sich der Ort ändert. Wo \\(v\\) positiv ist, steigt \\(s\\); wo \\(v = 0\\) ist, bleibt \\(s\\) gleich.'
+    : 'Der erste Abschnitt: ' + bdDer(B.objekt) + ' ' + bdSatz(g, bdPron(B.objekt)) + '. Im \\(' + zustand.nach + '\\)-\\(t\\)-Diagramm heisst das: ' + bdTippForm(g, zustand.nach) + '.';
+  else t = zustand.tipp === 1 ? (zustand.von === 'a' ? 'Die Fläche unter dem \\(a\\)-\\(t\\)-Graphen ist die Änderung der Geschwindigkeit. Beginne bei der Anfangsgeschwindigkeit und rechne Abschnitt für Abschnitt \\(\\Delta v = a \\cdot \\Delta t\\).'
+    : zustand.von === 's' && zustand.nach === 'a' ? 'Wo der \\(s\\)-\\(t\\)-Graph gerade ist, ist \\(a = 0\\). Wo er gekrümmt ist, bestimme \\(v\\) am Anfang und am Ende des Abschnitts und rechne \\(a = \\frac{\\Delta v}{\\Delta t}\\).'
+    : zustand.nach === 's' ? 'Die Fläche unter dem \\(v\\)-\\(t\\)-Graphen sagt, um wie viel sich der Ort ändert. Wo \\(v\\) positiv ist, steigt \\(s\\); wo \\(v = 0\\) ist, bleibt \\(s\\) gleich.'
     : 'Lies im gegebenen Diagramm die Steigung ab, Abschnitt für Abschnitt: Steigt der Graph, ist der gesuchte Wert positiv; ist er waagrecht, ist er null.')
     : (() => { const z = bdErklaerung(B, zustand.von, zustand.nach)[0]; return 'Der erste Abschnitt, \\(0\\) bis \\(' + bdZahl(g.t1) + '\\;\\text{s}\\): ' + (z.tex ? '\\(' + z.tex.join(' ') + '\\).' : z.text); })();
   bdRueck('block-tipp', '💡 Tipp', t);
@@ -966,7 +1087,9 @@ function bdArt(art) {
 $('bd-arten').addEventListener('click', ev => { const b = ev.target.closest('[data-art]'); if (b) { bdArt(b.dataset.art); bdNeueAufgabe(); } });
 // Verweise aus Themenseite und Leitprogramm öffnen eine Aufgabe direkt: #aufgabe-zuordnen, #aufgabe-ablesen, #aufgabe-worte
 function bdAusAdresse() { const m = location.hash.match(/^#aufgabe-(zuordnen|ablesen|worte)$/); if (!m) return false; bdArt(m[1]); return true; }
-window.addEventListener('hashchange', () => { if (bdAusAdresse()) bdNeueAufgabe(); });
+function bdOhneAnkerFokus() { const a = document.activeElement; if (a && a.closest && a.closest('#bd-arten')) a.blur(); }
+window.addEventListener('hashchange', () => { if (bdAusAdresse()) { bdNeueAufgabe(); setTimeout(bdOhneAnkerFokus, 0); } });
+window.addEventListener('load', () => setTimeout(bdOhneAnkerFokus, 0));
 let bdRz; window.addEventListener('resize', () => { clearTimeout(bdRz); bdRz = setTimeout(bdZeichne, 150); });
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(bdZeichne);
 
@@ -977,6 +1100,17 @@ window.__bd = {
   optionen() { return zustand.O && zustand.O.map(o => o.code); }, waehle(i) { bdWaehle(i); },
   eingabe(x) { $('bd-ein').value = x; bdPruefen(); }, tipp() { bdTipp(); }, zeigen() { $('bd-zeigen').click(); },
   ids:BD_VORLAGEN.map(v => v.id), zustand,
+  alleTexte(n) {                       // jeder Text mit Formeln, den die Seite erzeugen kann (MathJax-Prüfung)
+    const aus = [], z = ([l, ...r]) => '\\(' + [l].concat(r).join(' ') + '\\)';
+    BD_VORLAGEN.forEach(V => { for (let s = 1; s <= n; s++) {
+      const B = bdAufgabe(V, bdZufall(s)); aus.push(bdText(B));
+      bdPaare(B).concat([['worte', 'v'], ['worte', 's']]).forEach(([von, nach]) => {
+        bdOptionen(B, von, nach, bdZufall(s)).forEach(o => { if (o.code) aus.push(BD_DIAGNOSE[o.code]({ von, nach, B })); });
+        if (von !== 'worte') bdErklaerung(B, von, nach).forEach(e => aus.push(e.tex ? z(e.tex) : e.text)); });
+      ['s', 'v'].forEach(q => bdFragen(B, q).forEach(f => { aus.push(f.frage, f.tipp, z(f.formel)); f.fehler.forEach(([c, w]) => aus.push(BD_ABLESEN[c](f, w))); }));
+    } });
+    return aus;
+  },
 };
 
 bdAusAdresse(); bdNeueAufgabe();

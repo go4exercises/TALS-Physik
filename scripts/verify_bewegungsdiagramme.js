@@ -13,11 +13,23 @@
      - Auswahl (Zuordnen und In Worten): vier Diagramme, genau eines richtig,
        jedes Fehlbild sichtbar verschieden vom richtigen und von den anderen,
        jedes mit Rueckmeldung
-     - Beschreibung in Worten: jede Dauer und jede Geschwindigkeit steht darin
-     - Ablesen: Soll gegen Steigung bzw. Flaeche der Kurven, richtige Antwort
-       gilt, jedes Fehlbild (Wert statt Steigung, Kehrwert, Vorzeichen,
-       Rechteck statt Trapez, nur Dreieck, ...) bekommt seine Diagnose
-     - Eingabe- und Zahlformate
+     - Paare s->v, v->s, v->a, a->v (mit Anfangsgeschwindigkeit), s->a und
+       In Worten; jede Rueckmeldung passt zum Fall: nichts ueber ein Diagramm,
+       das nicht angezeigt wird, kein «s steigt» bei Rueckfahrt, Form und
+       Vorzeichen nennen das gegebene Diagramm, bei Parabelstuecken der
+       Hinweis auf die mittlere Geschwindigkeit
+     - Beschreibung in Worten: jede Dauer und jede Geschwindigkeit steht darin,
+       beschleunigte Abschnitte mit Anfangs- und Endgeschwindigkeit, Subjekt
+       nach «dann»/«und danach», Pronomen passend zum Objekt
+     - Ablesen: Soll gegen Steigung bzw. Flaeche der Kurven (Weg ueber eine
+       Umkehr: Flaeche von |v|), richtige Antwort gilt, jedes Fehlbild (Wert
+       statt Steigung, Kehrwert, Vorzeichen, Rechteck statt Trapez, nur
+       Dreieck, Weg statt Ortsaenderung, ...) bekommt seine Diagnose;
+       «zu gross/zu klein» stimmt, «nur Dreieck» ist ein Teil der Flaeche,
+       Vorzeichen-Diagnose je Groesse
+     - Erklaerung s->v bei Parabelstuecken mit v1 = 2 ds/dt - v0
+     - Eingabe- und Zahlformate (Einheit dahinter, auch m/s^2 und m/s2;
+       unlesbare Eingabe wird als solche gemeldet)
 
    Aufruf vom Repo-Root:
      node scripts/verify_bewegungsdiagramme.js           # 30 je Vorlage
