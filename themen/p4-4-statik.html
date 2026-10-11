@@ -848,7 +848,8 @@ MathJax = {
 <div class="block block-beweis">
   <div class="block-titel">🔷 Zerlegung der Gewichtskraft</div>
   <p>Bei einem Neigungswinkel \(\alpha\) gilt für die Gewichtskraft \(F_G = m\cdot g\):</p>
-  \[ F_H = F_G \cdot \sin\alpha \quad(\text{hangabwärts}), \qquad F_N = F_G \cdot \cos\alpha \quad(\text{senkrecht zur Ebene}) \]
+  \[ F_H = F_G \cdot \sin\alpha \quad(\text{hangabwärts}), \qquad F_{G\perp} = F_G \cdot \cos\alpha \quad(\text{senkrecht in die Ebene}) \]
+  <p>Die zwei Komponenten ersetzen \(F_G\) nur in der Rechnung, sie sind keine zusätzlichen Kräfte. Die Unterlage drückt mit der Normalkraft gleich stark zurück, nur entgegengesetzt: \(F_N = F_{G\perp} = F_G \cdot \cos\alpha\).</p>
   <p>Der Körper bleibt in Ruhe, solange die Haftreibung ausreicht: \(F_H \le \mu_H \cdot F_N\). Setzt man die Ausdrücke ein, kürzt sich \(F_G\) heraus, und es folgt die einfache Haftbedingung \(\tan\alpha \le \mu_H\). Der Grenzwinkel hängt also nur vom Reibungskoeffizienten ab, nicht von der Masse.</p>
 </div>
 
@@ -860,19 +861,19 @@ MathJax = {
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Worauf achten? zu dieser Animation">💡 Worauf achten?</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Worauf achten?</span>
-      <div class="ah-text"><ul><li>Verändere Neigungswinkel, Reibungskoeffizient und Masse.</li><li>Beobachte die Kräftezerlegung am Hang.</li><li>Finde den Grenzwinkel, ab dem der Klotz rutscht.</li></ul></div>
+      <div class="ah-text"><ul><li>Verändere Neigungswinkel, Reibungskoeffizient und Masse.</li><li>Am Klotz wirken drei Kräfte: \(F_G\), \(F_N\) und \(F_R\) (durchgezogen). Gestrichelt sind die zwei Komponenten von \(F_G\), mit denen man rechnet.</li><li>Finde den Grenzwinkel, ab dem der Klotz rutscht.</li></ul></div>
     </div>
   </div>
   <div class="anim-hinweis rechts">
     <span class="ah-trigger" tabindex="0" role="button" aria-haspopup="true" aria-label="Erkenntnis zu dieser Animation">✓ Erkenntnis</span>
     <div class="ah-pop" role="tooltip">
       <span class="ah-titel">Erkenntnis</span>
-      <div class="ah-text"><ul><li>Der Klotz haftet, solange \(\tan\alpha \le \mu_H\).</li><li>Hangabtrieb \(F_H = mg\sin\alpha\), Normalkraft \(F_N = mg\cos\alpha\).</li><li>Der Grenzwinkel hängt nur von \(\mu_H\) ab, nicht von der Masse.</li></ul></div>
+      <div class="ah-text"><ul><li>Der Klotz haftet, solange \(\tan\alpha \le \mu_H\).</li><li>Komponenten von \(F_G\): Hangabtrieb \(F_H = mg\sin\alpha\), \(F_{G\perp} = mg\cos\alpha\). Die Normalkraft gleicht \(F_{G\perp}\) aus: \(F_N = mg\cos\alpha\).</li><li>\(F_H\) ist keine zusätzliche Kraft: Im Freischnitt steht entweder \(F_G\) oder seine zwei Komponenten, nie beides.</li><li>Der Grenzwinkel hängt nur von \(\mu_H\) ab, nicht von der Masse.</li></ul></div>
     </div>
   </div>
   <!-- CLIP-ANIM — generiert von scripts/build-clips-einbau.py -->
   <div class="clip" data-clip="../clips/p4-4-anim-ebene.html" data-titel="Klotz auf der schiefen Ebene: der Winkel entscheidet, nicht die Masse" data-modus="gross">
-    <button class="ah-clip-knopf" type="button" onclick="clipStart(this)" aria-label="Clip zu dieser Animation abspielen (1:08): Klotz auf der schiefen Ebene: der Winkel entscheidet, nicht die Masse">▶ Clip</button>
+    <button class="ah-clip-knopf" type="button" onclick="clipStart(this)" aria-label="Clip zu dieser Animation abspielen (1:13): Klotz auf der schiefen Ebene: der Winkel entscheidet, nicht die Masse">▶ Clip</button>
   </div>
   <!-- /CLIP-ANIM -->
 </div>
@@ -907,7 +908,8 @@ MathJax = {
     </div>
 
     <div class="live-box">
-      <div class="lb-item"><span class="lb-lab">Hangabtrieb \(F_H\)</span><span class="lb-val" id="a7-fh">82.9 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Gewichtskraft \(F_G\)</span><span class="lb-val" id="a7-fg">196.2 N</span></div>
+      <div class="lb-item"><span class="lb-lab">Komponente \(F_H\)</span><span class="lb-val" id="a7-fh">82.9 N</span></div>
       <div class="lb-item"><span class="lb-lab">Normalkraft \(F_N\)</span><span class="lb-val" id="a7-fn">177.8 N</span></div>
       <div class="lb-item"><span class="lb-lab">max. Haftreibung \(\mu_H F_N\)</span><span class="lb-val" id="a7-frmax">88.9 N</span></div>
       <div class="lb-item"><span class="lb-lab">Zustand</span><span class="lb-val" id="a7-stat">haftet</span></div>
@@ -925,7 +927,7 @@ MathJax = {
 
 <div class="block block-fehler">
   <div class="block-titel">⚠ Häufiger Fehler</div>
-  <p>Die Normalkraft auf der schiefen Ebene ist <strong>nicht</strong> gleich der Gewichtskraft, sondern nur deren senkrechte Komponente \(F_N = F_G\cos\alpha\). Nur in der waagrechten Ebene (\(\alpha = 0\)) gilt \(F_N = F_G\). Mit zunehmender Neigung wird die Unterlage entlastet, während die Hangabtriebskraft wächst.</p>
+  <p>Die Normalkraft auf der schiefen Ebene ist <strong>nicht</strong> gleich der Gewichtskraft, sondern nur so gross wie deren senkrechte Komponente: \(F_N = F_{G\perp} = F_G\cos\alpha\). Nur in der waagrechten Ebene (\(\alpha = 0\)) gilt \(F_N = F_G\). Mit zunehmender Neigung wird die Unterlage entlastet, während die Hangabtriebskraft wächst.</p>
 </div>
 
 
@@ -1212,7 +1214,7 @@ MathJax = {
     <button class="clip-start cl-clip" type="button" onclick="clipStart(this)" aria-label="Clip abspielen: Klotz auf der schiefen Ebene: der Winkel entscheidet, nicht die Masse">
       <span class="cl-folge">7</span>
       <span class="cl-titel">Klotz auf der schiefen Ebene: der Winkel entscheidet, nicht die Masse</span>
-      <span class="cl-zeit">1:08</span>
+      <span class="cl-zeit">1:13</span>
     </button>
   </div>
 </div>
@@ -1275,11 +1277,11 @@ MathJax = {
 <h3 id="clip-p4-4-anim-ebene" class="clip-h">Klotz auf der schiefen Ebene: der Winkel entscheidet, nicht die Masse</h3>
 <ol>
 <li><span class="tk-zeit">0:00</span><span>Ein Klotz von zwanzig Kilogramm liegt auf einer schiefen Ebene. Neigung, Reibung und Masse stellst du ein. Wann bleibt er liegen, und wann rutscht er?</span></li>
-<li><span class="tk-zeit">0:09</span><span>Bei fünfundzwanzig Grad zerfällt die Gewichtskraft in zwei Teile. Die Hangabtriebskraft zieht mit zweiundachtzig Komma neun Newton hangabwärts. Die Normalkraft drückt mit hundertsiebenundsiebzig Komma acht Newton auf die Ebene, weniger als die ganze Gewichtskraft.</span></li>
-<li><span class="tk-zeit">0:24</span><span>Die Haftreibung schafft höchstens null Komma fünf mal die Normalkraft, achtundachtzig Komma neun Newton. Das reicht: Der Klotz haftet. Die Reibung wirkt dabei nur so stark wie nötig.</span></li>
-<li><span class="tk-zeit">0:35</span><span>Bei siebenundzwanzig Grad rutscht der Klotz. Der Tangens des Winkels, null Komma fünf eins null, ist grösser als der Reibungskoeffizient. Der Grenzwinkel liegt bei sechsundzwanzig Komma sechs Grad.</span></li>
-<li><span class="tk-zeit">0:47</span><span>Bei vierzig Kilogramm verdoppeln sich Hangabtrieb und Haftreibung, der Klotz rutscht weiter. Die Masse kürzt sich heraus: Es zählt nur, ob der Tangens des Winkels den Reibungskoeffizienten übersteigt.</span></li>
-<li><span class="tk-zeit">0:59</span><span>Merke: Der Klotz haftet, solange der Tangens des Neigungswinkels höchstens so gross ist wie der Haftreibungskoeffizient. Die Masse spielt keine Rolle.</span></li>
+<li><span class="tk-zeit">0:09</span><span>Bei fünfundzwanzig Grad zerlegt man die Gewichtskraft in zwei Komponenten, im Bild gestrichelt. Die Hangabtriebskraft zieht mit zweiundachtzig Komma neun Newton hangabwärts. Die Komponente senkrecht zur Ebene ist hundertsiebenundsiebzig Komma acht Newton, weniger als die ganze Gewichtskraft. Genau so stark drückt die Ebene mit der Normalkraft zurück.</span></li>
+<li><span class="tk-zeit">0:29</span><span>Die Haftreibung schafft höchstens null Komma fünf mal die Normalkraft, achtundachtzig Komma neun Newton. Das reicht: Der Klotz haftet. Die Reibung wirkt dabei nur so stark wie nötig.</span></li>
+<li><span class="tk-zeit">0:40</span><span>Bei siebenundzwanzig Grad rutscht der Klotz. Der Tangens des Winkels, null Komma fünf eins null, ist grösser als der Reibungskoeffizient. Der Grenzwinkel liegt bei sechsundzwanzig Komma sechs Grad.</span></li>
+<li><span class="tk-zeit">0:52</span><span>Bei vierzig Kilogramm verdoppeln sich Hangabtrieb und Haftreibung, der Klotz rutscht weiter. Die Masse kürzt sich heraus: Es zählt nur, ob der Tangens des Winkels den Reibungskoeffizienten übersteigt.</span></li>
+<li><span class="tk-zeit">1:04</span><span>Merke: Der Klotz haftet, solange der Tangens des Neigungswinkels höchstens so gross ist wie der Haftreibungskoeffizient. Die Masse spielt keine Rolle.</span></li>
 </ol>
 <h3 id="clip-p4-4-kraefte-zerlegen" class="clip-h">Kräfte zerlegen und addieren: der Weg über die Komponenten</h3>
 <ol>
@@ -2238,6 +2240,7 @@ function drawA7() {
   const a = al*Math.PI/180;
   const FG = m*g;
   const FH = FG*Math.sin(a), FN = FG*Math.cos(a), FRmax = mu*FN;
+  document.getElementById('a7-fg').textContent = FG.toFixed(1) + ' N';
   document.getElementById('a7-fh').textContent = FH.toFixed(1) + ' N';
   document.getElementById('a7-fn').textContent = FN.toFixed(1) + ' N';
   document.getElementById('a7-frmax').textContent = FRmax.toFixed(1) + ' N';
@@ -2294,10 +2297,20 @@ function drawA7() {
   // Kraftpfeile vom Blockmittelpunkt
   // 90 px für F_G, höchstens bis 20 px über den unteren Rand; alle Kräfte im selben Massstab
   const sc = Math.min(90, H - 20 - bcy) / Math.max(FG, 1);
-  // Gewichtskraft (runter)
+  // Komponenten von F_G, gestrichelt und dünn (nur zum Rechnen, keine zusätzlichen
+  // Kräfte): Hangabtrieb hangabwärts (-u), F_G⊥ in die Ebene hinein (-n)
+  const komponente = (x2, y2) => {
+    ctx.strokeStyle = C_KOMP; ctx.lineWidth = 1.6; ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(bcx, bcy); ctx.lineTo(x2, y2); ctx.stroke(); ctx.setLineDash([]);
+    const w = Math.atan2(y2 - bcy, x2 - bcx), k = 8;
+    ctx.fillStyle = C_KOMP; ctx.beginPath(); ctx.moveTo(x2, y2);
+    ctx.lineTo(x2 - k*Math.cos(w - 0.4), y2 - k*Math.sin(w - 0.4));
+    ctx.lineTo(x2 - k*Math.cos(w + 0.4), y2 - k*Math.sin(w + 0.4)); ctx.closePath(); ctx.fill();
+  };
+  komponente(bcx - ux*FH*sc, bcy - uy*FH*sc);
+  komponente(bcx - nx*FN*sc, bcy - ny*FN*sc);
+  // Kräfte am Körper, durchgezogen: Gewichtskraft (runter)
   drawArrow(ctx, bcx, bcy, bcx, bcy + FG*sc, C_GEW, 2.6, 9);
-  // Hangabtrieb (hangabwärts = -u)
-  drawArrow(ctx, bcx, bcy, bcx - ux*FH*sc, bcy - uy*FH*sc, C_KOMP, 2.4, 8);
   // Normalkraft (aus Fläche = n)
   drawArrow(ctx, bcx, bcy, bcx + nx*FN*sc, bcy + ny*FN*sc, C_NORM, 2.4, 8);
   // Reibung (hangaufwärts = u), Länge = min(FH,FRmax)
@@ -2315,10 +2328,27 @@ function drawA7() {
     ctx.fillText(t, bcx + dx*d + nx*weg, bcy + dy*d + ny*weg + 4);
   };
   beschr('F_G', C_GEW, 0, 1, FG*sc, 0);
+  ctx.font='13px JetBrains Mono,monospace';
   beschr('F_H', C_KOMP, -ux, -uy, FH*sc, 14);
+  // F_G⊥ neben seiner Spitze, hangaufwärts versetzt (bei kleinem α läge es sonst auf F_G)
+  ctx.fillStyle = C_KOMP; ctx.textAlign = 'left';
+  ctx.fillText('F_G⊥', bcx - nx*FN*sc + ux*10 + 4, bcy - ny*FN*sc + uy*10 + 4);
+  ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='center';
   beschr('F_N', C_NORM, nx, ny, FN*sc, 0);
   if (FR > 0.5) beschr('F_R', C_REIB, ux, uy, FR*sc, 14);
 
+  // Legende auf hellem Grund: durchgezogen die Kräfte am Klotz, gestrichelt die Komponenten
+  ctx.font='12px JetBrains Mono,monospace'; ctx.textAlign='left';
+  const legende = (txt, y) => { const w = ctx.measureText(txt).width;
+    ctx.fillStyle = 'rgba(248,250,252,0.9)'; ctx.fillRect(9, y - 13, w + 6, 17);
+    ctx.fillStyle = '#6b7280'; ctx.fillText(txt, 12, y); };
+  // so viele Zeilen, dass rechts Platz für das Status-Badge bleibt
+  const frei = W - 120;
+  if (ctx.measureText('gestrichelt: Komponenten von F_G, nur zum Rechnen').width <= frei)
+    legende('gestrichelt: Komponenten von F_G, nur zum Rechnen', 22);
+  else if (ctx.measureText('gestrichelt: Komponenten von F_G,').width <= frei) {
+    legende('gestrichelt: Komponenten von F_G,', 22); legende('nur zum Rechnen', 38);
+  } else { legende('gestrichelt:', 22); legende('Komponenten von F_G,', 38); legende('nur zum Rechnen', 54); }
   // Status-Badge
   ctx.font='bold 13px JetBrains Mono,monospace'; ctx.textAlign='right';
   ctx.fillStyle = haftet ? C_NORM : C_RES;

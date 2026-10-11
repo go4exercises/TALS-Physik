@@ -274,9 +274,10 @@ setze(d, 'Frage 2', A(graf([-5, 5], [-5.4, 4.6],
     strecken=lin + kl + [L(eH, eG, TINTE, gestrichelt=True, dicke=2), L(eS, eG, TINTE, gestrichelt=True, dicke=2),
        P(m, eG, GEW, dicke=6),
        P(m, eS, TINTE, gestrichelt=True, dicke=4),
-       P(m, eH, RES, dicke=6)]
+       P(m, eH, RES, gestrichelt=True, dicke=4)]
     + bogen(-4.8, -0.6, 1.6, 0, al),
     texte=[T((-2.9, -0.45), "10°", groesse=25),
+           T((-4.8, 4.0), "gestrichelt: Komponenten von F_G", TINTE, groesse=25),
            T((eG[0] - 0.25, eG[1] + 0.9), "Gewichtskraft", GEW, groesse=26, anker="end"),
            T((eG[0] - 0.25, eG[1] + 0.45), "490.5 N", GEW, groesse=26, anker="end"),
            T((eS[0] + 0.25, eS[1] + 0.9), "senkrecht zur", TINTE, groesse=26),
@@ -294,10 +295,11 @@ eR = (r0[0] + 40 * sk * t_[0], r0[1] + 40 * sk * t_[1]); eRmax = (r0[0] + 70 * s
 setze(d, 'Frage 3', A(graf([-5, 5], [-5, 5],
     strecken=lin + kl + [
        L(eR, eRmax, KRAFT, gestrichelt=True, dicke=3),
-       P(m, eH, TINTE, dicke=6),
+       P(m, eH, TINTE, gestrichelt=True, dicke=4),
        P(r0, eR, KRAFT, dicke=6)],
     punkte=[{"x": round(eRmax[0], 4), "y": round(eRmax[1], 4), "farbe": KRAFT}],
     texte=[T((-4.7, -0.7), "Hangabtrieb 40 N", TINTE, groesse=27),
+           T((-4.7, -1.2), "(Komponente von F_G)", TINTE, groesse=24),
            T((0.2, -2.4), "Haftreibung 40 N", KRAFT, groesse=27),
            T((eRmax[0] + 0.2, eRmax[1] + 0.5), "höchstens 70 N", KRAFT, groesse=25, anker="end"),
            T((-4.7, 3.0), "so viel wie nötig: 40 N", KRAFT, groesse=29)])))

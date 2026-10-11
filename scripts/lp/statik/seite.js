@@ -1061,7 +1061,7 @@
           if (nah(e.x, A.x)) return null;
           var FG = A.m * G, tausch = FG * (A.art === 'H' ? Math.cos(grad(A.a)) : Math.sin(grad(A.a)));
           if (nah(e.x, tausch)) return A.art === 'H' ? 'Die Hangabtriebskraft ist die Komponente längs der Ebene, gegenüber dem Winkel: \\(F_H = F_G \\cdot \\sin\\alpha\\).' : 'Die Normalkraft gleicht die Komponente senkrecht zur Ebene aus: \\(F_N = F_G \\cdot \\cos\\alpha\\).';
-          if (nah(e.x, FG)) return A.art === 'N' ? 'Nur auf der waagrechten Ebene ist \\(F_N = F_G\\). Auf der schiefen ist es die Komponente senkrecht zur Ebene.' : 'Das ist die ganze Gewichtskraft. Gesucht ist ihr Anteil längs der Ebene.';
+          if (nah(e.x, FG)) return A.art === 'N' ? 'Nur auf der waagrechten Ebene ist \\(F_N = F_G\\). Auf der schiefen ist sie so gross wie die Komponente von \\(F_G\\) senkrecht zur Ebene.' : 'Das ist die ganze Gewichtskraft. Gesucht ist ihr Anteil längs der Ebene.';
           if (nah(e.x, A.x / G)) return 'Kraft in Newton: \\(F_G = m \\cdot g\\).';
           return A.art === 'H' ? '\\(F_H = m \\cdot g \\cdot \\sin\\alpha\\).' : '\\(F_N = m \\cdot g \\cdot \\cos\\alpha\\).'; },
         fehler: function(A){ var FG = A.m * G, t = FG * (A.art === 'H' ? Math.cos(grad(A.a)) : Math.sin(grad(A.a))); return [[{ x: String(t) }, A.art === 'H' ? 'gegenüber' : 'senkrecht'], [{ x: String(FG) }, A.art === 'N' ? 'waagrechten' : 'ganze'], [{ x: String(A.x / G) }, 'Newton']]; },

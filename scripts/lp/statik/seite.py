@@ -815,8 +815,9 @@ fest3 = r'''      <div class="festhalten">
             <li><b>Normalkraft</b> (Auflagerkraft) \(\vec{F}_N\): senkrecht zur Auflagefläche, von ihr weg. Sie ist so gross, dass der Körper nicht in die Unterlage einsinkt.</li>
             <li><b>Haftreibung</b> \(\vec{F}_R\) (eine Reibungskraft): längs der Fläche, der drohenden Bewegung entgegen. Sie ist nur so gross wie nötig, höchstens \(F_R \le \mu_H \cdot F_N\) (\(\mu_H\): Haftreibungszahl, ohne Einheit).</li>
           </ul>
-          <p>Auf der <b>schiefen Ebene</b> zerlegt man die Gewichtskraft längs und senkrecht zur Ebene:</p>
-          <p>\[ F_H = F_G \cdot \sin\alpha \qquad F_N = F_G \cdot \cos\alpha \]</p>
+          <p>Auf der <b>schiefen Ebene</b> zerlegt man die Gewichtskraft in eine Komponente längs und eine senkrecht zur Ebene. Die Komponenten ersetzen \(F_G\) nur in der Rechnung, sie sind keine zusätzlichen Kräfte:</p>
+          <p>\[ F_H = F_G \cdot \sin\alpha \qquad F_{G\perp} = F_G \cdot \cos\alpha \]</p>
+          <p>Die Normalkraft ist so gross wie die senkrechte Komponente, zeigt aber aus der Ebene heraus: \(F_N = F_{G\perp} = F_G \cdot \cos\alpha\).</p>
           <p>Der Körper ruht, solange die Haftreibung die Hangabtriebskraft \(F_H\) ausgleichen kann. Daraus folgt die Haftbedingung \(\tan\alpha \le \mu_H\); die Masse kürzt sich.</p>
         </div>
         <div class="warn">
