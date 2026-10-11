@@ -498,7 +498,8 @@
      beiden Säulen sind in jedem Moment gleich hoch: der Energieerhaltungssatz mit Motor und
      Reibung. Startwerte 100 kg, 5 m hinunter, ohne Reibung und Motor: weder Clipbeispiel
      (80 kg, 10 m, 100 N) noch Leistenziel. Konvention wie im Clip: h ist der Höhenunterschied
-     hinunter, bergauf negativ (der Clip nennt den Höhengewinn Δh = −h). */
+     hinunter, bergauf negativ (der Clip nennt den Höhengewinn Δh = −h). Bergauf schreibt die
+     Formelzeile die Bilanz mit dem Höhengewinn Δh = −h, positiv eingesetzt (kein «(−5 m)»). */
   (function(){
     var fig = document.getElementById('sim4'); if (!fig) return;
     var svg = fig.querySelector('svg'), L = 40, S = 5.5;                 // Rampe 40 m, 5.5 px je m
@@ -547,9 +548,15 @@
         el(unten, 'line', { x1: sp[1] - 4, y1: 300, x2: sp[1] + 54, y2: 300, 'class': 'achse' });
         el(unten, 'text', { x: sp[1] + 25, y: 314, 'text-anchor': 'middle', 'class': 'bt-klein' }, sp[2]);
       });
-      var z = '<span>Bilanz (Lage hinunter positiv): ' + v_('m') + ' · ' + v_('g') + ' · ' + v_('h') + ' + ' + v_('F') + '<sub>M</sub> · ' + v_('s') + ' = ' + v_('E') + '<sub>kin</sub> + ' + v_('F') + '<sub>R</sub> · ' + v_('s') + '</span>';
+      var berg = w.h < 0, dh = -w.h;                                         // bergauf: Höhengewinn Δh = −h, positiv geschrieben
+      var z = berg
+        ? '<span>Bilanz bergauf, Höhengewinn Δ' + v_('h') + ' = ' + zahl(dh) + NB + 'm: ' + v_('F') + '<sub>M</sub> · ' + v_('s') + ' = ' + v_('E') + '<sub>kin</sub> + ' + v_('m') + ' · ' + v_('g') + ' · Δ' + v_('h') + ' + ' + v_('F') + '<sub>R</sub> · ' + v_('s') + '</span>'
+        : '<span>Bilanz (' + v_('h') + ': Höhenunterschied hinunter): ' + v_('m') + ' · ' + v_('g') + ' · ' + v_('h') + ' + ' + v_('F') + '<sub>M</sub> · ' + v_('s') + ' = ' + v_('E') + '<sub>kin</sub> + ' + v_('F') + '<sub>R</sub> · ' + v_('s') + '</span>';
       if (!w.faehrt) z += '<span>Der Wagen fährt nicht los: ' + (w.h < 0 ? (w.FM === 0 ? 'Ohne Motor rollt er nicht bergauf, der Hangabtrieb zieht ihn zurück.' : 'Der Motor überwindet ' + (w.FR > 0 ? 'Hangabtrieb und Reibung' : 'den Hangabtrieb') + ' nicht.') : w.h === 0 && w.FM === 0 ? 'Auf ebener Strecke ohne Motor wirkt keine antreibende Kraft.' : (w.FM > 0 ? 'Hangabtrieb und Motor' : 'Der Hangabtrieb') + ' ' + (w.FM > 0 ? 'überwinden' : 'überwindet') + ' die Reibung nicht.') + '</span>';
-      else z += '<span>' + v_('E') + '<sub>kin</sub> = ' + zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² · ' + ew(w.h, 'm') + ' + ' + zahl(w.FM) + NB + 'N · 40' + NB + 'm − ' + zahl(w.FR) + NB + 'N · 40' + NB + 'm ' + ist(w.Ek, sig(w.Ek, 4)) + sig(w.Ek, 4) + NB + 'J</span>' +
+      else z += '<span>' + v_('E') + '<sub>kin</sub> = ' + (berg
+                  ? zahl(w.FM) + NB + 'N · 40' + NB + 'm − ' + zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² · ' + zahl(dh) + NB + 'm'
+                  : zahl(w.m) + NB + 'kg · 9.81' + NB + 'm/s² · ' + zahl(w.h) + NB + 'm + ' + zahl(w.FM) + NB + 'N · 40' + NB + 'm')
+                + ' − ' + zahl(w.FR) + NB + 'N · 40' + NB + 'm ' + ist(w.Ek, sig(w.Ek, 4)) + sig(w.Ek, 4) + NB + 'J</span>' +
                 '<span>' + v_('v') + ' = √(2 · ' + v_('E') + '<sub>kin</sub> / ' + v_('m') + ') = √(2 · ' + sig(w.Ek, 4) + NB + 'J / ' + zahl(w.m) + NB + 'kg) ' + ist(wurzel(2 * w.Ek / w.m), sig(wurzel(2 * w.Ek / w.m))) + sig(wurzel(2 * w.Ek / w.m)) + NB + 'm/s</span>';
       rolle(fig, 'formel').innerHTML = z;
       pruefen();
@@ -644,8 +651,10 @@
 
   /* ---------- Kapitel 6: Energiebilanz der Erde ----------
      Nimmt den Abschnitt «Energiebilanz der Erde» der Themenseite als laufende Bilanz:
-     aufgenommen (1 − a) · S/4, abgestrahlt ins Weltall f · σ · T⁴, wobei f der Anteil der
-     Wärmestrahlung der Oberfläche ist, der ins All gelangt (mehr Treibhausgas, kleineres f).
+     aufgenommen (1 − a) · S/4, abgestrahlt ins Weltall f · σ · T⁴, wobei f der wirksame Anteil
+     ist: das Verhältnis der Abstrahlung ins All zur Abstrahlung der Oberfläche (heute 238/390 ≈ 0.61;
+     einen Teil davon strahlt die Atmosphäre selbst ab, vgl. Leitprogramm Wärme, Kapitel 7). Mehr
+     Treibhausgas, kleineres f.
      Ist die Bilanz nicht ausgeglichen, ändert sich die Temperatur: C · dT/dt = Ein − Aus mit
      C = 4.2 · 10⁸ J/(m²·K) (rund 100 m Ozean). 30 Jahre laufen in 6 s. «auf heute»
      setzt T = 288 K, das Gleichgewicht von a = 0.30, f = 0.61 (Themenseite: 238 W/m² hinein und
@@ -802,7 +811,7 @@
           var r = Math.random(), k, Q;
           if (r < 0.3){ k = zufall([0.5, 2, 3.5, 12, 40, 75]); return { art: 'MJ', x: k * 3.6, k: k, text: 'Ein Gerät setzt \\(' + ein(k, 'kWh') + '\\) Energie um. Wie viele Megajoule sind das?' }; }
           if (r < 0.55){ k = zufall([0.2, 1.5, 4, 25]); return { art: 'J', x: k * 3.6e6, k: k, text: 'Ein Akku speichert \\(' + ein(k, 'kWh') + '\\). Wie viele Joule sind das? (Zehnerpotenz eingeben, etwa <code>7.2e6</code>)' }; }
-          if (r < 0.8){ Q = zufall([900, 5400, 18000, 270]); return { art: 'kJ', x: Q / 3600, Q: Q, text: 'Ein Wasserkocher setzt beim Aufheizen \\(' + ein(Q, 'kJ') + '\\) um. Wie viele Kilowattstunden sind das?' }; }
+          if (r < 0.8){ Q = zufall([180, 270, 360, 540, 720]); return { art: 'kJ', x: Q / 3600, Q: Q, text: 'Ein Wasserkocher setzt beim Aufheizen \\(' + ein(Q, 'kJ') + '\\) um. Wie viele Kilowattstunden sind das?' }; }
           Q = zufall([9, 54, 180, 1.8]); return { art: 'MJ2', x: Q / 3.6, Q: Q, text: 'Eine Heizung gibt an einem Tag \\(' + ein(Q, 'MJ') + '\\) Wärme ab. Wie viele Kilowattstunden sind das?' }; },
         pruefen: function(A, e){
           if (nah(e.x, A.x)) return null;

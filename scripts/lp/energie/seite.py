@@ -731,7 +731,7 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 11, [
     ('1d', 2, r'Ein Satellit kreist mit konstantem Tempo um die Erde. Verrichtet die Gravitation an ihm Arbeit? Begründe.',
      r'<p>Nein. Die Gravitation zeigt zur Erdmitte, also senkrecht zur Bewegung auf der Kreisbahn: \(\cos 90^\circ = 0\). Darum ändert sich seine Bewegungsenergie nicht — er bleibt gleich schnell.</p>', ''),
 ])
-k1 = kapitel(1, 'energie-arbeit', 'Energie und Arbeit', 'K1 · K2', 40,
+k1 = kapitel(1, 'energie-arbeit', 'Energie und Arbeit', 'K1 · K2', 55,
     r'Du definierst Energie, zählst die wichtigsten Energieformen auf und berechnest die Arbeit \(W = F \cdot s \cdot \cos\alpha\), auch als Fläche im Kraft-Weg-Diagramm.',
     ('p4-3-lp-arbeit', 'Energie sehen: Arbeit ist Kraft mal Weg'),
     sim1, ('p4-3-lp-kontrolle-arbeit', 'Kontrollfragen zu Energie und Arbeit'),
@@ -770,7 +770,7 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2d', 3, r'Ein Auto hat bei \(30\;\text{km/h}\) einen Bremsweg von \(6\;\text{m}\). Wie lang ist er bei \(50\;\text{km/h}\), gleich stark gebremst? Begründe mit der Energie.',
      r'<p>Die Bremse muss die Bewegungsenergie abbauen: \(F_B \cdot s = \tfrac12 \cdot m \cdot v^2\). Bei gleicher Bremskraft wächst der Bremsweg wie \(v^2\).</p><p>\(s = 6\;\text{m} \cdot \left(\dfrac{50}{30}\right)^2\) \(\approx 16.7\;\text{m}\) — knapp dreimal so lang.</p>', ''),
 ])
-k2 = kapitel(2, 'mechanische-energie', 'Lage- und Bewegungsenergie', 'K3', 40,
+k2 = kapitel(2, 'mechanische-energie', 'Lage- und Bewegungsenergie', 'K3', 55,
     r'Du berechnest Lageenergie \(E_\text{pot} = m \cdot g \cdot h\) und Bewegungsenergie \(E_\text{kin} = \tfrac12 \cdot m \cdot v^2\) und erklärst damit, warum doppeltes Tempo den vierfachen Bremsweg braucht.',
     ('p4-3-lp-bremsen', 'Energie sehen: Lage- und Bewegungsenergie'),
     sim2, ('p4-3-lp-kontrolle-bremsen', 'Kontrollfragen zu Lage- und Bewegungsenergie'),
@@ -803,13 +803,13 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
      r'<p>\(m \cdot g \cdot h = \tfrac12 \cdot m \cdot v^2\), \(v = \sqrt{2 \cdot g \cdot h}\) \(= \sqrt{2 \cdot 9.81\;\text{m/s}^2 \cdot 3.2\;\text{m}}\) \(\approx 7.92\;\text{m/s}\).</p><p>Wieder \(3.2\;\text{m}\): Dort ist die ganze Bewegungsenergie wieder Lageenergie.</p>', ''),
     ('3b', 3, r'Ein Ball wird mit \(12\;\text{m/s}\) senkrecht hochgeworfen. Wie hoch steigt er? Wie schnell ist er in \(4\;\text{m}\) Höhe?',
      r'<p>\(\tfrac12 \cdot m \cdot v_0^2 = m \cdot g \cdot h\), \(h = \dfrac{v_0^2}{2 \cdot g}\) \(= \dfrac{(12\;\text{m/s})^2}{2 \cdot 9.81\;\text{m/s}^2}\) \(\approx 7.34\;\text{m}\).</p><p>\(v = \sqrt{v_0^2 - 2 \cdot g \cdot h}\) \(= \sqrt{(12\;\text{m/s})^2 - 2 \cdot 9.81\;\text{m/s}^2 \cdot 4\;\text{m}}\) \(\approx 8.09\;\text{m/s}\).</p>', ''),
-    ('3c', 3, r'Das Diagramm zeigt die Lageenergie eines Wagens (\(100\;\text{kg}\)) längs einer reibungsfreien Bahn; er startet ganz links aus der Ruhe. Gestrichelt: seine Gesamtenergie. Wie gross ist seine Bewegungsenergie bei \(x = 2\;\text{m}\), und wie schnell ist er dort? Wo ist er am schnellsten?',
-     r'<p>Die Summe bleibt \(20\;\text{kJ}\). Bei \(x = 2\;\text{m}\) ist \(E_\text{pot} = 5\;\text{kJ}\), also \(E_\text{kin} = 20\;\text{kJ} - 5\;\text{kJ}\) \(= 15\;\text{kJ}\).</p><p>\(v = \sqrt{\dfrac{2 \cdot E_\text{kin}}{m}}\) \(= \sqrt{\dfrac{2 \cdot 15\,000\;\text{J}}{100\;\text{kg}}}\) \(\approx 17.3\;\text{m/s}\). Am schnellsten ab \(x = 6\;\text{m}\) (von \(6\) bis \(7\;\text{m}\)), wo die Lageenergie null ist.</p>',
-     '\n            <div class="mini-reihe">' + linien_bild([(0, 20), (2, 5), (4, 12), (6, 0), (7, 0)], 0, 7, 0, 25, 1, 5, 'Lageenergie über dem Ort: 20 kJ am Start, 5 kJ bei 2 m, 12 kJ bei 4 m, 0 ab 6 m; gestrichelt die Gesamtenergie 20 kJ', 'x [m]', 'E [kJ]', 'kurve-epot', 20) + '</div>'),
+    ('3c', 3, r'Das Diagramm zeigt die Lageenergie eines Wagens (\(100\;\text{kg}\)) längs einer reibungsfreien Bahn; er startet ganz links aus der Ruhe. Gestrichelt: seine Gesamtenergie. Wie gross ist seine Bewegungsenergie bei \(x = 20\;\text{m}\), und wie schnell ist er dort? Wo ist er am schnellsten?',
+     r'<p>Die Summe bleibt \(20\;\text{kJ}\). Bei \(x = 20\;\text{m}\) ist \(E_\text{pot} = 5\;\text{kJ}\), also \(E_\text{kin} = 20\;\text{kJ} - 5\;\text{kJ}\) \(= 15\;\text{kJ}\).</p><p>\(v = \sqrt{\dfrac{2 \cdot E_\text{kin}}{m}}\) \(= \sqrt{\dfrac{2 \cdot 15\,000\;\text{J}}{100\;\text{kg}}}\) \(\approx 17.3\;\text{m/s}\). Am schnellsten ab \(x = 60\;\text{m}\) (von \(60\) bis \(70\;\text{m}\)), wo die Lageenergie null ist.</p>',
+     '\n            <div class="mini-reihe">' + linien_bild([(0, 20), (20, 5), (40, 12), (60, 0), (70, 0)], 0, 70, 0, 25, 10, 5, 'Lageenergie über dem Ort: 20 kJ am Start, 5 kJ bei 20 m, 12 kJ bei 40 m, 0 ab 60 m; gestrichelt die Gesamtenergie 20 kJ', 'x [m]', 'E [kJ]', 'kurve-epot', 20) + '</div>'),
     ('3d', 3, r'Zwei Kinder (\(25\;\text{kg}\) und \(50\;\text{kg}\)) rutschen reibungsfrei zwei Rutschen mit demselben Höhenunterschied hinunter: das leichtere eine gerade, das schwerere eine gewellte. Wer ist unten schneller? Begründe.',
      r'<p>Beide gleich schnell. In \(m \cdot g \cdot h = \tfrac12 \cdot m \cdot v^2\) kürzt sich die Masse, und es zählt nur der Höhenunterschied, nicht die Form der Bahn — ohne Reibung geht unterwegs keine Energie verloren.</p>', ''),
 ])
-k3 = kapitel(3, 'energieerhaltung', 'Energieerhaltung', 'K3', 40,
+k3 = kapitel(3, 'energieerhaltung', 'Energieerhaltung', 'K3', 55,
     r'Du nutzt die Erhaltung der mechanischen Energie, um Geschwindigkeiten und Höhen zu berechnen, ohne die Kräfte unterwegs zu kennen.',
     ('p4-3-lp-erhaltung', 'Energie sehen: die Summe bleibt'),
     sim3, ('p4-3-lp-kontrolle-erhaltung', 'Kontrollfragen zur Energieerhaltung'),
@@ -848,7 +848,7 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 11, [
     ('4d', 2, r'Ein Pendel schwingt in der Luft immer weniger weit und bleibt schliesslich hängen. Ist seine Energie verschwunden? Begründe mit dem Energieerhaltungssatz.',
      r'<p>Nein. Luftwiderstand und Reibung an der Aufhängung haben sie bei jeder Schwingung zum Teil in Wärme verwandelt. Luft und Aufhängung sind ein wenig wärmer geworden; die Summe aller Energien ist gleich geblieben.</p>', ''),
 ])
-k4 = kapitel(4, 'reibung-motor', 'Reibung und Motor', 'K4', 40,
+k4 = kapitel(4, 'reibung-motor', 'Reibung und Motor', 'K4', 55,
     r'Du formulierst den Energieerhaltungssatz mit Reibung und Motor und rechnest mit der Bilanz \(E_\text{vorher} + W_M = E_\text{nachher} + F_R \cdot s\).',
     ('p4-3-lp-reibung', 'Energie sehen: wohin die Energie geht'),
     sim4, ('p4-3-lp-kontrolle-reibung', 'Kontrollfragen zu Reibung und Motor'),
@@ -867,7 +867,7 @@ fest5 = r'''      <div class="festhalten">
           <div class="titel">Leistung und Wirkungsgrad</div>
           <p><b>Leistung</b> ist Arbeit pro Zeit, also wie schnell Energie umgesetzt wird. Einheit: das Watt, \(1\;\text{W} = 1\;\text{J/s}\). Bei konstantem Tempo gilt auch \(P = F \cdot v\).</p>
           <p>\[ P = \frac{W}{t} \qquad \eta = \frac{E_\text{nutz}}{E_\text{zu}} = \frac{P_\text{nutz}}{P_\text{zu}} \]</p>
-          <p>Der <b>Wirkungsgrad</b> \(\eta\) (sprich «eta») sagt, welcher Anteil der zugeführten Energie nutzbar herauskommt; der Rest wird meist Wärme. Er ist immer kleiner als 1. <b>Energieeffizienz</b> heisst: dieselbe Nutzung mit möglichst wenig zugeführter Energie.</p>
+          <p>Der <b>Wirkungsgrad</b> \(\eta\) (sprich «eta») sagt, welcher Anteil der zugeführten Energie nutzbar herauskommt; der Rest wird meist Wärme. Er ist immer kleiner als 1. <b>Energieeffizienz</b> heisst: dieselbe Nutzung mit möglichst wenig zugeführter Energie. Bei einem Gerät misst sie der Wirkungsgrad — je grösser \(\eta\), desto effizienter.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -886,7 +886,7 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5d', 3, r'Eine LED-Lampe (\(8\;\text{W}\), \(\eta = 0.35\)) ersetzt eine Glühlampe (\(60\;\text{W}\), \(\eta = 0.05\)). Geben beide etwa gleich viel Licht? Wie viel Energie spart man in \(1000\) Betriebsstunden?',
      r'<p>Licht: LED \(0.35 \cdot 8\;\text{W} = 2.8\;\text{W}\), Glühlampe \(0.05 \cdot 60\;\text{W} = 3\;\text{W}\) — etwa gleich viel.</p><p>Ersparnis: \((60\;\text{W} - 8\;\text{W}) \cdot 1000\;\text{h} = 52\;\text{kWh}\). Die LED ist energieeffizienter: dieselbe Nutzung mit rund 13 % der Energie.</p>', ''),
 ])
-k5 = kapitel(5, 'leistung-wirkungsgrad', 'Leistung und Wirkungsgrad', 'K6', 40,
+k5 = kapitel(5, 'leistung-wirkungsgrad', 'Leistung und Wirkungsgrad', 'K6', 55,
     r'Du definierst Leistung und Wirkungsgrad, rechnest mit \(P = \dfrac{W}{t}\), \(P = F \cdot v\) und \(\eta = \dfrac{E_\text{nutz}}{E_\text{zu}}\) und beurteilst die Energieeffizienz technischer Geräte.',
     ('p4-3-lp-leistung', 'Energie sehen: wie schnell und wie gut'),
     sim5, ('p4-3-lp-kontrolle-leistung', 'Kontrollfragen zu Leistung und Wirkungsgrad'),
@@ -898,13 +898,13 @@ sim6 = figur_anim('sim6', 'Die Erde zwischen Sonnenstrahlung und Abstrahlung ins
     '        <div class="reglerfeld">\n          '
     + regler('s6', 'al', '<i>a</i> Albedo', 0.2, 0.4, 0.01, 0.32, '', 2) + '\n          '
     + regler('s6', 'f', '<i>f</i> Anteil ins All', 0.55, 1, 0.01, 0.63, '', 2) + '\n        </div>\n'
-    + '        <p class="sim-notiz">\\(f\\): Anteil der Wärmestrahlung der Oberfläche, der durch die Atmosphäre ins Weltall gelangt. Mehr Treibhausgas heisst kleineres \\(f\\). Vereinfachtes Modell mit einem Mittelwert für die ganze Erde.</p>')
+    + '        <p class="sim-notiz">\\(f\\): wirksamer Anteil — das Verhältnis der Abstrahlung ins All zur Abstrahlung der Oberfläche, heute \\(\\tfrac{238\\;\\text{W/m}^2}{390\\;\\text{W/m}^2} \\approx 0.61\\). Einen Teil davon strahlt die Atmosphäre selbst ab; direkt von der Oberfläche gelangt nur knapp ein Viertel ins All (<a href="leitprogramm-waerme.html#treibhauseffekt">Leitprogramm Wärme, Kapitel 7</a>). Mehr Treibhausgas heisst kleineres \\(f\\). Vereinfachtes Modell mit einem Mittelwert für die ganze Erde. Die Simulation startet nicht im heutigen Zustand (\\(a = 0.30\\), \\(f = 0.61\\), \\(288\\;\\text{K}\\)); «↺ auf heute» setzt nur die Temperatur zurück.</p>')
 fest6 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Die Energiebilanz der Erde</div>
           <p>Die Erde nimmt Energie fast nur als Sonnenstrahlung auf und gibt sie nur als Wärmestrahlung ins Weltall ab. Ausserhalb der Atmosphäre trifft auf jeden Quadratmeter senkrecht zu den Strahlen \(S \approx 1361\;\text{W/m}^2\) (<b>Solarkonstante</b>). Die Erde fängt diese Strahlung mit ihrer Querschnittsfläche \(\pi \cdot R^2\) auf, verteilt sie aber über die ganze Kugeloberfläche \(4 \cdot \pi \cdot R^2\): Im Mittel treffen darum \(\dfrac{S}{4} \approx 340\;\text{W/m}^2\) ein. Den Anteil \(a \approx 0.30\) (<b>Albedo</b>) werfen Wolken, Eis und Luft zurück. Aufgenommen wird</p>
           <p>\[ (1 - a) \cdot \frac{S}{4} \approx 238\;\text{W/m}^2 \]</p>
-          <p>Jeder Körper strahlt, und zwar mit der vierten Potenz seiner absoluten Temperatur. Ein idealer Strahler gibt je Quadratmeter ab (Gesetz von Stefan und Boltzmann): \(\dfrac{P}{A} = \sigma \cdot T^4\) mit \(\sigma = 5.67 \cdot 10^{-8}\;\text{W/(m}^2\text{K}^4)\) und \(T\) in Kelvin; reale Oberflächen strahlen etwas weniger. Doppelte Temperatur heisst sechzehnfache Abstrahlung. Darum stellt sich ein <b>Gleichgewicht</b> ein: Die Temperatur bleibt, wenn gleich viel hinaus- wie hereinkommt. Strahlt ein Körper so viel ab, wie er aufnimmt, folgt seine <b>Gleichgewichtstemperatur</b> aus \(\sigma \cdot T^4 = \dfrac{P}{A}\):</p>
+          <p>Jeder Körper strahlt, und zwar mit der vierten Potenz seiner absoluten Temperatur. Ein idealer Strahler gibt je Quadratmeter ab (Gesetz von Stefan und Boltzmann): \(\dfrac{P}{A} = \sigma \cdot T^4\) mit \(\sigma = 5.67 \cdot 10^{-8}\;\text{W/(m}^2\text{K}^4)\) und \(T\) in Kelvin; reale Oberflächen strahlen etwas weniger. Doppelte Temperatur heisst sechzehnfache Abstrahlung. Weil die Abstrahlung mit der Temperatur steigt, stellt sich ein <b>Gleichgewicht</b> ein: Die Temperatur bleibt, wenn gleich viel hinaus- wie hereinkommt. Strahlt ein Körper so viel ab, wie er aufnimmt, folgt seine <b>Gleichgewichtstemperatur</b> aus \(\sigma \cdot T^4 = \dfrac{P}{A}\):</p>
           <p>\[ T = \sqrt[4]{\frac{P/A}{\sigma}} \]</p>
           <p class="komm">Taschenrechner: hoch \(0.25\) (Taste \(x^y\) oder \(\wedge\)) oder zweimal die Quadratwurzel.</p>
           <p>Treibhausgase (Wasserdampf, \(\text{CO}_2\), Methan) halten einen Teil der Wärmestrahlung zurück — ohne sie wäre die Erde rund \(-18\;^\circ\text{C}\) kalt statt \(+15\;^\circ\text{C}\).</p>
@@ -927,11 +927,11 @@ auf6 = test('t6', 'Aufgaben · Kapitel 6', 12, [
     ('6d', 3, r'Nenne zwei Gründe der heutigen Erderwärmung. Ordne jeden einem Teil der Bilanz zu — der Aufnahme \((1 - a) \cdot \tfrac{S}{4}\) oder der Abstrahlung ins All — und begründe, warum er die Erde wärmer macht.',
      r'<p>Mehr Treibhausgase (vor allem \(\text{CO}_2\) aus Kohle, Öl und Gas): Weniger Wärmestrahlung gelangt ins All, die Bilanz wird positiv. Kleinere Albedo, wenn Eis und Schnee schmelzen: Die Erde nimmt mehr Sonnenstrahlung auf.</p><p>In beiden Fällen kommt zuerst mehr herein als hinaus, und die Temperatur steigt, bis die Bilanz wieder ausgeglichen ist.</p>', ''),
 ])
-k6 = kapitel(6, 'energiebilanz-erde', 'Die Energiebilanz der Erde', 'K5', 40,
+k6 = kapitel(6, 'energiebilanz-erde', 'Die Energiebilanz der Erde', 'K5', 55,
     r'Du beschreibst die Energiebilanz der Erde mit Sonneneinstrahlung, Albedo und Abstrahlung ins Weltall und erklärst damit die Gründe der Erderwärmung.',
     ('p4-3-lp-erde', 'Energie sehen: die Bilanz der Erde'),
     sim6, ('p4-3-lp-kontrolle-erde', 'Kontrollfragen zur Energiebilanz der Erde'),
-    fest6, [uebung('albedo', 'Was der Planet aufnimmt'), uebung('strahlung', 'Was eine Fläche abstrahlt'), uebung('gleichgewicht', 'Temperatur im Gleichgewicht')],
+    fest6, [uebung('albedo', 'Was der Planet aufnimmt'), uebung('strahlung', 'Weiterführend: Was eine Fläche abstrahlt'), uebung('gleichgewicht', 'Weiterführend: Temperatur im Gleichgewicht')],
     auf6, f'<a href="{TS}#strahlungsbilanz">Themenseite 4.3, Energiebilanz der Erde</a> · <a href="leitprogramm-waerme.html#treibhauseffekt">Leitprogramm Wärme, Kapitel 7: Treibhauseffekt</a>')
 
 # ------------------------------------------------------------------ Gesamttest
@@ -1000,13 +1000,14 @@ oben = '''<div id="nav-root"></div>
      Jedes Kapitel im Gesamttest: G1 (1, 5) · G2 (1) · G3 (2, 3) · G4 (1, 4) · G5 (5) · G6 (6).
      Bewusst weggelassen: Spannenergie (in keiner Kompetenz genannt), Wirkungsgrade in Serie
      (auf der Themenseite). Albedo heisst wie auf der Themenseite a.
-     Zeiten: K0 10 · K1–K6 je 40 · Gesamttest 30 = 280 min ≈ 6.2 Lektionen. -->
+     Zeiten: K0 10 · K1–K6 je 55 · Gesamttest 30 = 370 min ≈ 8.2 Lektionen (Zeitschätzung der Prüfung
+     vom 11.10.2026; in Kapitel 6 sind die Übungen «strahlung» und «gleichgewicht» weiterführend). -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
       <p class="marke">Physik begreifbar · Leitprogramm</p>
       <h1>Energie</h1>
-      <p class="unter">Arbeit, Lage- und Bewegungsenergie, Energieerhaltung mit Reibung und Motor, Leistung und Wirkungsgrad, die Energiebilanz der Erde — mit laufenden Simulationen. Sechs Kapitel zu je rund einer Lektion, dazu Vorwissen und Gesamttest.</p>
+      <p class="unter">Arbeit, Lage- und Bewegungsenergie, Energieerhaltung mit Reibung und Motor, Leistung und Wirkungsgrad, die Energiebilanz der Erde — mit laufenden Simulationen. Sechs Kapitel zu je rund 55 Minuten, dazu Vorwissen und Gesamttest — zusammen rund acht Lektionen.</p>
     </div>
     <div class="kopf-rechts">
       <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>

@@ -50,7 +50,7 @@ prüfen (Umkehr bei 7.6 m/s ohne ✓, Kuppe bei 7.7 m/s mit ✓, Halt nach dem Z
 
 ## Entscheide
 
-- **Umfang nach RLP:** sechs Kompetenzen, sechs Kapitel (275 min). Spannenergie steht in keiner
+- **Umfang nach RLP:** sechs Kompetenzen, sechs Kapitel (seit 11.10.2026: K0 10 · K1–K6 je 55 · Gesamttest 30 = 370 min ≈ 8.2 Lektionen). Spannenergie steht in keiner
   Kompetenz und bleibt auf der Themenseite, ebenso Wirkungsgrade in Serie.
 - **Farben** wie Themenseite 4.3: Lageenergie Bernstein, Bewegungsenergie und v Grün, Wärme Rot,
   Kräfte und zugeführte Energie Blau, Kraftanteil in Wegrichtung und Arbeit-Fläche Violett.
@@ -58,9 +58,11 @@ prüfen (Umkehr bei 7.6 m/s ohne ✓, Kuppe bei 7.7 m/s mit ✓, Halt nach dem Z
   Arbeit und zugeführte Energie Orange (2), Bewegungsenergie, v und Nutzen eines Motors Grün (3),
   Wärme und Wärmestrahlung Rot (4), Kräfte und alles andere ungefärbt (5). Rot nur für Wärme.
 - **Erde-Modell:** null-dimensional, \(C \cdot \tfrac{dT}{dt} = (1 - a) \cdot \tfrac{S}{4} - f \cdot \sigma \cdot T^4\)
-  mit \(C = 4.2 \cdot 10^8\;\text{J/(m}^2\text{K)}\) (rund 100 m Ozean). \(f\) ist der Anteil der
-  Wärmestrahlung der Oberfläche, der ins All gelangt — so beschreibt es die Themenseite
-  (390 W/m² abgestrahlt, 238 W/m² gelangen hinaus, \(f \approx 0.61\)). Albedo heisst wie dort \(a\).
+  mit \(C = 4.2 \cdot 10^8\;\text{J/(m}^2\text{K)}\) (rund 100 m Ozean). \(f\) ist der **wirksame Anteil**: das
+  Verhältnis der Abstrahlung ins All zur Abstrahlung der Oberfläche (390 W/m² abgestrahlt, 238 W/m² gehen
+  hinaus, \(f \approx 0.61\)). Einen Teil der 238 W/m² strahlt die Atmosphäre selbst ab; direkt von der
+  Oberfläche gelangen nur rund 23 % ins All (Einschichtmodell im Leitprogramm Wärme, Kapitel 7). So steht
+  es seit 11.10.2026 gleich in Sim-Notiz, Gesamttest G6d und Themenseite. Albedo heisst wie dort \(a\).
 - **Achterbahn:** Bahn ohne flache Startplattform (Viertel-Sinus), sonst schleicht der Wagen oben;
   Massstab in beiden Richtungen 4.6 px je m.
 - **Rampe:** Steht der Wagen und reicht der Antrieb nicht, fährt er nicht los; die Meldung nennt je
@@ -108,3 +110,19 @@ Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entsc
   T = 0 K ausserhalb des Bildes — die Zeitachse samt «t [Jahre]» fehlte seit der Freischaltung. Clipbilder
   `p4-3-lp-erde-*` neu aufgenommen.
 - reibung: erstes Bild der Folge bei 4 m statt 0 m (bei 0 m ist das Etikett \(F_R\) am Rand abgeschnitten).
+
+## Nach der Zweitprüfung (11.10.2026)
+
+- \(f\) als wirksamer Anteil erklärt (Sim-Notiz mit Link auf `leitprogramm-waerme.html#treibhauseffekt`,
+  G6d, Themenseite 4.3 im Absatz zum natürlichen Treibhauseffekt); im Kontrollclip erde, Frage 3, heisst
+  das Band «Atmosphäre: hält zurück, strahlt selbst ab».
+- Zeiten nach der Zeitschätzung der Prüfung: Kapitel je 55 min statt 40, Kopf «rund acht Lektionen».
+- Kapitel 6: Übungen «strahlung» und «gleichgewicht» als «Weiterführend» markiert (K5 verlangt
+  «beschreiben»); G6b (1 P Gleichgewichtstemperatur) bleibt, weil Clip, Festhalten und Aufgabe 6c sie
+  vorführen.
+- sim6-Notiz: Startzustand ist nicht heute (a = 0.32, f = 0.63, rund 284 K); «↺ auf heute» setzt nur T.
+- sim4 bergauf: Formelzeile mit Höhengewinn Δh positiv statt «(−5 m)».
+- Übung `kwh` (Wasserkocher): 180 bis 720 kJ (0.05 bis 0.2 kWh) statt bis 18 000 kJ.
+- Aufgabe 3c: x-Achse in 10-m-Schritten (Bahn nicht mehr fast senkrecht), Lösung nachgezogen.
+- Festhalten 5: Satz zum Zusammenhang Energieeffizienz und Wirkungsgrad.
+- Clip erhaltung, «Lösung Bob»: «+ 12.5 J/kg aus v₀», Satz zu E/m im Sprechertext (Szene 7 neu vertont).
