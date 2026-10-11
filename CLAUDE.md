@@ -553,7 +553,7 @@ LaTeX-Ausdrucks**, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Ma
 Slot-Limits und **keine Fremdhosts** (`fonts.googleapis.com`, `fonts.gstatic.com`,
 `cdn.jsdelivr.net`); (2) Aufruf der vorhandenen Repo-Skripte `verify_mathjax.js` (echte
 Render-Prüfung), `verify_js_runtime.js` (JS-Laufzeit) und `verify_einheitentrainer.js`
-(Selbsttest des Einheitentrainers), dazu `check_clips` — die Clip-Ablage gegen `clips/clips.json`:
+(Selbsttest des Einheitentrainers; ebenso die Selbsttests der übrigen Trainer und `verify_bungee.js`), dazu `check_clips` — die Clip-Ablage gegen `clips/clips.json`:
 Clip ohne Eintrag, Eintrag ohne Datei, `lektion`-Code, den `nav.js` nicht kennt
 (alle `[FEHLER]`), fehlender Sprechertext (`[WARN]`); Drehbücher mit `probe: true`
 sind ausgenommen. Aus tals-mathe übernommen (26.09.2026). Dazu `check_sim_wz` — Seiten in `simulationen/` und `werkzeuge/` gegen ihre Übersicht, die Verweise aus den Themenseiten und die Rücklink-Anker (seit 10.10.2026). Dazu `check_todo_schwester` — offene Einträge in `../tals-mathe/TODO-schwesterprojekt.md` als `[WARN]`. `verify_js_runtime.js` bekommt nur `themen/`-Seiten zu sehen —

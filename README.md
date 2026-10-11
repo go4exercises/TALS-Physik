@@ -218,7 +218,7 @@ Formelsammlung, Volltextsuche, Rechtliches & Datenschutz) dazubringt:
   mit ihrem Clip), dazu 129 Clips der Leitprogramme und des Übungstests — alle mit Tonspur, die
   Aussprache nach Hörproben abgestimmt.
 - **Simulationen und Werkzeuge** als eigene Rubriken mit Übersicht: die Sonnenfinsternis vom
-  12. August 2026, der Einheitentrainer (bis 10. Oktober 2026 Vorwissenseite 0.4; die alten
+  12. August 2026, der Bungee-Sprung (4.2, 4.3), der Einheitentrainer (bis 10. Oktober 2026 Vorwissenseite 0.4; die alten
   Adressen leiten weiter) und die Trainer Formeln umstellen, Bewegungsdiagramme, Fall und Wurf, Freischneiden und Schaltungen zusammenfassen, alle mit
   eingebautem Selbsttest. Verlinkt aus Themenseite und Leitprogramm, je Aufgabenart einmal pro Seite.
   Dazu die Vorwissenseiten 0.3 und 0.5.

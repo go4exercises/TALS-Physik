@@ -37,7 +37,7 @@ und Slot-Limit (≤4 Links je Sektion).
   Braucht `node_modules/jsdom`. Bekommt nur Seiten eine Ebene tief zu sehen
   (`themen/`, `simulationen/`, `werkzeuge/`).
 - **verify_einheitentrainer.js**, **verify_freischneiden.js**, **verify_schaltungen.js** u. a. — Selbsttests
-  der Werkzeuge in `werkzeuge/`. Braucht `node_modules/jsdom`.
+  der Werkzeuge in `werkzeuge/` und der Simulation Bungee-Sprung (`verify_bungee.js`). Braucht `node_modules/jsdom`.
 - **build-animationen.py --check** — Animationsnummern und Textverweise; Abweichung
   ist ein **[FEHLER]**.
 - **build-suchindex.py --check** und **build-seo.py --check** — veralteter Index
