@@ -68,16 +68,16 @@ Bildfolge (jedes neue Bild deckt das vorige), wie in Hydrostatik; Text überlapp
 | Kap. | Idee | Kompetenz | Simulation | min |
 |---|---|---|---|---|
 | 0 | Vorwissen: Celsius und Kelvin, Energie und Leistung, Wirkungsgrad, Gleichungen umstellen (Vortest 11 P) | — | — | 15 |
-| 1 | Wärme ist übertragene Energie; \(Q = m \cdot c \cdot \Delta T\) | K1, K2 | sim1 Wärme zuführen (Teilchenpfeile, Thermometer) | 55 |
-| 2 | Wärmebilanz, thermisches Gleichgewicht | K2 | sim2 Kalorimeter (Körper in Wasser, beide Kurven, \(Q_\text{ab}\)/\(Q_\text{auf}\)); Wasser nie über 100 °C | 55 |
-| 3 | Latente Wärme, Heizkurve, Bilanz mit Zustandsänderung (Übung «eiswuerfel») | K2, K3 | sim3 Eis auf der Platte bis zum Verdampfen | 60 |
-| 4 | Heizwert und Wirkungsgrad | K2, K4 | sim4 Kessel und Boiler (Heizöl, Erdgas, Pellets) | 55 |
-| 5 | Energiesysteme vergleichen, Solarwärme | K5 | sim5 sechs Knöpfe (Biogas und WKK zusammen): Energiefluss, Halbjahre, Notiz | 55 |
-| 6 | Wärmetransport | K6 | sim6 Schicht zwischen zwei Platten (Füllung, Lage, Oberfläche) | 50 |
-| 7 | Durchlässigkeit, Treibhauseffekt | K7 | sim7 Einschichtmodell (Durchlässigkeit für Licht und Wärmestrahlung) | 55 |
+| 1 | Wärme ist übertragene Energie; \(Q = m \cdot c \cdot \Delta T\) | K1, K2 | sim1 Wärme zuführen (Teilchenpfeile, Thermometer) | 65 |
+| 2 | Wärmebilanz, thermisches Gleichgewicht | K2 | sim2 Kalorimeter (Körper in Wasser, beide Kurven, \(Q_\text{ab}\)/\(Q_\text{auf}\)); Wasser nie über 100 °C | 65 |
+| 3 | Latente Wärme, Heizkurve, Bilanz mit Zustandsänderung (Übung «eiswuerfel») | K2, K3 | sim3 Eis auf der Platte bis zum Verdampfen | 75 |
+| 4 | Heizwert und Wirkungsgrad | K2, K4 | sim4 Kessel und Boiler (Heizöl, Erdgas, Pellets) | 65 |
+| 5 | Energiesysteme vergleichen, Solarwärme | K5 | sim5 sechs Knöpfe (Biogas und WKK zusammen): Energiefluss, Halbjahre, Notiz | 65 |
+| 6 | Wärmetransport | K6 | sim6 Schicht zwischen zwei Platten (Füllung, Lage, Oberfläche) | 60 |
+| 7 | Durchlässigkeit, Treibhauseffekt | K7 | sim7 Einschichtmodell (Durchlässigkeit für Licht und Wärmestrahlung) | 65 |
 | — | Gesamttest (25 P, PDF) | K1–K7 | — | 40 |
 
-Summe 440 min ≈ 9.8 Lektionen, ohne die freiwilligen Vertiefungsaufgaben d). Geschätzt je Kapitel: Clips mit Fragen 7, Leiste 13, Festhalten 5, Übungen 17 (Kapitel 3 mit vier Übungen 23), drei Aufgaben 13 min. Der Gesamttest braucht bei sieben Kompetenzen rund 40 min (HOWTO \9 nennt rund 20 min für ein Leitprogramm mit drei bis fünf Kompetenzen); geschätzt nach Teilen 12 + 13 + 15 min. Kompetenzmatrix im Kommentar am Anfang der Seite (`seite.py`, `oben`).
+Summe 515 min ≈ 11.4 Lektionen (Kopf: «rund elf bis zwölf Lektionen»), ohne die freiwilligen Vertiefungsaufgaben d). Ursprünglich geschätzt je Kapitel: Clips mit Fragen 7, Leiste 13, Festhalten 5, Übungen 17 (Kapitel 3 mit vier Übungen 23), drei Aufgaben 13 min (440 min); nach der Prüfung vom 11.10.2026 je Kapitel +10 min, Kapitel 3 (am dichtesten) +15 min. Der Gesamttest braucht bei sieben Kompetenzen rund 40 min (HOWTO \9 nennt rund 20 min für ein Leitprogramm mit drei bis fünf Kompetenzen); geschätzt nach Teilen 12 + 13 + 15 min. Kompetenzmatrix im Kommentar am Anfang der Seite (`seite.py`, `oben`).
 
 ## Entscheide
 
@@ -95,8 +95,10 @@ Summe 440 min ≈ 9.8 Lektionen, ohne die freiwilligen Vertiefungsaufgaben d). G
   Sonnenlicht \(S = 240\) W/m² ganz zum Boden (\(D_L = 100\) %), \(23\) % der Wärmestrahlung direkt ins All: Boden
   14.9 °C (gemessen rund 15 °C), Abstrahlung 390 W/m², Gegenstrahlung 150 W/m². Überall steht «im Einschichtmodell»
   und dazu, dass die gemessene Gegenstrahlung rund 340 W/m² beträgt (die Atmosphäre nimmt auch Licht auf; der Boden
-  gibt Wärme durch Verdunstung und aufsteigende Luft ab). CO₂ 280 → 430 ppm entspricht im Modell 25 % → 23 %:
-  13.7 °C → 14.9 °C, +1.2 K wie gemessen seit vorindustriell. Formeln: \(U = S(1 + D_L)/(1 + D_W)\), \(T = (U/\sigma)^{1/4}\);
+  gibt Wärme durch Verdunstung und aufsteigende Luft ab). CO₂ 280 → 430 ppm: im Modell **angenommen** 25 % → 23 %:
+  13.7 °C → 14.9 °C. Überall als gewählte Annahme gekennzeichnet («Das Modell zeigt die Richtung, nicht die genaue Grösse»):
+  Die 2 Prozentpunkte entsprechen rund 3.8 W/m² Antrieb, CO₂ allein gibt 5.35·ln(430/280) ≈ 2.3 W/m², Rückkopplungen fehlen —
+  dass +1.2 K etwa zur gemessenen Erwärmung passt, ist Zufall der Wahl und wird nicht als Beleg verwendet. Formeln: \(U = S(1 + D_L)/(1 + D_W)\), \(T = (U/\sigma)^{1/4}\);
   (1; 1) → −18.1 °C.
 - **sim6** rechnet die drei Wärmeströme zwischen zwei Platten (10 cm × 10 cm, 2 cm, 80 °C/20 °C) mit
   Tabellenwerten; Achse logarithmisch, sonst sieht man Strahlung und Leitung neben der Wasser-Konvektion nicht.
@@ -223,3 +225,17 @@ Summe 440 min ≈ 9.8 Lektionen, ohne die freiwilligen Vertiefungsaufgaben d). G
   Wort, 40/36 MJ zusammen mit dem Endbild. «Mehr Kohlendioxid»: Modellbild 23 % (ohne Bodentemperatur) zur Notiz
   «Modell heute». «Problem Hand»: «2 m» mit dem Wort, «Wasser 55 °C» gestrichen. «Boiler mit Heizstab» ohne Komma.
   Farben: Photovoltaik grün (auch Kontrollfrage 3), Wind Tinte (gestrichelt heisst nur noch Bedarf).
+
+## Prüfung 11.10.2026: Befunde und Behebung
+
+- **Einschichtmodell 25 % → 23 %** (Festhalten 7, Leiste sim7 A4, Clip «Mehr Kohlendioxid»): als gewählte Annahme
+  gekennzeichnet, der Vergleich mit der gemessenen Erwärmung abgeschwächt («Das Modell zeigt die Richtung, nicht die
+  genaue Grösse»). Clip-Szene 8 neu vertont, Notizen «(angenommen)», «gemessen seither: +1.2 K» ersetzt.
+- **Wärme-Definition:** Kapitel 1 «zum Beispiel durch Teilchenstösse» (Lernziel, Festhalten, Verweis auf Kapitel 6);
+  Festhalten 6 «Auch Strahlung überträgt Wärme — ohne Stoff».
+- **«Wärme enthalten»:** Clip Heizwert Szene 1 «Wie viel Energie steckt …» (neu vertont), Aufgabe 1d «gibt … ab».
+- **Kleinere:** Aufgabe 2c «heisser Körper»; Potential der Wasserkraft (knapp 60 % des Schweizer Stroms, BFE
+  Elektrizitätsstatistik 2023: 56.6 %), Wind und Biomasse qualitativ; Winterfehler mit 1350 gegen 2475 kWh;
+  Phasenwechsel «bei Wasser unter Normaldruck» (auch Themenseite 5.2, Abschnitt Heizkurve); Aufgabe 1c Achsenhinweis
+  gegen Kontrollfrage 5; Erdgas 50.0 MJ/kg «gerechnet wie reines Methan»; Vortest 0e als Voraussetzung im Ziel von
+  Kapitel 0 genannt; Zeiten +10 min je Kapitel (Kapitel 3 +15), 515 min.

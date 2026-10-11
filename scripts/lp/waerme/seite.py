@@ -808,7 +808,7 @@ k0 = '''
     <section class="kap" id="k0">
       <div class="kap-meta"><span class="marker">Kapitel 0</span><span class="abz">Vorwissen · 0.1 · 0.2 · 4.3 · 5.1</span><span class="zeit">≈ 15 min</span></div>
       <h2 id="vorwissen">Vorwissen</h2>
-      <p class="ziel">Celsius und Kelvin, Energie, Leistung und Wirkungsgrad, Gleichungen umstellen. Wenn das wackelt: <a href="''' + P51 + '''">Themenseite 5.1 Temperatur</a> und das <a href="''' + LPE + '''">Leitprogramm Energie</a>.</p>
+      <p class="ziel">Celsius und Kelvin, Energie, Leistung und Wirkungsgrad, Gleichungen umstellen, dazu eine gegebene Formel einsetzen — etwa die Abstrahlung \\(\\dfrac{P}{A} = \\sigma \\cdot T^4\\) aus dem Leitprogramm Energie (Kapitel 6; in Kapitel 7 kommt sie wieder vor). Wenn das wackelt: <a href="''' + P51 + '''">Themenseite 5.1 Temperatur</a> und das <a href="''' + LPE + '''">Leitprogramm Energie</a>.</p>
 ''' + test('t0', 'Vortest', 11, [
     ('0a', 2, r'Rechne \(18\;^\circ\text{C}\) in Kelvin um. Ein Tee kühlt von \(85\;^\circ\text{C}\) auf \(60\;^\circ\text{C}\) ab: Wie gross ist die Temperaturänderung in Kelvin?',
      r'<p>\(T\;[\text{K}] = \vartheta\;[^\circ\text{C}] + 273.15\) \(= 18 + 273.15 = 291.15\), also \(291.15\;\text{K}\).</p><p>\(\Delta T = 85\;^\circ\text{C} - 60\;^\circ\text{C} = 25\;\text{K}\): Eine Temperaturdifferenz ist in Kelvin und in Grad Celsius gleich gross.</p><p class="komm">Falsch? <a href="' + P51 + r'#umrechnen">Themenseite 5.1: Umrechnen und Temperaturdifferenz</a></p>', ''),
@@ -834,7 +834,7 @@ fest1 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Wärme und Temperatur</div>
           <p>Die <b>Temperatur</b> misst die mittlere Bewegung der Teilchen eines Körpers — ein <b>Zustand</b> (\(\vartheta\) in °C, \(T\) in K).</p>
-          <p>Die <b>Wärme</b> \(Q\) ist Energie, die <b>wegen eines Temperaturunterschieds</b> von einem Körper auf einen anderen übertragen wird: An der Berührfläche stossen die schnelleren Teilchen die langsameren an und geben ihnen Bewegungsenergie ab. Wärme ist ein <b>Vorgang</b>, gemessen in Joule. Ein Körper «enthält» keine Wärme, sondern innere Energie.</p>
+          <p>Die <b>Wärme</b> \(Q\) ist Energie, die <b>wegen eines Temperaturunterschieds</b> von einem Körper auf einen anderen übertragen wird — zum Beispiel durch Teilchenstösse: An der Berührfläche stossen die schnelleren Teilchen die langsameren an und geben ihnen Bewegungsenergie ab (zwei weitere Wege, Strömung und Strahlung, folgen in Kapitel 6). Wärme ist ein <b>Vorgang</b>, gemessen in Joule. Ein Körper «enthält» keine Wärme, sondern innere Energie.</p>
           <p>Von selbst fliesst Wärme nur vom wärmeren zum kälteren Körper. Vorzeichen: \(Q \gt 0\) heisst aufgenommen, \(Q \lt 0\) abgegeben.</p>
           <p>Ohne Phasenwechsel gilt für die Wärmemenge:</p>
           <p>\[ Q = m \cdot c \cdot \Delta T \]</p>
@@ -852,14 +852,14 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 12, [
     ('1b', 3, r'Ein Kuchenblech aus Aluminium (\(0.60\;\text{kg}\)) wird im Ofen von \(20\;^\circ\text{C}\) auf \(180\;^\circ\text{C}\) erhitzt. Wie viel Wärme nimmt es auf, in kJ und in kWh?',
      r'<p>\(Q = m \cdot c \cdot \Delta T\) \(= 0.60\;\text{kg} \cdot 896\;\text{J/(kg·K)} \cdot 160\;\text{K}\) \(= 86\,016\;\text{J} \approx 86.0\;\text{kJ}\).</p><p>\(\dfrac{86\,016\;\text{J}}{3.6 \cdot 10^6\;\text{J/kWh}} \approx 0.0239\;\text{kWh}\).</p>', ''),
     ('1c', 3, r'Das Diagramm zeigt, wie die Temperatur zweier Körper mit der zugeführten Wärme steigt: A hat \(0.40\;\text{kg}\), B hat \(0.45\;\text{kg}\). Lies je einen Punkt ab, bestimme die spezifische Wärmekapazität beider Körper und suche den Stoff in der Tabelle. Welcher erwärmt sich bei gleicher Wärme stärker?',
-     r'<p>Aus \(Q = m \cdot c \cdot \Delta T\) folgt \(c = \dfrac{Q}{m \cdot \Delta T}\).</p><p>A: \(9\;\text{kJ}\) geben \(50\;\text{K}\): \(c = \dfrac{9000\;\text{J}}{0.40\;\text{kg} \cdot 50\;\text{K}}\) \(= 450\;\text{J/(kg·K)}\) — Eisen.</p><p>B: \(18\;\text{kJ}\) geben \(20\;\text{K}\): \(c = \dfrac{18\,000\;\text{J}}{0.45\;\text{kg} \cdot 20\;\text{K}}\) \(= 2000\;\text{J/(kg·K)}\) — Speiseöl.</p><p>A steigt steiler: Bei gleicher Wärme wird das Eisen viel wärmer (kleines \(m \cdot c\)).</p>',
+     r'<p>Aus \(Q = m \cdot c \cdot \Delta T\) folgt \(c = \dfrac{Q}{m \cdot \Delta T}\).</p><p>A: \(9\;\text{kJ}\) geben \(50\;\text{K}\): \(c = \dfrac{9000\;\text{J}}{0.40\;\text{kg} \cdot 50\;\text{K}}\) \(= 450\;\text{J/(kg·K)}\) — Eisen.</p><p>B: \(18\;\text{kJ}\) geben \(20\;\text{K}\): \(c = \dfrac{18\,000\;\text{J}}{0.45\;\text{kg} \cdot 20\;\text{K}}\) \(= 2000\;\text{J/(kg·K)}\) — Speiseöl.</p><p>A steigt steiler: Bei gleicher Wärme wird das Eisen viel wärmer (kleines \(m \cdot c\)).</p><p>Achte auf die Achsen: Hier steht \(\Delta T\) nach oben, darum heisst steiler <b>kleineres</b> \(m \cdot c\). Steht die Wärme \(Q\) nach oben (wie in Kontrollfrage 5 des Clips), heisst steiler <b>grösseres</b> \(m \cdot c\).</p>',
      mini(kurven_bild([([(0, 0), (18, 100)], 'k-t', 'A', [13.2, 86]), ([(0, 0), (18, 20)], 'k-t2', 'B', [15.5, 27])], 0, 18, 0, 100, 3, 10,
                       'Temperaturänderung über der zugeführten Wärme: Gerade A durch 9 kJ und 50 K, Gerade B (gestrichelt) durch 18 kJ und 20 K', 'Q [kJ]', 'ΔT [K]'))),
     ('1d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Warum fliesst in Heizungsrohren Wasser und nicht Luft? Rechne: Wie viel Wärme gibt \(1\;\text{l}\) Wasser ab, wenn es von \(55\;^\circ\text{C}\) auf \(35\;^\circ\text{C}\) abkühlt, und wie viel \(1\;\text{l}\) Luft (\(\rho = 1.2\;\text{kg/m}^3\), \(c \approx 1000\;\text{J/(kg·K)}\))?',
-     r'<p>Wasser: \(m = 1\;\text{kg}\), \(Q = m \cdot c \cdot \Delta T\) \(= 1\;\text{kg} \cdot 4182\;\text{J/(kg·K)} \cdot 20\;\text{K}\) \(\approx 83.6\;\text{kJ}\).</p><p>Luft: \(m = \rho \cdot V = 1.2\;\text{kg/m}^3 \cdot 0.001\;\text{m}^3 = 0.0012\;\text{kg}\), \(Q = 0.0012\;\text{kg} \cdot 1000\;\text{J/(kg·K)} \cdot 20\;\text{K}\) \(= 24\;\text{J}\).</p><p>Derselbe Liter Wasser trägt rund \(3500\)-mal so viel Wärme: grosse Masse je Volumen und grosses \(c\). Für Luft bräuchte es riesige Kanäle.</p>', ''),
+     r'<p>Wasser: \(m = 1\;\text{kg}\), \(Q = m \cdot c \cdot \Delta T\) \(= 1\;\text{kg} \cdot 4182\;\text{J/(kg·K)} \cdot 20\;\text{K}\) \(\approx 83.6\;\text{kJ}\).</p><p>Luft: \(m = \rho \cdot V = 1.2\;\text{kg/m}^3 \cdot 0.001\;\text{m}^3 = 0.0012\;\text{kg}\), \(Q = 0.0012\;\text{kg} \cdot 1000\;\text{J/(kg·K)} \cdot 20\;\text{K}\) \(= 24\;\text{J}\).</p><p>Derselbe Liter Wasser gibt rund \(3500\)-mal so viel Wärme ab: grosse Masse je Volumen und grosses \(c\). Für Luft bräuchte es riesige Kanäle.</p>', ''),
 ])
-k1 = kapitel(1, 'waerme-temperatur', 'Wärme und Temperatur', 'K1 · K2', 55,
-    r'Du erklärst Wärme als Energie, die wegen eines Temperaturunterschieds durch Teilchenstösse übertragen wird, unterscheidest sie von der Temperatur und berechnest die Wärmemenge \(Q = m \cdot c \cdot \Delta T\).',
+k1 = kapitel(1, 'waerme-temperatur', 'Wärme und Temperatur', 'K1 · K2', 65,
+    r'Du erklärst Wärme als Energie, die wegen eines Temperaturunterschieds übertragen wird (zum Beispiel durch Teilchenstösse), unterscheidest sie von der Temperatur und berechnest die Wärmemenge \(Q = m \cdot c \cdot \Delta T\).',
     ('p5-2-lp-waerme', 'Wärme sehen: Energie, die fliesst'),
     sim1, ('p5-2-lp-kontrolle-waerme', 'Kontrollfragen zu Wärme und Temperatur'),
     fest1, [uebung('waermemenge', 'Wärmemenge'), uebung('erwaermung', 'Wie warm wird es?'), uebung('c-messen', 'Den Stoff an c erkennen')],
@@ -894,7 +894,7 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
      r'<p>\(Q_\text{ab} = Q_\text{auf}\): \(m_h \cdot c \cdot (55\;^\circ\text{C} - 38\;^\circ\text{C}) = 80\;\text{kg} \cdot c \cdot (38\;^\circ\text{C} - 12\;^\circ\text{C})\). Gleicher Stoff, \(c\) kürzt sich.</p><p>\(m_h = 80\;\text{kg} \cdot \dfrac{26\;\text{K}}{17\;\text{K}}\) \(\approx 122\;\text{kg}\), also rund \(122\;\text{l}\) heisses Wasser.</p>', ''),
     ('2b', 3, r'Ein unbekanntes Metallstück (\(0.35\;\text{kg}\), \(98\;^\circ\text{C}\)) kommt in \(0.40\;\text{kg}\) Wasser von \(18\;^\circ\text{C}\). Die Mischtemperatur ist \(30.6\;^\circ\text{C}\). Bestimme die spezifische Wärmekapazität des Metalls. Welches Metall ist es?',
      r'<p>\(Q_\text{auf} = m_W \cdot c_W \cdot (\vartheta_\text{m} - \vartheta_W)\) \(= 0.40\;\text{kg} \cdot 4182\;\text{J/(kg·K)} \cdot 12.6\;\text{K}\) \(\approx 21\,077\;\text{J}\).</p><p>\(Q_\text{ab} = Q_\text{auf}\): \(c_K = \dfrac{Q_\text{auf}}{m_K \cdot (\vartheta_K - \vartheta_\text{m})}\) \(= \dfrac{21\,077\;\text{J}}{0.35\;\text{kg} \cdot 67.4\;\text{K}}\) \(\approx 893\;\text{J/(kg·K)}\) — Aluminium (\(896\)).</p>', ''),
-    ('2c', 3, r'Das Diagramm zeigt die Temperaturen eines Körpers und von \(0.45\;\text{kg}\) Wasser, nachdem der Körper ins Wasser getaucht wurde. Welche Kurve gehört zum Wasser? Lies die Mischtemperatur ab und berechne, wie viel Wärme das Wasser aufgenommen hat. Warum enden beide Kurven bei derselben Temperatur?',
+    ('2c', 3, r'Das Diagramm zeigt die Temperaturen eines heissen Körpers und von \(0.45\;\text{kg}\) Wasser, nachdem der Körper ins Wasser getaucht wurde. Welche Kurve gehört zum Wasser? Lies die Mischtemperatur ab und berechne, wie viel Wärme das Wasser aufgenommen hat. Warum enden beide Kurven bei derselben Temperatur?',
      r'<p>Die untere Kurve (B) gehört zum Wasser: Es startet kalt und wird wärmer. Mischtemperatur: \(30\;^\circ\text{C}\).</p><p>\(Q_\text{auf} = m \cdot c \cdot \Delta T\) \(= 0.45\;\text{kg} \cdot 4182\;\text{J/(kg·K)} \cdot 10\;\text{K}\) \(\approx 18.8\;\text{kJ}\) — genau so viel hat der Körper abgegeben.</p><p>Wärme fliesst, solange ein Temperaturunterschied besteht. Bei gleicher Temperatur hört der Fluss auf: thermisches Gleichgewicht.</p>',
      mini(kurven_bild([([(t, 30 + 60 * math.exp(-t / 10)) for t in range(0, 61, 2)], 'k-t', 'A', [8, 82]),
                        ([(t, 30 - 10 * math.exp(-t / 10)) for t in range(0, 61, 2)], 'k-t2', 'B', [3, 12])], 0, 60, 0, 100, 10, 10,
@@ -902,7 +902,7 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> \(1\;\text{kg}\) Wasser von \(60\;^\circ\text{C}\) und \(1\;\text{kg}\) Wasser von \(20\;^\circ\text{C}\) ergeben \(40\;^\circ\text{C}\). Jemand sagt: «\(1\;\text{kg}\) Eisen von \(60\;^\circ\text{C}\) in \(1\;\text{kg}\) Wasser von \(20\;^\circ\text{C}\) ergibt auch \(40\;^\circ\text{C}\).» Stimmt das? Begründe zuerst ohne Rechnung, dann rechne nach.',
      r'<p>Nein. Eisen gibt je Kilogramm und Kelvin Abkühlung viel weniger Wärme ab (\(450\) statt \(4182\;\text{J/(kg·K)}\)). Damit das Wasser um \(1\;\text{K}\) wärmer wird, muss das Eisen um gut \(9\;\text{K}\) abkühlen — die Endtemperatur liegt nahe bei \(20\;^\circ\text{C}\).</p><p>\(\vartheta_\text{m} = \dfrac{m_1 c_1 \vartheta_1 + m_2 c_2 \vartheta_2}{m_1 c_1 + m_2 c_2}\) mit \(m_1 c_1 = 1\;\text{kg} \cdot 450\;\text{J/(kg·K)} = 450\;\text{J/K}\) und \(m_2 c_2 = 1\;\text{kg} \cdot 4182\;\text{J/(kg·K)} = 4182\;\text{J/K}\):</p><p>\(\vartheta_\text{m} = \frac{450\;\text{J/K} \cdot 60\;^\circ\text{C} + 4182\;\text{J/K} \cdot 20\;^\circ\text{C}}{4632\;\text{J/K}}\) \(\approx 23.9\;^\circ\text{C}\).</p>', ''),
 ])
-k2 = kapitel(2, 'waermebilanz', 'Wärmebilanz und thermisches Gleichgewicht', 'K2', 55,
+k2 = kapitel(2, 'waermebilanz', 'Wärmebilanz und thermisches Gleichgewicht', 'K2', 65,
     r'Du stellst die Wärmebilanz \(Q_\text{ab} = Q_\text{auf}\) auf und berechnest die Temperatur im thermischen Gleichgewicht — auch für zwei verschiedene Stoffe und rückwärts.',
     ('p5-2-lp-bilanz', 'Wärme sehen: was der eine abgibt, nimmt der andere auf'),
     sim2, ('p5-2-lp-kontrolle-bilanz', 'Kontrollfragen zur Wärmebilanz'),
@@ -921,7 +921,7 @@ fest3 = r'''      <div class="festhalten">
           <p>Beim <b>Schmelzen</b> und <b>Verdampfen</b> bleibt die Temperatur konstant, obwohl Wärme zugeführt wird: Die Energie löst die Teilchen aus ihrem Verband, statt sie schneller zu machen. Diese Wärme heisst <b>latente Wärme</b>:</p>
           <p>\[ Q = m \cdot L_\text{f} \;\;\text{(Schmelzen)} \qquad Q = m \cdot L_\text{v} \;\;\text{(Verdampfen)} \]</p>
           <p>Wasser: \(L_\text{f} = 334\;\text{kJ/kg}\), \(L_\text{v} = 2256\;\text{kJ/kg}\) — fast siebenmal so viel. Beim <b>Erstarren</b> und <b>Kondensieren</b> wird dieselbe Energie wieder frei.</p>
-          <p><b>Heizkurve:</b> Temperatur über der Zeit (oder der zugeführten Wärme) bei gleichmässiger Heizleistung \(P\). Schräge Stücke: erwärmen, umso flacher, je grösser \(m \cdot c\). Waagrechte Stücke: Phasenwechsel bei \(0\;^\circ\text{C}\) und \(100\;^\circ\text{C}\), Dauer \(t = \dfrac{m \cdot L}{P}\).</p>
+          <p><b>Heizkurve:</b> Temperatur über der Zeit (oder der zugeführten Wärme) bei gleichmässiger Heizleistung \(P\). Schräge Stücke: erwärmen, umso flacher, je grösser \(m \cdot c\). Waagrechte Stücke: Phasenwechsel, bei Wasser unter Normaldruck bei \(0\;^\circ\text{C}\) und \(100\;^\circ\text{C}\), Dauer \(t = \dfrac{m \cdot L}{P}\).</p>
           <p><b>Über eine Phasengrenze</b> wird abschnittsweise gerechnet und erst am Schluss addiert: Eis erwärmen (\(c_\text{Eis} = 2100\;\text{J/(kg·K)}\)), schmelzen, Wasser erwärmen. In einer Wärmebilanz mit Eis zählen Schmelzen und Erwärmen des Schmelzwassers zur aufgenommenen Wärme.</p>
           <p><b>Schmilzt alles Eis?</b> Zuerst prüfen: Die Wärme, die das Getränk bis \(0\;^\circ\text{C}\) abgeben kann, \(m_\text{G} \cdot c \cdot (\vartheta_\text{G} - 0\;^\circ\text{C})\), mit der Schmelzwärme \(m_\text{Eis} \cdot L_\text{f}\) vergleichen. Reicht sie, gilt die Bilanz oben. Reicht sie nicht, <b>bleibt Eis übrig</b>: Die Mischung hat \(0\;^\circ\text{C}\), und geschmolzen ist nur \(m = \dfrac{Q}{L_\text{f}}\).</p>
           <p>Beispiel: \(0.15\;\text{kg}\) Wasser von \(10\;^\circ\text{C}\) und \(0.10\;\text{kg}\) Eis von \(0\;^\circ\text{C}\). Das Wasser gibt bis \(0\;^\circ\text{C}\) höchstens \(Q = 0.15\;\text{kg} \cdot 4182\;\text{J/(kg·K)} \cdot 10\;\text{K}\) \(= 6273\;\text{J}\) ab; alles Eis zu schmelzen bräuchte \(0.10\;\text{kg} \cdot 334\,000\;\text{J/kg}\) \(= 33\,400\;\text{J}\). Es schmelzen nur \(\dfrac{6273\;\text{J}}{334\,000\;\text{J/kg}} \approx 0.019\;\text{kg}\), rund \(0.081\;\text{kg}\) Eis bleiben übrig, die Mischung hat \(0\;^\circ\text{C}\).</p>
@@ -945,7 +945,7 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
     ('3d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Bei Frost besprühen Obstbauern ihre Blüten laufend mit Wasser, das auf den Blüten gefriert. Erkläre, warum das die Blüten schützt. Wie viel Wärme gibt \(1\;\text{kg}\) Wasser beim Gefrieren ab, verglichen mit dem Abkühlen von \(10\;^\circ\text{C}\) auf \(0\;^\circ\text{C}\)?',
      r'<p>Beim Erstarren wird die Schmelzwärme frei: \(Q = m \cdot L_\text{f} = 1\;\text{kg} \cdot 334\;\text{kJ/kg} = 334\;\text{kJ}\). Solange Wasser gefriert, bleibt die Eisschicht bei \(0\;^\circ\text{C}\), und die Blüte kühlt nicht tiefer ab.</p><p>Abkühlen: \(Q = m \cdot c \cdot \Delta T = 1\;\text{kg} \cdot 4182\;\text{J/(kg·K)} \cdot 10\;\text{K} \approx 41.8\;\text{kJ}\). Das Gefrieren liefert rund achtmal so viel Wärme.</p>', ''),
 ])
-k3 = kapitel(3, 'heizkurve', 'Latente Wärme und Heizkurve', 'K2 · K3', 60,
+k3 = kapitel(3, 'heizkurve', 'Latente Wärme und Heizkurve', 'K2 · K3', 75,
     r'Du rechnest mit der latenten Wärme \(Q = m \cdot L\), stellst den Temperaturverlauf beim Erwärmen über Schmelzen und Sieden als Heizkurve dar und stellst Wärmebilanzen mit Zustandsänderung abschnittsweise auf.',
     ('p5-2-lp-heizkurve', 'Wärme sehen: wenn die Temperatur stehen bleibt'),
     sim3, ('p5-2-lp-kontrolle-heizkurve', 'Kontrollfragen zu latenter Wärme und Heizkurve'),
@@ -963,7 +963,7 @@ fest4 = r'''      <div class="festhalten">
           <div class="titel">Heizwert und Wirkungsgrad</div>
           <p>Der <b>Heizwert</b> \(H\) ist die Energie, die beim vollständigen Verbrennen von \(1\;\text{kg}\) Brennstoff frei wird. Aus einer Menge wird so eine Energie:</p>
           <p>\[ Q_\text{zu} = m \cdot H \]</p>
-          <p>Heizöl \(42.6\;\text{MJ/kg}\) (\(1\;\text{l}\) wiegt \(0.84\;\text{kg}\)), Erdgas \(50.0\), Propan \(46.4\) (rund \(13\;\text{kWh/kg}\)), Holzpellets \(17.0\), trockenes Buchenholz \(15.0\;\text{MJ/kg}\).</p>
+          <p>Heizöl \(42.6\;\text{MJ/kg}\) (\(1\;\text{l}\) wiegt \(0.84\;\text{kg}\)), Erdgas \(50.0\) (gerechnet wie reines Methan; handelsübliches Erdgas liegt etwas tiefer), Propan \(46.4\) (rund \(13\;\text{kWh/kg}\)), Holzpellets \(17.0\), trockenes Buchenholz \(15.0\;\text{MJ/kg}\).</p>
           <p>Nutzbar ist nur der Anteil \(\eta = \dfrac{E_\text{nutz}}{E_\text{zu}} \le 1\) (Wirkungsgrad, aus 4.3):</p>
           <p>\[ Q_\text{nutz} = \eta \cdot m \cdot H \qquad m = \frac{Q_\text{nutz}}{\eta \cdot H} \]</p>
           <p>Ist die Menge gesucht, steht \(\eta\) im Nenner. Elektrisch ist die zugeführte Energie \(E = P \cdot t\), also \(t = \dfrac{Q_\text{nutz}}{\eta \cdot P}\). Umrechnen: \(1\;\text{kWh} = 3.6\;\text{MJ}\). Was nicht Nutzwärme wird, verschwindet nicht: Es geht als Wärme an Abgas, Kamin und Umgebung.</p>
@@ -985,7 +985,7 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
     ('4d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Frisch geschlagenes Holz liefert je Kilogramm viel weniger Nutzwärme als trockenes. Nenne zwei Gründe und verbinde einen davon mit Kapitel 3.',
      r'<p>Erstens ist ein Teil der Masse Wasser, das selbst nicht brennt: Ein Kilogramm nasses Holz enthält weniger brennbaren Stoff.</p><p>Zweitens muss dieses Wasser beim Verbrennen verdampfen. Die Verdampfungswärme (\(2256\;\text{kJ}\) je Kilogramm Wasser, Kapitel 3) geht mit dem Abgas zum Kamin hinaus und fehlt als Nutzwärme.</p>', ''),
 ])
-k4 = kapitel(4, 'heizwert', 'Heizwert und Wirkungsgrad', 'K2 · K4', 55,
+k4 = kapitel(4, 'heizwert', 'Heizwert und Wirkungsgrad', 'K2 · K4', 65,
     r'Du berechnest mit dem Heizwert die beim Verbrennen frei werdende Energie, berücksichtigst den Wirkungsgrad und bestimmst daraus Nutzwärme, Brennstoffmenge oder Heizzeit.',
     ('p5-2-lp-heizwert', 'Wärme sehen: vom Brennstoff zur Nutzwärme'),
     sim4, ('p5-2-lp-kontrolle-heizwert', 'Kontrollfragen zu Heizwert und Wirkungsgrad'),
@@ -1019,12 +1019,13 @@ fest5 = r'''      <div class="merk">
         <div class="merk">
           <div class="titel">Potential</div>
           <p>Die Sonne liefert bei uns rund \(1100\;\text{kWh}\) je Quadratmeter und Jahr. Für rund \(60\;\text{TWh}\) Strom im Jahr — etwa den Bedarf der Schweiz — bräuchte es \(\dfrac{60 \cdot 10^9\;\text{kWh}}{220\;\text{kWh/m}^2} \approx 270\;\text{km}^2\) Module, gut ein halbes Prozent der Landesfläche. Das Potential ist gross, aber im Winterhalbjahr käme nur rund ein Drittel. Darum zählen speicherbare Systeme (Speicherseen, Biogas) und solche, die im Winter mehr liefern (Wind).</p>
+          <p>Die <b>Wasserkraft</b> liefert schon heute knapp \(60\;\%\) des Schweizer Stroms; viel mehr ist kaum möglich, die meisten geeigneten Flüsse und Täler sind genutzt. <b>Wind</b> liefert erst einen kleinen Bruchteil und lässt sich ausbauen, vor allem für den Winter. <b>Biomasse</b> (Holz, Gülle, Abfälle) ist durch Wald- und Landwirtschaftsfläche begrenzt, lässt sich aber speichern.</p>
           <p><b>Solarwärme:</b> Ein Sonnenkollektor macht aus dem Sonnenlicht direkt Wärme, meist fürs Warmwasser — mit rund \(50\;\%\) Wirkungsgrad mehr als doppelt so viel Energie je Quadratmeter wie ein Photovoltaikmodul (Strom, rund \(20\;\%\)). Gespeichert wird im Warmwassertank, für Tage, nicht für den Winter.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
           <p>«Die Wärmepumpe ist eine erneuerbare Energiequelle.» Sie braucht Strom und hebt vorhandene Wärme an; erneuerbar ist allenfalls die Umgebungswärme, die sie nutzt.</p>
-          <p>Die Jahressumme mit der Versorgung im Winter verwechselt: \(4500\;\text{kWh}\) Solarstrom im Jahr decken einen Jahresbedarf von \(4500\;\text{kWh}\) im Winterhalbjahr noch lange nicht (dort kommen rund \(30\;\%\), gebraucht werden \(55\;\%\)).</p>
+          <p>Die Jahressumme mit der Versorgung im Winter verwechselt: \(4500\;\text{kWh}\) Solarstrom im Jahr decken einen gleich grossen Jahresbedarf im Winterhalbjahr nicht: Es kommen rund \(0.30 \cdot 4500\;\text{kWh} = 1350\;\text{kWh}\), gebraucht werden \(0.55 \cdot 4500\;\text{kWh} \approx 2475\;\text{kWh}\).</p>
         </div>
       </div>'''
 auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
@@ -1038,7 +1039,7 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Vergleiche ein Kernkraftwerk und eine Windturbine nach den drei Gesichtspunkten Verfügbarkeit, Wirkungsgrad und Kohlendioxid. Nenne für jedes einen weiteren Punkt, der in diesen drei nicht vorkommt.',
      r'<p>Verfügbarkeit: Das Kernkraftwerk liefert gleichmässig, Tag und Nacht; die Windturbine nur bei Wind, im Winter mehr. Wirkungsgrad: rund \(33\;\%\) (zwei Drittel Abwärme) gegen rund \(45\;\%\) der Windenergie — beim Wind ist die Quelle aber gratis und unerschöpflich. Kohlendioxid: beide gering über den Lebensweg (rund \(12\;\text{g}\) und \(11\;\text{g}\) je kWh).</p><p>Weitere Punkte: beim Kernkraftwerk radioaktiver Abfall, Störfallrisiko und der begrenzte Uranvorrat; bei der Windturbine Landschaftsbild und Lärm, und es braucht Speicher oder andere Kraftwerke für windstille Tage.</p>', ''),
 ])
-k5 = kapitel(5, 'energiesysteme', 'Energiesysteme vergleichen', 'K5', 55,
+k5 = kapitel(5, 'energiesysteme', 'Energiesysteme vergleichen', 'K5', 65,
     r'Du beschreibst das Potential der erneuerbaren Energien und vergleichst Wasserkraft, Wind, Sonne, Biogas, Wärmepumpe, Wärme-Kraft-Kopplung und Kernenergie nach Verfügbarkeit, Wirkungsgrad und Kohlendioxid — mit nachgerechneten Grössenordnungen.',
     ('p5-2-lp-energiesysteme', 'Wärme sehen: Energiesysteme im Vergleich'),
     sim5, ('p5-2-lp-kontrolle-energiesysteme', 'Kontrollfragen zu den Energiesystemen'),
@@ -1063,6 +1064,7 @@ fest6 = r'''      <div class="tabhuelle"><table class="gesetze">
           <div class="titel">Wärmetransport</div>
           <p>Wie gut ein Stoff leitet, sagt die <b>Wärmeleitfähigkeit</b> \(\lambda\) in \(\text{W/(m·K)}\): Kupfer \(400\), Eisen \(80\), Glas \(0.8\), Wasser \(0.6\), Holz \(0.15\), Mineralwolle \(0.04\), ruhende Luft \(0.026\). Bei gleicher Fläche, Dicke und Temperaturdifferenz fliesst durch die Platte mit dem doppelten \(\lambda\) doppelt so viel Wärme je Sekunde.</p>
           <p><b>Warm oder kalt anfühlen:</b> Die Haut spürt, wie schnell sie Wärme verliert, nicht die Temperatur des Gegenstands. Ein guter Leiter zieht die Wärme rasch von der Berührstelle weg, die Haut dort kühlt ab — er fühlt sich kälter an als ein schlechter Leiter mit derselben Temperatur.</p>
+          <p>Auch Strahlung überträgt Wärme — ohne Stoff: Wärme braucht einen Temperaturunterschied, nicht unbedingt Teilchen, die sich anstossen.</p>
           <p>Durchsichtig für Licht heisst nicht durchlässig für Wärmestrahlung: Wasser und Glas lassen Licht durch, schlucken aber Infrarot.</p>
         </div>
         <div class="warn">
@@ -1082,7 +1084,7 @@ auf6 = test('t6', 'Aufgaben · Kapitel 6', 13, [
     ('6d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> In einem Iglu ist es mit ein paar Menschen darin deutlich über \(0\;^\circ\text{C}\) warm, obwohl draussen \(-20\;^\circ\text{C}\) herrschen und die Wände aus Schnee sind. Erkläre mit den drei Wegen.',
      r'<p>Leitung: Schnee enthält viel eingeschlossene Luft und leitet sehr schlecht — die Wärme der Menschen geht nur langsam durch die Wand.</p><p>Konvektion: Die Wände halten den Wind ab; die warme Luft bleibt im Iglu, der tief liegende Eingang lässt sie oben nicht entweichen.</p><p>Strahlung: Die Wärmestrahlung der Menschen trifft die Innenwand, statt in den kalten Nachthimmel zu gehen.</p>', ''),
 ])
-k6 = kapitel(6, 'waermetransport', 'Wärmetransport', 'K6', 50,
+k6 = kapitel(6, 'waermetransport', 'Wärmetransport', 'K6', 60,
     r'Du unterscheidest Wärmeleitung, Konvektion und Wärmestrahlung, ordnest Vorgänge aus dem Alltag zu und begründest, welche Massnahme welchen Weg bremst.',
     ('p5-2-lp-transport', 'Wärme sehen: drei Wege der Wärme'),
     sim6, ('p5-2-lp-kontrolle-transport', 'Kontrollfragen zum Wärmetransport'),
@@ -1100,7 +1102,7 @@ fest7 = r'''      <div class="festhalten">
           <p>Jeder Körper strahlt — je heisser, desto mehr (\(\dfrac{P}{A} = \sigma \cdot T^4\), \(T\) in Kelvin; umgekehrt \(T = \sqrt[4]{\dfrac{P/A}{\sigma}}\)) und desto kürzer die Wellenlänge. Die Sonne (rund \(5500\;^\circ\text{C}\)) strahlt vor allem <b>sichtbares Licht</b> (um \(0.5\;\mu\text{m}\)), die Erde (rund \(15\;^\circ\text{C}\)) <b>Wärmestrahlung</b> im Infrarot (um \(10\;\mu\text{m}\)).</p>
           <p>Die Atmosphäre ist für <b>Licht weitgehend durchlässig</b>, für <b>Wärmestrahlung nur zum kleinen Teil</b>: Wasserdampf, Kohlendioxid und Methan nehmen Infrarot auf und strahlen es nach allen Seiten wieder ab — auch zum Boden zurück (<b>Gegenstrahlung</b>). Stickstoff und Sauerstoff lassen beides durch.</p>
           <p><b>Natürlicher Treibhauseffekt:</b> Ohne ihn müsste der Boden die rund \(240\;\text{W/m}^2\) Sonnenlicht selbst abstrahlen — bei rund \(-18\;^\circ\text{C}\). Gemessen sind rund \(+15\;^\circ\text{C}\); dann strahlt der Boden rund \(390\;\text{W/m}^2\) ab. <b>Im Einschichtmodell</b> (Simulation: Licht \(100\;\%\) durch, \(23\;\%\) der Wärmestrahlung direkt hinaus) kommt die Differenz von rund \(150\;\text{W/m}^2\) als Gegenstrahlung zurück. In Wirklichkeit ist die Gegenstrahlung grösser, rund \(340\;\text{W/m}^2\): Die Atmosphäre nimmt auch einen Teil des Sonnenlichts auf, und der Boden gibt zusätzlich Wärme durch Verdunstung und aufsteigende Luft ab.</p>
-          <p><b>Verstärkter Treibhauseffekt:</b> Mehr Treibhausgas (Kohlendioxid von rund \(280\;\text{ppm}\) vor der Industrialisierung auf rund \(430\;\text{ppm}\) heute) hält mehr Wärmestrahlung zurück; der Boden erwärmt sich, bis er wieder so viel abgibt, wie hereinkommt. Im Einschichtmodell entspricht das etwa \(23\;\%\) statt \(25\;\%\) direkt hinaus: von \(13.7\;^\circ\text{C}\) auf \(14.9\;^\circ\text{C}\), rund \(1.2\;\text{K}\) — etwa so viel, wie sich die Erde seither erwärmt hat.</p>
+          <p><b>Verstärkter Treibhauseffekt:</b> Mehr Treibhausgas (Kohlendioxid von rund \(280\;\text{ppm}\) vor der Industrialisierung auf rund \(430\;\text{ppm}\) heute) hält mehr Wärmestrahlung zurück; der Boden erwärmt sich, bis er wieder so viel abgibt, wie hereinkommt. Im Einschichtmodell nimmt man dafür an, dass statt \(25\;\%\) nur noch \(23\;\%\) der Wärmestrahlung direkt hinausgehen — eine gewählte Annahme, keine Messung. Der Boden erwärmt sich dann von \(13.7\;^\circ\text{C}\) auf \(14.9\;^\circ\text{C}\), um rund \(1.2\;\text{K}\). Dass das etwa der gemessenen Erwärmung entspricht, liegt an dieser Wahl: Das Modell zeigt die Richtung, nicht die genaue Grösse.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -1119,7 +1121,7 @@ auf7 = test('t7', 'Aufgaben · Kapitel 7', 12, [
     ('7d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Ein Gewächshaus aus Glas wird in der Sonne warm. Was ist gleich wie bei der Atmosphäre, was ist anders?',
      r'<p>Gleich: Licht kommt durch das Glas herein und erwärmt den Boden; dessen Wärmestrahlung kann durch das Glas kaum hinaus.</p><p>Anders: Im Gewächshaus hält vor allem das Glas die warme Luft fest — die Konvektion nach draussen fällt weg. Die Atmosphäre hat keine Hülle; dort wirkt allein die Strahlung, die die Gase aufnehmen und zurückstrahlen. Der Name «Treibhauseffekt» ist ein Vergleich.</p>', ''),
 ])
-k7 = kapitel(7, 'treibhauseffekt', 'Durchlässigkeit der Atmosphäre und Treibhauseffekt', 'K7', 55,
+k7 = kapitel(7, 'treibhauseffekt', 'Durchlässigkeit der Atmosphäre und Treibhauseffekt', 'K7', 65,
     r'Du beschreibst, warum die Atmosphäre sichtbares Licht weitgehend durchlässt, Wärmestrahlung aber nur zum kleinen Teil, und erklärst damit den natürlichen und den verstärkten Treibhauseffekt.',
     ('p5-2-lp-treibhaus', 'Wärme sehen: Licht hinein, Wärmestrahlung hinaus'),
     sim7, ('p5-2-lp-kontrolle-treibhaus', 'Kontrollfragen zum Treibhauseffekt'),
@@ -1202,18 +1204,18 @@ oben = '''<div id="nav-root"></div>
        K7 → Kap. 7 · sim7 · Aufg. 7a–7d · G7
      Planungstabelle (Lernziel · Clip · Erkundung · Problem im Clip · häufiger Fehler · min):
        1 Wärme ist übertragene Energie, Q = m·c·ΔT · p5-2-lp-waerme · sim1 Wärme zuführen · Topf mit Wasser
-         · «heiss heisst viel Wärme» · 55
+         · «heiss heisst viel Wärme» · 65
        2 Wärmebilanz, thermisches Gleichgewicht · p5-2-lp-bilanz · sim2 Kalorimeter · Aluminium in Wasser
-         · einfacher Mittelwert · 55
+         · einfacher Mittelwert · 65
        3 Latente Wärme, Heizkurve · p5-2-lp-heizkurve · sim3 Heizkurve · Schnee zu Teewasser · über die
-         Phasengrenze mit m·c·ΔT · 60
-       4 Heizwert und Wirkungsgrad · p5-2-lp-heizwert · sim4 Kessel und Boiler · Pelletofen · η im Zähler · 55
+         Phasengrenze mit m·c·ΔT · 75
+       4 Heizwert und Wirkungsgrad · p5-2-lp-heizwert · sim4 Kessel und Boiler · Pelletofen · η im Zähler · 65
        5 Energiesysteme vergleichen · p5-2-lp-energiesysteme · sim5 Systemvergleich · Solarstrom für eine
-         Gemeinde · Wärmepumpe als Quelle · 55
+         Gemeinde · Wärmepumpe als Quelle · 65
        6 Wärmetransport · p5-2-lp-transport · sim6 Wärmewege · vom Heizkörper zur Hand · Leitung und
-         Konvektion verwechselt · 50
+         Konvektion verwechselt · 60
        7 Durchlässigkeit, Treibhauseffekt · p5-2-lp-treibhaus · sim7 Einschichtmodell · −18 °C gegen 15 °C ·
-         «Gase spiegeln» · 55
+         «Gase spiegeln» · 65
      Kern: alle Kapitel; Vertiefung (freiwillig, nicht in den Zeiten): Aufgaben 1d, 2d, 3d, 4d, 5d, 6d, 7d. Bewusst weggelassen: COP_max,
      Messreihen der Treibhausgase, Energiebilanz der Erde (Leitprogramm Energie), Celsius und Kelvin (5.1),
      Wirkungsgrade in Serie, Brennwert.
@@ -1221,13 +1223,14 @@ oben = '''<div id="nav-root"></div>
      c_W = 4182 J/(kg·K). Der Heizwert hat auf der Themenseite kein Formelzeichen: hier H wie in den
      Leitprogrammen Heizen und Wärmemenge. Widersprüche der Themenseite: siehe README.md.
      Zeiten (Clips 7, Leiste 13, Festhalten 5, Übungen 17 bzw. 23, drei Aufgaben 13 min; ohne Vertiefung):
-     K0 15 · K1 55 · K2 55 · K3 60 · K4 55 · K5 55 · K6 50 · K7 55 · Gesamttest 40 = 440 min ≈ 9.8 Lektionen. -->
+     K0 15 · K1 65 · K2 65 · K3 75 · K4 65 · K5 65 · K6 60 · K7 65 · Gesamttest 40 = 515 min ≈ 11.4 Lektionen
+     (Prüfung 11.10.2026: je Kapitel +10 min, Kapitel 3 +15). -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
       <p class="marke">Physik begreifbar · Leitprogramm</p>
       <h1>Wärme</h1>
-      <p class="unter">Wärme und Temperatur, Wärmebilanz, latente Wärme und Heizkurve, Heizwert, Energiesysteme, Wärmetransport und Treibhauseffekt — mit laufenden Simulationen. Sieben Kapitel zu je 50 bis 60 Minuten, dazu Vorwissen und Gesamttest — zusammen rund zehn Lektionen; die Vertiefungsaufgaben sind freiwillig.</p>
+      <p class="unter">Wärme und Temperatur, Wärmebilanz, latente Wärme und Heizkurve, Heizwert, Energiesysteme, Wärmetransport und Treibhauseffekt — mit laufenden Simulationen. Sieben Kapitel zu je 60 bis 75 Minuten, dazu Vorwissen und Gesamttest — zusammen rund elf bis zwölf Lektionen; die Vertiefungsaufgaben sind freiwillig.</p>
     </div>
     <div class="kopf-rechts">
       <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>

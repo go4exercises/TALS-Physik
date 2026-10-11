@@ -940,7 +940,8 @@
      für Seite, Clips, Aufgaben und Test: Licht 100 %, Wärmestrahlung 23 % → 14.9 °C (gemessen rund 15 °C),
      Boden 390 W/m², Gegenstrahlung 150 W/m² (wirklich rund 340 W/m²: die Atmosphäre nimmt auch Licht auf,
      und der Boden gibt Wärme durch Verdunstung und aufsteigende Luft ab). Vorindustriell 25 % → 13.7 °C:
-     rund 1.2 K, wie gemessen. Startwerte 80 % und 60 % (kein Leistenziel). */
+     gewählte Annahme (CO₂ allein gäbe rund 2.3 W/m² Antrieb, die 2 Prozentpunkte rund 3.8 W/m²; keine
+     Rückkopplungen) — die Seite sagt: Das Modell zeigt die Richtung, nicht die genaue Grösse. Startwerte 80 % und 60 % (kein Leistenziel). */
   (function(){
     var fig = document.getElementById('sim7'); if (!fig) return;
     var svg = fig.querySelector('svg');
@@ -992,9 +993,9 @@
         vergleich: 'Rund \\(23\\;\\%\\) (\\(22\\;\\%\\) bis \\(24\\;\\%\\) liegen innerhalb von \\(1\\;^\\circ\\text{C}\\)). Der Boden strahlt dann rund \\(390\\;\\text{W/m}^2\\) ab — \\(150\\;\\text{W/m}^2\\) mehr, als die Sonne liefert; im Einschichtmodell bekommt er den Rest als Gegenstrahlung zurück. Wirklich ist die Gegenstrahlung grösser, rund \\(340\\;\\text{W/m}^2\\): Die Atmosphäre nimmt auch Sonnenlicht auf, und der Boden verliert zusätzlich Wärme durch Verdunstung und aufsteigende Luft.' },
       { text: 'Stelle beide Durchlässigkeiten gleich ein, zum Beispiel je \\(60\\;\\%\\). Wie warm wird der Boden? Was folgt daraus für den Treibhauseffekt?', ok: function(s){ return gl(s.dl, s.dw) && s.dl < 1; },
         vergleich: 'Wieder rund \\(-18\\;^\\circ\\text{C}\\), wie ohne Atmosphäre. Wärmer wird es nur, wenn die Atmosphäre das Licht leichter durchlässt als die Wärmestrahlung — der Unterschied der Durchlässigkeiten macht den Treibhauseffekt.' },
-      { text: 'Mehr Treibhausgas seit der Industrialisierung (Kohlendioxid von \\(280\\) auf \\(430\\;\\text{ppm}\\)): Im Einschichtmodell entspricht das etwa einer Abnahme der Wärmestrahlung, die direkt hinausgeht, von \\(25\\;\\%\\) auf \\(23\\;\\%\\) (Licht \\(100\\;\\%\\)). Stelle beides ein. Um wie viel wird es wärmer? Warum?', ok: function(s){ return gl(s.dl, 1) && gl(s.dw, 0.23); },
+      { text: 'Mehr Treibhausgas seit der Industrialisierung (Kohlendioxid von \\(280\\) auf \\(430\\;\\text{ppm}\\)): Weniger Wärmestrahlung geht direkt hinaus. Im Einschichtmodell nimmt man dafür an: vorher \\(25\\;\\%\\), heute \\(23\\;\\%\\) (Licht \\(100\\;\\%\\)) — eine gewählte Annahme, keine Messung. Stelle beides ein. Um wie viel wird es wärmer? Warum?', ok: function(s){ return gl(s.dl, 1) && gl(s.dw, 0.23); },
         setup: function(sim){ var z = sim.zustand(); if (gl(z.dl, 1) && gl(z.dw, 0.23)) sim.setze({ dw: 25 }); },
-        vergleich: 'Von rund \\(13.7\\;^\\circ\\text{C}\\) auf rund \\(14.9\\;^\\circ\\text{C}\\), also rund \\(1.2\\;\\text{K}\\) — etwa so viel hat sich die Erde seit der Industrialisierung tatsächlich erwärmt. Die Atmosphäre hält mehr Wärmestrahlung zurück und strahlt mehr zum Boden zurück; der Boden erwärmt sich, bis er wieder so viel abgibt, wie hereinkommt.' },
+        vergleich: 'Von rund \\(13.7\\;^\\circ\\text{C}\\) auf rund \\(14.9\\;^\\circ\\text{C}\\), also rund \\(1.2\\;\\text{K}\\) wärmer: Die Atmosphäre hält mehr Wärmestrahlung zurück und strahlt mehr zum Boden zurück; der Boden erwärmt sich, bis er wieder so viel abgibt, wie hereinkommt. Dass das etwa der gemessenen Erwärmung entspricht, liegt an der gewählten Annahme: Das Modell zeigt die Richtung, nicht die genaue Grösse.' },
       { text: 'Kehre es um: Licht \\(40\\;\\%\\), Wärmestrahlung \\(100\\;\\%\\). Was geschieht mit der Bodentemperatur? Wann könnte die Atmosphäre so wirken?', ok: function(s){ return gl(s.dl, 0.4) && gl(s.dw, 1); },
         vergleich: 'Der Boden kühlt auf rund \\(-40\\;^\\circ\\text{C}\\) ab: Die Atmosphäre hält das Licht oben fest und lässt die Wärmestrahlung des Bodens frei hinaus. So ähnlich wirkt eine dichte Russ- oder Rauchschicht, die Sonnenlicht schluckt, etwa über grossen Waldbränden.' }
     ], sim);
