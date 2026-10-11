@@ -74,6 +74,19 @@ Einbindungen, alle relativ eine Ebene hoch — **kein fremder Host**:
   `scripts/verify_einheitentrainer.js`. Das Skript in den Pre-Flight (`run_deep`) aufnehmen.
 - Eingaben akzeptieren Dezimalpunkt **und** Dezimalkomma; ausgegeben wird mit Punkt
   (STYLEGUIDE §2).
+- **Ein Trainer, ein Bildschirm** (Entscheid des Auftraggebers, 11.10.2026). Bei 1280 px soll
+  der ganze Trainer ohne Scrollen sichtbar sein. Muster `werkzeuge/fall-und-wurf.html`:
+  - Steuerung in einer schmalen Spalte rechts (rund 170 px): Aufgabenart (Anker
+    `#aufgabe-<art>` auf dem Knopf, Beschreibung nur im `title`), Auswahl (Bewegung, Stufe …),
+    darunter Neue Aufgabe, Tipp, Lösung und Stand. Keine `btn-row` darunter.
+  - Ist der Trainer schmaler (Container-Abfrage auf dem Rahmen, `container-type:inline-size`,
+    Grenze meist 640 px), steht die Steuerung oben und die Knöpfe unten.
+  - Die Aufgabe steht in **einer** Karte (Szene, Auftrag, Eingabe), neben der Skizze statt in
+    mehreren Kästen.
+  - Was die Grafik zeigt, steht nicht in jedem Aufgabentext. Fall und Wurf etwa: Bezugssystem und
+    Luftwiderstand stehen am Achsenkreuz der Skizze (\(x\), \(y\), \(F_W = 0\)).
+  - Ausnahme: der Einheitentrainer. Lern- und Prüfungsmodus passen schon; das Freie Üben ist ein
+    Arbeitsblatt mit zwei Spalten.
 
 ## 4 · Eintragen
 

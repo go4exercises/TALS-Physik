@@ -101,50 +101,75 @@ MathJax = {
 /* ── Seitenspezifisch nur der Trainer ──
    Reiter, Filter, Formel, Schrittknöpfe, Auswahl der umgestellten Formel,
    Eingabe, Rückmeldung und Rechenweg. */
-.fu-reiter { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
-.fu-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
+.fu-rahmen { container-type:inline-size; }
+.fu-raster { display:grid; grid-template-columns:minmax(0,1fr) 184px; grid-template-areas:"haupt steuer" "haupt aktion";
+  grid-template-rows:auto 1fr; gap:0 14px; }
+.fu-spalte { grid-area:haupt; min-width:0; }
+.fu-steuer { grid-area:steuer; display:flex; flex-direction:column; gap:12px; }
+.fu-gruppe { display:flex; flex-direction:column; gap:3px; }
+.fu-gruppe-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 1px 2px; }
+.fu-gruppe .typ-btn { text-align:left; padding:3px 10px; line-height:1.3; }
+.fu-reiter-knopf { display:flex; align-items:baseline; gap:7px; text-align:left; padding:5px 10px; border-radius:7px; cursor:pointer;
   border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; scroll-margin-top:66px; }
 .fu-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
-.fu-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
+.fu-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 3px 0 0 var(--bernstein); }
 .fu-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
-.fu-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.fu-reiter-nr { font-family:var(--mono); font-size:0.66rem; font-weight:700; color:var(--tinte-2); }
 .fu-reiter-knopf.aktiv .fu-reiter-nr { color:var(--bernstein); }
-.fu-reiter-name { font-family:var(--serif); font-size:0.98rem; font-weight:700; line-height:1.25; }
-.fu-reiter-text { font-size:0.76rem; color:var(--tinte-2); line-height:1.35; }
+.fu-reiter-name { font-size:0.84rem; font-weight:700; line-height:1.25; }
+.fu-aktionen { grid-area:aktion; align-self:start; display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; padding-top:12px; border-top:1px solid var(--linie); }
+.fu-aktionen .play-btn { width:100%; }
+.fu-aktionen .typ-btn { flex:1 1 auto; }
 .fu-aufgabe { background:var(--papier); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein);
-  border-radius:8px; padding:10px 14px; margin-bottom:12px; }
+  border-radius:8px; padding:8px 14px; margin-bottom:10px; }
 .fu-aufgabe-kopf { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin-bottom:4px; }
 .fu-aufgabe-titel { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); }
-.fu-pille { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
+.fu-pille { font-family:var(--mono); font-size:0.64rem; font-weight:700; letter-spacing:0.5px; padding:1px 7px;
   border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
 .fu-aufgabe p { margin:0; font-size:0.9rem; }
 .fu-formel { font-size:1.15rem; text-align:center; background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px;
   padding:12px 10px; margin:0 0 12px; overflow-x:auto; }
+.fu-weg { margin:0 0 10px; padding:10px 14px; }
+.fu-weg[hidden] { display:none; }
 .fu-weg .fl-eq { font-size:1rem; }
-.fu-knoepfe { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+/* Ergebnis und Einheitenprobe nebeneinander, im selben Kasten */
+.fu-ergebnis { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:8px 0; margin-top:6px; }
+.fu-ergebnis > .fl-eq { margin:0 !important; padding:2px 18px; }
+.fu-probe { display:flex; flex-direction:column; align-items:center; gap:2px; padding:2px 18px; border-left:1.5px solid var(--linie); }
+.fu-probe-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.fu-probe .fl-eq { margin:0 !important; }
+.fu-knoepfe { display:flex; flex-wrap:wrap; gap:8px; }
 .fu-knopf { font-family:var(--sans); font-size:0.9rem; padding:7px 14px; border-radius:7px; cursor:pointer; min-height:40px;
   border:1.5px solid var(--linie); background:var(--papier); color:var(--tinte); }
 .fu-knopf:hover:not(:disabled) { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
 .fu-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
 .fu-knopf.falsch { border-color:var(--rot); background:var(--rot-hell); }
 .fu-knopf.richtig { border-color:var(--gruen); background:var(--gruen-hell); }
-.fu-wahl { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; margin-top:10px; }
+.fu-wahl { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; }
 .fu-wahl .fu-knopf { font-size:1rem; padding:10px; overflow-x:auto; }
-.fu-frage { background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin-top:12px; }
-.fu-frage p { margin:0 0 8px; font-size:0.9rem; }
+.fu-frage { margin-top:4px; }
+.fu-frage p { margin:0 0 6px; font-size:0.9rem; font-weight:700; }
+.fu-frage .fu-hinweis { font-size:0.76rem; font-weight:400; color:var(--tinte-2); }
 .fu-zeile { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
 .fu-eingabe { font-family:var(--mono); font-size:0.95rem; width:9em; padding:6px 8px; border-radius:6px;
   border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
 .fu-eingabe:focus { outline:2px solid var(--bernstein); outline-offset:0; }
-.fu-rueck { margin-top:12px; }
+.fu-rueck { margin-top:10px; }
 .fu-rueck .block { margin:0 0 8px; }
-.fu-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
-.fu-filter-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 4px 2px; }
-@media (max-width: 700px) {
-  .fu-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
-  .fu-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
-  .fu-reiter-text { display:none; }
+.fu-stand { width:100%; font-family:var(--mono); font-size:0.66rem; line-height:1.4; color:var(--tinte-2); margin-top:2px; }
+@container (max-width: 640px) {      /* schmal: Steuerung oben, Knöpfe unten, Probe unter dem Ergebnis */
+  .fu-raster { grid-template-columns:minmax(0,1fr); grid-template-areas:"steuer" "haupt" "aktion"; grid-template-rows:auto; }
+  .fu-steuer { gap:6px; margin-bottom:10px; }
+  .fu-gruppe { flex-direction:row; flex-wrap:wrap; align-items:center; gap:5px; }
+  .fu-gruppe-titel { width:100%; margin:0 0 0 2px; }
+  .fu-aktionen { align-items:center; margin-top:10px; padding-top:10px; }
+  .fu-aktionen .play-btn, .fu-aktionen .typ-btn { width:auto; flex:0 0 auto; }
+  .fu-stand { margin-top:0; }
+  .fu-ergebnis { flex-direction:column; }
+  .fu-probe { border-left:none; border-top:1.5px solid var(--linie); padding-top:8px; }
   .fu-wahl { grid-template-columns:minmax(0,1fr); }
+}
+@media (max-width: 700px) {
   .fu-weg { padding:12px 8px; }
 }
 </style>
@@ -195,6 +220,7 @@ MathJax = {
     <li><strong>Faktoren teilen:</strong> Alle anderen Faktoren, auch Zahlen wie \(2\) oder \(\pi\), auf beiden Seiten wegteilen.</li>
     <li><strong>Potenz zuletzt:</strong> Steht die Grösse im Quadrat, zum Schluss die Wurzel ziehen; steht sie unter einer Wurzel, quadrieren.</li>
   </ol>
+  <p>Zum Schluss steht die gesuchte Grösse allein <strong>links</strong>: Steht sie rechts, werden die Seiten getauscht. An \(x = \ldots\) lässt sich dann gleich die Zahlengleichung anhängen.</p>
   <p>Kontrolle: Die Einheiten der rechten Seite müssen die Einheit der gesuchten Grösse ergeben, und mit eingesetzten Zahlen muss die Ausgangsformel stimmen.</p>
 </div>
 
@@ -222,39 +248,47 @@ MathJax = {
       </div>
     </div>
   </div>
-  <div class="widget-body">
+  <div class="widget-body fu-rahmen">
+   <div class="fu-raster">
 
-    <div class="fu-reiter" id="fu-arten" role="group" aria-label="Aufgabenart wählen">
-      <button class="fu-reiter-knopf aktiv" id="aufgabe-schritte" data-art="schritte" aria-pressed="true"><span class="fu-reiter-nr">Aufgabe 1</span><span class="fu-reiter-name">Schritt für Schritt</span><span class="fu-reiter-text">Mit dem Waage-Prinzip umstellen: Welche Operation kommt als Nächstes, auf beiden Seiten?</span></button>
-      <button class="fu-reiter-knopf" id="aufgabe-einsetzen" data-art="einsetzen" aria-pressed="false"><span class="fu-reiter-nr">Aufgabe 2</span><span class="fu-reiter-name">Umstellen und einsetzen</span><span class="fu-reiter-text">Die richtige Umstellung wählen und mit Zahlen ausrechnen.</span></button>
+    <div class="fu-steuer">
+      <div class="fu-gruppe" id="fu-arten" role="group" aria-label="Aufgabe wählen">
+        <span class="fu-gruppe-titel">Aufgabe</span>
+        <button class="fu-reiter-knopf aktiv" id="aufgabe-schritte" data-art="schritte" aria-pressed="true" title="Mit dem Waage-Prinzip umstellen: Welche Operation kommt als Nächstes, auf beiden Seiten?"><span class="fu-reiter-nr">1</span><span class="fu-reiter-name">Schritt für Schritt</span></button>
+        <button class="fu-reiter-knopf" id="aufgabe-einsetzen" data-art="einsetzen" aria-pressed="false" title="Die richtige Umstellung wählen und mit Zahlen ausrechnen"><span class="fu-reiter-nr">2</span><span class="fu-reiter-name">Umstellen und einsetzen</span></button>
+      </div>
+      <div class="fu-gruppe" id="fu-stufen" role="group" aria-label="Stufe wählen">
+        <span class="fu-gruppe-titel">Stufe</span>
+        <button class="typ-btn aktiv" data-stufe="1">1: Mal und durch</button>
+        <button class="typ-btn" data-stufe="2">2: Quadrat und Wurzel</button>
+        <button class="typ-btn" data-stufe="3">3: Mit Summen</button>
+        <button class="typ-btn" data-stufe="0">Alle Stufen</button>
+      </div>
+      <div class="fu-gruppe" id="fu-gebiete" role="group" aria-label="Lerngebiet wählen">
+        <span class="fu-gruppe-titel">Formeln aus</span>
+        <button class="typ-btn aktiv" data-gebiet="alle">allen Lerngebieten</button>
+        <button class="typ-btn" data-gebiet="0">0 Vorwissen</button>
+        <button class="typ-btn" data-gebiet="4">4 Mechanik</button>
+        <button class="typ-btn" data-gebiet="5">5 Wärmelehre</button>
+        <button class="typ-btn" data-gebiet="6">6 Wellen und Elektrizität</button>
+      </div>
     </div>
 
-    <div class="typ-btns" id="fu-stufen" role="group" aria-label="Stufe wählen">
-      <button class="typ-btn aktiv" data-stufe="1">Stufe 1: Mal und durch</button>
-      <button class="typ-btn" data-stufe="2">Stufe 2: Mit Quadrat und Wurzel</button>
-      <button class="typ-btn" data-stufe="3">Stufe 3: Mit Summen</button>
-      <button class="typ-btn" data-stufe="0">Alle Stufen</button>
-    </div>
-    <div class="fu-filter-titel">Formeln aus</div>
-    <div class="typ-btns" id="fu-gebiete" role="group" aria-label="Lerngebiet wählen">
-      <button class="typ-btn aktiv" data-gebiet="alle">allen Lerngebieten</button>
-      <button class="typ-btn" data-gebiet="0">0 Vorwissen</button>
-      <button class="typ-btn" data-gebiet="4">4 Mechanik</button>
-      <button class="typ-btn" data-gebiet="5">5 Wärmelehre</button>
-      <button class="typ-btn" data-gebiet="6">6 Wellen und Elektrizität</button>
+    <div class="fu-spalte">
+      <div class="fu-aufgabe" id="fu-aufgabe" aria-live="polite"></div>
+      <div class="formel-live fu-weg" id="fu-weg" hidden></div>
+      <div id="fu-bedienung"></div>
+      <div class="fu-rueck" id="fu-rueck" aria-live="polite"></div>
     </div>
 
-    <div class="fu-aufgabe" id="fu-aufgabe" aria-live="polite"></div>
-    <div class="formel-live fu-weg" id="fu-weg"></div>
-    <div id="fu-bedienung"></div>
-    <div class="fu-rueck" id="fu-rueck" aria-live="polite"></div>
+    <div class="fu-aktionen">
+      <button class="play-btn" id="fu-neu">Neue Aufgabe</button>
+      <button class="typ-btn" id="fu-tipp">Tipp</button>
+      <button class="typ-btn" id="fu-zeigen">Schritt zeigen</button>
+      <span class="fu-stand" id="fu-stand"></span>
+    </div>
 
-  </div>
-  <div class="btn-row">
-    <button class="typ-btn" id="fu-tipp">Tipp</button>
-    <button class="typ-btn" id="fu-zeigen">Schritt zeigen</button>
-    <button class="typ-btn" id="fu-neu">Neue Aufgabe</button>
-    <span class="fu-stand" id="fu-stand"></span>
+   </div>
   </div>
 </div>
 
@@ -453,6 +487,8 @@ const FU_DIAGNOSE = {
   falsche_richtung: c => c.f === 'w' ? `Quadrieren macht aus \\(${c.x}^2\\) eine vierte Potenz. Ein Quadrat hebt man mit der Wurzel auf.`
                                      : `Die Wurzel aus \\(\\sqrt{${c.x}}\\) gibt eine vierte Wurzel. Eine Wurzel hebt man durch Quadrieren auf.`,
   wurzel_mal2:      c => 'Eine Wurzel hebt man durch Quadrieren auf, nicht durch Multiplizieren mit 2.',
+  seiten_fertig:    c => `\\(${c.x}\\) steht allein, aber rechts. Gerechnet wird mit \\(${c.x} = \\ldots\\): Daran schliesst die Zahlengleichung an. Also noch die Seiten tauschen; die Gleichung bleibt wahr, wie eine Waage, die man umdreht.`,
+  seiten_kehrwert:  c => `Der Kehrwert beider Seiten ist erlaubt, bringt \\(${c.x}\\) aber nicht nach links: Rechts stünde dann \\(\\tfrac{1}{${c.x}}\\). \\(${c.x}\\) steht schon allein, es fehlt nur der Tausch der Seiten.`,
   // falsche Umstellungen (Aufgabe 2)
   kehrwert:         c => 'Das ist der Kehrwert: Zähler und Nenner sind vertauscht. Die Einheitenprobe zeigt es: Es kommt nicht die Einheit der gesuchten Grösse heraus.',
   wurzel_vergessen: c => `Hier fehlt die Wurzel. Diese Formel liefert \\(${c.x}^2\\), nicht \\(${c.x}\\).`,
@@ -494,9 +530,14 @@ const fuDimSeite = S => fuDimMono(S.g[0].M).map((v, i) => v * S.h + fuDimMono(S.
 const fuVars = F => [...new Set(F.L.concat(F.R).flat().map(([x]) => x).filter(x => !fuIstZahl(x)))];
 
 /* ── TeX ──────────────────────────────────────────────────────────── */
+/* einheit: false = Formelzeichen, true = Einheiten (Einheitenprobe), Objekt = eingesetzte Werte mit Einheit */
 function fuTexFaktor(x, e, einheit) {        // e > 0, ganzzahlig
   if (x === '#2') return String(Math.pow(2, e));
   if (x === '#pi') return e === 1 ? '\\pi' : '\\pi^{' + e + '}';
+  if (einheit && typeof einheit === 'object') {
+    const u = FU_GR[x][1], t = fuTexZahl(einheit[x]) + (u ? '\\;' + u : '');
+    return e === 1 ? t : '(' + t + ')^{' + e + '}';
+  }
   let t = einheit ? FU_GR[x][1] : FU_GR[x][0];
   if (einheit && !t) return '';
   if (e === 1) return t;
@@ -504,8 +545,8 @@ function fuTexFaktor(x, e, einheit) {        // e > 0, ganzzahlig
   return t + '^{' + e + '}';
 }
 function fuTexProdukt(L, einheit) {
-  const zahl = einheit ? 1 : L.filter(([x]) => x === '#2').reduce((p, [, e]) => p * Math.pow(2, e), 1);
-  const pi = einheit ? null : L.find(([x]) => x === '#pi');
+  const zahl = einheit === true ? 1 : L.filter(([x]) => x === '#2').reduce((p, [, e]) => p * Math.pow(2, e), 1);
+  const pi = einheit === true ? null : L.find(([x]) => x === '#pi');
   const rest = L.filter(([x]) => !fuIstZahl(x)).map(([x, e]) => fuTexFaktor(x, e, einheit)).filter(Boolean);
   const vorn = (zahl !== 1 ? String(zahl) : '') + (pi ? fuTexFaktor('#pi', pi[1]) : '');
   const teile = (vorn ? [vorn] : []).concat(rest);
@@ -515,7 +556,7 @@ function fuTexBruch(M, einheit) {
   const z = M.filter(([, e]) => e > 0), n = M.filter(([, e]) => e < 0).map(([x, e]) => [x, -e]);
   const nt = n.length ? fuTexProdukt(n, einheit) : '1';
   // ½ · m · v² wie auf den Themenseiten, wenn im Nenner nur die Zahl steht
-  if (!einheit && z.length && n.length && n.every(([x]) => x === '#2')) return '\\tfrac{1}{' + nt + '} \\cdot ' + fuTexProdukt(z);
+  if (einheit !== true && z.length && n.length && n.every(([x]) => x === '#2')) return '\\tfrac{1}{' + nt + '} \\cdot ' + fuTexProdukt(z);
   return nt !== '1' ? '\\dfrac{' + fuTexProdukt(z, einheit) + '}{' + nt + '}' : fuTexProdukt(z, einheit);
 }
 function fuTexMono(M, einheit) {
@@ -528,7 +569,7 @@ function fuTexMono(M, einheit) {
 }
 function fuTexSeite(S, einheit) {
   if (fuEinzeln(S)) return fuTexMono(fuNorm(S.g[0].M.concat(S.f)), einheit);
-  const g = einheit ? [S.g[0]] : S.g;
+  const g = einheit === true ? [S.g[0]] : S.g;
   const summe = g.map((q, i) => (q.s < 0 ? (i ? ' - ' : '-') : (i ? ' + ' : '')) + fuTexMono(q.M, einheit)).join('');
   const viele = g.length > 1, hb = Math.abs(S.h);
   const z = S.f.filter(([, e]) => e > 0), n = S.f.filter(([, e]) => e < 0).map(([x, e]) => [x, -e]);
@@ -546,16 +587,21 @@ function fuTexOp(op) {
   if (op.art === 'mal') return '\\cdot\\, ' + fuTexMono(op.G);
   if (op.art === 'durch') return ':\\, ' + fuTexMono(op.G);
   if (op.art === 'minus') return '-\\, ' + fuTexMono(op.M);
+  if (op.art === 'tausch') return '\\text{Seiten tauschen}';
+  if (op.art === 'kehrwert') return '\\tfrac{1}{\\ldots}';
+  if (op.art === 'fertig') return '\\text{fertig}';
   return op.art === 'wurzel' ? '\\sqrt{\\phantom{x}}' : '(\\ldots)^2';
 }
 function fuOpText(op) {
-  return op.art === 'wurzel' ? 'Wurzel ziehen' : op.art === 'quadrat' ? 'quadrieren' : 'beide Seiten \\(' + fuTexOp(op) + '\\)';
+  const T = { wurzel:'Wurzel ziehen', quadrat:'quadrieren', tausch:'Seiten tauschen', kehrwert:'Kehrwert beider Seiten', fertig:'Fertig, so stehen lassen' };
+  return T[op.art] || 'beide Seiten \\(' + fuTexOp(op) + '\\)';
 }
 
 /* ── Der Weg: Schritt für Schritt nach x ──────────────────────────────
    Summanden abziehen; steht x im Nenner, mit x multiplizieren; Nenner hoch; Faktoren teilen
    (Zahlen und π in einem Schritt); bei einer Wurzel zuerst die ganzzahligen Faktoren, dann quadrieren;
-   ein Quadrat zuletzt mit der Wurzel. Jeder Schritt bringt seine falschen Alternativen mit. */
+   ein Quadrat zuletzt mit der Wurzel; steht x dann rechts, die Seiten tauschen, damit x = … links steht
+   und die Zahlengleichung anschliessen kann. Jeder Schritt bringt seine falschen Alternativen mit. */
 function fuAnwenden(st, op, A) {
   const B = A === 'L' ? 'R' : 'L', neu = { L:st.L, R:st.R };
   if (op.art === 'minus') {
@@ -565,7 +611,8 @@ function fuAnwenden(st, op, A) {
   } else if (op.art === 'mal' || op.art === 'durch') {
     const G = op.art === 'mal' ? op.G : fuHoch(op.G, -1);
     neu.L = fuMalSeite(st.L, G); neu.R = fuMalSeite(st.R, G);
-  } else { const k = op.art === 'wurzel' ? 0.5 : 2; neu.L = fuHochSeite(st.L, k); neu.R = fuHochSeite(st.R, k); }
+  } else if (op.art === 'tausch') { neu.L = st.R; neu.R = st.L; }
+  else { const k = op.art === 'wurzel' ? 0.5 : 2; neu.L = fuHochSeite(st.L, k); neu.R = fuHochSeite(st.R, k); }
   return neu;
 }
 function fuGruppe(liste) { const z = liste.filter(([y]) => fuIstZahl(y)); return z.length ? z : [liste[0]]; }
@@ -622,6 +669,12 @@ function fuWeg(F, x) {
     falsch = falsch.filter(([o]) => { const t = fuOpText(o); if (gesehen.has(t)) return false; gesehen.add(t); return true; });
     schritte.push({ op, vorher, nachher:st, A, falsch:falsch.map(([o, code, c]) => ({ op:o, code, c })) });
     if (op.art === 'mal' && fuExp(op.G, x) > 0) A = A === 'L' ? 'R' : 'L';   // x hat die Seite gewechselt
+  }
+  if (A === 'R') {                                       // x steht allein rechts: Seiten tauschen
+    const vorher = st, op = { art:'tausch' };
+    st = fuAnwenden(st, op, A);
+    schritte.push({ op, vorher, nachher:st, A, falsch:[{ op:{ art:'fertig' }, code:'seiten_fertig', c:c0 }, { op:{ art:'kehrwert' }, code:'seiten_kehrwert', c:c0 }] });
+    A = 'L';
   }
   const B = A === 'L' ? 'R' : 'L';
   return { schritte, ende:st, A, loesung:st[B] };
@@ -735,7 +788,10 @@ function fuSelbsttest(n) {
       let W; try { W = fuWeg(F, x); } catch (e) { F_(false, wo + ': ' + e.message); return; }
       const fin = W.ende[W.A];
       F_(fuEinzeln(fin) && fin.g[0].M.length === 1 && fin.g[0].M[0][0] === x && Math.abs(fin.g[0].M[0][1] - 1) < 1e-9, wo + ': steht am Ende nicht allein');
-      F_(W.schritte.length >= 1 && W.schritte.length <= 6, wo + ': ' + W.schritte.length + ' Schritte');
+      F_(W.A === 'L' && fuTexSeite(W.ende.L) === FU_GR[x][0], wo + ': gesuchte Grösse steht am Ende nicht allein links');
+      F_(W.schritte.length >= 1 && W.schritte.length <= 7, wo + ': ' + W.schritte.length + ' Schritte');
+      const iT = W.schritte.findIndex(sch => sch.op.art === 'tausch');
+      F_(iT < 0 || (iT === W.schritte.length - 1 && W.schritte[iT].A === 'R'), wo + ': Seitentausch nicht als letzter Schritt');
       F_(fuDimSeite(W.loesung).every((v, i) => Math.abs(v - FU_GR[x][2][i]) < 1e-9), wo + ': Einheitenprobe der Lösung stimmt nicht');
       const tex = fuTexSeite(W.loesung), texE = fuTexSeite(W.loesung, true);
       F_(klammern(tex) && klammern(texE) && !/undefined|NaN/.test(tex + texE), wo + ': TeX kaputt ' + tex);
@@ -767,6 +823,8 @@ function fuSelbsttest(n) {
           F_(klammern(fuTexSeite(v.S)), wo + ': TeX der Variante kaputt'); });
         F_(fuBewerte(A, A.soll * 1.37 + 0.01).code !== undefined, wo + ': keine Rückmeldung');
         F_(new Set(A.wahl.map(o => fuTexSeite(o.S))).size === 4, wo + ': zwei gleiche Umstellungen');
+        const zg = fuTexSeite(A.sol, A.Z.gegeben);       // Zahlengleichung: jeder gegebene Wert steht drin
+        F_(klammern(zg) && !/undefined|NaN/.test(zg) && Object.keys(A.Z.gegeben).filter(y => fuHat(A.sol.g.flatMap(q => q.M).concat(A.sol.f), y)).every(y => zg.indexOf(fuTexZahl(A.Z.gegeben[y])) >= 0), wo + ': Zahlengleichung kaputt ' + zg);
         if (fuEinzeln(A.sol) && Math.abs(A.soll * A.soll - 1) > 0.1) F_(A.wahl.some(o => o.code === 'kehrwert'), wo + ': Kehrwert fehlt in der Auswahl');
       }
     });
@@ -786,7 +844,7 @@ if (window.FU_TEST) return;            // im Selbsttest keine Oberfläche
 const $ = id => document.getElementById(id);
 const zustand = { art:'schritte', stufe:1, gebiet:'alle', A:null, letzte:null, k:0, phase:'schritt', fehlversuch:false, tipp:0, geloest:0, ersteRichtig:0, opt:null };
 function fuSetze(el) { if (typeof mjTypeset === 'function') mjTypeset([el]); }
-const fuGegeben = A => Object.entries(A.Z.gegeben).map(([y, v]) => '\\(' + FU_GR[y][0] + ' = ' + fuTexZahl(v) + (FU_GR[y][1] ? '\\;' + FU_GR[y][1] : '') + '\\)').join(', ');
+const fuGegeben = A => Object.entries(A.Z.gegeben).map(([y, v]) => '\\(' + FU_GR[y][0] + ' = ' + fuTexZahl(v) + (FU_GR[y][1] ? '\\;' + FU_GR[y][1] : '') + '\\)').join('; ');
 
 function fuNeueAufgabe(P, seed) {
   if (!P) {
@@ -801,23 +859,35 @@ function fuNeueAufgabe(P, seed) {
   $('fu-aufgabe').innerHTML = '<div class="fu-aufgabe-kopf"><span class="fu-aufgabe-titel">' + A.F.titel + '</span><span class="fu-pille">' +
     (A.F.gebiet ? 'Lerngebiet ' + A.F.gebiet : 'Vorwissen') + '</span><span class="fu-pille">Stufe ' + A.stufe + '</span></div>' +
     '<p>Löse \\(' + fuTexGleichung({ L:fuSeite(A.F.L), R:fuSeite(A.F.R) }) + '\\) nach \\(' + x + '\\) auf' +
-    (zustand.art === 'schritte' ? ': Wähle für jeden Schritt die Operation, die auf beiden Seiten ausgeführt wird.' : ', und rechne \\(' + x + '\\) mit diesen Zahlen aus: ' + fuGegeben(A) + '.') + '</p>';
+    (zustand.art === 'schritte' ? '.' : ' und rechne mit ' + fuGegeben(A) + '.') + '</p>';
   fuSetze($('fu-aufgabe'));
   $('fu-rueck').innerHTML = '';
   $('fu-zeigen').textContent = zustand.art === 'schritte' ? 'Schritt zeigen' : 'Lösung zeigen';
   fuWegZeigen(); fuBedienung();
 }
 
+/* Ergebnis und rechts daneben die Einheitenprobe, im selben Kasten */
+function fuErgebnisZeile(A, glieder) {
+  return '<div class="fu-ergebnis"><div class="fl-eq">' + flHtml(glieder) + '</div><div class="fu-probe"><span class="fu-probe-titel">Einheitenprobe</span>' +
+    '<div class="fl-eq">' + fuEinheitenprobe(A) + '</div></div></div>';
+}
 function fuWegZeigen() {
-  const A = zustand.A, W = $('fu-weg');
-  if (zustand.art !== 'schritte') { W.hidden = true; W.innerHTML = ''; return; }
-  const zeilen = [];
+  const A = zustand.A, W = $('fu-weg'), x = FU_GR[A.x][0];
+  if (zustand.art !== 'schritte') {
+    if (zustand.phase !== 'fertig') { W.hidden = true; W.innerHTML = ''; return; }
+    const einh = FU_GR[A.x][1] ? '\\;' + FU_GR[A.x][1] : '';
+    W.hidden = false;           // eine Kette: Formel, Zahlen mit Einheiten, Ergebnis
+    W.innerHTML = '<div class="fl-label">Lösung</div>' + fuErgebnisZeile(A, [x + ' = ' + fuTexSeite(A.sol), '= ' + fuTexSeite(A.sol, A.Z.gegeben), '{}\\approx ' + fuTexZahl(fuDrei(A.soll)) + einh]);
+    fuSetze(W); return;
+  }
+  const n = A.W.schritte.length, fertig = zustand.k >= n, zeilen = [];
   for (let i = 0; i <= zustand.k; i++) {
     const st = i ? A.W.schritte[i - 1].nachher : A.W.schritte[0].vorher, nach = i < zustand.k ? A.W.schritte[i].op : null;
-    zeilen.push('\\(' + fuTexGleichung(st) + (nach ? '\\quad\\big|\\; ' + fuTexOp(nach) : '') + '\\)');
+    if (fertig && i === n) { zeilen.push(fuErgebnisZeile(A, [fuTexGleichung(st)])); break; }
+    zeilen.push('<div class="fl-eq">\\(' + fuTexGleichung(st) + (nach ? '\\quad\\big|\\; ' + fuTexOp(nach) : '') + '\\)</div>');
   }
   W.hidden = false;
-  W.innerHTML = '<div class="fl-label">Umformung</div>' + zeilen.map(z => '<div class="fl-eq">' + z + '</div>').join('');
+  W.innerHTML = '<div class="fl-label">Umformung</div>' + zeilen.join('');
   fuSetze(W);
 }
 
@@ -827,16 +897,16 @@ function fuBedienung() {
     if (zustand.phase === 'fertig') { B.innerHTML = ''; return; }
     const sch = A.W.schritte[zustand.k];
     zustand.opt = fuMisch(Math.random, [{ op:sch.op, code:null }].concat(sch.falsch));
-    B.innerHTML = '<div class="fu-frage"><p>Schritt ' + (zustand.k + 1) + ': Welche Operation bringt \\(' + FU_GR[A.x][0] + '\\) näher ans Alleinstehen?</p><div class="fu-knoepfe">' +
+    B.innerHTML = '<div class="fu-frage"><p>Schritt ' + (zustand.k + 1) + ': Was kommt als Nächstes, auf beiden Seiten?</p><div class="fu-knoepfe">' +
       zustand.opt.map((o, i) => '<button class="fu-knopf" data-o="' + i + '">' + fuOpText(o.op) + '</button>').join('') + '</div></div>';
   } else if (zustand.phase === 'wahl') {
     B.innerHTML = '<div class="fu-frage"><p>Welche Umstellung ist richtig?</p><div class="fu-wahl">' +
       A.wahl.map((o, i) => '<button class="fu-knopf" data-w="' + i + '">\\(' + FU_GR[A.x][0] + ' = ' + fuTexSeite(o.S) + '\\)</button>').join('') + '</div></div>';
   } else if (zustand.phase === 'zahl') {
-    B.innerHTML = '<div class="fu-frage"><p>Richtig umgestellt. Setze jetzt ein: ' + fuGegeben(A) + '.</p><div class="fu-zeile"><label for="fu-ein">\\(' +
+    B.innerHTML = '<div class="fu-frage"><p>Richtig: \\(' + FU_GR[A.x][0] + ' = ' + fuTexSeite(A.sol) + '\\). Setze die Zahlen ein:</p><div class="fu-zeile"><label for="fu-ein">\\(' +
       FU_GR[A.x][0] + ' = \\)</label><input class="fu-eingabe" id="fu-ein" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">' +
-      '<span>' + (FU_GR[A.x][1] ? '\\(' + FU_GR[A.x][1] + '\\)' : '') + '</span><button class="play-btn" id="fu-pruefen">Prüfen</button></div>' +
-      '<p class="fu-filter-titel" style="margin-top:8px">Zehnerpotenzen als 1.2e-5 oder 1.2·10^-5</p></div>';
+      '<span>' + (FU_GR[A.x][1] ? '\\(' + FU_GR[A.x][1] + '\\)' : '') + '</span><button class="play-btn" id="fu-pruefen">Prüfen</button>' +
+      '<span class="fu-hinweis">Zehnerpotenzen als 1.2e-5 oder 1.2·10^-5</span></div></div>';
   } else B.innerHTML = '';
   fuSetze(B);
   const ein = $('fu-ein'); if (ein) ein.addEventListener('keydown', ev => { if (ev.key === 'Enter') fuPruefen(); });
@@ -852,8 +922,8 @@ function fuEinheitenprobe(A) {
 function fuFertig(gezeigt, text) {
   zustand.phase = 'fertig'; zustand.geloest++;
   if (!zustand.fehlversuch && !gezeigt) zustand.ersteRichtig++;
-  fuRueck('block-bsp', gezeigt ? 'Lösung' : '✓ Richtig', text + ' Weiter mit «Neue Aufgabe».');
-  fuBedienung(); fuStand();
+  fuRueck('block-bsp', gezeigt ? 'Lösung' : '✓ Richtig', text);
+  fuWegZeigen(); fuBedienung(); fuStand();
 }
 
 /* Aufgabe 1: ein Schritt */
@@ -866,10 +936,9 @@ function fuSchritt(i, gezeigt) {
     return;
   }
   zustand.k++; zustand.tipp = 0;
-  fuWegZeigen();
   if (zustand.k >= A.W.schritte.length) {
-    fuFertig(gezeigt, '\\(' + FU_GR[A.x][0] + ' = ' + fuTexSeite(A.sol) + '\\). Einheitenprobe: ' + fuEinheitenprobe(A) + '.');
-  } else { fuRueck('', '', ''); fuBedienung(); }
+    fuFertig(gezeigt, '\\(' + FU_GR[A.x][0] + '\\) steht allein links. An diese Zeile kannst du direkt die Zahlen mit Einheiten anhängen. Die Einheitenprobe rechts daneben zeigt, dass die Umstellung zur Einheit passt.');
+  } else { fuWegZeigen(); fuRueck('', '', ''); fuBedienung(); }
 }
 /* Aufgabe 2: Umstellung wählen, dann rechnen */
 function fuWahl2(i) {
@@ -882,12 +951,9 @@ function fuPruefen() {
   const A = zustand.A; if (zustand.phase !== 'zahl') return;
   const e = fuBewerte(A, fuLies($('fu-ein').value));
   if (e) { if (e.code !== 'leer') zustand.fehlversuch = true; fuRueck('block-fehler', '✗ Noch nicht', e.text); return; }
-  fuFertig(false, fuErgebnis(A));
+  fuFertig(false, FU_ERGEBNIS);
 }
-function fuErgebnis(A) {
-  const x = FU_GR[A.x][0], einh = FU_GR[A.x][1] ? '\\;' + FU_GR[A.x][1] : '';
-  return '\\(' + x + ' = ' + fuTexSeite(A.sol) + '\\), eingesetzt \\(' + x + ' = ' + fuTexZahl(fuDrei(A.soll)) + einh + '\\). Einheitenprobe: ' + fuEinheitenprobe(A) + '.';
-}
+const FU_ERGEBNIS = 'Umgestellt, die Zahlen mit ihren Einheiten eingesetzt, auf drei Ziffern gerundet. Die Einheitenprobe rechts daneben zeigt, dass die Einheit des Ergebnisses stimmt.';
 function fuTipp() {
   const A = zustand.A; if (!A) return;
   if (zustand.phase === 'fertig') { fuRueck('block-tipp', '💡 Tipp', 'Die Aufgabe ist gelöst. Weiter mit «Neue Aufgabe».'); return; }
@@ -896,7 +962,8 @@ function fuTipp() {
   let t;
   if (zustand.art === 'schritte') {
     const sch = A.W.schritte[zustand.k], o = sch.op;
-    t = zustand.tipp === 1 ? 'Was steht \\(' + x + '\\) am weitesten aussen im Weg? ' + ({ minus:'Ein Summand.', mal:'Etwas im Nenner.', durch:'Ein Faktor.', wurzel:'Nur noch das Quadrat.', quadrat:'Nur noch die Wurzel.' })[o.art]
+    t = zustand.tipp === 1 ? 'Was steht \\(' + x + '\\) am weitesten aussen im Weg? ' + ({ minus:'Ein Summand.', mal:'Etwas im Nenner.', durch:'Ein Faktor.', wurzel:'Nur noch das Quadrat.', quadrat:'Nur noch die Wurzel.', tausch:'Nichts mehr, aber es steht rechts.' })[o.art]
+      : o.art === 'tausch' ? 'Seiten tauschen: Die Gleichung bleibt wahr, wie eine Waage, die man umdreht. Danach steht \\(' + x + ' = \\ldots\\) da.'
       : 'Die passende Umkehroperation: ' + fuOpText(o) + '.';
   } else if (zustand.phase === 'wahl') t = zustand.tipp === 1 ? 'Mache die Einheitenprobe bei jeder Auswahl: Welche ergibt die Einheit von \\(' + x + '\\)' + (FU_GR[A.x][1] ? ', also \\(' + FU_GR[A.x][1] + '\\)' : '') + '?'
     : 'Der Weg: ' + A.W.schritte.map(s => fuOpText(s.op)).join(', dann ') + '.';
@@ -909,7 +976,7 @@ function fuZeigen() {
   zustand.fehlversuch = true;
   if (zustand.art === 'schritte') { fuSchritt(zustand.opt.findIndex(o => !o.code), true); return; }
   zustand.phase = 'fertig'; zustand.geloest++;
-  fuRueck('block-bsp', 'Lösung', fuErgebnis(A) + ' Weiter mit «Neue Aufgabe».'); fuBedienung(); fuStand();
+  fuRueck('block-bsp', 'Lösung', FU_ERGEBNIS); fuWegZeigen(); fuBedienung(); fuStand();
 }
 function fuStand() { $('fu-stand').textContent = 'gelöst: ' + zustand.geloest + '; ohne Fehler: ' + zustand.ersteRichtig; }
 
@@ -948,8 +1015,9 @@ window.__fu = {
   optionen() { return zustand.opt && zustand.opt.map(o => o.code); }, schritt(i) { fuSchritt(i); },
   wahl() { return zustand.A.wahl.map(o => o.code); }, waehle(i) { fuWahl2(i); },
   eingabe(x) { $('fu-ein').value = x; fuPruefen(); }, tipp() { fuTipp(); }, zeigen() { fuZeigen(); },
-  alleTex() { return fuAufgaben().map(P => { const A = fuAufgabe(P, fuZufall(3)); return [fuTexGleichung({ L:fuSeite(P.F.L), R:fuSeite(P.F.R) }), fuTexSeite(A.sol), fuTexSeite(A.sol, true)]
+  alleTex() { return fuAufgaben().map(P => { const A = fuAufgabe(P, fuZufall(3)); return [fuTexGleichung({ L:fuSeite(P.F.L), R:fuSeite(P.F.R) }), fuTexSeite(A.sol), fuTexSeite(A.sol, true), fuTexSeite(A.sol, A.Z.gegeben)]
     .concat(A.W.schritte.flatMap(s => [fuTexGleichung(s.nachher), fuTexOp(s.op)].concat(s.falsch.map(f => fuTexOp(f.op)))), A.varianten.map(v => fuTexSeite(v.S)), Object.keys(A.Z.gegeben).map(y => fuTexZahl(A.Z.gegeben[y]))); }); },
+  paar(i) { const P = fuAufgaben()[i]; return [P.F.id, P.x]; },
   zustand,
 };
 

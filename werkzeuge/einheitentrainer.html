@@ -146,6 +146,15 @@ MathJax = {
 .et-zeile.zehn .et-marke   { color:var(--orange); font-weight:700; }
 .et-zeile.falsch .et-marke { color:var(--rot); font-weight:700; }
 .et-leer { font-size:0.85rem; color:var(--tinte-2); padding:10px 0; }
+/* Arbeitsblatt in zwei Spalten, sobald der Platz reicht: halbe Höhe, Reihenfolge zeilenweise
+   (Eingabetaste springt nach rechts, dann in die nächste Zeile); Streifen je Zeile, nicht je Spalte */
+#et-panel-frei { container-type:inline-size; }
+@container (min-width: 760px) {
+  .et-liste { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); column-gap:12px; }
+  .et-liste .et-leer { grid-column:1 / -1; }
+  .et-zeile:nth-child(odd) { background:none; }
+  .et-zeile:nth-child(4n+1), .et-zeile:nth-child(4n+2) { background:var(--papier); }
+}
 
 /* Einzelaufgabe in Lern- und Prüfungsmodus */
 .et-karte { border:1.5px solid var(--bernstein-rand); border-radius:10px; background:var(--papier); padding:16px 18px; margin:12px 0; }

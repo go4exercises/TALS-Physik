@@ -113,24 +113,33 @@ MathJax = {
 /* ── Seitenspezifisch nur der Trainer ──
    Aufgabenkopf, Leiste mit den Widerständen, Frage mit Eingabe, Rückmeldung,
    Rechenweg und Abschluss. */
+.sz-rahmen { container:sz-rahmen / inline-size; }
+.sz-raster { display:grid; grid-template-columns:minmax(0,1fr) 172px; grid-template-areas:"haupt steuer" "haupt aktion";
+  grid-template-rows:auto 1fr; gap:0 14px; }
+.sz-spalte { grid-area:haupt; min-width:0; container:sz-spalte / inline-size; }
+.sz-steuer { grid-area:steuer; display:flex; flex-direction:column; gap:12px; }
+.sz-gruppe { display:flex; flex-direction:column; gap:4px; }
+.sz-gruppe-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 1px 2px; }
+.sz-gruppe .typ-btn { text-align:left; padding:4px 10px; }
+.sz-aktionen { grid-area:aktion; align-self:start; display:flex; flex-direction:column; gap:6px; margin-top:14px; padding-top:12px; border-top:1px solid var(--linie); }
 .sz-aufgabe { background:var(--papier); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein);
-  border-radius:8px; padding:10px 14px; margin-bottom:12px; }
+  border-radius:8px; padding:8px 12px; margin-bottom:10px; }
 .sz-aufgabe-kopf { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin-bottom:4px; }
 .sz-aufgabe-titel { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); }
 .sz-phase { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
   border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
 .sz-aufgabe p { margin:0; font-size:0.9rem; }
-.sz-reiter { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
-.sz-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
-  border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; }
+.sz-aufgabe .sz-hinweis { margin-top:4px; font-size:0.76rem; }
+.sz-aufgabe .sz-hinweis:empty { display:none; }
+.sz-phase[hidden] { display:none; }
+.sz-reiter-knopf { display:flex; align-items:baseline; gap:7px; text-align:left; padding:5px 10px; border-radius:7px; cursor:pointer;
+  border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; scroll-margin-top:66px; }
 .sz-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
-.sz-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
-.sz-reiter-knopf { scroll-margin-top:66px; }
+.sz-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 3px 0 0 var(--bernstein); }
 .sz-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
-.sz-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.sz-reiter-nr { font-family:var(--mono); font-size:0.66rem; font-weight:700; color:var(--tinte-2); }
 .sz-reiter-knopf.aktiv .sz-reiter-nr { color:var(--bernstein); }
-.sz-reiter-name { font-family:var(--serif); font-size:0.98rem; font-weight:700; line-height:1.25; }
-.sz-reiter-text { font-size:0.76rem; color:var(--tinte-2); line-height:1.35; }
+.sz-reiter-name { font-size:0.84rem; font-weight:700; line-height:1.25; }
 .sz-bilder { display:grid; grid-template-columns:minmax(0,1fr); gap:10px 14px; }
 .sz-bilder.zwei { grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start; }
 .sz-bild-titel { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 4px 2px; }
@@ -139,14 +148,14 @@ MathJax = {
 .sz-mess-zeile { margin-top:6px; }
 .sz-mess-label { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); min-width:7.5em; }
 .sz-leiste { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:8px 0 4px; }
+.sz-leiste:empty { display:none; }
 .sz-chip { font-family:var(--mono); font-size:0.82rem; padding:5px 11px; border-radius:16px; cursor:pointer;
   border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
 .sz-chip:hover { border-color:var(--bernstein-rand); }
 .sz-chip.gewaehlt { border-color:var(--bernstein); background:var(--bernstein-hell); font-weight:700; }
 .sz-chip:focus-visible, .sz-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
-.sz-knoten { margin-left:auto; }
 .sz-hinweis { font-size:0.74rem; color:var(--tinte-2); line-height:1.4; margin:2px 0 0; }
-.sz-frage { background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin-top:12px; }
+.sz-frage { background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin-top:10px; }
 .sz-frage p { margin:0 0 8px; font-size:0.9rem; }
 .sz-zeile { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
 .sz-knopf { font-family:var(--sans); font-size:0.86rem; padding:7px 14px; border-radius:7px; cursor:pointer;
@@ -174,17 +183,19 @@ MathJax = {
   color:var(--tinte-2); margin-right:8px; vertical-align:middle; }
 .sz-bild { margin:10px 0 6px; }
 .sz-pruefen { white-space:nowrap; }
-.sz-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
-@media (max-width: 1100px) {
-  .sz-reiter { grid-template-columns:repeat(2, minmax(0,1fr)); }
+.sz-stand { font-family:var(--mono); font-size:0.66rem; line-height:1.4; color:var(--tinte-2); margin-top:4px; }
+@container sz-rahmen (max-width: 760px) {      /* schmaler: Steuerung oben, Knöpfe unten, Schaltbilder bleiben breit */
+  .sz-raster { grid-template-columns:minmax(0,1fr); grid-template-areas:"steuer" "haupt" "aktion"; grid-template-rows:auto; }
+  .sz-steuer { gap:6px; margin-bottom:10px; }
+  .sz-gruppe { flex-direction:row; flex-wrap:wrap; align-items:center; gap:5px; }
+  .sz-gruppe-titel { width:100%; margin:0 0 0 2px; }
+  .sz-aktionen { flex-direction:row; flex-wrap:wrap; align-items:center; margin-top:10px; padding-top:10px; }
+  .sz-stand { width:100%; margin-top:0; }
 }
-@media (max-width: 900px) {
+@container sz-spalte (max-width: 559px) {
   .sz-bilder.zwei { grid-template-columns:minmax(0,1fr); }
 }
 @media (max-width: 700px) {
-  .sz-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
-  .sz-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
-  .sz-reiter-text { display:none; }
   .sz-mess-label { flex-basis:100%; }
   .sz-weg { padding:12px 8px; }
   .sz-tab { grid-template-columns:auto minmax(0,1fr); }
@@ -274,52 +285,63 @@ MathJax = {
       </div>
     </div>
   </div>
-  <div class="widget-body">
+  <div class="widget-body sz-rahmen">
+   <div class="sz-raster">
 
-    <div class="sz-reiter" id="sz-arten" role="group" aria-label="Aufgabenart wählen">
-      <button class="sz-reiter-knopf aktiv" id="aufgabe-formel" data-art="formel" aria-pressed="true"><span class="sz-reiter-nr">Aufgabe 1</span><span class="sz-reiter-name">Kurzformel</span><span class="sz-reiter-text">Die Schaltung als Formel schreiben, etwa \(R_1 + (R_2 \parallel R_3)\).</span></button>
-      <button class="sz-reiter-knopf" id="aufgabe-kette" data-art="kette" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 2</span><span class="sz-reiter-name">Zusammenfassen und zurückrechnen</span><span class="sz-reiter-text">Schritt für Schritt bis \(R_\text{ges}\), dann zurück bis zu einem Widerstand.</span></button>
-      <button class="sz-reiter-knopf" id="aufgabe-tabelle" data-art="tabelle" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 3</span><span class="sz-reiter-name">Teilströme und Teilspannungen</span><span class="sz-reiter-text">\(R_\text{ges}\) und \(I\) sind gegeben; Strom und Spannung an jedem Widerstand berechnen.</span></button>
-      <button class="sz-reiter-knopf" id="aufgabe-messen" data-art="messen" aria-pressed="false"><span class="sz-reiter-nr">Aufgabe 4</span><span class="sz-reiter-name">Messen</span><span class="sz-reiter-text">Voltmeter und Amperemeter richtig in die Schaltung setzen.</span></button>
-    </div>
-
-    <div class="typ-btns" id="sz-stufen" role="group" aria-label="Stufe wählen">
-      <button class="typ-btn aktiv" data-stufe="1">Stufe 1: Reihe oder parallel</button>
-      <button class="typ-btn" data-stufe="2">Stufe 2: Gemischt mit drei</button>
-      <button class="typ-btn" data-stufe="3">Stufe 3: Gemischt mit vier und fünf</button>
-      <button class="typ-btn" data-stufe="0">Alle Stufen</button>
-    </div>
-
-    <div class="sz-aufgabe" id="sz-aufgabe" aria-live="polite"></div>
-
-    <div class="sz-bilder" id="sz-bilder">
-      <div class="sz-bildspalte">
-        <div class="sz-bild-titel" id="sz-titel-1">Schaltung</div>
-        <div class="cv-wrap"><canvas id="sz-cv" aria-label="Schaltbild der Aufgabe"></canvas></div>
+    <div class="sz-steuer">
+      <div class="sz-gruppe" id="sz-arten" role="group" aria-label="Aufgabe wählen">
+        <span class="sz-gruppe-titel">Aufgabe</span>
+        <button class="sz-reiter-knopf aktiv" id="aufgabe-formel" data-art="formel" aria-pressed="true" title="Die Schaltung als Formel schreiben, etwa R1 + (R2 ∥ R3)"><span class="sz-reiter-nr">1</span><span class="sz-reiter-name">Kurzformel</span></button>
+        <button class="sz-reiter-knopf" id="aufgabe-kette" data-art="kette" aria-pressed="false" title="Schritt für Schritt bis R_ges, dann zurück bis zu einem Widerstand"><span class="sz-reiter-nr">2</span><span class="sz-reiter-name">Zusammenfassen und zurückrechnen</span></button>
+        <button class="sz-reiter-knopf" id="aufgabe-tabelle" data-art="tabelle" aria-pressed="false" title="R_ges und I sind gegeben; Strom und Spannung an jedem Widerstand berechnen"><span class="sz-reiter-nr">3</span><span class="sz-reiter-name">Teilströme und Teilspannungen</span></button>
+        <button class="sz-reiter-knopf" id="aufgabe-messen" data-art="messen" aria-pressed="false" title="Voltmeter und Amperemeter richtig in die Schaltung setzen"><span class="sz-reiter-nr">4</span><span class="sz-reiter-name">Messen</span></button>
       </div>
-      <div class="sz-bildspalte" id="sz-spalte-2" hidden>
-        <div class="sz-bild-titel" id="sz-titel-2"></div>
-        <div class="cv-wrap"><canvas id="sz-cv2" aria-label="Zusammengefasste Schaltung"></canvas></div>
+      <div class="sz-gruppe" id="sz-stufen" role="group" aria-label="Stufe wählen">
+        <span class="sz-gruppe-titel">Stufe</span>
+        <button class="typ-btn aktiv" data-stufe="1" title="Stufe 1: nur in Reihe oder nur parallel">1: Reihe, parallel</button>
+        <button class="typ-btn" data-stufe="2" title="Stufe 2: gemischt mit drei Widerständen">2: Gemischt, drei</button>
+        <button class="typ-btn" data-stufe="3" title="Stufe 3: gemischt mit vier und fünf Widerständen">3: Gemischt, 4 und 5</button>
+        <button class="typ-btn" data-stufe="0">Alle Stufen</button>
+      </div>
+      <div class="sz-gruppe">
+        <span class="sz-gruppe-titel">Anzeige</span>
+        <button class="typ-btn sz-knoten aktiv" id="sz-knoten" aria-pressed="true">Knoten färben</button>
       </div>
     </div>
-    <div class="sz-leiste">
-      <div class="sz-leiste" id="sz-chips" role="group" aria-label="Widerstände auswählen" style="margin:0"></div>
-      <button class="typ-btn sz-knoten aktiv" id="sz-knoten" aria-pressed="true">Knoten färben</button>
+
+    <div class="sz-spalte">
+      <div class="sz-aufgabe">
+        <div id="sz-aufgabe" aria-live="polite"></div>
+        <p class="sz-hinweis" id="sz-hinweis"></p>
+      </div>
+
+      <div class="sz-bilder" id="sz-bilder">
+        <div class="sz-bildspalte">
+          <div class="sz-bild-titel" id="sz-titel-1">Schaltung</div>
+          <div class="cv-wrap"><canvas id="sz-cv" aria-label="Schaltbild der Aufgabe"></canvas></div>
+        </div>
+        <div class="sz-bildspalte" id="sz-spalte-2" hidden>
+          <div class="sz-bild-titel" id="sz-titel-2"></div>
+          <div class="cv-wrap"><canvas id="sz-cv2" aria-label="Zusammengefasste Schaltung"></canvas></div>
+        </div>
+      </div>
+      <div class="sz-leiste" id="sz-chips" role="group" aria-label="Widerstände auswählen"></div>
+
+      <div class="sz-frage" id="sz-frage"></div>
+      <div class="sz-rueck" id="sz-rueck" aria-live="polite"></div>
+
+      <div class="formel-live sz-weg" id="sz-weg"></div>
+      <div id="sz-ende"></div>
     </div>
-    <p class="sz-hinweis" id="sz-hinweis"></p>
 
-    <div class="sz-frage" id="sz-frage"></div>
-    <div class="sz-rueck" id="sz-rueck" aria-live="polite"></div>
+    <div class="sz-aktionen">
+      <button class="play-btn" id="sz-neu">Neue Aufgabe</button>
+      <button class="typ-btn" id="sz-tipp">Tipp</button>
+      <button class="typ-btn" id="sz-zeigen">Schritt zeigen</button>
+      <span class="sz-stand" id="sz-stand"></span>
+    </div>
 
-    <div class="formel-live sz-weg" id="sz-weg"></div>
-    <div id="sz-ende"></div>
-
-  </div>
-  <div class="btn-row">
-    <button class="typ-btn" id="sz-tipp">Tipp</button>
-    <button class="typ-btn" id="sz-zeigen">Schritt zeigen</button>
-    <button class="typ-btn" id="sz-neu">Neue Aufgabe</button>
-    <span class="sz-stand" id="sz-stand"></span>
+   </div>
   </div>
 </div>
 
@@ -1385,10 +1407,10 @@ const cv = $('sz-cv'), cv2 = $('sz-cv2');
 const SZ_KNOTENFARBEN = ['#b3261e', '#1f5fa8', '#2e7d32', '#6a3d9a', '#b85a00', '#00838f', '#ad1457', '#5d4037'];
 const SZ_FARBNAMEN = ['Rot', 'Blau', 'Grün', 'Violett', 'Orange', 'Türkis', 'Pink', 'Braun'];
 const SZ_ARTEN = {
-  kette:   'Fasse die Schaltung Schritt für Schritt zu einem einzigen Widerstand zusammen. Danach rechnest du zurück bis zu ZIEL: Welcher Strom fliesst durch ihn, welche Spannung liegt an ihm?',
-  formel:  'Schreibe die Kurzformel dieser Schaltung: \\(+\\) heisst in Reihe, \\(\\parallel\\) parallel, und die Klammer sagt, was zuerst zusammengefasst wird.',
-  messen:  'ZIEL Wähle das Messgerät und wie es angeschlossen wird, dann setze es im Bild.',
-  tabelle: 'Gesamtwiderstand und Gesamtstrom sind schon berechnet: Das Ersatzschema zeigt sie, der Rechenweg steht unter «Gegeben». Berechne für jeden Widerstand die Spannung an ihm und den Strom durch ihn.',
+  kette:   'Fasse Schritt für Schritt zu einem einzigen Widerstand zusammen, dann rechne zurück bis zu ZIEL: Welcher Strom fliesst durch ihn, welche Spannung liegt an ihm?',
+  formel:  'Schreibe die Kurzformel: \\(+\\) heisst in Reihe, \\(\\parallel\\) parallel, die Klammer sagt, was zuerst zusammengefasst wird.',
+  messen:  'ZIEL',                // wie man vorgeht, sagt der Hinweis darunter Schritt für Schritt
+  tabelle: 'Berechne für jeden Widerstand die Spannung an ihm und den Strom durch ihn. \\(R_\\text{ges}\\) und \\(I\\) sind gegeben: im Ersatzschema und unter «Gegeben».',
 };
 const zustand = { stufe:1, art:'formel', A:null, vId:null, baum:null, wahl:[], phase:'gruppe', schritt:null, k:0,
                   fehlversuch:false, gezeigt:false, tipp:0, tippZelle:null, knoten:true, neu:null, weg:[], gegeben:[], ersatz:null,
@@ -1586,8 +1608,9 @@ function szAlles() { szPhaseText(); szChips(); szFrage(); szZeichne(); szStand()
 function szPhaseText() {
   const p = $('sz-phase'); if (!p) return;
   const ph = zustand.phase;
-  p.textContent = ph === 'fertig' ? 'fertig' : zustand.art === 'formel' ? 'Kurzformel' : zustand.art === 'messen' ? 'Messen' : zustand.art === 'tabelle' ? 'Teilströme und Teilspannungen'
-    : ph === 'zurueck' ? 'Teil 2: zurückrechnen' : 'Teil 1: zusammenfassen';
+  // die Aufgabe steht schon in der Steuerung; die Pille sagt nur den Teil und «fertig»
+  p.textContent = ph === 'fertig' ? 'fertig' : zustand.art !== 'kette' ? '' : ph === 'zurueck' ? 'Teil 2: zurückrechnen' : 'Teil 1: zusammenfassen';
+  p.hidden = !p.textContent;
 }
 
 /* ── Leiste mit den Widerständen ─────────────────────────────────── */
@@ -1651,8 +1674,7 @@ function szFrage() {
   } else if (ph === 'messen') {
     const M = zustand.mess, kn = (feld, wert, text) => '<button class="sz-knopf' + (M[feld] === wert ? ' aktiv' : '') + '" data-' + feld + '="' + wert +
       '" aria-pressed="' + (M[feld] === wert) + '">' + text + '</button>';
-    F.innerHTML = '<p>' + M.ziel.text + '</p>' +
-      '<div class="sz-zeile sz-mess-zeile"><span class="sz-mess-label">Gerät</span>' + kn('geraet', 'V', 'Voltmeter') + kn('geraet', 'A', 'Amperemeter') + '</div>' +
+    F.innerHTML = '<div class="sz-zeile sz-mess-zeile" style="margin-top:0"><span class="sz-mess-label">Gerät</span>' + kn('geraet', 'V', 'Voltmeter') + kn('geraet', 'A', 'Amperemeter') + '</div>' +
       '<div class="sz-zeile sz-mess-zeile"><span class="sz-mess-label">Anschluss</span>' + kn('anschluss', 'reihe', 'in die Leitung (in Reihe)') +
       kn('anschluss', 'knoten', 'an zwei Knoten (parallel)') + '</div>';
   } else if (ph === 'tabelle') {

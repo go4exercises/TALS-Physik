@@ -81,7 +81,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   \(\alpha < 0\), vom Turm) nach unten (Filter je Bewegung, «Gemischt»). Objekte ohne nennenswerten Luftwiderstand (Golfball
   statt Tennisball).
   \(y\) zeigt immer nach oben, auch beim freien Fall (Hinweis auf der Seite: die Themenseite misst dort nach unten).
-  Platzsparend (ganzer Trainer auf einem Bildschirm): Aufgabe, Bewegung und Knöpfe in einer schmalen Spalte rechts
+  Platzsparend (ganzer Trainer auf einem Bildschirm; Muster für alle Trainer, HOWTO-werkzeuge §3): Aufgabe, Bewegung und Knöpfe in einer schmalen Spalte rechts
   (unter 640 px Breite des Trainers oben bzw. unten, Container-Abfrage); Szene, Auftrag und Eingabe in einer Karte neben der
   Skizze. Bezugssystem und Luftwiderstand stehen nicht im Aufgabentext, sondern am Achsenkreuz der Skizze (\(x\), \(y\), \(F_W = 0\)).
   Drei Aufgabenarten (Anker `#aufgabe-zuordnen`, `#aufgabe-stellen`, `#aufgabe-ablesen`): (1) zur beschriebenen
@@ -109,6 +109,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   ±½, eine Summe); Formeln in `FU_FORMELN` (41, ~90 Aufgaben, drei Stufen), Grössen mit Einheit und Dimension in
   `FU_GR`. Selbsttest `fuSelbsttest` über `scripts/verify_formeln.js` im Pre-Flight (Einheiten jeder Formel,
   Lösung und jeder Zwischenstand mit Zufallszahlen in der Ausgangsformel, Einheitenprobe, Diagnosen).
+  Die Umformung endet immer mit der gesuchten Grösse allein links (sonst letzter Schritt «Seiten tauschen», Fehlbilder
+  «so stehen lassen», Kehrwert), damit die Zahlengleichung direkt anschliesst; die Einheitenprobe steht im selben Kasten
+  rechts neben dem Ergebnis. Einsetzen: eine Kette x = Term = Zahlen mit Einheiten ≈ Ergebnis.
   Verweise: Themenseite 0.1 `#umformen`, Leitprogramm Rechnen Schritt 4. Kein `localStorage`.
 - `werkzeuge/schaltungen-zusammenfassen.html` — Trainer Schaltungen zusammenfassen (6.2, seit
   10.10.2026), drei Aufgabenarten als Reiter: (1, Voreinstellung) Kurzformel

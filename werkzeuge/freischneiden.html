@@ -113,13 +113,22 @@ MathJax = {
 /* ── Seitenspezifisch nur der Trainer ──
    Palette der Kräfte, Liste der gezeichneten Kräfte, Aufgabenkopf, Rückmeldung
    und Lösungsteil. Bild und Bedienung stehen in .anim-layout (STYLEGUIDE §5.11). */
+.fs-rahmen { container-type:inline-size; }
+.fs-raster { display:grid; grid-template-columns:minmax(0,1fr) 168px; grid-template-areas:"haupt steuer" "haupt aktion";
+  grid-template-rows:auto 1fr; gap:0 14px; }
+.fs-spalte { grid-area:haupt; min-width:0; }
+.fs-steuer { grid-area:steuer; display:flex; flex-direction:column; gap:12px; }
+.fs-gruppe { display:flex; flex-direction:column; gap:4px; }
+.fs-gruppe-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 1px 2px; }
+.fs-gruppe .typ-btn { text-align:left; padding:4px 10px; line-height:1.35; }
+.fs-aktionen { grid-area:aktion; align-self:start; display:flex; flex-direction:column; gap:6px; margin-top:14px; padding-top:12px; border-top:1px solid var(--linie); }
 .fs-aufgabe { background:var(--papier); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein);
-  border-radius:8px; padding:10px 14px; margin-bottom:12px; }
-.fs-aufgabe-kopf { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin-bottom:4px; }
-.fs-aufgabe-titel { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); }
-.fs-zustand { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
-  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
-.fs-aufgabe p { margin:0; font-size:0.9rem; }
+  border-radius:8px; padding:8px 12px; margin-bottom:10px; }
+.fs-aufgabe-titel { font-family:var(--serif); font-size:0.98rem; font-weight:700; color:var(--tinte); margin-right:4px; }
+.fs-zustand { font-family:var(--mono); font-size:0.64rem; font-weight:700; letter-spacing:0.5px; padding:1px 7px; margin-right:4px; white-space:nowrap;
+  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); vertical-align:1px; }
+.fs-aufgabe p { margin:0; font-size:0.9rem; line-height:1.5; }
+.fs-aufgabe .fs-auftrag { margin-top:4px; font-weight:700; }
 .fs-feld-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
   color:var(--bernstein); margin:2px 0 6px; }
 .fs-palette { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:12px; }
@@ -154,18 +163,16 @@ MathJax = {
 .fs-loesung-raster { display:grid; grid-template-columns:minmax(0,1fr) 240px; gap:14px; align-items:start; margin-top:10px; }
 .fs-plan-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
   color:var(--tinte-2); margin-bottom:4px; }
-.fs-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
+.fs-stand { font-family:var(--mono); font-size:0.66rem; line-height:1.4; color:var(--tinte-2); margin-top:4px; }
 #fs-cv { touch-action:none; cursor:crosshair; }
-.fs-reiter { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
-.fs-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
+.fs-reiter-knopf { display:flex; align-items:baseline; gap:7px; text-align:left; padding:5px 10px; border-radius:7px; cursor:pointer;
   border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; scroll-margin-top:66px; }
 .fs-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
-.fs-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
+.fs-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 3px 0 0 var(--bernstein); }
 .fs-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
-.fs-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.fs-reiter-nr { font-family:var(--mono); font-size:0.66rem; font-weight:700; color:var(--tinte-2); }
 .fs-reiter-knopf.aktiv .fs-reiter-nr { color:var(--bernstein); }
-.fs-reiter-name { font-family:var(--serif); font-size:0.98rem; font-weight:700; line-height:1.25; }
-.fs-reiter-text { font-size:0.76rem; color:var(--tinte-2); line-height:1.35; }
+.fs-reiter-name { font-size:0.84rem; font-weight:700; line-height:1.25; }
 #fs-kp { touch-action:none; cursor:grab; }
 .fs-kp-massstab { font-family:var(--mono); font-size:0.74rem; color:var(--tinte); margin:0 0 6px; }
 .fs-kp-wert { font-family:var(--mono); font-size:0.72rem; color:var(--tinte-2); white-space:nowrap; }
@@ -177,10 +184,18 @@ MathJax = {
 .fs-ab-ein.ok { border-color:var(--gruen-rand); background:var(--gruen-hell); }
 .fs-ab-ein.falsch { border-color:var(--rot); background:var(--rot-hell); }
 #fs-meinplan-text { font-size:0.74rem; color:var(--tinte-2); line-height:1.4; margin:4px 0 0; }
+@media (min-width: 1100px) {     /* neben der Steuerspalte: Bedienung etwas schmaler, damit das Bild Platz behält */
+  .fs-raster .anim-layout { grid-template-columns:minmax(0,1fr) 280px; gap:14px; }
+}
+@container (max-width: 640px) {    /* schmal: Steuerung oben, Knöpfe unten */
+  .fs-raster { grid-template-columns:minmax(0,1fr); grid-template-areas:"steuer" "haupt" "aktion"; grid-template-rows:auto; }
+  .fs-steuer { gap:6px; margin-bottom:10px; }
+  .fs-gruppe { flex-direction:row; flex-wrap:wrap; align-items:center; gap:5px; }
+  .fs-gruppe-titel { width:100%; margin:0 0 0 2px; }
+  .fs-aktionen { flex-direction:row; flex-wrap:wrap; align-items:center; margin-top:10px; padding-top:10px; }
+  .fs-stand { width:100%; margin-top:0; }
+}
 @media (max-width: 700px) {
-  .fs-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
-  .fs-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
-  .fs-reiter-text { display:none; }
   .fs-loesung-raster { grid-template-columns:minmax(0,1fr); }
   .fs-loesung-raster .formel-live { padding:12px 8px; }   /* breitestes Glied (Bruch) passt ab 360 px */
 }
@@ -268,59 +283,67 @@ MathJax = {
       </div>
     </div>
   </div>
-  <div class="widget-body">
+  <div class="widget-body fs-rahmen">
+   <div class="fs-raster">
 
-    <div class="fs-reiter" id="fs-arten" role="group" aria-label="Aufgabenart wählen">
-      <button class="fs-reiter-knopf aktiv" id="aufgabe-freischneiden" data-art="frei" aria-pressed="true"><span class="fs-reiter-nr">Aufgabe 1</span><span class="fs-reiter-name">Freischneiden</span><span class="fs-reiter-text">Welche Kräfte wirken, und wohin zeigen sie? Danach die resultierende Kraft.</span></button>
-      <button class="fs-reiter-knopf" id="aufgabe-kraefteplan" data-art="plan" aria-pressed="false"><span class="fs-reiter-nr">Aufgabe 2</span><span class="fs-reiter-name">Kräfteplan</span><span class="fs-reiter-text">Wie gross sind die Kräfte? Spitze an Fuss im Massstab zeichnen und die Beträge ablesen.</span></button>
-    </div>
-
-    <div class="typ-btns" id="fs-stufen" role="group" aria-label="Stufe wählen">
-      <button class="typ-btn aktiv" data-stufe="1">Stufe 1: Einstieg</button>
-      <button class="typ-btn" data-stufe="2">Stufe 2: Unterlage und Reibung</button>
-      <button class="typ-btn" data-stufe="3">Stufe 3: Seile, Fahrzeuge, Kreis</button>
-      <button class="typ-btn" data-stufe="0">Gemischt</button>
-    </div>
-
-    <div class="fs-aufgabe" id="fs-aufgabe" aria-live="polite"></div>
-
-    <div class="anim-layout">
-      <div class="anim-layout-bild">
-        <div class="cv-wrap"><canvas id="fs-cv" tabindex="0" aria-label="Bild der Aufgabe mit dem freigeschnittenen Körper und den eingezeichneten Kräften"></canvas></div>
-        <p class="fs-bedienhinweis" id="fs-bildhinweis"></p>
+    <div class="fs-steuer">
+      <div class="fs-gruppe" id="fs-arten" role="group" aria-label="Aufgabe wählen">
+        <span class="fs-gruppe-titel">Aufgabe</span>
+        <button class="fs-reiter-knopf aktiv" id="aufgabe-freischneiden" data-art="frei" aria-pressed="true" title="Welche Kräfte wirken, und wohin zeigen sie? Danach die resultierende Kraft."><span class="fs-reiter-nr">1</span><span class="fs-reiter-name">Freischneiden</span></button>
+        <button class="fs-reiter-knopf" id="aufgabe-kraefteplan" data-art="plan" aria-pressed="false" title="Wie gross sind die Kräfte? Spitze an Fuss im Massstab zeichnen und die Beträge ablesen."><span class="fs-reiter-nr">2</span><span class="fs-reiter-name">Kräfteplan</span></button>
       </div>
-      <div class="anim-layout-bedienung">
-       <div id="fs-feld-1">
-        <div class="fs-feld-titel">Kraft hinzufügen</div>
-        <div class="fs-palette" id="fs-palette"></div>
-        <div class="fs-feld-titel">Eingezeichnete Kräfte</div>
-        <div class="fs-liste" id="fs-liste"></div>
-        <div class="fs-feld-titel" style="margin-top:12px">Dein Kräfteplan</div>
-        <div class="cv-wrap"><canvas id="fs-meinplan" aria-label="Kräfteplan aus den eingezeichneten Pfeilen mit ihrer Summe"></canvas></div>
-        <p class="fs-bedienhinweis" id="fs-meinplan-text"></p>
-       </div>
-       <div id="fs-feld-2" hidden>
-        <div class="fs-feld-titel">Dein Kräfteplan im Massstab</div>
-        <p class="fs-kp-massstab" id="fs-kp-massstab"></p>
-        <div class="cv-wrap"><canvas id="fs-kp" tabindex="0" aria-label="Kräfteplan auf Karopapier: die Kräfte Spitze an Fuss, die Längen der unbekannten Kräfte lassen sich ziehen"></canvas></div>
-        <p class="fs-bedienhinweis" id="fs-kp-text"></p>
-        <div class="fs-liste" id="fs-kp-liste" style="margin-top:8px"></div>
-        <div id="fs-ablesen"></div>
-       </div>
+      <div class="fs-gruppe" id="fs-stufen" role="group" aria-label="Stufe wählen">
+        <span class="fs-gruppe-titel">Stufe</span>
+        <button class="typ-btn aktiv" data-stufe="1">1: Einstieg</button>
+        <button class="typ-btn" data-stufe="2">2: Unterlage und Reibung</button>
+        <button class="typ-btn" data-stufe="3">3: Seile, Fahrzeuge, Kreis</button>
+        <button class="typ-btn" data-stufe="0">Gemischt</button>
       </div>
     </div>
 
-    <div class="fs-rueck" id="fs-rueck" aria-live="polite"></div>
-    <div id="fs-res"></div>
-    <div id="fs-loesung"></div>
+    <div class="fs-spalte">
+      <div class="fs-aufgabe" id="fs-aufgabe" aria-live="polite"></div>
 
-  </div>
-  <div class="btn-row">
-    <button class="play-btn" id="fs-pruefen">Prüfen</button>
-    <button class="typ-btn" id="fs-tipp">Tipp</button>
-    <button class="typ-btn" id="fs-zeigen">Lösung zeigen</button>
-    <button class="typ-btn" id="fs-neu">Neue Aufgabe</button>
-    <span class="fs-stand" id="fs-stand"></span>
+      <div class="anim-layout">
+        <div class="anim-layout-bild">
+          <div class="cv-wrap"><canvas id="fs-cv" tabindex="0" aria-label="Bild der Aufgabe mit dem freigeschnittenen Körper und den eingezeichneten Kräften"></canvas></div>
+          <p class="fs-bedienhinweis" id="fs-bildhinweis"></p>
+        </div>
+        <div class="anim-layout-bedienung">
+         <div id="fs-feld-1">
+          <div class="fs-feld-titel">Kraft hinzufügen</div>
+          <div class="fs-palette" id="fs-palette"></div>
+          <div class="fs-feld-titel">Eingezeichnete Kräfte</div>
+          <div class="fs-liste" id="fs-liste"></div>
+          <div class="fs-feld-titel" style="margin-top:12px">Dein Kräfteplan</div>
+          <div class="cv-wrap"><canvas id="fs-meinplan" aria-label="Kräfteplan aus den eingezeichneten Pfeilen mit ihrer Summe"></canvas></div>
+          <p class="fs-bedienhinweis" id="fs-meinplan-text"></p>
+         </div>
+         <div id="fs-feld-2" hidden>
+          <div class="fs-feld-titel">Dein Kräfteplan im Massstab</div>
+          <p class="fs-kp-massstab" id="fs-kp-massstab"></p>
+          <div class="cv-wrap"><canvas id="fs-kp" tabindex="0" aria-label="Kräfteplan auf Karopapier: die Kräfte Spitze an Fuss, die Längen der unbekannten Kräfte lassen sich ziehen"></canvas></div>
+          <p class="fs-bedienhinweis" id="fs-kp-text"></p>
+          <div class="fs-liste" id="fs-kp-liste" style="margin-top:8px"></div>
+          <div id="fs-ablesen"></div>
+         </div>
+        </div>
+      </div>
+
+      <div class="fs-rueck" id="fs-rueck" aria-live="polite"></div>
+      <div id="fs-res"></div>
+      <div id="fs-loesung"></div>
+    </div>
+
+    <div class="fs-aktionen">
+      <button class="play-btn" id="fs-pruefen">Prüfen</button>
+      <button class="typ-btn" id="fs-tipp">Tipp</button>
+      <button class="typ-btn" id="fs-zeigen">Lösung zeigen</button>
+      <button class="typ-btn" id="fs-neu">Neue Aufgabe</button>
+      <span class="fs-stand" id="fs-stand"></span>
+    </div>
+
+   </div>
   </div>
 </div>
 
@@ -1056,19 +1079,19 @@ function fsNeueAufgabe(S, r) {
   const A = zustand.A;
   $('fs-feld-1').hidden = plan; $('fs-feld-2').hidden = !plan;
   $('fs-bildhinweis').textContent = FS_HINWEIS[zustand.art];
-  let auftrag = ' Zeichne alle Kräfte ein, die auf den markierten Körper wirken.';
+  let auftrag = 'Zeichne alle Kräfte ein, die auf den markierten Körper wirken.';
   if (plan) {
     const P = zustand.plan = fsPlanAufgabe(A);
     // Startlängen ganze Kästchen, sicher daneben
     P.unbekannt.forEach(k => { let L = P.s; while (Math.abs(L - k.F) <= 0.6 * P.s) L += P.s; zustand.planL[k.i] = L; });
     zustand.kpWahl = P.unbekannt[0].i;
-    auftrag = ' Gegeben: ' + P.reihe.filter(k => k.bekannt).map(k => '\\(' + fsTexName(k.nm) + ' = ' + fsN(k.F) + '\\)').join(', ') +
-      '. Art und Richtung der Kräfte zeigt das Bild. Zeichne den Kräfteplan im Massstab und lies die übrigen Beträge ab' +
+    auftrag = 'Gegeben: ' + P.reihe.filter(k => k.bekannt).map(k => '\\(' + fsTexName(k.nm) + ' = ' + fsN(k.F) + '\\)').join(', ') +
+      '. Zeichne den Kräfteplan im Massstab und lies die übrigen Beträge ab' +
       (A.res.F ? ', dazu den Betrag der resultierenden Kraft.' : '.');
   }
   const auf = $('fs-aufgabe');
-  auf.innerHTML = '<div class="fs-aufgabe-kopf"><span class="fs-aufgabe-titel">' + fsEsc(A.titel) + '</span>' +
-    '<span class="fs-zustand">' + fsEsc(A.zustand) + '</span></div><p>' + A.text + auftrag + '</p>';
+  auf.innerHTML = '<p><span class="fs-aufgabe-titel">' + fsEsc(A.titel) + '</span><span class="fs-zustand">' + fsEsc(A.zustand) + '</span>' +
+    A.text + '</p><p class="fs-auftrag">' + auftrag + '</p>';
   fsTypeset(auf);
   $('fs-rueck').innerHTML = ''; $('fs-res').innerHTML = ''; $('fs-loesung').innerHTML = ''; $('fs-ablesen').innerHTML = '';
   $('fs-pruefen').disabled = false; $('fs-zeigen').disabled = false; $('fs-tipp').disabled = false;

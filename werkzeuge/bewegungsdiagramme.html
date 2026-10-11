@@ -107,26 +107,31 @@ MathJax = {
 
 <style>
 /* ── Seitenspezifisch nur der Trainer ──
-   Reiter der Aufgabenarten, Aufgabenkopf, Diagramm, vier Auswahlkarten,
-   Eingabe, Rückmeldung und Rechenweg. */
-.bd-reiter { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; margin-bottom:12px; }
-.bd-reiter-knopf { display:flex; flex-direction:column; gap:3px; text-align:left; padding:9px 12px 10px; border-radius:9px; cursor:pointer;
+   Steuerspalte rechts (Aufgabe, Stufe, Knöpfe; schmal oben bzw. unten),
+   Auftragskarte, Diagramm, vier Auswahlkarten, Rückmeldung und Rechenweg. */
+.bd-rahmen { container-type:inline-size; }
+.bd-raster { display:grid; grid-template-columns:minmax(0,1fr) 168px; grid-template-areas:"haupt steuer" "haupt aktion";
+  grid-template-rows:auto 1fr; gap:0 14px; }
+.bd-spalte { grid-area:haupt; min-width:0; }
+.bd-steuer { grid-area:steuer; display:flex; flex-direction:column; gap:12px; }
+.bd-gruppe { display:flex; flex-direction:column; gap:4px; }
+.bd-gruppe-titel { font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 1px 2px; }
+.bd-gruppe .typ-btn { text-align:left; padding:4px 10px; }
+.bd-reiter-knopf { display:flex; align-items:baseline; gap:7px; text-align:left; padding:5px 10px; border-radius:7px; cursor:pointer;
   border:1.5px solid var(--linie); background:var(--papier-2); color:var(--tinte); font-family:var(--sans); transition:all 0.15s; scroll-margin-top:66px; }
 .bd-reiter-knopf:hover { border-color:var(--bernstein-rand); background:var(--bernstein-hell); }
-.bd-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 0 -4px 0 var(--bernstein); }
+.bd-reiter-knopf.aktiv { border-color:var(--bernstein); background:var(--bernstein-hell); box-shadow:inset 3px 0 0 var(--bernstein); }
 .bd-reiter-knopf:focus-visible { outline:2px solid var(--bernstein); outline-offset:1px; }
-.bd-reiter-nr { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); }
+.bd-reiter-nr { font-family:var(--mono); font-size:0.66rem; font-weight:700; color:var(--tinte-2); }
 .bd-reiter-knopf.aktiv .bd-reiter-nr { color:var(--bernstein); }
-.bd-reiter-name { font-family:var(--serif); font-size:0.98rem; font-weight:700; line-height:1.25; }
-.bd-reiter-text { font-size:0.76rem; color:var(--tinte-2); line-height:1.35; }
-.bd-aufgabe { background:var(--papier); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein);
-  border-radius:8px; padding:10px 14px; margin-bottom:12px; }
-.bd-aufgabe-kopf { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin-bottom:4px; }
-.bd-aufgabe-titel { font-family:var(--serif); font-size:1rem; font-weight:700; color:var(--tinte); }
-.bd-pille { font-family:var(--mono); font-size:0.66rem; font-weight:700; letter-spacing:0.5px; padding:2px 8px;
-  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); }
-.bd-aufgabe p { margin:0; font-size:0.9rem; }
-.bd-text { font-size:0.95rem; line-height:1.55; background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin:0 0 12px; }
+.bd-reiter-name { font-size:0.84rem; font-weight:700; line-height:1.25; }
+.bd-aktionen { grid-area:aktion; align-self:start; display:flex; flex-direction:column; gap:6px; margin-top:14px; padding-top:12px; border-top:1px solid var(--linie); }
+.bd-auftrag-karte { background:var(--weiss); border:1.5px solid var(--linie); border-left:4px solid var(--bernstein); border-radius:8px; padding:8px 12px; margin:0 0 10px; }
+.bd-auftrag-karte p { margin:0; font-size:0.93rem; line-height:1.5; }
+.bd-auftrag-karte .bd-text { margin-bottom:6px; }
+.bd-auftrag { font-weight:700; }
+.bd-pille { font-family:var(--mono); font-size:0.64rem; font-weight:700; letter-spacing:0.5px; padding:1px 7px; margin-right:4px; white-space:nowrap;
+  border-radius:11px; background:var(--bernstein-hell); border:1px solid var(--bernstein-rand); color:var(--bernstein); vertical-align:1px; }
 .bd-titel { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--tinte-2); margin:0 0 4px 2px; }
 .bd-karten { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; margin-top:12px; }
 .bd-karte { position:relative; display:block; width:100%; padding:6px; border-radius:9px; cursor:pointer; text-align:left;
@@ -137,8 +142,8 @@ MathJax = {
 .bd-karte.falsch { border-color:var(--rot); background:var(--rot-hell); }
 .bd-karte canvas { display:block; width:100%; }
 .bd-buchst { position:absolute; top:6px; right:10px; font-family:var(--mono); font-size:0.8rem; font-weight:700; color:var(--tinte-2); }
-.bd-frage { background:var(--weiss); border:1.5px solid var(--linie); border-radius:8px; padding:10px 14px; margin-top:12px; }
-.bd-frage p { margin:0 0 8px; font-size:0.9rem; }
+.bd-frage { margin-top:8px; }
+.bd-frage[hidden], .bd-text[hidden], .bd-karten[hidden] { display:none; }
 .bd-zeile { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
 .bd-eingabe { font-family:var(--mono); font-size:0.95rem; width:7.5em; padding:6px 8px; border-radius:6px;
   border:1.5px solid var(--linie); background:var(--weiss); color:var(--tinte); }
@@ -149,11 +154,16 @@ MathJax = {
 .bd-weg .fl-eq { font-size:0.95rem; }
 .bd-abschnitt { font-family:var(--mono); font-size:0.66rem; font-weight:700; color:var(--tinte-2); margin-right:8px; vertical-align:middle; white-space:nowrap; }
 .bd-nw { white-space:nowrap; }
-.bd-stand { font-family:var(--mono); font-size:0.7rem; color:var(--tinte-2); margin-left:auto; align-self:center; }
+.bd-stand { font-family:var(--mono); font-size:0.66rem; line-height:1.4; color:var(--tinte-2); margin-top:4px; }
+@container (max-width: 640px) {      /* schmal: Steuerung oben, Knöpfe unten */
+  .bd-raster { grid-template-columns:minmax(0,1fr); grid-template-areas:"steuer" "haupt" "aktion"; grid-template-rows:auto; }
+  .bd-steuer { gap:6px; margin-bottom:10px; }
+  .bd-gruppe { flex-direction:row; flex-wrap:wrap; align-items:center; gap:5px; }
+  .bd-gruppe-titel { width:100%; margin:0 0 0 2px; }
+  .bd-aktionen { flex-direction:row; flex-wrap:wrap; align-items:center; margin-top:10px; padding-top:10px; }
+  .bd-stand { width:100%; margin-top:0; }
+}
 @media (max-width: 700px) {
-  .bd-reiter { grid-template-columns:minmax(0,1fr); gap:6px; }
-  .bd-reiter-knopf { flex-direction:row; flex-wrap:wrap; align-items:baseline; gap:2px 10px; padding:8px 12px; }
-  .bd-reiter-text { display:none; }
   .bd-karten { gap:8px; }
   .bd-karte { padding:4px; }
   .bd-weg { padding:12px 8px; }
@@ -233,40 +243,50 @@ MathJax = {
       </div>
     </div>
   </div>
-  <div class="widget-body">
+  <div class="widget-body bd-rahmen">
+   <div class="bd-raster">
 
-    <div class="bd-reiter" id="bd-arten" role="group" aria-label="Aufgabenart wählen">
-      <button class="bd-reiter-knopf aktiv" id="aufgabe-zuordnen" data-art="zuordnen" aria-pressed="true"><span class="bd-reiter-nr">Aufgabe 1</span><span class="bd-reiter-name">Zuordnen</span><span class="bd-reiter-text">Zum gegebenen Diagramm das passende andere finden: \(s\) zu \(v\), \(v\) zu \(s\), \(v\) zu \(a\).</span></button>
-      <button class="bd-reiter-knopf" id="aufgabe-ablesen" data-art="ablesen" aria-pressed="false"><span class="bd-reiter-nr">Aufgabe 2</span><span class="bd-reiter-name">Ablesen</span><span class="bd-reiter-text">Geschwindigkeit und Beschleunigung als Steigung, Strecke als Fläche.</span></button>
-      <button class="bd-reiter-knopf" id="aufgabe-worte" data-art="worte" aria-pressed="false"><span class="bd-reiter-nr">Aufgabe 3</span><span class="bd-reiter-name">In Worten</span><span class="bd-reiter-text">Eine Bewegung ist beschrieben. Welches Diagramm gehört dazu?</span></button>
+    <div class="bd-steuer">
+      <div class="bd-gruppe" id="bd-arten" role="group" aria-label="Aufgabe wählen">
+        <span class="bd-gruppe-titel">Aufgabe</span>
+        <button class="bd-reiter-knopf aktiv" id="aufgabe-zuordnen" data-art="zuordnen" aria-pressed="true" title="Zum gegebenen Diagramm das passende andere finden: s zu v, v zu s, v zu a"><span class="bd-reiter-nr">1</span><span class="bd-reiter-name">Zuordnen</span></button>
+        <button class="bd-reiter-knopf" id="aufgabe-ablesen" data-art="ablesen" aria-pressed="false" title="Geschwindigkeit und Beschleunigung als Steigung, Strecke als Fläche"><span class="bd-reiter-nr">2</span><span class="bd-reiter-name">Ablesen</span></button>
+        <button class="bd-reiter-knopf" id="aufgabe-worte" data-art="worte" aria-pressed="false" title="Eine Bewegung ist beschrieben. Welches Diagramm gehört dazu?"><span class="bd-reiter-nr">3</span><span class="bd-reiter-name">In Worten</span></button>
+      </div>
+      <div class="bd-gruppe" id="bd-stufen" role="group" aria-label="Stufe wählen">
+        <span class="bd-gruppe-titel">Stufe</span>
+        <button class="typ-btn aktiv" data-stufe="1">1: Gleichförmig</button>
+        <button class="typ-btn" data-stufe="2">2: Beschleunigt</button>
+        <button class="typ-btn" data-stufe="3">3: Mit Umkehr</button>
+        <button class="typ-btn" data-stufe="0">Alle Stufen</button>
+      </div>
     </div>
 
-    <div class="typ-btns" id="bd-stufen" role="group" aria-label="Stufe wählen">
-      <button class="typ-btn aktiv" data-stufe="1">Stufe 1: Gleichförmig</button>
-      <button class="typ-btn" data-stufe="2">Stufe 2: Beschleunigt</button>
-      <button class="typ-btn" data-stufe="3">Stufe 3: Mit Umkehr</button>
-      <button class="typ-btn" data-stufe="0">Alle Stufen</button>
+    <div class="bd-spalte">
+      <div class="bd-auftrag-karte" id="bd-szene" aria-live="polite">
+        <p class="bd-text" id="bd-text" hidden></p>
+        <p class="bd-auftrag" id="bd-aufgabe"></p>
+        <div class="bd-frage" id="bd-frage" hidden></div>
+      </div>
+
+      <div id="bd-haupt">
+        <div class="bd-titel" id="bd-haupt-titel"></div>
+        <div class="cv-wrap"><canvas id="bd-cv" aria-label="Diagramm der Aufgabe"></canvas></div>
+      </div>
+
+      <div class="bd-karten" id="bd-karten" role="group" aria-label="Diagramme zur Auswahl"></div>
+      <div class="bd-rueck" id="bd-rueck" aria-live="polite"></div>
+      <div class="formel-live bd-weg" id="bd-weg" hidden></div>
     </div>
 
-    <div class="bd-aufgabe" id="bd-aufgabe" aria-live="polite"></div>
-
-    <div id="bd-haupt">
-      <div class="bd-titel" id="bd-haupt-titel"></div>
-      <div class="cv-wrap"><canvas id="bd-cv" aria-label="Diagramm der Aufgabe"></canvas></div>
+    <div class="bd-aktionen">
+      <button class="play-btn" id="bd-neu">Neue Aufgabe</button>
+      <button class="typ-btn" id="bd-tipp">Tipp</button>
+      <button class="typ-btn" id="bd-zeigen">Lösung zeigen</button>
+      <span class="bd-stand" id="bd-stand"></span>
     </div>
-    <p class="bd-text" id="bd-text" hidden></p>
 
-    <div class="bd-karten" id="bd-karten" role="group" aria-label="Diagramme zur Auswahl"></div>
-    <div class="bd-frage" id="bd-frage" hidden></div>
-    <div class="bd-rueck" id="bd-rueck" aria-live="polite"></div>
-    <div class="formel-live bd-weg" id="bd-weg" hidden></div>
-
-  </div>
-  <div class="btn-row">
-    <button class="typ-btn" id="bd-tipp">Tipp</button>
-    <button class="typ-btn" id="bd-zeigen">Lösung zeigen</button>
-    <button class="typ-btn" id="bd-neu">Neue Aufgabe</button>
-    <span class="bd-stand" id="bd-stand"></span>
+   </div>
   </div>
 </div>
 
@@ -798,25 +818,22 @@ function bdNeueAufgabe(V, seed) {
   const B = zustand.B = bdAufgabe(V, r);
   Object.assign(zustand, { fertig:false, fehlversuch:false, tipp:0, versuche:0, frage:null, O:null });
   const art = zustand.art;
-  let titel, pille, text;
+  let text;
   if (art === 'zuordnen') {
     [zustand.von, zustand.nach] = bdWahl(r, bdPaare(B));
     zustand.O = bdOptionen(B, zustand.von, zustand.nach, r);
-    titel = 'Vom ' + zustand.von + '-t- zum ' + zustand.nach + '-t-Diagramm'; pille = 'Zuordnen';
-    text = 'Das Diagramm zeigt die Bewegung als ' + BD_ART[zustand.von].name + ' über der Zeit. Welches <span class="bd-nw">\\(' + zustand.nach + '\\)-\\(t\\)-Diagramm</span> gehört zur selben Bewegung? Tippe es an.';
+    text = 'Welches <span class="bd-nw">\\(' + zustand.nach + '\\)-\\(t\\)-Diagramm</span> gehört zur selben Bewegung wie das gegebene <span class="bd-nw">\\(' + zustand.von + '\\)-\\(t\\)-Diagramm</span>? Tippe es an.';
   } else if (art === 'worte') {
     zustand.von = 'worte'; zustand.nach = B.stufe === 1 ? bdWahl(r, ['s', 'v']) : bdWahl(r, ['v', 'v', 's']);
     zustand.O = bdOptionen(B, 'worte', zustand.nach, r);
-    titel = 'Beschreibung in Worten'; pille = 'In Worten';
     text = 'Welches <span class="bd-nw">\\(' + zustand.nach + '\\)-\\(t\\)-Diagramm</span> passt zu dieser Bewegung? Tippe es an.';
   } else {
     zustand.von = B.stufe === 1 && r() < 0.7 ? 's' : 'v';
     zustand.frage = bdWahl(r, bdFragen(B, zustand.von));
-    titel = zustand.frage.art === 's' ? 'Strecke als Fläche' : zustand.frage.art === 'v' ? 'Geschwindigkeit als Steigung' : 'Beschleunigung als Steigung'; pille = 'Ablesen';
-    text = 'Lies die Antwort im ' + zustand.von + '-t-Diagramm ab. Der gefragte Abschnitt ist hinterlegt.';
+    text = '<span class="bd-pille">' + (zustand.frage.art === 's' ? 'Strecke als Fläche' : zustand.frage.art === 'v' ? 'Geschwindigkeit als Steigung' : 'Beschleunigung als Steigung') + '</span>' +
+      zustand.frage.frage + ' Der Abschnitt ist hinterlegt.';
   }
-  $('bd-aufgabe').innerHTML = '<div class="bd-aufgabe-kopf"><span class="bd-aufgabe-titel">' + titel + '</span><span class="bd-pille">' + pille +
-    '</span></div><p>' + text + '</p>';
+  $('bd-aufgabe').innerHTML = text;
   bdSetze($('bd-aufgabe'));
   $('bd-text').hidden = art !== 'worte';
   if (art === 'worte') { $('bd-text').innerHTML = bdText(B); bdSetze($('bd-text')); }
@@ -831,7 +848,7 @@ function bdZeichne() {
     const von = zustand.von, k = bdKurve(B, von);
     $('bd-haupt-titel').textContent = von + '-t-Diagramm' + (zustand.art === 'zuordnen' ? ' (gegeben)' : '');
     bdDiagramm('bd-cv', B, von, [{ k, farbe:BD_FARBE[von], punkte:true }],
-      { hoehe:240, band:zustand.frage ? [zustand.frage.t0, zustand.frage.t1] : null });
+      { hoehe:zustand.art === 'zuordnen' ? 190 : 240, band:zustand.frage ? [zustand.frage.t0, zustand.frage.t1] : null });
   }
   if (zustand.O) {
     const alle = zustand.O.flatMap(o => bdProben(o.k).map(t => bdBei(o.k, t)));
@@ -850,7 +867,7 @@ function bdFrage() {
   const F = $('bd-frage'), q = zustand.frage;
   F.hidden = !q;
   if (!q) { F.innerHTML = ''; return; }
-  F.innerHTML = '<p>' + q.frage + '</p><div class="bd-zeile"><label for="bd-ein">\\(' + q.gr + ' = \\)</label>' +
+  F.innerHTML = '<div class="bd-zeile"><label for="bd-ein">\\(' + q.gr + ' = \\)</label>' +
     '<input class="bd-eingabe" id="bd-ein" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">' +
     '<span class="bd-einheit">' + q.einheit + '</span><button class="play-btn" id="bd-pruefen">Prüfen</button></div>';
   bdSetze(F);
