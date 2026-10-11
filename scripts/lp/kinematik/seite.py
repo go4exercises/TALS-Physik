@@ -596,7 +596,7 @@ P01 = '../themen/p0-1-vorwissen-mathematik.html'
 P02 = '../themen/p0-2-vorwissen-physik.html'
 k0 = '''
     <section class="kap" id="k0">
-      <div class="kap-meta"><span class="marker">Kapitel 0</span><span class="abz">Vorwissen · 0.1 · 0.2</span><span class="zeit">≈ 10 min</span></div>
+      <div class="kap-meta"><span class="marker">Kapitel 0</span><span class="abz">Vorwissen · 0.1 · 0.2</span><span class="zeit">≈ 15 min</span></div>
       <h2 id="vorwissen">Vorwissen</h2>
       <p class="ziel">km/h und m/s, Gleichungen umstellen, Sinus und Kosinus, Bogenmass. Wenn das wackelt: <a href="leitprogramm-rechnen.html">Leitprogramm Rechnen und Schliessen</a> und <a href="leitprogramm-vorwissen.html">Leitprogramm Grössen, Messen, Druck</a>.</p>
       ''' + clipkarte('p0-1-umstellen', 'Gleichungen umstellen: auf beiden Seiten dasselbe tun', '0:56') + r'''
@@ -647,10 +647,10 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 11, [
     ('1d', 2, r'Warum bedeutet eine fallende Gerade im \(s\)-\(t\)-Diagramm, dass sich der Körper zurück bewegt? Und warum steht er bei einer waagrechten Geraden still?',
      r'<p>Die Steigung ist die Geschwindigkeit. Fällt die Gerade, wird der Ort \(s\) mit der Zeit kleiner: \(v\) ist negativ, der Körper bewegt sich zum Nullpunkt hin.</p><p>Bei einer waagrechten Geraden ändert sich \(s\) nicht: \(v = 0\), der Körper bleibt am selben Ort.</p>', ''),
 ])
-k1 = kapitel(1, 'ort-und-geschwindigkeit', 'Ort, Bahn und Geschwindigkeit', 'K1 · K3', 40,
+k1 = kapitel(1, 'ort-und-geschwindigkeit', 'Ort, Bahn und Geschwindigkeit', 'K1 · K3', 50,
     r'Du erklärst Schwerpunkt, Bahnkurve und Geschwindigkeit, unterscheidest Durchschnitts- und Momentangeschwindigkeit und rechnest mit \(s = s_0 + v \cdot t\).',
     ('p4-1-lp-gleichfoermig', 'Bewegung sehen: Ort, Bahn und Geschwindigkeit', '2:18'),
-    sim1, ('p4-1-lp-kontrolle-gleichfoermig', 'Kontrollfragen zu Ort und Geschwindigkeit', '0:38'),
+    sim1, ('p4-1-lp-kontrolle-gleichfoermig', 'Kontrollfragen zu Ort und Geschwindigkeit', '0:37'),
     fest1, [uebung('ort', 'Ort bei konstanter Geschwindigkeit'), uebung('mittel', 'Durchschnittsgeschwindigkeit'),
             uebung('einholen', 'Einholen')],
     auf1, f'<a href="{TS}#definition">Themenseite 4.1, Grundbegriffe</a> · <a href="{TS}#darstellungen">Geradlinig gleichförmige Bewegung</a> · Werkzeug: <a href="../werkzeuge/bewegungsdiagramme.html#aufgabe-zuordnen">s-t- und v-t-Diagramm zuordnen</a>, <a href="../werkzeuge/bewegungsdiagramme.html#aufgabe-worte">Bewegung in Worten als Diagramm</a>')
@@ -688,7 +688,7 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 13, [
     ('2d', 2, r'Ein Auto braucht bei \(30\;\text{km/h}\) einen Bremsweg von \(6\;\text{m}\). Wie lang ist er bei \(50\;\text{km/h}\), gleich stark gebremst? Begründe, ohne \(a\) auszurechnen.',
      r'<p>Im Bremsweg \(s = \dfrac{v_0^2}{2 \cdot |a|}\) steht die Geschwindigkeit im Quadrat. Die Geschwindigkeit wächst um den Faktor \(\tfrac{50}{30} = \tfrac53\), der Bremsweg also um \(\left(\tfrac53\right)^2 = \tfrac{25}{9}\): \(s = 6\;\text{m} \cdot \tfrac{25}{9} \approx 16.7\;\text{m}\).</p><p class="komm">Kein Umrechnen in m/s nötig: Es zählt nur das Verhältnis der Geschwindigkeiten.</p>', ''),
 ])
-k2 = kapitel(2, 'beschleunigung', 'Beschleunigung und Bremsweg', 'K1 · K3', 40,
+k2 = kapitel(2, 'beschleunigung', 'Beschleunigung und Bremsweg', 'K1 · K3', 55,
     r'Du erklärst die Beschleunigung, liest \(v\)-\(t\)-Diagramme über Steigung und Fläche und löst Aufgaben mit den Bewegungsgleichungen für konstante Beschleunigung.',
     ('p4-1-lp-beschleunigt', 'Bewegung sehen: Beschleunigung ist Steigung, Weg ist Fläche', '2:51'),
     sim2, ('p4-1-lp-kontrolle-beschleunigt', 'Kontrollfragen zur Beschleunigung', '0:35'),
@@ -732,9 +732,9 @@ auf4 = test('t4', 'Aufgaben · Kapitel 3', 12, [
     ('3d', 2, r'Zwei Schwimmer queren denselben Fluss quer zum Ufer, A mit \(1\;\text{m/s}\), B mit \(2\;\text{m/s}\). Wird B halb so weit versetzt wie A? Begründe.',
      r'<p>Ja. Die Strömung hat keinen Anteil quer über den Fluss; hinüber bringt allein die eigene Geschwindigkeit. B braucht darum nur die halbe Querzeit \(t = \dfrac{b}{v_S}\). Der Versatz \(d = v_F \cdot t\) wächst mit der Zeit, in der die Strömung wirkt: halbe Zeit, halber Versatz.</p>', ''),
 ])
-k4 = kapitel(3, 'vektoren', 'Geschwindigkeit als Vektor', 'K2', 40,
+k4 = kapitel(3, 'vektoren', 'Geschwindigkeit als Vektor', 'K2', 50,
     r'Du stellst Geschwindigkeiten als Pfeile dar und berechnest damit Relativbewegungen und Bewegungen gegenüber dem Boden — auf einer Geraden mit Vorzeichen, quer dazu mit Komponenten.',
-    ('p4-1-lp-vektor', 'Bewegung sehen: Geschwindigkeiten addieren sich als Pfeile', '2:10'),
+    ('p4-1-lp-vektor', 'Bewegung sehen: Geschwindigkeiten addieren sich als Pfeile', '2:11'),
     sim4, ('p4-1-lp-kontrolle-vektor', 'Kontrollfragen zur Vektoraddition', '0:43'),
     fest4, [uebung('eindim', 'Relativ und gegenüber dem Boden'), uebung('quer', 'Quer zur Strömung: Betrag und Winkel'),
             uebung('fluss', 'Querzeit und Versatz')],
@@ -772,13 +772,13 @@ def wurfbild():
 fest3 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Fall und Wurf</div>
-          <p><b>Freier Fall</b> (ohne Luftwiderstand): gleichmässig beschleunigt mit \(g = 9.81\;\text{m/s}^2\) nach unten, für alle Körper gleich, unabhängig von der Masse. Aus der Ruhe, mit dem Betrag \(v\) der Geschwindigkeit und dem Fallweg \(h\) (beide nach unten gemessen):</p>
+          <p><b>Freier Fall</b> (ohne Luftwiderstand): gleichmässig beschleunigt mit \(g = 9.81\;\text{m/s}^2\) nach unten, für alle Körper gleich, unabhängig von der Masse. Aus der Ruhe, mit dem Betrag \(v\) der Geschwindigkeit und dem Fallweg \(h\) — beide nach unten gemessen, nach unten ist hier positiv:</p>
           <p>\[ v = g \cdot t \qquad h = \tfrac12 \cdot g \cdot t^2 \qquad t = \sqrt{\frac{2h}{g}} \]</p>
-          <p><b>Wurf:</b> zwei Bewegungen, die sich nicht stören — waagrecht gleichförmig, senkrecht wie der freie Fall. Mit Abwurfgeschwindigkeit \(v_0\), Winkel \(\alpha\) und Abwurfhöhe \(h_0\), die Höhe \(y\) nach oben gemessen:</p>
+          <p><b>Wurf:</b> zwei Bewegungen, die sich nicht stören — waagrecht gleichförmig, senkrecht wie der freie Fall. Mit Abwurfgeschwindigkeit \(v_0\), Winkel \(\alpha\) und Abwurfhöhe \(h_0\) über dem Boden; die Höhe \(y\) wird nach oben gemessen, nach oben ist hier positiv:</p>
           <p>\[ x(t) = v_0 \cdot \cos\alpha \cdot t \qquad y(t) = h_0 + v_0 \cdot \sin\alpha \cdot t - \tfrac12 \cdot g \cdot t^2 \]</p>
-          <p><b>Senkrechter Wurf nach oben</b> (\(\alpha = 90^\circ\)): Der Körper wird jede Sekunde um \(9.81\;\text{m/s}\) langsamer, \(v = v_0 - g \cdot t\); seine Höhe über der Abwurfstelle ist \(h = v_0 \cdot t - \tfrac12 \cdot g \cdot t^2\). Im höchsten Punkt ist \(v = 0\):</p>
+          <p><b>Senkrechter Wurf nach oben</b> (\(\alpha = 90^\circ\), nach oben positiv): Beim Steigen wird der Körper jede Sekunde um \(9.81\;\text{m/s}\) langsamer, \(v = v_0 - g \cdot t\); seine Höhe über der Abwurfstelle ist \(y = v_0 \cdot t - \tfrac12 \cdot g \cdot t^2\). Im höchsten Punkt ist \(v = 0\) — daraus Steigzeit \(t_S\) und Steighöhe \(h_\text{max}\) über der Abwurfstelle:</p>
           <p>\[ t_S = \frac{v_0}{g} \qquad h_\text{max} = \frac{v_0^2}{2 \cdot g} \]</p>
-          <p>Zurück fällt er genau so lange und kommt mit demselben Betrag \(v_0\) wieder an. <b>Nach unten geworfen</b> (\(\alpha = -90^\circ\)) kommt die Anfangsgeschwindigkeit dazu, alles nach unten gemessen: \(v = v_0 + g \cdot t\) und Fallweg \(h = v_0 \cdot t + \tfrac12 \cdot g \cdot t^2\).</p>
+          <p>Zurück fällt er genau so lange und kommt mit demselben Betrag \(v_0\) wieder an. <b>Nach unten geworfen</b> (\(\alpha = -90^\circ\)): Hier zählt wieder nach unten positiv, wie beim freien Fall; \(v_0\) ist der Betrag der Abwurfgeschwindigkeit. Sie kommt dazu: \(v = v_0 + g \cdot t\) und Fallweg \(h = v_0 \cdot t + \tfrac12 \cdot g \cdot t^2\).</p>
           <p>Die Bahnkurve ist eine Parabel. Beim waagrechten Wurf ist \(\alpha = 0^\circ\): Die Flugzeit hängt nur von der Höhe ab, und senkrecht wird der Körper wie im freien Fall schneller — nach \(t\) Sekunden mit \(g \cdot t\) nach unten (mit \(y\) nach oben gemessen: \(v_y = -g \cdot t\)). Landet der Körper auf Abwurfhöhe (\(h_0 = 0\)), gilt \(t_F = \dfrac{2 \cdot v_0 \cdot \sin\alpha}{g}\) und \(s_x = \dfrac{v_0^2 \cdot \sin(2\alpha)}{g}\) — am weitesten bei \(45^\circ\), gleich weit bei \(\alpha\) und \(90^\circ - \alpha\).</p>
         </div>
         <div class="warn">
@@ -800,9 +800,9 @@ auf3 = test('t3', 'Aufgaben · Kapitel 4', 14, [
      r'<p>Waagrecht liegen die Punkte immer gleich weit auseinander (je \(0.8\;\text{m}\)): gleiche Wege in gleichen Zeiten, also gleichförmig. Senkrecht werden die Abstände von Punkt zu Punkt grösser (rund \(0.2\), \(0.6\), \(1.0\), \(1.4\), \(1.8\;\text{m}\)): Die Geschwindigkeit nach unten wächst, die Bewegung ist beschleunigt.</p>',
      '\n            <div class="mini-reihe">' + wurfbild() + '</div>'),
 ])
-k3 = kapitel(4, 'fall-und-wurf', 'Freier Fall und Wurf', 'K3', 55,
+k3 = kapitel(4, 'fall-und-wurf', 'Freier Fall und Wurf', 'K3', 75,
     r'Du löst Aufgaben zum freien Fall, zum senkrechten Wurf nach oben und unten und zum Wurf, indem du die Bewegung in eine waagrechte gleichförmige und eine senkrechte beschleunigte Bewegung zerlegst.',
-    ('p4-1-lp-wurf', 'Bewegung sehen: Fall und Wurf in zwei Richtungen', '3:03'),
+    ('p4-1-lp-wurf', 'Bewegung sehen: Fall und Wurf in zwei Richtungen', '3:08'),
     sim3, ('p4-1-lp-kontrolle-wurf', 'Kontrollfragen zu Fall und Wurf', '0:46'),
     fest3, [uebung('fall', 'Freier Fall'), uebung('senkrecht', 'Senkrechter Wurf'), uebung('waagrecht', 'Waagrechter Wurf'), uebung('schief', 'Schiefer Wurf vom Boden')],
     auf3, f'<a href="{TS}#freier-fall">Themenseite 4.1, Freier Fall</a> · <a href="{TS}#wurfparabel">Parabolische Bewegung</a> · Werkzeug: <a href="../werkzeuge/fall-und-wurf.html#aufgabe-zuordnen">Diagramme zu Fall und Wurf zuordnen</a>, <a href="../werkzeuge/fall-und-wurf.html#aufgabe-stellen">Scheitel und Aufprall finden</a>, <a href="../werkzeuge/fall-und-wurf.html#aufgabe-ablesen">Werte ablesen und rechnen</a>')
@@ -857,7 +857,7 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
      r'<p>\(\vec v\) liegt an beiden Orten tangential an der Bahn und zeigt in Drehrichtung (gegen den Uhrzeigersinn): bei P fast senkrecht nach oben, leicht nach links geneigt, bei Q fast senkrecht nach unten, ebenfalls leicht nach links. \(\vec a_z\) zeigt an beiden Orten zum Mittelpunkt M.</p><p>Die beiden Pfeile \(\vec v\) sind gleich lang, zeigen aber in verschiedene Richtungen. Eine Änderung der Richtung ist eine Änderung des Vektors \(\vec v\) — also eine Beschleunigung.</p>',
      '\n            <div class="mini-reihe">' + kreisbild() + '</div>'),
 ])
-k5 = kapitel(5, 'kreisbewegung', 'Gleichförmige Kreisbewegung', 'K4 · K1', 40,
+k5 = kapitel(5, 'kreisbewegung', 'Gleichförmige Kreisbewegung', 'K4 · K1', 50,
     r'Du bestimmst Umlaufzeit, Rotationsfrequenz, Winkelgeschwindigkeit, Bahngeschwindigkeit und Zentripetalbeschleunigung und erklärst, warum eine gleichförmige Kreisbewegung beschleunigt ist.',
     ('p4-1-lp-kreis', 'Bewegung sehen: gleichförmig auf der Kreisbahn', '2:28'),
     sim5, ('p4-1-lp-kontrolle-kreis', 'Kontrollfragen zur Kreisbewegung', '0:41'),
@@ -871,7 +871,7 @@ gt = f'''
     <section class="kap" id="gesamttest">
       <div class="gesamt">
         <div class="gesamt-kopf">
-          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">4.1 · K1–K4</span><span class="zeit">≈ 25 min · 25 Punkte</span></div>
+          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">4.1 · K1–K4</span><span class="zeit">≈ 35 min · 25 Punkte</span></div>
           <h2 id="gesamttest-titel">Gesamttest</h2>
           <div class="pdf-weg">
             <div class="pdf-schritt"><span class="nr">1</span><div><b>Lösen</b> — auf Papier, mit Rechenweg. Erlaubt sind Taschenrechner und Formelsammlung.<br>
@@ -933,14 +933,15 @@ oben = '''<div id="nav-root"></div>
      Strömung gemessen (90° = quer), γ = Driftwinkel mit tan γ = v_F / v_S. Die Themenseite nennt beim
      Vorhalten (Mini-Check Transfer) mit γ auch den Winkel gegen die Senkrechte; das Leitprogramm
      rechnet das Vorhalten darum allein mit β (v_S · cos β = −v_F).
-     Zeiten: K0 10 · K1 40 · K2 40 · K3 40 · K4 55 · K5 40 · Gesamttest 25 = 250 min ≈ 5.6 Lektionen
-     (Kapitel 4 mit Fall, senkrechtem, waagrechtem und schiefem Wurf ist das längste). -->
+     Zeiten (nach der Prüfung vom 11.10.2026 aus den Teilen geschätzt): K0 15 · K1 50 · K2 55 · K3 50 · K4 75 ·
+     K5 50 · Gesamttest 35 = 330 min ≈ 7.3 Lektionen (Kapitel 4 mit Fall, senkrechtem, waagrechtem und
+     schiefem Wurf ist das längste). -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
       <p class="marke">Physik begreifbar · Leitprogramm</p>
       <h1>Kinematik</h1>
-      <p class="unter">Ort, Geschwindigkeit, Beschleunigung, Vektoren, Fall und Wurf und Kreisbahn — zuschauen, tüfteln, kontrollieren, üben. Fünf Kapitel zu je rund einer Lektion, dazu Vorwissen und Gesamttest.</p>
+      <p class="unter">Ort, Geschwindigkeit, Beschleunigung, Vektoren, Fall und Wurf und Kreisbahn — zuschauen, tüfteln, kontrollieren, üben. Fünf Kapitel zu je 50 bis 75 Minuten, dazu Vorwissen und Gesamttest — zusammen rund 330 Minuten, gut sieben Lektionen.</p>
     </div>
     <div class="kopf-rechts">
       <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>

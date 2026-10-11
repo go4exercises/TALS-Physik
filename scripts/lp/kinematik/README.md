@@ -124,3 +124,23 @@ Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entsc
 - vektor, Szene 4: β-Bogen bewusst klein (r ≈ 20 px), sonst schneidet er die Beschriftung «v_Ufer» der Simulation.
 - Zwei Zeitpunkte der Befundliste waren falsch zugeordnet (vektor «β: von der Strömung aus», wurf «45°: 22.9 m»)
   und blieben; korrigiert wurde stattdessen die Formel für \(s_x\).
+
+## Fassung 1.2 (11.10.2026) — nach der dritten Prüfung
+
+- **Zeit** aus den Teilen geschätzt: K0 15 · K1 50 · K2 55 · K3 50 · K4 75 · K5 50 · Gesamttest 35 = 330 min,
+  gut sieben Lektionen (Kopf, Kapitelköpfe, Gesamttest auf Seite und PDF). Die Bänder «Lektion 1 … 5» bleiben
+  Gliederung (je ein Kapitel), wie in den übrigen Leitprogrammen.
+- **Bezeichnungen im Fallkapitel:** \(h\) ist immer der Fallweg (nach unten gemessen, wie \(h = \tfrac12 g t^2\) auf
+  der Themenseite), \(y\) die Höhe (nach oben gemessen), \(h_0\) die Abwurfhöhe über dem Boden, \(h_\text{max}\) die
+  Steighöhe über der Abwurfstelle; sim3 zeigt den höchsten Punkt über dem Boden als \(y_\text{max}\). Wo die positive
+  Richtung wechselt (nach oben / nach unten geworfen), sagen es Festhalten und Clip (Szenen «Nach oben», «Nach unten»
+  neu vertont, Notiz im Bild, Achsen «y [m]»).
+- **Kontrollclip Kreis F3** fragt nicht mehr nach der Richtung von Δv (Konstruktion nirgends eingeführt) und nicht
+  wörtlich wie der Mini-Check der Themenseite, sondern angewandt: Velo im Kreisel fährt nach Norden, Mitte im Westen —
+  wohin zeigt die Beschleunigung? Antwortbild in `antworten.py`.
+- **Übungen:** «eindim» fragt nach der Geschwindigkeit *mit Vorzeichen* (vorher «Wie schnell», Betrag); «bahn» mit
+  Gegenständen (Kinder- und Kettenkarussell, Riesenrad, Hammerwurf, Schallplatte) und je eigener Grenze für \(a_z\).
+- **Bewertungspaket Fassung 5:** eine Regel für den falschen Ansatz — er kostet die Ansatzzeile (W) und das direkt
+  daraus berechnete Ergebnis (E), ohne Ansatzzeile nur dieses; jeder andere Fehler nur seine Zeile. G3 b) Skizze oder
+  Komponentenansatz (Gesamttest mit mehr Platz), \(v_S\), \(v_F\) erklärt, G2 a) Minuszeichen verlangt, Fehlerfall 14 s
+  mit d).

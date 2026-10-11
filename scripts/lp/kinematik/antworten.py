@@ -192,7 +192,7 @@ setze(d, 'Frage 4', A(graf([-0.6, 1.7], [-0.1, 1.11], [0.5, 1, 1.5], [0.5, 1], '
     strecken=tisch + [{"von": [0, 0.1], "bis": [xf, 0.1], "farbe": 1, "pfeil": True, "beschriftung": "1.2 m", "beschriftung_bei": [0.45, 0.15], "groesse": 28}])))
 # F5 (neu): senkrechter Wurf, 10 m/s
 ts, hm = 10 / G_, 100 / (2 * G_)
-setze(d, 'Frage 5', A(graf([-0.25, 2.3], [-0.7, 7], [0.5, 1, 1.5, 2], [1, 2, 3, 4, 5, 6], 't [s]', 'h [m]',
+setze(d, 'Frage 5', A(graf([-0.25, 2.3], [-0.7, 7], [0.5, 1, 1.5, 2], [1, 2, 3, 4, 5, 6], 't [s]', 'y [m]',   # Höhe über der Abwurfstelle, nach oben positiv
     kurven=[{"formel": "10*x-%.5f*x*x" % (0.5 * G_), "von": 0, "bis": 2 * ts, "farbe": 1, "dicke": 5}],
     strecken=[{"von": [ts, 0], "bis": [ts, hm], "farbe": 5, "gestrichelt": True, "beschriftung": "1.02 s", "beschriftung_bei": [ts, -0.45], "anker": "middle"},
               {"von": [0, hm], "bis": [ts, hm], "farbe": 5, "gestrichelt": True}],
@@ -259,25 +259,17 @@ setze(d, 'Frage 2', A(graf([-0.035, 0.46], [-0.8, 7.6], [0.1, 0.2, 0.3, 0.4], []
               {"von": [0, 2 * math.pi], "bis": [0.25, 2 * math.pi], "farbe": 5, "gestrichelt": True}],
     punkte=[{"x": 0.25, "y": round(2 * math.pi, 4), "farbe": 1, "beschriftung": "ein Umlauf: 2π", "beschriftung_bei": [0.235, 6.75], "anker": "end"}],
     texte=[{"bei": [0.265, 3.4], "text": "ω = 2π / 0.25 s", "farbe": 5, "groesse": 26}, {"bei": [0.265, 2.6], "text": "≈ 25.1 rad/s", "farbe": 5, "groesse": 26}])))
-# F3: Δv-Skizze — zwei Geschwindigkeitspfeile, vom selben Punkt aus gezeichnet; ihre Differenz zeigt zur Mitte
-L = 0.7
-v1 = (-L * math.sin(math.radians(60)), L * math.cos(math.radians(60)))
-v2 = (-L * math.sin(math.radians(120)), L * math.cos(math.radians(120)))
-P1 = (math.cos(math.radians(60)), math.sin(math.radians(60)))
-P2 = (math.cos(math.radians(120)), math.sin(math.radians(120)))
-C = (0.75, -0.25)
-r4 = lambda p: [round(p[0], 4), round(p[1], 4)]
-setze(d, 'Frage 3', A(graf([-1.7, 1.7], [-1.7, 1.7], [], [], '', '', pfeile=False, achsen=False,
+# F3 (Fassung 3, 11.10.2026): Velo im Kreisel, Draufsicht. Es fährt gerade nach Norden, die Mitte liegt im
+# Westen: v zeigt nach Norden, die Beschleunigung nach Westen zur Mitte. (Vorher Δv-Skizze; die Konstruktion
+# war im Einführungsclip nicht eingeführt, und «Wohin zeigt a_z?» steht wörtlich als Mini-Check auf der Themenseite.)
+setze(d, 'Frage 3', A(graf([-1.3, 2.1], [-1.7, 1.7], [], [], '', '', pfeile=False, achsen=False,
     kurven=kreis(0, 0, 1, farbe=5, dicke=4),
-    strecken=[{"von": r4(P1), "bis": r4((P1[0] + v1[0], P1[1] + v1[1])), "farbe": 3, "pfeil": True, "beschriftung": "v₁", "beschriftung_bei": [0.3, 1.3]},
-              {"von": r4(P2), "bis": r4((P2[0] + v2[0], P2[1] + v2[1])), "farbe": 3, "pfeil": True, "beschriftung": "v₂", "beschriftung_bei": [-1.25, 0.5], "anker": "end"},
-              {"von": r4(C), "bis": r4((C[0] + v1[0], C[1] + v1[1])), "farbe": 3, "pfeil": True, "beschriftung": "v₁", "beschriftung_bei": [0.5, 0.2]},
-              {"von": r4(C), "bis": r4((C[0] + v2[0], C[1] + v2[1])), "farbe": 3, "pfeil": True, "beschriftung": "v₂", "beschriftung_bei": [0.45, -0.66]},
-              {"von": r4((C[0] + v1[0], C[1] + v1[1])), "bis": r4((C[0] + v2[0], C[1] + v2[1])), "farbe": 4, "pfeil": True, "dicke": 6,
-               "beschriftung": "Δv", "beschriftung_bei": [0.0, -0.25], "anker": "end"}],
-    punkte=[{"x": r4(P1)[0], "y": r4(P1)[1], "farbe": 5}, {"x": r4(P2)[0], "y": r4(P2)[1], "farbe": 5},
-            {"x": 0, "y": 0, "farbe": 5, "beschriftung": "M", "beschriftung_bei": [-0.12, 0.05], "anker": "end"}],
-    texte=[{"bei": [-1.6, -1.45], "text": "Δv zeigt zur Mitte", "farbe": 4, "groesse": 28}])))
+    strecken=[{"von": [1, 0], "bis": [1, 0.75], "farbe": 3, "pfeil": True, "dicke": 6, "beschriftung": "v: nach Norden", "beschriftung_bei": [1.07, 0.62], "anker": "start"},
+              {"von": [1, 0], "bis": [0.3, 0], "farbe": 4, "pfeil": True, "dicke": 6},
+              {"von": [-1.1, 0.95], "bis": [-1.1, 1.5], "farbe": 5, "pfeil": True, "beschriftung": "N", "beschriftung_bei": [-1.01, 1.38], "anker": "start"}],
+    punkte=[{"x": 1, "y": 0, "farbe": 5, "beschriftung": "Velo", "beschriftung_bei": [1.08, -0.2], "anker": "start"},
+            {"x": 0, "y": 0, "farbe": 5, "beschriftung": "Mitte", "beschriftung_bei": [-0.08, -0.2], "anker": "end"}],
+    texte=[{"bei": [-1.2, -1.45], "text": "Beschleunigung: nach Westen, zur Mitte", "farbe": 4, "groesse": 26}])))
 # F4: r = 0.8 m, v = 4 m/s, a_z = 20 m/s²
 setze(d, 'Frage 4', A(graf([-1.25, 1.25], [-1.25, 1.25], [], [], '', '', pfeile=False,
     kurven=kreis(0, 0, 0.8, farbe=5, dicke=4),

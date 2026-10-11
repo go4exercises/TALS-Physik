@@ -3,6 +3,9 @@
 % Aufbau, Auftrag an die KI und Punktarten (E, W, B) wie im Leitprogramm Elektrizität, Fassung 1.1.
 % Fassung 4 (06.10.2026): passend zu Gesamttest Fassung 4 (G1, G3 c/d, G5, G6 neu), «ein Fehler, ein Abzug»
 % auch über Teilaufgaben hinweg, Folgewerte der typischen Fehler vollständig, Raster mit mehr Zeilenabstand.
+% Fassung 5 (11.10.2026, nach der dritten Prüfung): eine Regel für den falschen Ansatz (W und das direkt daraus
+% berechnete E, sonst nur die eigene Zeile) und überall gleich angewandt; G3 b) Skizze oder Komponentenansatz;
+% v_S, v_F erklärt; G2 a) Vorzeichen eindeutig verlangt, Fehlerfall 14 s mit d).
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
 \renewcommand{\lpname}{Kinematik}
@@ -45,7 +48,7 @@ Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am E
 Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Kinematik» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
 Geh so vor:\par
 1. Schreib zu jeder Aufgabe G1 bis G6 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
-2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. Taschenrechner im Bogenmass, sin/cos vertauscht, dieselbe fehlende Umrechnung) kostet nur beim ersten Vorkommen einen Punkt; die anderen Teilaufgaben werden folgerichtig bewertet. Gleichartige Fehler werden gleich bewertet. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
+2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Bewerte einen Fehler nur dort, wo er entsteht: Ein falscher Ansatz (falsche Formel oder falsches Verfahren) kostet die Ansatzzeile (W) und die Ergebniszeile (E), die direkt aus diesem Ansatz berechnet wird — hat die Teilaufgabe keine Ansatzzeile, nur diese Ergebniszeile. Jeder andere Fehler (Rechnen, Ablesen, Einheit, Rundung) kostet nur die Zeile, in der er passiert. Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es alle späteren Punkte — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. Taschenrechner im Bogenmass, sin/cos vertauscht, dieselbe fehlende Umrechnung) kostet nur beim ersten Vorkommen Punkte; die anderen Teilaufgaben werden folgerichtig bewertet. Gleichartige Fehler werden gleich bewertet. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
 3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Einheit oder Vorsilbe ($0.12\;\text{m} = 12\;\text{cm}$; $\text{m/s}$ statt $\text{km/h}$, wenn richtig umgerechnet), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen). Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) sind Begründungen: Es zählt die fachliche Aussage in eigenen Worten, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll. Zeilen mit (A) sind Ablesepunkte: der richtig aus dem Diagramm abgelesene Wert mit Einheit. Werte aus sinnvoll gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% vom Raster abweichen. Gleichwertig sind auch $\text{s}^{-1}$ oder $1/\text{s}$ statt $\text{rad/s}$ und $\text{Hz}$.\par
 4. Begründe jeden Abzug in einem Satz und nenne die Fehlerart (zum Beispiel «Wurzel vergessen»). Schreib die Musterlösung nicht ab — zeig mir, wo mein Fehler liegt.\par
 5. Gib zum Schluss eine Tabelle «Aufgabe | Punkte | Begründung», die Gesamtpunktzahl (von 25) und — nach der Selbsteinschätzung in Abschnitt 4 — welches Kapitel des Leitprogramms ich wiederholen soll. Keine Note.\par
@@ -54,10 +57,13 @@ Geh so vor:\par
 
 \needspace{8\baselineskip}
 \section*{3 · Musterlösung und Punkteraster}
-\textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
-richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler) — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
+\textbf{Allgemein:} Ganze Punkte je Zeile. \textbf{Ein Fehler wird nur dort bewertet, wo er entsteht.} Ein falscher Ansatz (falsche
+Formel oder falsches Verfahren) kostet die Ansatzzeile (W) und die Ergebniszeile (E), die direkt aus diesem Ansatz berechnet wird;
+hat die Teilaufgabe keine Ansatzzeile, kostet er nur diese Ergebniszeile. Jeder andere Fehler (Rechnen, Ablesen, Einheit, Rundung)
+kostet nur die Zeile, in der er passiert. Wer mit einem falschen Zwischenergebnis
+richtig weiterrechnet, bekommt alle späteren Zeilen (Folgefehler) — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
 Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. Taschenrechner im Bogenmass,
-sin/cos vertauscht, dieselbe fehlende Umrechnung) kostet nur beim ersten Vorkommen einen Punkt; die anderen Teilaufgaben werden
+sin/cos vertauscht, dieselbe fehlende Umrechnung) kostet nur beim ersten Vorkommen Punkte; die anderen Teilaufgaben werden
 folgerichtig bewertet. Gleichwertige Wege und Schreibweisen zählen voll.
 In der Spalte P: \textbf{(E)}~= Ergebnispunkt — es zählt das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit
 falscher Einheit gibt es ihn nicht. \textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten);
@@ -78,27 +84,28 @@ c) Geschwindigkeit und Beschleunigung & 1\B & Geschwindigkeit: Ortsänderung pro
 \begin{lpaufgabe}{G2}{Velofahrt im Diagramm}{5 P}
 \begin{raster}
 a) Ablesen & 1\A & $v = 6\;\text{m/s}$ während der ersten $12\;\text{s}$\\
-a) Beschleunigung & 1\E & Bremsen von $12\;\text{s}$ bis $15\;\text{s}$ (Nebengitter): $a = \dfrac{\Delta v}{\Delta t} = \dfrac{0 - 6\;\text{m/s}}{3\;\text{s}} = -2\;\text{m/s}^2$ (Vorzeichen oder «Bremsbeschleunigung» nötig)\\
+a) Beschleunigung & 1\E & Bremsen von $12\;\text{s}$ bis $15\;\text{s}$ (Nebengitter): $a = \dfrac{\Delta v}{\Delta t} = \dfrac{0 - 6\;\text{m/s}}{3\;\text{s}} = -2\;\text{m/s}^2$ (das Minuszeichen ist nötig, die Aufgabe verlangt das Vorzeichen; «$2\;\text{m/s}^2$ Bremsbeschleunigung» ohne Minus zählt nicht)\\
 b) Gesamtweg & 1\E & Fläche: $6\;\text{m/s} \cdot 12\;\text{s} + \tfrac12 \cdot 6\;\text{m/s} \cdot 3\;\text{s} = 72\;\text{m} + 9\;\text{m} = 81\;\text{m}$\\
 c) Durchschnitt & 1\E & $\bar v = \dfrac{\Delta s}{\Delta t} = \dfrac{81\;\text{m}}{15\;\text{s}} = 5.4\;\text{m/s}$\\
 d) bei $13.5\;\text{s}$ & 1\A & $v = 3\;\text{m/s}$ (abgelesen oder $6\;\text{m/s} - 2\;\text{m/s}^2 \cdot 1.5\;\text{s}$)\\
 \end{raster}
 \fehler{$a = +2\;\text{m/s}^2$: a) Beschleunigung 0 $\to$ 4 von 5\,P.
-Ende des Bremsens falsch abgelesen (z.\,B. $14\;\text{s}$): a) Beschleunigung 0 ($-3\;\text{m/s}^2$); b) $72\;\text{m} + 6\;\text{m} = 78\;\text{m}$ und c) $\tfrac{78\;\text{m}}{14\;\text{s}} \approx 5.57\;\text{m/s}$ folgerichtig $\to$ 4 von 5\,P.
+Ende des Bremsens falsch abgelesen (z.\,B. $14\;\text{s}$): a) Beschleunigung 0 ($-3\;\text{m/s}^2$); b) $72\;\text{m} + 6\;\text{m} = 78\;\text{m}$ und c) $\tfrac{78\;\text{m}}{14\;\text{s}} \approx 5.57\;\text{m/s}$ folgerichtig; d) zählt mit dem abgelesenen $3\;\text{m/s}$ und ebenso folgerichtig mit $6\;\text{m/s} - 3\;\text{m/s}^2 \cdot 1.5\;\text{s} = 1.5\;\text{m/s}$ $\to$ 4 von 5\,P.
 Nur das Rechteck ($72\;\text{m}$): b) 0, $\bar v = 4.8\;\text{m/s}$ folgerichtig $\to$ 4 von 5\,P.
 $\bar v = \tfrac{6 + 0}{2}\;\text{m/s} = 3\;\text{m/s}$ (Mittel zweier Geschwindigkeiten): c) 0 $\to$ 4 von 5\,P.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G3}{Fähre: $60\;\text{m}$ in $50\;\text{s}$ genau quer, Strömung $1.6\;\text{m/s}$}{6 P}
+Bezeichnungen wie im Leitprogramm: $v_S$ ist die Geschwindigkeit der Fähre gegenüber dem Wasser, $v_F$ die Strömungsgeschwindigkeit des Flusses, $\beta$ der Winkel zwischen $\vec v_S$ und der Strömungsrichtung. Andere Bezeichnungen zählen gleich.
 \begin{raster}
 a) quer zum Ufer & 1\E & $v_\text{quer} = \dfrac{b}{t} = \dfrac{60\;\text{m}}{50\;\text{s}} = 1.2\;\text{m/s}$\\
-b) Ansatz & 1\W & Pfeile: $\vec v_S + \vec v_F$ zeigt genau quer; der Anteil von $\vec v_S$ gegen die Strömung hebt $v_F$ auf, also $v_S = \sqrt{v_\text{quer}^2 + v_F^2}$\\
+b) Ansatz & 1\W & Pfeilskizze \emph{oder} gleichwertiger Ansatz in Komponenten — eines von beiden genügt. Skizze: $\vec v_S$ schräg flussaufwärts, $\vec v_F$ mit der Strömung, die Summe $\vec v_S + \vec v_F$ genau quer zum Ufer, im rechten Winkel zu $\vec v_F$. Komponenten: $v_S \cdot \cos\beta = -v_F$ und $v_S \cdot \sin\beta = v_\text{quer}$. Daraus $v_S = \sqrt{v_\text{quer}^2 + v_F^2}$\\
 b) Betrag & 1\E & $v_S = \sqrt{(1.2\;\text{m/s})^2 + (1.6\;\text{m/s})^2} = 2.0\;\text{m/s}$\\
 b) Richtung & 1\E & $v_S \cdot \cos\beta = -v_F$: $\cos\beta = -\dfrac{1.6\;\text{m/s}}{2.0\;\text{m/s}} = -0.8$, $\beta \approx 143^\circ$ von der Strömungsrichtung aus, also schräg flussaufwärts. Gleichwertig: rund $53^\circ$ aus der Querrichtung gegen die Strömung gedreht, oder rund $37^\circ$ zur Uferlinie flussaufwärts. Bezugsrichtung und «gegen die Strömung» (flussaufwärts) nötig; «$37^\circ$» allein zählt nicht.\\
 c) Hochwasser & 1\B & bis (knapp unter) $2.0\;\text{m/s}$: Der Anteil gegen die Strömung ist höchstens so gross wie der Betrag ihrer Geschwindigkeit gegenüber dem Wasser; bei $2.0\;\text{m/s}$ bliebe für die Querfahrt nichts übrig, darüber wird sie immer abgetrieben (Begründung nötig)\\
 d) flussaufwärts & 1\E & gegen die Strömung zählen die Geschwindigkeiten mit Vorzeichen: $v = 2.0\;\text{m/s} - 1.6\;\text{m/s} = 0.4\;\text{m/s}$;\newline $t = \dfrac{300\;\text{m}}{0.4\;\text{m/s}} = 750\;\text{s} = 12.5\;\text{min}$ (beides nötig)\\
 \end{raster}
-\fehler{$v_S = 1.2\;\text{m/s} + 1.6\;\text{m/s} = 2.8\;\text{m/s}$ (Pfeile als Zahlen addiert): b) Ansatz und Betrag 0; Richtung ($\cos\beta = -\tfrac{1.6}{2.8}$, $\beta \approx 125^\circ$), c) $2.8\;\text{m/s}$ und d) $1.2\;\text{m/s}$, $250\;\text{s}$ folgerichtig $\to$ 4 von 6\,P.
+\fehler{$v_S = 1.2\;\text{m/s} + 1.6\;\text{m/s} = 2.8\;\text{m/s}$ (Pfeile als Zahlen addiert, falscher Ansatz): b) Ansatz und Betrag 0; Richtung ($\cos\beta = -\tfrac{1.6}{2.8}$, $\beta \approx 125^\circ$), c) $2.8\;\text{m/s}$ und d) $1.2\;\text{m/s}$, $250\;\text{s}$ folgerichtig $\to$ 4 von 6\,P.
 $\cos\beta = +0.8$, also $\beta \approx 37^\circ$ von der Strömungsrichtung (Fähre zeigt flussabwärts): b) Richtung 0 $\to$ 5 von 6\,P.
 Rechner im Bogenmass ($\beta \approx 2.50$ statt $143^\circ$): b) Richtung 0 $\to$ 5 von 6\,P.
 c) «gar nicht mehr» oder «bis $1.6\;\text{m/s}$»: c) 0 $\to$ 5 von 6\,P.
@@ -112,7 +119,7 @@ Flugzeit & 1\E & $t = \sqrt{\dfrac{2 \cdot 11.25\;\text{m}}{9.81\;\text{m/s}^2}}
 Abwurf\-geschwindigkeit & 1\E & waagrecht gleichförmig: $v_0 = \dfrac{x}{t} = \dfrac{9\;\text{m}}{1.514\;\text{s}} \approx 5.94\;\text{m/s}$\\
 Fallen lassen & 1\B & ebenfalls rund $1.51\;\text{s}$: Die senkrechte Bewegung hängt nur von Höhe und $g$ ab, nicht von der waagrechten.\\
 \end{raster}
-\fehler{$t = \dfrac{2h}{g} \approx 2.29\;\text{s}$ (Wurzel vergessen): Ansatz und Flugzeit 0; $v_0 \approx 3.92\;\text{m/s}$ folgerichtig zählt $\to$ 2 von 4\,P.
+\fehler{$t = \dfrac{2h}{g} \approx 2.29\;\text{s}$ (Wurzel vergessen, falscher Ansatz): Ansatz und Flugzeit 0; $v_0 \approx 3.92\;\text{m/s}$ folgerichtig zählt $\to$ 2 von 4\,P.
 $v_0 = x \cdot t \approx 13.6\;\text{m/s}$: Abwurfgeschwindigkeit 0 $\to$ 3 von 4\,P.}
 \end{lpaufgabe}
 
@@ -122,7 +129,7 @@ Ansatz & 1\W & senkrecht nach unten, alles nach unten gemessen: $v = v_0 + g \cd
 Abwurf\-geschwindigkeit & 1\E & $v_0 = 19\;\text{m/s} - 9.81\;\text{m/s}^2 \cdot 1.4\;\text{s} \approx 5.27\;\text{m/s}$\\
 Höhe & 1\E & Fallweg $h = v_0 \cdot t + \tfrac12 \cdot g \cdot t^2 = 5.266\;\text{m/s} \cdot 1.4\;\text{s} + \tfrac12 \cdot 9.81\;\text{m/s}^2 \cdot (1.4\;\text{s})^2 \approx 7.37\;\text{m} + 9.61\;\text{m} \approx 17.0\;\text{m}$ (gleichwertig: $h = \dfrac{v_0 + v}{2} \cdot t$)\\
 \end{raster}
-\fehler{$v_0 = v + g \cdot t \approx 32.7\;\text{m/s}$ (Vorzeichen): Ansatz und Abwurfgeschwindigkeit 0; $h \approx 45.8\;\text{m} + 9.61\;\text{m} \approx 55.4\;\text{m}$ folgerichtig $\to$ 1 von 3\,P.
+\fehler{$v_0 = v + g \cdot t \approx 32.7\;\text{m/s}$ (Vorzeichen in der Formel, falscher Ansatz): Ansatz und Abwurfgeschwindigkeit 0; $h \approx 45.8\;\text{m} + 9.61\;\text{m} \approx 55.4\;\text{m}$ folgerichtig $\to$ 1 von 3\,P.
 $h = \tfrac12 \cdot g \cdot t^2 \approx 9.61\;\text{m}$ (Abwurfgeschwindigkeit vergessen) oder $h = v \cdot t = 26.6\;\text{m}$ (Endgeschwindigkeit mal Zeit): Höhe 0 $\to$ 2 von 3\,P.}
 \end{lpaufgabe}
 

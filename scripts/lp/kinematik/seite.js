@@ -398,7 +398,7 @@
         if (Math.abs(al) === 90 && w.vy > 0) zeilen += '<span>' + v('t') + '<sub>S</sub> = ' + v('v') + '₀ / ' + v('g') + ' = ' + zahl(v0) + NB + 'm/s / 9.81' + NB + 'm/s² ' + ist(w.vy / G, sig(w.vy / G)) + sig(w.vy / G) + NB + 's (Steigzeit)</span>';
         // Eingesetzt wird der angezeigte, gerundete Wert von t_F: dann «≈» schon vor den Zahlen
         if (Math.abs(al) !== 90) zeilen += '<span>' + v('x') + '<sub>F</sub> = ' + v('v') + '₀ · cos ' + v('α') + ' · ' + v('t') + '<sub>F</sub> ' + ist(w.tF, sig(w.tF)) + zahl(v0) + NB + 'm/s · cos' + wk(al) + ' · ' + sig(w.tF) + NB + 's ' + (ist(w.tF, sig(w.tF)) === '≈ ' ? '≈ ' : ist(w.xF, sig(w.xF))) + sig(w.xF) + NB + 'm</span>';
-        if (w.vy > 1e-9) zeilen += '<span>' + v('h') + '<sub>max</sub> = ' + v('h') + '₀ + (' + v('v') + '₀ · sin ' + v('α') + ')² / (2 · ' + v('g') + ') = ' + zahl(h0) + NB + 'm + (' + zahl(v0) + NB + 'm/s · sin' + wk(al) + ')² / (2 · 9.81' + NB + 'm/s²) ' + ist(w.hMax, sig(w.hMax)) + sig(w.hMax) + NB + 'm</span>';
+        if (w.vy > 1e-9) zeilen += '<span>' + v('y') + '<sub>max</sub> = ' + v('h') + '₀ + (' + v('v') + '₀ · sin ' + v('α') + ')² / (2 · ' + v('g') + ') = ' + zahl(h0) + NB + 'm + (' + zahl(v0) + NB + 'm/s · sin' + wk(al) + ')² / (2 · 9.81' + NB + 'm/s²) ' + ist(w.hMax, sig(w.hMax)) + sig(w.hMax) + NB + 'm</span>';
         if (w.xF > 62 || w.hMax > 42) zeilen += '<span class="sim-notiz">Ein Teil der Bahn liegt ausserhalb des Bildes.</span>';
       }
       if (fertig && Math.abs(al) === 90) zeilen += '<span class="sim-notiz">Senkrecht: Aufweg links, Abweg rechts der Achse gezeichnet, damit sich die Punkte nicht decken.</span>';
@@ -421,7 +421,7 @@
       { text: 'Vom Boden mit \\(12\\;\\text{m/s}\\) unter \\(25^\\circ\\): Finde einen zweiten Winkel mit derselben Weite. Notiere, wie die beiden Winkel zusammenhängen.', setup: function(S){ S.setze({ h0: 0, v0: 12, al: 25 }); }, ok: function(s){ return gl(s.h0, 0) && gl(s.v0, 12) && gl(s.al, 65); },
         vergleich: '\\(65^\\circ\\): Die beiden Winkel ergänzen sich zu \\(90^\\circ\\). In \\(s_x = \\dfrac{v_0^2 \\cdot \\sin(2\\alpha)}{g}\\) ist \\(\\sin 50^\\circ = \\sin 130^\\circ\\). Der steile Wurf fliegt länger, kommt aber waagrecht langsamer voran.' },
       { text: 'Triff das Ziel bei \\(x = 30\\;\\text{m}\\) — Abwurf vom Boden. Notiere deine Einstellung und prüfe sie mit der Formel für die Wurfweite.', setup: function(S){ ziel = 30; S.setze({ h0: 0, v0: 10, al: 30 }); }, ok: function(s){ return gl(s.h0, 0) && Math.abs(s.xF - 30) < 0.6; },
-        vergleich: 'Es gibt mehrere Lösungen, zum Beispiel \\(17\\;\\text{m/s}\\) unter \\(45^\\circ\\): \\(s_x = \\dfrac{(17\\;\\text{m/s})^2 \\cdot \\sin 90^\\circ}{9.81\\;\\text{m/s}^2} \\approx 29.5\\;\\text{m}\\), oder \\(18.5\\;\\text{m/s}\\) unter \\(30^\\circ\\) oder \\(60^\\circ\\). Unter \\(17\\;\\text{m/s}\\) reicht kein Winkel.' }
+        vergleich: 'Es gibt mehrere Lösungen, zum Beispiel \\(18.5\\;\\text{m/s}\\) unter \\(30^\\circ\\) oder \\(60^\\circ\\): \\(s_x = \\dfrac{(18.5\\;\\text{m/s})^2 \\cdot \\sin 60^\\circ}{9.81\\;\\text{m/s}^2} \\approx 30.2\\;\\text{m}\\). Am wenigsten Abwurfgeschwindigkeit braucht \\(45^\\circ\\): \\(v_0 = \\sqrt{s_x \\cdot g} = \\sqrt{30\\;\\text{m} \\cdot 9.81\\;\\text{m/s}^2} \\approx 17.2\\;\\text{m/s}\\). Mit weniger als rund \\(17.2\\;\\text{m/s}\\) kommt der Ball unter keinem Winkel ganz bis \\(30\\;\\text{m}\\); \\(17\\;\\text{m/s}\\) unter \\(45^\\circ\\) landet bei \\(29.5\\;\\text{m}\\), knapp davor, aber noch im Ziel.' }
     ], sim);
     zeichnen();
   })();
@@ -904,7 +904,7 @@
             vT = zufall(K[2]); vP = zufall(K[3]); mit = Math.random() < 0.5;
           } while (vT === vP || (vT === 30 && vP === 1.5) || (vT === 8 && vP === 2 && !mit) || (vT === 1.2 && vP === 1.5));   // Clip, Kontrollclip, Aufgabe 3a
           return { v: mit ? vT + vP : vT - vP, vT: vT, vP: vP, mit: mit,
-            text: K[0] + ' (\\(' + ein(vT, 'm/s') + '\\) gegenüber dem Boden) geht jemand mit \\(' + ein(vP, 'm/s') + '\\) ' + (mit ? 'in' : 'gegen die') + ' Fahrtrichtung. Wie schnell bewegt sich die Person gegenüber dem Boden? (Fahrtrichtung ' + K[1] + ' positiv)' }; },
+            text: K[0] + ' (\\(' + ein(vT, 'm/s') + '\\) gegenüber dem Boden) geht jemand mit \\(' + ein(vP, 'm/s') + '\\) ' + (mit ? 'in' : 'gegen die') + ' Fahrtrichtung. Welche Geschwindigkeit hat die Person gegenüber dem Boden? Gib sie mit Vorzeichen an (Fahrtrichtung ' + K[1] + ' positiv).' }; },
         pruefen: function(A, e){
           if (nah(e.v, A.v)) return null;
           if (A.mit && nah(e.v, A.vT - A.vP)) return 'In Fahrtrichtung zeigen beide Pfeile gleich: Die Geschwindigkeiten addieren sich.';
@@ -997,11 +997,18 @@
         loesung: function(A){ return (A.art === 'n' ? 'f = \\dfrac{' + tz(A.n) + '}{60\\;\\text{s}} ' : 'f = \\dfrac{1}{T} = \\dfrac{1}{' + ein(A.T, 's') + '} ') + erg(A.f, 'Hz') + ',\\quad \\omega = 2\\pi \\cdot f = 2\\pi \\cdot ' + ein(+A.f.toPrecision(4), 'Hz') + ' ' + erg(A.w, 'rad/s'); } },
       'bahn': { felder: ['v', 'a'], muster: '<i>v</i> = {v} m/s; <i>a</i><sub>z</sub> = {a} m/s²',
         neu: function(){
-          var r, T, vv;
-          do { r = zufall([0.3, 0.5, 1.2, 2.5, 6, 8]); T = zufall([0.5, 1.5, 3, 5, 10, 12]); vv = PI2 * r / T; }
-          while (Math.abs(vv - 1) < 0.05 || vv * vv / r > 2000);
+          // Gegenstand mit eigenem Radius, eigener Umlaufzeit und eigener Grenze für a_z (Menschen höchstens rund 1 g)
+          var K, r, T, vv;
+          do {
+            K = zufall([['Ein Sitz eines Kinderkarussells ist {r} von der Drehachse entfernt und läuft gleichförmig um', [2.5, 3, 5], [6, 8, 10], 3.5],
+                        ['Ein Sitz eines Kettenkarussells läuft im Abstand {r} von der Drehachse gleichförmig um', [6, 8, 10], [6, 7, 8], 11],
+                        ['Eine Gondel eines Riesenrads ist {r} von der Achse entfernt und läuft gleichförmig um', [15, 20, 30], [60, 90, 120], 1],
+                        ['Beim Hammerwurf kreist der Hammer auf einem Kreis mit {r} (als gleichförmig angenommen)', [1.6, 1.8, 2], [0.45, 0.5, 0.6], 500],
+                        ['Ein Punkt am Rand einer Schallplatte ist {r} von der Mitte entfernt und läuft gleichförmig um', [0.12, 0.15], [1.8], 3]]);
+            r = zufall(K[1]); T = zufall(K[2]); vv = PI2 * r / T;
+          } while (Math.abs(vv - 1) < 0.05 || Math.abs(vv * vv / r - 1) < 0.05 || vv * vv / r > K[3] || Math.abs(vv - 2.094) < 0.01 || (r === 3 && T === 10));   // keine Zusammenfälle (v = 1, a_z = 1); nicht die Leistenziele v ≈ 2.09 m/s und 3 m bei 10 s
           return { v: vv, a: vv * vv / r, r: r, T: T,
-            text: 'Ein Punkt läuft auf einem Kreis mit \\(r = ' + ein(r, 'm') + '\\) gleichförmig um; ein Umlauf dauert \\(T = ' + ein(T, 's') + '\\). Bahngeschwindigkeit und Zentripetalbeschleunigung?' }; },
+            text: K[0].replace('{r}', '\\(r = ' + ein(r, 'm') + '\\)') + '; ein Umlauf dauert \\(T = ' + ein(T, 's') + '\\). Wie gross sind Bahngeschwindigkeit und Zentripetalbeschleunigung?' }; },
         pruefen: function(A, e){
           if (nah(e.v, A.v) && (nah(e.a, A.a) || nah(e.a, e.v * e.v / A.r))) return null;   // gerundetes v richtig weitergerechnet
           var r = [];
