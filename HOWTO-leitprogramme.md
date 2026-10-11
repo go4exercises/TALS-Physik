@@ -158,6 +158,13 @@ unterbringen lässt.
   | **klassisch** (die elf älteren Physik-Leitprogramme) | 4–7 Schritte, je höchstens 30 Minuten | 2–3 Lektionen plus Vorwissen und Gesamttest |
 
   Ein Kapitel = eine Idee, in beiden Formaten.
+- **Gemessen an der Zweitprüfung (11.10.2026) reicht die Zielzeit nicht.** Ein Kapitel nach
+  §4 mit Einführungs- und Kontrollclip, einer Animation mit fünf bis sieben Aufgaben, drei
+  Übungen «bis drei in Folge» und vier Aufgaben auf Papier braucht realistisch 50 bis 75
+  Minuten, nicht 35 bis 45. Die zehn Leitprogramme nach dem Kapitelmuster tragen seither
+  diese Schätzung (je Kapitel 50–75 min; Gesamttest 25–45 min); die Zahlen im Kopf sind
+  geschätzt, nicht in einer Klasse gemessen. Wer ein Kapitel auf eine Lektion bringen will,
+  kürzt Übungen oder Papieraufgaben, nicht die Zeitangabe.
 - **Clips:** rund 6–11 Clips, 8–12 Minuten Clipzeit (STYLEGUIDE §6.5).
 - **Über der Zielgrösse (klassisch mehr als 4, Kapitelmuster mehr als 5 Lektionen ohne
   Gesamttest) oder deutlich mehr als 11 Clips → teilen**, jedes Teil mit eigenem
@@ -166,7 +173,7 @@ unterbringen lässt.
   Teilgebiet; gekürzt wird, was über die Kompetenzen hinausgeht (→ Themenseite,
   «Weiterführend»). Bringt das Teilgebiet selbst so viele Kompetenzen mit, dass es
   länger wird, steht das im Kopf ehrlich da: `leitprogramm-waerme` (5.2, sieben Kapitel,
-  14 Clips, 440 min ≈ zehn Lektionen) deckt sieben RLP-Kompetenzen in sieben
+  14 Clips, 515 min ≈ elf bis zwölf Lektionen) deckt sieben RLP-Kompetenzen in sieben
   Kapiteln ab. Früher galt hier das Gegenteil (Wärmemenge, Heizen, Wärmeausdehnung und
   ideale Gase als vier Leitprogramme); sie sind seit dem 08.10.2026 veraltet.
 - Der Kern ist, was ohne Leitprogramm in der Prüfung fehlen würde. Parameter,
