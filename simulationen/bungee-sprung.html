@@ -477,24 +477,22 @@ function bjZahl(x, d) {                    // Dezimalpunkt, echtes Minuszeichen,
 }
 
 /* ── Phasen ───────────────────────────────────────────────────────── */
-const BJ_PHASEN = [
-  { titel:'Freier Fall', farbe:'#2a6db0',
-    text:() => 'Das Seil ist schlaff. Es wirkt nur die Gewichtskraft: Die Geschwindigkeit nimmt gleichmässig zu, die Falltiefe wächst quadratisch mit der Zeit.',
-    formel:() => '\\(F_\\text{res} = F_G \\qquad a = g\\)' },
-  { titel:'Das Seil zieht, der Springer wird noch schneller', farbe:'#c98028',
-    text:p => 'Das Seil ist gespannt und zieht nach oben, aber schwächer als die Gewichtskraft. Die resultierende Kraft zeigt noch nach unten.' + (p.c > 0 ? ' Mit Dämpfung zählt dabei die ganze Seilkraft, samt dem Anteil \\(c \\cdot v\\).' : ''),
-    formel:() => '\\(0 < F_\\text{Seil} < F_G \\qquad a > 0\\)' },
-  { titel:'Abwärts, aber gebremst', farbe:'#b3261e',
-    text:() => 'Die Seilkraft ist jetzt grösser als die Gewichtskraft. Der Springer fällt noch, aber die Beschleunigung zeigt schon nach oben: Er wird langsamer.',
-    formel:() => '\\(F_\\text{Seil} > F_G \\qquad v > 0 \\qquad a < 0\\)' },
-  { titel:'Tiefster Punkt', farbe:'#8a1c1c',
-    text:p => 'Hier ist die Geschwindigkeit einen Augenblick null, die Beschleunigung aber nicht: Sie zeigt nach oben' + (p.c > 0 ? '. Weil \\(v = 0\\) ist, wirkt hier nur die elastische Seilkraft.' : ' und ist grösser als \\(g\\).'),
-    formel:() => '\\(v = 0 \\qquad F_\\text{res} = F_G - F_\\text{Seil} < 0\\)' },
-  { titel:'Schwingung um die Gleichgewichtslage', farbe:'#1f6b3a',
-    text:p => 'Der Springer schwingt um die Gleichgewichtslage \\(s_G\\), wo Gewichtskraft und elastische Seilkraft gleich gross sind. ' +
-      (p.c > 0 ? 'Die Dämpfung wandelt mechanische Energie in Wärme um: Die Schwingung klingt ab.'
-               : 'Ohne Dämpfung bleibt die mechanische Energie erhalten: Der Springer kehrt immer wieder bis zur Plattform zurück.'),
-    formel:p => '\\(F_\\text{el}(s_G - L_0) = F_G\\)<br>\\(E_\\text{mech}\\) ' + (p.c > 0 ? 'nimmt ab' : 'bleibt gleich') },
+const BJ_PHASEN = [                    // Texte wörtlich aus der freigegebenen Vorlage
+  { titel:'1 – Freier Fall', farbe:'#2a6db0',
+    text:() => 'Das Seil ist schlaff. Ohne Luftwiderstand wirkt ausschliesslich die Gewichtskraft. Die Geschwindigkeit nimmt gleichmässig zu, die Falltiefe wächst quadratisch.',
+    formel:() => '\\(F_{\\mathrm{res}} = m\\,g \\quad | \\quad a = +g\\)' },
+  { titel:'2 – Seil bremst die Beschleunigung', farbe:'#c98028',
+    text:() => 'Das Seil ist gespannt, aber die resultierende Kraft zeigt noch nach unten: Die Geschwindigkeit nimmt weiter zu. Mit Dämpfung zählt die gesamte Seilkraft einschliesslich des geschwindigkeitsabhängigen Anteils.',
+    formel:() => '\\(0 < F_{\\mathrm{Seil}} < m\\,g \\quad | \\quad a > 0\\)' },
+  { titel:'3 – Bewegung nach unten, Beschleunigung nach oben', farbe:'#b3261e',
+    text:() => 'Die Seilkraft ist jetzt grösser als die Gewichtskraft. Obwohl der Springer noch nach unten fällt, ist die Beschleunigung bereits nach oben gerichtet: Er wird langsamer.',
+    formel:() => '\\(F_{\\mathrm{Seil}} > m\\,g \\quad | \\quad v > 0 \\quad | \\quad a < 0\\)' },
+  { titel:'4 – Erster Umkehrpunkt', farbe:'#8a1c1c',
+    text:() => 'Am tiefsten Punkt ist die Geschwindigkeit kurz null. Die Beschleunigung ist im Allgemeinen nicht null. Da der geschwindigkeitsabhängige Dämpfungsterm dort verschwindet, wirkt nur die elastische Seilkraft nach oben.',
+    formel:() => '\\(v = 0 \\quad | \\quad F_{\\mathrm{res}} = m\\,g - F_{\\mathrm{el}}\\)' },
+  { titel:'5 – Schwingung und Dämpfung', farbe:'#1f6b3a',
+    text:() => 'Der Springer schwingt weiter. Die mechanische Energie nimmt durch Dämpfung ab. Die Ruhelage liegt dort, wo sich Gewichtskraft und elastische Seilkraft ausgleichen; beim nichtlinearen Seil muss sie numerisch bestimmt werden.',
+    formel:() => '\\(F_{\\mathrm{el}}(s_G - L_0) = m\\,g \\quad | \\quad E_{\\mathrm{mech}} \\text{ sinkt bei Dämpfung}\\)' },
 ];
 function bjPhase(S, t) {
   if (t > S.t3 + 0.12) return 4;
@@ -549,8 +547,7 @@ function bjSelbsttest() {
   [[1.25, 1, '1.3'], [-0.04, 1, '0.0'], [-12.5, 1, '−12.5'], [736.0, 0, '736']].forEach(([x, d, s]) => F(bjZahl(x, d) === s, 'Zahlformat ' + x + ' → ' + bjZahl(x, d)));
   for (const c of [0, 15]) BJ_PHASEN.forEach((ph, i) => { const t = ph.text({ c }) + ph.formel({ c });
     F(!/\d,\d/.test(t) && t.indexOf('$') < 0, 'Phase ' + (i + 1) + ': Komma oder $');
-    if (i === 3) F(c > 0 ? !/grösser als/.test(t) : /grösser als/.test(t), 'Phase 4 c=' + c + ': Aussage «grösser als g» falsch');
-    if (i === 4) F(c > 0 ? /nimmt ab/.test(t) && /Wärme/.test(t) : /bleibt/.test(t) && !/Wärme|klingt/.test(t), 'Phase 5 c=' + c + ': Aussage zur Energie falsch'); });
+  });
   return { faelle, fehler };
 }
 window.bjSelbsttest = bjSelbsttest;
@@ -749,11 +746,11 @@ function bjWerte() {
 }
 let letztePhase = null;
 function bjPhaseZeigen() {
-  const k = bjPhase(S, tNow), schl = k + '|' + P.c;
+  const k = bjPhase(S, tNow), schl = k;
   if (schl === letztePhase) return;
   letztePhase = schl;
   const ph = BJ_PHASEN[k];
-  $('bj-phase-nr').textContent = 'Phase ' + (k + 1) + ' von 5';
+  $('bj-phase-nr').textContent = 'Phase ' + (k + 1) + ' / 5';
   $('bj-phase-titel').textContent = ph.titel;
   $('bj-phase-text').innerHTML = ph.text(P);
   $('bj-phase-formel').innerHTML = ph.formel(P);
