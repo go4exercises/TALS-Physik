@@ -750,7 +750,7 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 12, [
     ('1d', 3, r'Ein Spannseil zieht an einem Zeltpfahl mit den Komponenten \(F_x = 240\;\text{N}\) und \(F_y = -70\;\text{N}\). Wie gross ist die Seilkraft, und in welche Richtung zieht sie (Winkel \(\varphi\) zwischen \(0^\circ\) und \(360^\circ\))?',
      r'<p>\(F = \sqrt{F_x^2 + F_y^2}\) \(= \sqrt{(240\;\text{N})^2 + (70\;\text{N})^2}\) \(= 250\;\text{N}\).</p><p>\(\arctan\dfrac{-70}{240} \approx -16.3^\circ\); nach rechts unten heisst das \(\varphi \approx 343.7^\circ\).</p>', ''),
 ])
-k1 = kapitel(1, 'kraft-vektor', 'Kraft als Vektor', 'K1', 50,
+k1 = kapitel(1, 'kraft-vektor', 'Kraft als Vektor', 'K1', 65,
     r'Du definierst die Kraft, stellst sie als Pfeil mit Betrag, Richtung und Angriffspunkt dar und zerlegst sie in die Komponenten \(F_x = F \cdot \cos\varphi\) und \(F_y = F \cdot \sin\varphi\).',
     ('p4-4-lp-vektor', 'Statik sehen: die Kraft als Pfeil'),
     sim1, ('p4-4-lp-kontrolle-vektor', 'Kontrollfragen zur Kraft als Vektor'),
@@ -794,7 +794,7 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2d', 3, r'Ein Schiff wird von zwei Schleppern gezogen, je \(40\;\text{kN}\), unter \(20^\circ\) links und \(20^\circ\) rechts der Fahrtrichtung. Wie gross ist die Resultierende? Begründe, warum die Schlepper den Winkel möglichst klein halten.',
      r'<p>Die Querkomponenten heben sich auf, die Längskomponenten addieren sich: \(F_\text{res} = 2 \cdot 40\;\text{kN} \cdot \cos 20^\circ\) \(\approx 75.2\;\text{kN}\).</p><p>Je grösser der Winkel, desto kleiner \(\cos\) des Winkels: Bei \(40^\circ\) wären es nur \(\approx 61.3\;\text{kN}\). Die Querkomponenten heben sich nur auf, sie bringen das Schiff nicht vorwärts.</p>', ''),
 ])
-k2 = kapitel(2, 'resultierende', 'Die resultierende Kraft', 'K4', 50,
+k2 = kapitel(2, 'resultierende', 'Die resultierende Kraft', 'K4', 65,
     r'Du stellst alle Kräfte auf einen Körper als Pfeile dar, setzt sie grafisch (Spitze an Fuss) und rechnerisch (Komponenten) zur Resultierenden zusammen und erkennst das Kräftegleichgewicht \(\vec{F}_\text{res} = \vec{0}\).',
     ('p4-4-lp-resultierende', 'Statik sehen: Kräfte aneinanderhängen'),
     sim2, ('p4-4-lp-kontrolle-resultierende', 'Kontrollfragen zur resultierenden Kraft'),
@@ -812,10 +812,10 @@ fest3 = r'''      <div class="festhalten">
           <div class="titel">Kräfte an einem ruhenden Körper</div>
           <ul>
             <li><b>Gewichtskraft</b> \(\vec{F}_G\) (im Lehrplan «Schwerkraft»): Die Erde zieht den Körper an, senkrecht nach unten, greift im Schwerpunkt an, \(F_G = m \cdot g\).</li>
-            <li><b>Normalkraft</b> (Auflagerkraft) \(\vec{F}_N\): senkrecht zur Auflagefläche, von ihr weg. Sie ist so gross, dass der Körper nicht in die Unterlage einsinkt.</li>
+            <li><b>Normalkraft</b> (Auflagerkraft) \(\vec{F}_N\): senkrecht zur Auflagefläche, von ihr weg. Sie ist so gross, dass der Körper nicht in die Unterlage einsinkt. Auf waagrechtem Boden hält sie der Gewichtskraft das Gleichgewicht, ist aber nicht ihre Gegenkraft nach Newton 3: Die Gegenkraft zur Gewichtskraft ist die Anziehung, mit der der Körper an der Erde zieht.</li>
             <li><b>Haftreibung</b> \(\vec{F}_R\) (eine Reibungskraft): längs der Fläche, der drohenden Bewegung entgegen. Sie ist nur so gross wie nötig, höchstens \(F_R \le \mu_H \cdot F_N\) (\(\mu_H\): Haftreibungszahl, ohne Einheit).</li>
           </ul>
-          <p>Auf der <b>schiefen Ebene</b> zerlegt man die Gewichtskraft in eine Komponente längs und eine senkrecht zur Ebene. Die Komponenten ersetzen \(F_G\) nur in der Rechnung, sie sind keine zusätzlichen Kräfte:</p>
+          <p>Auf der <b>schiefen Ebene</b> zerlegt man die Gewichtskraft in eine Komponente längs der Ebene, die <b>Hangabtriebskraft</b> \(F_H\), und eine senkrecht zur Ebene, \(F_{G\perp}\). Die Komponenten ersetzen \(F_G\) nur in der Rechnung, sie sind keine zusätzlichen Kräfte:</p>
           <p>\[ F_H = F_G \cdot \sin\alpha \qquad F_{G\perp} = F_G \cdot \cos\alpha \]</p>
           <p>Die Normalkraft ist so gross wie die senkrechte Komponente, zeigt aber aus der Ebene heraus: \(F_N = F_{G\perp} = F_G \cdot \cos\alpha\).</p>
           <p>Der Körper ruht, solange die Haftreibung die Hangabtriebskraft \(F_H\) ausgleichen kann. Daraus folgt die Haftbedingung \(\tan\alpha \le \mu_H\); die Masse kürzt sich.</p>
@@ -837,7 +837,7 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
     ('3d', 3, r'Eine Kiste (\(50\;\text{kg}\)) steht auf waagrechtem Boden, \(\mu_H = 0.45\). Du schiebst waagrecht mit \(120\;\text{N}\), sie bewegt sich nicht. Wie gross ist die Reibungskraft? Ab welcher Schubkraft rutscht sie? Begründe, warum die Reibung nicht immer \(\mu_H \cdot F_N\) ist.',
      r'<p>Die Kiste ruht, also \(\sum F_x = 0\): Die Haftreibung ist \(120\;\text{N}\), so gross wie deine Kraft.</p><p>Höchstens \(\mu_H \cdot F_N = 0.45 \cdot 50\;\text{kg} \cdot 9.81\;\text{m/s}^2\) \(\approx 221\;\text{N}\); erst darüber rutscht sie. \(\mu_H \cdot F_N\) ist die Grenze, keine feste Kraft — die Haftreibung passt sich an, bis die Grenze erreicht ist.</p>', ''),
 ])
-k3 = kapitel(3, 'ruhender-koerper', 'Kräfte am ruhenden Körper', 'K3 · K5', 50,
+k3 = kapitel(3, 'ruhender-koerper', 'Kräfte am ruhenden Körper', 'K3 · K5', 65,
     r'Du zählst die Kräfte an einem ruhenden Körper auf — Gewichtskraft, Normalkraft, Haftreibung —, charakterisierst sie und zeigst das Gleichgewicht auf der waagrechten und der schiefen Ebene mit \(F_H = F_G \cdot \sin\alpha\), \(F_N = F_G \cdot \cos\alpha\) und \(\tan\alpha \le \mu_H\).',
     ('p4-4-lp-ruhe', 'Statik sehen: Gewicht, Normalkraft und Haftreibung'),
     sim3, ('p4-4-lp-kontrolle-ruhe', 'Kontrollfragen zu den Kräften am ruhenden Körper'),
@@ -876,7 +876,7 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
     ('4d', 3, r'Radmuttern sollen mit \(110\;\text{Nm}\) angezogen werden. Du drückst mit \(250\;\text{N}\) senkrecht auf den Schlüssel. Wie weit von der Mutter musst du drücken? Was ändert sich, wenn du schräg drückst?',
      r'<p>\(r = \dfrac{M}{F}\) \(= \dfrac{110\;\text{Nm}}{250\;\text{N}}\) \(= 0.44\;\text{m}\).</p><p>Schräg ist der wirksame Hebelarm nur \(l \cdot \sin\alpha\), kleiner als \(l\): Man muss weiter aussen greifen oder stärker drücken.</p>', ''),
 ])
-k4 = kapitel(4, 'drehmoment', 'Das Drehmoment', 'K2', 50,
+k4 = kapitel(4, 'drehmoment', 'Das Drehmoment', 'K2', 65,
     r'Du definierst das Drehmoment \(M = F \cdot r = F \cdot l \cdot \sin\alpha\) als Kraft mal wirksamen Hebelarm, rechnest damit und nennst Anwendungen.',
     ('p4-4-lp-drehmoment', 'Statik sehen: Kraft mal Hebelarm'),
     sim4, ('p4-4-lp-kontrolle-drehmoment', 'Kontrollfragen zum Drehmoment'),
@@ -915,7 +915,7 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5d', 3, r'Bei einem Nussknacker liegt das Gelenk am Ende. Die Hand drückt \(18\;\text{cm}\) vom Gelenk, die Nuss liegt \(2.5\;\text{cm}\) davon und knackt bei \(300\;\text{N}\). Ist das ein ein- oder ein zweiarmiger Hebel? Welche Handkraft braucht es? Begründe, warum man die Nuss möglichst nah ans Gelenk legt.',
      r'<p>Einarmig: Hand und Nuss liegen auf derselben Seite des Gelenks. \(F \cdot r_K = F_L \cdot r_L\): \(F = \dfrac{300\;\text{N} \cdot 0.025\;\text{m}}{0.18\;\text{m}}\) \(\approx 41.7\;\text{N}\).</p><p>Nah am Gelenk ist der Lastarm kurz. Bei gleichem Kraftarm genügt dann für dasselbe Drehmoment eine kleinere Handkraft.</p>', ''),
 ])
-k5 = kapitel(5, 'hebelgesetz', 'Das Hebelgesetz', 'K5 · K2', 50,
+k5 = kapitel(5, 'hebelgesetz', 'Das Hebelgesetz', 'K5 · K2', 65,
     r'Du wendest das Gleichgewicht der Drehmomente \(F_1 \cdot r_1 = F_2 \cdot r_2\) an Wippe, Brechstange und Schubkarre an und erklärst, warum ein langer Hebelarm Kraft spart.',
     ('p4-4-lp-hebel', 'Statik sehen: das Hebelgesetz'),
     sim5, ('p4-4-lp-kontrolle-hebel', 'Kontrollfragen zum Hebelgesetz'),
@@ -936,6 +936,7 @@ fest6 = r'''      <div class="festhalten">
           <p>\[ \sum \vec{F} = \vec{0} \qquad \text{und} \qquad \sum M = 0 \]</p>
           <p>Die Kräftebedingung zerfällt in \(\sum F_x = 0\) und \(\sum F_y = 0\). Die Drehachse für die Momente darf man frei wählen — geschickt dort, wo eine unbekannte Kraft angreift, dann fällt sie heraus.</p>
           <p><b>Balken auf zwei Stützen</b> (Stützweite \(L\), Last \(F_L\) im Abstand \(x\) von A): Momente um A geben \(F_B \cdot L = F_L \cdot x\), die Kräfte \(F_A = F_L - F_B\). Das Eigengewicht eines gleichmässigen Balkens greift in seiner Mitte an. Die nähere Stütze trägt mehr; zusammen tragen beide immer die ganze Last. Eine Stütze kann nur drücken: Ergibt die Rechnung eine negative Auflagerkraft, müsste die Stütze ziehen — ohne Befestigung kippt der Balken.</p>
+          <p><b>Auf der schiefen Ebene</b> gelten dieselben zwei Bedingungen. In Kapitel 3 sorgten Normalkraft und Haftreibung für \(\sum \vec{F} = \vec{0}\): Die Kiste rutscht nicht. Ob sie auch nicht kippt, entscheiden die Momente um ihre untere Kante: Solange die Wirkungslinie der Gewichtskraft (senkrecht durch den Schwerpunkt) innerhalb der Standfläche liegt, dreht \(F_G\) die Kiste gegen die Rampe zurück; geht sie unterhalb der Kante vorbei, kippt die Kiste. Bei einer gleichmässigen Kiste (Breite \(b\), Höhe \(h\)) ist das ab \(\tan\alpha = \dfrac{b}{h}\) der Fall. Eine hohe Kiste mit \(b = 0.4\;\text{m}\), \(h = 1.2\;\text{m}\) kippt darum schon ab \(\alpha = \arctan\dfrac{0.4\;\text{m}}{1.2\;\text{m}} \approx 18.4^\circ\), obwohl sie bei \(\mu_H = 0.5\) bis \(\arctan 0.5 \approx 26.6^\circ\) haften würde.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -954,8 +955,8 @@ auf6 = test('t6', 'Aufgaben · Kapitel 6', 12, [
     ('6d', 3, r'Ein \(4\;\text{m}\) langes Brett (Eigengewicht \(300\;\text{N}\) in der Mitte) liegt auf Stützen bei \(0\;\text{m}\) (A) und \(3\;\text{m}\) (B). Ein Maler (\(750\;\text{N}\)) stellt sich ans überstehende Ende bei \(4\;\text{m}\). Berechne \(F_A\) und \(F_B\); was bedeutet das Vorzeichen von \(F_A\)? Bis wohin darf er gehen, ohne dass das Brett kippt?',
      r'<p>\(\sum M_A = 0\): \(F_B \cdot 3\;\text{m} = 300\;\text{N} \cdot 2\;\text{m} + 750\;\text{N} \cdot 4\;\text{m}\), \(F_B = \dfrac{3600\;\text{Nm}}{3\;\text{m}} = 1200\;\text{N}\). \(\sum F_y = 0\): \(F_A = 300\;\text{N} + 750\;\text{N} - 1200\;\text{N}\) \(= -150\;\text{N}\). Negativ heisst: A müsste nach <em>unten</em> ziehen. Eine Stütze kann nur drücken — ohne Befestigung kippt das Brett um B.</p><p>An der Kippgrenze ist \(F_A = 0\). Momente um B: Das Brett (\(1\;\text{m}\) links von B) hält gegen den Maler: \(300\;\text{N} \cdot 1\;\text{m} = 750\;\text{N} \cdot (x - 3\;\text{m})\), also \(x = 3.4\;\text{m}\). Weiter als \(0.4\;\text{m}\) über B hinaus darf er nicht.</p>', ''),
 ])
-k6 = kapitel(6, 'auflagerkraefte', 'Statisches Gleichgewicht: Auflagerkräfte', 'K5', 50,
-    r'Du definierst das statische Gleichgewicht mit \(\sum \vec{F} = \vec{0}\) und \(\sum M = 0\) und bestimmst damit die Auflagerkräfte eines Balkens auf zwei Stützen, auch mit Eigengewicht.',
+k6 = kapitel(6, 'auflagerkraefte', 'Statisches Gleichgewicht: Auflagerkräfte', 'K5', 65,
+    r'Du definierst das statische Gleichgewicht mit \(\sum \vec{F} = \vec{0}\) und \(\sum M = 0\) und bestimmst damit die Auflagerkräfte eines Balkens auf zwei Stützen, auch mit Eigengewicht; an der Kiste auf der Rampe zeigst du, dass auf der schiefen Ebene beide Bedingungen gelten.',
     ('p4-4-lp-auflager', 'Statik sehen: zwei Stützen teilen sich die Last'),
     sim6, ('p4-4-lp-kontrolle-auflager', 'Kontrollfragen zum statischen Gleichgewicht'),
     fest6, [uebung('auflager', 'Auflagerkräfte'), uebung('auflager-e', 'Mit Eigengewicht'), uebung('zwei-lasten', 'Zwei Lasten auf einem Brett')],
@@ -1023,14 +1024,14 @@ oben = '''<div id="nav-root"></div>
        K5 → Kap. 2 (Punkt), 3 (schiefe Ebene), 5, 6 · Aufg. 2c, 3b, 5a–6d · G4 G5 G6
      Winkelfunktionen stehen in keiner Vorwissensseite; Kapitel 0 bringt sie in einem Kasten.
      Resultierende heisst hier F_res (Themenseite auch F_R), weil F_R die Reibung ist.
-     Zeiten: K0 15 · K1–K6 je 50 · Gesamttest 40 = 355 min ≈ 7.9 Lektionen (über der Zielgrösse von
+     Zeiten: K0 15 · K1–K6 je 65 · Gesamttest 40 = 445 min ≈ 9.9 Lektionen (über der Zielgrösse von
      HOWTO \3; Begründung im README, «Umfang nach RLP»). -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
       <p class="marke">Physik begreifbar · Leitprogramm</p>
       <h1>Statik</h1>
-      <p class="unter">Kräfte als Pfeile, die resultierende Kraft, Gewicht, Normalkraft und Haftreibung, Drehmoment, Hebelgesetz und Auflagerkräfte — mit laufenden Simulationen. Sechs Kapitel zu je gut einer Lektion, dazu Vorwissen und Gesamttest.</p>
+      <p class="unter">Kräfte als Pfeile, die resultierende Kraft, Gewicht, Normalkraft und Haftreibung, Drehmoment, Hebelgesetz und Auflagerkräfte — mit laufenden Simulationen. Sechs Kapitel zu je knapp anderthalb Lektionen, dazu Vorwissen und Gesamttest.</p>
     </div>
     <div class="kopf-rechts">
       <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>

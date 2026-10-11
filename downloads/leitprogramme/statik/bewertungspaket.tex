@@ -3,6 +3,7 @@
 % «derselbe Fehler kostet nur einmal» in Raster und Auftrag an die KI, Folgewerte für die typischen
 % Fehler vollständig, Rasterzeilen mit Abstand (arraystretch), Lösungsspalte im Flattersatz.
 % Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (06.10.2026).
+% Nach der dritten Prüfung (11.10.2026): G2 d) mit Annahme gleicher Gleitreibung, G4 c) bei 15° (F_R = F_H ≈ 20.3 N).
 % Aufbau, Auftrag an die KI und Punktarten wie im Leitprogramm Energie, dazu (S) für Skizze und Krafteck.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
@@ -82,7 +83,7 @@ c) \(2.6\;\text{kN} - 1.0\;\text{kN} = 1.6\;\text{kN}\): c) 0; d) folgerichtig (
 a) Skizze & 1\Sk & Gewichtskraft senkrecht nach unten, Normalkraft senkrecht nach oben, Zugkraft schräg nach vorn oben, Gleitreibung nach hinten; alle vier mit Namen\\
 b) Komponenten & 1\E & \(F_{\text{res},x} = 150\;\text{N} \cdot \cos 30^\circ - 100\;\text{N} \approx 29.9\;\text{N}\), \(F_{\text{res},y} = 150\;\text{N} \cdot \sin 30^\circ + 325\;\text{N} - 400\;\text{N} = 0\;\text{N}\) (beide nötig)\\
 c) Krafteck & 1\Sk & Pfeile Spitze an Fuss im Massstab: Zugkraft \(3\;\text{cm}\) unter \(30^\circ\), Normalkraft \(6.5\;\text{cm}\) nach oben, Gewichtskraft \(8\;\text{cm}\) nach unten, Reibung \(2\;\text{cm}\) nach hinten (Reihenfolge beliebig). Das Krafteck schliesst sich fast: Die Resultierende vom ersten Fuss zur letzten Spitze ist rund \(0.6\;\text{cm}\) lang, waagrecht nach vorn, also rund \(30\;\text{N}\) — passt zu b)\\
-d) Zugkraft & 1\E & \(F_{\text{res},x} = F \cdot \cos 30^\circ - 100\;\text{N} = 0\): \(F = \dfrac{100\;\text{N}}{\cos 30^\circ} \approx 115\;\text{N}\)\\[5pt]
+d) Zugkraft & 1\E & Mit gleicher Gleitreibung (wie verlangt): \(F_{\text{res},x} = F \cdot \cos 30^\circ - 100\;\text{N} = 0\), \(F = \dfrac{100\;\text{N}}{\cos 30^\circ} \approx 115\;\text{N}\). Wer zusätzlich berücksichtigt, dass die Reibung mit der kleineren Normalkraft sinkt (\(\mu_G = \tfrac{100\;\text{N}}{325\;\text{N}}\), \(F \approx 121\;\text{N}\)), bekommt den Punkt ebenfalls\\[5pt]
 \end{raster}
 \fehler{Sinus und Kosinus vertauscht (\(F_{\text{res},x} = -25\;\text{N}\), \(F_{\text{res},y} \approx 54.9\;\text{N}\)): b) 0; derselbe Fehler in d) zählt folgerichtig (\(F = 100\;\text{N} / \sin 30^\circ = 200\;\text{N}\)) \(\to\) 3 von 4\,P. Die Zeichnung in c) zählt, wenn sie stimmt; dass sie dann b) widerspricht, kostet nichts zusätzlich.
 Gleitreibung addiert statt abgezogen (\(F_{\text{res},x} \approx 230\;\text{N}\)): b) 0; c) zählt, wenn die Zeichnung stimmt \(\to\) 3 von 4\,P.
@@ -102,16 +103,16 @@ d) Kosinus statt Sinus (\(52.2\;\text{N}\)) oder Taschenrechner im Bogenmass (\(
 a) nur «Kraft mal Länge» ohne den senkrechten Abstand: a) 0 \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G4}{Paketrutsche, \(8\;\text{kg}\), Grenze \(26^\circ\)}{4 P}
+\begin{lpaufgabe}{G4}{Paketrutsche, \(8\;\text{kg}\), Grenze \(26^\circ\), c) bei \(15^\circ\)}{4 P}
 \begin{raster}
 a) Skizze & 1\Sk & Gewichtskraft senkrecht nach unten (im Schwerpunkt), Normalkraft senkrecht zur Rutsche weg von ihr, Haftreibung längs der Rutsche hangaufwärts; alle drei mit Namen. Eine eingezeichnete Zerlegung der Gewichtskraft schadet nicht\\
 b) \(\mu_H\) & 1\E & An der Grenze ist \(F_H = \mu_H \cdot F_N\), also \(\tan\alpha = \mu_H\): \(\mu_H = \tan 26^\circ \approx 0.488\) (ohne Einheit)\\
-c) Kräfte & 1\E & \(F_N = m \cdot g \cdot \cos\alpha = 8\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot \cos 26^\circ \approx 70.5\;\text{N}\), \(F_R = F_H = m \cdot g \cdot \sin\alpha \approx 34.4\;\text{N}\) (beide nötig)\\
+c) Kräfte bei \(15^\circ\) & 1\E & \(F_N = m \cdot g \cdot \cos\alpha = 8\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot \cos 15^\circ \approx 75.8\;\text{N}\); das Paket ruht, also \(F_R = F_H = m \cdot g \cdot \sin\alpha \approx 20.3\;\text{N}\) (beide nötig) — weniger als der Höchstwert \(\mu_H \cdot F_N \approx 37.0\;\text{N}\)\\
 d) Masse & 1\B & Nein: Hangabtrieb und grösste Haftreibung wachsen beide proportional zur Masse; setzt man sie gleich, kürzt sich \(m \cdot g\), und die Grenze \(\tan\alpha = \mu_H\) bleibt dieselbe\\
 \end{raster}
 \fehler{a) Normalkraft senkrecht nach oben statt senkrecht zur Rutsche, oder Reibung hangabwärts: a) 0 \(\to\) 3 von 4\,P.
 b) \(\sin 26^\circ \approx 0.438\) statt \(\tan\): b) 0 \(\to\) 3 von 4\,P.
-c) Sinus und Kosinus vertauscht (\(F_N \approx 34.4\;\text{N}\), \(F_R \approx 70.5\;\text{N}\)) oder \(F_N = F_G = 78.5\;\text{N}\): c) 0 \(\to\) 3 von 4\,P.
+c) Haftreibung als \(\mu_H \cdot F_N \approx 37.0\;\text{N}\) gerechnet (das ist nur ihr Höchstwert), Sinus und Kosinus vertauscht (\(F_N \approx 20.3\;\text{N}\), \(F_R \approx 75.8\;\text{N}\)) oder \(F_N = F_G = 78.5\;\text{N}\): c) 0 \(\to\) 3 von 4\,P. Folgefehler aus b) (z.\,B. \(\mu_H \approx 0.438\)) ändert c) nicht.
 d) «Ja, das schwere rutscht früher»: d) 0 \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 

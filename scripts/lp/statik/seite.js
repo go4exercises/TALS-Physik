@@ -566,10 +566,10 @@
       var k = 50 / w.FG, kx = HX + d * ux, ky = HY + d * uy;                  // Gewichtskraft immer 50 px lang; Kontaktpunkt
       if (gerutscht && rutsch > 0.15){ zeichneDia(); return; }                 // unten angekommen: nur noch die Kiste
       // Gewichtskraft und ihre Komponenten
-      pfeil(szene, mx, my, mx, my + w.FG * k, 'pf-g', 8); marke(szene, mx + 5, my + w.FG * k + 2, 'F', 'G', 'pf-text pf-g', 'start');
+      pfeil(szene, mx, my, mx, my + w.FG * k, 'pf-g', 8); marke(szene, al > 1 ? mx - 5 : mx + 5, my + w.FG * k + 2, 'F', 'G', 'pf-text pf-g', al > 1 ? 'end' : 'start');   // geneigt: links, rechts steht F_G⊥
       if (al > 1){
         pfeil(szene, mx, my, mx - FH * k * ux, my - FH * k * uy, 'pf-a duenn', 6); marke(szene, mx - FH * k * ux - 4, my - FH * k * uy - 6, 'F', 'H', 'pf-text pf-a', 'end');
-        pfeil(szene, mx, my, mx - FN * k * nx, my - FN * k * ny, 'pf-a duenn', 6);
+        pfeil(szene, mx, my, mx - FN * k * nx, my - FN * k * ny, 'pf-a duenn', 6); marke(szene, mx - FN * k * nx + 5, my - FN * k * ny + 6, 'F', 'G⊥', 'pf-text pf-a', 'start');
         el(szene, 'line', { x1: mx - FH * k * ux, y1: my - FH * k * uy, x2: mx, y2: my + w.FG * k, 'class': 'hilfslinie' });
       }
       // Normalkraft am Kontakt nach aussen, Reibung am Kontakt hangaufwärts

@@ -131,3 +131,21 @@ Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entsc
   «Stütze A/B» stehen am rechten Ende der Geraden. Der frühere Parabel-Kunstgriff ist entfallen.
 - vektor S1, drehmoment S2, auflager S2: `ein` von Hand nach `sprechzeiten.py`; `anker.py` lag bis 1.5 s daneben.
 - auflager, Szene 7: F_B, F_A und Probe erscheinen mit dem gesprochenen Ergebnis.
+
+## Nach der dritten Prüfung (11.10.2026)
+
+- **Zeit:** je Kapitel 65 min statt 50 (Schätzung der Prüfung, 60 bis 70 min). Mit Vorwissen (15) und Gesamttest (40)
+  sind es 445 min ≈ 9.9 Lektionen, ohne beides 8.7. Die Begründung, warum nicht geteilt wird, gilt weiter
+  (siehe «Zeit (Fassung 1.1)»; deren Zahlen sind überholt).
+- **Gesamttest:** G2 d) mit der ausdrücklichen Annahme, die Gleitreibung bleibe 100 N (mit μ_G = 100/325 wären es
+  120.7 N; beides zählt im Raster). G4 c) bei 15° statt an der Grenze: F_N ≈ 75.8 N, F_R = F_H ≈ 20.3 N; wer
+  μ_H · F_N ≈ 37.0 N rechnet, verliert den Punkt (vorher gab die Grenze dafür volle Punkte).
+- **Seite:** Festhalten 3 benennt die Hangabtriebskraft und F_G⊥ und sagt, dass die Normalkraft nicht die Gegenkraft
+  der Gewichtskraft nach Newton 3 ist; Festhalten 6 bringt die schiefe Ebene zurück (Kippen um die untere Kante ab
+  tan α = b/h, Beispiel 0.4 m × 1.2 m: kippt ab 18.4°, haftet bis 26.6°) — K5 verlangt beide Bedingungen auch dort.
+- **sim3** beschriftet die senkrechte Komponente F_G⊥; F_G steht bei geneigter Rampe links der Spitze. Clipbilder
+  p4-4-lp-ruhe-2, -2-ohne, -g10 bis -g32 und -3 neu aufgenommen (m = 12 kg, μ_H = 0.65, `zeige(α)`; «-ohne» ohne die
+  Punktbeschriftungen im Diagramm); -1 (α = 0) unverändert.
+- **Clips:** ruhe Szene 3 und Sofa-Rückmeldung ohne «die Gewichtskraft drückt auf die Rampe»; kontrolle-ruhe
+  Frage 1 «eine zweite Kraft nach oben» statt «Gegenkraft»; hebel «zweiarmig/einarmig» wie Themenseite und Festhalten;
+  vektor Szene 3 F_x ≈ 46.0 N (drei Stellen wie F_y ≈ 38.6 N).
