@@ -437,7 +437,7 @@
       var z = '<span>' + p_('S') + ' = ' + v_('ρ') + ' · ' + v_('g') + ' · ' + v_('h') + ' = ' + zahl(w.rho) + NB + 'kg/m³ · 9.81' + NB + 'm/s² · ' + zahl(H) + NB + 'm = ' + zahl(Math.round(w.rho * G * H * 10) / 10) + NB + 'Pa</span>';
       var pSh = w.rho * G * H / 100;
       z += '<span>' + p_() + ' = ' + p_('0') + ' + ' + p_('S') + ' = 1013' + NB + 'hPa + ' + zahl(+pSh.toFixed(1)) + NB + 'hPa ' + ist(1013 + pSh, sig(1013 + pSh, 4)) + sig(1013 + pSh, 4) + NB + 'hPa</span>';
-      z += '<span class="sim-notiz">' + p_('0') + ': Luftdruck an der Oberfläche (Meereshöhe). Das Manometer zeigt den absoluten Druck.</span>';
+      z += '<span class="sim-notiz">' + p_('0') + ': Luftdruck an der Oberfläche, hier für alle Gewässer auf Meereshöhe (1013' + NB + 'hPa; ein See im Mittelland hätte rund 965' + NB + 'hPa). Das Manometer zeigt den absoluten Druck.</span>';
       rolle(fig, 'formel').innerHTML = z;
       pruefen();
     }
@@ -518,7 +518,7 @@
       { text: 'In Zürich: Sauge alle Luft aus dem Rohr (\\(p_i = 0\\)). Wie hoch steigt das Wasser höchstens? Notiere, dann vergleiche.', ok: function(s){ return hat(s, 965, 0, 1000); },
         vergleich: '\\(h = \\dfrac{p_0}{\\rho \\cdot g} = \\dfrac{96\\,500\\;\\text{Pa}}{1000\\;\\text{kg/m}^3 \\cdot 9.81\\;\\text{m/s}^2} \\approx 9.84\\;\\text{m}\\). Höher geht es nicht: Mehr als den ganzen Luftdruck kann die Luft draussen nicht aufbringen.' },
       { text: 'Dasselbe auf dem Jungfraujoch. Wie hoch steigt das Wasser jetzt höchstens? Notiere und vergleiche mit Zürich.', ok: function(s){ return hat(s, 671, 0, 1000); },
-        vergleich: '\\(h = \\dfrac{67\\,100\\;\\text{Pa}}{1000\\;\\text{kg/m}^3 \\cdot 9.81\\;\\text{m/s}^2} \\approx 6.84\\;\\text{m}\\) — rund ein Drittel weniger als auf Meereshöhe, weil über dem Jungfraujoch weniger Luft liegt.' },
+        vergleich: '\\(h = \\dfrac{67\\,100\\;\\text{Pa}}{1000\\;\\text{kg/m}^3 \\cdot 9.81\\;\\text{m/s}^2} \\approx 6.84\\;\\text{m}\\) — rund 30 % weniger als in Zürich (\\(9.84\\;\\text{m}\\)), weil über dem Jungfraujoch weniger Luft liegt und der Luftdruck um rund 30 % kleiner ist.' },
       { text: 'Fülle das Becken mit Quecksilber (\\(13\\,600\\;\\text{kg/m}^3\\)) und sauge auf Meereshöhe alles leer. Wie hoch steht die Säule? Notiere, dann vergleiche mit dem Wasser.', ok: function(s){ return hat(s, 1013, 0, 13600); },
         vergleich: '\\(h = \\dfrac{101\\,300\\;\\text{Pa}}{13\\,600\\;\\text{kg/m}^3 \\cdot 9.81\\;\\text{m/s}^2} \\approx 0.759\\;\\text{m} \\approx 760\\;\\text{mm}\\). Steigt der Luftdruck, steigt die Säule — das Barometer zeigt den Luftdruck an.' },
       { text: 'Auf Meereshöhe soll das Wasser mindestens \\(6\\;\\text{m}\\) hoch steigen. Welcher Innendruck ist höchstens erlaubt (auf \\(5\\;\\text{hPa}\\) genau)? Notiere deine Rechnung, dann stelle ein und sauge ab.', ok: function(s){ return hat(s, 1013, 420, 1000); },
@@ -561,7 +561,7 @@
       // Gefäss: links schmaler Zylinder, rechts breiter, unten verbunden
       var bl = 6 + Math.sqrt(w.A1) * 3, br = 30 + Math.sqrt(w.A2) * 3.2, xl = 60, xr = 200, by = 260, ky = 160;
       el(szene, 'path', { d: 'M' + (xl - bl / 2) + ' ' + (ky - 50) + ' L' + (xl - bl / 2) + ' ' + by + ' L' + (xr + br / 2) + ' ' + by + ' L' + (xr + br / 2) + ' ' + (ky - 50), 'class': 'gefaess' });
-      var yl = ky + takt * S1 * 1.6, yr = ky - zug * 1.6;                       // 1.6 px je cm Kolbenweg
+      var yl = ky + (w.hebt ? takt : 0) * S1 * 1.6, yr = ky - zug * 1.6;                       // 1.6 px je cm Kolbenweg
       el(szene, 'rect', { x: xl - bl / 2 + 1, y: yl, width: bl - 2, height: by - yl - 1, 'class': 'oel' });
       el(szene, 'rect', { x: xr - br / 2 + 1, y: yr, width: br - 2, height: by - yr - 1, 'class': 'oel' });
       el(szene, 'rect', { x: xl + bl / 2 - 1, y: by - 26, width: xr - br / 2 - xl - bl / 2 + 2, height: 25, 'class': 'oel' });
@@ -1008,7 +1008,7 @@
           if (Math.random() < 0.25){
             var b = zufall([['Ein Kinderballon', true, [5, 8, 15, 20]], ['Ein Wetterballon', false, [2.5, 4, 6.5]]]), Vb = zufall(b[2]), Vmb = b[1] ? Vb / 1000 : Vb;
             return { F: 1.2 * Vmb * G, rf: 1.2, rk: null, V: Vb, l: b[1], Vm: Vmb, luft: true,
-              text: b[0] + ' mit dem Volumen \\(' + (b[1] ? ein(Vb, 'l') : tz(Vb) + '\\;\\text{m}^3') + '\\) schwebt in Luft (\\(\\rho_{Fl} = 1.20\\;\\text{kg/m}^3\\)). Wie gross ist die Auftriebskraft?' };
+              text: b[0] + ' mit dem Volumen \\(' + (b[1] ? ein(Vb, 'l') : tz(Vb) + '\\;\\text{m}^3') + '\\) ist ganz von Luft umgeben (\\(\\rho_{Fl} = 1.20\\;\\text{kg/m}^3\\)). Wie gross ist die Auftriebskraft?' };
           }
           var f, K, V, l;
           do { f = zufall(FL); K = zufall([['Ein Stein', 2600], ['Ein Eisenteil', 7870], ['Ein Aluminiumteil', 2700]]); l = Math.random() < 0.5;

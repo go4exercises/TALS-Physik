@@ -46,7 +46,7 @@ alle Leisten lösbar, keine schon im Startzustand erfüllt (Stand nach der Beheb
 
 ## Entscheide
 
-- **Umfang nach RLP:** fünf Kompetenzen, sechs Kapitel (370 min, je Kapitel 55 min): K3 verlangt den Druck in der Flüssigkeit
+- **Umfang nach RLP:** fünf Kompetenzen, sechs Kapitel (415 min ≈ 9.2 Lektionen: Kapitel je 60 min, Vorwissen 10 min, Gesamttest 45 min; Zeitschätzung der Prüfung vom 11.10.2026): K3 verlangt den Druck in der Flüssigkeit
   *und* die Verbindung zum Luftdruck — Schweredruck (Kapitel 2) und Luftdruck mit Saugrohr und Barometer
   (Kapitel 3); K5 Auftrieb (Kapitel 5) und Schwimmen, Schweben, Sinken (Kapitel 6). Das U-Rohr mit zwei
   Flüssigkeiten steht in keiner Kompetenz und bleibt auf der Themenseite.
@@ -125,3 +125,15 @@ Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entsc
   getimten Elemente dieser zwei Clips auf Textanker gelegt.
 - `p4-5-lp-schweredruck-sd-0/-2.jpg` durch die `-ps`-Fassungen ersetzt und gelöscht; `luftdruck-hg.jpg` war
   schon vorher unbenutzt.
+
+## Nach der Zweitprüfung (11.10.2026)
+
+- **sim4:** Reicht \(F_2\) nicht, bleibt auch der kleine Kolben stehen (vorher fuhr er bei jedem Pumpstoss hinunter,
+  obwohl sich nichts hob — widersprach \(A_1 \cdot s_1 = A_2 \cdot s_2\)). Die Clipbilder `pascal-*` zeigen nur Fälle,
+  in denen das Auto sich hebt, und bleiben.
+- **Zeiten:** Kapitel je 60 min, Gesamttest 45 min (22 Teilaufgaben, 25 P), zusammen 415 min ≈ 9.2 Lektionen.
+- **Einstieg mit Phänomen:** Schweredruck-Clip beginnt mit dem Druck auf den Ohren, Pascal-Clip mit der Pumpe, die
+  ein Auto hebt (Szene 1 neu vertont, Einblendungen nachgeschoben).
+- Kleinigkeiten: N/cm² im Festhalten 1, Überdruck im Velopneu (1d), Skizze in 5a (Vorbereitung auf G5a), sim2
+  nennt \(p_0 = 1013\;\text{hPa}\) für alle Gewässer, sim3-Vergleich gegen Zürich, G1c als Begründungspunkt, G1d
+  umformuliert, Ballon «ist ganz von Luft umgeben».

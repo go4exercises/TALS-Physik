@@ -722,7 +722,7 @@ fest1 = r'''      <div class="festhalten">
           <div class="titel">Druck</div>
           <p>Der <b>Druck</b> ist die Kraft, die senkrecht auf eine Fläche wirkt, geteilt durch diese Fläche:</p>
           <p>\[ p = \frac{F}{A} \]</p>
-          <p>Einheit: das <b>Pascal</b>, \(1\;\text{Pa} = 1\;\text{N/m}^2\). Weitere Einheiten: \(1\;\text{hPa} = 1\;\text{mbar} = 100\;\text{Pa}\), \(1\;\text{kPa} = 1000\;\text{Pa}\), \(1\;\text{bar} = 1000\;\text{hPa} = 100\,000\;\text{Pa}\). Der Luftdruck auf Meereshöhe ist rund \(1013\;\text{hPa} \approx 1\;\text{bar}\).</p>
+          <p>Einheit: das <b>Pascal</b>, \(1\;\text{Pa} = 1\;\text{N/m}^2\). Weitere Einheiten: \(1\;\text{hPa} = 1\;\text{mbar} = 100\;\text{Pa}\), \(1\;\text{kPa} = 1000\;\text{Pa}\), \(1\;\text{bar} = 1000\;\text{hPa} = 100\,000\;\text{Pa}\); bei kleinen Flächen auch \(1\;\text{N/cm}^2 = \dfrac{1\;\text{N}}{10^{-4}\;\text{m}^2} = 10\,000\;\text{Pa}\). Der Luftdruck auf Meereshöhe ist rund \(1013\;\text{hPa} \approx 1\;\text{bar}\).</p>
           <p><b>Zwischen zwei Festkörpern</b> (Schuh auf Schnee, Kiste auf Boden) ist \(F\) meist die Gewichtskraft und \(A\) die Auflagefläche. Dieselbe Kraft auf kleiner Fläche gibt grossen Druck (Messerschneide, Nadel), auf grosser Fläche kleinen Druck (Schneeschuh, Raupe).</p>
         </div>
         <div class="warn">
@@ -739,10 +739,10 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 12, [
     ('1c', 3, r'Das Diagramm zeigt den Druck, den eine Person auf den Boden ausübt, über der Auflagefläche. Lies den Druck bei \(250\;\text{cm}^2\) ab und bestimme daraus die Gewichtskraft und die Masse der Person. Bei welcher Fläche ist der Druck \(5\;\text{kPa}\)?',
      r'<p>Bei \(250\;\text{cm}^2\) liest man \(20\;\text{kPa}\) ab. \(F = p \cdot A\) \(= 20\,000\;\text{Pa} \cdot 0.025\;\text{m}^2\) \(= 500\;\text{N}\), \(m = \dfrac{F}{g}\) \(\approx 51\;\text{kg}\).</p><p>\(5\;\text{kPa}\) bei \(A = \dfrac{500\;\text{N}}{5000\;\text{Pa}}\) \(= 0.1\;\text{m}^2 = 1000\;\text{cm}^2\) — auch im Diagramm ablesbar.</p>',
      '\n            <div class="mini-reihe">' + linien_bild([(a, 500 / (a / 1e4) / 1000) for a in range(200, 2001, 25)], 0, 2000, 0, 25, 250, 5, 'Druck über der Fläche: fallende Kurve, 20 kPa bei 250 cm², 10 kPa bei 500 cm², 5 kPa bei 1000 cm², 2.5 kPa bei 2000 cm²', 'A [cm²]', 'p [kPa]', 'kurve-p') + '</div>'),
-    ('1d', 3, r'Der Wetterbericht meldet einen Luftdruck von \(985\;\text{hPa}\). Gib ihn in bar, kPa und Pa an. In einem Velopneu herrscht ein Druck von \(4.5\;\text{bar}\) — wie viele kPa sind das?',
+    ('1d', 3, r'Der Wetterbericht meldet einen Luftdruck von \(985\;\text{hPa}\). Gib ihn in bar, kPa und Pa an. Im Velopneu herrscht ein Überdruck von \(4.5\;\text{bar}\): So viel ist der Druck im Pneu grösser als der Luftdruck draussen, und so viel zeigt das Manometer der Pumpe an. Wie viele kPa sind das?',
      r'<p>\(985\;\text{hPa} = 0.985\;\text{bar}\) \(= 98.5\;\text{kPa}\) \(= 98\,500\;\text{Pa}\).</p><p>\(4.5\;\text{bar} = 450\,000\;\text{Pa} = 450\;\text{kPa}\).</p>', ''),
 ])
-k1 = kapitel(1, 'druck', 'Druck', 'K1 · K2', 55,
+k1 = kapitel(1, 'druck', 'Druck', 'K1 · K2', 60,
     r'Du definierst den Druck \(p = \dfrac{F}{A}\), rechnest zwischen Pa, hPa, kPa und bar um und berechnest den Druck zwischen zwei Festkörpern.',
     ('p4-5-lp-druck', 'Hydrostatik sehen: Kraft auf Fläche'),
     sim1, ('p4-5-lp-kontrolle-druck', 'Kontrollfragen zum Druck'),
@@ -779,7 +779,7 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2d', 3, r'Ein Taucher ist im Meer (\(1025\;\text{kg/m}^3\)) in \(20\;\text{m}\) Tiefe. Wie gross ist der Gesamtdruck in bar? Seine Kamera steckt in einem dichten Gehäuse, in dem die Luft den Druck \(p_0\) von der Oberfläche behält. Mit welcher Kraft drückt das Wasser zusätzlich auf das Frontglas (\(120\;\text{cm}^2\))?',
      r'<p>\(p_S = 1025\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2 \cdot 20\;\text{m}\) \(\approx 201\,000\;\text{Pa}\); \(p = p_0 + p_S\) \(\approx 1.013\;\text{bar} + 2.01\;\text{bar} \approx 3.02\;\text{bar}\).</p><p>Innen drückt \(p_0\), aussen \(p_0 + p_S\): Es bleibt der Schweredruck. \(F = p_S \cdot A\) \(\approx 201\,000\;\text{Pa} \cdot 0.012\;\text{m}^2\) \(\approx 2410\;\text{N}\) — so viel wie die Gewichtskraft von rund \(250\;\text{kg}\). Darum braucht das Gehäuse dickes Glas.</p>', ''),
 ])
-k2 = kapitel(2, 'schweredruck', 'Schweredruck', 'K3', 55,
+k2 = kapitel(2, 'schweredruck', 'Schweredruck', 'K3', 60,
     r'Du berechnest den Druck in einer Flüssigkeit mit der hydrostatischen Grundgleichung \(p_S = \rho \cdot g \cdot h\), setzt ihn mit dem Luftdruck zum Gesamtdruck zusammen und erklärst das hydrostatische Paradoxon.',
     ('p4-5-lp-schweredruck', 'Hydrostatik sehen: Druck in der Tiefe'),
     sim2, ('p4-5-lp-kontrolle-schweredruck', 'Kontrollfragen zum Schweredruck'),
@@ -817,7 +817,7 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
     ('3d', 3, r'Blaise Pascal baute ein Barometer mit Wasser statt Quecksilber. Wie hoch stünde die Wassersäule bei einem Luftdruck von \(990\;\text{hPa}\)? Begründe, warum man Barometer mit Quecksilber baut.',
      r'<p>\(h = \dfrac{p_0}{\rho \cdot g}\) \(= \dfrac{99\,000\;\text{Pa}}{1000\;\text{kg/m}^3 \cdot 9.81\;\text{m/s}^2}\) \(\approx 10.1\;\text{m}\).</p><p>Quecksilber ist \(13.6\)-mal dichter: Die Säule ist nur rund \(74\;\text{cm}\) hoch, handlich statt zehn Meter.</p>', ''),
 ])
-k3 = kapitel(3, 'luftdruck', 'Luftdruck', 'K3', 55,
+k3 = kapitel(3, 'luftdruck', 'Luftdruck', 'K3', 60,
     r'Du verbindest den Druck in Flüssigkeiten mit dem Luftdruck: Du erklärst, warum der Luftdruck eine Flüssigkeit in einem Rohr hochdrückt, berechnest \(\rho \cdot g \cdot h = p_0 - p_i\) und verstehst das Barometer.',
     ('p4-5-lp-luftdruck', 'Hydrostatik sehen: die Luft drückt mit'),
     sim3, ('p4-5-lp-kontrolle-luftdruck', 'Kontrollfragen zum Luftdruck'),
@@ -856,7 +856,7 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
     ('4d', 3, r'Eine Hebebühne hebt ein Auto (\(1400\;\text{kg}\)); \(A_2 = 600\;\text{cm}^2\), die Handpumpe hat \(A_1 = 3\;\text{cm}^2\) und einen Hub von \(15\;\text{cm}\). Welche Kraft braucht es an der Pumpe? Wie viele Pumpstösse braucht es, um das Auto \(30\;\text{cm}\) zu heben?',
      r'<p>\(F_1 = m \cdot g \cdot \dfrac{A_1}{A_2}\) \(= 1400\;\text{kg} \cdot 9.81\;\text{m/s}^2 \cdot \dfrac{3\;\text{cm}^2}{600\;\text{cm}^2}\) \(\approx 68.7\;\text{N}\).</p><p>Je Pumpstoss \(s_2 = 15\;\text{cm} \cdot \dfrac{3\;\text{cm}^2}{600\;\text{cm}^2}\) \(= 0.075\;\text{cm}\); für \(30\;\text{cm}\) braucht es \(\dfrac{30\;\text{cm}}{0.075\;\text{cm}} = 400\) Pumpstösse.</p>', ''),
 ])
-k4 = kapitel(4, 'pascal', "Das Pascal'sche Gesetz", 'K4', 55,
+k4 = kapitel(4, 'pascal', "Das Pascal'sche Gesetz", 'K4', 60,
     r"Du wendest das Pascal'sche Gesetz an hydraulischen Anlagen an: gleicher Druck auf beide Kolben, \(F_2 = F_1 \cdot \dfrac{A_2}{A_1}\), und den Tausch von Kraft gegen Weg.",
     ('p4-5-lp-pascal', 'Hydrostatik sehen: Druck pflanzt sich fort'),
     sim4, ('p4-5-lp-kontrolle-pascal', "Kontrollfragen zum Pascal'schen Gesetz"),
@@ -884,8 +884,8 @@ fest5 = r'''      <div class="festhalten">
         </div>
       </div>'''
 auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
-    ('5a', 3, r'Ein Stein (\(2.8\;\text{kg}\), \(1.1\;\text{l}\)) liegt im See. Wie gross ist der Auftrieb? Mit welcher Kraft muss eine Taucherin ihn halten, damit er im Wasser nicht sinkt?',
-     r'<p>\(F_A = \rho_{Fl} \cdot V_e \cdot g\) \(= 1000\;\text{kg/m}^3 \cdot 0.0011\;\text{m}^3 \cdot 9.81\;\text{m/s}^2\) \(\approx 10.8\;\text{N}\).</p><p>\(F_G = 2.8\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 27.5\;\text{N}\); halten: \(27.5\;\text{N} - 10.8\;\text{N} \approx 16.7\;\text{N}\).</p>', ''),
+    ('5a', 3, r'Ein Stein (\(2.8\;\text{kg}\), \(1.1\;\text{l}\)) liegt im See. Wie gross ist der Auftrieb? Mit welcher Kraft muss eine Taucherin ihn halten, damit er im Wasser nicht sinkt? Skizziere den Stein mit allen Kräften, die auf ihn wirken, mit Namen und Richtung.',
+     r'<p>\(F_A = \rho_{Fl} \cdot V_e \cdot g\) \(= 1000\;\text{kg/m}^3 \cdot 0.0011\;\text{m}^3 \cdot 9.81\;\text{m/s}^2\) \(\approx 10.8\;\text{N}\).</p><p>\(F_G = 2.8\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 27.5\;\text{N}\); halten: \(27.5\;\text{N} - 10.8\;\text{N} \approx 16.7\;\text{N}\).</p><p>Skizze: Gewichtskraft \(F_G\) senkrecht nach unten; Auftrieb \(F_A\) und Haltekraft der Taucherin senkrecht nach oben, zusammen so lang wie \(F_G\).</p>', ''),
     ('5b', 3, r'Erkläre mit dem Schweredruck, warum ein eingetauchter Würfel Auftrieb erfährt. Warum hängt der Auftrieb nicht davon ab, wie tief der Würfel ganz unter Wasser liegt? Begründe.',
      r'<p>Auf die Unterseite drückt das Wasser stärker nach oben als auf die Oberseite nach unten, denn unten ist es tiefer: \(p = \rho \cdot g \cdot h\). Der Unterschied der beiden Kräfte ist der Auftrieb; die Seitenkräfte heben sich auf.</p><p>Liegt der Würfel tiefer, wachsen beide Drücke um gleich viel — ihr Unterschied hängt nur von der Würfelhöhe ab, also vom Volumen.</p>', ''),
     ('5c', 3, r'Ein Körper an einer Federwaage wird langsam in Wasser getaucht. Das Diagramm zeigt die Anzeige über der Eintauchtiefe. Wie gross ist der Auftrieb, wenn er ganz eingetaucht ist? Welches Volumen hat er? Was würde die Waage zeigen, wenn er ganz in Spiritus (\(790\;\text{kg/m}^3\)) taucht?',
@@ -894,7 +894,7 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5d', 3, r'Archimedes sollte prüfen, ob eine Krone aus reinem Gold (\(19\,300\;\text{kg/m}^3\)) ist. An der Luft zeigt die Waage \(9.81\;\text{N}\), ganz in Wasser \(9.15\;\text{N}\). Ist die Krone aus reinem Gold? Begründe mit einer Rechnung.',
      r'<p>\(F_A = 9.81\;\text{N} - 9.15\;\text{N} = 0.66\;\text{N}\), \(V = \dfrac{F_A}{\rho_{Fl} \cdot g}\) \(\approx 67.3\;\text{cm}^3\).</p><p>\(\rho = \dfrac{F_G}{F_A} \cdot \rho_{Fl}\) \(\approx 14\,900\;\text{kg/m}^3\) — viel weniger als Gold. Die Krone ist mit einem leichteren Metall (zum Beispiel Silber) gestreckt.</p>', ''),
 ])
-k5 = kapitel(5, 'auftrieb', 'Auftrieb', 'K5', 55,
+k5 = kapitel(5, 'auftrieb', 'Auftrieb', 'K5', 60,
     r'Du formulierst das archimedische Prinzip \(F_A = \rho_{Fl} \cdot V_e \cdot g\), erklärst den Auftrieb mit dem Druckunterschied und berechnest Auftrieb und Anzeige einer Federwaage.',
     ('p4-5-lp-auftrieb', 'Hydrostatik sehen: leichter im Wasser'),
     sim5, ('p4-5-lp-kontrolle-auftrieb', 'Kontrollfragen zum Auftrieb'),
@@ -936,7 +936,7 @@ auf6 = test('t6', 'Aufgaben · Kapitel 6', 12, [
     ('6d', 3, r'Ein U-Boot kann abtauchen, in einer Tiefe schweben und wieder auftauchen. Es hat Tanks, die es mit Wasser fluten oder mit Druckluft leeren kann. Erkläre die drei Zustände mit der mittleren Dichte.',
      r'<p>Leere Tanks: Die mittlere Dichte ist kleiner als die des Wassers, es schwimmt an der Oberfläche. Geflutete Tanks: Die mittlere Dichte wird grösser, es sinkt. Genau so viel Wasser, dass die mittlere Dichte gleich der des Wassers ist: Es schwebt. Zum Auftauchen bläst Druckluft das Wasser aus den Tanks.</p>', ''),
 ])
-k6 = kapitel(6, 'schwimmen', 'Schwimmen, Schweben, Sinken', 'K5', 55,
+k6 = kapitel(6, 'schwimmen', 'Schwimmen, Schweben, Sinken', 'K5', 60,
     r'Du entscheidest aus dem Vergleich der Dichten, ob ein Körper schwimmt, schwebt oder sinkt, und berechnest den eingetauchten Anteil \(\dfrac{V_e}{V} = \dfrac{\rho_K}{\rho_{Fl}}\).',
     ('p4-5-lp-schwimmen', 'Hydrostatik sehen: schwimmen oder sinken'),
     sim6, ('p4-5-lp-kontrolle-schwimmen', 'Kontrollfragen zum Schwimmen'),
@@ -949,7 +949,7 @@ gt = f'''
     <section class="kap" id="gesamttest">
       <div class="gesamt">
         <div class="gesamt-kopf">
-          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">4.5 · K1 bis K5</span><span class="zeit">≈ 30 min · 25 Punkte</span></div>
+          <div class="kap-meta"><span class="marker">Abschluss</span><span class="abz">4.5 · K1 bis K5</span><span class="zeit">≈ 45 min · 25 Punkte</span></div>
           <h2 id="gesamttest-titel">Gesamttest</h2>
           <div class="pdf-weg">
             <div class="pdf-schritt"><span class="nr">1</span><div><b>Lösen</b> — auf Papier, mit Rechenweg und Skizzen. Erlaubt sind Taschenrechner und Formelsammlung.<br>
@@ -1004,7 +1004,7 @@ oben = '''<div id="nav-root"></div>
        K4 → Kap. 4 · Aufg. 4a–4d · G4          K5 → Kap. 5, 6 · Aufg. 5a–6d · G5 (Auftrieb in Luft, Federwaage,
        Druckunterschied) G6 (Dichtevergleich, Aräometer)
      Bewusst weggelassen: U-Rohr mit zwei Flüssigkeiten (in keiner Kompetenz genannt, auf der Themenseite).
-     Zeiten: K0 10 · K1–K6 je 55 · Gesamttest 30 = 370 min ≈ 8.2 Lektionen. -->
+     Zeiten: K0 10 · K1–K6 je 60 · Gesamttest 45 = 415 min ≈ 9.2 Lektionen. -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
