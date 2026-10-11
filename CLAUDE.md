@@ -77,7 +77,9 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Fehlbilder sichtbar verschieden, jede Diagnose). Verweise je Aufgabenart: Themenseite 4.1 `#darstellungen`
   (Zuordnen, In Worten) und `#theorie` (Ablesen), Leitprogramm Kinematik Kapitel 1 und 2. Kein `localStorage`.
 - `werkzeuge/fall-und-wurf.html` — Trainer Fall und Wurf (4.1, seit 11.10.2026): freier Fall, senkrecht nach
-  oben (aus der Hand oder vom Balkon) und nach unten, waagrechter und schiefer Wurf (Filter je Bewegung, «Gemischt»).
+  oben (aus der Hand oder vom Balkon) und nach unten, waagrechter und schiefer Wurf, schief nach oben und (seit 11.10.2026,
+  \(\alpha < 0\), vom Turm) nach unten (Filter je Bewegung, «Gemischt»). Objekte ohne nennenswerten Luftwiderstand (Golfball
+  statt Tennisball).
   \(y\) zeigt immer nach oben, auch beim freien Fall (Hinweis auf der Seite: die Themenseite misst dort nach unten).
   Drei Aufgabenarten (Anker `#aufgabe-zuordnen`, `#aufgabe-stellen`, `#aufgabe-ablesen`): (1) zur beschriebenen
   Szene mit Skizze das passende \(y\)-\(t\)-, \(v_y\)-\(t\)-, \(a_y\)-\(t\)-, \(x\)-\(t\)-, \(v_x\)-\(t\)-Diagramm
