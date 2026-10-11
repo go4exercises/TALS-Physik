@@ -74,7 +74,8 @@ Einbindungen, alle relativ eine Ebene hoch — **kein fremder Host**:
   `scripts/verify_einheitentrainer.js`. Das Skript in den Pre-Flight (`run_deep`) aufnehmen.
 - Eingaben akzeptieren Dezimalpunkt **und** Dezimalkomma; ausgegeben wird mit Punkt
   (STYLEGUIDE §2).
-- **Ein Trainer, ein Bildschirm** (Entscheid des Auftraggebers, 11.10.2026). Bei 1280 px soll
+- **Ein Trainer, ein Bildschirm** (Entscheid des Auftraggebers, 11.10.2026; **physikspezifisch, nicht nach Mathe
+  übertragen**). Bei 1280 px soll
   der ganze Trainer ohne Scrollen sichtbar sein. Muster `werkzeuge/fall-und-wurf.html`:
   - Steuerung in einer schmalen Spalte rechts (rund 170 px): Aufgabenart (Anker
     `#aufgabe-<art>` auf dem Knopf, Beschreibung nur im `title`), Auswahl (Bewegung, Stufe …),
@@ -100,12 +101,13 @@ An drei Stellen, sonst fehlt die Seite in Übersicht, Suche oder Sitemap:
    <div class="karte-lp">
      <a href="werkzeuge/einheitentrainer.html" class="karte" aria-label="Werkzeug Einheitentrainer"></a>
      <div class="lp-kopf">Einheitentrainer</div>
-     <div class="lp-satz">Ein Satz, was man dort tut.</div>
-     <div class="lp-zeile"><span class="k-tit">Einheiten umrechnen</span><a href="themen/p0-2-vorwissen-physik.html#umrechnen" class="ts-link" title="Themenseite 0.2 Grössen, Einheiten und Messen">0.2</a></div>
+     <div class="lp-satz">Einheiten umrechnen üben.</div>
+     <div class="lp-pillen"><a href="themen/p0-2-vorwissen-physik.html#umrechnen" class="ts-link" title="Themenseite 0.2 Grössen, Einheiten und Messen">0.2</a> <a href="themen/p0-5-si-einheiten.html" class="ts-link" title="Themenseite 0.5 Die sieben SI-Basiseinheiten">0.5</a></div>
    </div>
    ```
 
-   Je Themenseite, die auf das Werkzeug verweist, eine Zeile mit Pille.
+   Ein kurzer Satz (eine Zeile). Darunter in einer Zeile `.lp-pillen` je Themenseite, die auf das Werkzeug
+   verweist, eine Pille ohne Text, auf den ersten Abschnitt (Entscheid des Auftraggebers, 11.10.2026, wie in Mathe).
 2. **`scripts/build-seo.py`**, Tabelle `SEITEN`: Schlüssel `'werkzeuge/<name>.html'`,
    `typ='article', lrt='Werkzeug'`, Beschreibung 140–165 Zeichen, `themen=[…]`,
    `ort='Werkzeuge · Einheitentrainer'` (Footer-Ortszeile). Dann

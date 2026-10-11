@@ -80,12 +80,13 @@ An drei Stellen, sonst fehlt die Seite in Übersicht, Suche oder Sitemap:
    <div class="karte-lp">
      <a href="simulationen/bungee-sprung.html" class="karte" aria-label="Simulation Bungee-Sprung"></a>
      <div class="lp-kopf">Bungee-Sprung</div>
-     <div class="lp-satz">Ein Satz, was man dort tut.</div>
-     <div class="lp-zeile"><span class="k-tit">Energieerhaltung</span><a href="themen/p4-3-energie.html#erhaltung" class="ts-link" title="Themenseite 4.3 Energie">4.3</a></div>
+     <div class="lp-satz">Ein kurzer Satz, was man dort tut.</div>
+     <div class="lp-pillen"><a href="themen/p4-3-energie.html#erhaltung" class="ts-link" title="Themenseite 4.3 Energie">4.3</a></div>
    </div>
    ```
 
-   Je Themenseite, die auf die Simulation verweist, eine Zeile mit Pille.
+   Ein kurzer Satz (eine Zeile). Darunter in einer Zeile `.lp-pillen` je Themenseite, die auf die Simulation
+   verweist, eine Pille ohne Text, auf den ersten Abschnitt (Entscheid des Auftraggebers, 11.10.2026, wie in Mathe).
 2. **`scripts/build-seo.py`**, Tabelle `SEITEN`: Schlüssel `'simulationen/bungee-sprung.html'`,
    `typ='article', lrt='Simulation'`, Beschreibung 140–165 Zeichen, `themen=[…]`,
    `ort='Simulationen · ⟪Name⟫'` (Footer-Ortszeile). Dann

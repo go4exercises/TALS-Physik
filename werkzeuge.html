@@ -100,12 +100,11 @@
 .karte-lp:hover, .karte-lp:focus-within { transform: translateY(-2px); box-shadow: var(--sl); border-color: var(--bernstein-rand); }
 .karte-lp > .karte { position: absolute; inset: 0; z-index: 0; border-radius: 8px; }
 .lp-kopf { position: relative; z-index: 1; pointer-events: none; font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--bernstein); line-height: 1.25; }
-.lp-zeile { position: relative; z-index: 1; pointer-events: none; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-.lp-zeile .k-tit { font-family: var(--serif); font-size: 0.9rem; font-weight: 600; color: var(--tinte); line-height: 1.25; }
+.lp-pillen { position: relative; z-index: 1; pointer-events: none; display: flex; flex-wrap: wrap; gap: 4px; }
 .ts-link { pointer-events: auto; flex-shrink: 0; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.3px; border-radius: 3px; padding: 1px 6px; text-decoration: none; border: 1px solid;
   color: var(--bernstein); background: var(--bernstein-hell); border-color: var(--bernstein-rand); }
 .ts-link:hover, .ts-link:focus-visible { background: var(--bernstein); color: var(--weiss); }
-/* Ein Satz, was man auf der Seite tut — leiser als die Zeilen mit den Pillen. */
+/* Ein kurzer Satz (eine Zeile), was man dort tut; darunter die Pillen der Themenseiten. */
 .lp-satz { position: relative; z-index: 1; pointer-events: none; font-size: 0.84rem; color: var(--tinte-2); line-height: 1.4; }
 </style>
 </head>
@@ -121,8 +120,8 @@
     </div>
 
 <!-- WERKZEUGE:ANFANG — von Hand gepflegt (HOWTO-werkzeuge.md). Eine Kachel je Seite in werkzeuge/
-     (Kopf: Titel, darunter ein Satz, was man dort tut, und je Themenseite, die auf sie
-     verweist, eine Zeile mit Abschnitt und Nummernpille), sortiert nach Lerngebiet und
+     (Kopf: Titel, darunter ein kurzer Satz, was man dort tut, und in einer Zeile .lp-pillen
+     je Themenseite, die auf sie verweist, eine Nummernpille auf den ersten Abschnitt), sortiert nach Lerngebiet und
      Nummer. Seiten ohne Lerngebiet unter h2#ausserhalb. Der Pre-Flight (check_sim_wz)
      prüft, dass jede Datei in werkzeuge/ hier verlinkt ist. -->
 <h2 id="lg0">Lerngebiet 0 · Vorwissen</h2>
@@ -130,16 +129,14 @@
   <div class="karte-lp">
     <a href="werkzeuge/einheitentrainer.html" class="karte" aria-label="Werkzeug Einheitentrainer"></a>
     <div class="lp-kopf">Einheitentrainer</div>
-    <div class="lp-satz">Einheiten umrechnen üben — frei, geführt oder im Prüfungsmodus, mit Rückmeldung zu typischen Fehlern.</div>
-    <div class="lp-zeile"><span class="k-tit">Einheiten umrechnen</span><a href="themen/p0-2-vorwissen-physik.html#umrechnen" class="ts-link" title="Themenseite 0.2 Grössen, Einheiten und Messen">0.2</a></div>
-    <div class="lp-zeile"><span class="k-tit">Die sieben SI-Basiseinheiten</span><a href="themen/p0-5-si-einheiten.html" class="ts-link" title="Themenseite 0.5 Die sieben SI-Basiseinheiten">0.5</a></div>
-    <div class="lp-zeile"><span class="k-tit">Energie</span><a href="themen/p4-3-energie.html" class="ts-link" title="Themenseite 4.3 Energie">4.3</a></div>
+    <div class="lp-satz">Einheiten umrechnen üben.</div>
+    <div class="lp-pillen"><a href="themen/p0-2-vorwissen-physik.html#umrechnen" class="ts-link" title="Themenseite 0.2 Grössen, Einheiten und Messen">0.2</a> <a href="themen/p0-5-si-einheiten.html" class="ts-link" title="Themenseite 0.5 Die sieben SI-Basiseinheiten">0.5</a> <a href="themen/p4-3-energie.html" class="ts-link" title="Themenseite 4.3 Energie">4.3</a></div>
   </div>
   <div class="karte-lp">
     <a href="werkzeuge/formeln-umstellen.html" class="karte" aria-label="Werkzeug Formeln umstellen"></a>
     <div class="lp-kopf">Formeln umstellen</div>
-    <div class="lp-satz">Rund 40 Formeln aus allen Lerngebieten nach jeder Grösse auflösen, Schritt für Schritt oder mit Zahlen zur Kontrolle, mit Rückmeldung zu typischen Fehlern.</div>
-    <div class="lp-zeile"><span class="k-tit">Gleichungen umstellen</span><a href="themen/p0-1-vorwissen-mathematik.html#umformen" class="ts-link" title="Themenseite 0.1 Rechnen und Schliessen">0.1</a></div>
+    <div class="lp-satz">Formeln nach jeder Grösse auflösen.</div>
+    <div class="lp-pillen"><a href="themen/p0-1-vorwissen-mathematik.html#umformen" class="ts-link" title="Themenseite 0.1 Rechnen und Schliessen">0.1</a></div>
   </div>
 </div>
 
@@ -148,23 +145,20 @@
   <div class="karte-lp">
     <a href="werkzeuge/bewegungsdiagramme.html" class="karte" aria-label="Werkzeug Bewegungsdiagramme"></a>
     <div class="lp-kopf">Bewegungsdiagramme</div>
-    <div class="lp-satz">s-t-, v-t- und a-t-Diagramm einander zuordnen, Steigung und Fläche ablesen und Bewegungen aus Worten als Diagramm erkennen, mit Rückmeldung zu typischen Verwechslungen.</div>
-    <div class="lp-zeile"><span class="k-tit">Geradlinig gleichförmige Bewegung</span><a href="themen/p4-1-kinematik.html#darstellungen" class="ts-link" title="Themenseite 4.1 Kinematik">4.1</a></div>
-    <div class="lp-zeile"><span class="k-tit">Gleichmässig beschleunigte Bewegung</span><a href="themen/p4-1-kinematik.html#theorie" class="ts-link" title="Themenseite 4.1 Kinematik">4.1</a></div>
+    <div class="lp-satz">s-t-, v-t- und a-t-Diagramme lesen und zuordnen.</div>
+    <div class="lp-pillen"><a href="themen/p4-1-kinematik.html#darstellungen" class="ts-link" title="Themenseite 4.1 Kinematik">4.1</a></div>
   </div>
   <div class="karte-lp">
     <a href="werkzeuge/fall-und-wurf.html" class="karte" aria-label="Werkzeug Fall und Wurf"></a>
     <div class="lp-kopf">Fall und Wurf</div>
-    <div class="lp-satz">Diagramme und Bahnkurven zu freiem Fall, senkrechtem, waagrechtem und schiefem Wurf erkennen, Scheitel und Aufprall finden und Werte ablesen, mit Rückmeldung zu typischen Fehlvorstellungen.</div>
-    <div class="lp-zeile"><span class="k-tit">Freier Fall</span><a href="themen/p4-1-kinematik.html#freier-fall" class="ts-link" title="Themenseite 4.1 Kinematik">4.1</a></div>
-    <div class="lp-zeile"><span class="k-tit">Parabolische Bewegung (Schiefer Wurf)</span><a href="themen/p4-1-kinematik.html#wurfparabel" class="ts-link" title="Themenseite 4.1 Kinematik">4.1</a></div>
+    <div class="lp-satz">Diagramme und Bahnkurven von Fall und Wurf lesen.</div>
+    <div class="lp-pillen"><a href="themen/p4-1-kinematik.html#freier-fall" class="ts-link" title="Themenseite 4.1 Kinematik">4.1</a></div>
   </div>
   <div class="karte-lp">
     <a href="werkzeuge/freischneiden.html" class="karte" aria-label="Werkzeug Freischneiden"></a>
     <div class="lp-kopf">Freischneiden</div>
-    <div class="lp-satz">Kräfte auf einen Körper selbst einzeichnen, im Kräfteplan ihre Beträge bestimmen und auf die Bewegung schliessen, mit Rückmeldung zu typischen Fehlern.</div>
-    <div class="lp-zeile"><span class="k-tit">Schiefe Ebene</span><a href="themen/p4-2-dynamik.html#schiefe-ebene" class="ts-link" title="Themenseite 4.2 Dynamik">4.2</a></div>
-    <div class="lp-zeile"><span class="k-tit">Resultierende mehrerer Kräfte</span><a href="themen/p4-4-statik.html#resultierende" class="ts-link" title="Themenseite 4.4 Statik von Festkörpern">4.4</a></div>
+    <div class="lp-satz">Kräfte einzeichnen und im Kräfteplan bestimmen.</div>
+    <div class="lp-pillen"><a href="themen/p4-2-dynamik.html#schiefe-ebene" class="ts-link" title="Themenseite 4.2 Dynamik">4.2</a> <a href="themen/p4-4-statik.html#resultierende" class="ts-link" title="Themenseite 4.4 Statik von Festkörpern">4.4</a></div>
   </div>
 </div>
 
@@ -173,9 +167,8 @@
   <div class="karte-lp">
     <a href="werkzeuge/schaltungen-zusammenfassen.html" class="karte" aria-label="Werkzeug Schaltungen zusammenfassen"></a>
     <div class="lp-kopf">Schaltungen zusammenfassen</div>
-    <div class="lp-satz">Kurzformel, Ersatzwiderstand, Teilströme und Teilspannungen, dazu Voltmeter und Amperemeter richtig einsetzen, mit Rückmeldung zu typischen Fehlern.</div>
-    <div class="lp-zeile"><span class="k-tit">Gemischte Schaltungen</span><a href="themen/p6-2-elektrizitaet.html#gemischt" class="ts-link" title="Themenseite 6.2 Elektrizität">6.2</a></div>
-    <div class="lp-zeile"><span class="k-tit">Messen im Stromkreis</span><a href="themen/p6-2-elektrizitaet.html#messen" class="ts-link" title="Themenseite 6.2 Elektrizität">6.2</a></div>
+    <div class="lp-satz">Schaltungen zusammenfassen, berechnen und messen.</div>
+    <div class="lp-pillen"><a href="themen/p6-2-elektrizitaet.html#gemischt" class="ts-link" title="Themenseite 6.2 Elektrizität">6.2</a></div>
   </div>
 </div>
 

@@ -100,7 +100,7 @@ GRUNDLINIE = {
     '.claude/tools/scan-live.mjs': 0.761,
     '.claude/tools/render-check.mjs': 0.968,
     '.claude/tools/build-bilder.mjs': 0.753,
-    '.claude/skills/preflight/preflight.py': 0.870,   # 0.849 -> 0.870 nach check_sim_wz in beiden Repos (10.10.2026)
+    '.claude/skills/preflight/preflight.py': 0.880,   # 0.849 -> 0.870 nach check_sim_wz in beiden Repos; -> 0.880 Werkzeug-Selbsttests wie Physik (10.10.2026)
     '.claude/skills/preflight/SKILL.md': 0.710,   # 0.680 -> 0.710: Physik ordnet die Stufe-2-Liste wie Mathe (10.10.2026)
     '.claude/settings.json': 0.509,
 }
@@ -137,10 +137,14 @@ BAUSTELLE = {
 # liegt; abgearbeitet wird im jeweils anderen. Wer einen Eintrag erledigt,
 # streicht ihn hier und uebernimmt die Datei ins eigene Repo.
 OFFEN = [
-    dict(quelle='Physik', was='Footer aus einer Quelle und Version 2.0 uebernommen (10.10.2026); beide Mathe-Eintraege abgearbeitet',
-         wie='Physik: fuss(), FUSS-Marken, --check Exit 2 und preflight.py wortgleich aus Mathe; VERSION 2.0, VERSION_STAND 10. Oktober 2026; '
-             'feedback.html mit derselben Zeile; build-clip-ton.py (Runde 6) war schon uebernommen. Grundlinie build-seo.py 0.898 -> 0.909. '
-             'In Mathe: diese Datei uebernehmen (OFFEN danach leer) und diesen Eintrag streichen.'),
+    dict(quelle='Physik', was='Kacheln kompakt uebernommen (11.10.2026); Mathe-Eintrag abgearbeitet',
+         wie='Physik: werkzeuge.html (6 Kacheln, 9 Pillen) und simulationen.html mit .lp-satz in einer Zeile und .lp-pillen; '
+             'HOWTO-werkzeuge.md und HOWTO-simulationen.md nachgefuehrt. NICHT uebertragen (Entscheid des Auftraggebers): '
+             'die neue Anordnung der Bedienfelder in Physiks Trainern (Steuerspalte rechts, Aufgabe in einer Karte) ist '
+             'physikspezifisch. Ebenfalls erledigt: TODO-schwesterprojekt.md 11.10.2026 «Selbsttest prueft auch Rueckmeldung» '
+             '(Fachpruefung aller sechs Physik-Trainer, jeder mit eigenem verify_*.js und Fall-Pruefung der Texte, Commits '
+             'f5aed26 bis bf3ca88) und 10.10.2026 «Footer aus einer Quelle». In Mathe: diese Datei uebernehmen, die drei '
+             'Eintraege in TODO-schwesterprojekt.md loeschen und diesen Eintrag streichen.'),
 ]
 FACH = {
     'scripts/clips_bibliothek.py': 'Bibliothek in drei Spalten; Lerngebiete, Farben und REIHEN_VORN je Fach.',
