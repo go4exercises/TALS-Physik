@@ -415,14 +415,15 @@
      Kabine fährt, die Schachtwand zieht vorbei, die Waage zeigt live die Normalkraft — auch
      als «kg»-Anzeige, wie eine Personenwaage. Fahrprogramm per Knopf, Beschleunigung per
      Regler. Nach oben positiv. Startwert bewusst weder Clipbeispiel (60 kg, 2 m/s²) noch
-     Leistenziel: 55 kg, Anfahren nach oben mit 1 m/s². */
+     Leistenziel: 55 kg, Anfahren nach oben mit 1 m/s². Abwärtsfahrt (Anfahren, Bremsen) seit der
+     Zweitprüfung vom 11.10.2026: Festhalten, Kontrollfragen, Übung und G4 verlangen sie. */
   (function(){
     var fig = document.getElementById('sim3'); if (!fig) return;
     var svg = fig.querySelector('svg'), pruefen = function(){}, pos = 0;
     var B = Bedienung(fig, function(){ pos = 0; neuStarten(); zeichnen(); }), faehrt = false;
     function werte(){
       var ph = B.wert('ph'), m = B.wert('m'), b = B.wert('a');
-      var a = ph === 'auf' ? b : ph === 'brems' ? -b : ph === 'fall' ? -G : 0;
+      var a = ph === 'auf' || ph === 'abbrems' ? b : ph === 'brems' || ph === 'ab' ? -b : ph === 'fall' ? -G : 0;
       var FG = m * G, FN = m * (G + a);
       return { ph: ph, m: m, b: b, a: a, FG: FG, FN: FN, anz: FN / G };
     }
@@ -432,6 +433,8 @@
       if (w.ph === 'auf') return w.b * z * 0.5;
       if (w.ph === 'konst') return 2;
       if (w.ph === 'brems') return Math.max(0, 3 - w.b * z * 0.5);
+      if (w.ph === 'ab') return -w.b * z * 0.5;
+      if (w.ph === 'abbrems') return -Math.max(0, 3 - w.b * z * 0.5);
       if (w.ph === 'fall') return -G * (tt % 1.2) * 0.5;
       return 0;
     }
@@ -483,18 +486,20 @@
       pruefen();
     }
     pruefen = Leiste(fig, [
-      { text: 'Probiere alle fünf Fahrsituationen. Wann zeigt die Waage mehr, wann weniger als in Ruhe? Notiere deine Antwort.', ok: function(s){ return s.phasen >= 5; },
-        vergleich: 'Mehr, wenn die Beschleunigung nach oben zeigt (Anfahren aufwärts); weniger, wenn sie nach unten zeigt (Bremsen der Aufwärtsfahrt); gleich viel bei Ruhe und gleichmässiger Fahrt. Die Waage zeigt die Normalkraft \\(F_N = m \\cdot (g + a)\\), nicht die Masse.' },
+      { text: 'Probiere alle sieben Fahrsituationen. Wann zeigt die Waage mehr, wann weniger als in Ruhe? Notiere deine Antwort.', ok: function(s){ return s.phasen >= 7; },
+        vergleich: 'Mehr, wenn die Beschleunigung nach oben zeigt (Anfahren aufwärts, Bremsen der Abwärtsfahrt); weniger, wenn sie nach unten zeigt (Bremsen der Aufwärtsfahrt, Anfahren abwärts); gleich viel bei Ruhe und gleichmässiger Fahrt. Die Waage zeigt die Normalkraft \\(F_N = m \\cdot (g + a)\\), nicht die Masse.' },
       { text: 'Eine Person von \\(80\\;\\text{kg}\\) steht im ruhenden Aufzug. Stelle ein, lies die Normalkraft ab und notiere, mit welcher Rechnung du sie prüfst.', ok: function(s){ return gl(s.m, 80) && s.ph === 'ruhe'; },
         vergleich: 'In Ruhe ist \\(a = 0\\), also \\(F_N = F_G = m \\cdot g = 80\\;\\text{kg} \\cdot 9.81\\;\\text{m/s}^2 \\approx 785\\;\\text{N}\\). Die Waage teilt durch \\(g\\) und zeigt \\(80\\;\\text{kg}\\).' },
       { text: 'Beim Anfahren nach oben zeigt die Waage bei einer Person von \\(75\\;\\text{kg}\\) rund \\(90\\;\\text{kg}\\) an. Rechne die Beschleunigung aus und stelle sie auf \\(0.1\\;\\text{m/s}^2\\) genau ein.', ok: function(s){ return gl(s.m, 75) && s.ph === 'auf' && Math.abs(s.anz - 90) < 0.4; },
         vergleich: '\\(F_N - F_G = m \\cdot a\\) mit \\(F_N = 90\\;\\text{kg} \\cdot g\\): \\(a = g \\cdot \\dfrac{90\\;\\text{kg} - 75\\;\\text{kg}}{75\\;\\text{kg}} \\approx 1.96\\;\\text{m/s}^2\\). Auf \\(0.1\\) genau also \\(2.0\\;\\text{m/s}^2\\) (Anzeige \\(90.3\\;\\text{kg}\\)); \\(1.9\\;\\text{m/s}^2\\) gäbe \\(89.5\\;\\text{kg}\\).' },
       { text: 'Die Aufwärtsfahrt wird mit \\(1.2\\;\\text{m/s}^2\\) gebremst, die Person hat \\(65\\;\\text{kg}\\). Stelle ein: Was zeigt die Waage? Notiere, warum es weniger ist als in Ruhe.', ok: function(s){ return gl(s.m, 65) && s.ph === 'brems' && gl(s.b, 1.2); },
         vergleich: 'Wer eine Aufwärtsfahrt bremst, beschleunigt nach unten: \\(a = -1.2\\;\\text{m/s}^2\\). \\(F_N = m \\cdot (g + a) = 65\\;\\text{kg} \\cdot 8.61\\;\\text{m/s}^2 \\approx 560\\;\\text{N}\\), die Waage zeigt rund \\(57.0\\;\\text{kg}\\) statt \\(65\\;\\text{kg}\\).' },
+      { text: 'Der Aufzug fährt nach unten, und die Waage zeigt bei einer Person von \\(85\\;\\text{kg}\\) rund \\(100\\;\\text{kg}\\) an. Welche Fahrsituation ist das? Rechne die Beschleunigung aus und stelle sie auf \\(0.1\\;\\text{m/s}^2\\) genau ein.', ok: function(s){ return gl(s.m, 85) && s.ph === 'abbrems' && Math.abs(s.anz - 100) < 0.4; },
+        vergleich: 'Die Waage zeigt mehr als in Ruhe, also zeigt die Beschleunigung nach oben — bei einer Fahrt nach unten heisst das: Der Aufzug bremst. \\(F_N - F_G = m \\cdot a\\) mit \\(F_N = 100\\;\\text{kg} \\cdot g\\): \\(a = g \\cdot \\dfrac{100\\;\\text{kg} - 85\\;\\text{kg}}{85\\;\\text{kg}} \\approx 1.73\\;\\text{m/s}^2\\) nach oben. Auf \\(0.1\\) genau also \\(1.7\\;\\text{m/s}^2\\) (Anzeige \\(99.7\\;\\text{kg}\\)); \\(1.8\\;\\text{m/s}^2\\) gäbe \\(100.6\\;\\text{kg}\\).' },
       { text: 'Das Seil reisst: Wähle den freien Fall. Was zeigt die Waage — und warum? Notiere deine Antwort.', ok: function(s){ return s.ph === 'fall'; },
         vergleich: 'Null. Person und Waage fallen beide mit \\(g\\); die Waage muss die Person nicht mehr abstützen. Aus \\(F_N = m \\cdot (g + a)\\) mit \\(a = -g\\) folgt \\(F_N = 0\\): Die Person ist «schwerelos», obwohl ihre Gewichtskraft unverändert wirkt.' },
       { text: 'Stelle eine Fahrt ein, bei der die Waage die Hälfte der Ruheanzeige zeigt. Notiere, welche Fahrt das ist und wie gross die Beschleunigung sein muss.', ok: function(s){ return s.ph !== 'fall' && Math.abs(s.FN / s.FG - 0.5) < 0.006; },
-        vergleich: 'Bremsen der Aufwärtsfahrt mit \\(4.9\\;\\text{m/s}^2\\), rund der halben Erdbeschleunigung. Die Beschleunigung zeigt nach unten, \\(a \\approx -\\dfrac{g}{2}\\): \\(F_N = m \\cdot (g + a) \\approx m \\cdot \\dfrac{g}{2}\\). Die Waage trägt nur noch die halbe Gewichtskraft.' }
+        vergleich: 'Bremsen der Aufwärtsfahrt oder Anfahren nach unten, je mit \\(4.9\\;\\text{m/s}^2\\), rund der halben Erdbeschleunigung. Die Beschleunigung zeigt nach unten, \\(a \\approx -\\dfrac{g}{2}\\): \\(F_N = m \\cdot (g + a) \\approx m \\cdot \\dfrac{g}{2}\\). Die Waage trägt nur noch die halbe Gewichtskraft.' }
     ], sim);
     neuStarten(); zeichnen();
   })();
@@ -566,8 +571,8 @@
         vergleich: '\\(a = \\dfrac{m_2 \\cdot g}{m_1 + m_2} = \\dfrac{0.5\\;\\text{kg} \\cdot 9.81\\;\\text{m/s}^2}{2.5\\;\\text{kg}} \\approx 1.96\\;\\text{m/s}^2\\), \\(F_S = m_1 \\cdot a \\approx 3.92\\;\\text{N}\\) — weniger als \\(F_{G2} \\approx 4.91\\;\\text{N}\\).' },
       { text: 'Gesamtmasse \\(3\\;\\text{kg}\\), aber \\(a \\approx 3.27\\;\\text{m/s}^2\\): Stelle ein und lass los. Notiere, wie du \\(m_2\\) gefunden hast.', ok: function(s){ return hat(s, 2, 1); },
         vergleich: '\\(m_2 \\cdot g = (m_1 + m_2) \\cdot a\\) gibt \\(m_2 = \\dfrac{3\\;\\text{kg} \\cdot 3.27\\;\\text{m/s}^2}{9.81\\;\\text{m/s}^2} \\approx 1\\;\\text{kg}\\), also \\(m_1 = 2\\;\\text{kg}\\): Ein Drittel der Gesamtmasse hängt, also ist \\(a = \\dfrac{g}{3}\\).' },
-      { text: 'Bei \\(m_1 = 4\\;\\text{kg}\\) soll der Wagen mit einem Drittel der Erdbeschleunigung fahren. Wähle \\(m_2\\) und lass los. Notiere deine Überlegung.', ok: function(s){ return hat(s, 4, 2); },
-        vergleich: '\\(a = \\dfrac{m_2}{m_1 + m_2} \\cdot g = \\dfrac{g}{3}\\) heisst: Der hängende Körper ist ein Drittel der Gesamtmasse. Mit \\(m_1 = 4\\;\\text{kg}\\) also \\(m_2 = 2\\;\\text{kg}\\) (Gesamtmasse \\(6\\;\\text{kg}\\)).' },
+      { text: 'Bei \\(m_1 = 5\\;\\text{kg}\\) soll der Wagen mit einem Sechstel der Erdbeschleunigung fahren. Wähle \\(m_2\\) und lass los. Notiere deine Überlegung.', ok: function(s){ return hat(s, 5, 1); },
+        vergleich: '\\(a = \\dfrac{m_2}{m_1 + m_2} \\cdot g = \\dfrac{g}{6}\\) heisst: Der hängende Körper ist ein Sechstel der Gesamtmasse, der Wagen fünf Sechstel. Mit \\(m_1 = 5\\;\\text{kg}\\) also \\(m_2 = \\dfrac{5\\;\\text{kg}}{5} = 1\\;\\text{kg}\\) (Gesamtmasse \\(6\\;\\text{kg}\\), \\(a \\approx 1.64\\;\\text{m/s}^2\\)).' },
       { text: 'Die Fadenkraft soll bei \\(m_1 = 1\\;\\text{kg}\\) rund \\(4.9\\;\\text{N}\\) betragen. Wähle \\(m_2\\) und lass los. Notiere, welche Beschleunigung dazu gehört.', ok: function(s){ return hat(s, 1, 1); },
         vergleich: '\\(F_S = m_1 \\cdot a\\) gibt \\(a = \\dfrac{4.9\\;\\text{N}}{1\\;\\text{kg}} = 4.9\\;\\text{m/s}^2\\), die halbe Erdbeschleunigung. Das gilt, wenn die Hälfte der Gesamtmasse hängt: \\(m_2 = m_1 = 1\\;\\text{kg}\\).' },
       { text: 'Triff die gestrichelte Gerade: Wähle die Massen und lass los. Notiere, welchen Anteil der Gesamtmasse der hängende Körper hat.', setup: function(S){ ziel = 0.3 * G; S.setze({ m1: 2.5, m2: 0.8 }); }, ok: function(s){ return s.lauf && Math.abs(s.lauf.a - 0.3 * G) < 1e-6; },
@@ -997,7 +1002,7 @@
         neu: function(){
           var m, T, r;
           do { m = zufall([0.5, 1, 2, 60, 75]); T = zufall([2, 3, 4, 5, 8]); r = zufall([0.4, 1.5, 2.5, 4]); }
-          while (Math.pow(PI2 / T, 2) * r > (m > 10 ? 10 : 30));   // plausibel: Personen höchstens rund 1 g, Gegenstände höchstens rund 3 g
+          while (Math.pow(PI2 / T, 2) * r > (m > 10 ? 10 : 30) || (m >= 60 && r < 1.5));   // plausibel: Personen höchstens rund 1 g und nicht auf 0.4 m, Gegenstände höchstens rund 3 g
           return { F: m * Math.pow(PI2 / T, 2) * r, m: m, T: T, r: r,
             text: 'Ein Körper (\\(m = ' + ein(m, 'kg') + '\\)) läuft gleichförmig auf einem Kreis mit \\(r = ' + ein(r, 'm') + '\\) um; ein Umlauf dauert \\(T = ' + ein(T, 's') + '\\). Wie gross ist die Zentripetalkraft?' }; },
         pruefen: function(A, e){

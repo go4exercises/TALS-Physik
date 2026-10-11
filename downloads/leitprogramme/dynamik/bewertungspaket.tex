@@ -2,6 +2,7 @@
 % Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (04.10.2026).
 % Fassung 3 (06.10.2026): G1d, G2–G6 neu (keine Wiederholung von Kapitel-, Leisten- oder Übungsaufgaben),
 % gleiche Fehler gleich bewertet, Raster zeilenweise mit mehr Luft; Werte und Folgewerte mit python3 nachgerechnet.
+% Zweitprüfung 11.10.2026: G5 Ansatzfehler kostet nur die Ansatz-Zeile (3 von 4 P); Regel «falscher Ansatz» ergänzt; Beispiele fachpassend.
 % Aufbau, Auftrag an die KI und Punktarten (E, W, B, A) wie im Leitprogramm Kinematik.
 \documentclass[11pt]{article}
 \usepackage{../lp-druck}
@@ -44,7 +45,7 @@ Dieses Paket enthält die Musterlösung. Wer es vor dem Lösen liest, misst am E
 Du bist Korrektorin oder Korrektor für Physik an einer Schweizer Berufsmaturitätsschule. Im Anhang findest du (1)~das Bewertungspaket zum Gesamttest «Dynamik» mit Musterlösung und Punkteraster und (2)~Fotos meiner handschriftlichen Lösung.\par\medskip
 Geh so vor:\par
 1. Schreib zu jeder Aufgabe G1 bis G6 zuerst ab, was du in meiner Lösung liest — Rechenweg und Ergebnis. Was du nicht sicher lesen kannst, markierst du mit [unsicher]. Nicht raten.\par
-2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. Taschenrechner im Bogenmass, sin/cos vertauscht, dieselbe fehlende Umrechnung) kostet nur beim ersten Vorkommen einen Punkt; die anderen Teilaufgaben werden folgerichtig bewertet. Gleichartige Fehler kosten gleich viel. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
+2. Vergib die Punkte genau nach dem Raster im Bewertungspaket (Abschnitt 3), ganze Punkte je Zeile. Ziehe einen Fehler nur einmal ab: Ein falscher Ansatz kostet die Zeile «Ansatz»; was daraus folgerichtig gerechnet ist, gibt die Folgepunkte. Rechne ich mit einem falschen Zwischenergebnis richtig weiter, gibt es die Folgepunkte — auch wenn das Folgeergebnis unplausibel ist; eine fehlende Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. km/h nicht in m/s umgerechnet, Masse in g statt kg eingesetzt) kostet nur beim ersten Vorkommen einen Punkt; die anderen Teilaufgaben werden folgerichtig bewertet. Gleichartige Fehler kosten gleich viel. Die Zeilen «Typische Fehler» sagen, welche Rasterzeile bei diesem Fehler 0 Punkte gibt — sie sind kein zusätzlicher Abzug.\par
 3. Andere richtige Lösungswege zählen voll. Gleichwertige Schreibweisen zählen voll: Dezimalpunkt oder Dezimalkomma, andere Einheit oder Vorsilbe ($0.12\;\text{m} = 12\;\text{cm}$; $\text{m/s}$ statt $\text{km/h}$, wenn richtig umgerechnet), Zehnerpotenz oder ausgeschriebene Zahl, sinnvoll gerundete Werte (drei signifikante Stellen). Zeilen mit (E) sind Ergebnispunkte: Sie verlangen das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit falscher Einheit gibt es diesen Punkt nicht. Zeilen mit (W) gibt es nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten); ein Zahlenwert darin braucht ebenfalls die Einheit. Zeilen mit (B) gehören zu Aufgaben, die eine Begründung, Erklärung oder Formulierung in eigenen Worten verlangen: Es zählt die fachliche Aussage, eine Formel ist nicht nötig; andere richtige Formulierungen zählen voll. Zeilen mit (A) sind Ablesepunkte: der richtig aus dem Diagramm abgelesene Wert mit Einheit. Werte aus sinnvoll gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% vom Raster abweichen.\par
 4. Begründe jeden Abzug in einem Satz und nenne die Fehlerart (zum Beispiel «Wurzel vergessen»). Schreib die Musterlösung nicht ab — zeig mir, wo mein Fehler liegt.\par
 5. Gib zum Schluss eine Tabelle «Aufgabe | Punkte | Begründung», die Gesamtpunktzahl (von 25) und — nach der Selbsteinschätzung in Abschnitt 4 — welches Kapitel des Leitprogramms ich wiederholen soll. Keine Note.\par
@@ -53,9 +54,9 @@ Geh so vor:\par
 
 \needspace{8\baselineskip}
 \section*{3 · Musterlösung und Punkteraster}
-\textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Wer mit einem falschen Zwischenergebnis
+\textbf{Allgemein:} Ganze Punkte je Zeile. Ein Fehler wird nur einmal abgezogen: Ein falscher Ansatz kostet die Zeile «Ansatz»; was daraus folgerichtig gerechnet ist, gibt Folgepunkte. Wer mit einem falschen Zwischenergebnis
 richtig weiterrechnet, bekommt die folgenden Zeilen (Folgefehler) — auch wenn das Folgeergebnis unplausibel ist; eine fehlende
-Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. Taschenrechner im Bogenmass, sin/cos vertauscht, dieselbe fehlende Umrechnung) kostet nur beim ersten Vorkommen einen Punkt; die anderen Teilaufgaben werden folgerichtig bewertet. Gleichartige Fehler kosten gleich viel: ein Fehler, ein Abzug. Gleichwertige Wege und Schreibweisen zählen voll.
+Plausibilitätsprobe kostet keinen zusätzlichen Punkt. Derselbe Fehler in mehreren Teilaufgaben (z.\,B. km/h nicht in m/s umgerechnet, Masse in g statt kg eingesetzt) kostet nur beim ersten Vorkommen einen Punkt; die anderen Teilaufgaben werden folgerichtig bewertet. Gleichartige Fehler kosten gleich viel: ein Fehler, ein Abzug. Gleichwertige Wege und Schreibweisen zählen voll.
 In der Spalte P: \textbf{(E)}~= Ergebnispunkt — es zählt das Ergebnis \emph{mit richtiger Einheit}, auch ohne Weg; ohne oder mit
 falscher Einheit gibt es ihn nicht. \textbf{(W)}~= Wegpunkt — nur mit nachvollziehbarem Weg (Formel, dann Werte mit Einheiten);
 steht in einer Weg-Zeile ein Zahlenwert, braucht auch er die Einheit. \textbf{(B)}~= Begründungspunkt, nur bei Aufgaben, die eine Begründung, Erklärung oder Formulierung verlangen — es zählt die fachliche
@@ -117,7 +118,7 @@ Beschleunigung & 1\E & $a = \dfrac{m_2 \cdot g - F_S}{m_2} = \dfrac{0.5\;\text{k
 Wagenmasse & 1\E & am Wagen allein: $F_S = m_1 \cdot a$, also $m_1 = \dfrac{3.6\;\text{N}}{2.61\;\text{m/s}^2} \approx 1.38\;\text{kg}$\\
 doppelter Wagen & 1\B & Nein, mehr als halb so gross: Der Antrieb $m_2 \cdot g$ bleibt, die Gesamtmasse wächst nur von rund $1.88\;\text{kg}$ auf $3.26\;\text{kg}$, nicht auf das Doppelte ($a \approx 1.51\;\text{m/s}^2$ statt $1.31\;\text{m/s}^2$; die Rechnung ist nicht nötig)\\
 \end{raster}
-\fehler{$F_S = m_2 \cdot a$, also $a = 7.2\;\text{m/s}^2$ (Gewichtskraft am hängenden Körper vergessen): Ansatz 0; Beschleunigung 0; $m_1 = \dfrac{3.6\;\text{N}}{7.2\;\text{m/s}^2} = 0.5\;\text{kg}$ folgerichtig $\to$ 2 von 4\,P.
+\fehler{$F_S = m_2 \cdot a$, also $a = 7.2\;\text{m/s}^2$ (Gewichtskraft am hängenden Körper vergessen): Ansatz 0; Beschleunigung $7.2\;\text{m/s}^2$ und $m_1 = \dfrac{3.6\;\text{N}}{7.2\;\text{m/s}^2} = 0.5\;\text{kg}$ folgerichtig $\to$ 3 von 4\,P.
 $m_1 = \dfrac{F_S}{g} \approx 0.37\;\text{kg}$ (Fadenkraft als Gewichtskraft des Wagens): Wagenmasse 0 $\to$ 3 von 4\,P.
 «Ja, doppelte Masse, halbe Beschleunigung»: doppelter Wagen 0 $\to$ 3 von 4\,P.}
 \end{lpaufgabe}

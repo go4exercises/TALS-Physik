@@ -11,6 +11,7 @@ dabei, und der vorige Lauf bleibt grau gestrichelt als Vergleich stehen.
 |---|---|---|
 | `seite.py` | baut `leitprogramme/leitprogramm-dynamik.html` — Kopf, CSS, Grundskript, alle Kapitel, die Aufgabenbilder (v-t-Diagramme, Minigrafen). Die Laufzeiten der Clipkarten liest es aus den Drehbüchern. Aus der bestehenden Seite übernimmt es nur den SEO-Block. | **ja** — für jede Änderung an Text, Aufgaben, Kapitelaufbau |
 | `seite.js` | Seitenskript: Simulationen sim1–sim5 (Wagen F/m, Velo mit Antrieb und Widerstand, Aufzug mit Waage, Wagen am Faden, Kugel an der Schnur), 15 Übungstypen (`TYPEN`, je mit `fehler()`), Minigrafen | wird von `seite.py` eingesetzt |
+| `antworten.py` | Archiv: hat am 06.10.2026 die Antwortbilder der fünf Kontrollclips gezeichnet | **nein** — die Bilder sind seither in den JSONs geändert (Ketchupflasche, 0.4 kg/3.92 N, r = 2 m, Zug); das Skript zeichnet noch die alten und bricht ohne `--trotzdem` ab. |
 | `clips.py` | Archiv: hat die zehn Drehbücher `clips/p4-2-lp-*.json` erzeugt | **nein** — nach der Vertonung sind die JSONs die Quelle (`--neu` überschreibt die gemessenen Dauern). Die Einblendezeiten sind danach im JSON auf die Sprechzeiten gelegt worden (`sprechzeiten.py`). |
 
 ## Ablauf bei einer Änderung
@@ -117,3 +118,21 @@ Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entsc
   Gesamtkraft «Ausrollen» von 3 s bis 9 s — bei 12 s kreuzte die Gerade die Beschriftung).
 - kurve, Szene 2: Beschriftung des Läufers `"lage": "unten rechts"`, der Wert bei 6 m/s als eigener Läufer
   `"oben links"` (am rechten Rand legte das Umklappen die Beschriftung auf die Kurve) — Generator aus Mathe, 07.10.2026.
+
+## Nach der Zweitprüfung (11.10.2026)
+
+- **Zeit:** Die Prüfung schätzte je Kapitel 55 bis 60 min; übernommen: K1–K5 je 60 min, mit Vorwissen (10) und
+  Gesamttest (25) 335 min ≈ 7.4 Lektionen (Kopf der Seite: «zusammen rund siebeneinhalb Lektionen»).
+- **Aufzug (Sim 3)** kennt jetzt auch die Abwärtsfahrt: Knöpfe «fährt nach unten an» (\(a = -|a|\)) und «bremst die
+  Fahrt nach unten» (\(a = +|a|\)), wie es Festhalten, Kontrollfragen F3/F4, Übung «aufzug» und G4 verlangen. Leiste:
+  «alle sieben Fahrsituationen», neue Aufgabe 5 (85 kg, Waage zeigt rund 100 kg bei Fahrt nach unten: Bremsen,
+  \(a \approx 1.7\;\text{m/s}^2\)); die Aufgabe «halbe Anzeige» nimmt beide Abwärts-Lösungen an. Leisten jetzt 31 Aufgaben.
+- **Sim 4, Aufgabe 4:** ein Sechstel statt ein Drittel von \(g\) (5 kg / 1 kg), Aufgabe 3 übt schon \(g/3\).
+- **Übung «omega»:** Massen ab 60 kg nur auf Radien ab 1.5 m.
+- **Clips:** aufzug, Szene «Lösung Waage» mit \(F_N \approx 549.4\;\text{N}\) (sonst ergab die gezeigte Differenz 1.17),
+  neu vertont, Einblendungen mit `scripts/lp/kinematik/anker.py` auf den Ton gelegt; kontrolle-kurve F2 Antwortbild auf
+  r = 2 m wie F1 (\(F = v^2/4\): 2 m/s → 1 N, 6 m/s → 9 N).
+- **`antworten.py`** ist Archiv (bricht ohne `--trotzdem` ab), weil es veraltete Antwortbilder zeichnet.
+- **Bewertungspaket:** G5 «Gewichtskraft am hängenden Körper vergessen» kostet nur die Ansatz-Zeile (3 von 4 P); allgemeine
+  Regel um «ein falscher Ansatz kostet die Zeile Ansatz, was daraus folgerichtig gerechnet ist, gibt Folgepunkte» ergänzt;
+  Beispiele für wiederholte Fehler fachpassend (km/h nicht umgerechnet, g statt kg). Gesamttest Teil A: «Kapitel 1 und 2».

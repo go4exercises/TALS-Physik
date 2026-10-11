@@ -692,7 +692,7 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 11, [
     ('1d', 3, r'Ein Sprinter (\(75\;\text{kg}\)) erreicht aus dem Stand in \(2.5\;\text{s}\) gleichmässig \(9\;\text{m/s}\). Wie gross ist die Kraft, mit der er sich im Mittel vorwärts stösst?',
      r'<p>\(a = \dfrac{\Delta v}{\Delta t} = \dfrac{9\;\text{m/s}}{2.5\;\text{s}} = 3.6\;\text{m/s}^2\).</p><p>\(F = m \cdot a = 75\;\text{kg} \cdot 3.6\;\text{m/s}^2 = 270\;\text{N}\).</p>', ''),
 ])
-k1 = kapitel(1, 'kraft-masse-beschleunigung', 'Kraft, Masse, Beschleunigung', 'K1', 45,
+k1 = kapitel(1, 'kraft-masse-beschleunigung', 'Kraft, Masse, Beschleunigung', 'K1', 60,
     r'Du beschreibst die Kraft als Ursache einer Bewegungsänderung und den Zusammenhang \(F_\text{ges} = m \cdot a\): doppelte Kraft, doppelte Beschleunigung; doppelte Masse, halbe Beschleunigung.',
     ('p4-2-lp-grundgesetz', 'Kraft sehen: doppelte Kraft, doppelte Beschleunigung', None),
     sim1, ('p4-2-lp-kontrolle-grundgesetz', 'Kontrollfragen zu Kraft, Masse und Beschleunigung', None),
@@ -731,7 +731,7 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
     ('2d', 3, r'Eine Fallschirmspringerin (\(70\;\text{kg}\) mit Ausrüstung) sinkt mit konstant \(5\;\text{m/s}\). Wie gross ist der Luftwiderstand? Kurz nach dem Öffnen des Schirms war der Widerstand \(1500\;\text{N}\): Wie gross war die Beschleunigung, und wohin zeigte sie?',
      r'<p>Konstantes Tempo heisst \(F_\text{ges} = 0\): \(F_W = F_G = m \cdot g\) \(= 70\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 687\;\text{N}\).</p><p>Beim Öffnen wirken die Kräfte senkrecht; die positive Richtung darf man frei wählen, wenn man sie nennt — hier nach oben: \(F_\text{ges} = F_W - F_G\) \(= 1500\;\text{N} - 687\;\text{N} = 813\;\text{N}\), \(a = \dfrac{F_\text{ges}}{m} = \dfrac{813\;\text{N}}{70\;\text{kg}} \approx 11.6\;\text{m/s}^2\) nach oben — sie wird stark abgebremst, fällt aber weiter nach unten.</p>', ''),
 ])
-k2 = kapitel(2, 'gesamtkraft-traegheit', 'Gesamtkraft und Trägheit', 'K1 · K2', 45,
+k2 = kapitel(2, 'gesamtkraft-traegheit', 'Gesamtkraft und Trägheit', 'K1 · K2', 60,
     r'Du bestimmst die Gesamtkraft aus Kräften auf einer Geraden, erkennst mit dem Trägheitsgesetz, wann sich die Geschwindigkeit nicht ändert, und rechnest mit \(F_\text{ges} = m \cdot a\).',
     ('p4-2-lp-gesamtkraft', 'Kraft sehen: Antrieb gegen Widerstand', None),
     sim2, ('p4-2-lp-kontrolle-gesamtkraft', 'Kontrollfragen zu Gesamtkraft und Trägheit', None),
@@ -740,7 +740,7 @@ k2 = kapitel(2, 'gesamtkraft-traegheit', 'Gesamtkraft und Trägheit', 'K1 · K2'
 
 # ------------------------------------------------------------------ Kapitel 3
 sim3 = figur_anim('sim3', 'Aufzugkabine im Schacht mit Person auf einer Waage; Gewichtskraft, Normalkraft und Beschleunigung als Pfeile, die Waage zeigt live an', '0 0 300 262',
-    '        ' + knoepfe('ph', 'Fahrt', [('ruhe', 'steht'), ('auf', 'fährt nach oben an'), ('konst', 'fährt gleichmässig'), ('brems', 'bremst die Fahrt nach oben'), ('fall', 'Seil reisst')], 'auf')
+    '        ' + knoepfe('ph', 'Fahrt', [('ruhe', 'steht'), ('auf', 'fährt nach oben an'), ('konst', 'fährt gleichmässig'), ('brems', 'bremst die Fahrt nach oben'), ('ab', 'fährt nach unten an'), ('abbrems', 'bremst die Fahrt nach unten'), ('fall', 'Seil reisst')], 'auf')
     + '\n        <div class="reglerfeld">\n          '
     + regler('s3', 'm', '<i>m</i> Person', 40, 100, 1, 55, 'kg', 0) + '\n          '
     + regler('s3', 'a', '|<i>a</i>| Betrag', 0.5, 5, 0.1, 1, 'm/s²', 1) + '\n        </div>')
@@ -769,7 +769,7 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 11, [
     ('3d', 3, r'Ein Astronaut (\(90\;\text{kg}\) mit Anzug) steht in einer Rakete, die mit \(15\;\text{m/s}^2\) senkrecht startet. Mit welcher Kraft drückt der Boden auf ihn? Das Wievielfache seiner Gewichtskraft ist das?',
      r'<p>\(F_N = m \cdot (g + a)\) \(= 90\;\text{kg} \cdot (9.81\;\text{m/s}^2 + 15\;\text{m/s}^2)\) \(\approx 2233\;\text{N}\).</p><p>\(F_G = 90\;\text{kg} \cdot 9.81\;\text{m/s}^2 \approx 883\;\text{N}\), also \(\dfrac{2233\;\text{N}}{883\;\text{N}} \approx 2.5\) — er fühlt sich rund zweieinhalbmal so schwer.</p>', ''),
 ])
-k3 = kapitel(3, 'gewicht-und-aufzug', 'Gewichtskraft, Fall und Aufzug', 'K1 · K2', 45,
+k3 = kapitel(3, 'gewicht-und-aufzug', 'Gewichtskraft, Fall und Aufzug', 'K1 · K2', 60,
     r'Du erklärst mit \(F = m \cdot a\), warum alle Körper gleich schnell fallen, und berechnest die Normalkraft in einem beschleunigten Aufzug.',
     ('p4-2-lp-aufzug', 'Kraft sehen: was die Waage im Aufzug zeigt', None),
     sim3, ('p4-2-lp-kontrolle-aufzug', 'Kontrollfragen zu Gewichtskraft und Aufzug', None),
@@ -807,7 +807,7 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
      r'<p>Ablesen: \(a = \dfrac{\Delta v}{\Delta t} = \dfrac{4\;\text{m/s}}{2\;\text{s}} = 2\;\text{m/s}^2\).</p><p>Am Wagen allein: \(F_S = m_1 \cdot a = 3\;\text{kg} \cdot 2\;\text{m/s}^2 = 6\;\text{N}\).</p><p>System: \(m_2 \cdot g = (m_1 + m_2) \cdot a\), also \(m_2 = \dfrac{m_1 \cdot a}{g - a}\) \(= \dfrac{3\;\text{kg} \cdot 2\;\text{m/s}^2}{(9.81 - 2)\;\text{m/s}^2}\) \(\approx 0.768\;\text{kg}\).</p><p class="komm">Probe: \(m_2 \cdot g \approx 7.54\;\text{N}\) ist grösser als \(F_S = 6\;\text{N}\) — der hängende Körper beschleunigt nach unten.</p>',
      '\n            <div class="mini-reihe">' + vt_bild([(0, 0), (1, 2), (2, 4)], 3, 5, 1, 1, 'v-t-Diagramm des Wagens: Ursprungsgerade durch (1 s; 2 m/s) und (2 s; 4 m/s)') + '</div>'),
 ])
-k4 = kapitel(4, 'zwei-koerper', 'Zwei Körper, ein Faden', 'K2', 45,
+k4 = kapitel(4, 'zwei-koerper', 'Zwei Körper, ein Faden', 'K2', 60,
     r'Du wendest \(F = m \cdot a\) auf zusammenhängende Körper an: Die antreibende Kraft beschleunigt die Gesamtmasse, die Faden- oder Kupplungskraft bestimmst du an einem Körper allein.',
     ('p4-2-lp-faden', 'Kraft sehen: wer zieht wen am Faden', None),
     sim4, ('p4-2-lp-kontrolle-faden', 'Kontrollfragen zu Faden und Kupplung', None),
@@ -847,7 +847,7 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
     ('5d', 3, r'In der Wäscheschleuder dreht sich eine Trommel mit vielen Löchern. Warum bleibt die Wäsche in der Trommel, während das Wasser durch die Löcher hinausfliegt? Erkläre mit der Zentripetalkraft und dem Trägheitsgesetz.',
      r'<p>Die Trommelwand drückt die Wäsche nach <em>innen</em> und liefert so die Zentripetalkraft: Die Wäsche bleibt auf der Kreisbahn.</p><p>Das Wasser an einem Loch hat nichts, was es zur Mitte zieht. Ohne Kraft zur Mitte fliegt es nach dem Trägheitsgesetz geradeaus weiter, tangential zur Bahn, durch das Loch hinaus — nicht, weil es nach aussen gezogen würde.</p>', ''),
 ])
-k5 = kapitel(5, 'kreisbewegung', 'Die Kraft zur Mitte', 'K2', 45,
+k5 = kapitel(5, 'kreisbewegung', 'Die Kraft zur Mitte', 'K2', 60,
     r'Du berechnest die Zentripetalkraft \(F_z = \dfrac{m \cdot v^2}{r}\), nennst, welche Kraft diese Rolle übernimmt, und erklärst, warum ein Körper ohne sie tangential weiterfliegt.',
     ('p4-2-lp-kurve', 'Kraft sehen: die Kraft, die im Kreis hält', None),
     sim5, ('p4-2-lp-kontrolle-kurve', 'Kontrollfragen zur Zentripetalkraft', None),
@@ -917,13 +917,14 @@ oben = '''<div id="nav-root"></div>
      F_G und F_H (vergeben für Gewichtskraft und Hangabtrieb) — hier F_W für jeden Widerstand; in
      Animation 6 ist v blau statt grün — hier grün wie sonst überall.
      Zeiten (geschätzt: Einführungsclip mit Problem ~3, Tüfteln ~10, Kontrollclip ~3, Festhalten ~3,
-     Üben ~10, Aufgaben ~16): K0 10 · K1 45 · K2 45 · K3 45 · K4 45 · K5 45 · Gesamttest 25 = 260 min ≈ 5.8 Lektionen. -->
+     Üben ~10, Aufgaben ~16; die Zweitprüfung vom 11.10.2026 mass je Kapitel 55 bis 60 min, übernommen):
+     K0 10 · K1 60 · K2 60 · K3 60 · K4 60 · K5 60 · Gesamttest 25 = 335 min ≈ 7.4 Lektionen. -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
       <p class="marke">Physik begreifbar · Leitprogramm</p>
       <h1>Dynamik</h1>
-      <p class="unter">Kraft, Masse und Beschleunigung — vom anfahrenden Wagen über den Aufzug bis zur Kugel an der Schnur, mit laufenden Simulationen. Fünf Kapitel zu je rund einer Lektion, dazu Vorwissen und Gesamttest.</p>
+      <p class="unter">Kraft, Masse und Beschleunigung — vom anfahrenden Wagen über den Aufzug bis zur Kugel an der Schnur, mit laufenden Simulationen. Fünf Kapitel zu je rund 60 Minuten, dazu Vorwissen und Gesamttest — zusammen rund siebeneinhalb Lektionen.</p>
     </div>
     <div class="kopf-rechts">
       <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>

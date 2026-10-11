@@ -1,4 +1,11 @@
-"""Antwortbilder der Dynamik-Kontrollclips (06.10.2026), nach dem Muster der Kinematik.
+"""ARCHIV — nicht mehr laufen lassen. Die Drehbücher clips/p4-2-lp-kontrolle-*.json sind die Quelle.
+
+Seit dem Lauf vom 06.10.2026 sind Fragen und Antwortbilder in den JSONs geändert worden (gesamtkraft F3
+Ketchupflasche statt Bus, faden F4 0.4 kg und 3.92 N statt 1 kg und 9.81 N, kurve F1/F2 r = 2 m und 4 N
+statt r = 4 m und 2 N, kurve F5 Zug statt Auto). Dieses Skript zeichnet noch die alten Bilder; ein Lauf würde die
+richtigen überschreiben. Darum bricht es ohne --trotzdem ab (Zweitprüfung 11.10.2026).
+
+Antwortbilder der Dynamik-Kontrollclips (06.10.2026), nach dem Muster der Kinematik.
 
 Jede Antwortszene bekommt rechts ein Bild (x 1010, y 175, 760 x 760), Kennung "antwort": true,
 damit ein zweiter Lauf die alten zuerst entfernt. Klick-Fragen (grundgesetz F4, gesamtkraft F4)
@@ -11,7 +18,11 @@ Zweite v-Gerade zum Vergleich: 2 Orange. Kraftbilder ohne Achsen im Fenster 0..1
 damit Kästen und Pfeillängen waagrecht wie senkrecht gleich gemessen werden).
 """
 import os
+import sys
 import json, math
+
+if '--trotzdem' not in sys.argv:
+    sys.exit('antworten.py ist Archiv: die Antwortbilder stehen in clips/p4-2-lp-kontrolle-*.json (siehe Kopf).')
 
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'clips') + os.sep
 G_ = 9.81
