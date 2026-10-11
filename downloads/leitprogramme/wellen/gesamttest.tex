@@ -1,10 +1,13 @@
 % Gesamttest «Wellen» — Quelle des PDFs (python3 scripts/build-lp-pdf.py wellen).
 % Musterlösung und Raster: bewertungspaket.tex. Alle Werte mit python3 nachgerechnet (09.10.2026):
 % G1 T = 2.4 s, A = 10 cm, λ = 3.75 m/s · 2.4 s = 9.0 m (Tiefwasser: 1.56 · 2.4² ≈ 9.0 m; Wellenhöhe 0.2 m ≪ λ/7),
-%    60 s / 2.4 s = 25 Berge pro Minute; G2 t = 102 m / 340 m/s = 0.30 s, λ = 340/170 = 2.0 m, λ_W = 1500/170 ≈ 8.8 m
+%    G2 λ = 340/170 = 2.0 m, λ_W = 1500/170 ≈ 8.8 m
 %    (Gegenweg 1500/8.8 ≈ 170 Hz); G3 c = 1.4 m · 2.0 Hz = 2.8 m/s, t = 8.4/2.8 = 3.0 s; G4 λ = 340/50 000 = 6.8 mm,
 %    λ = 3.00e8/2.4e10 = 1.25 cm; G5 f = 3.00e8/455e-9 ≈ 6.59e14 Hz, 637/455 = 1.4, 637 nm/0.4 ≈ 1590 nm;
 %    G6 λ = 3.00e8/2.5e13 = 12 µm.
+% Fassung 1.6 nach der Zweitprüfung (11.10.2026): K5 stärker gewichtet — G6 a) neu (2 P: Sonnenlicht kurzwellig kommt
+%    durch, Bodenstrahlung langwellig wird aufgenommen); dafür G1 d) (Berge pro Minute) und G2 a) (Laufzeit) gestrichen.
+%    G2 b) «gleichphasig» statt «im gleichen Takt» (Takt heisst im Kurs nur Frequenz). Teil A 12, B 8, C 5 P.
 % Fassung 1.5 nach der Schlussprüfung: G2 Schall geht aus der Luft ins Wasser, Wellenlänge mit zwei Unterwassermikrofonen
 %    gemessen; G1 «Sturmwellen» auf dem See.
 % Fassung 1.4 nach der vierten Prüfung: G2 prüft die Wellenlänge im anderen Medium (statt s/λ), G4 mit 50 kHz.
@@ -30,9 +33,9 @@ für das Ergebnis mit Einheit, fürs Ablesen und Zeichnen und für Begründungen
 Danach mit dem \emph{Bewertungspaket} bewerten (Scan ohne Namen und Standort).
 \end{lpinfo}
 
-\lpteil{Teil A · Wellen beschreiben und berechnen}{Kapitel 1, 2 und 3 · 14 Punkte}
+\lpteil{Teil A · Wellen beschreiben und berechnen}{Kapitel 1, 2 und 3 · 12 Punkte}
 
-\begin{lpaufgabe}{G1}{Sturmwellen am Badefloss}{5 P}
+\begin{lpaufgabe}{G1}{Sturmwellen am Badefloss}{4 P}
 Draussen auf dem See schaukelt ein Badefloss auf den Wellen eines Sturms; das Diagramm links zeigt seine Höhe über der Zeit. Die Wellen laufen mit \(3.75\;\text{m/s}\).\par\smallskip
 \begin{center}\begin{tikzpicture}[x=0.95cm,y=0.085cm,>=latex]
 \foreach \x in {0,0.2,...,6.01} \draw[lplinie!70,very thin] (\x,-15) -- (\x,15);
@@ -56,17 +59,15 @@ Draussen auf dem See schaukelt ein Badefloss auf den Wellen eines Sturms; das Di
 \item Lies im Diagramm links die Amplitude und die Periode ab.
 \item Berechne die Wellenlänge.
 \item Zeichne im Raster rechts das Momentbild der Wasseroberfläche von \(s = 0\) bis \(s = 20\;\text{m}\), zu einem Zeitpunkt, an dem bei \(s = 0\) ein Wellenberg ist.
-\item Wie viele Wellenberge treffen in einer Minute auf das Floss?
 \end{enumerate}
 \lpplatz{8}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G2}{Konzert am See}{5 P}
-Mia steht \(102\;\text{m}\) von der Bühne eines Konzerts am Seeufer entfernt. Gerade spielt die Band einen Ton von \(170\;\text{Hz}\). Ein kleiner Teil des Schalls dringt ins Wasser des Sees ein (Schall in Wasser: \(1500\;\text{m/s}\)).
+\begin{lpaufgabe}{G2}{Konzert am See}{4 P}
+Bei einem Konzert am Seeufer spielt die Band gerade einen Ton von \(170\;\text{Hz}\). Ein kleiner Teil des Schalls dringt ins Wasser des Sees ein (Schall in Wasser: \(1500\;\text{m/s}\)).
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
-\item Wie lange braucht der Ton von der Bühne zu Mia?
 \item Wie lang ist die Welle dieses Tons in der Luft?
-\item Zwei Unterwassermikrofone im See werden in Laufrichtung des Schalls auseinandergeschoben. Für diesen Ton schwingen ihre Signale bei einem Abstand von \(8.8\;\text{m}\) erstmals wieder im gleichen Takt. Prüfe mit einer Rechnung, ob \(8.8\;\text{m}\) die Wellenlänge im Wasser sein kann.
+\item Zwei Unterwassermikrofone im See werden in Laufrichtung des Schalls auseinandergeschoben. Für diesen Ton sind ihre Signale bei einem Abstand von \(8.8\;\text{m}\) erstmals wieder gleichphasig: Beide erreichen im selben Augenblick ihr Maximum. Prüfe mit einer Rechnung, ob \(8.8\;\text{m}\) die Wellenlänge im Wasser sein kann.
 \item Ein Taucher sagt: «Weil die Welle im Wasser länger ist, höre ich hier unten einen tieferen Ton.» Beurteile die Aussage.
 \end{enumerate}
 \lpplatz{8}
@@ -106,15 +107,16 @@ Ein Gas aus gleichen Atomen leuchtet nur in zwei Farben: blau mit \(455\;\text{n
 \lpplatz{9}
 \end{lpaufgabe}
 
-\lpteil{Teil C · Treibhauseffekt}{Kapitel 6 · 3 Punkte}
+\lpteil{Teil C · Treibhauseffekt}{Kapitel 6 · 5 Punkte}
 
-\begin{lpaufgabe}{G6}{Gase in der Atmosphäre}{3 P}
+\begin{lpaufgabe}{G6}{Gase in der Atmosphäre}{5 P}
 \begin{enumerate}[label=\alph*),leftmargin=*,itemsep=2pt,topsep=2pt]
+\item Erkläre mit der Wellenlänge, warum die Atmosphäre das Licht der Sonne weitgehend durchlässt, die Wärmestrahlung des Bodens aber zu einem grossen Teil aufnimmt.
 \item Gib für Stickstoff, Wasserdampf und Ozon an, welche Strahlung jedes Gas aufnimmt: keine nennenswerte, das Ultraviolett der Sonne, die Wärmestrahlung des Bodens — auch mehreres ist möglich.
 \item Begründe, warum mehr Kohlendioxid in der Luft den Boden im Mittel wärmer macht.
 \item Welche Wellenlänge hat Infrarot mit \(2.5 \cdot 10^{13}\;\text{Hz}\)? Liegt sie im «Fenster» der Atmosphäre?
 \end{enumerate}
-\lpplatz{10}
+\lpplatz{16}
 \end{lpaufgabe}
 
 \vfill

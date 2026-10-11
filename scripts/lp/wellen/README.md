@@ -50,13 +50,15 @@ in s, sim2 und sim6 Einstellungen, sim4 Phase des Feldbilds (0 bis 1), sim5 ein 
 | Kap. | Idee | Kompetenz | Simulation | Clips | min |
 |---|---|---|---|---|---|
 | 0 | Vorwissen: Vorsilben, Zehnerpotenzen, Umstellen, \(v = s/t\) (Vortest 10 P) | — | — | — | 15 |
-| 1 | Schwingung → Welle: gekoppelt, verzögert, Energie statt Materie, quer/längs, \(f = 1/T\), \(c = s/t\) | K1, K2, K3 | sim1 Teilchenkette mit Erreger (quer/längs, dauernd/Stoss, \(f\)) | welle 2:12, Kontrolle 0:52 | 45 |
-| 2 | Momentbild \(y(s)\) und Zeitdiagramm \(y(t)\); \(\lambda\) aus \(y(s)\), \(T\) aus \(y(t)\); Phasengeschwindigkeit \(c = \lambda/T\) | K1 | sim2 beide Diagramme an zwei Reglern | diagramme 1:56, Kontrolle 0:49 | 40 |
-| 3 | Sender → \(f\), Medium → \(c\), \(\lambda = c/f\); Mediumwechsel, \(f\) bleibt; Schall | K1, K2 | sim3 zwei Seile (gleich, dünner, dicker) | medium 2:13, Kontrolle 0:55 | 45 |
-| 4 | Elektromagnetische Wellen: Felder, kein Medium, \(c = 3.00 \cdot 10^8\) m/s, Spektrum | K2, K4 | sim4 sechs Geräte im Spektrum, Feldbild | em 2:00, Kontrolle 0:49 | 45 |
-| 5 | Atomare Emission, Absorption, Laser; \(E = h \cdot f\) qualitativ und als Verhältnis | K4 | sim5 Modellatom mit drei Stufen (Emission, Absorption, Laser) | licht 2:38, Kontrolle 0:51 | 40 |
-| 6 | Treibhauseffekt: wellenlängenabhängige Aufnahme, Wiederabstrahlung, mehr CO₂ | K5 | sim6 Durchlässigkeit nach Wellenlänge (λ · B_λ über log λ, flächentreu; Gasbänder) | treibhaus 2:38, Kontrolle 0:50 | 40 |
+| 1 | Schwingung → Welle: gekoppelt, verzögert, Energie statt Materie, quer/längs, \(f = 1/T\), \(c = s/t\) | K1, K2, K3 | sim1 Teilchenkette mit Erreger (quer/längs, dauernd/Stoss, \(f\)) | welle 2:12, Kontrolle 0:52 | 55 |
+| 2 | Momentbild \(y(s)\) und Zeitdiagramm \(y(t)\); \(\lambda\) aus \(y(s)\), \(T\) aus \(y(t)\); Phasengeschwindigkeit \(c = \lambda/T\) | K1 | sim2 beide Diagramme an zwei Reglern | diagramme 1:56, Kontrolle 0:49 | 55 |
+| 3 | Sender → \(f\), Medium → \(c\), \(\lambda = c/f\); Mediumwechsel, \(f\) bleibt; Schall | K1, K2 | sim3 zwei Seile (gleich, dünner, dicker) | medium 2:13, Kontrolle 0:55 | 55 |
+| 4 | Elektromagnetische Wellen: Felder, kein Medium, \(c = 3.00 \cdot 10^8\) m/s, Spektrum | K2, K4 | sim4 sechs Geräte im Spektrum, Feldbild | em 2:00, Kontrolle 0:49 | 55 |
+| 5 | Atomare Emission, Absorption, Laser; \(E = h \cdot f\) qualitativ und als Verhältnis | K4 | sim5 Modellatom mit drei Stufen (Emission, Absorption, Laser) | licht 2:38, Kontrolle 0:51 | 55 |
+| 6 | Treibhauseffekt: wellenlängenabhängige Aufnahme, Wiederabstrahlung, mehr CO₂ | K5 | sim6 Durchlässigkeit nach Wellenlänge (λ · B_λ über log λ, flächentreu; Gasbänder) | treibhaus 2:38, Kontrolle 0:50 | 55 |
 | — | Gesamttest (25 P, PDF) | K1–K5 | — | — | 40 |
+
+Zeiten seit der Zweitprüfung vom 11.10.2026: je Fachkapitel 55 min (vorher 40 bis 45), zusammen 15 + 6 · 55 + 40 = 385 min ≈ 8.6 Lektionen (Kopf der Seite: «rund achteinhalb Lektionen»). Die Lektionsbänder «Lektion 1» bis «Lektion 6» bleiben als Kapitelnamen stehen.
 
 Summe 310 min ≈ 6.9 Lektionen (ohne freiwillige Vertiefungsaufgaben d). LG 6 hat 30 Lektionen für 6.1 und 6.2;
 das Leitprogramm Elektrizität (6.2) plant 330 min ≈ 7.3 Lektionen; zusammen rund 14 von 30 Lektionen, Platz für Themenseiten, Versuche und Prüfungen. Clips zusammen 18:39 min.
@@ -439,3 +441,29 @@ Einzelbildern angesehen. Das galt schon in Runde 4; der Bericht dort («keine Ü
 **Pre-Flight:** Der einzige `[FEHLER]` steht in `themen/p6-1-wellen.html`, Zeile 193 («Animation 1/5» als blosser
 Text), also auf der Themenseite, an der der Koordinator arbeitet. Ausserhalb der Pfade dieses Auftrags, darum nicht
 angefasst.
+
+
+## Zweitprüfung (11.10.2026): Befunde und Behebung
+
+- **M1 «Takt»:** Takt heisst nur noch Frequenz (Sender, «derselbe Takt, aber verzögert», «f: Takt»). Phase heisst
+  «gleichphasig» (Festhalten 4 und 5, Aufgabe 5c, Leiste sim5, Übung «licht-aussage», Antwortbilder kontrolle-em F
+  «Felder» und kontrolle-licht F4, Gesamttest G2 b). Festhalten 2 erklärt gleichphasig und gegenläufig (λ/2); neue
+  Pflichtaufgabe **2d** (Boje und Schlauchboot, T = 1.8 s, gleichphasig bei 5.0 m: λ = 5.0 m, gegenläufig bei 2.5 m,
+  c ≈ 2.8 m/s; Tiefwasser 1.56 · 1.8² ≈ 5.05 m). Die Vertiefung heisst jetzt **2e**. Kapitel 2: 12 → 15 P.
+  pruef_fest: '1.8|2', '1.8|5' in FEST_PAARE, Einzelwert 5.0 m (Ton in Wasser) gesichtet.
+- **M2:** Diagramm 6b mit Band unter 0.3 µm (O₃, Ultraviolett), Lösung A ergänzt.
+- **M3:** Kontrollclip welle Frage 2: Güterzug statt anfahrender Autokolonne (Wagen rucken vor und zurück, der Stoss
+  läuft durch den Zug); Frage, Rückmeldung, Antwortszene, Antwortbild (`antworten.py`), Kurzbeschrieb, Ton neu.
+- **N4:** Frage 1, Option «Gar nichts …» ersetzt durch «Die Luft im Stadion strömt mit»; Rückmeldung neu vertont.
+- **M4, Gesamttest Fassung 1.6:** G6 a) neu (2 B: Sonnenlicht kurzwellig kommt durch, Bodenstrahlung langwellig wird
+  aufgenommen), G6 5 P; gestrichen G1 d) (Berge pro Minute) und G2 a) (Laufzeit, steckt in G3 d). Teil A 12, B 8,
+  C 5 P. Folgefehler-Summen nachgezogen. In der Abgleichtabelle oben heissen G2 b/c/d jetzt a/b/c, G6 a/b/c jetzt b/c/d.
+- **N1:** Kapitel 5: «thermische Strahlung» der heissen Körper; Wärmestrahlung bleibt das Infrarot des Bodens.
+- **N2:** Kontrollclip licht F4: richtige Option nur «dieselbe Richtung»; Antwortszene ohne «Gleichtakt», neu vertont.
+- **N3:** «kurzwelliges Ultraviolett kann Moleküle verändern, Röntgen- und Gammastrahlung ionisieren».
+- **N5:** «flächentreu» in Festhalten 6 und in der Notiz von sim6 erklärt; im Clip treibhaus (Szene 1, Ton neu) ersetzt
+  durch «über einer logarithmischen Achse».
+- **N6:** Festhalten 4: Erzeugung (schwingende Ladungen in der Antenne).
+- **N7:** Zeiten oben.
+
+Die Drehbücher sind die Quelle; `clips.py` (Archiv) trägt diese Änderungen nicht. Nicht `clips.py --neu` laufen lassen.

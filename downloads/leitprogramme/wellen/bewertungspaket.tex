@@ -1,5 +1,5 @@
 % Bewertungspaket zum Gesamttest «Wellen» — Quelle des PDFs (python3 scripts/build-lp-pdf.py wellen).
-% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (09.10.2026). Fassung 1.5 nach der Schlussprüfung: G2 Schall aus der Luft ins Wasser, c) mit Gegenweg; G5 c) 0 bei umgekehrtem Verhältnis; Kapitelzuordnung G2/G3 wie auf der Seite. Fassung 1.4: Ansatzzeilen einheitlich (umgekehrter Ansatz: Ansatz 0, Ergebnis folgerichtig), G2 und G4 neu.
+% Ganze Punkte je Teilschritt; Werte und Folgefehler-Fälle mit python3 nachgerechnet (09.10.2026). Fassung 1.6 nach der Zweitprüfung (11.10.2026): G6 a) neu (2 B, Sonnen- und Bodenstrahlung nach Wellenlänge), G1 d) und G2 a) gestrichen, G2 b) «gleichphasig»; Folgefehler-Summen nachgezogen. Fassung 1.5 nach der Schlussprüfung: G2 Schall aus der Luft ins Wasser, c) mit Gegenweg; G5 c) 0 bei umgekehrtem Verhältnis; Kapitelzuordnung G2/G3 wie auf der Seite. Fassung 1.4: Ansatzzeilen einheitlich (umgekehrter Ansatz: Ansatz 0, Ergebnis folgerichtig), G2 und G4 neu.
 % Aufbau, Auftrag an die KI und Punktarten (E, W, B, A, S) wie in den Leitprogrammen Statik, Hydrostatik und Wärme;
 % (S) hier: Zeichenpunkt für das Momentbild in G1 c.
 \documentclass[11pt]{article}
@@ -62,26 +62,24 @@ Aussage in eigenen Worten, eine Formel ist nicht nötig; was die Zeile «nötig�
 Folgewerte aus gerundeten Zwischenergebnissen zählen, wenn sie höchstens rund 2\,\% abweichen.
 «Typische Fehler» nennt die Zeilen mit 0 Punkten und die Punktzahl, die bleibt.
 
-\begin{lpaufgabe}{G1}{Sturmwellen am Badefloss, \(c = 3.75\;\text{m/s}\)}{5 P}
+\begin{lpaufgabe}{G1}{Sturmwellen am Badefloss, \(c = 3.75\;\text{m/s}\)}{4 P}
 \begin{raster}
 a) Ablesen & 1\A & Amplitude \(A = 10\;\text{cm}\) (\(\pm 2\;\text{cm}\)); Periode \(T = 2.4\;\text{s}\), Abstand zweier Maxima (etwa \(0.6\;\text{s}\) bis \(3.0\;\text{s}\)), \(\pm 0.07\;\text{s}\) (ein Drittel Kästchen); beide Werte mit Einheit nötig\\
 b) Ansatz & 1\W & Ansatz mit Werten und Einheiten: In einer Periode rückt die Welle um eine Wellenlänge weiter, \(\lambda = c \cdot T\). Ein umgekehrter Ansatz (\(\lambda = c / T\)) gibt hier 0\\[4pt]
 b) Wellenlänge & 1\E & \(\lambda = 3.75\;\text{m/s} \cdot 2.4\;\text{s} = 9.0\;\text{m}\) (folgerichtig aus a und aus dem eigenen Ansatz)\\[4pt]
-c) Momentbild & 1\Sk & Sinusform mit Berg bei \(s = 0\), weitere Berge bei \(9\) und \(18\;\text{m}\), Täler bei \(4.5\) und \(13.5\;\text{m}\) (\(\pm 0.5\;\text{m}\); folgerichtig aus der eigenen Wellenlänge), Amplitude \(10\;\text{cm}\) (\(\pm 2\;\text{cm}\); folgerichtig aus der eigenen Ablesung in a). Berge im Abstand der Periode (\(2.4\)): 0\\
-d) Berge pro Minute & 1\E & \(n = \dfrac{t}{T} = \dfrac{60\;\text{s}}{2.4\;\text{s}} = 25\) (eine Anzahl hat keine Einheit; folgerichtig aus a), oder \(f \cdot t\) mit \(f \approx 0.42\;\text{Hz}\))\\[8pt]
+c) Momentbild & 1\Sk & Sinusform mit Berg bei \(s = 0\), weitere Berge bei \(9\) und \(18\;\text{m}\), Täler bei \(4.5\) und \(13.5\;\text{m}\) (\(\pm 0.5\;\text{m}\); folgerichtig aus der eigenen Wellenlänge), Amplitude \(10\;\text{cm}\) (\(\pm 2\;\text{cm}\); folgerichtig aus der eigenen Ablesung in a). Berge im Abstand der Periode (\(2.4\)): 0\\[8pt]
 \end{raster}
-\fehler{\(\lambda = c / T\) gerechnet (\(1.56\;\text{m}\)): b) Ansatz 0; b) Wellenlänge und c) folgerichtig \(\to\) 4 von 5\,P. Halbe Periode abgelesen (\(1.2\;\text{s}\)): a) 0; b) (\(4.5\;\text{m}\)), c) und d) (\(50\)) folgerichtig \(\to\) 4 von 5\,P.}
+\fehler{\(\lambda = c / T\) gerechnet (\(1.56\;\text{m}\)): b) Ansatz 0; b) Wellenlänge und c) folgerichtig \(\to\) 3 von 4\,P. Halbe Periode abgelesen (\(1.2\;\text{s}\)): a) 0; b) (\(4.5\;\text{m}\)) und c) folgerichtig \(\to\) 3 von 4\,P.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G2}{Konzert am See, \(102\;\text{m}\), \(170\;\text{Hz}\)}{5 P}
+\begin{lpaufgabe}{G2}{Konzert am See, \(170\;\text{Hz}\)}{4 P}
 \begin{raster}
-a) Laufzeit & 1\E & \(t = \dfrac{s}{c} = \dfrac{102\;\text{m}}{340\;\text{m/s}} = 0.30\;\text{s}\)\\[6pt]
-b) Luft & 1\E & \(\lambda = \dfrac{c}{f} = \dfrac{340\;\text{m/s}}{170\;\text{Hz}} = 2.0\;\text{m}\)\\[6pt]
-c) Ansatz & 1\W & Die Frequenz bleibt \(170\;\text{Hz}\) (sie kommt vom Sender); Ansatz mit Werten und Einheiten: \(\lambda_\text{W} = \dfrac{c_\text{W}}{f}\) mit \(1500\;\text{m/s}\), oder der Gegenweg \(f = \dfrac{c_\text{W}}{\lambda_\text{W}}\) mit \(8.8\;\text{m}\)\rule[-12pt]{0pt}{0pt}\\[8pt]
-c) Ergebnis & 1\E & \(\lambda_\text{W} = \dfrac{1500\;\text{m/s}}{170\;\text{Hz}} \approx 8.8\;\text{m}\) oder \(f = \dfrac{1500\;\text{m/s}}{8.8\;\text{m}} \approx 170\;\text{Hz}\)\rule[-12pt]{0pt}{0pt}\par\vspace{4pt}Die Messung kann stimmen (Wert und Aussage nötig)\\[8pt]
-d) Taucher & 1\B & Nötig: (1) Die Aussage ist falsch. (2) Die Tonhöhe hängt an der Frequenz, und die bleibt beim Übergang aus der Luft ins Wasser gleich (sie kommt vom Sender). Beispiel einer vollständigen Antwort: «Die Welle ist im Wasser länger, weil der Schall dort schneller ist; der Takt und damit die Tonhöhe bleiben.»\\
+a) Luft & 1\E & \(\lambda = \dfrac{c}{f} = \dfrac{340\;\text{m/s}}{170\;\text{Hz}} = 2.0\;\text{m}\)\\[6pt]
+b) Ansatz & 1\W & Die Frequenz bleibt \(170\;\text{Hz}\) (sie kommt vom Sender); Ansatz mit Werten und Einheiten: \(\lambda_\text{W} = \dfrac{c_\text{W}}{f}\) mit \(1500\;\text{m/s}\), oder der Gegenweg \(f = \dfrac{c_\text{W}}{\lambda_\text{W}}\) mit \(8.8\;\text{m}\)\rule[-12pt]{0pt}{0pt}\\[8pt]
+b) Ergebnis & 1\E & \(\lambda_\text{W} = \dfrac{1500\;\text{m/s}}{170\;\text{Hz}} \approx 8.8\;\text{m}\) oder \(f = \dfrac{1500\;\text{m/s}}{8.8\;\text{m}} \approx 170\;\text{Hz}\)\rule[-12pt]{0pt}{0pt}\par\vspace{4pt}Die Messung kann stimmen (Wert und Aussage nötig)\\[8pt]
+c) Taucher & 1\B & Nötig: (1) Die Aussage ist falsch. (2) Die Tonhöhe hängt an der Frequenz, und die bleibt beim Übergang aus der Luft ins Wasser gleich (sie kommt vom Sender). Beispiel einer vollständigen Antwort: «Die Welle ist im Wasser länger, weil der Schall dort schneller ist; die Frequenz und damit die Tonhöhe bleiben.»\\
 \end{raster}
-\fehler{Formel umgekehrt (\(\lambda = f / c\)) in b) und c): derselbe Fehler, einmal abgezogen — b) 0, c) folgerichtig \(\to\) 4 von 5\,P. In c) mit \(340\;\text{m/s}\) gerechnet (\(2.0\;\text{m}\), «die Messung stimmt nicht») oder angenommen, im Wasser ändere sich die Frequenz: c) Ansatz 0, Ergebnis folgerichtig \(\to\) 4 von 5\,P. In d) «stimmt»: d) 0.}
+\fehler{Formel umgekehrt (\(\lambda = f / c\)) in a) und b): derselbe Fehler, einmal abgezogen — a) 0, b) folgerichtig \(\to\) 3 von 4\,P. In b) mit \(340\;\text{m/s}\) gerechnet (\(2.0\;\text{m}\), «die Messung stimmt nicht») oder angenommen, im Wasser ändere sich die Frequenz: b) Ansatz 0, Ergebnis folgerichtig \(\to\) 3 von 4\,P. In c) «stimmt»: c) 0.}
 \end{lpaufgabe}
 
 \begin{lpaufgabe}{G3}{Schraubenfeder, \(2.0\;\text{Hz}\), \(\lambda = 1.4\;\text{m}\), \(8.4\;\text{m}\)}{4 P}
@@ -114,13 +112,15 @@ d) Laser & 1\B & Nötig, sinngemäss (das Fachwort ist nicht nötig): (1) Pumpen
 \fehler{Nanometer nicht umgerechnet (\(6.59 \cdot 10^{5}\;\text{Hz}\)): a) 0. In b) Verhältnis umgekehrt (\(0.71\)): b) 0 und c) 0 (\(E_3\) läge unter \(E_2\)). In c) die Wellenlängen subtrahiert (\(182\;\text{nm}\)): c) 0. In d) nur «die Spiegel bündeln das Licht»: d) 0.}
 \end{lpaufgabe}
 
-\begin{lpaufgabe}{G6}{Gase in der Atmosphäre}{3 P}
+\begin{lpaufgabe}{G6}{Gase in der Atmosphäre}{5 P}
 \begin{raster}
-a) Drei Gase & 1\E & Stickstoff: keine nennenswerte. Wasserdampf: Wärmestrahlung des Bodens. Ozon: Ultraviolett der Sonne und Wärmestrahlung des Bodens (um \(9.6\;\mu\text{m}\)). Alle drei richtig nötig (eine Angabe, keine Einheit)\\
-b) Mehr CO\(_2\) & 1\B & Nötig: (1) Kohlendioxid nimmt Wärmestrahlung des Bodens auf; mit mehr Gas wird mehr davon aufgenommen. (2) Das Gas strahlt in alle Richtungen ab, ein Teil zurück zum Boden; der Boden bekommt mehr Energie und wird wärmer. Für (1) zählt auch: «der Bereich um \(15\;\mu\text{m}\) wird breiter». «Spiegelt zurück» oder «Ozonloch»: 0\\
-c) Wellenlänge & 1\E & \(\lambda = \dfrac{c}{f} = \dfrac{3.00 \cdot 10^{8}\;\text{m/s}}{2.5 \cdot 10^{13}\;\text{Hz}} = 1.2 \cdot 10^{-5}\;\text{m} = 12\;\mu\text{m}\); ja, im Fenster zwischen rund \(8\) und \(13\;\mu\text{m}\) (Wert und Aussage nötig)\\[4pt]
+a) Sonnenlicht & 1\B & Nötig: (1) Die Sonne ist heiss und strahlt kurzwellig, vor allem sichtbares Licht (um \(0.5\;\mu\text{m}\)). (2) Bei diesen Wellenlängen nehmen die Gase der Luft kaum etwas auf (nur das Ultraviolett nimmt das Ozon auf); darum kommt das Licht weitgehend durch\\
+a) Bodenstrahlung & 1\B & Nötig: (1) Der Boden ist viel kühler und strahlt langwellig, im Infrarot (um \(10\;\mu\text{m}\)). (2) In diesem Bereich nehmen die Treibhausgase (etwa Wasserdampf und Kohlendioxid) auf, ausser im «Fenster»; darum bleibt ein grosser Teil in der Atmosphäre. «Die Wärme wird zurückgespiegelt»: 0\\
+b) Drei Gase & 1\E & Stickstoff: keine nennenswerte. Wasserdampf: Wärmestrahlung des Bodens. Ozon: Ultraviolett der Sonne und Wärmestrahlung des Bodens (um \(9.6\;\mu\text{m}\)). Alle drei richtig nötig (eine Angabe, keine Einheit)\\
+c) Mehr CO\(_2\) & 1\B & Nötig: (1) Kohlendioxid nimmt Wärmestrahlung des Bodens auf; mit mehr Gas wird mehr davon aufgenommen. (2) Das Gas strahlt in alle Richtungen ab, ein Teil zurück zum Boden; der Boden bekommt mehr Energie und wird wärmer. Für (1) zählt auch: «der Bereich um \(15\;\mu\text{m}\) wird breiter». «Spiegelt zurück» oder «Ozonloch»: 0\\
+d) Wellenlänge & 1\E & \(\lambda = \dfrac{c}{f} = \dfrac{3.00 \cdot 10^{8}\;\text{m/s}}{2.5 \cdot 10^{13}\;\text{Hz}} = 1.2 \cdot 10^{-5}\;\text{m} = 12\;\mu\text{m}\); ja, im Fenster zwischen rund \(8\) und \(13\;\mu\text{m}\) (Wert und Aussage nötig)\\[4pt]
 \end{raster}
-\fehler{In a) Ozon nur «Ultraviolett»: a) 0. In b) «weil Kohlendioxid das Sonnenlicht aufnimmt»: b) 0. In c) \(\lambda = f / c\) gerechnet: c) 0 \(\to\) 2 von 3\,P.}
+\fehler{In a) nur «Sonnenlicht ist Licht, Bodenstrahlung ist Wärme» ohne Wellenlänge: beide Zeilen 0. In b) Ozon nur «Ultraviolett»: b) 0. In c) «weil Kohlendioxid das Sonnenlicht aufnimmt»: c) 0. In d) \(\lambda = f / c\) gerechnet: d) 0 \(\to\) 4 von 5\,P.}
 \end{lpaufgabe}
 
 \section*{4 · Selbsteinschätzung}

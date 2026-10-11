@@ -622,7 +622,7 @@
         vergleich: 'Mit der doppelten Frequenz wird die Welle halb so lang: \\(\\lambda = \\dfrac{c}{f}\\) gibt \\(2.0\\;\\text{m}\\) bzw. \\(1.0\\;\\text{m}\\). Die Front kommt in beiden Läufen nach \\(3.0\\;\\text{s}\\) an der Knotenstelle an: Die Geschwindigkeit gehört zum Seil, nicht zum Sender. Ein schnellerer Sender macht die Welle kürzer, nicht schneller.' },
       { text: 'Hänge rechts das dickere Seil an und starte. Wie oft schwingen P₁ und P₂ pro Sekunde? Wie lang sind die Wellen links und rechts?',
         ok: function(s){ return hat(s, function(l){ return l.rechts === 'dick' && l.tmax >= l.t2 + 1 / l.f; }); },
-        vergleich: 'P₁ und P₂ schwingen im selben Takt: Die Frequenz bleibt beim Übergang, sie kommt vom Sender. Im dickeren Seil läuft die Welle halb so schnell und ist darum halb so lang: \\(\\lambda_2 = \\dfrac{c_2}{f}\\).' },
+        vergleich: 'P₁ und P₂ schwingen gleich oft: Die Frequenz bleibt beim Übergang, sie kommt vom Sender. Im dickeren Seil läuft die Welle halb so schnell und ist darum halb so lang: \\(\\lambda_2 = \\dfrac{c_2}{f}\\).' },
       { text: 'Rechts das dickere Seil (\\(c_2 = 0.50\\;\\text{m/s}\\)): Welche Frequenz braucht der Sender, damit die Welle dort \\(0.40\\;\\text{m}\\) lang ist? Rechne, stelle ein und starte.',
         ok: function(s){ return hat(s, function(l){ return l.rechts === 'dick' && gleich(l.f, 1.25) && l.tmax >= l.t2; }); },
         vergleich: '\\(f = \\dfrac{c_2}{\\lambda_2} = \\dfrac{0.50\\;\\text{m/s}}{0.40\\;\\text{m}} = 1.25\\;\\text{Hz}\\). Im linken Seil ist dieselbe Welle \\(\\lambda_1 = \\dfrac{1.0\\;\\text{m/s}}{1.25\\;\\text{Hz}} = 0.80\\;\\text{m}\\) lang.' },
@@ -934,7 +934,7 @@
       if (m === 'emission') s = '<span>Photon: ' + v_('E') + '<sub>Photon</sub> = ' + v_('E') + '<sub>oben</sub> − ' + v_('E') + '<sub>unten</sub> = ' + v_('h') + ' · ' + v_('f') + '; grössere Stufe → höhere Frequenz → kürzere Wellenlänge.</span>'
                              + '<span>Die Stufen E₂ − E₁ und E₃ − E₁ stehen im Verhältnis 2 : 3; die kleine Stufe E₃ − E₂ ist halb so gross wie E₂ − E₁. Die Wellenlänge jedes Photons steht unten, sobald es ausgesandt ist.</span>';
       else if (m === 'absorption') s = '<span>Ein Atom auf E₁ nimmt nur Photonen auf, deren Energie genau zu einem Sprung nach oben passt' + (absorbFertig ? ': E₁ → E₂ (600' + NB + 'nm) und E₁ → E₃ (400' + NB + 'nm).' : '.') + '</span>';
-      else s = '<span>Stimulierte Emission: Ein Photon trifft ein angeregtes Atom und löst ein zweites aus — gleiche Wellenlänge (600' + NB + 'nm), gleiche Richtung, gleicher Takt.</span>';
+      else s = '<span>Stimulierte Emission: Ein Photon trifft ein angeregtes Atom und löst ein zweites aus — gleiche Wellenlänge (600' + NB + 'nm), gleiche Richtung, gleiche Phase.</span>';
       if (meldung) s += '<span class="warnzeile">' + meldung + '</span>';
       s += '<span class="sim-notiz">Modellatom mit drei Stufen; Photonen in ihrer Farbe, Infrarot dunkelrot gestrichelt (unsichtbar).</span>';
       rolle(fig, 'formel').innerHTML = s;
@@ -952,9 +952,9 @@
       { text: 'Wähle «Absorption» und schicke weisses Licht durch das Gas. Welche Wellenlängen fehlen dahinter — und warum genau diese?',
         ok: function(s){ return s.modus === 'absorption' && s.absorbFertig; },
         vergleich: '\\(400\\;\\text{nm}\\) und \\(600\\;\\text{nm}\\) fehlen. Ein Atom auf E₁ nimmt nur ein Photon auf, dessen Energie genau zu einem Sprung nach oben passt (E₁ → E₂, E₁ → E₃). Alle anderen Wellenlängen gehen durch. Absorption ist die Umkehrung der Emission — aber nur für Sprünge, die von der besetzten Stufe ausgehen: Die \\(1200\\;\\text{nm}\\) (E₂ → E₃) fehlen nicht, weil kein Elektron auf E₂ sitzt.' },
-      { text: 'Wähle «Laser», schalte das Pumpen ein und starte. Vergleiche die Photonen im Laserstrahl mit der einzelnen Emission: Wellenlänge, Richtung, Takt.',
+      { text: 'Wähle «Laser», schalte das Pumpen ein und starte. Vergleiche die Photonen im Laserstrahl mit der einzelnen Emission: Wellenlänge, Richtung, Phase.',
         ok: function(s){ return s.modus === 'laser' && s.hinaus >= 10; },
-        vergleich: 'Alle Photonen haben \\(600\\;\\text{nm}\\), laufen in dieselbe Richtung und schwingen im gleichen Takt (gleiche Phase): Ein Photon löst an einem angeregten Atom ein gleiches zweites aus — stimulierte Emission. Zwischen den Spiegeln werden es immer mehr; durch den teildurchlässigen Spiegel tritt der Laserstrahl aus. Bei der einzelnen Emission war die Richtung jedes Mal eine andere.' }
+        vergleich: 'Alle Photonen haben \\(600\\;\\text{nm}\\), laufen in dieselbe Richtung und schwingen gleichphasig (gleiche Phase): Ein Photon löst an einem angeregten Atom ein gleiches zweites aus — stimulierte Emission. Zwischen den Spiegeln werden es immer mehr; durch den teildurchlässigen Spiegel tritt der Laserstrahl aus. Bei der einzelnen Emission war die Richtung jedes Mal eine andere.' }
     ], sim);
     knoepfeSetzen(); zeichnen();
   })();
@@ -1045,7 +1045,7 @@
         el(schema, 'text', { x: 270, y: 280, 'text-anchor': 'end', 'class': 'bt-wert l-ir' }, 'zurück'); }
       var s = '<span>Im Bandmodell in den grauen Bereichen: Sonnenlicht ' + fest(100 * w.sonne, 1) + NB + '%; Wärmestrahlung des Bodens ' + fest(100 * w.boden, 0) + NB + '%</span>';
       s += '<span>' + (w.stufe === 0 ? 'Stickstoff und Sauerstoff allein nehmen weder Licht noch Wärmestrahlung nennenswert auf.' : 'Was die Gase aufnehmen, strahlen sie in alle Richtungen wieder ab — auch zurück zum Boden.') + '</span>';
-      s += '<span class="sim-notiz">Die Kurven zeigen die Strahlung je Stück der log-Achse (flächentreu); ihre Gipfel liegen darum bei rund 0.6 µm und 13 µm, je Mikrometer liegen die Maxima bei 0.5 µm und 10 µm. Bandmodell: In den grauen Bereichen nimmt das Gas alles auf, sonst nichts; Wolken, schwächere Banden, Streuung und die Aufnahme von Sonnenlicht sind weggelassen. Die Prozente sind darum nicht mit dem Einschichtmodell des Leitprogramms Wärme vergleichbar; die echte Atmosphäre nimmt mehr Bodenstrahlung auf. Pfeilbreiten nach den Anteilen; die Energiebilanz in Watt rechnet das Leitprogramm Wärme.</span>';
+      s += '<span class="sim-notiz">Die Kurven zeigen die Strahlung je Stück der log-Achse (flächentreu: die Fläche unter der Kurve gibt an, wie viel Strahlung in einem Bereich liegt); ihre Gipfel liegen darum bei rund 0.6 µm und 13 µm, je Mikrometer liegen die Maxima bei 0.5 µm und 10 µm. Bandmodell: In den grauen Bereichen nimmt das Gas alles auf, sonst nichts; Wolken, schwächere Banden, Streuung und die Aufnahme von Sonnenlicht sind weggelassen. Die Prozente sind darum nicht mit dem Einschichtmodell des Leitprogramms Wärme vergleichbar; die echte Atmosphäre nimmt mehr Bodenstrahlung auf. Pfeilbreiten nach den Anteilen; die Energiebilanz in Watt rechnet das Leitprogramm Wärme.</span>';
       rolle(fig, 'formel').innerHTML = s;
       pruefen();
     }
@@ -1121,7 +1121,7 @@
        Eine Zufallsaufgabe mit genau diesen sichtbaren Zahlen wird neu gewürfelt (scripts/lp/wellen/pruef_fest.py). */
     var FEST_PAARE = ['1|10', '1|7', '8|25', '1.2|2.5', '0.6|2.4', '1.5|2', '2|2.5', '4.8|6', '4|8', '4|6', '1.5|4', '2|4',
                       '0.5|1.5', '0.8|1.6', '2|6', '0.3|60', '0.8|2', '0.8|2.4', '1.5|6', '2|10', '1.5|2.5', '0.5|680',
-                      '2|3', '0.3|3', '0.8|3', '1.5|3', '0.5|3', '2.4|3', '3|6', '1.5|20'];   // zweite Prüfung: Paare mit 3 (vorher als Konstante übersehen)
+                      '2|3', '0.3|3', '0.8|3', '1.5|3', '0.5|3', '2.4|3', '3|6', '1.5|20', '1.8|2', '1.8|5'];   // zweite Prüfung: Paare mit 3 (vorher als Konstante übersehen)
     function fest_(a, b){ return FEST_PAARE.indexOf([+a, +b].sort(function(x, y){ return x - y; }).join('|')) >= 0; }
     var TYPEN = {
       /* ----- Kapitel 1: Von der Schwingung zur Welle ----- */
@@ -1415,7 +1415,7 @@
           var s = zufall([['Ein Atom kann Licht jeder beliebigen Wellenlänge aussenden.', 'falsch', 'Ein Atom hat feste Energiestufen; es sendet nur Photonen aus, deren Energie genau einem Sprung entspricht — darum nur bestimmte Wellenlängen.', 'Welche Energie hat ein Photon, das bei einem Sprung entsteht?'],
                           ['Je grösser die Energiestufe, desto kürzer die Wellenlänge des ausgesandten Photons.', 'richtig', 'Grössere Stufe, mehr Energie, höhere Frequenz (\\(E = h \\cdot f\\)) — und bei gleichem \\(c\\) eine kürzere Wellenlänge.', 'Wie hängen die Energie eines Photons, seine Frequenz und seine Wellenlänge zusammen?'],
                           ['Ein Atom, dessen Elektron auf E₁ sitzt, nimmt nur Photonen auf, deren Energie genau zu einem Sprung nach oben passt.', 'richtig', 'Absorption ist die Umkehrung der Emission: Nur passende Photonen heben das Elektron an; die anderen gehen durch.', 'Was geschah in der Simulation mit dem weissen Licht im Gas?'],
-                          ['Laserlicht ist kohärent: Alle Photonen schwingen im gleichen Takt.', 'richtig', 'Bei der stimulierten Emission entsteht ein Photon gleicher Wellenlänge, gleicher Richtung und gleicher Phase.', 'Wie entsteht im Laser das zweite Photon aus dem ersten?'],
+                          ['Laserlicht ist kohärent: Alle Photonen schwingen gleichphasig.', 'richtig', 'Bei der stimulierten Emission entsteht ein Photon gleicher Wellenlänge, gleicher Richtung und gleicher Phase.', 'Wie entsteht im Laser das zweite Photon aus dem ersten?'],
                           ['Ein Laser braucht keine Spiegel: Die Photonen laufen von selbst alle in dieselbe Richtung.', 'falsch', 'Die ersten Photonen entstehen spontan, in alle Richtungen. Erst die Spiegel schicken die Photonen, die längs laufen, immer wieder durch die angeregten Atome; nur sie lösen dort viele gleiche Photonen aus. So wird genau diese eine Richtung verstärkt.', 'In welche Richtung fliegt das Photon, das ein anderes Photon auslöst?'],
                           ['Ein Laser braucht keine Energie von aussen, weil sich die Photonen selbst vermehren.', 'falsch', 'Jedes neue Photon nimmt die Energie eines angeregten Atoms. Ohne Pumpen sind bald keine Atome mehr angeregt, und der Laser erlischt.', 'Woher kommt die Energie jedes neuen Photons?'],
                           ['Bei der spontanen Emission fliegt das Photon in eine zufällige Richtung.', 'richtig', 'Ein angeregtes Atom, das von selbst zurückspringt, sendet sein Photon in irgendeine Richtung aus — wie in der Simulation.', 'Was hast du in der Simulation bei mehreren Sprüngen beobachtet?'],

@@ -766,7 +766,7 @@ def durchlass_mini(label, punkte):
     R = w - ox - 14
     X = lambda l: ox + (math.log10(l) + 1) / 3 * R
     Y = lambda a: oy - a * 90
-    banden = [(5.5, 8.0), (9.3, 10.1), (13.5, 17.0), (20, 100)]
+    banden = [(0.1, 0.3), (5.5, 8.0), (9.3, 10.1), (13.5, 17.0), (20, 100)]   # unter 0.3 µm: Ultraviolett, vom Ozon aufgenommen
     t = [f'<svg class="mini breit" viewBox="0 0 {w} {h + 14}" role="img" aria-label="{label}">']
     for l, s in ((0.1, '0.1'), (0.2, ''), (0.5, '0.5'), (1, '1'), (2, ''), (5, '5'), (10, '10'), (20, ''), (50, '50'), (100, '100')):
         t.append(f'<line x1="{X(l):.1f}" y1="{Y(1.1):.1f}" x2="{X(l):.1f}" y2="{oy}" class="gitter"/>')
@@ -788,6 +788,7 @@ def durchlass_mini(label, punkte):
         drin = any(p <= l <= q for p, q in banden)
         t.append(f'<circle cx="{X(l):.1f}" cy="{Y(0 if drin else 1):.1f}" r="3.6" class="p-mini"/><text x="{X(l) + 4:.1f}" y="{Y(0 if drin else 1) - 6:.1f}" class="mini-name">{name}</text>')
     t.append(f'<line x1="{ox}" y1="{oy}" x2="{ox + R + 6}" y2="{oy}" class="achse"/><line x1="{ox}" y1="{oy}" x2="{ox}" y2="{Y(1.1) - 4:.1f}" class="achse"/>')
+    t.append(f'<text x="{(X(0.1) + X(0.3)) / 2:.1f}" y="{Y(0.5) + 3.5:.1f}" text-anchor="middle" class="skala">O₃</text>')
     t.append(f'<text x="{ox + R + 6}" y="{oy + 26}" text-anchor="end" class="achsname">λ [µm], logarithmisch</text>')
     t.append(f'<text x="{ox + 4}" y="{Y(1.1) - 6:.1f}" class="achsname">durchgelassener Anteil</text></svg>')
     return ''.join(t)
@@ -853,7 +854,7 @@ auf1 = test('t1', 'Aufgaben · Kapitel 1', 12, [
     ('1d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Warum ist eine Wasserwelle weder eine reine Quer- noch eine reine Längswelle? Wie bewegt sich ein Ball, der im Meer schwimmt, während eine Welle unter ihm durchläuft?',
      r'<p>Die Wasserteilchen an der Oberfläche laufen auf Kreisbahnen: Sie bewegen sich zugleich auf und ab (quer) und hin und her (längs).</p><p>Der Ball macht diese Kreisbewegung mit: Auf dem Berg rückt er ein Stück vor, im Tal ein Stück zurück. Im Mittel bleibt er am selben Ort — weiter treiben ihn nur Wind und Strömung.</p>', ''),
 ])
-k1 = kapitel(1, 'schwingung-welle', 'Von der Schwingung zur Welle', 'K1 · K2 · K3', 45,
+k1 = kapitel(1, 'schwingung-welle', 'Von der Schwingung zur Welle', 'K1 · K2 · K3', 55,
     r'Du beschreibst, wie aus der Schwingung eines Erregers über gekoppelte Teilchen eine Welle entsteht, unterscheidest Quer- und Längswelle, rechnest mit Periode, Frequenz und Ausbreitungsgeschwindigkeit und erklärst, warum eine Welle Energie, aber keine Materie transportiert.',
     ('p6-1-lp-welle', 'Wellen sehen: aus der Schwingung wird eine Welle'),
     sim1, ('p6-1-lp-kontrolle-welle', 'Kontrollfragen zur Entstehung einer Welle'),
@@ -872,7 +873,7 @@ fest2 = r'''      <div class="festhalten">
           <div class="titel">Zwei Diagramme, zwei Grössen</div>
           <p>Eine Welle hängt vom Ort \(s\) und von der Zeit \(t\) ab. Ein Diagramm zeigt nur eines davon auf der waagrechten Achse:</p>
           <ul>
-            <li><b>Momentbild</b> \(y(s)\): Die Zeit steht still, man sieht die ganze Welle. Der Abstand zweier benachbarter Berge — allgemein zweier Stellen gleicher Phase — ist die <b>Wellenlänge</b> \(\lambda\), eine Länge in Metern.</li>
+            <li><b>Momentbild</b> \(y(s)\): Die Zeit steht still, man sieht die ganze Welle. Der Abstand zweier benachbarter Berge — allgemein zweier benachbarter Stellen gleicher Phase — ist die <b>Wellenlänge</b> \(\lambda\), eine Länge in Metern. Stellen gleicher Phase schwingen <b>gleichphasig</b>: Sie sind im selben Augenblick oben und im selben Augenblick unten. Eine halbe Wellenlänge auseinander schwingen zwei Stellen genau gegenläufig.</li>
             <li><b>Zeitdiagramm</b> \(y(t)\): Der Ort steht fest, man sieht einen Punkt im Lauf der Zeit. Der Abstand zweier Maxima ist die <b>Periode</b> \(T\), eine Zeit in Sekunden.</li>
           </ul>
           <p>Die Amplitude \(A\) ist in beiden Diagrammen die grösste Auslenkung. In einer Periode rückt jeder Berg genau um eine Wellenlänge weiter. Das ergibt die <b>Phasengeschwindigkeit</b> (Ausbreitungsgeschwindigkeit), die Geschwindigkeit einer Stelle gleicher Phase:</p>
@@ -887,7 +888,7 @@ fest2 = r'''      <div class="festhalten">
 MB2 = welle_mini('Momentbild einer Seilwelle: Berge bei 0.3 m, 1.5 m und 2.7 m, Gitter 0.2 m', 's [m]', 'y [cm]', 1.2, 0.3, 3.6, 0.2, 5)
 ZD2 = welle_mini('Zeitdiagramm eines Punkts derselben Welle: Maxima bei 0.1 s, 0.5 s, 0.9 s und 1.3 s, Gitter 0.1 s', 't [s]', 'y [cm]', 0.4, 0.1, 1.6, 0.1, 5)
 LOES2B = welle_mini('Lösung: Momentbild mit λ = 1.6 m und A = 5 cm, Berge bei 0, 1.6 m und 3.2 m', 's [m]', 'y [cm]', 1.6, 0.0, 4.0, 0.2, 5, amp=5, ymax=6)
-auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
+auf2 = test('t2', 'Aufgaben · Kapitel 2', 15, [
     ('2a', 3, r'Die beiden Diagramme zeigen dieselbe Seilwelle: links das Momentbild, rechts das Zeitdiagramm eines Punkts. Lies \(\lambda\) und \(T\) ab und berechne \(f\) und \(c\).',
      r'<p>Momentbild (Achse \(s\)): von Berg zu Berg \(\lambda = 1.2\;\text{m}\). Zeitdiagramm (Achse \(t\)): von Maximum zu Maximum \(T = 0.40\;\text{s}\).</p><p>\(f = \dfrac{1}{T} = \dfrac{1}{0.40\;\text{s}} = 2.5\;\text{Hz}\)</p><p>\(c = \dfrac{\lambda}{T} = \dfrac{1.2\;\text{m}}{0.40\;\text{s}} = 3.0\;\text{m/s}\), ebenso \(c = \lambda \cdot f = 1.2\;\text{m} \cdot 2.5\;\text{Hz} = 3.0\;\text{m/s}\).</p>',
      mini(MB2, ZD2)),
@@ -895,11 +896,13 @@ auf2 = test('t2', 'Aufgaben · Kapitel 2', 12, [
      r'<p>Achsen: \(s\) in m waagrecht, \(y\) in cm senkrecht. Berge (\(y = 5\;\text{cm}\)) bei \(s = 0\), \(1.6\;\text{m}\) und \(3.2\;\text{m}\); Täler (\(y = -5\;\text{cm}\)) bei \(0.8\;\text{m}\), \(2.4\;\text{m}\) und \(4.0\;\text{m}\); dazwischen \(y = 0\) bei \(0.4\), \(1.2\), \(2.0\), \(2.8\) und \(3.6\;\text{m}\).</p><p>\(\lambda\): Pfeil von einem Berg zum nächsten. \(A\): von der Ruhelage (\(y = 0\)) bis zu einem Berg.</p>' + mini(LOES2B), ''),
     ('2c', 3, r'Mia und Noah messen an derselben Wasserwelle. Mia misst von einem Wellenberg zum nächsten \(6.2\;\text{m}\), Noah stoppt bei einer Boje von einem Hochpunkt zum nächsten \(2.0\;\text{s}\). Noah sagt: «Die Wellenlänge ist \(2.0\), du hast dich vermessen.» Wer hat was gemessen? Berechne die Phasengeschwindigkeit.',
      r'<p>Beide haben richtig gemessen, aber verschiedene Grössen: Mia eine Länge am «Foto» der Welle, die Wellenlänge \(\lambda = 6.2\;\text{m}\); Noah eine Zeit an einer festen Stelle, die Periode \(T = 2.0\;\text{s}\). Eine Zeit kann keine Wellenlänge sein.</p><p>\(c = \dfrac{\lambda}{T} = \dfrac{6.2\;\text{m}}{2.0\;\text{s}} = 3.1\;\text{m/s}\)</p>', ''),
-    ('2d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Eine Hand bewegt das Ende eines Seils ab \(t = 0\) zuerst nach oben, mit der Periode \(T = 0.60\;\text{s}\); die Welle läuft mit \(c = 2.0\;\text{m/s}\). Wann beginnt der Punkt bei \(s = 3.0\;\text{m}\) zu schwingen? Skizziere sein Zeitdiagramm von \(t = 0\) bis \(t = 3.0\;\text{s}\).',
+    ('2d', 3, r'Eine Boje schaukelt auf den Wellen eines Sees; sie ist alle \(1.8\;\text{s}\) ganz oben. Noah lässt sich in einem Schlauchboot von der Boje weg treiben, in Laufrichtung der Wellen. Bei \(5.0\;\text{m}\) Abstand schwingt sein Boot zum ersten Mal wieder gleichphasig mit der Boje: Beide sind im selben Augenblick ganz oben. Wie gross ist die Wellenlänge? Bei welchem Abstand war das Boot ganz unten, während die Boje ganz oben war? Berechne die Phasengeschwindigkeit.',
+     r'<p>Zwei benachbarte Stellen gleicher Phase liegen eine Wellenlänge auseinander: \(\lambda = 5.0\;\text{m}\). Sitzt die Boje auf einem Berg, sitzt das Boot dann auch auf einem, dem nächsten.</p><p>Genau gegenläufig (Boje auf dem Berg, Boot im Tal) schwingt das Boot eine halbe Wellenlänge entfernt: \(\dfrac{\lambda}{2} = \dfrac{5.0\;\text{m}}{2} = 2.5\;\text{m}\).</p><p>\(c = \dfrac{\lambda}{T} = \dfrac{5.0\;\text{m}}{1.8\;\text{s}} \approx 2.8\;\text{m/s}\)</p>', ''),
+    ('2e', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Eine Hand bewegt das Ende eines Seils ab \(t = 0\) zuerst nach oben, mit der Periode \(T = 0.60\;\text{s}\); die Welle läuft mit \(c = 2.0\;\text{m/s}\). Wann beginnt der Punkt bei \(s = 3.0\;\text{m}\) zu schwingen? Skizziere sein Zeitdiagramm von \(t = 0\) bis \(t = 3.0\;\text{s}\).',
      r'<p>\(t = \dfrac{s}{c} = \dfrac{3.0\;\text{m}}{2.0\;\text{m/s}} = 1.5\;\text{s}\). Bis dahin ist \(y = 0\).</p><p>Danach macht der Punkt dieselbe Bewegung wie die Hand, zuerst nach oben: Maxima bei \(1.5\;\text{s} + 0.15\;\text{s} = 1.65\;\text{s}\), dann alle \(0.60\;\text{s}\): \(2.25\;\text{s}\) und \(2.85\;\text{s}\).</p>', ''),
 ])
-k2 = kapitel(2, 'momentbild-zeitdiagramm', 'Momentbild und Zeitdiagramm', 'K1', 40,
-    r'Du liest im Momentbild die Wellenlänge und im Zeitdiagramm die Periode ab, zeichnest ein Momentbild und berechnest die Frequenz und die Phasengeschwindigkeit \(c = \dfrac{\lambda}{T} = \lambda \cdot f\).',
+k2 = kapitel(2, 'momentbild-zeitdiagramm', 'Momentbild und Zeitdiagramm', 'K1', 55,
+    r'Du liest im Momentbild die Wellenlänge und im Zeitdiagramm die Periode ab, erkennst die Wellenlänge als Abstand zweier gleichphasiger Stellen, zeichnest ein Momentbild und berechnest die Frequenz und die Phasengeschwindigkeit \(c = \dfrac{\lambda}{T} = \lambda \cdot f\).',
     ('p6-1-lp-diagramme', 'Wellen sehen: Momentbild und Zeitdiagramm'),
     sim2, ('p6-1-lp-kontrolle-diagramme', 'Kontrollfragen zu Momentbild und Zeitdiagramm'),
     fest2, [uebung('ablesen', 'λ oder T ablesen'), uebung('phasengeschw', 'Phasengeschwindigkeit')],
@@ -944,7 +947,7 @@ auf3 = test('t3', 'Aufgaben · Kapitel 3', 12, [
     ('3d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Eine Fledermaus ruft mit \(40\;\text{kHz}\). Das Echo von einem Insekt kommt nach \(6.0\;\text{ms}\) zurück. Wie weit ist das Insekt entfernt? Wie lang ist die Welle in Luft, verglichen mit einer Mücke von rund \(5\;\text{mm}\)?',
      r'<p>Der Ruf läuft hin und zurück: \(2d = c \cdot t\), also \(d = \dfrac{c \cdot t}{2} = \dfrac{340\;\text{m/s} \cdot 0.0060\;\text{s}}{2} \approx 1.0\;\text{m}\).</p><p>\(\lambda = \dfrac{c}{f} = \dfrac{340\;\text{m/s}}{40\,000\;\text{Hz}} = 0.0085\;\text{m} = 8.5\;\text{mm}\) — etwa so gross wie eine Mücke. Darum taugt so kurzwelliger Schall, um kleine Beute zu orten.</p>', ''),
 ])
-k3 = kapitel(3, 'sender-medium', 'Sender und Medium: die Wellengleichung', 'K1 · K2', 45,
+k3 = kapitel(3, 'sender-medium', 'Sender und Medium: die Wellengleichung', 'K1 · K2', 55,
     r'Du wendest die Wellengleichung \(c = \lambda \cdot f\) an, unterscheidest, was der Sender (die Frequenz) und was das Medium (die Geschwindigkeit) festlegt, berechnest die Wellenlänge beim Übergang in ein anderes Medium und erklärst, warum Schall ein Medium braucht.',
     ('p6-1-lp-medium', 'Wellen sehen: Sender und Medium'),
     sim3, ('p6-1-lp-kontrolle-medium', 'Kontrollfragen zu Sender, Medium und Schall'),
@@ -957,7 +960,8 @@ sim4 = figur_anim('sim4', 'Oben das elektromagnetische Spektrum mit einer Marke 
 fest4 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Elektromagnetische Wellen</div>
-          <p>Eine <b>elektromagnetische Welle</b> besteht aus einem elektrischen und einem magnetischen Feld, die einander erzeugen. Sie schwingen im gleichen Takt (gleichphasig), senkrecht zueinander und quer zur Ausbreitung — eine <b>Querwelle</b>. Es schwingen keine Teilchen; darum braucht sie <b>kein Medium</b> und läuft auch durchs Vakuum.</p>
+          <p>Eine <b>elektromagnetische Welle</b> besteht aus einem elektrischen und einem magnetischen Feld, die einander erzeugen. Sie schwingen gleichphasig (beide im selben Augenblick am grössten), senkrecht zueinander und quer zur Ausbreitung — eine <b>Querwelle</b>. Es schwingen keine Teilchen; darum braucht sie <b>kein Medium</b> und läuft auch durchs Vakuum.</p>
+          <p><b>Erzeugung:</b> Elektromagnetische Wellen entstehen, wo elektrische Ladungen schwingen. In der Antenne eines Senders treibt ein Wechselstrom die Elektronen hin und her, mit der Frequenz der Radiowelle; Licht entsteht dagegen in den Atomen selbst (Kapitel 5).</p>
           <p>Im Vakuum laufen alle mit der <b>Lichtgeschwindigkeit</b> \(c = 3.00 \cdot 10^{8}\;\text{m/s}\) (genauer \(2.998 \cdot 10^{8}\;\text{m/s}\)), in Luft praktisch gleich schnell. Auch hier gilt \(c = \lambda \cdot f\).</p>
           <div class="tabhuelle"><table class="gesetze">
             <tr><th>Bereich</th><th>Wellenlänge</th><th>Beispiele</th></tr>
@@ -969,7 +973,7 @@ fest4 = r'''      <div class="festhalten">
             <tr><td>Röntgenstrahlung</td><td class="wort">rund \(10\;\text{pm}\) bis \(10\;\text{nm}\)</td><td class="wort">Röntgenbild</td></tr>
             <tr><td>Gammastrahlung</td><td class="wort">kürzer als rund \(10\;\text{pm}\)</td><td class="wort">radioaktive Stoffe</td></tr>
           </table></div>
-          <p>Die Grenzen sind fliessend und werden nicht überall gleich gezogen. Nach unten in der Tabelle werden die Wellen kürzer, die Frequenz höher — und die Energie, die ein einzelnes <b>Photon</b> trägt, grösser: \(E = h \cdot f\) (\(h\): Planck-Konstante). Darum können Ultraviolett, Röntgen- und Gammastrahlung Atome ionisieren und Zellen schädigen, Radiowellen nicht.</p>
+          <p>Die Grenzen sind fliessend und werden nicht überall gleich gezogen. Nach unten in der Tabelle werden die Wellen kürzer, die Frequenz höher — und die Energie, die ein einzelnes <b>Photon</b> trägt, grösser: \(E = h \cdot f\) (\(h\): Planck-Konstante). Darum kann kurzwelliges Ultraviolett Moleküle verändern (Sonnenbrand), Röntgen- und Gammastrahlung können Atome ionisieren und Zellen schädigen, Radiowellen nicht.</p>
           <p><b>Wellen im Vergleich:</b></p>
           <div class="tabhuelle"><table class="gesetze">
             <tr><th>Welle</th><th>Was schwingt?</th><th>Medium</th><th>Art</th></tr>
@@ -997,7 +1001,7 @@ auf4 = test('t4', 'Aufgaben · Kapitel 4', 12, [
     ('4d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Ein Funkamateur sagt: «Meine Kurzwelle von \(20\;\text{m}\) Länge ist schneller unterwegs als das Licht meiner Lampe, weil sie länger ist.» Prüfe die Aussage und berechne die Frequenz der Kurzwelle.',
      r'<p>Die Aussage stimmt nicht: Im Vakuum (und praktisch auch in Luft) laufen alle elektromagnetischen Wellen gleich schnell. Die Länge bestimmt nicht die Geschwindigkeit, sondern zusammen mit ihr die Frequenz.</p><p>\(f = \dfrac{c}{\lambda} = \dfrac{3.00 \cdot 10^{8}\;\text{m/s}}{20\;\text{m}} = 1.5 \cdot 10^{7}\;\text{Hz} = 15\;\text{MHz}\)</p>', ''),
 ])
-k4 = kapitel(4, 'elektromagnetische-wellen', 'Elektromagnetische Wellen und das Spektrum', 'K2 · K4', 45,
+k4 = kapitel(4, 'elektromagnetische-wellen', 'Elektromagnetische Wellen und das Spektrum', 'K2 · K4', 55,
     r'Du beschreibst elektromagnetische Wellen als gekoppelte elektrische und magnetische Felder, die ohne Medium und im Vakuum alle mit \(c = 3.00 \cdot 10^{8}\;\text{m/s}\) laufen, ordnest Wellenlängen und Frequenzen ins Spektrum ein und unterscheidest sie von mechanischen Wellen und Schall.',
     ('p6-1-lp-em', 'Wellen sehen: elektromagnetische Wellen'),
     sim4, ('p6-1-lp-kontrolle-em', 'Kontrollfragen zu den elektromagnetischen Wellen'),
@@ -1013,9 +1017,9 @@ fest5 = r'''      <div class="festhalten">
           <p>Die Elektronen eines Atoms können nur bestimmte <b>Energiestufen</b> einnehmen (\(E_1, E_2, \ldots\)). Wird Energie zugeführt (Stoss, Strom, Licht), springt ein Elektron hinauf: Das Atom ist <b>angeregt</b>. Springt es von selbst zurück, wird die Differenz als <b>Photon</b> frei, zu einem zufälligen Zeitpunkt und in eine zufällige Richtung — <b>atomare Emission</b>, genauer <b>spontane Emission</b>:</p>
           <p>\[ E_\text{Photon} = E_\text{oben} - E_\text{unten} = h \cdot f \]</p>
           <p>Eine grössere Stufe gibt mehr Energie, eine höhere Frequenz und eine kürzere Wellenlänge \(\lambda = \dfrac{c}{f}\): Ist die Stufe \(k\)-mal so gross, ist \(f\) \(k\)-mal so gross und \(\lambda\) nur noch ein \(k\)-tel so gross. Weil die Stufen fest sind, sendet jedes Element nur bestimmte Wellenlängen aus (Linienspektrum).</p>
-          <p><b>Laser:</b> Energie von aussen (<b>Pumpen</b>) hält viele Atome angeregt. Trifft ein Photon auf ein angeregtes Atom, löst es ein zweites aus — <b>stimulierte Emission</b>: gleiche Wellenlänge, gleiche Richtung, gleiche Phase. Zwischen zwei Spiegeln wird das Licht verstärkt; durch den teildurchlässigen Spiegel tritt der Strahl aus: einfarbig, <b>kohärent</b> (im gleichen Takt) und gebündelt.</p>
+          <p><b>Laser:</b> Energie von aussen (<b>Pumpen</b>) hält viele Atome angeregt. Trifft ein Photon auf ein angeregtes Atom, löst es ein zweites aus — <b>stimulierte Emission</b>: gleiche Wellenlänge, gleiche Richtung, gleiche Phase. Zwischen zwei Spiegeln wird das Licht verstärkt; durch den teildurchlässigen Spiegel tritt der Strahl aus: einfarbig, <b>kohärent</b> (alle Photonen gleichphasig) und gebündelt (alle in dieselbe Richtung).</p>
           <p><b>Absorption</b> ist die Umkehrung: Ein Atom nimmt nur ein Photon auf, dessen Energie genau zu einem Sprung nach oben passt — von der Stufe aus, auf der sein Elektron sitzt (in einem kalten Gas meist \(E_1\)); die anderen Wellenlängen gehen durch. Wie stark ein Stoff Strahlung aufnimmt, hängt darum von der Wellenlänge ab.</p>
-          <p>Ein dritter Weg zu Licht: Heisse Körper wie die Sonne oder ein Glühdraht strahlen ein breites Spektrum ab, die <b>Wärmestrahlung</b>.</p>
+          <p>Ein dritter Weg zu Licht: Heisse Körper wie die Sonne oder ein Glühdraht strahlen wegen ihrer Temperatur ein breites, lückenloses Spektrum ab: <b>thermische Strahlung</b>, bei der Sonne vor allem sichtbares Licht. Ein kühler Körper wie der Erdboden strahlt auf dieselbe Weise, aber im Infrarot — diese <b>Wärmestrahlung</b> ist Thema von Kapitel 6.</p>
         </div>
         <div class="warn">
           <div class="titel">Häufiger Fehler</div>
@@ -1032,11 +1036,11 @@ auf5 = test('t5', 'Aufgaben · Kapitel 5', 12, [
      r'<p>Sprung 1 ist \(3\) Kästchen hoch, Sprung 2 \(5\), Sprung 3 \(2\). Die Wellenlänge ist umgekehrt proportional zur Stufe.</p><p>Sprung 2: \(\lambda = 660\;\text{nm} \cdot \dfrac{3}{5} = 396\;\text{nm}\) — violett, gerade noch sichtbar.</p><p>Sprung 3: \(\lambda = 660\;\text{nm} \cdot \dfrac{3}{2} = 990\;\text{nm}\) — Infrarot, unsichtbar.</p>',
      mini(NIV5)),
     ('5c', 3, r'Ein roter Laserpointer und eine Taschenlampe mit rotem Filter leuchten beide rot. Worin unterscheidet sich ihr Licht? Erkläre zwei Unterschiede mit der Entstehung.',
-     r'<p>Wellenlänge: Der Laser leuchtet mit einer einzigen Wellenlänge; jedes Photon entsteht durch denselben Sprung. Das Filter lässt dagegen einen ganzen Bereich roter Wellenlängen durch und nimmt die übrigen Farben des Lampenlichts auf.</p><p>Richtung und Takt: Im Laser löst ein Photon ein gleiches aus, in dieselbe Richtung und im gleichen Takt — der Strahl ist gebündelt und kohärent. Die Lampe sendet ihre Photonen unabhängig voneinander in alle Richtungen.</p>', ''),
+     r'<p>Wellenlänge: Der Laser leuchtet mit einer einzigen Wellenlänge; jedes Photon entsteht durch denselben Sprung. Das Filter lässt dagegen einen ganzen Bereich roter Wellenlängen durch und nimmt die übrigen Farben des Lampenlichts auf.</p><p>Richtung und Phase: Im Laser löst ein Photon ein gleiches aus, in dieselbe Richtung und gleichphasig — der Strahl ist gebündelt (gleiche Richtung) und kohärent (gleiche Phase). Die Lampe sendet ihre Photonen unabhängig voneinander in alle Richtungen.</p>', ''),
     ('5d', 3, r'<span class="task-id vert">freiwillig · Vertiefung</span> Im Licht der Sonne fehlen schmale Linien, zum Beispiel bei \(589\;\text{nm}\) — derselben Wellenlänge wie in Aufgabe 5a. Erkläre, wie diese dunkle Linie entsteht. (Die Sonne ist von einer kühleren Gashülle umgeben.)',
      r'<p>Die heisse Sonne strahlt ein breites Spektrum ab. Das Licht durchquert ihre kühlere Gashülle. Natriumatome darin nehmen genau die Photonen auf, deren Energie zu ihrem Sprung passt — die mit \(589\;\text{nm}\).</p><p>Sie strahlen diese Energie zwar wieder ab, aber in alle Richtungen; in unserer Richtung fehlt darum Licht dieser Wellenlänge: eine dunkle Linie. Absorption ist die Umkehrung der Emission.</p>', ''),
 ])
-k5 = kapitel(5, 'licht-entsteht', 'Wie Licht entsteht und verschluckt wird', 'K4', 40,
+k5 = kapitel(5, 'licht-entsteht', 'Wie Licht entsteht und verschluckt wird', 'K4', 55,
     r'Du erklärst, wie ein Atom Licht aussendet (Elektronensprung, Photon mit der Energie der Stufe), wie ein Laser gleichartiges Licht erzeugt (stimulierte Emission) und warum ein Stoff nur bestimmte Wellenlängen aufnimmt (Absorption).',
     ('p6-1-lp-licht', 'Wellen sehen: wie Licht entsteht und verschluckt wird'),
     sim5, ('p6-1-lp-kontrolle-licht', 'Kontrollfragen zu Emission, Laser und Absorption'),
@@ -1051,7 +1055,7 @@ sim6 = figur('sim6', 'Strahlung der Sonne und des Bodens über der Wellenlänge,
 fest6 = r'''      <div class="festhalten">
         <div class="merk">
           <div class="titel">Treibhauseffekt: eine Frage der Wellenlänge</div>
-          <p>Jeder Körper strahlt; je heisser er ist, desto kürzer die Wellenlänge, bei der er am meisten strahlt. Die Sonne (rund \(5800\;\text{K}\)) strahlt je Mikrometer am stärksten um \(0.5\;\mu\text{m}\), im sichtbaren Licht. Der Boden (rund \(15\;^\circ\text{C}\), also \(288\;\text{K}\)) strahlt im Infrarot, je Mikrometer am stärksten um \(10\;\mu\text{m}\) — rund zwanzigmal langwelliger. (In der Simulation ist die Strahlung flächentreu über der logarithmischen Achse gezeichnet; ihre Gipfel liegen darum bei rund \(0.6\) und \(13\;\mu\text{m}\).)</p>
+          <p>Jeder Körper strahlt; je heisser er ist, desto kürzer die Wellenlänge, bei der er am meisten strahlt. Die Sonne (rund \(5800\;\text{K}\)) strahlt je Mikrometer am stärksten um \(0.5\;\mu\text{m}\), im sichtbaren Licht. Der Boden (rund \(15\;^\circ\text{C}\), also \(288\;\text{K}\)) strahlt im Infrarot, je Mikrometer am stärksten um \(10\;\mu\text{m}\) — rund zwanzigmal langwelliger. (Die Simulation zeichnet die Strahlung über einer logarithmischen Achse so, dass die Fläche unter der Kurve zwischen zwei Wellenlängen angibt, wie viel Strahlung in diesem Bereich liegt — «flächentreu». Ihre Gipfel liegen darum bei rund \(0.6\) und \(13\;\mu\text{m}\).)</p>
           <p><b>Treibhausgase</b> nehmen Infrarot in bestimmten Bereichen auf: <b>Wasserdampf</b> (um \(6\;\mu\text{m}\) und über \(20\;\mu\text{m}\); das wichtigste natürliche Treibhausgas), <b>Kohlendioxid</b> (um \(15\;\mu\text{m}\)), <b>Methan</b> (um \(7.7\;\mu\text{m}\)) und <b>Ozon</b> (um \(9.6\;\mu\text{m}\)). Ihre Moleküle haben Energiestufen, die zu diesen Photonen passen (Absorption, Kapitel 5). Stickstoff und Sauerstoff, rund \(99\;\%\) der Luft, nehmen fast nichts auf. Zwischen rund \(8\) und \(13\;\mu\text{m}\) bleibt ein «Fenster», in dem nur das Ozon schmal aufnimmt.</p>
           <p>Auch auf dem Hinweg nimmt die Atmosphäre etwas auf: Das <b>Ultraviolett</b> der Sonne nimmt zum grossen Teil das <b>Ozon</b> in rund \(20\) bis \(30\;\text{km}\) Höhe auf (Ozonschicht); das schützt vor Sonnenbrand. Zudem nimmt Ozon Infrarot um \(9.6\;\mu\text{m}\) auf — es ist selbst ein Treibhausgas. Mit dem Ozonloch hat der Treibhauseffekt dagegen nichts zu tun.</p>
           <p><b>Treibhauseffekt:</b> Das Sonnenlicht kommt weitgehend durch und erwärmt den Boden. Dessen Wärmestrahlung nehmen die Treibhausgase zu einem grossen Teil auf und strahlen sie in alle Richtungen wieder ab, auch zurück zum Boden. So bleibt Energie in Bodennähe: im Mittel rund \(+15\;^\circ\text{C}\) statt rund \(-18\;^\circ\text{C}\) ohne Treibhausgase.</p>
@@ -1064,18 +1068,18 @@ fest6 = r'''      <div class="festhalten">
           <p>Treibhauseffekt und Ozonloch verwechselt: Das Ozonloch betrifft das Ultraviolett der Sonne, nicht die Wärmestrahlung.</p>
         </div>
       </div>'''
-DURCH6 = durchlass_mini('Durchgelassener Anteil der Atmosphäre über der Wellenlänge, 0.1 bis 100 Mikrometer: grau und null zwischen 5.5 und 8 Mikrometer, 9.3 und 10.1 Mikrometer, 13.5 und 17 Mikrometer sowie über 20 Mikrometer; A bei 0.5, B bei 11 und C bei 14 Mikrometer',
+DURCH6 = durchlass_mini('Durchgelassener Anteil der Atmosphäre über der Wellenlänge, 0.1 bis 100 Mikrometer: grau und null unter 0.3 Mikrometer (Ozon, Ultraviolett), zwischen 5.5 und 8 Mikrometer, 9.3 und 10.1 Mikrometer, 13.5 und 17 Mikrometer sowie über 20 Mikrometer; A bei 0.5, B bei 11 und C bei 14 Mikrometer',
                         [(0.5, 'A'), (11, 'B'), (14, 'C')])
 auf6 = test('t6', 'Aufgaben · Kapitel 6', 9, [
     ('6a', 3, r'In einer klaren, trockenen Wüstennacht kühlt der Boden viel stärker ab als in einer feuchten Nacht in den Tropen. Erkläre das mit der Wellenlänge und dem Wasserdampf.',
      r'<p>Nachts strahlt der Boden nur noch ab, im Infrarot um \(10\;\mu\text{m}\).</p><p>In den Tropen enthält die Luft viel Wasserdampf. Er nimmt die Wärmestrahlung in seinen Bereichen auf und strahlt einen Teil zurück zum Boden; der Boden kühlt langsam ab.</p><p>In der trockenen Wüstenluft fehlt der Wasserdampf fast ganz: Die Strahlung geht weitgehend ungehindert ins All, der Boden kühlt stark ab.</p>', ''),
     ('6b', 3, r'Das Diagramm zeigt vereinfacht, welchen Anteil die heutige Atmosphäre (Wasserdampf, Kohlendioxid, Methan und Ozon) je Wellenlänge durchlässt. Welche der Strahlungen A, B und C kommt durch? Woher stammt jede vor allem — von der Sonne oder vom Boden? Welches Gas hält C auf?',
-     r'<p>A (\(0.5\;\mu\text{m}\)): kommt durch — sichtbares Licht der Sonne.</p><p>B (\(11\;\mu\text{m}\)): kommt durch — Wärmestrahlung des Bodens im Fenster zwischen rund \(8\) und \(13\;\mu\text{m}\) (nur das Ozon nimmt darin schmal um \(9.6\;\mu\text{m}\) auf).</p><p>C (\(14\;\mu\text{m}\)): wird aufgenommen — Wärmestrahlung des Bodens, im Bereich des Kohlendioxids um \(15\;\mu\text{m}\).</p>',
+     r'<p>A (\(0.5\;\mu\text{m}\)): kommt durch — sichtbares Licht der Sonne. (Nur ihr kurzwelliges Ultraviolett unter rund \(0.3\;\mu\text{m}\) nimmt das Ozon auf, grau mit O₃.)</p><p>B (\(11\;\mu\text{m}\)): kommt durch — Wärmestrahlung des Bodens im Fenster zwischen rund \(8\) und \(13\;\mu\text{m}\) (nur das Ozon nimmt darin schmal um \(9.6\;\mu\text{m}\) auf).</p><p>C (\(14\;\mu\text{m}\)): wird aufgenommen — Wärmestrahlung des Bodens, im Bereich des Kohlendioxids um \(15\;\mu\text{m}\).</p>',
      mini(DURCH6)),
     ('6c', 3, r'Wasserdampf nimmt Strahlung um \(6.3\;\mu\text{m}\) auf. Berechne ihre Frequenz und die von grünem Licht mit \(0.50\;\mu\text{m}\). Wievielmal grösser ist die Frequenz des Lichts? Welche Photonen tragen mehr Energie?',
      r'<p>\(f = \dfrac{c}{\lambda} = \dfrac{3.00 \cdot 10^{8}\;\text{m/s}}{6.3 \cdot 10^{-6}\;\text{m}} \approx 4.8 \cdot 10^{13}\;\text{Hz}\)</p><p>\(f = \dfrac{3.00 \cdot 10^{8}\;\text{m/s}}{0.50 \cdot 10^{-6}\;\text{m}} = 6.0 \cdot 10^{14}\;\text{Hz}\)</p><p>Bei gleichem \(c\) stehen die Frequenzen umgekehrt wie die Wellenlängen: \(\dfrac{6.3\;\mu\text{m}}{0.50\;\mu\text{m}} = 12.6 \approx 13\). Die Frequenz des Lichts ist rund dreizehnmal so gross, und nach \(E = h \cdot f\) trägt jedes seiner Photonen rund dreizehnmal so viel Energie.</p>', ''),
 ])
-k6 = kapitel(6, 'treibhauseffekt', 'Treibhauseffekt: Absorption nach Wellenlänge', 'K5', 40,
+k6 = kapitel(6, 'treibhauseffekt', 'Treibhauseffekt: Absorption nach Wellenlänge', 'K5', 55,
     r'Du beschreibst den Treibhauseffekt mit der wellenlängenabhängigen Absorption: Die Atmosphäre lässt das kurzwellige Sonnenlicht durch, Treibhausgase nehmen die langwellige Wärmestrahlung des Bodens auf und strahlen sie in alle Richtungen ab; und du erklärst, warum mehr Treibhausgas den Effekt verstärkt.',
     ('p6-1-lp-treibhaus', 'Wellen sehen: der Treibhauseffekt im Spektrum'),
     sim6, ('p6-1-lp-kontrolle-treibhaus', 'Kontrollfragen zum Treibhauseffekt'),
@@ -1149,43 +1153,44 @@ oben = '''<div id="nav-root"></div>
        K1 → Kap. 1 (Erreger, f = 1/T, c = s/t), 2 (grafisch: Momentbild, Zeitdiagramm, c = λ/T), 3 (algebraisch:
             c = λ · f, Sender und Medium) · Leisten sim1 A2, A4, A5, sim2 A1–A5, sim3 A1–A4 · Übungen «periode»,
             «laufzeit», «ablesen», «phasengeschw», «wellengleichung», «medium» · Kontrollclips 1 (F3, F4), 2 (F1–F5),
-            3 (F1, F2, F5) · Aufg. 1b, 2a–2d, 3a, 3c · G1, G2, G3 d
+            3 (F1, F2, F5) · Aufg. 1b, 2a–2e, 3a, 3c · G1, G2, G3 d
        K2 → Kap. 1 (Quer- und Längswelle, mechanische Wellen), 3 (Schall braucht ein Medium), 4 (elektromagnetisch
             gegen mechanisch, Vergleichstabelle) · Übungen «quer-laengs», «hoerbar», «wellentyp» · Kontrollclips
-            1 (F2), 3 (F4), 4 (F1, F5) · Aufg. 1d, 3b, 4a · G2 d, G3 a, G4 b/c
+            1 (F2), 3 (F4), 4 (F1, F5) · Aufg. 1d, 3b, 4a · G2 c, G3 a, G4 b/c
        K3 → Kap. 1 · sim1 · Kontrollclip 1 (F1, F5) · Aufg. 1a, 1c · G3
        K4 → Kap. 4 (Beschaffenheit, Spektrum, Geschwindigkeit), 5 (atomare Emission, Laser, Absorption) · sim4, sim5 ·
             Übungen «em-rechnen», «bereich», «stufen», «licht-aussage» · Kontrollclips 4, 5 · Aufg. 4b–4d, 5a–5d ·
             G4, G5
-       K5 → Kap. 6 · sim6 · Übungen «zuordnen», «treibhaus-aussage» · Kontrollclip 6 · Aufg. 6a–6c · G6
+       K5 → Kap. 6 · sim6 · Übungen «zuordnen», «treibhaus-aussage» · Kontrollclip 6 · Aufg. 6a–6c · G6 (a: Sonnen- und Bodenstrahlung nach Wellenlänge, 2 P)
      Planungstabelle (Lernziel · Clip · Erkundung · Problem im Clip · häufiger Fehler · min):
        1 Schwingung → Welle, quer/längs · p6-1-lp-welle · sim1 Teilchenkette mit Erreger · Seil: Hand 5-mal in
-         4.0 s, Band 3.6 m nach 2.4 s · «die Welle trägt das Wasser mit» · 45
+         4.0 s, Band 3.6 m nach 2.4 s · «die Welle trägt das Wasser mit» · 55
        2 Momentbild und Zeitdiagramm · p6-1-lp-diagramme · sim2 zwei Diagramme an zwei Reglern · Wellenbad:
-         λ = 5.0 m, T = 2.0 s · λ im Zeitdiagramm abgelesen · 40
+         λ = 5.0 m, T = 2.0 s · λ im Zeitdiagramm abgelesen · 55
        3 Sender und Medium, Schall · p6-1-lp-medium · sim3 zwei Seile · 850 Hz von Luft in Wasser ·
-         «höhere Frequenz, schnellere Welle» · 45
+         «höhere Frequenz, schnellere Welle» · 55
        4 Elektromagnetische Wellen, Spektrum · p6-1-lp-em · sim4 Geräte im Spektrum und Feldbild · UKW-Sender
-         88.0 MHz, 45 km · «Radiowellen sind Schall», 340 m/s eingesetzt · 45
+         88.0 MHz, 45 km · «Radiowellen sind Schall», 340 m/s eingesetzt · 55
        5 Emission, Laser, Absorption · p6-1-lp-licht · sim5 Modellatom mit drei Stufen · Neon 640 nm, Stufe
-         1.25-mal · «grössere Stufe, längere Welle» · 40
+         1.25-mal · «grössere Stufe, längere Welle» · 55
        6 Treibhauseffekt · p6-1-lp-treibhaus · sim6 Durchlässigkeit nach Wellenlänge · Kohlendioxid bei 15 µm:
-         Frequenz, Sonne oder Boden? · «Spiegel», Ozon und Treibhauseffekt verwechselt · 40
-     Kern: alle Kapitel; Vertiefung (freiwillig, nicht in den Zeiten): Aufgaben 1d, 2d, 3d, 4d, 5d. Bewusst
+         Frequenz, Sonne oder Boden? · «Spiegel», Ozon und Treibhauseffekt verwechselt · 55
+     Kern: alle Kapitel; Vertiefung (freiwillig, nicht in den Zeiten): Aufgaben 1d, 2e, 3d, 4d, 5d. Bewusst
      weggelassen: Reflexion, Überlagerung, stehende Wellen (6.1a), die Wellengleichung y(s, t), Bahnen der
      Wasserteilchen in der Tiefe, Photonenergie in Elektronvolt, Energiebilanz der Atmosphäre (Leitprogramm Wärme).
      Konventionen wie Themenseite 6.1: f, T, λ, c (Phasengeschwindigkeit, Ausbreitungsgeschwindigkeit), A; Ort s
      (wie 6.1a: Momentbild y(s), Zeitdiagramm y(t)); Schall in Luft 340 m/s (15 °C), Helium 980, Wasser ≈ 1500,
      Eisen 5170 m/s; c = 3.00·10⁸ m/s; sichtbares Licht 380 bis 780 nm; Bereichsgrenzen des Spektrums wie
      Animation 5 der Themenseite. Widersprüche der Themenseite: siehe README.md.
-     Zeiten (Clips 6, Leiste 10, Festhalten 4, Übungen 8 bis 12, drei Aufgaben 12 min; ohne Vertiefung):
-     K0 15 · K1 45 · K2 40 · K3 45 · K4 45 · K5 40 · K6 40 · Gesamttest 40 = 310 min ≈ 6.9 Lektionen. -->
+     Zeiten nach der Zweitprüfung vom 11.10.2026 (je Fachkapitel 55 min: Clips 6, Leiste 15, Festhalten 6,
+     Übungen 12, Aufgaben 16 min; ohne Vertiefung):
+     K0 15 · K1 bis K6 je 55 · Gesamttest 40 = 385 min ≈ 8.6 Lektionen. -->
 <header class="kopf">
   <div class="kopf-innen">
     <div>
       <p class="marke">Physik begreifbar · Leitprogramm</p>
       <h1>Wellen</h1>
-      <p class="unter">Von der Schwingung zur Welle, Momentbild und Zeitdiagramm, Sender und Medium, elektromagnetische Wellen, Emission und Laser, Treibhauseffekt — mit laufenden Simulationen. Sechs Kapitel zu je 40 bis 45 Minuten, dazu Vorwissen und Gesamttest — zusammen rund sieben Lektionen; die Vertiefungsaufgaben sind freiwillig.</p>
+      <p class="unter">Von der Schwingung zur Welle, Momentbild und Zeitdiagramm, Sender und Medium, elektromagnetische Wellen, Emission und Laser, Treibhauseffekt — mit laufenden Simulationen. Sechs Kapitel zu je rund 55 Minuten, dazu Vorwissen und Gesamttest — zusammen rund achteinhalb Lektionen; die Vertiefungsaufgaben sind freiwillig.</p>
     </div>
     <div class="kopf-rechts">
       <button class="themenschalter" type="button" id="themenschalter">Dunkel / Hell</button>

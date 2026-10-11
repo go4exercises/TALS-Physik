@@ -90,15 +90,17 @@ setze(d, 'Frage 1', skizze(figuren=leute,
                            strecken=[S((0.4, 3.6), (9.6, 3.6), TIN, dicke=3)] + [S((1.0 + i, 3.0), (1.0 + i, 3.6), TIN, dicke=2) for i in range(9)]
                            + [P((3.0, 7.3), (6.5, 7.3), GRU, dicke=6)],
                            texte=[T(4.75, 7.9, 'das Muster läuft weiter', GRU, 26), T(5.0, 2.2, 'jeder bleibt auf seinem Platz', TIN, 26)]))
-# F2 Autokolonne: Autos rollen nach vorn (rechts), die Anfahrwelle läuft nach hinten (links) — beides auf derselben Linie
-autos = []
-for i, x in enumerate([1.0, 2.0, 3.0, 4.6, 6.6, 8.6]):
-    autos += umriss(x - 0.35, 4.6, x + 0.35, 5.4, TIN, 4)
-setze(d, 'Frage 2', skizze(strecken=autos + [S((0.3, 4.3), (9.7, 4.3), TIN, dicke=3)]
-                           + [P((4.6, 6.0), (5.4, 6.0), TIN, dicke=5), P((6.6, 6.0), (7.4, 6.0), TIN, dicke=5), P((8.6, 6.0), (9.4, 6.0), TIN, dicke=5)]
-                           + [P((6.0, 7.8), (2.0, 7.8), GRU, dicke=6)],
-                           texte=[T(2.0, 3.6, 'dicht', TIN, 24), T(7.6, 3.6, 'Abstand gross', TIN, 24), T(7.0, 6.6, 'Autos rollen nach vorn', TIN, 24),
-                                  T(4.0, 8.4, 'Anfahrwelle läuft nach hinten', GRU, 26), T(5.0, 1.8, 'gleiche Linie: Längswelle', TIN, 28)]))
+# F2 Güterzug: Jeder Wagen ruckt dem Gleis entlang vor und zurück, der Stoss läuft durch den Zug — beides auf derselben Linie
+wagen = []
+mitten = [1.0, 2.4, 3.5, 4.9, 6.3, 7.7, 9.1]        # Wagen 1.0 breit; Lücke 0.4, zwischen Wagen 2 und 3 nur 0.1 (Puffer gedrückt)
+assert [round(mitten[i + 1] - mitten[i] - 1.0, 2) for i in range(6)] == [0.4, 0.1, 0.4, 0.4, 0.4, 0.4]
+for x in mitten:
+    wagen += umriss(x - 0.5, 4.6, x + 0.5, 5.4, TIN, 4)
+setze(d, 'Frage 2', skizze(strecken=wagen + [S((0.3, 4.3), (9.7, 4.3), TIN, dicke=3)]
+                           + [P((3.5, 6.0), (2.9, 6.0), TIN, dicke=5), P((3.5, 6.0), (4.1, 6.0), TIN, dicke=5)]
+                           + [P((2.5, 7.8), (7.5, 7.8), GRU, dicke=6)],
+                           texte=[T(2.95, 3.6, 'Puffer gedrückt', TIN, 24), T(3.5, 6.6, 'Wagen: vor und zurück', TIN, 24),
+                                  T(5.0, 8.4, 'Stoss läuft durch den Zug', GRU, 26), T(5.0, 1.8, 'gleiche Linie: Längswelle', TIN, 28)]))
 # F3 Wäscheleine: 6.0 m in 1.5 s
 assert abs(6.0 / 1.5 - 4.0) < 1e-12
 st3, tx3 = mass(0.6, 9.0, 3.6, '6.0 m in 1.5 s', ty=2.8)
@@ -210,7 +212,7 @@ setze(d, 'Frage 5', skizze(kurven=[{'trig': 'sin', 'bewegung': [[0, 1.8, r4(2 * 
                            figuren=bfeld,
                            strecken=[S((0.6, 5.0), (8.9, 5.0), TIN, dicke=2), P((8.6, 5.0), (9.6, 5.0), GRU, dicke=6)] + bkreuz,
                            texte=[T(9.4, 5.5, 'c', GRU, 30), T(1.6, 7.6, 'E: elektrisches Feld, auf und ab', BER, 22, 'start'),
-                                  T(1.6, 2.2, 'B: senkrecht zur Zeichenebene (⊙ heraus, ⊗ hinein)', TIN, 22, 'start'), T(1.6, 1.4, 'beide quer zur Ausbreitung, im gleichen Takt', TIN, 22, 'start')]))
+                                  T(1.6, 2.2, 'B: senkrecht zur Zeichenebene (⊙ heraus, ⊗ hinein)', TIN, 22, 'start'), T(1.6, 1.4, 'beide quer zur Ausbreitung, gleichphasig', TIN, 22, 'start')]))
 speichere(n, d)
 
 # ======================================================== Kapitel 5: Atom und Laser
@@ -240,7 +242,7 @@ for y in (4.2, 5.0, 5.8):
 setze(d, 'Frage 4', skizze(figuren=[{'art': 'kreis', 'm': [2.4, 5.0], 'r': 0.45, 'farbe': ORA, 'fuellung': 0.6}],
                            strecken=strahlen + umriss(4.6, 3.9, 5.9, 6.1, TIN, 4) + [p_ for _, p_ in laser],
                            kurven=[k_ for k_, _ in laser],
-                           texte=[T(2.4, 2.6, 'Glühlampe:', ORA, 22), T(2.4, 1.9, 'alle Richtungen', ORA, 22), T(7.6, 3.3, 'Laser: eine Richtung,', TIN, 22), T(7.6, 2.6, 'gleicher Takt', TIN, 22)]))
+                           texte=[T(2.4, 2.6, 'Glühlampe:', ORA, 22), T(2.4, 1.9, 'alle Richtungen', ORA, 22), T(7.6, 3.3, 'Laser: eine Richtung,', TIN, 22), T(7.6, 2.6, 'Strahl bleibt schmal', TIN, 22)]))
 setze(d, 'Frage 5', skizze(flaechen=[F(rechteck(4.4, 2.0, 5.6, 8.0), GRU, 0.3)],
                            strecken=[P((0.5, 6.0), (4.3, 6.0), TIN, dicke=7), P((5.7, 6.0), (9.4, 6.0), GRU, dicke=5),
                                      P((0.5, 4.0), (4.9, 4.0), ORA, dicke=4), P((0.5, 3.2), (4.9, 3.2), ROT, dicke=4)],

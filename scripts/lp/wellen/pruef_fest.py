@@ -139,7 +139,8 @@ def feste():
 EINZEL = []
 FEST_STUECKE = []   # alle festen Stücke, für den Vergleich des Gesamttests (R4-P2)
 # Von Hand gesichtete Einzeltreffer (gleiche Zahl, andere Sache): (Übung, Zahl)
-EINZEL_GESICHTET = {('wellengleichung', (2.5, 'm'))}   # Kontrollfrage 2/1: ein Wellenberg bei 2.5 m, keine Wellenlänge
+EINZEL_GESICHTET = {('wellengleichung', (2.5, 'm')),   # Kontrollfrage 2/1: ein Wellenberg bei 2.5 m, keine Wellenlänge
+                    ('wellengleichung', (5.0, 'm'))}   # Aufgabe 2d (11.10.2026): Wasserwelle λ = 5.0 m, gleichphasig; die Übung fragt nach der Frequenz eines Tons in Wasser
 
 
 JS = r'''
