@@ -412,14 +412,9 @@ SEITEN = {
  'simulationen/bungee-sprung.html': dict(
    ort='Simulationen · Bungee-Sprung',
    typ='article', lrt='Simulation',
+   titel='Bungee-Jumping – Physik interaktiv',
    beschreibung='Bungee-Sprung simulieren: Gewichtskraft, Seilkraft, Geschwindigkeit, Beschleunigung und Energien am elastischen Seil verfolgen, Masse und Seil verändern.',
    themen=['Bungee-Sprung', 'Federkraft', 'Hookesches Gesetz', 'Grundgesetz der Mechanik', 'Energieerhaltung', 'Elastische Energie']),
- 'simulationen/bungee-original.html': dict(
-   ort='Simulationen · Bungee-Sprung (Original)',
-   typ='article', lrt='Simulation', noindex=True,  # Originalfassung zum Vergleich, versuchsweise (11.10.2026); keine Doublette in Suchmaschinen
-   titel='Bungee-Jumping – Physik interaktiv',
-   beschreibung='Bungee-Jumping in der Originalfassung: Kräfte, Geschwindigkeit, Beschleunigung und Energien am elastischen Seil, mit Hooke- und Latexmodell und Dämpfung.',
-   themen=['Bungee-Sprung', 'Federkraft', 'Energieerhaltung']),
  'simulationen/sonnenfinsternis-12-08-2026.html': dict(
    ort='Simulationen · Sonnenfinsternis vom 12. August 2026',
    typ='article', lrt='Simulation',

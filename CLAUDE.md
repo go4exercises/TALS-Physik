@@ -38,17 +38,16 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Anleitung: `HOWTO-simulationen.md`, `HOWTO-werkzeuge.md`; der Pre-Flight prüft die
   Verknüpfung (`check_sim_wz`). Umgezogene Adressen leitet `404.html` weiter
   (Tabelle `WEITERLEITUNGEN`) — keine Hilfsseiten an der alten Stelle.
-- `simulationen/bungee-sprung.html` — Simulation Bungee-Sprung (4.2/4.3, seit 11.10.2026, aus einer Vorlage des
-  Auftraggebers geprüft und neu aufgebaut): senkrechter Fall am elastischen Seil, positive Richtung nach unten, fünf
-  Phasen (freier Fall; Seil bremst die Beschleunigung; abwärts, aber gebremst; tiefster Punkt; Schwingung), Kräfte- und
-  Bewegungsvektoren, s-t-, v-t-, a-t- und Energie-Diagramm (\(E_\text{pot}\) = 0 am tiefsten Punkt, \(E_\text{diss}\)),
-  Seilkennlinie in Vielfachen von \(F_G\). Regler \(m\), \(L_0\), \(D\); weiterführend Dämpfung \(c\) (nur bei gespanntem
-  Seil) und Latexseil (Gent-Modell, angenommene Kennwerte ε = 2 und 3 · \(F_G\) bei 75 kg — **nicht** dem Artikel von
-  Kockelman/Hubbard zugeschrieben, dort nicht verifiziert). Grundeinstellung linear mit Dämpfung 15 kg/s (Praxiswert, Dämpfungsgrad etwa 0.11; Entscheid des Auftraggebers 11.10.2026), \(c = 0\) für die Energieerhaltung. RK4 mit Δt = 2 ms.
-  Selbsttest `bjSelbsttest` über `scripts/verify_bungee.js` im Pre-Flight (s_max und v_max gegen die Energiebilanz,
-  Energie auf 0.5 %, Gent-Eichung, E_diss monoton, Seil drückt nie). Testhaken `window.__bj`. Verweise: Themenseiten
-  4.2 `#grundgesetz`, 4.3 `#elastisch`; kein Leitprogramm (Federkraft und Spannenergie stehen dort unter «nicht in
-  diesem Leitprogramm»). Vorbild für neue Simulationen (HOWTO-simulationen §3).
+- `simulationen/bungee-sprung.html` — Simulation Bungee-Jumping (4.2/4.3, seit 11.10.2026): **Fassung des
+  Auftraggebers**, freigegeben — Texte, Aufbau (kompakte Vollbildansicht), Phasen, Momentanwerte \(s(t)=s(\ldots\;\text{s})=\ldots\)
+  in den Farben der Pfeile und die 14 Fragen bleiben **wörtlich**. Angepasst nur, was Hausregeln verlangen: Schriften und
+  MathJax lokal, Menü/Suche/Fusszeile/SEO-Marken (eigene Stile per `:where(.wrap)` gegen style.css geschützt), Dezimalpunkt,
+  Bernstein und Vektorfarben nach STYLEGUIDE, \(D\) statt \(k\), \(F_G\), \(F_{\mathrm{res}}\), «Zeitregler», Strichpunkte;
+  dazu \(E_\text{diss}\)-Kurve, \(T\) als kleine Schwingungen, Latexwerte als Annahme (Kockelman/Hubbard nur Vorbild),
+  «Worauf achten?»/«Erkenntnis» im Kopf. **Bekannt und vom Auftraggeber so gewollt:** Bei 360 px läuft die Seite über
+  (render-check meldet es). Dämpfung voreingestellt 15 kg/s. Selbsttest von aussen über `scripts/verify_bungee.js` im
+  Pre-Flight (exportiert `simulate`, `elasticForce`, `fnum`; s_max, v_max gegen die Energiebilanz, E_tot erhalten,
+  Gent-Eichung, E_diss monoton, Seil drückt nie). Verweise: 4.2 `#grundgesetz`, 4.3 `#elastisch`; kein Leitprogramm.
 - `werkzeuge/einheitentrainer.html` — Übungsseite mit drei Modi (Freies Üben,
   Lernmodus, Prüfungsmodus), bis 10.10.2026 Themenseite 0.4. Einziger Ort im Repo, der
   `localStorage` nutzt (Key `tals-physik-p0-4-lernstand-v1` — der alte Name bleibt,

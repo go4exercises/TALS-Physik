@@ -353,7 +353,6 @@ UNVERLINKT = {'leitprogramme/leitprogramm-widerstand-leistung.html', 'leitprogra
               'leitprogramme/leitprogramm-gefahren.html',   # seit 06.10.2026 veraltet, im Leitprogramm Elektrizität aufgegangen (TODO-E)
               'leitprogramme/leitprogramm-waermeausdehnung.html', 'leitprogramme/leitprogramm-ideale-gase.html',   # seit 08.10.2026 veraltet, im Leitprogramm Wärmeausdehnung und Gase aufgegangen
               'leitprogramme/leitprogramm-waermemenge.html', 'leitprogramme/leitprogramm-heizen.html',   # seit 08.10.2026 veraltet, in den Leitprogrammen Temperatur und Wärme aufgegangen
-              'simulationen/bungee-original.html',   # Originalfassung zum Vergleich, versuchsweise (11.10.2026); keine Doublette in der Suche
               }
 # Wellen freigeschaltet am 09.10.2026; Temperatur, Wärme, Wärmeausdehnung und Gase am 08.10.2026; Dynamik, Energie, Statik, Hydrostatik freigeschaltet am 06.10.2026, Kinematik am 04.10.2026, Elektrizität am 03.10.2026
 

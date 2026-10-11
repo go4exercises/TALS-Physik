@@ -37,9 +37,11 @@ Werkzeug, auch wenn sich dabei etwas bewegt.
 `.page-wrap`, `main.content`, `aside.toc-wrap`, leere FUSS-Marken — den Footer schreibt `build-seo.py`) — ohne Kompetenzblock,
 Aufgaben, Zusammenfassung und Ressourcen. Die bestehende Seite
 `simulationen/sonnenfinsternis-12-08-2026.html` hat einen eigenen Aufbau (Ereignisseite) und ist
-**keine** Vorlage für neue Simulationen. **Vorbild** ist `simulationen/bungee-sprung.html` (seit 11.10.2026): Kopf mit
-Rücklinks, Widget mit Hinweisen, Bild und Diagramme auf einer Zeitachse, Regler, «Weiterführend» abgesetzt,
-Verständnisfragen, Selbsttest über `scripts/verify_bungee.js`.
+**keine** Vorlage für neue Simulationen. Auch `simulationen/bungee-sprung.html` hat einen eigenen Aufbau (Fassung des
+Auftraggebers, kompakte Vollbildansicht); übernehmen lässt sich von dort der Selbsttest von aussen
+(`scripts/verify_bungee.js`: Seitenskript in jsdom, Modellfunktionen herausreichen, gegen die Energiebilanz prüfen).
+**Liefert der Auftraggeber eine fertige Seite**, bleiben ihre Texte wörtlich; angepasst wird nur, was eine Hausregel
+oder ein sachlicher Fehler verlangt, und jede Abweichung wird einzeln gemeldet.
 
 Einbindungen, alle relativ eine Ebene hoch — **kein fremder Host**:
 
