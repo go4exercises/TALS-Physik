@@ -127,7 +127,9 @@ MathJax = {
 .bj-chip.bj-schalter { margin-left:auto; font-family:var(--mono); font-size:0.66rem; color:var(--tinte-2); }
 #bj-bild { display:block; width:100%; height:420px; border:1px solid var(--linie); border-radius:8px; background:var(--weiss); touch-action:none; }
 .bj-rahmen .live-box { margin:8px 0 6px; padding:6px 10px; }
-.bj-rahmen .live-box .lb-val { font-size:0.88rem; }
+.bj-rahmen .live-box .lb-val { font-size:0.82rem; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.bj-rahmen .live-box .lb-val i { font-family:var(--serif); font-size:1.08em; }
+.bj-rahmen .live-box .lb-val sub { font-size:0.72em; }
 .bj-richtung { font-family:var(--mono); font-size:0.66rem; color:var(--tinte-2); min-height:1.2em; }
 .bj-steuer { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:6px; }
 .bj-steuer select { font-family:var(--mono); font-size:0.72rem; padding:3px 6px; border-radius:6px; border:1.5px solid var(--linie); background:var(--weiss); }
@@ -234,12 +236,12 @@ MathJax = {
         <div class="bj-chips" id="bj-pfeile" role="group" aria-label="Pfeile ein- oder ausblenden"></div>
         <svg id="bj-bild" role="img" aria-label="Bild des Sprungs mit Kraft-, Geschwindigkeits- und Beschleunigungspfeilen"></svg>
         <div class="live-box" id="bj-werte">
-          <div class="lb-item"><span class="lb-lab">Falltiefe \(s\)</span><span class="lb-val" id="bj-w-s"></span></div>
-          <div class="lb-item"><span class="lb-lab">Geschwindigkeit \(v\)</span><span class="lb-val" id="bj-w-v"></span></div>
-          <div class="lb-item"><span class="lb-lab">Beschleunigung \(a\)</span><span class="lb-val" id="bj-w-a"></span></div>
-          <div class="lb-item"><span class="lb-lab">Gewichtskraft \(F_G\)</span><span class="lb-val" id="bj-w-fg"></span></div>
-          <div class="lb-item"><span class="lb-lab">Seilkraft \(F_\text{Seil}\)</span><span class="lb-val" id="bj-w-fs"></span></div>
-          <div class="lb-item"><span class="lb-lab">Resultierende \(F_\text{res}\)</span><span class="lb-val" id="bj-w-fr"></span></div>
+          <div class="lb-item"><span class="lb-lab">Falltiefe</span><span class="lb-val" id="bj-w-s"></span></div>
+          <div class="lb-item"><span class="lb-lab">Geschwindigkeit</span><span class="lb-val" id="bj-w-v"></span></div>
+          <div class="lb-item"><span class="lb-lab">Beschleunigung</span><span class="lb-val" id="bj-w-a"></span></div>
+          <div class="lb-item"><span class="lb-lab">Gewichtskraft</span><span class="lb-val" id="bj-w-fg"></span></div>
+          <div class="lb-item"><span class="lb-lab">Seilkraft</span><span class="lb-val" id="bj-w-fs"></span></div>
+          <div class="lb-item"><span class="lb-lab">Resultierende</span><span class="lb-val" id="bj-w-fr"></span></div>
         </div>
         <div class="bj-richtung" id="bj-richtung"></div>
         <div class="bj-steuer">
@@ -731,12 +733,14 @@ function bjKennlinie() {
 const idx = t => Math.max(0, Math.min(S.N - 1, Math.round(t / DT)));
 function bjWerte() {
   const i = idx(tNow), Fg = P.m * g, Fs = S.Fs[i];
-  $('bj-w-s').textContent = bjZahl(S.s[i], 1) + ' m';
-  $('bj-w-v').textContent = bjZahl(S.v[i], 1) + ' m/s';
-  $('bj-w-a').textContent = bjZahl(S.a[i], 1) + ' m/s²';
-  $('bj-w-fg').textContent = bjZahl(Fg, 0) + ' N';
-  $('bj-w-fs').textContent = bjZahl(Fs, 0) + ' N';
-  $('bj-w-fr').textContent = bjZahl(Fg - Fs, 0) + ' N';
+  // Momentanwerte: Grösse zum gewählten Zeitpunkt, s(3.60 s) = 52.2 m
+  const zt = '(' + bjZahl(S.t[i], 2) + '\u00a0s) = ', mw = (id, sym, wert, einheit) => { $(id).innerHTML = sym + zt + wert + '\u00a0' + einheit; };
+  mw('bj-w-s', '<i>s</i>', bjZahl(S.s[i], 1), 'm');
+  mw('bj-w-v', '<i>v</i>', bjZahl(S.v[i], 1), 'm/s');
+  mw('bj-w-a', '<i>a</i>', bjZahl(S.a[i], 1), 'm/s²');
+  mw('bj-w-fg', '<i>F</i><sub><i>G</i></sub>', bjZahl(Fg, 0), 'N');
+  mw('bj-w-fs', '<i>F</i><sub>Seil</sub>', bjZahl(Fs, 0), 'N');
+  mw('bj-w-fr', '<i>F</i><sub>res</sub>', bjZahl(Fg - Fs, 0), 'N');
   const v = S.v[i], a = S.a[i];
   $('bj-richtung').textContent = 'Positiv heisst nach unten. Bewegung: ' + (Math.abs(v) < 0.05 ? 'einen Augenblick in Ruhe' : v > 0 ? 'abwärts' : 'aufwärts') +
     '; Beschleunigung: ' + (Math.abs(a) < 0.05 ? 'null' : a > 0 ? 'nach unten' : 'nach oben');
