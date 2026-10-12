@@ -136,7 +136,8 @@ Pfeile gleicher Grösse im gleichen Massstab, Ergebnisse erst mit dem Ton. Entsc
 
 - **Zeit:** je Kapitel 65 min statt 50 (Schätzung der Prüfung, 60 bis 70 min). Mit Vorwissen (15) und Gesamttest (40)
   sind es 445 min ≈ 9.9 Lektionen, ohne beides 8.7. Die Begründung, warum nicht geteilt wird, gilt weiter
-  (siehe «Zeit (Fassung 1.1)»; deren Zahlen sind überholt).
+  (siehe «Zeit (Fassung 1.1)»; deren Zahlen sind überholt). Seit der Anhebung der Grenze in HOWTO §3 auf
+  10 Lektionen (11.10.2026) liegt Statik mit 8.7 darunter.
 - **Gesamttest:** G2 d) mit der ausdrücklichen Annahme, die Gleitreibung bleibe 100 N (mit μ_G = 100/325 wären es
   120.7 N; beides zählt im Raster). G4 c) bei 15° statt an der Grenze: F_N ≈ 75.8 N, F_R = F_H ≈ 20.3 N; wer
   μ_H · F_N ≈ 37.0 N rechnet, verliert den Punkt (vorher gab die Grenze dafür volle Punkte).

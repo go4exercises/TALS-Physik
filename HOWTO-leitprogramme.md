@@ -154,7 +154,7 @@ unterbringen lässt.
 
   | Format | Kapitel | Gesamt |
   |---|---|---|
-  | **Kapitelmuster** (§4; Einführungsclip → Animation → Kontrollclip → Übungen → Aufgaben; Vorbild in Mathe *Quadratische Funktionen*) | 4–5 Kapitel, je 50–75 Minuten (Schätzung der Zweitprüfung, unten; ursprünglich 35–45) | bis 5 Lektionen plus Vorwissen und Gesamttest |
+  | **Kapitelmuster** (§4; Einführungsclip → Animation → Kontrollclip → Übungen → Aufgaben; Vorbild in Mathe *Quadratische Funktionen*) | 4–5 Kapitel, je 50–75 Minuten (Schätzung der Zweitprüfung, unten; ursprünglich 35–45) | bis 10 Lektionen plus Vorwissen und Gesamttest (bis 11.10.2026: 5) |
   | **klassisch** (die elf älteren Physik-Leitprogramme) | 4–7 Schritte, je höchstens 30 Minuten | 2–3 Lektionen plus Vorwissen und Gesamttest |
 
   Ein Kapitel = eine Idee, in beiden Formaten.
@@ -164,10 +164,13 @@ unterbringen lässt.
   Minuten, nicht 35 bis 45. Die zehn Leitprogramme nach dem Kapitelmuster tragen seither
   diese Schätzung (je Kapitel 50–75 min; Gesamttest 25–45 min); die Zahlen im Kopf sind
   geschätzt, nicht in einer Klasse gemessen. Wer ein Kapitel auf eine Lektion bringen will,
-  kürzt Übungen oder Papieraufgaben, nicht die Zeitangabe.
+  kürzt Übungen oder Papieraufgaben, nicht die Zeitangabe. Mit den neuen Zeiten hob der
+  Auftraggeber die Grenze für das Kapitelmuster von 5 auf 10 Lektionen (11.10.2026); die zehn
+  Leitprogramme liegen ohne Vorwissen und Gesamttest zwischen 5.0 (Temperatur) und 9.3
+  (Elektrizität), Wärme mit 10.2 als die unten genannte Ausnahme.
 - **Clips:** rund 6–11 Clips, 8–12 Minuten Clipzeit (STYLEGUIDE §6.5).
-- **Über der Zielgrösse (klassisch mehr als 4, Kapitelmuster mehr als 5 Lektionen ohne
-  Gesamttest) oder deutlich mehr als 11 Clips → teilen**, jedes Teil mit eigenem
+- **Über der Zielgrösse (klassisch mehr als 4, Kapitelmuster mehr als 10 Lektionen ohne
+  Vorwissen und Gesamttest) oder deutlich mehr als 11 Clips → teilen**, jedes Teil mit eigenem
   Vorwissen und Gesamttest. **Ausnahme seit TODO-E (06.10.2026): ein Leitprogramm je
   RLP-Teilgebiet.** Geteilt wird dann nicht mehr in zwei Leitprogramme zum selben
   Teilgebiet; gekürzt wird, was über die Kompetenzen hinausgeht (→ Themenseite,
