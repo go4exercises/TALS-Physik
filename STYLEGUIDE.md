@@ -947,12 +947,13 @@ Gliederung:
 | **Übungsprüfung** | dem Prüfungsbogen: je Aufgabe ein Clip, Musterlösung, Fehlerkasten | `uebungstest-waermelehre` | `HOWTO-uebungspruefung.md` |
 
 **Umfang eines Themen-Leitprogramms:** rund **6 bis 11 Clips** und **8 bis 12 Minuten**
-Clipzeit, aufgeteilt auf vier bis fünf Kapitel (klassisches Format: bis sieben Schritte)
+Clipzeit, aufgeteilt auf vier bis sieben Kapitel (klassisches Format: bis sieben Schritte)
 mit je einem Selbsttest, dazu ein Gesamttest von 20 bis 25 Punkten. Wird ein Thema
 deutlich grösser, gehört es geteilt — zwei Programme mit je eigenem Vortest und
-Gesamttest tragen mehr als eines mit zwei unverbundenen Hälften. Die Wärmelehre ist aus
-diesem Grund auf vier Leitprogramme verteilt (Wärmemenge, Heizen, Wärmeausdehnung,
-ideale Gase). Zeitrahmen und Kapitelmuster: `HOWTO-leitprogramme.md` §3–§4.
+Gesamttest tragen mehr als eines mit zwei unverbundenen Hälften. Ausnahme: ein
+Leitprogramm je RLP-Teilgebiet; die frühere Teilung der Wärmelehre in vier Leitprogramme
+ist seit dem 08.10.2026 aufgehoben. Zeitrahmen, Grenzen und Kapitelmuster:
+`HOWTO-leitprogramme.md` §3–§4.
 
 **Ein Leitprogramm je RLP-Teilgebiet (Entscheid 06.10.2026).** Pro Teilgebiet gibt es ein Leitprogramm als Kurs und die Themenseite als Nachschlagewerk; Weiterführendes gehört auf die Themenseite, nicht in ein zweites, überlappendes Leitprogramm. Wird ein Leitprogramm aufgelöst, steht es zuerst als veraltet markiert im Netz (Hinweis im Seitenkopf, Abschnitt «Veraltet: wird entfernt» auf `leitprogramme.html`, `noindex`), damit angefangene Arbeiten abgeschlossen werden können; nach der Löschung bleibt an seiner Adresse eine Weiterleitung (`meta refresh`, `canonical`, `noindex`) auf den passenden Abschnitt der Themenseite, und die Seite kommt in `UNVERLINKT`.
 

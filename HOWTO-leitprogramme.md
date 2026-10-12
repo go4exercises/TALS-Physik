@@ -154,7 +154,7 @@ unterbringen lässt.
 
   | Format | Kapitel | Gesamt |
   |---|---|---|
-  | **Kapitelmuster** (§4; Einführungsclip → Animation → Kontrollclip → Übungen → Aufgaben; Vorbild in Mathe *Quadratische Funktionen*) | 4–5 Kapitel, je 50–75 Minuten (Schätzung der Zweitprüfung, unten; ursprünglich 35–45) | bis 10 Lektionen plus Vorwissen und Gesamttest (bis 11.10.2026: 5) |
+  | **Kapitelmuster** (§4; Einführungsclip → Animation → Kontrollclip → Übungen → Aufgaben; Vorbild in Mathe *Quadratische Funktionen*) | 4–7 Kapitel (bis 11.10.2026: 4–5), je 50–75 Minuten (Schätzung der Zweitprüfung, unten; ursprünglich 35–45) | bis 10 Lektionen plus Vorwissen und Gesamttest (bis 11.10.2026: 5) |
   | **klassisch** (die elf älteren Physik-Leitprogramme) | 4–7 Schritte, je höchstens 30 Minuten | 2–3 Lektionen plus Vorwissen und Gesamttest |
 
   Ein Kapitel = eine Idee, in beiden Formaten.
