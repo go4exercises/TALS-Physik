@@ -154,7 +154,7 @@ unterbringen lässt.
 
   | Format | Kapitel | Gesamt |
   |---|---|---|
-  | **Kapitelmuster** (§4; Einführungsclip → Animation → Kontrollclip → Übungen → Aufgaben; Vorbild in Mathe *Quadratische Funktionen*) | 4–5 Kapitel, je 35–45 Minuten — ein Kapitel ≈ eine Lektion | bis 5 Lektionen plus Vorwissen und Gesamttest |
+  | **Kapitelmuster** (§4; Einführungsclip → Animation → Kontrollclip → Übungen → Aufgaben; Vorbild in Mathe *Quadratische Funktionen*) | 4–5 Kapitel, je 50–75 Minuten (Schätzung der Zweitprüfung, unten; ursprünglich 35–45) | bis 5 Lektionen plus Vorwissen und Gesamttest |
   | **klassisch** (die elf älteren Physik-Leitprogramme) | 4–7 Schritte, je höchstens 30 Minuten | 2–3 Lektionen plus Vorwissen und Gesamttest |
 
   Ein Kapitel = eine Idee, in beiden Formaten.
@@ -250,9 +250,9 @@ Elektrizität, Kapitel 4 bis 6).
 
 Am Ende des Leitprogramms: **Gesamttest und Bewertungspaket als PDF** (§9).
 
-Zeit: 35–45 Minuten je Kapitel (zwei Clips à ~1 min, Tüfteln ~8–10, Übungen ~8, Selbsttest
-~15–20) — ein Kapitel ≈ eine Lektion (§3). Die Zeiten werden geschätzt, nicht aus der Planung
-übernommen.
+Zeit: 50–75 Minuten je Kapitel (Clips mit Fragen ~7, Tüfteln ~13, Festhalten ~5, Übungen ~15–20,
+Aufgaben auf Papier ~13) — gut eine Lektion, nicht eine (§3, Zweitprüfung 11.10.2026). Die Zeiten
+werden geschätzt, nicht aus der Planung übernommen.
 
 ---
 
