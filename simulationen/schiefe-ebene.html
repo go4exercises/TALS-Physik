@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schiefe Ebene – Kräfte, Reibung und Energie</title>
+<!-- SEO:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<meta name="description" content="Block auf der schiefen Ebene simulieren: Haften oder Rutschen, Gewichtskraft zerlegen, Normal- und Reibungskraft, Bremsweg und Energien mit Reibung verfolgen.">
+<meta name="author" content="Raphael Arnold Kohler">
+<link rel="canonical" href="https://physik.begreifbar.ch/simulationen/schiefe-ebene.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Physik begreifbar">
+<meta property="og:locale" content="de_CH">
+<meta property="og:title" content="Schiefe Ebene – Kräfte, Reibung und Energie">
+<meta property="og:description" content="Block auf der schiefen Ebene simulieren: Haften oder Rutschen, Gewichtskraft zerlegen, Normal- und Reibungskraft, Bremsweg und Energien mit Reibung verfolgen.">
+<meta property="og:url" content="https://physik.begreifbar.ch/simulationen/schiefe-ebene.html">
+<meta property="og:image" content="https://physik.begreifbar.ch/og-bild.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://physik.begreifbar.ch/simulationen/schiefe-ebene.html#inhalt",
+   "url": "https://physik.begreifbar.ch/simulationen/schiefe-ebene.html",
+   "name": "Schiefe Ebene – Kräfte, Reibung und Energie",
+   "description": "Block auf der schiefen Ebene simulieren: Haften oder Rutschen, Gewichtskraft zerlegen, Normal- und Reibungskraft, Bremsweg und Energien mit Reibung verfolgen.",
+   "inLanguage": "de-CH",
+   "isAccessibleForFree": true,
+   "license": "https://creativecommons.org/licenses/by-nc/4.0/deed.de",
+   "creator": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "publisher": {
+    "@type": "Person",
+    "name": "Raphael Arnold Kohler"
+   },
+   "dateModified": "2026-08-01",
+   "isPartOf": {
+    "@id": "https://physik.begreifbar.ch/#website"
+   },
+   "about": [
+    {
+     "@type": "DefinedTerm",
+     "name": "Schiefe Ebene"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Hangabtriebskraft"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Normalkraft"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Haftreibung"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Gleitreibung"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Freischneiden"
+    },
+    {
+     "@type": "DefinedTerm",
+     "name": "Energieerhaltung"
+    }
+   ],
+   "keywords": "Schiefe Ebene, Hangabtriebskraft, Normalkraft, Haftreibung, Gleitreibung, Freischneiden, Energieerhaltung",
+   "learningResourceType": "Simulation",
+   "educationalLevel": "Sekundarstufe II — Berufsmaturität (Schweiz)",
+   "typicalAgeRange": "16-20",
+   "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": [
+     "student",
+     "teacher"
+    ]
+   },
+   "interactivityType": "active"
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://physik.begreifbar.ch/#website",
+   "url": "https://physik.begreifbar.ch/",
+   "name": "Physik begreifbar"
+  }
+ ]
+}
+</script>
+<!-- SEO:ENDE -->
+<link rel="stylesheet" href="../schriften.css">
+<link rel="stylesheet" href="../style.css">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},svg:{fontCache:'global'}};</script><script defer src="../vendor/mathjax/tex-svg.js"></script>
+<style>
+:root{--paper:#F8F6F1;--ink:#1C1A17;--muted:#5A5040;--border:#D8D0C4;--grid:#EFEAE1;--akzent:#8A4A0E;--akzent-hell:#FBECD2;--akzent-rand:#C98028;--s:#8A4A0E;--fg:#8A4A0E;--fn:#1A4F8A;--fr:#9B1C1C;--res:#B85A00;--comp:#7C5AA6;--v:#1F6B3A;--a:#5B2D8E;--heat:#6B7280}
+*{box-sizing:border-box}body{background:var(--paper)}.wrap{color:var(--ink);font:14px/1.4 "Source Sans 3",system-ui,sans-serif}:where(.wrap) a{color:var(--akzent)}:where(.wrap) :is(button,select,input){font:inherit}:where(.wrap) button{cursor:pointer}:where(.wrap) :is(button,select,input,summary):focus-visible{outline:2px solid var(--akzent);outline-offset:2px}
+.wrap{max-width:1800px;margin:auto;padding:7px 12px 26px}:where(.wrap) header{border-bottom:2px solid var(--akzent);padding-bottom:5px;margin-bottom:6px}:where(.wrap) h1{font:800 21px "Source Serif 4",serif;letter-spacing:-.025em;margin:0}:where(.wrap) header .sub{color:var(--muted);font-size:11px;margin:0}
+.card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:8px;min-width:0;box-shadow:0 2px 10px #1c1a1709}
+.phase{border-left:5px solid var(--akzent);height:64px;display:grid;grid-template-columns:minmax(185px,25%) minmax(220px,1fr) auto;grid-template-rows:auto 1fr;align-items:center;column-gap:12px;overflow:hidden;padding:5px 10px}
+.phase .tag{font-size:10px;letter-spacing:.09em;color:var(--muted);grid-column:1}.phase h2{font:700 14px "Source Serif 4",serif;margin:0;grid-column:1;grid-row:2}.phase p{font-size:11.6px;line-height:1.24;margin:0;grid-column:2;grid-row:1/span 2}.phase .equation{font-size:10.5px;white-space:nowrap;background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:3px 7px;grid-column:3;grid-row:1/span 2}
+.layout{display:grid;grid-template-columns:minmax(385px,44%) minmax(0,56%);gap:10px;margin-top:8px;align-items:start}.stack{display:grid;gap:8px;min-width:0}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}.chip{display:inline-flex;align-items:center;justify-content:center;gap:3px;background:white;border:1px solid var(--border);border-radius:6px;padding:2px 7px;min-height:25px;font-weight:700;font-size:12px;color:var(--ink);white-space:nowrap}#freeBodyButton{border-color:var(--akzent-rand);color:var(--ink);font-size:11px}#freeBodyButton[aria-pressed="true"]{background:var(--akzent-hell);border:2px solid var(--akzent)}.chip[aria-pressed="true"]{background:var(--akzent-hell);border:2px solid var(--akzent);box-shadow:inset 0 0 0 1px var(--akzent-rand)}.chip[aria-pressed="false"]{background:#f1f2f4;border:1px solid #c5ccd3;opacity:.72}.chip.off{background:#f1f2f4;opacity:.72}.chip[aria-pressed="false"] .sym{color:#667483}.chip[aria-pressed="true"] .sym{color:var(--cc)}.chip .sym{color:var(--cc)}.chip.toggle{margin-left:auto;font-size:10px}
+svg.diagram{width:100%;display:block;border:1px solid var(--border);border-radius:7px;background:white;overflow:hidden;touch-action:none}#mainSvg{height:clamp(255px,calc(100dvh - 455px),550px);background:var(--paper)}.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.chart-grid .dia{min-width:0}.dtitle{font-weight:700;font-size:12px;margin-bottom:2px}.dtitle .unit{font-weight:400;color:var(--muted)}.dia > svg.diagram{height:clamp(160px,calc((100dvh - 217px)/2),370px)}.energy-chips{margin:1px 0 4px;gap:3px}.energy-chips .chip{font-size:10.5px;min-height:23px;padding:2px 6px}
+.readout{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:6px}.value{border:1px solid var(--border);background:var(--paper);border-radius:6px;padding:4px 6px;min-width:0}.value .name{font-size:10.5px;color:var(--muted)}.value .num{font:600 13px "Source Sans 3",sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}.controls{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:6px}.action{border:2px solid var(--akzent);border-radius:7px;background:var(--akzent);color:white;font-weight:700;padding:4px 11px}.action.alt{background:white;color:var(--akzent)}select{border:1px solid var(--border);border-radius:6px;background:white;padding:5px 6px}.time{margin-left:auto;font:600 12px "Source Sans 3",sans-serif;font-variant-numeric:tabular-nums}.time-slider{width:100%;accent-color:var(--akzent);margin:5px 0 0}.hint{font-size:11px;color:var(--muted);margin:3px 0}.warning{color:#ae3025;background:#fff2ee;border-radius:5px;padding:5px 7px;font-size:11.5px}
+.params{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.param{min-width:0}.param label{display:block;font-size:12px;font-weight:700}.param input[type=range]{display:block;width:100%;accent-color:var(--akzent)}.param .explain{font-size:11px;line-height:1.35;color:var(--muted)}.parameters h3,.qa h3{font:700 16px "Source Serif 4",serif;margin:2px 0 7px}.foot{font-size:11.5px;color:var(--muted);line-height:1.6;border-top:1px solid var(--border);margin-top:10px;padding-top:7px}.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:9px}.legend .entry{border:1px solid var(--border);border-radius:6px;padding:6px;background:var(--paper)}.legend strong{font-size:11.5px}.legend p{margin:3px 0 0;font-size:11px;color:var(--muted)}
+.qa{margin-top:0;padding:13px}.bottom-layout{display:grid;grid-template-columns:minmax(385px,44%) minmax(0,56%);gap:10px;margin-top:10px;align-items:start}.bottom-layout>.card{min-width:0}.qa .lead{font-size:12px;color:var(--muted);margin:0 0 10px}.qa details{border:1px solid var(--border);border-radius:7px;padding:8px 11px;margin-bottom:7px;background:#fff}.qa summary{font-weight:700;cursor:pointer;font-size:13px}.qa .answer{font-size:13px;margin-top:7px}.qa .answer p{margin:4px 0 8px}
+svg.diagram text{font-family:"Source Sans 3",system-ui,sans-serif}mjx-container{margin:0!important}mjx-container svg{width:auto!important;height:auto!important;max-width:none!important;display:inline!important;overflow:visible!important;touch-action:auto!important}
+#forceDialog{width:min(92vw,900px);max-width:900px;max-height:94vh;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fff;color:var(--ink);box-shadow:0 16px 70px #1c1a1760}#forceDialog::backdrop{background:#1c1a1799}.zoom-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}.zoom-head strong{font:700 17px "Source Serif 4",serif}#forceZoomSvg{display:block;width:100%;height:min(63vh,600px);border:1px solid var(--border);border-radius:9px;background:var(--paper)}
+@media(max-width:1010px){.bottom-layout{grid-template-columns:1fr}.phase{height:auto;min-height:72px;grid-template-columns:1fr;grid-template-rows:auto;gap:3px}.phase .tag,.phase h2,.phase p,.phase .equation{grid-column:1;grid-row:auto}.phase .equation{justify-self:start;white-space:normal}.layout{grid-template-columns:1fr}#mainSvg{height:360px}.dia > svg.diagram{height:175px}}
+@media(max-width:600px){.wrap{padding:7px}.params,.legend{grid-template-columns:1fr}.readout{grid-template-columns:repeat(2,minmax(0,1fr))}.chart-grid{grid-template-columns:1fr}.chip.toggle{margin-left:0}}
+</style>
+</head>
+<body>
+
+<div id="nav-root"></div>
+
+<div class="wrap">
+<header><h1>Schiefe Ebene – Rutschen mit Reibung</h1><p class="sub">Kräfte, Bewegung und Energie | Weg und positive Richtung entlang der Bahn: bergab, dann nach rechts | ideales Übergangsmodell ohne Stossverlust</p><p class="sub">Themenseiten: <a href="../themen/p4-2-dynamik.html#schiefe-ebene">4.2 Schiefe Ebene</a> und <a href="../themen/p4-3-energie.html#erhaltung">4.3 Energieerhaltung</a></p></header>
+<div id="phase" class="card phase"><div id="phaseTag" class="tag"></div><h2 id="phaseTitle"></h2><p id="phaseText"></p><div id="phaseEq" class="equation"></div></div>
+<dialog id="forceDialog" aria-label="Vergrösserter Kräfteplan"><div class="zoom-head"><strong>Freigeschnittener Körper – Kräfteplan</strong><button type="button" id="closeForceDialog" class="action alt" aria-label="Kräfteplan schliessen">✕ Schliessen</button></div><p class="hint">Massepunktmodell: Alle Kräfte greifen im Schwerpunkt an. Gewichtskraft und ihre Komponenten sind alternative Darstellungen derselben Kraft.</p><svg id="forceZoomSvg" role="img" aria-label="Vergrösserter Kräfteplan mit Kraftpfeilen"></svg></dialog>
+<div class="layout">
+ <div class="stack">
+  <section class="card"><div id="vectorChips" class="chips" aria-label="Vektoren ein- und ausschalten"></div><svg id="mainSvg" class="diagram" role="img" aria-label="Block auf schiefer Ebene mit Kräften und Bewegung"></svg>
+   <div class="readout" id="readout"></div>
+   <div class="controls"><button class="action" id="playBtn">▶ Abspielen</button><button class="action alt" id="resetBtn">⟲ Zurück</button><select id="speedSel" aria-label="Geschwindigkeit"><option value="0.1">0.1×</option><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1× Echtzeit</option><option value="2">2×</option></select><span id="timeLabel" class="time">t = 0.00 s</span></div>
+   <input id="timeSlider" class="time-slider" aria-label="Zeitpunkt" type="range" min="0" max="15" step="0.01" value="0"><div class="hint">Zeitregler ziehen oder in einem Zeitdiagramm klicken und ziehen.</div>
+  </section>
+
+ </div>
+ <div class="stack"><section class="card"><div class="chart-grid">
+  <div class="dia"><div class="dtitle">\(s(t)\) <span class="unit">| Weg in m</span></div><svg id="sChart" class="diagram" role="img" aria-label="Weg-Zeit-Diagramm"></svg></div>
+  <div class="dia"><div class="dtitle">\(v(t)\) <span class="unit">| Geschwindigkeit in m/s</span></div><svg id="vChart" class="diagram" role="img" aria-label="Geschwindigkeit-Zeit-Diagramm"></svg></div>
+  <div class="dia"><div class="dtitle">\(a(t)\) <span class="unit">| Beschleunigung in m/s²</span></div><svg id="aChart" class="diagram" role="img" aria-label="Beschleunigung-Zeit-Diagramm"></svg></div>
+  <div class="dia"><div class="dtitle">\(E(t)\) <span class="unit">| Energien in kJ</span></div><div id="energyChips" class="chips energy-chips" aria-label="Energiekurven auswählen"></div><div class="hint">E_mech oder seine Komponenten; erneutes Klicken blendet beide aus. Dissipierte Energie und Energiebilanz separat.</div><svg id="eChart" class="diagram" role="img" aria-label="Energien-Zeit-Diagramm"></svg></div>
+ </div><p class="hint">Hintergrundfarben kennzeichnen Bewegungsphasen | gestrichelte Linie = Nullniveau | Punkt = aktueller Zeitpunkt</p></section></div>
+</div>
+<div class="bottom-layout">
+  <section class="card parameters"><h3>Parameter der Simulation</h3><div class="params">
+   <div class="param"><label for="alpha">Neigungswinkel \(\alpha\) = <span id="alphaVal">30</span>°</label><input id="alpha" type="range" min="5" max="45" step="1" value="30"><div class="explain">Steilheit der Rampe. Grössere Winkel vergrössern die Hangabtriebskraft.</div></div>
+   <div class="param"><label for="mass">Masse \(m\) = <span id="massVal">80</span> kg</label><input id="mass" type="range" min="20" max="110" step="5" value="80"><div class="explain">Beeinflusst die Kräfte und Energien; im einfachen Modell nicht die Rutschbeschleunigung.</div></div>
+   <div class="param"><label for="length">Rampenlänge \(L\) = <span id="lengthVal">10</span> m</label><input id="length" type="range" min="5" max="15" step="1" value="10"><div class="explain">Zurückgelegter Weg entlang der schiefen Ebene, nicht ihre horizontale Länge.</div></div>
+   <div class="param"><label for="muS">Haftreibungszahl \(\mu_{\mathrm{H}}\) = <span id="muSVal">0.40</span></label><input id="muS" type="range" min="0" max="1" step="0.05" value="0.4"><div class="explain">Bestimmt die grösste mögliche Haftreibung vor dem Losrutschen.</div></div>
+   <div class="param"><label for="muK">Gleitreibungszahl \(\mu_{\mathrm{G}}\) = <span id="muKVal">0.30</span></label><input id="muK" type="range" min="0" max="1" step="0.05" value="0.3"><div class="explain">Bestimmt die Reibung während des Rutschens und die Verzögerung auf der Horizontalen.</div></div>
+  </div><p id="modelWarning" class="warning" hidden></p><div class="foot" id="facts"></div>
+  <div class="legend" id="glossary"></div></section>
+<section class="card qa"><h3>Verständnisfragen</h3><p class="lead">Zuerst selbst vorhersagen, dann mit den Reglern prüfen. Antworten einzeln aufklappen.</p><div id="questions"></div></section>
+</div>
+</div>
+
+<!-- FUSS:ANFANG — generiert von scripts/build-seo.py, nicht von Hand ändern -->
+<footer class="site-footer">
+  <p><strong>Physik begreifbar</strong> — Lernmaterial für die Berufsmaturität Technik, Architektur, Life Sciences · RLP-BM 2030</p>
+  <p>Simulationen · Schiefe Ebene</p>
+  <p>© 2026 Raphael Arnold Kohler · <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.de" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+  <p><a href="../feedback.html">Kontakt &amp; Feedback</a> · <a href="../rechtliches.html">Rechtliches &amp; Datenschutz</a></p>
+  <p>Keine Cookies · Kein Tracking · Version 2.0 · Stand 10. Oktober 2026</p>
+</footer>
+<!-- FUSS:ENDE -->
+
+<script src="../nav.js"></script>
+<script src="../suche.js"></script>
+<script src="../physiklib.js"></script>
+<script src="../anim-hinweise.js"></script>
+<script>
+buildNav({ id:'simulationen' });
+</script>
+<script>
+'use strict';
+const NS='http://www.w3.org/2000/svg', g=9.81;
+const P={alpha:30,m:80,L:10,muH:.4,muG:.3};
+let sim=null,tNow=0,playing=false,speed=1,lastStamp=null;
+const $=id=>document.getElementById(id);
+const color=name=>getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const fnum=(v,n=1)=>Number(v).toFixed(n);
+function S(tag,attrs={},parent,txt){const e=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,String(v));if(txt!==undefined)e.textContent=txt;if(parent)parent.appendChild(e);return e;}
+const txt=(p,x,y,s,c='#5A5040',sz=11,anchor='start',weight=500)=>S('text',{x,y,fill:c,'font-size':sz,'font-weight':weight,'text-anchor':anchor,'dominant-baseline':'middle'},p,s);
+const line=(p,x1,y1,x2,y2,c,w=1,dash='')=>S('line',{x1,y1,x2,y2,stroke:c,'stroke-width':w,...(dash?{'stroke-dasharray':dash}:{})},p);
+function texText(p,x,y,sym,sub,suffix,c,anchor='start',sz=11){const e=txt(p,x,y,'',c,sz,anchor,650);S('tspan',{'font-style':'italic'},e,sym);if(sub)S('tspan',{'font-size':'75%','baseline-shift':'sub'},e,sub);if(suffix)S('tspan',{},e,suffix);return e;}
+function arrow(p,x1,y1,x2,y2,col,w=3){const dx=x2-x1,dy=y2-y1,d=Math.hypot(dx,dy);if(d<3)return false;line(p,x1,y1,x2,y2,col,w);const ux=dx/d,uy=dy/d;S('path',{d:`M ${x2} ${y2} L ${x2-ux*9-uy*4.5} ${y2-uy*9+ux*4.5} L ${x2-ux*9+uy*4.5} ${y2-uy*9-ux*4.5} Z`,fill:col},p);return true;}
+function model(p){
+ const a=p.alpha*Math.PI/180,sn=Math.sin(a),cs=Math.cos(a),tan=sn/cs;
+ const canStart=tan>p.muH+1e-12,accRamp=g*(sn-p.muG*cs),moving=canStart&&accRamp>1e-10;
+ const tRamp=moving?Math.sqrt(2*p.L/accRamp):Infinity;
+ const vRamp=moving?accRamp*tRamp:0;
+ const aFlat=-p.muG*g;
+ const tStop=moving&&p.muG>0?tRamp+vRamp/(p.muG*g):Infinity;
+ const braking=p.muG>0&&moving?vRamp*vRamp/(2*p.muG*g):Infinity;
+ const horizon=!moving?10:Number.isFinite(tStop)?Math.min(35,Math.max(7,tStop+1.5)):Math.min(35,Math.max(15,tRamp+8));
+ const N=1001, t=new Float64Array(N),s=new Float64Array(N),v=new Float64Array(N),acc=new Float64Array(N),Fs=new Float64Array(N),Epot=new Float64Array(N),Ekin=new Float64Array(N),Emech=new Float64Array(N),Ediss=new Float64Array(N),Ebal=new Float64Array(N);
+ const E0=p.m*g*p.L*sn/1000;
+ for(let i=0;i<N;i++){
+  const ti=horizon*i/(N-1); t[i]=ti;
+  if(!moving){s[i]=0;v[i]=0;acc[i]=0;}
+  else if(ti<tRamp){s[i]=.5*accRamp*ti*ti;v[i]=accRamp*ti;acc[i]=accRamp;}
+  else if(ti<tStop){const dt=ti-tRamp;s[i]=p.L+vRamp*dt+.5*aFlat*dt*dt;v[i]=vRamp+aFlat*dt;acc[i]=aFlat;}
+  else{s[i]=p.L+braking;v[i]=0;acc[i]=0;}
+  const ramp=s[i]<p.L-1e-9;
+  const normal=p.m*g*(ramp?cs:1);
+  Fs[i]=moving?(ti<tStop?p.muG*normal:0):(ramp?p.m*g*sn:0);
+  Epot[i]=p.m*g*(ramp?(p.L-s[i])*sn:0)/1000;
+  Ekin[i]=.5*p.m*v[i]*v[i]/1000;
+  Emech[i]=Epot[i]+Ekin[i];
+  Ediss[i]=Math.max(0,E0-Emech[i]);
+  Ebal[i]=Emech[i]+Ediss[i];
+ }
+ return {a,sn,cs,tan,moving,canStart,accRamp,aFlat,tRamp,vRamp,tStop,braking,horizon,N,t,s,v,acc,Fs,Epot,Ekin,Emech,Ediss,Ebal,E0};
+}
+const ix=()=>Math.max(0,Math.min(sim.N-1,Math.round(tNow/sim.horizon*(sim.N-1))));
+const VECS=[{id:'fg',tex:'F_G',sym:'F',sub:'G',cc:'--fg'},{id:'components',tex:'F_{\\parallel},\\;F_{\\perp}',sym:'F',cc:'--comp'},{id:'fn',tex:'F_{\\mathrm{N}}',sym:'F',sub:'N',cc:'--fn'},{id:'fr',tex:'F_{\\mathrm{R}}',sym:'F',sub:'R',cc:'--fr'},{id:'result',tex:'F_{\\mathrm{res}}',sym:'F',sub:'res',cc:'--res'},{id:'v',tex:'v',sym:'v',cc:'--v'},{id:'a',tex:'a',sym:'a',cc:'--a'}];
+const enabled=Object.fromEntries(VECS.map(x=>[x.id,true]));enabled.components=false;let labelsOn=true,freeBody=false;const vectorButtons={};
+const ES=[{id:'Epot',tex:'E_{\\mathrm{pot}}',cc:'--fg'},{id:'Ekin',tex:'E_{\\mathrm{kin}}',cc:'--v'},{id:'Emech',tex:'E_{\\mathrm{mech}}',cc:'--ink'},{id:'Ediss',tex:'E_{\\mathrm{diss}}',cc:'--heat'},{id:'Ebal',tex:'E_{\\mathrm{Bilanz}}',cc:'--fn'}];
+const energiesOn={Epot:false,Ekin:false,Emech:true,Ediss:true,Ebal:false};
+let energyMode='mech';
+function mathjax(node){if(window.MathJax?.typesetPromise)window.MathJax.typesetPromise([node]).catch(()=>{});}
+function chips(){
+ const w=$('vectorChips');
+ function syncButtons(){for(const meta of VECS){const b=vectorButtons[meta.id];b.classList.toggle('off',!enabled[meta.id]);b.setAttribute('aria-pressed',String(enabled[meta.id]));}const fb=$('freeBodyButton');fb.classList.toggle('off',!freeBody);fb.setAttribute('aria-pressed',String(freeBody));}
+ VECS.forEach(meta=>{const b=document.createElement('button');b.className='chip';b.type='button';b.style.setProperty('--cc',color(meta.cc));b.innerHTML=`<span class="sym">\\(${meta.tex}\\)</span>`;b.title=meta.id==='components'?'Gewichtskraft in ihre beiden Komponenten zerlegen':'Vektor ein- oder ausblenden';vectorButtons[meta.id]=b;b.onclick=()=>{
+  const next=!enabled[meta.id];enabled[meta.id]=next;
+  if(next&&meta.id==='fg')enabled.components=false;
+  if(next&&meta.id==='components')enabled.fg=false;
+  syncButtons();render();
+ };w.append(b);});
+ const fb=document.createElement('button');fb.id='freeBodyButton';fb.className='chip off';fb.type='button';fb.textContent='Freischneiden';fb.title='Kräfte auf dem freigeschnittenen Körper separat oben rechts darstellen';fb.setAttribute('aria-pressed','false');fb.onclick=()=>{freeBody=!freeBody;syncButtons();render();};w.append(fb);
+ const lb=document.createElement('button');lb.type='button';lb.className='chip toggle';lb.textContent='Beschriftung: an';lb.onclick=()=>{labelsOn=!labelsOn;lb.textContent='Beschriftung: '+(labelsOn?'an':'aus');render();};w.append(lb);
+ syncButtons();
+ const ew=$('energyChips');const eButtons={};
+ function refreshEnergy(){
+  energiesOn.Emech=energyMode==='mech';energiesOn.Epot=energiesOn.Ekin=energyMode==='components';
+  for(const [id,b] of Object.entries(eButtons)){const yes=id==='mech'?energyMode==='mech':id==='components'?energyMode==='components':energiesOn[id];b.setAttribute('aria-pressed',String(yes));b.classList.toggle('off',!yes);}
+  energyChart.invalidate();render();
+ }
+ for(const [id,tex,cc] of [['mech','E_{\\mathrm{mech}}','--ink'],['components','E_{\\mathrm{pot}} + E_{\\mathrm{kin}}','--v'],['Ediss','E_{\\mathrm{diss}}','--heat'],['Ebal','E_{\\mathrm{Bilanz}}','--fn']]){
+  const b=document.createElement('button');b.type='button';b.className='chip';b.style.setProperty('--cc',color(cc));b.innerHTML=`<span class="sym">\\(${tex}\\)</span>`;
+  b.title=(id==='mech'||id==='components')?'Zwischen mechanischer Gesamtenergie und ihren beiden Bestandteilen umschalten (erneut klicken: beide aus)':'Zusätzliche Energiekurve ein- oder ausblenden';
+  b.onclick=()=>{if(id==='mech'||id==='components')energyMode=energyMode===id?'none':id;else energiesOn[id]=!energiesOn[id];refreshEnergy();};ew.append(b);eButtons[id]=b;
+ }
+ refreshEnergy();lb.setAttribute('aria-pressed','true');lb.onclick=()=>{labelsOn=!labelsOn;lb.textContent='Beschriftung: '+(labelsOn?'an':'aus');lb.classList.toggle('off',!labelsOn);lb.setAttribute('aria-pressed',String(labelsOn));render();};
+ mathjax(w);mathjax(ew);}
+function freeBodyDiagram(root,w,h,ramp,Fg,FN,FH,Fperp,fr,Fres,ux,uy,nx,ny){
+ const bw=Math.min(205,Math.max(158,w*.33)),bh=155,x=w-bw-9,y=27;
+ const g=S('g',{transform:`translate(${x},${y})`},root);
+ S('rect',{x:0,y:0,width:bw,height:bh,rx:8,fill:'#fff','fill-opacity':'.97',stroke:'#D8D0C4','stroke-width':1.3},g);
+ txt(g,10,13,'Freigeschnittener Körper',color('--ink'),10,'start',700);
+ const cx=bw*.48,cy=bh*.56;
+ S('rect',{x:cx-9,y:cy-9,width:18,height:18,rx:3,fill:'#FBECD2',stroke:color('--ink'),'stroke-width':1.5},g);
+ const sc=Math.min(.043,44/Math.max(1,Fg));
+ function force(dx,dy,val,col,sym,sub,offX=5,offY=-5){if(Math.abs(val)<1.5)return;const ex=cx+dx*val*sc,ey=cy+dy*val*sc;arrow(g,cx,cy,ex,ey,col,2.4);texText(g,Math.min(bw-8,Math.max(8,ex+offX)),Math.min(bh-7,Math.max(30,ey+offY)),sym,sub,'',col,'start',10);}
+ // Richtungen entsprechen den am Körper wirkenden Kräften.
+ // Freischneiden: Gewichtskraft immer in Komponenten zerlegen,
+ // unabhängig vom Schalterzustand der normalen Bewegungszeichnung.
+ // Auf der Horizontalen gilt F_parallel = 0 und F_senkrecht = F_G.
+ force(ux,uy,FH,color('--comp'),'F','∥',5,-8);
+ force(-nx,-ny,Fperp,color('--comp'),'F','⊥',5,10);
+ if(enabled.fn)force(nx,ny,FN,color('--fn'),'F','N',5,-8);
+ if(enabled.fr)force(-ux,-uy,fr,color('--fr'),'F','R',-24,-8);
+ if(enabled.result)force(Math.sign(Fres)*ux,Math.sign(Fres)*uy,Math.abs(Fres),color('--res'),'F','res',6,14);
+ txt(g,9,bh-10,'Kräfteplan | ohne Massstab',color('--muted'),9);
+}
+function drawForceZoom(){
+ const root=$('forceZoomSvg');if(!$('forceDialog').open||!sim)return;
+ root.setAttribute('viewBox','0 0 230 205');root.replaceChildren();
+ const i=ix(),ramp=sim.s[i]<P.L-1e-9,Fg=P.m*g,cs=sim.cs,sn=sim.sn;
+ const ux=ramp?cs:1,uy=ramp?sn:0,nx=ramp?sn:0,ny=ramp?-cs:-1;
+ const FN=Fg*(ramp?cs:1),FH=ramp?Fg*sn:0,Fperp=ramp?Fg*cs:Fg,fr=sim.Fs[i],Fres=ramp?FH-fr:-fr;
+ freeBodyDiagram(root,230,205,ramp,Fg,FN,FH,Fperp,fr,Fres,ux,uy,nx,ny);
+}
+function openForceZoom(){const d=$('forceDialog');if(!d.open)d.showModal();drawForceZoom();}
+$('closeForceDialog').addEventListener('click',()=>$('forceDialog').close());
+$('forceDialog').addEventListener('click',e=>{if(e.target===$('forceDialog'))$('forceDialog').close();});
+function drawMain(){const root=$('mainSvg'),r=root.getBoundingClientRect(),w=Math.max(350,r.width),h=Math.max(265,r.height);root.setAttribute('viewBox',`0 0 ${w} ${h}`);root.replaceChildren();const i=ix(),d=sim.s[i],v=sim.v[i],ac=sim.acc[i],ramp=d<P.L-1e-9;const p=P;const sn=sim.sn,cs=sim.cs;
+ const floorY=h-36,scale=(floorY-25)/(15*Math.sin(Math.PI/4)+2),topWX=.8,footWX=topWX+p.L*cs,blockWX=ramp?topWX+d*cs:footWX+(d-p.L),view=w/scale,cam=Math.max(0,blockWX-view*.78);
+ const X=wx=>(wx-cam)*scale,Y=wy=>floorY-wy*scale;
+ S('rect',{width:w,height:h,fill:'#F8F6F1'},root);
+ for(let wy=0;Y(wy)>0;wy++){line(root,0,Y(wy),w,Y(wy),color('--grid'));}
+ for(let wx=Math.ceil(cam);X(wx)<w;wx++){line(root,X(wx),0,X(wx),floorY,color('--grid'));}
+ const topX=X(topWX),topY=Y(p.L*sn),footX=X(footWX);
+ line(root,0,floorY,w,floorY,'#8C8273',3);line(root,topX,topY,footX,floorY,'#8C8273',4);
+ line(root,topX,topY,topX,floorY,'#CFC6B8',1,'4 4');
+ if(topX>14){txt(root,topX-7,(topY+floorY)/2,`h = ${fnum(p.L*sn)} m`,color('--muted'),10,'end');}
+ if(footX>20&&footX<w-20){txt(root,footX-17,floorY-15,`α = ${p.alpha}°`,color('--ink'),11,'end',700);}
+ const ux=ramp?cs:1,uy=ramp?sn:0,nx=ramp?sn:0,ny=ramp?-cs:-1,bx=X(blockWX),by=ramp?topY+d*sn*scale:floorY;
+ const B=Math.max(18,Math.min(28,scale*.83)),cx=bx+nx*B/2,cy=by+ny*B/2;
+ const group=S('g',{transform:`translate(${cx},${cy}) rotate(${Math.atan2(uy,ux)*180/Math.PI})`},root);
+ S('rect',{x:-B/2,y:-B/2,width:B,height:B,rx:2,fill:'#FBECD2',stroke:'#1C1A17','stroke-width':2},group);txt(group,0,1,'m',color('--ink'),11,'middle',700);
+ const Fg=p.m*g,FN=Fg*(ramp?cs:1),FH=ramp?Fg*sn:0,Fperp=ramp?Fg*cs:Fg,fr=sim.Fs[i],isMoving=sim.moving&&v>1e-9,Fres=ramp?FH-fr:-fr;
+ const fscale=Math.min(.070,Math.max(.042,w*.00012)),vscale=5,ascale=8;
+ const vector=(id,x0,y0,x1,y1,sym,sub='',suffix='',xoff=0,yoff=0,anchor='start')=>{if(freeBody||!enabled[id])return;const c=color(VECS.find(e=>e.id===id).cc);if(arrow(root,x0,y0,x1,y1,c,id==='result'?4:2.7)&&labelsOn){texText(root,x1+xoff,y1+yoff,sym,sub,suffix,c,anchor,10.5);}};
+ vector('fg',cx,cy,cx,cy+Fg*fscale,'F','G','',-6,14,'end');
+ if(ramp&&enabled.components&&!freeBody){vector('components',cx,cy,cx+ux*FH*fscale,cy+uy*FH*fscale,'F','∥','',7,4);vector('components',cx,cy,cx-nx*Fperp*fscale,cy-ny*Fperp*fscale,'F','⊥','',8,8);}
+ vector('fn',cx,cy,cx+nx*FN*fscale,cy+ny*FN*fscale,'F','N','',7,-6);
+ if(fr>1)vector('fr',cx,cy,cx-ux*fr*fscale,cy-uy*fr*fscale,'F','R','',-9,-8,'end');
+ if(Math.abs(Fres)>1)vector('result',cx,cy,cx+ux*Fres*fscale,cy+uy*Fres*fscale,'F','res','',-7,Fres>0?13:-10,'middle');
+ else if(!freeBody&&enabled.result&&labelsOn)texText(root,cx+17,cy-20,'F','res',' ≈ 0',color('--res'),'start',10.5);
+ if(v>.05)vector('v',cx+nx*B*1.15,cy+ny*B*1.15,cx+nx*B*1.15+ux*v*vscale,cy+ny*B*1.15+uy*v*vscale,'v','','',6,-4);
+ if(Math.abs(ac)>.05)vector('a',cx+nx*B*1.9,cy+ny*B*1.9,cx+nx*B*1.9+ux*ac*ascale,cy+ny*B*1.9+uy*ac*ascale,'a','','',6,-7);
+ if(freeBody){
+  freeBodyDiagram(root,w,h,ramp,Fg,FN,FH,Fperp,fr,Fres,ux,uy,nx,ny);
+  const bw=Math.min(205,Math.max(158,w*.33)), px=w-bw-9;
+  const hotspot=S('rect',{x:px,y:27,width:bw,height:155,rx:8,fill:'transparent',style:'cursor:zoom-in'},root);
+  hotspot.setAttribute('role','button');hotspot.setAttribute('aria-label','Kräfteplan vergrössern');hotspot.setAttribute('tabindex','0');
+  hotspot.addEventListener('click',openForceZoom);
+  hotspot.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openForceZoom();}});
+ }
+
+ txt(root,9,15,'Raster: 1 m  |  Kräfte: 500 N ≙ '+Math.round(500*fscale)+' px',color('--muted'),10);
+ if(ramp&& !sim.moving)txt(root,10,h-15,'Haftreibung gleicht den Hangabtrieb aus.',color('--ink'),11);
+ if(!ramp && v>.001)txt(root,w-8,h-15,sim.aFlat===0?'Horizontale: konstante Geschwindigkeit':'Horizontale: Verzögerung durch Gleitreibung',color('--muted'),10,'end');
+}
+function chart(id,seriesFn){const root=$(id);let oldKey='',cursor=null,dots=[],coords=null;function invalidate(){oldKey='';}function draw(){const rect=root.getBoundingClientRect(),w=Math.max(210,rect.width),h=Math.max(120,rect.height);const active=seriesFn(),key=`${sim.revision}|${w}|${h}|${active.map(e=>e.id).join(',')}`;if(key!==oldKey){oldKey=key;root.setAttribute('viewBox',`0 0 ${w} ${h}`);root.replaceChildren();let min=0,max=0;for(const {arr} of active)for(let j=0;j<arr.length;j++){min=Math.min(min,arr[j]);max=Math.max(max,arr[j]);}const delta=max-min||1;min-=delta*.06;max+=delta*.06;
+ const pL=35,pR=7,pT=12,pB=19,X=t=>pL+t/sim.horizon*(w-pL-pR),Y=y=>pT+(max-y)/(max-min)*(h-pT-pB);coords={X,Y,pL,pR};S('rect',{width:w,height:h,fill:'white'},root);
+ const bands=!sim.moving?[[0,sim.horizon,'#e8f0fb']]:[[0,Math.min(sim.tRamp,sim.horizon),'#fdf3dc'],[Math.min(sim.tRamp,sim.horizon),Math.min(sim.tStop,sim.horizon),'#fbe4de'],[Math.min(sim.tStop,sim.horizon),sim.horizon,'#e6f3e9']];for(const [lo,hi,c]of bands){if(hi>lo)S('rect',{x:X(lo),y:pT,width:X(hi)-X(lo),height:h-pT-pB,fill:c},root);}
+ line(root,pL,Y(0),w-pR,Y(0),'#A89F92',1,'5 4');for(const y of [min,max,0])txt(root,pL-5,Math.max(8,Math.min(h-17,Y(y))),fnum(y,Math.abs(y)<10?1:0),color('--muted'),9.5,'end');const step=sim.horizon<10?2:sim.horizon<18?4:5;for(let t=0;t<=sim.horizon;t+=step)txt(root,X(t),h-7,`${t} s`,color('--muted'),9,'middle');
+ dots=[];for(const e of active){let path='';const stride=Math.max(1,Math.ceil(sim.N/Math.max(180,w*1.3)));for(let j=0;j<sim.N;j+=stride)path+=(path?' L ':'M ')+`${X(sim.t[j]).toFixed(2)} ${Y(e.arr[j]).toFixed(2)}`;path+=` L ${X(sim.t[sim.N-1]).toFixed(2)} ${Y(e.arr[sim.N-1]).toFixed(2)}`;S('path',{d:path,stroke:color(e.cc),fill:'none','stroke-width':2},root);dots.push({dot:S('circle',{cx:0,cy:0,r:3.7,fill:color(e.cc),stroke:'white','stroke-width':1},root),arr:e.arr});}
+ cursor=line(root,0,pT,0,h-pB,'#1C1A17',1.3);
+ }
+ const j=ix(),x=coords.X(tNow);cursor.setAttribute('x1',x);cursor.setAttribute('x2',x);for(const obj of dots){obj.dot.setAttribute('cx',x);obj.dot.setAttribute('cy',coords.Y(obj.arr[j]));}
+ }
+ let dragging=false;const scrub=e=>{const b=root.getBoundingClientRect(),pL=35,pR=7;pause();setTime(Math.max(0,Math.min(sim.horizon,(e.clientX-b.left-pL)/(b.width-pL-pR)*sim.horizon)));};root.addEventListener('pointerdown',e=>{dragging=true;root.setPointerCapture(e.pointerId);scrub(e);});root.addEventListener('pointermove',e=>{if(dragging)scrub(e);});root.addEventListener('pointerup',()=>dragging=false);root.addEventListener('pointercancel',()=>dragging=false);return{draw,invalidate};}
+const sc=chart('sChart',()=>[{id:'s',arr:sim.s,cc:'--s'}]);const vc=chart('vChart',()=>[{id:'v',arr:sim.v,cc:'--v'}]);const ac=chart('aChart',()=>[{id:'a',arr:sim.acc,cc:'--a'}]);const energyChart=chart('eChart',()=>ES.filter(e=>energiesOn[e.id]).map(e=>({id:e.id,arr:sim[e.id],cc:e.cc})));
+const STATES={stick:{title:'Haften – der Körper bleibt stehen',txt:'Die Haftreibung passt sich dem Hangabtrieb an. Nur ihre maximale Stärke ist durch μH · FN begrenzt.',eq:String.raw`F_{\mathrm{H}}\le\mu_{\mathrm H}F_{\mathrm N}\quad |\quad a=0`,bg:'#e8f0fb'},edge:{title:'Grenzfall: gerade noch Haftung',txt:'Bei tan α = μH ist die Haftreibung an ihrer Grenze. Ein noch grösserer Winkel führt zum Losrutschen.',eq:String.raw`\tan\alpha=\mu_{\mathrm H}`,bg:'#e8f0fb'},ramp:{title:'Rutschen auf der schiefen Ebene',txt:'Hangabtrieb und Gleitreibung sind konstant. Der Block beschleunigt gleichmässig, die Geschwindigkeit steigt linear an.',eq:String.raw`a=g(\sin\alpha-\mu_{\mathrm G}\cos\alpha)`,bg:'#fdf3dc'},floor:{title:'Horizontale – Abbremsen',txt:'Die Gewichtskraft wird von der Normalkraft ausgeglichen. Entlang der Horizontalen bremst nur die Gleitreibung.',eq:String.raw`a=-\mu_{\mathrm G}g`,bg:'#fbe4de'},stop:{title:'Stillstand auf der Horizontalen',txt:'Die Geschwindigkeit ist null und die Gleitreibung endet. Die anfangs vorhandene Lageenergie wurde in innere Energie umgewandelt.',eq:String.raw`v=0\quad|\quad E_{\mathrm{diss}}=E_0`,bg:'#e6f3e9'},free:{title:'Bewegung auf reibungsfreier Horizontaler',txt:'Ohne Gleitreibung ist die Geschwindigkeit nach dem Rampenende konstant. Die Bewegung endet im Modell nicht von selbst.',eq:String.raw`\mu_{\mathrm G}=0\quad |\quad a=0`,bg:'#e6f3e9'},invalid:{title:'Ungewöhnliche Reibungswerte',txt:'Die Haftreibung wird überschritten, aber die eingestellte Gleitreibung würde aus der Ruhe heraus eine Beschleunigung bergauf ergeben. Das Modell startet deshalb nicht.',eq:String.raw`\mu_{\mathrm G}\ge\tan\alpha>\mu_{\mathrm H}`,bg:'#fff2ee'}};
+function phase(){const near=Math.abs(sim.tan-P.muH)<1e-8;if(!sim.moving)return sim.canStart?'invalid':near?'edge':'stick';if(tNow<sim.tRamp-1e-5)return'ramp';if(tNow<sim.tStop-1e-5)return sim.aFlat===0?'free':'floor';return sim.aFlat===0?'free':'stop';}
+let phaseKey='';function phaseDraw(){const id=phase();if(phaseKey===id)return;phaseKey=id;const q=STATES[id],el=$('phase');el.style.background=q.bg;$('phaseTag').textContent='Bewegungsphase';$('phaseTitle').textContent=q.title;$('phaseText').textContent=q.txt;$('phaseEq').textContent='\\('+q.eq+'\\)';mathjax($('phaseEq'));}
+function readings(){const j=ix(),r=sim.s[j]<P.L-1e-9,Fg=P.m*g,FN=Fg*(r?sim.cs:1),fr=sim.Fs[j],fres=P.m*sim.acc[j];const data=[['Gewichtskraft FG',Fg,'N','--fg',0],['Normalkraft FN',FN,'N','--fn',0],['Reibungskraft FR',fr,'N','--fr',0],['Resultierende Fres',fres,'N','--res',0],['Beschleunigung a',sim.acc[j],'m/s²','--a',2],['Geschwindigkeit v',sim.v[j],'m/s','--v',2],['Weg s',sim.s[j],'m','--s',2]];for(let k=0;k<data.length;k++){const [name,val,unit,cc,digits]=data[k],e=$('rd'+k);e.querySelector('.num').textContent=`${fnum(val,digits)} ${unit}`;e.querySelector('.num').style.color=color(cc);}}
+function render(){if(!sim)return;drawMain();drawForceZoom();sc.draw();vc.draw();ac.draw();energyChart.draw();phaseDraw();readings();$('timeLabel').textContent=`t = ${fnum(tNow,2)} s`;$('timeSlider').value=tNow;}
+function setTime(t){tNow=Math.max(0,Math.min(sim.horizon,t));render();}function pause(){playing=false;$('playBtn').textContent='▶ Abspielen';}
+function rebuild(){sim=model(P);sim.revision=(sim.revision||0)+Math.random();phaseKey='';sc.invalidate();vc.invalidate();ac.invalidate();energyChart.invalidate();$('timeSlider').max=sim.horizon;
+ const h=P.L*sim.sn;const condition=`tan α = ${fnum(sim.tan,2)} | μH = ${fnum(P.muH,2)}`;const warn=[];if(P.muG>P.muH)warn.push('Normalerweise gilt μG ≤ μH. Deine Werte sind für gewöhnliche trockene Reibung untypisch.');if(sim.canStart&&!sim.moving)warn.push('Die Gleitreibung wäre nach Loslassen grösser als der Hangabtrieb. Dieses widersprüchliche Parametermodell bleibt deshalb in Ruhe.');const w=$('modelWarning');w.hidden=!warn.length;w.textContent=warn.join(' ');
+ $('facts').innerHTML=`<strong>Aktuelle Kennwerte</strong> | ${condition} | Höhe h = ${fnum(h,2)} m | Rampenbeschleunigung a = ${sim.moving?fnum(sim.accRamp,2)+' m/s²':'—'} | Geschwindigkeit am Fusspunkt = ${sim.moving?fnum(sim.vRamp,2)+' m/s':'—'} | Bremsweg auf der Horizontalen = ${sim.moving?(Number.isFinite(sim.braking)?fnum(sim.braking,2)+' m':'unbegrenzt'):'—'}.`;
+ tNow=0;pause();render();}
+for(const [id,key,val] of [['alpha','alpha','alphaVal'],['mass','m','massVal'],['length','L','lengthVal'],['muS','muH','muSVal'],['muK','muG','muKVal']]){$(id).addEventListener('input',e=>{P[key]=Number(e.target.value);$(val).textContent=key.startsWith('mu')?fnum(P[key],2):String(P[key]);rebuild();});}
+$('playBtn').onclick=()=>{if(!playing&&tNow>=sim.horizon-.01)tNow=0;playing=!playing;$('playBtn').textContent=playing?'❚❚ Pause':'▶ Abspielen';};$('resetBtn').onclick=()=>{pause();setTime(0);};$('speedSel').onchange=e=>speed=Number(e.target.value);$('timeSlider').oninput=e=>{pause();setTime(Number(e.target.value));};
+window.addEventListener('resize',()=>{sc.invalidate();vc.invalidate();ac.invalidate();energyChart.invalidate();render();});
+const questions=[
+['Wann beginnt der Block zu rutschen?',String.raw`Solange \(mg\sin\alpha\le\mu_{\mathrm H}mg\cos\alpha\), hält die Haftreibung den Körper fest. Erst bei \(\tan\alpha>\mu_{\mathrm H}\) beginnt er zu gleiten. Prüfe das durch Ändern von \(\alpha\).`],
+['Ist Haftreibung stets gleich μH · FN?',String.raw`Nein. Die Haftreibung nimmt nur den Betrag an, der für Ruhe nötig ist, bis zu ihrer Obergrenze \(F_{\mathrm H,max}=\mu_{\mathrm H}F_{\mathrm N}\). Auf der schiefen Ebene im Stillstand gilt \(F_{\mathrm R}=mg\sin\alpha\).`],
+['Warum wächst die Geschwindigkeit auf der Rampe meist linear?',String.raw`Der Neigungswinkel und die Gleitreibungszahl sind konstant. Deshalb ist auch \(a=g(\sin\alpha-\mu_{\mathrm G}\cos\alpha)\) konstant; aus der Ruhe gilt \(v=at\).`],
+['Warum ist der Weg-Zeit-Verlauf auf der Rampe gekrümmt?',String.raw`Bei konstanter Beschleunigung aus der Ruhe gilt \(s=\tfrac12 at^2\). Die Steigung der Kurve nimmt zu und entspricht der Geschwindigkeit.`],
+['Ändert die Masse die Beschleunigung?',String.raw`In diesem Modell nicht: Hangabtrieb und Reibung sind beide proportional zu \(m\). In \(F_{\mathrm{res}}=ma\) kürzt sich die Masse heraus. Die Kräfte und Energien wachsen dagegen mit \(m\).`],
+['Warum ist die Normalkraft auf der Rampe kleiner als die Gewichtskraft?',String.raw`Auf der Rampe wirkt nur die senkrechte Komponente \(mg\cos\alpha\) gegen die Auflagefläche, daher \(F_{\mathrm N}=mg\cos\alpha\). Auf der Horizontalen ist dagegen \(F_{\mathrm N}=mg\).`],
+['Wozu zerlegt man die Gewichtskraft?',String.raw`\(F_{\parallel}=mg\sin\alpha\) wirkt längs der Rampe und verursacht den Hangabtrieb. \(F_{\perp}=mg\cos\alpha\) drückt senkrecht auf die Fläche. Die Zerlegung erleichtert Newtons zweites Gesetz.`],
+['Warum zeigt die Reibungskraft entgegen der Bewegung?',String.raw`Die Gleitreibung wirkt der relativen Bewegung an der Kontaktfläche entgegen. Bei Bewegung bergab zeigt sie bergauf; auf der Horizontalen nach links. Bei Haftung verhindert sie eine drohende Relativbewegung.`],
+['Was passiert bei μG = 0?',String.raw`Während des Gleitens gibt es keine Reibungswärme. Auf der Rampe gilt \(a=g\sin\alpha\); auf der Horizontalen bleibt die Geschwindigkeit konstant. Die Bewegung stoppt dort im Modell nicht von selbst.`],
+['Warum sinkt die mechanische Energie?',String.raw`Reibung wandelt mechanische Energie in innere Energie bzw. Wärme um: \(E_{\mathrm{mech}}=E_{\mathrm{pot}}+E_{\mathrm{kin}}\) nimmt ab. Diese Energie ist nicht verschwunden.`],
+['Was zeigt Ediss und was zeigt die Bilanzkurve?',String.raw`\(E_{\mathrm{diss}}=E_0-E_{\mathrm{mech}}\) ist die kumulierte Reibungswärme. Die Bilanzkurve \(E_{\mathrm{Bilanz}}=E_{\mathrm{mech}}+E_{\mathrm{diss}}\) bleibt konstant und verdeutlicht die Energieerhaltung.`],
+['Was geschieht am Übergang von Rampe zur Horizontalen?',String.raw`Die Simulation nimmt einen idealen, verlustfreien Richtungswechsel an. Der Geschwindigkeitsbetrag bleibt erhalten; die Richtung ändert sich. Ein echter harter Knick kann Stösse und zusätzliche Verluste erzeugen und wäre nicht vollständig durch dieses Modell beschrieben.`],
+['Wann ist die Beschleunigung null, obwohl sich der Körper bewegt?',String.raw`Auf einer reibungsfreien Horizontalen ist die resultierende Kraft entlang der Bewegung null, daher \(a=0\). Die Geschwindigkeit kann trotzdem ungleich null und konstant sein.`],
+['Wieso ist der Bremsweg bei grosser Gleitreibungszahl kürzer?',String.raw`Auf der Horizontalen gilt \(a=-\mu_{\mathrm G}g\). Je grösser die Gleitreibung, desto stärker wird verzögert. Für gegebene Anfangsgeschwindigkeit gilt \(s_B=v_0^2/(2\mu_{\mathrm G}g)\).`],
+['Kann man von einem grossen Reibungskoeffizienten immer auf geringe Geschwindigkeit schliessen?',String.raw`Nicht pauschal: \(\mu_{\mathrm H}\) bestimmt zuerst, ob der Block überhaupt losrutscht. \(\mu_{\mathrm G}\) beeinflusst danach die Beschleunigung und den Bremsweg. Auch \(\alpha\), \(L\) und der betrachtete Zeitpunkt sind wichtig.`]
+];
+function startup(){const rd=$('readout');for(let i=0;i<7;i++){const e=document.createElement('div');e.className='value';e.id='rd'+i;e.innerHTML=`<div class="name"></div><div class="num"></div>`;rd.append(e);}const labels=['Gewichtskraft FG','Normalkraft FN','Reibungskraft FR','Resultierende Fres','Beschleunigung a','Geschwindigkeit v','Weg s'];rd.querySelectorAll('.name').forEach((e,i)=>e.textContent=labels[i]);
+ const glossary=[['\\(\\alpha\\)','Neigungswinkel der Rampe'],['\\(L\\)','Länge entlang der Rampe'],['\\(m\\)','Masse des Blocks'],['\\(\\mu_{\\mathrm H}\\)','Haftreibungszahl'],['\\(\\mu_{\\mathrm G}\\)','Gleitreibungszahl'],['\\(F_G\\)','Gewichtskraft nach unten'],['\\(F_{\\mathrm N}\\)','Normalkraft senkrecht zur Oberfläche'],['\\(F_{\\mathrm R}\\)','Reibungskraft entgegen dem Gleiten'],['\\(F_{\\mathrm{res}}\\)','resultierende Kraft entlang der Bahn'],['\\(s(t),v(t),a(t)\\)','Weg, Geschwindigkeit, Beschleunigung'],['\\(E_{\\mathrm{pot}}\\)','Lageenergie relativ zum Rampenfuss'],['\\(E_{\\mathrm{kin}}\\)','Bewegungsenergie'],['\\(E_{\\mathrm{mech}}\\)','mechanische Gesamtenergie'],['\\(E_{\\mathrm{diss}}\\)','kumulierte umgewandelte Reibungsenergie']];$('glossary').innerHTML=glossary.map(([a,b])=>`<div class="entry"><strong>${a}</strong><p>${b}</p></div>`).join('');$('questions').innerHTML=questions.map(([q,a],i)=>`<details><summary>${i+1}. ${q}</summary><div class="answer"><p>${a}</p></div></details>`).join('');chips();rebuild();mathjax($('glossary'));mathjax($('questions'));requestAnimationFrame(tick);}
+function tick(stamp){if(lastStamp!==null&&playing){tNow+=Math.min(.08,(stamp-lastStamp)/1000)*speed;if(tNow>=sim.horizon){tNow=sim.horizon;pause();}render();}lastStamp=stamp;requestAnimationFrame(tick);}startup();
+</script>
+</body>
+</html>

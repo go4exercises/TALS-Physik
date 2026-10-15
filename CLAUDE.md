@@ -38,7 +38,7 @@ ist die Kurzfassung + der verbindliche Pre-Flight. Bei Widerspruch gilt STYLEGUI
   Anleitung: `HOWTO-simulationen.md`, `HOWTO-werkzeuge.md`; der Pre-Flight prüft die
   Verknüpfung (`check_sim_wz`). Umgezogene Adressen leitet `404.html` weiter
   (Tabelle `WEITERLEITUNGEN`) — keine Hilfsseiten an der alten Stelle.
-- `simulationen/bungee-sprung.html` — Simulation Bungee-Jumping (Fassung des Auftraggebers, Texte wörtlich). Details: `simulationen/CLAUDE.md`.
+- `simulationen/bungee-sprung.html` und `simulationen/schiefe-ebene.html` — Simulationen Bungee-Jumping und Schiefe Ebene (Fassungen des Auftraggebers, Texte wörtlich). Details: `simulationen/CLAUDE.md`.
 - `werkzeuge/` — sechs Trainer (Einheitentrainer, Freischneiden, Bewegungsdiagramme, Fall und Wurf, Formeln umstellen,
   Schaltungen zusammenfassen), je mit Selbsttest `scripts/verify_*.js` im Pre-Flight. **Der Einheitentrainer ist der einzige
   Ort im Repo mit `localStorage`** (Key `tals-physik-p0-4-lernstand-v1`, steht in `rechtliches.html`). Details je Trainer:
@@ -266,7 +266,7 @@ LaTeX-Ausdrucks**, Skelett, Phantom-Klassen, physiklib-Einbindung, Ressourcen-Ma
 Slot-Limits und **keine Fremdhosts** (`fonts.googleapis.com`, `fonts.gstatic.com`,
 `cdn.jsdelivr.net`); (2) Aufruf der vorhandenen Repo-Skripte `verify_mathjax.js` (echte
 Render-Prüfung), `verify_js_runtime.js` (JS-Laufzeit) und `verify_einheitentrainer.js`
-(Selbsttest des Einheitentrainers; ebenso die Selbsttests der übrigen Trainer und `verify_bungee.js`), dazu `check_clips` — die Clip-Ablage gegen `clips/clips.json`:
+(Selbsttest des Einheitentrainers; ebenso die Selbsttests der übrigen Trainer, `verify_bungee.js` und `verify_schiefe_ebene.js`), dazu `check_clips` — die Clip-Ablage gegen `clips/clips.json`:
 Clip ohne Eintrag, Eintrag ohne Datei, `lektion`-Code, den `nav.js` nicht kennt
 (alle `[FEHLER]`), fehlender Sprechertext (`[WARN]`); Drehbücher mit `probe: true`
 sind ausgenommen. Aus tals-mathe übernommen (26.09.2026). Dazu `check_sim_wz` — Seiten in `simulationen/` und `werkzeuge/` gegen ihre Übersicht, die Verweise aus den Themenseiten und die Rücklink-Anker (seit 10.10.2026). Dazu `check_todo_schwester` — offene Einträge in `../tals-mathe/TODO-schwesterprojekt.md` als `[WARN]`. `verify_js_runtime.js` bekommt nur `themen/`-Seiten zu sehen —

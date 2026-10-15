@@ -415,6 +415,12 @@ SEITEN = {
    titel='Bungee-Jumping – Physik interaktiv',
    beschreibung='Bungee-Sprung simulieren: Gewichtskraft, Seilkraft, Geschwindigkeit, Beschleunigung und Energien am elastischen Seil verfolgen, Masse und Seil verändern.',
    themen=['Bungee-Sprung', 'Federkraft', 'Hookesches Gesetz', 'Grundgesetz der Mechanik', 'Energieerhaltung', 'Elastische Energie']),
+ 'simulationen/schiefe-ebene.html': dict(
+   ort='Simulationen · Schiefe Ebene',
+   typ='article', lrt='Simulation',
+   titel='Schiefe Ebene – Kräfte, Reibung und Energie',
+   beschreibung='Block auf der schiefen Ebene simulieren: Haften oder Rutschen, Gewichtskraft zerlegen, Normal- und Reibungskraft, Bremsweg und Energien mit Reibung verfolgen.',
+   themen=['Schiefe Ebene', 'Hangabtriebskraft', 'Normalkraft', 'Haftreibung', 'Gleitreibung', 'Freischneiden', 'Energieerhaltung']),
  'simulationen/sonnenfinsternis-12-08-2026.html': dict(
    ort='Simulationen · Sonnenfinsternis vom 12. August 2026',
    typ='article', lrt='Simulation',
